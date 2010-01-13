@@ -1,0 +1,21 @@
+[General]
+skinName=Corona
+skinAuthor=ogg123
+skinVersion=1.0
+skinDescription="Ported from Shareaza. Original description: The WiMP skin, by request! ;)"
+windowFrameTopLeftStyleSheet="border-image: url(Skin/Corona/frameTopLeft.png);\nmin-height: 15px;\nmax-height: 15px;\nmin-width: 15px;\nmax-width: 15px;"
+windowFrameLeftStyleSheet="min-width: 15px;\nmax-width: 15px;\nborder-image: url(Skin/Corona/frameLeft.png);\nborder-top: 30px;"
+windowFrameBottomLeftStyleSheet="border-image: url(Skin/Corona/frameBottomLeft.png);\nmin-width: 15px;\nmax-width: 15px;\nmin-height: 9px;\nmax-height: 9px;"
+windowFrameTopStyleSheet="QFrame#windowFrameTop {\n\tborder-image: url(Skin/Corona/frameTop.png);\n\tmin-height: 34px;\n\tmax-height: 34px;\n}"
+windowFrameBottomStyleSheet="border-image: url(Skin/Corona/frameBottom.png);\nmin-height: 9px;\nmax-height: 9px;"
+windowFrameTopRightStyleSheet="border-image: url(Skin/Corona/frameTopRight.png);\nmin-width: 8px;\nmax-width: 8px;\nmin-height: 15px;\nmax-height: 15px;"
+windowFrameRightStyleSheet="QFrame {\n\tborder-image: url(Skin/Corona/frameRight.png);\n\tborder-top: 40;\n\tmin-width: 8px;\n\tmax-width: 8px;\n}"
+windowFrameBottomRightStyleSheet="border-image: url(Skin/Corona/frameBottomRight.png);\nmin-width: 8px;\nmax-width: 8px;\nmin-height: 9px;\nmax-height: 9px;"
+titlebarFrameStyleSheet="QFrame#titlebarFrame {\n\tborder-image: url(Skin/Corona/titlebarFrame.png);\n}"
+titlebarButtonsFrameStyleSheet="QFrame#titlebarButtonsFrame {\n\tpadding-left: -8px;\n\tborder-left: 40px;\n\tborder-image: url(Skin/Corona/titlebarButtonsFrame.png);\n}"
+minimizeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(Skin/Corona/minButton.png);\n\tmin-width: 26px;\n\tmax-width: 26px;\n\tmin-height: 26px;\n\tmax-height: 26px;\n}\n\nQToolButton:hover {\n\tborder-image: url(Skin/Corona/minButtonH.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(Skin/Corona/minButtonD.png);\n}\n\nQToolButton:pressed {\n\tborder-image: url(Skin/Corona/minButtonP.png);\n}"
+maximizeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(Skin/Corona/maxButton.png);\n\tmin-width: 26px;\n\tmax-width: 26px;\n\tmin-height: 26px;\n\tmax-height: 26px;\n}\n\nQToolButton:hover {\n\tborder-image: url(Skin/Corona/maxButtonH.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(Skin/Corona/maxButtonD.png);\n}\n\nQToolButton:pressed {\n\tborder-image: url(Skin/Corona/maxButtonP.png);\n}\n\nQToolButton:checked { /*The button will be checked when maximized is set*/\n\tborder-image: url(Skin/Corona/restoreButton.png);\n}\n\nQToolButton:checked:hover {\n\tborder-image: url(Skin/Corona/restoreButtonH.png);\n}\n\nQToolButton:checked:disabled {\n\tborder-image: url(Skin/Corona/restoreButtonD.png);\n}\n\nQToolButton:checked:pressed {\n\tborder-image: url(Skin/Corona/restoreButtonP.png);\n}"
+closeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(Skin/Corona/closeButton.png);\n\tmin-width: 26px;\n\tmax-width: 26px;\n\tmin-height: 26px;\n\tmax-height: 26px;\n}\n\nQToolButton:hover {\n\tborder-image: url(Skin/Corona/closeButtonH.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(Skin/Corona/closeButtonD.png);\n}\n\nQToolButton:pressed {\n\tborder-image: url(Skin/Corona/closeButtonP.png);\n}"
+windowTextStyleSheet="padding-bottom: -2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);"
+windowIconVisible=true
+windowIconSize=@Size(20 20)

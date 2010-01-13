@@ -1,0 +1,16 @@
+INPUT(
+./debug\main.o
+./debug\qskinconfiguredialog.o
+./debug\qskinsettings.o
+./debug\qskindialog.o
+./debug\mainwindow.o
+./debug\qskineditordialog.o
+./debug\dialogskinpreview.o
+./debug\moc_qskinconfiguredialog.o
+./debug\moc_qskinsettings.o
+./debug\moc_qskindialog.o
+./debug\moc_mainwindow.o
+./debug\moc_qskineditordialog.o
+./debug\moc_dialogskinpreview.o
+./debug\qrc_Resource.o
+);
