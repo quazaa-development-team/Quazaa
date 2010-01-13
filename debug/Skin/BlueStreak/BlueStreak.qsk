@@ -1,0 +1,21 @@
+[General]
+skinName=BlueStreak
+skinAuthor=RocketX
+skinVersion=1.2
+skinDescription="Ported from Shareaza. Original description: An Original Design for all you Shareaza Fans, oh, and it's Blue."
+windowFrameTopLeftStyleSheet="border-image: url(Skin/BlueStreak/frameTopLeft.png);\nmin-height: 15px;\nmax-height: 15px;\nmin-width: 11px;\nmax-width: 11px;"
+windowFrameLeftStyleSheet="min-width: 11px;\nmax-width: 11px;\nborder-image: url(Skin/BlueStreak/frameLeft.png) repeat;\nborder-top: 30px;"
+windowFrameBottomLeftStyleSheet="border-image: url(Skin/BlueStreak/frameBottomLeft.png);\nmin-width: 11px;\nmax-width: 11px;\nmin-height: 13px;\nmax-height: 13px;"
+windowFrameTopStyleSheet="QFrame#windowFrameTop {\n\tborder-image: url(Skin/BlueStreak/frameTop.png) repeat;\n\tborder-left: 2px;\n\tpadding-left: -2px;\n\tmin-height: 39px;\n\tmax-height: 39px;\n}"
+windowFrameBottomStyleSheet="border-image: url(Skin/BlueStreak/frameBottom.png) repeat;\nmin-height: 13px;\nmax-height: 13px;"
+windowFrameTopRightStyleSheet="border-image: url(Skin/BlueStreak/frameTopRight.png);\nmin-width: 12px;\nmax-width: 12px;\nmin-height: 15px;\nmax-height: 15px;"
+windowFrameRightStyleSheet="border-image: url(Skin/BlueStreak/frameRight.png) repeat;\nborder-top: 29px;\nmin-width: 12px;\nmax-width: 12px;"
+windowFrameBottomRightStyleSheet="border-image: url(Skin/BlueStreak/frameBottomRight.png);\nmin-width: 12px;\nmax-width: 12px;\nmin-height: 13px;\nmax-height: 13px;"
+titlebarFrameStyleSheet="QFrame#titlebarFrame {\n\tborder-image: url(Skin/BlueStreak/titlebarFrame.png) repeat;\n\tborder-left: 8px;\n\tborder-right: 20px;\n\tpadding-right: -10px;\n\tpadding-top: 5px;\n\tbackground-color: transparent;\n}"
+titlebarButtonsFrameStyleSheet="QFrame#titlebarButtonsFrame {\n\tborder-image: url(Skin/BlueStreak/titlebarButtonsFrame.png) repeat;\n\tborder-right: 4px;\n\tpadding-right: -4px;\n}"
+minimizeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(Skin/BlueStreak/minButton.png);\n\tmargin-right: 2px;\n\tmin-width: 17px;\n\tmax-width: 17px;\n\tmin-height: 17px;\n\tmax-height: 17px;\n}\n\nQToolButton:hover {\n\tborder-image: url(Skin/BlueStreak/minButtonH.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(Skin/BlueStreak/minButtonD.png);\n}"
+maximizeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(Skin/BlueStreak/maxButton.png);\n\tmin-width: 17px;\n\tmax-width: 17px;\n\tmin-height: 17px;\n\tmax-height: 17px;\n}\n\nQToolButton:hover {\n\tborder-image: url(Skin/BlueStreak/maxButtonH.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(Skin/BlueStreak/maxButtonD.png);\n}\n\nQToolButton:checked { /*The button will be checked when maximized is set*/\n\tborder-image: url(Skin/BlueStreak/restoreButton.png);\n}\n\nQToolButton:checked:hover {\n\tborder-image: url(Skin/BlueStreak/restoreButtonH.png);\n}\n\nQToolButton:checked:disabled {\n\tborder-image: url(Skin/BlueStreak/restoreButtonD.png);\n}"
+closeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(Skin/BlueStreak/closeButton.png);\n\tmargin-left: 2px;\n\tmin-width: 17px;\n\tmax-width: 17px;\n\tmin-height: 17px;\n\tmax-height: 17px;\n}\n\nQToolButton:hover {\n\tborder-image: url(Skin/BlueStreak/closeButtonH.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(Skin/BlueStreak/closeButtonD.png);\n}"
+windowTextStyleSheet="padding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);"
+windowIconVisible=true
+windowIconSize=@Size(20 20)
