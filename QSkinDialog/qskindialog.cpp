@@ -14,9 +14,8 @@
 #include "ui_qskindialog.h"
 #include "qskinconfiguredialog.h"
 #include "mainwindow.h"
-#include "quazaasettings.h"
-#include "quazaaglobals.h"
 #include "qskinsettings.h"
+#include "quazaasettings.h"
 
 QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, QWidget *parent) :
 	QDialog(parent),
@@ -95,9 +94,10 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, QWidget *
 	if(quazaaSettings.SkinFile.isEmpty())
 	{
 		quazaaSettings.loadSkinSettings();
-		skinSettings.loadSkin(quazaaSettings.SkinFile);
-		quazaaSettings.saveSkinSettings();
 	}
+
+	skinSettings.loadSkin(quazaaSettings.SkinFile);
+	quazaaSettings.saveSkinSettings();
 
 	// Load the previously set skin
 	ui->windowFrameTopLeft->setStyleSheet(skinSettings.windowFrameTopLeftStyleSheet);

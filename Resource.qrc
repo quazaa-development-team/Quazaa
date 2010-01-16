@@ -188,5 +188,25 @@
         <file>Resource/screen.png</file>
         <file>Resource/Media/LoadPlaylist.png</file>
         <file>Resource/Media/AddPlaylist.png</file>
+        <file>Resource/quitButton.png</file>
+        <file>Resource/quitButtonD.png</file>
+        <file>Resource/quitButtonH.png</file>
+        <file>Resource/frameBottom.png</file>
+        <file>Resource/frameLeft.png</file>
+        <file>Resource/frameRight.png</file>
+        <file>Resource/frameTop.png</file>
+        <file>Resource/maxButton.png</file>
+        <file>Resource/maxButtonD.png</file>
+        <file>Resource/maxButtonH.png</file>
+        <file>Resource/minButton.png</file>
+        <file>Resource/minButtonD.png</file>
+        <file>Resource/minButtonH.png</file>
+        <file>Resource/restoreButtonH.png</file>
+        <file>Resource/frameBottomLeft.png</file>
+        <file>Resource/frameBottomRight.png</file>
+        <file>Resource/frameTopLeft.png</file>
+        <file>Resource/frameTopRight.png</file>
+        <file>Resource/restoreButton.png</file>
+        <file>Resource/restoreButtonD.png</file>
     </qresource>
 </RCC>

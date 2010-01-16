@@ -42,6 +42,7 @@
 #include <QtGui>
 
 #define SLIDER_RANGE 8
+#define PHONON_MMF_DIRECT_WRITE_ALPHA
 
 #include "mediaplayer.h"
 #include "ui_mediasettings.h"
@@ -181,8 +182,10 @@ MediaPlayer::MediaPlayer(QWidget *parent) :
 	info->setText(tr("No Media"));
 
 	vLayout->addWidget(info);
-	m_videoWidget->setAutoFillBackground(true);
 	vLayout->addWidget(m_videoWidget);
+	m_videoWidget->setAttribute(Qt::WA_PaintOnScreen);
+	m_videoWidget->setAttribute(Qt::WA_PaintUnclipped);
+	m_videoWidget->setAttribute(Qt::WA_OpaquePaintEvent);
 	m_videoWidget->hide();
 
 #ifdef Q_OS_MAC
@@ -195,9 +198,6 @@ MediaPlayer::MediaPlayer(QWidget *parent) :
 	// forwardButton->setStyle(flatButtonStyle);
  #endif
 
-	QHBoxLayout *labelLayout = new QHBoxLayout();
-
-	vLayout->addLayout(labelLayout);
 	setLayout(vLayout);
 
 	// Create menu bar:
