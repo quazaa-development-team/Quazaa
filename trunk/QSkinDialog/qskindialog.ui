@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <property name="autoFillBackground">
-   <bool>true</bool>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
     <number>0</number>
@@ -140,8 +137,8 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>:/Resource/qtlogo-64.png</normaloff>:/Resource/qtlogo-64.png</iconset>
+              <iconset resource="../Resource.qrc">
+               <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -558,9 +555,6 @@ border-bottom: 1;</string>
      <property name="autoFillBackground">
       <bool>true</bool>
      </property>
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
      <layout class="QVBoxLayout" name="layoutContents">
       <property name="spacing">
        <number>0</number>
@@ -573,6 +567,8 @@ border-bottom: 1;</string>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -18,7 +18,7 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	QSkinDialog w;
+	QSkinDialog w(true,true,true);
 	MainWindow *winMain = new MainWindow();
 	w.addChildWidget(winMain);
 	w.connect(winMain, SIGNAL(closed()), &w, SLOT(close()));

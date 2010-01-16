@@ -209,8 +209,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 	mediaPlayer = new MediaPlayer(this);
 	ui->mediaWidgetLayout->addWidget(mediaPlayer);
-	mediaPlayer->setAutoFillBackground(true);
-	mediaPlayer->setWindowFlags(mediaPlayer->windowFlags() & ~Qt::FramelessWindowHint);
 
 	connect(ui->actionMediaRewind, SIGNAL(triggered()), mediaPlayer, SLOT(rewind()));
 	connect(ui->actionMediaOpen, SIGNAL(triggered()), mediaPlayer, SLOT(openFiles()));
