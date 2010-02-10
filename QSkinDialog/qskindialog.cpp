@@ -134,7 +134,7 @@ void QSkinDialog::changeEvent(QEvent *e)
 		ui->retranslateUi(this);
 		break;
 	case QEvent::ActivationChange:
-		if (minimized)
+		if (minimized && QApplication::activeWindow())
 		{
 			setMinimized(false);
 		}
@@ -219,6 +219,19 @@ void QSkinDialog::setMinimized(bool minimize)
 		else
 			this->setGeometry(normalGeometry);
 		minimized = false;
+	}
+}
+
+void QSkinDialog::restore()
+{
+	if (minimized)
+	{
+		setMinimized(false);
+		emit needToShow();
+	} else if (isHidden()) {
+		show();
+	} else {
+		emit needToShow();
 	}
 }
 

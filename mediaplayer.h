@@ -132,6 +132,7 @@ public slots:
 	void savePlaylist();
 	void openPlaylist(bool addToPlaylist = false);
 	void addPlaylist();
+	void opaquePaint(QPainter *painter, QPaintEvent *event);
 
 private slots:
 	void setAspect(int);
@@ -153,6 +154,7 @@ private slots:
 	void toggleMute();
 	void muteChanged(bool muted);
 	void volumeChanged(qreal volume);
+	void paintEvent(QPaintEvent *event);
 
 private:
 	QSlider *m_hueSlider;

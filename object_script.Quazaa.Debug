@@ -34,6 +34,9 @@ INPUT(
 ./debug\qskinsettings.o
 ./debug\qskindialog.o
 ./debug\dialogskinpreview.o
+./debug\qtsingleapplication.o
+./debug\qtsinglecoreapplication.o
+./debug\qtlocalpeer.o
 ./debug\moc_mainwindow.o
 ./debug\moc_dialoglanguage.o
 ./debug\moc_quazaaglobals.o
@@ -67,5 +70,8 @@ INPUT(
 ./debug\moc_qskinsettings.o
 ./debug\moc_qskindialog.o
 ./debug\moc_dialogskinpreview.o
+./debug\moc_qtsingleapplication.o
+./debug\moc_qtlocalpeer.o
+./debug\moc_qtsinglecoreapplication.o
 ./debug\qrc_Resource.o
 );
