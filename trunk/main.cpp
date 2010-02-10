@@ -30,19 +30,21 @@
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "dialoglanguage.h"
+#include "qtsingleapplication/src/qtsingleapplication.h"
 
 QuazaaGlobals quazaaGlobals;
 
 int main(int argc, char *argv[])
 {
-	QApplication theApp(argc, argv);
+	QtSingleApplication theApp(argc, argv);
+	// Check if the application is already running
+	if (theApp.sendMessage("Show App"))
+		return 0;
+
 	QApplication::setApplicationName(quazaaGlobals.ApplicationName());
 	QApplication::setApplicationVersion(quazaaGlobals.ApplicationVersionString());
 	QApplication::setOrganizationDomain(quazaaGlobals.ApplicationOrganizationDomain());
 	QApplication::setOrganizationName(quazaaGlobals.ApplicationOrganizationName());
-
-	QSharedMemory applicationRunning("QuazaaAlreadyRunning");
-	QMessageBox infoBox;
 
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();
@@ -64,35 +66,17 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	// Check if the application is already running
-	if (applicationRunning.attach()) {
-		infoBox.setText(QObject::tr("Quazaa is already running. Only one instance of Quazaa can be running at a time."));
-		infoBox.exec();
-		return 0;
-	} else {
-		// Inform the shared memory segment that the application is running now
-		bool quazaaRunning = true;
-		QBuffer buffer;
-		buffer.open(QBuffer::ReadWrite);
-		QDataStream out(&buffer);
-		out << quazaaRunning;
-		int size = buffer.size();
-		if (!applicationRunning.create(size))
-		{
-			infoBox.setText(QObject::tr("Unable to create shared memory segment."));
-			infoBox.exec();
-		} else {
-			applicationRunning.lock();
-			char *to = (char*)applicationRunning.data();
-			const char *from = buffer.data().data();
-			memcpy(to, from, qMin(applicationRunning.size(), size));
-			applicationRunning.unlock();
-		}
-	}
 	theApp.processEvents();
 	QSkinDialog skinWinMain(true,true,true);
 	MainWindow *winMain = new MainWindow();
 	skinWinMain.addChildWidget(winMain);
+
+	// Make the main window show if the user tried to open another instance
+	QObject::connect(&theApp, SIGNAL(messageReceived(const QString&)),
+						  &skinWinMain, SLOT(restore()));
+	theApp.setActivationWindow(&skinWinMain);
+	QObject::connect(&skinWinMain, SIGNAL(needToShow()), &theApp, SLOT(activateWindow()));
+
 	skinWinMain.connect(winMain, SIGNAL(closed()), &skinWinMain, SLOT(close()));
 	skinWinMain.connect(winMain, SIGNAL(hideMain()), &skinWinMain, SLOT(hide()));
 	skinWinMain.connect(winMain, SIGNAL(showMain()), &skinWinMain, SLOT(show()));

@@ -51,7 +51,6 @@
 #include <QFileInfo>
 #include <QSettings>
 
-
 class MediaVideoWidget : public Phonon::VideoWidget
 {
 public:
@@ -158,9 +157,11 @@ MediaPlayer::MediaPlayer(QWidget *parent) :
 			m_AudioOutput(Phonon::VideoCategory),
 			m_videoWidget(new MediaVideoWidget(this, parent))
 {
+	this->setAttribute(Qt::WA_TranslucentBackground);
+	this->setWindowFlags(Qt::FramelessWindowHint);
+	this->setAutoFillBackground(true);
 	setContextMenuPolicy(Qt::CustomContextMenu);
 	m_videoWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-
 	QVBoxLayout *vLayout = new QVBoxLayout(this);
 	vLayout->setContentsMargins(0, 0, 0, 0);
 
@@ -182,10 +183,8 @@ MediaPlayer::MediaPlayer(QWidget *parent) :
 	info->setText(tr("No Media"));
 
 	vLayout->addWidget(info);
+	m_videoWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	vLayout->addWidget(m_videoWidget);
-	m_videoWidget->setAttribute(Qt::WA_PaintOnScreen);
-	m_videoWidget->setAttribute(Qt::WA_PaintUnclipped);
-	m_videoWidget->setAttribute(Qt::WA_OpaquePaintEvent);
 	m_videoWidget->hide();
 
 #ifdef Q_OS_MAC
@@ -610,13 +609,13 @@ void MediaPlayer::openFiles(QStringList files, bool requireFileList, bool addToL
 		sources.append(source);
 	}
 
+	emit forwardButtonEnableChanged(sources.count() > 1);
+
 	if (!sources.isEmpty())
 	{
 		if (!playlistProcessing)
 		metaInformationResolver.setCurrentSource(sources.at(index));
 	}
-
-	emit forwardButtonEnableChanged(sources.count() > 1);
 }
 
 void MediaPlayer::addFiles(QStringList files, bool requireFileList)
@@ -923,6 +922,7 @@ void MediaPlayer::metaStateChanged(Phonon::State newState, Phonon::State /* oldS
 	}
 
 	int index = sources.indexOf(metaInformationResolver.currentSource()) + 1;
+	emit forwardButtonEnableChanged(sources.count() > 1);
 	if (sources.size() > index) {
 		metaInformationResolver.setCurrentSource(sources.at(index));
 	}
@@ -1085,4 +1085,19 @@ void MediaPlayer::openPlaylist(bool addToPlaylist)
 void MediaPlayer::addPlaylist()
 {
 	openPlaylist(true);
+}
+
+void MediaPlayer::paintEvent(QPaintEvent *event)
+{
+	QPainter painter;
+	painter.begin(this);
+	painter.setRenderHint(QPainter::Antialiasing);
+	opaquePaint(&painter, event);
+	painter.end();
+}
+
+void MediaPlayer::opaquePaint(QPainter *painter, QPaintEvent *event)
+{
+	painter->setBrush(QBrush(QColor(0,0,0,255)));
+	painter->drawRect(event->rect());
 }

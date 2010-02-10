@@ -45,7 +45,13 @@ SOURCES += main.cpp \
     mediaplayer.cpp \
     QSkinDialog/qskinsettings.cpp \
     QSkinDialog/qskindialog.cpp \
-    QSkinDialog/dialogskinpreview.cpp
+    QSkinDialog/dialogskinpreview.cpp \
+    qtsingleapplication/src/qtsingleapplication.cpp \
+    qtsingleapplication/src/qtsinglecoreapplication.cpp \
+    qtsingleapplication/src/qtlockedfile_win.cpp \
+    qtsingleapplication/src/qtlockedfile_unix.cpp \
+    qtsingleapplication/src/qtlockedfile.cpp \
+    qtsingleapplication/src/qtlocalpeer.cpp
 HEADERS += mainwindow.h \
     dialoglanguage.h \
     quazaasettings.h \
@@ -80,7 +86,11 @@ HEADERS += mainwindow.h \
     mediaplayer.h \
     QSkinDialog/qskinsettings.h \
     QSkinDialog/qskindialog.h \
-    QSkinDialog/dialogskinpreview.h
+    QSkinDialog/dialogskinpreview.h \
+    qtsingleapplication/src/qtsingleapplication.h \
+    qtsingleapplication/src/qtlockedfile.h \
+    qtsingleapplication/src/qtlocalpeer.h \
+    qtsingleapplication/src/qtsinglecoreapplication.h
 FORMS += mainwindow.ui \
     dialoglanguage.ui \
     dialogsplash.ui \
@@ -111,7 +121,8 @@ FORMS += mainwindow.ui \
     dialoglibrarysearch.ui \
     mediasettings.ui \
     QSkinDialog/qskindialog.ui \
-    QSkinDialog/dialogskinpreview.ui
+    QSkinDialog/dialogskinpreview.ui \
+    dialog.ui
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3

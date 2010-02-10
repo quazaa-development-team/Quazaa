@@ -35,6 +35,7 @@ protected:
 
 signals:
 	void mainClose();
+	void needToShow();
 
 private:
 	Ui::QSkinDialog *ui;
@@ -63,6 +64,7 @@ private:
 public slots:
 	void setMaximized(bool maximize);
 	void setMinimized(bool minimize);
+	void restore();
 
 private slots:
 	void on_windowIcon_clicked();
