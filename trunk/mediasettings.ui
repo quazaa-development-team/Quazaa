@@ -10,12 +10,27 @@
     <height>279</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>360</width>
+    <height>279</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>360</width>
+    <height>279</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Media Settings</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -327,7 +342,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

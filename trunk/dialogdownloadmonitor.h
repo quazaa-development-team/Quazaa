@@ -42,6 +42,9 @@ protected:
 private:
 	Ui::DialogDownloadMonitor *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButton_clicked();
 	void on_pushButtonHide_clicked();

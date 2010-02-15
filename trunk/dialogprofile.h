@@ -44,6 +44,9 @@ protected:
 private:
 	Ui::DialogProfile *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButtonGenerateNewGUID_clicked();
 	void on_pushButtonRemoveWebsite_clicked();

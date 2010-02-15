@@ -20,6 +20,9 @@ protected:
 private:
 	Ui::DialogPreviewPrepare *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButton_clicked();
 };

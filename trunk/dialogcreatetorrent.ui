@@ -10,12 +10,27 @@
     <height>296</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>402</width>
+    <height>296</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>402</width>
+    <height>296</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Create Torrent</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Networks/CreateTorrent.png</normaloff>:/Resource/Networks/CreateTorrent.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_5">
    <property name="margin">
@@ -434,7 +449,7 @@
          <string notr="true">background-color: transparent;</string>
         </property>
         <property name="pixmap">
-         <pixmap>:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -507,6 +522,8 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

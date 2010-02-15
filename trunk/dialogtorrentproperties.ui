@@ -10,12 +10,27 @@
     <height>379</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>370</width>
+    <height>379</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>370</width>
+    <height>379</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Torrent Properties</string>
   </property>
   <property name="windowIcon">
    <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="margin">
@@ -570,6 +585,9 @@ p, li { white-space: pre-wrap; }
            <height>16777215</height>
           </size>
          </property>
+         <attribute name="headerVisible">
+          <bool>false</bool>
+         </attribute>
          <attribute name="headerVisible">
           <bool>false</bool>
          </attribute>

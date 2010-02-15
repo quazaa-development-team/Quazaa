@@ -20,6 +20,9 @@ protected:
 private:
 	Ui::DialogGPLView *m_ui;
 
+signals:
+	void closed();
+
 private slots:
  void on_textBrowserGPL_anchorClicked(QUrl link);
  void on_pushButtonOK_clicked();

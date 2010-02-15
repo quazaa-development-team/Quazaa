@@ -141,11 +141,13 @@ void DialogLanguage::on_pushButtonOK_clicked()
 			break;
 	}
 	quazaaSettings.saveLanguageSettings();
+	emit closed();
 	close();
 }
 
 void DialogLanguage::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }
 

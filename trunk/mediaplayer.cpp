@@ -301,7 +301,7 @@ void MediaPlayer::stateChanged(Phonon::State newstate, Phonon::State oldstate)
 			emit stopButtonEnableChanged(true);
 			emit playStatusChanged(QIcon(":/Resource/Media/PauseMedia.png"), "Pause");
 			if (m_MediaObject.hasVideo())
-				toggleVideo(true);//m_videoWidget.show();
+				toggleVideo(true);
 			// Fall through
 		case Phonon::BufferingState:
 			emit rewindButtonEnableChanged(true);
@@ -394,6 +394,15 @@ void MediaPlayer::showSettingsDialog()
 	if (!settingsDialog)
 		initSettingsDialog();
 
+	if (!skinSettingsDialog)
+	{
+		skinSettingsDialog = new QSkinDialog(false, true, false);
+
+		skinSettingsDialog->addChildWidget(settingsDialog);
+
+		connect(settingsDialog, SIGNAL(accepted()), skinSettingsDialog, SLOT(accept()));
+		connect(settingsDialog, SIGNAL(rejected()), skinSettingsDialog, SLOT(reject()));
+	}
 //	float oldBrightness = m_videoWidget->brightness();
 //	float oldHue = m_videoWidget->hue();
 //	float oldSaturation = m_videoWidget->saturation();
@@ -401,7 +410,8 @@ void MediaPlayer::showSettingsDialog()
 	Phonon::VideoWidget::AspectRatio oldAspect = m_videoWidget->aspectRatio();
 	Phonon::VideoWidget::ScaleMode oldScale = m_videoWidget->scaleMode();
 	int currentEffect = ui->audioEffectsCombo->currentIndex();
-	settingsDialog->exec();
+	settingsDialog->setVisible(true);
+	skinSettingsDialog->exec();
 
 	if (settingsDialog->result() == QDialog::Accepted){
 		m_MediaObject.setTransitionTime((int)(1000 * float(ui->crossFadeSlider->value()) / 2.0f));

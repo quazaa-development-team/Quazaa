@@ -23,35 +23,37 @@
 #include "ui_dialogaddsecuritysubscription.h"
 
 DialogAddSecuritySubscription::DialogAddSecuritySubscription(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogAddSecuritySubscription)
+	QDialog(parent),
+	m_ui(new Ui::DialogAddSecuritySubscription)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
 }
 
 DialogAddSecuritySubscription::~DialogAddSecuritySubscription()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogAddSecuritySubscription::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogAddSecuritySubscription::on_pushButtonSubscribe_clicked()
 {
+	emit closed();
 	close();
 }
 
 void DialogAddSecuritySubscription::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }

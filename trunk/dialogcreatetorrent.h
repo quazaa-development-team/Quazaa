@@ -41,6 +41,9 @@ protected:
 private:
 	Ui::DialogCreateTorrent *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButtonSave_clicked();
 	void on_pushButtonCancel_clicked();

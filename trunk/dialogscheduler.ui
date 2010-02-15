@@ -10,12 +10,27 @@
     <height>461</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>634</width>
+    <height>461</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>634</width>
+    <height>461</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Scheduler</string>
   </property>
   <property name="windowIcon">
    <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Generic/Scheduler.png</normaloff>:/Resource/Generic/Scheduler.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="margin">

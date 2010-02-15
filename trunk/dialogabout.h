@@ -42,6 +42,9 @@ protected:
 private:
 	Ui::DialogAbout *m_ui;
 
+signals:
+	void closed();
+
 private slots:
  void on_textBrowserCredits_anchorClicked(QUrl link);
  void on_labelAresLink_linkActivated(QString link);

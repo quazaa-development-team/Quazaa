@@ -59,6 +59,7 @@
 #include <Phonon/VideoWidget>
 #include <Phonon/VolumeSlider>
 #include <QList>
+#include "QSkinDialog/qskindialog.h"
 
 QT_BEGIN_NAMESPACE
 class QPushButton;
@@ -163,6 +164,7 @@ private:
 	QLabel *info;
 	Phonon::Effect *nextEffect;
 	QDialog *settingsDialog;
+	QSkinDialog *skinSettingsDialog;
 	Ui_mediaSettings *ui;
 	QWidget m_videoWindow;
 

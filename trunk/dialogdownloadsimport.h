@@ -25,20 +25,23 @@
 #include <QtGui/QDialog>
 
 namespace Ui {
-    class DialogDownloadsImport;
+	class DialogDownloadsImport;
 }
 
 class DialogDownloadsImport : public QDialog {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    DialogDownloadsImport(QWidget *parent = 0);
-    ~DialogDownloadsImport();
+	DialogDownloadsImport(QWidget *parent = 0);
+	~DialogDownloadsImport();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
-    Ui::DialogDownloadsImport *m_ui;
+	Ui::DialogDownloadsImport *m_ui;
+
+signals:
+	void closed();
 };
 
 #endif // DIALOGDOWNLOADSIMPORT_H

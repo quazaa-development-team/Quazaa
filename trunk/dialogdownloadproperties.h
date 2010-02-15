@@ -25,20 +25,23 @@
 #include <QtGui/QDialog>
 
 namespace Ui {
-    class DialogDownloadProperties;
+	class DialogDownloadProperties;
 }
 
 class DialogDownloadProperties : public QDialog {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    DialogDownloadProperties(QWidget *parent = 0);
-    ~DialogDownloadProperties();
+	DialogDownloadProperties(QWidget *parent = 0);
+	~DialogDownloadProperties();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
-    Ui::DialogDownloadProperties *m_ui;
+	Ui::DialogDownloadProperties *m_ui;
+
+signals:
+	void closed();
 };
 
 #endif // DIALOGDOWNLOADPROPERTIES_H

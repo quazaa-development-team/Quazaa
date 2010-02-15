@@ -23,35 +23,37 @@
 #include "ui_dialogaddrule.h"
 
 DialogAddRule::DialogAddRule(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogAddRule)
+	QDialog(parent),
+	m_ui(new Ui::DialogAddRule)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
 }
 
 DialogAddRule::~DialogAddRule()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogAddRule::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogAddRule::on_pushButtonOK_clicked()
 {
+	emit closed();
 	close();
 }
 
 void DialogAddRule::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }

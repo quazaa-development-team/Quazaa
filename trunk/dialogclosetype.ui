@@ -29,8 +29,11 @@
    <string>What Should The Close Button Do?</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -78,7 +81,7 @@
          <string notr="true">background-color: transparent;</string>
         </property>
         <property name="pixmap">
-         <pixmap>:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -164,7 +167,7 @@ p, li { white-space: pre-wrap; }
          <string>Close Immediately</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resource.qrc">
           <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
         </property>
        </item>
@@ -173,7 +176,7 @@ p, li { white-space: pre-wrap; }
          <string>Minimize To Tray</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resource.qrc">
           <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
         </property>
        </item>
@@ -182,7 +185,7 @@ p, li { white-space: pre-wrap; }
          <string>Close After Transfers</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resource.qrc">
           <normaloff>:/Resource/Generic/ExitAfterTransfers.png</normaloff>:/Resource/Generic/ExitAfterTransfers.png</iconset>
         </property>
        </item>
@@ -192,6 +195,8 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -19,6 +19,9 @@ protected:
 private:
 	Ui::DialogCloseType *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButtonOK_clicked();
 };

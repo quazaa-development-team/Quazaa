@@ -41,6 +41,9 @@ protected:
 private:
 	Ui::DialogLanguage *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_listWidgetLanguages_itemClicked(QListWidgetItem* item);
 	void on_pushButtonOK_clicked();

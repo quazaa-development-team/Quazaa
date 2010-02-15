@@ -25,21 +25,24 @@
 #include <QtGui/QDialog>
 
 namespace Ui {
-    class DialogHashProgress;
+	class DialogHashProgress;
 }
 
 class DialogHashProgress : public QDialog {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    DialogHashProgress(QWidget *parent = 0);
-    ~DialogHashProgress();
+	DialogHashProgress(QWidget *parent = 0);
+	~DialogHashProgress();
 	void updateProgress(int percent, QString status, QString file);
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
-    Ui::DialogHashProgress *m_ui;
+	Ui::DialogHashProgress *m_ui;
+
+signals:
+	void closed();
 };
 
 #endif // DIALOGHASHPROGRESS_H

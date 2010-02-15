@@ -23,34 +23,36 @@
 #include "ui_dialogcreatetorrent.h"
 
 DialogCreateTorrent::DialogCreateTorrent(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogCreateTorrent)
+	QDialog(parent),
+	m_ui(new Ui::DialogCreateTorrent)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
 }
 
 DialogCreateTorrent::~DialogCreateTorrent()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogCreateTorrent::changeEvent(QEvent *e)
 {
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogCreateTorrent::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }
 
 void DialogCreateTorrent::on_pushButtonSave_clicked()
 {
+	emit closed();
 	close();
 }

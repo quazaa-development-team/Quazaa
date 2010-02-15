@@ -41,6 +41,9 @@ protected:
 private:
 	Ui::DialogEditShares *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButtonRemove_clicked();
 	void on_pushButtonAdd_clicked();

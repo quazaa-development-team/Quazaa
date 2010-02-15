@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>DialogAbout</class>
  <widget class="QDialog" name="DialogAbout">
@@ -31,6 +31,9 @@
   <property name="windowIcon">
    <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <property name="modal">
    <bool>true</bool>
