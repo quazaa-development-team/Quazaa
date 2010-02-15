@@ -10,12 +10,27 @@
     <height>300</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>560</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>560</width>
+    <height>300</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Security Filter Subscriptions</string>
   </property>
   <property name="windowIcon">
    <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Security/SubscribeRules.png</normaloff>:/Resource/Security/SubscribeRules.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="margin">

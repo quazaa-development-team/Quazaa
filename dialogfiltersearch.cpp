@@ -23,35 +23,37 @@
 #include "ui_dialogfiltersearch.h"
 
 DialogFilterSearch::DialogFilterSearch(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogFilterSearch)
+	QDialog(parent),
+	m_ui(new Ui::DialogFilterSearch)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
 }
 
 DialogFilterSearch::~DialogFilterSearch()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogFilterSearch::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogFilterSearch::on_pushButtonFilter_clicked()
 {
+	emit closed();
 	close();
 }
 
 void DialogFilterSearch::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }

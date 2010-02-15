@@ -23,35 +23,37 @@
 #include "ui_dialogadddownload.h"
 
 DialogAddDownload::DialogAddDownload(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogAddDownload)
+	QDialog(parent),
+	m_ui(new Ui::DialogAddDownload)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
 }
 
 DialogAddDownload::~DialogAddDownload()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogAddDownload::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogAddDownload::on_pushButtonDownload_clicked()
 {
+	emit closed();
 	close();
 }
 
 void DialogAddDownload::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }

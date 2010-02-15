@@ -193,8 +193,13 @@ MainWindow::MainWindow(QWidget *parent)
 		quazaaSettings.saveFirstRun(false);
 		quazaaSettings.saveSettings();
 		quazaaSettings.saveProfile();
+		QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false);
 		DialogWizard *dlgWizard = new DialogWizard();
-		dlgWizard->exec();
+
+		dlgSkinWizard->addChildWidget(dlgWizard);
+
+		connect(dlgWizard, SIGNAL(closed()), dlgSkinWizard, SLOT(close()));
+		dlgSkinWizard->exec();
 	}
 
 
@@ -317,9 +322,14 @@ bool MainWindow::event(QEvent *e)
 		{
 			if (quazaaSettings.BasicCloseMode == 0)
 			{
+
+				QSkinDialog *dlgSkinCloseType = new QSkinDialog(false, false, false);
 				DialogCloseType *dlgCloseType = new DialogCloseType(this);
-				dlgCloseType->setWindowFlags(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowTitleHint);
-				dlgCloseType->exec();
+
+				dlgSkinCloseType->addChildWidget(dlgCloseType);
+
+				connect(dlgCloseType, SIGNAL(closed()), dlgSkinCloseType, SLOT(close()));
+				dlgSkinCloseType->exec();
 			}
 
 			switch (quazaaSettings.BasicCloseMode)
@@ -552,32 +562,57 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
+	QSkinDialog *dlgSkinAbout = new QSkinDialog(false, true, false);
 	DialogAbout *dlgAbout = new DialogAbout;
-	dlgAbout->show();
+
+	dlgSkinAbout->addChildWidget(dlgAbout);
+
+	connect(dlgAbout, SIGNAL(closed()), dlgSkinAbout, SLOT(close()));
+	dlgSkinAbout->show();
 }
 
 void MainWindow::on_actionCreateTorrent_triggered()
 {
+	QSkinDialog *dlgSkinCreateTorrent = new QSkinDialog(false, true, false);
 	DialogCreateTorrent *dlgCreateTorrent = new DialogCreateTorrent;
-	dlgCreateTorrent->show();
+
+	dlgSkinCreateTorrent->addChildWidget(dlgCreateTorrent);
+
+	connect(dlgCreateTorrent, SIGNAL(closed()), dlgSkinCreateTorrent, SLOT(close()));
+	dlgSkinCreateTorrent->show();
 }
 
 void MainWindow::on_actionOpenTorrent_triggered()
 {
+	QSkinDialog *dlgSkinOpenTorrent = new QSkinDialog(false, true, false);
 	DialogOpenTorrent *dlgOpenTorrent = new DialogOpenTorrent;
-	dlgOpenTorrent->show();
+
+	dlgSkinOpenTorrent->addChildWidget(dlgOpenTorrent);
+
+	connect(dlgOpenTorrent, SIGNAL(closed()), dlgSkinOpenTorrent, SLOT(close()));
+	dlgSkinOpenTorrent->show();
 }
 
 void MainWindow::on_actionSettings_triggered()
 {
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false);
 	DialogSettings *dlgSettings = new DialogSettings;
-	dlgSettings->show();
+
+	dlgSkinSettings->addChildWidget(dlgSettings);
+
+	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
+	dlgSkinSettings->show();
 }
 
 void MainWindow::on_actionShares_triggered()
 {
+	QSkinDialog *dlgSkinEditShares = new QSkinDialog(false, true, false);
 	DialogEditShares *dlgEditShares = new DialogEditShares;
-	dlgEditShares->show();
+
+	dlgSkinEditShares->addChildWidget(dlgEditShares);
+
+	connect(dlgEditShares, SIGNAL(closed()), dlgSkinEditShares, SLOT(close()));
+	dlgSkinEditShares->show();
 }
 
 void MainWindow::on_actionOpenDownloadFolder_triggered()
@@ -587,89 +622,159 @@ void MainWindow::on_actionOpenDownloadFolder_triggered()
 
 void MainWindow::on_actionURLDownload_triggered()
 {
+	QSkinDialog *dlgSkinAddDownload = new QSkinDialog(false, true, false);
 	DialogAddDownload *dlgAddDownload = new DialogAddDownload;
-	dlgAddDownload->show();
+
+	dlgSkinAddDownload->addChildWidget(dlgAddDownload);
+
+	connect(dlgAddDownload, SIGNAL(closed()), dlgSkinAddDownload, SLOT(close()));
+	dlgSkinAddDownload->show();
 }
 
 void MainWindow::on_actionImportPartials_triggered()
 {
+	QSkinDialog *dlgSkinDownloadsImport = new QSkinDialog(false, true, false);
 	DialogDownloadsImport *dlgDownloadsImport = new DialogDownloadsImport;
-	dlgDownloadsImport->show();
+
+	dlgSkinDownloadsImport->addChildWidget(dlgDownloadsImport);
+
+	connect(dlgDownloadsImport, SIGNAL(closed()), dlgSkinDownloadsImport, SLOT(close()));
+	dlgSkinDownloadsImport->show();
 }
 
 void MainWindow::on_actionChooseSkin_triggered()
 {
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false);
 	DialogSettings *dlgSettings = new DialogSettings;
+
+	dlgSkinSettings->addChildWidget(dlgSettings);
+
+	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
 	dlgSettings->switchSettingsPage(3);
-	dlgSettings->show();
+	dlgSkinSettings->show();
 }
 
 void MainWindow::on_actionChooseLanguage_triggered()
 {
+	QSkinDialog *dlgSkinLanguage = new QSkinDialog(false, true, false);
 	DialogLanguage *dlgLanguage = new DialogLanguage;
-	dlgLanguage->show();
+
+	dlgSkinLanguage->addChildWidget(dlgLanguage);
+
+	connect(dlgLanguage, SIGNAL(closed()), dlgSkinLanguage, SLOT(close()));
+	dlgSkinLanguage->show();
 }
 
 void MainWindow::on_actionQuickstartWizard_triggered()
 {
+	QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false);
 	DialogWizard *dlgWizard = new DialogWizard();
-	dlgWizard->show();
+
+	dlgSkinWizard->addChildWidget(dlgWizard);
+
+	connect(dlgWizard, SIGNAL(closed()), dlgSkinWizard, SLOT(close()));
+	dlgSkinWizard->show();
 }
 
 void MainWindow::on_actionScheduler_triggered()
 {
+	QSkinDialog *dlgSkinScheduler = new QSkinDialog(false, true, false);
 	DialogScheduler *dlgScheduler = new DialogScheduler;
-	dlgScheduler->show();
+
+	dlgSkinScheduler->addChildWidget(dlgScheduler);
+
+	connect(dlgScheduler, SIGNAL(closed()), dlgSkinScheduler, SLOT(close()));
+	dlgSkinScheduler->show();
 }
 
 void MainWindow::on_actionEditMyProfile_triggered()
 {
+	QSkinDialog *dlgSkinProfile = new QSkinDialog(false, true, false);
 	DialogProfile *dlgProfile = new DialogProfile;
-	dlgProfile->show();
+
+	dlgSkinProfile->addChildWidget(dlgProfile);
+
+	connect(dlgProfile, SIGNAL(closed()), dlgSkinProfile, SLOT(close()));
+	dlgSkinProfile->show();
 }
 
 void MainWindow::on_actionSecurityAddRule_triggered()
 {
+	QSkinDialog *dlgSkinAddRule = new QSkinDialog(false, true, false);
 	DialogAddRule *dlgAddRule = new DialogAddRule;
-	dlgAddRule->show();
+
+	dlgSkinAddRule->addChildWidget(dlgAddRule);
+
+	connect(dlgAddRule, SIGNAL(closed()), dlgSkinAddRule, SLOT(close()));
+	dlgSkinAddRule->show();
 }
 
 void MainWindow::on_toolButtonSecuritySubscribe_clicked()
 {
+	QSkinDialog *dlgSkinSecuritySubscriptions = new QSkinDialog(false, true, false);
 	DialogSecuritySubscriptions *dlgSecuritySubscriptions = new DialogSecuritySubscriptions;
-	dlgSecuritySubscriptions->show();
+
+	dlgSkinSecuritySubscriptions->addChildWidget(dlgSecuritySubscriptions);
+
+	connect(dlgSecuritySubscriptions, SIGNAL(closed()), dlgSkinSecuritySubscriptions, SLOT(close()));
+	dlgSkinSecuritySubscriptions->show();
 }
 
 void MainWindow::on_toolButtonLibrarySearch_clicked()
 {
+	QSkinDialog *dlgSkinLibrarySearch = new QSkinDialog(false, true, false);
 	DialogLibrarySearch *dlgLibrarySearch = new DialogLibrarySearch;
-	dlgLibrarySearch->show();
+
+	dlgSkinLibrarySearch->addChildWidget(dlgLibrarySearch);
+
+	connect(dlgLibrarySearch, SIGNAL(closed()), dlgSkinLibrarySearch, SLOT(close()));
+	dlgSkinLibrarySearch->show();
 }
 
 void MainWindow::on_toolButtonSearchFilter_clicked()
 {
+	QSkinDialog *dlgSkinFilterSearch = new QSkinDialog(false, true, false);
 	DialogFilterSearch *dlgFilterSearch = new DialogFilterSearch;
-	dlgFilterSearch->show();
+
+	dlgSkinFilterSearch->addChildWidget(dlgFilterSearch);
+
+	connect(dlgFilterSearch, SIGNAL(closed()), dlgSkinFilterSearch, SLOT(close()));
+	dlgSkinFilterSearch->show();
 }
 
 void MainWindow::on_actionNetworkSettings_triggered()
 {
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false);
 	DialogSettings *dlgSettings = new DialogSettings;
+
+	dlgSkinSettings->addChildWidget(dlgSettings);
+
+	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
 	dlgSettings->switchSettingsPage(20);
-	dlgSettings->show();
+	dlgSkinSettings->show();
 }
 
 void MainWindow::on_actionChatSettings_triggered()
 {
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false);
 	DialogSettings *dlgSettings = new DialogSettings;
+
+	dlgSkinSettings->addChildWidget(dlgSettings);
+
+	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
 	dlgSettings->switchSettingsPage(7);
-	dlgSettings->show();
+	dlgSkinSettings->show();
 }
 
 void MainWindow::on_toolButtonHitMonitorFilter_clicked()
 {
+	QSkinDialog *dlgSkinFilterSearch = new QSkinDialog(false, true, false);
 	DialogFilterSearch *dlgFilterSearch = new DialogFilterSearch;
-	dlgFilterSearch->show();
+
+	dlgSkinFilterSearch->addChildWidget(dlgFilterSearch);
+
+	connect(dlgFilterSearch, SIGNAL(closed()), dlgSkinFilterSearch, SLOT(close()));
+	dlgSkinFilterSearch->show();
 }
 
 void MainWindow::on_actionMediaRepeat_toggled(bool checked)

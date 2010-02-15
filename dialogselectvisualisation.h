@@ -40,6 +40,9 @@ protected:
 private:
 	Ui::DialogSelectVisualisation *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButtonCancel_clicked();
 	void on_pushButtonOK_clicked();

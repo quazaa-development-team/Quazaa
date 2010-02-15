@@ -51,6 +51,7 @@ void DialogEditShares::changeEvent(QEvent *e)
 
 void DialogEditShares::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }
 
@@ -63,6 +64,7 @@ void DialogEditShares::on_pushButtonOk_clicked()
 		quazaaSettings.LibraryShares.append(m_ui->listWidgetShares->currentItem()->text());
 	}
 	quazaaSettings.LibraryShares.removeDuplicates();
+	emit closed();
 	close();
 }
 

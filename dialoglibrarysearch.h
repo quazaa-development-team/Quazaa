@@ -19,6 +19,9 @@ protected:
 private:
 	Ui::DialogLibrarySearch *ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButtonCancel_clicked();
 	void on_pushButtonSearch_clicked();

@@ -10,12 +10,27 @@
     <height>299</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>428</width>
+    <height>299</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>428</width>
+    <height>299</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Edit Shares</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Library/SharedFolders.png</normaloff>:/Resource/Library/SharedFolders.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="margin">
@@ -63,7 +78,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -174,6 +189,8 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

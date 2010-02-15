@@ -13,12 +13,27 @@
     <height>344</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>427</width>
+    <height>344</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>427</width>
+    <height>344</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Select Language</string>
   </property>
   <property name="windowIcon">
    <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Generic/Language.png</normaloff>:/Resource/Generic/Language.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <property name="modal">
    <bool>true</bool>

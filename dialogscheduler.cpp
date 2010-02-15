@@ -94,10 +94,12 @@ void DialogScheduler::on_pushButtonOK_clicked()
 	{
 		m_ui->pushButtonApply->click();
 	}
+	emit closed();
 	close();
 }
 
 void DialogScheduler::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }

@@ -23,36 +23,38 @@
 #include "ui_dialogdownloadmonitor.h"
 
 DialogDownloadMonitor::DialogDownloadMonitor(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogDownloadMonitor)
+	QDialog(parent),
+	m_ui(new Ui::DialogDownloadMonitor)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
 }
 
 DialogDownloadMonitor::~DialogDownloadMonitor()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogDownloadMonitor::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogDownloadMonitor::on_pushButtonHide_clicked()
 {
+	emit closed();
 	close();
 }
 
 void DialogDownloadMonitor::on_pushButton_clicked()
 {
+	emit closed();
 	close();
 }
 

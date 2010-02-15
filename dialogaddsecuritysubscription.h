@@ -39,6 +39,9 @@ protected:
 private:
 	Ui::DialogAddSecuritySubscription *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButtonCancel_clicked();
 	void on_pushButtonSubscribe_clicked();

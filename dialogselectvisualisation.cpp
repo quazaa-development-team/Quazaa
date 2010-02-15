@@ -23,27 +23,27 @@
 #include "ui_dialogselectvisualisation.h"
 
 DialogSelectVisualisation::DialogSelectVisualisation(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogSelectVisualisation)
+	QDialog(parent),
+	m_ui(new Ui::DialogSelectVisualisation)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
 }
 
 DialogSelectVisualisation::~DialogSelectVisualisation()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogSelectVisualisation::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogSelectVisualisation::on_pushButtonOK_clicked()
@@ -52,10 +52,12 @@ void DialogSelectVisualisation::on_pushButtonOK_clicked()
 	{
 		m_ui->pushButtonApply->click();
 	}
+	emit closed();
 	close();
 }
 
 void DialogSelectVisualisation::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }

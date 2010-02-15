@@ -137,11 +137,13 @@ void DialogProfile::on_pushButtonOK_clicked()
 	{
 		m_ui->pushButtonApply->click();
 	}
+	emit closed();
 	close();
 }
 
 void DialogProfile::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }
 

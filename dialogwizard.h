@@ -41,6 +41,9 @@ protected:
 private:
 	Ui::DialogWizard *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButtonSharesRemove_clicked();
 	void on_pushButtonSharesAdd_clicked();

@@ -22,35 +22,41 @@
 #include "dialogsecuritysubscriptions.h"
 #include "ui_dialogsecuritysubscriptions.h"
 #include "dialogaddsecuritysubscription.h"
+#include "quazaasettings.h"
 
 DialogSecuritySubscriptions::DialogSecuritySubscriptions(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogSecuritySubscriptions)
+	QDialog(parent),
+	m_ui(new Ui::DialogSecuritySubscriptions)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
 }
 
 DialogSecuritySubscriptions::~DialogSecuritySubscriptions()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogSecuritySubscriptions::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogSecuritySubscriptions::on_pushButtonAddSubscription_clicked()
 {
+	QSkinDialog *dlgSkinAddSecuritySubscription = new QSkinDialog(false, true, false);
 	DialogAddSecuritySubscription *dlgAddSecuritySubscription = new DialogAddSecuritySubscription(this);
-	dlgAddSecuritySubscription->show();
+
+	dlgSkinAddSecuritySubscription->addChildWidget(dlgAddSecuritySubscription);
+
+	connect(dlgAddSecuritySubscription, SIGNAL(closed()), dlgSkinAddSecuritySubscription, SLOT(close()));
+	dlgSkinAddSecuritySubscription->show();
 }
 
 void DialogSecuritySubscriptions::on_pushButtonOK_clicked()
@@ -59,10 +65,12 @@ void DialogSecuritySubscriptions::on_pushButtonOK_clicked()
 	{
 		m_ui->pushButtonApply->click();
 	}
+	emit closed();
 	close();
 }
 
 void DialogSecuritySubscriptions::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }

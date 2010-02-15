@@ -40,6 +40,9 @@ protected:
 private:
 	Ui::DialogFilterSearch *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_pushButtonFilter_clicked();
 	void on_pushButtonCancel_clicked();

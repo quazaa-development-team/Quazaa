@@ -10,12 +10,27 @@
     <height>222</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>443</width>
+    <height>222</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>443</width>
+    <height>222</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Download File</string>
   </property>
   <property name="windowIcon">
    <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="horizontalSpacing">

@@ -26,6 +26,7 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QUrl>
+#include "QSkinDialog/qskindialog.h"
 
 DialogAbout::DialogAbout(QWidget *parent) :
 	QDialog(parent),
@@ -53,13 +54,19 @@ void DialogAbout::changeEvent(QEvent *e)
 
 void DialogAbout::on_pushButtonOK_clicked()
 {
+	emit closed();
 	close();
 }
 
 void DialogAbout::on_labelCopyright_linkActivated(QString link)
 {
+	QSkinDialog *dlgSkinGPLView = new QSkinDialog(false, true, false);
 	DialogGPLView *dlgGPLView = new DialogGPLView(this);
-	dlgGPLView->show();
+
+	dlgSkinGPLView->addChildWidget(dlgGPLView);
+
+	connect(dlgGPLView, SIGNAL(closed()), dlgSkinGPLView, SLOT(close()));
+	dlgSkinGPLView->show();
 }
 
 void DialogAbout::on_labelQuazaaLink_linkActivated(QString link)

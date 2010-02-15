@@ -50,6 +50,9 @@ protected:
 private:
 	Ui::DialogSettings *m_ui;
 
+signals:
+	void closed();
+
 private slots:
 	void on_checkBoxEDonkeyConnect_toggled(bool checked);
 	void on_checkBoxAresConnect_toggled(bool checked);

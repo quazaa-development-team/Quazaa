@@ -85,6 +85,7 @@ void DialogWizard::on_pushButtonConnectionNext_clicked()
 
 void DialogWizard::on_pushButtonConnectionExit_clicked()
 {
+	emit closed();
 	close();
 }
 
@@ -95,6 +96,7 @@ void DialogWizard::on_pushButtonWelcomeNext_clicked()
 
 void DialogWizard::on_pushButtonWelcomeExit_clicked()
 {
+	emit closed();
 	close();
 }
 
@@ -110,6 +112,7 @@ void DialogWizard::on_pushButtonSharesNext_clicked()
 
 void DialogWizard::on_pushButtonSharesExit_clicked()
 {
+	emit closed();
 	close();
 }
 
@@ -125,6 +128,7 @@ void DialogWizard::on_pushButtonChatNext_clicked()
 
 void DialogWizard::on_pushButtonChatExit_clicked()
 {
+	emit closed();
 	close();
 }
 
@@ -140,6 +144,7 @@ void DialogWizard::on_pushButtonNetworksNext_clicked()
 
 void DialogWizard::on_pushButtonNetworksExit_clicked()
 {
+	emit closed();
 	close();
 }
 
@@ -182,11 +187,13 @@ void DialogWizard::on_pushButtonSystemFinish_clicked()
 	quazaaSettings.LibraryHighPriorityHashing = !m_ui->checkBoxSlowHashing->isChecked();
 	quazaaSettings.saveProfile();
 	quazaaSettings.saveSettings();
+	emit closed();
 	close();
 }
 
 void DialogWizard::on_pushButtonSystemExit_clicked()
 {
+	emit closed();
 	close();
 }
 

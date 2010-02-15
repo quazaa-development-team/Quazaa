@@ -247,6 +247,7 @@ void DialogSettings::changeEvent(QEvent *e)
 
 void DialogSettings::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }
 
@@ -256,6 +257,7 @@ void DialogSettings::on_pushButtonOK_clicked()
 	{
 		m_ui->pushButtonApply->click();
 	}
+	emit closed();
 	close();
 }
 
@@ -274,8 +276,13 @@ void DialogSettings::switchSettingsPage(int pageIndex)
 
 void DialogSettings::on_pushButtonEditProfile_clicked()
 {
+	QSkinDialog *dlgSkinProfile = new QSkinDialog(false, true, false);
 	DialogProfile *dlgProfile = new DialogProfile(this);
-	dlgProfile->show();
+
+	dlgSkinProfile->addChildWidget(dlgProfile);
+
+	connect(dlgProfile, SIGNAL(closed()), dlgSkinProfile, SLOT(close()));
+	dlgSkinProfile->show();
 }
 
 void DialogSettings::on_toolButtonNavigationGeneral_toggled(bool checked)

@@ -27,10 +27,12 @@ void DialogLibrarySearch::changeEvent(QEvent *e)
 
 void DialogLibrarySearch::on_pushButtonSearch_clicked()
 {
+	emit closed();
 	close();
 }
 
 void DialogLibrarySearch::on_pushButtonCancel_clicked()
 {
+	emit closed();
 	close();
 }

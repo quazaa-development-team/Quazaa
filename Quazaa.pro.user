@@ -63,6 +63,36 @@
   </valuemap>
  </data>
  <data>
+  <variable>buildConfiguration-Qt in PATH Debug</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Debug</value>
+   <value key="QtVersionId" type="int">3</value>
+   <value key="ToolChain" type="int">2</value>
+   <value key="addQDumper" type=""></value>
+   <value key="buildConfiguration" type="int">2</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildConfiguration-Qt in PATH Debug2</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Debug2</value>
+   <value key="QtVersionId" type="int">3</value>
+   <value key="ToolChain" type="int">2</value>
+   <value key="addQDumper" type=""></value>
+   <value key="buildConfiguration" type="int">2</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildConfiguration-Qt in PATH Release</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Release</value>
+   <value key="QtVersionId" type="int">3</value>
+   <value key="ToolChain" type="int">2</value>
+   <value key="addQDumper" type=""></value>
+   <value key="buildConfiguration" type="int">0</value>
+  </valuemap>
+ </data>
+ <data>
   <variable>buildconfiguration-Debug-buildstep0</variable>
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
@@ -70,7 +100,6 @@
     <value type="QString">ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
     <value type="QString">APPDATA=C:\Documents and Settings\Joe\Application Data</value>
     <value type="QString">APR_ICONV_PATH=C:\Program Files\Subversion\iconv</value>
-    <value type="QString">CLIENTNAME=Console</value>
     <value type="QString">COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
     <value type="QString">COMPUTERNAME=PANTHERA-WINXP</value>
     <value type="QString">COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
@@ -119,7 +148,6 @@
     <value type="QString">ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
     <value type="QString">APPDATA=C:\Documents and Settings\Joe\Application Data</value>
     <value type="QString">APR_ICONV_PATH=C:\Program Files\Subversion\iconv</value>
-    <value type="QString">CLIENTNAME=Console</value>
     <value type="QString">COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
     <value type="QString">COMPUTERNAME=PANTHERA-WINXP</value>
     <value type="QString">COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
@@ -153,17 +181,14 @@
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
     <value type="QString">C:/Documents and Settings/Joe/My Documents/Qt/Quazaa/trunk/Quazaa.pro</value>
-    <value type="QString">-r</value>
     <value type="QString">-spec</value>
-    <value type="QString">c:\Qt\2010.01\qt\mkspecs\win32-g++</value>
+    <value type="QString">win32-g++</value>
+    <value type="QString">-r</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">c:/qt/2010.01/qt/bin/qmake.exe</value>
-   <value key="abstractProcess.enabled" type="bool">false</value>
+   <value key="abstractProcess.enabled" type="bool">true</value>
    <value key="abstractProcess.workingDirectory" type="QString">C:/Documents and Settings/Joe/My Documents/Qt/Quazaa/trunk</value>
-   <valuelist key="qmakeArgs" type="QVariantList">
-    <value type="QString">-spec</value>
-    <value type="QString">c:\Qt\2010.01\qt\mkspecs\win32-g++</value>
-   </valuelist>
+   <valuelist key="qmakeArgs" type="QVariantList"/>
   </valuemap>
  </data>
  <data>
@@ -174,7 +199,6 @@
     <value type="QString">ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
     <value type="QString">APPDATA=C:\Documents and Settings\Joe\Application Data</value>
     <value type="QString">APR_ICONV_PATH=C:\Program Files\Subversion\iconv</value>
-    <value type="QString">CLIENTNAME=Console</value>
     <value type="QString">COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
     <value type="QString">COMPUTERNAME=PANTHERA-WINXP</value>
     <value type="QString">COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
@@ -221,9 +245,74 @@
   </valuemap>
  </data>
  <data>
+  <variable>buildconfiguration-Qt in PATH Debug-buildstep0</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Debug</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Qt in PATH Debug-buildstep1</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Debug</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Qt in PATH Debug-cleanstep0</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Debug</value>
+   <value key="cleanConfig" type="bool">true</value>
+   <valuelist key="makeargs" type="QVariantList">
+    <value type="QString">clean</value>
+   </valuelist>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Qt in PATH Debug2-buildstep0</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Debug2</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Qt in PATH Debug2-buildstep1</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Debug2</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Qt in PATH Debug2-cleanstep0</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Debug2</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Qt in PATH Release-buildstep0</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Release</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Qt in PATH Release-buildstep1</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Release</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Qt in PATH Release-cleanstep0</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Qt in PATH Release</value>
+   <value key="cleanConfig" type="bool">true</value>
+   <valuelist key="makeargs" type="QVariantList">
+    <value type="QString">clean</value>
+   </valuelist>
+  </valuemap>
+ </data>
+ <data>
   <variable>buildconfigurations</variable>
   <valuelist type="QVariantList">
    <value type="QString">Debug</value>
+   <value type="QString">Qt in PATH Debug</value>
+   <value type="QString">Qt in PATH Debug2</value>
+   <value type="QString">Qt in PATH Release</value>
   </valuelist>
  </data>
  <data>
