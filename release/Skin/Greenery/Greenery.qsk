@@ -1,0 +1,21 @@
+[General]
+skinName=Greenery
+skinAuthor=SmokeX
+skinVersion=1.0
+skinDescription="Based on the Vista skin. The default skin if no other skin is selected."
+windowFrameTopLeftStyleSheet="border-image: url(:/Resource/frameTopLeft.png);\nmin-height: 12px;\nmax-height: 12px;\nmin-width: 12px;\nmax-width: 12px;"
+windowFrameLeftStyleSheet="min-width: 12px;\nmax-width: 12px;\nborder-image: url(:/Resource/frameLeft.png);\nborder-top: 30px;"
+windowFrameBottomLeftStyleSheet="border-image: url(:/Resource/frameBottomLeft.png);\nmin-width: 12px;\nmax-width: 12px;\nmin-height: 12px;\nmax-height: 12px;"
+windowFrameTopStyleSheet="QFrame#windowFrameTop {\n\tborder-left: 85px;\n\tpadding-left: -85px;\n\tborder-image: url(:/Resource/frameTop.png);\n\tmin-height: 30px;\n\tmax-height: 30px;\n}"
+windowFrameBottomStyleSheet="border-image: url(:/Resource/frameBottom.png);\nmin-height: 12px;\nmax-height: 12px;"
+windowFrameTopRightStyleSheet="border-image: url(:/Resource/frameTopRight.png);\nmin-width: 12px;\nmax-width: 12px;\nmin-height: 12px;\nmax-height: 12px;"
+windowFrameRightStyleSheet="border-image: url(:/Resource/frameRight.png);\nborder-top: 30px;\nmin-width: 12px;\nmax-width: 12px;"
+windowFrameBottomRightStyleSheet="border-image: url(:/Resource/frameBottomRight.png);\nmin-width: 12px;\nmax-width: 12px;\nmin-height: 12px;\nmax-height: 12px;"
+titlebarFrameStyleSheet="QFrame {\n\tbackground-color: transparent;\n}"
+titlebarButtonsFrameStyleSheet="/*These move the buttons up so they aren't displayed in the center of the titlebar\n   Remove these to center your buttons on the titlebar.*/\nQFrame#titlebarButtonsFrame {\n\tpadding-top: -1;\n\tpadding-bottom: 10;\n}"
+minimizeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(:/Resource/minButton.png);\n\tmin-width: 26px;\n\tmax-width: 26px;\n\tmin-height: 18px;\n\tmax-height: 18px;\n}\n\nQToolButton:hover {\n\tborder-image: url(:/Resource/minButtonH.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(:/Resource/minButtonD.png);\n}"
+maximizeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(:/Resource/maxButton.png);\n\tmin-width: 26px;\n\tmax-width: 26px;\n\tmin-height: 18px;\n\tmax-height: 18px;\n}\n\nQToolButton:hover {\n\tborder-image: url(:/Resource/maxButtonH.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(:/Resource/maxButtonD.png);\n}\n\nQToolButton:checked { /*The button will be checked when maximized is set*/\n\t\n\tborder-image: url(:/Resource/restoreButton.png);\n}\n\nQToolButton:checked:hover {\n\t\n\tborder-image: url(:/Resource/restoreButtonH.png);\n}\n\nQToolButton:checked:disabled {\n\t\n\tborder-image: url(:/Resource/restoreButtonD.png);\n}"
+closeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(:/Resource/quitButton.png);\n\tmin-width: 44px;\n\tmax-width: 44px;\n\tmin-height: 18px;\n\tmax-height: 18px;\n}\n\nQToolButton:hover {\n\tborder-image: url(:/Resource/quitButtonH.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(:/Resource/quitButtonD.png);\n}"
+windowTextStyleSheet="padding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);"
+windowIconVisible=true
+windowIconSize=@Size(20 20)

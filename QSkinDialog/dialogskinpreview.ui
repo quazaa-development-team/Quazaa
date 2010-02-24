@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Skin Preview</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
@@ -137,8 +141,8 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="Resource.qrc">
-               <normaloff>:/Resource/qtlogo-64.png</normaloff>:/Resource/qtlogo-64.png</iconset>
+              <iconset>
+               <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -618,8 +622,6 @@ border-bottom: 1;</string>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

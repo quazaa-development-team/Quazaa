@@ -41,10 +41,10 @@ int main(int argc, char *argv[])
 	if (theApp.sendMessage("Show App"))
 		return 0;
 
-	QApplication::setApplicationName(quazaaGlobals.ApplicationName());
-	QApplication::setApplicationVersion(quazaaGlobals.ApplicationVersionString());
-	QApplication::setOrganizationDomain(quazaaGlobals.ApplicationOrganizationDomain());
-	QApplication::setOrganizationName(quazaaGlobals.ApplicationOrganizationName());
+	theApp.setApplicationName(quazaaGlobals.ApplicationName());
+	theApp.setApplicationVersion(quazaaGlobals.ApplicationVersionString());
+	theApp.setOrganizationDomain(quazaaGlobals.ApplicationOrganizationDomain());
+	theApp.setOrganizationName(quazaaGlobals.ApplicationOrganizationName());
 
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();

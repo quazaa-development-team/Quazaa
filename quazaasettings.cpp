@@ -1198,5 +1198,5 @@ void QuazaaSettings::saveSkinSettings()
 void QuazaaSettings::loadSkinSettings()
 {
 	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
-	SkinFile = m_qSettings.value("SkinFile", QApplication::applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
+	SkinFile = m_qSettings.value("SkinFile", qApp->applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
 }

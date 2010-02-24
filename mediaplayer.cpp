@@ -64,6 +64,9 @@ public:
 		connect(&m_action, SIGNAL(toggled(bool)), SLOT(setFullScreen(bool)));
 		addAction(&m_action);
 		setAcceptDrops(true);
+		setAutoFillBackground(true);
+		setAttribute(Qt::WA_NoSystemBackground, false);
+		setAttribute(Qt::WA_OpaquePaintEvent, false);
 	}
 
 protected:
@@ -157,7 +160,6 @@ MediaPlayer::MediaPlayer(QWidget *parent) :
 			m_AudioOutput(Phonon::VideoCategory),
 			m_videoWidget(new MediaVideoWidget(this, parent))
 {
-	this->setAttribute(Qt::WA_TranslucentBackground);
 	this->setWindowFlags(Qt::FramelessWindowHint);
 	this->setAutoFillBackground(true);
 	setContextMenuPolicy(Qt::CustomContextMenu);
@@ -878,7 +880,7 @@ void MediaPlayer::metaStateChanged(Phonon::State newState, Phonon::State /* oldS
 			metaInformationResolver.setCurrentSource(sources.at(index));
 		} else {
 			playlistProcessing = false;
-			QApplication::processEvents();
+			qApp->processEvents();
 			return;
 		}
 	}
@@ -958,7 +960,7 @@ void MediaPlayer::playOnSwitch(bool play, Phonon::MediaSource source)
 		if (m_MediaObject.hasVideo()) //Try to clear the screen from the last video by forcing a redraw
 		{
 			m_videoWidget->setVisible(false);
-			QApplication::processEvents();
+			qApp->processEvents();
 			m_videoWidget->setVisible(true);
 		}
 	} else {
@@ -1017,7 +1019,7 @@ void MediaPlayer::onPlaylistClear()
 	emit stopButtonEnableChanged(false);
 	emit forwardButtonEnableChanged(false);
 	emit fullscreenEnableChanged(false);
-	QApplication::processEvents();
+	qApp->processEvents();
 }
 
 void MediaPlayer::toggleMute()

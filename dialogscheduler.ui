@@ -289,7 +289,7 @@ p, li { white-space: pre-wrap; }
       <item row="10" column="0" colspan="3">
        <widget class="QStackedWidget" name="pagesSchedule">
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="pageRunOnce">
          <layout class="QGridLayout" name="gridLayout_9">

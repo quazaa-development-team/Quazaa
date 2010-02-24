@@ -60,7 +60,7 @@ void DialogAbout::on_pushButtonOK_clicked()
 
 void DialogAbout::on_labelCopyright_linkActivated(QString link)
 {
-	QSkinDialog *dlgSkinGPLView = new QSkinDialog(false, true, false);
+	QSkinDialog *dlgSkinGPLView = new QSkinDialog(false, true, false, this);
 	DialogGPLView *dlgGPLView = new DialogGPLView(this);
 
 	dlgSkinGPLView->addChildWidget(dlgGPLView);
