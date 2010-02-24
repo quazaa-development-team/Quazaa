@@ -64,7 +64,7 @@ void DialogLanguage::on_pushButtonOK_clicked()
 			if (languageFile.open(QIODevice::ReadOnly))
 			{
 				translator->load(languageFileInfo.fileName(), languageFileInfo.filePath());
-				QApplication::removeTranslator(translator);
+				qApp->removeTranslator(translator);
 				quazaaSettings.LanguageFile = "";
 			}
 			break;
@@ -135,7 +135,7 @@ void DialogLanguage::on_pushButtonOK_clicked()
 			if (languageFile.open(QIODevice::ReadOnly))
 			{
 				translator->load(languageFileInfo.fileName(), languageFileInfo.filePath());
-				QApplication::removeTranslator(translator);
+				qApp->removeTranslator(translator);
 				quazaaSettings.LanguageFile = "";
 			}
 			break;

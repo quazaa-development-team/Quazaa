@@ -88,6 +88,9 @@ DialogSkinPreview::DialogSkinPreview(bool sizable, bool closable, QWidget *paren
 	connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(onClose()));
 	connect(ui->minimizeButton, SIGNAL(clicked()), this, SLOT(onMinimize()));
 	connect(ui->maximizeButton, SIGNAL(clicked()), this, SLOT(onMaximize()));
+
+	this->setWindowTitle("Skin Preview");
+	this->setWindowIcon(QIcon(":/Resource/Quazaa48.png"));
 }
 
 DialogSkinPreview::~DialogSkinPreview()
@@ -190,7 +193,7 @@ void DialogSkinPreview::mousePressEvent(QMouseEvent *e)
 		if((ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
 			&& !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && !maximized)
 		{
-			QApplication::setOverrideCursor(QCursor(Qt::SizeAllCursor));
+			qApp->setOverrideCursor(QCursor(Qt::SizeAllCursor));
 			dragPosition = e->globalPos() - frameGeometry().topLeft();
 			movable = true;
 			e->accept();
@@ -290,8 +293,8 @@ void DialogSkinPreview::mouseReleaseEvent(QMouseEvent *e)
 {
 	if (e->button() == Qt::LeftButton && (ui->windowFrameTop->underMouse() || ui->windowText->underMouse()))
 	{
-		while (QApplication::overrideCursor() != 0)
-		QApplication::restoreOverrideCursor();
+		while (qApp->overrideCursor() != 0)
+		qApp->restoreOverrideCursor();
 	}
 }
 
@@ -350,7 +353,7 @@ void DialogSkinPreview::setWindowIcon(const QIcon &icon)
 	QIcon windowIcon = icon;
 	if (windowIcon.isNull())
 	{
-		windowIcon = QIcon(":/Resource/qtlogo-64.png");
+		windowIcon = QIcon(":/Resource/quazaa48.png");
 	}
 
 	ui->windowIcon->setIcon(windowIcon);

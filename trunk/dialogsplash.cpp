@@ -23,26 +23,27 @@
 #include "ui_dialogsplash.h"
 
 DialogSplash::DialogSplash(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogSplash)
+	QDialog(parent),
+	m_ui(new Ui::DialogSplash)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
+	setWindowFlags(Qt::SplashScreen);
 }
 
 DialogSplash::~DialogSplash()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogSplash::changeEvent(QEvent *e)
 {
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogSplash::updateProgress(int percent, QString status)

@@ -332,7 +332,7 @@ void DialogProfile::on_plainTextEditBio_textChanged()
 void DialogProfile::on_pushButtonAvatarAdd_clicked()
 {
 	m_sTempAvatarFileName = QFileDialog::getOpenFileName(this, tr("Open Avatar Image"),
-							QApplication::applicationDirPath(),
+							qApp->applicationDirPath(),
 							tr("Images (*.bmp *.png *.xbm *.xpm *.jpg *.jpeg *.gif *.pbm *.pgm *.ppm)"));
 	if (m_sTempAvatarFileName != "")
 	{

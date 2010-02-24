@@ -24,6 +24,7 @@
 
 #include <QtGui/QDialog>
 #include <QModelIndex>
+#include <QListWidgetItem>
 
 namespace Ui {
 	class DialogSettings;
@@ -49,11 +50,35 @@ protected:
 
 private:
 	Ui::DialogSettings *m_ui;
+	QString skinFile;
+	QString tempSkinName;
+	QString tempSkinAuthor;
+	QString tempSkinVersion;
+	QString tempSkinDescription;
+	QString tempWindowFrameTopLeftStyleSheet;
+	QString tempWindowFrameLeftStyleSheet;
+	QString tempWindowFrameBottomLeftStyleSheet;
+	QString tempWindowFrameTopStyleSheet;
+	QString tempWindowFrameBottomStyleSheet;
+	QString tempWindowFrameTopRightStyleSheet;
+	QString tempWindowFrameRightStyleSheet;
+	QString tempWindowFrameBottomRightStyleSheet;
+	QString tempTitlebarFrameStyleSheet;
+	QString tempTitlebarButtonsFrameStyleSheet;
+	QString tempMinimizeButtonStyleSheet;
+	QString tempMaximizeButtonStyleSheet;
+	QString tempCloseButtonStyleSheet;
+	QString tempWindowTextStyleSheet;
+	bool tempWindowIconVisible;
+	QSize tempWindowIconSize;
 
 signals:
 	void closed();
+	void skinChanged();
 
 private slots:
+	void on_pushButtonPreviewSkin_clicked();
+	void on_listWidgetSkins_itemClicked(QListWidgetItem* item);
 	void on_checkBoxEDonkeyConnect_toggled(bool checked);
 	void on_checkBoxAresConnect_toggled(bool checked);
 	void on_checkBoxG1Connect_toggled(bool checked);

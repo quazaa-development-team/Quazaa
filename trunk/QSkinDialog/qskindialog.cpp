@@ -134,7 +134,7 @@ void QSkinDialog::changeEvent(QEvent *e)
 		ui->retranslateUi(this);
 		break;
 	case QEvent::ActivationChange:
-		if (minimized && QApplication::activeWindow())
+		if (minimized && qApp->activeWindow())
 		{
 			setMinimized(false);
 		}
@@ -219,6 +219,7 @@ void QSkinDialog::setMinimized(bool minimize)
 		else
 			this->setGeometry(normalGeometry);
 		minimized = false;
+		activateWindow();
 	}
 }
 
@@ -245,7 +246,7 @@ void QSkinDialog::mousePressEvent(QMouseEvent *e)
 		if((ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
 			&& !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && !maximized)
 		{
-			QApplication::setOverrideCursor(QCursor(Qt::SizeAllCursor));
+			qApp->setOverrideCursor(QCursor(Qt::SizeAllCursor));
 			dragPosition = e->globalPos() - frameGeometry().topLeft();
 			movable = true;
 			e->accept();
@@ -355,8 +356,8 @@ void QSkinDialog::mouseReleaseEvent(QMouseEvent *e)
 {
 	if (e->button() == Qt::LeftButton && (ui->windowFrameTop->underMouse() || ui->windowText->underMouse()))
 	{
-		while (QApplication::overrideCursor() != 0)
-		QApplication::restoreOverrideCursor();
+		while (qApp->overrideCursor() != 0)
+		qApp->restoreOverrideCursor();
 	}
 }
 

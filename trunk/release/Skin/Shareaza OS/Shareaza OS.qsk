@@ -1,0 +1,21 @@
+[General]
+skinName=Shareaza OS
+skinAuthor=RocketX
+skinVersion=1.4
+skinDescription=Ported from Shareaza. Original description: Skin based on the Shareaza Website.
+windowFrameTopLeftStyleSheet="border-image: url(Skin/Shareaza OS/frameTopLeft.png);\nmin-height: 7px;\nmax-height: 7px;\nmin-width: 7px;\nmax-width: 7px;"
+windowFrameLeftStyleSheet="min-width: 7px;\nmax-width: 7px;\nborder-image: url(Skin/Shareaza OS/frameLeft.png);\nborder-top: 61px;\nborder-bottom: 17px;"
+windowFrameBottomLeftStyleSheet="border-image: url(Skin/Shareaza OS/frameBottomLeft.png);\nmin-width: 7px;\nmax-width: 7px;\nmin-height: 7px;\nmax-height: 7px;"
+windowFrameTopStyleSheet="QFrame#windowFrameTop {\n\tborder-image: url(Skin/Shareaza OS/frameTop.png) repeat;\n\tmin-height: 36px;\n\tmax-height: 36px;\n}"
+windowFrameBottomStyleSheet="border-image: url(Skin/Shareaza OS/frameBottom.png);\nborder-left: 15px;\nborder-right: 15px;\nmin-height: 7px;\nmax-height: 7px;"
+windowFrameTopRightStyleSheet="border-image: url(Skin/Shareaza OS/frameTopRight.png);\nmin-width: 7px;\nmax-width: 7px;\nmin-height: 7px;\nmax-height: 7px;"
+windowFrameRightStyleSheet="border-image: url(Skin/Shareaza OS/frameRight.png);\nmin-width: 7px;\nmax-width: 7px;\nborder-top: 61px;\nborder-bottom: 17px;"
+windowFrameBottomRightStyleSheet="border-image: url(Skin/Shareaza OS/frameBottomRight.png);\nmin-width: 7px;\nmax-width: 7px;\nmin-height: 7px;\nmax-height: 7px;"
+titlebarFrameStyleSheet="QFrame#titlebarFrame {\n\tborder-image: url(Skin/Shareaza OS/titlebarFrame.png) repeat;\n\tborder-left: 11;\n\tborder-right: 10;\n}"
+titlebarButtonsFrameStyleSheet="/*These move the buttons up so they aren't displayed in the center of the titlebar\n   Remove these to center your buttons on the titlebar.*/\nQFrame#titlebarButtonsFrame {\n\tborder-image: url(Skin/Shareaza OS/titlebarButtonsFrame.png);\n\tborder-left: 9;\n}"
+minimizeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(Skin/Shareaza OS/minButton.png);\n\tmargin-right: 2px;\n\tmin-width: 29px;\n\tmax-width: 29px;\n\tmin-height: 29px;\n\tmax-height: 29px;\n}\n\nQToolButton:hover {\n\tborder-image: url(Skin/Shareaza OS/minButtonH.png);\n}\n\nQToolButton:pressed {\n\tborder-image: url(Skin/Shareaza OS/minButtonP.png);\t\n}\n\nQToolButton:disabled {\n\tborder-image: url(Skin/Shareaza OS/minButtonD.png);\n}"
+maximizeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(Skin/Shareaza OS/maxButton.png);\n\tmin-width: 29px;\n\tmax-width: 29px;\n\tmin-height: 29px;\n\tmax-height: 29px;\n}\n\nQToolButton:hover {\n\tborder-image: url(Skin/Shareaza OS/maxButtonH.png);\n}\n\nQToolButton:pressed {\n\tborder-image: url(Skin/Shareaza OS/maxButtonP.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(Skin/Shareaza OS/maxButtonD.png);\n}\n\nQToolButton:checked { /*The button will be checked when maximized is set*/\n\tborder-image: url(Skin/Shareaza OS/restoreButton.png);\n}\n\nQToolButton:checked:hover {\n\tborder-image: url(Skin/Shareaza OS/restoreButtonH.png);\n}\n\nQToolButton:checked:pressed {\n\tborder-image: url(Skin/Shareaza OS/restoreButtonP.png);\n}\n\nQToolButton:checked:disabled {\n\tborder-image: url(Skin/Shareaza OS/restoreButtonD.png);\n}"
+closeButtonStyleSheet="QToolButton {\n\tborder: 0px solid transparent;\n\tborder-image: url(Skin/Shareaza OS/closeButton.png);\n\tmargin-left: 4;\n\tmin-width: 29px;\n\tmax-width: 29px;\n\tmin-height: 29px;\n\tmax-height: 29px;\n}\n\nQToolButton:hover {\n\tborder-image: url(Skin/Shareaza OS/closeButtonH.png);\n}\n\nQToolButton:pressed {\n\tborder-image: url(Skin/Shareaza OS/closeButtonP.png);\n}\n\nQToolButton:disabled {\n\tborder-image: url(Skin/Shareaza OS/closeButtonD.png);\n}"
+windowTextStyleSheet="font-weight: bold;\nfont-size: 16px;"
+windowIconVisible=true
+windowIconSize=@Size(20 20)
