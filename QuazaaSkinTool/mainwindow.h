@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QActionGroup>
 
 namespace Ui {
 	class MainWindow;
@@ -18,9 +19,10 @@ protected:
 
 private:
 	Ui::MainWindow *ui;
+	QActionGroup *actionGroupMainNavigation;
 
 private slots:
-	void on_actionNavigation_2_triggered();
+	void on_actionNavigation_triggered();
 	void on_actionExtended_Items_triggered();
 	void on_actionStandard_Items_triggered();
 	void on_actionWindow_Frame_triggered();

@@ -29,6 +29,8 @@ void QSkinSettings::loadSkin(QString fileName)
 	skinAuthor = reader.value("skinAuthor", "").toString();
 	skinVersion = reader.value("skinVersion", "").toString();
 	skinDescription = reader.value("skinDescription", "").toString();
+
+	//Window Frame
 	windowFrameTopLeftStyleSheet = reader.value("windowFrameTopLeftStyleSheet", "border-image: url(:/Resource/frameTopLeft.png);").toString();
 	windowFrameLeftStyleSheet = reader.value("windowFrameLeftStyleSheet", "border-image: url(:/Resource/frameLeft.png); border-left: 1; border-top: 10;").toString();
 	windowFrameBottomLeftStyleSheet = reader.value("windowFrameBottomLeftStyleSheet", "border-image: url(:/Resource/frameBottomLeft.png);").toString();
@@ -45,6 +47,51 @@ void QSkinSettings::loadSkin(QString fileName)
 	windowTextStyleSheet = reader.value("windowTextStyleSheet", "padding-left: -2px; padding-right: -2px; padding-bottom: 2px; font-weight: bold; font-size: 16px; color: rgb(255, 255, 255);").toString();
 	windowIconVisible = reader.value("windowIconVisible", true).toBool();
 	windowIconSize = reader.value("windowIconSize", QSize(20, 20)).toSize();
+
+	// Splash Screen
+	splashBackground = reader.value("splashBackground", "QFrame {\n	border-image: url(:/Resource/Splash.png) repeat;\n}").toString();
+	splashLogo = reader.value("splashLogo", "background-color: transparent;\nmin-height: 172px;\nmax-height: 172px;\nmin-width: 605px;\nmax-width: 605px;\nborder-image: url(:/Resource/QuazaaLogo.png);").toString();
+	splashFooter = reader.value("splashFooter", "QFrame {\n	border-image: url(:/Resource/HeaderBackground.png) repeat;\n	min-height: 28;\n	max-height: 28;\n	min-width: 605px;\n	max-width: 605px;\n}").toString();
+	splashProgress = reader.value("splashProgress", "font-weight: bold;\nmax-height: 10px;\nmin-height: 10px;\nmax-width: 300px;\nmin-width: 300px;").toString();
+	splashStatus = reader.value("splashStatus", "font-weight: bold;\ncolor: white;\nbackground-color: transparent;\npadding-left: 5px;").toString();
+
+	// Standard Items
+	standardItems = reader.value("standardItems", "").toString();
+
+	// Sidebar
+	sidebarBackground = reader.value("sidebarBackground", "QFrame {\n	 background-color: rgb(199, 202, 255);\n}").toString();
+	sidebarTaskBackground = reader.value("sidebarTaskBackground", "QFrame {\n	background-color: rgb(161, 178, 231);\n}").toString();
+	sidebarTaskHeader = reader.value("sidebarTaskHeader", "QToolButton {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n	border: none;\n	font-size: 16px;\n	font-weight: bold;\n}\n\nQToolButton:hover {\n	background-color: rgb(56, 90, 129);\n}").toString();
+	sidebarUnclickableTaskHeader = reader.value("sidebarUnclickableTaskHeader", "QToolButton {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n	border: none;\n	font-size: 16px;\n	font-weight: bold;\n}").toString();
+
+	// Toolbars
+	toolbars = reader.value("toolbars", "").toString();
+	navigationToolbar = reader.value("navigationToolbar", "").toString();
+
+	// Headers
+	genericHeader = reader.value("genericHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+	homeHeader = reader.value("homeHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+	libraryHeader = reader.value("libraryHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+	mediaHeader = reader.value("mediaHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+	searchHeader = reader.value("searchHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+	transfersHeader = reader.value("transfersHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+	securityHeader = reader.value("securityHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+	networkHeader = reader.value("networkHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+	chatHeader = reader.value("chatHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+	dialogHeader = reader.value("dialogHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+
+	// Media
+	seekSlider = reader.value("seekSlider", "QSlider::groove:horizontal {	\n	border: 1px solid rgb(82, 111, 174); \n	height: 22px; \n	background: black; \n	margin: 3px 0; \n}	\n\nQSlider::handle:horizontal { \n	background: qlineargradient(spread:pad, x1:0.510526, y1:0, x2:0.511, y2:1, stop:0 rgba(206, 215, 255, 255), stop:0.184211 rgba(82, 107, 192, 255), stop:0.342105 rgba(55, 80, 167, 255), stop:0.484211 rgba(17, 26, 148, 255), stop:0.636842 rgba(0, 0, 0, 255), stop:0.8 rgba(24, 46, 171, 255), stop:0.984211 rgba(142, 142, 255, 255)); \n	border: 1px solid rgb(82, 111, 174); \n	border-radius: 0px; \n	width: 4px; \n	margin: 1px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */ \n}").toString();
+	volumeSlider = reader.value("volumeSlider", "QSlider::groove:horizontal { \n	border: 1px solid rgb(0, 61, 89); \n	height: 3px;  \n	background: black; \n	margin: 2px 0; \n} \n\nQSlider::handle:horizontal { \n	background: qlineargradient(spread:pad, x1:0.510526, y1:0, x2:0.511, y2:1, stop:0 rgba(206, 215, 255, 255), stop:0.184211 rgba(82, 107, 192, 255), stop:0.342105 rgba(55, 80, 167, 255), stop:0.484211 rgba(17, 26, 148, 255), stop:0.636842 rgba(0, 0, 0, 255), stop:0.8 rgba(24, 46, 171, 255), stop:0.984211 rgba(142, 142, 255, 255)); \n	border: 1px solid rgb(82, 111, 174); \n	width: 6px; \n	margin: -4px 0; \n} ").toString();
+	mediaToolbar = reader.value("mediaToolbar", "").toString();
+
+	// Chat
+	chatWelcome = reader.value("chatWelcome", "QFrame {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n}").toString();
+	chatToolbar = reader.value("chatToolbar", "QFrame {\n	background-color: rgb(199, 202, 255);\n}").toString();
+
+	// Specialised Tab Widgets
+	libraryNavigator = reader.value("libraryNavigator", "QTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid transparent;\n }\n\n QTabWidget::tab-bar {\n     left: 5px;  /* move to the right by 5px */\n }\n\n /* Style the tab using the tab sub-control. Note that\n     it reads QTabBar _not_ QTabWidget */\n QTabBar::tab {\n     background:transparent;\n     border: 1px solid transparent;\n     padding: 4px;\n }\n\n QTabBar::tab:selected, QTabBar::tab:hover {\n     border: 1px solid rgb(78, 96, 255);\n     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);\n }").toString();
+	tabSearches = reader.value("tabSearches", "QTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid #C2C7CB;\n }\n\nQTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid transparent;\n }\n\n QTabWidget::tab-bar {\n     left: 5px;  /* move to the right by 5px */\n }\n\n /* Style the tab using the tab sub-control. Note that\n     it reads QTabBar _not_ QTabWidget */\n QTabBar::tab {\n     background:transparent;\n     border: 1px solid transparent;\n     padding: 4px;\n }\n\n QTabBar::tab:selected, QTabBar::tab:hover {\n     border: 1px solid rgb(78, 96, 255);\n     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);\n }").toString();
 }
 
 void QSkinSettings::saveSkin(QString fileName)
@@ -54,6 +101,8 @@ void QSkinSettings::saveSkin(QString fileName)
 	writer.setValue("skinAuthor", skinAuthor);
 	writer.setValue("skinVersion", skinVersion);
 	writer.setValue("skinDescription", skinDescription);
+
+	// Window Frame
 	writer.setValue("windowFrameTopLeftStyleSheet", windowFrameTopLeftStyleSheet);
 	writer.setValue("windowFrameLeftStyleSheet", windowFrameLeftStyleSheet);
 	writer.setValue("windowFrameBottomLeftStyleSheet", windowFrameBottomLeftStyleSheet);
@@ -70,4 +119,49 @@ void QSkinSettings::saveSkin(QString fileName)
 	writer.setValue("windowTextStyleSheet", windowTextStyleSheet);
 	writer.setValue("windowIconVisible", windowIconVisible);
 	writer.setValue("windowIconSize", windowIconSize);
+
+	// Splash Screen
+	writer.setValue("splashBackground", splashBackground);
+	writer.setValue("splashLogo", splashLogo);
+	writer.setValue("splashFooter", splashFooter);
+	writer.setValue("splashProgress", splashProgress);
+	writer.setValue("splashStatus", splashStatus);
+
+	// Standard Items
+	writer.setValue("standardItems", standardItems);
+
+	// Sidebar
+	writer.setValue("sidebarBackground", sidebarBackground);
+	writer.setValue("sidebarTaskBackground", sidebarTaskBackground);
+	writer.setValue("sidebarTaskHeader", sidebarTaskHeader);
+	writer.setValue("sidebarUnclickableTaskHeader", sidebarUnclickableTaskHeader);
+
+	// Toolbars
+	writer.setValue("toolbars", toolbars);
+	writer.setValue("navigationToolbar", navigationToolbar);
+
+	// Headers
+	writer.setValue("genericHeader", genericHeader);
+	writer.setValue("homeHeader", homeHeader);
+	writer.setValue("libraryHeader", libraryHeader);
+	writer.setValue("mediaHeader", mediaHeader);
+	writer.setValue("searchHeader", searchHeader);
+	writer.setValue("transfersHeader", transfersHeader);
+	writer.setValue("securityHeader", securityHeader);
+	writer.setValue("networkHeader", networkHeader);
+	writer.setValue("chatHeader", chatHeader);
+	writer.setValue("dialogHeader", dialogHeader);
+
+	// Media
+	writer.setValue("seekSlider", seekSlider);
+	writer.setValue("volumeSlider", volumeSlider);
+	writer.setValue("mediaToolbar", mediaToolbar);
+
+	// Chat
+	writer.setValue("chatWelcome", chatWelcome);
+	writer.setValue("chatToolbar", chatToolbar);
+
+	// Specialised Tab Widgets
+	writer.setValue("libraryNavigator", libraryNavigator);
+	writer.setValue("tabSearches", tabSearches);
 }

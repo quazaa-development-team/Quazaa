@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>657</width>
+    <width>426</width>
     <height>407</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>Quazaa Skin Tool</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset>
     <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -69,7 +69,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="pageSplash">
        <layout class="QGridLayout" name="gridLayout_27">
@@ -422,7 +422,7 @@ border-image: url(:/Resource/QuazaaLogo.png);</string>
                   </property>
                   <property name="icon">
                    <iconset>
-                    <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
+                    <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
                   </property>
                   <property name="iconSize">
                    <size>
@@ -1363,13 +1363,13 @@ border-bottom: 1;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>542</width>
-             <height>236</height>
+             <width>581</width>
+             <height>251</height>
             </rect>
            </property>
-           <layout class="QGridLayout" name="gridLayout_30">
+           <layout class="QGridLayout" name="gridLayout_34">
             <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollAreaHomeSidebar">
+             <widget class="QScrollArea" name="scrollAreaSidebar">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -1393,13 +1393,13 @@ border-bottom: 1;</string>
               <property name="widgetResizable">
                <bool>true</bool>
               </property>
-              <widget class="QFrame" name="frameHomeSidebar">
+              <widget class="QFrame" name="frameSidebar">
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
+                 <y>-33</y>
                  <width>325</width>
-                 <height>133</height>
+                 <height>131</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayoutScrollAreaHomeSidebar">
@@ -1423,12 +1423,12 @@ border-bottom: 1;</string>
                  </spacer>
                 </item>
                 <item row="0" column="0">
-                 <layout class="QGridLayout" name="gridLayoutLibraryTask">
+                 <layout class="QGridLayout" name="gridLayoutSidebarTask">
                   <property name="spacing">
                    <number>0</number>
                   </property>
                   <item row="0" column="0">
-                   <widget class="QToolButton" name="toolButtonHomeLibraryTaskHeader">
+                   <widget class="QToolButton" name="toolButtonSidebarTaskHeader">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1452,7 +1452,7 @@ QToolButton:hover {
                      <string>Sidebar Task Header</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -1473,7 +1473,7 @@ QToolButton:hover {
                    </widget>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QFrame" name="frameLibraryTask">
+                   <widget class="QFrame" name="frameSidebarTask">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                       <horstretch>0</horstretch>
@@ -1514,14 +1514,14 @@ QToolButton:hover {
                       <number>0</number>
                      </property>
                      <item row="4" column="0">
-                      <widget class="Line" name="lineLibraryTaskSplit1">
+                      <widget class="Line" name="lineSidebarTaskSplit">
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
                       </widget>
                      </item>
                      <item row="3" column="0">
-                      <widget class="QLabel" name="labelLibraryTaskSharedFiles">
+                      <widget class="QLabel" name="labeSidebarTaskText">
                        <property name="text">
                         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -1532,7 +1532,7 @@ p, li { white-space: pre-wrap; }
                       </widget>
                      </item>
                      <item row="5" column="0">
-                      <widget class="QLabel" name="labelLibraryTaskHashFaster">
+                      <widget class="QLabel" name="labelSidebarTaskLink">
                        <property name="text">
                         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -1545,7 +1545,7 @@ p, li { white-space: pre-wrap; }
                      <item row="6" column="0">
                       <layout class="QGridLayout" name="gridLayout_20">
                        <item row="0" column="1">
-                        <widget class="QPushButton" name="pushButton_3">
+                        <widget class="QPushButton" name="pushButtonSidebar">
                          <property name="text">
                           <string>Sidebar Button</string>
                          </property>
@@ -1585,12 +1585,12 @@ p, li { white-space: pre-wrap; }
                  </layout>
                 </item>
                 <item row="1" column="0">
-                 <layout class="QGridLayout" name="gridLayoutTorrentsTask">
+                 <layout class="QGridLayout" name="gridLayoutUnclickableSidebarTask">
                   <property name="spacing">
                    <number>0</number>
                   </property>
                   <item row="0" column="0">
-                   <widget class="QToolButton" name="toolButtonHomeTorrentsTaskHeader">
+                   <widget class="QToolButton" name="toolButtonUnclickableSidebarTaskHeader">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1612,16 +1612,13 @@ p, li { white-space: pre-wrap; }
 	font-size: 16px;
 	font-weight: bold;
 }
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
+</string>
                     </property>
                     <property name="text">
                      <string>Un-Clickable Sidebar Task Header</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -1644,90 +1641,48 @@ QToolButton:hover {
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0">
-                   <widget class="QFrame" name="frameTorrentsTask">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>99</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}
-
-QToolButton {
-    border: 1px solid transparent;
-    background-color: transparent;
-}
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
-QToolButton:checked {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
-}
-
- QToolButton:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
- QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
-     padding-right: 20px; /* make way for the popup button */
- }
-
-/* the subcontrols below are used only in the MenuButtonPopup mode */
- QToolButton::menu-button {
-     border: 1px solid transparent;
-     /* 16px width + 4px for border = 20px allocated above */
-     width: 16px;
- }
-
-QToolButton::menu-button:hover {
-    border: 1px solid rgb(78, 96, 255);
-	border-left-color: 1px solid transparent;
-     /* 16px width + 4px for border = 20px allocated above */
-     width: 16px;
- }
-
- QToolButton::menu-arrow:open {
-     top: 1px; left: 1px; /* shift it a bit */
- }</string>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Sunken</enum>
-                    </property>
-                    <layout class="QGridLayout" name="gridLayout_82">
-                     <property name="horizontalSpacing">
-                      <number>0</number>
-                     </property>
-                     <property name="verticalSpacing">
-                      <number>2</number>
-                     </property>
-                     <property name="margin">
-                      <number>0</number>
-                     </property>
-                    </layout>
-                   </widget>
-                  </item>
                  </layout>
                 </item>
                </layout>
+              </widget>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QTabWidget" name="tabWidgetLibraryNavigator">
+              <property name="styleSheet">
+               <string notr="true">QTabWidget::pane { /* The tab widget frame */
+     border-top: 2px solid transparent;
+ }
+
+ QTabWidget::tab-bar {
+     left: 5px;  /* move to the right by 5px */
+ }
+
+ /* Style the tab using the tab sub-control. Note that
+     it reads QTabBar _not_ QTabWidget */
+ QTabBar::tab {
+     background:transparent;
+     border: 1px solid transparent;
+     padding: 4px;
+ }
+
+ QTabBar::tab:selected, QTabBar::tab:hover {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }</string>
+              </property>
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <widget class="QWidget" name="tab">
+               <attribute name="title">
+                <string>Library Navigator</string>
+               </attribute>
+              </widget>
+              <widget class="QWidget" name="tab_2">
+               <attribute name="title">
+                <string>Tab 2</string>
+               </attribute>
               </widget>
              </widget>
             </item>
@@ -1752,7 +1707,7 @@ QToolButton::menu-button:hover {
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="Resource.qrc">:/Resource/ChatWelcome.png</pixmap>
+                  <pixmap>:/Resource/ChatWelcome.png</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>false</bool>
@@ -1780,10 +1735,14 @@ p, li { white-space: pre-wrap; }
               </layout>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="QTabWidget" name="tabWidget">
+            <item row="1" column="1">
+             <widget class="QTabWidget" name="tabWidgetSearches">
               <property name="styleSheet">
                <string notr="true">QTabWidget::pane { /* The tab widget frame */
+     border-top: 2px solid #C2C7CB;
+ }
+
+QTabWidget::pane { /* The tab widget frame */
      border-top: 2px solid transparent;
  }
 
@@ -1795,68 +1754,13 @@ p, li { white-space: pre-wrap; }
      it reads QTabBar _not_ QTabWidget */
  QTabBar::tab {
      background:transparent;
-     border: 3px solid transparent;
-     min-width: 8px;
+     border: 1px solid transparent;
      padding: 4px;
  }
 
  QTabBar::tab:selected, QTabBar::tab:hover {
      border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
- QTabBar::tab:selected {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }</string>
-              </property>
-              <property name="currentIndex">
-               <number>1</number>
-              </property>
-              <widget class="QWidget" name="tab">
-               <attribute name="title">
-                <string>Library Navigator</string>
-               </attribute>
-              </widget>
-              <widget class="QWidget" name="tab_2">
-               <attribute name="title">
-                <string>Tab 2</string>
-               </attribute>
-              </widget>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QTabWidget" name="tabWidget_2">
-              <property name="styleSheet">
-               <string notr="true">QTabWidget::pane { /* The tab widget frame */
-     border-top: 2px solid #C2C7CB;
- }
-
- QTabWidget::tab-bar {
-     left: 5px;  /* move to the right by 5px */
- }
-
- /* Style the tab using the tab sub-control. Note that
-     it reads QTabBar _not_ QTabWidget */
- QTabBar::tab {
-     background:transparent;
-     border: 3px solid transparent;
-     min-width: 8px;
-     padding: 2px;
- }
-
- QTabBar::tab:selected, QTabBar::tab:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
- QTabBar::tab:selected {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
  }</string>
               </property>
               <property name="currentIndex">
@@ -1877,76 +1781,8 @@ p, li { white-space: pre-wrap; }
               </widget>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>Media Seek Slider</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLabel" name="label_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Media Volume Slider</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="Phonon::SeekSlider" name="seekSlider">
-              <property name="styleSheet">
-               <string notr="true">QSlider::groove:horizontal {	
-	border: 1px solid rgb(82, 111, 174); 
-	height: 22px; 
-	background: black; 
-	margin: 3px 0; 
-}	
-
-QSlider::handle:horizontal { 
-	background: qlineargradient(spread:pad, x1:0.510526, y1:0, x2:0.511, y2:1, stop:0 rgba(206, 215, 255, 255), stop:0.184211 rgba(82, 107, 192, 255), stop:0.342105 rgba(55, 80, 167, 255), stop:0.484211 rgba(17, 26, 148, 255), stop:0.636842 rgba(0, 0, 0, 255), stop:0.8 rgba(24, 46, 171, 255), stop:0.984211 rgba(142, 142, 255, 255)); 
-	border: 1px solid rgb(82, 111, 174); 
-	border-radius: 0px; 
-	width: 4px; 
-	margin: 1px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */ 
-}</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="Phonon::VolumeSlider" name="volumeSlider">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QSlider::groove:horizontal { 
-	border: 1px solid rgb(0, 61, 89); 
-	height: 3px;  
-	background: black; 
-	margin: 2px 0; 
-} 
-
-QSlider::handle:horizontal { 
-	background: qlineargradient(spread:pad, x1:0.510526, y1:0, x2:0.511, y2:1, stop:0 rgba(206, 215, 255, 255), stop:0.184211 rgba(82, 107, 192, 255), stop:0.342105 rgba(55, 80, 167, 255), stop:0.484211 rgba(17, 26, 148, 255), stop:0.636842 rgba(0, 0, 0, 255), stop:0.8 rgba(24, 46, 171, 255), stop:0.984211 rgba(142, 142, 255, 255)); 
-	border: 1px solid rgb(82, 111, 174); 
-	width: 6px; 
-	margin: -4px 0; 
-} </string>
-              </property>
-              <property name="muteVisible">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QFrame" name="frame">
+            <item row="2" column="0">
+             <widget class="QFrame" name="toolFrameChat">
               <property name="styleSheet">
                <string notr="true">QFrame {
 	background-color: rgb(199, 202, 255);
@@ -1963,14 +1799,14 @@ QSlider::handle:horizontal {
                 <number>2</number>
                </property>
                <item row="0" column="0">
-                <widget class="QLineEdit" name="lineEdit_3">
+                <widget class="QLineEdit" name="lineEditChat">
                  <property name="text">
-                  <string>Chat Toolbar</string>
+                  <string>Chat Toolbar Panel</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QToolButton" name="toolButton_3">
+                <widget class="QToolButton" name="toolButtonChat">
                  <property name="text">
                   <string>Send..</string>
                  </property>
@@ -1979,7 +1815,7 @@ QSlider::handle:horizontal {
               </layout>
              </widget>
             </item>
-            <item row="3" column="1">
+            <item row="2" column="1">
              <widget class="QFrame" name="toolFrame">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -2182,9 +2018,301 @@ QToolButton::menu-button:hover {
                 </widget>
                </item>
                <item row="0" column="0">
-                <widget class="QLabel" name="label_6">
+                <widget class="QLabel" name="labelToolFrame">
                  <property name="text">
-                  <string>Toolbar Panel:</string>
+                  <string>Generic Toolbar Panel:</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="2">
+             <widget class="QFrame" name="toolFrame_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QToolBar {
+	border-color: 2px solid transparent;
+}</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_30">
+               <property name="margin">
+                <number>0</number>
+               </property>
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <item row="0" column="1">
+                <widget class="QToolBar" name="toolBarPreview_2">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;ui version=&quot;4.0&quot;&gt;
+ &lt;widget name=&quot;__qt_fake_top_level&quot;&gt;
+  &lt;widget class=&quot;QFrame&quot; name=&quot;toolFrameChat&quot;&gt;
+   &lt;property name=&quot;geometry&quot;&gt;
+    &lt;rect&gt;
+     &lt;x&gt;186&lt;/x&gt;
+     &lt;y&gt;204&lt;/y&gt;
+     &lt;width&gt;335&lt;/width&gt;
+     &lt;height&gt;44&lt;/height&gt;
+    &lt;/rect&gt;
+   &lt;/property&gt;
+   &lt;property name=&quot;styleSheet&quot;&gt;
+    &lt;string notr=&quot;true&quot;&gt;QFrame {
+	background-color: rgb(199, 202, 255);
+}
+
+QToolButton {
+    border: 1px solid transparent;
+    background-color: transparent;
+}
+
+ QToolButton:pressed {
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+
+QToolButton:checked {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+ QToolButton:hover {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+ QToolButton[popupMode=&amp;quot;1&amp;quot;] { /* only for MenuButtonPopup */
+     padding-right: 20px; /* make way for the popup button */
+ }
+
+/* the subcontrols below are used only in the MenuButtonPopup mode */
+ QToolButton::menu-button {
+     border: 1px solid transparent;
+     /* 16px width + 4px for border = 20px allocated above */
+     width: 16px;
+ }
+
+QToolButton::menu-button:hover {
+    border: 1px solid rgb(78, 96, 255);
+	border-left-color: 1px solid transparent;
+     /* 16px width + 4px for border = 20px allocated above */
+     width: 16px;
+ }
+
+ QToolButton::menu-arrow:open {
+     top: 1px; left: 1px; /* shift it a bit */
+ }&lt;/string&gt;
+   &lt;/property&gt;
+   &lt;property name=&quot;frameShape&quot;&gt;
+    &lt;enum&gt;QFrame::NoFrame&lt;/enum&gt;
+   &lt;/property&gt;
+   &lt;property name=&quot;frameShadow&quot;&gt;
+    &lt;enum&gt;QFrame::Raised&lt;/enum&gt;
+   &lt;/property&gt;
+   &lt;layout class=&quot;QGridLayout&quot; name=&quot;gridLayout_45&quot;&gt;
+    &lt;property name=&quot;margin&quot;&gt;
+     &lt;number&gt;0&lt;/number&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;spacing&quot;&gt;
+     &lt;number&gt;0&lt;/number&gt;
+    &lt;/property&gt;
+    &lt;item row=&quot;0&quot; column=&quot;0&quot;&gt;
+     &lt;widget class=&quot;QLineEdit&quot; name=&quot;lineEditChatMessage&quot;/&gt;
+    &lt;/item&gt;
+    &lt;item row=&quot;0&quot; column=&quot;1&quot;&gt;
+     &lt;widget class=&quot;QToolButton&quot; name=&quot;toolButtonChatSend&quot;&gt;
+      &lt;property name=&quot;toolTip&quot;&gt;
+       &lt;string&gt;Send&lt;/string&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;text&quot;&gt;
+       &lt;string&gt;Send&lt;/string&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;icon&quot;&gt;
+       &lt;iconset resource=&quot;Resource.qrc&quot;&gt;
+        &lt;normaloff&gt;:/Resource/Chat/Send.png&lt;/normaloff&gt;:/Resource/Chat/Send.png&lt;/iconset&gt;
+      &lt;/property&gt;
+     &lt;/widget&gt;
+    &lt;/item&gt;
+    &lt;item row=&quot;0&quot; column=&quot;2&quot;&gt;
+     &lt;widget class=&quot;QToolButton&quot; name=&quot;toolButtonChatSmileys&quot;&gt;
+      &lt;property name=&quot;toolTip&quot;&gt;
+       &lt;string&gt;Smileys&lt;/string&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;text&quot;&gt;
+       &lt;string&gt;Smileys&lt;/string&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;icon&quot;&gt;
+       &lt;iconset resource=&quot;Resource.qrc&quot;&gt;
+        &lt;normaloff&gt;:/Resource/Smileys/Happy.png&lt;/normaloff&gt;:/Resource/Smileys/Happy.png&lt;/iconset&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;popupMode&quot;&gt;
+       &lt;enum&gt;QToolButton::MenuButtonPopup&lt;/enum&gt;
+      &lt;/property&gt;
+     &lt;/widget&gt;
+    &lt;/item&gt;
+    &lt;item row=&quot;0&quot; column=&quot;3&quot;&gt;
+     &lt;widget class=&quot;QToolButton&quot; name=&quot;toolButtonChatCommands&quot;&gt;
+      &lt;property name=&quot;toolTip&quot;&gt;
+       &lt;string&gt;Commands&lt;/string&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;text&quot;&gt;
+       &lt;string&gt;Commands&lt;/string&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;icon&quot;&gt;
+       &lt;iconset resource=&quot;Resource.qrc&quot;&gt;
+        &lt;normaloff&gt;:/Resource/Generic/QuazaaForums.png&lt;/normaloff&gt;:/Resource/Generic/QuazaaForums.png&lt;/iconset&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;popupMode&quot;&gt;
+       &lt;enum&gt;QToolButton::MenuButtonPopup&lt;/enum&gt;
+      &lt;/property&gt;
+     &lt;/widget&gt;
+    &lt;/item&gt;
+    &lt;item row=&quot;1&quot; column=&quot;0&quot; colspan=&quot;4&quot;&gt;
+     &lt;widget class=&quot;QToolBar&quot; name=&quot;toolBarChat&quot;&gt;
+      &lt;property name=&quot;styleSheet&quot;&gt;
+       &lt;string notr=&quot;true&quot;&gt;QToolBar {
+	border-color: 2px solid transparent;
+}&lt;/string&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;iconSize&quot;&gt;
+       &lt;size&gt;
+        &lt;width&gt;16&lt;/width&gt;
+        &lt;height&gt;16&lt;/height&gt;
+       &lt;/size&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;toolButtonStyle&quot;&gt;
+       &lt;enum&gt;Qt::ToolButtonTextBesideIcon&lt;/enum&gt;
+      &lt;/property&gt;
+      &lt;addaction name=&quot;actionChatConnect&quot;/&gt;
+      &lt;addaction name=&quot;actionChatDisconnect&quot;/&gt;
+      &lt;addaction name=&quot;actionEditMyProfile&quot;/&gt;
+      &lt;addaction name=&quot;actionChatSettings&quot;/&gt;
+     &lt;/widget&gt;
+    &lt;/item&gt;
+   &lt;/layout&gt;
+  &lt;/widget&gt;
+ &lt;/widget&gt;
+ &lt;resources&gt;
+  &lt;include location=&quot;C:/Documents and Settings/Joe/My Documents/Qt/Quazaa/trunk/Resource.qrc&quot;/&gt;
+ &lt;/resources&gt;
+&lt;/ui&gt;
+</string>
+                 </property>
+                 <property name="toolButtonStyle">
+                  <enum>Qt::ToolButtonTextBesideIcon</enum>
+                 </property>
+                 <addaction name="actionToolbar_Button"/>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="labelToolFrame_2">
+                 <property name="text">
+                  <string>Media Toolbar Panel:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3">
+                <widget class="Phonon::SeekSlider" name="seekSlider">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QSlider::groove:horizontal {	
+	border: 1px solid rgb(82, 111, 174); 
+	height: 22px; 
+	background: black; 
+	margin: 3px 0; 
+}	
+
+QSlider::handle:horizontal { 
+	background: qlineargradient(spread:pad, x1:0.510526, y1:0, x2:0.511, y2:1, stop:0 rgba(206, 215, 255, 255), stop:0.184211 rgba(82, 107, 192, 255), stop:0.342105 rgba(55, 80, 167, 255), stop:0.484211 rgba(17, 26, 148, 255), stop:0.636842 rgba(0, 0, 0, 255), stop:0.8 rgba(24, 46, 171, 255), stop:0.984211 rgba(142, 142, 255, 255)); 
+	border: 1px solid rgb(82, 111, 174); 
+	border-radius: 0px; 
+	width: 4px; 
+	margin: 1px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */ 
+}</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>Media Seek Slider:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4">
+                <widget class="QLabel" name="label_2">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Media Volume Slider:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="5">
+                <widget class="Phonon::VolumeSlider" name="volumeSlider">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QSlider::groove:horizontal { 
+	border: 1px solid rgb(0, 61, 89); 
+	height: 3px;  
+	background: black; 
+	margin: 2px 0; 
+} 
+
+QSlider::handle:horizontal { 
+	background: qlineargradient(spread:pad, x1:0.510526, y1:0, x2:0.511, y2:1, stop:0 rgba(206, 215, 255, 255), stop:0.184211 rgba(82, 107, 192, 255), stop:0.342105 rgba(55, 80, 167, 255), stop:0.484211 rgba(17, 26, 148, 255), stop:0.636842 rgba(0, 0, 0, 255), stop:0.8 rgba(24, 46, 171, 255), stop:0.984211 rgba(142, 142, 255, 255)); 
+	border: 1px solid rgb(82, 111, 174); 
+	width: 6px; 
+	margin: -4px 0; 
+} </string>
+                 </property>
+                 <property name="muteVisible">
+                  <bool>false</bool>
                  </property>
                 </widget>
                </item>
@@ -2233,6 +2361,7 @@ QToolButton::menu-button:hover {
              <addaction name="actionSecurity"/>
              <addaction name="actionNetwork"/>
              <addaction name="actionChat"/>
+             <addaction name="actionGeneric"/>
             </widget>
            </item>
            <item row="0" column="0">
@@ -2291,7 +2420,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/Home.png</pixmap>
+              <pixmap>:/Resource/Home.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2363,7 +2492,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/Transfers.png</pixmap>
+              <pixmap>:/Resource/Transfers.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2429,7 +2558,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/Library.png</pixmap>
+              <pixmap>:/Resource/Library.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2501,7 +2630,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/Security.png</pixmap>
+              <pixmap>:/Resource/Security.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2567,7 +2696,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/Media.png</pixmap>
+              <pixmap>:/Resource/Media.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2639,7 +2768,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/Network.png</pixmap>
+              <pixmap>:/Resource/Network.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2705,7 +2834,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/Search.png</pixmap>
+              <pixmap>:/Resource/Search.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2777,7 +2906,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/Chat.png</pixmap>
+              <pixmap>:/Resource/Chat.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2849,7 +2978,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/Help.png</pixmap>
+              <pixmap>:/Resource/Help.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2909,7 +3038,7 @@ background-image: url(:/Resource/HeaderBackground.png);</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+              <pixmap>:/Resource/Quazaa48.png</pixmap>
              </property>
             </widget>
            </item>
@@ -3049,7 +3178,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>657</width>
+     <width>426</width>
      <height>20</height>
     </rect>
    </property>
@@ -3063,6 +3192,7 @@ p, li { white-space: pre-wrap; }
      </property>
      <addaction name="actionLogo"/>
      <addaction name="actionBackground"/>
+     <addaction name="separator"/>
      <addaction name="actionFooter"/>
      <addaction name="actionStatus"/>
      <addaction name="actionProgress"/>
@@ -3074,11 +3204,14 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionContents"/>
      <addaction name="actionIcon"/>
      <addaction name="actionText"/>
+     <addaction name="separator"/>
      <addaction name="actionClose_Button"/>
      <addaction name="actionMaximize_Button"/>
      <addaction name="actionMinimize_Button"/>
+     <addaction name="separator"/>
      <addaction name="actionButtons_Frame"/>
      <addaction name="actionCaption_Frame"/>
+     <addaction name="separator"/>
      <addaction name="actionTop_Left"/>
      <addaction name="actionLeft"/>
      <addaction name="actionBottom_Left"/>
@@ -3087,26 +3220,6 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionTop_Right"/>
      <addaction name="actionRight"/>
      <addaction name="actionBottom_Right"/>
-    </widget>
-    <widget class="QMenu" name="menuStandard_Items">
-     <property name="title">
-      <string>Standard Items</string>
-     </property>
-     <addaction name="actionGroup_Box"/>
-     <addaction name="actionTool_Button"/>
-     <addaction name="actionPush_Button"/>
-     <addaction name="actionRadio_Button"/>
-     <addaction name="actionCheck_Box"/>
-     <addaction name="actionEdit_Box"/>
-     <addaction name="actionFramed_Label"/>
-     <addaction name="actionSpin_Box"/>
-     <addaction name="actionSlider"/>
-     <addaction name="actionCombo_Box"/>
-     <addaction name="actionProgress_Bar"/>
-     <addaction name="actionTree_View"/>
-     <addaction name="actionTable_View"/>
-     <addaction name="actionList_View"/>
-     <addaction name="actionScroll_Area"/>
     </widget>
     <widget class="QMenu" name="menuExtended_Items">
      <property name="title">
@@ -3117,11 +3230,16 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionSidebar_Task_Body"/>
      <addaction name="actionSidebar_Button"/>
      <addaction name="actionUn_Clickable_Sidebar_Task_Header"/>
+     <addaction name="separator"/>
      <addaction name="actionChat_Welcome"/>
      <addaction name="actionChat_Toolbar"/>
+     <addaction name="separator"/>
      <addaction name="actionLibrary_Navigator"/>
      <addaction name="actionSearches"/>
+     <addaction name="separator"/>
      <addaction name="actionToolbar"/>
+     <addaction name="separator"/>
+     <addaction name="actionMedia_Toolbar"/>
      <addaction name="actionMedia_Seek_Slider"/>
      <addaction name="actionMedia_Volume_Slider"/>
     </widget>
@@ -3130,6 +3248,7 @@ p, li { white-space: pre-wrap; }
       <string>Navigation</string>
      </property>
      <addaction name="actionToolbar_2"/>
+     <addaction name="separator"/>
      <addaction name="actionHome_Header"/>
      <addaction name="actionLibrary_Header"/>
      <addaction name="actionMedia_Header"/>
@@ -3139,12 +3258,13 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionNetwork_Header"/>
      <addaction name="actionChat_Header"/>
      <addaction name="actionGeneric_Header"/>
+     <addaction name="separator"/>
      <addaction name="actionDialog_Header"/>
     </widget>
+    <addaction name="actionStandard_Items_2"/>
+    <addaction name="menuExtended_Items"/>
     <addaction name="menuSplash_Screen"/>
     <addaction name="menuWindow_Frame"/>
-    <addaction name="menuStandard_Items"/>
-    <addaction name="menuExtended_Items"/>
     <addaction name="menuNavigation"/>
    </widget>
    <widget class="QMenu" name="menuFile">
@@ -3182,11 +3302,11 @@ p, li { white-space: pre-wrap; }
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionSplash_Screen"/>
-   <addaction name="actionWindow_Frame"/>
    <addaction name="actionStandard_Items"/>
    <addaction name="actionExtended_Items"/>
-   <addaction name="actionNavigation_2"/>
+   <addaction name="actionSplash_Screen"/>
+   <addaction name="actionWindow_Frame"/>
+   <addaction name="actionNavigation"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
@@ -3318,81 +3438,6 @@ p, li { white-space: pre-wrap; }
     <string>Bottom Right</string>
    </property>
   </action>
-  <action name="actionGroup_Box">
-   <property name="text">
-    <string>Group Box</string>
-   </property>
-  </action>
-  <action name="actionTool_Button">
-   <property name="text">
-    <string>Tool Button</string>
-   </property>
-  </action>
-  <action name="actionPush_Button">
-   <property name="text">
-    <string>Push Button</string>
-   </property>
-  </action>
-  <action name="actionRadio_Button">
-   <property name="text">
-    <string>Radio Button</string>
-   </property>
-  </action>
-  <action name="actionCheck_Box">
-   <property name="text">
-    <string>Check Box</string>
-   </property>
-  </action>
-  <action name="actionEdit_Box">
-   <property name="text">
-    <string>Edit Box</string>
-   </property>
-  </action>
-  <action name="actionFramed_Label">
-   <property name="text">
-    <string>Framed Label</string>
-   </property>
-  </action>
-  <action name="actionSpin_Box">
-   <property name="text">
-    <string>Spin Box</string>
-   </property>
-  </action>
-  <action name="actionSlider">
-   <property name="text">
-    <string>Slider</string>
-   </property>
-  </action>
-  <action name="actionCombo_Box">
-   <property name="text">
-    <string>Combo Box</string>
-   </property>
-  </action>
-  <action name="actionProgress_Bar">
-   <property name="text">
-    <string>Progress Bar</string>
-   </property>
-  </action>
-  <action name="actionTree_View">
-   <property name="text">
-    <string>Tree View</string>
-   </property>
-  </action>
-  <action name="actionTable_View">
-   <property name="text">
-    <string>Table View</string>
-   </property>
-  </action>
-  <action name="actionList_View">
-   <property name="text">
-    <string>List View</string>
-   </property>
-  </action>
-  <action name="actionScroll_Area">
-   <property name="text">
-    <string>Scroll Area</string>
-   </property>
-  </action>
   <action name="actionSidebar">
    <property name="text">
     <string>Sidebar Background</string>
@@ -3410,7 +3455,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionSidebar_Button">
    <property name="text">
-    <string>Sidebar Button</string>
+    <string>Sidebar Task Button</string>
    </property>
   </action>
   <action name="actionUn_Clickable_Sidebar_Task_Header">
@@ -3449,8 +3494,14 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionHome">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Home.png</normaloff>:/Resource/Home.png</iconset>
    </property>
    <property name="text">
@@ -3466,8 +3517,11 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionLibrary">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Library.png</normaloff>:/Resource/Library.png</iconset>
    </property>
    <property name="text">
@@ -3478,8 +3532,11 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionMedia">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Media.png</normaloff>:/Resource/Media.png</iconset>
    </property>
    <property name="text">
@@ -3490,8 +3547,11 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionSearch">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Search.png</normaloff>:/Resource/Search.png</iconset>
    </property>
    <property name="text">
@@ -3502,8 +3562,11 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionTransfers">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Transfers.png</normaloff>:/Resource/Transfers.png</iconset>
    </property>
    <property name="text">
@@ -3514,8 +3577,11 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionSecurity">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Security.png</normaloff>:/Resource/Security.png</iconset>
    </property>
    <property name="text">
@@ -3526,8 +3592,11 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionNetwork">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network.png</normaloff>:/Resource/Network.png</iconset>
    </property>
    <property name="text">
@@ -3538,8 +3607,11 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionChat">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Chat.png</normaloff>:/Resource/Chat.png</iconset>
    </property>
    <property name="text">
@@ -3551,7 +3623,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionToolbar_Button">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
    </property>
    <property name="text">
@@ -3633,7 +3705,7 @@ p, li { white-space: pre-wrap; }
     <string>Extended Items</string>
    </property>
   </action>
-  <action name="actionNavigation_2">
+  <action name="actionNavigation">
    <property name="text">
     <string>Navigation</string>
    </property>
@@ -3646,6 +3718,28 @@ p, li { white-space: pre-wrap; }
   <action name="actionAbout_Quazaa_Skin_Tool">
    <property name="text">
     <string>About Quazaa Skin Tool</string>
+   </property>
+  </action>
+  <action name="actionStandard_Items_2">
+   <property name="text">
+    <string>Standard Items</string>
+   </property>
+  </action>
+  <action name="actionMedia_Toolbar">
+   <property name="text">
+    <string>Media Toolbar</string>
+   </property>
+  </action>
+  <action name="actionGeneric">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
+   </property>
+   <property name="text">
+    <string>Generic</string>
    </property>
   </action>
  </widget>
@@ -3662,14 +3756,12 @@ p, li { white-space: pre-wrap; }
    <header location="global">phonon/volumeslider.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
-   <sender>toolButtonHomeLibraryTaskHeader</sender>
+   <sender>toolButtonSidebarTaskHeader</sender>
    <signal>toggled(bool)</signal>
-   <receiver>frameLibraryTask</receiver>
+   <receiver>frameSidebarTask</receiver>
    <slot>setShown(bool)</slot>
    <hints>
     <hint type="sourcelabel">

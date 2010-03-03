@@ -25,6 +25,8 @@ public:
 	QString skinAuthor;
 	QString skinVersion;
 	QString skinDescription;
+
+	// Window Frame
 	QString windowFrameTopLeftStyleSheet;
 	QString windowFrameLeftStyleSheet;
 	QString windowFrameBottomLeftStyleSheet;
@@ -41,6 +43,51 @@ public:
 	QString windowTextStyleSheet;
 	bool windowIconVisible;
 	QSize windowIconSize;
+
+	// Splash Screen
+	QString splashBackground;
+	QString splashLogo;
+	QString splashFooter;
+	QString splashProgress;
+	QString splashStatus;
+
+	// Standard Items
+	QString standardItems;
+
+	// Sidebar
+	QString sidebarBackground;
+	QString sidebarTaskBackground;
+	QString sidebarTaskHeader;
+	QString sidebarUnclickableTaskHeader;
+
+	// Toolbars
+	QString toolbars;
+	QString navigationToolbar;
+
+	// Headers
+	QString genericHeader;
+	QString homeHeader;
+	QString libraryHeader;
+	QString mediaHeader;
+	QString searchHeader;
+	QString transfersHeader;
+	QString securityHeader;
+	QString networkHeader;
+	QString chatHeader;
+	QString dialogHeader;
+
+	// Media
+	QString seekSlider;
+	QString volumeSlider;
+	QString mediaToolbar;
+
+	// Chat
+	QString chatWelcome;
+	QString chatToolbar;
+
+	// Specialised Tab Widgets
+	QString libraryNavigator;
+	QString tabSearches;
 
 signals:
 	void skinChanged();
