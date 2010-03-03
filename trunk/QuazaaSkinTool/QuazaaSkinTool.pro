@@ -5,8 +5,10 @@ QT += phonon
 TARGET = QuazaaSkinTool
 TEMPLATE = app
 SOURCES += main.cpp \
-	mainwindow.cpp
-HEADERS += mainwindow.h
+    mainwindow.cpp \
+    QSkinDialog/qskinsettings.cpp
+HEADERS += mainwindow.h \
+    QSkinDialog/qskinsettings.h
 FORMS += mainwindow.ui
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
