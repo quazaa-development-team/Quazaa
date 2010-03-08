@@ -106,7 +106,7 @@ padding: 2px;</string>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidgetMain">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="pageHome">
        <layout class="QGridLayout" name="gridLayoutHome">

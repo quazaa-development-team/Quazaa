@@ -317,17 +317,18 @@ void DialogSkinPreview::loadSkin(QString file)
 	ui->windowFrameTopLeft->setStyleSheet(reader.value("windowFrameTopLeftStyleSheet", "border-image: url(:/Resource/frameTopLeft.png);").toString());
 	ui->windowFrameLeft->setStyleSheet(reader.value("windowFrameLeftStyleSheet", "border-image: url(:/Resource/frameLeft.png); border-left: 1; border-top: 10;").toString());
 	ui->windowFrameBottomLeft->setStyleSheet(reader.value("windowFrameBottomLeftStyleSheet", "border-image: url(:/Resource/frameBottomLeft.png);").toString());
-	ui->windowFrameTop->setStyleSheet(reader.value("windowFrameTopStyleSheet", "QFrame#windowFrameTop { border-left: 85; padding-left: -85; border-image: url(:/Resource/frameTop.png); }").toString());
+	ui->windowFrameTop->setStyleSheet(reader.value("windowFrameTopStyleSheet", "").toString());
 	ui->windowFrameBottom->setStyleSheet(reader.value("windowFrameBottomStyleSheet", "border-image: url(:/Resource/frameBottom.png); border-bottom: 1;").toString());
 	ui->windowFrameTopRight->setStyleSheet(reader.value("windowFrameTopRightStyleSheet", "border-image: url(:/Resource/frameTopRight.png);").toString());
 	ui->windowFrameRight->setStyleSheet(reader.value("windowFrameRightStyleSheet", "QFrame { border-image: url(:/Resource/frameRight.png); border-right: 1; border-top: 10; }").toString());
 	ui->windowFrameBottomRight->setStyleSheet(reader.value("windowFrameBottomRightStyleSheet", "border-image: url(:/Resource/frameBottomRight.png);").toString());
-	ui->titlebarFrame->setStyleSheet(reader.value("titlebarFrameStyleSheet", "QFrame { background-color: transparent; }").toString());
 	ui->titlebarButtonsFrame->setStyleSheet(reader.value("titlebarButtonsFrameStyleSheet", "QFrame#titlebarButtonsFrame { padding-top: -1; padding-bottom: 10; }").toString());
 	ui->minimizeButton->setStyleSheet(reader.value("minimizeButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/minButton.png); } QToolButton:hover { border-image: url(:/Resource/minButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/minButtonD.png); }").toString());
 	ui->maximizeButton->setStyleSheet(reader.value("maximizeButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/maxButton.png); } QToolButton:hover { border-image: url(:/Resource/maxButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/maxButtonD.png); } QToolButton:checked { border-image: url(:/Resource/restoreButton.png); } QToolButton:checked:hover { border-image: url(:/Resource/restoreButtonH.png); } QToolButton:checked:disabled { border-image: url(:/Resource/restoreButtonD.png); }").toString());
 	ui->closeButton->setStyleSheet(reader.value("closeButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/quitButton.png); } QToolButton:hover { border-image: url(:/Resource/quitButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/quitButtonD.png); }").toString());
-	ui->windowText->setStyleSheet(reader.value("windowTextStyleSheet", "padding-left: -2px; padding-right: -2px; padding-bottom: 2px; font-weight: bold; font-size: 16px; color: rgb(255, 255, 255);").toString());
+	ui->windowFrameTopSpacer->setStyleSheet(reader.value("windowFrameTopSpacerStyleSheet", "QFrame#windowFrameTopSpacer {\n	border-image: url(:/Resource/frameTop.png);\n}").toString());
+	ui->windowText->setStyleSheet(reader.value("windowTextStyleSheet", "border-image: url(:/Resource/windowTextBackground.png);\npadding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);").toString());
+	ui->windowIconFrame->setStyleSheet(reader.value("windowIconFrameStyleSheet", "QFrame#windowIconFrame {\n	border-image: url(:/Resource/windowIconFrame.png);\n}").toString());
 	ui->windowIcon->setVisible(reader.value("windowIconVisible", true).toBool());
 	ui->windowIcon->setIconSize(reader.value("windowIconSize", QSize(20, 20)).toSize());
 }

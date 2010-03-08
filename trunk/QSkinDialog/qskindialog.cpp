@@ -12,10 +12,9 @@
  ********************************************************************************************************/
 #include "qskindialog.h"
 #include "ui_qskindialog.h"
-#include "qskinconfiguredialog.h"
 #include "mainwindow.h"
 #include "qskinsettings.h"
-#include "quazaasettings.h"
+#include <quazaasettings.h>
 
 QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, QWidget *parent) :
 	QDialog(parent),
@@ -100,25 +99,46 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, QWidget *
 	quazaaSettings.saveSkinSettings();
 
 	// Load the previously set skin
-	ui->windowFrameTopLeft->setStyleSheet(skinSettings.windowFrameTopLeftStyleSheet);
-	ui->windowFrameLeft->setStyleSheet(skinSettings.windowFrameLeftStyleSheet);
-	ui->windowFrameBottomLeft->setStyleSheet(skinSettings.windowFrameBottomLeftStyleSheet);
-	ui->windowFrameTop->setStyleSheet(skinSettings.windowFrameTopStyleSheet);
-	ui->windowFrameBottom->setStyleSheet(skinSettings.windowFrameBottomStyleSheet);
-	ui->windowFrameTopRight->setStyleSheet(skinSettings.windowFrameTopRightStyleSheet);
-	ui->windowFrameRight->setStyleSheet(skinSettings.windowFrameRightStyleSheet);
-	ui->windowFrameBottomRight->setStyleSheet(skinSettings.windowFrameBottomRightStyleSheet);
-	ui->titlebarFrame->setStyleSheet(skinSettings.titlebarFrameStyleSheet);
-	ui->titlebarButtonsFrame->setStyleSheet(skinSettings.titlebarButtonsFrameStyleSheet);
-	ui->minimizeButton->setStyleSheet(skinSettings.minimizeButtonStyleSheet);
-	ui->maximizeButton->setStyleSheet(skinSettings.maximizeButtonStyleSheet);
-	ui->closeButton->setStyleSheet(skinSettings.closeButtonStyleSheet);
-	ui->windowText->setStyleSheet(skinSettings.windowTextStyleSheet);
-	ui->windowIcon->setVisible(skinSettings.windowIconVisible);
-	ui->windowIcon->setIconSize(skinSettings.windowIconSize);
 
 	if (isMainDialog)
+	{
+		ui->windowFrameTopLeft->setStyleSheet(skinSettings.windowFrameTopLeftStyleSheet);
+		ui->windowFrameLeft->setStyleSheet(skinSettings.windowFrameLeftStyleSheet);
+		ui->windowFrameBottomLeft->setStyleSheet(skinSettings.windowFrameBottomLeftStyleSheet);
+		ui->windowFrameTop->setStyleSheet(skinSettings.windowFrameTopStyleSheet);
+		ui->windowFrameBottom->setStyleSheet(skinSettings.windowFrameBottomStyleSheet);
+		ui->windowFrameTopRight->setStyleSheet(skinSettings.windowFrameTopRightStyleSheet);
+		ui->windowFrameRight->setStyleSheet(skinSettings.windowFrameRightStyleSheet);
+		ui->windowFrameBottomRight->setStyleSheet(skinSettings.windowFrameBottomRightStyleSheet);
+		ui->titlebarButtonsFrame->setStyleSheet(skinSettings.titlebarButtonsFrameStyleSheet);
+		ui->minimizeButton->setStyleSheet(skinSettings.minimizeButtonStyleSheet);
+		ui->maximizeButton->setStyleSheet(skinSettings.maximizeButtonStyleSheet);
+		ui->closeButton->setStyleSheet(skinSettings.closeButtonStyleSheet);
+		ui->windowFrameTopSpacer->setStyleSheet(skinSettings.windowFrameTopSpacerStyleSheet);
+		ui->windowText->setStyleSheet(skinSettings.windowTextStyleSheet);
+		ui->windowIconFrame->setStyleSheet(skinSettings.windowIconFrameStyleSheet);
+		ui->windowIcon->setVisible(skinSettings.windowIconVisible);
+		ui->windowIcon->setIconSize(skinSettings.windowIconSize);
 		quazaaSettings.loadSkinWindowSettings(this);
+	} else {
+		ui->windowFrameTopLeft->setStyleSheet(skinSettings.childWindowFrameTopLeftStyleSheet);
+		ui->windowFrameLeft->setStyleSheet(skinSettings.childWindowFrameLeftStyleSheet);
+		ui->windowFrameBottomLeft->setStyleSheet(skinSettings.childWindowFrameBottomLeftStyleSheet);
+		ui->windowFrameTop->setStyleSheet(skinSettings.childWindowFrameTopStyleSheet);
+		ui->windowFrameBottom->setStyleSheet(skinSettings.childWindowFrameBottomStyleSheet);
+		ui->windowFrameTopRight->setStyleSheet(skinSettings.childWindowFrameTopRightStyleSheet);
+		ui->windowFrameRight->setStyleSheet(skinSettings.childWindowFrameRightStyleSheet);
+		ui->windowFrameBottomRight->setStyleSheet(skinSettings.childWindowFrameBottomRightStyleSheet);
+		ui->titlebarButtonsFrame->setStyleSheet(skinSettings.childTitlebarButtonsFrameStyleSheet);
+		ui->minimizeButton->setStyleSheet(skinSettings.childMinimizeButtonStyleSheet);
+		ui->maximizeButton->setStyleSheet(skinSettings.childMaximizeButtonStyleSheet);
+		ui->closeButton->setStyleSheet(skinSettings.childCloseButtonStyleSheet);
+		ui->windowFrameTopSpacer->setStyleSheet(skinSettings.childWindowFrameTopSpacerStyleSheet);
+		ui->windowText->setStyleSheet(skinSettings.childWindowTextStyleSheet);
+		ui->windowIconFrame->setStyleSheet(skinSettings.childWindowIconFrameStyleSheet);
+		ui->windowIcon->setVisible(skinSettings.childWindowIconVisible);
+		ui->windowIcon->setIconSize(skinSettings.childWindowIconSize);
+	}
 }
 
 QSkinDialog::~QSkinDialog()
@@ -430,20 +450,52 @@ void QSkinDialog::on_windowIcon_clicked()
 // in all skinned dialogs
 void QSkinDialog::skinChangeEvent()
 {
-	ui->windowFrameTopLeft->setStyleSheet(skinSettings.windowFrameTopLeftStyleSheet);
-	ui->windowFrameLeft->setStyleSheet(skinSettings.windowFrameLeftStyleSheet);
-	ui->windowFrameBottomLeft->setStyleSheet(skinSettings.windowFrameBottomLeftStyleSheet);
-	ui->windowFrameTop->setStyleSheet(skinSettings.windowFrameTopStyleSheet);
-	ui->windowFrameBottom->setStyleSheet(skinSettings.windowFrameBottomStyleSheet);
-	ui->windowFrameTopRight->setStyleSheet(skinSettings.windowFrameTopRightStyleSheet);
-	ui->windowFrameRight->setStyleSheet(skinSettings.windowFrameRightStyleSheet);
-	ui->windowFrameBottomRight->setStyleSheet(skinSettings.windowFrameBottomRightStyleSheet);
-	ui->titlebarFrame->setStyleSheet(skinSettings.titlebarFrameStyleSheet);
-	ui->titlebarButtonsFrame->setStyleSheet(skinSettings.titlebarButtonsFrameStyleSheet);
-	ui->minimizeButton->setStyleSheet(skinSettings.minimizeButtonStyleSheet);
-	ui->maximizeButton->setStyleSheet(skinSettings.maximizeButtonStyleSheet);
-	ui->closeButton->setStyleSheet(skinSettings.closeButtonStyleSheet);
-	ui->windowText->setStyleSheet(skinSettings.windowTextStyleSheet);
-	ui->windowIcon->setVisible(skinSettings.windowIconVisible);
-	ui->windowIcon->setIconSize(skinSettings.windowIconSize);
+	if (isMainDialog)
+	{
+		ui->windowFrameTopLeft->setStyleSheet(skinSettings.windowFrameTopLeftStyleSheet);
+		ui->windowFrameLeft->setStyleSheet(skinSettings.windowFrameLeftStyleSheet);
+		ui->windowFrameBottomLeft->setStyleSheet(skinSettings.windowFrameBottomLeftStyleSheet);
+		ui->windowFrameTop->setStyleSheet(skinSettings.windowFrameTopStyleSheet);
+		ui->windowFrameBottom->setStyleSheet(skinSettings.windowFrameBottomStyleSheet);
+		ui->windowFrameTopRight->setStyleSheet(skinSettings.windowFrameTopRightStyleSheet);
+		ui->windowFrameRight->setStyleSheet(skinSettings.windowFrameRightStyleSheet);
+		ui->windowFrameBottomRight->setStyleSheet(skinSettings.windowFrameBottomRightStyleSheet);
+		ui->titlebarButtonsFrame->setStyleSheet(skinSettings.titlebarButtonsFrameStyleSheet);
+		ui->minimizeButton->setStyleSheet(skinSettings.minimizeButtonStyleSheet);
+		ui->maximizeButton->setStyleSheet(skinSettings.maximizeButtonStyleSheet);
+		ui->closeButton->setStyleSheet(skinSettings.closeButtonStyleSheet);
+		ui->windowFrameTopSpacer->setStyleSheet(skinSettings.windowFrameTopSpacerStyleSheet);
+		ui->windowText->setStyleSheet(skinSettings.windowTextStyleSheet);
+		ui->windowIconFrame->setStyleSheet(skinSettings.windowIconFrameStyleSheet);
+		ui->windowIcon->setVisible(skinSettings.windowIconVisible);
+		ui->windowIcon->setIconSize(skinSettings.windowIconSize);
+	} else {
+		ui->windowFrameTopLeft->setStyleSheet(skinSettings.childWindowFrameTopLeftStyleSheet);
+		ui->windowFrameLeft->setStyleSheet(skinSettings.childWindowFrameLeftStyleSheet);
+		ui->windowFrameBottomLeft->setStyleSheet(skinSettings.childWindowFrameBottomLeftStyleSheet);
+		ui->windowFrameTop->setStyleSheet(skinSettings.childWindowFrameTopStyleSheet);
+		ui->windowFrameBottom->setStyleSheet(skinSettings.childWindowFrameBottomStyleSheet);
+		ui->windowFrameTopRight->setStyleSheet(skinSettings.childWindowFrameTopRightStyleSheet);
+		ui->windowFrameRight->setStyleSheet(skinSettings.childWindowFrameRightStyleSheet);
+		ui->windowFrameBottomRight->setStyleSheet(skinSettings.childWindowFrameBottomRightStyleSheet);
+		ui->titlebarButtonsFrame->setStyleSheet(skinSettings.childTitlebarButtonsFrameStyleSheet);
+		ui->minimizeButton->setStyleSheet(skinSettings.childMinimizeButtonStyleSheet);
+		ui->maximizeButton->setStyleSheet(skinSettings.childMaximizeButtonStyleSheet);
+		ui->closeButton->setStyleSheet(skinSettings.childCloseButtonStyleSheet);
+		ui->windowFrameTopSpacer->setStyleSheet(skinSettings.childWindowFrameTopSpacerStyleSheet);
+		ui->windowText->setStyleSheet(skinSettings.childWindowTextStyleSheet);
+		ui->windowIconFrame->setStyleSheet(skinSettings.childWindowIconFrameStyleSheet);
+		ui->windowIcon->setVisible(skinSettings.childWindowIconVisible);
+		ui->windowIcon->setIconSize(skinSettings.childWindowIconSize);
+	}
+}
+
+void QSkinDialog::on_windowIconFrame_customContextMenuRequested(QPoint pos)
+{
+	systemMenu->exec(QCursor::pos());
+}
+
+void QSkinDialog::on_titlebarButtonsFrame_customContextMenuRequested(QPoint pos)
+{
+	systemMenu->exec(QCursor::pos());
 }

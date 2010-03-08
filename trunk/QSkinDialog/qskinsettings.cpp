@@ -30,23 +30,43 @@ void QSkinSettings::loadSkin(QString fileName)
 	skinVersion = reader.value("skinVersion", "").toString();
 	skinDescription = reader.value("skinDescription", "").toString();
 
-	//Window Frame
+	// Main Window Frame
 	windowFrameTopLeftStyleSheet = reader.value("windowFrameTopLeftStyleSheet", "border-image: url(:/Resource/frameTopLeft.png);").toString();
 	windowFrameLeftStyleSheet = reader.value("windowFrameLeftStyleSheet", "border-image: url(:/Resource/frameLeft.png); border-left: 1; border-top: 10;").toString();
 	windowFrameBottomLeftStyleSheet = reader.value("windowFrameBottomLeftStyleSheet", "border-image: url(:/Resource/frameBottomLeft.png);").toString();
-	windowFrameTopStyleSheet = reader.value("windowFrameTopStyleSheet", "QFrame#windowFrameTop { border-left: 85; padding-left: -85; border-image: url(:/Resource/frameTop.png); }").toString();
+	windowFrameTopStyleSheet = reader.value("windowFrameTopStyleSheet", "").toString();
 	windowFrameBottomStyleSheet = reader.value("windowFrameBottomStyleSheet", "border-image: url(:/Resource/frameBottom.png); border-bottom: 1;").toString();
 	windowFrameTopRightStyleSheet = reader.value("windowFrameTopRightStyleSheet", "border-image: url(:/Resource/frameTopRight.png);").toString();
 	windowFrameRightStyleSheet = reader.value("windowFrameRightStyleSheet", "QFrame { border-image: url(:/Resource/frameRight.png); border-right: 1; border-top: 10; }").toString();
 	windowFrameBottomRightStyleSheet = reader.value("windowFrameBottomRightStyleSheet", "border-image: url(:/Resource/frameBottomRight.png);").toString();
-	titlebarFrameStyleSheet = reader.value("titlebarFrameStyleSheet", "QFrame { background-color: transparent; }").toString();
-	titlebarButtonsFrameStyleSheet = reader.value("titlebarButtonsFrameStyleSheet", "QFrame#titlebarButtonsFrame { padding-top: -1; padding-bottom: 10; }").toString();
+	titlebarButtonsFrameStyleSheet = reader.value("titlebarButtonsFrameStyleSheet", "/*These move the buttons up so they aren't displayed in the center of the titlebar\n   Remove these to center your buttons on the titlebar.*/\nQFrame#titlebarButtonsFrame {\n	padding-top: -1;\n	padding-bottom: 10;\n	border-image: url(:/Resource/titlebarButtonsFrame.png);\n}").toString();
 	minimizeButtonStyleSheet = reader.value("minimizeButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/minButton.png); } QToolButton:hover { border-image: url(:/Resource/minButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/minButtonD.png); }").toString();
 	maximizeButtonStyleSheet = reader.value("maximizeButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/maxButton.png); } QToolButton:hover { border-image: url(:/Resource/maxButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/maxButtonD.png); } QToolButton:checked { border-image: url(:/Resource/restoreButton.png); } QToolButton:checked:hover { border-image: url(:/Resource/restoreButtonH.png); } QToolButton:checked:disabled { border-image: url(:/Resource/restoreButtonD.png); }").toString();
 	closeButtonStyleSheet = reader.value("closeButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/quitButton.png); } QToolButton:hover { border-image: url(:/Resource/quitButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/quitButtonD.png); }").toString();
-	windowTextStyleSheet = reader.value("windowTextStyleSheet", "padding-left: -2px; padding-right: -2px; padding-bottom: 2px; font-weight: bold; font-size: 16px; color: rgb(255, 255, 255);").toString();
+	windowFrameTopSpacerStyleSheet = reader.value("windowFrameTopSpacerStyleSheet", "QFrame#windowFrameTopSpacer {\n	border-image: url(:/Resource/frameTop.png);\n}").toString();
+	windowTextStyleSheet = reader.value("windowTextStyleSheet", "border-image: url(:/Resource/windowTextBackground.png);\npadding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);").toString();
+	windowIconFrameStyleSheet = reader.value("windowIconFrameStyleSheet", "QFrame#windowIconFrame {\n	border-image: url(:/Resource/windowIconFrame.png);\n}").toString();
 	windowIconVisible = reader.value("windowIconVisible", true).toBool();
 	windowIconSize = reader.value("windowIconSize", QSize(20, 20)).toSize();
+
+	// Child Window Frame
+	childWindowFrameTopLeftStyleSheet = reader.value("childWindowFrameTopLeftStyleSheet", "border-image: url(:/Resource/frameTopLeft.png);").toString();
+	childWindowFrameLeftStyleSheet = reader.value("childWindowFrameLeftStyleSheet", "border-image: url(:/Resource/frameLeft.png); border-left: 1; border-top: 10;").toString();
+	childWindowFrameBottomLeftStyleSheet = reader.value("childWindowFrameBottomLeftStyleSheet", "border-image: url(:/Resource/frameBottomLeft.png);").toString();
+	childWindowFrameTopStyleSheet = reader.value("childWindowFrameTopStyleSheet", "").toString();
+	childWindowFrameBottomStyleSheet = reader.value("childWindowFrameBottomStyleSheet", "border-image: url(:/Resource/frameBottom.png); border-bottom: 1;").toString();
+	childWindowFrameTopRightStyleSheet = reader.value("childWindowFrameTopRightStyleSheet", "border-image: url(:/Resource/frameTopRight.png);").toString();
+	childWindowFrameRightStyleSheet = reader.value("childWindowFrameRightStyleSheet", "QFrame { border-image: url(:/Resource/frameRight.png); border-right: 1; border-top: 10; }").toString();
+	childWindowFrameBottomRightStyleSheet = reader.value("childWindowFrameBottomRightStyleSheet", "border-image: url(:/Resource/frameBottomRight.png);").toString();
+	childTitlebarButtonsFrameStyleSheet = reader.value("childTitlebarButtonsFrameStyleSheet", "/*These move the buttons up so they aren't displayed in the center of the titlebar\n   Remove these to center your buttons on the titlebar.*/\nQFrame#titlebarButtonsFrame {\n	padding-top: -1;\n	padding-bottom: 10;\n	border-image: url(:/Resource/titlebarButtonsFrame.png);\n}").toString();
+	childMinimizeButtonStyleSheet = reader.value("childMinimizeButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/minButton.png); } QToolButton:hover { border-image: url(:/Resource/minButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/minButtonD.png); }").toString();
+	childMaximizeButtonStyleSheet = reader.value("childMaximizeButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/maxButton.png); } QToolButton:hover { border-image: url(:/Resource/maxButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/maxButtonD.png); } QToolButton:checked { border-image: url(:/Resource/restoreButton.png); } QToolButton:checked:hover { border-image: url(:/Resource/restoreButtonH.png); } QToolButton:checked:disabled { border-image: url(:/Resource/restoreButtonD.png); }").toString();
+	childCloseButtonStyleSheet = reader.value("childCloseButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/quitButton.png); } QToolButton:hover { border-image: url(:/Resource/quitButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/quitButtonD.png); }").toString();
+	childWindowFrameTopSpacerStyleSheet = reader.value("childWindowFrameTopSpacerStyleSheet", "QFrame#windowFrameTopSpacer {\n	border-image: url(:/Resource/frameTop.png);\n}").toString();
+	childWindowTextStyleSheet = reader.value("childWindowTextStyleSheet", "border-image: url(:/Resource/windowTextBackground.png);\npadding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);").toString();
+	childWindowIconFrameStyleSheet = reader.value("childWindowIconFrameStyleSheet", "QFrame#windowIconFrame {\n	border-image: url(:/Resource/windowIconFrame.png);\n}").toString();
+	childWindowIconVisible = reader.value("childWindowIconVisible", true).toBool();
+	childWindowIconSize = reader.value("childWindowIconSize", QSize(20, 20)).toSize();
 
 	// Splash Screen
 	splashBackground = reader.value("splashBackground", "QFrame {\n	border-image: url(:/Resource/Splash.png) repeat;\n}").toString();
@@ -58,11 +78,16 @@ void QSkinSettings::loadSkin(QString fileName)
 	// Standard Items
 	standardItems = reader.value("standardItems", "").toString();
 
+	// Menu Bar
+	menuBar = reader.value("menuBar", "").toString();
+
 	// Sidebar
 	sidebarBackground = reader.value("sidebarBackground", "QFrame {\n	 background-color: rgb(199, 202, 255);\n}").toString();
 	sidebarTaskBackground = reader.value("sidebarTaskBackground", "QFrame {\n	background-color: rgb(161, 178, 231);\n}").toString();
 	sidebarTaskHeader = reader.value("sidebarTaskHeader", "QToolButton {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n	border: none;\n	font-size: 16px;\n	font-weight: bold;\n}\n\nQToolButton:hover {\n	background-color: rgb(56, 90, 129);\n}").toString();
+	sidebarTaskButton =	reader.value("sidebarTaskButton", "").toString();
 	sidebarUnclickableTaskHeader = reader.value("sidebarUnclickableTaskHeader", "QToolButton {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n	border: none;\n	font-size: 16px;\n	font-weight: bold;\n}").toString();
+	addSearchButton = reader.value("addSearchButton", "").toString();
 
 	// Toolbars
 	toolbars = reader.value("toolbars", "").toString();
@@ -111,14 +136,34 @@ void QSkinSettings::saveSkin(QString fileName)
 	writer.setValue("windowFrameTopRightStyleSheet", windowFrameTopRightStyleSheet);
 	writer.setValue("windowFrameRightStyleSheet", windowFrameRightStyleSheet);
 	writer.setValue("windowFrameBottomRightStyleSheet", windowFrameBottomRightStyleSheet);
-	writer.setValue("titlebarFrameStyleSheet", titlebarFrameStyleSheet);
 	writer.setValue("titlebarButtonsFrameStyleSheet", titlebarButtonsFrameStyleSheet);
 	writer.setValue("minimizeButtonStyleSheet", minimizeButtonStyleSheet);
 	writer.setValue("maximizeButtonStyleSheet", maximizeButtonStyleSheet);
 	writer.setValue("closeButtonStyleSheet", closeButtonStyleSheet);
+	writer.setValue("windowFrameTopSpacerStyleSheet", windowFrameTopSpacerStyleSheet);
 	writer.setValue("windowTextStyleSheet", windowTextStyleSheet);
+	writer.setValue("windowIconFrameStyleSheet", windowIconFrameStyleSheet);
 	writer.setValue("windowIconVisible", windowIconVisible);
 	writer.setValue("windowIconSize", windowIconSize);
+
+	// Child Window Frame
+	writer.setValue("childWindowFrameTopLeftStyleSheet", childWindowFrameTopLeftStyleSheet);
+	writer.setValue("childWindowFrameLeftStyleSheet", childWindowFrameLeftStyleSheet);
+	writer.setValue("childWindowFrameBottomLeftStyleSheet", childWindowFrameBottomLeftStyleSheet);
+	writer.setValue("childWindowFrameTopStyleSheet", childWindowFrameTopStyleSheet);
+	writer.setValue("childWindowFrameBottomStyleSheet", childWindowFrameBottomStyleSheet);
+	writer.setValue("childWindowFrameTopRightStyleSheet", childWindowFrameTopRightStyleSheet);
+	writer.setValue("childWindowFrameRightStyleSheet", childWindowFrameRightStyleSheet);
+	writer.setValue("childWindowFrameBottomRightStyleSheet", childWindowFrameBottomRightStyleSheet);
+	writer.setValue("childTitlebarButtonsFrameStyleSheet", childTitlebarButtonsFrameStyleSheet);
+	writer.setValue("childMinimizeButtonStyleSheet", childMinimizeButtonStyleSheet);
+	writer.setValue("childMaximizeButtonStyleSheet", childMaximizeButtonStyleSheet);
+	writer.setValue("childCloseButtonStyleSheet", childCloseButtonStyleSheet);
+	writer.setValue("childWindowFrameTopSpacerStyleSheet", childWindowFrameTopSpacerStyleSheet);
+	writer.setValue("childWindowTextStyleSheet", childWindowTextStyleSheet);
+	writer.setValue("childWindowIconFrameStyleSheet", childWindowIconFrameStyleSheet);
+	writer.setValue("childWindowIconVisible", childWindowIconVisible);
+	writer.setValue("childWindowIconSize", childWindowIconSize);
 
 	// Splash Screen
 	writer.setValue("splashBackground", splashBackground);
@@ -130,11 +175,16 @@ void QSkinSettings::saveSkin(QString fileName)
 	// Standard Items
 	writer.setValue("standardItems", standardItems);
 
+	// Menu Bar
+	writer.setValue("menuBar", menuBar);
+
 	// Sidebar
 	writer.setValue("sidebarBackground", sidebarBackground);
 	writer.setValue("sidebarTaskBackground", sidebarTaskBackground);
 	writer.setValue("sidebarTaskHeader", sidebarTaskHeader);
+	writer.setValue("sidebarTaskButton", sidebarTaskButton);
 	writer.setValue("sidebarUnclickableTaskHeader", sidebarUnclickableTaskHeader);
+	writer.setValue("addSearchButton", addSearchButton);
 
 	// Toolbars
 	writer.setValue("toolbars", toolbars);
