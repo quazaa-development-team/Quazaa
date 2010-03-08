@@ -597,7 +597,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 	skinSettings.windowFrameTopRightStyleSheet = tempWindowFrameTopRightStyleSheet;
 	skinSettings.windowFrameRightStyleSheet = tempWindowFrameRightStyleSheet;
 	skinSettings.windowFrameBottomRightStyleSheet = tempWindowFrameBottomRightStyleSheet;
-	skinSettings.titlebarFrameStyleSheet = tempTitlebarFrameStyleSheet;
+	skinSettings.windowIconFrameStyleSheet = tempWindowIconFrameStyleSheet;
 	skinSettings.titlebarButtonsFrameStyleSheet = tempTitlebarButtonsFrameStyleSheet;
 	skinSettings.minimizeButtonStyleSheet = tempMinimizeButtonStyleSheet;
 	skinSettings.maximizeButtonStyleSheet = tempMaximizeButtonStyleSheet;
@@ -1434,7 +1434,7 @@ void DialogSettings::on_listWidgetSkins_itemClicked(QListWidgetItem* item)
 	tempWindowFrameTopRightStyleSheet = reader.value("windowFrameTopRightStyleSheet", "border-image: url(:/Resource/frameTopRight.png);").toString();
 	tempWindowFrameRightStyleSheet = reader.value("windowFrameRightStyleSheet", "QFrame { border-image: url(:/Resource/frameRight.png); border-right: 1; border-top: 10; }").toString();
 	tempWindowFrameBottomRightStyleSheet = reader.value("windowFrameBottomRightStyleSheet", "border-image: url(:/Resource/frameBottomRight.png);").toString();
-	tempTitlebarFrameStyleSheet = reader.value("titlebarFrameStyleSheet", "QFrame { background-color: transparent; }").toString();
+	tempWindowIconFrameStyleSheet = reader.value("windowIconFrameStyleSheet", "QFrame { background-color: transparent; }").toString();
 	tempTitlebarButtonsFrameStyleSheet = reader.value("titlebarButtonsFrameStyleSheet", "QFrame#titlebarButtonsFrame { padding-top: -1; padding-bottom: 10; }").toString();
 	tempMinimizeButtonStyleSheet = reader.value("minimizeButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/minButton.png); } QToolButton:hover { border-image: url(:/Resource/minButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/minButtonD.png); }").toString();
 	tempMaximizeButtonStyleSheet = reader.value("maximizeButtonStyleSheet", "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/maxButton.png); } QToolButton:hover { border-image: url(:/Resource/maxButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/maxButtonD.png); } QToolButton:checked { border-image: url(:/Resource/restoreButton.png); } QToolButton:checked:hover { border-image: url(:/Resource/restoreButtonH.png); } QToolButton:checked:disabled { border-image: url(:/Resource/restoreButtonD.png); }").toString();

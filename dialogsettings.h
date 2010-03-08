@@ -63,7 +63,7 @@ private:
 	QString tempWindowFrameTopRightStyleSheet;
 	QString tempWindowFrameRightStyleSheet;
 	QString tempWindowFrameBottomRightStyleSheet;
-	QString tempTitlebarFrameStyleSheet;
+	QString tempWindowIconFrameStyleSheet;
 	QString tempTitlebarButtonsFrameStyleSheet;
 	QString tempMinimizeButtonStyleSheet;
 	QString tempMaximizeButtonStyleSheet;

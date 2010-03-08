@@ -6,61 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>426</width>
-    <height>407</height>
+    <width>594</width>
+    <height>441</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Quazaa Skin Tool</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <property name="leftMargin">
-     <number>0</number>
-    </property>
-    <property name="topMargin">
-     <number>8</number>
-    </property>
-    <property name="rightMargin">
-     <number>0</number>
-    </property>
-    <property name="bottomMargin">
+    <property name="margin">
      <number>0</number>
     </property>
     <property name="spacing">
      <number>0</number>
     </property>
-    <item row="1" column="0" rowspan="4">
-     <widget class="QLabel" name="labelEdit">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="text">
-       <string>Edit:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0" colspan="2">
-     <widget class="QTextEdit" name="textEditStyleSheet">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>160</width>
-        <height>16777215</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2" rowspan="5">
+    <item row="0" column="1" rowspan="7" colspan="3">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -69,8 +34,105 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>2</number>
       </property>
+      <widget class="QWidget" name="pageSkinProperties">
+       <layout class="QGridLayout" name="gridLayout_38">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_33">
+          <property name="margin">
+           <number>4</number>
+          </property>
+          <item row="3" column="1" colspan="2">
+           <widget class="QPlainTextEdit" name="plainTextEditDescription">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelName">
+            <property name="text">
+             <string>Name:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="labelDescription">
+            <property name="text">
+             <string>Description:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2">
+           <widget class="QLineEdit" name="lineEditName">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelAuthor">
+            <property name="text">
+             <string>Author:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QLineEdit" name="lineEditAuthor">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelVersion">
+            <property name="text">
+             <string>Version:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" colspan="2">
+           <widget class="QLineEdit" name="lineEditVersion">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="pageSplash">
        <layout class="QGridLayout" name="gridLayout_27">
         <property name="margin">
@@ -276,7 +338,7 @@ min-width: 300px;</string>
                 </widget>
                </item>
                <item row="0" column="0">
-                <widget class="QLabel" name="labeSplashlLogo">
+                <widget class="QLabel" name="labelSplashlLogo">
                  <property name="styleSheet">
                   <string notr="true">background-color: transparent;
 min-height: 172px;
@@ -301,99 +363,341 @@ border-image: url(:/Resource/QuazaaLogo.png);</string>
       </widget>
       <widget class="QWidget" name="pageWindowFrame">
        <layout class="QGridLayout" name="gridLayout_22">
+        <property name="margin">
+         <number>0</number>
+        </property>
         <property name="spacing">
          <number>0</number>
         </property>
-        <item row="0" column="0">
-         <widget class="QFrame" name="windowFrameTopLeft">
-          <property name="minimumSize">
-           <size>
-            <width>12</width>
-            <height>12</height>
-           </size>
+        <item row="6" column="0" colspan="6">
+         <layout class="QGridLayout" name="gridLayout_36">
+          <property name="topMargin">
+           <number>6</number>
           </property>
-          <property name="maximumSize">
-           <size>
-            <width>12</width>
-            <height>12</height>
-           </size>
+          <property name="bottomMargin">
+           <number>0</number>
           </property>
-          <property name="cursor">
-           <cursorShape>SizeFDiagCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border-image: url(:/Resource/frameTopLeft.png);</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBoxMainIconVisible">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Window Icon Visible</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QSpinBox" name="spinBoxMainIconSize">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="maximum">
+             <number>75</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Window Icon Size:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
-        <item row="0" column="1" rowspan="2">
-         <widget class="QFrame" name="windowFrameTop">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+        <item row="0" column="0" colspan="6">
+         <layout class="QGridLayout" name="gridLayout_37">
+          <property name="margin">
+           <number>9</number>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>30</height>
-           </size>
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::CustomContextMenu</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QFrame#windowFrameTop {
-	border-left: 85;
-	padding-left: -85;
-	border-image: url(:/Resource/frameTop.png);
+          <item row="0" column="0">
+           <widget class="QFrame" name="windowFrameTopLeft">
+            <property name="minimumSize">
+             <size>
+              <width>12</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>12</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>SizeFDiagCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-image: url(:/Resource/frameTopLeft.png);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" rowspan="2">
+           <widget class="QFrame" name="windowFrameLeft">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>12</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>12</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>SizeHorCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-image: url(:/Resource/frameLeft.png);
+border-left: 1px;
+border-top: 10px;</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QFrame" name="windowFrameBottomLeft">
+            <property name="minimumSize">
+             <size>
+              <width>12</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>12</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>SizeBDiagCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-image: url(:/Resource/frameBottomLeft.png);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QFrame" name="windowFrameBottom">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>SizeVerCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-image: url(:/Resource/frameBottom.png);
+border-bottom: 1;</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QFrame" name="windowFrameBottomRight">
+            <property name="minimumSize">
+             <size>
+              <width>12</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>12</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>SizeFDiagCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-image: url(:/Resource/frameBottomRight.png);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" rowspan="2">
+           <widget class="QFrame" name="windowFrameRight">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>12</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>12</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>SizeHorCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QFrame {
+	border-image: url(:/Resource/frameRight.png);
+	border-right: 1;
+	border-top: 10;
 }</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_3">
-           <property name="horizontalSpacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayoutTitlebar">
-             <property name="leftMargin">
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QFrame" name="windowFrameTopRight">
+            <property name="minimumSize">
+             <size>
+              <width>12</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>12</width>
+              <height>12</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>SizeBDiagCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-image: url(:/Resource/frameTopRight.png);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QWidget" name="widgetContents" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
+            </property>
+            <layout class="QVBoxLayout" name="layoutContents">
+             <property name="spacing">
               <number>0</number>
              </property>
-             <property name="rightMargin">
+             <property name="margin">
               <number>0</number>
              </property>
-             <property name="bottomMargin">
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="1" rowspan="2">
+           <widget class="QFrame" name="windowFrameTop">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_35">
+             <property name="margin">
               <number>0</number>
              </property>
              <property name="spacing">
               <number>0</number>
              </property>
-             <item row="0" column="1" rowspan="2">
-              <widget class="QFrame" name="titlebarFrame">
+             <item row="0" column="1">
+              <widget class="QLabel" name="windowText">
+               <property name="contextMenuPolicy">
+                <enum>Qt::CustomContextMenu</enum>
+               </property>
                <property name="styleSheet">
-                <string notr="true">QFrame {
-	background-color: transparent;
+                <string notr="true">border-image: url(:/Resource/windowTextBackground.png);
+padding-left: -2px;
+padding-right: -2px;
+padding-bottom: 2px;
+font-weight: bold;
+font-size: 16px;
+color: rgb(255, 255, 255);</string>
+               </property>
+               <property name="text">
+                <string>Main Window</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QFrame" name="windowIconFrame">
+               <property name="styleSheet">
+                <string notr="true">QFrame#windowIconFrame {
+	border-image: url(:/Resource/windowIconFrame.png);
 }</string>
                </property>
                <property name="frameShape">
@@ -421,7 +725,7 @@ border-image: url(:/Resource/QuazaaLogo.png);</string>
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset>
+                   <iconset resource="Resource.qrc">
                     <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -430,30 +734,88 @@ border-image: url(:/Resource/QuazaaLogo.png);</string>
                     <height>20</height>
                    </size>
                   </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="windowText">
-                  <property name="contextMenuPolicy">
-                   <enum>Qt::CustomContextMenu</enum>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">padding-left: -2px;
-padding-right: -2px;
-padding-bottom: 2px;
-font-weight: bold;
-font-size: 16px;
-color: rgb(255, 255, 255);</string>
-                  </property>
-                  <property name="text">
-                   <string>QSkinDialog</string>
+                  <property name="autoRepeat">
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
                </layout>
               </widget>
              </item>
-             <item row="0" column="3" rowspan="2">
+             <item row="0" column="2">
+              <widget class="QFrame" name="windowFrameTopSpacer">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::CustomContextMenu</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QFrame#windowFrameTopSpacer {
+	border-image: url(:/Resource/frameTop.png);
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_3">
+                <property name="horizontalSpacing">
+                 <number>0</number>
+                </property>
+                <property name="margin">
+                 <number>0</number>
+                </property>
+                <item row="0" column="0">
+                 <layout class="QGridLayout" name="gridLayoutTitlebar">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="2" rowspan="2">
+                   <spacer name="horizontalSpacerTitlebar">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="3">
               <widget class="QFrame" name="titlebarButtonsFrame">
                <property name="styleSheet">
                 <string notr="true">/*These move the buttons up so they aren't displayed in the center of the titlebar
@@ -461,6 +823,7 @@ color: rgb(255, 255, 255);</string>
 QFrame#titlebarButtonsFrame {
 	padding-top: -1;
 	padding-bottom: 10;
+	border-image: url(:/Resource/titlebarButtonsFrame.png);
 }</string>
                </property>
                <property name="frameShape">
@@ -617,247 +980,10 @@ QToolButton:disabled {
                </layout>
               </widget>
              </item>
-             <item row="0" column="2" rowspan="2">
-              <spacer name="horizontalSpacerTitlebar">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
             </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QFrame" name="windowFrameTopRight">
-          <property name="minimumSize">
-           <size>
-            <width>12</width>
-            <height>12</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>12</width>
-            <height>12</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>SizeBDiagCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border-image: url(:/Resource/frameTopRight.png);</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" rowspan="2">
-         <widget class="QFrame" name="windowFrameLeft">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>12</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>12</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>SizeHorCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border-image: url(:/Resource/frameLeft.png);
-border-left: 1px;
-border-top: 10px;</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2" rowspan="2">
-         <widget class="QFrame" name="windowFrameRight">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>12</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>12</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>SizeHorCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QFrame {
-	border-image: url(:/Resource/frameRight.png);
-	border-right: 1;
-	border-top: 10;
-}</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QWidget" name="widgetContents" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="autoFillBackground">
-           <bool>true</bool>
-          </property>
-          <layout class="QVBoxLayout" name="layoutContents">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QLabel" name="labelTextPreview">
-             <property name="text">
-              <string>Text Preview</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QFrame" name="windowFrameBottomLeft">
-          <property name="minimumSize">
-           <size>
-            <width>12</width>
-            <height>12</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>12</width>
-            <height>12</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>SizeBDiagCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border-image: url(:/Resource/frameBottomLeft.png);</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QFrame" name="windowFrameBottom">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>12</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>12</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>SizeVerCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border-image: url(:/Resource/frameBottom.png);
-border-bottom: 1;</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QFrame" name="windowFrameBottomRight">
-          <property name="minimumSize">
-           <size>
-            <width>12</width>
-            <height>12</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>12</width>
-            <height>12</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>SizeFDiagCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border-image: url(:/Resource/frameBottomRight.png);</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -885,7 +1011,7 @@ border-bottom: 1;</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_29">
             <item row="1" column="0">
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBoxStandardEnabled">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -1094,7 +1220,7 @@ border-bottom: 1;</string>
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QGroupBox" name="groupBox_2">
+             <widget class="QGroupBox" name="groupBoxStandardDisabled">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -1363,12 +1489,12 @@ border-bottom: 1;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>581</width>
-             <height>251</height>
+             <width>579</width>
+             <height>283</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_34">
-            <item row="0" column="0">
+            <item row="1" column="0">
              <widget class="QScrollArea" name="scrollAreaSidebar">
               <property name="minimumSize">
                <size>
@@ -1397,9 +1523,9 @@ border-bottom: 1;</string>
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-33</y>
+                 <y>0</y>
                  <width>325</width>
-                 <height>131</height>
+                 <height>158</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayoutScrollAreaHomeSidebar">
@@ -1409,7 +1535,7 @@ border-bottom: 1;</string>
                 <property name="spacing">
                  <number>4</number>
                 </property>
-                <item row="6" column="0">
+                <item row="7" column="0">
                  <spacer name="verticalSpacer">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -1422,7 +1548,7 @@ border-bottom: 1;</string>
                   </property>
                  </spacer>
                 </item>
-                <item row="0" column="0">
+                <item row="1" column="0">
                  <layout class="QGridLayout" name="gridLayoutSidebarTask">
                   <property name="spacing">
                    <number>0</number>
@@ -1452,7 +1578,7 @@ QToolButton:hover {
                      <string>Sidebar Task Header</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -1544,13 +1670,6 @@ p, li { white-space: pre-wrap; }
                      </item>
                      <item row="6" column="0">
                       <layout class="QGridLayout" name="gridLayout_20">
-                       <item row="0" column="1">
-                        <widget class="QPushButton" name="pushButtonSidebar">
-                         <property name="text">
-                          <string>Sidebar Button</string>
-                         </property>
-                        </widget>
-                       </item>
                        <item row="0" column="0">
                         <spacer name="horizontalSpacer">
                          <property name="orientation">
@@ -1577,6 +1696,13 @@ p, li { white-space: pre-wrap; }
                          </property>
                         </spacer>
                        </item>
+                       <item row="0" column="1">
+                        <widget class="QToolButton" name="toolButtonSidebar">
+                         <property name="text">
+                          <string>Sidebar Button</string>
+                         </property>
+                        </widget>
+                       </item>
                       </layout>
                      </item>
                     </layout>
@@ -1584,7 +1710,7 @@ p, li { white-space: pre-wrap; }
                   </item>
                  </layout>
                 </item>
-                <item row="1" column="0">
+                <item row="2" column="0">
                  <layout class="QGridLayout" name="gridLayoutUnclickableSidebarTask">
                   <property name="spacing">
                    <number>0</number>
@@ -1618,7 +1744,7 @@ p, li { white-space: pre-wrap; }
                      <string>Un-Clickable Sidebar Task Header</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -1643,11 +1769,37 @@ p, li { white-space: pre-wrap; }
                   </item>
                  </layout>
                 </item>
+                <item row="0" column="0">
+                 <widget class="QToolButton" name="toolButtonNewSearch">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Add Search Button</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="Resource.qrc">
+                    <normaloff>:/Resource/Search.png</normaloff>:/Resource/Search.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextBesideIcon</enum>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </widget>
              </widget>
             </item>
-            <item row="0" column="1">
+            <item row="1" column="1">
              <widget class="QTabWidget" name="tabWidgetLibraryNavigator">
               <property name="styleSheet">
                <string notr="true">QTabWidget::pane { /* The tab widget frame */
@@ -1686,7 +1838,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </widget>
             </item>
-            <item row="1" column="0">
+            <item row="2" column="0">
              <widget class="QFrame" name="frameChatWelcome">
               <property name="styleSheet">
                <string notr="true">QFrame {
@@ -1707,7 +1859,7 @@ p, li { white-space: pre-wrap; }
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap>:/Resource/ChatWelcome.png</pixmap>
+                  <pixmap resource="Resource.qrc">:/Resource/ChatWelcome.png</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>false</bool>
@@ -1735,7 +1887,7 @@ p, li { white-space: pre-wrap; }
               </layout>
              </widget>
             </item>
-            <item row="1" column="1">
+            <item row="2" column="1">
              <widget class="QTabWidget" name="tabWidgetSearches">
               <property name="styleSheet">
                <string notr="true">QTabWidget::pane { /* The tab widget frame */
@@ -1781,7 +1933,7 @@ QTabWidget::pane { /* The tab widget frame */
               </widget>
              </widget>
             </item>
-            <item row="2" column="0">
+            <item row="3" column="0">
              <widget class="QFrame" name="toolFrameChat">
               <property name="styleSheet">
                <string notr="true">QFrame {
@@ -1812,10 +1964,70 @@ QTabWidget::pane { /* The tab widget frame */
                  </property>
                 </widget>
                </item>
+               <item row="1" column="0" colspan="2">
+                <widget class="QToolBar" name="toolBarChat">
+                 <property name="styleSheet">
+                  <string notr="true">QFrame {
+	background-color: rgb(199, 202, 255);
+}
+
+QToolButton {
+    border: 1px solid transparent;
+    background-color: transparent;
+}
+
+ QToolButton:pressed {
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+
+QToolButton:checked {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+ QToolButton:hover {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+ QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
+     padding-right: 20px; /* make way for the popup button */
+ }
+
+/* the subcontrols below are used only in the MenuButtonPopup mode */
+ QToolButton::menu-button {
+     border: 1px solid transparent;
+     /* 16px width + 4px for border = 20px allocated above */
+     width: 16px;
+ }
+
+QToolButton::menu-button:hover {
+    border: 1px solid rgb(78, 96, 255);
+	border-left-color: 1px solid transparent;
+     /* 16px width + 4px for border = 20px allocated above */
+     width: 16px;
+ }
+
+ QToolButton::menu-arrow:open {
+     top: 1px; left: 1px; /* shift it a bit */
+ }
+
+QToolBar {
+	border-color: 2px solid transparent;
+}</string>
+                 </property>
+                 <property name="toolButtonStyle">
+                  <enum>Qt::ToolButtonTextBesideIcon</enum>
+                 </property>
+                 <addaction name="actionToolbar_Button"/>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
-            <item row="2" column="1">
+            <item row="3" column="1">
              <widget class="QFrame" name="toolFrame">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1848,7 +2060,7 @@ QTabWidget::pane { /* The tab widget frame */
                 <number>0</number>
                </property>
                <item row="0" column="1">
-                <widget class="QToolBar" name="toolBarPreview">
+                <widget class="QToolBar" name="toolBar_Generic">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                    <horstretch>0</horstretch>
@@ -1856,20 +2068,7 @@ QTabWidget::pane { /* The tab widget frame */
                   </sizepolicy>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;ui version=&quot;4.0&quot;&gt;
- &lt;widget name=&quot;__qt_fake_top_level&quot;&gt;
-  &lt;widget class=&quot;QFrame&quot; name=&quot;toolFrameChat&quot;&gt;
-   &lt;property name=&quot;geometry&quot;&gt;
-    &lt;rect&gt;
-     &lt;x&gt;186&lt;/x&gt;
-     &lt;y&gt;204&lt;/y&gt;
-     &lt;width&gt;335&lt;/width&gt;
-     &lt;height&gt;44&lt;/height&gt;
-    &lt;/rect&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;styleSheet&quot;&gt;
-    &lt;string notr=&quot;true&quot;&gt;QFrame {
+                  <string notr="true">QFrame {
 	background-color: rgb(199, 202, 255);
 }
 
@@ -1894,7 +2093,7 @@ QToolButton:checked {
      background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                        stop: 0 #dadbde, stop: 1 #f6f7fa);
  }
- QToolButton[popupMode=&amp;quot;1&amp;quot;] { /* only for MenuButtonPopup */
+ QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
      padding-right: 20px; /* make way for the popup button */
  }
 
@@ -1914,102 +2113,11 @@ QToolButton::menu-button:hover {
 
  QToolButton::menu-arrow:open {
      top: 1px; left: 1px; /* shift it a bit */
- }&lt;/string&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;frameShape&quot;&gt;
-    &lt;enum&gt;QFrame::NoFrame&lt;/enum&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;frameShadow&quot;&gt;
-    &lt;enum&gt;QFrame::Raised&lt;/enum&gt;
-   &lt;/property&gt;
-   &lt;layout class=&quot;QGridLayout&quot; name=&quot;gridLayout_45&quot;&gt;
-    &lt;property name=&quot;margin&quot;&gt;
-     &lt;number&gt;0&lt;/number&gt;
-    &lt;/property&gt;
-    &lt;property name=&quot;spacing&quot;&gt;
-     &lt;number&gt;0&lt;/number&gt;
-    &lt;/property&gt;
-    &lt;item row=&quot;0&quot; column=&quot;0&quot;&gt;
-     &lt;widget class=&quot;QLineEdit&quot; name=&quot;lineEditChatMessage&quot;/&gt;
-    &lt;/item&gt;
-    &lt;item row=&quot;0&quot; column=&quot;1&quot;&gt;
-     &lt;widget class=&quot;QToolButton&quot; name=&quot;toolButtonChatSend&quot;&gt;
-      &lt;property name=&quot;toolTip&quot;&gt;
-       &lt;string&gt;Send&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;text&quot;&gt;
-       &lt;string&gt;Send&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;icon&quot;&gt;
-       &lt;iconset resource=&quot;Resource.qrc&quot;&gt;
-        &lt;normaloff&gt;:/Resource/Chat/Send.png&lt;/normaloff&gt;:/Resource/Chat/Send.png&lt;/iconset&gt;
-      &lt;/property&gt;
-     &lt;/widget&gt;
-    &lt;/item&gt;
-    &lt;item row=&quot;0&quot; column=&quot;2&quot;&gt;
-     &lt;widget class=&quot;QToolButton&quot; name=&quot;toolButtonChatSmileys&quot;&gt;
-      &lt;property name=&quot;toolTip&quot;&gt;
-       &lt;string&gt;Smileys&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;text&quot;&gt;
-       &lt;string&gt;Smileys&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;icon&quot;&gt;
-       &lt;iconset resource=&quot;Resource.qrc&quot;&gt;
-        &lt;normaloff&gt;:/Resource/Smileys/Happy.png&lt;/normaloff&gt;:/Resource/Smileys/Happy.png&lt;/iconset&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;popupMode&quot;&gt;
-       &lt;enum&gt;QToolButton::MenuButtonPopup&lt;/enum&gt;
-      &lt;/property&gt;
-     &lt;/widget&gt;
-    &lt;/item&gt;
-    &lt;item row=&quot;0&quot; column=&quot;3&quot;&gt;
-     &lt;widget class=&quot;QToolButton&quot; name=&quot;toolButtonChatCommands&quot;&gt;
-      &lt;property name=&quot;toolTip&quot;&gt;
-       &lt;string&gt;Commands&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;text&quot;&gt;
-       &lt;string&gt;Commands&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;icon&quot;&gt;
-       &lt;iconset resource=&quot;Resource.qrc&quot;&gt;
-        &lt;normaloff&gt;:/Resource/Generic/QuazaaForums.png&lt;/normaloff&gt;:/Resource/Generic/QuazaaForums.png&lt;/iconset&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;popupMode&quot;&gt;
-       &lt;enum&gt;QToolButton::MenuButtonPopup&lt;/enum&gt;
-      &lt;/property&gt;
-     &lt;/widget&gt;
-    &lt;/item&gt;
-    &lt;item row=&quot;1&quot; column=&quot;0&quot; colspan=&quot;4&quot;&gt;
-     &lt;widget class=&quot;QToolBar&quot; name=&quot;toolBarChat&quot;&gt;
-      &lt;property name=&quot;styleSheet&quot;&gt;
-       &lt;string notr=&quot;true&quot;&gt;QToolBar {
+ }
+
+QToolBar {
 	border-color: 2px solid transparent;
-}&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;iconSize&quot;&gt;
-       &lt;size&gt;
-        &lt;width&gt;16&lt;/width&gt;
-        &lt;height&gt;16&lt;/height&gt;
-       &lt;/size&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;toolButtonStyle&quot;&gt;
-       &lt;enum&gt;Qt::ToolButtonTextBesideIcon&lt;/enum&gt;
-      &lt;/property&gt;
-      &lt;addaction name=&quot;actionChatConnect&quot;/&gt;
-      &lt;addaction name=&quot;actionChatDisconnect&quot;/&gt;
-      &lt;addaction name=&quot;actionEditMyProfile&quot;/&gt;
-      &lt;addaction name=&quot;actionChatSettings&quot;/&gt;
-     &lt;/widget&gt;
-    &lt;/item&gt;
-   &lt;/layout&gt;
-  &lt;/widget&gt;
- &lt;/widget&gt;
- &lt;resources&gt;
-  &lt;include location=&quot;C:/Documents and Settings/Joe/My Documents/Qt/Quazaa/trunk/Resource.qrc&quot;/&gt;
- &lt;/resources&gt;
-&lt;/ui&gt;
-</string>
+}</string>
                  </property>
                  <property name="toolButtonStyle">
                   <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -2027,8 +2135,8 @@ QToolButton::menu-button:hover {
               </layout>
              </widget>
             </item>
-            <item row="3" column="0" colspan="2">
-             <widget class="QFrame" name="toolFrame_2">
+            <item row="4" column="0" colspan="2">
+             <widget class="QFrame" name="toolFrameMedia">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -2060,7 +2168,7 @@ QToolButton::menu-button:hover {
                 <number>0</number>
                </property>
                <item row="0" column="1">
-                <widget class="QToolBar" name="toolBarPreview_2">
+                <widget class="QToolBar" name="toolBarMedia">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
@@ -2068,20 +2176,7 @@ QToolButton::menu-button:hover {
                   </sizepolicy>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;ui version=&quot;4.0&quot;&gt;
- &lt;widget name=&quot;__qt_fake_top_level&quot;&gt;
-  &lt;widget class=&quot;QFrame&quot; name=&quot;toolFrameChat&quot;&gt;
-   &lt;property name=&quot;geometry&quot;&gt;
-    &lt;rect&gt;
-     &lt;x&gt;186&lt;/x&gt;
-     &lt;y&gt;204&lt;/y&gt;
-     &lt;width&gt;335&lt;/width&gt;
-     &lt;height&gt;44&lt;/height&gt;
-    &lt;/rect&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;styleSheet&quot;&gt;
-    &lt;string notr=&quot;true&quot;&gt;QFrame {
+                  <string notr="true">QFrame {
 	background-color: rgb(199, 202, 255);
 }
 
@@ -2106,7 +2201,7 @@ QToolButton:checked {
      background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                        stop: 0 #dadbde, stop: 1 #f6f7fa);
  }
- QToolButton[popupMode=&amp;quot;1&amp;quot;] { /* only for MenuButtonPopup */
+ QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
      padding-right: 20px; /* make way for the popup button */
  }
 
@@ -2126,101 +2221,11 @@ QToolButton::menu-button:hover {
 
  QToolButton::menu-arrow:open {
      top: 1px; left: 1px; /* shift it a bit */
- }&lt;/string&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;frameShape&quot;&gt;
-    &lt;enum&gt;QFrame::NoFrame&lt;/enum&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;frameShadow&quot;&gt;
-    &lt;enum&gt;QFrame::Raised&lt;/enum&gt;
-   &lt;/property&gt;
-   &lt;layout class=&quot;QGridLayout&quot; name=&quot;gridLayout_45&quot;&gt;
-    &lt;property name=&quot;margin&quot;&gt;
-     &lt;number&gt;0&lt;/number&gt;
-    &lt;/property&gt;
-    &lt;property name=&quot;spacing&quot;&gt;
-     &lt;number&gt;0&lt;/number&gt;
-    &lt;/property&gt;
-    &lt;item row=&quot;0&quot; column=&quot;0&quot;&gt;
-     &lt;widget class=&quot;QLineEdit&quot; name=&quot;lineEditChatMessage&quot;/&gt;
-    &lt;/item&gt;
-    &lt;item row=&quot;0&quot; column=&quot;1&quot;&gt;
-     &lt;widget class=&quot;QToolButton&quot; name=&quot;toolButtonChatSend&quot;&gt;
-      &lt;property name=&quot;toolTip&quot;&gt;
-       &lt;string&gt;Send&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;text&quot;&gt;
-       &lt;string&gt;Send&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;icon&quot;&gt;
-       &lt;iconset resource=&quot;Resource.qrc&quot;&gt;
-        &lt;normaloff&gt;:/Resource/Chat/Send.png&lt;/normaloff&gt;:/Resource/Chat/Send.png&lt;/iconset&gt;
-      &lt;/property&gt;
-     &lt;/widget&gt;
-    &lt;/item&gt;
-    &lt;item row=&quot;0&quot; column=&quot;2&quot;&gt;
-     &lt;widget class=&quot;QToolButton&quot; name=&quot;toolButtonChatSmileys&quot;&gt;
-      &lt;property name=&quot;toolTip&quot;&gt;
-       &lt;string&gt;Smileys&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;text&quot;&gt;
-       &lt;string&gt;Smileys&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;icon&quot;&gt;
-       &lt;iconset resource=&quot;Resource.qrc&quot;&gt;
-        &lt;normaloff&gt;:/Resource/Smileys/Happy.png&lt;/normaloff&gt;:/Resource/Smileys/Happy.png&lt;/iconset&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;popupMode&quot;&gt;
-       &lt;enum&gt;QToolButton::MenuButtonPopup&lt;/enum&gt;
-      &lt;/property&gt;
-     &lt;/widget&gt;
-    &lt;/item&gt;
-    &lt;item row=&quot;0&quot; column=&quot;3&quot;&gt;
-     &lt;widget class=&quot;QToolButton&quot; name=&quot;toolButtonChatCommands&quot;&gt;
-      &lt;property name=&quot;toolTip&quot;&gt;
-       &lt;string&gt;Commands&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;text&quot;&gt;
-       &lt;string&gt;Commands&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;icon&quot;&gt;
-       &lt;iconset resource=&quot;Resource.qrc&quot;&gt;
-        &lt;normaloff&gt;:/Resource/Generic/QuazaaForums.png&lt;/normaloff&gt;:/Resource/Generic/QuazaaForums.png&lt;/iconset&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;popupMode&quot;&gt;
-       &lt;enum&gt;QToolButton::MenuButtonPopup&lt;/enum&gt;
-      &lt;/property&gt;
-     &lt;/widget&gt;
-    &lt;/item&gt;
-    &lt;item row=&quot;1&quot; column=&quot;0&quot; colspan=&quot;4&quot;&gt;
-     &lt;widget class=&quot;QToolBar&quot; name=&quot;toolBarChat&quot;&gt;
-      &lt;property name=&quot;styleSheet&quot;&gt;
-       &lt;string notr=&quot;true&quot;&gt;QToolBar {
+ }
+
+QToolBar {
 	border-color: 2px solid transparent;
-}&lt;/string&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;iconSize&quot;&gt;
-       &lt;size&gt;
-        &lt;width&gt;16&lt;/width&gt;
-        &lt;height&gt;16&lt;/height&gt;
-       &lt;/size&gt;
-      &lt;/property&gt;
-      &lt;property name=&quot;toolButtonStyle&quot;&gt;
-       &lt;enum&gt;Qt::ToolButtonTextBesideIcon&lt;/enum&gt;
-      &lt;/property&gt;
-      &lt;addaction name=&quot;actionChatConnect&quot;/&gt;
-      &lt;addaction name=&quot;actionChatDisconnect&quot;/&gt;
-      &lt;addaction name=&quot;actionEditMyProfile&quot;/&gt;
-      &lt;addaction name=&quot;actionChatSettings&quot;/&gt;
-     &lt;/widget&gt;
-    &lt;/item&gt;
-   &lt;/layout&gt;
-  &lt;/widget&gt;
- &lt;/widget&gt;
- &lt;resources&gt;
-  &lt;include location=&quot;C:/Documents and Settings/Joe/My Documents/Qt/Quazaa/trunk/Resource.qrc&quot;/&gt;
- &lt;/resources&gt;
-&lt;/ui&gt;
+}
 </string>
                  </property>
                  <property name="toolButtonStyle">
@@ -2319,6 +2324,17 @@ QSlider::handle:horizontal {
               </layout>
              </widget>
             </item>
+            <item row="0" column="0" colspan="2">
+             <widget class="QMenuBar" name="menuBarPreview">
+              <widget class="QMenu" name="menuMenu_Item">
+               <property name="title">
+                <string>Menu Bar Item</string>
+               </property>
+               <addaction name="actionMenu_Item"/>
+              </widget>
+              <addaction name="menuMenu_Item"/>
+             </widget>
+            </item>
            </layout>
           </widget>
          </widget>
@@ -2343,7 +2359,7 @@ QSlider::handle:horizontal {
             <number>0</number>
            </property>
            <item row="0" column="1">
-            <widget class="QToolBar" name="widgetNavigationToolBarPreview">
+            <widget class="QToolBar" name="toolBarNavigation">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -2420,7 +2436,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Home.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Home.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2492,7 +2508,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Transfers.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Transfers.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2558,7 +2574,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Library.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Library.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2630,7 +2646,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Security.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Security.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2696,7 +2712,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Media.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Media.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2768,7 +2784,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Network.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Network.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2834,7 +2850,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Search.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Search.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2906,7 +2922,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Chat.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Chat.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -2978,7 +2994,7 @@ padding: 2px;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Help.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Help.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -3038,7 +3054,7 @@ background-image: url(:/Resource/HeaderBackground.png);</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Quazaa48.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
              </property>
             </widget>
            </item>
@@ -3082,92 +3098,604 @@ p, li { white-space: pre-wrap; }
       </widget>
      </widget>
     </item>
-    <item row="0" column="0" colspan="3">
-     <layout class="QGridLayout" name="gridLayout_33">
-      <item row="0" column="2">
-       <widget class="QLabel" name="labelAuthor">
-        <property name="text">
-         <string>Author:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="labelVersion">
-        <property name="text">
-         <string>Version:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLineEdit" name="lineEditAuthor"/>
-      </item>
-      <item row="0" column="5">
-       <widget class="QLineEdit" name="lineEditVersion"/>
-      </item>
-      <item row="1" column="1" colspan="5">
-       <widget class="QPlainTextEdit" name="plainTextEditDescription">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>40</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="labelName">
-        <property name="text">
-         <string>Name:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="labelDescription">
-        <property name="text">
-         <string>Description:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEditName"/>
-      </item>
-     </layout>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLabel" name="labelCategory">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+    <item row="9" column="1" colspan="3">
+     <widget class="QLabel" name="labelValidStyleSheet">
+      <property name="styleSheet">
+       <string notr="true">margin-left: 2px; color: green;</string>
       </property>
       <property name="text">
-       <string>Category</string>
+       <string>Valid Style Sheet</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QLabel" name="labelControl">
+    <item row="8" column="1" colspan="3">
+     <widget class="QPlainTextEdit" name="plainTextEditStyleSheet">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>75</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" rowspan="10">
+     <widget class="QTreeWidget" name="treeWidgetSelector">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="headerHidden">
+       <bool>true</bool>
+      </property>
+      <attribute name="headerHighlightSections">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="headerHighlightSections">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Select A Widget</string>
+       </property>
+      </column>
+      <item>
+       <property name="text">
+        <string>Skin Properties</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Splash Screen Background</string>
+       </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+       </property>
+       <item>
+        <property name="text">
+         <string>Logo</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Footer</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+        <item>
+         <property name="text">
+          <string>Status Text</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Progress</string>
+         </property>
+        </item>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Main Window Frame</string>
+       </property>
+       <property name="flags">
+        <set>ItemIsUserCheckable|ItemIsEnabled</set>
+       </property>
+       <item>
+        <property name="text">
+         <string>Top Left</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Left</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Bottom Left</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Top</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+        <item>
+         <property name="text">
+          <string>Icon Frame</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Window Text</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Spacer Frame</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Buttons Frame</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+         <item>
+          <property name="text">
+           <string>Minimize Button</string>
+          </property>
+          <property name="flags">
+           <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Maximize Button</string>
+          </property>
+          <property name="flags">
+           <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Close Button</string>
+          </property>
+          <property name="flags">
+           <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+          </property>
+         </item>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Bottom</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Top Right</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Right</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Bottom Right</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Child Window Frame</string>
+       </property>
+       <property name="flags">
+        <set>ItemIsUserCheckable|ItemIsEnabled</set>
+       </property>
+       <item>
+        <property name="text">
+         <string>Child Top Left</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Child Left</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Child Bottom Left</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Child Top</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+        <item>
+         <property name="text">
+          <string>Child Icon Frame</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Child Window Text</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Child Spacer Frame</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Child Buttons Frame</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+         <item>
+          <property name="text">
+           <string>Child Minimize Button</string>
+          </property>
+          <property name="flags">
+           <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Child Maximize Button</string>
+          </property>
+          <property name="flags">
+           <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Child Close Button</string>
+          </property>
+          <property name="flags">
+           <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+          </property>
+         </item>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Child Bottom</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Child Top Right</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Child Right</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Child Bottom Right</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Standard Items</string>
+       </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Extended Items</string>
+       </property>
+       <property name="flags">
+        <set>ItemIsUserCheckable|ItemIsEnabled</set>
+       </property>
+       <item>
+        <property name="text">
+         <string>Menu Bar</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Sidebar Background</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+        <item>
+         <property name="text">
+          <string>Add Search Button</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sidebar Task Header</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sidebar Task Body</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+         <item>
+          <property name="text">
+           <string>Sidebar Task Button</string>
+          </property>
+          <property name="flags">
+           <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+          </property>
+         </item>
+        </item>
+        <item>
+         <property name="text">
+          <string>Un-Clickable Sidebar Task Header</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Chat Welcome</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Chat Toolbar</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Library Navigator</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Searches</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Toolbars</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Media Toolbar</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+        <item>
+         <property name="text">
+          <string>Media Seek Slider</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Media Volume Slider</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Navigation</string>
+       </property>
+       <property name="flags">
+        <set>ItemIsUserCheckable|ItemIsEnabled</set>
+       </property>
+       <item>
+        <property name="text">
+         <string>Toolbar</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Headers</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+        <item>
+         <property name="text">
+          <string>Home</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Library</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Media</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Search</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Transfers</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Security</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Network</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Chat</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Generic</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dialog Header</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+        </property>
+       </item>
+      </item>
+     </widget>
+    </item>
+    <item row="7" column="1" colspan="3">
+     <widget class="QToolBar" name="toolBarStyleSheetEditor">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="text">
-       <string>Control</string>
       </property>
      </widget>
     </item>
@@ -3178,7 +3706,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>426</width>
+     <width>594</width>
      <height>20</height>
     </rect>
    </property>
@@ -3186,86 +3714,9 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Edit</string>
     </property>
-    <widget class="QMenu" name="menuSplash_Screen">
-     <property name="title">
-      <string>Splash Screen</string>
-     </property>
-     <addaction name="actionLogo"/>
-     <addaction name="actionBackground"/>
-     <addaction name="separator"/>
-     <addaction name="actionFooter"/>
-     <addaction name="actionStatus"/>
-     <addaction name="actionProgress"/>
-    </widget>
-    <widget class="QMenu" name="menuWindow_Frame">
-     <property name="title">
-      <string>Window Frame</string>
-     </property>
-     <addaction name="actionContents"/>
-     <addaction name="actionIcon"/>
-     <addaction name="actionText"/>
-     <addaction name="separator"/>
-     <addaction name="actionClose_Button"/>
-     <addaction name="actionMaximize_Button"/>
-     <addaction name="actionMinimize_Button"/>
-     <addaction name="separator"/>
-     <addaction name="actionButtons_Frame"/>
-     <addaction name="actionCaption_Frame"/>
-     <addaction name="separator"/>
-     <addaction name="actionTop_Left"/>
-     <addaction name="actionLeft"/>
-     <addaction name="actionBottom_Left"/>
-     <addaction name="actionTop"/>
-     <addaction name="actionBottom"/>
-     <addaction name="actionTop_Right"/>
-     <addaction name="actionRight"/>
-     <addaction name="actionBottom_Right"/>
-    </widget>
-    <widget class="QMenu" name="menuExtended_Items">
-     <property name="title">
-      <string>Extended Items</string>
-     </property>
-     <addaction name="actionSidebar"/>
-     <addaction name="actionSidebar_Task_Header"/>
-     <addaction name="actionSidebar_Task_Body"/>
-     <addaction name="actionSidebar_Button"/>
-     <addaction name="actionUn_Clickable_Sidebar_Task_Header"/>
-     <addaction name="separator"/>
-     <addaction name="actionChat_Welcome"/>
-     <addaction name="actionChat_Toolbar"/>
-     <addaction name="separator"/>
-     <addaction name="actionLibrary_Navigator"/>
-     <addaction name="actionSearches"/>
-     <addaction name="separator"/>
-     <addaction name="actionToolbar"/>
-     <addaction name="separator"/>
-     <addaction name="actionMedia_Toolbar"/>
-     <addaction name="actionMedia_Seek_Slider"/>
-     <addaction name="actionMedia_Volume_Slider"/>
-    </widget>
-    <widget class="QMenu" name="menuNavigation">
-     <property name="title">
-      <string>Navigation</string>
-     </property>
-     <addaction name="actionToolbar_2"/>
-     <addaction name="separator"/>
-     <addaction name="actionHome_Header"/>
-     <addaction name="actionLibrary_Header"/>
-     <addaction name="actionMedia_Header"/>
-     <addaction name="actionSearch_Header"/>
-     <addaction name="actionTransfers_Header"/>
-     <addaction name="actionSecurity_Header"/>
-     <addaction name="actionNetwork_Header"/>
-     <addaction name="actionChat_Header"/>
-     <addaction name="actionGeneric_Header"/>
-     <addaction name="separator"/>
-     <addaction name="actionDialog_Header"/>
-    </widget>
-    <addaction name="actionStandard_Items_2"/>
-    <addaction name="menuExtended_Items"/>
-    <addaction name="menuSplash_Screen"/>
-    <addaction name="menuWindow_Frame"/>
-    <addaction name="menuNavigation"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionPaste"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -3273,9 +3724,10 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionClose"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
-    <addaction name="actionSave_As"/>
+    <addaction name="actionPackage_For_Distribution"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -3302,11 +3754,16 @@ p, li { white-space: pre-wrap; }
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionStandard_Items"/>
-   <addaction name="actionExtended_Items"/>
-   <addaction name="actionSplash_Screen"/>
-   <addaction name="actionWindow_Frame"/>
-   <addaction name="actionNavigation"/>
+   <addaction name="actionNew"/>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+   <addaction name="actionPackage_For_Distribution"/>
+   <addaction name="separator"/>
+   <addaction name="actionCut"/>
+   <addaction name="actionCopy"/>
+   <addaction name="actionPaste"/>
+   <addaction name="separator"/>
+   <addaction name="actionSkin_Creation_Guide"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
@@ -3323,391 +3780,18 @@ p, li { white-space: pre-wrap; }
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionLogo">
-   <property name="text">
-    <string>Logo</string>
-   </property>
-  </action>
-  <action name="actionBackground">
-   <property name="text">
-    <string>Background</string>
-   </property>
-  </action>
   <action name="actionNew">
    <property name="text">
     <string>New</string>
    </property>
   </action>
-  <action name="actionSave_As">
-   <property name="text">
-    <string>Save As</string>
-   </property>
-  </action>
-  <action name="actionFooter">
-   <property name="text">
-    <string>Footer</string>
-   </property>
-  </action>
-  <action name="actionStatus">
-   <property name="text">
-    <string>Status</string>
-   </property>
-  </action>
-  <action name="actionProgress">
-   <property name="text">
-    <string>Progress</string>
-   </property>
-  </action>
-  <action name="actionTop_Left">
-   <property name="text">
-    <string>Top Left</string>
-   </property>
-  </action>
-  <action name="actionContents">
-   <property name="text">
-    <string>Contents</string>
-   </property>
-  </action>
-  <action name="actionIcon">
-   <property name="text">
-    <string>Icon</string>
-   </property>
-  </action>
-  <action name="actionText">
-   <property name="text">
-    <string>Text</string>
-   </property>
-  </action>
-  <action name="actionClose_Button">
-   <property name="text">
-    <string>Close Button</string>
-   </property>
-  </action>
-  <action name="actionMaximize_Button">
-   <property name="text">
-    <string>Maximize Button</string>
-   </property>
-  </action>
-  <action name="actionMinimize_Button">
-   <property name="text">
-    <string>Minimize Button</string>
-   </property>
-  </action>
-  <action name="actionButtons_Frame">
-   <property name="text">
-    <string>Buttons Frame</string>
-   </property>
-  </action>
-  <action name="actionCaption_Frame">
-   <property name="text">
-    <string>Caption Frame</string>
-   </property>
-  </action>
-  <action name="actionLeft">
-   <property name="text">
-    <string>Left</string>
-   </property>
-  </action>
-  <action name="actionBottom_Left">
-   <property name="text">
-    <string>Bottom Left</string>
-   </property>
-  </action>
-  <action name="actionTop">
-   <property name="text">
-    <string>Top</string>
-   </property>
-  </action>
-  <action name="actionBottom">
-   <property name="text">
-    <string>Bottom</string>
-   </property>
-  </action>
-  <action name="actionTop_Right">
-   <property name="text">
-    <string>Top Right</string>
-   </property>
-  </action>
-  <action name="actionRight">
-   <property name="text">
-    <string>Right</string>
-   </property>
-  </action>
-  <action name="actionBottom_Right">
-   <property name="text">
-    <string>Bottom Right</string>
-   </property>
-  </action>
-  <action name="actionSidebar">
-   <property name="text">
-    <string>Sidebar Background</string>
-   </property>
-  </action>
-  <action name="actionSidebar_Task_Header">
-   <property name="text">
-    <string>Sidebar Task Header</string>
-   </property>
-  </action>
-  <action name="actionSidebar_Task_Body">
-   <property name="text">
-    <string>Sidebar Task Body</string>
-   </property>
-  </action>
-  <action name="actionSidebar_Button">
-   <property name="text">
-    <string>Sidebar Task Button</string>
-   </property>
-  </action>
-  <action name="actionUn_Clickable_Sidebar_Task_Header">
-   <property name="text">
-    <string>Sidebar Un-Clickable Task Header</string>
-   </property>
-  </action>
-  <action name="actionChat_Welcome">
-   <property name="text">
-    <string>Chat Welcome</string>
-   </property>
-  </action>
-  <action name="actionLibrary_Navigator">
-   <property name="text">
-    <string>Library Navigator</string>
-   </property>
-  </action>
-  <action name="actionSearches">
-   <property name="text">
-    <string>Searches</string>
-   </property>
-  </action>
-  <action name="actionToolbar">
-   <property name="text">
-    <string>Toolbar</string>
-   </property>
-  </action>
-  <action name="actionMedia_Seek_Slider">
-   <property name="text">
-    <string>Media Seek Slider</string>
-   </property>
-  </action>
-  <action name="actionMedia_Volume_Slider">
-   <property name="text">
-    <string>Media Volume Slider</string>
-   </property>
-  </action>
-  <action name="actionHome">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Home.png</normaloff>:/Resource/Home.png</iconset>
-   </property>
-   <property name="text">
-    <string>Home</string>
-   </property>
-   <property name="toolTip">
-    <string>Home</string>
-   </property>
-  </action>
-  <action name="actionChat_Toolbar">
-   <property name="text">
-    <string>Chat Toolbar</string>
-   </property>
-  </action>
-  <action name="actionLibrary">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Library.png</normaloff>:/Resource/Library.png</iconset>
-   </property>
-   <property name="text">
-    <string>Library</string>
-   </property>
-   <property name="toolTip">
-    <string>Library</string>
-   </property>
-  </action>
-  <action name="actionMedia">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Media.png</normaloff>:/Resource/Media.png</iconset>
-   </property>
-   <property name="text">
-    <string>Media</string>
-   </property>
-   <property name="toolTip">
-    <string>Media</string>
-   </property>
-  </action>
-  <action name="actionSearch">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Search.png</normaloff>:/Resource/Search.png</iconset>
-   </property>
-   <property name="text">
-    <string>Search</string>
-   </property>
-   <property name="toolTip">
-    <string>Search</string>
-   </property>
-  </action>
-  <action name="actionTransfers">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Transfers.png</normaloff>:/Resource/Transfers.png</iconset>
-   </property>
-   <property name="text">
-    <string>Transfers</string>
-   </property>
-   <property name="toolTip">
-    <string>Transfers</string>
-   </property>
-  </action>
-  <action name="actionSecurity">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Security.png</normaloff>:/Resource/Security.png</iconset>
-   </property>
-   <property name="text">
-    <string>Security</string>
-   </property>
-   <property name="toolTip">
-    <string>Security</string>
-   </property>
-  </action>
-  <action name="actionNetwork">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Network.png</normaloff>:/Resource/Network.png</iconset>
-   </property>
-   <property name="text">
-    <string>Network</string>
-   </property>
-   <property name="toolTip">
-    <string>Network</string>
-   </property>
-  </action>
-  <action name="actionChat">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Chat.png</normaloff>:/Resource/Chat.png</iconset>
-   </property>
-   <property name="text">
-    <string>Chat</string>
-   </property>
-   <property name="toolTip">
-    <string>Chat</string>
-   </property>
-  </action>
   <action name="actionToolbar_Button">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
    </property>
    <property name="text">
     <string>Toolbar Button</string>
-   </property>
-  </action>
-  <action name="actionToolbar_2">
-   <property name="text">
-    <string>Toolbar</string>
-   </property>
-  </action>
-  <action name="actionHome_Header">
-   <property name="text">
-    <string>Home Header</string>
-   </property>
-  </action>
-  <action name="actionLibrary_Header">
-   <property name="text">
-    <string>Library Header</string>
-   </property>
-  </action>
-  <action name="actionMedia_Header">
-   <property name="text">
-    <string>Media Header</string>
-   </property>
-  </action>
-  <action name="actionSearch_Header">
-   <property name="text">
-    <string>Search Header</string>
-   </property>
-  </action>
-  <action name="actionTransfers_Header">
-   <property name="text">
-    <string>Transfers Header</string>
-   </property>
-  </action>
-  <action name="actionSecurity_Header">
-   <property name="text">
-    <string>Security Header</string>
-   </property>
-  </action>
-  <action name="actionNetwork_Header">
-   <property name="text">
-    <string>Network Header</string>
-   </property>
-  </action>
-  <action name="actionChat_Header">
-   <property name="text">
-    <string>Chat Header</string>
-   </property>
-  </action>
-  <action name="actionGeneric_Header">
-   <property name="text">
-    <string>Generic Header</string>
-   </property>
-  </action>
-  <action name="actionDialog_Header">
-   <property name="text">
-    <string>Dialog Header</string>
-   </property>
-  </action>
-  <action name="actionSplash_Screen">
-   <property name="text">
-    <string>Splash Screen</string>
-   </property>
-  </action>
-  <action name="actionWindow_Frame">
-   <property name="text">
-    <string>Window Frame</string>
-   </property>
-  </action>
-  <action name="actionStandard_Items">
-   <property name="text">
-    <string>Standard Items</string>
-   </property>
-  </action>
-  <action name="actionExtended_Items">
-   <property name="text">
-    <string>Extended Items</string>
-   </property>
-  </action>
-  <action name="actionNavigation">
-   <property name="text">
-    <string>Navigation</string>
    </property>
   </action>
   <action name="actionSkin_Creation_Guide">
@@ -3720,26 +3804,124 @@ p, li { white-space: pre-wrap; }
     <string>About Quazaa Skin Tool</string>
    </property>
   </action>
-  <action name="actionStandard_Items_2">
-   <property name="text">
-    <string>Standard Items</string>
-   </property>
-  </action>
-  <action name="actionMedia_Toolbar">
-   <property name="text">
-    <string>Media Toolbar</string>
-   </property>
-  </action>
   <action name="actionGeneric">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
    </property>
    <property name="text">
     <string>Generic</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste</string>
+   </property>
+  </action>
+  <action name="actionPackage_For_Distribution">
+   <property name="text">
+    <string>Package For Distribution</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </action>
+  <action name="actionHome">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Home.png</normaloff>:/Resource/Home.png</iconset>
+   </property>
+   <property name="text">
+    <string>Home</string>
+   </property>
+   <property name="identifier" stdset="0">
+    <number>0</number>
+   </property>
+  </action>
+  <action name="actionLibrary">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Library.png</normaloff>:/Resource/Library.png</iconset>
+   </property>
+   <property name="text">
+    <string>Library</string>
+   </property>
+   <property name="skinIdentifier" stdset="0">
+    <string notr="true">Library</string>
+   </property>
+  </action>
+  <action name="actionMedia">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Media.png</normaloff>:/Resource/Media.png</iconset>
+   </property>
+   <property name="text">
+    <string>Media</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Search.png</normaloff>:/Resource/Search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+  </action>
+  <action name="actionTransfers">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Transfers.png</normaloff>:/Resource/Transfers.png</iconset>
+   </property>
+   <property name="text">
+    <string>Transfers</string>
+   </property>
+  </action>
+  <action name="actionSecurity">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Security.png</normaloff>:/Resource/Security.png</iconset>
+   </property>
+   <property name="text">
+    <string>Security</string>
+   </property>
+  </action>
+  <action name="actionNetwork">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Network.png</normaloff>:/Resource/Network.png</iconset>
+   </property>
+   <property name="text">
+    <string>Network</string>
+   </property>
+  </action>
+  <action name="actionChat">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Chat.png</normaloff>:/Resource/Chat.png</iconset>
+   </property>
+   <property name="text">
+    <string>Chat</string>
+   </property>
+  </action>
+  <action name="actionMenu_Item">
+   <property name="text">
+    <string>Menu Item</string>
    </property>
   </action>
  </widget>
@@ -3756,7 +3938,9 @@ p, li { white-space: pre-wrap; }
    <header location="global">phonon/volumeslider.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>toolButtonSidebarTaskHeader</sender>

@@ -87,7 +87,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="QuazaaSkinTool/Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -619,7 +619,7 @@ QToolButton:hover {
    <item row="1" column="1">
     <widget class="QStackedWidget" name="pagesSettings">
      <property name="currentIndex">
-      <number>7</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="pageIntroduction">
       <layout class="QGridLayout" name="gridLayout_5">

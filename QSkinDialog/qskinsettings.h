@@ -26,7 +26,7 @@ public:
 	QString skinVersion;
 	QString skinDescription;
 
-	// Window Frame
+	// Main Window Frame
 	QString windowFrameTopLeftStyleSheet;
 	QString windowFrameLeftStyleSheet;
 	QString windowFrameBottomLeftStyleSheet;
@@ -35,14 +35,34 @@ public:
 	QString windowFrameTopRightStyleSheet;
 	QString windowFrameRightStyleSheet;
 	QString windowFrameBottomRightStyleSheet;
-	QString titlebarFrameStyleSheet;
 	QString titlebarButtonsFrameStyleSheet;
 	QString minimizeButtonStyleSheet;
 	QString maximizeButtonStyleSheet;
 	QString closeButtonStyleSheet;
 	QString windowTextStyleSheet;
+	QString windowIconFrameStyleSheet;
+	QString windowFrameTopSpacerStyleSheet;
 	bool windowIconVisible;
 	QSize windowIconSize;
+
+	// Child Window Frame
+	QString childWindowFrameTopLeftStyleSheet;
+	QString childWindowFrameLeftStyleSheet;
+	QString childWindowFrameBottomLeftStyleSheet;
+	QString childWindowFrameTopStyleSheet;
+	QString childWindowFrameBottomStyleSheet;
+	QString childWindowFrameTopRightStyleSheet;
+	QString childWindowFrameRightStyleSheet;
+	QString childWindowFrameBottomRightStyleSheet;
+	QString childTitlebarButtonsFrameStyleSheet;
+	QString childMinimizeButtonStyleSheet;
+	QString childMaximizeButtonStyleSheet;
+	QString childCloseButtonStyleSheet;
+	QString childWindowTextStyleSheet;
+	QString childWindowIconFrameStyleSheet;
+	QString childWindowFrameTopSpacerStyleSheet;
+	bool childWindowIconVisible;
+	QSize childWindowIconSize;
 
 	// Splash Screen
 	QString splashBackground;
@@ -54,11 +74,16 @@ public:
 	// Standard Items
 	QString standardItems;
 
+	// Menu Bar
+	QString menuBar;
+
 	// Sidebar
 	QString sidebarBackground;
 	QString sidebarTaskBackground;
 	QString sidebarTaskHeader;
+	QString sidebarTaskButton;
 	QString sidebarUnclickableTaskHeader;
+	QString addSearchButton;
 
 	// Toolbars
 	QString toolbars;

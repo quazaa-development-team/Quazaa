@@ -208,5 +208,8 @@
         <file>Resource/frameTopRight.png</file>
         <file>Resource/restoreButton.png</file>
         <file>Resource/restoreButtonD.png</file>
+        <file>Resource/windowTextBackground.png</file>
+        <file>Resource/titlebarButtonsFrame.png</file>
+        <file>Resource/windowIconFrame.png</file>
     </qresource>
 </RCC>
