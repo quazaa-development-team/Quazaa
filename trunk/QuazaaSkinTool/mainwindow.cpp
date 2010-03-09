@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 	ui->stackedWidget->setCurrentIndex(0);
-	saved = true;
 	isMainWindow = true;
 	actionGroupMainNavigation = new QActionGroup(this);
 	actionGroupMainNavigation->addAction(ui->actionHome);
@@ -123,6 +122,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->plainTextEditStyleSheet, SIGNAL(textChanged()), this, SLOT(validateStyleSheet()));
 
 	gradientManager = new QtGradientManager(this);
+	saved = true;
 }
 
 MainWindow::~MainWindow()
@@ -737,7 +737,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 
 		if (item->text(column) == "Menu Bar")
 		{
-			ui->stackedWidget->setCurrentIndex(3);
+			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.menuBar);
 		}
 
@@ -773,7 +773,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 
 		if (item->text(column) == "Add Search Button")
 		{
-			ui->stackedWidget->setCurrentIndex(3);
+			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.addSearchButton);
 		}
 
@@ -890,7 +890,6 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.dialogHeader);
 		}
-		this->updateWindowStyleSheet(isMainWindow);
 		saved = tempSaved;
 	}
 }
@@ -1399,14 +1398,15 @@ void MainWindow::on_plainTextEditDescription_textChanged()
 
 void MainWindow::applyIcon()
 {
-	saved = false;
 	if (isMainWindow)
 	{
 		skinSettings.windowIconVisible = ui->checkBoxMainIconVisible->isChecked();
-		skinSettings.windowIconSize = QSize(ui->spinBoxMainIconSize->value(), ui->spinBoxMainIconSize->value());
+		if (ui->spinBoxMainIconSize->value() != -1)
+			skinSettings.windowIconSize = QSize(ui->spinBoxMainIconSize->value(), ui->spinBoxMainIconSize->value());
 	} else {
 		skinSettings.childWindowIconVisible = ui->checkBoxMainIconVisible->isChecked();
-		skinSettings.childWindowIconSize = QSize(ui->spinBoxMainIconSize->value(), ui->spinBoxMainIconSize->value());
+		if (ui->spinBoxMainIconSize->value() != -1)
+			skinSettings.childWindowIconSize = QSize(ui->spinBoxMainIconSize->value(), ui->spinBoxMainIconSize->value());
 	}
 	skinChangeEvent();
 }
