@@ -890,6 +890,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.dialogHeader);
 		}
+		qApp->processEvents();
 		saved = tempSaved;
 	}
 }
@@ -1017,9 +1018,12 @@ void MainWindow::updateWindowStyleSheet(bool mainWindow)
 		ui->windowIconFrame->setStyleSheet(skinSettings.windowIconFrameStyleSheet);
 		ui->checkBoxMainIconVisible->setChecked(skinSettings.windowIconVisible);
 		ui->windowIcon->setVisible(skinSettings.windowIconVisible);
-		ui->spinBoxMainIconSize->setValue(skinSettings.windowIconSize.height());
-		ui->windowIcon->setMinimumSize(skinSettings.windowIconSize);
-		ui->windowIcon->setMaximumSize(skinSettings.windowIconSize);
+		if (skinSettings.windowIconSize.isValid())
+		{
+			ui->spinBoxMainIconSize->setValue(skinSettings.windowIconSize.height());
+			ui->windowIcon->setIconSize(skinSettings.windowIconSize);
+			ui->windowIcon->setIconSize(skinSettings.windowIconSize);
+		}
 		ui->windowText->setStyleSheet(skinSettings.windowTextStyleSheet);
 		ui->windowFrameTopSpacer->setStyleSheet(skinSettings.windowFrameTopSpacerStyleSheet);
 		ui->titlebarButtonsFrame->setStyleSheet(skinSettings.titlebarButtonsFrameStyleSheet);
@@ -1038,9 +1042,12 @@ void MainWindow::updateWindowStyleSheet(bool mainWindow)
 		ui->windowIconFrame->setStyleSheet(skinSettings.childWindowIconFrameStyleSheet);
 		ui->checkBoxMainIconVisible->setChecked(skinSettings.childWindowIconVisible);
 		ui->windowIcon->setVisible(skinSettings.childWindowIconVisible);
-		ui->spinBoxMainIconSize->setValue(skinSettings.childWindowIconSize.height());
-		ui->windowIcon->setMinimumSize(skinSettings.childWindowIconSize);
-		ui->windowIcon->setMaximumSize(skinSettings.childWindowIconSize);
+		if (skinSettings.windowIconSize.isValid())
+		{
+			ui->spinBoxMainIconSize->setValue(skinSettings.childWindowIconSize.height());
+			ui->windowIcon->setIconSize(skinSettings.childWindowIconSize);
+			ui->windowIcon->setIconSize(skinSettings.childWindowIconSize);
+		}
 		ui->windowText->setStyleSheet(skinSettings.childWindowTextStyleSheet);
 		ui->windowFrameTopSpacer->setStyleSheet(skinSettings.childWindowFrameTopSpacerStyleSheet);
 		ui->titlebarButtonsFrame->setStyleSheet(skinSettings.childTitlebarButtonsFrameStyleSheet);
@@ -1365,22 +1372,24 @@ void MainWindow::applySheets()
 	{
 		skinSettings.dialogHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
-	saved = false;
 	skinChangeEvent();
 }
 
 void MainWindow::on_plainTextEditStyleSheet_textChanged()
 {
+	saved = false;
 	applySheets();
 }
 
 void MainWindow::on_checkBoxMainIconVisible_toggled(bool checked)
 {
+	saved = false;
 	applyIcon();
 }
 
 void MainWindow::on_spinBoxMainIconSize_valueChanged(int value)
 {
+	saved = false;
 	applyIcon();
 }
 
