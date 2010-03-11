@@ -42,11 +42,43 @@
 #include "dialoglibrarysearch.h"
 #include "dialogfiltersearch.h"
 #include "widgetsearchtemplate.h"
+#include "QSkinDialog/qskinsettings.h"
 #include <QSystemTrayIcon>
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent), ui(new Ui::MainWindow)
 {
+	//Initialize Skin Settings
+	quazaaSettings.loadSkinSettings();
+	skinSettings.loadSkin(quazaaSettings.SkinFile);
+
+	//Initialize Settings
+	quazaaSettings.loadSettings();
+
+	//Initialize multilanguage support
+	quazaaSettings.loadLanguageSettings();
+	if (quazaaSettings.FirstRun())
+	{
+		QSkinDialog *skinDlgLanguage = new QSkinDialog(false, true, false, this);
+		DialogLanguage *dlgLanguage = new DialogLanguage();
+		skinDlgLanguage->addChildWidget(dlgLanguage);
+		QObject::connect(dlgLanguage, SIGNAL(closed()), skinDlgLanguage, SLOT(close()));
+		skinDlgLanguage->exec();
+	}
+	if (!quazaaSettings.LanguageDefault)
+	{
+		QFile languageFile(quazaaSettings.LanguageFile);
+		QFileInfo languageFileInfo(languageFile);
+		QTranslator translator;
+
+		if (languageFile.open(QIODevice::ReadOnly))
+		{
+			translator.load(languageFileInfo.fileName(), languageFileInfo.filePath());
+			qApp->installTranslator(&translator);
+		}
+	}
+	qApp->processEvents();
+
 	//Create splash window
 	DialogSplash *dlgSplash = new DialogSplash();
 	dlgSplash->show();
@@ -54,7 +86,8 @@ MainWindow::MainWindow(QWidget *parent)
 	dlgSplash->updateProgress(5, tr("Loading User Interface..."));
 	ui->setupUi(this);
 	bypassCloseEvent = false;
-	quazaaSettings.loadSettings();
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 
 	// Set up the navigation toolbar
 	quazaaSettings.loadWindowSettings(this);
@@ -416,6 +449,7 @@ void MainWindow::on_actionHome_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
 	ui->labelMainHeaderText->setText(tr("Quazaa Home"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.homeHeader);
 	ui->stackedWidgetMain->setCurrentIndex(0);
 	quazaaSettings.MainWindowActiveTab = 0;
 }
@@ -424,6 +458,7 @@ void MainWindow::on_actionLibrary_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
 	ui->labelMainHeaderText->setText(tr("Library"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.libraryHeader);
 	ui->stackedWidgetMain->setCurrentIndex(1);
 	quazaaSettings.MainWindowActiveTab = 1;
 }
@@ -432,6 +467,7 @@ void MainWindow::on_actionMedia_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Media/Media.png"));
 	ui->labelMainHeaderText->setText(tr("Media"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.mediaHeader);
 	ui->stackedWidgetMain->setCurrentIndex(2);
 	quazaaSettings.MainWindowActiveTab = 2;
 }
@@ -440,6 +476,7 @@ void MainWindow::on_actionSearch_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
 	ui->labelMainHeaderText->setText(tr("Search"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.searchHeader);
 	ui->stackedWidgetMain->setCurrentIndex(3);
 	quazaaSettings.MainWindowActiveTab = 3;
 }
@@ -448,6 +485,7 @@ void MainWindow::on_actionTransfers_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
 	ui->labelMainHeaderText->setText(tr("Transfers"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.transfersHeader);
 	ui->stackedWidgetMain->setCurrentIndex(4);
 	quazaaSettings.MainWindowActiveTab = 4;
 }
@@ -456,6 +494,7 @@ void MainWindow::on_actionSecurity_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
 	ui->labelMainHeaderText->setText(tr("Security"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.securityHeader);
 	ui->stackedWidgetMain->setCurrentIndex(5);
 	quazaaSettings.MainWindowActiveTab = 5;
 }
@@ -464,6 +503,7 @@ void MainWindow::on_actionNetwork_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Network.png"));
 	ui->labelMainHeaderText->setText(tr("Network"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.networkHeader);
 	ui->stackedWidgetMain->setCurrentIndex(6);
 	quazaaSettings.MainWindowActiveTab = 6;
 }
@@ -472,6 +512,7 @@ void MainWindow::on_actionChat_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
 	ui->labelMainHeaderText->setText(tr("Chat"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.chatHeader);
 	ui->stackedWidgetMain->setCurrentIndex(7);
 	quazaaSettings.MainWindowActiveTab = 7;
 }
@@ -480,6 +521,7 @@ void MainWindow::on_actionHostCache_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
 	ui->labelMainHeaderText->setText(tr("Host Cache"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(8);
 	quazaaSettings.MainWindowActiveTab = 8;
 }
@@ -488,6 +530,7 @@ void MainWindow::on_actionDiscovery_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
 	ui->labelMainHeaderText->setText(tr("Discovery"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(9);
 	quazaaSettings.MainWindowActiveTab = 9;
 }
@@ -496,6 +539,7 @@ void MainWindow::on_actionGraph_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
 	ui->labelMainHeaderText->setText(tr("Graph"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(10);
 	quazaaSettings.MainWindowActiveTab = 10;
 }
@@ -504,6 +548,7 @@ void MainWindow::on_actionPacketDump_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
 	ui->labelMainHeaderText->setText(tr("Packet Dump"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(11);
 	quazaaSettings.MainWindowActiveTab = 11;
 }
@@ -512,6 +557,7 @@ void MainWindow::on_actionSearchMonitor_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
 	ui->labelMainHeaderText->setText(tr("Search Monitor"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(12);
 	quazaaSettings.MainWindowActiveTab = 12;
 }
@@ -520,6 +566,7 @@ void MainWindow::on_actionHitMonitor_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
 	ui->labelMainHeaderText->setText(tr("Hit Monitor"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(13);
 	quazaaSettings.MainWindowActiveTab = 13;
 }
@@ -878,4 +925,114 @@ void MainWindow::setPlaylistItem(int row, int column, QTableWidgetItem *item)
 void MainWindow::setPlaylistStretchLastSection(bool stretchLastSection)
 {
 	ui->tableWidgetMediaPlaylistTask->horizontalHeader()->setStretchLastSection(stretchLastSection);
+}
+
+void MainWindow::skinChangeEvent()
+{
+	setStyleSheet(skinSettings.standardItems);
+	ui->toolBarMain->setStyleSheet(skinSettings.navigationToolbar);
+	switch (ui->stackedWidgetMain->currentIndex())
+	{
+		case 0:
+		ui->frameMainHeader->setStyleSheet(skinSettings.homeHeader);
+		break;
+		case 1:
+		ui->frameMainHeader->setStyleSheet(skinSettings.libraryHeader);
+			break;
+		case 2:
+			ui->frameMainHeader->setStyleSheet(skinSettings.mediaHeader);
+			break;
+		case 3:
+			ui->frameMainHeader->setStyleSheet(skinSettings.searchHeader);
+			break;
+		case 4:
+			ui->frameMainHeader->setStyleSheet(skinSettings.transfersHeader);
+			break;
+		case 5:
+			ui->frameMainHeader->setStyleSheet(skinSettings.securityHeader);
+			break;
+		case 6:
+			ui->frameMainHeader->setStyleSheet(skinSettings.networkHeader);
+			break;
+		case 7:
+			ui->frameMainHeader->setStyleSheet(skinSettings.chatHeader);
+			break;
+		case 8:
+			ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+			break;
+		case 9:
+			ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+			break;
+		case 10:
+			ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+			break;
+		case 11:
+			ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+			break;
+		case 12:
+			ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+			break;
+		case 13:
+			ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+			break;
+		default:
+			ui->frameMainHeader->setStyleSheet(skinSettings.homeHeader);
+			break;
+	}
+	ui->scrollAreaHomeSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->scrollAreaSearchSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->frameLibraryNavigator->setStyleSheet(skinSettings.sidebarBackground);
+	ui->frameChatLeftSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->frameChatRightSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->toolButtonHomeLibraryTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonHomeConnectionTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonHomeLibraryTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonHomeTorrentsTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonHomeTransfersTaskDownloadsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonHomeTransfersTaskUploadsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonMediaPlaylistTaskHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->toolButtonSearchFiletypeTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonSearchNetworksTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonSearchResultsTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonSearchTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonNewSearch->setStyleSheet(skinSettings.addSearchButton);
+	ui->toolButtonDownloadsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->toolButtonUploadsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->toolButtonNeighborsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->toolButtonSystemLogHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->toolButtonChatFriendsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonChatRoomsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonChatUsersHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->frameLibraryTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameConnectionTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameTorrentsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameTransfersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameMediaPlaylistSidebar->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameSearchTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameSearchNetworksTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameSearchResultsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameSearchFiletypeTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameChatUsersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameChatFriendsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameChatRoomsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->tabWidgetLibraryNavigator->setStyleSheet(skinSettings.libraryNavigator);
+	ui->frameSearches->setStyleSheet(skinSettings.tabSearches);
+	ui->toolFrameChat->setStyleSheet(skinSettings.chatToolbar);
+	ui->toolFrameMedia->setStyleSheet(skinSettings.mediaToolbar);
+	ui->frameChatWelcome->setStyleSheet(skinSettings.chatWelcome);
+	ui->toolFrameDiscoveryBottom->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameDiscoveryTop->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameDownloads->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameDownloadsFilter->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameGraph->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameHitMonitor->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameHostCache->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameLibrary->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameLibraryStatus->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameNeighbors->setStyleSheet(skinSettings.toolbars);
+	ui->toolFramePacketDump->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameSearch->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameSearchMonitor->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameSecurity->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameUploads->setStyleSheet(skinSettings.toolbars);
 }

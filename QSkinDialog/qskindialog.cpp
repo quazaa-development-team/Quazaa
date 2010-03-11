@@ -499,3 +499,8 @@ void QSkinDialog::on_titlebarButtonsFrame_customContextMenuRequested(QPoint pos)
 {
 	systemMenu->exec(QCursor::pos());
 }
+
+void QSkinDialog::on_windowFrameTopSpacer_customContextMenuRequested(QPoint pos)
+{
+	systemMenu->exec(QCursor::pos());
+}

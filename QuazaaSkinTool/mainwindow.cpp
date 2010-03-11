@@ -88,6 +88,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	QMenu *gradientActionMenu = new QMenu(this);
 	QMenu *colorActionMenu = new QMenu(this);
 
+	ui->statusBarPreview->showMessage("Status Bar");
+	ui->statusBarPreview->addPermanentWidget(new QLabel("Status Bar Item", this));
+
 	for (int imageProperty = 0; imageProperties[imageProperty]; ++imageProperty) {
 		QAction *action = imageActionMenu->addAction(QLatin1String(imageProperties[imageProperty]));
 		connect(action, SIGNAL(triggered()), imageActionMapper, SLOT(map()));
@@ -144,7 +147,7 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-	if (!saved)
+	if (!saved && !skinSettings.skinName.isEmpty())
 	{
 		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, "Skin Not Saved", "The skin has not been saved. Would you like to save it now?", QMessageBox::Ok|QMessageBox::Cancel, this);
 		bool ok = msgBox->exec();
@@ -226,7 +229,6 @@ void MainWindow::on_actionNew_triggered()
 		skinSettings.sidebarBackground = "QFrame {\n	 background-color: rgb(199, 202, 255);\n}";
 		skinSettings.sidebarTaskBackground = "QFrame {\n	background-color: rgb(161, 178, 231);\n}";
 		skinSettings.sidebarTaskHeader = "QToolButton {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n	border: none;\n	font-size: 16px;\n	font-weight: bold;\n}\n\nQToolButton:hover {\n	background-color: rgb(56, 90, 129);\n}";
-		skinSettings.sidebarTaskButton =	"";
 		skinSettings.sidebarUnclickableTaskHeader = "QToolButton {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n	border: none;\n	font-size: 16px;\n	font-weight: bold;\n}";
 
 		// Toolbars
@@ -735,12 +737,6 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.standardItems);
 		}
 
-		if (item->text(column) == "Menu Bar")
-		{
-			ui->stackedWidget->setCurrentIndex(4);
-			ui->plainTextEditStyleSheet->setPlainText(skinSettings.menuBar);
-		}
-
 		if (item->text(column) == "Sidebar Background")
 		{
 			ui->stackedWidget->setCurrentIndex(4);
@@ -757,12 +753,6 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarTaskBackground);
-		}
-
-		if (item->text(column) == "Sidebar Task Button")
-		{
-			ui->stackedWidget->setCurrentIndex(4);
-			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarTaskButton);
 		}
 
 		if (item->text(column) == "Un-Clickable Sidebar Task Header")
@@ -912,11 +902,12 @@ void MainWindow::on_actionOpen_triggered()
 		this->enableEditing(true);
 		saved = true;
 	}
+	on_treeWidgetSelector_itemClicked(ui->treeWidgetSelector->currentItem(), 0);
 }
 
 void MainWindow::on_actionClose_triggered()
 {
-	if (!saved)
+	if (!saved && !skinSettings.skinName.isEmpty())
 	{
 		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, "Skin Not Saved", "The skin has not been saved. Would you like to save it now?", QMessageBox::Ok|QMessageBox::Cancel, this);
 		bool ok = msgBox->exec();
@@ -971,25 +962,22 @@ void MainWindow::on_actionAbout_Quazaa_Skin_Tool_triggered()
 
 void MainWindow::skinChangeEvent()
 {
-	ui->frameSplash->setStyleSheet(skinSettings.splashBackground);
+	ui->frameSplashBackground->setStyleSheet(skinSettings.splashBackground);
 	ui->labelSplashlLogo->setStyleSheet(skinSettings.splashLogo);
 	ui->frameSplashFooter->setStyleSheet(skinSettings.splashFooter);
 	ui->labelSplashStatus->setStyleSheet(skinSettings.splashStatus);
 	ui->progressBarSplashStatus->setStyleSheet(skinSettings.splashProgress);
 	updateWindowStyleSheet(isMainWindow);
-	ui->groupBoxStandardEnabled->setStyleSheet(skinSettings.standardItems);
-	ui->groupBoxStandardDisabled->setStyleSheet(skinSettings.standardItems);
-	ui->menuBarPreview->setStyleSheet(skinSettings.menuBar);
+	ui->pageStandardItems->setStyleSheet(skinSettings.standardItems);
 	ui->scrollAreaSidebar->setStyleSheet(skinSettings.sidebarBackground);
 	ui->toolButtonSidebarTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
 	ui->frameSidebarTask->setStyleSheet(skinSettings.sidebarTaskBackground);
-	ui->toolButtonSidebar->setStyleSheet(skinSettings.sidebarTaskButton);
 	ui->toolButtonUnclickableSidebarTaskHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 	ui->toolButtonNewSearch->setStyleSheet(skinSettings.addSearchButton);
 	ui->frameChatWelcome->setStyleSheet(skinSettings.chatWelcome);
 	ui->toolFrameChat->setStyleSheet(skinSettings.chatToolbar);
 	ui->tabWidgetLibraryNavigator->setStyleSheet(skinSettings.libraryNavigator);
-	ui->tabWidgetSearches->setStyleSheet(skinSettings.tabSearches);
+	ui->frameSearches->setStyleSheet(skinSettings.tabSearches);
 	ui->toolFrame->setStyleSheet(skinSettings.toolbars);
 	ui->toolFrameMedia->setStyleSheet(skinSettings.mediaToolbar);
 	ui->seekSlider->setStyleSheet(skinSettings.seekSlider);
@@ -1042,7 +1030,7 @@ void MainWindow::updateWindowStyleSheet(bool mainWindow)
 		ui->windowIconFrame->setStyleSheet(skinSettings.childWindowIconFrameStyleSheet);
 		ui->checkBoxMainIconVisible->setChecked(skinSettings.childWindowIconVisible);
 		ui->windowIcon->setVisible(skinSettings.childWindowIconVisible);
-		if (skinSettings.windowIconSize.isValid())
+		if (skinSettings.childWindowIconSize.isValid())
 		{
 			ui->spinBoxMainIconSize->setValue(skinSettings.childWindowIconSize.height());
 			ui->windowIcon->setIconSize(skinSettings.childWindowIconSize);
@@ -1243,11 +1231,6 @@ void MainWindow::applySheets()
 		skinSettings.standardItems = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Menu Bar")
-	{
-		skinSettings.menuBar = ui->plainTextEditStyleSheet->toPlainText();
-	}
-
 	if (currentSelectionText == "Sidebar Background")
 	{
 		skinSettings.sidebarBackground = ui->plainTextEditStyleSheet->toPlainText();
@@ -1261,11 +1244,6 @@ void MainWindow::applySheets()
 	if (currentSelectionText == "Sidebar Task Body")
 	{
 		skinSettings.sidebarTaskBackground = ui->plainTextEditStyleSheet->toPlainText();
-	}
-
-	if (currentSelectionText == "Sidebar Task Button")
-	{
-		skinSettings.sidebarTaskButton = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
 	if (currentSelectionText == "Un-Clickable Sidebar Task Header")
@@ -1377,8 +1355,11 @@ void MainWindow::applySheets()
 
 void MainWindow::on_plainTextEditStyleSheet_textChanged()
 {
-	saved = false;
-	applySheets();
+	if (isStyleSheetValid(ui->plainTextEditStyleSheet->styleSheet()))
+	{
+		saved = false;
+		applySheets();
+	}
 }
 
 void MainWindow::on_checkBoxMainIconVisible_toggled(bool checked)
@@ -1410,11 +1391,11 @@ void MainWindow::applyIcon()
 	if (isMainWindow)
 	{
 		skinSettings.windowIconVisible = ui->checkBoxMainIconVisible->isChecked();
-		if (ui->spinBoxMainIconSize->value() != -1)
-			skinSettings.windowIconSize = QSize(ui->spinBoxMainIconSize->value(), ui->spinBoxMainIconSize->value());
+		if (ui->spinBoxMainIconSize->value() >= 15)
+			skinSettings.windowIconSize = QSize(int(ui->spinBoxMainIconSize->value()), ui->spinBoxMainIconSize->value());
 	} else {
 		skinSettings.childWindowIconVisible = ui->checkBoxMainIconVisible->isChecked();
-		if (ui->spinBoxMainIconSize->value() != -1)
+		if (ui->spinBoxMainIconSize->value() >= 15)
 			skinSettings.childWindowIconSize = QSize(ui->spinBoxMainIconSize->value(), ui->spinBoxMainIconSize->value());
 	}
 	skinChangeEvent();

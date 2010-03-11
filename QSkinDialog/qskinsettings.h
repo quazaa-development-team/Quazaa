@@ -74,14 +74,10 @@ public:
 	// Standard Items
 	QString standardItems;
 
-	// Menu Bar
-	QString menuBar;
-
 	// Sidebar
 	QString sidebarBackground;
 	QString sidebarTaskBackground;
 	QString sidebarTaskHeader;
-	QString sidebarTaskButton;
 	QString sidebarUnclickableTaskHeader;
 	QString addSearchButton;
 

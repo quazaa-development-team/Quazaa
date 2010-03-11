@@ -46,27 +46,6 @@ int main(int argc, char *argv[])
 	theApp.setOrganizationDomain(quazaaGlobals.ApplicationOrganizationDomain());
 	theApp.setOrganizationName(quazaaGlobals.ApplicationOrganizationName());
 
-	//Initialize multilanguage support
-	quazaaSettings.loadLanguageSettings();
-	if (quazaaSettings.FirstRun())
-	{
-		DialogLanguage *dlgLanguage = new DialogLanguage();
-		dlgLanguage->exec();
-	}
-	if (!quazaaSettings.LanguageDefault)
-	{
-		QFile languageFile(quazaaSettings.LanguageFile);
-		QFileInfo languageFileInfo(languageFile);
-		QTranslator translator;
-
-		if (languageFile.open(QIODevice::ReadOnly))
-		{
-			translator.load(languageFileInfo.fileName(), languageFileInfo.filePath());
-			theApp.installTranslator(&translator);
-		}
-	}
-
-	theApp.processEvents();
 	QSkinDialog skinWinMain(true,true,true);
 	MainWindow *winMain = new MainWindow();
 	skinWinMain.addChildWidget(winMain);
