@@ -67,7 +67,8 @@ public slots:
 	void restore();
 
 private slots:
-	void on_titlebarButtonsFrame_customContextMenuRequested(QPoint pos);
+	void on_windowFrameTopSpacer_customContextMenuRequested(QPoint pos);
+ void on_titlebarButtonsFrame_customContextMenuRequested(QPoint pos);
 	void on_windowIconFrame_customContextMenuRequested(QPoint pos);
 	void on_windowIcon_clicked();
 	void on_windowIcon_customContextMenuRequested(QPoint pos);

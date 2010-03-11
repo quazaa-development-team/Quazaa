@@ -21,6 +21,7 @@
 
 #include "dialogsplash.h"
 #include "ui_dialogsplash.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogSplash::DialogSplash(QWidget *parent) :
 	QDialog(parent),
@@ -28,6 +29,11 @@ DialogSplash::DialogSplash(QWidget *parent) :
 {
 	m_ui->setupUi(this);
 	setWindowFlags(Qt::SplashScreen);
+	m_ui->frameSplashBackground->setStyleSheet(skinSettings.splashBackground);
+	m_ui->frameSplashFooter->setStyleSheet(skinSettings.splashFooter);
+	m_ui->labelStatus->setStyleSheet(skinSettings.splashStatus);
+	m_ui->labelLogo->setStyleSheet(skinSettings.splashLogo);
+	m_ui->progressBarStatus->setStyleSheet(skinSettings.splashProgress);
 }
 
 DialogSplash::~DialogSplash()

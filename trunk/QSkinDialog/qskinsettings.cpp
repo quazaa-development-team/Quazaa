@@ -78,14 +78,10 @@ void QSkinSettings::loadSkin(QString fileName)
 	// Standard Items
 	standardItems = reader.value("standardItems", "").toString();
 
-	// Menu Bar
-	menuBar = reader.value("menuBar", "").toString();
-
 	// Sidebar
 	sidebarBackground = reader.value("sidebarBackground", "QFrame {\n	 background-color: rgb(199, 202, 255);\n}").toString();
 	sidebarTaskBackground = reader.value("sidebarTaskBackground", "QFrame {\n	background-color: rgb(161, 178, 231);\n}").toString();
 	sidebarTaskHeader = reader.value("sidebarTaskHeader", "QToolButton {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n	border: none;\n	font-size: 16px;\n	font-weight: bold;\n}\n\nQToolButton:hover {\n	background-color: rgb(56, 90, 129);\n}").toString();
-	sidebarTaskButton =	reader.value("sidebarTaskButton", "").toString();
 	sidebarUnclickableTaskHeader = reader.value("sidebarUnclickableTaskHeader", "QToolButton {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n	border: none;\n	font-size: 16px;\n	font-weight: bold;\n}").toString();
 	addSearchButton = reader.value("addSearchButton", "").toString();
 
@@ -175,14 +171,10 @@ void QSkinSettings::saveSkin(QString fileName)
 	// Standard Items
 	writer.setValue("standardItems", standardItems);
 
-	// Menu Bar
-	writer.setValue("menuBar", menuBar);
-
 	// Sidebar
 	writer.setValue("sidebarBackground", sidebarBackground);
 	writer.setValue("sidebarTaskBackground", sidebarTaskBackground);
 	writer.setValue("sidebarTaskHeader", sidebarTaskHeader);
-	writer.setValue("sidebarTaskButton", sidebarTaskButton);
 	writer.setValue("sidebarUnclickableTaskHeader", sidebarUnclickableTaskHeader);
 	writer.setValue("addSearchButton", addSearchButton);
 

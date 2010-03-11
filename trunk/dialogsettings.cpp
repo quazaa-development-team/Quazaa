@@ -240,6 +240,8 @@ DialogSettings::DialogSettings(QWidget *parent) :
 	}
 
 	connect(this, SIGNAL(skinChanged()), &skinSettings, SIGNAL(skinChanged()));
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogSettings::~DialogSettings()
@@ -296,36 +298,6 @@ void DialogSettings::on_pushButtonEditProfile_clicked()
 
 	connect(dlgProfile, SIGNAL(closed()), dlgSkinProfile, SLOT(close()));
 	dlgSkinProfile->show();
-}
-
-void DialogSettings::on_toolButtonNavigationGeneral_toggled(bool checked)
-{
-	if (checked)
-	{
-		m_ui->frameNavigationGeneral->setMaximumHeight(16777215);
-	} else {
-		m_ui->frameNavigationGeneral->setMaximumHeight(25);
-	}
-}
-
-void DialogSettings::on_toolButtonNavigationInternet_toggled(bool checked)
-{
-	if (checked)
-	{
-		m_ui->frameNavigationInternet->setMaximumHeight(16777215);
-	} else {
-		m_ui->frameNavigationInternet->setMaximumHeight(25);
-	}
-}
-
-void DialogSettings::on_toolButtonNavigationNetworks_toggled(bool checked)
-{
-	if (checked)
-	{
-		m_ui->frameNavigationNetworks->setMaximumHeight(16777215);
-	} else {
-		m_ui->frameNavigationNetworks->setMaximumHeight(25);
-	}
 }
 
 void DialogSettings::on_labelConfigureG2_linkActivated(QString link)
@@ -584,27 +556,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 
 	// Save Skin Settings
 	quazaaSettings.SkinFile = skinFile;
-
-	skinSettings.skinName = tempSkinName;
-	skinSettings.skinAuthor = tempSkinAuthor;
-	skinSettings.skinVersion = tempSkinVersion;
-	skinSettings.skinDescription = tempSkinDescription;
-	skinSettings.windowFrameTopLeftStyleSheet = tempWindowFrameTopLeftStyleSheet;
-	skinSettings.windowFrameLeftStyleSheet = tempWindowFrameLeftStyleSheet;
-	skinSettings.windowFrameBottomLeftStyleSheet = tempWindowFrameBottomLeftStyleSheet;
-	skinSettings.windowFrameTopStyleSheet = tempWindowFrameTopStyleSheet;
-	skinSettings.windowFrameBottomStyleSheet = tempWindowFrameBottomStyleSheet;
-	skinSettings.windowFrameTopRightStyleSheet = tempWindowFrameTopRightStyleSheet;
-	skinSettings.windowFrameRightStyleSheet = tempWindowFrameRightStyleSheet;
-	skinSettings.windowFrameBottomRightStyleSheet = tempWindowFrameBottomRightStyleSheet;
-	skinSettings.windowIconFrameStyleSheet = tempWindowIconFrameStyleSheet;
-	skinSettings.titlebarButtonsFrameStyleSheet = tempTitlebarButtonsFrameStyleSheet;
-	skinSettings.minimizeButtonStyleSheet = tempMinimizeButtonStyleSheet;
-	skinSettings.maximizeButtonStyleSheet = tempMaximizeButtonStyleSheet;
-	skinSettings.closeButtonStyleSheet = tempCloseButtonStyleSheet;
-	skinSettings.windowTextStyleSheet = tempWindowTextStyleSheet;
-	skinSettings.windowIconVisible = tempWindowIconVisible;
-	skinSettings.windowIconSize = tempWindowIconSize;
+	skinSettings.loadSkin(skinFile);
 
 	emit skinChanged();
 	quazaaSettings.saveSkinSettings();
@@ -1456,4 +1408,14 @@ void DialogSettings::on_pushButtonPreviewSkin_clicked()
 		dlgSkinPreview->loadSkin((qApp->applicationDirPath() + "/Skin/" + m_ui->listWidgetSkins->currentItem()->text() + "/" + m_ui->listWidgetSkins->currentItem()->text() + ".qsk"));
 		dlgSkinPreview->exec();
 	}
+}
+
+void DialogSettings::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	m_ui->frameSettingsNavigator->setStyleSheet(skinSettings.sidebarBackground);
+	m_ui->toolButtonNavigationGeneral->setStyleSheet(skinSettings.sidebarTaskHeader);
+	m_ui->toolButtonNavigationInternet->setStyleSheet(skinSettings.sidebarTaskHeader);
+	m_ui->toolButtonNavigationNetworks->setStyleSheet(skinSettings.sidebarTaskHeader);
+
 }

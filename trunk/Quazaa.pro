@@ -9,7 +9,12 @@ QT += network \
 	xml \
 	xmlpatterns \
 	phonon
+CONFIG += debug
 TARGET = Quazaa
+CONFIG(debug, debug|release) {
+	mac: TARGET = $$join(TARGET,,,_debug)
+	win32: TARGET = $$join(TARGET,,,d)
+}
 TEMPLATE = app
 SOURCES += main.cpp \
 	mainwindow.cpp \
@@ -125,3 +130,4 @@ FORMS += mainwindow.ui \
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
+DESTDIR = ./bin

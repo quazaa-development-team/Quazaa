@@ -44,7 +44,7 @@
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayoutLogo">
      <item row="0" column="0">
-      <widget class="QFrame" name="frameBackground">
+      <widget class="QFrame" name="frameSplashBackground">
        <property name="styleSheet">
         <string notr="true">QFrame {
 	border-image: url(:/Resource/Splash.png) repeat;
@@ -79,14 +79,12 @@ border-image: url(:/Resource/QuazaaLogo.png);</string>
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QFrame" name="frameFooter">
+         <widget class="QFrame" name="frameSplashFooter">
           <property name="styleSheet">
            <string notr="true">QFrame {
 	border-image: url(:/Resource/HeaderBackground.png) repeat;
 	min-height: 28;
 	max-height: 28;
-	min-width: 605px;
-	max-width: 605px;
 }</string>
           </property>
           <property name="frameShape">

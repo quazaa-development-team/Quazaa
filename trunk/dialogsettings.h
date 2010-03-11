@@ -225,12 +225,10 @@ private slots:
 	void on_labelConfigureAres_linkActivated(QString link);
 	void on_labelConfigureG1_linkActivated(QString link);
 	void on_labelConfigureG2_linkActivated(QString link);
-	void on_toolButtonNavigationNetworks_toggled(bool checked);
-	void on_toolButtonNavigationInternet_toggled(bool checked);
-	void on_toolButtonNavigationGeneral_toggled(bool checked);
 	void on_pushButtonEditProfile_clicked();
 	void on_pushButtonOK_clicked();
 	void on_pushButtonCancel_clicked();
+	void skinChangeEvent();
 };
 
 #endif // DIALOGSETTINGS_H

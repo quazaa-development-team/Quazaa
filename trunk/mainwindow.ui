@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>345</height>
+    <width>897</width>
+    <height>347</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -146,7 +146,7 @@ padding: 2px;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>193</width>
+             <width>208</width>
              <height>682</height>
             </rect>
            </property>
@@ -1480,7 +1480,7 @@ QTabBar::tab:selected {
              <number>0</number>
             </property>
             <item row="0" column="0">
-             <widget class="QFrame" name="toolframeLibraryStatus">
+             <widget class="QFrame" name="toolFrameLibraryStatus">
               <property name="styleSheet">
                <string notr="true">QToolButton {
     border: 1px solid transparent;
@@ -1689,8 +1689,8 @@ QToolButton::menu-button:hover {
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>489</width>
-                     <height>60</height>
+                     <width>98</width>
+                     <height>28</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_11">
@@ -1709,7 +1709,7 @@ QToolButton::menu-button:hover {
              </widget>
             </item>
             <item row="2" column="0">
-             <widget class="QFrame" name="toolframeLibrary">
+             <widget class="QFrame" name="toolFrameLibrary">
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -2290,7 +2290,7 @@ QToolButton:checked {
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QFrame" name="toolframeMedia">
+            <widget class="QFrame" name="toolFrameMedia">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -2505,7 +2505,7 @@ QSlider::handle:horizontal {
         <property name="spacing">
          <number>0</number>
         </property>
-        <item row="0" column="0" rowspan="3">
+        <item row="0" column="0" rowspan="2">
          <widget class="QFrame" name="frameSearchSidebar">
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
@@ -3193,7 +3193,127 @@ QToolButton:checked {
           </layout>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="0" column="1">
+         <widget class="QSplitter" name="splitterSearchDetails">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <widget class="QFrame" name="frameSearches">
+           <property name="styleSheet">
+            <string notr="true">QTabWidget::pane { /* The tab widget frame */
+     border-top: 2px solid #C2C7CB;
+ }
+
+QTabWidget::pane { /* The tab widget frame */
+     border-top: 2px solid transparent;
+ }
+
+ QTabWidget::tab-bar {
+     left: 5px;  /* move to the right by 5px */
+ }
+
+ /* Style the tab using the tab sub-control. Note that
+     it reads QTabBar _not_ QTabWidget */
+ QTabBar::tab {
+     background:transparent;
+     border: 1px solid transparent;
+     padding: 4px;
+ }
+
+ QTabBar::tab:selected, QTabBar::tab:hover {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_61">
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QTabWidget" name="tabWidgetSearch">
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <widget class="QWidget" name="tabSearch1">
+               <attribute name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
+               </attribute>
+               <attribute name="title">
+                <string>Search</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_22">
+                <property name="margin">
+                 <number>0</number>
+                </property>
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QTreeView" name="treeViewSearch1"/>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QFrame" name="frameSearchDetails">
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QScrollArea" name="scrollAreaSearchDetails">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QFrame {
+	background-color: rgb(255, 255, 255);
+}</string>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QFrame" name="frameSearchDetailsContents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>677</width>
+                 <height>60</height>
+                </rect>
+               </property>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item row="1" column="1">
          <widget class="QFrame" name="toolFrameSearch">
           <property name="styleSheet">
            <string notr="true">QToolButton {
@@ -3252,7 +3372,7 @@ QToolButton::menu-button:hover {
            <property name="spacing">
             <number>0</number>
            </property>
-           <item row="0" column="2">
+           <item row="1" column="2">
             <spacer name="horizontalSpacer">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -3265,14 +3385,14 @@ QToolButton::menu-button:hover {
              </property>
             </spacer>
            </item>
-           <item row="0" column="3">
+           <item row="1" column="3">
             <widget class="QLabel" name="labelSearchFilter">
              <property name="text">
               <string>Filter:</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="4">
+           <item row="1" column="4">
             <widget class="QLineEdit" name="lineEditSearchFilter">
              <property name="minimumSize">
               <size>
@@ -3288,7 +3408,7 @@ QToolButton::menu-button:hover {
              </property>
             </widget>
            </item>
-           <item row="0" column="5">
+           <item row="1" column="5">
             <widget class="QToolButton" name="toolButtonSearchFilter">
              <property name="text">
               <string>More</string>
@@ -3302,7 +3422,7 @@ QToolButton::menu-button:hover {
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="1" column="1">
             <widget class="QToolBar" name="toolBarSearch">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -3335,118 +3455,6 @@ QToolButton::menu-button:hover {
             </widget>
            </item>
           </layout>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QSplitter" name="splitterSearchDetails">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>1</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <widget class="QTabWidget" name="tabWidgetSearch">
-           <property name="styleSheet">
-            <string notr="true">QTabWidget::pane { /* The tab widget frame */
-     border-top: 2px solid #C2C7CB;
- }
-
- QTabWidget::tab-bar {
-     left: 5px; /* move to the right by 5px */
- }
-
- /* Style the tab using the tab sub-control. Note that
-     it reads QTabBar _not_ QTabWidget */
- QTabBar::tab {
-     background:transparent;
-     border: 2px solid transparent;
-     min-width: 8ex;
-     padding: 2px;
- }
-
- QTabBar::tab:selected, QTabBar::tab:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
- QTabBar::tab:selected {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }</string>
-           </property>
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
-           <widget class="QWidget" name="tabSearch1">
-            <attribute name="icon">
-             <iconset>
-              <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
-            </attribute>
-            <attribute name="title">
-             <string>Search</string>
-            </attribute>
-            <layout class="QGridLayout" name="gridLayout_22">
-             <property name="margin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="0" column="0">
-              <widget class="QTreeView" name="treeViewSearch1"/>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-          <widget class="QFrame" name="frameSearchDetails">
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_3">
-            <property name="margin">
-             <number>0</number>
-            </property>
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollAreaSearchDetails">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QFrame {
-	background-color: rgb(255, 255, 255);
-}</string>
-              </property>
-              <property name="widgetResizable">
-               <bool>true</bool>
-              </property>
-              <widget class="QFrame" name="frameSearchDetailsContents">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>486</width>
-                 <height>60</height>
-                </rect>
-               </property>
-              </widget>
-             </widget>
-            </item>
-           </layout>
-          </widget>
          </widget>
         </item>
        </layout>
@@ -3529,69 +3537,6 @@ QToolButton::menu-button:hover {
                <property name="spacing">
                 <number>0</number>
                </property>
-               <item row="0" column="0">
-                <widget class="QToolBar" name="toolBarDownloadsFilter">
-                 <property name="styleSheet">
-                  <string>QToolBar {
-	border-color: 2px solid transparent;
-}
-
-QToolButton {
-    border: 1px solid transparent;
-    background-color: transparent;
-}
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
-QToolButton:checked {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
-}
-
- QToolButton:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
- QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
-     padding-right: 12px; /* make way for the popup button */
- }
-
-/* the subcontrols below are used only in the MenuButtonPopup mode */
- QToolButton::menu-button {
-     border: 1px solid transparent;
-     /* 16px width + 4px for border = 20px allocated above */
-     width: 12px;
- }
-
-QToolButton::menu-button:hover {
-    border: 1px solid rgb(78, 96, 255);
-	border-left-color: 1px solid transparent;
-     /* 16px width + 4px for border = 20px allocated above */
-     width: 12px;
- }
-
- QToolButton::menu-arrow:open {
-     top: 1px; left: 1px; /* shift it a bit */
- }</string>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>16</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonTextBesideIcon</enum>
-                 </property>
-                 <addaction name="actionDownloadsFilterAll"/>
-                </widget>
-               </item>
                <item row="1" column="0">
                 <widget class="QTreeView" name="treeViewDownloads"/>
                </item>
@@ -3724,6 +3669,88 @@ QToolButton::menu-button:hover {
                     <property name="toolButtonStyle">
                      <enum>Qt::ToolButtonTextBesideIcon</enum>
                     </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QFrame" name="toolFrameDownloadsFilter">
+                 <property name="styleSheet">
+                  <string notr="true">QToolButton {
+    border: 1px solid transparent;
+    background-color: transparent;
+}
+
+ QToolButton:pressed {
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+
+QToolButton:checked {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+ QToolButton:hover {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+
+ QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
+     padding-right: 12px; /* make way for the popup button */
+ }
+
+/* the subcontrols below are used only in the MenuButtonPopup mode */
+ QToolButton::menu-button {
+     border: 1px solid transparent;
+     /* 16px width + 4px for border = 20px allocated above */
+     width: 12px;
+ }
+
+QToolButton::menu-button:hover {
+    border: 1px solid rgb(78, 96, 255);
+	border-left-color: 1px solid transparent;
+     /* 16px width + 4px for border = 20px allocated above */
+     width: 12px;
+ }
+
+ QToolButton::menu-arrow:open {
+     top: 1px; left: 1px; /* shift it a bit */
+ }</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_62">
+                  <property name="margin">
+                   <number>0</number>
+                  </property>
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="0">
+                   <widget class="QToolBar" name="toolBarDownloadsFilter">
+                    <property name="styleSheet">
+                     <string notr="true">QToolBar {
+	border-color: 2px solid transparent;
+}</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>16</width>
+                      <height>16</height>
+                     </size>
+                    </property>
+                    <property name="toolButtonStyle">
+                     <enum>Qt::ToolButtonTextBesideIcon</enum>
+                    </property>
+                    <addaction name="actionDownloadsFilterAll"/>
                    </widget>
                   </item>
                  </layout>
@@ -4385,7 +4412,7 @@ QToolButton::menu-button:hover {
               <number>0</number>
              </property>
              <item row="1" column="0" colspan="2">
-              <widget class="QFrame" name="toolFrameChatRoomstask">
+              <widget class="QFrame" name="frameChatRoomsTask">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                  <horstretch>0</horstretch>
@@ -4522,7 +4549,7 @@ QToolButton:hover {
             </layout>
            </item>
            <item row="1" column="0">
-            <layout class="QGridLayout" name="gridLayoutChatFriends">
+            <layout class="QGridLayout" name="gridLayoutChatFriendsTask">
              <property name="spacing">
               <number>0</number>
              </property>
@@ -4566,7 +4593,7 @@ QToolButton:hover {
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="QFrame" name="toolFrameChatFriends">
+              <widget class="QFrame" name="frameChatFriendsTask">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                  <horstretch>0</horstretch>
@@ -4758,7 +4785,7 @@ p, li { white-space: pre-wrap; }
             <number>4</number>
            </property>
            <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayoutChatUsers">
+            <layout class="QGridLayout" name="gridLayoutChatUsersTask">
              <property name="spacing">
               <number>0</number>
              </property>
@@ -4781,7 +4808,7 @@ p, li { white-space: pre-wrap; }
 </string>
                </property>
                <property name="text">
-                <string>Users In Room</string>
+                <string>In Room</string>
                </property>
                <property name="icon">
                 <iconset>
@@ -4793,7 +4820,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="QFrame" name="frameChatUsers">
+              <widget class="QFrame" name="frameChatUsersTask">
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
@@ -6089,7 +6116,7 @@ QToolButton::menu-button:hover {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>706</width>
+     <width>897</width>
      <height>20</height>
     </rect>
    </property>
@@ -6775,7 +6802,7 @@ QToolButton:checked {
      <normaloff>:/Resource/Media/OpenMedia.png</normaloff>:/Resource/Media/OpenMedia.png</iconset>
    </property>
    <property name="text">
-    <string>Open Media</string>
+    <string>Media Options</string>
    </property>
   </action>
   <action name="actionMediaRewind">
@@ -7693,7 +7720,7 @@ QToolButton:checked {
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>797</x>
+     <x>705</x>
      <y>107</y>
     </hint>
     <hint type="destinationlabel">
@@ -7719,22 +7746,6 @@ QToolButton:checked {
    </hints>
   </connection>
   <connection>
-   <sender>actionSeachDetailsToggle</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>frameSearchDetails</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>535</x>
-     <y>303</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>toolButtonHomeLibraryTaskHeader</sender>
    <signal>toggled(bool)</signal>
    <receiver>frameLibraryTask</receiver>
@@ -7742,7 +7753,7 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>103</x>
-     <y>106</y>
+     <y>-62</y>
     </hint>
     <hint type="destinationlabel">
      <x>103</x>
@@ -7758,11 +7769,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>76</x>
-     <y>293</y>
+     <y>147</y>
     </hint>
     <hint type="destinationlabel">
      <x>76</x>
-     <y>316</y>
+     <y>208</y>
     </hint>
    </hints>
   </connection>
@@ -7774,11 +7785,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>103</x>
-     <y>399</y>
+     <y>231</y>
     </hint>
     <hint type="destinationlabel">
      <x>103</x>
-     <y>459</y>
+     <y>291</y>
     </hint>
    </hints>
   </connection>
@@ -7790,11 +7801,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>103</x>
-     <y>504</y>
+     <y>336</y>
     </hint>
     <hint type="destinationlabel">
      <x>103</x>
-     <y>510</y>
+     <y>444</y>
     </hint>
    </hints>
   </connection>
@@ -7806,11 +7817,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>103</x>
-     <y>652</y>
+     <y>484</y>
     </hint>
     <hint type="destinationlabel">
      <x>103</x>
-     <y>658</y>
+     <y>583</y>
     </hint>
    </hints>
   </connection>
@@ -7881,7 +7892,7 @@ QToolButton:checked {
   <connection>
    <sender>toolButtonChatRoomsHeader</sender>
    <signal>toggled(bool)</signal>
-   <receiver>toolFrameChatRoomstask</receiver>
+   <receiver>frameChatRoomsTask</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -7897,7 +7908,7 @@ QToolButton:checked {
   <connection>
    <sender>toolButtonChatFriendsHeader</sender>
    <signal>toggled(bool)</signal>
-   <receiver>toolFrameChatFriends</receiver>
+   <receiver>frameChatFriendsTask</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -7917,8 +7928,8 @@ QToolButton:checked {
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>96</x>
-     <y>215</y>
+     <x>97</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -7934,7 +7945,7 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>96</x>
-     <y>475</y>
+     <y>307</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -8083,6 +8094,22 @@ QToolButton:checked {
     <hint type="destinationlabel">
      <x>636</x>
      <y>187</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSeachDetailsToggle</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frameSearchDetails</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>535</x>
+     <y>303</y>
     </hint>
    </hints>
   </connection>

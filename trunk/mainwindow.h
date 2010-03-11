@@ -116,6 +116,7 @@ private slots:
 	void playlistSelectedItemsIsEmptyRequest();
 	void setPlaylistItem(int row, int column, QTableWidgetItem *item);
 	void setPlaylistStretchLastSection(bool stretchLastSection);
+	void skinChangeEvent();
 };
 
 #endif // MAINWINDOW_H

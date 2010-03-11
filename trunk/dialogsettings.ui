@@ -63,7 +63,8 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-image: url(:/Resource/HeaderBackground.png);</string>
+      <string notr="true">background-image: url(:/Resource/HeaderBackground.png);
+color: rgb(255, 255, 255);</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
@@ -98,9 +99,6 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -158,7 +156,7 @@ p, li { white-space: pre-wrap; }
 }</string>
          </property>
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Sunken</enum>
@@ -170,432 +168,6 @@ p, li { white-space: pre-wrap; }
           <property name="spacing">
            <number>4</number>
           </property>
-          <item row="0" column="0">
-           <widget class="QFrame" name="frameNavigationGeneral">
-            <property name="maximumSize">
-             <size>
-              <width>160</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Sunken</enum>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_45">
-             <property name="margin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="2" column="0">
-              <widget class="QListWidget" name="listWidgetNavigationGeneral">
-               <property name="styleSheet">
-                <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Basic</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Parental Settings</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Security/ParentalSettings.png</normaloff>:/Resource/Security/ParentalSettings.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Skins</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Generic/Skin.png</normaloff>:/Resource/Generic/Skin.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Library</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Media Player</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Search</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Chat</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Plugins</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Generic/Plugins.png</normaloff>:/Resource/Generic/Plugins.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Advanced</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QToolButton" name="toolButtonNavigationGeneral">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-}
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
-               </property>
-               <property name="text">
-                <string>General</string>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
-               </property>
-               <property name="checkable">
-                <bool>true</bool>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-               <property name="toolButtonStyle">
-                <enum>Qt::ToolButtonTextBesideIcon</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QFrame" name="frameNavigationInternet">
-            <property name="maximumSize">
-             <size>
-              <width>160</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Sunken</enum>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_54">
-             <property name="margin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="0" column="0">
-              <widget class="QToolButton" name="toolButtonNavigationInternet">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-}
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
-               </property>
-               <property name="text">
-                <string>Internet</string>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>:/Resource/Network/Internet.png</normaloff>:/Resource/Network/Internet.png</iconset>
-               </property>
-               <property name="checkable">
-                <bool>true</bool>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-               <property name="toolButtonStyle">
-                <enum>Qt::ToolButtonTextBesideIcon</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QListWidget" name="listWidgetNavigationInternet">
-               <property name="styleSheet">
-                <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Connection</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Web</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Network/QueryNow.png</normaloff>:/Resource/Network/QueryNow.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Transfers</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Downloads</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Uploads</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Security</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
-                </property>
-               </item>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QFrame" name="frameNavigationNetworks">
-            <property name="maximumSize">
-             <size>
-              <width>160</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Sunken</enum>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_57">
-             <property name="margin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="0" column="0">
-              <widget class="QToolButton" name="toolButtonNavigationNetworks">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-}
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
-               </property>
-               <property name="text">
-                <string>Networks</string>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
-               </property>
-               <property name="checkable">
-                <bool>true</bool>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-               <property name="toolButtonStyle">
-                <enum>Qt::ToolButtonTextBesideIcon</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QListWidget" name="listWidgetNavigationNetworks">
-               <property name="styleSheet">
-                <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Gnutella</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Networks/Gnutella.png</normaloff>:/Resource/Networks/Gnutella.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Ares</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>eDonkey</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>BitTorrent</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
-                </property>
-               </item>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
           <item row="3" column="0">
            <spacer name="verticalSpacerSettingsNavigator">
             <property name="orientation">
@@ -608,6 +180,366 @@ QToolButton:hover {
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_12">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QToolButton" name="toolButtonNavigationGeneral">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QToolButton {
+	background-color: rgb(78, 124, 179);
+	color: rgb(255, 255, 255);
+	border: none;
+}
+
+QToolButton:hover {
+	background-color: rgb(56, 90, 129);
+}</string>
+              </property>
+              <property name="text">
+               <string>General</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextBesideIcon</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QListWidget" name="listWidgetNavigationGeneral">
+              <property name="styleSheet">
+               <string notr="true">QListView {
+	background-color: rgb(255, 255, 255);
+}</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <item>
+               <property name="text">
+                <string>Basic</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Parental Settings</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Security/ParentalSettings.png</normaloff>:/Resource/Security/ParentalSettings.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Skins</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Generic/Skin.png</normaloff>:/Resource/Generic/Skin.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Library</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Media Player</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Search</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Chat</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Plugins</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Generic/Plugins.png</normaloff>:/Resource/Generic/Plugins.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Advanced</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <layout class="QGridLayout" name="gridLayout_3">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QToolButton" name="toolButtonNavigationInternet">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QToolButton {
+	background-color: rgb(78, 124, 179);
+	color: rgb(255, 255, 255);
+	border: none;
+}
+
+QToolButton:hover {
+	background-color: rgb(56, 90, 129);
+}</string>
+              </property>
+              <property name="text">
+               <string>Internet</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>:/Resource/Network/Internet.png</normaloff>:/Resource/Network/Internet.png</iconset>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextBesideIcon</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QListWidget" name="listWidgetNavigationInternet">
+              <property name="styleSheet">
+               <string notr="true">QListView {
+	background-color: rgb(255, 255, 255);
+}</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <item>
+               <property name="text">
+                <string>Connection</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Web</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Network/QueryNow.png</normaloff>:/Resource/Network/QueryNow.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Transfers</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Downloads</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Uploads</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Security</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0">
+           <layout class="QGridLayout" name="gridLayout_13">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QToolButton" name="toolButtonNavigationNetworks">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QToolButton {
+	background-color: rgb(78, 124, 179);
+	color: rgb(255, 255, 255);
+	border: none;
+}
+
+QToolButton:hover {
+	background-color: rgb(56, 90, 129);
+}</string>
+              </property>
+              <property name="text">
+               <string>Networks</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextBesideIcon</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QListWidget" name="listWidgetNavigationNetworks">
+              <property name="styleSheet">
+               <string notr="true">QListView {
+	background-color: rgb(255, 255, 255);
+}</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <item>
+               <property name="text">
+                <string>Gnutella</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Networks/Gnutella.png</normaloff>:/Resource/Networks/Gnutella.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Ares</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>eDonkey</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>BitTorrent</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -5114,12 +5046,12 @@ p, li { white-space: pre-wrap; }
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>348</x>
-     <y>121</y>
+     <x>231</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>259</x>
-     <y>79</y>
+     <x>252</x>
+     <y>69</y>
     </hint>
    </hints>
   </connection>
@@ -5130,12 +5062,12 @@ p, li { white-space: pre-wrap; }
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>318</x>
-     <y>62</y>
+     <x>231</x>
+     <y>52</y>
     </hint>
     <hint type="destinationlabel">
-     <x>259</x>
-     <y>79</y>
+     <x>204</x>
+     <y>69</y>
     </hint>
    </hints>
   </connection>
@@ -5146,12 +5078,12 @@ p, li { white-space: pre-wrap; }
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>272</x>
-     <y>178</y>
+     <x>231</x>
+     <y>65</y>
     </hint>
     <hint type="destinationlabel">
-     <x>259</x>
-     <y>79</y>
+     <x>255</x>
+     <y>72</y>
     </hint>
    </hints>
   </connection>
@@ -5162,12 +5094,12 @@ p, li { white-space: pre-wrap; }
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>259</x>
-     <y>79</y>
+     <x>208</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
-     <x>323</x>
-     <y>237</y>
+     <x>231</x>
+     <y>71</y>
     </hint>
    </hints>
   </connection>
@@ -5178,12 +5110,12 @@ p, li { white-space: pre-wrap; }
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>259</x>
-     <y>79</y>
+     <x>252</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
-     <x>348</x>
-     <y>121</y>
+     <x>231</x>
+     <y>59</y>
     </hint>
    </hints>
   </connection>
@@ -5194,12 +5126,12 @@ p, li { white-space: pre-wrap; }
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>259</x>
-     <y>79</y>
+     <x>204</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
-     <x>318</x>
-     <y>62</y>
+     <x>231</x>
+     <y>52</y>
     </hint>
    </hints>
   </connection>
@@ -5210,12 +5142,12 @@ p, li { white-space: pre-wrap; }
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>259</x>
-     <y>79</y>
+     <x>255</x>
+     <y>72</y>
     </hint>
     <hint type="destinationlabel">
-     <x>272</x>
-     <y>178</y>
+     <x>231</x>
+     <y>65</y>
     </hint>
    </hints>
   </connection>
@@ -5226,12 +5158,12 @@ p, li { white-space: pre-wrap; }
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>323</x>
-     <y>237</y>
+     <x>231</x>
+     <y>71</y>
     </hint>
     <hint type="destinationlabel">
-     <x>259</x>
-     <y>79</y>
+     <x>208</x>
+     <y>69</y>
     </hint>
    </hints>
   </connection>
