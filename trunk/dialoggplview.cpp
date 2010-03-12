@@ -1,5 +1,6 @@
 #include "dialoggplview.h"
 #include "ui_dialoggplview.h"
+#include "QSkinDialog/qskinsettings.h"
 #include <QDesktopServices>
 
 DialogGPLView::DialogGPLView(QWidget *parent) :
@@ -7,6 +8,8 @@ DialogGPLView::DialogGPLView(QWidget *parent) :
 	m_ui(new Ui::DialogGPLView)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogGPLView::~DialogGPLView()
@@ -35,4 +38,9 @@ void DialogGPLView::on_pushButtonOK_clicked()
 void DialogGPLView::on_textBrowserGPL_anchorClicked(QUrl link)
 {
 	QDesktopServices::openUrl(link);
+}
+
+void DialogGPLView::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

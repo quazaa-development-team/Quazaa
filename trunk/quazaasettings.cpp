@@ -673,7 +673,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.ChatEnableChatAllNetworks = m_qSettings.value("EnableChatAllNetworks", true).toBool();
 	quazaaSettings.ChatEnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
 	quazaaSettings.ChatGnutellaChatEnable = m_qSettings.value("GnutellaChatEnable", true).toBool();
-	quazaaSettings.ChatIrcServerName = m_qSettings.value("IrcServerName", "irc.p2pquazaaSettings.Chatnet").toString();
+	quazaaSettings.ChatIrcServerName = m_qSettings.value("IrcServerName", "irc.p2pchat.net").toString();
 	quazaaSettings.ChatIrcServerPort = m_qSettings.value("IrcServerPort", 6667).toInt();
 	quazaaSettings.ChatScreenFont = m_qSettings.value("ScreenFont", QFont()).value<QFont>();
 	quazaaSettings.ChatShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();

@@ -21,29 +21,32 @@
 
 #include "dialoghashprogress.h"
 #include "ui_dialoghashprogress.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogHashProgress::DialogHashProgress(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogHashProgress)
+	QDialog(parent),
+	m_ui(new Ui::DialogHashProgress)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogHashProgress::~DialogHashProgress()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogHashProgress::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogHashProgress::updateProgress(int percent, QString status, QString file)
@@ -51,4 +54,9 @@ void DialogHashProgress::updateProgress(int percent, QString status, QString fil
 	m_ui->progressBarStatus->setValue(percent);
 	m_ui->labelStatus->setText(status);
 	m_ui->labelFileName->setText(file);
+}
+
+void DialogHashProgress::skinChangeEvent()
+{
+	setStyleSheet(skinSettings.standardItems);
 }

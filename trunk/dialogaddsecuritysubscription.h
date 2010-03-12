@@ -45,6 +45,7 @@ signals:
 private slots:
 	void on_pushButtonCancel_clicked();
 	void on_pushButtonSubscribe_clicked();
+	void skinChangeEvent();
 };
 
 #endif // DIALOGADDSECURITYSUBSCRIPTION_H

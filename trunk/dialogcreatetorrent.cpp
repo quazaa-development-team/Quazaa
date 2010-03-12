@@ -21,12 +21,15 @@
 
 #include "dialogcreatetorrent.h"
 #include "ui_dialogcreatetorrent.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogCreateTorrent::DialogCreateTorrent(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogCreateTorrent)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogCreateTorrent::~DialogCreateTorrent()
@@ -55,4 +58,9 @@ void DialogCreateTorrent::on_pushButtonSave_clicked()
 {
 	emit closed();
 	close();
+}
+
+void DialogCreateTorrent::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

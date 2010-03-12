@@ -21,12 +21,15 @@
 
 #include "dialogselectvisualisation.h"
 #include "ui_dialogselectvisualisation.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogSelectVisualisation::DialogSelectVisualisation(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogSelectVisualisation)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogSelectVisualisation::~DialogSelectVisualisation()
@@ -60,4 +63,9 @@ void DialogSelectVisualisation::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
+}
+
+void DialogSelectVisualisation::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

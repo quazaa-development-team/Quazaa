@@ -233,11 +233,17 @@ DialogSettings::DialogSettings(QWidget *parent) :
 	// Load Skin Settings
 	QDir dir(qApp->applicationDirPath() + "/Skin/");
 	QFileInfoList skinDirs = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs);
+	QListWidgetItem *itemToSet = new QListWidgetItem();
 	foreach(QFileInfo i, skinDirs)
 	{
 		QListWidgetItem *item = new QListWidgetItem(i.fileName());
 		m_ui->listWidgetSkins->addItem(item);
+		if (item->text() == skinSettings.skinName)
+		{
+			itemToSet = item;
+		}
 	}
+	m_ui->listWidgetSkins->setCurrentItem(itemToSet);
 
 	connect(this, SIGNAL(skinChanged()), &skinSettings, SIGNAL(skinChanged()));
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));

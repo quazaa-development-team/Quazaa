@@ -25,6 +25,7 @@ signals:
 
 private slots:
 	void on_pushButton_clicked();
+	void skinChangeEvent();
 };
 
 #endif // DIALOGPREVIEWPREPARE_H

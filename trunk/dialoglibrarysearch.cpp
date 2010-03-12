@@ -1,11 +1,14 @@
 #include "dialoglibrarysearch.h"
 #include "ui_dialoglibrarysearch.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogLibrarySearch::DialogLibrarySearch(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::DialogLibrarySearch)
 {
 	ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogLibrarySearch::~DialogLibrarySearch()
@@ -35,4 +38,9 @@ void DialogLibrarySearch::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
+}
+
+void DialogLibrarySearch::skinChangeEvent()
+{
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

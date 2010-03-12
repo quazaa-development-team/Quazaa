@@ -21,12 +21,15 @@
 
 #include "dialogopentorrent.h"
 #include "ui_dialogopentorrent.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogOpenTorrent::DialogOpenTorrent(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogOpenTorrent)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogOpenTorrent::~DialogOpenTorrent()
@@ -55,4 +58,9 @@ void DialogOpenTorrent::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
+}
+
+void DialogOpenTorrent::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

@@ -22,6 +22,7 @@
 #include "dialogprofile.h"
 #include "ui_dialogprofile.h"
 #include "quazaasettings.h"
+#include "QSkinDialog/qskinsettings.h"
 #include <QFileDialog>
 #include <QUuid>
 
@@ -30,6 +31,8 @@ DialogProfile::DialogProfile(QWidget *parent) :
 	m_ui(new Ui::DialogProfile)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 	m_ui->pagesProfile->setCurrentIndex(0);
 	m_ui->lineEditGnutellaSceenName->setText(quazaaSettings.ProfileGnutellaScreenName);
 	m_ui->lineEditNickname->setText(quazaaSettings.ProfileIrcNickname);
@@ -358,6 +361,11 @@ void DialogProfile::on_pushButtonNewWebsite_clicked()
 		m_ui->treeWidgetFavorites->addTopLevelItem(m_qTreeWidgetItem);
 		m_ui->pushButtonApply->setEnabled(true);
 	}
+}
+
+void DialogProfile::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }
 
 void DialogProfile::on_pushButtonRemoveWebsite_clicked()

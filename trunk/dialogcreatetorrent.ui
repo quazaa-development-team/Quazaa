@@ -428,7 +428,8 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-image: url(:/Resource/HeaderBackground.png);</string>
+      <string notr="true">background-image: url(:/Resource/HeaderBackground.png);
+color: rgb(255, 255, 255);</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
@@ -460,9 +461,6 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;

@@ -21,27 +21,35 @@
 
 #include "dialogdownloadproperties.h"
 #include "ui_dialogdownloadproperties.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogDownloadProperties::DialogDownloadProperties(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogDownloadProperties)
+	QDialog(parent),
+	m_ui(new Ui::DialogDownloadProperties)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogDownloadProperties::~DialogDownloadProperties()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogDownloadProperties::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
+}
+
+void DialogDownloadProperties::skinChangeEvent()
+{
+	setStyleSheet(skinSettings.standardItems);
 }

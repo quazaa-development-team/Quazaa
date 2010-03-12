@@ -33,9 +33,8 @@ DialogLanguage::DialogLanguage(QWidget *parent) :
 	m_ui(new Ui::DialogLanguage)
 {
 	m_ui->setupUi(this);
-	quazaaSettings.loadSkinSettings();
-	skinSettings.loadSkin(quazaaSettings.SkinFile);
-
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogLanguage::~DialogLanguage()
@@ -162,5 +161,5 @@ void DialogLanguage::on_listWidgetLanguages_itemClicked(QListWidgetItem* item)
 
 void DialogLanguage::skinChangeEvent()
 {
-	setStyleSheet(skinSettings.standardItems);
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

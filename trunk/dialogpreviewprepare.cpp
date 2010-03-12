@@ -1,11 +1,14 @@
 #include "dialogpreviewprepare.h"
 #include "ui_dialogpreviewprepare.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogPreviewPrepare::DialogPreviewPrepare(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogPreviewPrepare)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogPreviewPrepare::~DialogPreviewPrepare()
@@ -35,4 +38,9 @@ void DialogPreviewPrepare::updateProgress(int percent, QString fileName)
 {
 	m_ui->progressBarStatus->setValue(percent);
 	m_ui->labelFileName->setText(fileName);
+}
+
+void DialogPreviewPrepare::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

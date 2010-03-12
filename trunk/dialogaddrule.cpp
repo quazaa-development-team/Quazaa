@@ -21,12 +21,15 @@
 
 #include "dialogaddrule.h"
 #include "ui_dialogaddrule.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogAddRule::DialogAddRule(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAddRule)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogAddRule::~DialogAddRule()
@@ -56,4 +59,9 @@ void DialogAddRule::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
+}
+
+void DialogAddRule::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

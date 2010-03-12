@@ -58,6 +58,7 @@ private slots:
  void on_labelQuazaaLink_linkActivated(QString link);
  void on_labelCopyright_linkActivated(QString link);
  void on_pushButtonOK_clicked();
+ void skinChangeEvent();
 };
 
 #endif // DIALOGABOUT_H

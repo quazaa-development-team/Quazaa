@@ -26,6 +26,7 @@ signals:
 private slots:
  void on_textBrowserGPL_anchorClicked(QUrl link);
  void on_pushButtonOK_clicked();
+ void skinChangeEvent();
 };
 
 #endif // DIALOGGPLVIEW_H

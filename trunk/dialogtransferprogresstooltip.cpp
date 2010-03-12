@@ -21,29 +21,32 @@
 
 #include "dialogtransferprogresstooltip.h"
 #include "ui_dialogtransferprogresstooltip.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogTransferProgressTooltip::DialogTransferProgressTooltip(QWidget *parent) :
-    QDialog(parent),
+	QDialog(parent),
 	m_ui(new Ui::DialogTransferProgressTooltip)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogTransferProgressTooltip::~DialogTransferProgressTooltip()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogTransferProgressTooltip::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogTransferProgressTooltip::updateProgress(int percent, QString transferSpeed, QString timeRemaining,
@@ -63,4 +66,8 @@ void DialogTransferProgressTooltip::updateProgress(int percent, QString transfer
 	m_ui->labelTigerTreeHash->setText(hashes.at(1));
 	m_ui->labelED2KHash->setText(hashes.at(2));
 	m_ui->labelMD5Hash->setText(hashes.at(3));
+}
+
+void DialogTransferProgressTooltip::skinChangeEvent()
+{
 }

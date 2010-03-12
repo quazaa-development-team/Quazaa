@@ -24,6 +24,7 @@ signals:
 
 private slots:
 	void on_pushButtonOK_clicked();
+	void skinChangeEvent();
 };
 
 #endif // DIALOGCLOSETYPE_H

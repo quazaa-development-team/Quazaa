@@ -64,6 +64,7 @@ private slots:
 	void on_pushButtonConnectionExit_clicked();
 	void on_pushButtonConnectionNext_clicked();
 	void on_pushButtonConnectionBack_clicked();
+	void skinChangeEvent();
 };
 
 #endif // DIALOGWIZARD_H
