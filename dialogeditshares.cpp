@@ -22,6 +22,7 @@
 #include "dialogeditshares.h"
 #include "ui_dialogeditshares.h"
 #include "quazaasettings.h"
+#include "QSkinDialog/qskinsettings.h"
 #include <QFileDialog>
 
 DialogEditShares::DialogEditShares(QWidget *parent) :
@@ -31,6 +32,8 @@ DialogEditShares::DialogEditShares(QWidget *parent) :
 	m_ui->setupUi(this);
 	m_ui->listWidgetShares->addItems(quazaaSettings.LibraryShares);
 	m_ui->pushButtonOk->setEnabled(false);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogEditShares::~DialogEditShares()
@@ -89,4 +92,9 @@ void DialogEditShares::on_pushButtonRemove_clicked()
 		m_ui->listWidgetShares->takeItem(m_ui->listWidgetShares->currentRow());
 		m_ui->pushButtonOk->setEnabled(true);
 	}
+}
+
+void DialogEditShares::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

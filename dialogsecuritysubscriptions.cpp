@@ -23,12 +23,15 @@
 #include "ui_dialogsecuritysubscriptions.h"
 #include "dialogaddsecuritysubscription.h"
 #include "quazaasettings.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogSecuritySubscriptions::DialogSecuritySubscriptions(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogSecuritySubscriptions)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogSecuritySubscriptions::~DialogSecuritySubscriptions()
@@ -73,4 +76,9 @@ void DialogSecuritySubscriptions::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
+}
+
+void DialogSecuritySubscriptions::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

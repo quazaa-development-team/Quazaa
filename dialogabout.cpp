@@ -27,6 +27,7 @@
 #include <QMessageBox>
 #include <QUrl>
 #include "QSkinDialog/qskindialog.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogAbout::DialogAbout(QWidget *parent) :
 	QDialog(parent),
@@ -34,6 +35,8 @@ DialogAbout::DialogAbout(QWidget *parent) :
 {
 	m_ui->setupUi(this);
 	m_ui->labelVersion->setText(m_ui->labelVersion->text().replace("&lt;version&gt;", quazaaGlobals.ApplicationVersionString()));
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogAbout::~DialogAbout()
@@ -118,4 +121,9 @@ void DialogAbout::on_labelAresLink_linkActivated(QString link)
 void DialogAbout::on_textBrowserCredits_anchorClicked(QUrl link)
 {
 	QDesktopServices::openUrl(link);
+}
+
+void DialogAbout::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

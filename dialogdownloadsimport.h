@@ -42,6 +42,9 @@ private:
 
 signals:
 	void closed();
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // DIALOGDOWNLOADSIMPORT_H

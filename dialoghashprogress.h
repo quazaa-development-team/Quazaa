@@ -43,6 +43,9 @@ private:
 
 signals:
 	void closed();
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // DIALOGHASHPROGRESS_H

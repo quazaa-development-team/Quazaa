@@ -21,27 +21,35 @@
 
 #include "dialogdownloadsimport.h"
 #include "ui_dialogdownloadsimport.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogDownloadsImport::DialogDownloadsImport(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogDownloadsImport)
+	QDialog(parent),
+	m_ui(new Ui::DialogDownloadsImport)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogDownloadsImport::~DialogDownloadsImport()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogDownloadsImport::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
+}
+
+void DialogDownloadsImport::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

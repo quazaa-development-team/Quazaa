@@ -51,6 +51,8 @@ int main(int argc, char *argv[])
 	skinWinMain.addChildWidget(winMain);
 
 	// Make the main window show if the user tried to open another instance
+	// Windows prohibits showing the window without user interaction so it will
+	// make the icon in the task bar blink instead.
 	QObject::connect(&theApp, SIGNAL(messageReceived(const QString&)),
 						  &skinWinMain, SLOT(restore()));
 	theApp.setActivationWindow(&skinWinMain);

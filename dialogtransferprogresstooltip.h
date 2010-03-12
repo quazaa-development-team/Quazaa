@@ -29,7 +29,7 @@ namespace Ui {
 }
 
 class DialogTransferProgressTooltip : public QDialog {
-    Q_OBJECT
+	Q_OBJECT
 public:
 	DialogTransferProgressTooltip(QWidget *parent = 0);
 	~DialogTransferProgressTooltip();
@@ -38,10 +38,11 @@ public:
 						QStringList hashes);
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
 	Ui::DialogTransferProgressTooltip *m_ui;
+	void skinChangeEvent();
 };
 
 #endif // DIALOGTRANSFERPROGRESSTOOLTIP_H

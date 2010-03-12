@@ -46,6 +46,7 @@ signals:
 private slots:
 	void on_pushButtonFilter_clicked();
 	void on_pushButtonCancel_clicked();
+	void skinChangeEvent();
 };
 
 #endif // DIALOGFILTERSEARCH_H

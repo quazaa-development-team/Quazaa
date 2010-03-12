@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>897</width>
+    <width>706</width>
     <height>347</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>Quazaa</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -83,7 +83,7 @@ padding: 2px;</string>
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>:/Resource/Generic/Home.png</pixmap>
+          <pixmap resource="Resource.qrc">:/Resource/Generic/Home.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -106,7 +106,7 @@ padding: 2px;</string>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidgetMain">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="pageHome">
        <layout class="QGridLayout" name="gridLayoutHome">
@@ -146,7 +146,7 @@ padding: 2px;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>208</width>
+             <width>193</width>
              <height>682</height>
             </rect>
            </property>
@@ -246,7 +246,7 @@ QToolButton:hover {
                   <string>Downloads</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -291,7 +291,7 @@ QToolButton:hover {
                   <string>Uploads</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -385,7 +385,7 @@ QToolButton:hover {
                  <string>Torrents</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="Resource.qrc">
                   <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -514,7 +514,7 @@ QToolButton:hover {
                  <string>Connection</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="Resource.qrc">
                   <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -639,7 +639,7 @@ QToolButton:hover {
                  <string>My Library</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="Resource.qrc">
                   <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -835,7 +835,7 @@ p, li { white-space: pre-wrap; }
                <string/>
               </property>
               <property name="pixmap">
-               <pixmap resource="QuazaaSkinTool/Resource.qrc">:/Resource/QuazaaLogo.png</pixmap>
+               <pixmap resource="Resource.qrc">:/Resource/QuazaaLogo.png</pixmap>
               </property>
              </widget>
             </item>
@@ -873,7 +873,7 @@ p, li { white-space: pre-wrap; }
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>:/Resource/Generic/Download.png</pixmap>
+                 <pixmap resource="Resource.qrc">:/Resource/Generic/Download.png</pixmap>
                 </property>
                 <property name="scaledContents">
                  <bool>true</bool>
@@ -953,7 +953,7 @@ p, li { white-space: pre-wrap; }
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>:/Resource/Generic/Search.png</pixmap>
+                 <pixmap resource="Resource.qrc">:/Resource/Generic/Search.png</pixmap>
                 </property>
                 <property name="scaledContents">
                  <bool>true</bool>
@@ -1065,7 +1065,7 @@ p, li { white-space: pre-wrap; }
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>:/Resource/Generic/Settings.png</pixmap>
+                 <pixmap resource="Resource.qrc">:/Resource/Generic/Settings.png</pixmap>
                 </property>
                 <property name="scaledContents">
                  <bool>true</bool>
@@ -1107,7 +1107,7 @@ p, li { white-space: pre-wrap; }
                    <string/>
                   </property>
                   <property name="pixmap">
-                   <pixmap>:/Resource/Generic/Skin.png</pixmap>
+                   <pixmap resource="Resource.qrc">:/Resource/Generic/Skin.png</pixmap>
                   </property>
                   <property name="scaledContents">
                    <bool>true</bool>
@@ -1132,7 +1132,7 @@ p, li { white-space: pre-wrap; }
                    <string/>
                   </property>
                   <property name="pixmap">
-                   <pixmap>:/Resource/Generic/Wizard.png</pixmap>
+                   <pixmap resource="Resource.qrc">:/Resource/Generic/Wizard.png</pixmap>
                   </property>
                   <property name="scaledContents">
                    <bool>true</bool>
@@ -1157,7 +1157,7 @@ p, li { white-space: pre-wrap; }
                    <string/>
                   </property>
                   <property name="pixmap">
-                   <pixmap>:/Resource/Generic/Help.png</pixmap>
+                   <pixmap resource="Resource.qrc">:/Resource/Generic/Help.png</pixmap>
                   </property>
                   <property name="scaledContents">
                    <bool>true</bool>
@@ -1182,7 +1182,7 @@ p, li { white-space: pre-wrap; }
                    <string/>
                   </property>
                   <property name="pixmap">
-                   <pixmap>:/Resource/Security/Security.png</pixmap>
+                   <pixmap resource="Resource.qrc">:/Resource/Security/Security.png</pixmap>
                   </property>
                   <property name="scaledContents">
                    <bool>true</bool>
@@ -1363,7 +1363,7 @@ QTabBar::tab:selected {
               </property>
               <widget class="QWidget" name="tabLibraryNavigatorShares">
                <attribute name="icon">
-                <iconset>
+                <iconset resource="Resource.qrc">
                  <normaloff>:/Resource/Library/SharedFolders.png</normaloff>:/Resource/Library/SharedFolders.png</iconset>
                </attribute>
                <attribute name="title">
@@ -1398,7 +1398,7 @@ QTabBar::tab:selected {
               </widget>
               <widget class="QWidget" name="tabLibraryNavigatorOrganiser">
                <attribute name="icon">
-                <iconset>
+                <iconset resource="Resource.qrc">
                  <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
                </attribute>
                <attribute name="title">
@@ -1436,7 +1436,7 @@ QTabBar::tab:selected {
                <string>Edit Shared Folders</string>
               </property>
               <property name="icon">
-               <iconset>
+               <iconset resource="Resource.qrc">
                 <normaloff>:/Resource/Library/SharedFolders.png</normaloff>:/Resource/Library/SharedFolders.png</iconset>
               </property>
               <property name="toolButtonStyle">
@@ -1568,7 +1568,7 @@ QToolButton::menu-button:hover {
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap>:/Resource/Library/SharedFolders.png</pixmap>
+                  <pixmap resource="Resource.qrc">:/Resource/Library/SharedFolders.png</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>true</bool>
@@ -1581,7 +1581,7 @@ QToolButton::menu-button:hover {
                   <string>Tile View</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Library/TileView.png</normaloff>:/Resource/Library/TileView.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -1623,7 +1623,7 @@ QToolButton::menu-button:hover {
                   <string>Toggle Details</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Generic/ShowBottombar.png</normaloff>
                    <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowBottombar.png</iconset>
                  </property>
@@ -1689,8 +1689,8 @@ QToolButton::menu-button:hover {
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>98</width>
-                     <height>28</height>
+                     <width>489</width>
+                     <height>60</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_11">
@@ -1795,7 +1795,7 @@ QToolButton::menu-button:hover {
                   <string>Search</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                  </property>
                  <property name="toolButtonStyle">
@@ -1822,7 +1822,7 @@ QToolButton::menu-button:hover {
                   <string>Web Services</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Network/Internet.png</normaloff>:/Resource/Network/Internet.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -2004,7 +2004,7 @@ QToolButton:checked {
                   <string>Add To Playlist</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -2024,7 +2024,7 @@ QToolButton:checked {
                   <string>Save Playlist</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Media/SavePlaylist.png</normaloff>:/Resource/Media/SavePlaylist.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -2089,7 +2089,7 @@ QToolButton:checked {
                      <string>Playlist</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Media/Playlist.png</normaloff>:/Resource/Media/Playlist.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -2217,7 +2217,7 @@ QToolButton:checked {
                   <string>Remove From Playlist</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -2237,7 +2237,7 @@ QToolButton:checked {
                   <string>Open Playlist</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Media/LoadPlaylist.png</normaloff>:/Resource/Media/LoadPlaylist.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -2254,7 +2254,7 @@ QToolButton:checked {
                   <string>Add Playlist To Current Playlist</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Media/AddPlaylist.png</normaloff>:/Resource/Media/AddPlaylist.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -2274,7 +2274,7 @@ QToolButton:checked {
                   <string>Clear Playlist</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -2589,7 +2589,7 @@ QToolButton:hover {
                   <string>New Search</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Generic/NewSearch.png</normaloff>:/Resource/Generic/NewSearch.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -2633,7 +2633,7 @@ QToolButton:hover {
                     <string>Results</string>
                    </property>
                    <property name="icon">
-                    <iconset>
+                    <iconset resource="Resource.qrc">
                      <normaloff>:/Resource/Network/BrowseStatistics.png</normaloff>:/Resource/Network/BrowseStatistics.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -2774,7 +2774,7 @@ QToolButton:hover {
                     <string>Any File Type</string>
                    </property>
                    <property name="icon">
-                    <iconset>
+                    <iconset resource="Resource.qrc">
                      <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -2902,7 +2902,7 @@ QToolButton:hover {
                     <string>Networks</string>
                    </property>
                    <property name="icon">
-                    <iconset>
+                    <iconset resource="Resource.qrc">
                      <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -2960,7 +2960,7 @@ QToolButton:hover {
                          <string>Gnutella 2</string>
                         </property>
                         <property name="icon">
-                         <iconset>
+                         <iconset resource="Resource.qrc">
                           <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
                         </property>
                         <property name="checked">
@@ -2974,7 +2974,7 @@ QToolButton:hover {
                          <string>Gnutella 1</string>
                         </property>
                         <property name="icon">
-                         <iconset>
+                         <iconset resource="Resource.qrc">
                           <normaloff>:/Resource/Networks/Gnutella1.png</normaloff>:/Resource/Networks/Gnutella1.png</iconset>
                         </property>
                        </widget>
@@ -2985,7 +2985,7 @@ QToolButton:hover {
                          <string>Ares</string>
                         </property>
                         <property name="icon">
-                         <iconset>
+                         <iconset resource="Resource.qrc">
                           <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
                         </property>
                        </widget>
@@ -2996,7 +2996,7 @@ QToolButton:hover {
                          <string>eDonkey</string>
                         </property>
                         <property name="icon">
-                         <iconset>
+                         <iconset resource="Resource.qrc">
                           <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
                         </property>
                        </widget>
@@ -3038,7 +3038,7 @@ QToolButton:hover {
                     <string>Search</string>
                    </property>
                    <property name="icon">
-                    <iconset>
+                    <iconset resource="Resource.qrc">
                      <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -3144,7 +3144,7 @@ QToolButton:checked {
                          <string>Search</string>
                         </property>
                         <property name="icon">
-                         <iconset>
+                         <iconset resource="Resource.qrc">
                           <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                         </property>
                         <property name="toolButtonStyle">
@@ -3158,7 +3158,7 @@ QToolButton:checked {
                          <string>Clear</string>
                         </property>
                         <property name="icon">
-                         <iconset>
+                         <iconset resource="Resource.qrc">
                           <normaloff>:/Resource/Generic/Cancel.png</normaloff>:/Resource/Generic/Cancel.png</iconset>
                         </property>
                         <property name="toolButtonStyle">
@@ -3245,7 +3245,7 @@ QTabWidget::pane { /* The tab widget frame */
               </property>
               <widget class="QWidget" name="tabSearch1">
                <attribute name="icon">
-                <iconset>
+                <iconset resource="Resource.qrc">
                  <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                </attribute>
                <attribute name="title">
@@ -3302,7 +3302,7 @@ QTabWidget::pane { /* The tab widget frame */
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>677</width>
+                 <width>486</width>
                  <height>60</height>
                 </rect>
                </property>
@@ -3414,7 +3414,7 @@ QToolButton::menu-button:hover {
               <string>More</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="Resource.qrc">
                <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
              </property>
              <property name="toolButtonStyle">
@@ -3502,7 +3502,7 @@ QToolButton::menu-button:hover {
                <string>Downloads</string>
               </property>
               <property name="icon">
-               <iconset>
+               <iconset resource="Resource.qrc">
                 <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
               </property>
               <property name="iconSize">
@@ -3649,7 +3649,7 @@ QToolButton::menu-button:hover {
                      <string>Clear Completed</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -3663,7 +3663,7 @@ QToolButton::menu-button:hover {
                      <string>Filter</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -3788,7 +3788,7 @@ QToolButton::menu-button:hover {
                <string>Uploads</string>
               </property>
               <property name="icon">
-               <iconset>
+               <iconset resource="Resource.qrc">
                 <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
               </property>
               <property name="iconSize">
@@ -3934,7 +3934,7 @@ QToolButton::menu-button:hover {
                      <string>Clear Completed</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -3948,7 +3948,7 @@ QToolButton::menu-button:hover {
                      <string>Filter</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -4081,7 +4081,7 @@ QToolButton::menu-button:hover {
               <string>Subscribe To Security List</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="Resource.qrc">
                <normaloff>:/Resource/Security/SubscribeRules.png</normaloff>:/Resource/Security/SubscribeRules.png</iconset>
              </property>
              <property name="toolButtonStyle">
@@ -4143,7 +4143,7 @@ QToolButton::menu-button:hover {
                <string>Neighbors</string>
               </property>
               <property name="icon">
-               <iconset>
+               <iconset resource="Resource.qrc">
                 <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
               </property>
               <property name="iconSize">
@@ -4342,7 +4342,7 @@ QToolButton::menu-button:hover {
                <string>System Log</string>
               </property>
               <property name="icon">
-               <iconset>
+               <iconset resource="Resource.qrc">
                 <normaloff>:/Resource/Network/PacketDump.png</normaloff>:/Resource/Network/PacketDump.png</iconset>
               </property>
               <property name="iconSize">
@@ -4473,7 +4473,7 @@ QToolButton:checked {
                      <string>Add</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -4487,7 +4487,7 @@ QToolButton:checked {
                      <string>Remove</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -4532,7 +4532,7 @@ QToolButton:hover {
                 <string>Rooms</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="Resource.qrc">
                  <normaloff>:/Resource/Chat/Rooms.png</normaloff>:/Resource/Chat/Rooms.png</iconset>
                </property>
                <property name="checkable">
@@ -4578,7 +4578,7 @@ QToolButton:hover {
                 <string>Friends</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="Resource.qrc">
                  <normaloff>:/Resource/Chat/Friends.png</normaloff>:/Resource/Chat/Friends.png</iconset>
                </property>
                <property name="checkable">
@@ -4654,7 +4654,7 @@ QToolButton:checked {
                      <string>Add</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -4668,7 +4668,7 @@ QToolButton:checked {
                      <string>Remove</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -4730,7 +4730,7 @@ QToolButton:checked {
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>:/Resource/Chat/ChatWelcome.png</pixmap>
+              <pixmap resource="Resource.qrc">:/Resource/Chat/ChatWelcome.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>false</bool>
@@ -4811,7 +4811,7 @@ p, li { white-space: pre-wrap; }
                 <string>In Room</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="Resource.qrc">
                  <normaloff>:/Resource/Chat/Users.png</normaloff>:/Resource/Chat/Users.png</iconset>
                </property>
                <property name="toolButtonStyle">
@@ -4882,7 +4882,7 @@ QToolButton:checked {
                      <string>Add To Friends</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -4896,7 +4896,7 @@ QToolButton:checked {
                      <string>Ignore</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -4992,7 +4992,7 @@ QToolButton::menu-button:hover {
               <string>Send</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="Resource.qrc">
                <normaloff>:/Resource/Chat/Send.png</normaloff>:/Resource/Chat/Send.png</iconset>
              </property>
             </widget>
@@ -5006,7 +5006,7 @@ QToolButton::menu-button:hover {
               <string>Smileys</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="Resource.qrc">
                <normaloff>:/Resource/Smileys/Happy.png</normaloff>:/Resource/Smileys/Happy.png</iconset>
              </property>
              <property name="popupMode">
@@ -5023,7 +5023,7 @@ QToolButton::menu-button:hover {
               <string>Commands</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="Resource.qrc">
                <normaloff>:/Resource/Generic/QuazaaForums.png</normaloff>:/Resource/Generic/QuazaaForums.png</iconset>
              </property>
              <property name="popupMode">
@@ -5085,7 +5085,7 @@ QToolButton::menu-button:hover {
              <string>G2</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="Resource.qrc">
               <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
             </property>
             <item>
@@ -5104,7 +5104,7 @@ QToolButton::menu-button:hover {
              <string>G1 Cache</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="Resource.qrc">
               <normaloff>:/Resource/Networks/Gnutella1.png</normaloff>:/Resource/Networks/Gnutella1.png</iconset>
             </property>
            </item>
@@ -5113,7 +5113,7 @@ QToolButton::menu-button:hover {
              <string>Ares</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="Resource.qrc">
               <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
             </property>
            </item>
@@ -5122,7 +5122,7 @@ QToolButton::menu-button:hover {
              <string>eDonkey</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="Resource.qrc">
               <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
             </property>
             <item>
@@ -5141,7 +5141,7 @@ QToolButton::menu-button:hover {
              <string>BitTorrent</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="Resource.qrc">
               <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
             </property>
             <item>
@@ -6081,7 +6081,7 @@ QToolButton::menu-button:hover {
               <string>More</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="Resource.qrc">
                <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
              </property>
              <property name="toolButtonStyle">
@@ -6116,7 +6116,7 @@ QToolButton::menu-button:hover {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>897</width>
+     <width>706</width>
      <height>20</height>
     </rect>
    </property>
@@ -6281,7 +6281,7 @@ QToolButton:checked {
   </widget>
   <action name="actionExit">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
    </property>
    <property name="text">
@@ -6290,7 +6290,7 @@ QToolButton:checked {
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Quazaa32.png</normaloff>:/Resource/Quazaa32.png</iconset>
    </property>
    <property name="text">
@@ -6299,7 +6299,7 @@ QToolButton:checked {
   </action>
   <action name="actionLockPanels">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/LockPanels.png</normaloff>:/Resource/Generic/LockPanels.png</iconset>
    </property>
    <property name="text">
@@ -6314,7 +6314,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Home.png</normaloff>:/Resource/Generic/Home.png</iconset>
    </property>
    <property name="text">
@@ -6332,7 +6332,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
    </property>
    <property name="text">
@@ -6344,7 +6344,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
    </property>
    <property name="text">
@@ -6356,7 +6356,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
    </property>
    <property name="text">
@@ -6368,7 +6368,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
    </property>
    <property name="text">
@@ -6380,7 +6380,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
    </property>
    <property name="text">
@@ -6392,7 +6392,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
    </property>
    <property name="text">
@@ -6401,7 +6401,7 @@ QToolButton:checked {
   </action>
   <action name="actionCreateTorrent">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/CreateTorrent.png</normaloff>:/Resource/Networks/CreateTorrent.png</iconset>
    </property>
    <property name="text">
@@ -6410,7 +6410,7 @@ QToolButton:checked {
   </action>
   <action name="actionSeedTorrent">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/SeedTorrent.png</normaloff>:/Resource/Networks/SeedTorrent.png</iconset>
    </property>
    <property name="text">
@@ -6419,7 +6419,7 @@ QToolButton:checked {
   </action>
   <action name="actionOpenTorrent">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
    </property>
    <property name="text">
@@ -6431,7 +6431,7 @@ QToolButton:checked {
   </action>
   <action name="actionSettings">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -6443,7 +6443,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
    </property>
    <property name="text">
@@ -6458,7 +6458,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/Gnutella1.png</normaloff>:/Resource/Networks/Gnutella1.png</iconset>
    </property>
    <property name="text">
@@ -6473,7 +6473,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
    </property>
    <property name="text">
@@ -6482,7 +6482,7 @@ QToolButton:checked {
   </action>
   <action name="actionConnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -6491,7 +6491,7 @@ QToolButton:checked {
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -6500,7 +6500,7 @@ QToolButton:checked {
   </action>
   <action name="actionConnectTo">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/ConnectTo.png</normaloff>:/Resource/Network/ConnectTo.png</iconset>
    </property>
    <property name="text">
@@ -6509,7 +6509,7 @@ QToolButton:checked {
   </action>
   <action name="actionExitAfterTransfers">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/ExitAfterTransfers.png</normaloff>:/Resource/Generic/ExitAfterTransfers.png</iconset>
    </property>
    <property name="text">
@@ -6521,7 +6521,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -6533,7 +6533,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/HostCache.png</normaloff>:/Resource/Network/HostCache.png</iconset>
    </property>
    <property name="text">
@@ -6548,7 +6548,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Discovery.png</normaloff>:/Resource/Network/Discovery.png</iconset>
    </property>
    <property name="text">
@@ -6560,7 +6560,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Graph.png</normaloff>:/Resource/Generic/Graph.png</iconset>
    </property>
    <property name="text">
@@ -6572,7 +6572,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/PacketDump.png</normaloff>:/Resource/Network/PacketDump.png</iconset>
    </property>
    <property name="text">
@@ -6584,7 +6584,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/HitMonitor.png</normaloff>:/Resource/Network/HitMonitor.png</iconset>
    </property>
    <property name="text">
@@ -6596,7 +6596,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/SearchMonitor.png</normaloff>:/Resource/Network/SearchMonitor.png</iconset>
    </property>
    <property name="text">
@@ -6605,7 +6605,7 @@ QToolButton:checked {
   </action>
   <action name="actionShares">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Library/SharedFolders.png</normaloff>:/Resource/Library/SharedFolders.png</iconset>
    </property>
    <property name="text">
@@ -6617,7 +6617,7 @@ QToolButton:checked {
   </action>
   <action name="actionURLDownload">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/URLDownload.png</normaloff>:/Resource/Generic/URLDownload.png</iconset>
    </property>
    <property name="text">
@@ -6626,7 +6626,7 @@ QToolButton:checked {
   </action>
   <action name="actionImportPartials">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Library/ImportPartials.png</normaloff>:/Resource/Library/ImportPartials.png</iconset>
    </property>
    <property name="text">
@@ -6635,7 +6635,7 @@ QToolButton:checked {
   </action>
   <action name="actionOpenDownloadFolder">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Library/OpenDownloadFolder.png</normaloff>:/Resource/Library/OpenDownloadFolder.png</iconset>
    </property>
    <property name="text">
@@ -6644,7 +6644,7 @@ QToolButton:checked {
   </action>
   <action name="actionChooseSkin">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Skin.png</normaloff>:/Resource/Generic/Skin.png</iconset>
    </property>
    <property name="text">
@@ -6653,7 +6653,7 @@ QToolButton:checked {
   </action>
   <action name="actionChooseLanguage">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Language.png</normaloff>:/Resource/Generic/Language.png</iconset>
    </property>
    <property name="text">
@@ -6662,7 +6662,7 @@ QToolButton:checked {
   </action>
   <action name="actionQuickstartWizard">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Wizard.png</normaloff>:/Resource/Generic/Wizard.png</iconset>
    </property>
    <property name="text">
@@ -6671,7 +6671,7 @@ QToolButton:checked {
   </action>
   <action name="actionUsersGuide">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/UsersGuide.png</normaloff>:/Resource/Generic/UsersGuide.png</iconset>
    </property>
    <property name="text">
@@ -6680,7 +6680,7 @@ QToolButton:checked {
   </action>
   <action name="actionFAQ">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Help.png</normaloff>:/Resource/Generic/Help.png</iconset>
    </property>
    <property name="text">
@@ -6689,7 +6689,7 @@ QToolButton:checked {
   </action>
   <action name="actionConnectionTest">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -6698,7 +6698,7 @@ QToolButton:checked {
   </action>
   <action name="actionCheckForNewVersion">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
    </property>
    <property name="text">
@@ -6707,7 +6707,7 @@ QToolButton:checked {
   </action>
   <action name="actionDonate">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Donate.png</normaloff>:/Resource/Generic/Donate.png</iconset>
    </property>
    <property name="text">
@@ -6716,7 +6716,7 @@ QToolButton:checked {
   </action>
   <action name="actionQuazaaForums">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/QuazaaForums.png</normaloff>:/Resource/Generic/QuazaaForums.png</iconset>
    </property>
    <property name="text">
@@ -6728,7 +6728,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
    </property>
    <property name="text">
@@ -6737,7 +6737,7 @@ QToolButton:checked {
   </action>
   <action name="actionScheduler">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Scheduler.png</normaloff>:/Resource/Generic/Scheduler.png</iconset>
    </property>
    <property name="text">
@@ -6749,7 +6749,7 @@ QToolButton:checked {
   </action>
   <action name="actionShowOrHide">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
    </property>
    <property name="text">
@@ -6761,7 +6761,7 @@ QToolButton:checked {
   </action>
   <action name="actionEditMyProfile">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -6770,7 +6770,7 @@ QToolButton:checked {
   </action>
   <action name="actionNewSearch">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/NewSearch.png</normaloff>:/Resource/Generic/NewSearch.png</iconset>
    </property>
    <property name="text">
@@ -6785,7 +6785,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PlayMedia.png</normaloff>
      <normalon>:/Resource/Media/PauseMedia.png</normalon>:/Resource/Media/PlayMedia.png</iconset>
    </property>
@@ -6798,7 +6798,7 @@ QToolButton:checked {
   </action>
   <action name="actionMediaOpen">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/OpenMedia.png</normaloff>:/Resource/Media/OpenMedia.png</iconset>
    </property>
    <property name="text">
@@ -6810,7 +6810,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PreviousMediaTrack.png</normaloff>:/Resource/Media/PreviousMediaTrack.png</iconset>
    </property>
    <property name="text">
@@ -6825,7 +6825,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/NextMediaTrack.png</normaloff>:/Resource/Media/NextMediaTrack.png</iconset>
    </property>
    <property name="text">
@@ -6834,7 +6834,7 @@ QToolButton:checked {
   </action>
   <action name="actionLibraryAddAlbum">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
    </property>
    <property name="text">
@@ -6843,7 +6843,7 @@ QToolButton:checked {
   </action>
   <action name="actionLibraryDeleteAlbum">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
    </property>
    <property name="text">
@@ -6855,7 +6855,7 @@ QToolButton:checked {
   </action>
   <action name="actionLibraryOpenOrPlay">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PlayMedia.png</normaloff>
      <normalon>:/Resource/Media/PauseMedia.png</normalon>:/Resource/Media/PlayMedia.png</iconset>
    </property>
@@ -6868,7 +6868,7 @@ QToolButton:checked {
   </action>
   <action name="actionLibraryAddToPlaylist">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/Playlist.png</normaloff>:/Resource/Media/Playlist.png</iconset>
    </property>
    <property name="text">
@@ -6880,7 +6880,7 @@ QToolButton:checked {
   </action>
   <action name="actionLibraryPlayAlbum">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Library/PlayAlbum.png</normaloff>:/Resource/Library/PlayAlbum.png</iconset>
    </property>
    <property name="text">
@@ -6892,7 +6892,7 @@ QToolButton:checked {
   </action>
   <action name="actionLibraryProperties">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
    </property>
    <property name="text">
@@ -6904,7 +6904,7 @@ QToolButton:checked {
   </action>
   <action name="actionSearchDownload">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
    </property>
    <property name="text">
@@ -6916,7 +6916,7 @@ QToolButton:checked {
   </action>
   <action name="actionSearchBrowseUser">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -6934,7 +6934,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/ShowSidebar.png</normaloff>
      <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowSidebar.png</iconset>
    </property>
@@ -6953,7 +6953,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/ShowSidebar.png</normaloff>
      <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowSidebar.png</iconset>
    </property>
@@ -6969,7 +6969,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
    </property>
    <property name="text">
@@ -6981,7 +6981,7 @@ QToolButton:checked {
   </action>
   <action name="actionDownloadsPreview">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PlayMedia.png</normaloff>:/Resource/Media/PlayMedia.png</iconset>
    </property>
    <property name="text">
@@ -6993,7 +6993,7 @@ QToolButton:checked {
   </action>
   <action name="actionUploadsOpenOrPlay">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PlayMedia.png</normaloff>:/Resource/Media/PlayMedia.png</iconset>
    </property>
    <property name="text">
@@ -7005,7 +7005,7 @@ QToolButton:checked {
   </action>
   <action name="actionDownloadsPause">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
    </property>
    <property name="text">
@@ -7017,7 +7017,7 @@ QToolButton:checked {
   </action>
   <action name="actionDownloadsCancel">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Cancel.png</normaloff>:/Resource/Generic/Cancel.png</iconset>
    </property>
    <property name="text">
@@ -7029,7 +7029,7 @@ QToolButton:checked {
   </action>
   <action name="actionDownloadMarkAsJunk">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Library/Junk.png</normaloff>:/Resource/Library/Junk.png</iconset>
    </property>
    <property name="text">
@@ -7041,7 +7041,7 @@ QToolButton:checked {
   </action>
   <action name="actionDownloadShowMonitor">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Graph.png</normaloff>:/Resource/Generic/Graph.png</iconset>
    </property>
    <property name="text">
@@ -7053,7 +7053,7 @@ QToolButton:checked {
   </action>
   <action name="actionDownloadProperties">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
    </property>
    <property name="text">
@@ -7065,7 +7065,7 @@ QToolButton:checked {
   </action>
   <action name="actionUploadClear">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
    </property>
    <property name="text">
@@ -7074,7 +7074,7 @@ QToolButton:checked {
   </action>
   <action name="actionUploadMarkAsJunk">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Library/Junk.png</normaloff>:/Resource/Library/Junk.png</iconset>
    </property>
    <property name="text">
@@ -7086,7 +7086,7 @@ QToolButton:checked {
   </action>
   <action name="actionChatWithUser">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -7098,7 +7098,7 @@ QToolButton:checked {
   </action>
   <action name="actionBrowseHost">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -7110,7 +7110,7 @@ QToolButton:checked {
   </action>
   <action name="actionUploadBrowseUser">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -7122,7 +7122,7 @@ QToolButton:checked {
   </action>
   <action name="actionUploadBanUser">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
    </property>
    <property name="text">
@@ -7134,7 +7134,7 @@ QToolButton:checked {
   </action>
   <action name="actionSecurityAddRule">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Security/AddRule.png</normaloff>:/Resource/Security/AddRule.png</iconset>
    </property>
    <property name="text">
@@ -7146,7 +7146,7 @@ QToolButton:checked {
   </action>
   <action name="actionSecurityRemoveRule">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Security/RemoveRule.png</normaloff>:/Resource/Security/RemoveRule.png</iconset>
    </property>
    <property name="text">
@@ -7158,7 +7158,7 @@ QToolButton:checked {
   </action>
   <action name="actionSecurityModifyRule">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Security/ModifyRule.png</normaloff>:/Resource/Security/ModifyRule.png</iconset>
    </property>
    <property name="text">
@@ -7170,7 +7170,7 @@ QToolButton:checked {
   </action>
   <action name="actionSecurityImportRules">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Security/ImportRules.png</normaloff>:/Resource/Security/ImportRules.png</iconset>
    </property>
    <property name="text">
@@ -7182,7 +7182,7 @@ QToolButton:checked {
   </action>
   <action name="actionSecurityExportRules">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Security/ExportRules.png</normaloff>:/Resource/Security/ExportRules.png</iconset>
    </property>
    <property name="text">
@@ -7194,7 +7194,7 @@ QToolButton:checked {
   </action>
   <action name="actionNeighborDisconnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -7206,7 +7206,7 @@ QToolButton:checked {
   </action>
   <action name="actionNeighborConnectTo">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -7218,7 +7218,7 @@ QToolButton:checked {
   </action>
   <action name="actionNetworkBrowse">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -7230,7 +7230,7 @@ QToolButton:checked {
   </action>
   <action name="actionNetworkChatWith">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -7242,7 +7242,7 @@ QToolButton:checked {
   </action>
   <action name="actionNetworkBan">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
    </property>
    <property name="text">
@@ -7254,7 +7254,7 @@ QToolButton:checked {
   </action>
   <action name="actionChatConnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -7266,7 +7266,7 @@ QToolButton:checked {
   </action>
   <action name="actionChatDisconnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -7278,7 +7278,7 @@ QToolButton:checked {
   </action>
   <action name="actionHostCacheConnectTo">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -7287,7 +7287,7 @@ QToolButton:checked {
   </action>
   <action name="actionHostCacheDisconnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -7299,7 +7299,7 @@ QToolButton:checked {
   </action>
   <action name="actionHostCacheRemove">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
    </property>
    <property name="text">
@@ -7311,7 +7311,7 @@ QToolButton:checked {
   </action>
   <action name="actionDiscoveryGnutellaBootstrap">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/Gnutella.png</normaloff>:/Resource/Networks/Gnutella.png</iconset>
    </property>
    <property name="text">
@@ -7323,7 +7323,7 @@ QToolButton:checked {
   </action>
   <action name="actionDiscoveryAddService">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
    </property>
    <property name="text">
@@ -7335,7 +7335,7 @@ QToolButton:checked {
   </action>
   <action name="actionDiscoveryBrowseStatistics">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/BrowseStatistics.png</normaloff>:/Resource/Network/BrowseStatistics.png</iconset>
    </property>
    <property name="text">
@@ -7347,7 +7347,7 @@ QToolButton:checked {
   </action>
   <action name="actionG1G2GWebCache">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/Gnutella.png</normaloff>:/Resource/Networks/Gnutella.png</iconset>
    </property>
    <property name="text">
@@ -7359,7 +7359,7 @@ QToolButton:checked {
   </action>
   <action name="actionAresDescoveryType">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
    </property>
    <property name="text">
@@ -7371,7 +7371,7 @@ QToolButton:checked {
   </action>
   <action name="actionEDonkeyServerMet">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
    </property>
    <property name="text">
@@ -7383,7 +7383,7 @@ QToolButton:checked {
   </action>
   <action name="actionDiscoveryRemoveService">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
    </property>
    <property name="text">
@@ -7395,7 +7395,7 @@ QToolButton:checked {
   </action>
   <action name="actionDiscoveryQueryNow">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/QueryNow.png</normaloff>:/Resource/Network/QueryNow.png</iconset>
    </property>
    <property name="text">
@@ -7407,7 +7407,7 @@ QToolButton:checked {
   </action>
   <action name="actionDiscoveryAdvertise">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Advertise.png</normaloff>:/Resource/Network/Advertise.png</iconset>
    </property>
    <property name="text">
@@ -7419,7 +7419,7 @@ QToolButton:checked {
   </action>
   <action name="actionDiscoveryProperties">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
    </property>
    <property name="text">
@@ -7431,7 +7431,7 @@ QToolButton:checked {
   </action>
   <action name="actionGraphToolButton">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Graph.png</normaloff>:/Resource/Generic/Graph.png</iconset>
    </property>
    <property name="text">
@@ -7443,7 +7443,7 @@ QToolButton:checked {
   </action>
   <action name="actionPacketDumpPauseDisplay">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
    </property>
    <property name="text">
@@ -7455,7 +7455,7 @@ QToolButton:checked {
   </action>
   <action name="actionPacketDumpClearBuffer">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
    </property>
    <property name="text">
@@ -7467,7 +7467,7 @@ QToolButton:checked {
   </action>
   <action name="actionSearchMonitorSearchForThis">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
    </property>
    <property name="text">
@@ -7479,7 +7479,7 @@ QToolButton:checked {
   </action>
   <action name="actionSearchMonitorBrowseUser">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -7491,7 +7491,7 @@ QToolButton:checked {
   </action>
   <action name="actionSearchMonitorBanUser">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
    </property>
    <property name="text">
@@ -7503,7 +7503,7 @@ QToolButton:checked {
   </action>
   <action name="actionSearchPauseDisplay">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
    </property>
    <property name="text">
@@ -7515,7 +7515,7 @@ QToolButton:checked {
   </action>
   <action name="actionSearchMonitorClearBuffer">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
    </property>
    <property name="text">
@@ -7527,7 +7527,7 @@ QToolButton:checked {
   </action>
   <action name="actionHitMonitorDownload">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
    </property>
    <property name="text">
@@ -7539,7 +7539,7 @@ QToolButton:checked {
   </action>
   <action name="actionHitMonitorRequery">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
    </property>
    <property name="text">
@@ -7551,7 +7551,7 @@ QToolButton:checked {
   </action>
   <action name="actionHitMonitorPauseDisplay">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
    </property>
    <property name="text">
@@ -7563,7 +7563,7 @@ QToolButton:checked {
   </action>
   <action name="actionHitMonitorClearBuffer">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
    </property>
    <property name="text">
@@ -7578,7 +7578,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/StopMedia.png</normaloff>:/Resource/Media/StopMedia.png</iconset>
    </property>
    <property name="text">
@@ -7590,7 +7590,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/Repeat.png</normaloff>:/Resource/Media/Repeat.png</iconset>
    </property>
    <property name="text">
@@ -7605,7 +7605,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/Shuffle.png</normaloff>:/Resource/Media/Shuffle.png</iconset>
    </property>
    <property name="text">
@@ -7617,7 +7617,7 @@ QToolButton:checked {
   </action>
   <action name="actionNetworkSettings">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -7629,7 +7629,7 @@ QToolButton:checked {
   </action>
   <action name="actionChatSettings">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -7644,7 +7644,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/FullScreen.png</normaloff>:/Resource/Media/FullScreen.png</iconset>
    </property>
    <property name="text">
@@ -7656,7 +7656,7 @@ QToolButton:checked {
   </action>
   <action name="actionMediaSettings">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -7674,7 +7674,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/ShowSidebar.png</normaloff>
      <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowSidebar.png</iconset>
    </property>
@@ -7687,7 +7687,7 @@ QToolButton:checked {
   </action>
   <action name="actionMediaMute">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/Unmute.png</normaloff>:/Resource/Media/Unmute.png</iconset>
    </property>
    <property name="text">
@@ -7711,7 +7711,9 @@ QToolButton:checked {
    <header location="global">phonon/volumeslider.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>toolButtonLibraryDetailsToggle</sender>

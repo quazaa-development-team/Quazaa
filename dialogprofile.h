@@ -82,6 +82,7 @@ private slots:
 	void on_pushButtonCancel_clicked();
 	void on_pushButtonOK_clicked();
 	void on_treeWidgetProfileNavigation_itemSelectionChanged();
+	void skinChangeEvent();
 };
 
 #endif // DIALOGPROFILE_H

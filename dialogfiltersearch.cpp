@@ -21,12 +21,15 @@
 
 #include "dialogfiltersearch.h"
 #include "ui_dialogfiltersearch.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogFilterSearch::DialogFilterSearch(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogFilterSearch)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogFilterSearch::~DialogFilterSearch()
@@ -56,4 +59,9 @@ void DialogFilterSearch::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
+}
+
+void DialogFilterSearch::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

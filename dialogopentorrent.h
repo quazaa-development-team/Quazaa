@@ -47,6 +47,7 @@ signals:
 private slots:
 	void on_pushButtonCancel_clicked();
 	void on_pushButtonOK_clicked();
+	void skinChangeEvent();
 };
 
 #endif // DIALOGOPENTORRENT_H

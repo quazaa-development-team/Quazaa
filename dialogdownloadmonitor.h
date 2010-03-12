@@ -48,6 +48,7 @@ signals:
 private slots:
 	void on_pushButton_clicked();
 	void on_pushButtonHide_clicked();
+	void skinChangeEvent();
 };
 
 #endif // DIALOGDOWNLOADMONITOR_H

@@ -21,12 +21,15 @@
 
 #include "dialogadddownload.h"
 #include "ui_dialogadddownload.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogAddDownload::DialogAddDownload(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAddDownload)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogAddDownload::~DialogAddDownload()
@@ -56,4 +59,9 @@ void DialogAddDownload::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
+}
+
+void DialogAddDownload::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

@@ -48,9 +48,11 @@
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent), ui(new Ui::MainWindow)
 {
+	ui->setupUi(this);
 	//Initialize Skin Settings
 	quazaaSettings.loadSkinSettings();
 	skinSettings.loadSkin(quazaaSettings.SkinFile);
+	skinChangeEvent();
 
 	//Initialize Settings
 	quazaaSettings.loadSettings();
@@ -65,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
 		QObject::connect(dlgLanguage, SIGNAL(closed()), skinDlgLanguage, SLOT(close()));
 		skinDlgLanguage->exec();
 	}
+
 	if (!quazaaSettings.LanguageDefault)
 	{
 		QFile languageFile(quazaaSettings.LanguageFile);
@@ -84,10 +87,8 @@ MainWindow::MainWindow(QWidget *parent)
 	dlgSplash->show();
 	//Load And Set Up User Interface
 	dlgSplash->updateProgress(5, tr("Loading User Interface..."));
-	ui->setupUi(this);
 	bypassCloseEvent = false;
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
-	skinChangeEvent();
 
 	// Set up the navigation toolbar
 	quazaaSettings.loadWindowSettings(this);

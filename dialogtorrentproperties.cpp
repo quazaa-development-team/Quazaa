@@ -21,27 +21,35 @@
 
 #include "dialogtorrentproperties.h"
 #include "ui_dialogtorrentproperties.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogTorrentProperties::DialogTorrentProperties(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::DialogTorrentProperties)
+	QDialog(parent),
+	m_ui(new Ui::DialogTorrentProperties)
 {
-    m_ui->setupUi(this);
+	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogTorrentProperties::~DialogTorrentProperties()
 {
-    delete m_ui;
+	delete m_ui;
 }
 
 void DialogTorrentProperties::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
+}
+
+void DialogTorrentProperties::skinChangeEvent()
+{
+	setStyleSheet(skinSettings.standardItems);
 }

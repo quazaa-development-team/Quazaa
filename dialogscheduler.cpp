@@ -21,12 +21,15 @@
 
 #include "dialogscheduler.h"
 #include "ui_dialogscheduler.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogScheduler::DialogScheduler(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogScheduler)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogScheduler::~DialogScheduler()
@@ -102,4 +105,9 @@ void DialogScheduler::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
+}
+
+void DialogScheduler::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

@@ -22,6 +22,7 @@
 #include "dialogwizard.h"
 #include "ui_dialogwizard.h"
 #include "quazaaSettings.h"
+#include "QSkinDialog/qskinsettings.h"
 #include <QFileDialog>
 
 DialogWizard::DialogWizard(QWidget *parent) :
@@ -29,6 +30,8 @@ DialogWizard::DialogWizard(QWidget *parent) :
 	m_ui(new Ui::DialogWizard)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 	m_ui->doubleSpinBoxDownloadSpeed->setValue(quazaaSettings.TransfersBandwidthDownloads);
 	m_ui->doubleSpinBoxUploadSpeed->setValue(quazaaSettings.TransfersBandwidthUploads);
 	m_ui->checkBoxUPnP->setChecked(quazaaSettings.SecurityEnableUPnP);
@@ -216,4 +219,10 @@ void DialogWizard::on_pushButtonSharesRemove_clicked()
 	{
 		m_ui->listWidgetShares->takeItem(m_ui->listWidgetShares->currentRow());
 	}
+}
+
+
+void DialogWizard::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

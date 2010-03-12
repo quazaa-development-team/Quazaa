@@ -21,12 +21,15 @@
 
 #include "dialogdownloadmonitor.h"
 #include "ui_dialogdownloadmonitor.h"
+#include "QSkinDialog/qskinsettings.h"
 
 DialogDownloadMonitor::DialogDownloadMonitor(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogDownloadMonitor)
 {
 	m_ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogDownloadMonitor::~DialogDownloadMonitor()
@@ -70,4 +73,9 @@ void DialogDownloadMonitor::updateProgress(int percent, QString transferSpeed, Q
 	m_ui->labelFileIcon->setPixmap(icon);
 	m_ui->labelStatus->setText(status);
 	m_ui->labelFileName->setText(file);
+}
+
+void DialogDownloadMonitor::skinChangeEvent()
+{
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }
