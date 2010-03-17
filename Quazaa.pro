@@ -9,12 +9,14 @@ QT += network \
 	xml \
 	xmlpatterns \
 	phonon
-CONFIG += debug
 TARGET = Quazaa
 CONFIG(debug, debug|release) {
-	mac: TARGET = $$join(TARGET,,,_debug)
-	win32: TARGET = $$join(TARGET,,,d)
+	mac:TARGET = $$join(TARGET,,,_debug)
+	win32:TARGET = $$join(TARGET,,,d)
 }
+INCLUDEPATH += vlcmediaplayer
+win32:LIBS += -L./bin # if you are at windows os
+LIBS += -lvlc
 TEMPLATE = app
 SOURCES += main.cpp \
 	mainwindow.cpp \
@@ -47,7 +49,6 @@ SOURCES += main.cpp \
 	dialogsettings.cpp \
 	commonfunctions.cpp \
 	dialoglibrarysearch.cpp \
-	mediaplayer.cpp \
 	QSkinDialog/qskinsettings.cpp \
 	QSkinDialog/qskindialog.cpp \
 	QSkinDialog/dialogskinpreview.cpp \
@@ -56,7 +57,9 @@ SOURCES += main.cpp \
 	qtsingleapplication/src/qtlockedfile_win.cpp \
 	qtsingleapplication/src/qtlockedfile_unix.cpp \
 	qtsingleapplication/src/qtlockedfile.cpp \
-	qtsingleapplication/src/qtlocalpeer.cpp
+	qtsingleapplication/src/qtlocalpeer.cpp \
+	phononmediaplayer.cpp \
+	vlcmediaplayer.cpp
 HEADERS += mainwindow.h \
 	dialoglanguage.h \
 	quazaasettings.h \
@@ -88,14 +91,15 @@ HEADERS += mainwindow.h \
 	dialogabout.h \
 	commonfunctions.h \
 	dialoglibrarysearch.h \
-	mediaplayer.h \
 	QSkinDialog/qskinsettings.h \
 	QSkinDialog/qskindialog.h \
 	QSkinDialog/dialogskinpreview.h \
 	qtsingleapplication/src/qtsingleapplication.h \
 	qtsingleapplication/src/qtlockedfile.h \
 	qtsingleapplication/src/qtlocalpeer.h \
-	qtsingleapplication/src/qtsinglecoreapplication.h
+	qtsingleapplication/src/qtsinglecoreapplication.h \
+	phononmediaplayer.h \
+	vlcmediaplayer.h
 FORMS += mainwindow.ui \
 	dialoglanguage.ui \
 	dialogsplash.ui \

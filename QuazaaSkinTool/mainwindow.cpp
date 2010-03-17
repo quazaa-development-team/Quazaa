@@ -158,6 +158,8 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::on_actionNew_triggered()
 {
+	this->on_actionClose_triggered();
+
 	DialogNewSkin *dlgNewSkin = new DialogNewSkin(this);
 	bool ok = dlgNewSkin->exec();
 
@@ -887,6 +889,8 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 
 void MainWindow::on_actionOpen_triggered()
 {
+	this->on_actionClose_triggered();
+
 	DialogOpenSkin *dlgOpenSkin = new DialogOpenSkin(this);
 	bool ok;
 	ok = dlgOpenSkin->exec();

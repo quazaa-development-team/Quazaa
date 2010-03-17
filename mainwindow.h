@@ -26,7 +26,7 @@
 #include <QActionGroup>
 #include <QSystemTrayIcon>
 #include <QHideEvent>
-#include "mediaplayer.h"
+#include "vlcmediaplayer.h"
 
 namespace Ui
 {
@@ -50,17 +50,18 @@ private:
 	bool bypassCloseEvent;
 	bool event(QEvent *e);
 	void changeEvent(QEvent *e);
-	MediaPlayer *mediaPlayer;
+	vlcMediaPlayer *mediaPlayer;
+	void render(QPaintDevice * target, const QPoint & targetOffset = QPoint(), const QRegion & sourceRegion = QRegion(), RenderFlags renderFlags = RenderFlags( DrawWindowBackground | DrawChildren ));
+	void render(QPainter * painter, const QPoint & targetOffset = QPoint(), const QRegion & sourceRegion = QRegion(), RenderFlags renderFlags = RenderFlags( DrawWindowBackground | DrawChildren ));
 
 signals:
-	void currentPlaylistRowCount(int row);
-	void currentPlaylistRow(int row);
-	void playlistSelectedItemsIsEmpty(bool isEmpty);
 	void closed();
 	void hideMain();
 	void showMain();
 
 private slots:
+ void on_volumeSlider_valueChanged(int value);
+ void on_actionMediaOpen_triggered();
 	void on_actionMediaRepeat_triggered(bool checked);
 	void on_tableWidgetMediaPlaylistTask_doubleClicked(QModelIndex index);
 	void on_tabWidgetSearch_tabCloseRequested(int index);
@@ -108,14 +109,7 @@ private slots:
 	void on_actionLibrary_triggered();
 	void on_actionHome_triggered();
 	void icon_activated(QSystemTrayIcon::ActivationReason reason);
-	void setMediaPlay(QIcon icon, QString text);
-	void setMediaMute(QIcon icon, QString text);
 	void clearPlaylist();
-	void playlistRowCountRequest();
-	void playlistCurrentRowRequest();
-	void playlistSelectedItemsIsEmptyRequest();
-	void setPlaylistItem(int row, int column, QTableWidgetItem *item);
-	void setPlaylistStretchLastSection(bool stretchLastSection);
 	void skinChangeEvent();
 };
 

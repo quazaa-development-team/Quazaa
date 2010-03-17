@@ -235,8 +235,6 @@ MainWindow::MainWindow(QWidget *parent)
 		dlgSkinWizard->exec();
 	}
 
-
-
 	//Load the library
 	dlgSplash->updateProgress(15, tr("Loading Library..."));
 	qApp->processEvents();
@@ -245,60 +243,16 @@ MainWindow::MainWindow(QWidget *parent)
 	dlgSplash->updateProgress(20, tr("Loading Media Player..."));
 	qApp->processEvents();
 
-	mediaPlayer = new MediaPlayer(this);
-	ui->mediaWidgetLayout->addWidget(mediaPlayer);
-
-	connect(ui->actionMediaRewind, SIGNAL(triggered()), mediaPlayer, SLOT(rewind()));
-	connect(ui->actionMediaOpen, SIGNAL(triggered()), mediaPlayer, SLOT(openFiles()));
-	ui->actionMediaOpen->setMenu(mediaPlayer->fileMenu);
-
-	connect(ui->actionMediaPlay, SIGNAL(triggered()), mediaPlayer, SLOT(playPause()));
-	connect(ui->actionMediaStop, SIGNAL(triggered()), mediaPlayer, SLOT(stop()));
-	connect(ui->actionMediaNextTrack, SIGNAL(triggered()), mediaPlayer, SLOT(forward()));
-	//connect(openButton, SIGNAL(clicked()), this, SLOT(openFiles()));
-	connect(ui->actionMediaFullscreen, SIGNAL(triggered()), mediaPlayer, SLOT(setVideoWindowFullscreen()));
-	connect(ui->actionMediaSettings, SIGNAL(triggered()), mediaPlayer, SLOT(showSettingsDialog()));
-	connect(ui->toolButtonMediaPlaylistAdd, SIGNAL(clicked()), mediaPlayer, SLOT(addFiles()));
-
-	ui->frameMediaWindow->setMinimumSize(100, 100);
-
-	ui->seekSlider->setMediaObject(&mediaPlayer->m_MediaObject);
-	ui->volumeSlider->setAudioOutput(&mediaPlayer->m_AudioOutput);
-
-	connect(ui->actionMediaMute, SIGNAL(triggered()), mediaPlayer, SLOT(toggleMute()));
-	connect(mediaPlayer, SIGNAL(volumeEnableChanged(bool)), ui->volumeSlider, SLOT(setEnabled(bool)));
-	connect(mediaPlayer, SIGNAL(muteStatusChanged(QIcon,QString)), this, SLOT(setMediaMute(QIcon,QString)));
-	connect(mediaPlayer, SIGNAL(progressTextChanged(QString)), ui->labelMediaProgress, SLOT(setText(QString)));
-	connect(mediaPlayer, SIGNAL(totalTimeTextChanged(QString)), ui->labelMediaTime, SLOT(setText(QString)));
-	connect(mediaPlayer, SIGNAL(playlistRowChanged(int)), ui->tableWidgetMediaPlaylistTask, SLOT(selectRow(int)));
-	connect(mediaPlayer, SIGNAL(playlistRowCountUpdate()), this, SLOT(playlistRowCountRequest()));
-	connect(this, SIGNAL(currentPlaylistRowCount(int)), mediaPlayer, SLOT(setPlaylistRowCount(int)));
-	connect(mediaPlayer, SIGNAL(playlistCurrentRowUpdate()), this, SLOT(playlistCurrentRowRequest()));
-	connect(this, SIGNAL(currentPlaylistRow(int)), mediaPlayer, SLOT(setPlaylistCurrentRow(int)));
-	connect(mediaPlayer, SIGNAL(playlistRemoveRow(int)), ui->tableWidgetMediaPlaylistTask, SLOT(removeRow(int)));
-	connect(ui->toolButtonMediaPlaylistRemove, SIGNAL(clicked()), mediaPlayer, SLOT(onPlaylistRemove()));
-	connect(ui->toolButtonMediaPlaylistClear, SIGNAL(clicked()), mediaPlayer, SLOT(onPlaylistClear()));
-	connect(mediaPlayer, SIGNAL(playlistInsertRow(int)), ui->tableWidgetMediaPlaylistTask, SLOT(insertRow(int)));
-	connect(mediaPlayer, SIGNAL(setPlaylistItem(int,int,QTableWidgetItem*)), this, SLOT(setPlaylistItem(int,int,QTableWidgetItem*)));
-	connect(mediaPlayer, SIGNAL(playlistSelectedItemsIsEmptyUpdate()), this, SLOT(playlistSelectedItemsIsEmptyRequest()));
-	connect(this, SIGNAL(playlistSelectedItemsIsEmpty(bool)), mediaPlayer, SLOT(setPlaylistSelectedItemsIsEmpty(bool)));
-	connect(mediaPlayer, SIGNAL(playlistResizeColumnsToContents()), ui->tableWidgetMediaPlaylistTask, SLOT(resizeColumnsToContents()));
-	connect(mediaPlayer, SIGNAL(setPlaylistStretchLastSection(bool)), this, SLOT(setPlaylistStretchLastSection(bool)));
-	connect(mediaPlayer, SIGNAL(playButtonEnableChanged(bool)), ui->actionMediaPlay, SLOT(setEnabled(bool)));
-	connect(mediaPlayer, SIGNAL(playStatusChanged(QIcon,QString)), this, SLOT(setMediaPlay(QIcon,QString)));
-	connect(mediaPlayer, SIGNAL(stopButtonEnableChanged(bool)), ui->actionMediaStop, SLOT(setEnabled(bool)));
-	connect(mediaPlayer, SIGNAL(rewindButtonEnableChanged(bool)), ui->actionMediaRewind, SLOT(setEnabled(bool)));
-	connect(mediaPlayer, SIGNAL(forwardButtonEnableChanged(bool)), ui->actionMediaNextTrack, SLOT(setEnabled(bool)));
-	connect(mediaPlayer, SIGNAL(fullscreenEnableChanged(bool)), ui->actionMediaFullscreen, SLOT(setEnabled(bool)));
-	connect(mediaPlayer, SIGNAL(playlistClear()), this, SLOT(clearPlaylist()));
-	connect(ui->tableWidgetMediaPlaylistTask, SIGNAL(doubleClicked(QModelIndex)), mediaPlayer, SLOT(playlistDoubleClicked(QModelIndex)));
-	connect(ui->toolButtonMediaPlaylistOpenPlaylist, SIGNAL(clicked()), mediaPlayer, SLOT(openPlaylist()));
-	connect(ui->toolButtonMediaPlaylistSavePlaylist, SIGNAL(clicked()), mediaPlayer, SLOT(savePlaylist()));
-	connect(ui->toolButtonMediaPlaylistAddPlaylist, SIGNAL(clicked()), mediaPlayer, SLOT(addPlaylist()));
+	mediaPlayer = new vlcMediaPlayer(ui->seekSlider, ui->volumeSlider, ui->frameMediaWindow, ui->tableWidgetMediaPlaylistTask,
+									 ui->actionMediaPlay, ui->actionMediaStop, ui->actionMediaRewind, ui->actionMediaNextTrack,
+									 ui->actionMediaOpen, ui->actionMediaRepeat , ui->actionMediaShuffle,
+									 ui->actionMediaFullscreen, ui->actionMediaSettings, ui->actionMediaMute,
+									 ui->toolButtonMediaPlaylistAdd, ui->toolButtonMediaPlaylistRemove,
+									 ui->toolButtonMediaPlaylistClear,ui->toolButtonMediaPlaylistOpenPlaylist,
+									 ui->toolButtonMediaPlaylistAddPlaylist,
+									 ui->toolButtonMediaPlaylistSavePlaylist, this);
 	ui->actionMediaRepeat->setChecked(quazaaSettings.MediaRepeat);
 	ui->actionMediaShuffle->setChecked(quazaaSettings.MediaShuffle);
-	mediaPlayer->m_AudioOutput.setMuted(quazaaSettings.MediaMute);
-	mediaPlayer->m_AudioOutput.setVolume(quazaaSettings.MediaVolume);
 
 	//Load the networks
 	dlgSplash->updateProgress(25, tr("Loading Networks..."));
@@ -870,24 +824,9 @@ void MainWindow::on_tabWidgetSearch_tabCloseRequested(int index)
 	}
 }
 
-
-void MainWindow::setMediaPlay(QIcon icon, QString text)
-{
-	ui->actionMediaPlay->setIcon(icon);
-	ui->actionMediaPlay->setText(text);
-	ui->actionMediaPlay->setToolTip(text);
-}
-
-void MainWindow::setMediaMute(QIcon icon, QString text)
-{
-	ui->actionMediaMute->setIcon(icon);
-	ui->actionMediaMute->setText(text);
-	ui->actionMediaMute->setToolTip(text);
-}
-
 void MainWindow::on_tableWidgetMediaPlaylistTask_doubleClicked(QModelIndex index)
 {
-	mediaPlayer->playOnSwitch(true, mediaPlayer->sources.at(ui->tableWidgetMediaPlaylistTask->currentRow()));
+
 }
 
 void MainWindow::on_actionMediaRepeat_triggered(bool checked)
@@ -897,35 +836,7 @@ void MainWindow::on_actionMediaRepeat_triggered(bool checked)
 
 void MainWindow::clearPlaylist()
 {
-	while (ui->tableWidgetMediaPlaylistTask->rowCount() != 0)
-	{
-		ui->tableWidgetMediaPlaylistTask->removeRow(0);
-	}
-}
 
-void MainWindow::playlistRowCountRequest()
-{
-	emit currentPlaylistRowCount(ui->tableWidgetMediaPlaylistTask->rowCount());
-}
-
-void MainWindow::playlistCurrentRowRequest()
-{
-	emit currentPlaylistRow(ui->tableWidgetMediaPlaylistTask->currentRow());
-}
-
-void MainWindow::playlistSelectedItemsIsEmptyRequest()
-{
-	emit playlistSelectedItemsIsEmpty(ui->tableWidgetMediaPlaylistTask->selectedItems().isEmpty());
-}
-
-void MainWindow::setPlaylistItem(int row, int column, QTableWidgetItem *item)
-{
-	ui->tableWidgetMediaPlaylistTask->setItem(row, column, item);
-}
-
-void MainWindow::setPlaylistStretchLastSection(bool stretchLastSection)
-{
-	ui->tableWidgetMediaPlaylistTask->horizontalHeader()->setStretchLastSection(stretchLastSection);
 }
 
 void MainWindow::skinChangeEvent()
@@ -1036,4 +947,26 @@ void MainWindow::skinChangeEvent()
 	ui->toolFrameSearchMonitor->setStyleSheet(skinSettings.toolbars);
 	ui->toolFrameSecurity->setStyleSheet(skinSettings.toolbars);
 	ui->toolFrameUploads->setStyleSheet(skinSettings.toolbars);
+}
+
+void MainWindow::on_actionMediaOpen_triggered()
+{
+	mediaPlayer->openFile();
+}
+
+void MainWindow::on_volumeSlider_valueChanged(int value)
+{
+	quazaaSettings.MediaVolume = value;
+}
+
+void MainWindow::render(QPaintDevice * target, const QPoint & targetOffset, const QRegion & sourceRegion, RenderFlags renderFlags)
+{
+	renderFlags = RenderFlags( QWidget::DrawWindowBackground | QWidget::DrawChildren | QWidget::IgnoreMask);
+	render(target, targetOffset, sourceRegion, renderFlags);
+}
+
+void MainWindow::render(QPainter * painter, const QPoint & targetOffset, const QRegion & sourceRegion, RenderFlags renderFlags)
+{
+	renderFlags = RenderFlags( QWidget::DrawWindowBackground | QWidget::DrawChildren | QWidget::IgnoreMask);
+	render(painter, targetOffset, sourceRegion, renderFlags);
 }
