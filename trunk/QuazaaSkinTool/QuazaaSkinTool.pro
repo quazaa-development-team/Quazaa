@@ -2,7 +2,7 @@
 # Project created by QtCreator 2010-02-18T20:24:21
 # -------------------------------------------------
 QT += phonon
-CONFIG += designer debug_and_release
+CONFIG += designer
 TARGET = QuazaaSkinTool
 CONFIG(debug, debug|release) {
 	mac: TARGET = $$join(TARGET,,,_debug)

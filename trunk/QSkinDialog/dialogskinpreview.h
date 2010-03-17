@@ -56,7 +56,8 @@ private:
 	QAction *systemCloseAction;
 
 private slots:
-	void on_windowIcon_clicked();
+	void on_windowFrameTopSpacer_customContextMenuRequested(QPoint pos);
+ void on_windowIcon_clicked();
 	void on_windowIcon_customContextMenuRequested(QPoint pos);
 	void on_windowFrameTop_customContextMenuRequested(QPoint pos);
 	void on_windowText_customContextMenuRequested(QPoint pos);

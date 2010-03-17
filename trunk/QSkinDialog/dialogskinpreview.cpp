@@ -314,6 +314,7 @@ void DialogSkinPreview::loadSkin(QString file)
 	ui->lineEditAuthor->setText(reader.value("skinAuthor", "").toString());
 	ui->lineEditVersion->setText(reader.value("skinVersion", "").toString());
 	ui->plainTextEditDescription->setPlainText(reader.value("skinDescription", "").toString());
+	setStyleSheet(reader.value("standardItems", "").toString());
 	ui->windowFrameTopLeft->setStyleSheet(reader.value("windowFrameTopLeftStyleSheet", "border-image: url(:/Resource/frameTopLeft.png);").toString());
 	ui->windowFrameLeft->setStyleSheet(reader.value("windowFrameLeftStyleSheet", "border-image: url(:/Resource/frameLeft.png); border-left: 1; border-top: 10;").toString());
 	ui->windowFrameBottomLeft->setStyleSheet(reader.value("windowFrameBottomLeftStyleSheet", "border-image: url(:/Resource/frameBottomLeft.png);").toString());
@@ -368,6 +369,11 @@ void DialogSkinPreview::on_windowIcon_customContextMenuRequested(QPoint pos)
 }
 
 void DialogSkinPreview::on_windowIcon_clicked()
+{
+	systemMenu->exec(ui->windowIcon->mapToGlobal(ui->windowIcon->geometry().bottomLeft()));
+}
+
+void DialogSkinPreview::on_windowFrameTopSpacer_customContextMenuRequested(QPoint pos)
 {
 	systemMenu->exec(ui->windowIcon->mapToGlobal(ui->windowIcon->geometry().bottomLeft()));
 }
