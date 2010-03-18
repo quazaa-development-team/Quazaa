@@ -40,6 +40,7 @@ INPUT(
 ./release\vlcmediaplayer.o
 ./release\moc_mainwindow.o
 ./release\moc_dialoglanguage.o
+./release\moc_quazaasettings.o
 ./release\moc_quazaaglobals.o
 ./release\moc_dialogsplash.o
 ./release\moc_widgetsearchtemplate.o
