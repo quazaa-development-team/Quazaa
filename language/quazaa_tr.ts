@@ -6678,19 +6678,6 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>QtLocalPeer</name>
-    <message>
-        <location filename="../qtsingleapplication/src/qtlocalpeer.cpp" line="133"/>
-        <source>QtSingleCoreApplication: listen on local socket failed, %s</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtsingleapplication/src/qtlocalpeer.cpp" line="194"/>
-        <source>QtLocalPeer: Message reception failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>QuazaaGlobals</name>
     <message>
         <location filename="../quazaaglobals.h" line="106"/>
