@@ -137,6 +137,7 @@ FORMS += mainwindow.ui \
 	language/quazaa_chs.ts \
 	language/quazaa_cz.ts \
 	language/quazaa_de.ts \
+	language/quazaa_default_en.ts \
 	language/quazaa_ee.ts \
 	language/quazaa_es.ts \
 	language/quazaa_es-mx.ts \
