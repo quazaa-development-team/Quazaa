@@ -60,6 +60,10 @@ signals:
 	void showMain();
 
 private slots:
+ void on_actionConnectionTest_triggered();
+ void on_actionFAQ_triggered();
+ void on_actionUsersGuide_triggered();
+ void on_actionQuazaaForums_triggered();
  void on_volumeSlider_valueChanged(int value);
  void on_actionMediaOpen_triggered();
 	void on_actionMediaRepeat_triggered(bool checked);

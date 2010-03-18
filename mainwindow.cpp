@@ -970,3 +970,23 @@ void MainWindow::render(QPainter * painter, const QPoint & targetOffset, const Q
 	renderFlags = RenderFlags( QWidget::DrawWindowBackground | QWidget::DrawChildren | QWidget::IgnoreMask);
 	render(painter, targetOffset, sourceRegion, renderFlags);
 }
+
+void MainWindow::on_actionQuazaaForums_triggered()
+{
+	QDesktopServices::openUrl(QUrl("https://sourceforge.net/apps/phpbb/quazaa/index.php", QUrl::TolerantMode));
+}
+
+void MainWindow::on_actionUsersGuide_triggered()
+{
+	QDesktopServices::openUrl(QUrl("https://sourceforge.net/apps/mediawiki/quazaa/index.php?title=Manual&action=edit&redlink=1", QUrl::TolerantMode));
+}
+
+void MainWindow::on_actionFAQ_triggered()
+{
+	QDesktopServices::openUrl(QUrl("https://sourceforge.net/apps/mediawiki/quazaa/index.php?title=FAQ&action=edit&redlink=1", QUrl::TolerantMode));
+}
+
+void MainWindow::on_actionConnectionTest_triggered()
+{
+	QDesktopServices::openUrl(QUrl("http://jlh.no-ip.org/connectiontest", QUrl::TolerantMode));
+}

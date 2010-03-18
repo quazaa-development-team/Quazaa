@@ -28,6 +28,8 @@
 
 class QuazaaSettings : public QObject
 {
+	Q_OBJECT
+
 public:
 	QuazaaSettings();
 	void saveSettings();
