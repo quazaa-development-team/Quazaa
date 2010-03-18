@@ -29,6 +29,7 @@ FORMS += mainwindow.ui \
 	language/quazaaskintool_chs.ts \
 	language/quazaaskintool_cz.ts \
 	language/quazaaskintool_de.ts \
+	language/quazaaskintool_default_en.ts \
 	language/quazaaskintool_ee.ts \
 	language/quazaaskintool_es.ts \
 	language/quazaaskintool_es-mx.ts \
