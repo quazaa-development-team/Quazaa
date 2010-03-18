@@ -131,6 +131,35 @@ FORMS += mainwindow.ui \
 	mediasettings.ui \
 	QSkinDialog/qskindialog.ui \
 	QSkinDialog/dialogskinpreview.ui
+ TRANSLATIONS = language/quazaa_af.ts \
+	language/quazaa_ar.ts \
+	language/quazaa_ca.ts \
+	language/quazaa_chs.ts \
+	language/quazaa_cz.ts \
+	language/quazaa_de.ts \
+	language/quazaa_ee.ts \
+	language/quazaa_es.ts \
+	language/quazaa_es-mx.ts \
+	language/quazaa_fi.ts \
+	language/quazaa_fr.ts \
+	language/quazaa_gr.ts \
+	language/quazaa_heb.ts \
+	language/quazaa_hr.ts \
+	language/quazaa_hu.ts \
+	language/quazaa_it.ts \
+	language/quazaa_ja.ts \
+	language/quazaa_lt.ts \
+	language/quazaa_nl.ts \
+	language/quazaa_no.ts \
+	language/quazaa_pt.ts \
+	language/quazaa_pt-br.ts \
+	language/quazaa_ru.ts \
+	language/quazaa_sl-si.ts \
+	language/quazaa_sq.ts \
+	language/quazaa_sr.ts \
+	language/quazaa_sv.ts \
+	language/quazaa_tr.ts \
+	language/quazaa_tw.ts
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
