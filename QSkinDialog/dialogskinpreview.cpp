@@ -89,7 +89,7 @@ DialogSkinPreview::DialogSkinPreview(bool sizable, bool closable, QWidget *paren
 	connect(ui->minimizeButton, SIGNAL(clicked()), this, SLOT(onMinimize()));
 	connect(ui->maximizeButton, SIGNAL(clicked()), this, SLOT(onMaximize()));
 
-	this->setWindowTitle("Skin Preview");
+	this->setWindowTitle(tr("Skin Preview"));
 	this->setWindowIcon(QIcon(":/Resource/Quazaa48.png"));
 }
 
@@ -135,7 +135,7 @@ void DialogSkinPreview::setMaximized(bool maximize)
 		normalGeometry = this->geometry();
 		setGeometry(0,0,QApplication::desktop()->availableGeometry(this).width(),QApplication::desktop()->availableGeometry(this).height());
 		maximized = true;
-		ui->maximizeButton->setToolTip("Restore");
+		ui->maximizeButton->setToolTip(tr("Restore"));
 		systemRestoreAction->setEnabled(true);
 		systemMaximizeAction->setEnabled(false);
 		ui->windowFrameTopLeft->setVisible(false);
@@ -148,7 +148,7 @@ void DialogSkinPreview::setMaximized(bool maximize)
 	} else {
 		this->setGeometry(normalGeometry);
 		maximized = false;
-		ui->maximizeButton->setToolTip("Maximize");
+		ui->maximizeButton->setToolTip(tr("Maximize"));
 		systemRestoreAction->setEnabled(false);
 		systemMaximizeAction->setEnabled(true);
 		ui->windowFrameTopLeft->setVisible(true);

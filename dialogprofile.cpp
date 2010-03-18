@@ -336,7 +336,7 @@ void DialogProfile::on_pushButtonAvatarAdd_clicked()
 {
 	m_sTempAvatarFileName = QFileDialog::getOpenFileName(this, tr("Open Avatar Image"),
 							qApp->applicationDirPath(),
-							tr("Images (*.bmp *.png *.xbm *.xpm *.jpg *.jpeg *.gif *.pbm *.pgm *.ppm)"));
+							tr("Images") + " (*.bmp *.png *.xbm *.xpm *.jpg *.jpeg *.gif *.pbm *.pgm *.ppm)");
 	if (m_sTempAvatarFileName != "")
 	{
 		m_ui->labelAvatarPreview->setPixmap(m_sTempAvatarFileName);
