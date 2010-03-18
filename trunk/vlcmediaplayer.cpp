@@ -216,7 +216,7 @@ void vlcMediaPlayer::raise(libvlc_exception_t * ex)
 void vlcMediaPlayer::openFile(QString file)
 {
 	if (file.isEmpty())
-		file = QFileDialog::getOpenFileName(this, "Open Media File", quazaaSettings.MediaOpenPath, quazaaGlobals.MediaOpenFilter());
+		file = QFileDialog::getOpenFileName(this, tr("Open Media File"), quazaaSettings.MediaOpenPath, quazaaGlobals.MediaOpenFilter());
 	if (!file.isEmpty())
 	{
 		if (m_bIsPlaying)

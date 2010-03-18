@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	QMenu *colorActionMenu = new QMenu(this);
 
 	ui->statusBarPreview->showMessage("Status Bar");
-	ui->statusBarPreview->addPermanentWidget(new QLabel("Status Bar Item", this));
+	ui->statusBarPreview->addPermanentWidget(new QLabel(tr("Status Bar Item"), this));
 
 	for (int imageProperty = 0; imageProperties[imageProperty]; ++imageProperty) {
 		QAction *action = imageActionMenu->addAction(QLatin1String(imageProperties[imageProperty]));
@@ -149,7 +149,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 {
 	if (!saved && !skinSettings.skinName.isEmpty())
 	{
-		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, "Skin Not Saved", "The skin has not been saved. Would you like to save it now?", QMessageBox::Ok|QMessageBox::Cancel, this);
+		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, tr("Skin Not Saved"), tr("The skin has not been saved. Would you like to save it now?"), QMessageBox::Ok|QMessageBox::Cancel, this);
 		bool ok = msgBox->exec();
 		if (ok)
 			on_actionSave_triggered();
@@ -173,7 +173,7 @@ void MainWindow::on_actionNew_triggered()
 		{
 			skinPath.mkpath(QString(qApp->applicationDirPath() + "/Skin/" + ui->lineEditName->text() + "/"));
 		}
-		this->setWindowTitle(dlgNewSkin->name + ".qsf" + " - Quazaa Skin Tool");
+		this->setWindowTitle(dlgNewSkin->name + ".qsf" + tr(" - Quazaa Skin Tool"));
 		ui->lineEditAuthor->setText(dlgNewSkin->author);
 		skinSettings.skinAuthor = dlgNewSkin->author;
 		ui->lineEditVersion->setText(dlgNewSkin->version);
@@ -454,7 +454,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 	{
 		bool tempSaved = saved;
 		currentSelectionText = item->text(column);
-		if (item->text(column) == "Skin Properties")
+		if (item->text(column) == tr("Skin Properties"))
 		{
 			ui->stackedWidget->setCurrentIndex(0);
 			ui->plainTextEditStyleSheet->setPlainText("");
@@ -463,47 +463,47 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->plainTextEditStyleSheet->setEnabled(true);
 		}
 
-		if (item->text(column) == "Splash Screen Background")
+		if (item->text(column) == tr("Splash Screen Background"))
 		{
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.splashBackground);
 			ui->stackedWidget->setCurrentIndex(1);
 		}
 
-		if (item->text(column) == "Logo")
+		if (item->text(column) == tr("Logo"))
 		{
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.splashLogo);
 			ui->stackedWidget->setCurrentIndex(1);
 		}
 
-		if (item->text(column) == "Footer")
+		if (item->text(column) == tr("Footer"))
 		{
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.splashFooter);
 			ui->stackedWidget->setCurrentIndex(1);
 		}
 
-		if (item->text(column) == "Status Text")
+		if (item->text(column) == tr("Status Text"))
 		{
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.splashStatus);
 			ui->stackedWidget->setCurrentIndex(1);
 		}
 
-		if (item->text(column) == "Progress")
+		if (item->text(column) == tr("Progress"))
 		{
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.splashProgress);
 			ui->stackedWidget->setCurrentIndex(1);
 		}
 
-		if (item->text(column) == "Top Left")
+		if (item->text(column) == tr("Top Left"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowFrameTopLeftStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Left")
+		if (item->text(column) == tr("Left"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowFrameLeftStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
@@ -511,373 +511,373 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 
 		if (item->text(column) == "Bottom Left")
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowFrameBottomLeftStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Top")
+		if (item->text(column) == tr("Top"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowFrameTopStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Icon Frame")
+		if (item->text(column) == tr("Icon Frame"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowIconFrameStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Window Text")
+		if (item->text(column) == tr("Window Text"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowTextStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Spacer Frame")
+		if (item->text(column) == tr("Spacer Frame"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowFrameTopSpacerStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Buttons Frame")
+		if (item->text(column) == tr("Buttons Frame"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.titlebarButtonsFrameStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Minimize Button")
+		if (item->text(column) == tr("Minimize Button"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.minimizeButtonStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Maximize Button")
+		if (item->text(column) == tr("Maximize Button"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.maximizeButtonStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Close Button")
+		if (item->text(column) == tr("Close Button"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.closeButtonStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Bottom")
+		if (item->text(column) == tr("Bottom"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowFrameBottomStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Top Right")
+		if (item->text(column) == tr("Top Right"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowFrameTopRightStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Right")
+		if (item->text(column) == tr("Right"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowFrameRightStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Bottom Right")
+		if (item->text(column) == tr("Bottom Right"))
 		{
-			ui->windowText->setText("Main Window");
+			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.windowFrameBottomRightStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Top Left")
+		if (item->text(column) == tr("Child Top Left"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowFrameTopLeftStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Left")
+		if (item->text(column) == tr("Child Left"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowFrameLeftStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Bottom Left")
+		if (item->text(column) == tr("Child Bottom Left"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowFrameBottomLeftStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Top")
+		if (item->text(column) == tr("Child Top"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowFrameTopStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Icon Frame")
+		if (item->text(column) == tr("Child Icon Frame"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowIconFrameStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Window Text")
+		if (item->text(column) == tr("Child Window Text"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowTextStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Spacer Frame")
+		if (item->text(column) == tr("Child Spacer Frame"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowFrameTopSpacerStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Buttons Frame")
+		if (item->text(column) == tr("Child Buttons Frame"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childTitlebarButtonsFrameStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Minimize Button")
+		if (item->text(column) == tr("Child Minimize Button"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childMinimizeButtonStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Maximize Button")
+		if (item->text(column) == tr("Child Maximize Button"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childMaximizeButtonStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Close Button")
+		if (item->text(column) == tr("Child Close Button"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childCloseButtonStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Bottom")
+		if (item->text(column) == tr("Child Bottom"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowFrameBottomStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Top Right")
+		if (item->text(column) == tr("Child Top Right"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowFrameTopRightStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Right")
+		if (item->text(column) == tr("Child Right"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowFrameRightStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Child Bottom Right")
+		if (item->text(column) == tr("Child Bottom Right"))
 		{
-			ui->windowText->setText("Child Window");
+			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.childWindowFrameBottomRightStyleSheet);
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Standard Items")
+		if (item->text(column) == tr("Standard Items"))
 		{
 			ui->stackedWidget->setCurrentIndex(3);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.standardItems);
 		}
 
-		if (item->text(column) == "Sidebar Background")
+		if (item->text(column) == tr("Sidebar Background"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarBackground);
 		}
 
-		if (item->text(column) == "Sidebar Task Header")
+		if (item->text(column) == tr("Sidebar Task Header"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarTaskHeader);
 		}
 
-		if (item->text(column) == "Sidebar Task Body")
+		if (item->text(column) == tr("Sidebar Task Body"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarTaskBackground);
 		}
 
-		if (item->text(column) == "Un-Clickable Sidebar Task Header")
+		if (item->text(column) == tr("Un-Clickable Sidebar Task Header"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarUnclickableTaskHeader);
 		}
 
-		if (item->text(column) == "Add Search Button")
+		if (item->text(column) == tr("Add Search Button"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.addSearchButton);
 		}
 
-		if (item->text(column) == "Chat Welcome")
+		if (item->text(column) == tr("Chat Welcome"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.chatWelcome);
 		}
 
-		if (item->text(column) == "Chat Toolbar")
+		if (item->text(column) == tr("Chat Toolbar"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.chatToolbar);
 		}
 
-		if (item->text(column) == "Library Navigator")
+		if (item->text(column) == tr("Library Navigator"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.libraryNavigator);
 		}
 
-		if (item->text(column) == "Searches")
+		if (item->text(column) == tr("Searches"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.tabSearches);
 		}
 
-		if (item->text(column) == "Toolbars")
+		if (item->text(column) == tr("Toolbars"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.toolbars);
 		}
 
-		if (item->text(column) == "Media Toolbar")
+		if (item->text(column) == tr("Media Toolbar"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.mediaToolbar);
 		}
 
-		if (item->text(column) == "Media Seek Slider")
+		if (item->text(column) == tr("Media Seek Slider"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.seekSlider);
 		}
 
-		if (item->text(column) == "Media Volume Slider")
+		if (item->text(column) == tr("Media Volume Slider"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.volumeSlider);
 		}
 
-		if (item->text(column) == "Toolbar")
+		if (item->text(column) == tr("Toolbar"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.navigationToolbar);
 		}
 
-		if (item->text(column) == "Home")
+		if (item->text(column) == tr("Home"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.homeHeader);
 		}
 
-		if (item->text(column) == "Library")
+		if (item->text(column) == tr("Library"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.libraryHeader);
 		}
 
-		if (item->text(column) == "Media")
+		if (item->text(column) == tr("Media"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.mediaHeader);
 		}
 
-		if (item->text(column) == "Search")
+		if (item->text(column) == tr("Search"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.searchHeader);
 		}
 
-		if (item->text(column) == "Transfers")
+		if (item->text(column) == tr("Transfers"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.transfersHeader);
 		}
 
-		if (item->text(column) == "Security")
+		if (item->text(column) == tr("Security"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.securityHeader);
 		}
 
-		if (item->text(column) == "Network")
+		if (item->text(column) == tr("Network"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.networkHeader);
 		}
 
-		if (item->text(column) == "Chat")
+		if (item->text(column) == tr("Chat"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.chatHeader);
 		}
 
-		if (item->text(column) == "Generic")
+		if (item->text(column) == tr("Generic"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.genericHeader);
 		}
 
-		if (item->text(column) == "Dialog Header")
+		if (item->text(column) == tr("Dialog Header"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.dialogHeader);
@@ -913,14 +913,14 @@ void MainWindow::on_actionClose_triggered()
 {
 	if (!saved && !skinSettings.skinName.isEmpty())
 	{
-		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, "Skin Not Saved", "The skin has not been saved. Would you like to save it now?", QMessageBox::Ok|QMessageBox::Cancel, this);
+		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, tr("Skin Not Saved"), tr("The skin has not been saved. Would you like to save it now?"), QMessageBox::Ok|QMessageBox::Cancel, this);
 		bool ok = msgBox->exec();
 		if (ok)
 			on_actionSave_triggered();
 	}
 	this->enableEditing(false);
 
-	this->setWindowTitle("Quazaa Skin Tool");
+	this->setWindowTitle(tr("Quazaa Skin Tool"));
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -1055,302 +1055,302 @@ void MainWindow::updateWindowStyleSheet(bool mainWindow)
 
 void MainWindow::applySheets()
 {
-	if (currentSelectionText == "Splash Screen Background")
+	if (currentSelectionText == tr("Splash Screen Background"))
 	{
 		skinSettings.splashBackground = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Logo")
+	if (currentSelectionText == tr("Logo"))
 	{
 		skinSettings.splashLogo = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Footer")
+	if (currentSelectionText == tr("Footer"))
 	{
 		skinSettings.splashFooter = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Status Text")
+	if (currentSelectionText == tr("Status Text"))
 	{
 		skinSettings.splashStatus = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Progress")
+	if (currentSelectionText == tr("Progress"))
 	{
 		skinSettings.splashProgress = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Top Left")
+	if (currentSelectionText == tr("Top Left"))
 	{
 		skinSettings.windowFrameTopLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Left")
+	if (currentSelectionText == tr("Left"))
 	{
 		skinSettings.windowFrameLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Bottom Left")
+	if (currentSelectionText == tr("Bottom Left"))
 	{
 		skinSettings.windowFrameBottomLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Top")
+	if (currentSelectionText == tr("Top"))
 	{
 		skinSettings.windowFrameTopStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Icon Frame")
+	if (currentSelectionText == tr("Icon Frame"))
 	{
 		skinSettings.windowIconFrameStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Window Text")
+	if (currentSelectionText == tr("Window Text"))
 	{
 		skinSettings.windowTextStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Spacer Frame")
+	if (currentSelectionText == tr("Spacer Frame"))
 	{
 		skinSettings.windowFrameTopSpacerStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Buttons Frame")
+	if (currentSelectionText == tr("Buttons Frame"))
 	{
 		skinSettings.titlebarButtonsFrameStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Minimize Button")
+	if (currentSelectionText == tr("Minimize Button"))
 	{
 		skinSettings.minimizeButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Maximize Button")
+	if (currentSelectionText == tr("Maximize Button"))
 	{
 		skinSettings.maximizeButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Close Button")
+	if (currentSelectionText == tr("Close Button"))
 	{
 		skinSettings.closeButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Bottom")
+	if (currentSelectionText == tr("Bottom"))
 	{
 		skinSettings.windowFrameBottomStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Top Right")
+	if (currentSelectionText == tr("Top Right"))
 	{
 		skinSettings.windowFrameTopRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Right")
+	if (currentSelectionText == tr("Right"))
 	{
 		skinSettings.windowFrameRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Bottom Right")
+	if (currentSelectionText == tr("Bottom Right"))
 	{
 		skinSettings.windowFrameBottomRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Top Left")
+	if (currentSelectionText == tr("Child Top Left"))
 	{
 		skinSettings.childWindowFrameTopLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Left")
+	if (currentSelectionText == tr("Child Left"))
 	{
 		skinSettings.childWindowFrameLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Bottom Left")
+	if (currentSelectionText == tr("Child Bottom Left"))
 	{
 		skinSettings.childWindowFrameBottomLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Top")
+	if (currentSelectionText == tr("Child Top"))
 	{
 		skinSettings.childWindowFrameTopStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Icon Frame")
+	if (currentSelectionText == tr("Child Icon Frame"))
 	{
 		skinSettings.childWindowIconFrameStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Window Text")
+	if (currentSelectionText == tr("Child Window Text"))
 	{
 		skinSettings.childWindowTextStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Spacer Frame")
+	if (currentSelectionText == tr("Child Spacer Frame"))
 	{
 		skinSettings.childWindowFrameTopSpacerStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Buttons Frame")
+	if (currentSelectionText == tr("Child Buttons Frame"))
 	{
 		skinSettings.childTitlebarButtonsFrameStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Minimize Button")
+	if (currentSelectionText == tr("Child Minimize Button"))
 	{
 		skinSettings.childMinimizeButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Maximize Button")
+	if (currentSelectionText == tr("Child Maximize Button"))
 	{
 		skinSettings.childMaximizeButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Close Button")
+	if (currentSelectionText == tr("Child Close Button"))
 	{
 		skinSettings.childCloseButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Bottom")
+	if (currentSelectionText == tr("Child Bottom"))
 	{
 		skinSettings.childWindowFrameBottomStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Top Right")
+	if (currentSelectionText == tr("Child Top Right"))
 	{
 		skinSettings.childWindowFrameTopRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Right")
+	if (currentSelectionText == tr("Child Right"))
 	{
 		skinSettings.childWindowFrameRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Child Bottom Right")
+	if (currentSelectionText == tr("Child Bottom Right"))
 	{
 		skinSettings.childWindowFrameBottomRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Standard Items")
+	if (currentSelectionText == tr("Standard Items"))
 	{
 		skinSettings.standardItems = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Sidebar Background")
+	if (currentSelectionText == tr("Sidebar Background"))
 	{
 		skinSettings.sidebarBackground = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Sidebar Task Header")
+	if (currentSelectionText == tr("Sidebar Task Header"))
 	{
 		skinSettings.sidebarTaskHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Sidebar Task Body")
+	if (currentSelectionText == tr("Sidebar Task Body"))
 	{
 		skinSettings.sidebarTaskBackground = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Un-Clickable Sidebar Task Header")
+	if (currentSelectionText == tr("Un-Clickable Sidebar Task Header"))
 	{
 		skinSettings.sidebarUnclickableTaskHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Add Search Button")
+	if (currentSelectionText == tr("Add Search Button"))
 	{
 		skinSettings.addSearchButton = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Chat Welcome")
+	if (currentSelectionText == tr("Chat Welcome"))
 	{
 		skinSettings.chatWelcome = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Chat Toolbar")
+	if (currentSelectionText == tr("Chat Toolbar"))
 	{
 		skinSettings.chatToolbar = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Library Navigator")
+	if (currentSelectionText == tr("Library Navigator"))
 	{
 		skinSettings.libraryNavigator = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Searches")
+	if (currentSelectionText == tr("Searches"))
 	{
 		skinSettings.tabSearches = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Toolbars")
+	if (currentSelectionText == tr("Toolbars"))
 	{
 		skinSettings.toolbars = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Media Toolbar")
+	if (currentSelectionText == tr("Media Toolbar"))
 	{
 		skinSettings.mediaToolbar = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Media Seek Slider")
+	if (currentSelectionText == tr("Media Seek Slider"))
 	{
 		skinSettings.seekSlider = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Media Volume Slider")
+	if (currentSelectionText == tr("Media Volume Slider"))
 	{
 		skinSettings.volumeSlider = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Toolbar")
+	if (currentSelectionText == tr("Toolbar"))
 	{
 		skinSettings.navigationToolbar = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Home")
+	if (currentSelectionText == tr("Home"))
 	{
 		skinSettings.homeHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Library")
+	if (currentSelectionText == tr("Library"))
 	{
 		skinSettings.libraryHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Media")
+	if (currentSelectionText == tr("Media"))
 	{
 		skinSettings.mediaHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Search")
+	if (currentSelectionText == tr("Search"))
 	{
 		skinSettings.searchHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Transfers")
+	if (currentSelectionText == tr("Transfers"))
 	{
 		skinSettings.transfersHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Security")
+	if (currentSelectionText == tr("Security"))
 	{
 		skinSettings.securityHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Network")
+	if (currentSelectionText == tr("Network"))
 	{
 		skinSettings.networkHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Chat")
+	if (currentSelectionText == tr("Chat"))
 	{
 		skinSettings.chatHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Generic")
+	if (currentSelectionText == tr("Generic"))
 	{
 		skinSettings.genericHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == "Dialog Header")
+	if (currentSelectionText == tr("Dialog Header"))
 	{
 		skinSettings.dialogHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}

@@ -2671,7 +2671,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../dialogprofile.cpp" line="339"/>
-        <source>Images (*.bmp *.png *.xbm *.xpm *.jpg *.jpeg *.gif *.pbm *.pgm *.ppm)</source>
+        <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4444,6 +4444,7 @@ p, li { white-space: pre-wrap; }
     <name>DialogSkinPreview</name>
     <message>
         <location filename="../QSkinDialog/dialogskinpreview.ui" line="14"/>
+        <location filename="../QSkinDialog/dialogskinpreview.cpp" line="92"/>
         <source>Skin Preview</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4481,6 +4482,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../QSkinDialog/dialogskinpreview.ui" line="553"/>
         <location filename="../QSkinDialog/dialogskinpreview.cpp" line="42"/>
+        <location filename="../QSkinDialog/dialogskinpreview.cpp" line="151"/>
         <source>Maximize</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4492,6 +4494,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../QSkinDialog/dialogskinpreview.cpp" line="34"/>
+        <location filename="../QSkinDialog/dialogskinpreview.cpp" line="138"/>
         <source>Restore</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6653,6 +6656,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="491"/>
         <location filename="../QSkinDialog/qskindialog.cpp" line="47"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="206"/>
         <source>Maximize</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6665,6 +6669,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../QSkinDialog/qskindialog.cpp" line="39"/>
         <source>Restore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="193"/>
+        <source>Restore Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QtLocalPeer</name>
+    <message>
+        <location filename="../qtsingleapplication/src/qtlocalpeer.cpp" line="133"/>
+        <source>QtSingleCoreApplication: listen on local socket failed, %s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtsingleapplication/src/qtlocalpeer.cpp" line="194"/>
+        <source>QtLocalPeer: Message reception failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QuazaaGlobals</name>
+    <message>
+        <location filename="../quazaaglobals.h" line="106"/>
+        <source>All Media Files </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quazaaglobals.h" line="106"/>
+        <source>All Files </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quazaaglobals.h" line="106"/>
+        <source>Video Files </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6780,6 +6820,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mediasettings.ui" line="320"/>
         <source>10 Sec</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>vlcMediaPlayer</name>
+    <message>
+        <location filename="../vlcmediaplayer.cpp" line="219"/>
+        <source>Open Media File</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

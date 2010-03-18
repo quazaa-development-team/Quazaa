@@ -190,7 +190,7 @@ void QSkinDialog::setMaximized(bool maximize)
 		normalGeometry = this->geometry();
 		setGeometry(0,0,QApplication::desktop()->availableGeometry(this).width(),QApplication::desktop()->availableGeometry(this).height());
 		maximized = true;
-		ui->maximizeButton->setToolTip("Restore Down");
+		ui->maximizeButton->setToolTip(tr("Restore Down"));
 		systemRestoreAction->setEnabled(true);
 		systemMaximizeAction->setEnabled(false);
 		ui->windowFrameTopLeft->setVisible(false);
@@ -203,7 +203,7 @@ void QSkinDialog::setMaximized(bool maximize)
 	} else {
 		this->setGeometry(normalGeometry);
 		maximized = false;
-		ui->maximizeButton->setToolTip("Maximize");
+		ui->maximizeButton->setToolTip(tr("Maximize"));
 		systemRestoreAction->setEnabled(false);
 		systemMaximizeAction->setEnabled(true);
 		ui->windowFrameTopLeft->setVisible(true);
