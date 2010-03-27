@@ -257,28 +257,28 @@ p, li { white-space: pre-wrap; }
         <item row="0" column="0">
          <widget class="QLabel" name="labelSHA1">
           <property name="text">
-           <string>SHA1:</string>
+           <string notr="true">SHA1:</string>
           </property>
          </widget>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="labelTigerTree">
           <property name="text">
-           <string>Tiger-Tree:</string>
+           <string notr="true">Tiger-Tree:</string>
           </property>
          </widget>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="labelED2K">
           <property name="text">
-           <string>ED2K:</string>
+           <string notr="true">ED2K:</string>
           </property>
          </widget>
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="labelMD5">
           <property name="text">
-           <string>MD5:</string>
+           <string notr="true">MD5:</string>
           </property>
          </widget>
         </item>

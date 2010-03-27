@@ -56,9 +56,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 	//Initialize Settings
 	quazaaSettings.loadSettings();
+	interfaceLoaded = false;
 
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();
+
 	if (quazaaSettings.FirstRun())
 	{
 		QSkinDialog *skinDlgLanguage = new QSkinDialog(false, true, false, this);
@@ -68,18 +70,9 @@ MainWindow::MainWindow(QWidget *parent)
 		skinDlgLanguage->exec();
 	}
 
-	if (!quazaaSettings.LanguageDefault)
-	{
-		QFile languageFile(quazaaSettings.LanguageFile);
-		QFileInfo languageFileInfo(languageFile);
-		QTranslator translator;
+	quazaaGlobals.translator.load(quazaaSettings.LanguageFile);
+	qApp->installTranslator(&quazaaGlobals.translator);
 
-		if (languageFile.open(QIODevice::ReadOnly))
-		{
-			translator.load(languageFileInfo.fileName(), languageFileInfo.filePath());
-			qApp->installTranslator(&translator);
-		}
-	}
 	qApp->processEvents();
 
 	//Create splash window
@@ -213,6 +206,7 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->actionSearchToggle->setChecked(quazaaSettings.MainWindowSearchSidebarVisible);
 	ui->toolButtonSearchTaskHeader->setChecked(quazaaSettings.MainWindowSearchTaskVisible);
 	ui->splitterTransfers->restoreState(quazaaSettings.MainWindowTransfersSplitter);
+	interfaceLoaded = true;
 
 	//Load profile
 	dlgSplash->updateProgress(8, tr("Loading Profile..."));
@@ -350,6 +344,88 @@ void MainWindow::changeEvent(QEvent *e)
 	switch (e->type()) {
 	case QEvent::LanguageChange:
 		ui->retranslateUi(this);
+		ui->toolBarMain->setStyleSheet(skinSettings.navigationToolbar);
+		if (interfaceLoaded)
+		{
+			switch (ui->stackedWidgetMain->currentIndex())
+			{
+				case 0:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
+					ui->labelMainHeaderText->setText(tr("Quazaa Home"));
+					ui->actionHome->setChecked(true);
+					break;
+				case 1:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
+					ui->labelMainHeaderText->setText(tr("Library"));
+					ui->actionLibrary->setChecked(true);
+					break;
+				case 2:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Media/Media.png"));
+					ui->labelMainHeaderText->setText(tr("Media"));
+					ui->actionMedia->setChecked(true);
+					break;
+				case 3:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
+					ui->labelMainHeaderText->setText(tr("Search"));
+					ui->actionSearch->setChecked(true);
+					break;
+				case 4:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
+					ui->labelMainHeaderText->setText(tr("Transfers"));
+					ui->actionTransfers->setChecked(true);
+					break;
+				case 5:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
+					ui->labelMainHeaderText->setText(tr("Security"));
+					ui->actionSecurity->setChecked(true);
+					break;
+				case 6:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Network.png"));
+					ui->labelMainHeaderText->setText(tr("Network"));
+					ui->actionNetwork->setChecked(true);
+					break;
+				case 7:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
+					ui->labelMainHeaderText->setText(tr("Chat"));
+					ui->actionChat->setChecked(true);
+					break;
+				case 8:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
+					ui->labelMainHeaderText->setText(tr("Host Cache"));
+					ui->actionHostCache->setChecked(true);
+					break;
+				case 9:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
+					ui->labelMainHeaderText->setText(tr("Discovery"));
+					ui->actionDiscovery->setChecked(true);
+					break;
+				case 10:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
+					ui->labelMainHeaderText->setText(tr("Graph"));
+					ui->actionGraph->setChecked(true);
+					break;
+				case 11:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
+					ui->labelMainHeaderText->setText(tr("Packet Dump"));
+					ui->actionPacketDump->setChecked(true);
+					break;
+				case 12:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
+					ui->labelMainHeaderText->setText(tr("Search Monitor"));
+					ui->actionSearchMonitor->setChecked(true);
+					break;
+				case 13:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
+					ui->labelMainHeaderText->setText(tr("Hit Monitor"));
+					ui->actionHitMonitor->setChecked(true);
+					break;
+				default:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
+					ui->labelMainHeaderText->setText(tr("Quazaa Home"));
+					ui->actionHome->setChecked(true);
+					break;
+			}
+		}
 		break;
 	default:
 		break;
@@ -662,7 +738,7 @@ void MainWindow::on_actionChooseLanguage_triggered()
 	dlgSkinLanguage->addChildWidget(dlgLanguage);
 
 	connect(dlgLanguage, SIGNAL(closed()), dlgSkinLanguage, SLOT(close()));
-	dlgSkinLanguage->show();
+	dlgSkinLanguage->exec();
 }
 
 void MainWindow::on_actionQuickstartWizard_triggered()
@@ -989,4 +1065,9 @@ void MainWindow::on_actionFAQ_triggered()
 void MainWindow::on_actionConnectionTest_triggered()
 {
 	QDesktopServices::openUrl(QUrl("http://jlh.no-ip.org/connectiontest", QUrl::TolerantMode));
+}
+
+void MainWindow::on_labelWelcomeUserGuideLink_linkActivated(QString link)
+{
+	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
 }

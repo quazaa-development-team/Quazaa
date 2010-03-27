@@ -62,7 +62,6 @@ DialogSkinPreview::DialogSkinPreview(bool sizable, bool closable, QWidget *paren
 	this->setMaximumSize(QApplication::desktop()->availableGeometry(this).width(), QApplication::desktop()->availableGeometry(this).height());
 
 	// Unset the frameless window hint for our child widget or it won't display at runtime
-	// AutoFillbackground has to be set also or the child gets erased in the transparency mask
 	// In this example it is set in the ui file
 	ui->widgetContents->setWindowFlags(ui->widgetContents->windowFlags() & ~Qt::FramelessWindowHint);
 

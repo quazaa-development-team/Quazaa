@@ -50,7 +50,7 @@
  </data>
  <data>
   <variable>activebuildconfiguration</variable>
-  <value type="QString">Release</value>
+  <value type="QString">Debug</value>
  </data>
  <data>
   <variable>buildConfiguration-Debug</variable>
@@ -80,19 +80,21 @@
     <value type="QString">ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
     <value type="QString">APPDATA=C:\Documents and Settings\Joe\Application Data</value>
     <value type="QString">APR_ICONV_PATH=C:\Program Files\Subversion\iconv</value>
+    <value type="QString">CLIENTNAME=Console</value>
     <value type="QString">COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
     <value type="QString">COMPUTERNAME=PANTHERA-WINXP</value>
     <value type="QString">COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
     <value type="QString">DXSDK_DIR=C:\Program Files\Microsoft DirectX SDK (March 2009)\</value>
     <value type="QString">FP_NO_HOST_CHECK=NO</value>
     <value type="QString">GTK_BASEPATH=C:\Program Files\GtkSharp\2.12\</value>
+    <value type="QString">HOME=C:\Documents and Settings\Joe</value>
     <value type="QString">HOMEDRIVE=C:</value>
     <value type="QString">HOMEPATH=\Documents and Settings\Joe</value>
     <value type="QString">LOGONSERVER=\\PANTHERA-WINXP</value>
     <value type="QString">MOZ_PLUGIN_PATH=C:\Program Files\Virtools\3D Life Player\</value>
     <value type="QString">NUMBER_OF_PROCESSORS=1</value>
     <value type="QString">OS=Windows_NT</value>
-    <value type="QString">PATH=C:\Qt\2010.02\mingw\bin;C:\Qt\2010.02\qt\bin;C:\Program Files\Microsoft DirectX SDK (August 2007)\Utilities\Bin\x86;C:\Perl\site\bin;C:\Perl\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32\wbem;C:\Qt\2010.02\mingw\bin;C:\WINDOWS\system32\WindowsPowerShell\v1.0;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Microsoft SQL Server\90\Tools\bin\;C:\Program Files\Microsoft SDKs\Windows\v6.1\Bin;C:\Program Files\GIMP-2.0\bin;C:\Program Files\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.6.0_14\bin;C:\Program Files\QuickTime Alternative\QTSystem;C:\Qt\2010.02\qt\bin</value>
+    <value type="QString">PATH=C:\Qt\2010.02\mingw\bin;C:\Qt\2010.02\qt\bin;C:\Program Files\Microsoft DirectX SDK (August 2007)\Utilities\Bin\x86;C:\Perl\site\bin;C:\Perl\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32\wbem;C:\Qt\2010.02\mingw\bin;C:\WINDOWS\system32\WindowsPowerShell\v1.0;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Microsoft SQL Server\90\Tools\bin\;C:\Program Files\Microsoft SDKs\Windows\v6.1\Bin;C:\Program Files\GIMP-2.0\bin;C:\Program Files\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.6.0_14\bin;C:\Program Files\QuickTime Alternative\QTSystem;C:\Qt\2010.02\qt\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\CMake 2.8\bin</value>
     <value type="QString">PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.PSC1</value>
     <value type="QString">PROCESSOR_ARCHITECTURE=x86</value>
     <value type="QString">PROCESSOR_IDENTIFIER=x86 Family 6 Model 14 Stepping 8, GenuineIntel</value>
@@ -118,7 +120,7 @@
     <value type="QString">-r</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">c:/qt/2010.02/qt/bin/qmake.exe</value>
-   <value key="abstractProcess.enabled" type="bool">true</value>
+   <value key="abstractProcess.enabled" type="bool">false</value>
    <value key="abstractProcess.workingDirectory" type="QString">C:/Documents and Settings/Joe/My Documents/Qt/Quazaa/trunk</value>
   </valuemap>
  </data>
@@ -130,19 +132,21 @@
     <value type="QString">ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
     <value type="QString">APPDATA=C:\Documents and Settings\Joe\Application Data</value>
     <value type="QString">APR_ICONV_PATH=C:\Program Files\Subversion\iconv</value>
+    <value type="QString">CLIENTNAME=Console</value>
     <value type="QString">COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
     <value type="QString">COMPUTERNAME=PANTHERA-WINXP</value>
     <value type="QString">COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
     <value type="QString">DXSDK_DIR=C:\Program Files\Microsoft DirectX SDK (March 2009)\</value>
     <value type="QString">FP_NO_HOST_CHECK=NO</value>
     <value type="QString">GTK_BASEPATH=C:\Program Files\GtkSharp\2.12\</value>
+    <value type="QString">HOME=C:\Documents and Settings\Joe</value>
     <value type="QString">HOMEDRIVE=C:</value>
     <value type="QString">HOMEPATH=\Documents and Settings\Joe</value>
     <value type="QString">LOGONSERVER=\\PANTHERA-WINXP</value>
     <value type="QString">MOZ_PLUGIN_PATH=C:\Program Files\Virtools\3D Life Player\</value>
     <value type="QString">NUMBER_OF_PROCESSORS=1</value>
     <value type="QString">OS=Windows_NT</value>
-    <value type="QString">PATH=C:\Qt\2010.02\mingw\bin;C:\Qt\2010.02\qt\bin;C:\Program Files\Microsoft DirectX SDK (August 2007)\Utilities\Bin\x86;C:\Perl\site\bin;C:\Perl\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32\wbem;C:\Qt\2010.02\mingw\bin;C:\WINDOWS\system32\WindowsPowerShell\v1.0;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Microsoft SQL Server\90\Tools\bin\;C:\Program Files\Microsoft SDKs\Windows\v6.1\Bin;C:\Program Files\GIMP-2.0\bin;C:\Program Files\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.6.0_14\bin;C:\Program Files\QuickTime Alternative\QTSystem;C:\Qt\2010.02\qt\bin</value>
+    <value type="QString">PATH=C:\Qt\2010.02\mingw\bin;C:\Qt\2010.02\qt\bin;C:\Program Files\Microsoft DirectX SDK (August 2007)\Utilities\Bin\x86;C:\Perl\site\bin;C:\Perl\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32\wbem;C:\Qt\2010.02\mingw\bin;C:\WINDOWS\system32\WindowsPowerShell\v1.0;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Microsoft SQL Server\90\Tools\bin\;C:\Program Files\Microsoft SDKs\Windows\v6.1\Bin;C:\Program Files\GIMP-2.0\bin;C:\Program Files\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.6.0_14\bin;C:\Program Files\QuickTime Alternative\QTSystem;C:\Qt\2010.02\qt\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\CMake 2.8\bin</value>
     <value type="QString">PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.PSC1</value>
     <value type="QString">PROCESSOR_ARCHITECTURE=x86</value>
     <value type="QString">PROCESSOR_IDENTIFIER=x86 Family 6 Model 14 Stepping 8, GenuineIntel</value>
@@ -232,19 +236,21 @@
     <value type="QString">ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
     <value type="QString">APPDATA=C:\Documents and Settings\Joe\Application Data</value>
     <value type="QString">APR_ICONV_PATH=C:\Program Files\Subversion\iconv</value>
+    <value type="QString">CLIENTNAME=Console</value>
     <value type="QString">COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
     <value type="QString">COMPUTERNAME=PANTHERA-WINXP</value>
     <value type="QString">COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
     <value type="QString">DXSDK_DIR=C:\Program Files\Microsoft DirectX SDK (March 2009)\</value>
     <value type="QString">FP_NO_HOST_CHECK=NO</value>
     <value type="QString">GTK_BASEPATH=C:\Program Files\GtkSharp\2.12\</value>
+    <value type="QString">HOME=C:\Documents and Settings\Joe</value>
     <value type="QString">HOMEDRIVE=C:</value>
     <value type="QString">HOMEPATH=\Documents and Settings\Joe</value>
     <value type="QString">LOGONSERVER=\\PANTHERA-WINXP</value>
     <value type="QString">MOZ_PLUGIN_PATH=C:\Program Files\Virtools\3D Life Player\</value>
     <value type="QString">NUMBER_OF_PROCESSORS=1</value>
     <value type="QString">OS=Windows_NT</value>
-    <value type="QString">PATH=C:\Qt\2010.02\mingw\bin;C:\Qt\2010.02\qt\bin;C:\Program Files\Microsoft DirectX SDK (August 2007)\Utilities\Bin\x86;C:\Perl\site\bin;C:\Perl\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32\wbem;C:\Qt\2010.02\mingw\bin;C:\WINDOWS\system32\WindowsPowerShell\v1.0;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Microsoft SQL Server\90\Tools\bin\;C:\Program Files\Microsoft SDKs\Windows\v6.1\Bin;C:\Program Files\GIMP-2.0\bin;C:\Program Files\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.6.0_14\bin;C:\Program Files\QuickTime Alternative\QTSystem;C:\Qt\2010.02\qt\bin</value>
+    <value type="QString">PATH=C:\Qt\2010.02\mingw\bin;C:\Qt\2010.02\qt\bin;C:\Program Files\Microsoft DirectX SDK (August 2007)\Utilities\Bin\x86;C:\Perl\site\bin;C:\Perl\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32\wbem;C:\Qt\2010.02\mingw\bin;C:\WINDOWS\system32\WindowsPowerShell\v1.0;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Microsoft SQL Server\90\Tools\bin\;C:\Program Files\Microsoft SDKs\Windows\v6.1\Bin;C:\Program Files\GIMP-2.0\bin;C:\Program Files\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.6.0_14\bin;C:\Program Files\QuickTime Alternative\QTSystem;C:\Qt\2010.02\qt\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;C:\Program Files\TortoiseGit\bin</value>
     <value type="QString">PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.PSC1</value>
     <value type="QString">PROCESSOR_ARCHITECTURE=x86</value>
     <value type="QString">PROCESSOR_IDENTIFIER=x86 Family 6 Model 14 Stepping 8, GenuineIntel</value>
@@ -283,19 +289,21 @@
     <value type="QString">ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
     <value type="QString">APPDATA=C:\Documents and Settings\Joe\Application Data</value>
     <value type="QString">APR_ICONV_PATH=C:\Program Files\Subversion\iconv</value>
+    <value type="QString">CLIENTNAME=Console</value>
     <value type="QString">COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
     <value type="QString">COMPUTERNAME=PANTHERA-WINXP</value>
     <value type="QString">COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
     <value type="QString">DXSDK_DIR=C:\Program Files\Microsoft DirectX SDK (March 2009)\</value>
     <value type="QString">FP_NO_HOST_CHECK=NO</value>
     <value type="QString">GTK_BASEPATH=C:\Program Files\GtkSharp\2.12\</value>
+    <value type="QString">HOME=C:\Documents and Settings\Joe</value>
     <value type="QString">HOMEDRIVE=C:</value>
     <value type="QString">HOMEPATH=\Documents and Settings\Joe</value>
     <value type="QString">LOGONSERVER=\\PANTHERA-WINXP</value>
     <value type="QString">MOZ_PLUGIN_PATH=C:\Program Files\Virtools\3D Life Player\</value>
     <value type="QString">NUMBER_OF_PROCESSORS=1</value>
     <value type="QString">OS=Windows_NT</value>
-    <value type="QString">PATH=C:\Qt\2010.02\mingw\bin;C:\Qt\2010.02\qt\bin;C:\Program Files\Microsoft DirectX SDK (August 2007)\Utilities\Bin\x86;C:\Perl\site\bin;C:\Perl\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32\wbem;C:\Qt\2010.02\mingw\bin;C:\WINDOWS\system32\WindowsPowerShell\v1.0;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Microsoft SQL Server\90\Tools\bin\;C:\Program Files\Microsoft SDKs\Windows\v6.1\Bin;C:\Program Files\GIMP-2.0\bin;C:\Program Files\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.6.0_14\bin;C:\Program Files\QuickTime Alternative\QTSystem;C:\Qt\2010.02\qt\bin</value>
+    <value type="QString">PATH=C:\Qt\2010.02\mingw\bin;C:\Qt\2010.02\qt\bin;C:\Program Files\Microsoft DirectX SDK (August 2007)\Utilities\Bin\x86;C:\Perl\site\bin;C:\Perl\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32\wbem;C:\Qt\2010.02\mingw\bin;C:\WINDOWS\system32\WindowsPowerShell\v1.0;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Microsoft SQL Server\90\Tools\bin\;C:\Program Files\Microsoft SDKs\Windows\v6.1\Bin;C:\Program Files\GIMP-2.0\bin;C:\Program Files\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.6.0_14\bin;C:\Program Files\QuickTime Alternative\QTSystem;C:\Qt\2010.02\qt\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;C:\Program Files\TortoiseGit\bin</value>
     <value type="QString">PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.PSC1</value>
     <value type="QString">PROCESSOR_ARCHITECTURE=x86</value>
     <value type="QString">PROCESSOR_IDENTIFIER=x86 Family 6 Model 14 Stepping 8, GenuineIntel</value>

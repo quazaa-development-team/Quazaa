@@ -115,7 +115,6 @@ public:
 
 	//Language settings
 	QString		LanguageFile;							// What language does the user prefer
-	bool		LanguageDefault;						// Is the default language being used
 
 	// Parental settings
 	QStringList	ParentalAdultFilter;							// List of words to censor

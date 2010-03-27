@@ -113,7 +113,7 @@ color: rgb(255, 255, 255);</string>
          </sizepolicy>
         </property>
         <property name="text">
-         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+         <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -140,7 +140,7 @@ p, li { white-space: pre-wrap; }
      </property>
      <item>
       <property name="text">
-       <string>English (Default)</string>
+       <string notr="true">English (Default)</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -149,7 +149,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Afrikanns</string>
+       <string notr="true">Afrikanns</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -158,7 +158,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Arabic العربية</string>
+       <string notr="true">Arabic العربية</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -167,7 +167,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Català</string>
+       <string notr="true">Català</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -176,7 +176,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>简体中文</string>
+       <string notr="true">简体中文</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -185,7 +185,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Čeština</string>
+       <string notr="true">Čeština</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -194,7 +194,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Deutsch</string>
+       <string notr="true">Deutsch</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -203,7 +203,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Eesti</string>
+       <string notr="true">Eesti</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -212,7 +212,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Español</string>
+       <string notr="true">Español</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -221,7 +221,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Español Mexicano</string>
+       <string notr="true">Español Mexicano</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -230,7 +230,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Suomi</string>
+       <string notr="true">Suomi</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -239,7 +239,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Français</string>
+       <string notr="true">Français</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -248,7 +248,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Ελληνικά</string>
+       <string notr="true">Ελληνικά</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -257,7 +257,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>עברית</string>
+       <string notr="true">עברית</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -266,7 +266,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Hrvatski</string>
+       <string notr="true">Hrvatski</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -275,7 +275,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Magyar</string>
+       <string notr="true">Magyar</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -284,7 +284,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Italian</string>
+       <string notr="true">Italian</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -293,7 +293,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>日本語</string>
+       <string notr="true">日本語</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -302,7 +302,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Lietuvių</string>
+       <string notr="true">Lietuvių</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -311,7 +311,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Nederlands</string>
+       <string notr="true">Nederlands</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -320,7 +320,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Norsk</string>
+       <string notr="true">Norsk</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -329,7 +329,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Polski</string>
+       <string notr="true">Polski</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -338,7 +338,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Português Brasileiro</string>
+       <string notr="true">Português Brasileiro</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -347,7 +347,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Pусский</string>
+       <string notr="true">Pусский</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -356,7 +356,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Slovenščina</string>
+       <string notr="true">Slovenščina</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -365,7 +365,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Shqip</string>
+       <string notr="true">Shqip</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -374,7 +374,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Srpski</string>
+       <string notr="true">Srpski</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -383,7 +383,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Svenska</string>
+       <string notr="true">Svenska</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -392,7 +392,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Türkçe</string>
+       <string notr="true">Türkçe</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">
@@ -401,7 +401,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>繁體中文</string>
+       <string notr="true">繁體中文</string>
       </property>
       <property name="icon">
        <iconset resource="Resource.qrc">

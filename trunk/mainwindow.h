@@ -53,6 +53,7 @@ private:
 	vlcMediaPlayer *mediaPlayer;
 	void render(QPaintDevice * target, const QPoint & targetOffset = QPoint(), const QRegion & sourceRegion = QRegion(), RenderFlags renderFlags = RenderFlags( DrawWindowBackground | DrawChildren ));
 	void render(QPainter * painter, const QPoint & targetOffset = QPoint(), const QRegion & sourceRegion = QRegion(), RenderFlags renderFlags = RenderFlags( DrawWindowBackground | DrawChildren ));
+	bool interfaceLoaded;
 
 signals:
 	void closed();
@@ -60,6 +61,7 @@ signals:
 	void showMain();
 
 private slots:
+ void on_labelWelcomeUserGuideLink_linkActivated(QString link);
  void on_actionConnectionTest_triggered();
  void on_actionFAQ_triggered();
  void on_actionUsersGuide_triggered();

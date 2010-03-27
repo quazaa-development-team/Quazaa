@@ -101,7 +101,7 @@ color: rgb(255, 255, 255);</string>
          </sizepolicy>
         </property>
         <property name="text">
-         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+         <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -551,7 +551,7 @@ QToolButton:hover {
    <item row="1" column="1">
     <widget class="QStackedWidget" name="pagesSettings">
      <property name="currentIndex">
-      <number>15</number>
+      <number>11</number>
      </property>
      <widget class="QWidget" name="pageIntroduction">
       <layout class="QGridLayout" name="gridLayout_5">
@@ -2986,42 +2986,42 @@ p, li { white-space: pre-wrap; }
             <item row="1" column="1">
              <widget class="QCheckBox" name="checkBoxPioletLinks">
               <property name="text">
-               <string>Piolet ( mp2p: )</string>
+               <string notr="true">Piolet ( mp2p: )</string>
               </property>
              </widget>
             </item>
             <item row="0" column="0">
              <widget class="QCheckBox" name="checkBoxMagnetLinks">
               <property name="text">
-               <string>Magnet ( magnet: )</string>
+               <string notr="true">Magnet ( magnet: )</string>
               </property>
              </widget>
             </item>
             <item row="1" column="0">
              <widget class="QCheckBox" name="checkBoxGnutellaLinks">
               <property name="text">
-               <string>Gnutella ( gnutella: )</string>
+               <string notr="true">Gnutella ( gnutella: )</string>
               </property>
              </widget>
             </item>
             <item row="2" column="1">
              <widget class="QCheckBox" name="checkBoxEDonkeyLinks">
               <property name="text">
-               <string>eDonkey 2k ( ed2k: )</string>
+               <string notr="true">eDonkey 2k ( ed2k: )</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
              <widget class="QCheckBox" name="checkBoxBitTorrentLinks">
               <property name="text">
-               <string>BitTorrent ( torrent: )</string>
+               <string notr="true">BitTorrent ( torrent: )</string>
               </property>
              </widget>
             </item>
             <item row="2" column="0">
              <widget class="QCheckBox" name="checkBoxAresLinks">
               <property name="text">
-               <string>Ares ( arlnk: )</string>
+               <string notr="true">Ares ( arlnk: )</string>
               </property>
              </widget>
             </item>
@@ -4589,7 +4589,7 @@ p, li { white-space: pre-wrap; }
          <item row="0" column="1">
           <widget class="QLabel" name="labelG2">
            <property name="text">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+            <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -4733,7 +4733,7 @@ p, li { white-space: pre-wrap; }
          <item row="0" column="1">
           <widget class="QLabel" name="labelAres">
            <property name="text">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+            <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -4805,7 +4805,7 @@ p, li { white-space: pre-wrap; }
          <item row="0" column="1">
           <widget class="QLabel" name="labelEDonkey">
            <property name="text">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+            <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -4877,7 +4877,7 @@ p, li { white-space: pre-wrap; }
          <item row="0" column="1">
           <widget class="QLabel" name="labelBitTorrent">
            <property name="text">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+            <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
