@@ -151,8 +151,14 @@ void QSkinDialog::changeEvent(QEvent *e)
 	QDialog::changeEvent(e);
 	switch (e->type()) {
 	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
+		{
+			QIcon m_windowIcon = windowIcon();
+			QString m_windowTitle = windowTitle();
+			ui->retranslateUi(this);
+			setWindowIcon(m_windowIcon);
+			setWindowTitle(m_windowTitle);
+			break;
+		}
 	case QEvent::ActivationChange:
 		if (minimized && qApp->activeWindow())
 		{
@@ -408,10 +414,10 @@ void QSkinDialog::on_windowFrameTop_customContextMenuRequested(QPoint pos)
 void QSkinDialog::addChildWidget(QWidget *parent)
 {
 	// Unset the frameless window hint for our child widget or it won't display at runtime
-	// AutoFillbackground has to be set also or the child gets erased in the transparency mask
 	// In this example it is set in the ui files
 	parent->setWindowFlags(ui->widgetContents->windowFlags() & ~Qt::FramelessWindowHint);
 	ui->layoutContents->addWidget(parent);
+	parent->setAttribute(Qt::WA_TranslucentBackground, false);
 	setWindowTitle(parent->windowTitle());
 	setWindowIcon(parent->windowIcon());
 }

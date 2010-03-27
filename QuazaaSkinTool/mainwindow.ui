@@ -14,7 +14,7 @@
    <string>Quazaa Skin Tool</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -580,7 +580,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>5</number>
         </property>
         <widget class="QWidget" name="pageSkinProperties">
          <layout class="QGridLayout" name="gridLayout_38">
@@ -1189,7 +1189,7 @@ border-bottom: 1;</string>
                </sizepolicy>
               </property>
               <property name="autoFillBackground">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
               <layout class="QVBoxLayout" name="layoutContents">
                <property name="spacing">
@@ -1267,7 +1267,7 @@ color: rgb(255, 255, 255);</string>
                      <string/>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset resource="../Resource.qrc">
                       <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -2276,7 +2276,7 @@ QToolButton:disabled {
                      <string>Add Search Button</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Search.png</normaloff>:/Resource/Search.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -2320,7 +2320,7 @@ QToolButton:hover {
                        <string>Sidebar Task Header</string>
                       </property>
                       <property name="icon">
-                       <iconset resource="Resource.qrc">
+                       <iconset>
                         <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
                       </property>
                       <property name="iconSize">
@@ -2486,7 +2486,7 @@ p, li { white-space: pre-wrap; }
                        <string>Un-Clickable Sidebar Task Header</string>
                       </property>
                       <property name="icon">
-                       <iconset resource="Resource.qrc">
+                       <iconset>
                         <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
                       </property>
                       <property name="iconSize">
@@ -2549,7 +2549,7 @@ p, li { white-space: pre-wrap; }
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap resource="Resource.qrc">:/Resource/ChatWelcome.png</pixmap>
+                    <pixmap>:/Resource/ChatWelcome.png</pixmap>
                    </property>
                    <property name="scaledContents">
                     <bool>false</bool>
@@ -2687,7 +2687,7 @@ QToolButton::menu-button:hover {
                     <string/>
                    </property>
                    <property name="icon">
-                    <iconset resource="Resource.qrc">
+                    <iconset>
                      <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
                    </property>
                    <property name="popupMode">
@@ -3206,7 +3206,7 @@ padding: 2px;</string>
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Home.png</pixmap>
+                <pixmap>:/Resource/Home.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -3278,7 +3278,7 @@ padding: 2px;</string>
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Transfers.png</pixmap>
+                <pixmap>:/Resource/Transfers.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -3344,7 +3344,7 @@ padding: 2px;</string>
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Library.png</pixmap>
+                <pixmap>:/Resource/Library.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -3416,7 +3416,7 @@ padding: 2px;</string>
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Security.png</pixmap>
+                <pixmap>:/Resource/Security.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -3482,7 +3482,7 @@ padding: 2px;</string>
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Media.png</pixmap>
+                <pixmap>:/Resource/Media.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -3554,7 +3554,7 @@ padding: 2px;</string>
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Network.png</pixmap>
+                <pixmap>:/Resource/Network.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -3620,7 +3620,7 @@ padding: 2px;</string>
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Search.png</pixmap>
+                <pixmap>:/Resource/Search.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -3692,7 +3692,7 @@ padding: 2px;</string>
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Chat.png</pixmap>
+                <pixmap>:/Resource/Chat.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -3764,7 +3764,7 @@ padding: 2px;</string>
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/star.png</pixmap>
+                <pixmap>:/Resource/star.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -3824,7 +3824,7 @@ background-image: url(:/Resource/HeaderBackground.png);</string>
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+                <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
                </property>
               </widget>
              </item>
@@ -3992,7 +3992,7 @@ p, li { white-space: pre-wrap; }
   </widget>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/fileOpen.png</normaloff>:/Resource/fileOpen.png</iconset>
    </property>
    <property name="text">
@@ -4001,7 +4001,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/fileSave.png</normaloff>:/Resource/fileSave.png</iconset>
    </property>
    <property name="text">
@@ -4015,7 +4015,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionNew">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/fileNew.png</normaloff>:/Resource/fileNew.png</iconset>
    </property>
    <property name="text">
@@ -4024,7 +4024,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionToolbar_Button">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
    </property>
    <property name="text">
@@ -4033,7 +4033,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionSkin_Creation_Guide">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
    </property>
    <property name="text">
@@ -4042,7 +4042,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionAbout_Quazaa_Skin_Tool">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/info.png</normaloff>:/Resource/info.png</iconset>
    </property>
    <property name="text">
@@ -4054,16 +4054,19 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
    </property>
    <property name="text">
     <string>Generic</string>
    </property>
+   <property name="whatsThis">
+    <string notr="true">Generic</string>
+   </property>
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/cut.png</normaloff>:/Resource/cut.png</iconset>
    </property>
    <property name="text">
@@ -4072,7 +4075,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/copy.png</normaloff>:/Resource/copy.png</iconset>
    </property>
    <property name="text">
@@ -4081,7 +4084,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/paste.png</normaloff>:/Resource/paste.png</iconset>
    </property>
    <property name="text">
@@ -4090,7 +4093,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionPackage_For_Distribution">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Web.png</normaloff>:/Resource/Web.png</iconset>
    </property>
    <property name="text">
@@ -4103,81 +4106,132 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionHome">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Home.png</normaloff>:/Resource/Home.png</iconset>
    </property>
    <property name="text">
     <string>Home</string>
    </property>
-   <property name="identifier" stdset="0">
-    <number>0</number>
+   <property name="iconText">
+    <string>Home</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Home</string>
    </property>
   </action>
   <action name="actionLibrary">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Library.png</normaloff>:/Resource/Library.png</iconset>
    </property>
    <property name="text">
     <string>Library</string>
    </property>
-   <property name="skinIdentifier" stdset="0">
+   <property name="whatsThis">
     <string notr="true">Library</string>
    </property>
   </action>
   <action name="actionMedia">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Media.png</normaloff>:/Resource/Media.png</iconset>
    </property>
    <property name="text">
     <string>Media</string>
    </property>
+   <property name="whatsThis">
+    <string notr="true">Media</string>
+   </property>
   </action>
   <action name="actionSearch">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Search.png</normaloff>:/Resource/Search.png</iconset>
    </property>
    <property name="text">
     <string>Search</string>
    </property>
+   <property name="whatsThis">
+    <string notr="true">Search</string>
+   </property>
   </action>
   <action name="actionTransfers">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Transfers.png</normaloff>:/Resource/Transfers.png</iconset>
    </property>
    <property name="text">
     <string>Transfers</string>
    </property>
+   <property name="whatsThis">
+    <string notr="true">Transfers</string>
+   </property>
   </action>
   <action name="actionSecurity">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Security.png</normaloff>:/Resource/Security.png</iconset>
    </property>
    <property name="text">
     <string>Security</string>
    </property>
+   <property name="whatsThis">
+    <string notr="true">Security</string>
+   </property>
   </action>
   <action name="actionNetwork">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network.png</normaloff>:/Resource/Network.png</iconset>
    </property>
    <property name="text">
     <string>Network</string>
    </property>
+   <property name="toolTip">
+    <string>Network</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Network</string>
+   </property>
   </action>
   <action name="actionChat">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Chat.png</normaloff>:/Resource/Chat.png</iconset>
    </property>
    <property name="text">
     <string>Chat</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Chat</string>
    </property>
   </action>
   <action name="actionMenu_Item">
@@ -4185,7 +4239,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
    </property>
    <property name="text">
@@ -4211,9 +4265,7 @@ p, li { white-space: pre-wrap; }
    <header location="global">phonon/volumeslider.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>toolButtonSidebarTaskHeader</sender>

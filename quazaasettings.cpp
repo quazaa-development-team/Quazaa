@@ -1162,7 +1162,6 @@ void QuazaaSettings::saveLanguageSettings()
 	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
 
 	m_qSettings.beginGroup("Language");
-	m_qSettings.setValue("DefaultLanguage", quazaaSettings.LanguageDefault);
 	m_qSettings.setValue("LanguageFile", quazaaSettings.LanguageFile);
 	m_qSettings.endGroup();
 }
@@ -1172,8 +1171,7 @@ void QuazaaSettings::loadLanguageSettings()
 	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
 
 	m_qSettings.beginGroup("Language");
-	quazaaSettings.LanguageDefault = m_qSettings.value("DefaultLanguage", true).toBool();
-	quazaaSettings.LanguageFile = m_qSettings.value("LanguageFile", "").toString();
+	quazaaSettings.LanguageFile = m_qSettings.value("LanguageFile", ("quazaa_default_en")).toString();
 	m_qSettings.endGroup();
 }
 

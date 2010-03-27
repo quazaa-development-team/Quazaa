@@ -59,7 +59,8 @@ SOURCES += main.cpp \
 	qtsingleapplication/src/qtlockedfile.cpp \
 	qtsingleapplication/src/qtlocalpeer.cpp \
 	phononmediaplayer.cpp \
-	vlcmediaplayer.cpp
+	vlcmediaplayer.cpp \
+	quazaairc.cpp
 HEADERS += mainwindow.h \
 	dialoglanguage.h \
 	quazaasettings.h \
@@ -99,7 +100,8 @@ HEADERS += mainwindow.h \
 	qtsingleapplication/src/qtlocalpeer.h \
 	qtsingleapplication/src/qtsinglecoreapplication.h \
 	phononmediaplayer.h \
-	vlcmediaplayer.h
+	vlcmediaplayer.h \
+	quazaairc.h
 FORMS += mainwindow.ui \
 	dialoglanguage.ui \
 	dialogsplash.ui \
@@ -131,36 +133,36 @@ FORMS += mainwindow.ui \
 	mediasettings.ui \
 	QSkinDialog/qskindialog.ui \
 	QSkinDialog/dialogskinpreview.ui
- TRANSLATIONS = language/quazaa_af.ts \
-	language/quazaa_ar.ts \
-	language/quazaa_ca.ts \
-	language/quazaa_chs.ts \
-	language/quazaa_cz.ts \
-	language/quazaa_de.ts \
-	language/quazaa_default_en.ts \
-	language/quazaa_ee.ts \
-	language/quazaa_es.ts \
-	language/quazaa_es-mx.ts \
-	language/quazaa_fi.ts \
-	language/quazaa_fr.ts \
-	language/quazaa_gr.ts \
-	language/quazaa_heb.ts \
-	language/quazaa_hr.ts \
-	language/quazaa_hu.ts \
-	language/quazaa_it.ts \
-	language/quazaa_ja.ts \
-	language/quazaa_lt.ts \
-	language/quazaa_nl.ts \
-	language/quazaa_no.ts \
-	language/quazaa_pt.ts \
-	language/quazaa_pt-br.ts \
-	language/quazaa_ru.ts \
-	language/quazaa_sl-si.ts \
-	language/quazaa_sq.ts \
-	language/quazaa_sr.ts \
-	language/quazaa_sv.ts \
-	language/quazaa_tr.ts \
-	language/quazaa_tw.ts
+TRANSLATIONS = quazaa_af.ts \
+	quazaa_ar.ts \
+	quazaa_ca.ts \
+	quazaa_chs.ts \
+	quazaa_cz.ts \
+	quazaa_de.ts \
+	quazaa_default_en.ts \
+	quazaa_ee.ts \
+	quazaa_es.ts \
+	quazaa_es-mx.ts \
+	quazaa_fi.ts \
+	quazaa_fr.ts \
+	quazaa_gr.ts \
+	quazaa_heb.ts \
+	quazaa_hr.ts \
+	quazaa_hu.ts \
+	quazaa_it.ts \
+	quazaa_ja.ts \
+	quazaa_lt.ts \
+	quazaa_nl.ts \
+	quazaa_no.ts \
+	quazaa_pt.ts \
+	quazaa_pt-br.ts \
+	quazaa_ru.ts \
+	quazaa_sl-si.ts \
+	quazaa_sq.ts \
+	quazaa_sr.ts \
+	quazaa_sv.ts \
+	quazaa_tr.ts \
+	quazaa_tw.ts
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3

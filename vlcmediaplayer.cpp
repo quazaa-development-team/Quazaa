@@ -1,5 +1,5 @@
 #include "vlcmediaplayer.h"
-#include "quazaaSettings.h"
+#include "quazaasettings.h"
 #include "quazaaglobals.h"
 #include <QFileDialog>
 
@@ -35,13 +35,10 @@ vlcMediaPlayer::vlcMediaPlayer(QSlider *positionSlider, QSlider *volumeSlider, Q
 	};
 
 	m_videoWidget = videoWidget;
-	m_videoWidget->setAutoFillBackground(true);
 
 	m_tablePlaylist=tablePlaylist;
 
 	m_volumeSlider=volumeSlider;
-	m_volumeSlider->setMaximum(100); //the volume is between 0 and 100
-	m_volumeSlider->setToolTip("Audio Slider");
 
 	// Note: if you use streaming, there is no ability to use the position slider
 	m_positionSlider=positionSlider;
@@ -83,8 +80,12 @@ vlcMediaPlayer::vlcMediaPlayer(QSlider *positionSlider, QSlider *volumeSlider, Q
 	connect(poller, SIGNAL(timeout()), this, SLOT(updateInterface()));
 	connect(m_positionSlider, SIGNAL(sliderMoved(int)), this, SLOT(changePosition(int)));
 	connect(m_volumeSlider, SIGNAL(sliderMoved(int)), this, SLOT(changeVolume(int)));
+
+	//connect the media controls to their corresponding events
 	connect(this, SIGNAL(playStateChanged(bool)), m_playButton, SLOT(setChecked(bool)));
 	connect(this, SIGNAL(playEnabled(bool)), m_playButton, SLOT(setEnabled(bool)));
+
+	//initialize the appearance of the media controls
 	emit playEnabled(m_bIsPlaying);
 	emit playStateChanged(m_bIsPlaying);
 
