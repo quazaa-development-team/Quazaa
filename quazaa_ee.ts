@@ -1765,216 +1765,171 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogScheduler</name>
     <message>
-        <location filename="dialogscheduler.ui" line="26"/>
-        <source>Scheduler</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="109"/>
-        <source>Details</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="129"/>
-        <source>Enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="137"/>
+        <location filename="dialogscheduler.ui" line="614"/>
         <source>Run Once</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="142"/>
+        <location filename="dialogscheduler.ui" line="619"/>
+        <source>Daily</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialogscheduler.ui" line="624"/>
         <source>Weekly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="154"/>
+        <location filename="dialogscheduler.ui" line="169"/>
         <source>Connect To These Networks:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="161"/>
+        <location filename="dialogscheduler.ui" line="26"/>
+        <source>Scheduled Task Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialogscheduler.ui" line="176"/>
         <source>Gnutella 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="172"/>
+        <location filename="dialogscheduler.ui" line="187"/>
         <source>BitTorrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="183"/>
+        <location filename="dialogscheduler.ui" line="198"/>
         <source>Gnutella 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="194"/>
+        <location filename="dialogscheduler.ui" line="209"/>
         <source>Ares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="205"/>
+        <location filename="dialogscheduler.ui" line="220"/>
         <source>eDonkey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="220"/>
+        <location filename="dialogscheduler.ui" line="524"/>
         <source>Action:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="234"/>
+        <location filename="dialogscheduler.ui" line="538"/>
         <source>Control Speed And Networks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="239"/>
+        <location filename="dialogscheduler.ui" line="543"/>
         <source>Do Not Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="244"/>
+        <location filename="dialogscheduler.ui" line="548"/>
         <source>Close Quazaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="258"/>
+        <location filename="dialogscheduler.ui" line="565"/>
         <source>% of bandwidth.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="278"/>
-        <source>Title:</source>
+        <location filename="dialogscheduler.ui" line="584"/>
+        <source>% of download.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="315"/>
-        <location filename="dialogscheduler.ui" line="386"/>
-        <location filename="dialogscheduler.ui" line="419"/>
-        <location filename="dialogscheduler.ui" line="433"/>
-        <location filename="dialogscheduler.ui" line="460"/>
-        <location filename="dialogscheduler.ui" line="493"/>
-        <location filename="dialogscheduler.ui" line="500"/>
-        <location filename="dialogscheduler.ui" line="541"/>
+        <location filename="dialogscheduler.ui" line="600"/>
+        <source>% of upload.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialogscheduler.ui" line="632"/>
+        <source>Frequency:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialogscheduler.ui" line="639"/>
+        <source>Task Should Be Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialogscheduler.ui" line="261"/>
+        <location filename="dialogscheduler.ui" line="335"/>
+        <location filename="dialogscheduler.ui" line="368"/>
+        <location filename="dialogscheduler.ui" line="382"/>
+        <location filename="dialogscheduler.ui" line="409"/>
+        <location filename="dialogscheduler.ui" line="442"/>
+        <location filename="dialogscheduler.ui" line="449"/>
+        <location filename="dialogscheduler.ui" line="490"/>
         <source>Start:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="328"/>
-        <location filename="dialogscheduler.ui" line="396"/>
-        <location filename="dialogscheduler.ui" line="426"/>
-        <location filename="dialogscheduler.ui" line="443"/>
-        <location filename="dialogscheduler.ui" line="470"/>
-        <location filename="dialogscheduler.ui" line="483"/>
-        <location filename="dialogscheduler.ui" line="520"/>
-        <location filename="dialogscheduler.ui" line="551"/>
+        <location filename="dialogscheduler.ui" line="274"/>
+        <location filename="dialogscheduler.ui" line="345"/>
+        <location filename="dialogscheduler.ui" line="375"/>
+        <location filename="dialogscheduler.ui" line="392"/>
+        <location filename="dialogscheduler.ui" line="419"/>
+        <location filename="dialogscheduler.ui" line="432"/>
+        <location filename="dialogscheduler.ui" line="469"/>
+        <location filename="dialogscheduler.ui" line="500"/>
         <source>Stop:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="372"/>
+        <location filename="dialogscheduler.ui" line="321"/>
         <source>Sunday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="379"/>
+        <location filename="dialogscheduler.ui" line="328"/>
         <source>Monday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="409"/>
+        <location filename="dialogscheduler.ui" line="358"/>
         <source>Tuesday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="453"/>
+        <location filename="dialogscheduler.ui" line="402"/>
         <source>Wednesday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="507"/>
+        <location filename="dialogscheduler.ui" line="456"/>
         <source>Saturday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="527"/>
+        <location filename="dialogscheduler.ui" line="476"/>
         <source>Thursday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="534"/>
+        <location filename="dialogscheduler.ui" line="483"/>
         <source>Friday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="653"/>
-        <source>Title</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="658"/>
-        <source>Schedule</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="663"/>
-        <source>Schedule Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="668"/>
-        <source>Action</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="673"/>
-        <source>Bandwidth</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="678"/>
-        <source>Networks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="688"/>
-        <source>New</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="702"/>
-        <source>Remove</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="729"/>
-        <source>Enable Scheduler</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="740"/>
-        <source>Move Up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="754"/>
-        <source>Move Down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialogscheduler.ui" line="797"/>
+        <location filename="dialogscheduler.ui" line="120"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="804"/>
+        <location filename="dialogscheduler.ui" line="127"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialogscheduler.ui" line="811"/>
+        <location filename="dialogscheduler.ui" line="134"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4185,17 +4140,17 @@ p, li { white-space: pre-wrap; }
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>
-        <location filename="mainwindow.cpp" line="281"/>
+        <location filename="mainwindow.cpp" line="287"/>
         <source>Quazaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="99"/>
-        <location filename="mainwindow.cpp" line="108"/>
-        <location filename="mainwindow.cpp" line="178"/>
-        <location filename="mainwindow.cpp" line="354"/>
-        <location filename="mainwindow.cpp" line="424"/>
-        <location filename="mainwindow.cpp" line="482"/>
+        <location filename="mainwindow.cpp" line="109"/>
+        <location filename="mainwindow.cpp" line="184"/>
+        <location filename="mainwindow.cpp" line="360"/>
+        <location filename="mainwindow.cpp" line="435"/>
+        <location filename="mainwindow.cpp" line="493"/>
         <source>Quazaa Home</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4291,7 +4246,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="852"/>
-        <location filename="mainwindow.cpp" line="287"/>
+        <location filename="mainwindow.cpp" line="293"/>
         <source>Welcome to Quazaa!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4347,7 +4302,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="1033"/>
-        <location filename="mainwindow.ui" line="6148"/>
+        <location filename="mainwindow.ui" line="6284"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4404,8 +4359,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="1436"/>
-        <location filename="mainwindow.ui" line="6652"/>
-        <location filename="mainwindow.ui" line="6655"/>
+        <location filename="mainwindow.ui" line="6787"/>
+        <location filename="mainwindow.ui" line="6790"/>
         <source>Edit Shared Folders</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4421,8 +4376,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="1623"/>
-        <location filename="mainwindow.ui" line="7001"/>
-        <location filename="mainwindow.ui" line="7004"/>
+        <location filename="mainwindow.ui" line="7139"/>
+        <location filename="mainwindow.ui" line="7142"/>
         <source>Toggle Details</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4431,11 +4386,11 @@ p, li { white-space: pre-wrap; }
         <location filename="mainwindow.ui" line="3033"/>
         <location filename="mainwindow.ui" line="3139"/>
         <location filename="mainwindow.ui" line="3247"/>
-        <location filename="mainwindow.ui" line="6352"/>
-        <location filename="mainwindow.cpp" line="123"/>
-        <location filename="mainwindow.cpp" line="369"/>
-        <location filename="mainwindow.cpp" line="509"/>
-        <location filename="mainwindow.cpp" line="889"/>
+        <location filename="mainwindow.ui" line="6487"/>
+        <location filename="mainwindow.cpp" line="124"/>
+        <location filename="mainwindow.cpp" line="375"/>
+        <location filename="mainwindow.cpp" line="520"/>
+        <location filename="mainwindow.cpp" line="898"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4457,8 +4412,8 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="mainwindow.ui" line="2199"/>
         <location filename="mainwindow.ui" line="2202"/>
-        <location filename="mainwindow.ui" line="6915"/>
-        <location filename="mainwindow.ui" line="6918"/>
+        <location filename="mainwindow.ui" line="7053"/>
+        <location filename="mainwindow.ui" line="7056"/>
         <source>Add To Playlist</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4528,7 +4483,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="2584"/>
-        <location filename="mainwindow.ui" line="6817"/>
+        <location filename="mainwindow.ui" line="6955"/>
         <source>New Search</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4594,28 +4549,28 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="2955"/>
-        <location filename="mainwindow.ui" line="6499"/>
+        <location filename="mainwindow.ui" line="6634"/>
         <source>Gnutella 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2969"/>
-        <location filename="mainwindow.ui" line="6484"/>
+        <location filename="mainwindow.ui" line="6619"/>
         <source>Gnutella 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2980"/>
         <location filename="mainwindow.ui" line="5108"/>
-        <location filename="mainwindow.ui" line="6775"/>
+        <location filename="mainwindow.ui" line="6910"/>
         <source>Ares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2991"/>
         <location filename="mainwindow.ui" line="5117"/>
-        <location filename="mainwindow.ui" line="6469"/>
-        <location filename="mainwindow.ui" line="6472"/>
+        <location filename="mainwindow.ui" line="6604"/>
+        <location filename="mainwindow.ui" line="6607"/>
         <source>eDonkey</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4636,7 +4591,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="3409"/>
-        <location filename="mainwindow.ui" line="6076"/>
+        <location filename="mainwindow.ui" line="6212"/>
         <source>More</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4649,7 +4604,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="mainwindow.ui" line="3658"/>
         <location filename="mainwindow.ui" line="3943"/>
-        <location filename="mainwindow.ui" line="6053"/>
+        <location filename="mainwindow.ui" line="6189"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4682,8 +4637,8 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="mainwindow.ui" line="4482"/>
         <location filename="mainwindow.ui" line="4663"/>
-        <location filename="mainwindow.ui" line="7346"/>
-        <location filename="mainwindow.ui" line="7349"/>
+        <location filename="mainwindow.ui" line="7484"/>
+        <location filename="mainwindow.ui" line="7487"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4772,7 +4727,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="5136"/>
-        <location filename="mainwindow.ui" line="6175"/>
+        <location filename="mainwindow.ui" line="6312"/>
         <source>BitTorrent</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4787,153 +4742,174 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5498"/>
-        <source>Graph Sidebar</source>
+        <location filename="mainwindow.ui" line="5499"/>
+        <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="5504"/>
+        <source>Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="5634"/>
-        <location filename="mainwindow.ui" line="5932"/>
+        <source>Graph Sidebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="5770"/>
+        <location filename="mainwindow.ui" line="6068"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5639"/>
+        <location filename="mainwindow.ui" line="5775"/>
         <source>Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5644"/>
+        <location filename="mainwindow.ui" line="5780"/>
         <source>Protocol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5649"/>
+        <location filename="mainwindow.ui" line="5785"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5654"/>
+        <location filename="mainwindow.ui" line="5790"/>
         <source>TTL/Hops</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5659"/>
+        <location filename="mainwindow.ui" line="5795"/>
         <source>HEX</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5664"/>
+        <location filename="mainwindow.ui" line="5800"/>
         <source>ASCII</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5776"/>
+        <location filename="mainwindow.ui" line="5912"/>
         <source>URN</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5781"/>
+        <location filename="mainwindow.ui" line="5917"/>
         <source>Schema</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5786"/>
+        <location filename="mainwindow.ui" line="5922"/>
         <source>Endpoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5897"/>
+        <location filename="mainwindow.ui" line="6033"/>
         <source>Extension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5902"/>
+        <location filename="mainwindow.ui" line="6038"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5907"/>
+        <location filename="mainwindow.ui" line="6043"/>
         <source>Rating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5912"/>
+        <location filename="mainwindow.ui" line="5514"/>
+        <location filename="mainwindow.ui" line="6048"/>
         <source>Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5917"/>
+        <location filename="mainwindow.ui" line="5509"/>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="5519"/>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="6053"/>
         <source>Host Count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5922"/>
+        <location filename="mainwindow.ui" line="6058"/>
         <source>Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5927"/>
+        <location filename="mainwindow.ui" line="6063"/>
         <source>Client</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5937"/>
+        <location filename="mainwindow.ui" line="6073"/>
         <source>Country</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5942"/>
+        <location filename="mainwindow.ui" line="6078"/>
         <source>Duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5947"/>
+        <location filename="mainwindow.ui" line="6083"/>
         <source>Bitrate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5952"/>
+        <location filename="mainwindow.ui" line="6088"/>
         <source>Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="5957"/>
+        <location filename="mainwindow.ui" line="6093"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6120"/>
+        <location filename="mainwindow.ui" line="6256"/>
         <source>&amp;Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6124"/>
+        <location filename="mainwindow.ui" line="6260"/>
         <source>Choose Networks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6144"/>
+        <location filename="mainwindow.ui" line="6280"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6171"/>
+        <location filename="mainwindow.ui" line="6308"/>
         <source>&amp;Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6198"/>
+        <location filename="mainwindow.ui" line="6333"/>
         <source>&amp;Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6204"/>
+        <location filename="mainwindow.ui" line="6339"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6227"/>
+        <location filename="mainwindow.ui" line="6362"/>
         <source>QToolButton {
     border: 1px solid transparent;
     background-color: transparent;
@@ -4960,580 +4936,610 @@ QToolButton:checked {
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6283"/>
+        <location filename="mainwindow.ui" line="6418"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6292"/>
+        <location filename="mainwindow.ui" line="6427"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6301"/>
+        <location filename="mainwindow.ui" line="6436"/>
         <source>Lock Panels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6316"/>
-        <location filename="mainwindow.ui" line="6319"/>
+        <location filename="mainwindow.ui" line="6451"/>
+        <location filename="mainwindow.ui" line="6454"/>
         <source>Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6337"/>
-        <location filename="mainwindow.cpp" line="113"/>
-        <location filename="mainwindow.cpp" line="359"/>
-        <location filename="mainwindow.cpp" line="491"/>
+        <location filename="mainwindow.ui" line="6472"/>
+        <location filename="mainwindow.cpp" line="114"/>
+        <location filename="mainwindow.cpp" line="365"/>
+        <location filename="mainwindow.cpp" line="502"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6367"/>
-        <location filename="mainwindow.cpp" line="128"/>
-        <location filename="mainwindow.cpp" line="374"/>
-        <location filename="mainwindow.cpp" line="518"/>
+        <location filename="mainwindow.ui" line="6502"/>
+        <location filename="mainwindow.cpp" line="129"/>
+        <location filename="mainwindow.cpp" line="380"/>
+        <location filename="mainwindow.cpp" line="529"/>
         <source>Transfers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6382"/>
-        <location filename="mainwindow.cpp" line="133"/>
-        <location filename="mainwindow.cpp" line="379"/>
-        <location filename="mainwindow.cpp" line="527"/>
+        <location filename="mainwindow.ui" line="6517"/>
+        <location filename="mainwindow.cpp" line="134"/>
+        <location filename="mainwindow.cpp" line="385"/>
+        <location filename="mainwindow.cpp" line="538"/>
         <source>Security</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6397"/>
-        <location filename="mainwindow.cpp" line="138"/>
-        <location filename="mainwindow.cpp" line="384"/>
-        <location filename="mainwindow.cpp" line="536"/>
+        <location filename="mainwindow.ui" line="6532"/>
+        <location filename="mainwindow.cpp" line="139"/>
+        <location filename="mainwindow.cpp" line="390"/>
+        <location filename="mainwindow.cpp" line="547"/>
         <source>Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6412"/>
-        <location filename="mainwindow.cpp" line="118"/>
-        <location filename="mainwindow.cpp" line="364"/>
-        <location filename="mainwindow.cpp" line="500"/>
+        <location filename="mainwindow.ui" line="6547"/>
+        <location filename="mainwindow.cpp" line="119"/>
+        <location filename="mainwindow.cpp" line="370"/>
+        <location filename="mainwindow.cpp" line="511"/>
         <source>Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6427"/>
+        <location filename="mainwindow.ui" line="6562"/>
         <source>Create Torrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6436"/>
+        <location filename="mainwindow.ui" line="6571"/>
         <source>Seed Torrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6445"/>
-        <location filename="mainwindow.ui" line="6448"/>
+        <location filename="mainwindow.ui" line="6580"/>
+        <location filename="mainwindow.ui" line="6583"/>
         <source>Open Torrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6457"/>
-        <location filename="mainwindow.ui" line="7664"/>
-        <location filename="mainwindow.ui" line="7667"/>
-        <location filename="mainwindow.ui" line="7676"/>
-        <location filename="mainwindow.ui" line="7679"/>
-        <location filename="mainwindow.ui" line="7703"/>
-        <location filename="mainwindow.ui" line="7706"/>
+        <location filename="mainwindow.ui" line="6592"/>
+        <location filename="mainwindow.ui" line="7802"/>
+        <location filename="mainwindow.ui" line="7805"/>
+        <location filename="mainwindow.ui" line="7814"/>
+        <location filename="mainwindow.ui" line="7817"/>
+        <location filename="mainwindow.ui" line="7841"/>
+        <location filename="mainwindow.ui" line="7844"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6508"/>
-        <location filename="mainwindow.ui" line="7301"/>
-        <location filename="mainwindow.ui" line="7304"/>
+        <location filename="mainwindow.ui" line="6643"/>
+        <location filename="mainwindow.ui" line="7439"/>
+        <location filename="mainwindow.ui" line="7442"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6517"/>
-        <location filename="mainwindow.ui" line="7241"/>
-        <location filename="mainwindow.ui" line="7244"/>
-        <location filename="mainwindow.ui" line="7313"/>
-        <location filename="mainwindow.ui" line="7316"/>
-        <location filename="mainwindow.ui" line="7334"/>
-        <location filename="mainwindow.ui" line="7337"/>
+        <location filename="mainwindow.ui" line="6652"/>
+        <location filename="mainwindow.ui" line="7379"/>
+        <location filename="mainwindow.ui" line="7382"/>
+        <location filename="mainwindow.ui" line="7451"/>
+        <location filename="mainwindow.ui" line="7454"/>
+        <location filename="mainwindow.ui" line="7472"/>
+        <location filename="mainwindow.ui" line="7475"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6526"/>
-        <location filename="mainwindow.ui" line="7253"/>
-        <location filename="mainwindow.ui" line="7256"/>
-        <location filename="mainwindow.ui" line="7325"/>
+        <location filename="mainwindow.ui" line="6661"/>
+        <location filename="mainwindow.ui" line="7391"/>
+        <location filename="mainwindow.ui" line="7394"/>
+        <location filename="mainwindow.ui" line="7463"/>
         <source>Connect To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6535"/>
+        <location filename="mainwindow.ui" line="6670"/>
         <source>Exit After Transfers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6547"/>
-        <location filename="mainwindow.cpp" line="143"/>
-        <location filename="mainwindow.cpp" line="389"/>
-        <location filename="mainwindow.cpp" line="545"/>
+        <location filename="mainwindow.ui" line="6682"/>
+        <location filename="mainwindow.cpp" line="144"/>
+        <location filename="mainwindow.cpp" line="395"/>
+        <location filename="mainwindow.cpp" line="556"/>
         <source>Chat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6562"/>
-        <location filename="mainwindow.ui" line="6565"/>
-        <location filename="mainwindow.cpp" line="148"/>
-        <location filename="mainwindow.cpp" line="394"/>
-        <location filename="mainwindow.cpp" line="554"/>
+        <location filename="mainwindow.ui" line="6697"/>
+        <location filename="mainwindow.ui" line="6700"/>
+        <location filename="mainwindow.cpp" line="149"/>
+        <location filename="mainwindow.cpp" line="400"/>
+        <location filename="mainwindow.cpp" line="565"/>
         <source>Host Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6580"/>
-        <location filename="mainwindow.cpp" line="153"/>
-        <location filename="mainwindow.cpp" line="399"/>
-        <location filename="mainwindow.cpp" line="563"/>
+        <location filename="mainwindow.ui" line="6715"/>
+        <location filename="mainwindow.cpp" line="154"/>
+        <location filename="mainwindow.cpp" line="405"/>
+        <location filename="mainwindow.cpp" line="574"/>
         <source>Discovery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6595"/>
-        <location filename="mainwindow.cpp" line="158"/>
-        <location filename="mainwindow.cpp" line="404"/>
-        <location filename="mainwindow.cpp" line="572"/>
+        <location filename="mainwindow.ui" line="6730"/>
+        <location filename="mainwindow.cpp" line="164"/>
+        <location filename="mainwindow.cpp" line="415"/>
+        <location filename="mainwindow.cpp" line="592"/>
         <source>Graph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6610"/>
-        <location filename="mainwindow.cpp" line="163"/>
-        <location filename="mainwindow.cpp" line="409"/>
-        <location filename="mainwindow.cpp" line="581"/>
+        <location filename="mainwindow.ui" line="6745"/>
+        <location filename="mainwindow.cpp" line="169"/>
+        <location filename="mainwindow.cpp" line="420"/>
+        <location filename="mainwindow.cpp" line="601"/>
         <source>Packet Dump</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6625"/>
-        <location filename="mainwindow.cpp" line="173"/>
-        <location filename="mainwindow.cpp" line="419"/>
-        <location filename="mainwindow.cpp" line="599"/>
+        <location filename="mainwindow.ui" line="6760"/>
+        <location filename="mainwindow.cpp" line="179"/>
+        <location filename="mainwindow.cpp" line="430"/>
+        <location filename="mainwindow.cpp" line="619"/>
         <source>Hit Monitor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6640"/>
-        <location filename="mainwindow.cpp" line="168"/>
-        <location filename="mainwindow.cpp" line="414"/>
-        <location filename="mainwindow.cpp" line="590"/>
+        <location filename="mainwindow.ui" line="6775"/>
+        <location filename="mainwindow.cpp" line="174"/>
+        <location filename="mainwindow.cpp" line="425"/>
+        <location filename="mainwindow.cpp" line="610"/>
         <source>Search Monitor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6664"/>
+        <location filename="mainwindow.ui" line="6799"/>
         <source>Download File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6673"/>
+        <location filename="mainwindow.ui" line="6808"/>
         <source>Import Partials</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6682"/>
+        <location filename="mainwindow.ui" line="6817"/>
         <source>Open Download Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6691"/>
+        <location filename="mainwindow.ui" line="6826"/>
         <source>Choose Skin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6700"/>
+        <location filename="mainwindow.ui" line="6835"/>
         <source>Choose Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6709"/>
+        <location filename="mainwindow.ui" line="6844"/>
         <source>Quickstart Wizard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6718"/>
+        <location filename="mainwindow.ui" line="6853"/>
         <source>User&apos;s Guide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6727"/>
+        <location filename="mainwindow.ui" line="6862"/>
         <source>FAQ</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6736"/>
+        <location filename="mainwindow.ui" line="6871"/>
         <source>Connection Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6745"/>
+        <location filename="mainwindow.ui" line="6880"/>
         <source>Check For New Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6754"/>
+        <location filename="mainwindow.ui" line="6889"/>
         <source>Donate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6763"/>
+        <location filename="mainwindow.ui" line="6898"/>
         <source>Quazaa Forums</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6784"/>
-        <location filename="mainwindow.ui" line="6787"/>
+        <location filename="mainwindow.ui" line="6922"/>
+        <location filename="mainwindow.ui" line="6925"/>
+        <location filename="mainwindow.cpp" line="159"/>
+        <location filename="mainwindow.cpp" line="410"/>
+        <location filename="mainwindow.cpp" line="583"/>
         <source>Scheduler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6796"/>
-        <location filename="mainwindow.ui" line="6799"/>
+        <location filename="mainwindow.ui" line="6934"/>
+        <location filename="mainwindow.ui" line="6937"/>
         <source>Show/Hide Quazaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6808"/>
+        <location filename="mainwindow.ui" line="6946"/>
         <source>Edit My Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6820"/>
+        <location filename="mainwindow.ui" line="6958"/>
         <source>Start A New Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6833"/>
-        <location filename="mainwindow.ui" line="6836"/>
-        <location filename="mainwindow.ui" line="6903"/>
-        <location filename="mainwindow.ui" line="6906"/>
+        <location filename="mainwindow.ui" line="6971"/>
+        <location filename="mainwindow.ui" line="6974"/>
+        <location filename="mainwindow.ui" line="7041"/>
+        <location filename="mainwindow.ui" line="7044"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6845"/>
+        <location filename="mainwindow.ui" line="6983"/>
         <source>Open Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6857"/>
-        <location filename="mainwindow.ui" line="6860"/>
+        <location filename="mainwindow.ui" line="6995"/>
+        <location filename="mainwindow.ui" line="6998"/>
         <source>Rewind</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6872"/>
+        <location filename="mainwindow.ui" line="7010"/>
         <source>Next Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="6881"/>
-        <source>Add Album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="6890"/>
-        <location filename="mainwindow.ui" line="6893"/>
-        <source>Delete Album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="6927"/>
-        <location filename="mainwindow.ui" line="6930"/>
-        <source>Play Album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="6939"/>
-        <location filename="mainwindow.ui" line="6942"/>
-        <location filename="mainwindow.ui" line="7100"/>
-        <location filename="mainwindow.ui" line="7103"/>
-        <location filename="mainwindow.ui" line="7466"/>
-        <location filename="mainwindow.ui" line="7469"/>
-        <source>Properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="6951"/>
-        <location filename="mainwindow.ui" line="6954"/>
-        <location filename="mainwindow.ui" line="7574"/>
-        <location filename="mainwindow.ui" line="7577"/>
-        <source>Download</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="6963"/>
-        <location filename="mainwindow.ui" line="6966"/>
-        <location filename="mainwindow.ui" line="7157"/>
-        <location filename="mainwindow.ui" line="7160"/>
-        <location filename="mainwindow.ui" line="7526"/>
-        <location filename="mainwindow.ui" line="7529"/>
-        <source>Browse User</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="6982"/>
-        <location filename="mainwindow.ui" line="6985"/>
-        <source>Toggle Search</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="7016"/>
         <location filename="mainwindow.ui" line="7019"/>
-        <source>All</source>
+        <source>Add Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="7028"/>
         <location filename="mainwindow.ui" line="7031"/>
+        <source>Delete Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7065"/>
+        <location filename="mainwindow.ui" line="7068"/>
+        <source>Play Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7077"/>
+        <location filename="mainwindow.ui" line="7080"/>
+        <location filename="mainwindow.ui" line="7238"/>
+        <location filename="mainwindow.ui" line="7241"/>
+        <location filename="mainwindow.ui" line="7604"/>
+        <location filename="mainwindow.ui" line="7607"/>
+        <location filename="mainwindow.ui" line="7914"/>
+        <source>Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7089"/>
+        <location filename="mainwindow.ui" line="7092"/>
+        <location filename="mainwindow.ui" line="7712"/>
+        <location filename="mainwindow.ui" line="7715"/>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7101"/>
+        <location filename="mainwindow.ui" line="7104"/>
+        <location filename="mainwindow.ui" line="7295"/>
+        <location filename="mainwindow.ui" line="7298"/>
+        <location filename="mainwindow.ui" line="7664"/>
+        <location filename="mainwindow.ui" line="7667"/>
+        <source>Browse User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7120"/>
+        <location filename="mainwindow.ui" line="7123"/>
+        <source>Toggle Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7154"/>
+        <location filename="mainwindow.ui" line="7157"/>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7166"/>
+        <location filename="mainwindow.ui" line="7169"/>
         <source>Preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7040"/>
-        <location filename="mainwindow.ui" line="7043"/>
+        <location filename="mainwindow.ui" line="7178"/>
+        <location filename="mainwindow.ui" line="7181"/>
         <source>Open Or Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7052"/>
-        <location filename="mainwindow.ui" line="7055"/>
+        <location filename="mainwindow.ui" line="7190"/>
+        <location filename="mainwindow.ui" line="7193"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7064"/>
-        <location filename="mainwindow.ui" line="7067"/>
+        <location filename="mainwindow.ui" line="7202"/>
+        <location filename="mainwindow.ui" line="7205"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7076"/>
-        <location filename="mainwindow.ui" line="7079"/>
-        <location filename="mainwindow.ui" line="7121"/>
-        <location filename="mainwindow.ui" line="7124"/>
+        <location filename="mainwindow.ui" line="7214"/>
+        <location filename="mainwindow.ui" line="7217"/>
+        <location filename="mainwindow.ui" line="7259"/>
+        <location filename="mainwindow.ui" line="7262"/>
         <source>Mark As Junk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7088"/>
-        <location filename="mainwindow.ui" line="7091"/>
+        <location filename="mainwindow.ui" line="7226"/>
+        <location filename="mainwindow.ui" line="7229"/>
         <source>Show Monitor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7112"/>
+        <location filename="mainwindow.ui" line="7250"/>
         <source>Clear Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7133"/>
-        <location filename="mainwindow.ui" line="7136"/>
+        <location filename="mainwindow.ui" line="7271"/>
+        <location filename="mainwindow.ui" line="7274"/>
         <source>Chat With User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7145"/>
-        <location filename="mainwindow.ui" line="7148"/>
+        <location filename="mainwindow.ui" line="7283"/>
+        <location filename="mainwindow.ui" line="7286"/>
         <source>Browse Host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7169"/>
-        <location filename="mainwindow.ui" line="7172"/>
-        <location filename="mainwindow.ui" line="7538"/>
-        <location filename="mainwindow.ui" line="7541"/>
+        <location filename="mainwindow.ui" line="7307"/>
+        <location filename="mainwindow.ui" line="7310"/>
+        <location filename="mainwindow.ui" line="7676"/>
+        <location filename="mainwindow.ui" line="7679"/>
         <source>Ban User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7181"/>
-        <location filename="mainwindow.ui" line="7184"/>
+        <location filename="mainwindow.ui" line="7319"/>
+        <location filename="mainwindow.ui" line="7322"/>
         <source>Add Rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7193"/>
-        <location filename="mainwindow.ui" line="7196"/>
+        <location filename="mainwindow.ui" line="7331"/>
+        <location filename="mainwindow.ui" line="7334"/>
         <source>Remove Rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7205"/>
-        <location filename="mainwindow.ui" line="7208"/>
+        <location filename="mainwindow.ui" line="7343"/>
+        <location filename="mainwindow.ui" line="7346"/>
         <source>Modify Rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7217"/>
-        <location filename="mainwindow.ui" line="7220"/>
+        <location filename="mainwindow.ui" line="7355"/>
+        <location filename="mainwindow.ui" line="7358"/>
         <source>Import Rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7229"/>
-        <location filename="mainwindow.ui" line="7232"/>
+        <location filename="mainwindow.ui" line="7367"/>
+        <location filename="mainwindow.ui" line="7370"/>
         <source>Export Rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7265"/>
-        <location filename="mainwindow.ui" line="7268"/>
+        <location filename="mainwindow.ui" line="7403"/>
+        <location filename="mainwindow.ui" line="7406"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7277"/>
-        <location filename="mainwindow.ui" line="7280"/>
+        <location filename="mainwindow.ui" line="7415"/>
+        <location filename="mainwindow.ui" line="7418"/>
         <source>Chat With</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7289"/>
-        <location filename="mainwindow.ui" line="7292"/>
+        <location filename="mainwindow.ui" line="7427"/>
+        <location filename="mainwindow.ui" line="7430"/>
         <source>Ban</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7358"/>
-        <location filename="mainwindow.ui" line="7361"/>
+        <location filename="mainwindow.ui" line="7496"/>
+        <location filename="mainwindow.ui" line="7499"/>
         <source>Gnutella Bootstrap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7370"/>
-        <location filename="mainwindow.ui" line="7373"/>
+        <location filename="mainwindow.ui" line="7508"/>
+        <location filename="mainwindow.ui" line="7511"/>
         <source>Add Service</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7382"/>
-        <location filename="mainwindow.ui" line="7385"/>
+        <location filename="mainwindow.ui" line="7520"/>
+        <location filename="mainwindow.ui" line="7523"/>
         <source>Browse Statistics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7394"/>
-        <location filename="mainwindow.ui" line="7397"/>
+        <location filename="mainwindow.ui" line="7532"/>
+        <location filename="mainwindow.ui" line="7535"/>
         <source>G1/G2 GWebCache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7406"/>
-        <location filename="mainwindow.ui" line="7409"/>
+        <location filename="mainwindow.ui" line="7544"/>
+        <location filename="mainwindow.ui" line="7547"/>
         <source>Ares Discovery Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7418"/>
-        <location filename="mainwindow.ui" line="7421"/>
+        <location filename="mainwindow.ui" line="7556"/>
+        <location filename="mainwindow.ui" line="7559"/>
         <source>eDonkey Server.met</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7430"/>
-        <location filename="mainwindow.ui" line="7433"/>
+        <location filename="mainwindow.ui" line="7568"/>
+        <location filename="mainwindow.ui" line="7571"/>
         <source>Remove Service</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7442"/>
-        <location filename="mainwindow.ui" line="7445"/>
+        <location filename="mainwindow.ui" line="7580"/>
+        <location filename="mainwindow.ui" line="7583"/>
         <source>Query Now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7454"/>
-        <location filename="mainwindow.ui" line="7457"/>
+        <location filename="mainwindow.ui" line="7592"/>
+        <location filename="mainwindow.ui" line="7595"/>
         <source>Advertise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7478"/>
-        <location filename="mainwindow.ui" line="7481"/>
+        <location filename="mainwindow.ui" line="7616"/>
+        <location filename="mainwindow.ui" line="7619"/>
         <source>Graph Tool Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7490"/>
-        <location filename="mainwindow.ui" line="7493"/>
-        <location filename="mainwindow.ui" line="7550"/>
-        <location filename="mainwindow.ui" line="7553"/>
-        <location filename="mainwindow.ui" line="7598"/>
-        <location filename="mainwindow.ui" line="7601"/>
+        <location filename="mainwindow.ui" line="7628"/>
+        <location filename="mainwindow.ui" line="7631"/>
+        <location filename="mainwindow.ui" line="7688"/>
+        <location filename="mainwindow.ui" line="7691"/>
+        <location filename="mainwindow.ui" line="7736"/>
+        <location filename="mainwindow.ui" line="7739"/>
         <source>Pause Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7502"/>
-        <location filename="mainwindow.ui" line="7505"/>
-        <location filename="mainwindow.ui" line="7562"/>
-        <location filename="mainwindow.ui" line="7565"/>
-        <location filename="mainwindow.ui" line="7610"/>
-        <location filename="mainwindow.ui" line="7613"/>
-        <source>Clear Buffer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="7514"/>
-        <location filename="mainwindow.ui" line="7517"/>
-        <source>Search For This</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="7586"/>
-        <location filename="mainwindow.ui" line="7589"/>
-        <source>Requery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="7625"/>
-        <source>Stop Media</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="7637"/>
         <location filename="mainwindow.ui" line="7640"/>
-        <source>Repeat</source>
+        <location filename="mainwindow.ui" line="7643"/>
+        <location filename="mainwindow.ui" line="7700"/>
+        <location filename="mainwindow.ui" line="7703"/>
+        <location filename="mainwindow.ui" line="7748"/>
+        <location filename="mainwindow.ui" line="7751"/>
+        <source>Clear Buffer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="7652"/>
         <location filename="mainwindow.ui" line="7655"/>
+        <source>Search For This</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7724"/>
+        <location filename="mainwindow.ui" line="7727"/>
+        <source>Requery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7763"/>
+        <source>Stop Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7775"/>
+        <location filename="mainwindow.ui" line="7778"/>
+        <source>Repeat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7790"/>
+        <location filename="mainwindow.ui" line="7793"/>
         <source>Shuffle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7691"/>
-        <location filename="mainwindow.ui" line="7694"/>
+        <location filename="mainwindow.ui" line="7829"/>
+        <location filename="mainwindow.ui" line="7832"/>
         <source>Fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7722"/>
-        <location filename="mainwindow.ui" line="7725"/>
+        <location filename="mainwindow.ui" line="7860"/>
+        <location filename="mainwindow.ui" line="7863"/>
         <source>Media Playlist Toggle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7734"/>
-        <location filename="mainwindow.ui" line="7737"/>
+        <location filename="mainwindow.ui" line="7872"/>
+        <location filename="mainwindow.ui" line="7875"/>
         <source>Mute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7880"/>
+        <source>Add Scheduled Task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7885"/>
+        <location filename="mainwindow.ui" line="7888"/>
+        <source>Remove Scheduled Task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7899"/>
+        <source>Activate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7904"/>
+        <source>Move Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="7909"/>
+        <source>Move Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5542,52 +5548,52 @@ QToolButton:checked {
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="212"/>
+        <location filename="mainwindow.cpp" line="218"/>
         <source>Loading Profile...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="216"/>
+        <location filename="mainwindow.cpp" line="222"/>
         <source>Checking for first run...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="219"/>
+        <location filename="mainwindow.cpp" line="225"/>
         <source>Running first run wizard...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="233"/>
+        <location filename="mainwindow.cpp" line="239"/>
         <source>Loading Library...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="237"/>
+        <location filename="mainwindow.cpp" line="243"/>
         <source>Loading Media Player...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="252"/>
+        <location filename="mainwindow.cpp" line="258"/>
         <source>Loading Networks...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="260"/>
+        <location filename="mainwindow.cpp" line="266"/>
         <source>Loading Tray Icon...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="440"/>
+        <location filename="mainwindow.cpp" line="451"/>
         <source>Saving Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="443"/>
+        <location filename="mainwindow.cpp" line="454"/>
         <source>Saving UI...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="472"/>
+        <location filename="mainwindow.cpp" line="483"/>
         <source>Removing Tray Icon...</source>
         <translation type="unfinished"></translation>
     </message>

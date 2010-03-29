@@ -106,7 +106,7 @@ padding: 2px;</string>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidgetMain">
       <property name="currentIndex">
-       <number>9</number>
+       <number>10</number>
       </property>
       <widget class="QWidget" name="pageHome">
        <layout class="QGridLayout" name="gridLayoutHome">
@@ -1689,8 +1689,8 @@ QToolButton::menu-button:hover {
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>98</width>
-                     <height>28</height>
+                     <width>45</width>
+                     <height>2</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_11">
@@ -3297,8 +3297,8 @@ QTabWidget::pane { /* The tab widget frame */
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>486</width>
-                 <height>60</height>
+                 <width>48</width>
+                 <height>3</height>
                 </rect>
                </property>
               </widget>
@@ -5473,6 +5473,142 @@ QToolButton::menu-button:hover {
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="pageScheduler">
+       <layout class="QGridLayout" name="gridLayout_64">
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QTreeWidget" name="treeWidgetSchedules">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QTreeWidget {
+	background-color: rgb(255, 255, 255);
+}</string>
+          </property>
+          <column>
+           <property name="text">
+            <string>Action</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Frequency</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Active</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Details</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QFrame" name="toolFrameScheduler">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton {
+    border: 1px solid transparent;
+    background-color: transparent;
+}
+
+ QToolButton:pressed {
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+
+QToolButton:checked {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+ QToolButton:hover {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+ QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
+     padding-right: 20px; /* make way for the popup button */
+ }
+
+/* the subcontrols below are used only in the MenuButtonPopup mode */
+ QToolButton::menu-button {
+     border: 1px solid transparent;
+     /* 16px width + 4px for border = 20px allocated above */
+     width: 16px;
+ }
+
+QToolButton::menu-button:hover {
+    border: 1px solid rgb(78, 96, 255);
+	border-left-color: 1px solid transparent;
+     /* 16px width + 4px for border = 20px allocated above */
+     width: 16px;
+ }
+
+ QToolButton::menu-arrow:open {
+     top: 1px; left: 1px; /* shift it a bit */
+ }</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_63">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QToolBar" name="toolBarScheduler">
+             <property name="styleSheet">
+              <string notr="true">QToolBar {
+	border-color: 2px solid transparent;
+}</string>
+             </property>
+             <addaction name="actionAddScheduledTask"/>
+             <addaction name="actionRemoveScheduledTask"/>
+             <addaction name="separator"/>
+             <addaction name="actionToggleTask"/>
+             <addaction name="separator"/>
+             <addaction name="actionSheduleMoveUp"/>
+             <addaction name="actionScheduleMoveDown"/>
+             <addaction name="separator"/>
+             <addaction name="actionScheduleProperties"/>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="pageGraph">
        <layout class="QGridLayout" name="gridLayout_54">
         <property name="margin">
@@ -6163,6 +6299,7 @@ QToolButton::menu-button:hover {
     <addaction name="separator"/>
     <addaction name="actionHostCache"/>
     <addaction name="actionDiscovery"/>
+    <addaction name="actionScheduler"/>
     <addaction name="separator"/>
     <addaction name="menuAdvanced"/>
    </widget>
@@ -6184,12 +6321,10 @@ QToolButton::menu-button:hover {
     <addaction name="actionShares"/>
     <addaction name="actionImportPartials"/>
     <addaction name="separator"/>
-    <addaction name="actionQuickstartWizard"/>
-    <addaction name="actionScheduler"/>
-    <addaction name="separator"/>
     <addaction name="actionChooseSkin"/>
     <addaction name="actionChooseLanguage"/>
     <addaction name="separator"/>
+    <addaction name="actionQuickstartWizard"/>
     <addaction name="actionEditMyProfile"/>
     <addaction name="actionSettings"/>
    </widget>
@@ -6776,6 +6911,9 @@ QToolButton:checked {
    </property>
   </action>
   <action name="actionScheduler">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Scheduler.png</normaloff>:/Resource/Generic/Scheduler.png</iconset>
@@ -7737,6 +7875,45 @@ QToolButton:checked {
     <string>Mute</string>
    </property>
   </action>
+  <action name="actionAddScheduledTask">
+   <property name="text">
+    <string>Add Scheduled Task</string>
+   </property>
+  </action>
+  <action name="actionRemoveScheduledTask">
+   <property name="text">
+    <string>Remove Scheduled Task</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove Scheduled Task</string>
+   </property>
+  </action>
+  <action name="actionToggleTask">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Activate</string>
+   </property>
+  </action>
+  <action name="actionSheduleMoveUp">
+   <property name="text">
+    <string>Move Up</string>
+   </property>
+  </action>
+  <action name="actionScheduleMoveDown">
+   <property name="text">
+    <string>Move Down</string>
+   </property>
+  </action>
+  <action name="actionScheduleProperties">
+   <property name="text">
+    <string>Properties</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
@@ -7750,12 +7927,12 @@ QToolButton:checked {
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>705</x>
-     <y>107</y>
+     <x>98</x>
+     <y>88</y>
     </hint>
     <hint type="destinationlabel">
-     <x>366</x>
-     <y>303</y>
+     <x>98</x>
+     <y>98</y>
     </hint>
    </hints>
   </connection>
@@ -7770,7 +7947,7 @@ QToolButton:checked {
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>79</x>
+     <x>49</x>
      <y>108</y>
     </hint>
    </hints>
@@ -7783,7 +7960,7 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>103</x>
-     <y>-62</y>
+     <y>84</y>
     </hint>
     <hint type="destinationlabel">
      <x>103</x>
@@ -7799,11 +7976,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>76</x>
-     <y>147</y>
+     <y>293</y>
     </hint>
     <hint type="destinationlabel">
      <x>76</x>
-     <y>208</y>
+     <y>316</y>
     </hint>
    </hints>
   </connection>
@@ -7815,11 +7992,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>103</x>
-     <y>231</y>
+     <y>394</y>
     </hint>
     <hint type="destinationlabel">
      <x>103</x>
-     <y>291</y>
+     <y>459</y>
     </hint>
    </hints>
   </connection>
@@ -7831,11 +8008,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>103</x>
-     <y>336</y>
+     <y>482</y>
     </hint>
     <hint type="destinationlabel">
      <x>103</x>
-     <y>444</y>
+     <y>546</y>
     </hint>
    </hints>
   </connection>
@@ -7847,11 +8024,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>103</x>
-     <y>484</y>
+     <y>630</y>
     </hint>
     <hint type="destinationlabel">
      <x>103</x>
-     <y>583</y>
+     <y>685</y>
     </hint>
    </hints>
   </connection>
@@ -7926,12 +8103,12 @@ QToolButton:checked {
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>142</x>
-     <y>95</y>
+     <x>28</x>
+     <y>86</y>
     </hint>
     <hint type="destinationlabel">
-     <x>149</x>
-     <y>106</y>
+     <x>28</x>
+     <y>88</y>
     </hint>
    </hints>
   </connection>
@@ -7942,12 +8119,12 @@ QToolButton:checked {
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>140</x>
-     <y>225</y>
+     <x>28</x>
+     <y>97</y>
     </hint>
     <hint type="destinationlabel">
-     <x>140</x>
-     <y>231</y>
+     <x>28</x>
+     <y>99</y>
     </hint>
    </hints>
   </connection>
@@ -7958,8 +8135,8 @@ QToolButton:checked {
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>97</x>
-     <y>55</y>
+     <x>98</x>
+     <y>223</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -7975,7 +8152,7 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>96</x>
-     <y>307</y>
+     <y>475</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -7990,7 +8167,7 @@ QToolButton:checked {
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>726</x>
+     <x>672</x>
      <y>330</y>
     </hint>
     <hint type="destinationlabel">
@@ -8006,7 +8183,7 @@ QToolButton:checked {
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>726</x>
+     <x>672</x>
      <y>352</y>
     </hint>
     <hint type="destinationlabel">
@@ -8022,7 +8199,7 @@ QToolButton:checked {
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>575</x>
+     <x>415</x>
      <y>433</y>
     </hint>
     <hint type="destinationlabel">
@@ -8038,7 +8215,7 @@ QToolButton:checked {
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
+     <x>665</x>
      <y>495</y>
     </hint>
     <hint type="destinationlabel">
@@ -8054,7 +8231,7 @@ QToolButton:checked {
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
+     <x>665</x>
      <y>525</y>
     </hint>
     <hint type="destinationlabel">
@@ -8070,7 +8247,7 @@ QToolButton:checked {
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
+     <x>665</x>
      <y>555</y>
     </hint>
     <hint type="destinationlabel">
@@ -8086,7 +8263,7 @@ QToolButton:checked {
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
+     <x>665</x>
      <y>585</y>
     </hint>
     <hint type="destinationlabel">
@@ -8103,7 +8280,7 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>61</x>
-     <y>310</y>
+     <y>108</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -8122,8 +8299,8 @@ QToolButton:checked {
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>535</x>
-     <y>303</y>
+     <x>99</x>
+     <y>93</y>
     </hint>
    </hints>
   </connection>

@@ -61,6 +61,8 @@ signals:
 	void showMain();
 
 private slots:
+ void on_actionScheduleProperties_triggered();
+ void on_actionAddScheduledTask_triggered();
  void on_labelWelcomeUserGuideLink_linkActivated(QString link);
  void on_actionConnectionTest_triggered();
  void on_actionFAQ_triggered();
