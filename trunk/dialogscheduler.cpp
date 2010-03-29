@@ -87,6 +87,15 @@ void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 			m_ui->dateTimeEditStop->setEnabled(false);
 		break;
 		default:
+			m_ui->spinBoxBandwidth->setEnabled(true);
+			m_ui->labelNetworks->setEnabled(true);
+			m_ui->checkBoxAres->setEnabled(true);
+			m_ui->checkBoxBitTorrent->setEnabled(true);
+			m_ui->checkBoxEDonkey->setEnabled(true);
+			m_ui->checkBoxG1->setEnabled(true);
+			m_ui->checkBoxG2->setEnabled(true);
+			m_ui->labelStop->setEnabled(true);
+			m_ui->dateTimeEditStop->setEnabled(true);
 		break;
 	}
 }
@@ -109,5 +118,6 @@ void DialogScheduler::on_pushButtonCancel_clicked()
 
 void DialogScheduler::skinChangeEvent()
 {
+	setStyleSheet(skinSettings.standardItems);
 	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

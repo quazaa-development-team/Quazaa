@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
-    <height>461</height>
+    <width>332</width>
+    <height>435</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>634</width>
-    <height>461</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Scheduler</string>
+   <string>Scheduled Task Properties</string>
   </property>
   <property name="windowIcon">
    <iconset resource="Resource.qrc">
@@ -33,10 +33,13 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <property name="margin">
+   <property name="horizontalSpacing">
     <number>0</number>
    </property>
-   <property name="spacing">
+   <property name="verticalSpacing">
+    <number>2</number>
+   </property>
+   <property name="margin">
     <number>0</number>
    </property>
    <item row="0" column="0" colspan="2">
@@ -103,687 +106,7 @@ p, li { white-space: pre-wrap; }
      </layout>
     </widget>
    </item>
-   <item row="1" column="1" rowspan="4">
-    <widget class="QGroupBox" name="groupBoxDetails">
-     <property name="title">
-      <string>Details</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <property name="margin">
-       <number>4</number>
-      </property>
-      <property name="spacing">
-       <number>4</number>
-      </property>
-      <item row="4" column="0" colspan="3">
-       <layout class="QGridLayout" name="gridLayoutEnabled">
-        <item row="1" column="0">
-         <widget class="QCheckBox" name="checkBoxSheduleEnabled">
-          <property name="text">
-           <string>Enabled</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" colspan="2">
-         <widget class="QComboBox" name="comboBoxOnceWeekly">
-          <item>
-           <property name="text">
-            <string>Run Once</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Weekly</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="7" column="0" colspan="3">
-       <layout class="QGridLayout" name="gridLayoutNetworks">
-        <item row="1" column="0" colspan="2">
-         <widget class="QLabel" name="labelNetworks">
-          <property name="text">
-           <string>Connect To These Networks:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QCheckBox" name="checkBoxG2">
-          <property name="text">
-           <string>Gnutella 2</string>
-          </property>
-          <property name="icon">
-           <iconset resource="Resource.qrc">
-            <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QCheckBox" name="checkBoxBitTorrent">
-          <property name="text">
-           <string>BitTorrent</string>
-          </property>
-          <property name="icon">
-           <iconset resource="Resource.qrc">
-            <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QCheckBox" name="checkBoxG1">
-          <property name="text">
-           <string>Gnutella 1</string>
-          </property>
-          <property name="icon">
-           <iconset resource="Resource.qrc">
-            <normaloff>:/Resource/Networks/Gnutella1.png</normaloff>:/Resource/Networks/Gnutella1.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QCheckBox" name="checkBoxAres">
-          <property name="text">
-           <string>Ares</string>
-          </property>
-          <property name="icon">
-           <iconset resource="Resource.qrc">
-            <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QCheckBox" name="checkBoxEDonkey">
-          <property name="text">
-           <string>eDonkey</string>
-          </property>
-          <property name="icon">
-           <iconset resource="Resource.qrc">
-            <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="5" column="0" colspan="3">
-       <layout class="QGridLayout" name="gridLayoutAction">
-        <item row="1" column="0">
-         <widget class="QLabel" name="labelAction">
-          <property name="text">
-           <string>Action:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="comboBoxAction">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <item>
-           <property name="text">
-            <string>Control Speed And Networks</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Do Not Connect</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Close Quazaa</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="2" column="0" colspan="2">
-         <widget class="QSpinBox" name="spinBoxBandwidth">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="suffix">
-           <string>% of bandwidth.</string>
-          </property>
-          <property name="minimum">
-           <number>5</number>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="value">
-           <number>50</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0" colspan="3">
-       <layout class="QGridLayout" name="gridLayoutTitle">
-        <item row="0" column="0">
-         <widget class="QLabel" name="labelTitle">
-          <property name="text">
-           <string>Title:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEditTitle"/>
-        </item>
-       </layout>
-      </item>
-      <item row="10" column="0" colspan="3">
-       <widget class="QStackedWidget" name="pagesSchedule">
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="pageRunOnce">
-         <layout class="QGridLayout" name="gridLayout_9">
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <item row="1" column="0">
-           <layout class="QGridLayout" name="gridLayoutRunOnce">
-            <item row="1" column="1">
-             <widget class="QDateTimeEdit" name="dateTimeEditStart">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="labelStart">
-              <property name="text">
-               <string>Start:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLabel" name="labelStop">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Stop:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <spacer name="verticalSpacerRunOnce">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="3" column="1">
-             <widget class="QDateTimeEdit" name="dateTimeEditStop">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="pageWeekly">
-         <layout class="QGridLayout" name="gridLayout_19">
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <item row="0" column="0">
-           <layout class="QGridLayout" name="gridLayoutWeekly">
-            <item row="0" column="0">
-             <widget class="QCheckBox" name="checkBoxSunday">
-              <property name="text">
-               <string>Sunday</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QCheckBox" name="checkBoxMonday">
-              <property name="text">
-               <string>Monday</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLabel" name="labelMondayStart">
-              <property name="text">
-               <string>Start:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QTimeEdit" name="timeEditMondayStart"/>
-            </item>
-            <item row="1" column="3">
-             <widget class="QLabel" name="labelMondayStop">
-              <property name="text">
-               <string>Stop:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="4">
-             <widget class="QTimeEdit" name="timeEditMondayStop"/>
-            </item>
-            <item row="0" column="4">
-             <widget class="QTimeEdit" name="timeEditSundayStop"/>
-            </item>
-            <item row="2" column="0">
-             <widget class="QCheckBox" name="checkBoxTuesday">
-              <property name="text">
-               <string>Tuesday</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QTimeEdit" name="timeEditSundayStart"/>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="labelSundayStart">
-              <property name="text">
-               <string>Start:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QLabel" name="labelSundayStop">
-              <property name="text">
-               <string>Stop:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLabel" name="labelTuesdayStart">
-              <property name="text">
-               <string>Start:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <widget class="QTimeEdit" name="timeEditTuesdayStart"/>
-            </item>
-            <item row="2" column="3">
-             <widget class="QLabel" name="labelTuesdayStop">
-              <property name="text">
-               <string>Stop:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="4">
-             <widget class="QTimeEdit" name="timeEditTuesdayStop"/>
-            </item>
-            <item row="3" column="0">
-             <widget class="QCheckBox" name="checkBoxWednesday">
-              <property name="text">
-               <string>Wednesday</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLabel" name="labelWednesdayStart">
-              <property name="text">
-               <string>Start:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="2">
-             <widget class="QTimeEdit" name="timeEditWednesdayStart"/>
-            </item>
-            <item row="3" column="3">
-             <widget class="QLabel" name="labelWednesdayStop">
-              <property name="text">
-               <string>Stop:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="4">
-             <widget class="QTimeEdit" name="timeEditWednesdayStop"/>
-            </item>
-            <item row="4" column="4">
-             <widget class="QTimeEdit" name="timeEditThursdayStop"/>
-            </item>
-            <item row="4" column="3">
-             <widget class="QLabel" name="labelThursdayStop">
-              <property name="text">
-               <string>Stop:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="2">
-             <widget class="QTimeEdit" name="timeEditThursdayStart"/>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLabel" name="labelThursdayStart">
-              <property name="text">
-               <string>Start:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLabel" name="labelSaturdayStart">
-              <property name="text">
-               <string>Start:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QCheckBox" name="checkBoxSaturday">
-              <property name="text">
-               <string>Saturday</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="2">
-             <widget class="QTimeEdit" name="timeEditSaturdayStart"/>
-            </item>
-            <item row="6" column="4">
-             <widget class="QTimeEdit" name="timeEditSaturdayStop"/>
-            </item>
-            <item row="6" column="3">
-             <widget class="QLabel" name="labelSaturdayStop">
-              <property name="text">
-               <string>Stop:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QCheckBox" name="checkBoxThursday">
-              <property name="text">
-               <string>Thursday</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QCheckBox" name="checkBoxFriday">
-              <property name="text">
-               <string>Friday</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLabel" name="labelFidayStart">
-              <property name="text">
-               <string>Start:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="2">
-             <widget class="QTimeEdit" name="timeEditFridayStart"/>
-            </item>
-            <item row="5" column="3">
-             <widget class="QLabel" name="labelFridayStop">
-              <property name="text">
-               <string>Stop:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="4">
-             <widget class="QTimeEdit" name="timeEditFridayStop"/>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="0" rowspan="4">
-    <widget class="QFrame" name="frameScedules">
-     <property name="styleSheet">
-      <string notr="true">QFrame {
-	background-color: rgb(199, 202, 255);
-}
-
-QToolButton {
-    border: 1px solid transparent;
-    background-color: transparent;
-}
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
-QToolButton:checked {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
-}
-
- QToolButton:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_11">
-      <property name="margin">
-       <number>4</number>
-      </property>
-      <property name="spacing">
-       <number>4</number>
-      </property>
-      <item row="1" column="0">
-       <widget class="QFrame" name="frameScheduler">
-        <property name="styleSheet">
-         <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>4</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>4</number>
-         </property>
-         <property name="spacing">
-          <number>4</number>
-         </property>
-         <item row="4" column="0" colspan="2">
-          <widget class="QTreeWidget" name="treeWidgetSchedules">
-           <property name="minimumSize">
-            <size>
-             <width>300</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QTreeWidget {
-	background-color: rgb(255, 255, 255);
-}</string>
-           </property>
-           <column>
-            <property name="text">
-             <string>Title</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Schedule</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Schedule Type</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Action</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Bandwidth</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Networks</string>
-            </property>
-           </column>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="2">
-          <layout class="QGridLayout" name="gridLayoutSchedulerControls">
-           <item row="1" column="0">
-            <widget class="QToolButton" name="toolButtonNew">
-             <property name="text">
-              <string>New</string>
-             </property>
-             <property name="icon">
-              <iconset resource="Resource.qrc">
-               <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QToolButton" name="toolButtonRemove">
-             <property name="text">
-              <string>Remove</string>
-             </property>
-             <property name="icon">
-              <iconset resource="Resource.qrc">
-               <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <spacer name="horizontalSpacerScheduler">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="0" colspan="2">
-            <widget class="QCheckBox" name="checkBoxEnableScheduler">
-             <property name="text">
-              <string>Enable Scheduler</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="5" column="0" colspan="2">
-          <layout class="QGridLayout" name="gridLayoutSchedulerPriority">
-           <item row="0" column="0">
-            <widget class="QToolButton" name="toolButtonMoveUp">
-             <property name="text">
-              <string>Move Up</string>
-             </property>
-             <property name="icon">
-              <iconset resource="Resource.qrc">
-               <normaloff>:/Resource/Generic/MoveUp.png</normaloff>:/Resource/Generic/MoveUp.png</iconset>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QToolButton" name="toolButtonMoveDown">
-             <property name="text">
-              <string>Move Down</string>
-             </property>
-             <property name="icon">
-              <iconset resource="Resource.qrc">
-               <normaloff>:/Resource/Generic/MoveDown.png</normaloff>:/Resource/Generic/MoveDown.png</iconset>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <spacer name="horizontalSpacerSchedulerPriority">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="2">
+   <item row="6" column="0" colspan="2">
     <layout class="QGridLayout" name="gridLayoutFooter">
      <property name="margin">
       <number>4</number>
@@ -827,6 +150,586 @@ QToolButton:checked {
      </item>
     </layout>
    </item>
+   <item row="1" column="0">
+    <layout class="QGridLayout" name="gridLayoutSceduler">
+     <property name="margin">
+      <number>2</number>
+     </property>
+     <property name="spacing">
+      <number>2</number>
+     </property>
+     <item row="2" column="0">
+      <layout class="QGridLayout" name="gridLayoutNetworks">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="labelNetworks">
+         <property name="text">
+          <string>Connect To These Networks:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="checkBoxG2">
+         <property name="text">
+          <string>Gnutella 2</string>
+         </property>
+         <property name="icon">
+          <iconset resource="Resource.qrc">
+           <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="checkBoxBitTorrent">
+         <property name="text">
+          <string>BitTorrent</string>
+         </property>
+         <property name="icon">
+          <iconset resource="Resource.qrc">
+           <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="checkBoxG1">
+         <property name="text">
+          <string>Gnutella 1</string>
+         </property>
+         <property name="icon">
+          <iconset resource="Resource.qrc">
+           <normaloff>:/Resource/Networks/Gnutella1.png</normaloff>:/Resource/Networks/Gnutella1.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QCheckBox" name="checkBoxAres">
+         <property name="text">
+          <string>Ares</string>
+         </property>
+         <property name="icon">
+          <iconset resource="Resource.qrc">
+           <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="checkBoxEDonkey">
+         <property name="text">
+          <string>eDonkey</string>
+         </property>
+         <property name="icon">
+          <iconset resource="Resource.qrc">
+           <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="0">
+      <widget class="QStackedWidget" name="pagesSchedule">
+       <property name="currentIndex">
+        <number>2</number>
+       </property>
+       <widget class="QWidget" name="pageRunOnce">
+        <layout class="QGridLayout" name="gridLayout_9">
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="1" column="0">
+          <layout class="QGridLayout" name="gridLayoutRunOnce">
+           <property name="spacing">
+            <number>2</number>
+           </property>
+           <item row="1" column="1">
+            <widget class="QDateTimeEdit" name="dateTimeEditStart">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="labelStart">
+             <property name="text">
+              <string>Start:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="labelStop">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Stop:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <spacer name="verticalSpacerRunOnce">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="3" column="1">
+            <widget class="QDateTimeEdit" name="dateTimeEditStop">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="pageDaily">
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayoutRunOnce_2">
+           <property name="spacing">
+            <number>2</number>
+           </property>
+           <item row="0" column="1">
+            <widget class="QLabel" name="labelStart_2">
+             <property name="text">
+              <string>Start:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="labelStop_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Stop:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <spacer name="verticalSpacerRunOnce_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="1">
+            <widget class="QTimeEdit" name="timeEditStart_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QTimeEdit" name="timeEditStop_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="pageWeekly">
+        <layout class="QGridLayout" name="gridLayout_19">
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayoutWeekly">
+           <property name="spacing">
+            <number>2</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="checkBoxSunday">
+             <property name="text">
+              <string>Sunday</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="checkBoxMonday">
+             <property name="text">
+              <string>Monday</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="labelMondayStart">
+             <property name="text">
+              <string>Start:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QTimeEdit" name="timeEditMondayStart"/>
+           </item>
+           <item row="1" column="3">
+            <widget class="QLabel" name="labelMondayStop">
+             <property name="text">
+              <string>Stop:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="4">
+            <widget class="QTimeEdit" name="timeEditMondayStop"/>
+           </item>
+           <item row="0" column="4">
+            <widget class="QTimeEdit" name="timeEditSundayStop"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QCheckBox" name="checkBoxTuesday">
+             <property name="text">
+              <string>Tuesday</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QTimeEdit" name="timeEditSundayStart"/>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="labelSundayStart">
+             <property name="text">
+              <string>Start:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QLabel" name="labelSundayStop">
+             <property name="text">
+              <string>Stop:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="labelTuesdayStart">
+             <property name="text">
+              <string>Start:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QTimeEdit" name="timeEditTuesdayStart"/>
+           </item>
+           <item row="2" column="3">
+            <widget class="QLabel" name="labelTuesdayStop">
+             <property name="text">
+              <string>Stop:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="4">
+            <widget class="QTimeEdit" name="timeEditTuesdayStop"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="checkBoxWednesday">
+             <property name="text">
+              <string>Wednesday</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLabel" name="labelWednesdayStart">
+             <property name="text">
+              <string>Start:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QTimeEdit" name="timeEditWednesdayStart"/>
+           </item>
+           <item row="3" column="3">
+            <widget class="QLabel" name="labelWednesdayStop">
+             <property name="text">
+              <string>Stop:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="4">
+            <widget class="QTimeEdit" name="timeEditWednesdayStop"/>
+           </item>
+           <item row="4" column="4">
+            <widget class="QTimeEdit" name="timeEditThursdayStop"/>
+           </item>
+           <item row="4" column="3">
+            <widget class="QLabel" name="labelThursdayStop">
+             <property name="text">
+              <string>Stop:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QTimeEdit" name="timeEditThursdayStart"/>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLabel" name="labelThursdayStart">
+             <property name="text">
+              <string>Start:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QLabel" name="labelSaturdayStart">
+             <property name="text">
+              <string>Start:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QCheckBox" name="checkBoxSaturday">
+             <property name="text">
+              <string>Saturday</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="2">
+            <widget class="QTimeEdit" name="timeEditSaturdayStart"/>
+           </item>
+           <item row="6" column="4">
+            <widget class="QTimeEdit" name="timeEditSaturdayStop"/>
+           </item>
+           <item row="6" column="3">
+            <widget class="QLabel" name="labelSaturdayStop">
+             <property name="text">
+              <string>Stop:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QCheckBox" name="checkBoxThursday">
+             <property name="text">
+              <string>Thursday</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QCheckBox" name="checkBoxFriday">
+             <property name="text">
+              <string>Friday</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QLabel" name="labelFidayStart">
+             <property name="text">
+              <string>Start:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="2">
+            <widget class="QTimeEdit" name="timeEditFridayStart"/>
+           </item>
+           <item row="5" column="3">
+            <widget class="QLabel" name="labelFridayStop">
+             <property name="text">
+              <string>Stop:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="4">
+            <widget class="QTimeEdit" name="timeEditFridayStop"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <layout class="QGridLayout" name="gridLayoutAction">
+       <property name="rightMargin">
+        <number>4</number>
+       </property>
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <item row="1" column="0">
+        <widget class="QLabel" name="labelAction">
+         <property name="text">
+          <string>Action:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QComboBox" name="comboBoxAction">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <item>
+          <property name="text">
+           <string>Control Speed And Networks</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Do Not Connect</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Close Quazaa</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="3">
+        <widget class="QSpinBox" name="spinBoxBandwidth">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="suffix">
+          <string>% of bandwidth.</string>
+         </property>
+         <property name="minimum">
+          <number>5</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="3">
+        <widget class="QSpinBox" name="spinBoxDownload">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="suffix">
+          <string>% of download.</string>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="3">
+        <widget class="QSpinBox" name="spinBoxUpload">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="suffix">
+          <string>% of upload.</string>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QComboBox" name="comboBoxOnceWeekly">
+         <item>
+          <property name="text">
+           <string>Run Once</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Daily</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Weekly</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="labelFrequency">
+         <property name="text">
+          <string>Frequency:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="4">
+        <widget class="QCheckBox" name="checkBoxSheduleEnabled">
+         <property name="text">
+          <string>Task Should Be Active</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <resources>
@@ -840,12 +743,12 @@ QToolButton:checked {
    <slot>setCurrentIndex(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>454</x>
-     <y>109</y>
+     <x>141</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>613</x>
-     <y>260</y>
+     <x>165</x>
+     <y>322</y>
     </hint>
    </hints>
   </connection>

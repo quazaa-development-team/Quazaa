@@ -96,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent)
 	actionGroupMainNavigation->addAction(ui->actionChat);
 	actionGroupMainNavigation->addAction(ui->actionHostCache);
 	actionGroupMainNavigation->addAction(ui->actionDiscovery);
+	actionGroupMainNavigation->addAction(ui->actionScheduler);
 	actionGroupMainNavigation->addAction(ui->actionGraph);
 	actionGroupMainNavigation->addAction(ui->actionPacketDump);
 	actionGroupMainNavigation->addAction(ui->actionSearchMonitor);
@@ -154,21 +155,26 @@ MainWindow::MainWindow(QWidget *parent)
 			ui->actionDiscovery->setChecked(true);
 			break;
 		case 10:
+			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
+			ui->labelMainHeaderText->setText(tr("Scheduler"));
+			ui->actionScheduler->setChecked(true);
+			break;
+		case 11:
 			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
 			ui->labelMainHeaderText->setText(tr("Graph"));
 			ui->actionGraph->setChecked(true);
 			break;
-		case 11:
+		case 12:
 			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
 			ui->labelMainHeaderText->setText(tr("Packet Dump"));
 			ui->actionPacketDump->setChecked(true);
 			break;
-		case 12:
+		case 13:
 			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
 			ui->labelMainHeaderText->setText(tr("Search Monitor"));
 			ui->actionSearchMonitor->setChecked(true);
 			break;
-		case 13:
+		case 14:
 			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
 			ui->labelMainHeaderText->setText(tr("Hit Monitor"));
 			ui->actionHitMonitor->setChecked(true);
@@ -400,21 +406,26 @@ void MainWindow::changeEvent(QEvent *e)
 					ui->actionDiscovery->setChecked(true);
 					break;
 				case 10:
+					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
+					ui->labelMainHeaderText->setText(tr("Scheduler"));
+					ui->actionScheduler->setChecked(true);
+					break;
+				case 11:
 					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
 					ui->labelMainHeaderText->setText(tr("Graph"));
 					ui->actionGraph->setChecked(true);
 					break;
-				case 11:
+				case 12:
 					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
 					ui->labelMainHeaderText->setText(tr("Packet Dump"));
 					ui->actionPacketDump->setChecked(true);
 					break;
-				case 12:
+				case 13:
 					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
 					ui->labelMainHeaderText->setText(tr("Search Monitor"));
 					ui->actionSearchMonitor->setChecked(true);
 					break;
-				case 13:
+				case 14:
 					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
 					ui->labelMainHeaderText->setText(tr("Hit Monitor"));
 					ui->actionHitMonitor->setChecked(true);
@@ -566,13 +577,22 @@ void MainWindow::on_actionDiscovery_triggered()
 	quazaaSettings.MainWindowActiveTab = 9;
 }
 
+void MainWindow::on_actionScheduler_triggered()
+{
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
+	ui->labelMainHeaderText->setText(tr("Scheduler"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+	ui->stackedWidgetMain->setCurrentIndex(10);
+	quazaaSettings.MainWindowActiveTab = 10;
+}
+
 void MainWindow::on_actionGraph_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
 	ui->labelMainHeaderText->setText(tr("Graph"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
-	ui->stackedWidgetMain->setCurrentIndex(10);
-	quazaaSettings.MainWindowActiveTab = 10;
+	ui->stackedWidgetMain->setCurrentIndex(11);
+	quazaaSettings.MainWindowActiveTab = 11;
 }
 
 void MainWindow::on_actionPacketDump_triggered()
@@ -580,8 +600,8 @@ void MainWindow::on_actionPacketDump_triggered()
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
 	ui->labelMainHeaderText->setText(tr("Packet Dump"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
-	ui->stackedWidgetMain->setCurrentIndex(11);
-	quazaaSettings.MainWindowActiveTab = 11;
+	ui->stackedWidgetMain->setCurrentIndex(12);
+	quazaaSettings.MainWindowActiveTab = 12;
 }
 
 void MainWindow::on_actionSearchMonitor_triggered()
@@ -589,8 +609,8 @@ void MainWindow::on_actionSearchMonitor_triggered()
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
 	ui->labelMainHeaderText->setText(tr("Search Monitor"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
-	ui->stackedWidgetMain->setCurrentIndex(12);
-	quazaaSettings.MainWindowActiveTab = 12;
+	ui->stackedWidgetMain->setCurrentIndex(13);
+	quazaaSettings.MainWindowActiveTab = 13;
 }
 
 void MainWindow::on_actionHitMonitor_triggered()
@@ -598,8 +618,8 @@ void MainWindow::on_actionHitMonitor_triggered()
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
 	ui->labelMainHeaderText->setText(tr("Hit Monitor"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
-	ui->stackedWidgetMain->setCurrentIndex(13);
-	quazaaSettings.MainWindowActiveTab = 13;
+	ui->stackedWidgetMain->setCurrentIndex(14);
+	quazaaSettings.MainWindowActiveTab = 14;
 }
 
 void MainWindow::icon_activated(QSystemTrayIcon::ActivationReason reason)
@@ -750,17 +770,6 @@ void MainWindow::on_actionQuickstartWizard_triggered()
 
 	connect(dlgWizard, SIGNAL(closed()), dlgSkinWizard, SLOT(close()));
 	dlgSkinWizard->show();
-}
-
-void MainWindow::on_actionScheduler_triggered()
-{
-	QSkinDialog *dlgSkinScheduler = new QSkinDialog(false, true, false, this);
-	DialogScheduler *dlgScheduler = new DialogScheduler;
-
-	dlgSkinScheduler->addChildWidget(dlgScheduler);
-
-	connect(dlgScheduler, SIGNAL(closed()), dlgSkinScheduler, SLOT(close()));
-	dlgSkinScheduler->show();
 }
 
 void MainWindow::on_actionEditMyProfile_triggered()
@@ -1019,6 +1028,7 @@ void MainWindow::skinChangeEvent()
 	ui->toolFrameLibraryStatus->setStyleSheet(skinSettings.toolbars);
 	ui->toolFrameNeighbors->setStyleSheet(skinSettings.toolbars);
 	ui->toolFramePacketDump->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameScheduler->setStyleSheet(skinSettings.toolbars);
 	ui->toolFrameSearch->setStyleSheet(skinSettings.toolbars);
 	ui->toolFrameSearchMonitor->setStyleSheet(skinSettings.toolbars);
 	ui->toolFrameSecurity->setStyleSheet(skinSettings.toolbars);
@@ -1070,4 +1080,26 @@ void MainWindow::on_actionConnectionTest_triggered()
 void MainWindow::on_labelWelcomeUserGuideLink_linkActivated(QString link)
 {
 	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
+}
+
+void MainWindow::on_actionAddScheduledTask_triggered()
+{
+	QSkinDialog *dlgSkinScheduler = new QSkinDialog(false, true, false, this);
+	DialogScheduler *dlgScheduler = new DialogScheduler;
+
+	dlgSkinScheduler->addChildWidget(dlgScheduler);
+
+	connect(dlgScheduler, SIGNAL(closed()), dlgSkinScheduler, SLOT(close()));
+	dlgSkinScheduler->show();
+}
+
+void MainWindow::on_actionScheduleProperties_triggered()
+{
+	QSkinDialog *dlgSkinScheduler = new QSkinDialog(false, true, false, this);
+	DialogScheduler *dlgScheduler = new DialogScheduler;
+
+	dlgSkinScheduler->addChildWidget(dlgScheduler);
+
+	connect(dlgScheduler, SIGNAL(closed()), dlgSkinScheduler, SLOT(close()));
+	dlgSkinScheduler->show();
 }

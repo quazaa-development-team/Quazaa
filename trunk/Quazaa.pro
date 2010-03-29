@@ -14,8 +14,11 @@ CONFIG(debug, debug|release) {
 	mac:TARGET = $$join(TARGET,,,_debug)
 	win32:TARGET = $$join(TARGET,,,d)
 }
+
 INCLUDEPATH += vlcmediaplayer
-win32:LIBS += -L./bin # if you are at windows os
+win32:INCLUDEPATH += C:/Boost/boost_1_42_0
+win32:LIBS += -L./bin \# if you are at windows os
+	-LC:/Boost/boost_1_42_0/stage/lib # change this to your boost library directory under windows
 LIBS += -lvlc
 TEMPLATE = app
 SOURCES += main.cpp \
