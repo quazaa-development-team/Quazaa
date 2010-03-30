@@ -118,6 +118,5 @@ void DialogScheduler::on_pushButtonCancel_clicked()
 
 void DialogScheduler::skinChangeEvent()
 {
-	setStyleSheet(skinSettings.standardItems);
 	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }
