@@ -6251,6 +6251,9 @@ QToolButton::menu-button:hover {
      <height>20</height>
     </rect>
    </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
    <widget class="QMenu" name="menuNetwork">
     <property name="title">
      <string>&amp;Network</string>
