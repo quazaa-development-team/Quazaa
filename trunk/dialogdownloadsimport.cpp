@@ -13,6 +13,7 @@ DialogDownloadsImport::DialogDownloadsImport(QWidget *parent) :
 DialogDownloadsImport::~DialogDownloadsImport()
 {
 	delete ui;
+	emit closed();
 }
 
 void DialogDownloadsImport::changeEvent(QEvent *e)

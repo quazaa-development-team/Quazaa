@@ -5593,6 +5593,15 @@ QToolButton::menu-button:hover {
 	border-color: 2px solid transparent;
 }</string>
              </property>
+             <property name="iconSize">
+              <size>
+               <width>16</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextBesideIcon</enum>
+             </property>
              <addaction name="actionAddScheduledTask"/>
              <addaction name="actionRemoveScheduledTask"/>
              <addaction name="separator"/>
@@ -7879,11 +7888,19 @@ QToolButton:checked {
    </property>
   </action>
   <action name="actionAddScheduledTask">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/SchedulerAdd.png</normaloff>:/Resource/Generic/SchedulerAdd.png</iconset>
+   </property>
    <property name="text">
     <string>Add Scheduled Task</string>
    </property>
   </action>
   <action name="actionRemoveScheduledTask">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/SchedulerRemove.png</normaloff>:/Resource/Generic/SchedulerRemove.png</iconset>
+   </property>
    <property name="text">
     <string>Remove Scheduled Task</string>
    </property>
@@ -7898,21 +7915,37 @@ QToolButton:checked {
    <property name="checked">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/SchedulerEnable.png</normaloff>:/Resource/Generic/SchedulerEnable.png</iconset>
+   </property>
    <property name="text">
     <string>Activate</string>
    </property>
   </action>
   <action name="actionSheduleMoveUp">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/MoveUp.png</normaloff>:/Resource/Generic/MoveUp.png</iconset>
+   </property>
    <property name="text">
     <string>Move Up</string>
    </property>
   </action>
   <action name="actionScheduleMoveDown">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/MoveDown.png</normaloff>:/Resource/Generic/MoveDown.png</iconset>
+   </property>
    <property name="text">
     <string>Move Down</string>
    </property>
   </action>
   <action name="actionScheduleProperties">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
+   </property>
    <property name="text">
     <string>Properties</string>
    </property>

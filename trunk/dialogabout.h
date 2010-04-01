@@ -52,9 +52,9 @@ private slots:
  void on_labelFrostwireLink_linkActivated(QString link);
  void on_labelHaliteLink_linkActivated(QString link);
  void on_labelShareazaLink_linkActivated(QString link);
- void on_toolButtonAboutQT_clicked();
+ void on_toolButtonAboutQt_clicked();
  void on_labelGimpLink_linkActivated(QString link);
- void on_labelQTLink_linkActivated(QString link);
+ void on_labelQtLink_linkActivated(QString link);
  void on_labelQuazaaLink_linkActivated(QString link);
  void on_labelCopyright_linkActivated(QString link);
  void on_pushButtonOK_clicked();

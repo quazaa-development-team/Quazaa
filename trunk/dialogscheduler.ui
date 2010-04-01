@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>332</width>
-    <height>435</height>
+    <width>379</width>
+    <height>394</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -230,7 +230,7 @@ p, li { white-space: pre-wrap; }
      <item row="3" column="0">
       <widget class="QStackedWidget" name="pagesSchedule">
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="pageRunOnce">
         <layout class="QGridLayout" name="gridLayout_9">
@@ -595,7 +595,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2">
+       <item row="1" column="1" colspan="4">
         <widget class="QComboBox" name="comboBoxAction">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -607,15 +607,27 @@ p, li { white-space: pre-wrap; }
           <property name="text">
            <string>Control Speed And Networks</string>
           </property>
+          <property name="icon">
+           <iconset resource="Resource.qrc">
+            <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
+          </property>
          </item>
          <item>
           <property name="text">
            <string>Do Not Connect</string>
           </property>
+          <property name="icon">
+           <iconset resource="Resource.qrc">
+            <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
+          </property>
          </item>
          <item>
           <property name="text">
            <string>Close Quazaa</string>
+          </property>
+          <property name="icon">
+           <iconset resource="Resource.qrc">
+            <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
           </property>
          </item>
         </widget>
@@ -645,39 +657,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="3">
-        <widget class="QSpinBox" name="spinBoxDownload">
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="suffix">
-          <string>% of download.</string>
-         </property>
-         <property name="maximum">
-          <number>100</number>
-         </property>
-         <property name="value">
-          <number>50</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="3">
-        <widget class="QSpinBox" name="spinBoxUpload">
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="suffix">
-          <string>% of upload.</string>
-         </property>
-         <property name="maximum">
-          <number>100</number>
-         </property>
-         <property name="value">
-          <number>50</number>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1" colspan="2">
+       <item row="3" column="1" colspan="4">
         <widget class="QComboBox" name="comboBoxOnceWeekly">
          <item>
           <property name="text">
@@ -708,23 +688,43 @@ p, li { white-space: pre-wrap; }
          <property name="text">
           <string>Task Should Be Active</string>
          </property>
+         <property name="icon">
+          <iconset resource="Resource.qrc">
+           <normaloff>:/Resource/Generic/SchedulerEnable.png</normaloff>:/Resource/Generic/SchedulerEnable.png</iconset>
+         </property>
         </widget>
        </item>
-       <item row="1" column="3">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="5" column="0">
+        <widget class="QSpinBox" name="spinBoxDownload">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
+         <property name="suffix">
+          <string>% of download.</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
+         <property name="maximum">
+          <number>100</number>
          </property>
-        </spacer>
+         <property name="value">
+          <number>50</number>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1" colspan="2">
+        <widget class="QSpinBox" name="spinBoxUpload">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="suffix">
+          <string>% of upload.</string>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

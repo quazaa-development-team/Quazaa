@@ -211,5 +211,9 @@
         <file>Resource/windowTextBackground.png</file>
         <file>Resource/titlebarButtonsFrame.png</file>
         <file>Resource/windowIconFrame.png</file>
+        <file>Resource/Generic/SchedulerRemove.png</file>
+        <file>Resource/Generic/SchedulerAdd.png</file>
+        <file>Resource/Generic/SchedulerDisable.png</file>
+        <file>Resource/Generic/SchedulerEnable.png</file>
     </qresource>
 </RCC>
