@@ -77,7 +77,7 @@ void DialogAbout::on_labelQuazaaLink_linkActivated(QString link)
 	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
 }
 
-void DialogAbout::on_labelQTLink_linkActivated(QString link)
+void DialogAbout::on_labelQtLink_linkActivated(QString link)
 {
 	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
 }
@@ -87,10 +87,10 @@ void DialogAbout::on_labelGimpLink_linkActivated(QString link)
 	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
 }
 
-void DialogAbout::on_toolButtonAboutQT_clicked()
+void DialogAbout::on_toolButtonAboutQt_clicked()
 {
-	QMessageBox aboutQT;
-	aboutQT.aboutQt(this, tr("About QT"));
+	QMessageBox aboutQt;
+	aboutQt.aboutQt(this, tr("About Qt"));
 }
 
 void DialogAbout::on_labelShareazaLink_linkActivated(QString link)

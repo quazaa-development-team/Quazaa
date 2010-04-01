@@ -55,8 +55,6 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, QWidget *
 	systemCloseAction->setEnabled(dialogClosable);
 	systemMenu->addAction(systemCloseAction);
 
-	// To enable alpha blending and transparency in the frame
-	setAttribute(Qt::WA_TranslucentBackground);
 	// We are using our own frame of course instead of the system frame
 	if(!parent == 0)
 	{
@@ -64,6 +62,9 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, QWidget *
 	} else {
 		this->setWindowFlags(Qt::FramelessWindowHint);
 	}
+	// To enable alpha blending and transparency in the frame
+	setAttribute(Qt::WA_TranslucentBackground);
+
 	this->setMaximumSize(QApplication::desktop()->availableGeometry(this).width(), QApplication::desktop()->availableGeometry(this).height());
 
 	ui->minimizeButton->setEnabled(dialogSizable);
