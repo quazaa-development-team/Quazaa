@@ -1,7 +1,7 @@
 //
 // main.cpp
 //
-// Copyright © Quazaa Development Team, 2009.
+// Copyright © Quazaa Development Team, 2009-2010.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
 //
 // Quazaa is free software; you can redistribute it
