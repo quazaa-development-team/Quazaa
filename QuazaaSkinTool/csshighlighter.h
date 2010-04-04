@@ -50,6 +50,12 @@
 // We mean it.
 //
 
+//
+// csshighlighter.h
+//
+//This is a modified version, modified by the Quazaa Development Team for use in Quazaa.
+//
+
 #ifndef CSSHIGHLIGHTER_H
 #define CSSHIGHLIGHTER_H
 
