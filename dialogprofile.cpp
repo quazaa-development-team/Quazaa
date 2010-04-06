@@ -323,7 +323,7 @@ void DialogProfile::on_pushButtonInterestsRemove_clicked()
 
 void DialogProfile::on_listWidgetRemoved_itemClicked(QListWidgetItem* item)
 {
-	m_ui->lineEditInterest->setText(m_ui->listWidgetRemoved->currentItem()->text());
+	m_ui->lineEditInterest->setText(item->text());
 	m_ui->pushButtonInterestsAdd->setEnabled(true);
 }
 

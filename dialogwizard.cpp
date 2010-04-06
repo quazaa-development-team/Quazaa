@@ -21,7 +21,7 @@
 
 #include "dialogwizard.h"
 #include "ui_dialogwizard.h"
-#include "quazaaSettings.h"
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 #include <QFileDialog>
 
