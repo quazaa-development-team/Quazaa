@@ -63,6 +63,7 @@ void DialogAbout::on_pushButtonOK_clicked()
 
 void DialogAbout::on_labelCopyright_linkActivated(QString link)
 {
+		link.clear();
 	QSkinDialog *dlgSkinGPLView = new QSkinDialog(false, true, false, this);
 	DialogGPLView *dlgGPLView = new DialogGPLView(this);
 
