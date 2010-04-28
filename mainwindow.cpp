@@ -341,7 +341,7 @@ bool MainWindow::event(QEvent *e)
 					quazaaShutdown();
 					return false;
 				case 2:
-					hide();
+                                        emit hideMain();
 					e->ignore();
 					return true;
 				case 3:
