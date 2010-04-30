@@ -33,7 +33,6 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 
     if( pAddress )
     {
-        //pThisHit->m_oNodeAddress = *pAddress;
         pHitInfo->m_oNodeAddress = *pAddress;
     }
 
@@ -41,9 +40,6 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
     {
         if( pChild->IsType("NA") && pChild->PayloadLength() >= 6 )
         {
-            //pChild->ReadHostAddress(&pThisHit->m_oNodeAddress);
-            //if( pThisHit->m_oNodeAddress.ip != 0 && pThisHit->m_oNodeAddress.port != 0 )
-                //bHaveNA = true;
             IPv4_ENDPOINT oNodeAddr;
             pChild->ReadHostAddress(&oNodeAddr);
             if( oNodeAddr.ip != 0 && oNodeAddr.port != 0 )
@@ -54,9 +50,6 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
         }
         else if( pChild->IsType("GU") && pChild->PayloadLength() >= 16 )
         {
-            //pThisHit->m_oNodeGUID = pChild->ReadGUID();
-            //if( !pThisHit->m_oNodeGUID.isNull() )
-            //    bHaveGUID = true;
             QUuid oNodeGUID = pChild->ReadGUID();
             if( !oNodeGUID.isNull() )
             {
@@ -70,11 +63,10 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
             pChild->ReadHostAddress(&oNH);
             if( oNH.ip != 0 && oNH.port != 0 )
             {
-                //pThisHit->m_lNeighbouringHubs.append(oNH);
                 pHitInfo->m_lNeighbouringHubs.append(oNH);
             }
         }
-        else if( pChild->IsType("H") )
+        else if( pChild->IsType("H") && pChild->HasChildren() )
         {
             CQueryHit* pHit = (bFirstHit ? pThisHit : new CQueryHit());
 
@@ -203,7 +195,19 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
             else
             {
                 if( !bFirstHit )
+                {
+                    // może teraz się nie wywali...
+                    // można by było to lepiej zrobić...
+                    for( CQueryHit* pTest = pThisHit; pTest != 0; pTest = pTest->m_pNext )
+                    {
+                        if( pTest->m_pNext == pHit )
+                        {
+                            pTest->m_pNext = 0;
+                            break;
+                        }
+                    }
                     pHit->Delete();
+                }
             }
         }
     }
@@ -216,8 +220,6 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 
     quint8 nHops = pPacket->ReadIntLE<quint8>();
     QUuid oGUID = pPacket->ReadGUID();
-    /*pThisHit->m_oGUID = oGUID;
-    pThisHit->m_nHops = nHops;*/
     pHitInfo->m_oGUID = oGUID;
     pHitInfo->m_nHops = nHops;
 
@@ -225,12 +227,6 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 
     while( pHit != 0 )
     {
-        /*pHit->m_oNodeGUID = pThisHit->m_oNodeGUID;
-        pHit->m_lNeighbouringHubs.append(pThisHit->m_lNeighbouringHubs);
-        pHit->m_oNodeAddress = pThisHit->m_oNodeAddress;
-        pHit->m_oGUID = pThisHit->m_oGUID;
-        pHit->m_nHops = pThisHit->m_nHops;*/
-
         pHit->m_pHitInfo = pHitInfo;
 
         pHit = pHit->m_pNext;
