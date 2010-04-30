@@ -16,9 +16,8 @@ CONFIG(debug, debug|release) {
 }
 INCLUDEPATH += vlcmediaplayer
 INCLUDEPATH += NetworkCore
-win32:INCLUDEPATH += C:/Boost/boost_1_42_0
-win32:LIBS += -L./bin \ # if you are at windows os
-    -LC:/Boost/boost_1_42_0/stage/lib # change this to your boost library directory under windows
+win32:LIBS += -L./bin # if you are at windows os
+
 LIBS += -lvlc
 CONFIG += precompile_header
 PRECOMPILED_HEADER = NetworkCore/types.h
