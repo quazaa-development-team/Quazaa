@@ -33,6 +33,9 @@ namespace Ui
 	class MainWindow;
 }
 
+class CNeighboursTableModel;
+class QTimer;
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -55,12 +58,17 @@ private:
 	void render(QPainter * painter, const QPoint & targetOffset = QPoint(), const QRegion & sourceRegion = QRegion(), RenderFlags renderFlags = RenderFlags( DrawWindowBackground | DrawChildren ));
 	bool interfaceLoaded;
 
+        QTimer* neighboursRefresher;
+        CNeighboursTableModel* neighboursList;
 signals:
 	void closed();
 	void hideMain();
 	void showMain();
 
 private slots:
+ void on_toolButtonSearch_clicked();
+ void on_actionDisconnect_triggered();
+ void on_actionConnect_triggered();
  void on_actionScheduleProperties_triggered();
  void on_actionAddScheduledTask_triggered();
  void on_labelWelcomeUserGuideLink_linkActivated(QString link);

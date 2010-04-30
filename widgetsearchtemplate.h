@@ -28,17 +28,35 @@ namespace Ui {
     class WidgetSearchTemplate;
 }
 
+class CManagedSearch;
+class CQuery;
+//class CQueryHit;
+#include "NetworkCore/QueryHit.h"
+
 class WidgetSearchTemplate : public QWidget {
     Q_OBJECT
+
+protected:
+    CManagedSearch* m_pSearch;
 public:
     WidgetSearchTemplate(QWidget *parent = 0);
     ~WidgetSearchTemplate();
+
+    void StartSearch(CQuery* pQuery);
+    void PauseSearch();
+    void StopSearch();
+
+    //void GetStats(quint32& nHubs, quint32& nLeaves, quint32& nHits);
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::WidgetSearchTemplate *m_ui;
+
+protected slots:
+    void OnQueryHit(QueryHitSharedPtr pHit);
+    void OnStatsUpdated(CManagedSearch* pSearch);
 };
 
 #endif // WIDGETSEARCHTEMPLATE_H
