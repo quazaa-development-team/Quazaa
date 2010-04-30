@@ -88,6 +88,10 @@ MainWindow::MainWindow(QWidget *parent)
 	dlgSplash->updateProgress(5, tr("Loading User Interface..."));
 	bypassCloseEvent = false;
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+        WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
+        ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
+        ui->tabWidgetSearch->setCurrentIndex(0);
+        ui->tabWidgetSearch->setTabsClosable(true);
 
 	// Set up the navigation toolbar
 	quazaaSettings.loadWindowSettings(this);

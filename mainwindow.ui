@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>366</height>
+    <width>815</width>
+    <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -106,7 +106,7 @@ padding: 2px;</string>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidgetMain">
       <property name="currentIndex">
-       <number>6</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="pageHome">
        <layout class="QGridLayout" name="gridLayoutHome">
@@ -146,7 +146,7 @@ padding: 2px;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>208</width>
+             <width>206</width>
              <height>682</height>
             </rect>
            </property>
@@ -809,8 +809,8 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>624</width>
-             <height>518</height>
+             <width>622</width>
+             <height>381</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
@@ -1689,8 +1689,8 @@ QToolButton::menu-button:hover {
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>98</width>
-                     <height>28</height>
+                     <width>96</width>
+                     <height>26</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_11">
@@ -2548,8 +2548,8 @@ QToolButton:checked {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>216</width>
-                <height>528</height>
+                <width>261</width>
+                <height>637</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_19">
@@ -3236,28 +3236,8 @@ QTabWidget::pane { /* The tab widget frame */
             <item row="0" column="0">
              <widget class="QTabWidget" name="tabWidgetSearch">
               <property name="currentIndex">
-               <number>0</number>
+               <number>-1</number>
               </property>
-              <widget class="QWidget" name="tabSearch1">
-               <attribute name="icon">
-                <iconset resource="Resource.qrc">
-                 <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
-               </attribute>
-               <attribute name="title">
-                <string>Search</string>
-               </attribute>
-               <layout class="QGridLayout" name="gridLayout_22">
-                <property name="margin">
-                 <number>0</number>
-                </property>
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QTreeView" name="treeViewSearch1"/>
-                </item>
-               </layout>
-              </widget>
              </widget>
             </item>
            </layout>
@@ -3297,8 +3277,8 @@ QTabWidget::pane { /* The tab widget frame */
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>28</height>
+                 <width>593</width>
+                 <height>82</height>
                 </rect>
                </property>
               </widget>
@@ -6293,8 +6273,8 @@ QToolButton::menu-button:hover {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>706</width>
-     <height>21</height>
+     <width>815</width>
+     <height>27</height>
     </rect>
    </property>
    <property name="layoutDirection">
