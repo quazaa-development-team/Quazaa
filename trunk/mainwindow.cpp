@@ -283,6 +283,17 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->actionEDonkey->setChecked(quazaaSettings.EDonkeyEnable);
 	ui->actionGnutella1->setChecked(quazaaSettings.Gnutella1Enable);
 	ui->actionGnutella2->setChecked(quazaaSettings.Gnutella2Enable);
+        //G2
+        dlgSplash->updateProgress(25, tr("Loading Networks: G2..."));
+        qApp->processEvents();
+        if( quazaaSettings.Gnutella2Enable )
+            Network.Connect();
+
+        neighboursList = new CNeighboursTableModel(this);
+        ui->tableView->setModel(neighboursList);
+        neighboursRefresher = new QTimer(this);
+        connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
+        neighboursRefresher->start(1000);
 
 	// Tray icon construction
 	dlgSplash->updateProgress(95, tr("Loading Tray Icon..."));
@@ -314,17 +325,7 @@ MainWindow::MainWindow(QWidget *parent)
 	trayIcon->show();
 	dlgSplash->updateProgress(100, tr("Welcome to Quazaa!"));
 	qApp->processEvents();
-	dlgSplash->close();
-
-        // here for now, maybe I should find a better place
-        if( quazaaSettings.Gnutella2Enable )
-            Network.Connect();
-
-        neighboursList = new CNeighboursTableModel(this);
-        ui->tableView->setModel(neighboursList);
-        neighboursRefresher = new QTimer(this);
-        connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
-        neighboursRefresher->start(1000);
+        dlgSplash->close();
 }
 
 MainWindow::~MainWindow()
