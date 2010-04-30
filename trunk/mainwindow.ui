@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>706</width>
-    <height>347</height>
+    <height>366</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -106,7 +106,7 @@ padding: 2px;</string>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidgetMain">
       <property name="currentIndex">
-       <number>10</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="pageHome">
        <layout class="QGridLayout" name="gridLayoutHome">
@@ -146,7 +146,7 @@ padding: 2px;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>193</width>
+             <width>208</width>
              <height>682</height>
             </rect>
            </property>
@@ -1689,8 +1689,8 @@ QToolButton::menu-button:hover {
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>45</width>
-                     <height>2</height>
+                     <width>98</width>
+                     <height>28</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_11">
@@ -2548,8 +2548,8 @@ QToolButton:checked {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>201</width>
-                <height>519</height>
+                <width>216</width>
+                <height>528</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_19">
@@ -3297,8 +3297,8 @@ QTabWidget::pane { /* The tab widget frame */
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>48</width>
-                 <height>3</height>
+                 <width>98</width>
+                 <height>28</height>
                 </rect>
                </property>
               </widget>
@@ -4152,9 +4152,6 @@ QToolButton::menu-button:hover {
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QTreeView" name="treeView"/>
-            </item>
             <item row="2" column="0">
              <widget class="QFrame" name="toolFrameNeighbors">
               <property name="styleSheet">
@@ -4297,6 +4294,46 @@ QToolButton::menu-button:hover {
                 </widget>
                </item>
               </layout>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QTableView" name="tableView">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="alternatingRowColors">
+               <bool>true</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::MultiSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="showGrid">
+               <bool>false</bool>
+              </property>
+              <property name="gridStyle">
+               <enum>Qt::NoPen</enum>
+              </property>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderDefaultSectionSize">
+               <number>15</number>
+              </attribute>
+              <attribute name="verticalHeaderMinimumSectionSize">
+               <number>15</number>
+              </attribute>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderDefaultSectionSize">
+               <number>15</number>
+              </attribute>
+              <attribute name="verticalHeaderMinimumSectionSize">
+               <number>15</number>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -6257,11 +6294,17 @@ QToolButton::menu-button:hover {
      <x>0</x>
      <y>0</y>
      <width>706</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="autoFillBackground">
     <bool>true</bool>
+   </property>
+   <property name="defaultUp">
+    <bool>false</bool>
    </property>
    <widget class="QMenu" name="menuNetwork">
     <property name="title">

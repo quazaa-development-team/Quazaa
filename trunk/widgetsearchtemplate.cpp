@@ -22,16 +22,24 @@
 #include "widgetsearchtemplate.h"
 #include "ui_widgetsearchtemplate.h"
 
+#include "NetworkCore/SearchManager.h"
+#include "NetworkCore/ManagedSearch.h"
+#include "NetworkCore/Query.h"
+#include "NetworkCore/QueryHit.h"
+
 WidgetSearchTemplate::WidgetSearchTemplate(QWidget *parent) :
 	QWidget(parent),
     m_ui(new Ui::WidgetSearchTemplate)
 {
 	m_ui->setupUi(this);
+        m_pSearch = 0;
 }
 
 WidgetSearchTemplate::~WidgetSearchTemplate()
 {
     delete m_ui;
+    if( m_pSearch )
+        delete m_pSearch;
 }
 
 void WidgetSearchTemplate::changeEvent(QEvent *e)
@@ -44,4 +52,46 @@ void WidgetSearchTemplate::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+void WidgetSearchTemplate::StartSearch(CQuery *pQuery)
+{
+    if( m_pSearch && m_pSearch->m_pQuery != pQuery )
+    {
+        delete m_pSearch;
+        m_pSearch = 0;
+    }
+
+    if( !m_pSearch )
+    {
+        m_pSearch = new CManagedSearch(pQuery);
+        connect(m_pSearch, SIGNAL(OnHit(QueryHitSharedPtr)), this, SLOT(OnQueryHit(QueryHitSharedPtr)));
+        connect(&SearchManager, SIGNAL(StatsUpdated(CManagedSearch*)), this, SLOT(OnStatsUpdated(CManagedSearch*)));
+    }
+
+    m_pSearch->Start();
+}
+void WidgetSearchTemplate::StopSearch()
+{
+    Q_ASSERT(m_pSearch != 0);
+
+    m_pSearch->Stop();
+    delete m_pSearch;
+    m_pSearch = 0;
+}
+void WidgetSearchTemplate::PauseSearch()
+{
+    Q_ASSERT(m_pSearch != 0);
+
+    m_pSearch->Pause();
+}
+
+
+void WidgetSearchTemplate::OnQueryHit(QueryHitSharedPtr pHit)
+{
+
+}
+void WidgetSearchTemplate::OnStatsUpdated(CManagedSearch *pSearch)
+{
+    if( pSearch != m_pSearch )
+        return;
 }

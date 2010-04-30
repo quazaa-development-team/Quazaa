@@ -45,11 +45,17 @@
 #include "QSkinDialog/qskinsettings.h"
 #include <QSystemTrayIcon>
 
+#include "NetworkCore/network.h" // not sure that it is right place, but...
+#include "NeighboursTableModel.h"
+#include <QTimer>
+#include "NetworkCore/Query.h"
+
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent), ui(new Ui::MainWindow)
 {
-	ui->setupUi(this);
-	//Initialize Skin Settings
+        ui->setupUi(this);
+
+        //Initialize Skin Settings
 	quazaaSettings.loadSkinSettings();
 	skinSettings.loadSkin(quazaaSettings.SkinFile);
 	skinChangeEvent();
@@ -309,6 +315,16 @@ MainWindow::MainWindow(QWidget *parent)
 	dlgSplash->updateProgress(100, tr("Welcome to Quazaa!"));
 	qApp->processEvents();
 	dlgSplash->close();
+
+        // here for now, maybe I should find a better place
+        if( quazaaSettings.Gnutella2Enable )
+            Network.Connect();
+
+        neighboursList = new CNeighboursTableModel(this);
+        ui->tableView->setModel(neighboursList);
+        neighboursRefresher = new QTimer(this);
+        connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
+        neighboursRefresher->start(1000);
 }
 
 MainWindow::~MainWindow()
@@ -479,6 +495,8 @@ void MainWindow::quazaaShutdown()
 {
 	DialogSplash *dlgSplash = new DialogSplash;
 	dlgSplash->show();
+
+        Network.Disconnect();
 
 	dlgSplash->updateProgress(5, tr("Saving Settings..."));
 	quazaaSettings.saveSettings();
@@ -934,7 +952,9 @@ void MainWindow::on_toolButtonNewSearch_clicked()
 
 void MainWindow::on_tabWidgetSearch_tabCloseRequested(int index)
 {
+        WidgetSearchTemplate* pWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->widget(index));
 	ui->tabWidgetSearch->removeTab(index);
+        delete pWidget;
 	if (ui->tabWidgetSearch->count() == 1)
 	{
 		ui->tabWidgetSearch->setTabsClosable(false);
@@ -1134,4 +1154,25 @@ void MainWindow::on_actionScheduleProperties_triggered()
 
 	connect(dlgScheduler, SIGNAL(closed()), dlgSkinScheduler, SLOT(close()));
 	dlgSkinScheduler->show();
+}
+
+void MainWindow::on_actionConnect_triggered()
+{
+    Network.Connect();
+}
+
+void MainWindow::on_actionDisconnect_triggered()
+{
+    Network.Disconnect();
+}
+
+void MainWindow::on_toolButtonSearch_clicked()
+{
+    WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+    if( pWg )
+    {
+        CQuery* pQuery = new CQuery();
+        pQuery->SetDescriptiveName(ui->lineEditSearch->text());
+        pWg->StartSearch(pQuery);
+    }
 }
