@@ -106,7 +106,7 @@ padding: 2px;</string>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidgetMain">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="pageHome">
        <layout class="QGridLayout" name="gridLayoutHome">
@@ -146,7 +146,7 @@ padding: 2px;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>192</width>
+             <width>194</width>
              <height>682</height>
             </rect>
            </property>
@@ -810,7 +810,7 @@ p, li { white-space: pre-wrap; }
              <x>0</x>
              <y>0</y>
              <width>624</width>
-             <height>537</height>
+             <height>518</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
@@ -1689,8 +1689,8 @@ QToolButton::menu-button:hover {
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>595</width>
-                     <height>82</height>
+                     <width>546</width>
+                     <height>61</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_11">
@@ -2548,8 +2548,8 @@ QToolButton:checked {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>261</width>
-                <height>637</height>
+                <width>202</width>
+                <height>516</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_19">
@@ -3277,8 +3277,8 @@ QTabWidget::pane { /* The tab widget frame */
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>593</width>
-                 <height>265</height>
+                 <width>48</width>
+                 <height>3</height>
                 </rect>
                </property>
               </widget>
@@ -6274,7 +6274,7 @@ QToolButton::menu-button:hover {
      <x>0</x>
      <y>0</y>
      <width>815</width>
-     <height>27</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="layoutDirection">
