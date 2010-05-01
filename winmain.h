@@ -27,6 +27,11 @@ protected:
 
 private:
     Ui::WinMain *ui;
+
+private slots:
+    void on_actionMedia_triggered();
+    void on_actionLibrary_triggered();
+    void on_actionHome_triggered();
 };
 
 #endif // WINMAIN_H

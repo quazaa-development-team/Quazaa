@@ -6,6 +6,8 @@ WidgetLibrary::WidgetLibrary(QWidget *parent) :
     ui(new Ui::WidgetLibrary)
 {
     ui->setupUi(this);
+    panelLibraryView = new WidgetLibraryView();
+    ui->verticalLayoutLibraryView->addWidget(panelLibraryView);
 }
 
 WidgetLibrary::~WidgetLibrary()

@@ -2,6 +2,7 @@
 #define WIDGETLIBRARY_H
 
 #include <QWidget>
+#include "widgetlibraryview.h"
 
 namespace Ui {
     class WidgetLibrary;
@@ -12,6 +13,7 @@ class WidgetLibrary : public QWidget {
 public:
     WidgetLibrary(QWidget *parent = 0);
     ~WidgetLibrary();
+    WidgetLibraryView *panelLibraryView;
 
 protected:
     void changeEvent(QEvent *e);

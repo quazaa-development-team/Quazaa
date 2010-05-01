@@ -24,6 +24,7 @@ CG2Node::CG2Node(QObject *parent) :
     m_tLastQuery = 0;
     m_tKeyRequest= 0;
 }
+
 CG2Node::~CG2Node()
 {
     while( m_lSendQueue.size() )
