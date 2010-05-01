@@ -17,7 +17,6 @@ CONFIG(debug, debug|release) {
 INCLUDEPATH += vlcmediaplayer
 INCLUDEPATH += NetworkCore
 win32:LIBS += -L./bin # if you are at windows os
-
 LIBS += -lvlc
 CONFIG += precompile_header
 PRECOMPILED_HEADER = NetworkCore/types.h
@@ -91,7 +90,12 @@ SOURCES += main.cpp \
     NetworkCore/Hashes/AbstractHash.cpp \
     NetworkCore/3rdparty/CyoEncode/CyoEncode.c \
     NetworkCore/3rdparty/CyoEncode/CyoDecode.c \
-    NeighboursTableModel.cpp
+    NeighboursTableModel.cpp \
+    winmain.cpp \
+    widgethome.cpp \
+    widgetlibrary.cpp \
+    widgetmedia.cpp \
+    widgetlibraryview.cpp
 HEADERS += mainwindow.h \
     dialoglanguage.h \
     quazaasettings.h \
@@ -159,7 +163,12 @@ HEADERS += mainwindow.h \
     NetworkCore/3rdparty/CyoEncode/CyoDecode.h \
     NetworkCore/queryhashtable.h \
     NetworkCore/parser.h \
-    NeighboursTableModel.h
+    NeighboursTableModel.h \
+    winmain.h \
+    widgethome.h \
+    widgetlibrary.h \
+    widgetmedia.h \
+    widgetlibraryview.h
 FORMS += mainwindow.ui \
     dialoglanguage.ui \
     dialogsplash.ui \
@@ -190,7 +199,12 @@ FORMS += mainwindow.ui \
     dialoglibrarysearch.ui \
     mediasettings.ui \
     QSkinDialog/qskindialog.ui \
-    QSkinDialog/dialogskinpreview.ui
+    QSkinDialog/dialogskinpreview.ui \
+    winmain.ui \
+    widgethome.ui \
+    widgetlibrary.ui \
+    widgetmedia.ui \
+    widgetlibraryview.ui
 TRANSLATIONS = quazaa_af.ts \
     quazaa_ar.ts \
     quazaa_ca.ts \
