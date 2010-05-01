@@ -4,20 +4,20 @@
 #include <QWidget>
 
 namespace Ui {
-    class widgetHome;
+    class WidgetHome;
 }
 
-class widgetHome : public QWidget {
+class WidgetHome : public QWidget {
     Q_OBJECT
 public:
-    widgetHome(QWidget *parent = 0);
-    ~widgetHome();
+    WidgetHome(QWidget *parent = 0);
+    ~WidgetHome();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::widgetHome *ui;
+    Ui::WidgetHome *ui;
 };
 
 #endif // WIDGETHOME_H

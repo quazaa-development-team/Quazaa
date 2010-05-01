@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>widgetHome</class>
- <widget class="QWidget" name="widgetHome">
+ <class>WidgetHome</class>
+ <widget class="QWidget" name="WidgetHome">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>695</width>
-    <height>346</height>
+    <width>621</width>
+    <height>334</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,7 +61,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>190</width>
+            <width>208</width>
             <height>682</height>
            </rect>
           </property>
@@ -744,7 +744,7 @@ p, li { white-space: pre-wrap; }
             <x>0</x>
             <y>0</y>
             <width>624</width>
-            <height>537</height>
+            <height>518</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">

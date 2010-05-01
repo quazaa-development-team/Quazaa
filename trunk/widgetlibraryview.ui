@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>widgetLibraryView</class>
- <widget class="QMainWindow" name="widgetLibraryView">
+ <class>WidgetLibraryView</class>
+ <widget class="QMainWindow" name="WidgetLibraryView">
   <property name="geometry">
    <rect>
     <x>0</x>

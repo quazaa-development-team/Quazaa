@@ -14,7 +14,7 @@
    <string>Media</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset>
     <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -103,7 +103,7 @@ QToolButton:checked {
            <string>Add To Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset>
             <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
           </property>
           <property name="iconSize">
@@ -123,7 +123,7 @@ QToolButton:checked {
            <string>Save Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset>
             <normaloff>:/Resource/Media/SavePlaylist.png</normaloff>:/Resource/Media/SavePlaylist.png</iconset>
           </property>
           <property name="iconSize">
@@ -188,7 +188,7 @@ QToolButton:checked {
               <string>Playlist</string>
              </property>
              <property name="icon">
-              <iconset resource="Resource.qrc">
+              <iconset>
                <normaloff>:/Resource/Media/Playlist.png</normaloff>:/Resource/Media/Playlist.png</iconset>
              </property>
              <property name="iconSize">
@@ -316,7 +316,7 @@ QToolButton:checked {
            <string>Remove From Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset>
             <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
           </property>
           <property name="iconSize">
@@ -336,7 +336,7 @@ QToolButton:checked {
            <string>Open Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset>
             <normaloff>:/Resource/Media/LoadPlaylist.png</normaloff>:/Resource/Media/LoadPlaylist.png</iconset>
           </property>
           <property name="iconSize">
@@ -353,7 +353,7 @@ QToolButton:checked {
            <string>Add Playlist To Current Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset>
             <normaloff>:/Resource/Media/AddPlaylist.png</normaloff>:/Resource/Media/AddPlaylist.png</iconset>
           </property>
           <property name="iconSize">
@@ -373,7 +373,7 @@ QToolButton:checked {
            <string>Clear Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset>
             <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
           </property>
           <property name="iconSize">
@@ -400,6 +400,15 @@ QToolButton:checked {
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionMediaRewind"/>
+   <addaction name="actionMediaStop"/>
+   <addaction name="actionMediaPlay"/>
+   <addaction name="actionMediaNextTrack"/>
+   <addaction name="separator"/>
+   <addaction name="actionMediaOpen"/>
+   <addaction name="separator"/>
+   <addaction name="actionMediaRepeat"/>
+   <addaction name="actionMediaShuffle"/>
   </widget>
   <widget class="QToolBar" name="toolBar_2">
    <property name="windowTitle">
@@ -411,6 +420,9 @@ QToolButton:checked {
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionMediaFullscreen"/>
+   <addaction name="actionMediaPlaylistToggle"/>
+   <addaction name="actionMediaSettings"/>
   </widget>
   <widget class="QToolBar" name="toolBar_3">
    <property name="windowTitle">
@@ -422,10 +434,161 @@ QToolButton:checked {
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionMediaMute"/>
   </widget>
+  <action name="actionMediaPlay">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/PlayMedia.png</normaloff>
+     <normalon>:/Resource/Media/PauseMedia.png</normalon>:/Resource/Media/PlayMedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Play</string>
+   </property>
+   <property name="toolTip">
+    <string>Play</string>
+   </property>
+  </action>
+  <action name="actionMediaOpen">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/OpenMedia.png</normaloff>:/Resource/Media/OpenMedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Media</string>
+   </property>
+  </action>
+  <action name="actionMediaRewind">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/PreviousMediaTrack.png</normaloff>:/Resource/Media/PreviousMediaTrack.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rewind</string>
+   </property>
+   <property name="toolTip">
+    <string>Rewind</string>
+   </property>
+  </action>
+  <action name="actionMediaNextTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/NextMediaTrack.png</normaloff>:/Resource/Media/NextMediaTrack.png</iconset>
+   </property>
+   <property name="text">
+    <string>Next Track</string>
+   </property>
+  </action>
+  <action name="actionMediaStop">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/StopMedia.png</normaloff>:/Resource/Media/StopMedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stop Media</string>
+   </property>
+  </action>
+  <action name="actionMediaRepeat">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/Repeat.png</normaloff>:/Resource/Media/Repeat.png</iconset>
+   </property>
+   <property name="text">
+    <string>Repeat</string>
+   </property>
+   <property name="toolTip">
+    <string>Repeat</string>
+   </property>
+  </action>
+  <action name="actionMediaShuffle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/Shuffle.png</normaloff>:/Resource/Media/Shuffle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Shuffle</string>
+   </property>
+   <property name="toolTip">
+    <string>Shuffle</string>
+   </property>
+  </action>
+  <action name="actionMediaFullscreen">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/FullScreen.png</normaloff>:/Resource/Media/FullScreen.png</iconset>
+   </property>
+   <property name="text">
+    <string>Fullscreen</string>
+   </property>
+   <property name="toolTip">
+    <string>Fullscreen</string>
+   </property>
+  </action>
+  <action name="actionMediaSettings">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="toolTip">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionMediaPlaylistToggle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Generic/ShowSidebar.png</normaloff>
+     <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowSidebar.png</iconset>
+   </property>
+   <property name="text">
+    <string>Media Playlist Toggle</string>
+   </property>
+   <property name="toolTip">
+    <string>Media Playlist Toggle</string>
+   </property>
+  </action>
+  <action name="actionMediaMute">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/Unmute.png</normaloff>:/Resource/Media/Unmute.png</iconset>
+   </property>
+   <property name="text">
+    <string>Mute</string>
+   </property>
+   <property name="toolTip">
+    <string>Mute</string>
+   </property>
+  </action>
  </widget>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

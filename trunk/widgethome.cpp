@@ -1,19 +1,19 @@
 #include "widgethome.h"
 #include "ui_widgethome.h"
 
-widgetHome::widgetHome(QWidget *parent) :
+WidgetHome::WidgetHome(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::widgetHome)
+    ui(new Ui::WidgetHome)
 {
     ui->setupUi(this);
 }
 
-widgetHome::~widgetHome()
+WidgetHome::~WidgetHome()
 {
     delete ui;
 }
 
-void widgetHome::changeEvent(QEvent *e)
+void WidgetHome::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
     switch (e->type()) {

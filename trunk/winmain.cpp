@@ -6,6 +6,12 @@ WinMain::WinMain(QWidget *parent) :
     ui(new Ui::WinMain)
 {
     ui->setupUi(this);
+    pageHome = new WidgetHome();
+    ui->stackedWidgetMain->addWidget(pageHome);
+    pageLibrary = new WidgetLibrary();
+    ui->stackedWidgetMain->addWidget(pageLibrary);
+    pageMedia = new WidgetMedia();
+    ui->stackedWidgetMain->addWidget(pageMedia);
 }
 
 WinMain::~WinMain()
