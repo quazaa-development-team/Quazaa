@@ -1,23 +1,23 @@
 #ifndef WIDGETMEDIA_H
 #define WIDGETMEDIA_H
 
-#include <QWidget>
+#include <QMainWindow>
 
 namespace Ui {
-    class widgetMedia;
+    class WidgetMedia;
 }
 
-class widgetMedia : public QWidget {
+class WidgetMedia : public QMainWindow {
     Q_OBJECT
 public:
-    widgetMedia(QWidget *parent = 0);
-    ~widgetMedia();
+    WidgetMedia(QWidget *parent = 0);
+    ~WidgetMedia();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::widgetMedia *ui;
+    Ui::WidgetMedia *ui;
 };
 
 #endif // WIDGETMEDIA_H

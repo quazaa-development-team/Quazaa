@@ -1,21 +1,21 @@
 #include "widgetmedia.h"
 #include "ui_widgetmedia.h"
 
-widgetMedia::widgetMedia(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::widgetMedia)
+WidgetMedia::WidgetMedia(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::WidgetMedia)
 {
     ui->setupUi(this);
 }
 
-widgetMedia::~widgetMedia()
+WidgetMedia::~WidgetMedia()
 {
     delete ui;
 }
 
-void widgetMedia::changeEvent(QEvent *e)
+void WidgetMedia::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
+    QMainWindow::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
