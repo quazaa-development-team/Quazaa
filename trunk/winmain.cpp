@@ -30,3 +30,18 @@ void WinMain::changeEvent(QEvent *e)
         break;
     }
 }
+
+void WinMain::on_actionHome_triggered()
+{
+    ui->stackedWidgetMain->setCurrentIndex(0);
+}
+
+void WinMain::on_actionLibrary_triggered()
+{
+    ui->stackedWidgetMain->setCurrentIndex(1);
+}
+
+void WinMain::on_actionMedia_triggered()
+{
+    ui->stackedWidgetMain->setCurrentIndex(2);
+}
