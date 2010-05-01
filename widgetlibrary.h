@@ -4,20 +4,20 @@
 #include <QWidget>
 
 namespace Ui {
-    class widgetLibrary;
+    class WidgetLibrary;
 }
 
-class widgetLibrary : public QWidget {
+class WidgetLibrary : public QWidget {
     Q_OBJECT
 public:
-    widgetLibrary(QWidget *parent = 0);
-    ~widgetLibrary();
+    WidgetLibrary(QWidget *parent = 0);
+    ~WidgetLibrary();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::widgetLibrary *ui;
+    Ui::WidgetLibrary *ui;
 };
 
 #endif // WIDGETLIBRARY_H

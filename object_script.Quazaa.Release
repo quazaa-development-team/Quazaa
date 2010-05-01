@@ -66,6 +66,11 @@ INPUT(
 ./release\CyoEncode.o
 ./release\CyoDecode.o
 ./release\NeighboursTableModel.o
+./release\winmain.o
+./release\widgethome.o
+./release\widgetlibrary.o
+./release\widgetmedia.o
+./release\widgetlibraryview.o
 ./release\moc_mainwindow.o
 ./release\moc_dialoglanguage.o
 ./release\moc_quazaasettings.o
@@ -117,5 +122,10 @@ INPUT(
 ./release\moc_datagrams.o
 ./release\moc_CompressedConnection.o
 ./release\moc_NeighboursTableModel.o
+./release\moc_winmain.o
+./release\moc_widgethome.o
+./release\moc_widgetlibrary.o
+./release\moc_widgetmedia.o
+./release\moc_widgetlibraryview.o
 ./release\qrc_Resource.o
 );

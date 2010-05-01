@@ -4,20 +4,20 @@
 #include <QMainWindow>
 
 namespace Ui {
-    class widgetLibraryView;
+    class WidgetLibraryView;
 }
 
-class widgetLibraryView : public QMainWindow {
+class WidgetLibraryView : public QMainWindow {
     Q_OBJECT
 public:
-    widgetLibraryView(QWidget *parent = 0);
-    ~widgetLibraryView();
+    WidgetLibraryView(QWidget *parent = 0);
+    ~WidgetLibraryView();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::widgetLibraryView *ui;
+    Ui::WidgetLibraryView *ui;
 };
 
 #endif // WIDGETLIBRARYVIEW_H

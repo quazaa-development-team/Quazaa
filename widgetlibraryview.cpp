@@ -1,19 +1,19 @@
 #include "widgetlibraryview.h"
 #include "ui_widgetlibraryview.h"
 
-widgetLibraryView::widgetLibraryView(QWidget *parent) :
+WidgetLibraryView::WidgetLibraryView(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::widgetLibraryView)
+    ui(new Ui::WidgetLibraryView)
 {
     ui->setupUi(this);
 }
 
-widgetLibraryView::~widgetLibraryView()
+WidgetLibraryView::~WidgetLibraryView()
 {
     delete ui;
 }
 
-void widgetLibraryView::changeEvent(QEvent *e)
+void WidgetLibraryView::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
     switch (e->type()) {

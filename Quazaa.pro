@@ -95,8 +95,7 @@ SOURCES += main.cpp \
     widgethome.cpp \
     widgetlibrary.cpp \
     widgetmedia.cpp \
-    widgetlibraryview.cpp \
-    widgetmedia.cpp
+    widgetlibraryview.cpp
 HEADERS += mainwindow.h \
     dialoglanguage.h \
     quazaasettings.h \
@@ -169,8 +168,7 @@ HEADERS += mainwindow.h \
     widgethome.h \
     widgetlibrary.h \
     widgetmedia.h \
-    widgetlibraryview.h \
-    widgetmedia.h
+    widgetlibraryview.h
 FORMS += mainwindow.ui \
     dialoglanguage.ui \
     dialogsplash.ui \
@@ -206,8 +204,7 @@ FORMS += mainwindow.ui \
     widgethome.ui \
     widgetlibrary.ui \
     widgetmedia.ui \
-    widgetlibraryview.ui \
-    widgetmedia.ui
+    widgetlibraryview.ui
 TRANSLATIONS = quazaa_af.ts \
     quazaa_ar.ts \
     quazaa_ca.ts \
