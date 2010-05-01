@@ -82,6 +82,7 @@ G2Packet* G2Packet::FromBuffer(QByteArray& pBuffer)
 
     return pPacket;
 }
+
 G2Packet* G2Packet::ReadNextChild()
 {
     if( !m_bCompound || m_bChildrenRead )

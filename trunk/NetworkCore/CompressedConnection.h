@@ -3,11 +3,8 @@
 
 #include "NetworkConnection.h"
 #include <QTime>
-#ifdef Q_OS_WIN32
 #include "zlib/zlib.h"
-#else
-#include <zlib.h>
-#endif
+
 
 class QByteArray;
 

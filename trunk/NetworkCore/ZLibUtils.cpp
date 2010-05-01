@@ -1,9 +1,5 @@
 #include "ZLibUtils.h"
-#ifdef Q_OS_WIN32
 #include "zlib/zlib.h"
-#else
-#include <zlib.h>
-#endif
 
 QMutex ZLibUtils::m_oMutex;
 QByteArray ZLibUtils::m_oCompressBuffer;

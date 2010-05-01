@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
 	qApp->processEvents();
 
 	//Create splash window
-	DialogSplash *dlgSplash = new DialogSplash();
+        DialogSplash *dlgSplash = new DialogSplash(this);
 	dlgSplash->show();
 	//Load And Set Up User Interface
 	dlgSplash->updateProgress(5, tr("Loading User Interface..."));

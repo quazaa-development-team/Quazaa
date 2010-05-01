@@ -37,9 +37,7 @@ vlcMediaPlayer::vlcMediaPlayer(QSlider *positionSlider, QSlider *volumeSlider, Q
 	//preparation of the vlc command
 	const char * const vlc_args[] = {
 		"-I", "dummy", // Don't use any interface
-#if defined(Q_OS_UNIX)
-		"--plugin-path=./vlcplugins",
-#elif defined(Q_OS_WIN)
+#ifdef defined(Q_OS_WIN)
 		"--plugin-path=.\\vlcplugins",
 #endif
 #if defined(QT_DEBUG)

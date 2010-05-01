@@ -27,6 +27,7 @@
 #include <QMessageBox>
 #include <QtCore>
 #include "mainwindow.h"
+#include "winmain.h"
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "dialoglanguage.h"
@@ -47,7 +48,7 @@ int main(int argc, char *argv[])
 	theApp.setOrganizationName(quazaaGlobals.ApplicationOrganizationName());
 
 	QSkinDialog skinWinMain(true,true,true);
-	MainWindow *winMain = new MainWindow();
+	WinMain *winMain = new WinMain();
 	skinWinMain.addChildWidget(winMain);
 
 	// Make the main window show if the user tried to open another instance
@@ -65,10 +66,10 @@ int main(int argc, char *argv[])
 	skinWinMain.connect(winMain, SIGNAL(hideMain()), &skinWinMain, SLOT(hide()));
 	skinWinMain.connect(winMain, SIGNAL(showMain()), &skinWinMain, SLOT(show()));
 	skinWinMain.connect(&skinWinMain, SIGNAL(mainClose()), winMain, SLOT(close()));
-	// Load mainwindow visible state from the registry
+	// Load WinMain visible state from the registry
 
 	quazaaSettings.loadSkinWindowSettings(&skinWinMain);
-	if ( quazaaSettings.MainWindowVisible )
+        if ( quazaaSettings.MainWindowVisible )
 	{
 		skinWinMain.show();
 	}
