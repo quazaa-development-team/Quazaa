@@ -19,6 +19,8 @@ WinMain::WinMain(QWidget *parent) :
     ui->stackedWidgetMain->addWidget(pageMedia);
 	pageSearch = new WidgetSearch();
 	ui->stackedWidgetMain->addWidget(pageSearch);
+	pageTransfers = new WidgetTransfers();
+	ui->stackedWidgetMain->addWidget(pageTransfers);
 }
 
 WinMain::~WinMain()
@@ -147,4 +149,19 @@ void WinMain::on_actionMedia_triggered()
 void WinMain::on_actionSearch_triggered()
 {
 	ui->stackedWidgetMain->setCurrentIndex(3);
+}
+
+void WinMain::on_actionTransfers_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(4);
+}
+
+void WinMain::on_actionSecurity_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(5);
+}
+
+void WinMain::on_actionActivity_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(6);
 }

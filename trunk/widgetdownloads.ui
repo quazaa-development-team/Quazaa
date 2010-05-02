@@ -1,24 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>WidgetDownloads</class>
  <widget class="QMainWindow" name="WidgetDownloads">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>787</width>
+    <height>237</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QMenuBar" name="menubar"/>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QStatusBar" name="statusbar"/>
+  <property name="iconSize">
+   <size>
+    <width>20</width>
+    <height>20</height>
+   </size>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QTreeView" name="treeViewDownloads"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QToolBar" name="toolBarDownloadsFilter">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionDownloadsFilterAll"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionDownloadsPreview"/>
+   <addaction name="actionDownloadsPause"/>
+   <addaction name="actionDownloadsCancel"/>
+   <addaction name="actionOpenTorrent"/>
+   <addaction name="separator"/>
+   <addaction name="actionDownloadMarkAsJunk"/>
+   <addaction name="actionDownloadShowMonitor"/>
+   <addaction name="separator"/>
+   <addaction name="actionDownloadProperties"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionClearCompleted"/>
+   <addaction name="actionFilter"/>
+  </widget>
+  <action name="actionDownloadsFilterAll">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
+   </property>
+   <property name="text">
+    <string>All</string>
+   </property>
+   <property name="toolTip">
+    <string>All</string>
+   </property>
+  </action>
+  <action name="actionDownloadsPreview">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/PlayMedia.png</normaloff>:/Resource/Media/PlayMedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Preview</string>
+   </property>
+   <property name="toolTip">
+    <string>Preview</string>
+   </property>
+  </action>
+  <action name="actionDownloadsPause">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pause</string>
+   </property>
+   <property name="toolTip">
+    <string>Pause</string>
+   </property>
+  </action>
+  <action name="actionDownloadsCancel">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Generic/Cancel.png</normaloff>:/Resource/Generic/Cancel.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+   <property name="toolTip">
+    <string>Cancel</string>
+   </property>
+  </action>
+  <action name="actionDownloadMarkAsJunk">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Library/Junk.png</normaloff>:/Resource/Library/Junk.png</iconset>
+   </property>
+   <property name="text">
+    <string>Mark As Junk</string>
+   </property>
+   <property name="toolTip">
+    <string>Mark As Junk</string>
+   </property>
+  </action>
+  <action name="actionDownloadShowMonitor">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Generic/Graph.png</normaloff>:/Resource/Generic/Graph.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show Monitor</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Monitor</string>
+   </property>
+  </action>
+  <action name="actionDownloadProperties">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
+   </property>
+   <property name="text">
+    <string>Properties</string>
+   </property>
+   <property name="toolTip">
+    <string>Properties</string>
+   </property>
+  </action>
+  <action name="actionOpenTorrent">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Torrent</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Torrent</string>
+   </property>
+  </action>
+  <action name="actionClearCompleted">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clear Completed</string>
+   </property>
+  </action>
+  <action name="actionFilter">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
+   </property>
+   <property name="text">
+    <string>Filter</string>
+   </property>
+  </action>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetUploads</class>
- <widget class="QMainWindow" name="WidgetUploads">
+ <class>WidgetSecurity</class>
+ <widget class="QMainWindow" name="WidgetSecurity">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>772</width>
-    <height>205</height>
+    <width>649</width>
+    <height>317</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Security</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Resource.qrc">
+    <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -22,7 +26,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTreeView" name="treeViewUploads"/>
+     <widget class="QTreeView" name="treeViewSecurity"/>
     </item>
    </layout>
   </widget>
@@ -45,15 +49,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionUploadsOpenOrPlay"/>
-   <addaction name="separator"/>
-   <addaction name="actionUploadClear"/>
-   <addaction name="actionUploadMarkAsJunk"/>
-   <addaction name="separator"/>
-   <addaction name="actionUploadBrowseUser"/>
-   <addaction name="actionChatWithUser"/>
-   <addaction name="separator"/>
-   <addaction name="actionUploadBanUser"/>
+   <addaction name="actionSecurityAddRule"/>
+   <addaction name="actionSecurityRemoveRule"/>
+   <addaction name="actionSecurityModifyRule"/>
+   <addaction name="actionSecurityImportRules"/>
+   <addaction name="actionSecurityExportRules"/>
   </widget>
   <widget class="QToolBar" name="toolBar_2">
    <property name="windowTitle">
@@ -74,94 +74,75 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionClearCompleted"/>
-   <addaction name="actionFilter"/>
+   <addaction name="actionSubscribeSecurityList"/>
   </widget>
-  <action name="actionUploadsOpenOrPlay">
+  <action name="actionSecurityAddRule">
    <property name="icon">
     <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Media/PlayMedia.png</normaloff>:/Resource/Media/PlayMedia.png</iconset>
+     <normaloff>:/Resource/Security/AddRule.png</normaloff>:/Resource/Security/AddRule.png</iconset>
    </property>
    <property name="text">
-    <string>Open Or Play</string>
+    <string>Add Rule</string>
    </property>
    <property name="toolTip">
-    <string>Open Or Play</string>
+    <string>Add Rule</string>
    </property>
   </action>
-  <action name="actionUploadClear">
+  <action name="actionSecurityRemoveRule">
    <property name="icon">
     <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
+     <normaloff>:/Resource/Security/RemoveRule.png</normaloff>:/Resource/Security/RemoveRule.png</iconset>
    </property>
    <property name="text">
-    <string>Clear Upload</string>
-   </property>
-  </action>
-  <action name="actionUploadMarkAsJunk">
-   <property name="icon">
-    <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Library/Junk.png</normaloff>:/Resource/Library/Junk.png</iconset>
-   </property>
-   <property name="text">
-    <string>Mark As Junk</string>
+    <string>Remove Rule</string>
    </property>
    <property name="toolTip">
-    <string>Mark As Junk</string>
+    <string>Remove Rule</string>
    </property>
   </action>
-  <action name="actionChatWithUser">
+  <action name="actionSecurityModifyRule">
    <property name="icon">
     <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
+     <normaloff>:/Resource/Security/ModifyRule.png</normaloff>:/Resource/Security/ModifyRule.png</iconset>
    </property>
    <property name="text">
-    <string>Chat With User</string>
+    <string>Modify Rule</string>
    </property>
    <property name="toolTip">
-    <string>Chat With User</string>
+    <string>Modify Rule</string>
    </property>
   </action>
-  <action name="actionUploadBrowseUser">
+  <action name="actionSecurityImportRules">
    <property name="icon">
     <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
+     <normaloff>:/Resource/Security/ImportRules.png</normaloff>:/Resource/Security/ImportRules.png</iconset>
    </property>
    <property name="text">
-    <string>Browse User</string>
+    <string>Import Rules</string>
    </property>
    <property name="toolTip">
-    <string>Browse User</string>
+    <string>Import Rules</string>
    </property>
   </action>
-  <action name="actionUploadBanUser">
+  <action name="actionSecurityExportRules">
    <property name="icon">
     <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
+     <normaloff>:/Resource/Security/ExportRules.png</normaloff>:/Resource/Security/ExportRules.png</iconset>
    </property>
    <property name="text">
-    <string>Ban User</string>
+    <string>Export Rules</string>
    </property>
    <property name="toolTip">
-    <string>Ban User</string>
+    <string>Export Rules</string>
    </property>
   </action>
-  <action name="actionClearCompleted">
+  <action name="actionSubscribeSecurityList">
    <property name="icon">
     <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
+     <normaloff>:/Resource/Security/SubscribeRules.png</normaloff>:/Resource/Security/SubscribeRules.png</iconset>
    </property>
    <property name="text">
-    <string>Clear Completed</string>
-   </property>
-  </action>
-  <action name="actionFilter">
-   <property name="icon">
-    <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
-   </property>
-   <property name="text">
-    <string>Filter</string>
+    <string>Subscribe to Security List</string>
    </property>
   </action>
  </widget>

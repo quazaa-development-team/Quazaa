@@ -100,7 +100,11 @@ SOURCES += main.cpp \
     widgetsearchresults.cpp \
     widgettransfers.cpp \
     widgetdownloads.cpp \
-    widgetuploads.cpp
+    widgetuploads.cpp \
+    widgetactivity.cpp \
+    widgetsecurity.cpp \
+    widgetsystemlog.cpp \
+    widgetneighbors.cpp
 HEADERS += mainwindow.h \
     dialoglanguage.h \
     quazaasettings.h \
@@ -178,7 +182,11 @@ HEADERS += mainwindow.h \
     widgetsearchresults.h \
     widgettransfers.h \
     widgetdownloads.h \
-    widgetuploads.h
+    widgetuploads.h \
+    widgetactivity.h \
+    widgetsecurity.h \
+    widgetsystemlog.h \
+    widgetneighbors.h
 FORMS += mainwindow.ui \
     dialoglanguage.ui \
     dialogsplash.ui \
@@ -219,7 +227,11 @@ FORMS += mainwindow.ui \
     widgetsearchresults.ui \
     widgettransfers.ui \
     widgetdownloads.ui \
-    widgetuploads.ui
+    widgetuploads.ui \
+    widgetactivity.ui \
+    widgetsecurity.ui \
+    widgetsystemlog.ui \
+    widgetneighbors.ui
 TRANSLATIONS = quazaa_af.ts \
     quazaa_ar.ts \
     quazaa_ca.ts \
