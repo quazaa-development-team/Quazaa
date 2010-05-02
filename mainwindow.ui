@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>815</width>
-    <height>424</height>
+    <height>472</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -106,7 +106,7 @@ padding: 2px;</string>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidgetMain">
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="pageHome">
        <layout class="QGridLayout" name="gridLayoutHome">
@@ -146,7 +146,7 @@ padding: 2px;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>194</width>
+             <width>208</width>
              <height>682</height>
             </rect>
            </property>
@@ -1689,8 +1689,8 @@ QToolButton::menu-button:hover {
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>546</width>
-                     <height>61</height>
+                     <width>98</width>
+                     <height>28</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_11">
@@ -3277,8 +3277,8 @@ QTabWidget::pane { /* The tab widget frame */
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>48</width>
-                 <height>3</height>
+                 <width>595</width>
+                 <height>313</height>
                 </rect>
                </property>
               </widget>
