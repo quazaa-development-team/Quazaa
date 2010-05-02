@@ -6,6 +6,7 @@
 #include "widgetlibrary.h"
 #include "widgetmedia.h"
 #include "widgetsearch.h"
+#include "widgettransfers.h"
 
 namespace Ui {
     class WinMain;
@@ -22,6 +23,7 @@ public:
 	WidgetLibrary *pageLibrary;
     WidgetMedia *pageMedia;
 	WidgetSearch *pageSearch;
+	WidgetTransfers *pageTransfers;
 
 signals:
 	void closed();
@@ -36,7 +38,10 @@ private:
 	bool bypassCloseEvent;
 
 private slots:
-	void on_actionSearch_triggered();
+	void on_actionSecurity_triggered();
+ void on_actionActivity_triggered();
+ void on_actionTransfers_triggered();
+ void on_actionSearch_triggered();
 	void on_actionMedia_triggered();
     void on_actionLibrary_triggered();
     void on_actionHome_triggered();

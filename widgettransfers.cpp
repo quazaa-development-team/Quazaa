@@ -6,6 +6,10 @@ WidgetTransfers::WidgetTransfers(QWidget *parent) :
     ui(new Ui::WidgetTransfers)
 {
     ui->setupUi(this);
+	panelDownloads = new WidgetDownloads();
+	ui->verticalLayoutDownloads->addWidget(panelDownloads);
+	panelUploads = new WidgetUploads();
+	ui->verticalLayoutUploads->addWidget(panelUploads);
 }
 
 WidgetTransfers::~WidgetTransfers()

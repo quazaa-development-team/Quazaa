@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>454</width>
+    <width>689</width>
     <height>354</height>
    </rect>
   </property>
@@ -98,7 +98,7 @@ padding: 2px;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>454</width>
+     <width>689</width>
      <height>20</height>
     </rect>
    </property>
@@ -145,7 +145,7 @@ padding: 2px;</string>
     <addaction name="actionSearch"/>
     <addaction name="actionTransfers"/>
     <addaction name="actionSecurity"/>
-    <addaction name="actionNetwork"/>
+    <addaction name="actionActivity"/>
     <addaction name="actionChat"/>
     <addaction name="separator"/>
     <addaction name="actionHostCache"/>
@@ -234,7 +234,7 @@ padding: 2px;</string>
    <addaction name="actionSearch"/>
    <addaction name="actionTransfers"/>
    <addaction name="actionSecurity"/>
-   <addaction name="actionNetwork"/>
+   <addaction name="actionActivity"/>
    <addaction name="actionChat"/>
   </widget>
   <action name="actionExit">
@@ -348,16 +348,16 @@ padding: 2px;</string>
     <string notr="true">Security</string>
    </property>
   </action>
-  <action name="actionNetwork">
+  <action name="actionActivity">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
+     <normaloff>:/Resource/Generic/Globe.png</normaloff>:/Resource/Generic/Globe.png</iconset>
    </property>
    <property name="text">
-    <string>Network</string>
+    <string>Activity</string>
    </property>
    <property name="whatsThis">
     <string notr="true">Network</string>

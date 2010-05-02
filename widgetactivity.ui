@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetTransfers</class>
- <widget class="QWidget" name="WidgetTransfers">
+ <class>WidgetActivity</class>
+ <widget class="QWidget" name="WidgetActivity">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>665</width>
+    <width>400</width>
     <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Transfers</string>
+   <string>Activity</string>
   </property>
   <property name="windowIcon">
    <iconset resource="Resource.qrc">
-    <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
+    <normaloff>:/Resource/Generic/Globe.png</normaloff>:/Resource/Generic/Globe.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -44,7 +44,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QToolButton" name="toolButtonDownloadsHeader">
+        <widget class="QToolButton" name="toolButtonNeighborsHeader">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -62,11 +62,11 @@
 </string>
          </property>
          <property name="text">
-          <string>Downloads</string>
+          <string>Neighbors</string>
          </property>
          <property name="icon">
           <iconset resource="Resource.qrc">
-           <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
+           <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -99,7 +99,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QToolButton" name="toolButtonUploadsHeader">
+        <widget class="QToolButton" name="toolButtonSystemLogHeader">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -117,11 +117,11 @@
 </string>
          </property>
          <property name="text">
-          <string>Uploads</string>
+          <string>System Log</string>
          </property>
          <property name="icon">
           <iconset resource="Resource.qrc">
-           <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
+           <normaloff>:/Resource/Network/PacketDump.png</normaloff>:/Resource/Network/PacketDump.png</iconset>
          </property>
          <property name="iconSize">
           <size>
