@@ -4,9 +4,8 @@
 #include <QMainWindow>
 #include "widgethome.h"
 #include "widgetlibrary.h"
-#include "widgetlibraryview.h"
 #include "widgetmedia.h"
-#include "widgetsearchtemplate.h"
+#include "widgetsearch.h"
 
 namespace Ui {
     class WinMain;
@@ -17,19 +16,28 @@ class WinMain : public QMainWindow {
 public:
     WinMain(QWidget *parent = 0);
     ~WinMain();
+	bool event(QEvent *e);
+	void quazaaShutdown();
     WidgetHome *pageHome;
-    WidgetLibrary *pageLibrary;
-    WidgetLibraryView *panelLibraryView;
+	WidgetLibrary *pageLibrary;
     WidgetMedia *pageMedia;
+	WidgetSearch *pageSearch;
+
+signals:
+	void closed();
+	void hideMain();
+	void showMain();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::WinMain *ui;
+	bool bypassCloseEvent;
 
 private slots:
-    void on_actionMedia_triggered();
+	void on_actionSearch_triggered();
+	void on_actionMedia_triggered();
     void on_actionLibrary_triggered();
     void on_actionHome_triggered();
 };
