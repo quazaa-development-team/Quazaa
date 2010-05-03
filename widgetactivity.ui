@@ -25,11 +25,11 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QSplitter" name="splitter">
+    <widget class="QSplitter" name="splitterActivity">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QFrame" name="frame">
+     <widget class="QFrame" name="frameNeighbors">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -80,11 +80,11 @@
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayoutDownloads"/>
+        <layout class="QVBoxLayout" name="verticalLayoutNeighbors"/>
        </item>
       </layout>
      </widget>
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="frameSystemLog">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -141,7 +141,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayoutUploads"/>
+        <layout class="QVBoxLayout" name="verticalLayoutSystemLog"/>
        </item>
       </layout>
      </widget>

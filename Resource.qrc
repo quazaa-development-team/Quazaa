@@ -216,5 +216,6 @@
         <file>Resource/Generic/SchedulerDisable.png</file>
         <file>Resource/Generic/SchedulerEnable.png</file>
         <file>Resource/Generic/Globe.png</file>
+        <file>Resource/Generic/Time.png</file>
     </qresource>
 </RCC>

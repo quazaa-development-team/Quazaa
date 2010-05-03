@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WidgetScheduler</class>
+ <widget class="QMainWindow" name="WidgetScheduler">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>632</width>
+    <height>343</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QTreeWidget" name="treeWidgetSchedules">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QTreeWidget {
+	background-color: rgb(255, 255, 255);
+}</string>
+      </property>
+      <column>
+       <property name="text">
+        <string>Action</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Frequency</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Active</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Status</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Details</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionAddScheduledTask"/>
+   <addaction name="actionRemoveScheduledTask"/>
+   <addaction name="actionToggleTask"/>
+   <addaction name="separator"/>
+   <addaction name="actionSheduleMoveUp"/>
+   <addaction name="actionScheduleMoveDown"/>
+   <addaction name="separator"/>
+   <addaction name="actionScheduleProperties"/>
+  </widget>
+  <action name="actionAddScheduledTask">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/SchedulerAdd.png</normaloff>:/Resource/Generic/SchedulerAdd.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Scheduled Task</string>
+   </property>
+  </action>
+  <action name="actionRemoveScheduledTask">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/SchedulerRemove.png</normaloff>:/Resource/Generic/SchedulerRemove.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Scheduled Task</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove Scheduled Task</string>
+   </property>
+  </action>
+  <action name="actionToggleTask">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/SchedulerEnable.png</normaloff>:/Resource/Generic/SchedulerEnable.png</iconset>
+   </property>
+   <property name="text">
+    <string>Activate</string>
+   </property>
+  </action>
+  <action name="actionSheduleMoveUp">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/MoveUp.png</normaloff>:/Resource/Generic/MoveUp.png</iconset>
+   </property>
+   <property name="text">
+    <string>Move Up</string>
+   </property>
+  </action>
+  <action name="actionScheduleMoveDown">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/MoveDown.png</normaloff>:/Resource/Generic/MoveDown.png</iconset>
+   </property>
+   <property name="text">
+    <string>Move Down</string>
+   </property>
+  </action>
+  <action name="actionScheduleProperties">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
+   </property>
+   <property name="text">
+    <string>Properties</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
