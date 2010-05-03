@@ -104,7 +104,16 @@ SOURCES += main.cpp \
     widgetactivity.cpp \
     widgetsecurity.cpp \
     widgetsystemlog.cpp \
-    widgetneighbors.cpp
+    widgetneighbors.cpp \
+    widgetchat.cpp \
+    widgetchatcenter.cpp \
+    widgethostcache.cpp \
+    widgetdiscovery.cpp \
+    widgetscheduler.cpp \
+    widgetgraph.cpp \
+    widgetpacketdump.cpp \
+    widgetsearchmonitor.cpp \
+    widgethitmonitor.cpp
 HEADERS += mainwindow.h \
     dialoglanguage.h \
     quazaasettings.h \
@@ -186,7 +195,16 @@ HEADERS += mainwindow.h \
     widgetactivity.h \
     widgetsecurity.h \
     widgetsystemlog.h \
-    widgetneighbors.h
+    widgetneighbors.h \
+    widgetchat.h \
+    widgetchatcenter.h \
+    widgethostcache.h \
+    widgetdiscovery.h \
+    widgetscheduler.h \
+    widgetgraph.h \
+    widgetpacketdump.h \
+    widgetsearchmonitor.h \
+    widgethitmonitor.h
 FORMS += mainwindow.ui \
     dialoglanguage.ui \
     dialogsplash.ui \
@@ -231,7 +249,16 @@ FORMS += mainwindow.ui \
     widgetactivity.ui \
     widgetsecurity.ui \
     widgetsystemlog.ui \
-    widgetneighbors.ui
+    widgetneighbors.ui \
+    widgetchat.ui \
+    widgetchatcenter.ui \
+    widgethostcache.ui \
+    widgetdiscovery.ui \
+    widgetscheduler.ui \
+    widgetgraph.ui \
+    widgetpacketdump.ui \
+    widgetsearchmonitor.ui \
+    widgethitmonitor.ui
 TRANSLATIONS = quazaa_af.ts \
     quazaa_ar.ts \
     quazaa_ca.ts \

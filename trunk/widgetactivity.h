@@ -2,6 +2,8 @@
 #define WIDGETACTIVITY_H
 
 #include <QWidget>
+#include "widgetneighbors.h"
+#include "widgetsystemlog.h"
 
 namespace Ui {
     class WidgetActivity;
@@ -12,6 +14,8 @@ class WidgetActivity : public QWidget {
 public:
     WidgetActivity(QWidget *parent = 0);
     ~WidgetActivity();
+	WidgetNeighbors *panelNeighbors;
+	WidgetSystemLog *panelSystemLog;
 
 protected:
     void changeEvent(QEvent *e);

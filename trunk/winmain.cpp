@@ -21,6 +21,26 @@ WinMain::WinMain(QWidget *parent) :
 	ui->stackedWidgetMain->addWidget(pageSearch);
 	pageTransfers = new WidgetTransfers();
 	ui->stackedWidgetMain->addWidget(pageTransfers);
+	pageSecurity = new WidgetSecurity();
+	ui->stackedWidgetMain->addWidget(pageSecurity);
+	pageActivity = new WidgetActivity();
+	ui->stackedWidgetMain->addWidget(pageActivity);
+	pageChat = new WidgetChat();
+	ui->stackedWidgetMain->addWidget(pageChat);
+	pageHostCache = new WidgetHostCache;
+	ui->stackedWidgetMain->addWidget(pageHostCache);
+	pageDiscovery = new WidgetDiscovery;
+	ui->stackedWidgetMain->addWidget(pageDiscovery);
+	pageScheduler = new WidgetScheduler;
+	ui->stackedWidgetMain->addWidget(pageScheduler);
+	pageGraph = new WidgetGraph;
+	ui->stackedWidgetMain->addWidget(pageGraph);
+	pagePacketDump = new WidgetPacketDump;
+	ui->stackedWidgetMain->addWidget(pagePacketDump);
+	pageSearchMonitor = new WidgetSearchMonitor;
+	ui->stackedWidgetMain->addWidget(pageSearchMonitor);
+	pageHitMonitor = new WidgetHitMonitor;
+	ui->stackedWidgetMain->addWidget(pageHitMonitor);
 }
 
 WinMain::~WinMain()
@@ -121,8 +141,8 @@ void WinMain::quazaaShutdown()
 	quazaaSettings.MainWindowSearchResultsTaskVisible = ui->toolButtonSearchResultsTaskHeader->isChecked();
 	quazaaSettings.MainWindowSearchSidebarVisible = ui->actionSearchToggle->isChecked();
 	quazaaSettings.MainWindowSearchTaskVisible = ui->toolButtonSearchTaskHeader->isChecked();
-	quazaaSettings.MainWindowTransfersSplitter = ui->splitterTransfers->saveState();
-	quazaaSettings.saveWindowSettings(this);*/
+	quazaaSettings.MainWindowTransfersSplitter = ui->splitterTransfers->saveState();*/
+	quazaaSettings.saveWindowSettings(this);
 
 	dlgSplash->updateProgress(15, tr("Removing Tray Icon..."));
 	//trayIcon->~QSystemTrayIcon();
@@ -164,4 +184,44 @@ void WinMain::on_actionSecurity_triggered()
 void WinMain::on_actionActivity_triggered()
 {
 	ui->stackedWidgetMain->setCurrentIndex(6);
+}
+
+void WinMain::on_actionChat_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(7);
+}
+
+void WinMain::on_actionHostCache_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(8);
+}
+
+void WinMain::on_actionDiscovery_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(9);
+}
+
+void WinMain::on_actionScheduler_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(10);
+}
+
+void WinMain::on_actionGraph_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(11);
+}
+
+void WinMain::on_actionPacketDump_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(12);
+}
+
+void WinMain::on_actionSearchMonitor_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(13);
+}
+
+void WinMain::on_actionHitMonitor_triggered()
+{
+	ui->stackedWidgetMain->setCurrentIndex(14);
 }

@@ -6,11 +6,15 @@ WidgetActivity::WidgetActivity(QWidget *parent) :
     ui(new Ui::WidgetActivity)
 {
     ui->setupUi(this);
+	panelNeighbors = new WidgetNeighbors();
+	ui->verticalLayoutNeighbors->addWidget(panelNeighbors);
+	panelSystemLog = new WidgetSystemLog();
+	ui->verticalLayoutSystemLog->addWidget(panelSystemLog);
 }
 
 WidgetActivity::~WidgetActivity()
 {
-    delete ui;
+	delete ui;
 }
 
 void WidgetActivity::changeEvent(QEvent *e)
