@@ -26,6 +26,72 @@
 #include <QMainWindow>
 #include "QSkinDialog/qskindialog.h"
 
+namespace Settings
+{
+	struct sConnection
+	{
+		bool		DetectConnectionLoss;					// Detect loss of internet
+		bool		DetectConnectionReset;					// Detect regaining of internet connection
+		int			FailureLimit;							// Max allowed connection failures (default = 3) (Neighbour connections)
+		int			FailurePenalty;							// Delay after connection failure (seconds, default = 300) (Neighbour connections)
+		quint64		InSpeed;								// Inbound internet connection speed in B/s
+		quint64		OutSpeed;								// Outbound internet connection speed in B/s
+		quint16		Port;									// Incoming port
+		bool		RandomPort;								// Select a random incoming port
+		quint32		SendBuffer;								// Size of data send blocks
+		quint32		TimeoutConnect;							// Time to wait for a connection before dropping the connection
+		quint32		TimeoutTraffic;							// Time to wait for general network communications before dropping a connection
+	};
+
+	struct sGnutella
+	{
+		bool		CompressHub2Hub;						// Hub to Hub Link compression
+		bool		CompressHub2Leaf;						// Hub to Leaf Link Compression
+		bool		CompressLeaf2Hub;						// Leaf to Hub Link Compression
+		int			ConnectFactor;
+		int			ConnectThrottle;						// Delay between connection attempts (seconds)
+		int			HitsPerPacket;							// Max hits allowed for a single packet
+		int			HostCacheSize;							// Size of host cache
+		int			HostCacheView;
+		int			MaxHits;								// Max hits allowed for a single query
+		int			MaxResults;								// Maximum results to return to a single query
+		int			RouteCache;								// Cache for route to peer
+	};
+
+	struct sGnutella2
+	{
+		int			ClientMode;								// Desired mode of operation: MODE_AUTO, MODE_LEAF, MODE_HUB
+		bool		Enable;									// Connect to G2
+		int			HAWPeriod;
+		int			HostCount;								// Number of hosts in X-Try-Hubs
+		int			HostCurrent;							// Index of current host
+		int			HostExpire;								// Inactive time before a host expires
+		int			HubHorizonSize;
+		bool		HubVerified;							// Verified we are operating as a hub
+		int			KHLHubCount;
+		int			KHLPeriod;
+		int			LNIMinimumUpdate;
+		quint32		NumHubs;								// Number of hubs a leaf has (Leaf to Hub)
+		quint32		NumLeafs;								// Number of leafs a hub has (Hub to Leaf)
+		quint32		NumPeers;								// Number of peers a hub has (Hub to Hub)
+		int			PingRate;								// Time in seconds between pings
+		int			PingRelayLimit;							// Number of other leafs to forward a /PI/UDP to: 10 - 30
+		int			QueryHostDeadline;						// Time before ending queries
+		int			QueryHostThrottle;						// Bandwidth throttling for queries
+		int			QueryLimit;								// Maximum amount of concurrent queries
+		int			RequeryDelay;							// Time before sending another query
+		int			UdpBuffers;								// UDP protocol buffer size
+		int			UdpInExpire;							// Time before incoming an incloming UDP connection
+		int			UdpInFrames;							// UDP protocol in frame size
+		int			UdpMTU;									// UDP protocol maximum transmission units
+		int			UdpOutExpire;							// Time before dropping a UDP connection
+		int			UdpOutFrames;							// UDP protocol out frame size
+		int			UdpOutResend;							// Time before resending a UDP protocol packet
+
+	};
+
+};
+
 class QuazaaSettings : public QObject
 {
 	Q_OBJECT
@@ -48,6 +114,10 @@ public:
 	bool FirstRun();
 
 public:
+
+	Settings::sConnection	Connection;
+	Settings::sGnutella		Gnutella;
+	Settings::sGnutella2	Gnutella2;
 
 	//Main Window settings including splitters, the active tab, sidebar task visible states, etc.
 	int			MainWindowActiveTab;					// The active tab (Home, Library, Media, etc.)
@@ -270,10 +340,11 @@ public:
 	QString		ProfileYahooID;								// Yahoo Messenger ID
 
 	// Connection settings
-	int			ConnectionCanAcceptIncoming;						// Can we accept incoming connections or are they being blocked
+        int			ConnectionCanAcceptIncoming;						// Can we accept incoming connections or are they being blocked
+        // removed, Network::IsFirewalled returns this, and is auto-determined
 	bool		ConnectionDetectLoss;					// Detect loss of internet connection
 	bool		ConnectionDetectReset;					// Detect regaining of internet connection
-	int			ConnectionThrottle;						// Delay between connection attempts. (Neighbour connections)
+        int			ConnectionThrottle;						// Delay between connection attempts. (Neighbour connections)
 	int			ConnectionFailureLimit;							// Max allowed connection failures (default = 3) (Neighbour connections)
 	int			ConnectionFailurePenalty;							// Delay after connection failure (seconds, default = 300) (Neighbour connections)
 	QString		ConnectionInAddress;								// Inbound IP address
