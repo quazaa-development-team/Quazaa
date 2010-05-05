@@ -6,14 +6,17 @@
 #include "hostcache.h"
 #include "SearchManager.h"
 
+#include "quazaasettings.h"
+
 #include "Thread.h"
+
 
 CDatagrams Datagrams;
 CThread DatagramsThread;
 
 CDatagrams::CDatagrams()
 {
-    m_nUploadLimit = 8192;
+	m_nUploadLimit = 8192; // TODO it
 
     m_pRecvBuffer = new QByteArray();
     m_pHostAddress = new QHostAddress();
@@ -57,55 +60,49 @@ void CDatagrams::SetupThread()
     IPv4_ENDPOINT addr = Network.GetLocalAddress();
     if( m_pSocket->bind(addr.port) )
     {
+		qDebug() << "Datagrams listening on " << m_pSocket->localPort() << addr.port;
         m_nDiscarded = 0;
 
-        for( int i = 0; i < 512; i++ )
+		for( int i = 0; i < quazaaSettings.Gnutella2.UdpBuffers; i++ )
         {
             m_FreeBuffer.push(new QByteArray());
         }
 
-        for( int i = 0; i < 256; i++ )
+		for( int i = 0; i < quazaaSettings.Gnutella2.UdpInFrames; i++ )
         {
             m_FreeDGIn.push(new DatagramIn());
-            m_FreeDGOut.push(new DatagramOut());
         }
+
+		for( int i = 0; i < quazaaSettings.Gnutella2.UdpOutFrames; i++ )
+		{
+			m_FreeDGOut.push(new DatagramOut());
+		}
 
         connect(this, SIGNAL(SendQueueUpdated()), this, SLOT(FlushSendCache()), Qt::QueuedConnection);
         connect(m_tSender, SIGNAL(timeout()), this, SLOT(FlushSendCache()), Qt::QueuedConnection);
         connect(m_pSocket, SIGNAL(readyRead()), this, SLOT(OnDatagram()));
 
         m_tSender->setInterval(200);
-        //m_tSender->start();
 
         m_bActive = true;
         m_tMeterTimer.start();
-
-        //QTimer::singleShot(60000, this, SLOT(Flood()));
-
     }
 }
 
 void CDatagrams::Listen()
 {
-    /*QMutexLocker l(&m_pSection);
-    qDebug() << "Locked in Listen";*/
-
-    qDebug() << "Listen Thread id: " << QThread::currentThreadId();
-
     if( m_bActive )
     {
         qDebug() << "CDatagrams::Listen - already listening";
         return;
     }
 
-    //DatagramsThread.start(&m_pSection, this);
     SetupThread();
     m_bFirewalled = true;
 
     if( !m_bActive )
     {
         qDebug() << "Can't bind UDP socket! UDP communication disabled!";
-        //l.unlock();
         Disconnect();
     }
 
@@ -113,9 +110,6 @@ void CDatagrams::Listen()
 
 void CDatagrams::CleanupThread()
 {
-    qDebug() << "CleanupThread";
-    qDebug() << "Thread id: " << QThread::currentThreadId();
-
     if( m_tSender )
     {
         m_tSender->stop();
@@ -152,30 +146,16 @@ void CDatagrams::CleanupThread()
 
 void CDatagrams::Disconnect()
 {
-    //QMutexLocker l(&m_pSection);
-    //qDebug() << "Locked in Disconnect";
-    //qDebug() << "Thread id: " << QThread::currentThreadId();
-
     m_bActive = false;
 
     CleanupThread();
-    /*if( !DatagramsThread.isRunning() )
-        return;
-
-    DatagramsThread.exit(0);*/
-
 }
 
 void CDatagrams::OnDatagram()
 {
-    //QMutexLocker l(&m_pSection);
-    //qDebug() << "Locked in OnDatagram";
-    qDebug() << "Thread id: " << QThread::currentThreadId();
-
     if( !m_bActive )
         return;
 
-    //qDebug() << "OnDatagram " << QThread::currentThreadId();
     //while( m_pSocket->hasPendingDatagrams() )
     {
         qint64 nSize = m_pSocket->pendingDatagramSize();
@@ -217,7 +197,6 @@ void CDatagrams::OnReceiveGND()
 
     if( m_RecvCache.contains(nIp) && m_RecvCache[nIp].contains(nSeq) )
     {
-        //qDebug() << "Reusing existing datagram";
         pDG = m_RecvCache[nIp][nSeq];
 
         // Zeby dac szanse wiekszym pakietom ;)
@@ -226,7 +205,6 @@ void CDatagrams::OnReceiveGND()
     }
     else
     {
-        //qDebug() << "Creating new datagram";
         if( m_FreeDGIn.size() )
         {
             pDG = m_FreeDGIn.pop();
@@ -249,7 +227,6 @@ void CDatagrams::OnReceiveGND()
 
         if( m_FreeBuffer.size() < pHeader->nCount )
         {
-            //qDebug() << "Discarding datagram, out of buffers";
             m_nDiscarded++;
             m_FreeDGIn.push(pDG);
             RemoveOldIn(false);
@@ -373,14 +350,14 @@ void CDatagrams::RemoveOldIn(bool bForce)
         {
             if( pOldest )
             {
-                if( pOldest->m_tStarted < itPacket.value()->m_tStarted && (bForce || tNow - itPacket.value()->m_tStarted > UdpInExpire || itPacket.value()->m_nLeft == 0) )
+				if( pOldest->m_tStarted < itPacket.value()->m_tStarted && (bForce || tNow - itPacket.value()->m_tStarted > quazaaSettings.Gnutella2.UdpInExpire || itPacket.value()->m_nLeft == 0) )
                 {
                     pOldest = itPacket.value();
                 }
             }
             else
             {
-                if( bForce || tNow - itPacket.value()->m_tStarted > UdpInExpire || itPacket.value()->m_nLeft == 0 )
+				if( bForce || tNow - itPacket.value()->m_tStarted > quazaaSettings.Gnutella2.UdpInExpire || itPacket.value()->m_nLeft == 0 )
                 {
                     pOldest = itPacket.value();
                 }
@@ -418,24 +395,7 @@ void CDatagrams::Remove(DatagramOut *pDG)
 
 void CDatagrams::FlushSendCache()
 {
-    //QMutexLocker l(&m_pSection);
-
-    //qDebug() << "FLUSHING UDP SEND CACHE";
-    //qDebug() << "Thread id: " << QThread::currentThreadId();
-
     quint32 tNow = time(0);
-
-    /*
-    for( QStack<DatagramOut*>::iterator it = m_SendCache.begin(); it != m_SendCache.end(); it++ )
-    {
-        DatagramOut* pDG = (*it);
-
-        if( tNow - pDG->m_tSent > UdpOutExpire )
-        {
-            Remove(pDG);    // TODO: powiadomic nasluchujace obiekty ze tego datagramu nie udalo sie dostarczyc
-            it = m_SendCache.begin();
-        }
-    }*/
 
     qint32 nMsecs = 1000;
     if( !m_tStopWatch.isNull() )
@@ -451,16 +411,15 @@ void CDatagrams::FlushSendCache()
 
         char* pPacket;
         quint32 nPacket;
-        //for( QStack<DatagramOut*>::iterator it = m_SendCache.begin(); it != m_SendCache.end(); it++ )
 
         for( int i = m_SendCache.size() - 1; i >= 0; i--)
         {
-            //DatagramOut* pDG = (*it);
             DatagramOut* pDG = m_SendCache[i];
 
             if( pDG->m_oAddress.ip == nLastHost )
                 continue;
 
+			// TODO: sprawdzenie UDP na firewallu - mog? by? 3 stany udp
             if( pDG->GetPacket(tNow, &pPacket, &nPacket, true) )
             {
                 qDebug() << "UDP sending to " << pDG->m_oAddress.toString().toAscii().constData() << "seq" << pDG->m_nSequence << "nPart" << ((GND_HEADER*)&pPacket)->nPart << "count" << pDG->m_nCount;
@@ -493,7 +452,7 @@ void CDatagrams::FlushSendCache()
     {
         DatagramOut* pDG = m_SendCache.at(i);
 
-        if( tNow - pDG->m_tSent > UdpOutExpire )
+		if( tNow - pDG->m_tSent > quazaaSettings.Gnutella2.UdpOutExpire )
         {
             Remove(pDG);
         }
@@ -503,37 +462,10 @@ void CDatagrams::FlushSendCache()
         }
     }
     
-    /*if( m_SendCache.size() && !m_tSender->isActive() )
-    {
-        qDebug() << "Starting timer";
-        m_tSender->setSingleShot(true);
-        m_tSender->start();
-    }*/
-
-    /*static bool bTested = false;
-
-    if( !bTested )
-    {
-        bTested = true;
-
-        for( int i = 0; i < HostCache.m_lHosts.size() && i < 50; i++ )
-        {
-            G2Packet* pQKR = G2Packet::New("QKR");
-            SendPacket(HostCache.m_lHosts[i]->m_oAddress, pQKR, true);
-            pQKR->Release();
-        }
-    }*/
-
 }
 
 void CDatagrams::SendPacket(IPv4_ENDPOINT &oAddr, G2Packet *pPacket, bool bAck, DatagramWatcher *pWatcher, void *pParam)
 {
-    //QMutexLocker l(&m_pSection);
-    //qDebug() << "Locked in SendPacket";
-
-    //if( bLock )
-       // m_pSection.lock();
-
     Q_UNUSED(pWatcher);
     Q_UNUSED(pParam);
 
@@ -550,8 +482,6 @@ void CDatagrams::SendPacket(IPv4_ENDPOINT &oAddr, G2Packet *pPacket, bool bAck, 
         if( m_FreeBuffer.isEmpty() )
         {
             qDebug() << "UDP out discarded, out of buffers";
-            //if( bLock )
-                //m_pSection.unlock();
             return;
         }
     }
@@ -566,8 +496,6 @@ void CDatagrams::SendPacket(IPv4_ENDPOINT &oAddr, G2Packet *pPacket, bool bAck, 
 
     qDebug() << "UDP queued for " << oAddr.toString().toAscii().constData() << "seq" << pDG->m_nSequence << "parts" << pDG->m_nCount;
 
-    //if( bLock )
-       // m_pSection.unlock();
 
     emit SendQueueUpdated();
 
@@ -590,6 +518,18 @@ void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet *pPacket)
             OnQA(addr, pPacket);
         else if(pPacket->IsType("QH2"))
             OnQH2(addr, pPacket);
+
+		// this was a test...
+		/*else if(pPacket->IsType("TEST") )
+		{
+			qDebug() << ">>>>>>>>>>> GOT TEST!";
+			G2Packet* pReply = G2Packet::New("REPLY");
+			SendPacket(addr, pReply);
+		}
+		else if(pPacket->IsType("REPLY"))
+		{
+			qDebug() << ">>>>>>>>>>>GOT REPLY";
+		}*/
         else
             qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
     }
@@ -631,7 +571,7 @@ void CDatagrams::OnCRAWLR(IPv4_ENDPOINT &addr, G2Packet *pPacket)
         pTmp->WriteChild("HUB");
     else
         pTmp->WriteChild("LEAF");
-    pTmp->WriteChild("NA")->WriteHostAddress(&Network.GetLocalAddress());
+	pTmp->WriteChild("NA")->WriteHostAddress(&Network.m_oAddress);
     pTmp->WriteChild("CV")->WriteString(QString("G2Core/0.1"));
     pTmp->WriteChild("V")->WriteBytes("CORE", 4);
     SendPacket(addr, pCA, true);

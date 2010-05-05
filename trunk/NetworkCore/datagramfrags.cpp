@@ -4,7 +4,7 @@
 #include "ZLibUtils.h"
 #include "datagrams.h"
 
-const quint32   UdpMTU                  = 500; // B
+#include "quazaasettings.h"
 
 DatagramIn::DatagramIn()
 {
@@ -108,7 +108,7 @@ void DatagramOut::Create(IPv4_ENDPOINT oAddr, G2Packet *pPacket, quint16 nSequen
 
     m_bCompressed = ZLibUtils::Compress(*m_pBuffer, true);
 
-    m_nPacket = UdpMTU;
+	m_nPacket = quazaaSettings.Gnutella2.UdpMTU;
     m_nCount = quint8((m_pBuffer->size() + m_nPacket - 1) / m_nPacket);
     m_nAcked = m_nCount;
 
@@ -153,7 +153,7 @@ bool DatagramOut::GetPacket(quint32 tNow, char**ppPacket, quint32 *pnPacket, boo
         {
             if( bResend )
             {
-                if( tNow - m_pLocked[nPart] >= UdpRetransmitInterval )
+				if( tNow - m_pLocked[nPart] >= quazaaSettings.Gnutella2.UdpOutResend )
                     break;
             }
             else

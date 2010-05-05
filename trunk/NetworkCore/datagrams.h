@@ -146,11 +146,6 @@ typedef struct
 
 #pragma pack(pop)
 
-
-const quint32   UdpRetransmitInterval   = 10; // sek
-const quint32   UdpOutExpire            = 26; // sek
-const quint32   UdpInExpire             = 30; // sek
-
 extern CDatagrams Datagrams;
 
 #endif // DATAGRAMS_H

@@ -463,19 +463,20 @@ namespace Settings
 		quint32		NumHubs;								// Number of hubs a leaf has (Leaf to Hub)
 		quint32		NumLeafs;								// Number of leafs a hub has (Hub to Leaf)
 		quint32		NumPeers;								// Number of peers a hub has (Hub to Hub)
-		int			PingRate;								// Time in seconds between pings
+		quint32		PingRate;								// Time in seconds between pings
+		quint32		PingTimeout;
 		int			PingRelayLimit;							// Number of other leafs to forward a /PI/UDP to: 10 - 30
 		int			QueryHostDeadline;						// Time before ending queries
 		int			QueryHostThrottle;						// Bandwidth throttling for queries
 		int			QueryLimit;								// Maximum amount of concurrent queries
 		int			RequeryDelay;							// Time before sending another query
 		int			UdpBuffers;								// UDP protocol buffer size
-		int			UdpInExpire;							// Time before incoming an incloming UDP connection
+		quint32		UdpInExpire;							// Time before incoming an incloming UDP connection
 		int			UdpInFrames;							// UDP protocol in frame size
-		int			UdpMTU;									// UDP protocol maximum transmission units
-		int			UdpOutExpire;							// Time before dropping a UDP connection
+		quint32		UdpMTU;									// UDP protocol maximum transmission units
+		quint32		UdpOutExpire;							// Time before dropping a UDP connection
 		int			UdpOutFrames;							// UDP protocol out frame size
-		int			UdpOutResend;							// Time before resending a UDP protocol packet
+		quint32		UdpOutResend;							// Time before resending a UDP protocol packet
 
 	};
 
