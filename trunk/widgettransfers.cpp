@@ -20,8 +20,8 @@ WidgetTransfers::WidgetTransfers(QWidget *parent) :
 
 WidgetTransfers::~WidgetTransfers()
 {
-    delete ui;
 	quazaaSettings.WinMain.TransfersSplitter = ui->splitterTransfers->saveState();
+	delete ui;
 }
 
 void WidgetTransfers::changeEvent(QEvent *e)

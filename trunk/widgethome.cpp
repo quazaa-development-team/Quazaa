@@ -22,7 +22,6 @@ WidgetHome::WidgetHome(QWidget *parent) :
 
 WidgetHome::~WidgetHome()
 {
-	delete ui;
 	quazaaSettings.WinMain.HomeSearchString = ui->lineEditWelcomeSearch->text();
 	quazaaSettings.WinMain.HomeConnectionTaskVisible = ui->toolButtonHomeConnectionTaskHeader->isChecked();
 	quazaaSettings.WinMain.HomeDownloadsTaskVisible = ui->toolButtonHomeTransfersTaskDownloadsHeader->isChecked();
@@ -30,6 +29,7 @@ WidgetHome::~WidgetHome()
 	quazaaSettings.WinMain.HomeSearchString = ui->lineEditWelcomeSearch->text();
 	quazaaSettings.WinMain.HomeTorrentsTaskVisible = ui->toolButtonHomeTorrentsTaskHeader->isChecked();
 	quazaaSettings.WinMain.HomeUploadsTaskVisible = ui->toolButtonHomeTransfersTaskUploadsHeader->isChecked();
+	delete ui;
 }
 
 void WidgetHome::changeEvent(QEvent *e)

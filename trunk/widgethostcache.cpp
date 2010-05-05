@@ -16,8 +16,8 @@ WidgetHostCache::WidgetHostCache(QWidget *parent) :
 
 WidgetHostCache::~WidgetHostCache()
 {
-    delete ui;
 	quazaaSettings.WinMain.HostCacheSplitter = ui->splitterHostCache->saveState();
+	delete ui;
 }
 
 void WidgetHostCache::changeEvent(QEvent *e)

@@ -19,9 +19,9 @@ WidgetLibrary::WidgetLibrary(QWidget *parent) :
 
 WidgetLibrary::~WidgetLibrary()
 {
-	delete ui;
 	quazaaSettings.WinMain.LibraryNavigatorTab = ui->tabWidgetLibraryNavigator->currentIndex();
 	quazaaSettings.WinMain.LibrarySplitter = ui->splitterLibrary->saveState();
+	delete ui;
 }
 
 void WidgetLibrary::changeEvent(QEvent *e)

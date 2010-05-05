@@ -19,9 +19,9 @@ WidgetChat::WidgetChat(QWidget *parent) :
 
 WidgetChat::~WidgetChat()
 {
-    delete ui;
 	quazaaSettings.WinMain.ChatFriendsTaskVisible = ui->toolButtonChatFriendsHeader->isChecked();
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
+	delete ui;
 }
 
 void WidgetChat::changeEvent(QEvent *e)

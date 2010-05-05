@@ -17,9 +17,9 @@ WidgetLibraryView::WidgetLibraryView(QWidget *parent) :
 
 WidgetLibraryView::~WidgetLibraryView()
 {
-    delete ui;
 	quazaaSettings.WinMain.LibraryDetailsSplitter = ui->splitterLibraryView->saveState();
 	quazaaSettings.WinMain.LibraryDetailsVisible = ui->toolButtonLibraryDetailsToggle->isChecked();
+	delete ui;
 }
 
 void WidgetLibraryView::changeEvent(QEvent *e)

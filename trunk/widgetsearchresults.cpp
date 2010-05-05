@@ -23,10 +23,10 @@ WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
 
 WidgetSearchResults::~WidgetSearchResults()
 {
-	delete ui;
 	quazaaSettings.WinMain.SearchDetailsSplitter = ui->splitterSearchDetails->saveState();
 	quazaaSettings.WinMain.SearchDetailsVisible = ui->actionSeachDetailsToggle->isChecked();
 	quazaaSettings.WinMain.SearchSidebarVisible = ui->actionSearchToggle->isChecked();
+	delete ui;
 }
 
 void WidgetSearchResults::changeEvent(QEvent *e)
