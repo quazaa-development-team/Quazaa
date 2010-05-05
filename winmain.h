@@ -2,6 +2,10 @@
 #define WINMAIN_H
 
 #include <QMainWindow>
+#include <QActionGroup>
+#include <QSystemTrayIcon>
+#include <QHideEvent>
+
 #include "widgethome.h"
 #include "widgetlibrary.h"
 #include "widgetmedia.h"
@@ -18,6 +22,8 @@
 #include "widgetsearchmonitor.h"
 #include "widgethitmonitor.h"
 
+#include "NeighboursTableModel.h"
+
 namespace Ui {
     class WinMain;
 }
@@ -28,7 +34,13 @@ public:
     WinMain(QWidget *parent = 0);
     ~WinMain();
 	bool event(QEvent *e);
-	void quazaaShutdown();
+	bool interfaceLoaded;
+	QTimer* neighboursRefresher;
+	CNeighboursTableModel* neighboursList;
+	QActionGroup *actionGroupMainNavigation;
+
+	QSystemTrayIcon *trayIcon;
+	QMenu *trayMenu;
     WidgetHome *pageHome;
 	WidgetLibrary *pageLibrary;
     WidgetMedia *pageMedia;
@@ -59,20 +71,23 @@ private:
 
 private slots:
 	void on_actionHitMonitor_triggered();
- void on_actionSearchMonitor_triggered();
- void on_actionPacketDump_triggered();
- void on_actionGraph_triggered();
- void on_actionScheduler_triggered();
- void on_actionDiscovery_triggered();
- void on_actionHostCache_triggered();
- void on_actionChat_triggered();
- void on_actionSecurity_triggered();
+	void on_actionSearchMonitor_triggered();
+	void on_actionPacketDump_triggered();
+	void on_actionGraph_triggered();
+	void on_actionScheduler_triggered();
+	void on_actionDiscovery_triggered();
+	void on_actionHostCache_triggered();
+	void on_actionChat_triggered();
+	void on_actionSecurity_triggered();
 	void on_actionActivity_triggered();
 	void on_actionTransfers_triggered();
 	void on_actionSearch_triggered();
 	void on_actionMedia_triggered();
     void on_actionLibrary_triggered();
     void on_actionHome_triggered();
+	void quazaaShutdown();
+	void icon_activated(QSystemTrayIcon::ActivationReason reason);
+	void skinChangeEvent();
 };
 
 #endif // WINMAIN_H

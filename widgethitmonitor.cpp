@@ -1,11 +1,14 @@
 #include "widgethitmonitor.h"
 #include "ui_widgethitmonitor.h"
+#include "QSkinDialog/qskinsettings.h"
 
 WidgetHitMonitor::WidgetHitMonitor(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::WidgetHitMonitor)
 {
     ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 WidgetHitMonitor::~WidgetHitMonitor()
@@ -23,4 +26,9 @@ void WidgetHitMonitor::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WidgetHitMonitor::skinChangeEvent()
+{
+	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }

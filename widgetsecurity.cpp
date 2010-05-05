@@ -1,11 +1,14 @@
 #include "widgetsecurity.h"
 #include "ui_widgetsecurity.h"
+#include "QSkinDialog/qskinsettings.h"
 
 WidgetSecurity::WidgetSecurity(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::WidgetSecurity)
 {
     ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 WidgetSecurity::~WidgetSecurity()
@@ -23,4 +26,10 @@ void WidgetSecurity::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WidgetSecurity::skinChangeEvent()
+{
+	ui->toolBarControls->setStyleSheet(skinSettings.toolbars);
+	ui->toolBarSubscribe->setStyleSheet(skinSettings.toolbars);
 }

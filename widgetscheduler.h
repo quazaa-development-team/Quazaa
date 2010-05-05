@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetScheduler *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETSCHEDULER_H

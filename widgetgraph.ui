@@ -22,7 +22,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QSplitter" name="splitter">
+     <widget class="QSplitter" name="splitterGraph">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -51,9 +51,9 @@
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolBarControls">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>toolBarControls</string>
    </property>
    <property name="iconSize">
     <size>

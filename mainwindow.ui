@@ -106,7 +106,7 @@ padding: 2px;</string>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidgetMain">
       <property name="currentIndex">
-       <number>14</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="pageHome">
        <layout class="QGridLayout" name="gridLayoutHome">
@@ -146,7 +146,7 @@ padding: 2px;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>194</width>
+             <width>208</width>
              <height>682</height>
             </rect>
            </property>
@@ -809,8 +809,8 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>624</width>
-             <height>518</height>
+             <width>593</width>
+             <height>359</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
@@ -1689,8 +1689,8 @@ QToolButton::menu-button:hover {
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>45</width>
-                     <height>2</height>
+                     <width>489</width>
+                     <height>57</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_11">
@@ -2548,7 +2548,7 @@ QToolButton:checked {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>202</width>
+                <width>216</width>
                 <height>516</height>
                </rect>
               </property>
@@ -3277,8 +3277,8 @@ QTabWidget::pane { /* The tab widget frame */
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>595</width>
-                 <height>313</height>
+                 <width>98</width>
+                 <height>28</height>
                 </rect>
                </property>
               </widget>

@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
 
         //Initialize Skin Settings
 	quazaaSettings.loadSkinSettings();
-	skinSettings.loadSkin(quazaaSettings.SkinFile);
+	skinSettings.loadSkin(quazaaSettings.Skin.File);
 	skinChangeEvent();
 
 	//Initialize Settings
@@ -76,22 +76,22 @@ MainWindow::MainWindow(QWidget *parent)
 		skinDlgLanguage->exec();
 	}
 
-	quazaaGlobals.translator.load(quazaaSettings.LanguageFile);
+	quazaaGlobals.translator.load(quazaaSettings.Language.File);
 	qApp->installTranslator(&quazaaGlobals.translator);
 
 	qApp->processEvents();
 
 	//Create splash window
-        DialogSplash *dlgSplash = new DialogSplash(this);
+		DialogSplash *dlgSplash = new DialogSplash(this);
 	dlgSplash->show();
 	//Load And Set Up User Interface
 	dlgSplash->updateProgress(5, tr("Loading User Interface..."));
 	bypassCloseEvent = false;
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
-        WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
-        ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
-        ui->tabWidgetSearch->setCurrentIndex(0);
-        ui->tabWidgetSearch->setTabsClosable(true);
+		WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
+		ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
+		ui->tabWidgetSearch->setCurrentIndex(0);
+		ui->tabWidgetSearch->setTabsClosable(true);
 
 	// Set up the navigation toolbar
 	quazaaSettings.loadWindowSettings(this);
@@ -111,8 +111,8 @@ MainWindow::MainWindow(QWidget *parent)
 	actionGroupMainNavigation->addAction(ui->actionPacketDump);
 	actionGroupMainNavigation->addAction(ui->actionSearchMonitor);
 	actionGroupMainNavigation->addAction(ui->actionHitMonitor);
-	ui->stackedWidgetMain->setCurrentIndex(quazaaSettings.MainWindowActiveTab);
-	switch (quazaaSettings.MainWindowActiveTab)
+	ui->stackedWidgetMain->setCurrentIndex(quazaaSettings.WinMain.ActiveTab);
+	switch (quazaaSettings.WinMain.ActiveTab)
 	{
 		case 0:
 			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
@@ -153,7 +153,7 @@ MainWindow::MainWindow(QWidget *parent)
 		case 6:
 			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Network.png"));
 			ui->labelMainHeaderText->setText(tr("Network"));
-			ui->frameMainHeader->setStyleSheet(skinSettings.networkHeader);
+			ui->frameMainHeader->setStyleSheet(skinSettings.activityHeader);
 			ui->actionNetwork->setChecked(true);
 			break;
 		case 7:
@@ -212,32 +212,32 @@ MainWindow::MainWindow(QWidget *parent)
 			break;
 	}
 	ui->toolButtonLibraryWebServices->setVisible(false);
-	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.MainWindowChatFriendsTaskVisible);
-	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.MainWindowChatRoomsTaskVisible);
-	ui->splitterGraph->restoreState(quazaaSettings.MainWindowGraphSplitter);
-	ui->lineEditWelcomeSearch->setText(quazaaSettings.MainWindowHomeSearchString);
-	ui->toolButtonHomeConnectionTaskHeader->setChecked(quazaaSettings.MainWindowHomeConnectionTaskVisible);
-	ui->toolButtonHomeTransfersTaskDownloadsHeader->setChecked(quazaaSettings.MainWindowHomeDownloadsTaskVisible);
-	ui->toolButtonHomeLibraryTaskHeader->setChecked(quazaaSettings.MainWindowHomeLibraryTaskVisible);
-	ui->lineEditWelcomeSearch->setText(quazaaSettings.MainWindowHomeSearchString);
-	ui->toolButtonHomeTorrentsTaskHeader->setChecked(quazaaSettings.MainWindowHomeTorrentsTaskVisible);
-	ui->toolButtonHomeTransfersTaskUploadsHeader->setChecked(quazaaSettings.MainWindowHomeUploadsTaskVisible);
-	ui->splitterHostCache->restoreState(quazaaSettings.MainWindowHostCacheSplitter);
-	ui->splitterLibraryDetails->restoreState(quazaaSettings.MainWindowLibraryDetailsSplitter);
-	ui->toolButtonLibraryDetailsToggle->setChecked(quazaaSettings.MainWindowLibraryDetailsVisible);
-	ui->tabWidgetLibraryNavigator->setCurrentIndex(quazaaSettings.MainWindowLibraryNavigatorTab);
-	ui->splitterLibrary->restoreState(quazaaSettings.MainWindowLibrarySplitter);
-	ui->actionMediaPlaylistToggle->setChecked(quazaaSettings.MainWindowMediaPlaylistVisible);
-	ui->splitterMediaPlaylist->restoreState(quazaaSettings.MainWindowMediaSplitter);
-	ui->splitterNetwork->restoreState(quazaaSettings.MainWindowNetworkSplitter);
-	ui->splitterSearchDetails->restoreState(quazaaSettings.MainWindowSearchDetailsSplitter);
-	ui->actionSeachDetailsToggle->setChecked(quazaaSettings.MainWindowSearchDetailsVisible);
-	ui->toolButtonSearchFiletypeTaskHeader->setChecked(quazaaSettings.MainWindowSearchFileTypeTaskVisible);
-	ui->toolButtonSearchNetworksTaskHeader->setChecked(quazaaSettings.MainWindowSearchNetworksTaskVisible);
-	ui->toolButtonSearchResultsTaskHeader->setChecked(quazaaSettings.MainWindowSearchResultsTaskVisible);
-	ui->actionSearchToggle->setChecked(quazaaSettings.MainWindowSearchSidebarVisible);
-	ui->toolButtonSearchTaskHeader->setChecked(quazaaSettings.MainWindowSearchTaskVisible);
-	ui->splitterTransfers->restoreState(quazaaSettings.MainWindowTransfersSplitter);
+	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
+	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
+	ui->splitterGraph->restoreState(quazaaSettings.WinMain.GraphSplitter);
+	ui->lineEditWelcomeSearch->setText(quazaaSettings.WinMain.HomeSearchString);
+	ui->toolButtonHomeConnectionTaskHeader->setChecked(quazaaSettings.WinMain.HomeConnectionTaskVisible);
+	ui->toolButtonHomeTransfersTaskDownloadsHeader->setChecked(quazaaSettings.WinMain.HomeDownloadsTaskVisible);
+	ui->toolButtonHomeLibraryTaskHeader->setChecked(quazaaSettings.WinMain.HomeLibraryTaskVisible);
+	ui->lineEditWelcomeSearch->setText(quazaaSettings.WinMain.HomeSearchString);
+	ui->toolButtonHomeTorrentsTaskHeader->setChecked(quazaaSettings.WinMain.HomeTorrentsTaskVisible);
+	ui->toolButtonHomeTransfersTaskUploadsHeader->setChecked(quazaaSettings.WinMain.HomeUploadsTaskVisible);
+	ui->splitterHostCache->restoreState(quazaaSettings.WinMain.HostCacheSplitter);
+	ui->splitterLibraryDetails->restoreState(quazaaSettings.WinMain.LibraryDetailsSplitter);
+	ui->toolButtonLibraryDetailsToggle->setChecked(quazaaSettings.WinMain.LibraryDetailsVisible);
+	ui->tabWidgetLibraryNavigator->setCurrentIndex(quazaaSettings.WinMain.LibraryNavigatorTab);
+	ui->splitterLibrary->restoreState(quazaaSettings.WinMain.LibrarySplitter);
+	ui->actionMediaPlaylistToggle->setChecked(quazaaSettings.WinMain.MediaPlaylistVisible);
+	ui->splitterMediaPlaylist->restoreState(quazaaSettings.WinMain.MediaSplitter);
+	//ui->splitterActivity->restoreState(quazaaSettings.WinMain.ActivitySplitter);
+	ui->splitterSearchDetails->restoreState(quazaaSettings.WinMain.SearchDetailsSplitter);
+	ui->actionSeachDetailsToggle->setChecked(quazaaSettings.WinMain.SearchDetailsVisible);
+	ui->toolButtonSearchFiletypeTaskHeader->setChecked(quazaaSettings.WinMain.SearchFileTypeTaskVisible);
+	ui->toolButtonSearchNetworksTaskHeader->setChecked(quazaaSettings.WinMain.SearchNetworksTaskVisible);
+	ui->toolButtonSearchResultsTaskHeader->setChecked(quazaaSettings.WinMain.SearchResultsTaskVisible);
+	ui->actionSearchToggle->setChecked(quazaaSettings.WinMain.SearchSidebarVisible);
+	ui->toolButtonSearchTaskHeader->setChecked(quazaaSettings.WinMain.SearchTaskVisible);
+	ui->splitterTransfers->restoreState(quazaaSettings.WinMain.TransfersSplitter);
 	interfaceLoaded = true;
 
 	//Load profile
@@ -277,21 +277,20 @@ MainWindow::MainWindow(QWidget *parent)
 									 ui->toolButtonMediaPlaylistClear,ui->toolButtonMediaPlaylistOpenPlaylist,
 									 ui->toolButtonMediaPlaylistAddPlaylist,
 									 ui->toolButtonMediaPlaylistSavePlaylist, this);
-	ui->actionMediaRepeat->setChecked(quazaaSettings.MediaRepeat);
-	ui->actionMediaShuffle->setChecked(quazaaSettings.MediaShuffle);
+	ui->actionMediaRepeat->setChecked(quazaaSettings.Media.Repeat);
+	ui->actionMediaShuffle->setChecked(quazaaSettings.Media.Shuffle);
 
 	//Load the networks
 	dlgSplash->updateProgress(25, tr("Loading Networks..."));
 	qApp->processEvents();
-	ui->actionAres->setChecked(quazaaSettings.AresEnable);
-	ui->actionEDonkey->setChecked(quazaaSettings.EDonkeyEnable);
-	ui->actionGnutella1->setChecked(quazaaSettings.Gnutella1Enable);
-	ui->actionGnutella2->setChecked(quazaaSettings.Gnutella2Enable);
+	ui->actionAres->setChecked(quazaaSettings.Ares.Enable);
+	ui->actionEDonkey->setChecked(quazaaSettings.EDonkey.Enable);
+	ui->actionGnutella2->setChecked(quazaaSettings.Gnutella2.Enable);
         //G2
         dlgSplash->updateProgress(25, tr("Loading Networks: G2..."));
         qApp->processEvents();
-        if( quazaaSettings.Gnutella2Enable )
-            Network.Connect();
+		if( quazaaSettings.Gnutella2.Enable )
+		Network.Connect();
 
         neighboursList = new CNeighboursTableModel(this);
         ui->tableView->setModel(neighboursList);
@@ -329,7 +328,7 @@ MainWindow::MainWindow(QWidget *parent)
 	trayIcon->show();
 	dlgSplash->updateProgress(100, tr("Welcome to Quazaa!"));
 	qApp->processEvents();
-        dlgSplash->close();
+	dlgSplash->close();
 }
 
 MainWindow::~MainWindow()
@@ -344,7 +343,7 @@ bool MainWindow::event(QEvent *e)
 	{
 		if(!bypassCloseEvent)
 		{
-			if (quazaaSettings.BasicCloseMode == 0)
+			if (quazaaSettings.Basic.CloseMode == 0)
 			{
 
 				QSkinDialog *dlgSkinCloseType = new QSkinDialog(false, false, false);
@@ -356,7 +355,7 @@ bool MainWindow::event(QEvent *e)
 				dlgSkinCloseType->exec();
 			}
 
-			switch (quazaaSettings.BasicCloseMode)
+			switch (quazaaSettings.Basic.CloseMode)
 			{
 				case 1:
 					quazaaShutdown();
@@ -431,7 +430,7 @@ void MainWindow::changeEvent(QEvent *e)
 				case 6:
 					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Network.png"));
 					ui->labelMainHeaderText->setText(tr("Network"));
-					ui->frameMainHeader->setStyleSheet(skinSettings.networkHeader);
+					ui->frameMainHeader->setStyleSheet(skinSettings.activityHeader);
 					ui->actionNetwork->setChecked(true);
 					break;
 				case 7:
@@ -507,32 +506,32 @@ void MainWindow::quazaaShutdown()
 	quazaaSettings.saveSettings();
 
 	dlgSplash->updateProgress(10, tr("Saving UI..."));
-	quazaaSettings.MainWindowChatFriendsTaskVisible = ui->toolButtonChatFriendsHeader->isChecked();
-	quazaaSettings.MainWindowChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
-	quazaaSettings.MainWindowGraphSplitter = ui->splitterGraph->saveState();
-	quazaaSettings.MainWindowHomeSearchString = ui->lineEditWelcomeSearch->text();
-	quazaaSettings.MainWindowHomeConnectionTaskVisible = ui->toolButtonHomeConnectionTaskHeader->isChecked();
-	quazaaSettings.MainWindowHomeDownloadsTaskVisible = ui->toolButtonHomeTransfersTaskDownloadsHeader->isChecked();
-	quazaaSettings.MainWindowHomeLibraryTaskVisible = ui->toolButtonHomeLibraryTaskHeader->isChecked();
-	quazaaSettings.MainWindowHomeSearchString = ui->lineEditWelcomeSearch->text();
-	quazaaSettings.MainWindowHomeTorrentsTaskVisible = ui->toolButtonHomeTorrentsTaskHeader->isChecked();
-	quazaaSettings.MainWindowHomeUploadsTaskVisible = ui->toolButtonHomeTransfersTaskUploadsHeader->isChecked();
-	quazaaSettings.MainWindowHostCacheSplitter = ui->splitterHostCache->saveState();
-	quazaaSettings.MainWindowLibraryDetailsSplitter = ui->splitterLibraryDetails->saveState();
-	quazaaSettings.MainWindowLibraryDetailsVisible = ui->toolButtonLibraryDetailsToggle->isChecked();
-	quazaaSettings.MainWindowLibraryNavigatorTab = ui->tabWidgetLibraryNavigator->currentIndex();
-	quazaaSettings.MainWindowLibrarySplitter = ui->splitterLibrary->saveState();
-	quazaaSettings.MainWindowMediaPlaylistVisible = ui->actionMediaPlaylistToggle->isChecked();
-	quazaaSettings.MainWindowMediaSplitter = ui->splitterMediaPlaylist->saveState();
-	quazaaSettings.MainWindowNetworkSplitter = ui->splitterNetwork->saveState();
-	quazaaSettings.MainWindowSearchDetailsSplitter = ui->splitterSearchDetails->saveState();
-	quazaaSettings.MainWindowSearchDetailsVisible = ui->actionSeachDetailsToggle->isChecked();
-	quazaaSettings.MainWindowSearchFileTypeTaskVisible = ui->toolButtonSearchFiletypeTaskHeader->isChecked();
-	quazaaSettings.MainWindowSearchNetworksTaskVisible = ui->toolButtonSearchNetworksTaskHeader->isChecked();
-	quazaaSettings.MainWindowSearchResultsTaskVisible = ui->toolButtonSearchResultsTaskHeader->isChecked();
-	quazaaSettings.MainWindowSearchSidebarVisible = ui->actionSearchToggle->isChecked();
-	quazaaSettings.MainWindowSearchTaskVisible = ui->toolButtonSearchTaskHeader->isChecked();
-	quazaaSettings.MainWindowTransfersSplitter = ui->splitterTransfers->saveState();
+	quazaaSettings.WinMain.ChatFriendsTaskVisible = ui->toolButtonChatFriendsHeader->isChecked();
+	quazaaSettings.WinMain.ChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
+	quazaaSettings.WinMain.GraphSplitter = ui->splitterGraph->saveState();
+	quazaaSettings.WinMain.HomeSearchString = ui->lineEditWelcomeSearch->text();
+	quazaaSettings.WinMain.HomeConnectionTaskVisible = ui->toolButtonHomeConnectionTaskHeader->isChecked();
+	quazaaSettings.WinMain.HomeDownloadsTaskVisible = ui->toolButtonHomeTransfersTaskDownloadsHeader->isChecked();
+	quazaaSettings.WinMain.HomeLibraryTaskVisible = ui->toolButtonHomeLibraryTaskHeader->isChecked();
+	quazaaSettings.WinMain.HomeSearchString = ui->lineEditWelcomeSearch->text();
+	quazaaSettings.WinMain.HomeTorrentsTaskVisible = ui->toolButtonHomeTorrentsTaskHeader->isChecked();
+	quazaaSettings.WinMain.HomeUploadsTaskVisible = ui->toolButtonHomeTransfersTaskUploadsHeader->isChecked();
+	quazaaSettings.WinMain.HostCacheSplitter = ui->splitterHostCache->saveState();
+	quazaaSettings.WinMain.LibraryDetailsSplitter = ui->splitterLibraryDetails->saveState();
+	quazaaSettings.WinMain.LibraryDetailsVisible = ui->toolButtonLibraryDetailsToggle->isChecked();
+	quazaaSettings.WinMain.LibraryNavigatorTab = ui->tabWidgetLibraryNavigator->currentIndex();
+	quazaaSettings.WinMain.LibrarySplitter = ui->splitterLibrary->saveState();
+	quazaaSettings.WinMain.MediaPlaylistVisible = ui->actionMediaPlaylistToggle->isChecked();
+	quazaaSettings.WinMain.MediaSplitter = ui->splitterMediaPlaylist->saveState();
+	//quazaaSettings.WinMain.ActivitySplitter = ui->splitterActivity->saveState();
+	quazaaSettings.WinMain.SearchDetailsSplitter = ui->splitterSearchDetails->saveState();
+	quazaaSettings.WinMain.SearchDetailsVisible = ui->actionSeachDetailsToggle->isChecked();
+	quazaaSettings.WinMain.SearchFileTypeTaskVisible = ui->toolButtonSearchFiletypeTaskHeader->isChecked();
+	quazaaSettings.WinMain.SearchNetworksTaskVisible = ui->toolButtonSearchNetworksTaskHeader->isChecked();
+	quazaaSettings.WinMain.SearchResultsTaskVisible = ui->toolButtonSearchResultsTaskHeader->isChecked();
+	quazaaSettings.WinMain.SearchSidebarVisible = ui->actionSearchToggle->isChecked();
+	quazaaSettings.WinMain.SearchTaskVisible = ui->toolButtonSearchTaskHeader->isChecked();
+	quazaaSettings.WinMain.TransfersSplitter = ui->splitterTransfers->saveState();
 	quazaaSettings.saveWindowSettings(this);
 
 	dlgSplash->updateProgress(15, tr("Removing Tray Icon..."));
@@ -548,7 +547,7 @@ void MainWindow::on_actionHome_triggered()
 	ui->labelMainHeaderText->setText(tr("Quazaa Home"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.homeHeader);
 	ui->stackedWidgetMain->setCurrentIndex(0);
-	quazaaSettings.MainWindowActiveTab = 0;
+	quazaaSettings.WinMain.ActiveTab = 0;
 }
 
 void MainWindow::on_actionLibrary_triggered()
@@ -557,7 +556,7 @@ void MainWindow::on_actionLibrary_triggered()
 	ui->labelMainHeaderText->setText(tr("Library"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.libraryHeader);
 	ui->stackedWidgetMain->setCurrentIndex(1);
-	quazaaSettings.MainWindowActiveTab = 1;
+	quazaaSettings.WinMain.ActiveTab = 1;
 }
 
 void MainWindow::on_actionMedia_triggered()
@@ -566,7 +565,7 @@ void MainWindow::on_actionMedia_triggered()
 	ui->labelMainHeaderText->setText(tr("Media"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.mediaHeader);
 	ui->stackedWidgetMain->setCurrentIndex(2);
-	quazaaSettings.MainWindowActiveTab = 2;
+	quazaaSettings.WinMain.ActiveTab = 2;
 }
 
 void MainWindow::on_actionSearch_triggered()
@@ -575,7 +574,7 @@ void MainWindow::on_actionSearch_triggered()
 	ui->labelMainHeaderText->setText(tr("Search"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.searchHeader);
 	ui->stackedWidgetMain->setCurrentIndex(3);
-	quazaaSettings.MainWindowActiveTab = 3;
+	quazaaSettings.WinMain.ActiveTab = 3;
 }
 
 void MainWindow::on_actionTransfers_triggered()
@@ -584,7 +583,7 @@ void MainWindow::on_actionTransfers_triggered()
 	ui->labelMainHeaderText->setText(tr("Transfers"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.transfersHeader);
 	ui->stackedWidgetMain->setCurrentIndex(4);
-	quazaaSettings.MainWindowActiveTab = 4;
+	quazaaSettings.WinMain.ActiveTab = 4;
 }
 
 void MainWindow::on_actionSecurity_triggered()
@@ -593,16 +592,16 @@ void MainWindow::on_actionSecurity_triggered()
 	ui->labelMainHeaderText->setText(tr("Security"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.securityHeader);
 	ui->stackedWidgetMain->setCurrentIndex(5);
-	quazaaSettings.MainWindowActiveTab = 5;
+	quazaaSettings.WinMain.ActiveTab = 5;
 }
 
 void MainWindow::on_actionNetwork_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Network.png"));
 	ui->labelMainHeaderText->setText(tr("Network"));
-	ui->frameMainHeader->setStyleSheet(skinSettings.networkHeader);
+	ui->frameMainHeader->setStyleSheet(skinSettings.activityHeader);
 	ui->stackedWidgetMain->setCurrentIndex(6);
-	quazaaSettings.MainWindowActiveTab = 6;
+	quazaaSettings.WinMain.ActiveTab = 6;
 }
 
 void MainWindow::on_actionChat_triggered()
@@ -611,7 +610,7 @@ void MainWindow::on_actionChat_triggered()
 	ui->labelMainHeaderText->setText(tr("Chat"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.chatHeader);
 	ui->stackedWidgetMain->setCurrentIndex(7);
-	quazaaSettings.MainWindowActiveTab = 7;
+	quazaaSettings.WinMain.ActiveTab = 7;
 }
 
 void MainWindow::on_actionHostCache_triggered()
@@ -620,7 +619,7 @@ void MainWindow::on_actionHostCache_triggered()
 	ui->labelMainHeaderText->setText(tr("Host Cache"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(8);
-	quazaaSettings.MainWindowActiveTab = 8;
+	quazaaSettings.WinMain.ActiveTab = 8;
 }
 
 void MainWindow::on_actionDiscovery_triggered()
@@ -629,7 +628,7 @@ void MainWindow::on_actionDiscovery_triggered()
 	ui->labelMainHeaderText->setText(tr("Discovery"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(9);
-	quazaaSettings.MainWindowActiveTab = 9;
+	quazaaSettings.WinMain.ActiveTab = 9;
 }
 
 void MainWindow::on_actionScheduler_triggered()
@@ -638,7 +637,7 @@ void MainWindow::on_actionScheduler_triggered()
 	ui->labelMainHeaderText->setText(tr("Scheduler"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(10);
-	quazaaSettings.MainWindowActiveTab = 10;
+	quazaaSettings.WinMain.ActiveTab = 10;
 }
 
 void MainWindow::on_actionGraph_triggered()
@@ -647,7 +646,7 @@ void MainWindow::on_actionGraph_triggered()
 	ui->labelMainHeaderText->setText(tr("Graph"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(11);
-	quazaaSettings.MainWindowActiveTab = 11;
+	quazaaSettings.WinMain.ActiveTab = 11;
 }
 
 void MainWindow::on_actionPacketDump_triggered()
@@ -656,7 +655,7 @@ void MainWindow::on_actionPacketDump_triggered()
 	ui->labelMainHeaderText->setText(tr("Packet Dump"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(12);
-	quazaaSettings.MainWindowActiveTab = 12;
+	quazaaSettings.WinMain.ActiveTab = 12;
 }
 
 void MainWindow::on_actionSearchMonitor_triggered()
@@ -665,7 +664,7 @@ void MainWindow::on_actionSearchMonitor_triggered()
 	ui->labelMainHeaderText->setText(tr("Search Monitor"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(13);
-	quazaaSettings.MainWindowActiveTab = 13;
+	quazaaSettings.WinMain.ActiveTab = 13;
 }
 
 void MainWindow::on_actionHitMonitor_triggered()
@@ -674,7 +673,7 @@ void MainWindow::on_actionHitMonitor_triggered()
 	ui->labelMainHeaderText->setText(tr("Hit Monitor"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(14);
-	quazaaSettings.MainWindowActiveTab = 14;
+	quazaaSettings.WinMain.ActiveTab = 14;
 }
 
 void MainWindow::icon_activated(QSystemTrayIcon::ActivationReason reason)
@@ -768,7 +767,7 @@ void MainWindow::on_actionShares_triggered()
 
 void MainWindow::on_actionOpenDownloadFolder_triggered()
 {
-	Functions.FolderOpen(quazaaSettings.DownloadsCompletePath);
+	Functions.FolderOpen(quazaaSettings.Downloads.CompletePath);
 }
 
 void MainWindow::on_actionURLDownload_triggered()
@@ -919,32 +918,27 @@ void MainWindow::on_toolButtonHitMonitorFilter_clicked()
 
 void MainWindow::on_actionMediaRepeat_toggled(bool checked)
 {
-	quazaaSettings.MediaRepeat = checked;
+	quazaaSettings.Media.Repeat = checked;
 }
 
 void MainWindow::on_actionMediaShuffle_triggered(bool checked)
 {
-	quazaaSettings.MediaShuffle = checked;
+	quazaaSettings.Media.Shuffle = checked;
 }
 
 void MainWindow::on_actionEDonkey_triggered(bool checked)
 {
-	quazaaSettings.EDonkeyEnable = checked;
-}
-
-void MainWindow::on_actionGnutella1_triggered(bool checked)
-{
-	quazaaSettings.Gnutella1Enable = checked;
+	quazaaSettings.EDonkey.Enable = checked;
 }
 
 void MainWindow::on_actionGnutella2_triggered(bool checked)
 {
-	quazaaSettings.Gnutella2Enable = checked;
+	quazaaSettings.Gnutella2.Enable = checked;
 }
 
 void MainWindow::on_actionAres_triggered(bool checked)
 {
-	quazaaSettings.AresEnable = checked;
+	quazaaSettings.Ares.Enable = checked;
 }
 
 void MainWindow::on_toolButtonNewSearch_clicked()
@@ -973,7 +967,7 @@ void MainWindow::on_tableWidgetMediaPlaylistTask_doubleClicked(QModelIndex index
 
 void MainWindow::on_actionMediaRepeat_triggered(bool checked)
 {
-	quazaaSettings.MediaRepeat = checked;
+	quazaaSettings.Media.Repeat = checked;
 }
 
 void MainWindow::clearPlaylist()
@@ -1006,7 +1000,7 @@ void MainWindow::skinChangeEvent()
 			ui->frameMainHeader->setStyleSheet(skinSettings.securityHeader);
 			break;
 		case 6:
-			ui->frameMainHeader->setStyleSheet(skinSettings.networkHeader);
+			ui->frameMainHeader->setStyleSheet(skinSettings.activityHeader);
 			break;
 		case 7:
 			ui->frameMainHeader->setStyleSheet(skinSettings.chatHeader);
@@ -1099,19 +1093,7 @@ void MainWindow::on_actionMediaOpen_triggered()
 
 void MainWindow::on_volumeSlider_valueChanged(int value)
 {
-	quazaaSettings.MediaVolume = value;
-}
-
-void MainWindow::render(QPaintDevice * target, const QPoint & targetOffset, const QRegion & sourceRegion, RenderFlags renderFlags)
-{
-	renderFlags = RenderFlags( QWidget::DrawWindowBackground | QWidget::DrawChildren | QWidget::IgnoreMask);
-	render(target, targetOffset, sourceRegion, renderFlags);
-}
-
-void MainWindow::render(QPainter * painter, const QPoint & targetOffset, const QRegion & sourceRegion, RenderFlags renderFlags)
-{
-	renderFlags = RenderFlags( QWidget::DrawWindowBackground | QWidget::DrawChildren | QWidget::IgnoreMask);
-	render(painter, targetOffset, sourceRegion, renderFlags);
+	quazaaSettings.Media.Volume = value;
 }
 
 void MainWindow::on_actionQuazaaForums_triggered()

@@ -26,7 +26,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolBarServices">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -50,7 +50,7 @@
    <addaction name="actionAresDiscoveryType"/>
    <addaction name="actionEDonkeyServerMet"/>
   </widget>
-  <widget class="QToolBar" name="toolBar_2">
+  <widget class="QToolBar" name="toolBarControls">
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
@@ -75,7 +75,7 @@
    <addaction name="actionDiscoveryQueryNow"/>
    <addaction name="actionDiscoveryAdvertise"/>
   </widget>
-  <widget class="QToolBar" name="toolBar_3">
+  <widget class="QToolBar" name="toolBarProperties">
    <property name="windowTitle">
     <string>toolBar_3</string>
    </property>

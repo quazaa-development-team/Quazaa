@@ -30,7 +30,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolBarControls">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -55,7 +55,7 @@
    <addaction name="actionSecurityImportRules"/>
    <addaction name="actionSecurityExportRules"/>
   </widget>
-  <widget class="QToolBar" name="toolBar_2">
+  <widget class="QToolBar" name="toolBarSubscribe">
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>

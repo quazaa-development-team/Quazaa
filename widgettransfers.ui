@@ -14,7 +14,7 @@
    <string>Transfers</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset>
     <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -25,7 +25,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QSplitter" name="splitter">
+    <widget class="QSplitter" name="splitterTransfers">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -65,7 +65,7 @@
           <string>Downloads</string>
          </property>
          <property name="icon">
-          <iconset resource="Resource.qrc">
+          <iconset>
            <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
          </property>
          <property name="iconSize">
@@ -120,7 +120,7 @@
           <string>Uploads</string>
          </property>
          <property name="icon">
-          <iconset resource="Resource.qrc">
+          <iconset>
            <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
          </property>
          <property name="iconSize">
@@ -149,8 +149,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

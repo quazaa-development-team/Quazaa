@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetLibraryView *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETLIBRARYVIEW_H

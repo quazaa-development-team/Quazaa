@@ -1,11 +1,20 @@
 #include "widgetsearch.h"
 #include "ui_widgetsearch.h"
 
+#include "quazaasettings.h"
+#include "QSkinDialog/qskinsettings.h"
+
 WidgetSearch::WidgetSearch(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetSearch)
 {
     ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
+	ui->toolButtonSearchFiletypeTaskHeader->setChecked(quazaaSettings.WinMain.SearchFileTypeTaskVisible);
+	ui->toolButtonSearchNetworksTaskHeader->setChecked(quazaaSettings.WinMain.SearchNetworksTaskVisible);
+	ui->toolButtonSearchResultsTaskHeader->setChecked(quazaaSettings.WinMain.SearchResultsTaskVisible);
+	ui->toolButtonSearchTaskHeader->setChecked(quazaaSettings.WinMain.SearchTaskVisible);
 	panelSearchResults = new WidgetSearchResults();
 	ui->verticalLayoutSearchResults->addWidget(panelSearchResults);
 }
@@ -13,6 +22,10 @@ WidgetSearch::WidgetSearch(QWidget *parent) :
 WidgetSearch::~WidgetSearch()
 {
     delete ui;
+	quazaaSettings.WinMain.SearchFileTypeTaskVisible = ui->toolButtonSearchFiletypeTaskHeader->isChecked();
+	quazaaSettings.WinMain.SearchNetworksTaskVisible = ui->toolButtonSearchNetworksTaskHeader->isChecked();
+	quazaaSettings.WinMain.SearchResultsTaskVisible = ui->toolButtonSearchResultsTaskHeader->isChecked();
+	quazaaSettings.WinMain.SearchTaskVisible = ui->toolButtonSearchTaskHeader->isChecked();
 }
 
 void WidgetSearch::changeEvent(QEvent *e)
@@ -25,4 +38,18 @@ void WidgetSearch::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WidgetSearch::skinChangeEvent()
+{
+	ui->frameSearchTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameSearchNetworksTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameSearchResultsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameSearchFiletypeTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->scrollAreaSearchSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->toolButtonSearchFiletypeTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonSearchNetworksTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonSearchResultsTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonSearchTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonNewSearch->setStyleSheet(skinSettings.addSearchButton);
 }

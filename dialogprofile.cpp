@@ -34,52 +34,52 @@ DialogProfile::DialogProfile(QWidget *parent) :
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	m_ui->pagesProfile->setCurrentIndex(0);
-	m_ui->lineEditGnutellaSceenName->setText(quazaaSettings.ProfileGnutellaScreenName);
-	m_ui->lineEditNickname->setText(quazaaSettings.ProfileIrcNickname);
-	m_ui->lineEditAltNickname->setText(quazaaSettings.ProfileIrcAlternateNickname);
-	m_ui->lineEditUserName->setText(quazaaSettings.ProfileIrcUserName);
-	m_ui->lineEditRealName->setText(quazaaSettings.ProfileRealName);
-	m_ui->comboBoxGender->setCurrentIndex(quazaaSettings.ProfileGender);
-	m_ui->spinBoxAge->setValue(quazaaSettings.ProfileAge);
-	m_ui->checkBoxAllowBrowse->setChecked(quazaaSettings.SecurityAllowProfileBrowse);
-	m_ui->lineEditEmail->setText(quazaaSettings.ProfileEmail);
-	m_ui->lineEditMSN->setText(quazaaSettings.ProfileMSNPassport);
-	m_ui->lineEditYahoo->setText(quazaaSettings.ProfileYahooID);
-	m_ui->lineEditICQ->setText(quazaaSettings.ProfileICQuin);
-	m_ui->lineEditAOL->setText(quazaaSettings.ProfileAolScreenName);
-	m_ui->lineEditJabber->setText(quazaaSettings.ProfileJabberID);
-	m_ui->lineEditMySpace->setText(quazaaSettings.ProfileMyspaceProfile);
-	m_ui->lineEditCountry->setText(quazaaSettings.ProfileCountry);
-	m_ui->lineEditStateProvince->setText(quazaaSettings.ProfileStateProvince);
-	m_ui->lineEditCity->setText(quazaaSettings.ProfileCity);
-	m_ui->lineEditLatitude->setText(quazaaSettings.ProfileLatitude);
-	m_ui->lineEditLonitude->setText(quazaaSettings.ProfileLongitude);
-	m_ui->listWidgetInterests->addItems(quazaaSettings.ProfileInterests);
-	m_ui->plainTextEditBio->setPlainText(quazaaSettings.ProfileBiography);
-	if (quazaaSettings.ProfileAvatarPath == ":/Chat/Graphics/Chat/DefaultAvatar.png")
+	m_ui->lineEditGnutellaSceenName->setText(quazaaSettings.Profile.GnutellaScreenName);
+	m_ui->lineEditNickname->setText(quazaaSettings.Profile.IrcNickname);
+	m_ui->lineEditAltNickname->setText(quazaaSettings.Profile.IrcAlternateNickname);
+	m_ui->lineEditUserName->setText(quazaaSettings.Profile.IrcUserName);
+	m_ui->lineEditRealName->setText(quazaaSettings.Profile.RealName);
+	m_ui->comboBoxGender->setCurrentIndex(quazaaSettings.Profile.Gender);
+	m_ui->spinBoxAge->setValue(quazaaSettings.Profile.Age);
+	m_ui->checkBoxAllowBrowse->setChecked(quazaaSettings.Security.AllowProfileBrowse);
+	m_ui->lineEditEmail->setText(quazaaSettings.Profile.Email);
+	m_ui->lineEditMSN->setText(quazaaSettings.Profile.MSNPassport);
+	m_ui->lineEditYahoo->setText(quazaaSettings.Profile.YahooID);
+	m_ui->lineEditICQ->setText(quazaaSettings.Profile.ICQuin);
+	m_ui->lineEditAOL->setText(quazaaSettings.Profile.AolScreenName);
+	m_ui->lineEditJabber->setText(quazaaSettings.Profile.JabberID);
+	m_ui->lineEditMySpace->setText(quazaaSettings.Profile.MyspaceProfile);
+	m_ui->lineEditCountry->setText(quazaaSettings.Profile.Country);
+	m_ui->lineEditStateProvince->setText(quazaaSettings.Profile.StateProvince);
+	m_ui->lineEditCity->setText(quazaaSettings.Profile.City);
+	m_ui->lineEditLatitude->setText(quazaaSettings.Profile.Latitude);
+	m_ui->lineEditLonitude->setText(quazaaSettings.Profile.Longitude);
+	m_ui->listWidgetInterests->addItems(quazaaSettings.Profile.Interests);
+	m_ui->plainTextEditBio->setPlainText(quazaaSettings.Profile.Biography);
+	if (quazaaSettings.Profile.AvatarPath == ":/Chat/Graphics/Chat/DefaultAvatar.png")
 	{
-		m_sTempAvatarFileName = quazaaSettings.ProfileAvatarPath;
+		m_sTempAvatarFileName = quazaaSettings.Profile.AvatarPath;
 		m_ui->labelAvatarPreview->setPixmap(m_sTempAvatarFileName);
 	} else {
 		QFile avatarExists;
-		avatarExists.setFileName(quazaaSettings.ProfileAvatarPath);
-		if(avatarExists.exists(quazaaSettings.ProfileAvatarPath)){
-			m_sTempAvatarFileName = quazaaSettings.ProfileAvatarPath;
+		avatarExists.setFileName(quazaaSettings.Profile.AvatarPath);
+		if(avatarExists.exists(quazaaSettings.Profile.AvatarPath)){
+			m_sTempAvatarFileName = quazaaSettings.Profile.AvatarPath;
 			m_ui->labelAvatarPreview->setPixmap(m_sTempAvatarFileName);
 		} else {
-			quazaaSettings.ProfileAvatarPath = ":/Resource/Chat/DefaultAvatar.png";
-			m_sTempAvatarFileName = quazaaSettings.ProfileAvatarPath;
+			quazaaSettings.Profile.AvatarPath = ":/Resource/Chat/DefaultAvatar.png";
+			m_sTempAvatarFileName = quazaaSettings.Profile.AvatarPath;
 			m_ui->labelAvatarPreview->setPixmap(m_sTempAvatarFileName);
 		}
 	}
-	for (int m_iFavoritesIndex = 0; m_iFavoritesIndex < quazaaSettings.ProfileFavorites.size(); ++m_iFavoritesIndex)
+	for (int m_iFavoritesIndex = 0; m_iFavoritesIndex < quazaaSettings.Profile.Favorites.size(); ++m_iFavoritesIndex)
 	{
 		QTreeWidgetItem *m_qTreeWidgetItem = new QTreeWidgetItem();
-		m_qTreeWidgetItem->setText(0, quazaaSettings.ProfileFavorites.at(m_iFavoritesIndex));
-		m_qTreeWidgetItem->setText(1, quazaaSettings.ProfileFavoritesURL.at(m_iFavoritesIndex));
+		m_qTreeWidgetItem->setText(0, quazaaSettings.Profile.Favorites.at(m_iFavoritesIndex));
+		m_qTreeWidgetItem->setText(1, quazaaSettings.Profile.FavoritesURL.at(m_iFavoritesIndex));
 		m_ui->treeWidgetFavorites->addTopLevelItem(m_qTreeWidgetItem);
 	}
-	m_ui->labelGUID->setText(quazaaSettings.ProfileGUID);
+	m_ui->labelGUID->setText(quazaaSettings.Profile.GUID);
 	m_ui->pushButtonApply->setEnabled(false);
 }
 
@@ -157,44 +157,44 @@ void DialogProfile::on_lineEditGnutellaSceenName_textEdited(QString )
 
 void DialogProfile::on_pushButtonApply_clicked()
 {
-	quazaaSettings.ProfileGnutellaScreenName = m_ui->lineEditGnutellaSceenName->text();
-	quazaaSettings.ProfileIrcNickname = m_ui->lineEditNickname->text();
-	quazaaSettings.ProfileIrcAlternateNickname = m_ui->lineEditAltNickname->text();
-	quazaaSettings.ProfileIrcUserName = m_ui->lineEditUserName->text();
-	quazaaSettings.ProfileRealName = m_ui->lineEditRealName->text();
-	quazaaSettings.ProfileGender = m_ui->comboBoxGender->currentIndex();
-	quazaaSettings.ProfileAge = m_ui->spinBoxAge->value();
-	quazaaSettings.SecurityAllowProfileBrowse = m_ui->checkBoxAllowBrowse->isChecked();
-	quazaaSettings.ProfileEmail = m_ui->lineEditEmail->text();
-	quazaaSettings.ProfileMSNPassport = m_ui->lineEditMSN->text();
-	quazaaSettings.ProfileYahooID = m_ui->lineEditYahoo->text();
-	quazaaSettings.ProfileICQuin = m_ui->lineEditICQ->text();
-	quazaaSettings.ProfileAolScreenName = m_ui->lineEditAOL->text();
-	quazaaSettings.ProfileJabberID = m_ui->lineEditJabber->text();
-	quazaaSettings.ProfileMyspaceProfile = m_ui->lineEditMySpace->text();
-	quazaaSettings.ProfileCountry = m_ui->lineEditCountry->text();
-	quazaaSettings.ProfileStateProvince = m_ui->lineEditStateProvince->text();
-	quazaaSettings.ProfileCity = m_ui->lineEditCity->text();
-	quazaaSettings.ProfileInterests.clear();
+	quazaaSettings.Profile.GnutellaScreenName = m_ui->lineEditGnutellaSceenName->text();
+	quazaaSettings.Profile.IrcNickname = m_ui->lineEditNickname->text();
+	quazaaSettings.Profile.IrcAlternateNickname = m_ui->lineEditAltNickname->text();
+	quazaaSettings.Profile.IrcUserName = m_ui->lineEditUserName->text();
+	quazaaSettings.Profile.RealName = m_ui->lineEditRealName->text();
+	quazaaSettings.Profile.Gender = m_ui->comboBoxGender->currentIndex();
+	quazaaSettings.Profile.Age = m_ui->spinBoxAge->value();
+	quazaaSettings.Security.AllowProfileBrowse = m_ui->checkBoxAllowBrowse->isChecked();
+	quazaaSettings.Profile.Email = m_ui->lineEditEmail->text();
+	quazaaSettings.Profile.MSNPassport = m_ui->lineEditMSN->text();
+	quazaaSettings.Profile.YahooID = m_ui->lineEditYahoo->text();
+	quazaaSettings.Profile.ICQuin = m_ui->lineEditICQ->text();
+	quazaaSettings.Profile.AolScreenName = m_ui->lineEditAOL->text();
+	quazaaSettings.Profile.JabberID = m_ui->lineEditJabber->text();
+	quazaaSettings.Profile.MyspaceProfile = m_ui->lineEditMySpace->text();
+	quazaaSettings.Profile.Country = m_ui->lineEditCountry->text();
+	quazaaSettings.Profile.StateProvince = m_ui->lineEditStateProvince->text();
+	quazaaSettings.Profile.City = m_ui->lineEditCity->text();
+	quazaaSettings.Profile.Interests.clear();
 	for (int m_iInterestsRow = 0; m_iInterestsRow < m_ui->listWidgetInterests->count(); m_iInterestsRow++)
 	{
 		m_ui->listWidgetInterests->setCurrentRow(m_iInterestsRow);
-		quazaaSettings.ProfileInterests.append(m_ui->listWidgetInterests->currentItem()->text());
+		quazaaSettings.Profile.Interests.append(m_ui->listWidgetInterests->currentItem()->text());
 	}
-	quazaaSettings.ProfileInterests.removeDuplicates();
+	quazaaSettings.Profile.Interests.removeDuplicates();
 	m_ui->listWidgetInterests->clear();
-	m_ui->listWidgetInterests->addItems(quazaaSettings.ProfileInterests);
-	quazaaSettings.ProfileBiography = m_ui->plainTextEditBio->toPlainText();
-	quazaaSettings.ProfileAvatarPath = m_sTempAvatarFileName;
-	quazaaSettings.ProfileFavorites.clear();
-	quazaaSettings.ProfileFavoritesURL.clear();
+	m_ui->listWidgetInterests->addItems(quazaaSettings.Profile.Interests);
+	quazaaSettings.Profile.Biography = m_ui->plainTextEditBio->toPlainText();
+	quazaaSettings.Profile.AvatarPath = m_sTempAvatarFileName;
+	quazaaSettings.Profile.Favorites.clear();
+	quazaaSettings.Profile.FavoritesURL.clear();
 	for (int m_iFavorites = 0;m_iFavorites < m_ui->treeWidgetFavorites->topLevelItemCount(); ++m_iFavorites)
 	{
 		m_ui->treeWidgetFavorites->setCurrentItem(m_ui->treeWidgetFavorites->topLevelItem(m_iFavorites));
-		quazaaSettings.ProfileFavorites.append(m_ui->treeWidgetFavorites->currentItem()->text(0));
-		quazaaSettings.ProfileFavoritesURL.append(m_ui->treeWidgetFavorites->currentItem()->text(1));
+		quazaaSettings.Profile.Favorites.append(m_ui->treeWidgetFavorites->currentItem()->text(0));
+		quazaaSettings.Profile.FavoritesURL.append(m_ui->treeWidgetFavorites->currentItem()->text(1));
 	}
-	quazaaSettings.ProfileGUID = m_ui->labelGUID->text();
+	quazaaSettings.Profile.GUID = m_ui->labelGUID->text();
 	quazaaSettings.saveProfile();
 	m_ui->pushButtonApply->setEnabled(false);
 }

@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetSecurity *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETSECURITY_H

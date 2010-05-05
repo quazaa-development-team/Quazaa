@@ -20,6 +20,9 @@ protected:
 
 private:
     Ui::WidgetLibrary *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETLIBRARY_H

@@ -1,11 +1,17 @@
 #include "widgettransfers.h"
 #include "ui_widgettransfers.h"
 
+#include "quazaasettings.h"
+#include "QSkinDialog/qskinsettings.h"
+
 WidgetTransfers::WidgetTransfers(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetTransfers)
 {
     ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
+	ui->splitterTransfers->restoreState(quazaaSettings.WinMain.TransfersSplitter);
 	panelDownloads = new WidgetDownloads();
 	ui->verticalLayoutDownloads->addWidget(panelDownloads);
 	panelUploads = new WidgetUploads();
@@ -15,6 +21,7 @@ WidgetTransfers::WidgetTransfers(QWidget *parent) :
 WidgetTransfers::~WidgetTransfers()
 {
     delete ui;
+	quazaaSettings.WinMain.TransfersSplitter = ui->splitterTransfers->saveState();
 }
 
 void WidgetTransfers::changeEvent(QEvent *e)
@@ -27,4 +34,10 @@ void WidgetTransfers::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WidgetTransfers::skinChangeEvent()
+{
+	ui->toolButtonDownloadsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->toolButtonUploadsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 }

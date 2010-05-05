@@ -1,11 +1,14 @@
 #include "widgetdiscovery.h"
 #include "ui_widgetdiscovery.h"
+#include "QSkinDialog/qskinsettings.h"
 
 WidgetDiscovery::WidgetDiscovery(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::WidgetDiscovery)
 {
     ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 WidgetDiscovery::~WidgetDiscovery()
@@ -23,4 +26,11 @@ void WidgetDiscovery::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WidgetDiscovery::skinChangeEvent()
+{
+	ui->toolBarControls->setStyleSheet(skinSettings.toolbars);
+	ui->toolBarProperties->setStyleSheet(skinSettings.toolbars);
+	ui->toolBarServices->setStyleSheet(skinSettings.toolbars);
 }

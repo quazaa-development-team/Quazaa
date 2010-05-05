@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetSystemLog *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETSYSTEMLOG_H

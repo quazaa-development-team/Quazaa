@@ -1,6 +1,9 @@
 #include "widgetactivity.h"
 #include "ui_widgetactivity.h"
 
+#include "quazaasettings.h"
+#include "QSkinDialog/qskinsettings.h"
+
 WidgetActivity::WidgetActivity(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetActivity)
@@ -15,6 +18,10 @@ WidgetActivity::WidgetActivity(QWidget *parent) :
 WidgetActivity::~WidgetActivity()
 {
 	delete ui;
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
+	ui->splitterActivity->restoreState(quazaaSettings.WinMain.ActivitySplitter);
+	quazaaSettings.WinMain.ActivitySplitter = ui->splitterActivity->saveState();
 }
 
 void WidgetActivity::changeEvent(QEvent *e)
@@ -27,4 +34,10 @@ void WidgetActivity::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WidgetActivity::skinChangeEvent()
+{
+	ui->toolButtonNeighborsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->toolButtonSystemLogHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 }

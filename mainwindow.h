@@ -43,7 +43,6 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow(QWidget *parent = 0);
 	~MainWindow();
-	void quazaaShutdown();
 
 private:
 	Ui::MainWindow *ui;
@@ -54,37 +53,35 @@ private:
 	bool event(QEvent *e);
 	void changeEvent(QEvent *e);
 	vlcMediaPlayer *mediaPlayer;
-	void render(QPaintDevice * target, const QPoint & targetOffset = QPoint(), const QRegion & sourceRegion = QRegion(), RenderFlags renderFlags = RenderFlags( DrawWindowBackground | DrawChildren ));
-	void render(QPainter * painter, const QPoint & targetOffset = QPoint(), const QRegion & sourceRegion = QRegion(), RenderFlags renderFlags = RenderFlags( DrawWindowBackground | DrawChildren ));
 	bool interfaceLoaded;
+	QTimer* neighboursRefresher;
+	CNeighboursTableModel* neighboursList;
 
-        QTimer* neighboursRefresher;
-        CNeighboursTableModel* neighboursList;
 signals:
 	void closed();
 	void hideMain();
 	void showMain();
 
 private slots:
- void on_toolButtonSearch_clicked();
- void on_actionDisconnect_triggered();
- void on_actionConnect_triggered();
- void on_actionScheduleProperties_triggered();
- void on_actionAddScheduledTask_triggered();
- void on_labelWelcomeUserGuideLink_linkActivated(QString link);
- void on_actionConnectionTest_triggered();
- void on_actionFAQ_triggered();
- void on_actionUsersGuide_triggered();
- void on_actionQuazaaForums_triggered();
- void on_volumeSlider_valueChanged(int value);
- void on_actionMediaOpen_triggered();
+	void quazaaShutdown();
+	void on_toolButtonSearch_clicked();
+	void on_actionDisconnect_triggered();
+	void on_actionConnect_triggered();
+	void on_actionScheduleProperties_triggered();
+	void on_actionAddScheduledTask_triggered();
+	void on_labelWelcomeUserGuideLink_linkActivated(QString link);
+	void on_actionConnectionTest_triggered();
+	void on_actionFAQ_triggered();
+	void on_actionUsersGuide_triggered();
+	void on_actionQuazaaForums_triggered();
+	void on_volumeSlider_valueChanged(int value);
+	void on_actionMediaOpen_triggered();
 	void on_actionMediaRepeat_triggered(bool checked);
 	void on_tableWidgetMediaPlaylistTask_doubleClicked(QModelIndex index);
 	void on_tabWidgetSearch_tabCloseRequested(int index);
 	void on_toolButtonNewSearch_clicked();
 	void on_actionAres_triggered(bool checked);
 	void on_actionGnutella2_triggered(bool checked);
-	void on_actionGnutella1_triggered(bool checked);
 	void on_actionEDonkey_triggered(bool checked);
 	void on_actionMediaShuffle_triggered(bool checked);
 	void on_actionMediaRepeat_toggled(bool checked);

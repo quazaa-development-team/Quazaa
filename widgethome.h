@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetHome *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETHOME_H

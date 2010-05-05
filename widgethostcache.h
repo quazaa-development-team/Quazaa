@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetHostCache *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETHOSTCACHE_H

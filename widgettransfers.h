@@ -22,6 +22,9 @@ protected:
 
 private:
     Ui::WidgetTransfers *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETTRANSFERS_H

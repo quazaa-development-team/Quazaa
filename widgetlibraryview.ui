@@ -190,7 +190,7 @@ QToolButton::menu-button:hover {
      </widget>
     </item>
     <item>
-     <widget class="QSplitter" name="splitterLibraryDetails">
+     <widget class="QSplitter" name="splitterLibraryView">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>

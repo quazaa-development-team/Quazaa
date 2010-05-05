@@ -91,12 +91,12 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, QWidget *
 	connect(ui->maximizeButton, SIGNAL(clicked()), this, SLOT(onMaximize()));
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 
-	if(quazaaSettings.SkinFile.isEmpty())
+	if(quazaaSettings.Skin.File.isEmpty())
 	{
 		quazaaSettings.loadSkinSettings();
 	}
 
-	skinSettings.loadSkin(quazaaSettings.SkinFile);
+	skinSettings.loadSkin(quazaaSettings.Skin.File);
 	quazaaSettings.saveSkinSettings();
 
 	// Load the previously set skin
@@ -225,7 +225,7 @@ void QSkinDialog::setMaximized(bool maximize)
 
 void QSkinDialog::onMinimize()
 {
-	if (isMainDialog && quazaaSettings.BasicMinimizeToTray)
+	if (isMainDialog && quazaaSettings.Basic.MinimizeToTray)
 		hide();
 	else
 		setMinimized(!minimized);

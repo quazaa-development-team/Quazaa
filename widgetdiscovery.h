@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetDiscovery *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETDISCOVERY_H

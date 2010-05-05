@@ -22,6 +22,9 @@ protected:
 
 private:
     Ui::WidgetActivity *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETACTIVITY_H
