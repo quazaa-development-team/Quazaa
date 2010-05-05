@@ -21,11 +21,11 @@ WidgetSearch::WidgetSearch(QWidget *parent) :
 
 WidgetSearch::~WidgetSearch()
 {
-    delete ui;
 	quazaaSettings.WinMain.SearchFileTypeTaskVisible = ui->toolButtonSearchFiletypeTaskHeader->isChecked();
 	quazaaSettings.WinMain.SearchNetworksTaskVisible = ui->toolButtonSearchNetworksTaskHeader->isChecked();
 	quazaaSettings.WinMain.SearchResultsTaskVisible = ui->toolButtonSearchResultsTaskHeader->isChecked();
 	quazaaSettings.WinMain.SearchTaskVisible = ui->toolButtonSearchTaskHeader->isChecked();
+	delete ui;
 }
 
 void WidgetSearch::changeEvent(QEvent *e)

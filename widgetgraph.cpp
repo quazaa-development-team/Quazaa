@@ -16,8 +16,8 @@ WidgetGraph::WidgetGraph(QWidget *parent) :
 
 WidgetGraph::~WidgetGraph()
 {
-    delete ui;
 	quazaaSettings.WinMain.GraphSplitter = ui->splitterGraph->saveState();
+	delete ui;
 }
 
 void WidgetGraph::changeEvent(QEvent *e)

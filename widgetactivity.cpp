@@ -9,6 +9,9 @@ WidgetActivity::WidgetActivity(QWidget *parent) :
     ui(new Ui::WidgetActivity)
 {
     ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
+	ui->splitterActivity->restoreState(quazaaSettings.WinMain.ActivitySplitter);
 	panelNeighbors = new WidgetNeighbors();
 	ui->verticalLayoutNeighbors->addWidget(panelNeighbors);
 	panelSystemLog = new WidgetSystemLog();
@@ -17,11 +20,8 @@ WidgetActivity::WidgetActivity(QWidget *parent) :
 
 WidgetActivity::~WidgetActivity()
 {
-	delete ui;
-	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
-	skinChangeEvent();
-	ui->splitterActivity->restoreState(quazaaSettings.WinMain.ActivitySplitter);
 	quazaaSettings.WinMain.ActivitySplitter = ui->splitterActivity->saveState();
+	delete ui;
 }
 
 void WidgetActivity::changeEvent(QEvent *e)

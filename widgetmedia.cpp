@@ -28,9 +28,9 @@ WidgetMedia::WidgetMedia(QWidget *parent) :
 
 WidgetMedia::~WidgetMedia()
 {
-    delete ui;
 	quazaaSettings.WinMain.MediaPlaylistVisible = ui->actionMediaPlaylistToggle->isChecked();
 	quazaaSettings.WinMain.MediaSplitter = ui->splitterMediaPlaylist->saveState();
+	delete ui;
 }
 
 void WidgetMedia::changeEvent(QEvent *e)
