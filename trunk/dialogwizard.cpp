@@ -32,31 +32,30 @@ DialogWizard::DialogWizard(QWidget *parent) :
 	m_ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
-	m_ui->doubleSpinBoxDownloadSpeed->setValue(quazaaSettings.TransfersBandwidthDownloads);
-	m_ui->doubleSpinBoxUploadSpeed->setValue(quazaaSettings.TransfersBandwidthUploads);
-	m_ui->checkBoxUPnP->setChecked(quazaaSettings.SecurityEnableUPnP);
-	m_ui->checkBoxAllowBrowseShares->setChecked(quazaaSettings.SecurityAllowSharesBrowse);
-	m_ui->listWidgetShares->addItems(quazaaSettings.LibraryShares);
-	m_ui->checkBoxAllowBrowseProfile->setChecked(quazaaSettings.SecurityAllowProfileBrowse);
-	m_ui->lineEditIrcNick->setText(quazaaSettings.ProfileIrcNickname);
-	m_ui->lineEditIrcAlternateNick->setText(quazaaSettings.ProfileIrcAlternateNickname);
-	m_ui->lineEditGnutellaScreenName->setText(quazaaSettings.ProfileGnutellaScreenName);
-	m_ui->comboBoxGender->setCurrentIndex(quazaaSettings.ProfileGender);
-	m_ui->spinBoxAge->setValue(quazaaSettings.ProfileAge);
-	m_ui->lineEditCountry->setText(quazaaSettings.ProfileCountry);
-	m_ui->lineEditStateProvince->setText(quazaaSettings.ProfileStateProvince);
-	m_ui->lineEditCity->setText(quazaaSettings.ProfileCity);
-	m_ui->checkBoxG2Connect->setChecked(quazaaSettings.Gnutella2Enable);
-	m_ui->checkBoxG1Connect->setChecked(quazaaSettings.Gnutella1Enable);
-	m_ui->checkBoxAresConnect->setChecked(quazaaSettings.AresEnable);
-	m_ui->checkBoxED2kConnect->setChecked(quazaaSettings.EDonkeyEnable);
-	m_ui->checkBoxKadConnect->setChecked(quazaaSettings.EDonkeyEnableKad);
-	m_ui->checkBoxBitTorrentLinks->setChecked(quazaaSettings.WebTorrent);
-	m_ui->checkBoxBitTorrentKademliaConnect->setChecked(quazaaSettings.BitTorrentUseKademlia);
-	m_ui->checkBoxConnectNetworksAlways->setChecked(quazaaSettings.BasicConnectOnStartup);
-	m_ui->checkBoxOSStart->setChecked(quazaaSettings.BasicStartWithSystem);
-	m_ui->checkBoxSimpleProgress->setChecked(quazaaSettings.TransfersSimpleProgressBar);
-	m_ui->checkBoxSlowHashing->setChecked(!quazaaSettings.LibraryHighPriorityHashing);
+	m_ui->doubleSpinBoxDownloadSpeed->setValue(quazaaSettings.Transfers.BandwidthDownloads);
+	m_ui->doubleSpinBoxUploadSpeed->setValue(quazaaSettings.Transfers.BandwidthUploads);
+	m_ui->checkBoxUPnP->setChecked(quazaaSettings.Security.EnableUPnP);
+	m_ui->checkBoxAllowBrowseShares->setChecked(quazaaSettings.Security.AllowSharesBrowse);
+	m_ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
+	m_ui->checkBoxAllowBrowseProfile->setChecked(quazaaSettings.Security.AllowProfileBrowse);
+	m_ui->lineEditIrcNick->setText(quazaaSettings.Profile.IrcNickname);
+	m_ui->lineEditIrcAlternateNick->setText(quazaaSettings.Profile.IrcAlternateNickname);
+	m_ui->lineEditGnutellaScreenName->setText(quazaaSettings.Profile.GnutellaScreenName);
+	m_ui->comboBoxGender->setCurrentIndex(quazaaSettings.Profile.Gender);
+	m_ui->spinBoxAge->setValue(quazaaSettings.Profile.Age);
+	m_ui->lineEditCountry->setText(quazaaSettings.Profile.Country);
+	m_ui->lineEditStateProvince->setText(quazaaSettings.Profile.StateProvince);
+	m_ui->lineEditCity->setText(quazaaSettings.Profile.City);
+	m_ui->checkBoxG2Connect->setChecked(quazaaSettings.Gnutella2.Enable);
+	m_ui->checkBoxAresConnect->setChecked(quazaaSettings.Ares.Enable);
+	m_ui->checkBoxED2kConnect->setChecked(quazaaSettings.EDonkey.Enable);
+	m_ui->checkBoxKadConnect->setChecked(quazaaSettings.EDonkey.EnableKad);
+	m_ui->checkBoxBitTorrentLinks->setChecked(quazaaSettings.Web.Torrent);
+	m_ui->checkBoxBitTorrentKademliaConnect->setChecked(quazaaSettings.BitTorrent.UseKademlia);
+	m_ui->checkBoxConnectNetworksAlways->setChecked(quazaaSettings.Basic.ConnectOnStartup);
+	m_ui->checkBoxOSStart->setChecked(quazaaSettings.Basic.StartWithSystem);
+	m_ui->checkBoxSimpleProgress->setChecked(quazaaSettings.Transfers.SimpleProgressBar);
+	m_ui->checkBoxSlowHashing->setChecked(!quazaaSettings.Library.HighPriorityHashing);
 	m_ui->pagesWizard->setCurrentIndex(0);
 }
 
@@ -158,36 +157,35 @@ void DialogWizard::on_pushButtonSystemBack_clicked()
 
 void DialogWizard::on_pushButtonSystemFinish_clicked()
 {
-	quazaaSettings.TransfersBandwidthDownloads = m_ui->doubleSpinBoxDownloadSpeed->value();
-	quazaaSettings.TransfersBandwidthUploads = m_ui->doubleSpinBoxUploadSpeed->value();
-	quazaaSettings.SecurityEnableUPnP = m_ui->checkBoxUPnP->isChecked();
-	quazaaSettings.SecurityAllowSharesBrowse = m_ui->checkBoxAllowBrowseShares->isChecked();
-	quazaaSettings.LibraryShares.clear();
+	quazaaSettings.Transfers.BandwidthDownloads = m_ui->doubleSpinBoxDownloadSpeed->value();
+	quazaaSettings.Transfers.BandwidthUploads = m_ui->doubleSpinBoxUploadSpeed->value();
+	quazaaSettings.Security.EnableUPnP = m_ui->checkBoxUPnP->isChecked();
+	quazaaSettings.Security.AllowSharesBrowse = m_ui->checkBoxAllowBrowseShares->isChecked();
+	quazaaSettings.Library.Shares.clear();
 	for (int m_iSharesRow = 0; m_iSharesRow < m_ui->listWidgetShares->count(); ++m_iSharesRow)
 	{
 		m_ui->listWidgetShares->setCurrentRow(m_iSharesRow);
-		quazaaSettings.LibraryShares.append(m_ui->listWidgetShares->currentItem()->text());
+		quazaaSettings.Library.Shares.append(m_ui->listWidgetShares->currentItem()->text());
 	}
-	quazaaSettings.SecurityAllowProfileBrowse = m_ui->checkBoxAllowBrowseProfile->isChecked();
-	quazaaSettings.ProfileIrcNickname = m_ui->lineEditIrcNick->text();
-	quazaaSettings.ProfileIrcAlternateNickname = m_ui->lineEditIrcAlternateNick->text();
-	quazaaSettings.ProfileGnutellaScreenName = m_ui->lineEditGnutellaScreenName->text();
-	quazaaSettings.ProfileGender = m_ui->comboBoxGender->currentIndex();
-	quazaaSettings.ProfileAge = m_ui->spinBoxAge->value();
-	quazaaSettings.ProfileCountry = m_ui->lineEditCountry->text();
-	quazaaSettings.ProfileStateProvince = m_ui->lineEditStateProvince->text();
-	quazaaSettings.ProfileCity = m_ui->lineEditCity->text();
-	quazaaSettings.Gnutella2Enable = m_ui->checkBoxG2Connect->isChecked();
-	quazaaSettings.Gnutella1Enable = m_ui->checkBoxG1Connect->isChecked();
-	quazaaSettings.AresEnable = m_ui->checkBoxAresConnect->isChecked();
-	quazaaSettings.EDonkeyEnable = m_ui->checkBoxED2kConnect->isChecked();
-	quazaaSettings.EDonkeyEnableKad = m_ui->checkBoxKadConnect->isChecked();
-	quazaaSettings.WebTorrent = m_ui->checkBoxBitTorrentLinks->isChecked();
-	quazaaSettings.BitTorrentUseKademlia = m_ui->checkBoxBitTorrentKademliaConnect->isChecked();
-	quazaaSettings.BasicConnectOnStartup = m_ui->checkBoxConnectNetworksAlways->isChecked();
-	quazaaSettings.BasicStartWithSystem = m_ui->checkBoxOSStart->isChecked();
-	quazaaSettings.TransfersSimpleProgressBar = m_ui->checkBoxSimpleProgress->isChecked();
-	quazaaSettings.LibraryHighPriorityHashing = !m_ui->checkBoxSlowHashing->isChecked();
+	quazaaSettings.Security.AllowProfileBrowse = m_ui->checkBoxAllowBrowseProfile->isChecked();
+	quazaaSettings.Profile.IrcNickname = m_ui->lineEditIrcNick->text();
+	quazaaSettings.Profile.IrcAlternateNickname = m_ui->lineEditIrcAlternateNick->text();
+	quazaaSettings.Profile.GnutellaScreenName = m_ui->lineEditGnutellaScreenName->text();
+	quazaaSettings.Profile.Gender = m_ui->comboBoxGender->currentIndex();
+	quazaaSettings.Profile.Age = m_ui->spinBoxAge->value();
+	quazaaSettings.Profile.Country = m_ui->lineEditCountry->text();
+	quazaaSettings.Profile.StateProvince = m_ui->lineEditStateProvince->text();
+	quazaaSettings.Profile.City = m_ui->lineEditCity->text();
+	quazaaSettings.Gnutella2.Enable = m_ui->checkBoxG2Connect->isChecked();
+	quazaaSettings.Ares.Enable = m_ui->checkBoxAresConnect->isChecked();
+	quazaaSettings.EDonkey.Enable = m_ui->checkBoxED2kConnect->isChecked();
+	quazaaSettings.EDonkey.EnableKad = m_ui->checkBoxKadConnect->isChecked();
+	quazaaSettings.Web.Torrent = m_ui->checkBoxBitTorrentLinks->isChecked();
+	quazaaSettings.BitTorrent.UseKademlia = m_ui->checkBoxBitTorrentKademliaConnect->isChecked();
+	quazaaSettings.Basic.ConnectOnStartup = m_ui->checkBoxConnectNetworksAlways->isChecked();
+	quazaaSettings.Basic.StartWithSystem = m_ui->checkBoxOSStart->isChecked();
+	quazaaSettings.Transfers.SimpleProgressBar = m_ui->checkBoxSimpleProgress->isChecked();
+	quazaaSettings.Library.HighPriorityHashing = !m_ui->checkBoxSlowHashing->isChecked();
 	quazaaSettings.saveProfile();
 	quazaaSettings.saveSettings();
 	emit closed();
@@ -205,7 +203,7 @@ void DialogWizard::on_pushButtonSharesAdd_clicked()
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QString directory = QFileDialog::getExistingDirectory(this,
 							tr("Select A Folder To Share"),
-							quazaaSettings.DownloadsCompletePath,
+							quazaaSettings.Downloads.CompletePath,
 							options);
 	if (!directory.isEmpty())
 	{

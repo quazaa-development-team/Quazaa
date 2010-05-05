@@ -1,18 +1,27 @@
 #include "widgetlibrary.h"
 #include "ui_widgetlibrary.h"
 
+#include "quazaasettings.h"
+#include "QSkinDialog/qskinsettings.h"
+
 WidgetLibrary::WidgetLibrary(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetLibrary)
 {
     ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
+	ui->tabWidgetLibraryNavigator->setCurrentIndex(quazaaSettings.WinMain.LibraryNavigatorTab);
+	ui->splitterLibrary->restoreState(quazaaSettings.WinMain.LibrarySplitter);
     panelLibraryView = new WidgetLibraryView();
     ui->verticalLayoutLibraryView->addWidget(panelLibraryView);
 }
 
 WidgetLibrary::~WidgetLibrary()
 {
-    delete ui;
+	delete ui;
+	quazaaSettings.WinMain.LibraryNavigatorTab = ui->tabWidgetLibraryNavigator->currentIndex();
+	quazaaSettings.WinMain.LibrarySplitter = ui->splitterLibrary->saveState();
 }
 
 void WidgetLibrary::changeEvent(QEvent *e)
@@ -25,4 +34,10 @@ void WidgetLibrary::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WidgetLibrary::skinChangeEvent()
+{
+	ui->frameLibraryNavigator->setStyleSheet(skinSettings.sidebarBackground);
+	ui->tabWidgetLibraryNavigator->setStyleSheet(skinSettings.libraryNavigator);
 }

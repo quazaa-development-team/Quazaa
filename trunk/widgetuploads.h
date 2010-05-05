@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetUploads *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETUPLOADS_H

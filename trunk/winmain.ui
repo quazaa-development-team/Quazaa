@@ -209,7 +209,7 @@ padding: 2px;</string>
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolBarNavigation">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>

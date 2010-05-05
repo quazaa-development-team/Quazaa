@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetDownloads *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETDOWNLOADS_H

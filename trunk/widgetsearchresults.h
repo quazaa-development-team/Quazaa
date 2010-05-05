@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetSearchResults *ui;
+
+public slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETSEARCHRESULTS_H

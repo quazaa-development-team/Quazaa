@@ -93,7 +93,7 @@ public:
 	QString searchHeader;
 	QString transfersHeader;
 	QString securityHeader;
-	QString networkHeader;
+	QString activityHeader;
 	QString chatHeader;
 	QString dialogHeader;
 

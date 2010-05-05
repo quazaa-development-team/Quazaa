@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetPacketDump *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETPACKETDUMP_H

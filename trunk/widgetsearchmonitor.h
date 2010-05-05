@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetSearchMonitor *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETSEARCHMONITOR_H

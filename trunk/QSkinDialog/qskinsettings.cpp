@@ -97,7 +97,7 @@ void QSkinSettings::loadSkin(QString fileName)
 	searchHeader = reader.value("searchHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
 	transfersHeader = reader.value("transfersHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
 	securityHeader = reader.value("securityHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
-	networkHeader = reader.value("networkHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
+	activityHeader = reader.value("activityHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
 	chatHeader = reader.value("chatHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
 	dialogHeader = reader.value("dialogHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
 
@@ -190,7 +190,7 @@ void QSkinSettings::saveSkin(QString fileName)
 	writer.setValue("searchHeader", searchHeader);
 	writer.setValue("transfersHeader", transfersHeader);
 	writer.setValue("securityHeader", securityHeader);
-	writer.setValue("networkHeader", networkHeader);
+	writer.setValue("activityHeader", activityHeader);
 	writer.setValue("chatHeader", chatHeader);
 	writer.setValue("dialogHeader", dialogHeader);
 

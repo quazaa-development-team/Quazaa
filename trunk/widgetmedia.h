@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "vlcmediaplayer.h"
+
 namespace Ui {
     class WidgetMedia;
 }
@@ -12,12 +14,16 @@ class WidgetMedia : public QMainWindow {
 public:
     WidgetMedia(QWidget *parent = 0);
     ~WidgetMedia();
+	vlcMediaPlayer *mediaPlayer;
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::WidgetMedia *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETMEDIA_H

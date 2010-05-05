@@ -30,7 +30,7 @@ DialogEditShares::DialogEditShares(QWidget *parent) :
 	m_ui(new Ui::DialogEditShares)
 {
 	m_ui->setupUi(this);
-	m_ui->listWidgetShares->addItems(quazaaSettings.LibraryShares);
+	m_ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
 	m_ui->pushButtonOk->setEnabled(false);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
@@ -60,13 +60,13 @@ void DialogEditShares::on_pushButtonCancel_clicked()
 
 void DialogEditShares::on_pushButtonOk_clicked()
 {
-	quazaaSettings.LibraryShares.clear();
+	quazaaSettings.Library.Shares.clear();
 	for (int m_iSharesRow = 0; m_iSharesRow < m_ui->listWidgetShares->count(); ++m_iSharesRow)
 	{
 		m_ui->listWidgetShares->setCurrentRow(m_iSharesRow);
-		quazaaSettings.LibraryShares.append(m_ui->listWidgetShares->currentItem()->text());
+		quazaaSettings.Library.Shares.append(m_ui->listWidgetShares->currentItem()->text());
 	}
-	quazaaSettings.LibraryShares.removeDuplicates();
+	quazaaSettings.Library.Shares.removeDuplicates();
 	emit closed();
 	close();
 }
@@ -76,7 +76,7 @@ void DialogEditShares::on_pushButtonAdd_clicked()
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QString directory = QFileDialog::getExistingDirectory(this,
 							tr("Select A Folder To Share"),
-							quazaaSettings.DownloadsCompletePath,
+							quazaaSettings.Downloads.CompletePath,
 							options);
 	if (!directory.isEmpty())
 	{

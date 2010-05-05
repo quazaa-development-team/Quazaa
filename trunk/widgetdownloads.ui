@@ -32,7 +32,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBarDownloadsFilter">
+  <widget class="QToolBar" name="toolBarFileTypes">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -53,7 +53,7 @@
    </attribute>
    <addaction name="actionDownloadsFilterAll"/>
   </widget>
-  <widget class="QToolBar" name="toolBar_2">
+  <widget class="QToolBar" name="toolBarControls">
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
@@ -82,7 +82,7 @@
    <addaction name="separator"/>
    <addaction name="actionDownloadProperties"/>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolBarFilter">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -109,7 +109,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
    </property>
    <property name="text">
@@ -121,7 +121,7 @@
   </action>
   <action name="actionDownloadsPreview">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PlayMedia.png</normaloff>:/Resource/Media/PlayMedia.png</iconset>
    </property>
    <property name="text">
@@ -133,7 +133,7 @@
   </action>
   <action name="actionDownloadsPause">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
    </property>
    <property name="text">
@@ -145,7 +145,7 @@
   </action>
   <action name="actionDownloadsCancel">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Cancel.png</normaloff>:/Resource/Generic/Cancel.png</iconset>
    </property>
    <property name="text">
@@ -157,7 +157,7 @@
   </action>
   <action name="actionDownloadMarkAsJunk">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Library/Junk.png</normaloff>:/Resource/Library/Junk.png</iconset>
    </property>
    <property name="text">
@@ -169,7 +169,7 @@
   </action>
   <action name="actionDownloadShowMonitor">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Graph.png</normaloff>:/Resource/Generic/Graph.png</iconset>
    </property>
    <property name="text">
@@ -181,7 +181,7 @@
   </action>
   <action name="actionDownloadProperties">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
    </property>
    <property name="text">
@@ -193,7 +193,7 @@
   </action>
   <action name="actionOpenTorrent">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
    </property>
    <property name="text">
@@ -205,7 +205,7 @@
   </action>
   <action name="actionClearCompleted">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
    </property>
    <property name="text">
@@ -214,7 +214,7 @@
   </action>
   <action name="actionFilter">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
    </property>
    <property name="text">
@@ -222,6 +222,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

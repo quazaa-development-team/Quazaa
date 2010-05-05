@@ -22,7 +22,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTableView" name="tableView">
+     <widget class="QTableView" name="tableViewNeighbors">
       <property name="editTriggers">
        <set>QAbstractItemView::NoEditTriggers</set>
       </property>
@@ -63,7 +63,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolBarControls">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -89,7 +89,7 @@
    <addaction name="actionNetworkChatWith"/>
    <addaction name="actionNetworkBan"/>
   </widget>
-  <widget class="QToolBar" name="toolBar_2">
+  <widget class="QToolBar" name="toolBarNetworks">
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
@@ -117,7 +117,7 @@
   </widget>
   <action name="actionNeighborConnectTo">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -129,7 +129,7 @@
   </action>
   <action name="actionNeighborDisconnect">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -141,7 +141,7 @@
   </action>
   <action name="actionNetworkBrowse">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -153,7 +153,7 @@
   </action>
   <action name="actionNetworkChatWith">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -165,7 +165,7 @@
   </action>
   <action name="actionNetworkBan">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
    </property>
    <property name="text">
@@ -180,7 +180,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Networks/Gnutella1.png</normaloff>:/Resource/Networks/Gnutella1.png</iconset>
    </property>
    <property name="text">
@@ -192,7 +192,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
    </property>
    <property name="text">
@@ -210,7 +210,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
    </property>
    <property name="text">
@@ -222,7 +222,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
    </property>
    <property name="text">
@@ -231,7 +231,7 @@
   </action>
   <action name="actionSettings">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -239,8 +239,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

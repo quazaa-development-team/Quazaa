@@ -1,11 +1,14 @@
 #include "widgetchatcenter.h"
 #include "ui_widgetchatcenter.h"
+#include "QSkinDialog/qskinsettings.h"
 
 WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::WidgetChatCenter)
 {
     ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 WidgetChatCenter::~WidgetChatCenter()
@@ -23,4 +26,11 @@ void WidgetChatCenter::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WidgetChatCenter::skinChangeEvent()
+{
+	ui->toolBarChatControls->setStyleSheet(skinSettings.chatToolbar);
+	ui->toolBarChatMessage->setStyleSheet(skinSettings.chatToolbar);
+	ui->toolBarOperator->setStyleSheet(skinSettings.chatToolbar);
 }

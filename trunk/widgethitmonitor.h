@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetHitMonitor *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETHITMONITOR_H

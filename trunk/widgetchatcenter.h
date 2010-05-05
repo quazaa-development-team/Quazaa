@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetChatCenter *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETCHATCENTER_H

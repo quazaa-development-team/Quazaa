@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 	// Load WinMain visible state from the registry
 
 	quazaaSettings.loadSkinWindowSettings(&skinWinMain);
-        if ( quazaaSettings.MainWindowVisible )
+		if ( quazaaSettings.WinMain.Visible )
 	{
 		skinWinMain.show();
 	}

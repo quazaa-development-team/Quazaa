@@ -32,7 +32,7 @@ WidgetSearchTemplate::WidgetSearchTemplate(QWidget *parent) :
     m_ui(new Ui::WidgetSearchTemplate)
 {
 	m_ui->setupUi(this);
-        m_pSearch = 0;
+	m_pSearch = 0;
 }
 
 WidgetSearchTemplate::~WidgetSearchTemplate()

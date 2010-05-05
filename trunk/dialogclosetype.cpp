@@ -52,7 +52,7 @@ void DialogCloseType::changeEvent(QEvent *e)
 
 void DialogCloseType::on_pushButtonOK_clicked()
 {
-	quazaaSettings.BasicCloseMode = m_ui->comboBoxCloseType->currentIndex() + 1;
+	quazaaSettings.Basic.CloseMode = m_ui->comboBoxCloseType->currentIndex() + 1;
 	emit closed();
 	close();
 }

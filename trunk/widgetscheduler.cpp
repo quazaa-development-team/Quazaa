@@ -1,11 +1,14 @@
 #include "widgetscheduler.h"
 #include "ui_widgetscheduler.h"
+#include "QSkinDialog/qskinsettings.h"
 
 WidgetScheduler::WidgetScheduler(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::WidgetScheduler)
 {
     ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 WidgetScheduler::~WidgetScheduler()
@@ -23,4 +26,9 @@ void WidgetScheduler::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WidgetScheduler::skinChangeEvent()
+{
+	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }

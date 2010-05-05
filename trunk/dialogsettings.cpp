@@ -35,192 +35,175 @@ DialogSettings::DialogSettings(QWidget *parent) :
 	m_ui->setupUi(this);
 
 	// Load Basic Settings
-	m_ui->checkBoxSystemStart->setChecked(quazaaSettings.BasicStartWithSystem);
-	m_ui->checkBoxAutoConnect->setChecked(quazaaSettings.BasicConnectOnStartup);
-	m_ui->comboBoxCloseButton->setCurrentIndex(quazaaSettings.BasicCloseMode);
-	m_ui->checkBoxMinimiseToTray->setChecked(quazaaSettings.BasicMinimizeToTray);
-	m_ui->checkBoxSearchTooltips->setChecked(quazaaSettings.BasicSearchTips);
-	m_ui->checkBoxLibraryTooltips->setChecked(quazaaSettings.BasicLibraryTips);
-	m_ui->checkBoxDownloadTooltips->setChecked(quazaaSettings.BasicDownloadsTips);
-	m_ui->checkBoxUploadTooltips->setChecked(quazaaSettings.BasicUploadsTips);
-	m_ui->checkBoxNeighbourTooltips->setChecked(quazaaSettings.BasicNeighboursTips);
-	m_ui->checkBoxMediaPlayerTooltips->setChecked(quazaaSettings.BasicMediaTips);
-	m_ui->checkBoxChatTooltips->setChecked(quazaaSettings.BasicChatTips);
-	m_ui->spinBoxToolTipDelay->setValue(quazaaSettings.BasicTipDelay);
-	m_ui->horizontalSliderTransparency->setValue(quazaaSettings.BasicTipTransparency);
-	m_ui->spinBoxDiskSpaceWarning->setValue(quazaaSettings.BasicDiskSpaceWarning);
-	m_ui->spinBoxDiskSpaceStop->setValue(quazaaSettings.BasicDiskSpaceStop);
+	m_ui->checkBoxSystemStart->setChecked(quazaaSettings.Basic.StartWithSystem);
+	m_ui->checkBoxAutoConnect->setChecked(quazaaSettings.Basic.ConnectOnStartup);
+	m_ui->comboBoxCloseButton->setCurrentIndex(quazaaSettings.Basic.CloseMode);
+	m_ui->checkBoxMinimiseToTray->setChecked(quazaaSettings.Basic.MinimizeToTray);
+	m_ui->checkBoxSearchTooltips->setChecked(quazaaSettings.Basic.SearchTips);
+	m_ui->checkBoxLibraryTooltips->setChecked(quazaaSettings.Basic.LibraryTips);
+	m_ui->checkBoxDownloadTooltips->setChecked(quazaaSettings.Basic.DownloadsTips);
+	m_ui->checkBoxUploadTooltips->setChecked(quazaaSettings.Basic.UploadsTips);
+	m_ui->checkBoxNeighbourTooltips->setChecked(quazaaSettings.Basic.NeighboursTips);
+	m_ui->checkBoxMediaPlayerTooltips->setChecked(quazaaSettings.Basic.MediaTips);
+	m_ui->checkBoxChatTooltips->setChecked(quazaaSettings.Basic.ChatTips);
+	m_ui->spinBoxToolTipDelay->setValue(quazaaSettings.Basic.TipDelay);
+	m_ui->horizontalSliderTransparency->setValue(quazaaSettings.Basic.TipTransparency);
+	m_ui->spinBoxDiskSpaceWarning->setValue(quazaaSettings.Basic.DiskSpaceWarning);
+	m_ui->spinBoxDiskSpaceStop->setValue(quazaaSettings.Basic.DiskSpaceStop);
 
 	// Load Parental Settings
-	m_ui->checkBoxCensor->setChecked(quazaaSettings.ParentalChatAdultCensor);
-	m_ui->checkBoxFilterAdult->setChecked(quazaaSettings.ParentalFilterAdultSearchResults);
-	m_ui->listWidgetAdultFilter->addItems(quazaaSettings.ParentalAdultFilter);
+	m_ui->checkBoxCensor->setChecked(quazaaSettings.Parental.ChatAdultCensor);
+	m_ui->checkBoxFilterAdult->setChecked(quazaaSettings.Parental.FilterAdultSearchResults);
+	m_ui->listWidgetAdultFilter->addItems(quazaaSettings.Parental.AdultFilter);
 
 	// Load Library Settings
-	m_ui->checkBoxRememberViews->setChecked(quazaaSettings.LibraryRememberViews);
-	m_ui->checkBoxWatchFolders->setChecked(quazaaSettings.LibraryWatchFolders);
-	m_ui->checkBoxQuickHashing->setChecked(quazaaSettings.LibraryHighPriorityHashing);
-	m_ui->checkBoxDisplayHashingProgress->setChecked(quazaaSettings.LibraryHashWindow);
-	m_ui->checkBoxGhostFiles->setChecked(quazaaSettings.LibraryGhostFiles);
-	m_ui->checkBoxSeriesDetection->setChecked(quazaaSettings.LibrarySmartSeriesDetection);
-	m_ui->spinBoxRememberFiles->setValue(quazaaSettings.LibraryHistoryTotal);
-	m_ui->spinBoxUpToDays->setValue(quazaaSettings.LibraryHistoryDays);
-	m_ui->listWidgetSafeOpen->addItems(quazaaSettings.LibrarySafeExecuteTypes);
-	m_ui->listWidgetNeverShare->addItems(quazaaSettings.LibraryNeverShareTypes);
+	m_ui->checkBoxRememberViews->setChecked(quazaaSettings.Library.RememberViews);
+	m_ui->checkBoxWatchFolders->setChecked(quazaaSettings.Library.WatchFolders);
+	m_ui->checkBoxQuickHashing->setChecked(quazaaSettings.Library.HighPriorityHashing);
+	m_ui->checkBoxDisplayHashingProgress->setChecked(quazaaSettings.Library.HashWindow);
+	m_ui->checkBoxGhostFiles->setChecked(quazaaSettings.Library.GhostFiles);
+	m_ui->checkBoxSeriesDetection->setChecked(quazaaSettings.Library.SmartSeriesDetection);
+	m_ui->spinBoxRememberFiles->setValue(quazaaSettings.Library.HistoryTotal);
+	m_ui->spinBoxUpToDays->setValue(quazaaSettings.Library.HistoryDays);
+	m_ui->listWidgetSafeOpen->addItems(quazaaSettings.Library.SafeExecuteTypes);
+	m_ui->listWidgetNeverShare->addItems(quazaaSettings.Library.NeverShareTypes);
 
 	// Load Media Player Settings
-	m_ui->comboBoxChoosePlayer->setCurrentIndex(quazaaSettings.MediaHandler);
-	m_ui->lineEditCustomPlayerPath->setText(quazaaSettings.MediaCustomPlayerPath);
-	m_ui->listWidgetPlayerFilesList->addItems(quazaaSettings.MediaFileTypes);
+	m_ui->comboBoxChoosePlayer->setCurrentIndex(quazaaSettings.Media.Handler);
+	m_ui->lineEditCustomPlayerPath->setText(quazaaSettings.Media.CustomPlayerPath);
+	m_ui->listWidgetPlayerFilesList->addItems(quazaaSettings.Media.FileTypes);
 
 	// Load Search Settings
-	m_ui->checkBoxExpandMultiSorce->setChecked(quazaaSettings.SearchExpandSearchMatches);
-	m_ui->checkBoxSwitchOnDownload->setChecked(quazaaSettings.SearchSwitchOnDownload);
-	m_ui->checkBoxHighlightNewSearchMatches->setChecked(quazaaSettings.SearchHighlightNew);
+	m_ui->checkBoxExpandMultiSorce->setChecked(quazaaSettings.Search.ExpandSearchMatches);
+	m_ui->checkBoxSwitchOnDownload->setChecked(quazaaSettings.Search.SwitchOnDownload);
+	m_ui->checkBoxHighlightNewSearchMatches->setChecked(quazaaSettings.Search.HighlightNew);
 
 	// Load Chat Settings
-	m_ui->checkBoxGnutellaChatEnable->setChecked(quazaaSettings.ChatGnutellaChatEnable);
-	m_ui->checkBoxEnableChatOther->setChecked(quazaaSettings.ChatEnableChatAllNetworks);
-	m_ui->checkBoxConnectIRCOnStart->setChecked(quazaaSettings.ChatConnectOnStartup);
-	m_ui->checkBoxEnableIRCFileTransfers->setChecked(quazaaSettings.ChatEnableFileTransfers);
-	m_ui->checkBoxIRCShowTimestamp->setChecked(quazaaSettings.ChatShowTimestamp);
-	m_ui->spinBoxChatIdleMessage->setValue(quazaaSettings.ChatAwayMessageIdleTime);
-	m_ui->lineEditIRCServer->setText(quazaaSettings.ChatIrcServerName);
-	m_ui->spinBoxIRCPort->setValue(quazaaSettings.ChatIrcServerPort);
-	m_ui->labelChatFontPreview->setText(quazaaSettings.ChatScreenFont.rawName());
-	m_ui->labelChatFontPreview->setFont(quazaaSettings.ChatScreenFont);
-	fontTempChat = quazaaSettings.ChatScreenFont;
-	m_ui->toolButtonColorChatBackground->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.ChatColorChatBackground.name() + ";}");
-	m_ui->frameIRCColors->setStyleSheet("background-color: " + quazaaSettings.ChatColorChatBackground.name() + ";");
-	colorTempChatBackground.setNamedColor(quazaaSettings.ChatColorChatBackground.name());
-	m_ui->toolButtonColorNormalText->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.ChatColorNormalText.name() + ";}");
-	m_ui->labelNormalText->setFont(quazaaSettings.ChatScreenFont);
-	m_ui->labelNormalText->setStyleSheet("color: " + quazaaSettings.ChatColorNormalText.name() + ";");
-	colorTempNormalText.setNamedColor(quazaaSettings.ChatColorNormalText.name());
-	m_ui->toolButtonColorServerMessages->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.ChatColorServerMessagesText.name() + ";}");
-	m_ui->labelServerMessages->setFont(quazaaSettings.ChatScreenFont);
-	m_ui->labelServerMessages->setStyleSheet("color: " + quazaaSettings.ChatColorServerMessagesText.name() + ";");
-	colorTempServerMessages.setNamedColor(quazaaSettings.ChatColorServerMessagesText.name());
-	m_ui->toolButtonColorTopics->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.ChatColorTopicsText.name() + ";}");
-	m_ui->labelTopics->setFont(quazaaSettings.ChatScreenFont);
-	m_ui->labelTopics->setStyleSheet("color: " + quazaaSettings.ChatColorTopicsText.name() + ";");
-	colorTempTopics.setNamedColor(quazaaSettings.ChatColorTopicsText.name());
-	m_ui->toolButtonColorRoomActions->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.ChatColorRoomActionsText.name() + ";}");
-	m_ui->labelRoomActions->setFont(quazaaSettings.ChatScreenFont);
-	m_ui->labelRoomActions->setStyleSheet("color: " + quazaaSettings.ChatColorRoomActionsText.name() + ";");
-	colorTempRoomActions.setNamedColor(quazaaSettings.ChatColorRoomActionsText.name());
-	m_ui->toolButtonColorNotices->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.ChatColorNoticesText.name() + ";}");
-	m_ui->labelNotices->setFont(quazaaSettings.ChatScreenFont);
-	m_ui->labelNotices->setStyleSheet("color: " + quazaaSettings.ChatColorNoticesText.name() + ";");
-	colorTempNotices.setNamedColor(quazaaSettings.ChatColorNoticesText.name());
+	m_ui->checkBoxGnutellaChatEnable->setChecked(quazaaSettings.Chat.GnutellaChatEnable);
+	m_ui->checkBoxEnableChatOther->setChecked(quazaaSettings.Chat.EnableChatAllNetworks);
+	m_ui->checkBoxConnectIRCOnStart->setChecked(quazaaSettings.Chat.ConnectOnStartup);
+	m_ui->checkBoxEnableIRCFileTransfers->setChecked(quazaaSettings.Chat.EnableFileTransfers);
+	m_ui->checkBoxIRCShowTimestamp->setChecked(quazaaSettings.Chat.ShowTimestamp);
+	m_ui->spinBoxChatIdleMessage->setValue(quazaaSettings.Chat.AwayMessageIdleTime);
+	m_ui->lineEditIRCServer->setText(quazaaSettings.Chat.IrcServerName);
+	m_ui->spinBoxIRCPort->setValue(quazaaSettings.Chat.IrcServerPort);
+	m_ui->labelChatFontPreview->setText(quazaaSettings.Chat.ScreenFont.rawName());
+	m_ui->labelChatFontPreview->setFont(quazaaSettings.Chat.ScreenFont);
+	fontTempChat = quazaaSettings.Chat.ScreenFont;
+	m_ui->toolButtonColorChatBackground->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.Chat.ColorChatBackground.name() + ";}");
+	m_ui->frameIRCColors->setStyleSheet("background-color: " + quazaaSettings.Chat.ColorChatBackground.name() + ";");
+	colorTempChatBackground.setNamedColor(quazaaSettings.Chat.ColorChatBackground.name());
+	m_ui->toolButtonColorNormalText->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.Chat.ColorNormalText.name() + ";}");
+	m_ui->labelNormalText->setFont(quazaaSettings.Chat.ScreenFont);
+	m_ui->labelNormalText->setStyleSheet("color: " + quazaaSettings.Chat.ColorNormalText.name() + ";");
+	colorTempNormalText.setNamedColor(quazaaSettings.Chat.ColorNormalText.name());
+	m_ui->toolButtonColorServerMessages->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.Chat.ColorServerMessagesText.name() + ";}");
+	m_ui->labelServerMessages->setFont(quazaaSettings.Chat.ScreenFont);
+	m_ui->labelServerMessages->setStyleSheet("color: " + quazaaSettings.Chat.ColorServerMessagesText.name() + ";");
+	colorTempServerMessages.setNamedColor(quazaaSettings.Chat.ColorServerMessagesText.name());
+	m_ui->toolButtonColorTopics->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.Chat.ColorTopicsText.name() + ";}");
+	m_ui->labelTopics->setFont(quazaaSettings.Chat.ScreenFont);
+	m_ui->labelTopics->setStyleSheet("color: " + quazaaSettings.Chat.ColorTopicsText.name() + ";");
+	colorTempTopics.setNamedColor(quazaaSettings.Chat.ColorTopicsText.name());
+	m_ui->toolButtonColorRoomActions->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.Chat.ColorRoomActionsText.name() + ";}");
+	m_ui->labelRoomActions->setFont(quazaaSettings.Chat.ScreenFont);
+	m_ui->labelRoomActions->setStyleSheet("color: " + quazaaSettings.Chat.ColorRoomActionsText.name() + ";");
+	colorTempRoomActions.setNamedColor(quazaaSettings.Chat.ColorRoomActionsText.name());
+	m_ui->toolButtonColorNotices->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + quazaaSettings.Chat.ColorNoticesText.name() + ";}");
+	m_ui->labelNotices->setFont(quazaaSettings.Chat.ScreenFont);
+	m_ui->labelNotices->setStyleSheet("color: " + quazaaSettings.Chat.ColorNoticesText.name() + ";");
+	colorTempNotices.setNamedColor(quazaaSettings.Chat.ColorNoticesText.name());
 
 	// Load Connection Settings
-	if (quazaaSettings.ConnectionInAddress != "")
-	{
-		m_ui->comboBoxInboundAddress->addItem(quazaaSettings.ConnectionInAddress);
-	}
-	m_ui->checkBoxForceBindingAddress->setChecked(quazaaSettings.ConnectionInBind);
-	if (quazaaSettings.ConnectionOutAddress != "")
-	{
-		m_ui->comboBoxOutboundAddress->addItem(quazaaSettings.ConnectionOutAddress);
-	}
-	m_ui->spinBoxQuazaaPort->setValue(quazaaSettings.ConnectionPort);
-	m_ui->checkBoxRandomPort->setChecked(quazaaSettings.ConnectionRandomPort);
-	m_ui->comboBoxAcceptIncoming->setCurrentIndex(quazaaSettings.ConnectionCanAcceptIncoming);
-	m_ui->spinBoxConnectionTimeout->setValue(quazaaSettings.ConnectionTimeout);
-	m_ui->spinBoxHandshakeTimeout->setValue(quazaaSettings.ConnectionTimeoutHandshake);
+	m_ui->spinBoxQuazaaPort->setValue(quazaaSettings.Connection.Port);
+	m_ui->checkBoxRandomPort->setChecked(quazaaSettings.Connection.RandomPort);
+	m_ui->spinBoxConnectionTimeout->setValue(quazaaSettings.Connection.TimeoutConnect);
 
 	// Load Web Settings
-	m_ui->checkBoxMagnetLinks->setChecked(quazaaSettings.WebMagnet);
-	m_ui->checkBoxGnutellaLinks->setChecked(quazaaSettings.WebGnutella);
-	m_ui->checkBoxAresLinks->setChecked(quazaaSettings.WebAres);
-	m_ui->checkBoxBitTorrentLinks->setChecked(quazaaSettings.WebTorrent);
-	m_ui->checkBoxPioletLinks->setChecked(quazaaSettings.WebPiolet);
-	m_ui->checkBoxEDonkeyLinks->setChecked(quazaaSettings.WebED2K);
-	m_ui->checkBoxManageWebDownloads->setChecked(quazaaSettings.WebBrowserIntegration);
-	m_ui->listWidgetManageDownloadTypes->addItems(quazaaSettings.WebManageDownloadTypes);
+	m_ui->checkBoxMagnetLinks->setChecked(quazaaSettings.Web.Magnet);
+	m_ui->checkBoxGnutellaLinks->setChecked(quazaaSettings.Web.Gnutella);
+	m_ui->checkBoxAresLinks->setChecked(quazaaSettings.Web.Ares);
+	m_ui->checkBoxBitTorrentLinks->setChecked(quazaaSettings.Web.Torrent);
+	m_ui->checkBoxPioletLinks->setChecked(quazaaSettings.Web.Piolet);
+	m_ui->checkBoxEDonkeyLinks->setChecked(quazaaSettings.Web.ED2K);
+	m_ui->checkBoxManageWebDownloads->setChecked(quazaaSettings.Web.BrowserIntegration);
+	m_ui->listWidgetManageDownloadTypes->addItems(quazaaSettings.Web.ManageDownloadTypes);
 
 	// Load Transfer Settings
-	m_ui->checkBoxOnlyDownloadConnectedNetworks->setChecked(quazaaSettings.TransfersRequireConnectedNetwork);
-	m_ui->checkBoxSimpleProgress->setChecked(quazaaSettings.TransfersSimpleProgressBar);
-	m_ui->comboBoxRates->setCurrentIndex(quazaaSettings.TransfersRatesUnit);
-	m_ui->doubleSpinBoxDownloadSpeed->setValue(quazaaSettings.TransfersBandwidthDownloads);
-	m_ui->doubleSpinBoxUploadSpeed->setValue(quazaaSettings.TransfersBandwidthUploads);
+	m_ui->checkBoxOnlyDownloadConnectedNetworks->setChecked(quazaaSettings.Transfers.RequireConnectedNetwork);
+	m_ui->checkBoxSimpleProgress->setChecked(quazaaSettings.Transfers.SimpleProgressBar);
+	m_ui->comboBoxRates->setCurrentIndex(quazaaSettings.Transfers.RatesUnit);
+	m_ui->doubleSpinBoxDownloadSpeed->setValue(quazaaSettings.Transfers.BandwidthDownloads);
+	m_ui->doubleSpinBoxUploadSpeed->setValue(quazaaSettings.Transfers.BandwidthUploads);
 
 	// Load Download Settings
-	m_ui->checkBoxExpandDownloads->setChecked(quazaaSettings.DownloadsExpandDownloads);
-	m_ui->lineEditSaveFolder->setText(quazaaSettings.DownloadsCompletePath);
-	m_ui->lineEditTempFolder->setText(quazaaSettings.DownloadsIncompletePath);
-	m_ui->comboBoxQueLength->setCurrentIndex(quazaaSettings.DownloadsQueueLimit);
-	m_ui->spinBoxMaxFiles->setValue(quazaaSettings.DownloadsMaxFiles);
-	m_ui->spinBoxMaxTransfers->setValue(quazaaSettings.DownloadsMaxTransfers);
-	m_ui->spinBoxTransfersPerFile->setValue(quazaaSettings.DownloadsMaxTransfersPerFile);
+	m_ui->checkBoxExpandDownloads->setChecked(quazaaSettings.Downloads.ExpandDownloads);
+	m_ui->lineEditSaveFolder->setText(quazaaSettings.Downloads.CompletePath);
+	m_ui->lineEditTempFolder->setText(quazaaSettings.Downloads.IncompletePath);
+	m_ui->comboBoxQueLength->setCurrentIndex(quazaaSettings.Downloads.QueueLimit);
+	m_ui->spinBoxMaxFiles->setValue(quazaaSettings.Downloads.MaxFiles);
+	m_ui->spinBoxMaxTransfers->setValue(quazaaSettings.Downloads.MaxTransfers);
+	m_ui->spinBoxTransfersPerFile->setValue(quazaaSettings.Downloads.MaxTransfersPerFile);
 
 	// Load Upload Settings
-	m_ui->checkBoxSharePartials->setChecked(quazaaSettings.UploadsSharePartials);
-	m_ui->checkBoxSharingLimitHub->setChecked(quazaaSettings.UploadsHubShareLimiting);
-	m_ui->checkBoxSharePreviews->setChecked(quazaaSettings.UploadsSharePreviews);
-	m_ui->spinBoxUniqueHostLimit->setValue(quazaaSettings.UploadsMaxPerHost);
+	m_ui->checkBoxSharePartials->setChecked(quazaaSettings.Uploads.SharePartials);
+	m_ui->checkBoxSharingLimitHub->setChecked(quazaaSettings.Uploads.HubShareLimiting);
+	m_ui->checkBoxSharePreviews->setChecked(quazaaSettings.Uploads.SharePreviews);
+	m_ui->spinBoxUniqueHostLimit->setValue(quazaaSettings.Uploads.MaxPerHost);
 
 	// Load Security Settings
-	m_ui->checkBoxFilterChatSpam->setChecked(quazaaSettings.SecurityChatFilter);
-	m_ui->checkBoxFilterEDonkeyChatSpam->setChecked(quazaaSettings.SecurityED2kChatFilter);
-	m_ui->checkBoxAllowBrowseProfile->setChecked(quazaaSettings.SecurityAllowProfileBrowse);
-	m_ui->checkBoxChatFloodProtection->setChecked(quazaaSettings.SecurityIrcFloodProtection);
-	m_ui->spinBoxChatFloodLimit->setValue(quazaaSettings.SecurityIrcFloodLimit);
-	m_ui->checkBoxEnableRemote->setChecked(quazaaSettings.SecurityRemoteEnable);
-	m_ui->lineEditRemoteUserName->setText(quazaaSettings.SecurityRemoteUsername);
-	m_ui->lineEditRemotePassword->setText(quazaaSettings.SecurityRemotePassword);
-	m_ui->checkBoxIgnoreLocalIP->setChecked(quazaaSettings.SecuritySearchIgnoreLocalIP);
-	m_ui->checkBoxEnableUPnP->setChecked(quazaaSettings.SecurityEnableUPnP);
-	m_ui->checkBoxAllowBrowseShares->setChecked(quazaaSettings.SecurityAllowSharesBrowse);
-	m_ui->listWidgetUserAgents->addItems(quazaaSettings.SecurityBlockedAgentUploadFilter);
+	m_ui->checkBoxFilterChatSpam->setChecked(quazaaSettings.Security.ChatFilter);
+	m_ui->checkBoxFilterEDonkeyChatSpam->setChecked(quazaaSettings.Security.ED2kChatFilter);
+	m_ui->checkBoxAllowBrowseProfile->setChecked(quazaaSettings.Security.AllowProfileBrowse);
+	m_ui->checkBoxChatFloodProtection->setChecked(quazaaSettings.Security.IrcFloodProtection);
+	m_ui->spinBoxChatFloodLimit->setValue(quazaaSettings.Security.IrcFloodLimit);
+	m_ui->checkBoxEnableRemote->setChecked(quazaaSettings.Security.RemoteEnable);
+	m_ui->lineEditRemoteUserName->setText(quazaaSettings.Security.RemoteUsername);
+	m_ui->lineEditRemotePassword->setText(quazaaSettings.Security.RemotePassword);
+	m_ui->checkBoxIgnoreLocalIP->setChecked(quazaaSettings.Security.SearchIgnoreLocalIP);
+	m_ui->checkBoxEnableUPnP->setChecked(quazaaSettings.Security.EnableUPnP);
+	m_ui->checkBoxAllowBrowseShares->setChecked(quazaaSettings.Security.AllowSharesBrowse);
+	m_ui->listWidgetUserAgents->addItems(quazaaSettings.Security.BlockedAgentUploadFilter);
 
 	// Load Gnutella 2 Settings
-	m_ui->checkBoxConnectG2->setChecked(quazaaSettings.Gnutella2Enable);
-	m_ui->comboBoxG2Mode->setCurrentIndex(quazaaSettings.Gnutella2ClientMode);
-	m_ui->spinBoxG2LeafToHub->setValue(quazaaSettings.Gnutella2NumHubs);
-	m_ui->spinBoxG2HubToLeaf->setValue(quazaaSettings.Gnutella2NumLeafs);
-	m_ui->spinBoxG2HubToHub->setValue(quazaaSettings.Gnutella2NumPeers);
-
-	// Load Gnutella 1 Settings
-	m_ui->checkBoxConnectG1->setChecked(quazaaSettings.Gnutella1Enable);
-	m_ui->spinBoxG1LeafToUltrapeer->setValue(quazaaSettings.Gnutella1NumHubs);
-	m_ui->spinBoxG1UltrapeerToLeaf->setValue(quazaaSettings.Gnutella1NumLeafs);
-	m_ui->spinBoxG1UltrapeerToUltrapeer->setValue(quazaaSettings.Gnutella1NumPeers);
+	m_ui->checkBoxConnectG2->setChecked(quazaaSettings.Gnutella2.Enable);
+	m_ui->comboBoxG2Mode->setCurrentIndex(quazaaSettings.Gnutella2.ClientMode);
+	m_ui->spinBoxG2LeafToHub->setValue(quazaaSettings.Gnutella2.NumHubs);
+	m_ui->spinBoxG2HubToLeaf->setValue(quazaaSettings.Gnutella2.NumLeafs);
+	m_ui->spinBoxG2HubToHub->setValue(quazaaSettings.Gnutella2.NumPeers);
 
 	// Load Gnutella Settings
-	m_ui->checkBoxCompressionLeafToHub->setChecked(quazaaSettings.GnutellaCompressLeaf2Hub);
-	m_ui->checkBoxCompressionHubToLeaf->setChecked(quazaaSettings.GnutellaCompressHub2Leaf);
-	m_ui->checkBoxCompressionHubToHub->setChecked(quazaaSettings.GnutellaCompressHub2Hub);
+	m_ui->checkBoxCompressionLeafToHub->setChecked(quazaaSettings.Gnutella.CompressLeaf2Hub);
+	m_ui->checkBoxCompressionHubToLeaf->setChecked(quazaaSettings.Gnutella.CompressHub2Leaf);
+	m_ui->checkBoxCompressionHubToHub->setChecked(quazaaSettings.Gnutella.CompressHub2Hub);
 
 	// Load Ares Settings
-	m_ui->checkBoxConnectAres->setChecked(quazaaSettings.AresEnable);
-	m_ui->checkBoxConnectAres->setChecked(quazaaSettings.AresEnable);
+	m_ui->checkBoxConnectAres->setChecked(quazaaSettings.Ares.Enable);
+	m_ui->checkBoxConnectAres->setChecked(quazaaSettings.Ares.Enable);
 
 	// Load eDonkey 2k Settings
-	m_ui->checkBoxConnectEDonkey->setChecked(quazaaSettings.EDonkeyEnable);
-	m_ui->checkBoxConnectKAD->setChecked(quazaaSettings.EDonkeyEnableKad);
-	m_ui->checkBoxED2kSearchCahedServers->setChecked(quazaaSettings.EDonkeySearchCachedServers);
-	m_ui->spinBoxED2kMaxResults->setValue(quazaaSettings.EDonkeyMaxResults);
-	m_ui->checkBoxED2kUpdateServerList->setChecked(quazaaSettings.EDonkeyLearnNewServers);
-	m_ui->spinBoxED2kMaxClients->setValue(quazaaSettings.EDonkeyMaxClients);
-	m_ui->checkBoxAutoQueryServerList->setChecked(quazaaSettings.EDonkeyMetAutoQuery);
-	m_ui->lineEditEDonkeyServerListUrl->setText(quazaaSettings.EDonkeyServerListURL);
+	m_ui->checkBoxConnectEDonkey->setChecked(quazaaSettings.EDonkey.Enable);
+	m_ui->checkBoxConnectKAD->setChecked(quazaaSettings.EDonkey.EnableKad);
+	m_ui->checkBoxED2kSearchCahedServers->setChecked(quazaaSettings.EDonkey.SearchCachedServers);
+	m_ui->spinBoxED2kMaxResults->setValue(quazaaSettings.EDonkey.MaxResults);
+	m_ui->checkBoxED2kUpdateServerList->setChecked(quazaaSettings.EDonkey.LearnNewServers);
+	m_ui->spinBoxED2kMaxClients->setValue(quazaaSettings.EDonkey.MaxClients);
+	m_ui->checkBoxAutoQueryServerList->setChecked(quazaaSettings.EDonkey.MetAutoQuery);
+	m_ui->lineEditEDonkeyServerListUrl->setText(quazaaSettings.EDonkey.ServerListURL);
 
 	// Load BitTorrent Settings
-	m_ui->checkBoxTorrentSaveDialog->setChecked(quazaaSettings.BitTorrentUseSaveDialog);
-	m_ui->checkBoxTorrentsStartPaused->setChecked(quazaaSettings.BitTorrentStartPaused);
-	m_ui->checkBoxTorrentsUseTemp->setChecked(quazaaSettings.BitTorrentUseTemp);
-	m_ui->checkBoxManagedTorrent->setChecked(quazaaSettings.BitTorrentManaged);
-	m_ui->checkBoxTorrentsEndgame->setChecked(quazaaSettings.BitTorrentEndgame);
-	m_ui->spinBoxTorrentsSimultaneous->setValue(quazaaSettings.BitTorrentDownloadTorrents);
-	m_ui->spinBoxTorrentsClientConnections->setValue(quazaaSettings.BitTorrentDownloadConnections);
-	m_ui->checkBoxTorrentsClearDownloaded->setChecked(quazaaSettings.BitTorrentAutoClear);
-	m_ui->spinBoxTorrentsRatioClear->setValue(quazaaSettings.BitTorrentClearRatio);
-	m_ui->checkBoxTorrentsPreferTorrent->setChecked(quazaaSettings.BitTorrentPreferBTSources);
-	m_ui->checkBoxTorrentsUseKademlia->setChecked(quazaaSettings.BitTorrentUseKademlia);
-	m_ui->lineEditTorrentFolder->setText(quazaaSettings.BitTorrentTorrentPath);
+	m_ui->checkBoxTorrentSaveDialog->setChecked(quazaaSettings.BitTorrent.UseSaveDialog);
+	m_ui->checkBoxTorrentsStartPaused->setChecked(quazaaSettings.BitTorrent.StartPaused);
+	m_ui->checkBoxTorrentsUseTemp->setChecked(quazaaSettings.BitTorrent.UseTemp);
+	m_ui->checkBoxManagedTorrent->setChecked(quazaaSettings.BitTorrent.Managed);
+	m_ui->checkBoxTorrentsEndgame->setChecked(quazaaSettings.BitTorrent.Endgame);
+	m_ui->spinBoxTorrentsSimultaneous->setValue(quazaaSettings.BitTorrent.DownloadTorrents);
+	m_ui->spinBoxTorrentsClientConnections->setValue(quazaaSettings.BitTorrent.DownloadConnections);
+	m_ui->checkBoxTorrentsClearDownloaded->setChecked(quazaaSettings.BitTorrent.AutoClear);
+	m_ui->spinBoxTorrentsRatioClear->setValue(quazaaSettings.BitTorrent.ClearRatio);
+	m_ui->checkBoxTorrentsPreferTorrent->setChecked(quazaaSettings.BitTorrent.PreferBTSources);
+	m_ui->checkBoxTorrentsUseKademlia->setChecked(quazaaSettings.BitTorrent.UseKademlia);
+	m_ui->lineEditTorrentFolder->setText(quazaaSettings.BitTorrent.TorrentPath);
 
 	// Set Generic Control States
 	m_ui->pagesSettings->setCurrentIndex(0);
@@ -359,209 +342,188 @@ void DialogSettings::on_listWidgetNavigationNetworks_clicked(QModelIndex index)
 void DialogSettings::on_pushButtonApply_clicked()
 {
 	// Save Basic Settings
-	quazaaSettings.BasicStartWithSystem = m_ui->checkBoxSystemStart->isChecked();
-	quazaaSettings.BasicConnectOnStartup = m_ui->checkBoxAutoConnect->isChecked();
-	quazaaSettings.BasicCloseMode = m_ui->comboBoxCloseButton->currentIndex();
-	quazaaSettings.BasicMinimizeToTray = m_ui->checkBoxMinimiseToTray->isChecked();
-	quazaaSettings.BasicSearchTips = m_ui->checkBoxSearchTooltips->isChecked();
-	quazaaSettings.BasicLibraryTips = m_ui->checkBoxLibraryTooltips->isChecked();
-	quazaaSettings.BasicDownloadsTips = m_ui->checkBoxDownloadTooltips->isChecked();
-	quazaaSettings.BasicUploadsTips = m_ui->checkBoxUploadTooltips->isChecked();
-	quazaaSettings.BasicNeighboursTips = m_ui->checkBoxNeighbourTooltips->isChecked();
-	quazaaSettings.BasicMediaTips = m_ui->checkBoxMediaPlayerTooltips->isChecked();
-	quazaaSettings.BasicChatTips = m_ui->checkBoxChatTooltips->isChecked();
-	quazaaSettings.BasicTipDelay = m_ui->spinBoxToolTipDelay->value();
-	quazaaSettings.BasicTipTransparency = m_ui->horizontalSliderTransparency->value();
-	quazaaSettings.BasicDiskSpaceWarning = m_ui->spinBoxDiskSpaceWarning->value();
-	quazaaSettings.BasicDiskSpaceStop = m_ui->spinBoxDiskSpaceStop->value();
+	quazaaSettings.Basic.StartWithSystem = m_ui->checkBoxSystemStart->isChecked();
+	quazaaSettings.Basic.ConnectOnStartup = m_ui->checkBoxAutoConnect->isChecked();
+	quazaaSettings.Basic.CloseMode = m_ui->comboBoxCloseButton->currentIndex();
+	quazaaSettings.Basic.MinimizeToTray = m_ui->checkBoxMinimiseToTray->isChecked();
+	quazaaSettings.Basic.SearchTips = m_ui->checkBoxSearchTooltips->isChecked();
+	quazaaSettings.Basic.LibraryTips = m_ui->checkBoxLibraryTooltips->isChecked();
+	quazaaSettings.Basic.DownloadsTips = m_ui->checkBoxDownloadTooltips->isChecked();
+	quazaaSettings.Basic.UploadsTips = m_ui->checkBoxUploadTooltips->isChecked();
+	quazaaSettings.Basic.NeighboursTips = m_ui->checkBoxNeighbourTooltips->isChecked();
+	quazaaSettings.Basic.MediaTips = m_ui->checkBoxMediaPlayerTooltips->isChecked();
+	quazaaSettings.Basic.ChatTips = m_ui->checkBoxChatTooltips->isChecked();
+	quazaaSettings.Basic.TipDelay = m_ui->spinBoxToolTipDelay->value();
+	quazaaSettings.Basic.TipTransparency = m_ui->horizontalSliderTransparency->value();
+	quazaaSettings.Basic.DiskSpaceWarning = m_ui->spinBoxDiskSpaceWarning->value();
+	quazaaSettings.Basic.DiskSpaceStop = m_ui->spinBoxDiskSpaceStop->value();
 
 	// Save Parental Settings
-	quazaaSettings.ParentalChatAdultCensor = m_ui->checkBoxCensor->isChecked();
-	quazaaSettings.ParentalFilterAdultSearchResults = m_ui->checkBoxFilterAdult->isChecked();
-	quazaaSettings.ParentalAdultFilter.clear();
+	quazaaSettings.Parental.ChatAdultCensor = m_ui->checkBoxCensor->isChecked();
+	quazaaSettings.Parental.FilterAdultSearchResults = m_ui->checkBoxFilterAdult->isChecked();
+	quazaaSettings.Parental.AdultFilter.clear();
 	for (int m_iAdultFilterRow = 0; m_iAdultFilterRow < m_ui->listWidgetAdultFilter->count(); m_iAdultFilterRow++)
 	{
 		m_ui->listWidgetAdultFilter->setCurrentRow(m_iAdultFilterRow);
-		quazaaSettings.ParentalAdultFilter.append(m_ui->listWidgetAdultFilter->currentItem()->text());
+		quazaaSettings.Parental.AdultFilter.append(m_ui->listWidgetAdultFilter->currentItem()->text());
 	}
 
 	// Save Library Settings
-	quazaaSettings.LibraryRememberViews = m_ui->checkBoxRememberViews->isChecked();
-	quazaaSettings.LibraryWatchFolders = m_ui->checkBoxWatchFolders->isChecked();
-	quazaaSettings.LibraryHighPriorityHashing = m_ui->checkBoxQuickHashing->isChecked();
-	quazaaSettings.LibraryHashWindow = m_ui->checkBoxDisplayHashingProgress->isChecked();
-	quazaaSettings.LibraryGhostFiles = m_ui->checkBoxGhostFiles->isChecked();
-	quazaaSettings.LibrarySmartSeriesDetection = m_ui->checkBoxSeriesDetection->isChecked();
-	quazaaSettings.LibraryHistoryTotal = m_ui->spinBoxRememberFiles->value();
-	quazaaSettings.LibraryHistoryDays = m_ui->spinBoxUpToDays->value();
-	quazaaSettings.LibrarySafeExecuteTypes.clear();
+	quazaaSettings.Library.RememberViews = m_ui->checkBoxRememberViews->isChecked();
+	quazaaSettings.Library.WatchFolders = m_ui->checkBoxWatchFolders->isChecked();
+	quazaaSettings.Library.HighPriorityHashing = m_ui->checkBoxQuickHashing->isChecked();
+	quazaaSettings.Library.HashWindow = m_ui->checkBoxDisplayHashingProgress->isChecked();
+	quazaaSettings.Library.GhostFiles = m_ui->checkBoxGhostFiles->isChecked();
+	quazaaSettings.Library.SmartSeriesDetection = m_ui->checkBoxSeriesDetection->isChecked();
+	quazaaSettings.Library.HistoryTotal = m_ui->spinBoxRememberFiles->value();
+	quazaaSettings.Library.HistoryDays = m_ui->spinBoxUpToDays->value();
+	quazaaSettings.Library.SafeExecuteTypes.clear();
 	for (int m_iSafeOpenRow = 0; m_iSafeOpenRow < m_ui->listWidgetSafeOpen->count(); m_iSafeOpenRow++)
 	{
 		m_ui->listWidgetSafeOpen->setCurrentRow(m_iSafeOpenRow);
-		quazaaSettings.LibrarySafeExecuteTypes.append(m_ui->listWidgetSafeOpen->currentItem()->text());
+		quazaaSettings.Library.SafeExecuteTypes.append(m_ui->listWidgetSafeOpen->currentItem()->text());
 	}
-	quazaaSettings.LibraryNeverShareTypes.clear();
+	quazaaSettings.Library.NeverShareTypes.clear();
 	for (int m_iNeverShareRow = 0; m_iNeverShareRow < m_ui->listWidgetNeverShare->count(); m_iNeverShareRow++)
 	{
 		m_ui->listWidgetNeverShare->setCurrentRow(m_iNeverShareRow);
-		quazaaSettings.LibraryNeverShareTypes.append(m_ui->listWidgetNeverShare->currentItem()->text());
+		quazaaSettings.Library.NeverShareTypes.append(m_ui->listWidgetNeverShare->currentItem()->text());
 	}
 
 	// Save Media Player Settings
-	quazaaSettings.MediaHandler = m_ui->comboBoxChoosePlayer->currentIndex();
-	quazaaSettings.MediaCustomPlayerPath = m_ui->lineEditCustomPlayerPath->text();
-	quazaaSettings.MediaFileTypes.clear();
+	quazaaSettings.Media.Handler = m_ui->comboBoxChoosePlayer->currentIndex();
+	quazaaSettings.Media.CustomPlayerPath = m_ui->lineEditCustomPlayerPath->text();
+	quazaaSettings.Media.FileTypes.clear();
 	for (int m_iPlayerFilesListRow = 0; m_iPlayerFilesListRow < m_ui->listWidgetPlayerFilesList->count(); m_iPlayerFilesListRow++)
 	{
 		m_ui->listWidgetPlayerFilesList->setCurrentRow(m_iPlayerFilesListRow);
-		quazaaSettings.MediaFileTypes.append(m_ui->listWidgetPlayerFilesList->currentItem()->text());
+		quazaaSettings.Media.FileTypes.append(m_ui->listWidgetPlayerFilesList->currentItem()->text());
 	}
 
 	// Save Search Settings
-	quazaaSettings.SearchExpandSearchMatches = m_ui->checkBoxExpandMultiSorce->isChecked();
-	quazaaSettings.SearchSwitchOnDownload = m_ui->checkBoxSwitchOnDownload->isChecked();
-	quazaaSettings.SearchHighlightNew = m_ui->checkBoxHighlightNewSearchMatches->isChecked();
+	quazaaSettings.Search.ExpandSearchMatches = m_ui->checkBoxExpandMultiSorce->isChecked();
+	quazaaSettings.Search.SwitchOnDownload = m_ui->checkBoxSwitchOnDownload->isChecked();
+	quazaaSettings.Search.HighlightNew = m_ui->checkBoxHighlightNewSearchMatches->isChecked();
 
 	// Save Chat Settings
-	quazaaSettings.ChatGnutellaChatEnable = m_ui->checkBoxGnutellaChatEnable->isChecked();
-	quazaaSettings.ChatEnableChatAllNetworks = m_ui->checkBoxEnableChatOther->isChecked();
-	quazaaSettings.ChatConnectOnStartup = m_ui->checkBoxConnectIRCOnStart->isChecked();
-	quazaaSettings.ChatEnableFileTransfers = m_ui->checkBoxEnableIRCFileTransfers->isChecked();
-	quazaaSettings.ChatShowTimestamp = m_ui->checkBoxIRCShowTimestamp->isChecked();
-	quazaaSettings.ChatAwayMessageIdleTime = m_ui->spinBoxChatIdleMessage->value();
-	quazaaSettings.ChatScreenFont = fontTempChat;
-	quazaaSettings.ChatIrcServerName = m_ui->lineEditIRCServer->text();
-	quazaaSettings.ChatIrcServerPort = m_ui->spinBoxIRCPort->value();
-	quazaaSettings.ChatColorChatBackground.setNamedColor(colorTempChatBackground.name());
-	quazaaSettings.ChatColorNormalText.setNamedColor(colorTempNormalText.name());
-	quazaaSettings.ChatColorServerMessagesText.setNamedColor(colorTempServerMessages.name());
-	quazaaSettings.ChatColorTopicsText.setNamedColor(colorTempTopics.name());
-	quazaaSettings.ChatColorRoomActionsText.setNamedColor(colorTempRoomActions.name());
-	quazaaSettings.ChatColorNoticesText.setNamedColor(colorTempNotices.name());
+	quazaaSettings.Chat.GnutellaChatEnable = m_ui->checkBoxGnutellaChatEnable->isChecked();
+	quazaaSettings.Chat.EnableChatAllNetworks = m_ui->checkBoxEnableChatOther->isChecked();
+	quazaaSettings.Chat.ConnectOnStartup = m_ui->checkBoxConnectIRCOnStart->isChecked();
+	quazaaSettings.Chat.EnableFileTransfers = m_ui->checkBoxEnableIRCFileTransfers->isChecked();
+	quazaaSettings.Chat.ShowTimestamp = m_ui->checkBoxIRCShowTimestamp->isChecked();
+	quazaaSettings.Chat.AwayMessageIdleTime = m_ui->spinBoxChatIdleMessage->value();
+	quazaaSettings.Chat.ScreenFont = fontTempChat;
+	quazaaSettings.Chat.IrcServerName = m_ui->lineEditIRCServer->text();
+	quazaaSettings.Chat.IrcServerPort = m_ui->spinBoxIRCPort->value();
+	quazaaSettings.Chat.ColorChatBackground.setNamedColor(colorTempChatBackground.name());
+	quazaaSettings.Chat.ColorNormalText.setNamedColor(colorTempNormalText.name());
+	quazaaSettings.Chat.ColorServerMessagesText.setNamedColor(colorTempServerMessages.name());
+	quazaaSettings.Chat.ColorTopicsText.setNamedColor(colorTempTopics.name());
+	quazaaSettings.Chat.ColorRoomActionsText.setNamedColor(colorTempRoomActions.name());
+	quazaaSettings.Chat.ColorNoticesText.setNamedColor(colorTempNotices.name());
 
 	// Save Connection Settings
-	if (m_ui->comboBoxInboundAddress->currentText() != tr("Automatic"))
-	{
-		quazaaSettings.ConnectionInAddress = m_ui->comboBoxInboundAddress->currentText();
-	} else {
-		quazaaSettings.ConnectionInAddress = "";
-	}
-	quazaaSettings.ConnectionInBind = m_ui->checkBoxForceBindingAddress->isChecked();
-	if (m_ui->comboBoxOutboundAddress->currentText() != tr("Automatic"))
-	{
-		quazaaSettings.ConnectionOutAddress = m_ui->comboBoxOutboundAddress->currentText();
-	} else {
-		quazaaSettings.ConnectionOutAddress = "";
-	}
-	quazaaSettings.ConnectionPort = m_ui->spinBoxQuazaaPort->value();
-	quazaaSettings.ConnectionRandomPort = m_ui->checkBoxRandomPort->isChecked();
-	quazaaSettings.ConnectionCanAcceptIncoming = m_ui->comboBoxAcceptIncoming->currentIndex();
-	quazaaSettings.ConnectionTimeout = m_ui->spinBoxConnectionTimeout->value();
-	quazaaSettings.ConnectionTimeoutHandshake = m_ui->spinBoxHandshakeTimeout->value();
+	quazaaSettings.Connection.Port = m_ui->spinBoxQuazaaPort->value();
+	quazaaSettings.Connection.RandomPort = m_ui->checkBoxRandomPort->isChecked();
+	quazaaSettings.Connection.TimeoutConnect = m_ui->spinBoxConnectionTimeout->value();
 
 	// Save Web Settings
-	quazaaSettings.WebMagnet = m_ui->checkBoxMagnetLinks->isChecked();
-	quazaaSettings.WebGnutella = m_ui->checkBoxGnutellaLinks->isChecked();
-	quazaaSettings.WebAres = m_ui->checkBoxAresLinks->isChecked();
-	quazaaSettings.WebTorrent = m_ui->checkBoxBitTorrentLinks->isChecked();
-	quazaaSettings.WebPiolet = m_ui->checkBoxPioletLinks->isChecked();
-	quazaaSettings.WebED2K = m_ui->checkBoxEDonkeyLinks->isChecked();
-	quazaaSettings.WebBrowserIntegration = m_ui->checkBoxManageWebDownloads->isChecked();
-	quazaaSettings.WebManageDownloadTypes.clear();
+	quazaaSettings.Web.Magnet = m_ui->checkBoxMagnetLinks->isChecked();
+	quazaaSettings.Web.Gnutella = m_ui->checkBoxGnutellaLinks->isChecked();
+	quazaaSettings.Web.Ares = m_ui->checkBoxAresLinks->isChecked();
+	quazaaSettings.Web.Torrent = m_ui->checkBoxBitTorrentLinks->isChecked();
+	quazaaSettings.Web.Piolet = m_ui->checkBoxPioletLinks->isChecked();
+	quazaaSettings.Web.ED2K = m_ui->checkBoxEDonkeyLinks->isChecked();
+	quazaaSettings.Web.BrowserIntegration = m_ui->checkBoxManageWebDownloads->isChecked();
+	quazaaSettings.Web.ManageDownloadTypes.clear();
 	for (int m_iDownloadTypesRow = 0; m_iDownloadTypesRow < m_ui->listWidgetManageDownloadTypes->count(); m_iDownloadTypesRow++)
 	{
 		m_ui->listWidgetManageDownloadTypes->setCurrentRow(m_iDownloadTypesRow);
-		quazaaSettings.WebManageDownloadTypes.append(m_ui->listWidgetManageDownloadTypes->currentItem()->text());
+		quazaaSettings.Web.ManageDownloadTypes.append(m_ui->listWidgetManageDownloadTypes->currentItem()->text());
 	}
 
 	// Save Transfer Settings
-	quazaaSettings.TransfersRequireConnectedNetwork = m_ui->checkBoxOnlyDownloadConnectedNetworks->isChecked();
-	quazaaSettings.TransfersSimpleProgressBar = m_ui->checkBoxSimpleProgress->isChecked();
-	quazaaSettings.TransfersRatesUnit = m_ui->comboBoxRates->currentIndex();
-	quazaaSettings.TransfersBandwidthDownloads = m_ui->doubleSpinBoxDownloadSpeed->value();
-	quazaaSettings.TransfersBandwidthUploads = m_ui->doubleSpinBoxUploadSpeed->value();
+	quazaaSettings.Transfers.RequireConnectedNetwork = m_ui->checkBoxOnlyDownloadConnectedNetworks->isChecked();
+	quazaaSettings.Transfers.SimpleProgressBar = m_ui->checkBoxSimpleProgress->isChecked();
+	quazaaSettings.Transfers.RatesUnit = m_ui->comboBoxRates->currentIndex();
+	quazaaSettings.Transfers.BandwidthDownloads = m_ui->doubleSpinBoxDownloadSpeed->value();
+	quazaaSettings.Transfers.BandwidthUploads = m_ui->doubleSpinBoxUploadSpeed->value();
 
 	// Save Download Settings
-	quazaaSettings.DownloadsExpandDownloads = m_ui->checkBoxExpandDownloads->isChecked();
-	quazaaSettings.DownloadsCompletePath = m_ui->lineEditSaveFolder->text();
-	quazaaSettings.DownloadsIncompletePath = m_ui->lineEditTempFolder->text();
-	quazaaSettings.DownloadsQueueLimit = m_ui->comboBoxQueLength->currentIndex();
-	quazaaSettings.DownloadsMaxFiles = m_ui->spinBoxMaxFiles->value();
-	quazaaSettings.DownloadsMaxTransfers = m_ui->spinBoxMaxTransfers->value();
-	quazaaSettings.DownloadsMaxTransfersPerFile = m_ui->spinBoxTransfersPerFile->value();
+	quazaaSettings.Downloads.ExpandDownloads = m_ui->checkBoxExpandDownloads->isChecked();
+	quazaaSettings.Downloads.CompletePath = m_ui->lineEditSaveFolder->text();
+	quazaaSettings.Downloads.IncompletePath = m_ui->lineEditTempFolder->text();
+	quazaaSettings.Downloads.QueueLimit = m_ui->comboBoxQueLength->currentIndex();
+	quazaaSettings.Downloads.MaxFiles = m_ui->spinBoxMaxFiles->value();
+	quazaaSettings.Downloads.MaxTransfers = m_ui->spinBoxMaxTransfers->value();
+	quazaaSettings.Downloads.MaxTransfersPerFile = m_ui->spinBoxTransfersPerFile->value();
 
 	// Save Upload Settings
-	quazaaSettings.UploadsSharePartials = m_ui->checkBoxSharePartials->isChecked();
-	quazaaSettings.UploadsHubShareLimiting = m_ui->checkBoxSharingLimitHub->isChecked();
-	quazaaSettings.UploadsSharePreviews = m_ui->checkBoxSharePreviews->isChecked();
-	quazaaSettings.UploadsMaxPerHost = m_ui->spinBoxUniqueHostLimit->value();
+	quazaaSettings.Uploads.SharePartials = m_ui->checkBoxSharePartials->isChecked();
+	quazaaSettings.Uploads.HubShareLimiting = m_ui->checkBoxSharingLimitHub->isChecked();
+	quazaaSettings.Uploads.SharePreviews = m_ui->checkBoxSharePreviews->isChecked();
+	quazaaSettings.Uploads.MaxPerHost = m_ui->spinBoxUniqueHostLimit->value();
 
 	// Save Security Settings
-	quazaaSettings.SecurityChatFilter = m_ui->checkBoxFilterChatSpam->isChecked();
-	quazaaSettings.SecurityED2kChatFilter = m_ui->checkBoxFilterEDonkeyChatSpam->isChecked();
-	quazaaSettings.SecurityAllowProfileBrowse = m_ui->checkBoxAllowBrowseProfile->isChecked();
-	quazaaSettings.SecurityIrcFloodProtection = m_ui->checkBoxChatFloodProtection->isChecked();
-	quazaaSettings.SecurityIrcFloodLimit = m_ui->spinBoxChatFloodLimit->value();
-	quazaaSettings.SecurityRemoteEnable = m_ui->checkBoxEnableRemote->isChecked();
-	quazaaSettings.SecurityRemoteUsername = m_ui->lineEditRemoteUserName->text();
-	quazaaSettings.SecurityRemotePassword = m_ui->lineEditRemotePassword->text();
-	quazaaSettings.SecuritySearchIgnoreLocalIP = m_ui->checkBoxIgnoreLocalIP->isChecked();
-	quazaaSettings.SecurityEnableUPnP = m_ui->checkBoxEnableUPnP->isChecked();
-	quazaaSettings.SecurityAllowSharesBrowse = m_ui->checkBoxAllowBrowseShares->isChecked();
-	quazaaSettings.SecurityBlockedAgentUploadFilter.clear();
+	quazaaSettings.Security.ChatFilter = m_ui->checkBoxFilterChatSpam->isChecked();
+	quazaaSettings.Security.ED2kChatFilter = m_ui->checkBoxFilterEDonkeyChatSpam->isChecked();
+	quazaaSettings.Security.AllowProfileBrowse = m_ui->checkBoxAllowBrowseProfile->isChecked();
+	quazaaSettings.Security.IrcFloodProtection = m_ui->checkBoxChatFloodProtection->isChecked();
+	quazaaSettings.Security.IrcFloodLimit = m_ui->spinBoxChatFloodLimit->value();
+	quazaaSettings.Security.RemoteEnable = m_ui->checkBoxEnableRemote->isChecked();
+	quazaaSettings.Security.RemoteUsername = m_ui->lineEditRemoteUserName->text();
+	quazaaSettings.Security.RemotePassword = m_ui->lineEditRemotePassword->text();
+	quazaaSettings.Security.SearchIgnoreLocalIP = m_ui->checkBoxIgnoreLocalIP->isChecked();
+	quazaaSettings.Security.EnableUPnP = m_ui->checkBoxEnableUPnP->isChecked();
+	quazaaSettings.Security.AllowSharesBrowse = m_ui->checkBoxAllowBrowseShares->isChecked();
+	quazaaSettings.Security.BlockedAgentUploadFilter.clear();
 	for (int m_iUserAgentsRow = 0; m_iUserAgentsRow < m_ui->listWidgetUserAgents->count(); m_iUserAgentsRow++)
 	{
 		m_ui->listWidgetUserAgents->setCurrentRow(m_iUserAgentsRow);
-		quazaaSettings.SecurityBlockedAgentUploadFilter.append(m_ui->listWidgetUserAgents->currentItem()->text());
+		quazaaSettings.Security.BlockedAgentUploadFilter.append(m_ui->listWidgetUserAgents->currentItem()->text());
 	}
 
 	// Save Gnutella 2 Settings
-	quazaaSettings.Gnutella2Enable = m_ui->checkBoxConnectG2->isChecked();
-	quazaaSettings.Gnutella2ClientMode = m_ui->comboBoxG2Mode->currentIndex();
-	quazaaSettings.Gnutella2NumHubs = m_ui->spinBoxG2LeafToHub->value();
-	quazaaSettings.Gnutella2NumLeafs = m_ui->spinBoxG2HubToLeaf->value();
-	quazaaSettings.Gnutella2NumPeers = m_ui->spinBoxG2HubToHub->value();
-
-	// Save Gnutella 1 Settings
-	quazaaSettings.Gnutella1Enable = m_ui->checkBoxConnectG1->isChecked();
-	quazaaSettings.Gnutella1NumHubs = m_ui->spinBoxG1LeafToUltrapeer->value();
-	quazaaSettings.Gnutella1NumLeafs = m_ui->spinBoxG1UltrapeerToLeaf->value();
-	quazaaSettings.Gnutella1NumPeers = m_ui->spinBoxG1UltrapeerToUltrapeer->value();
+	quazaaSettings.Gnutella2.Enable = m_ui->checkBoxConnectG2->isChecked();
+	quazaaSettings.Gnutella2.ClientMode = m_ui->comboBoxG2Mode->currentIndex();
+	quazaaSettings.Gnutella2.NumHubs = m_ui->spinBoxG2LeafToHub->value();
+	quazaaSettings.Gnutella2.NumLeafs = m_ui->spinBoxG2HubToLeaf->value();
+	quazaaSettings.Gnutella2.NumPeers = m_ui->spinBoxG2HubToHub->value();
 
 	// Save Gnutella Settings
-	quazaaSettings.GnutellaCompressLeaf2Hub = m_ui->checkBoxCompressionLeafToHub->isChecked();
-	quazaaSettings.GnutellaCompressHub2Leaf = m_ui->checkBoxCompressionHubToLeaf->isChecked();
-	quazaaSettings.GnutellaCompressHub2Hub = m_ui->checkBoxCompressionHubToHub->isChecked();
+	quazaaSettings.Gnutella.CompressLeaf2Hub = m_ui->checkBoxCompressionLeafToHub->isChecked();
+	quazaaSettings.Gnutella.CompressHub2Leaf = m_ui->checkBoxCompressionHubToLeaf->isChecked();
+	quazaaSettings.Gnutella.CompressHub2Hub = m_ui->checkBoxCompressionHubToHub->isChecked();
 
 	// Save Ares Settings
-	quazaaSettings.AresEnable = m_ui->checkBoxConnectAres->isChecked();
+	quazaaSettings.Ares.Enable = m_ui->checkBoxConnectAres->isChecked();
 
 	// Save eDonkey 2k Settings
-	quazaaSettings.EDonkeyEnable = m_ui->checkBoxConnectEDonkey->isChecked();
-	quazaaSettings.EDonkeyEnableKad = m_ui->checkBoxConnectKAD->isChecked();
-	quazaaSettings.EDonkeySearchCachedServers = m_ui->checkBoxED2kSearchCahedServers->isChecked();
-	quazaaSettings.EDonkeyMaxResults = m_ui->spinBoxED2kMaxResults->value();
-	quazaaSettings.EDonkeyLearnNewServers = m_ui->checkBoxED2kUpdateServerList->isChecked();
-	quazaaSettings.EDonkeyMaxClients = m_ui->spinBoxED2kMaxClients->value();
-	quazaaSettings.EDonkeyMetAutoQuery = m_ui->checkBoxAutoQueryServerList->isChecked();
-	quazaaSettings.EDonkeyServerListURL = m_ui->lineEditEDonkeyServerListUrl->text();
+	quazaaSettings.EDonkey.Enable = m_ui->checkBoxConnectEDonkey->isChecked();
+	quazaaSettings.EDonkey.EnableKad = m_ui->checkBoxConnectKAD->isChecked();
+	quazaaSettings.EDonkey.SearchCachedServers = m_ui->checkBoxED2kSearchCahedServers->isChecked();
+	quazaaSettings.EDonkey.MaxResults = m_ui->spinBoxED2kMaxResults->value();
+	quazaaSettings.EDonkey.LearnNewServers = m_ui->checkBoxED2kUpdateServerList->isChecked();
+	quazaaSettings.EDonkey.MaxClients = m_ui->spinBoxED2kMaxClients->value();
+	quazaaSettings.EDonkey.MetAutoQuery = m_ui->checkBoxAutoQueryServerList->isChecked();
+	quazaaSettings.EDonkey.ServerListURL = m_ui->lineEditEDonkeyServerListUrl->text();
 
 	// Save BitTorrent Settings
-	quazaaSettings.BitTorrentUseSaveDialog = m_ui->checkBoxTorrentSaveDialog->isChecked();
-	quazaaSettings.BitTorrentStartPaused = m_ui->checkBoxTorrentsStartPaused->isChecked();
-	quazaaSettings.BitTorrentUseTemp = m_ui->checkBoxTorrentsUseTemp->isChecked();
-	quazaaSettings.BitTorrentManaged = m_ui->checkBoxManagedTorrent->isChecked();
-	quazaaSettings.BitTorrentEndgame = m_ui->checkBoxTorrentsEndgame->isChecked();
-	quazaaSettings.BitTorrentDownloadTorrents = m_ui->spinBoxTorrentsSimultaneous->value();
-	quazaaSettings.BitTorrentDownloadConnections = m_ui->spinBoxTorrentsClientConnections->value();
-	quazaaSettings.BitTorrentAutoClear = m_ui->checkBoxTorrentsClearDownloaded->isChecked();
-	quazaaSettings.BitTorrentClearRatio = m_ui->spinBoxTorrentsRatioClear->value();
-	quazaaSettings.BitTorrentPreferBTSources = m_ui->checkBoxTorrentsPreferTorrent->isChecked();
-	quazaaSettings.BitTorrentUseKademlia = m_ui->checkBoxTorrentsUseKademlia->isChecked();
-	quazaaSettings.BitTorrentTorrentPath = m_ui->lineEditTorrentFolder->text();
+	quazaaSettings.BitTorrent.UseSaveDialog = m_ui->checkBoxTorrentSaveDialog->isChecked();
+	quazaaSettings.BitTorrent.StartPaused = m_ui->checkBoxTorrentsStartPaused->isChecked();
+	quazaaSettings.BitTorrent.UseTemp = m_ui->checkBoxTorrentsUseTemp->isChecked();
+	quazaaSettings.BitTorrent.Managed = m_ui->checkBoxManagedTorrent->isChecked();
+	quazaaSettings.BitTorrent.Endgame = m_ui->checkBoxTorrentsEndgame->isChecked();
+	quazaaSettings.BitTorrent.DownloadTorrents = m_ui->spinBoxTorrentsSimultaneous->value();
+	quazaaSettings.BitTorrent.DownloadConnections = m_ui->spinBoxTorrentsClientConnections->value();
+	quazaaSettings.BitTorrent.AutoClear = m_ui->checkBoxTorrentsClearDownloaded->isChecked();
+	quazaaSettings.BitTorrent.ClearRatio = m_ui->spinBoxTorrentsRatioClear->value();
+	quazaaSettings.BitTorrent.PreferBTSources = m_ui->checkBoxTorrentsPreferTorrent->isChecked();
+	quazaaSettings.BitTorrent.UseKademlia = m_ui->checkBoxTorrentsUseKademlia->isChecked();
+	quazaaSettings.BitTorrent.TorrentPath = m_ui->lineEditTorrentFolder->text();
 
 	// Save Skin Settings
-	quazaaSettings.SkinFile = skinFile;
+	quazaaSettings.Skin.File = skinFile;
 	skinSettings.loadSkin(skinFile);
 
 	emit skinChanged();

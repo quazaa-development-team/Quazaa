@@ -37,10 +37,10 @@ vlcMediaPlayer::vlcMediaPlayer(QSlider *positionSlider, QSlider *volumeSlider, Q
 	//preparation of the vlc command
 	const char * const vlc_args[] = {
 		"-I", "dummy", // Don't use any interface
-#ifdef defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
 		"--plugin-path=.\\vlcplugins",
 #endif
-#if defined(QT_DEBUG)
+#ifdef QT_DEBUG
 		"--verbose=2", //be much more verbose then normal for debugging purpose
 		"--extraintf=logger", //log anything
 #endif
@@ -169,7 +169,7 @@ void vlcMediaPlayer::playFile(QString file)
 	/* Play */
 	libvlc_media_player_play (m_mediaPlayer, &vlcException );
 	raise(&vlcException);
-	changeVolume(quazaaSettings.MediaVolume);
+	changeVolume(quazaaSettings.Media.Volume);
 
 	m_bIsPlaying=true;
 	emit playStateChanged(m_bIsPlaying);
@@ -187,7 +187,7 @@ void vlcMediaPlayer::changeVolume(int newVolume)
 	libvlc_exception_clear(&vlcException);
 	libvlc_audio_set_volume (m_vlcInstance,newVolume , &vlcException);
 	raise(&vlcException);
-	quazaaSettings.MediaVolume = newVolume;
+	quazaaSettings.Media.Volume = newVolume;
 }
 
 void vlcMediaPlayer::changePosition(int newPosition)
@@ -236,7 +236,7 @@ void vlcMediaPlayer::raise(libvlc_exception_t * ex)
 void vlcMediaPlayer::openFile(QString file)
 {
 	if (file.isEmpty())
-		file = QFileDialog::getOpenFileName(this, tr("Open Media File"), quazaaSettings.MediaOpenPath, quazaaGlobals.MediaOpenFilter());
+		file = QFileDialog::getOpenFileName(this, tr("Open Media File"), quazaaSettings.Media.OpenPath, quazaaGlobals.MediaOpenFilter());
 	if (!file.isEmpty())
 	{
 		if (m_bIsPlaying)
@@ -245,7 +245,7 @@ void vlcMediaPlayer::openFile(QString file)
 		}
 		QFileInfo *fileInfo = new QFileInfo();
 		fileInfo->setFile(file);
-		quazaaSettings.MediaOpenPath = fileInfo->canonicalPath();
+		quazaaSettings.Media.OpenPath = fileInfo->canonicalPath();
 		file = file.prepend("file:///");
 		playFile(file);
 		emit playEnabled(true);

@@ -1,16 +1,23 @@
 #include "widgethostcache.h"
 #include "ui_widgethostcache.h"
 
+#include "quazaasettings.h"
+#include "QSkinDialog/qskinsettings.h"
+
 WidgetHostCache::WidgetHostCache(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::WidgetHostCache)
 {
     ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
+	ui->splitterHostCache->restoreState(quazaaSettings.WinMain.HostCacheSplitter);
 }
 
 WidgetHostCache::~WidgetHostCache()
 {
     delete ui;
+	quazaaSettings.WinMain.HostCacheSplitter = ui->splitterHostCache->saveState();
 }
 
 void WidgetHostCache::changeEvent(QEvent *e)
@@ -23,4 +30,9 @@ void WidgetHostCache::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WidgetHostCache::skinChangeEvent()
+{
+	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }

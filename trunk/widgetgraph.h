@@ -18,6 +18,9 @@ protected:
 
 private:
     Ui::WidgetGraph *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // WIDGETGRAPH_H

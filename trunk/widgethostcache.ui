@@ -22,7 +22,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QSplitter" name="splitter">
+     <widget class="QSplitter" name="splitterHostCache">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -40,7 +40,7 @@
          <string>G2</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset>
           <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
         </property>
         <item>
@@ -59,7 +59,7 @@
          <string>G1 Cache</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset>
           <normaloff>:/Resource/Networks/Gnutella1.png</normaloff>:/Resource/Networks/Gnutella1.png</iconset>
         </property>
        </item>
@@ -68,7 +68,7 @@
          <string>Ares</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset>
           <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
         </property>
        </item>
@@ -77,7 +77,7 @@
          <string>eDonkey</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset>
           <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
         </property>
         <item>
@@ -96,7 +96,7 @@
          <string>BitTorrent</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset>
           <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
         </property>
         <item>
@@ -148,7 +148,7 @@
   </widget>
   <action name="actionConnectTo">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -157,7 +157,7 @@
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -166,7 +166,7 @@
   </action>
   <action name="actionRemove">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
    </property>
    <property name="text">
@@ -174,8 +174,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
