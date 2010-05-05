@@ -11,10 +11,14 @@
 #include "NetworkConnection.h"
 #include "Handshakes.h"
 
+#include "quazaasettings.h"
+
 #include "queryhashtable.h"
 #include "SearchManager.h"
 #include "ManagedSearch.h"
 #include "Query.h"
+
+#include <QInputDialog>
 
 CNetwork Network;
 CThread NetworkThread;
@@ -24,7 +28,7 @@ CNetwork::CNetwork(QObject *parent)
 {
     m_pSecondTimer = 0;
     //m_oAddress.port = 6346;
-    m_oAddress.port = 1095;
+	m_oAddress.port = quazaaSettings.Connection.Port;
 
     m_nHubsConnected = 0;
     m_nLeavesConnected = 0;
@@ -33,11 +37,8 @@ CNetwork::CNetwork(QObject *parent)
     m_nKHLWait = 60;
     m_tCleanRoutesNext = 60;
 
-    m_pHashTable = new QueryHashTable();
+    m_pHashTable = new QueryHashTable(); // do wywalenia
 
-    // dla testu
-    m_pHashTable->AddWord("urn:guid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-    m_pHashTable->AddWord("guid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 }
 CNetwork::~CNetwork()
 {
@@ -65,26 +66,19 @@ void CNetwork::Connect()
         return;
     }
 
-    m_nNodeState = G2_LEAF;
-    //m_nNodeState = G2_HUB;
+	if( quazaaSettings.Gnutella2.ClientMode < 2 )
+		m_nNodeState = G2_LEAF;
+	else
+		m_nNodeState = G2_HUB;
+
     m_bActive = true;
+	m_oAddress.port = quazaaSettings.Connection.Port;
 
     Datagrams.moveToThread(&NetworkThread);
     Handshakes.moveToThread(&NetworkThread);
     SearchManager.moveToThread(&NetworkThread);
     m_oRoutingTable.Clear();
     NetworkThread.start(&m_pSection, this);
-
-    /*if( !isRunning() )
-    {
-        //m_nNodeState = G2_LEAF;
-        m_nNodeState = G2_HUB;
-        m_bActive = true;
-
-        //Handshakes.Listen();
-        Datagrams.Listen();
-        start();
-    }*/
 
 }
 void CNetwork::Disconnect()
@@ -99,16 +93,6 @@ void CNetwork::Disconnect()
         NetworkThread.exit(0);
     }
 
-    /*if( isRunning() )
-    {
-        m_bActive = false;
-        Handshakes.Disconnect();
-        emit changeThreadSignal(qApp->thread());
-        quit();
-        l.unlock();
-    }
-
-    wait();*/
 }
 void CNetwork::SetupThread()
 {
@@ -122,14 +106,13 @@ void CNetwork::SetupThread()
     m_pSecondTimer->start(1000);
 
     // Powiedzmy ze mamy lacze 2Mbit/s / 128kbit/s
-    quint32 nUploadCapacity = 1024 * 1024 * 8;
-    quint32 nDownloadCapacity = 16384 * 1024 * 8;
+	quint32 nUploadCapacity = quazaaSettings.Connection.OutSpeed;
+	quint32 nDownloadCapacity = quazaaSettings.Connection.InSpeed;
 
     // Dla polaczen TCP w sieci 1/4 dostepnego pasma
     m_pRateController = new CRateController();
     m_pRateController->setObjectName("CNetwork rate controller");
     m_pRateController->SetDownloadLimit(nDownloadCapacity / 4);
-    //m_pRateController->setDownloadLimit(2048);
     m_pRateController->SetUploadLimit(nUploadCapacity / 4);
 
     Datagrams.Listen();
@@ -186,21 +169,17 @@ void CNetwork::OnSecondTimer()
         qWarning() << "WARNING: Network core overloaded!";
         return;
     }
-    //m_pSection.lock();
 
     if( !m_bActive )
     {
-        /*if( m_lNodes.isEmpty() )
-        {
-            //quit();
-        }
-        else
-        {
-            DisconnectAllNodes();
-        }*/
         m_pSection.unlock();
         return;
     }
+
+	// this was a test
+	/*G2Packet* pTest = G2Packet::New("TEST");
+	Datagrams.SendPacket(a, pTest, true);*/
+
 
     if( HostCache.isEmpty() && !WebCache.isRequesting() )
     {
@@ -227,7 +206,7 @@ void CNetwork::OnSecondTimer()
     {
         if( m_bNeedUpdateLNI )
         {
-            m_nLNIWait = 60;
+			m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
             m_bNeedUpdateLNI = false;
 
             foreach( CG2Node* pNode, m_lNodes )
@@ -244,7 +223,7 @@ void CNetwork::OnSecondTimer()
     {
         HostCache.Save();
         DispatchKHL();
-        m_nKHLWait = 60;
+		m_nKHLWait = quazaaSettings.Gnutella2.KHLPeriod;
     }
     else
         m_nKHLWait--;
@@ -269,14 +248,14 @@ bool CNetwork::NeedMore(G2NodeType nType)
     if( nType == G2_HUB ) // potrzeba hubow?
     {
         if( m_nNodeState == G2_HUB ) // jesli hub
-            return ( m_nHubsConnected < HubToHub );
+			return ( m_nHubsConnected < quazaaSettings.Gnutella2.NumPeers );
         else    // jesli leaf
-            return ( m_nLeavesConnected < LeafToHub );
+			return ( m_nLeavesConnected < quazaaSettings.Gnutella2.NumHubs );
     }
     else // potrzeba leaf?
     {
         if( m_nNodeState == G2_HUB )    // jesli hub
-            return ( m_nLeavesConnected < HubToLeaf );
+			return ( m_nLeavesConnected < quazaaSettings.Gnutella2.NumLeafs );
     }
 
     return false;
@@ -331,9 +310,7 @@ void CNetwork::Maintain()
 
     }
 
-    //qDebug("Hubs: %u, Leaves: %u, unknown: %u", nHubs, nLeaves, nUnknown);
-
-
+	//qDebug("Hubs: %u, Leaves: %u, unknown: %u", nHubs, nLeaves, nUnknown);
 
     if( m_nHubsConnected != nHubs || m_nLeavesConnected != nLeaves )
         m_bNeedUpdateLNI = true;
@@ -341,19 +318,16 @@ void CNetwork::Maintain()
     m_nHubsConnected = nHubs;
     m_nLeavesConnected = nLeaves;
 
-    //return;
-
     if( m_nNodeState == G2_LEAF )
     {
-        if( nHubs > LeafToHub )
+		if( nHubs > quazaaSettings.Gnutella2.NumHubs )
         {
             // rozlaczyc
             DropYoungest(G2_HUB, (nCoreHubs / nHubs) > 0.5);
         }
-        else if( nHubs < LeafToHub )
-        //else if( nHubs < 1)
+		else if( nHubs < quazaaSettings.Gnutella2.NumHubs )
         {
-            qint32 nAttempt = qint32((LeafToHub - nHubs) * ConnectFactor);
+			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumHubs - nHubs) * quazaaSettings.Gnutella.ConnectFactor );
             nAttempt = qMin(nAttempt, 8) - nUnknown;
 
             quint32 tNow = time(0);
@@ -381,14 +355,14 @@ void CNetwork::Maintain()
     }
     else
     {
-        if( nHubs > HubToHub )
+		if( nHubs > quazaaSettings.Gnutella2.NumPeers )
         {
             // rozlaczyc hub
             DropYoungest(G2_HUB, (nCoreHubs / nHubs) > 0.5);
         }
-        else if( nHubs < HubToHub )
+		else if( nHubs < quazaaSettings.Gnutella2.NumPeers )
         {
-            qint32 nAttempt = qint32((HubToHub - nHubs) * ConnectFactor);
+			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubs) * quazaaSettings.Gnutella.ConnectFactor );
             nAttempt = qMin(nAttempt, 8) - nUnknown;
 
             quint32 tNow = time(0);
@@ -413,7 +387,7 @@ void CNetwork::Maintain()
             }
         }
 
-        if( nLeaves > HubToLeaf )
+		if( nLeaves > quazaaSettings.Gnutella2.NumLeafs )
         {
             DropYoungest(G2_LEAF, (nCoreLeaves / nLeaves) > 0.5);
         }
@@ -428,14 +402,14 @@ void CNetwork::DispatchKHL()
     G2Packet* pKHL = G2Packet::New("KHL");
     G2Packet* pTmp = pKHL->WriteChild("TS");
     quint32 ts = time(0);
-    pTmp->WriteBytes((void*)&ts, sizeof(ts));
+	pTmp->WriteIntLE(ts);
 
     foreach(CG2Node* pNode, m_lNodes)
     {
         if( pNode->m_nType == G2_HUB && pNode->m_nState == nsConnected )
         {
             pTmp = pKHL->WriteChild("NH");
-            pTmp->WriteBytes(&pNode->m_oAddress, 6);
+			pTmp->WriteHostAddress(&pNode->m_oAddress);
         }
     }
 

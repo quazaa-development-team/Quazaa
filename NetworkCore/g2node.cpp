@@ -7,6 +7,8 @@
 #include "SearchManager.h"
 #include "QueryHit.h"
 
+#include "quazaasettings.h"
+
 /*CG2Node::CG2Node(QObject *parent) :
     CNetworkConnection(parent)*/
 CG2Node::CG2Node(QObject *parent) :
@@ -137,24 +139,7 @@ void CG2Node::OnRead()
                 m_tLastPacketIn = time(0);
                 m_nPacketsIn++;
 
-                //try
-                {
-                    OnPacket(pPacket);
-                }
-                /*catch(packet_error)
-                {
-                    qDebug() << "Packet error in child packets!";
-                    throw;
-                }
-                catch(packet_incomplete)
-                {
-                    qDebug() << "Incomplete packet in child packets!";
-                    throw packet_error();
-                }
-                catch(stream_end)
-                {
-                    qDebug() << "Tego tu nie powinno byc...";
-                }*/
+				OnPacket(pPacket);
 
                 pPacket->Release();
             }
@@ -203,7 +188,7 @@ void CG2Node::OnTimer(quint32 tNow)
 
     if( m_nState < nsConnected )
     {
-        if( tNow - m_tConnected > 15 )
+		if( tNow - m_tConnected > quazaaSettings.Connection.TimeoutConnect )
         {
             if( m_bInitiated )
                 HostCache.OnFailure(m_oAddress);
@@ -214,7 +199,7 @@ void CG2Node::OnTimer(quint32 tNow)
     }
     else if( m_nState == nsConnected )
     {
-        if( tNow - m_tLastPacketIn > 60 )
+		if( tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic )
         {
             qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "minute dead";
             m_nState = nsClosing;
@@ -223,7 +208,7 @@ void CG2Node::OnTimer(quint32 tNow)
             return;
         }
 
-        if( m_nPingsWaiting == 0 && (tNow - m_tLastPacketIn >= 30 || tNow - m_tLastPingOut >= 120) )
+		if( m_nPingsWaiting == 0 && (tNow - m_tLastPacketIn >= 30 || tNow - m_tLastPingOut >= quazaaSettings.Gnutella2.PingRate) )
         {
             // Jesli dostalismy ostatni pakiet co najmniej 30 sekund temu
             // lub wyslalismy ostatniego pinga co najmniej 2 minuty temu
@@ -236,7 +221,7 @@ void CG2Node::OnTimer(quint32 tNow)
             m_tRTTTimer.start();
         }
 
-        if( m_nPingsWaiting > 0 && tNow - m_tLastPingOut > 120 && tNow - m_tLastPacketIn > 60 )
+		if( m_nPingsWaiting > 0 && tNow - m_tLastPingOut > quazaaSettings.Gnutella2.PingTimeout && tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic )
         {
             qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "ping timed out";
             m_nState = nsClosing;
@@ -584,7 +569,6 @@ void CG2Node::SendStartups()
         pPacket->WriteChild("UDP")->WriteHostAddress(&addr);
         pPacket->WriteChild("TFW");
         SendPacket(pPacket, false);
-        qDebug() << "Sent /PI/UDP";
     }
 
     SendLNI();
@@ -602,7 +586,7 @@ void CG2Node::SendLNI()
     {
         G2Packet* pHS = pLNI->WriteChild("HS");
         pHS->WriteIntLE(Network.m_nLeavesConnected);
-        pHS->WriteIntLE(HubToLeaf);
+		pHS->WriteIntLE(quazaaSettings.Gnutella2.NumLeafs);
     }
 
     pLNI->WriteChild("g2core");
@@ -685,7 +669,6 @@ void CG2Node::OnPacket(G2Packet* pPacket)
 
 void CG2Node::OnPing(G2Packet* pPacket)
 {
-   // return;
     bool bUdp = false;
     bool bRelay = false;
     bool bTestFirewall = false;
@@ -736,7 +719,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
                     lToRelay.append(Network.m_lNodes[i]);
             }
 
-            for( int nCount = 0; nCount < 10 && lToRelay.size(); nCount++ )
+			for( int nCount = 0; nCount < quazaaSettings.Gnutella2.PingRelayLimit && lToRelay.size(); nCount++ )
             {
                 int nIndex = qrand() % lToRelay.size();
                 pPacket->AddRef();

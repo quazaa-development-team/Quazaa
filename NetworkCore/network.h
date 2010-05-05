@@ -17,12 +17,6 @@ class G2Packet;
 class QueryHashTable;   // przeniesc to w chuj!
 class CManagedSearch;
 
-// do przeniesienia w lepsze miejsce ;)
-const quint16 LeafToHub = 10;
-const quint16 HubToLeaf = 20;
-const quint16 HubToHub = 3;
-const quint32 ConnectFactor = 3;
-
 class CNetwork : public QObject
 {
     Q_OBJECT
@@ -31,7 +25,6 @@ public:
     QMutex  m_pSection;
 
     QueryHashTable* m_pHashTable;   // przeniesc!
-
 public:
     bool             m_bActive;
     QTimer*          m_pSecondTimer;

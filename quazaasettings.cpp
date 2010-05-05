@@ -362,6 +362,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("NumLeafs", quazaaSettings.Gnutella2.NumLeafs);
 	m_qSettings.setValue("NumPeers", quazaaSettings.Gnutella2.NumPeers);
 	m_qSettings.setValue("PingRate", quazaaSettings.Gnutella2.PingRate);
+	m_qSettings.setValue("PingTimeout", quazaaSettings.Gnutella2.PingTimeout);
 	m_qSettings.setValue("PingRelayLimit", quazaaSettings.Gnutella2.PingRelayLimit);
 	m_qSettings.setValue("QueryHostDeadline", quazaaSettings.Gnutella2.QueryHostDeadline);
 	m_qSettings.setValue("QueryHostThrottle", quazaaSettings.Gnutella2.QueryHostThrottle);
@@ -648,7 +649,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Connection.RandomPort = m_qSettings.value("RandomPort", false).toBool();
 	quazaaSettings.Connection.SendBuffer = m_qSettings.value("SendBuffer", 2048).toUInt();
 	quazaaSettings.Connection.TimeoutConnect = m_qSettings.value("TimeoutConnect", 16).toUInt();
-	quazaaSettings.Connection.TimeoutTraffic = m_qSettings.value("TimeoutTraffic", 140).toUInt();
+	quazaaSettings.Connection.TimeoutTraffic = m_qSettings.value("TimeoutTraffic", 60).toUInt();
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Web");
@@ -818,6 +819,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Gnutella2.NumLeafs = m_qSettings.value("NumLeafs", 300).toInt();
 	quazaaSettings.Gnutella2.NumPeers = m_qSettings.value("NumPeers", 6).toInt();
 	quazaaSettings.Gnutella2.PingRate = m_qSettings.value("PingRate", 120).toInt();
+	quazaaSettings.Gnutella2.PingTimeout = m_qSettings.value("PingTimeout", 120).toUInt();
 	quazaaSettings.Gnutella2.PingRelayLimit = m_qSettings.value("PingRelayLimit", 10).toInt();
 	quazaaSettings.Gnutella2.QueryHostDeadline = m_qSettings.value("QueryHostDeadline", 600).toInt();
 	quazaaSettings.Gnutella2.QueryHostThrottle = m_qSettings.value("QueryHostThrottle", 120).toInt();
