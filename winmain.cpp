@@ -90,6 +90,7 @@ WinMain::WinMain(QWidget *parent) :
 	ui->stackedWidgetMain->addWidget(pageHitMonitor);
 
 	// Set up the navigation toolbar
+	systemLog.postLog("Settings up toolbar.", LogSeverity::Information);
 	actionGroupMainNavigation = new QActionGroup(this);
 	actionGroupMainNavigation->addAction(ui->actionHome);
 	actionGroupMainNavigation->addAction(ui->actionLibrary);
@@ -216,6 +217,7 @@ WinMain::WinMain(QWidget *parent) :
 	dlgSplash->updateProgress(9, tr("Checking for first run..."));
 	if (quazaaSettings.FirstRun())
 	{
+		systemLog.postLog("Quazaa has never been run before.", LogSeverity::Notice);
 		dlgSplash->updateProgress(10, tr("Running first run wizard..."));
 		quazaaSettings.saveFirstRun(false);
 		quazaaSettings.saveSettings();
@@ -227,6 +229,8 @@ WinMain::WinMain(QWidget *parent) :
 
 		connect(dlgWizard, SIGNAL(closed()), dlgSkinWizard, SLOT(close()));
 		dlgSkinWizard->exec();
+	} else {
+		systemLog.postLog("Quazaa has been run before.", LogSeverity::Notice);
 	}
 
 	//Load the library

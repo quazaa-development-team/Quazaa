@@ -113,6 +113,22 @@ void QSkinSettings::loadSkin(QString fileName)
 	// Specialised Tab Widgets
 	libraryNavigator = reader.value("libraryNavigator", "QTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid transparent;\n }\n\n QTabWidget::tab-bar {\n     left: 5px;  /* move to the right by 5px */\n }\n\n /* Style the tab using the tab sub-control. Note that\n     it reads QTabBar _not_ QTabWidget */\n QTabBar::tab {\n     background:transparent;\n     border: 1px solid transparent;\n     padding: 4px;\n }\n\n QTabBar::tab:selected, QTabBar::tab:hover {\n     border: 1px solid rgb(78, 96, 255);\n     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);\n }").toString();
 	tabSearches = reader.value("tabSearches", "QTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid #C2C7CB;\n }\n\nQTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid transparent;\n }\n\n QTabWidget::tab-bar {\n     left: 5px;  /* move to the right by 5px */\n }\n\n /* Style the tab using the tab sub-control. Note that\n     it reads QTabBar _not_ QTabWidget */\n QTabBar::tab {\n     background:transparent;\n     border: 1px solid transparent;\n     padding: 4px;\n }\n\n QTabBar::tab:selected, QTabBar::tab:hover {\n     border: 1px solid rgb(78, 96, 255);\n     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);\n }").toString();
+
+	// Log colors
+	logColorInformation = reader.value("logColorInformation", "").toString();
+	logWeightInformation = reader.value("logWeightInformation", "").toString();
+	logColorSecurity = reader.value("logColorSecurity", "color:#aaaa00;").toString();
+	logWeightSecurity = reader.value("logWeightSecurity", "font-weight:600;").toString();
+	logColorNotice = reader.value("logColorNotice", "color:#00aa00;").toString();
+	logWeightNotice = reader.value("logWeightNotice", "font-weight:600;").toString();
+	logColorDebug = reader.value("logColorDebug", "color:#757575;").toString();
+	logWeightDebug = reader.value("logWeightDebug", "").toString();
+	logColorWarning = reader.value("logColorWarning", "color:#ff0000;").toString();
+	logWeightWarning = reader.value("logWeightWarning", "").toString();
+	logColorError = reader.value("logColorError", "color:#aa0000;").toString();
+	logWeightError = reader.value("logWeightError", "font-weight:600;").toString();
+	logColorCritical = reader.value("logColorCritical", "color:#ff0000;").toString();
+	logWeightCritical = reader.value("logWeightCritical", "font-weight:600;").toString();
 }
 
 void QSkinSettings::saveSkin(QString fileName)
@@ -206,4 +222,20 @@ void QSkinSettings::saveSkin(QString fileName)
 	// Specialised Tab Widgets
 	writer.setValue("libraryNavigator", libraryNavigator);
 	writer.setValue("tabSearches", tabSearches);
+
+	// Log colors
+	writer.setValue("logColorInformation", logColorInformation);
+	writer.setValue("logWeightInformation", logWeightInformation);
+	writer.setValue("logColorSecurity", logColorSecurity);
+	writer.setValue("logWeightSecurity", logWeightSecurity);
+	writer.setValue("logColorNotice", logColorNotice);
+	writer.setValue("logWeightNotice", logWeightNotice);
+	writer.setValue("logColorDebug", logColorDebug);
+	writer.setValue("logWeightDebug", logWeightDebug);
+	writer.setValue("logColorWarning", logColorWarning);
+	writer.setValue("logWeightWarning", logWeightWarning);
+	writer.setValue("logColorError", logColorError);
+	writer.setValue("logWeightError", logWeightError);
+	writer.setValue("logColorCritical", logColorCritical);
+	writer.setValue("logWeightCritical", logWeightCritical);
 }
