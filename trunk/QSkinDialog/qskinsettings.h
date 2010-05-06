@@ -110,6 +110,22 @@ public:
 	QString libraryNavigator;
 	QString tabSearches;
 
+	// Log colors
+	QString logColorInformation;
+	QString logWeightInformation;
+	QString logColorSecurity;
+	QString logWeightSecurity;
+	QString logColorNotice;
+	QString logWeightNotice;
+	QString logColorDebug;
+	QString logWeightDebug;
+	QString logColorWarning;
+	QString logWeightWarning;
+	QString logColorError;
+	QString logWeightError;
+	QString logColorCritical;
+	QString logWeightCritical;
+
 signals:
 	void skinChanged();
 

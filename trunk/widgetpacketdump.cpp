@@ -33,30 +33,4 @@ void WidgetPacketDump::skinChangeEvent()
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetPacketDump::appendLog(QString *message, LogSeverity::Severity severity)
-{
-	switch (severity)
-	{
-	case LogSeverity::Information:
 
-		break;
-	case LogSeverity::Security:
-
-		break;
-	case LogSeverity::Notice:
-
-		break;
-	case LogSeverity::Debug:
-
-		break;
-	case LogSeverity::Warning:
-
-		break;
-	case LogSeverity::Error:
-
-		break;
-	case LogSeverity::Critical:
-
-		break;
-	}
-}

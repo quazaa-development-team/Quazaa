@@ -2,6 +2,7 @@
 #define WIDGETSYSTEMLOG_H
 
 #include <QMainWindow>
+#include "types.h"
 
 namespace Ui {
     class WidgetSystemLog;
@@ -21,6 +22,7 @@ private:
 
 private slots:
 	void skinChangeEvent();
+	void appendLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
 };
 
 #endif // WIDGETSYSTEMLOG_H

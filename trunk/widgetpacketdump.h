@@ -3,10 +3,6 @@
 
 #include <QMainWindow>
 
-namespace LogSeverity {
-	enum Severity { Information, Security, Notice, Debug, Warning, Error, Critical };
-}
-
 namespace Ui {
     class WidgetPacketDump;
 }
@@ -25,7 +21,6 @@ private:
 
 private slots:
 	void skinChangeEvent();
-	void appendLog(QString *message, LogSeverity::Severity severity = LogSeverity::Information);
 };
 
 #endif // WIDGETPACKETDUMP_H
