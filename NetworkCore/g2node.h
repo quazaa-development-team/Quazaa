@@ -22,6 +22,7 @@ public:
     quint32         m_nPacketsOut;
     QString         m_sUserAgent;
     bool            m_bG2Core;
+	bool			m_bCachedKeys;
     G2NodeType      m_nType;
     G2NodeState     m_nState;
     quint32         m_tLastPingOut;
@@ -51,7 +52,7 @@ public:
         CCompressedConnection::AttachTo(pOther);
     }
 
-    void SendPacket(G2Packet* pPacket, bool bBuffered = false);
+	void SendPacket(G2Packet* pPacket, bool bBuffered = false, bool bRelease = false);
     void FlushSendQueue(bool bFullFlush = false);
 
 protected:

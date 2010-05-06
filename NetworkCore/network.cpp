@@ -18,8 +18,6 @@
 #include "ManagedSearch.h"
 #include "Query.h"
 
-#include <QInputDialog>
-
 CNetwork Network;
 CThread NetworkThread;
 
@@ -128,24 +126,19 @@ void CNetwork::CleanupThread()
     m_pSecondTimer = 0;
     WebCache.CancelRequests();
 
-    //Datagrams.Disconnect();
-
-    delete m_pRateController;
-    m_pRateController = 0;
-
     Datagrams.Disconnect();
     Handshakes.Disconnect();
 
+	DisconnectAllNodes();
+
+	delete m_pRateController;
+	m_pRateController = 0;
+
     moveToThread(qApp->thread());
-    DisconnectAllNodes();
 }
 
 void CNetwork::RemoveNode(CG2Node* pNode)
 {
-    //qDebug() << "Remove node" << pNode;
-
-    //QMutexLocker l(&m_pSection);
-
     if( pNode->m_nType == G2_HUB )
         m_nHubsConnected--;
     else if( pNode->m_nType == G2_LEAF )
@@ -239,8 +232,9 @@ void CNetwork::DisconnectAllNodes()
     while( it.hasNext() )
     {
         pNode = it.next();
+		RemoveNode(pNode);
         pNode->abort();
-        pNode->deleteLater();
+		delete pNode;
     }
 }
 bool CNetwork::NeedMore(G2NodeType nType)
@@ -418,7 +412,7 @@ void CNetwork::DispatchKHL()
         if( pNode->m_nState == nsConnected )
         {
             pKHL->AddRef();
-            pNode->SendPacket(pKHL, true);
+			pNode->SendPacket(pKHL, true, false);
         }
     }
     pKHL->Release();

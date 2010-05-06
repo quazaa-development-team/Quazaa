@@ -25,10 +25,13 @@ CG2Node::CG2Node(QObject *parent) :
     m_bAcceptDeflate = false;
     m_tLastQuery = 0;
     m_tKeyRequest= 0;
+	m_bCachedKeys = false;
 }
 
 CG2Node::~CG2Node()
 {
+	qDebug() << "Destroying G2Node, packets queued: " << m_lSendQueue.size();
+
     while( m_lSendQueue.size() )
         m_lSendQueue.dequeue()->Release();
 
@@ -42,11 +45,26 @@ void CG2Node::connectToHost(IPv4_ENDPOINT oAddress)
     SetupSlots();
 }
 
-void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered)
+void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 {
     m_nPacketsOut++;
 
-    m_lSendQueue.enqueue(pPacket);
+	pPacket->AddRef(); // FlushSendQueue will release
+
+	if( bBuffered )
+	{
+		if( m_lSendQueue.size() < 128 )
+			m_lSendQueue.enqueue(pPacket);
+		else
+			pPacket->Release();
+	}
+	else
+	{
+		m_lSendQueue.prepend(pPacket);
+	}
+
+	if( bRelease )
+		pPacket->Release();
 
     FlushSendQueue(!bBuffered);
 }
@@ -54,12 +72,15 @@ void CG2Node::FlushSendQueue(bool bFullFlush)
 {
     QByteArray* pOutput = GetOutputBuffer();
 
-    while( bytesToWrite() == 0 && pOutput->size() < 4096 && m_lSendQueue.size() )
-    {
-        G2Packet* pPacket = m_lSendQueue.dequeue();
-        pPacket->ToBuffer(pOutput);
-        pPacket->Release();
-    }
+	if( bytesToWrite() == 0 )
+	{
+		while( pOutput->size() < 4096 && m_lSendQueue.size() )
+		{
+			G2Packet* pPacket = m_lSendQueue.dequeue();
+			pPacket->ToBuffer(pOutput);
+			pPacket->Release();
+		}
+	}
 
     if( bFullFlush )
     {
@@ -215,7 +236,7 @@ void CG2Node::OnTimer(quint32 tNow)
             // no i nie oczekujemy odpowiedzi na wczesniejszego pinga
             // to wysylamy keep-alive ping, przy okazji merzac RTT
             G2Packet* pPacket = G2Packet::New("PI");
-            SendPacket(pPacket, false); // niebuforowany, zeby dokladniej zmierzyc RTT
+			SendPacket(pPacket, false, true); // niebuforowany, zeby dokladniej zmierzyc RTT
             m_nPingsWaiting++;
             m_tLastPingOut = tNow;
             m_tRTTTimer.start();
@@ -568,7 +589,7 @@ void CG2Node::SendStartups()
         G2Packet* pPacket = G2Packet::New("PI");
         pPacket->WriteChild("UDP")->WriteHostAddress(&addr);
         pPacket->WriteChild("TFW");
-        SendPacket(pPacket, false);
+		SendPacket(pPacket, false, true);
     }
 
     SendLNI();
@@ -591,7 +612,7 @@ void CG2Node::SendLNI()
 
     pLNI->WriteChild("g2core");
 
-    SendPacket(pLNI, true);
+	SendPacket(pLNI, true, true);
 }
 
 
@@ -699,7 +720,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
     {
         // direct ping
         G2Packet* pPong = G2Packet::New("PO");
-        SendPacket(pPong, false);
+		SendPacket(pPong, false, true);
         return;
     }
 
@@ -724,7 +745,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
                 int nIndex = qrand() % lToRelay.size();
                 pPacket->AddRef();
                 CG2Node* pNode = lToRelay.at(nIndex);
-                pNode->SendPacket(pPacket, false);
+				pNode->SendPacket(pPacket, true, false);
                 lToRelay.removeAt(nIndex);
             }
 
@@ -791,6 +812,10 @@ void CG2Node::OnLNI(G2Packet* pPacket)
                 pChild->ReadIntLE(&m_nLeafMax);
             }
         }
+		else if( pChild->IsType("QK") )
+		{
+			m_bCachedKeys = true;
+		}
         else if( pChild->IsType("g2core") )
         {
             m_bG2Core = true;
