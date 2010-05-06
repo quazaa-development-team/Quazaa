@@ -366,6 +366,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("PingRelayLimit", quazaaSettings.Gnutella2.PingRelayLimit);
 	m_qSettings.setValue("QueryHostDeadline", quazaaSettings.Gnutella2.QueryHostDeadline);
 	m_qSettings.setValue("QueryHostThrottle", quazaaSettings.Gnutella2.QueryHostThrottle);
+	m_qSettings.setValue("QueryKeyTime", quazaaSettings.Gnutella2.QueryKeyTime);
 	m_qSettings.setValue("QueryLimit", quazaaSettings.Gnutella2.QueryLimit);
 	m_qSettings.setValue("RequeryDelay", quazaaSettings.Gnutella2.RequeryDelay);
 	m_qSettings.setValue("UdpBuffers", quazaaSettings.Gnutella2.UdpBuffers);
@@ -822,7 +823,8 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Gnutella2.PingTimeout = m_qSettings.value("PingTimeout", 120).toUInt();
 	quazaaSettings.Gnutella2.PingRelayLimit = m_qSettings.value("PingRelayLimit", 10).toInt();
 	quazaaSettings.Gnutella2.QueryHostDeadline = m_qSettings.value("QueryHostDeadline", 600).toInt();
-	quazaaSettings.Gnutella2.QueryHostThrottle = m_qSettings.value("QueryHostThrottle", 120).toInt();
+	quazaaSettings.Gnutella2.QueryHostThrottle = m_qSettings.value("QueryHostThrottle", 300).toInt();
+	quazaaSettings.Gnutella2.QueryKeyTime = m_qSettings.value("QueryKeyTime", 1800).toInt();
 	quazaaSettings.Gnutella2.QueryLimit = m_qSettings.value("QueryLimit", 2400).toInt();
 	quazaaSettings.Gnutella2.RequeryDelay = m_qSettings.value("RequeryDelay", 14400).toInt();
 	quazaaSettings.Gnutella2.UdpBuffers = m_qSettings.value("UdpBuffers", 512).toInt();

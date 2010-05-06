@@ -58,7 +58,6 @@ void CSearchManager::OnTimer()
     m_nPruneCounter++;
     if( m_nPruneCounter % 30 == 0 )
     {
-        qDebug() << "HostCache Prune by ack";
         HostCache.PruneByQueryAck();
     }
 

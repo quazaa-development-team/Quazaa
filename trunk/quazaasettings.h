@@ -466,9 +466,10 @@ namespace Settings
 		quint32		PingRate;								// Time in seconds between pings
 		quint32		PingTimeout;
 		int			PingRelayLimit;							// Number of other leafs to forward a /PI/UDP to: 10 - 30
-		int			QueryHostDeadline;						// Time before ending queries
-		int			QueryHostThrottle;						// Bandwidth throttling for queries
-		int			QueryLimit;								// Maximum amount of concurrent queries
+		quint32		QueryHostDeadline;						// Time before ending queries
+		quint32		QueryHostThrottle;						// Bandwidth throttling for queries
+		quint32		QueryLimit;								// Maximum amount of concurrent queries
+		quint32		QueryKeyTime;							// Time in seconds before re-requesting query key
 		int			RequeryDelay;							// Time before sending another query
 		int			UdpBuffers;								// UDP protocol buffer size
 		quint32		UdpInExpire;							// Time before incoming an incloming UDP connection
