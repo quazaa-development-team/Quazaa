@@ -53,3 +53,8 @@ void WidgetSearch::skinChangeEvent()
 	ui->toolButtonSearchTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
 	ui->toolButtonNewSearch->setStyleSheet(skinSettings.addSearchButton);
 }
+
+void WidgetSearch::on_toolButtonNewSearch_triggered(QAction* )
+{
+
+}
