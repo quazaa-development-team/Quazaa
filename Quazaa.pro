@@ -22,7 +22,6 @@ CONFIG += precompile_header
 PRECOMPILED_HEADER = NetworkCore/types.h
 TEMPLATE = app
 SOURCES += main.cpp \
-    mainwindow.cpp \
     dialoglanguage.cpp \
     quazaasettings.cpp \
     dialogsplash.cpp \
@@ -114,8 +113,7 @@ SOURCES += main.cpp \
     widgetpacketdump.cpp \
     widgetsearchmonitor.cpp \
     widgethitmonitor.cpp
-HEADERS += mainwindow.h \
-    dialoglanguage.h \
+HEADERS += dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
     dialogsplash.h \
@@ -205,8 +203,7 @@ HEADERS += mainwindow.h \
     widgetpacketdump.h \
     widgetsearchmonitor.h \
     widgethitmonitor.h
-FORMS += mainwindow.ui \
-    dialoglanguage.ui \
+FORMS += dialoglanguage.ui \
     dialogsplash.ui \
     widgetsearchtemplate.ui \
     dialogwizard.ui \
