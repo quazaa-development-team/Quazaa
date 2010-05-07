@@ -946,7 +946,7 @@ void QuazaaSettings::saveProfile()
 	m_qSettings.setValue( "FavoritesURL", quazaaSettings.Profile.FavoritesURL );							// Favorite Websites URLs
 	m_qSettings.setValue( "Gender", quazaaSettings.Profile.Gender );									// Gender..
 	m_qSettings.setValue( "GnutellaScreenName", quazaaSettings.Profile.GnutellaScreenName );						// The name displayed in searches, uploads and downloads and when users browse your system
-	m_qSettings.setValue( "GUID", quazaaSettings.Profile.GUID );									// Unique ID for each client. Can be regenerated
+	m_qSettings.setValue( "GUID", quazaaSettings.Profile.GUID.toString() );									// Unique ID for each client. Can be regenerated
 	m_qSettings.setValue( "ICQuin", quazaaSettings.Profile.ICQuin );									// Identification number in ICQ
 	m_qSettings.setValue( "Interests", quazaaSettings.Profile.Interests );								// What do you like to do other than use Quazaa
 	m_qSettings.setValue( "IrcAlternateNickname", quazaaSettings.Profile.IrcAlternateNickname );					// Alternate nickname in Irc chat if first one is already used
@@ -980,7 +980,7 @@ void QuazaaSettings::loadProfile()
 	quazaaSettings.Profile.FavoritesURL = m_qSettings.value("FavoritesURL", QStringList()).toStringList();
 	quazaaSettings.Profile.Gender = m_qSettings.value("Gender", 0).toInt();
 	quazaaSettings.Profile.GnutellaScreenName = m_qSettings.value("GnutellaScreenName", tr("Quazaa User")).toString();
-	quazaaSettings.Profile.GUID = m_qSettings.value("GUID", QUuid::createUuid().toString().remove(QRegExp("[{}]"))).toString();
+	quazaaSettings.Profile.GUID = m_qSettings.value("GUID", QUuid::createUuid().toString()).toString();
 	quazaaSettings.Profile.ICQuin = m_qSettings.value("ICQuin", "").toString();
 	quazaaSettings.Profile.Interests = m_qSettings.value("Interests", QStringList()).toStringList();
 	quazaaSettings.Profile.IrcAlternateNickname = m_qSettings.value("IrcAlternateNickname", "").toString();

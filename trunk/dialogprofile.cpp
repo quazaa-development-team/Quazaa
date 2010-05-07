@@ -79,7 +79,8 @@ DialogProfile::DialogProfile(QWidget *parent) :
 		m_qTreeWidgetItem->setText(1, quazaaSettings.Profile.FavoritesURL.at(m_iFavoritesIndex));
 		m_ui->treeWidgetFavorites->addTopLevelItem(m_qTreeWidgetItem);
 	}
-	m_ui->labelGUID->setText(quazaaSettings.Profile.GUID);
+	tempGUID = QUuid::createUuid();
+	m_ui->labelGUID->setText(tempGUID.toString().remove(QRegExp("[{}]")));
 	m_ui->pushButtonApply->setEnabled(false);
 }
 
@@ -194,7 +195,7 @@ void DialogProfile::on_pushButtonApply_clicked()
 		quazaaSettings.Profile.Favorites.append(m_ui->treeWidgetFavorites->currentItem()->text(0));
 		quazaaSettings.Profile.FavoritesURL.append(m_ui->treeWidgetFavorites->currentItem()->text(1));
 	}
-	quazaaSettings.Profile.GUID = m_ui->labelGUID->text();
+	quazaaSettings.Profile.GUID = tempGUID;
 	quazaaSettings.saveProfile();
 	m_ui->pushButtonApply->setEnabled(false);
 }
@@ -380,6 +381,7 @@ void DialogProfile::on_pushButtonRemoveWebsite_clicked()
 
 void DialogProfile::on_pushButtonGenerateNewGUID_clicked()
 {
-	m_ui->labelGUID->setText(QUuid::createUuid().toString().remove(QRegExp("[{}]")));
+	tempGUID = QUuid::createUuid();
+	m_ui->labelGUID->setText(tempGUID.toString().remove(QRegExp("[{}]")));
 	m_ui->pushButtonApply->setEnabled(true);
 }

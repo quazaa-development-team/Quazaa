@@ -70,6 +70,28 @@ private:
 	bool bypassCloseEvent;
 
 private slots:
+	void on_actionNewSearch_triggered();
+ void on_actionEditMyProfile_triggered();
+ void on_actionQuazaaForums_triggered();
+ void on_actionDonate_triggered();
+ void on_actionCheckForNewVersion_triggered();
+ void on_actionConnectionTest_triggered();
+ void on_actionFAQ_triggered();
+ void on_actionUsersGuide_triggered();
+ void on_actionQuickstartWizard_triggered();
+ void on_actionChooseLanguage_triggered();
+ void on_actionChooseSkin_triggered();
+ void on_actionImportPartials_triggered();
+ void on_actionURLDownload_triggered();
+ void on_actionOpenDownloadFolder_triggered();
+ void on_actionShares_triggered();
+ void on_actionOpenTorrent_triggered();
+ void on_actionSeedTorrent_triggered();
+ void on_actionCreateTorrent_triggered();
+ void on_actionSettings_triggered();
+ void on_actionAbout_triggered();
+ void on_actionExit_triggered();
+ void on_actionShowOrHide_triggered();
 	void on_actionHitMonitor_triggered();
 	void on_actionSearchMonitor_triggered();
 	void on_actionPacketDump_triggered();
