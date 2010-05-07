@@ -22,7 +22,8 @@ private:
     Ui::WidgetSearch *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_toolButtonNewSearch_triggered(QAction* );
+ void skinChangeEvent();
 };
 
 #endif // WIDGETSEARCH_H

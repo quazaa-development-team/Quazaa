@@ -220,6 +220,7 @@ WinMain::WinMain(QWidget *parent) :
 			ui->actionHome->setChecked(true);
 			break;
 	}
+	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_triggered(QAction*)));
 	interfaceLoaded = true;
 
 	//Load profile
@@ -726,17 +727,17 @@ void WinMain::on_actionQuickstartWizard_triggered()
 
 void WinMain::on_actionUsersGuide_triggered()
 {
-
+	QDesktopServices::openUrl(QUrl("https://sourceforge.net/apps/mediawiki/quazaa/index.php?title=Manual", QUrl::TolerantMode));
 }
 
 void WinMain::on_actionFAQ_triggered()
 {
-
+	QDesktopServices::openUrl(QUrl("https://sourceforge.net/apps/mediawiki/quazaa/index.php?title=FAQ&action=edit&redlink=1", QUrl::TolerantMode));
 }
 
 void WinMain::on_actionConnectionTest_triggered()
 {
-
+	QDesktopServices::openUrl(QUrl("http://jlh.no-ip.org/connectiontest", QUrl::TolerantMode));
 }
 
 void WinMain::on_actionCheckForNewVersion_triggered()
@@ -746,12 +747,12 @@ void WinMain::on_actionCheckForNewVersion_triggered()
 
 void WinMain::on_actionDonate_triggered()
 {
-
+	QDesktopServices::openUrl(QUrl("https://sourceforge.net/donate/index.php?group_id=286623", QUrl::TolerantMode));
 }
 
 void WinMain::on_actionQuazaaForums_triggered()
 {
-
+	QDesktopServices::openUrl(QUrl("http://quazaa.sourceforge.net/forum/", QUrl::TolerantMode));
 }
 
 void WinMain::on_actionEditMyProfile_triggered()
@@ -767,5 +768,5 @@ void WinMain::on_actionEditMyProfile_triggered()
 
 void WinMain::on_actionNewSearch_triggered()
 {
-
+	ui->actionSearch->trigger();
 }
