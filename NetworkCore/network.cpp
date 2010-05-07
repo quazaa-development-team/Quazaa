@@ -411,7 +411,6 @@ void CNetwork::DispatchKHL()
     {
         if( pNode->m_nState == nsConnected )
         {
-            pKHL->AddRef();
 			pNode->SendPacket(pKHL, true, false);
         }
     }
