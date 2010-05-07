@@ -34,6 +34,7 @@ DialogSettings::DialogSettings(QWidget *parent) :
 {
 	m_ui->setupUi(this);
 
+	newSkinSelected = false;
 	// Load Basic Settings
 	m_ui->checkBoxSystemStart->setChecked(quazaaSettings.Basic.StartWithSystem);
 	m_ui->checkBoxAutoConnect->setChecked(quazaaSettings.Basic.ConnectOnStartup);
@@ -522,12 +523,15 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.BitTorrent.UseKademlia = m_ui->checkBoxTorrentsUseKademlia->isChecked();
 	quazaaSettings.BitTorrent.TorrentPath = m_ui->lineEditTorrentFolder->text();
 
-	// Save Skin Settings
-	quazaaSettings.Skin.File = skinFile;
-	skinSettings.loadSkin(skinFile);
+	if (newSkinSelected)
+	{
+		// Save Skin Settings
+		quazaaSettings.Skin.File = skinFile;
+		skinSettings.loadSkin(skinFile);
 
-	emit skinChanged();
-	quazaaSettings.saveSkinSettings();
+		emit skinChanged();
+		quazaaSettings.saveSkinSettings();
+	}
 
 	// Reset Apply Enabled To False
 	quazaaSettings.saveSettings();
@@ -1339,6 +1343,7 @@ void DialogSettings::on_checkBoxEDonkeyConnect_toggled(bool checked)
 
 void DialogSettings::on_listWidgetSkins_itemClicked(QListWidgetItem* item)
 {
+	newSkinSelected = true;
 	m_ui->pushButtonApply->setEnabled(true);
 	QSettings reader((qApp->applicationDirPath() + "/Skin/" + item->text() + "/" + item->text() + ".qsk"), QSettings::IniFormat);
 	skinFile = (qApp->applicationDirPath() + "/Skin/" + item->text() + "/" + item->text() + ".qsk");
