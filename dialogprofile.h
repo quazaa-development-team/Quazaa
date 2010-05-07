@@ -43,6 +43,7 @@ protected:
 
 private:
 	Ui::DialogProfile *m_ui;
+	QUuid tempGUID;
 
 signals:
 	void closed();

@@ -3,12 +3,26 @@
 #include "QSkinDialog/qskindialog.h"
 #include "dialogclosetype.h"
 #include "dialogsplash.h"
-#include "dialoglanguage.h"
 #include "dialogwizard.h"
+#include "dialogabout.h"
+#include "dialogopentorrent.h"
+#include "dialogcreatetorrent.h"
+#include "dialogsettings.h"
+#include "dialogeditshares.h"
+#include "dialogadddownload.h"
+#include "dialogdownloadsimport.h"
+#include "dialoglanguage.h"
+#include "dialogscheduler.h"
+#include "dialogprofile.h"
+#include "dialogaddrule.h"
+#include "dialogsecuritysubscriptions.h"
+#include "dialoglibrarysearch.h"
+#include "dialogfiltersearch.h"
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 #include "QSkinDialog/qskinsettings.h"
+#include "commonfunctions.h"
 
 #include "NetworkCore/network.h" // not sure that it is right place, but...
 #include <QTimer>
@@ -90,7 +104,6 @@ WinMain::WinMain(QWidget *parent) :
 	ui->stackedWidgetMain->addWidget(pageHitMonitor);
 
 	// Set up the navigation toolbar
-	systemLog.postLog("Settings up toolbar.", LogSeverity::Information);
 	actionGroupMainNavigation = new QActionGroup(this);
 	actionGroupMainNavigation->addAction(ui->actionHome);
 	actionGroupMainNavigation->addAction(ui->actionLibrary);
@@ -217,7 +230,6 @@ WinMain::WinMain(QWidget *parent) :
 	dlgSplash->updateProgress(9, tr("Checking for first run..."));
 	if (quazaaSettings.FirstRun())
 	{
-		systemLog.postLog("Quazaa has never been run before.", LogSeverity::Notice);
 		dlgSplash->updateProgress(10, tr("Running first run wizard..."));
 		quazaaSettings.saveFirstRun(false);
 		quazaaSettings.saveSettings();
@@ -229,8 +241,6 @@ WinMain::WinMain(QWidget *parent) :
 
 		connect(dlgWizard, SIGNAL(closed()), dlgSkinWizard, SLOT(close()));
 		dlgSkinWizard->exec();
-	} else {
-		systemLog.postLog("Quazaa has been run before.", LogSeverity::Notice);
 	}
 
 	//Load the library
@@ -372,77 +382,137 @@ void WinMain::quazaaShutdown()
 
 void WinMain::on_actionHome_triggered()
 {
-    ui->stackedWidgetMain->setCurrentIndex(0);
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
+	ui->labelMainHeaderText->setText(tr("Quazaa Home"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.homeHeader);
+	ui->stackedWidgetMain->setCurrentIndex(0);
+	quazaaSettings.WinMain.ActiveTab = 0;
 }
 
 void WinMain::on_actionLibrary_triggered()
 {
-    ui->stackedWidgetMain->setCurrentIndex(1);
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
+	ui->labelMainHeaderText->setText(tr("Library"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.libraryHeader);
+	ui->stackedWidgetMain->setCurrentIndex(1);
+	quazaaSettings.WinMain.ActiveTab = 1;
 }
 
 void WinMain::on_actionMedia_triggered()
 {
-    ui->stackedWidgetMain->setCurrentIndex(2);
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Media/Media.png"));
+	ui->labelMainHeaderText->setText(tr("Media"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.mediaHeader);
+	ui->stackedWidgetMain->setCurrentIndex(2);
+	quazaaSettings.WinMain.ActiveTab = 2;
 }
 
 void WinMain::on_actionSearch_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
+	ui->labelMainHeaderText->setText(tr("Search"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.searchHeader);
 	ui->stackedWidgetMain->setCurrentIndex(3);
+	quazaaSettings.WinMain.ActiveTab = 3;
 }
 
 void WinMain::on_actionTransfers_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
+	ui->labelMainHeaderText->setText(tr("Transfers"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.transfersHeader);
 	ui->stackedWidgetMain->setCurrentIndex(4);
+	quazaaSettings.WinMain.ActiveTab = 4;
 }
 
 void WinMain::on_actionSecurity_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
+	ui->labelMainHeaderText->setText(tr("Security"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.securityHeader);
 	ui->stackedWidgetMain->setCurrentIndex(5);
+	quazaaSettings.WinMain.ActiveTab = 5;
 }
 
 void WinMain::on_actionActivity_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Globe.png"));
+	ui->labelMainHeaderText->setText(tr("Activity"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.activityHeader);
 	ui->stackedWidgetMain->setCurrentIndex(6);
+	quazaaSettings.WinMain.ActiveTab = 6;
 }
 
 void WinMain::on_actionChat_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
+	ui->labelMainHeaderText->setText(tr("Chat"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.chatHeader);
 	ui->stackedWidgetMain->setCurrentIndex(7);
+	quazaaSettings.WinMain.ActiveTab = 7;
 }
 
 void WinMain::on_actionHostCache_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
+	ui->labelMainHeaderText->setText(tr("Host Cache"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(8);
+	quazaaSettings.WinMain.ActiveTab = 8;
 }
 
 void WinMain::on_actionDiscovery_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
+	ui->labelMainHeaderText->setText(tr("Discovery"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(9);
+	quazaaSettings.WinMain.ActiveTab = 9;
 }
 
 void WinMain::on_actionScheduler_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
+	ui->labelMainHeaderText->setText(tr("Scheduler"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(10);
+	quazaaSettings.WinMain.ActiveTab = 10;
 }
 
 void WinMain::on_actionGraph_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
+	ui->labelMainHeaderText->setText(tr("Graph"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(11);
+	quazaaSettings.WinMain.ActiveTab = 11;
 }
 
 void WinMain::on_actionPacketDump_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
+	ui->labelMainHeaderText->setText(tr("Packet Dump"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(12);
+	quazaaSettings.WinMain.ActiveTab = 12;
 }
 
 void WinMain::on_actionSearchMonitor_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
+	ui->labelMainHeaderText->setText(tr("Search Monitor"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(13);
+	quazaaSettings.WinMain.ActiveTab = 13;
 }
 
 void WinMain::on_actionHitMonitor_triggered()
 {
+	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
+	ui->labelMainHeaderText->setText(tr("Hit Monitor"));
+	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->stackedWidgetMain->setCurrentIndex(14);
+	quazaaSettings.WinMain.ActiveTab = 14;
 }
 
 void WinMain::skinChangeEvent()
@@ -515,4 +585,187 @@ void WinMain::icon_activated(QSystemTrayIcon::ActivationReason reason)
 	default:
 		break;
 	}
+}
+
+void WinMain::on_actionShowOrHide_triggered()
+{
+	if (isVisible())
+	{
+		emit hideMain();
+	} else {
+		emit showMain();
+	}
+}
+
+void WinMain::on_actionExit_triggered()
+{
+	bypassCloseEvent = true;
+	close();
+}
+
+void WinMain::on_actionAbout_triggered()
+{
+	QSkinDialog *dlgSkinAbout = new QSkinDialog(false, true, false, this);
+	DialogAbout *dlgAbout = new DialogAbout;
+
+	dlgSkinAbout->addChildWidget(dlgAbout);
+
+	connect(dlgAbout, SIGNAL(closed()), dlgSkinAbout, SLOT(close()));
+	dlgSkinAbout->show();
+}
+
+void WinMain::on_actionSettings_triggered()
+{
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, this);
+	DialogSettings *dlgSettings = new DialogSettings;
+
+	dlgSkinSettings->addChildWidget(dlgSettings);
+
+	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
+	dlgSkinSettings->show();
+}
+
+void WinMain::on_actionCreateTorrent_triggered()
+{
+	QSkinDialog *dlgSkinCreateTorrent = new QSkinDialog(false, true, false, this);
+	DialogCreateTorrent *dlgCreateTorrent = new DialogCreateTorrent;
+
+	dlgSkinCreateTorrent->addChildWidget(dlgCreateTorrent);
+
+	connect(dlgCreateTorrent, SIGNAL(closed()), dlgSkinCreateTorrent, SLOT(close()));
+	dlgSkinCreateTorrent->show();
+}
+
+void WinMain::on_actionSeedTorrent_triggered()
+{
+
+}
+
+void WinMain::on_actionOpenTorrent_triggered()
+{
+	QSkinDialog *dlgSkinOpenTorrent = new QSkinDialog(false, true, false, this);
+	DialogOpenTorrent *dlgOpenTorrent = new DialogOpenTorrent;
+
+	dlgSkinOpenTorrent->addChildWidget(dlgOpenTorrent);
+
+	connect(dlgOpenTorrent, SIGNAL(closed()), dlgSkinOpenTorrent, SLOT(close()));
+	dlgSkinOpenTorrent->show();
+}
+
+void WinMain::on_actionShares_triggered()
+{
+	QSkinDialog *dlgSkinEditShares = new QSkinDialog(false, true, false, this);
+	DialogEditShares *dlgEditShares = new DialogEditShares;
+
+	dlgSkinEditShares->addChildWidget(dlgEditShares);
+
+	connect(dlgEditShares, SIGNAL(closed()), dlgSkinEditShares, SLOT(close()));
+	dlgSkinEditShares->show();
+}
+
+void WinMain::on_actionOpenDownloadFolder_triggered()
+{
+	Functions.FolderOpen(quazaaSettings.Downloads.CompletePath);
+}
+
+void WinMain::on_actionURLDownload_triggered()
+{
+	QSkinDialog *dlgSkinAddDownload = new QSkinDialog(false, true, false, this);
+	DialogAddDownload *dlgAddDownload = new DialogAddDownload;
+
+	dlgSkinAddDownload->addChildWidget(dlgAddDownload);
+
+	connect(dlgAddDownload, SIGNAL(closed()), dlgSkinAddDownload, SLOT(close()));
+	dlgSkinAddDownload->show();
+}
+
+void WinMain::on_actionImportPartials_triggered()
+{
+	QSkinDialog *dlgSkinDownloadsImport = new QSkinDialog(false, true, false, this);
+	DialogDownloadsImport *dlgDownloadsImport = new DialogDownloadsImport;
+
+	dlgSkinDownloadsImport->addChildWidget(dlgDownloadsImport);
+
+	connect(dlgDownloadsImport, SIGNAL(closed()), dlgSkinDownloadsImport, SLOT(close()));
+	dlgSkinDownloadsImport->show();
+}
+
+void WinMain::on_actionChooseSkin_triggered()
+{
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, this);
+	DialogSettings *dlgSettings = new DialogSettings;
+
+	dlgSkinSettings->addChildWidget(dlgSettings);
+
+	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
+	dlgSettings->switchSettingsPage(3);
+	dlgSkinSettings->show();
+}
+
+void WinMain::on_actionChooseLanguage_triggered()
+{
+	QSkinDialog *dlgSkinLanguage = new QSkinDialog(false, true, false, this);
+	DialogLanguage *dlgLanguage = new DialogLanguage;
+
+	dlgSkinLanguage->addChildWidget(dlgLanguage);
+
+	connect(dlgLanguage, SIGNAL(closed()), dlgSkinLanguage, SLOT(close()));
+	dlgSkinLanguage->exec();
+}
+
+void WinMain::on_actionQuickstartWizard_triggered()
+{
+	QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false, this);
+	DialogWizard *dlgWizard = new DialogWizard();
+
+	dlgSkinWizard->addChildWidget(dlgWizard);
+
+	connect(dlgWizard, SIGNAL(closed()), dlgSkinWizard, SLOT(close()));
+	dlgSkinWizard->show();
+}
+
+void WinMain::on_actionUsersGuide_triggered()
+{
+
+}
+
+void WinMain::on_actionFAQ_triggered()
+{
+
+}
+
+void WinMain::on_actionConnectionTest_triggered()
+{
+
+}
+
+void WinMain::on_actionCheckForNewVersion_triggered()
+{
+
+}
+
+void WinMain::on_actionDonate_triggered()
+{
+
+}
+
+void WinMain::on_actionQuazaaForums_triggered()
+{
+
+}
+
+void WinMain::on_actionEditMyProfile_triggered()
+{
+	QSkinDialog *dlgSkinProfile = new QSkinDialog(false, true, false, this);
+	DialogProfile *dlgProfile = new DialogProfile;
+
+	dlgSkinProfile->addChildWidget(dlgProfile);
+
+	connect(dlgProfile, SIGNAL(closed()), dlgSkinProfile, SLOT(close()));
+	dlgSkinProfile->show();
+}
+
+void WinMain::on_actionNewSearch_triggered()
+{
+
 }

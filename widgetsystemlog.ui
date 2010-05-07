@@ -14,7 +14,7 @@
    <string>System Log</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Network/HitMonitor.png</normaloff>:/Resource/Network/HitMonitor.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -35,13 +35,7 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Information&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; color:#aaaa00;&quot;&gt;Security&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; color:#00aa00;&quot;&gt;Notice&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#757575;&quot;&gt;Debug&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#ff0000;&quot;&gt;Warning&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; color:#aa0000;&quot;&gt;Error&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; color:#ff0000;&quot;&gt;Critical&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="textInteractionFlags">
        <set>Qt::TextSelectableByMouse</set>
@@ -80,7 +74,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Time.png</normaloff>:/Resource/Generic/Time.png</iconset>
    </property>
    <property name="text">
@@ -89,7 +83,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionClearBuffer">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
    </property>
    <property name="text">
@@ -100,6 +94,8 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

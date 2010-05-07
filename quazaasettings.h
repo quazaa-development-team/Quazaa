@@ -256,7 +256,7 @@ namespace Settings
 		QStringList	FavoritesURL;							// Favorite Websites URLs
 		int			Gender;									// Gender..
 		QString		GnutellaScreenName;						// The name displayed in searches, uploads and downloads and when users browse your system
-		QString		GUID;									// Unique ID for each client. Can be regenerated
+		QUuid		GUID;									// Unique ID for each client. Can be regenerated
 		QString		ICQuin;									// Identification number in ICQ
 		QStringList	Interests;								// What do you like to do other than use Quazaa
 		QString		IrcAlternateNickname;					// Alternate nickname in Irc chat if first one is already used
