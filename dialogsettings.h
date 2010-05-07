@@ -44,6 +44,7 @@ public:
 	QColor colorTempServerMessages;
 	QColor colorTempTopics;
 	QFont fontTempChat;
+	bool newSkinSelected;
 
 protected:
 	virtual void changeEvent(QEvent *e);

@@ -816,7 +816,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Gnutella2.KHLHubCount = m_qSettings.value("KHLHubCount", 50).toInt();
 	quazaaSettings.Gnutella2.KHLPeriod = m_qSettings.value("KHLPeriod", 60).toInt();
 	quazaaSettings.Gnutella2.LNIMinimumUpdate = m_qSettings.value("LNIMinimumUpdate", 60).toInt();
-	quazaaSettings.Gnutella2.NumHubs = m_qSettings.value("NumHubs", 2).toInt();
+	quazaaSettings.Gnutella2.NumHubs = m_qSettings.value("NumHubs", 3).toInt();
 	quazaaSettings.Gnutella2.NumLeafs = m_qSettings.value("NumLeafs", 300).toInt();
 	quazaaSettings.Gnutella2.NumPeers = m_qSettings.value("NumPeers", 6).toInt();
 	quazaaSettings.Gnutella2.PingRate = m_qSettings.value("PingRate", 120).toInt();
