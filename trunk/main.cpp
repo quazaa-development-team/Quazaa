@@ -26,7 +26,6 @@
 #include <QDataStream>
 #include <QMessageBox>
 #include <QtCore>
-#include "mainwindow.h"
 #include "winmain.h"
 #include "quazaaglobals.h"
 #include "quazaasettings.h"

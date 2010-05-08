@@ -221,6 +221,7 @@ WinMain::WinMain(QWidget *parent) :
 			break;
 	}
 	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_triggered(QAction*)));
+	connect(pageHome, SIGNAL(triggerLibrary()), this, SLOT(on_actionLibrary_triggered()));
 	interfaceLoaded = true;
 
 	//Load profile
@@ -392,6 +393,7 @@ void WinMain::on_actionHome_triggered()
 
 void WinMain::on_actionLibrary_triggered()
 {
+	ui->actionLibrary->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
 	ui->labelMainHeaderText->setText(tr("Library"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.libraryHeader);
