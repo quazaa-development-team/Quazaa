@@ -10,6 +10,7 @@ WidgetHome::WidgetHome(QWidget *parent) :
 {
     ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	connect(ui->labelLibraryTaskLink, SIGNAL(linkActivated(QString)), this, SIGNAL(triggerLibrary()));
 	skinChangeEvent();
 	ui->lineEditWelcomeSearch->setText(quazaaSettings.WinMain.HomeSearchString);
 	ui->toolButtonHomeConnectionTaskHeader->setChecked(quazaaSettings.WinMain.HomeConnectionTaskVisible);
@@ -57,4 +58,39 @@ void WidgetHome::skinChangeEvent()
 	ui->frameConnectionTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->frameTorrentsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->frameTransfersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+}
+
+void WidgetHome::on_labelLibraryTaskHashFaster_linkActivated(QString link)
+{
+
+}
+
+void WidgetHome::on_labelTorrentsTaskSeedTorrentLink_linkActivated(QString link)
+{
+
+}
+
+void WidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
+{
+
+}
+
+void WidgetHome::on_labelWelcomeOpenTorrentLink_linkActivated(QString link)
+{
+
+}
+
+void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
+{
+
+}
+
+void WidgetHome::on_labelWelcomeWizardLink_linkActivated(QString link)
+{
+
+}
+
+void WidgetHome::on_labelWelcomeUserGuideLink_linkActivated(QString link)
+{
+
 }
