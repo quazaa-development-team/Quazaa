@@ -41,9 +41,9 @@ void WidgetActivity::skinChangeEvent()
 	ui->toolButtonSystemLogHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 }
 
-void WidgetActivity::saveState()
+void WidgetActivity::saveWidget()
 {
 	quazaaSettings.WinMain.ActivitySplitter = ui->splitterActivity->saveState();
-	panelNeighbors->saveState();
-	panelSystemLog->saveState();
+	panelNeighbors->saveWidget();
+	panelSystemLog->saveWidget();
 }

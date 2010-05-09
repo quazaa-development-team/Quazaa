@@ -1,5 +1,7 @@
 #include "widgetdiscovery.h"
 #include "ui_widgetdiscovery.h"
+
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetDiscovery::WidgetDiscovery(QWidget *parent) :
@@ -7,6 +9,7 @@ WidgetDiscovery::WidgetDiscovery(QWidget *parent) :
     ui(new Ui::WidgetDiscovery)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.DiscoveryToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -35,7 +38,7 @@ void WidgetDiscovery::skinChangeEvent()
 	ui->toolBarServices->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetDiscovery::saveState()
+void WidgetDiscovery::saveWidget()
 {
-
+	quazaaSettings.WinMain.DiscoveryToolbar = saveState();
 }

@@ -12,7 +12,7 @@ class WidgetDownloads : public QMainWindow {
 public:
     WidgetDownloads(QWidget *parent = 0);
     ~WidgetDownloads();
-	void saveState();
+	void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);

@@ -1,5 +1,7 @@
 #include "widgetchatcenter.h"
 #include "ui_widgetchatcenter.h"
+
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
@@ -7,6 +9,7 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
     ui(new Ui::WidgetChatCenter)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.ChatToolbars);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -35,7 +38,7 @@ void WidgetChatCenter::skinChangeEvent()
 	ui->toolBarOperator->setStyleSheet(skinSettings.chatToolbar);
 }
 
-void WidgetChatCenter::saveState()
+void WidgetChatCenter::saveWidget()
 {
-
+	quazaaSettings.WinMain.ChatToolbars = saveState();
 }

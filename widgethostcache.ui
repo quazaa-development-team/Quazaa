@@ -40,7 +40,7 @@
          <string>G2</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resource.qrc">
           <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
         </property>
         <item>
@@ -59,7 +59,7 @@
          <string>G1 Cache</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resource.qrc">
           <normaloff>:/Resource/Networks/Gnutella1.png</normaloff>:/Resource/Networks/Gnutella1.png</iconset>
         </property>
        </item>
@@ -68,7 +68,7 @@
          <string>Ares</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resource.qrc">
           <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
         </property>
        </item>
@@ -77,7 +77,7 @@
          <string>eDonkey</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resource.qrc">
           <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
         </property>
         <item>
@@ -96,7 +96,7 @@
          <string>BitTorrent</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resource.qrc">
           <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
         </property>
         <item>
@@ -124,6 +124,9 @@
    </layout>
   </widget>
   <widget class="QToolBar" name="toolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -135,6 +138,9 @@
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>
@@ -148,7 +154,7 @@
   </widget>
   <action name="actionConnectTo">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -157,7 +163,7 @@
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -166,7 +172,7 @@
   </action>
   <action name="actionRemove">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
    </property>
    <property name="text">
@@ -174,6 +180,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

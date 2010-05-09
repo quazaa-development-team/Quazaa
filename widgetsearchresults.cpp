@@ -10,6 +10,7 @@ WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
     ui(new Ui::WidgetSearchResults)
 {
 	ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.SearchToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
@@ -44,8 +45,9 @@ void WidgetSearchResults::skinChangeEvent()
 	ui->toolBarSearchResults->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetSearchResults::saveState()
+void WidgetSearchResults::saveWidget()
 {
+	quazaaSettings.WinMain.SearchToolbar = saveState();
 	quazaaSettings.WinMain.SearchDetailsSplitter = ui->splitterSearchDetails->saveState();
 	quazaaSettings.WinMain.SearchDetailsVisible = ui->actionSeachDetailsToggle->isChecked();
 	quazaaSettings.WinMain.SearchSidebarVisible = ui->actionSearchToggle->isChecked();

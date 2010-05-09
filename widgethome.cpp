@@ -120,7 +120,7 @@ void WidgetHome::on_labelWelcomeUserGuideLink_linkActivated(QString link)
 	QDesktopServices::openUrl(QUrl("https://sourceforge.net/apps/mediawiki/quazaa/index.php?title=Manual", QUrl::TolerantMode));
 }
 
-void WidgetHome::saveState()
+void WidgetHome::saveWidget()
 {
 	quazaaSettings.WinMain.HomeSplitter = ui->splitterHome->saveState();
 	quazaaSettings.WinMain.HomeSearchString = ui->lineEditWelcomeSearch->text();

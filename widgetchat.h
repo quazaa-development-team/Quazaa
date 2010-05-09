@@ -14,7 +14,7 @@ public:
     WidgetChat(QWidget *parent = 0);
     ~WidgetChat();
 	WidgetChatCenter *panelChatCenter;
-	void saveState();
+	void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);

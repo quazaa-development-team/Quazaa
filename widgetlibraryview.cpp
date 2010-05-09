@@ -11,6 +11,7 @@ WidgetLibraryView::WidgetLibraryView(QWidget *parent) :
     ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
+	restoreState(quazaaSettings.WinMain.LibraryToolbar);
 	ui->splitterLibraryView->restoreState(quazaaSettings.WinMain.LibraryDetailsSplitter);
 	ui->toolButtonLibraryDetailsToggle->setChecked(quazaaSettings.WinMain.LibraryDetailsVisible);
 }
@@ -38,8 +39,9 @@ void WidgetLibraryView::skinChangeEvent()
 	ui->toolFrameLibraryStatus->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetLibraryView::saveState()
+void WidgetLibraryView::saveWidget()
 {
+	quazaaSettings.WinMain.LibraryToolbar = saveState();
 	quazaaSettings.WinMain.LibraryDetailsSplitter = ui->splitterLibraryView->saveState();
 	quazaaSettings.WinMain.LibraryDetailsVisible = ui->toolButtonLibraryDetailsToggle->isChecked();
 }

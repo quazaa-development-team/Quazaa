@@ -33,7 +33,12 @@ namespace Settings
 		int			ActiveTab;					// The active tab (Home, Library, Media, etc.)
 		bool		ChatRoomsTaskVisible;			// The Rooms task in the Chat sidebar
 		bool		ChatFriendsTaskVisible;		// The Friends task in the Chat sidebar
+		QByteArray	ChatToolbars;				// Chat Toolbars
+		QByteArray	DiscoveryToolbar;			// DiscoveryToolbar
+		QByteArray	DownloadsToolbar;			// Downloads Toolbar
 		QByteArray	GraphSplitter;				// Graph splitter position
+		QByteArray	GraphToolbar;				// Graph Toolbar
+		QByteArray	HitMonitorToolbar;			// Hit Monitor Toolbar
 		bool		HomeConnectionTaskVisible;	// The Connection task in the Home sidebar
 		bool		HomeDownloadsTaskVisible;		// The Downloads task in the Home sidebar
 		bool		HomeLibraryTaskVisible;		// The Library task in the Home sidebar
@@ -42,22 +47,34 @@ namespace Settings
 		bool		HomeTorrentsTaskVisible;		// The BitTorrent task in the Home sidebar
 		bool		HomeUploadsTaskVisible;		// The Uploads task in the Home sidebar
 		QByteArray	HostCacheSplitter;			// Host Cache splitter position
+		QByteArray	HostCacheToolbar;			// Host Cache Toolbar
 		QByteArray	LibraryDetailsSplitter;		// Library details splitter position
 		bool		LibraryDetailsVisible;		// The details for the selected Library file
 		int			LibraryNavigatorTab;			// Shared Folders or Organiser
 		QByteArray	LibrarySplitter;				// Library splitter position
+		QByteArray	LibraryToolbar;				// Library View Toolbar
+		QByteArray	MainToolbar;				// The Navigation Toolbar
 		bool		MediaPlaylistVisible;			// Media tab's playlist
 		QByteArray	MediaSplitter;				// Media splitter position
+		QByteArray	MediaToolbars;				// Media Toolbars
+		QByteArray	NeighborsToolbars;			// Neighbors Toolbars
+		QByteArray	PacketDumpToolbar;			// Packet Dump Toolbar
 		QByteArray	ActivitySplitter;				// Activity splitter position
+		QByteArray	SchedulerToolbar;			// Scheduler Toolbar
 		QByteArray	SearchDetailsSplitter;		// Search details splitter position
 		bool		SearchDetailsVisible;			// The details for the selected Search item
 		bool		SearchFileTypeTaskVisible;	// The File Type task in the Search sidebar
+		QByteArray	SearchMonitorToolbar;		// Search Monitor Toolbar
 		bool		SearchNetworksTaskVisible;	// The Networks task in the Search sidebar
 		bool		SearchResultsTaskVisible;		// The Results task in the Search sidebar
 		bool		SearchSidebarVisible;			// Search sidebar
 		QByteArray	SearchSplitter;				// Search Splitter
 		bool		SearchTaskVisible;			// The Search task in the Search sidebar
+		QByteArray	SearchToolbar;				// Search Toolbar
+		QByteArray	SecurityToolbars;			// Security Toolbars
+		QByteArray	SystemLogToolbar;			// System Log Toolbar
 		QByteArray	TransfersSplitter;			// Transfers splitter position
+		QByteArray	UploadsToolbar;				// Uploads Toolbar
 		bool		Visible;						// Is the main window visible
 	};
 

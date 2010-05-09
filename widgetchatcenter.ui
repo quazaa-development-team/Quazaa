@@ -27,6 +27,9 @@
    </layout>
   </widget>
   <widget class="QToolBar" name="toolBarChatControls">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -38,6 +41,9 @@
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>
@@ -51,6 +57,9 @@
    <addaction name="actionChatSettings"/>
   </widget>
   <widget class="QToolBar" name="toolBarChatMessage">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
@@ -59,6 +68,9 @@
      <width>16</width>
      <height>16</height>
     </size>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>
@@ -69,6 +81,9 @@
    <addaction name="actionSend"/>
   </widget>
   <widget class="QToolBar" name="toolBarOperator">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar_3</string>
    </property>
@@ -77,6 +92,9 @@
      <width>16</width>
      <height>16</height>
     </size>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>

@@ -12,7 +12,7 @@ class WidgetSearchMonitor : public QMainWindow {
 public:
     WidgetSearchMonitor(QWidget *parent = 0);
     ~WidgetSearchMonitor();
-	void saveState();
+	void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);

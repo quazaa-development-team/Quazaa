@@ -1,5 +1,7 @@
 #include "widgetdownloads.h"
 #include "ui_widgetdownloads.h"
+
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetDownloads::WidgetDownloads(QWidget *parent) :
@@ -7,6 +9,7 @@ WidgetDownloads::WidgetDownloads(QWidget *parent) :
     ui(new Ui::WidgetDownloads)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.DownloadsToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -35,7 +38,7 @@ void WidgetDownloads::skinChangeEvent()
 	ui->toolBarFilter->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetDownloads::saveState()
+void WidgetDownloads::saveWidget()
 {
-
+	quazaaSettings.WinMain.DownloadsToolbar = saveState();
 }

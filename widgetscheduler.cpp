@@ -1,5 +1,7 @@
 #include "widgetscheduler.h"
 #include "ui_widgetscheduler.h"
+
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetScheduler::WidgetScheduler(QWidget *parent) :
@@ -7,6 +9,7 @@ WidgetScheduler::WidgetScheduler(QWidget *parent) :
     ui(new Ui::WidgetScheduler)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.SchedulerToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -33,7 +36,7 @@ void WidgetScheduler::skinChangeEvent()
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetScheduler::saveState()
+void WidgetScheduler::saveWidget()
 {
-
+	quazaaSettings.WinMain.SchedulerToolbar = saveState();
 }

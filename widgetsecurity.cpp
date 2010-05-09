@@ -1,5 +1,7 @@
 #include "widgetsecurity.h"
 #include "ui_widgetsecurity.h"
+
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetSecurity::WidgetSecurity(QWidget *parent) :
@@ -7,6 +9,7 @@ WidgetSecurity::WidgetSecurity(QWidget *parent) :
     ui(new Ui::WidgetSecurity)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.SecurityToolbars);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -34,7 +37,7 @@ void WidgetSecurity::skinChangeEvent()
 	ui->toolBarSubscribe->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetSecurity::saveState()
+void WidgetSecurity::saveWidget()
 {
-
+	quazaaSettings.WinMain.SecurityToolbars = saveState();
 }

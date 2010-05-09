@@ -12,7 +12,7 @@ class WidgetGraph : public QMainWindow {
 public:
     WidgetGraph(QWidget *parent = 0);
     ~WidgetGraph();
-	void saveState();
+	void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);

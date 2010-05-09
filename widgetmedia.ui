@@ -391,8 +391,14 @@ QToolButton:checked {
    </layout>
   </widget>
   <widget class="QToolBar" name="toolBarPlayControls">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>
@@ -411,8 +417,14 @@ QToolButton:checked {
    <addaction name="actionMediaShuffle"/>
   </widget>
   <widget class="QToolBar" name="toolBarSettings">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar_2</string>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>
@@ -425,8 +437,14 @@ QToolButton:checked {
    <addaction name="actionMediaSettings"/>
   </widget>
   <widget class="QToolBar" name="toolBarVolume">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar_3</string>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>

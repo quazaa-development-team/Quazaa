@@ -9,6 +9,7 @@ WidgetGraph::WidgetGraph(QWidget *parent) :
     ui(new Ui::WidgetGraph)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.GraphToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->splitterGraph->restoreState(quazaaSettings.WinMain.GraphSplitter);
@@ -36,7 +37,8 @@ void WidgetGraph::skinChangeEvent()
 	ui->toolBarControls->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetGraph::saveState()
+void WidgetGraph::saveWidget()
 {
+	quazaaSettings.WinMain.GraphToolbar = saveState();
 	quazaaSettings.WinMain.GraphSplitter = ui->splitterGraph->saveState();
 }

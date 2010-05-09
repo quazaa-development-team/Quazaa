@@ -16,7 +16,7 @@ public:
     ~WidgetTransfers();
 	WidgetDownloads *panelDownloads;
 	WidgetUploads *panelUploads;
-	void saveState();
+	void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);

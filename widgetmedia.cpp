@@ -9,6 +9,7 @@ WidgetMedia::WidgetMedia(QWidget *parent) :
     ui(new Ui::WidgetMedia)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.MediaToolbars);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->actionMediaPlaylistToggle->setChecked(quazaaSettings.WinMain.MediaPlaylistVisible);
@@ -52,8 +53,9 @@ void WidgetMedia::skinChangeEvent()
 	ui->toolBarVolume->setStyleSheet(skinSettings.mediaToolbar);
 }
 
-void WidgetMedia::saveState()
+void WidgetMedia::saveWidget()
 {
+	quazaaSettings.WinMain.MediaToolbars = saveState();
 	quazaaSettings.WinMain.MediaPlaylistVisible = ui->actionMediaPlaylistToggle->isChecked();
 	quazaaSettings.WinMain.MediaSplitter = ui->splitterMediaPlaylist->saveState();
 }
