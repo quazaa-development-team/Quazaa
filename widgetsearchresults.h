@@ -22,6 +22,7 @@ private:
 
 public slots:
 	void skinChangeEvent();
+	void startNewSearch(QString searchString);
 };
 
 #endif // WIDGETSEARCHRESULTS_H

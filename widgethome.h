@@ -18,6 +18,7 @@ signals:
 	void triggerLibrary();
 	void triggerTransfers();
 	void triggerSecurity();
+	void requestSearch(QString *searchString);
 
 protected:
     void changeEvent(QEvent *e);
@@ -26,6 +27,7 @@ private:
     Ui::WidgetHome *ui;
 
 private slots:
+ void on_toolButtonWelcomeSearch_clicked();
  void on_labelWelcomeUserGuideLink_linkActivated(QString link);
  void on_labelWelcomeWizardLink_linkActivated(QString link);
  void on_labelWelcomeSkinLink_linkActivated(QString link);

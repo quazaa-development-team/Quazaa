@@ -70,7 +70,9 @@ private:
 	bool bypassCloseEvent;
 
 private slots:
-	void on_actionNewSearch_triggered();
+	void on_actionDisconnect_triggered();
+ void on_actionConnect_triggered();
+ void on_actionNewSearch_triggered();
  void on_actionEditMyProfile_triggered();
  void on_actionQuazaaForums_triggered();
  void on_actionDonate_triggered();

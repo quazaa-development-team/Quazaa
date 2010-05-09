@@ -47,7 +47,6 @@ CHostCache::CHostCache()
 
     PruneOldHosts();
 }
-
 CHostCache::~CHostCache()
 {
     Save();

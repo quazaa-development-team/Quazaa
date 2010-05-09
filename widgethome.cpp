@@ -4,6 +4,7 @@
 #include "dialogopentorrent.h"
 #include "dialogsettings.h"
 #include "dialogwizard.h"
+#include "widgetsearchtemplate.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -130,4 +131,10 @@ void WidgetHome::saveWidget()
 	quazaaSettings.WinMain.HomeSearchString = ui->lineEditWelcomeSearch->text();
 	quazaaSettings.WinMain.HomeTorrentsTaskVisible = ui->toolButtonHomeTorrentsTaskHeader->isChecked();
 	quazaaSettings.WinMain.HomeUploadsTaskVisible = ui->toolButtonHomeTransfersTaskUploadsHeader->isChecked();
+}
+
+void WidgetHome::on_toolButtonWelcomeSearch_clicked()
+{
+	QString searchString = ui->lineEditWelcomeSearch->text();
+	emit requestSearch(&searchString);
 }
