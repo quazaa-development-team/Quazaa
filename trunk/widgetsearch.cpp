@@ -65,3 +65,18 @@ void WidgetSearch::saveWidget()
 	quazaaSettings.WinMain.SearchTaskVisible = ui->toolButtonSearchTaskHeader->isChecked();
 	panelSearchResults->saveWidget();
 }
+
+void WidgetSearch::on_toolButtonSearch_clicked()
+{
+	panelSearchResults->startNewSearch(ui->lineEditSearch->text());
+}
+
+void WidgetSearch::on_toolButtonSearchClear_clicked()
+{
+
+}
+
+void WidgetSearch::startNewSearch(QString searchString)
+{
+	panelSearchResults->startNewSearch(searchString);
+}

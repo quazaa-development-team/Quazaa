@@ -5,6 +5,8 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
+#include "NetworkCore/Query.h"
+
 WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::WidgetSearchResults)
@@ -51,4 +53,15 @@ void WidgetSearchResults::saveWidget()
 	quazaaSettings.WinMain.SearchDetailsSplitter = ui->splitterSearchDetails->saveState();
 	quazaaSettings.WinMain.SearchDetailsVisible = ui->actionSeachDetailsToggle->isChecked();
 	quazaaSettings.WinMain.SearchSidebarVisible = ui->actionSearchToggle->isChecked();
+}
+
+void WidgetSearchResults::startNewSearch(QString searchString)
+{
+	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+	if( pWg )
+	{
+		CQuery* pQuery = new CQuery();
+		pQuery->SetDescriptiveName(searchString);
+		pWg->StartSearch(pQuery);
+	}
 }

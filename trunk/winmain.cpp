@@ -26,7 +26,6 @@
 
 #include "NetworkCore/network.h" // not sure that it is right place, but...
 #include <QTimer>
-#include "NetworkCore/Query.h"
 
 WinMain::WinMain(QWidget *parent) :
     QMainWindow(parent),
@@ -223,6 +222,7 @@ WinMain::WinMain(QWidget *parent) :
 			break;
 	}
 	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_triggered(QAction*)));
+	connect(pageHome, SIGNAL(requestSearch(QString*)), pageSearch, SLOT(startNewSearch(QString*)));
 	connect(pageHome, SIGNAL(triggerLibrary()), this, SLOT(on_actionLibrary_triggered()));
 	connect(pageHome, SIGNAL(triggerSecurity()), this, SLOT(on_actionSecurity_triggered()));
 	connect(pageHome, SIGNAL(triggerTransfers()), this, SLOT(on_actionTransfers_triggered()));
@@ -804,4 +804,18 @@ void WinMain::on_actionEditMyProfile_triggered()
 void WinMain::on_actionNewSearch_triggered()
 {
 	ui->actionSearch->trigger();
+}
+
+void WinMain::on_actionConnect_triggered()
+{
+	ui->actionConnect->setEnabled(false);
+	ui->actionDisconnect->setEnabled(true);
+	Network.Connect();
+}
+
+void WinMain::on_actionDisconnect_triggered()
+{
+	ui->actionConnect->setEnabled(true);
+	ui->actionDisconnect->setEnabled(false);
+	Network.Disconnect();
 }
