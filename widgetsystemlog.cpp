@@ -61,3 +61,8 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 		break;
 	}
 }
+
+void WidgetSystemLog::saveState()
+{
+
+}

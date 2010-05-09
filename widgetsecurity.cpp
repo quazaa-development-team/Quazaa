@@ -33,3 +33,8 @@ void WidgetSecurity::skinChangeEvent()
 	ui->toolBarControls->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarSubscribe->setStyleSheet(skinSettings.toolbars);
 }
+
+void WidgetSecurity::saveState()
+{
+
+}

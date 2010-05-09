@@ -16,7 +16,6 @@ WidgetGraph::WidgetGraph(QWidget *parent) :
 
 WidgetGraph::~WidgetGraph()
 {
-	quazaaSettings.WinMain.GraphSplitter = ui->splitterGraph->saveState();
 	delete ui;
 }
 
@@ -35,4 +34,9 @@ void WidgetGraph::changeEvent(QEvent *e)
 void WidgetGraph::skinChangeEvent()
 {
 	ui->toolBarControls->setStyleSheet(skinSettings.toolbars);
+}
+
+void WidgetGraph::saveState()
+{
+	quazaaSettings.WinMain.GraphSplitter = ui->splitterGraph->saveState();
 }

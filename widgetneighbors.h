@@ -14,6 +14,7 @@ public:
     WidgetNeighbors(QWidget *parent = 0);
     ~WidgetNeighbors();
 	void setModel(QAbstractItemModel *model);
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);

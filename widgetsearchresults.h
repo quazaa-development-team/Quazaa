@@ -12,6 +12,7 @@ class WidgetSearchResults : public QMainWindow {
 public:
     WidgetSearchResults(QWidget *parent = 0);
     ~WidgetSearchResults();
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);

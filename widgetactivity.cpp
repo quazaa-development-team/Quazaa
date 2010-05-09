@@ -20,7 +20,6 @@ WidgetActivity::WidgetActivity(QWidget *parent) :
 
 WidgetActivity::~WidgetActivity()
 {
-	quazaaSettings.WinMain.ActivitySplitter = ui->splitterActivity->saveState();
 	delete ui;
 }
 
@@ -40,4 +39,11 @@ void WidgetActivity::skinChangeEvent()
 {
 	ui->toolButtonNeighborsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 	ui->toolButtonSystemLogHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+}
+
+void WidgetActivity::saveState()
+{
+	quazaaSettings.WinMain.ActivitySplitter = ui->splitterActivity->saveState();
+	panelNeighbors->saveState();
+	panelSystemLog->saveState();
 }

@@ -21,7 +21,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QSplitter" name="splitter">
+    <widget class="QSplitter" name="splitterSearch">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -60,7 +60,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>586</width>
+            <width>626</width>
             <height>516</height>
            </rect>
           </property>
@@ -96,7 +96,7 @@ QToolButton:hover {
               <string>New Search</string>
              </property>
              <property name="icon">
-              <iconset resource="Resource.qrc">
+              <iconset>
                <normaloff>:/Resource/Generic/NewSearch.png</normaloff>:/Resource/Generic/NewSearch.png</iconset>
              </property>
              <property name="iconSize">
@@ -140,7 +140,7 @@ QToolButton:hover {
                 <string>Results</string>
                </property>
                <property name="icon">
-                <iconset resource="Resource.qrc">
+                <iconset>
                  <normaloff>:/Resource/Network/BrowseStatistics.png</normaloff>:/Resource/Network/BrowseStatistics.png</iconset>
                </property>
                <property name="iconSize">
@@ -281,7 +281,7 @@ QToolButton:hover {
                 <string>Any File Type</string>
                </property>
                <property name="icon">
-                <iconset resource="Resource.qrc">
+                <iconset>
                  <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                </property>
                <property name="iconSize">
@@ -409,7 +409,7 @@ QToolButton:hover {
                 <string>Networks</string>
                </property>
                <property name="icon">
-                <iconset resource="Resource.qrc">
+                <iconset>
                  <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
                </property>
                <property name="iconSize">
@@ -467,7 +467,7 @@ QToolButton:hover {
                      <string>Gnutella 2</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
                     </property>
                     <property name="checked">
@@ -481,7 +481,7 @@ QToolButton:hover {
                      <string>Gnutella 1</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Networks/Gnutella1.png</normaloff>:/Resource/Networks/Gnutella1.png</iconset>
                     </property>
                    </widget>
@@ -492,7 +492,7 @@ QToolButton:hover {
                      <string>Ares</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
                     </property>
                    </widget>
@@ -503,7 +503,7 @@ QToolButton:hover {
                      <string>eDonkey</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
                     </property>
                    </widget>
@@ -545,7 +545,7 @@ QToolButton:hover {
                 <string>Search</string>
                </property>
                <property name="icon">
-                <iconset resource="Resource.qrc">
+                <iconset>
                  <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                </property>
                <property name="iconSize">
@@ -651,7 +651,7 @@ QToolButton:checked {
                      <string>Search</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -665,7 +665,7 @@ QToolButton:checked {
                      <string>Clear</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Generic/Cancel.png</normaloff>:/Resource/Generic/Cancel.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -719,8 +719,6 @@ QToolButton:checked {
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

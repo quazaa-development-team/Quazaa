@@ -13,6 +13,7 @@ class WidgetSystemLog : public QMainWindow {
 public:
     WidgetSystemLog(QWidget *parent = 0);
     ~WidgetSystemLog();
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);

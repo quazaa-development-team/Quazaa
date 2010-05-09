@@ -1028,6 +1028,7 @@ void QuazaaSettings::saveWindowSettings(QMainWindow *window)
 	m_qSettings.setValue( "HomeDownloadsTaskVisible", quazaaSettings.WinMain.HomeDownloadsTaskVisible );
 	m_qSettings.setValue( "HomeLibraryTaskVisible", quazaaSettings.WinMain.HomeLibraryTaskVisible );
 	m_qSettings.setValue( "HomeSearchString", quazaaSettings.WinMain.HomeSearchString );
+	m_qSettings.setValue( "HomeSplitter", quazaaSettings.WinMain.HomeSplitter );
 	m_qSettings.setValue( "HomeTorrentsTaskVisible", quazaaSettings.WinMain.HomeTorrentsTaskVisible );
 	m_qSettings.setValue( "HomeUploadsTaskVisible", quazaaSettings.WinMain.HomeUploadsTaskVisible );
 	m_qSettings.setValue( "LibraryDetailsSplitter", quazaaSettings.WinMain.LibraryDetailsSplitter );
@@ -1043,6 +1044,7 @@ void QuazaaSettings::saveWindowSettings(QMainWindow *window)
 	m_qSettings.setValue( "SearchNetworksTaskVisible", quazaaSettings.WinMain.SearchNetworksTaskVisible );
 	m_qSettings.setValue( "SearchResultsTaskVisible", quazaaSettings.WinMain.SearchResultsTaskVisible );
 	m_qSettings.setValue( "SearchSidebarVisible", quazaaSettings.WinMain.SearchSidebarVisible );
+	m_qSettings.setValue( "SearchSplitter", quazaaSettings.WinMain.SearchSplitter );
 	m_qSettings.setValue( "SearchTaskVisible", quazaaSettings.WinMain.SearchTaskVisible );
 	m_qSettings.setValue( "TransfersSplitter", quazaaSettings.WinMain.TransfersSplitter );
 }
@@ -1060,6 +1062,7 @@ void QuazaaSettings::loadWindowSettings(QMainWindow *window)
 	quazaaSettings.WinMain.HomeConnectionTaskVisible = m_qSettings.value( "HomeConnectionTaskVisible", true ).toBool();
 	quazaaSettings.WinMain.HomeTorrentsTaskVisible = m_qSettings.value( "HomeTorrentsTaskVisible", true ).toBool();
 	quazaaSettings.WinMain.HomeSearchString = m_qSettings.value( "HomeSearchString", "" ).toString();
+	quazaaSettings.WinMain.HomeSplitter = m_qSettings.value( "HomeSplitter", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.LibraryDetailsSplitter = m_qSettings.value( "LibraryDetailsSplitter", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.LibrarySplitter = m_qSettings.value( "LibrarySplitter", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.LibraryNavigatorTab = m_qSettings.value( "LibraryNavigatorTab", 0 ).toInt();
@@ -1072,6 +1075,7 @@ void QuazaaSettings::loadWindowSettings(QMainWindow *window)
 	quazaaSettings.WinMain.SearchFileTypeTaskVisible = m_qSettings.value( "SearchFileTypeTaskVisible", true ).toBool();
 	quazaaSettings.WinMain.SearchResultsTaskVisible = m_qSettings.value( "SearchResultsTaskVisible", true ).toBool();
 	quazaaSettings.WinMain.MediaPlaylistVisible = m_qSettings.value( "MediaPlaylistVisible", true ).toBool();
+	quazaaSettings.WinMain.SearchSplitter = m_qSettings.value( "SearchSplitter", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.SearchSidebarVisible = m_qSettings.value( "SearchSidebarVisible", true ).toBool();
 	quazaaSettings.WinMain.SearchDetailsVisible = m_qSettings.value( "SearchDetailsVisible", true ).toBool();
 	quazaaSettings.WinMain.TransfersSplitter = m_qSettings.value( "TransfersSplitter", QByteArray() ).toByteArray();

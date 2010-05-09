@@ -14,6 +14,7 @@ public:
     WidgetLibrary(QWidget *parent = 0);
     ~WidgetLibrary();
     WidgetLibraryView *panelLibraryView;
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);
@@ -22,7 +23,8 @@ private:
     Ui::WidgetLibrary *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_toolButtonLibraryEditShares_clicked();
+ void skinChangeEvent();
 };
 
 #endif // WIDGETLIBRARY_H

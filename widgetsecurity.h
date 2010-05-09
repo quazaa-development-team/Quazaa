@@ -12,6 +12,7 @@ class WidgetSecurity : public QMainWindow {
 public:
     WidgetSecurity(QWidget *parent = 0);
     ~WidgetSecurity();
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);

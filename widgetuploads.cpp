@@ -33,3 +33,8 @@ void WidgetUploads::skinChangeEvent()
 	ui->toolBarControls->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarFilter->setStyleSheet(skinSettings.toolbars);
 }
+
+void WidgetUploads::saveState()
+{
+
+}

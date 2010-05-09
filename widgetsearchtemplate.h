@@ -38,6 +38,7 @@ class WidgetSearchTemplate : public QWidget {
 
 protected:
     CManagedSearch* m_pSearch;
+
 public:
     WidgetSearchTemplate(QWidget *parent = 0);
     ~WidgetSearchTemplate();

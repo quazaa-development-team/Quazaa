@@ -32,3 +32,8 @@ void WidgetScheduler::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }
+
+void WidgetScheduler::saveState()
+{
+
+}

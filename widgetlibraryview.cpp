@@ -17,8 +17,6 @@ WidgetLibraryView::WidgetLibraryView(QWidget *parent) :
 
 WidgetLibraryView::~WidgetLibraryView()
 {
-	quazaaSettings.WinMain.LibraryDetailsSplitter = ui->splitterLibraryView->saveState();
-	quazaaSettings.WinMain.LibraryDetailsVisible = ui->toolButtonLibraryDetailsToggle->isChecked();
 	delete ui;
 }
 
@@ -38,4 +36,10 @@ void WidgetLibraryView::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 	ui->toolFrameLibraryStatus->setStyleSheet(skinSettings.toolbars);
+}
+
+void WidgetLibraryView::saveState()
+{
+	quazaaSettings.WinMain.LibraryDetailsSplitter = ui->splitterLibraryView->saveState();
+	quazaaSettings.WinMain.LibraryDetailsVisible = ui->toolButtonLibraryDetailsToggle->isChecked();
 }

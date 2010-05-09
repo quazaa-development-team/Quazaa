@@ -38,3 +38,8 @@ void WidgetNeighbors::setModel(QAbstractItemModel *model)
 {
 	ui->tableViewNeighbors->setModel(model);
 }
+
+void WidgetNeighbors::saveState()
+{
+
+}

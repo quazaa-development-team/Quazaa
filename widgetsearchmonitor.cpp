@@ -33,3 +33,8 @@ void WidgetSearchMonitor::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }
+
+void WidgetSearchMonitor::saveState()
+{
+
+}

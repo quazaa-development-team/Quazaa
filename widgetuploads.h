@@ -12,6 +12,7 @@ class WidgetUploads : public QMainWindow {
 public:
     WidgetUploads(QWidget *parent = 0);
     ~WidgetUploads();
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);

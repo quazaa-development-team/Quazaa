@@ -34,3 +34,8 @@ void WidgetDownloads::skinChangeEvent()
 	ui->toolBarFileTypes->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarFilter->setStyleSheet(skinSettings.toolbars);
 }
+
+void WidgetDownloads::saveState()
+{
+
+}

@@ -12,6 +12,7 @@ class WidgetDiscovery : public QMainWindow {
 public:
     WidgetDiscovery(QWidget *parent = 0);
     ~WidgetDiscovery();
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);

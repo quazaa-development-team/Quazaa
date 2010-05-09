@@ -12,6 +12,7 @@ class WidgetPacketDump : public QMainWindow {
 public:
     WidgetPacketDump(QWidget *parent = 0);
     ~WidgetPacketDump();
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);

@@ -222,6 +222,8 @@ WinMain::WinMain(QWidget *parent) :
 	}
 	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_triggered(QAction*)));
 	connect(pageHome, SIGNAL(triggerLibrary()), this, SLOT(on_actionLibrary_triggered()));
+	connect(pageHome, SIGNAL(triggerSecurity()), this, SLOT(on_actionSecurity_triggered()));
+	connect(pageHome, SIGNAL(triggerTransfers()), this, SLOT(on_actionTransfers_triggered()));
 	interfaceLoaded = true;
 
 	//Load profile
@@ -369,14 +371,29 @@ void WinMain::quazaaShutdown()
 	dlgSplash->updateProgress(5, tr("Closing Networks..."));
 	Network.Disconnect();
 
-	dlgSplash->updateProgress(5, tr("Saving Settings..."));
+	dlgSplash->updateProgress(10, tr("Saving Settings..."));
 	quazaaSettings.saveSettings();
 
-	dlgSplash->updateProgress(10, tr("Saving UI..."));
+	dlgSplash->updateProgress(15, tr("Saving UI..."));
+	pageHome->saveState();
+	pageLibrary->saveState();
+	pageMedia->saveState();
+	pageSearch->saveState();
+	pageTransfers->saveState();
+	pageSecurity->saveState();
+	pageActivity->saveState();
+	pageChat->saveState();
+	pageHostCache->saveState();
+	pageDiscovery->saveState();
+	pageScheduler->saveState();
+	pageGraph->saveState();
+	pagePacketDump->saveState();
+	pageSearchMonitor->saveState();
+	pageHitMonitor->saveState();
 	quazaaSettings.saveWindowSettings(this);
 
-	dlgSplash->updateProgress(15, tr("Removing Tray Icon..."));
-	//trayIcon->~QSystemTrayIcon();
+	dlgSplash->updateProgress(20, tr("Removing Tray Icon..."));
+	trayIcon->~QSystemTrayIcon();
 
 	dlgSplash->close();
 	emit closed();
@@ -384,6 +401,7 @@ void WinMain::quazaaShutdown()
 
 void WinMain::on_actionHome_triggered()
 {
+	ui->actionHome->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
 	ui->labelMainHeaderText->setText(tr("Quazaa Home"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.homeHeader);
@@ -412,6 +430,7 @@ void WinMain::on_actionMedia_triggered()
 
 void WinMain::on_actionSearch_triggered()
 {
+	ui->actionSearch->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
 	ui->labelMainHeaderText->setText(tr("Search"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.searchHeader);
@@ -421,6 +440,7 @@ void WinMain::on_actionSearch_triggered()
 
 void WinMain::on_actionTransfers_triggered()
 {
+	ui->actionTransfers->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
 	ui->labelMainHeaderText->setText(tr("Transfers"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.transfersHeader);
@@ -430,6 +450,7 @@ void WinMain::on_actionTransfers_triggered()
 
 void WinMain::on_actionSecurity_triggered()
 {
+	ui->actionSecurity->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
 	ui->labelMainHeaderText->setText(tr("Security"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.securityHeader);
@@ -439,6 +460,7 @@ void WinMain::on_actionSecurity_triggered()
 
 void WinMain::on_actionActivity_triggered()
 {
+	ui->actionActivity->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Globe.png"));
 	ui->labelMainHeaderText->setText(tr("Activity"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.activityHeader);
@@ -448,6 +470,7 @@ void WinMain::on_actionActivity_triggered()
 
 void WinMain::on_actionChat_triggered()
 {
+	ui->actionChat->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
 	ui->labelMainHeaderText->setText(tr("Chat"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.chatHeader);
@@ -457,6 +480,7 @@ void WinMain::on_actionChat_triggered()
 
 void WinMain::on_actionHostCache_triggered()
 {
+	ui->actionHostCache->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
 	ui->labelMainHeaderText->setText(tr("Host Cache"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
@@ -466,6 +490,7 @@ void WinMain::on_actionHostCache_triggered()
 
 void WinMain::on_actionDiscovery_triggered()
 {
+	ui->actionDiscovery->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
 	ui->labelMainHeaderText->setText(tr("Discovery"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
@@ -475,6 +500,7 @@ void WinMain::on_actionDiscovery_triggered()
 
 void WinMain::on_actionScheduler_triggered()
 {
+	ui->actionScheduler->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
 	ui->labelMainHeaderText->setText(tr("Scheduler"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
@@ -484,6 +510,7 @@ void WinMain::on_actionScheduler_triggered()
 
 void WinMain::on_actionGraph_triggered()
 {
+	ui->actionGraph->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
 	ui->labelMainHeaderText->setText(tr("Graph"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
@@ -493,6 +520,7 @@ void WinMain::on_actionGraph_triggered()
 
 void WinMain::on_actionPacketDump_triggered()
 {
+	ui->actionPacketDump->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
 	ui->labelMainHeaderText->setText(tr("Packet Dump"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
@@ -502,6 +530,7 @@ void WinMain::on_actionPacketDump_triggered()
 
 void WinMain::on_actionSearchMonitor_triggered()
 {
+	ui->actionSearchMonitor->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
 	ui->labelMainHeaderText->setText(tr("Search Monitor"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
@@ -511,6 +540,7 @@ void WinMain::on_actionSearchMonitor_triggered()
 
 void WinMain::on_actionHitMonitor_triggered()
 {
+	ui->actionHitMonitor->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
 	ui->labelMainHeaderText->setText(tr("Hit Monitor"));
 	ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);

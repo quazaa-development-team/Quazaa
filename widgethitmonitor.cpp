@@ -32,3 +32,8 @@ void WidgetHitMonitor::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }
+
+void WidgetHitMonitor::saveState()
+{
+
+}

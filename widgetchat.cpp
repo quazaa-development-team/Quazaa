@@ -19,8 +19,6 @@ WidgetChat::WidgetChat(QWidget *parent) :
 
 WidgetChat::~WidgetChat()
 {
-	quazaaSettings.WinMain.ChatFriendsTaskVisible = ui->toolButtonChatFriendsHeader->isChecked();
-	quazaaSettings.WinMain.ChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
 	delete ui;
 }
 
@@ -47,4 +45,11 @@ void WidgetChat::skinChangeEvent()
 	ui->frameChatFriendsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->frameChatRoomsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->frameChatWelcome->setStyleSheet(skinSettings.chatWelcome);
+}
+
+void WidgetChat::saveState()
+{
+	quazaaSettings.WinMain.ChatFriendsTaskVisible = ui->toolButtonChatFriendsHeader->isChecked();
+	quazaaSettings.WinMain.ChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
+	panelChatCenter->saveState();
 }

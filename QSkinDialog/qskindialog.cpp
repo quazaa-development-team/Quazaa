@@ -12,7 +12,6 @@
  ********************************************************************************************************/
 #include "qskindialog.h"
 #include "ui_qskindialog.h"
-#include "mainwindow.h"
 #include "qskinsettings.h"
 #include <quazaasettings.h>
 

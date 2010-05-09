@@ -15,6 +15,7 @@ public:
     WidgetMedia(QWidget *parent = 0);
     ~WidgetMedia();
 	vlcMediaPlayer *mediaPlayer;
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);

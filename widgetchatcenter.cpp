@@ -34,3 +34,8 @@ void WidgetChatCenter::skinChangeEvent()
 	ui->toolBarChatMessage->setStyleSheet(skinSettings.chatToolbar);
 	ui->toolBarOperator->setStyleSheet(skinSettings.chatToolbar);
 }
+
+void WidgetChatCenter::saveState()
+{
+
+}
