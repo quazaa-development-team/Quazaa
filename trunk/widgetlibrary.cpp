@@ -1,5 +1,6 @@
 #include "widgetlibrary.h"
 #include "ui_widgetlibrary.h"
+#include "dialogeditshares.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -19,8 +20,6 @@ WidgetLibrary::WidgetLibrary(QWidget *parent) :
 
 WidgetLibrary::~WidgetLibrary()
 {
-	quazaaSettings.WinMain.LibraryNavigatorTab = ui->tabWidgetLibraryNavigator->currentIndex();
-	quazaaSettings.WinMain.LibrarySplitter = ui->splitterLibrary->saveState();
 	delete ui;
 }
 
@@ -40,4 +39,22 @@ void WidgetLibrary::skinChangeEvent()
 {
 	ui->frameLibraryNavigator->setStyleSheet(skinSettings.sidebarBackground);
 	ui->tabWidgetLibraryNavigator->setStyleSheet(skinSettings.libraryNavigator);
+}
+
+void WidgetLibrary::on_toolButtonLibraryEditShares_clicked()
+{
+	QSkinDialog *dlgSkinEditShares = new QSkinDialog(false, true, false, this);
+	DialogEditShares *dlgEditShares = new DialogEditShares;
+
+	dlgSkinEditShares->addChildWidget(dlgEditShares);
+
+	connect(dlgEditShares, SIGNAL(closed()), dlgSkinEditShares, SLOT(close()));
+	dlgSkinEditShares->show();
+}
+
+void WidgetLibrary::saveState()
+{
+	quazaaSettings.WinMain.LibraryNavigatorTab = ui->tabWidgetLibraryNavigator->currentIndex();
+	quazaaSettings.WinMain.LibrarySplitter = ui->splitterLibrary->saveState();
+	panelLibraryView->saveState();
 }

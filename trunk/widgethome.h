@@ -12,6 +12,7 @@ class WidgetHome : public QWidget {
 public:
     WidgetHome(QWidget *parent = 0);
     ~WidgetHome();
+	void saveState();
 
 signals:
 	void triggerLibrary();

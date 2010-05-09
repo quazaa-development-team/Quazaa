@@ -34,3 +34,8 @@ void WidgetDiscovery::skinChangeEvent()
 	ui->toolBarProperties->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarServices->setStyleSheet(skinSettings.toolbars);
 }
+
+void WidgetDiscovery::saveState()
+{
+
+}

@@ -12,6 +12,7 @@ class WidgetHitMonitor : public QMainWindow {
 public:
     WidgetHitMonitor(QWidget *parent = 0);
     ~WidgetHitMonitor();
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);

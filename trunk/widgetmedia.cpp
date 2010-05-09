@@ -28,8 +28,6 @@ WidgetMedia::WidgetMedia(QWidget *parent) :
 
 WidgetMedia::~WidgetMedia()
 {
-	quazaaSettings.WinMain.MediaPlaylistVisible = ui->actionMediaPlaylistToggle->isChecked();
-	quazaaSettings.WinMain.MediaSplitter = ui->splitterMediaPlaylist->saveState();
 	delete ui;
 }
 
@@ -52,4 +50,10 @@ void WidgetMedia::skinChangeEvent()
 	ui->toolBarPlayControls->setStyleSheet(skinSettings.mediaToolbar);
 	ui->toolBarSettings->setStyleSheet(skinSettings.mediaToolbar);
 	ui->toolBarVolume->setStyleSheet(skinSettings.mediaToolbar);
+}
+
+void WidgetMedia::saveState()
+{
+	quazaaSettings.WinMain.MediaPlaylistVisible = ui->actionMediaPlaylistToggle->isChecked();
+	quazaaSettings.WinMain.MediaSplitter = ui->splitterMediaPlaylist->saveState();
 }

@@ -33,4 +33,8 @@ void WidgetPacketDump::skinChangeEvent()
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }
 
+void WidgetPacketDump::saveState()
+{
+
+}
 

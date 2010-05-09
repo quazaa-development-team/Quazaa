@@ -20,7 +20,6 @@ WidgetTransfers::WidgetTransfers(QWidget *parent) :
 
 WidgetTransfers::~WidgetTransfers()
 {
-	quazaaSettings.WinMain.TransfersSplitter = ui->splitterTransfers->saveState();
 	delete ui;
 }
 
@@ -40,4 +39,11 @@ void WidgetTransfers::skinChangeEvent()
 {
 	ui->toolButtonDownloadsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 	ui->toolButtonUploadsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+}
+
+void WidgetTransfers::saveState()
+{
+	quazaaSettings.WinMain.TransfersSplitter = ui->splitterTransfers->saveState();
+	panelDownloads->saveState();
+	panelUploads->saveState();
 }

@@ -90,6 +90,7 @@ void WidgetSearchTemplate::OnQueryHit(QueryHitSharedPtr pHit)
 {
 
 }
+
 void WidgetSearchTemplate::OnStatsUpdated(CManagedSearch *pSearch)
 {
     if( pSearch != m_pSearch )

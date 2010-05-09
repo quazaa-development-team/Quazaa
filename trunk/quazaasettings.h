@@ -38,6 +38,7 @@ namespace Settings
 		bool		HomeDownloadsTaskVisible;		// The Downloads task in the Home sidebar
 		bool		HomeLibraryTaskVisible;		// The Library task in the Home sidebar
 		QString		HomeSearchString;				// The text typed into the search text box on the home tab
+		QByteArray	HomeSplitter;				// The splitter between the Home sidebar and welcome frame
 		bool		HomeTorrentsTaskVisible;		// The BitTorrent task in the Home sidebar
 		bool		HomeUploadsTaskVisible;		// The Uploads task in the Home sidebar
 		QByteArray	HostCacheSplitter;			// Host Cache splitter position
@@ -54,6 +55,7 @@ namespace Settings
 		bool		SearchNetworksTaskVisible;	// The Networks task in the Search sidebar
 		bool		SearchResultsTaskVisible;		// The Results task in the Search sidebar
 		bool		SearchSidebarVisible;			// Search sidebar
+		QByteArray	SearchSplitter;				// Search Splitter
 		bool		SearchTaskVisible;			// The Search task in the Search sidebar
 		QByteArray	TransfersSplitter;			// Transfers splitter position
 		bool		Visible;						// Is the main window visible

@@ -23,9 +23,6 @@ WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
 
 WidgetSearchResults::~WidgetSearchResults()
 {
-	quazaaSettings.WinMain.SearchDetailsSplitter = ui->splitterSearchDetails->saveState();
-	quazaaSettings.WinMain.SearchDetailsVisible = ui->actionSeachDetailsToggle->isChecked();
-	quazaaSettings.WinMain.SearchSidebarVisible = ui->actionSearchToggle->isChecked();
 	delete ui;
 }
 
@@ -45,4 +42,11 @@ void WidgetSearchResults::skinChangeEvent()
 {
 	ui->frameSearches->setStyleSheet(skinSettings.tabSearches);
 	ui->toolBarSearchResults->setStyleSheet(skinSettings.toolbars);
+}
+
+void WidgetSearchResults::saveState()
+{
+	quazaaSettings.WinMain.SearchDetailsSplitter = ui->splitterSearchDetails->saveState();
+	quazaaSettings.WinMain.SearchDetailsVisible = ui->actionSeachDetailsToggle->isChecked();
+	quazaaSettings.WinMain.SearchSidebarVisible = ui->actionSearchToggle->isChecked();
 }

@@ -12,6 +12,7 @@ class WidgetScheduler : public QMainWindow {
 public:
     WidgetScheduler(QWidget *parent = 0);
     ~WidgetScheduler();
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);

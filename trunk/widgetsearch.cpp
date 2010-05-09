@@ -11,6 +11,7 @@ WidgetSearch::WidgetSearch(QWidget *parent) :
     ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
+	ui->splitterSearch->restoreState(quazaaSettings.WinMain.SearchSplitter);
 	ui->toolButtonSearchFiletypeTaskHeader->setChecked(quazaaSettings.WinMain.SearchFileTypeTaskVisible);
 	ui->toolButtonSearchNetworksTaskHeader->setChecked(quazaaSettings.WinMain.SearchNetworksTaskVisible);
 	ui->toolButtonSearchResultsTaskHeader->setChecked(quazaaSettings.WinMain.SearchResultsTaskVisible);
@@ -21,10 +22,6 @@ WidgetSearch::WidgetSearch(QWidget *parent) :
 
 WidgetSearch::~WidgetSearch()
 {
-	quazaaSettings.WinMain.SearchFileTypeTaskVisible = ui->toolButtonSearchFiletypeTaskHeader->isChecked();
-	quazaaSettings.WinMain.SearchNetworksTaskVisible = ui->toolButtonSearchNetworksTaskHeader->isChecked();
-	quazaaSettings.WinMain.SearchResultsTaskVisible = ui->toolButtonSearchResultsTaskHeader->isChecked();
-	quazaaSettings.WinMain.SearchTaskVisible = ui->toolButtonSearchTaskHeader->isChecked();
 	delete ui;
 }
 
@@ -57,4 +54,14 @@ void WidgetSearch::skinChangeEvent()
 void WidgetSearch::on_toolButtonNewSearch_triggered(QAction* )
 {
 
+}
+
+void WidgetSearch::saveState()
+{
+	quazaaSettings.WinMain.SearchSplitter = ui->splitterSearch->saveState();
+	quazaaSettings.WinMain.SearchFileTypeTaskVisible = ui->toolButtonSearchFiletypeTaskHeader->isChecked();
+	quazaaSettings.WinMain.SearchNetworksTaskVisible = ui->toolButtonSearchNetworksTaskHeader->isChecked();
+	quazaaSettings.WinMain.SearchResultsTaskVisible = ui->toolButtonSearchResultsTaskHeader->isChecked();
+	quazaaSettings.WinMain.SearchTaskVisible = ui->toolButtonSearchTaskHeader->isChecked();
+	panelSearchResults->saveState();
 }

@@ -14,6 +14,7 @@ public:
     WidgetSearch(QWidget *parent = 0);
     ~WidgetSearch();
 	WidgetSearchResults *panelSearchResults;
+	void saveState();
 
 protected:
     void changeEvent(QEvent *e);
@@ -23,7 +24,7 @@ private:
 
 private slots:
 	void on_toolButtonNewSearch_triggered(QAction* );
- void skinChangeEvent();
+	void skinChangeEvent();
 };
 
 #endif // WIDGETSEARCH_H

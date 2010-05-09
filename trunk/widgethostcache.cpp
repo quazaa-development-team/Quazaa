@@ -16,7 +16,6 @@ WidgetHostCache::WidgetHostCache(QWidget *parent) :
 
 WidgetHostCache::~WidgetHostCache()
 {
-	quazaaSettings.WinMain.HostCacheSplitter = ui->splitterHostCache->saveState();
 	delete ui;
 }
 
@@ -35,4 +34,9 @@ void WidgetHostCache::changeEvent(QEvent *e)
 void WidgetHostCache::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
+}
+
+void WidgetHostCache::saveState()
+{
+	quazaaSettings.WinMain.HostCacheSplitter = ui->splitterHostCache->saveState();
 }
