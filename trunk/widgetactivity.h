@@ -16,7 +16,7 @@ public:
     ~WidgetActivity();
 	WidgetNeighbors *panelNeighbors;
 	WidgetSystemLog *panelSystemLog;
-	void saveState();
+	void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);

@@ -1,5 +1,7 @@
 #include "widgetuploads.h"
 #include "ui_widgetuploads.h"
+
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetUploads::WidgetUploads(QWidget *parent) :
@@ -7,6 +9,7 @@ WidgetUploads::WidgetUploads(QWidget *parent) :
     ui(new Ui::WidgetUploads)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.UploadsToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -34,7 +37,7 @@ void WidgetUploads::skinChangeEvent()
 	ui->toolBarFilter->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetUploads::saveState()
+void WidgetUploads::saveWidget()
 {
-
+	quazaaSettings.WinMain.UploadsToolbar = saveState();
 }

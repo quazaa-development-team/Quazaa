@@ -41,9 +41,9 @@ void WidgetTransfers::skinChangeEvent()
 	ui->toolButtonUploadsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 }
 
-void WidgetTransfers::saveState()
+void WidgetTransfers::saveWidget()
 {
 	quazaaSettings.WinMain.TransfersSplitter = ui->splitterTransfers->saveState();
-	panelDownloads->saveState();
-	panelUploads->saveState();
+	panelDownloads->saveWidget();
+	panelUploads->saveWidget();
 }

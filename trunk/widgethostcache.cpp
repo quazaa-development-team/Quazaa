@@ -9,6 +9,7 @@ WidgetHostCache::WidgetHostCache(QWidget *parent) :
     ui(new Ui::WidgetHostCache)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.HostCacheToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->splitterHostCache->restoreState(quazaaSettings.WinMain.HostCacheSplitter);
@@ -36,7 +37,8 @@ void WidgetHostCache::skinChangeEvent()
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetHostCache::saveState()
+void WidgetHostCache::saveWidget()
 {
+	quazaaSettings.WinMain.HostCacheToolbar = saveState();
 	quazaaSettings.WinMain.HostCacheSplitter = ui->splitterHostCache->saveState();
 }

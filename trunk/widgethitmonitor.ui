@@ -98,6 +98,9 @@
    </layout>
   </widget>
   <widget class="QToolBar" name="toolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -109,6 +112,9 @@
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>
@@ -123,6 +129,9 @@
    <addaction name="actionHitMonitorClearBuffer"/>
   </widget>
   <widget class="QToolBar" name="toolBar_2">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
@@ -145,7 +154,7 @@
   </widget>
   <action name="actionHitMonitorDownload">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
    </property>
    <property name="text">
@@ -157,7 +166,7 @@
   </action>
   <action name="actionHitMonitorRequery">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
    </property>
    <property name="text">
@@ -169,7 +178,7 @@
   </action>
   <action name="actionHitMonitorPauseDisplay">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
    </property>
    <property name="text">
@@ -181,7 +190,7 @@
   </action>
   <action name="actionHitMonitorClearBuffer">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
    </property>
    <property name="text">
@@ -193,7 +202,7 @@
   </action>
   <action name="actionMore">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
    </property>
    <property name="text">
@@ -201,6 +210,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

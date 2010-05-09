@@ -1,5 +1,7 @@
 #include "widgethitmonitor.h"
 #include "ui_widgethitmonitor.h"
+
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetHitMonitor::WidgetHitMonitor(QWidget *parent) :
@@ -7,6 +9,7 @@ WidgetHitMonitor::WidgetHitMonitor(QWidget *parent) :
     ui(new Ui::WidgetHitMonitor)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.HitMonitorToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -33,7 +36,7 @@ void WidgetHitMonitor::skinChangeEvent()
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetHitMonitor::saveState()
+void WidgetHitMonitor::saveWidget()
 {
-
+	quazaaSettings.WinMain.HitMonitorToolbar = saveState();
 }

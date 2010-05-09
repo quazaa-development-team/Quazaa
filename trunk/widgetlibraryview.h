@@ -12,7 +12,7 @@ class WidgetLibraryView : public QMainWindow {
 public:
     WidgetLibraryView(QWidget *parent = 0);
     ~WidgetLibraryView();
-	void saveState();
+	void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);

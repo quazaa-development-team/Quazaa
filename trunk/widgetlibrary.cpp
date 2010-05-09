@@ -52,9 +52,9 @@ void WidgetLibrary::on_toolButtonLibraryEditShares_clicked()
 	dlgSkinEditShares->show();
 }
 
-void WidgetLibrary::saveState()
+void WidgetLibrary::saveWidget()
 {
 	quazaaSettings.WinMain.LibraryNavigatorTab = ui->tabWidgetLibraryNavigator->currentIndex();
 	quazaaSettings.WinMain.LibrarySplitter = ui->splitterLibrary->saveState();
-	panelLibraryView->saveState();
+	panelLibraryView->saveWidget();
 }

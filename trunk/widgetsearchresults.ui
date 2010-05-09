@@ -124,6 +124,9 @@ QTabWidget::pane { /* The tab widget frame */
    </layout>
   </widget>
   <widget class="QToolBar" name="toolBarSearchResults">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -135,6 +138,9 @@ QTabWidget::pane { /* The tab widget frame */
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>

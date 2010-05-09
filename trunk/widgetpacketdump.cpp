@@ -1,5 +1,7 @@
 #include "widgetpacketdump.h"
 #include "ui_widgetpacketdump.h"
+
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetPacketDump::WidgetPacketDump(QWidget *parent) :
@@ -7,6 +9,7 @@ WidgetPacketDump::WidgetPacketDump(QWidget *parent) :
     ui(new Ui::WidgetPacketDump)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.PacketDumpToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -33,8 +36,8 @@ void WidgetPacketDump::skinChangeEvent()
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetPacketDump::saveState()
+void WidgetPacketDump::saveWidget()
 {
-
+	quazaaSettings.WinMain.PacketDumpToolbar = saveState();
 }
 

@@ -14,7 +14,7 @@ public:
     WidgetSearch(QWidget *parent = 0);
     ~WidgetSearch();
 	WidgetSearchResults *panelSearchResults;
-	void saveState();
+	void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);

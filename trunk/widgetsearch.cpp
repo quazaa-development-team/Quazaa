@@ -56,12 +56,12 @@ void WidgetSearch::on_toolButtonNewSearch_triggered(QAction* )
 
 }
 
-void WidgetSearch::saveState()
+void WidgetSearch::saveWidget()
 {
 	quazaaSettings.WinMain.SearchSplitter = ui->splitterSearch->saveState();
 	quazaaSettings.WinMain.SearchFileTypeTaskVisible = ui->toolButtonSearchFiletypeTaskHeader->isChecked();
 	quazaaSettings.WinMain.SearchNetworksTaskVisible = ui->toolButtonSearchNetworksTaskHeader->isChecked();
 	quazaaSettings.WinMain.SearchResultsTaskVisible = ui->toolButtonSearchResultsTaskHeader->isChecked();
 	quazaaSettings.WinMain.SearchTaskVisible = ui->toolButtonSearchTaskHeader->isChecked();
-	panelSearchResults->saveState();
+	panelSearchResults->saveWidget();
 }

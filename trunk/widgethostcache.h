@@ -12,7 +12,7 @@ class WidgetHostCache : public QMainWindow {
 public:
     WidgetHostCache(QWidget *parent = 0);
     ~WidgetHostCache();
-	void saveState();
+	void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);

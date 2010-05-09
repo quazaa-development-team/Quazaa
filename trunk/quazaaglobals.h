@@ -40,6 +40,8 @@ public:
 	QString ApplicationFingerprint() const { return "QZ,0,0,1,1"; }
 	QString ApplicationOrganizationName() const { return "Quazaa Development Team"; }
 	QString ApplicationOrganizationDomain() const { return "http://quazaa.sourceforge.net"; }
+	QString UserAgentString() const { return ApplicationName() + "/" + ApplicationVersion().replace(",", "."); }
+	QString VendorCode() const { return "QAZA"; }
 	int BitTorrentExtBegin() const { return 41000; }
 	int BitTorrentEventFinished() const { return QuazaaGlobals::BitTorrentExtBegin() + 1; }
 	int BitTorrentPeerBanAlert() const { return QuazaaGlobals::BitTorrentExtBegin() + 2; }

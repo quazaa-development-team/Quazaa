@@ -1,6 +1,7 @@
 #include "widgetsearchmonitor.h"
 #include "ui_widgetsearchmonitor.h"
 
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetSearchMonitor::WidgetSearchMonitor(QWidget *parent) :
@@ -8,6 +9,7 @@ WidgetSearchMonitor::WidgetSearchMonitor(QWidget *parent) :
     ui(new Ui::WidgetSearchMonitor)
 {
 	ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.SearchMonitorToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -34,7 +36,7 @@ void WidgetSearchMonitor::skinChangeEvent()
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 }
 
-void WidgetSearchMonitor::saveState()
+void WidgetSearchMonitor::saveWidget()
 {
-
+	quazaaSettings.WinMain.SearchMonitorToolbar = saveState();
 }

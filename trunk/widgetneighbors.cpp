@@ -1,5 +1,7 @@
 #include "widgetneighbors.h"
 #include "ui_widgetneighbors.h"
+
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetNeighbors::WidgetNeighbors(QWidget *parent) :
@@ -7,6 +9,7 @@ WidgetNeighbors::WidgetNeighbors(QWidget *parent) :
     ui(new Ui::WidgetNeighbors)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.NeighborsToolbars);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -39,7 +42,7 @@ void WidgetNeighbors::setModel(QAbstractItemModel *model)
 	ui->tableViewNeighbors->setModel(model);
 }
 
-void WidgetNeighbors::saveState()
+void WidgetNeighbors::saveWidget()
 {
-
+	quazaaSettings.WinMain.NeighborsToolbars = saveState();
 }

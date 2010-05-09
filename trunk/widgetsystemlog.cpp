@@ -1,5 +1,7 @@
 #include "widgetsystemlog.h"
 #include "ui_widgetsystemlog.h"
+
+#include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetSystemLog::WidgetSystemLog(QWidget *parent) :
@@ -7,6 +9,7 @@ WidgetSystemLog::WidgetSystemLog(QWidget *parent) :
     ui(new Ui::WidgetSystemLog)
 {
     ui->setupUi(this);
+	restoreState(quazaaSettings.WinMain.SystemLogToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	connect(&systemLog, SIGNAL(logPosted(QString,LogSeverity::Severity)), this, SLOT(appendLog(QString,LogSeverity::Severity)));
 	skinChangeEvent();
@@ -62,7 +65,7 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 	}
 }
 
-void WidgetSystemLog::saveState()
+void WidgetSystemLog::saveWidget()
 {
-
+	quazaaSettings.WinMain.SystemLogToolbar = saveState();
 }

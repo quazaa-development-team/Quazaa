@@ -12,7 +12,7 @@ class WidgetChatCenter : public QMainWindow {
 public:
     WidgetChatCenter(QWidget *parent = 0);
     ~WidgetChatCenter();
-	void saveState();
+	void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);

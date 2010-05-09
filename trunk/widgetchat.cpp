@@ -47,9 +47,9 @@ void WidgetChat::skinChangeEvent()
 	ui->frameChatWelcome->setStyleSheet(skinSettings.chatWelcome);
 }
 
-void WidgetChat::saveState()
+void WidgetChat::saveWidget()
 {
 	quazaaSettings.WinMain.ChatFriendsTaskVisible = ui->toolButtonChatFriendsHeader->isChecked();
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
-	panelChatCenter->saveState();
+	panelChatCenter->saveWidget();
 }

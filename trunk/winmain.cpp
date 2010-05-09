@@ -66,12 +66,14 @@ WinMain::WinMain(QWidget *parent) :
 	//Create splash window
 	DialogSplash *dlgSplash = new DialogSplash(this);
 	dlgSplash->show();
+
+	dlgSplash->updateProgress(5, tr("Loading User Interface..."));
 	//Load And Set Up User Interface
 	quazaaSettings.loadWindowSettings(this);
+	restoreState(quazaaSettings.WinMain.MainToolbar);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 
 	//Add the tabs
-	dlgSplash->updateProgress(5, tr("Loading User Interface..."));
-	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	pageHome = new WidgetHome();
 	ui->stackedWidgetMain->addWidget(pageHome);
 	pageLibrary = new WidgetLibrary();
@@ -375,21 +377,22 @@ void WinMain::quazaaShutdown()
 	quazaaSettings.saveSettings();
 
 	dlgSplash->updateProgress(15, tr("Saving UI..."));
-	pageHome->saveState();
-	pageLibrary->saveState();
-	pageMedia->saveState();
-	pageSearch->saveState();
-	pageTransfers->saveState();
-	pageSecurity->saveState();
-	pageActivity->saveState();
-	pageChat->saveState();
-	pageHostCache->saveState();
-	pageDiscovery->saveState();
-	pageScheduler->saveState();
-	pageGraph->saveState();
-	pagePacketDump->saveState();
-	pageSearchMonitor->saveState();
-	pageHitMonitor->saveState();
+	quazaaSettings.WinMain.MainToolbar = saveState();
+	pageHome->saveWidget();
+	pageLibrary->saveWidget();
+	pageMedia->saveWidget();
+	pageSearch->saveWidget();
+	pageTransfers->saveWidget();
+	pageSecurity->saveWidget();
+	pageActivity->saveWidget();
+	pageChat->saveWidget();
+	pageHostCache->saveWidget();
+	pageDiscovery->saveWidget();
+	pageScheduler->saveWidget();
+	pageGraph->saveWidget();
+	pagePacketDump->saveWidget();
+	pageSearchMonitor->saveWidget();
+	pageHitMonitor->saveWidget();
 	quazaaSettings.saveWindowSettings(this);
 
 	dlgSplash->updateProgress(20, tr("Removing Tray Icon..."));
