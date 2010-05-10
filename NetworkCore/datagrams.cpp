@@ -1,10 +1,12 @@
 #include "datagrams.h"
 #include "network.h"
 #include "datagramfrags.h"
+#include "g2node.h"
 #include "g2packet.h"
 #include <QTimer>
 #include "hostcache.h"
 #include "SearchManager.h"
+#include "QueryHit.h"
 
 #include "quazaasettings.h"
 
@@ -192,7 +194,7 @@ void CDatagrams::OnReceiveGND()
     quint32 nIp = m_pHostAddress->toIPv4Address();
     quint32 nSeq = ((pHeader->nSequence << 16) & 0xFFFF0000) + (m_nPort & 0x0000FFFF);
 
-    qDebug("Received GND from %s:%u nSequence = %u nPart = %u nCount = %u", m_pHostAddress->toString().toAscii().constData(), m_nPort, pHeader->nSequence, pHeader->nPart, pHeader->nCount);
+	//qDebug("Received GND from %s:%u nSequence = %u nPart = %u nCount = %u", m_pHostAddress->toString().toAscii().constData(), m_nPort, pHeader->nSequence, pHeader->nPart, pHeader->nCount);
     DatagramIn* pDG = 0;
 
     if( m_RecvCache.contains(nIp) && m_RecvCache[nIp].contains(nSeq) )
@@ -253,7 +255,7 @@ void CDatagrams::OnReceiveGND()
         memcpy(&oAck, pHeader, sizeof(GND_HEADER));
         oAck.nCount = 0;
         oAck.nFlags = 0;
-        qDebug() << "Sending UDP ACK to " << m_pHostAddress->toString() << m_nPort;
+		//qDebug() << "Sending UDP ACK to " << m_pHostAddress->toString() << m_nPort;
         m_pSocket->writeDatagram((char*)&oAck, sizeof(GND_HEADER), *m_pHostAddress, m_nPort);
     }
 
@@ -285,7 +287,7 @@ void CDatagrams::OnAcknowledgeGND()
 {
     GND_HEADER* pHeader = (GND_HEADER*)m_pRecvBuffer->data();
 
-    qDebug() << "UDP received GND ACK from" << m_pHostAddress->toString().toAscii().constData() << "seq" << pHeader->nSequence << "part" << pHeader->nPart;
+	//qDebug() << "UDP received GND ACK from" << m_pHostAddress->toString().toAscii().constData() << "seq" << pHeader->nSequence << "part" << pHeader->nPart;
 
     if( !m_SendCacheMap.contains(pHeader->nSequence) )
         return;
@@ -422,7 +424,7 @@ void CDatagrams::FlushSendCache()
 			// TODO: sprawdzenie UDP na firewallu - mog? by? 3 stany udp
             if( pDG->GetPacket(tNow, &pPacket, &nPacket, true) )
             {
-                qDebug() << "UDP sending to " << pDG->m_oAddress.toString().toAscii().constData() << "seq" << pDG->m_nSequence << "nPart" << ((GND_HEADER*)&pPacket)->nPart << "count" << pDG->m_nCount;
+				//qDebug() << "UDP sending to " << pDG->m_oAddress.toString().toAscii().constData() << "seq" << pDG->m_nSequence << "nPart" << ((GND_HEADER*)&pPacket)->nPart << "count" << pDG->m_nCount;
 
                 m_pSocket->writeDatagram(pPacket, nPacket, QHostAddress(pDG->m_oAddress.ip), pDG->m_oAddress.port);
 
@@ -494,7 +496,7 @@ void CDatagrams::SendPacket(IPv4_ENDPOINT &oAddr, G2Packet *pPacket, bool bAck, 
 
     // TODO: Powiadomienia do obiektow nasluchujacych, jesli podano
 
-    qDebug() << "UDP queued for " << oAddr.toString().toAscii().constData() << "seq" << pDG->m_nSequence << "parts" << pDG->m_nCount;
+	//qDebug() << "UDP queued for " << oAddr.toString().toAscii().constData() << "seq" << pDG->m_nSequence << "parts" << pDG->m_nCount;
 
 
     emit SendQueueUpdated();
@@ -531,7 +533,9 @@ void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet *pPacket)
 			qDebug() << ">>>>>>>>>>>GOT REPLY";
 		}*/
         else
-            qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
+		{
+			//qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
+		}
     }
     catch(...)
     {
@@ -584,7 +588,7 @@ void CDatagrams::OnQKA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
         return;
 
     quint32 nKey = 0;
-    quint32 nKeyHost = addr.ip;
+	quint32 nKeyHost = 0;
 
     while( G2Packet* pChild = pPacket->ReadNextChild() )
     {
@@ -604,6 +608,17 @@ void CDatagrams::OnQKA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 
 
     qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
+
+	if( Network.isHub() && nKeyHost != 0 && nKeyHost != Network.m_oAddress.ip )
+	{
+		if( CG2Node* pNode = Network.FindNode(nKeyHost) )
+		{
+			qDebug() << "Forwarding Query Key to " << pNode->m_oAddress.toString().toAscii().constData();
+			pPacket->WriteChild("QNA")->WriteHostAddress(&addr);
+			pPacket->AddRef();
+			pNode->SendPacket(pPacket, true, true);
+		}
+	}
     // TODO Forwarding jesli hub i SNA != lokalny, dodac QNA
 
 }
@@ -617,13 +632,41 @@ void CDatagrams::OnQA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 
     QUuid oGuid;
 
-    if( SearchManager.OnQueryAcknowledge(pPacket, addr, oGuid) )
+	// Hubs are only supposed to route UDP /QA - we'll drop it if we're in leaf mode
+	if( SearchManager.OnQueryAcknowledge(pPacket, addr, oGuid) && Network.isHub() )
     {
-        // TODO: routing
+		// Add from address
+		pPacket->WriteChild("FR")->WriteHostAddress(&addr);
+
+		Network.RoutePacket(oGuid, pPacket);
     }
 
 }
 void CDatagrams::OnQH2(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 {
+	QueryHitSharedPtr pHit( CQueryHit::ReadPacket(pPacket, &addr) );
 
+	if( !pHit ) // bad hit?
+		return;
+
+	// Hubs are only supposed to route Query Hits - drop if leaf, route otherwise
+	if( SearchManager.OnQueryHit(pHit) && Network.isHub() )
+	{
+		// not our hit - route it
+
+		if( pHit->m_pHitInfo->m_oNodeAddress == addr )
+		{
+			// hits node address matches sender address
+			Network.m_oRoutingTable.Add(pHit->m_pHitInfo->m_oNodeGUID, addr);
+		}
+		else if( !pHit->m_pHitInfo->m_lNeighbouringHubs.isEmpty() )
+		{
+			// hits address does not match sender address (probably forwarded by a hub)
+			// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
+			Network.m_oRoutingTable.Add(pHit->m_pHitInfo->m_oNodeGUID, pHit->m_pHitInfo->m_lNeighbouringHubs[0], false);
+		}
+
+
+		Network.RoutePacket(pHit->m_pHitInfo->m_oGUID, pPacket);
+	}
 }

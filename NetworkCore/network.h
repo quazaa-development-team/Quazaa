@@ -60,6 +60,8 @@ public:
     bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket);
     bool RoutePacket(G2Packet* pPacket, CG2Node* pNbr = 0);
 
+	CG2Node* FindNode(quint32 nAddress);
+
     inline bool isHub()
     {
         return (m_nNodeState == G2_HUB);
@@ -102,8 +104,6 @@ signals:
     void NodeAdded(CG2Node*);
     void NodeRemoved(CG2Node*);
     void NodeUpdated(CG2Node*);
-
-    void changeThreadSignal(QThread* target);
 
 protected:
     void Maintain();

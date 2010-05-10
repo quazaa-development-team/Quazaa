@@ -70,6 +70,9 @@ G2Packet* G2Packet::FromBuffer(QByteArray& pBuffer)
     if( (quint32)pBuffer.size() < nLenLen + nNameLen + nPacketLength + 2ul )
         throw packet_incomplete();
 
+	if( nPacketLength > 65536 )
+		throw packet_error();
+
     pBuffer.remove(0, 1 + nLenLen); // cb + lenlen
 
     G2Packet* pPacket = G2Packet::New(pBuffer.left(nNameLen + 1));
@@ -153,6 +156,7 @@ void G2Packet::WriteString(QString sToWrite, bool bTerminate)
 void G2Packet::Release()
 {
 
+	Q_ASSERT(m_nReference > 0);
     if( !m_nReference.deref() )
     {
         while( m_lChildren.size() )

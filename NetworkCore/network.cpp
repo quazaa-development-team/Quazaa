@@ -183,7 +183,7 @@ void CNetwork::OnSecondTimer()
         m_tCleanRoutesNext--;
     else
     {
-        m_oRoutingTable.Dump();
+		//m_oRoutingTable.Dump();
         m_oRoutingTable.ExpireOldRoutes();
         m_tCleanRoutesNext = 60;
     }
@@ -407,6 +407,14 @@ void CNetwork::DispatchKHL()
         }
     }
 
+	quint32 nCount = 0;
+
+	for( ; nCount < quazaaSettings.Gnutella2.KHLHubCount && HostCache.size() > nCount; nCount++ )
+	{
+		pKHL->WriteChild("CH")->WriteHostAddress(&HostCache.m_lHosts.at(nCount)->m_oAddress);
+	}
+
+
     foreach(CG2Node* pNode, m_lNodes)
     {
         if( pNode->m_nState == nsConnected )
@@ -479,8 +487,6 @@ void CNetwork::AcquireLocalAddress(QString &sHeader)
 {
     IPv4_ENDPOINT hostAddr(sHeader + ":0");
 
-    qDebug() << "Got Local Address: " << sHeader << hostAddr.toString();
-
     if( hostAddr.ip != 0 )
     {
         m_oAddress.ip = hostAddr.ip;
@@ -506,16 +512,20 @@ bool CNetwork::RoutePacket(QUuid &pTargetGUID, G2Packet *pPacket)
     {
         if( pNode )
         {
-            pNode->SendPacket(pPacket, true);
+			pNode->SendPacket(pPacket, true, false);
+			qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to neighbour: " << pNode->m_oAddress.toString().toAscii().constData();
             return true;
         }
         else if( pAddr.ip )
         {
             Datagrams.SendPacket(pAddr, pPacket, true);
+			qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to remote node: " << pNode->m_oAddress.toString().toAscii().constData();
             return true;
         }
+		qDebug() << "CNetwork::RoutePacket - weird thing, should not happen...";
     }
 
+	qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " DROPPED!";
     return false;
 }
 bool CNetwork::RoutePacket(G2Packet *pPacket, CG2Node *pNbr)
@@ -553,7 +563,7 @@ bool CNetwork::RoutePacket(G2Packet *pPacket, CG2Node *pNbr)
 
             if( pNode && bForwardTCP )
             {
-                pNode->SendPacket(pPacket, true);
+				pNode->SendPacket(pPacket, true, false);
                 return true;
             }
             else if( pAddr.ip && bForwardUDP )
@@ -566,4 +576,17 @@ bool CNetwork::RoutePacket(G2Packet *pPacket, CG2Node *pNbr)
         return true;
     }
     return false;
+}
+
+CG2Node* CNetwork::FindNode(quint32 nAddress)
+{
+	foreach(CG2Node* pNode, m_lNodes)
+	{
+		if( pNode->m_oAddress.ip == nAddress )
+		{
+			return pNode;
+		}
+	}
+
+	return 0;
 }
