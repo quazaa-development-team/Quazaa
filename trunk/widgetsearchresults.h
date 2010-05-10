@@ -22,7 +22,12 @@ private:
 
 public slots:
 	void skinChangeEvent();
+	void startSearch(QString searchString);
 	void startNewSearch(QString searchString);
+	void addSearchTab();
+
+private slots:
+	void on_tabWidgetSearch_tabCloseRequested(int index);
 };
 
 #endif // WIDGETSEARCHRESULTS_H

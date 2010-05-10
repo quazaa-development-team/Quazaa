@@ -51,11 +51,6 @@ void WidgetSearch::skinChangeEvent()
 	ui->toolButtonNewSearch->setStyleSheet(skinSettings.addSearchButton);
 }
 
-void WidgetSearch::on_toolButtonNewSearch_triggered(QAction* )
-{
-
-}
-
 void WidgetSearch::saveWidget()
 {
 	quazaaSettings.WinMain.SearchSplitter = ui->splitterSearch->saveState();
@@ -68,7 +63,7 @@ void WidgetSearch::saveWidget()
 
 void WidgetSearch::on_toolButtonSearch_clicked()
 {
-	panelSearchResults->startNewSearch(ui->lineEditSearch->text());
+	panelSearchResults->startSearch(ui->lineEditSearch->text());
 }
 
 void WidgetSearch::on_toolButtonSearchClear_clicked()
@@ -79,4 +74,9 @@ void WidgetSearch::on_toolButtonSearchClear_clicked()
 void WidgetSearch::startNewSearch(QString searchString)
 {
 	panelSearchResults->startNewSearch(searchString);
+}
+
+void WidgetSearch::on_toolButtonNewSearch_clicked()
+{
+	panelSearchResults->addSearchTab();
 }

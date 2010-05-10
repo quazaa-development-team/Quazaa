@@ -18,7 +18,6 @@ WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
 	WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
 	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
 	ui->tabWidgetSearch->setCurrentIndex(0);
-	ui->tabWidgetSearch->setTabsClosable(true);
 	ui->splitterSearchDetails->restoreState(quazaaSettings.WinMain.SearchDetailsSplitter);
 	ui->actionSeachDetailsToggle->setChecked(quazaaSettings.WinMain.SearchDetailsVisible);
 	ui->actionSearchToggle->setChecked(quazaaSettings.WinMain.SearchSidebarVisible);
@@ -55,7 +54,8 @@ void WidgetSearchResults::saveWidget()
 	quazaaSettings.WinMain.SearchSidebarVisible = ui->actionSearchToggle->isChecked();
 }
 
-void WidgetSearchResults::startNewSearch(QString searchString)
+
+void WidgetSearchResults::startSearch(QString searchString)
 {
 	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
 	if( pWg )
@@ -63,5 +63,39 @@ void WidgetSearchResults::startNewSearch(QString searchString)
 		CQuery* pQuery = new CQuery();
 		pQuery->SetDescriptiveName(searchString);
 		pWg->StartSearch(pQuery);
+	}
+}
+
+void WidgetSearchResults::startNewSearch(QString searchString)
+{
+	WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
+	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
+	ui->tabWidgetSearch->setCurrentIndex(ui->tabWidgetSearch->count());
+	ui->tabWidgetSearch->setTabsClosable(true);
+	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+	if( pWg )
+	{
+		CQuery* pQuery = new CQuery();
+		pQuery->SetDescriptiveName(searchString);
+		pWg->StartSearch(pQuery);
+	}
+}
+
+void WidgetSearchResults::addSearchTab()
+{
+	WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
+	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
+	ui->tabWidgetSearch->setCurrentIndex(ui->tabWidgetSearch->count());
+	ui->tabWidgetSearch->setTabsClosable(true);
+}
+
+void WidgetSearchResults::on_tabWidgetSearch_tabCloseRequested(int index)
+{
+	WidgetSearchTemplate* pWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->widget(index));
+	ui->tabWidgetSearch->removeTab(index);
+		delete pWidget;
+	if (ui->tabWidgetSearch->count() == 1)
+	{
+		ui->tabWidgetSearch->setTabsClosable(false);
 	}
 }
