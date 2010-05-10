@@ -45,7 +45,7 @@
        <enum>Qt::NoPen</enum>
       </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>50</number>
+       <number>100</number>
       </attribute>
       <attribute name="verticalHeaderVisible">
        <bool>false</bool>
@@ -66,7 +66,7 @@
        <number>15</number>
       </attribute>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>50</number>
+       <number>100</number>
       </attribute>
      </widget>
     </item>

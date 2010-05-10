@@ -21,7 +21,9 @@ private:
     Ui::WidgetScheduler *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_actionScheduleProperties_triggered();
+ void on_actionAddScheduledTask_triggered();
+ void skinChangeEvent();
 };
 
 #endif // WIDGETSCHEDULER_H

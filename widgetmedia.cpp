@@ -59,3 +59,18 @@ void WidgetMedia::saveWidget()
 	quazaaSettings.WinMain.MediaPlaylistVisible = ui->actionMediaPlaylistToggle->isChecked();
 	quazaaSettings.WinMain.MediaSplitter = ui->splitterMediaPlaylist->saveState();
 }
+
+/*void WidgetMedia::on_actionMediaOpen_triggered()
+{
+	mediaPlayer->openFile();
+}
+
+void WidgetMedia::on_volumeSlider_valueChanged(int value)
+{
+	quazaaSettings.Media.Volume = value;
+}*/
+
+void WidgetMedia::on_actionMediaRepeat_triggered(bool checked)
+{
+	quazaaSettings.Media.Repeat = checked;
+}

@@ -1,5 +1,6 @@
 #include "widgetscheduler.h"
 #include "ui_widgetscheduler.h"
+#include "dialogscheduler.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -39,4 +40,26 @@ void WidgetScheduler::skinChangeEvent()
 void WidgetScheduler::saveWidget()
 {
 	quazaaSettings.WinMain.SchedulerToolbar = saveState();
+}
+
+void WidgetScheduler::on_actionAddScheduledTask_triggered()
+{
+	QSkinDialog *dlgSkinScheduler = new QSkinDialog(false, true, false, this);
+	DialogScheduler *dlgScheduler = new DialogScheduler;
+
+	dlgSkinScheduler->addChildWidget(dlgScheduler);
+
+	connect(dlgScheduler, SIGNAL(closed()), dlgSkinScheduler, SLOT(close()));
+	dlgSkinScheduler->show();
+}
+
+void WidgetScheduler::on_actionScheduleProperties_triggered()
+{
+	QSkinDialog *dlgSkinScheduler = new QSkinDialog(false, true, false, this);
+	DialogScheduler *dlgScheduler = new DialogScheduler;
+
+	dlgSkinScheduler->addChildWidget(dlgScheduler);
+
+	connect(dlgScheduler, SIGNAL(closed()), dlgSkinScheduler, SLOT(close()));
+	dlgSkinScheduler->show();
 }
