@@ -11,7 +11,7 @@ CRouteTable::~CRouteTable()
 bool CRouteTable::Add(QUuid &pGUID, CG2Node *pNeighbour, IPv4_ENDPOINT *pEndpoint, bool bNoExpire)
 {
 
-    qDebug() << "CRouteTable::Add " << pGUID << pNeighbour << pEndpoint << bNoExpire;
+	//qDebug() << "CRouteTable::Add " << pGUID << pNeighbour << pEndpoint << bNoExpire;
 
 
     if( !pNeighbour && !pEndpoint )

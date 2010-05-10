@@ -36,181 +36,193 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
         pHitInfo->m_oNodeAddress = *pAddress;
     }
 
-    while( G2Packet* pChild = pPacket->ReadNextChild() )
-    {
-        if( pChild->IsType("NA") && pChild->PayloadLength() >= 6 )
-        {
-            IPv4_ENDPOINT oNodeAddr;
-            pChild->ReadHostAddress(&oNodeAddr);
-            if( oNodeAddr.ip != 0 && oNodeAddr.port != 0 )
-            {
-                pHitInfo->m_oNodeAddress = oNodeAddr;
-                bHaveNA = true;
-            }
-        }
-        else if( pChild->IsType("GU") && pChild->PayloadLength() >= 16 )
-        {
-            QUuid oNodeGUID = pChild->ReadGUID();
-            if( !oNodeGUID.isNull() )
-            {
-                pHitInfo->m_oNodeGUID = oNodeGUID;
-                bHaveGUID = true;
-            }
-        }
-        else if( pChild->IsType("NH") && pChild->PayloadLength() >= 6 )
-        {
-            IPv4_ENDPOINT oNH;
-            pChild->ReadHostAddress(&oNH);
-            if( oNH.ip != 0 && oNH.port != 0 )
-            {
-                pHitInfo->m_lNeighbouringHubs.append(oNH);
-            }
-        }
-        else if( pChild->IsType("H") && pChild->HasChildren() )
-        {
-            CQueryHit* pHit = (bFirstHit ? pThisHit : new CQueryHit());
+	try
+	{
+		while( G2Packet* pChild = pPacket->ReadNextChild() )
+		{
+			if( pChild->IsType("NA") && pChild->PayloadLength() >= 6 )
+			{
+				IPv4_ENDPOINT oNodeAddr;
+				pChild->ReadHostAddress(&oNodeAddr);
+				if( oNodeAddr.ip != 0 && oNodeAddr.port != 0 )
+				{
+					pHitInfo->m_oNodeAddress = oNodeAddr;
+					bHaveNA = true;
+				}
+			}
+			else if( pChild->IsType("GU") && pChild->PayloadLength() >= 16 )
+			{
+				QUuid oNodeGUID = pChild->ReadGUID();
+				if( !oNodeGUID.isNull() )
+				{
+					pHitInfo->m_oNodeGUID = oNodeGUID;
+					bHaveGUID = true;
+				}
+			}
+			else if( pChild->IsType("NH") && pChild->PayloadLength() >= 6 )
+			{
+				IPv4_ENDPOINT oNH;
+				pChild->ReadHostAddress(&oNH);
+				if( oNH.ip != 0 && oNH.port != 0 )
+				{
+					pHitInfo->m_lNeighbouringHubs.append(oNH);
+				}
+			}
+			else if( pChild->IsType("H") && pChild->HasChildren() )
+			{
+				CQueryHit* pHit = (bFirstHit ? pThisHit : new CQueryHit());
 
-            if( !bFirstHit )
-            {
-                CQueryHit* pPrevHit = pThisHit;
-                while( pPrevHit->m_pNext != 0 )
-                {
-                    pPrevHit = pPrevHit->m_pNext;
-                }
-                pPrevHit->m_pNext = pHit;
-            }
+				if( !bFirstHit )
+				{
+					CQueryHit* pPrevHit = pThisHit;
+					while( pPrevHit->m_pNext != 0 )
+					{
+						pPrevHit = pPrevHit->m_pNext;
+					}
+					pPrevHit->m_pNext = pHit;
+				}
 
-            bool bHaveSize = false;
-            QByteArray baTemp;
-            bool bHaveDN = false;
-            bool bHaveURN = false;
+				bool bHaveSize = false;
+				QByteArray baTemp;
+				bool bHaveDN = false;
+				bool bHaveURN = false;
 
-            while( G2Packet* pH = pChild->ReadNextChild() )
-            {
-                if( pH->IsType("URN") )
-                {
-                    QString sURN;
-                    char hashBuff[256];
-                    sURN = pH->ReadString();
+				while( G2Packet* pH = pChild->ReadNextChild() )
+				{
+					if( pH->IsType("URN") )
+					{
+						QString sURN;
+						char hashBuff[256];
+						sURN = pH->ReadString();
 
-                    if( pH->PayloadLength() >= 44 && sURN.compare("bp") == 0 )
-                    {
-                        pH->ReadBytes(&hashBuff[0], CSHA1::ByteCount());
-                        if( pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()) )
-                        {
-                            bHaveURN = true;
-                        }
-                        else
-                        {
-                            pHit->m_oSha1.Clear();
-                        }
-                    }
-                    else if( pH->PayloadLength() >= CSHA1::ByteCount() + 5 && sURN.compare("sha1") == 0 )
-                    {
-                        pH->ReadBytes(&hashBuff[0], CSHA1::ByteCount());
-                        if( pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()) )
-                        {
-                            bHaveURN = true;
-                        }
-                        else
-                        {
-                            pHit->m_oSha1.Clear();
-                        }
-                    }
+						if( pH->PayloadLength() >= 44 && sURN.compare("bp") == 0 )
+						{
+							pH->ReadBytes(&hashBuff[0], CSHA1::ByteCount());
+							if( pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()) )
+							{
+								bHaveURN = true;
+							}
+							else
+							{
+								pHit->m_oSha1.Clear();
+							}
+						}
+						else if( pH->PayloadLength() >= CSHA1::ByteCount() + 5 && sURN.compare("sha1") == 0 )
+						{
+							pH->ReadBytes(&hashBuff[0], CSHA1::ByteCount());
+							if( pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()) )
+							{
+								bHaveURN = true;
+							}
+							else
+							{
+								pHit->m_oSha1.Clear();
+							}
+						}
 
 
-                }
-                else if( pH->IsType("URL") && pH->PayloadLength() )
-                {
-                    // if url empty - try uri-res resolver or a node do not have this object
-                    // bez sensu...
-                    pHit->m_sURL = pH->ReadString();
-                }
-                else if( pH->IsType("DN") )
-                {
-                    if( bHaveSize )
-                    {
-                        pHit->m_sDescriptiveName = pH->ReadString();
-                    }
-                    else if( pH->PayloadLength() > 4 )
-                    {
-                        baTemp.resize(4);
-                        pH->ReadBytes(baTemp.data(), 4);
-                        pHit->m_sDescriptiveName = pH->ReadString();
-                    }
+					}
+					else if( pH->IsType("URL") && pH->PayloadLength() )
+					{
+						// if url empty - try uri-res resolver or a node do not have this object
+						// bez sensu...
+						pHit->m_sURL = pH->ReadString();
+					}
+					else if( pH->IsType("DN") )
+					{
+						if( bHaveSize )
+						{
+							pHit->m_sDescriptiveName = pH->ReadString();
+						}
+						else if( pH->PayloadLength() > 4 )
+						{
+							baTemp.resize(4);
+							pH->ReadBytes(baTemp.data(), 4);
+							pHit->m_sDescriptiveName = pH->ReadString();
+						}
 
-                    bHaveDN = true;
-                }
-                else if( pH->IsType("MD") )
-                {
-                    pHit->m_sMetadata = pH->ReadString();
-                }
-                else if( pH->IsType("SZ") && pH->PayloadLength() >= 4 )
-                {
-                    if( pH->PayloadLength() >= 8 )
-                    {
-                        if( !baTemp.isEmpty() )
-                        {
-                            pHit->m_sDescriptiveName.prepend(baTemp);
-                        }
-                        pHit->m_nObjectSize = pH->ReadIntLE<quint64>();
-                        bHaveSize = true;
-                    }
-                    else if( pH->PayloadLength() >= 4 )
-                    {
-                        if( !baTemp.isEmpty() )
-                        {
-                            pHit->m_sDescriptiveName.prepend(baTemp);
-                        }
-                        pHit->m_nObjectSize = pH->ReadIntLE<quint32>();
-                        bHaveSize = true;
-                    }
-                }
-                else if( pH->IsType("CSC") && pH->PayloadLength() >= 2 )
-                {
-                    pHit->m_nCachedSources = pH->ReadIntLE<quint16>();
-                }
-                else if( pH->IsType("PART") && pH->PayloadLength() >= 4 )
-                {
-                    pHit->m_bIsPartial = true;
-                    pHit->m_nPartialBytesAvailable = pH->ReadIntLE<quint32>();
-                }
+						bHaveDN = true;
+					}
+					else if( pH->IsType("MD") )
+					{
+						pHit->m_sMetadata = pH->ReadString();
+					}
+					else if( pH->IsType("SZ") && pH->PayloadLength() >= 4 )
+					{
+						if( pH->PayloadLength() >= 8 )
+						{
+							if( !baTemp.isEmpty() )
+							{
+								pHit->m_sDescriptiveName.prepend(baTemp);
+							}
+							pHit->m_nObjectSize = pH->ReadIntLE<quint64>();
+							bHaveSize = true;
+						}
+						else if( pH->PayloadLength() >= 4 )
+						{
+							if( !baTemp.isEmpty() )
+							{
+								pHit->m_sDescriptiveName.prepend(baTemp);
+							}
+							pHit->m_nObjectSize = pH->ReadIntLE<quint32>();
+							bHaveSize = true;
+						}
+					}
+					else if( pH->IsType("CSC") && pH->PayloadLength() >= 2 )
+					{
+						pHit->m_nCachedSources = pH->ReadIntLE<quint16>();
+					}
+					else if( pH->IsType("PART") && pH->PayloadLength() >= 4 )
+					{
+						pHit->m_bIsPartial = true;
+						pHit->m_nPartialBytesAvailable = pH->ReadIntLE<quint32>();
+					}
 
-            }
+				}
 
-            if( !bHaveSize && baTemp.size() == 4 )
-            {
-                pHit->m_nObjectSize = qFromLittleEndian(*(quint32*)baTemp.constData());
-            }
-            else
-            {
-                pHit->m_sDescriptiveName.prepend(baTemp);
-            }
+				if( !bHaveSize && baTemp.size() == 4 )
+				{
+					pHit->m_nObjectSize = qFromLittleEndian(*(quint32*)baTemp.constData());
+				}
+				else
+				{
+					pHit->m_sDescriptiveName.prepend(baTemp);
+				}
 
-            if( bHaveURN && bHaveDN )
-            {
-                bFirstHit = false;
-                bHaveHits = true;
-            }
-            else
-            {
-                if( !bFirstHit )
-                {
-                    // może teraz się nie wywali...
-                    // można by było to lepiej zrobić...
-                    for( CQueryHit* pTest = pThisHit; pTest != 0; pTest = pTest->m_pNext )
-                    {
-                        if( pTest->m_pNext == pHit )
-                        {
-                            pTest->m_pNext = 0;
-                            break;
-                        }
-                    }
-                    pHit->Delete();
-                }
-            }
-        }
-    }
+				if( bHaveURN && bHaveDN )
+				{
+					bFirstHit = false;
+					bHaveHits = true;
+				}
+				else
+				{
+					if( !bFirstHit )
+					{
+						// może teraz się nie wywali...
+						// można by było to lepiej zrobić...
+						for( CQueryHit* pTest = pThisHit; pTest != 0; pTest = pTest->m_pNext )
+						{
+							if( pTest->m_pNext == pHit )
+							{
+								pTest->m_pNext = 0;
+								break;
+							}
+						}
+						pHit->Delete();
+					}
+				}
+			}
+		}
+	}
+	catch(...) // packet incomplete, packet error, parser takes care of stream end
+	{
+		qDebug() << "EXCEPTION IN QUERY HIT PARSING!";
+		if( pThisHit )
+		{
+			pThisHit->Delete();
+		}
+		throw;
+	}
 
     if( pPacket->PayloadLength() < 17 || !bHaveHits )
     {

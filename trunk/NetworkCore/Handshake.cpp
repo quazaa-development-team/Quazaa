@@ -37,7 +37,7 @@ CHandshake::~CHandshake()
 void CHandshake::OnTimer(quint32 tNow)
 {
     //qDebug() << "handshake timer";
-    if( tNow - m_tConnected > 15 )
+	if( m_pSocket && tNow - m_tConnected > 15 )
     {
         qDebug() << "Timed out handshaking with " << m_pSocket->peerAddress().toString().toAscii().constData();
         m_pSocket->close();

@@ -8,6 +8,7 @@
 #include "QueryHit.h"
 
 #include "quazaasettings.h"
+#include "quazaaglobals.h"
 
 /*CG2Node::CG2Node(QObject *parent) :
     CNetworkConnection(parent)*/
@@ -30,8 +31,6 @@ CG2Node::CG2Node(QObject *parent) :
 
 CG2Node::~CG2Node()
 {
-	qDebug() << "Destroying G2Node, packets queued: " << m_lSendQueue.size();
-
     while( m_lSendQueue.size() )
         m_lSendQueue.dequeue()->Release();
 
@@ -112,7 +111,7 @@ void CG2Node::OnConnect()
 
     sHs += "GNUTELLA CONNECT/0.6\r\n";
     sHs += "Accept: application/x-gnutella2\r\n";
-    sHs += "User-Agent: G2Core/0.1\r\n";
+	sHs += "User-Agent: " + quazaaGlobals.UserAgentString() + "\r\n";
     sHs += "Remote-IP: " + m_oAddress.toStringNoPort() + "\r\n";
     sHs += "Listen-IP: " + Network.GetLocalAddress().toString() + "\r\n";
     if( Network.isHub() )
@@ -527,7 +526,7 @@ void CG2Node::Send_ConnectError(QString sReason)
     QByteArray sHs;
 
     sHs += "GNUTELLA/0.6 " + sReason + "\r\n";
-    sHs += "User-Agent: G2Core/0.1\r\n";
+	sHs += "User-Agent: " + quazaaGlobals.UserAgentString() + "\r\n";
     sHs += "Accept: application/x-gnutella2\r\n";
     sHs += "Content-Type: application/x-gnutella2\r\n";
     sHs += HostCache.GetXTry();
@@ -544,7 +543,7 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
     QByteArray sHs;
 
     sHs += "GNUTELLA/0.6 200 OK\r\n";
-    sHs += "User-Agent: G2Core/0.1\r\n";
+	sHs += "User-Agent: " + quazaaGlobals.UserAgentString() + "\r\n";
     if( Network.isHub() )
         sHs += "X-Ultrapeer: True\r\n";
     else
@@ -601,7 +600,8 @@ void CG2Node::SendLNI()
     G2Packet* pTmp  = pLNI->WriteChild("NA");
     pTmp->WriteHostAddress(&Network.m_oAddress);
     pTmp = pLNI->WriteChild("GU");
-    pTmp->WriteBytes("xxxxxxxxxxxxxxxx", 16);
+	pTmp->WriteGUID(quazaaSettings.Profile.GUID);
+	pLNI->WriteChild("V")->WriteString(quazaaGlobals.VendorCode(), false);
 
     if( Network.isHub() )
     {
@@ -645,7 +645,7 @@ void CG2Node::OnPacket(G2Packet* pPacket)
             }
             else if( pPacket->IsType("Q2") )
             {
-
+				OnQuery(pPacket);
                 /*qDebug() << "Q2!";
                 while( G2Packet* pChild = pPacket->ReadNextChild() )
                 {
@@ -745,7 +745,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
                 int nIndex = qrand() % lToRelay.size();
                 pPacket->AddRef();
                 CG2Node* pNode = lToRelay.at(nIndex);
-				pNode->SendPacket(pPacket, true, false);
+				pNode->SendPacket(pPacket, true, true);
                 lToRelay.removeAt(nIndex);
             }
 
@@ -925,12 +925,10 @@ void CG2Node::OnQKA(G2Packet *pPacket)
 }
 void CG2Node::OnQA(G2Packet *pPacket)
 {
-    QUuid oGUID;
+   QUuid oGUID;
+   SearchManager.OnQueryAcknowledge(pPacket, m_oAddress, oGUID);
 
-    if( SearchManager.OnQueryAcknowledge(pPacket, m_oAddress, oGUID) )
-    {
-        Network.RoutePacket(oGUID, pPacket);
-    }
+   // TCP /QA - no need for routing, it's either for us or to be dropped
 }
 
 void CG2Node::OnQH2(G2Packet *pPacket)
@@ -972,6 +970,40 @@ void CG2Node::OnQH2(G2Packet *pPacket)
     }
     qDebug() << "---------------------------------";
 
-    SearchManager.OnQueryHit(pHit);
-    //pHit->Delete();
+	// Hubs are only supposed to route hits...
+	// hits could be returned by local hub cluster, possible need for routing
+	if( SearchManager.OnQueryHit(pHit) && Network.isHub() )
+	{
+		// Add node ID to routing table
+		Network.m_oRoutingTable.Add(pHit->m_pHitInfo->m_oNodeGUID, this, false);
+
+		Network.RoutePacket(pHit->m_pHitInfo->m_oGUID, pPacket);
+	}
+}
+void CG2Node::OnQuery(G2Packet *pPacket)
+{
+	// just read guid for now to have it in routing table
+
+	QUuid oGUID;
+	if( pPacket->PayloadLength() >= 16 )
+	{
+		oGUID = pPacket->ReadGUID();
+		Network.m_oRoutingTable.Add(oGUID, this, false);
+
+		if( m_nType == G2_LEAF ) // temporary
+		{
+			G2Packet* pQA = G2Packet::New("QA");
+			pQA->WriteChild("D")->WriteHostAddress(&Network.m_oAddress);
+
+			quint32 nCount = 0;
+
+			for( int i = 0; i < HostCache.size() && nCount < 100; i++, nCount++ )
+			{
+				pQA->WriteChild("S")->WriteHostAddress(&HostCache.m_lHosts[i]->m_oAddress);
+			}
+
+			pQA->WriteGUID(oGUID);
+			SendPacket(pQA, true, true);
+		}
+	}
 }

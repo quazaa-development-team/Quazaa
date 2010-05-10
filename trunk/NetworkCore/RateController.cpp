@@ -39,7 +39,7 @@ void CRateController::sheduleTransfer()
         return;
 
     m_bTransferSheduled = true;
-    QTimer::singleShot(20, this, SLOT(transfer()));
+	QTimer::singleShot(50, this, SLOT(transfer()));
 }
 void CRateController::transfer()
 {
@@ -122,7 +122,7 @@ void CRateController::transfer()
             }
         }
     }
-    while ( bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty());
+	while ( bCanTransferMore && m_tStopWatch.elapsed() < 50 && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty());
 
     if( m_tMeterTimer.elapsed() > 1000 )
         UpdateStats();

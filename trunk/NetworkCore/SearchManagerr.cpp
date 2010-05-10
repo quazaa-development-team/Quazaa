@@ -4,6 +4,7 @@
 #include "g2packet.h"
 #include <QMutexLocker>
 #include "hostcache.h"
+#include "network.h"
 #include <QMetaType>
 
 CSearchManager SearchManager;
@@ -176,6 +177,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet *pPacket, IPv4_ENDPOINT &addr, 
         return false;
     }
 
+	// not our ack - tell caller to route it
     return true;
 
 }
@@ -184,6 +186,11 @@ bool CSearchManager::OnQueryHit(QueryHitSharedPtr pHits)
 {
     QMutexLocker l(&m_pSection);
 
+	// TODO: Check validity, security filters
+	// now assuming hit is valid...
+
+
+
     if( CManagedSearch* pSearch = Find(pHits->m_pHitInfo->m_oGUID) )
     {
         pSearch->OnQueryHit(pHits);
@@ -191,6 +198,6 @@ bool CSearchManager::OnQueryHit(QueryHitSharedPtr pHits)
         return false;
     }
 
-    // routing
+	// not our search - tell caller to route it
     return true;
 }

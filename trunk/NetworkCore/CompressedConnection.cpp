@@ -202,15 +202,11 @@ void CCompressedConnection::Deflate()
 
     if( m_bOutputPending || m_tDeflateFlush.elapsed() > 250 || m_nTotalOutput > m_nNextDeflateFlush )
     {
-        qDebug() << "FLUSHING: pending " << m_bOutputPending << " elapsed " << m_tDeflateFlush.elapsed() << " by size " << (m_nTotalOutput > m_nNextDeflateFlush);
         m_bOutputPending = false;
         nFlushMode = Z_SYNC_FLUSH;
         m_nNextDeflateFlush += 4096;
         m_tDeflateFlush.start();
     }
-
-    if( nFlushMode == Z_NO_FLUSH )
-        qDebug() << "NO FLUSH";
 
     do
     {

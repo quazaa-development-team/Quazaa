@@ -4,7 +4,7 @@ SystemLog systemLog;
 
 uint qHash(const QUuid& key)
 {
-    uchar aRawGUID[16];
+	/*uchar aRawGUID[16];
 
     memcpy(&aRawGUID[0], &key.data1, 4);
     memcpy(&aRawGUID[4], &key.data2, 2);
@@ -14,7 +14,14 @@ uint qHash(const QUuid& key)
     uint nHash = (aRawGUID[0] ^ aRawGUID[1] ^ aRawGUID[2] ^ aRawGUID[3]) +
                  256 * (aRawGUID[4] ^ aRawGUID[5] ^ aRawGUID[6] ^ aRawGUID[7]) +
                  256 * 256 * (aRawGUID[8] ^ aRawGUID[9] ^ aRawGUID[10] ^ aRawGUID[11]) +
-                 256 * 256 * 256 * (aRawGUID[12] ^ aRawGUID[13] ^ aRawGUID[24] ^ aRawGUID[15]);
+				 256 * 256 * 256 * (aRawGUID[12] ^ aRawGUID[13] ^ aRawGUID[24] ^ aRawGUID[15]);*/
+
+	uint nHash = 0;
+	nHash ^= key.data1;
+	nHash ^= key.data2;
+	nHash ^= (key.data3 << 16);
+	nHash ^= (quint32)&key.data4[0];
+	nHash ^= (quint32)&key.data4[4];
 
     return nHash;
 }

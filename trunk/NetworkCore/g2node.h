@@ -88,6 +88,7 @@ protected:
     void OnQKA(G2Packet* pPacket);
     void OnQA(G2Packet* pPacket);
     void OnQH2(G2Packet* pPacket);
+	void OnQuery(G2Packet* pPacket);
 
 
     friend class CNetwork;
