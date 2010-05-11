@@ -61,7 +61,7 @@ void WidgetChatCenter::saveWidget()
 void WidgetChatCenter::on_actionConnect_triggered()
 {
     QuazaaIRC::QuazaaIRC();
-    qDebug() << "trying to connect";
+	qDebug() << "Trying to connect to IRC";
 }
 
 void WidgetChatCenter::on_actionChatSettings_triggered()
