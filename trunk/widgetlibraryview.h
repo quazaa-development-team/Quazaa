@@ -2,6 +2,7 @@
 #define WIDGETLIBRARYVIEW_H
 
 #include <QMainWindow>
+#include <QLineEdit>
 
 namespace Ui {
     class WidgetLibraryView;
@@ -12,6 +13,7 @@ class WidgetLibraryView : public QMainWindow {
 public:
     WidgetLibraryView(QWidget *parent = 0);
     ~WidgetLibraryView();
+	QLineEdit *lineEditFind;
 	void saveWidget();
 
 protected:
@@ -22,7 +24,7 @@ private:
 
 private slots:
 	void on_actionFind_triggered();
- void skinChangeEvent();
+	void skinChangeEvent();
 };
 
 #endif // WIDGETLIBRARYVIEW_H

@@ -10,6 +10,9 @@ WidgetLibraryView::WidgetLibraryView(QWidget *parent) :
     ui(new Ui::WidgetLibraryView)
 {
     ui->setupUi(this);
+	lineEditFind = new QLineEdit();
+	lineEditFind->setMaximumWidth(150);
+	ui->toolBarSearch->insertWidget(ui->actionFind, lineEditFind);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	restoreState(quazaaSettings.WinMain.LibraryToolbar);

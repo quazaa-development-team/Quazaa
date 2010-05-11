@@ -2,6 +2,8 @@
 #define WIDGETSEARCHRESULTS_H
 
 #include <QMainWindow>
+#include <QLabel>
+#include <QLineEdit>
 
 namespace Ui {
     class WidgetSearchResults;
@@ -12,6 +14,8 @@ class WidgetSearchResults : public QMainWindow {
 public:
     WidgetSearchResults(QWidget *parent = 0);
     ~WidgetSearchResults();
+	QLabel *labelFilter;
+	QLineEdit *lineEditFilter;
 	void saveWidget();
 
 protected:

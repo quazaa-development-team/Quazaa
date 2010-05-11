@@ -14,6 +14,8 @@ class WidgetMedia : public QMainWindow {
 public:
     WidgetMedia(QWidget *parent = 0);
     ~WidgetMedia();
+	QSlider *seekSlider;
+	QSlider *volumeSlider;
 	vlcMediaPlayer *mediaPlayer;
 	void saveWidget();
 

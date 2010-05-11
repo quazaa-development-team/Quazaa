@@ -9,13 +9,20 @@ WidgetMedia::WidgetMedia(QWidget *parent) :
     ui(new Ui::WidgetMedia)
 {
     ui->setupUi(this);
+	seekSlider = new QSlider();
+	seekSlider->setOrientation(Qt::Horizontal);
+	volumeSlider = new QSlider();
+	volumeSlider->setOrientation(Qt::Horizontal);
+	volumeSlider->setMaximumWidth(100);
+	ui->toolBarPlayControls->addWidget(seekSlider);
+	ui->toolBarVolume->addWidget(volumeSlider);
 	restoreState(quazaaSettings.WinMain.MediaToolbars);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->actionMediaPlaylistToggle->setChecked(quazaaSettings.WinMain.MediaPlaylistVisible);
 	ui->splitterMediaPlaylist->restoreState(quazaaSettings.WinMain.MediaSplitter);
 
-	/*mediaPlayer = new vlcMediaPlayer(ui->seekSlider, ui->volumeSlider, ui->frameMediaWindow, ui->tableWidgetMediaPlaylistTask,
+	/*mediaPlayer = new vlcMediaPlayer(seekSlider, volumeSlider, ui->frameMediaWindow, ui->tableWidgetMediaPlaylistTask,
 									 ui->actionMediaPlay, ui->actionMediaStop, ui->actionMediaRewind, ui->actionMediaNextTrack,
 									 ui->actionMediaOpen, ui->actionMediaRepeat , ui->actionMediaShuffle,
 									 ui->actionMediaFullscreen, ui->actionMediaSettings, ui->actionMediaMute,
@@ -46,6 +53,8 @@ void WidgetMedia::changeEvent(QEvent *e)
 
 void WidgetMedia::skinChangeEvent()
 {
+	seekSlider->setStyleSheet(skinSettings.seekSlider);
+	volumeSlider->setStyleSheet(skinSettings.volumeSlider);
 	ui->toolButtonMediaPlaylistTaskHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 	ui->frameMediaPlaylistSidebar->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->toolBarPlayControls->setStyleSheet(skinSettings.mediaToolbar);

@@ -13,6 +13,12 @@ WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
     ui(new Ui::WidgetSearchResults)
 {
 	ui->setupUi(this);
+	labelFilter = new QLabel();
+	labelFilter->setText("Filter: ");
+	lineEditFilter = new QLineEdit();
+	lineEditFilter->setMaximumWidth(150);
+	ui->toolBarFilter->insertWidget(ui->actionFilterMore, labelFilter);
+	ui->toolBarFilter->insertWidget(ui->actionFilterMore, lineEditFilter);
 	restoreState(quazaaSettings.WinMain.SearchToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
