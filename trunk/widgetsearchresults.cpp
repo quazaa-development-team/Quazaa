@@ -1,6 +1,7 @@
 #include "widgetsearchresults.h"
 #include "ui_widgetsearchresults.h"
 #include "widgetsearchtemplate.h"
+#include "dialogfiltersearch.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -98,4 +99,15 @@ void WidgetSearchResults::on_tabWidgetSearch_tabCloseRequested(int index)
 	{
 		ui->tabWidgetSearch->setTabsClosable(false);
 	}
+}
+
+void WidgetSearchResults::on_actionFilterMore_triggered()
+{
+	QSkinDialog *dlgSkinFilterSearch = new QSkinDialog(false, true, false, this);
+	DialogFilterSearch *dlgFilterSearch = new DialogFilterSearch;
+
+	dlgSkinFilterSearch->addChildWidget(dlgFilterSearch);
+
+	connect(dlgFilterSearch, SIGNAL(closed()), dlgSkinFilterSearch, SLOT(close()));
+	dlgSkinFilterSearch->show();
 }

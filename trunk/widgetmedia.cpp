@@ -74,3 +74,8 @@ void WidgetMedia::on_actionMediaRepeat_triggered(bool checked)
 {
 	quazaaSettings.Media.Repeat = checked;
 }
+
+void WidgetMedia::on_actionMediaShuffle_triggered(bool checked)
+{
+	quazaaSettings.Media.Shuffle = checked;
+}

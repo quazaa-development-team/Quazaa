@@ -1,5 +1,7 @@
 #include "widgetsecurity.h"
 #include "ui_widgetsecurity.h"
+#include "dialogaddrule.h"
+#include "dialogsecuritysubscriptions.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -40,4 +42,26 @@ void WidgetSecurity::skinChangeEvent()
 void WidgetSecurity::saveWidget()
 {
 	quazaaSettings.WinMain.SecurityToolbars = saveState();
+}
+
+void WidgetSecurity::on_actionSecurityAddRule_triggered()
+{
+	QSkinDialog *dlgSkinAddRule = new QSkinDialog(false, true, false, this);
+	DialogAddRule *dlgAddRule = new DialogAddRule;
+
+	dlgSkinAddRule->addChildWidget(dlgAddRule);
+
+	connect(dlgAddRule, SIGNAL(closed()), dlgSkinAddRule, SLOT(close()));
+	dlgSkinAddRule->show();
+}
+
+void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
+{
+	QSkinDialog *dlgSkinSecuritySubscriptions = new QSkinDialog(false, true, false, this);
+	DialogSecuritySubscriptions *dlgSecuritySubscriptions = new DialogSecuritySubscriptions;
+
+	dlgSkinSecuritySubscriptions->addChildWidget(dlgSecuritySubscriptions);
+
+	connect(dlgSecuritySubscriptions, SIGNAL(closed()), dlgSkinSecuritySubscriptions, SLOT(close()));
+	dlgSkinSecuritySubscriptions->show();
 }

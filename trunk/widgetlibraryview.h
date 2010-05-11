@@ -21,7 +21,8 @@ private:
     Ui::WidgetLibraryView *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_actionFind_triggered();
+ void skinChangeEvent();
 };
 
 #endif // WIDGETLIBRARYVIEW_H

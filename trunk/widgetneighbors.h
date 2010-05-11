@@ -23,7 +23,8 @@ private:
     Ui::WidgetNeighbors *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_actionSettings_triggered();
+ void skinChangeEvent();
 };
 
 #endif // WIDGETNEIGHBORS_H

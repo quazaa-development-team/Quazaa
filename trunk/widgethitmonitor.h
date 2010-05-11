@@ -21,7 +21,8 @@ private:
     Ui::WidgetHitMonitor *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_actionMore_triggered();
+ void skinChangeEvent();
 };
 
 #endif // WIDGETHITMONITOR_H

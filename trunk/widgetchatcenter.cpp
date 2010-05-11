@@ -1,5 +1,6 @@
 #include "widgetchatcenter.h"
 #include "ui_widgetchatcenter.h"
+#include "dialogsettings.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -41,4 +42,16 @@ void WidgetChatCenter::skinChangeEvent()
 void WidgetChatCenter::saveWidget()
 {
 	quazaaSettings.WinMain.ChatToolbars = saveState();
+}
+
+void WidgetChatCenter::on_actionChatSettings_triggered()
+{
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, this);
+	DialogSettings *dlgSettings = new DialogSettings;
+
+	dlgSkinSettings->addChildWidget(dlgSettings);
+
+	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
+	dlgSettings->switchSettingsPage(7);
+	dlgSkinSettings->show();
 }

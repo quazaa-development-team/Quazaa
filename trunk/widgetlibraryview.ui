@@ -283,6 +283,27 @@ QToolButton::menu-button:hover {
    <addaction name="actionLibraryAddAlbum"/>
    <addaction name="actionLibraryDeleteAlbum"/>
   </widget>
+  <widget class="QToolBar" name="toolBarSearch">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionFind"/>
+  </widget>
   <action name="actionLibraryAddAlbum">
    <property name="icon">
     <iconset resource="Resource.qrc">
@@ -302,6 +323,15 @@ QToolButton::menu-button:hover {
    </property>
    <property name="toolTip">
     <string>Delete Album</string>
+   </property>
+  </action>
+  <action name="actionFind">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Find</string>
    </property>
   </action>
  </widget>

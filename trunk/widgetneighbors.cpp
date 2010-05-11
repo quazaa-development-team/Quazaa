@@ -1,5 +1,6 @@
 #include "widgetneighbors.h"
 #include "ui_widgetneighbors.h"
+#include "dialogsettings.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -45,4 +46,16 @@ void WidgetNeighbors::setModel(QAbstractItemModel *model)
 void WidgetNeighbors::saveWidget()
 {
 	quazaaSettings.WinMain.NeighborsToolbars = saveState();
+}
+
+void WidgetNeighbors::on_actionSettings_triggered()
+{
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, this);
+	DialogSettings *dlgSettings = new DialogSettings;
+
+	dlgSkinSettings->addChildWidget(dlgSettings);
+
+	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
+	dlgSettings->switchSettingsPage(20);
+	dlgSkinSettings->show();
 }
