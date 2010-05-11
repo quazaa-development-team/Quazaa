@@ -1,6 +1,7 @@
 #include "widgetchatcenter.h"
 #include "ui_widgetchatcenter.h"
 #include "dialogsettings.h"
+#include "quazaairc.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -55,6 +56,12 @@ void WidgetChatCenter::skinChangeEvent()
 void WidgetChatCenter::saveWidget()
 {
 	quazaaSettings.WinMain.ChatToolbars = saveState();
+}
+
+void WidgetChatCenter::on_actionConnect_triggered()
+{
+    QuazaaIRC::QuazaaIRC();
+    qDebug() << "trying to connect";
 }
 
 void WidgetChatCenter::on_actionChatSettings_triggered()

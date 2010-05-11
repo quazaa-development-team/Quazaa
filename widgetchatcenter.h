@@ -26,6 +26,7 @@ private:
     Ui::WidgetChatCenter *ui;
 
 private slots:
+        void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
 	void skinChangeEvent();
 };

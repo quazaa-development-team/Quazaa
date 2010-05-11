@@ -276,7 +276,7 @@
   </widget>
   <action name="actionConnect">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -285,7 +285,7 @@
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -294,7 +294,7 @@
   </action>
   <action name="actionEditMyProfile">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -303,7 +303,7 @@
   </action>
   <action name="actionChatSettings">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -315,7 +315,7 @@
   </action>
   <action name="actionSend">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Chat/Send.png</normaloff>:/Resource/Chat/Send.png</iconset>
    </property>
    <property name="text">
@@ -323,8 +323,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
