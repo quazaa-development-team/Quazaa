@@ -433,7 +433,7 @@ p, li { white-space: pre-wrap; }
         <property name="spacing">
          <number>0</number>
         </property>
-        <item row="0" column="0">
+        <item row="1" column="0">
          <widget class="QToolButton" name="toolButtonChatUsersHeader">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -463,7 +463,7 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item row="2" column="0">
          <widget class="QFrame" name="frameChatUsersTask">
           <property name="maximumSize">
            <size>
@@ -511,14 +511,14 @@ QToolButton:checked {
            <property name="spacing">
             <number>0</number>
            </property>
-           <item row="0" column="0">
+           <item row="1" column="0">
             <widget class="QListView" name="listViewChatUsers">
              <property name="styleSheet">
               <string notr="true">background-color: rgb(255, 255, 255);</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <layout class="QGridLayout" name="gridLayoutChatUsersButtons">
              <item row="0" column="0">
               <widget class="QToolButton" name="toolButtonChatAddFriend">
@@ -550,6 +550,16 @@ QToolButton:checked {
              </item>
             </layout>
            </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="labelChatUsersCount">
+             <property name="text">
+              <string>0 ops, 0 total.</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -566,5 +576,38 @@ QToolButton:checked {
  <resources>
   <include location="Resource.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>toolButtonChatRoomsHeader</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frameChatRoomsTask</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>41</x>
+     <y>13</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>41</x>
+     <y>27</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButtonChatFriendsHeader</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frameChatFriendsTask</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>209</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>87</x>
+     <y>221</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -2,6 +2,8 @@
 #define WIDGETCHATCENTER_H
 
 #include <QMainWindow>
+#include <QLineEdit>
+#include <QToolButton>
 
 namespace Ui {
     class WidgetChatCenter;
@@ -12,6 +14,9 @@ class WidgetChatCenter : public QMainWindow {
 public:
     WidgetChatCenter(QWidget *parent = 0);
     ~WidgetChatCenter();
+	QLineEdit *lineEditTextInput;
+	QToolButton *toolButtonSmilies;
+	QToolButton *toolButtonOp;
 	void saveWidget();
 
 protected:
@@ -22,7 +27,7 @@ private:
 
 private slots:
 	void on_actionChatSettings_triggered();
- void skinChangeEvent();
+	void skinChangeEvent();
 };
 
 #endif // WIDGETCHATCENTER_H

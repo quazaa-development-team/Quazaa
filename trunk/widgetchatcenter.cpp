@@ -10,6 +10,19 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
     ui(new Ui::WidgetChatCenter)
 {
     ui->setupUi(this);
+	lineEditTextInput = new QLineEdit();
+	lineEditTextInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	toolButtonSmilies = new QToolButton();
+	toolButtonSmilies->setToolTip("Smilies");
+	toolButtonSmilies->setPopupMode(QToolButton::MenuButtonPopup);
+	toolButtonSmilies->setIcon(QIcon(":/Resource/Smileys/Happy.png"));
+	toolButtonOp = new QToolButton();
+	toolButtonOp->setToolTip("Operator Commands");
+	toolButtonOp->setPopupMode(QToolButton::MenuButtonPopup);
+	toolButtonOp->setIcon(QIcon(":/Resource/Generic/QuazaaForums.png"));
+	ui->toolBarChatMessage->insertWidget(ui->actionSend, lineEditTextInput);
+	ui->toolBarOperator->addWidget(toolButtonSmilies);
+	ui->toolBarOperator->addWidget(toolButtonOp);
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
