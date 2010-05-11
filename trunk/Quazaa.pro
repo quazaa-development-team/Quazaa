@@ -14,13 +14,10 @@ CONFIG(debug, debug|release) {
     mac:TARGET = $$join(TARGET,,,_debug)
     win32:TARGET = $$join(TARGET,,,d)
 }
-INCLUDEPATH += vlcmediaplayer
-INCLUDEPATH += NetworkCore
-win32:LIBS += -L./bin # if you are at windows os
-LIBS += -lvlc
-LIBS += -Lbin -lircclient-qt
-CONFIG += precompile_header
-CONFIG += libircclient-qt
+INCLUDEPATH += vlcmediaplayer NetworkCore libircclient-qt
+win32:LIBS += -Lbin # if you are at windows os
+LIBS += -lvlc -lircclient-qt
+CONFIG += precompile_header libircclient-qt
 PRECOMPILED_HEADER = NetworkCore/types.h
 TEMPLATE = app
 SOURCES += main.cpp \
