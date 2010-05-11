@@ -27,7 +27,8 @@ public slots:
 	void addSearchTab();
 
 private slots:
-	void on_tabWidgetSearch_tabCloseRequested(int index);
+	void on_actionFilterMore_triggered();
+ void on_tabWidgetSearch_tabCloseRequested(int index);
 };
 
 #endif // WIDGETSEARCHRESULTS_H

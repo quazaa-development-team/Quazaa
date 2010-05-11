@@ -24,7 +24,8 @@ private:
     Ui::WidgetMedia *ui;
 
 private slots:
-	void on_actionMediaRepeat_triggered(bool checked);
+	void on_actionMediaShuffle_triggered(bool checked);
+ void on_actionMediaRepeat_triggered(bool checked);
 	void skinChangeEvent();
 };
 

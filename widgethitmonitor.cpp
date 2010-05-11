@@ -1,5 +1,6 @@
 #include "widgethitmonitor.h"
 #include "ui_widgethitmonitor.h"
+#include "dialogfiltersearch.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -39,4 +40,15 @@ void WidgetHitMonitor::skinChangeEvent()
 void WidgetHitMonitor::saveWidget()
 {
 	quazaaSettings.WinMain.HitMonitorToolbar = saveState();
+}
+
+void WidgetHitMonitor::on_actionMore_triggered()
+{
+	QSkinDialog *dlgSkinFilterSearch = new QSkinDialog(false, true, false, this);
+	DialogFilterSearch *dlgFilterSearch = new DialogFilterSearch;
+
+	dlgSkinFilterSearch->addChildWidget(dlgFilterSearch);
+
+	connect(dlgFilterSearch, SIGNAL(closed()), dlgSkinFilterSearch, SLOT(close()));
+	dlgSkinFilterSearch->show();
 }

@@ -819,3 +819,18 @@ void WinMain::on_actionDisconnect_triggered()
 	ui->actionDisconnect->setEnabled(false);
 	Network.Disconnect();
 }
+
+void WinMain::on_actionEDonkey_triggered(bool checked)
+{
+	quazaaSettings.EDonkey.Enable = checked;
+}
+
+void WinMain::on_actionGnutella2_triggered(bool checked)
+{
+	quazaaSettings.Gnutella2.Enable = checked;
+}
+
+void WinMain::on_actionAres_triggered(bool checked)
+{
+	quazaaSettings.Ares.Enable = checked;
+}

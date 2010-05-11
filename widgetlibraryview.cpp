@@ -1,5 +1,6 @@
 #include "widgetlibraryview.h"
 #include "ui_widgetlibraryview.h"
+#include "dialoglibrarysearch.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -44,4 +45,15 @@ void WidgetLibraryView::saveWidget()
 	quazaaSettings.WinMain.LibraryToolbar = saveState();
 	quazaaSettings.WinMain.LibraryDetailsSplitter = ui->splitterLibraryView->saveState();
 	quazaaSettings.WinMain.LibraryDetailsVisible = ui->toolButtonLibraryDetailsToggle->isChecked();
+}
+
+void WidgetLibraryView::on_actionFind_triggered()
+{
+	QSkinDialog *dlgSkinLibrarySearch = new QSkinDialog(false, true, false, this);
+	DialogLibrarySearch *dlgLibrarySearch = new DialogLibrarySearch;
+
+	dlgSkinLibrarySearch->addChildWidget(dlgLibrarySearch);
+
+	connect(dlgLibrarySearch, SIGNAL(closed()), dlgSkinLibrarySearch, SLOT(close()));
+	dlgSkinLibrarySearch->show();
 }

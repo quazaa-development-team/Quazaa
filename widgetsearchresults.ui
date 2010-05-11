@@ -154,9 +154,30 @@ QTabWidget::pane { /* The tab widget frame */
    <addaction name="actionSearchToggle"/>
    <addaction name="actionSeachDetailsToggle"/>
   </widget>
+  <widget class="QToolBar" name="toolBarFilter">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionFilterMore"/>
+  </widget>
   <action name="actionSearchDownload">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
    </property>
    <property name="text">
@@ -168,7 +189,7 @@ QTabWidget::pane { /* The tab widget frame */
   </action>
   <action name="actionSearchBrowseUser">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -186,7 +207,7 @@ QTabWidget::pane { /* The tab widget frame */
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Generic/ShowSidebar.png</normaloff>
      <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowSidebar.png</iconset>
    </property>
@@ -205,7 +226,7 @@ QTabWidget::pane { /* The tab widget frame */
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Generic/ShowSidebar.png</normaloff>
      <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowSidebar.png</iconset>
    </property>
@@ -216,9 +237,16 @@ QTabWidget::pane { /* The tab widget frame */
     <string>Toggle Details</string>
    </property>
   </action>
+  <action name="actionFilterMore">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
+   </property>
+   <property name="text">
+    <string>More</string>
+   </property>
+  </action>
  </widget>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

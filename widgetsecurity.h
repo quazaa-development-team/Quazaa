@@ -21,7 +21,9 @@ private:
     Ui::WidgetSecurity *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_actionSubscribeSecurityList_triggered();
+ void on_actionSecurityAddRule_triggered();
+ void skinChangeEvent();
 };
 
 #endif // WIDGETSECURITY_H
