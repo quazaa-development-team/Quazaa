@@ -1,7 +1,6 @@
 #include "widgetchatcenter.h"
 #include "ui_widgetchatcenter.h"
 #include "dialogsettings.h"
-#include "quazaairc.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -60,7 +59,8 @@ void WidgetChatCenter::saveWidget()
 
 void WidgetChatCenter::on_actionConnect_triggered()
 {
-    QuazaaIRC::QuazaaIRC();
+	m_oQuazaaIrc = new QuazaaIRC();
+	ui->actionConnect->setEnabled(false);
 	qDebug() << "Trying to connect to IRC";
 }
 
