@@ -5,6 +5,8 @@
 #include <QLineEdit>
 #include <QToolButton>
 
+#include "quazaairc.h"
+
 namespace Ui {
     class WidgetChatCenter;
 }
@@ -17,6 +19,7 @@ public:
 	QLineEdit *lineEditTextInput;
 	QToolButton *toolButtonSmilies;
 	QToolButton *toolButtonOp;
+	QuazaaIRC *m_oQuazaaIrc;
 	void saveWidget();
 
 protected:

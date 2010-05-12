@@ -21,47 +21,43 @@
 
 #include "quazaairc.h"
 
-QuazaaIRC::QuazaaIRC()
+QuazaaIRC::QuazaaIRC(QObject* parent) : Irc::Session(parent)
 {
     QStringList channels;
     channels.append("#quazaa-dev");
 
-    MyIrcSession session;
+	QuazaaIRC session;
     session.setNick("quazaatestuser");
     session.setAutoJoinChannels(channels);
     session.connectToServer("irc.nixtrixirc.net", 6667);
 }
 
-MyIrcSession::MyIrcSession(QObject* parent) : Irc::Session(parent)
-{
-}
-
-void MyIrcSession::on_connected()
+void QuazaaIRC::on_connected()
 {
     qDebug() << "connected:";
 }
 
-void MyIrcSession::on_disconnected()
+void QuazaaIRC::on_disconnected()
 {
     qDebug() << "disconnected:";
 }
 
-void MyIrcSession::on_bufferAdded(Irc::Buffer* buffer)
+void QuazaaIRC::on_bufferAdded(Irc::Buffer* buffer)
 {
     qDebug() << "buffer added:" << buffer->receiver();
 }
 
-void MyIrcSession::on_bufferRemoved(Irc::Buffer* buffer)
+void QuazaaIRC::on_bufferRemoved(Irc::Buffer* buffer)
 {
     qDebug() << "buffer removed:" << buffer->receiver();
 }
 
-Irc::Buffer* MyIrcSession::createBuffer(const QString& receiver)
+Irc::Buffer* QuazaaIRC::createBuffer(const QString& receiver)
 {
-    return new MyIrcBuffer(receiver, this);
+	return new QuazaaIRCBuffer(receiver, this);
 }
 
-MyIrcBuffer::MyIrcBuffer(const QString& receiver, Irc::Session* parent)
+QuazaaIRCBuffer::QuazaaIRCBuffer(const QString& receiver, Irc::Session* parent)
     : Irc::Buffer(receiver, parent)
 {
     connect(this, SIGNAL(receiverChanged(QString)), SLOT(on_receiverChanged(QString)));
@@ -82,82 +78,82 @@ MyIrcBuffer::MyIrcBuffer(const QString& receiver, Irc::Session* parent)
     connect(this, SIGNAL(unknownMessageReceived(QString, QStringList)), SLOT(on_unknownMessageReceived(QString, QStringList)));
 }
 
-void MyIrcBuffer::on_receiverChanged(const QString& receiver)
+void QuazaaIRCBuffer::on_receiverChanged(const QString& receiver)
 {
     qDebug() << "receiver changed:" << receiver;
 }
 
-void MyIrcBuffer::on_joined(const QString& origin)
+void QuazaaIRCBuffer::on_joined(const QString& origin)
 {
     qDebug() << "joined:" << receiver() << origin;
 }
 
-void MyIrcBuffer::on_parted(const QString& origin, const QString& message)
+void QuazaaIRCBuffer::on_parted(const QString& origin, const QString& message)
 {
     qDebug() << "parted:" << receiver() << origin << message;
 }
 
-void MyIrcBuffer::on_quit(const QString& origin, const QString& message)
+void QuazaaIRCBuffer::on_quit(const QString& origin, const QString& message)
 {
     qDebug() << "quit:" << receiver() << origin << message;
 }
 
-void MyIrcBuffer::on_nickChanged(const QString& origin, const QString& nick)
+void QuazaaIRCBuffer::on_nickChanged(const QString& origin, const QString& nick)
 {
     qDebug() << "nick changed:" << receiver() << origin << nick;
 }
 
-void MyIrcBuffer::on_modeChanged(const QString& origin, const QString& mode, const QString& args)
+void QuazaaIRCBuffer::on_modeChanged(const QString& origin, const QString& mode, const QString& args)
 {
     qDebug() << "mode changed:" << receiver() << origin << mode << args;
 }
 
-void MyIrcBuffer::on_topicChanged(const QString& origin, const QString& topic)
+void QuazaaIRCBuffer::on_topicChanged(const QString& origin, const QString& topic)
 {
     qDebug() << "topic changed:" << receiver() << origin << topic;
 }
 
-void MyIrcBuffer::on_invited(const QString& origin, const QString& receiver, const QString& channel)
+void QuazaaIRCBuffer::on_invited(const QString& origin, const QString& receiver, const QString& channel)
 {
     qDebug() << "invited:" << Irc::Buffer::receiver() << origin << receiver << channel;
 }
 
-void MyIrcBuffer::on_kicked(const QString& origin, const QString& nick, const QString& message)
+void QuazaaIRCBuffer::on_kicked(const QString& origin, const QString& nick, const QString& message)
 {
     qDebug() << "kicked:" << receiver() << origin << nick << message;
 }
 
-void MyIrcBuffer::on_messageReceived(const QString& origin, const QString& message)
+void QuazaaIRCBuffer::on_messageReceived(const QString& origin, const QString& message)
 {
     qDebug() << "message received:" << receiver() << origin << message;
 }
 
-void MyIrcBuffer::on_noticeReceived(const QString& origin, const QString& notice)
+void QuazaaIRCBuffer::on_noticeReceived(const QString& origin, const QString& notice)
 {
     qDebug() << "notice received:" << receiver() << origin << notice;
 }
 
-void MyIrcBuffer::on_ctcpRequestReceived(const QString& origin, const QString& request)
+void QuazaaIRCBuffer::on_ctcpRequestReceived(const QString& origin, const QString& request)
 {
     qDebug() << "ctcp request received:" << receiver() << origin << request;
 }
 
-void MyIrcBuffer::on_ctcpReplyReceived(const QString& origin, const QString& reply)
+void QuazaaIRCBuffer::on_ctcpReplyReceived(const QString& origin, const QString& reply)
 {
     qDebug() << "ctcp reply received:" << receiver() << origin << reply;
 }
 
-void MyIrcBuffer::on_ctcpActionReceived(const QString& origin, const QString& action)
+void QuazaaIRCBuffer::on_ctcpActionReceived(const QString& origin, const QString& action)
 {
     qDebug() << "ctcp action received:" << receiver() << origin << action;
 }
 
-void MyIrcBuffer::on_numericMessageReceived(const QString& origin, uint code, const QStringList& params)
+void QuazaaIRCBuffer::on_numericMessageReceived(const QString& origin, uint code, const QStringList& params)
 {
     qDebug() << "numeric message received:" << receiver() << origin << code << params;
 }
 
-void MyIrcBuffer::on_unknownMessageReceived(const QString& origin, const QStringList& params)
+void QuazaaIRCBuffer::on_unknownMessageReceived(const QString& origin, const QStringList& params)
 {
     qDebug() << "unknown message received:" << receiver() << origin << params;
 }
