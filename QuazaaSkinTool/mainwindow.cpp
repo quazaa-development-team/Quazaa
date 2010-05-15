@@ -266,7 +266,7 @@ void MainWindow::on_actionNew_triggered()
 		skinSettings.searchHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
 		skinSettings.transfersHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
 		skinSettings.securityHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-		skinSettings.networkHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
+		skinSettings.activityHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
 		skinSettings.chatHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
 		skinSettings.dialogHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
 
@@ -883,7 +883,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 		if (item->text(column) == tr("Network"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
-			ui->plainTextEditStyleSheet->setPlainText(skinSettings.networkHeader);
+			ui->plainTextEditStyleSheet->setPlainText(skinSettings.activityHeader);
 		}
 
 		if (item->text(column) == tr("Chat"))
@@ -1014,7 +1014,7 @@ void MainWindow::skinChangeEvent()
 	ui->frameSearchHeader->setStyleSheet(skinSettings.searchHeader);
 	ui->frameTransfersHeader->setStyleSheet(skinSettings.transfersHeader);
 	ui->frameSecurityHeader->setStyleSheet(skinSettings.securityHeader);
-	ui->frameNetworkHeader->setStyleSheet(skinSettings.networkHeader);
+	ui->frameActivityHeader->setStyleSheet(skinSettings.activityHeader);
 	ui->frameChatHeader->setStyleSheet(skinSettings.chatHeader);
 	ui->frameGenericHeader->setStyleSheet(skinSettings.genericHeader);
 	ui->frameDialogHeader->setStyleSheet(skinSettings.dialogHeader);
@@ -1358,7 +1358,7 @@ void MainWindow::applySheets()
 
 	if (currentSelectionText == tr("Network"))
 	{
-		skinSettings.networkHeader = ui->plainTextEditStyleSheet->toPlainText();
+		skinSettings.activityHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
 	if (currentSelectionText == tr("Chat"))
