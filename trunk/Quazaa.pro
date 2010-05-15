@@ -17,7 +17,10 @@ INCLUDEPATH += vlcmediaplayer \
     NetworkCore \
 	libircclient-qt \
 	UI \
-	temp
+	temp \
+	3rdparty \
+	3rdparty/CyoEncode \
+	.
 win32:LIBS += -Lbin # if you are at windows os
 LIBS += -lvlc \
     -lircclient-qt
@@ -91,8 +94,8 @@ SOURCES += main.cpp \
     NetworkCore/CompressedConnection.cpp \
     NetworkCore/Hashes/sha1.cpp \
     NetworkCore/Hashes/AbstractHash.cpp \
-    NetworkCore/3rdparty/CyoEncode/CyoEncode.c \
-    NetworkCore/3rdparty/CyoEncode/CyoDecode.c \
+	3rdparty/CyoEncode/CyoEncode.c \
+	3rdparty/CyoEncode/CyoDecode.c \
     NeighboursTableModel.cpp \
 	UI/winmain.cpp \
 	UI/widgethome.cpp \
@@ -180,8 +183,8 @@ HEADERS += UI/dialoglanguage.h \
     NetworkCore/CompressedConnection.h \
     NetworkCore/Hashes/sha1.h \
     NetworkCore/Hashes/AbstractHash.h \
-    NetworkCore/3rdparty/CyoEncode/CyoEncode.h \
-    NetworkCore/3rdparty/CyoEncode/CyoDecode.h \
+	3rdparty/CyoEncode/CyoEncode.h \
+	3rdparty/CyoEncode/CyoDecode.h \
     NetworkCore/queryhashtable.h \
     NetworkCore/parser.h \
     NeighboursTableModel.h \
