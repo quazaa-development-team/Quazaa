@@ -116,7 +116,7 @@ SOURCES += main.cpp \
     widgetpacketdump.cpp \
     widgetsearchmonitor.cpp \
     widgethitmonitor.cpp \
-    NetworkCore/systemlog.cpp
+    systemlog.cpp
 HEADERS += dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -207,7 +207,7 @@ HEADERS += dialoglanguage.h \
     widgetpacketdump.h \
     widgetsearchmonitor.h \
     widgethitmonitor.h \
-    NetworkCore/systemlog.h
+    systemlog.h
 FORMS += dialoglanguage.ui \
     dialogsplash.ui \
     widgetsearchtemplate.ui \
