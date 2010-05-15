@@ -17,7 +17,8 @@ CONFIG(debug, debug|release) {
 INCLUDEPATH += vlcmediaplayer \
     NetworkCore \
 	libircclient-qt \
-	UI
+	UI \
+	temp
 win32:LIBS += -Lbin # if you are at windows os
 LIBS += -lvlc \
     -lircclient-qt
@@ -262,37 +263,40 @@ FORMS += UI/dialoglanguage.ui \
 	UI/widgetpacketdump.ui \
 	UI/widgetsearchmonitor.ui \
 	UI/widgethitmonitor.ui
-TRANSLATIONS = quazaa_af.ts \
-    quazaa_ar.ts \
-    quazaa_ca.ts \
-    quazaa_chs.ts \
-    quazaa_cz.ts \
-    quazaa_de.ts \
-    quazaa_default_en.ts \
-    quazaa_ee.ts \
-    quazaa_es.ts \
-    quazaa_es-mx.ts \
-    quazaa_fi.ts \
-    quazaa_fr.ts \
-    quazaa_gr.ts \
-    quazaa_heb.ts \
-    quazaa_hr.ts \
-    quazaa_hu.ts \
-    quazaa_it.ts \
-    quazaa_ja.ts \
-    quazaa_lt.ts \
-    quazaa_nl.ts \
-    quazaa_no.ts \
-    quazaa_pt.ts \
-    quazaa_pt-br.ts \
-    quazaa_ru.ts \
-    quazaa_sl-si.ts \
-    quazaa_sq.ts \
-    quazaa_sr.ts \
-    quazaa_sv.ts \
-    quazaa_tr.ts \
-    quazaa_tw.ts
+TRANSLATIONS = Language/quazaa_af.ts \
+	Language/quazaa_ar.ts \
+	Language/quazaa_ca.ts \
+	Language/quazaa_chs.ts \
+	Language/quazaa_cz.ts \
+	Language/quazaa_de.ts \
+	Language/quazaa_default_en.ts \
+	Language/quazaa_ee.ts \
+	Language/quazaa_es.ts \
+	Language/quazaa_es-mx.ts \
+	Language/quazaa_fi.ts \
+	Language/quazaa_fr.ts \
+	Language/quazaa_gr.ts \
+	Language/quazaa_heb.ts \
+	Language/quazaa_hr.ts \
+	Language/quazaa_hu.ts \
+	Language/quazaa_it.ts \
+	Language/quazaa_ja.ts \
+	Language/quazaa_lt.ts \
+	Language/quazaa_nl.ts \
+	Language/quazaa_no.ts \
+	Language/quazaa_pt.ts \
+	Language/quazaa_pt-br.ts \
+	Language/quazaa_ru.ts \
+	Language/quazaa_sl-si.ts \
+	Language/quazaa_sq.ts \
+	Language/quazaa_sr.ts \
+	Language/quazaa_sv.ts \
+	Language/quazaa_tr.ts \
+	Language/quazaa_tw.ts
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
 DESTDIR = ./bin
+OBJECTS_DIR = temp
+MOC_DIR = temp
+UI_DIR = temp
