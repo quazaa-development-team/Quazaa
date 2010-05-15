@@ -1,7 +1,5 @@
 #include "types.h"
 
-SystemLog systemLog;
-
 uint qHash(const QUuid& key)
 {
 	/*uchar aRawGUID[16];
@@ -20,13 +18,8 @@ uint qHash(const QUuid& key)
 	nHash ^= key.data1;
 	nHash ^= key.data2;
 	nHash ^= (key.data3 << 16);
-	nHash ^= (quint32)&key.data4[0];
-	nHash ^= (quint32)&key.data4[4];
+        nHash ^= *(quint32*)&key.data4[0];
+        nHash ^= *(quint32*)&key.data4[4];
 
     return nHash;
-}
-
-void SystemLog::postLog(QString message, LogSeverity::Severity severity)
-{
-	emit logPosted(message, severity);
 }

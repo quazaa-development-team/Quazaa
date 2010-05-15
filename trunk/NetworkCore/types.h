@@ -13,9 +13,7 @@
 #include <QtEndian>
 #include <QUuid>
 
-namespace LogSeverity {
-	enum Severity { Information, Security, Notice, Debug, Warning, Error, Critical };
-}
+#include "systemlog.h"
 
 struct IPv4_ENDPOINT
 {
@@ -140,22 +138,6 @@ struct IPv4_ENDPOINT
 };*/
 
 uint qHash(const QUuid& key);
-
-class SystemLog : public QObject {
-	Q_OBJECT
-public:
-	explicit SystemLog() {}
-	~SystemLog() {}
-
-signals:
-	void logPosted(QString message, LogSeverity::Severity severity);
-
-public slots:
-	void postLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
-
-};
-
-extern SystemLog systemLog;
 
 enum G2NodeType {G2_UNKNOWN = 0, G2_LEAF = 1, G2_HUB = 2};
 
