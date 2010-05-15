@@ -16,7 +16,8 @@ CONFIG(debug, debug|release) {
 }
 INCLUDEPATH += vlcmediaplayer \
     NetworkCore \
-    libircclient-qt
+	libircclient-qt \
+	UI
 win32:LIBS += -Lbin # if you are at windows os
 LIBS += -lvlc \
     -lircclient-qt
@@ -25,35 +26,35 @@ CONFIG += precompile_header \
 PRECOMPILED_HEADER = NetworkCore/types.h
 TEMPLATE = app
 SOURCES += main.cpp \
-    dialoglanguage.cpp \
+	UI/dialoglanguage.cpp \
     quazaasettings.cpp \
-    dialogsplash.cpp \
-    widgetsearchtemplate.cpp \
-    dialogwizard.cpp \
-    dialogtransferprogresstooltip.cpp \
-    dialogtorrentproperties.cpp \
-    dialogselectvisualisation.cpp \
-    dialogsecuritysubscriptions.cpp \
-    dialogscheduler.cpp \
-    dialogprofile.cpp \
-    dialogpreviewprepare.cpp \
-    dialogopentorrent.cpp \
-    dialoghashprogress.cpp \
-    dialoggplview.cpp \
-    dialogfiltersearch.cpp \
-    dialogeditshares.cpp \
-    dialogdownloadsimport.cpp \
-    dialogdownloadproperties.cpp \
-    dialogdownloadmonitor.cpp \
-    dialogcreatetorrent.cpp \
-    dialogclosetype.cpp \
-    dialogaddsecuritysubscription.cpp \
-    dialogaddrule.cpp \
-    dialogadddownload.cpp \
-    dialogabout.cpp \
-    dialogsettings.cpp \
+	UI/dialogsplash.cpp \
+	UI/widgetsearchtemplate.cpp \
+	UI/dialogwizard.cpp \
+	UI/dialogtransferprogresstooltip.cpp \
+	UI/dialogtorrentproperties.cpp \
+	UI/dialogselectvisualisation.cpp \
+	UI/dialogsecuritysubscriptions.cpp \
+	UI/dialogscheduler.cpp \
+	UI/dialogprofile.cpp \
+	UI/dialogpreviewprepare.cpp \
+	UI/dialogopentorrent.cpp \
+	UI/dialoghashprogress.cpp \
+	UI/dialoggplview.cpp \
+	UI/dialogfiltersearch.cpp \
+	UI/dialogeditshares.cpp \
+	UI/dialogdownloadsimport.cpp \
+	UI/dialogdownloadproperties.cpp \
+	UI/dialogdownloadmonitor.cpp \
+	UI/dialogcreatetorrent.cpp \
+	UI/dialogclosetype.cpp \
+	UI/dialogaddsecuritysubscription.cpp \
+	UI/dialogaddrule.cpp \
+	UI/dialogadddownload.cpp \
+	UI/dialogabout.cpp \
+	UI/dialogsettings.cpp \
     commonfunctions.cpp \
-    dialoglibrarysearch.cpp \
+	UI/dialoglibrarysearch.cpp \
     QSkinDialog/qskinsettings.cpp \
     QSkinDialog/qskindialog.cpp \
     QSkinDialog/dialogskinpreview.cpp \
@@ -93,60 +94,60 @@ SOURCES += main.cpp \
     NetworkCore/3rdparty/CyoEncode/CyoEncode.c \
     NetworkCore/3rdparty/CyoEncode/CyoDecode.c \
     NeighboursTableModel.cpp \
-    winmain.cpp \
-    widgethome.cpp \
-    widgetlibrary.cpp \
-    widgetmedia.cpp \
-    widgetlibraryview.cpp \
-    widgetsearch.cpp \
-    widgetsearchresults.cpp \
-    widgettransfers.cpp \
-    widgetdownloads.cpp \
-    widgetuploads.cpp \
-    widgetactivity.cpp \
-    widgetsecurity.cpp \
-    widgetsystemlog.cpp \
-    widgetneighbors.cpp \
-    widgetchat.cpp \
-    widgetchatcenter.cpp \
-    widgethostcache.cpp \
-    widgetdiscovery.cpp \
-    widgetscheduler.cpp \
-    widgetgraph.cpp \
-    widgetpacketdump.cpp \
-    widgetsearchmonitor.cpp \
-    widgethitmonitor.cpp \
+	UI/winmain.cpp \
+	UI/widgethome.cpp \
+	UI/widgetlibrary.cpp \
+	UI/widgetmedia.cpp \
+	UI/widgetlibraryview.cpp \
+	UI/widgetsearch.cpp \
+	UI/widgetsearchresults.cpp \
+	UI/widgettransfers.cpp \
+	UI/widgetdownloads.cpp \
+	UI/widgetuploads.cpp \
+	UI/widgetactivity.cpp \
+	UI/widgetsecurity.cpp \
+	UI/widgetsystemlog.cpp \
+	UI/widgetneighbors.cpp \
+	UI/widgetchat.cpp \
+	UI/widgetchatcenter.cpp \
+	UI/widgethostcache.cpp \
+	UI/widgetdiscovery.cpp \
+	UI/widgetscheduler.cpp \
+	UI/widgetgraph.cpp \
+	UI/widgetpacketdump.cpp \
+	UI/widgetsearchmonitor.cpp \
+	UI/widgethitmonitor.cpp \
     systemlog.cpp
-HEADERS += dialoglanguage.h \
+HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
-    dialogsplash.h \
-    widgetsearchtemplate.h \
-    dialogwizard.h \
-    dialogtransferprogresstooltip.h \
-    dialogtorrentproperties.h \
-    dialogsettings.h \
-    dialogselectvisualisation.h \
-    dialogsecuritysubscriptions.h \
-    dialogscheduler.h \
-    dialogprofile.h \
-    dialogpreviewprepare.h \
-    dialogopentorrent.h \
-    dialoghashprogress.h \
-    dialoggplview.h \
-    dialogfiltersearch.h \
-    dialogeditshares.h \
-    dialogdownloadsimport.h \
-    dialogdownloadproperties.h \
-    dialogdownloadmonitor.h \
-    dialogcreatetorrent.h \
-    dialogclosetype.h \
-    dialogaddsecuritysubscription.h \
-    dialogaddrule.h \
-    dialogadddownload.h \
-    dialogabout.h \
+	UI/dialogsplash.h \
+	UI/widgetsearchtemplate.h \
+	UI/dialogwizard.h \
+	UI/dialogtransferprogresstooltip.h \
+	UI/dialogtorrentproperties.h \
+	UI/dialogsettings.h \
+	UI/dialogselectvisualisation.h \
+	UI/dialogsecuritysubscriptions.h \
+	UI/dialogscheduler.h \
+	UI/dialogprofile.h \
+	UI/dialogpreviewprepare.h \
+	UI/dialogopentorrent.h \
+	UI/dialoghashprogress.h \
+	UI/dialoggplview.h \
+	UI/dialogfiltersearch.h \
+	UI/dialogeditshares.h \
+	UI/dialogdownloadsimport.h \
+	UI/dialogdownloadproperties.h \
+	UI/dialogdownloadmonitor.h \
+	UI/dialogcreatetorrent.h \
+	UI/dialogclosetype.h \
+	UI/dialogaddsecuritysubscription.h \
+	UI/dialogaddrule.h \
+	UI/dialogadddownload.h \
+	UI/dialogabout.h \
     commonfunctions.h \
-    dialoglibrarysearch.h \
+	UI/dialoglibrarysearch.h \
     QSkinDialog/qskinsettings.h \
     QSkinDialog/qskindialog.h \
     QSkinDialog/dialogskinpreview.h \
@@ -184,83 +185,83 @@ HEADERS += dialoglanguage.h \
     NetworkCore/queryhashtable.h \
     NetworkCore/parser.h \
     NeighboursTableModel.h \
-    winmain.h \
-    widgethome.h \
-    widgetlibrary.h \
-    widgetmedia.h \
-    widgetlibraryview.h \
-    widgetsearch.h \
-    widgetsearchresults.h \
-    widgettransfers.h \
-    widgetdownloads.h \
-    widgetuploads.h \
-    widgetactivity.h \
-    widgetsecurity.h \
-    widgetsystemlog.h \
-    widgetneighbors.h \
-    widgetchat.h \
-    widgetchatcenter.h \
-    widgethostcache.h \
-    widgetdiscovery.h \
-    widgetscheduler.h \
-    widgetgraph.h \
-    widgetpacketdump.h \
-    widgetsearchmonitor.h \
-    widgethitmonitor.h \
+	UI/winmain.h \
+	UI/widgethome.h \
+	UI/widgetlibrary.h \
+	UI/widgetmedia.h \
+	UI/widgetlibraryview.h \
+	UI/widgetsearch.h \
+	UI/widgetsearchresults.h \
+	UI/widgettransfers.h \
+	UI/widgetdownloads.h \
+	UI/widgetuploads.h \
+	UI/widgetactivity.h \
+	UI/widgetsecurity.h \
+	UI/widgetsystemlog.h \
+	UI/widgetneighbors.h \
+	UI/widgetchat.h \
+	UI/widgetchatcenter.h \
+	UI/widgethostcache.h \
+	UI/widgetdiscovery.h \
+	UI/widgetscheduler.h \
+	UI/widgetgraph.h \
+	UI/widgetpacketdump.h \
+	UI/widgetsearchmonitor.h \
+	UI/widgethitmonitor.h \
     systemlog.h
-FORMS += dialoglanguage.ui \
-    dialogsplash.ui \
-    widgetsearchtemplate.ui \
-    dialogwizard.ui \
-    dialogtransferprogresstooltip.ui \
-    dialogtorrentproperties.ui \
-    dialogsettings.ui \
-    dialogselectvisualisation.ui \
-    dialogsecuritysubscriptions.ui \
-    dialogscheduler.ui \
-    dialogprofile.ui \
-    dialogpreviewprepare.ui \
-    dialogopentorrent.ui \
-    dialoghashprogress.ui \
-    dialoggplview.ui \
-    dialogfiltersearch.ui \
-    dialogeditshares.ui \
-    dialogdownloadsimport.ui \
-    dialogdownloadproperties.ui \
-    dialogdownloadmonitor.ui \
-    dialogcreatetorrent.ui \
-    dialogclosetype.ui \
-    dialogaddsecuritysubscription.ui \
-    dialogaddrule.ui \
-    dialogadddownload.ui \
-    dialogabout.ui \
-    dialoglibrarysearch.ui \
-    mediasettings.ui \
+FORMS += UI/dialoglanguage.ui \
+	UI/dialogsplash.ui \
+	UI/widgetsearchtemplate.ui \
+	UI/dialogwizard.ui \
+	UI/dialogtransferprogresstooltip.ui \
+	UI/dialogtorrentproperties.ui \
+	UI/dialogsettings.ui \
+	UI/dialogselectvisualisation.ui \
+	UI/dialogsecuritysubscriptions.ui \
+	UI/dialogscheduler.ui \
+	UI/dialogprofile.ui \
+	UI/dialogpreviewprepare.ui \
+	UI/dialogopentorrent.ui \
+	UI/dialoghashprogress.ui \
+	UI/dialoggplview.ui \
+	UI/dialogfiltersearch.ui \
+	UI/dialogeditshares.ui \
+	UI/dialogdownloadsimport.ui \
+	UI/dialogdownloadproperties.ui \
+	UI/dialogdownloadmonitor.ui \
+	UI/dialogcreatetorrent.ui \
+	UI/dialogclosetype.ui \
+	UI/dialogaddsecuritysubscription.ui \
+	UI/dialogaddrule.ui \
+	UI/dialogadddownload.ui \
+	UI/dialogabout.ui \
+	UI/dialoglibrarysearch.ui \
+	UI/mediasettings.ui \
     QSkinDialog/qskindialog.ui \
     QSkinDialog/dialogskinpreview.ui \
-    winmain.ui \
-    widgethome.ui \
-    widgetlibrary.ui \
-    widgetmedia.ui \
-    widgetlibraryview.ui \
-    widgetsearch.ui \
-    widgetsearchresults.ui \
-    widgettransfers.ui \
-    widgetdownloads.ui \
-    widgetuploads.ui \
-    widgetactivity.ui \
-    widgetsecurity.ui \
-    widgetsystemlog.ui \
-    widgetneighbors.ui \
-    widgetchat.ui \
-    widgetchatcenter.ui \
-    widgethostcache.ui \
-    widgetdiscovery.ui \
-    widgetscheduler.ui \
-    widgetgraph.ui \
-    widgetpacketdump.ui \
-    widgetsearchmonitor.ui \
-    widgethitmonitor.ui
+	UI/winmain.ui \
+	UI/widgethome.ui \
+	UI/widgetlibrary.ui \
+	UI/widgetmedia.ui \
+	UI/widgetlibraryview.ui \
+	UI/widgetsearch.ui \
+	UI/widgetsearchresults.ui \
+	UI/widgettransfers.ui \
+	UI/widgetdownloads.ui \
+	UI/widgetuploads.ui \
+	UI/widgetactivity.ui \
+	UI/widgetsecurity.ui \
+	UI/widgetsystemlog.ui \
+	UI/widgetneighbors.ui \
+	UI/widgetchat.ui \
+	UI/widgetchatcenter.ui \
+	UI/widgethostcache.ui \
+	UI/widgetdiscovery.ui \
+	UI/widgetscheduler.ui \
+	UI/widgetgraph.ui \
+	UI/widgetpacketdump.ui \
+	UI/widgetsearchmonitor.ui \
+	UI/widgethitmonitor.ui
 TRANSLATIONS = quazaa_af.ts \
     quazaa_ar.ts \
     quazaa_ca.ts \
