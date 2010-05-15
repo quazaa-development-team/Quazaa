@@ -13,7 +13,7 @@ class WidgetSystemLog : public QMainWindow {
 public:
     WidgetSystemLog(QWidget *parent = 0);
     ~WidgetSystemLog();
-	void saveWidget();
+    void saveWidget();
 
 protected:
     void changeEvent(QEvent *e);
@@ -23,7 +23,7 @@ private:
 
 private slots:
 	void skinChangeEvent();
-	void appendLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
+        void appendLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
 };
 
 #endif // WIDGETSYSTEMLOG_H

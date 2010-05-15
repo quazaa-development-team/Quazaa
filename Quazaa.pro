@@ -14,10 +14,14 @@ CONFIG(debug, debug|release) {
     mac:TARGET = $$join(TARGET,,,_debug)
     win32:TARGET = $$join(TARGET,,,d)
 }
-INCLUDEPATH += vlcmediaplayer NetworkCore libircclient-qt
+INCLUDEPATH += vlcmediaplayer \
+    NetworkCore \
+    libircclient-qt
 win32:LIBS += -Lbin # if you are at windows os
-LIBS += -lvlc -lircclient-qt
-CONFIG += precompile_header libircclient-qt
+LIBS += -lvlc \
+    -lircclient-qt
+CONFIG += precompile_header \
+    libircclient-qt
 PRECOMPILED_HEADER = NetworkCore/types.h
 TEMPLATE = app
 SOURCES += main.cpp \
@@ -111,7 +115,8 @@ SOURCES += main.cpp \
     widgetgraph.cpp \
     widgetpacketdump.cpp \
     widgetsearchmonitor.cpp \
-    widgethitmonitor.cpp
+    widgethitmonitor.cpp \
+    NetworkCore/systemlog.cpp
 HEADERS += dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -201,7 +206,8 @@ HEADERS += dialoglanguage.h \
     widgetgraph.h \
     widgetpacketdump.h \
     widgetsearchmonitor.h \
-    widgethitmonitor.h
+    widgethitmonitor.h \
+    NetworkCore/systemlog.h
 FORMS += dialoglanguage.ui \
     dialogsplash.ui \
     widgetsearchtemplate.ui \
