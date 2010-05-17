@@ -47,15 +47,6 @@ signals:
 
 private slots:
  void on_textBrowserCredits_anchorClicked(QUrl link);
- void on_labelAresLink_linkActivated(QString link);
- void on_labelEMuleLink_linkActivated(QString link);
- void on_labelFrostwireLink_linkActivated(QString link);
- void on_labelHaliteLink_linkActivated(QString link);
- void on_labelShareazaLink_linkActivated(QString link);
- void on_toolButtonAboutQt_clicked();
- void on_labelGimpLink_linkActivated(QString link);
- void on_labelQtLink_linkActivated(QString link);
- void on_labelQuazaaLink_linkActivated(QString link);
  void on_labelCopyright_linkActivated(QString link);
  void on_pushButtonOK_clicked();
  void skinChangeEvent();

@@ -22,11 +22,13 @@ protected:
 private:
     Ui::WidgetSearch *ui;
 
+public slots:
+	void startNewSearch(QString *searchString);
+
 private slots:
 	void on_toolButtonNewSearch_clicked();
 	void on_toolButtonSearchClear_clicked();
 	void on_toolButtonSearch_clicked();
-	void startNewSearch(QString searchString);
 	void skinChangeEvent();
 };
 

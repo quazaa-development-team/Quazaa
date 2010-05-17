@@ -173,11 +173,6 @@ DialogSettings::DialogSettings(QWidget *parent) :
 	m_ui->spinBoxG2HubToLeaf->setValue(quazaaSettings.Gnutella2.NumLeafs);
 	m_ui->spinBoxG2HubToHub->setValue(quazaaSettings.Gnutella2.NumPeers);
 
-	// Load Gnutella Settings
-	m_ui->checkBoxCompressionLeafToHub->setChecked(quazaaSettings.Gnutella.CompressLeaf2Hub);
-	m_ui->checkBoxCompressionHubToLeaf->setChecked(quazaaSettings.Gnutella.CompressHub2Leaf);
-	m_ui->checkBoxCompressionHubToHub->setChecked(quazaaSettings.Gnutella.CompressHub2Hub);
-
 	// Load Ares Settings
 	m_ui->checkBoxConnectAres->setChecked(quazaaSettings.Ares.Enable);
 	m_ui->checkBoxConnectAres->setChecked(quazaaSettings.Ares.Enable);
@@ -291,12 +286,6 @@ void DialogSettings::on_pushButtonEditProfile_clicked()
 }
 
 void DialogSettings::on_labelConfigureG2_linkActivated(QString link)
-{
-	link.clear();
-	m_ui->pagesSettings->setCurrentIndex(16);
-}
-
-void DialogSettings::on_labelConfigureG1_linkActivated(QString link)
 {
 	link.clear();
 	m_ui->pagesSettings->setCurrentIndex(16);
@@ -490,11 +479,6 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Gnutella2.NumHubs = m_ui->spinBoxG2LeafToHub->value();
 	quazaaSettings.Gnutella2.NumLeafs = m_ui->spinBoxG2HubToLeaf->value();
 	quazaaSettings.Gnutella2.NumPeers = m_ui->spinBoxG2HubToHub->value();
-
-	// Save Gnutella Settings
-	quazaaSettings.Gnutella.CompressLeaf2Hub = m_ui->checkBoxCompressionLeafToHub->isChecked();
-	quazaaSettings.Gnutella.CompressHub2Leaf = m_ui->checkBoxCompressionHubToLeaf->isChecked();
-	quazaaSettings.Gnutella.CompressHub2Hub = m_ui->checkBoxCompressionHubToHub->isChecked();
 
 	// Save Ares Settings
 	quazaaSettings.Ares.Enable = m_ui->checkBoxConnectAres->isChecked();
@@ -1167,41 +1151,6 @@ void DialogSettings::on_spinBoxG2HubToHub_valueChanged(int )
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogSettings::on_comboBoxG1Mode_currentIndexChanged(int index)
-{
-	m_ui->pushButtonApply->setEnabled(true);
-}
-
-void DialogSettings::on_spinBoxG1LeafToUltrapeer_valueChanged(int )
-{
-	m_ui->pushButtonApply->setEnabled(true);
-}
-
-void DialogSettings::on_spinBoxG1UltrapeerToLeaf_valueChanged(int )
-{
-	m_ui->pushButtonApply->setEnabled(true);
-}
-
-void DialogSettings::on_spinBoxG1UltrapeerToUltrapeer_valueChanged(int )
-{
-	m_ui->pushButtonApply->setEnabled(true);
-}
-
-void DialogSettings::on_checkBoxCompressionHubToLeaf_clicked()
-{
-	m_ui->pushButtonApply->setEnabled(true);
-}
-
-void DialogSettings::on_checkBoxCompressionLeafToHub_clicked()
-{
-	m_ui->pushButtonApply->setEnabled(true);
-}
-
-void DialogSettings::on_checkBoxCompressionHubToHub_clicked()
-{
-	m_ui->pushButtonApply->setEnabled(true);
-}
-
 void DialogSettings::on_checkBoxED2kSearchCahedServers_clicked()
 {
 	m_ui->pushButtonApply->setEnabled(true);
@@ -1306,11 +1255,6 @@ void DialogSettings::on_checkBoxConnectG2_toggled(bool checked)
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogSettings::on_checkBoxConnectG1_toggled(bool checked)
-{
-	m_ui->pushButtonApply->setEnabled(true);
-}
-
 void DialogSettings::on_checkBoxConnectAres_toggled(bool checked)
 {
 	m_ui->pushButtonApply->setEnabled(true);
@@ -1322,11 +1266,6 @@ void DialogSettings::on_checkBoxConnectEDonkey_toggled(bool checked)
 }
 
 void DialogSettings::on_checkBoxG2Connect_toggled(bool checked)
-{
-	m_ui->pushButtonApply->setEnabled(true);
-}
-
-void DialogSettings::on_checkBoxG1Connect_toggled(bool checked)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }

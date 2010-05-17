@@ -23,9 +23,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QActionGroup>
 #include <QTreeWidgetItem>
 #include "qtgradientmanager.h"
+#include "widgetextendeditems.h"
+#include "widgetnavigation.h"
 
 namespace Ui {
 	class MainWindow;
@@ -42,9 +43,10 @@ protected:
 
 private:
 	Ui::MainWindow *ui;
-	QActionGroup *actionGroupMainNavigation;
 	void insertCssProperty(const QString &name, const QString &value);
 	QtGradientManager *gradientManager;
+	WidgetExtendedItems *pageExtendedItems;
+	WidgetNavigation *pageNavigation;
 	QAction *m_addImageAction;
 	QAction *m_addGradientAction;
 	QAction *m_addColorAction;

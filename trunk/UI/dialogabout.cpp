@@ -22,7 +22,6 @@
 #include "dialogabout.h"
 #include "ui_dialogabout.h"
 #include "quazaaglobals.h"
-#include "dialoggplview.h"
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QUrl>
@@ -62,59 +61,6 @@ void DialogAbout::on_pushButtonOK_clicked()
 }
 
 void DialogAbout::on_labelCopyright_linkActivated(QString link)
-{
-		link.clear();
-	QSkinDialog *dlgSkinGPLView = new QSkinDialog(false, true, false, this);
-	DialogGPLView *dlgGPLView = new DialogGPLView(this);
-
-	dlgSkinGPLView->addChildWidget(dlgGPLView);
-
-	connect(dlgGPLView, SIGNAL(closed()), dlgSkinGPLView, SLOT(close()));
-	dlgSkinGPLView->show();
-}
-
-void DialogAbout::on_labelQuazaaLink_linkActivated(QString link)
-{
-	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
-}
-
-void DialogAbout::on_labelQtLink_linkActivated(QString link)
-{
-	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
-}
-
-void DialogAbout::on_labelGimpLink_linkActivated(QString link)
-{
-	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
-}
-
-void DialogAbout::on_toolButtonAboutQt_clicked()
-{
-	QMessageBox aboutQt;
-	aboutQt.aboutQt(this, tr("About Qt"));
-}
-
-void DialogAbout::on_labelShareazaLink_linkActivated(QString link)
-{
-	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
-}
-
-void DialogAbout::on_labelHaliteLink_linkActivated(QString link)
-{
-	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
-}
-
-void DialogAbout::on_labelFrostwireLink_linkActivated(QString link)
-{
-	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
-}
-
-void DialogAbout::on_labelEMuleLink_linkActivated(QString link)
-{
-	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
-}
-
-void DialogAbout::on_labelAresLink_linkActivated(QString link)
 {
 	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
 }

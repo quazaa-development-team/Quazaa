@@ -51,6 +51,7 @@ void WidgetSearchResults::skinChangeEvent()
 {
 	ui->frameSearches->setStyleSheet(skinSettings.tabSearches);
 	ui->toolBarSearchResults->setStyleSheet(skinSettings.toolbars);
+	ui->toolBarFilter->setStyleSheet(skinSettings.toolbars);
 }
 
 void WidgetSearchResults::saveWidget()
@@ -73,7 +74,7 @@ void WidgetSearchResults::startSearch(QString searchString)
 	}
 }
 
-void WidgetSearchResults::startNewSearch(QString searchString)
+void WidgetSearchResults::startNewSearch(QString *searchString)
 {
 	WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
 	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
@@ -83,7 +84,7 @@ void WidgetSearchResults::startNewSearch(QString searchString)
 	if( pWg )
 	{
 		CQuery* pQuery = new CQuery();
-		pQuery->SetDescriptiveName(searchString);
+		pQuery->SetDescriptiveName(QString(*searchString));
 		pWg->StartSearch(pQuery);
 	}
 }

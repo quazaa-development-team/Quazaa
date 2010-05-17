@@ -59,7 +59,6 @@ void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 			m_ui->checkBoxAres->setEnabled(true);
 			m_ui->checkBoxBitTorrent->setEnabled(true);
 			m_ui->checkBoxEDonkey->setEnabled(true);
-			m_ui->checkBoxG1->setEnabled(true);
 			m_ui->checkBoxG2->setEnabled(true);
 			m_ui->labelStop->setEnabled(true);
 			m_ui->dateTimeEditStop->setEnabled(true);
@@ -70,7 +69,6 @@ void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 			m_ui->checkBoxAres->setEnabled(false);
 			m_ui->checkBoxBitTorrent->setEnabled(false);
 			m_ui->checkBoxEDonkey->setEnabled(false);
-			m_ui->checkBoxG1->setEnabled(false);
 			m_ui->checkBoxG2->setEnabled(false);
 			m_ui->labelStop->setEnabled(true);
 			m_ui->dateTimeEditStop->setEnabled(true);
@@ -81,7 +79,6 @@ void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 			m_ui->checkBoxAres->setEnabled(false);
 			m_ui->checkBoxBitTorrent->setEnabled(false);
 			m_ui->checkBoxEDonkey->setEnabled(false);
-			m_ui->checkBoxG1->setEnabled(false);
 			m_ui->checkBoxG2->setEnabled(false);
 			m_ui->labelStop->setEnabled(false);
 			m_ui->dateTimeEditStop->setEnabled(false);
@@ -92,7 +89,6 @@ void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 			m_ui->checkBoxAres->setEnabled(true);
 			m_ui->checkBoxBitTorrent->setEnabled(true);
 			m_ui->checkBoxEDonkey->setEnabled(true);
-			m_ui->checkBoxG1->setEnabled(true);
 			m_ui->checkBoxG2->setEnabled(true);
 			m_ui->labelStop->setEnabled(true);
 			m_ui->dateTimeEditStop->setEnabled(true);

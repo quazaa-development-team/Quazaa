@@ -35,7 +35,7 @@
    <string>Settings</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
   </property>
   <property name="modal">
@@ -88,7 +88,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -136,9 +136,9 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>160</width>
-        <height>323</height>
+        <y>-30</y>
+        <width>142</width>
+        <height>353</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_39">
@@ -216,7 +216,7 @@ QToolButton:hover {
                <string>General</string>
               </property>
               <property name="icon">
-               <iconset>
+               <iconset resource="../Resource.qrc">
                 <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
               </property>
               <property name="checkable">
@@ -245,7 +245,7 @@ QToolButton:hover {
                 <string>Basic</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
                </property>
               </item>
@@ -254,7 +254,7 @@ QToolButton:hover {
                 <string>Parental Settings</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Security/ParentalSettings.png</normaloff>:/Resource/Security/ParentalSettings.png</iconset>
                </property>
               </item>
@@ -263,7 +263,7 @@ QToolButton:hover {
                 <string>Skins</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Generic/Skin.png</normaloff>:/Resource/Generic/Skin.png</iconset>
                </property>
               </item>
@@ -272,7 +272,7 @@ QToolButton:hover {
                 <string>Library</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
                </property>
               </item>
@@ -281,7 +281,7 @@ QToolButton:hover {
                 <string>Media Player</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
                </property>
               </item>
@@ -290,7 +290,7 @@ QToolButton:hover {
                 <string>Search</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                </property>
               </item>
@@ -299,7 +299,7 @@ QToolButton:hover {
                 <string>Chat</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
                </property>
               </item>
@@ -308,7 +308,7 @@ QToolButton:hover {
                 <string>Plugins</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Generic/Plugins.png</normaloff>:/Resource/Generic/Plugins.png</iconset>
                </property>
               </item>
@@ -317,7 +317,7 @@ QToolButton:hover {
                 <string>Advanced</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
                </property>
               </item>
@@ -360,7 +360,7 @@ QToolButton:hover {
                <string>Internet</string>
               </property>
               <property name="icon">
-               <iconset>
+               <iconset resource="../Resource.qrc">
                 <normaloff>:/Resource/Network/Internet.png</normaloff>:/Resource/Network/Internet.png</iconset>
               </property>
               <property name="checkable">
@@ -389,7 +389,7 @@ QToolButton:hover {
                 <string>Connection</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
                </property>
               </item>
@@ -398,7 +398,7 @@ QToolButton:hover {
                 <string>Web</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Network/QueryNow.png</normaloff>:/Resource/Network/QueryNow.png</iconset>
                </property>
               </item>
@@ -407,7 +407,7 @@ QToolButton:hover {
                 <string>Transfers</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
                </property>
               </item>
@@ -416,7 +416,7 @@ QToolButton:hover {
                 <string>Downloads</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
                </property>
               </item>
@@ -425,7 +425,7 @@ QToolButton:hover {
                 <string>Uploads</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
                </property>
               </item>
@@ -434,7 +434,7 @@ QToolButton:hover {
                 <string>Security</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
                </property>
               </item>
@@ -477,7 +477,7 @@ QToolButton:hover {
                <string>Networks</string>
               </property>
               <property name="icon">
-               <iconset>
+               <iconset resource="../Resource.qrc">
                 <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
               </property>
               <property name="checkable">
@@ -503,11 +503,11 @@ QToolButton:hover {
               </property>
               <item>
                <property name="text">
-                <string>Gnutella</string>
+                <string>Gnutella 2</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>:/Resource/Networks/Gnutella.png</normaloff>:/Resource/Networks/Gnutella.png</iconset>
+                <iconset resource="../Resource.qrc">
+                 <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
                </property>
               </item>
               <item>
@@ -515,7 +515,7 @@ QToolButton:hover {
                 <string>Ares</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
                </property>
               </item>
@@ -524,7 +524,7 @@ QToolButton:hover {
                 <string>eDonkey</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
                </property>
               </item>
@@ -533,7 +533,7 @@ QToolButton:hover {
                 <string>BitTorrent</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
                </property>
               </item>
@@ -551,7 +551,7 @@ QToolButton:hover {
    <item row="1" column="1">
     <widget class="QStackedWidget" name="pagesSettings">
      <property name="currentIndex">
-      <number>16</number>
+      <number>20</number>
      </property>
      <widget class="QWidget" name="pageIntroduction">
       <layout class="QGridLayout" name="gridLayout_5">
@@ -825,7 +825,7 @@ p, li { white-space: pre-wrap; }
               <string>Ask Me</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../Resource.qrc">
                <normaloff>:/Resource/Generic/Help.png</normaloff>:/Resource/Generic/Help.png</iconset>
              </property>
             </item>
@@ -834,7 +834,7 @@ p, li { white-space: pre-wrap; }
               <string>Close Immediately</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../Resource.qrc">
                <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
              </property>
             </item>
@@ -843,7 +843,7 @@ p, li { white-space: pre-wrap; }
               <string>Minimise To Tray</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../Resource.qrc">
                <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
              </property>
             </item>
@@ -852,7 +852,7 @@ p, li { white-space: pre-wrap; }
               <string>Close After Transfers</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../Resource.qrc">
                <normaloff>:/Resource/Generic/ExitAfterTransfers.png</normaloff>:/Resource/Generic/ExitAfterTransfers.png</iconset>
              </property>
             </item>
@@ -871,7 +871,7 @@ p, li { white-space: pre-wrap; }
              <string>Minimise To Tray</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../Resource.qrc">
               <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
             </property>
            </widget>
@@ -3322,7 +3322,7 @@ p, li { white-space: pre-wrap; }
              <string>Browse For Completed Files</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../Resource.qrc">
               <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
             </property>
             <property name="iconSize">
@@ -3367,7 +3367,7 @@ p, li { white-space: pre-wrap; }
              <string>Browse For Temporary Files</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../Resource.qrc">
               <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
             </property>
             <property name="iconSize">
@@ -3873,7 +3873,7 @@ p, li { white-space: pre-wrap; }
        <property name="spacing">
         <number>4</number>
        </property>
-       <item row="0" column="0">
+       <item row="0" column="0" colspan="2">
         <widget class="QGroupBox" name="groupBoxG2Network">
          <property name="maximumSize">
           <size>
@@ -3930,64 +3930,7 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QGroupBox" name="groupBoxG1Network">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="title">
-          <string>Gnutella 1 Network</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_72">
-          <property name="margin">
-           <number>2</number>
-          </property>
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <item row="0" column="0" colspan="2">
-           <widget class="QCheckBox" name="checkBoxConnectG1">
-            <property name="text">
-             <string>Connect Gnutella 1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="labelG1Mode">
-            <property name="text">
-             <string>Mode:</string>
-            </property>
-            <property name="buddy">
-             <cstring>comboBoxG1Mode</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="comboBoxG1Mode">
-            <item>
-             <property name="text">
-              <string>Optimal</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Leaf</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Ultrapeer</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="0">
+       <item row="1" column="0" colspan="2">
         <widget class="QGroupBox" name="groupBoxG2Connections">
          <property name="maximumSize">
           <size>
@@ -4044,105 +3987,6 @@ p, li { white-space: pre-wrap; }
             </property>
             <property name="maximum">
              <number>64</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QGroupBox" name="groupBoxG1Connections">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="title">
-          <string>G1 Connections</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_74">
-          <property name="horizontalSpacing">
-           <number>2</number>
-          </property>
-          <property name="margin">
-           <number>2</number>
-          </property>
-          <item row="0" column="0">
-           <widget class="QSpinBox" name="spinBoxG1LeafToUltrapeer">
-            <property name="prefix">
-             <string>Leaf to Ultrapeer: </string>
-            </property>
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>5</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QSpinBox" name="spinBoxG1UltrapeerToLeaf">
-            <property name="prefix">
-             <string>Ultrapeer to Leaf: </string>
-            </property>
-            <property name="minimum">
-             <number>5</number>
-            </property>
-            <property name="maximum">
-             <number>1024</number>
-            </property>
-            <property name="value">
-             <number>50</number>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QSpinBox" name="spinBoxG1UltrapeerToUltrapeer">
-            <property name="prefix">
-             <string>Ultrapeer to Ultrapeer: </string>
-            </property>
-            <property name="minimum">
-             <number>15</number>
-            </property>
-            <property name="maximum">
-             <number>64</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QGroupBox" name="groupBoxLinkCompression">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="title">
-          <string>Link compression</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_75">
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="checkBoxCompressionHubToLeaf">
-            <property name="text">
-             <string>Hub to Leaf</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QCheckBox" name="checkBoxCompressionLeafToHub">
-            <property name="text">
-             <string>Leaf to Hub</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QCheckBox" name="checkBoxCompressionHubToHub">
-            <property name="text">
-             <string>Hub to Hub</string>
             </property>
            </widget>
           </item>
@@ -4544,7 +4388,7 @@ p, li { white-space: pre-wrap; }
              <string>Browse For Completed</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../Resource.qrc">
               <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
             </property>
             <property name="iconSize">
@@ -4579,7 +4423,7 @@ p, li { white-space: pre-wrap; }
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/Resource/Networks/Gnutella2.png</pixmap>
+            <pixmap resource="../Resource.qrc">:/Resource/Networks/Gnutella2.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>false</bool>
@@ -4641,78 +4485,6 @@ p, li { white-space: pre-wrap; }
         </layout>
        </item>
        <item row="2" column="0">
-        <layout class="QGridLayout" name="gridLayoutG1Connect">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <item row="0" column="0" rowspan="2">
-          <widget class="QLabel" name="labelG1Logo">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>:/Resource/Networks/Gnutella1.png</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="labelG1">
-           <property name="text">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Original Gnutella (G1)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <spacer name="horizontalSpacerG1Connect">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="2">
-          <widget class="QCheckBox" name="checkBoxG1Connect">
-           <property name="text">
-            <string>Connect To G1</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="4">
-          <widget class="QLabel" name="labelConfigureG1">
-           <property name="text">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;dummy&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Configure G1&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1" colspan="4">
-          <widget class="QLabel" name="labelG1Description">
-           <property name="text">
-            <string>Less feature rich than G2, but still a useful network.</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="4" column="0">
         <layout class="QGridLayout" name="gridLayoutAresConnect">
          <property name="spacing">
           <number>2</number>
@@ -4723,7 +4495,7 @@ p, li { white-space: pre-wrap; }
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/Resource/Networks/Ares.png</pixmap>
+            <pixmap resource="../Resource.qrc">:/Resource/Networks/Ares.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>false</bool>
@@ -4784,7 +4556,7 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
-       <item row="6" column="0">
+       <item row="4" column="0">
         <layout class="QGridLayout" name="gridLayoutEDonkeyConnect">
          <property name="spacing">
           <number>2</number>
@@ -4795,7 +4567,7 @@ p, li { white-space: pre-wrap; }
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/Resource/Networks/EDonkey.png</pixmap>
+            <pixmap resource="../Resource.qrc">:/Resource/Networks/EDonkey.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>false</bool>
@@ -4856,7 +4628,7 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
-       <item row="8" column="0">
+       <item row="6" column="0">
         <layout class="QGridLayout" name="gridLayoutBitTorrentConnect">
          <property name="spacing">
           <number>2</number>
@@ -4867,7 +4639,7 @@ p, li { white-space: pre-wrap; }
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/Resource/Networks/BitTorrent.png</pixmap>
+            <pixmap resource="../Resource.qrc">:/Resource/Networks/BitTorrent.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>false</bool>
@@ -4921,13 +4693,6 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
-       <item row="3" column="0">
-        <widget class="Line" name="lineSplit2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <widget class="Line" name="lineSplit1">
          <property name="orientation">
@@ -4935,14 +4700,14 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="3" column="0">
         <widget class="Line" name="lineSplit3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="5" column="0">
         <widget class="Line" name="lineSplit4">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -4999,7 +4764,9 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>toolButtonNavigationGeneral</sender>
@@ -5050,22 +4817,6 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>checkBoxG1Connect</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>checkBoxConnectG1</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>231</x>
-     <y>59</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>252</x>
-     <y>69</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>checkBoxG2Connect</sender>
    <signal>toggled(bool)</signal>
    <receiver>checkBoxConnectG2</receiver>
@@ -5110,22 +4861,6 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>231</x>
      <y>71</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBoxConnectG1</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>checkBoxG1Connect</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>252</x>
-     <y>69</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>231</x>
-     <y>59</y>
     </hint>
    </hints>
   </connection>

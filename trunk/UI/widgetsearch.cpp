@@ -71,7 +71,7 @@ void WidgetSearch::on_toolButtonSearchClear_clicked()
 
 }
 
-void WidgetSearch::startNewSearch(QString searchString)
+void WidgetSearch::startNewSearch(QString *searchString)
 {
 	panelSearchResults->startNewSearch(searchString);
 }
