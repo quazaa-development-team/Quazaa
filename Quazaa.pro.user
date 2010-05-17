@@ -77,7 +77,7 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-V35aQYcFVS,guid=40c89460412e3f7fdb83df174bed8233</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-UbHnnbBOEW,guid=201b87cd83a7ddb2a3d155ed4bf0894b</value>
     <value type="QString">DEFAULTS_PATH=/usr/share/gconf/gnome.default.path</value>
     <value type="QString">DESKTOP_SESSION=gnome</value>
     <value type="QString">DISPLAY=:0.0</value>
@@ -85,8 +85,8 @@
     <value type="QString">GDM_KEYBOARD_LAYOUT=us</value>
     <value type="QString">GDM_LANG=en_US.utf8</value>
     <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-ZN5ASM</value>
-    <value type="QString">GNOME_KEYRING_PID=1677</value>
+    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-Fauwz8</value>
+    <value type="QString">GNOME_KEYRING_PID=1671</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">HOME=/home/joseph</value>
     <value type="QString">LANG=en_US.utf8</value>
@@ -97,17 +97,17 @@
     <value type="QString">PATH=/home/joseph/qtsdk-2010.02/qt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/joseph</value>
     <value type="QString">QTDIR=/home/joseph/qtsdk-2010.02/qt</value>
-    <value type="QString">SESSION_MANAGER=local/quazaa-linux:@/tmp/.ICE-unix/1695,unix/quazaa-linux:/tmp/.ICE-unix/1695</value>
+    <value type="QString">SESSION_MANAGER=local/quazaa-linux:@/tmp/.ICE-unix/1689,unix/quazaa-linux:/tmp/.ICE-unix/1689</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=1732</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-ZN5ASM/ssh</value>
+    <value type="QString">SSH_AGENT_PID=1726</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-Fauwz8/ssh</value>
     <value type="QString">USER=joseph</value>
     <value type="QString">USERNAME=joseph</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-joseph-15DVnI/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-joseph-6u6GVH/database</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg/xdg-gnome:/etc/xdg</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share/:/usr/share/</value>
-    <value type="QString">XDG_SESSION_COOKIE=0ee917086d20523dc70b65474bebb8f8-1273856562.635042-1361325419</value>
+    <value type="QString">XDG_SESSION_COOKIE=0ee917086d20523dc70b65474bebb8f8-1274054986.922196-1052198465</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
     <value type="QString">/home/joseph/Qt Projects/quazaa/trunk/Quazaa.pro</value>
@@ -126,7 +126,7 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-V35aQYcFVS,guid=40c89460412e3f7fdb83df174bed8233</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-UbHnnbBOEW,guid=201b87cd83a7ddb2a3d155ed4bf0894b</value>
     <value type="QString">DEFAULTS_PATH=/usr/share/gconf/gnome.default.path</value>
     <value type="QString">DESKTOP_SESSION=gnome</value>
     <value type="QString">DISPLAY=:0.0</value>
@@ -134,8 +134,8 @@
     <value type="QString">GDM_KEYBOARD_LAYOUT=us</value>
     <value type="QString">GDM_LANG=en_US.utf8</value>
     <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-ZN5ASM</value>
-    <value type="QString">GNOME_KEYRING_PID=1677</value>
+    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-Fauwz8</value>
+    <value type="QString">GNOME_KEYRING_PID=1671</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">HOME=/home/joseph</value>
     <value type="QString">LANG=en_US.utf8</value>
@@ -146,17 +146,17 @@
     <value type="QString">PATH=/home/joseph/qtsdk-2010.02/qt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/joseph</value>
     <value type="QString">QTDIR=/home/joseph/qtsdk-2010.02/qt</value>
-    <value type="QString">SESSION_MANAGER=local/quazaa-linux:@/tmp/.ICE-unix/1695,unix/quazaa-linux:/tmp/.ICE-unix/1695</value>
+    <value type="QString">SESSION_MANAGER=local/quazaa-linux:@/tmp/.ICE-unix/1689,unix/quazaa-linux:/tmp/.ICE-unix/1689</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=1732</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-ZN5ASM/ssh</value>
+    <value type="QString">SSH_AGENT_PID=1726</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-Fauwz8/ssh</value>
     <value type="QString">USER=joseph</value>
     <value type="QString">USERNAME=joseph</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-joseph-15DVnI/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-joseph-6u6GVH/database</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg/xdg-gnome:/etc/xdg</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share/:/usr/share/</value>
-    <value type="QString">XDG_SESSION_COOKIE=0ee917086d20523dc70b65474bebb8f8-1273856562.635042-1361325419</value>
+    <value type="QString">XDG_SESSION_COOKIE=0ee917086d20523dc70b65474bebb8f8-1274054986.922196-1052198465</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
@@ -172,7 +172,7 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-V35aQYcFVS,guid=40c89460412e3f7fdb83df174bed8233</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-UbHnnbBOEW,guid=201b87cd83a7ddb2a3d155ed4bf0894b</value>
     <value type="QString">DEFAULTS_PATH=/usr/share/gconf/gnome.default.path</value>
     <value type="QString">DESKTOP_SESSION=gnome</value>
     <value type="QString">DISPLAY=:0.0</value>
@@ -180,8 +180,8 @@
     <value type="QString">GDM_KEYBOARD_LAYOUT=us</value>
     <value type="QString">GDM_LANG=en_US.utf8</value>
     <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-ZN5ASM</value>
-    <value type="QString">GNOME_KEYRING_PID=1677</value>
+    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-Fauwz8</value>
+    <value type="QString">GNOME_KEYRING_PID=1671</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">HOME=/home/joseph</value>
     <value type="QString">LANG=en_US.utf8</value>
@@ -192,17 +192,17 @@
     <value type="QString">PATH=/home/joseph/qtsdk-2010.02/qt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/joseph</value>
     <value type="QString">QTDIR=/home/joseph/qtsdk-2010.02/qt</value>
-    <value type="QString">SESSION_MANAGER=local/quazaa-linux:@/tmp/.ICE-unix/1695,unix/quazaa-linux:/tmp/.ICE-unix/1695</value>
+    <value type="QString">SESSION_MANAGER=local/quazaa-linux:@/tmp/.ICE-unix/1689,unix/quazaa-linux:/tmp/.ICE-unix/1689</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=1732</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-ZN5ASM/ssh</value>
+    <value type="QString">SSH_AGENT_PID=1726</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-Fauwz8/ssh</value>
     <value type="QString">USER=joseph</value>
     <value type="QString">USERNAME=joseph</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-joseph-15DVnI/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-joseph-6u6GVH/database</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg/xdg-gnome:/etc/xdg</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share/:/usr/share/</value>
-    <value type="QString">XDG_SESSION_COOKIE=0ee917086d20523dc70b65474bebb8f8-1273856562.635042-1361325419</value>
+    <value type="QString">XDG_SESSION_COOKIE=0ee917086d20523dc70b65474bebb8f8-1274054986.922196-1052198465</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">true</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">

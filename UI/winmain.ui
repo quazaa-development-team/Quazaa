@@ -14,7 +14,7 @@
    <string>Quazaa</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Quazaa32.png</normaloff>:/Resource/Quazaa32.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -68,7 +68,7 @@ padding: 2px;</string>
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="Resource.qrc">:/Resource/Generic/Home.png</pixmap>
+          <pixmap resource="../Resource.qrc">:/Resource/Generic/Home.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -99,7 +99,7 @@ padding: 2px;</string>
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>20</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuNetwork">
@@ -244,7 +244,7 @@ padding: 2px;</string>
   </widget>
   <action name="actionExit">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
    </property>
    <property name="text">
@@ -253,7 +253,7 @@ padding: 2px;</string>
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Quazaa32.png</normaloff>:/Resource/Quazaa32.png</iconset>
    </property>
    <property name="text">
@@ -262,7 +262,7 @@ padding: 2px;</string>
   </action>
   <action name="actionLockPanels">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/LockPanels.png</normaloff>:/Resource/Generic/LockPanels.png</iconset>
    </property>
    <property name="text">
@@ -277,7 +277,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Home.png</normaloff>:/Resource/Generic/Home.png</iconset>
    </property>
    <property name="text">
@@ -298,7 +298,7 @@ padding: 2px;</string>
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
    </property>
    <property name="text">
@@ -313,7 +313,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
    </property>
    <property name="text">
@@ -328,7 +328,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
    </property>
    <property name="text">
@@ -343,7 +343,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
    </property>
    <property name="text">
@@ -358,14 +358,14 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Globe.png</normaloff>:/Resource/Generic/Globe.png</iconset>
    </property>
    <property name="text">
     <string>Activity</string>
    </property>
    <property name="whatsThis">
-    <string notr="true">Network</string>
+    <string notr="true">Activity</string>
    </property>
   </action>
   <action name="actionMedia">
@@ -373,7 +373,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
    </property>
    <property name="text">
@@ -388,7 +388,7 @@ padding: 2px;</string>
   </action>
   <action name="actionCreateTorrent">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/CreateTorrent.png</normaloff>:/Resource/Networks/CreateTorrent.png</iconset>
    </property>
    <property name="text">
@@ -397,7 +397,7 @@ padding: 2px;</string>
   </action>
   <action name="actionSeedTorrent">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/SeedTorrent.png</normaloff>:/Resource/Networks/SeedTorrent.png</iconset>
    </property>
    <property name="text">
@@ -406,7 +406,7 @@ padding: 2px;</string>
   </action>
   <action name="actionOpenTorrent">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
    </property>
    <property name="text">
@@ -418,7 +418,7 @@ padding: 2px;</string>
   </action>
   <action name="actionSettings">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -430,7 +430,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
    </property>
    <property name="text">
@@ -448,7 +448,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
    </property>
    <property name="text">
@@ -457,7 +457,7 @@ padding: 2px;</string>
   </action>
   <action name="actionConnect">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -466,7 +466,7 @@ padding: 2px;</string>
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -475,7 +475,7 @@ padding: 2px;</string>
   </action>
   <action name="actionConnectTo">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/ConnectTo.png</normaloff>:/Resource/Network/ConnectTo.png</iconset>
    </property>
    <property name="text">
@@ -484,7 +484,7 @@ padding: 2px;</string>
   </action>
   <action name="actionExitAfterTransfers">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/ExitAfterTransfers.png</normaloff>:/Resource/Generic/ExitAfterTransfers.png</iconset>
    </property>
    <property name="text">
@@ -496,7 +496,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -511,7 +511,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/HostCache.png</normaloff>:/Resource/Network/HostCache.png</iconset>
    </property>
    <property name="text">
@@ -529,7 +529,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Discovery.png</normaloff>:/Resource/Network/Discovery.png</iconset>
    </property>
    <property name="text">
@@ -544,7 +544,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Graph.png</normaloff>:/Resource/Generic/Graph.png</iconset>
    </property>
    <property name="text">
@@ -559,7 +559,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/PacketDump.png</normaloff>:/Resource/Network/PacketDump.png</iconset>
    </property>
    <property name="text">
@@ -574,7 +574,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/HitMonitor.png</normaloff>:/Resource/Network/HitMonitor.png</iconset>
    </property>
    <property name="text">
@@ -589,7 +589,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/SearchMonitor.png</normaloff>:/Resource/Network/SearchMonitor.png</iconset>
    </property>
    <property name="text">
@@ -601,7 +601,7 @@ padding: 2px;</string>
   </action>
   <action name="actionShares">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Library/SharedFolders.png</normaloff>:/Resource/Library/SharedFolders.png</iconset>
    </property>
    <property name="text">
@@ -613,7 +613,7 @@ padding: 2px;</string>
   </action>
   <action name="actionURLDownload">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/URLDownload.png</normaloff>:/Resource/Generic/URLDownload.png</iconset>
    </property>
    <property name="text">
@@ -622,7 +622,7 @@ padding: 2px;</string>
   </action>
   <action name="actionImportPartials">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Library/ImportPartials.png</normaloff>:/Resource/Library/ImportPartials.png</iconset>
    </property>
    <property name="text">
@@ -631,7 +631,7 @@ padding: 2px;</string>
   </action>
   <action name="actionOpenDownloadFolder">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Library/OpenDownloadFolder.png</normaloff>:/Resource/Library/OpenDownloadFolder.png</iconset>
    </property>
    <property name="text">
@@ -640,7 +640,7 @@ padding: 2px;</string>
   </action>
   <action name="actionChooseSkin">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Skin.png</normaloff>:/Resource/Generic/Skin.png</iconset>
    </property>
    <property name="text">
@@ -649,7 +649,7 @@ padding: 2px;</string>
   </action>
   <action name="actionChooseLanguage">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Language.png</normaloff>:/Resource/Generic/Language.png</iconset>
    </property>
    <property name="text">
@@ -658,7 +658,7 @@ padding: 2px;</string>
   </action>
   <action name="actionQuickstartWizard">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Wizard.png</normaloff>:/Resource/Generic/Wizard.png</iconset>
    </property>
    <property name="text">
@@ -667,7 +667,7 @@ padding: 2px;</string>
   </action>
   <action name="actionUsersGuide">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/UsersGuide.png</normaloff>:/Resource/Generic/UsersGuide.png</iconset>
    </property>
    <property name="text">
@@ -676,7 +676,7 @@ padding: 2px;</string>
   </action>
   <action name="actionFAQ">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Help.png</normaloff>:/Resource/Generic/Help.png</iconset>
    </property>
    <property name="text">
@@ -685,7 +685,7 @@ padding: 2px;</string>
   </action>
   <action name="actionConnectionTest">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -694,7 +694,7 @@ padding: 2px;</string>
   </action>
   <action name="actionCheckForNewVersion">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
    </property>
    <property name="text">
@@ -703,7 +703,7 @@ padding: 2px;</string>
   </action>
   <action name="actionDonate">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Donate.png</normaloff>:/Resource/Generic/Donate.png</iconset>
    </property>
    <property name="text">
@@ -712,7 +712,7 @@ padding: 2px;</string>
   </action>
   <action name="actionQuazaaForums">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/QuazaaForums.png</normaloff>:/Resource/Generic/QuazaaForums.png</iconset>
    </property>
    <property name="text">
@@ -724,7 +724,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
    </property>
    <property name="text">
@@ -736,7 +736,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Scheduler.png</normaloff>:/Resource/Generic/Scheduler.png</iconset>
    </property>
    <property name="text">
@@ -748,7 +748,7 @@ padding: 2px;</string>
   </action>
   <action name="actionShowOrHide">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
    </property>
    <property name="text">
@@ -760,7 +760,7 @@ padding: 2px;</string>
   </action>
   <action name="actionEditMyProfile">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -769,7 +769,7 @@ padding: 2px;</string>
   </action>
   <action name="actionNewSearch">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/NewSearch.png</normaloff>:/Resource/Generic/NewSearch.png</iconset>
    </property>
    <property name="text">
@@ -784,7 +784,7 @@ padding: 2px;</string>
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/PlayMedia.png</normaloff>
      <normalon>:/Resource/Media/PauseMedia.png</normalon>:/Resource/Media/PlayMedia.png</iconset>
    </property>
@@ -797,7 +797,7 @@ padding: 2px;</string>
   </action>
   <action name="actionMediaOpen">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/OpenMedia.png</normaloff>:/Resource/Media/OpenMedia.png</iconset>
    </property>
    <property name="text">
@@ -809,7 +809,7 @@ padding: 2px;</string>
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/PreviousMediaTrack.png</normaloff>:/Resource/Media/PreviousMediaTrack.png</iconset>
    </property>
    <property name="text">
@@ -824,7 +824,7 @@ padding: 2px;</string>
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/NextMediaTrack.png</normaloff>:/Resource/Media/NextMediaTrack.png</iconset>
    </property>
    <property name="text">
@@ -833,7 +833,7 @@ padding: 2px;</string>
   </action>
   <action name="actionBrowseHost">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -848,7 +848,7 @@ padding: 2px;</string>
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/StopMedia.png</normaloff>:/Resource/Media/StopMedia.png</iconset>
    </property>
    <property name="text">
@@ -860,7 +860,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/Repeat.png</normaloff>:/Resource/Media/Repeat.png</iconset>
    </property>
    <property name="text">
@@ -875,7 +875,7 @@ padding: 2px;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/Shuffle.png</normaloff>:/Resource/Media/Shuffle.png</iconset>
    </property>
    <property name="text">
@@ -887,7 +887,7 @@ padding: 2px;</string>
   </action>
   <action name="actionMediaSettings">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -899,7 +899,7 @@ padding: 2px;</string>
   </action>
   <action name="actionMediaMute">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/Unmute.png</normaloff>:/Resource/Media/Unmute.png</iconset>
    </property>
    <property name="text">
@@ -911,7 +911,7 @@ padding: 2px;</string>
   </action>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

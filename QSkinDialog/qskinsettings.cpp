@@ -90,6 +90,7 @@ void QSkinSettings::loadSkin(QString fileName)
 	navigationToolbar = reader.value("navigationToolbar", "").toString();
 
 	// Headers
+	libraryViewHeader = reader.value("libraryViewHeader", "").toString();
 	genericHeader = reader.value("genericHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
 	homeHeader = reader.value("homeHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
 	libraryHeader = reader.value("libraryHeader", "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);").toString();
@@ -199,6 +200,7 @@ void QSkinSettings::saveSkin(QString fileName)
 	writer.setValue("navigationToolbar", navigationToolbar);
 
 	// Headers
+	writer.setValue("libraryViewHeader", libraryViewHeader);
 	writer.setValue("genericHeader", genericHeader);
 	writer.setValue("homeHeader", homeHeader);
 	writer.setValue("libraryHeader", libraryHeader);

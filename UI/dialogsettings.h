@@ -82,11 +82,9 @@ private slots:
 	void on_listWidgetSkins_itemClicked(QListWidgetItem* item);
 	void on_checkBoxEDonkeyConnect_toggled(bool checked);
 	void on_checkBoxAresConnect_toggled(bool checked);
-	void on_checkBoxG1Connect_toggled(bool checked);
 	void on_checkBoxG2Connect_toggled(bool checked);
 	void on_checkBoxConnectEDonkey_toggled(bool checked);
 	void on_checkBoxConnectAres_toggled(bool checked);
-	void on_checkBoxConnectG1_toggled(bool checked);
 	void on_checkBoxConnectG2_toggled(bool checked);
 	void on_toolButtonTorrentBrowse_clicked();
 	void on_checkBoxTorrentsUseKademlia_clicked();
@@ -106,13 +104,6 @@ private slots:
 	void on_checkBoxED2kUpdateServerList_clicked();
 	void on_spinBoxED2kMaxResults_valueChanged(int );
 	void on_checkBoxED2kSearchCahedServers_clicked();
-	void on_checkBoxCompressionHubToHub_clicked();
-	void on_checkBoxCompressionLeafToHub_clicked();
-	void on_checkBoxCompressionHubToLeaf_clicked();
-	void on_spinBoxG1UltrapeerToUltrapeer_valueChanged(int );
-	void on_spinBoxG1UltrapeerToLeaf_valueChanged(int );
-	void on_spinBoxG1LeafToUltrapeer_valueChanged(int );
-	void on_comboBoxG1Mode_currentIndexChanged(int index);
 	void on_spinBoxG2HubToHub_valueChanged(int );
 	void on_spinBoxG2HubToLeaf_valueChanged(int );
 	void on_spinBoxG2LeafToHub_valueChanged(int );
@@ -224,7 +215,6 @@ private slots:
 	void on_labelConfigureBitTorrent_linkActivated(QString link);
 	void on_labelConfigureEDonkey_linkActivated(QString link);
 	void on_labelConfigureAres_linkActivated(QString link);
-	void on_labelConfigureG1_linkActivated(QString link);
 	void on_labelConfigureG2_linkActivated(QString link);
 	void on_pushButtonEditProfile_clicked();
 	void on_pushButtonOK_clicked();

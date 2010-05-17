@@ -29,7 +29,7 @@
    <string>Select Language</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Language.png</normaloff>:/Resource/Generic/Language.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -97,7 +97,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -143,7 +143,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">English (Default)</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-en.png</normaloff>:/Resource/Languages/default-en.png</iconset>
       </property>
      </item>
@@ -152,7 +152,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Afrikanns</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-af.png</normaloff>:/Resource/Languages/default-af.png</iconset>
       </property>
      </item>
@@ -161,7 +161,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Arabic العربية</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-ar.png</normaloff>:/Resource/Languages/default-ar.png</iconset>
       </property>
      </item>
@@ -170,7 +170,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Català</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-ca.png</normaloff>:/Resource/Languages/default-ca.png</iconset>
       </property>
      </item>
@@ -179,7 +179,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">简体中文</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-chs.png</normaloff>:/Resource/Languages/default-chs.png</iconset>
       </property>
      </item>
@@ -188,7 +188,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Čeština</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-cz.png</normaloff>:/Resource/Languages/default-cz.png</iconset>
       </property>
      </item>
@@ -197,7 +197,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Deutsch</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-de.png</normaloff>:/Resource/Languages/default-de.png</iconset>
       </property>
      </item>
@@ -206,7 +206,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Eesti</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-ee.png</normaloff>:/Resource/Languages/default-ee.png</iconset>
       </property>
      </item>
@@ -215,17 +215,8 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Español</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-es.png</normaloff>:/Resource/Languages/default-es.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Español Mexicano</string>
-      </property>
-      <property name="icon">
-       <iconset resource="Resource.qrc">
-        <normaloff>:/Resource/Languages/default-es-mx.png</normaloff>:/Resource/Languages/default-es-mx.png</iconset>
       </property>
      </item>
      <item>
@@ -233,7 +224,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Suomi</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-fi.png</normaloff>:/Resource/Languages/default-fi.png</iconset>
       </property>
      </item>
@@ -242,7 +233,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Français</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-fr.png</normaloff>:/Resource/Languages/default-fr.png</iconset>
       </property>
      </item>
@@ -251,7 +242,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Ελληνικά</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-gr.png</normaloff>:/Resource/Languages/default-gr.png</iconset>
       </property>
      </item>
@@ -260,7 +251,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">עברית</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-heb.png</normaloff>:/Resource/Languages/default-heb.png</iconset>
       </property>
      </item>
@@ -269,7 +260,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Hrvatski</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-sr.png</normaloff>:/Resource/Languages/default-sr.png</iconset>
       </property>
      </item>
@@ -278,7 +269,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Magyar</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-hu.png</normaloff>:/Resource/Languages/default-hu.png</iconset>
       </property>
      </item>
@@ -287,7 +278,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Italian</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-it.png</normaloff>:/Resource/Languages/default-it.png</iconset>
       </property>
      </item>
@@ -296,7 +287,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">日本語</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-ja.png</normaloff>:/Resource/Languages/default-ja.png</iconset>
       </property>
      </item>
@@ -305,7 +296,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Lietuvių</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-lt.png</normaloff>:/Resource/Languages/default-lt.png</iconset>
       </property>
      </item>
@@ -314,7 +305,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Nederlands</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-nl.png</normaloff>:/Resource/Languages/default-nl.png</iconset>
       </property>
      </item>
@@ -323,7 +314,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Norsk</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-no.png</normaloff>:/Resource/Languages/default-no.png</iconset>
       </property>
      </item>
@@ -332,7 +323,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Polski</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-pl.png</normaloff>:/Resource/Languages/default-pl.png</iconset>
       </property>
      </item>
@@ -341,7 +332,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Português Brasileiro</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-pt-br.png</normaloff>:/Resource/Languages/default-pt-br.png</iconset>
       </property>
      </item>
@@ -350,7 +341,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Pусский</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-ru.png</normaloff>:/Resource/Languages/default-ru.png</iconset>
       </property>
      </item>
@@ -359,7 +350,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Slovenščina</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-sl-si.png</normaloff>:/Resource/Languages/default-sl-si.png</iconset>
       </property>
      </item>
@@ -368,7 +359,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Shqip</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-sq.png</normaloff>:/Resource/Languages/default-sq.png</iconset>
       </property>
      </item>
@@ -377,7 +368,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Srpski</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-hr.png</normaloff>:/Resource/Languages/default-hr.png</iconset>
       </property>
      </item>
@@ -386,7 +377,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Svenska</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-sv.png</normaloff>:/Resource/Languages/default-sv.png</iconset>
       </property>
      </item>
@@ -395,7 +386,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">Türkçe</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-tr.png</normaloff>:/Resource/Languages/default-tr.png</iconset>
       </property>
      </item>
@@ -404,7 +395,7 @@ p, li { white-space: pre-wrap; }
        <string notr="true">繁體中文</string>
       </property>
       <property name="icon">
-       <iconset resource="Resource.qrc">
+       <iconset resource="../Resource.qrc">
         <normaloff>:/Resource/Languages/default-tw.png</normaloff>:/Resource/Languages/default-tw.png</iconset>
       </property>
      </item>
@@ -453,7 +444,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

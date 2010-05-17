@@ -44,16 +44,11 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->setupUi(this);
 	ui->stackedWidget->setCurrentIndex(0);
 	isMainWindow = true;
-	actionGroupMainNavigation = new QActionGroup(this);
-	actionGroupMainNavigation->addAction(ui->actionHome);
-	actionGroupMainNavigation->addAction(ui->actionLibrary);
-	actionGroupMainNavigation->addAction(ui->actionMedia);
-	actionGroupMainNavigation->addAction(ui->actionSearch);
-	actionGroupMainNavigation->addAction(ui->actionTransfers);
-	actionGroupMainNavigation->addAction(ui->actionSecurity);
-	actionGroupMainNavigation->addAction(ui->actionNetwork);
-	actionGroupMainNavigation->addAction(ui->actionChat);
-	actionGroupMainNavigation->addAction(ui->actionGeneric);
+
+	pageExtendedItems = new WidgetExtendedItems();
+	ui->verticalLayoutExtendedItems->addWidget(pageExtendedItems);
+	pageNavigation = new WidgetNavigation();
+	ui->verticalLayoutNavigation->addWidget(pageNavigation);
 
 	isMainWindow = true;
 
@@ -808,6 +803,12 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.libraryNavigator);
 		}
 
+		if (currentSelectionText == tr("Library View Header"))
+		{
+			ui->stackedWidget->setCurrentIndex(4);
+			ui->plainTextEditStyleSheet->setPlainText(skinSettings.libraryViewHeader);
+		}
+
 		if (item->text(column) == tr("Searches"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
@@ -880,7 +881,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.securityHeader);
 		}
 
-		if (item->text(column) == tr("Network"))
+		if (item->text(column) == tr("Activity"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.activityHeader);
@@ -994,30 +995,8 @@ void MainWindow::skinChangeEvent()
 	ui->progressBarSplashStatus->setStyleSheet(skinSettings.splashProgress);
 	updateWindowStyleSheet(isMainWindow);
 	ui->pageStandardItems->setStyleSheet(skinSettings.standardItems);
-	ui->scrollAreaSidebar->setStyleSheet(skinSettings.sidebarBackground);
-	ui->toolButtonSidebarTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
-	ui->frameSidebarTask->setStyleSheet(skinSettings.sidebarTaskBackground);
-	ui->toolButtonUnclickableSidebarTaskHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
-	ui->toolButtonNewSearch->setStyleSheet(skinSettings.addSearchButton);
-	ui->frameChatWelcome->setStyleSheet(skinSettings.chatWelcome);
-	ui->toolFrameChat->setStyleSheet(skinSettings.chatToolbar);
-	ui->tabWidgetLibraryNavigator->setStyleSheet(skinSettings.libraryNavigator);
-	ui->frameSearches->setStyleSheet(skinSettings.tabSearches);
-	ui->toolFrame->setStyleSheet(skinSettings.toolbars);
-	ui->toolFrameMedia->setStyleSheet(skinSettings.mediaToolbar);
-	ui->seekSlider->setStyleSheet(skinSettings.seekSlider);
-	ui->volumeSlider->setStyleSheet(skinSettings.volumeSlider);
-	ui->toolBarNavigation->setStyleSheet(skinSettings.navigationToolbar);
-	ui->frameHomeHeader->setStyleSheet(skinSettings.homeHeader);
-	ui->frameLibraryHeader->setStyleSheet(skinSettings.libraryHeader);
-	ui->frameMediaHeader->setStyleSheet(skinSettings.mediaHeader);
-	ui->frameSearchHeader->setStyleSheet(skinSettings.searchHeader);
-	ui->frameTransfersHeader->setStyleSheet(skinSettings.transfersHeader);
-	ui->frameSecurityHeader->setStyleSheet(skinSettings.securityHeader);
-	ui->frameActivityHeader->setStyleSheet(skinSettings.activityHeader);
-	ui->frameChatHeader->setStyleSheet(skinSettings.chatHeader);
-	ui->frameGenericHeader->setStyleSheet(skinSettings.genericHeader);
-	ui->frameDialogHeader->setStyleSheet(skinSettings.dialogHeader);
+	pageExtendedItems->skinChangeEvent();
+	pageNavigation->skinChangeEvent();
 }
 
 void MainWindow::updateWindowStyleSheet(bool mainWindow)
@@ -1296,6 +1275,11 @@ void MainWindow::applySheets()
 		skinSettings.libraryNavigator = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
+	if (currentSelectionText == tr("Library View Header"))
+	{
+		skinSettings.libraryViewHeader = ui->plainTextEditStyleSheet->toPlainText();
+	}
+
 	if (currentSelectionText == tr("Searches"))
 	{
 		skinSettings.tabSearches = ui->plainTextEditStyleSheet->toPlainText();
@@ -1356,7 +1340,7 @@ void MainWindow::applySheets()
 		skinSettings.securityHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Network"))
+	if (currentSelectionText == tr("Activity"))
 	{
 		skinSettings.activityHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}

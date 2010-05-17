@@ -453,9 +453,6 @@ namespace Settings
 
 	struct sGnutella
 	{
-		bool		CompressHub2Hub;						// Hub to Hub Link compression
-		bool		CompressHub2Leaf;						// Hub to Leaf Link Compression
-		bool		CompressLeaf2Hub;						// Leaf to Hub Link Compression
 		int			ConnectFactor;
 		int			ConnectThrottle;						// Delay between connection attempts (seconds)
 		int			HitsPerPacket;							// Max hits allowed for a single packet

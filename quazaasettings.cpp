@@ -333,9 +333,6 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Gnutella");
-	m_qSettings.setValue("CompressHub2Hub", quazaaSettings.Gnutella.CompressHub2Hub);
-	m_qSettings.setValue("CompressHub2Leaf", quazaaSettings.Gnutella.CompressHub2Leaf);
-	m_qSettings.setValue("CompressLeaf2Hub", quazaaSettings.Gnutella.CompressLeaf2Hub);
 	m_qSettings.setValue("ConnectFactor", quazaaSettings.Gnutella.ConnectFactor);
 	m_qSettings.setValue("ConnectThrottle", quazaaSettings.Gnutella.ConnectThrottle);
 	m_qSettings.setValue("HitsPerPacket", quazaaSettings.Gnutella.HitsPerPacket);
@@ -791,9 +788,6 @@ void QuazaaSettings::loadSettings()
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Gnutella");
-	quazaaSettings.Gnutella.CompressHub2Hub = m_qSettings.value("CompressHub2Hub", true).toBool();
-	quazaaSettings.Gnutella.CompressHub2Leaf = m_qSettings.value("CompressHub2Leaf", true).toBool();
-	quazaaSettings.Gnutella.CompressLeaf2Hub = m_qSettings.value("CompressLeaf2Hub", false).toBool();
 	quazaaSettings.Gnutella.ConnectFactor = m_qSettings.value("ConnectFactor", 3).toInt();
 	quazaaSettings.Gnutella.ConnectThrottle = m_qSettings.value("ConnectThrottle", 120).toInt();
 	quazaaSettings.Gnutella.HitsPerPacket = m_qSettings.value("HitsPerPacket", 64).toInt();

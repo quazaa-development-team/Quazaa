@@ -35,6 +35,7 @@ void WidgetHitMonitor::changeEvent(QEvent *e)
 void WidgetHitMonitor::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
+	ui->toolBarFilter->setStyleSheet(skinSettings.toolbars);
 }
 
 void WidgetHitMonitor::saveWidget()

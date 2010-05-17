@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>379</width>
-    <height>394</height>
+    <width>409</width>
+    <height>461</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -26,7 +26,7 @@
    <string>Scheduled Task Properties</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Scheduler.png</normaloff>:/Resource/Generic/Scheduler.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -82,7 +82,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -163,65 +163,54 @@ p, li { white-space: pre-wrap; }
        <property name="spacing">
         <number>2</number>
        </property>
-       <item row="1" column="0" colspan="2">
+       <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="labelNetworks">
          <property name="text">
           <string>Connect To These Networks:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="1" column="0">
         <widget class="QCheckBox" name="checkBoxG2">
          <property name="text">
           <string>Gnutella 2</string>
          </property>
          <property name="icon">
-          <iconset resource="Resource.qrc">
+          <iconset resource="../Resource.qrc">
            <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="2" column="1">
         <widget class="QCheckBox" name="checkBoxBitTorrent">
          <property name="text">
           <string>BitTorrent</string>
          </property>
          <property name="icon">
-          <iconset resource="Resource.qrc">
+          <iconset resource="../Resource.qrc">
            <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QCheckBox" name="checkBoxG1">
-         <property name="text">
-          <string>Gnutella 1</string>
-         </property>
-         <property name="icon">
-          <iconset resource="Resource.qrc">
-           <normaloff>:/Resource/Networks/Gnutella1.png</normaloff>:/Resource/Networks/Gnutella1.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QCheckBox" name="checkBoxAres">
-         <property name="text">
-          <string>Ares</string>
-         </property>
-         <property name="icon">
-          <iconset resource="Resource.qrc">
-           <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
+       <item row="2" column="0">
         <widget class="QCheckBox" name="checkBoxEDonkey">
          <property name="text">
           <string>eDonkey</string>
          </property>
          <property name="icon">
-          <iconset resource="Resource.qrc">
+          <iconset resource="../Resource.qrc">
            <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="checkBoxAres">
+         <property name="text">
+          <string>Ares</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../Resource.qrc">
+           <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
          </property>
         </widget>
        </item>
@@ -608,7 +597,7 @@ p, li { white-space: pre-wrap; }
            <string>Control Speed And Networks</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
           </property>
          </item>
@@ -617,7 +606,7 @@ p, li { white-space: pre-wrap; }
            <string>Do Not Connect</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
           </property>
          </item>
@@ -626,7 +615,7 @@ p, li { white-space: pre-wrap; }
            <string>Close Quazaa</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
           </property>
          </item>
@@ -689,7 +678,7 @@ p, li { white-space: pre-wrap; }
           <string>Task Should Be Active</string>
          </property>
          <property name="icon">
-          <iconset resource="Resource.qrc">
+          <iconset resource="../Resource.qrc">
            <normaloff>:/Resource/Generic/SchedulerEnable.png</normaloff>:/Resource/Generic/SchedulerEnable.png</iconset>
          </property>
         </widget>
@@ -733,7 +722,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections>
   <connection>

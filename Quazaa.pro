@@ -13,17 +13,16 @@ TARGET = Quazaa
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 INCLUDEPATH += vlcmediaplayer \
     NetworkCore \
-    libircclient-qt \
     UI \
     temp \
     3rdparty \
-	3rdparty/libircclient-qt \
+    3rdparty/libircclient-qt \
     .
 win32:LIBS += -Lbin # if you are at windows os
 LIBS += -lvlc
 CONFIG += precompile_header \
-	no_icu \
-	no_depreceated
+    no_icu \
+    no_depreceated
 DEFINES += IRC_STATIC
 PRECOMPILED_HEADER = NetworkCore/types.h
 TEMPLATE = app
@@ -42,7 +41,6 @@ SOURCES += main.cpp \
     UI/dialogpreviewprepare.cpp \
     UI/dialogopentorrent.cpp \
     UI/dialoghashprogress.cpp \
-    UI/dialoggplview.cpp \
     UI/dialogfiltersearch.cpp \
     UI/dialogeditshares.cpp \
     UI/dialogdownloadsimport.cpp \
@@ -92,7 +90,7 @@ SOURCES += main.cpp \
     NetworkCore/datagramfrags.cpp \
     NetworkCore/CompressedConnection.cpp \
     NetworkCore/Hashes/sha1.cpp \
-	NetworkCore/Hashes/AbstractHash.cpp \
+    NetworkCore/Hashes/AbstractHash.cpp \
     NeighboursTableModel.cpp \
     UI/winmain.cpp \
     UI/widgethome.cpp \
@@ -141,7 +139,6 @@ HEADERS += UI/dialoglanguage.h \
     UI/dialogpreviewprepare.h \
     UI/dialogopentorrent.h \
     UI/dialoghashprogress.h \
-    UI/dialoggplview.h \
     UI/dialogfiltersearch.h \
     UI/dialogeditshares.h \
     UI/dialogdownloadsimport.h \
@@ -186,7 +183,7 @@ HEADERS += UI/dialoglanguage.h \
     NetworkCore/datagramfrags.h \
     NetworkCore/CompressedConnection.h \
     NetworkCore/Hashes/sha1.h \
-	NetworkCore/Hashes/AbstractHash.h \
+    NetworkCore/Hashes/AbstractHash.h \
     NetworkCore/queryhashtable.h \
     NetworkCore/parser.h \
     NeighboursTableModel.h \
@@ -238,7 +235,6 @@ FORMS += UI/dialoglanguage.ui \
     UI/dialogpreviewprepare.ui \
     UI/dialogopentorrent.ui \
     UI/dialoghashprogress.ui \
-    UI/dialoggplview.ui \
     UI/dialogfiltersearch.ui \
     UI/dialogeditshares.ui \
     UI/dialogdownloadsimport.ui \
@@ -285,8 +281,7 @@ TRANSLATIONS = Language/quazaa_af.ts \
     Language/quazaa_de.ts \
     Language/quazaa_default_en.ts \
     Language/quazaa_ee.ts \
-    Language/quazaa_es.ts \
-    Language/quazaa_es-mx.ts \
+	Language/quazaa_es.ts \
     Language/quazaa_fi.ts \
     Language/quazaa_fr.ts \
     Language/quazaa_gr.ts \

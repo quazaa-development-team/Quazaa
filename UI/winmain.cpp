@@ -221,8 +221,8 @@ WinMain::WinMain(QWidget *parent) :
 			ui->actionHome->setChecked(true);
 			break;
 	}
-	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_triggered(QAction*)));
-	connect(pageHome, SIGNAL(requestSearch(QString*)), pageSearch, SLOT(startNewSearch(QString*)));
+	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_clicked()));
+	connect(pageHome, SIGNAL(requestSearch(QString*)), this, SLOT(startNewSearch(QString*)));
 	connect(pageHome, SIGNAL(triggerLibrary()), this, SLOT(on_actionLibrary_triggered()));
 	connect(pageHome, SIGNAL(triggerSecurity()), this, SLOT(on_actionSecurity_triggered()));
 	connect(pageHome, SIGNAL(triggerTransfers()), this, SLOT(on_actionTransfers_triggered()));
@@ -833,4 +833,10 @@ void WinMain::on_actionGnutella2_triggered(bool checked)
 void WinMain::on_actionAres_triggered(bool checked)
 {
 	quazaaSettings.Ares.Enable = checked;
+}
+
+void WinMain::startNewSearch(QString *searchString)
+{
+	ui->stackedWidgetMain->setCurrentIndex(3);
+	pageSearch->startNewSearch(searchString);
 }

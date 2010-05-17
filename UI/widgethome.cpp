@@ -135,6 +135,6 @@ void WidgetHome::saveWidget()
 
 void WidgetHome::on_toolButtonWelcomeSearch_clicked()
 {
-	QString searchString = ui->lineEditWelcomeSearch->text();
-	emit requestSearch(&searchString);
+	QString m_sSearchString = ui->lineEditWelcomeSearch->text();
+	emit requestSearch(&m_sSearchString);
 }

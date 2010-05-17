@@ -115,6 +115,7 @@ private slots:
 	void quazaaShutdown();
 	void icon_activated(QSystemTrayIcon::ActivationReason reason);
 	void skinChangeEvent();
+	void startNewSearch(QString *searchString);
 };
 
 #endif // WINMAIN_H
