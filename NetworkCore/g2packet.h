@@ -2,216 +2,281 @@
 #define G2PACKET_H
 
 #include "types.h"
-#include <QList>
-#include <QSet>
-#include <QMutex>
 #include <QByteArray>
-#include <QAtomicInt>
+#include <QtGlobal>
+#include <QMutex>
+#include <QList>
 
-struct packet_incomplete{};
 struct packet_error{};
-struct stream_end{};
+struct packet_read_past_end{};
 
-class G2PacketPool;
+
 
 class G2Packet
 {
-    friend class G2PacketPool;
+// Construction
 protected:
-    QAtomicInt  m_nReference;
-
-    char        m_sName[9];
-    QByteArray  m_sPayload;
-    bool        m_bCompound;
-    bool        m_bChildrenRead;
-    quint32     m_nPosition;
-
-    QList<G2Packet*> m_lChildren;
-
+	G2Packet();
+	~G2Packet();
 
 public:
-    G2Packet();
-
-    static G2Packet* New(const char* pName);
-    void ToBuffer(QByteArray* pBuffer)
-    {
-        ToBuffer(*pBuffer);
-    }
-
-    void ToBuffer(QByteArray& pBuffer);
-
-    G2Packet* WriteChild(const char* pName);
-    void WriteBytes(const void* pData, quint32 nLength);
-
-    static G2Packet* FromBuffer(QByteArray* pBuffer)
-    {
-        return G2Packet::FromBuffer(*pBuffer);
-    }
-    static G2Packet* FromBuffer(QByteArray& pBuffer);
-
-    void SkipChildren();
-    G2Packet* ReadNextChild();
-    bool ReadBytes(void* pDest, quint32 nLength);
-
-    template <typename T> void ReadIntBE(T* pDest)
-    {
-        ReadBytes(pDest, sizeof(T));
-        *pDest = qFromBigEndian(*pDest);
-    }
-    template <typename T> T ReadIntBE()
-    {
-        T nRet = 0;
-        ReadIntBE(&nRet);
-        return nRet;
-    }
-
-    template <typename T> void ReadIntLE(T* pDest)
-    {
-        ReadBytes(pDest, sizeof(T));
-        *pDest = qFromLittleEndian(*pDest);
-    }
-    template <typename T> T ReadIntLE()
-    {
-        T nRet = 0;
-        ReadIntLE(&nRet);
-        return nRet;
-    }
-
-    void ReadHostAddress(IPv4_ENDPOINT* pDest)
-    {
-        ReadIntBE(&pDest->ip);
-        ReadIntLE(&pDest->port);
-    }
-    QString ReadString();
-    void WriteString(QString sToWrite, bool bTerminate = false);
-    QUuid ReadGUID()
-    {
-        QUuid ret;
-        ReadBytes(&ret.data1, sizeof(ret.data1));
-        ReadBytes(&ret.data2, sizeof(ret.data2));
-        ReadBytes(&ret.data3, sizeof(ret.data3));
-        ReadBytes(&ret.data4[0], sizeof(ret.data4[0]) * 8);
-        return ret;
-    }
-
-    template <typename T> void WriteIntBE(T* pSrc)
-    {
-        T nNew = qToBigEndian(*pSrc);
-        WriteBytes((void*)&nNew, sizeof(T));
-    }
-    template <typename T> void WriteIntLE(T* pSrc)
-    {
-        T nNew = qToLittleEndian(*pSrc);
-        WriteBytes((void*)&nNew, sizeof(T));
-    }
-    template <typename T> void WriteIntBE(T nSrc)
-    {
-        WriteIntBE(&nSrc);
-    }
-    template <typename T> void WriteIntLE(T nSrc)
-    {
-        WriteIntLE(&nSrc);
-    }
-
-    void WriteHostAddress(IPv4_ENDPOINT* pSrc)
-    {
-        WriteIntBE(&pSrc->ip);
-        WriteIntLE(&pSrc->port);
-    }
-    void WriteGUID(QUuid& guid)
-    {
-        WriteBytes(&guid.data1, sizeof(guid.data1));
-        WriteBytes(&guid.data2, sizeof(guid.data2));
-        WriteBytes(&guid.data3, sizeof(guid.data3));
-        WriteBytes(&guid.data4[0], sizeof(guid.data4[0]) * 8);
-    }
-
-    bool IsAddressed(QUuid& pTargetGUID)
-    {
-        if( !HasChildren() )
-            return false;
-
-        if ( *m_sPayload.constData() != 0x48 ) return false;
-        if ( *(m_sPayload.constData() + 1) != 0x10 ) return false;
-        if ( *(m_sPayload.constData() + 2) != 'T' ) return false;
-        if ( *(m_sPayload.constData() + 3) != 'O' ) return false;
-
-        G2Packet* pTO = ReadNextChild();
-        if( pTO && pTO->PayloadLength() >= 16 )
-        {
-            pTargetGUID = pTO->ReadGUID();
-            return true;
-        }
-
-        return false;
-
-    }
-
-    inline bool IsType(const char* szType) const
-    {
-        if( strcmp(m_sName, szType) == 0 )
-            return true;
-        return false;
-    }
-    inline char* GetType()
-    {
-        return (char*)&m_sName;
-    }
-
-    inline bool HasChildren()
-    {
-        return m_bCompound;
-    }
-    inline quint32 PayloadLength()
-    {
-        if( HasChildren() && !m_bChildrenRead )
-            SkipChildren();
-
-        return m_sPayload.size();
-    }
-    inline quint32 Position()
-    {
-        return m_nPosition;
-    }
-    inline void Position(quint32 nPos)
-    {
-        Q_ASSERT(nPos < (quint32)m_sPayload.size());
-        m_nPosition = nPos;
-    }
+	static G2Packet* New(const char* pszType = 0, bool bCompound = false);
+	static G2Packet* New(char* pSource);
 
 
-    void Reset()
-    {
-        m_nReference = 0;
-        memset(&m_sName, 0, sizeof(m_sName));
-        m_sPayload.clear();
-        m_bCompound = false;
-        m_bChildrenRead = false;
-        m_nPosition = 0;
-    }
+// Attributes
+public:
+	G2Packet*	m_pNext;
+	quint32		m_nReference;
+public:
+	QByteArray	m_oBuffer;
+	quint32		m_nPosition;
+	char		m_sType[9];
+	bool		m_bCompound;
 
-    void AddRef()
-    {
-        m_nReference.ref();
-    }
+	enum { seekStart, seekEnd };
 
-    void Release();
+// Operations
+public:
+	void	Reset();
+	void	Seek(quint32 nPosition, int nRelative = seekStart);
+	char*	WriteGetPointer(quint32 nLength, quint32 nOffset = 0xFFFFFFFF);
+public:
+	char*	GetType() const;
 
+public:
+	G2Packet*	WritePacket(G2Packet* pPacket);
+	G2Packet*	WritePacket(const char* pszType, quint32 nLength, bool bCompound = false);
+	bool	ReadPacket(char* pszType, quint32& nLength, bool* pbCompound = 0);
+	bool	SkipCompound();
+	bool	SkipCompound(quint32& nLength, quint32 nRemaining = 0);
+
+public:
+	static	G2Packet* ReadBuffer(QByteArray* pBuffer);
+	void	ToBuffer(QByteArray* pBuffer) const;
+
+// Inline Packet Operations
+public:
+
+	inline bool IsType(const char* sType)
+	{
+		return strcmp(sType, m_sType) == 0;
+	}
+
+	inline int GetRemaining()
+	{
+		return m_oBuffer.size() - m_nPosition;
+	}
+
+	inline void Read(void* pData, int nLength)
+	{
+		if ( m_nPosition + nLength > m_oBuffer.size() ) throw packet_read_past_end();
+		memcpy(pData, m_oBuffer.constData() + m_nPosition, nLength);
+		m_nPosition += nLength;
+	}
+
+	inline void Write(void* pData, int nLength)
+	{
+		if( m_oBuffer.size() + nLength < m_oBuffer.capacity() )
+		{
+			m_oBuffer.reserve(qMax(m_oBuffer.capacity() + nLength, m_oBuffer.capacity() + 128));
+		}
+
+		m_oBuffer.append((char*)pData, nLength);
+	}
+
+	template <typename T>
+	inline T ReadIntBE()
+	{
+		if( m_oBuffer.size() - m_nPosition < sizeof(T) )
+			throw packet_read_past_end();
+
+		T nRet = qFromBigEndian(*(T*)(m_oBuffer.constData() + m_nPosition));
+		m_nPosition += sizeof(T);
+		return nRet;
+	}
+	template <typename T>
+	inline T ReadIntLE()
+	{
+		if( m_oBuffer.size() - m_nPosition < sizeof(T) )
+			throw packet_read_past_end();
+
+		T nRet = qFromLittleEndian(*(T*)(m_oBuffer.constData() + m_nPosition));
+		m_nPosition += sizeof(T);
+		return nRet;
+	}
+	template <typename T>
+	inline void ReadIntBE(T* pDest)
+	{
+		*pDest = ReadIntBE<T>();
+	}
+	template <typename T>
+	inline void ReadIntLE(T* pDest)
+	{
+		*pDest = ReadIntLE<T>();
+	}
+	template <typename T>
+	inline void WriteIntBE(T* nValue)
+	{
+		T nNew = qToBigEndian(*nValue);
+		Write((void*)&nNew, sizeof(T));
+	}
+	template <typename T>
+	inline void WriteIntLE(T* nValue)
+	{
+		T nNew = qToLittleEndian(*nValue);
+		Write((void*)&nNew, sizeof(T));
+	}
+	template <typename T>
+	inline void WriteIntBE(T& nValue)
+	{
+		WriteIntBE(&nValue);
+	}
+	template <typename T>
+	inline void WriteIntLE(T& nValue)
+	{
+		WriteIntLE(&nValue);
+	}
+	inline char ReadByte()
+	{
+		char nRet;
+		Read(&nRet, 1);
+		return nRet;
+	}
+	inline void WriteByte(char nByte)
+	{
+		Write(&nByte, 1);
+	}
+
+	void ReadHostAddress(IPv4_ENDPOINT* pDest)
+	{
+		ReadIntBE(&pDest->ip);
+		ReadIntLE(&pDest->port);
+	}
+
+	QUuid ReadGUID()
+	{
+		QUuid ret;
+		ReadIntBE(&ret.data1);
+		ReadIntBE(&ret.data2);
+		ReadIntBE(&ret.data3);
+		Read(&ret.data4[0], 8);
+
+		return ret;
+	}
+	void WriteHostAddress(IPv4_ENDPOINT* pSrc)
+	{
+		WriteIntBE(&pSrc->ip);
+		WriteIntLE(&pSrc->port);
+	}
+	void WriteGUID(QUuid& guid)
+	{
+		WriteIntBE(guid.data1);
+		WriteIntBE(guid.data2);
+		WriteIntBE(guid.data3);
+		Write(&guid.data4[0], 8);
+	}
+
+	QString ReadString();
+	void WriteString(QString sToWrite, bool bTerminate = false);
+// Inline Allocation
+public:
+
+	inline void AddRef()
+	{
+		m_nReference++;
+	}
+
+	inline void Release()
+	{
+		if ( this != NULL && ! --m_nReference ) Delete();
+	}
+
+	inline void ReleaseChain()
+	{
+		if ( this == NULL ) return;
+
+		for ( G2Packet* pPacket = this ; pPacket ; )
+		{
+			G2Packet* pNext = pPacket->m_pNext;
+			pPacket->Release();
+			pPacket = pNext;
+		}
+	}
+
+	void Delete();
+
+
+
+	QString ToHex() const;
+	QString ToASCII() const;
+
+protected:
+	friend class G2PacketPool;
 };
+
+
+#define G2_FLAG_COMPOUND	0x04
+#define G2_FLAG_BIG_ENDIAN	0x02
 
 
 class G2PacketPool
 {
-protected:
-    QMutex             m_mLocker;
-    QList<G2Packet*>   m_lPacketsFree;
-    QSet<G2Packet*>    m_lPacketsUsed;
-
+// Construction
 public:
-    ~G2PacketPool();
-    G2Packet* New();
-    void Remove(G2Packet* pPacket);
+	G2PacketPool();
+	~G2PacketPool();
+
+// Attributes
+protected:
+	G2Packet*	m_pFree;
+	quint32		m_nFree;
+protected:
+	QMutex				m_pSection;
+	QList<G2Packet*>	m_pPools;
+
+// Operations
+protected:
+	void	Clear();
+	void	NewPool();
+
+// Inlines
+public:
+	inline G2Packet* New()
+	{
+		m_pSection.lock();
+
+		if ( m_nFree == 0 ) NewPool();
+		Q_ASSERT( m_nFree > 0 );
+
+		G2Packet* pPacket = m_pFree;
+		m_pFree = m_pFree->m_pNext;
+		m_nFree --;
+
+		m_pSection.unlock();
+
+		pPacket->Reset();
+		pPacket->AddRef();
+
+		return pPacket;
+	}
+
+	inline void Delete(G2Packet* pPacket)
+	{
+		Q_ASSERT( pPacket != NULL );
+		Q_ASSERT( pPacket->m_nReference == 0 );
+
+		m_pSection.lock();
+
+		pPacket->m_pNext = m_pFree;
+		m_pFree = pPacket;
+		m_nFree ++;
+
+		m_pSection.unlock();
+	}
+
 };
 
 extern G2PacketPool G2Packets;
+
 #endif // G2PACKET_H

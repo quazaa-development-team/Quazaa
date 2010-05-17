@@ -15,7 +15,7 @@ void CHandshake::acceptFrom(int handle)
     m_pSocket = new QTcpSocket();
     m_pSocket->setReadBufferSize(1024);
 
-    connect(m_pSocket, SIGNAL(readyRead()), this, SLOT(OnRead()));
+	connect(m_pSocket, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
     connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(deleteLater()));
 
     m_pSocket->setSocketDescriptor(handle);

@@ -5,6 +5,8 @@
 #include <QObject>
 #include <QTime>
 #include <QSet>
+#include <QTimer>
+
 
 class CNetworkConnection;
 
@@ -20,7 +22,8 @@ protected:
     quint32 m_nDownload;
     quint32 m_nDownloadAvg;
     QTime   m_tStopWatch;
-    bool    m_bTransferSheduled;
+	bool    m_bTransferSheduled;
+	QTimer	m_tTransferTimer;
 
     QSet<CNetworkConnection*>   m_lSockets;
 public:
