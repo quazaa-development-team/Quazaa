@@ -11,7 +11,7 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
 
     m_pInput = 0;
     m_pOutput = 0;
-    m_nInputSize = 256 * 1024;
+	m_nInputSize = 8 * 1024;
 
     m_bInitiated = false;
     m_bConnected = false;
@@ -23,7 +23,7 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
     memset(&m_nInput, 0, sizeof(m_nInput));
     memset(&m_nOutput, 0, sizeof(m_nOutput));
 
-    connect(this, SIGNAL(readyRead()), this, SIGNAL(readyToTransfer()));
+	connect(this, SIGNAL(readyRead()), this, SIGNAL(readyToTransfer()), Qt::QueuedConnection);
     connect(this, SIGNAL(connected()), this, SIGNAL(readyToTransfer()));
 }
 CNetworkConnection::~CNetworkConnection()
@@ -92,8 +92,8 @@ void CNetworkConnection::initializeSocket()
     m_pSocket->setReadBufferSize(m_nInputSize);
     connect(m_pSocket, SIGNAL(connected()),
             this, SIGNAL(connected()));
-    connect(m_pSocket, SIGNAL(readyRead()),
-            this, SIGNAL(readyRead()));
+	connect(m_pSocket, SIGNAL(readyRead()),
+			this, SIGNAL(readyRead()));
     connect(m_pSocket, SIGNAL(disconnected()),
             this, SIGNAL(disconnected()));
     connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),

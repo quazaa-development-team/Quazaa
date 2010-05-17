@@ -161,6 +161,8 @@ void CRouteTable::ExpireOldRoutes(bool bForce)
 
             if( itOldest != m_lRoutes.end() )
                 m_lRoutes.erase(itOldest);
+			else
+				break;
         }
     }
 }

@@ -83,7 +83,7 @@ void CSearchManager::OnTimer()
 
 bool CSearchManager::OnQueryAcknowledge(G2Packet *pPacket, IPv4_ENDPOINT &addr, QUuid &oGUID)
 {
-    if( !pPacket->HasChildren() )
+	if( !pPacket->m_bCompound )
         return false;
 
     quint32 nFromIp = addr.ip;
@@ -94,48 +94,53 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet *pPacket, IPv4_ENDPOINT &addr, 
 
     quint32 nHubs = 0, nLeaves = 0, nSuggestedHubs = 0;
 
-    while( G2Packet* pChild = pPacket->ReadNextChild() )
+	char szType[9];
+	quint32 nLength = 0, nNext = 0;
+
+	while( pPacket->ReadPacket(&szType[0], nLength) )
     {
-        if( pChild->IsType("D") && pChild->PayloadLength() >= 4 )
+		nNext = pPacket->m_nPosition + nLength;
+
+		if( strcmp("D", szType) == 0 && nLength >= 4 )
         {
-            quint32 nIp = pChild->ReadIntBE<quint32>();
+			quint32 nIp = pPacket->ReadIntBE<quint32>();
             lDone.append(nIp);
 
-            if( pChild->PayloadLength() >= 6 )
+			if( nLength >= 6 )
             {
-                quint16 nPort = pChild->ReadIntLE<quint16>();
+				quint16 nPort = pPacket->ReadIntLE<quint16>();
                 IPv4_ENDPOINT a(nIp, nPort);
                 HostCache.Add(a, tNow);
             }
 
-            if( pChild->PayloadLength() >= 8 )
+			if( nLength >= 8 )
             {
-                nLeaves += pChild->ReadIntLE<quint16>();
+				nLeaves += pPacket->ReadIntLE<quint16>();
             }
             nHubs++;
         }
-        else if( pChild->IsType("S") && pChild->PayloadLength() >= 6 )
+		else if( strcmp("S", szType) == 0 && nLength >= 6 )
         {
             IPv4_ENDPOINT a;
-            pChild->ReadHostAddress(&a);
-            quint32 tSeen = (pChild->PayloadLength() >= 10) ? pChild->ReadIntLE<quint32>() + tAdjust : tNow;
+			pPacket->ReadHostAddress(&a);
+			quint32 tSeen = (nLength >= 10) ? pPacket->ReadIntLE<quint32>() + tAdjust : tNow;
 
             HostCache.Add(a, tSeen);
             nSuggestedHubs++;
         }
-        else if( pChild->IsType("TS") && pChild->PayloadLength() >= 4 )
+		else if( strcmp("TS", szType) == 0 && nLength >= 4 )
         {
-            tAdjust = tNow - pChild->ReadIntLE<quint32>();
+			tAdjust = tNow - pPacket->ReadIntLE<quint32>();
         }
-        else if( pChild->IsType("RA") && pChild->PayloadLength() >= 2 )
+		else if( strcmp("RA", szType) == 0 && nLength >= 2 )
         {
-            if( pChild->PayloadLength() >= 4 )
+			if( nLength >= 4 )
             {
-                nRetryAfter = pChild->ReadIntLE<quint32>();
+				nRetryAfter = pPacket->ReadIntLE<quint32>();
             }
-            else if( pChild->PayloadLength() >= 2 )
+			else if( nLength >= 2 )
             {
-                nRetryAfter = pChild->ReadIntLE<quint16>();
+				nRetryAfter = pPacket->ReadIntLE<quint16>();
             }
 
             CHostCacheHost* pHost = HostCache.Find(IPv4_ENDPOINT(nFromIp));
@@ -144,13 +149,15 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet *pPacket, IPv4_ENDPOINT &addr, 
                 pHost->m_tRetryAfter = tNow + nRetryAfter;
             }
         }
-        else if( pChild->IsType("FR") && pChild->PayloadLength() >= 4 )
+		else if( strcmp("FR", szType) == 0 && nLength >= 4 )
         {
-            nFromIp = pChild->ReadIntBE<quint32>();
+			nFromIp = pPacket->ReadIntBE<quint32>();
         }
+
+		pPacket->m_nPosition = nNext;
     }
 
-    if( pPacket->PayloadLength() < 16 )
+	if( pPacket->GetRemaining() < 16 )
         return false;
 
     oGUID = pPacket->ReadGUID();
@@ -178,7 +185,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet *pPacket, IPv4_ENDPOINT &addr, 
     }
 
 	// not our ack - tell caller to route it
-    return true;
+	return true;
 
 }
 

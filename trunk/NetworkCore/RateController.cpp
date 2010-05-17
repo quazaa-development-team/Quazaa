@@ -1,12 +1,12 @@
 #include "RateController.h"
 #include "NetworkConnection.h"
 
-#include <QTimer>
 #include <limits>
+#include <QAtomicInt>
 
 CRateController::CRateController(QObject* parent): QObject(parent)
 {
-    m_bTransferSheduled = false;
+	m_bTransferSheduled = false;
     m_nUploadLimit = std::numeric_limits<qint32>::max() / 2;
     //m_nUploadLimit = 0x7fffffff;
     m_nDownloadLimit = std::numeric_limits<qint32>::max() / 2;
@@ -16,12 +16,15 @@ CRateController::CRateController(QObject* parent): QObject(parent)
     m_nDownloadAvg = m_nUploadAvg = 0;
 
     m_tMeterTimer.start();
+
+	m_tTransferTimer.setInterval(100);
+	connect(&m_tTransferTimer, SIGNAL(timeout()), this, SLOT(transfer()), Qt::QueuedConnection);
 }
 
 void CRateController::AddSocket(CNetworkConnection* pSock)
 {
     //qDebug() << "CRC /" << objectName() << "/ AddSocket " << pSock;
-    connect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
+	connect(pSock, SIGNAL(readyToTransfer()), this, SLOT(transfer()));
     pSock->setReadBufferSize(8192);
     m_lSockets.insert(pSock);
     sheduleTransfer();
@@ -29,21 +32,34 @@ void CRateController::AddSocket(CNetworkConnection* pSock)
 void CRateController::RemoveSocket(CNetworkConnection* pSock)
 {
     //qDebug() << "CRC /" << objectName() << "/ RemoveSocket " << pSock;
-    disconnect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
+	disconnect(pSock, SIGNAL(readyToTransfer()), this, SLOT(transfer()));
     pSock->setReadBufferSize(0);
     m_lSockets.remove(pSock);
 }
 void CRateController::sheduleTransfer()
 {
-    if( m_bTransferSheduled )
+	if( m_bTransferSheduled )
         return;
 
     m_bTransferSheduled = true;
-	QTimer::singleShot(50, this, SLOT(transfer()));
+	//QTimer::singleShot(100, this, SLOT(transfer()));
+	m_tTransferTimer.start();
 }
 void CRateController::transfer()
 {
-    m_bTransferSheduled = false;
+	static QAtomicInt nRecursionDepth = 0;
+	nRecursionDepth.ref();
+	if( nRecursionDepth > 1 )
+	{
+		qWarning() << "WARNING! Recursion depth " << nRecursionDepth;
+		if( nRecursionDepth > 4 )
+		{
+			Q_ASSERT(0);
+		}
+	}
+
+	m_bTransferSheduled = false;
+	m_tTransferTimer.stop();
 
     int nMsecs = 1000;
     if( !m_tStopWatch.isNull() )
@@ -55,6 +71,7 @@ void CRateController::transfer()
     if( nToRead == 0 && nToWrite == 0 )
     {
         sheduleTransfer();
+		nRecursionDepth.deref();
         return;
     }
 
@@ -66,7 +83,10 @@ void CRateController::transfer()
     }
 
     if( lSockets.isEmpty() )
+	{
+		nRecursionDepth.deref();
         return;
+	}
 
     m_tStopWatch.start();
 
@@ -96,9 +116,10 @@ void CRateController::transfer()
                 }
             }
 
-            if( m_nUploadLimit * 2 > pConn->bytesToWrite() )
+			if( m_nUploadLimit * 2 > pConn->m_pSocket->bytesToWrite() )
             {
-                qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->bytesToWrite());
+				//qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->bytesToWrite());
+				qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->m_pSocket->bytesToWrite());
 
                 if( nChunkSize > 0 )
                 {
@@ -122,13 +143,15 @@ void CRateController::transfer()
             }
         }
     }
-	while ( bCanTransferMore && m_tStopWatch.elapsed() < 50 && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty());
+	while ( bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty() && m_tStopWatch.elapsed() < 50 );
 
     if( m_tMeterTimer.elapsed() > 1000 )
         UpdateStats();
 
-    if( bCanTransferMore )
+	if( bCanTransferMore || !lSockets.isEmpty() )
         sheduleTransfer();
+
+	nRecursionDepth.deref();
 }
 
 void CRateController::UpdateStats()

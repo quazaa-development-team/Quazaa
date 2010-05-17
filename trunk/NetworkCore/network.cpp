@@ -100,7 +100,7 @@ void CNetwork::SetupThread()
     Q_ASSERT(m_pSecondTimer == 0 && m_pRateController == 0);
 
     m_pSecondTimer = new QTimer();
-    connect(m_pSecondTimer, SIGNAL(timeout()), this, SLOT(OnSecondTimer()));
+	connect(m_pSecondTimer, SIGNAL(timeout()), this, SLOT(OnSecondTimer()));
     m_pSecondTimer->start(1000);
 
     // Powiedzmy ze mamy lacze 2Mbit/s / 128kbit/s
@@ -110,11 +110,11 @@ void CNetwork::SetupThread()
     // Dla polaczen TCP w sieci 1/4 dostepnego pasma
     m_pRateController = new CRateController();
     m_pRateController->setObjectName("CNetwork rate controller");
-    m_pRateController->SetDownloadLimit(nDownloadCapacity / 4);
-    m_pRateController->SetUploadLimit(nUploadCapacity / 4);
+	m_pRateController->SetDownloadLimit(nDownloadCapacity); // /4
+	m_pRateController->SetUploadLimit(nUploadCapacity);	// /4
 
-    Datagrams.Listen();
-    Handshakes.Listen();
+	Datagrams.Listen();
+	Handshakes.Listen();
 }
 void CNetwork::CleanupThread()
 {
@@ -157,22 +157,17 @@ void CNetwork::RemoveNode(CG2Node* pNode)
 void CNetwork::OnSecondTimer()
 {
 
-    if( !m_pSection.tryLock(250) )
+	if( !m_pSection.tryLock(250) )
     {
         qWarning() << "WARNING: Network core overloaded!";
         return;
-    }
+	}
 
     if( !m_bActive )
     {
-        m_pSection.unlock();
+		m_pSection.unlock();
         return;
     }
-
-	// this was a test
-	/*G2Packet* pTest = G2Packet::New("TEST");
-	Datagrams.SendPacket(a, pTest, true);*/
-
 
     if( HostCache.isEmpty() && !WebCache.isRequesting() )
     {
@@ -188,7 +183,8 @@ void CNetwork::OnSecondTimer()
         m_tCleanRoutesNext = 60;
     }
 
-    Datagrams.FlushSendCache();
+	//Datagrams.FlushSendCache();
+	emit Datagrams.SendQueueUpdated();
     Handshakes.OnTimer();
 
     Maintain();
@@ -222,7 +218,7 @@ void CNetwork::OnSecondTimer()
         m_nKHLWait--;
 
 
-    m_pSection.unlock();
+	m_pSection.unlock();
 }
 
 void CNetwork::DisconnectAllNodes()
@@ -390,20 +386,18 @@ void CNetwork::Maintain()
 
 void CNetwork::DispatchKHL()
 {
-    if( m_lNodes.isEmpty() )
+	if( m_lNodes.isEmpty() )
         return;
 
     G2Packet* pKHL = G2Packet::New("KHL");
-    G2Packet* pTmp = pKHL->WriteChild("TS");
     quint32 ts = time(0);
-	pTmp->WriteIntLE(ts);
+	pKHL->WritePacket("TS", 4)->WriteIntLE(ts);
 
     foreach(CG2Node* pNode, m_lNodes)
     {
         if( pNode->m_nType == G2_HUB && pNode->m_nState == nsConnected )
         {
-            pTmp = pKHL->WriteChild("NH");
-			pTmp->WriteHostAddress(&pNode->m_oAddress);
+			pKHL->WritePacket("NH", 6)->WriteHostAddress(&pNode->m_oAddress);
         }
     }
 
@@ -411,7 +405,7 @@ void CNetwork::DispatchKHL()
 
 	for( ; nCount < quazaaSettings.Gnutella2.KHLHubCount && HostCache.size() > nCount; nCount++ )
 	{
-		pKHL->WriteChild("CH")->WriteHostAddress(&HostCache.m_lHosts.at(nCount)->m_oAddress);
+		pKHL->WritePacket("CH", 6)->WriteHostAddress(&HostCache.m_lHosts.at(nCount)->m_oAddress);
 	}
 
 
@@ -422,7 +416,7 @@ void CNetwork::DispatchKHL()
 			pNode->SendPacket(pKHL, true, false);
         }
     }
-    pKHL->Release();
+	pKHL->Release();
 }
 
 void CNetwork::OnNodeStateChange()
@@ -434,6 +428,8 @@ void CNetwork::OnNodeStateChange()
 
 void CNetwork::OnAccept(QTcpSocket* pConn)
 {
+	QMutexLocker l(&m_pSection);
+
     CG2Node* pNew = new CG2Node();
     pNew->moveToThread(&NetworkThread);
     pNew->AttachTo(pConn);
@@ -530,7 +526,7 @@ bool CNetwork::RoutePacket(QUuid &pTargetGUID, G2Packet *pPacket)
 }
 bool CNetwork::RoutePacket(G2Packet *pPacket, CG2Node *pNbr)
 {
-    QUuid pGUID;
+	/*QUuid pGUID;
 
     if( pPacket->IsAddressed(pGUID) ) // no i adres != moj adres
     {
@@ -574,7 +570,7 @@ bool CNetwork::RoutePacket(G2Packet *pPacket, CG2Node *pNbr)
             // drop
         }
         return true;
-    }
+	}*/
     return false;
 }
 

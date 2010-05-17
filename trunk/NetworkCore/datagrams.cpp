@@ -8,6 +8,7 @@
 #include "SearchManager.h"
 #include "QueryHit.h"
 
+#include "quazaaglobals.h"
 #include "quazaasettings.h"
 
 #include "Thread.h"
@@ -82,7 +83,7 @@ void CDatagrams::SetupThread()
 
         connect(this, SIGNAL(SendQueueUpdated()), this, SLOT(FlushSendCache()), Qt::QueuedConnection);
         connect(m_tSender, SIGNAL(timeout()), this, SLOT(FlushSendCache()), Qt::QueuedConnection);
-        connect(m_pSocket, SIGNAL(readyRead()), this, SLOT(OnDatagram()));
+		connect(m_pSocket, SIGNAL(readyRead()), this, SLOT(OnDatagram()), Qt::QueuedConnection);
 
         m_tSender->setInterval(200);
 
@@ -262,21 +263,23 @@ void CDatagrams::OnReceiveGND()
     if( pDG->Add(pHeader->nPart, m_pRecvBuffer->constData() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)) )
     {
 
+		G2Packet* pPacket = 0;
         try
         {
-            IPv4_ENDPOINT addr(m_pHostAddress->toIPv4Address(), m_nPort);
-            G2Packet* pPacket = pDG->ToG2Packet();
+			IPv4_ENDPOINT addr(m_pHostAddress->toIPv4Address(), m_nPort);
+			pPacket = pDG->ToG2Packet();
             if( pPacket )
             {
                 OnPacket(addr, pPacket);
-                pPacket->Release();
-            }
+			}
 
         }
         catch(...)
         {
 
         }
+		if( pPacket )
+			pPacket->Release();
 
         Remove(pDG, true);
     }
@@ -397,6 +400,8 @@ void CDatagrams::Remove(DatagramOut *pDG)
 
 void CDatagrams::FlushSendCache()
 {
+	QMutexLocker l(&Network.m_pSection);
+
     quint32 tNow = time(0);
 
     qint32 nMsecs = 1000;
@@ -506,7 +511,8 @@ void CDatagrams::SendPacket(IPv4_ENDPOINT &oAddr, G2Packet *pPacket, bool bAck, 
 
 void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet *pPacket)
 {
-    try
+	QMutexLocker l(&Network.m_pSection);
+	try
     {
         if(pPacket->IsType("PI"))
             OnPing(addr, pPacket);
@@ -516,22 +522,10 @@ void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet *pPacket)
             OnCRAWLR(addr, pPacket);
         else if(pPacket->IsType("QKA"))
             OnQKA(addr, pPacket);
-        else if(pPacket->IsType("QA"))
+		else if(pPacket->IsType("QA"))
             OnQA(addr, pPacket);
         else if(pPacket->IsType("QH2"))
-            OnQH2(addr, pPacket);
-
-		// this was a test...
-		/*else if(pPacket->IsType("TEST") )
-		{
-			qDebug() << ">>>>>>>>>>> GOT TEST!";
-			G2Packet* pReply = G2Packet::New("REPLY");
-			SendPacket(addr, pReply);
-		}
-		else if(pPacket->IsType("REPLY"))
-		{
-			qDebug() << ">>>>>>>>>>>GOT REPLY";
-		}*/
+			OnQH2(addr, pPacket);
         else
 		{
 			//qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
@@ -540,66 +534,127 @@ void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet *pPacket)
     catch(...)
     {
         qDebug() << "malformed packet";
-    }
+	}
 }
 
 void CDatagrams::OnPing(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 {
-    G2Packet* pNew = G2Packet::New("PO");
+	G2Packet* pNew = G2Packet::New("PO", false);
     SendPacket(addr, pNew, false);
     pNew->Release();
 
 }
 void CDatagrams::OnPong(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 {
-    if( pPacket->HasChildren() )
+	if( pPacket->m_bCompound )
     {
-        while( G2Packet* pChild = pPacket->ReadNextChild() )
-        {
-            if( pChild->IsType("RELAY") )
-            {
-                if( !Network.IsConnectedTo(addr) )
-                {
-                    m_bFirewalled = false;
-                }
-                return;
-            }
-        }
+		char szType[9];
+		quint32 nLength = 0, nNext = 0;
+
+		while( pPacket->ReadPacket(&szType[0], nLength) )
+		{
+			nNext = pPacket->m_nPosition + nLength;
+
+			if( strcmp("RELAY", szType) == 0 )
+			{
+				if( !Network.IsConnectedTo(addr) )
+				{
+					m_bFirewalled = false;
+				}
+			}
+
+			pPacket->m_nPosition = nNext;
+		}
     }
 }
 void CDatagrams::OnCRAWLR(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 {
-    G2Packet* pCA = G2Packet::New("CRAWLA");
-    G2Packet* pTmp = pCA->WriteChild("SELF");
+	bool bRLeaf = false;
+	bool bRNick = false;
+	bool bRGPS = false;
+	bool bRExt = false;
+
+	if( !pPacket->m_bCompound )
+		return;
+
+	char szType[9];
+	quint32 nLength = 0, nNext = 0;
+
+	while( pPacket->ReadPacket(&szType[0], nLength) )
+	{
+		nNext = pPacket->m_nPosition + nLength;
+
+		if( strcmp("RLEAF", szType) == 0 )
+			bRLeaf = true;
+		else if( strcmp("RNAME", szType) == 0 )
+			bRNick = true;
+		else if( strcmp("RGPS", szType) == 0 )
+			bRGPS = true;
+		else if( strcmp("REXT", szType) == 0 )
+			bRExt = true;
+
+		pPacket->m_nPosition = nNext;
+	}
+
+
+	G2Packet* pCA = G2Packet::New("CRAWLA", true);
+
+	G2Packet* pTmp = G2Packet::New("SELF", true);
     if( Network.isHub() )
-        pTmp->WriteChild("HUB");
+		pTmp->WritePacket("HUB", 0);
     else
-        pTmp->WriteChild("LEAF");
-	pTmp->WriteChild("NA")->WriteHostAddress(&Network.m_oAddress);
-    pTmp->WriteChild("CV")->WriteString(QString("G2Core/0.1"));
-    pTmp->WriteChild("V")->WriteBytes("CORE", 4);
+		pTmp->WritePacket("LEAF", 0);
+	pTmp->WritePacket("NA", 6)->WriteHostAddress(&Network.m_oAddress);
+	pTmp->WritePacket("CV", quazaaGlobals.UserAgentString().toUtf8().size())->WriteString(quazaaGlobals.UserAgentString(), false);
+	pTmp->WritePacket("V", 4)->WriteString(quazaaGlobals.VendorCode(), false);;
+	if( !quazaaSettings.Profile.GnutellaScreenName.isEmpty() )
+		pTmp->WritePacket("NAME", quazaaSettings.Profile.GnutellaScreenName.left(255).toUtf8().size())->WriteString(quazaaSettings.Profile.GnutellaScreenName.left(255));
+
+	pCA->WritePacket(pTmp);
+
+	/*foreach( CG2Node* pNode, Network.m_lNodes )
+	{
+		if( pNode->m_nState == nsConnected )
+		{
+			if( pNode->m_nType == G2_HUB )
+			{
+				pCA->WriteChild("NH")->WriteChild("NA")->WriteHostAddress(&pNode->m_oAddress);
+			}
+			else if( pNode->m_nType == G2_LEAF )
+			{
+				pCA->WriteChild("NL")->WriteChild("NA")->WriteHostAddress(&pNode->m_oAddress);
+			}
+		}
+	}*/
+
     SendPacket(addr, pCA, true);
 
-    pCA->Release();
+	pCA->Release();
 }
 void CDatagrams::OnQKA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 {
-    if( !pPacket->HasChildren() )
+	if( !pPacket->m_bCompound )
         return;
 
     quint32 nKey = 0;
 	quint32 nKeyHost = 0;
 
-    while( G2Packet* pChild = pPacket->ReadNextChild() )
+	char szType[9];
+	quint32 nLength = 0, nNext = 0;
+
+	while( pPacket->ReadPacket(&szType[0], nLength) )
     {
-        if( pChild->IsType("QK") && pChild->PayloadLength() >= 4 )
+		nNext = pPacket->m_nPosition + nLength;
+
+		if( strcmp("QK", szType) == 0 && nLength >= 4 )
         {
-            pChild->ReadIntLE(&nKey);
+			pPacket->ReadIntLE(&nKey);
         }
-        else if( pChild->IsType("SNA") && pChild->PayloadLength() >= 4 )
+		else if( strcmp("SNA", szType) == 0 && nLength >= 4 )
         {
-            pChild->ReadIntBE(&nKeyHost);
+			pPacket->ReadIntBE(&nKeyHost);
         }
+		pPacket->m_nPosition = nNext;
     }
 
     CHostCacheHost* pCache = HostCache.Add(addr, 0);
@@ -614,7 +669,19 @@ void CDatagrams::OnQKA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 		if( CG2Node* pNode = Network.FindNode(nKeyHost) )
 		{
 			qDebug() << "Forwarding Query Key to " << pNode->m_oAddress.toString().toAscii().constData();
-			pPacket->WriteChild("QNA")->WriteHostAddress(&addr);
+
+			char* pOut = pPacket->WriteGetPointer(11, 0);
+			*pOut++ = 0x50;
+			*pOut++ = 6;
+			*pOut++ = 'Q';
+			*pOut++ = 'N';
+			*pOut++ = 'A';
+
+			char assm[6];
+			*(quint32*)&assm[0] = qToBigEndian(addr.ip);
+			*(quint16*)&assm[4] = qToLittleEndian(addr.port);
+			memcpy(pOut, &assm[0], 6);
+
 			pPacket->AddRef();
 			pNode->SendPacket(pPacket, true, true);
 		}
@@ -636,12 +703,13 @@ void CDatagrams::OnQA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 	if( SearchManager.OnQueryAcknowledge(pPacket, addr, oGuid) && Network.isHub() )
     {
 		// Add from address
-		pPacket->WriteChild("FR")->WriteHostAddress(&addr);
+		// pPacket->WriteChild("FR")->WriteHostAddress(&addr);
 
 		Network.RoutePacket(oGuid, pPacket);
     }
 
 }
+
 void CDatagrams::OnQH2(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 {
 	QueryHitSharedPtr pHit( CQueryHit::ReadPacket(pPacket, &addr) );
@@ -670,3 +738,4 @@ void CDatagrams::OnQH2(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 		Network.RoutePacket(pHit->m_pHitInfo->m_oGUID, pPacket);
 	}
 }
+

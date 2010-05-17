@@ -21,10 +21,6 @@ bool CHandshakes::Listen()
     if( isListening() )
         return true;
 
-    //qDebug() << "Moving Handshakes to Network thread " << QThread::currentThreadId();
-    //moveToThread(Network.thread());
-    //qDebug() << "New thread id" << QThread::currentThreadId();
-
     m_nAccepted = 0;
     return QTcpServer::listen(QHostAddress::Any, Network.GetLocalAddress().port);
 }

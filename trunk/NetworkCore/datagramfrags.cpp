@@ -80,7 +80,7 @@ G2Packet* DatagramIn::ToG2Packet()
     if( m_bCompressed && !ZLibUtils::Uncompress(*m_pBuffer[0]) )
         throw packet_error();
 
-    return G2Packet::FromBuffer(m_pBuffer[0]);
+	return G2Packet::ReadBuffer(m_pBuffer[0]);
 }
 
 

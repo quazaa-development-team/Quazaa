@@ -43,7 +43,7 @@ void CQuery::AddURN(const char *pURN, quint32 nLength)
 
 G2Packet* CQuery::ToG2Packet(IPv4_ENDPOINT *pAddr, quint32 nKey)
 {
-    G2Packet* pPacket = G2Packet::New("Q2");
+	G2Packet* pPacket = G2Packet::New("Q2", true);
 
     bool bWantURL = true;
     bool bWantDN = (!m_sDescriptiveName.isEmpty());
@@ -52,23 +52,23 @@ G2Packet* CQuery::ToG2Packet(IPv4_ENDPOINT *pAddr, quint32 nKey)
 
     if( pAddr )
     {
-        G2Packet* pUDP = pPacket->WriteChild("UDP");
+		G2Packet* pUDP = pPacket->WritePacket("UDP", 10);
         pUDP->WriteHostAddress(pAddr);
         pUDP->WriteIntLE(nKey);
     }
 
     if( bWantDN )
     {
-        pPacket->WriteChild("DN")->WriteString(m_sDescriptiveName, false);
+		pPacket->WritePacket("DN", m_sDescriptiveName.toUtf8().size())->WriteString(m_sDescriptiveName, false);
     }
     if( bWantMD )
     {
-        pPacket->WriteChild("MD")->WriteString(m_sMetadata, false);
+		pPacket->WritePacket("MD", m_sMetadata.toUtf8().size())->WriteString(m_sMetadata, false);
     }
 
     for( int i = 0; i < m_lURNs.size(); i++ )
     {
-        pPacket->WriteChild("URN")->WriteString(m_lURNs[i], false);
+		pPacket->WritePacket("URN", m_lURNs[i].size())->WriteString(m_lURNs[i], false);
     }
 
     /*if( m_nMinimumSize > 0 && m_nMaximumSize < 0xFFFFFFFFFFFFFFFF )
@@ -103,7 +103,8 @@ G2Packet* CQuery::ToG2Packet(IPv4_ENDPOINT *pAddr, quint32 nKey)
             pInt->WriteString("PFS", true);
     }*/
 
-    pPacket->WriteGUID(m_oGUID);
+	pPacket->WriteByte(0);
+	pPacket->WriteGUID(m_oGUID);
 
-    return pPacket;
+	return pPacket;
 }

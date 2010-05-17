@@ -132,6 +132,8 @@ public slots:
 
 signals:
     void SendQueueUpdated();
+
+	friend class CNetwork;
 };
 
 #pragma pack(push, 1)

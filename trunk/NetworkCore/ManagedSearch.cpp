@@ -110,17 +110,18 @@ void CManagedSearch::SearchNeighbours(quint32 tNow)
 
 void CManagedSearch::SearchG2(quint32 tNow, quint32 *pnMaxPackets)
 {
-    CG2Node* pLastNeighbour = 0;
+	qDebug() << "SEARCHING G2" << *pnMaxPackets;
+	CG2Node* pLastNeighbour = 0;
 
     for( quint32 i = 0; i < HostCache.size(); i++ )
     {
         CHostCacheHost* pHost = HostCache.m_lHosts[i];
 
-        if( Network.IsConnectedTo(pHost->m_oAddress) )
+		/*if( Network.IsConnectedTo(pHost->m_oAddress) )
             continue;
 
         if( !pHost->CanQuery(tNow) )
-            continue;
+			continue;*/
 
         IPv4_ENDPOINT* pReceiver = 0;
 
@@ -223,8 +224,8 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32 *pnMaxPackets)
 
 			if( pHub && pHub->m_bCachedKeys )
 			{
-				G2Packet* pQKR = G2Packet::New("QKR");
-				pQKR->WriteChild("QNA")->WriteHostAddress(&pHost->m_oAddress);
+				G2Packet* pQKR = G2Packet::New("QKR", true);
+				pQKR->WritePacket("QNA", 6)->WriteHostAddress(&pHost->m_oAddress);
 
 				qDebug("Requesting query key from %s through %s", pHost->m_oAddress.toString().toAscii().constData(), pHub->m_oAddress.toString().toAscii().constData() );
 				pHub->SendPacket(pQKR, true, true);
@@ -238,21 +239,23 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32 *pnMaxPackets)
 			}
 			else if( pReceiver != 0 )
             {
-                G2Packet* pQKR = G2Packet::New("QKR");
-
                 if( pReceiver == &Network.m_oAddress )
                 {
+					G2Packet* pQKR = G2Packet::New("QKR", false);
+					Datagrams.SendPacket(pHost->m_oAddress, pQKR, false);
+					pQKR->Release();
                     qDebug("Requesting query key from %s", pHost->m_oAddress.toString().toAscii().constData());
                 }
                 else
                 {
-                    pQKR->WriteChild("RNA")->WriteHostAddress(pReceiver);
+					G2Packet* pQKR = G2Packet::New("QKR", true);
+					pQKR->WritePacket("RNA", 6)->WriteHostAddress(pReceiver);
+					Datagrams.SendPacket(pHost->m_oAddress, pQKR, false);
+					pQKR->Release();
                     qDebug("Requesting query key from %s for %s", pHost->m_oAddress.toString().toAscii().constData(), pReceiver->toString().toAscii().constData());
                 }
 
-                Datagrams.SendPacket(pHost->m_oAddress, pQKR, false);
                 *pnMaxPackets -= 1;
-                pQKR->Release();
 
                 if( pHost->m_tAck == 0 )
                     pHost->m_tAck = tNow;
@@ -263,7 +266,7 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32 *pnMaxPackets)
 
         if( *pnMaxPackets == 0 )
             break;
-    }
+	}
 }
 
 void CManagedSearch::OnHostAcknowledge(quint32 nHost, quint32 tNow)
