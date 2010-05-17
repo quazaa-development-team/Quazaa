@@ -11,7 +11,7 @@ QT += network \
     phonon
 TARGET = Quazaa
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
-INCLUDEPATH += vlcmediaplayer \
+INCLUDEPATH += vlc \
     NetworkCore \
     UI \
     temp \
