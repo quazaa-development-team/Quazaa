@@ -131,9 +131,10 @@ void CG2Node::OnConnect()
 void CG2Node::OnDisconnect()
 {
     //qDebug("OnDisconnect()");
-	systemLog.postLog("Remote host closed connection " + m_oAddress.toString(), LogSeverity::Notice);
+	systemLog.postLog(tr("Remote host closed connection: ") + m_oAddress.toString(), LogSeverity::Notice);
     deleteLater();
 }
+
 void CG2Node::OnRead()
 {
 	if( !Network.m_pSection.tryLock(50) )
@@ -196,7 +197,7 @@ void CG2Node::OnError(QAbstractSocket::SocketError e)
         HostCache.OnFailure(m_oAddress);
     }
 
-	systemLog.postLog("Remote host closed connection " + m_oAddress.toString() + " error " + m_pSocket->errorString(), LogSeverity::Notice);
+	systemLog.postLog(tr("Remote host closed connection: ") + m_oAddress.toString() + tr(". Error: ") + m_pSocket->errorString(), LogSeverity::Notice);
     //qDebug() << "OnError(" << e << ")" << m_oAddress.toString();
     deleteLater();
 }
