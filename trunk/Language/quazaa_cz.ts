@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="cs_CZ" sourcelanguage="en_US">
+<TS version="2.0" language="cs_CZ" sourcelanguage="en_GB">
 <context>
     <name>DialogAbout</name>
     <message>
@@ -140,22 +140,23 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogadddownload.ui" line="26"/>
         <source>Download File</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnout soubor
+</translation>
     </message>
     <message>
         <location filename="../UI/dialogadddownload.ui" line="112"/>
         <source>Downloading any file with Quazaa is easy.  Simply type or paste the URL or URI of the file into the box below and press enter. Quazaa can download files from the web (HTTP), automatically search and download P2P links (Magnet, Gnutella, Ares, BitTorrent, Piolet, eDonkey 2k, mP2P) and automatically open BitTorrent files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnutí jakéhokoliv souboru s programem Quazaa je jednoduché. Stačí jen napsat nebo vložit URL nebo URI adresu, nebo soubor do tohoto okna a zmáčknout enter. Quazaa stahuje soubory z webu (HTTP), automatickým vyhledáváním a stahováním P2P linek (Magnet, Gnutella, Ares, BitTorrent, Piolet, eDonkey 2k, mP2P) a automaticky otvírá soubory BitTorrent.</translation>
     </message>
     <message>
         <location filename="../UI/dialogadddownload.ui" line="146"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogadddownload.ui" line="153"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnout</translation>
     </message>
 </context>
 <context>
@@ -163,187 +164,187 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogaddrule.ui" line="14"/>
         <source>Security Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezpečnostní předpisy</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="96"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="103"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="140"/>
         <source>Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Předpis</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="146"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="154"/>
         <location filename="../UI/dialogaddrule.ui" line="322"/>
         <source>IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>IP Adresa</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="159"/>
         <location filename="../UI/dialogaddrule.ui" line="429"/>
         <source>IP Address Range</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozsah IP Adresy</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="164"/>
         <location filename="../UI/dialogaddrule.ui" line="578"/>
         <source>Content Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsah filtru</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="169"/>
         <location filename="../UI/dialogaddrule.ui" line="634"/>
         <source>File Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr souboru</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="177"/>
         <source>Comment:</source>
-        <translation type="unfinished"></translation>
+        <translation>#Komentář:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="190"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Možnosti</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="225"/>
         <source>Day(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Den (dny)</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="232"/>
         <source>Hour(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Hodina(y)</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="239"/>
         <source>Minute(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Minuta(y)</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="248"/>
         <source>Action:</source>
-        <translation type="unfinished"></translation>
+        <translation>Činnost:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="255"/>
         <source>Expire:</source>
-        <translation type="unfinished"></translation>
+        <translation>Konec:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="266"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Žádná</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="271"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>Přijmout</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="276"/>
         <source>Deny</source>
-        <translation type="unfinished"></translation>
+        <translation>Odmítnout</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="288"/>
         <source>Never (Indefinite)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nikdy (nekonečný)</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="293"/>
         <source>At End Of Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Na konci sekce</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="298"/>
         <source>After:</source>
-        <translation type="unfinished"></translation>
+        <translation>Potom:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="328"/>
         <source>IP Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP Adresa:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="335"/>
         <location filename="../UI/dialogaddrule.ui" line="516"/>
         <source>Netmask:</source>
-        <translation type="unfinished"></translation>
+        <translation>Podsíť:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="446"/>
         <source>Start IP Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Začít IP Adresa:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="481"/>
         <source>End IP Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkončit IP Adresa:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="595"/>
         <source>Match Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyber některé</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="602"/>
         <source>Match All</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyber všechny</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="609"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Regulární výraz</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="651"/>
         <source>Hash:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hash:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="664"/>
         <source>Hash Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ hashe:</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="682"/>
         <source>SHA1</source>
-        <translation type="unfinished"></translation>
+        <translation>SHA1</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="687"/>
         <source>Tiger-Root</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiger-Root</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="692"/>
         <source>ED2K</source>
-        <translation type="unfinished"></translation>
+        <translation>ED2K</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="697"/>
         <source>MD5</source>
-        <translation type="unfinished"></translation>
+        <translation>MD5</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddrule.ui" line="702"/>
         <source>BitTorrent</source>
-        <translation type="unfinished"></translation>
+        <translation>BitTorrent</translation>
     </message>
 </context>
 <context>
@@ -351,22 +352,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="26"/>
         <source>Add Security Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Přdání bezpečnostního podpisu</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="114"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="121"/>
         <source>Subscribe</source>
-        <translation type="unfinished"></translation>
+        <translation>Podepsat</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="132"/>
         <source>Add A Different Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidej jiný podpis</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="173"/>
@@ -399,53 +400,53 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="223"/>
         <source>Filter Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Podpis filtrů</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="228"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Jazyk</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="233"/>
         <source>Home Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Domů</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="238"/>
         <source>Cyko&apos;s All-In-One Antispam Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Cykův antispamový filtr All-In-One</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="248"/>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="275"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Anglicky</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="255"/>
         <source>http://quazaa.sourceforge.net/cyko/</source>
-        <translation type="unfinished"></translation>
+        <translation>http://quazaa.sourceforge.net/cyko/</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="259"/>
         <source>http://quazaa.sourceforge.net/cyko/All-In-OneAntiSpamFilter.xml</source>
-        <translation type="unfinished"></translation>
+        <translation>http://quazaa.sourceforge.net/cyko/All-In-OneAntiSpamFilter.xml</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="265"/>
         <source>Community File Filter List</source>
-        <translation type="unfinished"></translation>
+        <translation>Veřejný eznam filtrů souboru</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="282"/>
         <source>http://quazaa.sourceforge.net/blockedfiles/</source>
-        <translation type="unfinished"></translation>
+        <translation>http://quazaa.sourceforge.net/blockedfiles/</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="286"/>
         <source>http://quazaa.sourceforge.net/blockedfiles/CommunityFileFilter.xml</source>
-        <translation type="unfinished"></translation>
+        <translation>http://quazaa.sourceforge.net/blockedfiles/CommunityFileFilter.xml</translation>
     </message>
 </context>
 <context>
@@ -453,32 +454,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogclosetype.ui" line="29"/>
         <source>What Should The Close Button Do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Co by mělo udělat tlačítko &quot;Zavřít&quot;?</translation>
     </message>
     <message>
         <location filename="../UI/dialogclosetype.ui" line="114"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogclosetype.ui" line="157"/>
         <source>What action do you want to take when the close button is pressed?</source>
-        <translation type="unfinished"></translation>
+        <translation>Co chete, aby Qazaa udělala po zmáčknutí tlačítka &quot;Zavřít&quot;?</translation>
     </message>
     <message>
         <location filename="../UI/dialogclosetype.ui" line="165"/>
         <source>Close Immediately</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít ihnet</translation>
     </message>
     <message>
         <location filename="../UI/dialogclosetype.ui" line="174"/>
         <source>Minimize To Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimalizovat na spodní lištu</translation>
     </message>
     <message>
         <location filename="../UI/dialogclosetype.ui" line="183"/>
         <source>Close After Transfers</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít po přenosu</translation>
     </message>
 </context>
 <context>
@@ -486,79 +487,79 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="26"/>
         <source>Create Torrent</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit Torrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="49"/>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Detaily</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="63"/>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Tvůrce</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="70"/>
         <source>Quazaa 0.0.1.0 Alpha</source>
-        <translation type="unfinished"></translation>
+        <translation>Quazaa 0.0.1.0 Alpha</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="79"/>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Komentář</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="91"/>
         <source>Piece Size (KB/s</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="98"/>
         <source>Output File Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název výkonného souboru</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="111"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="120"/>
         <source>Private</source>
-        <translation type="unfinished"></translation>
+        <translation>Soukromí</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="128"/>
         <source>Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="140"/>
         <source>Select The Files And Directories The Torrent Will Contain</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyber soubory a adresáře, které bude Torrent obsahovat</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="149"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="156"/>
         <source>Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresář</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="176"/>
         <location filename="../UI/dialogcreatetorrent.ui" line="256"/>
         <location filename="../UI/dialogcreatetorrent.ui" line="374"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="189"/>
         <source>Trackers</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopy</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="203"/>
