@@ -9,24 +9,27 @@ CWebCache WebCache;
 
 CWebCache::CWebCache()
 {
-    m_lCaches.append(CWebCacheHost(QUrl("http://gwebcache.spearforensics.com/")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://grantgalitz.com/Beacon/gwc.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://gwc.lame.net/gwcii.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://gweb.4octets.co.uk/skulls.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://hub.dynoisp.com/skulls/skulls.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://leite4.uni.cc/gwc.php")));
-
-    m_lCaches.append(CWebCacheHost(QUrl("http://cache2.bazookanetworks.com/g2/bazooka.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://cache.trillinux.org/g2/bazooka.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://cache.wru.pl/skulls.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://dkac.trillinux.org/dkac/dkac.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://dogma.cloud.bishopston.net:33559/")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://gwc.acidjunkie.co.cc/skulls.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://gwc.dyndns.info:28960/gwc.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://gwc.guufshop.com/skulls/skulls.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://gwc2.wodi.org/skulls.php")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://karma.cloud.bishopston.net:33559/")));
-    m_lCaches.append(CWebCacheHost(QUrl("http://midian.jayl.de/g2/bazooka.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://gwc.marksieklucki.com/skulls.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://gweb2.4octets.co.uk/gwc.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://htmlhell.com/")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://dkac.trillinux.org/dkac/dkac.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://gwc.iblinx.com:2108/gwc/cgi-bin/fc")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://www.myfoxy.net/gwc/cgi-bin/fc")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://www.gofoxy.net/gwc/cgi-bin/fc")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://skulls.ce3c.be/skulls.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://gwc.lame.net/gwcii.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://dogma.cloud.bishopston.net:33559/")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://cache.leite.us/")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://gofoxy.net/gwc/cgi-bin/fc")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://gwebcache.ns1.net/")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://cache2.leite.us/")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://hub.dynoisp.com/skulls/skulls.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://cache2.bazookanetworks.com/g2/bazooka.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://midian.jayl.de/g2/bazooka.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://gwc2.wodi.org/skulls.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://cache.wru.pl/skulls.php")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://karma.cloud.bishopston.net:33559/")));
+	m_lCaches.append(CWebCacheHost(QUrl("http://gwc.camppneus.com.br/skulls.php")));
 
     m_pRequest = 0;
     m_pReply = 0;

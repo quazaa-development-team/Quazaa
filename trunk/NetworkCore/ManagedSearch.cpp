@@ -110,18 +110,17 @@ void CManagedSearch::SearchNeighbours(quint32 tNow)
 
 void CManagedSearch::SearchG2(quint32 tNow, quint32 *pnMaxPackets)
 {
-	qDebug() << "SEARCHING G2" << *pnMaxPackets;
 	CG2Node* pLastNeighbour = 0;
 
     for( quint32 i = 0; i < HostCache.size(); i++ )
     {
         CHostCacheHost* pHost = HostCache.m_lHosts[i];
 
-		/*if( Network.IsConnectedTo(pHost->m_oAddress) )
+		if( Network.IsConnectedTo(pHost->m_oAddress) )
             continue;
 
         if( !pHost->CanQuery(tNow) )
-			continue;*/
+			continue;
 
         IPv4_ENDPOINT* pReceiver = 0;
 
