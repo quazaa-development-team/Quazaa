@@ -29,7 +29,7 @@
    <string>Quick Start Wizard</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Wizard.png</normaloff>:/Resource/Generic/Wizard.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -85,7 +85,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -112,7 +112,7 @@ p, li { white-space: pre-wrap; }
    <item row="1" column="0">
     <widget class="QStackedWidget" name="pagesWizard">
      <property name="currentIndex">
-      <number>4</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="pageWelcome">
       <layout class="QGridLayout" name="gridLayout_2">
@@ -275,50 +275,7 @@ p, li { white-space: pre-wrap; }
           <enum>QFrame::Sunken</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
-          <property name="margin">
-           <number>4</number>
-          </property>
-          <property name="spacing">
-           <number>4</number>
-          </property>
-          <item row="1" column="0">
-           <widget class="QLabel" name="labelConnectionTestLink">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>40</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.dslreports.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to test your internet connection speed.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QCheckBox" name="checkBoxUPnP">
-            <property name="text">
-             <string>Automatically set up ports using Universal Plug and Play</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QProgressBar" name="progressBarUPnP">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>15</height>
-             </size>
-            </property>
-            <property name="value">
-             <number>0</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
+          <item row="0" column="0" colspan="2">
            <widget class="QLabel" name="labelConnectionHeader">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -337,29 +294,24 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QDoubleSpinBox" name="doubleSpinBoxUploadSpeed">
-            <property name="prefix">
-             <string>Choose your upload speed: </string>
+          <item row="1" column="0" colspan="2">
+           <widget class="QLabel" name="labelConnectionTestLink">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>40</height>
+             </size>
             </property>
-            <property name="suffix">
-             <string> kbps</string>
-            </property>
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="minimum">
-             <double>28.800000000000001</double>
-            </property>
-            <property name="maximum">
-             <double>155000.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>256.000000000000000</double>
+            <property name="text">
+             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.dslreports.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to test your internet connection speed.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item row="3" column="0" colspan="2">
            <widget class="QDoubleSpinBox" name="doubleSpinBoxDownloadSpeed">
             <property name="prefix">
              <string>Choose your download speed: </string>
@@ -381,7 +333,29 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
+          <item row="4" column="0" colspan="2">
+           <widget class="QDoubleSpinBox" name="doubleSpinBoxUploadSpeed">
+            <property name="prefix">
+             <string>Choose your upload speed: </string>
+            </property>
+            <property name="suffix">
+             <string> kbps</string>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="minimum">
+             <double>28.800000000000001</double>
+            </property>
+            <property name="maximum">
+             <double>155000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>256.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
            <spacer name="verticalSpacerConnection">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -393,6 +367,86 @@ p, li { white-space: pre-wrap; }
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="5" column="0" colspan="2">
+           <widget class="QGroupBox" name="groupBoxPort">
+            <property name="title">
+             <string>Port</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_86">
+             <property name="leftMargin">
+              <number>2</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayoutPort">
+               <item row="0" column="1">
+                <widget class="QCheckBox" name="checkBoxRandomPort">
+                 <property name="text">
+                  <string>Random</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QSpinBox" name="spinBoxQuazaaPort">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>Port: </string>
+                 </property>
+                 <property name="minimum">
+                  <number>1024</number>
+                 </property>
+                 <property name="maximum">
+                  <number>49151</number>
+                 </property>
+                 <property name="value">
+                  <number>6350</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="checkBoxUPnP">
+               <property name="text">
+                <string>Automatically set up ports using Universal Plug and Play</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QProgressBar" name="progressBarUPnP">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>15</height>
+                </size>
+               </property>
+               <property name="value">
+                <number>0</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+            <zorder></zorder>
+            <zorder>checkBoxUPnP</zorder>
+            <zorder>progressBarUPnP</zorder>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -1046,17 +1100,6 @@ p, li { white-space: pre-wrap; }
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QCheckBox" name="checkBoxG1Connect">
-              <property name="text">
-               <string>Connect to the Original Gnutella</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Icons/Resource/G1.png</normaloff>:/Icons/Resource/G1.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
              <widget class="QCheckBox" name="checkBoxAresConnect">
               <property name="text">
                <string>Connect to Ares</string>
@@ -1067,7 +1110,7 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
+            <item row="2" column="0">
              <widget class="QCheckBox" name="checkBoxED2kConnect">
               <property name="text">
                <string>Connect to eDonkey</string>
@@ -1078,7 +1121,7 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="4" column="0">
+            <item row="3" column="0">
              <widget class="QCheckBox" name="checkBoxKadConnect">
               <property name="text">
                <string>Use the Kad network with eDonkey</string>
@@ -1089,7 +1132,7 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
+            <item row="4" column="0">
              <widget class="QCheckBox" name="checkBoxBitTorrentLinks">
               <property name="text">
                <string>Use Quazaa for BitTorrent files and links.</string>
@@ -1100,7 +1143,7 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="6" column="0">
+            <item row="5" column="0">
              <widget class="QCheckBox" name="checkBoxBitTorrentKademliaConnect">
               <property name="text">
                <string>Use Kademlia with BitTorrent</string>
@@ -1391,7 +1434,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>
