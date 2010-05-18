@@ -93,6 +93,7 @@
     <value type="QString">GNOME_KEYRING_PID=1671</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">HOME=/home/joseph</value>
+    <value type="QString">INSIDE_NAUTILUS_PYTHON=</value>
     <value type="QString">LANG=en_US.utf8</value>
     <value type="QString">LD_LIBRARY_PATH=/home/joseph/qtsdk-2010.02/lib/qtcreator:</value>
     <value type="QString">LOGNAME=joseph</value>
@@ -100,6 +101,7 @@
     <value type="QString">ORBIT_SOCKETDIR=/tmp/orbit-joseph</value>
     <value type="QString">PATH=/home/joseph/qtsdk-2010.02/qt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/joseph</value>
+    <value type="QString">PYGTK_USE_GIL_STATE_API=</value>
     <value type="QString">QTDIR=/home/joseph/qtsdk-2010.02/qt</value>
     <value type="QString">SESSION_MANAGER=local/quazaa-linux:@/tmp/.ICE-unix/1689,unix/quazaa-linux:/tmp/.ICE-unix/1689</value>
     <value type="QString">SHELL=/bin/bash</value>
@@ -143,6 +145,7 @@
     <value type="QString">GNOME_KEYRING_PID=1671</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">HOME=/home/joseph</value>
+    <value type="QString">INSIDE_NAUTILUS_PYTHON=</value>
     <value type="QString">LANG=en_US.utf8</value>
     <value type="QString">LD_LIBRARY_PATH=/home/joseph/qtsdk-2010.02/lib/qtcreator:</value>
     <value type="QString">LOGNAME=joseph</value>
@@ -150,6 +153,7 @@
     <value type="QString">ORBIT_SOCKETDIR=/tmp/orbit-joseph</value>
     <value type="QString">PATH=/home/joseph/qtsdk-2010.02/qt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/joseph</value>
+    <value type="QString">PYGTK_USE_GIL_STATE_API=</value>
     <value type="QString">QTDIR=/home/joseph/qtsdk-2010.02/qt</value>
     <value type="QString">SESSION_MANAGER=local/quazaa-linux:@/tmp/.ICE-unix/1689,unix/quazaa-linux:/tmp/.ICE-unix/1689</value>
     <value type="QString">SHELL=/bin/bash</value>
@@ -190,6 +194,7 @@
     <value type="QString">GNOME_KEYRING_PID=1671</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">HOME=/home/joseph</value>
+    <value type="QString">INSIDE_NAUTILUS_PYTHON=</value>
     <value type="QString">LANG=en_US.utf8</value>
     <value type="QString">LD_LIBRARY_PATH=/home/joseph/qtsdk-2010.02/lib/qtcreator:</value>
     <value type="QString">LOGNAME=joseph</value>
@@ -197,6 +202,7 @@
     <value type="QString">ORBIT_SOCKETDIR=/tmp/orbit-joseph</value>
     <value type="QString">PATH=/home/joseph/qtsdk-2010.02/qt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/joseph</value>
+    <value type="QString">PYGTK_USE_GIL_STATE_API=</value>
     <value type="QString">QTDIR=/home/joseph/qtsdk-2010.02/qt</value>
     <value type="QString">SESSION_MANAGER=local/quazaa-linux:@/tmp/.ICE-unix/1689,unix/quazaa-linux:/tmp/.ICE-unix/1689</value>
     <value type="QString">SHELL=/bin/bash</value>
