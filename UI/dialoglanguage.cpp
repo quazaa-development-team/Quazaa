@@ -232,67 +232,64 @@ void DialogLanguage::on_pushButtonOK_clicked()
 		case 8: //Español
 			quazaaSettings.Language.File = ("quazaa_es");
 			break;
-		case 9: //Español Mexicano
-			quazaaSettings.Language.File = ("quazaa_es-mx");
-			break;
-		case 10: //Suomi
+		case 9: //Suomi
 			quazaaSettings.Language.File = ("quazaa_fi");
 			break;
-		case 11: //Français
+		case 10: //Français
 			quazaaSettings.Language.File = ("quazaa_fr");
 			break;
-		case 12: //Greek
+		case 11: //Greek
 			quazaaSettings.Language.File = ("quazaa_gr");
 			break;
-		case 13: //Hebrew
+		case 12: //Hebrew
 			quazaaSettings.Language.File = ("quazaa_heb");
 			break;
-		case 14: //Hrvatski
+		case 13: //Hrvatski
 			quazaaSettings.Language.File = ("quazaa_hr");
 			break;
-		case 15: //Magyar
+		case 14: //Magyar
 			quazaaSettings.Language.File = ("quazaa_hu");
 			break;
-		case 16: //Italian
+		case 15: //Italian
 			quazaaSettings.Language.File = ("quazaa_it");
 			break;
-		case 17: //Japanese
+		case 16: //Japanese
 			quazaaSettings.Language.File = ("quazaa_ja");
 			break;
-		case 18: //Lietuviu
+		case 17: //Lietuviu
 			quazaaSettings.Language.File = ("quazaa_lt");
 			break;
-		case 19: //Nederlands
+		case 18: //Nederlands
 			quazaaSettings.Language.File = ("quazaa_nl");
 			break;
-		case 20: //Norsk
+		case 19: //Norsk
 			quazaaSettings.Language.File = ("quazaa_no");
 			break;
-		case 21: //Polski
+		case 20: //Polski
 			quazaaSettings.Language.File = ("quazaa_pl");
 			break;
-		case 22: //Português Brasileiro
+		case 21: //Português Brasileiro
 			quazaaSettings.Language.File = ("quazaa_pt-br");
 			break;
-		case 23: //Russian
+		case 22: //Russian
 			quazaaSettings.Language.File = ("quazaa_ru");
 			break;
-		case 24: //Slovenšcina
+		case 23: //Slovenšcina
 			quazaaSettings.Language.File = ("quazaa_sl-si");
 			break;
-		case 25: //Shqip
+		case 24: //Shqip
 			quazaaSettings.Language.File = ("quazaa_sq");
 			break;
-		case 26: //Srpski
+		case 25: //Srpski
 			quazaaSettings.Language.File = ("quazaa_sr");
 			break;
-		case 27: //Svenska
+		case 26: //Svenska
 			quazaaSettings.Language.File = ("quazaa_sv");
 			break;
-		case 28: //Türkçe
+		case 27: //Türkçe
 			quazaaSettings.Language.File = ("quazaa_tr");
 			break;
-		case 29: //Thai
+		case 28: //Thai
 			quazaaSettings.Language.File = ("quazaa_tw");
 			break;
 		default: //English
