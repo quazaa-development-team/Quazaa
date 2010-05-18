@@ -50,6 +50,8 @@ public:
 	bool	ReadPacket(char* pszType, quint32& nLength, bool* pbCompound = 0);
 	bool	SkipCompound();
 	bool	SkipCompound(quint32& nLength, quint32 nRemaining = 0);
+	bool	GetTo(QUuid& pGUID);
+
 
 public:
 	static	G2Packet* ReadBuffer(QByteArray* pBuffer);
@@ -70,7 +72,7 @@ public:
 
 	inline void Read(void* pData, int nLength)
 	{
-		if ( m_nPosition + nLength > m_oBuffer.size() ) throw packet_read_past_end();
+		if ( m_nPosition + nLength > (quint32)m_oBuffer.size() ) throw packet_read_past_end();
 		memcpy(pData, m_oBuffer.constData() + m_nPosition, nLength);
 		m_nPosition += nLength;
 	}

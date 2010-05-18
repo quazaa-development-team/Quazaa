@@ -4,7 +4,7 @@
 CQuery::CQuery()
 {
     m_nMinimumSize = 0;
-    m_nMaximumSize = 0xFFFFFFFFFFFFFFFF;
+	m_nMaximumSize = Q_UINT64_C(0xffffffffffffffff);
     m_pCachedPacket = 0;
 }
 
@@ -45,10 +45,10 @@ G2Packet* CQuery::ToG2Packet(IPv4_ENDPOINT *pAddr, quint32 nKey)
 {
 	G2Packet* pPacket = G2Packet::New("Q2", true);
 
-    bool bWantURL = true;
+	//bool bWantURL = true;
     bool bWantDN = (!m_sDescriptiveName.isEmpty());
     bool bWantMD = !m_sMetadata.isEmpty();
-    bool bWantPFS = true;
+	//bool bWantPFS = true;
 
     if( pAddr )
     {

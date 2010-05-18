@@ -403,7 +403,7 @@ void CNetwork::DispatchKHL()
 
 	quint32 nCount = 0;
 
-	for( ; nCount < quazaaSettings.Gnutella2.KHLHubCount && HostCache.size() > nCount; nCount++ )
+	for( ; nCount < (quint32)quazaaSettings.Gnutella2.KHLHubCount && HostCache.size() > nCount; nCount++ )
 	{
 		pKHL->WritePacket("CH", 6)->WriteHostAddress(&HostCache.m_lHosts.at(nCount)->m_oAddress);
 	}
@@ -526,9 +526,9 @@ bool CNetwork::RoutePacket(QUuid &pTargetGUID, G2Packet *pPacket)
 }
 bool CNetwork::RoutePacket(G2Packet *pPacket, CG2Node *pNbr)
 {
-	/*QUuid pGUID;
+	QUuid pGUID;
 
-    if( pPacket->IsAddressed(pGUID) ) // no i adres != moj adres
+	if( pPacket->GetTo(pGUID) && pGUID != quazaaSettings.Profile.GUID ) // no i adres != moj adres
     {
         CG2Node* pNode = 0;
         IPv4_ENDPOINT pAddr;
@@ -570,7 +570,7 @@ bool CNetwork::RoutePacket(G2Packet *pPacket, CG2Node *pNbr)
             // drop
         }
         return true;
-	}*/
+	}
     return false;
 }
 
