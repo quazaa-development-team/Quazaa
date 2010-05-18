@@ -11,7 +11,7 @@ class SystemLog : public QObject
 {
     Q_OBJECT
 public:
-    SystemLog();
+	SystemLog();
 
 signals:
         void logPosted(QString message, LogSeverity::Severity severity);
