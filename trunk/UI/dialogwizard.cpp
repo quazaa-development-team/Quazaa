@@ -34,6 +34,8 @@ DialogWizard::DialogWizard(QWidget *parent) :
 	skinChangeEvent();
 	m_ui->doubleSpinBoxDownloadSpeed->setValue(quazaaSettings.Transfers.BandwidthDownloads);
 	m_ui->doubleSpinBoxUploadSpeed->setValue(quazaaSettings.Transfers.BandwidthUploads);
+	m_ui->spinBoxQuazaaPort->setValue(quazaaSettings.Connection.Port);
+	m_ui->checkBoxRandomPort->setChecked(quazaaSettings.Connection.RandomPort);
 	m_ui->checkBoxUPnP->setChecked(quazaaSettings.Security.EnableUPnP);
 	m_ui->checkBoxAllowBrowseShares->setChecked(quazaaSettings.Security.AllowSharesBrowse);
 	m_ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
@@ -159,6 +161,8 @@ void DialogWizard::on_pushButtonSystemFinish_clicked()
 {
 	quazaaSettings.Transfers.BandwidthDownloads = m_ui->doubleSpinBoxDownloadSpeed->value();
 	quazaaSettings.Transfers.BandwidthUploads = m_ui->doubleSpinBoxUploadSpeed->value();
+	quazaaSettings.Connection.Port = m_ui->spinBoxQuazaaPort->value();
+	quazaaSettings.Connection.RandomPort = m_ui->checkBoxRandomPort->isChecked();
 	quazaaSettings.Security.EnableUPnP = m_ui->checkBoxUPnP->isChecked();
 	quazaaSettings.Security.AllowSharesBrowse = m_ui->checkBoxAllowBrowseShares->isChecked();
 	quazaaSettings.Library.Shares.clear();
