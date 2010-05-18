@@ -134,8 +134,8 @@ DialogSettings::DialogSettings(QWidget *parent) :
 	m_ui->checkBoxOnlyDownloadConnectedNetworks->setChecked(quazaaSettings.Transfers.RequireConnectedNetwork);
 	m_ui->checkBoxSimpleProgress->setChecked(quazaaSettings.Transfers.SimpleProgressBar);
 	m_ui->comboBoxRates->setCurrentIndex(quazaaSettings.Transfers.RatesUnit);
-	m_ui->doubleSpinBoxDownloadSpeed->setValue(quazaaSettings.Transfers.BandwidthDownloads);
-	m_ui->doubleSpinBoxUploadSpeed->setValue(quazaaSettings.Transfers.BandwidthUploads);
+	m_ui->doubleSpinBoxDownloadSpeed->setValue((quazaaSettings.Transfers.BandwidthDownloads/1024)*8);
+	m_ui->doubleSpinBoxUploadSpeed->setValue((quazaaSettings.Transfers.BandwidthUploads/1024)*8);
 
 	// Load Download Settings
 	m_ui->checkBoxExpandDownloads->setChecked(quazaaSettings.Downloads.ExpandDownloads);
@@ -436,8 +436,8 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Transfers.RequireConnectedNetwork = m_ui->checkBoxOnlyDownloadConnectedNetworks->isChecked();
 	quazaaSettings.Transfers.SimpleProgressBar = m_ui->checkBoxSimpleProgress->isChecked();
 	quazaaSettings.Transfers.RatesUnit = m_ui->comboBoxRates->currentIndex();
-	quazaaSettings.Transfers.BandwidthDownloads = m_ui->doubleSpinBoxDownloadSpeed->value();
-	quazaaSettings.Transfers.BandwidthUploads = m_ui->doubleSpinBoxUploadSpeed->value();
+	quazaaSettings.Transfers.BandwidthDownloads = (m_ui->doubleSpinBoxDownloadSpeed->value()/8)*1024;
+	quazaaSettings.Transfers.BandwidthUploads = (m_ui->doubleSpinBoxUploadSpeed->value()/8)*1024;
 
 	// Save Download Settings
 	quazaaSettings.Downloads.ExpandDownloads = m_ui->checkBoxExpandDownloads->isChecked();

@@ -22,7 +22,7 @@ win32:LIBS += -Lbin # if you are at windows os
 LIBS += -lvlc
 CONFIG += precompile_header \
     no_icu \
-    no_depreceated
+	no_deprecated
 DEFINES += IRC_STATIC
 PRECOMPILED_HEADER = NetworkCore/types.h
 TEMPLATE = app

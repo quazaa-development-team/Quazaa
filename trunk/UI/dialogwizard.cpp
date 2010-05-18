@@ -32,8 +32,8 @@ DialogWizard::DialogWizard(QWidget *parent) :
 	m_ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
-	m_ui->doubleSpinBoxDownloadSpeed->setValue(quazaaSettings.Transfers.BandwidthDownloads);
-	m_ui->doubleSpinBoxUploadSpeed->setValue(quazaaSettings.Transfers.BandwidthUploads);
+	m_ui->doubleSpinBoxDownloadSpeed->setValue((quazaaSettings.Transfers.BandwidthDownloads/1024)*8);
+	m_ui->doubleSpinBoxUploadSpeed->setValue((quazaaSettings.Transfers.BandwidthUploads/1024)*8);
 	m_ui->spinBoxQuazaaPort->setValue(quazaaSettings.Connection.Port);
 	m_ui->checkBoxRandomPort->setChecked(quazaaSettings.Connection.RandomPort);
 	m_ui->checkBoxUPnP->setChecked(quazaaSettings.Security.EnableUPnP);
@@ -159,8 +159,8 @@ void DialogWizard::on_pushButtonSystemBack_clicked()
 
 void DialogWizard::on_pushButtonSystemFinish_clicked()
 {
-	quazaaSettings.Transfers.BandwidthDownloads = m_ui->doubleSpinBoxDownloadSpeed->value();
-	quazaaSettings.Transfers.BandwidthUploads = m_ui->doubleSpinBoxUploadSpeed->value();
+	quazaaSettings.Transfers.BandwidthDownloads = (m_ui->doubleSpinBoxDownloadSpeed->value()/8)*1024;
+	quazaaSettings.Transfers.BandwidthUploads = (m_ui->doubleSpinBoxUploadSpeed->value()/8)*1024;
 	quazaaSettings.Connection.Port = m_ui->spinBoxQuazaaPort->value();
 	quazaaSettings.Connection.RandomPort = m_ui->checkBoxRandomPort->isChecked();
 	quazaaSettings.Security.EnableUPnP = m_ui->checkBoxUPnP->isChecked();
