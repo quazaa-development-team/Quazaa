@@ -7,26 +7,26 @@
     <x>0</x>
     <y>0</y>
     <width>390</width>
-    <height>399</height>
+    <height>469</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>390</width>
-    <height>399</height>
+    <height>469</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>390</width>
-    <height>399</height>
+    <height>469</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Filter Search Results</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -79,7 +79,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -181,7 +181,7 @@ p, li { white-space: pre-wrap; }
            <item row="0" column="1">
             <widget class="QCheckBox" name="checkBoxRegularExpression">
              <property name="text">
-              <string>Regular Epression</string>
+              <string>Regular Expression</string>
              </property>
             </widget>
            </item>
@@ -385,7 +385,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>
