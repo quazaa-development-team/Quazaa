@@ -47,12 +47,12 @@ char* G2Packet::WriteGetPointer(quint32 nLength, quint32 nOffset)
 {
 	if ( nOffset == 0xFFFFFFFF ) nOffset = m_oBuffer.size();
 
-	if ( m_oBuffer.size() + nLength > m_oBuffer.capacity() )
+	if ( (quint32)m_oBuffer.size() + nLength > (quint32)m_oBuffer.capacity() )
 	{
 		m_oBuffer.reserve(qMax(m_oBuffer.capacity() + nLength, m_oBuffer.capacity() + 128u));
 	}
 
-	int nOldSize = m_oBuffer.size();
+	quint32 nOldSize = m_oBuffer.size();
 	m_oBuffer.resize(m_oBuffer.size() + nLength);
 
 	if ( nOffset != nOldSize )
@@ -375,6 +375,26 @@ QString G2Packet::ToASCII() const
 
 	return strDump;
 }
+
+bool G2Packet::GetTo(QUuid& pGUID)
+{
+	if ( m_bCompound == false ) return false;
+	if ( GetRemaining() < 4 + 16 ) return false;
+
+	char* pTest = m_oBuffer.data() + m_nPosition;
+
+	if ( pTest[0] != 0x48 ) return false;
+	if ( pTest[1] != 0x10 ) return false;
+	if ( pTest[2] != 'T' ) return false;
+	if ( pTest[3] != 'O' ) return false;
+
+	m_nPosition = 4;
+	pGUID = ReadGUID();
+	m_nPosition = 0;
+
+	return true;
+}
+
 
 
 void G2PacketPool::Clear()

@@ -106,7 +106,7 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 						char hashBuff[256];
 						sURN = pPacket->ReadString();
 
-						if( nLengthX >= 44 && sURN.compare("bp") == 0 )
+						if( nLengthX >= 44u && sURN.compare("bp") == 0 )
 						{
 							pPacket->Read(&hashBuff[0], CSHA1::ByteCount());
 							if( pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()) )
@@ -118,7 +118,7 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 								pHit->m_oSha1.Clear();
 							}
 						}
-						else if( nLengthX >= CSHA1::ByteCount() + 5 && sURN.compare("sha1") == 0 )
+						else if( nLengthX >= CSHA1::ByteCount() + 5u && sURN.compare("sha1") == 0 )
 						{
 							pPacket->Read(&hashBuff[0], CSHA1::ByteCount());
 							if( pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()) )
@@ -234,7 +234,8 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 		{
 			pThisHit->Delete();
 		}
-		throw;
+		//throw;
+		return 0;
 	}
 
 	if( pPacket->GetRemaining() < 17 || !bHaveHits )

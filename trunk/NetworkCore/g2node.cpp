@@ -173,7 +173,7 @@ void CG2Node::OnRead()
 				pPacket->Release();
             }
         }
-        catch(packet_error)
+		catch(...)
         {
 			if( pPacket )
 				pPacket->Release();
@@ -1038,7 +1038,7 @@ void CG2Node::OnQuery(G2Packet *pPacket)
 
 			quint32 nCount = 0;
 
-			for( int i = 0; i < HostCache.size() && nCount < 100; i++, nCount++ )
+			for( uint i = 0; i < HostCache.size() && nCount < 100u; i++, nCount++ )
 			{
 				pQA->WritePacket("S", 6)->WriteHostAddress(&HostCache.m_lHosts[i]->m_oAddress);
 			}
