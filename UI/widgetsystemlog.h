@@ -2,6 +2,7 @@
 #define WIDGETSYSTEMLOG_H
 
 #include <QMainWindow>
+#include <QTime>
 #include "types.h"
 
 namespace Ui {
@@ -14,6 +15,7 @@ public:
     WidgetSystemLog(QWidget *parent = 0);
     ~WidgetSystemLog();
     void saveWidget();
+	QTime timeStamp;
 
 protected:
     void changeEvent(QEvent *e);
@@ -22,7 +24,8 @@ private:
     Ui::WidgetSystemLog *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_actionClearBuffer_triggered();
+ void skinChangeEvent();
         void appendLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
 };
 
