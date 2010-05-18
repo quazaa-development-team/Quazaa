@@ -359,6 +359,105 @@ void WinMain::changeEvent(QEvent *e)
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+		switch (quazaaSettings.WinMain.ActiveTab)
+		{
+			case 0:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
+				ui->labelMainHeaderText->setText(tr("Quazaa Home"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.homeHeader);
+				ui->actionHome->setChecked(true);
+				break;
+			case 1:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
+				ui->labelMainHeaderText->setText(tr("Library"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.libraryHeader);
+				ui->actionLibrary->setChecked(true);
+				break;
+			case 2:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Media/Media.png"));
+				ui->labelMainHeaderText->setText(tr("Media"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.mediaHeader);
+				ui->actionMedia->setChecked(true);
+				break;
+			case 3:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
+				ui->labelMainHeaderText->setText(tr("Search"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.searchHeader);
+				ui->actionSearch->setChecked(true);
+				break;
+			case 4:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
+				ui->labelMainHeaderText->setText(tr("Transfers"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.transfersHeader);
+				ui->actionTransfers->setChecked(true);
+				break;
+			case 5:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
+				ui->labelMainHeaderText->setText(tr("Security"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.securityHeader);
+				ui->actionSecurity->setChecked(true);
+				break;
+			case 6:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Globe.png"));
+				ui->labelMainHeaderText->setText(tr("Activity"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.activityHeader);
+				ui->actionActivity->setChecked(true);
+				break;
+			case 7:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
+				ui->labelMainHeaderText->setText(tr("Chat"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.chatHeader);
+				ui->actionChat->setChecked(true);
+				break;
+			case 8:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
+				ui->labelMainHeaderText->setText(tr("Host Cache"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+				ui->actionHostCache->setChecked(true);
+				break;
+			case 9:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
+				ui->labelMainHeaderText->setText(tr("Discovery"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+				ui->actionDiscovery->setChecked(true);
+				break;
+			case 10:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
+				ui->labelMainHeaderText->setText(tr("Scheduler"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+				ui->actionScheduler->setChecked(true);
+				break;
+			case 11:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
+				ui->labelMainHeaderText->setText(tr("Graph"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+				ui->actionGraph->setChecked(true);
+				break;
+			case 12:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
+				ui->labelMainHeaderText->setText(tr("Packet Dump"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+				ui->actionPacketDump->setChecked(true);
+				break;
+			case 13:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
+				ui->labelMainHeaderText->setText(tr("Search Monitor"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+				ui->actionSearchMonitor->setChecked(true);
+				break;
+			case 14:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
+				ui->labelMainHeaderText->setText(tr("Hit Monitor"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.genericHeader);
+				ui->actionHitMonitor->setChecked(true);
+				break;
+			default:
+				ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
+				ui->labelMainHeaderText->setText(tr("Quazaa Home"));
+				ui->frameMainHeader->setStyleSheet(skinSettings.homeHeader);
+				ui->actionHome->setChecked(true);
+				break;
+		}
         break;
     default:
         break;
