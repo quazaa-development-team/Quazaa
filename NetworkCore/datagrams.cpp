@@ -159,8 +159,18 @@ void CDatagrams::OnDatagram()
     if( !m_bActive )
         return;
 
-    //while( m_pSocket->hasPendingDatagrams() )
+	if( !Network.m_pSection.tryLock(100) )
+	{
+		qWarning() << "Can't get lock in CDatagrams::OnDatagram. Network core overloaded.";
+		return;
+	}
+
+	quint32 nCounter = 100;
+
+	while( m_pSocket->hasPendingDatagrams() && nCounter )
     {
+		nCounter--;
+
         qint64 nSize = m_pSocket->pendingDatagramSize();
         m_pRecvBuffer->resize(nSize);
         qint64 nReadSize = m_pSocket->readDatagram(m_pRecvBuffer->data(), nSize, m_pHostAddress, &m_nPort);
@@ -168,8 +178,8 @@ void CDatagrams::OnDatagram()
         m_nBandwidthIn += nReadSize;
 
         if( nReadSize < 8 )
-            //continue;
-            return;
+			continue;
+			//return;
 
         GND_HEADER* pHeader = (GND_HEADER*)m_pRecvBuffer->data();
         if( strncmp((char*)&pHeader->szTag, "GND", 3) == 0 && pHeader->nPart > 0 && (pHeader->nCount == 0 || pHeader->nPart <= pHeader->nCount) )
@@ -186,6 +196,8 @@ void CDatagrams::OnDatagram()
             }           
         }
     }
+
+	Network.m_pSection.unlock();
 }
 
 void CDatagrams::OnReceiveGND()
@@ -511,7 +523,6 @@ void CDatagrams::SendPacket(IPv4_ENDPOINT &oAddr, G2Packet *pPacket, bool bAck, 
 
 void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet *pPacket)
 {
-	QMutexLocker l(&Network.m_pSection);
 	try
     {
         if(pPacket->IsType("PI"))
@@ -528,7 +539,7 @@ void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet *pPacket)
 			OnQH2(addr, pPacket);
         else
 		{
-			//qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
+			qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
 		}
     }
     catch(...)

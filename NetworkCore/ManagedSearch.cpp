@@ -25,6 +25,7 @@ CManagedSearch::CManagedSearch(CQuery* pQuery, QObject *parent) :
 
     m_bCanRequestKey = true;
     m_nQueryCount = 0;
+	m_nCookie = 0;
 }
 
 CManagedSearch::~CManagedSearch()
