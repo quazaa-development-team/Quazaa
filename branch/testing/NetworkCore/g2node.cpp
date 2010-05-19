@@ -10,7 +10,7 @@
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 
-#define _DISABLE_COMPRESSION
+//#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject *parent) :
     CCompressedConnection(parent)
