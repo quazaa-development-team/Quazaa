@@ -10,8 +10,8 @@
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 
-/*CG2Node::CG2Node(QObject *parent) :
-    CNetworkConnection(parent)*/
+#define _DISABLE_COMPRESSION
+
 CG2Node::CG2Node(QObject *parent) :
     CCompressedConnection(parent)
 {
@@ -120,7 +120,9 @@ void CG2Node::OnConnect()
         sHs += "X-Ultrapeer: True\r\n";
     else
         sHs += "X-Ultrapeer: False\r\n";
+#ifndef _DISABLE_COMPRESSION
     sHs += "Accept-Encoding: deflate\r\n";
+#endif
 
     sHs += "\r\n";
 
@@ -305,12 +307,14 @@ void CG2Node::ParseIncomingHandshake()
             return;
         }
 
+#ifndef _DISABLE_COMPRESSION
         m_bAcceptDeflate = false;
         QString sAcceptEnc = Parser::GetHeaderValue(sHs, "Accept-Encoding");
         if( sAcceptEnc.contains("deflate") && Network.isHub() )
         {
             m_bAcceptDeflate = true;
         }
+#endif
 
         QString sUltra = Parser::GetHeaderValue(sHs, "X-Ultrapeer").toLower();
         //QString sUltraNeeded = Parser::GetHeaderValue(sHs, "X-Ultrapeer-Needed").toLower();
@@ -364,6 +368,7 @@ void CG2Node::ParseIncomingHandshake()
             return;
         }
 
+#ifndef _DISABLE_COMPRESSION
         QString sContentEnc = Parser::GetHeaderValue(sHs, "Content-Encoding");
         if( sContentEnc.contains("deflate") )
         {
@@ -386,6 +391,7 @@ void CG2Node::ParseIncomingHandshake()
                 return;
             }
         }
+#endif
 
         m_nState = nsConnected;
         emit NodeStateChanged();
@@ -464,6 +470,7 @@ void CG2Node::ParseOutgoingHandshake()
     bool bUltra = (sUltra == "true");
     //bool bUltraNeeded = (sUltraNeeded == "true");
 
+#ifndef _DISABLE_COMPRESSION
     QString sContentEnc = Parser::GetHeaderValue(sHs, "Content-Encoding");
     if( sContentEnc.contains("deflate") )
     {
@@ -475,13 +482,16 @@ void CG2Node::ParseOutgoingHandshake()
             return;
         }
     }
+#endif
 
     bool bAcceptDeflate = false;
+#ifndef _DISABLE_COMPRESSION
     QString sAcceptEnc = Parser::GetHeaderValue(sHs, "Accept-Encoding");
     if( sAcceptEnc.contains("deflate") && Network.isHub() )
     {
         bAcceptDeflate = true;
     }
+#endif
 
     if( bUltra )
     {
@@ -504,6 +514,7 @@ void CG2Node::ParseOutgoingHandshake()
 
     Send_ConnectOK(true, bAcceptDeflate);
 
+#ifndef _DISABLE_COMPRESSION
     if( bAcceptDeflate )
     {
         if( !EnableOutputCompression() )
@@ -514,6 +525,7 @@ void CG2Node::ParseOutgoingHandshake()
             return;
         }
     }
+#endif
 
     m_nState = nsConnected;
     emit NodeStateChanged();
@@ -556,6 +568,7 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
     if( !bReply )
     {
         // 2-handshake
+#ifndef _DISABLE_COMPRESSION
         if( Network.isHub() && m_nType == G2_HUB )
             sHs += "Accept-Encoding: deflate\r\n";
 
@@ -563,6 +576,7 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
         {
             sHs += "Content-Encoding: deflate\r\n";
         }
+#endif
         sHs += "Accept: application/x-gnutella2\r\n";
         sHs += "Remote-IP: ";
         sHs += m_oAddress.toStringNoPort();
@@ -571,8 +585,10 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
     }
     else
     {
+#ifndef _DISABLE_COMPRESSION
         if( bDeflated )
             sHs += "Content-Encoding: deflate\r\n";
+#endif
     }
 
     sHs += "\r\n";
