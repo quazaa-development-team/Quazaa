@@ -2,7 +2,7 @@
 #define SEARCHMANAGER_H
 
 #include <QObject>
-#include <QList>
+#include <QHash>
 #include <QMutex>
 #include "types.h"
 #include "QueryHit.h"
@@ -15,9 +15,10 @@ class CSearchManager : public QObject
     Q_OBJECT
 
 public:
-    QList<CManagedSearch*> m_lSearches;
+	QHash<QUuid,CManagedSearch*> m_lSearches;
     QMutex  m_pSection;
     quint32 m_nPruneCounter;
+	quint32 m_nCookie;
 
 public:
     CSearchManager(QObject *parent = 0);

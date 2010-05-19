@@ -29,6 +29,8 @@ public:
 
     QHash<quint32, quint32> m_lSearchedNodes;
 
+	quint32	m_nCookie;
+
 public:
     CManagedSearch(CQuery* pQuery, QObject *parent = 0);
     ~CManagedSearch();
