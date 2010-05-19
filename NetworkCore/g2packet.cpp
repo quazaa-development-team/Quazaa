@@ -150,7 +150,18 @@ G2Packet* G2Packet::WritePacket(const char* pszType, quint32 nLength, bool bComp
 	Q_ASSERT( nLength <= 0xFFFFFF );
 
 	char nTypeLen	= (char)( strlen( pszType ) - 1 ) & 0x07;
-	char nLenLen	= ((nLength & 0x000000ff)>0) + ((nLength & 0x0000ff00)>0) + ((nLength & 0x00ff0000)>0);
+	char nLenLen	= 0;
+
+	if( nLength )
+	{
+		nLenLen++;
+		if( nLength > 0xFF )
+		{
+			nLenLen++;
+			if( nLength > 0xFFFF )
+				nLenLen++;
+		}
+	}
 
 	char nFlags = ( nLenLen << 6 ) + ( nTypeLen << 3 );
 
@@ -248,7 +259,20 @@ void G2Packet::ToBuffer(QByteArray* pBuffer) const
 {
 	Q_ASSERT( strlen( m_sType ) > 0 );
 
-	char nLenLen	= ((m_oBuffer.size() & 0x000000ff)>0) + ((m_oBuffer.size() & 0x0000ff00)>0) + ((m_oBuffer.size() & 0x00ff0000)>0);
+	char nLenLen	= 0;
+	if( m_oBuffer.size() )
+	{
+		nLenLen++;
+		if( m_oBuffer.size() > 0xFF )
+		{
+			nLenLen++;
+			if( m_oBuffer.size() > 0xFFFF )
+			{
+				nLenLen++;
+			}
+		}
+	}
+
 	char nTypeLen	= (char)( strlen( m_sType ) - 1 ) & 0x07;
 
 	char nFlags = ( nLenLen << 6 ) + ( nTypeLen << 3 );
