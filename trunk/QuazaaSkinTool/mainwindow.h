@@ -54,10 +54,17 @@ private:
 	bool isMainWindow;
 	QString currentSelectionText;
 	bool saved;
+	QColor colorInformation;
+	QColor colorSecurity;
+	QColor colorNotice;
+	QColor colorDebug;
+	QColor colorWarning;
+	QColor colorError;
+	QColor colorCritical;
 
 private slots:
 	void applyIcon();
- void on_plainTextEditDescription_textChanged();
+	void on_plainTextEditDescription_textChanged();
 	void on_lineEditVersion_textChanged(QString );
 	void on_spinBoxMainIconSize_valueChanged(int value);
 	void on_checkBoxMainIconVisible_toggled(bool checked);

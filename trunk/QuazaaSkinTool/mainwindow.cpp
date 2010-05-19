@@ -923,6 +923,7 @@ void MainWindow::on_actionOpen_triggered()
 		ui->lineEditAuthor->setText(skinSettings.skinAuthor);
 		ui->lineEditVersion->setText(skinSettings.skinVersion);
 		ui->plainTextEditDescription->setPlainText(skinSettings.skinDescription);
+		ui->toolButtonColorInformation->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.Chat.ColorNoticesText.name() + ";}");
 		skinChangeEvent();
 		this->setWindowTitle(skinSettings.skinName + ".qsf" + " - Quazaa Skin Tool");
 		this->enableEditing(true);

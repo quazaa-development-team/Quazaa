@@ -123,7 +123,7 @@
     <value type="QString">CONFIG+=debug</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">/home/joseph/qtsdk-2010.02/qt/bin/qmake</value>
-   <value key="abstractProcess.enabled" type="bool">false</value>
+   <value key="abstractProcess.enabled" type="bool">true</value>
    <value key="abstractProcess.workingDirectory" type="QString">/home/joseph/Qt Projects/quazaa/trunk/QuazaaSkinTool</value>
    <valuelist key="qmakeArgs" type="QVariantList"/>
   </valuemap>
