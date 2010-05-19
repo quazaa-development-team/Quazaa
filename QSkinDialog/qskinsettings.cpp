@@ -118,17 +118,17 @@ void QSkinSettings::loadSkin(QString fileName)
 	// Log colors
 	logColorInformation = reader.value("logColorInformation", "").toString();
 	logWeightInformation = reader.value("logWeightInformation", "").toString();
-	logColorSecurity = reader.value("logColorSecurity", "color:#aaaa00;").toString();
+	logColorSecurity = reader.value("logColorSecurity", QColor(qRgb(170,170,0))).value<QColor>();
 	logWeightSecurity = reader.value("logWeightSecurity", "font-weight:600;").toString();
-	logColorNotice = reader.value("logColorNotice", "color:#00aa00;").toString();
+	logColorNotice = reader.value("logColorNotice", QColor(qRgb(0,170,0))).value<QColor>();
 	logWeightNotice = reader.value("logWeightNotice", "font-weight:600;").toString();
-	logColorDebug = reader.value("logColorDebug", "color:#757575;").toString();
+	logColorDebug = reader.value("logColorDebug", QColor(qRgb(117,117,117))).value<QColor>();
 	logWeightDebug = reader.value("logWeightDebug", "").toString();
-	logColorWarning = reader.value("logColorWarning", "color:#ff0000;").toString();
+	logColorWarning = reader.value("logColorWarning", QColor(qRgb(255,0,0))).value<QColor>();
 	logWeightWarning = reader.value("logWeightWarning", "").toString();
-	logColorError = reader.value("logColorError", "color:#aa0000;").toString();
+	logColorError = reader.value("logColorError", QColor(qRgb(170,0,0))).value<QColor>();
 	logWeightError = reader.value("logWeightError", "font-weight:600;").toString();
-	logColorCritical = reader.value("logColorCritical", "color:#ff0000;").toString();
+	logColorCritical = reader.value("logColorCritical", QColor(qRgb(255,0,0))).value<QColor>();
 	logWeightCritical = reader.value("logWeightCritical", "font-weight:600;").toString();
 }
 
