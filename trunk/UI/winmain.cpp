@@ -871,7 +871,7 @@ void WinMain::on_actionFAQ_triggered()
 
 void WinMain::on_actionConnectionTest_triggered()
 {
-	QDesktopServices::openUrl(QUrl("http://jlh.no-ip.org/connectiontest", QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl(QString("http://jlh.no-ip.org/connectiontest/index.php?port=%1&lang=%2&test=1").arg(quazaaSettings.Connection.Port).arg("en"), QUrl::TolerantMode));
 }
 
 void WinMain::on_actionCheckForNewVersion_triggered()

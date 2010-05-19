@@ -15,6 +15,7 @@
 
 #include <QObject>
 #include <QSize>
+#include <QColor>
 
 class QSkinSettings : public QObject
 {
@@ -112,19 +113,19 @@ public:
 	QString tabSearches;
 
 	// Log colors
-	QString logColorInformation;
+	QColor logColorInformation;
 	QString logWeightInformation;
-	QString logColorSecurity;
+	QColor logColorSecurity;
 	QString logWeightSecurity;
-	QString logColorNotice;
+	QColor logColorNotice;
 	QString logWeightNotice;
-	QString logColorDebug;
+	QColor logColorDebug;
 	QString logWeightDebug;
-	QString logColorWarning;
+	QColor	logColorWarning;
 	QString logWeightWarning;
-	QString logColorError;
+	QColor logColorError;
 	QString logWeightError;
-	QString logColorCritical;
+	QColor logColorCritical;
 	QString logWeightCritical;
 
 signals:
