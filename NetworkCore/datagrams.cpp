@@ -159,8 +159,11 @@ void CDatagrams::OnDatagram()
     if( !m_bActive )
         return;
 
-	if( !Network.m_pSection.tryLock(100) )
+	if( !Network.m_pSection.tryLock(50) )
 	{
+		// receive and discard datagram
+		m_pSocket->readDatagram(0, 0, 0, 0);
+
 		qWarning() << "Can't get lock in CDatagrams::OnDatagram. Network core overloaded.";
 		return;
 	}
@@ -539,8 +542,7 @@ void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet *pPacket)
 			OnQH2(addr, pPacket);
         else
 		{
-			systemLog.postLog("UDP RECIEVED unknown packet QKR? This sucks, Brov. :D", LogSeverity::Information);
-			qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
+			//qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
 		}
     }
     catch(...)
@@ -623,6 +625,7 @@ void CDatagrams::OnCRAWLR(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 		pTmp->WritePacket("NAME", quazaaSettings.Profile.GnutellaScreenName.left(255).toUtf8().size())->WriteString(quazaaSettings.Profile.GnutellaScreenName.left(255));
 
 	pCA->WritePacket(pTmp);
+	pTmp->Release();
 
 	/*foreach( CG2Node* pNode, Network.m_lNodes )
 	{
