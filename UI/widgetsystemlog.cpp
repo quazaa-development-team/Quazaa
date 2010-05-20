@@ -71,7 +71,7 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 		switch (severity)
 		{
 		case LogSeverity::Information:
-			ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:</span>").arg(skinSettings.logWeightInformation).arg(skinSettings.logColorInformation.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+			ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightInformation).arg(skinSettings.logColorInformation.name()).arg(message));
 			break;
 		case LogSeverity::Security:
 			ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightSecurity).arg(skinSettings.logColorSecurity.name()).arg(message));

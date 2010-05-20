@@ -904,6 +904,14 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.dialogHeader);
 		}
+
+		if (item->text(column) == tr("System Log"))
+		{
+			ui->stackedWidget->setCurrentIndex(6);
+			ui->plainTextEditStyleSheet->setPlainText("");
+			ui->plainTextEditStyleSheet->setEnabled(false);
+		}
+
 		qApp->processEvents();
 		saved = tempSaved;
 	}
@@ -923,7 +931,57 @@ void MainWindow::on_actionOpen_triggered()
 		ui->lineEditAuthor->setText(skinSettings.skinAuthor);
 		ui->lineEditVersion->setText(skinSettings.skinVersion);
 		ui->plainTextEditDescription->setPlainText(skinSettings.skinDescription);
-		ui->toolButtonColorInformation->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.Chat.ColorNoticesText.name() + ";}");
+		ui->toolButtonColorInformation->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorInformation.name() + ";}");
+		ui->toolButtonColorSecurity->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorSecurity.name() + ";}");
+		ui->toolButtonColorNotice->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorNotice.name() + ";}");
+		ui->toolButtonColorDebug->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorDebug.name() + ";}");
+		ui->toolButtonColorWarning->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorWarning.name() + ";}");
+		ui->toolButtonColorError->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorError.name() + ";}");
+		ui->toolButtonColorCritical->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorCritical.name() + ";}");
+		ui->textEditLogPreview->setStyleSheet(skinSettings.standardItems);
+		if (skinSettings.logWeightInformation == "font-weight:600;")
+		{
+			ui->checkBoxInformationBold->setChecked(true);
+		} else {
+			ui->checkBoxInformationBold->setChecked(false);
+		}
+		if (skinSettings.logWeightSecurity == "font-weight:600;")
+		{
+			ui->checkBoxSecurityBold->setChecked(true);
+		} else {
+			ui->checkBoxSecurityBold->setChecked(false);
+		}
+		if (skinSettings.logWeightNotice == "font-weight:600;")
+		{
+			ui->checkBoxNoticeBold->setChecked(true);
+		} else {
+			ui->checkBoxNoticeBold->setChecked(false);
+		}
+		if (skinSettings.logWeightDebug == "font-weight:600;")
+		{
+			ui->checkBoxDebugBold->setChecked(true);
+		} else {
+			ui->checkBoxDebugBold->setChecked(false);
+		}
+		if (skinSettings.logWeightWarning == "font-weight:600;")
+		{
+			ui->checkBoxWarningBold->setChecked(true);
+		} else {
+			ui->checkBoxWarningBold->setChecked(false);
+		}
+		if (skinSettings.logWeightError == "font-weight:600;")
+		{
+			ui->checkBoxErrorBold->setChecked(true);
+		} else {
+			ui->checkBoxErrorBold->setChecked(false);
+		}
+		if (skinSettings.logWeightCritical == "font-weight:600;")
+		{
+			ui->checkBoxCriticalBold->setChecked(true);
+		} else {
+			ui->checkBoxCriticalBold->setChecked(false);
+		}
+		updateLogPreview();
 		skinChangeEvent();
 		this->setWindowTitle(skinSettings.skinName + ".qsf" + " - Quazaa Skin Tool");
 		this->enableEditing(true);
@@ -996,6 +1054,7 @@ void MainWindow::skinChangeEvent()
 	ui->progressBarSplashStatus->setStyleSheet(skinSettings.splashProgress);
 	updateWindowStyleSheet(isMainWindow);
 	ui->pageStandardItems->setStyleSheet(skinSettings.standardItems);
+	ui->textEditLogPreview->setStyleSheet(skinSettings.standardItems);
 	pageExtendedItems->skinChangeEvent();
 	pageNavigation->skinChangeEvent();
 }
@@ -1409,4 +1468,186 @@ void MainWindow::applyIcon()
 			skinSettings.childWindowIconSize = QSize(ui->spinBoxMainIconSize->value(), ui->spinBoxMainIconSize->value());
 	}
 	skinChangeEvent();
+}
+
+void MainWindow::updateLogPreview()
+{
+	ui->textEditLogPreview->clear();
+	ui->textEditLogPreview->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightInformation).arg(skinSettings.logColorInformation.name()).arg("Information Message"));
+	ui->textEditLogPreview->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:</span>").arg(skinSettings.logWeightSecurity).arg(skinSettings.logColorSecurity.name()).arg("Security Message"));
+	ui->textEditLogPreview->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:</span>").arg(skinSettings.logWeightNotice).arg(skinSettings.logColorNotice.name()).arg("Notice Message"));
+	ui->textEditLogPreview->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:</span>").arg(skinSettings.logWeightDebug).arg(skinSettings.logColorDebug.name()).arg("Debug Message"));
+	ui->textEditLogPreview->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:</span>").arg(skinSettings.logWeightWarning).arg(skinSettings.logColorWarning.name()).arg("Warning Message"));
+	ui->textEditLogPreview->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightError).arg(skinSettings.logColorError.name()).arg("Error Message"));
+	ui->textEditLogPreview->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightCritical).arg(skinSettings.logColorCritical.name()).arg("Critical Error Message"));
+}
+
+void MainWindow::on_toolButtonColorInformation_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.logColorInformation, this);
+	if (color.isValid())
+	{
+		skinSettings.logColorInformation.setNamedColor(color.name());
+		ui->toolButtonColorInformation->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorInformation.name() + ";}");
+		updateLogPreview();
+		saved = false;
+	}
+}
+
+void MainWindow::on_toolButtonColorSecurity_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.logColorSecurity, this);
+	if (color.isValid())
+	{
+		skinSettings.logColorSecurity.setNamedColor(color.name());
+		ui->toolButtonColorSecurity->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorSecurity.name() + ";}");
+		updateLogPreview();
+		saved = false;
+	}
+}
+
+void MainWindow::on_toolButtonColorNotice_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.logColorNotice, this);
+	if (color.isValid())
+	{
+		skinSettings.logColorNotice.setNamedColor(color.name());
+		ui->toolButtonColorNotice->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorNotice.name() + ";}");
+		updateLogPreview();
+		saved = false;
+	}
+
+}
+
+void MainWindow::on_toolButtonColorDebug_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.logColorDebug, this);
+	if (color.isValid())
+	{
+		skinSettings.logColorDebug.setNamedColor(color.name());
+		ui->toolButtonColorDebug->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorDebug.name() + ";}");
+		updateLogPreview();
+		saved = false;
+	}
+
+}
+
+void MainWindow::on_toolButtonColorWarning_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.logColorWarning, this);
+	if (color.isValid())
+	{
+		skinSettings.logColorWarning.setNamedColor(color.name());
+		ui->toolButtonColorWarning->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorWarning.name() + ";}");
+		updateLogPreview();
+		saved = false;
+	}
+}
+
+void MainWindow::on_toolButtonColorError_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.logColorError, this);
+	if (color.isValid())
+	{
+		skinSettings.logColorError.setNamedColor(color.name());
+		ui->toolButtonColorError->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorError.name() + ";}");
+		updateLogPreview();
+		saved = false;
+	}
+}
+
+void MainWindow::on_toolButtonColorCritical_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.logColorCritical, this);
+	if (color.isValid())
+	{
+		skinSettings.logColorCritical.setNamedColor(color.name());
+		ui->toolButtonColorCritical->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorCritical.name() + ";}");
+		updateLogPreview();
+		saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxInformationBold_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.logWeightInformation = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.logWeightInformation = "";
+		updateLogPreview();
+	}
+}
+
+void MainWindow::on_checkBoxSecurityBold_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.logWeightSecurity = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.logWeightSecurity = "";
+		updateLogPreview();
+	}
+}
+
+void MainWindow::on_checkBoxNoticeBold_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.logWeightNotice = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.logWeightNotice = "";
+		updateLogPreview();
+	}
+}
+
+void MainWindow::on_checkBoxDebugBold_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.logWeightDebug = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.logWeightDebug = "";
+		updateLogPreview();
+	}
+}
+
+void MainWindow::on_checkBoxWarningBold_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.logWeightWarning = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.logWeightWarning = "";
+		updateLogPreview();
+	}
+}
+
+void MainWindow::on_checkBoxErrorBold_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.logWeightError = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.logWeightError = "";
+		updateLogPreview();
+	}
+}
+
+void MainWindow::on_checkBoxCriticalBold_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.logWeightCritical = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.logWeightCritical = "";
+		updateLogPreview();
+	}
 }
