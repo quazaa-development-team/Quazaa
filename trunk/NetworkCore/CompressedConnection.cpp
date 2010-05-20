@@ -120,6 +120,8 @@ qint64 CCompressedConnection::readFromNetwork(qint64 nBytes)
         Inflate();
         if( m_pZInput->size() )
             emit readyRead();
+		if( m_pZInput->capacity() > m_nInputSize && m_pZInput->size() < m_nInputSize / 2 )
+			m_pZInput->squeeze();
     }
 
     return nRet;
@@ -131,6 +133,8 @@ qint64 CCompressedConnection::writeToNetwork(qint64 nBytes)
         if( m_pOutput->size() == 0 )
         {
             Deflate();
+			if( m_pZOutput->capacity() > m_nInputSize && m_pZOutput->size() < m_nInputSize / 2 )
+				m_pZOutput->squeeze();
         }
     }
 

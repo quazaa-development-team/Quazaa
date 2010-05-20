@@ -74,9 +74,12 @@ void CG2Node::FlushSendQueue(bool bFullFlush)
 
 	while( bytesToWrite() == 0 && m_lSendQueue.size() )
 	{
-		G2Packet* pPacket = m_lSendQueue.dequeue();
-		pPacket->ToBuffer(pOutput);
-		pPacket->Release();
+		while( pOutput->size() < 4096 && m_lSendQueue.size() )
+		{
+			G2Packet* pPacket = m_lSendQueue.dequeue();
+			pPacket->ToBuffer(pOutput);
+			pPacket->Release();
+		}
 		emit readyToTransfer();
 	}
 
@@ -627,6 +630,7 @@ void CG2Node::SendLNI()
 		pLNI->WritePacket("HS", 4);
 		pLNI->WriteIntLE(Network.m_nLeavesConnected);
 		pLNI->WriteIntLE(nLeafs);
+		pLNI->WritePacket("QK", 0);
 	}
 
 	pLNI->WritePacket("g2core", 0);
@@ -668,6 +672,10 @@ void CG2Node::OnPacket(G2Packet* pPacket)
             {
 				OnQuery(pPacket);
             }
+			else if( pPacket->IsType("QKR") )
+			{
+				OnQKR(pPacket);
+			}
             else if( pPacket->IsType("QKA") )
             {
                 OnQKA(pPacket);
@@ -930,6 +938,54 @@ void CG2Node::OnQHT(G2Packet* pPacket)
     }
 }
 
+void CG2Node::OnQKR(G2Packet *pPacket)
+{
+	if( !pPacket->m_bCompound || m_nType != G2_LEAF )
+		return;
+
+	char szType[9];
+	quint32 nLength = 0, nNext = 0;
+	bool bCacheOK = true;
+	IPv4_ENDPOINT addr;
+
+	while( pPacket->ReadPacket(&szType[0], nLength) )
+	{
+		nNext = pPacket->m_nPosition + nLength;
+
+		if( strcmp("QNA", szType) == 0 && nLength >= 6 )
+		{
+			pPacket->ReadHostAddress(&addr);
+		}
+		else if( strcmp("REF", szType) == 0 )
+		{
+			bCacheOK = false;
+		}
+
+		pPacket->m_nPosition = nNext;
+	}
+
+	if( addr.ip == 0 || addr.port == 0 ) // TODO: sprawdzene czy adres jest za fw
+		return;
+
+	CHostCacheHost* pHost = bCacheOK ? HostCache.Find(addr) : 0;
+
+	if( pHost != 0 && pHost->m_nQueryKey != 0 && pHost->m_nKeyHost == Network.m_oAddress.ip && time(0) - pHost->m_nKeyTime < quazaaSettings.Gnutella2.QueryKeyTime )
+	{
+		G2Packet* pQKA = G2Packet::New("QKA", true);
+		pQKA->WritePacket("QNA", 6)->WriteHostAddress(&addr);
+		pQKA->WritePacket("QK", 4)->WriteIntBE(pHost->m_nQueryKey);
+		pQKA->WritePacket("CACHED", 0);
+		SendPacket(pQKA, true, true);
+	}
+	else
+	{
+		G2Packet* pQKR = G2Packet::New("QKR", true);
+		pQKR->WritePacket("SNA", 6)->WriteHostAddress(&m_oAddress);
+		Datagrams.SendPacket(addr, pQKR, false);
+		pQKR->Release();
+	}
+}
+
 void CG2Node::OnQKA(G2Packet *pPacket)
 {
 	if( !pPacket->m_bCompound )
@@ -1062,7 +1118,7 @@ void CG2Node::OnQuery(G2Packet *pPacket)
 
 			pQA->WriteByte(0);
 			pQA->WriteGUID(oGUID);
-			qDebug() << "Sending query ACK " << pQA->ToHex() << pQA->ToASCII();
+			//qDebug() << "Sending query ACK " << pQA->ToHex() << pQA->ToASCII();
 			SendPacket(pQA, true, true);
 		}
 	}

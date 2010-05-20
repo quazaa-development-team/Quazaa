@@ -157,7 +157,7 @@ void CNetwork::RemoveNode(CG2Node* pNode)
 void CNetwork::OnSecondTimer()
 {
 
-	if( !m_pSection.tryLock(250) )
+	if( !m_pSection.tryLock(150) )
     {
         qWarning() << "WARNING: Network core overloaded!";
         return;
@@ -428,7 +428,13 @@ void CNetwork::OnNodeStateChange()
 
 void CNetwork::OnAccept(QTcpSocket* pConn)
 {
-	QMutexLocker l(&m_pSection);
+	if( !m_pSection.tryLock(50) )
+	{
+		qDebug() << "Not accepting incoming connection. Network overloaded";
+		pConn->abort();
+		delete pConn;
+		return;
+	}
 
     CG2Node* pNew = new CG2Node();
     pNew->moveToThread(&NetworkThread);
@@ -437,6 +443,7 @@ void CNetwork::OnAccept(QTcpSocket* pConn)
     emit NodeAdded(pNew);
     m_pRateController->AddSocket(pNew);
     m_lNodes.append(pNew);
+	m_pSection.unlock();
 }
 
 bool CNetwork::IsListening()

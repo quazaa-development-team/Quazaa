@@ -1,7 +1,6 @@
 #ifndef G2NODE_H
 #define G2NODE_H
 
-//#include "NetworkConnection.h"
 #include "CompressedConnection.h"
 #include <QTime>
 #include <QQueue>
@@ -10,7 +9,6 @@ class G2Packet;
 
 enum G2NodeState { nsClosed, nsConnecting, nsHandshaking, nsConnected, nsClosing, nsError };
 
-//class CG2Node : public CNetworkConnection
 class CG2Node : public CCompressedConnection
 {
     Q_OBJECT
@@ -85,6 +83,7 @@ protected:
     void OnLNI(G2Packet* pPacket);
     void OnKHL(G2Packet* pPacket);
     void OnQHT(G2Packet* pPacket);
+	void OnQKR(G2Packet* pPacket);
     void OnQKA(G2Packet* pPacket);
     void OnQA(G2Packet* pPacket);
     void OnQH2(G2Packet* pPacket);

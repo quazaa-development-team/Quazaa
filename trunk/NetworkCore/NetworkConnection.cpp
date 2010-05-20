@@ -127,6 +127,9 @@ qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)
     {
         AddIn(nBytesRead);
         emit readyRead();
+
+		if( m_pInput->capacity() > m_nInputSize && m_pInput->size() < m_nInputSize / 2 )
+			m_pInput->squeeze();
     }
 
     return nBytesRead;
@@ -144,6 +147,9 @@ qint64 CNetworkConnection::writeToNetwork(qint64 nBytes)
 
     m_pOutput->remove(0, nBytesWritten);
     AddOut(nBytesWritten);
+
+	if( m_pOutput->capacity() > m_nInputSize && m_pOutput->size() < m_nInputSize / 2 )
+		m_pOutput->squeeze();
 
     return nBytesWritten;
 }
