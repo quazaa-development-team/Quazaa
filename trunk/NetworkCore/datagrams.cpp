@@ -539,6 +539,7 @@ void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet *pPacket)
 			OnQH2(addr, pPacket);
         else
 		{
+			systemLog.postLog("UDP RECIEVED unknown packet QKR? This sucks, Brov. :D", LogSeverity::Information);
 			qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
 		}
     }
