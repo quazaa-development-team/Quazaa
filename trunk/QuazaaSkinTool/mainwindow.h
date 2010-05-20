@@ -63,6 +63,20 @@ private:
 	QColor colorCritical;
 
 private slots:
+	void on_checkBoxCriticalBold_clicked(bool checked);
+ void on_checkBoxErrorBold_clicked(bool checked);
+ void on_checkBoxWarningBold_clicked(bool checked);
+ void on_checkBoxDebugBold_clicked(bool checked);
+ void on_checkBoxNoticeBold_clicked(bool checked);
+ void on_checkBoxSecurityBold_clicked(bool checked);
+ void on_checkBoxInformationBold_clicked(bool checked);
+ void on_toolButtonColorCritical_clicked();
+ void on_toolButtonColorError_clicked();
+ void on_toolButtonColorWarning_clicked();
+ void on_toolButtonColorDebug_clicked();
+ void on_toolButtonColorNotice_clicked();
+ void on_toolButtonColorSecurity_clicked();
+ void on_toolButtonColorInformation_clicked();
 	void applyIcon();
 	void on_plainTextEditDescription_textChanged();
 	void on_lineEditVersion_textChanged(QString );
@@ -93,6 +107,7 @@ private slots:
 	void skinChangeEvent();
 	void updateWindowStyleSheet(bool mainWindw);
 	void closeEvent(QCloseEvent *e);
+	void updateLogPreview();
 };
 
 #endif // MAINWINDOW_H
