@@ -41,6 +41,10 @@ public:
     CRouteTable      m_oRoutingTable;
     quint32          m_tCleanRoutesNext;
 
+	quint32			 m_nNextCheck;		// secs to next AdatpiveCheckPeriod
+	quint32			 m_nBusyPeriods;	// num of busy periods
+	quint32			 m_nTotalPeriods;	// how many check periods?
+
 public:
     CNetwork(QObject* parent = 0);
     ~CNetwork();
@@ -109,6 +113,7 @@ protected:
     void Maintain();
     void DispatchKHL();
     void DropYoungest(G2NodeType nType, bool bCore = false);
+	void AdaptiveHubRun();
 
     friend class CG2Node;
 };
