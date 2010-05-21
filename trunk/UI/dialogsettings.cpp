@@ -116,6 +116,8 @@ DialogSettings::DialogSettings(QWidget *parent) :
 	colorTempNotices.setNamedColor(quazaaSettings.Chat.ColorNoticesText.name());
 
 	// Load Connection Settings
+	m_ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed/1024)*8);
+	m_ui->doubleSpinBoxOutSpeed->setValue((quazaaSettings.Connection.OutSpeed/1024)*8);
 	m_ui->spinBoxQuazaaPort->setValue(quazaaSettings.Connection.Port);
 	m_ui->checkBoxRandomPort->setChecked(quazaaSettings.Connection.RandomPort);
 	m_ui->spinBoxConnectionTimeout->setValue(quazaaSettings.Connection.TimeoutConnect);
@@ -134,8 +136,6 @@ DialogSettings::DialogSettings(QWidget *parent) :
 	m_ui->checkBoxOnlyDownloadConnectedNetworks->setChecked(quazaaSettings.Transfers.RequireConnectedNetwork);
 	m_ui->checkBoxSimpleProgress->setChecked(quazaaSettings.Transfers.SimpleProgressBar);
 	m_ui->comboBoxRates->setCurrentIndex(quazaaSettings.Transfers.RatesUnit);
-	m_ui->doubleSpinBoxDownloadSpeed->setValue((quazaaSettings.Transfers.BandwidthDownloads/1024)*8);
-	m_ui->doubleSpinBoxUploadSpeed->setValue((quazaaSettings.Transfers.BandwidthUploads/1024)*8);
 
 	// Load Download Settings
 	m_ui->checkBoxExpandDownloads->setChecked(quazaaSettings.Downloads.ExpandDownloads);
@@ -413,6 +413,8 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Chat.ColorNoticesText.setNamedColor(colorTempNotices.name());
 
 	// Save Connection Settings
+	quazaaSettings.Connection.InSpeed = (m_ui->doubleSpinBoxInSpeed->value()/8)*1024;
+	quazaaSettings.Connection.OutSpeed = (m_ui->doubleSpinBoxOutSpeed->value()/8)*1024;
 	quazaaSettings.Connection.Port = m_ui->spinBoxQuazaaPort->value();
 	quazaaSettings.Connection.RandomPort = m_ui->checkBoxRandomPort->isChecked();
 	quazaaSettings.Connection.TimeoutConnect = m_ui->spinBoxConnectionTimeout->value();
@@ -436,8 +438,6 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Transfers.RequireConnectedNetwork = m_ui->checkBoxOnlyDownloadConnectedNetworks->isChecked();
 	quazaaSettings.Transfers.SimpleProgressBar = m_ui->checkBoxSimpleProgress->isChecked();
 	quazaaSettings.Transfers.RatesUnit = m_ui->comboBoxRates->currentIndex();
-	quazaaSettings.Transfers.BandwidthDownloads = (m_ui->doubleSpinBoxDownloadSpeed->value()/8)*1024;
-	quazaaSettings.Transfers.BandwidthUploads = (m_ui->doubleSpinBoxUploadSpeed->value()/8)*1024;
 
 	// Save Download Settings
 	quazaaSettings.Downloads.ExpandDownloads = m_ui->checkBoxExpandDownloads->isChecked();

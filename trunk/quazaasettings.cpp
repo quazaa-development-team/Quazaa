@@ -217,7 +217,6 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Transfers");
-	m_qSettings.setValue("BandwidthDownloads", quazaaSettings.Transfers.BandwidthDownloads);
 	m_qSettings.setValue("BandwidthHubIn", quazaaSettings.Transfers.BandwidthHubIn);
 	m_qSettings.setValue("BandwidthHubOut", quazaaSettings.Transfers.BandwidthHubOut);
 	m_qSettings.setValue("BandwidthHubUploads", quazaaSettings.Transfers.BandwidthHubUploads);
@@ -227,7 +226,6 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("BandwidthPeerOut", quazaaSettings.Transfers.BandwidthPeerOut);
 	m_qSettings.setValue("BandwidthRequest", quazaaSettings.Transfers.BandwidthRequest);
 	m_qSettings.setValue("BandwidthUdpOut", quazaaSettings.Transfers.BandwidthUdpOut);
-	m_qSettings.setValue("BandwidthUploads", quazaaSettings.Transfers.BandwidthUploads);
 	m_qSettings.setValue("MinTransfersRest", quazaaSettings.Transfers.MinTransfersRest);
 	m_qSettings.setValue("RatesUnit", quazaaSettings.Transfers.RatesUnit);
 	m_qSettings.setValue("RequireConnectedNetwork", quazaaSettings.Transfers.RequireConnectedNetwork);
@@ -677,7 +675,6 @@ void QuazaaSettings::loadSettings()
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Transfers");
-	quazaaSettings.Transfers.BandwidthDownloads = m_qSettings.value("Downloads", 1500.0).toDouble();
 	quazaaSettings.Transfers.BandwidthHubIn = m_qSettings.value("HubIn", 0).toInt();
 	quazaaSettings.Transfers.BandwidthHubOut = m_qSettings.value("HubOut", 0).toInt();
 	quazaaSettings.Transfers.BandwidthHubUploads = m_qSettings.value("HubUploads", 40).toInt();
@@ -687,7 +684,6 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Transfers.BandwidthPeerOut = m_qSettings.value("PeerOut", 0).toInt();
 	quazaaSettings.Transfers.BandwidthRequest = m_qSettings.value("Request", 32).toInt();
 	quazaaSettings.Transfers.BandwidthUdpOut = m_qSettings.value("UdpOut", 0).toInt();
-	quazaaSettings.Transfers.BandwidthUploads = m_qSettings.value("Uploads", 384.0).toDouble();
 	quazaaSettings.Transfers.MinTransfersRest = m_qSettings.value("MinTransfersRest", 15).toInt();
 	quazaaSettings.Transfers.RatesUnit = m_qSettings.value("RatesUnit", 1).toInt();
 	quazaaSettings.Transfers.RequireConnectedNetwork = m_qSettings.value("RequireConnectedNetwork", true).toBool();
