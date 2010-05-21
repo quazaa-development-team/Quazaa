@@ -870,11 +870,6 @@ void DialogSettings::on_checkBoxRandomPort_clicked()
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogSettings::on_comboBoxAcceptIncoming_currentIndexChanged(int index)
-{
-	m_ui->pushButtonApply->setEnabled(true);
-}
-
 void DialogSettings::on_spinBoxConnectionTimeout_valueChanged(int )
 {
 	m_ui->pushButtonApply->setEnabled(true);
@@ -953,12 +948,12 @@ void DialogSettings::on_comboBoxRates_currentIndexChanged(int index)
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogSettings::on_doubleSpinBoxDownloadSpeed_valueChanged(double )
+void DialogSettings::on_doubleSpinBoxInSpeed_valueChanged(double )
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogSettings::on_doubleSpinBoxUploadSpeed_valueChanged(double )
+void DialogSettings::on_doubleSpinBoxOutSpeed_valueChanged(double )
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }

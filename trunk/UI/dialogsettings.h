@@ -134,8 +134,8 @@ private slots:
 	void on_toolButtonSaveBrowse_clicked();
 	void on_checkBoxURIPrompt_clicked();
 	void on_checkBoxExpandDownloads_clicked();
-	void on_doubleSpinBoxUploadSpeed_valueChanged(double );
-	void on_doubleSpinBoxDownloadSpeed_valueChanged(double );
+	void on_doubleSpinBoxOutSpeed_valueChanged(double );
+	void on_doubleSpinBoxInSpeed_valueChanged(double );
 	void on_comboBoxRates_currentIndexChanged(int index);
 	void on_checkBoxSimpleProgress_clicked();
 	void on_checkBoxOnlyDownloadConnectedNetworks_clicked();
@@ -150,7 +150,6 @@ private slots:
 	void on_checkBoxMagnetLinks_clicked();
 	void on_spinBoxHandshakeTimeout_valueChanged(int );
 	void on_spinBoxConnectionTimeout_valueChanged(int );
-	void on_comboBoxAcceptIncoming_currentIndexChanged(int index);
 	void on_checkBoxRandomPort_clicked();
 	void on_spinBoxQuazaaPort_valueChanged(int );
 	void on_comboBoxOutboundAddress_activated(QString );
