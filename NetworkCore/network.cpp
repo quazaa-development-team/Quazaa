@@ -35,6 +35,10 @@ CNetwork::CNetwork(QObject *parent)
     m_nKHLWait = 60;
     m_tCleanRoutesNext = 60;
 
+	m_nNextCheck = 0;
+	m_nBusyPeriods = 0;
+	m_nTotalPeriods = 0;
+
     m_pHashTable = new QueryHashTable(); // do wywalenia
 
 }
@@ -71,6 +75,10 @@ void CNetwork::Connect()
 
     m_bActive = true;
 	m_oAddress.port = quazaaSettings.Connection.Port;
+
+	m_nNextCheck = quazaaSettings.Gnutella2.AdaptiveCheckPeriod;
+	m_nBusyPeriods = 0;
+	m_nTotalPeriods = 0;
 
     Datagrams.moveToThread(&NetworkThread);
     Handshakes.moveToThread(&NetworkThread);
@@ -186,6 +194,12 @@ void CNetwork::OnSecondTimer()
 	//Datagrams.FlushSendCache();
 	emit Datagrams.SendQueueUpdated();
     Handshakes.OnTimer();
+
+	if( isHub() && quazaaSettings.Gnutella2.AdaptiveHub && --m_nNextCheck == 0 )
+	{
+		AdaptiveHubRun();
+		m_nNextCheck = quazaaSettings.Gnutella2.AdaptiveCheckPeriod;
+	}
 
     Maintain();
 
@@ -592,4 +606,33 @@ CG2Node* CNetwork::FindNode(quint32 nAddress)
 	}
 
 	return 0;
+}
+
+void CNetwork::AdaptiveHubRun()
+{
+	quint32 nBusyLeaves = 0;
+
+	foreach( CG2Node* pNode, m_lNodes)
+	{
+		if( pNode->m_nState == nsConnected && pNode->m_nType == G2_LEAF && pNode->m_tRTT >= quazaaSettings.Gnutella2.AdaptiveMaxPing )
+		{
+			nBusyLeaves++;
+		}
+	}
+
+	if( nBusyLeaves * 100 / m_nLeavesConnected > quazaaSettings.Gnutella2.AdaptiveBusyPercentage )
+	{
+		m_nBusyPeriods++;
+	}
+	m_nTotalPeriods++;
+
+	if( m_nTotalPeriods == quazaaSettings.Gnutella2.AdaptiveTimeWindow )
+	{
+		if( m_nBusyPeriods * 100 / m_nTotalPeriods > quazaaSettings.Gnutella2.AdaptiveBusyPercentage )
+		{
+			quazaaSettings.Gnutella2.NumLeafs = qMax<quint32>(m_nLeavesConnected / 2, quazaaSettings.Gnutella2.AdaptiveMinimumLeaves);
+		}
+
+		m_nTotalPeriods = m_nBusyPeriods = 0;
+	}
 }

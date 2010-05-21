@@ -492,6 +492,12 @@ namespace Settings
 		quint32		UdpOutExpire;							// Time before dropping a UDP connection
 		int			UdpOutFrames;							// UDP protocol out frame size
 		quint32		UdpOutResend;							// Time before resending a UDP protocol packet
+		bool		AdaptiveHub;							// Switch of adaptive hub algo
+		quint32		AdaptiveMinimumLeaves;					// Minimum leaves busy hub should hold
+		quint32		AdaptiveCheckPeriod;					// Seconds
+		quint32		AdaptiveTimeWindow;						//
+		quint32		AdaptiveMaxPing;						// RTT to be considered busy
+		quint32		AdaptiveBusyPercentage;					// % of leaves to trigger hub-to-leaf reduction
 
 	};
 

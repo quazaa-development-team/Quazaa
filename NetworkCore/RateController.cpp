@@ -14,6 +14,7 @@ CRateController::CRateController(QObject* parent): QObject(parent)
 
     m_nDownload = m_nUpload = 0;
     m_nDownloadAvg = m_nUploadAvg = 0;
+	m_bTransferring = false;
 
     m_tMeterTimer.start();
 
@@ -47,17 +48,6 @@ void CRateController::sheduleTransfer()
 }
 void CRateController::transfer()
 {
-	static QAtomicInt nRecursionDepth = 0;
-	nRecursionDepth.ref();
-	if( nRecursionDepth > 1 )
-	{
-		qWarning() << "WARNING! Recursion depth " << nRecursionDepth;
-		if( nRecursionDepth > 4 )
-		{
-			Q_ASSERT(0);
-		}
-	}
-
 	m_bTransferSheduled = false;
 	m_tTransferTimer.stop();
 
@@ -68,10 +58,9 @@ void CRateController::transfer()
     qint64 nToRead = (m_nDownloadLimit * nMsecs) / 1000;
     qint64 nToWrite = (m_nUploadLimit * nMsecs) / 1000;
 
-    if( nToRead == 0 && nToWrite == 0 )
+	if( nToRead <= 0 && nToWrite <= 0 || m_bTransferring )
     {
         sheduleTransfer();
-		nRecursionDepth.deref();
         return;
     }
 
@@ -84,19 +73,19 @@ void CRateController::transfer()
 
     if( lSockets.isEmpty() )
 	{
-		nRecursionDepth.deref();
         return;
 	}
 
     m_tStopWatch.start();
+	m_bTransferring = true;
 
     bool bCanTransferMore = false;
 
     do
     {
         bCanTransferMore = false;
-        qint64 nWriteChunk = qMax(qint64(1), nToWrite / lSockets.size());
-        qint64 nReadChunk = qMax(qint64(1), nToRead / lSockets.size());
+		qint64 nWriteChunk = qMax(qint64(0), nToWrite / lSockets.size());
+		qint64 nReadChunk = qMax(qint64(0), nToRead / lSockets.size());
 
         QSetIterator<CNetworkConnection*> it(lSockets);
         while( it.hasNext() && (nToRead > 0 || nToWrite > 0))
@@ -104,10 +93,10 @@ void CRateController::transfer()
             CNetworkConnection* pConn = it.next();
 
             bool bDataTransferred = false;
-            qint64 nAvailable = qMin(nReadChunk, nToRead);
+			qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
             if( nAvailable > 0 )
             {
-                qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, pConn->networkBytesAvailable()));
+				qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
                 if( nReadBytes > 0 )
                 {
                     nToRead -= nReadBytes;
@@ -118,8 +107,7 @@ void CRateController::transfer()
 
 			if( m_nUploadLimit * 2 > pConn->m_pSocket->bytesToWrite() )
             {
-				//qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->bytesToWrite());
-				qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->m_pSocket->bytesToWrite());
+				qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->bytesToWrite());
 
                 if( nChunkSize > 0 )
                 {
@@ -143,15 +131,15 @@ void CRateController::transfer()
             }
         }
     }
-	while ( bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty() && m_tStopWatch.elapsed() < 50 );
+	while ( bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty() );
 
     if( m_tMeterTimer.elapsed() > 1000 )
         UpdateStats();
 
-	if( bCanTransferMore || !lSockets.isEmpty() )
-        sheduleTransfer();
+	m_bTransferring = false;
 
-	nRecursionDepth.deref();
+	if( bCanTransferMore )
+        sheduleTransfer();
 }
 
 void CRateController::UpdateStats()

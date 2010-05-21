@@ -24,6 +24,7 @@ protected:
     QTime   m_tStopWatch;
 	bool    m_bTransferSheduled;
 	QTimer	m_tTransferTimer;
+	bool	m_bTransferring;
 
     QSet<CNetworkConnection*>   m_lSockets;
 public:
