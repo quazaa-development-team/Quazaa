@@ -111,7 +111,6 @@
     <value type="QString">PSMODULEPATH=C:\Windows\system32\WindowsPowerShell\v1.0\Modules\</value>
     <value type="QString">PUBLIC=C:\Users\Public</value>
     <value type="QString">QTDIR=C:/Qt/2010.02.1/qt</value>
-    <value type="QString">SESSIONNAME=Console</value>
     <value type="QString">SYSTEMDRIVE=C:</value>
     <value type="QString">SYSTEMROOT=C:\Windows</value>
     <value type="QString">TEMP=C:\Users\Joseph\AppData\Local\Temp</value>
@@ -169,7 +168,6 @@
     <value type="QString">PSMODULEPATH=C:\Windows\system32\WindowsPowerShell\v1.0\Modules\</value>
     <value type="QString">PUBLIC=C:\Users\Public</value>
     <value type="QString">QTDIR=C:/Qt/2010.02.1/qt</value>
-    <value type="QString">SESSIONNAME=Console</value>
     <value type="QString">SYSTEMDRIVE=C:</value>
     <value type="QString">SYSTEMROOT=C:\Windows</value>
     <value type="QString">TEMP=C:\Users\Joseph\AppData\Local\Temp</value>

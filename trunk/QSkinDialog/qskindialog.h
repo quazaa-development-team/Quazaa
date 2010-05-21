@@ -45,6 +45,7 @@ private:
 	bool maximized;
 	bool minimized;
 	bool movable;
+	bool moving;
 	bool dialogSizable;
 	bool dialogClosable;
 	bool isMainDialog;
