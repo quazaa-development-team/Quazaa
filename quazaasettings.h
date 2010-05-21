@@ -333,7 +333,6 @@ namespace Settings
 
 	struct sTransfers
 	{
-		double		BandwidthDownloads;								// Inbound speed limit in Bytes/seconds
 		int			BandwidthHubIn;
 		int			BandwidthHubOut;
 		int			BandwidthHubUploads;
@@ -343,7 +342,6 @@ namespace Settings
 		int			BandwidthPeerOut;
 		int			BandwidthRequest;
 		int			BandwidthUdpOut;
-		double		BandwidthUploads;								// Outbound speed limit in Bytes/seconds
 		int			MinTransfersRest;						// For how long at least to suspend Transfers each round
 		int			RatesUnit;								// Units that the transfer rates are to be displayed in
 		bool		RequireConnectedNetwork;				// Only upload/download to connected networks

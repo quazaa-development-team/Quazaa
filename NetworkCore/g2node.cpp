@@ -169,7 +169,7 @@ void CG2Node::OnRead()
 		G2Packet* pPacket = 0;
         try
         {
-			while( pPacket = G2Packet::ReadBuffer(GetInputBuffer()) )
+			while( (pPacket = G2Packet::ReadBuffer(GetInputBuffer())) )
             {
 				m_tLastPacketIn = time(0);
 				m_nPacketsIn++;

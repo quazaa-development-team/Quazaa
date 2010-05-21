@@ -312,7 +312,7 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
           <item row="3" column="0" colspan="2">
-           <widget class="QDoubleSpinBox" name="doubleSpinBoxDownloadSpeed">
+           <widget class="QDoubleSpinBox" name="doubleSpinBoxInSpeed">
             <property name="prefix">
              <string>Choose your download speed: </string>
             </property>
@@ -334,7 +334,7 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
           <item row="4" column="0" colspan="2">
-           <widget class="QDoubleSpinBox" name="doubleSpinBoxUploadSpeed">
+           <widget class="QDoubleSpinBox" name="doubleSpinBoxOutSpeed">
             <property name="prefix">
              <string>Choose your upload speed: </string>
             </property>
