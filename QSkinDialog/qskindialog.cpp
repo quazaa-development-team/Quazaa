@@ -15,6 +15,8 @@
 #include "qskinsettings.h"
 #include <quazaasettings.h>
 
+#include "systemlog.h"
+
 QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::QSkinDialog)
@@ -23,6 +25,7 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, QWidget *
 	maximized = false;
 	minimized = false;
 	movable = false;
+	moving = false;
 	dialogSizable = sizable;
 	dialogClosable = closable;
 	isMainDialog = mainDialog;
@@ -272,7 +275,6 @@ void QSkinDialog::mousePressEvent(QMouseEvent *e)
 		if((ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
 			&& !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && !maximized)
 		{
-			qApp->setOverrideCursor(QCursor(Qt::SizeAllCursor));
 			dragPosition = e->globalPos() - frameGeometry().topLeft();
 			movable = true;
 			e->accept();
@@ -329,6 +331,7 @@ void QSkinDialog::mouseMoveEvent(QMouseEvent *e)
 	if ((e->buttons() & Qt::LeftButton) && (ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
 		&& !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && movable && !maximized)
 	{
+		moving = true;
 		move(e->globalPos() - dragPosition);
 		normalGeometry = this->geometry();
 		e->accept();
@@ -377,14 +380,26 @@ void QSkinDialog::mouseMoveEvent(QMouseEvent *e)
 	}
 }
 
-// Remove the "move" mouse pointer for the drag move event on the titlebar
 void QSkinDialog::mouseReleaseEvent(QMouseEvent *e)
 {
-	if (e->button() == Qt::LeftButton && (ui->windowFrameTop->underMouse() || ui->windowText->underMouse()))
+	// "Window Snapping" Windows 7 style
+	if (moving && dialogSizable)
 	{
-		while (qApp->overrideCursor() != 0)
-		qApp->restoreOverrideCursor();
+		if (e->globalPos().y() < (QApplication::desktop()->availableGeometry(this).top() + 5))
+		{
+			setMaximized(true);
+		}
+		if (e->globalPos().x() < (QApplication::desktop()->screenGeometry(this).left() + 5))
+		{
+			setGeometry(0,0,QApplication::desktop()->availableGeometry(this).width()/2,QApplication::desktop()->availableGeometry(this).height());
+		}
+		if (e->globalPos().x() > (QApplication::desktop()->availableGeometry(this).right() - 5))
+		{
+			setGeometry(QApplication::desktop()->availableGeometry(this).right()/2,0,QApplication::desktop()->availableGeometry(this).right()/2,QApplication::desktop()->availableGeometry(this).height());
+			move(QApplication::desktop()->availableGeometry(this).right() - (geometry().width() - 1), 0);
+		}
 	}
+	moving = false;
 }
 
 void QSkinDialog::mouseDoubleClickEvent(QMouseEvent *e)
