@@ -951,9 +951,23 @@ void WinMain::startNewSearch(QString *searchString)
 
 void WinMain::updateBandwidth()
 {
-	if( Network.m_pSection.tryLock(50) )
+	bool bEmit = (sender() != 0);
+	quint16 nTCPInSpeed = 0;
+	quint16 nTCPOutSpeed = 0;
+	quint16 nUDPInSpeed = 0;
+	quint16 nUDPOutSpeed = 0;
+
+	if( Network.m_pSection.tryLock(50) && bEmit  )
 	{
-		labelBandwidthTotals->setText(tr("%1 In: %2 Out [D:%3/U:%4]").arg(Functions.FormatBandwidth(Network.DownloadSpeed() + Datagrams.DownloadSpeed())).arg(Functions.FormatBandwidth(Network.UploadSpeed() + Datagrams.UploadSpeed())).arg("0").arg("0"));
+		nTCPInSpeed = Network.DownloadSpeed();
+		nTCPOutSpeed = Network.UploadSpeed();
 		Network.m_pSection.unlock();
 	}
+	if( Datagrams.m_pSection.tryLock(50) && bEmit )
+	{
+		nUDPInSpeed = Datagrams.DownloadSpeed();
+		nUDPOutSpeed = Datagrams.UploadSpeed();
+		Datagrams.m_pSection.unlock();
+	}
+	labelBandwidthTotals->setText(tr("%1 In:%2 Out [D:%3/U:%4]").arg(Functions.FormatBandwidth(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBandwidth(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
 }
