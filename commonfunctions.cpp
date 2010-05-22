@@ -40,3 +40,23 @@ void CommonFunctions::FolderOpen(QString file)
 	}
 	QDesktopServices::openUrl(QUrl("file:///" + file, QUrl::TolerantMode));
 }
+QString CommonFunctions::FormatBandwidth(quint64 nBytesPerSec)
+{
+	const char* szUnit[4] = {"B/s", "KB/s", "MB/s", "GB/s"};
+
+	double nBPS = nBytesPerSec;
+
+	int nStep = 0;
+	while( nBPS > 1024 )
+	{
+		nBPS /= 1024;
+		nStep++;
+		if( nStep == 3 )
+			break;
+	}
+
+	if( nStep )
+		return QString().sprintf("%1.2f %s", nBPS, szUnit[nStep]);
+	else
+		return QString().sprintf("%1.0f %s", nBPS, szUnit[nStep]);
+}
