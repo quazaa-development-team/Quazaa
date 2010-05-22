@@ -38,6 +38,7 @@ public:
 	QTimer* neighboursRefresher;
 	CNeighboursTableModel* neighboursList;
 	QActionGroup *actionGroupMainNavigation;
+	QLabel *labelBandwidthTotals;
 
 	QSystemTrayIcon *trayIcon;
 	QMenu *trayMenu;
@@ -116,6 +117,7 @@ private slots:
 	void icon_activated(QSystemTrayIcon::ActivationReason reason);
 	void skinChangeEvent();
 	void startNewSearch(QString *searchString);
+	void updateBandwidth();
 };
 
 #endif // WINMAIN_H
