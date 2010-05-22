@@ -1,7 +1,7 @@
 #ifndef WIDGETNEIGHBORS_H
 #define WIDGETNEIGHBORS_H
 
-#include <QMainWindow>
+#include <QtGui>
 #include <QAbstractItemModel>
 
 namespace Ui {
@@ -15,6 +15,8 @@ public:
     ~WidgetNeighbors();
 	void setModel(QAbstractItemModel *model);
 	void saveWidget();
+	QLabel *labelG2StatsIcon;
+	QLabel *labelG2Stats;
 
 protected:
     void changeEvent(QEvent *e);

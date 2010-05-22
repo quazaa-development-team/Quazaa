@@ -955,10 +955,10 @@ void WinMain::updateBandwidth()
 	
 	if( Network.m_pSection.tryLock(50) && Datagrams.m_pSection.tryLock(50) && bEmit  )
 	{
-		labelBandwidthTotals->setText(tr("%1 B/s In/%2 B/s Out [D:%3/U:%4]").arg(Network.DownloadSpeed() + Datagrams.DownloadSpeed()).arg(Network.UploadSpeed() + Datagrams.UploadSpeed()).arg("0").arg("0"));
+		labelBandwidthTotals->setText(tr("%1 B/s In:%2 B/s Out [D:%3/U:%4]").arg(Network.DownloadSpeed() + Datagrams.DownloadSpeed()).arg(Network.UploadSpeed() + Datagrams.UploadSpeed()).arg("0").arg("0"));
 		Network.m_pSection.unlock();
 		Datagrams.m_pSection.unlock();
 	} else {
-		labelBandwidthTotals->setText("0 kbps In/0 kbps Out [D:0/U:0]");
+		labelBandwidthTotals->setText("0 kbps In:0 kbps Out [D:0/U:0]");
 	}
 }
