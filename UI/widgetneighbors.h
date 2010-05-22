@@ -24,7 +24,10 @@ private:
 
 private slots:
 	void on_actionSettings_triggered();
- void skinChangeEvent();
+	void skinChangeEvent();
+	void updateG2();
+	void updateAres();
+	void updateEDonkey();
 };
 
 #endif // WIDGETNEIGHBORS_H

@@ -23,6 +23,8 @@
 #include "quazaaglobals.h"
 #include "QSkinDialog/qskinsettings.h"
 #include "commonfunctions.h"
+#include "network.h"
+#include "datagrams.h"
 
 #include "NetworkCore/network.h" // not sure that it is right place, but...
 #include <QTimer>
@@ -71,6 +73,10 @@ WinMain::WinMain(QWidget *parent) :
 	quazaaSettings.loadWindowSettings(this);
 	restoreState(quazaaSettings.WinMain.MainToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+
+	//Set up the status bar
+	labelBandwidthTotals = new QLabel();
+	ui->statusbar->addPermanentWidget(labelBandwidthTotals);
 
 	//Add the tabs
 	pageHome = new WidgetHome();
@@ -269,6 +275,8 @@ WinMain::WinMain(QWidget *parent) :
 		pageActivity->panelNeighbors->setModel(neighboursList);
 		neighboursRefresher = new QTimer(this);
 		connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
+		connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateBandwidth()));
+		connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbors, SLOT(updateG2()));
 		neighboursRefresher->start(1000);
 
 	// Tray icon construction
@@ -938,4 +946,19 @@ void WinMain::startNewSearch(QString *searchString)
 {
 	ui->stackedWidgetMain->setCurrentIndex(3);
 	pageSearch->startNewSearch(searchString);
+}
+
+
+void WinMain::updateBandwidth()
+{
+	bool bEmit = (sender() != 0);
+	
+	if( Network.m_pSection.tryLock(50) && Datagrams.m_pSection.tryLock(50) && bEmit  )
+	{
+		labelBandwidthTotals->setText(tr("%1 B/s In/%2 B/s Out [D:%3/U:%4]").arg(Network.DownloadSpeed() + Datagrams.DownloadSpeed()).arg(Network.UploadSpeed() + Datagrams.UploadSpeed()).arg("0").arg("0"));
+		Network.m_pSection.unlock();
+		Datagrams.m_pSection.unlock();
+	} else {
+		labelBandwidthTotals->setText("0 kbps In/0 kbps Out [D:0/U:0]");
+	}
 }

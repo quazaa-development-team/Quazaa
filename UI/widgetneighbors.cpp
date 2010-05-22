@@ -5,6 +5,9 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
+#include "network.h"
+#include "datagrams.h"
+
 WidgetNeighbors::WidgetNeighbors(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::WidgetNeighbors)
@@ -58,4 +61,19 @@ void WidgetNeighbors::on_actionSettings_triggered()
 	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
 	dlgSettings->switchSettingsPage(20);
 	dlgSkinSettings->show();
+}
+
+void WidgetNeighbors::updateG2()
+{
+
+}
+
+void WidgetNeighbors::updateAres()
+{
+
+}
+
+void WidgetNeighbors::updateEDonkey()
+{
+
 }
