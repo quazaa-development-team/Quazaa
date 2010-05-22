@@ -952,13 +952,22 @@ void WinMain::startNewSearch(QString *searchString)
 void WinMain::updateBandwidth()
 {
 	bool bEmit = (sender() != 0);
-	
-	if( Network.m_pSection.tryLock(50) && Datagrams.m_pSection.tryLock(50) && bEmit  )
+	quint16 nTCPInSpeed = 0;
+	quint16 nTCPOutSpeed = 0;
+	quint16 nUDPInSpeed = 0;
+	quint16 nUDPOutSpeed = 0;
+
+	if( Network.m_pSection.tryLock(50) && bEmit  )
 	{
-		labelBandwidthTotals->setText(tr("%1 B/s In:%2 B/s Out [D:%3/U:%4]").arg(Network.DownloadSpeed() + Datagrams.DownloadSpeed()).arg(Network.UploadSpeed() + Datagrams.UploadSpeed()).arg("0").arg("0"));
+		nTCPInSpeed = Network.DownloadSpeed();
+		nTCPOutSpeed = Network.UploadSpeed();
 		Network.m_pSection.unlock();
-		Datagrams.m_pSection.unlock();
-	} else {
-		labelBandwidthTotals->setText("0 kbps In:0 kbps Out [D:0/U:0]");
 	}
+	if( Datagrams.m_pSection.tryLock(50) && bEmit )
+	{
+		nUDPInSpeed = Datagrams.DownloadSpeed();
+		nUDPOutSpeed = Datagrams.UploadSpeed();
+		Datagrams.m_pSection.unlock();
+	}
+	labelBandwidthTotals->setText(tr("%1 B/s In:%2 B/s Out [D:%3/U:%4]").arg(nTCPInSpeed + nUDPInSpeed).arg(nTCPOutSpeed + nUDPOutSpeed).arg("0").arg("0"));
 }
