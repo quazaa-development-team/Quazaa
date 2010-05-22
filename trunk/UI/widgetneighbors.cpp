@@ -77,15 +77,28 @@ void WidgetNeighbors::on_actionSettings_triggered()
 void WidgetNeighbors::updateG2()
 {
 	bool bEmit = (sender() != 0);
+	quint16 nHubsConnected = 0;
+	quint16 nLeavesConnected = 0;
+	quint16 nTCPInSpeed = 0;
+	quint16 nTCPOutSpeed = 0;
+	quint16 nUDPInSpeed = 0;
+	quint16 nUDPOutSpeed = 0;
 
-	if( Network.m_pSection.tryLock(50) && Datagrams.m_pSection.tryLock(50) && bEmit  )
+	if( Network.m_pSection.tryLock(50) && bEmit  )
 	{
-		labelG2Stats->setText(tr(" %1 Hubs, %2 Leaves, %3 B/s In:%4 B/s Out").arg(Network.m_nHubsConnected).arg(Network.m_nLeavesConnected).arg(Network.DownloadSpeed() + Datagrams.DownloadSpeed()).arg(Network.UploadSpeed() + Datagrams.UploadSpeed()));
+		nHubsConnected = Network.m_nHubsConnected;
+		nLeavesConnected = Network.m_nLeavesConnected;
+		nTCPInSpeed = Network.DownloadSpeed();
+		nTCPOutSpeed = Network.UploadSpeed();
 		Network.m_pSection.unlock();
-		Datagrams.m_pSection.unlock();
-	} else {
-		labelG2Stats->setText(" 0 Hubs, 0 Leaves, 0 B/s In:0 B/s Out");
 	}
+	if( Datagrams.m_pSection.tryLock(50) && bEmit )
+	{
+		nUDPInSpeed = Datagrams.DownloadSpeed();
+		nUDPOutSpeed = Datagrams.UploadSpeed();
+		Datagrams.m_pSection.unlock();
+	}
+	labelG2Stats->setText(tr(" %1 Hubs, %2 Leaves, %3 B/s In:%4 B/s Out").arg(nHubsConnected).arg(nLeavesConnected).arg(nTCPInSpeed + nUDPInSpeed).arg(nTCPOutSpeed + nUDPOutSpeed));
 }
 
 void WidgetNeighbors::updateAres()
