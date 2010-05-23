@@ -99,7 +99,7 @@ void WidgetNeighbors::updateG2()
 		nUDPOutSpeed = Datagrams.UploadSpeed();
 		Datagrams.m_pSection.unlock();
 	}
-	labelG2Stats->setText(tr(" %1 Hubs, %2 Leaves, %3 B/s In:%4 B/s Out").arg(nHubsConnected).arg(nLeavesConnected).arg(Functions.FormatBandwidth(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBandwidth(nTCPOutSpeed + nUDPOutSpeed)));
+	labelG2Stats->setText(tr(" %1 Hubs, %2 Leaves, %3 In:%4 Out").arg(nHubsConnected).arg(nLeavesConnected).arg(Functions.FormatBandwidth(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBandwidth(nTCPOutSpeed + nUDPOutSpeed)));
 }
 
 void WidgetNeighbors::updateAres()
