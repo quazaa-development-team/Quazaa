@@ -4,13 +4,13 @@
 <context>
     <name>CG2Node</name>
     <message>
-        <location filename="../NetworkCore/g2node.cpp" line="134"/>
-        <location filename="../NetworkCore/g2node.cpp" line="200"/>
+        <location filename="../NetworkCore/g2node.cpp" line="139"/>
+        <location filename="../NetworkCore/g2node.cpp" line="205"/>
         <source>Remote host closed connection: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../NetworkCore/g2node.cpp" line="200"/>
+        <location filename="../NetworkCore/g2node.cpp" line="205"/>
         <source>. Error: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -20,7 +20,7 @@
     <message>
         <location filename="../UI/dialogabout.ui" line="29"/>
         <source>About Quazaa</source>
-        <translation type="unfinished"></translation>
+        <translation>O programu</translation>
     </message>
     <message utf8="true">
         <location filename="../UI/dialogabout.ui" line="123"/>
@@ -50,103 +50,101 @@ p, li { white-space: pre-wrap; }
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Developers:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;brov, SmokeX&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Special Kudos:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Development would not have been possible without the help and excellent work of others. We would like to thank some of these people here.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rasterbar.com&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Arvid Norberg&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: Author of the libtorrent library which our torrent  library is based on.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.cherubicsoft.com/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ryo-oh-ki&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: This program is based on a great deal of his Shareaza code. &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Michael Stokes: The auctor intellectalis of Shareaza.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Logo&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Based on the Shareaza logo by Kid at &lt;/span&gt;&lt;a href=&quot;http://www.pakkeimak.com&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pakkeimak.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Concept and Design&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Cyko, Old Death, Rolandas&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Language Translators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Oce&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Website&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;ce3c, Cyko&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Wiki&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Cyko, Oce, Old Death&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Server Hosting&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;irc.p2pchat.net&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Thanks to the Quazaa community!&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Thanks to everyone who helped us in the forums and Quazaa IRC chatrooms. Those of you who help new users, troubleshoot user&apos;s technical problems, submit bug reports or help create the security lists.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;We give special thanks to the Forum Moderators and Chatroom Operators:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Forum Moderators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Quazaa forum superadmins: ce3c, Cyko, Kath, Old Death&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Operators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Kath: Quazaa Super Operator&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;The Shareaza Development Team&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;ale5000, Cyko_01, dcat, ivan386, Rolandas, Ryo-oh-ki, SkinVista, WildCard, _peer_, _slv_, a178235, brov, ceejay.dk, coolg1026, Cyberbob, DWKnight, Eperales, Frontier, FrYGuY, heavy_baby, Higgy, kevogod, kobayan, ogg123, jlh, jonatkins, micro, Mosteo, Paul Bludov, Rayner, roo_koo_too, Stealth, SteventB, tcwinkler, ten9, Thesage, TUW, Wai, zero9999, Zone-MR, Zootella&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Oh, and f*c* Will Erwin a.k.a. rhythmz or werwin.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;This application is based largely on:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Developers:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;brov, SmokeX&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Special Kudos:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Development would not have been possible without the help and excellent work of others. We would like to thank some of these people here.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rasterbar.com&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Arvid Norberg&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;: Author of the libtorrent library which our torrent  library is based on.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.cherubicsoft.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ryo-oh-ki&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;: This program is based on a great deal of his Shareaza code. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Michael Stokes: The auctor intellectalis of Shareaza.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Logo&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Based on the Shareaza logo by Kid at &lt;/span&gt;&lt;a href=&quot;http://www.pakkeimak.com&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pakkeimak.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Concept and Design&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Cyko, Old Death, Rolandas&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Language Translators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Oce&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Website&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;ce3c, Cyko&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Wiki&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Cyko, Oce, Old Death&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Server Hosting&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;irc.p2pchat.net&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Thanks to the Quazaa community!&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Thanks to everyone who helped us in the forums and Quazaa IRC chatrooms. Those of you who help new users, troubleshoot user&apos;s technical problems, submit bug reports or help create the security lists.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;We give special thanks to the Forum Moderators and Chatroom Operators:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Forum Moderators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Quazaa forum superadmins: ce3c, Cyko, Kath, Old Death&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Operators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Kath: Quazaa Super Operator&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;The Shareaza Development Team&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;ale5000, Cyko_01, dcat, ivan386, Rolandas, Ryo-oh-ki, SkinVista, WildCard, _peer_, _slv_, a178235, brov, ceejay.dk, coolg1026, Cyberbob, DWKnight, Eperales, Frontier, FrYGuY, heavy_baby, Higgy, kevogod, kobayan, ogg123, jlh, jonatkins, micro, Mosteo, Paul Bludov, Rayner, roo_koo_too, Stealth, SteventB, tcwinkler, ten9, Thesage, TUW, Wai, zero9999, Zone-MR, Zootella&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;This application is based largely on:&lt;/span&gt;&lt;/p&gt;
 &lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;10&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/Shareaza.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://shareaza.sf.net&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Shareaza&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;A multi-network P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa was created using the following tools:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://shareaza.sf.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Shareaza&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A multi-network P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa was created using the following tools:&lt;/span&gt;&lt;/p&gt;
 &lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;10&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/QT.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.nokia.com/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;QT&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;The Qt Software Development Kit&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.nokia.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;QT&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;The Qt Software Development Kit&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/Gimp.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.gimp.org&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;The Gimp&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;A free graphics editor&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa uses code and user interface designs from the following programs:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.gimp.org&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;The Gimp&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A free graphics editor&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa uses code and user interface designs from the following programs:&lt;/span&gt;&lt;/p&gt;
 &lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;10&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/Halite.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.binarynotions.com/halite-bittorrent-client&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Halte&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;A BitTorrent client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.binarynotions.com/halite-bittorrent-client&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Halte&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A BitTorrent client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/Frostwire.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.frostwire.com&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FrostWire&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;A free LimeWire Pro Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.frostwire.com&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FrostWire&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A free LimeWire Pro Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Networks/EDonkey.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.emule-project.net&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Emule&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;A free eDonkey/Kad P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.emule-project.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Emule&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A free eDonkey/Kad P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Networks/Ares.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://aresgalaxy.sourceforge.net&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ares&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;An open-source P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:7pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:7pt; color:#000000;&quot;&gt;BitTorrent, the BitTorrent Logo, and Torrent are trademarks of BitTorrent, Inc.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://aresgalaxy.sourceforge.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ares&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;An open-source P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; color:#000000;&quot;&gt;BitTorrent, the BitTorrent Logo, and Torrent are trademarks of BitTorrent, Inc.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogabout.ui" line="288"/>
+        <location filename="../UI/dialogabout.ui" line="286"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -160,7 +158,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogadddownload.ui" line="112"/>
         <source>Downloading any file with Quazaa is easy.  Simply type or paste the URL or URI of the file into the box below and press enter. Quazaa can download files from the web (HTTP), automatically search and download P2P links (Magnet, Gnutella, Ares, BitTorrent, Piolet, eDonkey 2k, mP2P) and automatically open BitTorrent files.</source>
-        <translation>Stáhnutí jakéhokoliv souboru s programem Quazaa je jednoduché. Stačí jen napsat nebo vložit URL nebo URI adresu, nebo soubor do tohoto okna a zmáčknout enter. Quazaa stahuje soubory z webu (HTTP), automatickým vyhledáváním a stahováním P2P linek (Magnet, Gnutella, Ares, BitTorrent, Piolet, eDonkey 2k, mP2P) a automaticky otvírá soubory BitTorrent.</translation>
+        <translation>Stáhnutí jakéhokoliv souboru s programem Quazaa je jednoduché. Stačí jen napsat nebo vložit URL nebo URI adresu, nebo soubor do tohoto okna a kliknout enter. Quazaa stahuje soubory z webu (HTTP), automatickým vyhledáváním a stahováním P2P linek (Magnet, Gnutella, Ares, BitTorrent, Piolet, eDonkey 2k, mP2P) a automaticky otvírá soubory BitTorrent.</translation>
     </message>
     <message>
         <location filename="../UI/dialogadddownload.ui" line="146"/>
@@ -366,7 +364,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="26"/>
         <source>Add Security Subscription</source>
-        <translation>Přdání bezpečnostního podpisu</translation>
+        <translation>Přidání bezpečnostního povolení</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="114"/>
@@ -376,12 +374,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="121"/>
         <source>Subscribe</source>
-        <translation>Podepsat</translation>
+        <translation>Povolit</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="132"/>
         <source>Add A Different Subscription</source>
-        <translation>Přidej jiný podpis</translation>
+        <translation>Přidej jiné povolení</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="173"/>
@@ -414,7 +412,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="223"/>
         <source>Filter Subscription</source>
-        <translation>Podpis filtrů</translation>
+        <translation>Povolení filtrů</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="228"/>
@@ -450,7 +448,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="265"/>
         <source>Community File Filter List</source>
-        <translation>Veřejný eznam filtrů souboru</translation>
+        <translation>Veřejný seznam filtrů souboru</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="282"/>
@@ -478,12 +476,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogclosetype.ui" line="157"/>
         <source>What action do you want to take when the close button is pressed?</source>
-        <translation>Co chete, aby Qazaa udělala po zmáčknutí tlačítka &quot;Zavřít&quot;?</translation>
+        <translation>Co chete, aby Qazaa udělala po kliknutí tlačítka &quot;Zavřít&quot;?</translation>
     </message>
     <message>
         <location filename="../UI/dialogclosetype.ui" line="165"/>
         <source>Close Immediately</source>
-        <translation>Zavřít ihnet</translation>
+        <translation>Zavřít ihned</translation>
     </message>
     <message>
         <location filename="../UI/dialogclosetype.ui" line="174"/>
@@ -578,78 +576,78 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="203"/>
         <source>Enter The Tracker URLs of the Torrent</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlože URL adresy stopy do Torrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="232"/>
         <source>Tier </source>
-        <translation type="unfinished"></translation>
+        <translation>Stupeň</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="249"/>
         <location filename="../UI/dialogcreatetorrent.ui" line="367"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="291"/>
         <source>Tracker</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopa</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="296"/>
         <source>Tier</source>
-        <translation type="unfinished"></translation>
+        <translation>Stupeň</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="305"/>
         <source>Web Seeds and DHT Nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Webové seedy a DHT nody</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="317"/>
         <source>Enter Any Web Seed URLs and DHT Nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložte jakýkoliv webový URL seedy a DHT nody</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="342"/>
         <source>Port </source>
-        <translation type="unfinished"></translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="350"/>
         <source>Web Seed</source>
-        <translation type="unfinished"></translation>
+        <translation>Webový seed</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="355"/>
         <source>DHT Node</source>
-        <translation type="unfinished"></translation>
+        <translation>DHT nody</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="402"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="407"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="488"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="495"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="502"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít</translation>
     </message>
 </context>
 <context>
@@ -657,12 +655,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="26"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="110"/>
         <source>Download Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stav stahování</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="120"/>
@@ -676,7 +674,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="148"/>
         <source>Total Transfer Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Celková ryhlost přenosu</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="155"/>
@@ -684,42 +682,42 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogdownloadmonitor.ui" line="190"/>
         <location filename="../UI/dialogdownloadmonitor.ui" line="197"/>
         <source>N/A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="162"/>
         <source>Estimated Time Remaining:</source>
-        <translation type="unfinished"></translation>
+        <translation>Odhadovaný zbývající čas:</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="169"/>
         <source>Volume Downloaded:</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsah stažení:</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="176"/>
         <source>Number Of Sources:</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet zdrojů</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="204"/>
         <source>Close This Window When The Download Completes</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít toto okno po ukončení stahování</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="237"/>
         <source>Cancel Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušit stahování</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="248"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Schovat</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="259"/>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhled</translation>
     </message>
 </context>
 <context>
@@ -727,12 +725,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="26"/>
         <source>Download Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlastnosti stahování</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="49"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Obecně</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="67"/>
@@ -742,43 +740,43 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;WARNING: This dialog provides advanced download editing features for power users which if used incorrectly can and probably will cause corruption.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="81"/>
         <source>Filename And Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Název a velikost souboru</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="95"/>
         <source>Filename:</source>
-        <translation type="unfinished"></translation>
+        <translation>Název souboru:</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="105"/>
         <source>File Size (Bytes):</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost souboru (bajty):</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="131"/>
         <source>Location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Umístění:</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="143"/>
         <source>URNs</source>
-        <translation type="unfinished"></translation>
+        <translation>URNs</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="174"/>
         <source>Trusted</source>
-        <translation type="unfinished"></translation>
+        <translation>Důvěryhodný</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="255"/>
         <location filename="../UI/dialogdownloadproperties.ui" line="287"/>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Činosti</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="299"/>
@@ -828,32 +826,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="357"/>
         <source>Data Eraser</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmazání dat</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="369"/>
         <source>Byte Range: </source>
-        <translation type="unfinished"></translation>
+        <translation>Rozsah bajtů</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="376"/>
         <source>to </source>
-        <translation type="unfinished"></translation>
+        <translation>Do</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="383"/>
         <source>Erase</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="418"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="425"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
 </context>
 <context>
@@ -861,22 +859,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadsimport.ui" line="26"/>
         <source>Import Partials</source>
-        <translation type="unfinished"></translation>
+        <translation>Prenést částečně stažené soubory</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadsimport.ui" line="121"/>
         <source>Quazaa has detected that you have another P2P program installed on your computer. Would you like to import any unfinished downloads into Quazaa?</source>
-        <translation type="unfinished"></translation>
+        <translation>Quazaa zjistila, že máte nainstalovaný jiný P2P program. Přejete si přenést některá nedokončená stahování do Quazaa programu?</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadsimport.ui" line="158"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ano</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadsimport.ui" line="165"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne</translation>
     </message>
 </context>
 <context>
@@ -884,37 +882,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogeditshares.ui" line="26"/>
         <source>Edit Shares</source>
-        <translation type="unfinished"></translation>
+        <translation>Upravit stílení</translation>
     </message>
     <message>
         <location filename="../UI/dialogeditshares.ui" line="124"/>
         <source>This is a list of shared folders in your library. You can add and remove folders using the buttons on the left. When you add a new folder, initially all files in that folder are shared. However, you can unshare files using your library if you wish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toto je seznam sdílených souborů ve Vaší knihovně.Použitím tlačítek vlevo můžete přidat, nebo odebrat soubory. Pokud přidáte nový soubor, nejprve budete sdílet složky právě z tohoto souboru. Můžete ale zrušit sdílení užíváním knihovny, pokud si přejete.</translation>
     </message>
     <message>
         <location filename="../UI/dialogeditshares.ui" line="148"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <location filename="../UI/dialogeditshares.ui" line="155"/>
         <source>Remove</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation>Vymazat</translation>
     </message>
     <message>
         <location filename="../UI/dialogeditshares.ui" line="175"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogeditshares.ui" line="182"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogeditshares.cpp" line="78"/>
         <source>Select A Folder To Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat soubor ke sdílení</translation>
     </message>
 </context>
 <context>
@@ -922,22 +920,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="26"/>
         <source>Filter Search Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Výsledky prohledání filtrů</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="126"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="133"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="170"/>
         <source>Only show matches which include the words</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyhledej spojení obsahující slova</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="184"/>
@@ -951,47 +949,47 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;(you can exclude words with -word)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="210"/>
         <source>And are of the size</source>
-        <translation type="unfinished"></translation>
+        <translation>A o velikosti</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="222"/>
         <source> sources.</source>
-        <translation type="unfinished"></translation>
+        <translation>zdrojem.</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="225"/>
         <source>With at least </source>
-        <translation type="unfinished"></translation>
+        <translation>Alespoň s jedním</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="241"/>
         <source>Minimum:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="248"/>
         <source>Maximum:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="261"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Schovat</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="273"/>
         <source>Busy Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaneprázdněné hosty</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="280"/>
         <source>Non-Matching Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Neshodující se složky</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="287"/>
@@ -1001,52 +999,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="294"/>
         <source>Unstable Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Nestálé hosty</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="301"/>
         <source>DRM Files</source>
-        <translation type="unfinished"></translation>
+        <translation>DRM soubory</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="308"/>
         <source>Suspicious Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Podezřelé soubory</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="315"/>
         <source>Files You Have Already</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory, které už máte</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="322"/>
         <source>Bogus Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Falešné soubory</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="329"/>
         <source>Adult Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory pouze pro dospělé</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="339"/>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtry</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="361"/>
         <source>Set As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit jako implicitní</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="368"/>
         <source>Save As</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit jako</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="375"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Vymazat</translation>
     </message>
 </context>
 <context>
@@ -1054,12 +1052,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialoghashprogress.ui" line="26"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <location filename="../UI/dialoghashprogress.ui" line="106"/>
         <source>Quazaa is creating hashes for 0 file(s):</source>
-        <translation type="unfinished"></translation>
+        <translation>Quazaa vytváří hashe pro 0 složek:</translation>
     </message>
     <message>
         <location filename="../UI/dialoghashprogress.ui" line="116"/>
@@ -1068,7 +1066,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;File Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1076,17 +1074,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialoglanguage.ui" line="29"/>
         <source>Select Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte jazyk</translation>
     </message>
     <message>
         <location filename="../UI/dialoglanguage.ui" line="437"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../UI/dialoglanguage.ui" line="444"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
 </context>
 <context>
@@ -1094,17 +1092,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialoglibrarysearch.ui" line="26"/>
         <source>Find In Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Najít v knihovně</translation>
     </message>
     <message>
         <location filename="../UI/dialoglibrarysearch.ui" line="111"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Hledat</translation>
     </message>
     <message>
         <location filename="../UI/dialoglibrarysearch.ui" line="118"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
 </context>
 <context>
@@ -1112,63 +1110,63 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="26"/>
         <source>Open Torrent</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít Torrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="124"/>
         <source>Torrent Save Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit soubor v Torrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="131"/>
         <source>Use Temporary Folder While Downloading</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít prozatimní složku během stahování</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="147"/>
         <source>Compact Allocation</source>
-        <translation type="unfinished"></translation>
+        <translation>Zhuštěné umístění</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="152"/>
         <source>Full Allocation</source>
-        <translation type="unfinished"></translation>
+        <translation>Úplné umístění</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="157"/>
         <source>Sparse Allocation</source>
-        <translation type="unfinished"></translation>
+        <translation>Řídké umístění</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="165"/>
         <source>Allocation Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Reřim umístění:</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="179"/>
         <location filename="../UI/dialogopentorrent.ui" line="217"/>
         <source>Browse For Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Hledej dokončené</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="198"/>
         <source>Start Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Start pozastaven</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="205"/>
         <source>Managed Torrent</source>
-        <translation type="unfinished"></translation>
+        <translation>Zprostředkovaný programem Torrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="247"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="267"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
 </context>
 <context>
@@ -1176,17 +1174,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogpreviewprepare.ui" line="26"/>
         <source>Smart Download Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Chytrý náhled stahování</translation>
     </message>
     <message>
         <location filename="../UI/dialogpreviewprepare.ui" line="109"/>
         <source>Quazaa is creating a preview of the download:</source>
-        <translation type="unfinished"></translation>
+        <translation>Qazaa vytváří náhled stahování:</translation>
     </message>
     <message>
         <location filename="../UI/dialogpreviewprepare.ui" line="116"/>
         <source>File Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název souboru</translation>
     </message>
     <message>
         <location filename="../UI/dialogpreviewprepare.ui" line="130"/>
@@ -1200,7 +1198,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogpreviewprepare.ui" line="149"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
 </context>
 <context>
@@ -1208,285 +1206,285 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogprofile.ui" line="29"/>
         <source>Edit Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat profil</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="140"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="152"/>
         <source>Gnutella Screen Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Název pro Gnutella:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="162"/>
         <source>Chat Nickname:</source>
-        <translation type="unfinished"></translation>
+        <translation>Přezdívka:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="172"/>
         <source>Alternate Chat Nickname:</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhradní přezdívka:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="182"/>
         <source>Chat User Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelské jméno:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="192"/>
         <source>Real Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaše jméno:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="207"/>
         <source>Gender</source>
-        <translation type="unfinished"></translation>
+        <translation>Pohlaví</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="221"/>
         <source>Male</source>
-        <translation type="unfinished"></translation>
+        <translation>Muž</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="226"/>
         <source>Female</source>
-        <translation type="unfinished"></translation>
+        <translation>Žena</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="234"/>
         <source>Age: </source>
-        <translation type="unfinished"></translation>
+        <translation>Věk:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="250"/>
         <source>Allow Others To Brose My User Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Povolit ostatním prohlížet můj uživatelský profil</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="288"/>
         <source>EMail Address</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="318"/>
         <source>Instant Messaging/ Social Networking</source>
-        <translation type="unfinished"></translation>
+        <translation>Psaní zpráv/užívání sociálních sítí</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="330"/>
         <source>MSN/.NET Passport:</source>
-        <translation type="unfinished"></translation>
+        <translation>MSN/.NET Passport:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="340"/>
         <source>Yahoo ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>Yahoo účet:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="350"/>
         <source>ICQ UIN:</source>
-        <translation type="unfinished"></translation>
+        <translation>ICQ:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="360"/>
         <source>AOL Screen Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>AOL přezdívka:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="370"/>
         <source>Jabber ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>Jabber účet:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="380"/>
         <source>MySpace Profile:</source>
-        <translation type="unfinished"></translation>
+        <translation>MySpace profil:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="409"/>
         <source>Mapping</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapování</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="421"/>
         <source>Latitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeměpisná šířka</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="428"/>
         <source>Longitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeměpisná délka</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="450"/>
         <source>Interests</source>
-        <translation type="unfinished"></translation>
+        <translation>Zájmy</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="498"/>
         <source>Add &gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat &gt;</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="511"/>
         <source>&lt; Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt; Odstranit</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="567"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Bydliště</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="579"/>
         <source>Country</source>
-        <translation type="unfinished"></translation>
+        <translation>Země</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="586"/>
         <source>City</source>
-        <translation type="unfinished"></translation>
+        <translation>Město</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="599"/>
         <source>State/Province</source>
-        <translation type="unfinished"></translation>
+        <translation>Provincie</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="622"/>
         <location filename="../UI/dialogprofile.ui" line="1063"/>
         <location filename="../UI/dialogprofile.cpp" line="120"/>
         <source>Bio</source>
-        <translation type="unfinished"></translation>
+        <translation>Bio</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="654"/>
         <source>Avatar Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhled ikony</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="703"/>
         <source>Other users browsing your profile and shared files will see your avatar. Custom avatars should be 128x128 pixels, and can be any supported image type on your PC.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelé, kteří si budou prohlížet Váš profil a sdílet  s Vámi složky, Vaší ikonu uvidí. Velikost obrázku by neměla přesahovat 128x128 mixelů. Můžete použít jakýkoliv formát podporovaný Vaším počítačem.</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="731"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="738"/>
         <location filename="../UI/dialogprofile.ui" line="829"/>
         <source>Remove</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation>Odstranit</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="773"/>
         <location filename="../UI/dialogprofile.ui" line="788"/>
         <source>Website</source>
-        <translation type="unfinished"></translation>
+        <translation>Webová stránka</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="778"/>
         <location filename="../UI/dialogprofile.ui" line="795"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="822"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="867"/>
         <source>Favorite files are reccomended to users who browse your profile. You can create favorite files by adding them to your favorites folder in your library.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quazaa doporučuje ostatním uživatelům, kteří si prohlíží Váš profil Vaše oblíbené složky.  Můžete si vytvořit oblíbené sožky jejich přídáním do souboru oblíbené ve Vaší knihovně.</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="906"/>
         <source>Globally Unique Identification Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Globally Unique Identification Certificate</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="918"/>
         <source>GUID</source>
-        <translation type="unfinished"></translation>
+        <translation>GUID</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="941"/>
         <source>Generate New</source>
-        <translation type="unfinished"></translation>
+        <translation>Vygenerovat nový</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1044"/>
         <location filename="../UI/dialogprofile.ui" line="1058"/>
         <location filename="../UI/dialogprofile.cpp" line="117"/>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1049"/>
         <location filename="../UI/dialogprofile.cpp" line="110"/>
         <source>Identity</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifikovat</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1053"/>
         <location filename="../UI/dialogprofile.cpp" line="114"/>
         <source>Contact</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontakt</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1068"/>
         <location filename="../UI/dialogprofile.cpp" line="123"/>
         <source>Avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikona</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1074"/>
         <location filename="../UI/dialogprofile.cpp" line="126"/>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Oblíbené</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1078"/>
         <location filename="../UI/dialogprofile.cpp" line="129"/>
         <source>Files</source>
-        <translation type="unfinished">Soubory</translation>
+        <translation>Složky</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1084"/>
         <location filename="../UI/dialogprofile.cpp" line="132"/>
         <source>Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Certifikát</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1100"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1107"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1120"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.cpp" line="338"/>
         <source>Open Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít ikonu</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.cpp" line="340"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrázky</translation>
     </message>
 </context>
 <context>
@@ -1494,92 +1492,92 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogscheduler.ui" line="653"/>
         <source>Run Once</source>
-        <translation type="unfinished"></translation>
+        <translation>Spusť jednou</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="658"/>
         <source>Daily</source>
-        <translation type="unfinished"></translation>
+        <translation>Denně</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="663"/>
         <source>Weekly</source>
-        <translation type="unfinished"></translation>
+        <translation>Jednou za týden</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="169"/>
         <source>Connect To These Networks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojit k těmto sítím:</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="26"/>
         <source>Scheduled Task Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlastnosti plánovaného úkolu</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="176"/>
         <source>Gnutella 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Gnutella 2</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="187"/>
         <source>BitTorrent</source>
-        <translation type="unfinished">BitTorrent</translation>
+        <translation>BitTorrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="209"/>
         <source>Ares</source>
-        <translation type="unfinished"></translation>
+        <translation>Ares</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="198"/>
         <source>eDonkey</source>
-        <translation type="unfinished"></translation>
+        <translation>eDonkey</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="583"/>
         <source>Action:</source>
-        <translation type="unfinished">Činnost:</translation>
+        <translation>Činnost:</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="597"/>
         <source>Control Speed And Networks</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontrola rychlosti a sítě</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="606"/>
         <source>Do Not Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepřipojit</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="615"/>
         <source>Close Quazaa</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít Quazaa</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="636"/>
         <source>% of bandwidth.</source>
-        <translation type="unfinished"></translation>
+        <translation>% pásma.</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="692"/>
         <source>% of download.</source>
-        <translation type="unfinished"></translation>
+        <translation>% stažení.</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="708"/>
         <source>% of upload.</source>
-        <translation type="unfinished"></translation>
+        <translation>% uploadu.</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="671"/>
         <source>Frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Frekvence:</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="678"/>
         <source>Task Should Be Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivizovat úkol</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="250"/>
@@ -1592,7 +1590,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogscheduler.ui" line="508"/>
         <location filename="../UI/dialogscheduler.ui" line="549"/>
         <source>Start:</source>
-        <translation type="unfinished"></translation>
+        <translation>Start:</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="263"/>
@@ -1605,57 +1603,57 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogscheduler.ui" line="528"/>
         <location filename="../UI/dialogscheduler.ui" line="559"/>
         <source>Stop:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop:</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="380"/>
         <source>Sunday</source>
-        <translation type="unfinished"></translation>
+        <translation>Neděle</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="387"/>
         <source>Monday</source>
-        <translation type="unfinished"></translation>
+        <translation>Pondělí</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="417"/>
         <source>Tuesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Úterý</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="461"/>
         <source>Wednesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Středa</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="515"/>
         <source>Saturday</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobota</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="535"/>
         <source>Thursday</source>
-        <translation type="unfinished"></translation>
+        <translation>Pátek</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="542"/>
         <source>Friday</source>
-        <translation type="unfinished"></translation>
+        <translation>Pátek</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="120"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="127"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="134"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -1663,47 +1661,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="26"/>
         <source>Security Filter Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezpečnostní filtr podpisu</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="110"/>
         <source>Filter Provider</source>
-        <translation type="unfinished"></translation>
+        <translation>Poskytovatel filtru</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="115"/>
         <source>Date Last Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum posledních úprav</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="120"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Povolený</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="139"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="146"/>
         <source>Add Filter Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat filtr podpisu</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="157"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="164"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="184"/>
         <source>Remove Filter Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraň filtr podpisu</translation>
     </message>
 </context>
 <context>
@@ -1711,57 +1709,57 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="26"/>
         <source>Select Audio Visualisation Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyber plugin audiovizualizaci</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="110"/>
         <source>No Visualisation</source>
-        <translation type="unfinished"></translation>
+        <translation>Žádná vizualizace</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="134"/>
         <source>Footer Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazení stop</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="139"/>
         <source>Full Size Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Celé zobrazení</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="144"/>
         <source>Large Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Velké zobrazení</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="149"/>
         <source>Medium Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Střední zobrazení</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="154"/>
         <source>Small Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Malé zobrazení</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="162"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="196"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="203"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="213"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít</translation>
     </message>
 </context>
 <context>
@@ -1769,127 +1767,127 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="35"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="216"/>
         <location filename="../UI/dialogsettings.ui" line="917"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Obecně</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="245"/>
         <source>Basic</source>
-        <translation type="unfinished"></translation>
+        <translation>Základní</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="254"/>
         <source>Parental Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Základní nastavení</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="263"/>
         <location filename="../UI/dialogsettings.ui" line="1116"/>
         <source>Skins</source>
-        <translation type="unfinished"></translation>
+        <translation>Skiny</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="272"/>
         <location filename="../UI/dialogsettings.ui" line="731"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Knihovna</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="281"/>
         <location filename="../UI/dialogsettings.ui" line="783"/>
         <location filename="../UI/dialogsettings.ui" line="1629"/>
         <source>Media Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Media Player</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="290"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Hledat</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="299"/>
         <location filename="../UI/dialogsettings.ui" line="790"/>
-        <location filename="../UI/dialogsettings.ui" line="3608"/>
+        <location filename="../UI/dialogsettings.ui" line="3590"/>
         <source>Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="308"/>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugins</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="317"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokročilý</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="360"/>
         <source>Internet</source>
-        <translation type="unfinished"></translation>
+        <translation>Internet</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="389"/>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojení</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="398"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="407"/>
-        <location filename="../UI/dialogsettings.ui" line="3575"/>
+        <location filename="../UI/dialogsettings.ui" line="3557"/>
         <source>Transfers</source>
-        <translation type="unfinished"></translation>
+        <translation>Přenosy</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="416"/>
         <location filename="../UI/dialogsettings.ui" line="744"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Stažení</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="425"/>
         <location filename="../UI/dialogsettings.ui" line="757"/>
         <source>Uploads</source>
-        <translation type="unfinished"></translation>
+        <translation>Uploady</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="434"/>
         <source>Security</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezpečnost</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="477"/>
         <source>Networks</source>
-        <translation type="unfinished"></translation>
+        <translation>Sítě</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="506"/>
         <source>Gnutella 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gnutella 2</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="515"/>
         <source>Ares</source>
-        <translation type="unfinished"></translation>
+        <translation>Ares</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="524"/>
         <source>eDonkey</source>
-        <translation type="unfinished"></translation>
+        <translation>eDonkey</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="533"/>
         <source>BitTorrent</source>
-        <translation type="unfinished">BitTorrent</translation>
+        <translation>BitTorrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="579"/>
@@ -1905,104 +1903,104 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="617"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástroje</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="634"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Transparentnost</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="676"/>
         <source>Delay</source>
-        <translation type="unfinished"></translation>
+        <translation>Odložit</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="689"/>
         <source> ms</source>
-        <translation type="unfinished"></translation>
+        <translation>ms</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="718"/>
         <source>Search Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyhledat výsledky</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="770"/>
         <source>Neighbours</source>
-        <translation type="unfinished"></translation>
+        <translation>Sousedé</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="802"/>
         <source>Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Lišta</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="814"/>
         <source>When I Click Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Po kliknutí zavřít</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="825"/>
         <source>Ask Me</source>
-        <translation type="unfinished"></translation>
+        <translation>Nápověda</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="834"/>
         <source>Close Immediately</source>
-        <translation type="unfinished">Zavřít ihnet</translation>
+        <translation>Zavřít ihned</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="843"/>
         <location filename="../UI/dialogsettings.ui" line="871"/>
         <source>Minimise To Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimalizovat na spodní lištu</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="852"/>
         <source>Close After Transfers</source>
-        <translation type="unfinished">Zavřít po přenosu</translation>
+        <translation>Po přenosu zavřít</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="864"/>
         <source>When I Click Minimize</source>
-        <translation type="unfinished"></translation>
+        <translation>Po kliknutí minimalizovat</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="885"/>
         <location filename="../UI/dialogsettings.ui" line="895"/>
         <source> MB or less.</source>
-        <translation type="unfinished"></translation>
+        <translation>MB a méně.</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="888"/>
         <source>Stop Quazaa downloads when disk space reaches </source>
-        <translation type="unfinished"></translation>
+        <translation>Zastav Quazaa stahování až dojde místo na disku</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="898"/>
         <source>Warn me when disk space reaches </source>
-        <translation type="unfinished"></translation>
+        <translation>Upozornit až dojde místo na disku</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="929"/>
         <source>Start Quazaa On System Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit zástupce Quazaa nabídce Start</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="936"/>
         <source>Auto Connect On Quazaa Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaticky připojit Quazaa po startu</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="972"/>
         <source>Censor Adult Content In Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Přhlásit k chatu pouze dospělé</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="979"/>
         <source>Filter Adult Content From Searches</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrovat výsledky pouze pro dospělé</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="989"/>
@@ -2016,165 +2014,165 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="1003"/>
         <source>Display Adult Content Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit filtr pouze pro dospělé</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1028"/>
         <source>Filter Content Containing These Words</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrovat složky obsahující tato slova</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1071"/>
         <location filename="../UI/dialogsettings.ui" line="1501"/>
         <location filename="../UI/dialogsettings.ui" line="1576"/>
         <location filename="../UI/dialogsettings.ui" line="1758"/>
-        <location filename="../UI/dialogsettings.ui" line="3023"/>
-        <location filename="../UI/dialogsettings.ui" line="3761"/>
+        <location filename="../UI/dialogsettings.ui" line="3049"/>
+        <location filename="../UI/dialogsettings.ui" line="3743"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1090"/>
         <location filename="../UI/dialogsettings.ui" line="1520"/>
         <location filename="../UI/dialogsettings.ui" line="1595"/>
         <location filename="../UI/dialogsettings.ui" line="1777"/>
-        <location filename="../UI/dialogsettings.ui" line="3083"/>
-        <location filename="../UI/dialogsettings.ui" line="3768"/>
+        <location filename="../UI/dialogsettings.ui" line="3109"/>
+        <location filename="../UI/dialogsettings.ui" line="3750"/>
         <source>Remove</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation>Smazat</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1130"/>
         <source>Get More Skins</source>
-        <translation type="unfinished"></translation>
+        <translation>Získat více skinů</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1137"/>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Instalovat</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1157"/>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhled</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1164"/>
-        <location filename="../UI/dialogsettings.ui" line="3550"/>
+        <location filename="../UI/dialogsettings.ui" line="3532"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Vymazat</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1175"/>
         <source>Author:</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor:</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1182"/>
         <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze:</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1223"/>
         <location filename="../UI/dialogsettings.ui" line="2418"/>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis:</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1275"/>
-        <location filename="../UI/dialogsettings.ui" line="3460"/>
+        <location filename="../UI/dialogsettings.ui" line="3442"/>
         <source>Options</source>
-        <translation type="unfinished">Možnosti</translation>
+        <translation>Možnosti</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1287"/>
         <source>Remember Folder Views</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapamatovat si náhledy souborů</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1294"/>
         <source>Watch Library Folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Prohlížet soubory v knihovně</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1301"/>
         <source>Quick Hashing (Uses More CPU)</source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlý hashing (při použití více CPU)</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1308"/>
         <source>Create Ghost Files When Deleting</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit zástupce složky při odstraňení</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1315"/>
         <source>Smart Video Series Detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Chytré vyhledávání videí seriálů</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1322"/>
         <source>Display Hashing Progress Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit okno s procesem hushing</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1344"/>
         <source>File History</source>
-        <translation type="unfinished"></translation>
+        <translation>Historie složek</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1358"/>
         <source>Remember</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapamatovat</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1371"/>
         <source> files</source>
-        <translation type="unfinished"></translation>
+        <translation>složky</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1384"/>
         <source>For Up To</source>
-        <translation type="unfinished"></translation>
+        <translation>Až do</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1397"/>
         <source> days</source>
-        <translation type="unfinished"></translation>
+        <translation>dny</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1415"/>
         <source>Clear History Now</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyní vyčistit historii</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1461"/>
         <source>Safe To Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit k otevření</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1542"/>
         <source>Never Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Nikdy nesdílet</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1646"/>
         <source>Choose media player:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte program k přehrání:</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1660"/>
         <source>Built In Media Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit v MediaPlayer</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1665"/>
         <source>Default System Media Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Standartní systém MediaPlayer</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1670"/>
         <source>Custom...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvyk...</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1687"/>
@@ -2253,7 +2251,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1960"/>
-        <location filename="../UI/dialogsettings.ui" line="2855"/>
+        <location filename="../UI/dialogsettings.ui" line="2881"/>
         <source>Port: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2369,551 +2367,547 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2608"/>
-        <source>Inbound Address</source>
+        <source>Inbound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2631"/>
-        <location filename="../UI/dialogsettings.ui" line="2706"/>
+        <location filename="../UI/dialogsettings.ui" line="2663"/>
+        <location filename="../UI/dialogsettings.ui" line="2741"/>
+        <source>Speed: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogsettings.ui" line="2696"/>
+        <source>Outbound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogsettings.ui" line="2622"/>
+        <location filename="../UI/dialogsettings.ui" line="2710"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2657"/>
-        <location filename="../UI/dialogsettings.ui" line="2729"/>
+        <location filename="../UI/dialogsettings.ui" line="2648"/>
+        <location filename="../UI/dialogsettings.ui" line="2733"/>
         <source>Automatic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2665"/>
+        <location filename="../UI/dialogsettings.ui" line="2656"/>
         <source>Force Binding To This Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2683"/>
-        <source>Outbound Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogsettings.ui" line="2744"/>
+        <location filename="../UI/dialogsettings.ui" line="2770"/>
         <source>Timeouts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2767"/>
+        <location filename="../UI/dialogsettings.ui" line="2793"/>
         <source>Connection: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2783"/>
+        <location filename="../UI/dialogsettings.ui" line="2809"/>
         <source>Handshake: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2819"/>
+        <location filename="../UI/dialogsettings.ui" line="2845"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Port</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2842"/>
+        <location filename="../UI/dialogsettings.ui" line="2868"/>
         <source>Random</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2893"/>
+        <location filename="../UI/dialogsettings.ui" line="2919"/>
         <source>Peer To Peer Link Handling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2914"/>
+        <location filename="../UI/dialogsettings.ui" line="2940"/>
         <source>Use Quazaa To Open These Types Of Links:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2976"/>
+        <location filename="../UI/dialogsettings.ui" line="3002"/>
         <source>Download Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2988"/>
+        <location filename="../UI/dialogsettings.ui" line="3014"/>
         <source>Use Quazaa to manage all my web downloads:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3030"/>
+        <location filename="../UI/dialogsettings.ui" line="3056"/>
         <source>The download manager plugin will only attempt to download file types listed here. Other file types will be handled by your web browser. Quazaa must be running to manage downloads.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3103"/>
+        <location filename="../UI/dialogsettings.ui" line="3129"/>
         <source>Only Download And Upload To Connected Networks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3110"/>
+        <location filename="../UI/dialogsettings.ui" line="3136"/>
         <source>Display Simple Progress Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3127"/>
+        <location filename="../UI/dialogsettings.ui" line="3153"/>
         <source>bits/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3132"/>
+        <location filename="../UI/dialogsettings.ui" line="3158"/>
         <source>Bytes/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3137"/>
+        <location filename="../UI/dialogsettings.ui" line="3163"/>
         <source>Kilobits/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3142"/>
+        <location filename="../UI/dialogsettings.ui" line="3168"/>
         <source>KiloBytes/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3147"/>
+        <location filename="../UI/dialogsettings.ui" line="3173"/>
         <source>Megabits/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3152"/>
+        <location filename="../UI/dialogsettings.ui" line="3178"/>
         <source>MegaBytes/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3160"/>
+        <location filename="../UI/dialogsettings.ui" line="3186"/>
         <source>Show Rates In:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3167"/>
-        <source>Choose your download speed: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogsettings.ui" line="3170"/>
-        <location filename="../UI/dialogsettings.ui" line="3192"/>
+        <location filename="../UI/dialogsettings.ui" line="2666"/>
+        <location filename="../UI/dialogsettings.ui" line="2744"/>
         <source> kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3189"/>
-        <source>Choose your upload speed: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogsettings.ui" line="3221"/>
+        <location filename="../UI/dialogsettings.ui" line="3203"/>
         <source>Expand New Downloads By Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3237"/>
+        <location filename="../UI/dialogsettings.ui" line="3219"/>
         <source>Save Completed Files Here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3256"/>
+        <location filename="../UI/dialogsettings.ui" line="3238"/>
         <source>Browse For Completed Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3282"/>
+        <location filename="../UI/dialogsettings.ui" line="3264"/>
         <source>Store Temporary Files Here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3301"/>
+        <location filename="../UI/dialogsettings.ui" line="3283"/>
         <source>Browse For Temporary Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3327"/>
+        <location filename="../UI/dialogsettings.ui" line="3309"/>
         <source>Number Of Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3341"/>
+        <location filename="../UI/dialogsettings.ui" line="3323"/>
         <source>Maximum Que Length:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3358"/>
+        <location filename="../UI/dialogsettings.ui" line="3340"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3363"/>
+        <location filename="../UI/dialogsettings.ui" line="3345"/>
         <source>10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3368"/>
+        <location filename="../UI/dialogsettings.ui" line="3350"/>
         <source>20</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3373"/>
+        <location filename="../UI/dialogsettings.ui" line="3355"/>
         <source>MAX</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3381"/>
+        <location filename="../UI/dialogsettings.ui" line="3363"/>
         <source>Maximum Files: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3397"/>
+        <location filename="../UI/dialogsettings.ui" line="3379"/>
         <source>Maximum Transfers: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3413"/>
+        <location filename="../UI/dialogsettings.ui" line="3395"/>
         <source>Transfers Per File: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3434"/>
+        <location filename="../UI/dialogsettings.ui" line="3416"/>
         <source>Show Prompt Before Opening URIs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3472"/>
+        <location filename="../UI/dialogsettings.ui" line="3454"/>
         <source>Share NEW Partial Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3479"/>
+        <location filename="../UI/dialogsettings.ui" line="3461"/>
         <source>Limit Sharing In Hub Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3486"/>
+        <location filename="../UI/dialogsettings.ui" line="3468"/>
         <source>Share Preview Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3493"/>
+        <location filename="../UI/dialogsettings.ui" line="3475"/>
         <source>Limit Per Unique host: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3509"/>
+        <location filename="../UI/dialogsettings.ui" line="3491"/>
         <source>Queues</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3536"/>
+        <location filename="../UI/dialogsettings.ui" line="3518"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nový</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3543"/>
+        <location filename="../UI/dialogsettings.ui" line="3525"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3560"/>
+        <location filename="../UI/dialogsettings.ui" line="3542"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Název</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3565"/>
+        <location filename="../UI/dialogsettings.ui" line="3547"/>
         <source>Criteria</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3570"/>
+        <location filename="../UI/dialogsettings.ui" line="3552"/>
         <source>Bandwidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3629"/>
+        <location filename="../UI/dialogsettings.ui" line="3611"/>
         <source>Filter Chat For Spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3636"/>
+        <location filename="../UI/dialogsettings.ui" line="3618"/>
         <source>Allow Others To Browse Your Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3643"/>
+        <location filename="../UI/dialogsettings.ui" line="3625"/>
         <source>Filter eDonkey 2k Chat Spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3650"/>
+        <location filename="../UI/dialogsettings.ui" line="3632"/>
         <source> lines per second.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3660"/>
+        <location filename="../UI/dialogsettings.ui" line="3642"/>
         <source>Enable Chat Flood Protection:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3670"/>
+        <location filename="../UI/dialogsettings.ui" line="3652"/>
         <source>Quazaa Remote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3691"/>
+        <location filename="../UI/dialogsettings.ui" line="3673"/>
         <source>Enable Remote Control Of Quazaa Through A Web Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3698"/>
+        <location filename="../UI/dialogsettings.ui" line="3680"/>
         <source>Remote User Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3705"/>
+        <location filename="../UI/dialogsettings.ui" line="3687"/>
         <source>Remote Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3737"/>
+        <location filename="../UI/dialogsettings.ui" line="3719"/>
         <source>User-Agent Upload Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3780"/>
+        <location filename="../UI/dialogsettings.ui" line="3762"/>
         <source>Enable UPnP To Set Up Firewalls/Routers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3787"/>
+        <location filename="../UI/dialogsettings.ui" line="3769"/>
         <source>Ignore Private/Local IP Addresses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3794"/>
+        <location filename="../UI/dialogsettings.ui" line="3776"/>
         <source>Allow Others To Browse Shares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3819"/>
+        <location filename="../UI/dialogsettings.ui" line="3801"/>
         <source>Gnutella 2 Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3831"/>
+        <location filename="../UI/dialogsettings.ui" line="3813"/>
         <source>Connect To Gnutella 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3838"/>
+        <location filename="../UI/dialogsettings.ui" line="3820"/>
         <source>Mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3849"/>
+        <location filename="../UI/dialogsettings.ui" line="3831"/>
         <source>Optimal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3854"/>
+        <location filename="../UI/dialogsettings.ui" line="3836"/>
         <source>Leaf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3859"/>
+        <location filename="../UI/dialogsettings.ui" line="3841"/>
         <source>Hub</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3876"/>
+        <location filename="../UI/dialogsettings.ui" line="3858"/>
         <source>G2 Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3888"/>
+        <location filename="../UI/dialogsettings.ui" line="3870"/>
         <source>Leaf to Hub: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3901"/>
+        <location filename="../UI/dialogsettings.ui" line="3883"/>
         <source>Hub to Leaf: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3917"/>
+        <location filename="../UI/dialogsettings.ui" line="3899"/>
         <source>Hub to Hub: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3943"/>
-        <location filename="../UI/dialogsettings.ui" line="4466"/>
+        <location filename="../UI/dialogsettings.ui" line="3925"/>
+        <location filename="../UI/dialogsettings.ui" line="4448"/>
         <source>Connect To Ares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3966"/>
+        <location filename="../UI/dialogsettings.ui" line="3948"/>
         <source>eDonkey Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3978"/>
-        <location filename="../UI/dialogsettings.ui" line="4538"/>
+        <location filename="../UI/dialogsettings.ui" line="3960"/>
+        <location filename="../UI/dialogsettings.ui" line="4520"/>
         <source>Connect To eDonkey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3985"/>
+        <location filename="../UI/dialogsettings.ui" line="3967"/>
         <source>Connect To The Kad Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4001"/>
+        <location filename="../UI/dialogsettings.ui" line="3983"/>
         <source>Global Searching</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4013"/>
+        <location filename="../UI/dialogsettings.ui" line="3995"/>
         <source>Search Known Remote Severs In the Server Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4020"/>
+        <location filename="../UI/dialogsettings.ui" line="4002"/>
         <source> search results.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4023"/>
+        <location filename="../UI/dialogsettings.ui" line="4005"/>
         <source>Stop searching after </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4039"/>
+        <location filename="../UI/dialogsettings.ui" line="4021"/>
         <source>Recieve And Update Server List From The Connected server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4055"/>
+        <location filename="../UI/dialogsettings.ui" line="4037"/>
         <source>Client Link Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4067"/>
+        <location filename="../UI/dialogsettings.ui" line="4049"/>
         <source> other eDonky 2k clients.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4070"/>
+        <location filename="../UI/dialogsettings.ui" line="4052"/>
         <source>Connect to no more than </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4095"/>
+        <location filename="../UI/dialogsettings.ui" line="4077"/>
         <source>eDonkey Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4107"/>
+        <location filename="../UI/dialogsettings.ui" line="4089"/>
         <source>Download eDonkey server list from the web.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4120"/>
+        <location filename="../UI/dialogsettings.ui" line="4102"/>
         <source>Download...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4127"/>
+        <location filename="../UI/dialogsettings.ui" line="4109"/>
         <source>Automatically Download Updated Server List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4153"/>
+        <location filename="../UI/dialogsettings.ui" line="4135"/>
         <source>Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4165"/>
+        <location filename="../UI/dialogsettings.ui" line="4147"/>
         <source>Show Torrent Save Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4172"/>
+        <location filename="../UI/dialogsettings.ui" line="4154"/>
         <source>Open New Torrents Paused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4179"/>
+        <location filename="../UI/dialogsettings.ui" line="4161"/>
         <source>Use Temporary Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4186"/>
+        <location filename="../UI/dialogsettings.ui" line="4168"/>
         <source>Managed Torrent</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zprostředkovaný programem Torrent</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4193"/>
+        <location filename="../UI/dialogsettings.ui" line="4175"/>
         <source>Enable Endgame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4209"/>
+        <location filename="../UI/dialogsettings.ui" line="4191"/>
         <source>Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4221"/>
+        <location filename="../UI/dialogsettings.ui" line="4203"/>
         <source> Torrents at once.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4228"/>
+        <location filename="../UI/dialogsettings.ui" line="4210"/>
         <source> Client connections.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4235"/>
+        <location filename="../UI/dialogsettings.ui" line="4217"/>
         <source>Prefer Torrent Sources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4242"/>
+        <location filename="../UI/dialogsettings.ui" line="4224"/>
         <source>Use Kademlia With BitTorrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4251"/>
+        <location filename="../UI/dialogsettings.ui" line="4233"/>
         <source>Clear Downloaded Torrents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4264"/>
+        <location filename="../UI/dialogsettings.ui" line="4246"/>
         <source> %.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4267"/>
+        <location filename="../UI/dialogsettings.ui" line="4249"/>
         <source>when the ratio reaches </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4307"/>
+        <location filename="../UI/dialogsettings.ui" line="4289"/>
         <source>Store .torrent Files Here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4322"/>
+        <location filename="../UI/dialogsettings.ui" line="4304"/>
         <source>Browse For Completed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hledej dokončené</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4394"/>
+        <location filename="../UI/dialogsettings.ui" line="4376"/>
         <source>Connect To G2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4401"/>
+        <location filename="../UI/dialogsettings.ui" line="4383"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2922,12 +2916,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4412"/>
+        <location filename="../UI/dialogsettings.ui" line="4394"/>
         <source>Quazaa&apos;s Premier Network, offering more features and performance than any other P2P network. Highly reccomended.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4473"/>
+        <location filename="../UI/dialogsettings.ui" line="4455"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2936,12 +2930,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4484"/>
+        <location filename="../UI/dialogsettings.ui" line="4466"/>
         <source>Like G2, this is an upgraded version of G1, very popular in the open source community.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4545"/>
+        <location filename="../UI/dialogsettings.ui" line="4527"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2950,12 +2944,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4556"/>
+        <location filename="../UI/dialogsettings.ui" line="4538"/>
         <source>A popular centralised server based network. Generally slow but rare files can be found on this network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4610"/>
+        <location filename="../UI/dialogsettings.ui" line="4592"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2964,37 +2958,37 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4621"/>
+        <location filename="../UI/dialogsettings.ui" line="4603"/>
         <source>This network uses centralised websites to list available content. Very popular and fast.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4666"/>
+        <location filename="../UI/dialogsettings.ui" line="4648"/>
         <source>Cancel</source>
         <translation type="unfinished">Zrušit</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4673"/>
+        <location filename="../UI/dialogsettings.ui" line="4655"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4680"/>
+        <location filename="../UI/dialogsettings.ui" line="4662"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Použít</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="980"/>
+        <location filename="../UI/dialogsettings.cpp" line="975"/>
         <source>Select A Folder For Completed Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="1011"/>
+        <location filename="../UI/dialogsettings.cpp" line="1006"/>
         <source>Select A Folder For Incomplete Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="1243"/>
+        <location filename="../UI/dialogsettings.cpp" line="1238"/>
         <source>Select A Folder For .torrent Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3010,7 +3004,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../QSkinDialog/dialogskinpreview.ui" line="178"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Název</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/dialogskinpreview.ui" line="192"/>
@@ -3086,7 +3080,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="86"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Obecně</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="104"/>
@@ -3101,38 +3095,38 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="118"/>
         <source>Filename And Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Název a velikost souboru</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="132"/>
         <source>Filename:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Název souboru:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="142"/>
         <source>File Size (Bytes):</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Velikost souboru (bajty):</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="168"/>
         <source>Location:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Umístění:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="180"/>
         <source>URNs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">URNs</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="211"/>
         <source>Trusted</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Důvěryhodný</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="292"/>
         <location filename="../UI/dialogtorrentproperties.ui" line="324"/>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Činosti</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="336"/>
@@ -3182,22 +3176,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="394"/>
         <source>Data Eraser</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zmazání dat</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="406"/>
         <source>Byte Range: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rozsah bajtů</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="413"/>
         <source>to </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Do</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="420"/>
         <source>Erase</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smazat</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="431"/>
@@ -3237,7 +3231,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="510"/>
         <source>Transfers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přenosy</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="524"/>
@@ -3272,7 +3266,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="571"/>
         <source>Files</source>
-        <translation type="unfinished">Soubory</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="605"/>
@@ -3357,7 +3351,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="737"/>
         <source>Tracker</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stopa</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="742"/>
@@ -3370,7 +3364,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="26"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="94"/>
@@ -3404,17 +3398,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="176"/>
         <source>Total Transfer Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Celková ryhlost přenosu</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="183"/>
         <source>Estimated Time Remaining:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Odhadovaný zbývající čas:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="190"/>
         <source>Volume Downloaded:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Obsah stažení:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="203"/>
@@ -3439,7 +3433,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="249"/>
         <source>Number Of Sources:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Počet zdrojů</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="294"/>
@@ -3546,7 +3540,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.ui" line="374"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Port</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="397"/>
@@ -3591,12 +3585,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.ui" line="630"/>
         <source>Remove</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="637"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přidat</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="656"/>
@@ -3611,7 +3605,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.ui" line="792"/>
         <source>Gnutella Screen Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Název pro Gnutella:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="802"/>
@@ -3631,17 +3625,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.ui" line="837"/>
         <source>Male</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Muž</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="842"/>
         <source>Female</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Žena</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="862"/>
         <source>Age: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Věk:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="890"/>
@@ -3655,7 +3649,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.ui" line="907"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bydliště</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="919"/>
@@ -3762,7 +3756,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.cpp" line="209"/>
         <source>Select A Folder To Share</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vybrat soubor ke sdílení</translation>
     </message>
 </context>
 <context>
@@ -3770,7 +3764,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="335"/>
@@ -3783,30 +3777,30 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="455"/>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="42"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="45"/>
         <source>Minimize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="491"/>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="46"/>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="212"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="49"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="215"/>
         <source>Maximize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="551"/>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="51"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="54"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="38"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="41"/>
         <source>Restore</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="199"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="202"/>
         <source>Restore Down</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3837,13 +3831,13 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QuazaaSettings</name>
     <message>
-        <location filename="../quazaasettings.cpp" line="976"/>
-        <location filename="../quazaasettings.cpp" line="981"/>
+        <location filename="../quazaasettings.cpp" line="984"/>
+        <location filename="../quazaasettings.cpp" line="989"/>
         <source>Quazaa User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../quazaasettings.cpp" line="982"/>
+        <location filename="../quazaasettings.cpp" line="990"/>
         <source>QuazaaUser</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3871,19 +3865,19 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetchat.ui" line="14"/>
         <source>Chat</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chat</translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="117"/>
         <location filename="../UI/widgetchat.ui" line="298"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přidat</translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="131"/>
         <location filename="../UI/widgetchat.ui" line="312"/>
         <source>Remove</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="176"/>
@@ -4077,7 +4071,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetchatcenter.ui" line="310"/>
         <location filename="../UI/widgetchatcenter.ui" line="313"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nastavení</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="322"/>
@@ -4173,7 +4167,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetdownloads.ui" line="14"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stažení</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="44"/>
@@ -4196,7 +4190,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetdownloads.ui" line="150"/>
         <location filename="../UI/widgetdownloads.ui" line="153"/>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Náhled</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="162"/>
@@ -4232,7 +4226,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetdownloads.ui" line="222"/>
         <location filename="../UI/widgetdownloads.ui" line="225"/>
         <source>Open Torrent</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít Torrent</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="234"/>
@@ -4242,7 +4236,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetdownloads.ui" line="243"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Filtr</translation>
     </message>
 </context>
 <context>
@@ -4318,7 +4312,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="73"/>
         <source>Country</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Země</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="78"/>
@@ -4399,12 +4393,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethome.ui" line="161"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stažení</translation>
     </message>
     <message>
         <location filename="../UI/widgethome.ui" line="206"/>
         <source>Uploads</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uploady</translation>
     </message>
     <message>
         <location filename="../UI/widgethome.ui" line="300"/>
@@ -4423,7 +4417,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethome.ui" line="429"/>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Připojení</translation>
     </message>
     <message>
         <location filename="../UI/widgethome.ui" line="511"/>
@@ -4532,7 +4526,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethome.ui" line="967"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pokročilý</translation>
     </message>
     <message>
         <location filename="../UI/widgethome.ui" line="1020"/>
@@ -4601,12 +4595,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethostcache.ui" line="59"/>
         <source>Ares</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ares</translation>
     </message>
     <message>
         <location filename="../UI/widgethostcache.ui" line="68"/>
         <source>eDonkey</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eDonkey</translation>
     </message>
     <message>
         <location filename="../UI/widgethostcache.ui" line="76"/>
@@ -4651,7 +4645,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethostcache.ui" line="170"/>
         <source>Remove</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4867,7 +4861,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetmedia.ui" line="572"/>
         <location filename="../UI/widgetmedia.ui" line="575"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nastavení</translation>
     </message>
     <message>
         <location filename="../UI/widgetmedia.ui" line="591"/>
@@ -4891,63 +4885,75 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/widgetneighbors.ui" line="80"/>
+        <location filename="../UI/widgetneighbors.ui" line="140"/>
         <source>toolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/widgetneighbors.ui" line="112"/>
+        <location filename="../UI/widgetneighbors.ui" line="151"/>
         <source>toolBar_2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="144"/>
-        <location filename="../UI/widgetneighbors.ui" line="147"/>
+        <location filename="../UI/widgetneighbors.ui" line="162"/>
+        <source>toolBar_3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetneighbors.ui" line="177"/>
+        <location filename="../UI/widgetneighbors.ui" line="180"/>
         <source>Connect To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="156"/>
-        <location filename="../UI/widgetneighbors.ui" line="159"/>
+        <location filename="../UI/widgetneighbors.ui" line="189"/>
+        <location filename="../UI/widgetneighbors.ui" line="192"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="168"/>
-        <location filename="../UI/widgetneighbors.ui" line="171"/>
+        <location filename="../UI/widgetneighbors.ui" line="201"/>
+        <location filename="../UI/widgetneighbors.ui" line="204"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="180"/>
-        <location filename="../UI/widgetneighbors.ui" line="183"/>
+        <location filename="../UI/widgetneighbors.ui" line="213"/>
+        <location filename="../UI/widgetneighbors.ui" line="216"/>
         <source>Chat With</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="192"/>
-        <location filename="../UI/widgetneighbors.ui" line="195"/>
+        <location filename="../UI/widgetneighbors.ui" line="225"/>
+        <location filename="../UI/widgetneighbors.ui" line="228"/>
         <source>Ban</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="207"/>
-        <location filename="../UI/widgetneighbors.ui" line="210"/>
+        <location filename="../UI/widgetneighbors.ui" line="240"/>
+        <location filename="../UI/widgetneighbors.ui" line="243"/>
         <source>eDonkey</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eDonkey</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="225"/>
+        <location filename="../UI/widgetneighbors.ui" line="258"/>
         <source>Gnutella 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gnutella 2</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="237"/>
+        <location filename="../UI/widgetneighbors.ui" line="270"/>
         <source>Ares</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ares</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="246"/>
+        <location filename="../UI/widgetneighbors.ui" line="279"/>
         <source>Settings</source>
+        <translation type="unfinished">Nastavení</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetneighbors.cpp" line="102"/>
+        <source> %1 Hubs, %2 Leaves, %3 In:%4 Out</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4966,7 +4972,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="48"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Adresa</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="53"/>
@@ -4976,7 +4982,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="58"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Typ</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="63"/>
@@ -5145,7 +5151,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearch.ui" line="409"/>
         <source>Networks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sítě</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="458"/>
@@ -5155,23 +5161,23 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearch.ui" line="467"/>
         <source>Gnutella 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gnutella 2</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="481"/>
         <source>Ares</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ares</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="492"/>
         <source>eDonkey</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eDonkey</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="534"/>
         <location filename="../UI/widgetsearch.ui" line="640"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hledat</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="611"/>
@@ -5294,7 +5300,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetsearchresults.cpp" line="80"/>
         <location filename="../UI/widgetsearchresults.cpp" line="95"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hledat</translation>
     </message>
 </context>
 <context>
@@ -5302,7 +5308,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearchtemplate.ui" line="14"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hledat</translation>
     </message>
 </context>
 <context>
@@ -5310,7 +5316,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsecurity.ui" line="14"/>
         <source>Security</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bezpečnost</translation>
     </message>
     <message>
         <location filename="../UI/widgetsecurity.ui" line="38"/>
@@ -5396,17 +5402,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgettransfers.ui" line="14"/>
         <source>Transfers</source>
-        <translation type="unfinished"></translation>
+        <translation>Přenosy</translation>
     </message>
     <message>
         <location filename="../UI/widgettransfers.ui" line="65"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Stažení</translation>
     </message>
     <message>
         <location filename="../UI/widgettransfers.ui" line="120"/>
         <source>Uploads</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uploady</translation>
     </message>
 </context>
 <context>
@@ -5469,24 +5475,24 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetuploads.ui" line="176"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Filtr</translation>
     </message>
 </context>
 <context>
     <name>WinMain</name>
     <message>
         <location filename="../UI/winmain.ui" line="14"/>
-        <location filename="../UI/winmain.cpp" line="296"/>
+        <location filename="../UI/winmain.cpp" line="304"/>
         <source>Quazaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="84"/>
-        <location filename="../UI/winmain.cpp" line="129"/>
-        <location filename="../UI/winmain.cpp" line="219"/>
-        <location filename="../UI/winmain.cpp" line="366"/>
-        <location filename="../UI/winmain.cpp" line="456"/>
-        <location filename="../UI/winmain.cpp" line="508"/>
+        <location filename="../UI/winmain.cpp" line="135"/>
+        <location filename="../UI/winmain.cpp" line="225"/>
+        <location filename="../UI/winmain.cpp" line="374"/>
+        <location filename="../UI/winmain.cpp" line="464"/>
+        <location filename="../UI/winmain.cpp" line="516"/>
         <source>Quazaa Home</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5508,7 +5514,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/winmain.ui" line="134"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pokročilý</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="157"/>
@@ -5558,49 +5564,49 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="305"/>
-        <location filename="../UI/winmain.cpp" line="135"/>
-        <location filename="../UI/winmain.cpp" line="372"/>
-        <location filename="../UI/winmain.cpp" line="518"/>
+        <location filename="../UI/winmain.cpp" line="141"/>
+        <location filename="../UI/winmain.cpp" line="380"/>
+        <location filename="../UI/winmain.cpp" line="526"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Knihovna</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="320"/>
-        <location filename="../UI/winmain.cpp" line="147"/>
-        <location filename="../UI/winmain.cpp" line="384"/>
-        <location filename="../UI/winmain.cpp" line="537"/>
+        <location filename="../UI/winmain.cpp" line="153"/>
+        <location filename="../UI/winmain.cpp" line="392"/>
+        <location filename="../UI/winmain.cpp" line="545"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hledat</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="335"/>
-        <location filename="../UI/winmain.cpp" line="153"/>
-        <location filename="../UI/winmain.cpp" line="390"/>
-        <location filename="../UI/winmain.cpp" line="547"/>
+        <location filename="../UI/winmain.cpp" line="159"/>
+        <location filename="../UI/winmain.cpp" line="398"/>
+        <location filename="../UI/winmain.cpp" line="555"/>
         <source>Transfers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přenosy</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="350"/>
-        <location filename="../UI/winmain.cpp" line="159"/>
-        <location filename="../UI/winmain.cpp" line="396"/>
-        <location filename="../UI/winmain.cpp" line="557"/>
+        <location filename="../UI/winmain.cpp" line="165"/>
+        <location filename="../UI/winmain.cpp" line="404"/>
+        <location filename="../UI/winmain.cpp" line="565"/>
         <source>Security</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bezpečnost</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="365"/>
-        <location filename="../UI/winmain.cpp" line="165"/>
-        <location filename="../UI/winmain.cpp" line="402"/>
-        <location filename="../UI/winmain.cpp" line="567"/>
+        <location filename="../UI/winmain.cpp" line="171"/>
+        <location filename="../UI/winmain.cpp" line="410"/>
+        <location filename="../UI/winmain.cpp" line="575"/>
         <source>Activity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="380"/>
-        <location filename="../UI/winmain.cpp" line="141"/>
-        <location filename="../UI/winmain.cpp" line="378"/>
-        <location filename="../UI/winmain.cpp" line="527"/>
+        <location filename="../UI/winmain.cpp" line="147"/>
+        <location filename="../UI/winmain.cpp" line="386"/>
+        <location filename="../UI/winmain.cpp" line="535"/>
         <source>Media</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5618,25 +5624,25 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/winmain.ui" line="413"/>
         <location filename="../UI/winmain.ui" line="416"/>
         <source>Open Torrent</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít Torrent</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="425"/>
         <location filename="../UI/winmain.ui" line="894"/>
         <location filename="../UI/winmain.ui" line="897"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nastavení</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="437"/>
         <location filename="../UI/winmain.ui" line="440"/>
         <source>eDonkey</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eDonkey</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="455"/>
         <source>Gnutella 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gnutella 2</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="464"/>
@@ -5660,58 +5666,58 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="503"/>
-        <location filename="../UI/winmain.cpp" line="171"/>
-        <location filename="../UI/winmain.cpp" line="408"/>
-        <location filename="../UI/winmain.cpp" line="577"/>
+        <location filename="../UI/winmain.cpp" line="177"/>
+        <location filename="../UI/winmain.cpp" line="416"/>
+        <location filename="../UI/winmain.cpp" line="585"/>
         <source>Chat</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chat</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="518"/>
         <location filename="../UI/winmain.ui" line="521"/>
-        <location filename="../UI/winmain.cpp" line="177"/>
-        <location filename="../UI/winmain.cpp" line="414"/>
-        <location filename="../UI/winmain.cpp" line="587"/>
+        <location filename="../UI/winmain.cpp" line="183"/>
+        <location filename="../UI/winmain.cpp" line="422"/>
+        <location filename="../UI/winmain.cpp" line="595"/>
         <source>Host Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="536"/>
-        <location filename="../UI/winmain.cpp" line="183"/>
-        <location filename="../UI/winmain.cpp" line="420"/>
-        <location filename="../UI/winmain.cpp" line="597"/>
+        <location filename="../UI/winmain.cpp" line="189"/>
+        <location filename="../UI/winmain.cpp" line="428"/>
+        <location filename="../UI/winmain.cpp" line="605"/>
         <source>Discovery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="551"/>
-        <location filename="../UI/winmain.cpp" line="195"/>
-        <location filename="../UI/winmain.cpp" line="432"/>
-        <location filename="../UI/winmain.cpp" line="617"/>
+        <location filename="../UI/winmain.cpp" line="201"/>
+        <location filename="../UI/winmain.cpp" line="440"/>
+        <location filename="../UI/winmain.cpp" line="625"/>
         <source>Graph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="566"/>
-        <location filename="../UI/winmain.cpp" line="201"/>
-        <location filename="../UI/winmain.cpp" line="438"/>
-        <location filename="../UI/winmain.cpp" line="627"/>
+        <location filename="../UI/winmain.cpp" line="207"/>
+        <location filename="../UI/winmain.cpp" line="446"/>
+        <location filename="../UI/winmain.cpp" line="635"/>
         <source>Packet Dump</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="581"/>
-        <location filename="../UI/winmain.cpp" line="213"/>
-        <location filename="../UI/winmain.cpp" line="450"/>
-        <location filename="../UI/winmain.cpp" line="647"/>
+        <location filename="../UI/winmain.cpp" line="219"/>
+        <location filename="../UI/winmain.cpp" line="458"/>
+        <location filename="../UI/winmain.cpp" line="655"/>
         <source>Hit Monitor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="596"/>
-        <location filename="../UI/winmain.cpp" line="207"/>
-        <location filename="../UI/winmain.cpp" line="444"/>
-        <location filename="../UI/winmain.cpp" line="637"/>
+        <location filename="../UI/winmain.cpp" line="213"/>
+        <location filename="../UI/winmain.cpp" line="452"/>
+        <location filename="../UI/winmain.cpp" line="645"/>
         <source>Search Monitor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5730,7 +5736,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/winmain.ui" line="629"/>
         <source>Import Partials</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Prenést částečně stažené soubory</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="638"/>
@@ -5785,14 +5791,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/winmain.ui" line="731"/>
         <source>Ares</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ares</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="743"/>
         <location filename="../UI/winmain.ui" line="746"/>
-        <location filename="../UI/winmain.cpp" line="189"/>
-        <location filename="../UI/winmain.cpp" line="426"/>
-        <location filename="../UI/winmain.cpp" line="607"/>
+        <location filename="../UI/winmain.cpp" line="195"/>
+        <location filename="../UI/winmain.cpp" line="434"/>
+        <location filename="../UI/winmain.cpp" line="615"/>
         <source>Scheduler</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5869,68 +5875,73 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="69"/>
+        <location filename="../UI/winmain.cpp" line="71"/>
         <source>Loading User Interface...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="232"/>
+        <location filename="../UI/winmain.cpp" line="238"/>
         <source>Loading Profile...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="236"/>
+        <location filename="../UI/winmain.cpp" line="242"/>
         <source>Checking for first run...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="239"/>
+        <location filename="../UI/winmain.cpp" line="245"/>
         <source>Running first run wizard...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="253"/>
+        <location filename="../UI/winmain.cpp" line="259"/>
         <source>Loading Library...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="257"/>
+        <location filename="../UI/winmain.cpp" line="263"/>
         <source>Loading Networks...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="263"/>
+        <location filename="../UI/winmain.cpp" line="269"/>
         <source>Loading Networks: G2...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="275"/>
+        <location filename="../UI/winmain.cpp" line="283"/>
         <source>Loading Tray Icon...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="302"/>
+        <location filename="../UI/winmain.cpp" line="310"/>
         <source>Welcome to Quazaa!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="472"/>
+        <location filename="../UI/winmain.cpp" line="480"/>
         <source>Closing Networks...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="475"/>
+        <location filename="../UI/winmain.cpp" line="483"/>
         <source>Saving Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="478"/>
+        <location filename="../UI/winmain.cpp" line="486"/>
         <source>Saving UI...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="497"/>
+        <location filename="../UI/winmain.cpp" line="505"/>
         <source>Removing Tray Icon...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="972"/>
+        <source>%1 In:%2 Out [D:%3/U:%4]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6032,7 +6043,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../vlcmediaplayer.cpp" line="239"/>
         <source>Open Media File</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít soubor medií</translation>
     </message>
 </context>
 </TS>

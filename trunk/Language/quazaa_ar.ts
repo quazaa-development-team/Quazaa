@@ -4,13 +4,13 @@
 <context>
     <name>CG2Node</name>
     <message>
-        <location filename="../NetworkCore/g2node.cpp" line="134"/>
-        <location filename="../NetworkCore/g2node.cpp" line="200"/>
+        <location filename="../NetworkCore/g2node.cpp" line="139"/>
+        <location filename="../NetworkCore/g2node.cpp" line="205"/>
         <source>Remote host closed connection: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../NetworkCore/g2node.cpp" line="200"/>
+        <location filename="../NetworkCore/g2node.cpp" line="205"/>
         <source>. Error: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -50,101 +50,99 @@ p, li { white-space: pre-wrap; }
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Developers:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;brov, SmokeX&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Special Kudos:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Development would not have been possible without the help and excellent work of others. We would like to thank some of these people here.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rasterbar.com&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Arvid Norberg&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: Author of the libtorrent library which our torrent  library is based on.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.cherubicsoft.com/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ryo-oh-ki&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: This program is based on a great deal of his Shareaza code. &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Michael Stokes: The auctor intellectalis of Shareaza.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Logo&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Based on the Shareaza logo by Kid at &lt;/span&gt;&lt;a href=&quot;http://www.pakkeimak.com&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pakkeimak.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Concept and Design&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Cyko, Old Death, Rolandas&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Language Translators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Oce&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Website&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;ce3c, Cyko&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Wiki&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Cyko, Oce, Old Death&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Server Hosting&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;irc.p2pchat.net&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Thanks to the Quazaa community!&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Thanks to everyone who helped us in the forums and Quazaa IRC chatrooms. Those of you who help new users, troubleshoot user&apos;s technical problems, submit bug reports or help create the security lists.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;We give special thanks to the Forum Moderators and Chatroom Operators:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Forum Moderators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Quazaa forum superadmins: ce3c, Cyko, Kath, Old Death&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Operators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Kath: Quazaa Super Operator&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;The Shareaza Development Team&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;ale5000, Cyko_01, dcat, ivan386, Rolandas, Ryo-oh-ki, SkinVista, WildCard, _peer_, _slv_, a178235, brov, ceejay.dk, coolg1026, Cyberbob, DWKnight, Eperales, Frontier, FrYGuY, heavy_baby, Higgy, kevogod, kobayan, ogg123, jlh, jonatkins, micro, Mosteo, Paul Bludov, Rayner, roo_koo_too, Stealth, SteventB, tcwinkler, ten9, Thesage, TUW, Wai, zero9999, Zone-MR, Zootella&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Oh, and f*c* Will Erwin a.k.a. rhythmz or werwin.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;This application is based largely on:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Developers:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;brov, SmokeX&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Special Kudos:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Development would not have been possible without the help and excellent work of others. We would like to thank some of these people here.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rasterbar.com&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Arvid Norberg&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;: Author of the libtorrent library which our torrent  library is based on.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.cherubicsoft.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ryo-oh-ki&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;: This program is based on a great deal of his Shareaza code. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Michael Stokes: The auctor intellectalis of Shareaza.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Logo&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Based on the Shareaza logo by Kid at &lt;/span&gt;&lt;a href=&quot;http://www.pakkeimak.com&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pakkeimak.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Concept and Design&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Cyko, Old Death, Rolandas&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Language Translators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Oce&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Website&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;ce3c, Cyko&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Wiki&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Cyko, Oce, Old Death&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Server Hosting&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;irc.p2pchat.net&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Thanks to the Quazaa community!&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Thanks to everyone who helped us in the forums and Quazaa IRC chatrooms. Those of you who help new users, troubleshoot user&apos;s technical problems, submit bug reports or help create the security lists.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;We give special thanks to the Forum Moderators and Chatroom Operators:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Forum Moderators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Quazaa forum superadmins: ce3c, Cyko, Kath, Old Death&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Operators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Kath: Quazaa Super Operator&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;The Shareaza Development Team&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;ale5000, Cyko_01, dcat, ivan386, Rolandas, Ryo-oh-ki, SkinVista, WildCard, _peer_, _slv_, a178235, brov, ceejay.dk, coolg1026, Cyberbob, DWKnight, Eperales, Frontier, FrYGuY, heavy_baby, Higgy, kevogod, kobayan, ogg123, jlh, jonatkins, micro, Mosteo, Paul Bludov, Rayner, roo_koo_too, Stealth, SteventB, tcwinkler, ten9, Thesage, TUW, Wai, zero9999, Zone-MR, Zootella&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;This application is based largely on:&lt;/span&gt;&lt;/p&gt;
 &lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;10&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/Shareaza.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://shareaza.sf.net&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Shareaza&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;A multi-network P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa was created using the following tools:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://shareaza.sf.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Shareaza&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A multi-network P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa was created using the following tools:&lt;/span&gt;&lt;/p&gt;
 &lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;10&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/QT.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.nokia.com/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;QT&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;The Qt Software Development Kit&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.nokia.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;QT&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;The Qt Software Development Kit&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/Gimp.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.gimp.org&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;The Gimp&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;A free graphics editor&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa uses code and user interface designs from the following programs:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.gimp.org&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;The Gimp&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A free graphics editor&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa uses code and user interface designs from the following programs:&lt;/span&gt;&lt;/p&gt;
 &lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;10&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/Halite.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.binarynotions.com/halite-bittorrent-client&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Halte&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;A BitTorrent client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.binarynotions.com/halite-bittorrent-client&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Halte&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A BitTorrent client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/Frostwire.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.frostwire.com&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FrostWire&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;A free LimeWire Pro Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.frostwire.com&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FrostWire&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A free LimeWire Pro Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Networks/EDonkey.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.emule-project.net&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Emule&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;A free eDonkey/Kad P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.emule-project.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Emule&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A free eDonkey/Kad P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Networks/Ares.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://aresgalaxy.sourceforge.net&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ares&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;An open-source P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:7pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:7pt; color:#000000;&quot;&gt;BitTorrent, the BitTorrent Logo, and Torrent are trademarks of BitTorrent, Inc.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://aresgalaxy.sourceforge.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ares&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;An open-source P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; color:#000000;&quot;&gt;BitTorrent, the BitTorrent Logo, and Torrent are trademarks of BitTorrent, Inc.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogabout.ui" line="288"/>
+        <location filename="../UI/dialogabout.ui" line="286"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1813,7 +1811,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="299"/>
         <location filename="../UI/dialogsettings.ui" line="790"/>
-        <location filename="../UI/dialogsettings.ui" line="3608"/>
+        <location filename="../UI/dialogsettings.ui" line="3590"/>
         <source>Chat</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1844,7 +1842,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="407"/>
-        <location filename="../UI/dialogsettings.ui" line="3575"/>
+        <location filename="../UI/dialogsettings.ui" line="3557"/>
         <source>Transfers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2027,8 +2025,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogsettings.ui" line="1501"/>
         <location filename="../UI/dialogsettings.ui" line="1576"/>
         <location filename="../UI/dialogsettings.ui" line="1758"/>
-        <location filename="../UI/dialogsettings.ui" line="3023"/>
-        <location filename="../UI/dialogsettings.ui" line="3761"/>
+        <location filename="../UI/dialogsettings.ui" line="3049"/>
+        <location filename="../UI/dialogsettings.ui" line="3743"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2037,8 +2035,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogsettings.ui" line="1520"/>
         <location filename="../UI/dialogsettings.ui" line="1595"/>
         <location filename="../UI/dialogsettings.ui" line="1777"/>
-        <location filename="../UI/dialogsettings.ui" line="3083"/>
-        <location filename="../UI/dialogsettings.ui" line="3768"/>
+        <location filename="../UI/dialogsettings.ui" line="3109"/>
+        <location filename="../UI/dialogsettings.ui" line="3750"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2059,7 +2057,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1164"/>
-        <location filename="../UI/dialogsettings.ui" line="3550"/>
+        <location filename="../UI/dialogsettings.ui" line="3532"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2081,7 +2079,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1275"/>
-        <location filename="../UI/dialogsettings.ui" line="3460"/>
+        <location filename="../UI/dialogsettings.ui" line="3442"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2252,7 +2250,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1960"/>
-        <location filename="../UI/dialogsettings.ui" line="2855"/>
+        <location filename="../UI/dialogsettings.ui" line="2881"/>
         <source>Port: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2368,551 +2366,547 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2608"/>
-        <source>Inbound Address</source>
+        <source>Inbound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2631"/>
-        <location filename="../UI/dialogsettings.ui" line="2706"/>
+        <location filename="../UI/dialogsettings.ui" line="2663"/>
+        <location filename="../UI/dialogsettings.ui" line="2741"/>
+        <source>Speed: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogsettings.ui" line="2696"/>
+        <source>Outbound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogsettings.ui" line="2622"/>
+        <location filename="../UI/dialogsettings.ui" line="2710"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2657"/>
-        <location filename="../UI/dialogsettings.ui" line="2729"/>
+        <location filename="../UI/dialogsettings.ui" line="2648"/>
+        <location filename="../UI/dialogsettings.ui" line="2733"/>
         <source>Automatic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2665"/>
+        <location filename="../UI/dialogsettings.ui" line="2656"/>
         <source>Force Binding To This Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2683"/>
-        <source>Outbound Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogsettings.ui" line="2744"/>
+        <location filename="../UI/dialogsettings.ui" line="2770"/>
         <source>Timeouts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2767"/>
+        <location filename="../UI/dialogsettings.ui" line="2793"/>
         <source>Connection: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2783"/>
+        <location filename="../UI/dialogsettings.ui" line="2809"/>
         <source>Handshake: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2819"/>
+        <location filename="../UI/dialogsettings.ui" line="2845"/>
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2842"/>
+        <location filename="../UI/dialogsettings.ui" line="2868"/>
         <source>Random</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2893"/>
+        <location filename="../UI/dialogsettings.ui" line="2919"/>
         <source>Peer To Peer Link Handling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2914"/>
+        <location filename="../UI/dialogsettings.ui" line="2940"/>
         <source>Use Quazaa To Open These Types Of Links:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2976"/>
+        <location filename="../UI/dialogsettings.ui" line="3002"/>
         <source>Download Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2988"/>
+        <location filename="../UI/dialogsettings.ui" line="3014"/>
         <source>Use Quazaa to manage all my web downloads:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3030"/>
+        <location filename="../UI/dialogsettings.ui" line="3056"/>
         <source>The download manager plugin will only attempt to download file types listed here. Other file types will be handled by your web browser. Quazaa must be running to manage downloads.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3103"/>
+        <location filename="../UI/dialogsettings.ui" line="3129"/>
         <source>Only Download And Upload To Connected Networks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3110"/>
+        <location filename="../UI/dialogsettings.ui" line="3136"/>
         <source>Display Simple Progress Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3127"/>
+        <location filename="../UI/dialogsettings.ui" line="3153"/>
         <source>bits/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3132"/>
+        <location filename="../UI/dialogsettings.ui" line="3158"/>
         <source>Bytes/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3137"/>
+        <location filename="../UI/dialogsettings.ui" line="3163"/>
         <source>Kilobits/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3142"/>
+        <location filename="../UI/dialogsettings.ui" line="3168"/>
         <source>KiloBytes/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3147"/>
+        <location filename="../UI/dialogsettings.ui" line="3173"/>
         <source>Megabits/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3152"/>
+        <location filename="../UI/dialogsettings.ui" line="3178"/>
         <source>MegaBytes/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3160"/>
+        <location filename="../UI/dialogsettings.ui" line="3186"/>
         <source>Show Rates In:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3167"/>
-        <source>Choose your download speed: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogsettings.ui" line="3170"/>
-        <location filename="../UI/dialogsettings.ui" line="3192"/>
+        <location filename="../UI/dialogsettings.ui" line="2666"/>
+        <location filename="../UI/dialogsettings.ui" line="2744"/>
         <source> kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3189"/>
-        <source>Choose your upload speed: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogsettings.ui" line="3221"/>
+        <location filename="../UI/dialogsettings.ui" line="3203"/>
         <source>Expand New Downloads By Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3237"/>
+        <location filename="../UI/dialogsettings.ui" line="3219"/>
         <source>Save Completed Files Here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3256"/>
+        <location filename="../UI/dialogsettings.ui" line="3238"/>
         <source>Browse For Completed Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3282"/>
+        <location filename="../UI/dialogsettings.ui" line="3264"/>
         <source>Store Temporary Files Here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3301"/>
+        <location filename="../UI/dialogsettings.ui" line="3283"/>
         <source>Browse For Temporary Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3327"/>
+        <location filename="../UI/dialogsettings.ui" line="3309"/>
         <source>Number Of Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3341"/>
+        <location filename="../UI/dialogsettings.ui" line="3323"/>
         <source>Maximum Que Length:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3358"/>
+        <location filename="../UI/dialogsettings.ui" line="3340"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3363"/>
+        <location filename="../UI/dialogsettings.ui" line="3345"/>
         <source>10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3368"/>
+        <location filename="../UI/dialogsettings.ui" line="3350"/>
         <source>20</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3373"/>
+        <location filename="../UI/dialogsettings.ui" line="3355"/>
         <source>MAX</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3381"/>
+        <location filename="../UI/dialogsettings.ui" line="3363"/>
         <source>Maximum Files: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3397"/>
+        <location filename="../UI/dialogsettings.ui" line="3379"/>
         <source>Maximum Transfers: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3413"/>
+        <location filename="../UI/dialogsettings.ui" line="3395"/>
         <source>Transfers Per File: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3434"/>
+        <location filename="../UI/dialogsettings.ui" line="3416"/>
         <source>Show Prompt Before Opening URIs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3472"/>
+        <location filename="../UI/dialogsettings.ui" line="3454"/>
         <source>Share NEW Partial Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3479"/>
+        <location filename="../UI/dialogsettings.ui" line="3461"/>
         <source>Limit Sharing In Hub Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3486"/>
+        <location filename="../UI/dialogsettings.ui" line="3468"/>
         <source>Share Preview Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3493"/>
+        <location filename="../UI/dialogsettings.ui" line="3475"/>
         <source>Limit Per Unique host: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3509"/>
+        <location filename="../UI/dialogsettings.ui" line="3491"/>
         <source>Queues</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3536"/>
+        <location filename="../UI/dialogsettings.ui" line="3518"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3543"/>
+        <location filename="../UI/dialogsettings.ui" line="3525"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3560"/>
+        <location filename="../UI/dialogsettings.ui" line="3542"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3565"/>
+        <location filename="../UI/dialogsettings.ui" line="3547"/>
         <source>Criteria</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3570"/>
+        <location filename="../UI/dialogsettings.ui" line="3552"/>
         <source>Bandwidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3629"/>
+        <location filename="../UI/dialogsettings.ui" line="3611"/>
         <source>Filter Chat For Spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3636"/>
+        <location filename="../UI/dialogsettings.ui" line="3618"/>
         <source>Allow Others To Browse Your Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3643"/>
+        <location filename="../UI/dialogsettings.ui" line="3625"/>
         <source>Filter eDonkey 2k Chat Spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3650"/>
+        <location filename="../UI/dialogsettings.ui" line="3632"/>
         <source> lines per second.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3660"/>
+        <location filename="../UI/dialogsettings.ui" line="3642"/>
         <source>Enable Chat Flood Protection:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3670"/>
+        <location filename="../UI/dialogsettings.ui" line="3652"/>
         <source>Quazaa Remote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3691"/>
+        <location filename="../UI/dialogsettings.ui" line="3673"/>
         <source>Enable Remote Control Of Quazaa Through A Web Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3698"/>
+        <location filename="../UI/dialogsettings.ui" line="3680"/>
         <source>Remote User Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3705"/>
+        <location filename="../UI/dialogsettings.ui" line="3687"/>
         <source>Remote Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3737"/>
+        <location filename="../UI/dialogsettings.ui" line="3719"/>
         <source>User-Agent Upload Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3780"/>
+        <location filename="../UI/dialogsettings.ui" line="3762"/>
         <source>Enable UPnP To Set Up Firewalls/Routers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3787"/>
+        <location filename="../UI/dialogsettings.ui" line="3769"/>
         <source>Ignore Private/Local IP Addresses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3794"/>
+        <location filename="../UI/dialogsettings.ui" line="3776"/>
         <source>Allow Others To Browse Shares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3819"/>
+        <location filename="../UI/dialogsettings.ui" line="3801"/>
         <source>Gnutella 2 Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3831"/>
+        <location filename="../UI/dialogsettings.ui" line="3813"/>
         <source>Connect To Gnutella 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3838"/>
+        <location filename="../UI/dialogsettings.ui" line="3820"/>
         <source>Mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3849"/>
+        <location filename="../UI/dialogsettings.ui" line="3831"/>
         <source>Optimal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3854"/>
+        <location filename="../UI/dialogsettings.ui" line="3836"/>
         <source>Leaf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3859"/>
+        <location filename="../UI/dialogsettings.ui" line="3841"/>
         <source>Hub</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3876"/>
+        <location filename="../UI/dialogsettings.ui" line="3858"/>
         <source>G2 Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3888"/>
+        <location filename="../UI/dialogsettings.ui" line="3870"/>
         <source>Leaf to Hub: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3901"/>
+        <location filename="../UI/dialogsettings.ui" line="3883"/>
         <source>Hub to Leaf: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3917"/>
+        <location filename="../UI/dialogsettings.ui" line="3899"/>
         <source>Hub to Hub: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3943"/>
-        <location filename="../UI/dialogsettings.ui" line="4466"/>
+        <location filename="../UI/dialogsettings.ui" line="3925"/>
+        <location filename="../UI/dialogsettings.ui" line="4448"/>
         <source>Connect To Ares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3966"/>
+        <location filename="../UI/dialogsettings.ui" line="3948"/>
         <source>eDonkey Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3978"/>
-        <location filename="../UI/dialogsettings.ui" line="4538"/>
+        <location filename="../UI/dialogsettings.ui" line="3960"/>
+        <location filename="../UI/dialogsettings.ui" line="4520"/>
         <source>Connect To eDonkey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3985"/>
+        <location filename="../UI/dialogsettings.ui" line="3967"/>
         <source>Connect To The Kad Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4001"/>
+        <location filename="../UI/dialogsettings.ui" line="3983"/>
         <source>Global Searching</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4013"/>
+        <location filename="../UI/dialogsettings.ui" line="3995"/>
         <source>Search Known Remote Severs In the Server Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4020"/>
+        <location filename="../UI/dialogsettings.ui" line="4002"/>
         <source> search results.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4023"/>
+        <location filename="../UI/dialogsettings.ui" line="4005"/>
         <source>Stop searching after </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4039"/>
+        <location filename="../UI/dialogsettings.ui" line="4021"/>
         <source>Recieve And Update Server List From The Connected server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4055"/>
+        <location filename="../UI/dialogsettings.ui" line="4037"/>
         <source>Client Link Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4067"/>
+        <location filename="../UI/dialogsettings.ui" line="4049"/>
         <source> other eDonky 2k clients.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4070"/>
+        <location filename="../UI/dialogsettings.ui" line="4052"/>
         <source>Connect to no more than </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4095"/>
+        <location filename="../UI/dialogsettings.ui" line="4077"/>
         <source>eDonkey Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4107"/>
+        <location filename="../UI/dialogsettings.ui" line="4089"/>
         <source>Download eDonkey server list from the web.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4120"/>
+        <location filename="../UI/dialogsettings.ui" line="4102"/>
         <source>Download...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4127"/>
+        <location filename="../UI/dialogsettings.ui" line="4109"/>
         <source>Automatically Download Updated Server List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4153"/>
+        <location filename="../UI/dialogsettings.ui" line="4135"/>
         <source>Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4165"/>
+        <location filename="../UI/dialogsettings.ui" line="4147"/>
         <source>Show Torrent Save Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4172"/>
+        <location filename="../UI/dialogsettings.ui" line="4154"/>
         <source>Open New Torrents Paused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4179"/>
+        <location filename="../UI/dialogsettings.ui" line="4161"/>
         <source>Use Temporary Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4186"/>
+        <location filename="../UI/dialogsettings.ui" line="4168"/>
         <source>Managed Torrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4193"/>
+        <location filename="../UI/dialogsettings.ui" line="4175"/>
         <source>Enable Endgame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4209"/>
+        <location filename="../UI/dialogsettings.ui" line="4191"/>
         <source>Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4221"/>
+        <location filename="../UI/dialogsettings.ui" line="4203"/>
         <source> Torrents at once.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4228"/>
+        <location filename="../UI/dialogsettings.ui" line="4210"/>
         <source> Client connections.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4235"/>
+        <location filename="../UI/dialogsettings.ui" line="4217"/>
         <source>Prefer Torrent Sources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4242"/>
+        <location filename="../UI/dialogsettings.ui" line="4224"/>
         <source>Use Kademlia With BitTorrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4251"/>
+        <location filename="../UI/dialogsettings.ui" line="4233"/>
         <source>Clear Downloaded Torrents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4264"/>
+        <location filename="../UI/dialogsettings.ui" line="4246"/>
         <source> %.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4267"/>
+        <location filename="../UI/dialogsettings.ui" line="4249"/>
         <source>when the ratio reaches </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4307"/>
+        <location filename="../UI/dialogsettings.ui" line="4289"/>
         <source>Store .torrent Files Here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4322"/>
+        <location filename="../UI/dialogsettings.ui" line="4304"/>
         <source>Browse For Completed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4394"/>
+        <location filename="../UI/dialogsettings.ui" line="4376"/>
         <source>Connect To G2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4401"/>
+        <location filename="../UI/dialogsettings.ui" line="4383"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2921,12 +2915,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4412"/>
+        <location filename="../UI/dialogsettings.ui" line="4394"/>
         <source>Quazaa&apos;s Premier Network, offering more features and performance than any other P2P network. Highly reccomended.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4473"/>
+        <location filename="../UI/dialogsettings.ui" line="4455"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2935,12 +2929,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4484"/>
+        <location filename="../UI/dialogsettings.ui" line="4466"/>
         <source>Like G2, this is an upgraded version of G1, very popular in the open source community.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4545"/>
+        <location filename="../UI/dialogsettings.ui" line="4527"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2949,12 +2943,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4556"/>
+        <location filename="../UI/dialogsettings.ui" line="4538"/>
         <source>A popular centralised server based network. Generally slow but rare files can be found on this network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4610"/>
+        <location filename="../UI/dialogsettings.ui" line="4592"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2963,37 +2957,37 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4621"/>
+        <location filename="../UI/dialogsettings.ui" line="4603"/>
         <source>This network uses centralised websites to list available content. Very popular and fast.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4666"/>
+        <location filename="../UI/dialogsettings.ui" line="4648"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4673"/>
+        <location filename="../UI/dialogsettings.ui" line="4655"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4680"/>
+        <location filename="../UI/dialogsettings.ui" line="4662"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="980"/>
+        <location filename="../UI/dialogsettings.cpp" line="975"/>
         <source>Select A Folder For Completed Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="1011"/>
+        <location filename="../UI/dialogsettings.cpp" line="1006"/>
         <source>Select A Folder For Incomplete Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="1243"/>
+        <location filename="../UI/dialogsettings.cpp" line="1238"/>
         <source>Select A Folder For .torrent Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3782,30 +3776,30 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="455"/>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="42"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="45"/>
         <source>Minimize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="491"/>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="46"/>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="212"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="49"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="215"/>
         <source>Maximize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="551"/>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="51"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="54"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="38"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="41"/>
         <source>Restore</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QSkinDialog/qskindialog.cpp" line="199"/>
+        <location filename="../QSkinDialog/qskindialog.cpp" line="202"/>
         <source>Restore Down</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3836,13 +3830,13 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QuazaaSettings</name>
     <message>
-        <location filename="../quazaasettings.cpp" line="976"/>
-        <location filename="../quazaasettings.cpp" line="981"/>
+        <location filename="../quazaasettings.cpp" line="984"/>
+        <location filename="../quazaasettings.cpp" line="989"/>
         <source>Quazaa User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../quazaasettings.cpp" line="982"/>
+        <location filename="../quazaasettings.cpp" line="990"/>
         <source>QuazaaUser</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4890,63 +4884,75 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/widgetneighbors.ui" line="80"/>
+        <location filename="../UI/widgetneighbors.ui" line="140"/>
         <source>toolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/widgetneighbors.ui" line="112"/>
+        <location filename="../UI/widgetneighbors.ui" line="151"/>
         <source>toolBar_2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="144"/>
-        <location filename="../UI/widgetneighbors.ui" line="147"/>
+        <location filename="../UI/widgetneighbors.ui" line="162"/>
+        <source>toolBar_3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetneighbors.ui" line="177"/>
+        <location filename="../UI/widgetneighbors.ui" line="180"/>
         <source>Connect To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="156"/>
-        <location filename="../UI/widgetneighbors.ui" line="159"/>
+        <location filename="../UI/widgetneighbors.ui" line="189"/>
+        <location filename="../UI/widgetneighbors.ui" line="192"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="168"/>
-        <location filename="../UI/widgetneighbors.ui" line="171"/>
+        <location filename="../UI/widgetneighbors.ui" line="201"/>
+        <location filename="../UI/widgetneighbors.ui" line="204"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="180"/>
-        <location filename="../UI/widgetneighbors.ui" line="183"/>
+        <location filename="../UI/widgetneighbors.ui" line="213"/>
+        <location filename="../UI/widgetneighbors.ui" line="216"/>
         <source>Chat With</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="192"/>
-        <location filename="../UI/widgetneighbors.ui" line="195"/>
+        <location filename="../UI/widgetneighbors.ui" line="225"/>
+        <location filename="../UI/widgetneighbors.ui" line="228"/>
         <source>Ban</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="207"/>
-        <location filename="../UI/widgetneighbors.ui" line="210"/>
+        <location filename="../UI/widgetneighbors.ui" line="240"/>
+        <location filename="../UI/widgetneighbors.ui" line="243"/>
         <source>eDonkey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="225"/>
+        <location filename="../UI/widgetneighbors.ui" line="258"/>
         <source>Gnutella 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="237"/>
+        <location filename="../UI/widgetneighbors.ui" line="270"/>
         <source>Ares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="246"/>
+        <location filename="../UI/widgetneighbors.ui" line="279"/>
         <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetneighbors.cpp" line="102"/>
+        <source> %1 Hubs, %2 Leaves, %3 In:%4 Out</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5475,17 +5481,17 @@ p, li { white-space: pre-wrap; }
     <name>WinMain</name>
     <message>
         <location filename="../UI/winmain.ui" line="14"/>
-        <location filename="../UI/winmain.cpp" line="296"/>
+        <location filename="../UI/winmain.cpp" line="304"/>
         <source>Quazaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="84"/>
-        <location filename="../UI/winmain.cpp" line="129"/>
-        <location filename="../UI/winmain.cpp" line="219"/>
-        <location filename="../UI/winmain.cpp" line="366"/>
-        <location filename="../UI/winmain.cpp" line="456"/>
-        <location filename="../UI/winmain.cpp" line="508"/>
+        <location filename="../UI/winmain.cpp" line="135"/>
+        <location filename="../UI/winmain.cpp" line="225"/>
+        <location filename="../UI/winmain.cpp" line="374"/>
+        <location filename="../UI/winmain.cpp" line="464"/>
+        <location filename="../UI/winmain.cpp" line="516"/>
         <source>Quazaa Home</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5557,49 +5563,49 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="305"/>
-        <location filename="../UI/winmain.cpp" line="135"/>
-        <location filename="../UI/winmain.cpp" line="372"/>
-        <location filename="../UI/winmain.cpp" line="518"/>
+        <location filename="../UI/winmain.cpp" line="141"/>
+        <location filename="../UI/winmain.cpp" line="380"/>
+        <location filename="../UI/winmain.cpp" line="526"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="320"/>
-        <location filename="../UI/winmain.cpp" line="147"/>
-        <location filename="../UI/winmain.cpp" line="384"/>
-        <location filename="../UI/winmain.cpp" line="537"/>
+        <location filename="../UI/winmain.cpp" line="153"/>
+        <location filename="../UI/winmain.cpp" line="392"/>
+        <location filename="../UI/winmain.cpp" line="545"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="335"/>
-        <location filename="../UI/winmain.cpp" line="153"/>
-        <location filename="../UI/winmain.cpp" line="390"/>
-        <location filename="../UI/winmain.cpp" line="547"/>
+        <location filename="../UI/winmain.cpp" line="159"/>
+        <location filename="../UI/winmain.cpp" line="398"/>
+        <location filename="../UI/winmain.cpp" line="555"/>
         <source>Transfers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="350"/>
-        <location filename="../UI/winmain.cpp" line="159"/>
-        <location filename="../UI/winmain.cpp" line="396"/>
-        <location filename="../UI/winmain.cpp" line="557"/>
+        <location filename="../UI/winmain.cpp" line="165"/>
+        <location filename="../UI/winmain.cpp" line="404"/>
+        <location filename="../UI/winmain.cpp" line="565"/>
         <source>Security</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="365"/>
-        <location filename="../UI/winmain.cpp" line="165"/>
-        <location filename="../UI/winmain.cpp" line="402"/>
-        <location filename="../UI/winmain.cpp" line="567"/>
+        <location filename="../UI/winmain.cpp" line="171"/>
+        <location filename="../UI/winmain.cpp" line="410"/>
+        <location filename="../UI/winmain.cpp" line="575"/>
         <source>Activity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="380"/>
-        <location filename="../UI/winmain.cpp" line="141"/>
-        <location filename="../UI/winmain.cpp" line="378"/>
-        <location filename="../UI/winmain.cpp" line="527"/>
+        <location filename="../UI/winmain.cpp" line="147"/>
+        <location filename="../UI/winmain.cpp" line="386"/>
+        <location filename="../UI/winmain.cpp" line="535"/>
         <source>Media</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5659,58 +5665,58 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="503"/>
-        <location filename="../UI/winmain.cpp" line="171"/>
-        <location filename="../UI/winmain.cpp" line="408"/>
-        <location filename="../UI/winmain.cpp" line="577"/>
+        <location filename="../UI/winmain.cpp" line="177"/>
+        <location filename="../UI/winmain.cpp" line="416"/>
+        <location filename="../UI/winmain.cpp" line="585"/>
         <source>Chat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="518"/>
         <location filename="../UI/winmain.ui" line="521"/>
-        <location filename="../UI/winmain.cpp" line="177"/>
-        <location filename="../UI/winmain.cpp" line="414"/>
-        <location filename="../UI/winmain.cpp" line="587"/>
+        <location filename="../UI/winmain.cpp" line="183"/>
+        <location filename="../UI/winmain.cpp" line="422"/>
+        <location filename="../UI/winmain.cpp" line="595"/>
         <source>Host Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="536"/>
-        <location filename="../UI/winmain.cpp" line="183"/>
-        <location filename="../UI/winmain.cpp" line="420"/>
-        <location filename="../UI/winmain.cpp" line="597"/>
+        <location filename="../UI/winmain.cpp" line="189"/>
+        <location filename="../UI/winmain.cpp" line="428"/>
+        <location filename="../UI/winmain.cpp" line="605"/>
         <source>Discovery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="551"/>
-        <location filename="../UI/winmain.cpp" line="195"/>
-        <location filename="../UI/winmain.cpp" line="432"/>
-        <location filename="../UI/winmain.cpp" line="617"/>
+        <location filename="../UI/winmain.cpp" line="201"/>
+        <location filename="../UI/winmain.cpp" line="440"/>
+        <location filename="../UI/winmain.cpp" line="625"/>
         <source>Graph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="566"/>
-        <location filename="../UI/winmain.cpp" line="201"/>
-        <location filename="../UI/winmain.cpp" line="438"/>
-        <location filename="../UI/winmain.cpp" line="627"/>
+        <location filename="../UI/winmain.cpp" line="207"/>
+        <location filename="../UI/winmain.cpp" line="446"/>
+        <location filename="../UI/winmain.cpp" line="635"/>
         <source>Packet Dump</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="581"/>
-        <location filename="../UI/winmain.cpp" line="213"/>
-        <location filename="../UI/winmain.cpp" line="450"/>
-        <location filename="../UI/winmain.cpp" line="647"/>
+        <location filename="../UI/winmain.cpp" line="219"/>
+        <location filename="../UI/winmain.cpp" line="458"/>
+        <location filename="../UI/winmain.cpp" line="655"/>
         <source>Hit Monitor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="596"/>
-        <location filename="../UI/winmain.cpp" line="207"/>
-        <location filename="../UI/winmain.cpp" line="444"/>
-        <location filename="../UI/winmain.cpp" line="637"/>
+        <location filename="../UI/winmain.cpp" line="213"/>
+        <location filename="../UI/winmain.cpp" line="452"/>
+        <location filename="../UI/winmain.cpp" line="645"/>
         <source>Search Monitor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5788,9 +5794,9 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/winmain.ui" line="743"/>
         <location filename="../UI/winmain.ui" line="746"/>
-        <location filename="../UI/winmain.cpp" line="189"/>
-        <location filename="../UI/winmain.cpp" line="426"/>
-        <location filename="../UI/winmain.cpp" line="607"/>
+        <location filename="../UI/winmain.cpp" line="195"/>
+        <location filename="../UI/winmain.cpp" line="434"/>
+        <location filename="../UI/winmain.cpp" line="615"/>
         <source>Scheduler</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5867,68 +5873,73 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="69"/>
+        <location filename="../UI/winmain.cpp" line="71"/>
         <source>Loading User Interface...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="232"/>
+        <location filename="../UI/winmain.cpp" line="238"/>
         <source>Loading Profile...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="236"/>
+        <location filename="../UI/winmain.cpp" line="242"/>
         <source>Checking for first run...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="239"/>
+        <location filename="../UI/winmain.cpp" line="245"/>
         <source>Running first run wizard...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="253"/>
+        <location filename="../UI/winmain.cpp" line="259"/>
         <source>Loading Library...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="257"/>
+        <location filename="../UI/winmain.cpp" line="263"/>
         <source>Loading Networks...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="263"/>
+        <location filename="../UI/winmain.cpp" line="269"/>
         <source>Loading Networks: G2...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="275"/>
+        <location filename="../UI/winmain.cpp" line="283"/>
         <source>Loading Tray Icon...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="302"/>
+        <location filename="../UI/winmain.cpp" line="310"/>
         <source>Welcome to Quazaa!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="472"/>
+        <location filename="../UI/winmain.cpp" line="480"/>
         <source>Closing Networks...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="475"/>
+        <location filename="../UI/winmain.cpp" line="483"/>
         <source>Saving Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="478"/>
+        <location filename="../UI/winmain.cpp" line="486"/>
         <source>Saving UI...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="497"/>
+        <location filename="../UI/winmain.cpp" line="505"/>
         <source>Removing Tray Icon...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="972"/>
+        <source>%1 In:%2 Out [D:%3/U:%4]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
