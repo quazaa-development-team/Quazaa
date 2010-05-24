@@ -161,7 +161,8 @@ void CDatagrams::OnDatagram()
 
 	if( !Network.m_pSection.tryLock(50) )
 	{
-		// receive and discard datagram
+		// receive and discard datagram, g2 reliability layer should retransmit
+		m_nBandwidthIn += m_pSocket->pendingDatagramSize();
 		m_pSocket->readDatagram(0, 0, 0, 0);
 
 		qWarning() << "Can't get lock in CDatagrams::OnDatagram. Network core overloaded.";
@@ -170,10 +171,8 @@ void CDatagrams::OnDatagram()
 
 	quint32 nCounter = 100;
 
-	while( m_pSocket->hasPendingDatagrams() && nCounter )
+	while( m_pSocket->hasPendingDatagrams() && nCounter-- )
     {
-		nCounter--;
-
         qint64 nSize = m_pSocket->pendingDatagramSize();
         m_pRecvBuffer->resize(nSize);
         qint64 nReadSize = m_pSocket->readDatagram(m_pRecvBuffer->data(), nSize, m_pHostAddress, &m_nPort);
@@ -627,20 +626,26 @@ void CDatagrams::OnCRAWLR(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 	pCA->WritePacket(pTmp);
 	pTmp->Release();
 
-	/*foreach( CG2Node* pNode, Network.m_lNodes )
+	foreach( CG2Node* pNode, Network.m_lNodes )
 	{
 		if( pNode->m_nState == nsConnected )
 		{
 			if( pNode->m_nType == G2_HUB )
 			{
-				pCA->WriteChild("NH")->WriteChild("NA")->WriteHostAddress(&pNode->m_oAddress);
+				G2Packet* pNH = G2Packet::New("NH");
+				pNH->WritePacket("NA", 6)->WriteHostAddress(&pNode->m_oAddress);
+				pCA->WritePacket(pNH);
+				pNH->Release();
 			}
 			else if( pNode->m_nType == G2_LEAF )
 			{
-				pCA->WriteChild("NL")->WriteChild("NA")->WriteHostAddress(&pNode->m_oAddress);
+				G2Packet* pNL = G2Packet::New("NL");
+				pNL->WritePacket("NA", 6)->WriteHostAddress(&pNode->m_oAddress);
+				pCA->WritePacket(pNL);
+				pNL->Release();
 			}
 		}
-	}*/
+	}
 
     SendPacket(addr, pCA, true);
 

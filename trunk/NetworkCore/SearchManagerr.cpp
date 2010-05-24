@@ -190,7 +190,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet *pPacket, IPv4_ENDPOINT &addr, 
 			pSearch->OnHostAcknowledge(lDone[i], tNow);
 		}
 
-		emit StatsUpdated(pSearch);
+		emit pSearch->StatsUpdated();
 
 		return false;
 	}
@@ -212,7 +212,7 @@ bool CSearchManager::OnQueryHit(QueryHitSharedPtr pHits)
     if( CManagedSearch* pSearch = Find(pHits->m_pHitInfo->m_oGUID) )
     {
         pSearch->OnQueryHit(pHits);
-        emit StatsUpdated(pSearch);
+		emit pSearch->StatsUpdated();
         return false;
     }
 

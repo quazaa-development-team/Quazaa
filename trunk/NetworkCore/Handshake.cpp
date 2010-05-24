@@ -20,6 +20,13 @@ void CHandshake::acceptFrom(int handle)
 
     m_pSocket->setSocketDescriptor(handle);
 
+	if( m_pSocket->peerAddress() == QHostAddress::Any || m_pSocket->peerAddress() == QHostAddress::Null )
+	{
+		m_pSocket->abort();
+		deleteLater();
+		return;
+	}
+
     qDebug() << "Accepted an incoming connection from " << m_pSocket->peerAddress().toString().toAscii().constData();
     OnRead();
 }

@@ -443,14 +443,14 @@ void CG2Node::ParseOutgoingHandshake()
         HostCache.AddXTry(sTry);
     }
 
-    QString sRemoteIP = Parser::GetHeaderValue(sHs, "Remote-IP");
+	/*QString sRemoteIP = Parser::GetHeaderValue(sHs, "Remote-IP");
     if( !sRemoteIP.isEmpty() )
         Network.AcquireLocalAddress(sRemoteIP);
     else
     {
         Send_ConnectError("503 Remote-IP header missing");
         return;
-    }
+	}*/
 
     if( sHs.left(16) != "GNUTELLA/0.6 200" )
     {
@@ -635,7 +635,7 @@ void CG2Node::SendLNI()
 
 	pLNI->WritePacket("g2core", 0);
 
-	SendPacket(pLNI, true, true);
+	SendPacket(pLNI, false, true);
 }
 
 
