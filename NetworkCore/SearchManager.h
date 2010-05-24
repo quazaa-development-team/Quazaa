@@ -35,7 +35,6 @@ public:
     bool OnQueryHit(QueryHitSharedPtr pHits);
 
 signals:
-    void StatsUpdated(CManagedSearch*);
 
 public slots:
 

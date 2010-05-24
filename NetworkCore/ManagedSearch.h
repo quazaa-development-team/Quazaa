@@ -48,9 +48,11 @@ public:
 
 signals:
     void OnHit(QueryHitSharedPtr);
+	void StatsUpdated();
 
 public slots:
 
+	friend class CSearchManager;
 };
 
 #endif // MANAGEDSEARCH_H

@@ -478,6 +478,8 @@ void WinMain::quazaaShutdown()
 	dlgSplash->show();
 
 	dlgSplash->updateProgress(5, tr("Closing Networks..."));
+	neighboursRefresher->stop();
+	delete neighboursRefresher;
 	Network.Disconnect();
 
 	dlgSplash->updateProgress(10, tr("Saving Settings..."));
@@ -961,13 +963,13 @@ void WinMain::updateBandwidth()
 	{
 		nTCPInSpeed = Network.DownloadSpeed();
 		nTCPOutSpeed = Network.UploadSpeed();
-		Network.m_pSection.unlock();
-	}
-	if( Datagrams.m_pSection.tryLock(50) && bEmit )
-	{
 		nUDPInSpeed = Datagrams.DownloadSpeed();
 		nUDPOutSpeed = Datagrams.UploadSpeed();
-		Datagrams.m_pSection.unlock();
+		Network.m_pSection.unlock();
 	}
+	/*if( Datagrams.m_pSection.tryLock(50) && bEmit )
+	{
+		Datagrams.m_pSection.unlock();
+	}*/
 	labelBandwidthTotals->setText(tr("%1 In:%2 Out [D:%3/U:%4]").arg(Functions.FormatBandwidth(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBandwidth(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
 }

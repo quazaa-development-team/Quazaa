@@ -84,8 +84,8 @@ void CRateController::transfer()
     do
     {
         bCanTransferMore = false;
-		qint64 nWriteChunk = qMax(qint64(0), nToWrite / lSockets.size());
-		qint64 nReadChunk = qMax(qint64(0), nToRead / lSockets.size());
+		qint64 nWriteChunk = qMax(qint64(1), nToWrite / lSockets.size());
+		qint64 nReadChunk = qMax(qint64(1), nToRead / lSockets.size());
 
         QSetIterator<CNetworkConnection*> it(lSockets);
         while( it.hasNext() && (nToRead > 0 || nToWrite > 0))
