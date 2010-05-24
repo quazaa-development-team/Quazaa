@@ -3,6 +3,7 @@
 #include "network.h"
 #include <QColor>
 #include <QSize>
+#include <QIcon>
 
 CNeighboursTableModel::CNeighboursTableModel(QObject *parent) :
     QAbstractTableModel(parent)
@@ -32,6 +33,12 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 
     if( index.row() > m_lNodes.size() || index.row() < 0 )
         return QVariant();
+
+	if ( (role == Qt::DecorationRole) && (index.column() == 0) )
+	{
+		QIcon icon(":/Resource/Networks/Gnutella2.png");
+		return icon;
+	}
 
     if( role == Qt::DisplayRole )
     {
@@ -103,16 +110,16 @@ QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientat
         case 9:
                return "User Agent";
         }
-
     }
+
     else if( role == Qt::SizeHintRole && orientation == Qt::Horizontal )
     {
         switch(section)
         {
         case 0:
-            return QSize(200, 40);
+			return QSize(200, 20);
         case 1:
-            return QSize(100, 40);
+			return QSize(100, 20);
         }
     }
 

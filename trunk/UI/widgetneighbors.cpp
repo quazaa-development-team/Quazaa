@@ -55,7 +55,7 @@ void WidgetNeighbors::skinChangeEvent()
 
 void WidgetNeighbors::setModel(QAbstractItemModel *model)
 {
-	ui->tableViewNeighbors->setModel(model);
+	ui->treeViewNeighbors->setModel(model);
 }
 
 void WidgetNeighbors::saveWidget()
