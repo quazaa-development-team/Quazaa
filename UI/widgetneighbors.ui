@@ -25,7 +25,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTableView" name="tableViewNeighbors">
+     <widget class="QTreeView" name="treeViewNeighbors">
       <property name="editTriggers">
        <set>QAbstractItemView::NoEditTriggers</set>
       </property>
@@ -33,41 +33,23 @@
        <bool>true</bool>
       </property>
       <property name="selectionMode">
-       <enum>QAbstractItemView::MultiSelection</enum>
+       <enum>QAbstractItemView::SingleSelection</enum>
       </property>
       <property name="selectionBehavior">
        <enum>QAbstractItemView::SelectRows</enum>
       </property>
-      <property name="showGrid">
+      <property name="rootIsDecorated">
        <bool>false</bool>
       </property>
-      <property name="gridStyle">
-       <enum>Qt::NoPen</enum>
+      <property name="itemsExpandable">
+       <bool>false</bool>
       </property>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>100</number>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="expandsOnDoubleClick">
        <bool>false</bool>
-      </attribute>
-      <attribute name="verticalHeaderDefaultSectionSize">
-       <number>15</number>
-      </attribute>
-      <attribute name="verticalHeaderMinimumSectionSize">
-       <number>15</number>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="verticalHeaderDefaultSectionSize">
-       <number>15</number>
-      </attribute>
-      <attribute name="verticalHeaderMinimumSectionSize">
-       <number>15</number>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>100</number>
-      </attribute>
+      </property>
      </widget>
     </item>
    </layout>
@@ -170,7 +152,7 @@
   </widget>
   <action name="actionNeighborConnectTo">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -182,7 +164,7 @@
   </action>
   <action name="actionNeighborDisconnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -194,7 +176,7 @@
   </action>
   <action name="actionNetworkBrowse">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -206,7 +188,7 @@
   </action>
   <action name="actionNetworkChatWith">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -218,7 +200,7 @@
   </action>
   <action name="actionNetworkBan">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
    </property>
    <property name="text">
@@ -233,7 +215,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
    </property>
    <property name="text">
@@ -251,7 +233,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
    </property>
    <property name="text">
@@ -263,7 +245,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
    </property>
    <property name="text">
@@ -272,7 +254,7 @@
   </action>
   <action name="actionSettings">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -280,6 +262,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

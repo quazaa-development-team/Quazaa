@@ -17,12 +17,13 @@ INCLUDEPATH += vlc \
     temp \
     3rdparty \
     3rdparty/libircclient-qt \
+    Models \
     .
 win32:LIBS += -Lbin # if you are at windows os
 LIBS += -lvlc
 CONFIG += precompile_header \
     no_icu \
-	no_deprecated
+    no_deprecated
 DEFINES += IRC_STATIC
 PRECOMPILED_HEADER = NetworkCore/types.h
 TEMPLATE = app
@@ -91,7 +92,6 @@ SOURCES += main.cpp \
     NetworkCore/CompressedConnection.cpp \
     NetworkCore/Hashes/sha1.cpp \
     NetworkCore/Hashes/AbstractHash.cpp \
-    NeighboursTableModel.cpp \
     UI/winmain.cpp \
     UI/widgethome.cpp \
     UI/widgetlibrary.cpp \
@@ -122,7 +122,8 @@ SOURCES += main.cpp \
     3rdparty/libircclient-qt/ircbuffer.cpp \
     3rdparty/libircclient-qt/irc.cpp \
     3rdparty/CyoEncode/CyoEncode.c \
-    3rdparty/CyoEncode/CyoDecode.c
+    3rdparty/CyoEncode/CyoDecode.c \
+	Models/NeighboursTableModel.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -186,7 +187,6 @@ HEADERS += UI/dialoglanguage.h \
     NetworkCore/Hashes/AbstractHash.h \
     NetworkCore/queryhashtable.h \
     NetworkCore/parser.h \
-    NeighboursTableModel.h \
     UI/winmain.h \
     UI/widgethome.h \
     UI/widgetlibrary.h \
@@ -220,7 +220,8 @@ HEADERS += UI/dialoglanguage.h \
     3rdparty/libircclient-qt/ircbuffer.h \
     3rdparty/libircclient-qt/irc.h \
     3rdparty/CyoEncode/CyoEncode.h \
-    3rdparty/CyoEncode/CyoDecode.h
+    3rdparty/CyoEncode/CyoDecode.h \
+	Models/NeighboursTableModel.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \
@@ -281,7 +282,7 @@ TRANSLATIONS = Language/quazaa_af.ts \
     Language/quazaa_de.ts \
     Language/quazaa_default_en.ts \
     Language/quazaa_ee.ts \
-	Language/quazaa_es.ts \
+    Language/quazaa_es.ts \
     Language/quazaa_fi.ts \
     Language/quazaa_fr.ts \
     Language/quazaa_gr.ts \

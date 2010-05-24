@@ -197,8 +197,12 @@ void CNetwork::OnSecondTimer()
 
 	if( isHub() && quazaaSettings.Gnutella2.AdaptiveHub && --m_nNextCheck == 0 )
 	{
-		AdaptiveHubRun();
-		m_nNextCheck = quazaaSettings.Gnutella2.AdaptiveCheckPeriod;
+		if ( m_pSection.tryLock(50) )
+		{
+			AdaptiveHubRun();
+			m_nNextCheck = quazaaSettings.Gnutella2.AdaptiveCheckPeriod;
+			m_pSection.unlock();
+		}
 	}
 
     Maintain();
