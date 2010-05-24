@@ -33,6 +33,8 @@ WidgetSearchTemplate::WidgetSearchTemplate(QWidget *parent) :
 {
 	m_ui->setupUi(this);
 	m_pSearch = 0;
+	searchModel = new SearchTreeModel();
+	m_ui->treeViewSearchResults->setModel(searchModel);
 }
 
 WidgetSearchTemplate::~WidgetSearchTemplate()

@@ -23,6 +23,7 @@
 #define WIDGETSEARCHTEMPLATE_H
 
 #include <QtGui/QDialog>
+#include "searchtreemodel.h"
 
 namespace Ui {
     class WidgetSearchTemplate;
@@ -42,6 +43,7 @@ protected:
 public:
     WidgetSearchTemplate(QWidget *parent = 0);
     ~WidgetSearchTemplate();
+	SearchTreeModel *searchModel;
 
     void StartSearch(CQuery* pQuery);
     void PauseSearch();

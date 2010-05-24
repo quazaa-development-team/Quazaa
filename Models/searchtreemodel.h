@@ -4,6 +4,27 @@
 #include <QObject>
 #include <QAbstractItemModel>
 
+class SearchTreeItem
+{
+public:
+	SearchTreeItem(const QList<QVariant> &data, SearchTreeItem *parent = 0);
+	~SearchTreeItem();
+
+	void appendChild(SearchTreeItem *child);
+
+	SearchTreeItem *child(int row);
+	int childCount() const;
+	int columnCount() const;
+	QVariant data(int column) const;
+	int row() const;
+	SearchTreeItem *parent();
+
+private:
+	QList<SearchTreeItem*> childItems;
+	QList<QVariant> itemData;
+	SearchTreeItem *parentItem;
+};
+
 class SearchTreeModel : public QAbstractItemModel
 {
 	Q_OBJECT;
@@ -26,27 +47,6 @@ private:
 	void setupModelData(const QStringList &lines, SearchTreeItem *parent);
 
 	SearchTreeItem *rootItem;
-};
-
-class SearchTreeItem
-{
-public:
-	SearchTreeItem(const QList<QVariant> &data, SearchTreeItem *parent = 0);
-	~SearchTreeItem();
-
-	void appendChild(SearchTreeItem *child);
-
-	SearchTreeItem *child(int row);
-	int childCount() const;
-	int columnCount() const;
-	QVariant data(int column) const;
-	int row() const;
-	SearchTreeItem *parent();
-
-private:
-	QList<SearchTreeItem*> childItems;
-	QList<QVariant> itemData;
-	SearchTreeItem *parentItem;
 };
 
 #endif // SEARCHTREEMODEL_H
