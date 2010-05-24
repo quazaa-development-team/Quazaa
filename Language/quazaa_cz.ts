@@ -3181,7 +3181,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="406"/>
         <source>Byte Range: </source>
-        <translation type="unfinished">Rozsah bajtů</translation>
+        <translation type="unfinished">Rozsah bajtů: </translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="413"/>
@@ -3398,7 +3398,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="176"/>
         <source>Total Transfer Speed:</source>
-        <translation type="unfinished">Celková ryhlost přenosu</translation>
+        <translation type="unfinished">Celková ryhlost přenosu: </translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="183"/>
@@ -3433,7 +3433,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="249"/>
         <source>Number Of Sources:</source>
-        <translation type="unfinished">Počet zdrojů</translation>
+        <translation type="unfinished">Počet zdrojů: </translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="294"/>

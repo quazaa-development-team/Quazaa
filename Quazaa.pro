@@ -123,7 +123,8 @@ SOURCES += main.cpp \
     3rdparty/libircclient-qt/irc.cpp \
     3rdparty/CyoEncode/CyoEncode.c \
     3rdparty/CyoEncode/CyoDecode.c \
-	Models/NeighboursTableModel.cpp
+    Models/NeighboursTableModel.cpp \
+    Models/searchtreemodel.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -221,7 +222,8 @@ HEADERS += UI/dialoglanguage.h \
     3rdparty/libircclient-qt/irc.h \
     3rdparty/CyoEncode/CyoEncode.h \
     3rdparty/CyoEncode/CyoDecode.h \
-	Models/NeighboursTableModel.h
+    Models/NeighboursTableModel.h \
+    Models/searchtreemodel.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \

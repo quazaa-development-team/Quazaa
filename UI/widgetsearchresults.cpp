@@ -65,27 +65,34 @@ void WidgetSearchResults::saveWidget()
 
 void WidgetSearchResults::startSearch(QString searchString)
 {
-	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-	if( pWg )
+	if (searchString != "")
 	{
-		CQuery* pQuery = new CQuery();
-		pQuery->SetDescriptiveName(searchString);
-		pWg->StartSearch(pQuery);
+		WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+		if( pWg )
+		{
+			CQuery* pQuery = new CQuery();
+			pQuery->SetDescriptiveName(searchString);
+			pWg->StartSearch(pQuery);
+			ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
+		}
 	}
 }
 
 void WidgetSearchResults::startNewSearch(QString *searchString)
 {
-	WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
-	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
-	ui->tabWidgetSearch->setCurrentIndex(ui->tabWidgetSearch->count());
-	ui->tabWidgetSearch->setTabsClosable(true);
-	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-	if( pWg )
+	if (searchString != QString(""))
 	{
-		CQuery* pQuery = new CQuery();
-		pQuery->SetDescriptiveName(QString(*searchString));
-		pWg->StartSearch(pQuery);
+		WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
+		ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), QString(*searchString));
+		ui->tabWidgetSearch->setCurrentIndex(ui->tabWidgetSearch->count());
+		ui->tabWidgetSearch->setTabsClosable(true);
+		WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+		if( pWg )
+		{
+			CQuery* pQuery = new CQuery();
+			pQuery->SetDescriptiveName(QString(*searchString));
+			pWg->StartSearch(pQuery);
+		}
 	}
 }
 
