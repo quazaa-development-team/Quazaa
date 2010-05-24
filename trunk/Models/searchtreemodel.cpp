@@ -6,7 +6,7 @@ SearchTreeModel::SearchTreeModel()
 	rootData << "File" << "Extension" << "Size" << "Rating" << "Status" << "Host/Count"
 			<< "Speed" << "Client" << "Time" << "Country";
 	rootItem = new SearchTreeItem(rootData);
-	setupModelData(data.split(QString("\n")), rootItem);
+	setupModelData(QStringList(), rootItem);
 }
 
 SearchTreeModel::~SearchTreeModel()
