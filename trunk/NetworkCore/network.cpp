@@ -197,12 +197,8 @@ void CNetwork::OnSecondTimer()
 
 	if( isHub() && quazaaSettings.Gnutella2.AdaptiveHub && --m_nNextCheck == 0 )
 	{
-		if ( m_pSection.tryLock(50) )
-		{
-			AdaptiveHubRun();
-			m_nNextCheck = quazaaSettings.Gnutella2.AdaptiveCheckPeriod;
-			m_pSection.unlock();
-		}
+		AdaptiveHubRun();
+		m_nNextCheck = quazaaSettings.Gnutella2.AdaptiveCheckPeriod;
 	}
 
     Maintain();
@@ -234,7 +230,6 @@ void CNetwork::OnSecondTimer()
     }
     else
         m_nKHLWait--;
-
 
 	m_pSection.unlock();
 }
@@ -431,7 +426,7 @@ void CNetwork::DispatchKHL()
     {
         if( pNode->m_nState == nsConnected )
         {
-			pNode->SendPacket(pKHL, true, false);
+			pNode->SendPacket(pKHL, false, false);
         }
     }
 	pKHL->Release();
@@ -614,6 +609,9 @@ CG2Node* CNetwork::FindNode(quint32 nAddress)
 
 void CNetwork::AdaptiveHubRun()
 {
+	if( m_nLeavesConnected == 0 )
+		return;
+
 	quint32 nBusyLeaves = 0;
 
 	foreach( CG2Node* pNode, m_lNodes)
