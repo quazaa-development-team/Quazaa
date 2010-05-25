@@ -68,7 +68,7 @@ void WidgetSearchTemplate::StartSearch(CQuery *pQuery)
     {
         m_pSearch = new CManagedSearch(pQuery);
 		connect(m_pSearch, SIGNAL(OnHit(QueryHitSharedPtr)), searchModel, SLOT(addQueryHit(QueryHitSharedPtr)));
-        connect(&SearchManager, SIGNAL(StatsUpdated(CManagedSearch*)), this, SLOT(OnStatsUpdated(CManagedSearch*)));
+		connect(m_pSearch, SIGNAL(StatsUpdated()), this, SLOT(OnStatsUpdated()));
     }
 
 	m_pSearch->Start();
@@ -90,8 +90,7 @@ void WidgetSearchTemplate::PauseSearch()
     m_pSearch->Pause();
 }
 
-void WidgetSearchTemplate::OnStatsUpdated(CManagedSearch *pSearch)
+void WidgetSearchTemplate::OnStatsUpdated()
 {
-    if( pSearch != m_pSearch )
-        return;
+
 }

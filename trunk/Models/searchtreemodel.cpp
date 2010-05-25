@@ -161,13 +161,22 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 
 	if (existingSearch == -1)
 	{
+		beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
 		QList<QVariant> m_lChildData;
 		rootItem->appendChild(m_oParentItem);
 		m_oParentItem->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
+		endInsertRows();
 	} else {
+		QModelIndex idxParent = index(existingSearch, 0, QModelIndex());
+		beginInsertRows( idxParent, rootItem->child(existingSearch)->childCount(), rootItem->child(existingSearch)->childCount());
 		QList<QVariant> m_lChildData;
 		rootItem->child(existingSearch)->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
+		endInsertRows();
 	}
+
+	QModelIndex idx1 = index(0, 0, QModelIndex());
+	QModelIndex idx2 = index(rootItem->childCount(), 10, QModelIndex());
+	emit dataChanged(idx1, idx2);
 }
 
 SearchTreeItem::SearchTreeItem(const QList<QVariant> &data, SearchTreeItem *parent)

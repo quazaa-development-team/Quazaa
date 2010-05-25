@@ -58,7 +58,7 @@ private:
     Ui::WidgetSearchTemplate *m_ui;
 
 protected slots:
-    void OnStatsUpdated(CManagedSearch* pSearch);
+	void OnStatsUpdated();
 };
 
 #endif // WIDGETSEARCHTEMPLATE_H
