@@ -155,28 +155,28 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 
 	if (existingSearch == -1)
 	{
-		systemLog.postLog(QString("New Query Hit: %1, Sha1: %2, existingSearch = %3").arg(pHit.data()->m_sDescriptiveName).arg(pHit.data()->m_oSha1.ToString()).arg(existingSearch));
 		beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
 		QList<QVariant> m_lParentData;
 		m_lParentData << pHit.data()->m_sDescriptiveName << "" << pHit.data()->m_nObjectSize << ""
-				<< "" << "?" << "" << "" << "" << "" << pHit.data()->m_oSha1.ToString();
+				<< "" << 1 << "" << "" << "" << "" << pHit.data()->m_oSha1.ToString();
 		SearchTreeItem *m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
 		QList<QVariant> m_lChildData;
 		m_lChildData << pHit.data()->m_sDescriptiveName << "" << pHit.data()->m_nObjectSize << ""
 				<< "" << pHit.data()->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort() << "" << "" << "" << "" << pHit.data()->m_oSha1.ToString();
 		rootItem->appendChild(m_oParentItem);
-		systemLog.postLog(QString("Sha1: %1, Sha1 from list item: = %2").arg(pHit.data()->m_oSha1.ToString()).arg(m_oParentItem->data(10).toString()));
 		m_oParentItem->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
 		endInsertRows();
-	} else {
-		systemLog.postLog(QString("Existing Query Hit: %1, Sha1: %2, existingSearch = %3").arg(pHit.data()->m_sDescriptiveName).arg(pHit.data()->m_oSha1.ToString()).arg(existingSearch));
-
+	}
+	else if ( !rootItem->child(existingSearch)->duplicateCheck( rootItem->child(existingSearch), pHit.data()->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()))
+	{
 		QModelIndex idxParent = index(existingSearch, 0, QModelIndex());
 		beginInsertRows( idxParent, rootItem->child(existingSearch)->childCount(), rootItem->child(existingSearch)->childCount());
 		QList<QVariant> m_lChildData;
 		m_lChildData << pHit.data()->m_sDescriptiveName << "" << pHit.data()->m_nObjectSize << ""
 				<< "" << pHit.data()->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort() << "" << "" << "" << "" << pHit.data()->m_oSha1.ToString();
+
 		rootItem->child(existingSearch)->appendChild(new SearchTreeItem(m_lChildData, rootItem->child(existingSearch)));
+		rootItem->child(existingSearch)->updateHitCount(rootItem->child(existingSearch)->childCount());
 		endInsertRows();
 	}
 
@@ -242,4 +242,19 @@ int SearchTreeItem::row() const
 		return parentItem->childItems.indexOf(const_cast<SearchTreeItem*>(this));
 
 	return 0;
+}
+
+void SearchTreeItem::updateHitCount(int count)
+{
+	itemData[5] = count;
+}
+
+bool SearchTreeItem::duplicateCheck(SearchTreeItem *containerItem, QString ip)
+{
+	for (int index = 0; index < containerItem->childItems.size(); ++index)
+	{
+		if (containerItem->child(index)->data(5).toString() == ip)
+			return true;
+	}
+	return false;
 }

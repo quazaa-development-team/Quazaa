@@ -40,6 +40,7 @@ WidgetSearchTemplate::WidgetSearchTemplate(QWidget *parent) :
 WidgetSearchTemplate::~WidgetSearchTemplate()
 {
     delete m_ui;
+	StopSearch();
     if( m_pSearch )
         delete m_pSearch;
 }
