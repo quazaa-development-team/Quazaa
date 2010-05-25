@@ -151,26 +151,32 @@ void SearchTreeModel::setupModelData(const QStringList &lines, SearchTreeItem *p
 
 void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 {
-	QList<QVariant> m_lParentData;
-	m_lParentData << pHit.data()->m_sDescriptiveName << pHit.data()->m_oSha1.ToString();
-	SearchTreeItem *m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
-
-	int existingSearch = rootItem->find(rootItem, m_oParentItem);
-
-	systemLog.postLog(QString("Query Hit: %1. existingSearch = %2").arg(pHit.data()->m_sDescriptiveName).arg(existingSearch));
+	int existingSearch = rootItem->find(rootItem, pHit.data()->m_oSha1.ToString());
 
 	if (existingSearch == -1)
 	{
+		systemLog.postLog(QString("New Query Hit: %1, Sha1: %2, existingSearch = %3").arg(pHit.data()->m_sDescriptiveName).arg(pHit.data()->m_oSha1.ToString()).arg(existingSearch));
 		beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
+		QList<QVariant> m_lParentData;
+		m_lParentData << pHit.data()->m_sDescriptiveName << "" << pHit.data()->m_nObjectSize << ""
+				<< "" << "?" << "" << "" << "" << "" << pHit.data()->m_oSha1.ToString();
+		SearchTreeItem *m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
 		QList<QVariant> m_lChildData;
+		m_lChildData << pHit.data()->m_sDescriptiveName << "" << pHit.data()->m_nObjectSize << ""
+				<< "" << pHit.data()->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort() << "" << "" << "" << "" << pHit.data()->m_oSha1.ToString();
 		rootItem->appendChild(m_oParentItem);
+		systemLog.postLog(QString("Sha1: %1, Sha1 from list item: = %2").arg(pHit.data()->m_oSha1.ToString()).arg(m_oParentItem->data(10).toString()));
 		m_oParentItem->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
 		endInsertRows();
 	} else {
+		systemLog.postLog(QString("Existing Query Hit: %1, Sha1: %2, existingSearch = %3").arg(pHit.data()->m_sDescriptiveName).arg(pHit.data()->m_oSha1.ToString()).arg(existingSearch));
+
 		QModelIndex idxParent = index(existingSearch, 0, QModelIndex());
 		beginInsertRows( idxParent, rootItem->child(existingSearch)->childCount(), rootItem->child(existingSearch)->childCount());
 		QList<QVariant> m_lChildData;
-		rootItem->child(existingSearch)->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
+		m_lChildData << pHit.data()->m_sDescriptiveName << "" << pHit.data()->m_nObjectSize << ""
+				<< "" << pHit.data()->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort() << "" << "" << "" << "" << pHit.data()->m_oSha1.ToString();
+		rootItem->child(existingSearch)->appendChild(new SearchTreeItem(m_lChildData, rootItem->child(existingSearch)));
 		endInsertRows();
 	}
 
@@ -210,9 +216,14 @@ int SearchTreeItem::columnCount() const
 	return itemData.count();
 }
 
-int SearchTreeItem::find(SearchTreeItem *containerItem, SearchTreeItem *item)
+int SearchTreeItem::find(SearchTreeItem *containerItem, QString hash)
 {
-	return containerItem->childItems.indexOf(item);
+	for (int index = 0; index < containerItem->childItems.size(); ++index)
+	{
+		if (containerItem->child(index)->data(10).toString() == hash)
+			return index;
+	}
+	return -1;
 }
 
 QVariant SearchTreeItem::data(int column) const
