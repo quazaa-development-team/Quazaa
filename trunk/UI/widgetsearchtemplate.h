@@ -58,7 +58,6 @@ private:
     Ui::WidgetSearchTemplate *m_ui;
 
 protected slots:
-    void OnQueryHit(QueryHitSharedPtr pHit);
     void OnStatsUpdated(CManagedSearch* pSearch);
 };
 

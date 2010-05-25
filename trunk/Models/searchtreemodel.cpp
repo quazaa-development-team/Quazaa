@@ -6,7 +6,6 @@ SearchTreeModel::SearchTreeModel()
 	rootData << "File" << "Extension" << "Size" << "Rating" << "Status" << "Host/Count"
 			<< "Speed" << "Client" << "Time" << "Country";
 	rootItem = new SearchTreeItem(rootData);
-	setupModelData(QStringList(), rootItem);
 }
 
 SearchTreeModel::~SearchTreeModel()
@@ -149,6 +148,24 @@ void SearchTreeModel::setupModelData(const QStringList &lines, SearchTreeItem *p
 	}
 }
 
+void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
+{
+	QList<QVariant> m_lParentData;
+	m_lParentData << pHit.data()->m_sDescriptiveName << pHit.data()->m_oSha1.ToString();
+	SearchTreeItem *m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
+
+	int existingSearch = rootItem->find(rootItem, m_oParentItem);
+
+	if (existingSearch == -1)
+	{
+		QList<QVariant> m_lChildData;
+		rootItem->appendChild(m_oParentItem);
+		m_oParentItem->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
+	} else {
+
+	}
+}
+
 SearchTreeItem::SearchTreeItem(const QList<QVariant> &data, SearchTreeItem *parent)
 {
 	parentItem = parent;
@@ -178,6 +195,11 @@ int SearchTreeItem::childCount() const
 int SearchTreeItem::columnCount() const
 {
 	return itemData.count();
+}
+
+int SearchTreeItem::find(SearchTreeItem *containerItem, SearchTreeItem *item)
+{
+	return containerItem->childItems.indexOf(item);
 }
 
 QVariant SearchTreeItem::data(int column) const

@@ -55,6 +55,7 @@ void WidgetSearchTemplate::changeEvent(QEvent *e)
         break;
     }
 }
+
 void WidgetSearchTemplate::StartSearch(CQuery *pQuery)
 {
     if( m_pSearch && m_pSearch->m_pQuery != pQuery )
@@ -66,12 +67,13 @@ void WidgetSearchTemplate::StartSearch(CQuery *pQuery)
     if( !m_pSearch )
     {
         m_pSearch = new CManagedSearch(pQuery);
-        connect(m_pSearch, SIGNAL(OnHit(QueryHitSharedPtr)), this, SLOT(OnQueryHit(QueryHitSharedPtr)));
+		connect(m_pSearch, SIGNAL(OnHit(QueryHitSharedPtr)), searchModel, SLOT(addQueryHit(QueryHitSharedPtr)));
         connect(&SearchManager, SIGNAL(StatsUpdated(CManagedSearch*)), this, SLOT(OnStatsUpdated(CManagedSearch*)));
     }
 
-    m_pSearch->Start();
+	m_pSearch->Start();
 }
+
 void WidgetSearchTemplate::StopSearch()
 {
     Q_ASSERT(m_pSearch != 0);
@@ -80,17 +82,12 @@ void WidgetSearchTemplate::StopSearch()
     delete m_pSearch;
     m_pSearch = 0;
 }
+
 void WidgetSearchTemplate::PauseSearch()
 {
     Q_ASSERT(m_pSearch != 0);
 
     m_pSearch->Pause();
-}
-
-
-void WidgetSearchTemplate::OnQueryHit(QueryHitSharedPtr pHit)
-{
-
 }
 
 void WidgetSearchTemplate::OnStatsUpdated(CManagedSearch *pSearch)

@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QAbstractItemModel>
 
+#include "NetworkCore/QueryHit.h"
+
 class SearchTreeItem
 {
 public:
@@ -15,6 +17,7 @@ public:
 	SearchTreeItem *child(int row);
 	int childCount() const;
 	int columnCount() const;
+	int find(SearchTreeItem *containerItem, SearchTreeItem *item);
 	QVariant data(int column) const;
 	int row() const;
 	SearchTreeItem *parent();
@@ -45,8 +48,10 @@ public:
 
 private:
 	void setupModelData(const QStringList &lines, SearchTreeItem *parent);
-
 	SearchTreeItem *rootItem;
+
+private slots:
+	void addQueryHit(QueryHitSharedPtr pHit);
 };
 
 #endif // SEARCHTREEMODEL_H
