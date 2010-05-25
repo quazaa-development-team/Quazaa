@@ -17,7 +17,7 @@ public:
 	SearchTreeItem *child(int row);
 	int childCount() const;
 	int columnCount() const;
-	int find(SearchTreeItem *containerItem, SearchTreeItem *item);
+	int find(SearchTreeItem *containerItem, QString hash);
 	QVariant data(int column) const;
 	int row() const;
 	SearchTreeItem *parent();
