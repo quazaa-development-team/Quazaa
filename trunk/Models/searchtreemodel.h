@@ -18,6 +18,8 @@ public:
 	int childCount() const;
 	int columnCount() const;
 	int find(SearchTreeItem *containerItem, QString hash);
+	void updateHitCount(int count);
+	bool duplicateCheck(SearchTreeItem *containerItem, QString ip);
 	QVariant data(int column) const;
 	int row() const;
 	SearchTreeItem *parent();
