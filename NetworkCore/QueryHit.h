@@ -17,6 +17,12 @@ struct QueryHitInfo
     QUuid           m_oNodeGUID;
     QList<IPv4_ENDPOINT>    m_lNeighbouringHubs;
     quint8          m_nHops;
+	char			m_szVendor[5];
+
+	QueryHitInfo()
+	{
+		m_szVendor[4] = 0;
+	}
 
     ~QueryHitInfo()
     {

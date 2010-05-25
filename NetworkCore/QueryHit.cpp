@@ -23,6 +23,8 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 	if( !pPacket->m_bCompound )
         return 0;
 
+	qDebug() << pPacket->ToASCII() << pPacket->ToHex();
+
     bool bHaveNA = false;
     bool bHaveGUID = false;
     bool bHaveHits = false;
@@ -76,6 +78,11 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 				{
 					pHitInfo->m_lNeighbouringHubs.append(oNH);
 				}
+			}
+			else if( strcmp("V", szType) == 0 && nLength >= 4 )
+			{
+				QString sVendor = pPacket->ReadString(4);
+				memcpy(&pHitInfo->m_szVendor[0], sVendor.data(), 4);
 			}
 			else if( strcmp("H", szType) == 0 && bCompound )
 			{
@@ -143,13 +150,13 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 					{
 						if( bHaveSize )
 						{
-							pHit->m_sDescriptiveName = pPacket->ReadString();
+							pHit->m_sDescriptiveName = pPacket->ReadString(nLengthX);
 						}
 						else if( nLengthX > 4 )
 						{
 							baTemp.resize(4);
 							pPacket->Read(baTemp.data(), 4);
-							pHit->m_sDescriptiveName = pPacket->ReadString();
+							pHit->m_sDescriptiveName = pPacket->ReadString(nLengthX - 4);
 						}
 
 						bHaveDN = true;

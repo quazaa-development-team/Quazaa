@@ -179,7 +179,7 @@ public:
 		Write(&guid.data4[0], 8);
 	}
 
-	QString ReadString();
+	QString ReadString(quint32 nMaximum = 0xFFFFFFFF);
 	void WriteString(QString sToWrite, bool bTerminate = false);
 // Inline Allocation
 public:
