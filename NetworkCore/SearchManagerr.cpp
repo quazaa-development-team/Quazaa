@@ -29,6 +29,7 @@ void CSearchManager::Add(CManagedSearch *pSearch)
     if( pSearch->thread() != SearchManager.thread() )
         pSearch->moveToThread(SearchManager.thread());
 }
+
 void CSearchManager::Remove(CManagedSearch *pSearch)
 {
     QMutexLocker l(&m_pSection);
