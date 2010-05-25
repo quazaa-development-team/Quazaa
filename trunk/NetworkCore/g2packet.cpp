@@ -341,22 +341,26 @@ G2Packet* G2Packet::ReadBuffer(QByteArray* pBuffer)
 	return pPacket;
 }
 
-QString G2Packet::ReadString()
+QString G2Packet::ReadString(quint32 nMaximum)
 {
-	qint32 nNullIndex = 0;
+	nMaximum = qMin<quint32>(nMaximum, m_oBuffer.size() - m_nPosition);
+	if( !nMaximum )
+		return QString();
 
-	char chZero = 0;
+	const char* pInput = m_oBuffer.data() + m_nPosition;
+	char* pScan = const_cast<char*>(pInput);
 
-	nNullIndex = m_oBuffer.indexOf(chZero, m_nPosition);
-	if( nNullIndex == -1 )
-		nNullIndex = m_oBuffer.size();
-	nNullIndex -= m_nPosition;
+	quint32 nLength = 0;
 
-	char* pStart = m_oBuffer.data() + m_nPosition;
-	m_nPosition += nNullIndex + 1;
-	m_nPosition = qMin<int>(m_nPosition, m_oBuffer.size());
+	for( ; nLength < nMaximum; nLength++ )
+	{
+		m_nPosition++;
+		if( ! *pScan )
+			break;
+		pScan++;
+	}
 
-	return QString::fromUtf8(pStart, nNullIndex);
+	return QString::fromUtf8(pInput, nLength);
 }
 void G2Packet::WriteString(QString sToWrite, bool bTerminate)
 {
