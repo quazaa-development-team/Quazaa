@@ -1,4 +1,5 @@
 #include "searchtreemodel.h"
+#include "systemlog.h"
 
 SearchTreeModel::SearchTreeModel()
 {
@@ -156,13 +157,16 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 
 	int existingSearch = rootItem->find(rootItem, m_oParentItem);
 
+	systemLog.postLog(QString("Query Hit: %1. existingSearch = %2").arg(pHit.data()->m_sDescriptiveName).arg(existingSearch));
+
 	if (existingSearch == -1)
 	{
 		QList<QVariant> m_lChildData;
 		rootItem->appendChild(m_oParentItem);
 		m_oParentItem->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
 	} else {
-
+		QList<QVariant> m_lChildData;
+		rootItem->child(existingSearch)->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
 	}
 }
 
