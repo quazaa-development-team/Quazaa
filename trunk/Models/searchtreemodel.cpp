@@ -151,38 +151,45 @@ void SearchTreeModel::setupModelData(const QStringList &lines, SearchTreeItem *p
 
 void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 {
-	int existingSearch = rootItem->find(rootItem, pHit.data()->m_oSha1.ToString());
+	CQueryHit* pHit2 = pHit.data();
 
-	if (existingSearch == -1)
-	{
-		beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
-		QList<QVariant> m_lParentData;
-		m_lParentData << pHit.data()->m_sDescriptiveName << "" << pHit.data()->m_nObjectSize << ""
-				<< "" << 1 << "" << "" << "" << "" << pHit.data()->m_oSha1.ToString();
-		SearchTreeItem *m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
-		QList<QVariant> m_lChildData;
-		m_lChildData << pHit.data()->m_sDescriptiveName << "" << pHit.data()->m_nObjectSize << ""
-				<< "" << pHit.data()->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort() << "" << "" << "" << "" << pHit.data()->m_oSha1.ToString();
-		rootItem->appendChild(m_oParentItem);
-		m_oParentItem->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
-		endInsertRows();
+	while( pHit2 != 0 )
+		{
+		int existingSearch = rootItem->find(rootItem, pHit2->m_oSha1.ToString());
+
+		if (existingSearch == -1)
+		{
+			beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
+			QList<QVariant> m_lParentData;
+			m_lParentData << pHit2->m_sDescriptiveName << "" << pHit2->m_nObjectSize << ""
+					<< "" << 1 << "" << "" << "" << "" << pHit2->m_oSha1.ToString();
+			SearchTreeItem *m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
+			QList<QVariant> m_lChildData;
+			m_lChildData << pHit2->m_sDescriptiveName << "" << pHit2->m_nObjectSize << ""
+					<< "" << pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort() << "" << "" << "" << "" << pHit2->m_oSha1.ToString();
+			rootItem->appendChild(m_oParentItem);
+			m_oParentItem->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
+			endInsertRows();
+		}
+		else if ( !rootItem->child(existingSearch)->duplicateCheck( rootItem->child(existingSearch), pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()))
+		{
+			QModelIndex idxParent = index(existingSearch, 0, QModelIndex());
+			beginInsertRows( idxParent, rootItem->child(existingSearch)->childCount(), rootItem->child(existingSearch)->childCount());
+			QList<QVariant> m_lChildData;
+			m_lChildData << pHit2->m_sDescriptiveName << "" << pHit2->m_nObjectSize << ""
+					<< "" << pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort() << "" << "" << "" << "" << pHit2->m_oSha1.ToString();
+
+			rootItem->child(existingSearch)->appendChild(new SearchTreeItem(m_lChildData, rootItem->child(existingSearch)));
+			rootItem->child(existingSearch)->updateHitCount(rootItem->child(existingSearch)->childCount());
+			endInsertRows();
+		}
+
+		QModelIndex idx1 = index(0, 0, QModelIndex());
+		QModelIndex idx2 = index(rootItem->childCount(), 10, QModelIndex());
+		emit dataChanged(idx1, idx2);
+
+		pHit2 = pHit2->m_pNext;
 	}
-	else if ( !rootItem->child(existingSearch)->duplicateCheck( rootItem->child(existingSearch), pHit.data()->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()))
-	{
-		QModelIndex idxParent = index(existingSearch, 0, QModelIndex());
-		beginInsertRows( idxParent, rootItem->child(existingSearch)->childCount(), rootItem->child(existingSearch)->childCount());
-		QList<QVariant> m_lChildData;
-		m_lChildData << pHit.data()->m_sDescriptiveName << "" << pHit.data()->m_nObjectSize << ""
-				<< "" << pHit.data()->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort() << "" << "" << "" << "" << pHit.data()->m_oSha1.ToString();
-
-		rootItem->child(existingSearch)->appendChild(new SearchTreeItem(m_lChildData, rootItem->child(existingSearch)));
-		rootItem->child(existingSearch)->updateHitCount(rootItem->child(existingSearch)->childCount());
-		endInsertRows();
-	}
-
-	QModelIndex idx1 = index(0, 0, QModelIndex());
-	QModelIndex idx2 = index(rootItem->childCount(), 10, QModelIndex());
-	emit dataChanged(idx1, idx2);
 }
 
 SearchTreeItem::SearchTreeItem(const QList<QVariant> &data, SearchTreeItem *parent)

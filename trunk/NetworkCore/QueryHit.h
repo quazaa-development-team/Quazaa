@@ -53,7 +53,7 @@ public:
     CQueryHit();
     ~CQueryHit();
 
-    static CQueryHit* ReadPacket(G2Packet* pPacket, IPv4_ENDPOINT* pAddress = 0);
+	static CQueryHit* ReadPacket(G2Packet* pPacket, QSharedPointer<QueryHitInfo> pHitInfo);
 
     void Delete();
     void ResolveURLs();

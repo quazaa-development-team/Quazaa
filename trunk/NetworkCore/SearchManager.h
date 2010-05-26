@@ -9,6 +9,7 @@
 
 class CManagedSearch;
 class G2Packet;
+class CG2Node;
 
 class CSearchManager : public QObject
 {
@@ -32,7 +33,7 @@ public:
 
     // zwraca true jesli pakiet ma byc routowany
     bool OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, QUuid& oGUID);
-    bool OnQueryHit(QueryHitSharedPtr pHits);
+	void OnQueryHit(G2Packet* pPacket, CG2Node* pNode = 0, IPv4_ENDPOINT* pEndpoint = 0);
 
 signals:
 

@@ -18,25 +18,17 @@ CQueryHit::~CQueryHit()
         m_pNext->Delete();
 }
 
-CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
+CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QSharedPointer<QueryHitInfo> pHitInfo)
 {
 	if( !pPacket->m_bCompound )
         return 0;
 
-	qDebug() << pPacket->ToASCII() << pPacket->ToHex();
+	pPacket->m_nPosition = 0; // reset packet position
 
-    bool bHaveNA = false;
-    bool bHaveGUID = false;
     bool bHaveHits = false;
     bool bFirstHit = true;
 
     CQueryHit* pThisHit = new CQueryHit();
-    QSharedPointer<QueryHitInfo> pHitInfo = QSharedPointer<QueryHitInfo>(new QueryHitInfo());
-
-    if( pAddress )
-    {
-        pHitInfo->m_oNodeAddress = *pAddress;
-    }
 
 	try
 	{
@@ -48,43 +40,7 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 		{
 			nNext = pPacket->m_nPosition + nLength;
 
-			if( bCompound && strcmp("H", szType) != 0 )
-				pPacket->SkipCompound();
-
-			if( strcmp("NA", szType) == 0 && nLength >= 6 )
-			{
-				IPv4_ENDPOINT oNodeAddr;
-				pPacket->ReadHostAddress(&oNodeAddr);
-				if( oNodeAddr.ip != 0 && oNodeAddr.port != 0 )
-				{
-					pHitInfo->m_oNodeAddress = oNodeAddr;
-					bHaveNA = true;
-				}
-			}
-			else if( strcmp("GU", szType) == 0 && nLength >= 16 )
-			{
-				QUuid oNodeGUID = pPacket->ReadGUID();
-				if( !oNodeGUID.isNull() )
-				{
-					pHitInfo->m_oNodeGUID = oNodeGUID;
-					bHaveGUID = true;
-				}
-			}
-			else if( strcmp("NH", szType) == 0 && nLength >= 6 )
-			{
-				IPv4_ENDPOINT oNH;
-				pPacket->ReadHostAddress(&oNH);
-				if( oNH.ip != 0 && oNH.port != 0 )
-				{
-					pHitInfo->m_lNeighbouringHubs.append(oNH);
-				}
-			}
-			else if( strcmp("V", szType) == 0 && nLength >= 4 )
-			{
-				QString sVendor = pPacket->ReadString(4);
-				memcpy(&pHitInfo->m_szVendor[0], sVendor.data(), 4);
-			}
-			else if( strcmp("H", szType) == 0 && bCompound )
+			if( strcmp("H", szType) == 0 && bCompound )
 			{
 				CQueryHit* pHit = (bFirstHit ? pThisHit : new CQueryHit());
 
@@ -245,16 +201,12 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, IPv4_ENDPOINT *pAddress)
 		return 0;
 	}
 
-	if( pPacket->GetRemaining() < 17 || !bHaveHits )
-    {
-        pThisHit->Delete();
-        return 0;
-    }
-
-    quint8 nHops = pPacket->ReadIntLE<quint8>();
-    QUuid oGUID = pPacket->ReadGUID();
-    pHitInfo->m_oGUID = oGUID;
-    pHitInfo->m_nHops = nHops;
+	// we already know query hit informations, so don't reparse them
+	if( !bHaveHits )
+	{
+		pThisHit->Delete();
+		return 0;
+	}
 
     CQueryHit* pHit = pThisHit;
 

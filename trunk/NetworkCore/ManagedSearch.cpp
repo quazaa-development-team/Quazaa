@@ -26,6 +26,8 @@ CManagedSearch::CManagedSearch(CQuery* pQuery, QObject *parent) :
     m_bCanRequestKey = true;
     m_nQueryCount = 0;
 	m_nCookie = 0;
+	m_nCachedHits = 0;
+	m_pCachedHit = 0;
 }
 
 CManagedSearch::~CManagedSearch()
@@ -35,6 +37,13 @@ CManagedSearch::~CManagedSearch()
 
     if( m_pQuery )
         delete m_pQuery;
+
+	if( m_pCachedHit )
+	{
+		delete m_pCachedHit;
+		m_nCachedHits = 0;
+		m_pCachedHit = 0;
+	}
 }
 
 void CManagedSearch::Start()
@@ -274,15 +283,44 @@ void CManagedSearch::OnHostAcknowledge(quint32 nHost, quint32 tNow)
     m_lSearchedNodes[nHost] = tNow;
 }
 
-void CManagedSearch::OnQueryHit(QueryHitSharedPtr pHits)
+void CManagedSearch::OnQueryHit(CQueryHit* pHits)
 {
-    CQueryHit* pHit = pHits.data();
+	CQueryHit* pHit = pHits;
+	CQueryHit* pLast = 0;
 
     while( pHit != 0 )
     {
         m_nHits++;
+		m_nCachedHits++;
         pHit = pHit->m_pNext;
+		if( pHit )
+			pLast = pHit;
     }
 
-    emit OnHit(pHits);
+	//emit OnHit(pHits);
+
+	if( !m_pCachedHit )
+	{
+		m_pCachedHit = pHits;
+	}
+	else if( pLast )
+	{
+		pLast->m_pNext = pHits;
+	}
+
+	if( m_nCachedHits > 100 )
+	{
+		SendHits();
+	}
+}
+void CManagedSearch::SendHits()
+{
+	if( !m_pCachedHit )
+		return;
+
+	qDebug() << "Sending hits...";
+	QueryHitSharedPtr pSHits(m_pCachedHit);
+	emit OnHit(pSHits);
+	m_pCachedHit = 0;
+	m_nCachedHits = 0;
 }

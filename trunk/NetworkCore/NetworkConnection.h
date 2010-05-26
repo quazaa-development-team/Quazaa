@@ -228,6 +228,7 @@ protected slots:
     void connectToHostImplementation(const QString &hostName,
                                      quint16 port, OpenMode openMode = ReadWrite);
     void diconnectFromHostImplementation();
+	void OnAboutToClose();
 
     friend class CRateController;
 };
