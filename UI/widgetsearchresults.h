@@ -18,6 +18,9 @@ public:
 	QLineEdit *lineEditFilter;
 	void saveWidget();
 
+signals:
+	void searchSidebarToggled(bool visible);
+
 protected:
     void changeEvent(QEvent *e);
 
@@ -31,8 +34,9 @@ public slots:
 	void addSearchTab();
 
 private slots:
+	void on_actionSearchToggle_triggered(bool checked);
 	void on_actionFilterMore_triggered();
- void on_tabWidgetSearch_tabCloseRequested(int index);
+	void on_tabWidgetSearch_tabCloseRequested(int index);
 };
 
 #endif // WIDGETSEARCHRESULTS_H
