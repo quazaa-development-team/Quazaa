@@ -8,6 +8,7 @@ WidgetExtendedItems::WidgetExtendedItems(QWidget *parent) :
     ui(new Ui::WidgetExtendedItems)
 {
     ui->setupUi(this);
+	ui->toolBarMainMenu->addWidget(ui->menuBarPreview);
 	seekSlider = new QSlider();
 	seekSlider->setOrientation(Qt::Horizontal);
 	volumeSlider = new QSlider();
@@ -55,4 +56,5 @@ void WidgetExtendedItems::skinChangeEvent()
 	ui->toolBarMedia->setStyleSheet(skinSettings.mediaToolbar);
 	seekSlider->setStyleSheet(skinSettings.seekSlider);
 	volumeSlider->setStyleSheet(skinSettings.volumeSlider);
+	ui->toolBarMainMenu->setStyleSheet(skinSettings.mainMenuToolbar);
 }

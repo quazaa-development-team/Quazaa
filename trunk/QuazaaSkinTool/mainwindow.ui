@@ -363,6 +363,11 @@
         </property>
         <item>
          <property name="text">
+          <string>Main Menu Toolbar</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Sidebar Background</string>
          </property>
          <property name="flags">
@@ -590,7 +595,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>6</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="pageSkinProperties">
          <layout class="QGridLayout" name="gridLayout_38">
@@ -1557,43 +1562,12 @@ QToolButton:disabled {
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>360</width>
-               <height>494</height>
+               <width>393</width>
+               <height>468</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_29">
-              <item row="0" column="0">
-               <widget class="QMenuBar" name="menuBarPreview">
-                <widget class="QMenu" name="menuMenu_Item">
-                 <property name="title">
-                  <string>Menu Bar</string>
-                 </property>
-                 <widget class="QMenu" name="menuMenu_Item_2">
-                  <property name="title">
-                   <string>Menu Item 2</string>
-                  </property>
-                  <addaction name="actionMenu_Side_Item"/>
-                 </widget>
-                 <addaction name="actionMenu_Item"/>
-                 <addaction name="separator"/>
-                 <addaction name="menuMenu_Item_2"/>
-                </widget>
-                <widget class="QMenu" name="menuMenu_Bar_Item_2">
-                 <property name="title">
-                  <string>Menu Bar Item 2</string>
-                 </property>
-                </widget>
-                <widget class="QMenu" name="menuMenu_Bar_Item_3">
-                 <property name="title">
-                  <string>Menu Bar Item 3</string>
-                 </property>
-                </widget>
-                <addaction name="menuMenu_Item"/>
-                <addaction name="menuMenu_Bar_Item_2"/>
-                <addaction name="menuMenu_Bar_Item_3"/>
-               </widget>
-              </item>
-              <item row="2" column="0">
+              <item row="1" column="0">
                <widget class="QTabWidget" name="tabWidget">
                 <property name="currentIndex">
                  <number>0</number>
@@ -2069,10 +2043,10 @@ QToolButton:disabled {
                 </widget>
                </widget>
               </item>
-              <item row="3" column="0">
+              <item row="2" column="0">
                <widget class="QStatusBar" name="statusBarPreview"/>
               </item>
-              <item row="1" column="0">
+              <item row="0" column="0">
                <widget class="QFrame" name="frame">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">

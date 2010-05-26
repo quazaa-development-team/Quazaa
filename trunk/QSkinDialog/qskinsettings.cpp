@@ -88,6 +88,7 @@ void QSkinSettings::loadSkin(QString fileName)
 	// Toolbars
 	toolbars = reader.value("toolbars", "").toString();
 	navigationToolbar = reader.value("navigationToolbar", "").toString();
+	mainMenuToolbar = reader.value("mainMenuToolbar", "QMenuBar::item:!selected,  QMenuBar::item:!pressed { background: transparent; }").toString();
 
 	// Headers
 	libraryViewHeader = reader.value("libraryViewHeader", "").toString();
@@ -198,6 +199,7 @@ void QSkinSettings::saveSkin(QString fileName)
 	// Toolbars
 	writer.setValue("toolbars", toolbars);
 	writer.setValue("navigationToolbar", navigationToolbar);
+	writer.setValue("mainMenuToolbar", mainMenuToolbar);
 
 	// Headers
 	writer.setValue("libraryViewHeader", libraryViewHeader);
