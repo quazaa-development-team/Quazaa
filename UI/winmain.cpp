@@ -74,6 +74,9 @@ WinMain::WinMain(QWidget *parent) :
 	restoreState(quazaaSettings.WinMain.MainToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 
+	//Set up the menu toolbar
+	ui->toolBarMainMenu->addWidget(ui->menubarMain);
+
 	//Set up the status bar
 	labelBandwidthTotals = new QLabel();
 	ui->statusbar->addPermanentWidget(labelBandwidthTotals);
@@ -664,6 +667,7 @@ void WinMain::skinChangeEvent()
 {
 	setStyleSheet(skinSettings.standardItems);
 	ui->toolBarNavigation->setStyleSheet(skinSettings.navigationToolbar);
+	ui->toolBarMainMenu->setStyleSheet(skinSettings.mainMenuToolbar);
 	switch (ui->stackedWidgetMain->currentIndex())
 	{
 		case 0:

@@ -755,6 +755,12 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.standardItems);
 		}
 
+		if (item->text(column) == tr("Main Menu Toolbar"))
+		{
+			ui->stackedWidget->setCurrentIndex(4);
+			ui->plainTextEditStyleSheet->setPlainText(skinSettings.mainMenuToolbar);
+		}
+
 		if (item->text(column) == tr("Sidebar Background"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
@@ -1293,6 +1299,11 @@ void MainWindow::applySheets()
 	if (currentSelectionText == tr("Standard Items"))
 	{
 		skinSettings.standardItems = ui->plainTextEditStyleSheet->toPlainText();
+	}
+
+	if (currentSelectionText == tr("Main Menu Toolbar"))
+	{
+		skinSettings.mainMenuToolbar = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
 	if (currentSelectionText == tr("Sidebar Background"))

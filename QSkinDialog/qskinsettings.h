@@ -85,6 +85,7 @@ public:
 	// Toolbars
 	QString toolbars;
 	QString navigationToolbar;
+	QString mainMenuToolbar;
 
 	// Headers
 	QString libraryViewHeader;
