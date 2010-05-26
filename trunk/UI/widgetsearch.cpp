@@ -18,6 +18,8 @@ WidgetSearch::WidgetSearch(QWidget *parent) :
 	ui->toolButtonSearchTaskHeader->setChecked(quazaaSettings.WinMain.SearchTaskVisible);
 	panelSearchResults = new WidgetSearchResults();
 	ui->verticalLayoutSearchResults->addWidget(panelSearchResults);
+	connect(panelSearchResults, SIGNAL(searchSidebarToggled(bool)), ui->frameSearchSidebar, SLOT(setVisible(bool)));
+	ui->frameSearchSidebar->setVisible(quazaaSettings.WinMain.SearchSidebarVisible);
 }
 
 WidgetSearch::~WidgetSearch()

@@ -125,3 +125,8 @@ void WidgetSearchResults::on_actionFilterMore_triggered()
 	connect(dlgFilterSearch, SIGNAL(closed()), dlgSkinFilterSearch, SLOT(close()));
 	dlgSkinFilterSearch->show();
 }
+
+void WidgetSearchResults::on_actionSearchToggle_triggered(bool checked)
+{
+	emit searchSidebarToggled(checked);
+}

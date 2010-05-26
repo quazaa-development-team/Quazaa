@@ -59,9 +59,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>623</width>
-            <height>637</height>
+            <y>-136</y>
+            <width>625</width>
+            <height>528</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_19">
@@ -711,5 +711,70 @@ QToolButton:checked {
  <resources>
   <include location="../Resource.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>toolButtonSearchTaskHeader</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frameSearchTask</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>-85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>60</x>
+     <y>-81</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButtonSearchNetworksTaskHeader</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frameSearchNetworksTask</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>159</x>
+     <y>36</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>160</x>
+     <y>47</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButtonSearchFiletypeTaskHeader</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frameSearchFiletypeTask</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>235</x>
+     <y>126</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>235</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButtonSearchResultsTaskHeader</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frameSearchResultsTask</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>245</x>
+     <y>280</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>245</x>
+     <y>284</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

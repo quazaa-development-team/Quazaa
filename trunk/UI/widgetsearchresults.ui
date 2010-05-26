@@ -111,7 +111,7 @@ QTabWidget::pane { /* The tab widget frame */
              <x>0</x>
              <y>0</y>
              <width>528</width>
-             <height>229</height>
+             <height>232</height>
             </rect>
            </property>
           </widget>
@@ -248,5 +248,22 @@ QTabWidget::pane { /* The tab widget frame */
   </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionSeachDetailsToggle</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frameSearchDetails</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>264</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
