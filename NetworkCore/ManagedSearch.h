@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <Qlist>
 
 #include "QueryHit.h"
 
@@ -27,7 +28,10 @@ public:
 
     QUuid   m_oGUID;
 
-    QHash<quint32, quint32> m_lSearchedNodes;
+	QHash<quint32, quint32>		m_lSearchedNodes;
+
+	CQueryHit*					m_pCachedHit;
+	quint32						m_nCachedHits;
 
 	quint32	m_nCookie;
 
@@ -44,7 +48,8 @@ public:
     void SearchG2(quint32 tNow, quint32* pnMaxPackets);
 
     void OnHostAcknowledge(quint32 nHost, quint32 tNow);
-    void OnQueryHit(QueryHitSharedPtr pHits);
+	void OnQueryHit(CQueryHit* pHits);
+	void SendHits();
 
 signals:
     void OnHit(QueryHitSharedPtr);

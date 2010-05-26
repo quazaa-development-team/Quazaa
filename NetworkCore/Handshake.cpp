@@ -4,6 +4,8 @@
 
 #include <QTcpSocket>
 
+#include "quazaaglobals.h"
+
 CHandshake::CHandshake(QObject* parent)
     :QObject(parent)
 {
@@ -70,7 +72,16 @@ void CHandshake::OnRead()
     else
     {
         qDebug("Closing connection with %s - unknown protocol", m_pSocket->peerAddress().toString().toAscii().constData());
-        m_pSocket->abort();;
+
+		QByteArray baResp;
+		baResp += "HTTP/1.1 501 Not Implemented\r\n";
+		baResp += "Server: " + quazaaGlobals.UserAgentString() + "\r\n";
+		baResp += "\r\n";
+
+		m_pSocket->write(baResp);
+		m_pSocket->flush();
+
+		m_pSocket->abort();
         deleteLater();
     }
 }

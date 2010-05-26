@@ -25,6 +25,7 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
 
 	connect(this, SIGNAL(readyRead()), this, SIGNAL(readyToTransfer()), Qt::QueuedConnection);
     connect(this, SIGNAL(connected()), this, SIGNAL(readyToTransfer()));
+	connect(this, SIGNAL(aboutToClose()), this, SLOT(OnAboutToClose()));
 }
 CNetworkConnection::~CNetworkConnection()
 {
@@ -102,6 +103,7 @@ void CNetworkConnection::initializeSocket()
             this, SIGNAL(bytesWritten(qint64)));
     connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
             this, SLOT(socketStateChanged(QAbstractSocket::SocketState)));
+	connect(m_pSocket, SIGNAL(aboutToClose()), this, SIGNAL(aboutToClose()));
     setOpenMode(m_pSocket->openMode());
     setSocketState(m_pSocket->state());
 }
@@ -233,4 +235,13 @@ void CNetworkConnection::connectToHostImplementation(const QString &hostName,
 void CNetworkConnection::diconnectFromHostImplementation()
 {
     m_pSocket->disconnectFromHost();
+}
+void CNetworkConnection::OnAboutToClose()
+{
+	qDebug() << "about to close";
+	if( !GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty() )
+	{
+		qDebug() << "writing data";
+		writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
+	}
 }

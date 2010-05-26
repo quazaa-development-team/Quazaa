@@ -732,30 +732,9 @@ void CDatagrams::OnQA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 
 void CDatagrams::OnQH2(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 {
-	QueryHitSharedPtr pHit( CQueryHit::ReadPacket(pPacket, &addr) );
-
-	if( !pHit ) // bad hit?
+	if( !pPacket->m_bCompound )
 		return;
 
-	// Hubs are only supposed to route Query Hits - drop if leaf, route otherwise
-	if( SearchManager.OnQueryHit(pHit) && Network.isHub() )
-	{
-		// not our hit - route it
-
-		if( pHit->m_pHitInfo->m_oNodeAddress == addr )
-		{
-			// hits node address matches sender address
-			Network.m_oRoutingTable.Add(pHit->m_pHitInfo->m_oNodeGUID, addr);
-		}
-		else if( !pHit->m_pHitInfo->m_lNeighbouringHubs.isEmpty() )
-		{
-			// hits address does not match sender address (probably forwarded by a hub)
-			// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
-			Network.m_oRoutingTable.Add(pHit->m_pHitInfo->m_oNodeGUID, pHit->m_pHitInfo->m_lNeighbouringHubs[0], false);
-		}
-
-
-		Network.RoutePacket(pHit->m_pHitInfo->m_oGUID, pPacket);
-	}
+	SearchManager.OnQueryHit(pPacket, 0, &addr);
 }
 

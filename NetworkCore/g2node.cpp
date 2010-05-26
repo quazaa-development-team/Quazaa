@@ -443,15 +443,6 @@ void CG2Node::ParseOutgoingHandshake()
         HostCache.AddXTry(sTry);
     }
 
-	/*QString sRemoteIP = Parser::GetHeaderValue(sHs, "Remote-IP");
-    if( !sRemoteIP.isEmpty() )
-        Network.AcquireLocalAddress(sRemoteIP);
-    else
-    {
-        Send_ConnectError("503 Remote-IP header missing");
-        return;
-	}*/
-
     if( sHs.left(16) != "GNUTELLA/0.6 200" )
     {
         qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
@@ -466,6 +457,15 @@ void CG2Node::ParseOutgoingHandshake()
         Send_ConnectError("503 Anonymous clients are not allowed here");
         return;
     }
+
+	QString sRemoteIP = Parser::GetHeaderValue(sHs, "Remote-IP");
+	if( !sRemoteIP.isEmpty() )
+		Network.AcquireLocalAddress(sRemoteIP);
+	else
+	{
+		Send_ConnectError("503 Remote-IP header missing");
+		return;
+	}
 
     QString sUltra = Parser::GetHeaderValue(sHs, "X-Ultrapeer").toLower();
     //QString sUltraNeeded = Parser::GetHeaderValue(sHs, "X-Ultrapeer-Needed").toLower();
@@ -554,7 +554,7 @@ void CG2Node::Send_ConnectError(QString sReason)
     write(sHs);
     flush();
 
-    disconnectFromHost();
+	close();
 }
 void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
 {
@@ -1041,52 +1041,10 @@ void CG2Node::OnQA(G2Packet *pPacket)
 
 void CG2Node::OnQH2(G2Packet *pPacket)
 {
-	QueryHitSharedPtr pHit( CQueryHit::ReadPacket(pPacket) );
-    //CQueryHit* pHit = CQueryHit::ReadPacket(pPacket);
+	if( !pPacket->m_bCompound )
+		return;
 
-    if( !pHit )
-    {
-        qDebug() << "Received malformatted query hit packet";
-        return;
-    }
-
-    qDebug() << "Received QueryHit:";
-    CQueryHit* pHit2 = pHit.data();
-    qDebug() << "Search GUID:" << pHit2->m_pHitInfo->m_oGUID.toString().toAscii();
-    qDebug() << "Node GUID:" << pHit2->m_pHitInfo->m_oNodeGUID.toString().toAscii();
-    qDebug() << "Node address: " << pHit2->m_pHitInfo->m_oNodeAddress.toString().toAscii();
-    qDebug() << "Hops:" << pHit2->m_pHitInfo->m_nHops;
-    for( int i = 0; i < pHit2->m_pHitInfo->m_lNeighbouringHubs.size(); i++ )
-    {
-        qDebug() << "Neighbouring hub: " << pHit2->m_pHitInfo->m_lNeighbouringHubs[i].toString().toAscii();
-    }
-
-    while( pHit2 != 0 )
-    {
-        qDebug() << "Descriptive name: " << pHit2->m_sDescriptiveName;
-        qDebug() << "URL:" << pHit2->m_sURL;
-        qDebug() << "Size: " << pHit2->m_nObjectSize;
-        qDebug() << "Is partial: " << pHit2->m_bIsPartial;
-        qDebug() << "Partial bytes avail:" << pHit2->m_nPartialBytesAvailable;
-        qDebug() << "Cached sources:" << pHit2->m_nCachedSources;
-        qDebug() << "URN:" << pHit2->m_oSha1.ToURN();
-
-
-        qDebug() << "Metadata: " << pHit2->m_sMetadata;
-
-        pHit2 = pHit2->m_pNext;
-    }
-    qDebug() << "---------------------------------";
-
-	// Hubs are only supposed to route hits...
-	// hits could be returned by local hub cluster, possible need for routing
-	if( SearchManager.OnQueryHit(pHit) && Network.isHub() )
-	{
-		// Add node ID to routing table
-		Network.m_oRoutingTable.Add(pHit->m_pHitInfo->m_oNodeGUID, this, false);
-
-		Network.RoutePacket(pHit->m_pHitInfo->m_oGUID, pPacket);
-	}
+	SearchManager.OnQueryHit(pPacket, this);
 }
 void CG2Node::OnQuery(G2Packet *pPacket)
 {
