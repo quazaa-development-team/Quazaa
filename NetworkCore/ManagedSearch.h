@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QHash>
-#include <Qlist>
 
 #include "QueryHit.h"
 
