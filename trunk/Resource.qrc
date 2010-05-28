@@ -434,5 +434,6 @@
         <file>Resource/Flags/zw.png</file>
         <file>Resource/Flags/zz.png</file>
         <file>Resource/Flags/eu.png</file>
+        <file>Resource/Flags/cs.png</file>
     </qresource>
 </RCC>

@@ -440,6 +440,8 @@ QString GeoIPList::countryNameFromCode(QString code)
 		return qApp->tr("Senegal");
 	if (code == "RS")
 		return qApp->tr("Serbia");
+	if (code == "CS")
+		return qApp->tr("Serbia and Montenegro");
 	if (code == "SC")
 		return qApp->tr("Seychelles");
 	if (code == "SL")
