@@ -6,8 +6,9 @@
 
 #include "NetworkCore/QueryHit.h"
 
-class SearchTreeItem
+class SearchTreeItem : public QObject
 {
+	Q_OBJECT
 public:
 	SearchTreeItem(const QList<QVariant> &data, SearchTreeItem *parent = 0);
 	~SearchTreeItem();

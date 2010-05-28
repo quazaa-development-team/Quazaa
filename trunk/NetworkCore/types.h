@@ -25,6 +25,7 @@ struct IPv4_ENDPOINT
         ip = addr;
         port = p;
     }
+
     IPv4_ENDPOINT(const QString& s)
     {
         QStringList l1 = s.split(":");
