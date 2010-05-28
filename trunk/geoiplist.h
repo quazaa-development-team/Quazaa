@@ -8,9 +8,16 @@
 class GeoIPList : public QList<QStringList>
 {
 public:
+	struct sGeoID {
+		QString countryCode;
+		QString countryName;
+	}; sGeoID GeoID;
+
 	GeoIPList();
 	void loadGeoIP();
 	QString findCountryCode(QString IP);
+	QString countryNameFromCode(QString code);
+	QList<QStringList> *countryNameList;
 };
 
 extern GeoIPList GeoIP;
