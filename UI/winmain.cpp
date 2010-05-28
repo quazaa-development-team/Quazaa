@@ -25,6 +25,7 @@
 #include "commonfunctions.h"
 #include "network.h"
 #include "datagrams.h"
+#include "geoiplist.h"
 
 #include "NetworkCore/network.h" // not sure that it is right place, but...
 #include <QTimer>
@@ -265,6 +266,10 @@ WinMain::WinMain(QWidget *parent) :
 	//Load the networks
 	dlgSplash->updateProgress(20, tr("Loading Networks..."));
 	qApp->processEvents();
+
+	//initialize geoip list
+	GeoIP.loadGeoIP();
+
 	ui->actionAres->setChecked(quazaaSettings.Ares.Enable);
 	ui->actionEDonkey->setChecked(quazaaSettings.EDonkey.Enable);
 	ui->actionGnutella2->setChecked(quazaaSettings.Gnutella2.Enable);

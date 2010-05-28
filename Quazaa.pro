@@ -124,7 +124,8 @@ SOURCES += main.cpp \
     3rdparty/CyoEncode/CyoEncode.c \
     3rdparty/CyoEncode/CyoDecode.c \
     Models/NeighboursTableModel.cpp \
-    Models/searchtreemodel.cpp
+    Models/searchtreemodel.cpp \
+    geoiplist.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -223,7 +224,8 @@ HEADERS += UI/dialoglanguage.h \
     3rdparty/CyoEncode/CyoEncode.h \
     3rdparty/CyoEncode/CyoDecode.h \
     Models/NeighboursTableModel.h \
-    Models/searchtreemodel.h
+    Models/searchtreemodel.h \
+    geoiplist.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \

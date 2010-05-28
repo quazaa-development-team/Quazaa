@@ -26,6 +26,7 @@ typedef struct
     quint32     nLeafMax;
     quint32     nRTT;
     QString     sUserAgent;
+	QString		sCountry;
 } sNeighbour;
 
 class CNeighboursTableModel : public QAbstractTableModel

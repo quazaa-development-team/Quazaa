@@ -1,9 +1,11 @@
 #include "NeighboursTableModel.h"
-#include "g2node.h"
-#include "network.h"
+
 #include <QColor>
 #include <QSize>
 #include <QIcon>
+#include "g2node.h"
+#include "network.h"
+#include "geoiplist.h"
 
 CNeighboursTableModel::CNeighboursTableModel(QObject *parent) :
     QAbstractTableModel(parent)
@@ -19,11 +21,12 @@ int CNeighboursTableModel::rowCount(const QModelIndex& parent) const
 
     return m_lNodes.size();
 }
+
 int CNeighboursTableModel::columnCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
 
-    return 10;
+	return 11;
 }
 
 QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
@@ -34,10 +37,20 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
     if( index.row() > m_lNodes.size() || index.row() < 0 )
         return QVariant();
 
-	if ( (role == Qt::DecorationRole) && (index.column() == 0) )
+	if ( role == Qt::DecorationRole )
 	{
-		QIcon icon(":/Resource/Networks/Gnutella2.png");
-		return icon;
+		if (index.column() == 0)
+		{
+			QIcon icon(":/Resource/Networks/Gnutella2.png");
+			return icon;
+		}
+
+		if(index.column() == 10)
+		{
+			sNeighbour n = m_lNodes.at(index.row());
+			QIcon icon(":/Resource/Flags/" + GeoIP.findCountryCode(n.pNode->GetAddress().toString()).toLower() + ".png");
+			return icon;
+		}
 	}
 
     if( role == Qt::DisplayRole )
@@ -70,6 +83,8 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
             return QString().sprintf("%u msec", n.nRTT);
         case 9:
             return n.sUserAgent;
+		case 10:
+			return n.sCountry;
         }
     }
     else if( role == Qt::ForegroundRole )
@@ -109,6 +124,8 @@ QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientat
                return "Ping";
         case 9:
                return "User Agent";
+		case 10:
+			   return "Country";
         }
     }
 
@@ -156,6 +173,7 @@ void CNeighboursTableModel::OnNodeAdded(CG2Node* pNode)
     nbr.nState = pNode->m_nState;
     nbr.nType = pNode->m_nType;
     nbr.sUserAgent = pNode->m_sUserAgent;
+	nbr.sCountry = "";
 
     m_lNodes.append(nbr);
     endInsertRows();
@@ -200,6 +218,7 @@ void CNeighboursTableModel::UpdateNeighbourData(CG2Node* pNode)
             m_lNodes[i].nState = pNode->m_nState;
             m_lNodes[i].nType = pNode->m_nType;
             m_lNodes[i].sUserAgent = pNode->m_sUserAgent;
+			m_lNodes[i].sCountry = "";//TODO: create function in geoiplist to return country name from country code
 
             if( bEmit )
             {
