@@ -18,29 +18,60 @@ void GeoIPList::loadGeoIP()
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 		return;
 
-	clear();
+	m_lDatabase.clear();
+
+	// TODO: optimize it
+
 	QTextStream in(&file);
 	while (!in.atEnd()) {
 		QStringList line = in.readLine().split(" ");
-		append(line);
+
+		IPv4_ENDPOINT rBegin(line[0] + ":0");
+		IPv4_ENDPOINT rEnd(line[1] + ":0");
+		QString sCountry = line[2];
+
+		QPair<quint32, QPair<quint32, QString> > item = QPair<quint32, QPair<quint32, QString> >(rBegin.ip, QPair<quint32, QString>(rEnd.ip, sCountry));
+		m_lDatabase.append(item);
 	}
 }
 
-QString GeoIPList::findCountryCode(QString IP)
-{
-	IPv4_ENDPOINT ipAddress(IP);
-	for (int index = 0; index < size(); ++index)
-	{
-		QStringList currentItem = at(index);
-		IPv4_ENDPOINT rangeBegin(currentItem.at(0) + ":0");
-		if (ipAddress.ip > rangeBegin.ip)
-		{
-			IPv4_ENDPOINT rangeEnd(currentItem.at(1) + ":0");
 
-			if (ipAddress.ip < rangeEnd.ip)
-				return currentItem.at(2);
+QString GeoIPList::findCountryCode(quint32& nIp, quint32 nBegin, quint32 nEnd)
+{
+	nEnd = qMin<quint32>(nEnd, m_lDatabase.size());
+
+	if( nEnd - nBegin < 3 )
+	{
+		// just in case...
+		for( uint i = nBegin; i <= nEnd; i++ )
+		{
+			if( m_lDatabase[i].first <= nIp && m_lDatabase[i].second.first >= nIp )
+			{
+				return m_lDatabase[i].second.second;
+			}
 		}
+
+		return "ZZ";
 	}
+	else
+	{
+		int nIndex = ((nEnd - nBegin) / 2) + nBegin;
+
+		if( nIp > m_lDatabase[nIndex].first )
+		{
+			// range above half
+
+			return findCountryCode(nIp, nIndex, nEnd);
+		}
+		else if( nIp < m_lDatabase[nIndex].first )
+		{
+			// range below half
+
+			return findCountryCode(nIp, nBegin, nIndex);
+		}
+
+	}
+
 	return "ZZ";
 }
 
