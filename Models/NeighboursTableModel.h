@@ -6,6 +6,7 @@
 #include <QList>
 #include <QTime>
 #include <QMutex>
+#include <QIcon>
 
 class CG2Node;
 
@@ -28,6 +29,8 @@ typedef struct
     quint32     nRTT;
     QString     sUserAgent;
 	QString		sCountry;
+	QIcon		iNetwork;
+	QIcon		iCountry;
 } sNeighbour;
 
 class CNeighboursTableModel : public QAbstractTableModel

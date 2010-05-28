@@ -433,5 +433,6 @@
         <file>Resource/Flags/zm.png</file>
         <file>Resource/Flags/zw.png</file>
         <file>Resource/Flags/zz.png</file>
+        <file>Resource/Flags/eu.png</file>
     </qresource>
 </RCC>
