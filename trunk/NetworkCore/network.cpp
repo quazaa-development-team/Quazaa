@@ -343,7 +343,7 @@ void CNetwork::Maintain()
                 if( pHost )
                 {
                     CG2Node* pNew = new CG2Node();
-                    //connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
+					connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
                     emit NodeAdded(pNew);
                     m_pRateController->AddSocket(pNew);
                     m_lNodes.append(pNew);
@@ -378,7 +378,7 @@ void CNetwork::Maintain()
                 if( pHost )
                 {
                     CG2Node* pNew = new CG2Node();
-                    //connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
+					connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
                     emit NodeAdded(pNew);
                     m_pRateController->AddSocket(pNew);
                     m_lNodes.append(pNew);
@@ -452,7 +452,7 @@ void CNetwork::OnAccept(QTcpSocket* pConn)
     CG2Node* pNew = new CG2Node();
     pNew->moveToThread(&NetworkThread);
     pNew->AttachTo(pConn);
-    //connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
+	connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
     emit NodeAdded(pNew);
     m_pRateController->AddSocket(pNew);
     m_lNodes.append(pNew);

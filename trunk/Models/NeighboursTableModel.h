@@ -5,6 +5,7 @@
 #include "types.h"
 #include <QList>
 #include <QTime>
+#include <QMutex>
 
 class CG2Node;
 
@@ -37,6 +38,7 @@ protected:
     QList<sNeighbour>   m_lNodes;
 public:
     explicit CNeighboursTableModel(QObject *parent = 0);
+	~CNeighboursTableModel();
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -55,8 +57,11 @@ protected:
 signals:
 
 public slots:
+	bool NodeExists(CG2Node* pNode);
     void OnNodeAdded(CG2Node* pNode);
+	void AddNode(CG2Node* pNode, bool bSignal = true);
     void UpdateNeighbourData(CG2Node* pNode);
+	void UpdateNode(CG2Node* pNode, bool bSignal = true);
     void OnRemoveNode(CG2Node* pNode);
     void UpdateAll();
 };
