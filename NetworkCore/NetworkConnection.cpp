@@ -1,10 +1,19 @@
 #include "NetworkConnection.h"
 
 #include <QHostAddress>
+#include <QMetaType>
 
 CNetworkConnection::CNetworkConnection(QObject* parent)
     :QTcpSocket(parent)
 {
+	static bool bMetaRegistered = false;
+	if( !bMetaRegistered )
+	{
+		qRegisterMetaType<QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
+		qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
+		bMetaRegistered = true;
+	}
+
     //qDebug() << "CNetworkConnection constructor";
 
     m_pSocket = 0;

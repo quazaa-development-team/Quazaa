@@ -3,6 +3,7 @@
 #include <QColor>
 #include <QSize>
 #include <QIcon>
+#include <QMutexLocker>
 #include "g2node.h"
 #include "network.h"
 #include "geoiplist.h"
@@ -10,9 +11,13 @@
 CNeighboursTableModel::CNeighboursTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
-    //connect(&Network, SIGNAL(NodeAdded(CG2Node*)), this, SLOT(OnNodeAdded(CG2Node*)));
-    //connect(&Network, SIGNAL(NodeUpdated(CG2Node*)), this, SLOT(UpdateNeighbourData(CG2Node*)));
-    //cnnect(&Network, SIGNAL(NodeRemoved(CG2Node*)), this, SLOT(OnRemoveNode(CG2Node*)));
+	connect(&Network, SIGNAL(NodeAdded(CG2Node*)), this, SLOT(OnNodeAdded(CG2Node*)), Qt::QueuedConnection);
+	connect(&Network, SIGNAL(NodeUpdated(CG2Node*)), this, SLOT(UpdateNeighbourData(CG2Node*)), Qt::QueuedConnection);
+	connect(&Network, SIGNAL(NodeRemoved(CG2Node*)), this, SLOT(OnRemoveNode(CG2Node*)), Qt::QueuedConnection);
+}
+CNeighboursTableModel::~CNeighboursTableModel()
+{
+	m_lNodes.clear();
 }
 
 int CNeighboursTableModel::rowCount(const QModelIndex& parent) const
@@ -45,12 +50,12 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 			return icon;
 		}
 
-		if(index.column() == 10)
+		/*if(index.column() == 10)
 		{
 			sNeighbour n = m_lNodes.at(index.row());
 			QIcon icon(":/Resource/Flags/" + GeoIP.findCountryCode(n.pNode->GetAddress().toString()).toLower() + ".png");
 			return icon;
-		}
+		}*/
 	}
 
     if( role == Qt::DisplayRole )
@@ -142,101 +147,126 @@ QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientat
 
     return QVariant();
 }
+bool CNeighboursTableModel::NodeExists(CG2Node *pNode)
+{
+	if( Network.m_lNodes.isEmpty() )
+		return false;
+
+	for( int i = 0; i < Network.m_lNodes.size(); i++ )
+	{
+		if( Network.m_lNodes.at(i) == pNode )
+			return true;
+	}
+
+	return false;
+}
+
 void CNeighboursTableModel::OnNodeAdded(CG2Node* pNode)
 {
-    //Network.m_pSection.lock();
+	/*qDebug() << "OnNodeAdded";
 
-    if( !Network.List()->contains(pNode) )
-    {
-       // Network.m_pSection.unlock();
-        return;
-    }
+	if( !Network.m_pSection.tryLock(50) ) // if can't get lock - forget it
+		return;
 
-    sNeighbour nbr;
+	if( NodeExists(pNode) )
+		AddNode(pNode, false);
 
-    quint32 tNow = time(0);
+	Network.m_pSection.unlock();*/
+}
 
-    beginInsertRows(QModelIndex(), m_lNodes.size(), m_lNodes.size());
-    nbr.pNode = pNode;
-    nbr.tConnected = tNow - pNode->m_tConnected;
-    nbr.nBandwidthIn = pNode->AvgIn(tNow);
-    nbr.nBandwidthOut = pNode->AvgOut(tNow);
-    nbr.nBytesReceived = pNode->GetTotalIn();
-    nbr.nBytesSent = pNode->GetTotalOut();
-    nbr.nCompressionIn = pNode->GetTotalInDecompressed();
-    nbr.nCompressionOut = pNode->GetTotalOutCompressed();
-    nbr.nLeafCount = pNode->m_nLeafCount;
-    nbr.nLeafMax = pNode->m_nLeafMax;
-    nbr.nPacketsIn = pNode->m_nPacketsIn;
-    nbr.nPacketsOut = pNode->m_nPacketsOut;
-    nbr.nRTT = pNode->m_tRTT;
-    nbr.nState = pNode->m_nState;
-    nbr.nType = pNode->m_nType;
-    nbr.sUserAgent = pNode->m_sUserAgent;
+void CNeighboursTableModel::AddNode(CG2Node *pNode, bool bSignal)
+{
+	qDebug() << "AddNode";
+
+	sNeighbour nbr;
+
+	quint32 tNow = time(0);
+
+	beginInsertRows(QModelIndex(), m_lNodes.size(), m_lNodes.size());
+	nbr.pNode = pNode;
+	nbr.tConnected = tNow - pNode->m_tConnected;
+	nbr.nBandwidthIn = pNode->AvgIn(tNow);
+	nbr.nBandwidthOut = pNode->AvgOut(tNow);
+	nbr.nBytesReceived = pNode->GetTotalIn();
+	nbr.nBytesSent = pNode->GetTotalOut();
+	nbr.nCompressionIn = pNode->GetTotalInDecompressed();
+	nbr.nCompressionOut = pNode->GetTotalOutCompressed();
+	nbr.nLeafCount = pNode->m_nLeafCount;
+	nbr.nLeafMax = pNode->m_nLeafMax;
+	nbr.nPacketsIn = pNode->m_nPacketsIn;
+	nbr.nPacketsOut = pNode->m_nPacketsOut;
+	nbr.nRTT = pNode->m_tRTT;
+	nbr.nState = pNode->m_nState;
+	nbr.nType = pNode->m_nType;
+	nbr.sUserAgent = pNode->m_sUserAgent;
 	nbr.sCountry = "";
 
-    m_lNodes.append(nbr);
-    endInsertRows();
+	m_lNodes.append(nbr);
+	endInsertRows();
 
-    //Network.m_pSection.unlock();
+	if( bSignal )
+	{
+		QModelIndex idxUpdate = index(m_lNodes.size() - 1, 0, QModelIndex());
+		QModelIndex idxUpdate2 = index(m_lNodes.size() - 1, 10, QModelIndex());
+		emit dataChanged(idxUpdate, idxUpdate2);
+	}
 }
 
 void CNeighboursTableModel::UpdateNeighbourData(CG2Node* pNode)
 {
-    quint32 tNow = time(0);
-    bool bEmit = (sender() != 0);
+	qDebug() << "UpdateNeighboursData";
 
+	if( !Network.m_pSection.tryLock(50) )
+		return;	// forget it
 
+	if( NodeExists(pNode) )
+		UpdateNode(pNode);
 
-    if( !bEmit )
-    {
-        //Network.m_pSection.lock();
-        if( !Network.List()->contains(pNode) )
-        {
-            CNeighboursTableModel::OnRemoveNode(pNode);
-            //Network.m_pSection.unlock();
-            return;
-        }
-    }
+	Network.m_pSection.unlock();
+}
+void CNeighboursTableModel::UpdateNode(CG2Node *pNode, bool bSignal)
+{
+	qDebug() << "UpdateNode";
 
-    for( int i = 0; i < m_lNodes.size(); i++)
-    {
-        if( m_lNodes[i].pNode == pNode )
-        {
-            m_lNodes[i].tConnected = tNow - pNode->m_tConnected;
-            m_lNodes[i].nBandwidthIn = pNode->AvgIn(tNow);
-            m_lNodes[i].nBandwidthOut = pNode->AvgOut(tNow);
-            m_lNodes[i].nBytesReceived = pNode->GetTotalIn();
-            m_lNodes[i].nBytesSent = pNode->GetTotalOut();
-            m_lNodes[i].nCompressionIn = pNode->GetTotalInDecompressed();
-            m_lNodes[i].nCompressionOut = pNode->GetTotalOutCompressed();
-            m_lNodes[i].nLeafCount = pNode->m_nLeafCount;
-            m_lNodes[i].nLeafMax = pNode->m_nLeafMax;
-            m_lNodes[i].nPacketsIn = pNode->m_nPacketsIn;
-            m_lNodes[i].nPacketsOut = pNode->m_nPacketsOut;
-            m_lNodes[i].nRTT = pNode->m_tRTT;
-            m_lNodes[i].nState = pNode->m_nState;
-            m_lNodes[i].nType = pNode->m_nType;
-            m_lNodes[i].sUserAgent = pNode->m_sUserAgent;
+	quint32 tNow = time(0);
+
+	for( int i = 0; i < m_lNodes.size(); i++)
+	{
+		if( m_lNodes[i].pNode == pNode )
+		{
+			m_lNodes[i].tConnected = tNow - pNode->m_tConnected;
+			m_lNodes[i].nBandwidthIn = pNode->AvgIn(tNow);
+			m_lNodes[i].nBandwidthOut = pNode->AvgOut(tNow);
+			m_lNodes[i].nBytesReceived = pNode->GetTotalIn();
+			m_lNodes[i].nBytesSent = pNode->GetTotalOut();
+			m_lNodes[i].nCompressionIn = pNode->GetTotalInDecompressed();
+			m_lNodes[i].nCompressionOut = pNode->GetTotalOutCompressed();
+			m_lNodes[i].nLeafCount = pNode->m_nLeafCount;
+			m_lNodes[i].nLeafMax = pNode->m_nLeafMax;
+			m_lNodes[i].nPacketsIn = pNode->m_nPacketsIn;
+			m_lNodes[i].nPacketsOut = pNode->m_nPacketsOut;
+			m_lNodes[i].nRTT = pNode->m_tRTT;
+			m_lNodes[i].nState = pNode->m_nState;
+			m_lNodes[i].nType = pNode->m_nType;
+			m_lNodes[i].sUserAgent = pNode->m_sUserAgent;
 			m_lNodes[i].sCountry = "";//TODO: create function in geoiplist to return country name from country code
 
-            if( bEmit )
-            {
-                QModelIndex idx = index(i, 0, QModelIndex());
-                QModelIndex idx2 = index(i, 10, QModelIndex());
-                emit dataChanged(idx, idx2);
-            }
+			if( bSignal )
+			{
+				QModelIndex idx = index(i, 0, QModelIndex());
+				QModelIndex idx2 = index(i, 10, QModelIndex());
+				emit dataChanged(idx, idx2);
+			}
 
-            break;
-        }
-    }
-
-    //if( !bEmit )
-    //    Network.m_pSection.unlock();
-
+			break;
+		}
+	}
 }
+
 void CNeighboursTableModel::OnRemoveNode(CG2Node* pNode)
 {
+	qDebug() << "OnRemoveNode";
+
     for( int i = 0; i < m_lNodes.size(); i++ )
     {
         if( m_lNodes[i].pNode == pNode )
@@ -244,7 +274,12 @@ void CNeighboursTableModel::OnRemoveNode(CG2Node* pNode)
             beginRemoveRows(QModelIndex(), i, i);
             m_lNodes.removeAt(i);
             endRemoveRows();
-            break;
+			/*if( sender() )
+			{
+				QModelIndex idx1 = index(i, 0, QModelIndex());
+				QModelIndex idx2 = index(i, 10, QModelIndex());
+				emit dataChanged(idx1, idx2);
+			}*/
         }
     }
 }
@@ -281,35 +316,58 @@ QString CNeighboursTableModel::TypeToString(G2NodeType t) const
 
 void CNeighboursTableModel::UpdateAll()
 {
+	
+	qDebug() << "UpdateAll";
+
     if( Network.m_pSection.tryLock(50) )
     {
-        QList<CG2Node*> lList = *Network.List();
-        foreach( CG2Node* pNode, lList )
-        {
-            bool bFound = false;
-            for( int i = 0; i < m_lNodes.size(); i++ )
-            {
-                if( m_lNodes.at(i).pNode == pNode )
-                {
-                    CNeighboursTableModel::UpdateNeighbourData(pNode);
-                    bFound = true;
-                    break;
-                }
-            }
+		// first check if we need to remove some nodes
 
-            if( !bFound )
-                CNeighboursTableModel::OnNodeAdded(pNode);
-        }
+		for( int i = 0; i < m_lNodes.size(); i++ )
+		{
+			bool bFound = false;
 
-        for( int i = 0; i < m_lNodes.size(); i++ )
-        {
-            if( !lList.contains(m_lNodes.at(i).pNode) )
-                OnRemoveNode(m_lNodes.at(i).pNode);
-        }
+			for( int j = 0; j < Network.m_lNodes.size(); j++ )
+			{
+				if( Network.m_lNodes.at(j) == m_lNodes.at(i).pNode )
+				{
+					bFound = true;
+				}
+			}
 
-        QModelIndex idx1 = index(0, 0, QModelIndex());
-        QModelIndex idx2 = index(m_lNodes.size(), 10, QModelIndex());
-        Network.m_pSection.unlock();
-        emit dataChanged(idx1, idx2);
+			if( !bFound )
+			{
+				// not found in network - remove it
+				OnRemoveNode(m_lNodes.at(i).pNode);
+			}
+		}
+
+		// now add missing nodes or update existing
+
+		for( int i = 0; i < Network.m_lNodes.size(); i++ )
+		{
+			bool bFound = false;
+
+			for( int j = 0; j < m_lNodes.size(); j++ )
+			{
+				if( Network.m_lNodes.at(i) == m_lNodes.at(j).pNode )
+				{
+					UpdateNode(m_lNodes.at(j).pNode, false);
+					bFound = true;
+					break;
+				}
+			}
+
+			if( !bFound )
+			{
+				AddNode(Network.m_lNodes.at(i), false);
+			}
+		}
+
+		Network.m_pSection.unlock();
+
+		QModelIndex idx1 = index(0, 0, QModelIndex());
+		QModelIndex idx2 = index(m_lNodes.size(), 10, QModelIndex());
+		emit dataChanged(idx1, idx2);
     }
 }

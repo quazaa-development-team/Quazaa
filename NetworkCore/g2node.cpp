@@ -97,10 +97,10 @@ void CG2Node::FlushSendQueue(bool bFullFlush)
 void CG2Node::SetupSlots()
 {
 	connect(this, SIGNAL(connected()), this, SLOT(OnConnect()), Qt::QueuedConnection);
-	connect(this, SIGNAL(disconnected()), this, SLOT(OnDisconnect()));
+	connect(this, SIGNAL(disconnected()), this, SLOT(OnDisconnect()), Qt::QueuedConnection);
 	connect(this, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
-	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(OnError(QAbstractSocket::SocketError)));
-	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(OnStateChange(QAbstractSocket::SocketState)));
+	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(OnError(QAbstractSocket::SocketError)), Qt::QueuedConnection);
+	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(OnStateChange(QAbstractSocket::SocketState)), Qt::QueuedConnection);
 }
 
 void CG2Node::OnConnect()
@@ -135,6 +135,7 @@ void CG2Node::OnConnect()
 }
 void CG2Node::OnDisconnect()
 {
+	QMutexLocker l(&Network.m_pSection);
     //qDebug("OnDisconnect()");
 	systemLog.postLog(tr("Remote host closed connection: ") + m_oAddress.toString(), LogSeverity::Notice);
     deleteLater();
@@ -195,7 +196,7 @@ void CG2Node::OnRead()
 }
 void CG2Node::OnError(QAbstractSocket::SocketError e)
 {
-	//QMutexLocker l(&Network.m_pSection);
+	QMutexLocker l(&Network.m_pSection);
 
     if( e != QAbstractSocket::RemoteHostClosedError )
     {
@@ -208,6 +209,8 @@ void CG2Node::OnError(QAbstractSocket::SocketError e)
 }
 void CG2Node::OnStateChange(QAbstractSocket::SocketState s)
 {
+	//QMutexLocker l(&Network.m_pSection);
+
     //qDebug() << "OnStateChange(" << s << ")";
 }
 
