@@ -5,8 +5,9 @@ QT += phonon
 CONFIG += designer
 TARGET = QuazaaSkinTool
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
-INCLUDEPATH += temp \
-	.
+INCLUDEPATH += .
+CONFIG(debug, debug|release):INCLUDEPATH += temp/debug
+CONFIG(release):INCLUDEPATH += temp/release
 TEMPLATE = app
 SOURCES += main.cpp \
     mainwindow.cpp \
@@ -61,7 +62,10 @@ RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
 DESTDIR = ../bin
-OBJECTS_DIR = temp
-MOC_DIR = temp
-UI_DIR = temp
+CONFIG(debug, debug|release):OBJECTS_DIR = temp/debug
+CONFIG(release):OBJECTS_DIR = temp/release
+CONFIG(debug, debug|release):MOC_DIR = temp/debug
+CONFIG(release):MOC_DIR = temp/release
+CONFIG(debug, debug|release):UI_DIR = temp/debug
+CONFIG(release):UI_DIR = temp/release
 include(qtgradienteditor/qtgradienteditor.pri)

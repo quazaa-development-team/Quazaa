@@ -13,12 +13,13 @@ TARGET = Quazaa
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 INCLUDEPATH += vlc \
     NetworkCore \
-    UI \
-    temp \
+	UI \
     3rdparty \
     3rdparty/libircclient-qt \
     Models \
     .
+CONFIG(debug, debug|release):INCLUDEPATH += temp/debug
+CONFIG(release):INCLUDEPATH += temp/release
 win32:LIBS += -Lbin # if you are at windows os
 LIBS += -lvlc
 CONFIG += precompile_header \
@@ -311,6 +312,9 @@ RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
 DESTDIR = ./bin
-OBJECTS_DIR = temp
-MOC_DIR = temp
-UI_DIR = temp
+CONFIG(debug, debug|release):OBJECTS_DIR = temp/debug
+CONFIG(release):OBJECTS_DIR = temp/release
+CONFIG(debug, debug|release):MOC_DIR = temp/debug
+CONFIG(release):MOC_DIR = temp/release
+CONFIG(debug, debug|release):UI_DIR = temp/debug
+CONFIG(release):UI_DIR = temp/release
