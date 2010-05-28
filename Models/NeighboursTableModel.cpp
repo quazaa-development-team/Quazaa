@@ -199,8 +199,9 @@ void CNeighboursTableModel::AddNode(CG2Node *pNode, bool bSignal)
 	nbr.nState = pNode->m_nState;
 	nbr.nType = pNode->m_nType;
 	nbr.sUserAgent = pNode->m_sUserAgent;
-	nbr.sCountry = GeoIP.countryNameFromCode(GeoIP.findCountryCode(nbr.pNode->GetAddress().toString()));
-	nbr.iCountry = QIcon(":/Resource/Flags/" + GeoIP.findCountryCode(nbr.pNode->GetAddress().toString()).toLower() + ".png");
+	QString sCountry = GeoIP.findCountryCode(nbr.pNode->m_oAddress);
+	nbr.sCountry = GeoIP.countryNameFromCode(sCountry);
+	nbr.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
 
 	m_lNodes.append(nbr);

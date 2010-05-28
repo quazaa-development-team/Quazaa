@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QList>
-#include <QStringList>
+#include <QPair>
 
-class GeoIPList : public QList<QStringList>
+class GeoIPList
 {
 public:
 	struct sGeoID {
@@ -13,11 +13,23 @@ public:
 		QString countryName;
 	}; sGeoID GeoID;
 
+	QList<QPair<quint32, QPair<quint32, QString> > > m_lDatabase;
+
 	GeoIPList();
 	void loadGeoIP();
-	QString findCountryCode(QString IP);
+	inline QString findCountryCode(QString IP)
+	{
+		IPv4_ENDPOINT ipAddress(IP);
+
+		return findCountryCode(ipAddress);
+	}
+	inline QString findCountryCode(IPv4_ENDPOINT& ip)
+	{
+		return findCountryCode(ip.ip);
+	}
+
+	QString findCountryCode(quint32& nIp, quint32 nBegin = 0, quint32 nEnd = 0xFFFFFFFF);
 	QString countryNameFromCode(QString code);
-	QList<QStringList> *countryNameList;
 };
 
 extern GeoIPList GeoIP;
