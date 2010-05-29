@@ -14,7 +14,6 @@ public:
     ~WidgetHome();
 	void saveWidget();
 	void mouseDoubleClickEvent(QMouseEvent *);
-	QList<int> splitterRestoreWidths;
 
 signals:
 	void triggerLibrary();

@@ -152,15 +152,17 @@ void WidgetHome::on_splitterHome_customContextMenuRequested(QPoint pos)
 	{
 		if (ui->splitterHome->sizes()[0] > 0)
 		{
-			splitterRestoreWidths.clear();
-			splitterRestoreWidths.append(ui->splitterHome->sizes()[0]);
-			splitterRestoreWidths.append(ui->splitterHome->sizes()[1]);
+			quazaaSettings.WinMain.HomeSplitterRestoreLeft = ui->splitterHome->sizes()[0];
+			quazaaSettings.WinMain.HomeSplitterRestoreRight = ui->splitterHome->sizes()[1];
 			QList<int> newSizes;
 			newSizes.append(0);
 			newSizes.append(ui->splitterHome->sizes()[0] + ui->splitterHome->sizes()[1]);
 			ui->splitterHome->setSizes(newSizes);
 		} else {
-			ui->splitterHome->setSizes(splitterRestoreWidths);
+			QList<int> sizesList;
+			sizesList.append(quazaaSettings.WinMain.HomeSplitterRestoreLeft);
+			sizesList.append(quazaaSettings.WinMain.HomeSplitterRestoreRight);
+			ui->splitterHome->setSizes(sizesList);
 		}
 	}
 }

@@ -1036,6 +1036,8 @@ void QuazaaSettings::saveWindowSettings(QMainWindow *window)
 	m_qSettings.setValue( "HomeLibraryTaskVisible", quazaaSettings.WinMain.HomeLibraryTaskVisible );
 	m_qSettings.setValue( "HomeSearchString", quazaaSettings.WinMain.HomeSearchString );
 	m_qSettings.setValue( "HomeSplitter", quazaaSettings.WinMain.HomeSplitter );
+	m_qSettings.setValue( "HomeSplitterRestoreLeft", quazaaSettings.WinMain.HomeSplitterRestoreLeft );
+	m_qSettings.setValue( "HomeSplitterRestoreRight", quazaaSettings.WinMain.HomeSplitterRestoreRight );
 	m_qSettings.setValue( "HomeTorrentsTaskVisible", quazaaSettings.WinMain.HomeTorrentsTaskVisible );
 	m_qSettings.setValue( "HomeUploadsTaskVisible", quazaaSettings.WinMain.HomeUploadsTaskVisible );
 	m_qSettings.setValue( "HostCacheSplitter", quazaaSettings.WinMain.HostCacheSplitter );
@@ -1072,6 +1074,8 @@ void QuazaaSettings::saveWindowSettings(QMainWindow *window)
 void QuazaaSettings::loadWindowSettings(QMainWindow *window)
 {
 	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QList<QVariant> intListInitializer;
+	intListInitializer << 0 << 0;
 
 	quazaaSettings.WinMain.ActiveTab = m_qSettings.value( "ActiveTab", 0 ).toInt();
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = m_qSettings.value( "ChatRoomsTaskVisible", true ).toBool();
@@ -1088,6 +1092,8 @@ void QuazaaSettings::loadWindowSettings(QMainWindow *window)
 	quazaaSettings.WinMain.HomeTorrentsTaskVisible = m_qSettings.value( "HomeTorrentsTaskVisible", true ).toBool();
 	quazaaSettings.WinMain.HomeSearchString = m_qSettings.value( "HomeSearchString", "" ).toString();
 	quazaaSettings.WinMain.HomeSplitter = m_qSettings.value( "HomeSplitter", QByteArray() ).toByteArray();
+	quazaaSettings.WinMain.HomeSplitterRestoreLeft = m_qSettings.value( "HomeSplitterRestoreLeft", 0 ).toInt();
+	quazaaSettings.WinMain.HomeSplitterRestoreRight = m_qSettings.value( "HomeSplitterRestoreRight", 0 ).toInt();
 	quazaaSettings.WinMain.HostCacheSplitter = m_qSettings.value( "HostCacheSplitter", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.HostCacheToolbar = m_qSettings.value( "HostCacheToolbar", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.LibraryDetailsSplitter = m_qSettings.value( "LibraryDetailsSplitter", QByteArray() ).toByteArray();
