@@ -2,9 +2,18 @@
 #define SEARCHTREEMODEL_H
 
 #include <QObject>
+#include <QIcon>
 #include <QAbstractItemModel>
-
 #include "NetworkCore/QueryHit.h"
+
+
+namespace SearchHitData {
+	struct sSearchHitData {
+		CSHA1 oSha1Hash;
+		QIcon iNetwork;
+		QIcon iCountry;
+	};
+};
 
 class SearchTreeItem : public QObject
 {
@@ -12,6 +21,8 @@ class SearchTreeItem : public QObject
 public:
 	SearchTreeItem(const QList<QVariant> &data, SearchTreeItem *parent = 0);
 	~SearchTreeItem();
+
+	SearchHitData::sSearchHitData HitData;
 
 	void appendChild(SearchTreeItem *child);
 

@@ -1,5 +1,7 @@
 #include "searchtreemodel.h"
+#include <QFileInfo>
 #include "systemlog.h"
+#include "geoiplist.h"
 
 SearchTreeModel::SearchTreeModel()
 {
@@ -27,12 +29,25 @@ QVariant SearchTreeModel::data(const QModelIndex &index, int role) const
 	if (!index.isValid())
 		return QVariant();
 
-	if (role != Qt::DisplayRole)
-		return QVariant();
-
 	SearchTreeItem *item = static_cast<SearchTreeItem*>(index.internalPointer());
 
-	return item->data(index.column());
+	if ( role == Qt::DecorationRole )
+	{
+		if (index.column() == 0)
+		{
+			return item->HitData.iNetwork;
+		}
+
+		if(index.column() == 9)
+		{
+			return item->HitData.iCountry;
+		}
+	}
+
+	if ( role == Qt::DisplayRole )
+		return item->data(index.column());
+
+	return QVariant();
 }
 
 Qt::ItemFlags SearchTreeModel::flags(const QModelIndex &index) const
@@ -159,27 +174,66 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 
 		if (existingSearch == -1)
 		{
+			QFileInfo fileInfo(pHit2->m_sDescriptiveName);
+			QString sCountry = GeoIP.findCountryCode(pHit2->m_pHitInfo.data()->m_oNodeAddress.toString());
 			beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
 			QList<QVariant> m_lParentData;
-			m_lParentData << pHit2->m_sDescriptiveName << "" << pHit2->m_nObjectSize << ""
-					<< "" << 1 << "" << "" << "" << "" << pHit2->m_oSha1.ToString();
+			m_lParentData <<  fileInfo.completeBaseName()
+					<< fileInfo.suffix()
+					<< pHit2->m_nObjectSize
+					<< ""
+					<< ""
+					<< 1
+					<< ""
+					<< ""
+					<< ""
+					<< ""
+					<< pHit2->m_oSha1.ToString();
 			SearchTreeItem *m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
+			m_oParentItem->HitData.oSha1Hash = pHit2->m_oSha1;
 			QList<QVariant> m_lChildData;
-			m_lChildData << pHit2->m_sDescriptiveName << "" << pHit2->m_nObjectSize << ""
-					<< "" << pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort() << "" << "" << "" << "" << pHit2->m_oSha1.ToString();
+			m_lChildData << fileInfo.completeBaseName()
+					<< fileInfo.suffix()
+					<< pHit2->m_nObjectSize
+					<< ""
+					<< ""
+					<< pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
+					<< ""
+					<< ""
+					<< ""
+					<< GeoIP.countryNameFromCode(sCountry);
+			SearchTreeItem *m_oChildItem = new SearchTreeItem(m_lChildData, m_oParentItem);
+			m_oChildItem->HitData.oSha1Hash = pHit2->m_oSha1;
+			m_oChildItem->HitData.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
+			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
+
 			rootItem->appendChild(m_oParentItem);
-			m_oParentItem->appendChild(new SearchTreeItem(m_lChildData, m_oParentItem));
+			m_oParentItem->appendChild(m_oChildItem);
 			endInsertRows();
 		}
 		else if ( !rootItem->child(existingSearch)->duplicateCheck( rootItem->child(existingSearch), pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()))
 		{
 			QModelIndex idxParent = index(existingSearch, 0, QModelIndex());
+			QFileInfo fileInfo(pHit2->m_sDescriptiveName);
+			QString sCountry = GeoIP.findCountryCode(pHit2->m_pHitInfo.data()->m_oNodeAddress.toString());
 			beginInsertRows( idxParent, rootItem->child(existingSearch)->childCount(), rootItem->child(existingSearch)->childCount());
 			QList<QVariant> m_lChildData;
-			m_lChildData << pHit2->m_sDescriptiveName << "" << pHit2->m_nObjectSize << ""
-					<< "" << pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort() << "" << "" << "" << "" << pHit2->m_oSha1.ToString();
+			m_lChildData << fileInfo.completeBaseName()
+					<< fileInfo.suffix()
+					<< pHit2->m_nObjectSize
+					<< ""
+					<< ""
+					<< pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
+					<< ""
+					<< ""
+					<< ""
+					<< GeoIP.countryNameFromCode(sCountry);
+			SearchTreeItem *m_oChildItem = new SearchTreeItem(m_lChildData, rootItem->child(existingSearch));
+			m_oChildItem->HitData.oSha1Hash = pHit2->m_oSha1;
+			m_oChildItem->HitData.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
+			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
-			rootItem->child(existingSearch)->appendChild(new SearchTreeItem(m_lChildData, rootItem->child(existingSearch)));
+			rootItem->child(existingSearch)->appendChild(m_oChildItem);
 			rootItem->child(existingSearch)->updateHitCount(rootItem->child(existingSearch)->childCount());
 			endInsertRows();
 		}
@@ -227,7 +281,7 @@ int SearchTreeItem::find(SearchTreeItem *containerItem, QString hash)
 {
 	for (int index = 0; index < containerItem->childItems.size(); ++index)
 	{
-		if (containerItem->child(index)->data(10).toString() == hash)
+		if (containerItem->child(index)->HitData.oSha1Hash.ToString() == hash)
 			return index;
 	}
 	return -1;
