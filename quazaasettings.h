@@ -44,6 +44,8 @@ namespace Settings
 		bool		HomeLibraryTaskVisible;		// The Library task in the Home sidebar
 		QString		HomeSearchString;				// The text typed into the search text box on the home tab
 		QByteArray	HomeSplitter;				// The splitter between the Home sidebar and welcome frame
+		int			HomeSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
+		int			HomeSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
 		bool		HomeTorrentsTaskVisible;		// The BitTorrent task in the Home sidebar
 		bool		HomeUploadsTaskVisible;		// The Uploads task in the Home sidebar
 		QByteArray	HostCacheSplitter;			// Host Cache splitter position
