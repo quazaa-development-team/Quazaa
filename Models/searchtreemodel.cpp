@@ -6,8 +6,15 @@
 SearchTreeModel::SearchTreeModel()
 {
 	QList<QVariant> rootData;
-	rootData << "File" << "Extension" << "Size" << "Rating" << "Status" << "Host/Count"
-			<< "Speed" << "Client" << "Time" << "Country";
+	rootData << "File"
+			<< "Extension"
+			<< "Size"
+			<< "Rating"
+			<< "Status"
+			<< "Host/Count"
+			<< "Speed"
+			<< "Client"
+			<< "Country";
 	rootItem = new SearchTreeItem(rootData);
 }
 
@@ -186,9 +193,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 					<< 1
 					<< ""
 					<< ""
-					<< ""
-					<< ""
-					<< pHit2->m_oSha1.ToString();
+					<< "";
 			SearchTreeItem *m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
 			m_oParentItem->HitData.oSha1Hash = pHit2->m_oSha1;
 			QList<QVariant> m_lChildData;
@@ -198,7 +203,6 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 					<< ""
 					<< ""
 					<< pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
-					<< ""
 					<< ""
 					<< ""
 					<< GeoIP.countryNameFromCode(sCountry);
@@ -224,7 +228,6 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 					<< ""
 					<< ""
 					<< pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
-					<< ""
 					<< ""
 					<< ""
 					<< GeoIP.countryNameFromCode(sCountry);

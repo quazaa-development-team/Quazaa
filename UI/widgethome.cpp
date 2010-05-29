@@ -5,6 +5,7 @@
 #include "dialogsettings.h"
 #include "dialogwizard.h"
 #include "widgetsearchtemplate.h"
+#include "systemlog.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -137,4 +138,29 @@ void WidgetHome::on_toolButtonWelcomeSearch_clicked()
 {
 	QString m_sSearchString = ui->lineEditWelcomeSearch->text();
 	emit requestSearch(&m_sSearchString);
+}
+
+void WidgetHome::mouseDoubleClickEvent(QMouseEvent *)
+{
+
+
+}
+
+void WidgetHome::on_splitterHome_customContextMenuRequested(QPoint pos)
+{
+	if (ui->splitterHome->handle(1)->underMouse())
+	{
+		if (ui->splitterHome->sizes()[0] > 0)
+		{
+			splitterRestoreWidths.clear();
+			splitterRestoreWidths.append(ui->splitterHome->sizes()[0]);
+			splitterRestoreWidths.append(ui->splitterHome->sizes()[1]);
+			QList<int> newSizes;
+			newSizes.append(0);
+			newSizes.append(ui->splitterHome->sizes()[0] + ui->splitterHome->sizes()[1]);
+			ui->splitterHome->setSizes(newSizes);
+		} else {
+			ui->splitterHome->setSizes(splitterRestoreWidths);
+		}
+	}
 }

@@ -14,7 +14,7 @@
    <string>Quazaa! Home</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Home.png</normaloff>:/Resource/Generic/Home.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -26,6 +26,9 @@
    </property>
    <item>
     <widget class="QSplitter" name="splitterHome">
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -60,8 +63,8 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-348</y>
-            <width>208</width>
+            <y>0</y>
+            <width>176</width>
             <height>682</height>
            </rect>
           </property>
@@ -161,7 +164,7 @@ QToolButton:hover {
                  <string>Downloads</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="Resource.qrc">
+                 <iconset resource="../Resource.qrc">
                   <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -206,7 +209,7 @@ QToolButton:hover {
                  <string>Uploads</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="Resource.qrc">
+                 <iconset resource="../Resource.qrc">
                   <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -300,7 +303,7 @@ QToolButton:hover {
                 <string>Torrents</string>
                </property>
                <property name="icon">
-                <iconset resource="Resource.qrc">
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
                </property>
                <property name="iconSize">
@@ -429,7 +432,7 @@ QToolButton:hover {
                 <string>Connection</string>
                </property>
                <property name="icon">
-                <iconset resource="Resource.qrc">
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
                </property>
                <property name="iconSize">
@@ -554,7 +557,7 @@ QToolButton:hover {
                 <string>My Library</string>
                </property>
                <property name="icon">
-                <iconset resource="Resource.qrc">
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
                </property>
                <property name="iconSize">
@@ -744,7 +747,7 @@ p, li { white-space: pre-wrap; }
             <x>0</x>
             <y>0</y>
             <width>624</width>
-            <height>518</height>
+            <height>537</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
@@ -769,7 +772,7 @@ p, li { white-space: pre-wrap; }
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="Resource.qrc">:/Resource/QuazaaLogo.png</pixmap>
+              <pixmap resource="../Resource.qrc">:/Resource/QuazaaLogo.png</pixmap>
              </property>
             </widget>
            </item>
@@ -807,7 +810,7 @@ p, li { white-space: pre-wrap; }
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Generic/Download.png</pixmap>
+                <pixmap resource="../Resource.qrc">:/Resource/Generic/Download.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -887,7 +890,7 @@ p, li { white-space: pre-wrap; }
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Generic/Search.png</pixmap>
+                <pixmap resource="../Resource.qrc">:/Resource/Generic/Search.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -999,7 +1002,7 @@ p, li { white-space: pre-wrap; }
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="Resource.qrc">:/Resource/Generic/Settings.png</pixmap>
+                <pixmap resource="../Resource.qrc">:/Resource/Generic/Settings.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -1041,7 +1044,7 @@ p, li { white-space: pre-wrap; }
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="Resource.qrc">:/Resource/Generic/Skin.png</pixmap>
+                  <pixmap resource="../Resource.qrc">:/Resource/Generic/Skin.png</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>true</bool>
@@ -1066,7 +1069,7 @@ p, li { white-space: pre-wrap; }
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="Resource.qrc">:/Resource/Generic/Wizard.png</pixmap>
+                  <pixmap resource="../Resource.qrc">:/Resource/Generic/Wizard.png</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>true</bool>
@@ -1091,7 +1094,7 @@ p, li { white-space: pre-wrap; }
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="Resource.qrc">:/Resource/Generic/Help.png</pixmap>
+                  <pixmap resource="../Resource.qrc">:/Resource/Generic/Help.png</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>true</bool>
@@ -1116,7 +1119,7 @@ p, li { white-space: pre-wrap; }
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="Resource.qrc">:/Resource/Security/Security.png</pixmap>
+                  <pixmap resource="../Resource.qrc">:/Resource/Security/Security.png</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>true</bool>
@@ -1195,7 +1198,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections>
   <connection>
