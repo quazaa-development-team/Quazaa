@@ -16,6 +16,7 @@ WidgetActivity::WidgetActivity(QWidget *parent) :
 	ui->verticalLayoutNeighbors->addWidget(panelNeighbors);
 	panelSystemLog = new WidgetSystemLog();
 	ui->verticalLayoutSystemLog->addWidget(panelSystemLog);
+	connect(ui->toolButtonNeighborsHeader, SIGNAL(clicked()), this, SLOT(on_splitterActivity_customContextMenuRequested(QPoint)));
 }
 
 WidgetActivity::~WidgetActivity()
@@ -66,5 +67,41 @@ void WidgetActivity::on_splitterActivity_customContextMenuRequested(QPoint pos)
 			sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreBottom);
 			ui->splitterActivity->setSizes(sizesList);
 		}
+	}
+}
+
+void WidgetActivity::on_toolButtonSystemLogHeader_clicked()
+{
+	if (ui->splitterActivity->sizes()[0] > 0)
+	{
+		quazaaSettings.WinMain.ActivitySplitterRestoreTop = ui->splitterActivity->sizes()[0];
+		quazaaSettings.WinMain.ActivitySplitterRestoreBottom = ui->splitterActivity->sizes()[1];
+		QList<int> newSizes;
+		newSizes.append(0);
+		newSizes.append(ui->splitterActivity->sizes()[0] + ui->splitterActivity->sizes()[1]);
+		ui->splitterActivity->setSizes(newSizes);
+	} else {
+		QList<int> sizesList;
+		sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreTop);
+		sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreBottom);
+		ui->splitterActivity->setSizes(sizesList);
+	}
+}
+
+void WidgetActivity::on_toolButtonNeighborsHeader_clicked()
+{
+	if (ui->splitterActivity->sizes()[1] > 0)
+	{
+		quazaaSettings.WinMain.ActivitySplitterRestoreTop = ui->splitterActivity->sizes()[0];
+		quazaaSettings.WinMain.ActivitySplitterRestoreBottom = ui->splitterActivity->sizes()[1];
+		QList<int> newSizes;
+		newSizes.append(ui->splitterActivity->sizes()[0] + ui->splitterActivity->sizes()[1]);
+		newSizes.append(0);
+		ui->splitterActivity->setSizes(newSizes);
+	} else {
+		QList<int> sizesList;
+		sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreTop);
+		sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreBottom);
+		ui->splitterActivity->setSizes(sizesList);
 	}
 }

@@ -68,3 +68,39 @@ void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos
 		}
 	}
 }
+
+void WidgetTransfers::on_toolButtonUploadsHeader_clicked()
+{
+	if (ui->splitterTransfers->sizes()[0] > 0)
+	{
+		quazaaSettings.WinMain.TransfersSplitterRestoreTop = ui->splitterTransfers->sizes()[0];
+		quazaaSettings.WinMain.TransfersSplitterRestoreBottom = ui->splitterTransfers->sizes()[1];
+		QList<int> newSizes;
+		newSizes.append(0);
+		newSizes.append(ui->splitterTransfers->sizes()[0] + ui->splitterTransfers->sizes()[1]);
+		ui->splitterTransfers->setSizes(newSizes);
+	} else {
+		QList<int> sizesList;
+		sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreTop);
+		sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreBottom);
+		ui->splitterTransfers->setSizes(sizesList);
+	}
+}
+
+void WidgetTransfers::on_toolButtonDownloadsHeader_clicked()
+{
+	if (ui->splitterTransfers->sizes()[1] > 0)
+	{
+		quazaaSettings.WinMain.TransfersSplitterRestoreTop = ui->splitterTransfers->sizes()[0];
+		quazaaSettings.WinMain.TransfersSplitterRestoreBottom = ui->splitterTransfers->sizes()[1];
+		QList<int> newSizes;
+		newSizes.append(ui->splitterTransfers->sizes()[0] + ui->splitterTransfers->sizes()[1]);
+		newSizes.append(0);
+		ui->splitterTransfers->setSizes(newSizes);
+	} else {
+		QList<int> sizesList;
+		sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreTop);
+		sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreBottom);
+		ui->splitterTransfers->setSizes(sizesList);
+	}
+}

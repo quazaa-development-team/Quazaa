@@ -164,11 +164,17 @@
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
+    <value type="QString">-j</value>
+    <value type="QString">4</value>
     <value type="QString">-w</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
    <value key="abstractProcess.workingDirectory" type="QString">/home/joseph/Qt Projects/quazaa/trunk</value>
+   <valuelist key="makeargs" type="QVariantList">
+    <value type="QString">-j</value>
+    <value type="QString">4</value>
+   </valuelist>
   </valuemap>
  </data>
  <data>
@@ -320,6 +326,10 @@
    <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
    <value key="abstractProcess.workingDirectory" type="QString">/home/joseph/Qt Projects/quazaa/trunk</value>
+   <valuelist key="makeargs" type="QVariantList">
+    <value type="QString">-j</value>
+    <value type="QString">4</value>
+   </valuelist>
   </valuemap>
  </data>
  <data>
