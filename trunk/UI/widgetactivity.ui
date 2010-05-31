@@ -14,7 +14,7 @@
    <string>Activity</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Globe.png</normaloff>:/Resource/Generic/Globe.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -68,7 +68,7 @@
           <string>Neighbors</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../Resource.qrc">
            <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
          </property>
          <property name="iconSize">
@@ -123,7 +123,7 @@
           <string>System Log</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../Resource.qrc">
            <normaloff>:/Resource/Network/PacketDump.png</normaloff>:/Resource/Network/PacketDump.png</iconset>
          </property>
          <property name="iconSize">
@@ -152,6 +152,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -25,7 +25,9 @@ private:
     Ui::WidgetActivity *ui;
 
 private slots:
-	void on_splitterActivity_customContextMenuRequested(QPoint pos);
+	void on_toolButtonNeighborsHeader_clicked();
+ void on_toolButtonSystemLogHeader_clicked();
+ void on_splitterActivity_customContextMenuRequested(QPoint pos);
  void skinChangeEvent();
 };
 

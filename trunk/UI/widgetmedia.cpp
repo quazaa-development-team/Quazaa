@@ -107,3 +107,21 @@ void WidgetMedia::on_splitterMedia_customContextMenuRequested(QPoint pos)
 		}
 	}
 }
+
+void WidgetMedia::on_toolButtonMediaPlaylistTaskHeader_clicked()
+{
+	if (ui->splitterMedia->sizes()[0] > 0)
+	{
+		quazaaSettings.WinMain.MediaSplitterRestoreLeft = ui->splitterMedia->sizes()[0];
+		quazaaSettings.WinMain.MediaSplitterRestoreRight = ui->splitterMedia->sizes()[1];
+		QList<int> newSizes;
+		newSizes.append(0);
+		newSizes.append(ui->splitterMedia->sizes()[0] + ui->splitterMedia->sizes()[1]);
+		ui->splitterMedia->setSizes(newSizes);
+	} else {
+		QList<int> sizesList;
+		sizesList.append(quazaaSettings.WinMain.MediaSplitterRestoreLeft);
+		sizesList.append(quazaaSettings.WinMain.MediaSplitterRestoreRight);
+		ui->splitterMedia->setSizes(sizesList);
+	}
+}
