@@ -26,7 +26,8 @@ public slots:
 	void startNewSearch(QString *searchString);
 
 private slots:
-	void on_toolButtonNewSearch_clicked();
+	void on_splitterSearch_customContextMenuRequested(QPoint pos);
+ void on_toolButtonNewSearch_clicked();
 	void on_toolButtonSearchClear_clicked();
 	void on_toolButtonSearch_clicked();
 	void skinChangeEvent();

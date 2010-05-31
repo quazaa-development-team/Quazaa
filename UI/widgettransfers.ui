@@ -26,6 +26,9 @@
    </property>
    <item>
     <widget class="QSplitter" name="splitterTransfers">
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>

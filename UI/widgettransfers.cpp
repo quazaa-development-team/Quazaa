@@ -47,3 +47,24 @@ void WidgetTransfers::saveWidget()
 	panelDownloads->saveWidget();
 	panelUploads->saveWidget();
 }
+
+void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos)
+{
+	if (ui->splitterTransfers->handle(1)->underMouse())
+	{
+		if (ui->splitterTransfers->sizes()[1] > 0)
+		{
+			quazaaSettings.WinMain.TransfersSplitterRestoreTop = ui->splitterTransfers->sizes()[0];
+			quazaaSettings.WinMain.TransfersSplitterRestoreBottom = ui->splitterTransfers->sizes()[1];
+			QList<int> newSizes;
+			newSizes.append(ui->splitterTransfers->sizes()[0] + ui->splitterTransfers->sizes()[1]);
+			newSizes.append(0);
+			ui->splitterTransfers->setSizes(newSizes);
+		} else {
+			QList<int> sizesList;
+			sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreTop);
+			sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreBottom);
+			ui->splitterTransfers->setSizes(sizesList);
+		}
+	}
+}

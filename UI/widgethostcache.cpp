@@ -42,3 +42,24 @@ void WidgetHostCache::saveWidget()
 	quazaaSettings.WinMain.HostCacheToolbar = saveState();
 	quazaaSettings.WinMain.HostCacheSplitter = ui->splitterHostCache->saveState();
 }
+
+void WidgetHostCache::on_splitterHostCache_customContextMenuRequested(QPoint pos)
+{
+	if (ui->splitterHostCache->handle(1)->underMouse())
+	{
+		if (ui->splitterHostCache->sizes()[0] > 0)
+		{
+			quazaaSettings.WinMain.HostCacheSplitterRestoreLeft = ui->splitterHostCache->sizes()[0];
+			quazaaSettings.WinMain.HostCacheSplitterRestoreRight = ui->splitterHostCache->sizes()[1];
+			QList<int> newSizes;
+			newSizes.append(0);
+			newSizes.append(ui->splitterHostCache->sizes()[0] + ui->splitterHostCache->sizes()[1]);
+			ui->splitterHostCache->setSizes(newSizes);
+		} else {
+			QList<int> sizesList;
+			sizesList.append(quazaaSettings.WinMain.HostCacheSplitterRestoreLeft);
+			sizesList.append(quazaaSettings.WinMain.HostCacheSplitterRestoreRight);
+			ui->splitterHostCache->setSizes(sizesList);
+		}
+	}
+}

@@ -23,7 +23,8 @@ private:
     Ui::WidgetLibrary *ui;
 
 private slots:
-	void on_toolButtonLibraryEditShares_clicked();
+	void on_splitterLibrary_customContextMenuRequested(QPoint pos);
+ void on_toolButtonLibraryEditShares_clicked();
  void skinChangeEvent();
 };
 

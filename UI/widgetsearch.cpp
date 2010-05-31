@@ -18,8 +18,6 @@ WidgetSearch::WidgetSearch(QWidget *parent) :
 	ui->toolButtonSearchTaskHeader->setChecked(quazaaSettings.WinMain.SearchTaskVisible);
 	panelSearchResults = new WidgetSearchResults();
 	ui->verticalLayoutSearchResults->addWidget(panelSearchResults);
-	connect(panelSearchResults, SIGNAL(searchSidebarToggled(bool)), ui->frameSearchSidebar, SLOT(setVisible(bool)));
-	ui->frameSearchSidebar->setVisible(quazaaSettings.WinMain.SearchSidebarVisible);
 }
 
 WidgetSearch::~WidgetSearch()
@@ -81,4 +79,25 @@ void WidgetSearch::startNewSearch(QString *searchString)
 void WidgetSearch::on_toolButtonNewSearch_clicked()
 {
 	panelSearchResults->addSearchTab();
+}
+
+void WidgetSearch::on_splitterSearch_customContextMenuRequested(QPoint pos)
+{
+	if (ui->splitterSearch->handle(1)->underMouse())
+	{
+		if (ui->splitterSearch->sizes()[0] > 0)
+		{
+			quazaaSettings.WinMain.SearchSplitterRestoreLeft = ui->splitterSearch->sizes()[0];
+			quazaaSettings.WinMain.SearchSplitterRestoreRight = ui->splitterSearch->sizes()[1];
+			QList<int> newSizes;
+			newSizes.append(0);
+			newSizes.append(ui->splitterSearch->sizes()[0] + ui->splitterSearch->sizes()[1]);
+			ui->splitterSearch->setSizes(newSizes);
+		} else {
+			QList<int> sizesList;
+			sizesList.append(quazaaSettings.WinMain.SearchSplitterRestoreLeft);
+			sizesList.append(quazaaSettings.WinMain.SearchSplitterRestoreRight);
+			ui->splitterSearch->setSizes(sizesList);
+		}
+	}
 }

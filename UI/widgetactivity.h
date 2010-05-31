@@ -25,7 +25,8 @@ private:
     Ui::WidgetActivity *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_splitterActivity_customContextMenuRequested(QPoint pos);
+ void skinChangeEvent();
 };
 
 #endif // WIDGETACTIVITY_H

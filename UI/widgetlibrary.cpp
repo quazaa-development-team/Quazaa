@@ -58,3 +58,24 @@ void WidgetLibrary::saveWidget()
 	quazaaSettings.WinMain.LibrarySplitter = ui->splitterLibrary->saveState();
 	panelLibraryView->saveWidget();
 }
+
+void WidgetLibrary::on_splitterLibrary_customContextMenuRequested(QPoint pos)
+{
+	if (ui->splitterLibrary->handle(1)->underMouse())
+	{
+		if (ui->splitterLibrary->sizes()[0] > 0)
+		{
+			quazaaSettings.WinMain.LibrarySplitterRestoreLeft = ui->splitterLibrary->sizes()[0];
+			quazaaSettings.WinMain.LibrarySplitterRestoreRight = ui->splitterLibrary->sizes()[1];
+			QList<int> newSizes;
+			newSizes.append(0);
+			newSizes.append(ui->splitterLibrary->sizes()[0] + ui->splitterLibrary->sizes()[1]);
+			ui->splitterLibrary->setSizes(newSizes);
+		} else {
+			QList<int> sizesList;
+			sizesList.append(quazaaSettings.WinMain.LibrarySplitterRestoreLeft);
+			sizesList.append(quazaaSettings.WinMain.LibrarySplitterRestoreRight);
+			ui->splitterLibrary->setSizes(sizesList);
+		}
+	}
+}

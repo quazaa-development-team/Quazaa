@@ -23,6 +23,7 @@ private:
     Ui::WidgetLibraryView *ui;
 
 private slots:
+	void on_splitterLibraryView_customContextMenuRequested(QPoint pos);
 	void on_actionFind_triggered();
 	void skinChangeEvent();
 };
