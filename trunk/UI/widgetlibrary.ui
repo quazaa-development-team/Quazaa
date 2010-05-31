@@ -22,6 +22,9 @@
    </property>
    <item>
     <widget class="QSplitter" name="splitterLibrary">
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

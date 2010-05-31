@@ -21,7 +21,8 @@ private:
     Ui::WidgetHostCache *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_splitterHostCache_customContextMenuRequested(QPoint pos);
+ void skinChangeEvent();
 };
 
 #endif // WIDGETHOSTCACHE_H

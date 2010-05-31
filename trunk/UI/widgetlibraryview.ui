@@ -110,7 +110,7 @@ QToolButton::menu-button:hover {
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="Resource.qrc">:/Resource/Library/SharedFolders.png</pixmap>
+          <pixmap resource="../Resource.qrc">:/Resource/Library/SharedFolders.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -123,7 +123,7 @@ QToolButton::menu-button:hover {
           <string>Tile View</string>
          </property>
          <property name="icon">
-          <iconset resource="Resource.qrc">
+          <iconset resource="../Resource.qrc">
            <normaloff>:/Resource/Library/TileView.png</normaloff>:/Resource/Library/TileView.png</iconset>
          </property>
          <property name="iconSize">
@@ -159,38 +159,14 @@ QToolButton::menu-button:hover {
          </property>
         </spacer>
        </item>
-       <item row="0" column="4">
-        <widget class="QToolButton" name="toolButtonLibraryDetailsToggle">
-         <property name="text">
-          <string>Toggle Details</string>
-         </property>
-         <property name="icon">
-          <iconset resource="Resource.qrc">
-           <normaloff>:/Resource/Generic/ShowBottombar.png</normaloff>
-           <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowBottombar.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>24</width>
-           <height>24</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-         <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextBesideIcon</enum>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
     </item>
     <item>
      <widget class="QSplitter" name="splitterLibraryView">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
@@ -231,8 +207,8 @@ QToolButton::menu-button:hover {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>560</width>
-             <height>61</height>
+             <width>558</width>
+             <height>82</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_11">
@@ -306,7 +282,7 @@ QToolButton::menu-button:hover {
   </widget>
   <action name="actionLibraryAddAlbum">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
    </property>
    <property name="text">
@@ -315,7 +291,7 @@ QToolButton::menu-button:hover {
   </action>
   <action name="actionLibraryDeleteAlbum">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
    </property>
    <property name="text">
@@ -327,7 +303,7 @@ QToolButton::menu-button:hover {
   </action>
   <action name="actionFind">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
    </property>
    <property name="text">
@@ -336,7 +312,7 @@ QToolButton::menu-button:hover {
   </action>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

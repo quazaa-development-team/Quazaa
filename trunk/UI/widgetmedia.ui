@@ -14,7 +14,7 @@
    <string>Media</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -26,7 +26,10 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QSplitter" name="splitterMediaPlaylist">
+     <widget class="QSplitter" name="splitterMedia">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
       <property name="autoFillBackground">
        <bool>true</bool>
       </property>
@@ -103,7 +106,7 @@ QToolButton:checked {
            <string>Add To Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
           </property>
           <property name="iconSize">
@@ -123,7 +126,7 @@ QToolButton:checked {
            <string>Save Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Media/SavePlaylist.png</normaloff>:/Resource/Media/SavePlaylist.png</iconset>
           </property>
           <property name="iconSize">
@@ -188,7 +191,7 @@ QToolButton:checked {
               <string>Playlist</string>
              </property>
              <property name="icon">
-              <iconset resource="Resource.qrc">
+              <iconset resource="../Resource.qrc">
                <normaloff>:/Resource/Media/Playlist.png</normaloff>:/Resource/Media/Playlist.png</iconset>
              </property>
              <property name="iconSize">
@@ -316,7 +319,7 @@ QToolButton:checked {
            <string>Remove From Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
           </property>
           <property name="iconSize">
@@ -336,7 +339,7 @@ QToolButton:checked {
            <string>Open Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Media/LoadPlaylist.png</normaloff>:/Resource/Media/LoadPlaylist.png</iconset>
           </property>
           <property name="iconSize">
@@ -353,7 +356,7 @@ QToolButton:checked {
            <string>Add Playlist To Current Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Media/AddPlaylist.png</normaloff>:/Resource/Media/AddPlaylist.png</iconset>
           </property>
           <property name="iconSize">
@@ -373,7 +376,7 @@ QToolButton:checked {
            <string>Clear Playlist</string>
           </property>
           <property name="icon">
-           <iconset resource="Resource.qrc">
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
           </property>
           <property name="iconSize">
@@ -433,7 +436,6 @@ QToolButton:checked {
     <bool>false</bool>
    </attribute>
    <addaction name="actionMediaFullscreen"/>
-   <addaction name="actionMediaPlaylistToggle"/>
    <addaction name="actionMediaSettings"/>
   </widget>
   <widget class="QToolBar" name="toolBarVolume">
@@ -459,7 +461,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/PlayMedia.png</normaloff>
      <normalon>:/Resource/Media/PauseMedia.png</normalon>:/Resource/Media/PlayMedia.png</iconset>
    </property>
@@ -472,7 +474,7 @@ QToolButton:checked {
   </action>
   <action name="actionMediaOpen">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/OpenMedia.png</normaloff>:/Resource/Media/OpenMedia.png</iconset>
    </property>
    <property name="text">
@@ -484,7 +486,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/PreviousMediaTrack.png</normaloff>:/Resource/Media/PreviousMediaTrack.png</iconset>
    </property>
    <property name="text">
@@ -499,7 +501,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/NextMediaTrack.png</normaloff>:/Resource/Media/NextMediaTrack.png</iconset>
    </property>
    <property name="text">
@@ -511,7 +513,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/StopMedia.png</normaloff>:/Resource/Media/StopMedia.png</iconset>
    </property>
    <property name="text">
@@ -523,7 +525,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/Repeat.png</normaloff>:/Resource/Media/Repeat.png</iconset>
    </property>
    <property name="text">
@@ -538,7 +540,7 @@ QToolButton:checked {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/Shuffle.png</normaloff>:/Resource/Media/Shuffle.png</iconset>
    </property>
    <property name="text">
@@ -553,7 +555,7 @@ QToolButton:checked {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/FullScreen.png</normaloff>:/Resource/Media/FullScreen.png</iconset>
    </property>
    <property name="text">
@@ -565,7 +567,7 @@ QToolButton:checked {
   </action>
   <action name="actionMediaSettings">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -575,28 +577,9 @@ QToolButton:checked {
     <string>Settings</string>
    </property>
   </action>
-  <action name="actionMediaPlaylistToggle">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Generic/ShowSidebar.png</normaloff>
-     <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowSidebar.png</iconset>
-   </property>
-   <property name="text">
-    <string>Media Playlist Toggle</string>
-   </property>
-   <property name="toolTip">
-    <string>Media Playlist Toggle</string>
-   </property>
-  </action>
   <action name="actionMediaMute">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/Unmute.png</normaloff>:/Resource/Media/Unmute.png</iconset>
    </property>
    <property name="text">
@@ -608,24 +591,7 @@ QToolButton:checked {
   </action>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>actionMediaPlaylistToggle</sender>
-   <signal>triggered(bool)</signal>
-   <receiver>frameMediaPlaylistSidebar</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>341</x>
-     <y>140</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

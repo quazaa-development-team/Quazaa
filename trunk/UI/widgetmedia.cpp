@@ -19,8 +19,7 @@ WidgetMedia::WidgetMedia(QWidget *parent) :
 	restoreState(quazaaSettings.WinMain.MediaToolbars);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
-	ui->actionMediaPlaylistToggle->setChecked(quazaaSettings.WinMain.MediaPlaylistVisible);
-	ui->splitterMediaPlaylist->restoreState(quazaaSettings.WinMain.MediaSplitter);
+	ui->splitterMedia->restoreState(quazaaSettings.WinMain.MediaSplitter);
 
 	/*mediaPlayer = new vlcMediaPlayer(seekSlider, volumeSlider, ui->frameMediaWindow, ui->tableWidgetMediaPlaylistTask,
 									 ui->actionMediaPlay, ui->actionMediaStop, ui->actionMediaRewind, ui->actionMediaNextTrack,
@@ -65,8 +64,7 @@ void WidgetMedia::skinChangeEvent()
 void WidgetMedia::saveWidget()
 {
 	quazaaSettings.WinMain.MediaToolbars = saveState();
-	quazaaSettings.WinMain.MediaPlaylistVisible = ui->actionMediaPlaylistToggle->isChecked();
-	quazaaSettings.WinMain.MediaSplitter = ui->splitterMediaPlaylist->saveState();
+	quazaaSettings.WinMain.MediaSplitter = ui->splitterMedia->saveState();
 }
 
 /*void WidgetMedia::on_actionMediaOpen_triggered()
@@ -87,4 +85,25 @@ void WidgetMedia::on_actionMediaRepeat_triggered(bool checked)
 void WidgetMedia::on_actionMediaShuffle_triggered(bool checked)
 {
 	quazaaSettings.Media.Shuffle = checked;
+}
+
+void WidgetMedia::on_splitterMedia_customContextMenuRequested(QPoint pos)
+{
+	if (ui->splitterMedia->handle(1)->underMouse())
+	{
+		if (ui->splitterMedia->sizes()[1] > 0)
+		{
+			quazaaSettings.WinMain.MediaSplitterRestoreLeft = ui->splitterMedia->sizes()[0];
+			quazaaSettings.WinMain.MediaSplitterRestoreRight = ui->splitterMedia->sizes()[1];
+			QList<int> newSizes;
+			newSizes.append(ui->splitterMedia->sizes()[0] + ui->splitterMedia->sizes()[1]);
+			newSizes.append(0);
+			ui->splitterMedia->setSizes(newSizes);
+		} else {
+			QList<int> sizesList;
+			sizesList.append(quazaaSettings.WinMain.MediaSplitterRestoreLeft);
+			sizesList.append(quazaaSettings.WinMain.MediaSplitterRestoreRight);
+			ui->splitterMedia->setSizes(sizesList);
+		}
+	}
 }

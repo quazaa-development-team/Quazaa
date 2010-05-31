@@ -25,7 +25,8 @@ private:
     Ui::WidgetTransfers *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_splitterTransfers_customContextMenuRequested(QPoint pos);
+ void skinChangeEvent();
 };
 
 #endif // WIDGETTRANSFERS_H

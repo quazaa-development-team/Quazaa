@@ -23,6 +23,9 @@
     </property>
     <item>
      <widget class="QSplitter" name="splitterGraph">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -80,7 +83,7 @@
   </widget>
   <action name="actionGraph_Toolbar_Item">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Generic/Graph.png</normaloff>:/Resource/Generic/Graph.png</iconset>
    </property>
    <property name="text">
@@ -88,8 +91,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

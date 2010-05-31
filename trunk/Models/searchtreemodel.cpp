@@ -45,7 +45,7 @@ QVariant SearchTreeModel::data(const QModelIndex &index, int role) const
 			return item->HitData.iNetwork;
 		}
 
-		if(index.column() == 9)
+		if(index.column() == 8)
 		{
 			return item->HitData.iCountry;
 		}
@@ -182,7 +182,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 		if (existingSearch == -1)
 		{
 			QFileInfo fileInfo(pHit2->m_sDescriptiveName);
-			QString sCountry = GeoIP.findCountryCode(pHit2->m_pHitInfo.data()->m_oNodeAddress.toString());
+			QString sCountry = GeoIP.findCountryCode(pHit2->m_pHitInfo.data()->m_oNodeAddress);
 			beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
 			QList<QVariant> m_lParentData;
 			m_lParentData <<  fileInfo.completeBaseName()
@@ -219,7 +219,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 		{
 			QModelIndex idxParent = index(existingSearch, 0, QModelIndex());
 			QFileInfo fileInfo(pHit2->m_sDescriptiveName);
-			QString sCountry = GeoIP.findCountryCode(pHit2->m_pHitInfo.data()->m_oNodeAddress.toString());
+			QString sCountry = GeoIP.findCountryCode(pHit2->m_pHitInfo.data()->m_oNodeAddress);
 			beginInsertRows( idxParent, rootItem->child(existingSearch)->childCount(), rootItem->child(existingSearch)->childCount());
 			QList<QVariant> m_lChildData;
 			m_lChildData << fileInfo.completeBaseName()

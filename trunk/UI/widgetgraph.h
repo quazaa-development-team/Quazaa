@@ -21,7 +21,8 @@ private:
     Ui::WidgetGraph *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_splitterGraph_customContextMenuRequested(QPoint pos);
+ void skinChangeEvent();
 };
 
 #endif // WIDGETGRAPH_H

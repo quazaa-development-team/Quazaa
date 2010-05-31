@@ -29,6 +29,9 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
@@ -110,7 +113,7 @@ QTabWidget::pane { /* The tab widget frame */
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>528</width>
+             <width>526</width>
              <height>232</height>
             </rect>
            </property>
@@ -151,8 +154,6 @@ QTabWidget::pane { /* The tab widget frame */
    <addaction name="actionSearchDownload"/>
    <addaction name="actionSearchBrowseUser"/>
    <addaction name="separator"/>
-   <addaction name="actionSearchToggle"/>
-   <addaction name="actionSeachDetailsToggle"/>
   </widget>
   <widget class="QToolBar" name="toolBarFilter">
    <property name="windowTitle">
@@ -199,44 +200,6 @@ QTabWidget::pane { /* The tab widget frame */
     <string>Browse User</string>
    </property>
   </action>
-  <action name="actionSearchToggle">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Generic/ShowSidebar.png</normaloff>
-     <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowSidebar.png</iconset>
-   </property>
-   <property name="text">
-    <string>Toggle Search</string>
-   </property>
-   <property name="toolTip">
-    <string>Toggle Search</string>
-   </property>
-  </action>
-  <action name="actionSeachDetailsToggle">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Generic/ShowSidebar.png</normaloff>
-     <normalon>:/Resource/Generic/HideSidebar.png</normalon>:/Resource/Generic/ShowSidebar.png</iconset>
-   </property>
-   <property name="text">
-    <string>Toggle Details</string>
-   </property>
-   <property name="toolTip">
-    <string>Toggle Details</string>
-   </property>
-  </action>
   <action name="actionFilterMore">
    <property name="icon">
     <iconset>
@@ -248,22 +211,5 @@ QTabWidget::pane { /* The tab widget frame */
   </action>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>actionSeachDetailsToggle</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>frameSearchDetails</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>264</x>
-     <y>141</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

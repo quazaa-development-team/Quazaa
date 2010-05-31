@@ -31,12 +31,16 @@ namespace Settings
 	struct sWinMain
 	{
 		int			ActiveTab;					// The active tab (Home, Library, Media, etc.)
+		int			ActivitySplitterRestoreTop;	// The width left side of the search results splitter should restore to when right clicked
+		int			ActivitySplitterRestoreBottom;	// The width left side of the search results splitter should restore to when right clicked
 		bool		ChatRoomsTaskVisible;			// The Rooms task in the Chat sidebar
 		bool		ChatFriendsTaskVisible;		// The Friends task in the Chat sidebar
 		QByteArray	ChatToolbars;				// Chat Toolbars
 		QByteArray	DiscoveryToolbar;			// DiscoveryToolbar
 		QByteArray	DownloadsToolbar;			// Downloads Toolbar
 		QByteArray	GraphSplitter;				// Graph splitter position
+		int			GraphSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
+		int			GraphSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
 		QByteArray	GraphToolbar;				// Graph Toolbar
 		QByteArray	HitMonitorToolbar;			// Hit Monitor Toolbar
 		bool		HomeConnectionTaskVisible;	// The Connection task in the Home sidebar
@@ -49,33 +53,43 @@ namespace Settings
 		bool		HomeTorrentsTaskVisible;		// The BitTorrent task in the Home sidebar
 		bool		HomeUploadsTaskVisible;		// The Uploads task in the Home sidebar
 		QByteArray	HostCacheSplitter;			// Host Cache splitter position
+		int			HostCacheSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
+		int			HostCacheSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
 		QByteArray	HostCacheToolbar;			// Host Cache Toolbar
 		QByteArray	LibraryDetailsSplitter;		// Library details splitter position
-		bool		LibraryDetailsVisible;		// The details for the selected Library file
+		int			LibraryDetailsSplitterRestoreTop;	// The width left side of the home splitter should restore to when right clicked
+		int			LibraryDetailsSplitterRestoreBottom;	// The width left side of the home splitter should restore to when right clicked
 		int			LibraryNavigatorTab;			// Shared Folders or Organiser
 		QByteArray	LibrarySplitter;				// Library splitter position
+		int			LibrarySplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
+		int			LibrarySplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
 		QByteArray	LibraryToolbar;				// Library View Toolbar
 		QByteArray	MainToolbar;				// The Navigation Toolbar
-		bool		MediaPlaylistVisible;			// Media tab's playlist
 		QByteArray	MediaSplitter;				// Media splitter position
+		int			MediaSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
+		int			MediaSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
 		QByteArray	MediaToolbars;				// Media Toolbars
 		QByteArray	NeighborsToolbars;			// Neighbors Toolbars
 		QByteArray	PacketDumpToolbar;			// Packet Dump Toolbar
 		QByteArray	ActivitySplitter;				// Activity splitter position
 		QByteArray	SchedulerToolbar;			// Scheduler Toolbar
 		QByteArray	SearchDetailsSplitter;		// Search details splitter position
-		bool		SearchDetailsVisible;			// The details for the selected Search item
+		int			SearchResultsSplitterRestoreTop;	// The width left side of the search results splitter should restore to when right clicked
+		int			SearchResultsSplitterRestoreBottom;	// The width left side of the search results splitter should restore to when right clicked
 		bool		SearchFileTypeTaskVisible;	// The File Type task in the Search sidebar
 		QByteArray	SearchMonitorToolbar;		// Search Monitor Toolbar
 		bool		SearchNetworksTaskVisible;	// The Networks task in the Search sidebar
 		bool		SearchResultsTaskVisible;		// The Results task in the Search sidebar
-		bool		SearchSidebarVisible;			// Search sidebar
 		QByteArray	SearchSplitter;				// Search Splitter
+		int			SearchSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
+		int			SearchSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
 		bool		SearchTaskVisible;			// The Search task in the Search sidebar
 		QByteArray	SearchToolbar;				// Search Toolbar
 		QByteArray	SecurityToolbars;			// Security Toolbars
 		QByteArray	SystemLogToolbar;			// System Log Toolbar
 		QByteArray	TransfersSplitter;			// Transfers splitter position
+		int			TransfersSplitterRestoreTop;	// The width left side of the search results splitter should restore to when right clicked
+		int			TransfersSplitterRestoreBottom;	// The width left side of the search results splitter should restore to when right clicked
 		QByteArray	UploadsToolbar;				// Uploads Toolbar
 		bool		Visible;						// Is the main window visible
 	};

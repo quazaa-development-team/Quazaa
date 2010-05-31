@@ -26,8 +26,6 @@ WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
 	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
 	ui->tabWidgetSearch->setCurrentIndex(0);
 	ui->splitterSearchDetails->restoreState(quazaaSettings.WinMain.SearchDetailsSplitter);
-	ui->actionSeachDetailsToggle->setChecked(quazaaSettings.WinMain.SearchDetailsVisible);
-	ui->actionSearchToggle->setChecked(quazaaSettings.WinMain.SearchSidebarVisible);
 }
 
 WidgetSearchResults::~WidgetSearchResults()
@@ -58,8 +56,6 @@ void WidgetSearchResults::saveWidget()
 {
 	quazaaSettings.WinMain.SearchToolbar = saveState();
 	quazaaSettings.WinMain.SearchDetailsSplitter = ui->splitterSearchDetails->saveState();
-	quazaaSettings.WinMain.SearchDetailsVisible = ui->actionSeachDetailsToggle->isChecked();
-	quazaaSettings.WinMain.SearchSidebarVisible = ui->actionSearchToggle->isChecked();
 }
 
 
@@ -129,4 +125,25 @@ void WidgetSearchResults::on_actionFilterMore_triggered()
 void WidgetSearchResults::on_actionSearchToggle_triggered(bool checked)
 {
 	emit searchSidebarToggled(checked);
+}
+
+void WidgetSearchResults::on_splitterSearchDetails_customContextMenuRequested(QPoint pos)
+{
+	if (ui->splitterSearchDetails->handle(1)->underMouse())
+	{
+		if (ui->splitterSearchDetails->sizes()[1] > 0)
+		{
+			quazaaSettings.WinMain.SearchResultsSplitterRestoreTop = ui->splitterSearchDetails->sizes()[0];
+			quazaaSettings.WinMain.SearchResultsSplitterRestoreBottom = ui->splitterSearchDetails->sizes()[1];
+			QList<int> newSizes;
+			newSizes.append(ui->splitterSearchDetails->sizes()[0] + ui->splitterSearchDetails->sizes()[1]);
+			newSizes.append(0);
+			ui->splitterSearchDetails->setSizes(newSizes);
+		} else {
+			QList<int> sizesList;
+			sizesList.append(quazaaSettings.WinMain.SearchResultsSplitterRestoreTop);
+			sizesList.append(quazaaSettings.WinMain.SearchResultsSplitterRestoreBottom);
+			ui->splitterSearchDetails->setSizes(sizesList);
+		}
+	}
 }
