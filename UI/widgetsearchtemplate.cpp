@@ -90,6 +90,16 @@ void WidgetSearchTemplate::PauseSearch()
     m_pSearch->Pause();
 }
 
+void WidgetSearchTemplate::ClearSearch()
+{
+	if (m_pSearch == 0)
+	{
+		qDebug() << "Clear search captured in widget search template.";
+		searchModel->clear();
+		qApp->processEvents();
+	}
+}
+
 void WidgetSearchTemplate::OnStatsUpdated()
 {
 

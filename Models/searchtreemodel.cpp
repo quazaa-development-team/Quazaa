@@ -172,6 +172,12 @@ void SearchTreeModel::setupModelData(const QStringList &lines, SearchTreeItem *p
 	}
 }
 
+void SearchTreeModel::clear()
+{
+	qDebug() << "clearSearch passing to rootItem";
+	rootItem->clearChildren();
+}
+
 void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 {
 	CQueryHit* pHit2 = pHit.data();
@@ -258,12 +264,19 @@ SearchTreeItem::SearchTreeItem(const QList<QVariant> &data, SearchTreeItem *pare
 
 SearchTreeItem::~SearchTreeItem()
 {
+	qDebug() << "Search tree item deleted.";
 	qDeleteAll(childItems);
 }
 
 void SearchTreeItem::appendChild(SearchTreeItem *item)
 {
 	childItems.append(item);
+}
+
+void SearchTreeItem::clearChildren()
+{
+	qDebug() << "Calling clear for rootItem's children.";
+	childItems.clear();
 }
 
 SearchTreeItem *SearchTreeItem::child(int row)
