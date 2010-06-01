@@ -76,7 +76,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="14"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="945"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1010"/>
         <source>Quazaa Skin Tool</source>
         <translation type="unfinished"></translation>
     </message>
@@ -94,35 +94,35 @@
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="61"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="482"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1058"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1124"/>
         <source>Splash Screen Background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="68"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="488"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1063"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1129"/>
         <source>Logo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="76"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="494"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1068"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1134"/>
         <source>Footer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="83"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="500"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1073"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1139"/>
         <source>Status Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="88"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="506"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1078"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1144"/>
         <source>Progress</source>
         <translation type="unfinished"></translation>
     </message>
@@ -134,104 +134,104 @@
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="102"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="512"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1083"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1149"/>
         <source>Top Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="110"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="520"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1088"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1154"/>
         <source>Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="118"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1093"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1159"/>
         <source>Bottom Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="126"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="536"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1098"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1164"/>
         <source>Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="133"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="544"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1103"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1169"/>
         <source>Icon Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="141"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="552"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1108"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1174"/>
         <source>Window Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="149"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="560"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1113"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1179"/>
         <source>Spacer Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="157"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="568"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1118"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1184"/>
         <source>Buttons Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="164"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="576"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1123"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1189"/>
         <source>Minimize Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="172"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="584"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1128"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1194"/>
         <source>Maximize Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="180"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="592"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1133"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1199"/>
         <source>Close Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="190"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="600"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1138"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1204"/>
         <source>Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="198"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="608"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1143"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1209"/>
         <source>Top Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="206"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="616"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1148"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1214"/>
         <source>Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="214"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="624"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1153"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1219"/>
         <source>Bottom Right</source>
         <translation type="unfinished"></translation>
     </message>
@@ -243,112 +243,112 @@
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="230"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="632"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1158"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1224"/>
         <source>Child Top Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="238"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="640"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1163"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1229"/>
         <source>Child Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="246"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="648"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1168"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1234"/>
         <source>Child Bottom Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="254"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="656"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1173"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1239"/>
         <source>Child Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="261"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="664"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1178"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1244"/>
         <source>Child Icon Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="269"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="672"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1183"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1249"/>
         <source>Child Window Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="277"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="680"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1188"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1254"/>
         <source>Child Spacer Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="285"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="688"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1193"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1259"/>
         <source>Child Buttons Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="292"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="696"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1198"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1264"/>
         <source>Child Minimize Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="300"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="704"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1203"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1269"/>
         <source>Child Maximize Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="308"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="712"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1208"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1274"/>
         <source>Child Close Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="318"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="720"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1213"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1279"/>
         <source>Child Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="326"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="728"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1218"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1284"/>
         <source>Child Top Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="334"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="736"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1223"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1289"/>
         <source>Child Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="342"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="744"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1228"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1294"/>
         <source>Child Bottom Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="351"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="752"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1233"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1299"/>
         <source>Standard Items</source>
         <translation type="unfinished"></translation>
     </message>
@@ -360,225 +360,239 @@
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="366"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="758"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1238"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1304"/>
+        <source>Main Menu Toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="371"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="764"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1309"/>
         <source>Sidebar Background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="373"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="782"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1258"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="378"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="788"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1329"/>
         <source>Add Search Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="378"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="764"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1243"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="383"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="770"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1314"/>
         <source>Sidebar Task Header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="386"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="770"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1248"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="391"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="776"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1319"/>
         <source>Sidebar Task Body</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="394"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="776"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1253"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="399"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="782"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1324"/>
         <source>Un-Clickable Sidebar Task Header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="443"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="788"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1263"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="448"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="794"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1334"/>
         <source>Chat Welcome</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="543"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="884"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1343"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="548"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="890"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1414"/>
         <source>Activity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="411"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="794"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1268"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="416"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="800"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1339"/>
         <source>Chat Toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="451"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="800"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1273"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="456"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="806"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1344"/>
         <source>Library Navigator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="459"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="812"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1283"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="464"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="818"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1354"/>
         <source>Searches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="403"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="818"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1288"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="408"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="824"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1359"/>
         <source>Toolbars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="419"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="824"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1293"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="424"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="830"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1364"/>
         <source>Media Toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="426"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="830"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1298"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="431"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="836"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1369"/>
         <source>Media Seek Slider</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="434"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="836"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1303"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="439"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="842"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1374"/>
         <source>Media Volume Slider</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="467"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="806"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1278"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="472"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="812"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1349"/>
         <source>Library View Header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="473"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="478"/>
         <source>Navigation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="480"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="842"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1308"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="485"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="848"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1379"/>
         <source>Toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="488"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="493"/>
         <source>Headers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="495"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="848"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1313"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="500"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="854"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1384"/>
         <source>Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="503"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="854"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1318"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="508"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="860"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1389"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="511"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="860"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1323"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="516"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="866"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1394"/>
         <source>Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="519"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="866"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1328"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="524"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="872"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1399"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="527"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="872"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1333"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="532"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="878"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1404"/>
         <source>Transfers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="535"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="878"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1338"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="540"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2264"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="884"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1409"/>
         <source>Security</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="551"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="890"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1348"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="556"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="896"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1419"/>
         <source>Chat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="559"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="896"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1353"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="564"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="902"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1424"/>
         <source>Generic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="568"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="902"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1358"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="573"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="908"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1429"/>
         <source>Dialog Header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="619"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="582"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="914"/>
+        <source>System Log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="629"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="626"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="636"/>
         <source>Description:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="646"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="656"/>
         <source>Author:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="666"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="676"/>
         <source>Version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="781"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="791"/>
         <source>Loading Quazaa...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="937"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="947"/>
         <source>Window Icon Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="947"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="957"/>
         <source>Window Icon Size: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1239"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1249"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="514"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="522"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="530"/>
@@ -598,245 +612,266 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1404"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1414"/>
         <source>Minimize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1440"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1450"/>
         <source>Maximize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1500"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2454"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1510"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2622"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1564"/>
-        <source>Menu Bar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1568"/>
-        <source>Menu Item 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1578"/>
-        <source>Menu Bar Item 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1583"/>
-        <source>Menu Bar Item 3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1598"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1577"/>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1622"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1841"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1601"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1820"/>
         <source>Group Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1628"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1850"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1607"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1829"/>
         <source>Tool Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1635"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1860"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1614"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1839"/>
         <source>Radio Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1642"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1870"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1621"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1849"/>
         <source>Edit Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1649"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1880"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1628"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1859"/>
         <source>Push Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1656"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1890"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1635"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1869"/>
         <source>Check Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1666"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1903"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1645"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1882"/>
         <source>Framed Label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1687"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1931"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1666"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1910"/>
         <source>Combo Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1705"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1955"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1684"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1934"/>
         <source>Tree View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1710"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1748"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1960"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1992"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1689"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1727"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1939"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1971"/>
         <source>Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1714"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1964"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1693"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1943"/>
         <source>Child Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1724"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2009"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1703"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1988"/>
         <source>List View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1733"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1977"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1712"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1956"/>
         <source>Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1738"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1982"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1717"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1961"/>
         <source>Row 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1743"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1987"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1722"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1966"/>
         <source>Table View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1753"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1997"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1732"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1976"/>
         <source>Item 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1794"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2047"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1773"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2026"/>
         <source>Scroll Area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1814"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="1793"/>
         <source>Disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2138"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2164"/>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2191"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2117"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2143"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2170"/>
         <source>Splitter Area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2285"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2241"/>
+        <source>Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2254"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2277"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2300"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2323"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2346"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2369"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2392"/>
+        <source>Bold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2287"/>
+        <source>Notice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2310"/>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2333"/>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2356"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2379"/>
+        <source>Critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2453"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="300"/>
         <source>Valid Style Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2310"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2478"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2318"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2486"/>
         <source>Skin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2331"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2499"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2344"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2512"/>
         <source>toolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2372"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2540"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2381"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2549"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2386"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2554"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2395"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2563"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2404"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2572"/>
         <source>Skin Creation Guide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2413"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2581"/>
         <source>About Quazaa Skin Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2422"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2590"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2431"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2599"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2440"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2608"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2449"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2617"/>
         <source>Package For Distribution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2466"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2634"/>
         <source>Menu Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2471"/>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2639"/>
         <source>Menu Side Item</source>
         <translation type="unfinished"></translation>
     </message>
@@ -867,13 +902,13 @@
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="168"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="938"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1003"/>
         <source>Skin Not Saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="168"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="938"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1003"/>
         <source>The skin has not been saved. Would you like to save it now?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1427,33 +1462,54 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="712"/>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="717"/>
+        <source>Menu Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="721"/>
+        <source>Menu Item 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="729"/>
+        <source>Menu Bar Item 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="734"/>
+        <source>Menu Bar Item 3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="746"/>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="809"/>
         <source>toolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="733"/>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="767"/>
         <source>toolBar_2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="754"/>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="788"/>
         <source>toolBar_3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="779"/>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="824"/>
         <source>Standard Toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="788"/>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="833"/>
         <source>Media Toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="797"/>
-        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="800"/>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="842"/>
+        <location filename="../QuazaaSkinTool/widgetextendeditems.ui" line="845"/>
         <source>Chat Toolbar</source>
         <translation type="unfinished"></translation>
     </message>
