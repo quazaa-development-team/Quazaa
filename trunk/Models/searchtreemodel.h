@@ -25,6 +25,7 @@ public:
 	SearchHitData::sSearchHitData HitData;
 
 	void appendChild(SearchTreeItem *child);
+	void clearChildren();
 
 	SearchTreeItem *child(int row);
 	int childCount() const;
@@ -63,6 +64,9 @@ public:
 private:
 	void setupModelData(const QStringList &lines, SearchTreeItem *parent);
 	SearchTreeItem *rootItem;
+
+public slots:
+	void clear();
 
 private slots:
 	void addQueryHit(QueryHitSharedPtr pHit);

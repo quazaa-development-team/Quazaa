@@ -2,6 +2,7 @@
 #include "ui_widgetsearch.h"
 
 #include "quazaasettings.h"
+#include "systemlog.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetSearch::WidgetSearch(QWidget *parent) :
@@ -64,11 +65,27 @@ void WidgetSearch::saveWidget()
 void WidgetSearch::on_toolButtonSearch_clicked()
 {
 	panelSearchResults->startSearch(ui->lineEditSearch->text());
+	ui->toolButtonSearchClear->setText("Stop");
+	ui->toolButtonSearchClear->setEnabled(true);
 }
 
 void WidgetSearch::on_toolButtonSearchClear_clicked()
 {
-
+	if (ui->toolButtonSearchClear->text() == "Stop")
+	{
+		ui->toolButtonSearchClear->setText("Clear");
+		panelSearchResults->stopSearch();
+	} else
+	if (ui->toolButtonSearchClear->text() == "Clear")
+	{
+		qDebug() << "Clear search triggered.";
+		bool cleared = panelSearchResults->clearSearch();
+		if (cleared)
+		{
+			ui->toolButtonSearchClear->setText("Stop");
+			ui->toolButtonSearchClear->setEnabled(false);
+		}
+	}
 }
 
 void WidgetSearch::startNewSearch(QString *searchString)

@@ -37,17 +37,16 @@ class CQuery;
 class WidgetSearchTemplate : public QWidget {
     Q_OBJECT
 
-protected:
-    CManagedSearch* m_pSearch;
-
 public:
     WidgetSearchTemplate(QWidget *parent = 0);
     ~WidgetSearchTemplate();
 	SearchTreeModel *searchModel;
+	CManagedSearch* m_pSearch;
 
     void StartSearch(CQuery* pQuery);
     void PauseSearch();
     void StopSearch();
+	void ClearSearch();
 
     //void GetStats(quint32& nHubs, quint32& nLeaves, quint32& nHits);
 

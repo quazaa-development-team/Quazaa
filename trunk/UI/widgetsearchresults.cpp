@@ -111,6 +111,29 @@ void WidgetSearchResults::on_tabWidgetSearch_tabCloseRequested(int index)
 	}
 }
 
+void WidgetSearchResults::stopSearch()
+{
+	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+	if( pWg )
+	{
+		if ( pWg->m_pSearch != 0 )
+			pWg->StopSearch();
+	}
+}
+
+bool WidgetSearchResults::clearSearch()
+{
+	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+	if( pWg )
+	{
+		qDebug() << "Clear search captured in WidgetSearchResults.";
+
+		pWg->ClearSearch();
+		return true;
+	}
+	return false;
+}
+
 void WidgetSearchResults::on_actionFilterMore_triggered()
 {
 	QSkinDialog *dlgSkinFilterSearch = new QSkinDialog(false, true, false, this);

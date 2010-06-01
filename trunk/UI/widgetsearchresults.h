@@ -32,6 +32,8 @@ public slots:
 	void startSearch(QString searchString);
 	void startNewSearch(QString *searchString);
 	void addSearchTab();
+	void stopSearch();
+	bool clearSearch();
 
 private slots:
 	void on_splitterSearchDetails_customContextMenuRequested(QPoint pos);
