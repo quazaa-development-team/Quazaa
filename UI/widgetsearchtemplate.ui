@@ -14,7 +14,7 @@
    <string>Search</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -28,12 +28,22 @@
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <widget class="QTreeView" name="treeViewSearchResults"/>
+    <widget class="QTreeView" name="treeViewSearchResults">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+     <property name="allColumnsShowFocus">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

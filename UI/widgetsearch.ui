@@ -63,8 +63,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>623</width>
-            <height>637</height>
+            <width>625</width>
+            <height>528</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_19">
@@ -99,7 +99,7 @@ QToolButton:hover {
               <string>New Search</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../Resource.qrc">
                <normaloff>:/Resource/Generic/NewSearch.png</normaloff>:/Resource/Generic/NewSearch.png</iconset>
              </property>
              <property name="iconSize">
@@ -143,7 +143,7 @@ QToolButton:hover {
                 <string>Results</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Network/BrowseStatistics.png</normaloff>:/Resource/Network/BrowseStatistics.png</iconset>
                </property>
                <property name="iconSize">
@@ -284,7 +284,7 @@ QToolButton:hover {
                 <string>Any File Type</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                </property>
                <property name="iconSize">
@@ -412,7 +412,7 @@ QToolButton:hover {
                 <string>Networks</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
                </property>
                <property name="iconSize">
@@ -470,7 +470,7 @@ QToolButton:hover {
                      <string>Gnutella 2</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="../Resource.qrc">
                       <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
                     </property>
                     <property name="checked">
@@ -484,7 +484,7 @@ QToolButton:hover {
                      <string>Ares</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="../Resource.qrc">
                       <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
                     </property>
                    </widget>
@@ -495,7 +495,7 @@ QToolButton:hover {
                      <string>eDonkey</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="../Resource.qrc">
                       <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
                     </property>
                    </widget>
@@ -537,7 +537,7 @@ QToolButton:hover {
                 <string>Search</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../Resource.qrc">
                  <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                </property>
                <property name="iconSize">
@@ -643,7 +643,7 @@ QToolButton:checked {
                      <string>Search</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="../Resource.qrc">
                       <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -657,7 +657,7 @@ QToolButton:checked {
                      <string>Clear</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="../Resource.qrc">
                       <normaloff>:/Resource/Generic/Cancel.png</normaloff>:/Resource/Generic/Cancel.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -711,7 +711,9 @@ QToolButton:checked {
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>toolButtonSearchTaskHeader</sender>
@@ -721,11 +723,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>60</x>
-     <y>-85</y>
+     <y>32</y>
     </hint>
     <hint type="destinationlabel">
      <x>60</x>
-     <y>-81</y>
+     <y>55</y>
     </hint>
    </hints>
   </connection>
@@ -737,11 +739,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>159</x>
-     <y>36</y>
+     <y>160</y>
     </hint>
     <hint type="destinationlabel">
      <x>160</x>
-     <y>47</y>
+     <y>183</y>
     </hint>
    </hints>
   </connection>
@@ -753,11 +755,11 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>235</x>
-     <y>126</y>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
      <x>235</x>
-     <y>141</y>
+     <y>277</y>
     </hint>
    </hints>
   </connection>
@@ -769,11 +771,27 @@ QToolButton:checked {
    <hints>
     <hint type="sourcelabel">
      <x>245</x>
-     <y>280</y>
+     <y>397</y>
     </hint>
     <hint type="destinationlabel">
      <x>245</x>
-     <y>284</y>
+     <y>420</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditSearch</sender>
+   <signal>returnPressed()</signal>
+   <receiver>toolButtonSearch</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>188</x>
+     <y>137</y>
     </hint>
    </hints>
   </connection>
