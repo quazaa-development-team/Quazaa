@@ -23,9 +23,9 @@ CONFIG(release):INCLUDEPATH += temp/release
 win32:LIBS += -Lbin # if you are at windows os
 LIBS += -lvlc
 CONFIG += precompile_header \
-    no_icu \
-    no_deprecated
-DEFINES += IRC_STATIC
+	no_icu
+DEFINES += IRC_STATIC \
+	NO_DEPRECATED
 PRECOMPILED_HEADER = NetworkCore/types.h
 TEMPLATE = app
 SOURCES += main.cpp \

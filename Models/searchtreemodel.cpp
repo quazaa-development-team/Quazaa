@@ -2,6 +2,7 @@
 #include <QFileInfo>
 #include "systemlog.h"
 #include "geoiplist.h"
+#include "commonfunctions.h"
 
 SearchTreeModel::SearchTreeModel()
 {
@@ -204,7 +205,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 					<< ""
 					<< pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
 					<< ""
-					<< ""
+					<< Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
 					<< GeoIP.countryNameFromCode(sCountry);
 			SearchTreeItem *m_oChildItem = new SearchTreeItem(m_lChildData, m_oParentItem);
 			m_oChildItem->HitData.oSha1Hash = pHit2->m_oSha1;
@@ -229,7 +230,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 					<< ""
 					<< pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
 					<< ""
-					<< ""
+					<< Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
 					<< GeoIP.countryNameFromCode(sCountry);
 			SearchTreeItem *m_oChildItem = new SearchTreeItem(m_lChildData, rootItem->child(existingSearch));
 			m_oChildItem->HitData.oSha1Hash = pHit2->m_oSha1;

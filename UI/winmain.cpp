@@ -980,5 +980,5 @@ void WinMain::updateBandwidth()
 	{
 		Datagrams.m_pSection.unlock();
 	}*/
-	labelBandwidthTotals->setText(tr("%1 In:%2 Out [D:%3/U:%4]").arg(Functions.FormatBandwidth(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBandwidth(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
+	labelBandwidthTotals->setText(tr("%1/s In:%2/s Out [D:%3/U:%4]").arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
 }
