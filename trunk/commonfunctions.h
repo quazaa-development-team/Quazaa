@@ -29,7 +29,8 @@ class CommonFunctions : public QObject
 public:
     CommonFunctions();
 	void FolderOpen(QString file);
-	QString FormatBandwidth(quint64 nBytesPerSec);
+	QString FormatBytes(quint64 nBytesPerSec);
+	QString VendorCodeToName(QString vendorCode);
 };
 
 extern CommonFunctions Functions;

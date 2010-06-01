@@ -35,13 +35,21 @@ public:
 public:
 	QTranslator translator;
 	QString ApplicationName() const { return "Quazaa"; }
+#ifdef QT_DEBUG
+	QString ApplicationVersion() const { return "0,0,1,1B"; }
+#else
 	QString ApplicationVersion() const { return "0,0,1,1"; }
+#endif
 	QString ApplicationVersionString() const { return "0.0.1.1a (rev.384 2009-11-01)"; }
 	QString ApplicationFingerprint() const { return "QZ,0,0,1,1"; }
 	QString ApplicationOrganizationName() const { return "Quazaa Development Team"; }
 	QString ApplicationOrganizationDomain() const { return "http://quazaa.sourceforge.net"; }
 	QString UserAgentString() const { return ApplicationName() + "/" + ApplicationVersion().replace(",", "."); }
+#ifdef QT_DEBUG
+	QString VendorCode() const { return "QAZB"; }
+#else
 	QString VendorCode() const { return "QAZA"; }
+#endif
 	int BitTorrentExtBegin() const { return 41000; }
 	int BitTorrentEventFinished() const { return QuazaaGlobals::BitTorrentExtBegin() + 1; }
 	int BitTorrentPeerBanAlert() const { return QuazaaGlobals::BitTorrentExtBegin() + 2; }

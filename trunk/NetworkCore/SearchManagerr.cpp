@@ -275,8 +275,7 @@ void CSearchManager::OnQueryHit(G2Packet *pPacket, CG2Node *pNode, IPv4_ENDPOINT
 		}
 		else if( strcmp("V", szType) == 0 && nLength >= 4 )
 		{
-			QString sVendor = pPacket->ReadString(4);
-			memcpy(&pHitInfo->m_szVendor[0], sVendor.data(), 4);
+			pHitInfo->m_sVendor = pPacket->ReadString(4);
 		}
 
 		pPacket->m_nPosition = nNext;

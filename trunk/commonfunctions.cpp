@@ -40,9 +40,10 @@ void CommonFunctions::FolderOpen(QString file)
 	}
 	QDesktopServices::openUrl(QUrl("file:///" + file, QUrl::TolerantMode));
 }
-QString CommonFunctions::FormatBandwidth(quint64 nBytesPerSec)
+
+QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
 {
-	const char* szUnit[4] = {"B/s", "KB/s", "MB/s", "GB/s"};
+	const char* szUnit[4] = {"B", "KB", "MB", "GB"};
 
 	double nBPS = nBytesPerSec;
 
@@ -59,4 +60,32 @@ QString CommonFunctions::FormatBandwidth(quint64 nBytesPerSec)
 		return QString().sprintf("%1.2f %s", nBPS, szUnit[nStep]);
 	else
 		return QString().sprintf("%1.0f %s", nBPS, szUnit[nStep]);
+}
+
+QString CommonFunctions::VendorCodeToName(QString vendorCode)
+{
+	if ( vendorCode == "RAZA" )
+		return "Shareaza";
+	if ( vendorCode == "RAZB" )
+		return "Shareaza Beta";
+	if ( vendorCode == "QAZA" )
+		return "Quazaa";
+	if ( vendorCode == "QAZB" )
+		return "Quazaa Beta";
+	if ( vendorCode == "SHLN" )
+		return "Sharelin";
+	if ( vendorCode == "RZCB" )
+		return "Shareaza Plus";
+	if ( vendorCode == "FSCP" )
+		return "FileScope";
+	if ( vendorCode == "AGIO" )
+		return "Adiago";
+	if ( vendorCode == "GNUC" )
+		return "Gnucleus";
+	if ( vendorCode == "MLDK" )
+		return "MLDonkey";
+	if ( vendorCode == "MMMM" )
+		return "Morpheus";
+	else
+		return vendorCode;
 }
