@@ -58,7 +58,7 @@ void CRateController::transfer()
     qint64 nToRead = (m_nDownloadLimit * nMsecs) / 1000;
     qint64 nToWrite = (m_nUploadLimit * nMsecs) / 1000;
 
-	if( nToRead <= 0 && nToWrite <= 0 || m_bTransferring )
+	if( ( nToRead <= 0 && nToWrite <= 0 ) || m_bTransferring )
     {
         sheduleTransfer();
         return;

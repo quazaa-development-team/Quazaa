@@ -9,17 +9,18 @@ class G2Packet;
 
 class CQuery
 {
-    QList<QString>  m_lURNs;
-    QString         m_sDescriptiveName;
+	QList<QString>  m_lURNs;
     QString         m_sMetadata;
     quint64         m_nMinimumSize;
     quint64         m_nMaximumSize;
+	QString         m_sDescriptiveName;
 
     QUuid           m_oGUID;
 
     G2Packet*       m_pCachedPacket;
 public:
-    CQuery();
+	CQuery();
+	QString DescriptiveName() { return m_sDescriptiveName; }
 
     void SetGUID(QUuid& guid);
 

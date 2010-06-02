@@ -1,6 +1,5 @@
 #include "widgetsearchresults.h"
 #include "ui_widgetsearchresults.h"
-#include "widgetsearchtemplate.h"
 #include "dialogfiltersearch.h"
 
 #include "quazaasettings.h"
@@ -116,8 +115,8 @@ void WidgetSearchResults::stopSearch()
 	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
 	if( pWg )
 	{
-		if ( pWg->m_pSearch != 0 )
-			pWg->StopSearch();
+		if ( pWg->searchState == SearchState::Searching )
+			pWg->PauseSearch();
 	}
 }
 
@@ -128,6 +127,7 @@ bool WidgetSearchResults::clearSearch()
 	{
 		qDebug() << "Clear search captured in WidgetSearchResults.";
 
+		pWg->StopSearch();
 		pWg->ClearSearch();
 		return true;
 	}
@@ -143,11 +143,6 @@ void WidgetSearchResults::on_actionFilterMore_triggered()
 
 	connect(dlgFilterSearch, SIGNAL(closed()), dlgSkinFilterSearch, SLOT(close()));
 	dlgSkinFilterSearch->show();
-}
-
-void WidgetSearchResults::on_actionSearchToggle_triggered(bool checked)
-{
-	emit searchSidebarToggled(checked);
 }
 
 void WidgetSearchResults::on_splitterSearchDetails_customContextMenuRequested(QPoint pos)
@@ -169,4 +164,10 @@ void WidgetSearchResults::on_splitterSearchDetails_customContextMenuRequested(QP
 			ui->splitterSearchDetails->setSizes(sizesList);
 		}
 	}
+}
+
+void WidgetSearchResults::on_tabWidgetSearch_currentChanged(int index)
+{
+	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+	emit searchTabChanged(pWg);
 }

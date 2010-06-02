@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QLineEdit>
+#include "widgetsearchtemplate.h"
 
 namespace Ui {
     class WidgetSearchResults;
@@ -19,7 +20,7 @@ public:
 	void saveWidget();
 
 signals:
-	void searchSidebarToggled(bool visible);
+	void searchTabChanged(WidgetSearchTemplate *searchPage);
 
 protected:
     void changeEvent(QEvent *e);
@@ -36,8 +37,8 @@ public slots:
 	bool clearSearch();
 
 private slots:
+	void on_tabWidgetSearch_currentChanged(int index);
 	void on_splitterSearchDetails_customContextMenuRequested(QPoint pos);
-	void on_actionSearchToggle_triggered(bool checked);
 	void on_actionFilterMore_triggered();
 	void on_tabWidgetSearch_tabCloseRequested(int index);
 };

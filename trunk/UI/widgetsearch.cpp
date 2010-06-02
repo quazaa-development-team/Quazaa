@@ -19,6 +19,7 @@ WidgetSearch::WidgetSearch(QWidget *parent) :
 	ui->toolButtonSearchTaskHeader->setChecked(quazaaSettings.WinMain.SearchTaskVisible);
 	panelSearchResults = new WidgetSearchResults();
 	ui->verticalLayoutSearchResults->addWidget(panelSearchResults);
+	connect(panelSearchResults, SIGNAL(searchTabChanged(WidgetSearchTemplate*)), this, SLOT(onSearchTabChanged(WidgetSearchTemplate*)));
 }
 
 WidgetSearch::~WidgetSearch()
@@ -116,5 +117,28 @@ void WidgetSearch::on_splitterSearch_customContextMenuRequested(QPoint pos)
 			sizesList.append(quazaaSettings.WinMain.SearchSplitterRestoreRight);
 			ui->splitterSearch->setSizes(sizesList);
 		}
+	}
+}
+
+void WidgetSearch::onSearchTabChanged(WidgetSearchTemplate *searchPage)
+{
+	ui->lineEditSearch->setText(searchPage->sSearchString);
+
+	switch (searchPage->searchState)
+	{
+	case SearchState::Searching:
+		ui->toolButtonSearchClear->setText("Stop");
+		ui->toolButtonSearchClear->setEnabled(true);
+		break;
+	case SearchState::Paused:
+		ui->toolButtonSearchClear->setText("Clear");
+		ui->toolButtonSearchClear->setEnabled(true);
+		break;
+	case SearchState::Stopped:
+		ui->toolButtonSearchClear->setText("Stop");
+		ui->toolButtonSearchClear->setEnabled(false);
+		break;
+	default:
+		break;
 	}
 }
