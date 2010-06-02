@@ -33,12 +33,17 @@ class CManagedSearch;
 class CQuery;
 //class CQueryHit;
 #include "NetworkCore/QueryHit.h"
+#include "types.h"
+
+namespace SearchState {
+	enum SearchState { Stopped, Searching, Paused };
+};
 
 class WidgetSearchTemplate : public QWidget {
     Q_OBJECT
 
 public:
-    WidgetSearchTemplate(QWidget *parent = 0);
+	WidgetSearchTemplate(QString searchString = "", QWidget *parent = 0);
     ~WidgetSearchTemplate();
 	SearchTreeModel *searchModel;
 	CManagedSearch* m_pSearch;
@@ -47,6 +52,12 @@ public:
     void PauseSearch();
     void StopSearch();
 	void ClearSearch();
+
+	int nUniqueResults;
+	int nResults;
+
+	QString sSearchString;
+	SearchState::SearchState searchState;
 
     //void GetStats(quint32& nHubs, quint32& nLeaves, quint32& nHits);
 

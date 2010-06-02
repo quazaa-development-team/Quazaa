@@ -27,10 +27,11 @@ public slots:
 
 private slots:
 	void on_splitterSearch_customContextMenuRequested(QPoint pos);
- void on_toolButtonNewSearch_clicked();
+	void on_toolButtonNewSearch_clicked();
 	void on_toolButtonSearchClear_clicked();
 	void on_toolButtonSearch_clicked();
 	void skinChangeEvent();
+	void onSearchTabChanged(WidgetSearchTemplate *searchPage);
 };
 
 #endif // WIDGETSEARCH_H

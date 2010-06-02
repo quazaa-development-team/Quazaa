@@ -27,12 +27,14 @@
 #include "NetworkCore/Query.h"
 #include "NetworkCore/QueryHit.h"
 
-WidgetSearchTemplate::WidgetSearchTemplate(QWidget *parent) :
+WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget *parent) :
 	QWidget(parent),
     m_ui(new Ui::WidgetSearchTemplate)
 {
 	m_ui->setupUi(this);
+	sSearchString = searchString;
 	m_pSearch = 0;
+	searchState = SearchState::Stopped;
 	searchModel = new SearchTreeModel();
 	m_ui->treeViewSearchResults->setModel(searchModel);
 }
@@ -72,6 +74,8 @@ void WidgetSearchTemplate::StartSearch(CQuery *pQuery)
     }
 
 	m_pSearch->Start();
+	searchState = SearchState::Searching;
+	sSearchString = m_pSearch->m_pQuery->DescriptiveName();
 }
 
 void WidgetSearchTemplate::StopSearch()
@@ -81,6 +85,7 @@ void WidgetSearchTemplate::StopSearch()
     m_pSearch->Stop();
     delete m_pSearch;
     m_pSearch = 0;
+	searchState = SearchState::Stopped;
 }
 
 void WidgetSearchTemplate::PauseSearch()
@@ -88,11 +93,12 @@ void WidgetSearchTemplate::PauseSearch()
     Q_ASSERT(m_pSearch != 0);
 
     m_pSearch->Pause();
+	searchState = SearchState::Paused;
 }
 
 void WidgetSearchTemplate::ClearSearch()
 {
-	if (m_pSearch == 0)
+	if (searchState == SearchState::Paused)
 	{
 		qDebug() << "Clear search captured in widget search template.";
 		searchModel->clear();
