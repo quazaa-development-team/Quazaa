@@ -21,6 +21,7 @@ public:
 
 signals:
 	void searchTabChanged(WidgetSearchTemplate *searchPage);
+	void statsUpdated(WidgetSearchTemplate *searchPage);
 
 protected:
     void changeEvent(QEvent *e);
@@ -35,6 +36,7 @@ public slots:
 	void addSearchTab();
 	void stopSearch();
 	bool clearSearch();
+	void onStatsUpdated( WidgetSearchTemplate *searchWidget );
 
 private slots:
 	void on_tabWidgetSearch_currentChanged(int index);

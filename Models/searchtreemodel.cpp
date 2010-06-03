@@ -174,8 +174,14 @@ void SearchTreeModel::setupModelData(const QStringList &lines, SearchTreeItem *p
 
 void SearchTreeModel::clear()
 {
+	beginRemoveRows(QModelIndex(), 0, rootItem->childCount());
 	qDebug() << "clearSearch passing to rootItem";
 	rootItem->clearChildren();
+	endRemoveRows();
+
+	QModelIndex idx1 = index(0, 0, QModelIndex());
+	QModelIndex idx2 = index(rootItem->childCount(), 10, QModelIndex());
+	emit dataChanged(idx1, idx2);
 }
 
 void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
@@ -221,6 +227,8 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			rootItem->appendChild(m_oParentItem);
 			m_oParentItem->appendChild(m_oChildItem);
 			endInsertRows();
+			nFileCount = rootItem->childCount();
+			emit updateStats();
 		}
 		else if ( !rootItem->child(existingSearch)->duplicateCheck( rootItem->child(existingSearch), pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()))
 		{
@@ -332,6 +340,7 @@ bool SearchTreeItem::duplicateCheck(SearchTreeItem *containerItem, QString ip)
 	for (int index = 0; index < containerItem->childItems.size(); ++index)
 	{
 		if (containerItem->child(index)->data(5).toString() == ip)
+			systemLog.postLog(tr("Duplicate result for file %1 found from IP Address %2.").arg(containerItem->child(index)->data(0).toString() + "." + containerItem->child(index)->data(1).toString()).arg(containerItem->child(index)->data(5).toString()), LogSeverity::Notice);
 			return true;
 	}
 	return false;
