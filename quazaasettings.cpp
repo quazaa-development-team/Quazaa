@@ -1062,6 +1062,7 @@ void QuazaaSettings::saveWindowSettings(QMainWindow *window)
 	m_qSettings.setValue( "MediaSplitterRestoreRight", quazaaSettings.WinMain.MediaSplitterRestoreRight );
 	m_qSettings.setValue( "MediaToolbars", quazaaSettings.WinMain.MediaToolbars );
 	m_qSettings.setValue( "NeighborsToolbars", quazaaSettings.WinMain.NeighborsToolbars );
+	m_qSettings.setValue( "NeighborsHeader", quazaaSettings.WinMain.NeighborsHeader );
 	m_qSettings.setValue( "PacketDumpToolbar", quazaaSettings.WinMain.PacketDumpToolbar );
 	m_qSettings.setValue( "ActivitySplitter", quazaaSettings.WinMain.ActivitySplitter );
 	m_qSettings.setValue( "SchedulerToolbar", quazaaSettings.WinMain.SchedulerToolbar );
@@ -1124,6 +1125,7 @@ void QuazaaSettings::loadWindowSettings(QMainWindow *window)
 	quazaaSettings.WinMain.MediaSplitterRestoreRight = m_qSettings.value( "MediaSplitterRestoreRight", 0 ).toInt();
 	quazaaSettings.WinMain.MediaToolbars = m_qSettings.value( "MediaToolbars", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.NeighborsToolbars = m_qSettings.value( "NeighborsToolbars", QByteArray() ).toByteArray();
+	quazaaSettings.WinMain.NeighborsHeader = m_qSettings.value( "NeighborsHeader", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.PacketDumpToolbar = m_qSettings.value( "PacketDumpToolbar", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.ActivitySplitter = m_qSettings.value( "ActivitySplitter", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.SchedulerToolbar = m_qSettings.value( "SchedulerToolbar", QByteArray() ).toByteArray();

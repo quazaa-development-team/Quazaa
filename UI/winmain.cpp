@@ -279,8 +279,12 @@ WinMain::WinMain(QWidget *parent) :
 		if( quazaaSettings.Gnutella2.Enable )
 			Network.Connect();
 
+		QSortFilterProxyModel *neighboursSortModel = new QSortFilterProxyModel(this);
 		neighboursList = new CNeighboursTableModel(this);
-		pageActivity->panelNeighbors->setModel(neighboursList);
+		neighboursSortModel->setSourceModel(neighboursList);
+		pageActivity->panelNeighbors->setModel(neighboursSortModel);
+		neighboursSortModel->setDynamicSortFilter(true);
+
 		neighboursRefresher = new QTimer(this);
 		connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
 		connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateBandwidth()));

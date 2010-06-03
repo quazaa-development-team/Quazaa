@@ -70,6 +70,7 @@ namespace Settings
 		int			MediaSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
 		QByteArray	MediaToolbars;				// Media Toolbars
 		QByteArray	NeighborsToolbars;			// Neighbors Toolbars
+		QByteArray	NeighborsHeader;			// Header in the neighbors list view
 		QByteArray	PacketDumpToolbar;			// Packet Dump Toolbar
 		QByteArray	ActivitySplitter;				// Activity splitter position
 		QByteArray	SchedulerToolbar;			// Scheduler Toolbar
