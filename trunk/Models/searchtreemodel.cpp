@@ -24,6 +24,21 @@ SearchTreeModel::~SearchTreeModel()
 	delete rootItem;
 }
 
+bool SearchTreeModel::isRoot(QModelIndex index)
+{
+	SearchTreeItem *item;
+
+	if (!index.isValid())
+		item = rootItem;
+	else
+		item = static_cast<SearchTreeItem*>(index.internalPointer());
+
+	if (item == rootItem)
+		return true;
+
+	return false;
+}
+
 int SearchTreeModel::columnCount(const QModelIndex &parent) const
 {
 	if (parent.isValid())
@@ -272,7 +287,6 @@ SearchTreeItem::SearchTreeItem(const QList<QVariant> &data, SearchTreeItem *pare
 
 SearchTreeItem::~SearchTreeItem()
 {
-	qDebug() << "Search tree item deleted.";
 	qDeleteAll(childItems);
 }
 
@@ -283,7 +297,6 @@ void SearchTreeItem::appendChild(SearchTreeItem *item)
 
 void SearchTreeItem::clearChildren()
 {
-	qDebug() << "Calling clear for rootItem's children.";
 	childItems.clear();
 }
 
@@ -340,7 +353,6 @@ bool SearchTreeItem::duplicateCheck(SearchTreeItem *containerItem, QString ip)
 	for (int index = 0; index < containerItem->childItems.size(); ++index)
 	{
 		if (containerItem->child(index)->data(5).toString() == ip)
-			systemLog.postLog(tr("Duplicate result for file %1 found from IP Address %2.").arg(containerItem->child(index)->data(0).toString() + "." + containerItem->child(index)->data(1).toString()).arg(containerItem->child(index)->data(5).toString()), LogSeverity::Notice);
 			return true;
 	}
 	return false;

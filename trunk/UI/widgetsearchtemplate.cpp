@@ -21,6 +21,7 @@
 
 #include "widgetsearchtemplate.h"
 #include "ui_widgetsearchtemplate.h"
+#include <QSortFilterProxyModel>
 
 #include "NetworkCore/SearchManager.h"
 #include "NetworkCore/ManagedSearch.h"
@@ -39,8 +40,11 @@ WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget *parent
 	nHubs = 0;
 	nLeaves = 0;
 	searchState = SearchState::Stopped;
+	QSortFilterProxyModel *sortModel = new QSortFilterProxyModel(this);
 	searchModel = new SearchTreeModel();
-	m_ui->treeViewSearchResults->setModel(searchModel);
+	sortModel->setSourceModel(searchModel);
+	m_ui->treeViewSearchResults->setModel(sortModel);
+	sortModel->setDynamicSortFilter(true);
 	connect(searchModel, SIGNAL(updateStats()), this, SLOT(OnStatsUpdated()));
 }
 

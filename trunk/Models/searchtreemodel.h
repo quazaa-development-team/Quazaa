@@ -71,6 +71,7 @@ private:
 
 public slots:
 	void clear();
+	bool isRoot(QModelIndex index);
 
 private slots:
 	void addQueryHit(QueryHitSharedPtr pHit);

@@ -67,6 +67,7 @@ void WidgetSearch::saveWidget()
 void WidgetSearch::on_toolButtonSearch_clicked()
 {
 	panelSearchResults->startSearch(ui->lineEditSearch->text());
+	ui->toolButtonSearch->setText(tr("Searching"));
 	ui->toolButtonSearch->setEnabled(false);
 	ui->toolButtonSearchClear->setText("Stop");
 	ui->toolButtonSearchClear->setEnabled(true);
@@ -135,16 +136,24 @@ void WidgetSearch::onSearchTabChanged(WidgetSearchTemplate *searchPage)
 	switch (searchPage->searchState)
 	{
 	case SearchState::Searching:
+		ui->toolButtonSearch->setText(tr("Searching"));
+		ui->toolButtonSearch->setEnabled(false);
 		ui->toolButtonSearchClear->setText("Stop");
 		ui->toolButtonSearchClear->setEnabled(true);
 		break;
 	case SearchState::Paused:
+		ui->toolButtonSearch->setText(tr("More"));
+		ui->toolButtonSearch->setEnabled(true);
 		ui->toolButtonSearchClear->setText("Clear");
-		ui->toolButtonSearchClear->setEnabled(true);
+		panelSearchResults->stopSearch();
 		break;
 	case SearchState::Stopped:
+		ui->toolButtonSearch->setText(tr("Search"));
+		ui->toolButtonSearch->setEnabled(true);
 		ui->toolButtonSearchClear->setText("Stop");
 		ui->toolButtonSearchClear->setEnabled(false);
+		ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
+		ui->labelSearchResultsFound->setText(tr("No Files Found"));
 		break;
 	default:
 		break;
