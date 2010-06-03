@@ -17,6 +17,7 @@ SearchTreeModel::SearchTreeModel()
 			<< "Client"
 			<< "Country";
 	rootItem = new SearchTreeItem(rootData);
+	nFileCount = 0;
 }
 
 SearchTreeModel::~SearchTreeModel()

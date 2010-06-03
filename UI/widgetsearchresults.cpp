@@ -129,6 +129,7 @@ bool WidgetSearchResults::clearSearch()
 
 		pWg->StopSearch();
 		pWg->ClearSearch();
+		ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), tr("Search"));
 		return true;
 	}
 	return false;
@@ -175,6 +176,7 @@ void WidgetSearchResults::on_tabWidgetSearch_currentChanged(int index)
 
 void WidgetSearchResults::onStatsUpdated( WidgetSearchTemplate *searchWidget )
 {
+	ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->indexOf(searchWidget), (QString("%1 [%2,%3]").arg(searchWidget->sSearchString).arg(searchWidget->nFiles).arg(searchWidget->nHits)));
 	if ( ( searchWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget()) ) )
 	{
 		emit statsUpdated( searchWidget );
