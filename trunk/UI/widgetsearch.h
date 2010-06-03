@@ -32,6 +32,7 @@ private slots:
 	void on_toolButtonSearch_clicked();
 	void skinChangeEvent();
 	void onSearchTabChanged(WidgetSearchTemplate *searchPage);
+	void updateStats(WidgetSearchTemplate *searchWidget);
 };
 
 #endif // WIDGETSEARCH_H

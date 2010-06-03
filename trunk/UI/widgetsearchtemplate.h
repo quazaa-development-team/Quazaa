@@ -53,13 +53,18 @@ public:
     void StopSearch();
 	void ClearSearch();
 
-	int nUniqueResults;
-	int nResults;
+	int nHubs;
+	int nLeaves;
+	int nHits;
+	int nFiles;
 
 	QString sSearchString;
 	SearchState::SearchState searchState;
 
     //void GetStats(quint32& nHubs, quint32& nLeaves, quint32& nHits);
+
+signals:
+	void statsUpdated(WidgetSearchTemplate *thisSearch);
 
 protected:
     void changeEvent(QEvent *e);

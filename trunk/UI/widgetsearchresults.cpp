@@ -24,6 +24,7 @@ WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
 	WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
 	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
 	ui->tabWidgetSearch->setCurrentIndex(0);
+	connect(tabNewSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
 	ui->splitterSearchDetails->restoreState(quazaaSettings.WinMain.SearchDetailsSplitter);
 }
 
@@ -77,16 +78,14 @@ void WidgetSearchResults::startNewSearch(QString *searchString)
 {
 	if (searchString != QString(""))
 	{
-		WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
-		ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), QString(*searchString));
-		ui->tabWidgetSearch->setCurrentIndex(ui->tabWidgetSearch->count());
-		ui->tabWidgetSearch->setTabsClosable(true);
+		addSearchTab();
 		WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
 		if( pWg )
 		{
 			CQuery* pQuery = new CQuery();
 			pQuery->SetDescriptiveName(QString(*searchString));
 			pWg->StartSearch(pQuery);
+			ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), QString(*searchString));
 		}
 	}
 }
@@ -97,6 +96,7 @@ void WidgetSearchResults::addSearchTab()
 	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
 	ui->tabWidgetSearch->setCurrentIndex(ui->tabWidgetSearch->count());
 	ui->tabWidgetSearch->setTabsClosable(true);
+	connect(tabNewSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
 }
 
 void WidgetSearchResults::on_tabWidgetSearch_tabCloseRequested(int index)
@@ -170,4 +170,13 @@ void WidgetSearchResults::on_tabWidgetSearch_currentChanged(int index)
 {
 	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
 	emit searchTabChanged(pWg);
+	emit statsUpdated( pWg );
+}
+
+void WidgetSearchResults::onStatsUpdated( WidgetSearchTemplate *searchWidget )
+{
+	if ( ( searchWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget()) ) )
+	{
+		emit statsUpdated( searchWidget );
+	}
 }

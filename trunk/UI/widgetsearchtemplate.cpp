@@ -34,9 +34,14 @@ WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget *parent
 	m_ui->setupUi(this);
 	sSearchString = searchString;
 	m_pSearch = 0;
+	nFiles = 0;
+	nHits = 0;
+	nHubs = 0;
+	nLeaves = 0;
 	searchState = SearchState::Stopped;
 	searchModel = new SearchTreeModel();
 	m_ui->treeViewSearchResults->setModel(searchModel);
+	connect(searchModel, SIGNAL(updateStats()), this, SLOT(OnStatsUpdated()));
 }
 
 WidgetSearchTemplate::~WidgetSearchTemplate()
@@ -98,15 +103,16 @@ void WidgetSearchTemplate::PauseSearch()
 
 void WidgetSearchTemplate::ClearSearch()
 {
-	if (searchState == SearchState::Paused)
-	{
-		qDebug() << "Clear search captured in widget search template.";
-		searchModel->clear();
-		qApp->processEvents();
-	}
+	qDebug() << "Clear search captured in widget search template.";
+	searchModel->clear();
+	qApp->processEvents();
 }
 
 void WidgetSearchTemplate::OnStatsUpdated()
 {
-
+	nFiles = searchModel->nFileCount;
+	nHits = m_pSearch->m_nHits;
+	nHubs = m_pSearch->m_nHubs;
+	nLeaves = m_pSearch->m_nLeaves;
+	emit statsUpdated(this);
 }

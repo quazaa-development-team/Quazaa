@@ -20,6 +20,7 @@ WidgetSearch::WidgetSearch(QWidget *parent) :
 	panelSearchResults = new WidgetSearchResults();
 	ui->verticalLayoutSearchResults->addWidget(panelSearchResults);
 	connect(panelSearchResults, SIGNAL(searchTabChanged(WidgetSearchTemplate*)), this, SLOT(onSearchTabChanged(WidgetSearchTemplate*)));
+	connect(panelSearchResults, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(updateStats(WidgetSearchTemplate*)));
 }
 
 WidgetSearch::~WidgetSearch()
@@ -66,6 +67,7 @@ void WidgetSearch::saveWidget()
 void WidgetSearch::on_toolButtonSearch_clicked()
 {
 	panelSearchResults->startSearch(ui->lineEditSearch->text());
+	ui->toolButtonSearch->setEnabled(false);
 	ui->toolButtonSearchClear->setText("Stop");
 	ui->toolButtonSearchClear->setEnabled(true);
 }
@@ -74,6 +76,8 @@ void WidgetSearch::on_toolButtonSearchClear_clicked()
 {
 	if (ui->toolButtonSearchClear->text() == "Stop")
 	{
+		ui->toolButtonSearch->setText(tr("More"));
+		ui->toolButtonSearch->setEnabled(true);
 		ui->toolButtonSearchClear->setText("Clear");
 		panelSearchResults->stopSearch();
 	} else
@@ -83,8 +87,12 @@ void WidgetSearch::on_toolButtonSearchClear_clicked()
 		bool cleared = panelSearchResults->clearSearch();
 		if (cleared)
 		{
+			ui->toolButtonSearch->setText(tr("Search"));
+			ui->toolButtonSearch->setEnabled(true);
 			ui->toolButtonSearchClear->setText("Stop");
 			ui->toolButtonSearchClear->setEnabled(false);
+			ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
+			ui->labelSearchResultsFound->setText(tr("No Files Found"));
 		}
 	}
 }
@@ -140,5 +148,19 @@ void WidgetSearch::onSearchTabChanged(WidgetSearchTemplate *searchPage)
 		break;
 	default:
 		break;
+	}
+}
+
+void WidgetSearch::updateStats(WidgetSearchTemplate *searchWidget)
+{
+	ui->labelSearchResultsSearching->setText(tr("%1 hubs,%2 leaves.").arg(searchWidget->nHubs).arg(searchWidget->nLeaves));
+	ui->labelSearchResultsFound->setText(tr("%1 files in %2 hits.").arg(searchWidget->nFiles).arg(searchWidget->nHits));
+	if (searchWidget->nHubs == 0 && searchWidget->nLeaves == 0 && searchWidget->searchState != SearchState::Searching)
+	{
+		ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
+	}
+	if (searchWidget->nFiles == 0 && searchWidget->nHits == 0)
+	{
+		ui->labelSearchResultsFound->setText(tr("No Files Found"));
 	}
 }
