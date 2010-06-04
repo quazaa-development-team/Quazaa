@@ -318,7 +318,7 @@ void CManagedSearch::SendHits()
 	if( !m_pCachedHit )
 		return;
 
-	qDebug() << "Sending hits...";
+	qDebug() << "Sending hits..." << m_nCachedHits;
 	QueryHitSharedPtr pSHits(m_pCachedHit);
 	emit OnHit(pSHits);
 	m_pCachedHit = 0;

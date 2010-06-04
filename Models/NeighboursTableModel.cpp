@@ -24,7 +24,7 @@ int CNeighboursTableModel::rowCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
 
-    return m_lNodes.size();
+	return m_lNodes.count();
 }
 
 int CNeighboursTableModel::columnCount(const QModelIndex& parent) const
@@ -44,7 +44,7 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 
 	if ( role == Qt::DecorationRole )
 	{
-		sNeighbour n = m_lNodes.at(index.row());
+		const sNeighbour& n = m_lNodes.at(index.row());
 		if (index.column() == 0)
 		{
 			return n.iNetwork;
@@ -58,7 +58,7 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 
     if( role == Qt::DisplayRole )
     {
-        sNeighbour n = m_lNodes.at(index.row());
+		const sNeighbour& n = m_lNodes.at(index.row());
         switch( index.column() )
         {
         case 0:
@@ -175,7 +175,7 @@ void CNeighboursTableModel::OnNodeAdded(CG2Node* pNode)
 
 void CNeighboursTableModel::AddNode(CG2Node *pNode, bool bSignal)
 {
-	qDebug() << "AddNode";
+	//qDebug() << "AddNode";
 
 	sNeighbour nbr;
 
@@ -217,9 +217,9 @@ void CNeighboursTableModel::AddNode(CG2Node *pNode, bool bSignal)
 
 void CNeighboursTableModel::UpdateNeighbourData(CG2Node* pNode)
 {
-	qDebug() << "UpdateNeighboursData";
+	//qDebug() << "UpdateNeighboursData";
 
-	if( !Network.m_pSection.tryLock(50) )
+	if( !Network.m_pSection.tryLock() )
 		return;	// forget it
 
 	if( NodeExists(pNode) )
@@ -229,7 +229,7 @@ void CNeighboursTableModel::UpdateNeighbourData(CG2Node* pNode)
 }
 void CNeighboursTableModel::UpdateNode(CG2Node *pNode, bool bSignal)
 {
-	qDebug() << "UpdateNode";
+	//qDebug() << "UpdateNode";
 
 	quint32 tNow = time(0);
 
@@ -267,7 +267,7 @@ void CNeighboursTableModel::UpdateNode(CG2Node *pNode, bool bSignal)
 
 void CNeighboursTableModel::OnRemoveNode(CG2Node* pNode)
 {
-	qDebug() << "OnRemoveNode";
+	//qDebug() << "OnRemoveNode";
 
     for( int i = 0; i < m_lNodes.size(); i++ )
     {
@@ -319,9 +319,9 @@ QString CNeighboursTableModel::TypeToString(G2NodeType t) const
 void CNeighboursTableModel::UpdateAll()
 {
 	
-	qDebug() << "UpdateAll";
+	//qDebug() << "UpdateAll";
 
-    if( Network.m_pSection.tryLock(50) )
+	if( Network.m_pSection.tryLock() )
     {
 		// first check if we need to remove some nodes
 
@@ -369,7 +369,7 @@ void CNeighboursTableModel::UpdateAll()
 		Network.m_pSection.unlock();
 
 		QModelIndex idx1 = index(0, 0, QModelIndex());
-		QModelIndex idx2 = index(m_lNodes.size(), 10, QModelIndex());
+		QModelIndex idx2 = index(m_lNodes.size() - 1, 10, QModelIndex());
 		emit dataChanged(idx1, idx2);
     }
 }
