@@ -177,7 +177,7 @@ void CNetwork::OnSecondTimer()
         return;
     }
 
-    if( HostCache.isEmpty() && !WebCache.isRequesting() )
+	if( m_nHubsConnected == 0 && !WebCache.isRequesting() && ( HostCache.isEmpty() || HostCache.GetConnectable() == 0 ) )
     {
         WebCache.RequestRandom();
     }

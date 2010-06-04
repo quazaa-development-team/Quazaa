@@ -283,6 +283,7 @@ WinMain::WinMain(QWidget *parent) :
 		neighboursList = new CNeighboursTableModel(this);
 		neighboursSortModel->setSourceModel(neighboursList);
 		pageActivity->panelNeighbors->setModel(neighboursSortModel);
+		//pageActivity->panelNeighbors->setModel(neighboursList);
 		neighboursSortModel->setDynamicSortFilter(true);
 
 		neighboursRefresher = new QTimer(this);
@@ -972,7 +973,7 @@ void WinMain::updateBandwidth()
 	quint16 nUDPInSpeed = 0;
 	quint16 nUDPOutSpeed = 0;
 
-	if( Network.m_pSection.tryLock(50) && bEmit  )
+	if( Network.m_pSection.tryLock() && bEmit  )
 	{
 		nTCPInSpeed = Network.DownloadSpeed();
 		nTCPOutSpeed = Network.UploadSpeed();

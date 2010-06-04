@@ -2,13 +2,7 @@
 # Project created by QtCreator 2009-12-02T17:28:49
 # -------------------------------------------------
 QT += network \
-    sql \
-    script \
-    svg \
-    webkit \
-    xml \
-    xmlpatterns \
-    phonon
+phonon
 TARGET = Quazaa
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 INCLUDEPATH += vlc \
