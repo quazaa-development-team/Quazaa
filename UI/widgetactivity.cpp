@@ -16,7 +16,6 @@ WidgetActivity::WidgetActivity(QWidget *parent) :
 	ui->verticalLayoutNeighbors->addWidget(panelNeighbors);
 	panelSystemLog = new WidgetSystemLog();
 	ui->verticalLayoutSystemLog->addWidget(panelSystemLog);
-	connect(ui->toolButtonNeighborsHeader, SIGNAL(clicked()), this, SLOT(on_splitterActivity_customContextMenuRequested(QPoint)));
 }
 
 WidgetActivity::~WidgetActivity()

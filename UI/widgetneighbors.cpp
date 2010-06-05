@@ -1,6 +1,7 @@
 #include "widgetneighbors.h"
 #include "ui_widgetneighbors.h"
 #include "dialogsettings.h"
+#include "dialogconnectto.h"
 
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
@@ -112,4 +113,15 @@ void WidgetNeighbors::updateAres()
 void WidgetNeighbors::updateEDonkey()
 {
 
+}
+
+void WidgetNeighbors::on_actionNeighborConnectTo_triggered()
+{
+	QSkinDialog *dlgSkinConnectTo = new QSkinDialog(false, true, false, this);
+	DialogConnectTo *dlgConnectTo = new DialogConnectTo;
+
+	dlgSkinConnectTo->addChildWidget(dlgConnectTo);
+
+	connect(dlgConnectTo, SIGNAL(closed()), dlgSkinConnectTo, SLOT(close()));
+	dlgSkinConnectTo->show();
 }
