@@ -25,8 +25,9 @@ private:
     Ui::WidgetNeighbors *ui;
 
 private slots:
-	void on_actionNeighborConnectTo_triggered();
- void on_actionSettings_triggered();
+	void on_actionNeighborDisconnect_triggered();
+ void on_actionNeighborConnectTo_triggered();
+	void on_actionSettings_triggered();
 	void skinChangeEvent();
 	void updateG2();
 	void updateAres();

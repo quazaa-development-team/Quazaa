@@ -71,7 +71,8 @@ private:
 	bool bypassCloseEvent;
 
 private slots:
-	void on_actionAres_triggered(bool checked);
+	void on_actionConnectTo_triggered();
+ void on_actionAres_triggered(bool checked);
  void on_actionGnutella2_triggered(bool checked);
  void on_actionEDonkey_triggered(bool checked);
  void on_actionDisconnect_triggered();
