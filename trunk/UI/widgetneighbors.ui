@@ -156,7 +156,7 @@
   <action name="actionNeighborConnectTo">
    <property name="icon">
     <iconset>
-     <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
+     <normaloff>:/Resource/Network/ConnectTo.png</normaloff>:/Resource/Network/ConnectTo.png</iconset>
    </property>
    <property name="text">
     <string>Connect To</string>

@@ -125,3 +125,8 @@ void WidgetNeighbors::on_actionNeighborConnectTo_triggered()
 	connect(dlgConnectTo, SIGNAL(closed()), dlgSkinConnectTo, SLOT(close()));
 	dlgSkinConnectTo->show();
 }
+
+void WidgetNeighbors::on_actionNeighborDisconnect_triggered()
+{
+
+}

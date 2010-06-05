@@ -18,6 +18,7 @@
 #include "dialogsecuritysubscriptions.h"
 #include "dialoglibrarysearch.h"
 #include "dialogfiltersearch.h"
+#include "dialogconnectto.h"
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
@@ -986,4 +987,15 @@ void WinMain::updateBandwidth()
 		Datagrams.m_pSection.unlock();
 	}*/
 	labelBandwidthTotals->setText(tr("%1/s In:%2/s Out [D:%3/U:%4]").arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
+}
+
+void WinMain::on_actionConnectTo_triggered()
+{
+	QSkinDialog *dlgSkinConnectTo = new QSkinDialog(false, true, false, this);
+	DialogConnectTo *dlgConnectTo = new DialogConnectTo;
+
+	dlgSkinConnectTo->addChildWidget(dlgConnectTo);
+
+	connect(dlgConnectTo, SIGNAL(closed()), dlgSkinConnectTo, SLOT(close()));
+	dlgSkinConnectTo->show();
 }
