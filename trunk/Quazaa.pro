@@ -2,12 +2,12 @@
 # Project created by QtCreator 2009-12-02T17:28:49
 # -------------------------------------------------
 QT += network \
-phonon
+    phonon
 TARGET = Quazaa
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 INCLUDEPATH += vlc \
     NetworkCore \
-	UI \
+    UI \
     3rdparty \
     3rdparty/libircclient-qt \
     Models \
@@ -17,9 +17,9 @@ CONFIG(release):INCLUDEPATH += temp/release
 win32:LIBS += -Lbin # if you are at windows os
 LIBS += -lvlc
 CONFIG += precompile_header \
-	no_icu
+    no_icu
 DEFINES += IRC_STATIC \
-	NO_DEPRECATED
+    NO_DEPRECATED
 PRECOMPILED_HEADER = NetworkCore/types.h
 TEMPLATE = app
 SOURCES += main.cpp \
@@ -120,7 +120,8 @@ SOURCES += main.cpp \
     3rdparty/CyoEncode/CyoDecode.c \
     Models/NeighboursTableModel.cpp \
     Models/searchtreemodel.cpp \
-    geoiplist.cpp
+    geoiplist.cpp \
+	UI/dialogconnectto.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -220,7 +221,8 @@ HEADERS += UI/dialoglanguage.h \
     3rdparty/CyoEncode/CyoDecode.h \
     Models/NeighboursTableModel.h \
     Models/searchtreemodel.h \
-    geoiplist.h
+    geoiplist.h \
+	UI/dialogconnectto.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \
@@ -272,7 +274,8 @@ FORMS += UI/dialoglanguage.ui \
     UI/widgetgraph.ui \
     UI/widgetpacketdump.ui \
     UI/widgetsearchmonitor.ui \
-    UI/widgethitmonitor.ui
+    UI/widgethitmonitor.ui \
+	UI/dialogconnectto.ui
 TRANSLATIONS = Language/quazaa_af.ts \
     Language/quazaa_ar.ts \
     Language/quazaa_ca.ts \
