@@ -32,8 +32,6 @@
 #include "dialoglanguage.h"
 #include "qtsingleapplication/src/qtsingleapplication.h"
 
-#define IRC_NO_DEPRECATED
-
 QuazaaGlobals quazaaGlobals;
 
 int main(int argc, char *argv[])
