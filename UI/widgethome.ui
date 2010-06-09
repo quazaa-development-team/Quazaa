@@ -752,7 +752,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
            <property name="leftMargin">
-            <number>0</number>
+            <number>20</number>
            </property>
            <property name="topMargin">
             <number>0</number>
