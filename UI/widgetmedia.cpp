@@ -20,15 +20,6 @@ WidgetMedia::WidgetMedia(QWidget *parent) :
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->splitterMedia->restoreState(quazaaSettings.WinMain.MediaSplitter);
-
-	/*mediaPlayer = new vlcMediaPlayer(seekSlider, volumeSlider, ui->frameMediaWindow, ui->tableWidgetMediaPlaylistTask,
-									 ui->actionMediaPlay, ui->actionMediaStop, ui->actionMediaRewind, ui->actionMediaNextTrack,
-									 ui->actionMediaOpen, ui->actionMediaRepeat , ui->actionMediaShuffle,
-									 ui->actionMediaFullscreen, ui->actionMediaSettings, ui->actionMediaMute,
-									 ui->toolButtonMediaPlaylistAdd, ui->toolButtonMediaPlaylistRemove,
-									 ui->toolButtonMediaPlaylistClear,ui->toolButtonMediaPlaylistOpenPlaylist,
-									 ui->toolButtonMediaPlaylistAddPlaylist,
-									 ui->toolButtonMediaPlaylistSavePlaylist, this);*/
 	ui->actionMediaRepeat->setChecked(quazaaSettings.Media.Repeat);
 	ui->actionMediaShuffle->setChecked(quazaaSettings.Media.Shuffle);
 }

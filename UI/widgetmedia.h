@@ -2,8 +2,7 @@
 #define WIDGETMEDIA_H
 
 #include <QMainWindow>
-
-#include "vlcmediaplayer.h"
+#include <QSlider>
 
 namespace Ui {
     class WidgetMedia;
@@ -16,7 +15,6 @@ public:
     ~WidgetMedia();
 	QSlider *seekSlider;
 	QSlider *volumeSlider;
-	vlcMediaPlayer *mediaPlayer;
 	void saveWidget();
 
 protected:
