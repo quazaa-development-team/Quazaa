@@ -40,7 +40,7 @@ void WidgetLibraryView::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarSearch->setStyleSheet(skinSettings.toolbars);
-	ui->toolFrameLibraryStatus->setStyleSheet(skinSettings.toolbars);
+	ui->toolFrameLibraryStatus->setStyleSheet(skinSettings.libraryViewHeader);
 }
 
 void WidgetLibraryView::saveWidget()
