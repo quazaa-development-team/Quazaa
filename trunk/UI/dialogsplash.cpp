@@ -28,7 +28,8 @@ DialogSplash::DialogSplash(QWidget *parent) :
 	m_ui(new Ui::DialogSplash)
 {
 	m_ui->setupUi(this);
-	setWindowFlags(Qt::SplashScreen);
+	setWindowFlags(Qt::FramelessWindowHint);
+	setAttribute(Qt::WA_TranslucentBackground);
 	m_ui->frameSplashBackground->setStyleSheet(skinSettings.splashBackground);
 	m_ui->frameSplashFooter->setStyleSheet(skinSettings.splashFooter);
 	m_ui->labelStatus->setStyleSheet(skinSettings.splashStatus);
