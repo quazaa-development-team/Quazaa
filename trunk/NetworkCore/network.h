@@ -104,6 +104,11 @@ public slots:
     void SetupThread();
     void CleanupThread();
 
+	void ConnectTo(IPv4_ENDPOINT& addr);
+	void DisconnectFrom(IPv4_ENDPOINT& ip);
+	void DisconnectFrom(int index);
+	void DisconnectFrom(CG2Node* pNode);
+
 signals:
     void NodeAdded(CG2Node*);
     void NodeRemoved(CG2Node*);

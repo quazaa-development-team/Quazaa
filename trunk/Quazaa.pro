@@ -14,11 +14,9 @@ INCLUDEPATH += NetworkCore \
 CONFIG(debug, debug|release):INCLUDEPATH += temp/debug
 CONFIG(release):INCLUDEPATH += temp/release
 win32:LIBS += -Lbin # if you are at windows os
-CONFIG += precompile_header \
-    no_icu
+CONFIG += no_icu
 DEFINES += IRC_STATIC \
-    IRC_NO_DEPRECATED
-PRECOMPILED_HEADER = NetworkCore/types.h
+	IRC_NO_DEPRECATED
 TEMPLATE = app
 SOURCES += main.cpp \
     UI/dialoglanguage.cpp \
@@ -118,7 +116,7 @@ SOURCES += main.cpp \
     Models/NeighboursTableModel.cpp \
     Models/searchtreemodel.cpp \
     geoiplist.cpp \
-    UI/dialogconnectto.cpp
+	UI/dialogconnectto.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -181,6 +179,7 @@ HEADERS += UI/dialoglanguage.h \
     NetworkCore/Hashes/AbstractHash.h \
     NetworkCore/queryhashtable.h \
     NetworkCore/parser.h \
+	NetworkCore/types.h \
     UI/winmain.h \
     UI/widgethome.h \
     UI/widgetlibrary.h \
@@ -218,7 +217,7 @@ HEADERS += UI/dialoglanguage.h \
     Models/NeighboursTableModel.h \
     Models/searchtreemodel.h \
     geoiplist.h \
-    UI/dialogconnectto.h
+	UI/dialogconnectto.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \
@@ -271,7 +270,7 @@ FORMS += UI/dialoglanguage.ui \
     UI/widgetpacketdump.ui \
     UI/widgetsearchmonitor.ui \
     UI/widgethitmonitor.ui \
-    UI/dialogconnectto.ui
+	UI/dialogconnectto.ui
 TRANSLATIONS = Language/quazaa_af.ts \
     Language/quazaa_ar.ts \
     Language/quazaa_ca.ts \
