@@ -1,6 +1,8 @@
 #ifndef THREAD_H
 #define THREAD_H
 
+#include "types.h"
+
 #include <QThread>
 #include <QMutex>
 #include <QMutexLocker>

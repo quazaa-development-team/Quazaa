@@ -342,12 +342,7 @@ void CNetwork::Maintain()
 
                 if( pHost )
                 {
-                    CG2Node* pNew = new CG2Node();
-					connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
-                    emit NodeAdded(pNew);
-                    m_pRateController->AddSocket(pNew);
-                    m_lNodes.append(pNew);
-                    pNew->connectToHost(pHost->m_oAddress);
+					ConnectTo(pHost->m_oAddress);
                     pHost->m_tLastConnect = tNow;
                 }
                 else
@@ -377,12 +372,7 @@ void CNetwork::Maintain()
 
                 if( pHost )
                 {
-                    CG2Node* pNew = new CG2Node();
-					connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
-                    emit NodeAdded(pNew);
-                    m_pRateController->AddSocket(pNew);
-                    m_lNodes.append(pNew);
-                    pNew->connectToHost(pHost->m_oAddress);
+					ConnectTo(pHost->m_oAddress);
                     pHost->m_tLastConnect = tNow;
                 }
                 else
@@ -636,5 +626,37 @@ void CNetwork::AdaptiveHubRun()
 		}
 
 		m_nTotalPeriods = m_nBusyPeriods = 0;
+	}
+}
+
+void CNetwork::ConnectTo(IPv4_ENDPOINT &addr)
+{
+	CG2Node* pNew = new CG2Node();
+	connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
+	emit NodeAdded(pNew);
+	m_pRateController->AddSocket(pNew);
+	m_lNodes.append(pNew);
+	pNew->connectToHost(addr);
+}
+
+// WARNING: pNode must be a valid pointer
+void CNetwork::DisconnectFrom(CG2Node *pNode)
+{
+	pNode->close();
+}
+void CNetwork::DisconnectFrom(int index)
+{
+	if( m_lNodes.size() > index && index >= 0 )
+		DisconnectFrom(m_lNodes[index]);
+}
+void CNetwork::DisconnectFrom(IPv4_ENDPOINT &ip)
+{
+	for( int i = 0; i < m_lNodes.size(); i++ )
+	{
+		if( m_lNodes.at(i)->m_oAddress == ip )
+		{
+			DisconnectFrom(m_lNodes[i]);
+			break;
+		}
 	}
 }

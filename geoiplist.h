@@ -1,6 +1,8 @@
 #ifndef GEOIPLIST_H
 #define GEOIPLIST_H
 
+#include "types.h"
+
 #include <QObject>
 #include <QList>
 #include <QPair>
