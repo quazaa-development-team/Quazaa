@@ -9,6 +9,8 @@
 
 class GeoIPList
 {
+protected:
+	bool	m_bListLoaded;
 public:
 	struct sGeoID {
 		QString countryCode;
