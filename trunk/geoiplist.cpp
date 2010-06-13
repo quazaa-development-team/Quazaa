@@ -9,7 +9,7 @@ GeoIPList GeoIP;
 
 GeoIPList::GeoIPList()
 {
-
+	m_bListLoaded = false;
 }
 
 void GeoIPList::loadGeoIP()
@@ -33,11 +33,16 @@ void GeoIPList::loadGeoIP()
 		QPair<quint32, QPair<quint32, QString> > item = QPair<quint32, QPair<quint32, QString> >(rBegin.ip, QPair<quint32, QString>(rEnd.ip, sCountry));
 		m_lDatabase.append(item);
 	}
+
+	m_bListLoaded = !m_lDatabase.isEmpty();
 }
 
 
 QString GeoIPList::findCountryCode(quint32& nIp, quint32 nBegin, quint32 nEnd)
 {
+	if( !m_bListLoaded )
+		return "ZZ";
+
 	nEnd = qMin<quint32>(nEnd, m_lDatabase.size());
 
 	if( nEnd - nBegin < 3 )
