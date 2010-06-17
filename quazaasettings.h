@@ -321,6 +321,7 @@ namespace Settings
 		quint32		SendBuffer;								// Size of data send blocks
 		quint32		TimeoutConnect;							// Time to wait for a connection before dropping the connection
 		quint32		TimeoutTraffic;							// Time to wait for general network communications before dropping a connection
+		QStringList	PreferredCountries;						// Country preference
 	};
 
 	struct sWeb

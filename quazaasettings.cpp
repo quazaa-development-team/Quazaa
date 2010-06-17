@@ -191,6 +191,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("SendBuffer", quazaaSettings.Connection.SendBuffer);
 	m_qSettings.setValue("TimeoutConnect", quazaaSettings.Connection.TimeoutConnect);
 	m_qSettings.setValue("TimeoutTraffic", quazaaSettings.Connection.TimeoutTraffic);
+	m_qSettings.setValue("PreferredCountries", quazaaSettings.Connection.PreferredCountries);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Web");
@@ -652,6 +653,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Connection.SendBuffer = m_qSettings.value("SendBuffer", 2048).toUInt();
 	quazaaSettings.Connection.TimeoutConnect = m_qSettings.value("TimeoutConnect", 16).toUInt();
 	quazaaSettings.Connection.TimeoutTraffic = m_qSettings.value("TimeoutTraffic", 60).toUInt();
+	quazaaSettings.Connection.PreferredCountries = m_qSettings.value("PreferredCountries", QStringList()).toStringList();
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Web");

@@ -337,11 +337,12 @@ void CNetwork::Maintain()
 
             quint32 tNow = time(0);
 			bool bCountry = true;
+			int  nCountry = 0;
 
             for( ; nAttempt > 0; nAttempt-- )
             {
                 // nowe polaczenie
-				CHostCacheHost* pHost = HostCache.GetConnectable(tNow, (bCountry ? GeoIP.findCountryCode(m_oAddress) : "ZZ"));
+				CHostCacheHost* pHost = HostCache.GetConnectable(tNow, (bCountry ? (quazaaSettings.Connection.PreferredCountries.size() ? quazaaSettings.Connection.PreferredCountries.at(nCountry) : GeoIP.findCountryCode(m_oAddress)) : "ZZ"));
 
                 if( pHost )
                 {
@@ -356,6 +357,16 @@ void CNetwork::Maintain()
 					}
 					else
 					{
+						if( quazaaSettings.Connection.PreferredCountries.size() )
+						{
+							nCountry++;
+							if( nCountry >= quazaaSettings.Connection.PreferredCountries.size() )
+							{
+								bCountry = false;
+							}
+							nAttempt++;
+							continue;
+						}
 						bCountry = false;
 						nAttempt++;
 					}
