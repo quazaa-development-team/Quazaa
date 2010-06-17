@@ -218,7 +218,7 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QSharedPointer<QueryHitInfo>
     }
 
 
-    // TODO: sprawdzic poprawnosc hita...
+    // TODO: sprawdzic poprawnosc hita... (Validate hit)
 
     pHit = pThisHit;
 
