@@ -249,7 +249,7 @@ void CQueryHit::ResolveURLs()
     /*if( m_lURNs.isEmpty() )
         return;*/
 
-    // TODO: odpowiednie kodowanie...
+    // TODO: odpowiednie kodowanie... (Appropriate Encoding)
     if( m_oSha1.IsValid() )
         m_sURL = m_sURL.sprintf("http://%s/uri-res/N2R?%s", m_pHitInfo->m_oNodeAddress.toString().toAscii().constData(), m_oSha1.ToURN().toAscii().constData());
 }

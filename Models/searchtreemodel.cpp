@@ -22,7 +22,8 @@ SearchTreeModel::SearchTreeModel()
 
 SearchTreeModel::~SearchTreeModel()
 {
-	delete rootItem;
+    clear();
+    delete rootItem;
 }
 
 bool SearchTreeModel::isRoot(QModelIndex index)
@@ -202,9 +203,9 @@ void SearchTreeModel::clear()
 
 void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 {
-	CQueryHit* pHit2 = pHit.data();
+        CQueryHit* pHit2 = pHit.data();
 
-	while( pHit2 != 0 )
+        while( pHit2 != 0 )
 		{
 		int existingSearch = rootItem->find(rootItem, pHit2->m_oSha1.ToString());
 
@@ -270,13 +271,14 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			rootItem->child(existingSearch)->appendChild(m_oChildItem);
 			rootItem->child(existingSearch)->updateHitCount(rootItem->child(existingSearch)->childCount());
 			endInsertRows();
+                        emit updateStats();
 		}
 
 		QModelIndex idx1 = index(0, 0, QModelIndex());
 		QModelIndex idx2 = index(rootItem->childCount(), 10, QModelIndex());
 		emit dataChanged(idx1, idx2);
 
-		pHit2 = pHit2->m_pNext;
+                pHit2 = pHit2->m_pNext;
 	}
 }
 

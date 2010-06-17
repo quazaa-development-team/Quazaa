@@ -519,7 +519,7 @@ void WinMain::quazaaShutdown()
 	quazaaSettings.saveWindowSettings(this);
 
 	dlgSplash->updateProgress(20, tr("Removing Tray Icon..."));
-	trayIcon->~QSystemTrayIcon();
+        delete trayIcon;
 
 	dlgSplash->close();
 	emit closed();
