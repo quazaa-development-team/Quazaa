@@ -81,7 +81,7 @@ public:
     CHostCacheHost* Find(IPv4_ENDPOINT oHost);
     void OnFailure(IPv4_ENDPOINT addr);
     CHostCacheHost* Get();
-    CHostCacheHost* GetConnectable(quint32 tNow = 0);
+	CHostCacheHost* GetConnectable(quint32 tNow = 0, QString sCountry = QString("ZZ"));
 
     void Save();
 

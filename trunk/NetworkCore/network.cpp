@@ -18,6 +18,8 @@
 #include "ManagedSearch.h"
 #include "Query.h"
 
+#include "geoiplist.h"
+
 CNetwork Network;
 CThread NetworkThread;
 
@@ -334,11 +336,12 @@ void CNetwork::Maintain()
             nAttempt = qMin(nAttempt, 8) - nUnknown;
 
             quint32 tNow = time(0);
+			bool bCountry = true;
 
             for( ; nAttempt > 0; nAttempt-- )
             {
                 // nowe polaczenie
-                CHostCacheHost* pHost = HostCache.GetConnectable(tNow);
+				CHostCacheHost* pHost = HostCache.GetConnectable(tNow, (bCountry ? GeoIP.findCountryCode(m_oAddress) : "ZZ"));
 
                 if( pHost )
                 {
@@ -346,7 +349,17 @@ void CNetwork::Maintain()
                     pHost->m_tLastConnect = tNow;
                 }
                 else
-                    break;
+				{
+					if( !bCountry )
+					{
+						break;
+					}
+					else
+					{
+						bCountry = false;
+						nAttempt++;
+					}
+				}
             }
 
         }
