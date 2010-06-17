@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include "network.h"
 #include <time.h>
+#include "geoiplist.h"
 
 const quint32 MaxCacheHosts = 1000;
 
@@ -252,8 +253,10 @@ CHostCacheHost* CHostCache::Get()
 
     return pHost;
 }
-CHostCacheHost* CHostCache::GetConnectable(quint32 tNow)
+CHostCacheHost* CHostCache::GetConnectable(quint32 tNow, QString sCountry)
 {
+	bool bCountry = (sCountry != "ZZ");
+
     if( tNow == 0 )
         tNow = time(0);
 
@@ -262,6 +265,9 @@ CHostCacheHost* CHostCache::GetConnectable(quint32 tNow)
 
     foreach( CHostCacheHost* pHost, m_lHosts )
     {
+		if( bCountry )
+			if( sCountry != GeoIP.findCountryCode(pHost->m_oAddress) )
+				continue;
         if( tNow - pHost->m_tLastConnect > ReconnectTime )
             return pHost;
     }
