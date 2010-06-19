@@ -59,5 +59,6 @@ void DialogCloseType::on_pushButtonOK_clicked()
 
 void DialogCloseType::skinChangeEvent()
 {
-	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+    setStyleSheet(skinSettings.standardItems);
+    m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }
