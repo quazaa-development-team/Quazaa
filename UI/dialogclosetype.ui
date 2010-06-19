@@ -9,27 +9,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>435</width>
-    <height>123</height>
+    <width>467</width>
+    <height>134</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>435</width>
-    <height>123</height>
+    <width>450</width>
+    <height>134</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>435</width>
-    <height>123</height>
+    <width>1600</width>
+    <height>134</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>What Should The Close Button Do?</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -82,7 +82,7 @@ color: rgb(255, 255, 255);</string>
          <string notr="true">background-color: transparent;</string>
         </property>
         <property name="pixmap">
-         <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -165,7 +165,7 @@ p, li { white-space: pre-wrap; }
          <string>Close Immediately</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset resource="../Resource.qrc">
           <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
         </property>
        </item>
@@ -174,7 +174,7 @@ p, li { white-space: pre-wrap; }
          <string>Minimize To Tray</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset resource="../Resource.qrc">
           <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
         </property>
        </item>
@@ -183,7 +183,7 @@ p, li { white-space: pre-wrap; }
          <string>Close After Transfers</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset resource="../Resource.qrc">
           <normaloff>:/Resource/Generic/ExitAfterTransfers.png</normaloff>:/Resource/Generic/ExitAfterTransfers.png</iconset>
         </property>
        </item>
@@ -194,7 +194,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>
