@@ -128,6 +128,8 @@ public:
 	QString logWeightError;
 	QColor logColorCritical;
 	QString logWeightCritical;
+        QColor neighborsConnecting;
+        QColor neighborsConnected;
 
 signals:
 	void skinChanged();

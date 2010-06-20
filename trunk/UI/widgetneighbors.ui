@@ -14,7 +14,11 @@
    <enum>Qt::PreventContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Neighbors</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Resource.qrc">
+    <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -155,7 +159,7 @@
   </widget>
   <action name="actionNeighborConnectTo">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/ConnectTo.png</normaloff>:/Resource/Network/ConnectTo.png</iconset>
    </property>
    <property name="text">
@@ -167,7 +171,7 @@
   </action>
   <action name="actionNeighborDisconnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -179,7 +183,7 @@
   </action>
   <action name="actionNetworkBrowse">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -191,7 +195,7 @@
   </action>
   <action name="actionNetworkChatWith">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -203,7 +207,7 @@
   </action>
   <action name="actionNetworkBan">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
    </property>
    <property name="text">
@@ -218,7 +222,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
    </property>
    <property name="text">
@@ -236,7 +240,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
    </property>
    <property name="text">
@@ -248,7 +252,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
    </property>
    <property name="text">
@@ -257,7 +261,7 @@
   </action>
   <action name="actionSettings">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -265,6 +269,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
