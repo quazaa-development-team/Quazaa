@@ -137,8 +137,8 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>160</width>
-        <height>323</height>
+        <width>142</width>
+        <height>353</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_39">
@@ -150,11 +150,6 @@ p, li { white-space: pre-wrap; }
        </property>
        <item row="0" column="0">
         <widget class="QFrame" name="frameSettingsNavigator">
-         <property name="styleSheet">
-          <string notr="true">QFrame {
-	background-color: rgb(199, 202, 255);
-}</string>
-         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -232,11 +227,6 @@ QToolButton:hover {
             </item>
             <item row="1" column="0">
              <widget class="QListWidget" name="listWidgetNavigationGeneral">
-              <property name="styleSheet">
-               <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
-              </property>
               <property name="frameShape">
                <enum>QFrame::NoFrame</enum>
               </property>
@@ -376,11 +366,6 @@ QToolButton:hover {
             </item>
             <item row="1" column="0">
              <widget class="QListWidget" name="listWidgetNavigationInternet">
-              <property name="styleSheet">
-               <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
-              </property>
               <property name="frameShape">
                <enum>QFrame::NoFrame</enum>
               </property>
@@ -493,11 +478,6 @@ QToolButton:hover {
             </item>
             <item row="1" column="0">
              <widget class="QListWidget" name="listWidgetNavigationNetworks">
-              <property name="styleSheet">
-               <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
-              </property>
               <property name="frameShape">
                <enum>QFrame::NoFrame</enum>
               </property>
