@@ -69,7 +69,7 @@ public slots:
 
 private slots:
 	void on_windowFrameTopSpacer_customContextMenuRequested(QPoint pos);
-        void on_titlebarButtonsFrame_customContextMenuRequested(QPoint pos);
+	void on_titlebarButtonsFrame_customContextMenuRequested(QPoint pos);
 	void on_windowIconFrame_customContextMenuRequested(QPoint pos);
 	void on_windowIcon_clicked();
 	void on_windowIcon_customContextMenuRequested(QPoint pos);
@@ -82,7 +82,6 @@ private slots:
 	void mouseMoveEvent(QMouseEvent *e);
 	void mouseReleaseEvent(QMouseEvent *e);
 	void mouseDoubleClickEvent(QMouseEvent *e);
-	void loadSkin(QString file = "");
 	void setWindowTitle(const QString &);
 	void setWindowIcon(const QIcon &icon);
 	void skinChangeEvent();
