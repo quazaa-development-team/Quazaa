@@ -23,6 +23,8 @@
 #include "ui_dialogsplash.h"
 #include "QSkinDialog/qskinsettings.h"
 
+#include <QDesktopWidget>
+
 DialogSplash::DialogSplash(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogSplash)
@@ -35,6 +37,7 @@ DialogSplash::DialogSplash(QWidget *parent) :
 	m_ui->labelStatus->setStyleSheet(skinSettings.splashStatus);
 	m_ui->labelLogo->setStyleSheet(skinSettings.splashLogo);
 	m_ui->progressBarStatus->setStyleSheet(skinSettings.splashProgress);
+	move(QPoint( ( (QApplication::desktop()->screenGeometry(this).width() / 2) - (width() / 2) ), ( (QApplication::desktop()->screenGeometry(this).height() / 2) - (height() / 2) )));
 }
 
 DialogSplash::~DialogSplash()

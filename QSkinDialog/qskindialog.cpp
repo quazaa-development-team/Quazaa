@@ -411,11 +411,6 @@ void QSkinDialog::mouseDoubleClickEvent(QMouseEvent *e)
 	}
 }
 
-void QSkinDialog::loadSkin(QString file)
-{
-
-}
-
 void QSkinDialog::on_windowText_customContextMenuRequested(QPoint pos)
 {
 	systemMenu->exec(QCursor::pos());
@@ -435,6 +430,9 @@ void QSkinDialog::addChildWidget(QWidget *parent)
 	parent->setAttribute(Qt::WA_TranslucentBackground, false);
 	setWindowTitle(parent->windowTitle());
 	setWindowIcon(parent->windowIcon());
+	qApp->processEvents();
+	if (!isMainDialog)
+		move(QPoint( ( (QApplication::desktop()->screenGeometry(this).width() / 2) - (parent->width() / 2) ), ( (QApplication::desktop()->screenGeometry(this).height() / 2) - (parent->height() / 2) )));
 }
 
 void QSkinDialog::setWindowTitle(const QString &title)
