@@ -221,6 +221,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
@@ -250,6 +253,9 @@
   <action name="actionAres">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
    </property>
    <property name="icon">
     <iconset resource="../Resource.qrc">
