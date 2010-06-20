@@ -35,6 +35,10 @@ namespace Settings
 		int			ActivitySplitterRestoreBottom;	// The width left side of the search results splitter should restore to when right clicked
 		bool		ChatRoomsTaskVisible;			// The Rooms task in the Chat sidebar
 		bool		ChatFriendsTaskVisible;		// The Friends task in the Chat sidebar
+		QByteArray	ChatSplitter;
+		int			ChatSplitterRestoreLeft;
+		int			ChatSplitterRestoreMiddle;
+		int			ChatSplitterRestoreRight;
 		QByteArray	ChatToolbars;				// Chat Toolbars
 		QByteArray	DiscoveryToolbar;			// DiscoveryToolbar
 		QByteArray	DownloadsToolbar;			// Downloads Toolbar

@@ -1,7 +1,7 @@
 //
 // mainwindow.h
 //
-// Copyright © Quazaa Development Team, 2009-2010.
+// Copyright  Quazaa Development Team, 2009-2010.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
 //
 // Quazaa is free software; you can redistribute it
@@ -63,7 +63,9 @@ private:
 	QColor colorCritical;
 
 private slots:
-	void on_checkBoxCriticalBold_clicked(bool checked);
+	void on_toolButtonColorNeighborsConnected_clicked();
+ void on_toolButtonColorNeighborsConnecting_clicked();
+ void on_checkBoxCriticalBold_clicked(bool checked);
  void on_checkBoxErrorBold_clicked(bool checked);
  void on_checkBoxWarningBold_clicked(bool checked);
  void on_checkBoxDebugBold_clicked(bool checked);

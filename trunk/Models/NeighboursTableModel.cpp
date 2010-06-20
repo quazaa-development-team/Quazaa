@@ -7,6 +7,7 @@
 #include "g2node.h"
 #include "network.h"
 #include "geoiplist.h"
+#include "QSkinDialog/qskinsettings.h"
 
 CNeighboursTableModel::CNeighboursTableModel(QObject *parent) :
     QAbstractTableModel(parent)
@@ -93,9 +94,9 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
     else if( role == Qt::ForegroundRole )
     {
         if( m_lNodes.at(index.row()).nState == nsConnected )
-            return QColor(0, 0, 180);
+            return skinSettings.neighborsColorConnected;
         else
-            return QColor(150, 150, 150);
+            return skinSettings.neighborsColorConnecting;
     }
 
     return QVariant();

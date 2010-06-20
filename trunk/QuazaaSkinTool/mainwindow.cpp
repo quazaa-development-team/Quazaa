@@ -911,7 +911,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.dialogHeader);
 		}
 
-		if (item->text(column) == tr("System Log"))
+                if (item->text(column) == tr("Colors"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText("");
@@ -944,7 +944,9 @@ void MainWindow::on_actionOpen_triggered()
 		ui->toolButtonColorWarning->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorWarning.name() + ";}");
 		ui->toolButtonColorError->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorError.name() + ";}");
 		ui->toolButtonColorCritical->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorCritical.name() + ";}");
-		ui->textEditLogPreview->setStyleSheet(skinSettings.standardItems);
+                ui->toolButtonColorNeighborsConnecting->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.neighborsColorConnecting.name() + ";}");
+                ui->toolButtonColorNeighborsConnected->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.neighborsColorConnected.name() + ";}");
+                ui->textEditLogPreview->setStyleSheet(skinSettings.standardItems);
 		if (skinSettings.logWeightInformation == "font-weight:600;")
 		{
 			ui->checkBoxInformationBold->setChecked(true);
@@ -1661,4 +1663,28 @@ void MainWindow::on_checkBoxCriticalBold_clicked(bool checked)
 		skinSettings.logWeightCritical = "";
 		updateLogPreview();
 	}
+}
+
+void MainWindow::on_toolButtonColorNeighborsConnecting_clicked()
+{
+    QColor color = QColorDialog::getColor(skinSettings.neighborsColorConnecting, this);
+    if (color.isValid())
+    {
+            skinSettings.neighborsColorConnecting.setNamedColor(color.name());
+            ui->toolButtonColorNeighborsConnecting->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.neighborsColorConnecting.name() + ";}");
+            updateLogPreview();
+            saved = false;
+    }
+}
+
+void MainWindow::on_toolButtonColorNeighborsConnected_clicked()
+{
+    QColor color = QColorDialog::getColor(skinSettings.neighborsColorConnected, this);
+    if (color.isValid())
+    {
+            skinSettings.neighborsColorConnected.setNamedColor(color.name());
+            ui->toolButtonColorNeighborsConnected->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.neighborsColorConnected.name() + ";}");
+            updateLogPreview();
+            saved = false;
+    }
 }
