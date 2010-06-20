@@ -23,7 +23,8 @@ private:
     Ui::WidgetChat *ui;
 
 private slots:
-	void skinChangeEvent();
+	void on_splitterChat_customContextMenuRequested(QPoint pos);
+ void skinChangeEvent();
 };
 
 #endif // WIDGETCHAT_H

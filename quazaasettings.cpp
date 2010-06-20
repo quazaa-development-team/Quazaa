@@ -1030,6 +1030,10 @@ void QuazaaSettings::saveWindowSettings(QMainWindow *window)
 	m_qSettings.setValue( "ActivitySplitterRestoreBottom", quazaaSettings.WinMain.ActivitySplitterRestoreBottom );
 	m_qSettings.setValue( "ChatRoomsTaskVisible", quazaaSettings.WinMain.ChatRoomsTaskVisible );
 	m_qSettings.setValue( "ChatFriendsTaskVisible", quazaaSettings.WinMain.ChatFriendsTaskVisible );
+	m_qSettings.setValue( "ChatSplitter", quazaaSettings.WinMain.ChatSplitter );
+	m_qSettings.setValue( "ChatSplitterRestoreLeft", quazaaSettings.WinMain.ChatSplitterRestoreLeft );
+	m_qSettings.setValue( "ChatSplitterRestoreMiddle", quazaaSettings.WinMain.ChatSplitterRestoreMiddle );
+	m_qSettings.setValue( "ChatSplitterRestoreRight", quazaaSettings.WinMain.ChatSplitterRestoreRight );
 	m_qSettings.setValue( "ChatToolbars", quazaaSettings.WinMain.ChatToolbars );
 	m_qSettings.setValue( "DiscoveryToolbar", quazaaSettings.WinMain.DiscoveryToolbar );
 	m_qSettings.setValue( "DownloadsToolbar", quazaaSettings.WinMain.DownloadsToolbar );
@@ -1097,6 +1101,10 @@ void QuazaaSettings::loadWindowSettings(QMainWindow *window)
 	quazaaSettings.WinMain.ActiveTab = m_qSettings.value( "ActiveTab", 0 ).toInt();
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = m_qSettings.value( "ChatRoomsTaskVisible", true ).toBool();
 	quazaaSettings.WinMain.ChatFriendsTaskVisible = m_qSettings.value( "ChatFriendsTaskVisible", true ).toBool();
+	quazaaSettings.WinMain.ChatSplitter = m_qSettings.value( "ChatSplitter", QByteArray() ).toByteArray();
+	quazaaSettings.WinMain.ChatSplitterRestoreLeft = m_qSettings.value( "ChatSplitterRestoreLeft", 0 ).toInt();
+	quazaaSettings.WinMain.ChatSplitterRestoreMiddle = m_qSettings.value( "ChatSplitterRestoreMiddle", 0 ).toInt();
+	quazaaSettings.WinMain.ChatSplitterRestoreRight = m_qSettings.value( "ChatSplitterRestoreRight", 0 ).toInt();
 	quazaaSettings.WinMain.ChatToolbars = m_qSettings.value( "ChatToolbars", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.DiscoveryToolbar = m_qSettings.value( "DiscoveryToolbar", QByteArray() ).toByteArray();
 	quazaaSettings.WinMain.DownloadsToolbar = m_qSettings.value( "DownloadsToolbar", QByteArray() ).toByteArray();

@@ -83,3 +83,5 @@ logColorError=@Variant(\0\0\0\x43\x1\xff\xff\xaa\xaa\0\0\0\0\0\0)
 logWeightError="font-weight:600;"
 logColorCritical=@Variant(\0\0\0\x43\x1\xff\xff\xff\xff\0\0\0\0\0\0)
 logWeightCritical="font-weight:600;"
+neighborsColorConnecting=@Variant(\0\0\0\x43\x1\xff\xff\r\r\x11\x11\x1d\x1d\0\0)
+neighborsColorConnected=@Variant(\0\0\0\x43\x1\xff\xff\xff\xff\xff\xff\xff\xff\0\0)
