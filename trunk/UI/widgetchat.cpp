@@ -13,6 +13,7 @@ WidgetChat::WidgetChat(QWidget *parent) :
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	panelChatCenter = new WidgetChatCenter();
+	ui->splitterChat->restoreState(quazaaSettings.WinMain.ChatSplitter);
 	ui->verticalLayoutChatCenter->addWidget(panelChatCenter);
 	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
 	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
@@ -50,6 +51,7 @@ void WidgetChat::skinChangeEvent()
 
 void WidgetChat::saveWidget()
 {
+	quazaaSettings.WinMain.ChatSplitter = ui->splitterChat->saveState();
 	quazaaSettings.WinMain.ChatFriendsTaskVisible = ui->toolButtonChatFriendsHeader->isChecked();
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
 	panelChatCenter->saveWidget();
