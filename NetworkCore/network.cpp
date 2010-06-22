@@ -432,7 +432,8 @@ void CNetwork::DispatchKHL()
 
 	for( ; nCount < (quint32)quazaaSettings.Gnutella2.KHLHubCount && HostCache.size() > nCount; nCount++ )
 	{
-		pKHL->WritePacket("CH", 6)->WriteHostAddress(&HostCache.m_lHosts.at(nCount)->m_oAddress);
+		pKHL->WritePacket("CH", 10)->WriteHostAddress(&HostCache.m_lHosts.at(nCount)->m_oAddress);
+		pKHL->WriteIntLE(&HostCache.m_lHosts.at(nCount)->m_tTimestamp);
 	}
 
 
@@ -661,6 +662,7 @@ void CNetwork::ConnectTo(IPv4_ENDPOINT &addr)
 	m_pRateController->AddSocket(pNew);
 	m_lNodes.append(pNew);
 	pNew->connectToHost(addr);
+	pNew->moveToThread(&NetworkThread);
 }
 
 // WARNING: pNode must be a valid pointer

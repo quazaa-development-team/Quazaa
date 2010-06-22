@@ -49,6 +49,13 @@ CNetworkConnection::~CNetworkConnection()
         m_pSocket->deleteLater();
 }
 
+void CNetworkConnection::moveToThread(QThread *thread)
+{
+	if( m_pSocket )
+		m_pSocket->moveToThread(thread);
+	QTcpSocket::moveToThread(thread);
+}
+
 void CNetworkConnection::connectToHost(IPv4_ENDPOINT oAddress)
 {
     QHostAddress hostAddr(oAddress.ip);
@@ -63,7 +70,7 @@ void CNetworkConnection::connectToHost(IPv4_ENDPOINT oAddress)
     m_pOutput = new QByteArray();
     Q_ASSERT(m_pSocket == 0);
 
-    m_pSocket = new QTcpSocket(this);
+	m_pSocket = new QTcpSocket();
     initializeSocket();
 
     //m_pSocket->connectToHost(hostAddr, m_oAddress.port);
@@ -99,6 +106,7 @@ void CNetworkConnection::AttachTo(QTcpSocket *pOther)
 }
 void CNetworkConnection::initializeSocket()
 {
+	m_pSocket->moveToThread(thread());
     m_pSocket->setReadBufferSize(m_nInputSize);
     connect(m_pSocket, SIGNAL(connected()),
             this, SIGNAL(connected()));
