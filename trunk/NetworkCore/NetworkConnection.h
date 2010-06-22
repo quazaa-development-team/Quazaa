@@ -4,6 +4,7 @@
 #include <QTcpSocket>
 
 #include "types.h"
+class QThread;
 
 class QByteArray;
 
@@ -36,6 +37,7 @@ public:
 public:
     CNetworkConnection(QObject* parent = 0);
     virtual ~CNetworkConnection();
+	void moveToThread(QThread *thread);
 
 public:
     virtual void connectToHost(IPv4_ENDPOINT oAddress);

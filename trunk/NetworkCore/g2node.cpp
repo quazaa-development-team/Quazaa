@@ -183,7 +183,10 @@ void CG2Node::OnRead()
 		catch(...)
         {
 			if( pPacket )
+			{
+				qDebug() << pPacket->ToHex() << "\n" << pPacket->ToASCII();
 				pPacket->Release();
+			}
 
             qDebug() << "Packet error - " << m_oAddress.toString().toAscii();
             m_nState = nsClosing;
@@ -920,13 +923,16 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				HostCache.Add(ip4, tNow + nDiff);
 			}
         }
-		else if( strcmp("TS", szType) == 0 && nLength >= 4 )
+		else if( strcmp("TS", szType) == 0 )
         {
 			if( bCompound )
-				pPacket->SkipCompound();
+				pPacket->SkipCompound(nLength);
 
-			pPacket->ReadIntLE(&nTimestamp);
-            nDiff = tNow - nTimestamp;
+			if( nLength >= 4 )
+			{
+				pPacket->ReadIntLE(&nTimestamp);
+				nDiff = tNow - nTimestamp;
+			}
         }
 		pPacket->m_nPosition = nNext;
 	}

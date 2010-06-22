@@ -2,6 +2,7 @@
 #define DIALOGCONNECTTO_H
 
 #include <QDialog>
+#include "types.h"
 
 namespace Ui {
     class DialogConnectTo;

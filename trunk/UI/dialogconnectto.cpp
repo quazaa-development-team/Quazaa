@@ -3,6 +3,8 @@
 
 #include "QSkinDialog/qskinsettings.h"
 
+#include "network.h"
+
 DialogConnectTo::DialogConnectTo(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogConnectTo)
@@ -35,6 +37,13 @@ void DialogConnectTo::on_pushButtonCancel_clicked()
 
 void DialogConnectTo::on_pushButtonConnect_clicked()
 {
+
+	IPv4_ENDPOINT ip(ui->lineEditIPAddress->text() + ":" + ui->spinBoxPort->text());
+
+	Network.m_pSection.lock();
+	Network.ConnectTo(ip);
+	Network.m_pSection.unlock();
+
 	emit closed();
 	close();
 }
