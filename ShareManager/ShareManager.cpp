@@ -18,6 +18,7 @@ CShareManager::CShareManager(QObject *parent) :
     m_pHashers = new CFileHasher*[m_nHashers];
     memset(m_pHashers, 0, sizeof(CFileHasher*) * m_nHashers);
 }
+
 CShareManager::~CShareManager()
 {
     if( m_pSharedFiles )
@@ -39,10 +40,12 @@ void CShareManager::Initialize()
     m_pSection.unlock();
     ShareManagerThread.start(&m_pSection, this);
 }
+
 void CShareManager::SetupThread()
 {
     QTimer::singleShot(5000, this, SLOT(OnInitialize()));
 }
+
 void CShareManager::OnInitialize()
 {
     m_pSection.lock();
@@ -56,6 +59,7 @@ void CShareManager::OnInitialize()
 
     m_pSection.unlock();
 }
+
 void CShareManager::LoadDatabase()
 {
     qDebug() << "Loading share database...";
@@ -88,8 +92,8 @@ void CShareManager::LoadDatabase()
     }
 
     qDebug() << "Share database loaded, valid files found: " << nFiles << nTotalFiles;
-
 }
+
 void CShareManager::ScanFolder(QString sPath)
 {
     QDir d(sPath);
