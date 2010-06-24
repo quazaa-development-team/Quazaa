@@ -4668,7 +4668,7 @@ p, li { white-space: pre-wrap; }
    <sender>toolButtonNavigationGeneral</sender>
    <signal>toggled(bool)</signal>
    <receiver>listWidgetNavigationGeneral</receiver>
-   <slot>setShown(bool)</slot>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>65</x>
@@ -4684,7 +4684,7 @@ p, li { white-space: pre-wrap; }
    <sender>toolButtonNavigationInternet</sender>
    <signal>toggled(bool)</signal>
    <receiver>listWidgetNavigationInternet</receiver>
-   <slot>setShown(bool)</slot>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>84</x>
@@ -4700,7 +4700,7 @@ p, li { white-space: pre-wrap; }
    <sender>toolButtonNavigationNetworks</sender>
    <signal>toggled(bool)</signal>
    <receiver>listWidgetNavigationNetworks</receiver>
-   <slot>setShown(bool)</slot>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>49</x>
