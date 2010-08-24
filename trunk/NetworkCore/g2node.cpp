@@ -101,6 +101,8 @@ void CG2Node::SetupSlots()
 	connect(this, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
 	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(OnError(QAbstractSocket::SocketError)), Qt::QueuedConnection);
 	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(OnStateChange(QAbstractSocket::SocketState)), Qt::QueuedConnection);
+
+	m_pSocket->setSocketOption(QAbstractSocket::LowDelayOption, QVariant(1));
 }
 
 void CG2Node::OnConnect()
