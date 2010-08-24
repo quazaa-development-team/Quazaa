@@ -414,6 +414,9 @@ void CDatagrams::Remove(DatagramOut *pDG)
 
 void CDatagrams::FlushSendCache()
 {
+	if( !m_bActive )
+		return;
+
 	QMutexLocker l(&Network.m_pSection);
 
     quint32 tNow = time(0);
@@ -487,6 +490,9 @@ void CDatagrams::FlushSendCache()
 
 void CDatagrams::SendPacket(IPv4_ENDPOINT &oAddr, G2Packet *pPacket, bool bAck, DatagramWatcher *pWatcher, void *pParam)
 {
+	if( !m_bActive )
+		return;
+
     Q_UNUSED(pWatcher);
     Q_UNUSED(pParam);
 
