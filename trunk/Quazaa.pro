@@ -2,6 +2,7 @@
 # Project created by QtCreator 2009-12-02T17:28:49
 # -------------------------------------------------
 QT += network \
+	sql \
     phonon
 TARGET = Quazaa
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
@@ -118,10 +119,7 @@ SOURCES += main.cpp \
     Models/searchtreemodel.cpp \
     geoiplist.cpp \
     UI/dialogconnectto.cpp \
-    ShareManager/ShareManager.cpp \
-    ShareManager/SharedFiles.cpp \
-    ShareManager/SharedFile.cpp \
-    ShareManager/FileHasher.cpp
+    NetworkCore/Hashes/Hash.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -223,10 +221,7 @@ HEADERS += UI/dialoglanguage.h \
     Models/searchtreemodel.h \
     geoiplist.h \
     UI/dialogconnectto.h \
-    ShareManager/ShareManager.h \
-    ShareManager/SharedFiles.h \
-    ShareManager/SharedFile.h \
-    ShareManager/FileHasher.h
+    NetworkCore/Hashes/Hash.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \
