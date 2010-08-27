@@ -19,6 +19,7 @@ CShareManager::CShareManager(QObject *parent) :
     QObject(parent)
 {
 	m_bActive = false;
+	m_bReady = false;
 }
 
 void CShareManager::Start()
@@ -53,6 +54,8 @@ void CShareManager::SetupThread()
 	{
 		qDebug() << "Database is corrupted. Recreating...";
 
+		query.exec("PRAGMA legacy_file_format = 0");
+
 		foreach(QString sTable, m_oDatabase.tables())
 		{
 			query.exec(QString("DROP TABLE `%1`").arg(sTable));
@@ -63,12 +66,14 @@ void CShareManager::SetupThread()
 		query.exec("CREATE TABLE 'files' ('file_id' INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , 'dir_id' INTEGER NOT NULL , 'name' VARCHAR(255) NOT NULL , 'size' INTEGER NOT NULL , 'last_modified' INTEGER NOT NULL , 'shared' BOOL NOT NULL  DEFAULT 1);");
 		query.exec("CREATE TABLE 'hashes' ('file_id' INTEGER NOT NULL  UNIQUE , 'sha1' BLOB(20) NOT NULL );");
 		query.exec("CREATE TABLE 'hash_queue' ('dir_id' INTEGER NOT NULL, 'filename' VARCHAR(255) NOT NULL);");
+		query.exec("CREATE TABLE 'keywords' ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 'keyword' TEXT NOT NULL);");
 
 		// indexes
 		query.exec("CREATE INDEX 'dir_id' ON 'files' ('dir_id' ASC);");
 		query.exec("CREATE UNIQUE INDEX 'file_id' ON 'hashes' ('file_id' ASC);");
 		query.exec("CREATE INDEX 'name' ON 'files' ('name' ASC);");
-		query.exec("CREATE UNIQUE INDEX 'dirpath' ON 'dirs' ('path' ASC)");
+		query.exec("CREATE INDEX 'parent' ON 'dirs' ('parent' ASC)");
+		query.exec("CREATE INDEX 'keyword' ON 'keywords' ('keyword' ASC);");
 		query.exec("CREATE INDEX 'sha1' ON 'hashes' ('sha1' ASC);");
 
 		qDebug() << "Database recreated.";
@@ -83,12 +88,13 @@ void CShareManager::SetupThread()
 
 	m_bActive = true;
 
-	QTimer::singleShot(10000, this, SLOT(SyncShares()));
+	QTimer::singleShot(30000, this, SLOT(SyncShares()));
 }
 void CShareManager::Stop()
 {
 	QMutexLocker l(&m_oSection);
 	m_bActive = false;
+	m_bReady = false;
 	ShareManagerThread.exit(0);
 }
 
@@ -153,6 +159,10 @@ void CShareManager::SyncShares()
 	qDebug() << "Syncing Shares...";
 
 	QSqlQuery query(m_oDatabase);
+
+	query.exec("PRAGMA synchronous = 0");
+	query.exec("PRAGMA temp_store = 2");
+
 	query.setForwardOnly(true);
 
 	int nMissingDirs = 0, nMissingFiles = 0, nModifiedFiles = 0;
@@ -338,6 +348,9 @@ void CShareManager::SyncShares()
 		l.relock();
 	}
 
+	query.exec("PRAGMA synchronous = 1");
+	m_bReady = true;
+	emit sharesReady();
 }
 
 // Recursively scan sPath for new files (modified files are already handled)
@@ -377,9 +390,9 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 	qint64 nDirID = 0;
 
 	QSqlQuery query(m_oDatabase);
-	query.prepare("SELECT id FROM dirs WHERE path LIKE ? AND parent = ?");
-	query.bindValue(0, QVariant(sPath));
-	query.bindValue(1, QVariant(nParentID));
+	query.prepare("SELECT id FROM dirs WHERE parent = ? AND path LIKE ?");
+	query.bindValue(0, QVariant(nParentID));
+	query.bindValue(1, QVariant(sPath));
 	if( !query.exec() )
 	{
 		qDebug() << "SQL Query failed (dir id): " << query.lastError().text();
@@ -452,7 +465,7 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 	QList<QString> lSubdirs;
 	lSubdirs = d.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
 
-	m_oDatabase.transaction();
+	/*m_oDatabase.transaction();
 	foreach( QString sDir, lSubdirs )
 	{
 		QSqlQuery insq(m_oDatabase);
@@ -464,7 +477,7 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 			qDebug() << "SQL Query failed (insert dirs):" << insq.lastError().text();
 		}
 	}
-	m_oDatabase.commit();
+	m_oDatabase.commit();*/
 
 	if( !m_bActive )
 		return;

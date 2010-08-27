@@ -15,6 +15,7 @@
 
 #include "queryhashtable.h"
 #include "SearchManager.h"
+#include "ShareManager.h"
 #include "ManagedSearch.h"
 #include "Query.h"
 
@@ -42,6 +43,9 @@ CNetwork::CNetwork(QObject *parent)
 	m_nTotalPeriods = 0;
 
     m_pHashTable = new QueryHashTable(); // do wywalenia
+
+	m_bSharesReady = false;
+	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(OnSharesReady()));
 
 }
 CNetwork::~CNetwork()
@@ -125,6 +129,8 @@ void CNetwork::SetupThread()
 
 	Datagrams.Listen();
 	Handshakes.Listen();
+
+	m_bSharesReady = ShareManager.SharesReady();
 }
 void CNetwork::CleanupThread()
 {
@@ -685,4 +691,9 @@ void CNetwork::DisconnectFrom(IPv4_ENDPOINT &ip)
 			break;
 		}
 	}
+}
+void CNetwork::OnSharesReady()
+{
+	qDebug() << "Shares ready.";
+	m_bSharesReady = true;
 }

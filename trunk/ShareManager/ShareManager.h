@@ -16,6 +16,7 @@ protected:
 	QMutex			m_oSection;
 	QSqlDatabase	m_oDatabase;
 	bool			m_bActive;
+	bool			m_bReady;
 public:
     explicit CShareManager(QObject *parent = 0);
 
@@ -31,7 +32,13 @@ public:
 
 	void ScanFolder(QString sPath, qint64 nParentID = 0);
 
+	bool SharesReady()
+	{
+		return m_bReady;
+	}
+
 signals:
+	void sharesReady();
 
 public slots:
 	void SetupThread();
