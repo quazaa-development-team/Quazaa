@@ -45,6 +45,8 @@ public:
 	quint32			 m_nBusyPeriods;	// num of busy periods
 	quint32			 m_nTotalPeriods;	// how many check periods?
 
+	bool			 m_bSharesReady;
+
 public:
     CNetwork(QObject* parent = 0);
     ~CNetwork();
@@ -108,6 +110,8 @@ public slots:
 	void DisconnectFrom(IPv4_ENDPOINT& ip);
 	void DisconnectFrom(int index);
 	void DisconnectFrom(CG2Node* pNode);
+
+	void OnSharesReady();
 
 signals:
     void NodeAdded(CG2Node*);

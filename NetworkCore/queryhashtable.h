@@ -24,8 +24,11 @@ public:
 
     void Reset();
     void AddWord(QByteArray sWord);
+	void AddPhrase(QString sPhrase);
 
     void PatchTo(CG2Node* pNode);
+
+	static int MakeKeywords(QString sPhrase, QStringList& outList);
 
 public:
     inline quint32 HashBits() const

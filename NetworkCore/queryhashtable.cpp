@@ -55,6 +55,19 @@ void QueryHashTable::AddWord(QByteArray sWord)
     Add(sWord.data(), sWord.size());
 }
 
+void QueryHashTable::AddPhrase(QString sPhrase)
+{
+	QStringList keywords;
+
+	if( QueryHashTable::MakeKeywords(sPhrase, keywords) )
+	{
+		foreach( QString kw, keywords )
+		{
+			AddWord(kw.toUtf8());
+		}
+	}
+}
+
 void QueryHashTable::PatchTo(CG2Node* pNode)
 {
     if( Network.isHub() )
@@ -68,4 +81,42 @@ void QueryHashTable::PatchTo(CG2Node* pNode)
     }*/
 
 
+}
+int QueryHashTable::MakeKeywords(QString sPhrase, QStringList &outList)
+{
+	qDebug() << "Making keywords from:" << sPhrase;
+
+	// remove all garbage from phrase
+	sPhrase = sPhrase.replace(QRegExp("\\W"), " ").simplified().toLower();
+
+	// and split it into words
+	QStringList lOut;
+	lOut = sPhrase.split(" ", QString::SkipEmptyParts);
+
+	// now filter out too short words and only numeric
+	QRegExp rx("^\\d+$");
+	foreach( QString sWord, lOut )
+	{
+		// not specs compliant, Shareaza does this too
+		if( sWord.length() < 4 )
+			continue;
+
+		if( rx.indexIn(sWord) != -1 )
+			continue;
+
+		outList.append(sWord);
+
+		if( sWord.length() > 5 )
+		{
+			outList.append(sWord.left(sWord.length() - 1));
+			outList.append(sWord.left(sWord.length() - 2));
+		}
+	}
+
+	foreach( QString sDebug, outList )
+	{
+		qDebug() << "Added keyword:" << sDebug;
+	}
+
+	return outList.size();
 }
