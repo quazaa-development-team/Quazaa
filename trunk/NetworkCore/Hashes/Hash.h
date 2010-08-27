@@ -18,8 +18,10 @@ protected:
 	QByteArray			m_baRawValue;
 
 public:
+	CHash(const CHash& rhs);
 	CHash(CHash::Algorithm algo);
 	CHash(QByteArray baRaw, CHash::Algorithm algo);
+	~CHash();
 
 	static int	ByteCount(CHash::Algorithm algo);
 
@@ -32,6 +34,12 @@ public:
 
 	void AddData(const char* pData, quint32 nLength);
 	void AddData(QByteArray& baData);
+
+	QString GetFamilyName();
+	void Finalize()
+	{
+		RawValue();
+	}
 };
 
 #endif // HASH_H

@@ -3,6 +3,19 @@
 #include "3rdparty/CyoEncode/CyoEncode.h"
 #include "3rdparty/CyoEncode/CyoDecode.h"
 
+CHash::CHash(const CHash &rhs)
+{
+	qDebug() << "Calling CHash copy ctor";
+
+	if( !rhs.m_bFinalized )
+		qWarning() << "WARNING: Copying non-finalized CHash";
+
+	m_baRawValue = rhs.m_baRawValue;
+	m_nHashAlgorithm = rhs.m_nHashAlgorithm;
+	m_bFinalized = true;
+	m_pContext = 0;
+}
+
 CHash::CHash(CHash::Algorithm algo)
 {
 	m_bFinalized = false;
@@ -33,7 +46,21 @@ CHash::CHash(QByteArray baRaw, CHash::Algorithm algo)
 	m_pContext = 0;
 	m_bFinalized = true;
 }
+CHash::~CHash()
+{
+	if( m_pContext )
+	{
+		switch( m_nHashAlgorithm )
+		{
+		case CHash::SHA1:
+		case CHash::MD5:
+		case CHash::MD4:
+			delete ((QCryptographicHash*)m_pContext);
+		}
+	}
+}
 
+// Returns raw hash length by hash family
 int CHash::ByteCount(CHash::Algorithm algo)
 {
 	switch( algo )
@@ -49,6 +76,7 @@ int CHash::ByteCount(CHash::Algorithm algo)
 	}
 }
 
+// Parses URN and returns CHash pointer if conversion succeed, 0 otherwise
 CHash* CHash::FromURN(QString sURN)
 {
 	// try to get hash family from URN
@@ -93,6 +121,7 @@ CHash* CHash::FromRaw(QByteArray &baRaw, CHash::Algorithm algo)
 	return 0;
 }
 
+// Returns URN as string
 QString CHash::ToURN()
 {
 	switch( m_nHashAlgorithm )
@@ -106,6 +135,8 @@ QString CHash::ToURN()
 
 	return QString();
 }
+
+// Returns hash value as a string in most natural encoding
 QString CHash::ToString()
 {
 	char pBuff[128];
@@ -122,6 +153,8 @@ QString CHash::ToString()
 
 	return QString(pBuff);
 }
+
+// Returns raw hash value, finalizing hash calculation if needed
 QByteArray CHash::RawValue()
 {
 	if( !m_bFinalized )
@@ -158,4 +191,19 @@ void CHash::AddData(const char *pData, quint32 nLength)
 void CHash::AddData(QByteArray &baData)
 {
 	AddData(baData.data(), baData.length());
+}
+
+QString CHash::GetFamilyName()
+{
+	switch( m_nHashAlgorithm )
+	{
+	case CHash::SHA1:
+		return QString("sha1");
+	case CHash::MD5:
+		return QString("md5");
+	case CHash::MD4:
+		return QString("md4");
+	}
+
+	return "";
 }

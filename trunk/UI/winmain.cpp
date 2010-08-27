@@ -27,9 +27,13 @@
 #include "network.h"
 #include "datagrams.h"
 #include "geoiplist.h"
+#include "ShareManager.h"
 
-#include "NetworkCore/network.h" // not sure that it is right place, but...
 #include <QTimer>
+
+void WinMain::quazaaStartup()
+{
+}
 
 WinMain::WinMain(QWidget *parent) :
     QMainWindow(parent),
@@ -39,38 +43,14 @@ WinMain::WinMain(QWidget *parent) :
 
 	//Initialize vaiables
 	bypassCloseEvent = false;
-
-	//Initialize Skin Settings
-	quazaaSettings.loadSkinSettings();
-	skinSettings.loadSkin(quazaaSettings.Skin.File);
-	skinChangeEvent();
-
-	//Initialize Settings
-	quazaaSettings.loadSettings();
 	interfaceLoaded = false;
 
-	//Initialize multilanguage support
-	quazaaSettings.loadLanguageSettings();
+	skinChangeEvent();
 
-	if (quazaaSettings.FirstRun())
-	{
-		QSkinDialog *skinDlgLanguage = new QSkinDialog(false, true, false, this);
-		DialogLanguage *dlgLanguage = new DialogLanguage();
-		skinDlgLanguage->addChildWidget(dlgLanguage);
-		QObject::connect(dlgLanguage, SIGNAL(closed()), skinDlgLanguage, SLOT(close()));
-		skinDlgLanguage->exec();
-	}
+	ui->actionAres->setChecked(quazaaSettings.Ares.Enable);
+	ui->actionEDonkey->setChecked(quazaaSettings.EDonkey.Enable);
+	ui->actionGnutella2->setChecked(quazaaSettings.Gnutella2.Enable);
 
-	quazaaGlobals.translator.load(quazaaSettings.Language.File);
-	qApp->installTranslator(&quazaaGlobals.translator);
-
-	qApp->processEvents();
-
-	//Create splash window
-	DialogSplash *dlgSplash = new DialogSplash();
-	dlgSplash->show();
-
-	dlgSplash->updateProgress(5, tr("Loading User Interface..."));
 	//Load And Set Up User Interface
 	quazaaSettings.loadWindowSettings(this);
 	restoreState(quazaaSettings.WinMain.MainToolbar);
@@ -237,65 +217,32 @@ WinMain::WinMain(QWidget *parent) :
 	connect(pageHome, SIGNAL(triggerLibrary()), this, SLOT(on_actionLibrary_triggered()));
 	connect(pageHome, SIGNAL(triggerSecurity()), this, SLOT(on_actionSecurity_triggered()));
 	connect(pageHome, SIGNAL(triggerTransfers()), this, SLOT(on_actionTransfers_triggered()));
+
+	QSortFilterProxyModel *neighboursSortModel = new QSortFilterProxyModel(this);
+	neighboursList = new CNeighboursTableModel(this);
+	neighboursSortModel->setSourceModel(neighboursList);
+	pageActivity->panelNeighbors->setModel(neighboursSortModel);
+	//pageActivity->panelNeighbors->setModel(neighboursList);
+	neighboursSortModel->setDynamicSortFilter(true);
+
+	neighboursRefresher = new QTimer(this);
+	connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
+	connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateBandwidth()));
+	connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbors, SLOT(updateG2()));
+	neighboursRefresher->start(1000);
+	update();
+	qApp->processEvents();
+
 	interfaceLoaded = true;
 
-	//Load profile
-	dlgSplash->updateProgress(8, tr("Loading Profile..."));
-	quazaaSettings.loadProfile();
+}
 
-	//Check if this is Quazaa's first run
-	dlgSplash->updateProgress(9, tr("Checking for first run..."));
-	if (quazaaSettings.FirstRun())
-	{
-		dlgSplash->updateProgress(10, tr("Running first run wizard..."));
-		quazaaSettings.saveFirstRun(false);
-		quazaaSettings.saveSettings();
-		quazaaSettings.saveProfile();
-		QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false, this);
-		DialogWizard *dlgWizard = new DialogWizard();
-
-		dlgSkinWizard->addChildWidget(dlgWizard);
-
-		connect(dlgWizard, SIGNAL(closed()), dlgSkinWizard, SLOT(close()));
-		dlgSkinWizard->exec();
-	}
-
-	//Load the library
-	dlgSplash->updateProgress(15, tr("Loading Library..."));
-	qApp->processEvents();
-
-	//Load the networks
-	dlgSplash->updateProgress(20, tr("Loading Networks..."));
-	qApp->processEvents();
-
-	//initialize geoip list
-	GeoIP.loadGeoIP();
-
-	ui->actionAres->setChecked(quazaaSettings.Ares.Enable);
-	ui->actionEDonkey->setChecked(quazaaSettings.EDonkey.Enable);
-	ui->actionGnutella2->setChecked(quazaaSettings.Gnutella2.Enable);
-		//G2
-		dlgSplash->updateProgress(25, tr("Loading Networks: G2..."));
-		qApp->processEvents();
-		if( quazaaSettings.Gnutella2.Enable )
-			Network.Connect();
-
-		QSortFilterProxyModel *neighboursSortModel = new QSortFilterProxyModel(this);
-		neighboursList = new CNeighboursTableModel(this);
-		neighboursSortModel->setSourceModel(neighboursList);
-		pageActivity->panelNeighbors->setModel(neighboursSortModel);
-		//pageActivity->panelNeighbors->setModel(neighboursList);
-		neighboursSortModel->setDynamicSortFilter(true);
-
-		neighboursRefresher = new QTimer(this);
-		connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
-		connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateBandwidth()));
-		connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbors, SLOT(updateG2()));
-		neighboursRefresher->start(1000);
-
-	// Tray icon construction
-	dlgSplash->updateProgress(95, tr("Loading Tray Icon..."));
-	qApp->processEvents();
+WinMain::~WinMain()
+{
+    delete ui;
+}
+void WinMain::loadTrayIcon()
+{
 	// Create the system tray right click menu.
 	trayMenu = new QMenu(this);
 	trayMenu->addAction(ui->actionShowOrHide);
@@ -321,14 +268,6 @@ WinMain::WinMain(QWidget *parent) :
 	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 			this, SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
 	trayIcon->show();
-	dlgSplash->updateProgress(100, tr("Welcome to Quazaa!"));
-	qApp->processEvents();
-		dlgSplash->close();
-}
-
-WinMain::~WinMain()
-{
-    delete ui;
 }
 
 bool WinMain::event(QEvent *e)
@@ -495,6 +434,7 @@ void WinMain::quazaaShutdown()
 	neighboursRefresher->stop();
 	delete neighboursRefresher;
 	Network.Disconnect();
+	ShareManager.Stop();
 
 	dlgSplash->updateProgress(10, tr("Saving Settings..."));
 	quazaaSettings.saveSettings();

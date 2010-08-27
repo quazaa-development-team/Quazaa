@@ -33,7 +33,9 @@ class WinMain : public QMainWindow {
 public:
     WinMain(QWidget *parent = 0);
     ~WinMain();
+	void loadTrayIcon();
 	bool event(QEvent *e);
+
 	bool interfaceLoaded;
 	QTimer* neighboursRefresher;
 	CNeighboursTableModel* neighboursList;
@@ -72,33 +74,33 @@ private:
 
 private slots:
 	void on_actionConnectTo_triggered();
- void on_actionAres_triggered(bool checked);
- void on_actionGnutella2_triggered(bool checked);
- void on_actionEDonkey_triggered(bool checked);
- void on_actionDisconnect_triggered();
- void on_actionConnect_triggered();
- void on_actionNewSearch_triggered();
- void on_actionEditMyProfile_triggered();
- void on_actionQuazaaForums_triggered();
- void on_actionDonate_triggered();
- void on_actionCheckForNewVersion_triggered();
- void on_actionConnectionTest_triggered();
- void on_actionFAQ_triggered();
- void on_actionUsersGuide_triggered();
- void on_actionQuickstartWizard_triggered();
- void on_actionChooseLanguage_triggered();
- void on_actionChooseSkin_triggered();
- void on_actionImportPartials_triggered();
- void on_actionURLDownload_triggered();
- void on_actionOpenDownloadFolder_triggered();
- void on_actionShares_triggered();
- void on_actionOpenTorrent_triggered();
- void on_actionSeedTorrent_triggered();
- void on_actionCreateTorrent_triggered();
- void on_actionSettings_triggered();
- void on_actionAbout_triggered();
- void on_actionExit_triggered();
- void on_actionShowOrHide_triggered();
+	 void on_actionAres_triggered(bool checked);
+	 void on_actionGnutella2_triggered(bool checked);
+	 void on_actionEDonkey_triggered(bool checked);
+	 void on_actionDisconnect_triggered();
+	 void on_actionConnect_triggered();
+	 void on_actionNewSearch_triggered();
+	 void on_actionEditMyProfile_triggered();
+	 void on_actionQuazaaForums_triggered();
+	 void on_actionDonate_triggered();
+	 void on_actionCheckForNewVersion_triggered();
+	 void on_actionConnectionTest_triggered();
+	 void on_actionFAQ_triggered();
+	 void on_actionUsersGuide_triggered();
+	 void on_actionQuickstartWizard_triggered();
+	 void on_actionChooseLanguage_triggered();
+	 void on_actionChooseSkin_triggered();
+	 void on_actionImportPartials_triggered();
+	 void on_actionURLDownload_triggered();
+	 void on_actionOpenDownloadFolder_triggered();
+	 void on_actionShares_triggered();
+	 void on_actionOpenTorrent_triggered();
+	 void on_actionSeedTorrent_triggered();
+	 void on_actionCreateTorrent_triggered();
+	 void on_actionSettings_triggered();
+	 void on_actionAbout_triggered();
+	 void on_actionExit_triggered();
+	 void on_actionShowOrHide_triggered();
 	void on_actionHitMonitor_triggered();
 	void on_actionSearchMonitor_triggered();
 	void on_actionPacketDump_triggered();
@@ -115,6 +117,7 @@ private slots:
     void on_actionLibrary_triggered();
     void on_actionHome_triggered();
 	void quazaaShutdown();
+	void quazaaStartup();
 	void icon_activated(QSystemTrayIcon::ActivationReason reason);
 	void skinChangeEvent();
 	void startNewSearch(QString *searchString);
