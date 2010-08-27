@@ -119,7 +119,9 @@ SOURCES += main.cpp \
     Models/searchtreemodel.cpp \
     geoiplist.cpp \
     UI/dialogconnectto.cpp \
-    NetworkCore/Hashes/Hash.cpp
+    NetworkCore/Hashes/Hash.cpp \
+    ShareManager/ShareManager.cpp \
+    ShareManager/SharedFile.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -221,7 +223,9 @@ HEADERS += UI/dialoglanguage.h \
     Models/searchtreemodel.h \
     geoiplist.h \
     UI/dialogconnectto.h \
-    NetworkCore/Hashes/Hash.h
+    NetworkCore/Hashes/Hash.h \
+    ShareManager/ShareManager.h \
+    ShareManager/SharedFile.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \
