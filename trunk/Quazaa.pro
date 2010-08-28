@@ -2,8 +2,7 @@
 # Project created by QtCreator 2009-12-02T17:28:49
 # -------------------------------------------------
 QT += network \
-	sql \
-    phonon
+	sql
 TARGET = Quazaa
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 INCLUDEPATH += NetworkCore \
@@ -57,8 +56,7 @@ SOURCES += main.cpp \
     qtsingleapplication/src/qtlockedfile_win.cpp \
     qtsingleapplication/src/qtlockedfile_unix.cpp \
     qtsingleapplication/src/qtlockedfile.cpp \
-    qtsingleapplication/src/qtlocalpeer.cpp \
-    phononmediaplayer.cpp \
+	qtsingleapplication/src/qtlocalpeer.cpp \
     quazaairc.cpp \
     NetworkCore/ZLibUtils.cpp \
     NetworkCore/webcache.cpp \
@@ -157,8 +155,7 @@ HEADERS += UI/dialoglanguage.h \
     qtsingleapplication/src/qtsingleapplication.h \
     qtsingleapplication/src/qtlockedfile.h \
     qtsingleapplication/src/qtlocalpeer.h \
-    qtsingleapplication/src/qtsinglecoreapplication.h \
-    phononmediaplayer.h \
+	qtsingleapplication/src/qtsinglecoreapplication.h \
     quazaairc.h \
     NetworkCore/ZLibUtils.h \
     NetworkCore/webcache.h \
