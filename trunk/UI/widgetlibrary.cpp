@@ -79,3 +79,8 @@ void WidgetLibrary::on_splitterLibrary_customContextMenuRequested(QPoint pos)
 		}
 	}
 }
+
+void WidgetLibrary::initializeLibrary()
+{
+
+}
