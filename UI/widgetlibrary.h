@@ -22,10 +22,13 @@ protected:
 private:
     Ui::WidgetLibrary *ui;
 
+public slots:
+	void initializeLibrary();
+
 private slots:
 	void on_splitterLibrary_customContextMenuRequested(QPoint pos);
- void on_toolButtonLibraryEditShares_clicked();
- void skinChangeEvent();
+	void on_toolButtonLibraryEditShares_clicked();
+	void skinChangeEvent();
 };
 
 #endif // WIDGETLIBRARY_H

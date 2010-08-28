@@ -44,7 +44,7 @@ class WidgetSearchTemplate : public QWidget {
 
 public:
 	WidgetSearchTemplate(QString searchString = "", QWidget *parent = 0);
-    ~WidgetSearchTemplate();
+	~WidgetSearchTemplate();
 	SearchTreeModel *searchModel;
 	CManagedSearch* m_pSearch;
 
