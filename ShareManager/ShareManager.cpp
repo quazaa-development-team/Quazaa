@@ -29,6 +29,7 @@ void CShareManager::Start()
 	ShareManagerThread.setObjectName("ShareManager Thread");
 	ShareManagerThread.start(&m_oSection, this);
 }
+
 void CShareManager::SetupThread()
 {
 	qDebug() << "Setting up ShareManager thread";
@@ -90,6 +91,7 @@ void CShareManager::SetupThread()
 
 	QTimer::singleShot(30000, this, SLOT(SyncShares()));
 }
+
 void CShareManager::Stop()
 {
 	QMutexLocker l(&m_oSection);
@@ -114,6 +116,7 @@ void CShareManager::AddDir(QString sPath)
 {
 
 }
+
 void CShareManager::RemoveDir(QString sPath)
 {
 	QSqlQuery query(m_oDatabase);
@@ -127,6 +130,7 @@ void CShareManager::RemoveDir(QString sPath)
 		RemoveDir(query.record().value(0).toUInt());
 	}
 }
+
 void CShareManager::RemoveDir(quint64 nId)
 {
 	QSqlQuery delq(m_oDatabase);
@@ -141,10 +145,12 @@ void CShareManager::RemoveDir(quint64 nId)
 	delq.exec(QString("DELETE FROM files WHERE dir_id = %1").arg(nId));
 	delq.exec(QString("DELETE FROM dirs WHERE id = %1").arg(nId));
 }
+
 void CShareManager::RemoveFile(QString sPath)
 {
 
 }
+
 void CShareManager::RemoveFile(quint64 nFileId)
 {
 	QSqlQuery delq(m_oDatabase);
