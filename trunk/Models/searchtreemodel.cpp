@@ -278,7 +278,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 		QModelIndex idx2 = index(rootItem->childCount(), 10, QModelIndex());
 		emit dataChanged(idx1, idx2);
 
-                pHit2 = pHit2->m_pNext;
+		pHit2 = pHit2->m_pNext;
 	}
 }
 
