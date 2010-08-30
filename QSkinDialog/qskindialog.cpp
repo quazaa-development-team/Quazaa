@@ -10,6 +10,7 @@
  * COMMENTARY   : The core of QSkinDialog, a library allowing skinning in Qt through
  *				  style sheets. It is written for reuse in multiple programs.
  ********************************************************************************************************/
+
 #include "qskindialog.h"
 #include "ui_qskindialog.h"
 #include "qskinsettings.h"
