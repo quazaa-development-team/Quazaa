@@ -10,6 +10,7 @@
  * COMMENTARY   : This is where the style sheets for he current skin will actually be
  *				  held, loaded and saved.
  ********************************************************************************************************/
+
 #include "qskinsettings.h"
 #include <QFileDialog>
 #include <QApplication>
