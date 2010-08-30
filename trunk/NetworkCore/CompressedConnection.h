@@ -12,7 +12,7 @@ class CCompressedConnection : public CNetworkConnection
 {
     Q_OBJECT
 
-protected:
+public:
     z_stream    m_sInput;           // stream-y zlib-a
     z_stream    m_sOutput;
     bool        m_bCompressedInput; // czy kompresja wlaczona?

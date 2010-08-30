@@ -1,6 +1,7 @@
 #ifndef SHAREMANAGER_H
 #define SHAREMANAGER_H
 
+#include <QList>
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -14,9 +15,12 @@ class CShareManager : public QObject
 
 protected:
 	QMutex			m_oSection;
+	QWaitCondition	m_oQueryCond;
 	QSqlDatabase	m_oDatabase;
 	bool			m_bActive;
 	bool			m_bReady;
+
+	QList<QSqlRecord> m_lQueryResults;
 public:
     explicit CShareManager(QObject *parent = 0);
 
@@ -37,8 +41,10 @@ public:
 		return m_bReady;
 	}
 
+	QList<QSqlRecord> Query(const QString sQuery);
 signals:
 	void sharesReady();
+	void executeQuery(const QString& sQuery);
 
 public slots:
 	void SetupThread();
@@ -46,6 +52,7 @@ public slots:
 
 protected slots:
 	void SyncShares();
+	void execQuery(const QString& sQuery);
 };
 
 extern CThread ShareManagerThread;

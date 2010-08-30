@@ -6,6 +6,7 @@
 #include <QQueue>
 
 class G2Packet;
+class QueryHashTable;
 
 enum G2NodeState { nsClosed, nsConnecting, nsHandshaking, nsConnected, nsClosing, nsError };
 
@@ -37,6 +38,12 @@ public:
     quint32         m_tKeyRequest;
 
     QQueue<G2Packet*>   m_lSendQueue;
+
+	QueryHashTable*	m_pRemoteTable;
+	QueryHashTable*	m_pLocalTable;
+
+	bool			m_bSendQHT;
+	quint32			m_tLastQHT;
 
 public:
     CG2Node(QObject *parent = 0);
