@@ -112,6 +112,7 @@ public slots:
 	void DisconnectFrom(CG2Node* pNode);
 
 	void OnSharesReady();
+	void OnLocalHashTableUpdate();
 
 signals:
     void NodeAdded(CG2Node*);

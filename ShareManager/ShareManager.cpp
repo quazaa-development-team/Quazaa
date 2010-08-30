@@ -11,12 +11,13 @@
 
 #include "quazaasettings.h"
 #include "SharedFile.h"
+#include "types.h"
 
 CThread ShareManagerThread;
 CShareManager ShareManager;
 
 CShareManager::CShareManager(QObject *parent) :
-    QObject(parent)
+	QObject(parent)
 {
 	m_bActive = false;
 	m_bReady = false;
@@ -90,6 +91,8 @@ void CShareManager::SetupThread()
 	m_bActive = true;
 
 	QTimer::singleShot(30000, this, SLOT(SyncShares()));
+
+	connect(this, SIGNAL(executeQuery(const QString&)), this, SLOT(execQuery(const QString&)), Qt::QueuedConnection);
 }
 
 void CShareManager::Stop()
@@ -97,6 +100,7 @@ void CShareManager::Stop()
 	QMutexLocker l(&m_oSection);
 	m_bActive = false;
 	m_bReady = false;
+	disconnect(SIGNAL(executeQuery(const QString&)), this, SLOT(execQuery(const QString&)));
 	ShareManagerThread.exit(0);
 }
 
@@ -356,7 +360,8 @@ void CShareManager::SyncShares()
 
 	query.exec("PRAGMA synchronous = 1");
 	m_bReady = true;
-	emit sharesReady();
+	if( m_bActive )
+		emit sharesReady();
 }
 
 // Recursively scan sPath for new files (modified files are already handled)
@@ -494,4 +499,40 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 	{
 		ScanFolder(d.absolutePath() + "/" + sDir, nDirID);
 	}
+}
+
+// meant to be called from other threads
+// Don't call it from ShareManager thread or it will deadlock
+QList<QSqlRecord> CShareManager::Query(const QString sQuery)
+{
+	QMutexLocker l(&m_oSection);
+
+	m_lQueryResults.clear();
+	emit executeQuery(sQuery);
+	m_oQueryCond.wait(&m_oSection);
+
+	QList<QSqlRecord> lRecs = m_lQueryResults;
+	m_lQueryResults.clear();
+
+	return lRecs;
+}
+void CShareManager::execQuery(const QString &sQuery)
+{
+	m_oSection.lock();
+
+	QSqlQuery query(m_oDatabase);
+	if( !query.exec(sQuery) )
+	{
+		qDebug() << "SQL Query failed: " << query.lastError().text();
+	}
+	else
+	{
+		while( query.next() )
+		{
+			m_lQueryResults.append(query.record());
+		}
+	}
+
+	m_oQueryCond.wakeAll();
+	m_oSection.unlock();
 }

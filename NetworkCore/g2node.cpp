@@ -6,6 +6,7 @@
 #include "datagrams.h"
 #include "SearchManager.h"
 #include "QueryHit.h"
+#include "queryhashtable.h"
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
@@ -27,12 +28,23 @@ CG2Node::CG2Node(QObject *parent) :
     m_tLastQuery = 0;
     m_tKeyRequest= 0;
 	m_bCachedKeys = false;
+
+	m_bSendQHT = false;
+	m_tLastQHT = 0;
+	m_pLocalTable = 0;
+	m_pRemoteTable = 0;
 }
 
 CG2Node::~CG2Node()
 {
     while( m_lSendQueue.size() )
         m_lSendQueue.dequeue()->Release();
+
+	if( m_pLocalTable )
+		delete m_pLocalTable;
+
+	if( m_pRemoteTable )
+		delete m_pRemoteTable;
 
     Network.RemoveNode(this);
 }
@@ -273,6 +285,13 @@ void CG2Node::OnTimer(quint32 tNow)
             return;
 		}*/
 
+		if( m_bSendQHT && tNow - m_tLastQHT >= 60 )
+		{
+			Network.m_pHashTable->PatchTo(this);
+			m_bSendQHT = false;
+			m_tLastQHT = tNow;
+		}
+
         FlushSendQueue(true);
     }
     else if( m_nState == nsClosing )
@@ -407,6 +426,11 @@ void CG2Node::ParseIncomingHandshake()
 
         SendStartups();
         m_tLastPacketIn = m_tLastPacketOut = time(0);
+		if( m_nType == G2_HUB )
+		{
+			m_bSendQHT = true;
+			m_tLastQHT = time(0);
+		}
 
 
     }
@@ -541,6 +565,12 @@ void CG2Node::ParseOutgoingHandshake()
 
     SendStartups();
     m_tLastPacketIn = m_tLastPacketOut = time(0);
+
+	if( m_nType == G2_HUB )
+	{
+		m_bSendQHT = true;
+		m_tLastQHT = time(0);
+	}
 
 }
 void CG2Node::Send_ConnectError(QString sReason)

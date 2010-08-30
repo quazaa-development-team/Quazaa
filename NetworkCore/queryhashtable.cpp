@@ -3,6 +3,8 @@
 #include "network.h"
 #include "g2node.h"
 #include "g2packet.h"
+#include "ZLibUtils.h"
+#include <QByteArray>
 
 QueryHashTable::QueryHashTable()
 {
@@ -70,16 +72,98 @@ void QueryHashTable::AddPhrase(QString sPhrase)
 
 void QueryHashTable::PatchTo(CG2Node* pNode)
 {
+	Q_ASSERT(pNode->m_nType == G2_HUB);
+
     if( Network.isHub() )
     {
         // tu robienie QHT do wymiany z innymi hubami (jesli hub)
     }
 
-    /*if( pNode->m_pLocalTable == 0 )
+	bool bReset = false;
+
+	if( pNode->m_pLocalTable == 0 )
     {
         pNode->m_pLocalTable = new QueryHashTable();
-    }*/
+		bReset = true;
+	}
 
+	if( bReset )
+	{
+		G2_QHT_RESET reset;
+		memset(&reset, 0, sizeof(G2_QHT_RESET));
+
+		reset.nCmd = 0;
+		reset.nInfinity = 1;
+		reset.nTableSize = TableSizeBits();
+
+		G2Packet* pReset = G2Packet::New("QHT");
+		pReset->Write((void*)&reset, sizeof(G2_QHT_RESET));
+		pNode->m_lSendQueue.enqueue(pReset);
+
+		qDebug() << "Sending QHT reset to " << pNode->m_oAddress.toString();
+	}
+
+	quint32* pThis = reinterpret_cast<quint32*>(m_pTable);
+	quint32* pThat = reinterpret_cast<quint32*>(pNode->m_pLocalTable->m_pTable);
+
+	int nUints = TableSize() / 4;
+
+	for( int i = 0; i < nUints; i++ )
+	{
+		quint32 nTemp = *pThis;
+		*pThat ^= *pThis;
+		//*pThat = nTemp;
+		pThis++;
+		pThat++;
+	}
+
+	quint32 nSize = TableSize();
+	char* pTable = pNode->m_pLocalTable->m_pTable;
+	bool bCompressed = false;
+
+	QByteArray ar;
+	if( !pNode->m_bCompressedOutput )
+	{
+		// compress the table if connection is not compressed
+
+		bCompressed = true;
+		ar.append(pTable, pNode->m_pLocalTable->TableSize());
+
+		ZLibUtils::Compress(ar);
+
+		pTable = ar.data();
+		nSize = ar.size();
+	}
+
+
+	quint32 nFrags = 1;
+	const quint32 nFragSize = 4096;
+	quint32 nToWrite = TableSize();
+
+	while( nSize > nFrags * nFragSize )
+		nFrags++;
+
+	quint32 nOffset = 0;
+	for( char nFrag = 1; nFrag <= nFrags; nFrag++ )
+	{
+		G2_QHT_PATCH p;
+		p.nCmd = 1;
+		p.nBits = 1;
+		p.nCompression = (bCompressed ? 1 : 0);
+		p.nFragCount = nFrags;
+		p.nFragNum = nFrag;
+
+		G2Packet* pPatch = G2Packet::New("QHT");
+		pPatch->Write((void*)&p, sizeof(p));
+
+		quint32 nFs = qMin(nToWrite, nFragSize);
+
+		pPatch->Write((void*)(pTable + nOffset), nFs);
+
+		nOffset += nFs;
+		nToWrite -= nFs;
+		pNode->m_lSendQueue.enqueue(pPatch);
+	}
 
 }
 int QueryHashTable::MakeKeywords(QString sPhrase, QStringList &outList)
