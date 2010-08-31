@@ -28,7 +28,7 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 
-#include "Thread.h"
+#include "thread.h"
 #include "SharedFile.h"
 
 class CShareManager : public QObject
