@@ -22,7 +22,7 @@
 #include "datagramfrags.h"
 #include <QByteArray>
 #include "g2packet.h"
-#include "ZLibUtils.h"
+#include "zlibutils.h"
 #include "datagrams.h"
 
 #include "quazaasettings.h"

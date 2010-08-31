@@ -22,7 +22,7 @@
 #ifndef SHA1_H
 #define SHA1_H
 
-#include "NetworkCore/Hashes/AbstractHash.h"
+#include "NetworkCore/Hashes/abstracthash.h"
 #include <QCryptographicHash>
 
 class CSHA1 : public CAbstractHash

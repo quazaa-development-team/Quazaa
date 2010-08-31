@@ -26,8 +26,8 @@
 #include <QMutex>
 #include <QList>
 #include "types.h"
-#include "RateController.h"
-#include "RouteTable.h"
+#include "ratecontroller.h"
+#include "routetable.h"
 
 class QTimer;
 class CG2Node;

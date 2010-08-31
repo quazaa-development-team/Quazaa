@@ -32,7 +32,7 @@ namespace Ui {
 class CManagedSearch;
 class CQuery;
 //class CQueryHit;
-#include "NetworkCore/QueryHit.h"
+#include "NetworkCore/queryhit.h"
 #include "types.h"
 
 namespace SearchState {

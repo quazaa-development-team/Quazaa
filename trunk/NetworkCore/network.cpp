@@ -21,7 +21,7 @@
 
 #include "network.h"
 
-#include "Thread.h"
+#include "thread.h"
 #include "webcache.h"
 #include "hostcache.h"
 #include "g2packet.h"
@@ -29,16 +29,16 @@
 #include <QTimer>
 #include <QList>
 #include "g2node.h"
-#include "NetworkConnection.h"
-#include "Handshakes.h"
+#include "networkconnection.h"
+#include "handshakes.h"
 
 #include "quazaasettings.h"
 
 #include "queryhashtable.h"
-#include "SearchManager.h"
-#include "ShareManager.h"
-#include "ManagedSearch.h"
-#include "Query.h"
+#include "searchmanager.h"
+#include "sharemanager.h"
+#include "managedsearch.h"
+#include "query.h"
 
 #include "geoiplist.h"
 

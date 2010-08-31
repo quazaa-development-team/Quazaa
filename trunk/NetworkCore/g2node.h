@@ -22,7 +22,7 @@
 #ifndef G2NODE_H
 #define G2NODE_H
 
-#include "CompressedConnection.h"
+#include "compressedconnection.h"
 #include <QTime>
 #include <QQueue>
 

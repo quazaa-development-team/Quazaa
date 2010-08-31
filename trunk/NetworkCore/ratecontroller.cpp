@@ -19,8 +19,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#include "RateController.h"
-#include "NetworkConnection.h"
+#include "ratecontroller.h"
+#include "networkconnection.h"
 
 #include <limits>
 #include <QAtomicInt>

@@ -79,30 +79,30 @@ SOURCES += main.cpp \
     qtsingleapplication/src/qtlockedfile.cpp \
 	qtsingleapplication/src/qtlocalpeer.cpp \
     quazaairc.cpp \
-    NetworkCore/ZLibUtils.cpp \
+	NetworkCore/zlibutils.cpp \
     NetworkCore/webcache.cpp \
     NetworkCore/types.cpp \
-    NetworkCore/Thread.cpp \
-    NetworkCore/SearchManagerr.cpp \
-    NetworkCore/RouteTable.cpp \
-    NetworkCore/RateController.cpp \
-    NetworkCore/QueryHit.cpp \
+	NetworkCore/thread.cpp \
+	NetworkCore/searchmanager.cpp \
+	NetworkCore/routetable.cpp \
+	NetworkCore/ratecontroller.cpp \
+	NetworkCore/queryhit.cpp \
     NetworkCore/queryhashtable.cpp \
-    NetworkCore/Query.cpp \
+	NetworkCore/query.cpp \
     NetworkCore/parser.cpp \
-    NetworkCore/NetworkConnection.cpp \
+	NetworkCore/networkconnection.cpp \
     NetworkCore/network.cpp \
-    NetworkCore/ManagedSearch.cpp \
+	NetworkCore/managedsearch.cpp \
     NetworkCore/hostcache.cpp \
-    NetworkCore/Handshakes.cpp \
-    NetworkCore/Handshake.cpp \
+	NetworkCore/handshakes.cpp \
+	NetworkCore/handshake.cpp \
     NetworkCore/g2packet.cpp \
     NetworkCore/g2node.cpp \
     NetworkCore/datagrams.cpp \
     NetworkCore/datagramfrags.cpp \
-    NetworkCore/CompressedConnection.cpp \
+	NetworkCore/compressedconnection.cpp \
     NetworkCore/Hashes/sha1.cpp \
-    NetworkCore/Hashes/AbstractHash.cpp \
+	NetworkCore/Hashes/abstracthash.cpp \
     UI/winmain.cpp \
     UI/widgethome.cpp \
     UI/widgetlibrary.cpp \
@@ -134,13 +134,13 @@ SOURCES += main.cpp \
     3rdparty/libircclient-qt/irc.cpp \
     3rdparty/CyoEncode/CyoEncode.c \
     3rdparty/CyoEncode/CyoDecode.c \
-    Models/NeighboursTableModel.cpp \
+	Models/neighbourstablemodel.cpp \
     Models/searchtreemodel.cpp \
     geoiplist.cpp \
     UI/dialogconnectto.cpp \
-    NetworkCore/Hashes/Hash.cpp \
-    ShareManager/ShareManager.cpp \
-    ShareManager/SharedFile.cpp
+	NetworkCore/Hashes/hash.cpp \
+	ShareManager/sharemanager.cpp \
+	ShareManager/sharedfile.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -178,28 +178,28 @@ HEADERS += UI/dialoglanguage.h \
     qtsingleapplication/src/qtlocalpeer.h \
 	qtsingleapplication/src/qtsinglecoreapplication.h \
     quazaairc.h \
-    NetworkCore/ZLibUtils.h \
+	NetworkCore/zlibutils.h \
     NetworkCore/webcache.h \
     NetworkCore/types.h \
-    NetworkCore/Thread.h \
-    NetworkCore/SearchManager.h \
-    NetworkCore/RouteTable.h \
-    NetworkCore/RateController.h \
-    NetworkCore/QueryHit.h \
-    NetworkCore/Query.h \
-    NetworkCore/NetworkConnection.h \
+	NetworkCore/thread.h \
+	NetworkCore/searchmanager.h \
+	NetworkCore/routetable.h \
+	NetworkCore/ratecontroller.h \
+	NetworkCore/queryhit.h \
+	NetworkCore/query.h \
+	NetworkCore/networkconnection.h \
     NetworkCore/network.h \
-    NetworkCore/ManagedSearch.h \
+	NetworkCore/managedsearch.h \
     NetworkCore/hostcache.h \
-    NetworkCore/Handshakes.h \
-    NetworkCore/Handshake.h \
+	NetworkCore/handshakes.h \
+	NetworkCore/handshake.h \
     NetworkCore/g2packet.h \
     NetworkCore/g2node.h \
     NetworkCore/datagrams.h \
     NetworkCore/datagramfrags.h \
-    NetworkCore/CompressedConnection.h \
+	NetworkCore/compressedconnection.h \
     NetworkCore/Hashes/sha1.h \
-    NetworkCore/Hashes/AbstractHash.h \
+	NetworkCore/Hashes/abstracthash.h \
     NetworkCore/queryhashtable.h \
     NetworkCore/parser.h \
     NetworkCore/types.h \
@@ -235,15 +235,15 @@ HEADERS += UI/dialoglanguage.h \
     3rdparty/libircclient-qt/ircbuffer_p.h \
     3rdparty/libircclient-qt/ircbuffer.h \
     3rdparty/libircclient-qt/irc.h \
-    3rdparty/CyoEncode/CyoEncode.h \
-    3rdparty/CyoEncode/CyoDecode.h \
-    Models/NeighboursTableModel.h \
     Models/searchtreemodel.h \
     geoiplist.h \
     UI/dialogconnectto.h \
-    NetworkCore/Hashes/Hash.h \
-    ShareManager/ShareManager.h \
-    ShareManager/SharedFile.h
+	NetworkCore/Hashes/hash.h \
+	ShareManager/sharemanager.h \
+	ShareManager/sharedfile.h \
+	3rdparty/CyoEncode/CyoEncode.h \
+	3rdparty/CyoEncode/CyoDecode.h \
+    Models/neighbourstablemodel.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \

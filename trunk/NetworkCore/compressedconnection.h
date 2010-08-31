@@ -22,7 +22,7 @@
 #ifndef COMPRESSEDCONNECTION_H
 #define COMPRESSEDCONNECTION_H
 
-#include "NetworkConnection.h"
+#include "networkconnection.h"
 #include <QTime>
 #include "zlib/zlib.h"
 

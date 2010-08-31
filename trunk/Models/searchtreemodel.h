@@ -25,7 +25,7 @@
 #include <QObject>
 #include <QIcon>
 #include <QAbstractItemModel>
-#include "NetworkCore/QueryHit.h"
+#include "NetworkCore/queryhit.h"
 
 
 namespace SearchHitData {

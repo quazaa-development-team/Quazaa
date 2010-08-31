@@ -48,7 +48,7 @@
 #include "network.h"
 #include "datagrams.h"
 #include "geoiplist.h"
-#include "ShareManager.h"
+#include "sharemanager.h"
 
 #include <QTimer>
 

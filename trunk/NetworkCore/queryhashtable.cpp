@@ -24,7 +24,7 @@
 #include "network.h"
 #include "g2node.h"
 #include "g2packet.h"
-#include "ZLibUtils.h"
+#include "zlibutils.h"
 #include <QByteArray>
 
 QueryHashTable::QueryHashTable()

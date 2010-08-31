@@ -25,8 +25,8 @@
 #include "hostcache.h"
 #include "parser.h"
 #include "datagrams.h"
-#include "SearchManager.h"
-#include "QueryHit.h"
+#include "searchmanager.h"
+#include "queryhit.h"
 #include "queryhashtable.h"
 
 #include "quazaasettings.h"
