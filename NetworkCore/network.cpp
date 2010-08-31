@@ -36,7 +36,7 @@
 
 #include "queryhashtable.h"
 #include "searchmanager.h"
-#include "sharemanager.h"
+#include "ShareManager.h"
 #include "managedsearch.h"
 #include "query.h"
 

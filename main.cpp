@@ -36,7 +36,7 @@
 #include "UI/dialoglanguage.h"
 #include "UI/dialogwizard.h"
 #include "QSkinDialog/qskinsettings.h"
-#include "sharemanager.h"
+#include "ShareManager.h"
 
 
 QuazaaGlobals quazaaGlobals;

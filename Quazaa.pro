@@ -139,8 +139,9 @@ SOURCES += main.cpp \
     geoiplist.cpp \
     UI/dialogconnectto.cpp \
 	NetworkCore/Hashes/hash.cpp \
-	ShareManager/sharemanager.cpp \
-	ShareManager/sharedfile.cpp
+	ShareManager/ShareManager.cpp \
+	ShareManager/SharedFile.cpp \
+	ShareManager/FileHasher.cpp 
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -239,8 +240,9 @@ HEADERS += UI/dialoglanguage.h \
     geoiplist.h \
     UI/dialogconnectto.h \
 	NetworkCore/Hashes/hash.h \
-	ShareManager/sharemanager.h \
-	ShareManager/sharedfile.h \
+	ShareManager/ShareManager.h \
+	ShareManager/SharedFile.h \
+	ShareManager/FileHasher.h \
 	3rdparty/CyoEncode/CyoEncode.h \
 	3rdparty/CyoEncode/CyoDecode.h \
     Models/neighbourstablemodel.h
