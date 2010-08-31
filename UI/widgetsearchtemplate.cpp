@@ -23,10 +23,10 @@
 #include "ui_widgetsearchtemplate.h"
 #include <QSortFilterProxyModel>
 
-#include "NetworkCore/SearchManager.h"
-#include "NetworkCore/ManagedSearch.h"
-#include "NetworkCore/Query.h"
-#include "NetworkCore/QueryHit.h"
+#include "NetworkCore/searchmanager.h"
+#include "NetworkCore/managedsearch.h"
+#include "NetworkCore/query.h"
+#include "NetworkCore/queryhit.h"
 
 WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget *parent) :
 	QWidget(parent),

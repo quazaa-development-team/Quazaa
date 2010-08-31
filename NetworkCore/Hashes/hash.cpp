@@ -1,5 +1,5 @@
 //
-// Hash.cpp
+// hash.cpp
 //
 // Copyright © Quazaa Development Team, 2009-2010.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -19,7 +19,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#include "Hash.h"
+#include "hash.h"
 #include <QCryptographicHash>
 #include "3rdparty/CyoEncode/CyoEncode.h"
 #include "3rdparty/CyoEncode/CyoDecode.h"

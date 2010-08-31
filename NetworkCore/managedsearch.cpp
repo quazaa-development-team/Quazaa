@@ -19,15 +19,15 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#include "ManagedSearch.h"
+#include "managedsearch.h"
 #include "network.h"
 #include "g2node.h"
 #include "g2packet.h"
-#include "Query.h"
+#include "query.h"
 #include "hostcache.h"
 #include "datagrams.h"
-#include "SearchManager.h"
-#include "QueryHit.h"
+#include "searchmanager.h"
+#include "queryhit.h"
 
 #include "quazaasettings.h"
 

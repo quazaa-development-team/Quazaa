@@ -26,7 +26,7 @@
 #include <QHash>
 #include <QMutex>
 #include "types.h"
-#include "QueryHit.h"
+#include "queryhit.h"
 
 class CManagedSearch;
 class G2Packet;

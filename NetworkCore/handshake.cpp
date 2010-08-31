@@ -19,8 +19,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#include "Handshake.h"
-#include "Handshakes.h"
+#include "handshake.h"
+#include "handshakes.h"
 #include "network.h"
 
 #include <QTcpSocket>

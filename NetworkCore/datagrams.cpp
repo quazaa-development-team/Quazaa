@@ -26,13 +26,13 @@
 #include "g2packet.h"
 #include <QTimer>
 #include "hostcache.h"
-#include "SearchManager.h"
-#include "QueryHit.h"
+#include "searchmanager.h"
+#include "queryhit.h"
 
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
 
-#include "Thread.h"
+#include "thread.h"
 
 
 CDatagrams Datagrams;

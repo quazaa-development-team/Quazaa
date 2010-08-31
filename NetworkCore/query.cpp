@@ -19,7 +19,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#include "Query.h"
+#include "query.h"
 #include "g2packet.h"
 
 CQuery::CQuery()

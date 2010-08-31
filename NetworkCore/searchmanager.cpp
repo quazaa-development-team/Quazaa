@@ -19,9 +19,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#include "SearchManager.h"
-#include "ManagedSearch.h"
-#include "QueryHit.h"
+#include "searchmanager.h"
+#include "managedsearch.h"
+#include "queryhit.h"
 #include "g2packet.h"
 #include <QMutexLocker>
 #include "hostcache.h"

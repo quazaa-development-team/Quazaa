@@ -43,7 +43,7 @@
 #include "widgetsearchmonitor.h"
 #include "widgethitmonitor.h"
 
-#include "NeighboursTableModel.h"
+#include "neighbourstablemodel.h"
 
 namespace Ui {
     class WinMain;

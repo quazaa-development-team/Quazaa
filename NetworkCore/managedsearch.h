@@ -25,7 +25,7 @@
 #include <QObject>
 #include <QHash>
 
-#include "QueryHit.h"
+#include "queryhit.h"
 
 class CQuery;
 //class CQueryHit;

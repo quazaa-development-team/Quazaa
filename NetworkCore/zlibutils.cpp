@@ -19,7 +19,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#include "ZLibUtils.h"
+#include "zlibutils.h"
 #include "zlib/zlib.h"
 
 QMutex ZLibUtils::m_oMutex;

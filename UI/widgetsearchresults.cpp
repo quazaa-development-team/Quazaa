@@ -26,7 +26,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-#include "NetworkCore/Query.h"
+#include "NetworkCore/query.h"
 
 WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
     QMainWindow(parent),
