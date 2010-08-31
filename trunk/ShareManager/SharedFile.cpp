@@ -52,6 +52,7 @@ CSharedFile::CSharedFile()
 		CSharedFile::m_bMetaRegistered = true;
 	}
 }
+
 CSharedFile::~CSharedFile()
 {
 	while( !m_lHashes.isEmpty() )
