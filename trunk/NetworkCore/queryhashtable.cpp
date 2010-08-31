@@ -192,7 +192,7 @@ int QueryHashTable::MakeKeywords(QString sPhrase, QStringList &outList)
 	qDebug() << "Making keywords from:" << sPhrase;
 
 	// remove all garbage from phrase
-	sPhrase = sPhrase.replace(QRegExp("\\W"), " ").simplified().toLower();
+	sPhrase = sPhrase.replace(QRegExp("\\W"), " ").replace("_", " ").simplified().toLower();
 
 	// and split it into words
 	QStringList lOut;
