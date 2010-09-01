@@ -27,7 +27,8 @@ HEADERS +=   $$PWD/qtgradientstopsmodel.h \
              $$PWD/qtgradientview.h \
              $$PWD/qtgradientviewdialog.h \
              $$PWD/qtgradientmanager.h \
-             $$PWD/qtgradientutils.h
+             $$PWD/qtgradientutils.h \
+    qfunctions.h
 RESOURCES += $$PWD/qtgradienteditor.qrc
 
 QT += xml

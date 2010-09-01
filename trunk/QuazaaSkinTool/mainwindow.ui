@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>612</width>
-    <height>481</height>
+    <width>650</width>
+    <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Quazaa Skin Tool</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resource.qrc">
     <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -40,9 +40,6 @@
        <property name="headerHidden">
         <bool>true</bool>
        </property>
-       <attribute name="headerHighlightSections">
-        <bool>false</bool>
-       </attribute>
        <attribute name="headerHighlightSections">
         <bool>false</bool>
        </attribute>
@@ -595,7 +592,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>6</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="pageSkinProperties">
          <layout class="QGridLayout" name="gridLayout_38">
@@ -713,7 +710,7 @@
                <x>0</x>
                <y>0</y>
                <width>625</width>
-               <height>218</height>
+               <height>284</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_28">
@@ -1282,7 +1279,7 @@ color: rgb(255, 255, 255);</string>
                      <string/>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="Resource.qrc">
                       <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -1562,8 +1559,8 @@ QToolButton:disabled {
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>470</width>
-               <height>522</height>
+               <width>309</width>
+               <height>519</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_29">
@@ -2229,9 +2226,9 @@ QToolButton:disabled {
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>-195</y>
-               <width>518</width>
-               <height>390</height>
+               <y>0</y>
+               <width>534</width>
+               <height>406</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2574,8 +2571,8 @@ QToolButton:disabled {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>612</width>
-     <height>25</height>
+     <width>650</width>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
@@ -2638,7 +2635,7 @@ QToolButton:disabled {
   </widget>
   <action name="actionOpen">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/fileOpen.png</normaloff>:/Resource/fileOpen.png</iconset>
    </property>
    <property name="text">
@@ -2647,7 +2644,7 @@ QToolButton:disabled {
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/fileSave.png</normaloff>:/Resource/fileSave.png</iconset>
    </property>
    <property name="text">
@@ -2661,7 +2658,7 @@ QToolButton:disabled {
   </action>
   <action name="actionNew">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/fileNew.png</normaloff>:/Resource/fileNew.png</iconset>
    </property>
    <property name="text">
@@ -2670,7 +2667,7 @@ QToolButton:disabled {
   </action>
   <action name="actionSkin_Creation_Guide">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
    </property>
    <property name="text">
@@ -2679,7 +2676,7 @@ QToolButton:disabled {
   </action>
   <action name="actionAbout_Quazaa_Skin_Tool">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/info.png</normaloff>:/Resource/info.png</iconset>
    </property>
    <property name="text">
@@ -2688,7 +2685,7 @@ QToolButton:disabled {
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/cut.png</normaloff>:/Resource/cut.png</iconset>
    </property>
    <property name="text">
@@ -2697,7 +2694,7 @@ QToolButton:disabled {
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/copy.png</normaloff>:/Resource/copy.png</iconset>
    </property>
    <property name="text">
@@ -2706,7 +2703,7 @@ QToolButton:disabled {
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/paste.png</normaloff>:/Resource/paste.png</iconset>
    </property>
    <property name="text">
@@ -2715,7 +2712,7 @@ QToolButton:disabled {
   </action>
   <action name="actionPackage_For_Distribution">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Web.png</normaloff>:/Resource/Web.png</iconset>
    </property>
    <property name="text">
@@ -2732,7 +2729,7 @@ QToolButton:disabled {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
    </property>
    <property name="text">
@@ -2746,6 +2743,8 @@ QToolButton:disabled {
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
