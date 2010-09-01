@@ -32,10 +32,10 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetHome::WidgetHome(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::WidgetHome)
+	QWidget(parent),
+	ui(new Ui::WidgetHome)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	connect(ui->labelLibraryTaskLink, SIGNAL(linkActivated(QString)), this, SIGNAL(triggerLibrary()));
 	connect(ui->labelWelcomeSecurityLink, SIGNAL(linkActivated(QString)), this, SIGNAL(triggerSecurity()));
@@ -58,18 +58,25 @@ WidgetHome::~WidgetHome()
 
 void WidgetHome::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QWidget::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetHome::skinChangeEvent()
 {
+	if (skinSettings.splashLogo.isEmpty())
+	{
+		ui->labelHomeLogo->setPixmap(QPixmap(":/Resource/QuazaaLogo.png"));
+	} else {
+		ui->labelHomeLogo->setPixmap(QPixmap());
+		ui->labelHomeLogo->setStyleSheet(skinSettings.splashLogo);
+	}
 	ui->scrollAreaHomeSidebar->setStyleSheet(skinSettings.sidebarBackground);
 	ui->toolButtonHomeLibraryTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
 	ui->toolButtonHomeConnectionTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
