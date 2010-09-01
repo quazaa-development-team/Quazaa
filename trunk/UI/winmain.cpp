@@ -57,10 +57,10 @@ void WinMain::quazaaStartup()
 }
 
 WinMain::WinMain(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WinMain)
+	QMainWindow(parent),
+	ui(new Ui::WinMain)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 
 	//Initialize vaiables
 	bypassCloseEvent = false;
@@ -260,7 +260,7 @@ WinMain::WinMain(QWidget *parent) :
 
 WinMain::~WinMain()
 {
-    delete ui;
+	delete ui;
 }
 void WinMain::loadTrayIcon()
 {
@@ -337,10 +337,10 @@ bool WinMain::event(QEvent *e)
 
 void WinMain::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
 		switch (quazaaSettings.WinMain.ActiveTab)
 		{
 			case 0:
@@ -440,10 +440,10 @@ void WinMain::changeEvent(QEvent *e)
 				ui->actionHome->setChecked(true);
 				break;
 		}
-        break;
-    default:
-        break;
-    }
+		break;
+	default:
+		break;
+	}
 }
 
 void WinMain::quazaaShutdown()
@@ -480,7 +480,7 @@ void WinMain::quazaaShutdown()
 	quazaaSettings.saveWindowSettings(this);
 
 	dlgSplash->updateProgress(20, tr("Removing Tray Icon..."));
-        delete trayIcon;
+		delete trayIcon;
 
 	dlgSplash->close();
 	emit closed();
@@ -726,7 +726,7 @@ void WinMain::on_actionExit_triggered()
 
 void WinMain::on_actionAbout_triggered()
 {
-	QSkinDialog *dlgSkinAbout = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinAbout = new QSkinDialog(false, true, false, false, this);
 	DialogAbout *dlgAbout = new DialogAbout;
 
 	dlgSkinAbout->addChildWidget(dlgAbout);
@@ -737,7 +737,7 @@ void WinMain::on_actionAbout_triggered()
 
 void WinMain::on_actionSettings_triggered()
 {
-	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
 	DialogSettings *dlgSettings = new DialogSettings;
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
@@ -748,7 +748,7 @@ void WinMain::on_actionSettings_triggered()
 
 void WinMain::on_actionCreateTorrent_triggered()
 {
-	QSkinDialog *dlgSkinCreateTorrent = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinCreateTorrent = new QSkinDialog(false, true, false, false, this);
 	DialogCreateTorrent *dlgCreateTorrent = new DialogCreateTorrent;
 
 	dlgSkinCreateTorrent->addChildWidget(dlgCreateTorrent);
@@ -764,7 +764,7 @@ void WinMain::on_actionSeedTorrent_triggered()
 
 void WinMain::on_actionOpenTorrent_triggered()
 {
-	QSkinDialog *dlgSkinOpenTorrent = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinOpenTorrent = new QSkinDialog(false, true, false, false, this);
 	DialogOpenTorrent *dlgOpenTorrent = new DialogOpenTorrent;
 
 	dlgSkinOpenTorrent->addChildWidget(dlgOpenTorrent);
@@ -775,7 +775,7 @@ void WinMain::on_actionOpenTorrent_triggered()
 
 void WinMain::on_actionShares_triggered()
 {
-	QSkinDialog *dlgSkinEditShares = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinEditShares = new QSkinDialog(false, true, false, false, this);
 	DialogEditShares *dlgEditShares = new DialogEditShares;
 
 	dlgSkinEditShares->addChildWidget(dlgEditShares);
@@ -791,7 +791,7 @@ void WinMain::on_actionOpenDownloadFolder_triggered()
 
 void WinMain::on_actionURLDownload_triggered()
 {
-	QSkinDialog *dlgSkinAddDownload = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinAddDownload = new QSkinDialog(false, true, false, false, this);
 	DialogAddDownload *dlgAddDownload = new DialogAddDownload;
 
 	dlgSkinAddDownload->addChildWidget(dlgAddDownload);
@@ -802,7 +802,7 @@ void WinMain::on_actionURLDownload_triggered()
 
 void WinMain::on_actionImportPartials_triggered()
 {
-	QSkinDialog *dlgSkinDownloadsImport = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinDownloadsImport = new QSkinDialog(false, true, false, false, this);
 	DialogDownloadsImport *dlgDownloadsImport = new DialogDownloadsImport;
 
 	dlgSkinDownloadsImport->addChildWidget(dlgDownloadsImport);
@@ -813,7 +813,7 @@ void WinMain::on_actionImportPartials_triggered()
 
 void WinMain::on_actionChooseSkin_triggered()
 {
-	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
 	DialogSettings *dlgSettings = new DialogSettings;
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
@@ -825,7 +825,7 @@ void WinMain::on_actionChooseSkin_triggered()
 
 void WinMain::on_actionChooseLanguage_triggered()
 {
-	QSkinDialog *dlgSkinLanguage = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinLanguage = new QSkinDialog(false, true, false, false, this);
 	DialogLanguage *dlgLanguage = new DialogLanguage;
 
 	dlgSkinLanguage->addChildWidget(dlgLanguage);
@@ -836,7 +836,7 @@ void WinMain::on_actionChooseLanguage_triggered()
 
 void WinMain::on_actionQuickstartWizard_triggered()
 {
-	QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false, false, this);
 	DialogWizard *dlgWizard = new DialogWizard();
 
 	dlgSkinWizard->addChildWidget(dlgWizard);
@@ -877,7 +877,7 @@ void WinMain::on_actionQuazaaForums_triggered()
 
 void WinMain::on_actionEditMyProfile_triggered()
 {
-	QSkinDialog *dlgSkinProfile = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinProfile = new QSkinDialog(false, true, false, false, this);
 	DialogProfile *dlgProfile = new DialogProfile;
 
 	dlgSkinProfile->addChildWidget(dlgProfile);
@@ -952,7 +952,7 @@ void WinMain::updateBandwidth()
 
 void WinMain::on_actionConnectTo_triggered()
 {
-	QSkinDialog *dlgSkinConnectTo = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinConnectTo = new QSkinDialog(false, true, false, false, this);
 	DialogConnectTo *dlgConnectTo = new DialogConnectTo;
 
 	dlgSkinConnectTo->addChildWidget(dlgConnectTo);

@@ -27,16 +27,16 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetLibrary::WidgetLibrary(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::WidgetLibrary)
+	QWidget(parent),
+	ui(new Ui::WidgetLibrary)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->tabWidgetLibraryNavigator->setCurrentIndex(quazaaSettings.WinMain.LibraryNavigatorTab);
 	ui->splitterLibrary->restoreState(quazaaSettings.WinMain.LibrarySplitter);
-    panelLibraryView = new WidgetLibraryView();
-    ui->verticalLayoutLibraryView->addWidget(panelLibraryView);
+	panelLibraryView = new WidgetLibraryView();
+	ui->verticalLayoutLibraryView->addWidget(panelLibraryView);
 }
 
 WidgetLibrary::~WidgetLibrary()
@@ -46,14 +46,14 @@ WidgetLibrary::~WidgetLibrary()
 
 void WidgetLibrary::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QWidget::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetLibrary::skinChangeEvent()
@@ -64,7 +64,7 @@ void WidgetLibrary::skinChangeEvent()
 
 void WidgetLibrary::on_toolButtonLibraryEditShares_clicked()
 {
-	QSkinDialog *dlgSkinEditShares = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinEditShares = new QSkinDialog(false, true, false, false, this);
 	DialogEditShares *dlgEditShares = new DialogEditShares;
 
 	dlgSkinEditShares->addChildWidget(dlgEditShares);

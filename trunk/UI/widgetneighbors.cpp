@@ -32,10 +32,10 @@
 #include "datagrams.h"
 
 WidgetNeighbors::WidgetNeighbors(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetNeighbors)
+	QMainWindow(parent),
+	ui(new Ui::WidgetNeighbors)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	labelG2StatsIcon = new QLabel();
 	QPixmap const pixmapG2Stats = QPixmap(":/Resource/Networks/Gnutella2.png");
 	labelG2StatsIcon->setPixmap(pixmapG2Stats);
@@ -52,19 +52,19 @@ WidgetNeighbors::WidgetNeighbors(QWidget *parent) :
 
 WidgetNeighbors::~WidgetNeighbors()
 {
-    delete ui;
+	delete ui;
 }
 
 void WidgetNeighbors::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetNeighbors::skinChangeEvent()
@@ -89,7 +89,7 @@ void WidgetNeighbors::saveWidget()
 
 void WidgetNeighbors::on_actionSettings_triggered()
 {
-	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
 	DialogSettings *dlgSettings = new DialogSettings;
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
@@ -138,7 +138,7 @@ void WidgetNeighbors::updateEDonkey()
 
 void WidgetNeighbors::on_actionNeighborConnectTo_triggered()
 {
-	QSkinDialog *dlgSkinConnectTo = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinConnectTo = new QSkinDialog(false, true, false, false, this);
 	DialogConnectTo *dlgConnectTo = new DialogConnectTo;
 
 	dlgSkinConnectTo->addChildWidget(dlgConnectTo);

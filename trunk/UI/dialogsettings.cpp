@@ -27,6 +27,7 @@
 #include <QFileDialog>
 #include "QSkinDialog/dialogskinpreview.h"
 #include "QSkinDialog/qskinsettings.h"
+#include "QSkinDialog/qskindialog.h"
 
 DialogSettings::DialogSettings(QWidget *parent) :
 	QDialog(parent),
@@ -276,7 +277,7 @@ void DialogSettings::switchSettingsPage(int pageIndex)
 
 void DialogSettings::on_pushButtonEditProfile_clicked()
 {
-	QSkinDialog *dlgSkinProfile = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinProfile = new QSkinDialog(false, true, false, false, this);
 	DialogProfile *dlgProfile = new DialogProfile(this);
 
 	dlgSkinProfile->addChildWidget(dlgProfile);
@@ -1311,9 +1312,16 @@ void DialogSettings::on_pushButtonPreviewSkin_clicked()
 {
 	if (m_ui->listWidgetSkins->currentRow() != -1)
 	{
-		DialogSkinPreview *dlgSkinPreview = new DialogSkinPreview(true, true, this);
-		dlgSkinPreview->loadSkin((qApp->applicationDirPath() + "/Skin/" + m_ui->listWidgetSkins->currentItem()->text() + "/" + m_ui->listWidgetSkins->currentItem()->text() + ".qsk"));
-		dlgSkinPreview->exec();
+		QString skinFile = (qApp->applicationDirPath() + "/Skin/" + m_ui->listWidgetSkins->currentItem()->text() + "/" + m_ui->listWidgetSkins->currentItem()->text() + ".qsk");
+		QSkinDialog *dlgSkinPreviewFrame = new QSkinDialog(true, true, false, true);
+		DialogSkinPreview *dlgSkinPreview = new DialogSkinPreview(this);
+
+		dlgSkinPreviewFrame->addChildWidget(dlgSkinPreview);
+
+		connect(dlgSkinPreview, SIGNAL(closed()), dlgSkinPreviewFrame, SLOT(close()));
+		dlgSkinPreviewFrame->loadPreviewSkin(skinFile);
+		dlgSkinPreview->loadSkin(skinFile);
+		dlgSkinPreviewFrame->exec();
 	}
 }
 

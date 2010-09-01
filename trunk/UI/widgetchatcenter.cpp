@@ -27,10 +27,10 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetChatCenter)
+	QMainWindow(parent),
+	ui(new Ui::WidgetChatCenter)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	lineEditTextInput = new QLineEdit();
 	lineEditTextInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	toolButtonSmilies = new QToolButton();
@@ -51,19 +51,19 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 
 WidgetChatCenter::~WidgetChatCenter()
 {
-    delete ui;
+	delete ui;
 }
 
 void WidgetChatCenter::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetChatCenter::skinChangeEvent()
@@ -87,7 +87,7 @@ void WidgetChatCenter::on_actionConnect_triggered()
 
 void WidgetChatCenter::on_actionChatSettings_triggered()
 {
-	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
 	DialogSettings *dlgSettings = new DialogSettings;
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
