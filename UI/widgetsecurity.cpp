@@ -67,7 +67,7 @@ void WidgetSecurity::saveWidget()
 
 void WidgetSecurity::on_actionSecurityAddRule_triggered()
 {
-	QSkinDialog *dlgSkinAddRule = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinAddRule = new QSkinDialog(false, true, false, false, this);
 	DialogAddRule *dlgAddRule = new DialogAddRule;
 
 	dlgSkinAddRule->addChildWidget(dlgAddRule);
@@ -78,7 +78,7 @@ void WidgetSecurity::on_actionSecurityAddRule_triggered()
 
 void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 {
-	QSkinDialog *dlgSkinSecuritySubscriptions = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinSecuritySubscriptions = new QSkinDialog(false, true, false, false, this);
 	DialogSecuritySubscriptions *dlgSecuritySubscriptions = new DialogSecuritySubscriptions;
 
 	dlgSkinSecuritySubscriptions->addChildWidget(dlgSecuritySubscriptions);

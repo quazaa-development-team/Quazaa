@@ -102,7 +102,7 @@ void WidgetHome::on_labelTorrentsTaskSeedTorrentLink_linkActivated(QString link)
 
 void WidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
 {
-	QSkinDialog *dlgSkinAddDownload = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinAddDownload = new QSkinDialog(false, true, false, false, this);
 	DialogAddDownload *dlgAddDownload = new DialogAddDownload;
 
 	dlgSkinAddDownload->addChildWidget(dlgAddDownload);
@@ -113,7 +113,7 @@ void WidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
 
 void WidgetHome::on_labelWelcomeOpenTorrentLink_linkActivated(QString link)
 {
-	QSkinDialog *dlgSkinOpenTorrent = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinOpenTorrent = new QSkinDialog(false, true, false, false, this);
 	DialogOpenTorrent *dlgOpenTorrent = new DialogOpenTorrent;
 
 	dlgSkinOpenTorrent->addChildWidget(dlgOpenTorrent);
@@ -124,7 +124,7 @@ void WidgetHome::on_labelWelcomeOpenTorrentLink_linkActivated(QString link)
 
 void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
 {
-	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
 	DialogSettings *dlgSettings = new DialogSettings;
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
@@ -136,7 +136,7 @@ void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
 
 void WidgetHome::on_labelWelcomeWizardLink_linkActivated(QString link)
 {
-	QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false, false, this);
 	DialogWizard *dlgWizard = new DialogWizard();
 
 	dlgSkinWizard->addChildWidget(dlgWizard);

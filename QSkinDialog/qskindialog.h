@@ -23,9 +23,10 @@ namespace Ui {
 class QSkinDialog : public QDialog {
 	Q_OBJECT
 public:
-	QSkinDialog(bool sizable = false, bool closable = false, bool mainDialog = false, QWidget *parent = 0);
+	QSkinDialog(bool sizable = false, bool closable = false, bool mainDialog = false, bool preview = false, QWidget *parent = 0);
 	~QSkinDialog();
 	void addChildWidget(QWidget *parent = 0);
+	void loadPreviewSkin(QString file);
 	QRect dialogNormalGeometry() {return this->normalGeometry;}
 	bool isMinimized() { return minimized; }
 	bool isMaximized() { return maximized; }
@@ -48,6 +49,7 @@ private:
 	bool moving;
 	bool dialogSizable;
 	bool dialogClosable;
+	bool dialogPreview;
 	bool isMainDialog;
 	bool sizableTopLeft;
 	bool sizableLeft;

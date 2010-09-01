@@ -53,7 +53,7 @@ void DialogSecuritySubscriptions::changeEvent(QEvent *e)
 
 void DialogSecuritySubscriptions::on_pushButtonAddSubscription_clicked()
 {
-	QSkinDialog *dlgSkinAddSecuritySubscription = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinAddSecuritySubscription = new QSkinDialog(false, true, false, false, this);
 	DialogAddSecuritySubscription *dlgAddSecuritySubscription = new DialogAddSecuritySubscription(this);
 
 	dlgSkinAddSecuritySubscription->addChildWidget(dlgAddSecuritySubscription);

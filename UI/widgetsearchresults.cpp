@@ -158,7 +158,7 @@ bool WidgetSearchResults::clearSearch()
 
 void WidgetSearchResults::on_actionFilterMore_triggered()
 {
-	QSkinDialog *dlgSkinFilterSearch = new QSkinDialog(false, true, false, this);
+	QSkinDialog *dlgSkinFilterSearch = new QSkinDialog(false, true, false, false, this);
 	DialogFilterSearch *dlgFilterSearch = new DialogFilterSearch;
 
 	dlgSkinFilterSearch->addChildWidget(dlgFilterSearch);
