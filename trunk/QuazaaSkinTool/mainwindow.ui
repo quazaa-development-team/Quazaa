@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
+    <width>807</width>
     <height>587</height>
    </rect>
   </property>
@@ -592,7 +592,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>6</number>
         </property>
         <widget class="QWidget" name="pageSkinProperties">
          <layout class="QGridLayout" name="gridLayout_38">
@@ -710,7 +710,7 @@
                <x>0</x>
                <y>0</y>
                <width>625</width>
-               <height>284</height>
+               <height>299</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_28">
@@ -1559,8 +1559,8 @@ QToolButton:disabled {
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>309</width>
-               <height>519</height>
+               <width>564</width>
+               <height>526</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_29">
@@ -2226,13 +2226,13 @@ QToolButton:disabled {
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>0</y>
-               <width>534</width>
-               <height>406</height>
+               <y>-120</y>
+               <width>546</width>
+               <height>416</height>
               </rect>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <item>
+             <layout class="QGridLayout" name="gridLayout_5">
+              <item row="0" column="0" colspan="2">
                <widget class="QGroupBox" name="groupBoxSystemLog">
                 <property name="title">
                  <string>System Log</string>
@@ -2423,74 +2423,113 @@ QToolButton:disabled {
                    </property>
                   </widget>
                  </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QGroupBox" name="groupBoxActivityList">
-                <property name="title">
-                 <string>Activity List</string>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_3">
                  <item>
-                  <layout class="QGridLayout" name="gridLayout_6">
-                   <property name="topMargin">
-                    <number>0</number>
+                  <widget class="QGroupBox" name="groupBox_9">
+                   <property name="title">
+                    <string>Lists</string>
                    </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <item row="0" column="0">
-                    <widget class="QGroupBox" name="groupBox_10">
-                     <property name="title">
-                      <string>Connecting</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_10">
-                      <item>
-                       <widget class="QToolButton" name="toolButtonColorNeighborsConnecting">
-                        <property name="text">
-                         <string/>
+                   <layout class="QVBoxLayout" name="verticalLayout_2">
+                    <item>
+                     <layout class="QGridLayout" name="gridLayout_7">
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <item row="0" column="1">
+                       <widget class="QGroupBox" name="groupBox_11">
+                        <property name="title">
+                         <string>Active</string>
                         </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_11">
+                         <item>
+                          <widget class="QToolButton" name="toolButtonColorListsActive">
+                           <property name="minimumSize">
+                            <size>
+                             <width>30</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>30</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="text">
+                            <string/>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                      <item row="0" column="0">
+                       <widget class="QGroupBox" name="groupBox_12">
+                        <property name="title">
+                         <string>Normal</string>
+                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_13">
+                         <item>
+                          <widget class="QToolButton" name="toolButtonColorListsNormal">
+                           <property name="minimumSize">
+                            <size>
+                             <width>30</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>30</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="text">
+                            <string/>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                      <item row="0" column="2">
+                       <widget class="QGroupBox" name="groupBox_13">
+                        <property name="title">
+                         <string>Special</string>
+                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_9">
+                         <item>
+                          <widget class="QToolButton" name="toolButtonColorListsSpecial">
+                           <property name="minimumSize">
+                            <size>
+                             <width>30</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>30</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="text">
+                            <string/>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
                        </widget>
                       </item>
                      </layout>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <widget class="QGroupBox" name="groupBox_9">
-                     <property name="title">
-                      <string>Connected</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_9">
-                      <item>
-                       <widget class="QToolButton" name="toolButtonColorNeighborsConnected">
-                        <property name="text">
-                         <string/>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                   <item row="0" column="2">
-                    <spacer name="horizontalSpacer_2">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                  </layout>
+                    </item>
+                   </layout>
+                  </widget>
                  </item>
                 </layout>
                </widget>
               </item>
-              <item>
+              <item row="2" column="0">
                <spacer name="verticalSpacer">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -2571,8 +2610,8 @@ QToolButton:disabled {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>650</width>
-     <height>23</height>
+     <width>807</width>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
