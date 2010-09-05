@@ -535,6 +535,8 @@ void DialogSettings::on_checkBoxAutoConnect_clicked()
 
 void DialogSettings::on_comboBoxCloseButton_currentIndexChanged(int index)
 {
+	Q_UNUSED(index);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
@@ -585,6 +587,8 @@ void DialogSettings::on_spinBoxToolTipDelay_valueChanged(int )
 
 void DialogSettings::on_horizontalSliderTransparency_valueChanged(int value)
 {
+	Q_UNUSED(value);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
@@ -704,6 +708,8 @@ void DialogSettings::on_pushButtonNeverShareRemove_clicked()
 
 void DialogSettings::on_comboBoxChoosePlayer_currentIndexChanged(int index)
 {
+	Q_UNUSED(index);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
@@ -946,6 +952,8 @@ void DialogSettings::on_checkBoxSimpleProgress_clicked()
 
 void DialogSettings::on_comboBoxRates_currentIndexChanged(int index)
 {
+	Q_UNUSED(index);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
@@ -1016,6 +1024,8 @@ void DialogSettings::on_toolButtonTempBrowse_clicked()
 
 void DialogSettings::on_comboBoxQueLength_currentIndexChanged(int index)
 {
+	Q_UNUSED(index);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
@@ -1129,6 +1139,8 @@ void DialogSettings::on_pushButtonUserAgentRemove_clicked()
 
 void DialogSettings::on_comboBoxG2Mode_currentIndexChanged(int index)
 {
+	Q_UNUSED(index);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
@@ -1248,31 +1260,43 @@ void DialogSettings::on_toolButtonTorrentBrowse_clicked()
 
 void DialogSettings::on_checkBoxConnectG2_toggled(bool checked)
 {
+	Q_UNUSED(checked);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
 void DialogSettings::on_checkBoxConnectAres_toggled(bool checked)
 {
+	Q_UNUSED(checked);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
 void DialogSettings::on_checkBoxConnectEDonkey_toggled(bool checked)
 {
+	Q_UNUSED(checked);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
 void DialogSettings::on_checkBoxG2Connect_toggled(bool checked)
 {
+	Q_UNUSED(checked);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
 void DialogSettings::on_checkBoxAresConnect_toggled(bool checked)
 {
+	Q_UNUSED(checked);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 
 void DialogSettings::on_checkBoxEDonkeyConnect_toggled(bool checked)
 {
+	Q_UNUSED(checked);
+
 	m_ui->pushButtonApply->setEnabled(true);
 }
 

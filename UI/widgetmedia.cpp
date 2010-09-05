@@ -26,10 +26,10 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetMedia::WidgetMedia(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetMedia)
+	QMainWindow(parent),
+	ui(new Ui::WidgetMedia)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	seekSlider = new QSlider();
 	seekSlider->setOrientation(Qt::Horizontal);
 	volumeSlider = new QSlider();
@@ -52,14 +52,14 @@ WidgetMedia::~WidgetMedia()
 
 void WidgetMedia::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetMedia::skinChangeEvent()
@@ -101,6 +101,8 @@ void WidgetMedia::on_actionMediaShuffle_triggered(bool checked)
 
 void WidgetMedia::on_splitterMedia_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	if (ui->splitterMedia->handle(1)->underMouse())
 	{
 		if (ui->splitterMedia->sizes()[1] > 0)

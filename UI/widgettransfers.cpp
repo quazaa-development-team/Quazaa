@@ -26,10 +26,10 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetTransfers::WidgetTransfers(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::WidgetTransfers)
+	QWidget(parent),
+	ui(new Ui::WidgetTransfers)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->splitterTransfers->restoreState(quazaaSettings.WinMain.TransfersSplitter);
@@ -46,14 +46,14 @@ WidgetTransfers::~WidgetTransfers()
 
 void WidgetTransfers::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QWidget::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetTransfers::skinChangeEvent()
@@ -71,6 +71,8 @@ void WidgetTransfers::saveWidget()
 
 void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	if (ui->splitterTransfers->handle(1)->underMouse())
 	{
 		if (ui->splitterTransfers->sizes()[1] > 0)

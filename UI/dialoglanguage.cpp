@@ -310,6 +310,8 @@ void DialogLanguage::on_pushButtonCancel_clicked()
 
 void DialogLanguage::on_listWidgetLanguages_itemClicked(QListWidgetItem* item)
 {
+	Q_UNUSED(item);
+
 	m_ui->pushButtonOK->setEnabled(true);
 }
 

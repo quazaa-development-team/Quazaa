@@ -26,10 +26,10 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetActivity::WidgetActivity(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::WidgetActivity)
+	QWidget(parent),
+	ui(new Ui::WidgetActivity)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->splitterActivity->restoreState(quazaaSettings.WinMain.ActivitySplitter);
@@ -46,14 +46,14 @@ WidgetActivity::~WidgetActivity()
 
 void WidgetActivity::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QWidget::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetActivity::skinChangeEvent()
@@ -71,6 +71,8 @@ void WidgetActivity::saveWidget()
 
 void WidgetActivity::on_splitterActivity_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	if (ui->splitterActivity->handle(1)->underMouse())
 	{
 		if (ui->splitterActivity->sizes()[1] > 0)

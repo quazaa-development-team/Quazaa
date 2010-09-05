@@ -92,16 +92,18 @@ void WidgetHome::skinChangeEvent()
 
 void WidgetHome::on_labelLibraryTaskHashFaster_linkActivated(QString link)
 {
-
+	Q_UNUSED(link);
 }
 
 void WidgetHome::on_labelTorrentsTaskSeedTorrentLink_linkActivated(QString link)
 {
-
+	Q_UNUSED(link);
 }
 
 void WidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
 {
+	Q_UNUSED(link);
+
 	QSkinDialog *dlgSkinAddDownload = new QSkinDialog(false, true, false, false, this);
 	DialogAddDownload *dlgAddDownload = new DialogAddDownload;
 
@@ -113,6 +115,8 @@ void WidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
 
 void WidgetHome::on_labelWelcomeOpenTorrentLink_linkActivated(QString link)
 {
+	Q_UNUSED(link);
+
 	QSkinDialog *dlgSkinOpenTorrent = new QSkinDialog(false, true, false, false, this);
 	DialogOpenTorrent *dlgOpenTorrent = new DialogOpenTorrent;
 
@@ -124,6 +128,8 @@ void WidgetHome::on_labelWelcomeOpenTorrentLink_linkActivated(QString link)
 
 void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
 {
+	Q_UNUSED(link);
+
 	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
 	DialogSettings *dlgSettings = new DialogSettings;
 
@@ -136,6 +142,8 @@ void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
 
 void WidgetHome::on_labelWelcomeWizardLink_linkActivated(QString link)
 {
+	Q_UNUSED(link);
+
 	QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false, false, this);
 	DialogWizard *dlgWizard = new DialogWizard();
 
@@ -147,6 +155,8 @@ void WidgetHome::on_labelWelcomeWizardLink_linkActivated(QString link)
 
 void WidgetHome::on_labelWelcomeUserGuideLink_linkActivated(QString link)
 {
+	Q_UNUSED(link);
+
 	QDesktopServices::openUrl(QUrl("https://sourceforge.net/apps/mediawiki/quazaa/index.php?title=Manual", QUrl::TolerantMode));
 }
 
@@ -176,6 +186,8 @@ void WidgetHome::mouseDoubleClickEvent(QMouseEvent *)
 
 void WidgetHome::on_splitterHome_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	if (ui->splitterHome->handle(1)->underMouse())
 	{
 		if (ui->splitterHome->sizes()[0] > 0)

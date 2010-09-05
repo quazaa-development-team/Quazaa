@@ -113,7 +113,7 @@ public:
 	QString libraryNavigator;
 	QString tabSearches;
 
-        // Colors
+	// Colors
 	QColor logColorInformation;
 	QString logWeightInformation;
 	QColor logColorSecurity;
@@ -128,8 +128,14 @@ public:
 	QString logWeightError;
 	QColor logColorCritical;
 	QString logWeightCritical;
-        QColor neighborsColorConnecting;
-        QColor neighborsColorConnected;
+	QColor listsColorNormal;
+	QString listsWeightNormal;
+	QColor listsColorActive;
+	QString listsWeightActive;
+	QColor listsColorSpecial;
+	QString listsWeightSpecial;
+	QColor listsColorHighlighted;
+	QString listsWeightHighlighted;
 
 signals:
 	void skinChanged();
