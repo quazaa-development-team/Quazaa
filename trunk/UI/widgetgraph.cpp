@@ -26,10 +26,10 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetGraph::WidgetGraph(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetGraph)
+	QMainWindow(parent),
+	ui(new Ui::WidgetGraph)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.GraphToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
@@ -43,14 +43,14 @@ WidgetGraph::~WidgetGraph()
 
 void WidgetGraph::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetGraph::skinChangeEvent()
@@ -66,6 +66,8 @@ void WidgetGraph::saveWidget()
 
 void WidgetGraph::on_splitterGraph_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	if (ui->splitterGraph->handle(1)->underMouse())
 	{
 		if (ui->splitterGraph->sizes()[0] > 0)

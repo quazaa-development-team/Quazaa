@@ -28,7 +28,7 @@
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "dialoglanguage.h"
-#include "qtsingleapplication/src/qtsingleapplication.h"
+#include "qtsingleapplication/src/QtSingleApplication"
 
 #include "geoiplist.h"
 #include "network.h"

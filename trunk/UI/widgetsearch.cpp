@@ -27,10 +27,10 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetSearch::WidgetSearch(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::WidgetSearch)
+	QWidget(parent),
+	ui(new Ui::WidgetSearch)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->splitterSearch->restoreState(quazaaSettings.WinMain.SearchSplitter);
@@ -51,14 +51,14 @@ WidgetSearch::~WidgetSearch()
 
 void WidgetSearch::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QWidget::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetSearch::skinChangeEvent()
@@ -131,6 +131,8 @@ void WidgetSearch::on_toolButtonNewSearch_clicked()
 
 void WidgetSearch::on_splitterSearch_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	if (ui->splitterSearch->handle(1)->underMouse())
 	{
 		if (ui->splitterSearch->sizes()[0] > 0)

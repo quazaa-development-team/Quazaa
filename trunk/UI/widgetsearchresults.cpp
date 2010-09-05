@@ -29,8 +29,8 @@
 #include "NetworkCore/query.h"
 
 WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetSearchResults)
+	QMainWindow(parent),
+	ui(new Ui::WidgetSearchResults)
 {
 	ui->setupUi(this);
 	labelFilter = new QLabel();
@@ -56,14 +56,14 @@ WidgetSearchResults::~WidgetSearchResults()
 
 void WidgetSearchResults::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetSearchResults::skinChangeEvent()
@@ -169,6 +169,8 @@ void WidgetSearchResults::on_actionFilterMore_triggered()
 
 void WidgetSearchResults::on_splitterSearchDetails_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	if (ui->splitterSearchDetails->handle(1)->underMouse())
 	{
 		if (ui->splitterSearchDetails->sizes()[1] > 0)
@@ -190,6 +192,8 @@ void WidgetSearchResults::on_splitterSearchDetails_customContextMenuRequested(QP
 
 void WidgetSearchResults::on_tabWidgetSearch_currentChanged(int index)
 {
+	Q_UNUSED(index);
+
 	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
 	emit searchTabChanged(pWg);
 	emit statsUpdated( pWg );

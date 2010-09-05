@@ -83,6 +83,8 @@ void WidgetLibraryView::on_actionFind_triggered()
 
 void WidgetLibraryView::on_splitterLibraryView_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	if (ui->splitterLibraryView->handle(1)->underMouse())
 	{
 		if (ui->splitterLibraryView->sizes()[1] > 0)

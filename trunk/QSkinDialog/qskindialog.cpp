@@ -418,11 +418,15 @@ void QSkinDialog::mouseDoubleClickEvent(QMouseEvent *e)
 
 void QSkinDialog::on_windowText_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	systemMenu->exec(QCursor::pos());
 }
 
 void QSkinDialog::on_windowFrameTop_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	systemMenu->exec(QCursor::pos());
 }
 
@@ -460,6 +464,8 @@ void QSkinDialog::setWindowIcon(const QIcon &icon)
 
 void QSkinDialog::on_windowIcon_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	// This is where your custom right click menu would go for the window icon
 	systemMenu->exec(ui->windowIcon->mapToGlobal(ui->windowIcon->geometry().bottomLeft()));
 }
@@ -520,16 +526,22 @@ void QSkinDialog::skinChangeEvent()
 
 void QSkinDialog::on_windowIconFrame_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	systemMenu->exec(QCursor::pos());
 }
 
 void QSkinDialog::on_titlebarButtonsFrame_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	systemMenu->exec(QCursor::pos());
 }
 
 void QSkinDialog::on_windowFrameTopSpacer_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	systemMenu->exec(QCursor::pos());
 }
 

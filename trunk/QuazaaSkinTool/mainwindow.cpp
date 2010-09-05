@@ -163,6 +163,8 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+	Q_UNUSED(e);
+
 	if (!saved && !skinSettings.skinName.isEmpty())
 	{
 		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, tr("Skin Not Saved"), tr("The skin has not been saved. Would you like to save it now?"), QMessageBox::Ok|QMessageBox::Cancel, this);
@@ -944,51 +946,89 @@ void MainWindow::on_actionOpen_triggered()
 		ui->toolButtonColorWarning->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorWarning.name() + ";}");
 		ui->toolButtonColorError->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorError.name() + ";}");
 		ui->toolButtonColorCritical->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorCritical.name() + ";}");
-				ui->toolButtonColorNeighborsConnecting->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.neighborsColorConnecting.name() + ";}");
-				ui->toolButtonColorNeighborsConnected->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.neighborsColorConnected.name() + ";}");
-				ui->textEditLogPreview->setStyleSheet(skinSettings.standardItems);
+		ui->toolButtonColorListsActive->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorActive.name() + ";}");
+		ui->toolButtonColorListsHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+		ui->toolButtonColorListsNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorNormal.name() + ";}");
+		ui->toolButtonColorListsSpecial->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorSpecial.name() + ";}");
+		ui->textEditLogPreview->setStyleSheet(skinSettings.standardItems);
+
 		if (skinSettings.logWeightInformation == "font-weight:600;")
 		{
 			ui->checkBoxInformationBold->setChecked(true);
 		} else {
 			ui->checkBoxInformationBold->setChecked(false);
 		}
+
 		if (skinSettings.logWeightSecurity == "font-weight:600;")
 		{
 			ui->checkBoxSecurityBold->setChecked(true);
 		} else {
 			ui->checkBoxSecurityBold->setChecked(false);
 		}
+
 		if (skinSettings.logWeightNotice == "font-weight:600;")
 		{
 			ui->checkBoxNoticeBold->setChecked(true);
 		} else {
 			ui->checkBoxNoticeBold->setChecked(false);
 		}
+
 		if (skinSettings.logWeightDebug == "font-weight:600;")
 		{
 			ui->checkBoxDebugBold->setChecked(true);
 		} else {
 			ui->checkBoxDebugBold->setChecked(false);
 		}
+
 		if (skinSettings.logWeightWarning == "font-weight:600;")
 		{
 			ui->checkBoxWarningBold->setChecked(true);
 		} else {
 			ui->checkBoxWarningBold->setChecked(false);
 		}
+
 		if (skinSettings.logWeightError == "font-weight:600;")
 		{
 			ui->checkBoxErrorBold->setChecked(true);
 		} else {
 			ui->checkBoxErrorBold->setChecked(false);
 		}
+
 		if (skinSettings.logWeightCritical == "font-weight:600;")
 		{
 			ui->checkBoxCriticalBold->setChecked(true);
 		} else {
 			ui->checkBoxCriticalBold->setChecked(false);
 		}
+
+		if (skinSettings.listsWeightActive == "font-weight:600;")
+		{
+			ui->checkBoxBoldListsActive->setChecked(true);
+		} else {
+			ui->checkBoxBoldListsActive->setChecked(false);
+		}
+
+		if (skinSettings.listsWeightHighlighted == "font-weight:600;")
+		{
+			ui->checkBoxBoldListsHighlighted->setChecked(true);
+		} else {
+			ui->checkBoxBoldListsHighlighted->setChecked(false);
+		}
+
+		if (skinSettings.listsWeightNormal == "font-weight:600;")
+		{
+			ui->checkBoxBoldListsNormal->setChecked(true);
+		} else {
+			ui->checkBoxBoldListsNormal->setChecked(false);
+		}
+
+		if (skinSettings.listsWeightSpecial == "font-weight:600;")
+		{
+			ui->checkBoxBoldListsSpecial->setChecked(true);
+		} else {
+			ui->checkBoxBoldListsSpecial->setChecked(false);
+		}
+
 		updateLogPreview();
 		skinChangeEvent();
 		this->setWindowTitle(skinSettings.skinName + ".qsf" + " - Quazaa Skin Tool");
@@ -1446,18 +1486,24 @@ void MainWindow::on_plainTextEditStyleSheet_textChanged()
 
 void MainWindow::on_checkBoxMainIconVisible_toggled(bool checked)
 {
+	Q_UNUSED(checked);
+
 	saved = false;
 	applyIcon();
 }
 
 void MainWindow::on_spinBoxMainIconSize_valueChanged(int value)
 {
+	Q_UNUSED(value);
+
 	saved = false;
 	applyIcon();
 }
 
 void MainWindow::on_lineEditVersion_textChanged(QString text)
 {
+	Q_UNUSED(text);
+
 	skinSettings.skinVersion = ui->lineEditVersion->text();
 	saved = false;
 }
@@ -1665,26 +1711,98 @@ void MainWindow::on_checkBoxCriticalBold_clicked(bool checked)
 	}
 }
 
-void MainWindow::on_toolButtonColorNeighborsConnecting_clicked()
+void MainWindow::on_toolButtonColorListsNormal_clicked()
 {
-	QColor color = QColorDialog::getColor(skinSettings.neighborsColorConnecting, this);
+	QColor color = QColorDialog::getColor(skinSettings.listsColorNormal, this);
 	if (color.isValid())
 	{
-			skinSettings.neighborsColorConnecting.setNamedColor(color.name());
-			ui->toolButtonColorNeighborsConnecting->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.neighborsColorConnecting.name() + ";}");
+			skinSettings.listsColorNormal.setNamedColor(color.name());
+			ui->toolButtonColorListsNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorNormal.name() + ";}");
 			updateLogPreview();
 			saved = false;
 	}
 }
 
-void MainWindow::on_toolButtonColorNeighborsConnected_clicked()
+void MainWindow::on_checkBoxBoldListsNormal_clicked(bool checked)
 {
-	QColor color = QColorDialog::getColor(skinSettings.neighborsColorConnected, this);
+	if (checked)
+	{
+		skinSettings.listsWeightNormal = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.listsWeightNormal = "";
+		updateLogPreview();
+	}
+}
+
+void MainWindow::on_toolButtonColorListsActive_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.listsColorActive, this);
 	if (color.isValid())
 	{
-			skinSettings.neighborsColorConnected.setNamedColor(color.name());
-			ui->toolButtonColorNeighborsConnected->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.neighborsColorConnected.name() + ";}");
+			skinSettings.listsColorActive.setNamedColor(color.name());
+			ui->toolButtonColorListsActive->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorActive.name() + ";}");
 			updateLogPreview();
 			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldListsActive_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.listsWeightActive = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.listsWeightActive = "";
+		updateLogPreview();
+	}
+}
+
+void MainWindow::on_toolButtonColorListsSpecial_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.listsColorSpecial, this);
+	if (color.isValid())
+	{
+			skinSettings.listsColorSpecial.setNamedColor(color.name());
+			ui->toolButtonColorListsSpecial->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorSpecial.name() + ";}");
+			updateLogPreview();
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldListsSpecial_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.listsWeightSpecial = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.listsWeightSpecial = "";
+		updateLogPreview();
+	}
+}
+
+void MainWindow::on_toolButtonColorListsHighlighted_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.listsColorHighlighted, this);
+	if (color.isValid())
+	{
+			skinSettings.listsColorHighlighted.setNamedColor(color.name());
+			ui->toolButtonColorListsHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			updateLogPreview();
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldListsHighlighted_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.listsWeightHighlighted = "font-weight:600;";
+		updateLogPreview();
+	} else {
+		skinSettings.listsWeightHighlighted = "";
+		updateLogPreview();
 	}
 }

@@ -117,7 +117,7 @@ void QSkinSettings::loadSkin(QString fileName)
 	libraryNavigator = reader.value("libraryNavigator", "QTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid transparent;\n }\n\n QTabWidget::tab-bar {\n     left: 5px;  /* move to the right by 5px */\n }\n\n /* Style the tab using the tab sub-control. Note that\n     it reads QTabBar _not_ QTabWidget */\n QTabBar::tab {\n     background:transparent;\n     border: 1px solid transparent;\n     padding: 4px;\n }\n\n QTabBar::tab:selected, QTabBar::tab:hover {\n     border: 1px solid rgb(78, 96, 255);\n     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);\n }").toString();
 	tabSearches = reader.value("tabSearches", "QTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid #C2C7CB;\n }\n\nQTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid transparent;\n }\n\n QTabWidget::tab-bar {\n     left: 5px;  /* move to the right by 5px */\n }\n\n /* Style the tab using the tab sub-control. Note that\n     it reads QTabBar _not_ QTabWidget */\n QTabBar::tab {\n     background:transparent;\n     border: 1px solid transparent;\n     padding: 4px;\n }\n\n QTabBar::tab:selected, QTabBar::tab:hover {\n     border: 1px solid rgb(78, 96, 255);\n     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);\n }").toString();
 
-        // Colors
+		// Colors
 	logColorInformation = reader.value("logColorInformation", "").toString();
 	logWeightInformation = reader.value("logWeightInformation", "").toString();
 	logColorSecurity = reader.value("logColorSecurity", QColor(qRgb(170,170,0))).value<QColor>();
@@ -132,8 +132,14 @@ void QSkinSettings::loadSkin(QString fileName)
 	logWeightError = reader.value("logWeightError", "font-weight:600;").toString();
 	logColorCritical = reader.value("logColorCritical", QColor(qRgb(255,0,0))).value<QColor>();
 	logWeightCritical = reader.value("logWeightCritical", "font-weight:600;").toString();
-        neighborsColorConnecting = reader.value("neighborsColorConnecting", QColor(150, 150, 150)).value<QColor>();
-        neighborsColorConnected = reader.value("neighborsColorConnected", QColor(0, 0, 180)).value<QColor>();
+	listsColorNormal = reader.value("listsColorNormal", QColor(0,0,0)).value<QColor>();
+	listsWeightNormal = reader.value("listsWeightNormal", "").toString();
+	listsColorActive = reader.value("listsColorActive", QColor(0, 0, 180)).value<QColor>();
+	listsWeightActive = reader.value("listsWeightActive", "").toString();
+	listsColorSpecial = reader.value("listsColorSpecial", QColor(0, 0, 180)).value<QColor>();
+	listsWeightSpecial = reader.value("listsWeightSpecial", "").toString();
+	listsColorHighlighted = reader.value("listsColorHighlighted", QColor(0, 0, 180)).value<QColor>();
+	listsWeightHighlighted = reader.value("listsWeightHighlighted", "").toString();
 }
 
 void QSkinSettings::saveSkin(QString fileName)
@@ -230,7 +236,7 @@ void QSkinSettings::saveSkin(QString fileName)
 	writer.setValue("libraryNavigator", libraryNavigator);
 	writer.setValue("tabSearches", tabSearches);
 
-        // Colors
+	// Colors
 	writer.setValue("logColorInformation", logColorInformation);
 	writer.setValue("logWeightInformation", logWeightInformation);
 	writer.setValue("logColorSecurity", logColorSecurity);
@@ -245,6 +251,12 @@ void QSkinSettings::saveSkin(QString fileName)
 	writer.setValue("logWeightError", logWeightError);
 	writer.setValue("logColorCritical", logColorCritical);
 	writer.setValue("logWeightCritical", logWeightCritical);
-        writer.setValue("neighborsColorConnecting", neighborsColorConnecting);
-        writer.setValue("neighborsColorConnected", neighborsColorConnected);
+	writer.setValue("listsColorNormal", listsColorNormal);
+	writer.setValue("listsWeightNormal", listsWeightNormal);
+	writer.setValue("listsColorActive", listsColorActive);
+	writer.setValue("listsWeightActive", listsWeightActive);
+	writer.setValue("listsColorSpecial", listsColorSpecial);
+	writer.setValue("listsWeightSpecial", listsWeightSpecial);
+	writer.setValue("listsColorHighlighted", listsColorHighlighted);
+	writer.setValue("listsWeightHighlighted", listsWeightHighlighted);
 }

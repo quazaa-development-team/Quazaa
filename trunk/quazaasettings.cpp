@@ -1023,6 +1023,8 @@ void QuazaaSettings::loadSkinWindowSettings(QSkinDialog *skinDialog)
 
 void QuazaaSettings::saveWindowSettings(QMainWindow *window)
 {
+	Q_UNUSED(window);
+
 	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
 
 	m_qSettings.setValue( "ActiveTab", quazaaSettings.WinMain.ActiveTab );
@@ -1094,6 +1096,8 @@ void QuazaaSettings::saveWindowSettings(QMainWindow *window)
 
 void QuazaaSettings::loadWindowSettings(QMainWindow *window)
 {
+	Q_UNUSED(window);
+
 	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
 	QList<QVariant> intListInitializer;
 	intListInitializer << 0 << 0;

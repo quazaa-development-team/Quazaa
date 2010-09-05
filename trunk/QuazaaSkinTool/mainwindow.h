@@ -63,8 +63,14 @@ private:
 	QColor colorCritical;
 
 private slots:
- void on_toolButtonColorNeighborsConnected_clicked();
- void on_toolButtonColorNeighborsConnecting_clicked();
+ void on_checkBoxBoldListsHighlighted_clicked(bool checked);
+ void on_toolButtonColorListsHighlighted_clicked();
+ void on_checkBoxBoldListsSpecial_clicked(bool checked);
+ void on_toolButtonColorListsSpecial_clicked();
+ void on_checkBoxBoldListsActive_clicked(bool checked);
+ void on_toolButtonColorListsActive_clicked();
+ void on_checkBoxBoldListsNormal_clicked(bool checked);
+ void on_toolButtonColorListsNormal_clicked();
  void on_checkBoxCriticalBold_clicked(bool checked);
  void on_checkBoxErrorBold_clicked(bool checked);
  void on_checkBoxWarningBold_clicked(bool checked);

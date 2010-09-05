@@ -15,71 +15,75 @@
 #include "ircdccsession.h"
 
 /*!
-    \class Irc::DccSession ircdccsession.h
-    \brief The Irc::DccSession class provides a DCC session.
+	\class Irc::DccSession ircdccsession.h
+	\brief The Irc::DccSession class provides a DCC session.
 
-    TODO
+	TODO
  */
 
 namespace Irc
 {
-    class DccSessionPrivate
-    {
-        Q_DECLARE_PUBLIC(DccSession)
+	class DccSessionPrivate
+	{
+		Q_DECLARE_PUBLIC(DccSession)
 
-    public:
-        DccSessionPrivate();
+	public:
+		DccSessionPrivate();
 
-        DccSession* q_ptr;
-    };
+		DccSession* q_ptr;
+	};
 
-    DccSessionPrivate::DccSessionPrivate() :
-        q_ptr(0)
-    {
-    }
+	DccSessionPrivate::DccSessionPrivate() :
+		q_ptr(0)
+	{
+	}
 
-    /*!
-        Constructs a new DCC session with \a parent.
-     */
-    DccSession::DccSession(QObject* parent) : QObject(parent), d_ptr(new DccSessionPrivate)
-    {
-        Q_D(DccSession);
-        d->q_ptr = this;
-    }
+	/*!
+		Constructs a new DCC session with \a parent.
+	 */
+	DccSession::DccSession(QObject* parent) : QObject(parent), d_ptr(new DccSessionPrivate)
+	{
+		Q_D(DccSession);
+		d->q_ptr = this;
+	}
 
-    /*!
-        Destructs the DCC session.
-     */
-    DccSession::~DccSession()
-    {
-        Q_D(DccSession);
-        delete d;
-    }
+	/*!
+		Destructs the DCC session.
+	 */
+	DccSession::~DccSession()
+	{
+		Q_D(DccSession);
+		delete d;
+	}
 
-    Session* DccSession::session() const
-    {
-        return 0;
-    }
+	Session* DccSession::session() const
+	{
+		return 0;
+	}
 
-    bool DccSession::accept()
-    {
-        return false;
-    }
+	bool DccSession::accept()
+	{
+		return false;
+	}
 
-    bool DccSession::decline()
-    {
-        return false;
-    }
+	bool DccSession::decline()
+	{
+		return false;
+	}
 
-    bool DccSession::sendMessage(const QString& message)
-    {
-        return false;
-    }
+	bool DccSession::sendMessage(const QString& message)
+	{
+		Q_UNUSED(message);
 
-    bool DccSession::sendFile(const QString& fileName)
-    {
-        return false;
-    }
+		return false;
+	}
+
+	bool DccSession::sendFile(const QString& fileName)
+	{
+		Q_UNUSED(fileName);
+
+		return false;
+	}
 }
 
 //#include "moc_ircdccsession.cpp"

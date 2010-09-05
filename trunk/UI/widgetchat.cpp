@@ -27,10 +27,10 @@
 #include "systemlog.h"
 
 WidgetChat::WidgetChat(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::WidgetChat)
+	QWidget(parent),
+	ui(new Ui::WidgetChat)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	panelChatCenter = new WidgetChatCenter();
@@ -47,14 +47,14 @@ WidgetChat::~WidgetChat()
 
 void WidgetChat::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QWidget::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetChat::skinChangeEvent()
@@ -80,6 +80,8 @@ void WidgetChat::saveWidget()
 
 void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	if (ui->splitterChat->handle(1)->underMouse())
 	{
 		if (ui->splitterChat->sizes()[0] > 0)

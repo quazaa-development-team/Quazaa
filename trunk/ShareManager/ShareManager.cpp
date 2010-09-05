@@ -140,11 +140,14 @@ void CShareManager::CleanupThread()
 
 void CShareManager::AddDir(QString sPath)
 {
+	Q_UNUSED(sPath);
 
 }
 
 void CShareManager::RemoveDir(QString sPath)
 {
+	Q_UNUSED(sPath);
+
 	QSqlQuery query(m_oDatabase);
 
 	query.prepare("SELECT id FROM dirs WHERE path = '?'");
@@ -174,6 +177,7 @@ void CShareManager::RemoveDir(quint64 nId)
 
 void CShareManager::RemoveFile(QString sPath)
 {
+	Q_UNUSED(sPath);
 
 }
 

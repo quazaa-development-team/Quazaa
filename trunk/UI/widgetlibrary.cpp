@@ -82,6 +82,8 @@ void WidgetLibrary::saveWidget()
 
 void WidgetLibrary::on_splitterLibrary_customContextMenuRequested(QPoint pos)
 {
+	Q_UNUSED(pos);
+
 	if (ui->splitterLibrary->handle(1)->underMouse())
 	{
 		if (ui->splitterLibrary->sizes()[0] > 0)
