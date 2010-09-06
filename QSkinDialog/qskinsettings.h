@@ -129,13 +129,13 @@ public:
 	QColor logColorCritical;
 	QString logWeightCritical;
 	QColor listsColorNormal;
-	QString listsWeightNormal;
+	int listsWeightNormal;
 	QColor listsColorActive;
-	QString listsWeightActive;
+	int listsWeightActive;
 	QColor listsColorSpecial;
-	QString listsWeightSpecial;
+	int listsWeightSpecial;
 	QColor listsColorHighlighted;
-	QString listsWeightHighlighted;
+	int listsWeightHighlighted;
 
 signals:
 	void skinChanged();

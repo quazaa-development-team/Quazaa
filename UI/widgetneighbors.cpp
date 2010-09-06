@@ -81,6 +81,11 @@ void WidgetNeighbors::setModel(QAbstractItemModel *model)
 	ui->treeViewNeighbors->setModel(model);
 }
 
+QWidget *WidgetNeighbors::treeView()
+{
+	return ui->treeViewNeighbors;
+}
+
 void WidgetNeighbors::saveWidget()
 {
 	quazaaSettings.WinMain.NeighborsToolbars = saveState();
