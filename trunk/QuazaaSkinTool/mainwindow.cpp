@@ -1001,28 +1001,28 @@ void MainWindow::on_actionOpen_triggered()
 			ui->checkBoxCriticalBold->setChecked(false);
 		}
 
-		if (skinSettings.listsWeightActive == "font-weight:600;")
+		if (skinSettings.listsWeightActive == 75)
 		{
 			ui->checkBoxBoldListsActive->setChecked(true);
 		} else {
 			ui->checkBoxBoldListsActive->setChecked(false);
 		}
 
-		if (skinSettings.listsWeightHighlighted == "font-weight:600;")
+		if (skinSettings.listsWeightHighlighted == 75)
 		{
 			ui->checkBoxBoldListsHighlighted->setChecked(true);
 		} else {
 			ui->checkBoxBoldListsHighlighted->setChecked(false);
 		}
 
-		if (skinSettings.listsWeightNormal == "font-weight:600;")
+		if (skinSettings.listsWeightNormal == 75)
 		{
 			ui->checkBoxBoldListsNormal->setChecked(true);
 		} else {
 			ui->checkBoxBoldListsNormal->setChecked(false);
 		}
 
-		if (skinSettings.listsWeightSpecial == "font-weight:600;")
+		if (skinSettings.listsWeightSpecial == 75)
 		{
 			ui->checkBoxBoldListsSpecial->setChecked(true);
 		} else {
@@ -1727,10 +1727,10 @@ void MainWindow::on_checkBoxBoldListsNormal_clicked(bool checked)
 {
 	if (checked)
 	{
-		skinSettings.listsWeightNormal = "font-weight:600;";
+		skinSettings.listsWeightNormal = 75;
 		updateLogPreview();
 	} else {
-		skinSettings.listsWeightNormal = "";
+		skinSettings.listsWeightNormal = 50;
 		updateLogPreview();
 	}
 }
@@ -1751,10 +1751,10 @@ void MainWindow::on_checkBoxBoldListsActive_clicked(bool checked)
 {
 	if (checked)
 	{
-		skinSettings.listsWeightActive = "font-weight:600;";
+		skinSettings.listsWeightActive = 75;
 		updateLogPreview();
 	} else {
-		skinSettings.listsWeightActive = "";
+		skinSettings.listsWeightActive = 50;
 		updateLogPreview();
 	}
 }
@@ -1775,10 +1775,10 @@ void MainWindow::on_checkBoxBoldListsSpecial_clicked(bool checked)
 {
 	if (checked)
 	{
-		skinSettings.listsWeightSpecial = "font-weight:600;";
+		skinSettings.listsWeightSpecial = 75;
 		updateLogPreview();
 	} else {
-		skinSettings.listsWeightSpecial = "";
+		skinSettings.listsWeightSpecial = 50;
 		updateLogPreview();
 	}
 }
@@ -1799,10 +1799,10 @@ void MainWindow::on_checkBoxBoldListsHighlighted_clicked(bool checked)
 {
 	if (checked)
 	{
-		skinSettings.listsWeightHighlighted = "font-weight:600;";
+		skinSettings.listsWeightHighlighted = 75;
 		updateLogPreview();
 	} else {
-		skinSettings.listsWeightHighlighted = "";
+		skinSettings.listsWeightHighlighted = 50;
 		updateLogPreview();
 	}
 }

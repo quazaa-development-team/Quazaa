@@ -25,18 +25,22 @@
 #include <QSize>
 #include <QIcon>
 #include <QMutexLocker>
+#include <QFont>
 #include "g2node.h"
 #include "network.h"
 #include "geoiplist.h"
 #include "QSkinDialog/qskinsettings.h"
 
-CNeighboursTableModel::CNeighboursTableModel(QObject *parent) :
+CNeighboursTableModel::CNeighboursTableModel(QObject *parent, QWidget *container) :
 	QAbstractTableModel(parent)
 {
+	m_oContainer = container;
+
 	connect(&Network, SIGNAL(NodeAdded(CG2Node*)), this, SLOT(OnNodeAdded(CG2Node*)), Qt::QueuedConnection);
 	connect(&Network, SIGNAL(NodeUpdated(CG2Node*)), this, SLOT(UpdateNeighbourData(CG2Node*)), Qt::QueuedConnection);
 	connect(&Network, SIGNAL(NodeRemoved(CG2Node*)), this, SLOT(OnRemoveNode(CG2Node*)), Qt::QueuedConnection);
 }
+
 CNeighboursTableModel::~CNeighboursTableModel()
 {
 	m_lNodes.clear();
@@ -125,6 +129,26 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 			break;
 		default:
 			return skinSettings.listsColorNormal;
+			break;
+		}
+	}
+
+	else if( role == Qt::FontRole )
+	{
+		QFont font = qApp->font(m_oContainer);
+		switch ( m_lNodes.at(index.row()).nState )
+		{
+		case nsConnected:
+			font.setWeight(skinSettings.listsWeightSpecial);
+			return font;
+			break;
+		case nsConnecting:
+			font.setWeight(skinSettings.listsWeightActive);
+			return font;
+			break;
+		default:
+			font.setWeight(skinSettings.listsWeightNormal);
+			return font;
 			break;
 		}
 	}

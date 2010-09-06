@@ -26,24 +26,25 @@
 #include <QAbstractItemModel>
 
 namespace Ui {
-    class WidgetNeighbors;
+	class WidgetNeighbors;
 }
 
 class WidgetNeighbors : public QMainWindow {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    WidgetNeighbors(QWidget *parent = 0);
-    ~WidgetNeighbors();
+	WidgetNeighbors(QWidget *parent = 0);
+	~WidgetNeighbors();
 	void setModel(QAbstractItemModel *model);
+	QWidget *treeView();
 	void saveWidget();
 	QLabel *labelG2StatsIcon;
 	QLabel *labelG2Stats;
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
-    Ui::WidgetNeighbors *ui;
+	Ui::WidgetNeighbors *ui;
 
 private slots:
 	void on_actionNeighborDisconnect_triggered();

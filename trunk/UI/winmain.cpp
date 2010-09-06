@@ -240,7 +240,7 @@ WinMain::WinMain(QWidget *parent) :
 	connect(pageHome, SIGNAL(triggerTransfers()), this, SLOT(on_actionTransfers_triggered()));
 
 	QSortFilterProxyModel *neighboursSortModel = new QSortFilterProxyModel(this);
-	neighboursList = new CNeighboursTableModel(this);
+	neighboursList = new CNeighboursTableModel(this, pageActivity->panelNeighbors->treeView());
 	neighboursSortModel->setSourceModel(neighboursList);
 	pageActivity->panelNeighbors->setModel(neighboursSortModel);
 	//pageActivity->panelNeighbors->setModel(neighboursList);

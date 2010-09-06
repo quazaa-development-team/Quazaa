@@ -133,13 +133,13 @@ void QSkinSettings::loadSkin(QString fileName)
 	logColorCritical = reader.value("logColorCritical", QColor(qRgb(255,0,0))).value<QColor>();
 	logWeightCritical = reader.value("logWeightCritical", "font-weight:600;").toString();
 	listsColorNormal = reader.value("listsColorNormal", QColor(0,0,0)).value<QColor>();
-	listsWeightNormal = reader.value("listsWeightNormal", "").toString();
+	listsWeightNormal = reader.value("listsWeightNormal", qApp->font().weight()).toInt();
 	listsColorActive = reader.value("listsColorActive", QColor(0, 0, 180)).value<QColor>();
-	listsWeightActive = reader.value("listsWeightActive", "").toString();
+	listsWeightActive = reader.value("listsWeightActive", qApp->font().weight()).toInt();
 	listsColorSpecial = reader.value("listsColorSpecial", QColor(0, 0, 180)).value<QColor>();
-	listsWeightSpecial = reader.value("listsWeightSpecial", "").toString();
+	listsWeightSpecial = reader.value("listsWeightSpecial", qApp->font().weight()).toInt();
 	listsColorHighlighted = reader.value("listsColorHighlighted", QColor(0, 0, 180)).value<QColor>();
-	listsWeightHighlighted = reader.value("listsWeightHighlighted", "").toString();
+	listsWeightHighlighted = reader.value("listsWeightHighlighted", qApp->font().weight()).toInt();
 }
 
 void QSkinSettings::saveSkin(QString fileName)
