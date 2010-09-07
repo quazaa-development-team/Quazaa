@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 	DialogSplash *dlgSplash = new DialogSplash();
 	dlgSplash->show();
 
-	dlgSplash->updateProgress(1, "Loading settings...");
+	dlgSplash->updateProgress(1, QObject::tr("Loading settings..."));
 	qApp->processEvents();
 
 	//Initialize Settings
