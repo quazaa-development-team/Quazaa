@@ -158,7 +158,7 @@ void CSharedFile::Serialize(QSqlDatabase *pDatabase)
 		}
 
 		QStringList lKeywords;
-		QueryHashTable::MakeKeywords(m_sFileName, lKeywords);
+		CQueryHashTable::MakeKeywords(m_sFileName, lKeywords);
 
 		QSqlQuery qkw(*pDatabase);
 		qkw.prepare("INSERT OR IGNORE INTO keywords (keyword) VALUES (?)");

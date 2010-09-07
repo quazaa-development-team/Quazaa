@@ -23,52 +23,57 @@
 #define QUERYHASHTABLE_H
 
 #include "types.h"
+#include <QObject>
 class QString;
 class QByteArray;
 class CG2Node;
+class G2Packet;
+class QByteArray;
+class CQueryHashGroup;
 
-class QueryHashTable
+class CQueryHashTable : public QObject
 {
-protected:
-    char*   m_pTable;
-    quint32 m_nHashBits;
-    quint32 m_nTableSize;
-
-protected:
-    void    Add(const char* pSz, const quint32 nLength);
-    quint32 HashWord(const char* pSz, const quint32 nLength, qint32 nBits);
-    quint32 HashNumber(quint32 nNumber, qint32 nBits);
+	Q_OBJECT
+public:
+	CQueryHashTable();
+	virtual ~CQueryHashTable();
 
 public:
-    QueryHashTable();
-    ~QueryHashTable();
+	bool				m_bLive;
+	quint32				m_nCookie;
+	char*				m_pHash;
+	quint32				m_nHash;
+	quint32				m_nBits;
+	quint32				m_nInfinity;
+	quint32				m_nCount;
+	QByteArray*			m_pBuffer;
+	CQueryHashGroup*	m_pGroup;
 
-    void Reset();
-    void AddWord(QByteArray sWord);
-	void AddPhrase(QString sPhrase);
+protected:
+	static quint32 HashWord(const char* pSz, const quint32 nLength, qint32 nBits);
+	static quint32 HashNumber(quint32 nNumber, qint32 nBits);
 
-    void PatchTo(CG2Node* pNode);
-
+public:
 	static int MakeKeywords(QString sPhrase, QStringList& outList);
 
 public:
-    inline quint32 HashBits() const
-    {
-        return m_nHashBits;
-    }
-    inline quint32 TableSizeBits() const
-    {
-        return (1u << m_nHashBits);
-    }
-
-    inline quint32 TableSize() const
-    {
-        return TableSizeBits() / 8;
-    }
-    inline char* TablePointer() const
-    {
-        return m_pTable;
-    }
+	void	Create();
+	void	Clear();
+	bool	Merge(const CQueryHashTable* pSource);
+	bool	Merge(const CQueryHashGroup* pSource);
+	bool	PatchTo(const CQueryHashTable* pTarget, CG2Node* pNeighbour);
+	bool	OnPacket(G2Packet* pPacket);
+	void	AddString(const QString& strString);
+	void	AddExactString(const QString& strString);
+	void	AddWord(const QByteArray& sWord);
+	bool	CheckString(const QString& strString) const;
+	bool	CheckHash(const quint32 nHash) const;
+	int		GetPercent() const;
+protected:
+	bool	OnReset(G2Packet* pPacket);
+	bool	OnPatch(G2Packet* pPacket);
+	void	Add(const char* pszString, size_t nLength);
+	void	AddExact(const char* pszString, size_t nLength);
 };
 
 #pragma pack(push,1)

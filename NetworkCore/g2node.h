@@ -27,7 +27,7 @@
 #include <QQueue>
 
 class G2Packet;
-class QueryHashTable;
+class CQueryHashTable;
 
 enum G2NodeState { nsClosed, nsConnecting, nsHandshaking, nsConnected, nsClosing, nsError };
 
@@ -60,8 +60,8 @@ public:
 
     QQueue<G2Packet*>   m_lSendQueue;
 
-	QueryHashTable*	m_pRemoteTable;
-	QueryHashTable*	m_pLocalTable;
+	CQueryHashTable*	m_pRemoteTable;
+	CQueryHashTable*	m_pLocalTable;
 
 	bool			m_bSendQHT;
 	quint32			m_tLastQHT;

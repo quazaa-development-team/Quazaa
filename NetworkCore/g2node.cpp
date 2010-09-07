@@ -28,6 +28,7 @@
 #include "searchmanager.h"
 #include "queryhit.h"
 #include "queryhashtable.h"
+#include "queryhashmaster.h"
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
@@ -50,8 +51,6 @@ CG2Node::CG2Node(QObject *parent) :
 	m_tKeyRequest= 0;
 	m_bCachedKeys = false;
 
-	m_bSendQHT = false;
-	m_tLastQHT = 0;
 	m_pLocalTable = 0;
 	m_pRemoteTable = 0;
 }
@@ -309,12 +308,20 @@ void CG2Node::OnTimer(quint32 tNow)
 			return;
 		}*/
 
-		if( m_bSendQHT && tNow - m_tLastQHT >= 60 )
+		if( (m_nType == G2_HUB && tNow - m_tConnected > 60) &&
+			(m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie) &&
+			(tNow - m_pLocalTable->m_nCookie > 60) &&
+			(tNow - QueryHashMaster.m_nCookie > 30) ||
+			QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
+			!m_pLocalTable->m_bLive
+			)
 		{
-			Network.m_pHashTable->PatchTo(this);
-			m_bSendQHT = false;
-			m_tLastQHT = tNow;
+			if( m_pLocalTable->PatchTo(&QueryHashMaster, this) )
+			{
+				systemLog.postLog(QString().sprintf("Sending query routing table to %s (%d bits, %d entries, %d bytes, %d%% full)", m_oAddress.toStringNoPort().toAscii().constData(), m_pLocalTable->m_nBits, m_pLocalTable->m_nHash, m_pLocalTable->m_nHash / 8, m_pLocalTable->GetPercent()), LogSeverity::Information);
+			}
 		}
+
 
 		FlushSendQueue(true);
 	}
@@ -452,8 +459,7 @@ void CG2Node::ParseIncomingHandshake()
 		m_tLastPacketIn = m_tLastPacketOut = time(0);
 		if( m_nType == G2_HUB )
 		{
-			m_bSendQHT = true;
-			m_tLastQHT = time(0);
+			m_pLocalTable = new CQueryHashTable();
 		}
 
 
@@ -592,8 +598,7 @@ void CG2Node::ParseOutgoingHandshake()
 
 	if( m_nType == G2_HUB )
 	{
-		m_bSendQHT = true;
-		m_tLastQHT = time(0);
+		m_pLocalTable = new CQueryHashTable();
 	}
 
 }
@@ -1116,9 +1121,77 @@ void CG2Node::OnQH2(G2Packet *pPacket)
 }
 void CG2Node::OnQuery(G2Packet *pPacket)
 {
+	if( !pPacket->m_bCompound )
+		return;
+
+	char szType[9];
+	quint32 nLength = 0, nNext = 0;
+
+	QString sDN;
+	QUuid oGUID;
+
+	IPv4_ENDPOINT oAddr;
+
+	while( pPacket->ReadPacket(&szType[0], nLength) )
+	{
+		nNext = pPacket->m_nPosition + nLength;
+
+		if( strcmp("DN", szType) == 0 )
+		{
+			sDN = pPacket->ReadString(nLength);
+		}
+		else if( strcmp("UDP", szType) == 0 )
+		{
+			pPacket->ReadHostAddress(&oAddr);
+		}
+		pPacket->m_nPosition = nNext;
+	}
+
+	if( pPacket->GetRemaining() >= 16 && sDN.size() )
+	{
+		oGUID = pPacket->ReadGUID();
+
+		G2Packet* pQH2 = G2Packet::New("QH2", true);
+		pQH2->WritePacket("NA", 6);
+		pQH2->WriteHostAddress(&Network.m_oAddress);
+
+		pQH2->WritePacket("GU", 16);
+		pQH2->WriteGUID(quazaaSettings.Profile.GUID);
+
+		pQH2->WritePacket("V", 4);
+		pQH2->WriteString("QAZA");
+
+		G2Packet* pH = G2Packet::New("H", true);
+
+		pH->WritePacket("URN", 25);
+		pH->Write("sha1\0xxxxxxxxxxxxxxxxxxxx", 25);
+
+		pH->WritePacket("DN", 4 + sDN.toUtf8().size() + 8);
+		quint32 nTemp = 65535;
+		pH->WriteIntLE(nTemp);
+		pH->WriteString(sDN);
+		pH->WriteString("[QUAZAA]");
+
+		quint16 nCSC = 1;
+		pH->WritePacket("CSC", 2)->WriteIntLE(nCSC);
+
+		pQH2->WritePacket(pH);
+		pH->Release();
+
+		pQH2->WriteByte(0);
+		pQH2->WriteByte(1);
+		pQH2->WriteGUID(oGUID);
+
+		SendPacket(pQH2, false, false);
+		if( oAddr.ip != 0 )
+		{
+			Datagrams.SendPacket(oAddr, pQH2, true);
+		}
+		pQH2->Release();
+	}
 	// just read guid for now to have it in routing table
 
-	QUuid oGUID;
+	/*QUuid oGUID;
 	if( pPacket->m_bCompound )
 		pPacket->SkipCompound();
 
@@ -1147,5 +1220,5 @@ void CG2Node::OnQuery(G2Packet *pPacket)
 			//qDebug() << "Sending query ACK " << pQA->ToHex() << pQA->ToASCII();
 			SendPacket(pQA, true, true);
 		}
-	}
+	}*/
 }

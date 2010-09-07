@@ -31,6 +31,7 @@
 #include <QList>
 
 #include "quazaasettings.h"
+#include "queryhashmaster.h"
 #include "SharedFile.h"
 #include "FileHasher.h"
 #include "types.h"
@@ -43,6 +44,8 @@ CShareManager::CShareManager(QObject *parent) :
 {
 	m_bActive = false;
 	m_bReady = false;
+	m_bTableReady = false;
+	m_pTable = 0;
 }
 
 void CShareManager::Start()
@@ -50,6 +53,7 @@ void CShareManager::Start()
 	QMutexLocker l(&m_oSection);
 	qDebug() << "Starting Share Manager...";
 	ShareManagerThread.setObjectName("ShareManager Thread");
+	connect(this, SIGNAL(sharesReady()), &QueryHashMaster, SLOT(Build()));
 	ShareManagerThread.start(&m_oSection, this);
 }
 
@@ -122,6 +126,12 @@ void CShareManager::Stop()
 	QMutexLocker l(&m_oSection);
 	m_bActive = false;
 	m_bReady = false;
+	m_bTableReady = false;
+	if( m_pTable )
+	{
+		delete m_pTable;
+		m_pTable = 0;
+	}
 	disconnect(SIGNAL(executeQuery(const QString&)), this, SLOT(execQuery(const QString&)));
 	ShareManagerThread.exit(0);
 }
@@ -604,7 +614,10 @@ void CShareManager::RunHashing()
 	query.exec(QString("DELETE FROM hash_queue WHERE rowid IN(%1)").arg(sRowIDs));
 
 	if( bFinished )
+	{
+		BuildHashTable();
 		emit sharesReady();
+	}
 }
 void CShareManager::OnFileHashed(CSharedFilePtr pFile)
 {
@@ -615,4 +628,61 @@ void CShareManager::OnFileHashed(CSharedFilePtr pFile)
 	pFile->Stat();
 	pFile->m_bShared = true;
 	pFile->Serialize(&m_oDatabase);
+}
+
+CQueryHashTable* CShareManager::GetHashTable()
+{
+	if( !m_bReady || !m_bTableReady )
+		return 0;
+
+	return m_pTable;
+}
+void CShareManager::BuildHashTable()
+{
+	if( m_pTable == 0 )
+	{
+		m_pTable = new CQueryHashTable();
+		if( !m_pTable )
+			return;
+		m_pTable->Create();
+	}
+
+	m_pTable->Clear();
+
+	// TODO: Optimize it
+
+	QSqlQuery q(m_oDatabase);
+	q.prepare("SELECT keyword FROM keywords");
+	if( !q.exec() )
+	{
+		qDebug() << "SQL query failed:" << q.lastError().text();
+	}
+	else
+	{
+		while( q.next() )
+		{
+			m_pTable->AddExactString(q.record().value(0).toString());
+		}
+
+		q.prepare("SELECT sha1 FROM hashes");
+		if( !q.exec() )
+		{
+			qDebug() << "SQL query failed:" << q.lastError().text();
+		}
+		else
+		{
+			while( q.next() )
+			{
+				CHash* pHash = CHash::FromRaw(q.record().value(0).toByteArray(), CHash::SHA1);
+				if( pHash )
+				{
+					m_pTable->AddExactString(pHash->ToURN());
+					delete pHash;
+				}
+			}
+		}
+		m_bTableReady = true;
+	}
+
+
 }
