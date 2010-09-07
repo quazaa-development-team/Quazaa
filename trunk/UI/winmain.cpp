@@ -250,7 +250,7 @@ WinMain::WinMain(QWidget *parent) :
 	connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
 	connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateBandwidth()));
 	connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbors, SLOT(updateG2()));
-	neighboursRefresher->start(1000);
+
 	update();
 	qApp->processEvents();
 
@@ -330,6 +330,15 @@ bool WinMain::event(QEvent *e)
 			quazaaShutdown();
 			return false;
 		}
+	}
+	else if( e->type() == QEvent::Show )
+	{
+		neighboursRefresher->start(1000);
+	}
+	else if( e->type() == QEvent::Hide )
+	{
+		if( neighboursRefresher )
+			neighboursRefresher->stop();
 	}
 
 	return false;
@@ -454,6 +463,7 @@ void WinMain::quazaaShutdown()
 	dlgSplash->updateProgress(5, tr("Closing Networks..."));
 	neighboursRefresher->stop();
 	delete neighboursRefresher;
+	neighboursRefresher = 0;
 	Network.Disconnect();
 	ShareManager.Stop();
 

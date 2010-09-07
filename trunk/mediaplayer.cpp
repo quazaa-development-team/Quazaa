@@ -269,7 +269,7 @@ MediaPlayer::MediaPlayer(QWidget *parent) :
 
 	m_audioOutputPath = Phonon::createPath(&m_MediaObject, &m_AudioOutput);
 	Phonon::createPath(&m_MediaObject, m_videoWidget);
-	openFiles(quazaaSettings.MediaPlaylist, true);
+	openFiles(quazaaSettings.Media.Playlist, true);
 }
 
 void MediaPlayer::stateChanged(Phonon::State newstate, Phonon::State oldstate)
@@ -602,14 +602,14 @@ void MediaPlayer::openFiles(QStringList files, bool requireFileList, bool addToL
 	if (files.isEmpty() && requireFileList)
 		return;
 	if (files.isEmpty())
-	files = QFileDialog::getOpenFileNames(this, tr("Open Media Files"), quazaaSettings.MediaOpenPath, quazaaGlobals.MediaOpenFilter());
+	files = QFileDialog::getOpenFileNames(this, tr("Open Media Files"), quazaaSettings.Media.OpenPath, quazaaGlobals.MediaOpenFilter());
 	if (files.isEmpty())
 		return;
 
 	if (!requireFileList)
 	{
 		QFileInfo *fileInfo = new QFileInfo(files.at(0));
-		quazaaSettings.MediaOpenPath = fileInfo->canonicalPath();
+		quazaaSettings.Media.OpenPath = fileInfo->canonicalPath();
 	}
 
 	if(!addToList)
@@ -793,7 +793,7 @@ void MediaPlayer::mediaSourceFinished()
 {
 	if (!sources.isEmpty())
 	{
-		if (quazaaSettings.MediaShuffle)
+		if (quazaaSettings.Media.Shuffle)
 		{
 			playOnSwitch(true, sources.at((int)qrand() % sources.size()));
 		} else {
@@ -801,14 +801,14 @@ void MediaPlayer::mediaSourceFinished()
 			if (sources.size() > index) {
 				playOnSwitch(true, sources.at(index));
 			} else {
-				if (quazaaSettings.MediaRepeat)
+				if (quazaaSettings.Media.Repeat)
 				{
 					playOnSwitch(true, sources.at(0));
 				}
 			}
 		}
 	} else {
-		if (quazaaSettings.MediaRepeat)
+		if (quazaaSettings.Media.Repeat)
 		{
 			m_MediaObject.seek(0);
 			m_MediaObject.play();
@@ -877,7 +877,7 @@ void MediaPlayer::metaStateChanged(Phonon::State newState, Phonon::State /* oldS
 		if (sources.isEmpty())
 		{
 			playlistClear();
-			quazaaSettings.MediaPlaylist.clear();
+			quazaaSettings.Media.Playlist.clear();
 			return;
 		}
 
@@ -948,9 +948,9 @@ void MediaPlayer::metaStateChanged(Phonon::State newState, Phonon::State /* oldS
 		emit playlistResizeColumnsToContents();
 		emit setPlaylistStretchLastSection(true);
 
-		quazaaSettings.MediaPlaylist.clear();
+		quazaaSettings.Media.Playlist.clear();
 		foreach (Phonon::MediaSource source, sources) {
-				quazaaSettings.MediaPlaylist.append(source.fileName());
+				quazaaSettings.Media.Playlist.append(source.fileName());
 		}
 		return;
 	}
@@ -1034,7 +1034,7 @@ void MediaPlayer::toggleMute()
 
 void MediaPlayer::muteChanged(bool muted)
 {
-	quazaaSettings.MediaMute = muted;
+	quazaaSettings.Media.Mute = muted;
 	if (muted)
 	{
 		emit volumeEnableChanged(false);
@@ -1047,7 +1047,7 @@ void MediaPlayer::muteChanged(bool muted)
 
 void MediaPlayer::volumeChanged(qreal volume)
 {
-	quazaaSettings.MediaVolume = volume;
+	quazaaSettings.Media.Volume = volume;
 }
 
 void MediaPlayer::savePlaylist()
@@ -1056,13 +1056,13 @@ void MediaPlayer::savePlaylist()
 		return;
 
 	QString fileName = QFileDialog::getSaveFileName(0, tr("Save Playlist"),
-								quazaaSettings.MediaOpenPath,
+								quazaaSettings.Media.OpenPath,
 								tr("Quazaa Playlist (*.qpl)"));
 	if (fileName.isEmpty())
 		return;
 
 	QFileInfo fileInfo(fileName);
-	quazaaSettings.MediaOpenPath = fileInfo.canonicalPath();
+	quazaaSettings.Media.OpenPath = fileInfo.canonicalPath();
 
 	QStringList playlistEntries;
 	foreach (Phonon::MediaSource source, sources) {
@@ -1076,7 +1076,7 @@ void MediaPlayer::savePlaylist()
 void MediaPlayer::openPlaylist(bool addToPlaylist)
 {
 	QString fileName = QFileDialog::getOpenFileName(0, tr("Open Playlist"),
-													quazaaSettings.MediaOpenPath,
+													quazaaSettings.Media.OpenPath,
 													tr("Quazaa Playlist (*.qpl)"));
 	if (fileName.isEmpty())
 		return;
@@ -1087,7 +1087,7 @@ void MediaPlayer::openPlaylist(bool addToPlaylist)
 
 
 	QFileInfo fileInfo(fileName);
-	quazaaSettings.MediaOpenPath = fileInfo.canonicalPath();
+	quazaaSettings.Media.OpenPath = fileInfo.canonicalPath();
 
 	QStringList playlistEntries;
 	QSettings reader(fileName, QSettings::IniFormat);

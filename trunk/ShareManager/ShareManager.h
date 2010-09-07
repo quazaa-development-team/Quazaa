@@ -31,18 +31,24 @@
 #include "thread.h"
 #include "SharedFile.h"
 
+class CQueryHashTable;
+
 class CShareManager : public QObject
 {
     Q_OBJECT
 
-protected:
+public:
 	QMutex			m_oSection;
+protected:
 	QWaitCondition	m_oQueryCond;
 	QSqlDatabase	m_oDatabase;
 	bool			m_bActive;
 	bool			m_bReady;
 
 	QList<QSqlRecord> m_lQueryResults;
+
+	CQueryHashTable*	m_pTable;
+	bool				m_bTableReady;
 public:
     explicit CShareManager(QObject *parent = 0);
 
@@ -58,12 +64,17 @@ public:
 
 	void ScanFolder(QString sPath, qint64 nParentID = 0);
 
+	CQueryHashTable* GetHashTable();
+
 	bool SharesReady()
 	{
 		return m_bReady;
 	}
 
 	QList<QSqlRecord> Query(const QString sQuery);
+
+protected:
+	void BuildHashTable();
 signals:
 	void sharesReady();
 	void executeQuery(const QString& sQuery);

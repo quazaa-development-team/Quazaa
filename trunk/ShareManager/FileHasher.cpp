@@ -48,9 +48,9 @@ CFileHasher* CFileHasher::HashFile(CSharedFilePtr pFile)
 
 	if( m_pHashers == 0 )
 	{
-		m_nMaxHashers = qMax<quint32>(2, QThread::idealThreadCount());
+		m_nMaxHashers = qMin<quint32>(4, qMax<quint32>(2, QThread::idealThreadCount()));
 		m_pHashers = new CFileHasher*[m_nMaxHashers];
-		for( int i = 0; i < m_nMaxHashers; i++ )
+		for( uint i = 0; i < m_nMaxHashers; i++ )
 			m_pHashers[i] = 0;
 	}
 
@@ -59,9 +59,9 @@ CFileHasher* CFileHasher::HashFile(CSharedFilePtr pFile)
 
 	CFileHasher* pHasher = 0;
 
-	if( m_nRunningHashers < m_lQueue.size() && m_nRunningHashers < m_nMaxHashers )
+	if( m_nRunningHashers < (uint)m_lQueue.size() && m_nRunningHashers < m_nMaxHashers )
 	{
-		for( int i = 0; i < m_nMaxHashers; i++ )
+		for( uint i = 0; i < m_nMaxHashers; i++ )
 		{
 			if( !m_pHashers[i] )
 			{
@@ -171,7 +171,7 @@ void CFileHasher::run()
 		}
 	}
 
-	for( int i = 0; i < m_nMaxHashers; i++ )
+	for( uint i = 0; i < m_nMaxHashers; i++ )
 	{
 		if( m_pHashers[i] == this )
 		{

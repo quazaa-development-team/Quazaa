@@ -32,6 +32,7 @@
 
 #include "geoiplist.h"
 #include "network.h"
+#include "queryhashmaster.h"
 #include "UI/dialogsplash.h"
 #include "UI/dialoglanguage.h"
 #include "UI/dialogwizard.h"
@@ -115,6 +116,7 @@ int main(int argc, char *argv[])
 	//Load the library
 	dlgSplash->updateProgress(50, QObject::tr("Loading Library..."));
 	qApp->processEvents();
+	QueryHashMaster.Create();
 	ShareManager.Start();
 
 	dlgSplash->updateProgress(80, QObject::tr("Loading User Interface..."));

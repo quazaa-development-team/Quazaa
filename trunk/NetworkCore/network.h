@@ -35,7 +35,6 @@ class QTcpSocket;
 class CThread;
 class G2Packet;
 
-class QueryHashTable;   // przeniesc to w chuj!
 class CManagedSearch;
 
 class CNetwork : public QObject
@@ -45,7 +44,6 @@ class CNetwork : public QObject
 public:    
     QMutex  m_pSection;
 
-    QueryHashTable* m_pHashTable;   // przeniesc!
 public:
     bool             m_bActive;
     QTimer*          m_pSecondTimer;

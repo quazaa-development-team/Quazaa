@@ -141,7 +141,9 @@ SOURCES += main.cpp \
 	NetworkCore/Hashes/hash.cpp \
 	ShareManager/ShareManager.cpp \
 	ShareManager/SharedFile.cpp \
-	ShareManager/FileHasher.cpp 
+	ShareManager/FileHasher.cpp \ 
+    NetworkCore/queryhashmaster.cpp \
+    NetworkCore/queryhashgroup.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -245,7 +247,9 @@ HEADERS += UI/dialoglanguage.h \
 	ShareManager/FileHasher.h \
 	3rdparty/CyoEncode/CyoEncode.h \
 	3rdparty/CyoEncode/CyoDecode.h \
-    Models/neighbourstablemodel.h
+    Models/neighbourstablemodel.h \
+    NetworkCore/queryhashmaster.h \
+    NetworkCore/queryhashgroup.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \

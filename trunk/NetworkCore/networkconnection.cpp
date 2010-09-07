@@ -276,10 +276,8 @@ void CNetworkConnection::diconnectFromHostImplementation()
 }
 void CNetworkConnection::OnAboutToClose()
 {
-	qDebug() << "about to close";
 	if( !GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty() )
 	{
-		qDebug() << "writing data";
 		writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
 	}
 }
