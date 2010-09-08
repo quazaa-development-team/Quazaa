@@ -556,6 +556,7 @@ QList<QSqlRecord> CShareManager::Query(const QString sQuery)
 
 	return lRecs;
 }
+
 void CShareManager::execQuery(const QString &sQuery)
 {
 	m_oSection.lock();
@@ -619,6 +620,7 @@ void CShareManager::RunHashing()
 		emit sharesReady();
 	}
 }
+
 void CShareManager::OnFileHashed(CSharedFilePtr pFile)
 {
 	QMutexLocker l(&m_oSection);
@@ -637,6 +639,7 @@ CQueryHashTable* CShareManager::GetHashTable()
 
 	return m_pTable;
 }
+
 void CShareManager::BuildHashTable()
 {
 	if( m_pTable == 0 )
