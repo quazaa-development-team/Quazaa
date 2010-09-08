@@ -35,6 +35,7 @@ CFileHasher::CFileHasher(QObject* parent) :QThread(parent)
 {
 	m_bActive = true;
 }
+
 CFileHasher::~CFileHasher()
 {
 	m_bActive = false;
@@ -83,6 +84,7 @@ CFileHasher* CFileHasher::HashFile(CSharedFilePtr pFile)
 
 	return pHasher;
 }
+
 void CFileHasher::run()
 {
 	QTime tTime;
