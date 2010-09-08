@@ -318,7 +318,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		{
 			if( m_pLocalTable->PatchTo(&QueryHashMaster, this) )
 			{
-				systemLog.postLog(QString().sprintf("Sending query routing table to %s (%d bits, %d entries, %d bytes, %d%% full)", m_oAddress.toStringNoPort().toAscii().constData(), m_pLocalTable->m_nBits, m_pLocalTable->m_nHash, m_pLocalTable->m_nHash / 8, m_pLocalTable->GetPercent()), LogSeverity::Information);
+				systemLog.postLog(LogSeverity::Information, "Sending query routing table to %s (%d bits, %d entries, %d bytes, %d%% full)",  m_oAddress.toStringNoPort().toAscii().constData(), m_pLocalTable->m_nBits, m_pLocalTable->m_nHash, m_pLocalTable->m_nHash / 8, m_pLocalTable->GetPercent());
 			}
 		}
 
