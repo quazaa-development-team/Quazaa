@@ -676,8 +676,8 @@ void CShareManager::BuildHashTable()
 		{
 			while( q.next() )
 			{
-				QByteArray m_oTemp = q.record().value(0).toByteArray();
-				CHash* pHash = CHash::FromRaw(m_oTemp, CHash::SHA1);
+				QByteArray m_oHash = q.record().value(0).toByteArray();
+				CHash* pHash = CHash::FromRaw(m_oHash, CHash::SHA1);
 				if( pHash )
 				{
 					m_pTable->AddExactString(pHash->ToURN());
