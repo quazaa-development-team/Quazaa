@@ -309,11 +309,11 @@ void CG2Node::OnTimer(quint32 tNow)
 		}*/
 
 		if( (m_nType == G2_HUB && tNow - m_tConnected > 60) &&
-			(m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie) &&
+			((m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie) &&
 			(tNow - m_pLocalTable->m_nCookie > 60) &&
 			(tNow - QueryHashMaster.m_nCookie > 30) ||
 			QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
-			!m_pLocalTable->m_bLive
+			!m_pLocalTable->m_bLive)
 			)
 		{
 			if( m_pLocalTable->PatchTo(&QueryHashMaster, this) )
