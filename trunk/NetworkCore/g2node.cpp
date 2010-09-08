@@ -1164,7 +1164,7 @@ void CG2Node::OnQuery(G2Packet *pPacket)
 		G2Packet* pH = G2Packet::New("H", true);
 
 		pH->WritePacket("URN", 25);
-		pH->Write("sha1\0xxxxxxxxxxxxxxxxxxxx", 25);
+		pH->Write((void*)"sha1\0xxxxxxxxxxxxxxxxxxxx", 25);
 
 		pH->WritePacket("DN", 4 + sDN.toUtf8().size() + 8);
 		quint32 nTemp = 65535;
