@@ -33,3 +33,11 @@ void SystemLog::postLog(QString message, LogSeverity::Severity severity)
 {
 	emit logPosted(message, severity);
 }
+void SystemLog::postLog(LogSeverity::Severity severity, const char* format, ...)
+{
+	va_list argList;
+	va_start(argList, format);
+	QString message = QString().vsprintf(format, argList);
+	postLog(message, severity);
+	va_end(argList);
+}

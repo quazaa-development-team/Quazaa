@@ -39,6 +39,8 @@ signals:
 
 public slots:
         void postLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
+public:
+		void postLog(LogSeverity::Severity severity, const char* format, ...);
 };
 
 extern SystemLog systemLog;
