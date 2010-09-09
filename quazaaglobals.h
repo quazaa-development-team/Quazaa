@@ -36,12 +36,12 @@ public:
 	QTranslator translator;
 	QString ApplicationName() const { return "Quazaa"; }
 #ifdef QT_DEBUG
-	QString ApplicationVersion() const { return "0,0,1,1B"; }
+	QString ApplicationVersion() const { return "0,0,1,8A"; }
 #else
-	QString ApplicationVersion() const { return "0,0,1,1"; }
+	QString ApplicationVersion() const { return "0,0,1,8"; }
 #endif
-	QString ApplicationVersionString() const { return "0.0.1.1a (rev.384 2009-11-01)"; }
-	QString ApplicationFingerprint() const { return "QZ,0,0,1,1"; }
+	QString ApplicationVersionString() const { return "0.0.1.8a (rev.271 2010-09-08)"; }
+	QString ApplicationFingerprint() const { return "QZ,0,0,1,8"; }
 	QString ApplicationOrganizationName() const { return "Quazaa Development Team"; }
 	QString ApplicationOrganizationDomain() const { return "http://quazaa.sourceforge.net"; }
 	QString UserAgentString() const { return ApplicationName() + "/" + ApplicationVersion().replace(",", "."); }
