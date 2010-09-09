@@ -23,7 +23,7 @@
 CQueryHashGroup::CQueryHashGroup(quint32 nHash)
 {
 	m_nHash = nHash ? nHash : 1u << quazaaSettings.Library.QueryRouteSize;
-	m_pHash = new char[ m_nHash ];
+	m_pHash = new uchar[ m_nHash ];
 	memset(m_pHash, 0, m_nHash);
 	m_nCount = 0;
 }
@@ -31,7 +31,7 @@ CQueryHashGroup::CQueryHashGroup(quint32 nHash)
 CQueryHashGroup::~CQueryHashGroup()
 {
 #ifdef _DEBUG
-	char* pTest = m_pHash;
+	uchar* pTest = m_pHash;
 
 	for ( quint32 nHash = m_nHash ; nHash ; nHash-- )
 	{
@@ -75,14 +75,14 @@ void CQueryHashGroup::Operate(CQueryHashTable* pTable, bool bAdd)
 	Q_ASSERT( m_pHash != 0 );
 	Q_ASSERT( pTable->m_nHash == m_nHash );
 
-	char* pSource = pTable->m_pHash;
-	char* pTarget = m_pHash;
+	uchar* pSource = pTable->m_pHash;
+	uchar* pTarget = m_pHash;
 
 	if ( bAdd )
 	{
 		for ( quint32 nHash = m_nHash >> 3 ; nHash ; nHash-- )
 		{
-			register char nSource = *pSource++;
+			register uchar nSource = *pSource++;
 
 			if ( ( nSource & 0x01 ) == 0 ) (*pTarget++) ++; else pTarget++;
 			if ( ( nSource & 0x02 ) == 0 ) (*pTarget++) ++; else pTarget++;
@@ -98,7 +98,7 @@ void CQueryHashGroup::Operate(CQueryHashTable* pTable, bool bAdd)
 	{
 		for ( quint32 nHash = m_nHash >> 3 ; nHash ; nHash-- )
 		{
-			register char nSource = *pSource++;
+			register uchar nSource = *pSource++;
 
 			if ( ( nSource & 0x01 ) == 0 ) (*pTarget++) --; else pTarget++;
 			if ( ( nSource & 0x02 ) == 0 ) (*pTarget++) --; else pTarget++;

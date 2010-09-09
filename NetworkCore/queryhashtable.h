@@ -41,7 +41,7 @@ public:
 public:
 	bool				m_bLive;
 	quint32				m_nCookie;
-	char*				m_pHash;
+	uchar*				m_pHash;
 	quint32				m_nHash;
 	quint32				m_nBits;
 	quint32				m_nInfinity;
