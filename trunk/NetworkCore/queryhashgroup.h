@@ -31,7 +31,7 @@ public:
 	virtual ~CQueryHashGroup();
 
 public:
-	char*		m_pHash;
+	uchar*		m_pHash;
 	quint32		m_nHash;
 	quint32		m_nCount;
 protected:
