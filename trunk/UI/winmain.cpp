@@ -857,12 +857,12 @@ void WinMain::on_actionQuickstartWizard_triggered()
 
 void WinMain::on_actionUsersGuide_triggered()
 {
-	QDesktopServices::openUrl(QUrl("https://sourceforge.net/apps/mediawiki/quazaa/index.php?title=Manual", QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl("http://quazaa.sourceforge.net/wiki/Manual", QUrl::TolerantMode));
 }
 
 void WinMain::on_actionFAQ_triggered()
 {
-	QDesktopServices::openUrl(QUrl("https://sourceforge.net/apps/mediawiki/quazaa/index.php?title=FAQ&action=edit&redlink=1", QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl("http://quazaa.sourceforge.net/wiki/FAQ", QUrl::TolerantMode));
 }
 
 void WinMain::on_actionConnectionTest_triggered()
