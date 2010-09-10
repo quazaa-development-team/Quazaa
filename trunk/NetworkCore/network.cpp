@@ -262,7 +262,7 @@ void CNetwork::DisconnectAllNodes()
     {
         pNode = it.next();
 		RemoveNode(pNode);
-        pNode->abort();
+		pNode->Close();
 		delete pNode;
     }
 }
@@ -472,12 +472,12 @@ void CNetwork::OnNodeStateChange()
         emit NodeUpdated(qobject_cast<CG2Node*>(pSender));
 }
 
-void CNetwork::OnAccept(QTcpSocket* pConn)
+void CNetwork::OnAccept(CNetworkConnection* pConn)
 {
 	if( !m_pSection.tryLock(50) )
 	{
 		qDebug() << "Not accepting incoming connection. Network overloaded";
-		pConn->abort();
+		pConn->Close();
 		delete pConn;
 		return;
 	}
@@ -529,7 +529,7 @@ void CNetwork::DropYoungest(G2NodeType nType, bool bCore)
     }
 
     if( pNode )
-        pNode->disconnectFromHost();
+		pNode->Close();;
 }
 
 void CNetwork::AcquireLocalAddress(QString &sHeader)
@@ -679,14 +679,14 @@ void CNetwork::ConnectTo(IPv4_ENDPOINT &addr)
 	emit NodeAdded(pNew);
 	m_pRateController->AddSocket(pNew);
 	m_lNodes.append(pNew);
-	pNew->connectToHost(addr);
+	pNew->ConnectTo(addr);;
 	pNew->moveToThread(&NetworkThread);
 }
 
 // WARNING: pNode must be a valid pointer
 void CNetwork::DisconnectFrom(CG2Node *pNode)
 {
-	pNode->close();
+	pNode->Close();
 }
 void CNetwork::DisconnectFrom(int index)
 {
