@@ -70,8 +70,19 @@ public:
     CG2Node(QObject *parent = 0);
     ~CG2Node();
 
-    void connectToHost(IPv4_ENDPOINT oAddress);
-    void AttachTo(QTcpSocket* pOther)
+	virtual void ConnectTo(QHostAddress oAddress, quint16 nPort)
+	{
+		systemLog.postLog(LogSeverity::Information, "Initiating neighbour connection to %s...", qPrintable(oAddress.toString()));
+		m_nState = nsConnecting;
+		CNetworkConnection::ConnectTo(oAddress, nPort);
+		SetupSlots();
+	}
+	virtual void ConnectTo(IPv4_ENDPOINT oAddress)
+	{
+		CNetworkConnection::ConnectTo(oAddress);
+	}
+
+	void AttachTo(CNetworkConnection* pOther)
     {
         m_nState = nsHandshaking;
         SetupSlots();

@@ -23,7 +23,8 @@
 #include "networkconnection.h"
 
 #include <limits>
-#include <QAtomicInt>
+#include <QTcpSocket>
+#include <QMutexLocker>
 
 CRateController::CRateController(QObject* parent): QObject(parent)
 {
@@ -45,6 +46,8 @@ CRateController::CRateController(QObject* parent): QObject(parent)
 
 void CRateController::AddSocket(CNetworkConnection* pSock)
 {
+	QMutexLocker l(&m_oMutex);
+
     //qDebug() << "CRC /" << objectName() << "/ AddSocket " << pSock;
 	connect(pSock, SIGNAL(readyToTransfer()), this, SLOT(transfer()));
     pSock->setReadBufferSize(8192);
@@ -53,6 +56,8 @@ void CRateController::AddSocket(CNetworkConnection* pSock)
 }
 void CRateController::RemoveSocket(CNetworkConnection* pSock)
 {
+	QMutexLocker l(&m_oMutex);
+
     //qDebug() << "CRC /" << objectName() << "/ RemoveSocket " << pSock;
 	disconnect(pSock, SIGNAL(readyToTransfer()), this, SLOT(transfer()));
     pSock->setReadBufferSize(0);
@@ -84,6 +89,8 @@ void CRateController::transfer()
         sheduleTransfer();
         return;
     }
+
+	QMutexLocker l(&m_oMutex);
 
     QSet<CNetworkConnection*> lSockets;
     foreach(CNetworkConnection* pSock, m_lSockets)

@@ -33,6 +33,8 @@
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 
+#include <QTcpSocket>
+
 //#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject *parent) :
@@ -67,13 +69,6 @@ CG2Node::~CG2Node()
 		delete m_pRemoteTable;
 
 	Network.RemoveNode(this);
-}
-
-void CG2Node::connectToHost(IPv4_ENDPOINT oAddress)
-{
-	m_nState = nsConnecting;
-	CNetworkConnection::connectToHost(oAddress);
-	SetupSlots();
 }
 
 void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
@@ -139,7 +134,7 @@ void CG2Node::OnConnect()
 {
 	QMutexLocker l(&Network.m_pSection);
 
-	//qDebug("OnConnect()");
+	systemLog.postLog(LogSeverity::Information, "Connection with %s established, handshaking...", qPrintable(m_oAddress.toString()));
 
 	m_nState = nsHandshaking;
 	emit NodeStateChanged();
@@ -163,13 +158,13 @@ void CG2Node::OnConnect()
 
 	//qDebug() << "Handshake send:\n" << sHs;
 
-	write(sHs);
+	Write(sHs);
 }
 void CG2Node::OnDisconnect()
 {
 	QMutexLocker l(&Network.m_pSection);
 	//qDebug("OnDisconnect()");
-	systemLog.postLog(tr("Remote host closed connection: ") + m_oAddress.toString(), LogSeverity::Notice);
+	systemLog.postLog(LogSeverity::Information, "Connection with %s was dropped: %s", qPrintable(m_oAddress.toString()), qPrintable(m_pSocket->errorString()));
 	deleteLater();
 }
 
@@ -184,7 +179,7 @@ void CG2Node::OnRead()
 	//qDebug() << "CG2Node::OnRead";
 	if( m_nState == nsHandshaking )
 	{
-		if( peek(bytesAvailable()).indexOf("\r\n\r\n") != -1 )
+		if( Peek(bytesAvailable()).indexOf("\r\n\r\n") != -1 )
 		{
 			if( m_bInitiated )
 			{
@@ -238,7 +233,7 @@ void CG2Node::OnError(QAbstractSocket::SocketError e)
 		HostCache.OnFailure(m_oAddress);
 	}
 
-	systemLog.postLog(tr("Remote host closed connection: ") + m_oAddress.toString() + tr(". Error: ") + m_pSocket->errorString(), LogSeverity::Notice);
+	//systemLog.postLog(tr("Remote host closed connection: ") + m_oAddress.toString() + tr(". Error: ") + m_pSocket->errorString(), LogSeverity::Notice);
 	//qDebug() << "OnError(" << e << ")" << m_oAddress.toString();
 	deleteLater();
 }
@@ -262,7 +257,7 @@ void CG2Node::OnTimer(quint32 tNow)
 			if( m_bInitiated )
 				HostCache.OnFailure(m_oAddress);
 			m_nState = nsClosing;
-			disconnectFromHost();
+			Close();
 			return;
 		}
 	}
@@ -273,7 +268,7 @@ void CG2Node::OnTimer(quint32 tNow)
 			qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "minute dead";
 			m_nState = nsClosing;
 			emit NodeStateChanged();
-			deleteLater();
+			Close();
 			return;
 		}
 
@@ -295,7 +290,7 @@ void CG2Node::OnTimer(quint32 tNow)
 			qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "ping timed out";
 			m_nState = nsClosing;
 			emit NodeStateChanged();
-			deleteLater();
+			Close();
 			return;
 		}
 
@@ -304,7 +299,7 @@ void CG2Node::OnTimer(quint32 tNow)
 			qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "QueryKey wait timeout reached";
 			m_nState = nsClosing;
 			emit NodeStateChanged();
-			deleteLater();
+			Close();
 			return;
 		}*/
 
@@ -329,19 +324,19 @@ void CG2Node::OnTimer(quint32 tNow)
 	{
 		if( m_nType == G2_UNKNOWN && tNow - m_tConnected > 20 )
 		{
-			deleteLater();
+			Close();
 		}
 		else if( tNow - m_tLastPacketIn > 20)
 		{
-			deleteLater();
+			Close();
 		}
 	}
 }
 
 void CG2Node::ParseIncomingHandshake()
 {
-	qint32 nIndex = peek(bytesAvailable()).indexOf("\r\n\r\n");
-	QString sHs = read(nIndex + 4);
+	qint32 nIndex = Peek(bytesAvailable()).indexOf("\r\n\r\n");
+	QString sHs = Read(nIndex + 4);
 
 	//qDebug() << "Handshake receive:\n" << sHs;
 
@@ -469,13 +464,13 @@ void CG2Node::ParseIncomingHandshake()
 		qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
 		m_nState = nsClosing;
 		emit NodeStateChanged();
-		close();
+		Close();
 	}
 }
 
 void CG2Node::ParseOutgoingHandshake()
 {
-	QString sHs = read(peek(bytesAvailable()).indexOf("\r\n\r\n") + 4);
+	QString sHs = Read(Peek(bytesAvailable()).indexOf("\r\n\r\n") + 4);
 
 	//qDebug() << "Handshake receive:\n" << sHs;
 
@@ -506,7 +501,7 @@ void CG2Node::ParseOutgoingHandshake()
 	if( sHs.left(16) != "GNUTELLA/0.6 200" )
 	{
 		qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
-		disconnectFromHost();
+		Close();
 		return;
 	}
 
@@ -601,9 +596,12 @@ void CG2Node::ParseOutgoingHandshake()
 		m_pLocalTable = new CQueryHashTable();
 	}
 
+	systemLog.postLog(LogSeverity::Information, "Gnutella2 connection with %s established.", qPrintable(m_oAddress.toString()));
 }
 void CG2Node::Send_ConnectError(QString sReason)
 {
+	systemLog.postLog(LogSeverity::Information, "Rejecting connection with %s: %s", qPrintable(m_oAddress.toString()), qPrintable(sReason));
+
 	qDebug() << "Rejecting connection:" << sReason;
 
 	QByteArray sHs;
@@ -616,10 +614,9 @@ void CG2Node::Send_ConnectError(QString sReason)
 	sHs += "\r\n";
 
 	//qDebug() << "Handshake send:\n" << sHs;
-	write(sHs);
-	flush();
+	Write(sHs);
 
-	close();
+	Close(true);
 }
 void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
 {
@@ -663,7 +660,7 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
 
 	//qDebug() << "Handshake send:\n" << sHs;
 
-	write(sHs);
+	Write(sHs);
 
 }
 

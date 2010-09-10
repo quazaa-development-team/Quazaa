@@ -242,10 +242,10 @@ void CNeighboursTableModel::AddNode(CG2Node *pNode, bool bSignal)
 	nbr.pNode = pNode;
 	nbr.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
 	nbr.tConnected = tNow - pNode->m_tConnected;
-	nbr.nBandwidthIn = pNode->AvgIn(tNow);
-	nbr.nBandwidthOut = pNode->AvgOut(tNow);
-	nbr.nBytesReceived = pNode->GetTotalIn();
-	nbr.nBytesSent = pNode->GetTotalOut();
+	nbr.nBandwidthIn = pNode->m_mInput.Usage();
+	nbr.nBandwidthOut = pNode->m_mOutput.Usage();
+	nbr.nBytesReceived = pNode->m_mInput.m_nTotal;
+	nbr.nBytesSent = pNode->m_mOutput.m_nTotal;
 	nbr.nCompressionIn = pNode->GetTotalInDecompressed();
 	nbr.nCompressionOut = pNode->GetTotalOutCompressed();
 	nbr.nLeafCount = pNode->m_nLeafCount;
@@ -295,10 +295,10 @@ void CNeighboursTableModel::UpdateNode(CG2Node *pNode, bool bSignal)
 		if( m_lNodes[i].pNode == pNode )
 		{
 			m_lNodes[i].tConnected = tNow - pNode->m_tConnected;
-			m_lNodes[i].nBandwidthIn = pNode->AvgIn(tNow);
-			m_lNodes[i].nBandwidthOut = pNode->AvgOut(tNow);
-			m_lNodes[i].nBytesReceived = pNode->GetTotalIn();
-			m_lNodes[i].nBytesSent = pNode->GetTotalOut();
+			m_lNodes[i].nBandwidthIn = pNode->m_mInput.Usage();
+			m_lNodes[i].nBandwidthOut = pNode->m_mOutput.Usage();
+			m_lNodes[i].nBytesReceived = pNode->m_mInput.m_nTotal;
+			m_lNodes[i].nBytesSent = pNode->m_mOutput.m_nTotal;
 			m_lNodes[i].nCompressionIn = pNode->GetTotalInDecompressed();
 			m_lNodes[i].nCompressionOut = pNode->GetTotalOutCompressed();
 			m_lNodes[i].nLeafCount = pNode->m_nLeafCount;

@@ -31,7 +31,6 @@
 
 class QTimer;
 class CG2Node;
-class QTcpSocket;
 class CThread;
 class G2Packet;
 
@@ -76,7 +75,7 @@ public:
 
     void RemoveNode(CG2Node* pNode);
     bool NeedMore(G2NodeType nType);
-    void OnAccept(QTcpSocket* pConn);
+	void OnAccept(CNetworkConnection* pConn);
 
     void AcquireLocalAddress(QString& sHeader);
     bool IsListening();

@@ -86,9 +86,9 @@ void CHandshake::OnRead()
     if( m_pSocket->peek(8).startsWith("GNUTELLA") )
     {
         qDebug("Incoming connection from %s is Gnutella Neighbour connection", m_pSocket->peerAddress().toString().toAscii().constData());
-        Network.OnAccept(m_pSocket);
-        m_pSocket = 0;
-        deleteLater();
+		//Network.OnAccept(this);
+		//m_pSocket = 0;
+		//deleteLater();
     }
     else
     {

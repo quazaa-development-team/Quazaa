@@ -22,14 +22,15 @@
 #ifndef NETWORKCONNECTION_H
 #define NETWORKCONNECTION_H
 
-#include <QTcpSocket>
-
 #include "types.h"
-class QThread;
+#include <QTime>
+#include <QObject>
 
 class QByteArray;
+class QTcpSocket;
+class QThread;
 
-class CNetworkConnection : public QTcpSocket
+class CNetworkConnection : public QObject
 {
     Q_OBJECT
 public:
@@ -47,13 +48,8 @@ public:
     bool    m_bConnected;
     qint32  m_tConnected;
 
-    // Statystyki
-    quint32 m_nInput[8];
-    quint32 m_nOutput[8];
-    quint32 m_tLastRotate;  // czas kiedy ostatnio cos robilismy z pasmem
+	bool	m_bDelayedClose;
 
-    quint64 m_nTotalInput;  // ilosc danych odebranych z sieci
-    quint64 m_nTotalOutput;
 
 public:
     CNetworkConnection(QObject* parent = 0);
@@ -61,14 +57,42 @@ public:
 	void moveToThread(QThread *thread);
 
 public:
-    virtual void connectToHost(IPv4_ENDPOINT oAddress);
-    virtual void AttachTo(QTcpSocket* pOther);
-    qint64 peek(char* data, qint64 maxlen);
-    QByteArray peek(qint64 maxlen);
-    QByteArray read(qint64 maxlen);
-    qint64 read(char *data, qint64 maxlen);
+	virtual void ConnectTo(IPv4_ENDPOINT oAddress);
+	virtual void ConnectTo(QHostAddress oAddress, quint16 nPort);
+	virtual void AttachTo(CNetworkConnection* pOther);
+	virtual void Close(bool bDelayed = false);
 
 public:
+	void Write(QByteArray baData)
+	{
+		Write(baData.constData(), baData.size());
+	}
+
+	void Write(const char* szData, quint32 nLength)
+	{
+		writeData(szData, nLength);
+	}
+
+	qint64 Read(char* pData, qint64 nMaxSize = 0)
+	{
+		return readData(pData, nMaxSize);
+	}
+
+	QByteArray Read(qint64 nMaxSize = 0)
+	{
+		QByteArray baRet;
+
+		baRet.resize(qMin<qint64>(nMaxSize, m_pInput->size()));
+		readData(baRet.data(), baRet.size());
+		return baRet;
+	}
+
+	QByteArray Peek(qint64 nMaxLength = 0)
+	{
+		return GetInputBuffer()->left(qMin<qint64>(nMaxLength ? nMaxLength : GetInputBuffer()->size(), GetInputBuffer()->size()));
+	}
+
+protected:
     virtual qint64 readFromNetwork(qint64 nBytes);
     virtual qint64 writeToNetwork(qint64 nBytes);
 
@@ -80,88 +104,13 @@ protected:
     void initializeSocket();
 
 public:
-    inline quint64  GetTotalIn() const
-    {
-        return m_nTotalInput;
-    }
-    inline quint64  GetTotalOut() const
-    {
-        return m_nTotalOutput;
-    }
-    inline void UpdateBandwidth(quint32 tNow = 0)
-    {
-        if( tNow == 0 )
-            tNow = time(0);
 
-        qint32 tDiff = tNow - m_tLastRotate;
+	qint64 bytesAvailable();
+	qint64 bytesToWrite() const;
+	qint64 networkBytesAvailable() const;
+	bool isValid() const;
+	void setReadBufferSize(qint64 nSize);
 
-        if( tDiff == 0 )
-            return;
-
-        if( tDiff > 8 )
-        {
-            for( qint32 i = 0; i < 8; i++ )
-            {
-                m_nInput[i] = 0;
-                m_nOutput[i] = 0;
-            }
-        }
-        else
-        {
-            for( qint32 i = 0; i < tDiff; i++ )
-            {
-                for( qint32 j = 6; j >= 0; --j )
-                {
-                    m_nInput[j + 1] = m_nInput[j];
-                    m_nOutput[j + 1] = m_nOutput[j];
-                }
-                m_nInput[0] = 0;
-                m_nOutput[0] = 0;
-            }
-
-        }
-        m_tLastRotate = tNow;
-    }
-    inline quint32 AvgIn(quint32 tNow = 0)
-    {
-        if( tNow == 0 )
-            tNow = time(0);
-
-        UpdateBandwidth(tNow);
-
-        quint32 nRet = 0;
-        for( qint32 i = 0; i < 8; i++ )
-        {
-            nRet += m_nInput[i];
-        }
-
-        return nRet / 8;
-    }
-    inline quint32 AvgOut(quint32 tNow = 0)
-    {
-        if( tNow == 0 )
-            tNow = time(0);
-
-        UpdateBandwidth(tNow);
-
-        quint32 nRet = 0;
-        for( qint32 i = 0; i < 8; i++ )
-        {
-            nRet += m_nOutput[i];
-        }
-
-        return nRet / 8;
-    }
-    inline void AddIn(quint32 nLength)
-    {
-        m_nInput[0] += nLength;
-        m_nTotalInput += nLength;
-    }
-    inline void AddOut(quint32 nLength)
-    {
-        m_nOutput[0] += nLength;
-        m_nTotalOutput += nLength;
-    }
     inline IPv4_ENDPOINT GetAddress()
     {
         return m_oAddress;
@@ -181,46 +130,6 @@ public:
             bRet |= true;
         return bRet;
     }
-    inline qint64 bytesAvailable()
-    {
-        Q_ASSERT(m_pInput != 0);
-
-        if( m_pSocket->state() != ConnectedState )
-        {
-            /*int nOldSize = m_pInput->size();
-            m_pInput->resize(nOldSize + m_pSocket->bytesAvailable());
-            m_pSocket->readData(m_pInput->data() + nOldSize, m_pInput->size() - nOldSize);*/
-            m_pInput->append(m_pSocket->readAll());
-        }
-
-        return m_pInput->size();
-    }
-    inline qint64 bytesToWrite() const
-    {
-        if( !m_pSocket )
-            return 0;
-
-        return m_pSocket->bytesToWrite() + m_pOutput->size();
-    }
-    inline bool isValid() const
-    {
-        if( m_pSocket == 0 || m_pInput == 0 || m_pOutput == 0 )
-            return false;
-
-        return m_pSocket->isValid();
-    }
-    inline qint64 networkBytesAvailable() const
-    {
-        if( !isValid() )
-            return 0;
-
-        if( m_nInputSize > 0 )
-        {
-            return qMax(qint64(0), qMin(m_pSocket->bytesAvailable(), qint64(m_nInputSize - m_pInput->size())));
-        }
-
-        return m_pSocket->bytesAvailable();
-    }
 
     inline virtual QByteArray* GetInputBuffer()
     {
@@ -234,24 +143,38 @@ public:
 
         return m_pOutput;
     }
-    inline void setReadBufferSize(qint64 nSize)
-    {
-        m_nInputSize = nSize;
-        if( m_pSocket )
-            m_pSocket->setReadBufferSize(nSize);
-    }
-
 signals:
+	void connected();
+	void readyRead();
+	void disconnected();
+	void error(QAbstractSocket::SocketError);
+	void bytesWritten(qint64);
+	void stateChanged(QAbstractSocket::SocketState);
+	void aboutToClose();
     void readyToTransfer();
 
-private slots:
-    void socketStateChanged(QAbstractSocket::SocketState state);
-
 protected slots:
-    void connectToHostImplementation(const QString &hostName,
-                                     quint16 port, OpenMode openMode = ReadWrite);
-    void diconnectFromHostImplementation();
 	void OnAboutToClose();
+
+
+public:
+
+	typedef struct
+	{
+		QTime	m_tTime;
+		quint32 m_pSlots[20]; // 4slots / 1sec
+		quint32 m_nCurrentSlot;
+		quint64 m_nTotal;
+
+		void	Init();
+		void	Add(quint32 nBytes);
+		quint32	AvgUsage();
+		quint32 Usage();
+
+	} TCPBandwidthMeter;
+
+	TCPBandwidthMeter m_mInput;
+	TCPBandwidthMeter m_mOutput;
 
     friend class CRateController;
 };

@@ -27,6 +27,7 @@
 #include <QTime>
 #include <QSet>
 #include <QTimer>
+#include <QMutex>
 
 
 class CNetworkConnection;
@@ -46,6 +47,7 @@ protected:
 	bool    m_bTransferSheduled;
 	QTimer	m_tTransferTimer;
 	bool	m_bTransferring;
+	QMutex	m_oMutex;
 
     QSet<CNetworkConnection*>   m_lSockets;
 public:
