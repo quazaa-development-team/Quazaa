@@ -38,6 +38,7 @@
 #include "UI/dialogwizard.h"
 #include "QSkinDialog/qskinsettings.h"
 #include "ShareManager.h"
+#include "quazaairc.h"
 
 
 QuazaaGlobals quazaaGlobals;
@@ -112,6 +113,15 @@ int main(int argc, char *argv[])
 
 	//initialize geoip list
 	GeoIP.loadGeoIP();
+
+	//Load IRC
+	dlgSplash->updateProgress(30, QObject::tr("Starting chat if enabled..."));
+	qApp->processEvents();
+	if (quazaaSettings.Chat.ConnectOnStartup)
+	{
+		QuazaaIRC *quazaaIrc = new QuazaaIRC();
+		quazaaIrc->startIrc(false, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName);
+	}
 
 	//Load the library
 	dlgSplash->updateProgress(50, QObject::tr("Loading Library..."));

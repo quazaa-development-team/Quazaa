@@ -32,7 +32,10 @@ class QuazaaIRC : public Irc::Session
 public:
 	QuazaaIRC(QObject* parent = 0);
 
-protected Q_SLOTS:
+public slots:
+	bool startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer );
+
+protected slots:
 	void on_connected();
 	void on_disconnected();
 
@@ -40,33 +43,7 @@ protected Q_SLOTS:
 	void on_bufferRemoved(Irc::Buffer* buffer);
 
 protected:
-	virtual Irc::Buffer* createBuffer(const QString& receiver);
+	Irc::Session *ircSession;
 };
 
-class QuazaaIRCBuffer : public Irc::Buffer
-{
-	Q_OBJECT
-
-public:
-	QuazaaIRCBuffer(const QString& receiver, Irc::Session* parent);
-
-protected Q_SLOTS:
-	void on_receiverChanged(const QString& receiver);
-	void on_joined(const QString& origin);
-	void on_parted(const QString& origin, const QString& message);
-	void on_quit(const QString& origin, const QString& message);
-	void on_nickChanged(const QString& origin, const QString& nick);
-	void on_modeChanged(const QString& origin, const QString& mode, const QString& args);
-	void on_topicChanged(const QString& origin, const QString& topic);
-	void on_invited(const QString& origin, const QString& receiver, const QString& channel);
-	void on_kicked(const QString& origin, const QString& nick, const QString& message);
-	void on_messageReceived(const QString& origin, const QString& message);
-	void on_noticeReceived(const QString& origin, const QString& notice);
-	void on_ctcpRequestReceived(const QString& origin, const QString& request);
-	void on_ctcpReplyReceived(const QString& origin, const QString& reply);
-	void on_ctcpActionReceived(const QString& origin, const QString& action);
-	void on_numericMessageReceived(const QString& origin, uint code, const QStringList& params);
-	void on_unknownMessageReceived(const QString& origin, const QStringList& params);
-};
-
-#endif // QUAZAAIRC_H
+#endif //QUAZAAIRC_H
