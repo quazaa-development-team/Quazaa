@@ -30,6 +30,20 @@ class QByteArray;
 class QTcpSocket;
 class QThread;
 
+typedef struct
+{
+	QTime	m_tTime;
+	quint32 m_pSlots[20]; // 4slots / 1sec
+	quint32 m_nCurrentSlot;
+	quint64 m_nTotal;
+
+	void	Init();
+	void	Add(quint32 nBytes);
+	quint32	AvgUsage();
+	quint32 Usage();
+
+} TCPBandwidthMeter;
+
 class CNetworkConnection : public QObject
 {
     Q_OBJECT
@@ -158,21 +172,6 @@ protected slots:
 
 
 public:
-
-	typedef struct
-	{
-		QTime	m_tTime;
-		quint32 m_pSlots[20]; // 4slots / 1sec
-		quint32 m_nCurrentSlot;
-		quint64 m_nTotal;
-
-		void	Init();
-		void	Add(quint32 nBytes);
-		quint32	AvgUsage();
-		quint32 Usage();
-
-	} TCPBandwidthMeter;
-
 	TCPBandwidthMeter m_mInput;
 	TCPBandwidthMeter m_mOutput;
 
