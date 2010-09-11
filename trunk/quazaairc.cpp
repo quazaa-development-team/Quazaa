@@ -33,7 +33,6 @@ void QuazaaIRC::on_connected()
 {
 	qDebug() << "IRC connected:";
 	ircSession->join("#quazaa-dev");
-	ircSession->message("#quazaa-dev", "Hello! I'm Brov's Quazaa client and testing that IRC shit. If you see this message then everything seems working!");
 }
 
 void QuazaaIRC::on_disconnected()

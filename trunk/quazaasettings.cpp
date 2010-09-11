@@ -983,13 +983,22 @@ void QuazaaSettings::loadProfile()
 	quazaaSettings.Profile.Favorites = m_qSettings.value("Favorites", QStringList()).toStringList();
 	quazaaSettings.Profile.FavoritesURL = m_qSettings.value("FavoritesURL", QStringList()).toStringList();
 	quazaaSettings.Profile.Gender = m_qSettings.value("Gender", 0).toInt();
-	quazaaSettings.Profile.GnutellaScreenName = m_qSettings.value("GnutellaScreenName", tr("Quazaa User")).toString();
 	quazaaSettings.Profile.GUID = m_qSettings.value("GUID", QUuid::createUuid().toString()).toString();
+	QString tempNick = tr("QuazaaUser-%1").arg(QUuid::createUuid().data1);
+	quazaaSettings.Profile.GnutellaScreenName = m_qSettings.value("GnutellaScreenName", "").toString();
+	if (quazaaSettings.Profile.GnutellaScreenName == "")
+		quazaaSettings.Profile.GnutellaScreenName = tempNick;
 	quazaaSettings.Profile.ICQuin = m_qSettings.value("ICQuin", "").toString();
 	quazaaSettings.Profile.Interests = m_qSettings.value("Interests", QStringList()).toStringList();
 	quazaaSettings.Profile.IrcAlternateNickname = m_qSettings.value("IrcAlternateNickname", "").toString();
-	quazaaSettings.Profile.IrcNickname = m_qSettings.value("IrcNickname", tr("Quazaa User")).toString();
-	quazaaSettings.Profile.IrcUserName = m_qSettings.value("IrcUserName", tr("QuazaaUser")).toString();
+	quazaaSettings.Profile.IrcNickname = m_qSettings.value("IrcNickname", "").toString();
+	if (quazaaSettings.Profile.IrcNickname == "")
+		quazaaSettings.Profile.IrcNickname = tempNick;
+	quazaaSettings.Profile.ICQuin = m_qSettings.value("ICQuin", "").toString();
+	quazaaSettings.Profile.IrcUserName = m_qSettings.value("IrcUserName", "").toString();
+	if (quazaaSettings.Profile.IrcUserName == "")
+		quazaaSettings.Profile.IrcUserName = tempNick;
+	quazaaSettings.Profile.ICQuin = m_qSettings.value("ICQuin", "").toString();
 	quazaaSettings.Profile.JabberID = m_qSettings.value("JabberID", "").toString();
 	quazaaSettings.Profile.Latitude = m_qSettings.value("Latitude", "").toString();
 	quazaaSettings.Profile.Longitude = m_qSettings.value("Longitude", "").toString();

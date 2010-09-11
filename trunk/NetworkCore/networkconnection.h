@@ -48,28 +48,28 @@ public:
 
 class CNetworkConnection : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    QTcpSocket* m_pSocket;  // sockecik ;)
+	QTcpSocket* m_pSocket;  // sockecik ;)
 
-    // Adres hosta
-    IPv4_ENDPOINT   m_oAddress;
+	// Adres hosta
+	IPv4_ENDPOINT   m_oAddress;
 
-    // Bufory I/O
-    QByteArray* m_pInput;
-    QByteArray* m_pOutput;
-    quint64     m_nInputSize;
+	// Bufory I/O
+	QByteArray* m_pInput;
+	QByteArray* m_pOutput;
+	quint64     m_nInputSize;
 
-    bool    m_bInitiated;
-    bool    m_bConnected;
-    qint32  m_tConnected;
+	bool    m_bInitiated;
+	bool    m_bConnected;
+	qint32  m_tConnected;
 
 	bool	m_bDelayedClose;
 
 
 public:
-    CNetworkConnection(QObject* parent = 0);
-    virtual ~CNetworkConnection();
+	CNetworkConnection(QObject* parent = 0);
+	virtual ~CNetworkConnection();
 	void moveToThread(QThread *thread);
 
 public:
@@ -109,15 +109,15 @@ public:
 	}
 
 protected:
-    virtual qint64 readFromNetwork(qint64 nBytes);
-    virtual qint64 writeToNetwork(qint64 nBytes);
+	virtual qint64 readFromNetwork(qint64 nBytes);
+	virtual qint64 writeToNetwork(qint64 nBytes);
 
 protected:
-    virtual qint64 readData(char* data, qint64 maxlen);
-    virtual qint64 readLineData(char* data, qint64 maxlen);
-    virtual qint64 writeData(const char* data, qint64 len);
+	virtual qint64 readData(char* data, qint64 maxlen);
+	virtual qint64 readLineData(char* data, qint64 maxlen);
+	virtual qint64 writeData(const char* data, qint64 len);
 
-    void initializeSocket();
+	void initializeSocket();
 
 public:
 
@@ -127,38 +127,38 @@ public:
 	bool isValid() const;
 	void setReadBufferSize(qint64 nSize);
 
-    inline IPv4_ENDPOINT GetAddress()
-    {
-        return m_oAddress;
-    }
+	inline IPv4_ENDPOINT GetAddress()
+	{
+		return m_oAddress;
+	}
 
-    inline virtual bool HasData()
-    {
-        if( !m_pSocket )
-            return false;
+	inline virtual bool HasData()
+	{
+		if( !m_pSocket )
+			return false;
 
-        bool bRet = false;
-        if( m_pInput && !m_pInput->isEmpty() )
-            bRet |= true;
-        if( m_pOutput && !m_pOutput->isEmpty() )
-            bRet |= true;
-        if( networkBytesAvailable() )
-            bRet |= true;
-        return bRet;
-    }
+		bool bRet = false;
+		if( m_pInput && !m_pInput->isEmpty() )
+			bRet |= true;
+		if( m_pOutput && !m_pOutput->isEmpty() )
+			bRet |= true;
+		if( networkBytesAvailable() )
+			bRet |= true;
+		return bRet;
+	}
 
-    inline virtual QByteArray* GetInputBuffer()
-    {
-        Q_ASSERT(m_pInput != 0);
+	inline virtual QByteArray* GetInputBuffer()
+	{
+		Q_ASSERT(m_pInput != 0);
 
-        return m_pInput;
-    }
-    inline virtual QByteArray* GetOutputBuffer()
-    {
-        Q_ASSERT(m_pOutput != 0);
+		return m_pInput;
+	}
+	inline virtual QByteArray* GetOutputBuffer()
+	{
+		Q_ASSERT(m_pOutput != 0);
 
-        return m_pOutput;
-    }
+		return m_pOutput;
+	}
 signals:
 	void connected();
 	void readyRead();
@@ -167,7 +167,7 @@ signals:
 	void bytesWritten(qint64);
 	void stateChanged(QAbstractSocket::SocketState);
 	void aboutToClose();
-    void readyToTransfer();
+	void readyToTransfer();
 
 protected slots:
 	void OnAboutToClose();
@@ -177,7 +177,7 @@ public:
 	TCPBandwidthMeter m_mInput;
 	TCPBandwidthMeter m_mOutput;
 
-    friend class CRateController;
+	friend class CRateController;
 };
 
 
