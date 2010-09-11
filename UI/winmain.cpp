@@ -255,7 +255,6 @@ WinMain::WinMain(QWidget *parent) :
 	qApp->processEvents();
 
 	interfaceLoaded = true;
-
 }
 
 WinMain::~WinMain()
