@@ -49,9 +49,6 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
     m_tConnected = 0;
 	m_bDelayedClose = false;
 
-	m_mInput.Init();
-	m_mOutput.Init();
-
 	connect(this, SIGNAL(readyRead()), this, SIGNAL(readyToTransfer()), Qt::QueuedConnection);
     connect(this, SIGNAL(connected()), this, SIGNAL(readyToTransfer()));
 	connect(this, SIGNAL(aboutToClose()), this, SLOT(OnAboutToClose()));
@@ -241,7 +238,7 @@ qint64 CNetworkConnection::writeData(const char* data, qint64 len)
 
 void CNetworkConnection::OnAboutToClose()
 {
-	if( m_bDelayedClose && !GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty() )
+	if( m_bDelayedClose && (!GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty()) )
 	{
 		writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
 	}
@@ -293,7 +290,7 @@ void CNetworkConnection::setReadBufferSize(qint64 nSize)
 		m_pSocket->setReadBufferSize(nSize);
 }
 
-void TCPBandwidthMeter::Init()
+TCPBandwidthMeter::TCPBandwidthMeter()
 {
 	memset(&m_pSlots[0], 0, sizeof(m_pSlots));
 	m_nCurrentSlot = m_nTotal = 0;
