@@ -24,6 +24,7 @@
 #include "dialogsettings.h"
 
 #include "quazaasettings.h"
+#include "quazaairc.h"
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
@@ -31,6 +32,11 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 	ui(new Ui::WidgetChatCenter)
 {
 	ui->setupUi(this);
+	if (quazaaSettings.Chat.ConnectOnStartup)
+	{
+		QuazaaIRC *quazaaIrc = new QuazaaIRC();
+		quazaaIrc->startIrc(false, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
+	}
 	lineEditTextInput = new QLineEdit();
 	lineEditTextInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	toolButtonSmilies = new QToolButton();
