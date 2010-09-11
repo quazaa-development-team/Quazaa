@@ -293,14 +293,14 @@ void CNetworkConnection::setReadBufferSize(qint64 nSize)
 		m_pSocket->setReadBufferSize(nSize);
 }
 
-void CNetworkConnection::TCPBandwidthMeter::Init()
+void TCPBandwidthMeter::Init()
 {
 	memset(&m_pSlots[0], 0, sizeof(m_pSlots));
 	m_nCurrentSlot = m_nTotal = 0;
 	m_tTime.start();
 }
 
-void CNetworkConnection::TCPBandwidthMeter::Add(quint32 nBytes)
+void TCPBandwidthMeter::Add(quint32 nBytes)
 {
 	if( m_tTime.elapsed() >= 250 )
 	{
@@ -318,7 +318,7 @@ void CNetworkConnection::TCPBandwidthMeter::Add(quint32 nBytes)
 	m_pSlots[m_nCurrentSlot] += nBytes;
 	m_nTotal += nBytes;
 }
-quint32 CNetworkConnection::TCPBandwidthMeter::AvgUsage()
+quint32 TCPBandwidthMeter::AvgUsage()
 {
 	quint64 nTotal = 0;
 
@@ -340,7 +340,7 @@ quint32 CNetworkConnection::TCPBandwidthMeter::AvgUsage()
 
 	return nTotal / 5;
 }
-quint32 CNetworkConnection::TCPBandwidthMeter::Usage()
+quint32 TCPBandwidthMeter::Usage()
 {
 	if( m_tTime.elapsed() >= 5000 )
 		return 0;

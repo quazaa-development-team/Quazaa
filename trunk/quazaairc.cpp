@@ -32,6 +32,8 @@ QuazaaIRC::QuazaaIRC(QObject* parent)
 void QuazaaIRC::on_connected()
 {
 	qDebug() << "IRC connected:";
+	ircSession->join("#quazaa-dev");
+	ircSession->message("#quazaa-dev", "Hello! I'm Brov's Quazaa client and testing that IRC shit. If you see this message then everything seems working!");
 }
 
 void QuazaaIRC::on_disconnected()
@@ -53,6 +55,7 @@ void QuazaaIRC::on_bufferRemoved(Irc::Buffer* buffer)
 
 bool QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer)
 {
+	qDebug() << "QuazaaIRC::startIrc() " << ircServer;
 	ircSession = new Irc::Session(this);
 
 	if (useSsl)
@@ -63,6 +66,7 @@ bool QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 		ircSession->setSocket(socket);
 	}
 
+	connect(ircSession, SIGNAL(connected()), this, SLOT(on_connected()));
 	ircSession->setNick(ircNick);
 	ircSession->setIdent("Quazaa IRC");
 	ircSession->setRealName(ircRealName);
@@ -74,6 +78,5 @@ bool QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 		ircSession->connectToServer(ircServer, 6669);
 	}
 
-	bool connected = ircSession->join("#quazaa-dev");
-	return connected;
+	return true;
 }
