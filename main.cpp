@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 	if (quazaaSettings.Chat.ConnectOnStartup)
 	{
 		QuazaaIRC *quazaaIrc = new QuazaaIRC();
-		quazaaIrc->startIrc(false, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName);
+		quazaaIrc->startIrc(false, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
 	}
 
 	//Load the library

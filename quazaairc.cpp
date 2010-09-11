@@ -52,7 +52,7 @@ void QuazaaIRC::on_bufferRemoved(Irc::Buffer* buffer)
 
 
 
-bool QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer)
+bool QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort)
 {
 	qDebug() << "QuazaaIRC::startIrc() " << ircServer;
 	ircSession = new Irc::Session(this);
@@ -72,9 +72,9 @@ bool QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 
 	if (useSsl)
 	{
-		ircSession->connectToServer(ircServer, 6667);
+		ircSession->connectToServer(ircServer, ircPort);
 	} else {
-		ircSession->connectToServer(ircServer, 6669);
+		ircSession->connectToServer(ircServer, ircPort);
 	}
 
 	return true;

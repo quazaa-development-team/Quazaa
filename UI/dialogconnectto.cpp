@@ -27,27 +27,29 @@
 #include "network.h"
 
 DialogConnectTo::DialogConnectTo(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogConnectTo)
+	QDialog(parent),
+	ui(new Ui::DialogConnectTo)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 DialogConnectTo::~DialogConnectTo()
 {
-    delete ui;
+	delete ui;
 }
 
 void DialogConnectTo::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void DialogConnectTo::on_pushButtonCancel_clicked()
