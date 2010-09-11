@@ -74,5 +74,6 @@ bool QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 		ircSession->connectToServer(ircServer, 6669);
 	}
 
-	ircSession->join("#quazaa-dev");
+	bool connected = ircSession->join("#quazaa-dev");
+	return connected;
 }
