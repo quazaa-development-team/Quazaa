@@ -32,6 +32,7 @@ class QThread;
 
 class TCPBandwidthMeter
 {
+public:
 	QTime	m_tTime;
 	quint32 m_pSlots[20]; // 4slots / 1sec
 	quint32 m_nCurrentSlot;
