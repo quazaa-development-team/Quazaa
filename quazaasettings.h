@@ -279,6 +279,7 @@ namespace Settings
 		bool		GnutellaChatEnable;						// Is Gnutella chat enabled with compatible clients?
 		QString		IrcServerName;							// Web address of the Irc chat server
 		int			IrcServerPort;							// Port to connect to the chat server on
+		bool		IrcUseSSL;								// Connect with SSL encryption
 		QFont		ScreenFont;								// Font for the chat screen
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
 	};

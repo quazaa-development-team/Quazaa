@@ -67,7 +67,7 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 
 	connect(ircSession, SIGNAL(connected()), this, SLOT(on_connected()));
 	ircSession->setNick(ircNick);
-	ircSession->setIdent("Quazaa IRC");
+	ircSession->setIdent("QuazaaIRC");
 	ircSession->setRealName(ircRealName);
 
 	if (useSsl)

@@ -137,8 +137,8 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>142</width>
-        <height>353</height>
+        <width>160</width>
+        <height>323</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_39">
@@ -531,7 +531,7 @@ QToolButton:hover {
    <item row="1" column="1">
     <widget class="QStackedWidget" name="pagesSettings">
      <property name="currentIndex">
-      <number>10</number>
+      <number>7</number>
      </property>
      <widget class="QWidget" name="pageIntroduction">
       <layout class="QGridLayout" name="gridLayout_5">
@@ -1897,7 +1897,7 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item row="4" column="0">
            <widget class="QSpinBox" name="spinBoxChatIdleMessage">
             <property name="suffix">
              <string> minutes of inactivity.</string>
@@ -1913,7 +1913,7 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
+          <item row="5" column="0">
            <layout class="QGridLayout" name="gridLayoutIRCClient">
             <item row="1" column="1">
              <widget class="QLineEdit" name="lineEditIRCServer">
@@ -1970,6 +1970,13 @@ p, li { white-space: pre-wrap; }
              </widget>
             </item>
            </layout>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="checkBoxIRCSSL">
+            <property name="text">
+             <string>Use SSL Encryption With IRC</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -2500,9 +2507,6 @@ p, li { white-space: pre-wrap; }
          <property name="itemsExpandable">
           <bool>true</bool>
          </property>
-         <attribute name="headerDefaultSectionSize">
-          <number>100</number>
-         </attribute>
          <attribute name="headerDefaultSectionSize">
           <number>100</number>
          </attribute>

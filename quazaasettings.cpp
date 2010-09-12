@@ -175,6 +175,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("GnutellaChatEnable", quazaaSettings.Chat.GnutellaChatEnable);
 	m_qSettings.setValue("IrcServerName", quazaaSettings.Chat.IrcServerName);
 	m_qSettings.setValue("IrcServerPort", quazaaSettings.Chat.IrcServerPort);
+	m_qSettings.setValue("IrcUseSSL", quazaaSettings.Chat.IrcUseSSL);
 	m_qSettings.setValue("ScreenFont", quazaaSettings.Chat.ScreenFont);
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
 	m_qSettings.endGroup();
@@ -637,6 +638,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Chat.GnutellaChatEnable = m_qSettings.value("GnutellaChatEnable", true).toBool();
 	quazaaSettings.Chat.IrcServerName = m_qSettings.value("IrcServerName", "irc.nixtrixirc.net").toString();
 	quazaaSettings.Chat.IrcServerPort = m_qSettings.value("IrcServerPort", 6667).toInt();
+	quazaaSettings.Chat.IrcUseSSL = m_qSettings.value("IrcUseSSL", false).toBool();
 	quazaaSettings.Chat.ScreenFont = m_qSettings.value("ScreenFont", QFont()).value<QFont>();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
 	m_qSettings.endGroup();
@@ -984,7 +986,7 @@ void QuazaaSettings::loadProfile()
 	quazaaSettings.Profile.FavoritesURL = m_qSettings.value("FavoritesURL", QStringList()).toStringList();
 	quazaaSettings.Profile.Gender = m_qSettings.value("Gender", 0).toInt();
 	quazaaSettings.Profile.GUID = m_qSettings.value("GUID", QUuid::createUuid().toString()).toString();
-	QString tempNick = tr("QuazaaUser-%1").arg(QUuid::createUuid().data1);
+	QString tempNick = tr("Quazaa-%1").arg(QUuid::createUuid().data1);
 	quazaaSettings.Profile.GnutellaScreenName = m_qSettings.value("GnutellaScreenName", "").toString();
 	if (quazaaSettings.Profile.GnutellaScreenName == "")
 		quazaaSettings.Profile.GnutellaScreenName = tempNick;
