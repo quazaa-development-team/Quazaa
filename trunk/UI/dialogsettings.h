@@ -1,7 +1,7 @@
 //
 // dialogsettings.h
 //
-// Copyright © Quazaa Development Team, 2009-2010.
+// Copyright  Quazaa Development Team, 2009-2010.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
 //
 // Quazaa is free software; you can redistribute it
@@ -78,7 +78,8 @@ signals:
 	void skinChanged();
 
 private slots:
-	void on_pushButtonPreviewSkin_clicked();
+	void on_checkBoxIRCSSL_toggled(bool checked);
+ void on_pushButtonPreviewSkin_clicked();
 	void on_listWidgetSkins_itemClicked(QListWidgetItem* item);
 	void on_checkBoxEDonkeyConnect_toggled(bool checked);
 	void on_checkBoxAresConnect_toggled(bool checked);

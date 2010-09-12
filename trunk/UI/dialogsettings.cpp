@@ -1,7 +1,7 @@
 //
 // dialogsettings.cpp
 //
-// Copyright © Quazaa Development Team, 2009-2010.
+// Copyright  Quazaa Development Team, 2009-2010.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
 //
 // Quazaa is free software; you can redistribute it
@@ -86,6 +86,7 @@ DialogSettings::DialogSettings(QWidget *parent) :
 	m_ui->checkBoxConnectIRCOnStart->setChecked(quazaaSettings.Chat.ConnectOnStartup);
 	m_ui->checkBoxEnableIRCFileTransfers->setChecked(quazaaSettings.Chat.EnableFileTransfers);
 	m_ui->checkBoxIRCShowTimestamp->setChecked(quazaaSettings.Chat.ShowTimestamp);
+	m_ui->checkBoxIRCSSL->setChecked(quazaaSettings.Chat.IrcUseSSL);
 	m_ui->spinBoxChatIdleMessage->setValue(quazaaSettings.Chat.AwayMessageIdleTime);
 	m_ui->lineEditIRCServer->setText(quazaaSettings.Chat.IrcServerName);
 	m_ui->spinBoxIRCPort->setValue(quazaaSettings.Chat.IrcServerPort);
@@ -406,6 +407,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Chat.ScreenFont = fontTempChat;
 	quazaaSettings.Chat.IrcServerName = m_ui->lineEditIRCServer->text();
 	quazaaSettings.Chat.IrcServerPort = m_ui->spinBoxIRCPort->value();
+	quazaaSettings.Chat.IrcUseSSL = m_ui->checkBoxIRCSSL->isChecked();
 	quazaaSettings.Chat.ColorChatBackground.setNamedColor(colorTempChatBackground.name());
 	quazaaSettings.Chat.ColorNormalText.setNamedColor(colorTempNormalText.name());
 	quazaaSettings.Chat.ColorServerMessagesText.setNamedColor(colorTempServerMessages.name());
@@ -1357,4 +1359,11 @@ void DialogSettings::skinChangeEvent()
 	m_ui->toolButtonNavigationInternet->setStyleSheet(skinSettings.sidebarTaskHeader);
 	m_ui->toolButtonNavigationNetworks->setStyleSheet(skinSettings.sidebarTaskHeader);
 
+}
+
+void DialogSettings::on_checkBoxIRCSSL_toggled(bool checked)
+{
+	Q_UNUSED(checked);
+
+	m_ui->pushButtonApply->setEnabled(true);
 }

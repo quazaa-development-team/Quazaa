@@ -40,8 +40,8 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 		ui->actionDisconnect->setEnabled(true);
 		qDebug() << "Trying to connect to IRC";
 	} else {
-		ui->actionConnect->setEnabled(false);
-		ui->actionDisconnect->setEnabled(true);
+		ui->actionConnect->setEnabled(true);
+		ui->actionDisconnect->setEnabled(false);
 	}
 	lineEditTextInput = new QLineEdit();
 	lineEditTextInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
