@@ -32,10 +32,16 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 	ui(new Ui::WidgetChatCenter)
 {
 	ui->setupUi(this);
+	quazaaIrc = new QuazaaIRC();
 	if (quazaaSettings.Chat.ConnectOnStartup)
 	{
-		QuazaaIRC *quazaaIrc = new QuazaaIRC();
 		quazaaIrc->startIrc(false, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
+		ui->actionConnect->setEnabled(false);
+		ui->actionDisconnect->setEnabled(true);
+		qDebug() << "Trying to connect to IRC";
+	} else {
+		ui->actionConnect->setEnabled(false);
+		ui->actionDisconnect->setEnabled(true);
 	}
 	lineEditTextInput = new QLineEdit();
 	lineEditTextInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -51,6 +57,7 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 	ui->toolBarOperator->addWidget(toolButtonSmilies);
 	ui->toolBarOperator->addWidget(toolButtonOp);
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
+	connect(lineEditTextInput, SIGNAL(returnPressed()), this, SLOT(on_actionSend_triggered()));
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -86,8 +93,9 @@ void WidgetChatCenter::saveWidget()
 
 void WidgetChatCenter::on_actionConnect_triggered()
 {
-	m_oQuazaaIrc = new QuazaaIRC();
+	quazaaIrc->startIrc(false, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
 	ui->actionConnect->setEnabled(false);
+	ui->actionDisconnect->setEnabled(true);
 	qDebug() << "Trying to connect to IRC";
 }
 
@@ -101,4 +109,21 @@ void WidgetChatCenter::on_actionChatSettings_triggered()
 	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
 	dlgSettings->switchSettingsPage(7);
 	dlgSkinSettings->show();
+}
+
+void WidgetChatCenter::on_actionDisconnect_triggered()
+{
+	quazaaIrc->stopIrc();
+	ui->actionConnect->setEnabled(true);
+	ui->actionDisconnect->setEnabled(false);
+	qDebug() << "Trying to disconnect from IRC";
+}
+
+void WidgetChatCenter::on_actionSend_triggered()
+{
+	if (lineEditTextInput->text() != "")
+	{
+		quazaaIrc->sendIrcMessage(lineEditTextInput->text());
+		lineEditTextInput->setText("");
+	}
 }
