@@ -33,7 +33,9 @@ public:
 	QuazaaIRC(QObject* parent = 0);
 
 public slots:
-	bool startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );
+	void startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );
+	void stopIrc();
+	void sendIrcMessage(QString message);
 
 protected slots:
 	void on_connected();

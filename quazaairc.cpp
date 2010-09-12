@@ -26,7 +26,7 @@
 
 QuazaaIRC::QuazaaIRC(QObject* parent)
 {
-
+	Q_UNUSED(parent);
 }
 
 void QuazaaIRC::on_connected()
@@ -52,7 +52,7 @@ void QuazaaIRC::on_bufferRemoved(Irc::Buffer* buffer)
 
 
 
-bool QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort)
+void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort)
 {
 	qDebug() << "QuazaaIRC::startIrc() " << ircServer;
 	ircSession = new Irc::Session(this);
@@ -76,6 +76,15 @@ bool QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 	} else {
 		ircSession->connectToServer(ircServer, ircPort);
 	}
+}
 
-	return true;
+void QuazaaIRC::stopIrc()
+{
+	qDebug() << "QuazaaIRC::stopIrc()";
+	ircSession->disconnectFromServer();
+}
+
+void QuazaaIRC::sendIrcMessage(QString message)
+{
+	ircSession->message("#quazaa-dev", message);
 }

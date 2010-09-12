@@ -29,28 +29,30 @@
 #include "quazaairc.h"
 
 namespace Ui {
-    class WidgetChatCenter;
+	class WidgetChatCenter;
 }
 
 class WidgetChatCenter : public QMainWindow {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    WidgetChatCenter(QWidget *parent = 0);
-    ~WidgetChatCenter();
+	WidgetChatCenter(QWidget *parent = 0);
+	~WidgetChatCenter();
 	QLineEdit *lineEditTextInput;
 	QToolButton *toolButtonSmilies;
 	QToolButton *toolButtonOp;
-	QuazaaIRC *m_oQuazaaIrc;
+	QuazaaIRC *quazaaIrc;
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
-    Ui::WidgetChatCenter *ui;
+	Ui::WidgetChatCenter *ui;
 
 private slots:
-        void on_actionConnect_triggered();
+	void on_actionSend_triggered();
+	void on_actionDisconnect_triggered();
+	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
 	void skinChangeEvent();
 };
