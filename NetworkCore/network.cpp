@@ -98,11 +98,11 @@ void CNetwork::Connect()
 	m_nTotalPeriods = 0;
 
     Datagrams.moveToThread(&NetworkThread);
-    Handshakes.moveToThread(&NetworkThread);
     SearchManager.moveToThread(&NetworkThread);
+	Handshakes.Listen();
     m_oRoutingTable.Clear();
 	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(OnSharesReady()), Qt::UniqueConnection);
-    NetworkThread.start(&m_pSection, this);
+	NetworkThread.start("Network", &m_pSection, this);
 
 }
 void CNetwork::Disconnect()
@@ -213,7 +213,6 @@ void CNetwork::OnSecondTimer()
 
 	//Datagrams.FlushSendCache();
 	emit Datagrams.SendQueueUpdated();
-    Handshakes.OnTimer();
 
 	if( isHub() && quazaaSettings.Gnutella2.AdaptiveHub && --m_nNextCheck == 0 )
 	{
@@ -478,17 +477,17 @@ void CNetwork::OnAccept(CNetworkConnection* pConn)
 	{
 		qDebug() << "Not accepting incoming connection. Network overloaded";
 		pConn->Close();
-		delete pConn;
+		pConn->deleteLater();
 		return;
 	}
 
     CG2Node* pNew = new CG2Node();
-    pNew->moveToThread(&NetworkThread);
+	m_pRateController->AddSocket(pNew);
+	m_lNodes.append(pNew);
     pNew->AttachTo(pConn);
+	pNew->moveToThread(&NetworkThread);
 	connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
     emit NodeAdded(pNew);
-    m_pRateController->AddSocket(pNew);
-    m_lNodes.append(pNew);
 	m_pSection.unlock();
 }
 

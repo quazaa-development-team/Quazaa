@@ -25,23 +25,18 @@
 #include <limits>
 #include <QTcpSocket>
 #include <QMutexLocker>
+#include <QTimer>
 
 CRateController::CRateController(QObject* parent): QObject(parent)
 {
 	m_bTransferSheduled = false;
     m_nUploadLimit = std::numeric_limits<qint32>::max() / 2;
-    //m_nUploadLimit = 0x7fffffff;
     m_nDownloadLimit = std::numeric_limits<qint32>::max() / 2;
-    //m_nDownloadLimit = 0x7fffffff;
 
     m_nDownload = m_nUpload = 0;
     m_nDownloadAvg = m_nUploadAvg = 0;
-	m_bTransferring = false;
 
     m_tMeterTimer.start();
-
-	m_tTransferTimer.setInterval(100);
-	connect(&m_tTransferTimer, SIGNAL(timeout()), this, SLOT(transfer()), Qt::QueuedConnection);
 }
 
 void CRateController::AddSocket(CNetworkConnection* pSock)
@@ -69,13 +64,11 @@ void CRateController::sheduleTransfer()
         return;
 
     m_bTransferSheduled = true;
-	//QTimer::singleShot(100, this, SLOT(transfer()));
-	m_tTransferTimer.start();
+	QTimer::singleShot(100, this, SLOT(transfer()));
 }
 void CRateController::transfer()
 {
 	m_bTransferSheduled = false;
-	m_tTransferTimer.stop();
 
     int nMsecs = 1000;
     if( !m_tStopWatch.isNull() )
@@ -84,7 +77,7 @@ void CRateController::transfer()
     qint64 nToRead = (m_nDownloadLimit * nMsecs) / 1000;
     qint64 nToWrite = (m_nUploadLimit * nMsecs) / 1000;
 
-	if( ( nToRead <= 0 && nToWrite <= 0 ) || m_bTransferring )
+	if( nToRead <= 0 && nToWrite <= 0 )
     {
         sheduleTransfer();
         return;
@@ -105,7 +98,6 @@ void CRateController::transfer()
 	}
 
     m_tStopWatch.start();
-	m_bTransferring = true;
 
     bool bCanTransferMore = false;
 
@@ -163,8 +155,6 @@ void CRateController::transfer()
 
     if( m_tMeterTimer.elapsed() > 1000 )
         UpdateStats();
-
-	m_bTransferring = false;
 
 	if( bCanTransferMore )
         sheduleTransfer();

@@ -25,9 +25,11 @@
 #include <QTcpServer>
 #include <QSet>
 #include "types.h"
+#include "thread.h"
 
 class CHandshake;
-class QThread;
+class CRateController;
+class QTimer;
 
 class CHandshakes : public QTcpServer
 {
@@ -36,6 +38,13 @@ class CHandshakes : public QTcpServer
 protected:
     QSet<CHandshake*>   m_lHandshakes;
     quint32             m_nAccepted;
+	CRateController*	m_pController;
+	QTimer*				m_pTimer;
+	bool				m_bActive;
+
+public:
+	QMutex	m_pSection;
+
 public:
     CHandshakes(QObject *parent = 0);
     ~CHandshakes();
@@ -46,10 +55,13 @@ public:
     }
 
 public slots:
-    bool Listen();
+	void Listen();
     void Disconnect();
-    void OnTimer(quint32 tNow = 0);
-    void changeThread(QThread* target);
+	void OnTimer();
+
+protected slots:
+	void SetupThread();
+	void CleanupThread();
 
 protected:
     void incomingConnection(int handle);
@@ -59,5 +71,6 @@ protected:
 };
 
 extern CHandshakes Handshakes;
+extern CThread HandshakesThread;
 
 #endif // HANDSHAKES_H

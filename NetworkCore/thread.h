@@ -36,36 +36,39 @@ class CThread:public QThread
     QMutex*         m_pMutex;
     QWaitCondition  m_oStartCond;
     QObject*        m_pTargetObject;
+	QString			m_sThreadName;
 public:
     CThread(QObject* parent = 0);
 
-    void start(QMutex* pMutex, QObject* pTargetObj = 0, Priority p = InheritPriority)
+	void start(QString strName, QMutex* pMutex, QObject* pTargetObj = 0, Priority p = InheritPriority)
     {
-        qDebug() << "Thread::start";
+		m_sThreadName = strName;
+
+		qDebug() << strName << "Thread::start";
         //QMutexLocker l(pMutex);
         m_pMutex = pMutex;
         m_pTargetObject = pTargetObj;
         if( pTargetObj )
             pTargetObj->moveToThread(this);
-        qDebug() << "Starting...";
+		qDebug() << strName << "Starting...";
         QThread::start(p);
-        qDebug() << "Waiting for thread to start...";
+		qDebug() << strName << "Waiting for thread to start...";
         if( !isRunning() )
             m_oStartCond.wait(m_pMutex);
-        qDebug() << "Thread started";
+		qDebug() << strName << "Thread started";
     }
 
     void exit(int retcode)
     {
         //QMutexLocker l(m_pMutex);
-        qDebug() << "Exiting thread";
+		qDebug() << m_sThreadName << "Exiting thread";
         QThread::exit(retcode);
-        qDebug() << "Waiting for thread to finish...";
+		qDebug() << m_sThreadName << "Waiting for thread to finish...";
 
         if( isRunning() )
             m_oStartCond.wait(m_pMutex);
         //wait();
-        qDebug() << "Thread Finished";
+		qDebug() << m_sThreadName << "Thread Finished";
     }
 
 protected:

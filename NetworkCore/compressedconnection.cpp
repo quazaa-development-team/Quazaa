@@ -140,7 +140,9 @@ qint64 CCompressedConnection::readFromNetwork(qint64 nBytes)
     {
         Inflate();
         if( m_pZInput->size() )
+		{
             emit readyRead();
+		}
 
 		if( (uint)m_pZInput->capacity() > m_nInputSize &&(uint) m_pZInput->size() < m_nInputSize / 2 )
 			m_pZInput->squeeze();

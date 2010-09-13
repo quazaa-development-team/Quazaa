@@ -535,7 +535,7 @@ void CG2Node::ParseOutgoingHandshake()
 		if( !EnableInputCompression() )
 		{
 			qDebug() << "Inflate init error!";
-			abort();
+			Close();
 			deleteLater();
 			return;
 		}
@@ -578,7 +578,7 @@ void CG2Node::ParseOutgoingHandshake()
 		if( !EnableOutputCompression() )
 		{
 			qDebug() << "Deflate init error!";
-			abort();
+			Close();
 			deleteLater();
 			return;
 		}

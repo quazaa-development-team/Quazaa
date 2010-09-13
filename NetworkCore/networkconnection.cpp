@@ -48,10 +48,6 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
     m_bConnected = false;
     m_tConnected = 0;
 	m_bDelayedClose = false;
-
-	connect(this, SIGNAL(readyRead()), this, SIGNAL(readyToTransfer()), Qt::QueuedConnection);
-    connect(this, SIGNAL(connected()), this, SIGNAL(readyToTransfer()));
-	connect(this, SIGNAL(aboutToClose()), this, SLOT(OnAboutToClose()));
 }
 CNetworkConnection::~CNetworkConnection()
 {
@@ -97,7 +93,6 @@ void CNetworkConnection::AttachTo(CNetworkConnection *pOther)
 {
     Q_ASSERT(m_pSocket == 0);
 	m_pSocket = pOther->m_pSocket;
-    m_pSocket->disconnect();
 	pOther->m_pSocket = 0;
 
 	m_bConnected = pOther->m_bConnected;
@@ -114,12 +109,43 @@ void CNetworkConnection::AttachTo(CNetworkConnection *pOther)
     m_oAddress.port = m_pSocket->peerPort();
 
     initializeSocket();
+	emit readyRead();
+
 }
+void CNetworkConnection::AcceptFrom(int nHandle)
+{
+	Q_ASSERT(m_pSocket == 0);
+	m_pSocket = new QTcpSocket();
+
+	initializeSocket();
+
+	m_bInitiated = false;
+	m_bConnected = true;
+	m_tConnected = time(0);
+
+	Q_ASSERT(m_pInput == 0);
+	Q_ASSERT(m_pOutput == 0);
+	m_pInput = new QByteArray();
+	m_pOutput = new QByteArray();
+
+	m_pSocket->setSocketDescriptor(nHandle);
+	m_oAddress.ip = m_pSocket->peerAddress().toIPv4Address();
+	m_oAddress.port = m_pSocket->peerPort();
+
+	emit readyToTransfer();
+
+}
+
 void CNetworkConnection::Close(bool bDelayed)
 {
 	if( bDelayed )
 	{
 		m_bDelayedClose = true;
+		if( !GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty() )
+		{
+			writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
+			m_pSocket->flush();
+		}
 		m_pSocket->close();
 	}
 	else
@@ -138,12 +164,15 @@ void CNetworkConnection::moveToThread(QThread *thread)
 
 void CNetworkConnection::initializeSocket()
 {
-	m_pSocket->moveToThread(thread());
+	m_pSocket->disconnect();
     m_pSocket->setReadBufferSize(m_nInputSize);
+
+	connect(m_pSocket, SIGNAL(connected()),
+			this, SIGNAL(readyToTransfer()));
     connect(m_pSocket, SIGNAL(connected()),
             this, SIGNAL(connected()));
 	connect(m_pSocket, SIGNAL(readyRead()),
-			this, SIGNAL(readyRead()));
+			this, SIGNAL(readyToTransfer()));
     connect(m_pSocket, SIGNAL(disconnected()),
             this, SIGNAL(disconnected()));
     connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),
@@ -152,7 +181,8 @@ void CNetworkConnection::initializeSocket()
             this, SIGNAL(bytesWritten(qint64)));
     connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
 			this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
-	connect(m_pSocket, SIGNAL(aboutToClose()), this, SIGNAL(aboutToClose()));
+	connect(m_pSocket, SIGNAL(aboutToClose()),
+			this, SLOT(OnAboutToClose()));
 }
 
 qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)
@@ -238,16 +268,24 @@ qint64 CNetworkConnection::writeData(const char* data, qint64 len)
 
 void CNetworkConnection::OnAboutToClose()
 {
+	qDebug() << "OnAboutToClose " << m_bDelayedClose;
+
 	if( m_bDelayedClose && (!GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty()) )
 	{
 		writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
 	}
+	emit aboutToClose();
 }
 
 
 qint64 CNetworkConnection::bytesAvailable()
 {
-	Q_ASSERT(m_pInput != 0);
+	if( m_pInput == 0 )
+	{
+		qDebug() << QObject::sender();
+		//Q_ASSERT(m_pInput != 0);
+		Q_ASSERT(0);
+	}
 
 	if( m_pSocket->state() != QTcpSocket::ConnectedState )
 	{
