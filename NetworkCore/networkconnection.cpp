@@ -280,12 +280,7 @@ void CNetworkConnection::OnAboutToClose()
 
 qint64 CNetworkConnection::bytesAvailable()
 {
-	if( m_pInput == 0 )
-	{
-		qDebug() << QObject::sender();
-		//Q_ASSERT(m_pInput != 0);
-		Q_ASSERT(0);
-	}
+	Q_ASSERT(m_pInput != 0);
 
 	if( m_pSocket->state() != QTcpSocket::ConnectedState )
 	{
