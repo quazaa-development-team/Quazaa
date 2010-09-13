@@ -22,53 +22,60 @@
 #include "handshakes.h"
 #include "network.h"
 #include "handshake.h"
-#include <QThread>
+#include "ratecontroller.h"
+
+#include <QTimer>
 
 CHandshakes Handshakes;
+CThread HandshakesThread;
 
 CHandshakes::CHandshakes(QObject *parent) :
-    QTcpServer(parent)
+	QTcpServer(parent)
 {
     m_nAccepted = 0;
+	m_bActive = false;
 }
 
 CHandshakes::~CHandshakes()
 {
-    Disconnect();
+	if( m_bActive )
+		Disconnect();
 }
 
-bool CHandshakes::Listen()
+void CHandshakes::Listen()
 {
-    if( isListening() )
-        return true;
+	QMutexLocker l(&m_pSection);
+
+	if( m_bActive )
+		return;
 
     m_nAccepted = 0;
-    return QTcpServer::listen(QHostAddress::Any, Network.GetLocalAddress().port);
+	m_bActive = true;
+
+	HandshakesThread.start("Handshakes", &m_pSection, this);
 }
 void CHandshakes::Disconnect()
 {
-    if( isListening( ))
-    {
-        close();
-        foreach( CHandshake* pHs, m_lHandshakes )
-        {
-            pHs->deleteLater();
-        }
-    }
+	QMutexLocker l(&m_pSection);
+
+	m_bActive = false;
+
+	HandshakesThread.exit(0);
 }
 
 void CHandshakes::incomingConnection(int handle)
 {
     CHandshake* pNew = new CHandshake();
-    pNew->acceptFrom(handle);
+	pNew->moveToThread(&HandshakesThread);
+	pNew->AcceptFrom(handle);
     m_lHandshakes.insert(pNew);
+	m_pController->AddSocket(pNew);
     m_nAccepted++;
 }
 
-void CHandshakes::OnTimer(quint32 tNow)
+void CHandshakes::OnTimer()
 {
-    if( tNow == 0 )
-        tNow = time(0);
+	quint32 tNow = time(0);
 
     foreach(CHandshake* pHs, m_lHandshakes)
     {
@@ -78,9 +85,44 @@ void CHandshakes::OnTimer(quint32 tNow)
 void CHandshakes::RemoveHandshake(CHandshake *pHs)
 {
     m_lHandshakes.remove(pHs);
+	if( m_pController )
+		m_pController->RemoveSocket(pHs);
 }
-void CHandshakes::changeThread(QThread* target)
+
+void CHandshakes::SetupThread()
 {
-    qDebug() << "Handshakes change thread\n current:" << QThread::currentThread() << "new " << target;
-    moveToThread(target);
+	m_pController = new CRateController();
+
+	m_pController->SetDownloadLimit(4096);
+	m_pController->SetUploadLimit(4096);
+
+	bool bOK = QTcpServer::listen(QHostAddress::Any, Network.GetLocalAddress().port);
+
+	if( bOK )
+	{
+		systemLog.postLog(LogSeverity::Notice, "Handshakes: listening on port %d.", Network.GetLocalAddress().port);
+	}
+	else
+	{
+		systemLog.postLog(LogSeverity::Error, "Handshakes: cannot listen on port %d, incoming connections will be unavailable.", Network.GetLocalAddress().port);
+	}
+
+	m_pTimer = new QTimer(this);
+	connect(m_pTimer, SIGNAL(timeout()), this, SLOT(OnTimer()));
+	m_pTimer->start(1000);
+}
+void CHandshakes::CleanupThread()
+{
+	if( isListening( ))
+	{
+		close();
+		foreach( CHandshake* pHs, m_lHandshakes )
+		{
+			m_pController->RemoveSocket(pHs);
+			pHs->deleteLater();
+		}
+
+		delete m_pController;
+		delete m_pTimer;
+	}
 }

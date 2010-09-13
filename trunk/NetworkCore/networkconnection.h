@@ -77,6 +77,7 @@ public:
 	virtual void ConnectTo(IPv4_ENDPOINT oAddress);
 	virtual void ConnectTo(QHostAddress oAddress, quint16 nPort);
 	virtual void AttachTo(CNetworkConnection* pOther);
+	virtual void AcceptFrom(int nHandle);
 	virtual void Close(bool bDelayed = false);
 
 public:

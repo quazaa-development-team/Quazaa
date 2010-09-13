@@ -52,9 +52,8 @@ void CShareManager::Start()
 {
 	QMutexLocker l(&m_oSection);
 	qDebug() << "Starting Share Manager...";
-	ShareManagerThread.setObjectName("ShareManager Thread");
 	connect(this, SIGNAL(sharesReady()), &QueryHashMaster, SLOT(Build()));
-	ShareManagerThread.start(&m_oSection, this);
+	ShareManagerThread.start("ShareManager", &m_oSection, this);
 }
 
 void CShareManager::SetupThread()

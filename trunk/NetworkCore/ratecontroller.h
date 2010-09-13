@@ -26,7 +26,6 @@
 #include <QObject>
 #include <QTime>
 #include <QSet>
-#include <QTimer>
 #include <QMutex>
 
 
@@ -45,8 +44,6 @@ protected:
     quint32 m_nDownloadAvg;
     QTime   m_tStopWatch;
 	bool    m_bTransferSheduled;
-	QTimer	m_tTransferTimer;
-	bool	m_bTransferring;
 	QMutex	m_oMutex;
 
     QSet<CNetworkConnection*>   m_lSockets;
