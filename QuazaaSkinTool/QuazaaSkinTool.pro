@@ -52,6 +52,7 @@ TRANSLATIONS = ../Language/quazaaskintool_af.ts \
 	../Language/quazaaskintool_lt.ts \
 	../Language/quazaaskintool_nl.ts \
 	../Language/quazaaskintool_no.ts \
+	../Language/quazaaskintool_pl.ts \
 	../Language/quazaaskintool_pt.ts \
 	../Language/quazaaskintool_pt-br.ts \
 	../Language/quazaaskintool_ru.ts \

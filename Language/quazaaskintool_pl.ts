@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="he_IL" sourcelanguage="en_US">
+<TS version="2.0" language="pl_PL">
 <context>
     <name>DialogNewSkin</name>
     <message>
@@ -400,17 +400,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="445"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="796"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1376"/>
-        <source>Chat Welcome</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="545"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="892"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1456"/>
-        <source>Activity</source>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="405"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="826"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1401"/>
+        <source>Toolbars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -418,27 +411,6 @@
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="802"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1381"/>
         <source>Chat Toolbar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="453"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="808"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1386"/>
-        <source>Library Navigator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="461"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="820"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1396"/>
-        <source>Searches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="405"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="826"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1401"/>
-        <source>Toolbars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -460,6 +432,27 @@
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="844"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1416"/>
         <source>Media Volume Slider</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="445"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="796"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1376"/>
+        <source>Chat Welcome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="453"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="808"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1386"/>
+        <source>Library Navigator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="461"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="820"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1396"/>
+        <source>Searches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -530,6 +523,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="545"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="892"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1456"/>
+        <source>Activity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="553"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="898"/>
         <location filename="../QuazaaSkinTool/mainwindow.cpp" line="1461"/>
@@ -551,19 +551,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2238"/>
-        <source>System Log</source>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="579"/>
+        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="916"/>
+        <source>Colors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="626"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../QuazaaSkinTool/mainwindow.ui" line="579"/>
-        <location filename="../QuazaaSkinTool/mainwindow.cpp" line="916"/>
-        <source>Colors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -751,6 +746,11 @@
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="2140"/>
         <location filename="../QuazaaSkinTool/mainwindow.ui" line="2167"/>
         <source>Splitter Area</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../QuazaaSkinTool/mainwindow.ui" line="2238"/>
+        <source>System Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
