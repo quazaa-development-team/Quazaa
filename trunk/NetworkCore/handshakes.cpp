@@ -65,16 +65,20 @@ void CHandshakes::Disconnect()
 
 void CHandshakes::incomingConnection(int handle)
 {
+	QMutexLocker l(&m_pSection);
+
     CHandshake* pNew = new CHandshake();
-	pNew->moveToThread(&HandshakesThread);
-	pNew->AcceptFrom(handle);
-    m_lHandshakes.insert(pNew);
+	m_lHandshakes.insert(pNew);
 	m_pController->AddSocket(pNew);
+	pNew->AcceptFrom(handle);
+	pNew->moveToThread(&HandshakesThread);
     m_nAccepted++;
 }
 
 void CHandshakes::OnTimer()
 {
+	QMutexLocker l(&m_pSection);
+
 	quint32 tNow = time(0);
 
     foreach(CHandshake* pHs, m_lHandshakes)
@@ -84,6 +88,8 @@ void CHandshakes::OnTimer()
 }
 void CHandshakes::RemoveHandshake(CHandshake *pHs)
 {
+	QMutexLocker l(&m_pSection);
+
     m_lHandshakes.remove(pHs);
 	if( m_pController )
 		m_pController->RemoveSocket(pHs);

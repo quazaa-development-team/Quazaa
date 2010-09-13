@@ -726,10 +726,10 @@ void CDatagrams::OnQKA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 			*pOut++ = 'N';
 			*pOut++ = 'A';
 
-			char assm[6];
-			*(quint32*)&assm[0] = qToBigEndian(addr.ip);
-			*(quint16*)&assm[4] = qToLittleEndian(addr.port);
-			memcpy(pOut, &assm[0], 6);
+			quint32 nIP = qToBigEndian(addr.ip);
+			quint16 nPort = qToLittleEndian(addr.port);
+			memcpy(pOut, &nIP, 4);
+			memcpy(pOut + 4, &nPort, 2);
 
 			pPacket->AddRef();
 			pNode->SendPacket(pPacket, true, true);
