@@ -1974,7 +1974,7 @@ p, li { white-space: pre-wrap; }
           <item row="3" column="0">
            <widget class="QCheckBox" name="checkBoxIRCSSL">
             <property name="text">
-             <string>Use SSL Encryption With IRC</string>
+             <string>Enable SSL Encryption With IRC</string>
             </property>
            </widget>
           </item>

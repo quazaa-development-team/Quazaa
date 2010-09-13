@@ -2,20 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="nb_NO" sourcelanguage="en_US">
 <context>
-    <name>CG2Node</name>
-    <message>
-        <location filename="../NetworkCore/g2node.cpp" line="173"/>
-        <location filename="../NetworkCore/g2node.cpp" line="242"/>
-        <source>Remote host closed connection: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../NetworkCore/g2node.cpp" line="242"/>
-        <source>. Error: </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>DialogAbout</name>
     <message>
         <location filename="../UI/dialogabout.ui" line="29"/>
@@ -61,6 +47,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Development would not have been possible without the help and excellent work of others. We would like to thank some of these people here.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rasterbar.com&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Arvid Norberg&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: Author of the libtorrent library which our torrent  library is based on.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://bitbucket.org/jpnurmi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;J-P Nurmi&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: Author of the libircclient-qt library which is the foundation of our irc chat client.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.cherubicsoft.com/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ryo-oh-ki&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: This program is based on a great deal of his Shareaza code. &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Michael Stokes: The author intellectalis of Shareaza.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
@@ -143,7 +130,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogabout.ui" line="287"/>
+        <location filename="../UI/dialogabout.ui" line="288"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1303,7 +1290,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="250"/>
-        <source>Allow Others To Brose My User Profile</source>
+        <source>Allow Others To Browse My User Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1398,7 +1385,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="622"/>
-        <location filename="../UI/dialogprofile.ui" line="1063"/>
+        <location filename="../UI/dialogprofile.ui" line="1060"/>
         <location filename="../UI/dialogprofile.cpp" line="120"/>
         <source>Bio</source>
         <translation type="unfinished"></translation>
@@ -1462,60 +1449,60 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.ui" line="1044"/>
-        <location filename="../UI/dialogprofile.ui" line="1058"/>
+        <location filename="../UI/dialogprofile.ui" line="1041"/>
+        <location filename="../UI/dialogprofile.ui" line="1055"/>
         <location filename="../UI/dialogprofile.cpp" line="117"/>
         <source>Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.ui" line="1049"/>
+        <location filename="../UI/dialogprofile.ui" line="1046"/>
         <location filename="../UI/dialogprofile.cpp" line="110"/>
         <source>Identity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.ui" line="1053"/>
+        <location filename="../UI/dialogprofile.ui" line="1050"/>
         <location filename="../UI/dialogprofile.cpp" line="114"/>
         <source>Contact</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.ui" line="1068"/>
+        <location filename="../UI/dialogprofile.ui" line="1065"/>
         <location filename="../UI/dialogprofile.cpp" line="123"/>
         <source>Avatar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.ui" line="1074"/>
+        <location filename="../UI/dialogprofile.ui" line="1071"/>
         <location filename="../UI/dialogprofile.cpp" line="126"/>
         <source>Favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.ui" line="1078"/>
+        <location filename="../UI/dialogprofile.ui" line="1075"/>
         <location filename="../UI/dialogprofile.cpp" line="129"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.ui" line="1084"/>
+        <location filename="../UI/dialogprofile.ui" line="1081"/>
         <location filename="../UI/dialogprofile.cpp" line="132"/>
         <source>Certificate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.ui" line="1100"/>
+        <location filename="../UI/dialogprofile.ui" line="1097"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.ui" line="1107"/>
+        <location filename="../UI/dialogprofile.ui" line="1104"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.ui" line="1120"/>
+        <location filename="../UI/dialogprofile.ui" line="1117"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1855,7 +1842,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="289"/>
         <location filename="../UI/dialogsettings.ui" line="770"/>
-        <location filename="../UI/dialogsettings.ui" line="3570"/>
+        <location filename="../UI/dialogsettings.ui" line="3574"/>
         <source>Chat</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1886,7 +1873,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="392"/>
-        <location filename="../UI/dialogsettings.ui" line="3537"/>
+        <location filename="../UI/dialogsettings.ui" line="3541"/>
         <source>Transfers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2069,8 +2056,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogsettings.ui" line="1481"/>
         <location filename="../UI/dialogsettings.ui" line="1556"/>
         <location filename="../UI/dialogsettings.ui" line="1738"/>
-        <location filename="../UI/dialogsettings.ui" line="3029"/>
-        <location filename="../UI/dialogsettings.ui" line="3723"/>
+        <location filename="../UI/dialogsettings.ui" line="3033"/>
+        <location filename="../UI/dialogsettings.ui" line="3727"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2079,8 +2066,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogsettings.ui" line="1500"/>
         <location filename="../UI/dialogsettings.ui" line="1575"/>
         <location filename="../UI/dialogsettings.ui" line="1757"/>
-        <location filename="../UI/dialogsettings.ui" line="3089"/>
-        <location filename="../UI/dialogsettings.ui" line="3730"/>
+        <location filename="../UI/dialogsettings.ui" line="3093"/>
+        <location filename="../UI/dialogsettings.ui" line="3734"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2101,7 +2088,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1144"/>
-        <location filename="../UI/dialogsettings.ui" line="3512"/>
+        <location filename="../UI/dialogsettings.ui" line="3516"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2117,13 +2104,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1203"/>
-        <location filename="../UI/dialogsettings.ui" line="2398"/>
+        <location filename="../UI/dialogsettings.ui" line="2405"/>
         <source>Description:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1255"/>
-        <location filename="../UI/dialogsettings.ui" line="3422"/>
+        <location filename="../UI/dialogsettings.ui" line="3426"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2294,7 +2281,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1940"/>
-        <location filename="../UI/dialogsettings.ui" line="2861"/>
+        <location filename="../UI/dialogsettings.ui" line="2865"/>
         <source>Port: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2304,653 +2291,658 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1980"/>
+        <location filename="../UI/dialogsettings.ui" line="1977"/>
+        <source>Enable SSL Encryption With IRC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogsettings.ui" line="1987"/>
         <source>You can use your Quazaa user profile to share information about yourself. No information is required.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1996"/>
+        <location filename="../UI/dialogsettings.ui" line="2003"/>
         <source>Edit My Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2012"/>
+        <location filename="../UI/dialogsettings.ui" line="2019"/>
         <source>IRC Colors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2060"/>
+        <location filename="../UI/dialogsettings.ui" line="2067"/>
         <source>Server Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2076"/>
+        <location filename="../UI/dialogsettings.ui" line="2083"/>
         <source>Topics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2177"/>
+        <location filename="../UI/dialogsettings.ui" line="2184"/>
         <source>Normal Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2222"/>
+        <location filename="../UI/dialogsettings.ui" line="2229"/>
         <source>Notices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2267"/>
+        <location filename="../UI/dialogsettings.ui" line="2274"/>
         <source>Room Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2319"/>
+        <location filename="../UI/dialogsettings.ui" line="2326"/>
         <source>Chat Background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2328"/>
+        <location filename="../UI/dialogsettings.ui" line="2335"/>
         <source>Change Chat Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2341"/>
+        <location filename="../UI/dialogsettings.ui" line="2348"/>
         <source>Chat Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2348"/>
+        <location filename="../UI/dialogsettings.ui" line="2355"/>
         <source>Font Preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2384"/>
+        <location filename="../UI/dialogsettings.ui" line="2391"/>
         <source>Plugin Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2405"/>
+        <location filename="../UI/dialogsettings.ui" line="2412"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2455"/>
+        <location filename="../UI/dialogsettings.ui" line="2462"/>
         <source>Plugin Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2462"/>
+        <location filename="../UI/dialogsettings.ui" line="2469"/>
         <source>Get More Plugins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2511"/>
+        <location filename="../UI/dialogsettings.ui" line="2515"/>
         <source>Setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2516"/>
+        <location filename="../UI/dialogsettings.ui" line="2520"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2530"/>
+        <location filename="../UI/dialogsettings.ui" line="2534"/>
         <source>Setting Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2542"/>
+        <location filename="../UI/dialogsettings.ui" line="2546"/>
         <source>Value: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2549"/>
+        <location filename="../UI/dialogsettings.ui" line="2553"/>
         <source>Reset To Default Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2588"/>
+        <location filename="../UI/dialogsettings.ui" line="2592"/>
         <source>Inbound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2643"/>
-        <location filename="../UI/dialogsettings.ui" line="2721"/>
+        <location filename="../UI/dialogsettings.ui" line="2647"/>
+        <location filename="../UI/dialogsettings.ui" line="2725"/>
         <source>Speed: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2676"/>
+        <location filename="../UI/dialogsettings.ui" line="2680"/>
         <source>Outbound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2602"/>
-        <location filename="../UI/dialogsettings.ui" line="2690"/>
+        <location filename="../UI/dialogsettings.ui" line="2606"/>
+        <location filename="../UI/dialogsettings.ui" line="2694"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2628"/>
-        <location filename="../UI/dialogsettings.ui" line="2713"/>
+        <location filename="../UI/dialogsettings.ui" line="2632"/>
+        <location filename="../UI/dialogsettings.ui" line="2717"/>
         <source>Automatic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2636"/>
+        <location filename="../UI/dialogsettings.ui" line="2640"/>
         <source>Force Binding To This Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2750"/>
+        <location filename="../UI/dialogsettings.ui" line="2754"/>
         <source>Timeouts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2773"/>
+        <location filename="../UI/dialogsettings.ui" line="2777"/>
         <source>Connection: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2789"/>
+        <location filename="../UI/dialogsettings.ui" line="2793"/>
         <source>Handshake: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2825"/>
+        <location filename="../UI/dialogsettings.ui" line="2829"/>
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2848"/>
+        <location filename="../UI/dialogsettings.ui" line="2852"/>
         <source>Random</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2899"/>
+        <location filename="../UI/dialogsettings.ui" line="2903"/>
         <source>Peer To Peer Link Handling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2920"/>
+        <location filename="../UI/dialogsettings.ui" line="2924"/>
         <source>Use Quazaa To Open These Types Of Links:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2982"/>
+        <location filename="../UI/dialogsettings.ui" line="2986"/>
         <source>Download Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2994"/>
+        <location filename="../UI/dialogsettings.ui" line="2998"/>
         <source>Use Quazaa to manage all my web downloads:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3036"/>
+        <location filename="../UI/dialogsettings.ui" line="3040"/>
         <source>The download manager plugin will only attempt to download file types listed here. Other file types will be handled by your web browser. Quazaa must be running to manage downloads.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3109"/>
+        <location filename="../UI/dialogsettings.ui" line="3113"/>
         <source>Only Download And Upload To Connected Networks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3116"/>
+        <location filename="../UI/dialogsettings.ui" line="3120"/>
         <source>Display Simple Progress Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3133"/>
+        <location filename="../UI/dialogsettings.ui" line="3137"/>
         <source>bits/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3138"/>
+        <location filename="../UI/dialogsettings.ui" line="3142"/>
         <source>Bytes/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3143"/>
+        <location filename="../UI/dialogsettings.ui" line="3147"/>
         <source>Kilobits/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3148"/>
+        <location filename="../UI/dialogsettings.ui" line="3152"/>
         <source>KiloBytes/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3153"/>
+        <location filename="../UI/dialogsettings.ui" line="3157"/>
         <source>Megabits/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3158"/>
+        <location filename="../UI/dialogsettings.ui" line="3162"/>
         <source>MegaBytes/second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3166"/>
+        <location filename="../UI/dialogsettings.ui" line="3170"/>
         <source>Show Rates In:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2646"/>
-        <location filename="../UI/dialogsettings.ui" line="2724"/>
+        <location filename="../UI/dialogsettings.ui" line="2650"/>
+        <location filename="../UI/dialogsettings.ui" line="2728"/>
         <source> kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3183"/>
+        <location filename="../UI/dialogsettings.ui" line="3187"/>
         <source>Expand New Downloads By Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3199"/>
+        <location filename="../UI/dialogsettings.ui" line="3203"/>
         <source>Save Completed Files Here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3218"/>
+        <location filename="../UI/dialogsettings.ui" line="3222"/>
         <source>Browse For Completed Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3244"/>
+        <location filename="../UI/dialogsettings.ui" line="3248"/>
         <source>Store Temporary Files Here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3263"/>
+        <location filename="../UI/dialogsettings.ui" line="3267"/>
         <source>Browse For Temporary Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3289"/>
+        <location filename="../UI/dialogsettings.ui" line="3293"/>
         <source>Number Of Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3303"/>
+        <location filename="../UI/dialogsettings.ui" line="3307"/>
         <source>Maximum Que Length:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3320"/>
+        <location filename="../UI/dialogsettings.ui" line="3324"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3325"/>
+        <location filename="../UI/dialogsettings.ui" line="3329"/>
         <source>10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3330"/>
+        <location filename="../UI/dialogsettings.ui" line="3334"/>
         <source>20</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3335"/>
+        <location filename="../UI/dialogsettings.ui" line="3339"/>
         <source>MAX</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3343"/>
+        <location filename="../UI/dialogsettings.ui" line="3347"/>
         <source>Maximum Files: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3359"/>
+        <location filename="../UI/dialogsettings.ui" line="3363"/>
         <source>Maximum Transfers: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3375"/>
+        <location filename="../UI/dialogsettings.ui" line="3379"/>
         <source>Transfers Per File: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3396"/>
+        <location filename="../UI/dialogsettings.ui" line="3400"/>
         <source>Show Prompt Before Opening URIs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3434"/>
+        <location filename="../UI/dialogsettings.ui" line="3438"/>
         <source>Share NEW Partial Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3441"/>
+        <location filename="../UI/dialogsettings.ui" line="3445"/>
         <source>Limit Sharing In Hub Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3448"/>
+        <location filename="../UI/dialogsettings.ui" line="3452"/>
         <source>Share Preview Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3455"/>
+        <location filename="../UI/dialogsettings.ui" line="3459"/>
         <source>Limit Per Unique host: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3471"/>
+        <location filename="../UI/dialogsettings.ui" line="3475"/>
         <source>Queues</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3498"/>
+        <location filename="../UI/dialogsettings.ui" line="3502"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3505"/>
+        <location filename="../UI/dialogsettings.ui" line="3509"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3522"/>
+        <location filename="../UI/dialogsettings.ui" line="3526"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3527"/>
+        <location filename="../UI/dialogsettings.ui" line="3531"/>
         <source>Criteria</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3532"/>
+        <location filename="../UI/dialogsettings.ui" line="3536"/>
         <source>Bandwidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3591"/>
+        <location filename="../UI/dialogsettings.ui" line="3595"/>
         <source>Filter Chat For Spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3598"/>
+        <location filename="../UI/dialogsettings.ui" line="3602"/>
         <source>Allow Others To Browse Your Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3605"/>
+        <location filename="../UI/dialogsettings.ui" line="3609"/>
         <source>Filter eDonkey 2k Chat Spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3612"/>
+        <location filename="../UI/dialogsettings.ui" line="3616"/>
         <source> lines per second.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3622"/>
+        <location filename="../UI/dialogsettings.ui" line="3626"/>
         <source>Enable Chat Flood Protection:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3632"/>
+        <location filename="../UI/dialogsettings.ui" line="3636"/>
         <source>Quazaa Remote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3653"/>
+        <location filename="../UI/dialogsettings.ui" line="3657"/>
         <source>Enable Remote Control Of Quazaa Through A Web Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3660"/>
+        <location filename="../UI/dialogsettings.ui" line="3664"/>
         <source>Remote User Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3667"/>
+        <location filename="../UI/dialogsettings.ui" line="3671"/>
         <source>Remote Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3699"/>
+        <location filename="../UI/dialogsettings.ui" line="3703"/>
         <source>User-Agent Upload Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3742"/>
+        <location filename="../UI/dialogsettings.ui" line="3746"/>
         <source>Enable UPnP To Set Up Firewalls/Routers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3749"/>
+        <location filename="../UI/dialogsettings.ui" line="3753"/>
         <source>Ignore Private/Local IP Addresses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3756"/>
+        <location filename="../UI/dialogsettings.ui" line="3760"/>
         <source>Allow Others To Browse Shares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3781"/>
+        <location filename="../UI/dialogsettings.ui" line="3785"/>
         <source>Gnutella 2 Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3793"/>
+        <location filename="../UI/dialogsettings.ui" line="3797"/>
         <source>Connect To Gnutella 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3800"/>
+        <location filename="../UI/dialogsettings.ui" line="3804"/>
         <source>Mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3811"/>
+        <location filename="../UI/dialogsettings.ui" line="3815"/>
         <source>Optimal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3816"/>
+        <location filename="../UI/dialogsettings.ui" line="3820"/>
         <source>Leaf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3821"/>
+        <location filename="../UI/dialogsettings.ui" line="3825"/>
         <source>Hub</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3838"/>
+        <location filename="../UI/dialogsettings.ui" line="3842"/>
         <source>G2 Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3850"/>
+        <location filename="../UI/dialogsettings.ui" line="3854"/>
         <source>Leaf to Hub: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3863"/>
+        <location filename="../UI/dialogsettings.ui" line="3867"/>
         <source>Hub to Leaf: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3879"/>
+        <location filename="../UI/dialogsettings.ui" line="3883"/>
         <source>Hub to Hub: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3905"/>
-        <location filename="../UI/dialogsettings.ui" line="4428"/>
+        <location filename="../UI/dialogsettings.ui" line="3909"/>
+        <location filename="../UI/dialogsettings.ui" line="4432"/>
         <source>Connect To Ares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3928"/>
+        <location filename="../UI/dialogsettings.ui" line="3932"/>
         <source>eDonkey Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3940"/>
-        <location filename="../UI/dialogsettings.ui" line="4500"/>
+        <location filename="../UI/dialogsettings.ui" line="3944"/>
+        <location filename="../UI/dialogsettings.ui" line="4504"/>
         <source>Connect To eDonkey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3947"/>
+        <location filename="../UI/dialogsettings.ui" line="3951"/>
         <source>Connect To The Kad Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3963"/>
+        <location filename="../UI/dialogsettings.ui" line="3967"/>
         <source>Global Searching</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3975"/>
+        <location filename="../UI/dialogsettings.ui" line="3979"/>
         <source>Search Known Remote Severs In the Server Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3982"/>
+        <location filename="../UI/dialogsettings.ui" line="3986"/>
         <source> search results.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3985"/>
+        <location filename="../UI/dialogsettings.ui" line="3989"/>
         <source>Stop searching after </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4001"/>
+        <location filename="../UI/dialogsettings.ui" line="4005"/>
         <source>Recieve And Update Server List From The Connected server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4017"/>
+        <location filename="../UI/dialogsettings.ui" line="4021"/>
         <source>Client Link Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4029"/>
+        <location filename="../UI/dialogsettings.ui" line="4033"/>
         <source> other eDonky 2k clients.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4032"/>
+        <location filename="../UI/dialogsettings.ui" line="4036"/>
         <source>Connect to no more than </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4057"/>
+        <location filename="../UI/dialogsettings.ui" line="4061"/>
         <source>eDonkey Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4069"/>
+        <location filename="../UI/dialogsettings.ui" line="4073"/>
         <source>Download eDonkey server list from the web.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4082"/>
+        <location filename="../UI/dialogsettings.ui" line="4086"/>
         <source>Download...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4089"/>
+        <location filename="../UI/dialogsettings.ui" line="4093"/>
         <source>Automatically Download Updated Server List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4115"/>
+        <location filename="../UI/dialogsettings.ui" line="4119"/>
         <source>Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4127"/>
+        <location filename="../UI/dialogsettings.ui" line="4131"/>
         <source>Show Torrent Save Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4134"/>
+        <location filename="../UI/dialogsettings.ui" line="4138"/>
         <source>Open New Torrents Paused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4141"/>
+        <location filename="../UI/dialogsettings.ui" line="4145"/>
         <source>Use Temporary Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4148"/>
+        <location filename="../UI/dialogsettings.ui" line="4152"/>
         <source>Managed Torrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4155"/>
+        <location filename="../UI/dialogsettings.ui" line="4159"/>
         <source>Enable Endgame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4171"/>
+        <location filename="../UI/dialogsettings.ui" line="4175"/>
         <source>Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4183"/>
+        <location filename="../UI/dialogsettings.ui" line="4187"/>
         <source> Torrents at once.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4190"/>
+        <location filename="../UI/dialogsettings.ui" line="4194"/>
         <source> Client connections.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4197"/>
+        <location filename="../UI/dialogsettings.ui" line="4201"/>
         <source>Prefer Torrent Sources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4204"/>
+        <location filename="../UI/dialogsettings.ui" line="4208"/>
         <source>Use Kademlia With BitTorrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4213"/>
+        <location filename="../UI/dialogsettings.ui" line="4217"/>
         <source>Clear Downloaded Torrents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4226"/>
+        <location filename="../UI/dialogsettings.ui" line="4230"/>
         <source> %.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4229"/>
+        <location filename="../UI/dialogsettings.ui" line="4233"/>
         <source>when the ratio reaches </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4269"/>
+        <location filename="../UI/dialogsettings.ui" line="4273"/>
         <source>Store .torrent Files Here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4284"/>
+        <location filename="../UI/dialogsettings.ui" line="4288"/>
         <source>Browse For Completed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4356"/>
+        <location filename="../UI/dialogsettings.ui" line="4360"/>
         <source>Connect To G2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4363"/>
+        <location filename="../UI/dialogsettings.ui" line="4367"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2959,12 +2951,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4374"/>
+        <location filename="../UI/dialogsettings.ui" line="4378"/>
         <source>Quazaa&apos;s Premier Network, offering more features and performance than any other P2P network. Highly reccomended.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4435"/>
+        <location filename="../UI/dialogsettings.ui" line="4439"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2973,12 +2965,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4446"/>
+        <location filename="../UI/dialogsettings.ui" line="4450"/>
         <source>Like G2, this is an upgraded version of G1, very popular in the open source community.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4507"/>
+        <location filename="../UI/dialogsettings.ui" line="4511"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2987,12 +2979,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4518"/>
+        <location filename="../UI/dialogsettings.ui" line="4522"/>
         <source>A popular centralised server based network. Generally slow but rare files can be found on this network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4572"/>
+        <location filename="../UI/dialogsettings.ui" line="4576"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -3001,37 +2993,37 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4583"/>
+        <location filename="../UI/dialogsettings.ui" line="4587"/>
         <source>This network uses centralised websites to list available content. Very popular and fast.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4628"/>
+        <location filename="../UI/dialogsettings.ui" line="4632"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4635"/>
+        <location filename="../UI/dialogsettings.ui" line="4639"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4642"/>
+        <location filename="../UI/dialogsettings.ui" line="4646"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="984"/>
+        <location filename="../UI/dialogsettings.cpp" line="986"/>
         <source>Select A Folder For Completed Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="1015"/>
+        <location filename="../UI/dialogsettings.cpp" line="1017"/>
         <source>Select A Folder For Incomplete Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="1251"/>
+        <location filename="../UI/dialogsettings.cpp" line="1253"/>
         <source>Select A Folder For .torrent Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5033,47 +5025,47 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="79"/>
+        <location filename="../main.cpp" line="81"/>
         <source>Loading settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="86"/>
+        <location filename="../main.cpp" line="88"/>
         <source>Checking for first run...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="90"/>
+        <location filename="../main.cpp" line="92"/>
         <source>Running first run wizard...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="104"/>
+        <location filename="../main.cpp" line="106"/>
         <source>Loading Profile...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="109"/>
+        <location filename="../main.cpp" line="111"/>
         <source>Loading Networks...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="116"/>
+        <location filename="../main.cpp" line="118"/>
         <source>Loading Library...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="120"/>
+        <location filename="../main.cpp" line="123"/>
         <source>Loading User Interface...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="134"/>
+        <location filename="../main.cpp" line="137"/>
         <source>Loading Tray Icon...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="155"/>
+        <location filename="../main.cpp" line="158"/>
         <source>Welcome to Quazaa!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5150,14 +5142,8 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QuazaaSettings</name>
     <message>
-        <location filename="../quazaasettings.cpp" line="986"/>
-        <location filename="../quazaasettings.cpp" line="991"/>
-        <source>Quazaa User</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../quazaasettings.cpp" line="992"/>
-        <source>QuazaaUser</source>
+        <location filename="../quazaasettings.cpp" line="989"/>
+        <source>Quazaa-%1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6798,7 +6784,7 @@ p, li { white-space: pre-wrap; }
     <name>WinMain</name>
     <message>
         <location filename="../UI/winmain.ui" line="14"/>
-        <location filename="../UI/winmain.cpp" line="286"/>
+        <location filename="../UI/winmain.cpp" line="285"/>
         <source>Quazaa</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6806,9 +6792,9 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/winmain.ui" line="84"/>
         <location filename="../UI/winmain.cpp" line="141"/>
         <location filename="../UI/winmain.cpp" line="231"/>
-        <location filename="../UI/winmain.cpp" line="348"/>
-        <location filename="../UI/winmain.cpp" line="438"/>
-        <location filename="../UI/winmain.cpp" line="493"/>
+        <location filename="../UI/winmain.cpp" line="356"/>
+        <location filename="../UI/winmain.cpp" line="446"/>
+        <location filename="../UI/winmain.cpp" line="502"/>
         <source>Quazaa Home</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6882,48 +6868,48 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/winmain.ui" line="332"/>
         <location filename="../UI/winmain.cpp" line="147"/>
-        <location filename="../UI/winmain.cpp" line="354"/>
-        <location filename="../UI/winmain.cpp" line="503"/>
+        <location filename="../UI/winmain.cpp" line="362"/>
+        <location filename="../UI/winmain.cpp" line="512"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="347"/>
         <location filename="../UI/winmain.cpp" line="159"/>
-        <location filename="../UI/winmain.cpp" line="366"/>
-        <location filename="../UI/winmain.cpp" line="522"/>
+        <location filename="../UI/winmain.cpp" line="374"/>
+        <location filename="../UI/winmain.cpp" line="531"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="362"/>
         <location filename="../UI/winmain.cpp" line="165"/>
-        <location filename="../UI/winmain.cpp" line="372"/>
-        <location filename="../UI/winmain.cpp" line="532"/>
+        <location filename="../UI/winmain.cpp" line="380"/>
+        <location filename="../UI/winmain.cpp" line="541"/>
         <source>Transfers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="377"/>
         <location filename="../UI/winmain.cpp" line="171"/>
-        <location filename="../UI/winmain.cpp" line="378"/>
-        <location filename="../UI/winmain.cpp" line="542"/>
+        <location filename="../UI/winmain.cpp" line="386"/>
+        <location filename="../UI/winmain.cpp" line="551"/>
         <source>Security</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="392"/>
         <location filename="../UI/winmain.cpp" line="177"/>
-        <location filename="../UI/winmain.cpp" line="384"/>
-        <location filename="../UI/winmain.cpp" line="552"/>
+        <location filename="../UI/winmain.cpp" line="392"/>
+        <location filename="../UI/winmain.cpp" line="561"/>
         <source>Activity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="407"/>
         <location filename="../UI/winmain.cpp" line="153"/>
-        <location filename="../UI/winmain.cpp" line="360"/>
-        <location filename="../UI/winmain.cpp" line="512"/>
+        <location filename="../UI/winmain.cpp" line="368"/>
+        <location filename="../UI/winmain.cpp" line="521"/>
         <source>Media</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6984,8 +6970,8 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/winmain.ui" line="530"/>
         <location filename="../UI/winmain.cpp" line="183"/>
-        <location filename="../UI/winmain.cpp" line="390"/>
-        <location filename="../UI/winmain.cpp" line="562"/>
+        <location filename="../UI/winmain.cpp" line="398"/>
+        <location filename="../UI/winmain.cpp" line="571"/>
         <source>Chat</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6993,48 +6979,48 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/winmain.ui" line="545"/>
         <location filename="../UI/winmain.ui" line="548"/>
         <location filename="../UI/winmain.cpp" line="189"/>
-        <location filename="../UI/winmain.cpp" line="396"/>
-        <location filename="../UI/winmain.cpp" line="572"/>
+        <location filename="../UI/winmain.cpp" line="404"/>
+        <location filename="../UI/winmain.cpp" line="581"/>
         <source>Host Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="563"/>
         <location filename="../UI/winmain.cpp" line="195"/>
-        <location filename="../UI/winmain.cpp" line="402"/>
-        <location filename="../UI/winmain.cpp" line="582"/>
+        <location filename="../UI/winmain.cpp" line="410"/>
+        <location filename="../UI/winmain.cpp" line="591"/>
         <source>Discovery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="578"/>
         <location filename="../UI/winmain.cpp" line="207"/>
-        <location filename="../UI/winmain.cpp" line="414"/>
-        <location filename="../UI/winmain.cpp" line="602"/>
+        <location filename="../UI/winmain.cpp" line="422"/>
+        <location filename="../UI/winmain.cpp" line="611"/>
         <source>Graph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="593"/>
         <location filename="../UI/winmain.cpp" line="213"/>
-        <location filename="../UI/winmain.cpp" line="420"/>
-        <location filename="../UI/winmain.cpp" line="612"/>
+        <location filename="../UI/winmain.cpp" line="428"/>
+        <location filename="../UI/winmain.cpp" line="621"/>
         <source>Packet Dump</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="608"/>
         <location filename="../UI/winmain.cpp" line="225"/>
-        <location filename="../UI/winmain.cpp" line="432"/>
-        <location filename="../UI/winmain.cpp" line="632"/>
+        <location filename="../UI/winmain.cpp" line="440"/>
+        <location filename="../UI/winmain.cpp" line="641"/>
         <source>Hit Monitor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="623"/>
         <location filename="../UI/winmain.cpp" line="219"/>
-        <location filename="../UI/winmain.cpp" line="426"/>
-        <location filename="../UI/winmain.cpp" line="622"/>
+        <location filename="../UI/winmain.cpp" line="434"/>
+        <location filename="../UI/winmain.cpp" line="631"/>
         <source>Search Monitor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7113,8 +7099,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/winmain.ui" line="770"/>
         <location filename="../UI/winmain.ui" line="773"/>
         <location filename="../UI/winmain.cpp" line="201"/>
-        <location filename="../UI/winmain.cpp" line="408"/>
-        <location filename="../UI/winmain.cpp" line="592"/>
+        <location filename="../UI/winmain.cpp" line="416"/>
+        <location filename="../UI/winmain.cpp" line="601"/>
         <source>Scheduler</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7191,27 +7177,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="454"/>
+        <location filename="../UI/winmain.cpp" line="462"/>
         <source>Closing Networks...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="460"/>
+        <location filename="../UI/winmain.cpp" line="469"/>
         <source>Saving Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="463"/>
+        <location filename="../UI/winmain.cpp" line="472"/>
         <source>Saving UI...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="482"/>
+        <location filename="../UI/winmain.cpp" line="491"/>
         <source>Removing Tray Icon...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="950"/>
+        <location filename="../UI/winmain.cpp" line="959"/>
         <source>%1/s In:%2/s Out [D:%3/U:%4]</source>
         <translation type="unfinished"></translation>
     </message>

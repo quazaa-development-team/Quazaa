@@ -29,7 +29,7 @@
    <string>Edit Profile</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -85,7 +85,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -118,7 +118,7 @@ p, li { white-space: pre-wrap; }
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageIdentity">
       <layout class="QGridLayout" name="gridLayout_5">
@@ -247,7 +247,7 @@ p, li { white-space: pre-wrap; }
          <item row="2" column="0" colspan="2">
           <widget class="QCheckBox" name="checkBoxAllowBrowse">
            <property name="text">
-            <string>Allow Others To Brose My User Profile</string>
+            <string>Allow Others To Browse My User Profile</string>
            </property>
           </widget>
          </item>
@@ -1036,9 +1036,6 @@ p, li { white-space: pre-wrap; }
      <attribute name="headerVisible">
       <bool>false</bool>
      </attribute>
-     <attribute name="headerVisible">
-      <bool>false</bool>
-     </attribute>
      <column>
       <property name="text">
        <string>Profile</string>
@@ -1142,7 +1139,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

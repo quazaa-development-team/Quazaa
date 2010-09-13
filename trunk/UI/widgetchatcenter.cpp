@@ -35,7 +35,7 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 	quazaaIrc = new QuazaaIRC();
 	if (quazaaSettings.Chat.ConnectOnStartup)
 	{
-		quazaaIrc->startIrc(false, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
+		quazaaIrc->startIrc(quazaaSettings.Chat.IrcUseSSL, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
 		ui->actionConnect->setEnabled(false);
 		ui->actionDisconnect->setEnabled(true);
 		qDebug() << "Trying to connect to IRC";
@@ -93,7 +93,7 @@ void WidgetChatCenter::saveWidget()
 
 void WidgetChatCenter::on_actionConnect_triggered()
 {
-	quazaaIrc->startIrc(false, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
+	quazaaIrc->startIrc(quazaaSettings.Chat.IrcUseSSL, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
 	ui->actionConnect->setEnabled(false);
 	ui->actionDisconnect->setEnabled(true);
 	qDebug() << "Trying to connect to IRC";
