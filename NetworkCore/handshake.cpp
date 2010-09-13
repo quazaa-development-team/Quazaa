@@ -58,8 +58,9 @@ void CHandshake::OnRead()
 	if( Peek(8).startsWith("GNUTELLA") )
     {
         qDebug("Incoming connection from %s is Gnutella Neighbour connection", m_pSocket->peerAddress().toString().toAscii().constData());
+		Handshakes.RemoveHandshake(this);
 		Network.OnAccept(this);
-    }
+	}
     else
     {
         qDebug("Closing connection with %s - unknown protocol", m_pSocket->peerAddress().toString().toAscii().constData());
@@ -73,7 +74,5 @@ void CHandshake::OnRead()
 		Close(true);
     }
 
-	Handshakes.RemoveHandshake(this);
-
-	deleteLater();
+	delete this;
 }
