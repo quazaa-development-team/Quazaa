@@ -66,6 +66,8 @@ public:
 	bool			m_bSendQHT;
 	quint32			m_tLastQHT;
 
+	quint32			m_nCookie;
+
 public:
     CG2Node(QObject *parent = 0);
     ~CG2Node();
