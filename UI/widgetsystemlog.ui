@@ -27,6 +27,9 @@
     </property>
     <item>
      <widget class="QTextEdit" name="textEditSystemLog">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -113,6 +116,68 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Pause Display</string>
+   </property>
+  </action>
+  <action name="actionShowWarnings">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Warning Messages</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Warning Messages</string>
+   </property>
+  </action>
+  <action name="actionShowInformation">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Information Messages</string>
+   </property>
+  </action>
+  <action name="actionShowSecurity">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Security Messages</string>
+   </property>
+  </action>
+  <action name="actionShowNotice">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Notice Messages</string>
+   </property>
+  </action>
+  <action name="actionShowDebug">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Debug Messages</string>
+   </property>
+  </action>
+  <action name="actionShowError">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Error Messages</string>
+   </property>
+  </action>
+  <action name="actionShowCritical">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Critical Messages</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Critical Messages</string>
    </property>
   </action>
  </widget>
