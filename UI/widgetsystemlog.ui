@@ -14,7 +14,7 @@
    <string>System Log</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Network/HitMonitor.png</normaloff>:/Resource/Network/HitMonitor.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -34,8 +34,11 @@
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="textInteractionFlags">
        <set>Qt::TextSelectableByMouse</set>
@@ -69,6 +72,7 @@ p, li { white-space: pre-wrap; }
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionPauseLogDisplay"/>
    <addaction name="actionToggleTimestamp"/>
    <addaction name="actionClearBuffer"/>
   </widget>
@@ -80,7 +84,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Time.png</normaloff>:/Resource/Generic/Time.png</iconset>
    </property>
    <property name="text">
@@ -89,7 +93,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionClearBuffer">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
    </property>
    <property name="text">
@@ -99,9 +103,21 @@ p, li { white-space: pre-wrap; }
     <string>Clear Buffer</string>
    </property>
   </action>
+  <action name="actionPauseLogDisplay">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pause Display</string>
+   </property>
+   <property name="toolTip">
+    <string>Pause Display</string>
+   </property>
+  </action>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>
