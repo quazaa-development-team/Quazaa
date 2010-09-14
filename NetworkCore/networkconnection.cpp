@@ -268,8 +268,6 @@ qint64 CNetworkConnection::writeData(const char* data, qint64 len)
 
 void CNetworkConnection::OnAboutToClose()
 {
-	qDebug() << "OnAboutToClose " << m_bDelayedClose;
-
 	if( m_bDelayedClose && (!GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty()) )
 	{
 		writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
