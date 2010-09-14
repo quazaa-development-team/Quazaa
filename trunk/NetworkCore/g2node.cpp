@@ -1121,74 +1121,9 @@ void CG2Node::OnQuery(G2Packet *pPacket)
 	if( !pPacket->m_bCompound )
 		return;
 
-	char szType[9];
-	quint32 nLength = 0, nNext = 0;
-
-	QString sDN;
-	QUuid oGUID;
-
-	IPv4_ENDPOINT oAddr;
-
-	while( pPacket->ReadPacket(&szType[0], nLength) )
-	{
-		nNext = pPacket->m_nPosition + nLength;
-
-		if( strcmp("DN", szType) == 0 )
-		{
-			sDN = pPacket->ReadString(nLength);
-		}
-		else if( strcmp("UDP", szType) == 0 )
-		{
-			pPacket->ReadHostAddress(&oAddr);
-		}
-		pPacket->m_nPosition = nNext;
-	}
-
-	if( pPacket->GetRemaining() >= 16 && sDN.size() )
-	{
-		oGUID = pPacket->ReadGUID();
-
-		G2Packet* pQH2 = G2Packet::New("QH2", true);
-		pQH2->WritePacket("NA", 6);
-		pQH2->WriteHostAddress(&Network.m_oAddress);
-
-		pQH2->WritePacket("GU", 16);
-		pQH2->WriteGUID(quazaaSettings.Profile.GUID);
-
-		pQH2->WritePacket("V", 4);
-		pQH2->WriteString("QAZA");
-
-		G2Packet* pH = G2Packet::New("H", true);
-
-		pH->WritePacket("URN", 25);
-		pH->Write((void*)"sha1\0xxxxxxxxxxxxxxxxxxxx", 25);
-
-		pH->WritePacket("DN", 4 + sDN.toUtf8().size() + 8);
-		quint32 nTemp = 65535;
-		pH->WriteIntLE(nTemp);
-		pH->WriteString(sDN);
-		pH->WriteString("[QUAZAA]");
-
-		quint16 nCSC = 1;
-		pH->WritePacket("CSC", 2)->WriteIntLE(nCSC);
-
-		pQH2->WritePacket(pH);
-		pH->Release();
-
-		pQH2->WriteByte(0);
-		pQH2->WriteByte(1);
-		pQH2->WriteGUID(oGUID);
-
-		SendPacket(pQH2, false, false);
-		if( oAddr.ip != 0 )
-		{
-			Datagrams.SendPacket(oAddr, pQH2, true);
-		}
-		pQH2->Release();
-	}
 	// just read guid for now to have it in routing table
 
-	/*QUuid oGUID;
+	QUuid oGUID;
 	if( pPacket->m_bCompound )
 		pPacket->SkipCompound();
 
@@ -1217,5 +1152,5 @@ void CG2Node::OnQuery(G2Packet *pPacket)
 			//qDebug() << "Sending query ACK " << pQA->ToHex() << pQA->ToASCII();
 			SendPacket(pQA, true, true);
 		}
-	}*/
+	}
 }
