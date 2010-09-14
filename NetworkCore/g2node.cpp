@@ -55,6 +55,8 @@ CG2Node::CG2Node(QObject *parent) :
 
 	m_pLocalTable = 0;
 	m_pRemoteTable = 0;
+
+	m_nCookie = 0;
 }
 
 CG2Node::~CG2Node()
@@ -170,11 +172,13 @@ void CG2Node::OnDisconnect()
 
 void CG2Node::OnRead()
 {
-	if( !Network.m_pSection.tryLock(50) )
+	if( !Network.m_pSection.tryLock() )
 	{
 		emit readyRead(); // it is a queued connection, lets requeue the missed signal
 		return;
 	}
+
+	m_bReadyReadSent = false;
 
 	//qDebug() << "CG2Node::OnRead";
 	if( m_nState == nsHandshaking )
@@ -265,6 +269,8 @@ void CG2Node::OnTimer(quint32 tNow)
 	{
 		if( tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic )
 		{
+			systemLog.postLog(LogSeverity::Error, "Closing connection to %s due to lack of traffic.", m_oAddress.toString().toAscii().constData());
+			systemLog.postLog(LogSeverity::Debug, "G2Node cookie %u, Network cookie %u. Conn %u, Packet %u, bytes avail %d, net bytes avail %d, ping %u", m_nCookie, Network.m_nCookie, tNow - m_tConnected, tNow - m_tLastPacketIn, bytesAvailable(), networkBytesAvailable(), tNow - m_tLastPingOut);
 			qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "minute dead";
 			m_nState = nsClosing;
 			emit NodeStateChanged();

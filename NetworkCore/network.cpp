@@ -64,6 +64,8 @@ CNetwork::CNetwork(QObject *parent)
 	m_nTotalPeriods = 0;
 
 	m_bSharesReady = false;
+
+	m_nCookie = 0;
 }
 CNetwork::~CNetwork()
 {
@@ -135,6 +137,7 @@ void CNetwork::SetupThread()
 
     // Dla polaczen TCP w sieci 1/4 dostepnego pasma
     m_pRateController = new CRateController();
+	m_pRateController->moveToThread(&NetworkThread); // should not be necessary
     m_pRateController->setObjectName("CNetwork rate controller");
 	m_pRateController->SetDownloadLimit(nDownloadCapacity); // /4
 	m_pRateController->SetUploadLimit(nUploadCapacity);	// /4
@@ -285,27 +288,25 @@ bool CNetwork::NeedMore(G2NodeType nType)
 
 void CNetwork::Maintain()
 {
-
     //qDebug() << "CNetwork::Maintain";
-    CG2Node* pNode = 0;
-
     quint32 tNow = time(0);
 
-    QListIterator<CG2Node*> it(m_lNodes);
-    while(it.hasNext())
-    {
-        pNode = it.next();
-        pNode->OnTimer(tNow);
-    }
+	m_nCookie++;
+
+	foreach( CG2Node* pNode, m_lNodes )
+	{
+		if( pNode->m_nCookie != m_nCookie )
+		{
+			pNode->OnTimer(tNow);
+			pNode->m_nCookie = m_nCookie;
+		}
+	}
 
     quint32 nHubs = 0, nLeaves = 0, nUnknown = 0;
     quint32 nCoreHubs = 0, nCoreLeaves = 0;
 
-    it.toFront();
-    while(it.hasNext())
+	foreach( CG2Node* pNode, m_lNodes )
     {
-        pNode = it.next();
-
         if( pNode->m_nState == nsConnected )
         {
             switch( pNode->m_nType )

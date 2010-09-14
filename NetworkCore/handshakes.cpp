@@ -99,6 +99,8 @@ void CHandshakes::SetupThread()
 {
 	m_pController = new CRateController();
 
+	m_pController->moveToThread(&HandshakesThread); // should not be necesarry
+
 	m_pController->SetDownloadLimit(4096);
 	m_pController->SetUploadLimit(4096);
 

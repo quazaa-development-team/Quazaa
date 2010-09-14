@@ -65,6 +65,8 @@ public:
 
 	bool			 m_bSharesReady;
 
+	quint32			 m_nCookie;
+
 public:
     CNetwork(QObject* parent = 0);
     ~CNetwork();

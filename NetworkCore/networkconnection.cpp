@@ -48,6 +48,7 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
     m_bConnected = false;
     m_tConnected = 0;
 	m_bDelayedClose = false;
+	m_bReadyReadSent = false;
 }
 CNetworkConnection::~CNetworkConnection()
 {
@@ -109,7 +110,12 @@ void CNetworkConnection::AttachTo(CNetworkConnection *pOther)
     m_oAddress.port = m_pSocket->peerPort();
 
     initializeSocket();
-	emit readyRead();
+
+	if( !m_bReadyReadSent )
+	{
+		m_bReadyReadSent = true;
+		emit readyRead();
+	}
 
 }
 void CNetworkConnection::AcceptFrom(int nHandle)
@@ -204,7 +210,11 @@ qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)
     if( nBytesRead > 0 )
     {
 		m_mInput.Add(nBytesRead);
-        emit readyRead();
+		if( !m_bReadyReadSent )
+		{
+			m_bReadyReadSent = true;
+			emit readyRead();
+		}
     }
 
 	if( (uint)m_pInput->capacity() > m_nInputSize && (uint)m_pInput->size() < m_nInputSize / 2 )
@@ -245,6 +255,8 @@ qint64 CNetworkConnection::readData(char* data, qint64 maxlen)
         //m_pSocket->readData(m_pInput->data() + nOldSize, m_pInput->size() - nOldSize);
         m_pSocket->read(m_pInput->data() + nOldSize, m_pInput->size() - nOldSize);
     }
+
+	m_bReadyReadSent = false;
 
     return (qint64)nBytesRead;
 }

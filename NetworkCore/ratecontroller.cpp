@@ -64,7 +64,7 @@ void CRateController::sheduleTransfer()
         return;
 
     m_bTransferSheduled = true;
-	QTimer::singleShot(100, this, SLOT(transfer()));
+	QTimer::singleShot(50, this, SLOT(transfer()));
 }
 void CRateController::transfer()
 {
@@ -83,7 +83,11 @@ void CRateController::transfer()
         return;
     }
 
-	QMutexLocker l(&m_oMutex);
+	if( !m_oMutex.tryLock() )
+	{
+		sheduleTransfer();
+		return;
+	}
 
     QSet<CNetworkConnection*> lSockets;
     foreach(CNetworkConnection* pSock, m_lSockets)
@@ -94,6 +98,7 @@ void CRateController::transfer()
 
     if( lSockets.isEmpty() )
 	{
+		m_oMutex.unlock();
         return;
 	}
 
@@ -114,7 +119,7 @@ void CRateController::transfer()
 
             bool bDataTransferred = false;
 			qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
-            if( nAvailable > 0 )
+			if( nAvailable > 0 && nToRead > 0 )
             {
 				qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
                 if( nReadBytes > 0 )
@@ -158,6 +163,8 @@ void CRateController::transfer()
 
 	if( bCanTransferMore )
         sheduleTransfer();
+
+	m_oMutex.unlock();
 }
 
 void CRateController::UpdateStats()
