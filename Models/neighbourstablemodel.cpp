@@ -50,6 +50,9 @@ int CNeighboursTableModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
 
+	if( parent.isValid() )
+		return 0;
+
 	return m_lNodes.count();
 }
 

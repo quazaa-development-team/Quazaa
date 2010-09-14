@@ -45,7 +45,7 @@ WidgetNeighbors::WidgetNeighbors(QWidget *parent) :
 	ui->toolBarG2->addWidget(labelG2StatsIcon);
 	ui->toolBarG2->addWidget(labelG2Stats);
 	restoreState(quazaaSettings.WinMain.NeighborsToolbars);
-	ui->treeViewNeighbors->header()->restoreState(quazaaSettings.WinMain.NeighborsHeader);
+	ui->tableViewNeighbors->horizontalHeader()->restoreState(quazaaSettings.WinMain.NeighborsHeader);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -78,18 +78,18 @@ void WidgetNeighbors::skinChangeEvent()
 
 void WidgetNeighbors::setModel(QAbstractItemModel *model)
 {
-	ui->treeViewNeighbors->setModel(model);
+	ui->tableViewNeighbors->setModel(model);
 }
 
 QWidget *WidgetNeighbors::treeView()
 {
-	return ui->treeViewNeighbors;
+	return ui->tableViewNeighbors;
 }
 
 void WidgetNeighbors::saveWidget()
 {
 	quazaaSettings.WinMain.NeighborsToolbars = saveState();
-	quazaaSettings.WinMain.NeighborsHeader = ui->treeViewNeighbors->header()->saveState();
+	quazaaSettings.WinMain.NeighborsHeader = ui->tableViewNeighbors->horizontalHeader()->saveState();
 }
 
 void WidgetNeighbors::on_actionSettings_triggered()
