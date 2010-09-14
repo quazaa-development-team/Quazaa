@@ -43,8 +43,10 @@ protected:
 
 private:
 	Ui::WidgetSystemLog *ui;
+	QMenu *logMenu;
 
 private slots:
+	void on_textEditSystemLog_customContextMenuRequested(QPoint pos);
 	void on_actionClearBuffer_triggered();
 	void skinChangeEvent();
 	void appendLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
