@@ -143,7 +143,8 @@ SOURCES += main.cpp \
 	ShareManager/SharedFile.cpp \
 	ShareManager/FileHasher.cpp \
 	NetworkCore/queryhashmaster.cpp \
-	NetworkCore/queryhashgroup.cpp
+	NetworkCore/queryhashgroup.cpp \
+    Models/chatroomslistmodel.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -249,7 +250,8 @@ HEADERS += UI/dialoglanguage.h \
 	3rdparty/CyoEncode/CyoDecode.h \
 	Models/neighbourstablemodel.h \
 	NetworkCore/queryhashmaster.h \
-	NetworkCore/queryhashgroup.h
+	NetworkCore/queryhashgroup.h \
+    Models/chatroomslistmodel.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \

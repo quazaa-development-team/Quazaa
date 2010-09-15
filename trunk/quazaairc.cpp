@@ -81,6 +81,7 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 void QuazaaIRC::stopIrc()
 {
 	qDebug() << "QuazaaIRC::stopIrc()";
+	ircSession->part("#quazaa-dev", "Client exited.");
 	ircSession->disconnectFromServer();
 }
 

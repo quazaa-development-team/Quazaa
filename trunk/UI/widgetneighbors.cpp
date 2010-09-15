@@ -95,12 +95,12 @@ void WidgetNeighbors::saveWidget()
 void WidgetNeighbors::on_actionSettings_triggered()
 {
 	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
-	DialogSettings *dlgSettings = new DialogSettings;
+	DialogSettings *dlgSettings = new DialogSettings(0);
+	dlgSettings->switchSettingsPage(20);
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
 	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
-	dlgSettings->switchSettingsPage(20);
 	dlgSkinSettings->show();
 }
 
