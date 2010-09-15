@@ -359,7 +359,8 @@ void CSearchManager::OnQueryHit(G2Packet *pPacket, CG2Node *pNode, IPv4_ENDPOINT
 			}
 		}
 
-		Network.RoutePacket(pHitInfo->m_oGUID, pPacket);
+		//Network.RoutePacket(pHitInfo->m_oGUID, pPacket);
+		Network.RouteHits(pHitInfo->m_oGUID, pPacket);
 	}
 
 }

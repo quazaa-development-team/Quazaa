@@ -36,7 +36,7 @@ G2Packet::G2Packet()
 
 G2Packet::~G2Packet()
 {
-	if( m_nReference )
+	if( m_nReference != 0 )
 	{
 		qDebug() << "not released " << (char*)&m_sType[0];
 	}

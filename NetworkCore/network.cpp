@@ -27,6 +27,7 @@
 #include "g2packet.h"
 #include "datagrams.h"
 #include <QTimer>
+#include <QTime>
 #include <QList>
 #include "g2node.h"
 #include "networkconnection.h"
@@ -66,6 +67,10 @@ CNetwork::CNetwork(QObject *parent)
 	m_bSharesReady = false;
 
 	m_nCookie = 0;
+	m_nSecsToHubBalancing = 0;
+	m_tLastModeChange = 0;
+	m_nMinutesAbove90 = m_nMinutesBelow50 = 0;
+	m_nMinutesTrying = 0;
 }
 CNetwork::~CNetwork()
 {
@@ -103,6 +108,10 @@ void CNetwork::Connect()
     SearchManager.moveToThread(&NetworkThread);
 	Handshakes.Listen();
     m_oRoutingTable.Clear();
+	m_nSecsToHubBalancing = HUB_BALANCING_INTERVAL;
+	m_tLastModeChange = time(0);
+	m_nMinutesAbove90 = m_nMinutesBelow50 = 0;
+	m_nMinutesTrying = 0;
 	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(OnSharesReady()), Qt::UniqueConnection);
 	NetworkThread.start("Network", &m_pSection, this);
 
@@ -161,6 +170,11 @@ void CNetwork::CleanupThread()
     Handshakes.Disconnect();
 
 	DisconnectAllNodes();
+
+	while( !m_lHitsToRoute.isEmpty() )
+	{
+		m_lHitsToRoute.takeFirst().second->Release();
+	}
 
 	delete m_pRateController;
 	m_pRateController = 0;
@@ -225,7 +239,18 @@ void CNetwork::OnSecondTimer()
 
     Maintain();
 
+	m_nSecsToHubBalancing--;
+
+	if( m_nSecsToHubBalancing == 0 )
+	{
+		m_nSecsToHubBalancing = HUB_BALANCING_INTERVAL;
+		HubBalancing();
+	}
+
     SearchManager.OnTimer();
+
+	if( m_lHitsToRoute.size() )
+		FlushHits();
 
     if( m_nLNIWait == 0 )
     {
@@ -552,6 +577,30 @@ bool CNetwork::IsConnectedTo(IPv4_ENDPOINT addr)
     return false;
 }
 
+void CNetwork::RouteHits(QUuid &oTarget, G2Packet *pPacket)
+{
+	pPacket->AddRef();
+	m_lHitsToRoute.append(qMakePair<QUuid, G2Packet*>(oTarget, pPacket));
+
+	if( m_lHitsToRoute.size() > 1000 )
+		FlushHits();
+}
+void CNetwork::FlushHits()
+{
+	QTime tTime;
+
+	tTime.start();
+
+	while( !m_lHitsToRoute.isEmpty() && tTime.elapsed() < 125 )
+	{
+		QPair<QUuid, G2Packet*> oHitPair = m_lHitsToRoute.takeFirst();
+		RoutePacket(oHitPair.first, oHitPair.second);
+		oHitPair.second->Release();
+	}
+
+	qDebug() << "Hits left to be routed: " << m_lHitsToRoute.size();
+}
+
 bool CNetwork::RoutePacket(QUuid &pTargetGUID, G2Packet *pPacket)
 {
     CG2Node* pNode = 0;
@@ -727,4 +776,158 @@ void CNetwork::OnLocalHashTableUpdate()
 		if( pNode->m_nType == G2_HUB && pNode->m_nState == nsConnected )
 			pNode->m_bSendQHT = true;
 	}*/
+}
+
+
+void CNetwork::HubBalancing()
+{
+	systemLog.postLog(LogSeverity::Notice, "*** HUB BALANCING REPORT ***");
+
+	// get the local hub cluster load
+	quint32 nLeaves = 0, nMaxLeaves = 0, nClusterLoad = 0, nLocalLoad = 0;
+
+	const quint32 MINUTES_TRYING_BEFORE_SWITCH = 10; // emergency hub switch
+	if( !isHub() )
+	{
+		if( m_nHubsConnected == 0 ) // if we're not connected to any hub
+		{
+			m_nMinutesTrying++;
+			if( m_nMinutesTrying > MINUTES_TRYING_BEFORE_SWITCH ) // if no hub connects in this time
+			{
+				// emergency switch to hub mode, normal downgrades will filter out bad upgrades
+				systemLog.postLog(LogSeverity::Notice, "No HUB connections for %u minutes, switching to HUB mode.", MINUTES_TRYING_BEFORE_SWITCH);
+				SwitchClientMode(G2_HUB);
+			}
+			return;
+		}
+		else
+		{
+			m_nMinutesTrying = 0;
+		}
+	}
+
+	// check how many leaves are in local hub cluster
+	foreach( CG2Node* pNode, m_lNodes )
+	{
+		if( pNode->m_nState == nsConnected && pNode->m_nType == G2_HUB )
+		{
+			nLeaves += pNode->m_nLeafCount;
+			nMaxLeaves += pNode->m_nLeafMax;
+		}
+	}
+
+	if( isHub() )
+	{
+		// add our numbers to cluster load
+		nLeaves += m_nLeavesConnected;
+		nMaxLeaves += quazaaSettings.Gnutella2.NumLeafs;
+		// and calculate local hub load percentage
+		nLocalLoad = m_nLeavesConnected * 100 / quazaaSettings.Gnutella2.NumLeafs;
+		systemLog.postLog(LogSeverity::Notice, "Local Hub load: %u%%, leaves connected: %u, capacity: %u", nLocalLoad, m_nLeavesConnected, quazaaSettings.Gnutella2.NumLeafs);
+	}
+
+	// calculate local cluster load percentage
+	nClusterLoad = nLeaves * 100 / nMaxLeaves;
+
+	systemLog.postLog(LogSeverity::Notice, "Local Hub Cluster load: %u%%, leaves connected: %u, capacity: %u", nClusterLoad, nLeaves, nMaxLeaves);
+
+	if( nClusterLoad < 50 )
+	{
+		// if local cluster load is below 50%, increment counter
+		m_nMinutesBelow50++;
+		systemLog.postLog(LogSeverity::Notice, "Cluster loaded below 50%% for %u minutes.", m_nMinutesBelow50);
+	}
+	else if( nClusterLoad > 90 )
+	{
+		// if local cluster load is above 90%, increment counter
+		m_nMinutesAbove90++;
+		systemLog.postLog(LogSeverity::Notice, "Cluster loaded above 90%% for %u minutes.", m_nMinutesAbove90);
+	}
+	else
+	{
+		// reset counters
+		m_nMinutesAbove90 = 0;
+		m_nMinutesBelow50 = 0;
+	}
+
+	if( quazaaSettings.Gnutella2.ClientMode != 0 ) // if client mode is forced in settings
+	{
+		systemLog.postLog(LogSeverity::Notice, "Not checking for mode change possibility: current client mode forced.");
+		return;
+	}
+
+	quint32 tNow = time(0);
+
+	const quint32 MODE_CHANGE_WAIT = 1800; // grace period since last mode change
+	const quint32 UPGRADE_TIMEOUT = 30; // if cluster loaded for this time - upgrade
+	const quint32 DOWNGRADE_TIMEOUT = 60; // if cluster not loaded for this time - downgrade
+
+	if( tNow - m_tLastModeChange < MODE_CHANGE_WAIT )
+	{
+		// too early for mode change
+		systemLog.postLog(LogSeverity::Notice, "Not checking for mode change possibility: too early from last mode change.");
+		return;
+	}
+
+	if( isHub() && m_nMinutesBelow50 > DOWNGRADE_TIMEOUT )
+	{
+		// if we're running in hub mode and timeout passed
+
+		if( m_nHubsConnected > 0 ) // if we have connections to other hubs
+		{
+			if( nLocalLoad > 50 ) // and our load is below 50%
+			{
+				systemLog.postLog(LogSeverity::Notice, "Cluster load too low for too long, staying in HUB mode, we are above 50%% of our capacity.");
+			}
+			else
+			{
+				// switch to leaf mode
+				systemLog.postLog(LogSeverity::Notice, "Cluster load too low for too long, switching to LEAF mode.");
+				SwitchClientMode(G2_LEAF);
+			}
+		}
+		else
+		{
+			// no connections to other hubs - stay in HUB mode
+			systemLog.postLog(LogSeverity::Notice, "Cluster load too low for too long, staying in HUB mode due to lack of HUB connections.");
+		}
+	}
+	else if( !isHub() && m_nMinutesAbove90 > UPGRADE_TIMEOUT )
+	{
+		// if we're running in leaf mode and timeout passed
+
+		// TODO: Analyze computers performance and upgrade only if it meets minimum requirements
+
+		if( !IsFirewalled() )
+		{
+			// switch to HUB mode
+			systemLog.postLog(LogSeverity::Notice, "Cluster load too high for too long, switching to HUB mode.");
+			SwitchClientMode(G2_HUB);
+		}
+	}
+	else
+	{
+		systemLog.postLog(LogSeverity::Notice, "No need for mode change.");
+	}
+
+}
+
+bool CNetwork::SwitchClientMode(G2NodeType nRequestedMode)
+{
+	if( !m_bActive )
+		return false;
+
+	if( m_nNodeState == nRequestedMode )
+		return false;
+
+	m_nMinutesBelow50 = 0;
+	m_nMinutesAbove90 = 0;
+	m_tLastModeChange = time(0);
+
+	DisconnectAllNodes();
+	m_nNodeState = nRequestedMode;
+
+	systemLog.postLog(LogSeverity::Notice, "Switched to %s mode.", (isHub() ? "HUB" : "LEAF"));
+
+	return true;
 }
