@@ -59,6 +59,8 @@ public:
     CRouteTable      m_oRoutingTable;
     quint32          m_tCleanRoutesNext;
 
+	QList<QPair<QUuid, G2Packet*> > m_lHitsToRoute;
+
 	quint32			 m_nNextCheck;		// secs to next AdatpiveCheckPeriod
 	quint32			 m_nBusyPeriods;	// num of busy periods
 	quint32			 m_nTotalPeriods;	// how many check periods?
@@ -66,6 +68,13 @@ public:
 	bool			 m_bSharesReady;
 
 	quint32			 m_nCookie;
+
+	static const quint32 HUB_BALANCING_INTERVAL = 60;
+	quint32			m_nSecsToHubBalancing;
+	quint32			m_nMinutesBelow50;
+	quint32			m_nMinutesAbove90;
+	quint32			m_nMinutesTrying;
+	quint32			m_tLastModeChange;
 
 public:
     CNetwork(QObject* parent = 0);
@@ -83,6 +92,8 @@ public:
     bool IsListening();
     bool IsFirewalled();
 
+	void RouteHits(QUuid& oTarget, G2Packet* pPacket);
+	void FlushHits();
     bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket);
     bool RoutePacket(G2Packet* pPacket, CG2Node* pNbr = 0);
 
@@ -117,6 +128,9 @@ public:
     QList<CG2Node*>* List(){ return &m_lNodes; }
 
     bool IsConnectedTo(IPv4_ENDPOINT addr);
+
+	void HubBalancing();
+	bool SwitchClientMode(G2NodeType nRequestedMode);
 
 public slots:
     void OnSecondTimer();
