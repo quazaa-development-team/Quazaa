@@ -64,6 +64,8 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 
 WidgetChatCenter::~WidgetChatCenter()
 {
+	if (ui->actionDisconnect->isEnabled())
+		quazaaIrc->stopIrc();
 	delete ui;
 }
 
@@ -102,12 +104,12 @@ void WidgetChatCenter::on_actionConnect_triggered()
 void WidgetChatCenter::on_actionChatSettings_triggered()
 {
 	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
-	DialogSettings *dlgSettings = new DialogSettings;
+	DialogSettings *dlgSettings = new DialogSettings(0);
+	dlgSettings->switchSettingsPage(7);
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
 	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
-	dlgSettings->switchSettingsPage(7);
 	dlgSkinSettings->show();
 }
 

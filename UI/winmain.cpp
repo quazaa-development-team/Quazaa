@@ -45,6 +45,7 @@
 #include "quazaaglobals.h"
 #include "QSkinDialog/qskinsettings.h"
 #include "commonfunctions.h"
+#include "handshakes.h"
 #include "network.h"
 #include "datagrams.h"
 #include "geoiplist.h"
@@ -81,6 +82,8 @@ WinMain::WinMain(QWidget *parent) :
 	ui->toolBarMainMenu->addWidget(ui->menubarMain);
 
 	//Set up the status bar
+	labelFirewallStatus = new QLabel();
+	ui->statusbar->addPermanentWidget(labelFirewallStatus);
 	labelBandwidthTotals = new QLabel();
 	ui->statusbar->addPermanentWidget(labelBandwidthTotals);
 
@@ -823,12 +826,12 @@ void WinMain::on_actionImportPartials_triggered()
 void WinMain::on_actionChooseSkin_triggered()
 {
 	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
-	DialogSettings *dlgSettings = new DialogSettings;
+	DialogSettings *dlgSettings = new DialogSettings(0);
+	dlgSettings->switchSettingsPage(3);
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
 	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
-	dlgSettings->switchSettingsPage(3);
 	dlgSkinSettings->show();
 }
 
@@ -943,9 +946,28 @@ void WinMain::updateBandwidth()
 	quint16 nTCPOutSpeed = 0;
 	quint16 nUDPInSpeed = 0;
 	quint16 nUDPOutSpeed = 0;
+	QString tcpFirewalled = "";
+	QString udpFirewalled = "";
+
+	if( Handshakes.m_pSection.tryLock() && bEmit )
+	{
+		if(Handshakes.IsFirewalled())
+		{
+			tcpFirewalled = tr("TCP: Firewalled");
+		} else {
+			tcpFirewalled = tr("TCP: OK");
+		}
+		Handshakes.m_pSection.unlock();
+	}
 
 	if( Network.m_pSection.tryLock() && bEmit  )
 	{
+		if(Datagrams.IsFirewalled())
+		{
+			udpFirewalled = tr("UDP: Firewalled");
+		} else {
+			udpFirewalled = tr("UDP: OK");
+		}
 		nTCPInSpeed = Network.DownloadSpeed();
 		nTCPOutSpeed = Network.UploadSpeed();
 		nUDPInSpeed = Datagrams.DownloadSpeed();
@@ -956,6 +978,7 @@ void WinMain::updateBandwidth()
 	{
 		Datagrams.m_pSection.unlock();
 	}*/
+	labelFirewallStatus->setText(tr("%1 %2").arg(tcpFirewalled).arg(udpFirewalled));
 	labelBandwidthTotals->setText(tr("%1/s In:%2/s Out [D:%3/U:%4]").arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
 }
 

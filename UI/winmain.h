@@ -46,14 +46,14 @@
 #include "neighbourstablemodel.h"
 
 namespace Ui {
-    class WinMain;
+	class WinMain;
 }
 
 class WinMain : public QMainWindow {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    WinMain(QWidget *parent = 0);
-    ~WinMain();
+	WinMain(QWidget *parent = 0);
+	~WinMain();
 	void loadTrayIcon();
 	bool event(QEvent *e);
 
@@ -62,12 +62,13 @@ public:
 	CNeighboursTableModel* neighboursList;
 	QActionGroup *actionGroupMainNavigation;
 	QLabel *labelBandwidthTotals;
+	QLabel *labelFirewallStatus;
 
 	QSystemTrayIcon *trayIcon;
 	QMenu *trayMenu;
-    WidgetHome *pageHome;
+	WidgetHome *pageHome;
 	WidgetLibrary *pageLibrary;
-    WidgetMedia *pageMedia;
+	WidgetMedia *pageMedia;
 	WidgetSearch *pageSearch;
 	WidgetTransfers *pageTransfers;
 	WidgetSecurity *pageSecurity;
@@ -87,10 +88,10 @@ signals:
 	void showMain();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
-    Ui::WinMain *ui;
+	Ui::WinMain *ui;
 	bool bypassCloseEvent;
 
 private slots:
@@ -135,8 +136,8 @@ private slots:
 	void on_actionTransfers_triggered();
 	void on_actionSearch_triggered();
 	void on_actionMedia_triggered();
-    void on_actionLibrary_triggered();
-    void on_actionHome_triggered();
+	void on_actionLibrary_triggered();
+	void on_actionHome_triggered();
 	void quazaaShutdown();
 	void quazaaStartup();
 	void icon_activated(QSystemTrayIcon::ActivationReason reason);
