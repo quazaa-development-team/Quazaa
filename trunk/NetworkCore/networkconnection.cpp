@@ -260,12 +260,7 @@ qint64 CNetworkConnection::readData(char* data, qint64 maxlen)
 
     return (qint64)nBytesRead;
 }
-qint64 CNetworkConnection::readLineData(char* data, qint64 maxlen)
-{
-    //return m_pSocket->readLineData(data, maxlen);
-	//return QIODevice::readLineData(data, maxlen);
-	return -1;
-}
+
 qint64 CNetworkConnection::writeData(const char* data, qint64 len)
 {
     Q_ASSERT(m_pOutput != 0);
