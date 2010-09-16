@@ -755,29 +755,8 @@ void CNetwork::DisconnectFrom(IPv4_ENDPOINT &ip)
 }
 void CNetwork::OnSharesReady()
 {
-	qDebug() << "Shares ready.";
 	m_bSharesReady = true;
-
-	/*QList<QSqlRecord> lKeywords = ShareManager.Query("SELECT keyword FROM keywords");
-
-	foreach( QSqlRecord r, lKeywords )
-	{
-		m_pHashTable->AddWord(r.value(0).toByteArray());
-	}
-
-	OnLocalHashTableUpdate();*/
 }
-void CNetwork::OnLocalHashTableUpdate()
-{
-	/*QMutexLocker l(&m_pSection);
-
-	foreach( CG2Node* pNode, m_lNodes )
-	{
-		if( pNode->m_nType == G2_HUB && pNode->m_nState == nsConnected )
-			pNode->m_bSendQHT = true;
-	}*/
-}
-
 
 void CNetwork::HubBalancing()
 {

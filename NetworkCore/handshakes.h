@@ -51,7 +51,7 @@ public:
 
     bool IsFirewalled()
     {
-        return (m_nAccepted > 0);
+		return (m_nAccepted == 0);
     }
 
 public slots:

@@ -943,13 +943,12 @@ void WinMain::startNewSearch(QString *searchString)
 
 void WinMain::updateStatusBar()
 {
-	bool bEmit = (sender() != 0);
 	quint16 nTCPInSpeed = 0;
 	quint16 nTCPOutSpeed = 0;
 	quint16 nUDPInSpeed = 0;
 	quint16 nUDPOutSpeed = 0;
 
-	if( Handshakes.m_pSection.tryLock(50) && bEmit )
+	if( Handshakes.m_pSection.tryLock(50) )
 	{
 		if(!Handshakes.IsFirewalled())
 			tcpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
@@ -958,7 +957,7 @@ void WinMain::updateStatusBar()
 		Handshakes.m_pSection.unlock();
 	}
 
-	if( Network.m_pSection.tryLock(50) && bEmit )
+	if( Network.m_pSection.tryLock(50) )
 	{
 		if(!Datagrams.IsFirewalled())
 			udpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
@@ -970,10 +969,7 @@ void WinMain::updateStatusBar()
 		nUDPOutSpeed = Datagrams.UploadSpeed();
 		Network.m_pSection.unlock();
 	}
-	/*if( Datagrams.m_pSection.tryLock(50) && bEmit )
-	{
-		Datagrams.m_pSection.unlock();
-	}*/
+
 	labelFirewallStatus->setText(tr("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"> <html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">TCP: <img src=\"%1\" /> UDP: <img src=\"%2\" /></p></body></html>").arg(tcpFirewalled).arg(udpFirewalled));
 	labelBandwidthTotals->setText(tr("%1/s In:%2/s Out [D:%3/U:%4]").arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
 }
