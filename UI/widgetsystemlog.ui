@@ -42,6 +42,8 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="textInteractionFlags">
@@ -126,6 +128,10 @@ p, li { white-space: pre-wrap; }
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Warning.png</normaloff>:/Resource/Generic/Warning.png</iconset>
+   </property>
    <property name="text">
     <string>Show Warning Messages</string>
    </property>
@@ -137,6 +143,10 @@ p, li { white-space: pre-wrap; }
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
+   </property>
    <property name="text">
     <string>Show Information Messages</string>
    </property>
@@ -144,6 +154,10 @@ p, li { white-space: pre-wrap; }
   <action name="actionShowSecurity">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
    </property>
    <property name="text">
     <string>Show Security Messages</string>
@@ -153,6 +167,10 @@ p, li { white-space: pre-wrap; }
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Notice.png</normaloff>:/Resource/Generic/Notice.png</iconset>
+   </property>
    <property name="text">
     <string>Show Notice Messages</string>
    </property>
@@ -160,6 +178,10 @@ p, li { white-space: pre-wrap; }
   <action name="actionShowDebug">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Bug.png</normaloff>:/Resource/Generic/Bug.png</iconset>
    </property>
    <property name="text">
     <string>Show Debug Messages</string>
@@ -169,6 +191,10 @@ p, li { white-space: pre-wrap; }
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
+   </property>
    <property name="text">
     <string>Show Error Messages</string>
    </property>
@@ -176,6 +202,10 @@ p, li { white-space: pre-wrap; }
   <action name="actionShowCritical">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Critical.png</normaloff>:/Resource/Generic/Critical.png</iconset>
    </property>
    <property name="text">
     <string>Show Critical Messages</string>

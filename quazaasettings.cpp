@@ -1215,3 +1215,39 @@ void QuazaaSettings::loadSkinSettings()
 	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
 	Skin.File = m_qSettings.value("SkinFile", qApp->applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
 }
+
+void QuazaaSettings::saveLogSettings()
+{
+	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+
+	m_qSettings.beginGroup("SystemLog");
+	m_qSettings.setValue( "ShowInformation", SystemLog.ShowInformation );
+	m_qSettings.setValue( "ShowSecurity", SystemLog.ShowSecurity );
+	m_qSettings.setValue( "ShowNotice", SystemLog.ShowNotice );
+	m_qSettings.setValue( "ShowDebug", SystemLog.ShowDebug );
+	m_qSettings.setValue( "ShowWarnings", SystemLog.ShowWarnings );
+	m_qSettings.setValue( "ShowError", SystemLog.ShowError );
+	m_qSettings.setValue( "ShowCritical", SystemLog.ShowCritical );
+	m_qSettings.setValue( "IsPaused", SystemLog.IsPaused );
+	m_qSettings.endGroup();
+}
+
+void QuazaaSettings::loadLogSettings()
+{
+	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+
+	m_qSettings.beginGroup("SystemLog");
+	SystemLog.ShowInformation = m_qSettings.value( "ShowInformation", true ).toBool();
+	SystemLog.ShowSecurity = m_qSettings.value( "ShowSecurity", true ).toBool();
+	SystemLog.ShowNotice = m_qSettings.value( "ShowNotice", true ).toBool();
+#ifdef QT_DEBUG
+	SystemLog.ShowDebug = m_qSettings.value( "ShowDebug", true ).toBool();
+#else
+	SystemLog.ShowDebug = m_qSettings.value( "ShowDebug", false ).toBool();
+#endif
+	SystemLog.ShowWarnings = m_qSettings.value( "ShowWarnings", true ).toBool();
+	SystemLog.ShowError = m_qSettings.value( "ShowError", true ).toBool();
+	SystemLog.ShowCritical = m_qSettings.value( "ShowCritical", true ).toBool();
+	SystemLog.IsPaused = m_qSettings.value( "IsPaused", false ).toBool();
+	m_qSettings.endGroup();
+}
