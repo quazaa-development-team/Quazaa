@@ -82,6 +82,8 @@ WinMain::WinMain(QWidget *parent) :
 	ui->toolBarMainMenu->addWidget(ui->menubarMain);
 
 	//Set up the status bar
+	tcpFirewalled = ":/Resource/Network/ShieldRed.png";
+	udpFirewalled = ":/Resource/Network/ShieldRed.png";
 	labelFirewallStatus = new QLabel(tr("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"> <html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">TCP: <img src=\":/Resource/Network/ShieldRed.png\" /> UDP: <img src=\":/Resource/Network/ShieldRed.png\" /></p></body></html>"));
 	ui->statusbar->addPermanentWidget(labelFirewallStatus);
 	labelBandwidthTotals = new QLabel();
@@ -251,7 +253,7 @@ WinMain::WinMain(QWidget *parent) :
 
 	neighboursRefresher = new QTimer(this);
 	connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
-	connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateBandwidth()));
+	connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
 	connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbors, SLOT(updateG2()));
 
 	update();
@@ -939,31 +941,29 @@ void WinMain::startNewSearch(QString *searchString)
 }
 
 
-void WinMain::updateBandwidth()
+void WinMain::updateStatusBar()
 {
 	bool bEmit = (sender() != 0);
 	quint16 nTCPInSpeed = 0;
 	quint16 nTCPOutSpeed = 0;
 	quint16 nUDPInSpeed = 0;
 	quint16 nUDPOutSpeed = 0;
-	QString tcpFirewalled = ":/Resource/Network/ShieldRed.png";
-	QString udpFirewalled = ":/Resource/Network/ShieldRed.png";
 
 	if( Handshakes.m_pSection.tryLock() && bEmit )
 	{
 		if(!Handshakes.IsFirewalled())
-		{
 			tcpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
-		}
+		else
+			tcpFirewalled = ":/Resource/Network/ShieldRed.png";
 		Handshakes.m_pSection.unlock();
 	}
 
-	if( Network.m_pSection.tryLock() && bEmit  )
+	if( Network.m_pSection.tryLock() && bEmit )
 	{
 		if(!Datagrams.IsFirewalled())
-		{
 			udpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
-		}
+		else
+			udpFirewalled = ":/Resource/Network/ShieldRed.png";
 		nTCPInSpeed = Network.DownloadSpeed();
 		nTCPOutSpeed = Network.UploadSpeed();
 		nUDPInSpeed = Datagrams.DownloadSpeed();

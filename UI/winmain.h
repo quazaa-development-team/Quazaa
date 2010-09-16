@@ -93,6 +93,8 @@ protected:
 private:
 	Ui::WinMain *ui;
 	bool bypassCloseEvent;
+	QString tcpFirewalled;
+	QString udpFirewalled;
 
 private slots:
 	void on_actionConnectTo_triggered();
@@ -143,7 +145,7 @@ private slots:
 	void icon_activated(QSystemTrayIcon::ActivationReason reason);
 	void skinChangeEvent();
 	void startNewSearch(QString *searchString);
-	void updateBandwidth();
+	void updateStatusBar();
 };
 
 #endif // WINMAIN_H
