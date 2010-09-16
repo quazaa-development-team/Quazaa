@@ -36,6 +36,7 @@
 #include "quazaasettings.h"
 
 #include "queryhashtable.h"
+#include "queryhashmaster.h"
 #include "searchmanager.h"
 #include "ShareManager.h"
 #include "managedsearch.h"
@@ -236,6 +237,9 @@ void CNetwork::OnSecondTimer()
 		AdaptiveHubRun();
 		m_nNextCheck = quazaaSettings.Gnutella2.AdaptiveCheckPeriod;
 	}
+
+	if( !QueryHashMaster.IsValid() )
+		QueryHashMaster.Build();
 
     Maintain();
 

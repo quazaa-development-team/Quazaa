@@ -53,6 +53,10 @@ public:
 	{
 		m_bValid = false;
 	}
+	inline bool IsValid()
+	{
+		return m_bValid;
+	}
 };
 
 extern CQueryHashMaster QueryHashMaster;

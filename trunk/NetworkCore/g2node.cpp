@@ -319,7 +319,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		{
 			if( m_pLocalTable->PatchTo(&QueryHashMaster, this) )
 			{
-				systemLog.postLog(LogSeverity::Information, "Sending query routing table to %s (%d bits, %d entries, %d bytes, %d%% full)",  m_oAddress.toStringNoPort().toAscii().constData(), m_pLocalTable->m_nBits, m_pLocalTable->m_nHash, m_pLocalTable->m_nHash / 8, m_pLocalTable->GetPercent());
+				systemLog.postLog(LogSeverity::Notice, "Sending query routing table to %s (%d bits, %d entries, %d bytes, %d%% full)",  m_oAddress.toStringNoPort().toAscii().constData(), m_pLocalTable->m_nBits, m_pLocalTable->m_nHash, m_pLocalTable->m_nHash / 8, m_pLocalTable->GetPercent());
 			}
 		}
 
@@ -734,7 +734,7 @@ void CG2Node::OnPacket(G2Packet* pPacket)
 			}
 			else if( pPacket->IsType("QHT") )
 			{
-				//OnQHT(pPacket);
+				OnQHT(pPacket);
 			}
 			else if( pPacket->IsType("Q2") )
 			{
@@ -1005,12 +1005,40 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 void CG2Node::OnQHT(G2Packet* pPacket)
 {
-	Q_UNUSED(pPacket);
-
-	if( !Network.isHub() )
+	if( m_pRemoteTable == 0 )
 	{
-		qDebug() << "Received unexpected Query Routing Table, ignoring";
+		if( !Network.isHub() )
+		{
+			qDebug() << "Received unexpected Query Routing Table, ignoring";
+			return;
+		}
+
+		m_pRemoteTable = new CQueryHashTable();
+	}
+
+	bool bLive = m_pRemoteTable->m_bLive;
+
+	if( !m_pRemoteTable->OnPacket(pPacket) )
+	{
+		systemLog.postLog(LogSeverity::Error, "Neighbour %s sent bad query hash table update. Closing connection.", m_oAddress.toStringNoPort().toAscii().constData());
+		Close();
 		return;
+	}
+
+	if( m_pRemoteTable->m_bLive && !bLive )
+	{
+		systemLog.postLog(LogSeverity::Notice, "Neighbour %s updated its query hash table. %u bits %u%% full.", m_oAddress.toString().toUtf8().constData(), m_pRemoteTable->m_nBits, m_pRemoteTable->GetPercent());
+	}
+
+	if( m_nType == G2_LEAF && m_pRemoteTable->m_pGroup == 0 )
+	{
+		if( m_pRemoteTable->GetPercent() > 95 )
+		{
+			systemLog.postLog(LogSeverity::Error, "Dropping neighbour %s - hash table too full.", m_oAddress.toString().toAscii().constData());
+			Close(0);
+			return;
+		}
+		QueryHashMaster.Add(m_pRemoteTable);
 	}
 }
 
