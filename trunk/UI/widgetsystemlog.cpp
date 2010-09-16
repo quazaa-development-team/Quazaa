@@ -30,21 +30,23 @@ WidgetSystemLog::WidgetSystemLog(QWidget *parent) :
 	ui(new Ui::WidgetSystemLog)
 {
 	ui->setupUi(this);
+	quazaaSettings.loadLogSettings();
+	ui->actionPauseLogDisplay->setChecked(quazaaSettings.SystemLog.IsPaused);
 	logMenu = new QMenu(ui->textEditSystemLog);
 	logMenu->addAction(ui->actionShowInformation);
-	ui->actionShowInformation->setChecked(true);
+	ui->actionShowInformation->setChecked(quazaaSettings.SystemLog.ShowInformation);
 	logMenu->addAction(ui->actionShowSecurity);
-	ui->actionShowSecurity->setChecked(true);
+	ui->actionShowSecurity->setChecked(quazaaSettings.SystemLog.ShowSecurity);
 	logMenu->addAction(ui->actionShowNotice);
-	ui->actionShowNotice->setChecked(true);
+	ui->actionShowNotice->setChecked(quazaaSettings.SystemLog.ShowNotice);
 	logMenu->addAction(ui->actionShowDebug);
-	ui->actionShowDebug->setChecked(true);
+	ui->actionShowDebug->setChecked(quazaaSettings.SystemLog.ShowDebug);
 	logMenu->addAction(ui->actionShowWarnings);
-	ui->actionShowWarnings->setChecked(true);
+	ui->actionShowWarnings->setChecked(quazaaSettings.SystemLog.ShowWarnings);
 	logMenu->addAction(ui->actionShowError);
-	ui->actionShowError->setChecked(true);
+	ui->actionShowError->setChecked(quazaaSettings.SystemLog.ShowError);
 	logMenu->addAction(ui->actionShowCritical);
-	ui->actionShowCritical->setChecked(true);
+	ui->actionShowCritical->setChecked(quazaaSettings.SystemLog.ShowCritical);
 	restoreState(quazaaSettings.WinMain.SystemLogToolbar);
 	ui->actionToggleTimestamp->setChecked(quazaaSettings.Logging.LogShowTimestamp);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
@@ -163,4 +165,52 @@ void WidgetSystemLog::on_textEditSystemLog_customContextMenuRequested(QPoint pos
 {
 	Q_UNUSED(pos);
 	logMenu->exec(QCursor::pos());
+}
+
+void WidgetSystemLog::on_actionShowWarnings_triggered(bool checked)
+{
+	quazaaSettings.SystemLog.ShowWarnings = checked;
+	quazaaSettings.saveLogSettings();
+}
+
+void WidgetSystemLog::on_actionShowInformation_triggered(bool checked)
+{
+	quazaaSettings.SystemLog.ShowInformation = checked;
+	quazaaSettings.saveLogSettings();
+}
+
+void WidgetSystemLog::on_actionShowSecurity_triggered(bool checked)
+{
+	quazaaSettings.SystemLog.ShowSecurity = checked;
+	quazaaSettings.saveLogSettings();
+}
+
+void WidgetSystemLog::on_actionShowNotice_triggered(bool checked)
+{
+	quazaaSettings.SystemLog.ShowNotice = checked;
+	quazaaSettings.saveLogSettings();
+}
+
+void WidgetSystemLog::on_actionShowDebug_triggered(bool checked)
+{
+	quazaaSettings.SystemLog.ShowDebug = checked;
+	quazaaSettings.saveLogSettings();
+}
+
+void WidgetSystemLog::on_actionShowError_triggered(bool checked)
+{
+	quazaaSettings.SystemLog.ShowError = checked;
+	quazaaSettings.saveLogSettings();
+}
+
+void WidgetSystemLog::on_actionShowCritical_triggered(bool checked)
+{
+	quazaaSettings.SystemLog.ShowCritical = checked;
+	quazaaSettings.saveLogSettings();
+}
+
+void WidgetSystemLog::on_actionPauseLogDisplay_triggered(bool checked)
+{
+	quazaaSettings.SystemLog.IsPaused = checked;
+	quazaaSettings.saveLogSettings();
 }

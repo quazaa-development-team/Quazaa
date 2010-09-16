@@ -50,6 +50,14 @@ private slots:
 	void on_actionClearBuffer_triggered();
 	void skinChangeEvent();
 	void appendLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
+	void on_actionShowWarnings_triggered(bool checked);
+	void on_actionShowInformation_triggered(bool checked);
+	void on_actionShowSecurity_triggered(bool checked);
+	void on_actionShowNotice_triggered(bool checked);
+	void on_actionShowDebug_triggered(bool checked);
+	void on_actionShowError_triggered(bool checked);
+	void on_actionShowCritical_triggered(bool checked);
+	void on_actionPauseLogDisplay_triggered(bool checked);
 };
 
 #endif // WIDGETSYSTEMLOG_H

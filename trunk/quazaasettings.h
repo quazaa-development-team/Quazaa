@@ -532,7 +532,7 @@ namespace Settings
 		int			MaximumUploadsPerUser;					// Max uploads per user
 	};
 
-	struct EDonkey
+	struct sEDonkey
 	{
 		QString		DefaultServerFlags;						// Default server flags (for UDP searches)
 		int			DequeueTime;
@@ -621,6 +621,18 @@ namespace Settings
 	{
 
 	};
+
+	struct sSystemLog
+	{
+		bool		ShowInformation;
+		bool		ShowSecurity;
+		bool		ShowNotice;
+		bool		ShowDebug;
+		bool		ShowWarnings;
+		bool		ShowError;
+		bool		ShowCritical;
+		bool		IsPaused;
+	};
 };
 
 class QuazaaSettings : public QObject
@@ -643,6 +655,8 @@ public:
 	void loadLanguageSettings();
 	void saveFirstRun(bool firstRun);
 	bool FirstRun();
+	void saveLogSettings();
+	void loadLogSettings();
 
 public:
 
@@ -668,9 +682,10 @@ public:
 	Settings::sGnutella		Gnutella;
 	Settings::sGnutella2	Gnutella2;
 	Settings::sAres			Ares;
-	Settings::EDonkey		EDonkey;
+	Settings::sEDonkey		EDonkey;
 	Settings::sBitTorrent	BitTorrent;
 	Settings::sDiscovery	Discovery;
+	Settings::sSystemLog	SystemLog;
 };
 
 extern QuazaaSettings quazaaSettings;
