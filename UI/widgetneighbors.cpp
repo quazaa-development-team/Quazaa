@@ -120,13 +120,9 @@ void WidgetNeighbors::updateG2()
 		nLeavesConnected = Network.m_nLeavesConnected;
 		nTCPInSpeed = Network.DownloadSpeed();
 		nTCPOutSpeed = Network.UploadSpeed();
-		Network.m_pSection.unlock();
-	}
-	if( Datagrams.m_pSection.tryLock(50) && bEmit )
-	{
 		nUDPInSpeed = Datagrams.DownloadSpeed();
 		nUDPOutSpeed = Datagrams.UploadSpeed();
-		Datagrams.m_pSection.unlock();
+		Network.m_pSection.unlock();
 	}
 	labelG2Stats->setText(tr(" %1 Hubs, %2 Leaves, %3/s In:%4/s Out").arg(nHubsConnected).arg(nLeavesConnected).arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)));
 }

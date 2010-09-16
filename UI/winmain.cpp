@@ -949,7 +949,7 @@ void WinMain::updateStatusBar()
 	quint16 nUDPInSpeed = 0;
 	quint16 nUDPOutSpeed = 0;
 
-	if( Handshakes.m_pSection.tryLock() && bEmit )
+	if( Handshakes.m_pSection.tryLock(50) && bEmit )
 	{
 		if(!Handshakes.IsFirewalled())
 			tcpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
@@ -958,7 +958,7 @@ void WinMain::updateStatusBar()
 		Handshakes.m_pSection.unlock();
 	}
 
-	if( Network.m_pSection.tryLock() && bEmit )
+	if( Network.m_pSection.tryLock(50) && bEmit )
 	{
 		if(!Datagrams.IsFirewalled())
 			udpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
