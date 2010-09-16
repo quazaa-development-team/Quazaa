@@ -82,7 +82,7 @@ WinMain::WinMain(QWidget *parent) :
 	ui->toolBarMainMenu->addWidget(ui->menubarMain);
 
 	//Set up the status bar
-	labelFirewallStatus = new QLabel();
+	labelFirewallStatus = new QLabel(tr("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"> <html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">TCP: <img src=\":/Resource/Network/ShieldRed.png\" /> UDP: <img src=\":/Resource/Network/ShieldRed.png\" /></p></body></html>"));
 	ui->statusbar->addPermanentWidget(labelFirewallStatus);
 	labelBandwidthTotals = new QLabel();
 	ui->statusbar->addPermanentWidget(labelBandwidthTotals);
@@ -946,27 +946,23 @@ void WinMain::updateBandwidth()
 	quint16 nTCPOutSpeed = 0;
 	quint16 nUDPInSpeed = 0;
 	quint16 nUDPOutSpeed = 0;
-	QString tcpFirewalled = "";
-	QString udpFirewalled = "";
+	QString tcpFirewalled = ":/Resource/Network/ShieldRed.png";
+	QString udpFirewalled = ":/Resource/Network/ShieldRed.png";
 
 	if( Handshakes.m_pSection.tryLock() && bEmit )
 	{
-		if(Handshakes.IsFirewalled())
+		if(!Handshakes.IsFirewalled())
 		{
-			tcpFirewalled = tr("TCP: Firewalled");
-		} else {
-			tcpFirewalled = tr("TCP: OK");
+			tcpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
 		}
 		Handshakes.m_pSection.unlock();
 	}
 
 	if( Network.m_pSection.tryLock() && bEmit  )
 	{
-		if(Datagrams.IsFirewalled())
+		if(!Datagrams.IsFirewalled())
 		{
-			udpFirewalled = tr("UDP: Firewalled");
-		} else {
-			udpFirewalled = tr("UDP: OK");
+			udpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
 		}
 		nTCPInSpeed = Network.DownloadSpeed();
 		nTCPOutSpeed = Network.UploadSpeed();
@@ -978,7 +974,7 @@ void WinMain::updateBandwidth()
 	{
 		Datagrams.m_pSection.unlock();
 	}*/
-	labelFirewallStatus->setText(tr("%1 %2").arg(tcpFirewalled).arg(udpFirewalled));
+	labelFirewallStatus->setText(tr("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"> <html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">TCP: <img src=\"%1\" /> UDP: <img src=\"%2\" /></p></body></html>").arg(tcpFirewalled).arg(udpFirewalled));
 	labelBandwidthTotals->setText(tr("%1/s In:%2/s Out [D:%3/U:%4]").arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
 }
 

@@ -435,5 +435,7 @@
         <file>Resource/Flags/zz.png</file>
         <file>Resource/Flags/eu.png</file>
         <file>Resource/Flags/cs.png</file>
+        <file>Resource/Network/CheckedShieldGreen.png</file>
+        <file>Resource/Network/ShieldRed.png</file>
     </qresource>
 </RCC>
