@@ -154,6 +154,15 @@ void WidgetSystemLog::saveWidget()
 {
 	quazaaSettings.WinMain.SystemLogToolbar = saveState();
 	quazaaSettings.Logging.LogShowTimestamp = ui->actionToggleTimestamp->isChecked();
+	quazaaSettings.SystemLog.ShowWarnings = ui->actionShowWarnings->isChecked();
+	quazaaSettings.SystemLog.ShowInformation = ui->actionShowInformation->isChecked();
+	quazaaSettings.SystemLog.ShowSecurity = ui->actionShowSecurity->isChecked();
+	quazaaSettings.SystemLog.ShowNotice = ui->actionShowNotice->isChecked();
+	quazaaSettings.SystemLog.ShowDebug = ui->actionShowDebug->isChecked();
+	quazaaSettings.SystemLog.ShowError = ui->actionShowError->isChecked();
+	quazaaSettings.SystemLog.ShowCritical = ui->actionShowCritical->isChecked();
+	quazaaSettings.SystemLog.IsPaused = ui->actionPauseLogDisplay->isChecked();
+	quazaaSettings.saveLogSettings();
 }
 
 void WidgetSystemLog::on_actionClearBuffer_triggered()
@@ -165,52 +174,4 @@ void WidgetSystemLog::on_textEditSystemLog_customContextMenuRequested(QPoint pos
 {
 	Q_UNUSED(pos);
 	logMenu->exec(QCursor::pos());
-}
-
-void WidgetSystemLog::on_actionShowWarnings_triggered(bool checked)
-{
-	quazaaSettings.SystemLog.ShowWarnings = checked;
-	quazaaSettings.saveLogSettings();
-}
-
-void WidgetSystemLog::on_actionShowInformation_triggered(bool checked)
-{
-	quazaaSettings.SystemLog.ShowInformation = checked;
-	quazaaSettings.saveLogSettings();
-}
-
-void WidgetSystemLog::on_actionShowSecurity_triggered(bool checked)
-{
-	quazaaSettings.SystemLog.ShowSecurity = checked;
-	quazaaSettings.saveLogSettings();
-}
-
-void WidgetSystemLog::on_actionShowNotice_triggered(bool checked)
-{
-	quazaaSettings.SystemLog.ShowNotice = checked;
-	quazaaSettings.saveLogSettings();
-}
-
-void WidgetSystemLog::on_actionShowDebug_triggered(bool checked)
-{
-	quazaaSettings.SystemLog.ShowDebug = checked;
-	quazaaSettings.saveLogSettings();
-}
-
-void WidgetSystemLog::on_actionShowError_triggered(bool checked)
-{
-	quazaaSettings.SystemLog.ShowError = checked;
-	quazaaSettings.saveLogSettings();
-}
-
-void WidgetSystemLog::on_actionShowCritical_triggered(bool checked)
-{
-	quazaaSettings.SystemLog.ShowCritical = checked;
-	quazaaSettings.saveLogSettings();
-}
-
-void WidgetSystemLog::on_actionPauseLogDisplay_triggered(bool checked)
-{
-	quazaaSettings.SystemLog.IsPaused = checked;
-	quazaaSettings.saveLogSettings();
 }
