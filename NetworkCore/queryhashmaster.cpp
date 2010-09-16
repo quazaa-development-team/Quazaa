@@ -91,7 +91,7 @@ void CQueryHashMaster::Remove(CQueryHashTable* pTable)
 
 void CQueryHashMaster::Build()
 {
-	quint32 tNow = QDateTime::currentDateTime().toTime_t();
+	quint32 tNow = time(0);
 
 	if ( m_bValid )
 	{

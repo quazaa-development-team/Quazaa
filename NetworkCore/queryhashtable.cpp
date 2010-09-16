@@ -64,7 +64,7 @@ void CQueryHashTable::Create()
 	delete [] m_pHash;
 
 	m_bLive		= true;
-	m_nCookie	= QDateTime::currentDateTime().toTime_t() + 1;
+	m_nCookie	= time(0) + 1;
 	m_nBits		= quazaaSettings.Library.QueryRouteSize;
 	m_nHash		= 1u << m_nBits;
 	m_pHash		= new uchar[ ( m_nHash + 31 ) / 8 ];
@@ -85,7 +85,7 @@ void CQueryHashTable::Clear()
 	if ( bGrouped )
 		QueryHashMaster.Remove( this );
 
-	m_nCookie	= QDateTime::currentDateTime().toTime_t() + 1;
+	m_nCookie	= time(0) + 1;
 	m_nCount	= 0;
 
 	memset(m_pHash, 0xFF, (m_nHash + 31) / 8);
@@ -194,7 +194,7 @@ bool CQueryHashTable::Merge(const CQueryHashTable* pSource)
 		}
 	}
 
-	m_nCookie = QDateTime::currentDateTime().toTime_t() + 1;
+	m_nCookie = time(0) + 1;
 
 	return true;
 }
@@ -286,7 +286,7 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 		}
 	}
 
-	m_nCookie = QDateTime::currentDateTime().toTime_t();
+	m_nCookie = time(0);
 
 	return true;
 }
@@ -429,7 +429,7 @@ bool CQueryHashTable::OnReset(G2Packet* pPacket)
 	if ( bGrouped )
 		QueryHashMaster.Remove( this );
 
-	nHashSize	= pPacket->ReadIntBE<quint32>();
+	nHashSize	= pPacket->ReadIntLE<quint32>();
 	m_nInfinity	= pPacket->ReadByte();
 
 	if ( nHashSize < 64 )
@@ -458,7 +458,7 @@ bool CQueryHashTable::OnReset(G2Packet* pPacket)
 		QueryHashMaster.Add( this );
 
 	m_bLive		= false;
-	m_nCookie	= QDateTime::currentDateTime().toTime_t();
+	m_nCookie	= time(0);
 	m_nCount	= 0;
 
 	m_pBuffer->clear();
@@ -570,7 +570,7 @@ bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 	}
 
 	m_bLive		= true;
-	m_nCookie	= QDateTime::currentDateTime().toTime_t();
+	m_nCookie	= time(0);
 
 	if ( bGroup )
 		QueryHashMaster.Invalidate();
@@ -595,7 +595,7 @@ void CQueryHashTable::Add(const char* pszString, size_t nLength)
 	if ( nLength < 4 )
 		return;
 
-	quint32 tNow = QDateTime::currentDateTime().toTime_t();
+	quint32 tNow = time(0);
 
 	quint32 nHash	= HashWord( pszString, nLength, m_nBits );
 	uchar* pHash	= m_pHash + ( nHash >> 3 );
@@ -642,7 +642,7 @@ void CQueryHashTable::AddExact(const char* pszString, size_t nLength)
 	uchar nMask		= uchar( 1 << ( nHash & 7 ) );
 	if ( *pHash & nMask )
 	{
-		m_nCookie = QDateTime::currentDateTime().toTime_t();
+		m_nCookie = time(0);
 		++m_nCount;
 		*pHash &= ~nMask;
 	}
