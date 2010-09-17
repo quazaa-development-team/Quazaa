@@ -56,22 +56,6 @@ private:
 	QString tempSkinAuthor;
 	QString tempSkinVersion;
 	QString tempSkinDescription;
-	QString tempWindowFrameTopLeftStyleSheet;
-	QString tempWindowFrameLeftStyleSheet;
-	QString tempWindowFrameBottomLeftStyleSheet;
-	QString tempWindowFrameTopStyleSheet;
-	QString tempWindowFrameBottomStyleSheet;
-	QString tempWindowFrameTopRightStyleSheet;
-	QString tempWindowFrameRightStyleSheet;
-	QString tempWindowFrameBottomRightStyleSheet;
-	QString tempWindowIconFrameStyleSheet;
-	QString tempTitlebarButtonsFrameStyleSheet;
-	QString tempMinimizeButtonStyleSheet;
-	QString tempMaximizeButtonStyleSheet;
-	QString tempCloseButtonStyleSheet;
-	QString tempWindowTextStyleSheet;
-	bool tempWindowIconVisible;
-	QSize tempWindowIconSize;
 
 signals:
 	void closed();

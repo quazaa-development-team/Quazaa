@@ -53,45 +53,45 @@ void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 {
 	switch (index)
 	{
-		case 0:
-			m_ui->spinBoxBandwidth->setEnabled(true);
-			m_ui->labelNetworks->setEnabled(true);
-			m_ui->checkBoxAres->setEnabled(true);
-			m_ui->checkBoxBitTorrent->setEnabled(true);
-			m_ui->checkBoxEDonkey->setEnabled(true);
-			m_ui->checkBoxG2->setEnabled(true);
-			m_ui->labelStop->setEnabled(true);
-			m_ui->dateTimeEditStop->setEnabled(true);
+	case 0:
+		m_ui->spinBoxBandwidth->setEnabled(true);
+		m_ui->labelNetworks->setEnabled(true);
+		m_ui->checkBoxAres->setEnabled(true);
+		m_ui->checkBoxBitTorrent->setEnabled(true);
+		m_ui->checkBoxEDonkey->setEnabled(true);
+		m_ui->checkBoxG2->setEnabled(true);
+		m_ui->labelStop->setEnabled(true);
+		m_ui->dateTimeEditStop->setEnabled(true);
 		break;
-		case 1:
-			m_ui->spinBoxBandwidth->setEnabled(false);
-			m_ui->labelNetworks->setEnabled(false);
-			m_ui->checkBoxAres->setEnabled(false);
-			m_ui->checkBoxBitTorrent->setEnabled(false);
-			m_ui->checkBoxEDonkey->setEnabled(false);
-			m_ui->checkBoxG2->setEnabled(false);
-			m_ui->labelStop->setEnabled(true);
-			m_ui->dateTimeEditStop->setEnabled(true);
+	case 1:
+		m_ui->spinBoxBandwidth->setEnabled(false);
+		m_ui->labelNetworks->setEnabled(false);
+		m_ui->checkBoxAres->setEnabled(false);
+		m_ui->checkBoxBitTorrent->setEnabled(false);
+		m_ui->checkBoxEDonkey->setEnabled(false);
+		m_ui->checkBoxG2->setEnabled(false);
+		m_ui->labelStop->setEnabled(true);
+		m_ui->dateTimeEditStop->setEnabled(true);
 		break;
-		case 2:
-			m_ui->spinBoxBandwidth->setEnabled(false);
-			m_ui->labelNetworks->setEnabled(false);
-			m_ui->checkBoxAres->setEnabled(false);
-			m_ui->checkBoxBitTorrent->setEnabled(false);
-			m_ui->checkBoxEDonkey->setEnabled(false);
-			m_ui->checkBoxG2->setEnabled(false);
-			m_ui->labelStop->setEnabled(false);
-			m_ui->dateTimeEditStop->setEnabled(false);
+	case 2:
+		m_ui->spinBoxBandwidth->setEnabled(false);
+		m_ui->labelNetworks->setEnabled(false);
+		m_ui->checkBoxAres->setEnabled(false);
+		m_ui->checkBoxBitTorrent->setEnabled(false);
+		m_ui->checkBoxEDonkey->setEnabled(false);
+		m_ui->checkBoxG2->setEnabled(false);
+		m_ui->labelStop->setEnabled(false);
+		m_ui->dateTimeEditStop->setEnabled(false);
 		break;
-		default:
-			m_ui->spinBoxBandwidth->setEnabled(true);
-			m_ui->labelNetworks->setEnabled(true);
-			m_ui->checkBoxAres->setEnabled(true);
-			m_ui->checkBoxBitTorrent->setEnabled(true);
-			m_ui->checkBoxEDonkey->setEnabled(true);
-			m_ui->checkBoxG2->setEnabled(true);
-			m_ui->labelStop->setEnabled(true);
-			m_ui->dateTimeEditStop->setEnabled(true);
+	default:
+		m_ui->spinBoxBandwidth->setEnabled(true);
+		m_ui->labelNetworks->setEnabled(true);
+		m_ui->checkBoxAres->setEnabled(true);
+		m_ui->checkBoxBitTorrent->setEnabled(true);
+		m_ui->checkBoxEDonkey->setEnabled(true);
+		m_ui->checkBoxG2->setEnabled(true);
+		m_ui->labelStop->setEnabled(true);
+		m_ui->dateTimeEditStop->setEnabled(true);
 		break;
 	}
 }
