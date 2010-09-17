@@ -298,8 +298,9 @@ void WinMain::loadTrayIcon()
 bool WinMain::event(QEvent *e)
 {
 	QMainWindow::event(e);
-	if (e->type() == QEvent::Close)
+	switch (e->type())
 	{
+	case QEvent::Close:
 		if(!bypassCloseEvent)
 		{
 			if (quazaaSettings.Basic.CloseMode == 0)
@@ -334,18 +335,16 @@ bool WinMain::event(QEvent *e)
 			quazaaShutdown();
 			return false;
 		}
-	}
-	else if( e->type() == QEvent::Show )
-	{
+	case QEvent::Show:
 		neighboursRefresher->start(1000);
-	}
-	else if( e->type() == QEvent::Hide )
-	{
+		break;
+	case QEvent::Hide:
 		if( neighboursRefresher )
 			neighboursRefresher->stop();
+		break;
+	default:
+		return false;
 	}
-
-	return false;
 }
 
 void WinMain::changeEvent(QEvent *e)
