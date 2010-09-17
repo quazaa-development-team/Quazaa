@@ -1,7 +1,7 @@
 //
 // quazaasettings.h
 //
-// Copyright © Quazaa Development Team, 2009-2010.
+// Copyright  Quazaa Development Team, 2009-2010.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
 //
 // Quazaa is free software; you can redistribute it
@@ -73,8 +73,8 @@ namespace Settings
 		int			MediaSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
 		int			MediaSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
 		QByteArray	MediaToolbars;				// Media Toolbars
-		QByteArray	NeighborsToolbars;			// Neighbors Toolbars
-		QByteArray	NeighborsHeader;			// Header in the neighbors list view
+		QByteArray	NeighboursToolbars;			// Neighbours Toolbars
+		QByteArray	NeighboursHeader;			// Header in the neighbours list view
 		QByteArray	PacketDumpToolbar;			// Packet Dump Toolbar
 		QByteArray	ActivitySplitter;				// Activity splitter position
 		QByteArray	SchedulerToolbar;			// Scheduler Toolbar

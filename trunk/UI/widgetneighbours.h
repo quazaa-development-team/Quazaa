@@ -1,5 +1,5 @@
 //
-// widgetactivity.h
+// widgetneighbours.h
 //
 // Copyright © Quazaa Development Team, 2009-2010.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -19,37 +19,41 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#ifndef WIDGETACTIVITY_H
-#define WIDGETACTIVITY_H
+#ifndef WIDGETNEIGHBORS_H
+#define WIDGETNEIGHBORS_H
 
-#include <QWidget>
-#include "widgetneighbours.h"
-#include "widgetsystemlog.h"
+#include <QtGui>
+#include <QAbstractItemModel>
 
 namespace Ui {
-    class WidgetActivity;
+	class WidgetNeighbours;
 }
 
-class WidgetActivity : public QWidget {
-    Q_OBJECT
+class WidgetNeighbours : public QMainWindow {
+	Q_OBJECT
 public:
-    WidgetActivity(QWidget *parent = 0);
-    ~WidgetActivity();
-	WidgetNeighbours *panelNeighbours;
-	WidgetSystemLog *panelSystemLog;
+	WidgetNeighbours(QWidget *parent = 0);
+	~WidgetNeighbours();
+	void setModel(QAbstractItemModel *model);
+	QWidget *treeView();
 	void saveWidget();
+	QLabel *labelG2StatsIcon;
+	QLabel *labelG2Stats;
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
-    Ui::WidgetActivity *ui;
+	Ui::WidgetNeighbours *ui;
 
 private slots:
-	void on_toolButtonNeighboursHeader_clicked();
- void on_toolButtonSystemLogHeader_clicked();
- void on_splitterActivity_customContextMenuRequested(QPoint pos);
- void skinChangeEvent();
+	void on_actionNeighbourDisconnect_triggered();
+ void on_actionNeighbourConnectTo_triggered();
+	void on_actionSettings_triggered();
+	void skinChangeEvent();
+	void updateG2();
+	void updateAres();
+	void updateEDonkey();
 };
 
-#endif // WIDGETACTIVITY_H
+#endif // WIDGETNEIGHBORS_H

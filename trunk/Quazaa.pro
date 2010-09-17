@@ -116,7 +116,7 @@ SOURCES += main.cpp \
 	UI/widgetactivity.cpp \
 	UI/widgetsecurity.cpp \
 	UI/widgetsystemlog.cpp \
-	UI/widgetneighbors.cpp \
+	UI/widgetneighbours.cpp \
 	UI/widgetchat.cpp \
 	UI/widgetchatcenter.cpp \
 	UI/widgethostcache.cpp \
@@ -220,7 +220,7 @@ HEADERS += UI/dialoglanguage.h \
 	UI/widgetactivity.h \
 	UI/widgetsecurity.h \
 	UI/widgetsystemlog.h \
-	UI/widgetneighbors.h \
+	UI/widgetneighbours.h \
 	UI/widgetchat.h \
 	UI/widgetchatcenter.h \
 	UI/widgethostcache.h \
@@ -294,7 +294,7 @@ FORMS += UI/dialoglanguage.ui \
 	UI/widgetactivity.ui \
 	UI/widgetsecurity.ui \
 	UI/widgetsystemlog.ui \
-	UI/widgetneighbors.ui \
+	UI/widgetneighbours.ui \
 	UI/widgetchat.ui \
 	UI/widgetchatcenter.ui \
 	UI/widgethostcache.ui \
