@@ -36,7 +36,9 @@ WidgetMedia::WidgetMedia(QWidget *parent) :
 	volumeSlider->setOrientation(Qt::Horizontal);
 	volumeSlider->setMaximumWidth(100);
 	ui->toolBarPlayControls->addWidget(seekSlider);
-	ui->toolBarVolume->addWidget(volumeSlider);
+	ui->toolBarPlayControls->addSeparator();
+	ui->toolBarPlayControls->addAction(ui->actionMediaMute);
+	ui->toolBarPlayControls->addWidget(volumeSlider);
 	restoreState(quazaaSettings.WinMain.MediaToolbars);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
@@ -70,7 +72,6 @@ void WidgetMedia::skinChangeEvent()
 	ui->frameMediaPlaylistSidebar->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->toolBarPlayControls->setStyleSheet(skinSettings.mediaToolbar);
 	ui->toolBarSettings->setStyleSheet(skinSettings.mediaToolbar);
-	ui->toolBarVolume->setStyleSheet(skinSettings.mediaToolbar);
 }
 
 void WidgetMedia::saveWidget()
