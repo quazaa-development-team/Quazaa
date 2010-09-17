@@ -159,14 +159,14 @@ void QSkinDialog::changeEvent(QEvent *e)
 	QDialog::changeEvent(e);
 	switch (e->type()) {
 	case QEvent::LanguageChange:
-		{
-			QIcon m_windowIcon = windowIcon();
-			QString m_windowTitle = windowTitle();
-			ui->retranslateUi(this);
-			setWindowIcon(m_windowIcon);
-			setWindowTitle(m_windowTitle);
-			break;
-		}
+	{
+		QIcon m_windowIcon = windowIcon();
+		QString m_windowTitle = windowTitle();
+		ui->retranslateUi(this);
+		setWindowIcon(m_windowIcon);
+		setWindowTitle(m_windowTitle);
+		break;
+	}
 	case QEvent::ActivationChange:
 		if (minimized && qApp->activeWindow())
 		{
@@ -277,56 +277,55 @@ void QSkinDialog::mousePressEvent(QMouseEvent *e)
 	switch (e->button())
 	{
 		case Qt::LeftButton:
-		if((ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
-			&& !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && !maximized)
-		{
-			dragPosition = e->globalPos() - frameGeometry().topLeft();
-			movable = true;
-			e->accept();
-		} else if (ui->windowFrameTopLeft->underMouse() && dialogSizable) {
-			dragPosition = e->globalPos() - frameGeometry().topLeft();
-			sizableTopLeft = true;
-			e->accept();
-		} else if (ui->windowFrameLeft->underMouse() && dialogSizable) {
-			iDragPosition = e->globalPos().x() - frameGeometry().left();
-			this->sizableLeft = true;
-			e->accept();
-		} else if (ui->windowFrameBottomLeft->underMouse() && dialogSizable) {
-			dragPosition = e->globalPos() - frameGeometry().bottomLeft();
-			sizableBottomLeft = true;
-			e->accept();
-		} else if (ui->windowFrameBottom->underMouse() && dialogSizable) {
-			iDragPosition = e->globalPos().y() - frameGeometry().bottom();
-			sizableBottom = true;
-			e->accept();
-		} else if (ui->windowFrameTopRight->underMouse() && dialogSizable) {
-			dragPosition = e->globalPos() - frameGeometry().topRight();
-			sizableTopRight = true;
-			e->accept();
-		} else if (ui->windowFrameRight->underMouse() && dialogSizable) {
-			iDragPosition = e->globalPos().x() - frameGeometry().right();
-			sizableRight = true;
-			e->accept();
-		} else if (ui->windowFrameBottomRight->underMouse() && dialogSizable) {
-			dragPosition = e->globalPos() - frameGeometry().bottomRight();
-			sizableBottomRight = true;
-			e->accept();
-		} else {
-			movable = false;
-			sizableTopLeft = false;
-			sizableLeft = false;
-			sizableBottomLeft = false;
-			sizableBottom = false;
-			sizableTopRight = false;
-			sizableRight = false;
-			sizableBottomRight = false;
-			e->accept();
-		}
-		break;
-
+			if((ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
+				&& !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && !maximized)
+			{
+				dragPosition = e->globalPos() - frameGeometry().topLeft();
+				movable = true;
+				e->accept();
+			} else if (ui->windowFrameTopLeft->underMouse() && dialogSizable) {
+				dragPosition = e->globalPos() - frameGeometry().topLeft();
+				sizableTopLeft = true;
+				e->accept();
+			} else if (ui->windowFrameLeft->underMouse() && dialogSizable) {
+				iDragPosition = e->globalPos().x() - frameGeometry().left();
+				this->sizableLeft = true;
+				e->accept();
+			} else if (ui->windowFrameBottomLeft->underMouse() && dialogSizable) {
+				dragPosition = e->globalPos() - frameGeometry().bottomLeft();
+				sizableBottomLeft = true;
+				e->accept();
+			} else if (ui->windowFrameBottom->underMouse() && dialogSizable) {
+				iDragPosition = e->globalPos().y() - frameGeometry().bottom();
+				sizableBottom = true;
+				e->accept();
+			} else if (ui->windowFrameTopRight->underMouse() && dialogSizable) {
+				dragPosition = e->globalPos() - frameGeometry().topRight();
+				sizableTopRight = true;
+				e->accept();
+			} else if (ui->windowFrameRight->underMouse() && dialogSizable) {
+				iDragPosition = e->globalPos().x() - frameGeometry().right();
+				sizableRight = true;
+				e->accept();
+			} else if (ui->windowFrameBottomRight->underMouse() && dialogSizable) {
+				dragPosition = e->globalPos() - frameGeometry().bottomRight();
+				sizableBottomRight = true;
+				e->accept();
+			} else {
+				movable = false;
+				sizableTopLeft = false;
+				sizableLeft = false;
+				sizableBottomLeft = false;
+				sizableBottom = false;
+				sizableTopRight = false;
+				sizableRight = false;
+				sizableBottomRight = false;
+				e->accept();
+			}
+			break;
 		default:
-		e->ignore();
-		break;
+			e->ignore();
+			break;
 	}
 }
 
@@ -501,7 +500,6 @@ void QSkinDialog::skinChangeEvent()
 			ui->windowIconFrame->setStyleSheet(skinSettings.windowIconFrameStyleSheet);
 			ui->windowIcon->setVisible(skinSettings.windowIconVisible);
 			ui->windowIcon->setIconSize(skinSettings.windowIconSize);
-			quazaaSettings.loadSkinWindowSettings(this);
 		} else {
 			ui->windowFrameTopLeft->setStyleSheet(skinSettings.childWindowFrameTopLeftStyleSheet);
 			ui->windowFrameLeft->setStyleSheet(skinSettings.childWindowFrameLeftStyleSheet);
