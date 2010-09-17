@@ -33,8 +33,8 @@ WidgetActivity::WidgetActivity(QWidget *parent) :
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->splitterActivity->restoreState(quazaaSettings.WinMain.ActivitySplitter);
-	panelNeighbors = new WidgetNeighbors();
-	ui->verticalLayoutNeighbors->addWidget(panelNeighbors);
+	panelNeighbours = new WidgetNeighbours();
+	ui->verticalLayoutNeighbours->addWidget(panelNeighbours);
 	panelSystemLog = new WidgetSystemLog();
 	ui->verticalLayoutSystemLog->addWidget(panelSystemLog);
 }
@@ -58,14 +58,14 @@ void WidgetActivity::changeEvent(QEvent *e)
 
 void WidgetActivity::skinChangeEvent()
 {
-	ui->toolButtonNeighborsHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->toolButtonNeighboursHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 	ui->toolButtonSystemLogHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 }
 
 void WidgetActivity::saveWidget()
 {
 	quazaaSettings.WinMain.ActivitySplitter = ui->splitterActivity->saveState();
-	panelNeighbors->saveWidget();
+	panelNeighbours->saveWidget();
 	panelSystemLog->saveWidget();
 }
 
@@ -110,7 +110,7 @@ void WidgetActivity::on_toolButtonSystemLogHeader_clicked()
 	}
 }
 
-void WidgetActivity::on_toolButtonNeighborsHeader_clicked()
+void WidgetActivity::on_toolButtonNeighboursHeader_clicked()
 {
 	if (ui->splitterActivity->sizes()[1] > 0)
 	{

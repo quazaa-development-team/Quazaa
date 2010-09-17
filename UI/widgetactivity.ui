@@ -32,7 +32,7 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QFrame" name="frameNeighbors">
+     <widget class="QFrame" name="frameNeighbours">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -47,7 +47,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QToolButton" name="toolButtonNeighborsHeader">
+        <widget class="QToolButton" name="toolButtonNeighboursHeader">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -65,7 +65,7 @@
 </string>
          </property>
          <property name="text">
-          <string>Neighbors</string>
+          <string>Neighbours</string>
          </property>
          <property name="icon">
           <iconset resource="../Resource.qrc">
@@ -83,7 +83,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayoutNeighbors"/>
+        <layout class="QVBoxLayout" name="verticalLayoutNeighbours"/>
        </item>
       </layout>
      </widget>

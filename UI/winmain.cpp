@@ -245,16 +245,16 @@ WinMain::WinMain(QWidget *parent) :
 	connect(pageHome, SIGNAL(triggerTransfers()), this, SLOT(on_actionTransfers_triggered()));
 
 	QSortFilterProxyModel *neighboursSortModel = new QSortFilterProxyModel(this);
-	neighboursList = new CNeighboursTableModel(this, pageActivity->panelNeighbors->treeView());
+	neighboursList = new CNeighboursTableModel(this, pageActivity->panelNeighbours->treeView());
 	neighboursSortModel->setSourceModel(neighboursList);
-	pageActivity->panelNeighbors->setModel(neighboursSortModel);
-	//pageActivity->panelNeighbors->setModel(neighboursList);
+	pageActivity->panelNeighbours->setModel(neighboursSortModel);
+	//pageActivity->panelNeighbours->setModel(neighboursList);
 	neighboursSortModel->setDynamicSortFilter(true);
 
 	neighboursRefresher = new QTimer(this);
 	connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
 	connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
-	connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbors, SLOT(updateG2()));
+	connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbours, SLOT(updateG2()));
 
 	update();
 	qApp->processEvents();
@@ -345,6 +345,8 @@ bool WinMain::event(QEvent *e)
 	default:
 		return false;
 	}
+
+	return false;
 }
 
 void WinMain::changeEvent(QEvent *e)
