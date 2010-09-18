@@ -130,7 +130,7 @@ void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 
-	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(true, true, false, false, this);
 	DialogSettings *dlgSettings = new DialogSettings;
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
