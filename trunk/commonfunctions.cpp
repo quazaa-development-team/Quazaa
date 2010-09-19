@@ -86,6 +86,8 @@ QString CommonFunctions::VendorCodeToName(QString vendorCode)
 		return "MLDonkey";
 	if ( vendorCode == "MMMM" )
 		return "Morpheus";
+	if ( vendorCode == "PEER" )
+		return "PeerProject";
 	else
 		return vendorCode;
 }
