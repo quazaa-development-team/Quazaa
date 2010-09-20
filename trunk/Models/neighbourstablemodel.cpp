@@ -388,16 +388,7 @@ void CNeighboursTableModel::UpdateAll()
 
 		for( int i = 0; i < m_lNodes.size(); i++ )
 		{
-			bool bFound = false;
-
-			for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
-			{
-				if( *itNode == m_lNodes.at(i).pNode )
-				{
-					bFound = true;
-					break;
-				}
-			}
+			bool bFound = Neighbours.NeighbourExists(m_lNodes.at(i).pNode);
 
 			if( !bFound )
 			{

@@ -84,8 +84,6 @@ void CNetwork::Connect()
 {
     QMutexLocker l(&m_pSection);
 
-    qDebug() << "connect " << QThread::currentThreadId();
-
     if( m_bActive )
     {
         qDebug() << "Network already started";
@@ -123,8 +121,6 @@ void CNetwork::Disconnect()
 {
     QMutexLocker l(&m_pSection);
 
-    qDebug() << "CNetwork::Disconnect() ThreadID:" << QThread::currentThreadId();
-
     if( m_bActive )
     {
         m_bActive = false;
@@ -134,9 +130,6 @@ void CNetwork::Disconnect()
 }
 void CNetwork::SetupThread()
 {
-    qWarning("In Network Thread");
-    qDebug() << QThread::currentThreadId();
-
 	Q_ASSERT(m_pSecondTimer == 0);
 
     m_pSecondTimer = new QTimer();
@@ -150,9 +143,6 @@ void CNetwork::SetupThread()
 }
 void CNetwork::CleanupThread()
 {
-    qWarning("Stopping Network Thread");
-    qDebug() << "Network ThreadID: " << QThread::currentThreadId();
-
     m_pSecondTimer->stop();
     delete m_pSecondTimer;
     m_pSecondTimer = 0;
