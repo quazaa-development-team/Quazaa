@@ -24,10 +24,9 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QSet>
 #include <QMutex>
-
 
 class CNetworkConnection;
 
@@ -37,14 +36,15 @@ class CRateController : public QObject
 protected:
     qint64  m_nUploadLimit;
     qint64  m_nDownloadLimit;
-    QTime   m_tMeterTimer;
     quint32 m_nUpload;
     quint32 m_nUploadAvg;
     quint32 m_nDownload;
     quint32 m_nDownloadAvg;
-    QTime   m_tStopWatch;
 	bool    m_bTransferSheduled;
 	QMutex	m_oMutex;
+
+	QElapsedTimer   m_tMeterTimer;
+	QElapsedTimer   m_tStopWatch;
 
     QSet<CNetworkConnection*>   m_lSockets;
 public:

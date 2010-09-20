@@ -71,8 +71,6 @@ CNetwork::CNetwork(QObject *parent)
 	m_tLastModeChange = 0;
 	m_nMinutesAbove90 = m_nMinutesBelow50 = 0;
 	m_nMinutesTrying = 0;
-
-	m_tLocksTime = 0;
 }
 CNetwork::~CNetwork()
 {
@@ -85,8 +83,6 @@ CNetwork::~CNetwork()
 void CNetwork::Connect()
 {
     QMutexLocker l(&m_pSection);
-
-	m_nTotalLocks.ref();
 
     qDebug() << "connect " << QThread::currentThreadId();
 
@@ -114,7 +110,6 @@ void CNetwork::Connect()
 	m_tLastModeChange = time(0);
 	m_nMinutesAbove90 = m_nMinutesBelow50 = 0;
 	m_nMinutesTrying = 0;
-	m_tLocksTime = 0;
 	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(OnSharesReady()), Qt::UniqueConnection);
 
 	NetworkThread.start("Network", &m_pSection, this);
@@ -127,7 +122,6 @@ void CNetwork::Connect()
 void CNetwork::Disconnect()
 {
     QMutexLocker l(&m_pSection);
-	m_nTotalLocks.ref();
 
     qDebug() << "CNetwork::Disconnect() ThreadID:" << QThread::currentThreadId();
 
@@ -179,11 +173,8 @@ void CNetwork::CleanupThread()
 
 void CNetwork::OnSecondTimer()
 {
-
-	m_nTotalLocks.ref();
 	if( !m_pSection.tryLock(150) )
     {
-		m_nFailedLocks.ref();
         qWarning() << "WARNING: Network core overloaded!";
         return;
 	}
@@ -193,16 +184,6 @@ void CNetwork::OnSecondTimer()
 		m_pSection.unlock();
         return;
     }
-
-	quint32 tNow = time(0);
-	if( tNow - m_tLocksTime >= 60 )
-	{
-		m_tLocksTime = tNow;
-
-		systemLog.postLog(LogSeverity::Error, "Network locks report: total %d, failed: %d, ratio %d%%", m_nTotalLocks, m_nFailedLocks, m_nFailedLocks * 100 / m_nTotalLocks );
-		m_nTotalLocks = 0;
-		m_nFailedLocks = 0;
-	}
 
 	if( Neighbours.m_nHubsConnected == 0 && !WebCache.isRequesting() && ( HostCache.isEmpty() || HostCache.GetConnectable() == 0 ) )
     {

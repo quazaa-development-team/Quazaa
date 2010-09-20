@@ -70,8 +70,8 @@ void CRateController::transfer()
 {
 	m_bTransferSheduled = false;
 
-    int nMsecs = 1000;
-    if( !m_tStopWatch.isNull() )
+	qint64 nMsecs = 1000;
+	if( !m_tStopWatch.isValid() )
         nMsecs = qMin(nMsecs, m_tStopWatch.elapsed());
 
     qint64 nToRead = (m_nDownloadLimit * nMsecs) / 1000;

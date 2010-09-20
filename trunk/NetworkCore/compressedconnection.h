@@ -23,7 +23,7 @@
 #define COMPRESSEDCONNECTION_H
 
 #include "networkconnection.h"
-#include <QTime>
+#include <QElapsedTimer>
 #include "zlib/zlib.h"
 
 
@@ -43,8 +43,8 @@ public:
     quint64     m_nTotalInput;      // statystyki
     quint64     m_nTotalOutput;
     quint64     m_nNextDeflateFlush;
-    QTime       m_tDeflateFlush;
     bool        m_bOutputPending;
+	QElapsedTimer m_tDeflateFlush;
 public:
     CCompressedConnection(QObject *parent = 0);
     virtual ~CCompressedConnection();

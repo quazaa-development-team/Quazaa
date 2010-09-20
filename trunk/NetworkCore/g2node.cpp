@@ -138,7 +138,6 @@ void CG2Node::SetupSlots()
 void CG2Node::OnConnect()
 {
 	QMutexLocker l(&Neighbours.m_pSection);
-	Network.m_nTotalLocks.ref();
 
 	systemLog.postLog(LogSeverity::Information, "Connection with %s established, handshaking...", qPrintable(m_oAddress.toString()));
 
@@ -169,7 +168,6 @@ void CG2Node::OnConnect()
 void CG2Node::OnDisconnect()
 {
 	QMutexLocker l(&Neighbours.m_pSection);
-	Network.m_nTotalLocks.ref();
 	//qDebug("OnDisconnect()");
 	systemLog.postLog(LogSeverity::Information, "Connection with %s was dropped: %s", qPrintable(m_oAddress.toString()), qPrintable(m_pSocket->errorString()));
 	deleteLater();
@@ -874,7 +872,7 @@ void CG2Node::OnPong(G2Packet* pPacket)
 
 	   if( m_nPingsWaiting == 0 )
 	   {
-			m_tRTT = m_tRTTTimer.elapsed();
+		   m_tRTT = m_tRTTTimer.elapsed();
 	   }
    }
 }

@@ -25,7 +25,6 @@
 #include <QObject>
 #include <QMutex>
 #include <QList>
-#include <QAtomicInt>
 #include "types.h"
 #include "ratecontroller.h"
 #include "routetable.h"
@@ -71,9 +70,6 @@ public:
 	quint32			m_nMinutesTrying;
 	quint32			m_tLastModeChange;
 
-	QAtomicInt		m_nTotalLocks;
-	QAtomicInt		m_nFailedLocks;
-	quint32			m_tLocksTime;
 public:
     CNetwork(QObject* parent = 0);
     ~CNetwork();
