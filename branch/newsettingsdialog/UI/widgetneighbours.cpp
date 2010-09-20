@@ -95,8 +95,8 @@ void WidgetNeighbours::saveWidget()
 void WidgetNeighbours::on_actionSettings_triggered()
 {
 	QSkinDialog *dlgSkinSettings = new QSkinDialog(true, true, false, false, this);
-	DialogSettings *dlgSettings = new DialogSettings(0);
-	dlgSettings->switchSettingsPage(20);
+	DialogSettings *dlgSettings = new DialogSettings(this);
+	dlgSettings->switchSettingsPage(SettingsPage::Protocols);
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
