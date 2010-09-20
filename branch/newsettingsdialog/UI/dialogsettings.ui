@@ -31,6 +31,70 @@
     <number>0</number>
    </property>
    <item>
+    <widget class="QFrame" name="frameCommonHeader">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-image: url(:/Resource/HeaderBackground.png);
+color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_23">
+      <property name="margin">
+       <number>1</number>
+      </property>
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelLogo">
+        <property name="styleSheet">
+         <string notr="true">background-color: transparent;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="labelHeaderText">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:26pt;&quot;&gt;Quazaa!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -579,7 +643,7 @@
            <item>
             <widget class="QStackedWidget" name="stackedWidgetSettings">
              <property name="currentIndex">
-              <number>12</number>
+              <number>15</number>
              </property>
              <widget class="QWidget" name="pageSystem">
               <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -2057,7 +2121,7 @@ p, li { white-space: pre-wrap; }
                 <number>4</number>
                </property>
                <item row="0" column="0">
-                <widget class="QGroupBox" name="groupBox_8">
+                <widget class="QGroupBox" name="groupBoxConnectionAddress">
                  <property name="title">
                   <string>Address</string>
                  </property>
@@ -2103,7 +2167,7 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QGroupBox" name="groupBox_4">
+                <widget class="QGroupBox" name="groupBoxConnectionSpeed">
                  <property name="title">
                   <string>Speed</string>
                  </property>
@@ -2162,7 +2226,7 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item row="4" column="0">
-                <widget class="QGroupBox" name="groupBox_7">
+                <widget class="QGroupBox" name="groupBoxConnectionTimeouts">
                  <property name="title">
                   <string>Timeouts</string>
                  </property>
@@ -2235,7 +2299,7 @@ p, li { white-space: pre-wrap; }
                 </spacer>
                </item>
                <item row="1" column="0">
-                <widget class="QGroupBox" name="groupBox_6">
+                <widget class="QGroupBox" name="groupBoxConnectionPort">
                  <property name="title">
                   <string>Port</string>
                  </property>
@@ -2280,9 +2344,378 @@ p, li { white-space: pre-wrap; }
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="pageTransfers"/>
-             <widget class="QWidget" name="pageDownloads"/>
-             <widget class="QWidget" name="pageUploads"/>
+             <widget class="QWidget" name="pageTransfers">
+              <layout class="QVBoxLayout" name="verticalLayout_26">
+               <property name="spacing">
+                <number>4</number>
+               </property>
+               <property name="margin">
+                <number>4</number>
+               </property>
+               <item>
+                <widget class="QCheckBox" name="checkBoxOnlyDownloadConnectedNetworks">
+                 <property name="text">
+                  <string>Only Download And Upload To Connected Networks</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBoxSimpleProgress">
+                 <property name="text">
+                  <string>Display Simple Progress Bar</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_16">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>396</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="pageDownloads">
+              <layout class="QVBoxLayout" name="verticalLayout_28">
+               <item>
+                <widget class="QCheckBox" name="checkBoxExpandDownloads">
+                 <property name="text">
+                  <string>Expand New Downloads By Default</string>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBoxURIPrompt">
+                 <property name="text">
+                  <string>Show Prompt Before Opening URIs</string>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBoxDownloadsCompleted">
+                 <property name="title">
+                  <string>Save Completed Files Here</string>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <property name="spacing">
+                   <number>4</number>
+                  </property>
+                  <property name="margin">
+                   <number>4</number>
+                  </property>
+                  <item>
+                   <widget class="QLineEdit" name="lineEditSaveFolder">
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="toolButtonSaveBrowse">
+                    <property name="text">
+                     <string>Browse For Completed Files</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../Resource.qrc">
+                      <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBoxDownloadsTemporary">
+                 <property name="title">
+                  <string>Save Temporary Files Here</string>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                  <property name="spacing">
+                   <number>4</number>
+                  </property>
+                  <property name="margin">
+                   <number>4</number>
+                  </property>
+                  <item>
+                   <widget class="QLineEdit" name="lineEditTempFolder">
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="toolButtonTempBrowse">
+                    <property name="text">
+                     <string>Browse For Temporary Files</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../Resource.qrc">
+                      <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBoxDownloadsNumber">
+                 <property name="title">
+                  <string>Number Of Downloads</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_17">
+                  <property name="margin">
+                   <number>4</number>
+                  </property>
+                  <property name="spacing">
+                   <number>4</number>
+                  </property>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="labelMaxQue">
+                    <property name="text">
+                     <string>Maximum Que Length:</string>
+                    </property>
+                    <property name="buddy">
+                     <cstring>comboBoxQueLength</cstring>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QComboBox" name="comboBoxQueLength">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>5</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>10</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>20</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>MAX</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="1" column="0" colspan="2">
+                   <widget class="QSpinBox" name="spinBoxMaxFiles">
+                    <property name="prefix">
+                     <string>Maximum Files: </string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>26</number>
+                    </property>
+                    <property name="value">
+                     <number>26</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0" colspan="2">
+                   <widget class="QSpinBox" name="spinBoxMaxTransfers">
+                    <property name="prefix">
+                     <string>Maximum Transfers: </string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="value">
+                     <number>100</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0" colspan="2">
+                   <widget class="QSpinBox" name="spinBoxTransfersPerFile">
+                    <property name="prefix">
+                     <string>Transfers Per File: </string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>10</number>
+                    </property>
+                    <property name="value">
+                     <number>10</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_17">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="pageUploads">
+              <layout class="QVBoxLayout" name="verticalLayout_30">
+               <item>
+                <widget class="QGroupBox" name="groupBoxUploadOptions">
+                 <property name="title">
+                  <string>Options</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_29">
+                  <property name="margin">
+                   <number>4</number>
+                  </property>
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxSharePartials">
+                    <property name="text">
+                     <string>Share NEW Partial Downloads</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxSharePreviews">
+                    <property name="text">
+                     <string>Share Preview Files</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxSharingLimitHub">
+                    <property name="text">
+                     <string>Limit Sharing In Hub Mode</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="spinBoxUniqueHostLimit">
+                    <property name="prefix">
+                     <string>Limit Per Unique host: </string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBoxUploadQueues">
+                 <property name="title">
+                  <string>Queues</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_18">
+                  <property name="margin">
+                   <number>4</number>
+                  </property>
+                  <property name="spacing">
+                   <number>4</number>
+                  </property>
+                  <item row="1" column="0" colspan="4">
+                   <widget class="QTreeWidget" name="treeWidgetQueues">
+                    <column>
+                     <property name="text">
+                      <string>Name</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Criteria</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Bandwidth</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Transfers</string>
+                     </property>
+                    </column>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QPushButton" name="pushButtonNewQueue">
+                    <property name="text">
+                     <string>New</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="2">
+                   <widget class="QPushButton" name="pushButtonEditQueue">
+                    <property name="text">
+                     <string>Edit</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="3">
+                   <widget class="QPushButton" name="pushButtonDeleteQueue">
+                    <property name="text">
+                     <string>Delete</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <spacer name="horizontalSpacer_5">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
              <widget class="QWidget" name="pageGnutella2"/>
              <widget class="QWidget" name="pageAres"/>
              <widget class="QWidget" name="pageEDonkey"/>
