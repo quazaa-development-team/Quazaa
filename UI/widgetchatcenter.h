@@ -41,13 +41,13 @@ public:
 	QToolButton *toolButtonSmilies;
 	QToolButton *toolButtonOp;
 	QuazaaIRC *quazaaIrc;
-	void saveWidget();
+        void saveWidget();
 
 protected:
-	void changeEvent(QEvent *e);
+        void changeEvent(QEvent *e);
 
 private:
-	Ui::WidgetChatCenter *ui;
+        Ui::WidgetChatCenter *ui;
 
 private slots:
 	void on_actionSend_triggered();
@@ -55,6 +55,7 @@ private slots:
 	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
 	void skinChangeEvent();
+        void append(QString str);
 };
 
 #endif // WIDGETCHATCENTER_H

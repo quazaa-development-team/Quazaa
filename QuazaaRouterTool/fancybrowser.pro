@@ -9,3 +9,7 @@ RESOURCES = jquery.qrc
 #sources.files = $$SOURCES $$HEADERS $$RESOURCES *.pro
 #sources.path = $$[QT_INSTALL_EXAMPLES]/webkit/fancybrowser
 #INSTALLS += target sources
+
+OTHER_FILES += \
+    form.html \
+    alal.cgi

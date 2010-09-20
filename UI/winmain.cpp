@@ -471,6 +471,8 @@ void WinMain::quazaaShutdown()
 	neighboursRefresher = 0;
 	Network.Disconnect();
 	ShareManager.Stop();
+        // Shutdown IRC
+        pageChat->panelChatCenter->quazaaIrc->stopIrc();
 
 	dlgSplash->updateProgress(10, tr("Saving Settings..."));
 	quazaaSettings.saveSettings();
