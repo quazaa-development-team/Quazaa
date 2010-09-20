@@ -23,7 +23,7 @@
 #define G2NODE_H
 
 #include "compressedconnection.h"
-#include <QTime>
+#include <QElapsedTimer>
 #include <QQueue>
 
 class G2Packet;
@@ -47,8 +47,8 @@ public:
     G2NodeState     m_nState;
     quint32         m_tLastPingOut;
     quint32         m_nPingsWaiting;
-    QTime           m_tRTTTimer;
-    quint32         m_tRTT;
+	QElapsedTimer   m_tRTTTimer;
+	qint64          m_tRTT;
     quint32         m_tLastQuery;
 
     quint16         m_nLeafCount;

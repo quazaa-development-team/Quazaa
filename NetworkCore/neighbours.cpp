@@ -39,6 +39,11 @@ CNeighbours::CNeighbours(QObject *parent) :
 	m_nHubsConnected = m_nLeavesConnected = 0;
 	m_bActive = false;
 }
+CNeighbours::~CNeighbours()
+{
+	if( m_bActive )
+		Disconnect();
+}
 
 void CNeighbours::Connect()
 {

@@ -47,7 +47,7 @@ typedef struct
 	float       nCompressionOut;
 	quint32     nLeafCount;
 	quint32     nLeafMax;
-	quint32     nRTT;
+	qint64      nRTT;
 	QString     sUserAgent;
 	QString		sCountry;
 	QIcon		iNetwork;

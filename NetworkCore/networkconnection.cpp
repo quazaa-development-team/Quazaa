@@ -337,9 +337,9 @@ TCPBandwidthMeter::TCPBandwidthMeter()
 
 void TCPBandwidthMeter::Add(quint32 nBytes)
 {
-	if( m_tTime.elapsed() >= 250 )
+	if( m_tTime.hasExpired(250) )
 	{
-		int nSlotsToClear = qMin(20, m_tTime.elapsed() / 250);
+		int nSlotsToClear = qMin(20ll, m_tTime.elapsed() / 250ll);
 
 		for( ; nSlotsToClear; nSlotsToClear-- )
 		{
@@ -357,9 +357,9 @@ quint32 TCPBandwidthMeter::AvgUsage()
 {
 	quint64 nTotal = 0;
 
-	if( m_tTime.elapsed() >= 250 )
+	if( m_tTime.hasExpired(250) )
 	{
-		int nSlotsToClear = qMin(20, m_tTime.elapsed() / 250);
+		int nSlotsToClear = qMin(20ll, m_tTime.elapsed() / 250ll);
 
 		for( ; nSlotsToClear; nSlotsToClear-- )
 		{
@@ -377,7 +377,7 @@ quint32 TCPBandwidthMeter::AvgUsage()
 }
 quint32 TCPBandwidthMeter::Usage()
 {
-	if( m_tTime.elapsed() >= 5000 )
+	if( m_tTime.hasExpired(5000) )
 		return 0;
 
 	int nSlot = m_nCurrentSlot;

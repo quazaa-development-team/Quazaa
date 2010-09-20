@@ -47,6 +47,7 @@ public:
 
 public:
 	CNeighbours(QObject *parent = 0);
+	~CNeighbours();
 
 	void Connect();
 	void Disconnect();
