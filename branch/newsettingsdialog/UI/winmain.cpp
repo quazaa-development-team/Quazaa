@@ -753,8 +753,7 @@ void WinMain::on_actionAbout_triggered()
 void WinMain::on_actionSettings_triggered()
 {
 	QSkinDialog *dlgSkinSettings = new QSkinDialog(true, true, false, false, this);
-	DialogSettings *dlgSettings = new DialogSettings;
-	dlgSettings->switchSettingsPage(SettingsPage::System);
+	DialogSettings *dlgSettings = new DialogSettings(this);
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
@@ -830,8 +829,7 @@ void WinMain::on_actionImportPartials_triggered()
 void WinMain::on_actionChooseSkin_triggered()
 {
 	QSkinDialog *dlgSkinSettings = new QSkinDialog(true, true, false, false, this);
-	DialogSettings *dlgSettings = new DialogSettings(this);
-	dlgSettings->switchSettingsPage(SettingsPage::Skins);
+	DialogSettings *dlgSettings = new DialogSettings(this, SettingsPage::Skins);
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
 

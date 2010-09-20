@@ -41,30 +41,30 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Developers:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Brov, Cedric, SmokeX&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;brov, cedric, cyko_01, smokex&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Special Kudos:&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Development would not have been possible without the help and excellent work of others. We would like to thank some of these people here.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rasterbar.com&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Arvid Norberg&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: Author of the libtorrent library which our torrent  library is based on.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://bitbucket.org/jpnurmi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;J-P Nurmi&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: Author of the libircclient-qt library which is the foundation of our irc chat client.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://bitbucket.org/jpnurmi&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;J-P Nurmi&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: Author of the libircclient-qt library which is the foundation of our irc chat client.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.cherubicsoft.com/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ryo-oh-ki&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;: This program is based on a great deal of his Shareaza code. &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Michael Stokes: The author intellectalis of Shareaza.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Logo&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;The Quazaa Logo was created by Floog. It is released under the &lt;/span&gt;&lt;a href=&quot;http://creativecommons.org/licenses/by-nc/3.0/legalcode&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Creative Commons Attribution-NonCommercial 3.0 License&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;The Quazaa Logo was created by Floog. It is released under the &lt;/span&gt;&lt;a href=&quot;http://creativecommons.org/licenses/by-nc/3.0/legalcode&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Creative Commons Attribution-NonCommercial 3.0 License&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Concept and Design&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Cyko, Old Death, Rolandas&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;cyko_01, Old Death, Rolandas&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Language Translators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Oce, Mollca&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;oce, mollca&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Website&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Cedric, Cyko&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;cedric, cyko_01&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Wiki&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Cyko, Oce, Old Death&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;cyko_01, oce, Old Death&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Server Hosting&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;irc.p2pchat.net&lt;/span&gt;&lt;/p&gt;
@@ -76,10 +76,10 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;We give special thanks to the Forum Moderators and Chatroom Operators:&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Forum Moderators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Quazaa forum superadmins: Cedric, Cyko, Kath, Old Death&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Quazaa forum superadmins: cedric, cyko_01, kath, Old Death&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Operators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Quazaa Super Operators: Kath, Cedric&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;Quazaa Super Operators: kath, cedric&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:600;&quot;&gt;The Shareaza Development Team&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;ale5000, Cyko_01, dcat, ivan386, Rolandas, Ryo-oh-ki, SkinVista, WildCard, _peer_, _slv_, a178235, brov, ceejay.dk, coolg1026, Cyberbob, DWKnight, Eperales, Frontier, FrYGuY, heavy_baby, Higgy, kevogod, kobayan, ogg123, jlh, jonatkins, micro, Mosteo, Paul Bludov, Rayner, roo_koo_too, Stealth, SteventB, tcwinkler, ten9, Thesage, TUW, Wai, zero9999, Zone-MR, Zootella&lt;/span&gt;&lt;/p&gt;
@@ -492,7 +492,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogconnectto.ui" line="118"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Připojit</translation>
     </message>
     <message>
         <location filename="../UI/dialogconnectto.ui" line="125"/>
@@ -1796,132 +1796,132 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogSettings</name>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="35"/>
+        <location filename="../UI/dialogsettings.ui" line="29"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="211"/>
-        <location filename="../UI/dialogsettings.ui" line="897"/>
+        <location filename="../UI/dialogsettings.ui" line="205"/>
+        <location filename="../UI/dialogsettings.ui" line="891"/>
         <source>General</source>
         <translation>Obecně</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="235"/>
+        <location filename="../UI/dialogsettings.ui" line="229"/>
         <source>Basic</source>
         <translation>Základní</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="244"/>
+        <location filename="../UI/dialogsettings.ui" line="238"/>
         <source>Parental Settings</source>
         <translation>Základní nastavení</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="253"/>
-        <location filename="../UI/dialogsettings.ui" line="1096"/>
+        <location filename="../UI/dialogsettings.ui" line="247"/>
+        <location filename="../UI/dialogsettings.ui" line="1090"/>
         <source>Skins</source>
         <translation>Skiny</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="262"/>
-        <location filename="../UI/dialogsettings.ui" line="711"/>
+        <location filename="../UI/dialogsettings.ui" line="256"/>
+        <location filename="../UI/dialogsettings.ui" line="705"/>
         <source>Library</source>
         <translation>Knihovna</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="271"/>
-        <location filename="../UI/dialogsettings.ui" line="763"/>
-        <location filename="../UI/dialogsettings.ui" line="1609"/>
+        <location filename="../UI/dialogsettings.ui" line="265"/>
+        <location filename="../UI/dialogsettings.ui" line="757"/>
+        <location filename="../UI/dialogsettings.ui" line="1603"/>
         <source>Media Player</source>
         <translation>Media Player</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="280"/>
+        <location filename="../UI/dialogsettings.ui" line="274"/>
         <source>Search</source>
         <translation>Hledat</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="289"/>
-        <location filename="../UI/dialogsettings.ui" line="770"/>
-        <location filename="../UI/dialogsettings.ui" line="3574"/>
+        <location filename="../UI/dialogsettings.ui" line="283"/>
+        <location filename="../UI/dialogsettings.ui" line="764"/>
+        <location filename="../UI/dialogsettings.ui" line="3568"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="298"/>
+        <location filename="../UI/dialogsettings.ui" line="292"/>
         <source>Plugins</source>
         <translation>Plugins</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="307"/>
+        <location filename="../UI/dialogsettings.ui" line="301"/>
         <source>Advanced</source>
         <translation>Pokročilý</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="350"/>
+        <location filename="../UI/dialogsettings.ui" line="344"/>
         <source>Internet</source>
         <translation>Internet</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="374"/>
+        <location filename="../UI/dialogsettings.ui" line="368"/>
         <source>Connection</source>
         <translation>Připojení</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="383"/>
+        <location filename="../UI/dialogsettings.ui" line="377"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="392"/>
-        <location filename="../UI/dialogsettings.ui" line="3541"/>
+        <location filename="../UI/dialogsettings.ui" line="386"/>
+        <location filename="../UI/dialogsettings.ui" line="3535"/>
         <source>Transfers</source>
         <translation>Přenosy</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="401"/>
-        <location filename="../UI/dialogsettings.ui" line="724"/>
+        <location filename="../UI/dialogsettings.ui" line="395"/>
+        <location filename="../UI/dialogsettings.ui" line="718"/>
         <source>Downloads</source>
         <translation>Stažení</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="410"/>
-        <location filename="../UI/dialogsettings.ui" line="737"/>
+        <location filename="../UI/dialogsettings.ui" line="404"/>
+        <location filename="../UI/dialogsettings.ui" line="731"/>
         <source>Uploads</source>
         <translation>Uploady</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="419"/>
+        <location filename="../UI/dialogsettings.ui" line="413"/>
         <source>Security</source>
         <translation>Bezpečnost</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="462"/>
+        <location filename="../UI/dialogsettings.ui" line="456"/>
         <source>Networks</source>
         <translation>Sítě</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="486"/>
+        <location filename="../UI/dialogsettings.ui" line="480"/>
         <source>Gnutella 2</source>
-        <translation type="unfinished">Gnutella 2</translation>
+        <translation>Gnutella 2</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="495"/>
+        <location filename="../UI/dialogsettings.ui" line="489"/>
         <source>Ares</source>
         <translation>Ares</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="504"/>
+        <location filename="../UI/dialogsettings.ui" line="498"/>
         <source>eDonkey</source>
         <translation>eDonkey</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="513"/>
+        <location filename="../UI/dialogsettings.ui" line="507"/>
         <source>BitTorrent</source>
         <translation>BitTorrent</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="559"/>
+        <location filename="../UI/dialogsettings.ui" line="553"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1932,109 +1932,109 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="597"/>
+        <location filename="../UI/dialogsettings.ui" line="591"/>
         <source>Tooltips</source>
         <translation>Nástroje</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="614"/>
+        <location filename="../UI/dialogsettings.ui" line="608"/>
         <source>Transparency</source>
         <translation>Transparentnost</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="656"/>
+        <location filename="../UI/dialogsettings.ui" line="650"/>
         <source>Delay</source>
         <translation>Odložit</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="669"/>
+        <location filename="../UI/dialogsettings.ui" line="663"/>
         <source> ms</source>
         <translation>ms</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="698"/>
+        <location filename="../UI/dialogsettings.ui" line="692"/>
         <source>Search Results</source>
         <translation>Vyhledat výsledky</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="750"/>
+        <location filename="../UI/dialogsettings.ui" line="744"/>
         <source>Neighbours</source>
         <translation>Sousedé</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="782"/>
+        <location filename="../UI/dialogsettings.ui" line="776"/>
         <source>Tray</source>
         <translation>Lišta</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="794"/>
+        <location filename="../UI/dialogsettings.ui" line="788"/>
         <source>When I Click Close</source>
         <translation>Po kliknutí zavřít</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="805"/>
+        <location filename="../UI/dialogsettings.ui" line="799"/>
         <source>Ask Me</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="814"/>
+        <location filename="../UI/dialogsettings.ui" line="808"/>
         <source>Close Immediately</source>
         <translation>Zavřít ihned</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="823"/>
-        <location filename="../UI/dialogsettings.ui" line="851"/>
+        <location filename="../UI/dialogsettings.ui" line="817"/>
+        <location filename="../UI/dialogsettings.ui" line="845"/>
         <source>Minimise To Tray</source>
         <translation>Minimalizovat na spodní lištu</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="832"/>
+        <location filename="../UI/dialogsettings.ui" line="826"/>
         <source>Close After Transfers</source>
         <translation>Po přenosu zavřít</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="844"/>
+        <location filename="../UI/dialogsettings.ui" line="838"/>
         <source>When I Click Minimize</source>
         <translation>Po kliknutí minimalizovat</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="865"/>
-        <location filename="../UI/dialogsettings.ui" line="875"/>
+        <location filename="../UI/dialogsettings.ui" line="859"/>
+        <location filename="../UI/dialogsettings.ui" line="869"/>
         <source> MB or less.</source>
         <translation>MB a méně.</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="868"/>
+        <location filename="../UI/dialogsettings.ui" line="862"/>
         <source>Stop Quazaa downloads when disk space reaches </source>
         <translation>Zastav Quazaa stahování až dojde místo na disku</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="878"/>
+        <location filename="../UI/dialogsettings.ui" line="872"/>
         <source>Warn me when disk space reaches </source>
         <translation>Upozornit až dojde místo na disku</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="909"/>
+        <location filename="../UI/dialogsettings.ui" line="903"/>
         <source>Start Quazaa On System Startup</source>
         <translation>Vytvořit zástupce Quazaa nabídce Start</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="916"/>
+        <location filename="../UI/dialogsettings.ui" line="910"/>
         <source>Auto Connect On Quazaa Startup</source>
         <translation>Automaticky připojit Quazaa po startu</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="952"/>
+        <location filename="../UI/dialogsettings.ui" line="946"/>
         <source>Censor Adult Content In Chat</source>
         <translation>Přhlásit k chatu pouze dospělé</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="959"/>
+        <location filename="../UI/dialogsettings.ui" line="953"/>
         <source>Filter Adult Content From Searches</source>
         <translation>Filtrovat výsledky pouze pro dospělé</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="969"/>
+        <location filename="../UI/dialogsettings.ui" line="963"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2043,907 +2043,907 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="983"/>
+        <location filename="../UI/dialogsettings.ui" line="977"/>
         <source>Display Adult Content Filter</source>
         <translation>Zobrazit filtr pouze pro dospělé</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1008"/>
+        <location filename="../UI/dialogsettings.ui" line="1002"/>
         <source>Filter Content Containing These Words</source>
         <translation>Filtrovat složky obsahující tato slova</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1051"/>
-        <location filename="../UI/dialogsettings.ui" line="1481"/>
-        <location filename="../UI/dialogsettings.ui" line="1556"/>
-        <location filename="../UI/dialogsettings.ui" line="1738"/>
-        <location filename="../UI/dialogsettings.ui" line="3033"/>
-        <location filename="../UI/dialogsettings.ui" line="3727"/>
+        <location filename="../UI/dialogsettings.ui" line="1045"/>
+        <location filename="../UI/dialogsettings.ui" line="1475"/>
+        <location filename="../UI/dialogsettings.ui" line="1550"/>
+        <location filename="../UI/dialogsettings.ui" line="1732"/>
+        <location filename="../UI/dialogsettings.ui" line="3027"/>
+        <location filename="../UI/dialogsettings.ui" line="3721"/>
         <source>Add</source>
         <translation>Přidat</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1070"/>
-        <location filename="../UI/dialogsettings.ui" line="1500"/>
-        <location filename="../UI/dialogsettings.ui" line="1575"/>
-        <location filename="../UI/dialogsettings.ui" line="1757"/>
-        <location filename="../UI/dialogsettings.ui" line="3093"/>
-        <location filename="../UI/dialogsettings.ui" line="3734"/>
+        <location filename="../UI/dialogsettings.ui" line="1064"/>
+        <location filename="../UI/dialogsettings.ui" line="1494"/>
+        <location filename="../UI/dialogsettings.ui" line="1569"/>
+        <location filename="../UI/dialogsettings.ui" line="1751"/>
+        <location filename="../UI/dialogsettings.ui" line="3087"/>
+        <location filename="../UI/dialogsettings.ui" line="3728"/>
         <source>Remove</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1110"/>
+        <location filename="../UI/dialogsettings.ui" line="1104"/>
         <source>Get More Skins</source>
         <translation>Získat více skinů</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1117"/>
+        <location filename="../UI/dialogsettings.ui" line="1111"/>
         <source>Install</source>
         <translation>Instalovat</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1137"/>
+        <location filename="../UI/dialogsettings.ui" line="1131"/>
         <source>Preview</source>
         <translation>Náhled</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1144"/>
-        <location filename="../UI/dialogsettings.ui" line="3516"/>
+        <location filename="../UI/dialogsettings.ui" line="1138"/>
+        <location filename="../UI/dialogsettings.ui" line="3510"/>
         <source>Delete</source>
         <translation>Vymazat</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1155"/>
+        <location filename="../UI/dialogsettings.ui" line="1149"/>
         <source>Author:</source>
         <translation>Autor:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1162"/>
+        <location filename="../UI/dialogsettings.ui" line="1156"/>
         <source>Version:</source>
         <translation>Verze:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1203"/>
-        <location filename="../UI/dialogsettings.ui" line="2405"/>
+        <location filename="../UI/dialogsettings.ui" line="1197"/>
+        <location filename="../UI/dialogsettings.ui" line="2399"/>
         <source>Description:</source>
         <translation>Popis:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1255"/>
-        <location filename="../UI/dialogsettings.ui" line="3426"/>
+        <location filename="../UI/dialogsettings.ui" line="1249"/>
+        <location filename="../UI/dialogsettings.ui" line="3420"/>
         <source>Options</source>
         <translation>Možnosti</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1267"/>
+        <location filename="../UI/dialogsettings.ui" line="1261"/>
         <source>Remember Folder Views</source>
         <translation>Zapamatovat si náhledy souborů</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1274"/>
+        <location filename="../UI/dialogsettings.ui" line="1268"/>
         <source>Watch Library Folders</source>
         <translation>Prohlížet soubory v knihovně</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1281"/>
+        <location filename="../UI/dialogsettings.ui" line="1275"/>
         <source>Quick Hashing (Uses More CPU)</source>
         <translation>Rychlý hashing (při použití více CPU)</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1288"/>
+        <location filename="../UI/dialogsettings.ui" line="1282"/>
         <source>Create Ghost Files When Deleting</source>
         <translation>Vytvořit zástupce složky při odstraňení</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1295"/>
+        <location filename="../UI/dialogsettings.ui" line="1289"/>
         <source>Smart Video Series Detection</source>
         <translation>Chytré vyhledávání videí seriálů</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1302"/>
+        <location filename="../UI/dialogsettings.ui" line="1296"/>
         <source>Display Hashing Progress Window</source>
         <translation>Zobrazit okno s procesem hushing</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1324"/>
+        <location filename="../UI/dialogsettings.ui" line="1318"/>
         <source>File History</source>
         <translation>Historie složek</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1338"/>
+        <location filename="../UI/dialogsettings.ui" line="1332"/>
         <source>Remember</source>
         <translation>Zapamatovat</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1351"/>
+        <location filename="../UI/dialogsettings.ui" line="1345"/>
         <source> files</source>
         <translation>složky</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1364"/>
+        <location filename="../UI/dialogsettings.ui" line="1358"/>
         <source>For Up To</source>
         <translation>Až do</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1377"/>
+        <location filename="../UI/dialogsettings.ui" line="1371"/>
         <source> days</source>
         <translation>dny</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1395"/>
+        <location filename="../UI/dialogsettings.ui" line="1389"/>
         <source>Clear History Now</source>
         <translation>Nyní vyčistit historii</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1441"/>
+        <location filename="../UI/dialogsettings.ui" line="1435"/>
         <source>Safe To Open</source>
         <translation>Uložit k otevření</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1522"/>
+        <location filename="../UI/dialogsettings.ui" line="1516"/>
         <source>Never Share</source>
         <translation>Nikdy nesdílet</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1626"/>
+        <location filename="../UI/dialogsettings.ui" line="1620"/>
         <source>Choose media player:</source>
         <translation>Vyberte program k přehrání:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1640"/>
+        <location filename="../UI/dialogsettings.ui" line="1634"/>
         <source>Built In Media Player</source>
         <translation>Vytvořit v MediaPlayer</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1645"/>
+        <location filename="../UI/dialogsettings.ui" line="1639"/>
         <source>Default System Media Player</source>
         <translation>Standartní systém MediaPlayer</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1650"/>
+        <location filename="../UI/dialogsettings.ui" line="1644"/>
         <source>Custom...</source>
         <translation>Zvyk...</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1667"/>
+        <location filename="../UI/dialogsettings.ui" line="1661"/>
         <source>Custom Media Player Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Obvyklá cesta přehrávače médií</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1695"/>
+        <location filename="../UI/dialogsettings.ui" line="1689"/>
         <source>Open These File Types</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít tyto typy složek</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1771"/>
+        <location filename="../UI/dialogsettings.ui" line="1765"/>
         <source>Expand Multi-Source Files By Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit multizdrojové složky podle standardu</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1778"/>
+        <location filename="../UI/dialogsettings.ui" line="1772"/>
         <source>Switch To Transfers View On Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Přepnout na náhled přenosu stahování</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1788"/>
+        <location filename="../UI/dialogsettings.ui" line="1782"/>
         <source>Highlight New Matches When Searching Multiple Times</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyznač nově nalezené</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1817"/>
+        <location filename="../UI/dialogsettings.ui" line="1811"/>
         <source>Gnutella Chat Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Možností Gnutella chatu</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1838"/>
+        <location filename="../UI/dialogsettings.ui" line="1832"/>
         <source>Enable Gnutella Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Odblokovat Gnutela chat</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1845"/>
+        <location filename="../UI/dialogsettings.ui" line="1839"/>
         <source>Enable Chat Over Other Protocols</source>
-        <translation type="unfinished"></translation>
+        <translation>Odblokovat chat z jiných protokolů</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1861"/>
+        <location filename="../UI/dialogsettings.ui" line="1855"/>
         <source>IRC Client Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Možnosti IRC klienta</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1882"/>
+        <location filename="../UI/dialogsettings.ui" line="1876"/>
         <source>Connect To Chat On Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojit k chatu</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1889"/>
+        <location filename="../UI/dialogsettings.ui" line="1883"/>
         <source>Show Timestamp</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat čas</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1896"/>
+        <location filename="../UI/dialogsettings.ui" line="1890"/>
         <source>Enable File Transfers Over IRC</source>
-        <translation type="unfinished"></translation>
+        <translation>Umožnit přenos souborů přes IRC</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1903"/>
+        <location filename="../UI/dialogsettings.ui" line="1897"/>
         <source> minutes of inactivity.</source>
-        <translation type="unfinished"></translation>
+        <translation>minuty</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1906"/>
+        <location filename="../UI/dialogsettings.ui" line="1900"/>
         <source>Show idle message after </source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraz zprávu o nečinnosti</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1927"/>
+        <location filename="../UI/dialogsettings.ui" line="1921"/>
         <source>irc.p2pchat.net</source>
-        <translation type="unfinished"></translation>
+        <translation>irc.p2pchat.net</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1940"/>
-        <location filename="../UI/dialogsettings.ui" line="2865"/>
+        <location filename="../UI/dialogsettings.ui" line="1934"/>
+        <location filename="../UI/dialogsettings.ui" line="2859"/>
         <source>Port: </source>
-        <translation type="unfinished"></translation>
+        <translation>Port:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1962"/>
+        <location filename="../UI/dialogsettings.ui" line="1956"/>
         <source>IRC Server And Port</source>
-        <translation type="unfinished"></translation>
+        <translation>IRC server a port</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1977"/>
+        <location filename="../UI/dialogsettings.ui" line="1971"/>
         <source>Enable SSL Encryption With IRC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="1987"/>
+        <location filename="../UI/dialogsettings.ui" line="2349"/>
         <source>You can use your Quazaa user profile to share information about yourself. No information is required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro sdílení informací o sobě můžeš použít uživatelský profil. Je to nepovinné</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2003"/>
+        <location filename="../UI/dialogsettings.ui" line="2342"/>
         <source>Edit My Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnit profil</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2019"/>
+        <location filename="../UI/dialogsettings.ui" line="1990"/>
         <source>IRC Colors</source>
-        <translation type="unfinished"></translation>
+        <translation>IRC barvy</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2067"/>
+        <location filename="../UI/dialogsettings.ui" line="2038"/>
         <source>Server Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Zprávy servru</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2083"/>
+        <location filename="../UI/dialogsettings.ui" line="2054"/>
         <source>Topics</source>
-        <translation type="unfinished"></translation>
+        <translation>Témata</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2184"/>
+        <location filename="../UI/dialogsettings.ui" line="2155"/>
         <source>Normal Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Text</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2229"/>
+        <location filename="../UI/dialogsettings.ui" line="2200"/>
         <source>Notices</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámky</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2274"/>
+        <location filename="../UI/dialogsettings.ui" line="2245"/>
         <source>Room Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivity místnosti</translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogsettings.ui" line="2297"/>
+        <source>Chat Background</source>
+        <translation>Pozadí chatu</translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogsettings.ui" line="2306"/>
+        <source>Change Chat Font</source>
+        <translation>Změnit písmo</translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogsettings.ui" line="2319"/>
+        <source>Chat Font:</source>
+        <translation>Písmo</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2326"/>
-        <source>Chat Background</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogsettings.ui" line="2335"/>
-        <source>Change Chat Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogsettings.ui" line="2348"/>
-        <source>Chat Font:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogsettings.ui" line="2355"/>
         <source>Font Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhled písma</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2391"/>
+        <location filename="../UI/dialogsettings.ui" line="2385"/>
         <source>Plugin Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozšířené informace</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2412"/>
+        <location filename="../UI/dialogsettings.ui" line="2406"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Jméno:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2462"/>
+        <location filename="../UI/dialogsettings.ui" line="2456"/>
         <source>Plugin Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozšířené nastavení</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2469"/>
+        <location filename="../UI/dialogsettings.ui" line="2463"/>
         <source>Get More Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Najít více rozšíření</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2515"/>
+        <location filename="../UI/dialogsettings.ui" line="2509"/>
         <source>Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2520"/>
+        <location filename="../UI/dialogsettings.ui" line="2514"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Hodnota</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2534"/>
+        <location filename="../UI/dialogsettings.ui" line="2528"/>
         <source>Setting Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlastnosti nastavení</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2546"/>
+        <location filename="../UI/dialogsettings.ui" line="2540"/>
         <source>Value: </source>
-        <translation type="unfinished"></translation>
+        <translation>Hodnota:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2553"/>
+        <location filename="../UI/dialogsettings.ui" line="2547"/>
         <source>Reset To Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit na základní hodnoty</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2592"/>
+        <location filename="../UI/dialogsettings.ui" line="2586"/>
         <source>Inbound</source>
-        <translation type="unfinished"></translation>
+        <translation>Příchozí</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2647"/>
-        <location filename="../UI/dialogsettings.ui" line="2725"/>
+        <location filename="../UI/dialogsettings.ui" line="2641"/>
+        <location filename="../UI/dialogsettings.ui" line="2719"/>
         <source>Speed: </source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlost:D</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2680"/>
+        <location filename="../UI/dialogsettings.ui" line="2674"/>
         <source>Outbound</source>
-        <translation type="unfinished"></translation>
+        <translation>Odchozí</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2606"/>
-        <location filename="../UI/dialogsettings.ui" line="2694"/>
+        <location filename="../UI/dialogsettings.ui" line="2600"/>
+        <location filename="../UI/dialogsettings.ui" line="2688"/>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2632"/>
-        <location filename="../UI/dialogsettings.ui" line="2717"/>
+        <location filename="../UI/dialogsettings.ui" line="2626"/>
+        <location filename="../UI/dialogsettings.ui" line="2711"/>
         <source>Automatic</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaticky</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2640"/>
+        <location filename="../UI/dialogsettings.ui" line="2634"/>
         <source>Force Binding To This Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít vždy tuto adresu</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2754"/>
+        <location filename="../UI/dialogsettings.ui" line="2748"/>
         <source>Timeouts</source>
-        <translation type="unfinished"></translation>
+        <translation>Časový limit</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2777"/>
+        <location filename="../UI/dialogsettings.ui" line="2771"/>
         <source>Connection: </source>
-        <translation type="unfinished"></translation>
+        <translation>Připojení:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2793"/>
+        <location filename="../UI/dialogsettings.ui" line="2787"/>
         <source>Handshake: </source>
-        <translation type="unfinished"></translation>
+        <translation>Vzdálený přístup</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2829"/>
+        <location filename="../UI/dialogsettings.ui" line="2823"/>
         <source>Port</source>
-        <translation type="unfinished">Port</translation>
+        <translation>Port</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2852"/>
+        <location filename="../UI/dialogsettings.ui" line="2846"/>
         <source>Random</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhodný</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2903"/>
+        <location filename="../UI/dialogsettings.ui" line="2897"/>
         <source>Peer To Peer Link Handling</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsluha peer to peer spojů</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2924"/>
+        <location filename="../UI/dialogsettings.ui" line="2918"/>
         <source>Use Quazaa To Open These Types Of Links:</source>
-        <translation type="unfinished"></translation>
+        <translation>Použij Quazau k otevření tohoto typu</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2986"/>
+        <location filename="../UI/dialogsettings.ui" line="2980"/>
         <source>Download Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnout správce</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2998"/>
+        <location filename="../UI/dialogsettings.ui" line="2992"/>
         <source>Use Quazaa to manage all my web downloads:</source>
-        <translation type="unfinished"></translation>
+        <translation>Použij Quazau jako správce všech mých stahování</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3040"/>
+        <location filename="../UI/dialogsettings.ui" line="3034"/>
         <source>The download manager plugin will only attempt to download file types listed here. Other file types will be handled by your web browser. Quazaa must be running to manage downloads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Správce rozšířeného stahování se pokusí stáhnout soubory z tohoto seznamu. ostatní typy souborů budou spravovány Vaším wevobým prohlížečem. Quazaa musí být zapnutá během stahování.</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3113"/>
+        <location filename="../UI/dialogsettings.ui" line="3107"/>
         <source>Only Download And Upload To Connected Networks</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze stažení a uploady z přihlášených sítí</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3120"/>
+        <location filename="../UI/dialogsettings.ui" line="3114"/>
         <source>Display Simple Progress Bar</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3137"/>
+        <location filename="../UI/dialogsettings.ui" line="3131"/>
         <source>bits/second</source>
-        <translation type="unfinished"></translation>
+        <translation>bity/vteřiny</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3142"/>
+        <location filename="../UI/dialogsettings.ui" line="3136"/>
         <source>Bytes/second</source>
-        <translation type="unfinished"></translation>
+        <translation>Byty/vteřiny</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3147"/>
+        <location filename="../UI/dialogsettings.ui" line="3141"/>
         <source>Kilobits/second</source>
-        <translation type="unfinished"></translation>
+        <translation>Kilobity/vteřiny</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3152"/>
+        <location filename="../UI/dialogsettings.ui" line="3146"/>
         <source>KiloBytes/second</source>
-        <translation type="unfinished"></translation>
+        <translation>KiloByty/vteřiny</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3157"/>
+        <location filename="../UI/dialogsettings.ui" line="3151"/>
         <source>Megabits/second</source>
-        <translation type="unfinished"></translation>
+        <translation>Megabity/vteřiny</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3162"/>
+        <location filename="../UI/dialogsettings.ui" line="3156"/>
         <source>MegaBytes/second</source>
-        <translation type="unfinished"></translation>
+        <translation>MegaByty/vteřiny</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3170"/>
+        <location filename="../UI/dialogsettings.ui" line="3164"/>
         <source>Show Rates In:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlost v:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="2650"/>
-        <location filename="../UI/dialogsettings.ui" line="2728"/>
+        <location filename="../UI/dialogsettings.ui" line="2644"/>
+        <location filename="../UI/dialogsettings.ui" line="2722"/>
         <source> kbps</source>
-        <translation type="unfinished"></translation>
+        <translation>kbps</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3187"/>
+        <location filename="../UI/dialogsettings.ui" line="3181"/>
         <source>Expand New Downloads By Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit nová stažení podle standardu</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3203"/>
+        <location filename="../UI/dialogsettings.ui" line="3197"/>
         <source>Save Completed Files Here:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit dokončené soubory do:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3222"/>
+        <location filename="../UI/dialogsettings.ui" line="3216"/>
         <source>Browse For Completed Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Najít dokončené soubory</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3248"/>
+        <location filename="../UI/dialogsettings.ui" line="3242"/>
         <source>Store Temporary Files Here:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit nedokončené soubory zde:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3267"/>
+        <location filename="../UI/dialogsettings.ui" line="3261"/>
         <source>Browse For Temporary Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Najít nedokončené soubory</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3293"/>
+        <location filename="../UI/dialogsettings.ui" line="3287"/>
         <source>Number Of Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet stažení</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3307"/>
+        <location filename="../UI/dialogsettings.ui" line="3301"/>
         <source>Maximum Que Length:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3324"/>
+        <location filename="../UI/dialogsettings.ui" line="3318"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3329"/>
+        <location filename="../UI/dialogsettings.ui" line="3323"/>
         <source>10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3334"/>
+        <location filename="../UI/dialogsettings.ui" line="3328"/>
         <source>20</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3339"/>
+        <location filename="../UI/dialogsettings.ui" line="3333"/>
         <source>MAX</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3347"/>
+        <location filename="../UI/dialogsettings.ui" line="3341"/>
         <source>Maximum Files: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3363"/>
+        <location filename="../UI/dialogsettings.ui" line="3357"/>
         <source>Maximum Transfers: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3379"/>
+        <location filename="../UI/dialogsettings.ui" line="3373"/>
         <source>Transfers Per File: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3400"/>
+        <location filename="../UI/dialogsettings.ui" line="3394"/>
         <source>Show Prompt Before Opening URIs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3438"/>
+        <location filename="../UI/dialogsettings.ui" line="3432"/>
         <source>Share NEW Partial Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3445"/>
+        <location filename="../UI/dialogsettings.ui" line="3439"/>
         <source>Limit Sharing In Hub Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3452"/>
+        <location filename="../UI/dialogsettings.ui" line="3446"/>
         <source>Share Preview Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3459"/>
+        <location filename="../UI/dialogsettings.ui" line="3453"/>
         <source>Limit Per Unique host: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3475"/>
+        <location filename="../UI/dialogsettings.ui" line="3469"/>
         <source>Queues</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3502"/>
+        <location filename="../UI/dialogsettings.ui" line="3496"/>
         <source>New</source>
         <translation type="unfinished">Nový</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3509"/>
+        <location filename="../UI/dialogsettings.ui" line="3503"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3526"/>
+        <location filename="../UI/dialogsettings.ui" line="3520"/>
         <source>Name</source>
         <translation type="unfinished">Název</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3531"/>
+        <location filename="../UI/dialogsettings.ui" line="3525"/>
         <source>Criteria</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3536"/>
+        <location filename="../UI/dialogsettings.ui" line="3530"/>
         <source>Bandwidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3595"/>
+        <location filename="../UI/dialogsettings.ui" line="3589"/>
         <source>Filter Chat For Spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3602"/>
+        <location filename="../UI/dialogsettings.ui" line="3596"/>
         <source>Allow Others To Browse Your Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3609"/>
+        <location filename="../UI/dialogsettings.ui" line="3603"/>
         <source>Filter eDonkey 2k Chat Spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3616"/>
+        <location filename="../UI/dialogsettings.ui" line="3610"/>
         <source> lines per second.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3626"/>
+        <location filename="../UI/dialogsettings.ui" line="3620"/>
         <source>Enable Chat Flood Protection:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3636"/>
+        <location filename="../UI/dialogsettings.ui" line="3630"/>
         <source>Quazaa Remote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3657"/>
+        <location filename="../UI/dialogsettings.ui" line="3651"/>
         <source>Enable Remote Control Of Quazaa Through A Web Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3664"/>
+        <location filename="../UI/dialogsettings.ui" line="3658"/>
         <source>Remote User Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3671"/>
+        <location filename="../UI/dialogsettings.ui" line="3665"/>
         <source>Remote Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3703"/>
+        <location filename="../UI/dialogsettings.ui" line="3697"/>
         <source>User-Agent Upload Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3746"/>
+        <location filename="../UI/dialogsettings.ui" line="3740"/>
         <source>Enable UPnP To Set Up Firewalls/Routers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3753"/>
+        <location filename="../UI/dialogsettings.ui" line="3747"/>
         <source>Ignore Private/Local IP Addresses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3760"/>
+        <location filename="../UI/dialogsettings.ui" line="3754"/>
         <source>Allow Others To Browse Shares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3785"/>
+        <location filename="../UI/dialogsettings.ui" line="3779"/>
         <source>Gnutella 2 Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3797"/>
+        <location filename="../UI/dialogsettings.ui" line="3791"/>
         <source>Connect To Gnutella 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3804"/>
+        <location filename="../UI/dialogsettings.ui" line="3798"/>
         <source>Mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3815"/>
+        <location filename="../UI/dialogsettings.ui" line="3809"/>
         <source>Optimal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3820"/>
+        <location filename="../UI/dialogsettings.ui" line="3814"/>
         <source>Leaf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3825"/>
+        <location filename="../UI/dialogsettings.ui" line="3819"/>
         <source>Hub</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3842"/>
+        <location filename="../UI/dialogsettings.ui" line="3836"/>
         <source>G2 Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3854"/>
+        <location filename="../UI/dialogsettings.ui" line="3848"/>
         <source>Leaf to Hub: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3867"/>
+        <location filename="../UI/dialogsettings.ui" line="3861"/>
         <source>Hub to Leaf: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3883"/>
+        <location filename="../UI/dialogsettings.ui" line="3877"/>
         <source>Hub to Hub: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3909"/>
-        <location filename="../UI/dialogsettings.ui" line="4432"/>
+        <location filename="../UI/dialogsettings.ui" line="3903"/>
+        <location filename="../UI/dialogsettings.ui" line="4426"/>
         <source>Connect To Ares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3932"/>
+        <location filename="../UI/dialogsettings.ui" line="3926"/>
         <source>eDonkey Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3944"/>
-        <location filename="../UI/dialogsettings.ui" line="4504"/>
+        <location filename="../UI/dialogsettings.ui" line="3938"/>
+        <location filename="../UI/dialogsettings.ui" line="4498"/>
         <source>Connect To eDonkey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3951"/>
+        <location filename="../UI/dialogsettings.ui" line="3945"/>
         <source>Connect To The Kad Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3967"/>
+        <location filename="../UI/dialogsettings.ui" line="3961"/>
         <source>Global Searching</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3979"/>
+        <location filename="../UI/dialogsettings.ui" line="3973"/>
         <source>Search Known Remote Severs In the Server Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3986"/>
+        <location filename="../UI/dialogsettings.ui" line="3980"/>
         <source> search results.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="3989"/>
+        <location filename="../UI/dialogsettings.ui" line="3983"/>
         <source>Stop searching after </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4005"/>
+        <location filename="../UI/dialogsettings.ui" line="3999"/>
         <source>Recieve And Update Server List From The Connected server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4021"/>
+        <location filename="../UI/dialogsettings.ui" line="4015"/>
         <source>Client Link Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4033"/>
+        <location filename="../UI/dialogsettings.ui" line="4027"/>
         <source> other eDonky 2k clients.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4036"/>
+        <location filename="../UI/dialogsettings.ui" line="4030"/>
         <source>Connect to no more than </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4061"/>
+        <location filename="../UI/dialogsettings.ui" line="4055"/>
         <source>eDonkey Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4073"/>
+        <location filename="../UI/dialogsettings.ui" line="4067"/>
         <source>Download eDonkey server list from the web.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4086"/>
+        <location filename="../UI/dialogsettings.ui" line="4080"/>
         <source>Download...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4093"/>
+        <location filename="../UI/dialogsettings.ui" line="4087"/>
         <source>Automatically Download Updated Server List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4119"/>
+        <location filename="../UI/dialogsettings.ui" line="4113"/>
         <source>Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4131"/>
+        <location filename="../UI/dialogsettings.ui" line="4125"/>
         <source>Show Torrent Save Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4138"/>
+        <location filename="../UI/dialogsettings.ui" line="4132"/>
         <source>Open New Torrents Paused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4145"/>
+        <location filename="../UI/dialogsettings.ui" line="4139"/>
         <source>Use Temporary Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4152"/>
+        <location filename="../UI/dialogsettings.ui" line="4146"/>
         <source>Managed Torrent</source>
         <translation type="unfinished">Zprostředkovaný programem Torrent</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4159"/>
+        <location filename="../UI/dialogsettings.ui" line="4153"/>
         <source>Enable Endgame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4175"/>
+        <location filename="../UI/dialogsettings.ui" line="4169"/>
         <source>Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4187"/>
+        <location filename="../UI/dialogsettings.ui" line="4181"/>
         <source> Torrents at once.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4194"/>
+        <location filename="../UI/dialogsettings.ui" line="4188"/>
         <source> Client connections.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4201"/>
+        <location filename="../UI/dialogsettings.ui" line="4195"/>
         <source>Prefer Torrent Sources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4208"/>
+        <location filename="../UI/dialogsettings.ui" line="4202"/>
         <source>Use Kademlia With BitTorrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4217"/>
+        <location filename="../UI/dialogsettings.ui" line="4211"/>
         <source>Clear Downloaded Torrents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4230"/>
+        <location filename="../UI/dialogsettings.ui" line="4224"/>
         <source> %.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4233"/>
+        <location filename="../UI/dialogsettings.ui" line="4227"/>
         <source>when the ratio reaches </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4273"/>
+        <location filename="../UI/dialogsettings.ui" line="4267"/>
         <source>Store .torrent Files Here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4288"/>
+        <location filename="../UI/dialogsettings.ui" line="4282"/>
         <source>Browse For Completed</source>
         <translation type="unfinished">Hledej dokončené</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4360"/>
+        <location filename="../UI/dialogsettings.ui" line="4354"/>
         <source>Connect To G2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4367"/>
+        <location filename="../UI/dialogsettings.ui" line="4361"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2952,12 +2952,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4378"/>
+        <location filename="../UI/dialogsettings.ui" line="4372"/>
         <source>Quazaa&apos;s Premier Network, offering more features and performance than any other P2P network. Highly reccomended.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4439"/>
+        <location filename="../UI/dialogsettings.ui" line="4433"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2966,12 +2966,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4450"/>
+        <location filename="../UI/dialogsettings.ui" line="4444"/>
         <source>Like G2, this is an upgraded version of G1, very popular in the open source community.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4511"/>
+        <location filename="../UI/dialogsettings.ui" line="4505"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2980,12 +2980,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4522"/>
+        <location filename="../UI/dialogsettings.ui" line="4516"/>
         <source>A popular centralised server based network. Generally slow but rare files can be found on this network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4576"/>
+        <location filename="../UI/dialogsettings.ui" line="4570"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -2994,22 +2994,22 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4587"/>
+        <location filename="../UI/dialogsettings.ui" line="4581"/>
         <source>This network uses centralised websites to list available content. Very popular and fast.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4632"/>
+        <location filename="../UI/dialogsettings.ui" line="4626"/>
         <source>Cancel</source>
         <translation type="unfinished">Zrušit</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4639"/>
+        <location filename="../UI/dialogsettings.ui" line="4633"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.ui" line="4646"/>
+        <location filename="../UI/dialogsettings.ui" line="4640"/>
         <source>Apply</source>
         <translation type="unfinished">Použít</translation>
     </message>
@@ -3035,27 +3035,27 @@ p, li { white-space: pre-wrap; }
         <location filename="../QSkinDialog/dialogskinpreview.ui" line="14"/>
         <location filename="../QSkinDialog/dialogskinpreview.cpp" line="22"/>
         <source>Skin Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhled skinu</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/dialogskinpreview.ui" line="51"/>
         <source>Name</source>
-        <translation type="unfinished">Název</translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/dialogskinpreview.ui" line="65"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/dialogskinpreview.ui" line="79"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/dialogskinpreview.ui" line="93"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis</translation>
     </message>
 </context>
 <context>
@@ -3063,7 +3063,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsplash.ui" line="293"/>
         <source>Loading Quazaa...</source>
-        <translation type="unfinished"></translation>
+        <translation>Načítání Quazay...</translation>
     </message>
 </context>
 <context>
@@ -3071,22 +3071,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="26"/>
         <source>Torrent Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlastnosti Torrentu</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="66"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="73"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="86"/>
         <source>General</source>
-        <translation type="unfinished">Obecně</translation>
+        <translation>Obecně</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="104"/>
@@ -3101,38 +3101,38 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="118"/>
         <source>Filename And Size</source>
-        <translation type="unfinished">Název a velikost souboru</translation>
+        <translation>Název a velikost souboru</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="132"/>
         <source>Filename:</source>
-        <translation type="unfinished">Název souboru:</translation>
+        <translation>Název souboru:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="142"/>
         <source>File Size (Bytes):</source>
-        <translation type="unfinished">Velikost souboru (bajty):</translation>
+        <translation>Velikost souboru (bajty):</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="168"/>
         <source>Location:</source>
-        <translation type="unfinished">Umístění:</translation>
+        <translation>Umístění:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="180"/>
         <source>URNs</source>
-        <translation type="unfinished">URNs</translation>
+        <translation>URNs</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="211"/>
         <source>Trusted</source>
-        <translation type="unfinished">Důvěryhodný</translation>
+        <translation>Důvěryhodný</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="292"/>
         <location filename="../UI/dialogtorrentproperties.ui" line="324"/>
         <source>Actions</source>
-        <translation type="unfinished">Činosti</translation>
+        <translation>Činosti</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="336"/>
@@ -3141,7 +3141,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;dummy&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Forget current verification status and reverify&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="347"/>
@@ -3150,7 +3150,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;dummy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Assume file is 100% complete and reverify&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="358"/>
@@ -3182,187 +3182,187 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="394"/>
         <source>Data Eraser</source>
-        <translation type="unfinished">Zmazání dat</translation>
+        <translation>Zmazání dat</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="406"/>
         <source>Byte Range: </source>
-        <translation type="unfinished">Rozsah bajtů: </translation>
+        <translation>Rozsah bajtů: </translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="413"/>
         <source>to </source>
-        <translation type="unfinished">Do</translation>
+        <translation>Do</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="420"/>
         <source>Erase</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation>Smazat</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="431"/>
         <source>Torrent</source>
-        <translation type="unfinished"></translation>
+        <translation>Torrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="437"/>
         <source>Torrent Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace z torrentu</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="451"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Název:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="461"/>
         <source>Created:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyroben:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="471"/>
         <source>By:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kým:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="481"/>
         <source>Comments:</source>
-        <translation type="unfinished"></translation>
+        <translation>Komentáře:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="488"/>
         <source>Notes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámky:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="510"/>
         <source>Transfers</source>
-        <translation type="unfinished">Přenosy</translation>
+        <translation>Přenosy</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="524"/>
         <source>Start New Download Transfers:</source>
-        <translation type="unfinished"></translation>
+        <translation>Začít nový přenos stahování:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="532"/>
         <source>As Needed</source>
-        <translation type="unfinished"></translation>
+        <translation>K potřebě</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="537"/>
         <source>When Ratio Is Over 100%</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud překročí 100%</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="542"/>
         <source>Only When Requested</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze na požádání</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="547"/>
         <source>Never</source>
-        <translation type="unfinished"></translation>
+        <translation>Nikdy</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="555"/>
         <source>Total Uploaded:</source>
-        <translation type="unfinished"></translation>
+        <translation>Celkem uploadováno:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="571"/>
         <source>Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Složky</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="605"/>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Název souboru</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="610"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesta</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="615"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="620"/>
         <source>Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokrok</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="625"/>
         <source>Priority</source>
-        <translation type="unfinished"></translation>
+        <translation>Přednost</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="634"/>
         <source>Trackers</source>
-        <translation type="unfinished">Stopy</translation>
+        <translation>Stopy</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="646"/>
         <source>Current Tracker</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuální stopa</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="660"/>
         <source>Tracker:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopa:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="667"/>
         <source>Completed (Seeds):</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokončené (Seedy):</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="674"/>
         <source>Tracker Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Režim stopy:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="681"/>
         <source>Incomplete:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nedokončené:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="701"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Desaktivované</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="706"/>
         <source>Single Tracker</source>
-        <translation type="unfinished"></translation>
+        <translation>Jednotlivá stopa</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="711"/>
         <source>Multi-Tracker</source>
-        <translation type="unfinished"></translation>
+        <translation>Více stop</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="716"/>
         <source>Multi-Tracker (Locked)</source>
-        <translation type="unfinished"></translation>
+        <translation>Více stop (zamčené)</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="724"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="737"/>
         <source>Tracker</source>
-        <translation type="unfinished">Stopa</translation>
+        <translation>Stopa</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="742"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Status</translation>
     </message>
 </context>
 <context>
@@ -3370,7 +3370,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="26"/>
         <source>Dialog</source>
-        <translation type="unfinished">Dialog</translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="94"/>
@@ -3384,62 +3384,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="132"/>
         <source>Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="139"/>
         <source>Type:</source>
-        <translation type="unfinished">Typ:</translation>
+        <translation>Typ:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="152"/>
         <source>size</source>
-        <translation type="unfinished"></translation>
+        <translation>velikost</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="165"/>
         <source>type</source>
-        <translation type="unfinished"></translation>
+        <translation>typ</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="176"/>
         <source>Total Transfer Speed:</source>
-        <translation type="unfinished">Celková ryhlost přenosu: </translation>
+        <translation>Celková ryhlost přenosu: </translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="183"/>
         <source>Estimated Time Remaining:</source>
-        <translation type="unfinished">Odhadovaný zbývající čas:</translation>
+        <translation>Odhadovaný zbývající čas:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="190"/>
         <source>Volume Downloaded:</source>
-        <translation type="unfinished">Obsah stažení:</translation>
+        <translation>Obsah stažení:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="203"/>
         <source>transfer speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlost přenosu</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="216"/>
         <source>time remaining</source>
-        <translation type="unfinished"></translation>
+        <translation>Zbývající čas</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="229"/>
         <source>volume downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>objem stahování</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="242"/>
         <source>number sources</source>
-        <translation type="unfinished"></translation>
+        <translation>počet zdrojů</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="249"/>
         <source>Number Of Sources:</source>
-        <translation type="unfinished">Počet zdrojů: </translation>
+        <translation>Počet zdrojů: </translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="294"/>
@@ -3447,7 +3447,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="320"/>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="333"/>
         <source>hash</source>
-        <translation type="unfinished"></translation>
+        <translation>hash</translation>
     </message>
 </context>
 <context>
@@ -3455,7 +3455,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.ui" line="29"/>
         <source>Quick Start Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlý start Wizard</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="101"/>
@@ -3496,7 +3496,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogwizard.ui" line="1006"/>
         <location filename="../UI/dialogwizard.ui" line="1216"/>
         <source>Next &gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Další &gt;</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="227"/>
@@ -3506,7 +3506,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogwizard.ui" line="1226"/>
         <location filename="../UI/dialogwizard.ui" line="1411"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Konec</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="306"/>
@@ -3520,43 +3520,43 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.ui" line="428"/>
         <source>Automatically set up ports using Universal Plug and Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaticky nastavit porty prostřednictvím Universal Plug and Play</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="287"/>
         <source>For best performance, Quazaa needs to know a little about your connection to the internet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro lepší využití potřebuje Quazaa znát některé detaily Vašeho připojení k internetu.</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="339"/>
         <source>Choose your upload speed: </source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte Vaší rychlost uploadu:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="320"/>
         <location filename="../UI/dialogwizard.ui" line="342"/>
         <source> kbps</source>
-        <translation type="unfinished"></translation>
+        <translation>kbps</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="317"/>
         <source>Choose your download speed: </source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte rychlost stahování:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="374"/>
         <source>Port</source>
-        <translation type="unfinished">Port</translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="397"/>
         <source>Random</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhodně</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="410"/>
         <source>Port: </source>
-        <translation type="unfinished"></translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="488"/>
@@ -3565,7 +3565,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogwizard.ui" line="1209"/>
         <location filename="../UI/dialogwizard.ui" line="1394"/>
         <source>&lt; Back</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt; Zpět</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="576"/>
@@ -3576,7 +3576,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Peer-to-Peer networks are only as good as the people who use them. All of the content available for you to use is being shared by other users. You do not have to share content to use Quazaa. However, other users are more likely to share with you if you are sharing files yourself.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Please list any folders containing files you wish to share with others. Simply click the add button to add a new folder.&lt;/span&gt;&lt;span style=&quot; font-size:8pt; color:#ff0000;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="607"/>
@@ -3591,57 +3591,57 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.ui" line="630"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="637"/>
         <source>Add</source>
-        <translation type="unfinished">Přidat</translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="656"/>
         <source>Allow Others To Browse My Shares</source>
-        <translation type="unfinished"></translation>
+        <translation>Povolit ostatním nahlížet do mojich sdílení</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="782"/>
         <source>Chat Nick Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nick-name</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="792"/>
         <source>Gnutella Screen Name:</source>
-        <translation type="unfinished">Název pro Gnutella:</translation>
+        <translation>Název pro Gnutella:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="802"/>
         <source>Alternate Chat Nick Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhradní nick-name:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="812"/>
         <source>Allow others to browse my user profile.</source>
-        <translation type="unfinished"></translation>
+        <translation>Povolit ostatním prohlížet můj uživatelský profil.</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="823"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pohlaví</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="837"/>
         <source>Male</source>
-        <translation type="unfinished">Muž</translation>
+        <translation>Muž</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="842"/>
         <source>Female</source>
-        <translation type="unfinished">Žena</translation>
+        <translation>Žena</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="862"/>
         <source>Age: </source>
-        <translation type="unfinished">Věk:</translation>
+        <translation>Věk:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="890"/>
@@ -3655,22 +3655,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.ui" line="907"/>
         <source>Location</source>
-        <translation type="unfinished">Bydliště</translation>
+        <translation>Bydliště</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="919"/>
         <source>Country:</source>
-        <translation type="unfinished"></translation>
+        <translation>Země:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="926"/>
         <source>City:</source>
-        <translation type="unfinished"></translation>
+        <translation>Město:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="933"/>
         <source>State/Province:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stát/provincie:</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="1075"/>
@@ -3684,22 +3684,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogwizard.ui" line="1094"/>
         <source>Connect to Gnutella 2 (Highly Reccomended)</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojit ke Gnutelle 2 (Vřele doporučeno)</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="1105"/>
         <source>Connect to Ares</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojit k Ares</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="1116"/>
         <source>Connect to eDonkey</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojit k eDonkey</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="1127"/>
         <source>Use the Kad network with eDonkey</source>
-        <translation type="unfinished"></translation>
+        <translation>Použit Kad network s eDonkey</translation>
     </message>
     <message>
         <location filename="../UI/dialogwizard.ui" line="1138"/>
@@ -3770,1257 +3770,1257 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../geoiplist.cpp" line="107"/>
         <source>Afghanistan</source>
-        <translation type="unfinished"></translation>
+        <translation>Afgánistán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="109"/>
         <source>Aland Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Alandské ostrovy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="111"/>
         <source>Albania</source>
-        <translation type="unfinished"></translation>
+        <translation>Albánie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="113"/>
         <source>Algeria</source>
-        <translation type="unfinished"></translation>
+        <translation>Alžír</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="115"/>
         <source>American Samoa</source>
-        <translation type="unfinished"></translation>
+        <translation>Americká Samoa</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="117"/>
         <source>Andorra</source>
-        <translation type="unfinished"></translation>
+        <translation>Andorra</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="119"/>
         <source>Angola</source>
-        <translation type="unfinished"></translation>
+        <translation>Angola</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="121"/>
         <source>Anguilla</source>
-        <translation type="unfinished"></translation>
+        <translation>Anguilla</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="123"/>
         <source>Antarctica</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="125"/>
         <source>Antigua And Barbuda</source>
-        <translation type="unfinished"></translation>
+        <translation>Antigua a Babuda</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="127"/>
         <source>Argentina</source>
-        <translation type="unfinished"></translation>
+        <translation>Argentina</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="129"/>
         <source>Armenia</source>
-        <translation type="unfinished"></translation>
+        <translation>Arménie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="131"/>
         <source>Aruba</source>
-        <translation type="unfinished"></translation>
+        <translation>Aruba</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="133"/>
         <source>Australia</source>
-        <translation type="unfinished"></translation>
+        <translation>Austrálie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="135"/>
         <source>Austria</source>
-        <translation type="unfinished"></translation>
+        <translation>Rakousko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="137"/>
         <source>Azerbaijan</source>
-        <translation type="unfinished"></translation>
+        <translation>Azerbajdžán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="139"/>
         <source>Bahamas</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahamy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="141"/>
         <source>Bahrain</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahrajn</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="143"/>
         <source>Bangladesh</source>
-        <translation type="unfinished"></translation>
+        <translation>Bangladéš</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="145"/>
         <source>Barbados</source>
-        <translation type="unfinished"></translation>
+        <translation>Barbados</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="147"/>
         <source>Belarus</source>
-        <translation type="unfinished"></translation>
+        <translation>Bělorusko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="149"/>
         <source>Belgium</source>
-        <translation type="unfinished"></translation>
+        <translation>Belgie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="151"/>
         <source>Belize</source>
-        <translation type="unfinished"></translation>
+        <translation>Belize</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="153"/>
         <source>Benin</source>
-        <translation type="unfinished"></translation>
+        <translation>Benin</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="155"/>
         <source>Bermuda</source>
-        <translation type="unfinished"></translation>
+        <translation>Bermudy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="157"/>
         <source>Bhutan</source>
-        <translation type="unfinished"></translation>
+        <translation>Bhútán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="159"/>
         <source>Bolivia, Plurinational State Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Bolíve</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="161"/>
         <source>Bosnia And Herzegovina</source>
-        <translation type="unfinished"></translation>
+        <translation>Bosna a Hercegovina</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="163"/>
         <source>Botswana</source>
-        <translation type="unfinished"></translation>
+        <translation>Botswana</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="165"/>
         <source>Bouvet Island</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrov Bouvet</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="167"/>
         <source>Brazil</source>
-        <translation type="unfinished"></translation>
+        <translation>Brazílie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="169"/>
         <source>British Indian Ocean Territory</source>
-        <translation type="unfinished"></translation>
+        <translation>Britské indickooceánské teritorium</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="171"/>
         <source>Brunei Darussalam</source>
-        <translation type="unfinished"></translation>
+        <translation>Brunej Darussalam</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="173"/>
         <source>Bulgaria</source>
-        <translation type="unfinished"></translation>
+        <translation>Bulharsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="175"/>
         <source>Burkina Faso</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukina Faso</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="177"/>
         <source>Burundi</source>
-        <translation type="unfinished"></translation>
+        <translation>Burundi</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="179"/>
         <source>Cambodia</source>
-        <translation type="unfinished"></translation>
+        <translation>Kambodža</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="181"/>
         <source>Cameroon</source>
-        <translation type="unfinished"></translation>
+        <translation>Kamerun</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="183"/>
         <source>Canada</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanada</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="185"/>
         <source>Cape Verde</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapverdy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="187"/>
         <source>Cayman Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Kajmanské ostrovy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="189"/>
         <source>Central African Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Středoafrická republika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="191"/>
         <source>Chad</source>
-        <translation type="unfinished"></translation>
+        <translation>Čad</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="193"/>
         <source>Chile</source>
-        <translation type="unfinished"></translation>
+        <translation>Čile</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="195"/>
         <source>China</source>
-        <translation type="unfinished"></translation>
+        <translation>Čína</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="197"/>
         <source>Christmas Island</source>
-        <translation type="unfinished"></translation>
+        <translation>Vánoční ostrovy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="199"/>
         <source>Cocos (Keeling) Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Kokosové ostrovy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="201"/>
         <source>Colombia</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolumbie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="203"/>
         <source>Comoros</source>
-        <translation type="unfinished"></translation>
+        <translation>Komory</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="205"/>
         <source>Congo</source>
-        <translation type="unfinished"></translation>
+        <translation>Kongo</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="207"/>
         <source>Congo, The Democratic Republic Of The</source>
-        <translation type="unfinished"></translation>
+        <translation>Kongo, Demokratická republika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="209"/>
         <source>Cook Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Cookovy ostrovy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="211"/>
         <source>Costa Rica</source>
-        <translation type="unfinished"></translation>
+        <translation>Kosta Rica</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="213"/>
         <source>Cote D&apos;Ivoire</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobřeží slonoviny</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="215"/>
         <source>Croatia</source>
-        <translation type="unfinished"></translation>
+        <translation>Chorvatsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="217"/>
         <source>Cuba</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuba</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="219"/>
         <source>Cyprus</source>
-        <translation type="unfinished"></translation>
+        <translation>Kypr</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="221"/>
         <source>Czech Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Česká republika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="223"/>
         <source>Denmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Dánsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="225"/>
         <source>Djibouti</source>
-        <translation type="unfinished"></translation>
+        <translation>Džibutsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="227"/>
         <source>Dominica</source>
-        <translation type="unfinished"></translation>
+        <translation>Dominika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="229"/>
         <source>Dominican Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Dominikánská republika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="231"/>
         <source>Ecuador</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekvádor</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="233"/>
         <source>Egypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Egypt</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="235"/>
         <source>El Salvador</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvador</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="237"/>
         <source>Equatorial Guinea</source>
-        <translation type="unfinished"></translation>
+        <translation>Rovníková Guinea</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="239"/>
         <source>Eritrea</source>
-        <translation type="unfinished"></translation>
+        <translation>Eritrea</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="241"/>
         <source>Estonia</source>
-        <translation type="unfinished"></translation>
+        <translation>Estonsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="243"/>
         <source>Ethiopia</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiopie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="245"/>
         <source>European Union</source>
-        <translation type="unfinished"></translation>
+        <translation>Evropská unie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="247"/>
         <source>Falkland Islands (Malvinas)</source>
-        <translation type="unfinished"></translation>
+        <translation>Falklandské ostrovy (Malvíny)</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="249"/>
         <source>Faroe Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Farolské ostrovy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="251"/>
         <source>Fiji</source>
-        <translation type="unfinished"></translation>
+        <translation>Fidži</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="253"/>
         <source>FinlAnd</source>
-        <translation type="unfinished"></translation>
+        <translation>Finsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="255"/>
         <source>France</source>
-        <translation type="unfinished"></translation>
+        <translation>Francie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="257"/>
         <source>French Guiana</source>
-        <translation type="unfinished"></translation>
+        <translation>Franckouzská Guajána</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="259"/>
         <source>French Polynesia</source>
-        <translation type="unfinished"></translation>
+        <translation>Francouzská Polyinézie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="261"/>
         <source>French Southern Territories</source>
-        <translation type="unfinished"></translation>
+        <translation>Francouzská jižní teritoria</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="263"/>
         <source>Gabon</source>
-        <translation type="unfinished"></translation>
+        <translation>Gabon</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="265"/>
         <source>Gambia</source>
-        <translation type="unfinished"></translation>
+        <translation>Gambie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="267"/>
         <source>Georgia</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruzie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="269"/>
         <source>Germany</source>
-        <translation type="unfinished"></translation>
+        <translation>Německo</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="271"/>
         <source>Ghana</source>
-        <translation type="unfinished"></translation>
+        <translation>Ghana</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="273"/>
         <source>Gibraltar</source>
-        <translation type="unfinished"></translation>
+        <translation>Gibraltar</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="275"/>
         <source>Greece</source>
-        <translation type="unfinished"></translation>
+        <translation>Řecko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="277"/>
         <source>Greenland</source>
-        <translation type="unfinished"></translation>
+        <translation>Grónsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="279"/>
         <source>Grenada</source>
-        <translation type="unfinished"></translation>
+        <translation>Grenada</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="281"/>
         <source>Guadeloupe</source>
-        <translation type="unfinished"></translation>
+        <translation>Guadeloupe</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="283"/>
         <source>Guam</source>
-        <translation type="unfinished"></translation>
+        <translation>Guam</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="285"/>
         <source>Guatemala</source>
-        <translation type="unfinished"></translation>
+        <translation>Guatemala</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="287"/>
         <source>Guernsey</source>
-        <translation type="unfinished"></translation>
+        <translation>Guernsey</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="289"/>
         <source>Guinea</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="291"/>
         <source>Guinea-Bissau</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="293"/>
         <source>Guyana</source>
-        <translation type="unfinished"></translation>
+        <translation>Guayana</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="295"/>
         <source>Haiti</source>
-        <translation type="unfinished"></translation>
+        <translation>Haiti</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="297"/>
         <source>Heard Island And McDonald Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrovy Hearda a McDonalda</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="299"/>
         <source>Holy See (Vatican City State)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vatikán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="301"/>
         <source>Honduras</source>
-        <translation type="unfinished"></translation>
+        <translation>Honduras</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="303"/>
         <source>Hong Kong</source>
-        <translation type="unfinished"></translation>
+        <translation>Hong Kong</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="305"/>
         <source>Hungary</source>
-        <translation type="unfinished"></translation>
+        <translation>Maďarsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="307"/>
         <source>Iceland</source>
-        <translation type="unfinished"></translation>
+        <translation>Island</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="309"/>
         <source>India</source>
-        <translation type="unfinished"></translation>
+        <translation>Indie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="311"/>
         <source>Indonesia</source>
-        <translation type="unfinished"></translation>
+        <translation>Indonézie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="313"/>
         <source>Iran (Islamic Republic Of)</source>
-        <translation type="unfinished"></translation>
+        <translation>Írán </translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="315"/>
         <source>Iraq</source>
-        <translation type="unfinished"></translation>
+        <translation>Irák</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="317"/>
         <source>Ireland</source>
-        <translation type="unfinished"></translation>
+        <translation>Irsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="319"/>
         <source>Isle Of Man</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrov Man</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="321"/>
         <source>Israel</source>
-        <translation type="unfinished"></translation>
+        <translation>Israel</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="323"/>
         <source>Italy</source>
-        <translation type="unfinished"></translation>
+        <translation>Itálie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="325"/>
         <source>Jamaica</source>
-        <translation type="unfinished"></translation>
+        <translation>Jamaika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="327"/>
         <source>Japan</source>
-        <translation type="unfinished"></translation>
+        <translation>Japonsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="329"/>
         <source>Jersey</source>
-        <translation type="unfinished"></translation>
+        <translation>Jersey</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="331"/>
         <source>Jordan</source>
-        <translation type="unfinished"></translation>
+        <translation>Jordán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="333"/>
         <source>Kazakhstan</source>
-        <translation type="unfinished"></translation>
+        <translation>Kazachstán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="335"/>
         <source>Kenya</source>
-        <translation type="unfinished"></translation>
+        <translation>Keňa</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="337"/>
         <source>Kiribati</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiribati</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="339"/>
         <source>Korea, Democratic People&apos;s Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Korea, Demokratická republika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="341"/>
         <source>Korea, Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Korea, Republika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="343"/>
         <source>Kuwait</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuvajt</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="345"/>
         <source>Kyrgyzsyan</source>
-        <translation type="unfinished"></translation>
+        <translation>Kyrgystán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="347"/>
         <source>Lao People&apos;s Democratic Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Demokratická republika Laoského lidu</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="349"/>
         <source>Latvia</source>
-        <translation type="unfinished"></translation>
+        <translation>Lotišsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="351"/>
         <source>Lebanon</source>
-        <translation type="unfinished"></translation>
+        <translation>Libanon</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="353"/>
         <source>Lesotho</source>
-        <translation type="unfinished"></translation>
+        <translation>Lesotho</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="355"/>
         <source>Liberia</source>
-        <translation type="unfinished"></translation>
+        <translation>Libérie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="357"/>
         <source>Libyan Arab Jamahiriya</source>
-        <translation type="unfinished"></translation>
+        <translation>Libye</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="359"/>
         <source>Lirchtenstein</source>
-        <translation type="unfinished"></translation>
+        <translation>Lichtenštejnsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="361"/>
         <source>Lithuania</source>
-        <translation type="unfinished"></translation>
+        <translation>Litva</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="363"/>
         <source>Luxembourg</source>
-        <translation type="unfinished"></translation>
+        <translation>Lucembursko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="365"/>
         <source>Macao</source>
-        <translation type="unfinished"></translation>
+        <translation>Makao</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="367"/>
         <source>Macedonia, The Former Yugoslav Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Makedonie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="369"/>
         <source>Madagascar</source>
-        <translation type="unfinished"></translation>
+        <translation>Madagaskar</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="371"/>
         <source>Malawi</source>
-        <translation type="unfinished"></translation>
+        <translation>Malawi</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="373"/>
         <source>Malaysia</source>
-        <translation type="unfinished"></translation>
+        <translation>Malayzie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="375"/>
         <source>Maldives</source>
-        <translation type="unfinished"></translation>
+        <translation>Maledivy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="377"/>
         <source>Mali</source>
-        <translation type="unfinished"></translation>
+        <translation>Mali</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="379"/>
         <source>Malta</source>
-        <translation type="unfinished"></translation>
+        <translation>Malta</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="381"/>
         <source>Marshall Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Maršálovy ostrovy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="383"/>
         <source>Martinique</source>
-        <translation type="unfinished"></translation>
+        <translation>Martinik</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="385"/>
         <source>Mauritania</source>
-        <translation type="unfinished"></translation>
+        <translation>Mauritánie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="387"/>
         <source>Mauritius</source>
-        <translation type="unfinished"></translation>
+        <translation>Mauricius</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="389"/>
         <source>Mayotte</source>
-        <translation type="unfinished"></translation>
+        <translation>Mayotte</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="391"/>
         <source>Mexico</source>
-        <translation type="unfinished"></translation>
+        <translation>Mexiko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="393"/>
         <source>Mirconesia, Federated States Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikronézie, Federativní státy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="395"/>
         <source>Moldova, Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Moldavsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="397"/>
         <source>Monacao</source>
-        <translation type="unfinished"></translation>
+        <translation>Monako</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="399"/>
         <source>Mongolia</source>
-        <translation type="unfinished"></translation>
+        <translation>Mongolsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="401"/>
         <source>Montenegro</source>
-        <translation type="unfinished"></translation>
+        <translation>Černá Hora</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="403"/>
         <source>Montserrat</source>
-        <translation type="unfinished"></translation>
+        <translation>Montserrat</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="405"/>
         <source>Morocco</source>
-        <translation type="unfinished"></translation>
+        <translation>Maroko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="407"/>
         <source>Mozambique</source>
-        <translation type="unfinished"></translation>
+        <translation>Mozambik</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="409"/>
         <source>Myanmar</source>
-        <translation type="unfinished"></translation>
+        <translation>Myanmar</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="411"/>
         <source>Namibia</source>
-        <translation type="unfinished"></translation>
+        <translation>Namibie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="413"/>
         <source>Nauru</source>
-        <translation type="unfinished"></translation>
+        <translation>Nauru</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="415"/>
         <source>Nepal</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepál</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="417"/>
         <source>Netherlands</source>
-        <translation type="unfinished"></translation>
+        <translation>Nizozemí</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="419"/>
         <source>Netherlands Anitlles</source>
-        <translation type="unfinished"></translation>
+        <translation>Nizozemské Antilly</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="421"/>
         <source>New Caledonia</source>
-        <translation type="unfinished"></translation>
+        <translation>Nová Kaledonie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="423"/>
         <source>New Zealand</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový Zéland</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="425"/>
         <source>Nicaragua</source>
-        <translation type="unfinished"></translation>
+        <translation>Nikaragua</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="427"/>
         <source>Niger</source>
-        <translation type="unfinished"></translation>
+        <translation>Niger</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="429"/>
         <source>Nigeria</source>
-        <translation type="unfinished"></translation>
+        <translation>Nigérie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="431"/>
         <source>Niue</source>
-        <translation type="unfinished"></translation>
+        <translation>Niue</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="433"/>
         <source>Norfolk Island</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrov Norfolk</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="435"/>
         <source>Northern Mariana Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Severni Mariany ostrovy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="437"/>
         <source>Norway</source>
-        <translation type="unfinished"></translation>
+        <translation>Norsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="439"/>
         <source>Oman</source>
-        <translation type="unfinished"></translation>
+        <translation>Omán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="441"/>
         <source>Pakistan</source>
-        <translation type="unfinished"></translation>
+        <translation>Pákistán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="443"/>
         <source>Palau</source>
-        <translation type="unfinished"></translation>
+        <translation>Palau</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="445"/>
         <source>Palestinian Territory, Occupied</source>
-        <translation type="unfinished"></translation>
+        <translation>Území Palestiny</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="447"/>
         <source>Panama</source>
-        <translation type="unfinished"></translation>
+        <translation>Panama</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="449"/>
         <source>Papua New Guinea</source>
-        <translation type="unfinished"></translation>
+        <translation>Papua Nová Guinea</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="451"/>
         <source>Paraguay</source>
-        <translation type="unfinished"></translation>
+        <translation>Paraguay</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="453"/>
         <source>Peru</source>
-        <translation type="unfinished"></translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="455"/>
         <source>Philippines</source>
-        <translation type="unfinished"></translation>
+        <translation>Filipíny</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="457"/>
         <source>Pitcairn</source>
-        <translation type="unfinished"></translation>
+        <translation>Pitkairn</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="459"/>
         <source>Poland</source>
-        <translation type="unfinished"></translation>
+        <translation>Polsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="461"/>
         <source>Portugal</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugalsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="463"/>
         <source>Puerto Rico</source>
-        <translation type="unfinished"></translation>
+        <translation>Portoriko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="465"/>
         <source>Qatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Katar</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="467"/>
         <source>Reunion</source>
-        <translation type="unfinished"></translation>
+        <translation>Reunion</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="469"/>
         <source>Romania</source>
-        <translation type="unfinished"></translation>
+        <translation>Rumunsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="471"/>
         <source>Russian Federation</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruská federace</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="473"/>
         <source>Rwanda</source>
-        <translation type="unfinished"></translation>
+        <translation>Rwanda</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="475"/>
         <source>Saint Barthelemy</source>
-        <translation type="unfinished"></translation>
+        <translation>Svatá Bartelémie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="477"/>
         <source>Saint Helena, Ascension And Tristan Da Cunha</source>
-        <translation type="unfinished"></translation>
+        <translation>Svatá helena, Ascension a Tristan da Cunha</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="479"/>
         <source>Saint Kitts And Nevis</source>
-        <translation type="unfinished"></translation>
+        <translation>Svatý Kitts a Nevis</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="481"/>
         <source>Saint Lucia</source>
-        <translation type="unfinished"></translation>
+        <translation>Svatá Lucie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="483"/>
         <source>Saint Martin (French Part)</source>
-        <translation type="unfinished"></translation>
+        <translation>Svatý Martin (Francouzské území)</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="485"/>
         <source>Saint Pierre And Miquelon</source>
-        <translation type="unfinished"></translation>
+        <translation>Sant Pierre a Miquelon</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="487"/>
         <source>Saint Vincent And The Grenadines</source>
-        <translation type="unfinished"></translation>
+        <translation>Svatý Vincent a Grenadýny</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="489"/>
         <source>Samoa</source>
-        <translation type="unfinished"></translation>
+        <translation>Samoa</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="491"/>
         <source>San Marino</source>
-        <translation type="unfinished"></translation>
+        <translation>San Marino</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="493"/>
         <source>Sao Tome And Principe</source>
-        <translation type="unfinished"></translation>
+        <translation>Svatý Tomáš a Princ</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="495"/>
         <source>Saudi Arabia</source>
-        <translation type="unfinished"></translation>
+        <translation>Saudská Arábie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="497"/>
         <source>Senegal</source>
-        <translation type="unfinished"></translation>
+        <translation>Senegal</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="499"/>
         <source>Serbia</source>
-        <translation type="unfinished"></translation>
+        <translation>Srbsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="501"/>
         <source>Serbia and Montenegro</source>
-        <translation type="unfinished"></translation>
+        <translation>Srbsko a Černá Hora</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="503"/>
         <source>Seychelles</source>
-        <translation type="unfinished"></translation>
+        <translation>Seišely</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="505"/>
         <source>Sierra Leone</source>
-        <translation type="unfinished"></translation>
+        <translation>Sierra Leone</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="507"/>
         <source>Singapore</source>
-        <translation type="unfinished"></translation>
+        <translation>Singapur</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="509"/>
         <source>Slovakia</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovensko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="511"/>
         <source>Slovenia</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovinsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="513"/>
         <source>Solomon Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Šalamounovy ostrovy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="515"/>
         <source>Somalia</source>
-        <translation type="unfinished"></translation>
+        <translation>Somálsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="517"/>
         <source>South Africa</source>
-        <translation type="unfinished"></translation>
+        <translation>Jihoafrická republika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="519"/>
         <source>South Georgia And The South Sandwich Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Jižní Georgie a Jižní Sandwichovy ostrovy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="521"/>
         <source>Spain</source>
-        <translation type="unfinished"></translation>
+        <translation>Španělsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="523"/>
         <source>Sri Lanka</source>
-        <translation type="unfinished"></translation>
+        <translation>Srí Lanka</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="525"/>
         <source>Sudan</source>
-        <translation type="unfinished"></translation>
+        <translation>Súdán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="527"/>
         <source>Suriname</source>
-        <translation type="unfinished"></translation>
+        <translation>Surinam</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="529"/>
         <source>Svalbard And Jan Mayen</source>
-        <translation type="unfinished"></translation>
+        <translation>Svalbard a Jan Mayen</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="531"/>
         <source>Swaziland</source>
-        <translation type="unfinished"></translation>
+        <translation>Švýcarsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="533"/>
         <source>Sweden</source>
-        <translation type="unfinished"></translation>
+        <translation>Švédsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="535"/>
         <source>Switzerland</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="537"/>
         <source>Syrian Arab Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Sirská arabská republika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="539"/>
         <source>Taiwan, Province Of China</source>
-        <translation type="unfinished"></translation>
+        <translation>Taiwan, Čínská provincie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="541"/>
         <source>Tajikistan</source>
-        <translation type="unfinished"></translation>
+        <translation>Tádžikistán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="543"/>
         <source>Tanzania, United Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanzánie, Spojená republika</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="545"/>
         <source>Thailand</source>
-        <translation type="unfinished"></translation>
+        <translation>Thajsko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="547"/>
         <source>Timor-Leste</source>
-        <translation type="unfinished"></translation>
+        <translation>Východní Timor</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="549"/>
         <source>Togo</source>
-        <translation type="unfinished"></translation>
+        <translation>Togo</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="551"/>
         <source>Tokelau</source>
-        <translation type="unfinished"></translation>
+        <translation>Tokelau</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="553"/>
         <source>Tonga</source>
-        <translation type="unfinished"></translation>
+        <translation>Tonga</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="555"/>
         <source>Trinadad And Tobago</source>
-        <translation type="unfinished"></translation>
+        <translation>Trinidad a Tobago</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="557"/>
         <source>Tunisia</source>
-        <translation type="unfinished"></translation>
+        <translation>Tunis</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="559"/>
         <source>Turkey</source>
-        <translation type="unfinished"></translation>
+        <translation>Turecko</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="561"/>
         <source>Turkmenistan</source>
-        <translation type="unfinished"></translation>
+        <translation>Turkmenistán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="563"/>
         <source>Turks And Caicos Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrovy Turks a Kaikos</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="565"/>
         <source>Tubalu</source>
-        <translation type="unfinished"></translation>
+        <translation>Tubalu</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="567"/>
         <source>Uganda</source>
-        <translation type="unfinished"></translation>
+        <translation>Uganda</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="569"/>
         <source>Ukraine</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukrajina</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="571"/>
         <source>United Arab Emirates</source>
-        <translation type="unfinished"></translation>
+        <translation>Spojené arabské emiráty</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="573"/>
         <source>United Kingdom</source>
-        <translation type="unfinished"></translation>
+        <translation>Spojené království</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="575"/>
         <source>United States</source>
-        <translation type="unfinished"></translation>
+        <translation>Spojené státy</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="577"/>
         <source>United States Minor Ooutlying Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Spojené státy ostrovů Minor Ooutlying</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="579"/>
         <source>Uraguay</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruguay</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="581"/>
         <source>Uzbekistan</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzbekistán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="583"/>
         <source>Vanuatu</source>
-        <translation type="unfinished"></translation>
+        <translation>Vanuatu</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="585"/>
         <source>Vatican City State (Holy See)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vatikán</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="587"/>
         <source>Venezuela, Boliviarian Ropublic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Venezuela</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="589"/>
         <source>Viet Nam</source>
-        <translation type="unfinished"></translation>
+        <translation>Vietnam</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="591"/>
         <source>Virgin Islands (British)</source>
-        <translation type="unfinished"></translation>
+        <translation>Panenské ostrovy (britské)</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="593"/>
         <source>Virgin Islands (U.S.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Panenské ostrovy (americké)</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="595"/>
         <source>Wallis And Futuna</source>
-        <translation type="unfinished"></translation>
+        <translation>Wallis a Futuna</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="597"/>
         <source>Western Sahara</source>
-        <translation type="unfinished"></translation>
+        <translation>Západní Sahara</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="599"/>
         <source>Yemen</source>
-        <translation type="unfinished"></translation>
+        <translation>Jemen</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="601"/>
         <source>Yugoslavia</source>
-        <translation type="unfinished"></translation>
+        <translation>Jugoslávie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="603"/>
         <source>Zambia</source>
-        <translation type="unfinished"></translation>
+        <translation>Zambie</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="605"/>
         <source>Zimbabwe</source>
-        <translation type="unfinished"></translation>
+        <translation>Zimbabwe</translation>
     </message>
     <message>
         <location filename="../geoiplist.cpp" line="607"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámé</translation>
     </message>
 </context>
 <context>
@@ -5076,7 +5076,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished">Dialog</translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="335"/>
@@ -5091,30 +5091,30 @@ p, li { white-space: pre-wrap; }
         <location filename="../QSkinDialog/qskindialog.ui" line="455"/>
         <location filename="../QSkinDialog/qskindialog.cpp" line="47"/>
         <source>Minimize</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimalizovat</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="491"/>
         <location filename="../QSkinDialog/qskindialog.cpp" line="51"/>
         <location filename="../QSkinDialog/qskindialog.cpp" line="220"/>
         <source>Maximize</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximalizovat</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.ui" line="551"/>
         <location filename="../QSkinDialog/qskindialog.cpp" line="56"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.cpp" line="43"/>
         <source>Restore</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit</translation>
     </message>
     <message>
         <location filename="../QSkinDialog/qskindialog.cpp" line="207"/>
         <source>Restore Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Znovu obnovit</translation>
     </message>
 </context>
 <context>
@@ -5122,22 +5122,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../quazaaglobals.h" line="118"/>
         <source>All Media Files </source>
-        <translation type="unfinished"></translation>
+        <translation>Složky všech médií</translation>
     </message>
     <message>
         <location filename="../quazaaglobals.h" line="118"/>
         <source>All Files </source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny složky</translation>
     </message>
     <message>
         <location filename="../quazaaglobals.h" line="118"/>
         <source>Video Files </source>
-        <translation type="unfinished"></translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location filename="../quazaaglobals.h" line="118"/>
         <source>Audio Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
 </context>
 <context>
@@ -5153,17 +5153,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetactivity.ui" line="14"/>
         <source>Activity</source>
-        <translation type="unfinished"></translation>
+        <translation>Činnost</translation>
     </message>
     <message>
         <location filename="../UI/widgetactivity.ui" line="68"/>
-        <source>Neighbors</source>
-        <translation type="unfinished"></translation>
+        <source>Neighbours</source>
+        <translation type="unfinished">Sousedé</translation>
     </message>
     <message>
         <location filename="../UI/widgetactivity.ui" line="123"/>
         <source>System Log</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -5171,29 +5171,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetchat.ui" line="14"/>
         <source>Chat</source>
-        <translation type="unfinished">Chat</translation>
+        <translation>Chat</translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="121"/>
         <location filename="../UI/widgetchat.ui" line="314"/>
         <source>Add</source>
-        <translation type="unfinished">Přidat</translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="141"/>
         <location filename="../UI/widgetchat.ui" line="334"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit</translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="192"/>
         <source>Rooms</source>
-        <translation type="unfinished"></translation>
+        <translation>Místnosti</translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="238"/>
         <source>Friends</source>
-        <translation type="unfinished"></translation>
+        <translation>Přátelé</translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="425"/>
@@ -5208,22 +5208,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetchat.ui" line="482"/>
         <source>In Room</source>
-        <translation type="unfinished"></translation>
+        <translation>V místnosti</translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="553"/>
         <source>Add To Friends</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat k přátelům</translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="573"/>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorovat</translation>
     </message>
     <message>
         <location filename="../UI/widgetchat.ui" line="595"/>
         <source>0 ops, 0 total.</source>
-        <translation type="unfinished"></translation>
+        <translation>0 operátorů, 0 celkem.</translation>
     </message>
 </context>
 <context>
@@ -5231,158 +5231,158 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="14"/>
         <source>ChetCenter</source>
-        <translation type="unfinished"></translation>
+        <translation>Chet centrum</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="35"/>
         <source>Topic Protection</source>
-        <translation type="unfinished"></translation>
+        <translation>Ochrana témat</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="38"/>
         <source>T</source>
-        <translation type="unfinished"></translation>
+        <translation>T</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="51"/>
         <source>No Outside Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Žádné vnější zprávy</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="54"/>
         <source>N</source>
-        <translation type="unfinished"></translation>
+        <translation>N</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="67"/>
         <source>Secret</source>
-        <translation type="unfinished"></translation>
+        <translation>Tajné</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="70"/>
         <source>S</source>
-        <translation type="unfinished"></translation>
+        <translation>S</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="80"/>
         <source>Invite Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze pro pozvané</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="83"/>
         <source>I</source>
-        <translation type="unfinished"></translation>
+        <translation>I</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="93"/>
         <source>Private</source>
-        <translation type="unfinished">Soukromí</translation>
+        <translation>Soukromí</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="96"/>
         <source>P</source>
-        <translation type="unfinished"></translation>
+        <translation>P</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="106"/>
         <source>Moderated</source>
-        <translation type="unfinished"></translation>
+        <translation>Moderovaný</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="109"/>
         <source>M</source>
-        <translation type="unfinished"></translation>
+        <translation>M</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="119"/>
         <source>Ban List</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam blokovaných</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="122"/>
         <source>BL</source>
-        <translation type="unfinished"></translation>
+        <translation>BL</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="129"/>
         <source>Keyword</source>
-        <translation type="unfinished"></translation>
+        <translation>Klíčové slovo</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="132"/>
         <source>K</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="162"/>
         <source>User Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelský limit</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="165"/>
         <source>UL</source>
-        <translation type="unfinished"></translation>
+        <translation>UL</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="175"/>
         <source>Except list</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam výjimek</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="178"/>
         <source>EL</source>
-        <translation type="unfinished"></translation>
+        <translation>EL</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="185"/>
         <source>Invite List</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam pozvánek</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="188"/>
         <source>IL</source>
-        <translation type="unfinished"></translation>
+        <translation>IL</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="204"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="235"/>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástrojová lišta_2</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="259"/>
         <source>toolBar_3</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástrojová lišta_3</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="283"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojit</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="292"/>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>Odpojit</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="301"/>
         <source>Edit My Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnit profil</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="310"/>
         <location filename="../UI/widgetchatcenter.ui" line="313"/>
         <source>Settings</source>
-        <translation type="unfinished">Nastavení</translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatcenter.ui" line="322"/>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslat</translation>
     </message>
 </context>
 <context>
@@ -5390,82 +5390,82 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="14"/>
         <source>Discovery</source>
-        <translation type="unfinished"></translation>
+        <translation>Zjištění</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="38"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="68"/>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástrojová lišta_2</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="99"/>
         <source>toolBar_3</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástrojová lišta_3</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="140"/>
         <location filename="../UI/widgetdiscovery.ui" line="143"/>
         <source>Add Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat službu</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="152"/>
         <location filename="../UI/widgetdiscovery.ui" line="155"/>
         <source>Browse Statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Hledat statistiky</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="128"/>
         <location filename="../UI/widgetdiscovery.ui" line="131"/>
         <source>G2 Bootstrap</source>
-        <translation type="unfinished"></translation>
+        <translation>G2 samozaváděcí program</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="164"/>
         <location filename="../UI/widgetdiscovery.ui" line="167"/>
         <source>Ares Discovery Type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="176"/>
         <location filename="../UI/widgetdiscovery.ui" line="179"/>
         <source>eDonkey Server.met</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="188"/>
         <location filename="../UI/widgetdiscovery.ui" line="191"/>
         <source>Remove Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit služby</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="200"/>
         <location filename="../UI/widgetdiscovery.ui" line="203"/>
         <source>Query Now</source>
-        <translation type="unfinished"></translation>
+        <translation>Ptej se</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="212"/>
         <location filename="../UI/widgetdiscovery.ui" line="215"/>
         <source>Advertise</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahlásit</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="224"/>
         <location filename="../UI/widgetdiscovery.ui" line="227"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlastnosti</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="236"/>
         <location filename="../UI/widgetdiscovery.ui" line="239"/>
         <source>GWebCache</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -5473,76 +5473,76 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetdownloads.ui" line="14"/>
         <source>Downloads</source>
-        <translation type="unfinished">Stažení</translation>
+        <translation>Stažení</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="44"/>
         <location filename="../UI/widgetdownloads.ui" line="106"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="71"/>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástrojová lišta_2</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="138"/>
         <location filename="../UI/widgetdownloads.ui" line="141"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Vše</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="150"/>
         <location filename="../UI/widgetdownloads.ui" line="153"/>
         <source>Preview</source>
-        <translation type="unfinished">Náhled</translation>
+        <translation>Náhled</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="162"/>
         <location filename="../UI/widgetdownloads.ui" line="165"/>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Pauza</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="174"/>
         <location filename="../UI/widgetdownloads.ui" line="177"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="186"/>
         <location filename="../UI/widgetdownloads.ui" line="189"/>
         <source>Mark As Junk</source>
-        <translation type="unfinished"></translation>
+        <translation>Označit za nežádoucí</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="198"/>
         <location filename="../UI/widgetdownloads.ui" line="201"/>
         <source>Show Monitor</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat monitor</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="210"/>
         <location filename="../UI/widgetdownloads.ui" line="213"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlastnosti</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="222"/>
         <location filename="../UI/widgetdownloads.ui" line="225"/>
         <source>Open Torrent</source>
-        <translation type="unfinished">Otevřít Torrent</translation>
+        <translation>Otevřít Torrent</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="234"/>
         <source>Clear Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyprázdnit dokončené</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="243"/>
         <source>Filter</source>
-        <translation type="unfinished">Filtr</translation>
+        <translation>Filtr</translation>
     </message>
 </context>
 <context>
@@ -5550,12 +5550,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetgraph.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavní okno</translation>
     </message>
     <message>
         <location filename="../UI/widgetgraph.ui" line="41"/>
         <source>Graph Selector</source>
-        <translation type="unfinished"></translation>
+        <translation>Výběr grafu</translation>
     </message>
     <message>
         <location filename="../UI/widgetgraph.ui" line="62"/>
@@ -5573,7 +5573,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hlavní okno</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="33"/>
@@ -5583,7 +5583,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="38"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Velikost</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="43"/>
@@ -5593,7 +5593,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="48"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Status</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="53"/>
@@ -5643,12 +5643,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="105"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="136"/>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta_2</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="161"/>
@@ -5881,7 +5881,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethostcache.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hlavní okno</translation>
     </message>
     <message>
         <location filename="../UI/widgethostcache.ui" line="43"/>
@@ -5936,7 +5936,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethostcache.ui" line="125"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgethostcache.ui" line="155"/>
@@ -5946,7 +5946,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethostcache.ui" line="164"/>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Odpojit</translation>
     </message>
     <message>
         <location filename="../UI/widgethostcache.ui" line="173"/>
@@ -5982,7 +5982,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetlibraryview.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hlavní okno</translation>
     </message>
     <message>
         <location filename="../UI/widgetlibraryview.ui" line="91"/>
@@ -5997,12 +5997,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetlibraryview.ui" line="236"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgetlibraryview.ui" line="264"/>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta_2</translation>
     </message>
     <message>
         <location filename="../UI/widgetlibraryview.ui" line="289"/>
@@ -6046,208 +6046,203 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="259"/>
+        <location filename="../UI/widgetmedia.ui" line="253"/>
         <source>Artist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="264"/>
+        <location filename="../UI/widgetmedia.ui" line="258"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="269"/>
+        <location filename="../UI/widgetmedia.ui" line="263"/>
         <source>Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="274"/>
+        <location filename="../UI/widgetmedia.ui" line="268"/>
         <source>Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="279"/>
+        <location filename="../UI/widgetmedia.ui" line="273"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="284"/>
+        <location filename="../UI/widgetmedia.ui" line="278"/>
         <source>Genre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="316"/>
-        <location filename="../UI/widgetmedia.ui" line="319"/>
+        <location filename="../UI/widgetmedia.ui" line="310"/>
+        <location filename="../UI/widgetmedia.ui" line="313"/>
         <source>Remove From Playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="336"/>
-        <location filename="../UI/widgetmedia.ui" line="339"/>
+        <location filename="../UI/widgetmedia.ui" line="330"/>
+        <location filename="../UI/widgetmedia.ui" line="333"/>
         <source>Open Playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="356"/>
+        <location filename="../UI/widgetmedia.ui" line="350"/>
         <source>Add Playlist To Current Playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="373"/>
-        <location filename="../UI/widgetmedia.ui" line="376"/>
+        <location filename="../UI/widgetmedia.ui" line="367"/>
+        <location filename="../UI/widgetmedia.ui" line="370"/>
         <source>Clear Playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="401"/>
+        <location filename="../UI/widgetmedia.ui" line="395"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="427"/>
+        <location filename="../UI/widgetmedia.ui" line="418"/>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta_2</translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="446"/>
-        <source>toolBar_3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetmedia.ui" line="469"/>
-        <location filename="../UI/widgetmedia.ui" line="472"/>
+        <location filename="../UI/widgetmedia.ui" line="442"/>
+        <location filename="../UI/widgetmedia.ui" line="445"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="481"/>
+        <location filename="../UI/widgetmedia.ui" line="454"/>
         <source>Open Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="493"/>
-        <location filename="../UI/widgetmedia.ui" line="496"/>
+        <location filename="../UI/widgetmedia.ui" line="466"/>
+        <location filename="../UI/widgetmedia.ui" line="469"/>
         <source>Rewind</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="508"/>
+        <location filename="../UI/widgetmedia.ui" line="481"/>
         <source>Next Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="520"/>
+        <location filename="../UI/widgetmedia.ui" line="493"/>
         <source>Stop Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="532"/>
-        <location filename="../UI/widgetmedia.ui" line="535"/>
+        <location filename="../UI/widgetmedia.ui" line="505"/>
+        <location filename="../UI/widgetmedia.ui" line="508"/>
         <source>Repeat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetmedia.ui" line="520"/>
+        <location filename="../UI/widgetmedia.ui" line="523"/>
+        <source>Shuffle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetmedia.ui" line="535"/>
+        <location filename="../UI/widgetmedia.ui" line="538"/>
+        <source>Fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/widgetmedia.ui" line="547"/>
         <location filename="../UI/widgetmedia.ui" line="550"/>
-        <source>Shuffle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetmedia.ui" line="562"/>
-        <location filename="../UI/widgetmedia.ui" line="565"/>
-        <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetmedia.ui" line="574"/>
-        <location filename="../UI/widgetmedia.ui" line="577"/>
         <source>Settings</source>
         <translation type="unfinished">Nastavení</translation>
     </message>
     <message>
-        <location filename="../UI/widgetmedia.ui" line="586"/>
-        <location filename="../UI/widgetmedia.ui" line="589"/>
+        <location filename="../UI/widgetmedia.ui" line="559"/>
+        <location filename="../UI/widgetmedia.ui" line="562"/>
         <source>Mute</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>WidgetNeighbors</name>
+    <name>WidgetNeighbours</name>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="17"/>
-        <source>Neighbors</source>
-        <translation type="unfinished"></translation>
+        <location filename="../UI/widgetneighbours.ui" line="17"/>
+        <source>Neighbours</source>
+        <translation type="unfinished">Sousedé</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="69"/>
-        <location filename="../UI/widgetneighbors.ui" line="129"/>
+        <location filename="../UI/widgetneighbours.ui" line="93"/>
+        <location filename="../UI/widgetneighbours.ui" line="153"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="101"/>
-        <location filename="../UI/widgetneighbors.ui" line="140"/>
+        <location filename="../UI/widgetneighbours.ui" line="125"/>
+        <location filename="../UI/widgetneighbours.ui" line="164"/>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta_2</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="151"/>
+        <location filename="../UI/widgetneighbours.ui" line="175"/>
         <source>toolBar_3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta_3</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="166"/>
-        <location filename="../UI/widgetneighbors.ui" line="169"/>
+        <location filename="../UI/widgetneighbours.ui" line="190"/>
+        <location filename="../UI/widgetneighbours.ui" line="193"/>
         <source>Connect To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="178"/>
-        <location filename="../UI/widgetneighbors.ui" line="181"/>
+        <location filename="../UI/widgetneighbours.ui" line="202"/>
+        <location filename="../UI/widgetneighbours.ui" line="205"/>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Odpojit</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="190"/>
-        <location filename="../UI/widgetneighbors.ui" line="193"/>
+        <location filename="../UI/widgetneighbours.ui" line="214"/>
+        <location filename="../UI/widgetneighbours.ui" line="217"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="202"/>
-        <location filename="../UI/widgetneighbors.ui" line="205"/>
+        <location filename="../UI/widgetneighbours.ui" line="226"/>
+        <location filename="../UI/widgetneighbours.ui" line="229"/>
         <source>Chat With</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="214"/>
-        <location filename="../UI/widgetneighbors.ui" line="217"/>
+        <location filename="../UI/widgetneighbours.ui" line="238"/>
+        <location filename="../UI/widgetneighbours.ui" line="241"/>
         <source>Ban</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="232"/>
-        <location filename="../UI/widgetneighbors.ui" line="235"/>
+        <location filename="../UI/widgetneighbours.ui" line="256"/>
+        <location filename="../UI/widgetneighbours.ui" line="259"/>
         <source>eDonkey</source>
         <translation type="unfinished">eDonkey</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="250"/>
+        <location filename="../UI/widgetneighbours.ui" line="274"/>
         <source>Gnutella 2</source>
         <translation type="unfinished">Gnutella 2</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="265"/>
+        <location filename="../UI/widgetneighbours.ui" line="289"/>
         <source>Ares</source>
         <translation type="unfinished">Ares</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.ui" line="274"/>
+        <location filename="../UI/widgetneighbours.ui" line="298"/>
         <source>Settings</source>
         <translation type="unfinished">Nastavení</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbors.cpp" line="131"/>
+        <location filename="../UI/widgetneighbours.cpp" line="136"/>
         <source> %1 Hubs, %2 Leaves, %3/s In:%4/s Out</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6257,7 +6252,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hlavní okno</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="43"/>
@@ -6297,7 +6292,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="85"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="114"/>
@@ -6317,7 +6312,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetscheduler.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hlavní okno</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="39"/>
@@ -6337,7 +6332,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetscheduler.ui" line="54"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Status</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="59"/>
@@ -6347,7 +6342,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetscheduler.ui" line="71"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="106"/>
@@ -6378,7 +6373,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetscheduler.ui" line="160"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vlastnosti</translation>
     </message>
 </context>
 <context>
@@ -6515,7 +6510,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearchmonitor.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hlavní okno</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearchmonitor.ui" line="39"/>
@@ -6535,7 +6530,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearchmonitor.ui" line="61"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearchmonitor.ui" line="95"/>
@@ -6573,13 +6568,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearchresults.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hlavní okno</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearchresults.ui" line="134"/>
         <location filename="../UI/widgetsearchresults.ui" line="160"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearchresults.ui" line="185"/>
@@ -6624,12 +6619,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsecurity.ui" line="38"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgetsecurity.ui" line="69"/>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta_2</translation>
     </message>
     <message>
         <location filename="../UI/widgetsecurity.ui" line="97"/>
@@ -6675,28 +6670,77 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="34"/>
+        <location filename="../UI/widgetsystemlog.ui" line="37"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Segoe UI&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="52"/>
+        <location filename="../UI/widgetsystemlog.ui" line="61"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="87"/>
+        <location filename="../UI/widgetsystemlog.ui" line="97"/>
         <source>Toggle Timestamp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="96"/>
-        <location filename="../UI/widgetsystemlog.ui" line="99"/>
+        <location filename="../UI/widgetsystemlog.ui" line="106"/>
+        <location filename="../UI/widgetsystemlog.ui" line="109"/>
         <source>Clear Buffer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetsystemlog.ui" line="121"/>
+        <location filename="../UI/widgetsystemlog.ui" line="124"/>
+        <source>Pause Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetsystemlog.ui" line="136"/>
+        <location filename="../UI/widgetsystemlog.ui" line="139"/>
+        <source>Show Warning Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetsystemlog.ui" line="151"/>
+        <source>Show Information Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetsystemlog.ui" line="163"/>
+        <source>Show Security Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetsystemlog.ui" line="175"/>
+        <source>Show Notice Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetsystemlog.ui" line="187"/>
+        <source>Show Debug Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetsystemlog.ui" line="199"/>
+        <source>Show Error Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetsystemlog.ui" line="211"/>
+        <location filename="../UI/widgetsystemlog.ui" line="214"/>
+        <source>Show Critical Messages</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6723,17 +6767,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetuploads.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hlavní okno</translation>
     </message>
     <message>
         <location filename="../UI/widgetuploads.ui" line="34"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/widgetuploads.ui" line="69"/>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta_2</translation>
     </message>
     <message>
         <location filename="../UI/widgetuploads.ui" line="98"/>
@@ -6750,7 +6794,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetuploads.ui" line="119"/>
         <location filename="../UI/widgetuploads.ui" line="122"/>
         <source>Mark As Junk</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Označit za nežádoucí</translation>
     </message>
     <message>
         <location filename="../UI/widgetuploads.ui" line="131"/>
@@ -6773,7 +6817,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetuploads.ui" line="167"/>
         <source>Clear Completed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vyprázdnit dokončené</translation>
     </message>
     <message>
         <location filename="../UI/widgetuploads.ui" line="176"/>
@@ -6785,17 +6829,17 @@ p, li { white-space: pre-wrap; }
     <name>WinMain</name>
     <message>
         <location filename="../UI/winmain.ui" line="14"/>
-        <location filename="../UI/winmain.cpp" line="285"/>
+        <location filename="../UI/winmain.cpp" line="291"/>
         <source>Quazaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="84"/>
-        <location filename="../UI/winmain.cpp" line="141"/>
-        <location filename="../UI/winmain.cpp" line="231"/>
-        <location filename="../UI/winmain.cpp" line="356"/>
-        <location filename="../UI/winmain.cpp" line="446"/>
-        <location filename="../UI/winmain.cpp" line="502"/>
+        <location filename="../UI/winmain.cpp" line="147"/>
+        <location filename="../UI/winmain.cpp" line="237"/>
+        <location filename="../UI/winmain.cpp" line="363"/>
+        <location filename="../UI/winmain.cpp" line="453"/>
+        <location filename="../UI/winmain.cpp" line="509"/>
         <source>Quazaa Home</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6843,12 +6887,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/winmain.ui" line="221"/>
         <location filename="../UI/winmain.ui" line="255"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nástrojová lišta</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="278"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Konec</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="287"/>
@@ -6868,49 +6912,49 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="332"/>
-        <location filename="../UI/winmain.cpp" line="147"/>
-        <location filename="../UI/winmain.cpp" line="362"/>
-        <location filename="../UI/winmain.cpp" line="512"/>
+        <location filename="../UI/winmain.cpp" line="153"/>
+        <location filename="../UI/winmain.cpp" line="369"/>
+        <location filename="../UI/winmain.cpp" line="519"/>
         <source>Library</source>
         <translation type="unfinished">Knihovna</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="347"/>
-        <location filename="../UI/winmain.cpp" line="159"/>
-        <location filename="../UI/winmain.cpp" line="374"/>
-        <location filename="../UI/winmain.cpp" line="531"/>
+        <location filename="../UI/winmain.cpp" line="165"/>
+        <location filename="../UI/winmain.cpp" line="381"/>
+        <location filename="../UI/winmain.cpp" line="538"/>
         <source>Search</source>
         <translation type="unfinished">Hledat</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="362"/>
-        <location filename="../UI/winmain.cpp" line="165"/>
-        <location filename="../UI/winmain.cpp" line="380"/>
-        <location filename="../UI/winmain.cpp" line="541"/>
+        <location filename="../UI/winmain.cpp" line="171"/>
+        <location filename="../UI/winmain.cpp" line="387"/>
+        <location filename="../UI/winmain.cpp" line="548"/>
         <source>Transfers</source>
         <translation type="unfinished">Přenosy</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="377"/>
-        <location filename="../UI/winmain.cpp" line="171"/>
-        <location filename="../UI/winmain.cpp" line="386"/>
-        <location filename="../UI/winmain.cpp" line="551"/>
+        <location filename="../UI/winmain.cpp" line="177"/>
+        <location filename="../UI/winmain.cpp" line="393"/>
+        <location filename="../UI/winmain.cpp" line="558"/>
         <source>Security</source>
         <translation type="unfinished">Bezpečnost</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="392"/>
-        <location filename="../UI/winmain.cpp" line="177"/>
-        <location filename="../UI/winmain.cpp" line="392"/>
-        <location filename="../UI/winmain.cpp" line="561"/>
+        <location filename="../UI/winmain.cpp" line="183"/>
+        <location filename="../UI/winmain.cpp" line="399"/>
+        <location filename="../UI/winmain.cpp" line="568"/>
         <source>Activity</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Činnost</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="407"/>
-        <location filename="../UI/winmain.cpp" line="153"/>
-        <location filename="../UI/winmain.cpp" line="368"/>
-        <location filename="../UI/winmain.cpp" line="521"/>
+        <location filename="../UI/winmain.cpp" line="159"/>
+        <location filename="../UI/winmain.cpp" line="375"/>
+        <location filename="../UI/winmain.cpp" line="528"/>
         <source>Media</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6951,12 +6995,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/winmain.ui" line="491"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Připojit</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="500"/>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Odpojit</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="509"/>
@@ -6970,58 +7014,58 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="530"/>
-        <location filename="../UI/winmain.cpp" line="183"/>
-        <location filename="../UI/winmain.cpp" line="398"/>
-        <location filename="../UI/winmain.cpp" line="571"/>
+        <location filename="../UI/winmain.cpp" line="189"/>
+        <location filename="../UI/winmain.cpp" line="405"/>
+        <location filename="../UI/winmain.cpp" line="578"/>
         <source>Chat</source>
         <translation type="unfinished">Chat</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="545"/>
         <location filename="../UI/winmain.ui" line="548"/>
-        <location filename="../UI/winmain.cpp" line="189"/>
-        <location filename="../UI/winmain.cpp" line="404"/>
-        <location filename="../UI/winmain.cpp" line="581"/>
+        <location filename="../UI/winmain.cpp" line="195"/>
+        <location filename="../UI/winmain.cpp" line="411"/>
+        <location filename="../UI/winmain.cpp" line="588"/>
         <source>Host Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="563"/>
-        <location filename="../UI/winmain.cpp" line="195"/>
-        <location filename="../UI/winmain.cpp" line="410"/>
-        <location filename="../UI/winmain.cpp" line="591"/>
+        <location filename="../UI/winmain.cpp" line="201"/>
+        <location filename="../UI/winmain.cpp" line="417"/>
+        <location filename="../UI/winmain.cpp" line="598"/>
         <source>Discovery</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zjištění</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="578"/>
-        <location filename="../UI/winmain.cpp" line="207"/>
-        <location filename="../UI/winmain.cpp" line="422"/>
-        <location filename="../UI/winmain.cpp" line="611"/>
+        <location filename="../UI/winmain.cpp" line="213"/>
+        <location filename="../UI/winmain.cpp" line="429"/>
+        <location filename="../UI/winmain.cpp" line="618"/>
         <source>Graph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="593"/>
-        <location filename="../UI/winmain.cpp" line="213"/>
-        <location filename="../UI/winmain.cpp" line="428"/>
-        <location filename="../UI/winmain.cpp" line="621"/>
+        <location filename="../UI/winmain.cpp" line="219"/>
+        <location filename="../UI/winmain.cpp" line="435"/>
+        <location filename="../UI/winmain.cpp" line="628"/>
         <source>Packet Dump</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="608"/>
-        <location filename="../UI/winmain.cpp" line="225"/>
-        <location filename="../UI/winmain.cpp" line="440"/>
-        <location filename="../UI/winmain.cpp" line="641"/>
+        <location filename="../UI/winmain.cpp" line="231"/>
+        <location filename="../UI/winmain.cpp" line="447"/>
+        <location filename="../UI/winmain.cpp" line="648"/>
         <source>Hit Monitor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="623"/>
-        <location filename="../UI/winmain.cpp" line="219"/>
-        <location filename="../UI/winmain.cpp" line="434"/>
-        <location filename="../UI/winmain.cpp" line="631"/>
+        <location filename="../UI/winmain.cpp" line="225"/>
+        <location filename="../UI/winmain.cpp" line="441"/>
+        <location filename="../UI/winmain.cpp" line="638"/>
         <source>Search Monitor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7100,9 +7144,9 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/winmain.ui" line="770"/>
         <location filename="../UI/winmain.ui" line="773"/>
-        <location filename="../UI/winmain.cpp" line="201"/>
-        <location filename="../UI/winmain.cpp" line="416"/>
-        <location filename="../UI/winmain.cpp" line="601"/>
+        <location filename="../UI/winmain.cpp" line="207"/>
+        <location filename="../UI/winmain.cpp" line="423"/>
+        <location filename="../UI/winmain.cpp" line="608"/>
         <source>Scheduler</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7115,7 +7159,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/winmain.ui" line="794"/>
         <source>Edit My Profile</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Změnit profil</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="803"/>
@@ -7179,27 +7223,37 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="462"/>
-        <source>Closing Networks...</source>
+        <location filename="../UI/winmain.cpp" line="88"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt; &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Segoe UI&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TCP: &lt;img src=&quot;:/Resource/Network/ShieldRed.png&quot; /&gt; UDP: &lt;img src=&quot;:/Resource/Network/ShieldRed.png&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/winmain.cpp" line="469"/>
+        <source>Closing Networks...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="476"/>
         <source>Saving Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="472"/>
+        <location filename="../UI/winmain.cpp" line="479"/>
         <source>Saving UI...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="491"/>
+        <location filename="../UI/winmain.cpp" line="498"/>
         <source>Removing Tray Icon...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="959"/>
+        <location filename="../UI/winmain.cpp" line="978"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt; &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Segoe UI&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TCP: &lt;img src=&quot;%1&quot; /&gt; UDP: &lt;img src=&quot;%2&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="979"/>
         <source>%1/s In:%2/s Out [D:%3/U:%4]</source>
         <translation type="unfinished"></translation>
     </message>

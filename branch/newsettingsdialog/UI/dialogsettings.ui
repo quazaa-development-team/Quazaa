@@ -12,7 +12,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>583</width>
+    <width>590</width>
     <height>385</height>
    </size>
   </property>
@@ -618,6 +618,9 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QPushButton" name="pushButtonApply">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Apply</string>
            </property>
