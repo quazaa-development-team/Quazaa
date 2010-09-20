@@ -89,6 +89,7 @@ namespace Irc
         void setSocket(QAbstractSocket* socket);
 
         Buffer* buffer(const QString& receiver = QString()) const;
+        Buffer* addBuffer(const QString& receiver);
 
         Buffer* defaultBuffer() const;
         void setDefaultBuffer(Buffer* buffer);
@@ -139,6 +140,7 @@ namespace Irc
 
     Q_SIGNALS:
         void connected();
+        void welcomed();
         void reconnecting();
         void disconnected();
 
@@ -199,6 +201,7 @@ namespace Irc
 #endif // IRC_NO_DEPRECATED
 
         friend class Buffer;
+        friend class BufferPrivate;
     };
 }
 

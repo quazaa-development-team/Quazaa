@@ -21,6 +21,7 @@
 
 #include "managedsearch.h"
 #include "network.h"
+#include "neighbours.h"
 #include "g2node.h"
 #include "g2packet.h"
 #include "query.h"
@@ -121,8 +122,12 @@ void CManagedSearch::Execute(quint32 tNow, quint32 *pnMaxPackets)
 void CManagedSearch::SearchNeighbours(quint32 tNow)
 {
 
-    foreach(CG2Node* pNode, *Network.List())
+	QMutexLocker l(&Neighbours.m_pSection);
+
+	for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
     {
+		CG2Node* pNode = *itNode;
+
         if( pNode->m_nState == nsConnected
             && tNow - pNode->m_tConnected > 15
 			&& tNow - pNode->m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle
@@ -168,9 +173,12 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32 *pnMaxPackets)
         }
         else
         {
+			QMutexLocker l(&Neighbours.m_pSection);
+
             bool bFound = false;
-            foreach( CG2Node* pNode, Network.m_lNodes )
-            {
+			for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
+			{
+				CG2Node* pNode = *itNode;
                 if( pHost->m_nKeyHost == pNode->m_oAddress.ip )
                 {
                     pReceiver = &pNode->m_oAddress;
@@ -219,9 +227,13 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32 *pnMaxPackets)
             }
             else
             {
-                bool bCheckLast = Network.m_nHubsConnected > 2;
-                foreach(CG2Node* pNode, Network.m_lNodes)
+				QMutexLocker l(&Neighbours.m_pSection);
+
+				bool bCheckLast = Neighbours.m_nHubsConnected > 2;
+				for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
                 {
+					CG2Node* pNode = *itNode;
+
                     if( m_lSearchedNodes.contains(pNode->m_oAddress.ip)
                         && pNode->m_nType == G2_HUB )
                     {

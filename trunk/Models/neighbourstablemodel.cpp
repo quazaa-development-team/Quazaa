@@ -28,6 +28,7 @@
 #include <QFont>
 #include "g2node.h"
 #include "network.h"
+#include "neighbours.h"
 #include "geoiplist.h"
 #include "QSkinDialog/qskinsettings.h"
 
@@ -206,12 +207,12 @@ QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientat
 
 bool CNeighboursTableModel::NodeExists(CG2Node *pNode)
 {
-	if( Network.m_lNodes.isEmpty() )
+	if( Neighbours.GetCount() == 0 )
 		return false;
 
-	for( int i = 0; i < Network.m_lNodes.size(); i++ )
+	for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
 	{
-		if( Network.m_lNodes.at(i) == pNode )
+		if( pNode == *itNode )
 			return true;
 	}
 
@@ -279,13 +280,13 @@ void CNeighboursTableModel::UpdateNeighbourData(CG2Node* pNode)
 {
 	//qDebug() << "UpdateNeighboursData";
 
-	if( !Network.m_pSection.tryLock() )
+	if( !Neighbours.m_pSection.tryLock() )
 		return;	// forget it
 
 	if( NodeExists(pNode) )
 		UpdateNode(pNode);
 
-	Network.m_pSection.unlock();
+	Neighbours.m_pSection.unlock();
 }
 void CNeighboursTableModel::UpdateNode(CG2Node *pNode, bool bSignal)
 {
@@ -381,7 +382,7 @@ void CNeighboursTableModel::UpdateAll()
 
 	//qDebug() << "UpdateAll";
 
-	if( Network.m_pSection.tryLock() )
+	if( Neighbours.m_pSection.tryLock() )
 	{
 		// first check if we need to remove some nodes
 
@@ -389,11 +390,12 @@ void CNeighboursTableModel::UpdateAll()
 		{
 			bool bFound = false;
 
-			for( int j = 0; j < Network.m_lNodes.size(); j++ )
+			for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
 			{
-				if( Network.m_lNodes.at(j) == m_lNodes.at(i).pNode )
+				if( *itNode == m_lNodes.at(i).pNode )
 				{
 					bFound = true;
+					break;
 				}
 			}
 
@@ -406,13 +408,13 @@ void CNeighboursTableModel::UpdateAll()
 
 		// now add missing nodes or update existing
 
-		for( int i = 0; i < Network.m_lNodes.size(); i++ )
+		for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
 		{
 			bool bFound = false;
 
 			for( int j = 0; j < m_lNodes.size(); j++ )
 			{
-				if( Network.m_lNodes.at(i) == m_lNodes.at(j).pNode )
+				if( *itNode == m_lNodes.at(j).pNode )
 				{
 					UpdateNode(m_lNodes.at(j).pNode, false);
 					bFound = true;
@@ -422,11 +424,11 @@ void CNeighboursTableModel::UpdateAll()
 
 			if( !bFound )
 			{
-				AddNode(Network.m_lNodes.at(i), false);
+				AddNode(*itNode, false);
 			}
 		}
 
-		Network.m_pSection.unlock();
+		Neighbours.m_pSection.unlock();
 
 		QModelIndex idx1 = index(0, 0, QModelIndex());
 		QModelIndex idx2 = index(m_lNodes.size() - 1, 10, QModelIndex());

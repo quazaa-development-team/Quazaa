@@ -29,7 +29,7 @@ CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 INCLUDEPATH += NetworkCore \
 	UI \
 	3rdparty \
-	3rdparty/libircclient-qt \
+	3rdparty/libircclient-qt/include \
 	Models \
 	ShareManager \
 	.
@@ -127,11 +127,6 @@ SOURCES += main.cpp \
 	UI/widgetsearchmonitor.cpp \
 	UI/widgethitmonitor.cpp \
 	systemlog.cpp \
-	3rdparty/libircclient-qt/ircutil.cpp \
-	3rdparty/libircclient-qt/ircsession.cpp \
-	3rdparty/libircclient-qt/ircdccsession.cpp \
-	3rdparty/libircclient-qt/ircbuffer.cpp \
-	3rdparty/libircclient-qt/irc.cpp \
 	3rdparty/CyoEncode/CyoEncode.c \
 	3rdparty/CyoEncode/CyoDecode.c \
 	Models/neighbourstablemodel.cpp \
@@ -144,7 +139,13 @@ SOURCES += main.cpp \
 	ShareManager/FileHasher.cpp \
 	NetworkCore/queryhashmaster.cpp \
 	NetworkCore/queryhashgroup.cpp \
-    Models/chatroomslistmodel.cpp
+    Models/chatroomslistmodel.cpp \
+    NetworkCore/neighbours.cpp \
+    3rdparty/libircclient-qt/src/ircutil.cpp \
+    3rdparty/libircclient-qt/src/ircsession.cpp \
+    3rdparty/libircclient-qt/src/ircdccsession.cpp \
+    3rdparty/libircclient-qt/src/ircbuffer.cpp \
+    3rdparty/libircclient-qt/src/irc.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -231,14 +232,6 @@ HEADERS += UI/dialoglanguage.h \
 	UI/widgetsearchmonitor.h \
 	UI/widgethitmonitor.h \
 	systemlog.h \
-	3rdparty/libircclient-qt/ircutil.h \
-	3rdparty/libircclient-qt/ircsession_p.h \
-	3rdparty/libircclient-qt/ircsession.h \
-	3rdparty/libircclient-qt/ircglobal.h \
-	3rdparty/libircclient-qt/ircdccsession.h \
-	3rdparty/libircclient-qt/ircbuffer_p.h \
-	3rdparty/libircclient-qt/ircbuffer.h \
-	3rdparty/libircclient-qt/irc.h \
 	Models/searchtreemodel.h \
 	geoiplist.h \
 	UI/dialogconnectto.h \
@@ -251,7 +244,16 @@ HEADERS += UI/dialoglanguage.h \
 	Models/neighbourstablemodel.h \
 	NetworkCore/queryhashmaster.h \
 	NetworkCore/queryhashgroup.h \
-    Models/chatroomslistmodel.h
+    Models/chatroomslistmodel.h \
+    NetworkCore/neighbours.h \
+    3rdparty/libircclient-qt/include/ircutil.h \
+    3rdparty/libircclient-qt/include/ircsession_p.h \
+    3rdparty/libircclient-qt/include/ircsession.h \
+    3rdparty/libircclient-qt/include/ircglobal.h \
+    3rdparty/libircclient-qt/include/ircdccsession.h \
+    3rdparty/libircclient-qt/include/ircbuffer_p.h \
+    3rdparty/libircclient-qt/include/ircbuffer.h \
+    3rdparty/libircclient-qt/include/irc.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \

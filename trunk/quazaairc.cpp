@@ -21,64 +21,48 @@
 
 #include "types.h"
 #include "quazaairc.h"
-#include "dialogsettings.h"
 
+#include <ircsession.h>
+#include <ircbuffer.h>
 #include <QSslSocket>
+#include <QMetaObject>
 
-QuazaaIRC::QuazaaIRC(QObject* parent)
+QuazaaIRC::QuazaaIRC(QObject* parent) :
+		QObject(parent)
 {
-	Q_UNUSED(parent);
 }
 
-void QuazaaIRC::on_connected()
+void QuazaaIRC::on_IrcSession_connected()
 {
 	qDebug() << "IRC connected:";
-	ircSession->join("#quazaa-dev");
 }
 
-void QuazaaIRC::on_disconnected()
+void QuazaaIRC::on_IrcSession_disconnected()
 {
 	qDebug() << "IRC disconnected:";
 }
-
-void QuazaaIRC::on_bufferAdded(Irc::Buffer* buffer)
+void QuazaaIRC::on_IrcSession_welcomed()
 {
-        connect(buffer, SIGNAL(receiverChanged(QString)), this, SLOT(receiverChanged()));
-        connect(buffer, SIGNAL(joined(QString)), this, SLOT(msgJoined(QString)));
-        connect(buffer, SIGNAL(parted(QString, QString)), this, SLOT(msgParted(QString, QString)));
-        connect(buffer, SIGNAL(quit(QString, QString)), this, SLOT(msgQuit(QString, QString)));
-        connect(buffer, SIGNAL(nickChanged(QString, QString)), this, SLOT(msgNickChanged(QString, QString)));
-        connect(buffer, SIGNAL(modeChanged(QString, QString, QString)), this, SLOT(msgModeChanged(QString, QString, QString)));
-        connect(buffer, SIGNAL(topicChanged(QString, QString)), this, SLOT(msgTopicChanged(QString, QString)));
-        connect(buffer, SIGNAL(invited(QString, QString, QString)), this, SLOT(msgInvited(QString, QString, QString)));
-        connect(buffer, SIGNAL(kicked(QString, QString, QString)), this, SLOT(msgKicked(QString, QString, QString)));
-        connect(buffer, SIGNAL(messageReceived(QString, QString)), this, SLOT(on_messageReceived(QString, QString)));
-        connect(buffer, SIGNAL(noticeReceived(QString, QString)), this, SLOT(msgNoticeReceived(QString, QString)));
-        connect(buffer, SIGNAL(ctcpRequestReceived(QString, QString)), this, SLOT(msgCtcpRequestReceived(QString, QString)));
-        connect(buffer, SIGNAL(ctcpReplyReceived(QString, QString)), this, SLOT(msgCtcpReplyReceived(QString, QString)));
-        connect(buffer, SIGNAL(ctcpActionReceived(QString, QString)), this, SLOT(msgCtcpActionReceived(QString, QString)));
-        connect(buffer, SIGNAL(numericMessageReceived(QString, uint, QStringList)), this, SLOT(msgNumericMessageReceived(QString, uint, QStringList)));
-        connect(buffer, SIGNAL(unknownMessageReceived(QString, QStringList)), this, SLOT(msgUnknownMessageReceived(QString, QStringList)));
+	qDebug() << "IRC welcomed";
+	ircSession->join("#quazaa-dev");
+}
 
+void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
+{
 	qDebug() << "buffer added:" << buffer->receiver();
 }
 
-void QuazaaIRC::on_bufferRemoved(Irc::Buffer* buffer)
+void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
 {
 	qDebug() << "buffer removed:" << buffer->receiver();
 }
 
-void QuazaaIRC::on_messageReceived(QString a, QString b) {
-    qDebug() << "A: "+a+" B: "+b;
-    emit appendMessage(a+" --> "+b);
-}
+
 
 void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort)
 {
 	qDebug() << "QuazaaIRC::startIrc() " << ircServer;
 	ircSession = new Irc::Session(this);
-        // echomessages , stripnicks
-        ircSession->setOptions(ircSession->EchoMessages);
 
 	if (useSsl)
 	{
@@ -88,27 +72,32 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 		ircSession->setSocket(socket);
 	}
 
-        connect(ircSession, SIGNAL(bufferAdded(Irc::Buffer*)), this, SLOT(on_bufferAdded(Irc::Buffer*)));
-	connect(ircSession, SIGNAL(connected()), this, SLOT(on_connected()));
+	// for connectSlotsByName, to get it working, all slots should be named like:
+	// on_IrcSession_<signal name>
+	ircSession->setObjectName("IrcSession");
+	QMetaObject::connectSlotsByName(this);
+
 	ircSession->setNick(ircNick);
 	ircSession->setIdent("QuazaaIRC");
 	ircSession->setRealName(ircRealName);
 
-	if (useSsl)
-	{
-		ircSession->connectToServer(ircServer, ircPort);
-	} else {
-		ircSession->connectToServer(ircServer, ircPort);
-	}
+	ircSession->connectToServer(ircServer, ircPort);
+
 }
 
 void QuazaaIRC::stopIrc()
 {
-        qDebug() << "QuazaaIRC::stopIrc()";
+	qDebug() << "QuazaaIRC::stopIrc()";
+	ircSession->part("#quazaa-dev", "Client exited.");
 	ircSession->disconnectFromServer();
 }
 
 void QuazaaIRC::sendIrcMessage(QString message)
 {
 	ircSession->message("#quazaa-dev", message);
+}
+void QuazaaIRC::on_IrcSession_messageReceived(QString a, QString b)
+{
+	qDebug() << "A: "+a+" B: "+b;
+	emit appendMessage(a+" --> "+b);
 }

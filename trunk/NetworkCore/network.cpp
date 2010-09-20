@@ -28,10 +28,12 @@
 #include "datagrams.h"
 #include <QTimer>
 #include <QTime>
+#include <QElapsedTimer>
 #include <QList>
 #include "g2node.h"
 #include "networkconnection.h"
 #include "handshakes.h"
+#include "neighbours.h"
 
 #include "quazaasettings.h"
 
@@ -54,8 +56,6 @@ CNetwork::CNetwork(QObject *parent)
     //m_oAddress.port = 6346;
 	m_oAddress.port = quazaaSettings.Connection.Port;
 
-    m_nHubsConnected = 0;
-    m_nLeavesConnected = 0;
     m_bNeedUpdateLNI = true;
     m_nLNIWait = 60;
     m_nKHLWait = 60;
@@ -67,11 +67,12 @@ CNetwork::CNetwork(QObject *parent)
 
 	m_bSharesReady = false;
 
-	m_nCookie = 0;
 	m_nSecsToHubBalancing = 0;
 	m_tLastModeChange = 0;
 	m_nMinutesAbove90 = m_nMinutesBelow50 = 0;
 	m_nMinutesTrying = 0;
+
+	m_tLocksTime = 0;
 }
 CNetwork::~CNetwork()
 {
@@ -84,6 +85,8 @@ CNetwork::~CNetwork()
 void CNetwork::Connect()
 {
     QMutexLocker l(&m_pSection);
+
+	m_nTotalLocks.ref();
 
     qDebug() << "connect " << QThread::currentThreadId();
 
@@ -105,21 +108,26 @@ void CNetwork::Connect()
 	m_nBusyPeriods = 0;
 	m_nTotalPeriods = 0;
 
-    Datagrams.moveToThread(&NetworkThread);
-    SearchManager.moveToThread(&NetworkThread);
 	Handshakes.Listen();
     m_oRoutingTable.Clear();
 	m_nSecsToHubBalancing = HUB_BALANCING_INTERVAL;
 	m_tLastModeChange = time(0);
 	m_nMinutesAbove90 = m_nMinutesBelow50 = 0;
 	m_nMinutesTrying = 0;
+	m_tLocksTime = 0;
 	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(OnSharesReady()), Qt::UniqueConnection);
+
 	NetworkThread.start("Network", &m_pSection, this);
+
+	Datagrams.moveToThread(&NetworkThread);
+	SearchManager.moveToThread(&NetworkThread);
+	Neighbours.Connect();
 
 }
 void CNetwork::Disconnect()
 {
     QMutexLocker l(&m_pSection);
+	m_nTotalLocks.ref();
 
     qDebug() << "CNetwork::Disconnect() ThreadID:" << QThread::currentThreadId();
 
@@ -135,22 +143,11 @@ void CNetwork::SetupThread()
     qWarning("In Network Thread");
     qDebug() << QThread::currentThreadId();
 
-    Q_ASSERT(m_pSecondTimer == 0 && m_pRateController == 0);
+	Q_ASSERT(m_pSecondTimer == 0);
 
     m_pSecondTimer = new QTimer();
 	connect(m_pSecondTimer, SIGNAL(timeout()), this, SLOT(OnSecondTimer()));
     m_pSecondTimer->start(1000);
-
-    // Powiedzmy ze mamy lacze 2Mbit/s / 128kbit/s
-	quint32 nUploadCapacity = quazaaSettings.Connection.OutSpeed;
-	quint32 nDownloadCapacity = quazaaSettings.Connection.InSpeed;
-
-    // Dla polaczen TCP w sieci 1/4 dostepnego pasma
-    m_pRateController = new CRateController();
-	m_pRateController->moveToThread(&NetworkThread); // should not be necessary
-    m_pRateController->setObjectName("CNetwork rate controller");
-	m_pRateController->SetDownloadLimit(nDownloadCapacity); // /4
-	m_pRateController->SetUploadLimit(nUploadCapacity);	// /4
 
 	Datagrams.Listen();
 	Handshakes.Listen();
@@ -169,42 +166,24 @@ void CNetwork::CleanupThread()
 
     Datagrams.Disconnect();
     Handshakes.Disconnect();
-
-	DisconnectAllNodes();
+	Neighbours.Disconnect();
 
 	while( !m_lHitsToRoute.isEmpty() )
 	{
 		m_lHitsToRoute.takeFirst().second->Release();
 	}
 
-	delete m_pRateController;
-	m_pRateController = 0;
-
     moveToThread(qApp->thread());
 }
 
-void CNetwork::RemoveNode(CG2Node* pNode)
-{
-    if( pNode->m_nType == G2_HUB )
-        m_nHubsConnected--;
-    else if( pNode->m_nType == G2_LEAF )
-        m_nLeavesConnected--;
-
-    m_pRateController->RemoveSocket(pNode);
-
-    emit NodeRemoved(pNode);
-    m_lNodes.removeOne(pNode);
-    m_oRoutingTable.Remove(pNode);
-
-    //qDebug() << "List size: " << m_lNodes.size();
-
-}
 
 void CNetwork::OnSecondTimer()
 {
 
+	m_nTotalLocks.ref();
 	if( !m_pSection.tryLock(150) )
     {
+		m_nFailedLocks.ref();
         qWarning() << "WARNING: Network core overloaded!";
         return;
 	}
@@ -215,7 +194,17 @@ void CNetwork::OnSecondTimer()
         return;
     }
 
-	if( m_nHubsConnected == 0 && !WebCache.isRequesting() && ( HostCache.isEmpty() || HostCache.GetConnectable() == 0 ) )
+	quint32 tNow = time(0);
+	if( tNow - m_tLocksTime >= 60 )
+	{
+		m_tLocksTime = tNow;
+
+		systemLog.postLog(LogSeverity::Error, "Network locks report: total %d, failed: %d, ratio %d%%", m_nTotalLocks, m_nFailedLocks, m_nFailedLocks * 100 / m_nTotalLocks );
+		m_nTotalLocks = 0;
+		m_nFailedLocks = 0;
+	}
+
+	if( Neighbours.m_nHubsConnected == 0 && !WebCache.isRequesting() && ( HostCache.isEmpty() || HostCache.GetConnectable() == 0 ) )
     {
         WebCache.RequestRandom();
     }
@@ -241,7 +230,7 @@ void CNetwork::OnSecondTimer()
 	if( !QueryHashMaster.IsValid() )
 		QueryHashMaster.Build();
 
-    Maintain();
+	Neighbours.Maintain();
 
 	m_nSecsToHubBalancing--;
 
@@ -260,11 +249,14 @@ void CNetwork::OnSecondTimer()
     {
         if( m_bNeedUpdateLNI )
         {
+			QMutexLocker l(&Neighbours.m_pSection);
+
 			m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
             m_bNeedUpdateLNI = false;
 
-            foreach( CG2Node* pNode, m_lNodes )
+			for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
             {
+				CG2Node* pNode = *itNode;
                 if( pNode->m_nState == nsConnected )
                     pNode->SendLNI();
             }
@@ -285,190 +277,20 @@ void CNetwork::OnSecondTimer()
 	m_pSection.unlock();
 }
 
-void CNetwork::DisconnectAllNodes()
-{
-    QListIterator<CG2Node*> it(m_lNodes);
-    CG2Node* pNode = 0;
-    while( it.hasNext() )
-    {
-        pNode = it.next();
-		RemoveNode(pNode);
-		pNode->Close();
-		delete pNode;
-    }
-}
-bool CNetwork::NeedMore(G2NodeType nType)
-{
-    if( nType == G2_HUB ) // potrzeba hubow?
-    {
-        if( m_nNodeState == G2_HUB ) // jesli hub
-			return ( m_nHubsConnected < quazaaSettings.Gnutella2.NumPeers );
-        else    // jesli leaf
-			return ( m_nLeavesConnected < quazaaSettings.Gnutella2.NumHubs );
-    }
-    else // potrzeba leaf?
-    {
-        if( m_nNodeState == G2_HUB )    // jesli hub
-			return ( m_nLeavesConnected < quazaaSettings.Gnutella2.NumLeafs );
-    }
-
-    return false;
-}
-
-void CNetwork::Maintain()
-{
-    //qDebug() << "CNetwork::Maintain";
-    quint32 tNow = time(0);
-
-	m_nCookie++;
-
-	foreach( CG2Node* pNode, m_lNodes )
-	{
-		if( pNode->m_nCookie != m_nCookie )
-		{
-			pNode->OnTimer(tNow);
-			pNode->m_nCookie = m_nCookie;
-		}
-	}
-
-    quint32 nHubs = 0, nLeaves = 0, nUnknown = 0;
-    quint32 nCoreHubs = 0, nCoreLeaves = 0;
-
-	foreach( CG2Node* pNode, m_lNodes )
-    {
-        if( pNode->m_nState == nsConnected )
-        {
-            switch( pNode->m_nType )
-            {
-            case G2_UNKNOWN:
-                nUnknown++;
-                break;
-            case G2_HUB:
-                nHubs++;
-                if( pNode->m_bG2Core )
-                    nCoreHubs++;
-                break;
-            case G2_LEAF:
-                nLeaves++;
-                if( pNode->m_bG2Core )
-                    nCoreLeaves++;
-            }
-        }
-        else
-        {
-            nUnknown++;
-        }
-
-
-    }
-
-	//qDebug("Hubs: %u, Leaves: %u, unknown: %u", nHubs, nLeaves, nUnknown);
-
-    if( m_nHubsConnected != nHubs || m_nLeavesConnected != nLeaves )
-        m_bNeedUpdateLNI = true;
-
-    m_nHubsConnected = nHubs;
-    m_nLeavesConnected = nLeaves;
-
-    if( m_nNodeState == G2_LEAF )
-    {
-		if( nHubs > quazaaSettings.Gnutella2.NumHubs )
-        {
-            // rozlaczyc
-            DropYoungest(G2_HUB, (nCoreHubs / nHubs) > 0.5);
-        }
-		else if( nHubs < quazaaSettings.Gnutella2.NumHubs )
-        {
-			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumHubs - nHubs) * quazaaSettings.Gnutella.ConnectFactor );
-            nAttempt = qMin(nAttempt, 8) - nUnknown;
-
-            quint32 tNow = time(0);
-			bool bCountry = true;
-			int  nCountry = 0;
-
-            for( ; nAttempt > 0; nAttempt-- )
-            {
-                // nowe polaczenie
-				CHostCacheHost* pHost = HostCache.GetConnectable(tNow, (bCountry ? (quazaaSettings.Connection.PreferredCountries.size() ? quazaaSettings.Connection.PreferredCountries.at(nCountry) : GeoIP.findCountryCode(m_oAddress)) : "ZZ"));
-
-                if( pHost )
-                {
-					ConnectTo(pHost->m_oAddress);
-                    pHost->m_tLastConnect = tNow;
-                }
-                else
-				{
-					if( !bCountry )
-					{
-						break;
-					}
-					else
-					{
-						if( quazaaSettings.Connection.PreferredCountries.size() )
-						{
-							nCountry++;
-							if( nCountry >= quazaaSettings.Connection.PreferredCountries.size() )
-							{
-								bCountry = false;
-							}
-							nAttempt++;
-							continue;
-						}
-						bCountry = false;
-						nAttempt++;
-					}
-				}
-            }
-
-        }
-    }
-    else
-    {
-		if( nHubs > quazaaSettings.Gnutella2.NumPeers )
-        {
-            // rozlaczyc hub
-            DropYoungest(G2_HUB, (nCoreHubs / nHubs) > 0.5);
-        }
-		else if( nHubs < quazaaSettings.Gnutella2.NumPeers )
-        {
-			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubs) * quazaaSettings.Gnutella.ConnectFactor );
-            nAttempt = qMin(nAttempt, 8) - nUnknown;
-
-            quint32 tNow = time(0);
-
-            for( ; nAttempt > 0; nAttempt-- )
-            {
-                // nowe polaczenie
-                CHostCacheHost* pHost = HostCache.GetConnectable(tNow);
-
-                if( pHost )
-                {
-					ConnectTo(pHost->m_oAddress);
-                    pHost->m_tLastConnect = tNow;
-                }
-                else
-                    break;
-            }
-        }
-
-		if( nLeaves > quazaaSettings.Gnutella2.NumLeafs )
-        {
-            DropYoungest(G2_LEAF, (nCoreLeaves / nLeaves) > 0.5);
-        }
-    }
-}
-
 void CNetwork::DispatchKHL()
 {
-	if( m_lNodes.isEmpty() )
+	QMutexLocker l(&Neighbours.m_pSection);
+
+	if( Neighbours.m_lNodes.isEmpty() )
         return;
 
     G2Packet* pKHL = G2Packet::New("KHL");
     quint32 ts = time(0);
 	pKHL->WritePacket("TS", 4)->WriteIntLE(ts);
 
-    foreach(CG2Node* pNode, m_lNodes)
+	for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
     {
+		CG2Node* pNode = *itNode;
         if( pNode->m_nType == G2_HUB && pNode->m_nState == nsConnected )
         {
 			pKHL->WritePacket("NH", 6)->WriteHostAddress(&pNode->m_oAddress);
@@ -484,41 +306,15 @@ void CNetwork::DispatchKHL()
 	}
 
 
-    foreach(CG2Node* pNode, m_lNodes)
-    {
+	for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
+	{
+		CG2Node* pNode = *itNode;
         if( pNode->m_nState == nsConnected )
         {
 			pNode->SendPacket(pKHL, false, false);
         }
     }
 	pKHL->Release();
-}
-
-void CNetwork::OnNodeStateChange()
-{
-    QObject* pSender = QObject::sender();
-    if( pSender )
-        emit NodeUpdated(qobject_cast<CG2Node*>(pSender));
-}
-
-void CNetwork::OnAccept(CNetworkConnection* pConn)
-{
-	if( !m_pSection.tryLock(50) )
-	{
-		qDebug() << "Not accepting incoming connection. Network overloaded";
-		pConn->Close();
-		pConn->deleteLater();
-		return;
-	}
-
-    CG2Node* pNew = new CG2Node();
-	m_pRateController->AddSocket(pNew);
-	m_lNodes.append(pNew);
-    pNew->AttachTo(pConn);
-	pNew->moveToThread(&NetworkThread);
-	connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
-    emit NodeAdded(pNew);
-	m_pSection.unlock();
 }
 
 bool CNetwork::IsListening()
@@ -529,36 +325,6 @@ bool CNetwork::IsListening()
 bool CNetwork::IsFirewalled()
 {
     return Datagrams.IsFirewalled() || Handshakes.IsFirewalled();
-}
-
-void CNetwork::DropYoungest(G2NodeType nType, bool bCore)
-{
-    CG2Node* pNode = 0;
-
-    for( QList<CG2Node*>::iterator i = m_lNodes.begin(); i != m_lNodes.end(); i++ )
-    {
-        if( (*i)->m_nState == nsConnected )
-        {
-            if( (*i)->m_nType == nType )
-            {
-                if( !bCore && (*i)->m_bG2Core )
-                    continue;
-
-                if( pNode == 0 )
-                {
-                    pNode = (*i);
-                }
-                else
-                {
-                    if( (*i)->m_tConnected > pNode->m_tConnected )
-                        pNode = (*i);
-                }
-            }
-        }
-    }
-
-    if( pNode )
-		pNode->Close();;
 }
 
 void CNetwork::AcquireLocalAddress(QString &sHeader)
@@ -572,9 +338,9 @@ void CNetwork::AcquireLocalAddress(QString &sHeader)
 }
 bool CNetwork::IsConnectedTo(IPv4_ENDPOINT addr)
 {
-    for( int i = 0; i < m_lNodes.size(); i++ )
+	for( int i = 0; i < Neighbours.m_lNodes.size(); i++ )
     {
-        if( m_lNodes.at(i)->m_oAddress == addr )
+		if( Neighbours.m_lNodes.at(i)->m_oAddress == addr )
             return true;
     }
 
@@ -591,7 +357,12 @@ void CNetwork::RouteHits(QUuid &oTarget, G2Packet *pPacket)
 }
 void CNetwork::FlushHits()
 {
-	QTime tTime;
+	QElapsedTimer tTime;
+
+	if( m_lHitsToRoute.isEmpty() )
+		return;
+
+	QMutexLocker l(&Neighbours.m_pSection);
 
 	tTime.start();
 
@@ -680,22 +451,10 @@ bool CNetwork::RoutePacket(G2Packet *pPacket, CG2Node *pNbr)
     return false;
 }
 
-CG2Node* CNetwork::FindNode(quint32 nAddress)
-{
-	foreach(CG2Node* pNode, m_lNodes)
-	{
-		if( pNode->m_oAddress.ip == nAddress )
-		{
-			return pNode;
-		}
-	}
-
-	return 0;
-}
 
 void CNetwork::AdaptiveHubRun()
 {
-	if( m_nLeavesConnected == 0 )
+	/*if( m_nLeavesConnected == 0 )
 		return;
 
 	quint32 nBusyLeaves = 0;
@@ -722,22 +481,19 @@ void CNetwork::AdaptiveHubRun()
 		}
 
 		m_nTotalPeriods = m_nBusyPeriods = 0;
-	}
+	}*/
 }
 
 void CNetwork::ConnectTo(IPv4_ENDPOINT &addr)
 {
-	CG2Node* pNew = new CG2Node();
-	connect(pNew, SIGNAL(NodeStateChanged()), this, SLOT(OnNodeStateChange()));
-	emit NodeAdded(pNew);
-	m_pRateController->AddSocket(pNew);
-	m_lNodes.append(pNew);
-	pNew->ConnectTo(addr);;
-	pNew->moveToThread(&NetworkThread);
+	CG2Node* pNew = Neighbours.ConnectTo(addr);
+
+	if( pNew )
+		pNew->moveToThread(&NetworkThread);
 }
 
 // WARNING: pNode must be a valid pointer
-void CNetwork::DisconnectFrom(CG2Node *pNode)
+/*void CNetwork::DisconnectFrom(CG2Node *pNode)
 {
 	pNode->Close();
 }
@@ -756,7 +512,7 @@ void CNetwork::DisconnectFrom(IPv4_ENDPOINT &ip)
 			break;
 		}
 	}
-}
+}*/
 void CNetwork::OnSharesReady()
 {
 	m_bSharesReady = true;
@@ -764,6 +520,8 @@ void CNetwork::OnSharesReady()
 
 void CNetwork::HubBalancing()
 {
+	QMutexLocker l(&Neighbours.m_pSection);
+
 	systemLog.postLog(LogSeverity::Notice, "*** HUB BALANCING REPORT ***");
 
 	// get the local hub cluster load
@@ -772,7 +530,7 @@ void CNetwork::HubBalancing()
 	const quint32 MINUTES_TRYING_BEFORE_SWITCH = 10; // emergency hub switch
 	if( !isHub() )
 	{
-		if( m_nHubsConnected == 0 ) // if we're not connected to any hub
+		if( Neighbours.m_nHubsConnected == 0 ) // if we're not connected to any hub
 		{
 			m_nMinutesTrying++;
 			if( m_nMinutesTrying > MINUTES_TRYING_BEFORE_SWITCH ) // if no hub connects in this time
@@ -790,8 +548,9 @@ void CNetwork::HubBalancing()
 	}
 
 	// check how many leaves are in local hub cluster
-	foreach( CG2Node* pNode, m_lNodes )
+	for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
 	{
+		CG2Node* pNode = *itNode;
 		if( pNode->m_nState == nsConnected && pNode->m_nType == G2_HUB )
 		{
 			nLeaves += pNode->m_nLeafCount;
@@ -802,11 +561,11 @@ void CNetwork::HubBalancing()
 	if( isHub() )
 	{
 		// add our numbers to cluster load
-		nLeaves += m_nLeavesConnected;
+		nLeaves += Neighbours.m_nLeavesConnected;
 		nMaxLeaves += quazaaSettings.Gnutella2.NumLeafs;
 		// and calculate local hub load percentage
-		nLocalLoad = m_nLeavesConnected * 100 / quazaaSettings.Gnutella2.NumLeafs;
-		systemLog.postLog(LogSeverity::Notice, "Local Hub load: %u%%, leaves connected: %u, capacity: %u", nLocalLoad, m_nLeavesConnected, quazaaSettings.Gnutella2.NumLeafs);
+		nLocalLoad = Neighbours.m_nLeavesConnected * 100 / quazaaSettings.Gnutella2.NumLeafs;
+		systemLog.postLog(LogSeverity::Notice, "Local Hub load: %u%%, leaves connected: %u, capacity: %u", nLocalLoad, Neighbours.m_nLeavesConnected, quazaaSettings.Gnutella2.NumLeafs);
 	}
 
 	// calculate local cluster load percentage
@@ -856,7 +615,7 @@ void CNetwork::HubBalancing()
 	{
 		// if we're running in hub mode and timeout passed
 
-		if( m_nHubsConnected > 0 ) // if we have connections to other hubs
+		if( Neighbours.m_nHubsConnected > 0 ) // if we have connections to other hubs
 		{
 			if( nLocalLoad > 50 ) // and our load is below 50%
 			{
@@ -907,7 +666,7 @@ bool CNetwork::SwitchClientMode(G2NodeType nRequestedMode)
 	m_nMinutesAbove90 = 0;
 	m_tLastModeChange = time(0);
 
-	DisconnectAllNodes();
+	Neighbours.Clear();
 	m_nNodeState = nRequestedMode;
 
 	systemLog.postLog(LogSeverity::Notice, "Switched to %s mode.", (isHub() ? "HUB" : "LEAF"));

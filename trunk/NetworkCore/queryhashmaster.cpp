@@ -38,7 +38,7 @@ void CQueryHashMaster::Create()
 {
 	CQueryHashTable::Create();
 
-	m_nPerGroup			= 250;
+	m_nPerGroup			= 100;
 	m_bValid			= false;
 	m_bLive				= false;
 	m_nCookie			= 0;

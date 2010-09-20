@@ -22,10 +22,15 @@
 #ifndef QUAZAAIRC_H
 #define QUAZAAIRC_H
 
-#include <ircsession.h>
-#include <ircbuffer.h>
+namespace Irc
+{
+	class Session;
+	class Buffer;
+}
 
-class QuazaaIRC : public Irc::Session
+#include <QObject>
+
+class QuazaaIRC : public QObject
 {
 	 Q_OBJECT
 
@@ -35,17 +40,18 @@ public:
 public slots:
 	void startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );
 	void stopIrc();
-        void sendIrcMessage(QString message);
+	void sendIrcMessage(QString message);
 signals:
-        void appendMessage(QString str);
+	void appendMessage(QString str);
 
 protected slots:
-	void on_connected();
-	void on_disconnected();
+	void on_IrcSession_connected();
+	void on_IrcSession_disconnected();
+	void on_IrcSession_welcomed();
 
-	void on_bufferAdded(Irc::Buffer* buffer);
-	void on_bufferRemoved(Irc::Buffer* buffer);
-        void on_messageReceived(QString, QString);
+	void on_IrcSession_bufferAdded(Irc::Buffer* buffer);
+	void on_IrcSession_bufferRemoved(Irc::Buffer* buffer);
+	void on_IrcSession_messageReceived(QString, QString);
 
 protected:
 	Irc::Session *ircSession;

@@ -21,6 +21,7 @@
 
 #include "datagrams.h"
 #include "network.h"
+#include "neighbours.h"
 #include "datagramfrags.h"
 #include "g2node.h"
 #include "g2packet.h"
@@ -180,17 +181,7 @@ void CDatagrams::OnDatagram()
 	if( !m_bActive )
 		return;
 
-	if( !Network.m_pSection.tryLock(50) )
-	{
-		// receive and discard datagram, g2 reliability layer should retransmit
-		m_nBandwidthIn += m_pSocket->pendingDatagramSize();
-		m_pSocket->readDatagram(0, 0, 0, 0);
-
-		qWarning() << "Can't get lock in CDatagrams::OnDatagram. Network core overloaded.";
-		return;
-	}
-
-	quint32 nCounter = 100;
+	quint32 nCounter = 500;
 
 	while( m_pSocket->hasPendingDatagrams() && nCounter-- )
 	{
@@ -219,8 +210,6 @@ void CDatagrams::OnDatagram()
 			}
 		}
 	}
-
-	Network.m_pSection.unlock();
 }
 
 void CDatagrams::OnReceiveGND()
@@ -438,7 +427,7 @@ void CDatagrams::FlushSendCache()
 	if( !m_bActive )
 		return;
 
-	QMutexLocker l(&Network.m_pSection);
+	QMutexLocker l(&m_pSection);
 
 	quint32 tNow = time(0);
 
@@ -513,6 +502,8 @@ void CDatagrams::SendPacket(IPv4_ENDPOINT &oAddr, G2Packet *pPacket, bool bAck, 
 {
 	if( !m_bActive )
 		return;
+
+	QMutexLocker l(&m_pSection);
 
 	Q_UNUSED(pWatcher);
 	Q_UNUSED(pParam);
@@ -611,6 +602,9 @@ void CDatagrams::OnPong(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 }
 void CDatagrams::OnCRAWLR(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 {
+	QMutexLocker l(&Network.m_pSection);
+	QMutexLocker l2(&Neighbours.m_pSection);
+
 	bool bRLeaf = false;
 	bool bRNick = false;
 	bool bRGPS = false;
@@ -655,8 +649,9 @@ void CDatagrams::OnCRAWLR(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 	pCA->WritePacket(pTmp);
 	pTmp->Release();
 
-	foreach( CG2Node* pNode, Network.m_lNodes )
+	for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
 	{
+		CG2Node* pNode = *itNode;
 		if( pNode->m_nState == nsConnected )
 		{
 			if( pNode->m_nType == G2_HUB )
@@ -715,11 +710,13 @@ void CDatagrams::OnQKA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 
 	if( Network.isHub() && nKeyHost != 0 && nKeyHost != Network.m_oAddress.ip )
 	{
-		if( CG2Node* pNode = Network.FindNode(nKeyHost) )
+		QMutexLocker l(&Neighbours.m_pSection);
+
+		if( CG2Node* pNode = Neighbours.Find(nKeyHost) )
 		{
 			qDebug() << "Forwarding Query Key to " << pNode->m_oAddress.toString().toAscii().constData();
 
-			char* pOut = pPacket->WriteGetPointer(11, 0);
+			uchar* pOut = pPacket->WriteGetPointer(11, 0);
 			*pOut++ = 0x50;
 			*pOut++ = 6;
 			*pOut++ = 'Q';
@@ -753,6 +750,8 @@ void CDatagrams::OnQA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 	{
 		// Add from address
 		// pPacket->WriteChild("FR")->WriteHostAddress(&addr);
+
+		QMutexLocker l(&Network.m_pSection);
 
 		Network.RoutePacket(oGuid, pPacket);
 	}

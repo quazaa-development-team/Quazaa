@@ -397,10 +397,10 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 
 bool CQueryHashTable::OnPacket(G2Packet* pPacket)
 {
-	if ( pPacket->m_oBuffer.size() < 1 )
+	if ( pPacket->m_nLength < 1 )
 		return false;
 
-	quint32 nLength = pPacket->m_oBuffer.size();
+	quint32 nLength = pPacket->m_nLength;
 	if ( pPacket->m_bCompound )
 		pPacket->SkipCompound( nLength );
 
@@ -420,7 +420,7 @@ bool CQueryHashTable::OnPacket(G2Packet* pPacket)
 
 bool CQueryHashTable::OnReset(G2Packet* pPacket)
 {
-	if ( pPacket->m_oBuffer.size() != 6 )
+	if ( pPacket->m_nLength != 6 )
 		return false;
 
 	quint32 nHashSize	= 0;
@@ -468,7 +468,7 @@ bool CQueryHashTable::OnReset(G2Packet* pPacket)
 
 bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 {
-	if ( pPacket->m_oBuffer.size() < 5 )
+	if ( pPacket->m_nLength < 5 )
 		return false;
 
 	if ( !m_pHash )
@@ -494,8 +494,8 @@ bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 	if ( nSequence == 1 )
 		m_pBuffer->clear();
 
-	m_pBuffer->append(pPacket->m_oBuffer.data() + pPacket->m_nPosition,
-					pPacket->m_oBuffer.size() - pPacket->m_nPosition );
+	m_pBuffer->append((char*)pPacket->m_pBuffer + pPacket->m_nPosition,
+					pPacket->m_nLength - pPacket->m_nPosition );
 
 	if ( nSequence < nMaximum )
 		return true;

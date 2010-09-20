@@ -22,6 +22,7 @@
 #include "handshake.h"
 #include "handshakes.h"
 #include "network.h"
+#include "neighbours.h"
 
 #include <QTcpSocket>
 
@@ -61,7 +62,7 @@ void CHandshake::OnRead()
     {
         qDebug("Incoming connection from %s is Gnutella Neighbour connection", m_pSocket->peerAddress().toString().toAscii().constData());
 		Handshakes.RemoveHandshake(this);
-		Network.OnAccept(this);
+		Neighbours.OnAccept(this);
 	}
     else
     {

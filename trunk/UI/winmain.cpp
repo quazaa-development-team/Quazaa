@@ -47,6 +47,7 @@
 #include "commonfunctions.h"
 #include "handshakes.h"
 #include "network.h"
+#include "neighbours.h"
 #include "datagrams.h"
 #include "geoiplist.h"
 #include "ShareManager.h"
@@ -951,6 +952,9 @@ void WinMain::updateStatusBar()
 	quint16 nUDPInSpeed = 0;
 	quint16 nUDPOutSpeed = 0;
 
+	if( !Network.m_bActive )
+		return;
+
 	if( Handshakes.m_pSection.tryLock(50) )
 	{
 		if(!Handshakes.IsFirewalled())
@@ -966,8 +970,8 @@ void WinMain::updateStatusBar()
 			udpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
 		else
 			udpFirewalled = ":/Resource/Network/ShieldRed.png";
-		nTCPInSpeed = Network.DownloadSpeed();
-		nTCPOutSpeed = Network.UploadSpeed();
+		nTCPInSpeed = Neighbours.DownloadSpeed();
+		nTCPOutSpeed = Neighbours.UploadSpeed();
 		nUDPInSpeed = Datagrams.DownloadSpeed();
 		nUDPOutSpeed = Datagrams.UploadSpeed();
 		Network.m_pSection.unlock();
