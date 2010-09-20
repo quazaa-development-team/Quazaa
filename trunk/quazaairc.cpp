@@ -21,6 +21,7 @@
 
 #include "types.h"
 #include "quazaairc.h"
+#include "dialogsettings.h"
 
 #include <QSslSocket>
 
@@ -42,6 +43,23 @@ void QuazaaIRC::on_disconnected()
 
 void QuazaaIRC::on_bufferAdded(Irc::Buffer* buffer)
 {
+        connect(buffer, SIGNAL(receiverChanged(QString)), this, SLOT(receiverChanged()));
+        connect(buffer, SIGNAL(joined(QString)), this, SLOT(msgJoined(QString)));
+        connect(buffer, SIGNAL(parted(QString, QString)), this, SLOT(msgParted(QString, QString)));
+        connect(buffer, SIGNAL(quit(QString, QString)), this, SLOT(msgQuit(QString, QString)));
+        connect(buffer, SIGNAL(nickChanged(QString, QString)), this, SLOT(msgNickChanged(QString, QString)));
+        connect(buffer, SIGNAL(modeChanged(QString, QString, QString)), this, SLOT(msgModeChanged(QString, QString, QString)));
+        connect(buffer, SIGNAL(topicChanged(QString, QString)), this, SLOT(msgTopicChanged(QString, QString)));
+        connect(buffer, SIGNAL(invited(QString, QString, QString)), this, SLOT(msgInvited(QString, QString, QString)));
+        connect(buffer, SIGNAL(kicked(QString, QString, QString)), this, SLOT(msgKicked(QString, QString, QString)));
+        connect(buffer, SIGNAL(messageReceived(QString, QString)), this, SLOT(on_messageReceived(QString, QString)));
+        connect(buffer, SIGNAL(noticeReceived(QString, QString)), this, SLOT(msgNoticeReceived(QString, QString)));
+        connect(buffer, SIGNAL(ctcpRequestReceived(QString, QString)), this, SLOT(msgCtcpRequestReceived(QString, QString)));
+        connect(buffer, SIGNAL(ctcpReplyReceived(QString, QString)), this, SLOT(msgCtcpReplyReceived(QString, QString)));
+        connect(buffer, SIGNAL(ctcpActionReceived(QString, QString)), this, SLOT(msgCtcpActionReceived(QString, QString)));
+        connect(buffer, SIGNAL(numericMessageReceived(QString, uint, QStringList)), this, SLOT(msgNumericMessageReceived(QString, uint, QStringList)));
+        connect(buffer, SIGNAL(unknownMessageReceived(QString, QStringList)), this, SLOT(msgUnknownMessageReceived(QString, QStringList)));
+
 	qDebug() << "buffer added:" << buffer->receiver();
 }
 
@@ -50,12 +68,17 @@ void QuazaaIRC::on_bufferRemoved(Irc::Buffer* buffer)
 	qDebug() << "buffer removed:" << buffer->receiver();
 }
 
-
+void QuazaaIRC::on_messageReceived(QString a, QString b) {
+    qDebug() << "A: "+a+" B: "+b;
+    emit appendMessage(a+" --> "+b);
+}
 
 void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort)
 {
 	qDebug() << "QuazaaIRC::startIrc() " << ircServer;
 	ircSession = new Irc::Session(this);
+        // echomessages , stripnicks
+        ircSession->setOptions(ircSession->EchoMessages);
 
 	if (useSsl)
 	{
@@ -65,6 +88,7 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 		ircSession->setSocket(socket);
 	}
 
+        connect(ircSession, SIGNAL(bufferAdded(Irc::Buffer*)), this, SLOT(on_bufferAdded(Irc::Buffer*)));
 	connect(ircSession, SIGNAL(connected()), this, SLOT(on_connected()));
 	ircSession->setNick(ircNick);
 	ircSession->setIdent("QuazaaIRC");
@@ -80,8 +104,7 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 
 void QuazaaIRC::stopIrc()
 {
-	qDebug() << "QuazaaIRC::stopIrc()";
-	ircSession->part("#quazaa-dev", "Client exited.");
+        qDebug() << "QuazaaIRC::stopIrc()";
 	ircSession->disconnectFromServer();
 }
 

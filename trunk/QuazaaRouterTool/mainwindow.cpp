@@ -59,7 +59,8 @@ MainWindow::MainWindow()
     QNetworkProxyFactory::setUseSystemConfiguration(true);
 
     view = new QWebView(this);
-    view->load(QUrl("http://www.google.com/ncr"));
+ //  view->settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
+    view->setUrl(QUrl("qrc:/form.html"));
 
     // using loadStarted signal "should" be better
     connect(view, SIGNAL(loadFinished(bool)), SLOT(adjustLocation()));
@@ -79,6 +80,7 @@ MainWindow::MainWindow()
     toolBar->addAction(view->pageAction(QWebPage::Reload));
     toolBar->addAction(view->pageAction(QWebPage::Stop));
     toolBar->addWidget(locationEdit);
+    toolBar->setMovable(false);
 
     QDockWidget *dockWidget = new QDockWidget(tr("Requests"), this);
     dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -93,6 +95,7 @@ MainWindow::MainWindow()
     dockWidget->setWidget(logPane);
     addDockWidget(Qt::BottomDockWidgetArea, dockWidget);
 
+    setContextMenuPolicy(Qt::NoContextMenu);
     setCentralWidget(view);
     setUnifiedTitleAndToolBarOnMac(true);
 }
@@ -144,9 +147,9 @@ void MainWindow::finishLoading(bool)
 {
     progress = 100;
     adjustTitle();
-    view->page()->mainFrame()->evaluateJavaScript(jQuery);
-    QString code = "$('form').each( function() { $(this).submit(function() { formExtractor.formValues($(this).serialize()); return true; }) } )";
-    view->page()->mainFrame()->evaluateJavaScript(code);
+   // view->page()->mainFrame()->evaluateJavaScript(jQuery);
+   // QString code = "$('form').each( function() { $(this).submit(function() { formExtractor.formValues($(this).serialize()); return true; }) } )";
+   // view->page()->mainFrame()->evaluateJavaScript(code);
 }
 
 // This function will connect formExtractor to this class
@@ -161,4 +164,3 @@ void MainWindow::populateJavaScriptWindowObject()
 void MainWindow::formValues(QString str) {
     postString = str;
 }
-

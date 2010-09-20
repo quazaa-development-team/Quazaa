@@ -42,7 +42,7 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 	} else {
 		ui->actionConnect->setEnabled(true);
 		ui->actionDisconnect->setEnabled(false);
-	}
+        }
 	lineEditTextInput = new QLineEdit();
 	lineEditTextInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	toolButtonSmilies = new QToolButton();
@@ -59,7 +59,8 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
 	connect(lineEditTextInput, SIGNAL(returnPressed()), this, SLOT(on_actionSend_triggered()));
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
-	skinChangeEvent();
+        connect(quazaaIrc, SIGNAL(appendMessage(QString)), this, SLOT(append(QString)));
+        skinChangeEvent();
 }
 
 WidgetChatCenter::~WidgetChatCenter()
@@ -128,4 +129,9 @@ void WidgetChatCenter::on_actionSend_triggered()
 		quazaaIrc->sendIrcMessage(lineEditTextInput->text());
 		lineEditTextInput->setText("");
 	}
+}
+
+void WidgetChatCenter::append(QString text)
+{
+    ui->textBrowserChat->append(text);
 }

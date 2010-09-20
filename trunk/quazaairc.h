@@ -35,7 +35,9 @@ public:
 public slots:
 	void startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );
 	void stopIrc();
-	void sendIrcMessage(QString message);
+        void sendIrcMessage(QString message);
+signals:
+        void appendMessage(QString str);
 
 protected slots:
 	void on_connected();
@@ -43,6 +45,7 @@ protected slots:
 
 	void on_bufferAdded(Irc::Buffer* buffer);
 	void on_bufferRemoved(Irc::Buffer* buffer);
+        void on_messageReceived(QString, QString);
 
 protected:
 	Irc::Session *ircSession;
