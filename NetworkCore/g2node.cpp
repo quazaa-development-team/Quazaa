@@ -836,7 +836,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 			for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
 			{
 				CG2Node* pNode = *itNode;
-				if( pNode->m_nState == nsConnected )
+				if( pNode != this && pNode->m_nState == nsConnected )
 					lToRelay.append(pNode);
 			}
 

@@ -22,6 +22,8 @@
 #include <QObject>
 #include <QMutex>
 #include <QList>
+#include <QHash>
+#include <QSet>
 
 #include "types.h"
 
@@ -37,8 +39,11 @@ public:
 	QMutex			 m_pSection;
 
 protected:
-	QList<CG2Node*>	 m_lNodes;
-	CRateController* m_pController;
+	QList<CG2Node*>		 m_lNodes;
+	CRateController*	 m_pController;
+
+	QHash<quint32, CG2Node*> m_lNodesByAddr; // lookups by ip address
+	QSet<CG2Node*>			 m_lNodesByPtr;	// lookups by pointer
 
 public:
 	quint32	m_nHubsConnected;
@@ -64,6 +69,8 @@ public:
 	void RemoveNode(CG2Node* pNode);
 	CG2Node* Find(IPv4_ENDPOINT& oAddress);
 	CG2Node* Find(quint32 nAddress);
+
+	bool NeighbourExists(const CG2Node* pNode);
 
 	void Maintain();
 	bool NeedMore(G2NodeType nType);
