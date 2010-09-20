@@ -698,10 +698,11 @@ void CG2Node::SendLNI()
 
 	if( Network.isHub() )
 	{
-		quint16 nLeafs = quazaaSettings.Gnutella2.NumLeafs;
+		quint16 nLeavesMax = quazaaSettings.Gnutella2.NumLeafs;
+		quint16 nLeaves = Neighbours.m_nLeavesConnected;
 		pLNI->WritePacket("HS", 4);
-		pLNI->WriteIntLE(Neighbours.m_nLeavesConnected);
-		pLNI->WriteIntLE(nLeafs);
+		pLNI->WriteIntLE(nLeaves);
+		pLNI->WriteIntLE(nLeavesMax);
 		pLNI->WritePacket("QK", 0);
 	}
 
