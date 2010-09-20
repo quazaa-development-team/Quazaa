@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>560</width>
-    <height>373</height>
+    <width>655</width>
+    <height>479</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,13 +21,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>560</width>
-    <height>373</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>560</width>
+    <width>655</width>
     <height>373</height>
    </size>
   </property>
@@ -138,7 +132,7 @@ p, li { white-space: pre-wrap; }
         <x>0</x>
         <y>0</y>
         <width>160</width>
-        <height>323</height>
+        <height>429</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_39">
@@ -531,7 +525,7 @@ QToolButton:hover {
    <item row="1" column="1">
     <widget class="QStackedWidget" name="pagesSettings">
      <property name="currentIndex">
-      <number>7</number>
+      <number>20</number>
      </property>
      <widget class="QWidget" name="pageIntroduction">
       <layout class="QGridLayout" name="gridLayout_5">
@@ -1981,29 +1975,6 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="labelProfileDisclaimer">
-         <property name="text">
-          <string>You can use your Quazaa user profile to share information about yourself. No information is required.</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QPushButton" name="pushButtonEditProfile">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Edit My Profile</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="2" rowspan="3">
         <widget class="QGroupBox" name="groupBoxIRCColors">
          <property name="maximumSize">
@@ -2357,6 +2328,29 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="pushButtonEditProfile">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Edit My Profile</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="labelProfileDisclaimer">
+         <property name="text">
+          <string>You can use your Quazaa user profile to share information about yourself. No information is required.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
