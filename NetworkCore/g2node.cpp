@@ -21,6 +21,7 @@
 
 #include "g2node.h"
 #include "network.h"
+#include "neighbours.h"
 #include "g2packet.h"
 #include "hostcache.h"
 #include "parser.h"
@@ -70,7 +71,9 @@ CG2Node::~CG2Node()
 	if( m_pRemoteTable )
 		delete m_pRemoteTable;
 
-	Network.RemoveNode(this);
+	Neighbours.m_pSection.lock();
+	Neighbours.RemoveNode(this);
+	Neighbours.m_pSection.unlock();
 }
 
 void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
@@ -134,7 +137,8 @@ void CG2Node::SetupSlots()
 
 void CG2Node::OnConnect()
 {
-	QMutexLocker l(&Network.m_pSection);
+	QMutexLocker l(&Neighbours.m_pSection);
+	Network.m_nTotalLocks.ref();
 
 	systemLog.postLog(LogSeverity::Information, "Connection with %s established, handshaking...", qPrintable(m_oAddress.toString()));
 
@@ -164,7 +168,8 @@ void CG2Node::OnConnect()
 }
 void CG2Node::OnDisconnect()
 {
-	QMutexLocker l(&Network.m_pSection);
+	QMutexLocker l(&Neighbours.m_pSection);
+	Network.m_nTotalLocks.ref();
 	//qDebug("OnDisconnect()");
 	systemLog.postLog(LogSeverity::Information, "Connection with %s was dropped: %s", qPrintable(m_oAddress.toString()), qPrintable(m_pSocket->errorString()));
 	deleteLater();
@@ -172,12 +177,6 @@ void CG2Node::OnDisconnect()
 
 void CG2Node::OnRead()
 {
-	if( !Network.m_pSection.tryLock() )
-	{
-		emit readyRead(); // it is a queued connection, lets requeue the missed signal
-		return;
-	}
-
 	m_bReadyReadSent = false;
 
 	//qDebug() << "CG2Node::OnRead";
@@ -221,21 +220,25 @@ void CG2Node::OnRead()
 
 			qDebug() << "Packet error - " << m_oAddress.toString().toAscii();
 			m_nState = nsClosing;
+			Neighbours.m_pSection.lock();
+			Neighbours.RemoveNode(this);
 			emit NodeStateChanged();
 			deleteLater();
+			Neighbours.m_pSection.unlock();
 		}
 	}
 
-	Network.m_pSection.unlock();
 }
 void CG2Node::OnError(QAbstractSocket::SocketError e)
 {
-	QMutexLocker l(&Network.m_pSection);
+	QMutexLocker l(&Neighbours.m_pSection);
 
 	if( e != QAbstractSocket::RemoteHostClosedError )
 	{
 		HostCache.OnFailure(m_oAddress);
 	}
+
+	Neighbours.RemoveNode(this);
 
 	//systemLog.postLog(tr("Remote host closed connection: ") + m_oAddress.toString() + tr(". Error: ") + m_pSocket->errorString(), LogSeverity::Notice);
 	//qDebug() << "OnError(" << e << ")" << m_oAddress.toString();
@@ -270,7 +273,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		if( tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic )
 		{
 			systemLog.postLog(LogSeverity::Error, "Closing connection to %s due to lack of traffic.", m_oAddress.toString().toAscii().constData());
-			systemLog.postLog(LogSeverity::Debug, "G2Node cookie %u, Network cookie %u. Conn %u, Packet %u, bytes avail %d, net bytes avail %d, ping %u", m_nCookie, Network.m_nCookie, tNow - m_tConnected, tNow - m_tLastPacketIn, bytesAvailable(), networkBytesAvailable(), tNow - m_tLastPingOut);
+			systemLog.postLog(LogSeverity::Debug, "Conn %u, Packet %u, bytes avail %d, net bytes avail %d, ping %u", tNow - m_tConnected, tNow - m_tLastPacketIn, bytesAvailable(), networkBytesAvailable(), tNow - m_tLastPingOut);
 			qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "minute dead";
 			m_nState = nsClosing;
 			emit NodeStateChanged();
@@ -341,6 +344,8 @@ void CG2Node::OnTimer(quint32 tNow)
 
 void CG2Node::ParseIncomingHandshake()
 {
+	QMutexLocker l(&Neighbours.m_pSection);
+
 	qint32 nIndex = Peek(bytesAvailable()).indexOf("\r\n\r\n");
 	QString sHs = Read(nIndex + 4);
 
@@ -397,7 +402,7 @@ void CG2Node::ParseIncomingHandshake()
 
 		if( bUltra )
 		{
-			if( !Network.NeedMore(G2_HUB) )
+			if( !Neighbours.NeedMore(G2_HUB) )
 			{
 				Send_ConnectError("503 Maximum hub connections reached");
 				return;
@@ -406,7 +411,7 @@ void CG2Node::ParseIncomingHandshake()
 		}
 		else
 		{
-			if( !Network.NeedMore(G2_LEAF) )
+			if( !Neighbours.NeedMore(G2_LEAF) )
 			{
 				Send_ConnectError("503 Maximum leaf connections reached");
 				return;
@@ -435,7 +440,7 @@ void CG2Node::ParseIncomingHandshake()
 			if( !EnableInputCompression() )
 			{
 				qDebug() << "Inflate init error!";
-				abort();
+				Close();
 				deleteLater();
 				return;
 			}
@@ -446,7 +451,7 @@ void CG2Node::ParseIncomingHandshake()
 			if( !EnableOutputCompression() )
 			{
 				qDebug() << "Deflate init error!";
-				abort();
+				Close();
 				deleteLater();
 				return;
 			}
@@ -476,6 +481,7 @@ void CG2Node::ParseIncomingHandshake()
 
 void CG2Node::ParseOutgoingHandshake()
 {
+	QMutexLocker l(&Neighbours.m_pSection);
 	QString sHs = Read(Peek(bytesAvailable()).indexOf("\r\n\r\n") + 4);
 
 	//qDebug() << "Handshake receive:\n" << sHs;
@@ -559,7 +565,7 @@ void CG2Node::ParseOutgoingHandshake()
 
 	if( bUltra )
 	{
-		if( !Network.NeedMore(G2_HUB) )
+		if( !Neighbours.NeedMore(G2_HUB) )
 		{
 			Send_ConnectError("503 Maximum hub connections reached");
 			return;
@@ -568,7 +574,7 @@ void CG2Node::ParseOutgoingHandshake()
 	}
 	else
 	{
-		if( !Network.NeedMore(G2_LEAF) )
+		if( !Neighbours.NeedMore(G2_LEAF) )
 		{
 			Send_ConnectError("503 Maximum leaf connections reached");
 			return;
@@ -696,7 +702,7 @@ void CG2Node::SendLNI()
 	{
 		quint16 nLeafs = quazaaSettings.Gnutella2.NumLeafs;
 		pLNI->WritePacket("HS", 4);
-		pLNI->WriteIntLE(Network.m_nLeavesConnected);
+		pLNI->WriteIntLE(Neighbours.m_nLeavesConnected);
 		pLNI->WriteIntLE(nLeafs);
 		pLNI->WritePacket("QK", 0);
 	}
@@ -818,7 +824,9 @@ void CG2Node::OnPing(G2Packet* pPacket)
 
 		if( Network.isHub() )
 		{
-			char* pRelay = pPacket->WriteGetPointer(7, 0);
+			QMutexLocker l(&Neighbours.m_pSection);
+
+			uchar* pRelay = pPacket->WriteGetPointer(7, 0);
 			*pRelay++ = 0x60;
 			*pRelay++ = 0;
 			*pRelay++ = 'R'; *pRelay++ = 'E'; *pRelay++ = 'L';
@@ -827,10 +835,11 @@ void CG2Node::OnPing(G2Packet* pPacket)
 
 			QList<CG2Node*> lToRelay;
 
-			for( int i = 0; i < Network.m_lNodes.size(); i++ )
+			for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
 			{
-				if( Network.m_lNodes.at(i)->m_nState == nsConnected )
-					lToRelay.append(Network.m_lNodes[i]);
+				CG2Node* pNode = *itNode;
+				if( pNode->m_nState == nsConnected )
+					lToRelay.append(pNode);
 			}
 
 			for( int nCount = 0; nCount < quazaaSettings.Gnutella2.PingRelayLimit && lToRelay.size(); nCount++ )
@@ -927,6 +936,7 @@ void CG2Node::OnLNI(G2Packet* pPacket)
 
 	if( hasNA && hasGUID )
 	{
+		QMutexLocker l(&Network.m_pSection);
 		Network.m_oRoutingTable.Add(pGUID, this, true);
 	}
 
@@ -935,6 +945,8 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 {
 	if( !pPacket->m_bCompound )
 		return;
+
+	QMutexLocker l(&Network.m_pSection);
 
 	quint32 tNow = time(0);
 	quint32 nTimestamp = tNow;
@@ -1030,14 +1042,15 @@ void CG2Node::OnQHT(G2Packet* pPacket)
 		systemLog.postLog(LogSeverity::Notice, "Neighbour %s updated its query hash table. %u bits %u%% full.", m_oAddress.toString().toUtf8().constData(), m_pRemoteTable->m_nBits, m_pRemoteTable->GetPercent());
 	}
 
+	if( m_nType == G2_LEAF && m_pRemoteTable && m_pRemoteTable->GetPercent() > 90 )
+	{
+		systemLog.postLog(LogSeverity::Error, "Dropping neighbour %s - hash table too full.", m_oAddress.toString().toAscii().constData());
+		Close(0);
+		return;
+	}
+
 	if( m_nType == G2_LEAF && m_pRemoteTable->m_pGroup == 0 )
 	{
-		if( m_pRemoteTable->GetPercent() > 95 )
-		{
-			systemLog.postLog(LogSeverity::Error, "Dropping neighbour %s - hash table too full.", m_oAddress.toString().toAscii().constData());
-			Close(0);
-			return;
-		}
 		QueryHashMaster.Add(m_pRemoteTable);
 	}
 }
@@ -1172,7 +1185,7 @@ void CG2Node::OnQuery(G2Packet *pPacket)
 			quint32 tNow = time(0);
 			pQA->WritePacket("TS", 4)->WriteIntLE(tNow);
 			pQA->WritePacket("D", 8)->WriteHostAddress(&Network.m_oAddress);
-			pQA->WriteIntLE(Network.m_nLeavesConnected);
+			pQA->WriteIntLE(Neighbours.m_nLeavesConnected);
 
 			quint32 nCount = 0;
 

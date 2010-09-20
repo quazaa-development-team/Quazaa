@@ -332,10 +332,12 @@ void CSearchManager::OnQueryHit(G2Packet *pPacket, CG2Node *pNode, IPv4_ENDPOINT
 		return;
 
 	// m_nPosition - 1 = hop count
-	pPacket->m_oBuffer[pPacket->m_nPosition - 17] = ++pHitInfo->m_nHops;
+	pPacket->m_pBuffer[pPacket->m_nPosition - 17] = ++pHitInfo->m_nHops;
 
 	if( pNode || pEndpoint )
 	{
+		QMutexLocker l(&Network.m_pSection);
+
 		if( pNode ) // if hit is received via tcp
 		{
 			// Hubs are only supposed to route hits...

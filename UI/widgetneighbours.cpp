@@ -29,6 +29,7 @@
 
 #include "commonfunctions.h"
 #include "network.h"
+#include "neighbours.h"
 #include "datagrams.h"
 
 WidgetNeighbours::WidgetNeighbours(QWidget *parent) :
@@ -106,24 +107,32 @@ void WidgetNeighbours::on_actionSettings_triggered()
 
 void WidgetNeighbours::updateG2()
 {
-	bool bEmit = (sender() != 0);
-	quint16 nHubsConnected = 0;
-	quint16 nLeavesConnected = 0;
-	quint16 nTCPInSpeed = 0;
-	quint16 nTCPOutSpeed = 0;
-	quint16 nUDPInSpeed = 0;
-	quint16 nUDPOutSpeed = 0;
+	quint32 nHubsConnected = 0;
+	quint32 nLeavesConnected = 0;
+	quint32 nTCPInSpeed = 0;
+	quint32 nTCPOutSpeed = 0;
+	quint32 nUDPInSpeed = 0;
+	quint32 nUDPOutSpeed = 0;
 
-	if( Network.m_pSection.tryLock(50) && bEmit  )
+	if( Neighbours.m_pSection.tryLock(50) )
 	{
-		nHubsConnected = Network.m_nHubsConnected;
-		nLeavesConnected = Network.m_nLeavesConnected;
-		nTCPInSpeed = Network.DownloadSpeed();
-		nTCPOutSpeed = Network.UploadSpeed();
-		nUDPInSpeed = Datagrams.DownloadSpeed();
-		nUDPOutSpeed = Datagrams.UploadSpeed();
-		Network.m_pSection.unlock();
+		nHubsConnected = Neighbours.m_nHubsConnected;
+		nLeavesConnected = Neighbours.m_nLeavesConnected;
+
+		nTCPInSpeed = Neighbours.DownloadSpeed();
+		nTCPOutSpeed = Neighbours.UploadSpeed();
+
+		if( Network.m_pSection.tryLock(50) )
+		{
+			nUDPInSpeed = Datagrams.DownloadSpeed();
+			nUDPOutSpeed = Datagrams.UploadSpeed();
+
+			Network.m_pSection.unlock();
+		}
+
+		Neighbours.m_pSection.unlock();
 	}
+
 	labelG2Stats->setText(tr(" %1 Hubs, %2 Leaves, %3/s In:%4/s Out").arg(nHubsConnected).arg(nLeavesConnected).arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)));
 }
 

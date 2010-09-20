@@ -30,6 +30,10 @@ G2Packet::G2Packet()
 
 	m_nPosition		= 0;
 
+	m_pBuffer = 0;
+	m_nBuffer = 0;
+	m_nLength = 0;
+
 	memset(&m_sType[0], 0, sizeof(m_sType));
 	m_bCompound = false;
 }
@@ -41,6 +45,9 @@ G2Packet::~G2Packet()
 		qDebug() << "not released " << (char*)&m_sType[0];
 	}
 	Q_ASSERT( m_nReference == 0 );
+
+	if( m_pBuffer )
+		qFree(m_pBuffer);
 }
 
 void G2Packet::Reset()
@@ -48,7 +55,7 @@ void G2Packet::Reset()
 	Q_ASSERT( m_nReference == 0 );
 
 	m_pNext			= 0;
-	m_oBuffer.clear();
+	m_nLength		= 0;
 	m_nPosition		= 0;
 
 	memset(&m_sType[0], 0, sizeof(m_sType));
@@ -59,33 +66,30 @@ void G2Packet::Seek(quint32 nPosition, int nRelative)
 {
 	if ( nRelative == seekStart )
 	{
-		m_nPosition = qMax( 0u, qMin<quint32>( m_oBuffer.size(), nPosition ) );
+		m_nPosition = qMax( 0u, qMin<quint32>( m_nLength, nPosition ) );
 	}
 	else
 	{
-		m_nPosition = qMax( 0u, qMin<quint32>( m_oBuffer.size(), m_oBuffer.size() - nPosition ) );
+		m_nPosition = qMax( 0u, qMin<quint32>( m_nLength, m_nLength - nPosition ) );
 	}
 }
 
 
-char* G2Packet::WriteGetPointer(quint32 nLength, quint32 nOffset)
+uchar* G2Packet::WriteGetPointer(quint32 nLength, quint32 nOffset)
 {
-	if ( nOffset == 0xFFFFFFFF ) nOffset = m_oBuffer.size();
+	if ( nOffset == 0xFFFFFFFF ) nOffset = m_nLength;
 
-	if ( (quint32)m_oBuffer.size() + nLength > (quint32)m_oBuffer.capacity() )
+	if( !Ensure(nLength) )
+		return 0;
+
+	if ( nOffset != m_nLength )
 	{
-		m_oBuffer.reserve(qMax(m_oBuffer.capacity() + nLength, m_oBuffer.capacity() + 128u));
+		memmove(m_pBuffer + nOffset + nLength, m_pBuffer + nOffset, m_nLength - nOffset);
 	}
 
-	quint32 nOldSize = m_oBuffer.size();
-	m_oBuffer.resize(m_oBuffer.size() + nLength);
+	m_nLength += nLength;
 
-	if ( nOffset != nOldSize )
-	{
-		memmove(m_oBuffer.data() + nOffset + nLength, m_oBuffer.data() + nOffset, nOldSize - nOffset);
-	}
-
-	return m_oBuffer.data() + nOffset;
+	return m_pBuffer + nOffset;
 }
 
 char* G2Packet::GetType() const
@@ -164,8 +168,8 @@ G2PacketPool::~G2PacketPool()
 G2Packet* G2Packet::WritePacket(G2Packet* pPacket)
 {
 	if ( pPacket == 0 ) return 0;
-	WritePacket( pPacket->m_sType, pPacket->m_oBuffer.size(), pPacket->m_bCompound );
-	Write( pPacket->m_oBuffer.data(), pPacket->m_oBuffer.size() );
+	WritePacket( pPacket->m_sType, pPacket->m_nLength, pPacket->m_bCompound );
+	Write( pPacket->m_pBuffer, pPacket->m_nLength );
 	return this;
 }
 
@@ -240,7 +244,7 @@ bool G2Packet::SkipCompound()
 {
 	if ( m_bCompound )
 	{
-		quint32 nLength = m_oBuffer.size();
+		quint32 nLength = m_nLength;
 		if ( ! SkipCompound( nLength ) ) return false;
 	}
 
@@ -285,13 +289,13 @@ void G2Packet::ToBuffer(QByteArray* pBuffer) const
 	Q_ASSERT( strlen( m_sType ) > 0 );
 
 	char nLenLen	= 0;
-	if( m_oBuffer.size() )
+	if( m_nLength )
 	{
 		nLenLen++;
-		if( m_oBuffer.size() > 0xFF )
+		if( m_nLength > 0xFF )
 		{
 			nLenLen++;
-			if( m_oBuffer.size() > 0xFFFF )
+			if( m_nLength > 0xFFFF )
 			{
 				nLenLen++;
 			}
@@ -306,12 +310,12 @@ void G2Packet::ToBuffer(QByteArray* pBuffer) const
 
 	pBuffer->append( (char*)&nFlags, 1 );
 
-	quint32 nLength = m_oBuffer.size();
+	quint32 nLength = m_nLength;
 	pBuffer->append( (char*)&nLength, nLenLen );
 
 	pBuffer->append( (char*)&m_sType[0], nTypeLen + 1 );
 
-	pBuffer->append( m_oBuffer );
+	pBuffer->append( (char*)m_pBuffer, m_nLength );
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -364,12 +368,12 @@ G2Packet* G2Packet::ReadBuffer(QByteArray* pBuffer)
 
 QString G2Packet::ReadString(quint32 nMaximum)
 {
-	nMaximum = qMin<quint32>(nMaximum, m_oBuffer.size() - m_nPosition);
+	nMaximum = qMin<quint32>(nMaximum, m_nLength - m_nPosition);
 	if( !nMaximum )
 		return QString();
 
-	const char* pInput = m_oBuffer.data() + m_nPosition;
-	char* pScan = const_cast<char*>(pInput);
+	const uchar* pInput = m_pBuffer + m_nPosition;
+	uchar* pScan = const_cast<uchar*>(pInput);
 
 	quint32 nLength = 0;
 
@@ -381,13 +385,23 @@ QString G2Packet::ReadString(quint32 nMaximum)
 		pScan++;
 	}
 
-	return QString::fromUtf8(pInput, nLength);
+	return QString::fromUtf8((char*)pInput, nLength);
 }
 void G2Packet::WriteString(QString sToWrite, bool bTerminate)
 {
-	m_oBuffer += sToWrite.toUtf8();
+	QByteArray baUTF8 = sToWrite.toUtf8();
+
+	Ensure(baUTF8.size() + 1);
+
+	memcpy(m_pBuffer + m_nLength, baUTF8.constData(), baUTF8.size());
+
+	m_nLength += baUTF8.size();
+
 	if( bTerminate )
-		m_oBuffer += "\x00";
+	{
+		m_pBuffer[m_nLength] = 0;
+		++m_nLength;
+	}
 }
 
 QString G2Packet::ToHex() const
@@ -395,12 +409,12 @@ QString G2Packet::ToHex() const
 	const char* pszHex = "0123456789ABCDEF";
 	QByteArray strDump;
 
-	strDump.resize(m_oBuffer.size() * 3);
+	strDump.resize(m_nLength * 3);
 	char* pszDump = strDump.data();
 
-	for ( qint32 i = 0 ; i < m_oBuffer.size() ; i++ )
+	for ( quint32 i = 0 ; i < m_nLength ; i++ )
 	{
-		int nChar = m_oBuffer[i];
+		int nChar = m_pBuffer[i];
 		if ( i ) *pszDump++ = ' ';
 		*pszDump++ = pszHex[ nChar >> 4 ];
 		*pszDump++ = pszHex[ nChar & 0x0F ];
@@ -415,12 +429,12 @@ QString G2Packet::ToASCII() const
 {
 	QByteArray strDump;
 
-	strDump.resize(m_oBuffer.size() + 1);
+	strDump.resize(m_nLength + 1);
 	char* pszDump = strDump.data();
 
-	for ( int i = 0 ; i < m_oBuffer.size() ; i++ )
+	for ( uint i = 0 ; i < m_nLength ; i++ )
 	{
-		int nChar = m_oBuffer[i];
+		int nChar = m_pBuffer[i];
 		*pszDump++ = ( nChar >= 32 ? nChar : '.' );
 	}
 
@@ -434,7 +448,7 @@ bool G2Packet::GetTo(QUuid& pGUID)
 	if ( m_bCompound == false ) return false;
 	if ( GetRemaining() < 4 + 16 ) return false;
 
-	char* pTest = m_oBuffer.data() + m_nPosition;
+	uchar* pTest = m_pBuffer + m_nPosition;
 
 	if ( pTest[0] != 0x48 ) return false;
 	if ( pTest[1] != 0x10 ) return false;

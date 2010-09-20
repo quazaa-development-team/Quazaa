@@ -23,7 +23,6 @@
 #define G2PACKET_H
 
 #include "types.h"
-#include <QByteArray>
 #include <QtGlobal>
 #include <QMutex>
 #include <QList>
@@ -31,7 +30,7 @@
 struct packet_error{};
 struct packet_read_past_end{};
 
-
+class QByteArray;
 
 class G2Packet
 {
@@ -50,7 +49,9 @@ public:
 	G2Packet*	m_pNext;
 	quint32		m_nReference;
 public:
-	QByteArray	m_oBuffer;
+	uchar*		m_pBuffer;
+	quint32		m_nBuffer;
+	quint32		m_nLength;
 	quint32		m_nPosition;
 	char		m_sType[9];
 	bool		m_bCompound;
@@ -61,7 +62,7 @@ public:
 public:
 	void	Reset();
 	void	Seek(quint32 nPosition, int nRelative = seekStart);
-	char*	WriteGetPointer(quint32 nLength, quint32 nOffset = 0xFFFFFFFF);
+	uchar*	WriteGetPointer(quint32 nLength, quint32 nOffset = 0xFFFFFFFF);
 public:
 	char*	GetType() const;
 
@@ -88,43 +89,56 @@ public:
 
 	inline int GetRemaining()
 	{
-		return m_oBuffer.size() - m_nPosition;
+		return m_nLength - m_nPosition;
+	}
+
+	inline bool Ensure(quint32 nBytes)
+	{
+		if( m_nLength + nBytes > m_nBuffer )
+		{
+			m_nBuffer += qMax(nBytes, 128u);
+			m_pBuffer = (uchar*)qRealloc(m_pBuffer, m_nBuffer);
+
+			if( !m_pBuffer )
+				return false;
+		}
+
+		return true;
 	}
 
 	inline void Read(void* pData, int nLength)
 	{
-		if ( m_nPosition + nLength > (quint32)m_oBuffer.size() ) throw packet_read_past_end();
-		memcpy(pData, m_oBuffer.constData() + m_nPosition, nLength);
+		if ( m_nPosition + nLength > m_nLength )
+			throw packet_read_past_end();
+		memcpy(pData, m_pBuffer + m_nPosition, nLength);
 		m_nPosition += nLength;
 	}
 
 	inline void Write(void* pData, int nLength)
 	{
-		if( m_oBuffer.size() + nLength < m_oBuffer.capacity() )
-		{
-			m_oBuffer.reserve(qMax(m_oBuffer.capacity() + nLength, m_oBuffer.capacity() + 128));
-		}
+		Ensure(nLength);
 
-		m_oBuffer.append((char*)pData, nLength);
+		memcpy(m_pBuffer + m_nLength, pData, nLength);
+		m_nLength += nLength;
 	}
 
 	template <typename T>
 	inline T ReadIntBE()
 	{
-		if( m_oBuffer.size() - m_nPosition < sizeof(T) )
+		if( m_nLength - m_nPosition < sizeof(T) )
 			throw packet_read_past_end();
 
-		T nRet = qFromBigEndian(*(T*)(m_oBuffer.constData() + m_nPosition));
+		T nRet = qFromBigEndian(*(T*)(m_pBuffer + m_nPosition));
 		m_nPosition += sizeof(T);
 		return nRet;
 	}
 	template <typename T>
 	inline T ReadIntLE()
 	{
-		if( m_oBuffer.size() - m_nPosition < sizeof(T) )
+		if( m_nLength - m_nPosition < sizeof(T) )
 			throw packet_read_past_end();
 
-		T nRet = qFromLittleEndian(*(T*)(m_oBuffer.constData() + m_nPosition));
+		T nRet = qFromLittleEndian(*(T*)(m_pBuffer + m_nPosition));
 		m_nPosition += sizeof(T);
 		return nRet;
 	}
