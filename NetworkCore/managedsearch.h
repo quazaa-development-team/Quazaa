@@ -74,6 +74,7 @@ public:
 signals:
     void OnHit(QueryHitSharedPtr);
 	void StatsUpdated();
+	void StateChanged();
 
 public slots:
 

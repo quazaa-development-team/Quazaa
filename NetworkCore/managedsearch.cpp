@@ -78,11 +78,14 @@ void CManagedSearch::Start()
 
     m_nQueryCount = 0;
 
+	emit StateChanged();
 }
 void CManagedSearch::Pause()
 {
     m_bPaused = true;
     m_bActive = false;
+
+	emit StateChanged();
 }
 void CManagedSearch::Stop()
 {
@@ -90,6 +93,8 @@ void CManagedSearch::Stop()
     m_bPaused = false;
 
     SearchManager.Remove(this);
+
+	emit StateChanged();
 }
 
 void CManagedSearch::Execute(quint32 tNow, quint32 *pnMaxPackets)
@@ -344,6 +349,11 @@ void CManagedSearch::OnQueryHit(CQueryHit* pHits)
 	if( m_nCachedHits > 100 )
 	{
 		SendHits();
+	}
+
+	if( m_nHits > quazaaSettings.Gnutella.MaxResults )
+	{
+		Pause();
 	}
 }
 void CManagedSearch::SendHits()
