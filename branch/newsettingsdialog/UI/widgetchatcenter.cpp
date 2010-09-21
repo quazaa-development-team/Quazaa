@@ -109,7 +109,7 @@ void WidgetChatCenter::on_actionChatSettings_triggered()
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
 	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
-	dlgSkinSettings->show();
+	dlgSkinSettings->exec();
 }
 
 void WidgetChatCenter::on_actionDisconnect_triggered()

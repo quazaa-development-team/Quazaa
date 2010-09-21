@@ -758,7 +758,7 @@ void WinMain::on_actionSettings_triggered()
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
 	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
-	dlgSkinSettings->show();
+	dlgSkinSettings->exec();
 }
 
 void WinMain::on_actionCreateTorrent_triggered()
@@ -834,7 +834,7 @@ void WinMain::on_actionChooseSkin_triggered()
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
 	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
-	dlgSkinSettings->show();
+	dlgSkinSettings->exec();
 }
 
 void WinMain::on_actionChooseLanguage_triggered()

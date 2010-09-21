@@ -60,8 +60,34 @@ private slots:
 	void on_pushButtonApply_clicked();
 	void skinChangeEvent();
 
+	void on_pushButtonProfileEdit_clicked();
+
+	void on_pushButtonShowParentalFilter_clicked();
+
+	void on_labelConfigureG2_linkActivated(QString link);
+
+	void on_labelConfigureAres_linkActivated(QString link);
+
+	void on_labelConfigureEDonkey_linkActivated(QString link);
+
+	void on_labelConfigureBitTorrent_linkActivated(QString link);
+
+	void on_listWidgetSkins_itemClicked(QListWidgetItem* item);
+
+	void on_pushButtonSkinPreview_clicked();
+
 private:
 	Ui::DialogSettings *ui;
+	QString skinFile;
+	QString tempSkinName;
+	QString tempSkinAuthor;
+	QString tempSkinVersion;
+	QString tempSkinDescription;
+	bool newSkinSelected;
+
+signals:
+	void closed();
+	void skinChanged();
 };
 
 #endif // DIALOGSETTINGS_H

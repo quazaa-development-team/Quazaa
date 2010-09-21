@@ -136,7 +136,7 @@ void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
 	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
-	dlgSkinSettings->show();
+	dlgSkinSettings->exec();
 }
 
 void WidgetHome::on_labelWelcomeWizardLink_linkActivated(QString link)

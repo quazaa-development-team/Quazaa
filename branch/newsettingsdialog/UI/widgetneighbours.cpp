@@ -100,7 +100,7 @@ void WidgetNeighbours::on_actionSettings_triggered()
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
 	connect(dlgSettings, SIGNAL(closed()), dlgSkinSettings, SLOT(close()));
-	dlgSkinSettings->show();
+	dlgSkinSettings->exec();
 }
 
 void WidgetNeighbours::updateG2()
