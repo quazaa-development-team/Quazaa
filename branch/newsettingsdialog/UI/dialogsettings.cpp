@@ -702,3 +702,113 @@ void DialogSettings::on_pushButtonSkinPreview_clicked()
 		dlgSkinPreviewFrame->exec();
 	}
 }
+
+void DialogSettings::on_pushButtonFileTypesSafeOpenAdd_clicked()
+{
+	bool m_bOkPressed;
+	QString m_sSafeOpenItem = QInputDialog::getText(this, tr("Add Safe To Open File Type"),
+													tr("Type the extension of the file type to add and press OK. \nWARNING: This file type will always be opened!"),
+													QLineEdit::Normal, "", &m_bOkPressed);
+	if (m_bOkPressed && (!m_sSafeOpenItem.isEmpty()))
+	{
+		ui->listWidgetFileTypesSafeOpen->addItem(m_sSafeOpenItem);
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_pushButtonFileTypesNeverShareAdd_clicked()
+{
+	bool m_bOkPressed;
+	QString m_sNeverShareItem = QInputDialog::getText(this, tr("Add Never Share File Type"),
+													  tr("Type the extension of the file type to add and press OK. \nWARNING: This file type will never be shared!"),
+													  QLineEdit::Normal, "", &m_bOkPressed);
+	if (m_bOkPressed && (!m_sNeverShareItem.isEmpty()))
+	{
+		ui->listWidgetFileTypesNeverShare->addItem(m_sNeverShareItem);
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_pushButtonAddManageDownloadTypes_clicked()
+{
+	bool m_bOkPressed;
+	QString m_sDownloadManageItem = QInputDialog::getText(this, tr("Add Download Types to Manage"),
+													  tr("Type the extension of the file type you want the download manager to manage and press OK. \nQuazaa will detect downloads of these types and manage them for you."),
+													  QLineEdit::Normal, "", &m_bOkPressed);
+	if (m_bOkPressed && (!m_sDownloadManageItem.isEmpty()))
+	{
+		ui->listWidgetManageDownloadTypes->addItem(m_sDownloadManageItem);
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_pushButtonUserAgentAdd_clicked()
+{
+	bool m_bOkPressed;
+	QString m_sUserAgentItem = QInputDialog::getText(this, tr("Add User Agents to Block"),
+													  tr("Type the vendor code of the client to block and press OK. \nWARNING: Quazaa will block all communications with this client!"),
+													  QLineEdit::Normal, "", &m_bOkPressed);
+	if (m_bOkPressed && (!m_sUserAgentItem.isEmpty()))
+	{
+		ui->listWidgetUserAgents->addItem(m_sUserAgentItem);
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_pushButtonAddParentalFilter_clicked()
+{
+	bool m_bOkPressed;
+	QString m_sParentalFilterItem = QInputDialog::getText(this, tr("Add Words to Block"),
+													  tr("Type the word to block and press OK. \nWARNING: No downloads containing these words will be listed in searches \nand these words will be replaced by \"!%@$#\" in chat!"),
+													  QLineEdit::Normal, "", &m_bOkPressed);
+	if (m_bOkPressed && (!m_sParentalFilterItem.isEmpty()))
+	{
+		ui->listWidgetParentalFilter->addItem(m_sParentalFilterItem);
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_pushButtonFileTypesSafeOpenRemove_clicked()
+{
+	if(ui->listWidgetFileTypesSafeOpen->currentRow() != -1)
+	{
+		ui->listWidgetFileTypesSafeOpen->takeItem(ui->listWidgetFileTypesSafeOpen->currentRow());
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_pushButtonFileTypesNeverShareRemove_clicked()
+{
+	if(ui->listWidgetFileTypesNeverShare->currentRow() != -1)
+	{
+		ui->listWidgetFileTypesNeverShare->takeItem(ui->listWidgetFileTypesNeverShare->currentRow());
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_pushButtonRemoveManageDownloadTypes_clicked()
+{
+	if(ui->listWidgetManageDownloadTypes->currentRow() != -1)
+	{
+		ui->listWidgetManageDownloadTypes->takeItem(ui->listWidgetManageDownloadTypes->currentRow());
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_pushButtonUserAgentRemove_clicked()
+{
+	if(ui->listWidgetUserAgents->currentRow() != -1)
+	{
+		ui->listWidgetUserAgents->takeItem(ui->listWidgetUserAgents->currentRow());
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_pushButtonRemoveParentalFilter_clicked()
+{
+	if(ui->listWidgetParentalFilter->currentRow() != -1)
+	{
+		ui->listWidgetParentalFilter->takeItem(ui->listWidgetParentalFilter->currentRow());
+		ui->pushButtonApply->setEnabled(true);
+	}
+}

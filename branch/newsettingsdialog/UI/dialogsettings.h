@@ -76,6 +76,26 @@ private slots:
 
 	void on_pushButtonSkinPreview_clicked();
 
+	void on_pushButtonFileTypesSafeOpenAdd_clicked();
+
+	void on_pushButtonFileTypesNeverShareAdd_clicked();
+
+	void on_pushButtonAddManageDownloadTypes_clicked();
+
+	void on_pushButtonUserAgentAdd_clicked();
+
+	void on_pushButtonAddParentalFilter_clicked();
+
+	void on_pushButtonFileTypesSafeOpenRemove_clicked();
+
+	void on_pushButtonFileTypesNeverShareRemove_clicked();
+
+	void on_pushButtonRemoveManageDownloadTypes_clicked();
+
+	void on_pushButtonUserAgentRemove_clicked();
+
+	void on_pushButtonRemoveParentalFilter_clicked();
+
 private:
 	Ui::DialogSettings *ui;
 	QString skinFile;
