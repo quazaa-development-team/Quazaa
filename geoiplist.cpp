@@ -250,7 +250,7 @@ QString GeoIPList::countryNameFromCode(QString code)
 	if (code == "FJ")
 		return qApp->tr("Fiji");
 	if (code == "FI")
-		return qApp->tr("FinlAnd");
+		return qApp->tr("Finland");
 	if (code == "FR")
 		return qApp->tr("France");
 	if (code == "GF")

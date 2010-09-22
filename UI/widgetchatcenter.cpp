@@ -104,9 +104,8 @@ void WidgetChatCenter::on_actionConnect_triggered()
 
 void WidgetChatCenter::on_actionChatSettings_triggered()
 {
-	QSkinDialog *dlgSkinSettings = new QSkinDialog(false, true, false, false, this);
-	DialogSettings *dlgSettings = new DialogSettings(0);
-	dlgSettings->switchSettingsPage(7);
+	QSkinDialog *dlgSkinSettings = new QSkinDialog(true, true, false, false, this);
+	DialogSettings *dlgSettings = new DialogSettings(this, SettingsPage::Chat);
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
