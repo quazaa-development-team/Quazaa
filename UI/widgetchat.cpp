@@ -60,14 +60,10 @@ void WidgetChat::changeEvent(QEvent *e)
 void WidgetChat::skinChangeEvent()
 {
 	ui->frameChatLeftSidebar->setStyleSheet(skinSettings.sidebarBackground);
-//	ui->frameChatRightSidebar->setStyleSheet(skinSettings.sidebarBackground);
 	ui->toolButtonChatFriendsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
 	ui->toolButtonChatRoomsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
-//	ui->toolButtonChatUsersHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
-//	ui->frameChatUsersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->frameChatFriendsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->frameChatRoomsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
-	ui->frameChatWelcome->setStyleSheet(skinSettings.chatWelcome);
 }
 
 void WidgetChat::saveWidget()
