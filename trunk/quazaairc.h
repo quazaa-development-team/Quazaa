@@ -29,6 +29,7 @@ namespace Irc
 }
 
 #include <QObject>
+#include "widgetchattab.h"
 
 class QuazaaIRC : public QObject
 {
@@ -40,9 +41,12 @@ public:
 public slots:
 	void startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );
 	void stopIrc();
-	void sendIrcMessage(QString message);
+	void sendIrcMessage(WidgetChatTab* tab, QString message);
 signals:
-	void appendMessage(QString str);
+	void setPrefixes(QString modes, QString mprefs);
+	void channelNames(QStringList list);
+	void appendMessage(Irc::Buffer* buffer, QString sender, QString message);
+	void bufferAdded(QString str);
 
 protected slots:
 	void on_IrcSession_connected();
@@ -51,7 +55,8 @@ protected slots:
 
 	void on_IrcSession_bufferAdded(Irc::Buffer* buffer);
 	void on_IrcSession_bufferRemoved(Irc::Buffer* buffer);
-	void on_IrcSession_messageReceived(QString, QString);
+	void messageReceived(QString, QString);
+	void numericMessageReceived(QString, uint, QStringList);
 
 protected:
 	Irc::Session *ircSession;

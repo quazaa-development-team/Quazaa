@@ -21,6 +21,8 @@
 
 #include "types.h"
 #include "quazaairc.h"
+#include "ircutil.h"
+#include "widgetchattab.h"
 
 #include <ircsession.h>
 #include <ircbuffer.h>
@@ -50,6 +52,10 @@ void QuazaaIRC::on_IrcSession_welcomed()
 void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 {
 	qDebug() << "buffer added:" << buffer->receiver();
+	emit bufferAdded(buffer->receiver());
+	buffer->names();
+	connect(buffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
+	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this, SLOT(numericMessageReceived(QString,uint,QStringList)));
 }
 
 void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
@@ -63,6 +69,8 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 {
 	qDebug() << "QuazaaIRC::startIrc() " << ircServer;
 	ircSession = new Irc::Session(this);
+	// stripNicks / echoMessages
+	ircSession->setOptions(Irc::Session::EchoMessages);
 
 	if (useSsl)
 	{
@@ -91,19 +99,49 @@ void QuazaaIRC::stopIrc()
 
 	if( ircSession )
 	{
-		ircSession->part("#quazaa-dev", "Client exited.");
 		ircSession->disconnectFromServer();
 		ircSession->deleteLater();
 		ircSession = 0;
 	}
 }
 
-void QuazaaIRC::sendIrcMessage(QString message)
+void QuazaaIRC::sendIrcMessage(WidgetChatTab* tab, QString message)
 {
-	ircSession->message("#quazaa-dev", message);
+	//qDebug() << "Sending message to: " + tab->name + " ("+message+")";
+	ircSession->message(tab->name, message);
 }
-void QuazaaIRC::on_IrcSession_messageReceived(QString a, QString b)
+
+void QuazaaIRC::messageReceived(QString sender, QString message)
 {
-	qDebug() << "A: "+a+" B: "+b;
-	emit appendMessage(a+" --> "+b);
+	//qDebug() << "Message echoed: " + sender + "|" + message;
+	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message);
+}
+
+void QuazaaIRC::numericMessageReceived(QString str, uint code, QStringList list)
+{
+	qDebug() << "IRC "+QString::number(code)+":"+str;
+	switch (code)
+	{
+		case Irc::Rfc::RPL_NAMREPLY:
+			emit channelNames(list);
+		break;
+		case Irc::Rfc::RPL_BOUNCE:
+		{
+			for (int i = 0 ; i<list.size() ; ++i) {
+				QString opt = list.at(i);
+				if (opt.startsWith("PREFIX=", Qt::CaseInsensitive))
+				{
+					QString prefstr	= opt.split("=")[1];
+					QString modes	= prefstr.mid(1, prefstr.indexOf(")")-1);
+					QString mprefs	= prefstr.right(modes.length());
+					emit setPrefixes(modes, mprefs);
+				}
+			}
+			break;
+		}
+		default:
+		{
+			// add to status
+		}
+	}
 }

@@ -41,7 +41,7 @@ protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::WidgetChat *ui;
+	Ui::WidgetChat *ui;
 
 private slots:
 	void on_splitterChat_customContextMenuRequested(QPoint pos);
