@@ -831,8 +831,25 @@ void CG2Node::OnPing(G2Packet* pPacket)
 			*pRelay++ = 'R'; *pRelay++ = 'E'; *pRelay++ = 'L';
 			*pRelay++ = 'A'; *pRelay++ = 'Y';
 
+			int nRelayed = 0;
+			QList<int> lToRelayIndex;
 
-			QList<CG2Node*> lToRelay;
+			for( int i = 0; i < Neighbours.GetCount() && nRelayed < quazaaSettings.Gnutella2.PingRelayLimit; ++i )
+			{
+				int nIndex = qrand() % Neighbours.GetCount();
+				if( !lToRelayIndex.contains(nIndex) )
+				{
+					CG2Node* pNode = Neighbours.GetAt(nIndex);
+					if( pNode != this && pNode->m_nState == nsConnected )
+					{
+						pPacket->AddRef();
+						pNode->SendPacket(pPacket, true, true);
+						nRelayed++;
+					}
+				}
+			}
+
+			/*QList<CG2Node*> lToRelay;
 
 			for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
 			{
@@ -848,7 +865,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 				CG2Node* pNode = lToRelay.at(nIndex);
 				pNode->SendPacket(pPacket, true, true);
 				lToRelay.removeAt(nIndex);
-			}
+			}*/
 
 			return;
 		}
