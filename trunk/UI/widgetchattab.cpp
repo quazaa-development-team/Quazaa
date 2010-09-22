@@ -34,6 +34,10 @@ WidgetChatTab::~WidgetChatTab()
 
 void WidgetChatTab::skinChangeEvent()
 {
+	ui->frameChatRightSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->frameChatWelcome->setStyleSheet(skinSettings.chatWelcome);
+	ui->toolButtonChatUsersHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->frameChatUsersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 }
 
 void WidgetChatTab::saveWidget()
