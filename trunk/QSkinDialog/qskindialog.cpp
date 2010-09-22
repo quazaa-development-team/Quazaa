@@ -232,7 +232,7 @@ void QSkinDialog::setMaximized(bool maximize)
 
 void QSkinDialog::onMinimize()
 {
-	if (isMainDialog && quazaaSettings.Basic.MinimizeToTray)
+	if (isMainDialog && quazaaSettings.System.MinimizeToTray)
 		hide();
 	else
 		setMinimized(!minimized);

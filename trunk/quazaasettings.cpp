@@ -50,37 +50,19 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("UploadLimitWarning", quazaaSettings.Live.UploadLimitWarning);
 	m_qSettings.endGroup();
 
-	m_qSettings.beginGroup("Basic");
-	m_qSettings.setValue("ChatTips", quazaaSettings.Basic.ChatTips);
-	m_qSettings.setValue("CloseMode", quazaaSettings.Basic.CloseMode);
-	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.Basic.ConnectOnStartup);
-	m_qSettings.setValue("DiskSpaceStop", quazaaSettings.Basic.DiskSpaceStop);
-	m_qSettings.setValue("DiskSpaceWarning", quazaaSettings.Basic.DiskSpaceWarning);
-	m_qSettings.setValue("DownloadsTips", quazaaSettings.Basic.DownloadsTips);
-	m_qSettings.setValue("LibraryTips", quazaaSettings.Basic.LibraryTips);
-	m_qSettings.setValue("MediaTips", quazaaSettings.Basic.MediaTips);
-	m_qSettings.setValue("MinimizeToTray", quazaaSettings.Basic.MinimizeToTray);
-	m_qSettings.setValue("NeighboursTips", quazaaSettings.Basic.NeighboursTips);
-	m_qSettings.setValue("SearchTips", quazaaSettings.Basic.SearchTips);
-	m_qSettings.setValue("StartWithSystem", quazaaSettings.Basic.StartWithSystem);
-	m_qSettings.setValue("TipDelay", quazaaSettings.Basic.TipDelay);
-	m_qSettings.setValue("TipLowResMode", quazaaSettings.Basic.TipLowResMode);
-	m_qSettings.setValue("TipTransparency", quazaaSettings.Basic.TipTransparency);
-	m_qSettings.setValue("UploadsTips", quazaaSettings.Basic.UploadsTips);
+	m_qSettings.beginGroup("System");
+	m_qSettings.setValue("CloseMode", quazaaSettings.System.CloseMode);
+	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.System.ConnectOnStartup);
+	m_qSettings.setValue("DiskSpaceStop", quazaaSettings.System.DiskSpaceStop);
+	m_qSettings.setValue("DiskSpaceWarning", quazaaSettings.System.DiskSpaceWarning);
+	m_qSettings.setValue("MinimizeToTray", quazaaSettings.System.MinimizeToTray);
+	m_qSettings.setValue("StartWithSystem", quazaaSettings.System.StartWithSystem);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Parental");
 	m_qSettings.setValue("AdultFilter", quazaaSettings.Parental.AdultFilter);
 	m_qSettings.setValue("ChatAdultCensor", quazaaSettings.Parental.ChatAdultCensor);
 	m_qSettings.setValue("FilterAdultSearchResults", quazaaSettings.Parental.FilterAdultSearchResults);
-	m_qSettings.endGroup();
-
-	m_qSettings.beginGroup("Logging");
-	m_qSettings.setValue("DebugLog", quazaaSettings.Logging.DebugLog);
-	m_qSettings.setValue("LogLevel", quazaaSettings.Logging.LogLevel);
-	m_qSettings.setValue("LogShowTimestamp", quazaaSettings.Logging.LogShowTimestamp);
-	m_qSettings.setValue("MaxDebugLogSize", quazaaSettings.Logging.MaxDebugLogSize);
-	m_qSettings.setValue("SearchLog", quazaaSettings.Logging.SearchLog);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Library");
@@ -160,23 +142,20 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("SwitchOnDownload", quazaaSettings.Search.SwitchOnDownload);
 	m_qSettings.endGroup();
 
+	m_qSettings.beginGroup("PrivateMessages");
+	m_qSettings.setValue("AresEnable", quazaaSettings.PrivateMessages.AresEnable);
+	m_qSettings.setValue("AwayMessage", quazaaSettings.PrivateMessages.AwayMessage);
+	m_qSettings.setValue("AwayMessageIdleTime", quazaaSettings.PrivateMessages.AwayMessageIdleTime);
+	m_qSettings.setValue("eDonkeyEnable", quazaaSettings.PrivateMessages.eDonkeyEnable);
+	m_qSettings.setValue("Gnutella2Enable", quazaaSettings.PrivateMessages.Gnutella2Enable);
+	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Chat");
-	m_qSettings.setValue("AwayMessageIdleTime", quazaaSettings.Chat.AwayMessageIdleTime);
-	m_qSettings.setValue("Background", quazaaSettings.Chat.Background);
 	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.Chat.ConnectOnStartup);
-	m_qSettings.setValue("ColorChatBackground", quazaaSettings.Chat.ColorChatBackground);
-	m_qSettings.setValue("ColorNormalText", quazaaSettings.Chat.ColorNormalText);
-	m_qSettings.setValue("ColorNoticesText", quazaaSettings.Chat.ColorNoticesText);
-	m_qSettings.setValue("ColorRoomActionsText", quazaaSettings.Chat.ColorRoomActionsText);
-	m_qSettings.setValue("ColorServerMessagesText", quazaaSettings.Chat.ColorServerMessagesText);
-	m_qSettings.setValue("ColorTopicsText", quazaaSettings.Chat.ColorTopicsText);
-	m_qSettings.setValue("EnableChatAllNetworks", quazaaSettings.Chat.EnableChatAllNetworks);
 	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
-	m_qSettings.setValue("GnutellaChatEnable", quazaaSettings.Chat.GnutellaChatEnable);
 	m_qSettings.setValue("IrcServerName", quazaaSettings.Chat.IrcServerName);
 	m_qSettings.setValue("IrcServerPort", quazaaSettings.Chat.IrcServerPort);
 	m_qSettings.setValue("IrcUseSSL", quazaaSettings.Chat.IrcUseSSL);
-	m_qSettings.setValue("ScreenFont", quazaaSettings.Chat.ScreenFont);
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
 	m_qSettings.endGroup();
 
@@ -494,23 +473,13 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Live.UploadLimitWarning = m_qSettings.value("UploadLimitWarning", false).toBool();
 	m_qSettings.endGroup();
 
-	m_qSettings.beginGroup("Basic");
-	quazaaSettings.Basic.ChatTips = m_qSettings.value("ChatTips", true).toBool();
-	quazaaSettings.Basic.CloseMode = m_qSettings.value("CloseMode", 0).toInt();
-	quazaaSettings.Basic.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", true).toBool();
-	quazaaSettings.Basic.DiskSpaceStop = m_qSettings.value("DiskSpaceStop", 25).toInt();
-	quazaaSettings.Basic.DiskSpaceWarning = m_qSettings.value("DiskSpaceWarning", 500).toInt();
-	quazaaSettings.Basic.DownloadsTips = m_qSettings.value("DownloadsTips", true).toBool();
-	quazaaSettings.Basic.LibraryTips = m_qSettings.value("LibraryTips", true).toBool();
-	quazaaSettings.Basic.MediaTips = m_qSettings.value("MediaTips", true).toBool();
-	quazaaSettings.Basic.MinimizeToTray = m_qSettings.value("MinimizeToTray", false).toBool();
-	quazaaSettings.Basic.NeighboursTips = m_qSettings.value("NeighboursTips", true).toBool();
-	quazaaSettings.Basic.SearchTips = m_qSettings.value("SearchTips", true).toBool();
-	quazaaSettings.Basic.StartWithSystem = m_qSettings.value("StartWithSystem", false).toBool();
-	quazaaSettings.Basic.TipDelay = m_qSettings.value("TipDelay", 600).toInt();
-	quazaaSettings.Basic.TipLowResMode = m_qSettings.value("TipLowResMode", true).toBool();
-	quazaaSettings.Basic.TipTransparency = m_qSettings.value("TipTransparency", 255).toInt();
-	quazaaSettings.Basic.UploadsTips = m_qSettings.value("UploadsTips", true).toBool();
+	m_qSettings.beginGroup("System");
+	quazaaSettings.System.CloseMode = m_qSettings.value("CloseMode", 0).toInt();
+	quazaaSettings.System.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", true).toBool();
+	quazaaSettings.System.DiskSpaceStop = m_qSettings.value("DiskSpaceStop", 25).toInt();
+	quazaaSettings.System.DiskSpaceWarning = m_qSettings.value("DiskSpaceWarning", 500).toInt();
+	quazaaSettings.System.MinimizeToTray = m_qSettings.value("MinimizeToTray", false).toBool();
+	quazaaSettings.System.StartWithSystem = m_qSettings.value("StartWithSystem", false).toBool();
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Parental");
@@ -520,14 +489,6 @@ void QuazaaSettings::loadSettings()
 														 << "whore" << "slut" << "clit").toStringList();
 	quazaaSettings.Parental.ChatAdultCensor = m_qSettings.value("ChatAdultCensor", true).toBool();
 	quazaaSettings.Parental.FilterAdultSearchResults = m_qSettings.value("FilterAdultSearchResults", true).toBool();
-	m_qSettings.endGroup();
-
-	m_qSettings.beginGroup("Logging");
-	quazaaSettings.Logging.DebugLog = m_qSettings.value("DebugLog", false).toBool();
-	quazaaSettings.Logging.LogLevel = m_qSettings.value("LogLevel", 3).toInt();
-	quazaaSettings.Logging.LogShowTimestamp = m_qSettings.value("LogShowTimestamp", true).toBool();
-	quazaaSettings.Logging.MaxDebugLogSize = m_qSettings.value("MaxDebugLogSize", 10).toInt();
-	quazaaSettings.Logging.SearchLog = m_qSettings.value("SearchLog", true).toBool();
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Library");
@@ -623,23 +584,20 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Search.SwitchOnDownload = m_qSettings.value("SwitchOnDownload", true).toBool();
 	m_qSettings.endGroup();
 
+	m_qSettings.beginGroup("PrivateMessages");
+	quazaaSettings.PrivateMessages.AresEnable = m_qSettings.value("AresEnable", true).toBool();
+	quazaaSettings.PrivateMessages.AwayMessage = m_qSettings.value("AwayMessage", "This Quazaa user is currently away from their computer.").toBool();
+	quazaaSettings.PrivateMessages.AwayMessageIdleTime = m_qSettings.value("AwayMessageIdleTime", 30).toInt();
+	quazaaSettings.PrivateMessages.eDonkeyEnable = m_qSettings.value("eDonkeyEnable", false).toBool();
+	quazaaSettings.PrivateMessages.Gnutella2Enable = m_qSettings.value("Gnutella2Enable", false).toBool();
+	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Chat");
-	quazaaSettings.Chat.AwayMessageIdleTime = m_qSettings.value("AwayMessageIdleTime", 30).toInt();
-	quazaaSettings.Chat.Background = m_qSettings.value("Background", "").toString();
 	quazaaSettings.Chat.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", false).toBool();
-	quazaaSettings.Chat.ColorChatBackground = m_qSettings.value("ColorChatBackground", QColor(qRgb(255,255,255))).value<QColor>();
-	quazaaSettings.Chat.ColorNormalText = m_qSettings.value("ColorNormalText", QColor(qRgb(0,0,0))).value<QColor>();
-	quazaaSettings.Chat.ColorNoticesText = m_qSettings.value("ColorNoticesText", QColor(qRgb(255,0,0))).value<QColor>();
-	quazaaSettings.Chat.ColorRoomActionsText = m_qSettings.value("ColorRoomActionsText", QColor(qRgb(0,170,0))).value<QColor>();
-	quazaaSettings.Chat.ColorServerMessagesText = m_qSettings.value("ColorServerMessagesText", QColor(qRgb(0,0,255))).value<QColor>();
-	quazaaSettings.Chat.ColorTopicsText = m_qSettings.value("ColorTopicsText", QColor(qRgb(170,85,127))).value<QColor>();
-	quazaaSettings.Chat.EnableChatAllNetworks = m_qSettings.value("EnableChatAllNetworks", true).toBool();
 	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
-	quazaaSettings.Chat.GnutellaChatEnable = m_qSettings.value("GnutellaChatEnable", true).toBool();
 	quazaaSettings.Chat.IrcServerName = m_qSettings.value("IrcServerName", "irc.nixtrixirc.net").toString();
 	quazaaSettings.Chat.IrcServerPort = m_qSettings.value("IrcServerPort", 6667).toInt();
 	quazaaSettings.Chat.IrcUseSSL = m_qSettings.value("IrcUseSSL", false).toBool();
-	quazaaSettings.Chat.ScreenFont = m_qSettings.value("ScreenFont", QFont()).value<QFont>();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
 	m_qSettings.endGroup();
 
@@ -1220,15 +1178,17 @@ void QuazaaSettings::saveLogSettings()
 {
 	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
 
-	m_qSettings.beginGroup("SystemLog");
-	m_qSettings.setValue( "ShowInformation", SystemLog.ShowInformation );
-	m_qSettings.setValue( "ShowSecurity", SystemLog.ShowSecurity );
-	m_qSettings.setValue( "ShowNotice", SystemLog.ShowNotice );
-	m_qSettings.setValue( "ShowDebug", SystemLog.ShowDebug );
-	m_qSettings.setValue( "ShowWarnings", SystemLog.ShowWarnings );
-	m_qSettings.setValue( "ShowError", SystemLog.ShowError );
-	m_qSettings.setValue( "ShowCritical", SystemLog.ShowCritical );
-	m_qSettings.setValue( "IsPaused", SystemLog.IsPaused );
+	m_qSettings.beginGroup("Logging");
+	m_qSettings.setValue( "SaveLog", Logging.SaveLog );
+	m_qSettings.setValue( "LogShowTimestamp", Logging.LogShowTimestamp );
+	m_qSettings.setValue( "ShowInformation", Logging.ShowInformation );
+	m_qSettings.setValue( "ShowSecurity", Logging.ShowSecurity );
+	m_qSettings.setValue( "ShowNotice", Logging.ShowNotice );
+	m_qSettings.setValue( "ShowDebug", Logging.ShowDebug );
+	m_qSettings.setValue( "ShowWarnings", Logging.ShowWarnings );
+	m_qSettings.setValue( "ShowError", Logging.ShowError );
+	m_qSettings.setValue( "ShowCritical", Logging.ShowCritical );
+	m_qSettings.setValue( "IsPaused", Logging.IsPaused );
 	m_qSettings.endGroup();
 }
 
@@ -1236,18 +1196,20 @@ void QuazaaSettings::loadLogSettings()
 {
 	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
 
-	m_qSettings.beginGroup("SystemLog");
-	SystemLog.ShowInformation = m_qSettings.value( "ShowInformation", true ).toBool();
-	SystemLog.ShowSecurity = m_qSettings.value( "ShowSecurity", true ).toBool();
-	SystemLog.ShowNotice = m_qSettings.value( "ShowNotice", true ).toBool();
+	m_qSettings.beginGroup("Logging");
+	Logging.SaveLog = m_qSettings.value("SaveLog", false).toBool();
+	Logging.LogShowTimestamp = m_qSettings.value("LogShowTimestamp", true).toBool();
+	Logging.ShowInformation = m_qSettings.value( "ShowInformation", true ).toBool();
+	Logging.ShowSecurity = m_qSettings.value( "ShowSecurity", true ).toBool();
+	Logging.ShowNotice = m_qSettings.value( "ShowNotice", true ).toBool();
 #ifdef QT_DEBUG
-	SystemLog.ShowDebug = m_qSettings.value( "ShowDebug", true ).toBool();
+	Logging.ShowDebug = m_qSettings.value( "ShowDebug", true ).toBool();
 #else
-	SystemLog.ShowDebug = m_qSettings.value( "ShowDebug", false ).toBool();
+	Logging.ShowDebug = m_qSettings.value( "ShowDebug", false ).toBool();
 #endif
-	SystemLog.ShowWarnings = m_qSettings.value( "ShowWarnings", true ).toBool();
-	SystemLog.ShowError = m_qSettings.value( "ShowError", true ).toBool();
-	SystemLog.ShowCritical = m_qSettings.value( "ShowCritical", true ).toBool();
-	SystemLog.IsPaused = m_qSettings.value( "IsPaused", false ).toBool();
+	Logging.ShowWarnings = m_qSettings.value( "ShowWarnings", true ).toBool();
+	Logging.ShowError = m_qSettings.value( "ShowError", true ).toBool();
+	Logging.ShowCritical = m_qSettings.value( "ShowCritical", true ).toBool();
+	Logging.IsPaused = m_qSettings.value( "IsPaused", false ).toBool();
 	m_qSettings.endGroup();
 }

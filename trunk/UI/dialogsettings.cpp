@@ -39,12 +39,12 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	newSkinSelected = false;
 
 	// Load Basic Settings
-	ui->checkBoxStartWithSystem->setChecked(quazaaSettings.Basic.StartWithSystem);
-	ui->checkBoxConnectOnStart->setChecked(quazaaSettings.Basic.ConnectOnStartup);
-	ui->comboBoxOnClose->setCurrentIndex(quazaaSettings.Basic.CloseMode);
-	ui->checkBoxOnMinimize->setChecked(quazaaSettings.Basic.MinimizeToTray);
-	ui->spinBoxDiskWarn->setValue(quazaaSettings.Basic.DiskSpaceWarning);
-	ui->spinBoxDiskStop->setValue(quazaaSettings.Basic.DiskSpaceStop);
+	ui->checkBoxStartWithSystem->setChecked(quazaaSettings.System.StartWithSystem);
+	ui->checkBoxConnectOnStart->setChecked(quazaaSettings.System.ConnectOnStartup);
+	ui->comboBoxOnClose->setCurrentIndex(quazaaSettings.System.CloseMode);
+	ui->checkBoxOnMinimize->setChecked(quazaaSettings.System.MinimizeToTray);
+	ui->spinBoxDiskWarn->setValue(quazaaSettings.System.DiskSpaceWarning);
+	ui->spinBoxDiskStop->setValue(quazaaSettings.System.DiskSpaceStop);
 
 	// Load Parental Settings
 	ui->checkBoxParentalChatFilter->setChecked(quazaaSettings.Parental.ChatAdultCensor);
@@ -72,14 +72,18 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	ui->checkBoxSearchSwitchOnDownload->setChecked(quazaaSettings.Search.SwitchOnDownload);
 	ui->checkBoxSearchHighlightNewMatches->setChecked(quazaaSettings.Search.HighlightNew);
 
-	// Load Chat Settings
-	ui->checkBoxPrivateMessagesGnutella->setChecked(quazaaSettings.Chat.GnutellaChatEnable);
+	// Load Private Messages Settings
+	ui->checkBoxPrivateMessagesAres->setChecked(quazaaSettings.PrivateMessages.AresEnable);
+	ui->checkBoxPrivateMessagesGnutella->setChecked(quazaaSettings.PrivateMessages.Gnutella2Enable);
+	ui->checkBoxPrivateMessagesEDonkey->setChecked(quazaaSettings.PrivateMessages.eDonkeyEnable);
+	ui->spinBoxPrivateMessagesIdleMessage->setValue(quazaaSettings.PrivateMessages.AwayMessageIdleTime);
+	ui->plainTextEditPrivateMessagesIdleMessage->setPlainText(quazaaSettings.PrivateMessages.AwayMessage);
 
+	// Load Chat Settings
 	ui->checkBoxIrcConnectOnStart->setChecked(quazaaSettings.Chat.ConnectOnStartup);
 	ui->checkBoxIrcEnableFileTransfers->setChecked(quazaaSettings.Chat.EnableFileTransfers);
 	ui->checkBoxIrcShowTimestamp->setChecked(quazaaSettings.Chat.ShowTimestamp);
 	ui->checkBoxIrcSSL->setChecked(quazaaSettings.Chat.IrcUseSSL);
-	ui->spinBoxPrivateMessagesIdleMessage->setValue(quazaaSettings.Chat.AwayMessageIdleTime);
 	ui->lineEditIrcServer->setText(quazaaSettings.Chat.IrcServerName);
 	ui->spinBoxIrcPort->setValue(quazaaSettings.Chat.IrcServerPort);
 
@@ -220,6 +224,13 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	connect (ui->checkBoxSearchSwitchOnDownload, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect (ui->checkBoxSearchHighlightNewMatches, SIGNAL(clicked()), this, SLOT(enableApply()));
 
+	// Private Messages Settings
+	connect(ui->checkBoxPrivateMessagesAres, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->plainTextEditPrivateMessagesIdleMessage, SIGNAL(textChanged()), this, SLOT(enableApply()));
+	connect(ui->spinBoxPrivateMessagesIdleMessage, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxPrivateMessagesEDonkey, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxPrivateMessagesGnutella, SIGNAL(clicked()), this, SLOT(enableApply()));
+
 	// Chat Settings
 	connect (ui->checkBoxPrivateMessagesGnutella, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect (ui->checkBoxIrcConnectOnStart, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -231,8 +242,8 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	connect (ui->checkBoxIrcSSL, SIGNAL(clicked()), this, SLOT(enableApply()));
 
 	// Connection Settings
-	connect (ui->doubleSpinBoxInSpeed, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->doubleSpinBoxOutSpeed, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->doubleSpinBoxInSpeed, SIGNAL(valueChanged(double)), this, SLOT(enableApply()));
+	connect (ui->doubleSpinBoxOutSpeed, SIGNAL(valueChanged(double)), this, SLOT(enableApply()));
 	connect (ui->spinBoxNetworkPort, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect (ui->checkBoxRandomPort, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect (ui->spinBoxConnectionTimeout, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
@@ -577,12 +588,12 @@ void DialogSettings::on_pushButtonCancel_clicked()
 void DialogSettings::on_pushButtonApply_clicked()
 {
 	// Save Basic Settings
-	quazaaSettings.Basic.StartWithSystem = ui->checkBoxStartWithSystem->isChecked();
-	quazaaSettings.Basic.ConnectOnStartup = ui->checkBoxConnectOnStart->isChecked();
-	quazaaSettings.Basic.CloseMode = ui->comboBoxOnClose->currentIndex();
-	quazaaSettings.Basic.MinimizeToTray = ui->checkBoxOnMinimize->isChecked();
-	quazaaSettings.Basic.DiskSpaceWarning = ui->spinBoxDiskWarn->value();
-	quazaaSettings.Basic.DiskSpaceStop = ui->spinBoxDiskStop->value();
+	quazaaSettings.System.StartWithSystem = ui->checkBoxStartWithSystem->isChecked();
+	quazaaSettings.System.ConnectOnStartup = ui->checkBoxConnectOnStart->isChecked();
+	quazaaSettings.System.CloseMode = ui->comboBoxOnClose->currentIndex();
+	quazaaSettings.System.MinimizeToTray = ui->checkBoxOnMinimize->isChecked();
+	quazaaSettings.System.DiskSpaceWarning = ui->spinBoxDiskWarn->value();
+	quazaaSettings.System.DiskSpaceStop = ui->spinBoxDiskStop->value();
 
 	// Save Parental Settings
 	quazaaSettings.Parental.ChatAdultCensor = ui->checkBoxParentalChatFilter->isChecked();
@@ -625,12 +636,17 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Search.SwitchOnDownload = ui->checkBoxSearchSwitchOnDownload->isChecked();
 	quazaaSettings.Search.HighlightNew = ui->checkBoxSearchHighlightNewMatches->isChecked();
 
+	// Save Private Messages Settings
+	quazaaSettings.PrivateMessages.AresEnable = ui->checkBoxPrivateMessagesAres->isChecked();
+	quazaaSettings.PrivateMessages.AwayMessage = ui->plainTextEditPrivateMessagesIdleMessage->toPlainText();
+	quazaaSettings.PrivateMessages.AwayMessageIdleTime = ui->spinBoxPrivateMessagesIdleMessage->value();
+	quazaaSettings.PrivateMessages.eDonkeyEnable = ui->checkBoxPrivateMessagesEDonkey->isChecked();
+	quazaaSettings.PrivateMessages.Gnutella2Enable = ui->checkBoxPrivateMessagesGnutella->isChecked();
+
 	// Save Chat Settings
-	quazaaSettings.Chat.GnutellaChatEnable = ui->checkBoxPrivateMessagesGnutella->isChecked();
 	quazaaSettings.Chat.ConnectOnStartup = ui->checkBoxIrcConnectOnStart->isChecked();
 	quazaaSettings.Chat.EnableFileTransfers = ui->checkBoxIrcEnableFileTransfers->isChecked();
 	quazaaSettings.Chat.ShowTimestamp = ui->checkBoxIrcShowTimestamp->isChecked();
-	quazaaSettings.Chat.AwayMessageIdleTime = ui->spinBoxPrivateMessagesIdleMessage->value();
 	quazaaSettings.Chat.IrcServerName = ui->lineEditIrcServer->text();
 	quazaaSettings.Chat.IrcServerPort = ui->spinBoxIrcPort->value();
 	quazaaSettings.Chat.IrcUseSSL = ui->checkBoxIrcSSL->isChecked();

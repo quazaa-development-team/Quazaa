@@ -31,22 +31,22 @@ WidgetSystemLog::WidgetSystemLog(QWidget *parent) :
 {
 	ui->setupUi(this);
 	quazaaSettings.loadLogSettings();
-	ui->actionPauseLogDisplay->setChecked(quazaaSettings.SystemLog.IsPaused);
+	ui->actionPauseLogDisplay->setChecked(quazaaSettings.Logging.IsPaused);
 	logMenu = new QMenu(ui->textEditSystemLog);
 	logMenu->addAction(ui->actionShowInformation);
-	ui->actionShowInformation->setChecked(quazaaSettings.SystemLog.ShowInformation);
+	ui->actionShowInformation->setChecked(quazaaSettings.Logging.ShowInformation);
 	logMenu->addAction(ui->actionShowSecurity);
-	ui->actionShowSecurity->setChecked(quazaaSettings.SystemLog.ShowSecurity);
+	ui->actionShowSecurity->setChecked(quazaaSettings.Logging.ShowSecurity);
 	logMenu->addAction(ui->actionShowNotice);
-	ui->actionShowNotice->setChecked(quazaaSettings.SystemLog.ShowNotice);
+	ui->actionShowNotice->setChecked(quazaaSettings.Logging.ShowNotice);
 	logMenu->addAction(ui->actionShowDebug);
-	ui->actionShowDebug->setChecked(quazaaSettings.SystemLog.ShowDebug);
+	ui->actionShowDebug->setChecked(quazaaSettings.Logging.ShowDebug);
 	logMenu->addAction(ui->actionShowWarnings);
-	ui->actionShowWarnings->setChecked(quazaaSettings.SystemLog.ShowWarnings);
+	ui->actionShowWarnings->setChecked(quazaaSettings.Logging.ShowWarnings);
 	logMenu->addAction(ui->actionShowError);
-	ui->actionShowError->setChecked(quazaaSettings.SystemLog.ShowError);
+	ui->actionShowError->setChecked(quazaaSettings.Logging.ShowError);
 	logMenu->addAction(ui->actionShowCritical);
-	ui->actionShowCritical->setChecked(quazaaSettings.SystemLog.ShowCritical);
+	ui->actionShowCritical->setChecked(quazaaSettings.Logging.ShowCritical);
 	restoreState(quazaaSettings.WinMain.SystemLogToolbar);
 	ui->actionToggleTimestamp->setChecked(quazaaSettings.Logging.LogShowTimestamp);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
@@ -154,14 +154,14 @@ void WidgetSystemLog::saveWidget()
 {
 	quazaaSettings.WinMain.SystemLogToolbar = saveState();
 	quazaaSettings.Logging.LogShowTimestamp = ui->actionToggleTimestamp->isChecked();
-	quazaaSettings.SystemLog.ShowWarnings = ui->actionShowWarnings->isChecked();
-	quazaaSettings.SystemLog.ShowInformation = ui->actionShowInformation->isChecked();
-	quazaaSettings.SystemLog.ShowSecurity = ui->actionShowSecurity->isChecked();
-	quazaaSettings.SystemLog.ShowNotice = ui->actionShowNotice->isChecked();
-	quazaaSettings.SystemLog.ShowDebug = ui->actionShowDebug->isChecked();
-	quazaaSettings.SystemLog.ShowError = ui->actionShowError->isChecked();
-	quazaaSettings.SystemLog.ShowCritical = ui->actionShowCritical->isChecked();
-	quazaaSettings.SystemLog.IsPaused = ui->actionPauseLogDisplay->isChecked();
+	quazaaSettings.Logging.ShowWarnings = ui->actionShowWarnings->isChecked();
+	quazaaSettings.Logging.ShowInformation = ui->actionShowInformation->isChecked();
+	quazaaSettings.Logging.ShowSecurity = ui->actionShowSecurity->isChecked();
+	quazaaSettings.Logging.ShowNotice = ui->actionShowNotice->isChecked();
+	quazaaSettings.Logging.ShowDebug = ui->actionShowDebug->isChecked();
+	quazaaSettings.Logging.ShowError = ui->actionShowError->isChecked();
+	quazaaSettings.Logging.ShowCritical = ui->actionShowCritical->isChecked();
+	quazaaSettings.Logging.IsPaused = ui->actionPauseLogDisplay->isChecked();
 	quazaaSettings.saveLogSettings();
 }
 

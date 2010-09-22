@@ -115,24 +115,14 @@ namespace Settings
 		bool		UploadLimitWarning;						// Has the user been warned about the ed2k/BT ratio?
 	};
 
-	struct sBasic
+	struct sSystem
 	{
-		int			CloseMode;							// How does application react the close button it is pressed
-		bool		MinimizeToTray;						// How does application react the minimize button it is pressed
-		bool		ChatTips;							// Show tooltips on chat view?
+		int			CloseMode;							// How does application react when the close button it is pressed
+		bool		MinimizeToTray;						// How does application react when the minimize button it is pressed
 		bool		ConnectOnStartup;					// Connect to networks when starting Quazaa
 		int			DiskSpaceStop;						// Value at which to pause all downloads due to low disk space
 		int			DiskSpaceWarning;					// Value at which to warn the user about low disk space
-		bool		DownloadsTips;						// Show tooltips on downloads view?
-		bool		LibraryTips;						// Show tooltips on library view?
-		bool		MediaTips;							// Show tooltips on media view?
-		bool		NeighboursTips;						// Show tooltips on neigbours view?
-		bool		SearchTips;							// Show tooltips on searches view?
 		bool		StartWithSystem;					// Start with operating system
-		int			TipDelay;							// Amount of time the mouse is hovered before showing a tooltip
-		bool		TipLowResMode;						// Low resolution tooltips for performance issues.
-		int			TipTransparency;					// Alpha transarency level for tooltips
-		bool		UploadsTips;						// Show tooltips on uploads view?
 	};
 
 	struct sSkin
@@ -154,11 +144,16 @@ namespace Settings
 
 	struct sLogging
 	{
-		bool		DebugLog;								// Create a log file
-		int			LogLevel;								// Log severity (0 - MSG_ERROR .. 4 - MSG_DEBUG)
+		bool		SaveLog;								// Create a log file on crash
 		bool		LogShowTimestamp;						// Show timestamps in the system log?
-		int			MaxDebugLogSize;						// Max size of the log file
-		bool		SearchLog;								// Display search facility log information
+		bool		ShowInformation;						// Show Information messages
+		bool		ShowSecurity;							// Show Security messages
+		bool		ShowNotice;								// Show Notice messages
+		bool		ShowDebug;								// Show Debug messages
+		bool		ShowWarnings;							// Show Warning messages
+		bool		ShowError;								// Show Error messages
+		bool		ShowCritical;							// Show Critical messages
+		bool		IsPaused;								// Is logging paused
 	};
 
 	struct sLibrary
@@ -263,24 +258,23 @@ namespace Settings
 		//bool		SanityCheck;							// Drop hits of banned hosts
 	};
 
+	struct sPrivateMessages
+	{
+		bool		Gnutella2Enable;						// Are Gnutella 2 private messages enabled?
+		bool		AresEnable;								// Are Gnutella 2 private messages enabled?
+		bool		eDonkeyEnable;							// Are Gnutella 2 private messages enabled?
+		int			AwayMessageIdleTime;					// Time in secs of idle system time before showing away message
+		QString		AwayMessage;							// The away message.
+	};
+
+
 	struct sChat
 	{
-		int			AwayMessageIdleTime;					// Time in secs of idle system time before showing away message
-		QString		Background;								// Path to an image for the background of the chat window
 		bool		ConnectOnStartup;						// Connect to the chat server and enter rooms on startup
-		QColor		ColorChatBackground;					// Color for the background of the chat window
-		QColor		ColorNormalText;						// Color for normal text in the chat window
-		QColor		ColorNoticesText;						// Color for notices in the chat window
-		QColor		ColorRoomActionsText;					// Color for room actions in the chat window
-		QColor		ColorServerMessagesText;				// Color for server messages in the chat window
-		QColor		ColorTopicsText;						// Color for topics in the chat window
-		bool		EnableChatAllNetworks;					// Is chat allowed over other protocols? (ed2k, etc)
 		bool		EnableFileTransfers;					// Enable IRC File Transfers
-		bool		GnutellaChatEnable;						// Is Gnutella chat enabled with compatible clients?
 		QString		IrcServerName;							// Web address of the Irc chat server
 		int			IrcServerPort;							// Port to connect to the chat server on
 		bool		IrcUseSSL;								// Connect with SSL encryption
-		QFont		ScreenFont;								// Font for the chat screen
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
 	};
 
@@ -621,18 +615,6 @@ namespace Settings
 	{
 
 	};
-
-	struct sSystemLog
-	{
-		bool		ShowInformation;
-		bool		ShowSecurity;
-		bool		ShowNotice;
-		bool		ShowDebug;
-		bool		ShowWarnings;
-		bool		ShowError;
-		bool		ShowCritical;
-		bool		IsPaused;
-	};
 };
 
 class QuazaaSettings : public QObject
@@ -660,32 +642,32 @@ public:
 
 public:
 
-	Settings::sWinMain		WinMain;
-	Settings::sLive			Live;
-	Settings::sBasic		Basic;
-	Settings::sSkin			Skin;
-	Settings::sLanguage		Language;
-	Settings::sParental		Parental;
-	Settings::sLogging		Logging;
-	Settings::sLibrary		Library;
-	Settings::sMedia		Media;
-	Settings::sSearch		Search;
-	Settings::sChat			Chat;
-	Settings::sProfile		Profile;
-	Settings::sConnection	Connection;
-	Settings::sWeb			Web;
-	Settings::sWebServices	WebServices;
-	Settings::sTransfers	Transfers;
-	Settings::sDownloads	Downloads;
-	Settings::sUploads		Uploads;
-	Settings::sSecurity		Security;
-	Settings::sGnutella		Gnutella;
-	Settings::sGnutella2	Gnutella2;
-	Settings::sAres			Ares;
-	Settings::sEDonkey		EDonkey;
-	Settings::sBitTorrent	BitTorrent;
-	Settings::sDiscovery	Discovery;
-	Settings::sSystemLog	SystemLog;
+	Settings::sWinMain			WinMain;
+	Settings::sLive				Live;
+	Settings::sSystem			System;
+	Settings::sSkin				Skin;
+	Settings::sLanguage			Language;
+	Settings::sParental			Parental;
+	Settings::sLogging			Logging;
+	Settings::sLibrary			Library;
+	Settings::sMedia			Media;
+	Settings::sSearch			Search;
+	Settings::sPrivateMessages	PrivateMessages;
+	Settings::sChat				Chat;
+	Settings::sProfile			Profile;
+	Settings::sConnection		Connection;
+	Settings::sWeb				Web;
+	Settings::sWebServices		WebServices;
+	Settings::sTransfers		Transfers;
+	Settings::sDownloads		Downloads;
+	Settings::sUploads			Uploads;
+	Settings::sSecurity			Security;
+	Settings::sGnutella			Gnutella;
+	Settings::sGnutella2		Gnutella2;
+	Settings::sAres				Ares;
+	Settings::sEDonkey			EDonkey;
+	Settings::sBitTorrent		BitTorrent;
+	Settings::sDiscovery		Discovery;
 };
 
 extern QuazaaSettings quazaaSettings;

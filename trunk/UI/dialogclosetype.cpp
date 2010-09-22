@@ -52,13 +52,13 @@ void DialogCloseType::changeEvent(QEvent *e)
 
 void DialogCloseType::on_pushButtonOK_clicked()
 {
-	quazaaSettings.Basic.CloseMode = m_ui->comboBoxCloseType->currentIndex() + 1;
+	quazaaSettings.System.CloseMode = m_ui->comboBoxCloseType->currentIndex() + 1;
 	emit closed();
 	close();
 }
 
 void DialogCloseType::skinChangeEvent()
 {
-    setStyleSheet(skinSettings.standardItems);
-    m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	setStyleSheet(skinSettings.standardItems);
+	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }
