@@ -44,12 +44,13 @@ public:
 	~DialogSettings();
 
 public slots:
-	void switchSettingsPage(SettingsPage::settingsPage page);
+	void enableApply();
 
 protected:
 	void changeEvent(QEvent *e);
 
 private slots:
+	void switchSettingsPage(SettingsPage::settingsPage page);
 	void on_listWidgetGeneralTask_clicked(QModelIndex index);
 	void on_listWidgetCommunityTask_clicked(QModelIndex index);
 	void on_listWidgetSecurityTask_clicked(QModelIndex index);
@@ -59,42 +60,27 @@ private slots:
 	void on_pushButtonCancel_clicked();
 	void on_pushButtonApply_clicked();
 	void skinChangeEvent();
-
 	void on_pushButtonProfileEdit_clicked();
-
 	void on_pushButtonShowParentalFilter_clicked();
-
 	void on_labelConfigureG2_linkActivated(QString link);
-
 	void on_labelConfigureAres_linkActivated(QString link);
-
 	void on_labelConfigureEDonkey_linkActivated(QString link);
-
 	void on_labelConfigureBitTorrent_linkActivated(QString link);
-
 	void on_listWidgetSkins_itemClicked(QListWidgetItem* item);
-
 	void on_pushButtonSkinPreview_clicked();
-
 	void on_pushButtonFileTypesSafeOpenAdd_clicked();
-
 	void on_pushButtonFileTypesNeverShareAdd_clicked();
-
 	void on_pushButtonAddManageDownloadTypes_clicked();
-
 	void on_pushButtonUserAgentAdd_clicked();
-
 	void on_pushButtonAddParentalFilter_clicked();
-
 	void on_pushButtonFileTypesSafeOpenRemove_clicked();
-
 	void on_pushButtonFileTypesNeverShareRemove_clicked();
-
 	void on_pushButtonRemoveManageDownloadTypes_clicked();
-
 	void on_pushButtonUserAgentRemove_clicked();
-
 	void on_pushButtonRemoveParentalFilter_clicked();
+	void on_toolButtonSaveBrowse_clicked();
+	void on_toolButtonTempBrowse_clicked();
+	void on_toolButtonTorrentBrowse_clicked();
 
 private:
 	Ui::DialogSettings *ui;

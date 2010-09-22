@@ -639,7 +639,7 @@ p, li { white-space: pre-wrap; }
             <x>0</x>
             <y>0</y>
             <width>381</width>
-            <height>465</height>
+            <height>590</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -652,7 +652,7 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QStackedWidget" name="stackedWidgetSettings">
              <property name="currentIndex">
-              <number>20</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="pageSystem">
               <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1939,8 +1939,14 @@ p, li { white-space: pre-wrap; }
                   <property name="spacing">
                    <number>4</number>
                   </property>
-                  <item row="0" column="0" rowspan="2">
+                  <item row="0" column="0" rowspan="3">
                    <widget class="QListWidget" name="listWidgetUserAgents">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>200</height>
+                     </size>
+                    </property>
                     <property name="maximumSize">
                      <size>
                       <width>80</width>
@@ -1968,6 +1974,19 @@ p, li { white-space: pre-wrap; }
                      <string>Remove</string>
                     </property>
                    </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <spacer name="verticalSpacer_24">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                   </spacer>
                   </item>
                  </layout>
                 </widget>
@@ -2343,7 +2362,7 @@ p, li { white-space: pre-wrap; }
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>213</width>
-                   <height>103</height>
+                   <height>228</height>
                   </size>
                  </property>
                 </spacer>
@@ -2437,7 +2456,7 @@ p, li { white-space: pre-wrap; }
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>20</width>
-                   <height>396</height>
+                   <height>521</height>
                   </size>
                  </property>
                 </spacer>
@@ -2911,7 +2930,7 @@ p, li { white-space: pre-wrap; }
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>182</width>
-                   <height>260</height>
+                   <height>385</height>
                   </size>
                  </property>
                 </spacer>
@@ -2941,7 +2960,7 @@ p, li { white-space: pre-wrap; }
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>20</width>
-                   <height>425</height>
+                   <height>550</height>
                   </size>
                  </property>
                 </spacer>

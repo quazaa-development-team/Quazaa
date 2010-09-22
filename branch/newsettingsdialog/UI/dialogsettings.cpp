@@ -187,6 +187,129 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 
 	connect(this, SIGNAL(skinChanged()), &skinSettings, SIGNAL(skinChanged()));
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+
+	// System Settings
+	connect (ui->checkBoxStartWithSystem, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxConnectOnStart, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->comboBoxOnClose, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
+	connect (ui->checkBoxOnMinimize, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->spinBoxDiskWarn, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->spinBoxDiskStop, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
+	// Parental Settings
+	connect (ui->checkBoxParentalChatFilter, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxParentalSearchFilter, SIGNAL(clicked()), this, SLOT(enableApply()));
+
+	// Library Settings
+	connect (ui->checkBoxLibraryRememberViews, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxLibraryWatchFolders, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxQuickHashing, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxDisplayHashingProgress, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxLibraryGhostFiles, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxVideoSeriesDetection, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->spinBoxFileHistoryRemember, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->spinBoxFileHistoryDays, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
+
+	// File Types Settings
+
+	// Media Player Settings
+
+	// Search Settings
+	connect (ui->checkBoxSearchExpandMultiSorce, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxSearchSwitchOnDownload, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxSearchHighlightNewMatches, SIGNAL(clicked()), this, SLOT(enableApply()));
+
+	// Chat Settings
+	connect (ui->checkBoxPrivateMessagesGnutella, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxIrcConnectOnStart, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxIrcEnableFileTransfers, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxIrcShowTimestamp, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->spinBoxPrivateMessagesIdleMessage, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->lineEditIrcServer, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect (ui->spinBoxIrcPort, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->checkBoxIrcSSL, SIGNAL(clicked()), this, SLOT(enableApply()));
+
+	// Connection Settings
+	connect (ui->doubleSpinBoxInSpeed, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->doubleSpinBoxOutSpeed, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->spinBoxNetworkPort, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->checkBoxRandomPort, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->spinBoxConnectionTimeout, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
+	// Web Settings
+	connect (ui->checkBoxIntegrationMagnetLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxIntegrationGnutellaLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxIntegrationAresLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxIntegrationBitTorrentLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxIntegrationPioletLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxIntegrationEDonkeyLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxManageWebDownloads, SIGNAL(clicked()), this, SLOT(enableApply()));
+
+	// Transfer Settings
+	connect (ui->checkBoxOnlyDownloadConnectedNetworks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxSimpleProgress, SIGNAL(clicked()), this, SLOT(enableApply()));
+
+	// Download Settings
+	connect (ui->checkBoxExpandDownloads, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->lineEditSaveFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect (ui->lineEditTempFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect (ui->comboBoxQueLength, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
+	connect (ui->spinBoxMaxFiles, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->spinBoxMaxTransfers, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->spinBoxTransfersPerFile, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
+	// Upload Settings
+	connect (ui->checkBoxSharePartials, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxSharingLimitHub, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxSharePreviews, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->spinBoxUniqueHostLimit, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
+	// Security Settings
+	connect (ui->checkBoxChatFilterSpam, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxAllowBrowseProfile, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxIrcFloodProtection, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->spinBoxChatFloodLimit, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->checkBoxRemoteEnable, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->lineEditRemoteUserName, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect (ui->lineEditRemotePassword, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect (ui->checkBoxIgnoreLocalIP, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxEnableUPnP, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxAllowBrowseShares, SIGNAL(clicked()), this, SLOT(enableApply()));
+
+	// Gnutella 2 Settings
+	connect (ui->checkBoxConnectG2, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->comboBoxG2Mode, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
+	connect (ui->spinBoxG2LeafToHub, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->spinBoxG2HubToLeaf, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->spinBoxG2HubToHub, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
+	// Ares Settings
+	connect (ui->checkBoxConnectAres, SIGNAL(clicked()), this, SLOT(enableApply()));
+
+	// eDonkey 2k Settings
+	connect (ui->checkBoxConnectEDonkey, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxConnectKAD, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxED2kSearchCahedServers, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->spinBoxED2kMaxResults, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->checkBoxED2kUpdateServerList, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->spinBoxED2kMaxClients, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->checkBoxAutoQueryServerList, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->lineEditEDonkeyServerListUrl, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+
+	// BitTorrent Settings
+	connect (ui->checkBoxTorrentSaveDialog, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxTorrentsStartPaused, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxTorrentsUseTemp, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxManagedTorrent, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxTorrentsEndgame, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->spinBoxTorrentsSimultaneous, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->spinBoxTorrentsClientConnections, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->checkBoxTorrentsClearDownloaded, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->spinBoxTorrentsRatioClear, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect (ui->checkBoxTorrentsPreferTorrent, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->checkBoxTorrentsUseKademlia, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect (ui->lineEditTorrentFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
 }
 
 DialogSettings::~DialogSettings()
@@ -811,4 +934,51 @@ void DialogSettings::on_pushButtonRemoveParentalFilter_clicked()
 		ui->listWidgetParentalFilter->takeItem(ui->listWidgetParentalFilter->currentRow());
 		ui->pushButtonApply->setEnabled(true);
 	}
+}
+
+void DialogSettings::on_toolButtonSaveBrowse_clicked()
+{
+	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
+	QString directory = QFileDialog::getExistingDirectory(this,
+							tr("Select A Location To Save Files"),
+							ui->lineEditSaveFolder->text(),
+							options);
+	if (!directory.isEmpty())
+	{
+		ui->lineEditSaveFolder->setText(directory);
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_toolButtonTempBrowse_clicked()
+{
+	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
+	QString directory = QFileDialog::getExistingDirectory(this,
+							tr("Select A Folder For Temp Files"),
+							ui->lineEditTempFolder->text(),
+							options);
+	if (!directory.isEmpty())
+	{
+		ui->lineEditTempFolder->setText(directory);
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::on_toolButtonTorrentBrowse_clicked()
+{
+	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
+	QString directory = QFileDialog::getExistingDirectory(this,
+							tr("Select A Folder To Store .torrent Files"),
+							ui->lineEditTorrentFolder->text(),
+							options);
+	if (!directory.isEmpty())
+	{
+		ui->lineEditTorrentFolder->setText(directory);
+		ui->pushButtonApply->setEnabled(true);
+	}
+}
+
+void DialogSettings::enableApply()
+{
+	ui->pushButtonApply->setEnabled(true);
 }
