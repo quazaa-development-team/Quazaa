@@ -304,7 +304,7 @@ bool WinMain::event(QEvent *e)
 	case QEvent::Close:
 		if(!bypassCloseEvent)
 		{
-			if (quazaaSettings.Basic.CloseMode == 0)
+			if (quazaaSettings.System.CloseMode == 0)
 			{
 
 				QSkinDialog *dlgSkinCloseType = new QSkinDialog(false, false, false);
@@ -316,7 +316,7 @@ bool WinMain::event(QEvent *e)
 				dlgSkinCloseType->exec();
 			}
 
-			switch (quazaaSettings.Basic.CloseMode)
+			switch (quazaaSettings.System.CloseMode)
 			{
 			case 1:
 				quazaaShutdown();

@@ -54,8 +54,8 @@ DialogWizard::DialogWizard(QWidget *parent) :
 	m_ui->checkBoxKadConnect->setChecked(quazaaSettings.EDonkey.EnableKad);
 	m_ui->checkBoxBitTorrentLinks->setChecked(quazaaSettings.Web.Torrent);
 	m_ui->checkBoxBitTorrentKademliaConnect->setChecked(quazaaSettings.BitTorrent.UseKademlia);
-	m_ui->checkBoxConnectNetworksAlways->setChecked(quazaaSettings.Basic.ConnectOnStartup);
-	m_ui->checkBoxOSStart->setChecked(quazaaSettings.Basic.StartWithSystem);
+	m_ui->checkBoxConnectNetworksAlways->setChecked(quazaaSettings.System.ConnectOnStartup);
+	m_ui->checkBoxOSStart->setChecked(quazaaSettings.System.StartWithSystem);
 	m_ui->checkBoxSimpleProgress->setChecked(quazaaSettings.Transfers.SimpleProgressBar);
 	m_ui->checkBoxSlowHashing->setChecked(!quazaaSettings.Library.HighPriorityHashing);
 	m_ui->pagesWizard->setCurrentIndex(0);
@@ -186,8 +186,8 @@ void DialogWizard::on_pushButtonSystemFinish_clicked()
 	quazaaSettings.EDonkey.EnableKad = m_ui->checkBoxKadConnect->isChecked();
 	quazaaSettings.Web.Torrent = m_ui->checkBoxBitTorrentLinks->isChecked();
 	quazaaSettings.BitTorrent.UseKademlia = m_ui->checkBoxBitTorrentKademliaConnect->isChecked();
-	quazaaSettings.Basic.ConnectOnStartup = m_ui->checkBoxConnectNetworksAlways->isChecked();
-	quazaaSettings.Basic.StartWithSystem = m_ui->checkBoxOSStart->isChecked();
+	quazaaSettings.System.ConnectOnStartup = m_ui->checkBoxConnectNetworksAlways->isChecked();
+	quazaaSettings.System.StartWithSystem = m_ui->checkBoxOSStart->isChecked();
 	quazaaSettings.Transfers.SimpleProgressBar = m_ui->checkBoxSimpleProgress->isChecked();
 	quazaaSettings.Library.HighPriorityHashing = !m_ui->checkBoxSlowHashing->isChecked();
 	quazaaSettings.saveProfile();
