@@ -26,7 +26,7 @@
 #include <QMutex>
 #include <QUdpSocket>
 #include <QHash>
-#include <QStack>
+#include <QLinkedList>
 #include <QTimer>
 #include <QTime>
 
@@ -63,16 +63,17 @@ protected:
     QTime       m_tStopWatch;
 
     QHash<quint16, DatagramOut*>     m_SendCacheMap;    // zeby szybko odszukac pakiety po sekwencji
-    QStack<DatagramOut*>             m_SendCache;       // kolejka LIFO
-    QStack<DatagramOut*>             m_FreeDGOut;
+	QLinkedList<DatagramOut*>		 m_SendCache;		// a lifo queue, last is oldest
+	QLinkedList<DatagramOut*>		 m_FreeDGOut;
     quint16                          m_nSequence;
 
     QHash<quint32,
         QHash<quint32, DatagramIn*>
-        >                   m_RecvCache;
-    QStack<DatagramIn*>     m_FreeDGIn;
+		>                    m_RecvCache;		// for searching by ip & sequence
+	QLinkedList<DatagramIn*> m_RecvCacheTime;	// a list ordered by recv time, last is oldest
 
-    QStack<QByteArray*>     m_FreeBuffer;
+	QLinkedList<DatagramIn*> m_FreeDGIn;		// a list of free incoming packets
+	QLinkedList<QByteArray*> m_FreeBuffer;		// a list of free buffers
 
     QByteArray*     m_pRecvBuffer;
     QHostAddress*   m_pHostAddress;

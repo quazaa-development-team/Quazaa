@@ -90,17 +90,17 @@ void CDatagrams::SetupThread()
 
 		for( int i = 0; i < quazaaSettings.Gnutella2.UdpBuffers; i++ )
 		{
-			m_FreeBuffer.push(new QByteArray());
+			m_FreeBuffer.append(new QByteArray);
 		}
 
 		for( int i = 0; i < quazaaSettings.Gnutella2.UdpInFrames; i++ )
 		{
-			m_FreeDGIn.push(new DatagramIn());
+			m_FreeDGIn.append(new DatagramIn);
 		}
 
 		for( int i = 0; i < quazaaSettings.Gnutella2.UdpOutFrames; i++ )
 		{
-			m_FreeDGOut.push(new DatagramOut());
+			m_FreeDGOut.append(new DatagramOut);
 		}
 
 		connect(this, SIGNAL(SendQueueUpdated()), this, SLOT(FlushSendCache()), Qt::QueuedConnection);
@@ -154,19 +154,19 @@ void CDatagrams::CleanupThread()
 	disconnect(SIGNAL(SendQueueUpdated()));
 
 	while( !m_SendCache.isEmpty() )
-		Remove(m_SendCache.pop());
+		Remove(m_SendCache.first());
 
-	while( !m_RecvCache.isEmpty() )
-		RemoveOldIn(true);
+	while( !m_RecvCacheTime.isEmpty() )
+		Remove(m_RecvCacheTime.first());
 
 	while( !m_FreeDGIn.isEmpty() )
-		delete m_FreeDGIn.pop();
+		delete m_FreeDGIn.takeFirst();
 
 	while( !m_FreeDGOut.isEmpty() )
-		delete m_FreeDGOut.pop();
+		delete m_FreeDGOut.takeFirst();
 
 	while( !m_FreeBuffer.isEmpty() )
-		delete m_FreeBuffer.pop();
+		delete m_FreeBuffer.takeFirst();
 }
 
 void CDatagrams::Disconnect()
@@ -232,15 +232,15 @@ void CDatagrams::OnReceiveGND()
 	}
 	else
 	{
-		if( m_FreeDGIn.size() )
+		if( !m_FreeDGIn.isEmpty() )
 		{
-			pDG = m_FreeDGIn.pop();
+			pDG = m_FreeDGIn.takeFirst();
 		}
 		else
 		{
 			if( m_FreeDGIn.isEmpty() )
 			{
-				RemoveOldIn(false);
+				RemoveOldIn(true);
 				if( m_FreeDGIn.isEmpty() )
 				{
 					qDebug() << "UDP in frames exhausted";
@@ -249,13 +249,13 @@ void CDatagrams::OnReceiveGND()
 				}
 			}
 
-			pDG = m_FreeDGIn.pop();
+			pDG = m_FreeDGIn.takeFirst();
 		}
 
 		if( m_FreeBuffer.size() < pHeader->nCount )
 		{
 			m_nDiscarded++;
-			m_FreeDGIn.push(pDG);
+			m_FreeDGIn.append(pDG);
 			RemoveOldIn(false);
 			return;
 		}
@@ -265,10 +265,11 @@ void CDatagrams::OnReceiveGND()
 		for( int i = 0; i < pHeader->nCount; i++ )
 		{
 			Q_ASSERT(pDG->m_pBuffer[i] == 0);
-			pDG->m_pBuffer[i] = m_FreeBuffer.pop();
+			pDG->m_pBuffer[i] = m_FreeBuffer.takeFirst();
 		}
 
 		m_RecvCache[nIp][nSeq] = pDG;
+		m_RecvCacheTime.prepend(pDG);
 	}
 
 	// Dopiero tutaj, na wypadek gdybysmy nie mieli wolnych datagramow
@@ -332,7 +333,7 @@ void CDatagrams::Remove(DatagramIn *pDG, bool bReclaim)
 	{
 		if( pDG->m_pBuffer[i] )
 		{
-			m_FreeBuffer.push(pDG->m_pBuffer[i]);
+			m_FreeBuffer.append(pDG->m_pBuffer[i]);
 			pDG->m_pBuffer[i]->clear();
 			pDG->m_pBuffer[i] = 0;
 		}
@@ -341,6 +342,19 @@ void CDatagrams::Remove(DatagramIn *pDG, bool bReclaim)
 	if( bReclaim )
 		return;
 
+	if( m_RecvCache.contains(pDG->m_oAddress.ip) )
+	{
+		quint32 nSeq = ((pDG->m_nSequence << 16) & 0xFFFF0000) + (pDG->m_oAddress.port & 0x0000FFFF);
+		Q_ASSERT(pDG == m_RecvCache[pDG->m_oAddress.ip][nSeq]);
+		m_RecvCache[pDG->m_oAddress.ip].remove(nSeq);
+		if( m_RecvCache[pDG->m_oAddress.ip].isEmpty() )
+			m_RecvCache.remove(pDG->m_oAddress.ip);
+
+		m_RecvCacheTime.removeOne(pDG);
+		m_FreeDGIn.append(pDG);
+	}
+
+	/*
 	bool bFound = false;
 
 	for( QHash<quint32, QHash<quint32, DatagramIn*> >::iterator it = m_RecvCache.begin(); it != m_RecvCache.end(); it++ )
@@ -364,16 +378,35 @@ void CDatagrams::Remove(DatagramIn *pDG, bool bReclaim)
 				break;
 			}
 		}
-	}
+	}*/
 }
 
 // Usuwa jeden pakiet z cache'u odbioru
 void CDatagrams::RemoveOldIn(bool bForce)
 {
-	DatagramIn* pOldest = 0;
+	//DatagramIn* pOldest = 0;
 	quint32 tNow = time(0);
+	bool bRemoved = false;
 
-	for( QHash<quint32, QHash<quint32, DatagramIn*> >::iterator it = m_RecvCache.begin(); it != m_RecvCache.end(); it++ )
+	while( !m_RecvCacheTime.isEmpty() && ( tNow - m_RecvCacheTime.back()->m_tStarted > quazaaSettings.Gnutella2.UdpInExpire || m_RecvCacheTime.back()->m_nLeft == 0 ) )
+	{
+		Remove(m_RecvCacheTime.back());
+		bRemoved = true;
+	}
+
+	if( bForce && !bRemoved && !m_RecvCacheTime.isEmpty() )
+	{
+		for( QLinkedList<DatagramIn*>::iterator itPacket = m_RecvCacheTime.begin(); itPacket != m_RecvCacheTime.end(); ++itPacket )
+		{
+			if( (*itPacket)->m_nLeft == 0 )
+			{
+				Remove(*itPacket);
+				break;
+			}
+		}
+	}
+
+	/*for( QHash<quint32, QHash<quint32, DatagramIn*> >::iterator it = m_RecvCache.begin(); it != m_RecvCache.end(); it++ )
 	{
 		for( QHash<quint32, DatagramIn*>::iterator itPacket = it.value().begin(); itPacket != it.value().end(); itPacket++ )
 		{
@@ -398,25 +431,20 @@ void CDatagrams::RemoveOldIn(bool bForce)
 	if( pOldest )
 	{
 		Remove(pOldest);
-	}
+	}*/
 
 
 }
 
 void CDatagrams::Remove(DatagramOut *pDG)
 {
-	if( m_SendCache.isEmpty() )
-		return;
-
 	m_SendCacheMap.remove(pDG->m_nSequence);
-	int nIndex = m_SendCache.indexOf(pDG);
-	if( nIndex == -1 )
-		return;
-	m_SendCache.remove(nIndex);
-	m_FreeDGOut.push(pDG);
+	m_SendCache.removeOne(pDG);
+	m_FreeDGOut.append(pDG);
+
 	if( pDG->m_pBuffer )
 	{
-		m_FreeBuffer.push(pDG->m_pBuffer);
+		m_FreeBuffer.append(pDG->m_pBuffer);
 		pDG->m_pBuffer->clear();
 		pDG->m_pBuffer = 0;
 	}
@@ -446,9 +474,9 @@ void CDatagrams::FlushSendCache()
 		char* pPacket;
 		quint32 nPacket;
 
-		for( int i = m_SendCache.size() - 1; i >= 0; i--)
+		for( QLinkedList<DatagramOut*>::iterator itPacket = m_SendCache.begin(); itPacket != m_SendCache.end(); ++itPacket )
 		{
-			DatagramOut* pDG = m_SendCache[i];
+			DatagramOut* pDG = *itPacket;
 
 			if( pDG->m_oAddress.ip == nLastHost )
 				continue;
@@ -482,18 +510,9 @@ void CDatagrams::FlushSendCache()
 			break;
 	}
 
-	for( int i = 0; i < m_SendCache.size(); )
+	while( !m_SendCache.isEmpty() && tNow - m_SendCache.back()->m_tSent > quazaaSettings.Gnutella2.UdpOutExpire )
 	{
-		DatagramOut* pDG = m_SendCache.at(i);
-
-		if( tNow - pDG->m_tSent > quazaaSettings.Gnutella2.UdpOutExpire )
-		{
-			Remove(pDG);
-		}
-		else
-		{
-			i++;
-		}
+		Remove(m_SendCache.back());
 	}
 
 }
@@ -510,7 +529,7 @@ void CDatagrams::SendPacket(IPv4_ENDPOINT &oAddr, G2Packet *pPacket, bool bAck, 
 
 	if( m_FreeDGOut.isEmpty() )
 	{
-		Remove(m_SendCache.first());
+		Remove(m_SendCache.last());
 		qDebug() << "UDP out frames exhausted";
 	}
 
@@ -525,10 +544,10 @@ void CDatagrams::SendPacket(IPv4_ENDPOINT &oAddr, G2Packet *pPacket, bool bAck, 
 		}
 	}
 
-	DatagramOut* pDG = m_FreeDGOut.pop();
-	pDG->Create(oAddr, pPacket, m_nSequence++, m_FreeBuffer.pop(), bAck);
+	DatagramOut* pDG = m_FreeDGOut.takeFirst();
+	pDG->Create(oAddr, pPacket, m_nSequence++, m_FreeBuffer.takeFirst(), bAck);
 
-	m_SendCache.push(pDG);
+	m_SendCache.prepend(pDG);
 	m_SendCacheMap[pDG->m_nSequence] = pDG;
 
 	// TODO: Powiadomienia do obiektow nasluchujacych, jesli podano

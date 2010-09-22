@@ -91,6 +91,12 @@ public:
 	{
 		return m_lNodes.size();
 	}
+	inline CG2Node* GetAt(int nIndex)
+	{
+		Q_ASSERT(nIndex >= 0 && nIndex < m_lNodes.size());
+
+		return m_lNodes.at(nIndex);
+	}
 
 signals:
 
