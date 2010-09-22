@@ -27,6 +27,7 @@
 #include <QToolButton>
 
 #include "quazaairc.h"
+#include "widgetchattab.h"
 
 namespace Ui {
 	class WidgetChatCenter;
@@ -41,7 +42,9 @@ public:
 	QToolButton *toolButtonSmilies;
 	QToolButton *toolButtonOp;
 	QuazaaIRC *quazaaIrc;
-        void saveWidget();
+	void saveWidget();
+	WidgetChatTab* tabByName(QString);
+	bool prefixSort(const QString&, const QString&);
 
 protected:
         void changeEvent(QEvent *e);
@@ -55,7 +58,10 @@ private slots:
 	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
 	void skinChangeEvent();
-        void append(QString str);
+	void appendMessage(Irc::Buffer* buffer, QString sender, QString message);
+	void addBuffer(QString str);
+	void channelNames(QStringList list);
+	void setPrefixes(QString modes, QString mprefs);
 };
 
 #endif // WIDGETCHATCENTER_H

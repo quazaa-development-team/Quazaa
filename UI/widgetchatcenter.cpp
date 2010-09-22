@@ -19,11 +19,15 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
+#include "widgetchat.h"
+#include "ui_widgetchat.h"
 #include "widgetchatcenter.h"
 #include "ui_widgetchatcenter.h"
 #include "dialogsettings.h"
 
 #include "quazaasettings.h"
+#include "ircbuffer.h"
+#include "ircutil.h"
 #include "quazaairc.h"
 #include "QSkinDialog/qskinsettings.h"
 
@@ -42,7 +46,7 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 	} else {
 		ui->actionConnect->setEnabled(true);
 		ui->actionDisconnect->setEnabled(false);
-        }
+	}
 	lineEditTextInput = new QLineEdit();
 	lineEditTextInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	toolButtonSmilies = new QToolButton();
@@ -59,8 +63,12 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
 	connect(lineEditTextInput, SIGNAL(returnPressed()), this, SLOT(on_actionSend_triggered()));
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
-        connect(quazaaIrc, SIGNAL(appendMessage(QString)), this, SLOT(append(QString)));
-        skinChangeEvent();
+	connect(quazaaIrc, SIGNAL(appendMessage(Irc::Buffer*, QString, QString)), this, SLOT(appendMessage(Irc::Buffer*, QString, QString)));
+	connect(quazaaIrc, SIGNAL(channelNames(QStringList)), this, SLOT(channelNames(QStringList)));
+	connect(quazaaIrc, SIGNAL(bufferAdded(QString)), this, SLOT(addBuffer(QString)));
+
+	ui->tabWidget->addTab(new WidgetChatTab(), "Status");
+	skinChangeEvent();
 }
 
 WidgetChatCenter::~WidgetChatCenter()
@@ -125,12 +133,58 @@ void WidgetChatCenter::on_actionSend_triggered()
 {
 	if (lineEditTextInput->text() != "")
 	{
-		quazaaIrc->sendIrcMessage(lineEditTextInput->text());
+		quazaaIrc->sendIrcMessage(qobject_cast<WidgetChatTab *>(ui->tabWidget->currentWidget()), lineEditTextInput->text());
 		lineEditTextInput->setText("");
 	}
 }
 
-void WidgetChatCenter::append(QString text)
+void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QString message)
 {
-    ui->textBrowserChat->append(text);
+	WidgetChatTab *tab = tabByName(buffer->receiver());
+	tab->append("<"+ Irc::Util::nickFromTarget(sender) + "> " + message);
+}
+
+WidgetChatTab* WidgetChatCenter::tabByName(QString name) {
+	QList<WidgetChatTab *> allTabs = ui->tabWidget->findChildren<WidgetChatTab *>();
+	for (int i = 0; i < allTabs.size(); ++i) {
+		if (allTabs.at(i)->name == name) {
+			return allTabs.at(i);
+		}
+	}
+	// fail safe, remove later
+	return new WidgetChatTab(this);
+}
+
+void WidgetChatCenter::addBuffer(QString name) {
+	WidgetChatTab *tab = new WidgetChatTab();
+	tab->setName(name);
+	ui->tabWidget->addTab(tab, Irc::Util::nickFromTarget(name));
+}
+
+void WidgetChatCenter::channelNames(QStringList names)
+{
+	WidgetChatTab *tab = tabByName(names.at(2));
+	QString namestr		= names.at(3);
+	QStringList list	= namestr.split(" ");
+	//qSort(list.begin(), list.end(), WidgetChatCenter::prefixSort);
+
+
+	tab->channelNames(list);
+}
+
+bool WidgetChatCenter::prefixSort(const QString &s1, const QString &s2)
+{
+	/*if (int idx = prefixChars.indexOf(s1.at(0)) > -1) {
+		if (int idx2 = prefixChars.indexOf(s2.at(0)) > -1) {
+			if (idx > idx2) {
+				return true;
+			}
+		}
+	}*/
+	return false;
+}
+
+void WidgetChatCenter::setPrefixes(QString modes, QString mprefs) {
+	//prefixModes = modes;
+	//prefixChars = mprefs;
 }

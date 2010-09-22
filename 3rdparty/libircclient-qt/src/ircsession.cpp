@@ -1243,7 +1243,7 @@ namespace Irc
             Buffer* buffer = d->createBuffer(receiver);
             emit buffer->messageReceived(d->nick, message);
         }
-        return raw(QString(QLatin1String("PRIVMSG %1 :%2")).arg(receiver).arg(message));
+		return raw(QString(QLatin1String("PRIVMSG %1 :%2")).arg(Util::nickFromTarget(receiver)).arg(message));
     }
 
     /*!
