@@ -80,7 +80,19 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 {
 	m_nPacketsOut++;
 
+	if( m_lSendQueue.size() > 128 )
+	{
+		m_lSendQueue.takeLast()->Release();
+	}
+
+	pPacket->AddRef();
+
 	if( bBuffered )
+		m_lSendQueue.enqueue(pPacket);
+	else
+		m_lSendQueue.prepend(pPacket);
+
+	/*if( bBuffered )
 	{
 		pPacket->AddRef(); // FlushSendQueue will release
 
@@ -91,9 +103,8 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 	}
 	else
 	{
-		//m_lSendQueue.prepend(pPacket);
 		pPacket->ToBuffer(GetOutputBuffer());
-	}
+	}*/
 
 	if( bRelease )
 		pPacket->Release();
@@ -104,7 +115,32 @@ void CG2Node::FlushSendQueue(bool bFullFlush)
 {
 	QByteArray* pOutput = GetOutputBuffer();
 
-	while( bytesToWrite() == 0 && m_lSendQueue.size() )
+	if( !pOutput->isEmpty() || m_lSendQueue.isEmpty() )
+		return;	// nothing to do here
+
+	if( bFullFlush )
+	{
+		while( !m_lSendQueue.isEmpty() )
+		{
+			G2Packet* pPacket = m_lSendQueue.dequeue();
+			pPacket->ToBuffer(pOutput);
+			pPacket->Release();
+		}
+
+		if( m_bCompressedOutput )
+			m_bOutputPending = true;
+	}
+	else
+	{
+		while( bytesToWrite() < 4096 && !m_lSendQueue.isEmpty() )
+		{
+			G2Packet* pPacket = m_lSendQueue.dequeue();
+			pPacket->ToBuffer(pOutput);
+			pPacket->Release();
+		}
+	}
+
+	/*while( bytesToWrite() == 0 && m_lSendQueue.size() )
 	{
 		while( pOutput->size() < 4096 && m_lSendQueue.size() )
 		{
@@ -113,17 +149,9 @@ void CG2Node::FlushSendQueue(bool bFullFlush)
 			pPacket->Release();
 		}
 		emit readyToTransfer();
-	}
+	}*/
 
-
-	if( bFullFlush )
-	{
-		if( m_bCompressedOutput && pOutput->size() )
-			m_bOutputPending = true;
-	}
-
-	if( pOutput->size() )
-		emit readyToTransfer();
+	emit readyToTransfer();
 }
 
 void CG2Node::SetupSlots()
@@ -831,12 +859,12 @@ void CG2Node::OnPing(G2Packet* pPacket)
 			*pRelay++ = 'R'; *pRelay++ = 'E'; *pRelay++ = 'L';
 			*pRelay++ = 'A'; *pRelay++ = 'Y';
 
-			int nRelayed = 0;
+			int nRelayed = 0, nCount = Neighbours.GetCount();
 			QList<int> lToRelayIndex;
 
-			for( int i = 0; i < Neighbours.GetCount() && nRelayed < quazaaSettings.Gnutella2.PingRelayLimit; ++i )
+			for( int i = 0; i < nCount && nRelayed < quazaaSettings.Gnutella2.PingRelayLimit; ++i )
 			{
-				int nIndex = qrand() % Neighbours.GetCount();
+				int nIndex = qrand() % nCount;
 				if( !lToRelayIndex.contains(nIndex) )
 				{
 					CG2Node* pNode = Neighbours.GetAt(nIndex);

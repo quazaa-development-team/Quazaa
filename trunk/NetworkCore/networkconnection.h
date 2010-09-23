@@ -141,14 +141,14 @@ public:
 		if( !m_pSocket )
 			return false;
 
-		bool bRet = false;
 		if( m_pInput && !m_pInput->isEmpty() )
-			bRet |= true;
+			return true;
 		if( m_pOutput && !m_pOutput->isEmpty() )
-			bRet |= true;
+			return true;
 		if( networkBytesAvailable() )
-			bRet |= true;
-		return bRet;
+			return true;
+
+		return false;
 	}
 
 	inline virtual QByteArray* GetInputBuffer()
