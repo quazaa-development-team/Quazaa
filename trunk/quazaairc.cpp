@@ -43,6 +43,7 @@ void QuazaaIRC::on_IrcSession_disconnected()
 {
 	qDebug() << "IRC disconnected:";
 }
+
 void QuazaaIRC::on_IrcSession_welcomed()
 {
 	qDebug() << "IRC welcomed";
@@ -62,8 +63,6 @@ void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
 {
 	qDebug() << "buffer removed:" << buffer->receiver();
 }
-
-
 
 void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort)
 {
@@ -105,10 +104,10 @@ void QuazaaIRC::stopIrc()
 	}
 }
 
-void QuazaaIRC::sendIrcMessage(WidgetChatTab* tab, QString message)
+void QuazaaIRC::sendIrcMessage(QString channel, QString message)
 {
 	//qDebug() << "Sending message to: " + tab->name + " ("+message+")";
-	ircSession->message(tab->name, message);
+	ircSession->message(channel, message);
 }
 
 void QuazaaIRC::messageReceived(QString sender, QString message)

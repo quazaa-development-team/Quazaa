@@ -38,22 +38,22 @@ class WidgetChatCenter : public QMainWindow {
 public:
 	WidgetChatCenter(QWidget *parent = 0);
 	~WidgetChatCenter();
-	QLineEdit *lineEditTextInput;
-	QToolButton *toolButtonSmilies;
-	QToolButton *toolButtonOp;
 	QuazaaIRC *quazaaIrc;
 	void saveWidget();
 	WidgetChatTab* tabByName(QString);
 	bool prefixSort(const QString&, const QString&);
+	WidgetChatTab* currentTab();
+
+signals:
+	void channelChanged(WidgetChatTab* channel);
 
 protected:
-        void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
-        Ui::WidgetChatCenter *ui;
+	Ui::WidgetChatCenter *ui;
 
 private slots:
-	void on_actionSend_triggered();
 	void on_actionDisconnect_triggered();
 	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
@@ -62,6 +62,7 @@ private slots:
 	void addBuffer(QString str);
 	void channelNames(QStringList list);
 	void setPrefixes(QString modes, QString mprefs);
+	void on_tabWidget_currentChanged(QWidget* );
 };
 
 #endif // WIDGETCHATCENTER_H

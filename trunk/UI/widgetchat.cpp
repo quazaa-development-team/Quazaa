@@ -38,6 +38,8 @@ WidgetChat::WidgetChat(QWidget *parent) :
 	ui->verticalLayoutChatCenter->addWidget(panelChatCenter);
 	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
 	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
+
+	connect(panelChatCenter, SIGNAL(channelChanged(WidgetChatTab*)), this, SLOT(updateUserList(WidgetChatTab*)));
 }
 
 WidgetChat::~WidgetChat()
@@ -64,6 +66,9 @@ void WidgetChat::skinChangeEvent()
 	ui->toolButtonChatRoomsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
 	ui->frameChatFriendsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->frameChatRoomsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->toolButtonChatUsersHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
+	ui->frameChatUsersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameChatRightSidebar->setStyleSheet(skinSettings.sidebarBackground);
 }
 
 void WidgetChat::saveWidget()
@@ -117,4 +122,10 @@ void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
 					ui->splitterChat->setSizes(sizesList);
 			}
 	}
+}
+
+void WidgetChat::updateUserList(WidgetChatTab* currentTab)
+{
+	qDebug() << "Signal successful. In WidgetChat::updateUserList()";
+	ui->listViewChatUsers->setModel(currentTab->userList);
 }
