@@ -47,27 +47,13 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 		ui->actionConnect->setEnabled(true);
 		ui->actionDisconnect->setEnabled(false);
 	}
-	lineEditTextInput = new QLineEdit();
-	lineEditTextInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	toolButtonSmilies = new QToolButton();
-	toolButtonSmilies->setToolTip("Smilies");
-	toolButtonSmilies->setPopupMode(QToolButton::MenuButtonPopup);
-	toolButtonSmilies->setIcon(QIcon(":/Resource/Smileys/Happy.png"));
-	toolButtonOp = new QToolButton();
-	toolButtonOp->setToolTip("Operator Commands");
-	toolButtonOp->setPopupMode(QToolButton::MenuButtonPopup);
-	toolButtonOp->setIcon(QIcon(":/Resource/Generic/QuazaaForums.png"));
-	ui->toolBarChatMessage->insertWidget(ui->actionSend, lineEditTextInput);
-	ui->toolBarOperator->addWidget(toolButtonSmilies);
-	ui->toolBarOperator->addWidget(toolButtonOp);
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
-	connect(lineEditTextInput, SIGNAL(returnPressed()), this, SLOT(on_actionSend_triggered()));
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	connect(quazaaIrc, SIGNAL(appendMessage(Irc::Buffer*, QString, QString)), this, SLOT(appendMessage(Irc::Buffer*, QString, QString)));
 	connect(quazaaIrc, SIGNAL(channelNames(QStringList)), this, SLOT(channelNames(QStringList)));
 	connect(quazaaIrc, SIGNAL(bufferAdded(QString)), this, SLOT(addBuffer(QString)));
 
-	ui->tabWidget->addTab(new WidgetChatTab(), "Status");
+	ui->tabWidget->addTab(new WidgetChatTab(quazaaIrc, this), "Status");
 	skinChangeEvent();
 }
 
@@ -93,8 +79,6 @@ void WidgetChatCenter::changeEvent(QEvent *e)
 void WidgetChatCenter::skinChangeEvent()
 {
 	ui->toolBarChatControls->setStyleSheet(skinSettings.chatToolbar);
-	ui->toolBarChatMessage->setStyleSheet(skinSettings.chatToolbar);
-	ui->toolBarOperator->setStyleSheet(skinSettings.chatToolbar);
 }
 
 void WidgetChatCenter::saveWidget()
@@ -129,15 +113,6 @@ void WidgetChatCenter::on_actionDisconnect_triggered()
 	qDebug() << "Trying to disconnect from IRC";
 }
 
-void WidgetChatCenter::on_actionSend_triggered()
-{
-	if (lineEditTextInput->text() != "")
-	{
-		quazaaIrc->sendIrcMessage(qobject_cast<WidgetChatTab *>(ui->tabWidget->currentWidget()), lineEditTextInput->text());
-		lineEditTextInput->setText("");
-	}
-}
-
 void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QString message)
 {
 	WidgetChatTab *tab = tabByName(buffer->receiver());
@@ -152,11 +127,11 @@ WidgetChatTab* WidgetChatCenter::tabByName(QString name) {
 		}
 	}
 	// fail safe, remove later
-	return new WidgetChatTab(this);
+	return new WidgetChatTab(quazaaIrc);
 }
 
 void WidgetChatCenter::addBuffer(QString name) {
-	WidgetChatTab *tab = new WidgetChatTab();
+	WidgetChatTab *tab = new WidgetChatTab(quazaaIrc);
 	tab->setName(name);
 	ui->tabWidget->addTab(tab, Irc::Util::nickFromTarget(name));
 }
@@ -170,6 +145,12 @@ void WidgetChatCenter::channelNames(QStringList names)
 
 
 	tab->channelNames(list);
+}
+
+WidgetChatTab* WidgetChatCenter::currentTab()
+{
+	qDebug() << "getting WidgetChatCenter::currentTab()";
+	return qobject_cast<WidgetChatTab*>(ui->tabWidget->currentWidget());
 }
 
 bool WidgetChatCenter::prefixSort(const QString &s1, const QString &s2)
@@ -187,4 +168,10 @@ bool WidgetChatCenter::prefixSort(const QString &s1, const QString &s2)
 void WidgetChatCenter::setPrefixes(QString modes, QString mprefs) {
 	//prefixModes = modes;
 	//prefixChars = mprefs;
+}
+
+void WidgetChatCenter::on_tabWidget_currentChanged(QWidget* )
+{
+	qDebug() << "Emitting channel changed.";
+	emit channelChanged(currentTab());
 }

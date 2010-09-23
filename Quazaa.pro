@@ -119,7 +119,6 @@ SOURCES += main.cpp \
 	UI/widgetneighbours.cpp \
 	UI/widgetchat.cpp \
 	UI/widgetchatcenter.cpp \
-	UI/widgetchattab.cpp \
 	UI/widgethostcache.cpp \
 	UI/widgetdiscovery.cpp \
 	UI/widgetscheduler.cpp \
@@ -140,13 +139,14 @@ SOURCES += main.cpp \
 	ShareManager/FileHasher.cpp \
 	NetworkCore/queryhashmaster.cpp \
 	NetworkCore/queryhashgroup.cpp \
-    Models/chatroomslistmodel.cpp \
-    NetworkCore/neighbours.cpp \
-    3rdparty/libircclient-qt/src/ircutil.cpp \
-    3rdparty/libircclient-qt/src/ircsession.cpp \
-    3rdparty/libircclient-qt/src/ircdccsession.cpp \
-    3rdparty/libircclient-qt/src/ircbuffer.cpp \
-    3rdparty/libircclient-qt/src/irc.cpp
+	Models/chatroomslistmodel.cpp \
+	NetworkCore/neighbours.cpp \
+	3rdparty/libircclient-qt/src/ircutil.cpp \
+	3rdparty/libircclient-qt/src/ircsession.cpp \
+	3rdparty/libircclient-qt/src/ircdccsession.cpp \
+	3rdparty/libircclient-qt/src/ircbuffer.cpp \
+	3rdparty/libircclient-qt/src/irc.cpp \
+    UI/widgetchattab.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -225,7 +225,6 @@ HEADERS += UI/dialoglanguage.h \
 	UI/widgetneighbours.h \
 	UI/widgetchat.h \
 	UI/widgetchatcenter.h \
-	UI/widgetchattab.h \
 	UI/widgethostcache.h \
 	UI/widgetdiscovery.h \
 	UI/widgetscheduler.h \
@@ -246,16 +245,17 @@ HEADERS += UI/dialoglanguage.h \
 	Models/neighbourstablemodel.h \
 	NetworkCore/queryhashmaster.h \
 	NetworkCore/queryhashgroup.h \
-    Models/chatroomslistmodel.h \
-    NetworkCore/neighbours.h \
-    3rdparty/libircclient-qt/include/ircutil.h \
-    3rdparty/libircclient-qt/include/ircsession_p.h \
-    3rdparty/libircclient-qt/include/ircsession.h \
-    3rdparty/libircclient-qt/include/ircglobal.h \
-    3rdparty/libircclient-qt/include/ircdccsession.h \
-    3rdparty/libircclient-qt/include/ircbuffer_p.h \
-    3rdparty/libircclient-qt/include/ircbuffer.h \
-    3rdparty/libircclient-qt/include/irc.h
+	Models/chatroomslistmodel.h \
+	NetworkCore/neighbours.h \
+	3rdparty/libircclient-qt/include/ircutil.h \
+	3rdparty/libircclient-qt/include/ircsession_p.h \
+	3rdparty/libircclient-qt/include/ircsession.h \
+	3rdparty/libircclient-qt/include/ircglobal.h \
+	3rdparty/libircclient-qt/include/ircdccsession.h \
+	3rdparty/libircclient-qt/include/ircbuffer_p.h \
+	3rdparty/libircclient-qt/include/ircbuffer.h \
+	3rdparty/libircclient-qt/include/irc.h \
+    UI/widgetchattab.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
@@ -301,7 +301,6 @@ FORMS += UI/dialoglanguage.ui \
 	UI/widgetneighbours.ui \
 	UI/widgetchat.ui \
 	UI/widgetchatcenter.ui \
-	UI/widgetchattab.ui \
 	UI/widgethostcache.ui \
 	UI/widgetdiscovery.ui \
 	UI/widgetscheduler.ui \
@@ -309,7 +308,8 @@ FORMS += UI/dialoglanguage.ui \
 	UI/widgetpacketdump.ui \
 	UI/widgetsearchmonitor.ui \
 	UI/widgethitmonitor.ui \
-	UI/dialogconnectto.ui
+	UI/dialogconnectto.ui \
+    UI/widgetchattab.ui
 TRANSLATIONS = Language/quazaa_af.ts \
 	Language/quazaa_ar.ts \
 	Language/quazaa_ca.ts \

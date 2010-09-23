@@ -26,26 +26,27 @@
 #include "widgetchatcenter.h"
 
 namespace Ui {
-    class WidgetChat;
+	class WidgetChat;
 }
 
 class WidgetChat : public QWidget {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    WidgetChat(QWidget *parent = 0);
-    ~WidgetChat();
+	WidgetChat(QWidget *parent = 0);
+	~WidgetChat();
 	WidgetChatCenter *panelChatCenter;
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
 	Ui::WidgetChat *ui;
 
 private slots:
 	void on_splitterChat_customContextMenuRequested(QPoint pos);
- void skinChangeEvent();
+	void skinChangeEvent();
+	void updateUserList(WidgetChatTab* currentTab);
 };
 
 #endif // WIDGETCHAT_H

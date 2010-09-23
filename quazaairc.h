@@ -22,14 +22,13 @@
 #ifndef QUAZAAIRC_H
 #define QUAZAAIRC_H
 
+#include <QtGui>
+
 namespace Irc
 {
 	class Session;
 	class Buffer;
 }
-
-#include <QObject>
-#include "widgetchattab.h"
 
 class QuazaaIRC : public QObject
 {
@@ -41,7 +40,7 @@ public:
 public slots:
 	void startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );
 	void stopIrc();
-	void sendIrcMessage(WidgetChatTab* tab, QString message);
+	void sendIrcMessage(QString channel, QString message);
 signals:
 	void setPrefixes(QString modes, QString mprefs);
 	void channelNames(QStringList list);
