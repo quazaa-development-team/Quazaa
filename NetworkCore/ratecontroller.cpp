@@ -68,6 +68,12 @@ void CRateController::sheduleTransfer()
 }
 void CRateController::transfer()
 {
+	if( !m_oMutex.tryLock() )
+	{
+		sheduleTransfer();
+		return;
+	}
+
 	m_bTransferSheduled = false;
 
 	qint64 nMsecs = 1000;
@@ -83,18 +89,13 @@ void CRateController::transfer()
         return;
     }
 
-	if( !m_oMutex.tryLock() )
-	{
-		sheduleTransfer();
-		return;
-	}
-
     QSet<CNetworkConnection*> lSockets;
-    foreach(CNetworkConnection* pSock, m_lSockets)
-    {
-        if( pSock->HasData() )
-            lSockets.insert(pSock);
-    }
+	for( QSet<CNetworkConnection*>::const_iterator itSocket = m_lSockets.constBegin(); itSocket != m_lSockets.constEnd(); ++itSocket )
+	{
+		CNetworkConnection* pSock = *itSocket;
+		if( pSock->HasData() )
+			lSockets.insert(pSock);
+	}
 
     if( lSockets.isEmpty() )
 	{
@@ -112,49 +113,52 @@ void CRateController::transfer()
 		qint64 nWriteChunk = qMax(qint64(1), nToWrite / lSockets.size());
 		qint64 nReadChunk = qMax(qint64(1), nToRead / lSockets.size());
 
-        QSetIterator<CNetworkConnection*> it(lSockets);
-        while( it.hasNext() && (nToRead > 0 || nToWrite > 0))
-        {
-            CNetworkConnection* pConn = it.next();
+		for( QSet<CNetworkConnection*>::iterator itSocket = lSockets.begin(); itSocket != lSockets.end() && (nToRead > 0 || nToWrite > 0);  )
+		{
+			CNetworkConnection* pConn = *itSocket;
 
-            bool bDataTransferred = false;
+			bool bDataTransferred = false;
 			qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
 			if( nAvailable > 0 && nToRead > 0 )
-            {
+			{
 				qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
-                if( nReadBytes > 0 )
-                {
-                    nToRead -= nReadBytes;
-                    m_nDownload += nReadBytes;
-                    bDataTransferred = true;
-                }
-            }
+				if( nReadBytes > 0 )
+				{
+					nToRead -= nReadBytes;
+					m_nDownload += nReadBytes;
+					bDataTransferred = true;
+				}
+			}
 
 			if( m_nUploadLimit * 2 > pConn->m_pSocket->bytesToWrite() )
-            {
+			{
 				qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->bytesToWrite());
 
-                if( nChunkSize > 0 )
-                {
-                    qint64 nBytesWritten = pConn->writeToNetwork(nChunkSize);
-                    if( nBytesWritten > 0)
-                    {
-                        nToWrite -= nBytesWritten;
-                        m_nUpload += nBytesWritten;
-                        bDataTransferred = true;
-                    }
-                }
-            }
+				if( nChunkSize > 0 )
+				{
+					qint64 nBytesWritten = pConn->writeToNetwork(nChunkSize);
+					if( nBytesWritten > 0)
+					{
+						nToWrite -= nBytesWritten;
+						m_nUpload += nBytesWritten;
+						bDataTransferred = true;
+					}
+				}
+			}
 
-            if( bDataTransferred && pConn->HasData() )
-            {
-                bCanTransferMore = true;
-            }
-            else
-            {
-                lSockets.remove(pConn);
-            }
-        }
+			if( bDataTransferred && pConn->HasData() )
+			{
+				bCanTransferMore = true;
+			}
+			else
+			{
+				itSocket = lSockets.erase(itSocket);
+				continue;
+			}
+
+			++itSocket;
+		}
+
     }
 	while ( bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty() );
 

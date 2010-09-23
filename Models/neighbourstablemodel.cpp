@@ -296,7 +296,7 @@ void CNeighboursTableModel::UpdateNode(CG2Node *pNode, bool bSignal)
 
 	for( int i = 0; i < m_lNodes.size(); i++)
 	{
-		if( m_lNodes[i].pNode == pNode )
+		if( m_lNodes.at(i).pNode == pNode )
 		{
 			m_lNodes[i].tConnected = tNow - pNode->m_tConnected;
 			m_lNodes[i].nBandwidthIn = pNode->m_mInput.Usage();
@@ -407,7 +407,7 @@ void CNeighboursTableModel::UpdateAll()
 			{
 				if( *itNode == m_lNodes.at(j).pNode )
 				{
-					UpdateNode(m_lNodes.at(j).pNode, false);
+					UpdateNode(*itNode, false);
 					bFound = true;
 					break;
 				}

@@ -75,17 +75,12 @@ public:
     }
     inline virtual bool HasData()
     {
-        bool bRet = false;
-        if( m_pZInput && m_pZInput->size() )
-            bRet |= true;
-        if( m_pZOutput && m_pZOutput->size() )
-            bRet |= true;
+		if( m_pZInput && !m_pZInput->isEmpty() )
+			return true;
+		if( m_pZOutput && !m_pZOutput->isEmpty() )
+			return true;
 
-        //bRet |= m_bOutputPending;
-
-        bRet |= CNetworkConnection::HasData();
-        return bRet;
-
+		return CNetworkConnection::HasData();
     }
 
     inline quint64 GetTotalInDecompressed()
