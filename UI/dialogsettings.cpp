@@ -772,7 +772,7 @@ void DialogSettings::skinChangeEvent()
 
 void DialogSettings::on_pushButtonProfileEdit_clicked()
 {
-	QSkinDialog *dlgSkinProfile = new QSkinDialog(false, true, false, false, this);
+	QSkinDialog *dlgSkinProfile = new QSkinDialog(true, true, false, false, this);
 	DialogProfile *dlgProfile = new DialogProfile(this);
 
 	dlgSkinProfile->addChildWidget(dlgProfile);
