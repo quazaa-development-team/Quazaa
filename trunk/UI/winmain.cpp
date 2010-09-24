@@ -892,7 +892,7 @@ void WinMain::on_actionQuazaaForums_triggered()
 
 void WinMain::on_actionEditMyProfile_triggered()
 {
-	QSkinDialog *dlgSkinProfile = new QSkinDialog(false, true, false, false, this);
+	QSkinDialog *dlgSkinProfile = new QSkinDialog(true, true, false, false, this);
 	DialogProfile *dlgProfile = new DialogProfile;
 
 	dlgSkinProfile->addChildWidget(dlgProfile);
