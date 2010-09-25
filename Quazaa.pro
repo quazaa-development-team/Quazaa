@@ -22,10 +22,23 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
+# Qt modules used in application
 QT += network \
 	sql
 TARGET = Quazaa
-CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
+
+# Paths
+DESTDIR = ./bin
+CONFIG(debug, debug|release){
+	OBJECTS_DIR = temp/obj/debug
+	RCC_DIR = temp/qrc/debug
+}
+CONFIG(release){
+	OBJECTS_DIR = temp/obj/release
+	RCC_DIR = temp/qrc/release
+}
+MOC_DIR = temp/moc
+UI_DIR = temp/uic
 INCLUDEPATH += NetworkCore \
 	UI \
 	3rdparty \
@@ -33,14 +46,32 @@ INCLUDEPATH += NetworkCore \
 	Models \
 	ShareManager \
 	.
-CONFIG(debug, debug|release):INCLUDEPATH += temp/debug
-CONFIG(release):INCLUDEPATH += temp/release
-mac:CONFIG -= app_bundle
+
+# Append _debug to executable name when compiling using debug config
+CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
+
+# Additional config
 win32:LIBS += -Lbin # if you are at windows os
+mac:CONFIG -= app_bundle
 CONFIG += no_icu
 DEFINES += IRC_STATIC \
 	IRC_NO_DEPRECATED
+
 TEMPLATE = app
+
+# MSVC-specific compiler flags
+win32-msvc2008{
+	!build_pass:message(Setting up MSVC 2008 Compiler flags)
+	QMAKE_CFLAGS_DEBUG += /Gd /arch:SSE2 /Gm /RTC1
+	QMAKE_CFLAGS_RELEASE += /Gd /arch:SSE2 /GA
+
+	QMAKE_CXXFLAGS_DEBUG += /Gd /arch:SSE2 /Gm /RTC1
+	QMAKE_CXXFLAGS_RELEASE += /Gd /arch:SSE2 /GA
+
+	QMAKE_LFLAGS_DEBUG += /FIXED:NO
+}
+
+# Sources
 SOURCES += main.cpp \
 	UI/dialoglanguage.cpp \
 	quazaasettings.cpp \
@@ -344,10 +375,4 @@ TRANSLATIONS = Language/quazaa_af.ts \
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
-DESTDIR = ./bin
-CONFIG(debug, debug|release):OBJECTS_DIR = temp/debug
-CONFIG(release):OBJECTS_DIR = temp/release
-CONFIG(debug, debug|release):MOC_DIR = temp/debug
-CONFIG(release):MOC_DIR = temp/release
-CONFIG(debug, debug|release):UI_DIR = temp/debug
-CONFIG(release):UI_DIR = temp/release
+
