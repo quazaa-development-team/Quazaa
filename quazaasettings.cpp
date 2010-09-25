@@ -38,8 +38,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.beginGroup("Live");
 	m_qSettings.setValue("AdultWarning", quazaaSettings.Live.AdultWarning);
 	m_qSettings.setValue("AutoClose", quazaaSettings.Live.AutoClose);
-	m_qSettings.setValue("BandwidthScale", quazaaSettings.Live.BandwidthScale);
-	m_qSettings.setValue("DefaultED2KServersLoaded", quazaaSettings.Live.DefaultED2KServersLoaded);
+	m_qSettings.setValue("MonitorThrottle", quazaaSettings.Live.MonitorThrottle);
 	m_qSettings.setValue("DiskSpaceStop", quazaaSettings.Live.DiskSpaceStop);
 	m_qSettings.setValue("DiskSpaceWarning", quazaaSettings.Live.DiskSpaceWarning);
 	m_qSettings.setValue("DiskWriteWarning", quazaaSettings.Live.DiskWriteWarning);
@@ -102,8 +101,6 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("ThumbSize", quazaaSettings.Library.ThumbSize);
 	m_qSettings.setValue("TigerHeight", quazaaSettings.Library.TigerHeight);
 	m_qSettings.setValue("TreeSize", quazaaSettings.Library.TreeSize);
-	m_qSettings.setValue("WatchFolders", quazaaSettings.Library.WatchFolders);
-	m_qSettings.setValue("WatchFoldersTimeout", quazaaSettings.Library.WatchFoldersTimeout);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("MediaPlayer");
@@ -179,7 +176,6 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("BrowserIntegration", quazaaSettings.Web.BrowserIntegration);
 	m_qSettings.setValue("ED2K", quazaaSettings.Web.ED2K);
 	m_qSettings.setValue("Foxy", quazaaSettings.Web.Foxy);
-	m_qSettings.setValue("Gnutella", quazaaSettings.Web.Gnutella);
 	m_qSettings.setValue("Magnet", quazaaSettings.Web.Magnet);
 	m_qSettings.setValue("ManageDownloadTypes", quazaaSettings.Web.ManageDownloadTypes);
 	m_qSettings.setValue("Piolet", quazaaSettings.Web.Piolet);
@@ -208,7 +204,6 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("BandwidthRequest", quazaaSettings.Transfers.BandwidthRequest);
 	m_qSettings.setValue("BandwidthUdpOut", quazaaSettings.Transfers.BandwidthUdpOut);
 	m_qSettings.setValue("MinTransfersRest", quazaaSettings.Transfers.MinTransfersRest);
-	m_qSettings.setValue("RatesUnit", quazaaSettings.Transfers.RatesUnit);
 	m_qSettings.setValue("RequireConnectedNetwork", quazaaSettings.Transfers.RequireConnectedNetwork);
 	m_qSettings.setValue("SimpleProgressBar", quazaaSettings.Transfers.SimpleProgressBar);
 	m_qSettings.endGroup();
@@ -461,8 +456,7 @@ void QuazaaSettings::loadSettings()
 	m_qSettings.beginGroup("Live");
 	quazaaSettings.Live.AdultWarning = m_qSettings.value("AdultWarning", false).toBool();
 	quazaaSettings.Live.AutoClose = m_qSettings.value("AutoClose", false).toBool();
-	quazaaSettings.Live.BandwidthScale = m_qSettings.value("BandwidthScale", 100).toInt();
-	quazaaSettings.Live.DefaultED2KServersLoaded = m_qSettings.value("DefaultED2KServersLoaded", false).toBool();
+	quazaaSettings.Live.MonitorThrottle = m_qSettings.value("MonitorThrottle", 100).toInt();
 	quazaaSettings.Live.DiskSpaceStop = m_qSettings.value("DiskSpaceStop", false).toBool();
 	quazaaSettings.Live.DiskSpaceWarning = m_qSettings.value("DiskSpaceWarning", false).toBool();
 	quazaaSettings.Live.DiskWriteWarning = m_qSettings.value("DiskWriteWarning", false).toBool();
@@ -541,8 +535,6 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Library.ThumbSize = m_qSettings.value("ThumbSize", 96).toInt();
 	quazaaSettings.Library.TigerHeight = m_qSettings.value("TigerHeight", 9).toInt();
 	quazaaSettings.Library.TreeSize = m_qSettings.value("TreeSize", 200).toInt();
-	quazaaSettings.Library.WatchFolders = m_qSettings.value("WatchFolders", true).toBool();
-	quazaaSettings.Library.WatchFoldersTimeout = m_qSettings.value("WatchFoldersTimeout", 5).toInt();
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("MediaPlayer");
@@ -621,7 +613,6 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Web.Ares = m_qSettings.value("Ares", true).toBool();
 	quazaaSettings.Web.ED2K = m_qSettings.value("ED2K", true).toBool();
 	quazaaSettings.Web.Foxy = m_qSettings.value("Foxy", true).toBool();
-	quazaaSettings.Web.Gnutella = m_qSettings.value("Gnutella", true).toBool();
 	quazaaSettings.Web.Magnet = m_qSettings.value("Magnet", true).toBool();
 	quazaaSettings.Web.ManageDownloadTypes = m_qSettings.value("ManageDownloadTypes", QStringList() << "7z" << "ace" << "arj"
 														 << "bin" << "exe" << "fml" << "grs" << "gz" << "hqx" << "iso"
@@ -653,7 +644,6 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Transfers.BandwidthRequest = m_qSettings.value("Request", 32).toInt();
 	quazaaSettings.Transfers.BandwidthUdpOut = m_qSettings.value("UdpOut", 0).toInt();
 	quazaaSettings.Transfers.MinTransfersRest = m_qSettings.value("MinTransfersRest", 15).toInt();
-	quazaaSettings.Transfers.RatesUnit = m_qSettings.value("RatesUnit", 1).toInt();
 	quazaaSettings.Transfers.RequireConnectedNetwork = m_qSettings.value("RequireConnectedNetwork", true).toBool();
 	quazaaSettings.Transfers.SimpleProgressBar = m_qSettings.value("SimpleProgressBar", false).toBool();
 	m_qSettings.endGroup();

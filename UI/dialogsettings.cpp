@@ -53,7 +53,6 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 
 	// Load Library Settings
 	ui->checkBoxLibraryRememberViews->setChecked(quazaaSettings.Library.RememberViews);
-	ui->checkBoxLibraryWatchFolders->setChecked(quazaaSettings.Library.WatchFolders);
 	ui->checkBoxQuickHashing->setChecked(quazaaSettings.Library.HighPriorityHashing);
 	ui->checkBoxDisplayHashingProgress->setChecked(quazaaSettings.Library.HashWindow);
 	ui->checkBoxLibraryGhostFiles->setChecked(quazaaSettings.Library.GhostFiles);
@@ -96,7 +95,6 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 
 	// Load Web Settings
 	ui->checkBoxIntegrationMagnetLinks->setChecked(quazaaSettings.Web.Magnet);
-	ui->checkBoxIntegrationGnutellaLinks->setChecked(quazaaSettings.Web.Gnutella);
 	ui->checkBoxIntegrationAresLinks->setChecked(quazaaSettings.Web.Ares);
 	ui->checkBoxIntegrationBitTorrentLinks->setChecked(quazaaSettings.Web.Torrent);
 	ui->checkBoxIntegrationPioletLinks->setChecked(quazaaSettings.Web.Piolet);
@@ -206,7 +204,6 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 
 	// Library Settings
 	connect (ui->checkBoxLibraryRememberViews, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxLibraryWatchFolders, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect (ui->checkBoxQuickHashing, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect (ui->checkBoxDisplayHashingProgress, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect (ui->checkBoxLibraryGhostFiles, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -250,7 +247,6 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 
 	// Web Settings
 	connect (ui->checkBoxIntegrationMagnetLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxIntegrationGnutellaLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect (ui->checkBoxIntegrationAresLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect (ui->checkBoxIntegrationBitTorrentLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect (ui->checkBoxIntegrationPioletLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -607,7 +603,6 @@ void DialogSettings::on_pushButtonApply_clicked()
 
 	// Save Library Settings
 	quazaaSettings.Library.RememberViews = ui->checkBoxLibraryRememberViews->isChecked();
-	quazaaSettings.Library.WatchFolders = ui->checkBoxLibraryWatchFolders->isChecked();
 	quazaaSettings.Library.HighPriorityHashing = ui->checkBoxQuickHashing->isChecked();
 	quazaaSettings.Library.HashWindow = ui->checkBoxDisplayHashingProgress->isChecked();
 	quazaaSettings.Library.GhostFiles = ui->checkBoxLibraryGhostFiles->isChecked();
@@ -660,7 +655,6 @@ void DialogSettings::on_pushButtonApply_clicked()
 
 	// Save Web Settings
 	quazaaSettings.Web.Magnet = ui->checkBoxIntegrationMagnetLinks->isChecked();
-	quazaaSettings.Web.Gnutella = ui->checkBoxIntegrationGnutellaLinks->isChecked();
 	quazaaSettings.Web.Ares = ui->checkBoxIntegrationAresLinks->isChecked();
 	quazaaSettings.Web.Torrent = ui->checkBoxIntegrationBitTorrentLinks->isChecked();
 	quazaaSettings.Web.Piolet = ui->checkBoxIntegrationPioletLinks->isChecked();
