@@ -637,7 +637,7 @@ p, li { white-space: pre-wrap; }
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-230</y>
+            <y>0</y>
             <width>381</width>
             <height>559</height>
            </rect>
@@ -652,7 +652,7 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QStackedWidget" name="stackedWidgetSettings">
              <property name="currentIndex">
-              <number>9</number>
+              <number>6</number>
              </property>
              <widget class="QWidget" name="pageSystem">
               <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -955,13 +955,6 @@ p, li { white-space: pre-wrap; }
                    <widget class="QCheckBox" name="checkBoxLibraryRememberViews">
                     <property name="text">
                      <string>Remember Folder Views</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="checkBoxLibraryWatchFolders">
-                    <property name="text">
-                     <string>Watch Library Folders</string>
                     </property>
                    </widget>
                   </item>
@@ -1365,13 +1358,6 @@ p, li { white-space: pre-wrap; }
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0">
-                   <widget class="QCheckBox" name="checkBoxIntegrationGnutellaLinks">
-                    <property name="text">
-                     <string notr="true">Gnutella ( gnutella: )</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="1" column="1">
                    <widget class="QCheckBox" name="checkBoxIntegrationPioletLinks">
                     <property name="text">
@@ -1379,14 +1365,14 @@ p, li { white-space: pre-wrap; }
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0">
+                  <item row="1" column="0">
                    <widget class="QCheckBox" name="checkBoxIntegrationAresLinks">
                     <property name="text">
                      <string notr="true">Ares ( arlnk: )</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="1">
+                  <item row="2" column="0">
                    <widget class="QCheckBox" name="checkBoxIntegrationEDonkeyLinks">
                     <property name="text">
                      <string notr="true">eDonkey 2k ( ed2k: )</string>
