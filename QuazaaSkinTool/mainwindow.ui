@@ -2226,9 +2226,9 @@ QToolButton:disabled {
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>-119</y>
+               <y>-546</y>
                <width>546</width>
-               <height>416</height>
+               <height>843</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
@@ -2237,349 +2237,186 @@ QToolButton:disabled {
                 <property name="title">
                  <string>System Log</string>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout">
-                 <item>
-                  <layout class="QGridLayout" name="gridLayout_2">
-                   <item row="1" column="4">
-                    <spacer name="horizontalSpacer">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item row="0" column="0">
-                    <widget class="QGroupBox" name="groupBox">
-                     <property name="title">
-                      <string>Information</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_2">
-                      <item>
-                       <widget class="QToolButton" name="toolButtonColorInformation">
-                        <property name="text">
-                         <string/>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QCheckBox" name="checkBoxInformationBold">
-                        <property name="text">
-                         <string>Bold</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <widget class="QGroupBox" name="groupBox_2">
-                     <property name="title">
-                      <string>Security</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_3">
-                      <item>
-                       <widget class="QToolButton" name="toolButtonColorSecurity">
-                        <property name="text">
-                         <string/>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QCheckBox" name="checkBoxSecurityBold">
-                        <property name="text">
-                         <string>Bold</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                   <item row="0" column="2">
-                    <widget class="QGroupBox" name="groupBox_3">
-                     <property name="title">
-                      <string>Notice</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_4">
-                      <item>
-                       <widget class="QToolButton" name="toolButtonColorNotice">
-                        <property name="text">
-                         <string/>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QCheckBox" name="checkBoxNoticeBold">
-                        <property name="text">
-                         <string>Bold</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                   <item row="0" column="3">
-                    <widget class="QGroupBox" name="groupBox_4">
-                     <property name="title">
-                      <string>Debug</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_5">
-                      <item>
-                       <widget class="QToolButton" name="toolButtonColorDebug">
-                        <property name="text">
-                         <string/>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QCheckBox" name="checkBoxDebugBold">
-                        <property name="text">
-                         <string>Bold</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QGroupBox" name="groupBox_5">
-                     <property name="title">
-                      <string>Warning</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_6">
-                      <item>
-                       <widget class="QToolButton" name="toolButtonColorWarning">
-                        <property name="text">
-                         <string/>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QCheckBox" name="checkBoxWarningBold">
-                        <property name="text">
-                         <string>Bold</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                   <item row="1" column="1">
-                    <widget class="QGroupBox" name="groupBox_6">
-                     <property name="title">
-                      <string>Error</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_7">
-                      <item>
-                       <widget class="QToolButton" name="toolButtonColorError">
-                        <property name="text">
-                         <string/>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QCheckBox" name="checkBoxErrorBold">
-                        <property name="text">
-                         <string>Bold</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                   <item row="1" column="2">
-                    <widget class="QGroupBox" name="groupBox_7">
-                     <property name="title">
-                      <string>Critical</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_8">
-                      <item>
-                       <widget class="QToolButton" name="toolButtonColorCritical">
-                        <property name="text">
-                         <string/>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QCheckBox" name="checkBoxCriticalBold">
-                        <property name="text">
-                         <string>Bold</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                  </layout>
+                <layout class="QGridLayout" name="gridLayout_6">
+                 <item row="0" column="0">
+                  <widget class="QGroupBox" name="groupBox">
+                   <property name="title">
+                    <string>Information</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_2">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorInformation">
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxInformationBold">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
                  </item>
-                 <item>
+                 <item row="0" column="1">
+                  <widget class="QGroupBox" name="groupBox_2">
+                   <property name="title">
+                    <string>Security</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_3">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorSecurity">
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxSecurityBold">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QGroupBox" name="groupBox_3">
+                   <property name="title">
+                    <string>Notice</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_4">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorNotice">
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxNoticeBold">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QGroupBox" name="groupBox_5">
+                   <property name="title">
+                    <string>Warning</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_6">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorWarning">
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxWarningBold">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QGroupBox" name="groupBox_6">
+                   <property name="title">
+                    <string>Error</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_7">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorError">
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxErrorBold">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QGroupBox" name="groupBox_7">
+                   <property name="title">
+                    <string>Critical</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_8">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorCritical">
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxCriticalBold">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="0" column="3">
+                  <widget class="QGroupBox" name="groupBox_4">
+                   <property name="title">
+                    <string>Debug</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_5">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorDebug">
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxDebugBold">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="0" column="4">
+                  <spacer name="horizontalSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="2" column="0" colspan="5">
                   <widget class="QTextEdit" name="textEditLogPreview">
                    <property name="readOnly">
                     <bool>true</bool>
                    </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QGroupBox" name="groupBox_9">
-                   <property name="title">
-                    <string>Lists</string>
-                   </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_2">
-                    <item>
-                     <layout class="QGridLayout" name="gridLayout_7">
-                      <property name="topMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>0</number>
-                      </property>
-                      <item row="0" column="1">
-                       <widget class="QGroupBox" name="groupBox_11">
-                        <property name="title">
-                         <string>Active</string>
-                        </property>
-                        <layout class="QHBoxLayout" name="horizontalLayout_11">
-                         <item>
-                          <widget class="QToolButton" name="toolButtonColorListsActive">
-                           <property name="minimumSize">
-                            <size>
-                             <width>30</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>30</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="text">
-                            <string/>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QCheckBox" name="checkBoxBoldListsActive">
-                           <property name="text">
-                            <string>Bold</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </widget>
-                      </item>
-                      <item row="0" column="0">
-                       <widget class="QGroupBox" name="groupBox_12">
-                        <property name="title">
-                         <string>Normal</string>
-                        </property>
-                        <layout class="QHBoxLayout" name="horizontalLayout_13">
-                         <item>
-                          <widget class="QToolButton" name="toolButtonColorListsNormal">
-                           <property name="minimumSize">
-                            <size>
-                             <width>30</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>30</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="text">
-                            <string/>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QCheckBox" name="checkBoxBoldListsNormal">
-                           <property name="text">
-                            <string>Bold</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </widget>
-                      </item>
-                      <item row="0" column="2">
-                       <widget class="QGroupBox" name="groupBox_13">
-                        <property name="title">
-                         <string>Special</string>
-                        </property>
-                        <layout class="QHBoxLayout" name="horizontalLayout_9">
-                         <item>
-                          <widget class="QToolButton" name="toolButtonColorListsSpecial">
-                           <property name="minimumSize">
-                            <size>
-                             <width>30</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>30</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="text">
-                            <string/>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QCheckBox" name="checkBoxBoldListsSpecial">
-                           <property name="text">
-                            <string>Bold</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </widget>
-                      </item>
-                      <item row="0" column="3">
-                       <widget class="QGroupBox" name="groupBox_8">
-                        <property name="title">
-                         <string>Highlighted</string>
-                        </property>
-                        <layout class="QHBoxLayout" name="horizontalLayout_10">
-                         <item>
-                          <widget class="QToolButton" name="toolButtonColorListsHighlighted">
-                           <property name="minimumSize">
-                            <size>
-                             <width>30</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>30</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="text">
-                            <string/>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QCheckBox" name="checkBoxBoldListsHighlighted">
-                           <property name="text">
-                            <string>Bold</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
                   </widget>
                  </item>
                 </layout>
@@ -2597,6 +2434,641 @@ QToolButton:disabled {
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item row="3" column="0" colspan="2">
+               <widget class="QGroupBox" name="groupBox_9">
+                <property name="title">
+                 <string>Lists</string>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_12">
+                 <item>
+                  <widget class="QGroupBox" name="groupBox_12">
+                   <property name="title">
+                    <string>Normal</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_13">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorListsNormal">
+                      <property name="minimumSize">
+                       <size>
+                        <width>30</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>30</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxBoldListsNormal">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="groupBox_11">
+                   <property name="title">
+                    <string>Active</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_11">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorListsActive">
+                      <property name="minimumSize">
+                       <size>
+                        <width>30</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>30</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxBoldListsActive">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="groupBox_13">
+                   <property name="title">
+                    <string>Special</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_9">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorListsSpecial">
+                      <property name="minimumSize">
+                       <size>
+                        <width>30</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>30</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxBoldListsSpecial">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="groupBox_8">
+                   <property name="title">
+                    <string>Highlighted</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_10">
+                    <item>
+                     <widget class="QToolButton" name="toolButtonColorListsHighlighted">
+                      <property name="minimumSize">
+                       <size>
+                        <width>30</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>30</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxBoldListsHighlighted">
+                      <property name="text">
+                       <string>Bold</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_2">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="4" column="0" colspan="2">
+               <widget class="QGroupBox" name="groupBox_10">
+                <property name="title">
+                 <string>Chat</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_8">
+                 <item row="0" column="0">
+                  <widget class="QGroupBox" name="groupBox_15">
+                   <property name="title">
+                    <string>Messages</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_7">
+                    <item row="1" column="0">
+                     <widget class="QGroupBox" name="groupBox_14">
+                      <property name="title">
+                       <string>Normal</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_14">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_2">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_2">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item row="1" column="2">
+                     <widget class="QGroupBox" name="groupBox_19">
+                      <property name="title">
+                       <string>Server</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_16">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_4">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_4">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item row="1" column="3">
+                     <widget class="QGroupBox" name="groupBox_20">
+                      <property name="title">
+                       <string>Topics</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_17">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_5">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_5">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item row="1" column="5">
+                     <spacer name="horizontalSpacer_3">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="QGroupBox" name="groupBox_22">
+                      <property name="title">
+                       <string>Notices</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_19">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_7">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_7">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QGroupBox" name="groupBox_24">
+                      <property name="title">
+                       <string>Highlighted</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_20">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_8">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_8">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QGroupBox" name="groupBox_21">
+                      <property name="title">
+                       <string>Channel Actions</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_18">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_6">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_6">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QGroupBox" name="groupBox_16">
+                   <property name="title">
+                    <string>User List</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_2">
+                    <item row="0" column="0">
+                     <widget class="QGroupBox" name="groupBox_17">
+                      <property name="title">
+                       <string>Normal</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_15">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_3">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_3">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QGroupBox" name="groupBox_18">
+                      <property name="title">
+                       <string>Owner</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_22">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_10">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_10">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QGroupBox" name="groupBox_23">
+                      <property name="title">
+                       <string>Administrator</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_23">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_11">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_11">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item row="0" column="3">
+                     <widget class="QGroupBox" name="groupBox_25">
+                      <property name="title">
+                       <string>Operator</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_24">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_12">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_12">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item row="0" column="4">
+                     <spacer name="horizontalSpacer_4">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QGroupBox" name="groupBox_26">
+                      <property name="title">
+                       <string>Half Operator</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_21">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_9">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_9">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QGroupBox" name="groupBox_27">
+                      <property name="title">
+                       <string>Voiced</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_25">
+                       <item>
+                        <widget class="QToolButton" name="toolButtonColorListsNormal_13">
+                         <property name="minimumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_13">
+                         <property name="text">
+                          <string>Bold</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
               </item>
              </layout>
             </widget>

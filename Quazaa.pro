@@ -35,6 +35,7 @@ INCLUDEPATH += NetworkCore \
 	.
 CONFIG(debug, debug|release):INCLUDEPATH += temp/debug
 CONFIG(release):INCLUDEPATH += temp/release
+mac:CONFIG -= app_bundle
 win32:LIBS += -Lbin # if you are at windows os
 CONFIG += no_icu
 DEFINES += IRC_STATIC \
@@ -146,7 +147,7 @@ SOURCES += main.cpp \
 	3rdparty/libircclient-qt/src/ircdccsession.cpp \
 	3rdparty/libircclient-qt/src/ircbuffer.cpp \
 	3rdparty/libircclient-qt/src/irc.cpp \
-    UI/widgetchattab.cpp
+	UI/widgetchattab.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -255,7 +256,7 @@ HEADERS += UI/dialoglanguage.h \
 	3rdparty/libircclient-qt/include/ircbuffer_p.h \
 	3rdparty/libircclient-qt/include/ircbuffer.h \
 	3rdparty/libircclient-qt/include/irc.h \
-    UI/widgetchattab.h
+	UI/widgetchattab.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
@@ -309,7 +310,7 @@ FORMS += UI/dialoglanguage.ui \
 	UI/widgetsearchmonitor.ui \
 	UI/widgethitmonitor.ui \
 	UI/dialogconnectto.ui \
-    UI/widgetchattab.ui
+	UI/widgetchattab.ui
 TRANSLATIONS = Language/quazaa_af.ts \
 	Language/quazaa_ar.ts \
 	Language/quazaa_ca.ts \

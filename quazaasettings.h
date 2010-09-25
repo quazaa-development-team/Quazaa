@@ -103,8 +103,7 @@ namespace Settings
 	{
 		bool		AdultWarning;							// Has the user been warned about the adult filter?
 		bool		AutoClose;
-		int			BandwidthScale;							// Monitor slider settings
-		bool		DefaultED2KServersLoaded;				// Has Quazaa already loaded default ED2K servers?
+		int			MonitorThrottle;						// Monitor slider settings
 		bool		DiskSpaceStop;							// Has Quazaa paused all downloads due to critical disk space?
 		bool		DiskSpaceWarning;						// Has the user been warned of low disk space?
 		bool		DiskWriteWarning;						// Has the user been warned of write problems?
@@ -193,8 +192,6 @@ namespace Settings
 		int			ThumbSize;
 		int			TigerHeight;
 		int			TreeSize;
-		bool		WatchFolders;							// Watch shared folders and update hashes when changed
-		int			WatchFoldersTimeout;					// Quit watching folder after time
 
 		/*
 		bool		ShowVirtual;
@@ -329,7 +326,6 @@ namespace Settings
 		bool		BrowserIntegration;						// Use Quazaa to manage browser downloads?
 		bool		ED2K;									// Use Quazaa to open eDonkey 2k links (eD2k:)
 		bool		Foxy;									// Use Quazaa to open Foxy links (slightly altered magnet)
-		bool		Gnutella;								// Use Quazaa to open Gnutella links (gnutella:)
 		bool		Magnet;									// Use Quazaa to open Magnet links (magnet:)
 		QStringList	ManageDownloadTypes;					// Use Quazaa to manage these download types
 		bool		Piolet;									// Use Quazaa to open Piolet links (mp2p:)
@@ -360,7 +356,6 @@ namespace Settings
 		int			BandwidthRequest;
 		int			BandwidthUdpOut;
 		int			MinTransfersRest;						// For how long at least to suspend Transfers each round
-		int			RatesUnit;								// Units that the transfer rates are to be displayed in
 		bool		RequireConnectedNetwork;				// Only upload/download to connected networks
 		bool		SimpleProgressBar;						// Displays a simplified progress bar (lower CPU use)
 	};
