@@ -8,6 +8,7 @@ INCLUDEPATH += . \
 	text
 CONFIG(debug, debug|release):INCLUDEPATH += temp/debug
 CONFIG(release):INCLUDEPATH += temp/release
+mac:CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
 	mainwindow.cpp \
