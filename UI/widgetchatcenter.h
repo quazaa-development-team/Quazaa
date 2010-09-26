@@ -41,7 +41,6 @@ public:
 	QuazaaIRC *quazaaIrc;
 	void saveWidget();
 	WidgetChatTab* tabByName(QString);
-	bool prefixSort(const QString&, const QString&);
 	WidgetChatTab* currentTab();
 
 signals:
@@ -52,13 +51,14 @@ protected:
 
 private:
 	Ui::WidgetChatCenter *ui;
+	QString prefixChars, prefixModes;
 
 private slots:
 	void on_actionDisconnect_triggered();
 	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
 	void skinChangeEvent();
-	void appendMessage(Irc::Buffer* buffer, QString sender, QString message);
+	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, bool action);
 	void addBuffer(QString str);
 	void channelNames(QStringList list);
 	void setPrefixes(QString modes, QString mprefs);

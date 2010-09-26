@@ -49,9 +49,10 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 	}
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
-	connect(quazaaIrc, SIGNAL(appendMessage(Irc::Buffer*, QString, QString)), this, SLOT(appendMessage(Irc::Buffer*, QString, QString)));
+	connect(quazaaIrc, SIGNAL(appendMessage(Irc::Buffer*, QString, QString, bool)), this, SLOT(appendMessage(Irc::Buffer*, QString, QString, bool)));
 	connect(quazaaIrc, SIGNAL(channelNames(QStringList)), this, SLOT(channelNames(QStringList)));
 	connect(quazaaIrc, SIGNAL(bufferAdded(QString)), this, SLOT(addBuffer(QString)));
+	connect(quazaaIrc, SIGNAL(setPrefixes(QString,QString)), this, SLOT(setPrefixes(QString,QString)));
 
 	ui->tabWidget->addTab(new WidgetChatTab(quazaaIrc, this), "Status");
 	skinChangeEvent();
@@ -113,10 +114,13 @@ void WidgetChatCenter::on_actionDisconnect_triggered()
 	qDebug() << "Trying to disconnect from IRC";
 }
 
-void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QString message)
+void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QString message, bool action)
 {
 	WidgetChatTab *tab = tabByName(buffer->receiver());
-	tab->append("<"+ Irc::Util::nickFromTarget(sender) + "> " + message);
+	if (action)
+		tab->append("<html><font color=purple>* " + Irc::Util::nickFromTarget(sender) + " " + message +"</font></html>");
+	else
+		tab->append("<"+ Irc::Util::nickFromTarget(sender) + "> " + message);
 }
 
 WidgetChatTab* WidgetChatCenter::tabByName(QString name) {
@@ -138,13 +142,26 @@ void WidgetChatCenter::addBuffer(QString name) {
 
 void WidgetChatCenter::channelNames(QStringList names)
 {
-	WidgetChatTab *tab = tabByName(names.at(2));
+	WidgetChatTab *tab	= tabByName(names.at(2));
 	QString namestr		= names.at(3);
 	QStringList list	= namestr.split(" ");
-	//qSort(list.begin(), list.end(), WidgetChatCenter::prefixSort);
 
+	list.sort();
+	QMultiMap<QChar, int> map;
 
-	tab->channelNames(list);
+	for (int i = 0; i < list.size(); ++i) {
+		QString user = list.at(i);
+		int idx = prefixChars.indexOf(user.at(0));
+		if (idx < 0) idx = prefixChars.length(); // normal user
+		map.insert(idx, i);
+	}
+
+	QStringList sorted;
+	QList<int> values = map.values();
+	for (int i = 0; i < values.size(); ++i)
+		sorted.append(list.at(values.at(i)));
+
+	tab->channelNames(sorted);
 }
 
 WidgetChatTab* WidgetChatCenter::currentTab()
@@ -153,21 +170,10 @@ WidgetChatTab* WidgetChatCenter::currentTab()
 	return qobject_cast<WidgetChatTab*>(ui->tabWidget->currentWidget());
 }
 
-bool WidgetChatCenter::prefixSort(const QString &s1, const QString &s2)
-{
-	/*if (int idx = prefixChars.indexOf(s1.at(0)) > -1) {
-		if (int idx2 = prefixChars.indexOf(s2.at(0)) > -1) {
-			if (idx > idx2) {
-				return true;
-			}
-		}
-	}*/
-	return false;
-}
-
 void WidgetChatCenter::setPrefixes(QString modes, QString mprefs) {
-	//prefixModes = modes;
-	//prefixChars = mprefs;
+	// overkill ?
+	prefixModes = modes;
+	prefixChars = mprefs;
 }
 
 void WidgetChatCenter::on_tabWidget_currentChanged(QWidget* )
