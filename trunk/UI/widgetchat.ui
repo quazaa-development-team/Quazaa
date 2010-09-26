@@ -161,11 +161,7 @@ QToolButton:checked {
              </layout>
             </item>
             <item row="2" column="0">
-             <widget class="QListView" name="listViewChatRooms">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);</string>
-              </property>
-             </widget>
+             <widget class="QListView" name="listViewChatRooms"/>
             </item>
            </layout>
           </widget>
@@ -354,11 +350,7 @@ QToolButton:checked {
              </layout>
             </item>
             <item row="0" column="0">
-             <widget class="QListView" name="listViewChatFriends">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);</string>
-              </property>
-             </widget>
+             <widget class="QListView" name="listViewChatFriends"/>
             </item>
            </layout>
           </widget>
@@ -526,11 +518,7 @@ QToolButton:checked {
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QListView" name="listViewChatUsers">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);</string>
-              </property>
-             </widget>
+             <widget class="QListView" name="listViewChatUsers"/>
             </item>
            </layout>
           </widget>

@@ -1,7 +1,7 @@
 //
 // mainwindow.cpp
 //
-// Copyright © Quazaa Development Team, 2009-2010.
+// Copyright  Quazaa Development Team, 2009-2010.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
 //
 // Quazaa is free software; you can redistribute it
@@ -1790,7 +1790,6 @@ void MainWindow::on_toolButtonColorListsHighlighted_clicked()
 	{
 			skinSettings.listsColorHighlighted.setNamedColor(color.name());
 			ui->toolButtonColorListsHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
-			updateLogPreview();
 			saved = false;
 	}
 }
@@ -1804,5 +1803,16 @@ void MainWindow::on_checkBoxBoldListsHighlighted_clicked(bool checked)
 	} else {
 		skinSettings.listsWeightHighlighted = 50;
 		updateLogPreview();
+	}
+}
+
+void MainWindow::on_toolButtonColorMessagesNormal_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorNormal, this);
+	if (color.isValid())
+	{
+			skinSettings.toolButtonColorMessagesNormal.setNamedColor(color.name());
+			ui->toolButtonColorMessagesNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
 	}
 }

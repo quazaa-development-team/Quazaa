@@ -79,6 +79,9 @@ void QSkinSettings::loadSkin(QString fileName)
 	// Standard Items
 	standardItems = reader.value("standardItems", "").toString();
 
+	// ListViews
+	listViews = reader.value("listViews", "").toString();
+
 	// Sidebar
 	sidebarBackground = reader.value("sidebarBackground", "QFrame {\n	 background-color: rgb(199, 202, 255);\n}").toString();
 	sidebarTaskBackground = reader.value("sidebarTaskBackground", "QFrame {\n	background-color: rgb(161, 178, 231);\n}").toString();
@@ -140,6 +143,30 @@ void QSkinSettings::loadSkin(QString fileName)
 	listsWeightSpecial = reader.value("listsWeightSpecial", qApp->font().weight()).toInt();
 	listsColorHighlighted = reader.value("listsColorHighlighted", QColor(0, 0, 180)).value<QColor>();
 	listsWeightHighlighted = reader.value("listsWeightHighlighted", qApp->font().weight()).toInt();
+	chatMessagesColorNormal = reader.value("chatMessagesColorNormal", QColor(0,0,0)).value<QColor>();
+	chatMessagesWeightNormal = reader.value("chatMessagesWeightNormal", qApp->font().weight()).toInt();
+	chatMessagesColorHighlighted = reader.value("chatMessagesColorHighlighted", QColor(0, 0, 180)).value<QColor>();
+	chatMessagesWeightHighlighted = reader.value("chatMessagesWeightHighlighted", qApp->font().weight()).toInt();
+	chatMessagesColorServer = reader.value("chatMessagesColorServer", QColor(0,0,0)).value<QColor>();
+	chatMessagesWeightServer = reader.value("chatMessagesWeightServer", qApp->font().weight()).toInt();
+	chatMessagesColorTopics = reader.value("chatMessagesColorTopics", QColor(0,0,0)).value<QColor>();
+	chatMessagesWeightTopics = reader.value("chatMessagesWeightTopics", qApp->font().weight()).toInt();
+	chatMessagesColorNotices = reader.value("chatMessagesColorNotices", QColor(0,0,0)).value<QColor>();
+	chatMessagesWeightNotices = reader.value("chatMessagesWeightNotices", qApp->font().weight()).toInt();
+	chatMessagesColorActions = reader.value("chatMessagesColorActions", QColor(0,0,0)).value<QColor>();
+	chatMessagesWeightActions = reader.value("chatMessagesWeightActions", qApp->font().weight()).toInt();
+	chatUsersColorNormal = reader.value("chatUsersColorNormal", QColor(0,0,0)).value<QColor>();
+	chatUsersWeightNormal = reader.value("chatUsersWeightNormal", qApp->font().weight()).toInt();
+	chatUsersColorOwner = reader.value("chatUsersColorOwner", QColor(0,0,0)).value<QColor>();
+	chatUsersWeightOwner = reader.value("chatUsersWeightOwner", qApp->font().weight()).toInt();
+	chatUsersColorAdministrator = reader.value("chatUsersColorAdministrator", QColor(0,0,0)).value<QColor>();
+	chatUsersWeightAdministrator = reader.value("chatUsersWeightAdministrator", qApp->font().weight()).toInt();
+	chatUsersColorOperator = reader.value("chatUsersColorOperator", QColor(0,0,0)).value<QColor>();
+	chatUsersWeightOperator = reader.value("chatUsersWeightOperator", qApp->font().weight()).toInt();
+	chatUsersColorHalfOperator = reader.value("chatUsersColorHalfOperator", QColor(0,0,0)).value<QColor>();
+	chatUsersWeightHalfOperator = reader.value("chatUsersWeightHalfOperator", qApp->font().weight()).toInt();
+	chatUsersColorVoiced = reader.value("chatUsersColorVoiced", QColor(0,0,0)).value<QColor>();
+	chatUsersWeightVoiced = reader.value("chatUsersWeightVoiced", qApp->font().weight()).toInt();
 }
 
 void QSkinSettings::saveSkin(QString fileName)
@@ -197,6 +224,9 @@ void QSkinSettings::saveSkin(QString fileName)
 
 	// Standard Items
 	writer.setValue("standardItems", standardItems);
+
+	// List Views
+	writer.setValue("listViews", listViews);
 
 	// Sidebar
 	writer.setValue("sidebarBackground", sidebarBackground);
@@ -259,4 +289,28 @@ void QSkinSettings::saveSkin(QString fileName)
 	writer.setValue("listsWeightSpecial", listsWeightSpecial);
 	writer.setValue("listsColorHighlighted", listsColorHighlighted);
 	writer.setValue("listsWeightHighlighted", listsWeightHighlighted);
+	writer.setValue("chatMessagesColorNormal", chatMessagesColorNormal);
+	writer.setValue("chatMessagesWeightNormal", chatMessagesWeightNormal);
+	writer.setValue("chatMessagesColorHighlighted", chatMessagesColorHighlighted);
+	writer.setValue("chatMessagesWeightHighlighted", chatMessagesWeightHighlighted);
+	writer.setValue("chatMessagesColorServer", chatMessagesColorServer);
+	writer.setValue("chatMessagesWeightServer", chatMessagesWeightServer);
+	writer.setValue("chatMessagesColorTopics", chatMessagesColorTopics);
+	writer.setValue("chatMessagesWeightTopics", chatMessagesWeightTopics);
+	writer.setValue("chatMessagesColorNotices", chatMessagesColorNotices);
+	writer.setValue("chatMessagesWeightNotices", chatMessagesWeightNotices);
+	writer.setValue("chatMessagesColorActions", chatMessagesColorActions);
+	writer.setValue("chatMessagesWeightActions", chatMessagesWeightActions);
+	writer.setValue("chatUsersColorNormal", chatUsersColorNormal);
+	writer.setValue("chatUsersWeightNormal", chatUsersWeightNormal);
+	writer.setValue("chatUsersColorOwner", chatUsersColorOwner);
+	writer.setValue("chatUsersWeightOwner", chatUsersWeightOwner);
+	writer.setValue("chatUsersColorAdministrator", chatUsersColorAdministrator);
+	writer.setValue("chatUsersWeightAdministrator", chatUsersWeightAdministrator);
+	writer.setValue("chatUsersColorOperator", chatUsersColorOperator);
+	writer.setValue("chatUsersWeightOperator", chatUsersWeightOperator);
+	writer.setValue("chatUsersColorHalfOperator", chatUsersColorHalfOperator);
+	writer.setValue("chatUsersWeightHalfOperator", chatUsersWeightHalfOperator);
+	writer.setValue("chatUsersColorVoiced", chatUsersColorVoiced);
+	writer.setValue("chatUsersWeightVoiced", chatUsersWeightVoiced);
 }
