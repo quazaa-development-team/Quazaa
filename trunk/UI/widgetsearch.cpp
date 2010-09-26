@@ -73,6 +73,7 @@ void WidgetSearch::skinChangeEvent()
 	ui->toolButtonSearchResultsTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
 	ui->toolButtonSearchTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
 	ui->toolButtonNewSearch->setStyleSheet(skinSettings.addSearchButton);
+	ui->listViewSearchFiletype->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetSearch::saveWidget()

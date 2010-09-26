@@ -63,4 +63,7 @@ void DialogCreateTorrent::on_pushButtonSave_clicked()
 void DialogCreateTorrent::skinChangeEvent()
 {
 	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	m_ui->listWidgetFilesDirectories->setStyleSheet(skinSettings.listViews);
+	m_ui->treeWidgetDHTSeed->setStyleSheet(skinSettings.listViews);
+	m_ui->treeWidgetTracker->setStyleSheet(skinSettings.listViews);
 }

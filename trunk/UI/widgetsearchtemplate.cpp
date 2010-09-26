@@ -23,6 +23,8 @@
 #include "ui_widgetsearchtemplate.h"
 #include <QSortFilterProxyModel>
 
+#include "QSkinDialog/qskinsettings.h"
+
 #include "NetworkCore/searchmanager.h"
 #include "NetworkCore/managedsearch.h"
 #include "NetworkCore/query.h"
@@ -30,7 +32,7 @@
 
 WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget *parent) :
 	QWidget(parent),
-    m_ui(new Ui::WidgetSearchTemplate)
+	m_ui(new Ui::WidgetSearchTemplate)
 {
 	m_ui->setupUi(this);
 	sSearchString = searchString;
@@ -45,7 +47,9 @@ WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget *parent
 	sortModel->setSourceModel(searchModel);
 	m_ui->treeViewSearchResults->setModel(sortModel);
 	sortModel->setDynamicSortFilter(true);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	connect(searchModel, SIGNAL(updateStats()), this, SLOT(OnStatsUpdated()));
+	skinChangeEvent();
 }
 
 WidgetSearchTemplate::~WidgetSearchTemplate()
@@ -58,29 +62,29 @@ WidgetSearchTemplate::~WidgetSearchTemplate()
 void WidgetSearchTemplate::changeEvent(QEvent *e)
 {
 	QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetSearchTemplate::StartSearch(CQuery *pQuery)
 {
-    if( m_pSearch && m_pSearch->m_pQuery != pQuery )
-    {
-        delete m_pSearch;
-        m_pSearch = 0;
-    }
+	if( m_pSearch && m_pSearch->m_pQuery != pQuery )
+	{
+		delete m_pSearch;
+		m_pSearch = 0;
+	}
 
-    if( !m_pSearch )
-    {
-        m_pSearch = new CManagedSearch(pQuery);
+	if( !m_pSearch )
+	{
+		m_pSearch = new CManagedSearch(pQuery);
 		connect(m_pSearch, SIGNAL(OnHit(QueryHitSharedPtr)), searchModel, SLOT(addQueryHit(QueryHitSharedPtr)));
 		connect(m_pSearch, SIGNAL(StatsUpdated()), this, SLOT(OnStatsUpdated()));
-    }
+	}
 
 	m_pSearch->Start();
 	searchState = SearchState::Searching;
@@ -89,19 +93,19 @@ void WidgetSearchTemplate::StartSearch(CQuery *pQuery)
 
 void WidgetSearchTemplate::StopSearch()
 {
-    Q_ASSERT(m_pSearch != 0);
+	Q_ASSERT(m_pSearch != 0);
 
-    m_pSearch->Stop();
-    delete m_pSearch;
-    m_pSearch = 0;
+	m_pSearch->Stop();
+	delete m_pSearch;
+	m_pSearch = 0;
 	searchState = SearchState::Stopped;
 }
 
 void WidgetSearchTemplate::PauseSearch()
 {
-    Q_ASSERT(m_pSearch != 0);
+	Q_ASSERT(m_pSearch != 0);
 
-    m_pSearch->Pause();
+	m_pSearch->Pause();
 	searchState = SearchState::Paused;
 }
 
@@ -119,4 +123,9 @@ void WidgetSearchTemplate::OnStatsUpdated()
 	nHubs = m_pSearch->m_nHubs;
 	nLeaves = m_pSearch->m_nLeaves;
 	emit statsUpdated(this);
+}
+
+void WidgetSearchTemplate::skinChangeEvent()
+{
+	m_ui->treeViewSearchResults->setStyleSheet(skinSettings.listViews);
 }

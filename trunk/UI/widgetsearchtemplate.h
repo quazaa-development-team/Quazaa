@@ -26,7 +26,7 @@
 #include "searchtreemodel.h"
 
 namespace Ui {
-    class WidgetSearchTemplate;
+	class WidgetSearchTemplate;
 }
 
 class CManagedSearch;
@@ -40,7 +40,7 @@ namespace SearchState {
 };
 
 class WidgetSearchTemplate : public QWidget {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
 	WidgetSearchTemplate(QString searchString = "", QWidget *parent = 0);
@@ -48,9 +48,9 @@ public:
 	SearchTreeModel *searchModel;
 	CManagedSearch* m_pSearch;
 
-    void StartSearch(CQuery* pQuery);
-    void PauseSearch();
-    void StopSearch();
+	void StartSearch(CQuery* pQuery);
+	void PauseSearch();
+	void StopSearch();
 	void ClearSearch();
 
 	int nHubs;
@@ -61,19 +61,20 @@ public:
 	QString sSearchString;
 	SearchState::SearchState searchState;
 
-    //void GetStats(quint32& nHubs, quint32& nLeaves, quint32& nHits);
+	//void GetStats(quint32& nHubs, quint32& nLeaves, quint32& nHits);
 
 signals:
 	void statsUpdated(WidgetSearchTemplate *thisSearch);
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
-    Ui::WidgetSearchTemplate *m_ui;
+	Ui::WidgetSearchTemplate *m_ui;
 
 protected slots:
 	void OnStatsUpdated();
+	void skinChangeEvent();
 };
 
 #endif // WIDGETSEARCHTEMPLATE_H

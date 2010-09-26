@@ -762,6 +762,20 @@ void DialogSettings::skinChangeEvent()
 	ui->toolButtonNetworkTask->setStyleSheet(skinSettings.sidebarTaskHeader);
 	ui->toolButtonProtocolsTask->setStyleSheet(skinSettings.sidebarTaskHeader);
 	ui->toolButtonSecurityTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->listWidgetCommunityTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetFileTypesNeverShare->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetFileTypesSafeOpen->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetGeneralTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetManageDownloadTypes->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetNetworkTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetParentalFilter->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetPlugins->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetProtocolsTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetSecurityTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetSkins->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetUserAgents->setStyleSheet(skinSettings.listViews);
+	ui->treeWidgetQueues->setStyleSheet(skinSettings.listViews);
+	ui->tableWidgetFileTypesOpenWith->setStyleSheet(skinSettings.listViews);
 }
 
 void DialogSettings::on_pushButtonProfileEdit_clicked()

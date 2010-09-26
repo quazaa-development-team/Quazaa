@@ -88,6 +88,11 @@ void WidgetHome::skinChangeEvent()
 	ui->frameConnectionTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->frameTorrentsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->frameTransfersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->listWidgetConnectionTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetLibraryTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetTorrentsTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetTransfersTaskDownloadsTool->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetTransfersTaskUploadsTool->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetHome::on_labelLibraryTaskHashFaster_linkActivated(QString link)

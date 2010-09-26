@@ -57,6 +57,7 @@ void WidgetHitMonitor::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarFilter->setStyleSheet(skinSettings.toolbars);
+	ui->treeWidgetHitMonitor->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetHitMonitor::saveWidget()

@@ -69,6 +69,9 @@ void WidgetChat::skinChangeEvent()
 	ui->toolButtonChatUsersHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
 	ui->frameChatUsersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->frameChatRightSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->listViewChatFriends->setStyleSheet(skinSettings.listViews);
+	ui->listViewChatRooms->setStyleSheet(skinSettings.listViews);
+	ui->listViewChatUsers->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetChat::saveWidget()

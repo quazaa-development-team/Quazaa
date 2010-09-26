@@ -56,6 +56,8 @@ void WidgetHostCache::changeEvent(QEvent *e)
 void WidgetHostCache::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
+	ui->treeViewHostCache->setStyleSheet(skinSettings.listViews);
+	ui->treeWidgetHostCacheSidebar->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetHostCache::saveWidget()
