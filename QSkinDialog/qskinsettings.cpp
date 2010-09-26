@@ -147,25 +147,25 @@ void QSkinSettings::loadSkin(QString fileName)
 	chatMessagesWeightNormal = reader.value("chatMessagesWeightNormal", "").toString();
 	chatMessagesColorHighlighted = reader.value("chatMessagesColorHighlighted", QColor(0, 0, 180)).value<QColor>();
 	chatMessagesWeightHighlighted = reader.value("chatMessagesWeightHighlighted", "").toString();
-	chatMessagesColorServer = reader.value("chatMessagesColorServer", QColor(0,0,0)).value<QColor>();
+	chatMessagesColorServer = reader.value("chatMessagesColorServer", QColor(0,0,255)).value<QColor>();
 	chatMessagesWeightServer = reader.value("chatMessagesWeightServer", "").toString();
-	chatMessagesColorTopics = reader.value("chatMessagesColorTopics", QColor(0,0,0)).value<QColor>();
+	chatMessagesColorTopics = reader.value("chatMessagesColorTopics", QColor(125,220,80)).value<QColor>();
 	chatMessagesWeightTopics = reader.value("chatMessagesWeightTopics", "").toString();
-	chatMessagesColorNotices = reader.value("chatMessagesColorNotices", QColor(0,0,0)).value<QColor>();
+	chatMessagesColorNotices = reader.value("chatMessagesColorNotices", QColor(255,0,0)).value<QColor>();
 	chatMessagesWeightNotices = reader.value("chatMessagesWeightNotices", "font-weight:600;").toString();
-	chatMessagesColorActions = reader.value("chatMessagesColorActions", QColor(0,0,0)).value<QColor>();
+	chatMessagesColorActions = reader.value("chatMessagesColorActions", QColor(0,144,0)).value<QColor>();
 	chatMessagesWeightActions = reader.value("chatMessagesWeightActions", "").toString();
 	chatUsersColorNormal = reader.value("chatUsersColorNormal", QColor(0,0,0)).value<QColor>();
 	chatUsersWeightNormal = reader.value("chatUsersWeightNormal", qApp->font().weight()).toInt();
-	chatUsersColorOwner = reader.value("chatUsersColorOwner", QColor(0,0,0)).value<QColor>();
+	chatUsersColorOwner = reader.value("chatUsersColorOwner", QColor(151,13,120)).value<QColor>();
 	chatUsersWeightOwner = reader.value("chatUsersWeightOwner", qApp->font().weight()).toInt();
-	chatUsersColorAdministrator = reader.value("chatUsersColorAdministrator", QColor(0,0,0)).value<QColor>();
+	chatUsersColorAdministrator = reader.value("chatUsersColorAdministrator", QColor(128,0,0)).value<QColor>();
 	chatUsersWeightAdministrator = reader.value("chatUsersWeightAdministrator", qApp->font().weight()).toInt();
-	chatUsersColorOperator = reader.value("chatUsersColorOperator", QColor(0,0,0)).value<QColor>();
+	chatUsersColorOperator = reader.value("chatUsersColorOperator", QColor(0,155,0)).value<QColor>();
 	chatUsersWeightOperator = reader.value("chatUsersWeightOperator", qApp->font().weight()).toInt();
-	chatUsersColorHalfOperator = reader.value("chatUsersColorHalfOperator", QColor(0,0,0)).value<QColor>();
+	chatUsersColorHalfOperator = reader.value("chatUsersColorHalfOperator", QColor(78,78,255)).value<QColor>();
 	chatUsersWeightHalfOperator = reader.value("chatUsersWeightHalfOperator", qApp->font().weight()).toInt();
-	chatUsersColorVoiced = reader.value("chatUsersColorVoiced", QColor(0,0,0)).value<QColor>();
+	chatUsersColorVoiced = reader.value("chatUsersColorVoiced", QColor(208,197,16)).value<QColor>();
 	chatUsersWeightVoiced = reader.value("chatUsersWeightVoiced", qApp->font().weight()).toInt();
 }
 

@@ -117,6 +117,29 @@ private slots:
 	void closeEvent(QCloseEvent *e);
 	void updateLogPreview();
 	void on_toolButtonColorMessagesNormal_clicked();
+	void on_checkBoxBoldMessagesNormal_clicked(bool checked);
+	void on_toolButtonColorMessagesHighlighted_clicked();
+	void on_checkBoxBoldMessagesHighlighted_clicked(bool checked);
+	void on_toolButtonColorMessagesServer_clicked();
+	void on_checkBoxBoldMessagesServer_clicked(bool checked);
+	void on_toolButtonColorMessagesTopics_clicked();
+	void on_checkBoxBoldMessagesTopics_clicked(bool checked);
+	void on_toolButtonColorMessagesNotices_clicked();
+	void on_checkBoxBoldMessagesNotices_clicked(bool checked);
+	void on_toolButtonColorMessagesActions_clicked();
+	void on_checkBoxBoldMessagesActions_clicked(bool checked);
+	void on_toolButtonColorUsersNormal_clicked();
+	void on_checkBoxBoldUsersNormal_clicked(bool checked);
+	void on_toolButtonColorUsersOwner_clicked();
+	void on_checkBoxBoldUsersOwner_clicked(bool checked);
+	void on_toolButtonColorUsersAdministrator_clicked();
+	void on_checkBoxBoldUsersAdministrator_clicked(bool checked);
+	void on_toolButtonColorUsersOperator_clicked();
+	void on_checkBoxBoldUsersOperator_clicked(bool checked);
+	void on_toolButtonColorUsersHalfOperator_clicked();
+	void on_checkBoxBoldUsersHalfOperator_clicked(bool checked);
+	void on_toolButtonColorUsersVoiced_clicked();
+	void on_checkBoxBoldUsersVoiced_clicked(bool checked);
 };
 
 #endif // MAINWINDOW_H
