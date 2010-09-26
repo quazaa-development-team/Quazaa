@@ -2226,7 +2226,7 @@ QToolButton:disabled {
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>-546</y>
+               <y>-350</y>
                <width>546</width>
                <height>843</height>
               </rect>
@@ -2616,7 +2616,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_14">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_2">
+                        <widget class="QToolButton" name="toolButtonColorMessagesNormal">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -2635,7 +2635,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_2">
+                        <widget class="QCheckBox" name="checkBoxBoldMessagesNormal">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -2651,7 +2651,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_16">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_4">
+                        <widget class="QToolButton" name="toolButtonColorMessagesServer">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -2670,7 +2670,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_4">
+                        <widget class="QCheckBox" name="checkBoxBoldMessagesServer">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -2686,7 +2686,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_17">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_5">
+                        <widget class="QToolButton" name="toolButtonColorMessagesTopics">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -2705,7 +2705,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_5">
+                        <widget class="QCheckBox" name="checkBoxBoldMessagesTopics">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -2734,7 +2734,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_19">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_7">
+                        <widget class="QToolButton" name="toolButtonColorMessagesNotices">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -2753,7 +2753,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_7">
+                        <widget class="QCheckBox" name="checkBoxBoldMessagesNotices">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -2769,7 +2769,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_20">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_8">
+                        <widget class="QToolButton" name="toolButtonColorMessagesHighlighted">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -2788,7 +2788,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_8">
+                        <widget class="QCheckBox" name="checkBoxBoldMessagesHighlighted">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -2804,7 +2804,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_18">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_6">
+                        <widget class="QToolButton" name="toolButtonColorMessagesActions">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -2823,7 +2823,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_6">
+                        <widget class="QCheckBox" name="checkBoxBoldMessagesActions">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -2848,7 +2848,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_15">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_3">
+                        <widget class="QToolButton" name="toolButtonColorUsersNormal">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -2867,7 +2867,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_3">
+                        <widget class="QCheckBox" name="checkBoxBoldUsersNormal">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -2883,7 +2883,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_22">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_10">
+                        <widget class="QToolButton" name="toolButtonColorUsersOwner">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -2902,7 +2902,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_10">
+                        <widget class="QCheckBox" name="checkBoxBoldUsersOwner">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -2918,7 +2918,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_23">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_11">
+                        <widget class="QToolButton" name="toolButtonColorUsersAdministrator">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -2937,7 +2937,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_11">
+                        <widget class="QCheckBox" name="checkBoxBoldUsersAdministrator">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -2953,7 +2953,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_24">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_12">
+                        <widget class="QToolButton" name="toolButtonColorUsersOperator">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -2972,7 +2972,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_12">
+                        <widget class="QCheckBox" name="checkBoxBoldUsersOperator">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -3001,7 +3001,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_21">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_9">
+                        <widget class="QToolButton" name="toolButtonColorUsersHalfOperator">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -3020,7 +3020,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_9">
+                        <widget class="QCheckBox" name="checkBoxBoldUsersHalfOperator">
                          <property name="text">
                           <string>Bold</string>
                          </property>
@@ -3036,7 +3036,7 @@ QToolButton:disabled {
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_25">
                        <item>
-                        <widget class="QToolButton" name="toolButtonColorListsNormal_13">
+                        <widget class="QToolButton" name="toolButtonColorUsersVoiced">
                          <property name="minimumSize">
                           <size>
                            <width>30</width>
@@ -3055,7 +3055,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldListsNormal_13">
+                        <widget class="QCheckBox" name="checkBoxBoldUsersBold">
                          <property name="text">
                           <string>Bold</string>
                          </property>

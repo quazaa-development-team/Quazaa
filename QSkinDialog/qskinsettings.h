@@ -75,6 +75,9 @@ public:
 	// Standard Items
 	QString standardItems;
 
+	// List Views
+	QString listViews;
+
 	// Sidebar
 	QString sidebarBackground;
 	QString sidebarTaskBackground;
@@ -136,6 +139,30 @@ public:
 	int listsWeightSpecial;
 	QColor listsColorHighlighted;
 	int listsWeightHighlighted;
+	QColor chatMessagesColorNormal;
+	int chatMessagesWeightNormal;
+	QColor chatMessagesColorHighlighted;
+	int chatMessagesWeightHighlighted;
+	QColor chatMessagesColorServer;
+	int chatMessagesWeightServer;
+	QColor chatMessagesColorTopics;
+	int chatMessagesWeightTopics;
+	QColor chatMessagesColorNotices;
+	int chatMessagesWeightNotices;
+	QColor chatMessagesColorActions;
+	int chatMessagesWeightActions;
+	QColor chatUsersColorNormal;
+	int chatUsersWeightNormal;
+	QColor chatUsersColorOwner;
+	int chatUsersWeightOwner;
+	QColor chatUsersColorAdministrator;
+	int chatUsersWeightAdministrator;
+	QColor chatUsersColorOperator;
+	int chatUsersWeightOperator;
+	QColor chatUsersColorHalfOperator;
+	int chatUsersWeightHalfOperator;
+	QColor chatUsersColorVoiced;
+	int chatUsersWeightVoiced;
 
 signals:
 	void skinChanged();

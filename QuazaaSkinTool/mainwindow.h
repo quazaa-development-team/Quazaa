@@ -116,6 +116,7 @@ private slots:
 	void updateWindowStyleSheet(bool mainWindw);
 	void closeEvent(QCloseEvent *e);
 	void updateLogPreview();
+	void on_toolButtonColorMessagesNormal_clicked();
 };
 
 #endif // MAINWINDOW_H
