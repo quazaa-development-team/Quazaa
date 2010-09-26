@@ -1925,3 +1925,244 @@ void MainWindow::on_toolButtonColorMessagesNormal_clicked()
 			saved = false;
 	}
 }
+
+void MainWindow::on_checkBoxBoldMessagesNormal_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatMessagesWeightNormal = "font-weight:600;";
+	} else {
+		skinSettings.chatMessagesWeightNormal = "";
+	}
+}
+
+void MainWindow::on_toolButtonColorMessagesHighlighted_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorHighlighted, this);
+	if (color.isValid())
+	{
+			skinSettings.chatMessagesColorHighlighted.setNamedColor(color.name());
+			ui->toolButtonColorMessagesHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldMessagesHighlighted_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatMessagesWeightHighlighted = "font-weight:600;";
+	} else {
+		skinSettings.chatMessagesWeightHighlighted = "";
+	}
+}
+
+void MainWindow::on_toolButtonColorMessagesServer_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorServer, this);
+	if (color.isValid())
+	{
+			skinSettings.chatMessagesColorServer.setNamedColor(color.name());
+			ui->toolButtonColorMessagesServer->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldMessagesServer_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatMessagesWeightServer = "font-weight:600;";
+	} else {
+		skinSettings.chatMessagesWeightServer = "";
+	}
+}
+
+void MainWindow::on_toolButtonColorMessagesTopics_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorTopics, this);
+	if (color.isValid())
+	{
+			skinSettings.chatMessagesColorTopics.setNamedColor(color.name());
+			ui->toolButtonColorMessagesTopics->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldMessagesTopics_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatMessagesWeightTopics = "font-weight:600;";
+	} else {
+		skinSettings.chatMessagesWeightTopics = "";
+	}
+}
+
+void MainWindow::on_toolButtonColorMessagesNotices_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorNotices, this);
+	if (color.isValid())
+	{
+			skinSettings.chatMessagesColorNotices.setNamedColor(color.name());
+			ui->toolButtonColorMessagesNotices->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldMessagesNotices_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatMessagesWeightNotices = "font-weight:600;";
+	} else {
+		skinSettings.chatMessagesWeightNotices = "";
+	}
+}
+
+void MainWindow::on_toolButtonColorMessagesActions_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorActions, this);
+	if (color.isValid())
+	{
+			skinSettings.chatMessagesColorActions.setNamedColor(color.name());
+			ui->toolButtonColorMessagesActions->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldMessagesActions_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatMessagesWeightActions = "font-weight:600;";
+	} else {
+		skinSettings.chatMessagesWeightActions = "";
+	}
+}
+
+void MainWindow::on_toolButtonColorUsersNormal_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorNormal, this);
+	if (color.isValid())
+	{
+			skinSettings.chatUsersColorNormal.setNamedColor(color.name());
+			ui->toolButtonColorUsersNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldUsersNormal_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatUsersWeightNormal = 75;
+	} else {
+		skinSettings.chatUsersWeightNormal = 50;
+	}
+}
+
+void MainWindow::on_toolButtonColorUsersOwner_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorOwner, this);
+	if (color.isValid())
+	{
+			skinSettings.chatUsersColorOwner.setNamedColor(color.name());
+			ui->toolButtonColorUsersOwner->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldUsersOwner_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatUsersWeightOwner = 75;
+	} else {
+		skinSettings.chatUsersWeightOwner = 50;
+	}
+}
+
+void MainWindow::on_toolButtonColorUsersAdministrator_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorAdministrator, this);
+	if (color.isValid())
+	{
+			skinSettings.chatUsersColorAdministrator.setNamedColor(color.name());
+			ui->toolButtonColorUsersAdministrator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldUsersAdministrator_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatUsersWeightAdministrator = 75;
+	} else {
+		skinSettings.chatUsersWeightAdministrator = 50;
+	}
+}
+
+void MainWindow::on_toolButtonColorUsersOperator_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorOperator, this);
+	if (color.isValid())
+	{
+			skinSettings.chatUsersColorOperator.setNamedColor(color.name());
+			ui->toolButtonColorUsersOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldUsersOperator_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatUsersWeightOperator = 75;
+	} else {
+		skinSettings.chatUsersWeightOperator = 50;
+	}
+}
+
+void MainWindow::on_toolButtonColorUsersHalfOperator_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorHalfOperator, this);
+	if (color.isValid())
+	{
+			skinSettings.chatUsersColorHalfOperator.setNamedColor(color.name());
+			ui->toolButtonColorUsersHalfOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldUsersHalfOperator_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatUsersWeightHalfOperator = 75;
+	} else {
+		skinSettings.chatUsersWeightHalfOperator = 50;
+	}
+}
+
+void MainWindow::on_toolButtonColorUsersVoiced_clicked()
+{
+	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorVoiced, this);
+	if (color.isValid())
+	{
+			skinSettings.chatUsersColorVoiced.setNamedColor(color.name());
+			ui->toolButtonColorUsersVoiced->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			saved = false;
+	}
+}
+
+void MainWindow::on_checkBoxBoldUsersVoiced_clicked(bool checked)
+{
+	if (checked)
+	{
+		skinSettings.chatUsersWeightVoiced = 75;
+	} else {
+		skinSettings.chatUsersWeightVoiced = 50;
+	}
+}
