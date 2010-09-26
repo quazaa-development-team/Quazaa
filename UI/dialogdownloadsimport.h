@@ -42,6 +42,9 @@ protected:
 
 private:
 	Ui::DialogDownloadsImport *ui;
+
+private slots:
+	void skinChangeEvent();
 };
 
 #endif // DIALOGDOWNLOADSIMPORT_H

@@ -367,6 +367,11 @@ void DialogProfile::on_pushButtonNewWebsite_clicked()
 void DialogProfile::skinChangeEvent()
 {
 	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	m_ui->listWidgetFavoriteFiles->setStyleSheet(skinSettings.listViews);
+	m_ui->listWidgetInterests->setStyleSheet(skinSettings.listViews);
+	m_ui->listWidgetRemoved->setStyleSheet(skinSettings.listViews);
+	m_ui->treeWidgetFavorites->setStyleSheet(skinSettings.listViews);
+	m_ui->treeWidgetProfileNavigation->setStyleSheet(skinSettings.listViews);
 }
 
 void DialogProfile::on_pushButtonRemoveWebsite_clicked()

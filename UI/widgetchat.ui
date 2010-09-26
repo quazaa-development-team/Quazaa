@@ -14,7 +14,7 @@
    <string>Chat</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resource.qrc">
+   <iconset>
     <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -124,7 +124,7 @@ QToolButton:checked {
                  <string>Add</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../Resource.qrc">
+                 <iconset>
                   <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -144,7 +144,7 @@ QToolButton:checked {
                  <string>Remove</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../Resource.qrc">
+                 <iconset>
                   <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -161,7 +161,45 @@ QToolButton:checked {
              </layout>
             </item>
             <item row="2" column="0">
-             <widget class="QListView" name="listViewChatRooms"/>
+             <widget class="QListView" name="listViewChatRooms">
+              <property name="styleSheet">
+               <string notr="true">QAbstractScrollArea {
+     border: 1px solid white;
+	color: black;
+	background-color: white;
+	alternate-background-color: lightgrey;
+	selection-color: white;
+     selection-background-color: rgb(65, 85, 168);
+ }
+
+QHeaderView {
+	background-color:  rgb(104, 116, 152);
+}
+
+ QHeaderView::section {
+     background-color: rgb(104, 116, 152);
+     color: white;
+     padding-left: 4px;
+     border: 1px solid transparent;
+ }
+
+ QHeaderView::section:checked
+ {
+     background-color: rgb(104, 116, 152);
+ }
+
+ /* style the sort indicator */
+ QHeaderView::down-arrow {
+	width: 20px;
+     image: url(Skin/Quazaa OS/ScrollDownArrow.png);
+ }
+
+ QHeaderView::up-arrow {
+	width: 20px;
+     image: url(Skin/Quazaa OS/ScrollUpArrow.png);
+ }</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -191,7 +229,7 @@ QToolButton:hover {
             <string>Rooms</string>
            </property>
            <property name="icon">
-            <iconset resource="../Resource.qrc">
+            <iconset>
              <normaloff>:/Resource/Chat/Rooms.png</normaloff>:/Resource/Chat/Rooms.png</iconset>
            </property>
            <property name="checkable">
@@ -237,7 +275,7 @@ QToolButton:hover {
             <string>Friends</string>
            </property>
            <property name="icon">
-            <iconset resource="../Resource.qrc">
+            <iconset>
              <normaloff>:/Resource/Chat/Friends.png</normaloff>:/Resource/Chat/Friends.png</iconset>
            </property>
            <property name="checkable">
@@ -313,7 +351,7 @@ QToolButton:checked {
                  <string>Add</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../Resource.qrc">
+                 <iconset>
                   <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -333,7 +371,7 @@ QToolButton:checked {
                  <string>Remove</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../Resource.qrc">
+                 <iconset>
                   <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -350,7 +388,45 @@ QToolButton:checked {
              </layout>
             </item>
             <item row="0" column="0">
-             <widget class="QListView" name="listViewChatFriends"/>
+             <widget class="QListView" name="listViewChatFriends">
+              <property name="styleSheet">
+               <string notr="true">QAbstractScrollArea {
+     border: 1px solid white;
+	color: black;
+	background-color: white;
+	alternate-background-color: lightgrey;
+	selection-color: white;
+     selection-background-color: rgb(65, 85, 168);
+ }
+
+QHeaderView {
+	background-color:  rgb(104, 116, 152);
+}
+
+ QHeaderView::section {
+     background-color: rgb(104, 116, 152);
+     color: white;
+     padding-left: 4px;
+     border: 1px solid transparent;
+ }
+
+ QHeaderView::section:checked
+ {
+     background-color: rgb(104, 116, 152);
+ }
+
+ /* style the sort indicator */
+ QHeaderView::down-arrow {
+	width: 20px;
+     image: url(Skin/Quazaa OS/ScrollDownArrow.png);
+ }
+
+ QHeaderView::up-arrow {
+	width: 20px;
+     image: url(Skin/Quazaa OS/ScrollUpArrow.png);
+ }</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -471,7 +547,7 @@ QToolButton:checked {
                  <string>Add To Friends</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../Resource.qrc">
+                 <iconset>
                   <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -491,7 +567,7 @@ QToolButton:checked {
                  <string>Ignore</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../Resource.qrc">
+                 <iconset>
                   <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -518,7 +594,45 @@ QToolButton:checked {
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QListView" name="listViewChatUsers"/>
+             <widget class="QListView" name="listViewChatUsers">
+              <property name="styleSheet">
+               <string notr="true">QAbstractScrollArea {
+     border: 1px solid white;
+	color: black;
+	background-color: white;
+	alternate-background-color: lightgrey;
+	selection-color: white;
+     selection-background-color: rgb(65, 85, 168);
+ }
+
+QHeaderView {
+	background-color:  rgb(104, 116, 152);
+}
+
+ QHeaderView::section {
+     background-color: rgb(104, 116, 152);
+     color: white;
+     padding-left: 4px;
+     border: 1px solid transparent;
+ }
+
+ QHeaderView::section:checked
+ {
+     background-color: rgb(104, 116, 152);
+ }
+
+ /* style the sort indicator */
+ QHeaderView::down-arrow {
+	width: 20px;
+     image: url(Skin/Quazaa OS/ScrollDownArrow.png);
+ }
+
+ QHeaderView::up-arrow {
+	width: 20px;
+     image: url(Skin/Quazaa OS/ScrollUpArrow.png);
+ }</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -545,7 +659,7 @@ QToolButton:checked {
             <string>In Room</string>
            </property>
            <property name="icon">
-            <iconset resource="../Resource.qrc">
+            <iconset>
              <normaloff>:/Resource/Chat/Users.png</normaloff>:/Resource/Chat/Users.png</iconset>
            </property>
            <property name="toolButtonStyle">
@@ -561,9 +675,7 @@ QToolButton:checked {
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../Resource.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>toolButtonChatRoomsHeader</sender>

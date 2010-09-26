@@ -62,6 +62,7 @@ void WidgetLibraryView::skinChangeEvent()
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarSearch->setStyleSheet(skinSettings.toolbars);
 	ui->toolFrameLibraryStatus->setStyleSheet(skinSettings.libraryViewHeader);
+	ui->treeViewLibraryFiles->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetLibraryView::saveWidget()

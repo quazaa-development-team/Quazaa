@@ -26,10 +26,10 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetPacketDump::WidgetPacketDump(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetPacketDump)
+	QMainWindow(parent),
+	ui(new Ui::WidgetPacketDump)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.PacketDumpToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
@@ -37,24 +37,25 @@ WidgetPacketDump::WidgetPacketDump(QWidget *parent) :
 
 WidgetPacketDump::~WidgetPacketDump()
 {
-    delete ui;
+	delete ui;
 }
 
 void WidgetPacketDump::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetPacketDump::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
+	ui->treeWidgetPacketDump->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetPacketDump::saveWidget()

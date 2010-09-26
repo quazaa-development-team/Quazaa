@@ -28,7 +28,8 @@ DialogDownloadsImport::DialogDownloadsImport(QWidget *parent) :
 	ui(new Ui::DialogDownloadsImport)
 {
 	ui->setupUi(this);
-	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	skinChangeEvent();
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 }
 
 DialogDownloadsImport::~DialogDownloadsImport()
@@ -47,4 +48,9 @@ void DialogDownloadsImport::changeEvent(QEvent *e)
 	default:
 		break;
 	}
+}
+
+void DialogDownloadsImport::skinChangeEvent()
+{
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

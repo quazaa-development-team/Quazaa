@@ -26,10 +26,10 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetUploads::WidgetUploads(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetUploads)
+	QMainWindow(parent),
+	ui(new Ui::WidgetUploads)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.UploadsToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
@@ -42,20 +42,21 @@ WidgetUploads::~WidgetUploads()
 
 void WidgetUploads::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetUploads::skinChangeEvent()
 {
 	ui->toolBarControls->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarFilter->setStyleSheet(skinSettings.toolbars);
+	ui->treeViewUploads->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetUploads::saveWidget()

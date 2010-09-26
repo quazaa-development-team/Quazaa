@@ -75,6 +75,7 @@ void WidgetNeighbours::skinChangeEvent()
 	ui->toolBarAres->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarG2->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarEDonkey->setStyleSheet(skinSettings.toolbars);
+	ui->tableViewNeighbours->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetNeighbours::setModel(QAbstractItemModel *model)

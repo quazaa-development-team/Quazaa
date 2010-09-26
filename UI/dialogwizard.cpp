@@ -227,4 +227,5 @@ void DialogWizard::on_pushButtonSharesRemove_clicked()
 void DialogWizard::skinChangeEvent()
 {
 	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	m_ui->listWidgetShares->setStyleSheet(skinSettings.listViews);
 }

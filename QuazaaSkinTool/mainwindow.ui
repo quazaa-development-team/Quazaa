@@ -353,6 +353,11 @@
        </item>
        <item>
         <property name="text">
+         <string>List Views</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Extended Items</string>
         </property>
         <property name="flags">
@@ -592,7 +597,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>6</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="pageSkinProperties">
          <layout class="QGridLayout" name="gridLayout_38">
@@ -1559,7 +1564,7 @@ QToolButton:disabled {
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>309</width>
+               <width>564</width>
                <height>526</height>
               </rect>
              </property>
@@ -1671,114 +1676,6 @@ QToolButton:disabled {
                         <number>24</number>
                        </property>
                       </widget>
-                     </item>
-                     <item row="6" column="0" colspan="4">
-                      <layout class="QGridLayout" name="gridLayout_15">
-                       <item row="0" column="0">
-                        <widget class="QTreeWidget" name="treeWidget">
-                         <column>
-                          <property name="text">
-                           <string>Tree View</string>
-                          </property>
-                         </column>
-                         <item>
-                          <property name="text">
-                           <string>Item</string>
-                          </property>
-                          <item>
-                           <property name="text">
-                            <string>Child Item</string>
-                           </property>
-                          </item>
-                         </item>
-                        </widget>
-                       </item>
-                       <item row="1" column="0">
-                        <widget class="QListWidget" name="listWidget">
-                         <item>
-                          <property name="text">
-                           <string>List View</string>
-                          </property>
-                         </item>
-                        </widget>
-                       </item>
-                       <item row="0" column="1">
-                        <widget class="QTableWidget" name="tableWidget">
-                         <row>
-                          <property name="text">
-                           <string>Row</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>Row 2</string>
-                          </property>
-                         </row>
-                         <column>
-                          <property name="text">
-                           <string>Table View</string>
-                          </property>
-                         </column>
-                         <item row="0" column="0">
-                          <property name="text">
-                           <string>Item</string>
-                          </property>
-                         </item>
-                         <item row="1" column="0">
-                          <property name="text">
-                           <string>Item 2</string>
-                          </property>
-                         </item>
-                        </widget>
-                       </item>
-                       <item row="1" column="1">
-                        <widget class="QScrollArea" name="scrollArea">
-                         <property name="verticalScrollBarPolicy">
-                          <enum>Qt::ScrollBarAlwaysOn</enum>
-                         </property>
-                         <property name="horizontalScrollBarPolicy">
-                          <enum>Qt::ScrollBarAlwaysOn</enum>
-                         </property>
-                         <property name="widgetResizable">
-                          <bool>true</bool>
-                         </property>
-                         <widget class="QFrame" name="frameScrollArea">
-                          <property name="geometry">
-                           <rect>
-                            <x>0</x>
-                            <y>0</y>
-                            <width>518</width>
-                            <height>518</height>
-                           </rect>
-                          </property>
-                          <layout class="QGridLayout" name="gridLayout_17">
-                           <item row="0" column="0">
-                            <widget class="QLabel" name="label_5">
-                             <property name="sizePolicy">
-                              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                              </sizepolicy>
-                             </property>
-                             <property name="minimumSize">
-                              <size>
-                               <width>500</width>
-                               <height>500</height>
-                              </size>
-                             </property>
-                             <property name="text">
-                              <string>Scroll Area</string>
-                             </property>
-                             <property name="alignment">
-                              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                             </property>
-                            </widget>
-                           </item>
-                          </layout>
-                         </widget>
-                        </widget>
-                       </item>
-                      </layout>
                      </item>
                     </layout>
                    </widget>
@@ -2181,6 +2078,137 @@ QToolButton:disabled {
           </item>
          </layout>
         </widget>
+        <widget class="QWidget" name="pageLists">
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QScrollArea" name="scrollArea">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollAreaWidgetContents_4">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>561</width>
+               <height>297</height>
+              </rect>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_9">
+              <item row="0" column="0">
+               <layout class="QGridLayout" name="gridLayout_15">
+                <item row="0" column="0">
+                 <widget class="QTreeWidget" name="treeWidget">
+                  <column>
+                   <property name="text">
+                    <string>Tree View</string>
+                   </property>
+                  </column>
+                  <item>
+                   <property name="text">
+                    <string>Item</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Child Item</string>
+                    </property>
+                   </item>
+                  </item>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QListWidget" name="listWidget">
+                  <item>
+                   <property name="text">
+                    <string>List View</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QTableWidget" name="tableWidget">
+                  <row>
+                   <property name="text">
+                    <string>Row</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>Row 2</string>
+                   </property>
+                  </row>
+                  <column>
+                   <property name="text">
+                    <string>Table View</string>
+                   </property>
+                  </column>
+                  <item row="0" column="0">
+                   <property name="text">
+                    <string>Item</string>
+                   </property>
+                  </item>
+                  <item row="1" column="0">
+                   <property name="text">
+                    <string>Item 2</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QScrollArea" name="scrollAreaPreview">
+                  <property name="verticalScrollBarPolicy">
+                   <enum>Qt::ScrollBarAlwaysOn</enum>
+                  </property>
+                  <property name="horizontalScrollBarPolicy">
+                   <enum>Qt::ScrollBarAlwaysOn</enum>
+                  </property>
+                  <property name="widgetResizable">
+                   <bool>true</bool>
+                  </property>
+                  <widget class="QFrame" name="frameScrollArea">
+                   <property name="geometry">
+                    <rect>
+                     <x>0</x>
+                     <y>0</y>
+                     <width>518</width>
+                     <height>518</height>
+                    </rect>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_17">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_5">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>500</width>
+                        <height>500</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Scroll Area</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
         <widget class="QWidget" name="pageExtendedItems">
          <layout class="QGridLayout" name="gridLayout_19">
           <property name="margin">
@@ -2226,7 +2254,7 @@ QToolButton:disabled {
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>-350</y>
+               <y>-546</y>
                <width>546</width>
                <height>843</height>
               </rect>
@@ -3055,7 +3083,7 @@ QToolButton:disabled {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QCheckBox" name="checkBoxBoldUsersBold">
+                        <widget class="QCheckBox" name="checkBoxBoldUsersVoiced">
                          <property name="text">
                           <string>Bold</string>
                          </property>

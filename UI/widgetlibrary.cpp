@@ -60,6 +60,8 @@ void WidgetLibrary::skinChangeEvent()
 {
 	ui->frameLibraryNavigator->setStyleSheet(skinSettings.sidebarBackground);
 	ui->tabWidgetLibraryNavigator->setStyleSheet(skinSettings.libraryNavigator);
+	ui->treeViewLibraryNavigatorOrganiser->setStyleSheet(skinSettings.listViews);
+	ui->treeViewLibraryNavigatorShares->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetLibrary::on_toolButtonLibraryEditShares_clicked()

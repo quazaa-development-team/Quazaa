@@ -757,165 +757,171 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.standardItems);
 		}
 
-		if (item->text(column) == tr("Main Menu Toolbar"))
+		if (item->text(column) == tr("List Views"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
+			ui->plainTextEditStyleSheet->setPlainText(skinSettings.listViews);
+		}
+
+		if (item->text(column) == tr("Main Menu Toolbar"))
+		{
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.mainMenuToolbar);
 		}
 
 		if (item->text(column) == tr("Sidebar Background"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarBackground);
 		}
 
 		if (item->text(column) == tr("Sidebar Task Header"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarTaskHeader);
 		}
 
 		if (item->text(column) == tr("Sidebar Task Body"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarTaskBackground);
 		}
 
 		if (item->text(column) == tr("Un-Clickable Sidebar Task Header"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarUnclickableTaskHeader);
 		}
 
 		if (item->text(column) == tr("Add Search Button"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.addSearchButton);
 		}
 
 		if (item->text(column) == tr("Chat Welcome"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.chatWelcome);
 		}
 
 		if (item->text(column) == tr("Chat Toolbar"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.chatToolbar);
 		}
 
 		if (item->text(column) == tr("Library Navigator"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.libraryNavigator);
 		}
 
 		if (currentSelectionText == tr("Library View Header"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.libraryViewHeader);
 		}
 
 		if (item->text(column) == tr("Searches"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.tabSearches);
 		}
 
 		if (item->text(column) == tr("Toolbars"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.toolbars);
 		}
 
 		if (item->text(column) == tr("Media Toolbar"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.mediaToolbar);
 		}
 
 		if (item->text(column) == tr("Media Seek Slider"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.seekSlider);
 		}
 
 		if (item->text(column) == tr("Media Volume Slider"))
 		{
-			ui->stackedWidget->setCurrentIndex(4);
+			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.volumeSlider);
 		}
 
 		if (item->text(column) == tr("Toolbar"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.navigationToolbar);
 		}
 
 		if (item->text(column) == tr("Home"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.homeHeader);
 		}
 
 		if (item->text(column) == tr("Library"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.libraryHeader);
 		}
 
 		if (item->text(column) == tr("Media"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.mediaHeader);
 		}
 
 		if (item->text(column) == tr("Search"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.searchHeader);
 		}
 
 		if (item->text(column) == tr("Transfers"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.transfersHeader);
 		}
 
 		if (item->text(column) == tr("Security"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.securityHeader);
 		}
 
 		if (item->text(column) == tr("Activity"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.activityHeader);
 		}
 
 		if (item->text(column) == tr("Chat"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.chatHeader);
 		}
 
 		if (item->text(column) == tr("Generic"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.genericHeader);
 		}
 
 		if (item->text(column) == tr("Dialog Header"))
 		{
-			ui->stackedWidget->setCurrentIndex(5);
+			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.dialogHeader);
 		}
 
 				if (item->text(column) == tr("Colors"))
 		{
-			ui->stackedWidget->setCurrentIndex(6);
+			ui->stackedWidget->setCurrentIndex(7);
 			ui->plainTextEditStyleSheet->setPlainText("");
 			ui->plainTextEditStyleSheet->setEnabled(false);
 		}
@@ -951,6 +957,18 @@ void MainWindow::on_actionOpen_triggered()
 		ui->toolButtonColorListsNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorNormal.name() + ";}");
 		ui->toolButtonColorListsSpecial->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorSpecial.name() + ";}");
 		ui->textEditLogPreview->setStyleSheet(skinSettings.standardItems);
+		ui->toolButtonColorMessagesActions->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorActions.name() + ";}");
+		ui->toolButtonColorMessagesHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorHighlighted.name() + ";}");
+		ui->toolButtonColorMessagesNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorNormal.name() + ";}");
+		ui->toolButtonColorMessagesNotices->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorNotices.name() + ";}");
+		ui->toolButtonColorMessagesServer->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorServer.name() + ";}");
+		ui->toolButtonColorMessagesTopics->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorTopics.name() + ";}");
+		ui->toolButtonColorUsersAdministrator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorAdministrator.name() + ";}");
+		ui->toolButtonColorUsersHalfOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorHalfOperator.name() + ";}");
+		ui->toolButtonColorUsersNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorNormal.name() + ";}");
+		ui->toolButtonColorUsersOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorOperator.name() + ";}");
+		ui->toolButtonColorUsersOwner->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorOwner.name() + ";}");
+		ui->toolButtonColorUsersVoiced->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorVoiced.name() + ";}");
 
 		if (skinSettings.logWeightInformation == "font-weight:600;")
 		{
@@ -1029,6 +1047,87 @@ void MainWindow::on_actionOpen_triggered()
 			ui->checkBoxBoldListsSpecial->setChecked(false);
 		}
 
+		if (skinSettings.chatMessagesWeightNormal == "font-weight:600;")
+		{
+			ui->checkBoxBoldMessagesNormal->setChecked(true);
+		} else {
+			ui->checkBoxBoldMessagesNormal->setChecked(false);
+		}
+
+		if (skinSettings.chatMessagesWeightHighlighted == "font-weight:600;")
+		{
+			ui->checkBoxBoldMessagesHighlighted->setChecked(true);
+		} else {
+			ui->checkBoxBoldMessagesHighlighted->setChecked(false);
+		}
+
+		if (skinSettings.chatMessagesWeightServer == "font-weight:600;")
+		{
+			ui->checkBoxBoldMessagesServer->setChecked(true);
+		} else {
+			ui->checkBoxBoldMessagesServer->setChecked(false);
+		}
+		if (skinSettings.chatMessagesWeightTopics == "font-weight:600;")
+		{
+			ui->checkBoxBoldMessagesTopics->setChecked(true);
+		} else {
+			ui->checkBoxBoldMessagesTopics->setChecked(false);
+		}
+		if (skinSettings.chatMessagesWeightNotices == "font-weight:600;")
+		{
+			ui->checkBoxBoldMessagesNotices->setChecked(true);
+		} else {
+			ui->checkBoxBoldMessagesNotices->setChecked(false);
+		}
+		if (skinSettings.chatMessagesWeightActions == "font-weight:600;")
+		{
+			ui->checkBoxBoldMessagesActions->setChecked(true);
+		} else {
+			ui->checkBoxBoldMessagesActions->setChecked(false);
+		}
+
+		if (skinSettings.chatUsersWeightNormal == 75)
+		{
+			ui->checkBoxBoldUsersNormal->setChecked(true);
+		} else {
+			ui->checkBoxBoldUsersNormal->setChecked(false);
+		}
+
+		if (skinSettings.chatUsersWeightOwner == 75)
+		{
+			ui->checkBoxBoldUsersOwner->setChecked(true);
+		} else {
+			ui->checkBoxBoldUsersOwner->setChecked(false);
+		}
+
+		if (skinSettings.chatUsersWeightAdministrator == 75)
+		{
+			ui->checkBoxBoldUsersAdministrator->setChecked(true);
+		} else {
+			ui->checkBoxBoldUsersAdministrator->setChecked(false);
+		}
+
+		if (skinSettings.chatUsersWeightOperator == 75)
+		{
+			ui->checkBoxBoldUsersOperator->setChecked(true);
+		} else {
+			ui->checkBoxBoldUsersOperator->setChecked(false);
+		}
+
+		if (skinSettings.chatUsersWeightHalfOperator == 75)
+		{
+			ui->checkBoxBoldUsersHalfOperator->setChecked(true);
+		} else {
+			ui->checkBoxBoldUsersHalfOperator->setChecked(false);
+		}
+
+		if (skinSettings.chatUsersWeightVoiced == 75)
+		{
+			ui->checkBoxBoldUsersVoiced->setChecked(true);
+		} else {
+			ui->checkBoxBoldUsersVoiced->setChecked(false);
+		}
+
 		updateLogPreview();
 		skinChangeEvent();
 		this->setWindowTitle(skinSettings.skinName + ".qsf" + " - Quazaa Skin Tool");
@@ -1102,6 +1201,11 @@ void MainWindow::skinChangeEvent()
 	ui->progressBarSplashStatus->setStyleSheet(skinSettings.splashProgress);
 	updateWindowStyleSheet(isMainWindow);
 	ui->pageStandardItems->setStyleSheet(skinSettings.standardItems);
+	ui->pageLists->setStyleSheet(skinSettings.standardItems);
+	ui->treeWidget->setStyleSheet(skinSettings.listViews);
+	ui->tableWidget->setStyleSheet(skinSettings.listViews);
+	ui->listWidget->setStyleSheet(skinSettings.listViews);
+	ui->scrollAreaPreview->setStyleSheet(skinSettings.listViews);
 	ui->textEditLogPreview->setStyleSheet(skinSettings.standardItems);
 	pageExtendedItems->skinChangeEvent();
 	pageNavigation->skinChangeEvent();
@@ -1343,6 +1447,11 @@ void MainWindow::applySheets()
 		skinSettings.standardItems = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
+	if (currentSelectionText == tr("List Views"))
+	{
+		skinSettings.listViews = ui->plainTextEditStyleSheet->toPlainText();
+	}
+
 	if (currentSelectionText == tr("Main Menu Toolbar"))
 	{
 		skinSettings.mainMenuToolbar = ui->plainTextEditStyleSheet->toPlainText();
@@ -1477,7 +1586,7 @@ void MainWindow::applySheets()
 
 void MainWindow::on_plainTextEditStyleSheet_textChanged()
 {
-	if (isStyleSheetValid(ui->plainTextEditStyleSheet->styleSheet()))
+	if (isStyleSheetValid(ui->plainTextEditStyleSheet->toPlainText()))
 	{
 		saved = false;
 		applySheets();
@@ -1811,7 +1920,7 @@ void MainWindow::on_toolButtonColorMessagesNormal_clicked()
 	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorNormal, this);
 	if (color.isValid())
 	{
-			skinSettings.toolButtonColorMessagesNormal.setNamedColor(color.name());
+			skinSettings.chatMessagesColorNormal.setNamedColor(color.name());
 			ui->toolButtonColorMessagesNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
 			saved = false;
 	}

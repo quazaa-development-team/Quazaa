@@ -318,4 +318,5 @@ void DialogLanguage::on_listWidgetLanguages_itemClicked(QListWidgetItem* item)
 void DialogLanguage::skinChangeEvent()
 {
 	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	m_ui->listWidgetLanguages->setStyleSheet(skinSettings.listViews);
 }

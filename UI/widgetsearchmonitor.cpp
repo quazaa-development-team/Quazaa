@@ -26,8 +26,8 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetSearchMonitor::WidgetSearchMonitor(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetSearchMonitor)
+	QMainWindow(parent),
+	ui(new Ui::WidgetSearchMonitor)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.SearchMonitorToolbar);
@@ -37,24 +37,25 @@ WidgetSearchMonitor::WidgetSearchMonitor(QWidget *parent) :
 
 WidgetSearchMonitor::~WidgetSearchMonitor()
 {
-    delete ui;
+	delete ui;
 }
 
 void WidgetSearchMonitor::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetSearchMonitor::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
+	ui->treeWidgetSearchMonitor->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetSearchMonitor::saveWidget()

@@ -72,6 +72,7 @@ void WidgetMedia::skinChangeEvent()
 	ui->frameMediaPlaylistSidebar->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->toolBarPlayControls->setStyleSheet(skinSettings.mediaToolbar);
 	ui->toolBarSettings->setStyleSheet(skinSettings.mediaToolbar);
+	ui->tableWidgetMediaPlaylistTask->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetMedia::saveWidget()

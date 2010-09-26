@@ -56,6 +56,7 @@ void WidgetScheduler::changeEvent(QEvent *e)
 void WidgetScheduler::skinChangeEvent()
 {
 	ui->toolBar->setStyleSheet(skinSettings.toolbars);
+	ui->treeWidgetSchedules->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetScheduler::saveWidget()

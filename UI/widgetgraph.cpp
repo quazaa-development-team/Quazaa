@@ -56,6 +56,7 @@ void WidgetGraph::changeEvent(QEvent *e)
 void WidgetGraph::skinChangeEvent()
 {
 	ui->toolBarControls->setStyleSheet(skinSettings.toolbars);
+	ui->treeWidgetGraphSelector->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetGraph::saveWidget()

@@ -26,10 +26,10 @@
 #include "QSkinDialog/qskinsettings.h"
 
 WidgetDiscovery::WidgetDiscovery(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetDiscovery)
+	QMainWindow(parent),
+	ui(new Ui::WidgetDiscovery)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.DiscoveryToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
@@ -37,19 +37,19 @@ WidgetDiscovery::WidgetDiscovery(QWidget *parent) :
 
 WidgetDiscovery::~WidgetDiscovery()
 {
-    delete ui;
+	delete ui;
 }
 
 void WidgetDiscovery::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetDiscovery::skinChangeEvent()
@@ -57,6 +57,7 @@ void WidgetDiscovery::skinChangeEvent()
 	ui->toolBarControls->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarProperties->setStyleSheet(skinSettings.toolbars);
 	ui->toolBarServices->setStyleSheet(skinSettings.toolbars);
+	ui->treeViewDiscovery->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetDiscovery::saveWidget()
