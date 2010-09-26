@@ -91,11 +91,13 @@ void WidgetChatTab::append(QString text) {
 
 void WidgetChatTab::channelNames(QStringList names) {
 	qDebug() << "My name is >> "+name;
-	for (int i = 0; i < names.size(); ++i) {
+	/*for (int i = 0; i < names.size(); ++i) {
 		qDebug() << "CName: "+names.at(i);
 		//ui->listWidgetChatUsers->addItem(names.at(i));
 		//new QListWidgetItem(names.at(i), ui->listWidgetChatUsers);
 	}
+	*/
+
 	userList->setStringList(names);
 	//ui->listWidgetChatUsers->addItem()
 }

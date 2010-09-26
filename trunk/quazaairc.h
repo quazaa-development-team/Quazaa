@@ -44,7 +44,7 @@ public slots:
 signals:
 	void setPrefixes(QString modes, QString mprefs);
 	void channelNames(QStringList list);
-	void appendMessage(Irc::Buffer* buffer, QString sender, QString message);
+	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, bool action);
 	void bufferAdded(QString str);
 
 protected slots:
@@ -56,6 +56,7 @@ protected slots:
 	void on_IrcSession_bufferRemoved(Irc::Buffer* buffer);
 	void messageReceived(QString, QString);
 	void numericMessageReceived(QString, uint, QStringList);
+	void ctcpActionReceived(QString,QString);
 
 protected:
 	Irc::Session *ircSession;

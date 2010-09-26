@@ -57,6 +57,7 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 	buffer->names();
 	connect(buffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
 	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this, SLOT(numericMessageReceived(QString,uint,QStringList)));
+	connect(buffer, SIGNAL(ctcpActionReceived(QString,QString)), this, SLOT(ctcpActionReceived(QString,QString)));
 }
 
 void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
@@ -112,8 +113,12 @@ void QuazaaIRC::sendIrcMessage(QString channel, QString message)
 
 void QuazaaIRC::messageReceived(QString sender, QString message)
 {
-	//qDebug() << "Message echoed: " + sender + "|" + message;
-	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message);
+	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, false);
+}
+
+void QuazaaIRC::ctcpActionReceived(QString sender, QString message)
+{
+	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, true);
 }
 
 void QuazaaIRC::numericMessageReceived(QString str, uint code, QStringList list)
