@@ -1,15 +1,68 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-02-18T20:24:21
 # -------------------------------------------------
+#
+# QuazaaSkinTool.pro
+#
+# Copyright © Quazaa Development Team, 2009-2010.
+# This file is part of QUAZAA (quazaa.sourceforge.net)
+#
+# Quazaa is free software; you can redistribute it
+# and/or modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3 of
+# the License, or (at your option) any later version.
+#
+# Quazaa is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Quazaa; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+
+# Qt modules used in application
 CONFIG += designer
 TARGET = QuazaaSkinTool
-CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
+
+# Paths
+DESTDIR = ../bin
+CONFIG(debug, debug|release){
+	OBJECTS_DIR = temp/obj/debug
+	RCC_DIR = temp/qrc/debug
+}
+CONFIG(release){
+	OBJECTS_DIR = temp/obj/release
+	RCC_DIR = temp/qrc/release
+}
+MOC_DIR = temp/moc
+UI_DIR = temp/uic
+
 INCLUDEPATH += . \
 	text
-CONFIG(debug, debug|release):INCLUDEPATH += temp/debug
-CONFIG(release):INCLUDEPATH += temp/release
+
+# Append _debug to executable name when compiling using debug config
+CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
+
+#Additional config
 mac:CONFIG -= app_bundle
+
 TEMPLATE = app
+
+# MSVC-specific compiler flags
+win32-msvc2008{
+	!build_pass:message(Setting up MSVC 2008 Compiler flags)
+	QMAKE_CFLAGS_DEBUG += /Gd /arch:SSE2 /Gm /RTC1
+	QMAKE_CFLAGS_RELEASE += /Gd /arch:SSE2 /GA
+
+	QMAKE_CXXFLAGS_DEBUG += /Gd /arch:SSE2 /Gm /RTC1
+	QMAKE_CXXFLAGS_RELEASE += /Gd /arch:SSE2 /GA
+
+	QMAKE_LFLAGS_DEBUG += /FIXED:NO
+}
+
+# Sources
 SOURCES += main.cpp \
 	mainwindow.cpp \
 	dialogopenskin.cpp \
@@ -63,14 +116,7 @@ TRANSLATIONS = ../Language/quazaaskintool_af.ts \
 	../Language/quazaaskintool_sv.ts \
 	../Language/quazaaskintool_tr.ts \
 	../Language/quazaaskintool_tw.ts
+include(qtgradienteditor/qtgradienteditor.pri)
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
-DESTDIR = ../bin
-CONFIG(debug, debug|release):OBJECTS_DIR = temp/debug
-CONFIG(release):OBJECTS_DIR = temp/release
-CONFIG(debug, debug|release):MOC_DIR = temp/debug
-CONFIG(release):MOC_DIR = temp/release
-CONFIG(debug, debug|release):UI_DIR = temp/debug
-CONFIG(release):UI_DIR = temp/release
-include(qtgradienteditor/qtgradienteditor.pri)
