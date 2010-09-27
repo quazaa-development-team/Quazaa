@@ -24,7 +24,10 @@
 #include "../QSkinDialog/qskinsettings.h"
 #include "dialognewskin.h"
 #include "dialogopenskin.h"
+#ifndef Q_OS_WIN
 #include "qcssparser.h"
+#endif
+#include <QtGui>
 #include "csshighlighter.h"
 #include <QDesktopServices>
 #include "qtgradientmanager.h"
