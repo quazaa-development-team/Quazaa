@@ -180,7 +180,7 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="icon">
                <iconset resource="../Resource.qrc">
-                <normaloff>:/Resource/Generic/Bug.png</normaloff>:/Resource/Generic/Bug.png</iconset>
+                <normaloff>:/Resource/Generic/System.png</normaloff>:/Resource/Generic/System.png</iconset>
               </property>
              </item>
              <item>
