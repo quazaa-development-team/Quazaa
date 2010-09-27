@@ -32,10 +32,12 @@ namespace Irc
 
 class QuazaaIRC : public QObject
 {
-	 Q_OBJECT
+	Q_OBJECT
+	Q_ENUMS(Event)
 
 public:
 	QuazaaIRC(QObject* parent = 0);
+	enum Event { Status, Notice, Message, Action };
 
 public slots:
 	void startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );
@@ -44,8 +46,9 @@ public slots:
 signals:
 	void setPrefixes(QString modes, QString mprefs);
 	void channelNames(QStringList list);
-	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, bool action);
+	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event);
 	void bufferAdded(QString str);
+	void joined(QString chan);
 
 protected slots:
 	void on_IrcSession_connected();
@@ -57,6 +60,7 @@ protected slots:
 	void messageReceived(QString, QString);
 	void numericMessageReceived(QString, uint, QStringList);
 	void ctcpActionReceived(QString,QString);
+	void noticeReceived(QString,QString);
 
 protected:
 	Irc::Session *ircSession;

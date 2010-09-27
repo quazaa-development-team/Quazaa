@@ -58,6 +58,8 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 	connect(buffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
 	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this, SLOT(numericMessageReceived(QString,uint,QStringList)));
 	connect(buffer, SIGNAL(ctcpActionReceived(QString,QString)), this, SLOT(ctcpActionReceived(QString,QString)));
+	connect(buffer, SIGNAL(noticeReceived(QString,QString)), this, SLOT(noticeReceived(QString,QString)));
+	connect(buffer, SIGNAL(joined(QString)), this, SIGNAL(joined(QString)));
 }
 
 void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
@@ -111,19 +113,24 @@ void QuazaaIRC::sendIrcMessage(QString channel, QString message)
 	ircSession->message(channel, message);
 }
 
+void QuazaaIRC::noticeReceived(QString sender, QString message)
+{
+	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, QuazaaIRC::Notice);
+}
+
 void QuazaaIRC::messageReceived(QString sender, QString message)
 {
-	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, false);
+	qDebug() << "Emitting messageReceived from quazaairc.cpp";
+	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, QuazaaIRC::Message);
 }
 
 void QuazaaIRC::ctcpActionReceived(QString sender, QString message)
 {
-	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, true);
+	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, QuazaaIRC::Action);
 }
 
-void QuazaaIRC::numericMessageReceived(QString str, uint code, QStringList list)
+void QuazaaIRC::numericMessageReceived(QString sender, uint code, QStringList list)
 {
-	qDebug() << "IRC "+QString::number(code)+":"+str;
 	switch (code)
 	{
 		case Irc::Rfc::RPL_NAMREPLY:
@@ -141,11 +148,12 @@ void QuazaaIRC::numericMessageReceived(QString str, uint code, QStringList list)
 					emit setPrefixes(modes, mprefs);
 				}
 			}
-			break;
 		}
 		default:
 		{
-			// add to status
+			// append to status
+			list.removeFirst();
+			emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, "[" + QString::number(code) + "] " + list.join(" "), QuazaaIRC::Status);
 		}
 	}
 }

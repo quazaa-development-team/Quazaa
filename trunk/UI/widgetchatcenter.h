@@ -58,10 +58,11 @@ private slots:
 	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
 	void skinChangeEvent();
-	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, bool action);
-	void addBuffer(QString str);
+	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event);
 	void channelNames(QStringList list);
 	void setPrefixes(QString modes, QString mprefs);
+	//void joined(QString chan);
+	void addBuffer(QString name);
 	void on_tabWidget_currentChanged(QWidget* );
 	void on_actionEditMyProfile_triggered();
 };
