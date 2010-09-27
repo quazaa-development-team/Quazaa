@@ -441,5 +441,7 @@
         <file>Resource/Generic/Bug.png</file>
         <file>Resource/Generic/Critical.png</file>
         <file>Resource/Generic/Notice.png</file>
+        <file>Resource/Generic/System.png</file>
+        <file>Resource/Generic/Integration.png</file>
     </qresource>
 </RCC>
