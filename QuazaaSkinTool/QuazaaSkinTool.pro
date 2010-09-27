@@ -28,11 +28,10 @@ TARGET = QuazaaSkinTool
 
 # Paths
 DESTDIR = ../bin
-CONFIG(debug, debug|release){
+CONFIG(debug){
 	OBJECTS_DIR = temp/obj/debug
 	RCC_DIR = temp/qrc/debug
-}
-CONFIG(release){
+} else {
 	OBJECTS_DIR = temp/obj/release
 	RCC_DIR = temp/qrc/release
 }
