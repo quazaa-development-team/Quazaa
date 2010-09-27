@@ -42,10 +42,10 @@
 // auto generated. DO NOT EDIT.
 #include <QtGui>
 
-class QCssScanner_Generated
+class QuazaaCssScanner_Generated
 {
 public:
-	QCssScanner_Generated(const QString &inp);
+	QuazaaCssScanner_Generated(const QString &inp);
 
 	inline QChar next() {
 		return (pos < input.length()) ? input.at(pos++) : QChar();
@@ -59,7 +59,7 @@ public:
 	int lexemLength;
 };
 
-QCssScanner_Generated::QCssScanner_Generated(const QString &inp)
+QuazaaCssScanner_Generated::QuazaaCssScanner_Generated(const QString &inp)
 {
 	input = inp;
 	pos = 0;
@@ -68,7 +68,7 @@ QCssScanner_Generated::QCssScanner_Generated(const QString &inp)
 }
 
 
-int QCssScanner_Generated::lex()
+int QuazaaCssScanner_Generated::lex()
 {
 	lexemStart = pos;
 	lexemLength = 0;
@@ -85,7 +85,7 @@ int QCssScanner_Generated::lex()
 		if (ch.unicode() == 32)
 			goto state_1;
 		if (ch.unicode() == 33) {
-			token = QCss::EXCLAMATION_SYM;
+			token = QuazaaCss::EXCLAMATION_SYM;
 			goto found;
 		}
 		if (ch.unicode() == 34)
@@ -95,15 +95,15 @@ int QCssScanner_Generated::lex()
 		if (ch.unicode() == 39)
 			goto state_5;
 		if (ch.unicode() == 40) {
-			token = QCss::LPAREN;
+			token = QuazaaCss::LPAREN;
 			goto found;
 		}
 		if (ch.unicode() == 41) {
-			token = QCss::RPAREN;
+			token = QuazaaCss::RPAREN;
 			goto found;
 		}
 		if (ch.unicode() == 42) {
-			token = QCss::STAR;
+			token = QuazaaCss::STAR;
 			goto found;
 		}
 		if (ch.unicode() == 43)
@@ -119,17 +119,17 @@ int QCssScanner_Generated::lex()
 		if (ch.unicode() >= 48 && ch.unicode() <= 57)
 			goto state_14;
 		if (ch.unicode() == 58) {
-			token = QCss::COLON;
+			token = QuazaaCss::COLON;
 			goto found;
 		}
 		if (ch.unicode() == 59) {
-			token = QCss::SEMICOLON;
+			token = QuazaaCss::SEMICOLON;
 			goto found;
 		}
 		if (ch.unicode() == 60)
 			goto state_17;
 		if (ch.unicode() == 61) {
-			token = QCss::EQUAL;
+			token = QuazaaCss::EQUAL;
 			goto found;
 		}
 		if (ch.unicode() == 62)
@@ -137,13 +137,13 @@ int QCssScanner_Generated::lex()
 		if (ch.unicode() == 64)
 			goto state_20;
 		if (ch.unicode() == 91) {
-			token = QCss::LBRACKET;
+			token = QuazaaCss::LBRACKET;
 			goto found;
 		}
 		if (ch.unicode() == 92)
 			goto state_22;
 		if (ch.unicode() == 93) {
-			token = QCss::RBRACKET;
+			token = QuazaaCss::RBRACKET;
 			goto found;
 		}
 		if (ch.unicode() == 95)
@@ -155,7 +155,7 @@ int QCssScanner_Generated::lex()
 		if (ch.unicode() == 124)
 			goto state_26;
 		if (ch.unicode() == 125) {
-			token = QCss::RBRACE;
+			token = QuazaaCss::RBRACE;
 			goto found;
 		}
 		if (ch.unicode() == 126)
@@ -163,7 +163,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_1:
 		lastAcceptingPos = pos;
-		token = QCss::S;
+		token = QuazaaCss::S;
 		ch = next();
 		if (ch.unicode() >= 9 && ch.unicode() <= 10)
 			goto state_29;
@@ -182,7 +182,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_3:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_30;
@@ -218,7 +218,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_5:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_35;
@@ -241,15 +241,15 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_9:
 		lastAcceptingPos = pos;
-		token = QCss::PLUS;
+		token = QuazaaCss::PLUS;
 		goto out;
 	state_10:
 		lastAcceptingPos = pos;
-		token = QCss::COMMA;
+		token = QuazaaCss::COMMA;
 		goto out;
 	state_11:
 		lastAcceptingPos = pos;
-		token = QCss::MINUS;
+		token = QuazaaCss::MINUS;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_38;
@@ -262,14 +262,14 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_12:
 		lastAcceptingPos = pos;
-		token = QCss::DOT;
+		token = QuazaaCss::DOT;
 		ch = next();
 		if (ch.unicode() >= 48 && ch.unicode() <= 57)
 			goto state_39;
 		goto out;
 	state_13:
 		lastAcceptingPos = pos;
-		token = QCss::SLASH;
+		token = QuazaaCss::SLASH;
 		ch = next();
 		if (ch.unicode() == 42) {
 			token = handleCommentStart();
@@ -278,7 +278,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_14:
 		lastAcceptingPos = pos;
-		token = QCss::NUMBER;
+		token = QuazaaCss::NUMBER;
 		ch = next();
 		if (ch.unicode() == 37)
 			goto state_41;
@@ -302,7 +302,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_19:
 		lastAcceptingPos = pos;
-		token = QCss::GREATER;
+		token = QuazaaCss::GREATER;
 		goto out;
 	state_20:
 		ch = next();
@@ -330,7 +330,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_24:
 		lastAcceptingPos = pos;
-		token = QCss::IDENT;
+		token = QuazaaCss::IDENT;
 		ch = next();
 		if (ch.unicode() == 40)
 			goto state_52;
@@ -347,27 +347,27 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_25:
 		lastAcceptingPos = pos;
-		token = QCss::LBRACE;
+		token = QuazaaCss::LBRACE;
 		goto out;
 	state_26:
 		lastAcceptingPos = pos;
-		token = QCss::OR;
+		token = QuazaaCss::OR;
 		ch = next();
 		if (ch.unicode() == 61) {
-			token = QCss::DASHMATCH;
+			token = QuazaaCss::DASHMATCH;
 			goto found;
 		}
 		goto out;
 	state_28:
 		ch = next();
 		if (ch.unicode() == 61) {
-			token = QCss::INCLUDES;
+			token = QuazaaCss::INCLUDES;
 			goto found;
 		}
 		goto out;
 	state_29:
 		lastAcceptingPos = pos;
-		token = QCss::S;
+		token = QuazaaCss::S;
 		ch = next();
 		if (ch.unicode() >= 9 && ch.unicode() <= 10)
 			goto state_29;
@@ -386,7 +386,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_30:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_30;
@@ -409,7 +409,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_31:
 		lastAcceptingPos = pos;
-		token = QCss::STRING;
+		token = QuazaaCss::STRING;
 		goto out;
 	state_32:
 		ch = next();
@@ -432,7 +432,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_33:
 		lastAcceptingPos = pos;
-		token = QCss::HASH;
+		token = QuazaaCss::HASH;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_61;
@@ -460,7 +460,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_35:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_35;
@@ -483,7 +483,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_36:
 		lastAcceptingPos = pos;
-		token = QCss::STRING;
+		token = QuazaaCss::STRING;
 		goto out;
 	state_37:
 		ch = next();
@@ -507,13 +507,13 @@ int QCssScanner_Generated::lex()
 	state_38:
 		ch = next();
 		if (ch.unicode() == 62) {
-			token = QCss::CDC;
+			token = QuazaaCss::CDC;
 			goto found;
 		}
 		goto out;
 	state_39:
 		lastAcceptingPos = pos;
-		token = QCss::NUMBER;
+		token = QuazaaCss::NUMBER;
 		ch = next();
 		if (ch.unicode() == 37)
 			goto state_41;
@@ -530,7 +530,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_41:
 		lastAcceptingPos = pos;
-		token = QCss::PERCENTAGE;
+		token = QuazaaCss::PERCENTAGE;
 		goto out;
 	state_42:
 		ch = next();
@@ -548,7 +548,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_44:
 		lastAcceptingPos = pos;
-		token = QCss::NUMBER;
+		token = QuazaaCss::NUMBER;
 		ch = next();
 		if (ch.unicode() == 37)
 			goto state_41;
@@ -580,7 +580,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_46:
 		lastAcceptingPos = pos;
-		token = QCss::LENGTH;
+		token = QuazaaCss::LENGTH;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_71;
@@ -622,7 +622,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_50:
 		lastAcceptingPos = pos;
-		token = QCss::ATKEYWORD_SYM;
+		token = QuazaaCss::ATKEYWORD_SYM;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_75;
@@ -637,7 +637,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_51:
 		lastAcceptingPos = pos;
-		token = QCss::IDENT;
+		token = QuazaaCss::IDENT;
 		ch = next();
 		if (ch.unicode() == 40)
 			goto state_52;
@@ -654,11 +654,11 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_52:
 		lastAcceptingPos = pos;
-		token = QCss::FUNCTION;
+		token = QuazaaCss::FUNCTION;
 		goto out;
 	state_53:
 		lastAcceptingPos = pos;
-		token = QCss::IDENT;
+		token = QuazaaCss::IDENT;
 		ch = next();
 		if (ch.unicode() == 40)
 			goto state_52;
@@ -688,7 +688,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_57:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_30;
@@ -711,7 +711,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_58:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_30;
@@ -734,7 +734,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_59:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_30;
@@ -757,7 +757,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_60:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_30;
@@ -782,7 +782,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_61:
 		lastAcceptingPos = pos;
-		token = QCss::HASH;
+		token = QuazaaCss::HASH;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_61;
@@ -810,7 +810,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_63:
 		lastAcceptingPos = pos;
-		token = QCss::HASH;
+		token = QuazaaCss::HASH;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_61;
@@ -825,7 +825,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_64:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_35;
@@ -848,7 +848,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_65:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_35;
@@ -871,7 +871,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_66:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_35;
@@ -894,7 +894,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_67:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_35;
@@ -919,7 +919,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_69:
 		lastAcceptingPos = pos;
-		token = QCss::NUMBER;
+		token = QuazaaCss::NUMBER;
 		ch = next();
 		if (ch.unicode() == 37)
 			goto state_41;
@@ -936,7 +936,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_70:
 		lastAcceptingPos = pos;
-		token = QCss::LENGTH;
+		token = QuazaaCss::LENGTH;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_71;
@@ -951,7 +951,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_71:
 		lastAcceptingPos = pos;
-		token = QCss::LENGTH;
+		token = QuazaaCss::LENGTH;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_71;
@@ -980,13 +980,13 @@ int QCssScanner_Generated::lex()
 	state_73:
 		ch = next();
 		if (ch.unicode() == 45) {
-			token = QCss::CDO;
+			token = QuazaaCss::CDO;
 			goto found;
 		}
 		goto out;
 	state_74:
 		lastAcceptingPos = pos;
-		token = QCss::ATKEYWORD_SYM;
+		token = QuazaaCss::ATKEYWORD_SYM;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_75;
@@ -1001,7 +1001,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_75:
 		lastAcceptingPos = pos;
-		token = QCss::ATKEYWORD_SYM;
+		token = QuazaaCss::ATKEYWORD_SYM;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_75;
@@ -1029,7 +1029,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_77:
 		lastAcceptingPos = pos;
-		token = QCss::IDENT;
+		token = QuazaaCss::IDENT;
 		ch = next();
 		if (ch.unicode() == 40)
 			goto state_52;
@@ -1046,7 +1046,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_78:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_30;
@@ -1069,7 +1069,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_79:
 		lastAcceptingPos = pos;
-		token = QCss::HASH;
+		token = QuazaaCss::HASH;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_61;
@@ -1084,7 +1084,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_80:
 		lastAcceptingPos = pos;
-		token = QCss::INVALID;
+		token = QuazaaCss::INVALID;
 		ch = next();
 		if (ch.unicode() >= 1 && ch.unicode() <= 9)
 			goto state_35;
@@ -1107,7 +1107,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_81:
 		lastAcceptingPos = pos;
-		token = QCss::LENGTH;
+		token = QuazaaCss::LENGTH;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_71;
@@ -1122,7 +1122,7 @@ int QCssScanner_Generated::lex()
 		goto out;
 	state_83:
 		lastAcceptingPos = pos;
-		token = QCss::ATKEYWORD_SYM;
+		token = QuazaaCss::ATKEYWORD_SYM;
 		ch = next();
 		if (ch.unicode() == 45)
 			goto state_75;

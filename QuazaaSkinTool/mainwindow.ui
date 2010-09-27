@@ -597,7 +597,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>7</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="pageSkinProperties">
          <layout class="QGridLayout" name="gridLayout_38">
@@ -947,22 +947,6 @@ border-image: url(:/Resource/QuazaaLogo.png);</string>
               </property>
               <property name="text">
                <string>Window Icon Visible</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QSpinBox" name="spinBoxMainIconSize">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="prefix">
-               <string>Window Icon Size: </string>
-              </property>
-              <property name="minimum">
-               <number>15</number>
-              </property>
-              <property name="maximum">
-               <number>75</number>
               </property>
              </widget>
             </item>
@@ -1564,7 +1548,7 @@ QToolButton:disabled {
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>564</width>
+               <width>309</width>
                <height>526</height>
               </rect>
              </property>
@@ -2090,8 +2074,8 @@ QToolButton:disabled {
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>561</width>
-               <height>297</height>
+               <width>176</width>
+               <height>176</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_9">
@@ -2254,8 +2238,8 @@ QToolButton:disabled {
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>-546</y>
-               <width>546</width>
+               <y>0</y>
+               <width>550</width>
                <height>843</height>
               </rect>
              </property>
