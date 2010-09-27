@@ -29,6 +29,7 @@
 #include "quazaasettings.h"
 #include "ircbuffer.h"
 #include "ircutil.h"
+#include "ircsession.h"
 #include "quazaairc.h"
 #include "QSkinDialog/qskinsettings.h"
 
@@ -50,12 +51,15 @@ WidgetChatCenter::WidgetChatCenter(QWidget *parent) :
 	}
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
-	connect(quazaaIrc, SIGNAL(appendMessage(Irc::Buffer*, QString, QString, bool)), this, SLOT(appendMessage(Irc::Buffer*, QString, QString, bool)));
+	connect(quazaaIrc, SIGNAL(appendMessage(Irc::Buffer*, QString, QString, QuazaaIRC::Event)), this, SLOT(appendMessage(Irc::Buffer*, QString, QString, QuazaaIRC::Event)));
 	connect(quazaaIrc, SIGNAL(channelNames(QStringList)), this, SLOT(channelNames(QStringList)));
 	connect(quazaaIrc, SIGNAL(bufferAdded(QString)), this, SLOT(addBuffer(QString)));
 	connect(quazaaIrc, SIGNAL(setPrefixes(QString,QString)), this, SLOT(setPrefixes(QString,QString)));
+	//connect(quazaaIrc, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
 
-	ui->tabWidget->addTab(new WidgetChatTab(quazaaIrc, this), "Status");
+	WidgetChatTab *wct = new WidgetChatTab(quazaaIrc, this);
+	ui->tabWidget->addTab(wct, "Status");
+	wct->setName("*status"); // * is not allowed by RFC (IIRC)
 	skinChangeEvent();
 }
 
@@ -115,30 +119,55 @@ void WidgetChatCenter::on_actionDisconnect_triggered()
 	qDebug() << "Trying to disconnect from IRC";
 }
 
-void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QString message, bool action)
+void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event)
 {
-	WidgetChatTab *tab = tabByName(buffer->receiver());
-	if (action)
-		tab->append("<html><font color=purple>* " + Irc::Util::nickFromTarget(sender) + " " + message +"</font></html>");
-	else
-		tab->append("<"+ Irc::Util::nickFromTarget(sender) + "> " + message);
+	QString evendt;
+	if(event == QuazaaIRC::Message) evendt = "message";
+	else if(event == QuazaaIRC::Notice) evendt = "notice";
+	else if(event == QuazaaIRC::Action) evendt = "action";
+	else evendt = "server";
+
+	qDebug() << "Got a message from buffer " + (buffer->receiver()) + " | sender = "+sender + "| event = "+evendt;
+	QString receiver = buffer->receiver();
+
+	switch(event)
+	{
+		case QuazaaIRC::Message:
+			tabByName(receiver)->append("<"+ Irc::Util::nickFromTarget(sender) + "> " + message);
+		break;
+		case QuazaaIRC::Notice:
+			currentTab()->append("<html><font color=blue>" + Irc::Util::nickFromTarget(sender) + ": " + message +"</font></html>");
+		break;
+		case QuazaaIRC::Action:
+			tabByName(receiver)->append("<html><font color=purple>* " + Irc::Util::nickFromTarget(sender) + " " + message +"</font></html>");
+		break;
+		case QuazaaIRC::Status:
+			//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
+			//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
+			//tab->append(message);
+			tabByName("*status")->append(message);
+		break;
+		default:
+			qDebug() << "This should not happen!";
+			break;
+	}
 }
 
 WidgetChatTab* WidgetChatCenter::tabByName(QString name) {
+	WidgetChatTab *tab;
 	QList<WidgetChatTab *> allTabs = ui->tabWidget->findChildren<WidgetChatTab *>();
 	for (int i = 0; i < allTabs.size(); ++i) {
 		if (allTabs.at(i)->name == name) {
-			return allTabs.at(i);
+			tab = allTabs.at(i);
+			return tab;
 		}
 	}
-	// fail safe, remove later
-	return new WidgetChatTab(quazaaIrc);
-}
-
-void WidgetChatCenter::addBuffer(QString name) {
-	WidgetChatTab *tab = new WidgetChatTab(quazaaIrc);
+	qDebug() << "CREATING A NEW TAB :: "+name;
+	// if the tab doesn't exist, create it
+	tab = new WidgetChatTab(quazaaIrc);
 	tab->setName(name);
 	ui->tabWidget->addTab(tab, Irc::Util::nickFromTarget(name));
+	return tab;
 }
 
 void WidgetChatCenter::channelNames(QStringList names)
@@ -148,7 +177,7 @@ void WidgetChatCenter::channelNames(QStringList names)
 	QStringList list	= namestr.split(" ");
 
 	list.sort();
-	QMultiMap<QChar, int> map;
+	QMultiMap<int, int> map;
 
 	for (int i = 0; i < list.size(); ++i) {
 		QString user = list.at(i);
@@ -175,6 +204,14 @@ void WidgetChatCenter::setPrefixes(QString modes, QString mprefs) {
 	// overkill ?
 	prefixModes = modes;
 	prefixChars = mprefs;
+}
+
+void WidgetChatCenter::addBuffer(QString name) {
+	if (name.at(0) == '#')
+	{
+		// tab will be auto-created
+		ui->tabWidget->setCurrentWidget(tabByName(name));
+	}
 }
 
 void WidgetChatCenter::on_tabWidget_currentChanged(QWidget* )
