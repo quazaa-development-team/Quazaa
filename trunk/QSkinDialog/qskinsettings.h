@@ -44,7 +44,6 @@ public:
 	QString windowIconFrameStyleSheet;
 	QString windowFrameTopSpacerStyleSheet;
 	bool windowIconVisible;
-	QSize windowIconSize;
 
 	// Child Window Frame
 	QString childWindowFrameTopLeftStyleSheet;
@@ -63,7 +62,6 @@ public:
 	QString childWindowIconFrameStyleSheet;
 	QString childWindowFrameTopSpacerStyleSheet;
 	bool childWindowIconVisible;
-	QSize childWindowIconSize;
 
 	// Splash Screen
 	QString splashBackground;

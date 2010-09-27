@@ -125,7 +125,6 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, bool prev
 			ui->windowText->setStyleSheet(skinSettings.windowTextStyleSheet);
 			ui->windowIconFrame->setStyleSheet(skinSettings.windowIconFrameStyleSheet);
 			ui->windowIcon->setVisible(skinSettings.windowIconVisible);
-			ui->windowIcon->setIconSize(skinSettings.windowIconSize);
 			quazaaSettings.loadSkinWindowSettings(this);
 		} else {
 			ui->windowFrameTopLeft->setStyleSheet(skinSettings.childWindowFrameTopLeftStyleSheet);
@@ -144,7 +143,6 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, bool prev
 			ui->windowText->setStyleSheet(skinSettings.childWindowTextStyleSheet);
 			ui->windowIconFrame->setStyleSheet(skinSettings.childWindowIconFrameStyleSheet);
 			ui->windowIcon->setVisible(skinSettings.childWindowIconVisible);
-			ui->windowIcon->setIconSize(skinSettings.childWindowIconSize);
 		}
 	}
 }
@@ -499,7 +497,6 @@ void QSkinDialog::skinChangeEvent()
 			ui->windowText->setStyleSheet(skinSettings.windowTextStyleSheet);
 			ui->windowIconFrame->setStyleSheet(skinSettings.windowIconFrameStyleSheet);
 			ui->windowIcon->setVisible(skinSettings.windowIconVisible);
-			ui->windowIcon->setIconSize(skinSettings.windowIconSize);
 		} else {
 			ui->windowFrameTopLeft->setStyleSheet(skinSettings.childWindowFrameTopLeftStyleSheet);
 			ui->windowFrameLeft->setStyleSheet(skinSettings.childWindowFrameLeftStyleSheet);
@@ -517,7 +514,6 @@ void QSkinDialog::skinChangeEvent()
 			ui->windowText->setStyleSheet(skinSettings.childWindowTextStyleSheet);
 			ui->windowIconFrame->setStyleSheet(skinSettings.childWindowIconFrameStyleSheet);
 			ui->windowIcon->setVisible(skinSettings.childWindowIconVisible);
-			ui->windowIcon->setIconSize(skinSettings.childWindowIconSize);
 		}
 	}
 }

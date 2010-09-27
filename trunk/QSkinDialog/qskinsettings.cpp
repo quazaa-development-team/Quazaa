@@ -48,7 +48,6 @@ void QSkinSettings::loadSkin(QString fileName)
 	windowTextStyleSheet = reader.value("windowTextStyleSheet", "border-image: url(:/Resource/windowTextBackground.png);\npadding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);").toString();
 	windowIconFrameStyleSheet = reader.value("windowIconFrameStyleSheet", "QFrame#windowIconFrame {\n	border-image: url(:/Resource/windowIconFrame.png);\n}").toString();
 	windowIconVisible = reader.value("windowIconVisible", true).toBool();
-	windowIconSize = reader.value("windowIconSize", QSize(20, 20)).toSize();
 
 	// Child Window Frame
 	childWindowFrameTopLeftStyleSheet = reader.value("childWindowFrameTopLeftStyleSheet", "border-image: url(:/Resource/frameTopLeft.png);").toString();
@@ -67,7 +66,6 @@ void QSkinSettings::loadSkin(QString fileName)
 	childWindowTextStyleSheet = reader.value("childWindowTextStyleSheet", "border-image: url(:/Resource/windowTextBackground.png);\npadding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);").toString();
 	childWindowIconFrameStyleSheet = reader.value("childWindowIconFrameStyleSheet", "QFrame#windowIconFrame {\n	border-image: url(:/Resource/windowIconFrame.png);\n}").toString();
 	childWindowIconVisible = reader.value("childWindowIconVisible", true).toBool();
-	childWindowIconSize = reader.value("childWindowIconSize", QSize(20, 20)).toSize();
 
 	// Splash Screen
 	splashBackground = reader.value("splashBackground", "QFrame {\n	border-image: url(:/Resource/Splash.png) repeat;\n}").toString();
@@ -194,7 +192,6 @@ void QSkinSettings::saveSkin(QString fileName)
 	writer.setValue("windowTextStyleSheet", windowTextStyleSheet);
 	writer.setValue("windowIconFrameStyleSheet", windowIconFrameStyleSheet);
 	writer.setValue("windowIconVisible", windowIconVisible);
-	writer.setValue("windowIconSize", windowIconSize);
 
 	// Child Window Frame
 	writer.setValue("childWindowFrameTopLeftStyleSheet", childWindowFrameTopLeftStyleSheet);
@@ -213,7 +210,6 @@ void QSkinSettings::saveSkin(QString fileName)
 	writer.setValue("childWindowTextStyleSheet", childWindowTextStyleSheet);
 	writer.setValue("childWindowIconFrameStyleSheet", childWindowIconFrameStyleSheet);
 	writer.setValue("childWindowIconVisible", childWindowIconVisible);
-	writer.setValue("childWindowIconSize", childWindowIconSize);
 
 	// Splash Screen
 	writer.setValue("splashBackground", splashBackground);

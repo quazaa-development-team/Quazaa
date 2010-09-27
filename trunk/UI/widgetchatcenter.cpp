@@ -24,6 +24,7 @@
 #include "widgetchatcenter.h"
 #include "ui_widgetchatcenter.h"
 #include "dialogsettings.h"
+#include "dialogprofile.h"
 
 #include "quazaasettings.h"
 #include "ircbuffer.h"
@@ -180,4 +181,15 @@ void WidgetChatCenter::on_tabWidget_currentChanged(QWidget* )
 {
 	qDebug() << "Emitting channel changed.";
 	emit channelChanged(currentTab());
+}
+
+void WidgetChatCenter::on_actionEditMyProfile_triggered()
+{
+	QSkinDialog *dlgSkinProfile = new QSkinDialog(true, true, false, false, this);
+	DialogProfile *dlgProfile = new DialogProfile;
+
+	dlgSkinProfile->addChildWidget(dlgProfile);
+
+	connect(dlgProfile, SIGNAL(closed()), dlgSkinProfile, SLOT(close()));
+	dlgSkinProfile->show();
 }

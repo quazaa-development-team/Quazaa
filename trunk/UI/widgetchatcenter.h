@@ -63,6 +63,7 @@ private slots:
 	void channelNames(QStringList list);
 	void setPrefixes(QString modes, QString mprefs);
 	void on_tabWidget_currentChanged(QWidget* );
+	void on_actionEditMyProfile_triggered();
 };
 
 #endif // WIDGETCHATCENTER_H

@@ -39,7 +39,7 @@
 **
 ****************************************************************************/
 
-#include "qcssparser.h"
+#include "quazaacssparser.h"
 
 #include <qdebug.h>
 #include <qcolor.h>
@@ -50,21 +50,17 @@
 #include <qimagereader.h>
 #include "qfunctions.h"
 
-#ifndef QT_NO_CSSPARSER
+#include "quazaacssscanner.cpp"
 
-QT_BEGIN_NAMESPACE
+using namespace QuazaaCss;
 
-#include "qcssscanner.cpp"
-
-using namespace QCss;
-
-struct QCssKnownValue
+struct QuazaaCssKnownValue
 {
 	const char *name;
 	quint64 id;
 };
 
-static const QCssKnownValue properties[NumProperties - 1] = {
+static const QuazaaCssKnownValue properties[NumProperties - 1] = {
 	{ "-qt-background-role", QtBackgroundRole },
 	{ "-qt-block-indent", QtBlockIndent },
 	{ "-qt-list-indent", QtListIndent },
@@ -166,7 +162,7 @@ static const QCssKnownValue properties[NumProperties - 1] = {
 	{ "width", Width }
 };
 
-static const QCssKnownValue values[NumKnownValues - 1] = {
+static const QuazaaCssKnownValue values[NumKnownValues - 1] = {
 	{ "active", Value_Active },
 	{ "alternate-base", Value_AlternateBase },
 	{ "always", Value_Always },
@@ -256,7 +252,7 @@ QString Value::toString() const
 	}
 }
 
-static const QCssKnownValue pseudos[NumPseudos - 1] = {
+static const QuazaaCssKnownValue pseudos[NumPseudos - 1] = {
 	{ "active", PseudoClass_Active },
 	{ "adjoins-item", PseudoClass_Item },
 	{ "alternate", PseudoClass_Alternate },
@@ -303,58 +299,58 @@ static const QCssKnownValue pseudos[NumPseudos - 1] = {
 	{ "window", PseudoClass_Window }
 };
 
-static const QCssKnownValue origins[NumKnownOrigins - 1] = {
+static const QuazaaCssKnownValue origins[NumKnownOrigins - 1] = {
 	{ "border", Origin_Border },
 	{ "content", Origin_Content },
 	{ "margin", Origin_Margin }, // not in css
 	{ "padding", Origin_Padding }
 };
 
-static const QCssKnownValue repeats[NumKnownRepeats - 1] = {
+static const QuazaaCssKnownValue repeats[NumKnownRepeats - 1] = {
 	{ "no-repeat", Repeat_None },
 	{ "repeat-x", Repeat_X },
 	{ "repeat-xy", Repeat_XY },
 	{ "repeat-y", Repeat_Y }
 };
 
-static const QCssKnownValue tileModes[NumKnownTileModes - 1] = {
+static const QuazaaCssKnownValue tileModes[NumKnownTileModes - 1] = {
 	{ "repeat", TileMode_Repeat },
 	{ "round", TileMode_Round },
 	{ "stretch", TileMode_Stretch },
 };
 
-static const QCssKnownValue positions[NumKnownPositionModes - 1] = {
+static const QuazaaCssKnownValue positions[NumKnownPositionModes - 1] = {
 	{ "absolute", PositionMode_Absolute },
 	{ "fixed", PositionMode_Fixed },
 	{ "relative", PositionMode_Relative },
 	{ "static", PositionMode_Static }
 };
 
-static const QCssKnownValue attachments[NumKnownAttachments - 1] = {
+static const QuazaaCssKnownValue attachments[NumKnownAttachments - 1] = {
 	{ "fixed", Attachment_Fixed },
 	{ "scroll", Attachment_Scroll }
 };
 
-static const QCssKnownValue styleFeatures[NumKnownStyleFeatures - 1] = {
+static const QuazaaCssKnownValue styleFeatures[NumKnownStyleFeatures - 1] = {
 	{ "background-color", StyleFeature_BackgroundColor },
 	{ "background-gradient", StyleFeature_BackgroundGradient },
 	{ "none", StyleFeature_None }
 };
 
-Q_STATIC_GLOBAL_OPERATOR bool operator<(const QString &name, const QCssKnownValue &prop)
+Q_STATIC_GLOBAL_OPERATOR bool operator<(const QString &name, const QuazaaCssKnownValue &prop)
 {
 	return QString::compare(name, QLatin1String(prop.name), Qt::CaseInsensitive) < 0;
 }
 
-Q_STATIC_GLOBAL_OPERATOR bool operator<(const QCssKnownValue &prop, const QString &name)
+Q_STATIC_GLOBAL_OPERATOR bool operator<(const QuazaaCssKnownValue &prop, const QString &name)
 {
 	return QString::compare(QLatin1String(prop.name), name, Qt::CaseInsensitive) < 0;
 }
 
-static quint64 findKnownValue(const QString &name, const QCssKnownValue *start, int numValues)
+static quint64 findKnownValue(const QString &name, const QuazaaCssKnownValue *start, int numValues)
 {
-	const QCssKnownValue *end = &start[numValues - 1];
-	const QCssKnownValue *prop = qBinaryFind(start, end, name);
+	const QuazaaCssKnownValue *end = &start[numValues - 1];
+	const QuazaaCssKnownValue *prop = qBinaryFind(start, end, name);
 	if (prop == end)
 		return 0;
 	return prop->id;
@@ -462,8 +458,8 @@ bool ValueExtractor::extractGeometry(int *w, int *h, int *minw, int *minh, int *
 	return hit;
 }
 
-bool ValueExtractor::extractPosition(int *left, int *top, int *right, int *bottom, QCss::Origin *origin,
-									 Qt::Alignment *position, QCss::PositionMode *mode, Qt::Alignment *textAlignment)
+bool ValueExtractor::extractPosition(int *left, int *top, int *right, int *bottom, QuazaaCss::Origin *origin,
+									 Qt::Alignment *position, QuazaaCss::PositionMode *mode, Qt::Alignment *textAlignment)
 {
 	extractFont();
 	bool hit = false;
@@ -889,7 +885,7 @@ static BorderStyle parseStyleValue(Value v)
 	return BorderStyle_Unknown;
 }
 
-void ValueExtractor::borderValue(const Declaration &decl, int *width, QCss::BorderStyle *style, QBrush *color)
+void ValueExtractor::borderValue(const Declaration &decl, int *width, QuazaaCss::BorderStyle *style, QBrush *color)
 {
 	if (decl.d->parsed.isValid()) {
 		BorderData data = qvariant_cast<BorderData>(decl.d->parsed);
@@ -1868,22 +1864,22 @@ bool StyleSelector::basicSelectorMatches(const BasicSelector &sel, NodePtr node)
 			return false;
 
 		for (int i = 0; i < sel.attributeSelectors.count(); ++i) {
-			const QCss::AttributeSelector &a = sel.attributeSelectors.at(i);
+			const QuazaaCss::AttributeSelector &a = sel.attributeSelectors.at(i);
 
 			const QString attrValue = attribute(node, a.name);
 			if (attrValue.isNull())
 				return false;
 
-			if (a.valueMatchCriterium == QCss::AttributeSelector::MatchContains) {
+			if (a.valueMatchCriterium == QuazaaCss::AttributeSelector::MatchContains) {
 
 				QStringList lst = attrValue.split(QLatin1Char(' '));
 				if (!lst.contains(a.value))
 					return false;
 			} else if (
-				(a.valueMatchCriterium == QCss::AttributeSelector::MatchEqual
+				(a.valueMatchCriterium == QuazaaCss::AttributeSelector::MatchEqual
 				 && attrValue != a.value)
 				||
-				(a.valueMatchCriterium == QCss::AttributeSelector::MatchBeginsWith
+				(a.valueMatchCriterium == QuazaaCss::AttributeSelector::MatchBeginsWith
 				 && !attrValue.startsWith(a.value))
 			   )
 				return false;
@@ -2057,7 +2053,7 @@ QString Scanner::preprocess(const QString &input, bool *hasEscapeSequences)
 	return output;
 }
 
-int QCssScanner_Generated::handleCommentStart()
+int QuazaaCssScanner_Generated::handleCommentStart()
 {
 	while (pos < input.size() - 1) {
 		if (input.at(pos) == QLatin1Char('*')
@@ -2072,11 +2068,11 @@ int QCssScanner_Generated::handleCommentStart()
 
 void Scanner::scan(const QString &preprocessedInput, QVector<Symbol> *symbols)
 {
-	QCssScanner_Generated scanner(preprocessedInput);
+	QuazaaCssScanner_Generated scanner(preprocessedInput);
 	Symbol sym;
 	int tok = scanner.lex();
 	while (tok != -1) {
-		sym.token = static_cast<QCss::TokenType>(tok);
+		sym.token = static_cast<QuazaaCss::TokenType>(tok);
 		sym.text = scanner.input;
 		sym.start = scanner.lexemStart;
 		sym.len = scanner.lexemLength;
@@ -2120,7 +2116,7 @@ void Parser::init(const QString &css, bool isFile)
 			QTextStream stream(&file);
 			styleSheet = stream.readAll();
 		} else {
-			qWarning() << "QCss::Parser - Failed to load file " << css;
+			qWarning() << "QuazaaCss::Parser - Failed to load file " << css;
 			styleSheet.clear();
 		}
 	} else {
@@ -2527,7 +2523,7 @@ bool Parser::parseExpr(QVector<Value> *values)
 		onceMore = false;
 		val = Value();
 		if (!parseNextOperator(&val)) return false;
-		if (val.type != QCss::Value::Unknown)
+		if (val.type != QuazaaCss::Value::Unknown)
 			values->append(val);
 		if (testTerm()) {
 			onceMore = true;
@@ -2563,7 +2559,7 @@ bool Parser::parseTerm(Value *value)
 	}
 
 	value->variant = str;
-	value->type = QCss::Value::String;
+	value->type = QuazaaCss::Value::String;
 	switch (lookup()) {
 		case NUMBER:
 			value->type = Value::Number;
@@ -2648,7 +2644,7 @@ bool Parser::parseHexColor(QColor *col)
 {
 	col->setNamedColor(lexem());
 	if (!col->isValid()) {
-		qWarning("QCssParser::parseHexColor: Unknown color name '%s'",lexem().toLatin1().constData());
+		qWarning("QuazaaCssParser::parseHexColor: Unknown color name '%s'",lexem().toLatin1().constData());
 		return false;
 	}
 	skipSpace();
@@ -2683,14 +2679,14 @@ bool Parser::testSimpleSelector()
 		   || testPseudo();
 }
 
-bool Parser::next(QCss::TokenType t)
+bool Parser::next(QuazaaCss::TokenType t)
 {
 	if (hasNext() && next() == t)
 		return true;
 	return recordError();
 }
 
-bool Parser::test(QCss::TokenType t)
+bool Parser::test(QuazaaCss::TokenType t)
 {
 	if (index >= symbols.count())
 		return false;
@@ -2711,7 +2707,7 @@ QString Parser::unquotedLexem() const
 	return s;
 }
 
-QString Parser::lexemUntil(QCss::TokenType t)
+QString Parser::lexemUntil(QuazaaCss::TokenType t)
 {
 	QString lexem;
 	while (hasNext() && next() != t)
@@ -2719,7 +2715,7 @@ QString Parser::lexemUntil(QCss::TokenType t)
 	return lexem;
 }
 
-bool Parser::until(QCss::TokenType target, QCss::TokenType target2)
+bool Parser::until(QuazaaCss::TokenType target, QuazaaCss::TokenType target2)
 {
 	int braceCount = 0;
 	int brackCount = 0;
@@ -2734,7 +2730,7 @@ bool Parser::until(QCss::TokenType target, QCss::TokenType target2)
 		}
 	}
 	while (index < symbols.size()) {
-		QCss::TokenType t = symbols.at(index++).token;
+		QuazaaCss::TokenType t = symbols.at(index++).token;
 		switch (t) {
 		case LBRACE: ++braceCount; break;
 		case RBRACE: --braceCount; break;
@@ -2759,7 +2755,7 @@ bool Parser::until(QCss::TokenType target, QCss::TokenType target2)
 	return false;
 }
 
-bool Parser::testTokenAndEndsWith(QCss::TokenType t, const QLatin1String &str)
+bool Parser::testTokenAndEndsWith(QuazaaCss::TokenType t, const QLatin1String &str)
 {
 	if (!test(t)) return false;
 	if (!lexem().endsWith(str, Qt::CaseInsensitive)) {
@@ -2768,6 +2764,3 @@ bool Parser::testTokenAndEndsWith(QCss::TokenType t, const QLatin1String &str)
 	}
 	return true;
 }
-
-QT_END_NAMESPACE
-#endif // QT_NO_CSSPARSER

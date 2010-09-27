@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ChetCenter</string>
+   <string>Chat Center</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -104,15 +104,6 @@
    </property>
    <property name="toolTip">
     <string>Settings</string>
-   </property>
-  </action>
-  <action name="actionSend">
-   <property name="icon">
-    <iconset resource="../Resource.qrc">
-     <normaloff>:/Resource/Chat/Send.png</normaloff>:/Resource/Chat/Send.png</iconset>
-   </property>
-   <property name="text">
-    <string>Send</string>
    </property>
   </action>
  </widget>

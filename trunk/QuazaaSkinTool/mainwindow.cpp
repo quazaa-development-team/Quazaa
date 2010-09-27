@@ -24,10 +24,7 @@
 #include "../QSkinDialog/qskinsettings.h"
 #include "dialognewskin.h"
 #include "dialogopenskin.h"
-#ifndef Q_OS_WIN
-#include "qcssparser.h"
-#endif
-#include <QtGui>
+#include "quazaacssparser.h"
 #include "csshighlighter.h"
 #include <QDesktopServices>
 #include "qtgradientmanager.h"
@@ -217,7 +214,6 @@ void MainWindow::on_actionNew_triggered()
 		skinSettings.windowTextStyleSheet = "border-image: url(:/Resource/windowTextBackground.png);\npadding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);";
 		skinSettings.windowIconFrameStyleSheet = "QFrame#windowIconFrame {\n	border-image: url(:/Resource/windowIconFrame.png);\n}";
 		skinSettings.windowIconVisible = true;
-		skinSettings.windowIconSize = QSize(20, 20);
 
 		// Child Window Frame
 		skinSettings.childWindowFrameTopLeftStyleSheet = "border-image: url(:/Resource/frameTopLeft.png);";
@@ -236,7 +232,6 @@ void MainWindow::on_actionNew_triggered()
 		skinSettings.childWindowTextStyleSheet = "border-image: url(:/Resource/windowTextBackground.png);\npadding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);";
 		skinSettings.childWindowIconFrameStyleSheet = "QFrame#windowIconFrame {\n	border-image: url(:/Resource/windowIconFrame.png);\n}";
 		skinSettings.childWindowIconVisible = true;
-		skinSettings.childWindowIconSize = QSize(20, 20);
 
 		// Splash Screen
 		skinSettings.splashBackground = "QFrame {\n	border-image: url(:/Resource/Splash.png) repeat;\n}";
@@ -312,14 +307,14 @@ void MainWindow::validateStyleSheet()
 
 bool MainWindow::isStyleSheetValid(const QString &styleSheet)
 {
-	QCss::Parser parser(styleSheet);
-	QCss::StyleSheet sheet;
+	QuazaaCss::Parser parser(styleSheet);
+	QuazaaCss::StyleSheet sheet;
 	if (parser.parse(&sheet))
 		return true;
 	QString fullSheet = QLatin1String("* { ");
 	fullSheet += styleSheet;
 	fullSheet += QLatin1Char('}');
-	QCss::Parser parser2(fullSheet);
+	QuazaaCss::Parser parser2(fullSheet);
 	return parser2.parse(&sheet);
 }
 
@@ -465,7 +460,6 @@ void MainWindow::enableEditing(bool enable)
 	ui->lineEditVersion->setEnabled(enable);
 	ui->plainTextEditDescription->setEnabled(enable);
 	ui->checkBoxMainIconVisible->setEnabled(enable);
-	ui->spinBoxMainIconSize->setEnabled(enable);
 }
 
 
@@ -1225,12 +1219,6 @@ void MainWindow::updateWindowStyleSheet(bool mainWindow)
 		ui->windowIconFrame->setStyleSheet(skinSettings.windowIconFrameStyleSheet);
 		ui->checkBoxMainIconVisible->setChecked(skinSettings.windowIconVisible);
 		ui->windowIcon->setVisible(skinSettings.windowIconVisible);
-		if (skinSettings.windowIconSize.isValid())
-		{
-			ui->spinBoxMainIconSize->setValue(skinSettings.windowIconSize.height());
-			ui->windowIcon->setIconSize(skinSettings.windowIconSize);
-			ui->windowIcon->setIconSize(skinSettings.windowIconSize);
-		}
 		ui->windowText->setStyleSheet(skinSettings.windowTextStyleSheet);
 		ui->windowFrameTopSpacer->setStyleSheet(skinSettings.windowFrameTopSpacerStyleSheet);
 		ui->titlebarButtonsFrame->setStyleSheet(skinSettings.titlebarButtonsFrameStyleSheet);
@@ -1249,12 +1237,6 @@ void MainWindow::updateWindowStyleSheet(bool mainWindow)
 		ui->windowIconFrame->setStyleSheet(skinSettings.childWindowIconFrameStyleSheet);
 		ui->checkBoxMainIconVisible->setChecked(skinSettings.childWindowIconVisible);
 		ui->windowIcon->setVisible(skinSettings.childWindowIconVisible);
-		if (skinSettings.childWindowIconSize.isValid())
-		{
-			ui->spinBoxMainIconSize->setValue(skinSettings.childWindowIconSize.height());
-			ui->windowIcon->setIconSize(skinSettings.childWindowIconSize);
-			ui->windowIcon->setIconSize(skinSettings.childWindowIconSize);
-		}
 		ui->windowText->setStyleSheet(skinSettings.childWindowTextStyleSheet);
 		ui->windowFrameTopSpacer->setStyleSheet(skinSettings.childWindowFrameTopSpacerStyleSheet);
 		ui->titlebarButtonsFrame->setStyleSheet(skinSettings.childTitlebarButtonsFrameStyleSheet);
@@ -1604,14 +1586,6 @@ void MainWindow::on_checkBoxMainIconVisible_toggled(bool checked)
 	applyIcon();
 }
 
-void MainWindow::on_spinBoxMainIconSize_valueChanged(int value)
-{
-	Q_UNUSED(value);
-
-	saved = false;
-	applyIcon();
-}
-
 void MainWindow::on_lineEditVersion_textChanged(QString text)
 {
 	Q_UNUSED(text);
@@ -1631,12 +1605,8 @@ void MainWindow::applyIcon()
 	if (isMainWindow)
 	{
 		skinSettings.windowIconVisible = ui->checkBoxMainIconVisible->isChecked();
-		if (ui->spinBoxMainIconSize->value() >= 15)
-			skinSettings.windowIconSize = QSize(int(ui->spinBoxMainIconSize->value()), ui->spinBoxMainIconSize->value());
 	} else {
 		skinSettings.childWindowIconVisible = ui->checkBoxMainIconVisible->isChecked();
-		if (ui->spinBoxMainIconSize->value() >= 15)
-			skinSettings.childWindowIconSize = QSize(ui->spinBoxMainIconSize->value(), ui->spinBoxMainIconSize->value());
 	}
 	skinChangeEvent();
 }

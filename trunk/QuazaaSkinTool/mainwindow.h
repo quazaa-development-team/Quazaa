@@ -88,7 +88,6 @@ private slots:
 	void applyIcon();
 	void on_plainTextEditDescription_textChanged();
 	void on_lineEditVersion_textChanged(QString );
-	void on_spinBoxMainIconSize_valueChanged(int value);
 	void on_checkBoxMainIconVisible_toggled(bool checked);
 	void on_plainTextEditStyleSheet_textChanged();
 	void applySheets();

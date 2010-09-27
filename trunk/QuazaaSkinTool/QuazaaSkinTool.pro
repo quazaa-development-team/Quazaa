@@ -71,8 +71,8 @@ SOURCES += main.cpp \
 	../QSkinDialog/qskinsettings.cpp \
 	widgetextendeditems.cpp \
 	widgetnavigation.cpp \
-	qcssparser.cpp \
-	qcssscanner.cpp
+	quazaacssparser.cpp \
+	quazaacssscanner.cpp
 HEADERS += mainwindow.h \
 	dialogopenskin.h \
 	dialognewskin.h \
@@ -80,7 +80,7 @@ HEADERS += mainwindow.h \
 	../QSkinDialog/qskinsettings.h \
 	widgetextendeditems.h \
 	widgetnavigation.h \
-	qcssparser.h
+	quazaacssparser.h
 FORMS += mainwindow.ui \
 	dialogopenskin.ui \
 	dialognewskin.ui \
