@@ -23,7 +23,7 @@
 #
 
 # Qt modules used in application
-CONFIG += designer
+#CONFIG += designer
 TARGET = QuazaaSkinTool
 
 # Paths
