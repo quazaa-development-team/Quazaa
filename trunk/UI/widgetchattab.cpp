@@ -38,7 +38,7 @@ WidgetChatTab::WidgetChatTab(QuazaaIRC *quazaaIrc, QWidget *parent) :
 	toolButtonSmilies = new QToolButton();
 	toolButtonSmilies->setToolTip("Smilies");
 	toolButtonSmilies->setPopupMode(QToolButton::MenuButtonPopup);
-	toolButtonSmilies->setIcon(QIcon(":/Resource/Smileys/Happy.png"));
+	toolButtonSmilies->setIcon(QIcon(":/Resource/Smileys/colonClosingparentheses.png"));
 	toolButtonOp = new QToolButton();
 	toolButtonOp->setToolTip("Operator Commands");
 	toolButtonOp->setPopupMode(QToolButton::MenuButtonPopup);
