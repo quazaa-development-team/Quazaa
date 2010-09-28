@@ -340,7 +340,7 @@ enum StyleFeature {
 	NumKnownStyleFeatures = 4
 };
 
-struct Q_GUI_EXPORT Value
+struct Q_GUI_EXPORT CssValue
 {
 	enum Type {
 		Unknown,
@@ -356,7 +356,7 @@ struct Q_GUI_EXPORT Value
 		TermOperatorSlash,
 		TermOperatorComma
 	};
-	inline Value() : type(Unknown) { }
+	inline CssValue() : type(Unknown) { }
 	Type type;
 	QVariant variant;
 	QString toString() const;
@@ -405,19 +405,19 @@ struct BorderData {
 // 4. QVector<Declaration> - { prop1: value1; prop2: value2; }
 // 5. Declaration - prop1: value1;
 
-struct Q_AUTOTEST_EXPORT Declaration
+struct Q_AUTOTEST_EXPORT CssDeclaration
 {
 	struct DeclarationData : public QSharedData
 	{
 		inline DeclarationData() : propertyId(UnknownProperty), important(false) {}
 		QString property;
 		Property propertyId;
-		QVector<Value> values;
+		QVector<CssValue> values;
 		QVariant parsed;
 		bool important;
 	};
 	QExplicitlySharedDataPointer<DeclarationData> d;
-	inline Declaration() : d(new DeclarationData()) {}
+	inline CssDeclaration() : d(new DeclarationData()) {}
 	inline bool isEmpty() const { return d->property.isEmpty() && d->propertyId == UnknownProperty; }
 
 	// helper functions
@@ -541,7 +541,7 @@ struct BasicSelector
 	Relation relationToNext;
 };
 
-struct Q_AUTOTEST_EXPORT Selector
+struct Q_AUTOTEST_EXPORT CssSelector
 {
 	QVector<BasicSelector> basicSelectors;
 	int specificity() const;
@@ -554,9 +554,9 @@ struct MediaRule;
 struct PageRule;
 struct ImportRule;
 
-struct Q_AUTOTEST_EXPORT ValueExtractor
+struct Q_AUTOTEST_EXPORT CssValueExtractor
 {
-	ValueExtractor(const QVector<Declaration> &declarations, const QPalette & = QPalette());
+	CssValueExtractor(const QVector<CssDeclaration> &declarations, const QPalette & = QPalette());
 
 	bool extractFont(QFont *font, int *fontSizeAdjustment);
 	bool extractBackground(QBrush *, QString *, Repeat *, Qt::Alignment *, QuazaaCss::Origin *, QuazaaCss::Attachment *,
@@ -571,17 +571,17 @@ struct Q_AUTOTEST_EXPORT ValueExtractor
 	int  extractStyleFeatures();
 	bool extractImage(QIcon *icon, Qt::Alignment *a, QSize *size);
 
-	int lengthValue(const Declaration &decl);
+	int lengthValue(const CssDeclaration &decl);
 
 private:
 	void extractFont();
-	void borderValue(const Declaration &decl, int *width, QuazaaCss::BorderStyle *style, QBrush *color);
-	LengthData lengthValue(const Value& v);
-	void lengthValues(const Declaration &decl, int *m);
-	QSize sizeValue(const Declaration &decl);
-	void sizeValues(const Declaration &decl, QSize *radii);
+	void borderValue(const CssDeclaration &decl, int *width, QuazaaCss::BorderStyle *style, QBrush *color);
+	LengthData lengthValue(const CssValue& v);
+	void lengthValues(const CssDeclaration &decl, int *m);
+	QSize sizeValue(const CssDeclaration &decl);
+	void sizeValues(const CssDeclaration &decl, QSize *radii);
 
-	QVector<Declaration> declarations;
+	QVector<CssDeclaration> declarations;
 	QFont f;
 	int adjustment;
 	int fontExtracted;
@@ -591,8 +591,8 @@ private:
 struct StyleRule
 {
 	StyleRule() : order(0) { }
-	QVector<Selector> selectors;
-	QVector<Declaration> declarations;
+	QVector<CssSelector> selectors;
+	QVector<CssDeclaration> declarations;
 	int order;
 };
 
@@ -605,7 +605,7 @@ struct MediaRule
 struct PageRule
 {
 	QString selector;
-	QVector<Declaration> declarations;
+	QVector<CssDeclaration> declarations;
 };
 
 struct ImportRule
@@ -622,9 +622,9 @@ enum StyleSheetOrigin {
 	StyleSheetOrigin_Inline
 };
 
-struct StyleSheet
+struct CssStyleSheet
 {
-	StyleSheet() : origin(StyleSheetOrigin_Unspecified), depth(0) { }
+	CssStyleSheet() : origin(StyleSheetOrigin_Unspecified), depth(0) { }
 	QVector<StyleRule> styleRules;  //only contains rules that are not indexed
 	QVector<MediaRule> mediaRules;
 	QVector<PageRule> pageRules;
@@ -636,11 +636,11 @@ struct StyleSheet
 	void buildIndexes(Qt::CaseSensitivity nameCaseSensitivity = Qt::CaseSensitive);
 };
 
-class Q_GUI_EXPORT StyleSelector
+class Q_GUI_EXPORT CssStyleSelector
 {
 public:
-	StyleSelector() : nameCaseSensitivity(Qt::CaseSensitive)  {}
-	virtual ~StyleSelector();
+	CssStyleSelector() : nameCaseSensitivity(Qt::CaseSensitive)  {}
+	virtual ~CssStyleSelector();
 
 	union NodePtr {
 		void *ptr;
@@ -648,7 +648,7 @@ public:
 	};
 
 	QVector<StyleRule> styleRulesForNode(NodePtr node);
-	QVector<Declaration> declarationsForNode(NodePtr node, const char *extraPseudo = 0);
+	QVector<CssDeclaration> declarationsForNode(NodePtr node, const char *extraPseudo = 0);
 
 	virtual bool nodeNameEquals(NodePtr node, const QString& nodeName) const;
 	virtual QString attribute(NodePtr node, const QString &name) const = 0;
@@ -661,13 +661,13 @@ public:
 	virtual NodePtr duplicateNode(NodePtr node) const = 0;
 	virtual void freeNode(NodePtr node) const = 0;
 
-	QVector<StyleSheet> styleSheets;
+	QVector<CssStyleSheet> styleSheets;
 	QString medium;
 	Qt::CaseSensitivity nameCaseSensitivity;
 private:
 	void matchRule(NodePtr node, const StyleRule &rules, StyleSheetOrigin origin,
 					int depth, QMap<uint, StyleRule> *weightedRules);
-	bool selectorMatches(const Selector &rule, NodePtr node);
+	bool selectorMatches(const CssSelector &rule, NodePtr node);
 	bool basicSelectorMatches(const BasicSelector &rule, NodePtr node);
 };
 
@@ -719,58 +719,58 @@ enum TokenType {
 	OR
 };
 
-struct Q_GUI_EXPORT Symbol
+struct Q_GUI_EXPORT CssSymbol
 {
-	inline Symbol() : token(NONE), start(0), len(-1) {}
+	inline CssSymbol() : token(NONE), start(0), len(-1) {}
 	TokenType token;
 	QString text;
 	int start, len;
 	QString lexem() const;
 };
 
-class Q_AUTOTEST_EXPORT Scanner
+class Q_AUTOTEST_EXPORT CssScanner
 {
 public:
 	static QString preprocess(const QString &input, bool *hasEscapeSequences = 0);
-	static void scan(const QString &preprocessedInput, QVector<Symbol> *symbols);
+	static void scan(const QString &preprocessedInput, QVector<CssSymbol> *symbols);
 };
 
-class Q_GUI_EXPORT Parser
+class Q_GUI_EXPORT CssParser
 {
 public:
-	Parser();
-	Parser(const QString &css, bool file = false);
+	CssParser();
+	CssParser(const QString &css, bool file = false);
 
 	void init(const QString &css, bool file = false);
-	bool parse(StyleSheet *styleSheet, Qt::CaseSensitivity nameCaseSensitivity = Qt::CaseSensitive);
-	Symbol errorSymbol();
+	bool parse(CssStyleSheet *styleSheet, Qt::CaseSensitivity nameCaseSensitivity = Qt::CaseSensitive);
+	CssSymbol errorSymbol();
 
 	bool parseImport(ImportRule *importRule);
 	bool parseMedia(MediaRule *mediaRule);
 	bool parseMedium(QStringList *media);
 	bool parsePage(PageRule *pageRule);
 	bool parsePseudoPage(QString *selector);
-	bool parseNextOperator(Value *value);
+	bool parseNextOperator(CssValue *value);
 	bool parseCombinator(BasicSelector::Relation *relation);
-	bool parseProperty(Declaration *decl);
+	bool parseProperty(CssDeclaration *decl);
 	bool parseRuleset(StyleRule *styleRule);
-	bool parseSelector(Selector *sel);
+	bool parseSelector(CssSelector *sel);
 	bool parseSimpleSelector(BasicSelector *basicSel);
 	bool parseClass(QString *name);
 	bool parseElementName(QString *name);
 	bool parseAttrib(AttributeSelector *attr);
 	bool parsePseudo(Pseudo *pseudo);
-	bool parseNextDeclaration(Declaration *declaration);
-	bool parsePrio(Declaration *declaration);
-	bool parseExpr(QVector<Value> *values);
-	bool parseTerm(Value *value);
+	bool parseNextDeclaration(CssDeclaration *declaration);
+	bool parsePrio(CssDeclaration *declaration);
+	bool parseExpr(QVector<CssValue> *values);
+	bool parseTerm(CssValue *value);
 	bool parseFunction(QString *name, QString *args);
 	bool parseHexColor(QColor *col);
 	bool testAndParseUri(QString *uri);
 
 	inline bool testRuleset() { return testSelector(); }
 	inline bool testSelector() { return testSimpleSelector(); }
-	inline bool parseNextSelector(Selector *sel) { if (!testSelector()) return recordError(); return parseSelector(sel); }
+	inline bool parseNextSelector(CssSelector *sel) { if (!testSelector()) return recordError(); return parseSelector(sel); }
 	bool testSimpleSelector();
 	inline bool parseNextSimpleSelector(BasicSelector *basicSel) { if (!testSimpleSelector()) return recordError(); return parseSimpleSelector(basicSel); }
 	inline bool testElementName() { return test(IDENT) || test(STAR); }
@@ -787,7 +787,7 @@ public:
 	inline bool testProperty() { return test(IDENT); }
 	bool testTerm();
 	inline bool testExpr() { return testTerm(); }
-	inline bool parseNextExpr(QVector<Value> *values) { if (!testExpr()) return recordError(); return parseExpr(values); }
+	inline bool parseNextExpr(QVector<CssValue> *values) { if (!testExpr()) return recordError(); return parseExpr(values); }
 	bool testPrio();
 	inline bool testHexColor() { return test(HASH); }
 	inline bool testFunction() { return test(FUNCTION); }
@@ -802,7 +802,7 @@ public:
 	bool next(TokenType t);
 	bool test(TokenType t);
 	inline void prev() { index--; }
-	inline const Symbol &symbol() const { return symbols.at(index - 1); }
+	inline const CssSymbol &symbol() const { return symbols.at(index - 1); }
 	inline QString lexem() const { return symbol().lexem(); }
 	QString unquotedLexem() const;
 	QString lexemUntil(TokenType t);
@@ -815,7 +815,7 @@ public:
 
 	inline bool recordError() { errorIndex = index; return false; }
 
-	QVector<Symbol> symbols;
+	QVector<CssSymbol> symbols;
 	int index;
 	int errorIndex;
 	bool hasEscapeSequences;
