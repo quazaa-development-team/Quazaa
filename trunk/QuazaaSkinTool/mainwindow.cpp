@@ -1894,7 +1894,7 @@ void MainWindow::on_toolButtonColorMessagesNormal_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatMessagesColorNormal.setNamedColor(color.name());
-			ui->toolButtonColorMessagesNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorMessagesNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorNormal.name() + ";}");
 			saved = false;
 	}
 }
@@ -1915,7 +1915,7 @@ void MainWindow::on_toolButtonColorMessagesHighlighted_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatMessagesColorHighlighted.setNamedColor(color.name());
-			ui->toolButtonColorMessagesHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorMessagesHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorHighlighted.name() + ";}");
 			saved = false;
 	}
 }
@@ -1936,7 +1936,7 @@ void MainWindow::on_toolButtonColorMessagesServer_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatMessagesColorServer.setNamedColor(color.name());
-			ui->toolButtonColorMessagesServer->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorMessagesServer->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorServer.name() + ";}");
 			saved = false;
 	}
 }
@@ -1957,7 +1957,7 @@ void MainWindow::on_toolButtonColorMessagesTopics_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatMessagesColorTopics.setNamedColor(color.name());
-			ui->toolButtonColorMessagesTopics->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorMessagesTopics->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorTopics.name() + ";}");
 			saved = false;
 	}
 }
@@ -1978,7 +1978,7 @@ void MainWindow::on_toolButtonColorMessagesNotices_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatMessagesColorNotices.setNamedColor(color.name());
-			ui->toolButtonColorMessagesNotices->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorMessagesNotices->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorNotices.name() + ";}");
 			saved = false;
 	}
 }
@@ -1999,7 +1999,7 @@ void MainWindow::on_toolButtonColorMessagesActions_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatMessagesColorActions.setNamedColor(color.name());
-			ui->toolButtonColorMessagesActions->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorMessagesActions->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorActions.name() + ";}");
 			saved = false;
 	}
 }
@@ -2020,7 +2020,7 @@ void MainWindow::on_toolButtonColorUsersNormal_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatUsersColorNormal.setNamedColor(color.name());
-			ui->toolButtonColorUsersNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorUsersNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorNormal.name() + ";}");
 			saved = false;
 	}
 }
@@ -2041,7 +2041,7 @@ void MainWindow::on_toolButtonColorUsersOwner_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatUsersColorOwner.setNamedColor(color.name());
-			ui->toolButtonColorUsersOwner->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorUsersOwner->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorOwner.name() + ";}");
 			saved = false;
 	}
 }
@@ -2062,7 +2062,7 @@ void MainWindow::on_toolButtonColorUsersAdministrator_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatUsersColorAdministrator.setNamedColor(color.name());
-			ui->toolButtonColorUsersAdministrator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorUsersAdministrator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorAdministrator.name() + ";}");
 			saved = false;
 	}
 }
@@ -2083,7 +2083,7 @@ void MainWindow::on_toolButtonColorUsersOperator_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatUsersColorOperator.setNamedColor(color.name());
-			ui->toolButtonColorUsersOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorUsersOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorOperator.name() + ";}");
 			saved = false;
 	}
 }
@@ -2104,7 +2104,7 @@ void MainWindow::on_toolButtonColorUsersHalfOperator_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatUsersColorHalfOperator.setNamedColor(color.name());
-			ui->toolButtonColorUsersHalfOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorUsersHalfOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorHalfOperator.name() + ";}");
 			saved = false;
 	}
 }
@@ -2125,7 +2125,7 @@ void MainWindow::on_toolButtonColorUsersVoiced_clicked()
 	if (color.isValid())
 	{
 			skinSettings.chatUsersColorVoiced.setNamedColor(color.name());
-			ui->toolButtonColorUsersVoiced->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+			ui->toolButtonColorUsersVoiced->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorVoiced.name() + ";}");
 			saved = false;
 	}
 }
