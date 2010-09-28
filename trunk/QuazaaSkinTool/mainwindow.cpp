@@ -307,14 +307,14 @@ void MainWindow::validateStyleSheet()
 
 bool MainWindow::isStyleSheetValid(const QString &styleSheet)
 {
-	QuazaaCss::Parser parser(styleSheet);
-	QuazaaCss::StyleSheet sheet;
+	QuazaaCss::CssParser parser(styleSheet);
+	QuazaaCss::CssStyleSheet sheet;
 	if (parser.parse(&sheet))
 		return true;
 	QString fullSheet = QLatin1String("* { ");
 	fullSheet += styleSheet;
 	fullSheet += QLatin1Char('}');
-	QuazaaCss::Parser parser2(fullSheet);
+	QuazaaCss::CssParser parser2(fullSheet);
 	return parser2.parse(&sheet);
 }
 
