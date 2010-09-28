@@ -340,7 +340,7 @@ enum StyleFeature {
 	NumKnownStyleFeatures = 4
 };
 
-struct Q_GUI_EXPORT CssValue
+struct CssValue
 {
 	enum Type {
 		Unknown,
@@ -405,7 +405,7 @@ struct BorderData {
 // 4. QVector<Declaration> - { prop1: value1; prop2: value2; }
 // 5. Declaration - prop1: value1;
 
-struct Q_AUTOTEST_EXPORT CssDeclaration
+struct CssDeclaration
 {
 	struct DeclarationData : public QSharedData
 	{
@@ -541,7 +541,7 @@ struct BasicSelector
 	Relation relationToNext;
 };
 
-struct Q_AUTOTEST_EXPORT CssSelector
+struct CssSelector
 {
 	QVector<BasicSelector> basicSelectors;
 	int specificity() const;
@@ -554,7 +554,7 @@ struct MediaRule;
 struct PageRule;
 struct ImportRule;
 
-struct Q_AUTOTEST_EXPORT CssValueExtractor
+struct CssValueExtractor
 {
 	CssValueExtractor(const QVector<CssDeclaration> &declarations, const QPalette & = QPalette());
 
@@ -636,7 +636,7 @@ struct CssStyleSheet
 	void buildIndexes(Qt::CaseSensitivity nameCaseSensitivity = Qt::CaseSensitive);
 };
 
-class Q_GUI_EXPORT CssStyleSelector
+class CssStyleSelector
 {
 public:
 	CssStyleSelector() : nameCaseSensitivity(Qt::CaseSensitive)  {}
@@ -719,7 +719,7 @@ enum TokenType {
 	OR
 };
 
-struct Q_GUI_EXPORT CssSymbol
+struct CssSymbol
 {
 	inline CssSymbol() : token(NONE), start(0), len(-1) {}
 	TokenType token;
@@ -728,14 +728,14 @@ struct Q_GUI_EXPORT CssSymbol
 	QString lexem() const;
 };
 
-class Q_AUTOTEST_EXPORT CssScanner
+class CssScanner
 {
 public:
 	static QString preprocess(const QString &input, bool *hasEscapeSequences = 0);
 	static void scan(const QString &preprocessedInput, QVector<CssSymbol> *symbols);
 };
 
-class Q_GUI_EXPORT CssParser
+class CssParser
 {
 public:
 	CssParser();
