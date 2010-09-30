@@ -374,7 +374,6 @@ void MainWindow::insertCssProperty(const QString &name, const QString &value)
 
 void MainWindow::enableEditing(bool enable)
 {
-	ui->plainTextEditStyleSheet->setEnabled(enable);
 	m_addImageAction->setEnabled(enable);
 	m_addGradientAction->setEnabled(enable);
 	m_addColorAction->setEnabled(enable);
@@ -391,13 +390,15 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 	{
 		bool tempSaved = saved;
 		currentSelectionText = item->text(column);
+		if (!ui->lineEditName->text().isEmpty() && !ui->lineEditAuthor->text().isEmpty() && ui->treeWidgetSelector->currentIndex().isValid()) {
+			ui->plainTextEditStyleSheet->setEnabled(true);
+		}
+
 		if (item->text(column) == tr("Skin Properties"))
 		{
 			ui->stackedWidget->setCurrentIndex(0);
 			ui->plainTextEditStyleSheet->setPlainText("");
 			ui->plainTextEditStyleSheet->setEnabled(false);
-		} else if (!ui->lineEditName->text().isEmpty() && !ui->lineEditAuthor->text().isEmpty()) {
-			ui->plainTextEditStyleSheet->setEnabled(true);
 		}
 
 		if (item->text(column) == tr("Splash Screen Background"))
@@ -838,7 +839,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.dialogHeader);
 		}
 
-				if (item->text(column) == tr("Colors"))
+		if (item->text(column) == tr("Colors"))
 		{
 			ui->stackedWidget->setCurrentIndex(7);
 			ui->plainTextEditStyleSheet->setPlainText("");
@@ -852,7 +853,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 
 void MainWindow::on_actionOpen_triggered()
 {
-	this->on_actionClose_triggered();
+	on_actionClose_triggered();
 
 	DialogOpenSkin *dlgOpenSkin = new DialogOpenSkin(this);
 	bool ok;
@@ -1049,8 +1050,8 @@ void MainWindow::on_actionOpen_triggered()
 
 		updateLogPreview();
 		skinChangeEvent();
-		this->setWindowTitle(skinSettings.skinName + ".qsf" + " - Quazaa Skin Tool");
-		this->enableEditing(true);
+		setWindowTitle(skinSettings.skinName + ".qsf" + " - Quazaa Skin Tool");
+		enableEditing(true);
 		saved = true;
 	}
 	on_treeWidgetSelector_itemClicked(ui->treeWidgetSelector->currentItem(), 0);
@@ -1063,11 +1064,13 @@ void MainWindow::on_actionClose_triggered()
 		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, tr("Skin Not Saved"), tr("The skin has not been saved. Would you like to save it now?"), QMessageBox::Ok|QMessageBox::Cancel, this);
 		bool ok = msgBox->exec();
 		if (ok)
+		{
 			on_actionSave_triggered();
+		}
 	}
-	this->enableEditing(false);
 
-	this->setWindowTitle(tr("Quazaa Skin Tool"));
+	enableEditing(false);
+	setWindowTitle(tr("Quazaa Skin Tool"));
 }
 
 void MainWindow::on_actionSave_triggered()
