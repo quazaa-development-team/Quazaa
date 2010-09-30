@@ -89,7 +89,11 @@ padding: 2px;</string>
      </widget>
     </item>
     <item>
-     <widget class="QStackedWidget" name="stackedWidgetMain"/>
+     <widget class="QStackedWidget" name="stackedWidgetMain">
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -236,7 +240,7 @@ padding: 2px;</string>
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
    <addaction name="actionHome"/>
    <addaction name="actionLibrary"/>

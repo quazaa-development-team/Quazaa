@@ -183,100 +183,22 @@ void MainWindow::on_actionNew_triggered()
 
 	if (ok && !(dlgNewSkin->name.isEmpty() && dlgNewSkin->author.isEmpty()))
 	{
-		this->enableEditing(true);
-		ui->lineEditName->setText(dlgNewSkin->name);
+
+		enableEditing(true);
+		setWindowTitle(dlgNewSkin->name + ".qsf" + tr(" - Quazaa Skin Tool"));
+
+		QDir skinPath = QString(qApp->applicationDirPath() + "/Skin/" + dlgNewSkin->name + "/");
+		skinSettings.loadSkin(skinPath.canonicalPath() + dlgNewSkin->name + ".qsf");
+
 		skinSettings.skinName = dlgNewSkin->name;
-		QDir skinPath = QString(qApp->applicationDirPath() + "/Skin/" + ui->lineEditName->text() + "/");
-		if (!skinPath.exists())
-		{
-			skinPath.mkpath(QString(qApp->applicationDirPath() + "/Skin/" + ui->lineEditName->text() + "/"));
-		}
-		this->setWindowTitle(dlgNewSkin->name + ".qsf" + tr(" - Quazaa Skin Tool"));
+
+		ui->lineEditName->setText(skinSettings.skinName);
 		ui->lineEditAuthor->setText(dlgNewSkin->author);
 		skinSettings.skinAuthor = dlgNewSkin->author;
 		ui->lineEditVersion->setText(dlgNewSkin->version);
 		skinSettings.skinVersion = dlgNewSkin->version;
 		ui->plainTextEditDescription->setPlainText(dlgNewSkin->description);
 		skinSettings.skinDescription = dlgNewSkin->description;
-		skinSettings.windowFrameTopLeftStyleSheet = "border-image: url(:/Resource/frameTopLeft.png);";
-		skinSettings.windowFrameLeftStyleSheet = "border-image: url(:/Resource/frameLeft.png); border-left: 1; border-top: 10;";
-		skinSettings.windowFrameBottomLeftStyleSheet = "border-image: url(:/Resource/frameBottomLeft.png);";
-		skinSettings.windowFrameTopStyleSheet = "";
-		skinSettings.windowFrameBottomStyleSheet = "border-image: url(:/Resource/frameBottom.png); border-bottom: 1;";
-		skinSettings.windowFrameTopRightStyleSheet = "border-image: url(:/Resource/frameTopRight.png);";
-		skinSettings.windowFrameRightStyleSheet = "QFrame { border-image: url(:/Resource/frameRight.png); border-right: 1; border-top: 10; }";
-		skinSettings.windowFrameBottomRightStyleSheet = "border-image: url(:/Resource/frameBottomRight.png);";
-		skinSettings.titlebarButtonsFrameStyleSheet = "/*These move the buttons up so they aren't displayed in the center of the titlebar\n   Remove these to center your buttons on the titlebar.*/\nQFrame#titlebarButtonsFrame {\n	padding-top: -1;\n	padding-bottom: 10;\n	border-image: url(:/Resource/titlebarButtonsFrame.png);\n}";
-		skinSettings.minimizeButtonStyleSheet = "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/minButton.png); } QToolButton:hover { border-image: url(:/Resource/minButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/minButtonD.png); }";
-		skinSettings.maximizeButtonStyleSheet = "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/maxButton.png); } QToolButton:hover { border-image: url(:/Resource/maxButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/maxButtonD.png); } QToolButton:checked { border-image: url(:/Resource/restoreButton.png); } QToolButton:checked:hover { border-image: url(:/Resource/restoreButtonH.png); } QToolButton:checked:disabled { border-image: url(:/Resource/restoreButtonD.png); }";
-		skinSettings.closeButtonStyleSheet = "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/quitButton.png); } QToolButton:hover { border-image: url(:/Resource/quitButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/quitButtonD.png); }";
-		skinSettings.windowFrameTopSpacerStyleSheet = "QFrame#windowFrameTopSpacer {\n	border-image: url(:/Resource/frameTop.png);\n}";
-		skinSettings.windowTextStyleSheet = "border-image: url(:/Resource/windowTextBackground.png);\npadding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);";
-		skinSettings.windowIconFrameStyleSheet = "QFrame#windowIconFrame {\n	border-image: url(:/Resource/windowIconFrame.png);\n}";
-		skinSettings.windowIconVisible = true;
-
-		// Child Window Frame
-		skinSettings.childWindowFrameTopLeftStyleSheet = "border-image: url(:/Resource/frameTopLeft.png);";
-		skinSettings.childWindowFrameLeftStyleSheet = "border-image: url(:/Resource/frameLeft.png); border-left: 1; border-top: 10;";
-		skinSettings.childWindowFrameBottomLeftStyleSheet = "border-image: url(:/Resource/frameBottomLeft.png);";
-		skinSettings.childWindowFrameTopStyleSheet = "";
-		skinSettings.childWindowFrameBottomStyleSheet = "border-image: url(:/Resource/frameBottom.png); border-bottom: 1;";
-		skinSettings.childWindowFrameTopRightStyleSheet = "border-image: url(:/Resource/frameTopRight.png);";
-		skinSettings.childWindowFrameRightStyleSheet = "QFrame { border-image: url(:/Resource/frameRight.png); border-right: 1; border-top: 10; }";
-		skinSettings.childWindowFrameBottomRightStyleSheet = "border-image: url(:/Resource/frameBottomRight.png);";
-		skinSettings.childTitlebarButtonsFrameStyleSheet = "/*These move the buttons up so they aren't displayed in the center of the titlebar\n   Remove these to center your buttons on the titlebar.*/\nQFrame#titlebarButtonsFrame {\n	padding-top: -1;\n	padding-bottom: 10;\n	border-image: url(:/Resource/titlebarButtonsFrame.png);\n}";
-		skinSettings.childMinimizeButtonStyleSheet = "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/minButton.png); } QToolButton:hover { border-image: url(:/Resource/minButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/minButtonD.png); }";
-		skinSettings.childMaximizeButtonStyleSheet = "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/maxButton.png); } QToolButton:hover { border-image: url(:/Resource/maxButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/maxButtonD.png); } QToolButton:checked { border-image: url(:/Resource/restoreButton.png); } QToolButton:checked:hover { border-image: url(:/Resource/restoreButtonH.png); } QToolButton:checked:disabled { border-image: url(:/Resource/restoreButtonD.png); }";
-		skinSettings.childCloseButtonStyleSheet = "QToolButton { border: 0px solid transparent; border-image: url(:/Resource/quitButton.png); } QToolButton:hover { border-image: url(:/Resource/quitButtonH.png); } QToolButton:disabled { border-image: url(:/Resource/quitButtonD.png); }";
-		skinSettings.childWindowFrameTopSpacerStyleSheet = "QFrame#windowFrameTopSpacer {\n	border-image: url(:/Resource/frameTop.png);\n}";
-		skinSettings.childWindowTextStyleSheet = "border-image: url(:/Resource/windowTextBackground.png);\npadding-left: -2px;\npadding-right: -2px;\npadding-bottom: 2px;\nfont-weight: bold;\nfont-size: 16px;\ncolor: rgb(255, 255, 255);";
-		skinSettings.childWindowIconFrameStyleSheet = "QFrame#windowIconFrame {\n	border-image: url(:/Resource/windowIconFrame.png);\n}";
-		skinSettings.childWindowIconVisible = true;
-
-		// Splash Screen
-		skinSettings.splashBackground = "QFrame {\n	border-image: url(:/Resource/Splash.png) repeat;\n}";
-		skinSettings.splashLogo = "background-color: transparent;\nmin-height: 172px;\nmax-height: 172px;\nmin-width: 605px;\nmax-width: 605px;\nborder-image: url(:/Resource/QuazaaLogo.png);";
-		skinSettings.splashFooter = "QFrame {\n	border-image: url(:/Resource/HeaderBackground.png) repeat;\n	min-height: 28;\n	max-height: 28;\n	min-width: 605px;\n	max-width: 605px;\n}";
-		skinSettings.splashProgress = "font-weight: bold;\nmax-height: 10px;\nmin-height: 10px;\nmax-width: 300px;\nmin-width: 300px;";
-		skinSettings.splashStatus = "font-weight: bold;\ncolor: white;\nbackground-color: transparent;\npadding-left: 5px;";
-
-		// Standard Items
-		skinSettings.standardItems = "";
-
-		// Sidebar
-		skinSettings.sidebarBackground = "QFrame {\n	 background-color: rgb(199, 202, 255);\n}";
-		skinSettings.sidebarTaskBackground = "QFrame {\n	background-color: rgb(161, 178, 231);\n}";
-		skinSettings.sidebarTaskHeader = "QToolButton {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n	border: none;\n	font-size: 16px;\n	font-weight: bold;\n}\n\nQToolButton:hover {\n	background-color: rgb(56, 90, 129);\n}";
-		skinSettings.sidebarUnclickableTaskHeader = "QToolButton {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n	border: none;\n	font-size: 16px;\n	font-weight: bold;\n}";
-
-		// Toolbars
-		skinSettings.toolbars = "";
-		skinSettings.navigationToolbar = "";
-
-		// Headers
-		skinSettings.genericHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-		skinSettings.homeHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-		skinSettings.libraryHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-		skinSettings.mediaHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-		skinSettings.searchHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-		skinSettings.transfersHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-		skinSettings.securityHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-		skinSettings.activityHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-		skinSettings.chatHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-		skinSettings.dialogHeader = "font-size: 15px;\nfont-weight: bold;\ncolor: rgb(255, 255, 255);\nbackground-image: url(:/Resource/HeaderBackground.png);";
-
-		// Media
-		skinSettings.seekSlider = "QSlider::groove:horizontal {	\n	border: 1px solid rgb(82, 111, 174); \n	height: 22px; \n	background: black; \n	margin: 3px 0; \n}	\n\nQSlider::handle:horizontal { \n	background: qlineargradient(spread:pad, x1:0.510526, y1:0, x2:0.511, y2:1, stop:0 rgba(206, 215, 255, 255), stop:0.184211 rgba(82, 107, 192, 255), stop:0.342105 rgba(55, 80, 167, 255), stop:0.484211 rgba(17, 26, 148, 255), stop:0.636842 rgba(0, 0, 0, 255), stop:0.8 rgba(24, 46, 171, 255), stop:0.984211 rgba(142, 142, 255, 255)); \n	border: 1px solid rgb(82, 111, 174); \n	border-radius: 0px; \n	width: 4px; \n	margin: 1px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */ \n}";
-		skinSettings.volumeSlider = "QSlider::groove:horizontal { \n	border: 1px solid rgb(0, 61, 89); \n	height: 3px;  \n	background: black; \n	margin: 2px 0; \n} \n\nQSlider::handle:horizontal { \n	background: qlineargradient(spread:pad, x1:0.510526, y1:0, x2:0.511, y2:1, stop:0 rgba(206, 215, 255, 255), stop:0.184211 rgba(82, 107, 192, 255), stop:0.342105 rgba(55, 80, 167, 255), stop:0.484211 rgba(17, 26, 148, 255), stop:0.636842 rgba(0, 0, 0, 255), stop:0.8 rgba(24, 46, 171, 255), stop:0.984211 rgba(142, 142, 255, 255)); \n	border: 1px solid rgb(82, 111, 174); \n	width: 6px; \n	margin: -4px 0; \n} ";
-		skinSettings.mediaToolbar = "";
-
-		// Chat
-		skinSettings.chatWelcome = "QFrame {\n	background-color: rgb(78, 124, 179);\n	color: rgb(255, 255, 255);\n}";
-		skinSettings.chatToolbar = "QFrame {\n	background-color: rgb(199, 202, 255);\n}";
-
-		// Specialised Tab Widgets
-		skinSettings.libraryNavigator = "QTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid transparent;\n }\n\n QTabWidget::tab-bar {\n     left: 5px;  /* move to the right by 5px */\n }\n\n /* Style the tab using the tab sub-control. Note that\n     it reads QTabBar _not_ QTabWidget */\n QTabBar::tab {\n     background:transparent;\n     border: 1px solid transparent;\n     padding: 4px;\n }\n\n QTabBar::tab:selected, QTabBar::tab:hover {\n     border: 1px solid rgb(78, 96, 255);\n     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);\n }";
-		skinSettings.tabSearches = "QTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid #C2C7CB;\n }\n\nQTabWidget::pane { /* The tab widget frame */\n     border-top: 2px solid transparent;\n }\n\n QTabWidget::tab-bar {\n     left: 5px;  /* move to the right by 5px */\n }\n\n /* Style the tab using the tab sub-control. Note that\n     it reads QTabBar _not_ QTabWidget */\n QTabBar::tab {\n     background:transparent;\n     border: 1px solid transparent;\n     padding: 4px;\n }\n\n QTabBar::tab:selected, QTabBar::tab:hover {\n     border: 1px solid rgb(78, 96, 255);\n     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);\n }";
 
 		skinChangeEvent();
 		saved = false;
