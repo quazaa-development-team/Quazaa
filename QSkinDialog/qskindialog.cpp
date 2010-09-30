@@ -433,7 +433,6 @@ void QSkinDialog::addChildWidget(QWidget *parent)
 	// In this example it is set in the ui files
 	parent->setWindowFlags(ui->widgetContents->windowFlags() & ~Qt::FramelessWindowHint);
 	ui->layoutContents->addWidget(parent);
-	parent->setAttribute(Qt::WA_TranslucentBackground, false);
 	setWindowTitle(parent->windowTitle());
 	setWindowIcon(parent->windowIcon());
 	qApp->processEvents();
