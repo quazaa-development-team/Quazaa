@@ -81,4 +81,5 @@ void DialogSecuritySubscriptions::on_pushButtonCancel_clicked()
 void DialogSecuritySubscriptions::skinChangeEvent()
 {
 	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	m_ui->treeWidgetSubscriptions->setStyleSheet(skinSettings.listViews);
 }
