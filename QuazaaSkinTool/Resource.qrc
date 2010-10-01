@@ -10,19 +10,6 @@
         <file>Resource/Network.png</file>
         <file>Resource/Search.png</file>
         <file>Resource/Quazaa48.png</file>
-        <file>Resource/Splash.png</file>
-        <file>Resource/closeButton.png</file>
-        <file>Resource/closeButtonD.png</file>
-        <file>Resource/closeButtonH.png</file>
-        <file>Resource/frameBottom.png</file>
-        <file>Resource/frameBottomLeft.png</file>
-        <file>Resource/frameBottomRight.png</file>
-        <file>Resource/frameLeft.png</file>
-        <file>Resource/frameRight.png</file>
-        <file>Resource/frameTop.png</file>
-        <file>Resource/frameTopLeft.png</file>
-        <file>Resource/frameTopRight.png</file>
-        <file>Resource/HeaderBackground.png</file>
         <file>Resource/maxButton.png</file>
         <file>Resource/maxButtonD.png</file>
         <file>Resource/maxButtonH.png</file>
@@ -31,16 +18,10 @@
         <file>Resource/minButtonH.png</file>
         <file>Resource/Quazaa.ico</file>
         <file>Resource/QuazaaLogo.png</file>
-        <file>Resource/quitButton.png</file>
-        <file>Resource/quitButtonD.png</file>
-        <file>Resource/quitButtonH.png</file>
         <file>Resource/restoreButton.png</file>
         <file>Resource/restoreButtonD.png</file>
         <file>Resource/restoreButtonH.png</file>
         <file>Resource/ChatWelcome.png</file>
-        <file>Resource/titlebarButtonsFrame.png</file>
-        <file>Resource/windowIconFrame.png</file>
-        <file>Resource/windowTextBackground.png</file>
         <file>Resource/Web.png</file>
         <file>Resource/copy.png</file>
         <file>Resource/cut.png</file>
@@ -50,5 +31,39 @@
         <file>Resource/info.png</file>
         <file>Resource/paste.png</file>
         <file>Resource/star.png</file>
+        <file>Resource/closeButton.png</file>
+        <file>Resource/closeButtonD.png</file>
+        <file>Resource/closeButtonH.png</file>
+        <file>Resource/checkboxChecked.png</file>
+        <file>Resource/checkboxCheckedHover.png</file>
+        <file>Resource/checkboxCheckedPressed.png</file>
+        <file>Resource/checkboxUnchecked.png</file>
+        <file>Resource/checkboxUncheckedHover.png</file>
+        <file>Resource/checkboxUncheckedPressed.png</file>
+        <file>Resource/radiobuttonChecked.png</file>
+        <file>Resource/radiobuttonCheckedHover.png</file>
+        <file>Resource/radiobuttonCheckedPressed.png</file>
+        <file>Resource/radiobuttonUnchecked.png</file>
+        <file>Resource/radiobuttonUncheckedHover.png</file>
+        <file>Resource/radiobuttonUncheckedPressed.png</file>
+        <file>Resource/Left-Arrow.png</file>
+        <file>Resource/Right-Arrow.png</file>
+        <file>Resource/scrollDownArrow.png</file>
+        <file>Resource/scrollLeftArrow.png</file>
+        <file>Resource/scrollRightArrow.png</file>
+        <file>Resource/scrollUpArrow.png</file>
+        <file>Resource/spinDown.png</file>
+        <file>Resource/spinDownArrow.png</file>
+        <file>Resource/spinDownArrowDisabled.png</file>
+        <file>Resource/spinDownHover.png</file>
+        <file>Resource/spinDownOff.png</file>
+        <file>Resource/spinDownPressed.png</file>
+        <file>Resource/spinUp.png</file>
+        <file>Resource/spinUpArrow.png</file>
+        <file>Resource/spinUpArrowDisabled.png</file>
+        <file>Resource/spinUpHover.png</file>
+        <file>Resource/spinUpOff.png</file>
+        <file>Resource/spinUpPressed.png</file>
+        <file>Resource/toolbarGrip.png</file>
     </qresource>
 </RCC>
