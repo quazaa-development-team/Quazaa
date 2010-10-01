@@ -40,11 +40,11 @@ WidgetMedia::WidgetMedia(QWidget *parent) :
 	ui->toolBarPlayControls->addAction(ui->actionMediaMute);
 	ui->toolBarPlayControls->addWidget(volumeSlider);
 	restoreState(quazaaSettings.WinMain.MediaToolbars);
-	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
-	skinChangeEvent();
 	ui->splitterMedia->restoreState(quazaaSettings.WinMain.MediaSplitter);
 	ui->actionMediaRepeat->setChecked(quazaaSettings.Media.Repeat);
 	ui->actionMediaShuffle->setChecked(quazaaSettings.Media.Shuffle);
+	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
+	skinChangeEvent();
 }
 
 WidgetMedia::~WidgetMedia()
@@ -69,7 +69,8 @@ void WidgetMedia::skinChangeEvent()
 	seekSlider->setStyleSheet(skinSettings.seekSlider);
 	volumeSlider->setStyleSheet(skinSettings.volumeSlider);
 	ui->toolButtonMediaPlaylistTaskHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
-	ui->frameMediaPlaylistSidebar->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameMediaPlaylistSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->frameMediaPlaylistTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->toolBarPlayControls->setStyleSheet(skinSettings.mediaToolbar);
 	ui->toolBarSettings->setStyleSheet(skinSettings.mediaToolbar);
 	ui->tableWidgetMediaPlaylistTask->setStyleSheet(skinSettings.listViews);
