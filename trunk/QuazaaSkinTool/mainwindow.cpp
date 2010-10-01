@@ -1062,13 +1062,14 @@ void MainWindow::on_actionClose_triggered()
 	if (!saved && !skinSettings.skinName.isEmpty())
 	{
 		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, tr("Skin Not Saved"), tr("The skin has not been saved. Would you like to save it now?"), QMessageBox::Ok|QMessageBox::Cancel, this);
-		bool ok = msgBox->exec();
-		if (ok)
+		int ok = msgBox->exec();
+		if (ok == QDialog::Accepted)
 		{
 			on_actionSave_triggered();
 		}
 	}
 
+	ui->plainTextEditStyleSheet->setEnabled(false);
 	enableEditing(false);
 	setWindowTitle(tr("Quazaa Skin Tool"));
 }
