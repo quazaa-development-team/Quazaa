@@ -170,6 +170,7 @@ void QSkinDialog::changeEvent(QEvent *e)
 		{
 			setMinimized(false);
 		}
+		repaint();
 		break;
 	default:
 		break;
@@ -212,6 +213,7 @@ void QSkinDialog::setMaximized(bool maximize)
 		ui->windowFrameTopRight->setVisible(false);
 		ui->windowFrameRight->setVisible(false);
 		ui->windowFrameBottomRight->setVisible(false);
+		repaint();
 	} else {
 		this->setGeometry(normalGeometry);
 		maximized = false;
