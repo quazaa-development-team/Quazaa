@@ -213,7 +213,6 @@ void QSkinDialog::setMaximized(bool maximize)
 		ui->windowFrameTopRight->setVisible(false);
 		ui->windowFrameRight->setVisible(false);
 		ui->windowFrameBottomRight->setVisible(false);
-		repaint();
 	} else {
 		this->setGeometry(normalGeometry);
 		maximized = false;
