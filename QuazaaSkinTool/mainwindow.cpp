@@ -1071,6 +1071,7 @@ void MainWindow::on_actionClose_triggered()
 
 	ui->plainTextEditStyleSheet->setEnabled(false);
 	enableEditing(false);
+	skinChangeEvent();
 	setWindowTitle(tr("Quazaa Skin Tool"));
 }
 
