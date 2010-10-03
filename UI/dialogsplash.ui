@@ -14,7 +14,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string/>
+   <string>Quazaa</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Resource.qrc">
+    <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -391,6 +395,8 @@ border-image: url(:/Resource/QuazaaLogo.png);</string>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

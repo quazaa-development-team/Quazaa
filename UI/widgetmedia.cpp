@@ -69,7 +69,6 @@ void WidgetMedia::skinChangeEvent()
 	seekSlider->setStyleSheet(skinSettings.seekSlider);
 	volumeSlider->setStyleSheet(skinSettings.volumeSlider);
 	ui->toolButtonMediaPlaylistTaskHeader->setStyleSheet(skinSettings.sidebarUnclickableTaskHeader);
-	ui->frameMediaPlaylistSidebar->setStyleSheet(skinSettings.sidebarBackground);
 	ui->frameMediaPlaylistTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->toolBarPlayControls->setStyleSheet(skinSettings.mediaToolbar);
 	ui->toolBarSettings->setStyleSheet(skinSettings.mediaToolbar);
