@@ -118,7 +118,7 @@ p, li { white-space: pre-wrap; }
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="frameSidebarContents">
+      <widget class="QFrame" name="frameSidebarContents">
        <property name="geometry">
         <rect>
          <x>0</x>
