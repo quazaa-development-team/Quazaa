@@ -46,7 +46,7 @@
        <enum>QAbstractItemView::SingleSelection</enum>
       </property>
       <property name="selectionBehavior">
-       <enum>QAbstractItemView::SelectRows</enum>
+       <enum>QAbstractItemView::SelectItems</enum>
       </property>
       <property name="showGrid">
        <bool>false</bool>
@@ -60,6 +60,9 @@
       <property name="cornerButtonEnabled">
        <bool>false</bool>
       </property>
+      <attribute name="horizontalHeaderHighlightSections">
+       <bool>true</bool>
+      </attribute>
       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
        <bool>true</bool>
       </attribute>
