@@ -43,6 +43,7 @@
 #include "ShareManager.h"
 #include "managedsearch.h"
 #include "query.h"
+#include "queryhit.h"
 
 #include "geoiplist.h"
 
@@ -71,6 +72,9 @@ CNetwork::CNetwork(QObject *parent)
 	m_tLastModeChange = 0;
 	m_nMinutesAbove90 = m_nMinutesBelow50 = 0;
 	m_nMinutesTrying = 0;
+
+	m_bPacketsPending = false;
+
 }
 CNetwork::~CNetwork()
 {
@@ -109,10 +113,12 @@ void CNetwork::Connect()
 	m_nMinutesAbove90 = m_nMinutesBelow50 = 0;
 	m_nMinutesTrying = 0;
 	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(OnSharesReady()), Qt::UniqueConnection);
+	connect(&Datagrams, SIGNAL(PacketQueuedForRouting()), this, SLOT(RoutePackets()), Qt::QueuedConnection);
+
+	Datagrams.moveToThread(&NetworkThread);
 
 	NetworkThread.start("Network", &m_pSection, this);
 
-	Datagrams.moveToThread(&NetworkThread);
 	SearchManager.moveToThread(&NetworkThread);
 	Neighbours.Connect();
 
@@ -124,6 +130,7 @@ void CNetwork::Disconnect()
     if( m_bActive )
     {
         m_bActive = false;
+		disconnect(&Datagrams, SIGNAL(PacketQueuedForRouting()));
         NetworkThread.exit(0);
     }
 
@@ -148,14 +155,9 @@ void CNetwork::CleanupThread()
     m_pSecondTimer = 0;
     WebCache.CancelRequests();
 
+	Handshakes.Disconnect();
     Datagrams.Disconnect();
-    Handshakes.Disconnect();
 	Neighbours.Disconnect();
-
-	while( !m_lHitsToRoute.isEmpty() )
-	{
-		m_lHitsToRoute.takeFirst().second->Release();
-	}
 
     moveToThread(qApp->thread());
 }
@@ -213,8 +215,8 @@ void CNetwork::OnSecondTimer()
 
     SearchManager.OnTimer();
 
-	if( m_lHitsToRoute.size() )
-		FlushHits();
+	if( m_bPacketsPending )
+		RoutePackets();
 
     if( m_nLNIWait == 0 )
     {
@@ -222,7 +224,6 @@ void CNetwork::OnSecondTimer()
         {
 			QMutexLocker l(&Neighbours.m_pSection);
 
-			m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
             m_bNeedUpdateLNI = false;
 
 			for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
@@ -232,15 +233,19 @@ void CNetwork::OnSecondTimer()
                     pNode->SendLNI();
             }
         }
+
+		m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
     }
     else
         m_nLNIWait--;
 
     if( m_nKHLWait == 0 )
     {
+		HostCache.m_pSection.lock();
         HostCache.Save();
         DispatchKHL();
 		m_nKHLWait = quazaaSettings.Gnutella2.KHLPeriod;
+		HostCache.m_pSection.unlock();
     }
     else
         m_nKHLWait--;
@@ -316,35 +321,6 @@ bool CNetwork::IsConnectedTo(IPv4_ENDPOINT addr)
     }
 
     return false;
-}
-
-void CNetwork::RouteHits(QUuid &oTarget, G2Packet *pPacket)
-{
-	pPacket->AddRef();
-	m_lHitsToRoute.append(qMakePair<QUuid, G2Packet*>(oTarget, pPacket));
-
-	if( m_lHitsToRoute.size() > 1000 )
-		FlushHits();
-}
-void CNetwork::FlushHits()
-{
-	QElapsedTimer tTime;
-
-	if( m_lHitsToRoute.isEmpty() )
-		return;
-
-	QMutexLocker l(&Neighbours.m_pSection);
-
-	tTime.start();
-
-	while( !m_lHitsToRoute.isEmpty() && tTime.elapsed() < 125 )
-	{
-		QPair<QUuid, G2Packet*> oHitPair = m_lHitsToRoute.takeFirst();
-		RoutePacket(oHitPair.first, oHitPair.second);
-		oHitPair.second->Release();
-	}
-
-	qDebug() << "Hits left to be routed: " << m_lHitsToRoute.size();
 }
 
 bool CNetwork::RoutePacket(QUuid &pTargetGUID, G2Packet *pPacket)
@@ -643,4 +619,72 @@ bool CNetwork::SwitchClientMode(G2NodeType nRequestedMode)
 	systemLog.postLog(LogSeverity::Notice, "Switched to %s mode.", (isHub() ? "HUB" : "LEAF"));
 
 	return true;
+}
+
+void CNetwork::RoutePackets()
+{
+	m_bPacketsPending = true;
+
+	if( Datagrams.m_pSection.tryLock() )
+	{
+		if( Neighbours.m_pSection.tryLock(50) )
+		{
+			QElapsedTimer oTimer;
+
+			oTimer.start();
+
+			while( !Datagrams.m_lPendingQA.isEmpty() && !oTimer.hasExpired(250) )
+			{
+				QPair<QUuid, G2Packet*> oPair = Datagrams.m_lPendingQA.takeFirst();
+
+				RoutePacket(oPair.first, oPair.second);
+
+				oPair.second->Release();
+			}
+
+			while( !Datagrams.m_lPendingQH2.isEmpty() && !oTimer.hasExpired(250) )
+			{
+				QueuedQueryHit pHit = Datagrams.m_lPendingQH2.takeFirst();
+
+				if( pHit.m_pInfo->m_oNodeAddress == pHit.m_pInfo->m_oSenderAddress )
+				{
+					// hits node address matches sender address
+					Network.m_oRoutingTable.Add(pHit.m_pInfo->m_oNodeGUID, pHit.m_pInfo->m_oSenderAddress);
+				}
+				else if( !pHit.m_pInfo->m_lNeighbouringHubs.isEmpty() )
+				{
+					// hits address does not match sender address (probably forwarded by a hub)
+					// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
+					Network.m_oRoutingTable.Add(pHit.m_pInfo->m_oNodeGUID, pHit.m_pInfo->m_lNeighbouringHubs[0], false);
+				}
+
+				RoutePacket(pHit.m_pInfo->m_oGUID, pHit.m_pPacket);
+
+				pHit.m_pPacket->Release();
+				delete pHit.m_pInfo;
+			}
+
+			while( !Datagrams.m_lPendingQKA.isEmpty() && !oTimer.hasExpired(250) )
+			{
+				QPair<quint32,G2Packet*> oPair = Datagrams.m_lPendingQKA.takeFirst();
+
+				if( CG2Node* pNode = Neighbours.Find(oPair.first) )
+				{
+					pNode->SendPacket(oPair.second, true, true);
+				}
+				else
+				{
+					oPair.second->Release();
+				}
+			}
+
+			m_bPacketsPending = (!Datagrams.m_lPendingQA.isEmpty() || !Datagrams.m_lPendingQH2.isEmpty() || !Datagrams.m_lPendingQKA.isEmpty());
+
+			Neighbours.m_pSection.unlock();
+		}
+
+		qDebug() << "Datagrams left to be routed: QA:" << Datagrams.m_lPendingQA.size() << " QH2:" << Datagrams.m_lPendingQH2.size() << " QKA:" << Datagrams.m_lPendingQKA.size();
+
+		Datagrams.m_pSection.unlock();
+	}
 }

@@ -30,6 +30,8 @@
 #include "searchmanager.h"
 #include "queryhit.h"
 
+#include <QMutexLocker>
+
 #include "quazaasettings.h"
 
 CManagedSearch::CManagedSearch(CQuery* pQuery, QObject *parent) :
@@ -151,6 +153,8 @@ void CManagedSearch::SearchNeighbours(quint32 tNow)
 
 void CManagedSearch::SearchG2(quint32 tNow, quint32 *pnMaxPackets)
 {
+	QMutexLocker oHostCacheLock(&HostCache.m_pSection);
+
 	CG2Node* pLastNeighbour = 0;
 
     for( quint32 i = 0; i < HostCache.size(); i++ )

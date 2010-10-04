@@ -30,6 +30,8 @@
 #include <QTimer>
 #include <QTime>
 
+#include "queryhit.h"
+
 class G2Packet;
 
 class DatagramWatcher
@@ -44,7 +46,6 @@ class DatagramOut;
 class DatagramIn;
 class QByteArray;
 class QHostAddress;
-
 
 class CDatagrams : public QObject
 {
@@ -88,6 +89,10 @@ protected:
     QTime           m_tMeterTimer;
 
     quint32 m_nDiscarded;
+
+	QLinkedList<QPair<quint32, G2Packet*> > m_lPendingQKA;
+	QLinkedList<QPair<QUuid, G2Packet*> >   m_lPendingQA;
+	QLinkedList<QueuedQueryHit>   m_lPendingQH2;
 
 public:
     CDatagrams();
@@ -154,6 +159,7 @@ public slots:
 
 signals:
     void SendQueueUpdated();
+	void PacketQueuedForRouting();
 
 	friend class CNetwork;
 };

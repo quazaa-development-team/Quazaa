@@ -112,24 +112,26 @@ void CDatagrams::SetupThread()
 		m_bActive = true;
 		m_tMeterTimer.start();
 	}
+	else
+	{
+		qDebug() << "Can't bind UDP socket! UDP communication disabled!";
+		Disconnect();
+	}
 }
 
 void CDatagrams::Listen()
 {
+	QMutexLocker l(&m_pSection);
+
 	if( m_bActive )
 	{
 		qDebug() << "CDatagrams::Listen - already listening";
 		return;
 	}
 
-	SetupThread();
+	//SetupThread();
 	m_bFirewalled = true;
-
-	if( !m_bActive )
-	{
-		qDebug() << "Can't bind UDP socket! UDP communication disabled!";
-		Disconnect();
-	}
+	DatagramsThread.start("Datagrams", &m_pSection, this);
 
 }
 
@@ -167,13 +169,29 @@ void CDatagrams::CleanupThread()
 
 	while( !m_FreeBuffer.isEmpty() )
 		delete m_FreeBuffer.takeFirst();
+
+	while( !m_lPendingQA.isEmpty() )
+		m_lPendingQA.takeFirst().second->Release();
+
+	while( !m_lPendingQH2.isEmpty() )
+	{
+		QueuedQueryHit pHit = m_lPendingQH2.takeFirst();
+		pHit.m_pPacket->Release();
+		delete pHit.m_pInfo;
+	}
+
+	while( !m_lPendingQKA.isEmpty() )
+		m_lPendingQKA.takeFirst().second->Release();
 }
 
 void CDatagrams::Disconnect()
 {
+	QMutexLocker l(&m_pSection);
+
 	m_bActive = false;
 
-	CleanupThread();
+	//CleanupThread();
+	DatagramsThread.exit(0);
 }
 
 void CDatagrams::OnDatagram()
@@ -720,47 +738,57 @@ void CDatagrams::OnQKA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
+	HostCache.m_pSection.lock();
 	CHostCacheHost* pCache = HostCache.Add(addr, 0);
 	if( pCache )
 		pCache->SetKey(nKey);
+	HostCache.m_pSection.unlock();
 
 
 	qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
 
-	if( Network.isHub() && nKeyHost != 0 && nKeyHost != Network.m_oAddress.ip )
+	if( Network.isHub() && nKeyHost != 0 /*&& nKeyHost != Network.m_oAddress.ip*/ )
 	{
-		QMutexLocker l(&Neighbours.m_pSection);
+		uchar* pOut = pPacket->WriteGetPointer(11, 0);
+		*pOut++ = 0x50;
+		*pOut++ = 6;
+		*pOut++ = 'Q';
+		*pOut++ = 'N';
+		*pOut++ = 'A';
 
-		if( CG2Node* pNode = Neighbours.Find(nKeyHost) )
+		quint32 nIP = qToBigEndian(addr.ip);
+		quint16 nPort = qToLittleEndian(addr.port);
+		memcpy(pOut, &nIP, 4);
+		memcpy(pOut + 4, &nPort, 2);
+
+		QMutexLocker l(&m_pSection);
+		bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
+
+		pPacket->AddRef();
+		m_lPendingQKA.append(qMakePair<quint32, G2Packet*>(nKeyHost, pPacket));
+
+		while( m_lPendingQKA.size() > 1000 )
 		{
-			qDebug() << "Forwarding Query Key to " << pNode->m_oAddress.toString().toAscii().constData();
-
-			uchar* pOut = pPacket->WriteGetPointer(11, 0);
-			*pOut++ = 0x50;
-			*pOut++ = 6;
-			*pOut++ = 'Q';
-			*pOut++ = 'N';
-			*pOut++ = 'A';
-
-			quint32 nIP = qToBigEndian(addr.ip);
-			quint16 nPort = qToLittleEndian(addr.port);
-			memcpy(pOut, &nIP, 4);
-			memcpy(pOut + 4, &nPort, 2);
-
-			pPacket->AddRef();
-			pNode->SendPacket(pPacket, true, true);
+			m_lPendingQKA.takeFirst().second->Release();
 		}
+
+		if( bNeedSignal )
+			emit PacketQueuedForRouting();
 	}
 	// TODO Forwarding jesli hub i SNA != lokalny, dodac QNA
 
 }
 void CDatagrams::OnQA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 {
+	HostCache.m_pSection.lock();
+
 	CHostCacheHost* pHost = HostCache.Add(addr, 0);
 	if( pHost )
 	{
 		pHost->m_tAck = 0;
 	}
+
+	HostCache.m_pSection.unlock();
 
 	QUuid oGuid;
 
@@ -770,9 +798,26 @@ void CDatagrams::OnQA(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 		// Add from address
 		// pPacket->WriteChild("FR")->WriteHostAddress(&addr);
 
-		QMutexLocker l(&Network.m_pSection);
+		//QMutexLocker l(&Network.m_pSection);
 
-		Network.RoutePacket(oGuid, pPacket);
+		//Network.RoutePacket(oGuid, pPacket);
+
+		m_pSection.lock();
+
+		bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
+
+		pPacket->AddRef();
+		m_lPendingQA.append(qMakePair(oGuid, pPacket));
+
+		while( m_lPendingQA.size() > 1000 )
+		{
+			m_lPendingQA.takeFirst().second->Release();
+		}
+
+		if( bNeedSignal )
+			emit PacketQueuedForRouting();
+
+		m_pSection.unlock();
 	}
 
 }
@@ -782,6 +827,37 @@ void CDatagrams::OnQH2(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 	if( !pPacket->m_bCompound )
 		return;
 
-	SearchManager.OnQueryHit(pPacket, 0, &addr);
+	QueryHitInfo* pInfo = CQueryHit::ReadInfo(pPacket, &addr);
+
+	if( pInfo )
+	{
+		if( SearchManager.OnQueryHit(pPacket, pInfo) && Network.isHub() && pInfo->m_nHops < 7 )
+		{
+			m_pSection.lock();
+
+			pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
+
+			QueuedQueryHit pQueue;
+			pQueue.m_pInfo = pInfo;
+			pQueue.m_pPacket = pPacket;
+
+			bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
+
+			pPacket->AddRef();
+			m_lPendingQH2.append(pQueue);
+
+			while( m_lPendingQH2.size() > 1000 )
+			{
+				QueuedQueryHit pHit = m_lPendingQH2.takeFirst();
+				pHit.m_pPacket->Release();
+				delete pHit.m_pInfo;
+			}
+
+			if( bNeedSignal )
+				emit PacketQueuedForRouting();
+
+			m_pSection.unlock();
+		}
+	}
 }
 

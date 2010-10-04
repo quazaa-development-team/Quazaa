@@ -39,7 +39,98 @@ CQueryHit::~CQueryHit()
         m_pNext->Delete();
 }
 
-CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QSharedPointer<QueryHitInfo> pHitInfo)
+QueryHitInfo* CQueryHit::ReadInfo(G2Packet *pPacket, IPv4_ENDPOINT *pSender)
+{
+	// do a shallow parsing...
+
+	QueryHitInfo* pHitInfo = new QueryHitInfo();
+
+	bool bHaveHits = false;
+	bool bHaveNA = false;
+	bool bHaveGUID = false;
+
+	try
+	{
+		char szType[9];
+		quint32 nLength = 0, nNext = 0;
+		bool bCompound = false;
+
+		if( pSender )
+		{
+			pHitInfo->m_oNodeAddress = *pSender;
+			pHitInfo->m_oSenderAddress = *pSender;
+			bHaveNA = true;
+		}
+
+		while( pPacket->ReadPacket(&szType[0], nLength, &bCompound) )
+		{
+			nNext = pPacket->m_nPosition + nLength;
+
+			if( strcmp("H", szType) == 0 && bCompound )
+			{
+				bHaveHits = true;
+				continue;
+			}
+
+			if( bCompound )
+				pPacket->SkipCompound();
+
+			if( strcmp("NA", szType) == 0 && nLength >= 6 )
+			{
+				IPv4_ENDPOINT oNodeAddr;
+				pPacket->ReadHostAddress(&oNodeAddr);
+				if( oNodeAddr.ip != 0 && oNodeAddr.port != 0 )
+				{
+					pHitInfo->m_oNodeAddress = oNodeAddr;
+					bHaveNA = true;
+				}
+			}
+			else if( strcmp("GU", szType) == 0 && nLength >= 16 )
+			{
+				QUuid oNodeGUID = pPacket->ReadGUID();
+				if( !oNodeGUID.isNull() )
+				{
+					pHitInfo->m_oNodeGUID = oNodeGUID;
+					bHaveGUID = true;
+				}
+			}
+			else if( strcmp("NH", szType) == 0 && nLength >= 6 )
+			{
+				IPv4_ENDPOINT oNH;
+				pPacket->ReadHostAddress(&oNH);
+				if( oNH.ip != 0 && oNH.port != 0 )
+				{
+					pHitInfo->m_lNeighbouringHubs.append(oNH);
+				}
+			}
+			else if( strcmp("V", szType) == 0 && nLength >= 4 )
+			{
+				pHitInfo->m_sVendor = pPacket->ReadString(4);
+			}
+
+			pPacket->m_nPosition = nNext;
+		}
+	}
+	catch(...)
+	{
+		delete pHitInfo;
+		return 0;
+	}
+
+	if( pPacket->GetRemaining() < 17 || !bHaveHits || !bHaveNA || !bHaveGUID )
+	{
+		qDebug() << "Malformatted hit in CSearchManager" << pPacket->GetRemaining() << bHaveHits << bHaveNA << bHaveGUID;
+		delete pHitInfo;
+		return 0;
+	}
+
+	pHitInfo->m_nHops = pPacket->ReadByte();
+	pHitInfo->m_oGUID = pPacket->ReadGUID();
+
+	return pHitInfo;
+}
+
+CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 {
 	if( !pPacket->m_bCompound )
         return 0;
@@ -230,10 +321,11 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QSharedPointer<QueryHitInfo>
 	}
 
     CQueryHit* pHit = pThisHit;
+	QSharedPointer<QueryHitInfo> pHitInfoS(pHitInfo);
 
     while( pHit != 0 )
     {
-        pHit->m_pHitInfo = pHitInfo;
+		pHit->m_pHitInfo = pHitInfoS;
 
         pHit = pHit->m_pNext;
     }

@@ -54,7 +54,7 @@ public:
 
     // zwraca true jesli pakiet ma byc routowany
     bool OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, QUuid& oGUID);
-	void OnQueryHit(G2Packet* pPacket, CG2Node* pNode = 0, IPv4_ENDPOINT* pEndpoint = 0);
+	bool OnQueryHit(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
 signals:
 

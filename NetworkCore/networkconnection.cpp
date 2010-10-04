@@ -174,17 +174,17 @@ void CNetworkConnection::initializeSocket()
     m_pSocket->setReadBufferSize(m_nInputSize);
 
 	connect(m_pSocket, SIGNAL(connected()),
-			this, SIGNAL(readyToTransfer()));
-    connect(m_pSocket, SIGNAL(connected()),
-            this, SIGNAL(connected()));
+			this, SIGNAL(connected()));
+	connect(m_pSocket, SIGNAL(connected()),
+			this, SIGNAL(readyToTransfer()), Qt::QueuedConnection);
 	connect(m_pSocket, SIGNAL(readyRead()),
-			this, SIGNAL(readyToTransfer()));
+			this, SIGNAL(readyToTransfer()), Qt::QueuedConnection);
     connect(m_pSocket, SIGNAL(disconnected()),
-            this, SIGNAL(disconnected()));
+			this, SIGNAL(disconnected()));
     connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SIGNAL(error(QAbstractSocket::SocketError)));
+			this, SIGNAL(error(QAbstractSocket::SocketError)));
     connect(m_pSocket, SIGNAL(bytesWritten(qint64)),
-            this, SIGNAL(bytesWritten(qint64)));
+			this, SIGNAL(bytesWritten(qint64)));
     connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
 			this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
 	connect(m_pSocket, SIGNAL(aboutToClose()),

@@ -225,91 +225,9 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet *pPacket, IPv4_ENDPOINT &addr, 
 
 }
 
-void CSearchManager::OnQueryHit(G2Packet *pPacket, CG2Node *pNode, IPv4_ENDPOINT *pEndpoint)
+bool CSearchManager::OnQueryHit(G2Packet *pPacket, QueryHitInfo *pHitInfo)
 {
-	qDebug() << "CSearchManager::OnQueryHit " << pPacket << pNode << pEndpoint;
-	if( pEndpoint )
-		qDebug() << pEndpoint->toString();
-
 	QMutexLocker l(&m_pSection);
-
-	// caller must check if it is compound...
-
-	// do a shallow parsing...
-
-	QSharedPointer<QueryHitInfo> pHitInfo(new QueryHitInfo());
-
-	char szType[9];
-	quint32 nLength = 0, nNext = 0;
-	bool bCompound = false;
-
-	bool bHaveHits = false;
-	bool bHaveNA = false;
-	bool bHaveGUID = false;
-
-	if( pEndpoint )
-	{
-		pHitInfo->m_oNodeAddress = *pEndpoint;
-		bHaveNA = true;
-	}
-
-	while( pPacket->ReadPacket(&szType[0], nLength, &bCompound) )
-	{
-		nNext = pPacket->m_nPosition + nLength;
-
-		if( strcmp("H", szType) == 0 && bCompound )
-		{
-			bHaveHits = true;
-			continue;
-		}
-
-		if( bCompound )
-			pPacket->SkipCompound();
-
-		if( strcmp("NA", szType) == 0 && nLength >= 6 )
-		{
-			IPv4_ENDPOINT oNodeAddr;
-			pPacket->ReadHostAddress(&oNodeAddr);
-			if( oNodeAddr.ip != 0 && oNodeAddr.port != 0 )
-			{
-				pHitInfo->m_oNodeAddress = oNodeAddr;
-				bHaveNA = true;
-			}
-		}
-		else if( strcmp("GU", szType) == 0 && nLength >= 16 )
-		{
-			QUuid oNodeGUID = pPacket->ReadGUID();
-			if( !oNodeGUID.isNull() )
-			{
-				pHitInfo->m_oNodeGUID = oNodeGUID;
-				bHaveGUID = true;
-			}
-		}
-		else if( strcmp("NH", szType) == 0 && nLength >= 6 )
-		{
-			IPv4_ENDPOINT oNH;
-			pPacket->ReadHostAddress(&oNH);
-			if( oNH.ip != 0 && oNH.port != 0 )
-			{
-				pHitInfo->m_lNeighbouringHubs.append(oNH);
-			}
-		}
-		else if( strcmp("V", szType) == 0 && nLength >= 4 )
-		{
-			pHitInfo->m_sVendor = pPacket->ReadString(4);
-		}
-
-		pPacket->m_nPosition = nNext;
-	}
-
-	if( pPacket->GetRemaining() < 17 || !bHaveHits || !bHaveNA || !bHaveGUID )
-	{
-		qDebug() << "Malformatted hit in CSearchManager" << pPacket->GetRemaining() << bHaveHits << bHaveNA << bHaveGUID;
-		return;
-	}
-
-	pHitInfo->m_nHops = pPacket->ReadByte();
-	pHitInfo->m_oGUID = pPacket->ReadGUID();
 
 	if( CManagedSearch* pSearch = Find(pHitInfo->m_oGUID) )
 	{
@@ -322,47 +240,9 @@ void CSearchManager::OnQueryHit(G2Packet *pPacket, CG2Node *pNode, IPv4_ENDPOINT
 			pSearch->OnQueryHit(pHit);
 		}
 
-		return;
+		return false;
 	}
 
-	// not our search - route it
-
-	// increment hop counter, only if ttl not exceed 7, we must be a hub
-	if( !Network.isHub() || pHitInfo->m_nHops > 7 )
-		return;
-
-	// m_nPosition - 1 = hop count
-	pPacket->m_pBuffer[pPacket->m_nPosition - 17] = ++pHitInfo->m_nHops;
-
-	if( pNode || pEndpoint )
-	{
-		QMutexLocker l(&Network.m_pSection);
-
-		if( pNode ) // if hit is received via tcp
-		{
-			// Hubs are only supposed to route hits...
-			// hits could be returned by local hub cluster, possible need for routing
-
-			// Add node ID to routing table
-			Network.m_oRoutingTable.Add(pHitInfo->m_oNodeGUID, pNode, false);
-		}
-		if( pEndpoint ) // if hit is received via udp
-		{
-			if( pHitInfo->m_oNodeAddress == *pEndpoint )
-			{
-				// hits node address matches sender address
-				Network.m_oRoutingTable.Add(pHitInfo->m_oNodeGUID, *pEndpoint);
-			}
-			else if( !pHitInfo->m_lNeighbouringHubs.isEmpty() )
-			{
-				// hits address does not match sender address (probably forwarded by a hub)
-				// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
-				Network.m_oRoutingTable.Add(pHitInfo->m_oNodeGUID, pHitInfo->m_lNeighbouringHubs[0], false);
-			}
-		}
-
-		//Network.RoutePacket(pHitInfo->m_oGUID, pPacket);
-		Network.RouteHits(pHitInfo->m_oGUID, pPacket);
-	}
-
+	return true;
 }
+

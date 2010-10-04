@@ -28,7 +28,7 @@
 #include <QSet>
 #include <QMutex>
 
-class CNetworkConnection;
+#include "networkconnection.h"
 
 class CRateController : public QObject
 {
@@ -36,30 +36,30 @@ class CRateController : public QObject
 protected:
     qint64  m_nUploadLimit;
     qint64  m_nDownloadLimit;
-    quint32 m_nUpload;
-    quint32 m_nUploadAvg;
-    quint32 m_nDownload;
-    quint32 m_nDownloadAvg;
 	bool    m_bTransferSheduled;
 	QMutex	m_oMutex;
 
-	QElapsedTimer   m_tMeterTimer;
 	QElapsedTimer   m_tStopWatch;
 
     QSet<CNetworkConnection*>   m_lSockets;
+
+public:
+	TCPBandwidthMeter	m_mDownload;
+	TCPBandwidthMeter	m_mUpload;
+
 public:
     CRateController(QObject* parent = 0);
     void AddSocket(CNetworkConnection* pSock);
     void RemoveSocket(CNetworkConnection* pSock);
 
-    void UpdateStats();
-
     void SetDownloadLimit(qint32 nLimit)
     {
+		qDebug() << "New download limit: " << nLimit;
         m_nDownloadLimit = nLimit;
     }
     void SetUploadLimit(qint32 nLimit)
     {
+		qDebug() << "New upload limit: " << nLimit;
         m_nUploadLimit = nLimit;
     }
     qint32 UploadLimit() const
@@ -73,13 +73,11 @@ public:
 
     quint32 DownloadSpeed()
     {
-        UpdateStats();
-        return m_nDownloadAvg;
+		return m_mDownload.AvgUsage();
     }
     quint32 UploadSpeed()
     {
-        UpdateStats();
-        return m_nUploadAvg;
+		return m_mUpload.AvgUsage();
     }
 
 public slots:

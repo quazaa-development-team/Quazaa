@@ -34,6 +34,7 @@ class CQuery;
 struct QueryHitInfo
 {
     IPv4_ENDPOINT   m_oNodeAddress;
+	IPv4_ENDPOINT	m_oSenderAddress;
     QUuid           m_oGUID;
     QUuid           m_oNodeGUID;
     QList<IPv4_ENDPOINT>    m_lNeighbouringHubs;
@@ -49,6 +50,12 @@ struct QueryHitInfo
     {
         qDebug("hit info deleted");
     }
+};
+
+struct QueuedQueryHit
+{
+	QueryHitInfo* m_pInfo;
+	G2Packet*     m_pPacket;
 };
 
 class CQueryHit
@@ -74,7 +81,8 @@ public:
     CQueryHit();
     ~CQueryHit();
 
-	static CQueryHit* ReadPacket(G2Packet* pPacket, QSharedPointer<QueryHitInfo> pHitInfo);
+	static QueryHitInfo*  ReadInfo(G2Packet* pPacket, IPv4_ENDPOINT* pSender = 0);
+	static CQueryHit*     ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
     void Delete();
     void ResolveURLs();
