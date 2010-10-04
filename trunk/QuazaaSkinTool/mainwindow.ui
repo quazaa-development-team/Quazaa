@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>807</width>
-    <height>587</height>
+    <width>649</width>
+    <height>492</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -597,7 +597,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>4</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="pageSkinProperties">
          <layout class="QGridLayout" name="gridLayout_38">
@@ -715,7 +715,7 @@
                <x>0</x>
                <y>0</y>
                <width>623</width>
-               <height>300</height>
+               <height>218</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_28">
@@ -1536,17 +1536,17 @@ QToolButton:disabled {
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>568</width>
-               <height>526</height>
+               <width>452</width>
+               <height>382</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_29">
               <item row="1" column="0">
                <widget class="QTabWidget" name="tabWidget">
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>1</number>
                 </property>
-                <widget class="QWidget" name="tab_3">
+                <widget class="QWidget" name="tabStandardItemsEnabled">
                  <attribute name="title">
                   <string>Enabled</string>
                  </attribute>
@@ -1654,7 +1654,7 @@ QToolButton:disabled {
                   </item>
                  </layout>
                 </widget>
-                <widget class="QWidget" name="tab_4">
+                <widget class="QWidget" name="tabStandardItemsDisabled">
                  <attribute name="title">
                   <string>Disabled</string>
                  </attribute>
@@ -1788,120 +1788,6 @@ QToolButton:disabled {
                        </property>
                       </widget>
                      </item>
-                     <item row="7" column="0" colspan="4">
-                      <layout class="QGridLayout" name="gridLayout_16">
-                       <item row="1" column="0">
-                        <widget class="QTreeWidget" name="treeWidget_2">
-                         <property name="enabled">
-                          <bool>false</bool>
-                         </property>
-                         <column>
-                          <property name="text">
-                           <string>Tree View</string>
-                          </property>
-                         </column>
-                         <item>
-                          <property name="text">
-                           <string>Item</string>
-                          </property>
-                          <item>
-                           <property name="text">
-                            <string>Child Item</string>
-                           </property>
-                          </item>
-                         </item>
-                        </widget>
-                       </item>
-                       <item row="1" column="1">
-                        <widget class="QTableWidget" name="tableWidget_2">
-                         <property name="enabled">
-                          <bool>false</bool>
-                         </property>
-                         <row>
-                          <property name="text">
-                           <string>Row</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>Row 2</string>
-                          </property>
-                         </row>
-                         <column>
-                          <property name="text">
-                           <string>Table View</string>
-                          </property>
-                         </column>
-                         <item row="0" column="0">
-                          <property name="text">
-                           <string>Item</string>
-                          </property>
-                         </item>
-                         <item row="1" column="0">
-                          <property name="text">
-                           <string>Item 2</string>
-                          </property>
-                         </item>
-                        </widget>
-                       </item>
-                       <item row="2" column="0">
-                        <widget class="QListWidget" name="listWidget_2">
-                         <property name="enabled">
-                          <bool>false</bool>
-                         </property>
-                         <item>
-                          <property name="text">
-                           <string>List View</string>
-                          </property>
-                         </item>
-                        </widget>
-                       </item>
-                       <item row="2" column="1">
-                        <widget class="QScrollArea" name="scrollArea_2">
-                         <property name="enabled">
-                          <bool>false</bool>
-                         </property>
-                         <property name="verticalScrollBarPolicy">
-                          <enum>Qt::ScrollBarAlwaysOn</enum>
-                         </property>
-                         <property name="horizontalScrollBarPolicy">
-                          <enum>Qt::ScrollBarAlwaysOn</enum>
-                         </property>
-                         <property name="widgetResizable">
-                          <bool>true</bool>
-                         </property>
-                         <widget class="QFrame" name="frameScrollArea_2">
-                          <property name="geometry">
-                           <rect>
-                            <x>0</x>
-                            <y>0</y>
-                            <width>518</width>
-                            <height>518</height>
-                           </rect>
-                          </property>
-                          <layout class="QGridLayout" name="gridLayout_18">
-                           <item row="0" column="0">
-                            <widget class="QLabel" name="ScrollArea">
-                             <property name="minimumSize">
-                              <size>
-                               <width>500</width>
-                               <height>500</height>
-                              </size>
-                             </property>
-                             <property name="text">
-                              <string>Scroll Area</string>
-                             </property>
-                             <property name="alignment">
-                              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                             </property>
-                            </widget>
-                           </item>
-                          </layout>
-                         </widget>
-                        </widget>
-                       </item>
-                      </layout>
-                     </item>
                     </layout>
                    </widget>
                   </item>
@@ -1923,7 +1809,7 @@ QToolButton:disabled {
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>50</height>
+                  <height>70</height>
                  </size>
                 </property>
                 <property name="frameShape">
@@ -3138,7 +3024,7 @@ QToolButton:disabled {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>807</width>
+     <width>649</width>
      <height>27</height>
     </rect>
    </property>
