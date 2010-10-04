@@ -176,9 +176,9 @@ void CNetworkConnection::initializeSocket()
 	connect(m_pSocket, SIGNAL(connected()),
 			this, SIGNAL(connected()));
 	connect(m_pSocket, SIGNAL(connected()),
-			this, SIGNAL(readyToTransfer()), Qt::QueuedConnection);
+			this, SIGNAL(readyToTransfer()));
 	connect(m_pSocket, SIGNAL(readyRead()),
-			this, SIGNAL(readyToTransfer()), Qt::QueuedConnection);
+			this, SIGNAL(readyToTransfer()));
     connect(m_pSocket, SIGNAL(disconnected()),
 			this, SIGNAL(disconnected()));
     connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),
