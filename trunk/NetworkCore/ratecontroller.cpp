@@ -39,7 +39,7 @@ void CRateController::AddSocket(CNetworkConnection* pSock)
 	QMutexLocker l(&m_oMutex);
 
     //qDebug() << "CRC /" << objectName() << "/ AddSocket " << pSock;
-	connect(pSock, SIGNAL(readyToTransfer()), this, SLOT(transfer()), Qt::QueuedConnection);
+	connect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
     pSock->setReadBufferSize(8192);
     m_lSockets.insert(pSock);
     sheduleTransfer();
@@ -49,7 +49,7 @@ void CRateController::RemoveSocket(CNetworkConnection* pSock)
 	QMutexLocker l(&m_oMutex);
 
     //qDebug() << "CRC /" << objectName() << "/ RemoveSocket " << pSock;
-	disconnect(pSock, SIGNAL(readyToTransfer()), this, SLOT(transfer()));
+	disconnect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
     pSock->setReadBufferSize(0);
     m_lSockets.remove(pSock);
 }
@@ -72,7 +72,7 @@ void CRateController::transfer()
 	}
 
 	qint64 nMsecs = 1000;
-	if( !m_tStopWatch.isValid() )
+	if( m_tStopWatch.isValid() )
         nMsecs = qMin(nMsecs, m_tStopWatch.elapsed());
 
     qint64 nToRead = (m_nDownloadLimit * nMsecs) / 1000;
