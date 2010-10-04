@@ -218,7 +218,7 @@ void CCompressedConnection::Inflate()
     {
         qDebug() << "Error in decompressor" << nRet;
 
-        abort();
+		Close();
     }
 }
 

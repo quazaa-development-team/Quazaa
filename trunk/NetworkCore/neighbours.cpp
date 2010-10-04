@@ -254,6 +254,8 @@ void CNeighbours::Maintain()
 		}
 		else if( nHubs < quazaaSettings.Gnutella2.NumHubs )
 		{
+			QMutexLocker l(&HostCache.m_pSection);
+
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumHubs - nHubs) * quazaaSettings.Gnutella.ConnectFactor );
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
 
@@ -311,6 +313,8 @@ void CNeighbours::Maintain()
 		}
 		else if( nHubs < quazaaSettings.Gnutella2.NumPeers )
 		{
+			QMutexLocker l(&HostCache.m_pSection);
+
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubs) * quazaaSettings.Gnutella.ConnectFactor );
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
 

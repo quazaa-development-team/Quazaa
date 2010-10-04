@@ -115,10 +115,10 @@ void CG2Node::FlushSendQueue(bool bFullFlush)
 {
 	QByteArray* pOutput = GetOutputBuffer();
 
-	if( !pOutput->isEmpty() || m_lSendQueue.isEmpty() )
+	if( m_lSendQueue.isEmpty() )
 		return;	// nothing to do here
 
-	if( bFullFlush )
+	if( bFullFlush && pOutput->isEmpty() )
 	{
 		while( !m_lSendQueue.isEmpty() )
 		{
@@ -140,6 +140,8 @@ void CG2Node::FlushSendQueue(bool bFullFlush)
 		}
 	}
 
+	emit readyToTransfer();
+
 	/*while( bytesToWrite() == 0 && m_lSendQueue.size() )
 	{
 		while( pOutput->size() < 4096 && m_lSendQueue.size() )
@@ -150,8 +152,6 @@ void CG2Node::FlushSendQueue(bool bFullFlush)
 		}
 		emit readyToTransfer();
 	}*/
-
-	emit readyToTransfer();
 }
 
 void CG2Node::SetupSlots()
@@ -165,7 +165,7 @@ void CG2Node::SetupSlots()
 
 void CG2Node::OnConnect()
 {
-	QMutexLocker l(&Neighbours.m_pSection);
+	//QMutexLocker l(&Neighbours.m_pSection);
 
 	systemLog.postLog(LogSeverity::Information, "Connection with %s established, handshaking...", qPrintable(m_oAddress.toString()));
 
@@ -195,7 +195,7 @@ void CG2Node::OnConnect()
 }
 void CG2Node::OnDisconnect()
 {
-	QMutexLocker l(&Neighbours.m_pSection);
+	//QMutexLocker l(&Neighbours.m_pSection);
 	//qDebug("OnDisconnect()");
 	systemLog.postLog(LogSeverity::Information, "Connection with %s was dropped: %s", qPrintable(m_oAddress.toString()), qPrintable(m_pSocket->errorString()));
 	deleteLater();
@@ -370,7 +370,7 @@ void CG2Node::OnTimer(quint32 tNow)
 
 void CG2Node::ParseIncomingHandshake()
 {
-	QMutexLocker l(&Neighbours.m_pSection);
+	//QMutexLocker l(&Neighbours.m_pSection);
 
 	qint32 nIndex = Peek(bytesAvailable()).indexOf("\r\n\r\n");
 	QString sHs = Read(nIndex + 4);
@@ -507,7 +507,7 @@ void CG2Node::ParseIncomingHandshake()
 
 void CG2Node::ParseOutgoingHandshake()
 {
-	QMutexLocker l(&Neighbours.m_pSection);
+	//QMutexLocker l(&Neighbours.m_pSection);
 	QString sHs = Read(Peek(bytesAvailable()).indexOf("\r\n\r\n") + 4);
 
 	//qDebug() << "Handshake receive:\n" << sHs;
@@ -990,8 +990,6 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 	if( !pPacket->m_bCompound )
 		return;
 
-	QMutexLocker l(&Network.m_pSection);
-
 	quint32 tNow = time(0);
 	quint32 nTimestamp = tNow;
 	qint64 nDiff = 0;
@@ -1026,6 +1024,8 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				IPv4_ENDPOINT pAddr;
 				pPacket->ReadHostAddress(&pAddr);
 
+				QMutexLocker l(&Network.m_pSection);
+
 				Network.m_oRoutingTable.Add(pGUID, this, &pAddr, false);
 			}
 		}
@@ -1041,7 +1041,9 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				pPacket->ReadHostAddress(&ip4);
 				pPacket->ReadIntLE(&nTs);
 
+				HostCache.m_pSection.lock();
 				HostCache.Add(ip4, tNow + nDiff);
+				HostCache.m_pSection.unlock();
 			}
 		}
 		else if( strcmp("TS", szType) == 0 )
@@ -1128,6 +1130,8 @@ void CG2Node::OnQKR(G2Packet *pPacket)
 	if( addr.ip == 0 || addr.port == 0 ) // TODO: sprawdzene czy adres jest za fw
 		return;
 
+	QMutexLocker l(&HostCache.m_pSection);
+
 	CHostCacheHost* pHost = bCacheOK ? HostCache.Find(addr) : 0;
 
 	if( pHost != 0 && pHost->m_nQueryKey != 0 && pHost->m_nKeyHost == Network.m_oAddress.ip && time(0) - pHost->m_nKeyTime < quazaaSettings.Gnutella2.QueryKeyTime )
@@ -1184,6 +1188,7 @@ void CG2Node::OnQKA(G2Packet *pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
+	HostCache.m_pSection.lock();
 	CHostCacheHost* pCache = HostCache.Add(addr, 0);
 	if( pCache )
 	{
@@ -1191,6 +1196,7 @@ void CG2Node::OnQKA(G2Packet *pPacket)
 
 		qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toAscii().constData(), m_oAddress.toString().toAscii().constData(), nKey);
 	}
+	HostCache.m_pSection.unlock();
 }
 void CG2Node::OnQA(G2Packet *pPacket)
 {
@@ -1205,7 +1211,24 @@ void CG2Node::OnQH2(G2Packet *pPacket)
 	if( !pPacket->m_bCompound )
 		return;
 
-	SearchManager.OnQueryHit(pPacket, this);
+	QueryHitInfo* pInfo = CQueryHit::ReadInfo(pPacket, &m_oAddress);
+
+	if( SearchManager.OnQueryHit(pPacket, pInfo) )
+	{
+		Network.m_pSection.lock();
+
+		if( Network.isHub() && pInfo->m_nHops < 7 )
+		{
+			Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, this, false);
+			pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
+			Network.RoutePacket(pInfo->m_oGUID, pPacket);
+		}
+
+		Network.m_pSection.unlock();
+
+		delete pInfo;
+	}
+
 }
 void CG2Node::OnQuery(G2Packet *pPacket)
 {

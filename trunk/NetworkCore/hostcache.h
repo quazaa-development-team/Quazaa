@@ -24,6 +24,7 @@
 
 #include "types.h"
 #include <QList>
+#include <QMutex>
 
 const quint32 ReconnectTime = 3600;
 
@@ -85,9 +86,9 @@ public:
 class CHostCache
 {
 
-//protected:
 public:
     QList<CHostCacheHost*>  m_lHosts;
+	QMutex					m_pSection;
 
 public:
     CHostCache();

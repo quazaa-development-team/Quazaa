@@ -330,7 +330,7 @@ void CNeighboursTableModel::OnRemoveNode(CG2Node* pNode)
 {
 	//qDebug() << "OnRemoveNode";
 
-	for( int i = 0; i < m_lNodes.size(); i++ )
+	for( int i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
 	{
 		if( m_lNodes[i].pNode == pNode )
 		{
@@ -343,6 +343,7 @@ void CNeighboursTableModel::OnRemoveNode(CG2Node* pNode)
 				QModelIndex idx2 = index(i, 10, QModelIndex());
 				emit dataChanged(idx1, idx2);
 			}*/
+			break;
 		}
 	}
 }

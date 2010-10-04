@@ -24,7 +24,6 @@
 
 #include <QObject>
 #include <QMutex>
-#include <QList>
 #include "types.h"
 #include "ratecontroller.h"
 #include "routetable.h"
@@ -55,8 +54,6 @@ public:
     CRouteTable      m_oRoutingTable;
     quint32          m_tCleanRoutesNext;
 
-	QList<QPair<QUuid, G2Packet*> > m_lHitsToRoute;
-
 	quint32			 m_nNextCheck;		// secs to next AdatpiveCheckPeriod
 	quint32			 m_nBusyPeriods;	// num of busy periods
 	quint32			 m_nTotalPeriods;	// how many check periods?
@@ -69,6 +66,8 @@ public:
 	quint32			m_nMinutesAbove90;
 	quint32			m_nMinutesTrying;
 	quint32			m_tLastModeChange;
+
+	bool			m_bPacketsPending;
 
 public:
     CNetwork(QObject* parent = 0);
@@ -83,8 +82,6 @@ public:
     bool IsListening();
     bool IsFirewalled();
 
-	void RouteHits(QUuid& oTarget, G2Packet* pPacket);
-	void FlushHits();
     bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket);
     bool RoutePacket(G2Packet* pPacket, CG2Node* pNbr = 0);
 
@@ -115,6 +112,7 @@ public slots:
 	void DisconnectFrom(CG2Node* pNode);*/
 
 	void OnSharesReady();
+	void RoutePackets();
 
 signals:
     void NodeAdded(CG2Node*);
