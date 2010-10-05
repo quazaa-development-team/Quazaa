@@ -113,7 +113,7 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 			else
 				return QString();
 		case 8:
-			return QString().sprintf("%u msec", n.nRTT);
+			return QString("%1 msec").arg(n.nRTT);
 		case 9:
 			return n.sUserAgent;
 		case 10:
