@@ -174,13 +174,13 @@ public:
 	{
 		WriteIntLE(&nValue);
 	}
-	inline char ReadByte()
+	inline uchar ReadByte()
 	{
-		char nRet;
+		uchar nRet;
 		Read(&nRet, 1);
 		return nRet;
 	}
-	inline void WriteByte(char nByte)
+	inline void WriteByte(uchar nByte)
 	{
 		Write(&nByte, 1);
 	}
@@ -203,11 +203,13 @@ public:
 	}
 	void WriteHostAddress(IPv4_ENDPOINT* pSrc)
 	{
+		Ensure(6);
 		WriteIntBE(&pSrc->ip);
 		WriteIntLE(&pSrc->port);
 	}
 	void WriteGUID(QUuid& guid)
 	{
+		Ensure(16);
 		WriteIntBE(guid.data1);
 		WriteIntBE(guid.data2);
 		WriteIntBE(guid.data3);

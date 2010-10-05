@@ -81,7 +81,6 @@ void CRateController::transfer()
 
 	if( nToRead <= 0 && nToWrite <= 0 )
 	{
-		qDebug() << QString("CRateController::transfer(): nToRead: %1, nToWrite: %2, nMsecs: %3").arg(nToRead).arg(nToWrite).arg(nMsecs);
 		m_oMutex.unlock();
 		sheduleTransfer();
 		return;

@@ -1252,13 +1252,16 @@ void CG2Node::OnQuery(G2Packet *pPacket)
 			quint32 tNow = time(0);
 			pQA->WritePacket("TS", 4)->WriteIntLE(tNow);
 			pQA->WritePacket("D", 8)->WriteHostAddress(&Network.m_oAddress);
-			pQA->WriteIntLE(Neighbours.m_nLeavesConnected);
+			quint16 nLeaves = Neighbours.m_nLeavesConnected;
+			pQA->WriteIntLE<quint16>(nLeaves);
 
 			quint32 nCount = 0;
 
-			for( uint i = 0; i < HostCache.size() && nCount < 100u; i++, nCount++ )
+			for( uint i = 0; i < HostCache.size() && nCount < 10u; i++, nCount++ )
 			{
-				pQA->WritePacket("S", 6)->WriteHostAddress(&HostCache.m_lHosts[i]->m_oAddress);
+				G2Packet* pS = pQA->WritePacket("S", 10);
+				pS->WriteHostAddress(&HostCache.m_lHosts[i]->m_oAddress);
+				pS->WriteIntLE(&HostCache.m_lHosts[i]->m_tTimestamp);
 			}
 
 			pQA->WriteByte(0);
