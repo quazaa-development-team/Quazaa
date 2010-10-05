@@ -30,35 +30,36 @@
 CRateController::CRateController(QObject* parent): QObject(parent)
 {
 	m_bTransferSheduled = false;
-    m_nUploadLimit = std::numeric_limits<qint32>::max() / 2;
-    m_nDownloadLimit = std::numeric_limits<qint32>::max() / 2;
+	m_nUploadLimit = std::numeric_limits<qint32>::max() / 2;
+	m_nDownloadLimit = std::numeric_limits<qint32>::max() / 2;
+	m_tStopWatch.invalidate();
 }
 
 void CRateController::AddSocket(CNetworkConnection* pSock)
 {
 	QMutexLocker l(&m_oMutex);
 
-    //qDebug() << "CRC /" << objectName() << "/ AddSocket " << pSock;
+	//qDebug() << "CRC /" << objectName() << "/ AddSocket " << pSock;
 	connect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
-    pSock->setReadBufferSize(8192);
-    m_lSockets.insert(pSock);
-    sheduleTransfer();
+	pSock->setReadBufferSize(8192);
+	m_lSockets.insert(pSock);
+	sheduleTransfer();
 }
 void CRateController::RemoveSocket(CNetworkConnection* pSock)
 {
 	QMutexLocker l(&m_oMutex);
 
-    //qDebug() << "CRC /" << objectName() << "/ RemoveSocket " << pSock;
+	//qDebug() << "CRC /" << objectName() << "/ RemoveSocket " << pSock;
 	disconnect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
-    pSock->setReadBufferSize(0);
-    m_lSockets.remove(pSock);
+	pSock->setReadBufferSize(0);
+	m_lSockets.remove(pSock);
 }
 void CRateController::sheduleTransfer()
 {
 	if( m_bTransferSheduled )
-        return;
+		return;
 
-    m_bTransferSheduled = true;
+	m_bTransferSheduled = true;
 	QTimer::singleShot(50, this, SLOT(transfer()));
 }
 void CRateController::transfer()
@@ -73,19 +74,20 @@ void CRateController::transfer()
 
 	qint64 nMsecs = 1000;
 	if( m_tStopWatch.isValid() )
-        nMsecs = qMin(nMsecs, m_tStopWatch.elapsed());
+		nMsecs = qMin(nMsecs, m_tStopWatch.elapsed());
 
-    qint64 nToRead = (m_nDownloadLimit * nMsecs) / 1000;
-    qint64 nToWrite = (m_nUploadLimit * nMsecs) / 1000;
+	qint64 nToRead = (m_nDownloadLimit * nMsecs) / 1000;
+	qint64 nToWrite = (m_nUploadLimit * nMsecs) / 1000;
 
 	if( nToRead <= 0 && nToWrite <= 0 )
-    {
+	{
+		qDebug() << QString("CRateController::transfer(): nToRead: %1, nToWrite: %2, nMsecs: %3").arg(nToRead).arg(nToWrite).arg(nMsecs);
 		m_oMutex.unlock();
-        sheduleTransfer();
-        return;
-    }
+		sheduleTransfer();
+		return;
+	}
 
-    QSet<CNetworkConnection*> lSockets;
+	QSet<CNetworkConnection*> lSockets;
 	for( QSet<CNetworkConnection*>::const_iterator itSocket = m_lSockets.constBegin(); itSocket != m_lSockets.constEnd(); ++itSocket )
 	{
 		CNetworkConnection* pSock = *itSocket;
@@ -95,19 +97,19 @@ void CRateController::transfer()
 		}
 	}
 
-    if( lSockets.isEmpty() )
+	if( lSockets.isEmpty() )
 	{
 		m_oMutex.unlock();
-        return;
+		return;
 	}
 
-    m_tStopWatch.start();
+	m_tStopWatch.start();
 
-    bool bCanTransferMore = false;
+	bool bCanTransferMore = false;
 
-    do
-    {
-        bCanTransferMore = false;
+	do
+	{
+		bCanTransferMore = false;
 		qint64 nWriteChunk = qMax(qint64(1), nToWrite / lSockets.size());
 		qint64 nReadChunk = qMax(qint64(1), nToRead / lSockets.size());
 
@@ -161,14 +163,13 @@ void CRateController::transfer()
 
 		m_mDownload.Add(nDownloaded);
 		m_mUpload.Add(nUploaded);
-    }
+	}
 	while ( bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty() );
 
 	m_oMutex.unlock();
 
 	if( bCanTransferMore )
 	{
-        sheduleTransfer();
+		sheduleTransfer();
 	}
-
 }
