@@ -197,15 +197,19 @@ qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)
     Q_ASSERT(nBytes >= 0);
 
     int nOldSize = m_pInput->size();
-    m_pInput->resize(nOldSize + nBytes);
-    qint64 nBytesRead = m_pSocket->read(m_pInput->data() + nOldSize, nBytes);
-    m_pInput->resize((nBytesRead <= 0 ? nOldSize : nOldSize + nBytesRead));
+	qint64 nBytesRead = 0;
 
 	if( m_pSocket->state() != QTcpSocket::ConnectedState )
     {
         m_pInput->append(m_pSocket->readAll());
-        nBytesRead += m_pInput->size() - (nOldSize + nBytesRead);
+		nBytesRead += m_pInput->size() - nOldSize;
     }
+	else
+	{
+		m_pInput->resize(nOldSize + nBytes);
+		nBytesRead = m_pSocket->read(m_pInput->data() + nOldSize, nBytes);
+		m_pInput->resize((nBytesRead <= 0 ? nOldSize : nOldSize + nBytesRead));
+	}
 
     if( nBytesRead > 0 )
     {
@@ -306,6 +310,13 @@ qint64 CNetworkConnection::networkBytesAvailable() const
 {
 	if( !isValid() )
 		return 0;
+
+	if( m_pSocket->state() != QTcpSocket::ConnectedState )
+	{
+		int nOldSize = m_pInput->size();
+		m_pInput->append(m_pSocket->readAll());
+		return m_pInput->size() - nOldSize;
+	}
 
 	if( m_nInputSize > 0 )
 	{
