@@ -625,7 +625,9 @@ void CNetwork::RoutePackets()
 {
 	m_bPacketsPending = true;
 
-	if( Datagrams.m_pSection.tryLock() )
+	static quint32 nWhatToRoute = 0;
+
+	if( Datagrams.m_pSection.tryLock(50) )
 	{
 		if( Neighbours.m_pSection.tryLock(50) )
 		{
@@ -633,35 +635,46 @@ void CNetwork::RoutePackets()
 
 			oTimer.start();
 
-			while( !Datagrams.m_lPendingQA.isEmpty() && !oTimer.hasExpired(250) )
+			switch( nWhatToRoute )
 			{
-				QPair<QUuid, G2Packet*> oPair = Datagrams.m_lPendingQA.takeFirst();
-
-				RoutePacket(oPair.first, oPair.second);
-
-				oPair.second->Release();
-			}
-
-			while( !Datagrams.m_lPendingQH2.isEmpty() && !oTimer.hasExpired(250) )
-			{
-				QueuedQueryHit pHit = Datagrams.m_lPendingQH2.takeFirst();
-
-				if( pHit.m_pInfo->m_oNodeAddress == pHit.m_pInfo->m_oSenderAddress )
+			case 0:
+				while( !Datagrams.m_lPendingQH2.isEmpty() && !oTimer.hasExpired(250) )
 				{
-					// hits node address matches sender address
-					Network.m_oRoutingTable.Add(pHit.m_pInfo->m_oNodeGUID, pHit.m_pInfo->m_oSenderAddress);
+					QueuedQueryHit pHit = Datagrams.m_lPendingQH2.takeFirst();
+
+					if( pHit.m_pInfo->m_oNodeAddress == pHit.m_pInfo->m_oSenderAddress )
+					{
+						// hits node address matches sender address
+						Network.m_oRoutingTable.Add(pHit.m_pInfo->m_oNodeGUID, pHit.m_pInfo->m_oSenderAddress);
+					}
+					else if( !pHit.m_pInfo->m_lNeighbouringHubs.isEmpty() )
+					{
+						// hits address does not match sender address (probably forwarded by a hub)
+						// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
+						Network.m_oRoutingTable.Add(pHit.m_pInfo->m_oNodeGUID, pHit.m_pInfo->m_lNeighbouringHubs[0], false);
+					}
+
+					RoutePacket(pHit.m_pInfo->m_oGUID, pHit.m_pPacket);
+
+					pHit.m_pPacket->Release();
+					delete pHit.m_pInfo;
 				}
-				else if( !pHit.m_pInfo->m_lNeighbouringHubs.isEmpty() )
+
+				nWhatToRoute = 1;
+				break;
+			case 1:
+
+				while( !Datagrams.m_lPendingQA.isEmpty() && !oTimer.hasExpired(250) )
 				{
-					// hits address does not match sender address (probably forwarded by a hub)
-					// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
-					Network.m_oRoutingTable.Add(pHit.m_pInfo->m_oNodeGUID, pHit.m_pInfo->m_lNeighbouringHubs[0], false);
+					QPair<QUuid, G2Packet*> oPair = Datagrams.m_lPendingQA.takeFirst();
+
+					RoutePacket(oPair.first, oPair.second);
+
+					oPair.second->Release();
 				}
 
-				RoutePacket(pHit.m_pInfo->m_oGUID, pHit.m_pPacket);
-
-				pHit.m_pPacket->Release();
-				delete pHit.m_pInfo;
+				nWhatToRoute = 0;
+				break;
 			}
 
 			while( !Datagrams.m_lPendingQKA.isEmpty() && !oTimer.hasExpired(250) )
