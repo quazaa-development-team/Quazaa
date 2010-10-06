@@ -20,7 +20,7 @@
    <string>Settings</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resource.qrc">
+   <iconset>
     <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -70,7 +70,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="../QuazaaSkinTool/Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -164,7 +164,7 @@ p, li { white-space: pre-wrap; }
               <string>General</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resource.qrc">
+              <iconset>
                <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
              </property>
              <property name="checkable">
@@ -185,7 +185,7 @@ p, li { white-space: pre-wrap; }
                <string>System</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Generic/System.png</normaloff>:/Resource/Generic/System.png</iconset>
               </property>
              </item>
@@ -194,7 +194,7 @@ p, li { white-space: pre-wrap; }
                <string>Skins</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Generic/Skin.png</normaloff>:/Resource/Generic/Skin.png</iconset>
               </property>
              </item>
@@ -203,7 +203,7 @@ p, li { white-space: pre-wrap; }
                <string>Library</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
               </property>
              </item>
@@ -212,7 +212,7 @@ p, li { white-space: pre-wrap; }
                <string>File Types</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Library/PlayAlbum.png</normaloff>:/Resource/Library/PlayAlbum.png</iconset>
               </property>
              </item>
@@ -221,7 +221,7 @@ p, li { white-space: pre-wrap; }
                <string>Media Player</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
               </property>
              </item>
@@ -230,7 +230,7 @@ p, li { white-space: pre-wrap; }
                <string>Search</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
               </property>
              </item>
@@ -239,7 +239,7 @@ p, li { white-space: pre-wrap; }
                <string>Integration</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Generic/Integration.png</normaloff>:/Resource/Generic/Integration.png</iconset>
               </property>
              </item>
@@ -248,7 +248,7 @@ p, li { white-space: pre-wrap; }
                <string>Plugins</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Generic/Plugins.png</normaloff>:/Resource/Generic/Plugins.png</iconset>
               </property>
              </item>
@@ -284,7 +284,7 @@ p, li { white-space: pre-wrap; }
               <string>Community</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resource.qrc">
+              <iconset>
                <normaloff>:/Resource/Chat/Users.png</normaloff>:/Resource/Chat/Users.png</iconset>
              </property>
              <property name="checkable">
@@ -305,7 +305,7 @@ p, li { white-space: pre-wrap; }
                <string>Private Messages</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
               </property>
              </item>
@@ -314,7 +314,7 @@ p, li { white-space: pre-wrap; }
                <string>Chat</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Chat/Friends.png</normaloff>:/Resource/Chat/Friends.png</iconset>
               </property>
              </item>
@@ -350,7 +350,7 @@ p, li { white-space: pre-wrap; }
               <string>Security</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resource.qrc">
+              <iconset>
                <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
              </property>
              <property name="checkable">
@@ -371,7 +371,7 @@ p, li { white-space: pre-wrap; }
                <string>General</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
               </property>
              </item>
@@ -380,7 +380,7 @@ p, li { white-space: pre-wrap; }
                <string>Parental Settings</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Security/ParentalSettings.png</normaloff>:/Resource/Security/ParentalSettings.png</iconset>
               </property>
              </item>
@@ -416,7 +416,7 @@ p, li { white-space: pre-wrap; }
               <string>Network</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resource.qrc">
+              <iconset>
                <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
              </property>
              <property name="checkable">
@@ -437,7 +437,7 @@ p, li { white-space: pre-wrap; }
                <string>Connection</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
               </property>
              </item>
@@ -446,7 +446,7 @@ p, li { white-space: pre-wrap; }
                <string>Transfers</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
               </property>
              </item>
@@ -455,7 +455,7 @@ p, li { white-space: pre-wrap; }
                <string>Downloads</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
               </property>
              </item>
@@ -464,7 +464,7 @@ p, li { white-space: pre-wrap; }
                <string>Uploads</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
               </property>
              </item>
@@ -500,7 +500,7 @@ p, li { white-space: pre-wrap; }
               <string>Protocols</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resource.qrc">
+              <iconset>
                <normaloff>:/Resource/Network/ConnectTo.png</normaloff>:/Resource/Network/ConnectTo.png</iconset>
              </property>
              <property name="checkable">
@@ -521,7 +521,7 @@ p, li { white-space: pre-wrap; }
                <string>Gnutella 2</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
               </property>
              </item>
@@ -530,7 +530,7 @@ p, li { white-space: pre-wrap; }
                <string>Ares</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
               </property>
              </item>
@@ -539,7 +539,7 @@ p, li { white-space: pre-wrap; }
                <string>eDonkey</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
               </property>
              </item>
@@ -548,7 +548,7 @@ p, li { white-space: pre-wrap; }
                <string>BitTorrent</string>
               </property>
               <property name="icon">
-               <iconset resource="../Resource.qrc">
+               <iconset>
                 <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
               </property>
              </item>
@@ -661,7 +661,7 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QStackedWidget" name="stackedWidgetSettings">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="pageSystem">
               <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -726,7 +726,7 @@ p, li { white-space: pre-wrap; }
                       <string>Ask Me</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../Resource.qrc">
+                      <iconset>
                        <normaloff>:/Resource/Generic/Help.png</normaloff>:/Resource/Generic/Help.png</iconset>
                      </property>
                     </item>
@@ -735,7 +735,7 @@ p, li { white-space: pre-wrap; }
                       <string>Close Immediately</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../Resource.qrc">
+                      <iconset>
                        <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
                      </property>
                     </item>
@@ -744,7 +744,7 @@ p, li { white-space: pre-wrap; }
                       <string>Minimize to Tray</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../Resource.qrc">
+                      <iconset>
                        <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
                      </property>
                     </item>
@@ -753,7 +753,7 @@ p, li { white-space: pre-wrap; }
                       <string>Close After Transfers</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../Resource.qrc">
+                      <iconset>
                        <normaloff>:/Resource/Generic/ExitAfterTransfers.png</normaloff>:/Resource/Generic/ExitAfterTransfers.png</iconset>
                      </property>
                     </item>
@@ -2459,7 +2459,7 @@ p, li { white-space: pre-wrap; }
                      <string>Browse For Completed Files</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -2498,7 +2498,7 @@ p, li { white-space: pre-wrap; }
                      <string>Browse For Temporary Files</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -3160,7 +3160,7 @@ p, li { white-space: pre-wrap; }
                      <string>Browse For Completed</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../Resource.qrc">
+                     <iconset>
                       <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -3261,7 +3261,7 @@ p, li { white-space: pre-wrap; }
                      <string/>
                     </property>
                     <property name="pixmap">
-                     <pixmap resource="../Resource.qrc">:/Resource/Networks/Gnutella2.png</pixmap>
+                     <pixmap>:/Resource/Networks/Gnutella2.png</pixmap>
                     </property>
                     <property name="scaledContents">
                      <bool>false</bool>
@@ -3329,7 +3329,7 @@ p, li { white-space: pre-wrap; }
                      <string/>
                     </property>
                     <property name="pixmap">
-                     <pixmap resource="../Resource.qrc">:/Resource/Networks/Ares.png</pixmap>
+                     <pixmap>:/Resource/Networks/Ares.png</pixmap>
                     </property>
                     <property name="scaledContents">
                      <bool>false</bool>
@@ -3391,7 +3391,7 @@ p, li { white-space: pre-wrap; }
                      <string/>
                     </property>
                     <property name="pixmap">
-                     <pixmap resource="../Resource.qrc">:/Resource/Networks/EDonkey.png</pixmap>
+                     <pixmap>:/Resource/Networks/EDonkey.png</pixmap>
                     </property>
                     <property name="scaledContents">
                      <bool>false</bool>
@@ -3480,7 +3480,7 @@ p, li { white-space: pre-wrap; }
                      <string/>
                     </property>
                     <property name="pixmap">
-                     <pixmap resource="../Resource.qrc">:/Resource/Networks/BitTorrent.png</pixmap>
+                     <pixmap>:/Resource/Networks/BitTorrent.png</pixmap>
                     </property>
                     <property name="scaledContents">
                      <bool>false</bool>
@@ -3517,9 +3517,7 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../Resource.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>toolButtonGeneralTask</sender>
