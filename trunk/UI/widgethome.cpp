@@ -36,6 +36,7 @@ WidgetHome::WidgetHome(QWidget *parent) :
 	ui(new Ui::WidgetHome)
 {
 	ui->setupUi(this);
+	ui->comboBoxHomeFileType->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	connect(ui->labelLibraryTaskLink, SIGNAL(linkActivated(QString)), this, SIGNAL(triggerLibrary()));
 	connect(ui->labelWelcomeSecurityLink, SIGNAL(linkActivated(QString)), this, SIGNAL(triggerSecurity()));

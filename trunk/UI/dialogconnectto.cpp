@@ -25,12 +25,15 @@
 #include "QSkinDialog/qskinsettings.h"
 
 #include "network.h"
+#include <QListView>
 
 DialogConnectTo::DialogConnectTo(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::DialogConnectTo)
 {
 	ui->setupUi(this);
+	ui->comboBoxAddress->setView(new QListView());
+	ui->comboBoxNetwork->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
@@ -60,12 +63,20 @@ void DialogConnectTo::on_pushButtonCancel_clicked()
 
 void DialogConnectTo::on_pushButtonConnect_clicked()
 {
+	if (ui->comboBoxAddress->currentText().contains(":"))
+	{
+		IPv4_ENDPOINT ip(ui->comboBoxAddress->currentText());
 
-	IPv4_ENDPOINT ip(ui->lineEditIPAddress->text() + ":" + ui->spinBoxPort->text());
+		Network.m_pSection.lock();
+		Network.ConnectTo(ip);
+		Network.m_pSection.unlock();
+	} else {
+		IPv4_ENDPOINT ip(ui->comboBoxAddress->currentText() + ":" + ui->spinBoxPort->text());
 
-	Network.m_pSection.lock();
-	Network.ConnectTo(ip);
-	Network.m_pSection.unlock();
+		Network.m_pSection.lock();
+		Network.ConnectTo(ip);
+		Network.m_pSection.unlock();
+	}
 
 	emit closed();
 	close();

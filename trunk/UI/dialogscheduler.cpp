@@ -22,12 +22,16 @@
 #include "dialogscheduler.h"
 #include "ui_dialogscheduler.h"
 #include "QSkinDialog/qskinsettings.h"
+#include <QListView>
+
 
 DialogScheduler::DialogScheduler(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogScheduler)
 {
 	m_ui->setupUi(this);
+	m_ui->comboBoxAction->setView(new QListView());
+	m_ui->comboBoxOnceWeekly->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }

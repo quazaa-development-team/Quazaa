@@ -31,6 +31,7 @@ WidgetLibrary::WidgetLibrary(QWidget *parent) :
 	ui(new Ui::WidgetLibrary)
 {
 	ui->setupUi(this);
+	ui->comboBoxLibraryNavigatorSharesFilter->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->tabWidgetLibraryNavigator->setCurrentIndex(quazaaSettings.WinMain.LibraryNavigatorTab);

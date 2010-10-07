@@ -31,6 +31,9 @@ WidgetSearch::WidgetSearch(QWidget *parent) :
 	ui(new Ui::WidgetSearch)
 {
 	ui->setupUi(this);
+	ui->comboBoxSearchFileType->setView(new QListView());
+	ui->comboBoxSearchSizeMax->setView(new QListView());
+	ui->comboBoxSearchSizeMin->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	ui->splitterSearch->restoreState(quazaaSettings.WinMain.SearchSplitter);

@@ -30,6 +30,7 @@ DialogWizard::DialogWizard(QWidget *parent) :
 	m_ui(new Ui::DialogWizard)
 {
 	m_ui->setupUi(this);
+	m_ui->comboBoxGender->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 	m_ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed/1024)*8);

@@ -22,12 +22,17 @@
 #include "dialogaddrule.h"
 #include "ui_dialogaddrule.h"
 #include "QSkinDialog/qskinsettings.h"
+#include <QListView>
 
 DialogAddRule::DialogAddRule(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAddRule)
 {
 	m_ui->setupUi(this);
+	m_ui->comboBoxAction->setView(new QListView());
+	m_ui->comboBoxExpire->setView(new QListView());
+	m_ui->comboBoxHashType->setView(new QListView());
+	m_ui->comboBoxRuleType->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }

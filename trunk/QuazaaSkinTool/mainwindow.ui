@@ -14,7 +14,7 @@
    <string>Quazaa Skin Tool</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -1256,7 +1256,7 @@ color: rgb(255, 255, 255);</string>
                      <string/>
                     </property>
                     <property name="icon">
-                     <iconset resource="Resource.qrc">
+                     <iconset resource="../Resource.qrc">
                       <normaloff>:/Resource/Quazaa48.png</normaloff>:/Resource/Quazaa48.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -1541,16 +1541,16 @@ QToolButton:disabled {
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>-146</y>
+               <y>-102</y>
                <width>452</width>
-               <height>382</height>
+               <height>364</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_29">
               <item row="1" column="0">
                <widget class="QTabWidget" name="tabWidget">
                 <property name="currentIndex">
-                 <number>1</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="tabStandardItemsEnabled">
                  <attribute name="title">
@@ -1580,7 +1580,13 @@ QToolButton:disabled {
                     <property name="title">
                      <string>Group Box</string>
                     </property>
-                    <layout class="QGridLayout" name="gridLayout_13">
+                    <layout class="QGridLayout" name="gridLayout_10">
+                     <property name="margin">
+                      <number>4</number>
+                     </property>
+                     <property name="spacing">
+                      <number>4</number>
+                     </property>
                      <item row="0" column="0">
                       <widget class="QToolButton" name="toolButton">
                        <property name="text">
@@ -1588,14 +1594,14 @@ QToolButton:disabled {
                        </property>
                       </widget>
                      </item>
-                     <item row="0" column="1" colspan="2">
+                     <item row="0" column="1">
                       <widget class="QRadioButton" name="radioButton">
                        <property name="text">
                         <string>Radio Button</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="0" column="3">
+                     <item row="0" column="2">
                       <widget class="QLineEdit" name="lineEdit">
                        <property name="text">
                         <string>Edit Box</string>
@@ -1609,14 +1615,14 @@ QToolButton:disabled {
                        </property>
                       </widget>
                      </item>
-                     <item row="1" column="1" colspan="2">
+                     <item row="1" column="1">
                       <widget class="QCheckBox" name="checkBox">
                        <property name="text">
                         <string>Check Box</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="1" column="3">
+                     <item row="1" column="2">
                       <widget class="QLabel" name="label_7">
                        <property name="frameShape">
                         <enum>QFrame::StyledPanel</enum>
@@ -1629,7 +1635,7 @@ QToolButton:disabled {
                      <item row="2" column="0">
                       <widget class="QSpinBox" name="spinBox"/>
                      </item>
-                     <item row="2" column="3">
+                     <item row="2" column="1" colspan="2">
                       <widget class="QSlider" name="horizontalSlider">
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
@@ -1639,16 +1645,38 @@ QToolButton:disabled {
                        </property>
                       </widget>
                      </item>
-                     <item row="3" column="0" colspan="4">
-                      <widget class="QComboBox" name="comboBox">
+                     <item row="3" column="0" colspan="3">
+                      <widget class="QComboBox" name="comboBox_3">
+                       <property name="enabled">
+                        <bool>true</bool>
+                       </property>
                        <item>
                         <property name="text">
                          <string>Combo Box</string>
                         </property>
                        </item>
+                       <item>
+                        <property name="text">
+                         <string>Item 1</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>Item 2</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>Item 3</string>
+                        </property>
+                        <property name="icon">
+                         <iconset>
+                          <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
+                        </property>
+                       </item>
                       </widget>
                      </item>
-                     <item row="4" column="0" colspan="4">
+                     <item row="4" column="0" colspan="3">
                       <widget class="QProgressBar" name="progressBar">
                        <property name="value">
                         <number>24</number>
@@ -1692,6 +1720,12 @@ QToolButton:disabled {
                      <string>Group Box</string>
                     </property>
                     <layout class="QGridLayout" name="gridLayout_14">
+                     <property name="margin">
+                      <number>4</number>
+                     </property>
+                     <property name="spacing">
+                      <number>4</number>
+                     </property>
                      <item row="0" column="0">
                       <widget class="QToolButton" name="toolButton_2">
                        <property name="enabled">
@@ -1762,7 +1796,7 @@ QToolButton:disabled {
                        </property>
                       </widget>
                      </item>
-                     <item row="3" column="3">
+                     <item row="3" column="1" colspan="3">
                       <widget class="QSlider" name="horizontalSlider_2">
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
@@ -1797,7 +1831,7 @@ QToolButton:disabled {
                          <string>Item 3</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="Resource.qrc">
+                         <iconset>
                           <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
                         </property>
                        </item>
@@ -3113,7 +3147,7 @@ QToolButton:disabled {
   </widget>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/fileOpen.png</normaloff>:/Resource/fileOpen.png</iconset>
    </property>
    <property name="text">
@@ -3122,7 +3156,7 @@ QToolButton:disabled {
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/fileSave.png</normaloff>:/Resource/fileSave.png</iconset>
    </property>
    <property name="text">
@@ -3136,7 +3170,7 @@ QToolButton:disabled {
   </action>
   <action name="actionNew">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/fileNew.png</normaloff>:/Resource/fileNew.png</iconset>
    </property>
    <property name="text">
@@ -3145,7 +3179,7 @@ QToolButton:disabled {
   </action>
   <action name="actionSkin_Creation_Guide">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
    </property>
    <property name="text">
@@ -3154,7 +3188,7 @@ QToolButton:disabled {
   </action>
   <action name="actionAbout_Quazaa_Skin_Tool">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/info.png</normaloff>:/Resource/info.png</iconset>
    </property>
    <property name="text">
@@ -3163,7 +3197,7 @@ QToolButton:disabled {
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/cut.png</normaloff>:/Resource/cut.png</iconset>
    </property>
    <property name="text">
@@ -3172,7 +3206,7 @@ QToolButton:disabled {
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/copy.png</normaloff>:/Resource/copy.png</iconset>
    </property>
    <property name="text">
@@ -3181,7 +3215,7 @@ QToolButton:disabled {
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/paste.png</normaloff>:/Resource/paste.png</iconset>
    </property>
    <property name="text">
@@ -3190,7 +3224,7 @@ QToolButton:disabled {
   </action>
   <action name="actionPackage_For_Distribution">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Web.png</normaloff>:/Resource/Web.png</iconset>
    </property>
    <property name="text">
@@ -3207,7 +3241,7 @@ QToolButton:disabled {
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
    </property>
    <property name="text">
@@ -3221,8 +3255,6 @@ QToolButton:disabled {
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
