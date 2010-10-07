@@ -23,11 +23,14 @@
 #include "ui_dialogopentorrent.h"
 #include "QSkinDialog/qskinsettings.h"
 
+#include <QListView>
+
 DialogOpenTorrent::DialogOpenTorrent(QWidget *parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogOpenTorrent)
 {
 	m_ui->setupUi(this);
+	m_ui->comboBoxAllocationMode->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }

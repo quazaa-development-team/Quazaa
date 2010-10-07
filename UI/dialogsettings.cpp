@@ -33,6 +33,9 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	ui(new Ui::DialogSettings)
 {
 	ui->setupUi(this);
+	ui->comboBoxG2Mode->setView(new QListView());
+	ui->comboBoxOnClose->setView(new QListView());
+	ui->comboBoxQueueLength->setView(new QListView());
 	switchSettingsPage(page);
 	skinChangeEvent();
 
@@ -110,7 +113,7 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	ui->checkBoxExpandDownloads->setChecked(quazaaSettings.Downloads.ExpandDownloads);
 	ui->lineEditSaveFolder->setText(quazaaSettings.Downloads.CompletePath);
 	ui->lineEditTempFolder->setText(quazaaSettings.Downloads.IncompletePath);
-	ui->comboBoxQueLength->setCurrentIndex(quazaaSettings.Downloads.QueueLimit);
+	ui->comboBoxQueueLength->setCurrentIndex(quazaaSettings.Downloads.QueueLimit);
 	ui->spinBoxMaxFiles->setValue(quazaaSettings.Downloads.MaxFiles);
 	ui->spinBoxMaxTransfers->setValue(quazaaSettings.Downloads.MaxTransfers);
 	ui->spinBoxTransfersPerFile->setValue(quazaaSettings.Downloads.MaxTransfersPerFile);
@@ -261,7 +264,7 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	connect (ui->checkBoxExpandDownloads, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect (ui->lineEditSaveFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
 	connect (ui->lineEditTempFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
-	connect (ui->comboBoxQueLength, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
+	connect (ui->comboBoxQueueLength, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
 	connect (ui->spinBoxMaxFiles, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect (ui->spinBoxMaxTransfers, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect (ui->spinBoxTransfersPerFile, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
@@ -675,7 +678,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Downloads.ExpandDownloads = ui->checkBoxExpandDownloads->isChecked();
 	quazaaSettings.Downloads.CompletePath = ui->lineEditSaveFolder->text();
 	quazaaSettings.Downloads.IncompletePath = ui->lineEditTempFolder->text();
-	quazaaSettings.Downloads.QueueLimit = ui->comboBoxQueLength->currentIndex();
+	quazaaSettings.Downloads.QueueLimit = ui->comboBoxQueueLength->currentIndex();
 	quazaaSettings.Downloads.MaxFiles = ui->spinBoxMaxFiles->value();
 	quazaaSettings.Downloads.MaxTransfers = ui->spinBoxMaxTransfers->value();
 	quazaaSettings.Downloads.MaxTransfersPerFile = ui->spinBoxTransfersPerFile->value();

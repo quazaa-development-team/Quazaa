@@ -28,6 +28,7 @@ DialogCreateTorrent::DialogCreateTorrent(QWidget *parent) :
 	m_ui(new Ui::DialogCreateTorrent)
 {
 	m_ui->setupUi(this);
+	m_ui->comboBoxSeedDHT->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }

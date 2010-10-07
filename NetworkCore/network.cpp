@@ -51,16 +51,16 @@ CNetwork Network;
 CThread NetworkThread;
 
 CNetwork::CNetwork(QObject *parent)
-    :QObject(parent)
+	:QObject(parent)
 {
-    m_pSecondTimer = 0;
-    //m_oAddress.port = 6346;
+	m_pSecondTimer = 0;
+	//m_oAddress.port = 6346;
 	m_oAddress.port = quazaaSettings.Connection.Port;
 
-    m_bNeedUpdateLNI = true;
-    m_nLNIWait = 60;
-    m_nKHLWait = 60;
-    m_tCleanRoutesNext = 60;
+	m_bNeedUpdateLNI = true;
+	m_nLNIWait = 60;
+	m_nKHLWait = 60;
+	m_tCleanRoutesNext = 60;
 
 	m_nNextCheck = 0;
 	m_nBusyPeriods = 0;
@@ -78,28 +78,28 @@ CNetwork::CNetwork(QObject *parent)
 }
 CNetwork::~CNetwork()
 {
-    if( m_bActive )
-    {
-        Disconnect();
-    }
+	if( m_bActive )
+	{
+		Disconnect();
+	}
 }
 
 void CNetwork::Connect()
 {
-    QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_pSection);
 
-    if( m_bActive )
-    {
-        qDebug() << "Network already started";
-        return;
-    }
+	if( m_bActive )
+	{
+		qDebug() << "Network already started";
+		return;
+	}
 
 	if( quazaaSettings.Gnutella2.ClientMode < 2 )
 		m_nNodeState = G2_LEAF;
 	else
 		m_nNodeState = G2_HUB;
 
-    m_bActive = true;
+	m_bActive = true;
 	m_oAddress.port = quazaaSettings.Connection.Port;
 
 	m_nNextCheck = quazaaSettings.Gnutella2.AdaptiveCheckPeriod;
@@ -107,7 +107,7 @@ void CNetwork::Connect()
 	m_nTotalPeriods = 0;
 
 	Handshakes.Listen();
-    m_oRoutingTable.Clear();
+	m_oRoutingTable.Clear();
 	m_nSecsToHubBalancing = HUB_BALANCING_INTERVAL;
 	m_tLastModeChange = time(0);
 	m_nMinutesAbove90 = m_nMinutesBelow50 = 0;
@@ -125,23 +125,23 @@ void CNetwork::Connect()
 }
 void CNetwork::Disconnect()
 {
-    QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_pSection);
 
-    if( m_bActive )
-    {
-        m_bActive = false;
+	if( m_bActive )
+	{
+		m_bActive = false;
 		disconnect(&Datagrams, SIGNAL(PacketQueuedForRouting()));
-        NetworkThread.exit(0);
-    }
+		NetworkThread.exit(0);
+	}
 
 }
 void CNetwork::SetupThread()
 {
 	Q_ASSERT(m_pSecondTimer == 0);
 
-    m_pSecondTimer = new QTimer();
+	m_pSecondTimer = new QTimer();
 	connect(m_pSecondTimer, SIGNAL(timeout()), this, SLOT(OnSecondTimer()));
-    m_pSecondTimer->start(1000);
+	m_pSecondTimer->start(1000);
 
 	Datagrams.Listen();
 	Handshakes.Listen();
@@ -150,46 +150,46 @@ void CNetwork::SetupThread()
 }
 void CNetwork::CleanupThread()
 {
-    m_pSecondTimer->stop();
-    delete m_pSecondTimer;
-    m_pSecondTimer = 0;
-    WebCache.CancelRequests();
+	m_pSecondTimer->stop();
+	delete m_pSecondTimer;
+	m_pSecondTimer = 0;
+	WebCache.CancelRequests();
 
 	Handshakes.Disconnect();
-    Datagrams.Disconnect();
+	Datagrams.Disconnect();
 	Neighbours.Disconnect();
 
-    moveToThread(qApp->thread());
+	moveToThread(qApp->thread());
 }
 
 
 void CNetwork::OnSecondTimer()
 {
 	if( !m_pSection.tryLock(150) )
-    {
-        qWarning() << "WARNING: Network core overloaded!";
-        return;
+	{
+		qWarning() << "WARNING: Network core overloaded!";
+		return;
 	}
 
-    if( !m_bActive )
-    {
+	if( !m_bActive )
+	{
 		m_pSection.unlock();
-        return;
-    }
+		return;
+	}
 
 	if( Neighbours.m_nHubsConnected == 0 && !WebCache.isRequesting() && ( HostCache.isEmpty() || HostCache.GetConnectable() == 0 ) )
-    {
-        WebCache.RequestRandom();
-    }
+	{
+		WebCache.RequestRandom();
+	}
 
-    if( m_tCleanRoutesNext > 0 )
-        m_tCleanRoutesNext--;
-    else
-    {
+	if( m_tCleanRoutesNext > 0 )
+		m_tCleanRoutesNext--;
+	else
+	{
 		//m_oRoutingTable.Dump();
-        m_oRoutingTable.ExpireOldRoutes();
-        m_tCleanRoutesNext = 60;
-    }
+		m_oRoutingTable.ExpireOldRoutes();
+		m_tCleanRoutesNext = 60;
+	}
 
 	//Datagrams.FlushSendCache();
 	emit Datagrams.SendQueueUpdated();
@@ -213,42 +213,42 @@ void CNetwork::OnSecondTimer()
 		HubBalancing();
 	}
 
-    SearchManager.OnTimer();
+	SearchManager.OnTimer();
 
 	if( m_bPacketsPending )
 		RoutePackets();
 
-    if( m_nLNIWait == 0 )
-    {
-        if( m_bNeedUpdateLNI )
-        {
+	if( m_nLNIWait == 0 )
+	{
+		if( m_bNeedUpdateLNI )
+		{
 			QMutexLocker l(&Neighbours.m_pSection);
 
-            m_bNeedUpdateLNI = false;
+			m_bNeedUpdateLNI = false;
 
 			for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
-            {
+			{
 				CG2Node* pNode = *itNode;
-                if( pNode->m_nState == nsConnected )
-                    pNode->SendLNI();
-            }
-        }
+				if( pNode->m_nState == nsConnected )
+					pNode->SendLNI();
+			}
+		}
 
 		m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
-    }
-    else
-        m_nLNIWait--;
+	}
+	else
+		m_nLNIWait--;
 
-    if( m_nKHLWait == 0 )
-    {
+	if( m_nKHLWait == 0 )
+	{
 		HostCache.m_pSection.lock();
-        HostCache.Save();
-        DispatchKHL();
+		HostCache.Save();
+		DispatchKHL();
 		m_nKHLWait = quazaaSettings.Gnutella2.KHLPeriod;
 		HostCache.m_pSection.unlock();
-    }
-    else
-        m_nKHLWait--;
+	}
+	else
+		m_nKHLWait--;
 
 	m_pSection.unlock();
 }
@@ -258,20 +258,20 @@ void CNetwork::DispatchKHL()
 	QMutexLocker l(&Neighbours.m_pSection);
 
 	if( Neighbours.m_lNodes.isEmpty() )
-        return;
+		return;
 
-    G2Packet* pKHL = G2Packet::New("KHL");
-    quint32 ts = time(0);
+	G2Packet* pKHL = G2Packet::New("KHL");
+	quint32 ts = time(0);
 	pKHL->WritePacket("TS", 4)->WriteIntLE(ts);
 
 	for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
-    {
+	{
 		CG2Node* pNode = *itNode;
-        if( pNode->m_nType == G2_HUB && pNode->m_nState == nsConnected )
-        {
+		if( pNode->m_nType == G2_HUB && pNode->m_nState == nsConnected )
+		{
 			pKHL->WritePacket("NH", 6)->WriteHostAddress(&pNode->m_oAddress);
-        }
-    }
+		}
+	}
 
 	quint32 nCount = 0;
 
@@ -285,117 +285,117 @@ void CNetwork::DispatchKHL()
 	for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
 	{
 		CG2Node* pNode = *itNode;
-        if( pNode->m_nState == nsConnected )
-        {
+		if( pNode->m_nState == nsConnected )
+		{
 			pNode->SendPacket(pKHL, false, false);
-        }
-    }
+		}
+	}
 	pKHL->Release();
 }
 
 bool CNetwork::IsListening()
 {
-    return Handshakes.isListening() && Datagrams.isListening();
+	return Handshakes.isListening() && Datagrams.isListening();
 }
 
 bool CNetwork::IsFirewalled()
 {
-    return Datagrams.IsFirewalled() || Handshakes.IsFirewalled();
+	return Datagrams.IsFirewalled() || Handshakes.IsFirewalled();
 }
 
 void CNetwork::AcquireLocalAddress(QString &sHeader)
 {
-    IPv4_ENDPOINT hostAddr(sHeader + ":0");
+	IPv4_ENDPOINT hostAddr(sHeader + ":0");
 
-    if( hostAddr.ip != 0 )
-    {
-        m_oAddress.ip = hostAddr.ip;
-    }
+	if( hostAddr.ip != 0 )
+	{
+		m_oAddress.ip = hostAddr.ip;
+	}
 }
 bool CNetwork::IsConnectedTo(IPv4_ENDPOINT addr)
 {
 	for( int i = 0; i < Neighbours.m_lNodes.size(); i++ )
-    {
+	{
 		if( Neighbours.m_lNodes.at(i)->m_oAddress == addr )
-            return true;
-    }
+			return true;
+	}
 
-    return false;
+	return false;
 }
 
 bool CNetwork::RoutePacket(QUuid &pTargetGUID, G2Packet *pPacket)
 {
-    CG2Node* pNode = 0;
-    IPv4_ENDPOINT pAddr;
+	CG2Node* pNode = 0;
+	IPv4_ENDPOINT pAddr;
 
-    if( m_oRoutingTable.Find(pTargetGUID, &pNode, &pAddr) )
-    {
-        if( pNode )
-        {
+	if( m_oRoutingTable.Find(pTargetGUID, &pNode, &pAddr) )
+	{
+		if( pNode )
+		{
 			pNode->SendPacket(pPacket, true, false);
 			qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to neighbour: " << pNode->m_oAddress.toString().toAscii().constData();
-            return true;
-        }
-        else if( pAddr.ip )
-        {
-            Datagrams.SendPacket(pAddr, pPacket, true);
+			return true;
+		}
+		else if( pAddr.ip )
+		{
+			Datagrams.SendPacket(pAddr, pPacket, true);
 			qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to remote node: " << pNode->m_oAddress.toString().toAscii().constData();
-            return true;
-        }
+			return true;
+		}
 		qDebug() << "CNetwork::RoutePacket - weird thing, should not happen...";
-    }
+	}
 
 	qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " DROPPED!";
-    return false;
+	return false;
 }
 bool CNetwork::RoutePacket(G2Packet *pPacket, CG2Node *pNbr)
 {
 	QUuid pGUID;
 
 	if( pPacket->GetTo(pGUID) && pGUID != quazaaSettings.Profile.GUID ) // no i adres != moj adres
-    {
-        CG2Node* pNode = 0;
-        IPv4_ENDPOINT pAddr;
+	{
+		CG2Node* pNode = 0;
+		IPv4_ENDPOINT pAddr;
 
-        if( m_oRoutingTable.Find(pGUID, &pNode, &pAddr) )
-        {
-            bool bForwardTCP = false;
-            bool bForwardUDP = false;
+		if( m_oRoutingTable.Find(pGUID, &pNode, &pAddr) )
+		{
+			bool bForwardTCP = false;
+			bool bForwardUDP = false;
 
-            if( pNbr )
-            {
-                if( pNbr->m_nType == G2_LEAF )  // if received from leaf - can forward anywhere
-                {
-                    bForwardTCP = bForwardUDP = true;
-                }
-                else    // if received from a hub - can be forwarded to leaf
-                {
-                    if( pNode && pNode->m_nType == G2_LEAF )
-                    {
-                        bForwardTCP = true;
-                    }
-                }
-            }
-            else    // received from udp - do not forward via udp
-            {
-                bForwardTCP = true;
-            }
+			if( pNbr )
+			{
+				if( pNbr->m_nType == G2_LEAF )  // if received from leaf - can forward anywhere
+				{
+					bForwardTCP = bForwardUDP = true;
+				}
+				else    // if received from a hub - can be forwarded to leaf
+				{
+					if( pNode && pNode->m_nType == G2_LEAF )
+					{
+						bForwardTCP = true;
+					}
+				}
+			}
+			else    // received from udp - do not forward via udp
+			{
+				bForwardTCP = true;
+			}
 
-            if( pNode && bForwardTCP )
-            {
+			if( pNode && bForwardTCP )
+			{
 				pNode->SendPacket(pPacket, true, false);
-                return true;
-            }
-            else if( pAddr.ip && bForwardUDP )
-            {
-                Datagrams.SendPacket(pAddr, pPacket, true);
-                return true;
-            }
-            // drop
-        }
-        return true;
+				return true;
+			}
+			else if( pAddr.ip && bForwardUDP )
+			{
+				Datagrams.SendPacket(pAddr, pPacket, true);
+				return true;
+			}
+			// drop
+		}
+		return true;
 	}
-    return false;
+	return false;
 }
 
 
@@ -433,6 +433,7 @@ void CNetwork::AdaptiveHubRun()
 
 void CNetwork::ConnectTo(IPv4_ENDPOINT &addr)
 {
+	// TODO: Verify network is connected before attempting connection and create connection if it is not
 	CG2Node* pNew = Neighbours.ConnectTo(addr);
 
 	if( pNew )
