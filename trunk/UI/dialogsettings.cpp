@@ -761,10 +761,15 @@ void DialogSettings::skinChangeEvent()
 	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 	ui->frameSidebarContents->setStyleSheet(skinSettings.sidebarBackground);
 	ui->toolButtonCommunityTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameCommunityTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->toolButtonGeneralTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameGeneralTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->toolButtonNetworkTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameNetworkTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->toolButtonProtocolsTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameProtocolsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->toolButtonSecurityTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameSecurityTask->setStyleSheet(skinSettings.sidebarTaskBackground);
 	ui->listWidgetCommunityTask->setStyleSheet(skinSettings.listViews);
 	ui->listWidgetFileTypesNeverShare->setStyleSheet(skinSettings.listViews);
 	ui->listWidgetFileTypesSafeOpen->setStyleSheet(skinSettings.listViews);
