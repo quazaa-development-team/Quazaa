@@ -30,6 +30,7 @@
 #include <QByteArray>
 #include <QDateTime>
 #include "quazaasettings.h"
+#include "buffer.h"
 
 // Parts of this code are borrowed from Shareaza
 
@@ -41,7 +42,7 @@ CQueryHashTable::CQueryHashTable() : QObject(0),
 ,	m_nBits		( 0ul )
 ,	m_nInfinity	( 1ul )
 ,	m_nCount	( 0ul )
-,	m_pBuffer	( new QByteArray() )
+,	m_pBuffer	( new CBuffer(131072) ) // 128KB
 ,	m_pGroup	( 0 )
 {
 }
@@ -327,7 +328,7 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 	}
 
 
-	QByteArray baBuffer;
+	CBuffer baBuffer;
 	baBuffer.resize(( m_nHash + 31 ) / 8);
 	uchar* pBuffer	=(uchar*)baBuffer.data();
 	uchar* pHashT	= pTarget->m_pHash;

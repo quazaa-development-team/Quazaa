@@ -25,6 +25,8 @@
 #include <QTcpSocket>
 #include <QMetaType>
 
+#include "buffer.h"
+
 CNetworkConnection::CNetworkConnection(QObject* parent)
 	:QObject(parent)
 {
@@ -42,7 +44,6 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
 
     m_pInput = 0;
     m_pOutput = 0;
-	m_nInputSize = 8 * 1024;
 
     m_bInitiated = false;
     m_bConnected = false;
@@ -80,8 +81,8 @@ void CNetworkConnection::ConnectTo(QHostAddress oAddress, quint16 nPort)
 
 	Q_ASSERT(m_pInput == 0);
 	Q_ASSERT(m_pOutput == 0);
-	m_pInput = new QByteArray();
-	m_pOutput = new QByteArray();
+	m_pInput = new CBuffer(8192);
+	m_pOutput = new CBuffer(8192);
 	Q_ASSERT(m_pSocket == 0);
 
 	m_pSocket = new QTcpSocket();
@@ -131,8 +132,8 @@ void CNetworkConnection::AcceptFrom(int nHandle)
 
 	Q_ASSERT(m_pInput == 0);
 	Q_ASSERT(m_pOutput == 0);
-	m_pInput = new QByteArray();
-	m_pOutput = new QByteArray();
+	m_pInput = new CBuffer(8192);
+	m_pOutput = new CBuffer(8192);
 
 	m_pSocket->setSocketDescriptor(nHandle);
 	m_oAddress.ip = m_pSocket->peerAddress().toIPv4Address();
@@ -171,7 +172,6 @@ void CNetworkConnection::moveToThread(QThread *thread)
 void CNetworkConnection::initializeSocket()
 {
 	m_pSocket->disconnect();
-    m_pSocket->setReadBufferSize(m_nInputSize);
 
 	connect(m_pSocket, SIGNAL(connected()),
 			this, SIGNAL(connected()));
@@ -221,9 +221,6 @@ qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)
 		}
     }
 
-	if( (uint)m_pInput->capacity() > m_nInputSize && (uint)m_pInput->size() < m_nInputSize / 2 )
-		m_pInput->squeeze();
-
     return nBytesRead;
 }
 qint64 CNetworkConnection::writeToNetwork(qint64 nBytes)
@@ -239,9 +236,6 @@ qint64 CNetworkConnection::writeToNetwork(qint64 nBytes)
     m_pOutput->remove(0, nBytesWritten);
 	m_mOutput.Add(nBytesWritten);
 
-	if( (uint)m_pOutput->capacity() > m_nInputSize && (uint)m_pOutput->size() < m_nInputSize / 2 )
-		m_pOutput->squeeze();
-
     return nBytesWritten;
 }
 qint64 CNetworkConnection::readData(char* data, qint64 maxlen)
@@ -249,14 +243,13 @@ qint64 CNetworkConnection::readData(char* data, qint64 maxlen)
     Q_ASSERT(m_pInput != 0);
 
     int nBytesRead = qMin<qint64>(maxlen, m_pInput->size());
-    memcpy(data, m_pInput->constData(), nBytesRead);
+	memcpy(data, m_pInput->data(), nBytesRead);
     m_pInput->remove(0, nBytesRead);
 
 	if( m_pSocket->state() != QTcpSocket::ConnectedState )
     {
         int nOldSize = m_pInput->size();
         m_pInput->resize(nOldSize + m_pSocket->bytesAvailable());
-        //m_pSocket->readData(m_pInput->data() + nOldSize, m_pInput->size() - nOldSize);
         m_pSocket->read(m_pInput->data() + nOldSize, m_pInput->size() - nOldSize);
     }
 
@@ -318,11 +311,6 @@ qint64 CNetworkConnection::networkBytesAvailable() const
 		return m_pInput->size() - nOldSize;
 	}
 
-	if( m_nInputSize > 0 )
-	{
-		return qMax(qint64(0), qMin(m_pSocket->bytesAvailable(), qint64(m_nInputSize - m_pInput->size())));
-	}
-
 	return m_pSocket->bytesAvailable();
 }
 bool CNetworkConnection::isValid() const
@@ -334,9 +322,24 @@ bool CNetworkConnection::isValid() const
 }
 void CNetworkConnection::setReadBufferSize(qint64 nSize)
 {
-	m_nInputSize = nSize;
 	if( m_pSocket )
 		m_pSocket->setReadBufferSize(nSize);
+}
+
+QByteArray CNetworkConnection::Read(qint64 nMaxSize)
+{
+	QByteArray baRet;
+
+	baRet.resize(qMin<qint64>(nMaxSize, GetInputBuffer()->size()));
+	readData(baRet.data(), baRet.size());
+	return baRet;
+}
+
+QByteArray CNetworkConnection::Peek(qint64 nMaxLength)
+{
+	CBuffer* pBuffer = GetInputBuffer();
+
+	return QByteArray::fromRawData(pBuffer->data(), qMin<qint64>(nMaxLength > 0 ? nMaxLength : pBuffer->size(), pBuffer->size()));
 }
 
 TCPBandwidthMeter::TCPBandwidthMeter()

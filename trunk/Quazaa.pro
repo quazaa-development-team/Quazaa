@@ -177,7 +177,8 @@ SOURCES += main.cpp \
 	3rdparty/libircclient-qt/src/ircdccsession.cpp \
 	3rdparty/libircclient-qt/src/ircbuffer.cpp \
 	3rdparty/libircclient-qt/src/irc.cpp \
-	UI/widgetchattab.cpp
+	UI/widgetchattab.cpp \
+    NetworkCore/buffer.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -286,7 +287,8 @@ HEADERS += UI/dialoglanguage.h \
 	3rdparty/libircclient-qt/include/ircbuffer_p.h \
 	3rdparty/libircclient-qt/include/ircbuffer.h \
 	3rdparty/libircclient-qt/include/irc.h \
-	UI/widgetchattab.h
+	UI/widgetchattab.h \
+    NetworkCore/buffer.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
@@ -374,4 +376,3 @@ TRANSLATIONS = Language/quazaa_af.ts \
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
-

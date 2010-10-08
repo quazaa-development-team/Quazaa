@@ -24,7 +24,7 @@
 
 #include "types.h"
 
-class QByteArray;
+class CBuffer;
 class G2Packet;
 
 class DatagramIn
@@ -40,7 +40,7 @@ protected:
     quint32 m_nBuffer;
     bool*   m_bLocked;
 
-    QByteArray** m_pBuffer;
+	CBuffer** m_pBuffer;
 public:
     DatagramIn();
     ~DatagramIn();
@@ -72,13 +72,13 @@ protected:
 
     DatagramWatcher*    m_pWatcher;
     void*               m_pParam;
-    QByteArray* m_pBuffer;
+	CBuffer* m_pBuffer;
 
 public:
     DatagramOut();
     ~DatagramOut();
 
-    void Create(IPv4_ENDPOINT oAddr, G2Packet* pPacket, quint16 nSequence, QByteArray* pBuffer, bool bAck = false);
+	void Create(IPv4_ENDPOINT oAddr, G2Packet* pPacket, quint16 nSequence, CBuffer* pBuffer, bool bAck = false);
     bool GetPacket(quint32 tNow, char** ppPacket, quint32* pnPacket, bool bResend = false);
     bool Acknowledge(quint8 nPart);
 

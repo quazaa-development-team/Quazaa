@@ -29,6 +29,7 @@ class QByteArray;
 class CG2Node;
 class G2Packet;
 class QByteArray;
+class CBuffer;
 class CQueryHashGroup;
 
 class CQueryHashTable : public QObject
@@ -46,7 +47,7 @@ public:
 	quint32				m_nBits;
 	quint32				m_nInfinity;
 	quint32				m_nCount;
-	QByteArray*			m_pBuffer;
+	CBuffer*			m_pBuffer;
 	CQueryHashGroup*	m_pGroup;
 
 protected:

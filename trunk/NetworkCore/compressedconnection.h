@@ -27,7 +27,7 @@
 #include "zlib/zlib.h"
 
 
-class QByteArray;
+class CBuffer;
 
 class CCompressedConnection : public CNetworkConnection
 {
@@ -38,8 +38,8 @@ public:
     z_stream    m_sOutput;
     bool        m_bCompressedInput; // czy kompresja wlaczona?
     bool        m_bCompressedOutput;
-    QByteArray* m_pZInput;          // bufforki lokalne
-    QByteArray* m_pZOutput;
+	CBuffer*	m_pZInput;          // bufforki lokalne
+	CBuffer*	m_pZOutput;
     quint64     m_nTotalInput;      // statystyki
     quint64     m_nTotalOutput;
     quint64     m_nNextDeflateFlush;
@@ -65,11 +65,11 @@ protected:
     void Deflate();
 
 public:
-    inline QByteArray* GetInputBuffer()
+	inline CBuffer* GetInputBuffer()
     {
         return (m_bCompressedInput ? m_pZInput : m_pInput);
     }
-    inline QByteArray* GetOutputBuffer()
+	inline CBuffer* GetOutputBuffer()
     {
         return (m_bCompressedOutput ? m_pZOutput : m_pOutput);
     }

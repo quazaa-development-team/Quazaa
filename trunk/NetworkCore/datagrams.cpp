@@ -34,6 +34,7 @@
 #include "quazaasettings.h"
 
 #include "thread.h"
+#include "buffer.h"
 
 
 CDatagrams Datagrams;
@@ -43,7 +44,7 @@ CDatagrams::CDatagrams()
 {
 	m_nUploadLimit = 8192; // TODO it
 
-	m_pRecvBuffer = new QByteArray();
+	m_pRecvBuffer = new CBuffer();
 	m_pHostAddress = new QHostAddress();
 	m_nSequence = 0;
 
@@ -90,7 +91,7 @@ void CDatagrams::SetupThread()
 
 		for( int i = 0; i < quazaaSettings.Gnutella2.UdpBuffers; i++ )
 		{
-			m_FreeBuffer.append(new QByteArray);
+			m_FreeBuffer.append(new CBuffer(1024));
 		}
 
 		for( int i = 0; i < quazaaSettings.Gnutella2.UdpInFrames; i++ )
@@ -303,7 +304,7 @@ void CDatagrams::OnReceiveGND()
 		m_pSocket->writeDatagram((char*)&oAck, sizeof(GND_HEADER), *m_pHostAddress, m_nPort);
 	}
 
-	if( pDG->Add(pHeader->nPart, m_pRecvBuffer->constData() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)) )
+	if( pDG->Add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)) )
 	{
 
 		G2Packet* pPacket = 0;
@@ -846,7 +847,7 @@ void CDatagrams::OnQH2(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 			pPacket->AddRef();
 			m_lPendingQH2.append(pQueue);
 
-			while( m_lPendingQH2.size() > 1000 )
+			while( m_lPendingQH2.size() > 10000 )
 			{
 				QueuedQueryHit pHit = m_lPendingQH2.takeFirst();
 				pHit.m_pPacket->Release();
