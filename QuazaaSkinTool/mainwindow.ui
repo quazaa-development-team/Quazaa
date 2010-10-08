@@ -597,7 +597,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="pageSkinProperties">
          <layout class="QGridLayout" name="gridLayout_38">
@@ -1541,7 +1541,7 @@ QToolButton:disabled {
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>-102</y>
+               <y>0</y>
                <width>452</width>
                <height>364</height>
               </rect>
