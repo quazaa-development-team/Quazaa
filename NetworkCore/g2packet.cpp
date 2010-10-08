@@ -20,6 +20,7 @@
 //
 
 #include "g2packet.h"
+#include "buffer.h"
 
 G2PacketPool G2Packets;
 
@@ -223,7 +224,7 @@ bool G2Packet::ReadPacket(char* pszType, quint32& nLength, bool* pbCompound)
 	nLength = 0;
 	Read( &nLength, nLenLen );
 
-	if ( GetRemaining() < (int)nLength + nTypeLen + 1 ) throw packet_error();
+	if ( GetRemaining() < nLength + nTypeLen + 1 ) throw packet_error();
 
 	Read( pszType, nTypeLen + 1 );
 	pszType[ nTypeLen + 1 ] = 0;
@@ -284,7 +285,7 @@ bool G2Packet::SkipCompound(quint32& nLength, quint32 nRemaining)
 	return nRemaining ? nLength >= nRemaining : true;
 }
 
-void G2Packet::ToBuffer(QByteArray* pBuffer) const
+void G2Packet::ToBuffer(CBuffer* pBuffer) const
 {
 	Q_ASSERT( strlen( m_sType ) > 0 );
 
@@ -321,7 +322,7 @@ void G2Packet::ToBuffer(QByteArray* pBuffer) const
 //////////////////////////////////////////////////////////////////////
 // G2Packet buffer stream read
 
-G2Packet* G2Packet::ReadBuffer(QByteArray* pBuffer)
+G2Packet* G2Packet::ReadBuffer(CBuffer* pBuffer)
 {
 	if ( pBuffer == 0 )
 		return 0;
@@ -329,7 +330,7 @@ G2Packet* G2Packet::ReadBuffer(QByteArray* pBuffer)
 	if ( pBuffer->size() < 2 )
 		return 0;
 
-	char nInput = *pBuffer[0];
+	char nInput = *pBuffer->data();
 
 	if ( nInput == 0 )
 	{
@@ -361,7 +362,7 @@ G2Packet* G2Packet::ReadBuffer(QByteArray* pBuffer)
 		return 0;
 
 	G2Packet* pPacket = G2Packet::New( pBuffer->data() );
-	pBuffer->remove(0, nLength + nLenLen + nTypeLen + 2 );
+	pBuffer->remove(0, nLength + nLenLen + nTypeLen + 2u );
 
 	return pPacket;
 }

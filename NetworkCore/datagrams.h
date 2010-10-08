@@ -44,7 +44,7 @@ public:
 
 class DatagramOut;
 class DatagramIn;
-class QByteArray;
+class CBuffer;
 class QHostAddress;
 
 class CDatagrams : public QObject
@@ -74,9 +74,9 @@ protected:
 	QLinkedList<DatagramIn*> m_RecvCacheTime;	// a list ordered by recv time, last is oldest
 
 	QLinkedList<DatagramIn*> m_FreeDGIn;		// a list of free incoming packets
-	QLinkedList<QByteArray*> m_FreeBuffer;		// a list of free buffers
+	QLinkedList<CBuffer*>	 m_FreeBuffer;		// a list of free buffers
 
-    QByteArray*     m_pRecvBuffer;
+	CBuffer*	    m_pRecvBuffer;
     QHostAddress*   m_pHostAddress;
     quint16         m_nPort;
 

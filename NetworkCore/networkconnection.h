@@ -30,6 +30,8 @@ class QByteArray;
 class QTcpSocket;
 class QThread;
 
+#include "buffer.h"
+
 class TCPBandwidthMeter
 {
 public:
@@ -58,9 +60,8 @@ public:
 	IPv4_ENDPOINT   m_oAddress;
 
 	// Bufory I/O
-	QByteArray* m_pInput;
-	QByteArray* m_pOutput;
-	quint64     m_nInputSize;
+	CBuffer* m_pInput;
+	CBuffer* m_pOutput;
 
 	bool    m_bInitiated;
 	bool    m_bConnected;
@@ -84,7 +85,7 @@ public:
 	virtual void Close(bool bDelayed = false);
 
 public:
-	void Write(QByteArray baData)
+	void Write(QByteArray& baData)
 	{
 		Write(baData.constData(), baData.size());
 	}
@@ -99,19 +100,8 @@ public:
 		return readData(pData, nMaxSize);
 	}
 
-	QByteArray Read(qint64 nMaxSize = 0)
-	{
-		QByteArray baRet;
-
-		baRet.resize(qMin<qint64>(nMaxSize, m_pInput->size()));
-		readData(baRet.data(), baRet.size());
-		return baRet;
-	}
-
-	QByteArray Peek(qint64 nMaxLength = 0)
-	{
-		return GetInputBuffer()->left(qMin<qint64>(nMaxLength ? nMaxLength : GetInputBuffer()->size(), GetInputBuffer()->size()));
-	}
+	QByteArray Read(qint64 nMaxSize = 0);
+	QByteArray Peek(qint64 nMaxLength = 0);
 
 protected:
 	virtual qint64 readFromNetwork(qint64 nBytes);
@@ -151,13 +141,13 @@ public:
 		return false;
 	}
 
-	inline virtual QByteArray* GetInputBuffer()
+	inline virtual CBuffer* GetInputBuffer()
 	{
 		Q_ASSERT(m_pInput != 0);
 
 		return m_pInput;
 	}
-	inline virtual QByteArray* GetOutputBuffer()
+	inline virtual CBuffer* GetOutputBuffer()
 	{
 		Q_ASSERT(m_pOutput != 0);
 

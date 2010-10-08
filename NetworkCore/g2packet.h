@@ -30,7 +30,7 @@
 struct packet_error{};
 struct packet_read_past_end{};
 
-class QByteArray;
+class CBuffer;
 
 class G2Packet
 {
@@ -76,8 +76,8 @@ public:
 
 
 public:
-	static	G2Packet* ReadBuffer(QByteArray* pBuffer);
-	void	ToBuffer(QByteArray* pBuffer) const;
+	static	G2Packet* ReadBuffer(CBuffer* pBuffer);
+	void	ToBuffer(CBuffer* pBuffer) const;
 
 // Inline Packet Operations
 public:

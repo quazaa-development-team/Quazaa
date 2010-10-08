@@ -110,58 +110,11 @@ struct IPv4_ENDPOINT
     }
 };
 
-/*struct GUID
-{
-    quint8 m_pData[16];
-
-    GUID()
-    {
-        memset(&m_pData[0], 0, 16);
-    }
-    GUID(GUID& other)
-    {
-        memcpy(&m_pData[0], &other.m_pData[0], 16);
-    }
-
-    bool isValid()
-    {
-        for( int i = 0; i < 16; i++ )
-        {
-            if( m_pData[i] != 0 )
-                return true;
-        }
-
-        return false;
-    }
-
-    bool operator==(GUID& rhs)
-    {
-        return (memcmp(&m_pData[0], &rhs.m_pData[0], 16) == 0);
-    }
-    bool operator!=(GUID& rhs)
-    {
-        return (memcmp(&m_pData[0], &rhs.m_pData[0], 16) != 0);
-    }
-    QString toString()
-    {
-
-        return QString().sprintf("%02X%02X%02X%02X-%02X%02X-%02X%02X-%02X%02X-%02X%02X%02X%02X%02X%02X",
-                  m_pData[0], m_pData[1], m_pData[2], m_pData[3], m_pData[4], m_pData[5], m_pData[6]
-                  , m_pData[7], m_pData[8], m_pData[9], m_pData[10], m_pData[11], m_pData[12], m_pData[13], m_pData[14], m_pData[15]);
-    }
-
-    bool fromData(const char* pData, quint32 nLength)
-    {
-        if( nLength < 16 )
-            return false;
-        memcpy(&m_pData[0], pData, 16);
-        return true;
-    }
-};*/
-
 uint qHash(const QUuid& key);
 
 enum G2NodeType {G2_UNKNOWN = 0, G2_LEAF = 1, G2_HUB = 2};
+
+typedef unsigned char BYTE;
 
 #endif
 #endif // TYPES_H

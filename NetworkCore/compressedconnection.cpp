@@ -20,7 +20,7 @@
 //
 
 #include "compressedconnection.h"
-#include <QByteArray>
+#include "buffer.h"
 
 CCompressedConnection::CCompressedConnection(QObject *parent) :
     CNetworkConnection(parent)
@@ -80,7 +80,7 @@ bool CCompressedConnection::EnableOutputCompression(bool bEnable)
 }
 bool CCompressedConnection::SetupInputStream()
 {
-    m_pZInput = new QByteArray();
+	m_pZInput = new CBuffer(8192);
 
     if( m_pZInput == 0 )
         return false;
@@ -95,7 +95,7 @@ bool CCompressedConnection::SetupInputStream()
 }
 bool CCompressedConnection::SetupOutputStream()
 {
-    m_pZOutput = new QByteArray();
+	m_pZOutput = new CBuffer(8192);
     if( m_pZOutput == 0 )
         return false;
 
@@ -114,7 +114,7 @@ void CCompressedConnection::CleanupInputStream()
 {
     if( m_pZInput )
     {
-        m_pInput->insert(0, *m_pZInput);
+		m_pInput->prepend(m_pZInput->data(), m_pZInput->size());
         delete m_pZInput;
         m_pZInput = 0;
     }
@@ -125,7 +125,7 @@ void CCompressedConnection::CleanupOutputStream()
 {
     if( m_pZOutput )
     {
-        m_pOutput->insert(0, *m_pZOutput);
+		m_pOutput->prepend(m_pZOutput->data(), m_pZOutput->size());
         delete m_pZOutput;
         m_pZOutput = 0;
     }
@@ -144,9 +144,6 @@ qint64 CCompressedConnection::readFromNetwork(qint64 nBytes)
 			m_bReadyReadSent = true;
             emit readyRead();
 		}
-
-		if( (uint)m_pZInput->capacity() > m_nInputSize &&(uint) m_pZInput->size() < m_nInputSize / 2 )
-			m_pZInput->squeeze();
     }
 
     return nRet;
@@ -158,8 +155,6 @@ qint64 CCompressedConnection::writeToNetwork(qint64 nBytes)
         if( m_pOutput->size() == 0 )
         {
             Deflate();
-			if( (uint)m_pZOutput->capacity() > m_nInputSize && (uint)m_pZOutput->size() < m_nInputSize / 2 )
-				m_pZOutput->squeeze();
         }
     }
 
@@ -182,15 +177,14 @@ void CCompressedConnection::Inflate()
 
         if( m_pZInput->capacity() - m_pZInput->size() < 2048 )
         {
-            m_pZInput->reserve(m_pZInput->capacity() + 2048);
+			m_pZInput->ensure(2048);
         }
 
-        qint32 oldSize = m_pZInput->size();
+		quint32 oldSize = m_pZInput->size();
 
         m_sInput.next_out  = (Bytef*)m_pZInput->data() + oldSize;
-        m_sInput.avail_out = qMax(m_pZInput->capacity() - oldSize, 2048);
+		m_sInput.avail_out = qMax(m_pZInput->capacity() - oldSize, 2048u);
         m_sInput.total_out = 0u;
-        m_pZInput->resize(m_pZInput->capacity());
 
         nRet = inflate(&m_sInput, Z_SYNC_FLUSH);
 
@@ -245,7 +239,7 @@ void CCompressedConnection::Deflate()
 
         if( m_pOutput->capacity() - m_pOutput->size() < 2048 )
         {
-            m_pOutput->reserve(m_pOutput->capacity() + 2048);
+			m_pOutput->ensure(2048u);
         }
 
         qint32 nOldSize = m_pOutput->size();
@@ -253,7 +247,6 @@ void CCompressedConnection::Deflate()
         m_sOutput.next_out = (Bytef*)m_pOutput->data() + nOldSize;
         m_sOutput.avail_out = m_pOutput->capacity() - nOldSize;
         m_sOutput.total_out = 0u;
-        m_pOutput->resize(m_pOutput->capacity());
 
         qint32 nRet = deflate(&m_sOutput, nFlushMode);
 
@@ -266,7 +259,7 @@ void CCompressedConnection::Deflate()
         else
         {
             qDebug() << "Error in compressor!" << nRet;
-            abort();
+			Close();
             break;
         }
 

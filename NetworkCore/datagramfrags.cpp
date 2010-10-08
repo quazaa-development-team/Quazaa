@@ -20,7 +20,7 @@
 //
 
 #include "datagramfrags.h"
-#include <QByteArray>
+#include "buffer.h"
 #include "g2packet.h"
 #include "zlibutils.h"
 #include "datagrams.h"
@@ -61,12 +61,12 @@ void DatagramIn::Create(IPv4_ENDPOINT pHost, quint8 nFlags, quint16 nSequence, q
             delete[] m_bLocked;
 
         m_nBuffer = nCount;
-        m_pBuffer = new QByteArray*[nCount];
+		m_pBuffer = new CBuffer*[nCount];
         m_bLocked = new bool[nCount];
     }
 
     memset(m_bLocked, 0x00, sizeof(bool) * m_nBuffer);
-    memset(m_pBuffer, 0x00, sizeof(QByteArray*) * m_nBuffer);
+	memset(m_pBuffer, 0x00, sizeof(CBuffer*) * m_nBuffer);
 
 }
 bool DatagramIn::Add(quint8 nPart, const void* pData, qint32 nLength)
@@ -117,7 +117,7 @@ DatagramOut::~DatagramOut()
     if( m_pLocked )
         delete[] m_pLocked;
 }
-void DatagramOut::Create(IPv4_ENDPOINT oAddr, G2Packet *pPacket, quint16 nSequence, QByteArray *pBuffer, bool bAck)
+void DatagramOut::Create(IPv4_ENDPOINT oAddr, G2Packet *pPacket, quint16 nSequence, CBuffer *pBuffer, bool bAck)
 {
     Q_ASSERT(m_pBuffer == 0);
 

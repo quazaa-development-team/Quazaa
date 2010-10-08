@@ -119,8 +119,8 @@ CG2Node* CNeighbours::OnAccept(CNetworkConnection* pConn)
 
 	CG2Node* pNew = new CG2Node();
 	pNew->AttachTo(pConn);
-	pNew->moveToThread(&NetworkThread);
 	AddNode(pNew);
+	pNew->moveToThread(&NetworkThread);
 
 	m_pSection.unlock();
 

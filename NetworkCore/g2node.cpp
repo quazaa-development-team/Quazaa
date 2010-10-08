@@ -36,7 +36,7 @@
 
 #include <QTcpSocket>
 
-//#define _DISABLE_COMPRESSION
+#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject *parent) :
 	CCompressedConnection(parent)
@@ -113,7 +113,7 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 }
 void CG2Node::FlushSendQueue(bool bFullFlush)
 {
-	QByteArray* pOutput = GetOutputBuffer();
+	CBuffer* pOutput = GetOutputBuffer();
 
 	if( m_lSendQueue.isEmpty() )
 		return;	// nothing to do here
