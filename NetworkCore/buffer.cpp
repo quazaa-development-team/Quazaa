@@ -115,7 +115,10 @@ CBuffer& CBuffer::remove(const quint32 nLength)
 void CBuffer::ensure(const quint32 nLength)
 {
 	if( nLength > 0xffffffff - m_nBuffer )
-		throw std::bad_alloc("nLength > UINT_MAX in CBuffer::ensure()");
+	{
+		qWarning() << "nLength > UINT_MAX in CBuffer::ensure()";
+		throw std::bad_alloc();
+	}
 
 	if( m_nBuffer - m_nLength > nLength )
 	{
@@ -144,7 +147,10 @@ void CBuffer::ensure(const quint32 nLength)
 	char* pBuffer = (char*)qRealloc(m_pBuffer, nBuffer);
 
 	if( !pBuffer )
-		throw std::bad_alloc("Out of memory in CBuffer::ensure()");
+	{
+		qWarning() << "Out of memory in CBuffer::ensure()";
+		throw std::bad_alloc();
+	}
 
 	m_nBuffer = nBuffer;
 	m_pBuffer = pBuffer;
@@ -160,7 +166,10 @@ void CBuffer::resize(const quint32 nLength)
 	{
 		char* pBuffer = (char*)qRealloc( m_pBuffer, nLength * 2 );
 		if( !pBuffer )
-			throw std::bad_alloc("Out of memory in CBuffer::resize()");
+		{
+			qWarning() << "Out of memory in CBuffer::resize()";
+			throw std::bad_alloc();
+		}
 		m_pBuffer = pBuffer;
 		m_nBuffer = nLength * 2;
 		m_nLength = nLength;
