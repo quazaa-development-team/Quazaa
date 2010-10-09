@@ -20,7 +20,7 @@
    <string>Settings</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -70,7 +70,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="../QuazaaSkinTool/Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -127,7 +127,7 @@ p, li { white-space: pre-wrap; }
          <x>0</x>
          <y>0</y>
          <width>180</width>
-         <height>553</height>
+         <height>543</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -138,424 +138,474 @@ p, li { white-space: pre-wrap; }
          <number>4</number>
         </property>
         <item>
-         <widget class="QFrame" name="frameGeneralTask">
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+         <layout class="QVBoxLayout" name="verticalLayout_21">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QToolButton" name="toolButtonGeneralTask">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+          <item>
+           <widget class="QToolButton" name="toolButtonGeneralTask">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>General</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frameGeneralTask">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <property name="spacing">
+              <number>0</number>
              </property>
-             <property name="text">
-              <string>General</string>
+             <property name="margin">
+              <number>0</number>
              </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListWidget" name="listWidgetGeneralTask">
              <item>
-              <property name="text">
-               <string>System</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Generic/System.png</normaloff>:/Resource/Generic/System.png</iconset>
-              </property>
+              <widget class="QListWidget" name="listWidgetGeneralTask">
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <item>
+                <property name="text">
+                 <string>System</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Generic/System.png</normaloff>:/Resource/Generic/System.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Skins</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Generic/Skin.png</normaloff>:/Resource/Generic/Skin.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Library</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>File Types</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Library/PlayAlbum.png</normaloff>:/Resource/Library/PlayAlbum.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Media Player</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Search</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Integration</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Generic/Integration.png</normaloff>:/Resource/Generic/Integration.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Plugins</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Generic/Plugins.png</normaloff>:/Resource/Generic/Plugins.png</iconset>
+                </property>
+               </item>
+              </widget>
              </item>
-             <item>
-              <property name="text">
-               <string>Skins</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Generic/Skin.png</normaloff>:/Resource/Generic/Skin.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Library</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>File Types</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Library/PlayAlbum.png</normaloff>:/Resource/Library/PlayAlbum.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Media Player</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Search</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Integration</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Generic/Integration.png</normaloff>:/Resource/Generic/Integration.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Plugins</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Generic/Plugins.png</normaloff>:/Resource/Generic/Plugins.png</iconset>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QFrame" name="frameCommunityTask">
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+         <layout class="QVBoxLayout" name="verticalLayout_23">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QToolButton" name="toolButtonCommunityTask">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+          <item>
+           <widget class="QToolButton" name="toolButtonCommunityTask">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Community</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Chat/Users.png</normaloff>:/Resource/Chat/Users.png</iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frameCommunityTask">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <property name="spacing">
+              <number>0</number>
              </property>
-             <property name="text">
-              <string>Community</string>
+             <property name="margin">
+              <number>0</number>
              </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>:/Resource/Chat/Users.png</normaloff>:/Resource/Chat/Users.png</iconset>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListWidget" name="listWidgetCommunityTask">
              <item>
-              <property name="text">
-               <string>Private Messages</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
-              </property>
+              <widget class="QListWidget" name="listWidgetCommunityTask">
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Private Messages</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Chat</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Chat/Friends.png</normaloff>:/Resource/Chat/Friends.png</iconset>
+                </property>
+               </item>
+              </widget>
              </item>
-             <item>
-              <property name="text">
-               <string>Chat</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Chat/Friends.png</normaloff>:/Resource/Chat/Friends.png</iconset>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QFrame" name="frameSecurityTask">
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+         <layout class="QVBoxLayout" name="verticalLayout_25">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QToolButton" name="toolButtonSecurityTask">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+          <item>
+           <widget class="QToolButton" name="toolButtonSecurityTask">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Security</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frameSecurityTask">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <property name="spacing">
+              <number>0</number>
              </property>
-             <property name="text">
-              <string>Security</string>
+             <property name="margin">
+              <number>0</number>
              </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListWidget" name="listWidgetSecurityTask">
              <item>
-              <property name="text">
-               <string>General</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
-              </property>
+              <widget class="QListWidget" name="listWidgetSecurityTask">
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <item>
+                <property name="text">
+                 <string>General</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Parental Settings</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Security/ParentalSettings.png</normaloff>:/Resource/Security/ParentalSettings.png</iconset>
+                </property>
+               </item>
+              </widget>
              </item>
-             <item>
-              <property name="text">
-               <string>Parental Settings</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Security/ParentalSettings.png</normaloff>:/Resource/Security/ParentalSettings.png</iconset>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QFrame" name="frameNetworkTask">
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+         <layout class="QVBoxLayout" name="verticalLayout_39">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QToolButton" name="toolButtonNetworkTask">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+          <item>
+           <widget class="QToolButton" name="toolButtonNetworkTask">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Network</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frameNetworkTask">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <property name="spacing">
+              <number>0</number>
              </property>
-             <property name="text">
-              <string>Network</string>
+             <property name="margin">
+              <number>0</number>
              </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>:/Resource/Network/Network.png</normaloff>:/Resource/Network/Network.png</iconset>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListWidget" name="listWidgetNetworkTask">
              <item>
-              <property name="text">
-               <string>Connection</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
-              </property>
+              <widget class="QListWidget" name="listWidgetNetworkTask">
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Connection</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Transfers</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Downloads</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Uploads</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
+                </property>
+               </item>
+              </widget>
              </item>
-             <item>
-              <property name="text">
-               <string>Transfers</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Downloads</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Uploads</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QFrame" name="frameProtocolsTask">
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+         <layout class="QVBoxLayout" name="verticalLayout_40">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QToolButton" name="toolButtonProtocolsTask">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+          <item>
+           <widget class="QToolButton" name="toolButtonProtocolsTask">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Protocols</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Network/ConnectTo.png</normaloff>:/Resource/Network/ConnectTo.png</iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frameProtocolsTask">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="spacing">
+              <number>0</number>
              </property>
-             <property name="text">
-              <string>Protocols</string>
+             <property name="margin">
+              <number>0</number>
              </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>:/Resource/Network/ConnectTo.png</normaloff>:/Resource/Network/ConnectTo.png</iconset>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListWidget" name="listWidgetProtocolsTask">
              <item>
-              <property name="text">
-               <string>Gnutella 2</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
-              </property>
+              <widget class="QListWidget" name="listWidgetProtocolsTask">
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Gnutella 2</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Ares</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>eDonkey</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>BitTorrent</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../Resource.qrc">
+                  <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
+                </property>
+               </item>
+              </widget>
              </item>
-             <item>
-              <property name="text">
-               <string>Ares</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>eDonkey</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>BitTorrent</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <spacer name="verticalSpacer_12">
@@ -726,7 +776,7 @@ p, li { white-space: pre-wrap; }
                       <string>Ask Me</string>
                      </property>
                      <property name="icon">
-                      <iconset>
+                      <iconset resource="../Resource.qrc">
                        <normaloff>:/Resource/Generic/Help.png</normaloff>:/Resource/Generic/Help.png</iconset>
                      </property>
                     </item>
@@ -735,7 +785,7 @@ p, li { white-space: pre-wrap; }
                       <string>Close Immediately</string>
                      </property>
                      <property name="icon">
-                      <iconset>
+                      <iconset resource="../Resource.qrc">
                        <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
                      </property>
                     </item>
@@ -744,7 +794,7 @@ p, li { white-space: pre-wrap; }
                       <string>Minimize to Tray</string>
                      </property>
                      <property name="icon">
-                      <iconset>
+                      <iconset resource="../Resource.qrc">
                        <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
                      </property>
                     </item>
@@ -753,7 +803,7 @@ p, li { white-space: pre-wrap; }
                       <string>Close After Transfers</string>
                      </property>
                      <property name="icon">
-                      <iconset>
+                      <iconset resource="../Resource.qrc">
                        <normaloff>:/Resource/Generic/ExitAfterTransfers.png</normaloff>:/Resource/Generic/ExitAfterTransfers.png</iconset>
                      </property>
                     </item>
@@ -2459,7 +2509,7 @@ p, li { white-space: pre-wrap; }
                      <string>Browse For Completed Files</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="../Resource.qrc">
                       <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -2498,7 +2548,7 @@ p, li { white-space: pre-wrap; }
                      <string>Browse For Temporary Files</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="../Resource.qrc">
                       <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -3160,7 +3210,7 @@ p, li { white-space: pre-wrap; }
                      <string>Browse For Completed</string>
                     </property>
                     <property name="icon">
-                     <iconset>
+                     <iconset resource="../Resource.qrc">
                       <normaloff>:/Resource/Library/BrowseFolder.png</normaloff>:/Resource/Library/BrowseFolder.png</iconset>
                     </property>
                     <property name="iconSize">
@@ -3261,7 +3311,7 @@ p, li { white-space: pre-wrap; }
                      <string/>
                     </property>
                     <property name="pixmap">
-                     <pixmap>:/Resource/Networks/Gnutella2.png</pixmap>
+                     <pixmap resource="../Resource.qrc">:/Resource/Networks/Gnutella2.png</pixmap>
                     </property>
                     <property name="scaledContents">
                      <bool>false</bool>
@@ -3329,7 +3379,7 @@ p, li { white-space: pre-wrap; }
                      <string/>
                     </property>
                     <property name="pixmap">
-                     <pixmap>:/Resource/Networks/Ares.png</pixmap>
+                     <pixmap resource="../Resource.qrc">:/Resource/Networks/Ares.png</pixmap>
                     </property>
                     <property name="scaledContents">
                      <bool>false</bool>
@@ -3391,7 +3441,7 @@ p, li { white-space: pre-wrap; }
                      <string/>
                     </property>
                     <property name="pixmap">
-                     <pixmap>:/Resource/Networks/EDonkey.png</pixmap>
+                     <pixmap resource="../Resource.qrc">:/Resource/Networks/EDonkey.png</pixmap>
                     </property>
                     <property name="scaledContents">
                      <bool>false</bool>
@@ -3480,7 +3530,7 @@ p, li { white-space: pre-wrap; }
                      <string/>
                     </property>
                     <property name="pixmap">
-                     <pixmap>:/Resource/Networks/BitTorrent.png</pixmap>
+                     <pixmap resource="../Resource.qrc">:/Resource/Networks/BitTorrent.png</pixmap>
                     </property>
                     <property name="scaledContents">
                      <bool>false</bool>
@@ -3517,7 +3567,9 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>toolButtonGeneralTask</sender>
