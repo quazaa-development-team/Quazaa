@@ -3574,80 +3574,80 @@ p, li { white-space: pre-wrap; }
   <connection>
    <sender>toolButtonGeneralTask</sender>
    <signal>toggled(bool)</signal>
-   <receiver>listWidgetGeneralTask</receiver>
+   <receiver>frameGeneralTask</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>56</x>
-     <y>-100</y>
+     <x>55</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
-     <x>55</x>
-     <y>-79</y>
+     <x>89</x>
+     <y>120</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>toolButtonCommunityTask</sender>
    <signal>toggled(bool)</signal>
-   <receiver>listWidgetCommunityTask</receiver>
+   <receiver>frameCommunityTask</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>113</x>
-     <y>19</y>
+     <x>112</x>
+     <y>162</y>
     </hint>
     <hint type="destinationlabel">
-     <x>108</x>
-     <y>55</y>
+     <x>89</x>
+     <y>227</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>toolButtonSecurityTask</sender>
    <signal>toggled(bool)</signal>
-   <receiver>listWidgetSecurityTask</receiver>
+   <receiver>frameSecurityTask</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>17</x>
-     <y>131</y>
+     <x>16</x>
+     <y>269</y>
     </hint>
     <hint type="destinationlabel">
-     <x>18</x>
-     <y>139</y>
+     <x>89</x>
+     <y>334</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>toolButtonNetworkTask</sender>
    <signal>toggled(bool)</signal>
-   <receiver>listWidgetNetworkTask</receiver>
+   <receiver>frameNetworkTask</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>96</x>
-     <y>234</y>
+     <x>95</x>
+     <y>376</y>
     </hint>
     <hint type="destinationlabel">
-     <x>100</x>
-     <y>251</y>
+     <x>89</x>
+     <y>441</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>toolButtonProtocolsTask</sender>
    <signal>toggled(bool)</signal>
-   <receiver>listWidgetProtocolsTask</receiver>
+   <receiver>frameProtocolsTask</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>153</x>
-     <y>326</y>
+     <x>152</x>
+     <y>483</y>
     </hint>
     <hint type="destinationlabel">
-     <x>155</x>
-     <y>350</y>
+     <x>89</x>
+     <y>548</y>
     </hint>
    </hints>
   </connection>
