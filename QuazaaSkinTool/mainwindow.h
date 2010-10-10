@@ -61,6 +61,7 @@ private:
 	QColor colorWarning;
 	QColor colorError;
 	QColor colorCritical;
+	QMenu menuPreview;
 
 private slots:
 	void on_checkBoxBoldListsHighlighted_clicked(bool checked);
