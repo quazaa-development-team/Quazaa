@@ -26,30 +26,28 @@
 #include <QTcpSocket>
 #include <QMutexLocker>
 #include <QTimer>
+#include <QMetaObject>
 
-CRateController::CRateController(QObject* parent): QObject(parent)
+CRateController::CRateController(QMutex* pMutex, QObject* parent): QObject(parent)
 {
 	m_bTransferSheduled = false;
 	m_nUploadLimit = std::numeric_limits<qint32>::max() / 2;
 	m_nDownloadLimit = std::numeric_limits<qint32>::max() / 2;
 	m_tStopWatch.invalidate();
+
+	m_pMutex = pMutex;
 }
 
 void CRateController::AddSocket(CNetworkConnection* pSock)
 {
-	QMutexLocker l(&m_oMutex);
-
-	//qDebug() << "CRC /" << objectName() << "/ AddSocket " << pSock;
 	connect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
 	pSock->setReadBufferSize(8192);
 	m_lSockets.insert(pSock);
-	sheduleTransfer();
+
+	QMetaObject::invokeMethod(this, "sheduleTransfer", Qt::QueuedConnection);
 }
 void CRateController::RemoveSocket(CNetworkConnection* pSock)
 {
-	QMutexLocker l(&m_oMutex);
-
-	//qDebug() << "CRC /" << objectName() << "/ RemoveSocket " << pSock;
 	disconnect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
 	pSock->setReadBufferSize(0);
 	m_lSockets.remove(pSock);
@@ -66,11 +64,7 @@ void CRateController::transfer()
 {
 	m_bTransferSheduled = false;
 
-	if( !m_oMutex.tryLock() )
-	{
-		sheduleTransfer();
-		return;
-	}
+	QMutexLocker l(m_pMutex);
 
 	qint64 nMsecs = 1000;
 	if( m_tStopWatch.isValid() )
@@ -81,7 +75,6 @@ void CRateController::transfer()
 
 	if( nToRead <= 0 && nToWrite <= 0 )
 	{
-		m_oMutex.unlock();
 		sheduleTransfer();
 		return;
 	}
@@ -98,7 +91,6 @@ void CRateController::transfer()
 
 	if( lSockets.isEmpty() )
 	{
-		m_oMutex.unlock();
 		return;
 	}
 
@@ -165,9 +157,7 @@ void CRateController::transfer()
 	}
 	while ( bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty() );
 
-	m_oMutex.unlock();
-
-	if( bCanTransferMore )
+	if( bCanTransferMore || !lSockets.isEmpty() )
 	{
 		sheduleTransfer();
 	}

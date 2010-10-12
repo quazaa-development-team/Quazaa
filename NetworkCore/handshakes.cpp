@@ -97,7 +97,7 @@ void CHandshakes::RemoveHandshake(CHandshake *pHs)
 
 void CHandshakes::SetupThread()
 {
-	m_pController = new CRateController();
+	m_pController = new CRateController(&m_pSection);
 
 	m_pController->moveToThread(&HandshakesThread); // should not be necesarry
 

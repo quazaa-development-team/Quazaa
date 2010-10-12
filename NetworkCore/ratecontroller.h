@@ -37,7 +37,7 @@ protected:
     qint64  m_nUploadLimit;
     qint64  m_nDownloadLimit;
 	bool    m_bTransferSheduled;
-	QMutex	m_oMutex;
+	QMutex*	m_pMutex;
 
 	QElapsedTimer   m_tStopWatch;
 
@@ -48,7 +48,7 @@ public:
 	TCPBandwidthMeter	m_mUpload;
 
 public:
-    CRateController(QObject* parent = 0);
+	CRateController(QMutex* pMutex, QObject* parent = 0);
     void AddSocket(CNetworkConnection* pSock);
     void RemoveSocket(CNetworkConnection* pSock);
 

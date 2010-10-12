@@ -51,7 +51,7 @@ void CNeighbours::Connect()
 
 	Q_ASSERT(m_pController == 0);
 
-	m_pController = new CRateController();
+	m_pController = new CRateController(&m_pSection);
 	m_pController->SetDownloadLimit(quazaaSettings.Connection.InSpeed);
 	m_pController->SetUploadLimit(quazaaSettings.Connection.OutSpeed);
 
