@@ -674,22 +674,22 @@ void CNetwork::RoutePackets()
 					oPair.second->Release();
 				}
 
+				while( !Datagrams.m_lPendingQKA.isEmpty() && !oTimer.hasExpired(250) )
+				{
+					QPair<quint32,G2Packet*> oPair = Datagrams.m_lPendingQKA.takeFirst();
+
+					if( CG2Node* pNode = Neighbours.Find(oPair.first) )
+					{
+						pNode->SendPacket(oPair.second, true, true);
+					}
+					else
+					{
+						oPair.second->Release();
+					}
+				}
+
 				nWhatToRoute = 0;
 				break;
-			}
-
-			while( !Datagrams.m_lPendingQKA.isEmpty() && !oTimer.hasExpired(250) )
-			{
-				QPair<quint32,G2Packet*> oPair = Datagrams.m_lPendingQKA.takeFirst();
-
-				if( CG2Node* pNode = Neighbours.Find(oPair.first) )
-				{
-					pNode->SendPacket(oPair.second, true, true);
-				}
-				else
-				{
-					oPair.second->Release();
-				}
 			}
 
 			m_bPacketsPending = (!Datagrams.m_lPendingQA.isEmpty() || !Datagrams.m_lPendingQH2.isEmpty() || !Datagrams.m_lPendingQKA.isEmpty());

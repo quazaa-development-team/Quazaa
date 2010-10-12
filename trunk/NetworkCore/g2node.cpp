@@ -36,7 +36,7 @@
 
 #include <QTcpSocket>
 
-#define _DISABLE_COMPRESSION
+//#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject *parent) :
 	CCompressedConnection(parent)
@@ -53,6 +53,7 @@ CG2Node::CG2Node(QObject *parent) :
 	m_tLastQuery = 0;
 	m_tKeyRequest= 0;
 	m_bCachedKeys = false;
+	m_bG2Core = false;
 
 	m_pLocalTable = 0;
 	m_pRemoteTable = 0;
