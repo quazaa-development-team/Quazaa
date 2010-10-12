@@ -230,14 +230,10 @@ CHostCacheHost* CHostCache::Find(IPv4_ENDPOINT oHost)
 
 void CHostCache::OnFailure(IPv4_ENDPOINT addr)
 {
-    foreach( CHostCacheHost* pHost, m_lHosts )
-    {
-        if( pHost->m_oAddress == addr )
-        {
-            Remove(pHost);
-            break;
-        }
-    }
+	if( CHostCacheHost* pHost = Find(addr) )
+	{
+		Remove(pHost);
+	}
 }
 
 void CHostCache::Save()

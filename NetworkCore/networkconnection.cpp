@@ -61,7 +61,7 @@ CNetworkConnection::~CNetworkConnection()
         delete m_pOutput;
 
     if( m_pSocket )
-        m_pSocket->deleteLater();
+		delete m_pSocket;
 }
 
 void CNetworkConnection::ConnectTo(IPv4_ENDPOINT oAddress)

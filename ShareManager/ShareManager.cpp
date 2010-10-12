@@ -142,8 +142,8 @@ void CShareManager::CleanupThread()
 	if( m_oDatabase.isOpen() )
 	{
 		qDebug() << "Closing Database connection.";
+		QSqlDatabase::database("Shares").close();
 		QSqlDatabase::removeDatabase("Shares");
-		m_oDatabase.close();
 	}
 }
 

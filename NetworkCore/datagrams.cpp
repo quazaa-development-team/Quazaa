@@ -681,6 +681,8 @@ void CDatagrams::OnCRAWLR(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 	pTmp->WritePacket("NA", 6)->WriteHostAddress(&Network.m_oAddress);
 	pTmp->WritePacket("CV", quazaaGlobals.UserAgentString().toUtf8().size())->WriteString(quazaaGlobals.UserAgentString(), false);
 	pTmp->WritePacket("V", 4)->WriteString(quazaaGlobals.VendorCode(), false);;
+	quint16 nLeaves = Neighbours.m_nLeavesConnected;
+	pTmp->WritePacket("HS", 2)->WriteIntLE(nLeaves);
 	if( !quazaaSettings.Profile.GnutellaScreenName.isEmpty() )
 		pTmp->WritePacket("NAME", quazaaSettings.Profile.GnutellaScreenName.left(255).toUtf8().size())->WriteString(quazaaSettings.Profile.GnutellaScreenName.left(255));
 
@@ -696,6 +698,7 @@ void CDatagrams::OnCRAWLR(IPv4_ENDPOINT &addr, G2Packet *pPacket)
 			{
 				G2Packet* pNH = G2Packet::New("NH");
 				pNH->WritePacket("NA", 6)->WriteHostAddress(&pNode->m_oAddress);
+				pNH->WritePacket("HS", 2)->WriteIntLE(pNode->m_nLeafCount);
 				pCA->WritePacket(pNH);
 				pNH->Release();
 			}
