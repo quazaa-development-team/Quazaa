@@ -251,6 +251,8 @@ void CDatagrams::OnReceiveGND()
 	}
 	else
 	{
+		QMutexLocker l(&m_pSection);
+
 		if( !m_FreeDGIn.isEmpty() )
 		{
 			pDG = m_FreeDGIn.takeFirst();
@@ -259,7 +261,7 @@ void CDatagrams::OnReceiveGND()
 		{
 			if( m_FreeDGIn.isEmpty() )
 			{
-				RemoveOldIn(true);
+				RemoveOldIn();
 				if( m_FreeDGIn.isEmpty() )
 				{
 					qDebug() << "UDP in frames exhausted";
@@ -325,7 +327,9 @@ void CDatagrams::OnReceiveGND()
 		if( pPacket )
 			pPacket->Release();
 
+		m_pSection.lock();
 		Remove(pDG, true);
+		m_pSection.unlock();
 	}
 
 }
@@ -347,7 +351,6 @@ void CDatagrams::OnAcknowledgeGND()
 
 void CDatagrams::Remove(DatagramIn *pDG, bool bReclaim)
 {
-
 	for( int i = 0; i < pDG->m_nCount; i++ )
 	{
 		if( pDG->m_pBuffer[i] )

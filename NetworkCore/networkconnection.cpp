@@ -248,9 +248,7 @@ qint64 CNetworkConnection::readData(char* data, qint64 maxlen)
 
 	if( m_pSocket->state() != QTcpSocket::ConnectedState )
     {
-        int nOldSize = m_pInput->size();
-        m_pInput->resize(nOldSize + m_pSocket->bytesAvailable());
-        m_pSocket->read(m_pInput->data() + nOldSize, m_pInput->size() - nOldSize);
+		m_pInput->append(m_pSocket->readAll());
     }
 
 	m_bReadyReadSent = false;
