@@ -261,7 +261,7 @@ void CDatagrams::OnReceiveGND()
 		{
 			if( m_FreeDGIn.isEmpty() )
 			{
-				RemoveOldIn();
+				RemoveOldIn(true);
 				if( m_FreeDGIn.isEmpty() )
 				{
 					qDebug() << "UDP in frames exhausted";
