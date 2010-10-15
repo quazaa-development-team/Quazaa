@@ -61,7 +61,8 @@ private:
 	QColor colorWarning;
 	QColor colorError;
 	QColor colorCritical;
-	QMenu menuPreview;
+	QMenu *menuPreview;
+	QMenu *menuPreviewSubmenu;
 
 private slots:
 	void on_checkBoxBoldListsHighlighted_clicked(bool checked);
@@ -140,6 +141,7 @@ private slots:
 	void on_checkBoxBoldUsersHalfOperator_clicked(bool checked);
 	void on_toolButtonColorUsersVoiced_clicked();
 	void on_checkBoxBoldUsersVoiced_clicked(bool checked);
+	void contextMenuEvent(QContextMenuEvent *event);
 };
 
 #endif // MAINWINDOW_H
