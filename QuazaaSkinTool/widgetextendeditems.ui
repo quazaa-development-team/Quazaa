@@ -31,8 +31,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>818</width>
-         <height>280</height>
+         <width>801</width>
+         <height>279</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -82,8 +82,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>393</width>
-              <height>280</height>
+              <width>334</width>
+              <height>279</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayoutScrollAreaHomeSidebar">
@@ -105,7 +105,7 @@
                 <string>Add Search Button</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="Resource.qrc">
                  <normaloff>:/Resource/Search.png</normaloff>:/Resource/Search.png</iconset>
                </property>
                <property name="iconSize">
@@ -149,7 +149,7 @@ QToolButton:hover {
                   <string>Sidebar Task Header</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -315,7 +315,7 @@ p, li { white-space: pre-wrap; }
                   <string>Un-Clickable Sidebar Task Header</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/Help.png</normaloff>:/Resource/Help.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -391,7 +391,7 @@ p, li { white-space: pre-wrap; }
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap>:/Resource/ChatWelcome.png</pixmap>
+                  <pixmap resource="Resource.qrc">:/Resource/ChatWelcome.png</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>false</bool>
@@ -619,7 +619,7 @@ QToolButton::menu-button:hover {
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap>:/Resource/Library.png</pixmap>
+                  <pixmap resource="Resource.qrc">:/Resource/Library.png</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>true</bool>
@@ -632,7 +632,7 @@ QToolButton::menu-button:hover {
                   <string>Menu Button</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -674,7 +674,7 @@ QToolButton::menu-button:hover {
                   <string>Toggle Button</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Resource.qrc">
                    <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -720,7 +720,11 @@ QToolButton::menu-button:hover {
         <property name="title">
          <string>Menu Item 2</string>
         </property>
+        <addaction name="actionMenu_Item"/>
+        <addaction name="actionMenu_Item_2"/>
        </widget>
+       <addaction name="actionMenu_Item"/>
+       <addaction name="actionMenu_Item_2"/>
        <addaction name="separator"/>
        <addaction name="menuMenu_Item_2"/>
       </widget>
@@ -728,11 +732,15 @@ QToolButton::menu-button:hover {
        <property name="title">
         <string>Menu Bar Item 2</string>
        </property>
+       <addaction name="actionMenu_Item"/>
+       <addaction name="actionMenu_Item_2"/>
       </widget>
       <widget class="QMenu" name="menuMenu_Bar_Item_3">
        <property name="title">
         <string>Menu Bar Item 3</string>
        </property>
+       <addaction name="actionMenu_Item"/>
+       <addaction name="actionMenu_Item_2"/>
       </widget>
       <addaction name="menuMenu_Item"/>
       <addaction name="menuMenu_Bar_Item_2"/>
@@ -758,7 +766,7 @@ QToolButton::menu-button:hover {
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="actionStandardToolbar"/>
   </widget>
@@ -817,7 +825,7 @@ QToolButton::menu-button:hover {
   </widget>
   <action name="actionStandardToolbar">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
    </property>
    <property name="text">
@@ -826,7 +834,7 @@ QToolButton::menu-button:hover {
   </action>
   <action name="actionMediaToolbar">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Media.png</normaloff>:/Resource/Media.png</iconset>
    </property>
    <property name="text">
@@ -835,7 +843,7 @@ QToolButton::menu-button:hover {
   </action>
   <action name="actionChatToolbar">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resource.qrc">
      <normaloff>:/Resource/Chat.png</normaloff>:/Resource/Chat.png</iconset>
    </property>
    <property name="text">
@@ -845,7 +853,27 @@ QToolButton::menu-button:hover {
     <string>Chat Toolbar</string>
    </property>
   </action>
+  <action name="actionMenu_Item">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
+   </property>
+   <property name="text">
+    <string>Menu Item</string>
+   </property>
+  </action>
+  <action name="actionMenu_Item_2">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/Resource/star.png</normaloff>:/Resource/star.png</iconset>
+   </property>
+   <property name="text">
+    <string>Menu Item 2</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -55,6 +55,14 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->plainTextEditStyleSheet->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(ui->plainTextEditStyleSheet, SIGNAL(customContextMenuRequested(QPoint)),
 				this, SLOT(slotContextMenuRequested()));
+	menuPreview = new QMenu(ui->pageStandardItems);
+	menuPreviewSubmenu = new QMenu(tr("Submenu"), menuPreview);
+	menuPreview->addAction(ui->actionMenu_Item);
+	menuPreview->addAction(ui->actionMenu_Item_2);
+	menuPreview->addSeparator();
+	menuPreviewSubmenu->addAction(ui->actionMenu_Item);
+	menuPreviewSubmenu->addAction(ui->actionMenu_Item_2);
+	menuPreview->addMenu(menuPreviewSubmenu);
 
 	m_addImageAction = new QAction(tr("Add Image..."), this);
 	m_addGradientAction = new QAction(tr("Add Gradient..."), this);
@@ -2066,3 +2074,10 @@ void MainWindow::on_checkBoxBoldUsersVoiced_clicked(bool checked)
 		skinSettings.chatUsersWeightVoiced = 50;
 	}
 }
+
+void MainWindow::contextMenuEvent(QContextMenuEvent *event)
+{
+	if (ui->scrollAreaWidgetContents_2->underMouse() || ui->frame->underMouse())
+		menuPreview->exec(event->globalPos());
+}
+
