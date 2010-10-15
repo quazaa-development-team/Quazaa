@@ -4,10 +4,10 @@
 #include "../QSkinDialog/qskinsettings.h"
 
 WidgetExtendedItems::WidgetExtendedItems(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetExtendedItems)
+	QMainWindow(parent),
+	ui(new Ui::WidgetExtendedItems)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	ui->toolBarMainMenu->addWidget(ui->menuBarPreview);
 	seekSlider = new QSlider();
 	seekSlider->setOrientation(Qt::Horizontal);
@@ -25,23 +25,24 @@ WidgetExtendedItems::WidgetExtendedItems(QWidget *parent) :
 
 WidgetExtendedItems::~WidgetExtendedItems()
 {
-    delete ui;
+	delete ui;
 }
 
 void WidgetExtendedItems::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetExtendedItems::skinChangeEvent()
 {
+	this->setStyleSheet(skinSettings.standardItems);
 	ui->scrollAreaSidebar->setStyleSheet(skinSettings.sidebarBackground);
 	ui->toolButtonSidebarTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
 	ui->frameSidebarTask->setStyleSheet(skinSettings.sidebarTaskBackground);
