@@ -63,6 +63,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	menuPreviewSubmenu->addAction(ui->actionMenu_Item);
 	menuPreviewSubmenu->addAction(ui->actionMenu_Item_2);
 	menuPreview->addMenu(menuPreviewSubmenu);
+	ui->comboBox_2->setView(new QListView());
+	ui->comboBox_3->setView(new QListView());
 
 	m_addImageAction = new QAction(tr("Add Image..."), this);
 	m_addGradientAction = new QAction(tr("Add Gradient..."), this);
