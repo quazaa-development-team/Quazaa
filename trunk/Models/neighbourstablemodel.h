@@ -33,25 +33,26 @@ class CG2Node;
 
 typedef struct
 {
-	CG2Node*    pNode;
-	G2NodeType  nType;
-	int         nState;
-	quint32     tConnected;
-	quint32     nPacketsIn;
-	quint32     nPacketsOut;
-	quint32     nBandwidthIn;
-	quint32     nBandwidthOut;
-	quint64     nBytesSent;
-	quint64     nBytesReceived;
-	float       nCompressionIn;
-	float       nCompressionOut;
-	quint32     nLeafCount;
-	quint32     nLeafMax;
-	qint64      nRTT;
-	QString     sUserAgent;
-	QString		sCountry;
-	QIcon		iNetwork;
-	QIcon		iCountry;
+	CG2Node*	  pNode;
+	IPv4_ENDPOINT oAddress;
+	G2NodeType    nType;
+	int           nState;
+	quint32       tConnected;
+	quint32       nPacketsIn;
+	quint32       nPacketsOut;
+	quint32       nBandwidthIn;
+	quint32       nBandwidthOut;
+	quint64       nBytesSent;
+	quint64       nBytesReceived;
+	float         nCompressionIn;
+	float         nCompressionOut;
+	quint32       nLeafCount;
+	quint32       nLeafMax;
+	qint64        nRTT;
+	QString       sUserAgent;
+	QString		  sCountry;
+	QIcon		  iNetwork;
+	QIcon		  iCountry;
 } sNeighbour;
 
 class CNeighboursTableModel : public QAbstractTableModel
