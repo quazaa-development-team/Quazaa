@@ -199,7 +199,7 @@ void CG2Node::OnDisconnect()
 	//QMutexLocker l(&Neighbours.m_pSection);
 	//qDebug("OnDisconnect()");
 	systemLog.postLog(LogSeverity::Information, "Connection with %s was dropped: %s", qPrintable(m_oAddress.toString()), qPrintable(m_pSocket->errorString()));
-	deleteLater();
+	delete this;
 }
 
 void CG2Node::OnRead()
@@ -247,29 +247,22 @@ void CG2Node::OnRead()
 
 			qDebug() << "Packet error - " << m_oAddress.toString().toAscii();
 			m_nState = nsClosing;
-			Neighbours.m_pSection.lock();
-			Neighbours.RemoveNode(this);
 			emit NodeStateChanged();
-			deleteLater();
-			Neighbours.m_pSection.unlock();
+			delete this;
 		}
 	}
 
 }
 void CG2Node::OnError(QAbstractSocket::SocketError e)
 {
-	QMutexLocker l(&Neighbours.m_pSection);
-
 	if( e != QAbstractSocket::RemoteHostClosedError )
 	{
 		HostCache.OnFailure(m_oAddress);
 	}
 
-	Neighbours.RemoveNode(this);
-
 	//systemLog.postLog(tr("Remote host closed connection: ") + m_oAddress.toString() + tr(". Error: ") + m_pSocket->errorString(), LogSeverity::Notice);
 	//qDebug() << "OnError(" << e << ")" << m_oAddress.toString();
-	deleteLater();
+	delete this;
 }
 
 void CG2Node::OnStateChange(QAbstractSocket::SocketState s)
@@ -468,7 +461,6 @@ void CG2Node::ParseIncomingHandshake()
 			{
 				qDebug() << "Inflate init error!";
 				Close();
-				deleteLater();
 				return;
 			}
 		}
@@ -479,7 +471,6 @@ void CG2Node::ParseIncomingHandshake()
 			{
 				qDebug() << "Deflate init error!";
 				Close();
-				deleteLater();
 				return;
 			}
 		}
@@ -575,7 +566,6 @@ void CG2Node::ParseOutgoingHandshake()
 		{
 			qDebug() << "Inflate init error!";
 			Close();
-			deleteLater();
 			return;
 		}
 	}
@@ -618,7 +608,6 @@ void CG2Node::ParseOutgoingHandshake()
 		{
 			qDebug() << "Deflate init error!";
 			Close();
-			deleteLater();
 			return;
 		}
 	}
@@ -1092,7 +1081,7 @@ void CG2Node::OnQHT(G2Packet* pPacket)
 	if( m_nType == G2_LEAF && m_pRemoteTable && m_pRemoteTable->GetPercent() > 90 )
 	{
 		systemLog.postLog(LogSeverity::Error, "Dropping neighbour %s - hash table too full.", m_oAddress.toString().toAscii().constData());
-		Close(0);
+		Close();
 		return;
 	}
 

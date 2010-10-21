@@ -92,7 +92,7 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 		switch( index.column() )
 		{
 		case 0:
-			return n.pNode->GetAddress().toString();
+			return const_cast<IPv4_ENDPOINT*>(&n.oAddress)->toString();
 		case 1:
 			return StateToString(n.nState);
 		case 2:
@@ -244,6 +244,7 @@ void CNeighboursTableModel::AddNode(CG2Node *pNode, bool bSignal)
 
 	beginInsertRows(QModelIndex(), m_lNodes.size(), m_lNodes.size());
 	nbr.pNode = pNode;
+	nbr.oAddress = pNode->GetAddress();
 	nbr.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
 	nbr.tConnected = tNow - pNode->m_tConnected;
 	nbr.nBandwidthIn = pNode->m_mInput.Usage();
@@ -298,6 +299,7 @@ void CNeighboursTableModel::UpdateNode(CG2Node *pNode, bool bSignal)
 	{
 		if( m_lNodes.at(i).pNode == pNode )
 		{
+			m_lNodes[i].oAddress = pNode->GetAddress();
 			m_lNodes[i].tConnected = tNow - pNode->m_tConnected;
 			m_lNodes[i].nBandwidthIn = pNode->m_mInput.Usage();
 			m_lNodes[i].nBandwidthOut = pNode->m_mOutput.Usage();
