@@ -28,40 +28,46 @@
 #include "buffer.h"
 
 CNetworkConnection::CNetworkConnection(QObject* parent)
-	:QObject(parent)
+	: QObject(parent)
 {
 	static bool bMetaRegistered = false;
-	if( !bMetaRegistered )
+	if(!bMetaRegistered)
 	{
 		qRegisterMetaType<QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
 		qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
 		bMetaRegistered = true;
 	}
 
-    //qDebug() << "CNetworkConnection constructor";
+	//qDebug() << "CNetworkConnection constructor";
 
-    m_pSocket = 0;
+	m_pSocket = 0;
 
-    m_pInput = 0;
-    m_pOutput = 0;
+	m_pInput = 0;
+	m_pOutput = 0;
 
-    m_bInitiated = false;
-    m_bConnected = false;
-    m_tConnected = 0;
+	m_bInitiated = false;
+	m_bConnected = false;
+	m_tConnected = 0;
 	m_bDelayedClose = false;
 	m_bReadyReadSent = false;
 }
 CNetworkConnection::~CNetworkConnection()
 {
-    //qDebug() << "CNetworkConnection destructor";
+	//qDebug() << "CNetworkConnection destructor";
 
-    if( m_pInput )
-        delete m_pInput;
-    if( m_pOutput )
-        delete m_pOutput;
+	if(m_pInput)
+	{
+		delete m_pInput;
+	}
+	if(m_pOutput)
+	{
+		delete m_pOutput;
+	}
 
-    if( m_pSocket )
+	if(m_pSocket)
+	{
 		delete m_pSocket;
+	}
 }
 
 void CNetworkConnection::ConnectTo(IPv4_ENDPOINT oAddress)
@@ -91,9 +97,9 @@ void CNetworkConnection::ConnectTo(QHostAddress oAddress, quint16 nPort)
 
 }
 
-void CNetworkConnection::AttachTo(CNetworkConnection *pOther)
+void CNetworkConnection::AttachTo(CNetworkConnection* pOther)
 {
-    Q_ASSERT(m_pSocket == 0);
+	Q_ASSERT(m_pSocket == 0);
 	m_pSocket = pOther->m_pSocket;
 	pOther->m_pSocket = 0;
 
@@ -101,18 +107,18 @@ void CNetworkConnection::AttachTo(CNetworkConnection *pOther)
 	m_tConnected = pOther->m_tConnected;
 	m_bInitiated = pOther->m_bInitiated;
 
-    Q_ASSERT(m_pInput == 0);
-    Q_ASSERT(m_pOutput == 0);
+	Q_ASSERT(m_pInput == 0);
+	Q_ASSERT(m_pOutput == 0);
 	m_pInput = pOther->m_pInput;
 	m_pOutput = pOther->m_pOutput;
 	pOther->m_pInput = pOther->m_pOutput = 0;
 
-    m_oAddress.ip = m_pSocket->peerAddress().toIPv4Address();
-    m_oAddress.port = m_pSocket->peerPort();
+	m_oAddress.ip = m_pSocket->peerAddress().toIPv4Address();
+	m_oAddress.port = m_pSocket->peerPort();
 
-    initializeSocket();
+	initializeSocket();
 
-	if( !m_bReadyReadSent )
+	if(!m_bReadyReadSent)
 	{
 		m_bReadyReadSent = true;
 		emit readyRead();
@@ -145,10 +151,10 @@ void CNetworkConnection::AcceptFrom(int nHandle)
 
 void CNetworkConnection::Close(bool bDelayed)
 {
-	if( bDelayed )
+	if(bDelayed)
 	{
 		m_bDelayedClose = true;
-		if( !GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty() )
+		if(!GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty())
 		{
 			writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
 			m_pSocket->flush();
@@ -162,10 +168,12 @@ void CNetworkConnection::Close(bool bDelayed)
 	emit disconnected();
 }
 
-void CNetworkConnection::moveToThread(QThread *thread)
+void CNetworkConnection::moveToThread(QThread* thread)
 {
-	if( m_pSocket )
+	if(m_pSocket)
+	{
 		m_pSocket->moveToThread(thread);
+	}
 	QObject::moveToThread(thread);
 }
 
@@ -174,36 +182,36 @@ void CNetworkConnection::initializeSocket()
 	m_pSocket->disconnect();
 
 	connect(m_pSocket, SIGNAL(connected()),
-			this, SIGNAL(connected()));
+	        this, SIGNAL(connected()));
 	connect(m_pSocket, SIGNAL(connected()),
-			this, SIGNAL(readyToTransfer()));
+	        this, SIGNAL(readyToTransfer()));
 	connect(m_pSocket, SIGNAL(readyRead()),
-			this, SIGNAL(readyToTransfer()));
-    connect(m_pSocket, SIGNAL(disconnected()),
-			this, SIGNAL(disconnected()));
-    connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-			this, SIGNAL(error(QAbstractSocket::SocketError)));
-    connect(m_pSocket, SIGNAL(bytesWritten(qint64)),
-			this, SIGNAL(bytesWritten(qint64)));
-    connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
-			this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
+	        this, SIGNAL(readyToTransfer()));
+	connect(m_pSocket, SIGNAL(disconnected()),
+	        this, SIGNAL(disconnected()));
+	connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),
+	        this, SIGNAL(error(QAbstractSocket::SocketError)));
+	connect(m_pSocket, SIGNAL(bytesWritten(qint64)),
+	        this, SIGNAL(bytesWritten(qint64)));
+	connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
+	        this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
 	connect(m_pSocket, SIGNAL(aboutToClose()),
-			this, SLOT(OnAboutToClose()));
+	        this, SLOT(OnAboutToClose()));
 }
 
 qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)
 {
-    Q_ASSERT(m_pInput != 0);
-    Q_ASSERT(nBytes >= 0);
+	Q_ASSERT(m_pInput != 0);
+	Q_ASSERT(nBytes >= 0);
 
-    int nOldSize = m_pInput->size();
+	int nOldSize = m_pInput->size();
 	qint64 nBytesRead = 0;
 
-	if( m_pSocket->state() != QTcpSocket::ConnectedState )
-    {
-        m_pInput->append(m_pSocket->readAll());
+	if(m_pSocket->state() != QTcpSocket::ConnectedState)
+	{
+		m_pInput->append(m_pSocket->readAll());
 		nBytesRead += m_pInput->size() - nOldSize;
-    }
+	}
 	else
 	{
 		m_pInput->resize(nOldSize + nBytes);
@@ -211,66 +219,68 @@ qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)
 		m_pInput->resize((nBytesRead <= 0 ? nOldSize : nOldSize + nBytesRead));
 	}
 
-    if( nBytesRead > 0 )
-    {
+	if(nBytesRead > 0)
+	{
 		m_mInput.Add(nBytesRead);
-		if( !m_bReadyReadSent )
+		if(!m_bReadyReadSent)
 		{
 			m_bReadyReadSent = true;
 			emit readyRead();
 		}
-    }
+	}
 
-    return nBytesRead;
+	return nBytesRead;
 }
 qint64 CNetworkConnection::writeToNetwork(qint64 nBytes)
 {
-    Q_ASSERT(m_pOutput != 0);
-    Q_ASSERT(nBytes >= 0);
+	Q_ASSERT(m_pOutput != 0);
+	Q_ASSERT(nBytes >= 0);
 
-    qint64 nBytesWritten = m_pSocket->write(m_pOutput->data(), qMin((qint64)m_pOutput->size(), nBytes));
+	qint64 nBytesWritten = m_pSocket->write(m_pOutput->data(), qMin((qint64)m_pOutput->size(), nBytes));
 
-    if( nBytesWritten <= 0 )
-        return nBytesWritten;
+	if(nBytesWritten <= 0)
+	{
+		return nBytesWritten;
+	}
 
-    m_pOutput->remove(0, nBytesWritten);
+	m_pOutput->remove(0, nBytesWritten);
 	m_mOutput.Add(nBytesWritten);
 
-    return nBytesWritten;
+	return nBytesWritten;
 }
 qint64 CNetworkConnection::readData(char* data, qint64 maxlen)
 {
-    Q_ASSERT(m_pInput != 0);
+	Q_ASSERT(m_pInput != 0);
 
-    int nBytesRead = qMin<qint64>(maxlen, m_pInput->size());
+	int nBytesRead = qMin<qint64>(maxlen, m_pInput->size());
 	memcpy(data, m_pInput->data(), nBytesRead);
-    m_pInput->remove(0, nBytesRead);
+	m_pInput->remove(0, nBytesRead);
 
-	if( m_pSocket->state() != QTcpSocket::ConnectedState )
-    {
+	if(m_pSocket->state() != QTcpSocket::ConnectedState)
+	{
 		m_pInput->append(m_pSocket->readAll());
-    }
+	}
 
 	m_bReadyReadSent = false;
 
-    return (qint64)nBytesRead;
+	return (qint64)nBytesRead;
 }
 
 qint64 CNetworkConnection::writeData(const char* data, qint64 len)
 {
-    Q_ASSERT(m_pOutput != 0);
+	Q_ASSERT(m_pOutput != 0);
 
-    int nOldSize = m_pOutput->size();
-    m_pOutput->resize(nOldSize + len);
-    memcpy(m_pOutput->data() + nOldSize, data, len);
-    emit readyToTransfer();
-    return len;
+	int nOldSize = m_pOutput->size();
+	m_pOutput->resize(nOldSize + len);
+	memcpy(m_pOutput->data() + nOldSize, data, len);
+	emit readyToTransfer();
+	return len;
 }
 
 
 void CNetworkConnection::OnAboutToClose()
 {
-	if( m_bDelayedClose && (!GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty()) )
+	if(m_bDelayedClose && (!GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty()))
 	{
 		writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
 	}
@@ -282,7 +292,7 @@ qint64 CNetworkConnection::bytesAvailable()
 {
 	Q_ASSERT(m_pInput != 0);
 
-	if( m_pSocket->state() != QTcpSocket::ConnectedState )
+	if(m_pSocket->state() != QTcpSocket::ConnectedState)
 	{
 		m_pInput->append(m_pSocket->readAll());
 	}
@@ -292,17 +302,21 @@ qint64 CNetworkConnection::bytesAvailable()
 
 qint64 CNetworkConnection::bytesToWrite() const
 {
-	if( !m_pSocket )
+	if(!m_pSocket)
+	{
 		return 0;
+	}
 
 	return m_pSocket->bytesToWrite() + m_pOutput->size();
 }
 qint64 CNetworkConnection::networkBytesAvailable() const
 {
-	if( !isValid() )
+	if(!isValid())
+	{
 		return 0;
+	}
 
-	if( m_pSocket->state() != QTcpSocket::ConnectedState )
+	if(m_pSocket->state() != QTcpSocket::ConnectedState)
 	{
 		int nOldSize = m_pInput->size();
 		m_pInput->append(m_pSocket->readAll());
@@ -313,15 +327,19 @@ qint64 CNetworkConnection::networkBytesAvailable() const
 }
 bool CNetworkConnection::isValid() const
 {
-	if( m_pSocket == 0 || m_pInput == 0 || m_pOutput == 0 )
+	if(m_pSocket == 0 || m_pInput == 0 || m_pOutput == 0)
+	{
 		return false;
+	}
 
 	return m_pSocket->isValid();
 }
 void CNetworkConnection::setReadBufferSize(qint64 nSize)
 {
-	if( m_pSocket )
+	if(m_pSocket)
+	{
 		m_pSocket->setReadBufferSize(nSize);
+	}
 }
 
 QByteArray CNetworkConnection::Read(qint64 nMaxSize)
@@ -349,11 +367,11 @@ TCPBandwidthMeter::TCPBandwidthMeter()
 
 void TCPBandwidthMeter::Add(quint32 nBytes)
 {
-	if( m_tTime.hasExpired(250) )
+	if(m_tTime.hasExpired(250))
 	{
 		int nSlotsToClear = qMin(20ll, m_tTime.elapsed() / 250ll);
 
-		for( ; nSlotsToClear; nSlotsToClear-- )
+		for(; nSlotsToClear; nSlotsToClear--)
 		{
 			m_nCurrentSlot = (m_nCurrentSlot + 1) % 20;
 			m_pSlots[m_nCurrentSlot] = 0;
@@ -369,11 +387,11 @@ quint32 TCPBandwidthMeter::AvgUsage()
 {
 	quint64 nTotal = 0;
 
-	if( m_tTime.hasExpired(250) )
+	if(m_tTime.hasExpired(250))
 	{
 		int nSlotsToClear = qMin(20ll, m_tTime.elapsed() / 250ll);
 
-		for( ; nSlotsToClear; nSlotsToClear-- )
+		for(; nSlotsToClear; nSlotsToClear--)
 		{
 			m_nCurrentSlot = (m_nCurrentSlot + 1) % 20;
 			m_pSlots[m_nCurrentSlot] = 0;
@@ -382,25 +400,31 @@ quint32 TCPBandwidthMeter::AvgUsage()
 		m_tTime.start();
 	}
 
-	for( int i = 0; i < 20; i++ )
+	for(int i = 0; i < 20; i++)
+	{
 		nTotal += m_pSlots[i];
+	}
 
 	return nTotal / 5;
 }
 quint32 TCPBandwidthMeter::Usage()
 {
-	if( m_tTime.hasExpired(5000) )
+	if(m_tTime.hasExpired(5000))
+	{
 		return 0;
+	}
 
 	int nSlot = m_nCurrentSlot;
 	quint32 nUsage = 0;
 
-	for( int i = 0; i < 4; i++ )
+	for(int i = 0; i < 4; i++)
 	{
 		nUsage += m_pSlots[nSlot];
 		nSlot--;
-		if( nSlot < 0 )
+		if(nSlot < 0)
+		{
 			nSlot = 19;
+		}
 	}
 
 	return nUsage;

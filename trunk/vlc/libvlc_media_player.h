@@ -49,10 +49,10 @@ typedef struct libvlc_media_player_t libvlc_media_player_t;
  */
 typedef struct libvlc_track_description_t
 {
-    int   i_id;
-    char *psz_name;
-    struct libvlc_track_description_t *p_next;
-    
+	int   i_id;
+	char* psz_name;
+	struct libvlc_track_description_t* p_next;
+
 } libvlc_track_description_t;
 
 /**
@@ -61,10 +61,10 @@ typedef struct libvlc_track_description_t
  */
 typedef struct libvlc_audio_output_t
 {
-    char *psz_name;
-    char *psz_description;
-    struct libvlc_audio_output_t *p_next;
-    
+	char* psz_name;
+	char* psz_description;
+	struct libvlc_audio_output_t* p_next;
+
 } libvlc_audio_output_t;
 
 /**
@@ -72,8 +72,8 @@ typedef struct libvlc_audio_output_t
  */
 typedef struct libvlc_rectangle_t
 {
-    int top, left;
-    int bottom, right;
+	int top, left;
+	int bottom, right;
 } libvlc_rectangle_t;
 
 
@@ -84,7 +84,7 @@ typedef struct libvlc_rectangle_t
  *        should be created.
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API libvlc_media_player_t * libvlc_media_player_new( libvlc_instance_t *, libvlc_exception_t * );
+VLC_PUBLIC_API libvlc_media_player_t* libvlc_media_player_new(libvlc_instance_t*, libvlc_exception_t*);
 
 /**
  * Create a Media Player object from a Media
@@ -93,7 +93,7 @@ VLC_PUBLIC_API libvlc_media_player_t * libvlc_media_player_new( libvlc_instance_
  *        destroyed.
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API libvlc_media_player_t * libvlc_media_player_new_from_media( libvlc_media_t *, libvlc_exception_t * );
+VLC_PUBLIC_API libvlc_media_player_t* libvlc_media_player_new_from_media(libvlc_media_t*, libvlc_exception_t*);
 
 /**
  * Release a media_player after use
@@ -104,7 +104,7 @@ VLC_PUBLIC_API libvlc_media_player_t * libvlc_media_player_new_from_media( libvl
  *
  * \param p_mi the Media Player to free
  */
-VLC_PUBLIC_API void libvlc_media_player_release( libvlc_media_player_t * );
+VLC_PUBLIC_API void libvlc_media_player_release(libvlc_media_player_t*);
 
 /**
  * Retain a reference to a media player object. Use
@@ -112,7 +112,7 @@ VLC_PUBLIC_API void libvlc_media_player_release( libvlc_media_player_t * );
  *
  * \param p_mi media player object
  */
-VLC_PUBLIC_API void libvlc_media_player_retain( libvlc_media_player_t * );
+VLC_PUBLIC_API void libvlc_media_player_retain(libvlc_media_player_t*);
 
 /**
  * Set the media that will be used by the media_player. If any,
@@ -123,7 +123,7 @@ VLC_PUBLIC_API void libvlc_media_player_retain( libvlc_media_player_t * );
  *        destroyed.
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_set_media( libvlc_media_player_t *, libvlc_media_t *, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_media_player_set_media(libvlc_media_player_t*, libvlc_media_t*, libvlc_exception_t*);
 
 /**
  * Get the media used by the media_player.
@@ -133,7 +133,7 @@ VLC_PUBLIC_API void libvlc_media_player_set_media( libvlc_media_player_t *, libv
  * \return the media associated with p_mi, or NULL if no
  *         media is associated
  */
-VLC_PUBLIC_API libvlc_media_t * libvlc_media_player_get_media( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API libvlc_media_t* libvlc_media_player_get_media(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get the Event Manager from which the media player send event.
@@ -142,7 +142,7 @@ VLC_PUBLIC_API libvlc_media_t * libvlc_media_player_get_media( libvlc_media_play
  * \param p_e an initialized exception pointer
  * \return the event manager associated with p_mi
  */
-VLC_PUBLIC_API libvlc_event_manager_t * libvlc_media_player_event_manager ( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API libvlc_event_manager_t* libvlc_media_player_event_manager(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * is_playing
@@ -151,7 +151,7 @@ VLC_PUBLIC_API libvlc_event_manager_t * libvlc_media_player_event_manager ( libv
  * \param p_e an initialized exception pointer
  * \return 1 if the media player is playing, 0 otherwise
  */
-VLC_PUBLIC_API int libvlc_media_player_is_playing ( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_media_player_is_playing(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Play
@@ -159,7 +159,7 @@ VLC_PUBLIC_API int libvlc_media_player_is_playing ( libvlc_media_player_t *, lib
  * \param p_mi the Media Player
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_play ( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_media_player_play(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Pause
@@ -167,7 +167,7 @@ VLC_PUBLIC_API void libvlc_media_player_play ( libvlc_media_player_t *, libvlc_e
  * \param p_mi the Media Player
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_pause ( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_media_player_pause(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Stop
@@ -175,7 +175,7 @@ VLC_PUBLIC_API void libvlc_media_player_pause ( libvlc_media_player_t *, libvlc_
  * \param p_mi the Media Player
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_stop ( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_media_player_stop(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set the agl handler where the media player should render its video output.
@@ -184,15 +184,15 @@ VLC_PUBLIC_API void libvlc_media_player_stop ( libvlc_media_player_t *, libvlc_e
  * \param drawable the agl handler
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_set_nsobject ( libvlc_media_player_t *p_mi, void * drawable, libvlc_exception_t *p_e );
+VLC_PUBLIC_API void libvlc_media_player_set_nsobject(libvlc_media_player_t* p_mi, void* drawable, libvlc_exception_t* p_e);
 
 /**
  * Get the agl handler previously set with libvlc_media_player_set_agl().
  *
  * \return the agl handler or 0 if none where set
  */
-VLC_PUBLIC_API void * libvlc_media_player_get_nsobject ( libvlc_media_player_t *p_mi );
-	
+VLC_PUBLIC_API void* libvlc_media_player_get_nsobject(libvlc_media_player_t* p_mi);
+
 /**
  * Set the agl handler where the media player should render its video output.
  *
@@ -200,7 +200,7 @@ VLC_PUBLIC_API void * libvlc_media_player_get_nsobject ( libvlc_media_player_t *
  * \param drawable the agl handler
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_set_agl ( libvlc_media_player_t *p_mi, uint32_t drawable, libvlc_exception_t *p_e );
+VLC_PUBLIC_API void libvlc_media_player_set_agl(libvlc_media_player_t* p_mi, uint32_t drawable, libvlc_exception_t* p_e);
 
 /**
  * Get the agl handler previously set with libvlc_media_player_set_agl().
@@ -208,7 +208,7 @@ VLC_PUBLIC_API void libvlc_media_player_set_agl ( libvlc_media_player_t *p_mi, u
  * \param p_mi the Media Player
  * \return the agl handler or 0 if none where set
  */
-VLC_PUBLIC_API uint32_t libvlc_media_player_get_agl ( libvlc_media_player_t *p_mi );
+VLC_PUBLIC_API uint32_t libvlc_media_player_get_agl(libvlc_media_player_t* p_mi);
 
 /**
  * Set an X Window System drawable where the media player should render its
@@ -227,7 +227,7 @@ VLC_PUBLIC_API uint32_t libvlc_media_player_get_agl ( libvlc_media_player_t *p_m
  * \param drawable the ID of the X window
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_set_xwindow ( libvlc_media_player_t *p_mi, uint32_t drawable, libvlc_exception_t *p_e );
+VLC_PUBLIC_API void libvlc_media_player_set_xwindow(libvlc_media_player_t* p_mi, uint32_t drawable, libvlc_exception_t* p_e);
 
 /**
  * Get the X Window System window identifier previously set with
@@ -237,7 +237,7 @@ VLC_PUBLIC_API void libvlc_media_player_set_xwindow ( libvlc_media_player_t *p_m
  *
  * \return an X window ID, or 0 if none where set.
  */
-VLC_PUBLIC_API uint32_t libvlc_media_player_get_xwindow ( libvlc_media_player_t *p_mi );
+VLC_PUBLIC_API uint32_t libvlc_media_player_get_xwindow(libvlc_media_player_t* p_mi);
 
 /**
  * Set a Win32/Win64 API window handle (HWND) where the media player should
@@ -248,7 +248,7 @@ VLC_PUBLIC_API uint32_t libvlc_media_player_get_xwindow ( libvlc_media_player_t 
  * \param drawable windows handle of the drawable
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_set_hwnd ( libvlc_media_player_t *p_mi, void *drawable, libvlc_exception_t *p_e );
+VLC_PUBLIC_API void libvlc_media_player_set_hwnd(libvlc_media_player_t* p_mi, void* drawable, libvlc_exception_t* p_e);
 
 /**
  * Get the Windows API window handle (HWND) previously set with
@@ -257,7 +257,7 @@ VLC_PUBLIC_API void libvlc_media_player_set_hwnd ( libvlc_media_player_t *p_mi, 
  *
  * \return a window handle or NULL if there are none.
  */
-VLC_PUBLIC_API void *libvlc_media_player_get_hwnd ( libvlc_media_player_t *p_mi );
+VLC_PUBLIC_API void* libvlc_media_player_get_hwnd(libvlc_media_player_t* p_mi);
 
 
 
@@ -270,7 +270,7 @@ VLC_PUBLIC_API void *libvlc_media_player_get_hwnd ( libvlc_media_player_t *p_mi 
  * \param p_e an initialized exception pointer
  * \return the movie length (in ms).
  */
-VLC_PUBLIC_API libvlc_time_t libvlc_media_player_get_length( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API libvlc_time_t libvlc_media_player_get_length(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get the current movie time (in ms).
@@ -279,7 +279,7 @@ VLC_PUBLIC_API libvlc_time_t libvlc_media_player_get_length( libvlc_media_player
  * \param p_e an initialized exception pointer
  * \return the movie time (in ms).
  */
-VLC_PUBLIC_API libvlc_time_t libvlc_media_player_get_time( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API libvlc_time_t libvlc_media_player_get_time(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set the movie time (in ms).
@@ -288,7 +288,7 @@ VLC_PUBLIC_API libvlc_time_t libvlc_media_player_get_time( libvlc_media_player_t
  * \param the movie time (in ms).
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_set_time( libvlc_media_player_t *, libvlc_time_t, libvlc_exception_t *);
+VLC_PUBLIC_API void libvlc_media_player_set_time(libvlc_media_player_t*, libvlc_time_t, libvlc_exception_t*);
 
 /**
  * Get movie position.
@@ -297,7 +297,7 @@ VLC_PUBLIC_API void libvlc_media_player_set_time( libvlc_media_player_t *, libvl
  * \param p_e an initialized exception pointer
  * \return movie position
  */
-VLC_PUBLIC_API float libvlc_media_player_get_position( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API float libvlc_media_player_get_position(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set movie position.
@@ -306,7 +306,7 @@ VLC_PUBLIC_API float libvlc_media_player_get_position( libvlc_media_player_t *, 
  * \param f_pos the position
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_set_position( libvlc_media_player_t *, float, libvlc_exception_t *);
+VLC_PUBLIC_API void libvlc_media_player_set_position(libvlc_media_player_t*, float, libvlc_exception_t*);
 
 /**
  * Set movie chapter
@@ -315,7 +315,7 @@ VLC_PUBLIC_API void libvlc_media_player_set_position( libvlc_media_player_t *, f
  * \param i_chapter chapter number to play
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_set_chapter( libvlc_media_player_t *, int, libvlc_exception_t *);
+VLC_PUBLIC_API void libvlc_media_player_set_chapter(libvlc_media_player_t*, int, libvlc_exception_t*);
 
 /**
  * Get movie chapter
@@ -324,7 +324,7 @@ VLC_PUBLIC_API void libvlc_media_player_set_chapter( libvlc_media_player_t *, in
  * \param p_e an initialized exception pointer
  * \return chapter number currently playing
  */
-VLC_PUBLIC_API int libvlc_media_player_get_chapter( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_media_player_get_chapter(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get movie chapter count
@@ -333,7 +333,7 @@ VLC_PUBLIC_API int libvlc_media_player_get_chapter( libvlc_media_player_t *, lib
  * \param p_e an initialized exception pointer
  * \return number of chapters in movie
  */
-VLC_PUBLIC_API int libvlc_media_player_get_chapter_count( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API int libvlc_media_player_get_chapter_count(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Will the player play
@@ -342,7 +342,7 @@ VLC_PUBLIC_API int libvlc_media_player_get_chapter_count( libvlc_media_player_t 
  * \param p_e an initialized exception pointer
  * \return boolean
  */
-VLC_PUBLIC_API int libvlc_media_player_will_play        ( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API int libvlc_media_player_will_play(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get title chapter count
@@ -353,7 +353,7 @@ VLC_PUBLIC_API int libvlc_media_player_will_play        ( libvlc_media_player_t 
  * \return number of chapters in title
  */
 VLC_PUBLIC_API int libvlc_media_player_get_chapter_count_for_title(
-                       libvlc_media_player_t *, int, libvlc_exception_t *);
+    libvlc_media_player_t*, int, libvlc_exception_t*);
 
 /**
  * Set movie title
@@ -362,7 +362,7 @@ VLC_PUBLIC_API int libvlc_media_player_get_chapter_count_for_title(
  * \param i_title title number to play
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_set_title( libvlc_media_player_t *, int, libvlc_exception_t *);
+VLC_PUBLIC_API void libvlc_media_player_set_title(libvlc_media_player_t*, int, libvlc_exception_t*);
 
 /**
  * Get movie title
@@ -371,7 +371,7 @@ VLC_PUBLIC_API void libvlc_media_player_set_title( libvlc_media_player_t *, int,
  * \param p_e an initialized exception pointer
  * \return title number currently playing
  */
-VLC_PUBLIC_API int libvlc_media_player_get_title( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API int libvlc_media_player_get_title(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get movie title count
@@ -380,7 +380,7 @@ VLC_PUBLIC_API int libvlc_media_player_get_title( libvlc_media_player_t *, libvl
  * \param p_e an initialized exception pointer
  * \return title number count
  */
-VLC_PUBLIC_API int libvlc_media_player_get_title_count( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API int libvlc_media_player_get_title_count(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set previous chapter
@@ -388,7 +388,7 @@ VLC_PUBLIC_API int libvlc_media_player_get_title_count( libvlc_media_player_t *,
  * \param p_mi the Media Player
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_previous_chapter( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API void libvlc_media_player_previous_chapter(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set next chapter
@@ -396,7 +396,7 @@ VLC_PUBLIC_API void libvlc_media_player_previous_chapter( libvlc_media_player_t 
  * \param p_mi the Media Player
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_next_chapter( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API void libvlc_media_player_next_chapter(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get movie play rate
@@ -405,7 +405,7 @@ VLC_PUBLIC_API void libvlc_media_player_next_chapter( libvlc_media_player_t *, l
  * \param p_e an initialized exception pointer
  * \return movie play rate
  */
-VLC_PUBLIC_API float libvlc_media_player_get_rate( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API float libvlc_media_player_get_rate(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set movie play rate
@@ -414,7 +414,7 @@ VLC_PUBLIC_API float libvlc_media_player_get_rate( libvlc_media_player_t *, libv
  * \param movie play rate to set
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_media_player_set_rate( libvlc_media_player_t *, float, libvlc_exception_t *);
+VLC_PUBLIC_API void libvlc_media_player_set_rate(libvlc_media_player_t*, float, libvlc_exception_t*);
 
 /**
  * Get current movie state
@@ -423,7 +423,7 @@ VLC_PUBLIC_API void libvlc_media_player_set_rate( libvlc_media_player_t *, float
  * \param p_e an initialized exception pointer
  * \return current movie state as libvlc_state_t
  */
-VLC_PUBLIC_API libvlc_state_t libvlc_media_player_get_state( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API libvlc_state_t libvlc_media_player_get_state(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get movie fps rate
@@ -432,7 +432,7 @@ VLC_PUBLIC_API libvlc_state_t libvlc_media_player_get_state( libvlc_media_player
  * \param p_e an initialized exception pointer
  * \return frames per second (fps) for this playing movie
  */
-VLC_PUBLIC_API float libvlc_media_player_get_fps( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API float libvlc_media_player_get_fps(libvlc_media_player_t*, libvlc_exception_t*);
 
 /** end bug */
 
@@ -442,7 +442,7 @@ VLC_PUBLIC_API float libvlc_media_player_get_fps( libvlc_media_player_t *, libvl
  * \param p_md the media player
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API int  libvlc_media_player_has_vout( libvlc_media_player_t *, libvlc_exception_t *);
+VLC_PUBLIC_API int  libvlc_media_player_has_vout(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Is this media player seekable?
@@ -450,7 +450,7 @@ VLC_PUBLIC_API int  libvlc_media_player_has_vout( libvlc_media_player_t *, libvl
  * \param p_input the input
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API int libvlc_media_player_is_seekable( libvlc_media_player_t *p_mi, libvlc_exception_t *p_e );
+VLC_PUBLIC_API int libvlc_media_player_is_seekable(libvlc_media_player_t* p_mi, libvlc_exception_t* p_e);
 
 /**
  * Can this media player be paused?
@@ -458,14 +458,14 @@ VLC_PUBLIC_API int libvlc_media_player_is_seekable( libvlc_media_player_t *p_mi,
  * \param p_input the input
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API int libvlc_media_player_can_pause( libvlc_media_player_t *p_mi, libvlc_exception_t *p_e );
+VLC_PUBLIC_API int libvlc_media_player_can_pause(libvlc_media_player_t* p_mi, libvlc_exception_t* p_e);
 
 /**
  * Release (free) libvlc_track_description_t
  *
  * \param p_track_description the structure to release
  */
-VLC_PUBLIC_API void libvlc_track_description_release( libvlc_track_description_t *p_track_description );
+VLC_PUBLIC_API void libvlc_track_description_release(libvlc_track_description_t* p_track_description);
 
 /** \defgroup libvlc_video libvlc_video
  * \ingroup libvlc_media_player
@@ -479,7 +479,7 @@ VLC_PUBLIC_API void libvlc_track_description_release( libvlc_track_description_t
  * \param p_mediaplayer the media player
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_toggle_fullscreen( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_toggle_fullscreen(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Enable or disable fullscreen on a video output.
@@ -488,7 +488,7 @@ VLC_PUBLIC_API void libvlc_toggle_fullscreen( libvlc_media_player_t *, libvlc_ex
  * \param b_fullscreen boolean for fullscreen status
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_set_fullscreen( libvlc_media_player_t *, int, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_set_fullscreen(libvlc_media_player_t*, int, libvlc_exception_t*);
 
 /**
  * Get current fullscreen status.
@@ -497,7 +497,7 @@ VLC_PUBLIC_API void libvlc_set_fullscreen( libvlc_media_player_t *, int, libvlc_
  * \param p_e an initialized exception pointer
  * \return the fullscreen status (boolean)
  */
-VLC_PUBLIC_API int libvlc_get_fullscreen( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_get_fullscreen(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get current video height.
@@ -506,7 +506,7 @@ VLC_PUBLIC_API int libvlc_get_fullscreen( libvlc_media_player_t *, libvlc_except
  * \param p_e an initialized exception pointer
  * \return the video height
  */
-VLC_PUBLIC_API int libvlc_video_get_height( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_video_get_height(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get current video width.
@@ -515,7 +515,7 @@ VLC_PUBLIC_API int libvlc_video_get_height( libvlc_media_player_t *, libvlc_exce
  * \param p_e an initialized exception pointer
  * \return the video width
  */
-VLC_PUBLIC_API int libvlc_video_get_width( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_video_get_width(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get the current video scaling factor.
@@ -526,8 +526,8 @@ VLC_PUBLIC_API int libvlc_video_get_width( libvlc_media_player_t *, libvlc_excep
  * \return the currently configured zoom factor, or 0. if the video is set
  * to fit to the output window/drawable automatically.
  */
-VLC_PUBLIC_API float libvlc_video_get_scale( libvlc_media_player_t *,
-                                             libvlc_exception_t *p_e );
+VLC_PUBLIC_API float libvlc_video_get_scale(libvlc_media_player_t*,
+        libvlc_exception_t* p_e);
 
 /**
  * Set the video scaling factor. That is the ratio of the number of pixels on
@@ -541,8 +541,8 @@ VLC_PUBLIC_API float libvlc_video_get_scale( libvlc_media_player_t *,
  * \param i_factor the scaling factor, or zero
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_video_set_scale( libvlc_media_player_t *, float,
-                                            libvlc_exception_t *p_e );
+VLC_PUBLIC_API void libvlc_video_set_scale(libvlc_media_player_t*, float,
+        libvlc_exception_t* p_e);
 
 /**
  * Get current video aspect ratio.
@@ -551,7 +551,7 @@ VLC_PUBLIC_API void libvlc_video_set_scale( libvlc_media_player_t *, float,
  * \param p_e an initialized exception pointer
  * \return the video aspect ratio
  */
-VLC_PUBLIC_API char *libvlc_video_get_aspect_ratio( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API char* libvlc_video_get_aspect_ratio(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set new video aspect ratio.
@@ -560,7 +560,7 @@ VLC_PUBLIC_API char *libvlc_video_get_aspect_ratio( libvlc_media_player_t *, lib
  * \param psz_aspect new video aspect-ratio
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_video_set_aspect_ratio( libvlc_media_player_t *, char *, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_video_set_aspect_ratio(libvlc_media_player_t*, char*, libvlc_exception_t*);
 
 /**
  * Get current video subtitle.
@@ -569,7 +569,7 @@ VLC_PUBLIC_API void libvlc_video_set_aspect_ratio( libvlc_media_player_t *, char
  * \param p_e an initialized exception pointer
  * \return the video subtitle selected
  */
-VLC_PUBLIC_API int libvlc_video_get_spu( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_video_get_spu(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get the number of available video subtitles.
@@ -578,7 +578,7 @@ VLC_PUBLIC_API int libvlc_video_get_spu( libvlc_media_player_t *, libvlc_excepti
  * \param p_e an initialized exception pointer
  * \return the number of available video subtitles
  */
-VLC_PUBLIC_API int libvlc_video_get_spu_count( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_video_get_spu_count(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get the description of available video subtitles.
@@ -588,7 +588,7 @@ VLC_PUBLIC_API int libvlc_video_get_spu_count( libvlc_media_player_t *, libvlc_e
  * \return list containing description of available video subtitles
  */
 VLC_PUBLIC_API libvlc_track_description_t *
-        libvlc_video_get_spu_description( libvlc_media_player_t *, libvlc_exception_t * );
+libvlc_video_get_spu_description(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set new video subtitle.
@@ -597,7 +597,7 @@ VLC_PUBLIC_API libvlc_track_description_t *
  * \param i_spu new video subtitle to select
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_video_set_spu( libvlc_media_player_t *, int , libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_video_set_spu(libvlc_media_player_t*, int , libvlc_exception_t*);
 
 /**
  * Set new video subtitle file.
@@ -607,7 +607,7 @@ VLC_PUBLIC_API void libvlc_video_set_spu( libvlc_media_player_t *, int , libvlc_
  * \param p_e an initialized exception pointer
  * \return the success status (boolean)
  */
-VLC_PUBLIC_API int libvlc_video_set_subtitle_file( libvlc_media_player_t *, char *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_video_set_subtitle_file(libvlc_media_player_t*, char*, libvlc_exception_t*);
 
 /**
  * Get the description of available titles.
@@ -617,7 +617,7 @@ VLC_PUBLIC_API int libvlc_video_set_subtitle_file( libvlc_media_player_t *, char
  * \return list containing description of available titles
  */
 VLC_PUBLIC_API libvlc_track_description_t *
-        libvlc_video_get_title_description( libvlc_media_player_t *, libvlc_exception_t * );
+libvlc_video_get_title_description(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get the description of available chapters for specific title.
@@ -628,7 +628,7 @@ VLC_PUBLIC_API libvlc_track_description_t *
  * \return list containing description of available chapter for title i_title
  */
 VLC_PUBLIC_API libvlc_track_description_t *
-        libvlc_video_get_chapter_description( libvlc_media_player_t *, int, libvlc_exception_t * );
+libvlc_video_get_chapter_description(libvlc_media_player_t*, int, libvlc_exception_t*);
 
 /**
  * Get current crop filter geometry.
@@ -637,7 +637,7 @@ VLC_PUBLIC_API libvlc_track_description_t *
  * \param p_e an initialized exception pointer
  * \return the crop filter geometry
  */
-VLC_PUBLIC_API char *libvlc_video_get_crop_geometry( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API char* libvlc_video_get_crop_geometry(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set new crop filter geometry.
@@ -646,7 +646,7 @@ VLC_PUBLIC_API char *libvlc_video_get_crop_geometry( libvlc_media_player_t *, li
  * \param psz_geometry new crop filter geometry
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_video_set_crop_geometry( libvlc_media_player_t *, char *, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_video_set_crop_geometry(libvlc_media_player_t*, char*, libvlc_exception_t*);
 
 /**
  * Toggle teletext transparent status on video output.
@@ -654,7 +654,7 @@ VLC_PUBLIC_API void libvlc_video_set_crop_geometry( libvlc_media_player_t *, cha
  * \param p_mediaplayer the media player
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_toggle_teletext( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_toggle_teletext(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Get current teletext page requested.
@@ -663,7 +663,7 @@ VLC_PUBLIC_API void libvlc_toggle_teletext( libvlc_media_player_t *, libvlc_exce
  * \param p_e an initialized exception pointer
  * \return the current teletext page requested.
  */
-VLC_PUBLIC_API int libvlc_video_get_teletext( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_video_get_teletext(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set new teletext page to retrieve.
@@ -672,7 +672,7 @@ VLC_PUBLIC_API int libvlc_video_get_teletext( libvlc_media_player_t *, libvlc_ex
  * \param i_page teletex page number requested
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_video_set_teletext( libvlc_media_player_t *, int, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_video_set_teletext(libvlc_media_player_t*, int, libvlc_exception_t*);
 
 /**
  * Get number of available video tracks.
@@ -681,7 +681,7 @@ VLC_PUBLIC_API void libvlc_video_set_teletext( libvlc_media_player_t *, int, lib
  * \param p_e an initialized exception
  * \return the number of available video tracks (int)
  */
-VLC_PUBLIC_API int libvlc_video_get_track_count( libvlc_media_player_t *,  libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_video_get_track_count(libvlc_media_player_t*,  libvlc_exception_t*);
 
 /**
  * Get the description of available video tracks.
@@ -691,7 +691,7 @@ VLC_PUBLIC_API int libvlc_video_get_track_count( libvlc_media_player_t *,  libvl
  * \return list with description of available video tracks
  */
 VLC_PUBLIC_API libvlc_track_description_t *
-        libvlc_video_get_track_description( libvlc_media_player_t *,  libvlc_exception_t * );
+libvlc_video_get_track_description(libvlc_media_player_t*,  libvlc_exception_t*);
 
 /**
  * Get current video track.
@@ -700,7 +700,7 @@ VLC_PUBLIC_API libvlc_track_description_t *
  * \param p_e an initialized exception pointer
  * \return the video track (int)
  */
-VLC_PUBLIC_API int libvlc_video_get_track( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_video_get_track(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set video track.
@@ -709,7 +709,7 @@ VLC_PUBLIC_API int libvlc_video_get_track( libvlc_media_player_t *, libvlc_excep
  * \param i_track the track (int)
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_video_set_track( libvlc_media_player_t *, int, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_video_set_track(libvlc_media_player_t*, int, libvlc_exception_t*);
 
 /**
  * Take a snapshot of the current video window.
@@ -723,7 +723,7 @@ VLC_PUBLIC_API void libvlc_video_set_track( libvlc_media_player_t *, int, libvlc
  * \param i_height the snapshot's height
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_video_take_snapshot( libvlc_media_player_t *, const char *,unsigned int, unsigned int, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_video_take_snapshot(libvlc_media_player_t*, const char*, unsigned int, unsigned int, libvlc_exception_t*);
 
 /** @} video */
 
@@ -736,28 +736,30 @@ VLC_PUBLIC_API void libvlc_video_take_snapshot( libvlc_media_player_t *, const c
 /**
  * Audio device types
  */
-typedef enum libvlc_audio_output_device_types_t {
-    libvlc_AudioOutputDevice_Error  = -1,
-    libvlc_AudioOutputDevice_Mono   =  1,
-    libvlc_AudioOutputDevice_Stereo =  2,
-    libvlc_AudioOutputDevice_2F2R   =  4,
-    libvlc_AudioOutputDevice_3F2R   =  5,
-    libvlc_AudioOutputDevice_5_1    =  6,
-    libvlc_AudioOutputDevice_6_1    =  7,
-    libvlc_AudioOutputDevice_7_1    =  8,
-    libvlc_AudioOutputDevice_SPDIF  = 10
+typedef enum libvlc_audio_output_device_types_t
+{
+	libvlc_AudioOutputDevice_Error  = -1,
+	libvlc_AudioOutputDevice_Mono   =  1,
+	libvlc_AudioOutputDevice_Stereo =  2,
+	libvlc_AudioOutputDevice_2F2R   =  4,
+	libvlc_AudioOutputDevice_3F2R   =  5,
+	libvlc_AudioOutputDevice_5_1    =  6,
+	libvlc_AudioOutputDevice_6_1    =  7,
+	libvlc_AudioOutputDevice_7_1    =  8,
+	libvlc_AudioOutputDevice_SPDIF  = 10
 } libvlc_audio_output_device_types_t;
 
 /**
  * Audio channels
  */
-typedef enum libvlc_audio_output_channel_t {
-    libvlc_AudioChannel_Error   = -1,
-    libvlc_AudioChannel_Stereo  =  1,
-    libvlc_AudioChannel_RStereo =  2,
-    libvlc_AudioChannel_Left    =  3,
-    libvlc_AudioChannel_Right   =  4,
-    libvlc_AudioChannel_Dolbys  =  5
+typedef enum libvlc_audio_output_channel_t
+{
+	libvlc_AudioChannel_Error   = -1,
+	libvlc_AudioChannel_Stereo  =  1,
+	libvlc_AudioChannel_RStereo =  2,
+	libvlc_AudioChannel_Left    =  3,
+	libvlc_AudioChannel_Right   =  4,
+	libvlc_AudioChannel_Dolbys  =  5
 } libvlc_audio_output_channel_t;
 
 
@@ -770,15 +772,15 @@ typedef enum libvlc_audio_output_channel_t {
 *          \see libvlc_audio_output_list_release \see libvlc_audio_output_t
  */
 VLC_PUBLIC_API libvlc_audio_output_t *
-        libvlc_audio_output_list_get( libvlc_instance_t *,
-                                      libvlc_exception_t * );
+libvlc_audio_output_list_get(libvlc_instance_t*,
+                             libvlc_exception_t*);
 
 /**
  * Free the list of available audio outputs
  *
  * \param p_list list with audio outputs for release
  */
-VLC_PUBLIC_API void libvlc_audio_output_list_release( libvlc_audio_output_t * );
+VLC_PUBLIC_API void libvlc_audio_output_list_release(libvlc_audio_output_t*);
 
 /**
  * Set the audio output.
@@ -789,8 +791,8 @@ VLC_PUBLIC_API void libvlc_audio_output_list_release( libvlc_audio_output_t * );
  *               use psz_name of \see libvlc_audio_output_t
  * \return true if function succeded
  */
-VLC_PUBLIC_API int libvlc_audio_output_set( libvlc_instance_t *,
-                                            const char * );
+VLC_PUBLIC_API int libvlc_audio_output_set(libvlc_instance_t*,
+        const char*);
 
 /**
  * Get count of devices for audio output, these devices are hardware oriented
@@ -800,8 +802,8 @@ VLC_PUBLIC_API int libvlc_audio_output_set( libvlc_instance_t *,
  * \param psz_audio_output - name of audio output, \see libvlc_audio_output_t
  * \return number of devices
  */
-VLC_PUBLIC_API int libvlc_audio_output_device_count( libvlc_instance_t *,
-                                                     const char * );
+VLC_PUBLIC_API int libvlc_audio_output_device_count(libvlc_instance_t*,
+        const char*);
 
 /**
  * Get long name of device, if not available short name given
@@ -811,9 +813,9 @@ VLC_PUBLIC_API int libvlc_audio_output_device_count( libvlc_instance_t *,
  * \param i_device device index
  * \return long name of device
  */
-VLC_PUBLIC_API char * libvlc_audio_output_device_longname( libvlc_instance_t *,
-                                                           const char *,
-                                                           int );
+VLC_PUBLIC_API char* libvlc_audio_output_device_longname(libvlc_instance_t*,
+        const char*,
+        int);
 
 /**
  * Get id name of device
@@ -823,9 +825,9 @@ VLC_PUBLIC_API char * libvlc_audio_output_device_longname( libvlc_instance_t *,
  * \param i_device device index
  * \return id name of device, use for setting device, need to be free after use
  */
-VLC_PUBLIC_API char * libvlc_audio_output_device_id( libvlc_instance_t *,
-                                                     const char *,
-                                                     int );
+VLC_PUBLIC_API char* libvlc_audio_output_device_id(libvlc_instance_t*,
+        const char*,
+        int);
 
 /**
  * Set device for using
@@ -834,9 +836,9 @@ VLC_PUBLIC_API char * libvlc_audio_output_device_id( libvlc_instance_t *,
  * \param psz_audio_output - name of audio output, \see libvlc_audio_output_t
  * \param psz_device_id device
  */
-VLC_PUBLIC_API void libvlc_audio_output_device_set( libvlc_instance_t *,
-                                                    const char *,
-                                                    const char * );
+VLC_PUBLIC_API void libvlc_audio_output_device_set(libvlc_instance_t*,
+        const char*,
+        const char*);
 
 /**
  * Get current audio device type. Device type describes something like
@@ -847,7 +849,7 @@ VLC_PUBLIC_API void libvlc_audio_output_device_set( libvlc_instance_t *,
  * \return the audio devices type \see libvlc_audio_output_device_types_t
  */
 VLC_PUBLIC_API int libvlc_audio_output_get_device_type(
-        libvlc_instance_t *, libvlc_exception_t * );
+    libvlc_instance_t*, libvlc_exception_t*);
 
 /**
  * Set current audio device type.
@@ -857,9 +859,9 @@ VLC_PUBLIC_API int libvlc_audio_output_get_device_type(
           according to \see libvlc_audio_output_device_types_t
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_audio_output_set_device_type( libvlc_instance_t *,
-                                                         int,
-                                                         libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_audio_output_set_device_type(libvlc_instance_t*,
+        int,
+        libvlc_exception_t*);
 
 
 /**
@@ -868,7 +870,7 @@ VLC_PUBLIC_API void libvlc_audio_output_set_device_type( libvlc_instance_t *,
  * \param p_instance libvlc instance
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_audio_toggle_mute( libvlc_instance_t *, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_audio_toggle_mute(libvlc_instance_t*, libvlc_exception_t*);
 
 /**
  * Get current mute status.
@@ -877,7 +879,7 @@ VLC_PUBLIC_API void libvlc_audio_toggle_mute( libvlc_instance_t *, libvlc_except
  * \param p_e an initialized exception pointer
  * \return the mute status (boolean)
  */
-VLC_PUBLIC_API int libvlc_audio_get_mute( libvlc_instance_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_audio_get_mute(libvlc_instance_t*, libvlc_exception_t*);
 
 /**
  * Set mute status.
@@ -886,7 +888,7 @@ VLC_PUBLIC_API int libvlc_audio_get_mute( libvlc_instance_t *, libvlc_exception_
  * \param status If status is true then mute, otherwise unmute
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_audio_set_mute( libvlc_instance_t *, int , libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_audio_set_mute(libvlc_instance_t*, int , libvlc_exception_t*);
 
 /**
  * Get current audio level.
@@ -895,7 +897,7 @@ VLC_PUBLIC_API void libvlc_audio_set_mute( libvlc_instance_t *, int , libvlc_exc
  * \param p_e an initialized exception pointer
  * \return the audio level (int)
  */
-VLC_PUBLIC_API int libvlc_audio_get_volume( libvlc_instance_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_audio_get_volume(libvlc_instance_t*, libvlc_exception_t*);
 
 /**
  * Set current audio level.
@@ -904,7 +906,7 @@ VLC_PUBLIC_API int libvlc_audio_get_volume( libvlc_instance_t *, libvlc_exceptio
  * \param i_volume the volume (int)
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_audio_set_volume( libvlc_instance_t *, int, libvlc_exception_t *);
+VLC_PUBLIC_API void libvlc_audio_set_volume(libvlc_instance_t*, int, libvlc_exception_t*);
 
 /**
  * Get number of available audio tracks.
@@ -913,7 +915,7 @@ VLC_PUBLIC_API void libvlc_audio_set_volume( libvlc_instance_t *, int, libvlc_ex
  * \param p_e an initialized exception
  * \return the number of available audio tracks (int)
  */
-VLC_PUBLIC_API int libvlc_audio_get_track_count( libvlc_media_player_t *,  libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_audio_get_track_count(libvlc_media_player_t*,  libvlc_exception_t*);
 
 /**
  * Get the description of available audio tracks.
@@ -923,7 +925,7 @@ VLC_PUBLIC_API int libvlc_audio_get_track_count( libvlc_media_player_t *,  libvl
  * \return list with description of available audio tracks
  */
 VLC_PUBLIC_API libvlc_track_description_t *
-        libvlc_audio_get_track_description( libvlc_media_player_t *,  libvlc_exception_t * );
+libvlc_audio_get_track_description(libvlc_media_player_t*,  libvlc_exception_t*);
 
 /**
  * Get current audio track.
@@ -932,7 +934,7 @@ VLC_PUBLIC_API libvlc_track_description_t *
  * \param p_e an initialized exception pointer
  * \return the audio track (int)
  */
-VLC_PUBLIC_API int libvlc_audio_get_track( libvlc_media_player_t *, libvlc_exception_t * );
+VLC_PUBLIC_API int libvlc_audio_get_track(libvlc_media_player_t*, libvlc_exception_t*);
 
 /**
  * Set current audio track.
@@ -941,7 +943,7 @@ VLC_PUBLIC_API int libvlc_audio_get_track( libvlc_media_player_t *, libvlc_excep
  * \param i_track the track (int)
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_audio_set_track( libvlc_media_player_t *, int, libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_audio_set_track(libvlc_media_player_t*, int, libvlc_exception_t*);
 
 /**
  * Get current audio channel.
@@ -951,7 +953,7 @@ VLC_PUBLIC_API void libvlc_audio_set_track( libvlc_media_player_t *, int, libvlc
  * \return the audio channel \see libvlc_audio_output_channel_t
  */
 VLC_PUBLIC_API int
-    libvlc_audio_get_channel( libvlc_instance_t *, libvlc_exception_t * );
+libvlc_audio_get_channel(libvlc_instance_t*, libvlc_exception_t*);
 
 /**
  * Set current audio channel.
@@ -960,9 +962,9 @@ VLC_PUBLIC_API int
  * \param channel the audio channel, \see libvlc_audio_output_channel_t
  * \param p_e an initialized exception pointer
  */
-VLC_PUBLIC_API void libvlc_audio_set_channel( libvlc_instance_t *,
-                                              int,
-                                              libvlc_exception_t * );
+VLC_PUBLIC_API void libvlc_audio_set_channel(libvlc_instance_t*,
+        int,
+        libvlc_exception_t*);
 
 /** @} audio */
 

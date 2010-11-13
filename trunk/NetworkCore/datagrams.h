@@ -37,9 +37,9 @@ class G2Packet;
 class DatagramWatcher
 {
 public:
-    virtual      ~DatagramWatcher();
-    virtual void OnSuccess(void* pParam) = 0;
-    virtual void OnFailure(void* pParam) = 0;
+	virtual      ~DatagramWatcher();
+	virtual void OnSuccess(void* pParam) = 0;
+	virtual void OnFailure(void* pParam) = 0;
 };
 
 class DatagramOut;
@@ -49,116 +49,118 @@ class QHostAddress;
 
 class CDatagrams : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    QMutex      m_pSection;
+	QMutex      m_pSection;
 protected:
-    quint32 m_nUploadLimit;
+	quint32 m_nUploadLimit;
 
-    QUdpSocket* m_pSocket;
+	QUdpSocket* m_pSocket;
 
-    bool m_bFirewalled;
+	bool m_bFirewalled;
 
-    QTimer*     m_tSender;
-    QTime       m_tStopWatch;
+	QTimer*     m_tSender;
+	QTime       m_tStopWatch;
 
-    QHash<quint16, DatagramOut*>     m_SendCacheMap;    // zeby szybko odszukac pakiety po sekwencji
+	QHash<quint16, DatagramOut*>     m_SendCacheMap;    // zeby szybko odszukac pakiety po sekwencji
 	QLinkedList<DatagramOut*>		 m_SendCache;		// a lifo queue, last is oldest
 	QLinkedList<DatagramOut*>		 m_FreeDGOut;
-    quint16                          m_nSequence;
+	quint16                          m_nSequence;
 
-    QHash<quint32,
-        QHash<quint32, DatagramIn*>
-		>                    m_RecvCache;		// for searching by ip & sequence
+	QHash < quint32,
+	      QHash<quint32, DatagramIn*>
+	      >                    m_RecvCache;		// for searching by ip & sequence
 	QLinkedList<DatagramIn*> m_RecvCacheTime;	// a list ordered by recv time, last is oldest
 
 	QLinkedList<DatagramIn*> m_FreeDGIn;		// a list of free incoming packets
 	QLinkedList<CBuffer*>	 m_FreeBuffer;		// a list of free buffers
 
-	CBuffer*	    m_pRecvBuffer;
-    QHostAddress*   m_pHostAddress;
-    quint16         m_nPort;
+	CBuffer*    	m_pRecvBuffer;
+	QHostAddress*   m_pHostAddress;
+	quint16         m_nPort;
 
-    bool            m_bActive;
+	bool            m_bActive;
 
-    quint32         m_nBandwidthIn;
-    quint32         m_nAvgBandwidthIn;
-    quint32         m_nBandwidthOut;
-    quint32         m_nAvgBandwidthOut;
-    QTime           m_tMeterTimer;
+	quint32         m_nBandwidthIn;
+	quint32         m_nAvgBandwidthIn;
+	quint32         m_nBandwidthOut;
+	quint32         m_nAvgBandwidthOut;
+	QTime           m_tMeterTimer;
 
-    quint32 m_nDiscarded;
+	quint32 m_nDiscarded;
 
 	QLinkedList<QPair<quint32, G2Packet*> > m_lPendingQKA;
 	QLinkedList<QPair<QUuid, G2Packet*> >   m_lPendingQA;
 	QLinkedList<QueuedQueryHit>   m_lPendingQH2;
 
 public:
-    CDatagrams();
-    ~CDatagrams();
+	CDatagrams();
+	~CDatagrams();
 
-    void Listen();
-    void Disconnect();
+	void Listen();
+	void Disconnect();
 
-    void SendPacket(IPv4_ENDPOINT& oAddr, G2Packet* pPacket, bool bAck = false, DatagramWatcher* pWatcher = 0, void* pParam = 0);
+	void SendPacket(IPv4_ENDPOINT& oAddr, G2Packet* pPacket, bool bAck = false, DatagramWatcher* pWatcher = 0, void* pParam = 0);
 
-    void RemoveOldIn(bool bForce = false);
-    void Remove(DatagramIn* pDG, bool bReclaim = false);
-    void Remove(DatagramOut* pDG);
-    void OnReceiveGND();
-    void OnAcknowledgeGND();
+	void RemoveOldIn(bool bForce = false);
+	void Remove(DatagramIn* pDG, bool bReclaim = false);
+	void Remove(DatagramOut* pDG);
+	void OnReceiveGND();
+	void OnAcknowledgeGND();
 
-    void OnPacket(IPv4_ENDPOINT addr, G2Packet* pPacket);
-    // pierdołki
-    void OnPing(IPv4_ENDPOINT& addr, G2Packet* pPacket);
-    void OnPong(IPv4_ENDPOINT& addr, G2Packet* pPacket);
-    void OnCRAWLR(IPv4_ENDPOINT& addr, G2Packet* pPacket);
-    // szukanie
-    void OnQKA(IPv4_ENDPOINT& addr, G2Packet* pPacket);
-    void OnQA(IPv4_ENDPOINT& addr, G2Packet* pPacket);
-    void OnQH2(IPv4_ENDPOINT& addr, G2Packet* pPacket);
+	void OnPacket(IPv4_ENDPOINT addr, G2Packet* pPacket);
+	// pierdołki
+	void OnPing(IPv4_ENDPOINT& addr, G2Packet* pPacket);
+	void OnPong(IPv4_ENDPOINT& addr, G2Packet* pPacket);
+	void OnCRAWLR(IPv4_ENDPOINT& addr, G2Packet* pPacket);
+	// szukanie
+	void OnQKA(IPv4_ENDPOINT& addr, G2Packet* pPacket);
+	void OnQA(IPv4_ENDPOINT& addr, G2Packet* pPacket);
+	void OnQH2(IPv4_ENDPOINT& addr, G2Packet* pPacket);
 
-    inline void UpdateStats()
-    {
-        if( m_tMeterTimer.elapsed() < 1000 )
-            return;
+	inline void UpdateStats()
+	{
+		if(m_tMeterTimer.elapsed() < 1000)
+		{
+			return;
+		}
 
-        m_tMeterTimer.start();
+		m_tMeterTimer.start();
 
-        m_nAvgBandwidthIn = (m_nAvgBandwidthIn + m_nBandwidthIn) / 2;
-        m_nAvgBandwidthOut = (m_nAvgBandwidthOut + m_nBandwidthOut) / 2;
-        m_nBandwidthIn = m_nBandwidthOut = 0;
-    }
-    inline quint32 DownloadSpeed()
-    {
-        UpdateStats();
-        return m_nAvgBandwidthIn;
-    }
-    inline quint32 UploadSpeed()
-    {
-        UpdateStats();
-        return m_nAvgBandwidthOut;
-    }
+		m_nAvgBandwidthIn = (m_nAvgBandwidthIn + m_nBandwidthIn) / 2;
+		m_nAvgBandwidthOut = (m_nAvgBandwidthOut + m_nBandwidthOut) / 2;
+		m_nBandwidthIn = m_nBandwidthOut = 0;
+	}
+	inline quint32 DownloadSpeed()
+	{
+		UpdateStats();
+		return m_nAvgBandwidthIn;
+	}
+	inline quint32 UploadSpeed()
+	{
+		UpdateStats();
+		return m_nAvgBandwidthOut;
+	}
 
-    inline bool IsFirewalled()
-    {
-        return m_bFirewalled;
-    }
-    inline bool isListening()
-    {
-        return (m_bActive && m_pSocket && m_pSocket->isValid());
-    }
+	inline bool IsFirewalled()
+	{
+		return m_bFirewalled;
+	}
+	inline bool isListening()
+	{
+		return (m_bActive && m_pSocket && m_pSocket->isValid());
+	}
 
 public slots:
-    void OnDatagram();
-    void FlushSendCache();
+	void OnDatagram();
+	void FlushSendCache();
 
-    void SetupThread();
-    void CleanupThread();
+	void SetupThread();
+	void CleanupThread();
 
 signals:
-    void SendQueueUpdated();
+	void SendQueueUpdated();
 	void PacketQueuedForRouting();
 
 	friend class CNetwork;
@@ -167,11 +169,11 @@ signals:
 #pragma pack(push, 1)
 typedef struct
 {
-   char     szTag[3];
-   quint8   nFlags;
-   quint16  nSequence;
-   quint8   nPart;
-   quint8   nCount;
+	char     szTag[3];
+	quint8   nFlags;
+	quint16  nSequence;
+	quint8   nPart;
+	quint8   nCount;
 } GND_HEADER;
 
 #pragma pack(pop)

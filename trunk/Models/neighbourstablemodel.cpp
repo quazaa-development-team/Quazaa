@@ -32,7 +32,7 @@
 #include "geoiplist.h"
 #include "QSkinDialog/qskinsettings.h"
 
-CNeighboursTableModel::CNeighboursTableModel(QObject *parent, QWidget *container) :
+CNeighboursTableModel::CNeighboursTableModel(QObject* parent, QWidget* container) :
 	QAbstractTableModel(parent)
 {
 	m_oContainer = container;
@@ -51,8 +51,10 @@ int CNeighboursTableModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
 
-	if( parent.isValid() )
+	if(parent.isValid())
+	{
 		return 0;
+	}
 
 	return m_lNodes.count();
 }
@@ -66,16 +68,20 @@ int CNeighboursTableModel::columnCount(const QModelIndex& parent) const
 
 QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 {
-	if( !index.isValid() )
+	if(!index.isValid())
+	{
 		return QVariant();
+	}
 
-	if( index.row() > m_lNodes.size() || index.row() < 0 )
+	if(index.row() > m_lNodes.size() || index.row() < 0)
+	{
 		return QVariant();
+	}
 
-	if ( role == Qt::DecorationRole )
+	if(role == Qt::DecorationRole)
 	{
 		const sNeighbour& n = m_lNodes.at(index.row());
-		if (index.column() == 0)
+		if(index.column() == 0)
 		{
 			return n.iNetwork;
 		}
@@ -86,74 +92,76 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 		}
 	}
 
-	if( role == Qt::DisplayRole )
+	if(role == Qt::DisplayRole)
 	{
 		const sNeighbour& n = m_lNodes.at(index.row());
-		switch( index.column() )
+		switch(index.column())
 		{
-		case 0:
-			return const_cast<IPv4_ENDPOINT*>(&n.oAddress)->toString();
-		case 1:
-			return StateToString(n.nState);
-		case 2:
-			return QString().sprintf("%.2u:%.2u:%.2u", n.tConnected / 3600, (n.tConnected % 3600 / 60), (n.tConnected % 3600) % 60);
-		case 3:
-			return QString().sprintf("%1.3f / %1.3f", n.nBandwidthIn / 1024.0f, n.nBandwidthOut / 1024.0f);
-		case 4:
-			return QString().sprintf("%1.3f / %1.3f KB (%1.2f / %1.2f %%)", n.nBytesReceived / 1024.0f, n.nBytesSent / 1024.0f, 100.0f * n.nBytesReceived / n.nCompressionIn, 100.0f * n.nBytesSent / n.nCompressionOut );
-		case 5:
-			return QString().sprintf("%u - %u", n.nPacketsIn, n.nPacketsOut);
-		case 6:
-			return TypeToString(n.nType);
-		case 7:
-			if( n.nType == G2_HUB )
-			{
-				return QString().sprintf("%u / %u", n.nLeafCount, n.nLeafMax);
-			}
-			else
-				return QString();
-		case 8:
-			return QString("%1 msec").arg(n.nRTT);
-		case 9:
-			return n.sUserAgent;
-		case 10:
-			return n.sCountry;
+			case 0:
+				return const_cast<IPv4_ENDPOINT*>(&n.oAddress)->toString();
+			case 1:
+				return StateToString(n.nState);
+			case 2:
+				return QString().sprintf("%.2u:%.2u:%.2u", n.tConnected / 3600, (n.tConnected % 3600 / 60), (n.tConnected % 3600) % 60);
+			case 3:
+				return QString().sprintf("%1.3f / %1.3f", n.nBandwidthIn / 1024.0f, n.nBandwidthOut / 1024.0f);
+			case 4:
+				return QString().sprintf("%1.3f / %1.3f KB (%1.2f / %1.2f %%)", n.nBytesReceived / 1024.0f, n.nBytesSent / 1024.0f, 100.0f * n.nBytesReceived / n.nCompressionIn, 100.0f * n.nBytesSent / n.nCompressionOut);
+			case 5:
+				return QString().sprintf("%u - %u", n.nPacketsIn, n.nPacketsOut);
+			case 6:
+				return TypeToString(n.nType);
+			case 7:
+				if(n.nType == G2_HUB)
+				{
+					return QString().sprintf("%u / %u", n.nLeafCount, n.nLeafMax);
+				}
+				else
+				{
+					return QString();
+				}
+			case 8:
+				return QString("%1 msec").arg(n.nRTT);
+			case 9:
+				return n.sUserAgent;
+			case 10:
+				return n.sCountry;
 		}
 	}
 
-	else if( role == Qt::ForegroundRole )
+	else if(role == Qt::ForegroundRole)
 	{
-		switch ( m_lNodes.at(index.row()).nState )
+		switch(m_lNodes.at(index.row()).nState)
 		{
-		case nsConnected:
-			return skinSettings.listsColorSpecial;
-			break;
-		case nsConnecting:
-			return skinSettings.listsColorActive;
-			break;
-		default:
-			return skinSettings.listsColorNormal;
-			break;
+			case nsConnected:
+				return skinSettings.listsColorSpecial;
+				break;
+			case nsConnecting:
+				return skinSettings.listsColorActive;
+				break;
+			default:
+				return skinSettings.listsColorNormal;
+				break;
 		}
 	}
 
-	else if( role == Qt::FontRole )
+	else if(role == Qt::FontRole)
 	{
 		QFont font = qApp->font(m_oContainer);
-		switch ( m_lNodes.at(index.row()).nState )
+		switch(m_lNodes.at(index.row()).nState)
 		{
-		case nsConnected:
-			font.setWeight(skinSettings.listsWeightSpecial);
-			return font;
-			break;
-		case nsConnecting:
-			font.setWeight(skinSettings.listsWeightActive);
-			return font;
-			break;
-		default:
-			font.setWeight(skinSettings.listsWeightNormal);
-			return font;
-			break;
+			case nsConnected:
+				font.setWeight(skinSettings.listsWeightSpecial);
+				return font;
+				break;
+			case nsConnecting:
+				font.setWeight(skinSettings.listsWeightActive);
+				return font;
+				break;
+			default:
+				font.setWeight(skinSettings.listsWeightNormal);
+				return font;
+				break;
 		}
 	}
 
@@ -162,32 +170,32 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 
 QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-	if( role == Qt::DisplayRole && orientation == Qt::Horizontal )
+	if(role == Qt::DisplayRole && orientation == Qt::Horizontal)
 	{
-		switch( section )
+		switch(section)
 		{
-		case 0:
-			   return "Address";
-		case 1:
-			   return "Status";
-		case 2:
-			   return "Time";
-		case 3:
-			   return "Bandwidth";
-		case 4:
-			   return "Bytes";
-		case 5:
-			   return "Packets";
-		case 6:
-			   return "Mode";
-		case 7:
-			   return "Leaves";
-		case 8:
-			   return "Ping";
-		case 9:
-			   return "User Agent";
-		case 10:
-			   return "Country";
+			case 0:
+				return "Address";
+			case 1:
+				return "Status";
+			case 2:
+				return "Time";
+			case 3:
+				return "Bandwidth";
+			case 4:
+				return "Bytes";
+			case 5:
+				return "Packets";
+			case 6:
+				return "Mode";
+			case 7:
+				return "Leaves";
+			case 8:
+				return "Ping";
+			case 9:
+				return "User Agent";
+			case 10:
+				return "Country";
 		}
 	}
 
@@ -205,15 +213,19 @@ QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientat
 	return QVariant();
 }
 
-bool CNeighboursTableModel::NodeExists(CG2Node *pNode)
+bool CNeighboursTableModel::NodeExists(CG2Node* pNode)
 {
-	if( Neighbours.GetCount() == 0 )
-		return false;
-
-	for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
+	if(Neighbours.GetCount() == 0)
 	{
-		if( pNode == *itNode )
+		return false;
+	}
+
+	for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+	{
+		if(pNode == *itNode)
+		{
 			return true;
+		}
 	}
 
 	return false;
@@ -234,7 +246,7 @@ void CNeighboursTableModel::OnNodeAdded(CG2Node* pNode)
 	Network.m_pSection.unlock();*/
 }
 
-void CNeighboursTableModel::AddNode(CG2Node *pNode, bool bSignal)
+void CNeighboursTableModel::AddNode(CG2Node* pNode, bool bSignal)
 {
 	//qDebug() << "AddNode";
 
@@ -269,7 +281,7 @@ void CNeighboursTableModel::AddNode(CG2Node *pNode, bool bSignal)
 	m_lNodes.append(nbr);
 	endInsertRows();
 
-	if( bSignal )
+	if(bSignal)
 	{
 		QModelIndex idxUpdate = index(m_lNodes.size() - 1, 0, QModelIndex());
 		QModelIndex idxUpdate2 = index(m_lNodes.size() - 1, 10, QModelIndex());
@@ -281,23 +293,27 @@ void CNeighboursTableModel::UpdateNeighbourData(CG2Node* pNode)
 {
 	//qDebug() << "UpdateNeighboursData";
 
-	if( !Neighbours.m_pSection.tryLock() )
-		return;	// forget it
+	if(!Neighbours.m_pSection.tryLock())
+	{
+		return;    // forget it
+	}
 
-	if( NodeExists(pNode) )
+	if(NodeExists(pNode))
+	{
 		UpdateNode(pNode);
+	}
 
 	Neighbours.m_pSection.unlock();
 }
-void CNeighboursTableModel::UpdateNode(CG2Node *pNode, bool bSignal)
+void CNeighboursTableModel::UpdateNode(CG2Node* pNode, bool bSignal)
 {
 	//qDebug() << "UpdateNode";
 
 	quint32 tNow = time(0);
 
-	for( int i = 0; i < m_lNodes.size(); i++)
+	for(int i = 0; i < m_lNodes.size(); i++)
 	{
-		if( m_lNodes.at(i).pNode == pNode )
+		if(m_lNodes.at(i).pNode == pNode)
 		{
 			m_lNodes[i].oAddress = pNode->GetAddress();
 			m_lNodes[i].tConnected = tNow - pNode->m_tConnected;
@@ -316,7 +332,7 @@ void CNeighboursTableModel::UpdateNode(CG2Node *pNode, bool bSignal)
 			m_lNodes[i].nType = pNode->m_nType;
 			m_lNodes[i].sUserAgent = pNode->m_sUserAgent;
 
-			if( bSignal )
+			if(bSignal)
 			{
 				QModelIndex idx = index(i, 0, QModelIndex());
 				QModelIndex idx2 = index(i, 10, QModelIndex());
@@ -332,9 +348,9 @@ void CNeighboursTableModel::OnRemoveNode(CG2Node* pNode)
 {
 	//qDebug() << "OnRemoveNode";
 
-	for( int i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
+	for(int i = 0, nMax = m_lNodes.size(); i < nMax; i++)
 	{
-		if( m_lNodes[i].pNode == pNode )
+		if(m_lNodes[i].pNode == pNode)
 		{
 			beginRemoveRows(QModelIndex(), i, i);
 			m_lNodes.removeAt(i);
@@ -354,30 +370,36 @@ QString CNeighboursTableModel::StateToString(int s) const
 {
 	switch(s)
 	{
-	case nsClosed:
-		return "closed";
-	case nsConnecting:
-		return "connecting";
-	case nsHandshaking:
-		return "handshaking";
-	case nsConnected:
-		return "connected";
-	case nsClosing:
-		return "closing";
-	case nsError:
-		return "error";
+		case nsClosed:
+			return "closed";
+		case nsConnecting:
+			return "connecting";
+		case nsHandshaking:
+			return "handshaking";
+		case nsConnected:
+			return "connected";
+		case nsClosing:
+			return "closing";
+		case nsError:
+			return "error";
 	}
 
 	return QString();
 }
 QString CNeighboursTableModel::TypeToString(G2NodeType t) const
 {
-	if( t == G2_HUB )
+	if(t == G2_HUB)
+	{
 		return "G2 Hub";
-	else if( t == G2_LEAF )
+	}
+	else if(t == G2_LEAF)
+	{
 		return "G2 Leaf";
+	}
 	else
+	{
 		return "";
+	}
 }
 
 void CNeighboursTableModel::UpdateAll()
@@ -385,15 +407,15 @@ void CNeighboursTableModel::UpdateAll()
 
 	//qDebug() << "UpdateAll";
 
-	if( Neighbours.m_pSection.tryLock() )
+	if(Neighbours.m_pSection.tryLock())
 	{
 		// first check if we need to remove some nodes
 
-		for( int i = 0; i < m_lNodes.size(); i++ )
+		for(int i = 0; i < m_lNodes.size(); i++)
 		{
 			bool bFound = Neighbours.NeighbourExists(m_lNodes.at(i).pNode);
 
-			if( !bFound )
+			if(!bFound)
 			{
 				// not found in network - remove it
 				OnRemoveNode(m_lNodes.at(i).pNode);
@@ -402,13 +424,13 @@ void CNeighboursTableModel::UpdateAll()
 
 		// now add missing nodes or update existing
 
-		for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
+		for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 		{
 			bool bFound = false;
 
-			for( int j = 0; j < m_lNodes.size(); j++ )
+			for(int j = 0; j < m_lNodes.size(); j++)
 			{
-				if( *itNode == m_lNodes.at(j).pNode )
+				if(*itNode == m_lNodes.at(j).pNode)
 				{
 					UpdateNode(*itNode, false);
 					bFound = true;
@@ -416,7 +438,7 @@ void CNeighboursTableModel::UpdateAll()
 				}
 			}
 
-			if( !bFound )
+			if(!bFound)
 			{
 				AddNode(*itNode, false);
 			}

@@ -26,7 +26,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetScheduler::WidgetScheduler(QWidget *parent) :
+WidgetScheduler::WidgetScheduler(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetScheduler)
 {
@@ -41,15 +41,16 @@ WidgetScheduler::~WidgetScheduler()
 	delete ui;
 }
 
-void WidgetScheduler::changeEvent(QEvent *e)
+void WidgetScheduler::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -66,8 +67,8 @@ void WidgetScheduler::saveWidget()
 
 void WidgetScheduler::on_actionAddScheduledTask_triggered()
 {
-	QSkinDialog *dlgSkinScheduler = new QSkinDialog(false, true, false, false, this);
-	DialogScheduler *dlgScheduler = new DialogScheduler;
+	QSkinDialog* dlgSkinScheduler = new QSkinDialog(false, true, false, false, this);
+	DialogScheduler* dlgScheduler = new DialogScheduler;
 
 	dlgSkinScheduler->addChildWidget(dlgScheduler);
 
@@ -77,8 +78,8 @@ void WidgetScheduler::on_actionAddScheduledTask_triggered()
 
 void WidgetScheduler::on_actionScheduleProperties_triggered()
 {
-	QSkinDialog *dlgSkinScheduler = new QSkinDialog(false, true, false, false, this);
-	DialogScheduler *dlgScheduler = new DialogScheduler;
+	QSkinDialog* dlgSkinScheduler = new QSkinDialog(false, true, false, false, this);
+	DialogScheduler* dlgScheduler = new DialogScheduler;
 
 	dlgSkinScheduler->addChildWidget(dlgScheduler);
 

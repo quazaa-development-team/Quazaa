@@ -24,21 +24,23 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogSelectVisualisation;
 }
 
-class DialogSelectVisualisation : public QDialog {
+class DialogSelectVisualisation : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogSelectVisualisation(QWidget *parent = 0);
+	DialogSelectVisualisation(QWidget* parent = 0);
 	~DialogSelectVisualisation();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogSelectVisualisation *m_ui;
+	Ui::DialogSelectVisualisation* m_ui;
 
 signals:
 	void closed();

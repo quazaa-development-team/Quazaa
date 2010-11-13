@@ -28,7 +28,7 @@ class QString;
 
 namespace Parser
 {
-    QString GetHeaderValue(QString & headers, QString headerName);
+	QString GetHeaderValue(QString& headers, QString headerName);
 
 };
 

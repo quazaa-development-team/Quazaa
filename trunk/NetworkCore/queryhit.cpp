@@ -24,22 +24,24 @@
 
 CQueryHit::CQueryHit()
 {
-    m_pNext = 0;
-    m_nObjectSize = 0;
-    m_nCachedSources = 0;
-    m_bIsPartial = 0;
-    m_nPartialBytesAvailable = 0;
-    m_bIsP2PIMCapable = false;
+	m_pNext = 0;
+	m_nObjectSize = 0;
+	m_nCachedSources = 0;
+	m_bIsPartial = 0;
+	m_nPartialBytesAvailable = 0;
+	m_bIsP2PIMCapable = false;
 }
 CQueryHit::~CQueryHit()
 {
-    qDebug() << "CQueryHit destructor";
+	qDebug() << "CQueryHit destructor";
 
-    if( m_pNext )
-        m_pNext->Delete();
+	if(m_pNext)
+	{
+		m_pNext->Delete();
+	}
 }
 
-QueryHitInfo* CQueryHit::ReadInfo(G2Packet *pPacket, IPv4_ENDPOINT *pSender)
+QueryHitInfo* CQueryHit::ReadInfo(G2Packet* pPacket, IPv4_ENDPOINT* pSender)
 {
 	// do a shallow parsing...
 
@@ -55,55 +57,57 @@ QueryHitInfo* CQueryHit::ReadInfo(G2Packet *pPacket, IPv4_ENDPOINT *pSender)
 		quint32 nLength = 0, nNext = 0;
 		bool bCompound = false;
 
-		if( pSender )
+		if(pSender)
 		{
 			pHitInfo->m_oNodeAddress = *pSender;
 			pHitInfo->m_oSenderAddress = *pSender;
 			bHaveNA = true;
 		}
 
-		while( pPacket->ReadPacket(&szType[0], nLength, &bCompound) )
+		while(pPacket->ReadPacket(&szType[0], nLength, &bCompound))
 		{
 			nNext = pPacket->m_nPosition + nLength;
 
-			if( strcmp("H", szType) == 0 && bCompound )
+			if(strcmp("H", szType) == 0 && bCompound)
 			{
 				bHaveHits = true;
 				continue;
 			}
 
-			if( bCompound )
+			if(bCompound)
+			{
 				pPacket->SkipCompound();
+			}
 
-			if( strcmp("NA", szType) == 0 && nLength >= 6 )
+			if(strcmp("NA", szType) == 0 && nLength >= 6)
 			{
 				IPv4_ENDPOINT oNodeAddr;
 				pPacket->ReadHostAddress(&oNodeAddr);
-				if( oNodeAddr.ip != 0 && oNodeAddr.port != 0 )
+				if(oNodeAddr.ip != 0 && oNodeAddr.port != 0)
 				{
 					pHitInfo->m_oNodeAddress = oNodeAddr;
 					bHaveNA = true;
 				}
 			}
-			else if( strcmp("GU", szType) == 0 && nLength >= 16 )
+			else if(strcmp("GU", szType) == 0 && nLength >= 16)
 			{
 				QUuid oNodeGUID = pPacket->ReadGUID();
-				if( !oNodeGUID.isNull() )
+				if(!oNodeGUID.isNull())
 				{
 					pHitInfo->m_oNodeGUID = oNodeGUID;
 					bHaveGUID = true;
 				}
 			}
-			else if( strcmp("NH", szType) == 0 && nLength >= 6 )
+			else if(strcmp("NH", szType) == 0 && nLength >= 6)
 			{
 				IPv4_ENDPOINT oNH;
 				pPacket->ReadHostAddress(&oNH);
-				if( oNH.ip != 0 && oNH.port != 0 )
+				if(oNH.ip != 0 && oNH.port != 0)
 				{
 					pHitInfo->m_lNeighbouringHubs.append(oNH);
 				}
 			}
-			else if( strcmp("V", szType) == 0 && nLength >= 4 )
+			else if(strcmp("V", szType) == 0 && nLength >= 4)
 			{
 				pHitInfo->m_sVendor = pPacket->ReadString(4);
 			}
@@ -117,7 +121,7 @@ QueryHitInfo* CQueryHit::ReadInfo(G2Packet *pPacket, IPv4_ENDPOINT *pSender)
 		return 0;
 	}
 
-	if( pPacket->GetRemaining() < 17 || !bHaveHits || !bHaveNA || !bHaveGUID )
+	if(pPacket->GetRemaining() < 17 || !bHaveHits || !bHaveNA || !bHaveGUID)
 	{
 		qDebug() << "Malformatted hit in CSearchManager" << pPacket->GetRemaining() << bHaveHits << bHaveNA << bHaveGUID;
 		delete pHitInfo;
@@ -130,17 +134,19 @@ QueryHitInfo* CQueryHit::ReadInfo(G2Packet *pPacket, IPv4_ENDPOINT *pSender)
 	return pHitInfo;
 }
 
-CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
+CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 {
-	if( !pPacket->m_bCompound )
-        return 0;
+	if(!pPacket->m_bCompound)
+	{
+		return 0;
+	}
 
 	pPacket->m_nPosition = 0; // reset packet position
 
-    bool bHaveHits = false;
-    bool bFirstHit = true;
+	bool bHaveHits = false;
+	bool bFirstHit = true;
 
-    CQueryHit* pThisHit = new CQueryHit();
+	CQueryHit* pThisHit = new CQueryHit();
 
 	try
 	{
@@ -148,18 +154,18 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 		quint32 nLength = 0, nLengthX = 0, nNext = 0, nNextX = 0;
 		bool bCompound = false;
 
-		while( pPacket->ReadPacket(&szType[0], nLength, &bCompound) )
+		while(pPacket->ReadPacket(&szType[0], nLength, &bCompound))
 		{
 			nNext = pPacket->m_nPosition + nLength;
 
-			if( strcmp("H", szType) == 0 && bCompound )
+			if(strcmp("H", szType) == 0 && bCompound)
 			{
 				CQueryHit* pHit = (bFirstHit ? pThisHit : new CQueryHit());
 
-				if( !bFirstHit )
+				if(!bFirstHit)
 				{
 					CQueryHit* pPrevHit = pThisHit;
-					while( pPrevHit->m_pNext != 0 )
+					while(pPrevHit->m_pNext != 0)
 					{
 						pPrevHit = pPrevHit->m_pNext;
 					}
@@ -171,20 +177,20 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 				bool bHaveDN = false;
 				bool bHaveURN = false;
 
-				while( pPacket->m_nPosition < nNext && pPacket->ReadPacket(&szTypeX[0], nLengthX))
+				while(pPacket->m_nPosition < nNext && pPacket->ReadPacket(&szTypeX[0], nLengthX))
 				{
 					nNextX = pPacket->m_nPosition + nLengthX;
 
-					if( strcmp("URN", szTypeX) == 0 )
+					if(strcmp("URN", szTypeX) == 0)
 					{
 						QString sURN;
 						char hashBuff[256];
 						sURN = pPacket->ReadString();
 
-						if( nLengthX >= 44u && sURN.compare("bp") == 0 )
+						if(nLengthX >= 44u && sURN.compare("bp") == 0)
 						{
 							pPacket->Read(&hashBuff[0], CSHA1::ByteCount());
-							if( pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()) )
+							if(pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()))
 							{
 								bHaveURN = true;
 							}
@@ -193,10 +199,10 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 								pHit->m_oSha1.Clear();
 							}
 						}
-						else if( nLengthX >= CSHA1::ByteCount() + 5u && sURN.compare("sha1") == 0 )
+						else if(nLengthX >= CSHA1::ByteCount() + 5u && sURN.compare("sha1") == 0)
 						{
 							pPacket->Read(&hashBuff[0], CSHA1::ByteCount());
-							if( pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()) )
+							if(pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()))
 							{
 								bHaveURN = true;
 							}
@@ -208,19 +214,19 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 
 
 					}
-					else if( strcmp("URL", szTypeX) == 0 && nLengthX )
+					else if(strcmp("URL", szTypeX) == 0 && nLengthX)
 					{
 						// if url empty - try uri-res resolver or a node do not have this object
 						// bez sensu...
 						pHit->m_sURL = pPacket->ReadString();
 					}
-					else if( strcmp("DN", szTypeX) == 0 )
+					else if(strcmp("DN", szTypeX) == 0)
 					{
-						if( bHaveSize )
+						if(bHaveSize)
 						{
 							pHit->m_sDescriptiveName = pPacket->ReadString(nLengthX);
 						}
-						else if( nLengthX > 4 )
+						else if(nLengthX > 4)
 						{
 							baTemp.resize(4);
 							pPacket->Read(baTemp.data(), 4);
@@ -229,24 +235,24 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 
 						bHaveDN = true;
 					}
-					else if( strcmp("MD", szTypeX) == 0 )
+					else if(strcmp("MD", szTypeX) == 0)
 					{
 						pHit->m_sMetadata = pPacket->ReadString();
 					}
-					else if( strcmp("SZ", szTypeX) == 0 && nLengthX >= 4 )
+					else if(strcmp("SZ", szTypeX) == 0 && nLengthX >= 4)
 					{
-						if( nLengthX >= 8 )
+						if(nLengthX >= 8)
 						{
-							if( !baTemp.isEmpty() )
+							if(!baTemp.isEmpty())
 							{
 								pHit->m_sDescriptiveName.prepend(baTemp);
 							}
 							pHit->m_nObjectSize = pPacket->ReadIntLE<quint64>();
 							bHaveSize = true;
 						}
-						else if( nLengthX >= 4 )
+						else if(nLengthX >= 4)
 						{
-							if( !baTemp.isEmpty() )
+							if(!baTemp.isEmpty())
 							{
 								pHit->m_sDescriptiveName.prepend(baTemp);
 							}
@@ -254,11 +260,11 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 							bHaveSize = true;
 						}
 					}
-					else if( strcmp("CSC", szTypeX) == 0 && nLengthX >= 2 )
+					else if(strcmp("CSC", szTypeX) == 0 && nLengthX >= 2)
 					{
 						pHit->m_nCachedSources = pPacket->ReadIntLE<quint16>();
 					}
-					else if( strcmp("PART", szTypeX) == 0 && nLengthX >= 4 )
+					else if(strcmp("PART", szTypeX) == 0 && nLengthX >= 4)
 					{
 						pHit->m_bIsPartial = true;
 						pHit->m_nPartialBytesAvailable = pPacket->ReadIntLE<quint32>();
@@ -266,7 +272,7 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 					pPacket->m_nPosition = nNextX;
 				}
 
-				if( !bHaveSize && baTemp.size() == 4 )
+				if(!bHaveSize && baTemp.size() == 4)
 				{
 					pHit->m_nObjectSize = qFromLittleEndian(*(quint32*)baTemp.constData());
 				}
@@ -275,20 +281,20 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 					pHit->m_sDescriptiveName.prepend(baTemp);
 				}
 
-				if( bHaveURN && bHaveDN )
+				if(bHaveURN && bHaveDN)
 				{
 					bFirstHit = false;
 					bHaveHits = true;
 				}
 				else
 				{
-					if( !bFirstHit )
+					if(!bFirstHit)
 					{
 						// może teraz się nie wywali...
 						// można by było to lepiej zrobić...
-						for( CQueryHit* pTest = pThisHit; pTest != 0; pTest = pTest->m_pNext )
+						for(CQueryHit* pTest = pThisHit; pTest != 0; pTest = pTest->m_pNext)
 						{
-							if( pTest->m_pNext == pHit )
+							if(pTest->m_pNext == pHit)
 							{
 								pTest->m_pNext = 0;
 								break;
@@ -305,7 +311,7 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 	catch(...) // packet incomplete, packet error, parser takes care of stream end
 	{
 		qDebug() << "EXCEPTION IN QUERY HIT PARSING!";
-		if( pThisHit )
+		if(pThisHit)
 		{
 			pThisHit->Delete();
 		}
@@ -314,64 +320,68 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet *pPacket, QueryHitInfo* pHitInfo)
 	}
 
 	// we already know query hit informations, so don't reparse them
-	if( !bHaveHits )
+	if(!bHaveHits)
 	{
 		pThisHit->Delete();
 		return 0;
 	}
 
-    CQueryHit* pHit = pThisHit;
+	CQueryHit* pHit = pThisHit;
 	QSharedPointer<QueryHitInfo> pHitInfoS(pHitInfo);
 
-    while( pHit != 0 )
-    {
+	while(pHit != 0)
+	{
 		pHit->m_pHitInfo = pHitInfoS;
 
-        pHit = pHit->m_pNext;
-    }
+		pHit = pHit->m_pNext;
+	}
 
 
-    // TODO: sprawdzic poprawnosc hita... (Validate hit)
+	// TODO: sprawdzic poprawnosc hita... (Validate hit)
 
-    pHit = pThisHit;
+	pHit = pThisHit;
 
-    while( pHit != 0 )
-    {
-        pHit->ResolveURLs();
-        pHit = pHit->m_pNext;
-    }
+	while(pHit != 0)
+	{
+		pHit->ResolveURLs();
+		pHit = pHit->m_pNext;
+	}
 
-    return pThisHit;
+	return pThisHit;
 }
 
 void CQueryHit::Delete()
 {
-    if( m_pNext )
-    {
-        m_pNext->Delete();
-        m_pNext = 0;
-    }
+	if(m_pNext)
+	{
+		m_pNext->Delete();
+		m_pNext = 0;
+	}
 
-    delete this;
+	delete this;
 }
 void CQueryHit::ResolveURLs()
 {
-    if( !m_sURL.isEmpty() )
-        return;
+	if(!m_sURL.isEmpty())
+	{
+		return;
+	}
 
-    /*if( m_lURNs.isEmpty() )
-        return;*/
+	/*if( m_lURNs.isEmpty() )
+	    return;*/
 
-    // TODO: odpowiednie kodowanie... (Appropriate Encoding)
-    if( m_oSha1.IsValid() )
-        m_sURL = m_sURL.sprintf("http://%s/uri-res/N2R?%s", m_pHitInfo->m_oNodeAddress.toString().toAscii().constData(), m_oSha1.ToURN().toAscii().constData());
+	// TODO: odpowiednie kodowanie... (Appropriate Encoding)
+	if(m_oSha1.IsValid())
+	{
+		m_sURL = m_sURL.sprintf("http://%s/uri-res/N2R?%s", m_pHitInfo->m_oNodeAddress.toString().toAscii().constData(), m_oSha1.ToURN().toAscii().constData());
+	}
 }
-bool CQueryHit::IsValid(CQuery *pQuery)
+bool CQueryHit::IsValid(CQuery* pQuery)
 {
-    if( pQuery )
-    {
-        //
-    }
+	if(pQuery)
+	{
+		//
+	}
 
-    return true;
+	return true;
 }

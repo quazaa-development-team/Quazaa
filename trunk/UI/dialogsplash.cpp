@@ -25,7 +25,7 @@
 
 #include <QDesktopWidget>
 
-DialogSplash::DialogSplash(QWidget *parent) :
+DialogSplash::DialogSplash(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogSplash)
 {
@@ -37,7 +37,7 @@ DialogSplash::DialogSplash(QWidget *parent) :
 	m_ui->labelStatus->setStyleSheet(skinSettings.splashStatus);
 	m_ui->labelLogo->setStyleSheet(skinSettings.splashLogo);
 	m_ui->progressBarStatus->setStyleSheet(skinSettings.splashProgress);
-	move(QPoint( ( (QApplication::desktop()->screenGeometry(this).width() / 2) - (width() / 2) ), ( (QApplication::desktop()->screenGeometry(this).height() / 2) - (height() / 2) )));
+	move(QPoint(((QApplication::desktop()->screenGeometry(this).width() / 2) - (width() / 2)), ((QApplication::desktop()->screenGeometry(this).height() / 2) - (height() / 2))));
 }
 
 DialogSplash::~DialogSplash()
@@ -45,14 +45,15 @@ DialogSplash::~DialogSplash()
 	delete m_ui;
 }
 
-void DialogSplash::changeEvent(QEvent *e)
+void DialogSplash::changeEvent(QEvent* e)
 {
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

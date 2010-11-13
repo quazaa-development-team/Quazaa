@@ -24,21 +24,23 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogCloseType;
 }
 
-class DialogCloseType : public QDialog {
+class DialogCloseType : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogCloseType(QWidget *parent = 0);
+	DialogCloseType(QWidget* parent = 0);
 	~DialogCloseType();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogCloseType *m_ui;
+	Ui::DialogCloseType* m_ui;
 
 signals:
 	void closed();

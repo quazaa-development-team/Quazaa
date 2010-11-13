@@ -25,30 +25,32 @@
 #include <QtGui>
 #include <QAbstractItemModel>
 
-namespace Ui {
+namespace Ui
+{
 	class WidgetNeighbours;
 }
 
-class WidgetNeighbours : public QMainWindow {
+class WidgetNeighbours : public QMainWindow
+{
 	Q_OBJECT
 public:
-	WidgetNeighbours(QWidget *parent = 0);
+	WidgetNeighbours(QWidget* parent = 0);
 	~WidgetNeighbours();
-	void setModel(QAbstractItemModel *model);
-	QWidget *treeView();
+	void setModel(QAbstractItemModel* model);
+	QWidget* treeView();
 	void saveWidget();
-	QLabel *labelG2StatsIcon;
-	QLabel *labelG2Stats;
+	QLabel* labelG2StatsIcon;
+	QLabel* labelG2Stats;
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetNeighbours *ui;
+	Ui::WidgetNeighbours* ui;
 
 private slots:
 	void on_actionNeighbourDisconnect_triggered();
- void on_actionNeighbourConnectTo_triggered();
+	void on_actionNeighbourConnectTo_triggered();
 	void on_actionSettings_triggered();
 	void skinChangeEvent();
 	void updateG2();

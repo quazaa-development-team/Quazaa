@@ -25,23 +25,25 @@
 #include <QWidget>
 #include "widgetlibraryview.h"
 
-namespace Ui {
-    class WidgetLibrary;
+namespace Ui
+{
+	class WidgetLibrary;
 }
 
-class WidgetLibrary : public QWidget {
-    Q_OBJECT
+class WidgetLibrary : public QWidget
+{
+	Q_OBJECT
 public:
-    WidgetLibrary(QWidget *parent = 0);
-    ~WidgetLibrary();
-    WidgetLibraryView *panelLibraryView;
+	WidgetLibrary(QWidget* parent = 0);
+	~WidgetLibrary();
+	WidgetLibraryView* panelLibraryView;
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetLibrary *ui;
+	Ui::WidgetLibrary* ui;
 
 public slots:
 	void initializeLibrary();

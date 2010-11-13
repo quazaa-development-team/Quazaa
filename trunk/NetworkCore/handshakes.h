@@ -33,12 +33,12 @@ class QTimer;
 
 class CHandshakes : public QTcpServer
 {
-    Q_OBJECT
+	Q_OBJECT
 
 protected:
-    QSet<CHandshake*>   m_lHandshakes;
-    quint32             m_nAccepted;
-	CRateController*	m_pController;
+	QSet<CHandshake*>   m_lHandshakes;
+	quint32             m_nAccepted;
+	CRateController* 	m_pController;
 	QTimer*				m_pTimer;
 	bool				m_bActive;
 
@@ -46,17 +46,17 @@ public:
 	QMutex	m_pSection;
 
 public:
-    CHandshakes(QObject *parent = 0);
-    ~CHandshakes();
+	CHandshakes(QObject* parent = 0);
+	~CHandshakes();
 
-    bool IsFirewalled()
-    {
+	bool IsFirewalled()
+	{
 		return (m_nAccepted == 0);
-    }
+	}
 
 public slots:
 	void Listen();
-    void Disconnect();
+	void Disconnect();
 	void OnTimer();
 
 protected slots:
@@ -64,10 +64,10 @@ protected slots:
 	void CleanupThread();
 
 protected:
-    void incomingConnection(int handle);
-    void RemoveHandshake(CHandshake* pHs);
+	void incomingConnection(int handle);
+	void RemoveHandshake(CHandshake* pHs);
 
-    friend class CHandshake;
+	friend class CHandshake;
 };
 
 extern CHandshakes Handshakes;

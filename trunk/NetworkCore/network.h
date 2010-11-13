@@ -37,22 +37,22 @@ class CManagedSearch;
 
 class CNetwork : public QObject
 {
-    Q_OBJECT
-
-public:    
-    QMutex  m_pSection;
+	Q_OBJECT
 
 public:
-    bool             m_bActive;
-    QTimer*          m_pSecondTimer;
-    G2NodeType       m_nNodeState;
-    bool             m_bNeedUpdateLNI;
-    quint32          m_nLNIWait;
-    quint32          m_nKHLWait;
-    IPv4_ENDPOINT    m_oAddress;
+	QMutex  m_pSection;
 
-    CRouteTable      m_oRoutingTable;
-    quint32          m_tCleanRoutesNext;
+public:
+	bool             m_bActive;
+	QTimer*          m_pSecondTimer;
+	G2NodeType       m_nNodeState;
+	bool             m_bNeedUpdateLNI;
+	quint32          m_nLNIWait;
+	quint32          m_nKHLWait;
+	IPv4_ENDPOINT    m_oAddress;
+
+	CRouteTable      m_oRoutingTable;
+	quint32          m_tCleanRoutesNext;
 
 	quint32			 m_nNextCheck;		// secs to next AdatpiveCheckPeriod
 	quint32			 m_nBusyPeriods;	// num of busy periods
@@ -70,41 +70,41 @@ public:
 	bool			m_bPacketsPending;
 
 public:
-    CNetwork(QObject* parent = 0);
-    ~CNetwork();
+	CNetwork(QObject* parent = 0);
+	~CNetwork();
 
-    void Connect();
-    void Disconnect();
+	void Connect();
+	void Disconnect();
 
-    bool NeedMore(G2NodeType nType);
+	bool NeedMore(G2NodeType nType);
 
-    void AcquireLocalAddress(QString& sHeader);
-    bool IsListening();
-    bool IsFirewalled();
+	void AcquireLocalAddress(QString& sHeader);
+	bool IsListening();
+	bool IsFirewalled();
 
-    bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket);
-    bool RoutePacket(G2Packet* pPacket, CG2Node* pNbr = 0);
+	bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket);
+	bool RoutePacket(G2Packet* pPacket, CG2Node* pNbr = 0);
 
-    inline bool isHub()
-    {
-        return (m_nNodeState == G2_HUB);
-    }
-    inline IPv4_ENDPOINT GetLocalAddress()
-    {
-        return m_oAddress;
-    }
+	inline bool isHub()
+	{
+		return (m_nNodeState == G2_HUB);
+	}
+	inline IPv4_ENDPOINT GetLocalAddress()
+	{
+		return m_oAddress;
+	}
 
 
-    bool IsConnectedTo(IPv4_ENDPOINT addr);
+	bool IsConnectedTo(IPv4_ENDPOINT addr);
 
 	void HubBalancing();
 	bool SwitchClientMode(G2NodeType nRequestedMode);
 
 public slots:
-    void OnSecondTimer();
+	void OnSecondTimer();
 
-    void SetupThread();
-    void CleanupThread();
+	void SetupThread();
+	void CleanupThread();
 
 	void ConnectTo(IPv4_ENDPOINT& addr);
 	/*void DisconnectFrom(IPv4_ENDPOINT& ip);
@@ -115,15 +115,15 @@ public slots:
 	void RoutePackets();
 
 signals:
-    void NodeAdded(CG2Node*);
-    void NodeRemoved(CG2Node*);
-    void NodeUpdated(CG2Node*);
+	void NodeAdded(CG2Node*);
+	void NodeRemoved(CG2Node*);
+	void NodeUpdated(CG2Node*);
 
 protected:
-    void DispatchKHL();
+	void DispatchKHL();
 	void AdaptiveHubRun();
 
-    friend class CG2Node;
+	friend class CG2Node;
 };
 
 extern CNetwork Network;

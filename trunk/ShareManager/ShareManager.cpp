@@ -39,7 +39,7 @@
 CThread ShareManagerThread;
 CShareManager ShareManager;
 
-CShareManager::CShareManager(QObject *parent) :
+CShareManager::CShareManager(QObject* parent) :
 	QObject(parent)
 {
 	m_bActive = false;
@@ -62,7 +62,7 @@ void CShareManager::SetupThread()
 	m_oDatabase = QSqlDatabase::addDatabase("QSQLITE", "Shares");
 	m_oDatabase.setDatabaseName("shares.sdb");
 
-	if( !m_oDatabase.open() )
+	if(!m_oDatabase.open())
 	{
 		qWarning() << "Failed to open SQLITE database. Giving up. " << m_oDatabase.lastError().text();
 		QTimer::singleShot(1000, &ShareManagerThread, SLOT(quit()));
@@ -77,7 +77,7 @@ void CShareManager::SetupThread()
 
 	// TODO: Better checks and error handling
 
-	if( !m_oDatabase.tables().contains("dirs") || !m_oDatabase.tables().contains("files") || !m_oDatabase.tables().contains("hashes") || !m_oDatabase.tables().contains("hash_queue") )
+	if(!m_oDatabase.tables().contains("dirs") || !m_oDatabase.tables().contains("files") || !m_oDatabase.tables().contains("hashes") || !m_oDatabase.tables().contains("hash_queue"))
 	{
 		qDebug() << "Database is corrupted. Recreating...";
 
@@ -126,7 +126,7 @@ void CShareManager::Stop()
 	m_bActive = false;
 	m_bReady = false;
 	m_bTableReady = false;
-	if( m_pTable )
+	if(m_pTable)
 	{
 		delete m_pTable;
 		m_pTable = 0;
@@ -139,7 +139,7 @@ void CShareManager::CleanupThread()
 {
 	qDebug() << "ShareManager: cleaning up.";
 
-	if( m_oDatabase.isOpen() )
+	if(m_oDatabase.isOpen())
 	{
 		qDebug() << "Closing Database connection.";
 		QSqlDatabase::database("Shares").close();
@@ -163,7 +163,7 @@ void CShareManager::RemoveDir(QString sPath)
 	query.addBindValue(QVariant(sPath));
 	query.exec();
 
-	while( query.next() )
+	while(query.next())
 	{
 		RemoveDir(query.record().value(0).toUInt());
 	}
@@ -174,7 +174,7 @@ void CShareManager::RemoveDir(quint64 nId)
 	QSqlQuery delq(m_oDatabase);
 
 	delq.exec(QString("SELECT id FROM dirs WHERE parent = %1").arg(nId));
-	while( delq.next() )
+	while(delq.next())
 	{
 		RemoveDir(delq.record().value(0).toUInt());
 	}
@@ -213,16 +213,16 @@ void CShareManager::SyncShares()
 	int nMissingDirs = 0, nMissingFiles = 0, nModifiedFiles = 0;
 
 	// 1. Check for missing dirs
-	if( !query.exec("SELECT id, path FROM dirs") )
+	if(!query.exec("SELECT id, path FROM dirs"))
 	{
 		qDebug() << "SQL Query failed: " << query.lastError().text();
 		return;
 	}
 
-	while( query.next() )
+	while(query.next())
 	{
 		QDir d(query.record().value(1).toString());
-		if( !d.exists() )
+		if(!d.exists())
 		{
 			// delete all file entries that refer to the missing dir
 			qDebug() << "Directory " << d.path() << "does not exist";
@@ -233,26 +233,26 @@ void CShareManager::SyncShares()
 
 	// 2. Check for missing or modified files
 	query.setForwardOnly(true);
-	if( !query.exec("SELECT id, path FROM dirs") )
+	if(!query.exec("SELECT id, path FROM dirs"))
 	{
 		qDebug() << "SQL Query failed: " << query.lastError().text();
 		return;
 	}
 
-	while( query.next() )
+	while(query.next())
 	{
 		QSqlQuery fquery(m_oDatabase);
 
-		if( fquery.exec(QString("SELECT file_id,name,size,last_modified FROM files WHERE dir_id = %1").arg(query.record().value(0).toInt())) )
+		if(fquery.exec(QString("SELECT file_id,name,size,last_modified FROM files WHERE dir_id = %1").arg(query.record().value(0).toInt())))
 		{
-			while( fquery.next() )
+			while(fquery.next())
 			{
 				QString sPath;
 				sPath = query.record().value(1).toString().append("/");
 				sPath.append(fquery.record().value(1).toString());
 
 				QFileInfo fi(sPath);
-				if( !fi.exists() )
+				if(!fi.exists())
 				{
 					qDebug() << "File:" << sPath.toAscii() << " is missing";
 					RemoveFile(fquery.record().value(0).toInt());
@@ -264,18 +264,18 @@ void CShareManager::SyncShares()
 
 					bool bModified = false;
 
-					if( fi.size() != fquery.record().value(2).toLongLong() )
+					if(fi.size() != fquery.record().value(2).toLongLong())
 					{
 						qDebug() << "Size mismatch";
 						bModified = true;
 					}
-					else if( fi.lastModified().toTime_t() != fquery.record().value(3).toUInt() )
+					else if(fi.lastModified().toTime_t() != fquery.record().value(3).toUInt())
 					{
 						qDebug() << "Modified recently";
 						bModified = true;
 					}
 
-					if( bModified )
+					if(bModified)
 					{
 						qDebug() << "File:" << sPath.toAscii() << " is modified, rehashing";
 						RemoveFile(fquery.record().value(0).toInt());
@@ -291,18 +291,18 @@ void CShareManager::SyncShares()
 	QList<qint64> lSharedDirs;
 
 	// for each dir from settings
-	foreach( QString sPath, quazaaSettings.Library.Shares )
+	foreach(QString sPath, quazaaSettings.Library.Shares)
 	{
 		// find all subdirs and store their IDs in the list
 		query.prepare("SELECT id FROM dirs WHERE path LIKE ?");
 		query.bindValue(0, QVariant(sPath.append("%")));
 
-		if( !query.exec() )
+		if(!query.exec())
 		{
 			qDebug() << "SQL Query failed: " << query.lastError().text() << query.lastError().number() << query.executedQuery();
 		}
 
-		while( query.next() )
+		while(query.next())
 		{
 			lSharedDirs.append(query.record().value(0).toLongLong());
 		}
@@ -310,17 +310,17 @@ void CShareManager::SyncShares()
 
 	// now find and remove orphan dirs
 	QString sIds;
-	foreach( qint64 nId, lSharedDirs )
+	foreach(qint64 nId, lSharedDirs)
 	{
 		sIds.append(QVariant(nId).toString()).append(",");
 	}
-	if( sIds.size() )
+	if(sIds.size())
 	{
 		sIds.truncate(sIds.size() - 1);
 
 		qDebug() << "Dir IDs: " << sIds;
 
-		if( !query.exec(QString("SELECT id FROM dirs WHERE id NOT IN(%1)").arg(sIds) ) )
+		if(!query.exec(QString("SELECT id FROM dirs WHERE id NOT IN(%1)").arg(sIds)))
 		{
 			qDebug() << "SQL Query failed: " << query.lastError().text();
 		}
@@ -328,7 +328,7 @@ void CShareManager::SyncShares()
 		{
 			int nOrphaned = 0;
 
-			while( query.next() )
+			while(query.next())
 			{
 				nOrphaned++;
 				RemoveDir(query.record().value(0).toLongLong());
@@ -339,30 +339,30 @@ void CShareManager::SyncShares()
 	}
 
 	// 4. Make sure that shared dirs are in db (quick and dirty, possibly bad :P)
-	foreach( QString sPath, quazaaSettings.Library.Shares )
+	foreach(QString sPath, quazaaSettings.Library.Shares)
 	{
 		query.prepare("SELECT id FROM dirs WHERE path LIKE ?");
 		query.bindValue(0, QVariant(sPath));
-		if( !query.exec() )
+		if(!query.exec())
 		{
 			qDebug() << "SQL Query failed: " << query.lastError().text();
 			continue;
 		}
 
 		bool bFound = false;
-		while( query.next() )
+		while(query.next())
 		{
 			bFound = true;
 		}
 
-		if( !bFound )
+		if(!bFound)
 		{
 			QDir d(sPath);
 
-			if( !d.exists() )
+			if(!d.exists())
 			{
 				// Try to create the dir
-				if( !d.mkpath(sPath) )
+				if(!d.mkpath(sPath))
 				{
 					qDebug() << "Cannot create directory " << sPath;
 					continue;
@@ -372,7 +372,7 @@ void CShareManager::SyncShares()
 			QSqlQuery insq(m_oDatabase);
 			insq.prepare("INSERT INTO dirs (path, parent) VALUES(?,0)");
 			insq.bindValue(0, QVariant(sPath));
-			if( !insq.exec() )
+			if(!insq.exec())
 			{
 				qDebug() << "Cannot insert new directory entry: " << insq.lastError().text();
 			}
@@ -383,10 +383,12 @@ void CShareManager::SyncShares()
 
 	// 5. Now we can start scanning shared dirs
 
-	foreach( QString sPath, quazaaSettings.Library.Shares )
+	foreach(QString sPath, quazaaSettings.Library.Shares)
 	{
-		if( !m_bActive )
+		if(!m_bActive)
+		{
 			break;
+		}
 
 		l.unlock();
 		ScanFolder(sPath);
@@ -395,7 +397,7 @@ void CShareManager::SyncShares()
 
 	query.exec("PRAGMA synchronous = 1");
 	m_bReady = true;
-	if( m_bActive )
+	if(m_bActive)
 	{
 		emit sharesReady();
 		l.unlock();
@@ -408,8 +410,10 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 {
 	QMutexLocker l(&m_oSection);
 
-	if( !m_bActive )
+	if(!m_bActive)
+	{
 		return;
+	}
 
 	l.unlock();
 
@@ -417,16 +421,16 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 
 	QDir d(sPath);
 
-	if( !d.exists(sPath) )
+	if(!d.exists(sPath))
 	{
-		if( !d.mkpath(sPath) )
+		if(!d.mkpath(sPath))
 		{
 			qDebug() << "Cannot create " << sPath << "skipping...";
 			return;
 		}
 	}
 
-	if( !d.isReadable() )
+	if(!d.isReadable())
 	{
 		qDebug() << "Directory " << sPath << "is not readable, skipping...";
 		return;
@@ -434,8 +438,10 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 
 	// check if directory entry already exists
 	l.relock();
-	if( !m_bActive )
+	if(!m_bActive)
+	{
 		return;
+	}
 
 	qint64 nDirID = 0;
 
@@ -443,13 +449,13 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 	query.prepare("SELECT id FROM dirs WHERE parent = ? AND path LIKE ?");
 	query.bindValue(0, QVariant(nParentID));
 	query.bindValue(1, QVariant(sPath));
-	if( !query.exec() )
+	if(!query.exec())
 	{
 		qDebug() << "SQL Query failed (dir id): " << query.lastError().text();
 		return;
 	}
 
-	if( query.next() )
+	if(query.next())
 	{
 		nDirID = query.record().value(0).toLongLong();
 		query.finish();
@@ -459,7 +465,7 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 		query.prepare("INSERT INTO dirs (path, parent) VALUES(?,?)");
 		query.bindValue(0, QVariant(sPath));
 		query.bindValue(1, QVariant(nParentID));
-		if( !query.exec() )
+		if(!query.exec())
 		{
 			qDebug() << "SQL Query failed (missing dir): " << query.lastError().text();
 			return;
@@ -473,7 +479,7 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 	// now check if something is added to the dir
 	query.prepare("SELECT name FROM files WHERE dir_id = ?");
 	query.bindValue(0, QVariant(nDirID));
-	if( !query.exec() )
+	if(!query.exec())
 	{
 		qDebug() << "SQL Query failed (fetch files): " << query.lastError().text();
 		return;
@@ -482,26 +488,26 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 	QList<QString> lFilesInDB;
 	QList<QString> lFilesInFS;
 
-	while( query.next() )
+	while(query.next())
 	{
 		lFilesInDB.append(query.record().value(0).toString());
 	}
 
 	lFilesInFS = d.entryList(QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
 
-	foreach( QString sFile, lFilesInDB )
+	foreach(QString sFile, lFilesInDB)
 	{
 		lFilesInFS.removeOne(sFile);
 	}
 
 	m_oDatabase.transaction();
-	foreach( QString sFile, lFilesInFS )
+	foreach(QString sFile, lFilesInFS)
 	{
 		QSqlQuery insq(m_oDatabase);
 		insq.prepare("INSERT INTO hash_queue (dir_id, filename) VALUES(?,?)");
 		insq.bindValue(0, QVariant(nDirID));
 		insq.bindValue(1, QVariant(sFile));
-		if( !insq.exec() )
+		if(!insq.exec())
 		{
 			qDebug() << "Cannot queue file for hashing:" << insq.lastError().text();
 		}
@@ -529,12 +535,14 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 	}
 	m_oDatabase.commit();*/
 
-	if( !m_bActive )
+	if(!m_bActive)
+	{
 		return;
+	}
 
 	l.unlock();
 
-	foreach( QString sDir, lSubdirs )
+	foreach(QString sDir, lSubdirs)
 	{
 		ScanFolder(d.absolutePath() + "/" + sDir, nDirID);
 	}
@@ -556,18 +564,18 @@ QList<QSqlRecord> CShareManager::Query(const QString sQuery)
 	return lRecs;
 }
 
-void CShareManager::execQuery(const QString &sQuery)
+void CShareManager::execQuery(const QString& sQuery)
 {
 	m_oSection.lock();
 
 	QSqlQuery query(m_oDatabase);
-	if( !query.exec(sQuery) )
+	if(!query.exec(sQuery))
 	{
 		qDebug() << "SQL Query failed: " << query.lastError().text();
 	}
 	else
 	{
-		while( query.next() )
+		while(query.next())
 		{
 			m_lQueryResults.append(query.record());
 		}
@@ -585,7 +593,7 @@ void CShareManager::RunHashing()
 
 	QSqlQuery query(m_oDatabase);
 	query.prepare("SELECT hq.rowid, hq.filename, d.id, d.path FROM hash_queue hq LEFT JOIN dirs d ON(hq.dir_id = d.id) LIMIT 100");
-	if( !query.exec() )
+	if(!query.exec())
 	{
 		qDebug() << "SQL query failed: " << query.lastError().text();
 		return;
@@ -595,7 +603,7 @@ void CShareManager::RunHashing()
 
 	bool bFinished = true;
 
-	while( query.next() )
+	while(query.next())
 	{
 		sRowIDs.append(query.record().value(0).toString()).append(",");
 
@@ -613,7 +621,7 @@ void CShareManager::RunHashing()
 
 	query.exec(QString("DELETE FROM hash_queue WHERE rowid IN(%1)").arg(sRowIDs));
 
-	if( bFinished )
+	if(bFinished)
 	{
 		BuildHashTable();
 		emit sharesReady();
@@ -633,19 +641,23 @@ void CShareManager::OnFileHashed(CSharedFilePtr pFile)
 
 CQueryHashTable* CShareManager::GetHashTable()
 {
-	if( !m_bReady || !m_bTableReady )
+	if(!m_bReady || !m_bTableReady)
+	{
 		return 0;
+	}
 
 	return m_pTable;
 }
 
 void CShareManager::BuildHashTable()
 {
-	if( m_pTable == 0 )
+	if(m_pTable == 0)
 	{
 		m_pTable = new CQueryHashTable();
-		if( !m_pTable )
+		if(!m_pTable)
+		{
 			return;
+		}
 		m_pTable->Create();
 	}
 
@@ -655,29 +667,29 @@ void CShareManager::BuildHashTable()
 
 	QSqlQuery q(m_oDatabase);
 	q.prepare("SELECT keyword FROM keywords");
-	if( !q.exec() )
+	if(!q.exec())
 	{
 		qDebug() << "SQL query failed:" << q.lastError().text();
 	}
 	else
 	{
-		while( q.next() )
+		while(q.next())
 		{
 			m_pTable->AddExactString(q.record().value(0).toString());
 		}
 
 		q.prepare("SELECT sha1 FROM hashes");
-		if( !q.exec() )
+		if(!q.exec())
 		{
 			qDebug() << "SQL query failed:" << q.lastError().text();
 		}
 		else
 		{
-			while( q.next() )
+			while(q.next())
 			{
 				QByteArray m_oHash = q.record().value(0).toByteArray();
 				CHash* pHash = CHash::FromRaw(m_oHash, CHash::SHA1);
-				if( pHash )
+				if(pHash)
 				{
 					m_pTable->AddExactString(pHash->ToURN());
 					delete pHash;

@@ -24,22 +24,24 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-    class WidgetDiscovery;
+namespace Ui
+{
+	class WidgetDiscovery;
 }
 
-class WidgetDiscovery : public QMainWindow {
-    Q_OBJECT
+class WidgetDiscovery : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetDiscovery(QWidget *parent = 0);
-    ~WidgetDiscovery();
+	WidgetDiscovery(QWidget* parent = 0);
+	~WidgetDiscovery();
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetDiscovery *ui;
+	Ui::WidgetDiscovery* ui;
 
 private slots:
 	void skinChangeEvent();

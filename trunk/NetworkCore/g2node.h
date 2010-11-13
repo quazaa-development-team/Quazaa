@@ -33,35 +33,35 @@ enum G2NodeState { nsClosed, nsConnecting, nsHandshaking, nsConnected, nsClosing
 
 class CG2Node : public CCompressedConnection
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    quint32         m_tLastPacketIn;
-    quint32         m_tLastPacketOut;
-    quint32         m_nPacketsIn;
-    quint32         m_nPacketsOut;
-    QString         m_sUserAgent;
-    bool            m_bG2Core;
+	quint32         m_tLastPacketIn;
+	quint32         m_tLastPacketOut;
+	quint32         m_nPacketsIn;
+	quint32         m_nPacketsOut;
+	QString         m_sUserAgent;
+	bool            m_bG2Core;
 	bool			m_bCachedKeys;
-    G2NodeType      m_nType;
-    G2NodeState     m_nState;
-    quint32         m_tLastPingOut;
-    quint32         m_nPingsWaiting;
+	G2NodeType      m_nType;
+	G2NodeState     m_nState;
+	quint32         m_tLastPingOut;
+	quint32         m_nPingsWaiting;
 	QElapsedTimer   m_tRTTTimer;
 	qint64          m_tRTT;
-    quint32         m_tLastQuery;
+	quint32         m_tLastQuery;
 
-    quint16         m_nLeafCount;
-    quint16         m_nLeafMax;
+	quint16         m_nLeafCount;
+	quint16         m_nLeafMax;
 
-    bool            m_bAcceptDeflate;
+	bool            m_bAcceptDeflate;
 
-    quint32         m_tKeyRequest;
+	quint32         m_tKeyRequest;
 
-    QQueue<G2Packet*>   m_lSendQueue;
+	QQueue<G2Packet*>   m_lSendQueue;
 
-	CQueryHashTable*	m_pRemoteTable;
-	CQueryHashTable*	m_pLocalTable;
+	CQueryHashTable* 	m_pRemoteTable;
+	CQueryHashTable* 	m_pLocalTable;
 
 	bool			m_bSendQHT;
 	quint32			m_tLastQHT;
@@ -69,8 +69,8 @@ public:
 	quint32			m_nCookie;
 
 public:
-    CG2Node(QObject *parent = 0);
-    ~CG2Node();
+	CG2Node(QObject* parent = 0);
+	~CG2Node();
 
 	virtual void ConnectTo(QHostAddress oAddress, quint16 nPort)
 	{
@@ -85,53 +85,53 @@ public:
 	}
 
 	void AttachTo(CNetworkConnection* pOther)
-    {
-        m_nState = nsHandshaking;
-        SetupSlots();
-        CCompressedConnection::AttachTo(pOther);
-    }
+	{
+		m_nState = nsHandshaking;
+		SetupSlots();
+		CCompressedConnection::AttachTo(pOther);
+	}
 
 	void SendPacket(G2Packet* pPacket, bool bBuffered = false, bool bRelease = false);
-    void FlushSendQueue(bool bFullFlush = false);
+	void FlushSendQueue(bool bFullFlush = false);
 
 protected:
-    void SetupSlots();
+	void SetupSlots();
 
-    void ParseOutgoingHandshake();
-    void ParseIncomingHandshake();
+	void ParseOutgoingHandshake();
+	void ParseIncomingHandshake();
 
-    void Send_ConnectError(QString sReason);
-    void Send_ConnectOK(bool bReply, bool bDeflated = false);
-    void SendStartups();
+	void Send_ConnectError(QString sReason);
+	void Send_ConnectOK(bool bReply, bool bDeflated = false);
+	void SendStartups();
 
 public:
-    void OnTimer(quint32 tNow);
+	void OnTimer(quint32 tNow);
 signals:
-    void NodeStateChanged();
+	void NodeStateChanged();
 public slots:
-    void OnConnect();
-    void OnDisconnect();
-    void OnRead();
-    void OnError(QAbstractSocket::SocketError e);
-    void OnStateChange(QAbstractSocket::SocketState s);
+	void OnConnect();
+	void OnDisconnect();
+	void OnRead();
+	void OnError(QAbstractSocket::SocketError e);
+	void OnStateChange(QAbstractSocket::SocketState s);
 
 public:
-    void SendLNI();
+	void SendLNI();
 protected:
-    void OnPacket(G2Packet* pPacket);
-    void OnPing(G2Packet* pPacket);
-    void OnPong(G2Packet* pPacket);
-    void OnLNI(G2Packet* pPacket);
-    void OnKHL(G2Packet* pPacket);
-    void OnQHT(G2Packet* pPacket);
+	void OnPacket(G2Packet* pPacket);
+	void OnPing(G2Packet* pPacket);
+	void OnPong(G2Packet* pPacket);
+	void OnLNI(G2Packet* pPacket);
+	void OnKHL(G2Packet* pPacket);
+	void OnQHT(G2Packet* pPacket);
 	void OnQKR(G2Packet* pPacket);
-    void OnQKA(G2Packet* pPacket);
-    void OnQA(G2Packet* pPacket);
-    void OnQH2(G2Packet* pPacket);
+	void OnQKA(G2Packet* pPacket);
+	void OnQA(G2Packet* pPacket);
+	void OnQH2(G2Packet* pPacket);
 	void OnQuery(G2Packet* pPacket);
 
 
-    friend class CNetwork;
+	friend class CNetwork;
 };
 
 #endif // G2NODE_H

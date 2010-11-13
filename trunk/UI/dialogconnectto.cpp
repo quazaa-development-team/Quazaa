@@ -27,7 +27,7 @@
 #include "network.h"
 #include <QListView>
 
-DialogConnectTo::DialogConnectTo(QWidget *parent) :
+DialogConnectTo::DialogConnectTo(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::DialogConnectTo)
 {
@@ -43,15 +43,16 @@ DialogConnectTo::~DialogConnectTo()
 	delete ui;
 }
 
-void DialogConnectTo::changeEvent(QEvent *e)
+void DialogConnectTo::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -63,14 +64,16 @@ void DialogConnectTo::on_pushButtonCancel_clicked()
 
 void DialogConnectTo::on_pushButtonConnect_clicked()
 {
-	if (ui->comboBoxAddress->currentText().contains(":"))
+	if(ui->comboBoxAddress->currentText().contains(":"))
 	{
 		IPv4_ENDPOINT ip(ui->comboBoxAddress->currentText());
 
 		Network.m_pSection.lock();
 		Network.ConnectTo(ip);
 		Network.m_pSection.unlock();
-	} else {
+	}
+	else
+	{
 		IPv4_ENDPOINT ip(ui->comboBoxAddress->currentText() + ":" + ui->spinBoxPort->text());
 
 		Network.m_pSection.lock();

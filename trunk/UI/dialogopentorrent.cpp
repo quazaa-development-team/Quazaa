@@ -25,7 +25,7 @@
 
 #include <QListView>
 
-DialogOpenTorrent::DialogOpenTorrent(QWidget *parent) :
+DialogOpenTorrent::DialogOpenTorrent(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogOpenTorrent)
 {
@@ -40,14 +40,15 @@ DialogOpenTorrent::~DialogOpenTorrent()
 	delete m_ui;
 }
 
-void DialogOpenTorrent::changeEvent(QEvent *e)
+void DialogOpenTorrent::changeEvent(QEvent* e)
 {
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

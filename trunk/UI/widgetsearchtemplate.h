@@ -25,7 +25,8 @@
 #include <QtGui/QDialog>
 #include "searchtreemodel.h"
 
-namespace Ui {
+namespace Ui
+{
 	class WidgetSearchTemplate;
 }
 
@@ -35,17 +36,19 @@ class CQuery;
 #include "NetworkCore/queryhit.h"
 #include "types.h"
 
-namespace SearchState {
+namespace SearchState
+{
 	enum SearchState { Stopped, Searching, Paused };
 };
 
-class WidgetSearchTemplate : public QWidget {
+class WidgetSearchTemplate : public QWidget
+{
 	Q_OBJECT
 
 public:
-	WidgetSearchTemplate(QString searchString = "", QWidget *parent = 0);
+	WidgetSearchTemplate(QString searchString = "", QWidget* parent = 0);
 	~WidgetSearchTemplate();
-	SearchTreeModel *searchModel;
+	SearchTreeModel* searchModel;
 	CManagedSearch* m_pSearch;
 
 	void StartSearch(CQuery* pQuery);
@@ -64,13 +67,13 @@ public:
 	//void GetStats(quint32& nHubs, quint32& nLeaves, quint32& nHits);
 
 signals:
-	void statsUpdated(WidgetSearchTemplate *thisSearch);
+	void statsUpdated(WidgetSearchTemplate* thisSearch);
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetSearchTemplate *m_ui;
+	Ui::WidgetSearchTemplate* m_ui;
 
 protected slots:
 	void OnStatsUpdated();

@@ -24,22 +24,24 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-    class WidgetUploads;
+namespace Ui
+{
+	class WidgetUploads;
 }
 
-class WidgetUploads : public QMainWindow {
-    Q_OBJECT
+class WidgetUploads : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetUploads(QWidget *parent = 0);
-    ~WidgetUploads();
+	WidgetUploads(QWidget* parent = 0);
+	~WidgetUploads();
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetUploads *ui;
+	Ui::WidgetUploads* ui;
 
 private slots:
 	void skinChangeEvent();

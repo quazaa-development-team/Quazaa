@@ -622,12 +622,12 @@ public:
 	void loadSettings();
 	void saveProfile();
 	void loadProfile();
-	void saveSkinWindowSettings(QSkinDialog *skinDialog);
-	void loadSkinWindowSettings(QSkinDialog *skinDialog);
+	void saveSkinWindowSettings(QSkinDialog* skinDialog);
+	void loadSkinWindowSettings(QSkinDialog* skinDialog);
 	void saveSkinSettings();
 	void loadSkinSettings();
-	void saveWindowSettings(QMainWindow *window);
-	void loadWindowSettings(QMainWindow *window);
+	void saveWindowSettings(QMainWindow* window);
+	void loadWindowSettings(QMainWindow* window);
 	void saveLanguageSettings();
 	void loadLanguageSettings();
 	void saveFirstRun(bool firstRun);

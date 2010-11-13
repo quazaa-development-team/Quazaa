@@ -23,7 +23,7 @@
 #include "ui_dialogfiltersearch.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogFilterSearch::DialogFilterSearch(QWidget *parent) :
+DialogFilterSearch::DialogFilterSearch(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogFilterSearch)
 {
@@ -37,15 +37,16 @@ DialogFilterSearch::~DialogFilterSearch()
 	delete m_ui;
 }
 
-void DialogFilterSearch::changeEvent(QEvent *e)
+void DialogFilterSearch::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

@@ -26,7 +26,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetLibrary::WidgetLibrary(QWidget *parent) :
+WidgetLibrary::WidgetLibrary(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetLibrary)
 {
@@ -45,15 +45,16 @@ WidgetLibrary::~WidgetLibrary()
 	delete ui;
 }
 
-void WidgetLibrary::changeEvent(QEvent *e)
+void WidgetLibrary::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -67,8 +68,8 @@ void WidgetLibrary::skinChangeEvent()
 
 void WidgetLibrary::on_toolButtonLibraryEditShares_clicked()
 {
-	QSkinDialog *dlgSkinEditShares = new QSkinDialog(false, true, false, false, this);
-	DialogEditShares *dlgEditShares = new DialogEditShares;
+	QSkinDialog* dlgSkinEditShares = new QSkinDialog(false, true, false, false, this);
+	DialogEditShares* dlgEditShares = new DialogEditShares;
 
 	dlgSkinEditShares->addChildWidget(dlgEditShares);
 
@@ -87,9 +88,9 @@ void WidgetLibrary::on_splitterLibrary_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
-	if (ui->splitterLibrary->handle(1)->underMouse())
+	if(ui->splitterLibrary->handle(1)->underMouse())
 	{
-		if (ui->splitterLibrary->sizes()[0] > 0)
+		if(ui->splitterLibrary->sizes()[0] > 0)
 		{
 			quazaaSettings.WinMain.LibrarySplitterRestoreLeft = ui->splitterLibrary->sizes()[0];
 			quazaaSettings.WinMain.LibrarySplitterRestoreRight = ui->splitterLibrary->sizes()[1];
@@ -97,7 +98,9 @@ void WidgetLibrary::on_splitterLibrary_customContextMenuRequested(QPoint pos)
 			newSizes.append(0);
 			newSizes.append(ui->splitterLibrary->sizes()[0] + ui->splitterLibrary->sizes()[1]);
 			ui->splitterLibrary->setSizes(newSizes);
-		} else {
+		}
+		else
+		{
 			QList<int> sizesList;
 			sizesList.append(quazaaSettings.WinMain.LibrarySplitterRestoreLeft);
 			sizesList.append(quazaaSettings.WinMain.LibrarySplitterRestoreRight);

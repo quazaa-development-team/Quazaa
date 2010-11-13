@@ -33,10 +33,12 @@ class GeoIPList
 protected:
 	bool	m_bListLoaded;
 public:
-	struct sGeoID {
+	struct sGeoID
+	{
 		QString countryCode;
 		QString countryName;
-	}; sGeoID GeoID;
+	};
+	sGeoID GeoID;
 
 	QList<QPair<quint32, QPair<quint32, QString> > > m_lDatabase;
 

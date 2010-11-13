@@ -25,31 +25,33 @@
 #include <QtGui/QDialog>
 #include <QUrl>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogAbout;
 }
 
-class DialogAbout : public QDialog {
+class DialogAbout : public QDialog
+{
 	Q_OBJECT
 	Q_DISABLE_COPY(DialogAbout)
 public:
-	explicit DialogAbout(QWidget *parent = 0);
+	explicit DialogAbout(QWidget* parent = 0);
 	virtual ~DialogAbout();
 
 protected:
-	virtual void changeEvent(QEvent *e);
+	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogAbout *m_ui;
+	Ui::DialogAbout* m_ui;
 
 signals:
 	void closed();
 
 private slots:
- void on_textBrowserCredits_anchorClicked(QUrl link);
- void on_labelCopyright_linkActivated(QString link);
- void on_pushButtonOK_clicked();
- void skinChangeEvent();
+	void on_textBrowserCredits_anchorClicked(QUrl link);
+	void on_labelCopyright_linkActivated(QString link);
+	void on_pushButtonOK_clicked();
+	void skinChangeEvent();
 };
 
 #endif // DIALOGABOUT_H

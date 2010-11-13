@@ -26,7 +26,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetHitMonitor::WidgetHitMonitor(QWidget *parent) :
+WidgetHitMonitor::WidgetHitMonitor(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetHitMonitor)
 {
@@ -41,15 +41,16 @@ WidgetHitMonitor::~WidgetHitMonitor()
 	delete ui;
 }
 
-void WidgetHitMonitor::changeEvent(QEvent *e)
+void WidgetHitMonitor::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -67,8 +68,8 @@ void WidgetHitMonitor::saveWidget()
 
 void WidgetHitMonitor::on_actionMore_triggered()
 {
-	QSkinDialog *dlgSkinFilterSearch = new QSkinDialog(false, true, false, false, this);
-	DialogFilterSearch *dlgFilterSearch = new DialogFilterSearch;
+	QSkinDialog* dlgSkinFilterSearch = new QSkinDialog(false, true, false, false, this);
+	DialogFilterSearch* dlgFilterSearch = new DialogFilterSearch;
 
 	dlgSkinFilterSearch->addChildWidget(dlgFilterSearch);
 

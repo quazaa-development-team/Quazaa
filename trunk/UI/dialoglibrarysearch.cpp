@@ -23,7 +23,7 @@
 #include "ui_dialoglibrarysearch.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogLibrarySearch::DialogLibrarySearch(QWidget *parent) :
+DialogLibrarySearch::DialogLibrarySearch(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::DialogLibrarySearch)
 {
@@ -37,15 +37,16 @@ DialogLibrarySearch::~DialogLibrarySearch()
 	delete ui;
 }
 
-void DialogLibrarySearch::changeEvent(QEvent *e)
+void DialogLibrarySearch::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

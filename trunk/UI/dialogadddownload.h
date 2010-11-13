@@ -24,21 +24,23 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogAddDownload;
 }
 
-class DialogAddDownload : public QDialog {
+class DialogAddDownload : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogAddDownload(QWidget *parent = 0);
+	DialogAddDownload(QWidget* parent = 0);
 	~DialogAddDownload();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogAddDownload *m_ui;
+	Ui::DialogAddDownload* m_ui;
 
 signals:
 	void closed();

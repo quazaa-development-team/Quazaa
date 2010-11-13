@@ -27,7 +27,7 @@
 class CommonFunctions : public QObject
 {
 public:
-    CommonFunctions();
+	CommonFunctions();
 	void FolderOpen(QString file);
 	QString FormatBytes(quint64 nBytesPerSec);
 	QString VendorCodeToName(QString vendorCode);

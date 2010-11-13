@@ -24,21 +24,23 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogFilterSearch;
 }
 
-class DialogFilterSearch : public QDialog {
+class DialogFilterSearch : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogFilterSearch(QWidget *parent = 0);
+	DialogFilterSearch(QWidget* parent = 0);
 	~DialogFilterSearch();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogFilterSearch *m_ui;
+	Ui::DialogFilterSearch* m_ui;
 
 signals:
 	void closed();

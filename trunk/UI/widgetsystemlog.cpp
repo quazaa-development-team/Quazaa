@@ -25,7 +25,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetSystemLog::WidgetSystemLog(QWidget *parent) :
+WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetSystemLog)
 {
@@ -50,7 +50,7 @@ WidgetSystemLog::WidgetSystemLog(QWidget *parent) :
 	restoreState(quazaaSettings.WinMain.SystemLogToolbar);
 	ui->actionToggleTimestamp->setChecked(quazaaSettings.Logging.LogShowTimestamp);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
-	connect(&systemLog, SIGNAL(logPosted(QString,LogSeverity::Severity)), this, SLOT(appendLog(QString,LogSeverity::Severity)));
+	connect(&systemLog, SIGNAL(logPosted(QString, LogSeverity::Severity)), this, SLOT(appendLog(QString, LogSeverity::Severity)));
 	skinChangeEvent();
 }
 
@@ -59,15 +59,16 @@ WidgetSystemLog::~WidgetSystemLog()
 	delete ui;
 }
 
-void WidgetSystemLog::changeEvent(QEvent *e)
+void WidgetSystemLog::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -78,73 +79,103 @@ void WidgetSystemLog::skinChangeEvent()
 
 void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 {
-	if (!ui->actionPauseLogDisplay->isChecked())
+	if(!ui->actionPauseLogDisplay->isChecked())
 	{
-		if (ui->actionToggleTimestamp->isChecked())
+		if(ui->actionToggleTimestamp->isChecked())
 		{
 			timeStamp = QTime::currentTime();
-			switch (severity)
+			switch(severity)
 			{
-			case LogSeverity::Information:
-				if (ui->actionShowInformation->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightInformation).arg(skinSettings.logColorInformation.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
-				break;
-			case LogSeverity::Security:
-				if (ui->actionShowSecurity->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightSecurity).arg(skinSettings.logColorSecurity.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
-				break;
-			case LogSeverity::Notice:
-				if (ui->actionShowNotice->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightNotice).arg(skinSettings.logColorNotice.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
-				break;
-			case LogSeverity::Debug:
-				if (ui->actionShowDebug->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightDebug).arg(skinSettings.logColorDebug.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
-				break;
-			case LogSeverity::Warning:
-				if (ui->actionShowWarnings->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightWarning).arg(skinSettings.logColorWarning.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
-				break;
-			case LogSeverity::Error:
-				if (ui->actionShowError->isChecked())
+				case LogSeverity::Information:
+					if(ui->actionShowInformation->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightInformation).arg(skinSettings.logColorInformation.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+					}
+					break;
+				case LogSeverity::Security:
+					if(ui->actionShowSecurity->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightSecurity).arg(skinSettings.logColorSecurity.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+					}
+					break;
+				case LogSeverity::Notice:
+					if(ui->actionShowNotice->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightNotice).arg(skinSettings.logColorNotice.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+					}
+					break;
+				case LogSeverity::Debug:
+					if(ui->actionShowDebug->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightDebug).arg(skinSettings.logColorDebug.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+					}
+					break;
+				case LogSeverity::Warning:
+					if(ui->actionShowWarnings->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightWarning).arg(skinSettings.logColorWarning.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+					}
+					break;
+				case LogSeverity::Error:
+					if(ui->actionShowError->isChecked())
+					{
 						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightError).arg(skinSettings.logColorError.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
-				break;
-			case LogSeverity::Critical:
-				if (ui->actionShowCritical->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightCritical).arg(skinSettings.logColorCritical.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
-				break;
+					}
+					break;
+				case LogSeverity::Critical:
+					if(ui->actionShowCritical->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightCritical).arg(skinSettings.logColorCritical.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+					}
+					break;
 			}
-		} else {
-			switch (severity)
+		}
+		else
+		{
+			switch(severity)
 			{
-			case LogSeverity::Information:
-				if (ui->actionShowInformation->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightInformation).arg(skinSettings.logColorInformation.name()).arg(message));
-				break;
-			case LogSeverity::Security:
-				if (ui->actionShowSecurity->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightSecurity).arg(skinSettings.logColorSecurity.name()).arg(message));
-				break;
-			case LogSeverity::Notice:
-				if (ui->actionShowNotice->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightNotice).arg(skinSettings.logColorNotice.name()).arg(message));
-				break;
-			case LogSeverity::Debug:
-				if (ui->actionShowDebug->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightDebug).arg(skinSettings.logColorDebug.name()).arg(message));
-				break;
-			case LogSeverity::Warning:
-				if (ui->actionShowWarnings->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightWarning).arg(skinSettings.logColorWarning.name()).arg(message));
-				break;
-			case LogSeverity::Error:
-				if (ui->actionShowError->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightError).arg(skinSettings.logColorError.name()).arg(message));
-				break;
-			case LogSeverity::Critical:
-				if (ui->actionShowCritical->isChecked())
-					ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightCritical).arg(skinSettings.logColorCritical.name()).arg(message));
-				break;
+				case LogSeverity::Information:
+					if(ui->actionShowInformation->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightInformation).arg(skinSettings.logColorInformation.name()).arg(message));
+					}
+					break;
+				case LogSeverity::Security:
+					if(ui->actionShowSecurity->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightSecurity).arg(skinSettings.logColorSecurity.name()).arg(message));
+					}
+					break;
+				case LogSeverity::Notice:
+					if(ui->actionShowNotice->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightNotice).arg(skinSettings.logColorNotice.name()).arg(message));
+					}
+					break;
+				case LogSeverity::Debug:
+					if(ui->actionShowDebug->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightDebug).arg(skinSettings.logColorDebug.name()).arg(message));
+					}
+					break;
+				case LogSeverity::Warning:
+					if(ui->actionShowWarnings->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightWarning).arg(skinSettings.logColorWarning.name()).arg(message));
+					}
+					break;
+				case LogSeverity::Error:
+					if(ui->actionShowError->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightError).arg(skinSettings.logColorError.name()).arg(message));
+					}
+					break;
+				case LogSeverity::Critical:
+					if(ui->actionShowCritical->isChecked())
+					{
+						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightCritical).arg(skinSettings.logColorCritical.name()).arg(message));
+					}
+					break;
 			}
 		}
 	}

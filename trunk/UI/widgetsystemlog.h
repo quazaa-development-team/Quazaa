@@ -26,24 +26,26 @@
 #include <QTime>
 #include "types.h"
 
-namespace Ui {
+namespace Ui
+{
 	class WidgetSystemLog;
 }
 
-class WidgetSystemLog : public QMainWindow {
+class WidgetSystemLog : public QMainWindow
+{
 	Q_OBJECT
 public:
-	WidgetSystemLog(QWidget *parent = 0);
+	WidgetSystemLog(QWidget* parent = 0);
 	~WidgetSystemLog();
 	void saveWidget();
 	QTime timeStamp;
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetSystemLog *ui;
-	QMenu *logMenu;
+	Ui::WidgetSystemLog* ui;
+	QMenu* logMenu;
 
 private slots:
 	void on_textEditSystemLog_customContextMenuRequested(QPoint pos);

@@ -32,7 +32,7 @@
 #include "neighbours.h"
 #include "datagrams.h"
 
-WidgetNeighbours::WidgetNeighbours(QWidget *parent) :
+WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetNeighbours)
 {
@@ -56,15 +56,16 @@ WidgetNeighbours::~WidgetNeighbours()
 	delete ui;
 }
 
-void WidgetNeighbours::changeEvent(QEvent *e)
+void WidgetNeighbours::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -78,12 +79,12 @@ void WidgetNeighbours::skinChangeEvent()
 	ui->tableViewNeighbours->setStyleSheet(skinSettings.listViews);
 }
 
-void WidgetNeighbours::setModel(QAbstractItemModel *model)
+void WidgetNeighbours::setModel(QAbstractItemModel* model)
 {
 	ui->tableViewNeighbours->setModel(model);
 }
 
-QWidget *WidgetNeighbours::treeView()
+QWidget* WidgetNeighbours::treeView()
 {
 	return ui->tableViewNeighbours;
 }
@@ -96,8 +97,8 @@ void WidgetNeighbours::saveWidget()
 
 void WidgetNeighbours::on_actionSettings_triggered()
 {
-	QSkinDialog *dlgSkinSettings = new QSkinDialog(true, true, false, false, this);
-	DialogSettings *dlgSettings = new DialogSettings(this, SettingsPage::Protocols);
+	QSkinDialog* dlgSkinSettings = new QSkinDialog(true, true, false, false, this);
+	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Protocols);
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
@@ -114,7 +115,7 @@ void WidgetNeighbours::updateG2()
 	quint32 nUDPInSpeed = 0;
 	quint32 nUDPOutSpeed = 0;
 
-	if( Neighbours.m_pSection.tryLock(50) )
+	if(Neighbours.m_pSection.tryLock(50))
 	{
 		nHubsConnected = Neighbours.m_nHubsConnected;
 		nLeavesConnected = Neighbours.m_nLeavesConnected;
@@ -122,7 +123,7 @@ void WidgetNeighbours::updateG2()
 		nTCPInSpeed = Neighbours.DownloadSpeed();
 		nTCPOutSpeed = Neighbours.UploadSpeed();
 
-		if( Network.m_pSection.tryLock(50) )
+		if(Network.m_pSection.tryLock(50))
 		{
 			nUDPInSpeed = Datagrams.DownloadSpeed();
 			nUDPOutSpeed = Datagrams.UploadSpeed();
@@ -148,8 +149,8 @@ void WidgetNeighbours::updateEDonkey()
 
 void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 {
-	QSkinDialog *dlgSkinConnectTo = new QSkinDialog(false, true, false, false, this);
-	DialogConnectTo *dlgConnectTo = new DialogConnectTo;
+	QSkinDialog* dlgSkinConnectTo = new QSkinDialog(false, true, false, false, this);
+	DialogConnectTo* dlgConnectTo = new DialogConnectTo;
 
 	dlgSkinConnectTo->addChildWidget(dlgConnectTo);
 

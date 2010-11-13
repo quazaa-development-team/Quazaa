@@ -25,7 +25,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogSecuritySubscriptions::DialogSecuritySubscriptions(QWidget *parent) :
+DialogSecuritySubscriptions::DialogSecuritySubscriptions(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogSecuritySubscriptions)
 {
@@ -39,22 +39,23 @@ DialogSecuritySubscriptions::~DialogSecuritySubscriptions()
 	delete m_ui;
 }
 
-void DialogSecuritySubscriptions::changeEvent(QEvent *e)
+void DialogSecuritySubscriptions::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
 void DialogSecuritySubscriptions::on_pushButtonAddSubscription_clicked()
 {
-	QSkinDialog *dlgSkinAddSecuritySubscription = new QSkinDialog(false, true, false, false, this);
-	DialogAddSecuritySubscription *dlgAddSecuritySubscription = new DialogAddSecuritySubscription(this);
+	QSkinDialog* dlgSkinAddSecuritySubscription = new QSkinDialog(false, true, false, false, this);
+	DialogAddSecuritySubscription* dlgAddSecuritySubscription = new DialogAddSecuritySubscription(this);
 
 	dlgSkinAddSecuritySubscription->addChildWidget(dlgAddSecuritySubscription);
 

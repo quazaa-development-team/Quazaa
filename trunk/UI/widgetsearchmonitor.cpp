@@ -25,7 +25,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetSearchMonitor::WidgetSearchMonitor(QWidget *parent) :
+WidgetSearchMonitor::WidgetSearchMonitor(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetSearchMonitor)
 {
@@ -40,15 +40,16 @@ WidgetSearchMonitor::~WidgetSearchMonitor()
 	delete ui;
 }
 
-void WidgetSearchMonitor::changeEvent(QEvent *e)
+void WidgetSearchMonitor::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

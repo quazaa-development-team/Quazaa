@@ -43,12 +43,14 @@
 
 QuazaaGlobals quazaaGlobals;
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 	QtSingleApplication theApp(argc, argv);
 	// Check if the application is already running
-	if (theApp.sendMessage("Show App"))
+	if(theApp.sendMessage("Show App"))
+	{
 		return 0;
+	}
 
 	theApp.setApplicationName(quazaaGlobals.ApplicationName());
 	theApp.setApplicationVersion(quazaaGlobals.ApplicationVersionString());
@@ -62,10 +64,10 @@ int main(int argc, char *argv[])
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();
 
-	if (quazaaSettings.FirstRun())
+	if(quazaaSettings.FirstRun())
 	{
-		QSkinDialog *skinDlgLanguage = new QSkinDialog(false, true, false);
-		DialogLanguage *dlgLanguage = new DialogLanguage();
+		QSkinDialog* skinDlgLanguage = new QSkinDialog(false, true, false);
+		DialogLanguage* dlgLanguage = new DialogLanguage();
 		skinDlgLanguage->addChildWidget(dlgLanguage);
 		QObject::connect(dlgLanguage, SIGNAL(closed()), skinDlgLanguage, SLOT(close()));
 		skinDlgLanguage->exec();
@@ -75,7 +77,7 @@ int main(int argc, char *argv[])
 	qApp->installTranslator(&quazaaGlobals.translator);
 
 	//Create splash window
-	DialogSplash *dlgSplash = new DialogSplash();
+	DialogSplash* dlgSplash = new DialogSplash();
 	dlgSplash->show();
 
 	dlgSplash->updateProgress(1, QObject::tr("Loading settings..."));
@@ -87,15 +89,15 @@ int main(int argc, char *argv[])
 	//Check if this is Quazaa's first run
 	dlgSplash->updateProgress(5, QObject::tr("Checking for first run..."));
 	qApp->processEvents();
-	if (quazaaSettings.FirstRun())
+	if(quazaaSettings.FirstRun())
 	{
 		dlgSplash->updateProgress(10, QObject::tr("Running first run wizard..."));
 		quazaaSettings.saveFirstRun(false);
 		quazaaSettings.saveSettings();
 		quazaaSettings.saveProfile();
 
-		QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false);
-		DialogWizard *dlgWizard = new DialogWizard();
+		QSkinDialog* dlgSkinWizard = new QSkinDialog(false, true, false);
+		DialogWizard* dlgWizard = new DialogWizard();
 		dlgSkinWizard->addChildWidget(dlgWizard);
 
 		QObject::connect(dlgWizard, SIGNAL(closed()), dlgSkinWizard, SLOT(close()));
@@ -123,13 +125,13 @@ int main(int argc, char *argv[])
 	dlgSplash->updateProgress(80, QObject::tr("Loading User Interface..."));
 	qApp->processEvents();
 
-	QSkinDialog skinWinMain(true,true,true);
-	WinMain *winMain = new WinMain();
+	QSkinDialog skinWinMain(true, true, true);
+	WinMain* winMain = new WinMain();
 	skinWinMain.addChildWidget(winMain);
 
 	// Load WinMain visible state from the registry
 	quazaaSettings.loadSkinWindowSettings(&skinWinMain);
-	if ( quazaaSettings.WinMain.Visible )
+	if(quazaaSettings.WinMain.Visible)
 	{
 		skinWinMain.show();
 	}
@@ -145,7 +147,7 @@ int main(int argc, char *argv[])
 	// problem with Visual C++ because it lets you cheat and is the source for
 	// popup malware.) so it will make the icon in the task bar blink instead.
 	QObject::connect(&theApp, SIGNAL(messageReceived(const QString&)),
-						  &skinWinMain, SLOT(restore()));
+	                 &skinWinMain, SLOT(restore()));
 	theApp.setActivationWindow(&skinWinMain);
 	QObject::connect(&skinWinMain, SIGNAL(needToShow()), &theApp, SLOT(activateWindow()));
 
@@ -162,8 +164,10 @@ int main(int argc, char *argv[])
 	dlgSplash = 0;
 
 	// Start networks if needed
-	if( quazaaSettings.Gnutella2.Enable )
+	if(quazaaSettings.Gnutella2.Enable)
+	{
 		Network.Connect();
+	}
 
 	return theApp.exec();
 }

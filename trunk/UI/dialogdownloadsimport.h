@@ -24,24 +24,26 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogDownloadsImport;
 }
 
-class DialogDownloadsImport : public QDialog {
+class DialogDownloadsImport : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogDownloadsImport(QWidget *parent = 0);
+	DialogDownloadsImport(QWidget* parent = 0);
 	~DialogDownloadsImport();
 
 signals:
 	void closed();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogDownloadsImport *ui;
+	Ui::DialogDownloadsImport* ui;
 
 private slots:
 	void skinChangeEvent();

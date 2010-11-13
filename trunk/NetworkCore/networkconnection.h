@@ -75,7 +75,7 @@ protected:
 public:
 	CNetworkConnection(QObject* parent = 0);
 	virtual ~CNetworkConnection();
-	void moveToThread(QThread *thread);
+	void moveToThread(QThread* thread);
 
 public:
 	virtual void ConnectTo(IPv4_ENDPOINT oAddress);
@@ -128,15 +128,23 @@ public:
 
 	inline virtual bool HasData()
 	{
-		if( !m_pSocket )
+		if(!m_pSocket)
+		{
 			return false;
+		}
 
-		if( m_pInput && !m_pInput->isEmpty() )
+		if(m_pInput && !m_pInput->isEmpty())
+		{
 			return true;
-		if( m_pOutput && !m_pOutput->isEmpty() )
+		}
+		if(m_pOutput && !m_pOutput->isEmpty())
+		{
 			return true;
-		if( networkBytesAvailable() )
+		}
+		if(networkBytesAvailable())
+		{
 			return true;
+		}
 
 		return false;
 	}

@@ -35,7 +35,7 @@ class CQueryHashTable;
 
 class CShareManager : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
 	QMutex			m_oSection;
@@ -47,10 +47,10 @@ protected:
 
 	QList<QSqlRecord> m_lQueryResults;
 
-	CQueryHashTable*	m_pTable;
+	CQueryHashTable* 	m_pTable;
 	bool				m_bTableReady;
 public:
-    explicit CShareManager(QObject *parent = 0);
+	explicit CShareManager(QObject* parent = 0);
 
 	void Start();
 	void Stop();

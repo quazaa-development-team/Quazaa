@@ -24,14 +24,16 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogNewSkin;
 }
 
-class DialogNewSkin : public QDialog {
+class DialogNewSkin : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogNewSkin(QWidget *parent = 0);
+	DialogNewSkin(QWidget* parent = 0);
 	~DialogNewSkin();
 	QString name;
 	QString author;
@@ -39,10 +41,10 @@ public:
 	QString description;
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogNewSkin *ui;
+	Ui::DialogNewSkin* ui;
 
 private slots:
 	void on_pushButtonCancel_clicked();

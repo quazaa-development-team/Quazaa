@@ -25,21 +25,23 @@
 #include <QtGui/QDialog>
 #include <QListWidgetItem>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogLanguage;
 }
 
-class DialogLanguage : public QDialog {
+class DialogLanguage : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogLanguage(QWidget *parent = 0);
+	DialogLanguage(QWidget* parent = 0);
 	~DialogLanguage();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogLanguage *m_ui;
+	Ui::DialogLanguage* m_ui;
 
 signals:
 	void closed();

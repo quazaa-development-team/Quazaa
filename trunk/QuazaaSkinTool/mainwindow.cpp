@@ -37,7 +37,7 @@
 #include <QMessageBox>
 
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	ui->plainTextEditStyleSheet->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(ui->plainTextEditStyleSheet, SIGNAL(customContextMenuRequested(QPoint)),
-				this, SLOT(slotContextMenuRequested()));
+	        this, SLOT(slotContextMenuRequested()));
 	menuPreview = new QMenu(ui->pageStandardItems);
 	menuPreviewSubmenu = new QMenu(tr("Submenu"), menuPreview);
 	menuPreview->addAction(ui->actionMenu_Item);
@@ -75,9 +75,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_addColorAction->setEnabled(false);
 	m_addFontAction->setEnabled(false);
 
-	QSignalMapper *imageActionMapper = new QSignalMapper(this);
-	QSignalMapper *gradientActionMapper = new QSignalMapper(this);
-	QSignalMapper *colorActionMapper = new QSignalMapper(this);
+	QSignalMapper* imageActionMapper = new QSignalMapper(this);
+	QSignalMapper* gradientActionMapper = new QSignalMapper(this);
+	QSignalMapper* colorActionMapper = new QSignalMapper(this);
 
 	imageActionMapper->setMapping(m_addImageAction, QString());
 	gradientActionMapper->setMapping(m_addGradientAction, QString());
@@ -88,14 +88,16 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(m_addColorAction, SIGNAL(triggered()), colorActionMapper, SLOT(map()));
 	connect(m_addFontAction, SIGNAL(triggered()), this, SLOT(slotAddFont()));
 
-	const char * const imageProperties[] = {
+	const char* const imageProperties[] =
+	{
 		"background-image",
 		"border-image",
 		"image",
 		0
 	};
 
-	const char * const colorProperties[] = {
+	const char* const colorProperties[] =
+	{
 		"color",
 		"background-color",
 		"alternate-background-color",
@@ -110,22 +112,24 @@ MainWindow::MainWindow(QWidget *parent) :
 		0
 	};
 
-	QMenu *imageActionMenu = new QMenu(this);
-	QMenu *gradientActionMenu = new QMenu(this);
-	QMenu *colorActionMenu = new QMenu(this);
+	QMenu* imageActionMenu = new QMenu(this);
+	QMenu* gradientActionMenu = new QMenu(this);
+	QMenu* colorActionMenu = new QMenu(this);
 
 	ui->statusBarPreview->showMessage("Status Bar");
 	ui->statusBarPreview->addPermanentWidget(new QLabel(tr("Status Bar Item"), this));
 
-	for (int imageProperty = 0; imageProperties[imageProperty]; ++imageProperty) {
-		QAction *action = imageActionMenu->addAction(QLatin1String(imageProperties[imageProperty]));
+	for(int imageProperty = 0; imageProperties[imageProperty]; ++imageProperty)
+	{
+		QAction* action = imageActionMenu->addAction(QLatin1String(imageProperties[imageProperty]));
 		connect(action, SIGNAL(triggered()), imageActionMapper, SLOT(map()));
 		imageActionMapper->setMapping(action, QLatin1String(imageProperties[imageProperty]));
 	}
 
-	for (int colorProperty = 0; colorProperties[colorProperty]; ++colorProperty) {
-		QAction *gradientAction = gradientActionMenu->addAction(QLatin1String(colorProperties[colorProperty]));
-		QAction *colorAction = colorActionMenu->addAction(QLatin1String(colorProperties[colorProperty]));
+	for(int colorProperty = 0; colorProperties[colorProperty]; ++colorProperty)
+	{
+		QAction* gradientAction = gradientActionMenu->addAction(QLatin1String(colorProperties[colorProperty]));
+		QAction* colorAction = colorActionMenu->addAction(QLatin1String(colorProperties[colorProperty]));
 		connect(gradientAction, SIGNAL(triggered()), gradientActionMapper, SLOT(map()));
 		connect(colorAction, SIGNAL(triggered()), colorActionMapper, SLOT(map()));
 		gradientActionMapper->setMapping(gradientAction, QLatin1String(colorProperties[colorProperty]));
@@ -146,7 +150,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->toolBarStyleSheetEditor->addAction(m_addFontAction);
 
 	ui->plainTextEditStyleSheet->setFocus();
-	ui->plainTextEditStyleSheet->setTabStopWidth(fontMetrics().width(QLatin1Char(' '))*4);
+	ui->plainTextEditStyleSheet->setTabStopWidth(fontMetrics().width(QLatin1Char(' ')) * 4);
 	new CssHighlighter(ui->plainTextEditStyleSheet->document());
 	connect(ui->plainTextEditStyleSheet, SIGNAL(textChanged()), this, SLOT(validateStyleSheet()));
 
@@ -159,28 +163,31 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
-void MainWindow::changeEvent(QEvent *e)
+void MainWindow::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
-void MainWindow::closeEvent(QCloseEvent *e)
+void MainWindow::closeEvent(QCloseEvent* e)
 {
 	Q_UNUSED(e);
 
-	if (!saved && !skinSettings.skinName.isEmpty())
+	if(!saved && !skinSettings.skinName.isEmpty())
 	{
-		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, tr("Skin Not Saved"), tr("The skin has not been saved. Would you like to save it now?"), QMessageBox::Ok|QMessageBox::Cancel, this);
+		QMessageBox* msgBox = new QMessageBox(QMessageBox::Question, tr("Skin Not Saved"), tr("The skin has not been saved. Would you like to save it now?"), QMessageBox::Ok | QMessageBox::Cancel, this);
 		bool ok = msgBox->exec();
-		if (ok)
+		if(ok)
+		{
 			on_actionSave_triggered();
+		}
 	}
 }
 
@@ -188,10 +195,10 @@ void MainWindow::on_actionNew_triggered()
 {
 	this->on_actionClose_triggered();
 
-	DialogNewSkin *dlgNewSkin = new DialogNewSkin(this);
+	DialogNewSkin* dlgNewSkin = new DialogNewSkin(this);
 	bool ok = dlgNewSkin->exec();
 
-	if (ok && !(dlgNewSkin->name.isEmpty() && dlgNewSkin->author.isEmpty()))
+	if(ok && !(dlgNewSkin->name.isEmpty() && dlgNewSkin->author.isEmpty()))
 	{
 
 		enableEditing(true);
@@ -217,7 +224,7 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::slotContextMenuRequested()
 {
-	QMenu *menu = ui->plainTextEditStyleSheet->createStandardContextMenu();
+	QMenu* menu = ui->plainTextEditStyleSheet->createStandardContextMenu();
 	menu->addSeparator();
 	menu->addAction(m_addImageAction);
 	menu->addAction(m_addGradientAction);
@@ -228,21 +235,26 @@ void MainWindow::slotContextMenuRequested()
 void MainWindow::validateStyleSheet()
 {
 	const bool valid = isStyleSheetValid(ui->plainTextEditStyleSheet->toPlainText());
-	if (valid) {
+	if(valid)
+	{
 		ui->labelValidStyleSheet->setText(tr("Valid Style Sheet"));
 		ui->labelValidStyleSheet->setStyleSheet(QLatin1String("margin-left: 2px; color: green;"));
-	} else {
+	}
+	else
+	{
 		ui->labelValidStyleSheet->setText(tr("Invalid Style Sheet"));
 		ui->labelValidStyleSheet->setStyleSheet(QLatin1String("margin-left: 2px; color: red;"));
 	}
 }
 
-bool MainWindow::isStyleSheetValid(const QString &styleSheet)
+bool MainWindow::isStyleSheetValid(const QString& styleSheet)
 {
 	QuazaaCss::CssParser parser(styleSheet);
 	QuazaaCss::CssStyleSheet sheet;
-	if (parser.parse(&sheet))
+	if(parser.parse(&sheet))
+	{
 		return true;
+	}
 	QString fullSheet = QLatin1String("* { ");
 	fullSheet += styleSheet;
 	fullSheet += QLatin1Char('}');
@@ -250,62 +262,73 @@ bool MainWindow::isStyleSheetValid(const QString &styleSheet)
 	return parser2.parse(&sheet);
 }
 
-void MainWindow::slotAddImage(const QString &property)
+void MainWindow::slotAddImage(const QString& property)
 {
 	QString path = "";
 	QString copyPath = QFileDialog::getOpenFileName(this, tr("Open Image"),
-													QString(qApp->applicationDirPath() + "/Skin/" + skinSettings.skinName + "/"),
-														   tr("Images (*.png *.xpm *.jpg *.gif *.bmp)"));
+	                   QString(qApp->applicationDirPath() + "/Skin/" + skinSettings.skinName + "/"),
+	                   tr("Images (*.png *.xpm *.jpg *.gif *.bmp)"));
 
-	if (!copyPath.isEmpty())
+	if(!copyPath.isEmpty())
 	{
 		QString destinationPath = "";
 		QDir skinPath = QString(qApp->applicationDirPath() + "/Skin/" + skinSettings.skinName + "/");
-		if (!skinPath.exists())
+		if(!skinPath.exists())
 		{
 			skinPath.mkpath(QString(qApp->applicationDirPath() + "/Skin/" + skinSettings.skinName + "/"));
 		}
 
-		if (!copyPath.contains(QString(qApp->applicationDirPath()) + "/Skin/" + skinSettings.skinName + "/"))
+		if(!copyPath.contains(QString(qApp->applicationDirPath()) + "/Skin/" + skinSettings.skinName + "/"))
 		{
 			QFileInfo fileInfo(copyPath);
 			destinationPath = qApp->applicationDirPath() + "/Skin/" + ui->lineEditName->text() + "/" + fileInfo.fileName();
 			destinationPath = destinationPath.replace("//", "/", Qt::CaseInsensitive);
 			QFile::copy(copyPath, destinationPath);
-		} else {
+		}
+		else
+		{
 			destinationPath = copyPath;
 			destinationPath = destinationPath.replace("//", "/", Qt::CaseInsensitive);
 		}
 
 		path = destinationPath.remove(QApplication::applicationDirPath() + "/");
 
-		if (!path.isEmpty())
+		if(!path.isEmpty())
+		{
 			insertCssProperty(property, QString(QLatin1String("url(%1)")).arg(path));
+		}
 	}
 }
 
-void MainWindow::slotAddGradient(const QString &property)
+void MainWindow::slotAddGradient(const QString& property)
 {
 	bool ok;
 	const QGradient grad = QtGradientViewDialog::getGradient(&ok, gradientManager, this);
-	if (ok)
+	if(ok)
+	{
 		insertCssProperty(property, QtGradientUtils::styleSheetCode(grad));
+	}
 }
 
-void MainWindow::slotAddColor(const QString &property)
+void MainWindow::slotAddColor(const QString& property)
 {
 	const QColor color = QColorDialog::getColor(0xffffffff, this, QString(), QColorDialog::ShowAlphaChannel);
-	if (!color.isValid())
+	if(!color.isValid())
+	{
 		return;
+	}
 
 	QString colorStr;
 
-	if (color.alpha() == 255) {
+	if(color.alpha() == 255)
+	{
 		colorStr = QString(QLatin1String("rgb(%1, %2, %3)")).arg(
-				color.red()).arg(color.green()).arg(color.blue());
-	} else {
+		               color.red()).arg(color.green()).arg(color.blue());
+	}
+	else
+	{
 		colorStr = QString(QLatin1String("rgba(%1, %2, %3, %4)")).arg(
-				color.red()).arg(color.green()).arg(color.blue()).arg(color.alpha());
+		               color.red()).arg(color.green()).arg(color.blue()).arg(color.alpha());
 	}
 
 	insertCssProperty(property, colorStr);
@@ -315,22 +338,25 @@ void MainWindow::slotAddFont()
 {
 	bool ok;
 	QFont font = QFontDialog::getFont(&ok, this);
-	if (ok) {
+	if(ok)
+	{
 		QString fontStr;
-		if (font.bold()) {
+		if(font.bold())
+		{
 			fontStr += "bold";
 			fontStr += QLatin1Char(' ');
 		}
 
-		switch (font.style()) {
-		case QFont::StyleItalic:
-			fontStr += QLatin1String("italic ");
-			break;
-		case QFont::StyleOblique:
-			fontStr += QLatin1String("oblique ");
-			break;
-		default:
-			break;
+		switch(font.style())
+		{
+			case QFont::StyleItalic:
+				fontStr += QLatin1String("italic ");
+				break;
+			case QFont::StyleOblique:
+				fontStr += QLatin1String("oblique ");
+				break;
+			default:
+				break;
 		}
 		fontStr += QString::number(font.pointSize());
 		fontStr += QLatin1String("pt \"");
@@ -339,44 +365,57 @@ void MainWindow::slotAddFont()
 
 		insertCssProperty(QLatin1String("font"), fontStr);
 		QString decoration;
-		if (font.underline())
+		if(font.underline())
+		{
 			decoration += QLatin1String("underline");
-		if (font.strikeOut()) {
-			if (!decoration.isEmpty())
+		}
+		if(font.strikeOut())
+		{
+			if(!decoration.isEmpty())
+			{
 				decoration += QLatin1Char(' ');
+			}
 			decoration += QLatin1String("line-through");
 		}
 		insertCssProperty(QLatin1String("text-decoration"), decoration);
 	}
 }
 
-void MainWindow::insertCssProperty(const QString &name, const QString &value)
+void MainWindow::insertCssProperty(const QString& name, const QString& value)
 {
-	if (!value.isEmpty()) {
+	if(!value.isEmpty())
+	{
 		QTextCursor cursor = ui->plainTextEditStyleSheet->textCursor();
-		if (!name.isEmpty()) {
+		if(!name.isEmpty())
+		{
 			cursor.beginEditBlock();
 			cursor.removeSelectedText();
 			cursor.movePosition(QTextCursor::EndOfLine);
 
 			// Simple check to see if we're in a selector scope
-			const QTextDocument *doc = ui->plainTextEditStyleSheet->document();
+			const QTextDocument* doc = ui->plainTextEditStyleSheet->document();
 			const QTextCursor closing = doc->find(QLatin1String("}"), cursor, QTextDocument::FindBackward);
 			const QTextCursor opening = doc->find(QLatin1String("{"), cursor, QTextDocument::FindBackward);
 			const bool inSelector = !opening.isNull() && (closing.isNull() ||
-														  closing.position() < opening.position());
+			                        closing.position() < opening.position());
 			QString insertion;
-			if (ui->plainTextEditStyleSheet->textCursor().block().length() != 1)
+			if(ui->plainTextEditStyleSheet->textCursor().block().length() != 1)
+			{
 				insertion += QLatin1Char('\n');
-			if (inSelector)
+			}
+			if(inSelector)
+			{
 				insertion += QLatin1Char('\t');
+			}
 			insertion += name;
 			insertion += QLatin1String(": ");
 			insertion += value;
 			insertion += QLatin1Char(';');
 			cursor.insertText(insertion);
 			cursor.endEditBlock();
-		} else {
+		}
+		else
+		{
 			cursor.insertText(value);
 		}
 	}
@@ -396,52 +435,53 @@ void MainWindow::enableEditing(bool enable)
 
 void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int column)
 {
-	if (item->isSelected())
+	if(item->isSelected())
 	{
 		bool tempSaved = saved;
 		currentSelectionText = item->text(column);
-		if (!ui->lineEditName->text().isEmpty() && !ui->lineEditAuthor->text().isEmpty() && ui->treeWidgetSelector->currentIndex().isValid()) {
+		if(!ui->lineEditName->text().isEmpty() && !ui->lineEditAuthor->text().isEmpty() && ui->treeWidgetSelector->currentIndex().isValid())
+		{
 			ui->plainTextEditStyleSheet->setEnabled(true);
 		}
 
-		if (item->text(column) == tr("Skin Properties"))
+		if(item->text(column) == tr("Skin Properties"))
 		{
 			ui->stackedWidget->setCurrentIndex(0);
 			ui->plainTextEditStyleSheet->setPlainText("");
 			ui->plainTextEditStyleSheet->setEnabled(false);
 		}
 
-		if (item->text(column) == tr("Splash Screen Background"))
+		if(item->text(column) == tr("Splash Screen Background"))
 		{
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.splashBackground);
 			ui->stackedWidget->setCurrentIndex(1);
 		}
 
-		if (item->text(column) == tr("Logo"))
+		if(item->text(column) == tr("Logo"))
 		{
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.splashLogo);
 			ui->stackedWidget->setCurrentIndex(1);
 		}
 
-		if (item->text(column) == tr("Footer"))
+		if(item->text(column) == tr("Footer"))
 		{
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.splashFooter);
 			ui->stackedWidget->setCurrentIndex(1);
 		}
 
-		if (item->text(column) == tr("Status Text"))
+		if(item->text(column) == tr("Status Text"))
 		{
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.splashStatus);
 			ui->stackedWidget->setCurrentIndex(1);
 		}
 
-		if (item->text(column) == tr("Progress"))
+		if(item->text(column) == tr("Progress"))
 		{
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.splashProgress);
 			ui->stackedWidget->setCurrentIndex(1);
 		}
 
-		if (item->text(column) == tr("Top Left"))
+		if(item->text(column) == tr("Top Left"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -449,7 +489,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Left"))
+		if(item->text(column) == tr("Left"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -457,7 +497,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == "Bottom Left")
+		if(item->text(column) == "Bottom Left")
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -465,7 +505,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Top"))
+		if(item->text(column) == tr("Top"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -473,7 +513,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Icon Frame"))
+		if(item->text(column) == tr("Icon Frame"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -481,7 +521,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Window Text"))
+		if(item->text(column) == tr("Window Text"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -489,7 +529,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Spacer Frame"))
+		if(item->text(column) == tr("Spacer Frame"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -497,7 +537,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Buttons Frame"))
+		if(item->text(column) == tr("Buttons Frame"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -505,7 +545,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Minimize Button"))
+		if(item->text(column) == tr("Minimize Button"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -513,7 +553,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Maximize Button"))
+		if(item->text(column) == tr("Maximize Button"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -521,7 +561,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Close Button"))
+		if(item->text(column) == tr("Close Button"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -529,7 +569,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Bottom"))
+		if(item->text(column) == tr("Bottom"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -537,7 +577,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Top Right"))
+		if(item->text(column) == tr("Top Right"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -545,7 +585,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Right"))
+		if(item->text(column) == tr("Right"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -553,7 +593,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Bottom Right"))
+		if(item->text(column) == tr("Bottom Right"))
 		{
 			ui->windowText->setText(tr("Main Window"));
 			this->isMainWindow = true;
@@ -561,7 +601,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Top Left"))
+		if(item->text(column) == tr("Child Top Left"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -569,7 +609,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Left"))
+		if(item->text(column) == tr("Child Left"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -577,7 +617,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Bottom Left"))
+		if(item->text(column) == tr("Child Bottom Left"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -585,7 +625,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Top"))
+		if(item->text(column) == tr("Child Top"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -593,7 +633,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Icon Frame"))
+		if(item->text(column) == tr("Child Icon Frame"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -601,7 +641,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Window Text"))
+		if(item->text(column) == tr("Child Window Text"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -609,7 +649,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Spacer Frame"))
+		if(item->text(column) == tr("Child Spacer Frame"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -617,7 +657,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Buttons Frame"))
+		if(item->text(column) == tr("Child Buttons Frame"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -625,7 +665,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Minimize Button"))
+		if(item->text(column) == tr("Child Minimize Button"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -633,7 +673,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Maximize Button"))
+		if(item->text(column) == tr("Child Maximize Button"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -641,7 +681,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Close Button"))
+		if(item->text(column) == tr("Child Close Button"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -649,7 +689,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Bottom"))
+		if(item->text(column) == tr("Child Bottom"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -657,7 +697,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Top Right"))
+		if(item->text(column) == tr("Child Top Right"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -665,7 +705,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Right"))
+		if(item->text(column) == tr("Child Right"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -673,7 +713,7 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Child Bottom Right"))
+		if(item->text(column) == tr("Child Bottom Right"))
 		{
 			ui->windowText->setText(tr("Child Window"));
 			this->isMainWindow = false;
@@ -681,175 +721,175 @@ void MainWindow::on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int co
 			ui->stackedWidget->setCurrentIndex(2);
 		}
 
-		if (item->text(column) == tr("Standard Items"))
+		if(item->text(column) == tr("Standard Items"))
 		{
 			ui->stackedWidget->setCurrentIndex(3);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.standardItems);
 		}
 
-		if (item->text(column) == tr("List Views"))
+		if(item->text(column) == tr("List Views"))
 		{
 			ui->stackedWidget->setCurrentIndex(4);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.listViews);
 		}
 
-		if (item->text(column) == tr("Main Menu Toolbar"))
+		if(item->text(column) == tr("Main Menu Toolbar"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.mainMenuToolbar);
 		}
 
-		if (item->text(column) == tr("Sidebar Background"))
+		if(item->text(column) == tr("Sidebar Background"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarBackground);
 		}
 
-		if (item->text(column) == tr("Sidebar Task Header"))
+		if(item->text(column) == tr("Sidebar Task Header"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarTaskHeader);
 		}
 
-		if (item->text(column) == tr("Sidebar Task Body"))
+		if(item->text(column) == tr("Sidebar Task Body"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarTaskBackground);
 		}
 
-		if (item->text(column) == tr("Un-Clickable Sidebar Task Header"))
+		if(item->text(column) == tr("Un-Clickable Sidebar Task Header"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.sidebarUnclickableTaskHeader);
 		}
 
-		if (item->text(column) == tr("Add Search Button"))
+		if(item->text(column) == tr("Add Search Button"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.addSearchButton);
 		}
 
-		if (item->text(column) == tr("Chat Welcome"))
+		if(item->text(column) == tr("Chat Welcome"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.chatWelcome);
 		}
 
-		if (item->text(column) == tr("Chat Toolbar"))
+		if(item->text(column) == tr("Chat Toolbar"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.chatToolbar);
 		}
 
-		if (item->text(column) == tr("Library Navigator"))
+		if(item->text(column) == tr("Library Navigator"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.libraryNavigator);
 		}
 
-		if (currentSelectionText == tr("Library View Header"))
+		if(currentSelectionText == tr("Library View Header"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.libraryViewHeader);
 		}
 
-		if (item->text(column) == tr("Searches"))
+		if(item->text(column) == tr("Searches"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.tabSearches);
 		}
 
-		if (item->text(column) == tr("Toolbars"))
+		if(item->text(column) == tr("Toolbars"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.toolbars);
 		}
 
-		if (item->text(column) == tr("Media Toolbar"))
+		if(item->text(column) == tr("Media Toolbar"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.mediaToolbar);
 		}
 
-		if (item->text(column) == tr("Media Seek Slider"))
+		if(item->text(column) == tr("Media Seek Slider"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.seekSlider);
 		}
 
-		if (item->text(column) == tr("Media Volume Slider"))
+		if(item->text(column) == tr("Media Volume Slider"))
 		{
 			ui->stackedWidget->setCurrentIndex(5);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.volumeSlider);
 		}
 
-		if (item->text(column) == tr("Toolbar"))
+		if(item->text(column) == tr("Toolbar"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.navigationToolbar);
 		}
 
-		if (item->text(column) == tr("Home"))
+		if(item->text(column) == tr("Home"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.homeHeader);
 		}
 
-		if (item->text(column) == tr("Library"))
+		if(item->text(column) == tr("Library"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.libraryHeader);
 		}
 
-		if (item->text(column) == tr("Media"))
+		if(item->text(column) == tr("Media"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.mediaHeader);
 		}
 
-		if (item->text(column) == tr("Search"))
+		if(item->text(column) == tr("Search"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.searchHeader);
 		}
 
-		if (item->text(column) == tr("Transfers"))
+		if(item->text(column) == tr("Transfers"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.transfersHeader);
 		}
 
-		if (item->text(column) == tr("Security"))
+		if(item->text(column) == tr("Security"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.securityHeader);
 		}
 
-		if (item->text(column) == tr("Activity"))
+		if(item->text(column) == tr("Activity"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.activityHeader);
 		}
 
-		if (item->text(column) == tr("Chat"))
+		if(item->text(column) == tr("Chat"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.chatHeader);
 		}
 
-		if (item->text(column) == tr("Generic"))
+		if(item->text(column) == tr("Generic"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.genericHeader);
 		}
 
-		if (item->text(column) == tr("Dialog Header"))
+		if(item->text(column) == tr("Dialog Header"))
 		{
 			ui->stackedWidget->setCurrentIndex(6);
 			ui->plainTextEditStyleSheet->setPlainText(skinSettings.dialogHeader);
 		}
 
-		if (item->text(column) == tr("Colors"))
+		if(item->text(column) == tr("Colors"))
 		{
 			ui->stackedWidget->setCurrentIndex(7);
 			ui->plainTextEditStyleSheet->setPlainText("");
@@ -865,10 +905,10 @@ void MainWindow::on_actionOpen_triggered()
 {
 	on_actionClose_triggered();
 
-	DialogOpenSkin *dlgOpenSkin = new DialogOpenSkin(this);
+	DialogOpenSkin* dlgOpenSkin = new DialogOpenSkin(this);
 	bool ok;
 	ok = dlgOpenSkin->exec();
-	if (ok)
+	if(ok)
 	{
 		skinSettings.loadSkin(dlgOpenSkin->skinFile);
 		ui->lineEditName->setText(skinSettings.skinName);
@@ -900,161 +940,207 @@ void MainWindow::on_actionOpen_triggered()
 		ui->toolButtonColorUsersOwner->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorOwner.name() + ";}");
 		ui->toolButtonColorUsersVoiced->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorVoiced.name() + ";}");
 
-		if (skinSettings.logWeightInformation == "font-weight:600;")
+		if(skinSettings.logWeightInformation == "font-weight:600;")
 		{
 			ui->checkBoxInformationBold->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxInformationBold->setChecked(false);
 		}
 
-		if (skinSettings.logWeightSecurity == "font-weight:600;")
+		if(skinSettings.logWeightSecurity == "font-weight:600;")
 		{
 			ui->checkBoxSecurityBold->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxSecurityBold->setChecked(false);
 		}
 
-		if (skinSettings.logWeightNotice == "font-weight:600;")
+		if(skinSettings.logWeightNotice == "font-weight:600;")
 		{
 			ui->checkBoxNoticeBold->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxNoticeBold->setChecked(false);
 		}
 
-		if (skinSettings.logWeightDebug == "font-weight:600;")
+		if(skinSettings.logWeightDebug == "font-weight:600;")
 		{
 			ui->checkBoxDebugBold->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxDebugBold->setChecked(false);
 		}
 
-		if (skinSettings.logWeightWarning == "font-weight:600;")
+		if(skinSettings.logWeightWarning == "font-weight:600;")
 		{
 			ui->checkBoxWarningBold->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxWarningBold->setChecked(false);
 		}
 
-		if (skinSettings.logWeightError == "font-weight:600;")
+		if(skinSettings.logWeightError == "font-weight:600;")
 		{
 			ui->checkBoxErrorBold->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxErrorBold->setChecked(false);
 		}
 
-		if (skinSettings.logWeightCritical == "font-weight:600;")
+		if(skinSettings.logWeightCritical == "font-weight:600;")
 		{
 			ui->checkBoxCriticalBold->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxCriticalBold->setChecked(false);
 		}
 
-		if (skinSettings.listsWeightActive == 75)
+		if(skinSettings.listsWeightActive == 75)
 		{
 			ui->checkBoxBoldListsActive->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldListsActive->setChecked(false);
 		}
 
-		if (skinSettings.listsWeightHighlighted == 75)
+		if(skinSettings.listsWeightHighlighted == 75)
 		{
 			ui->checkBoxBoldListsHighlighted->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldListsHighlighted->setChecked(false);
 		}
 
-		if (skinSettings.listsWeightNormal == 75)
+		if(skinSettings.listsWeightNormal == 75)
 		{
 			ui->checkBoxBoldListsNormal->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldListsNormal->setChecked(false);
 		}
 
-		if (skinSettings.listsWeightSpecial == 75)
+		if(skinSettings.listsWeightSpecial == 75)
 		{
 			ui->checkBoxBoldListsSpecial->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldListsSpecial->setChecked(false);
 		}
 
-		if (skinSettings.chatMessagesWeightNormal == "font-weight:600;")
+		if(skinSettings.chatMessagesWeightNormal == "font-weight:600;")
 		{
 			ui->checkBoxBoldMessagesNormal->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldMessagesNormal->setChecked(false);
 		}
 
-		if (skinSettings.chatMessagesWeightHighlighted == "font-weight:600;")
+		if(skinSettings.chatMessagesWeightHighlighted == "font-weight:600;")
 		{
 			ui->checkBoxBoldMessagesHighlighted->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldMessagesHighlighted->setChecked(false);
 		}
 
-		if (skinSettings.chatMessagesWeightServer == "font-weight:600;")
+		if(skinSettings.chatMessagesWeightServer == "font-weight:600;")
 		{
 			ui->checkBoxBoldMessagesServer->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldMessagesServer->setChecked(false);
 		}
-		if (skinSettings.chatMessagesWeightTopics == "font-weight:600;")
+		if(skinSettings.chatMessagesWeightTopics == "font-weight:600;")
 		{
 			ui->checkBoxBoldMessagesTopics->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldMessagesTopics->setChecked(false);
 		}
-		if (skinSettings.chatMessagesWeightNotices == "font-weight:600;")
+		if(skinSettings.chatMessagesWeightNotices == "font-weight:600;")
 		{
 			ui->checkBoxBoldMessagesNotices->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldMessagesNotices->setChecked(false);
 		}
-		if (skinSettings.chatMessagesWeightActions == "font-weight:600;")
+		if(skinSettings.chatMessagesWeightActions == "font-weight:600;")
 		{
 			ui->checkBoxBoldMessagesActions->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldMessagesActions->setChecked(false);
 		}
 
-		if (skinSettings.chatUsersWeightNormal == 75)
+		if(skinSettings.chatUsersWeightNormal == 75)
 		{
 			ui->checkBoxBoldUsersNormal->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldUsersNormal->setChecked(false);
 		}
 
-		if (skinSettings.chatUsersWeightOwner == 75)
+		if(skinSettings.chatUsersWeightOwner == 75)
 		{
 			ui->checkBoxBoldUsersOwner->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldUsersOwner->setChecked(false);
 		}
 
-		if (skinSettings.chatUsersWeightAdministrator == 75)
+		if(skinSettings.chatUsersWeightAdministrator == 75)
 		{
 			ui->checkBoxBoldUsersAdministrator->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldUsersAdministrator->setChecked(false);
 		}
 
-		if (skinSettings.chatUsersWeightOperator == 75)
+		if(skinSettings.chatUsersWeightOperator == 75)
 		{
 			ui->checkBoxBoldUsersOperator->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldUsersOperator->setChecked(false);
 		}
 
-		if (skinSettings.chatUsersWeightHalfOperator == 75)
+		if(skinSettings.chatUsersWeightHalfOperator == 75)
 		{
 			ui->checkBoxBoldUsersHalfOperator->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldUsersHalfOperator->setChecked(false);
 		}
 
-		if (skinSettings.chatUsersWeightVoiced == 75)
+		if(skinSettings.chatUsersWeightVoiced == 75)
 		{
 			ui->checkBoxBoldUsersVoiced->setChecked(true);
-		} else {
+		}
+		else
+		{
 			ui->checkBoxBoldUsersVoiced->setChecked(false);
 		}
 
@@ -1069,11 +1155,11 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionClose_triggered()
 {
-	if (!saved && !skinSettings.skinName.isEmpty())
+	if(!saved && !skinSettings.skinName.isEmpty())
 	{
-		QMessageBox *msgBox = new QMessageBox(QMessageBox::Question, tr("Skin Not Saved"), tr("The skin has not been saved. Would you like to save it now?"), QMessageBox::Ok|QMessageBox::Cancel, this);
+		QMessageBox* msgBox = new QMessageBox(QMessageBox::Question, tr("Skin Not Saved"), tr("The skin has not been saved. Would you like to save it now?"), QMessageBox::Ok | QMessageBox::Cancel, this);
 		int ok = msgBox->exec();
-		if (ok == QDialog::Accepted)
+		if(ok == QDialog::Accepted)
 		{
 			on_actionSave_triggered();
 		}
@@ -1147,7 +1233,7 @@ void MainWindow::skinChangeEvent()
 
 void MainWindow::updateWindowStyleSheet(bool mainWindow)
 {
-	if (mainWindow)
+	if(mainWindow)
 	{
 		ui->windowFrameTopLeft->setStyleSheet(skinSettings.windowFrameTopLeftStyleSheet);
 		ui->windowFrameLeft->setStyleSheet(skinSettings.windowFrameLeftStyleSheet);
@@ -1166,7 +1252,9 @@ void MainWindow::updateWindowStyleSheet(bool mainWindow)
 		ui->windowFrameTopRight->setStyleSheet(skinSettings.windowFrameTopRightStyleSheet);
 		ui->windowFrameRight->setStyleSheet(skinSettings.windowFrameRightStyleSheet);
 		ui->windowFrameBottomRight->setStyleSheet(skinSettings.windowFrameBottomRightStyleSheet);
-	} else {
+	}
+	else
+	{
 		ui->windowFrameTopLeft->setStyleSheet(skinSettings.childWindowFrameTopLeftStyleSheet);
 		ui->windowFrameLeft->setStyleSheet(skinSettings.childWindowFrameLeftStyleSheet);
 		ui->windowFrameBottomLeft->setStyleSheet(skinSettings.childWindowFrameBottomLeftStyleSheet);
@@ -1189,317 +1277,317 @@ void MainWindow::updateWindowStyleSheet(bool mainWindow)
 
 void MainWindow::applySheets()
 {
-	if (currentSelectionText == tr("Splash Screen Background"))
+	if(currentSelectionText == tr("Splash Screen Background"))
 	{
 		skinSettings.splashBackground = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Logo"))
+	if(currentSelectionText == tr("Logo"))
 	{
 		skinSettings.splashLogo = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Footer"))
+	if(currentSelectionText == tr("Footer"))
 	{
 		skinSettings.splashFooter = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Status Text"))
+	if(currentSelectionText == tr("Status Text"))
 	{
 		skinSettings.splashStatus = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Progress"))
+	if(currentSelectionText == tr("Progress"))
 	{
 		skinSettings.splashProgress = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Top Left"))
+	if(currentSelectionText == tr("Top Left"))
 	{
 		skinSettings.windowFrameTopLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Left"))
+	if(currentSelectionText == tr("Left"))
 	{
 		skinSettings.windowFrameLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Bottom Left"))
+	if(currentSelectionText == tr("Bottom Left"))
 	{
 		skinSettings.windowFrameBottomLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Top"))
+	if(currentSelectionText == tr("Top"))
 	{
 		skinSettings.windowFrameTopStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Icon Frame"))
+	if(currentSelectionText == tr("Icon Frame"))
 	{
 		skinSettings.windowIconFrameStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Window Text"))
+	if(currentSelectionText == tr("Window Text"))
 	{
 		skinSettings.windowTextStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Spacer Frame"))
+	if(currentSelectionText == tr("Spacer Frame"))
 	{
 		skinSettings.windowFrameTopSpacerStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Buttons Frame"))
+	if(currentSelectionText == tr("Buttons Frame"))
 	{
 		skinSettings.titlebarButtonsFrameStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Minimize Button"))
+	if(currentSelectionText == tr("Minimize Button"))
 	{
 		skinSettings.minimizeButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Maximize Button"))
+	if(currentSelectionText == tr("Maximize Button"))
 	{
 		skinSettings.maximizeButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Close Button"))
+	if(currentSelectionText == tr("Close Button"))
 	{
 		skinSettings.closeButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Bottom"))
+	if(currentSelectionText == tr("Bottom"))
 	{
 		skinSettings.windowFrameBottomStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Top Right"))
+	if(currentSelectionText == tr("Top Right"))
 	{
 		skinSettings.windowFrameTopRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Right"))
+	if(currentSelectionText == tr("Right"))
 	{
 		skinSettings.windowFrameRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Bottom Right"))
+	if(currentSelectionText == tr("Bottom Right"))
 	{
 		skinSettings.windowFrameBottomRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Top Left"))
+	if(currentSelectionText == tr("Child Top Left"))
 	{
 		skinSettings.childWindowFrameTopLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Left"))
+	if(currentSelectionText == tr("Child Left"))
 	{
 		skinSettings.childWindowFrameLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Bottom Left"))
+	if(currentSelectionText == tr("Child Bottom Left"))
 	{
 		skinSettings.childWindowFrameBottomLeftStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Top"))
+	if(currentSelectionText == tr("Child Top"))
 	{
 		skinSettings.childWindowFrameTopStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Icon Frame"))
+	if(currentSelectionText == tr("Child Icon Frame"))
 	{
 		skinSettings.childWindowIconFrameStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Window Text"))
+	if(currentSelectionText == tr("Child Window Text"))
 	{
 		skinSettings.childWindowTextStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Spacer Frame"))
+	if(currentSelectionText == tr("Child Spacer Frame"))
 	{
 		skinSettings.childWindowFrameTopSpacerStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Buttons Frame"))
+	if(currentSelectionText == tr("Child Buttons Frame"))
 	{
 		skinSettings.childTitlebarButtonsFrameStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Minimize Button"))
+	if(currentSelectionText == tr("Child Minimize Button"))
 	{
 		skinSettings.childMinimizeButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Maximize Button"))
+	if(currentSelectionText == tr("Child Maximize Button"))
 	{
 		skinSettings.childMaximizeButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Close Button"))
+	if(currentSelectionText == tr("Child Close Button"))
 	{
 		skinSettings.childCloseButtonStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Bottom"))
+	if(currentSelectionText == tr("Child Bottom"))
 	{
 		skinSettings.childWindowFrameBottomStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Top Right"))
+	if(currentSelectionText == tr("Child Top Right"))
 	{
 		skinSettings.childWindowFrameTopRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Right"))
+	if(currentSelectionText == tr("Child Right"))
 	{
 		skinSettings.childWindowFrameRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Child Bottom Right"))
+	if(currentSelectionText == tr("Child Bottom Right"))
 	{
 		skinSettings.childWindowFrameBottomRightStyleSheet = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Standard Items"))
+	if(currentSelectionText == tr("Standard Items"))
 	{
 		skinSettings.standardItems = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("List Views"))
+	if(currentSelectionText == tr("List Views"))
 	{
 		skinSettings.listViews = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Main Menu Toolbar"))
+	if(currentSelectionText == tr("Main Menu Toolbar"))
 	{
 		skinSettings.mainMenuToolbar = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Sidebar Background"))
+	if(currentSelectionText == tr("Sidebar Background"))
 	{
 		skinSettings.sidebarBackground = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Sidebar Task Header"))
+	if(currentSelectionText == tr("Sidebar Task Header"))
 	{
 		skinSettings.sidebarTaskHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Sidebar Task Body"))
+	if(currentSelectionText == tr("Sidebar Task Body"))
 	{
 		skinSettings.sidebarTaskBackground = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Un-Clickable Sidebar Task Header"))
+	if(currentSelectionText == tr("Un-Clickable Sidebar Task Header"))
 	{
 		skinSettings.sidebarUnclickableTaskHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Add Search Button"))
+	if(currentSelectionText == tr("Add Search Button"))
 	{
 		skinSettings.addSearchButton = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Chat Welcome"))
+	if(currentSelectionText == tr("Chat Welcome"))
 	{
 		skinSettings.chatWelcome = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Chat Toolbar"))
+	if(currentSelectionText == tr("Chat Toolbar"))
 	{
 		skinSettings.chatToolbar = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Library Navigator"))
+	if(currentSelectionText == tr("Library Navigator"))
 	{
 		skinSettings.libraryNavigator = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Library View Header"))
+	if(currentSelectionText == tr("Library View Header"))
 	{
 		skinSettings.libraryViewHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Searches"))
+	if(currentSelectionText == tr("Searches"))
 	{
 		skinSettings.tabSearches = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Toolbars"))
+	if(currentSelectionText == tr("Toolbars"))
 	{
 		skinSettings.toolbars = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Media Toolbar"))
+	if(currentSelectionText == tr("Media Toolbar"))
 	{
 		skinSettings.mediaToolbar = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Media Seek Slider"))
+	if(currentSelectionText == tr("Media Seek Slider"))
 	{
 		skinSettings.seekSlider = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Media Volume Slider"))
+	if(currentSelectionText == tr("Media Volume Slider"))
 	{
 		skinSettings.volumeSlider = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Toolbar"))
+	if(currentSelectionText == tr("Toolbar"))
 	{
 		skinSettings.navigationToolbar = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Home"))
+	if(currentSelectionText == tr("Home"))
 	{
 		skinSettings.homeHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Library"))
+	if(currentSelectionText == tr("Library"))
 	{
 		skinSettings.libraryHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Media"))
+	if(currentSelectionText == tr("Media"))
 	{
 		skinSettings.mediaHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Search"))
+	if(currentSelectionText == tr("Search"))
 	{
 		skinSettings.searchHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Transfers"))
+	if(currentSelectionText == tr("Transfers"))
 	{
 		skinSettings.transfersHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Security"))
+	if(currentSelectionText == tr("Security"))
 	{
 		skinSettings.securityHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Activity"))
+	if(currentSelectionText == tr("Activity"))
 	{
 		skinSettings.activityHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Chat"))
+	if(currentSelectionText == tr("Chat"))
 	{
 		skinSettings.chatHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Generic"))
+	if(currentSelectionText == tr("Generic"))
 	{
 		skinSettings.genericHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
 
-	if (currentSelectionText == tr("Dialog Header"))
+	if(currentSelectionText == tr("Dialog Header"))
 	{
 		skinSettings.dialogHeader = ui->plainTextEditStyleSheet->toPlainText();
 	}
@@ -1508,7 +1596,7 @@ void MainWindow::applySheets()
 
 void MainWindow::on_plainTextEditStyleSheet_textChanged()
 {
-	if (isStyleSheetValid(ui->plainTextEditStyleSheet->toPlainText()))
+	if(isStyleSheetValid(ui->plainTextEditStyleSheet->toPlainText()))
 	{
 		saved = false;
 		applySheets();
@@ -1539,10 +1627,12 @@ void MainWindow::on_plainTextEditDescription_textChanged()
 
 void MainWindow::applyIcon()
 {
-	if (isMainWindow)
+	if(isMainWindow)
 	{
 		skinSettings.windowIconVisible = ui->checkBoxMainIconVisible->isChecked();
-	} else {
+	}
+	else
+	{
 		skinSettings.childWindowIconVisible = ui->checkBoxMainIconVisible->isChecked();
 	}
 	skinChangeEvent();
@@ -1563,7 +1653,7 @@ void MainWindow::updateLogPreview()
 void MainWindow::on_toolButtonColorInformation_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.logColorInformation, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
 		skinSettings.logColorInformation.setNamedColor(color.name());
 		ui->toolButtonColorInformation->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorInformation.name() + ";}");
@@ -1575,7 +1665,7 @@ void MainWindow::on_toolButtonColorInformation_clicked()
 void MainWindow::on_toolButtonColorSecurity_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.logColorSecurity, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
 		skinSettings.logColorSecurity.setNamedColor(color.name());
 		ui->toolButtonColorSecurity->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorSecurity.name() + ";}");
@@ -1587,7 +1677,7 @@ void MainWindow::on_toolButtonColorSecurity_clicked()
 void MainWindow::on_toolButtonColorNotice_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.logColorNotice, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
 		skinSettings.logColorNotice.setNamedColor(color.name());
 		ui->toolButtonColorNotice->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorNotice.name() + ";}");
@@ -1600,7 +1690,7 @@ void MainWindow::on_toolButtonColorNotice_clicked()
 void MainWindow::on_toolButtonColorDebug_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.logColorDebug, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
 		skinSettings.logColorDebug.setNamedColor(color.name());
 		ui->toolButtonColorDebug->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorDebug.name() + ";}");
@@ -1613,7 +1703,7 @@ void MainWindow::on_toolButtonColorDebug_clicked()
 void MainWindow::on_toolButtonColorWarning_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.logColorWarning, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
 		skinSettings.logColorWarning.setNamedColor(color.name());
 		ui->toolButtonColorWarning->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorWarning.name() + ";}");
@@ -1625,7 +1715,7 @@ void MainWindow::on_toolButtonColorWarning_clicked()
 void MainWindow::on_toolButtonColorError_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.logColorError, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
 		skinSettings.logColorError.setNamedColor(color.name());
 		ui->toolButtonColorError->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorError.name() + ";}");
@@ -1637,7 +1727,7 @@ void MainWindow::on_toolButtonColorError_clicked()
 void MainWindow::on_toolButtonColorCritical_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.logColorCritical, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
 		skinSettings.logColorCritical.setNamedColor(color.name());
 		ui->toolButtonColorCritical->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.logColorCritical.name() + ";}");
@@ -1648,11 +1738,13 @@ void MainWindow::on_toolButtonColorCritical_clicked()
 
 void MainWindow::on_checkBoxInformationBold_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.logWeightInformation = "font-weight:600;";
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.logWeightInformation = "";
 		updateLogPreview();
 	}
@@ -1660,11 +1752,13 @@ void MainWindow::on_checkBoxInformationBold_clicked(bool checked)
 
 void MainWindow::on_checkBoxSecurityBold_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.logWeightSecurity = "font-weight:600;";
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.logWeightSecurity = "";
 		updateLogPreview();
 	}
@@ -1672,11 +1766,13 @@ void MainWindow::on_checkBoxSecurityBold_clicked(bool checked)
 
 void MainWindow::on_checkBoxNoticeBold_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.logWeightNotice = "font-weight:600;";
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.logWeightNotice = "";
 		updateLogPreview();
 	}
@@ -1684,11 +1780,13 @@ void MainWindow::on_checkBoxNoticeBold_clicked(bool checked)
 
 void MainWindow::on_checkBoxDebugBold_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.logWeightDebug = "font-weight:600;";
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.logWeightDebug = "";
 		updateLogPreview();
 	}
@@ -1696,11 +1794,13 @@ void MainWindow::on_checkBoxDebugBold_clicked(bool checked)
 
 void MainWindow::on_checkBoxWarningBold_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.logWeightWarning = "font-weight:600;";
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.logWeightWarning = "";
 		updateLogPreview();
 	}
@@ -1708,11 +1808,13 @@ void MainWindow::on_checkBoxWarningBold_clicked(bool checked)
 
 void MainWindow::on_checkBoxErrorBold_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.logWeightError = "font-weight:600;";
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.logWeightError = "";
 		updateLogPreview();
 	}
@@ -1720,11 +1822,13 @@ void MainWindow::on_checkBoxErrorBold_clicked(bool checked)
 
 void MainWindow::on_checkBoxCriticalBold_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.logWeightCritical = "font-weight:600;";
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.logWeightCritical = "";
 		updateLogPreview();
 	}
@@ -1733,22 +1837,24 @@ void MainWindow::on_checkBoxCriticalBold_clicked(bool checked)
 void MainWindow::on_toolButtonColorListsNormal_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.listsColorNormal, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.listsColorNormal.setNamedColor(color.name());
-			ui->toolButtonColorListsNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorNormal.name() + ";}");
-			updateLogPreview();
-			saved = false;
+		skinSettings.listsColorNormal.setNamedColor(color.name());
+		ui->toolButtonColorListsNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorNormal.name() + ";}");
+		updateLogPreview();
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldListsNormal_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.listsWeightNormal = 75;
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.listsWeightNormal = 50;
 		updateLogPreview();
 	}
@@ -1757,22 +1863,24 @@ void MainWindow::on_checkBoxBoldListsNormal_clicked(bool checked)
 void MainWindow::on_toolButtonColorListsActive_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.listsColorActive, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.listsColorActive.setNamedColor(color.name());
-			ui->toolButtonColorListsActive->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorActive.name() + ";}");
-			updateLogPreview();
-			saved = false;
+		skinSettings.listsColorActive.setNamedColor(color.name());
+		ui->toolButtonColorListsActive->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorActive.name() + ";}");
+		updateLogPreview();
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldListsActive_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.listsWeightActive = 75;
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.listsWeightActive = 50;
 		updateLogPreview();
 	}
@@ -1781,22 +1889,24 @@ void MainWindow::on_checkBoxBoldListsActive_clicked(bool checked)
 void MainWindow::on_toolButtonColorListsSpecial_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.listsColorSpecial, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.listsColorSpecial.setNamedColor(color.name());
-			ui->toolButtonColorListsSpecial->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorSpecial.name() + ";}");
-			updateLogPreview();
-			saved = false;
+		skinSettings.listsColorSpecial.setNamedColor(color.name());
+		ui->toolButtonColorListsSpecial->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorSpecial.name() + ";}");
+		updateLogPreview();
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldListsSpecial_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.listsWeightSpecial = 75;
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.listsWeightSpecial = 50;
 		updateLogPreview();
 	}
@@ -1805,21 +1915,23 @@ void MainWindow::on_checkBoxBoldListsSpecial_clicked(bool checked)
 void MainWindow::on_toolButtonColorListsHighlighted_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.listsColorHighlighted, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.listsColorHighlighted.setNamedColor(color.name());
-			ui->toolButtonColorListsHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
-			saved = false;
+		skinSettings.listsColorHighlighted.setNamedColor(color.name());
+		ui->toolButtonColorListsHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.listsColorHighlighted.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldListsHighlighted_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.listsWeightHighlighted = 75;
 		updateLogPreview();
-	} else {
+	}
+	else
+	{
 		skinSettings.listsWeightHighlighted = 50;
 		updateLogPreview();
 	}
@@ -1828,20 +1940,22 @@ void MainWindow::on_checkBoxBoldListsHighlighted_clicked(bool checked)
 void MainWindow::on_toolButtonColorMessagesNormal_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorNormal, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatMessagesColorNormal.setNamedColor(color.name());
-			ui->toolButtonColorMessagesNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorNormal.name() + ";}");
-			saved = false;
+		skinSettings.chatMessagesColorNormal.setNamedColor(color.name());
+		ui->toolButtonColorMessagesNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorNormal.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldMessagesNormal_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatMessagesWeightNormal = "font-weight:600;";
-	} else {
+	}
+	else
+	{
 		skinSettings.chatMessagesWeightNormal = "";
 	}
 }
@@ -1849,20 +1963,22 @@ void MainWindow::on_checkBoxBoldMessagesNormal_clicked(bool checked)
 void MainWindow::on_toolButtonColorMessagesHighlighted_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorHighlighted, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatMessagesColorHighlighted.setNamedColor(color.name());
-			ui->toolButtonColorMessagesHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorHighlighted.name() + ";}");
-			saved = false;
+		skinSettings.chatMessagesColorHighlighted.setNamedColor(color.name());
+		ui->toolButtonColorMessagesHighlighted->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorHighlighted.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldMessagesHighlighted_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatMessagesWeightHighlighted = "font-weight:600;";
-	} else {
+	}
+	else
+	{
 		skinSettings.chatMessagesWeightHighlighted = "";
 	}
 }
@@ -1870,20 +1986,22 @@ void MainWindow::on_checkBoxBoldMessagesHighlighted_clicked(bool checked)
 void MainWindow::on_toolButtonColorMessagesServer_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorServer, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatMessagesColorServer.setNamedColor(color.name());
-			ui->toolButtonColorMessagesServer->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorServer.name() + ";}");
-			saved = false;
+		skinSettings.chatMessagesColorServer.setNamedColor(color.name());
+		ui->toolButtonColorMessagesServer->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorServer.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldMessagesServer_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatMessagesWeightServer = "font-weight:600;";
-	} else {
+	}
+	else
+	{
 		skinSettings.chatMessagesWeightServer = "";
 	}
 }
@@ -1891,20 +2009,22 @@ void MainWindow::on_checkBoxBoldMessagesServer_clicked(bool checked)
 void MainWindow::on_toolButtonColorMessagesTopics_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorTopics, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatMessagesColorTopics.setNamedColor(color.name());
-			ui->toolButtonColorMessagesTopics->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorTopics.name() + ";}");
-			saved = false;
+		skinSettings.chatMessagesColorTopics.setNamedColor(color.name());
+		ui->toolButtonColorMessagesTopics->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorTopics.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldMessagesTopics_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatMessagesWeightTopics = "font-weight:600;";
-	} else {
+	}
+	else
+	{
 		skinSettings.chatMessagesWeightTopics = "";
 	}
 }
@@ -1912,20 +2032,22 @@ void MainWindow::on_checkBoxBoldMessagesTopics_clicked(bool checked)
 void MainWindow::on_toolButtonColorMessagesNotices_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorNotices, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatMessagesColorNotices.setNamedColor(color.name());
-			ui->toolButtonColorMessagesNotices->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorNotices.name() + ";}");
-			saved = false;
+		skinSettings.chatMessagesColorNotices.setNamedColor(color.name());
+		ui->toolButtonColorMessagesNotices->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorNotices.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldMessagesNotices_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatMessagesWeightNotices = "font-weight:600;";
-	} else {
+	}
+	else
+	{
 		skinSettings.chatMessagesWeightNotices = "";
 	}
 }
@@ -1933,20 +2055,22 @@ void MainWindow::on_checkBoxBoldMessagesNotices_clicked(bool checked)
 void MainWindow::on_toolButtonColorMessagesActions_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatMessagesColorActions, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatMessagesColorActions.setNamedColor(color.name());
-			ui->toolButtonColorMessagesActions->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorActions.name() + ";}");
-			saved = false;
+		skinSettings.chatMessagesColorActions.setNamedColor(color.name());
+		ui->toolButtonColorMessagesActions->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatMessagesColorActions.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldMessagesActions_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatMessagesWeightActions = "font-weight:600;";
-	} else {
+	}
+	else
+	{
 		skinSettings.chatMessagesWeightActions = "";
 	}
 }
@@ -1954,20 +2078,22 @@ void MainWindow::on_checkBoxBoldMessagesActions_clicked(bool checked)
 void MainWindow::on_toolButtonColorUsersNormal_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorNormal, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatUsersColorNormal.setNamedColor(color.name());
-			ui->toolButtonColorUsersNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorNormal.name() + ";}");
-			saved = false;
+		skinSettings.chatUsersColorNormal.setNamedColor(color.name());
+		ui->toolButtonColorUsersNormal->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorNormal.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldUsersNormal_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatUsersWeightNormal = 75;
-	} else {
+	}
+	else
+	{
 		skinSettings.chatUsersWeightNormal = 50;
 	}
 }
@@ -1975,20 +2101,22 @@ void MainWindow::on_checkBoxBoldUsersNormal_clicked(bool checked)
 void MainWindow::on_toolButtonColorUsersOwner_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorOwner, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatUsersColorOwner.setNamedColor(color.name());
-			ui->toolButtonColorUsersOwner->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorOwner.name() + ";}");
-			saved = false;
+		skinSettings.chatUsersColorOwner.setNamedColor(color.name());
+		ui->toolButtonColorUsersOwner->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorOwner.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldUsersOwner_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatUsersWeightOwner = 75;
-	} else {
+	}
+	else
+	{
 		skinSettings.chatUsersWeightOwner = 50;
 	}
 }
@@ -1996,20 +2124,22 @@ void MainWindow::on_checkBoxBoldUsersOwner_clicked(bool checked)
 void MainWindow::on_toolButtonColorUsersAdministrator_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorAdministrator, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatUsersColorAdministrator.setNamedColor(color.name());
-			ui->toolButtonColorUsersAdministrator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorAdministrator.name() + ";}");
-			saved = false;
+		skinSettings.chatUsersColorAdministrator.setNamedColor(color.name());
+		ui->toolButtonColorUsersAdministrator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorAdministrator.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldUsersAdministrator_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatUsersWeightAdministrator = 75;
-	} else {
+	}
+	else
+	{
 		skinSettings.chatUsersWeightAdministrator = 50;
 	}
 }
@@ -2017,20 +2147,22 @@ void MainWindow::on_checkBoxBoldUsersAdministrator_clicked(bool checked)
 void MainWindow::on_toolButtonColorUsersOperator_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorOperator, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatUsersColorOperator.setNamedColor(color.name());
-			ui->toolButtonColorUsersOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorOperator.name() + ";}");
-			saved = false;
+		skinSettings.chatUsersColorOperator.setNamedColor(color.name());
+		ui->toolButtonColorUsersOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorOperator.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldUsersOperator_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatUsersWeightOperator = 75;
-	} else {
+	}
+	else
+	{
 		skinSettings.chatUsersWeightOperator = 50;
 	}
 }
@@ -2038,20 +2170,22 @@ void MainWindow::on_checkBoxBoldUsersOperator_clicked(bool checked)
 void MainWindow::on_toolButtonColorUsersHalfOperator_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorHalfOperator, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatUsersColorHalfOperator.setNamedColor(color.name());
-			ui->toolButtonColorUsersHalfOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorHalfOperator.name() + ";}");
-			saved = false;
+		skinSettings.chatUsersColorHalfOperator.setNamedColor(color.name());
+		ui->toolButtonColorUsersHalfOperator->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorHalfOperator.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldUsersHalfOperator_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatUsersWeightHalfOperator = 75;
-	} else {
+	}
+	else
+	{
 		skinSettings.chatUsersWeightHalfOperator = 50;
 	}
 }
@@ -2059,27 +2193,31 @@ void MainWindow::on_checkBoxBoldUsersHalfOperator_clicked(bool checked)
 void MainWindow::on_toolButtonColorUsersVoiced_clicked()
 {
 	QColor color = QColorDialog::getColor(skinSettings.chatUsersColorVoiced, this);
-	if (color.isValid())
+	if(color.isValid())
 	{
-			skinSettings.chatUsersColorVoiced.setNamedColor(color.name());
-			ui->toolButtonColorUsersVoiced->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorVoiced.name() + ";}");
-			saved = false;
+		skinSettings.chatUsersColorVoiced.setNamedColor(color.name());
+		ui->toolButtonColorUsersVoiced->setStyleSheet("QToolButton {border: 1px solid rgb(0, 0, 0); background-color: " + skinSettings.chatUsersColorVoiced.name() + ";}");
+		saved = false;
 	}
 }
 
 void MainWindow::on_checkBoxBoldUsersVoiced_clicked(bool checked)
 {
-	if (checked)
+	if(checked)
 	{
 		skinSettings.chatUsersWeightVoiced = 75;
-	} else {
+	}
+	else
+	{
 		skinSettings.chatUsersWeightVoiced = 50;
 	}
 }
 
-void MainWindow::contextMenuEvent(QContextMenuEvent *event)
+void MainWindow::contextMenuEvent(QContextMenuEvent* event)
 {
-	if (ui->scrollAreaWidgetContents_2->underMouse() || ui->frame->underMouse())
+	if(ui->scrollAreaWidgetContents_2->underMouse() || ui->frame->underMouse())
+	{
 		menuPreview->exec(event->globalPos());
+	}
 }
 

@@ -23,7 +23,7 @@
 #include "ui_dialoghashprogress.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogHashProgress::DialogHashProgress(QWidget *parent) :
+DialogHashProgress::DialogHashProgress(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogHashProgress)
 {
@@ -37,15 +37,16 @@ DialogHashProgress::~DialogHashProgress()
 	delete m_ui;
 }
 
-void DialogHashProgress::changeEvent(QEvent *e)
+void DialogHashProgress::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

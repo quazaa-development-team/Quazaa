@@ -27,37 +27,39 @@
 #include <QLineEdit>
 #include "widgetsearchtemplate.h"
 
-namespace Ui {
-    class WidgetSearchResults;
+namespace Ui
+{
+	class WidgetSearchResults;
 }
 
-class WidgetSearchResults : public QMainWindow {
-    Q_OBJECT
+class WidgetSearchResults : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetSearchResults(QWidget *parent = 0);
-    ~WidgetSearchResults();
-	QLabel *labelFilter;
-	QLineEdit *lineEditFilter;
+	WidgetSearchResults(QWidget* parent = 0);
+	~WidgetSearchResults();
+	QLabel* labelFilter;
+	QLineEdit* lineEditFilter;
 	void saveWidget();
 
 signals:
-	void searchTabChanged(WidgetSearchTemplate *searchPage);
-	void statsUpdated(WidgetSearchTemplate *searchPage);
+	void searchTabChanged(WidgetSearchTemplate* searchPage);
+	void statsUpdated(WidgetSearchTemplate* searchPage);
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetSearchResults *ui;
+	Ui::WidgetSearchResults* ui;
 
 public slots:
 	void skinChangeEvent();
 	void startSearch(QString searchString);
-	void startNewSearch(QString *searchString);
+	void startNewSearch(QString* searchString);
 	void addSearchTab();
 	void stopSearch();
 	bool clearSearch();
-	void onStatsUpdated( WidgetSearchTemplate *searchWidget );
+	void onStatsUpdated(WidgetSearchTemplate* searchWidget);
 
 private slots:
 	void on_tabWidgetSearch_currentChanged(int index);

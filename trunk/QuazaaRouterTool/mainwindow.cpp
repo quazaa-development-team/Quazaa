@@ -47,120 +47,128 @@
 
 MainWindow::MainWindow()
 {
-    progress = 0;
-    firstRequest = true;
+	progress = 0;
+	firstRequest = true;
 
-    QFile file;
-    file.setFileName(":/jquery.min.js");
-    file.open(QIODevice::ReadOnly);
-    jQuery = file.readAll();
-    file.close();
+	QFile file;
+	file.setFileName(":/jquery.min.js");
+	file.open(QIODevice::ReadOnly);
+	jQuery = file.readAll();
+	file.close();
 
-    QNetworkProxyFactory::setUseSystemConfiguration(true);
+	QNetworkProxyFactory::setUseSystemConfiguration(true);
 
-    view = new QWebView(this);
- //  view->settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
-    view->setUrl(QUrl("qrc:/form.html"));
+	view = new QWebView(this);
+	//  view->settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
+	view->setUrl(QUrl("qrc:/form.html"));
 
-    // using loadStarted signal "should" be better
-    connect(view, SIGNAL(loadFinished(bool)), SLOT(adjustLocation()));
-    connect(view, SIGNAL(titleChanged(QString)), SLOT(adjustTitle()));
-    connect(view, SIGNAL(loadProgress(int)), SLOT(setProgress(int)));
-    connect(view, SIGNAL(loadFinished(bool)), SLOT(finishLoading(bool)));
+	// using loadStarted signal "should" be better
+	connect(view, SIGNAL(loadFinished(bool)), SLOT(adjustLocation()));
+	connect(view, SIGNAL(titleChanged(QString)), SLOT(adjustTitle()));
+	connect(view, SIGNAL(loadProgress(int)), SLOT(setProgress(int)));
+	connect(view, SIGNAL(loadFinished(bool)), SLOT(finishLoading(bool)));
 
-    connect(view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(populateJavaScriptWindowObject()));
+	connect(view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(populateJavaScriptWindowObject()));
 
-    locationEdit = new QLineEdit(this);
-    locationEdit->setSizePolicy(QSizePolicy::Expanding, locationEdit->sizePolicy().verticalPolicy());
-    connect(locationEdit, SIGNAL(returnPressed()), SLOT(changeLocation()));
+	locationEdit = new QLineEdit(this);
+	locationEdit->setSizePolicy(QSizePolicy::Expanding, locationEdit->sizePolicy().verticalPolicy());
+	connect(locationEdit, SIGNAL(returnPressed()), SLOT(changeLocation()));
 
-    QToolBar *toolBar = addToolBar(tr("Navigation"));
-    toolBar->addAction(view->pageAction(QWebPage::Back));
-    toolBar->addAction(view->pageAction(QWebPage::Forward));
-    toolBar->addAction(view->pageAction(QWebPage::Reload));
-    toolBar->addAction(view->pageAction(QWebPage::Stop));
-    toolBar->addWidget(locationEdit);
-    toolBar->setMovable(false);
+	QToolBar* toolBar = addToolBar(tr("Navigation"));
+	toolBar->addAction(view->pageAction(QWebPage::Back));
+	toolBar->addAction(view->pageAction(QWebPage::Forward));
+	toolBar->addAction(view->pageAction(QWebPage::Reload));
+	toolBar->addAction(view->pageAction(QWebPage::Stop));
+	toolBar->addWidget(locationEdit);
+	toolBar->setMovable(false);
 
-    QDockWidget *dockWidget = new QDockWidget(tr("Requests"), this);
-    dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    dockWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
+	QDockWidget* dockWidget = new QDockWidget(tr("Requests"), this);
+	dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+	dockWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
 
-    QTextDocument *doc = new QTextDocument(this);
-    doc->setDefaultStyleSheet("div { margin-top: 1px; margin-bottom: 1px; }");
-    logPane = new QTextEdit(dockWidget);
-    logPane->setReadOnly(true);
-    logPane->setDocument(doc);
+	QTextDocument* doc = new QTextDocument(this);
+	doc->setDefaultStyleSheet("div { margin-top: 1px; margin-bottom: 1px; }");
+	logPane = new QTextEdit(dockWidget);
+	logPane->setReadOnly(true);
+	logPane->setDocument(doc);
 
-    dockWidget->setWidget(logPane);
-    addDockWidget(Qt::BottomDockWidgetArea, dockWidget);
+	dockWidget->setWidget(logPane);
+	addDockWidget(Qt::BottomDockWidgetArea, dockWidget);
 
-    setContextMenuPolicy(Qt::NoContextMenu);
-    setCentralWidget(view);
-    setUnifiedTitleAndToolBarOnMac(true);
+	setContextMenuPolicy(Qt::NoContextMenu);
+	setCentralWidget(view);
+	setUnifiedTitleAndToolBarOnMac(true);
 }
 
 void MainWindow::adjustLocation()
 {
-    locationEdit->setText(view->url().toString());
-    logPane->moveCursor(QTextCursor::End);
-    if (!firstRequest) {
-        logPane->insertHtml("<hr /><div></div>"); // otherwise it'll go nuts! lol
-    }
-    logPane->moveCursor(QTextCursor::End);
-    firstRequest = false;
+	locationEdit->setText(view->url().toString());
+	logPane->moveCursor(QTextCursor::End);
+	if(!firstRequest)
+	{
+		logPane->insertHtml("<hr /><div></div>"); // otherwise it'll go nuts! lol
+	}
+	logPane->moveCursor(QTextCursor::End);
+	firstRequest = false;
 
-    if (postString.isNull())
-    {
-        logPane->insertHtml("<div><b>GET:</b> " + view->url().toString() + "</div>");
-    } else {
-        logPane->insertHtml("<div><b>POST:</b> " + view->url().toString() + " <b>Data:</b> " + postString + "</div>");
-    }
+	if(postString.isNull())
+	{
+		logPane->insertHtml("<div><b>GET:</b> " + view->url().toString() + "</div>");
+	}
+	else
+	{
+		logPane->insertHtml("<div><b>POST:</b> " + view->url().toString() + " <b>Data:</b> " + postString + "</div>");
+	}
 
-    logPane->ensureCursorVisible(); // scrolling
+	logPane->ensureCursorVisible(); // scrolling
 
-    postString = QString::null;
+	postString = QString::null;
 }
 
 void MainWindow::changeLocation()
 {
-    QUrl url = QUrl(locationEdit->text());
-    view->load(url);
-    view->setFocus();
+	QUrl url = QUrl(locationEdit->text());
+	view->load(url);
+	view->setFocus();
 }
 
 void MainWindow::adjustTitle()
 {
-    if (progress <= 0 || progress >= 100)
-        setWindowTitle("AutoRouterConfig : " + view->title());
-    else
-        setWindowTitle("AutoRouterConfig : " + QString("%1 (%2%)").arg(view->title()).arg(progress));
+	if(progress <= 0 || progress >= 100)
+	{
+		setWindowTitle("AutoRouterConfig : " + view->title());
+	}
+	else
+	{
+		setWindowTitle("AutoRouterConfig : " + QString("%1 (%2%)").arg(view->title()).arg(progress));
+	}
 }
 
 void MainWindow::setProgress(int p)
 {
-    progress = p;
-    adjustTitle();
+	progress = p;
+	adjustTitle();
 }
 
 void MainWindow::finishLoading(bool)
 {
-    progress = 100;
-    adjustTitle();
-   // view->page()->mainFrame()->evaluateJavaScript(jQuery);
-   // QString code = "$('form').each( function() { $(this).submit(function() { formExtractor.formValues($(this).serialize()); return true; }) } )";
-   // view->page()->mainFrame()->evaluateJavaScript(code);
+	progress = 100;
+	adjustTitle();
+	// view->page()->mainFrame()->evaluateJavaScript(jQuery);
+	// QString code = "$('form').each( function() { $(this).submit(function() { formExtractor.formValues($(this).serialize()); return true; }) } )";
+	// view->page()->mainFrame()->evaluateJavaScript(code);
 }
 
 // This function will connect formExtractor to this class
 
 void MainWindow::populateJavaScriptWindowObject()
 {
-    view->page()->mainFrame()->addToJavaScriptWindowObject("formExtractor", this);
+	view->page()->mainFrame()->addToJavaScriptWindowObject("formExtractor", this);
 }
 
 // The function that will be called from the injected javascript
 
-void MainWindow::formValues(QString str) {
-    postString = str;
+void MainWindow::formValues(QString str)
+{
+	postString = str;
 }

@@ -24,14 +24,17 @@
 
 #include <QtGui>
 
-namespace SettingsPage {
-	enum settingsPage {
+namespace SettingsPage
+{
+	enum settingsPage
+	{
 		System, Skins, Library, FileTypes, MediaPlayer, Search, Integration, Plugins, PrivateMessages, Chat, Security,
 		Parental, Connection, Transfers, Downloads, Uploads, Gnutella2, Ares, EDonkey, BitTorrent, Protocols
 	};
 }
 
-namespace Ui {
+namespace Ui
+{
 	class DialogSettings;
 }
 
@@ -40,14 +43,14 @@ class DialogSettings : public QDialog
 	Q_OBJECT
 
 public:
-	explicit DialogSettings(QWidget *parent = 0, SettingsPage::settingsPage page = SettingsPage::System);
+	explicit DialogSettings(QWidget* parent = 0, SettingsPage::settingsPage page = SettingsPage::System);
 	~DialogSettings();
 
 public slots:
 	void enableApply();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private slots:
 	void switchSettingsPage(SettingsPage::settingsPage page);
@@ -83,7 +86,7 @@ private slots:
 	void on_toolButtonTorrentBrowse_clicked();
 
 private:
-	Ui::DialogSettings *ui;
+	Ui::DialogSettings* ui;
 	QString skinFile;
 	QString tempSkinName;
 	QString tempSkinAuthor;

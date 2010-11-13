@@ -32,21 +32,21 @@ class CQuery;
 
 class CManagedSearch : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    quint32 m_tStarted;
-    bool    m_bActive;
-    bool    m_bPaused;
-    CQuery* m_pQuery;
+	quint32 m_tStarted;
+	bool    m_bActive;
+	bool    m_bPaused;
+	CQuery* m_pQuery;
 
-    bool    m_bCanRequestKey;
+	bool    m_bCanRequestKey;
 
-    quint32 m_nHubs;
-    quint32 m_nLeaves;
-    quint32 m_nHits;
-    quint32 m_nQueryCount;
+	quint32 m_nHubs;
+	quint32 m_nLeaves;
+	quint32 m_nHits;
+	quint32 m_nQueryCount;
 
-    QUuid   m_oGUID;
+	QUuid   m_oGUID;
 
 	QHash<quint32, quint32>		m_lSearchedNodes;
 
@@ -56,23 +56,23 @@ public:
 	quint32	m_nCookie;
 
 public:
-    CManagedSearch(CQuery* pQuery, QObject *parent = 0);
-    ~CManagedSearch();
+	CManagedSearch(CQuery* pQuery, QObject* parent = 0);
+	~CManagedSearch();
 
-    void Start();
-    void Stop();
-    void Pause();
+	void Start();
+	void Stop();
+	void Pause();
 
-    void Execute(quint32 tNow, quint32* pnMaxPackets);
-    void SearchNeighbours(quint32 tNow);
-    void SearchG2(quint32 tNow, quint32* pnMaxPackets);
+	void Execute(quint32 tNow, quint32* pnMaxPackets);
+	void SearchNeighbours(quint32 tNow);
+	void SearchG2(quint32 tNow, quint32* pnMaxPackets);
 
-    void OnHostAcknowledge(quint32 nHost, quint32 tNow);
+	void OnHostAcknowledge(quint32 nHost, quint32 tNow);
 	void OnQueryHit(CQueryHit* pHits);
 	void SendHits();
 
 signals:
-    void OnHit(QueryHitSharedPtr);
+	void OnHit(QueryHitSharedPtr);
 	void StatsUpdated();
 	void StateChanged();
 

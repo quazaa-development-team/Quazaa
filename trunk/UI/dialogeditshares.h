@@ -24,22 +24,24 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogEditShares;
 }
 
-class DialogEditShares : public QDialog {
+class DialogEditShares : public QDialog
+{
 	Q_OBJECT
 	Q_DISABLE_COPY(DialogEditShares)
 public:
-	explicit DialogEditShares(QWidget *parent = 0);
+	explicit DialogEditShares(QWidget* parent = 0);
 	virtual ~DialogEditShares();
 
 protected:
-	virtual void changeEvent(QEvent *e);
+	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogEditShares *m_ui;
+	Ui::DialogEditShares* m_ui;
 
 signals:
 	void closed();

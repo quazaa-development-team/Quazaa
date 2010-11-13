@@ -25,7 +25,7 @@
 #include <QDir>
 #include <QSettings>
 
-DialogOpenSkin::DialogOpenSkin(QWidget *parent) :
+DialogOpenSkin::DialogOpenSkin(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::DialogOpenSkin)
 {
@@ -35,7 +35,7 @@ DialogOpenSkin::DialogOpenSkin(QWidget *parent) :
 	QFileInfoList skinDirs = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs);
 	foreach(QFileInfo i, skinDirs)
 	{
-		QListWidgetItem *item = new QListWidgetItem(i.fileName());
+		QListWidgetItem* item = new QListWidgetItem(i.fileName());
 		ui->listWidgetSkins->addItem(item);
 	}
 }
@@ -45,15 +45,16 @@ DialogOpenSkin::~DialogOpenSkin()
 	delete ui;
 }
 
-void DialogOpenSkin::changeEvent(QEvent *e)
+void DialogOpenSkin::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -64,11 +65,13 @@ void DialogOpenSkin::on_pushButtonCancel_clicked()
 
 void DialogOpenSkin::on_pushButtonOK_clicked()
 {
-	QFile *m_skinFile = new QFile(skinFile);
-	if (m_skinFile->exists(skinFile))
+	QFile* m_skinFile = new QFile(skinFile);
+	if(m_skinFile->exists(skinFile))
 	{
 		accept();
-	} else {
+	}
+	else
+	{
 		reject();
 	}
 }

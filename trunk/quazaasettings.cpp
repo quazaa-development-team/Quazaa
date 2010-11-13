@@ -478,9 +478,9 @@ void QuazaaSettings::loadSettings()
 
 	m_qSettings.beginGroup("Parental");
 	quazaaSettings.Parental.AdultFilter = m_qSettings.value("AdultFilter",
-														 QStringList() << "shit" << "fuck" << "damn" << "bitch"
-														 << "asshole" << "ass" << "pussy" << "cock" << "cunt" << "dick"
-														 << "whore" << "slut" << "clit").toStringList();
+	                                      QStringList() << "shit" << "fuck" << "damn" << "bitch"
+	                                      << "asshole" << "ass" << "pussy" << "cock" << "cunt" << "dick"
+	                                      << "whore" << "slut" << "clit").toStringList();
 	quazaaSettings.Parental.ChatAdultCensor = m_qSettings.value("ChatAdultCensor", true).toBool();
 	quazaaSettings.Parental.FilterAdultSearchResults = m_qSettings.value("FilterAdultSearchResults", true).toBool();
 	m_qSettings.endGroup();
@@ -495,24 +495,24 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Library.HistoryTotal = m_qSettings.value("HistoryTotal", 32).toInt();
 	quazaaSettings.Library.LowPriorityHashingSpeed = m_qSettings.value("LowPriorityHashingSpeed", 2).toInt();
 	quazaaSettings.Library.NeverShareTypes = m_qSettings.value("NeverShareTypes",
-														 QStringList() << "vbs" << "js" << "jc!" << "fb!" << "bc!" << "!ut"
-														 << "dbx" << "part" << "partial" << "pst" << "reget" << "getright"
-														 << "pif" << "lnk" << "sd" << "url" << "wab" << "m4p" << "infodb"
-														 << "racestats" << "chk" << "tmp" << "temp" << "ini" << "inf" << "log"
-														 << "old" << "manifest" << "met" << "bak" << "$$$" << "---" << "~~~"
-														 << "###" << "__incomplete___" << "wma" << "wmv").toStringList();
+	        QStringList() << "vbs" << "js" << "jc!" << "fb!" << "bc!" << "!ut"
+	        << "dbx" << "part" << "partial" << "pst" << "reget" << "getright"
+	        << "pif" << "lnk" << "sd" << "url" << "wab" << "m4p" << "infodb"
+	        << "racestats" << "chk" << "tmp" << "temp" << "ini" << "inf" << "log"
+	        << "old" << "manifest" << "met" << "bak" << "$$$" << "---" << "~~~"
+	        << "###" << "__incomplete___" << "wma" << "wmv").toStringList();
 	quazaaSettings.Library.PartialMatch = m_qSettings.value("PartialMatch", true).toBool();
 	quazaaSettings.Library.PreferAPETags = m_qSettings.value("PreferAPETags", true).toBool();
 	quazaaSettings.Library.QueryRouteSize = m_qSettings.value("QueryRouteSize", 20).toInt();
 	quazaaSettings.Library.RememberViews = m_qSettings.value("RememberViews", true).toBool();
 	quazaaSettings.Library.SafeExecuteTypes = m_qSettings.value("SafeExecuteTypes",
-														  QStringList() << "3gp" << "7z" << "aac" << "ace" << "ape" << "avi"
-														  << "bmp" << "co" << "collection" << "flv" << "gif" << "iso"
-														  << "jpg" << "jpeg" << "lit" << "mid" << "mov" << "m1v" << "m2v"
-														  << "m3u" << "m4a" << "mkv" << "mp2" << "mp3" << "mp4" << "mpa"
-														  << "mpe" << "mpg" << "mpeg" << "ogg" << "ogm" << "pdf" << "png"
-														  << "qt" << "rar" << "rm" << "sks" << "tar" << "tgz" << "torrent"
-														  << "txt" << "wav" << "zip").toStringList();
+	        QStringList() << "3gp" << "7z" << "aac" << "ace" << "ape" << "avi"
+	        << "bmp" << "co" << "collection" << "flv" << "gif" << "iso"
+	        << "jpg" << "jpeg" << "lit" << "mid" << "mov" << "m1v" << "m2v"
+	        << "m3u" << "m4a" << "mkv" << "mp2" << "mp3" << "mp4" << "mpa"
+	        << "mpe" << "mpg" << "mpeg" << "ogg" << "ogm" << "pdf" << "png"
+	        << "qt" << "rar" << "rm" << "sks" << "tar" << "tgz" << "torrent"
+	        << "txt" << "wav" << "zip").toStringList();
 	quazaaSettings.Library.ScanAPE = m_qSettings.value("ScanAPE", true).toBool();
 	quazaaSettings.Library.ScanASF = m_qSettings.value("ScanASF", true).toBool();
 	quazaaSettings.Library.ScanAVI = m_qSettings.value("ScanAVI", true).toBool();
@@ -527,7 +527,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Library.ScanPDF = m_qSettings.value("ScanPDF", true).toBool();
 	quazaaSettings.Library.SchemaURI = m_qSettings.value("SchemaURI", "http://www.limewire.com/schemas/audio.xsd").toString();
 	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads"
-												<< QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Torrents").toStringList();
+	                                << QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Torrents").toStringList();
 	quazaaSettings.Library.ShowCoverArt = m_qSettings.value("ShowCoverArt", true).toBool();
 	quazaaSettings.Library.SmartSeriesDetection = m_qSettings.value("SmartSeriesDetection", false).toBool();
 	quazaaSettings.Library.SourceExpire = m_qSettings.value("SourceExpire", 86400).toInt();
@@ -543,9 +543,9 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Media.CustomPlayerPath = m_qSettings.value("CustomPlayerPath", "").toString();
 	quazaaSettings.Media.Handler = m_qSettings.value("MediaHandler", 0).toInt();
 	quazaaSettings.Media.FileTypes = m_qSettings.value("FileTypes", QStringList() << "asx" << "wax" << "m3u" << "wvx" << "wmx"
-													   << "asf" << "wav" << "snd" << "au" << "aif" << "aifc" << "aiff" << "mp3"
-													   << "cda" << "mid" << "rmi" << "midi" << "avi" << "mpeg" << "mpg"
-													   << "m1v" << "mp2" << "mpa" << "mpe").toStringList();
+	                                 << "asf" << "wav" << "snd" << "au" << "aif" << "aifc" << "aiff" << "mp3"
+	                                 << "cda" << "mid" << "rmi" << "midi" << "avi" << "mpeg" << "mpg"
+	                                 << "m1v" << "mp2" << "mpa" << "mpe").toStringList();
 	quazaaSettings.Media.ListVisible = m_qSettings.value("ListVisible", true).toBool();
 	quazaaSettings.Media.Mute = m_qSettings.value("Mute", false).toBool();
 	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
@@ -615,9 +615,9 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Web.Foxy = m_qSettings.value("Foxy", true).toBool();
 	quazaaSettings.Web.Magnet = m_qSettings.value("Magnet", true).toBool();
 	quazaaSettings.Web.ManageDownloadTypes = m_qSettings.value("ManageDownloadTypes", QStringList() << "7z" << "ace" << "arj"
-														 << "bin" << "exe" << "fml" << "grs" << "gz" << "hqx" << "iso"
-														 << "lzh" << "mp3" << "msi" << "r0" << "rar" << "sit" << "tar"
-														 << "tgz" << "z" << "zip").toStringList();
+	        << "bin" << "exe" << "fml" << "grs" << "gz" << "hqx" << "iso"
+	        << "lzh" << "mp3" << "msi" << "r0" << "rar" << "sit" << "tar"
+	        << "tgz" << "z" << "zip").toStringList();
 	quazaaSettings.Web.Piolet = m_qSettings.value("Piolet", true).toBool();
 	quazaaSettings.Web.Torrent = m_qSettings.value("Torrent", true).toBool();
 	m_qSettings.endGroup();
@@ -886,40 +886,40 @@ void QuazaaSettings::loadSettings()
 
 void QuazaaSettings::saveProfile()
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 
 	m_qSettings.beginGroup("Profile");
-	m_qSettings.setValue( "Age", quazaaSettings.Profile.Age );
-	m_qSettings.setValue( "AolScreenName", quazaaSettings.Profile.AolScreenName );							// Aol screen name
-	m_qSettings.setValue( "AvatarPath", quazaaSettings.Profile.AvatarPath );								// Path to an avatar image file. Quazaa logo used if blank
-	m_qSettings.setValue( "Biography", quazaaSettings.Profile.Biography );								// Your life story..
-	m_qSettings.setValue( "City", quazaaSettings.Profile.City );									// Your city
-	m_qSettings.setValue( "Country", quazaaSettings.Profile.Country );								// Your country..
-	m_qSettings.setValue( "Email", quazaaSettings.Profile.Email );									// EMail address
-	m_qSettings.setValue( "Favorites", quazaaSettings.Profile.Favorites );								// Favorite websites
-	m_qSettings.setValue( "FavoritesURL", quazaaSettings.Profile.FavoritesURL );							// Favorite Websites URLs
-	m_qSettings.setValue( "Gender", quazaaSettings.Profile.Gender );									// Gender..
-	m_qSettings.setValue( "GnutellaScreenName", quazaaSettings.Profile.GnutellaScreenName );						// The name displayed in searches, uploads and downloads and when users browse your system
-	m_qSettings.setValue( "GUID", quazaaSettings.Profile.GUID.toString() );									// Unique ID for each client. Can be regenerated
-	m_qSettings.setValue( "ICQuin", quazaaSettings.Profile.ICQuin );									// Identification number in ICQ
-	m_qSettings.setValue( "Interests", quazaaSettings.Profile.Interests );								// What do you like to do other than use Quazaa
-	m_qSettings.setValue( "IrcAlternateNickname", quazaaSettings.Profile.IrcAlternateNickname );					// Alternate nickname in Irc chat if first one is already used
-	m_qSettings.setValue( "IrcNickname", quazaaSettings.Profile.IrcNickname );							// Nickname used in Irc chat
-	m_qSettings.setValue( "IrcUserName", quazaaSettings.Profile.IrcUserName );							// User name for Irc chat
-	m_qSettings.setValue( "JabberID", quazaaSettings.Profile.JabberID );								// Jabber ID
-	m_qSettings.setValue( "Latitude", quazaaSettings.Profile.Latitude );								// Location for a disgruntled P2P user to aim a missile
-	m_qSettings.setValue( "Longitude", quazaaSettings.Profile.Longitude );								// Location for a disgruntled P2P user to aim a missile
-	m_qSettings.setValue( "MSNPassport", quazaaSettings.Profile.MSNPassport );							// Microsoft's Messenger ID
-	m_qSettings.setValue( "MyspaceProfile", quazaaSettings.Profile.MyspaceProfile );							// Myspace profile excluding http://quazaaSettings.Profile.myspace.com/
-	m_qSettings.setValue( "RealName", quazaaSettings.Profile.RealName );								// User's real name
-	m_qSettings.setValue( "StateProvince", quazaaSettings.Profile.StateProvince );							// Your state or province
-	m_qSettings.setValue( "YahooID", quazaaSettings.Profile.YahooID );								// Yahoo Messenger ID
+	m_qSettings.setValue("Age", quazaaSettings.Profile.Age);
+	m_qSettings.setValue("AolScreenName", quazaaSettings.Profile.AolScreenName);							// Aol screen name
+	m_qSettings.setValue("AvatarPath", quazaaSettings.Profile.AvatarPath);								// Path to an avatar image file. Quazaa logo used if blank
+	m_qSettings.setValue("Biography", quazaaSettings.Profile.Biography);								// Your life story..
+	m_qSettings.setValue("City", quazaaSettings.Profile.City);									// Your city
+	m_qSettings.setValue("Country", quazaaSettings.Profile.Country);								// Your country..
+	m_qSettings.setValue("Email", quazaaSettings.Profile.Email);									// EMail address
+	m_qSettings.setValue("Favorites", quazaaSettings.Profile.Favorites);								// Favorite websites
+	m_qSettings.setValue("FavoritesURL", quazaaSettings.Profile.FavoritesURL);							// Favorite Websites URLs
+	m_qSettings.setValue("Gender", quazaaSettings.Profile.Gender);									// Gender..
+	m_qSettings.setValue("GnutellaScreenName", quazaaSettings.Profile.GnutellaScreenName);						// The name displayed in searches, uploads and downloads and when users browse your system
+	m_qSettings.setValue("GUID", quazaaSettings.Profile.GUID.toString());									// Unique ID for each client. Can be regenerated
+	m_qSettings.setValue("ICQuin", quazaaSettings.Profile.ICQuin);									// Identification number in ICQ
+	m_qSettings.setValue("Interests", quazaaSettings.Profile.Interests);								// What do you like to do other than use Quazaa
+	m_qSettings.setValue("IrcAlternateNickname", quazaaSettings.Profile.IrcAlternateNickname);					// Alternate nickname in Irc chat if first one is already used
+	m_qSettings.setValue("IrcNickname", quazaaSettings.Profile.IrcNickname);							// Nickname used in Irc chat
+	m_qSettings.setValue("IrcUserName", quazaaSettings.Profile.IrcUserName);							// User name for Irc chat
+	m_qSettings.setValue("JabberID", quazaaSettings.Profile.JabberID);								// Jabber ID
+	m_qSettings.setValue("Latitude", quazaaSettings.Profile.Latitude);								// Location for a disgruntled P2P user to aim a missile
+	m_qSettings.setValue("Longitude", quazaaSettings.Profile.Longitude);								// Location for a disgruntled P2P user to aim a missile
+	m_qSettings.setValue("MSNPassport", quazaaSettings.Profile.MSNPassport);							// Microsoft's Messenger ID
+	m_qSettings.setValue("MyspaceProfile", quazaaSettings.Profile.MyspaceProfile);							// Myspace profile excluding http://quazaaSettings.Profile.myspace.com/
+	m_qSettings.setValue("RealName", quazaaSettings.Profile.RealName);								// User's real name
+	m_qSettings.setValue("StateProvince", quazaaSettings.Profile.StateProvince);							// Your state or province
+	m_qSettings.setValue("YahooID", quazaaSettings.Profile.YahooID);								// Yahoo Messenger ID
 	m_qSettings.endGroup();
 }
 
 void QuazaaSettings::loadProfile()
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 
 	m_qSettings.beginGroup("Profile");
 
@@ -936,18 +936,24 @@ void QuazaaSettings::loadProfile()
 	quazaaSettings.Profile.GUID = m_qSettings.value("GUID", QUuid::createUuid().toString()).toString();
 	QString tempNick = tr("Quazaa-%1").arg(QUuid::createUuid().data1);
 	quazaaSettings.Profile.GnutellaScreenName = m_qSettings.value("GnutellaScreenName", "").toString();
-	if (quazaaSettings.Profile.GnutellaScreenName == "")
+	if(quazaaSettings.Profile.GnutellaScreenName == "")
+	{
 		quazaaSettings.Profile.GnutellaScreenName = tempNick;
+	}
 	quazaaSettings.Profile.ICQuin = m_qSettings.value("ICQuin", "").toString();
 	quazaaSettings.Profile.Interests = m_qSettings.value("Interests", QStringList()).toStringList();
 	quazaaSettings.Profile.IrcAlternateNickname = m_qSettings.value("IrcAlternateNickname", "").toString();
 	quazaaSettings.Profile.IrcNickname = m_qSettings.value("IrcNickname", "").toString();
-	if (quazaaSettings.Profile.IrcNickname == "")
+	if(quazaaSettings.Profile.IrcNickname == "")
+	{
 		quazaaSettings.Profile.IrcNickname = tempNick;
+	}
 	quazaaSettings.Profile.ICQuin = m_qSettings.value("ICQuin", "").toString();
 	quazaaSettings.Profile.IrcUserName = m_qSettings.value("IrcUserName", "").toString();
-	if (quazaaSettings.Profile.IrcUserName == "")
+	if(quazaaSettings.Profile.IrcUserName == "")
+	{
 		quazaaSettings.Profile.IrcUserName = tempNick;
+	}
 	quazaaSettings.Profile.ICQuin = m_qSettings.value("ICQuin", "").toString();
 	quazaaSettings.Profile.JabberID = m_qSettings.value("JabberID", "").toString();
 	quazaaSettings.Profile.Latitude = m_qSettings.value("Latitude", "").toString();
@@ -960,171 +966,171 @@ void QuazaaSettings::loadProfile()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::saveSkinWindowSettings(QSkinDialog *skinDialog)
+void QuazaaSettings::saveSkinWindowSettings(QSkinDialog* skinDialog)
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 
-	m_qSettings.setValue( "NormalPositionAndSize", skinDialog->dialogNormalGeometry() );
-	m_qSettings.setValue( "WindowMinimized", skinDialog->isMinimized() );
-	m_qSettings.setValue( "WindowMaximized", skinDialog->isMaximized() );
-	m_qSettings.setValue( "WindowVisible", skinDialog->isVisible() );
+	m_qSettings.setValue("NormalPositionAndSize", skinDialog->dialogNormalGeometry());
+	m_qSettings.setValue("WindowMinimized", skinDialog->isMinimized());
+	m_qSettings.setValue("WindowMaximized", skinDialog->isMaximized());
+	m_qSettings.setValue("WindowVisible", skinDialog->isVisible());
 }
 
-void QuazaaSettings::loadSkinWindowSettings(QSkinDialog *skinDialog)
+void QuazaaSettings::loadSkinWindowSettings(QSkinDialog* skinDialog)
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 
-	skinDialog->setGeometry(m_qSettings.value( "NormalPositionAndSize", QRect( QPoint(200,200), QSize(535,104) ) ).toRect());
+	skinDialog->setGeometry(m_qSettings.value("NormalPositionAndSize", QRect(QPoint(200, 200), QSize(535, 104))).toRect());
 	skinDialog->setMaximized(m_qSettings.value("WindowMaximized", false).toBool());
 	skinDialog->setMinimized(m_qSettings.value("WindowMinimized", false).toBool());
-	quazaaSettings.WinMain.Visible = m_qSettings.value( "WindowVisible", true ).toBool();
+	quazaaSettings.WinMain.Visible = m_qSettings.value("WindowVisible", true).toBool();
 }
 
-void QuazaaSettings::saveWindowSettings(QMainWindow *window)
+void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 {
 	Q_UNUSED(window);
 
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 
-	m_qSettings.setValue( "ActiveTab", quazaaSettings.WinMain.ActiveTab );
-	m_qSettings.setValue( "ActivitySplitterRestoreTop", quazaaSettings.WinMain.ActivitySplitterRestoreTop );
-	m_qSettings.setValue( "ActivitySplitterRestoreBottom", quazaaSettings.WinMain.ActivitySplitterRestoreBottom );
-	m_qSettings.setValue( "ChatRoomsTaskVisible", quazaaSettings.WinMain.ChatRoomsTaskVisible );
-	m_qSettings.setValue( "ChatFriendsTaskVisible", quazaaSettings.WinMain.ChatFriendsTaskVisible );
-	m_qSettings.setValue( "ChatSplitter", quazaaSettings.WinMain.ChatSplitter );
-	m_qSettings.setValue( "ChatSplitterRestoreLeft", quazaaSettings.WinMain.ChatSplitterRestoreLeft );
-	m_qSettings.setValue( "ChatSplitterRestoreMiddle", quazaaSettings.WinMain.ChatSplitterRestoreMiddle );
-	m_qSettings.setValue( "ChatSplitterRestoreRight", quazaaSettings.WinMain.ChatSplitterRestoreRight );
-	m_qSettings.setValue( "ChatToolbars", quazaaSettings.WinMain.ChatToolbars );
-	m_qSettings.setValue( "DiscoveryToolbar", quazaaSettings.WinMain.DiscoveryToolbar );
-	m_qSettings.setValue( "DownloadsToolbar", quazaaSettings.WinMain.DownloadsToolbar );
-	m_qSettings.setValue( "GraphSplitter", quazaaSettings.WinMain.GraphSplitter );
-	m_qSettings.setValue( "GraphSplitterRestoreLeft", quazaaSettings.WinMain.GraphSplitterRestoreLeft );
-	m_qSettings.setValue( "GraphSplitterRestoreRight", quazaaSettings.WinMain.GraphSplitterRestoreRight );
-	m_qSettings.setValue( "GraphToolbar", quazaaSettings.WinMain.GraphToolbar );
-	m_qSettings.setValue( "HomeConnectionTaskVisible", quazaaSettings.WinMain.HomeConnectionTaskVisible );
-	m_qSettings.setValue( "HomeDownloadsTaskVisible", quazaaSettings.WinMain.HomeDownloadsTaskVisible );
-	m_qSettings.setValue( "HomeLibraryTaskVisible", quazaaSettings.WinMain.HomeLibraryTaskVisible );
-	m_qSettings.setValue( "HomeSearchString", quazaaSettings.WinMain.HomeSearchString );
-	m_qSettings.setValue( "HomeSplitter", quazaaSettings.WinMain.HomeSplitter );
-	m_qSettings.setValue( "HomeSplitterRestoreLeft", quazaaSettings.WinMain.HomeSplitterRestoreLeft );
-	m_qSettings.setValue( "HomeSplitterRestoreRight", quazaaSettings.WinMain.HomeSplitterRestoreRight );
-	m_qSettings.setValue( "HomeTorrentsTaskVisible", quazaaSettings.WinMain.HomeTorrentsTaskVisible );
-	m_qSettings.setValue( "HomeUploadsTaskVisible", quazaaSettings.WinMain.HomeUploadsTaskVisible );
-	m_qSettings.setValue( "HostCacheSplitter", quazaaSettings.WinMain.HostCacheSplitter );
-	m_qSettings.setValue( "HostCacheSplitterRestoreLeft", quazaaSettings.WinMain.HostCacheSplitterRestoreLeft );
-	m_qSettings.setValue( "HostCacheSplitterRestoreRight", quazaaSettings.WinMain.HostCacheSplitterRestoreRight );
-	m_qSettings.setValue( "HostCacheToolbar", quazaaSettings.WinMain.HostCacheToolbar );
-	m_qSettings.setValue( "LibraryDetailsSplitter", quazaaSettings.WinMain.LibraryDetailsSplitter );
-	m_qSettings.setValue( "LibraryDetailsSplitterRestoreTop", quazaaSettings.WinMain.LibraryDetailsSplitterRestoreTop );
-	m_qSettings.setValue( "LibraryDetailsSplitterRestoreBottom", quazaaSettings.WinMain.LibraryDetailsSplitterRestoreBottom );
-	m_qSettings.setValue( "LibraryNavigatorTab", quazaaSettings.WinMain.LibraryNavigatorTab );
-	m_qSettings.setValue( "LibrarySplitter", quazaaSettings.WinMain.LibrarySplitter );
-	m_qSettings.setValue( "LibrarySplitterRestoreLeft", quazaaSettings.WinMain.LibrarySplitterRestoreLeft );
-	m_qSettings.setValue( "LibrarySplitterRestoreRight", quazaaSettings.WinMain.LibrarySplitterRestoreRight );
-	m_qSettings.setValue( "LibraryToolbar", quazaaSettings.WinMain.LibraryToolbar );
-	m_qSettings.setValue( "MainToolbar", quazaaSettings.WinMain.MainToolbar );
-	m_qSettings.setValue( "MediaSplitter", quazaaSettings.WinMain.MediaSplitter );
-	m_qSettings.setValue( "MediaSplitterRestoreLeft", quazaaSettings.WinMain.MediaSplitterRestoreLeft );
-	m_qSettings.setValue( "MediaSplitterRestoreRight", quazaaSettings.WinMain.MediaSplitterRestoreRight );
-	m_qSettings.setValue( "MediaToolbars", quazaaSettings.WinMain.MediaToolbars );
-	m_qSettings.setValue( "NeighboursToolbars", quazaaSettings.WinMain.NeighboursToolbars );
-	m_qSettings.setValue( "NeighboursHeader", quazaaSettings.WinMain.NeighboursHeader );
-	m_qSettings.setValue( "PacketDumpToolbar", quazaaSettings.WinMain.PacketDumpToolbar );
-	m_qSettings.setValue( "ActivitySplitter", quazaaSettings.WinMain.ActivitySplitter );
-	m_qSettings.setValue( "SchedulerToolbar", quazaaSettings.WinMain.SchedulerToolbar );
-	m_qSettings.setValue( "SearchDetailsSplitter", quazaaSettings.WinMain.SearchDetailsSplitter );
-	m_qSettings.setValue( "SearchFileTypeTaskVisible", quazaaSettings.WinMain.SearchFileTypeTaskVisible );
-	m_qSettings.setValue( "SearchMonitorToolbar", quazaaSettings.WinMain.SearchMonitorToolbar );
-	m_qSettings.setValue( "SearchNetworksTaskVisible", quazaaSettings.WinMain.SearchNetworksTaskVisible );
-	m_qSettings.setValue( "SearchResultsSplitterRestoreTop", quazaaSettings.WinMain.SearchResultsSplitterRestoreTop );
-	m_qSettings.setValue( "SearchResultsSplitterRestoreBottom", quazaaSettings.WinMain.SearchResultsSplitterRestoreBottom );
-	m_qSettings.setValue( "SearchResultsTaskVisible", quazaaSettings.WinMain.SearchResultsTaskVisible );
-	m_qSettings.setValue( "SearchSplitter", quazaaSettings.WinMain.SearchSplitter );
-	m_qSettings.setValue( "SearchSplitterRestoreLeft", quazaaSettings.WinMain.SearchSplitterRestoreLeft );
-	m_qSettings.setValue( "SearchSplitterRestoreRight", quazaaSettings.WinMain.SearchSplitterRestoreRight );
-	m_qSettings.setValue( "SearchTaskVisible", quazaaSettings.WinMain.SearchTaskVisible );
-	m_qSettings.setValue( "SearchToolbar", quazaaSettings.WinMain.SearchToolbar );
-	m_qSettings.setValue( "SecurityToolbars", quazaaSettings.WinMain.SecurityToolbars );
-	m_qSettings.setValue( "SystemLogToolbar", quazaaSettings.WinMain.SystemLogToolbar );
-	m_qSettings.setValue( "TransfersSplitter", quazaaSettings.WinMain.TransfersSplitter );
-	m_qSettings.setValue( "TransfersSplitterRestoreTop", quazaaSettings.WinMain.TransfersSplitterRestoreTop );
-	m_qSettings.setValue( "TransfersSplitterRestoreBottom", quazaaSettings.WinMain.TransfersSplitterRestoreBottom );
-	m_qSettings.setValue( "UploadsToolbar", quazaaSettings.WinMain.UploadsToolbar );
+	m_qSettings.setValue("ActiveTab", quazaaSettings.WinMain.ActiveTab);
+	m_qSettings.setValue("ActivitySplitterRestoreTop", quazaaSettings.WinMain.ActivitySplitterRestoreTop);
+	m_qSettings.setValue("ActivitySplitterRestoreBottom", quazaaSettings.WinMain.ActivitySplitterRestoreBottom);
+	m_qSettings.setValue("ChatRoomsTaskVisible", quazaaSettings.WinMain.ChatRoomsTaskVisible);
+	m_qSettings.setValue("ChatFriendsTaskVisible", quazaaSettings.WinMain.ChatFriendsTaskVisible);
+	m_qSettings.setValue("ChatSplitter", quazaaSettings.WinMain.ChatSplitter);
+	m_qSettings.setValue("ChatSplitterRestoreLeft", quazaaSettings.WinMain.ChatSplitterRestoreLeft);
+	m_qSettings.setValue("ChatSplitterRestoreMiddle", quazaaSettings.WinMain.ChatSplitterRestoreMiddle);
+	m_qSettings.setValue("ChatSplitterRestoreRight", quazaaSettings.WinMain.ChatSplitterRestoreRight);
+	m_qSettings.setValue("ChatToolbars", quazaaSettings.WinMain.ChatToolbars);
+	m_qSettings.setValue("DiscoveryToolbar", quazaaSettings.WinMain.DiscoveryToolbar);
+	m_qSettings.setValue("DownloadsToolbar", quazaaSettings.WinMain.DownloadsToolbar);
+	m_qSettings.setValue("GraphSplitter", quazaaSettings.WinMain.GraphSplitter);
+	m_qSettings.setValue("GraphSplitterRestoreLeft", quazaaSettings.WinMain.GraphSplitterRestoreLeft);
+	m_qSettings.setValue("GraphSplitterRestoreRight", quazaaSettings.WinMain.GraphSplitterRestoreRight);
+	m_qSettings.setValue("GraphToolbar", quazaaSettings.WinMain.GraphToolbar);
+	m_qSettings.setValue("HomeConnectionTaskVisible", quazaaSettings.WinMain.HomeConnectionTaskVisible);
+	m_qSettings.setValue("HomeDownloadsTaskVisible", quazaaSettings.WinMain.HomeDownloadsTaskVisible);
+	m_qSettings.setValue("HomeLibraryTaskVisible", quazaaSettings.WinMain.HomeLibraryTaskVisible);
+	m_qSettings.setValue("HomeSearchString", quazaaSettings.WinMain.HomeSearchString);
+	m_qSettings.setValue("HomeSplitter", quazaaSettings.WinMain.HomeSplitter);
+	m_qSettings.setValue("HomeSplitterRestoreLeft", quazaaSettings.WinMain.HomeSplitterRestoreLeft);
+	m_qSettings.setValue("HomeSplitterRestoreRight", quazaaSettings.WinMain.HomeSplitterRestoreRight);
+	m_qSettings.setValue("HomeTorrentsTaskVisible", quazaaSettings.WinMain.HomeTorrentsTaskVisible);
+	m_qSettings.setValue("HomeUploadsTaskVisible", quazaaSettings.WinMain.HomeUploadsTaskVisible);
+	m_qSettings.setValue("HostCacheSplitter", quazaaSettings.WinMain.HostCacheSplitter);
+	m_qSettings.setValue("HostCacheSplitterRestoreLeft", quazaaSettings.WinMain.HostCacheSplitterRestoreLeft);
+	m_qSettings.setValue("HostCacheSplitterRestoreRight", quazaaSettings.WinMain.HostCacheSplitterRestoreRight);
+	m_qSettings.setValue("HostCacheToolbar", quazaaSettings.WinMain.HostCacheToolbar);
+	m_qSettings.setValue("LibraryDetailsSplitter", quazaaSettings.WinMain.LibraryDetailsSplitter);
+	m_qSettings.setValue("LibraryDetailsSplitterRestoreTop", quazaaSettings.WinMain.LibraryDetailsSplitterRestoreTop);
+	m_qSettings.setValue("LibraryDetailsSplitterRestoreBottom", quazaaSettings.WinMain.LibraryDetailsSplitterRestoreBottom);
+	m_qSettings.setValue("LibraryNavigatorTab", quazaaSettings.WinMain.LibraryNavigatorTab);
+	m_qSettings.setValue("LibrarySplitter", quazaaSettings.WinMain.LibrarySplitter);
+	m_qSettings.setValue("LibrarySplitterRestoreLeft", quazaaSettings.WinMain.LibrarySplitterRestoreLeft);
+	m_qSettings.setValue("LibrarySplitterRestoreRight", quazaaSettings.WinMain.LibrarySplitterRestoreRight);
+	m_qSettings.setValue("LibraryToolbar", quazaaSettings.WinMain.LibraryToolbar);
+	m_qSettings.setValue("MainToolbar", quazaaSettings.WinMain.MainToolbar);
+	m_qSettings.setValue("MediaSplitter", quazaaSettings.WinMain.MediaSplitter);
+	m_qSettings.setValue("MediaSplitterRestoreLeft", quazaaSettings.WinMain.MediaSplitterRestoreLeft);
+	m_qSettings.setValue("MediaSplitterRestoreRight", quazaaSettings.WinMain.MediaSplitterRestoreRight);
+	m_qSettings.setValue("MediaToolbars", quazaaSettings.WinMain.MediaToolbars);
+	m_qSettings.setValue("NeighboursToolbars", quazaaSettings.WinMain.NeighboursToolbars);
+	m_qSettings.setValue("NeighboursHeader", quazaaSettings.WinMain.NeighboursHeader);
+	m_qSettings.setValue("PacketDumpToolbar", quazaaSettings.WinMain.PacketDumpToolbar);
+	m_qSettings.setValue("ActivitySplitter", quazaaSettings.WinMain.ActivitySplitter);
+	m_qSettings.setValue("SchedulerToolbar", quazaaSettings.WinMain.SchedulerToolbar);
+	m_qSettings.setValue("SearchDetailsSplitter", quazaaSettings.WinMain.SearchDetailsSplitter);
+	m_qSettings.setValue("SearchFileTypeTaskVisible", quazaaSettings.WinMain.SearchFileTypeTaskVisible);
+	m_qSettings.setValue("SearchMonitorToolbar", quazaaSettings.WinMain.SearchMonitorToolbar);
+	m_qSettings.setValue("SearchNetworksTaskVisible", quazaaSettings.WinMain.SearchNetworksTaskVisible);
+	m_qSettings.setValue("SearchResultsSplitterRestoreTop", quazaaSettings.WinMain.SearchResultsSplitterRestoreTop);
+	m_qSettings.setValue("SearchResultsSplitterRestoreBottom", quazaaSettings.WinMain.SearchResultsSplitterRestoreBottom);
+	m_qSettings.setValue("SearchResultsTaskVisible", quazaaSettings.WinMain.SearchResultsTaskVisible);
+	m_qSettings.setValue("SearchSplitter", quazaaSettings.WinMain.SearchSplitter);
+	m_qSettings.setValue("SearchSplitterRestoreLeft", quazaaSettings.WinMain.SearchSplitterRestoreLeft);
+	m_qSettings.setValue("SearchSplitterRestoreRight", quazaaSettings.WinMain.SearchSplitterRestoreRight);
+	m_qSettings.setValue("SearchTaskVisible", quazaaSettings.WinMain.SearchTaskVisible);
+	m_qSettings.setValue("SearchToolbar", quazaaSettings.WinMain.SearchToolbar);
+	m_qSettings.setValue("SecurityToolbars", quazaaSettings.WinMain.SecurityToolbars);
+	m_qSettings.setValue("SystemLogToolbar", quazaaSettings.WinMain.SystemLogToolbar);
+	m_qSettings.setValue("TransfersSplitter", quazaaSettings.WinMain.TransfersSplitter);
+	m_qSettings.setValue("TransfersSplitterRestoreTop", quazaaSettings.WinMain.TransfersSplitterRestoreTop);
+	m_qSettings.setValue("TransfersSplitterRestoreBottom", quazaaSettings.WinMain.TransfersSplitterRestoreBottom);
+	m_qSettings.setValue("UploadsToolbar", quazaaSettings.WinMain.UploadsToolbar);
 }
 
-void QuazaaSettings::loadWindowSettings(QMainWindow *window)
+void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 {
 	Q_UNUSED(window);
 
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 	QList<QVariant> intListInitializer;
 	intListInitializer << 0 << 0;
 
-	quazaaSettings.WinMain.ActiveTab = m_qSettings.value( "ActiveTab", 0 ).toInt();
-	quazaaSettings.WinMain.ChatRoomsTaskVisible = m_qSettings.value( "ChatRoomsTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.ChatFriendsTaskVisible = m_qSettings.value( "ChatFriendsTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.ChatSplitter = m_qSettings.value( "ChatSplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.ChatSplitterRestoreLeft = m_qSettings.value( "ChatSplitterRestoreLeft", 0 ).toInt();
-	quazaaSettings.WinMain.ChatSplitterRestoreMiddle = m_qSettings.value( "ChatSplitterRestoreMiddle", 0 ).toInt();
-	quazaaSettings.WinMain.ChatSplitterRestoreRight = m_qSettings.value( "ChatSplitterRestoreRight", 0 ).toInt();
-	quazaaSettings.WinMain.ChatToolbars = m_qSettings.value( "ChatToolbars", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.DiscoveryToolbar = m_qSettings.value( "DiscoveryToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.DownloadsToolbar = m_qSettings.value( "DownloadsToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.GraphSplitter = m_qSettings.value( "GraphSplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.GraphToolbar = m_qSettings.value( "GraphToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.HomeLibraryTaskVisible = m_qSettings.value( "HomeLibraryTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.HomeDownloadsTaskVisible = m_qSettings.value( "HomeDownloadsTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.HomeUploadsTaskVisible = m_qSettings.value( "HomeUploadsTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.HomeConnectionTaskVisible = m_qSettings.value( "HomeConnectionTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.HomeTorrentsTaskVisible = m_qSettings.value( "HomeTorrentsTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.HomeSearchString = m_qSettings.value( "HomeSearchString", "" ).toString();
-	quazaaSettings.WinMain.HomeSplitter = m_qSettings.value( "HomeSplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.HomeSplitterRestoreLeft = m_qSettings.value( "HomeSplitterRestoreLeft", 0 ).toInt();
-	quazaaSettings.WinMain.HomeSplitterRestoreRight = m_qSettings.value( "HomeSplitterRestoreRight", 0 ).toInt();
-	quazaaSettings.WinMain.HostCacheSplitter = m_qSettings.value( "HostCacheSplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.HostCacheToolbar = m_qSettings.value( "HostCacheToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.LibraryDetailsSplitter = m_qSettings.value( "LibraryDetailsSplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.LibraryDetailsSplitterRestoreTop = m_qSettings.value( "LibraryDetailsSplitterRestoreTop", 0 ).toInt();
-	quazaaSettings.WinMain.LibraryDetailsSplitterRestoreBottom = m_qSettings.value( "LibraryDetailsSplitterRestoreBottom", 0 ).toInt();
-	quazaaSettings.WinMain.LibrarySplitter = m_qSettings.value( "LibrarySplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.LibrarySplitterRestoreLeft = m_qSettings.value( "LibrarySplitterRestoreLeft", 0 ).toInt();
-	quazaaSettings.WinMain.LibrarySplitterRestoreRight = m_qSettings.value( "LibrarySplitterRestoreRight", 0 ).toInt();
-	quazaaSettings.WinMain.LibraryNavigatorTab = m_qSettings.value( "LibraryNavigatorTab", 0 ).toInt();
-	quazaaSettings.WinMain.LibraryToolbar = m_qSettings.value( "LibraryToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.MainToolbar = m_qSettings.value( "MainToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.MediaSplitter = m_qSettings.value( "MediaSplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.MediaSplitterRestoreLeft = m_qSettings.value( "MediaSplitterRestoreLeft", 0 ).toInt();
-	quazaaSettings.WinMain.MediaSplitterRestoreRight = m_qSettings.value( "MediaSplitterRestoreRight", 0 ).toInt();
-	quazaaSettings.WinMain.MediaToolbars = m_qSettings.value( "MediaToolbars", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.NeighboursToolbars = m_qSettings.value( "NeighboursToolbars", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.NeighboursHeader = m_qSettings.value( "NeighboursHeader", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.PacketDumpToolbar = m_qSettings.value( "PacketDumpToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.ActivitySplitter = m_qSettings.value( "ActivitySplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.SchedulerToolbar = m_qSettings.value( "SchedulerToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.SearchDetailsSplitter = m_qSettings.value( "SearchDetailsSplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.SearchTaskVisible = m_qSettings.value( "SearchTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.SearchNetworksTaskVisible = m_qSettings.value( "SearchNetworksTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.SearchFileTypeTaskVisible = m_qSettings.value( "SearchFileTypeTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.SearchMonitorToolbar = m_qSettings.value( "SearchMonitorToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.SearchResultsSplitterRestoreTop = m_qSettings.value( "SearchResultsSplitterRestoreTop", 0 ).toInt();
-	quazaaSettings.WinMain.SearchResultsSplitterRestoreBottom = m_qSettings.value( "SearchResultsSplitterRestoreBottom", 0 ).toInt();
-	quazaaSettings.WinMain.SearchResultsTaskVisible = m_qSettings.value( "SearchResultsTaskVisible", true ).toBool();
-	quazaaSettings.WinMain.SearchSplitter = m_qSettings.value( "SearchSplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.SearchSplitterRestoreLeft = m_qSettings.value( "SearchSplitterRestoreLeft", 0 ).toInt();
-	quazaaSettings.WinMain.SearchSplitterRestoreRight = m_qSettings.value( "SearchSplitterRestoreRight", 0 ).toInt();
-	quazaaSettings.WinMain.SearchToolbar = m_qSettings.value( "SearchToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.SecurityToolbars = m_qSettings.value( "SecurityToolbars", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.SystemLogToolbar = m_qSettings.value( "SystemLogToolbar", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.TransfersSplitter = m_qSettings.value( "TransfersSplitter", QByteArray() ).toByteArray();
-	quazaaSettings.WinMain.TransfersSplitterRestoreTop = m_qSettings.value( "TransfersSplitterRestoreTop", 0 ).toInt();
-	quazaaSettings.WinMain.TransfersSplitterRestoreBottom = m_qSettings.value( "TransfersSplitterRestoreBottom", 0 ).toInt();
-	quazaaSettings.WinMain.UploadsToolbar = m_qSettings.value( "UploadsToolbar", QByteArray() ).toByteArray();
+	quazaaSettings.WinMain.ActiveTab = m_qSettings.value("ActiveTab", 0).toInt();
+	quazaaSettings.WinMain.ChatRoomsTaskVisible = m_qSettings.value("ChatRoomsTaskVisible", true).toBool();
+	quazaaSettings.WinMain.ChatFriendsTaskVisible = m_qSettings.value("ChatFriendsTaskVisible", true).toBool();
+	quazaaSettings.WinMain.ChatSplitter = m_qSettings.value("ChatSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.ChatSplitterRestoreLeft = m_qSettings.value("ChatSplitterRestoreLeft", 0).toInt();
+	quazaaSettings.WinMain.ChatSplitterRestoreMiddle = m_qSettings.value("ChatSplitterRestoreMiddle", 0).toInt();
+	quazaaSettings.WinMain.ChatSplitterRestoreRight = m_qSettings.value("ChatSplitterRestoreRight", 0).toInt();
+	quazaaSettings.WinMain.ChatToolbars = m_qSettings.value("ChatToolbars", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.DiscoveryToolbar = m_qSettings.value("DiscoveryToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.DownloadsToolbar = m_qSettings.value("DownloadsToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.GraphSplitter = m_qSettings.value("GraphSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.GraphToolbar = m_qSettings.value("GraphToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.HomeLibraryTaskVisible = m_qSettings.value("HomeLibraryTaskVisible", true).toBool();
+	quazaaSettings.WinMain.HomeDownloadsTaskVisible = m_qSettings.value("HomeDownloadsTaskVisible", true).toBool();
+	quazaaSettings.WinMain.HomeUploadsTaskVisible = m_qSettings.value("HomeUploadsTaskVisible", true).toBool();
+	quazaaSettings.WinMain.HomeConnectionTaskVisible = m_qSettings.value("HomeConnectionTaskVisible", true).toBool();
+	quazaaSettings.WinMain.HomeTorrentsTaskVisible = m_qSettings.value("HomeTorrentsTaskVisible", true).toBool();
+	quazaaSettings.WinMain.HomeSearchString = m_qSettings.value("HomeSearchString", "").toString();
+	quazaaSettings.WinMain.HomeSplitter = m_qSettings.value("HomeSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.HomeSplitterRestoreLeft = m_qSettings.value("HomeSplitterRestoreLeft", 0).toInt();
+	quazaaSettings.WinMain.HomeSplitterRestoreRight = m_qSettings.value("HomeSplitterRestoreRight", 0).toInt();
+	quazaaSettings.WinMain.HostCacheSplitter = m_qSettings.value("HostCacheSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.HostCacheToolbar = m_qSettings.value("HostCacheToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.LibraryDetailsSplitter = m_qSettings.value("LibraryDetailsSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.LibraryDetailsSplitterRestoreTop = m_qSettings.value("LibraryDetailsSplitterRestoreTop", 0).toInt();
+	quazaaSettings.WinMain.LibraryDetailsSplitterRestoreBottom = m_qSettings.value("LibraryDetailsSplitterRestoreBottom", 0).toInt();
+	quazaaSettings.WinMain.LibrarySplitter = m_qSettings.value("LibrarySplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.LibrarySplitterRestoreLeft = m_qSettings.value("LibrarySplitterRestoreLeft", 0).toInt();
+	quazaaSettings.WinMain.LibrarySplitterRestoreRight = m_qSettings.value("LibrarySplitterRestoreRight", 0).toInt();
+	quazaaSettings.WinMain.LibraryNavigatorTab = m_qSettings.value("LibraryNavigatorTab", 0).toInt();
+	quazaaSettings.WinMain.LibraryToolbar = m_qSettings.value("LibraryToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.MainToolbar = m_qSettings.value("MainToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.MediaSplitter = m_qSettings.value("MediaSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.MediaSplitterRestoreLeft = m_qSettings.value("MediaSplitterRestoreLeft", 0).toInt();
+	quazaaSettings.WinMain.MediaSplitterRestoreRight = m_qSettings.value("MediaSplitterRestoreRight", 0).toInt();
+	quazaaSettings.WinMain.MediaToolbars = m_qSettings.value("MediaToolbars", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.NeighboursToolbars = m_qSettings.value("NeighboursToolbars", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.NeighboursHeader = m_qSettings.value("NeighboursHeader", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.PacketDumpToolbar = m_qSettings.value("PacketDumpToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.ActivitySplitter = m_qSettings.value("ActivitySplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.SchedulerToolbar = m_qSettings.value("SchedulerToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.SearchDetailsSplitter = m_qSettings.value("SearchDetailsSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.SearchTaskVisible = m_qSettings.value("SearchTaskVisible", true).toBool();
+	quazaaSettings.WinMain.SearchNetworksTaskVisible = m_qSettings.value("SearchNetworksTaskVisible", true).toBool();
+	quazaaSettings.WinMain.SearchFileTypeTaskVisible = m_qSettings.value("SearchFileTypeTaskVisible", true).toBool();
+	quazaaSettings.WinMain.SearchMonitorToolbar = m_qSettings.value("SearchMonitorToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.SearchResultsSplitterRestoreTop = m_qSettings.value("SearchResultsSplitterRestoreTop", 0).toInt();
+	quazaaSettings.WinMain.SearchResultsSplitterRestoreBottom = m_qSettings.value("SearchResultsSplitterRestoreBottom", 0).toInt();
+	quazaaSettings.WinMain.SearchResultsTaskVisible = m_qSettings.value("SearchResultsTaskVisible", true).toBool();
+	quazaaSettings.WinMain.SearchSplitter = m_qSettings.value("SearchSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.SearchSplitterRestoreLeft = m_qSettings.value("SearchSplitterRestoreLeft", 0).toInt();
+	quazaaSettings.WinMain.SearchSplitterRestoreRight = m_qSettings.value("SearchSplitterRestoreRight", 0).toInt();
+	quazaaSettings.WinMain.SearchToolbar = m_qSettings.value("SearchToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.SecurityToolbars = m_qSettings.value("SecurityToolbars", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.SystemLogToolbar = m_qSettings.value("SystemLogToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.TransfersSplitter = m_qSettings.value("TransfersSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.TransfersSplitterRestoreTop = m_qSettings.value("TransfersSplitterRestoreTop", 0).toInt();
+	quazaaSettings.WinMain.TransfersSplitterRestoreBottom = m_qSettings.value("TransfersSplitterRestoreBottom", 0).toInt();
+	quazaaSettings.WinMain.UploadsToolbar = m_qSettings.value("UploadsToolbar", QByteArray()).toByteArray();
 }
 
 void QuazaaSettings::saveLanguageSettings()
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 
 	m_qSettings.beginGroup("Language");
 	m_qSettings.setValue("LanguageFile", quazaaSettings.Language.File);
@@ -1133,7 +1139,7 @@ void QuazaaSettings::saveLanguageSettings()
 
 void QuazaaSettings::loadLanguageSettings()
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 
 	m_qSettings.beginGroup("Language");
 	quazaaSettings.Language.File = m_qSettings.value("LanguageFile", ("quazaa_default_en")).toString();
@@ -1142,64 +1148,64 @@ void QuazaaSettings::loadLanguageSettings()
 
 void QuazaaSettings::saveFirstRun(bool firstRun)
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 	m_qSettings.setValue("FirstRun", firstRun);
 }
 
 bool QuazaaSettings::FirstRun()
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 	return m_qSettings.value("FirstRun", true).toBool();
 }
 
 void QuazaaSettings::saveSkinSettings()
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 	m_qSettings.setValue("SkinFile", Skin.File);
 }
 
 void QuazaaSettings::loadSkinSettings()
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 	Skin.File = m_qSettings.value("SkinFile", qApp->applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
 }
 
 void QuazaaSettings::saveLogSettings()
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 
 	m_qSettings.beginGroup("Logging");
-	m_qSettings.setValue( "SaveLog", Logging.SaveLog );
-	m_qSettings.setValue( "LogShowTimestamp", Logging.LogShowTimestamp );
-	m_qSettings.setValue( "ShowInformation", Logging.ShowInformation );
-	m_qSettings.setValue( "ShowSecurity", Logging.ShowSecurity );
-	m_qSettings.setValue( "ShowNotice", Logging.ShowNotice );
-	m_qSettings.setValue( "ShowDebug", Logging.ShowDebug );
-	m_qSettings.setValue( "ShowWarnings", Logging.ShowWarnings );
-	m_qSettings.setValue( "ShowError", Logging.ShowError );
-	m_qSettings.setValue( "ShowCritical", Logging.ShowCritical );
-	m_qSettings.setValue( "IsPaused", Logging.IsPaused );
+	m_qSettings.setValue("SaveLog", Logging.SaveLog);
+	m_qSettings.setValue("LogShowTimestamp", Logging.LogShowTimestamp);
+	m_qSettings.setValue("ShowInformation", Logging.ShowInformation);
+	m_qSettings.setValue("ShowSecurity", Logging.ShowSecurity);
+	m_qSettings.setValue("ShowNotice", Logging.ShowNotice);
+	m_qSettings.setValue("ShowDebug", Logging.ShowDebug);
+	m_qSettings.setValue("ShowWarnings", Logging.ShowWarnings);
+	m_qSettings.setValue("ShowError", Logging.ShowError);
+	m_qSettings.setValue("ShowCritical", Logging.ShowCritical);
+	m_qSettings.setValue("IsPaused", Logging.IsPaused);
 	m_qSettings.endGroup();
 }
 
 void QuazaaSettings::loadLogSettings()
 {
-	QSettings m_qSettings( quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName() );
+	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 
 	m_qSettings.beginGroup("Logging");
 	Logging.SaveLog = m_qSettings.value("SaveLog", false).toBool();
 	Logging.LogShowTimestamp = m_qSettings.value("LogShowTimestamp", true).toBool();
-	Logging.ShowInformation = m_qSettings.value( "ShowInformation", true ).toBool();
-	Logging.ShowSecurity = m_qSettings.value( "ShowSecurity", true ).toBool();
-	Logging.ShowNotice = m_qSettings.value( "ShowNotice", true ).toBool();
+	Logging.ShowInformation = m_qSettings.value("ShowInformation", true).toBool();
+	Logging.ShowSecurity = m_qSettings.value("ShowSecurity", true).toBool();
+	Logging.ShowNotice = m_qSettings.value("ShowNotice", true).toBool();
 #ifdef QT_DEBUG
-	Logging.ShowDebug = m_qSettings.value( "ShowDebug", true ).toBool();
+	Logging.ShowDebug = m_qSettings.value("ShowDebug", true).toBool();
 #else
-	Logging.ShowDebug = m_qSettings.value( "ShowDebug", false ).toBool();
+	Logging.ShowDebug = m_qSettings.value("ShowDebug", false).toBool();
 #endif
-	Logging.ShowWarnings = m_qSettings.value( "ShowWarnings", true ).toBool();
-	Logging.ShowError = m_qSettings.value( "ShowError", true ).toBool();
-	Logging.ShowCritical = m_qSettings.value( "ShowCritical", true ).toBool();
-	Logging.IsPaused = m_qSettings.value( "IsPaused", false ).toBool();
+	Logging.ShowWarnings = m_qSettings.value("ShowWarnings", true).toBool();
+	Logging.ShowError = m_qSettings.value("ShowError", true).toBool();
+	Logging.ShowCritical = m_qSettings.value("ShowCritical", true).toBool();
+	Logging.IsPaused = m_qSettings.value("IsPaused", false).toBool();
 	m_qSettings.endGroup();
 }

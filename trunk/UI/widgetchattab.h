@@ -26,7 +26,8 @@
 #include <QtGui>
 #include "quazaairc.h"
 
-namespace Ui {
+namespace Ui
+{
 	class WidgetChatTab;
 }
 
@@ -35,13 +36,13 @@ class WidgetChatTab : public QMainWindow
 	Q_OBJECT
 
 public:
-	explicit WidgetChatTab(QuazaaIRC *quazaaIrc, QWidget *parent = 0);
+	explicit WidgetChatTab(QuazaaIRC* quazaaIrc, QWidget* parent = 0);
 	~WidgetChatTab();
 	QString name;
-	QLineEdit *lineEditTextInput;
-	QToolButton *toolButtonSmilies;
-	QToolButton *toolButtonOp;
-	QStringListModel *userList;
+	QLineEdit* lineEditTextInput;
+	QToolButton* toolButtonSmilies;
+	QToolButton* toolButtonOp;
+	QStringListModel* userList;
 
 public slots:
 	void saveWidget();
@@ -50,11 +51,11 @@ public slots:
 	void channelNames(QStringList names);
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetChatTab *ui;
-	QuazaaIRC *m_oQuazaaIrc;
+	Ui::WidgetChatTab* ui;
+	QuazaaIRC* m_oQuazaaIrc;
 
 private slots:
 	void skinChangeEvent();

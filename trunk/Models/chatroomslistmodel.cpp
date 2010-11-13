@@ -2,7 +2,7 @@
 
 
 
-ChatRoomsListModel::ChatRoomsListModel(QObject *parent) :
+ChatRoomsListModel::ChatRoomsListModel(QObject* parent) :
 	QAbstractListModel(parent)
 {
 }

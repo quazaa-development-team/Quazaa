@@ -27,14 +27,14 @@
 #include <QMutex>
 #include <QList>
 
-struct packet_error{};
-struct packet_read_past_end{};
+struct packet_error {};
+struct packet_read_past_end {};
 
 class CBuffer;
 
 class G2Packet
 {
-// Construction
+	// Construction
 protected:
 	G2Packet();
 	~G2Packet();
@@ -44,9 +44,9 @@ public:
 	static G2Packet* New(char* pSource);
 
 
-// Attributes
+	// Attributes
 public:
-	G2Packet*	m_pNext;
+	G2Packet* 	m_pNext;
 	quint32		m_nReference;
 public:
 	uchar*		m_pBuffer;
@@ -58,17 +58,17 @@ public:
 
 	enum { seekStart, seekEnd };
 
-// Operations
+	// Operations
 public:
 	void	Reset();
 	void	Seek(quint32 nPosition, int nRelative = seekStart);
-	uchar*	WriteGetPointer(quint32 nLength, quint32 nOffset = 0xFFFFFFFF);
+	uchar* 	WriteGetPointer(quint32 nLength, quint32 nOffset = 0xFFFFFFFF);
 public:
-	char*	GetType() const;
+	char* 	GetType() const;
 
 public:
-	G2Packet*	WritePacket(G2Packet* pPacket);
-	G2Packet*	WritePacket(const char* pszType, quint32 nLength, bool bCompound = false);
+	G2Packet* 	WritePacket(G2Packet* pPacket);
+	G2Packet* 	WritePacket(const char* pszType, quint32 nLength, bool bCompound = false);
 	bool	ReadPacket(char* pszType, quint32& nLength, bool* pbCompound = 0);
 	bool	SkipCompound();
 	bool	SkipCompound(quint32& nLength, quint32 nRemaining = 0);
@@ -79,7 +79,7 @@ public:
 	static	G2Packet* ReadBuffer(CBuffer* pBuffer);
 	void	ToBuffer(CBuffer* pBuffer) const;
 
-// Inline Packet Operations
+	// Inline Packet Operations
 public:
 
 	inline bool IsType(const char* sType)
@@ -94,13 +94,15 @@ public:
 
 	inline bool Ensure(quint32 nBytes)
 	{
-		if( m_nLength + nBytes > m_nBuffer )
+		if(m_nLength + nBytes > m_nBuffer)
 		{
 			m_nBuffer += qMax(nBytes, 128u);
 			m_pBuffer = (uchar*)qRealloc(m_pBuffer, m_nBuffer);
 
-			if( !m_pBuffer )
+			if(!m_pBuffer)
+			{
 				return false;
+			}
 		}
 
 		return true;
@@ -108,8 +110,10 @@ public:
 
 	inline void Read(void* pData, int nLength)
 	{
-		if ( m_nPosition + nLength > m_nLength )
+		if(m_nPosition + nLength > m_nLength)
+		{
 			throw packet_read_past_end();
+		}
 		memcpy(pData, m_pBuffer + m_nPosition, nLength);
 		m_nPosition += nLength;
 	}
@@ -125,8 +129,10 @@ public:
 	template <typename T>
 	inline T ReadIntBE()
 	{
-		if( m_nLength - m_nPosition < sizeof(T) )
+		if(m_nLength - m_nPosition < sizeof(T))
+		{
 			throw packet_read_past_end();
+		}
 
 		T nRet = qFromBigEndian(*(T*)(m_pBuffer + m_nPosition));
 		m_nPosition += sizeof(T);
@@ -135,8 +141,10 @@ public:
 	template <typename T>
 	inline T ReadIntLE()
 	{
-		if( m_nLength - m_nPosition < sizeof(T) )
+		if(m_nLength - m_nPosition < sizeof(T))
+		{
 			throw packet_read_past_end();
+		}
 
 		T nRet = qFromLittleEndian(*(T*)(m_pBuffer + m_nPosition));
 		m_nPosition += sizeof(T);
@@ -218,7 +226,7 @@ public:
 
 	QString ReadString(quint32 nMaximum = 0xFFFFFFFF);
 	void WriteString(QString sToWrite, bool bTerminate = false);
-// Inline Allocation
+	// Inline Allocation
 public:
 
 	inline void AddRef()
@@ -228,14 +236,20 @@ public:
 
 	inline void Release()
 	{
-		if ( this != NULL && ! --m_nReference ) Delete();
+		if(this != NULL && ! --m_nReference)
+		{
+			Delete();
+		}
 	}
 
 	inline void ReleaseChain()
 	{
-		if ( this == NULL ) return;
+		if(this == NULL)
+		{
+			return;
+		}
 
-		for ( G2Packet* pPacket = this ; pPacket ; )
+		for(G2Packet* pPacket = this ; pPacket ;)
 		{
 			G2Packet* pNext = pPacket->m_pNext;
 			pPacket->Release();
@@ -261,32 +275,35 @@ protected:
 
 class G2PacketPool
 {
-// Construction
+	// Construction
 public:
 	G2PacketPool();
 	~G2PacketPool();
 
-// Attributes
+	// Attributes
 protected:
-	G2Packet*	m_pFree;
+	G2Packet* 	m_pFree;
 	quint32		m_nFree;
 protected:
 	QMutex				m_pSection;
 	QList<G2Packet*>	m_pPools;
 
-// Operations
+	// Operations
 protected:
 	void	Clear();
 	void	NewPool();
 
-// Inlines
+	// Inlines
 public:
 	inline G2Packet* New()
 	{
 		m_pSection.lock();
 
-		if ( m_nFree == 0 ) NewPool();
-		Q_ASSERT( m_nFree > 0 );
+		if(m_nFree == 0)
+		{
+			NewPool();
+		}
+		Q_ASSERT(m_nFree > 0);
 
 		G2Packet* pPacket = m_pFree;
 		m_pFree = m_pFree->m_pNext;
@@ -302,8 +319,8 @@ public:
 
 	inline void Delete(G2Packet* pPacket)
 	{
-		Q_ASSERT( pPacket != NULL );
-		Q_ASSERT( pPacket->m_nReference == 0 );
+		Q_ASSERT(pPacket != NULL);
+		Q_ASSERT(pPacket->m_nReference == 0);
 
 		m_pSection.lock();
 

@@ -30,7 +30,7 @@
 #include "NetworkCore/query.h"
 #include "NetworkCore/queryhit.h"
 
-WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget *parent) :
+WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget* parent) :
 	QWidget(parent),
 	m_ui(new Ui::WidgetSearchTemplate)
 {
@@ -42,7 +42,7 @@ WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget *parent
 	nHubs = 0;
 	nLeaves = 0;
 	searchState = SearchState::Stopped;
-	QSortFilterProxyModel *sortModel = new QSortFilterProxyModel(this);
+	QSortFilterProxyModel* sortModel = new QSortFilterProxyModel(this);
 	searchModel = new SearchTreeModel();
 	sortModel->setSourceModel(searchModel);
 	m_ui->treeViewSearchResults->setModel(sortModel);
@@ -54,32 +54,35 @@ WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget *parent
 
 WidgetSearchTemplate::~WidgetSearchTemplate()
 {
-	if ( m_pSearch != 0 )
+	if(m_pSearch != 0)
+	{
 		StopSearch();
+	}
 	delete m_ui;
 }
 
-void WidgetSearchTemplate::changeEvent(QEvent *e)
+void WidgetSearchTemplate::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
-void WidgetSearchTemplate::StartSearch(CQuery *pQuery)
+void WidgetSearchTemplate::StartSearch(CQuery* pQuery)
 {
-	if( m_pSearch && m_pSearch->m_pQuery != pQuery )
+	if(m_pSearch && m_pSearch->m_pQuery != pQuery)
 	{
 		delete m_pSearch;
 		m_pSearch = 0;
 	}
 
-	if( !m_pSearch )
+	if(!m_pSearch)
 	{
 		m_pSearch = new CManagedSearch(pQuery);
 		connect(m_pSearch, SIGNAL(OnHit(QueryHitSharedPtr)), searchModel, SLOT(addQueryHit(QueryHitSharedPtr)));

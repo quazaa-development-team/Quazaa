@@ -22,22 +22,26 @@
 #include <exception>
 
 CBuffer::CBuffer(quint32 nMinimum) :
-		m_pBuffer(0),
-		m_nLength(0),
-		m_nBuffer(0)
+	m_pBuffer(0),
+	m_nLength(0),
+	m_nBuffer(0)
 {
 	m_nMinimum = nMinimum;
 }
 CBuffer::~CBuffer()
 {
-	if( m_pBuffer )
+	if(m_pBuffer)
+	{
 		qFree(m_pBuffer);
+	}
 }
 
-CBuffer& CBuffer::append(const void *pData, const quint32 nLength)
+CBuffer& CBuffer::append(const void* pData, const quint32 nLength)
 {
-	if( pData == 0 || nLength == 0 )
+	if(pData == 0 || nLength == 0)
+	{
 		return *this;
+	}
 
 	ensure(nLength);
 
@@ -47,32 +51,34 @@ CBuffer& CBuffer::append(const void *pData, const quint32 nLength)
 
 	return *this;
 }
-CBuffer& CBuffer::append(const char *pStr)
+CBuffer& CBuffer::append(const char* pStr)
 {
 	return append(pStr, qstrlen(pStr));
 }
-CBuffer& CBuffer::append(QByteArray &baData)
+CBuffer& CBuffer::append(QByteArray& baData)
 {
 	return append(baData.data(), baData.size());
 }
-CBuffer& CBuffer::append(CBuffer &pOther)
+CBuffer& CBuffer::append(CBuffer& pOther)
 {
 	return append(pOther.data(), pOther.size());
 }
 
-CBuffer& CBuffer::prepend(const void *pData, const quint32 nLength)
+CBuffer& CBuffer::prepend(const void* pData, const quint32 nLength)
 {
 	return insert(0, pData, nLength);
 }
-CBuffer& CBuffer::prepend(const char *pStr)
+CBuffer& CBuffer::prepend(const char* pStr)
 {
 	return prepend(pStr, qstrlen(pStr));
 }
 
-CBuffer& CBuffer::insert(const quint32 i, const void *pData, const quint32 nLength)
+CBuffer& CBuffer::insert(const quint32 i, const void* pData, const quint32 nLength)
 {
-	if( pData == 0 )
+	if(pData == 0)
+	{
 		return *this;
+	}
 
 	ensure(nLength);
 
@@ -84,18 +90,18 @@ CBuffer& CBuffer::insert(const quint32 i, const void *pData, const quint32 nLeng
 
 	return *this;
 }
-CBuffer& CBuffer::insert(const quint32 i, const char *pStr)
+CBuffer& CBuffer::insert(const quint32 i, const char* pStr)
 {
 	return insert(i, pStr, qstrlen(pStr));
 }
 
 CBuffer& CBuffer::remove(const quint32 nPos, const quint32 nLength)
 {
-	if( nPos == 0 && nLength >= m_nLength )
+	if(nPos == 0 && nLength >= m_nLength)
 	{
 		m_nLength = 0;
 	}
-	else if( nPos + nLength >= m_nLength )
+	else if(nPos + nLength >= m_nLength)
 	{
 		m_nLength = nPos;
 	}
@@ -114,21 +120,23 @@ CBuffer& CBuffer::remove(const quint32 nLength)
 
 void CBuffer::ensure(const quint32 nLength)
 {
-	if( nLength > 0xffffffff - m_nBuffer )
+	if(nLength > 0xffffffff - m_nBuffer)
 	{
 		qWarning() << "nLength > UINT_MAX in CBuffer::ensure()";
 		throw std::bad_alloc();
 	}
 
-	if( m_nBuffer - m_nLength > nLength )
+	if(m_nBuffer - m_nLength > nLength)
 	{
 		// we shrink the buffer if we allocated twice as minimum and we actually need less than minimum
-		if( m_nBuffer > m_nMinimum * 2 && m_nLength + nLength < m_nMinimum )
+		if(m_nBuffer > m_nMinimum * 2 && m_nLength + nLength < m_nMinimum)
 		{
 			const quint32 nBuffer = m_nMinimum;
-			char* pBuffer = (char*)qRealloc( m_pBuffer, nBuffer );
-			if( ! pBuffer )
+			char* pBuffer = (char*)qRealloc(m_pBuffer, nBuffer);
+			if(! pBuffer)
+			{
 				return;
+			}
 			m_nBuffer = nBuffer;
 			m_pBuffer = pBuffer;
 		}
@@ -139,14 +147,18 @@ void CBuffer::ensure(const quint32 nLength)
 
 	// first alloc will be m_nMinimum bytes or 1024
 	// if we need more, we allocate twice as needed
-	if( nBuffer < qMax(1024u, m_nMinimum) )
+	if(nBuffer < qMax(1024u, m_nMinimum))
+	{
 		nBuffer = qMax(1024u, m_nMinimum);
+	}
 	else
+	{
 		nBuffer *= 2;
+	}
 
 	char* pBuffer = (char*)qRealloc(m_pBuffer, nBuffer);
 
-	if( !pBuffer )
+	if(!pBuffer)
 	{
 		qWarning() << "Out of memory in CBuffer::ensure()";
 		throw std::bad_alloc();
@@ -158,14 +170,14 @@ void CBuffer::ensure(const quint32 nLength)
 
 void CBuffer::resize(const quint32 nLength)
 {
-	if( nLength <= m_nLength || nLength <= m_nBuffer )
+	if(nLength <= m_nLength || nLength <= m_nBuffer)
 	{
 		m_nLength = nLength;
 	}
-	else if( nLength > m_nBuffer )
+	else if(nLength > m_nBuffer)
 	{
-		char* pBuffer = (char*)qRealloc( m_pBuffer, nLength * 2 );
-		if( !pBuffer )
+		char* pBuffer = (char*)qRealloc(m_pBuffer, nLength * 2);
+		if(!pBuffer)
 		{
 			qWarning() << "Out of memory in CBuffer::resize()";
 			throw std::bad_alloc();

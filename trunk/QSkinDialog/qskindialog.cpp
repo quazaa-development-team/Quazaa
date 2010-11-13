@@ -18,7 +18,7 @@
 
 #include "systemlog.h"
 
-QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, bool preview, QWidget *parent) :
+QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, bool preview, QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::QSkinDialog)
 {
@@ -62,8 +62,10 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, bool prev
 	// We are using our own frame of course instead of the system frame
 	if(!parent == 0)
 	{
-		this->setWindowFlags(Qt::FramelessWindowHint|Qt::Window);
-	} else {
+		this->setWindowFlags(Qt::FramelessWindowHint | Qt::Window);
+	}
+	else
+	{
 		this->setWindowFlags(Qt::FramelessWindowHint);
 	}
 	// To enable alpha blending and transparency in the frame
@@ -74,7 +76,7 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, bool prev
 	ui->minimizeButton->setEnabled(dialogSizable);
 	ui->maximizeButton->setEnabled(dialogSizable);
 	ui->closeButton->setEnabled(dialogClosable);
-	if (!dialogSizable)
+	if(!dialogSizable)
 	{
 		ui->windowFrameTopLeft->setCursor(QCursor(Qt::ArrowCursor));
 		ui->windowFrameLeft->setCursor(QCursor(Qt::ArrowCursor));
@@ -105,9 +107,9 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, bool prev
 
 	// Load the previously set skin
 
-	if (!dialogPreview)
+	if(!dialogPreview)
 	{
-		if (isMainDialog)
+		if(isMainDialog)
 		{
 			ui->windowFrameTopLeft->setStyleSheet(skinSettings.windowFrameTopLeftStyleSheet);
 			ui->windowFrameLeft->setStyleSheet(skinSettings.windowFrameLeftStyleSheet);
@@ -126,7 +128,9 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, bool prev
 			ui->windowIconFrame->setStyleSheet(skinSettings.windowIconFrameStyleSheet);
 			ui->windowIcon->setVisible(skinSettings.windowIconVisible);
 			quazaaSettings.loadSkinWindowSettings(this);
-		} else {
+		}
+		else
+		{
 			ui->windowFrameTopLeft->setStyleSheet(skinSettings.childWindowFrameTopLeftStyleSheet);
 			ui->windowFrameLeft->setStyleSheet(skinSettings.childWindowFrameLeftStyleSheet);
 			ui->windowFrameBottomLeft->setStyleSheet(skinSettings.childWindowFrameBottomLeftStyleSheet);
@@ -152,38 +156,41 @@ QSkinDialog::~QSkinDialog()
 	delete ui;
 }
 
-void QSkinDialog::changeEvent(QEvent *e)
+void QSkinDialog::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
+	switch(e->type())
 	{
-		QIcon m_windowIcon = windowIcon();
-		QString m_windowTitle = windowTitle();
-		ui->retranslateUi(this);
-		setWindowIcon(m_windowIcon);
-		setWindowTitle(m_windowTitle);
-		break;
-	}
-	case QEvent::ActivationChange:
-		if (minimized && qApp->activeWindow())
+		case QEvent::LanguageChange:
 		{
-			setMinimized(false);
+			QIcon m_windowIcon = windowIcon();
+			QString m_windowTitle = windowTitle();
+			ui->retranslateUi(this);
+			setWindowIcon(m_windowIcon);
+			setWindowTitle(m_windowTitle);
+			break;
 		}
-		repaint();
-		break;
-	default:
-		break;
+		case QEvent::ActivationChange:
+			if(minimized && qApp->activeWindow())
+			{
+				setMinimized(false);
+			}
+			repaint();
+			break;
+		default:
+			break;
 	}
 }
 
 void QSkinDialog::onClose()
 {
-	if (isMainDialog)
+	if(isMainDialog)
 	{
 		quazaaSettings.saveSkinWindowSettings(this);
 		emit mainClose();
-	} else {
+	}
+	else
+	{
 		close();
 	}
 }
@@ -198,10 +205,10 @@ void QSkinDialog::onMaximize()
 void QSkinDialog::setMaximized(bool maximize)
 {
 	ui->maximizeButton->setChecked(maximize);
-	if (maximize)
+	if(maximize)
 	{
 		normalGeometry = this->geometry();
-		setGeometry(0,0,QApplication::desktop()->availableGeometry(this).width(),QApplication::desktop()->availableGeometry(this).height());
+		setGeometry(0, 0, QApplication::desktop()->availableGeometry(this).width(), QApplication::desktop()->availableGeometry(this).height());
 		maximized = true;
 		ui->maximizeButton->setToolTip(tr("Restore Down"));
 		systemRestoreAction->setEnabled(true);
@@ -213,7 +220,9 @@ void QSkinDialog::setMaximized(bool maximize)
 		ui->windowFrameTopRight->setVisible(false);
 		ui->windowFrameRight->setVisible(false);
 		ui->windowFrameBottomRight->setVisible(false);
-	} else {
+	}
+	else
+	{
 		this->setGeometry(normalGeometry);
 		maximized = false;
 		ui->maximizeButton->setToolTip(tr("Maximize"));
@@ -231,26 +240,38 @@ void QSkinDialog::setMaximized(bool maximize)
 
 void QSkinDialog::onMinimize()
 {
-	if (isMainDialog && quazaaSettings.System.MinimizeToTray)
+	if(isMainDialog && quazaaSettings.System.MinimizeToTray)
+	{
 		hide();
+	}
 	else
+	{
 		setMinimized(!minimized);
+	}
 }
 
 void QSkinDialog::setMinimized(bool minimize)
 {
-	if (minimize)
+	if(minimize)
 	{
-		if (!maximized)
+		if(!maximized)
+		{
 			normalGeometry = this->geometry();
+		}
 
-		setGeometry(QApplication::desktop()->availableGeometry(this).width(),QApplication::desktop()->availableGeometry(this).height(),0,0);
+		setGeometry(QApplication::desktop()->availableGeometry(this).width(), QApplication::desktop()->availableGeometry(this).height(), 0, 0);
 		minimized = true;
-	} else {
-		if (maximized)
-			setGeometry(0,0,QApplication::desktop()->availableGeometry(this).width(),QApplication::desktop()->availableGeometry(this).height());
+	}
+	else
+	{
+		if(maximized)
+		{
+			setGeometry(0, 0, QApplication::desktop()->availableGeometry(this).width(), QApplication::desktop()->availableGeometry(this).height());
+		}
 		else
+		{
 			this->setGeometry(normalGeometry);
+		}
 		minimized = false;
 		activateWindow();
 	}
@@ -258,59 +279,79 @@ void QSkinDialog::setMinimized(bool minimize)
 
 void QSkinDialog::restore()
 {
-	if (minimized)
+	if(minimized)
 	{
 		setMinimized(false);
 		emit needToShow();
-	} else if (isHidden()) {
+	}
+	else if(isHidden())
+	{
 		show();
-	} else {
+	}
+	else
+	{
 		emit needToShow();
 	}
 }
 
 // These are checks to make sure erroneous move and resize events aren't triggered when the mouse is moved
 // over the window frame with the left mouse button held down. Mime drags from another app for example.
-void QSkinDialog::mousePressEvent(QMouseEvent *e)
+void QSkinDialog::mousePressEvent(QMouseEvent* e)
 {
-	switch (e->button())
+	switch(e->button())
 	{
 		case Qt::LeftButton:
 			if((ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
-				&& !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && !maximized)
+			        && !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && !maximized)
 			{
 				dragPosition = e->globalPos() - frameGeometry().topLeft();
 				movable = true;
 				e->accept();
-			} else if (ui->windowFrameTopLeft->underMouse() && dialogSizable) {
+			}
+			else if(ui->windowFrameTopLeft->underMouse() && dialogSizable)
+			{
 				dragPosition = e->globalPos() - frameGeometry().topLeft();
 				sizableTopLeft = true;
 				e->accept();
-			} else if (ui->windowFrameLeft->underMouse() && dialogSizable) {
+			}
+			else if(ui->windowFrameLeft->underMouse() && dialogSizable)
+			{
 				iDragPosition = e->globalPos().x() - frameGeometry().left();
 				this->sizableLeft = true;
 				e->accept();
-			} else if (ui->windowFrameBottomLeft->underMouse() && dialogSizable) {
+			}
+			else if(ui->windowFrameBottomLeft->underMouse() && dialogSizable)
+			{
 				dragPosition = e->globalPos() - frameGeometry().bottomLeft();
 				sizableBottomLeft = true;
 				e->accept();
-			} else if (ui->windowFrameBottom->underMouse() && dialogSizable) {
+			}
+			else if(ui->windowFrameBottom->underMouse() && dialogSizable)
+			{
 				iDragPosition = e->globalPos().y() - frameGeometry().bottom();
 				sizableBottom = true;
 				e->accept();
-			} else if (ui->windowFrameTopRight->underMouse() && dialogSizable) {
+			}
+			else if(ui->windowFrameTopRight->underMouse() && dialogSizable)
+			{
 				dragPosition = e->globalPos() - frameGeometry().topRight();
 				sizableTopRight = true;
 				e->accept();
-			} else if (ui->windowFrameRight->underMouse() && dialogSizable) {
+			}
+			else if(ui->windowFrameRight->underMouse() && dialogSizable)
+			{
 				iDragPosition = e->globalPos().x() - frameGeometry().right();
 				sizableRight = true;
 				e->accept();
-			} else if (ui->windowFrameBottomRight->underMouse() && dialogSizable) {
+			}
+			else if(ui->windowFrameBottomRight->underMouse() && dialogSizable)
+			{
 				dragPosition = e->globalPos() - frameGeometry().bottomRight();
 				sizableBottomRight = true;
 				e->accept();
-			} else {
+			}
+			else
+			{
 				movable = false;
 				sizableTopLeft = false;
 				sizableLeft = false;
@@ -329,52 +370,66 @@ void QSkinDialog::mousePressEvent(QMouseEvent *e)
 }
 
 // All your drag move and resize events on the window frame
-void QSkinDialog::mouseMoveEvent(QMouseEvent *e)
+void QSkinDialog::mouseMoveEvent(QMouseEvent* e)
 {
-	if ((e->buttons() & Qt::LeftButton) && (ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
-		&& !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && movable && !maximized)
+	if((e->buttons() & Qt::LeftButton) && (ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
+	        && !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && movable && !maximized)
 	{
 		moving = true;
 		move(e->globalPos() - dragPosition);
 		normalGeometry = this->geometry();
 		e->accept();
-	} else if (ui->windowFrameTopLeft->underMouse() && sizableTopLeft && dialogSizable) {
+	}
+	else if(ui->windowFrameTopLeft->underMouse() && sizableTopLeft && dialogSizable)
+	{
 		QRect newSize = geometry();
 		newSize.setTopLeft(e->globalPos() - dragPosition);
 		setGeometry(newSize);
 		normalGeometry = newSize;
 		e->accept();
-	} else if (ui->windowFrameLeft->underMouse() && sizableLeft && dialogSizable) {
+	}
+	else if(ui->windowFrameLeft->underMouse() && sizableLeft && dialogSizable)
+	{
 		QRect newSize = geometry();
 		newSize.setLeft(e->globalPos().x() - iDragPosition);
 		setGeometry(newSize);
 		normalGeometry = newSize;
 		e->accept();
-	} else if (ui->windowFrameBottomLeft->underMouse() && sizableBottomLeft && dialogSizable) {
+	}
+	else if(ui->windowFrameBottomLeft->underMouse() && sizableBottomLeft && dialogSizable)
+	{
 		QRect newSize = geometry();
 		newSize.setBottomLeft(e->globalPos() - dragPosition);
 		setGeometry(newSize);
 		normalGeometry = newSize;
 		e->accept();
-	} else if (ui->windowFrameBottom->underMouse() && sizableBottom && dialogSizable) {
+	}
+	else if(ui->windowFrameBottom->underMouse() && sizableBottom && dialogSizable)
+	{
 		QRect newSize = geometry();
 		newSize.setBottom(e->globalPos().y() - iDragPosition);
 		setGeometry(newSize);
 		normalGeometry = newSize;
 		e->accept();
-	} else if (ui->windowFrameTopRight->underMouse() && sizableTopRight && dialogSizable) {
+	}
+	else if(ui->windowFrameTopRight->underMouse() && sizableTopRight && dialogSizable)
+	{
 		QRect newSize = geometry();
 		newSize.setTopRight(e->globalPos() - dragPosition);
 		setGeometry(newSize);
 		normalGeometry = newSize;
 		e->accept();
-	} else if (ui->windowFrameRight->underMouse() && sizableRight && dialogSizable) {
+	}
+	else if(ui->windowFrameRight->underMouse() && sizableRight && dialogSizable)
+	{
 		QRect newSize = geometry();
 		newSize.setRight(e->globalPos().x() - iDragPosition);
 		setGeometry(newSize);
 		normalGeometry = newSize;
 		e->accept();
-	} else if (ui->windowFrameBottomRight->underMouse() && sizableBottomRight && dialogSizable) {
+	}
+	else if(ui->windowFrameBottomRight->underMouse() && sizableBottomRight && dialogSizable)
+	{
 		QRect newSize = geometry();
 		newSize.setBottomRight(e->globalPos() - dragPosition);
 		setGeometry(newSize);
@@ -383,32 +438,32 @@ void QSkinDialog::mouseMoveEvent(QMouseEvent *e)
 	}
 }
 
-void QSkinDialog::mouseReleaseEvent(QMouseEvent *e)
+void QSkinDialog::mouseReleaseEvent(QMouseEvent* e)
 {
 	// "Window Snapping" Windows 7 style
-	if (moving && dialogSizable)
+	if(moving && dialogSizable)
 	{
-		if (e->globalPos().y() < (QApplication::desktop()->availableGeometry(this).top() + 5))
+		if(e->globalPos().y() < (QApplication::desktop()->availableGeometry(this).top() + 5))
 		{
 			setMaximized(true);
 		}
-		if (e->globalPos().x() < (QApplication::desktop()->screenGeometry(this).left() + 5))
+		if(e->globalPos().x() < (QApplication::desktop()->screenGeometry(this).left() + 5))
 		{
-			setGeometry(0,0,QApplication::desktop()->availableGeometry(this).width()/2,QApplication::desktop()->availableGeometry(this).height());
+			setGeometry(0, 0, QApplication::desktop()->availableGeometry(this).width() / 2, QApplication::desktop()->availableGeometry(this).height());
 		}
-		if (e->globalPos().x() > (QApplication::desktop()->availableGeometry(this).right() - 5))
+		if(e->globalPos().x() > (QApplication::desktop()->availableGeometry(this).right() - 5))
 		{
-			setGeometry(QApplication::desktop()->availableGeometry(this).right()/2,0,QApplication::desktop()->availableGeometry(this).right()/2,QApplication::desktop()->availableGeometry(this).height());
+			setGeometry(QApplication::desktop()->availableGeometry(this).right() / 2, 0, QApplication::desktop()->availableGeometry(this).right() / 2, QApplication::desktop()->availableGeometry(this).height());
 			move(QApplication::desktop()->availableGeometry(this).right() - (geometry().width() - 1), 0);
 		}
 	}
 	moving = false;
 }
 
-void QSkinDialog::mouseDoubleClickEvent(QMouseEvent *e)
+void QSkinDialog::mouseDoubleClickEvent(QMouseEvent* e)
 {
-	if ((e->button() == Qt::LeftButton) && (ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
-		&& !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && dialogSizable)
+	if((e->button() == Qt::LeftButton) && (ui->windowFrameTop->underMouse()  || ui->windowText->underMouse()) && !ui->windowIcon->underMouse() && !ui->closeButton->underMouse()
+	        && !ui->minimizeButton->underMouse() && !ui->maximizeButton->underMouse() && dialogSizable)
 	{
 		onMaximize();
 	}
@@ -428,7 +483,7 @@ void QSkinDialog::on_windowFrameTop_customContextMenuRequested(QPoint pos)
 	systemMenu->exec(QCursor::pos());
 }
 
-void QSkinDialog::addChildWidget(QWidget *parent)
+void QSkinDialog::addChildWidget(QWidget* parent)
 {
 	// Unset the frameless window hint for our child widget or it won't display at runtime
 	// In this example it is set in the ui files
@@ -437,20 +492,22 @@ void QSkinDialog::addChildWidget(QWidget *parent)
 	setWindowTitle(parent->windowTitle());
 	setWindowIcon(parent->windowIcon());
 	qApp->processEvents();
-	if (!isMainDialog)
-		move(QPoint( ( (QApplication::desktop()->screenGeometry(this).width() / 2) - (parent->width() / 2) ), ( (QApplication::desktop()->screenGeometry(this).height() / 2) - (parent->height() / 2) )));
+	if(!isMainDialog)
+	{
+		move(QPoint(((QApplication::desktop()->screenGeometry(this).width() / 2) - (parent->width() / 2)), ((QApplication::desktop()->screenGeometry(this).height() / 2) - (parent->height() / 2))));
+	}
 }
 
-void QSkinDialog::setWindowTitle(const QString &title)
+void QSkinDialog::setWindowTitle(const QString& title)
 {
 	ui->windowText->setText(title);
 	return QDialog::setWindowTitle(title);
 }
 
-void QSkinDialog::setWindowIcon(const QIcon &icon)
+void QSkinDialog::setWindowIcon(const QIcon& icon)
 {
 	QIcon windowIcon = icon;
-	if (windowIcon.isNull())
+	if(windowIcon.isNull())
 	{
 		windowIcon = QIcon(":/Resource/qtlogo-64.png");
 	}
@@ -477,9 +534,9 @@ void QSkinDialog::on_windowIcon_clicked()
 // in all skinned dialogs
 void QSkinDialog::skinChangeEvent()
 {
-	if (!dialogPreview)
+	if(!dialogPreview)
 	{
-		if (isMainDialog)
+		if(isMainDialog)
 		{
 			ui->windowFrameTopLeft->setStyleSheet(skinSettings.windowFrameTopLeftStyleSheet);
 			ui->windowFrameLeft->setStyleSheet(skinSettings.windowFrameLeftStyleSheet);
@@ -497,7 +554,9 @@ void QSkinDialog::skinChangeEvent()
 			ui->windowText->setStyleSheet(skinSettings.windowTextStyleSheet);
 			ui->windowIconFrame->setStyleSheet(skinSettings.windowIconFrameStyleSheet);
 			ui->windowIcon->setVisible(skinSettings.windowIconVisible);
-		} else {
+		}
+		else
+		{
 			ui->windowFrameTopLeft->setStyleSheet(skinSettings.childWindowFrameTopLeftStyleSheet);
 			ui->windowFrameLeft->setStyleSheet(skinSettings.childWindowFrameLeftStyleSheet);
 			ui->windowFrameBottomLeft->setStyleSheet(skinSettings.childWindowFrameBottomLeftStyleSheet);

@@ -76,18 +76,18 @@ class Ui_mediaSettings;
 QT_END_NAMESPACE
 
 class MediaPlayer :
-			public QWidget
+	public QWidget
 {
 	Q_OBJECT
 public:
-	MediaPlayer(QWidget *parent = 0);
-	void dragEnterEvent(QDragEnterEvent *e);
-	void dragMoveEvent(QDragMoveEvent *e);
-	void dropEvent(QDropEvent *e);
-	void handleDrop(QDropEvent *e);
-	void setFile(const QString &text);
+	MediaPlayer(QWidget* parent = 0);
+	void dragEnterEvent(QDragEnterEvent* e);
+	void dragMoveEvent(QDragMoveEvent* e);
+	void dropEvent(QDropEvent* e);
+	void handleDrop(QDropEvent* e);
+	void setFile(const QString& text);
 	void initSettingsDialog();
-	QMenu *fileMenu;
+	QMenu* fileMenu;
 	QList<Phonon::MediaSource> sources;
 	int playlistRowCount;
 	bool playlistSelectedItemsIsEmpty;
@@ -110,7 +110,7 @@ signals:
 	void playlistRowCountUpdate();
 	void playlistInsertRow(int row);
 	void playlistRemoveRow(int row);
-	void setPlaylistItem(int row, int column, QTableWidgetItem *item);
+	void setPlaylistItem(int row, int column, QTableWidgetItem* item);
 	void playlistSelectedItemsIsEmptyUpdate();
 	void playlistResizeColumnsToContents();
 	void setPlaylistStretchLastSection(bool stretch);
@@ -125,20 +125,29 @@ public slots:
 	void playPause();
 	void playOnSwitch(bool play, Phonon::MediaSource source);
 	void stop();
-	void scaleChanged(QAction *);
-	void aspectChanged(QAction *);
+	void scaleChanged(QAction*);
+	void aspectChanged(QAction*);
 	void setVideoWindowFullscreen();
 	void mediaSourceFinished();
-	void setPlaylistRowCount(int rowCount) { playlistRowCount = rowCount; }
-	void setPlaylistSelectedItemsIsEmpty(bool isEmpty) { playlistSelectedItemsIsEmpty = isEmpty; }
+	void setPlaylistRowCount(int rowCount)
+	{
+		playlistRowCount = rowCount;
+	}
+	void setPlaylistSelectedItemsIsEmpty(bool isEmpty)
+	{
+		playlistSelectedItemsIsEmpty = isEmpty;
+	}
 	void playlistDoubleClicked(QModelIndex index);
-	void setPlaylistCurrentRow(int row) { playlistCurrentRow = row; }
+	void setPlaylistCurrentRow(int row)
+	{
+		playlistCurrentRow = row;
+	}
 	void onPlaylistClear();
 	void onPlaylistRemove();
 	void savePlaylist();
 	void openPlaylist(bool addToPlaylist = false);
 	void addPlaylist();
-	void opaquePaint(QPainter *painter, QPaintEvent *event);
+	void opaquePaint(QPainter* painter, QPaintEvent* event);
 
 private slots:
 	void setAspect(int);
@@ -150,27 +159,27 @@ private slots:
 	void stateChanged(Phonon::State newstate, Phonon::State oldstate);
 	void effectChanged();
 	void showSettingsDialog();
-	void showContextMenu(const QPoint &);
+	void showContextMenu(const QPoint&);
 	void configureEffect();
 	void toggleVideo(bool);
 	void bufferStatus(int percent);
 	void updateTotalTime();
-	void sourceChanged(const Phonon::MediaSource &source);
+	void sourceChanged(const Phonon::MediaSource& source);
 	void metaStateChanged(Phonon::State newState, Phonon::State oldState);
 	void toggleMute();
 	void muteChanged(bool muted);
 	void volumeChanged(qreal volume);
-	void paintEvent(QPaintEvent *event);
+	void paintEvent(QPaintEvent* event);
 
 private:
-	QSlider *m_hueSlider;
-	QSlider *m_satSlider;
-	QSlider *m_contSlider;
-	QLabel *info;
-	Phonon::Effect *nextEffect;
-	QDialog *settingsDialog;
-	QSkinDialog *skinSettingsDialog;
-	Ui_mediaSettings *ui;
+	QSlider* m_hueSlider;
+	QSlider* m_satSlider;
+	QSlider* m_contSlider;
+	QLabel* info;
+	Phonon::Effect* nextEffect;
+	QDialog* settingsDialog;
+	QSkinDialog* skinSettingsDialog;
+	Ui_mediaSettings* ui;
 	QWidget m_videoWindow;
 
 public:
@@ -179,7 +188,7 @@ public:
 	Phonon::AudioOutput m_AudioOutput;
 
 private:
-	Phonon::VideoWidget *m_videoWidget;
+	Phonon::VideoWidget* m_videoWidget;
 	Phonon::Path m_audioOutputPath;
 };
 

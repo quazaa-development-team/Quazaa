@@ -19,9 +19,9 @@
 
 class QSkinSettings : public QObject
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-	explicit QSkinSettings(QObject *parent = 0);
+	explicit QSkinSettings(QObject* parent = 0);
 	QString skinName;
 	QString skinAuthor;
 	QString skinVersion;

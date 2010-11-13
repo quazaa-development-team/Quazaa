@@ -34,26 +34,26 @@ class CG2Node;
 
 class CSearchManager : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-	QHash<QUuid,CManagedSearch*> m_lSearches;
-    QMutex  m_pSection;
-    quint32 m_nPruneCounter;
+	QHash<QUuid, CManagedSearch*> m_lSearches;
+	QMutex  m_pSection;
+	quint32 m_nPruneCounter;
 	quint32 m_nCookie;
 
 public:
-    CSearchManager(QObject *parent = 0);
+	CSearchManager(QObject* parent = 0);
 
-    void OnTimer();
+	void OnTimer();
 
-    void Add(CManagedSearch* pSearch);
-    void Remove(CManagedSearch* pSearch);
+	void Add(CManagedSearch* pSearch);
+	void Remove(CManagedSearch* pSearch);
 
-    CManagedSearch* Find(QUuid& oGUID);
+	CManagedSearch* Find(QUuid& oGUID);
 
-    // zwraca true jesli pakiet ma byc routowany
-    bool OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, QUuid& oGUID);
+	// zwraca true jesli pakiet ma byc routowany
+	bool OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, QUuid& oGUID);
 	bool OnQueryHit(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
 signals:

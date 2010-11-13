@@ -24,7 +24,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogCloseType::DialogCloseType(QWidget *parent) :
+DialogCloseType::DialogCloseType(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogCloseType)
 {
@@ -38,15 +38,16 @@ DialogCloseType::~DialogCloseType()
 	delete m_ui;
 }
 
-void DialogCloseType::changeEvent(QEvent *e)
+void DialogCloseType::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

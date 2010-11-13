@@ -24,23 +24,25 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogDownloadMonitor;
 }
 
-class DialogDownloadMonitor : public QDialog {
+class DialogDownloadMonitor : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogDownloadMonitor(QWidget *parent = 0);
+	DialogDownloadMonitor(QWidget* parent = 0);
 	~DialogDownloadMonitor();
 	void updateProgress(int percent, QString transferSpeed, QString timeRemaining, QString volumeDownloaded,
-						QString numberSources, QPixmap icon, QString status, QString file);
+	                    QString numberSources, QPixmap icon, QString status, QString file);
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogDownloadMonitor *m_ui;
+	Ui::DialogDownloadMonitor* m_ui;
 
 signals:
 	void closed();

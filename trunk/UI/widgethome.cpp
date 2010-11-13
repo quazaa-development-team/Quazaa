@@ -31,7 +31,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetHome::WidgetHome(QWidget *parent) :
+WidgetHome::WidgetHome(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetHome)
 {
@@ -57,24 +57,27 @@ WidgetHome::~WidgetHome()
 	delete ui;
 }
 
-void WidgetHome::changeEvent(QEvent *e)
+void WidgetHome::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
 void WidgetHome::skinChangeEvent()
 {
-	if (skinSettings.splashLogo.isEmpty())
+	if(skinSettings.splashLogo.isEmpty())
 	{
 		ui->labelHomeLogo->setPixmap(QPixmap(":/Resource/QuazaaLogo.png"));
-	} else {
+	}
+	else
+	{
 		ui->labelHomeLogo->setPixmap(QPixmap());
 		ui->labelHomeLogo->setStyleSheet(skinSettings.splashLogo);
 	}
@@ -110,8 +113,8 @@ void WidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 
-	QSkinDialog *dlgSkinAddDownload = new QSkinDialog(false, true, false, false, this);
-	DialogAddDownload *dlgAddDownload = new DialogAddDownload;
+	QSkinDialog* dlgSkinAddDownload = new QSkinDialog(false, true, false, false, this);
+	DialogAddDownload* dlgAddDownload = new DialogAddDownload;
 
 	dlgSkinAddDownload->addChildWidget(dlgAddDownload);
 
@@ -123,8 +126,8 @@ void WidgetHome::on_labelWelcomeOpenTorrentLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 
-	QSkinDialog *dlgSkinOpenTorrent = new QSkinDialog(false, true, false, false, this);
-	DialogOpenTorrent *dlgOpenTorrent = new DialogOpenTorrent;
+	QSkinDialog* dlgSkinOpenTorrent = new QSkinDialog(false, true, false, false, this);
+	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent;
 
 	dlgSkinOpenTorrent->addChildWidget(dlgOpenTorrent);
 
@@ -136,8 +139,8 @@ void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 
-	QSkinDialog *dlgSkinSettings = new QSkinDialog(true, true, false, false, this);
-	DialogSettings *dlgSettings = new DialogSettings(this, SettingsPage::Skins);
+	QSkinDialog* dlgSkinSettings = new QSkinDialog(true, true, false, false, this);
+	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Skins);
 
 	dlgSkinSettings->addChildWidget(dlgSettings);
 
@@ -149,8 +152,8 @@ void WidgetHome::on_labelWelcomeWizardLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 
-	QSkinDialog *dlgSkinWizard = new QSkinDialog(false, true, false, false, this);
-	DialogWizard *dlgWizard = new DialogWizard();
+	QSkinDialog* dlgSkinWizard = new QSkinDialog(false, true, false, false, this);
+	DialogWizard* dlgWizard = new DialogWizard();
 
 	dlgSkinWizard->addChildWidget(dlgWizard);
 
@@ -183,7 +186,7 @@ void WidgetHome::on_toolButtonWelcomeSearch_clicked()
 	emit requestSearch(&m_sSearchString);
 }
 
-void WidgetHome::mouseDoubleClickEvent(QMouseEvent *)
+void WidgetHome::mouseDoubleClickEvent(QMouseEvent*)
 {
 
 
@@ -193,9 +196,9 @@ void WidgetHome::on_splitterHome_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
-	if (ui->splitterHome->handle(1)->underMouse())
+	if(ui->splitterHome->handle(1)->underMouse())
 	{
-		if (ui->splitterHome->sizes()[0] > 0)
+		if(ui->splitterHome->sizes()[0] > 0)
 		{
 			quazaaSettings.WinMain.HomeSplitterRestoreLeft = ui->splitterHome->sizes()[0];
 			quazaaSettings.WinMain.HomeSplitterRestoreRight = ui->splitterHome->sizes()[1];
@@ -203,7 +206,9 @@ void WidgetHome::on_splitterHome_customContextMenuRequested(QPoint pos)
 			newSizes.append(0);
 			newSizes.append(ui->splitterHome->sizes()[0] + ui->splitterHome->sizes()[1]);
 			ui->splitterHome->setSizes(newSizes);
-		} else {
+		}
+		else
+		{
 			QList<int> sizesList;
 			sizesList.append(quazaaSettings.WinMain.HomeSplitterRestoreLeft);
 			sizesList.append(quazaaSettings.WinMain.HomeSplitterRestoreRight);

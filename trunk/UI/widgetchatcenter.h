@@ -29,16 +29,18 @@
 #include "quazaairc.h"
 #include "widgetchattab.h"
 
-namespace Ui {
+namespace Ui
+{
 	class WidgetChatCenter;
 }
 
-class WidgetChatCenter : public QMainWindow {
+class WidgetChatCenter : public QMainWindow
+{
 	Q_OBJECT
 public:
-	WidgetChatCenter(QWidget *parent = 0);
+	WidgetChatCenter(QWidget* parent = 0);
 	~WidgetChatCenter();
-	QuazaaIRC *quazaaIrc;
+	QuazaaIRC* quazaaIrc;
 	void saveWidget();
 	WidgetChatTab* tabByName(QString);
 	WidgetChatTab* currentTab();
@@ -47,10 +49,10 @@ signals:
 	void channelChanged(WidgetChatTab* channel);
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetChatCenter *ui;
+	Ui::WidgetChatCenter* ui;
 	QString prefixChars, prefixModes;
 
 private slots:
@@ -63,7 +65,7 @@ private slots:
 	void setPrefixes(QString modes, QString mprefs);
 	//void joined(QString chan);
 	void addBuffer(QString name);
-	void on_tabWidget_currentChanged(QWidget* );
+	void on_tabWidget_currentChanged(QWidget*);
 	void on_actionEditMyProfile_triggered();
 };
 

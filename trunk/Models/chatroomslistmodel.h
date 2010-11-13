@@ -14,7 +14,7 @@ class ChatRoomsListModel : public QAbstractListModel
 {
 	Q_OBJECT
 public:
-	explicit ChatRoomsListModel(QObject *parent = 0);
+	explicit ChatRoomsListModel(QObject* parent = 0);
 
 signals:
 

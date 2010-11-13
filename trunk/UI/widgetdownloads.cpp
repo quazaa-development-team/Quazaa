@@ -25,7 +25,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetDownloads::WidgetDownloads(QWidget *parent) :
+WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetDownloads)
 {
@@ -40,15 +40,16 @@ WidgetDownloads::~WidgetDownloads()
 	delete ui;
 }
 
-void WidgetDownloads::changeEvent(QEvent *e)
+void WidgetDownloads::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

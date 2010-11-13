@@ -24,23 +24,24 @@
 
 #include <QObject>
 
-namespace LogSeverity {
-        enum Severity { Information, Security, Notice, Debug, Warning, Error, Critical };
+namespace LogSeverity
+{
+	enum Severity { Information, Security, Notice, Debug, Warning, Error, Critical };
 }
 
 class SystemLog : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
 	SystemLog();
 
 signals:
-        void logPosted(QString message, LogSeverity::Severity severity);
+	void logPosted(QString message, LogSeverity::Severity severity);
 
 public slots:
-        void postLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
+	void postLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
 public:
-		void postLog(LogSeverity::Severity severity, const char* format, ...);
+	void postLog(LogSeverity::Severity severity, const char* format, ...);
 };
 
 extern SystemLog systemLog;

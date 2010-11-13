@@ -43,8 +43,8 @@
 typedef struct libvlc_media_library_t libvlc_media_library_t;
 
 VLC_PUBLIC_API libvlc_media_library_t *
-    libvlc_media_library_new( libvlc_instance_t * p_inst,
-                              libvlc_exception_t * p_e );
+libvlc_media_library_new(libvlc_instance_t* p_inst,
+                         libvlc_exception_t* p_e);
 
 /**
  * Release media library object. This functions decrements the
@@ -54,7 +54,7 @@ VLC_PUBLIC_API libvlc_media_library_t *
  * \param p_mlib media library object
  */
 VLC_PUBLIC_API void
-    libvlc_media_library_release( libvlc_media_library_t * p_mlib );
+libvlc_media_library_release(libvlc_media_library_t* p_mlib);
 
 /**
  * Retain a reference to a media library object. This function will
@@ -64,7 +64,7 @@ VLC_PUBLIC_API void
  * \param p_mlib media library object
  */
 VLC_PUBLIC_API void
-    libvlc_media_library_retain( libvlc_media_library_t * p_mlib );
+libvlc_media_library_retain(libvlc_media_library_t* p_mlib);
 
 /**
  * Load media library.
@@ -73,8 +73,8 @@ VLC_PUBLIC_API void
  * \param p_e an initialized exception object.
  */
 VLC_PUBLIC_API void
-    libvlc_media_library_load( libvlc_media_library_t * p_mlib,
-                               libvlc_exception_t * p_e );
+libvlc_media_library_load(libvlc_media_library_t* p_mlib,
+                          libvlc_exception_t* p_e);
 
 /**
  * Save media library.
@@ -83,8 +83,8 @@ VLC_PUBLIC_API void
  * \param p_e an initialized exception object.
  */
 VLC_PUBLIC_API void
-    libvlc_media_library_save( libvlc_media_library_t * p_mlib,
-                               libvlc_exception_t * p_e );
+libvlc_media_library_save(libvlc_media_library_t* p_mlib,
+                          libvlc_exception_t* p_e);
 
 /**
  * Get media library subitems.
@@ -94,8 +94,8 @@ VLC_PUBLIC_API void
  * \return media list subitems
  */
 VLC_PUBLIC_API libvlc_media_list_t *
-    libvlc_media_library_media_list( libvlc_media_library_t * p_mlib,
-                                     libvlc_exception_t * p_e );
+libvlc_media_library_media_list(libvlc_media_library_t* p_mlib,
+                                libvlc_exception_t* p_e);
 
 
 /** @} */

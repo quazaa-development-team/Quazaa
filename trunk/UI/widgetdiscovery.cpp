@@ -25,7 +25,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetDiscovery::WidgetDiscovery(QWidget *parent) :
+WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetDiscovery)
 {
@@ -40,15 +40,16 @@ WidgetDiscovery::~WidgetDiscovery()
 	delete ui;
 }
 
-void WidgetDiscovery::changeEvent(QEvent *e)
+void WidgetDiscovery::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

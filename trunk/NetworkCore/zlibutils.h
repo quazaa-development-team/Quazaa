@@ -30,7 +30,7 @@ class ZLibUtils
 {
 public:
 
-    static QMutex m_oMutex;
+	static QMutex m_oMutex;
 	static CBuffer m_oCompressBuffer;
 
 	static bool Compress(CBuffer& pSrc, bool bIfSmaller = false);

@@ -30,7 +30,7 @@
 #include <QMetaObject>
 
 QuazaaIRC::QuazaaIRC(QObject* parent) :
-		QObject(parent)
+	QObject(parent)
 {
 }
 
@@ -55,10 +55,10 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 	qDebug() << "buffer added:" << buffer->receiver();
 	emit bufferAdded(buffer->receiver());
 	buffer->names();
-	connect(buffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
-	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this, SLOT(numericMessageReceived(QString,uint,QStringList)));
-	connect(buffer, SIGNAL(ctcpActionReceived(QString,QString)), this, SLOT(ctcpActionReceived(QString,QString)));
-	connect(buffer, SIGNAL(noticeReceived(QString,QString)), this, SLOT(noticeReceived(QString,QString)));
+	connect(buffer, SIGNAL(messageReceived(QString, QString)), this, SLOT(messageReceived(QString, QString)));
+	connect(buffer, SIGNAL(numericMessageReceived(QString, uint, QStringList)), this, SLOT(numericMessageReceived(QString, uint, QStringList)));
+	connect(buffer, SIGNAL(ctcpActionReceived(QString, QString)), this, SLOT(ctcpActionReceived(QString, QString)));
+	connect(buffer, SIGNAL(noticeReceived(QString, QString)), this, SLOT(noticeReceived(QString, QString)));
 	connect(buffer, SIGNAL(joined(QString)), this, SIGNAL(joined(QString)));
 }
 
@@ -74,7 +74,7 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 	// stripNicks / echoMessages
 	ircSession->setOptions(Irc::Session::EchoMessages);
 
-	if (useSsl)
+	if(useSsl)
 	{
 		QSslSocket* socket = new QSslSocket(ircSession);
 		socket->ignoreSslErrors();
@@ -99,7 +99,7 @@ void QuazaaIRC::stopIrc()
 {
 	qDebug() << "QuazaaIRC::stopIrc()";
 
-	if( ircSession )
+	if(ircSession)
 	{
 		ircSession->disconnectFromServer();
 		ircSession->deleteLater();
@@ -131,19 +131,20 @@ void QuazaaIRC::ctcpActionReceived(QString sender, QString message)
 
 void QuazaaIRC::numericMessageReceived(QString sender, uint code, QStringList list)
 {
-	switch (code)
+	switch(code)
 	{
 		case Irc::Rfc::RPL_NAMREPLY:
 			emit channelNames(list);
-		break;
+			break;
 		case Irc::Rfc::RPL_BOUNCE:
 		{
-			for (int i = 0 ; i<list.size() ; ++i) {
+			for(int i = 0 ; i < list.size() ; ++i)
+			{
 				QString opt = list.at(i);
-				if (opt.startsWith("PREFIX=", Qt::CaseInsensitive))
+				if(opt.startsWith("PREFIX=", Qt::CaseInsensitive))
 				{
 					QString prefstr	= opt.split("=")[1];
-					QString modes	= prefstr.mid(1, prefstr.indexOf(")")-1);
+					QString modes	= prefstr.mid(1, prefstr.indexOf(")") - 1);
 					QString mprefs	= prefstr.right(modes.length());
 					emit setPrefixes(modes, mprefs);
 				}

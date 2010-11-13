@@ -24,27 +24,29 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-    class WidgetScheduler;
+namespace Ui
+{
+	class WidgetScheduler;
 }
 
-class WidgetScheduler : public QMainWindow {
-    Q_OBJECT
+class WidgetScheduler : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetScheduler(QWidget *parent = 0);
-    ~WidgetScheduler();
+	WidgetScheduler(QWidget* parent = 0);
+	~WidgetScheduler();
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetScheduler *ui;
+	Ui::WidgetScheduler* ui;
 
 private slots:
 	void on_actionScheduleProperties_triggered();
- void on_actionAddScheduledTask_triggered();
- void skinChangeEvent();
+	void on_actionAddScheduledTask_triggered();
+	void skinChangeEvent();
 };
 
 #endif // WIDGETSCHEDULER_H
