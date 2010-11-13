@@ -33,12 +33,12 @@ class CQuery;
 
 struct QueryHitInfo
 {
-    IPv4_ENDPOINT   m_oNodeAddress;
+	IPv4_ENDPOINT   m_oNodeAddress;
 	IPv4_ENDPOINT	m_oSenderAddress;
-    QUuid           m_oGUID;
-    QUuid           m_oNodeGUID;
-    QList<IPv4_ENDPOINT>    m_lNeighbouringHubs;
-    quint8          m_nHops;
+	QUuid           m_oGUID;
+	QUuid           m_oNodeGUID;
+	QList<IPv4_ENDPOINT>    m_lNeighbouringHubs;
+	quint8          m_nHops;
 	QString			m_sVendor;
 
 	QueryHitInfo()
@@ -46,10 +46,10 @@ struct QueryHitInfo
 		m_sVendor = "";
 	}
 
-    ~QueryHitInfo()
-    {
-        qDebug("hit info deleted");
-    }
+	~QueryHitInfo()
+	{
+		qDebug("hit info deleted");
+	}
 };
 
 struct QueuedQueryHit
@@ -61,32 +61,32 @@ struct QueuedQueryHit
 class CQueryHit
 {
 public:
-    CQueryHit*      m_pNext;
+	CQueryHit*      m_pNext;
 
-    QSharedPointer<QueryHitInfo>   m_pHitInfo;
+	QSharedPointer<QueryHitInfo>   m_pHitInfo;
 
-    CSHA1           m_oSha1;
-    QString         m_sDescriptiveName;
-    QString         m_sURL;
-    QString         m_sMetadata;
-    quint64         m_nObjectSize;
-    quint32         m_nCachedSources;
-    bool            m_bIsPartial;
-    quint64         m_nPartialBytesAvailable;
-    QString         m_sPreviewURL;
+	CSHA1           m_oSha1;
+	QString         m_sDescriptiveName;
+	QString         m_sURL;
+	QString         m_sMetadata;
+	quint64         m_nObjectSize;
+	quint32         m_nCachedSources;
+	bool            m_bIsPartial;
+	quint64         m_nPartialBytesAvailable;
+	QString         m_sPreviewURL;
 
-    bool            m_bIsP2PIMCapable;
+	bool            m_bIsP2PIMCapable;
 
 public:
-    CQueryHit();
-    ~CQueryHit();
+	CQueryHit();
+	~CQueryHit();
 
-	static QueryHitInfo*  ReadInfo(G2Packet* pPacket, IPv4_ENDPOINT* pSender = 0);
+	static QueryHitInfo* ReadInfo(G2Packet* pPacket, IPv4_ENDPOINT* pSender = 0);
 	static CQueryHit*     ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
-    void Delete();
-    void ResolveURLs();
-    bool IsValid(CQuery* pQuery = 0);
+	void Delete();
+	void ResolveURLs();
+	bool IsValid(CQuery* pQuery = 0);
 };
 
 typedef class QSharedPointer<CQueryHit> QueryHitSharedPtr;

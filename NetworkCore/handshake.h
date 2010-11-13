@@ -25,18 +25,18 @@
 #include <QObject>
 #include "networkconnection.h"
 
-class CHandshake:public CNetworkConnection
+class CHandshake: public CNetworkConnection
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    CHandshake(QObject* parent = 0);
-    ~CHandshake();
+	CHandshake(QObject* parent = 0);
+	~CHandshake();
 
-    void OnTimer(quint32 tNow);
+	void OnTimer(quint32 tNow);
 
 public slots:
-    void OnRead();
+	void OnRead();
 
 };
 

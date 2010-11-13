@@ -24,27 +24,29 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-    class WidgetSecurity;
+namespace Ui
+{
+	class WidgetSecurity;
 }
 
-class WidgetSecurity : public QMainWindow {
-    Q_OBJECT
+class WidgetSecurity : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetSecurity(QWidget *parent = 0);
-    ~WidgetSecurity();
+	WidgetSecurity(QWidget* parent = 0);
+	~WidgetSecurity();
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetSecurity *ui;
+	Ui::WidgetSecurity* ui;
 
 private slots:
 	void on_actionSubscribeSecurityList_triggered();
- void on_actionSecurityAddRule_triggered();
- void skinChangeEvent();
+	void on_actionSecurityAddRule_triggered();
+	void skinChangeEvent();
 };
 
 #endif // WIDGETSECURITY_H

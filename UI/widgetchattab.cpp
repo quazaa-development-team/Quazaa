@@ -27,7 +27,7 @@
 
 #include <QStringList>
 
-WidgetChatTab::WidgetChatTab(QuazaaIRC *quazaaIrc, QWidget *parent) :
+WidgetChatTab::WidgetChatTab(QuazaaIRC* quazaaIrc, QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetChatTab)
 {
@@ -57,15 +57,16 @@ WidgetChatTab::~WidgetChatTab()
 	delete ui;
 }
 
-void WidgetChatTab::changeEvent(QEvent *e)
+void WidgetChatTab::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -85,12 +86,14 @@ void WidgetChatTab::saveWidget()
 {
 }
 
-void WidgetChatTab::append(QString text) {
+void WidgetChatTab::append(QString text)
+{
 	ui->textBrowser->append(text);
 }
 
-void WidgetChatTab::channelNames(QStringList names) {
-	qDebug() << "My name is >> "+name;
+void WidgetChatTab::channelNames(QStringList names)
+{
+	qDebug() << "My name is >> " + name;
 	/*for (int i = 0; i < names.size(); ++i) {
 		qDebug() << "CName: "+names.at(i);
 		//ui->listWidgetChatUsers->addItem(names.at(i));
@@ -105,7 +108,7 @@ void WidgetChatTab::channelNames(QStringList names) {
 
 void WidgetChatTab::on_actionSend_triggered()
 {
-	if (lineEditTextInput->text() != "")
+	if(lineEditTextInput->text() != "")
 	{
 		m_oQuazaaIrc->sendIrcMessage(name, lineEditTextInput->text());
 		lineEditTextInput->setText("");

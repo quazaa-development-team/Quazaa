@@ -25,7 +25,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetGraph::WidgetGraph(QWidget *parent) :
+WidgetGraph::WidgetGraph(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetGraph)
 {
@@ -41,15 +41,16 @@ WidgetGraph::~WidgetGraph()
 	delete ui;
 }
 
-void WidgetGraph::changeEvent(QEvent *e)
+void WidgetGraph::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -69,9 +70,9 @@ void WidgetGraph::on_splitterGraph_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
-	if (ui->splitterGraph->handle(1)->underMouse())
+	if(ui->splitterGraph->handle(1)->underMouse())
 	{
-		if (ui->splitterGraph->sizes()[0] > 0)
+		if(ui->splitterGraph->sizes()[0] > 0)
 		{
 			quazaaSettings.WinMain.GraphSplitterRestoreLeft = ui->splitterGraph->sizes()[0];
 			quazaaSettings.WinMain.GraphSplitterRestoreRight = ui->splitterGraph->sizes()[1];
@@ -79,7 +80,9 @@ void WidgetGraph::on_splitterGraph_customContextMenuRequested(QPoint pos)
 			newSizes.append(0);
 			newSizes.append(ui->splitterGraph->sizes()[0] + ui->splitterGraph->sizes()[1]);
 			ui->splitterGraph->setSizes(newSizes);
-		} else {
+		}
+		else
+		{
 			QList<int> sizesList;
 			sizesList.append(quazaaSettings.WinMain.GraphSplitterRestoreLeft);
 			sizesList.append(quazaaSettings.WinMain.GraphSplitterRestoreRight);

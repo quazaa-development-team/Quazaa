@@ -28,7 +28,7 @@
 #include "QSkinDialog/dialogskinpreview.h"
 #include "dialogprofile.h"
 
-DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page) :
+DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page) :
 	QDialog(parent),
 	ui(new Ui::DialogSettings)
 {
@@ -90,8 +90,8 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	ui->spinBoxIrcPort->setValue(quazaaSettings.Chat.IrcServerPort);
 
 	// Load Connection Settings
-	ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed/1024)*8);
-	ui->doubleSpinBoxOutSpeed->setValue((quazaaSettings.Connection.OutSpeed/1024)*8);
+	ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed / 1024) * 8);
+	ui->doubleSpinBoxOutSpeed->setValue((quazaaSettings.Connection.OutSpeed / 1024) * 8);
 	ui->spinBoxNetworkPort->setValue(quazaaSettings.Connection.Port);
 	ui->checkBoxRandomPort->setChecked(quazaaSettings.Connection.RandomPort);
 	ui->spinBoxConnectionTimeout->setValue(quazaaSettings.Connection.TimeoutConnect);
@@ -178,12 +178,12 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	// Load Skin Settings
 	QDir dir(qApp->applicationDirPath() + "/Skin/");
 	QFileInfoList skinDirs = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs);
-	QListWidgetItem *itemToSet = new QListWidgetItem();
+	QListWidgetItem* itemToSet = new QListWidgetItem();
 	foreach(QFileInfo i, skinDirs)
 	{
-		QListWidgetItem *item = new QListWidgetItem(i.fileName());
+		QListWidgetItem* item = new QListWidgetItem(i.fileName());
 		ui->listWidgetSkins->addItem(item);
-		if (item->text() == skinSettings.skinName)
+		if(item->text() == skinSettings.skinName)
 		{
 			itemToSet = item;
 		}
@@ -194,25 +194,25 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 
 	// System Settings
-	connect (ui->checkBoxStartWithSystem, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxConnectOnStart, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->comboBoxOnClose, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
-	connect (ui->checkBoxOnMinimize, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->spinBoxDiskWarn, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->spinBoxDiskStop, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxStartWithSystem, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxConnectOnStart, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->comboBoxOnClose, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxOnMinimize, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->spinBoxDiskWarn, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->spinBoxDiskStop, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 
 	// Parental Settings
-	connect (ui->checkBoxParentalChatFilter, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxParentalSearchFilter, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxParentalChatFilter, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxParentalSearchFilter, SIGNAL(clicked()), this, SLOT(enableApply()));
 
 	// Library Settings
-	connect (ui->checkBoxLibraryRememberViews, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxQuickHashing, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxDisplayHashingProgress, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxLibraryGhostFiles, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxVideoSeriesDetection, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->spinBoxFileHistoryRemember, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->spinBoxFileHistoryDays, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxLibraryRememberViews, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxQuickHashing, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxDisplayHashingProgress, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxLibraryGhostFiles, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxVideoSeriesDetection, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->spinBoxFileHistoryRemember, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->spinBoxFileHistoryDays, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 
 
 	// File Types Settings
@@ -220,9 +220,9 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	// Media Player Settings
 
 	// Search Settings
-	connect (ui->checkBoxSearchExpandMultiSorce, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxSearchSwitchOnDownload, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxSearchHighlightNewMatches, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxSearchExpandMultiSorce, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxSearchSwitchOnDownload, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxSearchHighlightNewMatches, SIGNAL(clicked()), this, SLOT(enableApply()));
 
 	// Private Messages Settings
 	connect(ui->checkBoxPrivateMessagesAres, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -232,94 +232,94 @@ DialogSettings::DialogSettings(QWidget *parent, SettingsPage::settingsPage page)
 	connect(ui->checkBoxPrivateMessagesGnutella, SIGNAL(clicked()), this, SLOT(enableApply()));
 
 	// Chat Settings
-	connect (ui->checkBoxPrivateMessagesGnutella, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxIrcConnectOnStart, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxIrcEnableFileTransfers, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxIrcShowTimestamp, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->spinBoxPrivateMessagesIdleMessage, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->lineEditIrcServer, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
-	connect (ui->spinBoxIrcPort, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->checkBoxIrcSSL, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxPrivateMessagesGnutella, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxIrcConnectOnStart, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxIrcEnableFileTransfers, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxIrcShowTimestamp, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->spinBoxPrivateMessagesIdleMessage, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->lineEditIrcServer, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect(ui->spinBoxIrcPort, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxIrcSSL, SIGNAL(clicked()), this, SLOT(enableApply()));
 
 	// Connection Settings
-	connect (ui->doubleSpinBoxInSpeed, SIGNAL(valueChanged(double)), this, SLOT(enableApply()));
-	connect (ui->doubleSpinBoxOutSpeed, SIGNAL(valueChanged(double)), this, SLOT(enableApply()));
-	connect (ui->spinBoxNetworkPort, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->checkBoxRandomPort, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->spinBoxConnectionTimeout, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->doubleSpinBoxInSpeed, SIGNAL(valueChanged(double)), this, SLOT(enableApply()));
+	connect(ui->doubleSpinBoxOutSpeed, SIGNAL(valueChanged(double)), this, SLOT(enableApply()));
+	connect(ui->spinBoxNetworkPort, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxRandomPort, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->spinBoxConnectionTimeout, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 
 	// Web Settings
-	connect (ui->checkBoxIntegrationMagnetLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxIntegrationAresLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxIntegrationBitTorrentLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxIntegrationPioletLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxIntegrationEDonkeyLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxManageWebDownloads, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxIntegrationMagnetLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxIntegrationAresLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxIntegrationBitTorrentLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxIntegrationPioletLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxIntegrationEDonkeyLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxManageWebDownloads, SIGNAL(clicked()), this, SLOT(enableApply()));
 
 	// Transfer Settings
-	connect (ui->checkBoxOnlyDownloadConnectedNetworks, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxSimpleProgress, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxOnlyDownloadConnectedNetworks, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxSimpleProgress, SIGNAL(clicked()), this, SLOT(enableApply()));
 
 	// Download Settings
-	connect (ui->checkBoxExpandDownloads, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->lineEditSaveFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
-	connect (ui->lineEditTempFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
-	connect (ui->comboBoxQueueLength, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
-	connect (ui->spinBoxMaxFiles, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->spinBoxMaxTransfers, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->spinBoxTransfersPerFile, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxExpandDownloads, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->lineEditSaveFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect(ui->lineEditTempFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect(ui->comboBoxQueueLength, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
+	connect(ui->spinBoxMaxFiles, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->spinBoxMaxTransfers, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->spinBoxTransfersPerFile, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 
 	// Upload Settings
-	connect (ui->checkBoxSharePartials, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxSharingLimitHub, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxSharePreviews, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->spinBoxUniqueHostLimit, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxSharePartials, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxSharingLimitHub, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxSharePreviews, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->spinBoxUniqueHostLimit, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 
 	// Security Settings
-	connect (ui->checkBoxChatFilterSpam, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxAllowBrowseProfile, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxIrcFloodProtection, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->spinBoxChatFloodLimit, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->checkBoxRemoteEnable, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->lineEditRemoteUserName, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
-	connect (ui->lineEditRemotePassword, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
-	connect (ui->checkBoxIgnoreLocalIP, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxEnableUPnP, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxAllowBrowseShares, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxChatFilterSpam, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxAllowBrowseProfile, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxIrcFloodProtection, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->spinBoxChatFloodLimit, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxRemoteEnable, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->lineEditRemoteUserName, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect(ui->lineEditRemotePassword, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect(ui->checkBoxIgnoreLocalIP, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxEnableUPnP, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxAllowBrowseShares, SIGNAL(clicked()), this, SLOT(enableApply()));
 
 	// Gnutella 2 Settings
-	connect (ui->checkBoxConnectG2, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->comboBoxG2Mode, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
-	connect (ui->spinBoxG2LeafToHub, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->spinBoxG2HubToLeaf, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->spinBoxG2HubToHub, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxConnectG2, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->comboBoxG2Mode, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
+	connect(ui->spinBoxG2LeafToHub, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->spinBoxG2HubToLeaf, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->spinBoxG2HubToHub, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 
 	// Ares Settings
-	connect (ui->checkBoxConnectAres, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxConnectAres, SIGNAL(clicked()), this, SLOT(enableApply()));
 
 	// eDonkey 2k Settings
-	connect (ui->checkBoxConnectEDonkey, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxConnectKAD, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxED2kSearchCahedServers, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->spinBoxED2kMaxResults, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->checkBoxED2kUpdateServerList, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->spinBoxED2kMaxClients, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->checkBoxAutoQueryServerList, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->lineEditEDonkeyServerListUrl, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect(ui->checkBoxConnectEDonkey, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxConnectKAD, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxED2kSearchCahedServers, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->spinBoxED2kMaxResults, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxED2kUpdateServerList, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->spinBoxED2kMaxClients, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxAutoQueryServerList, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->lineEditEDonkeyServerListUrl, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
 
 	// BitTorrent Settings
-	connect (ui->checkBoxTorrentSaveDialog, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxTorrentsStartPaused, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxTorrentsUseTemp, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxManagedTorrent, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxTorrentsEndgame, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->spinBoxTorrentsSimultaneous, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->spinBoxTorrentsClientConnections, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->checkBoxTorrentsClearDownloaded, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->spinBoxTorrentsRatioClear, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect (ui->checkBoxTorrentsPreferTorrent, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->checkBoxTorrentsUseKademlia, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect (ui->lineEditTorrentFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	connect(ui->checkBoxTorrentSaveDialog, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxTorrentsStartPaused, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxTorrentsUseTemp, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxManagedTorrent, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxTorrentsEndgame, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->spinBoxTorrentsSimultaneous, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->spinBoxTorrentsClientConnections, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxTorrentsClearDownloaded, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->spinBoxTorrentsRatioClear, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+	connect(ui->checkBoxTorrentsPreferTorrent, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->checkBoxTorrentsUseKademlia, SIGNAL(clicked()), this, SLOT(enableApply()));
+	connect(ui->lineEditTorrentFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
 }
 
 DialogSettings::~DialogSettings()
@@ -327,219 +327,220 @@ DialogSettings::~DialogSettings()
 	delete ui;
 }
 
-void DialogSettings::changeEvent(QEvent *e)
+void DialogSettings::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
 void DialogSettings::switchSettingsPage(SettingsPage::settingsPage page)
 {
-	switch (page)
+	switch(page)
 	{
-	case SettingsPage::System:
-		ui->stackedWidgetSettings->setCurrentIndex(0);
-		ui->listWidgetGeneralTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(true);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Skins:
-		ui->stackedWidgetSettings->setCurrentIndex(1);
-		ui->listWidgetGeneralTask->setCurrentRow(1, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(true);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Library:
-		ui->stackedWidgetSettings->setCurrentIndex(2);
-		ui->listWidgetGeneralTask->setCurrentRow(2, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(true);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::FileTypes:
-		ui->stackedWidgetSettings->setCurrentIndex(3);
-		ui->listWidgetGeneralTask->setCurrentRow(3, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(true);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::MediaPlayer:
-		ui->stackedWidgetSettings->setCurrentIndex(4);
-		ui->listWidgetGeneralTask->setCurrentRow(4, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(true);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Search:
-		ui->stackedWidgetSettings->setCurrentIndex(5);
-		ui->listWidgetGeneralTask->setCurrentRow(5, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(true);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Integration:
-		ui->stackedWidgetSettings->setCurrentIndex(6);
-		ui->listWidgetGeneralTask->setCurrentRow(6, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(true);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Plugins:
-		ui->stackedWidgetSettings->setCurrentIndex(7);
-		ui->listWidgetGeneralTask->setCurrentRow(7, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(true);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::PrivateMessages:
-		ui->stackedWidgetSettings->setCurrentIndex(8);
-		ui->listWidgetCommunityTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(true);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Chat:
-		ui->stackedWidgetSettings->setCurrentIndex(9);
-		ui->listWidgetCommunityTask->setCurrentRow(1, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(true);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Security:
-		ui->stackedWidgetSettings->setCurrentIndex(10);
-		ui->listWidgetSecurityTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(true);
-		break;
-	case SettingsPage::Parental:
-		ui->stackedWidgetSettings->setCurrentIndex(11);
-		ui->listWidgetSecurityTask->setCurrentRow(1, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(true);
-		break;
-	case SettingsPage::Connection:
-		ui->stackedWidgetSettings->setCurrentIndex(12);
-		ui->listWidgetNetworkTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(true);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Transfers:
-		ui->stackedWidgetSettings->setCurrentIndex(13);
-		ui->listWidgetNetworkTask->setCurrentRow(1, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(true);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Downloads:
-		ui->stackedWidgetSettings->setCurrentIndex(14);
-		ui->listWidgetNetworkTask->setCurrentRow(2, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(true);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Uploads:
-		ui->stackedWidgetSettings->setCurrentIndex(15);
-		ui->listWidgetNetworkTask->setCurrentRow(3, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(true);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Gnutella2:
-		ui->stackedWidgetSettings->setCurrentIndex(16);
-		ui->listWidgetProtocolsTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(true);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Ares:
-		ui->stackedWidgetSettings->setCurrentIndex(17);
-		ui->listWidgetProtocolsTask->setCurrentRow(1, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(true);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::EDonkey:
-		ui->stackedWidgetSettings->setCurrentIndex(18);
-		ui->listWidgetProtocolsTask->setCurrentRow(2, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(true);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::BitTorrent:
-		ui->stackedWidgetSettings->setCurrentIndex(19);
-		ui->listWidgetProtocolsTask->setCurrentRow(3, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(true);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	case SettingsPage::Protocols:
-		ui->stackedWidgetSettings->setCurrentIndex(20);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(false);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(true);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
-	default:
-		ui->stackedWidgetSettings->setCurrentIndex(0);
-		ui->listWidgetGeneralTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
-		ui->toolButtonCommunityTask->setChecked(false);
-		ui->toolButtonGeneralTask->setChecked(true);
-		ui->toolButtonNetworkTask->setChecked(false);
-		ui->toolButtonProtocolsTask->setChecked(false);
-		ui->toolButtonSecurityTask->setChecked(false);
-		break;
+		case SettingsPage::System:
+			ui->stackedWidgetSettings->setCurrentIndex(0);
+			ui->listWidgetGeneralTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(true);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Skins:
+			ui->stackedWidgetSettings->setCurrentIndex(1);
+			ui->listWidgetGeneralTask->setCurrentRow(1, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(true);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Library:
+			ui->stackedWidgetSettings->setCurrentIndex(2);
+			ui->listWidgetGeneralTask->setCurrentRow(2, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(true);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::FileTypes:
+			ui->stackedWidgetSettings->setCurrentIndex(3);
+			ui->listWidgetGeneralTask->setCurrentRow(3, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(true);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::MediaPlayer:
+			ui->stackedWidgetSettings->setCurrentIndex(4);
+			ui->listWidgetGeneralTask->setCurrentRow(4, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(true);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Search:
+			ui->stackedWidgetSettings->setCurrentIndex(5);
+			ui->listWidgetGeneralTask->setCurrentRow(5, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(true);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Integration:
+			ui->stackedWidgetSettings->setCurrentIndex(6);
+			ui->listWidgetGeneralTask->setCurrentRow(6, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(true);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Plugins:
+			ui->stackedWidgetSettings->setCurrentIndex(7);
+			ui->listWidgetGeneralTask->setCurrentRow(7, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(true);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::PrivateMessages:
+			ui->stackedWidgetSettings->setCurrentIndex(8);
+			ui->listWidgetCommunityTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(true);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Chat:
+			ui->stackedWidgetSettings->setCurrentIndex(9);
+			ui->listWidgetCommunityTask->setCurrentRow(1, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(true);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Security:
+			ui->stackedWidgetSettings->setCurrentIndex(10);
+			ui->listWidgetSecurityTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(true);
+			break;
+		case SettingsPage::Parental:
+			ui->stackedWidgetSettings->setCurrentIndex(11);
+			ui->listWidgetSecurityTask->setCurrentRow(1, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(true);
+			break;
+		case SettingsPage::Connection:
+			ui->stackedWidgetSettings->setCurrentIndex(12);
+			ui->listWidgetNetworkTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(true);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Transfers:
+			ui->stackedWidgetSettings->setCurrentIndex(13);
+			ui->listWidgetNetworkTask->setCurrentRow(1, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(true);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Downloads:
+			ui->stackedWidgetSettings->setCurrentIndex(14);
+			ui->listWidgetNetworkTask->setCurrentRow(2, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(true);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Uploads:
+			ui->stackedWidgetSettings->setCurrentIndex(15);
+			ui->listWidgetNetworkTask->setCurrentRow(3, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(true);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Gnutella2:
+			ui->stackedWidgetSettings->setCurrentIndex(16);
+			ui->listWidgetProtocolsTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(true);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Ares:
+			ui->stackedWidgetSettings->setCurrentIndex(17);
+			ui->listWidgetProtocolsTask->setCurrentRow(1, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(true);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::EDonkey:
+			ui->stackedWidgetSettings->setCurrentIndex(18);
+			ui->listWidgetProtocolsTask->setCurrentRow(2, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(true);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::BitTorrent:
+			ui->stackedWidgetSettings->setCurrentIndex(19);
+			ui->listWidgetProtocolsTask->setCurrentRow(3, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(true);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		case SettingsPage::Protocols:
+			ui->stackedWidgetSettings->setCurrentIndex(20);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(false);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(true);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
+		default:
+			ui->stackedWidgetSettings->setCurrentIndex(0);
+			ui->listWidgetGeneralTask->setCurrentRow(0, QItemSelectionModel::SelectCurrent);
+			ui->toolButtonCommunityTask->setChecked(false);
+			ui->toolButtonGeneralTask->setChecked(true);
+			ui->toolButtonNetworkTask->setChecked(false);
+			ui->toolButtonProtocolsTask->setChecked(false);
+			ui->toolButtonSecurityTask->setChecked(false);
+			break;
 	}
 }
 
@@ -598,7 +599,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Parental.ChatAdultCensor = ui->checkBoxParentalChatFilter->isChecked();
 	quazaaSettings.Parental.FilterAdultSearchResults = ui->checkBoxParentalSearchFilter->isChecked();
 	quazaaSettings.Parental.AdultFilter.clear();
-	for (int m_iAdultFilterRow = 0; m_iAdultFilterRow < ui->listWidgetParentalFilter->count(); m_iAdultFilterRow++)
+	for(int m_iAdultFilterRow = 0; m_iAdultFilterRow < ui->listWidgetParentalFilter->count(); m_iAdultFilterRow++)
 	{
 		ui->listWidgetParentalFilter->setCurrentRow(m_iAdultFilterRow);
 		quazaaSettings.Parental.AdultFilter.append(ui->listWidgetParentalFilter->currentItem()->text());
@@ -613,13 +614,13 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Library.HistoryTotal = ui->spinBoxFileHistoryRemember->value();
 	quazaaSettings.Library.HistoryDays = ui->spinBoxFileHistoryDays->value();
 	quazaaSettings.Library.SafeExecuteTypes.clear();
-	for (int m_iSafeOpenRow = 0; m_iSafeOpenRow < ui->listWidgetFileTypesSafeOpen->count(); m_iSafeOpenRow++)
+	for(int m_iSafeOpenRow = 0; m_iSafeOpenRow < ui->listWidgetFileTypesSafeOpen->count(); m_iSafeOpenRow++)
 	{
 		ui->listWidgetFileTypesSafeOpen->setCurrentRow(m_iSafeOpenRow);
 		quazaaSettings.Library.SafeExecuteTypes.append(ui->listWidgetFileTypesSafeOpen->currentItem()->text());
 	}
 	quazaaSettings.Library.NeverShareTypes.clear();
-	for (int m_iNeverShareRow = 0; m_iNeverShareRow < ui->listWidgetFileTypesNeverShare->count(); m_iNeverShareRow++)
+	for(int m_iNeverShareRow = 0; m_iNeverShareRow < ui->listWidgetFileTypesNeverShare->count(); m_iNeverShareRow++)
 	{
 		ui->listWidgetFileTypesNeverShare->setCurrentRow(m_iNeverShareRow);
 		quazaaSettings.Library.NeverShareTypes.append(ui->listWidgetFileTypesNeverShare->currentItem()->text());
@@ -650,8 +651,8 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Chat.IrcUseSSL = ui->checkBoxIrcSSL->isChecked();
 
 	// Save Connection Settings
-	quazaaSettings.Connection.InSpeed = (ui->doubleSpinBoxInSpeed->value()/8)*1024;
-	quazaaSettings.Connection.OutSpeed = (ui->doubleSpinBoxOutSpeed->value()/8)*1024;
+	quazaaSettings.Connection.InSpeed = (ui->doubleSpinBoxInSpeed->value() / 8) * 1024;
+	quazaaSettings.Connection.OutSpeed = (ui->doubleSpinBoxOutSpeed->value() / 8) * 1024;
 	quazaaSettings.Connection.Port = ui->spinBoxNetworkPort->value();
 	quazaaSettings.Connection.RandomPort = ui->checkBoxRandomPort->isChecked();
 	quazaaSettings.Connection.TimeoutConnect = ui->spinBoxConnectionTimeout->value();
@@ -664,7 +665,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Web.ED2K = ui->checkBoxIntegrationEDonkeyLinks->isChecked();
 	quazaaSettings.Web.BrowserIntegration = ui->checkBoxManageWebDownloads->isChecked();
 	quazaaSettings.Web.ManageDownloadTypes.clear();
-	for (int m_iDownloadTypesRow = 0; m_iDownloadTypesRow < ui->listWidgetManageDownloadTypes->count(); m_iDownloadTypesRow++)
+	for(int m_iDownloadTypesRow = 0; m_iDownloadTypesRow < ui->listWidgetManageDownloadTypes->count(); m_iDownloadTypesRow++)
 	{
 		ui->listWidgetManageDownloadTypes->setCurrentRow(m_iDownloadTypesRow);
 		quazaaSettings.Web.ManageDownloadTypes.append(ui->listWidgetManageDownloadTypes->currentItem()->text());
@@ -701,7 +702,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Security.EnableUPnP = ui->checkBoxEnableUPnP->isChecked();
 	quazaaSettings.Security.AllowSharesBrowse = ui->checkBoxAllowBrowseShares->isChecked();
 	quazaaSettings.Security.BlockedAgentUploadFilter.clear();
-	for (int m_iUserAgentsRow = 0; m_iUserAgentsRow < ui->listWidgetUserAgents->count(); m_iUserAgentsRow++)
+	for(int m_iUserAgentsRow = 0; m_iUserAgentsRow < ui->listWidgetUserAgents->count(); m_iUserAgentsRow++)
 	{
 		ui->listWidgetUserAgents->setCurrentRow(m_iUserAgentsRow);
 		quazaaSettings.Security.BlockedAgentUploadFilter.append(ui->listWidgetUserAgents->currentItem()->text());
@@ -741,7 +742,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.BitTorrent.UseKademlia = ui->checkBoxTorrentsUseKademlia->isChecked();
 	quazaaSettings.BitTorrent.TorrentPath = ui->lineEditTorrentFolder->text();
 
-	if (newSkinSelected)
+	if(newSkinSelected)
 	{
 		// Save Skin Settings
 		quazaaSettings.Skin.File = skinFile;
@@ -788,8 +789,8 @@ void DialogSettings::skinChangeEvent()
 
 void DialogSettings::on_pushButtonProfileEdit_clicked()
 {
-	QSkinDialog *dlgSkinProfile = new QSkinDialog(true, true, false, false, this);
-	DialogProfile *dlgProfile = new DialogProfile(this);
+	QSkinDialog* dlgSkinProfile = new QSkinDialog(true, true, false, false, this);
+	DialogProfile* dlgProfile = new DialogProfile(this);
 
 	dlgSkinProfile->addChildWidget(dlgProfile);
 
@@ -844,10 +845,10 @@ void DialogSettings::on_listWidgetSkins_itemClicked(QListWidgetItem* item)
 
 void DialogSettings::on_pushButtonSkinPreview_clicked()
 {
-	if (ui->listWidgetSkins->currentRow() != -1)
+	if(ui->listWidgetSkins->currentRow() != -1)
 	{
-		QSkinDialog *dlgSkinPreviewFrame = new QSkinDialog(true, true, false, true);
-		DialogSkinPreview *dlgSkinPreview = new DialogSkinPreview(this);
+		QSkinDialog* dlgSkinPreviewFrame = new QSkinDialog(true, true, false, true);
+		DialogSkinPreview* dlgSkinPreview = new DialogSkinPreview(this);
 
 		dlgSkinPreviewFrame->addChildWidget(dlgSkinPreview);
 
@@ -862,9 +863,9 @@ void DialogSettings::on_pushButtonFileTypesSafeOpenAdd_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sSafeOpenItem = QInputDialog::getText(this, tr("Add Safe To Open File Type"),
-													tr("Type the extension of the file type to add and press OK. \nWARNING: This file type will always be opened!"),
-													QLineEdit::Normal, "", &m_bOkPressed);
-	if (m_bOkPressed && (!m_sSafeOpenItem.isEmpty()))
+	                          tr("Type the extension of the file type to add and press OK. \nWARNING: This file type will always be opened!"),
+	                          QLineEdit::Normal, "", &m_bOkPressed);
+	if(m_bOkPressed && (!m_sSafeOpenItem.isEmpty()))
 	{
 		ui->listWidgetFileTypesSafeOpen->addItem(m_sSafeOpenItem);
 		ui->pushButtonApply->setEnabled(true);
@@ -875,9 +876,9 @@ void DialogSettings::on_pushButtonFileTypesNeverShareAdd_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sNeverShareItem = QInputDialog::getText(this, tr("Add Never Share File Type"),
-													  tr("Type the extension of the file type to add and press OK. \nWARNING: This file type will never be shared!"),
-													  QLineEdit::Normal, "", &m_bOkPressed);
-	if (m_bOkPressed && (!m_sNeverShareItem.isEmpty()))
+	                            tr("Type the extension of the file type to add and press OK. \nWARNING: This file type will never be shared!"),
+	                            QLineEdit::Normal, "", &m_bOkPressed);
+	if(m_bOkPressed && (!m_sNeverShareItem.isEmpty()))
 	{
 		ui->listWidgetFileTypesNeverShare->addItem(m_sNeverShareItem);
 		ui->pushButtonApply->setEnabled(true);
@@ -888,9 +889,9 @@ void DialogSettings::on_pushButtonAddManageDownloadTypes_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sDownloadManageItem = QInputDialog::getText(this, tr("Add Download Types to Manage"),
-													  tr("Type the extension of the file type you want the download manager to manage and press OK. \nQuazaa will detect downloads of these types and manage them for you."),
-													  QLineEdit::Normal, "", &m_bOkPressed);
-	if (m_bOkPressed && (!m_sDownloadManageItem.isEmpty()))
+	                                tr("Type the extension of the file type you want the download manager to manage and press OK. \nQuazaa will detect downloads of these types and manage them for you."),
+	                                QLineEdit::Normal, "", &m_bOkPressed);
+	if(m_bOkPressed && (!m_sDownloadManageItem.isEmpty()))
 	{
 		ui->listWidgetManageDownloadTypes->addItem(m_sDownloadManageItem);
 		ui->pushButtonApply->setEnabled(true);
@@ -901,9 +902,9 @@ void DialogSettings::on_pushButtonUserAgentAdd_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sUserAgentItem = QInputDialog::getText(this, tr("Add User Agents to Block"),
-													  tr("Type the vendor code of the client to block and press OK. \nWARNING: Quazaa will block all communications with this client!"),
-													  QLineEdit::Normal, "", &m_bOkPressed);
-	if (m_bOkPressed && (!m_sUserAgentItem.isEmpty()))
+	                           tr("Type the vendor code of the client to block and press OK. \nWARNING: Quazaa will block all communications with this client!"),
+	                           QLineEdit::Normal, "", &m_bOkPressed);
+	if(m_bOkPressed && (!m_sUserAgentItem.isEmpty()))
 	{
 		ui->listWidgetUserAgents->addItem(m_sUserAgentItem);
 		ui->pushButtonApply->setEnabled(true);
@@ -914,9 +915,9 @@ void DialogSettings::on_pushButtonAddParentalFilter_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sParentalFilterItem = QInputDialog::getText(this, tr("Add Words to Block"),
-													  tr("Type the word to block and press OK. \nWARNING: No downloads containing these words will be listed in searches \nand these words will be replaced by \"!%@$#\" in chat!"),
-													  QLineEdit::Normal, "", &m_bOkPressed);
-	if (m_bOkPressed && (!m_sParentalFilterItem.isEmpty()))
+	                                tr("Type the word to block and press OK. \nWARNING: No downloads containing these words will be listed in searches \nand these words will be replaced by \"!%@$#\" in chat!"),
+	                                QLineEdit::Normal, "", &m_bOkPressed);
+	if(m_bOkPressed && (!m_sParentalFilterItem.isEmpty()))
 	{
 		ui->listWidgetParentalFilter->addItem(m_sParentalFilterItem);
 		ui->pushButtonApply->setEnabled(true);
@@ -972,10 +973,10 @@ void DialogSettings::on_toolButtonSaveBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QString directory = QFileDialog::getExistingDirectory(this,
-							tr("Select A Location To Save Files"),
-							ui->lineEditSaveFolder->text(),
-							options);
-	if (!directory.isEmpty())
+	                    tr("Select A Location To Save Files"),
+	                    ui->lineEditSaveFolder->text(),
+	                    options);
+	if(!directory.isEmpty())
 	{
 		ui->lineEditSaveFolder->setText(directory);
 		ui->pushButtonApply->setEnabled(true);
@@ -986,10 +987,10 @@ void DialogSettings::on_toolButtonTempBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QString directory = QFileDialog::getExistingDirectory(this,
-							tr("Select A Folder For Temp Files"),
-							ui->lineEditTempFolder->text(),
-							options);
-	if (!directory.isEmpty())
+	                    tr("Select A Folder For Temp Files"),
+	                    ui->lineEditTempFolder->text(),
+	                    options);
+	if(!directory.isEmpty())
 	{
 		ui->lineEditTempFolder->setText(directory);
 		ui->pushButtonApply->setEnabled(true);
@@ -1000,10 +1001,10 @@ void DialogSettings::on_toolButtonTorrentBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QString directory = QFileDialog::getExistingDirectory(this,
-							tr("Select A Folder To Store .torrent Files"),
-							ui->lineEditTorrentFolder->text(),
-							options);
-	if (!directory.isEmpty())
+	                    tr("Select A Folder To Store .torrent Files"),
+	                    ui->lineEditTorrentFolder->text(),
+	                    options);
+	if(!directory.isEmpty())
 	{
 		ui->lineEditTorrentFolder->setText(directory);
 		ui->pushButtonApply->setEnabled(true);

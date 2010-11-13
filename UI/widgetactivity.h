@@ -26,30 +26,32 @@
 #include "widgetneighbours.h"
 #include "widgetsystemlog.h"
 
-namespace Ui {
-    class WidgetActivity;
+namespace Ui
+{
+	class WidgetActivity;
 }
 
-class WidgetActivity : public QWidget {
-    Q_OBJECT
+class WidgetActivity : public QWidget
+{
+	Q_OBJECT
 public:
-    WidgetActivity(QWidget *parent = 0);
-    ~WidgetActivity();
-	WidgetNeighbours *panelNeighbours;
-	WidgetSystemLog *panelSystemLog;
+	WidgetActivity(QWidget* parent = 0);
+	~WidgetActivity();
+	WidgetNeighbours* panelNeighbours;
+	WidgetSystemLog* panelSystemLog;
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetActivity *ui;
+	Ui::WidgetActivity* ui;
 
 private slots:
 	void on_toolButtonNeighboursHeader_clicked();
- void on_toolButtonSystemLogHeader_clicked();
- void on_splitterActivity_customContextMenuRequested(QPoint pos);
- void skinChangeEvent();
+	void on_toolButtonSystemLogHeader_clicked();
+	void on_splitterActivity_customContextMenuRequested(QPoint pos);
+	void skinChangeEvent();
 };
 
 #endif // WIDGETACTIVITY_H

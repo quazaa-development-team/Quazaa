@@ -36,15 +36,18 @@ GeoIPList::GeoIPList()
 void GeoIPList::loadGeoIP()
 {
 	QFile file(qApp->applicationDirPath() + "/GeoIP/geoip.dat");
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
 		return;
+	}
 
 	m_lDatabase.clear();
 
 	// TODO: optimize it
 
 	QTextStream in(&file);
-	while (!in.atEnd()) {
+	while(!in.atEnd())
+	{
 		QStringList line = in.readLine().split(" ");
 
 		IPv4_ENDPOINT rBegin(line[0] + ":0");
@@ -61,17 +64,19 @@ void GeoIPList::loadGeoIP()
 
 QString GeoIPList::findCountryCode(quint32& nIp, quint32 nBegin, quint32 nEnd)
 {
-	if( !m_bListLoaded )
+	if(!m_bListLoaded)
+	{
 		return "ZZ";
+	}
 
 	nEnd = qMin<quint32>(nEnd, m_lDatabase.size());
 
-	if( nEnd - nBegin < 3 )
+	if(nEnd - nBegin < 3)
 	{
 		// just in case...
-		for( uint i = nBegin; i <= nEnd; i++ )
+		for(uint i = nBegin; i <= nEnd; i++)
 		{
-			if( m_lDatabase[i].first <= nIp && m_lDatabase[i].second.first >= nIp )
+			if(m_lDatabase[i].first <= nIp && m_lDatabase[i].second.first >= nIp)
 			{
 				return m_lDatabase[i].second.second;
 			}
@@ -83,13 +88,13 @@ QString GeoIPList::findCountryCode(quint32& nIp, quint32 nBegin, quint32 nEnd)
 	{
 		int nIndex = ((nEnd - nBegin) / 2) + nBegin;
 
-		if( nIp > m_lDatabase[nIndex].first )
+		if(nIp > m_lDatabase[nIndex].first)
 		{
 			// range above half
 
 			return findCountryCode(nIp, nIndex, nEnd);
 		}
-		else if( nIp < m_lDatabase[nIndex].first )
+		else if(nIp < m_lDatabase[nIndex].first)
 		{
 			// range below half
 
@@ -103,506 +108,1008 @@ QString GeoIPList::findCountryCode(quint32& nIp, quint32 nBegin, quint32 nEnd)
 
 QString GeoIPList::countryNameFromCode(QString code)
 {
-	if (code == "AF")
+	if(code == "AF")
+	{
 		return qApp->tr("Afghanistan");
-	if (code == "AX")
+	}
+	if(code == "AX")
+	{
 		return qApp->tr("Aland Islands");
-	if (code == "AL")
+	}
+	if(code == "AL")
+	{
 		return qApp->tr("Albania");
-	if (code == "DZ")
+	}
+	if(code == "DZ")
+	{
 		return qApp->tr("Algeria");
-	if (code == "AS")
+	}
+	if(code == "AS")
+	{
 		return qApp->tr("American Samoa");
-	if (code == "AD")
+	}
+	if(code == "AD")
+	{
 		return qApp->tr("Andorra");
-	if (code == "AO")
+	}
+	if(code == "AO")
+	{
 		return qApp->tr("Angola");
-	if (code == "AI")
+	}
+	if(code == "AI")
+	{
 		return qApp->tr("Anguilla");
-	if (code == "AQ")
+	}
+	if(code == "AQ")
+	{
 		return qApp->tr("Antarctica");
-	if (code == "AG")
+	}
+	if(code == "AG")
+	{
 		return qApp->tr("Antigua And Barbuda");
-	if (code == "AR")
+	}
+	if(code == "AR")
+	{
 		return qApp->tr("Argentina");
-	if (code == "AM")
+	}
+	if(code == "AM")
+	{
 		return qApp->tr("Armenia");
-	if (code == "AW")
+	}
+	if(code == "AW")
+	{
 		return qApp->tr("Aruba");
-	if (code == "AU")
+	}
+	if(code == "AU")
+	{
 		return qApp->tr("Australia");
-	if (code == "AT")
+	}
+	if(code == "AT")
+	{
 		return qApp->tr("Austria");
-	if (code == "AZ")
+	}
+	if(code == "AZ")
+	{
 		return qApp->tr("Azerbaijan");
-	if (code == "BS")
+	}
+	if(code == "BS")
+	{
 		return qApp->tr("Bahamas");
-	if (code == "BH")
+	}
+	if(code == "BH")
+	{
 		return qApp->tr("Bahrain");
-	if (code == "BD")
+	}
+	if(code == "BD")
+	{
 		return qApp->tr("Bangladesh");
-	if (code == "BB")
+	}
+	if(code == "BB")
+	{
 		return qApp->tr("Barbados");
-	if (code == "BY")
+	}
+	if(code == "BY")
+	{
 		return qApp->tr("Belarus");
-	if (code == "BE")
+	}
+	if(code == "BE")
+	{
 		return qApp->tr("Belgium");
-	if (code == "BZ")
+	}
+	if(code == "BZ")
+	{
 		return qApp->tr("Belize");
-	if (code == "BJ")
+	}
+	if(code == "BJ")
+	{
 		return qApp->tr("Benin");
-	if (code == "BM")
+	}
+	if(code == "BM")
+	{
 		return qApp->tr("Bermuda");
-	if (code == "BT")
+	}
+	if(code == "BT")
+	{
 		return qApp->tr("Bhutan");
-	if (code == "BO")
+	}
+	if(code == "BO")
+	{
 		return qApp->tr("Bolivia, Plurinational State Of");
-	if (code == "BA")
+	}
+	if(code == "BA")
+	{
 		return qApp->tr("Bosnia And Herzegovina");
-	if (code == "BW")
+	}
+	if(code == "BW")
+	{
 		return qApp->tr("Botswana");
-	if (code == "BV")
+	}
+	if(code == "BV")
+	{
 		return qApp->tr("Bouvet Island");
-	if (code == "BR")
+	}
+	if(code == "BR")
+	{
 		return qApp->tr("Brazil");
-	if (code == "IO")
+	}
+	if(code == "IO")
+	{
 		return qApp->tr("British Indian Ocean Territory");
-	if (code == "BN")
+	}
+	if(code == "BN")
+	{
 		return qApp->tr("Brunei Darussalam");
-	if (code == "BG")
+	}
+	if(code == "BG")
+	{
 		return qApp->tr("Bulgaria");
-	if (code == "BF")
+	}
+	if(code == "BF")
+	{
 		return qApp->tr("Burkina Faso");
-	if (code == "BI")
+	}
+	if(code == "BI")
+	{
 		return qApp->tr("Burundi");
-	if (code == "KH")
+	}
+	if(code == "KH")
+	{
 		return qApp->tr("Cambodia");
-	if (code == "CM")
+	}
+	if(code == "CM")
+	{
 		return qApp->tr("Cameroon");
-	if (code == "CA")
+	}
+	if(code == "CA")
+	{
 		return qApp->tr("Canada");
-	if (code == "CV")
+	}
+	if(code == "CV")
+	{
 		return qApp->tr("Cape Verde");
-	if (code == "KY")
+	}
+	if(code == "KY")
+	{
 		return qApp->tr("Cayman Islands");
-	if (code == "CF")
+	}
+	if(code == "CF")
+	{
 		return qApp->tr("Central African Republic");
-	if (code == "TD")
+	}
+	if(code == "TD")
+	{
 		return qApp->tr("Chad");
-	if (code == "CL")
+	}
+	if(code == "CL")
+	{
 		return qApp->tr("Chile");
-	if (code == "CN")
+	}
+	if(code == "CN")
+	{
 		return qApp->tr("China");
-	if (code == "CX")
+	}
+	if(code == "CX")
+	{
 		return qApp->tr("Christmas Island");
-	if (code == "CC")
+	}
+	if(code == "CC")
+	{
 		return qApp->tr("Cocos (Keeling) Islands");
-	if (code == "CO")
+	}
+	if(code == "CO")
+	{
 		return qApp->tr("Colombia");
-	if (code == "KM")
+	}
+	if(code == "KM")
+	{
 		return qApp->tr("Comoros");
-	if (code == "CG")
+	}
+	if(code == "CG")
+	{
 		return qApp->tr("Congo");
-	if (code == "CD")
+	}
+	if(code == "CD")
+	{
 		return qApp->tr("Congo, The Democratic Republic Of The");
-	if (code == "CK")
+	}
+	if(code == "CK")
+	{
 		return qApp->tr("Cook Islands");
-	if (code == "CR")
+	}
+	if(code == "CR")
+	{
 		return qApp->tr("Costa Rica");
-	if (code == "CI")
+	}
+	if(code == "CI")
+	{
 		return qApp->tr("Cote D'Ivoire");
-	if (code == "HR")
+	}
+	if(code == "HR")
+	{
 		return qApp->tr("Croatia");
-	if (code == "CU")
+	}
+	if(code == "CU")
+	{
 		return qApp->tr("Cuba");
-	if (code == "CY")
+	}
+	if(code == "CY")
+	{
 		return qApp->tr("Cyprus");
-	if (code == "CZ")
+	}
+	if(code == "CZ")
+	{
 		return qApp->tr("Czech Republic");
-	if (code == "DK")
+	}
+	if(code == "DK")
+	{
 		return qApp->tr("Denmark");
-	if (code == "DJ")
+	}
+	if(code == "DJ")
+	{
 		return qApp->tr("Djibouti");
-	if (code == "DM")
+	}
+	if(code == "DM")
+	{
 		return qApp->tr("Dominica");
-	if (code == "DO")
+	}
+	if(code == "DO")
+	{
 		return qApp->tr("Dominican Republic");
-	if (code == "EC")
+	}
+	if(code == "EC")
+	{
 		return qApp->tr("Ecuador");
-	if (code == "EG")
+	}
+	if(code == "EG")
+	{
 		return qApp->tr("Egypt");
-	if (code == "SV")
+	}
+	if(code == "SV")
+	{
 		return qApp->tr("El Salvador");
-	if (code == "GQ")
+	}
+	if(code == "GQ")
+	{
 		return qApp->tr("Equatorial Guinea");
-	if (code == "ER")
+	}
+	if(code == "ER")
+	{
 		return qApp->tr("Eritrea");
-	if (code == "EE")
+	}
+	if(code == "EE")
+	{
 		return qApp->tr("Estonia");
-	if (code == "ET")
+	}
+	if(code == "ET")
+	{
 		return qApp->tr("Ethiopia");
-	if (code == "EU")
+	}
+	if(code == "EU")
+	{
 		return qApp->tr("European Union");
-	if (code == "FK")
+	}
+	if(code == "FK")
+	{
 		return qApp->tr("Falkland Islands (Malvinas)");
-	if (code == "FO")
+	}
+	if(code == "FO")
+	{
 		return qApp->tr("Faroe Islands");
-	if (code == "FJ")
+	}
+	if(code == "FJ")
+	{
 		return qApp->tr("Fiji");
-	if (code == "FI")
+	}
+	if(code == "FI")
+	{
 		return qApp->tr("Finland");
-	if (code == "FR")
+	}
+	if(code == "FR")
+	{
 		return qApp->tr("France");
-	if (code == "GF")
+	}
+	if(code == "GF")
+	{
 		return qApp->tr("French Guiana");
-	if (code == "PF")
+	}
+	if(code == "PF")
+	{
 		return qApp->tr("French Polynesia");
-	if (code == "TF")
+	}
+	if(code == "TF")
+	{
 		return qApp->tr("French Southern Territories");
-	if (code == "GA")
+	}
+	if(code == "GA")
+	{
 		return qApp->tr("Gabon");
-	if (code == "GM")
+	}
+	if(code == "GM")
+	{
 		return qApp->tr("Gambia");
-	if (code == "GE")
+	}
+	if(code == "GE")
+	{
 		return qApp->tr("Georgia");
-	if (code == "DE")
+	}
+	if(code == "DE")
+	{
 		return qApp->tr("Germany");
-	if (code == "GH")
+	}
+	if(code == "GH")
+	{
 		return qApp->tr("Ghana");
-	if (code == "GI")
+	}
+	if(code == "GI")
+	{
 		return qApp->tr("Gibraltar");
-	if (code == "GR")
+	}
+	if(code == "GR")
+	{
 		return qApp->tr("Greece");
-	if (code == "GL")
+	}
+	if(code == "GL")
+	{
 		return qApp->tr("Greenland");
-	if (code == "GD")
+	}
+	if(code == "GD")
+	{
 		return qApp->tr("Grenada");
-	if (code == "GP")
+	}
+	if(code == "GP")
+	{
 		return qApp->tr("Guadeloupe");
-	if (code == "GU")
+	}
+	if(code == "GU")
+	{
 		return qApp->tr("Guam");
-	if (code == "GT")
+	}
+	if(code == "GT")
+	{
 		return qApp->tr("Guatemala");
-	if (code == "GG")
+	}
+	if(code == "GG")
+	{
 		return qApp->tr("Guernsey");
-	if (code == "GN")
+	}
+	if(code == "GN")
+	{
 		return qApp->tr("Guinea");
-	if (code == "GW")
+	}
+	if(code == "GW")
+	{
 		return qApp->tr("Guinea-Bissau");
-	if (code == "GY")
+	}
+	if(code == "GY")
+	{
 		return qApp->tr("Guyana");
-	if (code == "HT")
+	}
+	if(code == "HT")
+	{
 		return qApp->tr("Haiti");
-	if (code == "HM")
+	}
+	if(code == "HM")
+	{
 		return qApp->tr("Heard Island And McDonald Islands");
-	if (code == "VA")
+	}
+	if(code == "VA")
+	{
 		return qApp->tr("Holy See (Vatican City State)");
-	if (code == "HN")
+	}
+	if(code == "HN")
+	{
 		return qApp->tr("Honduras");
-	if (code == "HK")
+	}
+	if(code == "HK")
+	{
 		return qApp->tr("Hong Kong");
-	if (code == "HU")
+	}
+	if(code == "HU")
+	{
 		return qApp->tr("Hungary");
-	if (code == "IS")
+	}
+	if(code == "IS")
+	{
 		return qApp->tr("Iceland");
-	if (code == "IN")
+	}
+	if(code == "IN")
+	{
 		return qApp->tr("India");
-	if (code == "ID")
+	}
+	if(code == "ID")
+	{
 		return qApp->tr("Indonesia");
-	if (code == "IR")
+	}
+	if(code == "IR")
+	{
 		return qApp->tr("Iran (Islamic Republic Of)");
-	if (code == "IQ")
+	}
+	if(code == "IQ")
+	{
 		return qApp->tr("Iraq");
-	if (code == "IE")
+	}
+	if(code == "IE")
+	{
 		return qApp->tr("Ireland");
-	if (code == "IM")
+	}
+	if(code == "IM")
+	{
 		return qApp->tr("Isle Of Man");
-	if (code == "IL")
+	}
+	if(code == "IL")
+	{
 		return qApp->tr("Israel");
-	if (code == "IT")
+	}
+	if(code == "IT")
+	{
 		return qApp->tr("Italy");
-	if (code == "JM")
+	}
+	if(code == "JM")
+	{
 		return qApp->tr("Jamaica");
-	if (code == "JP")
+	}
+	if(code == "JP")
+	{
 		return qApp->tr("Japan");
-	if (code == "JE")
+	}
+	if(code == "JE")
+	{
 		return qApp->tr("Jersey");
-	if (code == "JO")
+	}
+	if(code == "JO")
+	{
 		return qApp->tr("Jordan");
-	if (code == "KZ")
+	}
+	if(code == "KZ")
+	{
 		return qApp->tr("Kazakhstan");
-	if (code == "KE")
+	}
+	if(code == "KE")
+	{
 		return qApp->tr("Kenya");
-	if (code == "KI")
+	}
+	if(code == "KI")
+	{
 		return qApp->tr("Kiribati");
-	if (code == "KP")
+	}
+	if(code == "KP")
+	{
 		return qApp->tr("Korea, Democratic People's Republic Of");
-	if (code == "KR")
+	}
+	if(code == "KR")
+	{
 		return qApp->tr("Korea, Republic Of");
-	if (code == "KW")
+	}
+	if(code == "KW")
+	{
 		return qApp->tr("Kuwait");
-	if (code == "KG")
+	}
+	if(code == "KG")
+	{
 		return qApp->tr("Kyrgyzsyan");
-	if (code == "LA")
+	}
+	if(code == "LA")
+	{
 		return qApp->tr("Lao People's Democratic Republic");
-	if (code == "LV")
+	}
+	if(code == "LV")
+	{
 		return qApp->tr("Latvia");
-	if (code == "LB")
+	}
+	if(code == "LB")
+	{
 		return qApp->tr("Lebanon");
-	if (code == "LS")
+	}
+	if(code == "LS")
+	{
 		return qApp->tr("Lesotho");
-	if (code == "LR")
+	}
+	if(code == "LR")
+	{
 		return qApp->tr("Liberia");
-	if (code == "LY")
+	}
+	if(code == "LY")
+	{
 		return qApp->tr("Libyan Arab Jamahiriya");
-	if (code == "LI")
+	}
+	if(code == "LI")
+	{
 		return qApp->tr("Lirchtenstein");
-	if (code == "LT")
+	}
+	if(code == "LT")
+	{
 		return qApp->tr("Lithuania");
-	if (code == "LU")
+	}
+	if(code == "LU")
+	{
 		return qApp->tr("Luxembourg");
-	if (code == "MO")
+	}
+	if(code == "MO")
+	{
 		return qApp->tr("Macao");
-	if (code == "MK")
+	}
+	if(code == "MK")
+	{
 		return qApp->tr("Macedonia, The Former Yugoslav Republic Of");
-	if (code == "MG")
+	}
+	if(code == "MG")
+	{
 		return qApp->tr("Madagascar");
-	if (code == "MW")
+	}
+	if(code == "MW")
+	{
 		return qApp->tr("Malawi");
-	if (code == "MY")
+	}
+	if(code == "MY")
+	{
 		return qApp->tr("Malaysia");
-	if (code == "MV")
+	}
+	if(code == "MV")
+	{
 		return qApp->tr("Maldives");
-	if (code == "ML")
+	}
+	if(code == "ML")
+	{
 		return qApp->tr("Mali");
-	if (code == "MT")
+	}
+	if(code == "MT")
+	{
 		return qApp->tr("Malta");
-	if (code == "MH")
+	}
+	if(code == "MH")
+	{
 		return qApp->tr("Marshall Islands");
-	if (code == "MQ")
+	}
+	if(code == "MQ")
+	{
 		return qApp->tr("Martinique");
-	if (code == "MR")
+	}
+	if(code == "MR")
+	{
 		return qApp->tr("Mauritania");
-	if (code == "MU")
+	}
+	if(code == "MU")
+	{
 		return qApp->tr("Mauritius");
-	if (code == "YT")
+	}
+	if(code == "YT")
+	{
 		return qApp->tr("Mayotte");
-	if (code == "MX")
+	}
+	if(code == "MX")
+	{
 		return qApp->tr("Mexico");
-	if (code == "FM")
+	}
+	if(code == "FM")
+	{
 		return qApp->tr("Mirconesia, Federated States Of");
-	if (code == "MD")
+	}
+	if(code == "MD")
+	{
 		return qApp->tr("Moldova, Republic Of");
-	if (code == "MC")
+	}
+	if(code == "MC")
+	{
 		return qApp->tr("Monacao");
-	if (code == "MN")
+	}
+	if(code == "MN")
+	{
 		return qApp->tr("Mongolia");
-	if (code == "ME")
+	}
+	if(code == "ME")
+	{
 		return qApp->tr("Montenegro");
-	if (code == "MS")
+	}
+	if(code == "MS")
+	{
 		return qApp->tr("Montserrat");
-	if (code == "MA")
+	}
+	if(code == "MA")
+	{
 		return qApp->tr("Morocco");
-	if (code == "MZ")
+	}
+	if(code == "MZ")
+	{
 		return qApp->tr("Mozambique");
-	if (code == "MM")
+	}
+	if(code == "MM")
+	{
 		return qApp->tr("Myanmar");
-	if (code == "NA")
+	}
+	if(code == "NA")
+	{
 		return qApp->tr("Namibia");
-	if (code == "NR")
+	}
+	if(code == "NR")
+	{
 		return qApp->tr("Nauru");
-	if (code == "NP")
+	}
+	if(code == "NP")
+	{
 		return qApp->tr("Nepal");
-	if (code == "NL")
+	}
+	if(code == "NL")
+	{
 		return qApp->tr("Netherlands");
-	if (code == "AN")
+	}
+	if(code == "AN")
+	{
 		return qApp->tr("Netherlands Anitlles");
-	if (code == "NC")
+	}
+	if(code == "NC")
+	{
 		return qApp->tr("New Caledonia");
-	if (code == "NZ")
+	}
+	if(code == "NZ")
+	{
 		return qApp->tr("New Zealand");
-	if (code == "NI")
+	}
+	if(code == "NI")
+	{
 		return qApp->tr("Nicaragua");
-	if (code == "NE")
+	}
+	if(code == "NE")
+	{
 		return qApp->tr("Niger");
-	if (code == "NG")
+	}
+	if(code == "NG")
+	{
 		return qApp->tr("Nigeria");
-	if (code == "NU")
+	}
+	if(code == "NU")
+	{
 		return qApp->tr("Niue");
-	if (code == "NF")
+	}
+	if(code == "NF")
+	{
 		return qApp->tr("Norfolk Island");
-	if (code == "MP")
+	}
+	if(code == "MP")
+	{
 		return qApp->tr("Northern Mariana Islands");
-	if (code == "NO")
+	}
+	if(code == "NO")
+	{
 		return qApp->tr("Norway");
-	if (code == "OM")
+	}
+	if(code == "OM")
+	{
 		return qApp->tr("Oman");
-	if (code == "PK")
+	}
+	if(code == "PK")
+	{
 		return qApp->tr("Pakistan");
-	if (code == "PW")
+	}
+	if(code == "PW")
+	{
 		return qApp->tr("Palau");
-	if (code == "PS")
+	}
+	if(code == "PS")
+	{
 		return qApp->tr("Palestinian Territory, Occupied");
-	if (code == "PA")
+	}
+	if(code == "PA")
+	{
 		return qApp->tr("Panama");
-	if (code == "PG")
+	}
+	if(code == "PG")
+	{
 		return qApp->tr("Papua New Guinea");
-	if (code == "PY")
+	}
+	if(code == "PY")
+	{
 		return qApp->tr("Paraguay");
-	if (code == "PE")
+	}
+	if(code == "PE")
+	{
 		return qApp->tr("Peru");
-	if (code == "PH")
+	}
+	if(code == "PH")
+	{
 		return qApp->tr("Philippines");
-	if (code == "PN")
+	}
+	if(code == "PN")
+	{
 		return qApp->tr("Pitcairn");
-	if (code == "PL")
+	}
+	if(code == "PL")
+	{
 		return qApp->tr("Poland");
-	if (code == "PT")
+	}
+	if(code == "PT")
+	{
 		return qApp->tr("Portugal");
-	if (code == "PR")
+	}
+	if(code == "PR")
+	{
 		return qApp->tr("Puerto Rico");
-	if (code == "QA")
+	}
+	if(code == "QA")
+	{
 		return qApp->tr("Qatar");
-	if (code == "RE")
+	}
+	if(code == "RE")
+	{
 		return qApp->tr("Reunion");
-	if (code == "RO")
+	}
+	if(code == "RO")
+	{
 		return qApp->tr("Romania");
-	if (code == "RU")
+	}
+	if(code == "RU")
+	{
 		return qApp->tr("Russian Federation");
-	if (code == "RW")
+	}
+	if(code == "RW")
+	{
 		return qApp->tr("Rwanda");
-	if (code == "BL")
+	}
+	if(code == "BL")
+	{
 		return qApp->tr("Saint Barthelemy");
-	if (code == "SH")
+	}
+	if(code == "SH")
+	{
 		return qApp->tr("Saint Helena, Ascension And Tristan Da Cunha");
-	if (code == "KN")
+	}
+	if(code == "KN")
+	{
 		return qApp->tr("Saint Kitts And Nevis");
-	if (code == "LC")
+	}
+	if(code == "LC")
+	{
 		return qApp->tr("Saint Lucia");
-	if (code == "MT")
+	}
+	if(code == "MT")
+	{
 		return qApp->tr("Saint Martin (French Part)");
-	if (code == "PM")
+	}
+	if(code == "PM")
+	{
 		return qApp->tr("Saint Pierre And Miquelon");
-	if (code == "VC")
+	}
+	if(code == "VC")
+	{
 		return qApp->tr("Saint Vincent And The Grenadines");
-	if (code == "WS")
+	}
+	if(code == "WS")
+	{
 		return qApp->tr("Samoa");
-	if (code == "SM")
+	}
+	if(code == "SM")
+	{
 		return qApp->tr("San Marino");
-	if (code == "ST")
+	}
+	if(code == "ST")
+	{
 		return qApp->tr("Sao Tome And Principe");
-	if (code == "SA")
+	}
+	if(code == "SA")
+	{
 		return qApp->tr("Saudi Arabia");
-	if (code == "SN")
+	}
+	if(code == "SN")
+	{
 		return qApp->tr("Senegal");
-	if (code == "RS")
+	}
+	if(code == "RS")
+	{
 		return qApp->tr("Serbia");
-	if (code == "CS")
+	}
+	if(code == "CS")
+	{
 		return qApp->tr("Serbia and Montenegro");
-	if (code == "SC")
+	}
+	if(code == "SC")
+	{
 		return qApp->tr("Seychelles");
-	if (code == "SL")
+	}
+	if(code == "SL")
+	{
 		return qApp->tr("Sierra Leone");
-	if (code == "SG")
+	}
+	if(code == "SG")
+	{
 		return qApp->tr("Singapore");
-	if (code == "SK")
+	}
+	if(code == "SK")
+	{
 		return qApp->tr("Slovakia");
-	if (code == "SI")
+	}
+	if(code == "SI")
+	{
 		return qApp->tr("Slovenia");
-	if (code == "SB")
+	}
+	if(code == "SB")
+	{
 		return qApp->tr("Solomon Islands");
-	if (code == "SO")
+	}
+	if(code == "SO")
+	{
 		return qApp->tr("Somalia");
-	if (code == "ZA")
+	}
+	if(code == "ZA")
+	{
 		return qApp->tr("South Africa");
-	if (code == "GS")
+	}
+	if(code == "GS")
+	{
 		return qApp->tr("South Georgia And The South Sandwich Islands");
-	if (code == "ES")
+	}
+	if(code == "ES")
+	{
 		return qApp->tr("Spain");
-	if (code == "LK")
+	}
+	if(code == "LK")
+	{
 		return qApp->tr("Sri Lanka");
-	if (code == "SD")
+	}
+	if(code == "SD")
+	{
 		return qApp->tr("Sudan");
-	if (code == "SR")
+	}
+	if(code == "SR")
+	{
 		return qApp->tr("Suriname");
-	if (code == "SJ")
+	}
+	if(code == "SJ")
+	{
 		return qApp->tr("Svalbard And Jan Mayen");
-	if (code == "SZ")
+	}
+	if(code == "SZ")
+	{
 		return qApp->tr("Swaziland");
-	if (code == "SE")
+	}
+	if(code == "SE")
+	{
 		return qApp->tr("Sweden");
-	if (code == "CH")
+	}
+	if(code == "CH")
+	{
 		return qApp->tr("Switzerland");
-	if (code == "SY")
+	}
+	if(code == "SY")
+	{
 		return qApp->tr("Syrian Arab Republic");
-	if (code == "TW")
+	}
+	if(code == "TW")
+	{
 		return qApp->tr("Taiwan, Province Of China");
-	if (code == "TJ")
+	}
+	if(code == "TJ")
+	{
 		return qApp->tr("Tajikistan");
-	if (code == "TZ")
+	}
+	if(code == "TZ")
+	{
 		return qApp->tr("Tanzania, United Republic Of");
-	if (code == "TH")
+	}
+	if(code == "TH")
+	{
 		return qApp->tr("Thailand");
-	if (code == "TL")
+	}
+	if(code == "TL")
+	{
 		return qApp->tr("Timor-Leste");
-	if (code == "TG")
+	}
+	if(code == "TG")
+	{
 		return qApp->tr("Togo");
-	if (code == "TK")
+	}
+	if(code == "TK")
+	{
 		return qApp->tr("Tokelau");
-	if (code == "TO")
+	}
+	if(code == "TO")
+	{
 		return qApp->tr("Tonga");
-	if (code == "TT")
+	}
+	if(code == "TT")
+	{
 		return qApp->tr("Trinadad And Tobago");
-	if (code == "TN")
+	}
+	if(code == "TN")
+	{
 		return qApp->tr("Tunisia");
-	if (code == "TR")
+	}
+	if(code == "TR")
+	{
 		return qApp->tr("Turkey");
-	if (code == "TM")
+	}
+	if(code == "TM")
+	{
 		return qApp->tr("Turkmenistan");
-	if (code == "TC")
+	}
+	if(code == "TC")
+	{
 		return qApp->tr("Turks And Caicos Islands");
-	if (code == "TV")
+	}
+	if(code == "TV")
+	{
 		return qApp->tr("Tubalu");
-	if (code == "UG")
+	}
+	if(code == "UG")
+	{
 		return qApp->tr("Uganda");
-	if (code == "UA")
+	}
+	if(code == "UA")
+	{
 		return qApp->tr("Ukraine");
-	if (code == "AE")
+	}
+	if(code == "AE")
+	{
 		return qApp->tr("United Arab Emirates");
-	if (code == "GB")
+	}
+	if(code == "GB")
+	{
 		return qApp->tr("United Kingdom");
-	if (code == "US")
+	}
+	if(code == "US")
+	{
 		return qApp->tr("United States");
-	if (code == "UM")
+	}
+	if(code == "UM")
+	{
 		return qApp->tr("United States Minor Ooutlying Islands");
-	if (code == "UY")
+	}
+	if(code == "UY")
+	{
 		return qApp->tr("Uraguay");
-	if (code == "UZ")
+	}
+	if(code == "UZ")
+	{
 		return qApp->tr("Uzbekistan");
-	if (code == "VU")
+	}
+	if(code == "VU")
+	{
 		return qApp->tr("Vanuatu");
-	if (code == "VA")
+	}
+	if(code == "VA")
+	{
 		return qApp->tr("Vatican City State (Holy See)");
-	if (code == "VE")
+	}
+	if(code == "VE")
+	{
 		return qApp->tr("Venezuela, Boliviarian Ropublic Of");
-	if (code == "VN")
+	}
+	if(code == "VN")
+	{
 		return qApp->tr("Viet Nam");
-	if (code == "VG")
+	}
+	if(code == "VG")
+	{
 		return qApp->tr("Virgin Islands (British)");
-	if (code == "VI")
+	}
+	if(code == "VI")
+	{
 		return qApp->tr("Virgin Islands (U.S.)");
-	if (code == "WF")
+	}
+	if(code == "WF")
+	{
 		return qApp->tr("Wallis And Futuna");
-	if (code == "EH")
+	}
+	if(code == "EH")
+	{
 		return qApp->tr("Western Sahara");
-	if (code == "YE")
+	}
+	if(code == "YE")
+	{
 		return qApp->tr("Yemen");
-	if (code == "YU")
+	}
+	if(code == "YU")
+	{
 		return qApp->tr("Yugoslavia");
-	if (code == "ZM")
+	}
+	if(code == "ZM")
+	{
 		return qApp->tr("Zambia");
-	if (code == "ZW")
+	}
+	if(code == "ZW")
+	{
 		return qApp->tr("Zimbabwe");
+	}
 	else
+	{
 		return qApp->tr("Unknown");
+	}
 }

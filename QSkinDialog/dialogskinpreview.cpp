@@ -13,7 +13,7 @@
 #include "dialogskinpreview.h"
 #include "ui_dialogskinpreview.h"
 
-DialogSkinPreview::DialogSkinPreview(QWidget *parent) :
+DialogSkinPreview::DialogSkinPreview(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::DialogSkinPreview)
 {
@@ -28,15 +28,16 @@ DialogSkinPreview::~DialogSkinPreview()
 	delete ui;
 }
 
-void DialogSkinPreview::changeEvent(QEvent *e)
+void DialogSkinPreview::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

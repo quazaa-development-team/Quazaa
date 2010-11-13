@@ -29,77 +29,87 @@
 #include <QMutexLocker>
 #include <QWaitCondition>
 
-class CThread:public QThread
+class CThread: public QThread
 {
-    Q_OBJECT
+	Q_OBJECT
 
-    QMutex*         m_pMutex;
-    QWaitCondition  m_oStartCond;
-    QObject*        m_pTargetObject;
+	QMutex*         m_pMutex;
+	QWaitCondition  m_oStartCond;
+	QObject*        m_pTargetObject;
 	QString			m_sThreadName;
 public:
-    CThread(QObject* parent = 0);
+	CThread(QObject* parent = 0);
 
 	void start(QString strName, QMutex* pMutex, QObject* pTargetObj = 0, Priority p = InheritPriority)
-    {
+	{
 		m_sThreadName = strName;
 
 		qDebug() << strName << "Thread::start";
-        //QMutexLocker l(pMutex);
-        m_pMutex = pMutex;
-        m_pTargetObject = pTargetObj;
-        if( pTargetObj )
-            pTargetObj->moveToThread(this);
+		//QMutexLocker l(pMutex);
+		m_pMutex = pMutex;
+		m_pTargetObject = pTargetObj;
+		if(pTargetObj)
+		{
+			pTargetObj->moveToThread(this);
+		}
 		qDebug() << strName << "Starting...";
-        QThread::start(p);
+		QThread::start(p);
 		qDebug() << strName << "Waiting for thread to start...";
-        if( !isRunning() )
-            m_oStartCond.wait(m_pMutex);
+		if(!isRunning())
+		{
+			m_oStartCond.wait(m_pMutex);
+		}
 		qDebug() << strName << "Thread started";
-    }
+	}
 
-    void exit(int retcode)
-    {
-        //QMutexLocker l(m_pMutex);
+	void exit(int retcode)
+	{
+		//QMutexLocker l(m_pMutex);
 		qDebug() << m_sThreadName << "Exiting thread";
-        QThread::exit(retcode);
+		QThread::exit(retcode);
 		qDebug() << m_sThreadName << "Waiting for thread to finish...";
 
-        if( isRunning() )
-            m_oStartCond.wait(m_pMutex);
-        //wait();
+		if(isRunning())
+		{
+			m_oStartCond.wait(m_pMutex);
+		}
+		//wait();
 		qDebug() << m_sThreadName << "Thread Finished";
-    }
+	}
 
 protected:
-    void run()
-    {
-        QMutexLocker l(m_pMutex);
-        msleep(50);
+	void run()
+	{
+		QMutexLocker l(m_pMutex);
+		msleep(50);
 
-        if( m_pTargetObject)
-        {
-            if( !QMetaObject::invokeMethod(m_pTargetObject, "SetupThread", Qt::DirectConnection) )
-                qWarning() << "Failed to call target's SetupThread method";
-        }
+		if(m_pTargetObject)
+		{
+			if(!QMetaObject::invokeMethod(m_pTargetObject, "SetupThread", Qt::DirectConnection))
+			{
+				qWarning() << "Failed to call target's SetupThread method";
+			}
+		}
 
-        m_oStartCond.wakeAll();
+		m_oStartCond.wakeAll();
 
-        l.unlock();
+		l.unlock();
 
-        exec();
+		exec();
 
-        l.relock();
+		l.relock();
 
-        if( m_pTargetObject)
-        {
-            if( !QMetaObject::invokeMethod(m_pTargetObject, "CleanupThread", Qt::DirectConnection) )
-                qWarning() << "Failed to call target's CleanupThread method";
-        }
+		if(m_pTargetObject)
+		{
+			if(!QMetaObject::invokeMethod(m_pTargetObject, "CleanupThread", Qt::DirectConnection))
+			{
+				qWarning() << "Failed to call target's CleanupThread method";
+			}
+		}
 
-        msleep(50);
-        m_oStartCond.wakeAll();
-    }
+		msleep(50);
+		m_oStartCond.wakeAll();
+	}
 };
 
 

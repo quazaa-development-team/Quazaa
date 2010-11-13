@@ -23,7 +23,7 @@
 #include "ui_dialogdownloadmonitor.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogDownloadMonitor::DialogDownloadMonitor(QWidget *parent) :
+DialogDownloadMonitor::DialogDownloadMonitor(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogDownloadMonitor)
 {
@@ -37,15 +37,16 @@ DialogDownloadMonitor::~DialogDownloadMonitor()
 	delete m_ui;
 }
 
-void DialogDownloadMonitor::changeEvent(QEvent *e)
+void DialogDownloadMonitor::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -62,8 +63,8 @@ void DialogDownloadMonitor::on_pushButton_clicked()
 }
 
 void DialogDownloadMonitor::updateProgress(int percent, QString transferSpeed, QString timeRemaining,
-										   QString volumeDownloaded, QString numberSources, QPixmap icon,
-										   QString status, QString file)
+        QString volumeDownloaded, QString numberSources, QPixmap icon,
+        QString status, QString file)
 {
 	m_ui->progressBarStatus->setValue(percent);
 	m_ui->labelEstimatedTimeRemaining->setText(timeRemaining);

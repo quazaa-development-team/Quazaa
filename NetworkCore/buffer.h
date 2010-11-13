@@ -25,12 +25,12 @@ class QByteArray;
 class CBuffer
 {
 protected:
-	char*	m_pBuffer;	// allocated block
+	char* 	m_pBuffer;	// allocated block
 	quint32	m_nLength;	// length of data it stores
 	quint32	m_nBuffer;	// length of this block
 	quint32 m_nMinimum;
 
-// inlines
+	// inlines
 public:
 	inline char* data()
 	{

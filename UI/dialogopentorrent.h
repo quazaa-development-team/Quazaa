@@ -24,22 +24,24 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogOpenTorrent;
 }
 
-class DialogOpenTorrent : public QDialog {
+class DialogOpenTorrent : public QDialog
+{
 	Q_OBJECT
 	Q_DISABLE_COPY(DialogOpenTorrent)
 public:
-	explicit DialogOpenTorrent(QWidget *parent = 0);
+	explicit DialogOpenTorrent(QWidget* parent = 0);
 	virtual ~DialogOpenTorrent();
 
 protected:
-	virtual void changeEvent(QEvent *e);
+	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogOpenTorrent *m_ui;
+	Ui::DialogOpenTorrent* m_ui;
 
 signals:
 	void closed();

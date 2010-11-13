@@ -28,7 +28,7 @@
 #include "QSkinDialog/qskindialog.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogAbout::DialogAbout(QWidget *parent) :
+DialogAbout::DialogAbout(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAbout)
 {
@@ -43,14 +43,15 @@ DialogAbout::~DialogAbout()
 	delete m_ui;
 }
 
-void DialogAbout::changeEvent(QEvent *e)
+void DialogAbout::changeEvent(QEvent* e)
 {
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

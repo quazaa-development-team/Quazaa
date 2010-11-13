@@ -24,24 +24,26 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogTransferProgressTooltip;
 }
 
-class DialogTransferProgressTooltip : public QDialog {
+class DialogTransferProgressTooltip : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogTransferProgressTooltip(QWidget *parent = 0);
+	DialogTransferProgressTooltip(QWidget* parent = 0);
 	~DialogTransferProgressTooltip();
 	void updateProgress(int percent, QString transferSpeed, QString timeRemaining, QString volumeDownloaded,
-						QString numberSources, QPixmap icon, QString file, QString size, QString type,
-						QStringList hashes);
+	                    QString numberSources, QPixmap icon, QString file, QString size, QString type,
+	                    QStringList hashes);
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogTransferProgressTooltip *m_ui;
+	Ui::DialogTransferProgressTooltip* m_ui;
 	void skinChangeEvent();
 };
 

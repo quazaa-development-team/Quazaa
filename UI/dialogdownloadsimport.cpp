@@ -23,7 +23,7 @@
 #include "ui_dialogdownloadsimport.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogDownloadsImport::DialogDownloadsImport(QWidget *parent) :
+DialogDownloadsImport::DialogDownloadsImport(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::DialogDownloadsImport)
 {
@@ -38,15 +38,16 @@ DialogDownloadsImport::~DialogDownloadsImport()
 	emit closed();
 }
 
-void DialogDownloadsImport::changeEvent(QEvent *e)
+void DialogDownloadsImport::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

@@ -26,7 +26,7 @@
 #include "systemlog.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetSearch::WidgetSearch(QWidget *parent) :
+WidgetSearch::WidgetSearch(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetSearch)
 {
@@ -52,15 +52,16 @@ WidgetSearch::~WidgetSearch()
 	delete ui;
 }
 
-void WidgetSearch::changeEvent(QEvent *e)
+void WidgetSearch::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -100,18 +101,18 @@ void WidgetSearch::on_toolButtonSearch_clicked()
 
 void WidgetSearch::on_toolButtonSearchClear_clicked()
 {
-	if (ui->toolButtonSearchClear->text() == "Stop")
+	if(ui->toolButtonSearchClear->text() == "Stop")
 	{
 		ui->toolButtonSearch->setText(tr("More"));
 		ui->toolButtonSearch->setEnabled(true);
 		ui->toolButtonSearchClear->setText("Clear");
 		panelSearchResults->stopSearch();
-	} else
-	if (ui->toolButtonSearchClear->text() == "Clear")
+	}
+	else if(ui->toolButtonSearchClear->text() == "Clear")
 	{
 		qDebug() << "Clear search triggered.";
 		bool cleared = panelSearchResults->clearSearch();
-		if (cleared)
+		if(cleared)
 		{
 			ui->toolButtonSearch->setText(tr("Search"));
 			ui->toolButtonSearch->setEnabled(true);
@@ -123,7 +124,7 @@ void WidgetSearch::on_toolButtonSearchClear_clicked()
 	}
 }
 
-void WidgetSearch::startNewSearch(QString *searchString)
+void WidgetSearch::startNewSearch(QString* searchString)
 {
 	panelSearchResults->startNewSearch(searchString);
 }
@@ -137,9 +138,9 @@ void WidgetSearch::on_splitterSearch_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
-	if (ui->splitterSearch->handle(1)->underMouse())
+	if(ui->splitterSearch->handle(1)->underMouse())
 	{
-		if (ui->splitterSearch->sizes()[0] > 0)
+		if(ui->splitterSearch->sizes()[0] > 0)
 		{
 			quazaaSettings.WinMain.SearchSplitterRestoreLeft = ui->splitterSearch->sizes()[0];
 			quazaaSettings.WinMain.SearchSplitterRestoreRight = ui->splitterSearch->sizes()[1];
@@ -147,7 +148,9 @@ void WidgetSearch::on_splitterSearch_customContextMenuRequested(QPoint pos)
 			newSizes.append(0);
 			newSizes.append(ui->splitterSearch->sizes()[0] + ui->splitterSearch->sizes()[1]);
 			ui->splitterSearch->setSizes(newSizes);
-		} else {
+		}
+		else
+		{
 			QList<int> sizesList;
 			sizesList.append(quazaaSettings.WinMain.SearchSplitterRestoreLeft);
 			sizesList.append(quazaaSettings.WinMain.SearchSplitterRestoreRight);
@@ -156,46 +159,46 @@ void WidgetSearch::on_splitterSearch_customContextMenuRequested(QPoint pos)
 	}
 }
 
-void WidgetSearch::onSearchTabChanged(WidgetSearchTemplate *searchPage)
+void WidgetSearch::onSearchTabChanged(WidgetSearchTemplate* searchPage)
 {
 	ui->lineEditSearch->setText(searchPage->sSearchString);
 
-	switch (searchPage->searchState)
+	switch(searchPage->searchState)
 	{
-	case SearchState::Searching:
-		ui->toolButtonSearch->setText(tr("Searching"));
-		ui->toolButtonSearch->setEnabled(false);
-		ui->toolButtonSearchClear->setText("Stop");
-		ui->toolButtonSearchClear->setEnabled(true);
-		break;
-	case SearchState::Paused:
-		ui->toolButtonSearch->setText(tr("More"));
-		ui->toolButtonSearch->setEnabled(true);
-		ui->toolButtonSearchClear->setText("Clear");
-		panelSearchResults->stopSearch();
-		break;
-	case SearchState::Stopped:
-		ui->toolButtonSearch->setText(tr("Search"));
-		ui->toolButtonSearch->setEnabled(true);
-		ui->toolButtonSearchClear->setText("Stop");
-		ui->toolButtonSearchClear->setEnabled(false);
-		ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
-		ui->labelSearchResultsFound->setText(tr("No Files Found"));
-		break;
-	default:
-		break;
+		case SearchState::Searching:
+			ui->toolButtonSearch->setText(tr("Searching"));
+			ui->toolButtonSearch->setEnabled(false);
+			ui->toolButtonSearchClear->setText("Stop");
+			ui->toolButtonSearchClear->setEnabled(true);
+			break;
+		case SearchState::Paused:
+			ui->toolButtonSearch->setText(tr("More"));
+			ui->toolButtonSearch->setEnabled(true);
+			ui->toolButtonSearchClear->setText("Clear");
+			panelSearchResults->stopSearch();
+			break;
+		case SearchState::Stopped:
+			ui->toolButtonSearch->setText(tr("Search"));
+			ui->toolButtonSearch->setEnabled(true);
+			ui->toolButtonSearchClear->setText("Stop");
+			ui->toolButtonSearchClear->setEnabled(false);
+			ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
+			ui->labelSearchResultsFound->setText(tr("No Files Found"));
+			break;
+		default:
+			break;
 	}
 }
 
-void WidgetSearch::updateStats(WidgetSearchTemplate *searchWidget)
+void WidgetSearch::updateStats(WidgetSearchTemplate* searchWidget)
 {
 	ui->labelSearchResultsSearching->setText(tr("%1 hubs,%2 leaves.").arg(searchWidget->nHubs).arg(searchWidget->nLeaves));
 	ui->labelSearchResultsFound->setText(tr("%1 files in %2 hits.").arg(searchWidget->nFiles).arg(searchWidget->nHits));
-	if (searchWidget->nHubs == 0 && searchWidget->nLeaves == 0 && searchWidget->searchState != SearchState::Searching)
+	if(searchWidget->nHubs == 0 && searchWidget->nLeaves == 0 && searchWidget->searchState != SearchState::Searching)
 	{
 		ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
 	}
-	if (searchWidget->nFiles == 0 && searchWidget->nHits == 0)
+	if(searchWidget->nFiles == 0 && searchWidget->nHits == 0)
 	{
 		ui->labelSearchResultsFound->setText(tr("No Files Found"));
 	}

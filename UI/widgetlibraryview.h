@@ -25,23 +25,25 @@
 #include <QMainWindow>
 #include <QLineEdit>
 
-namespace Ui {
-    class WidgetLibraryView;
+namespace Ui
+{
+	class WidgetLibraryView;
 }
 
-class WidgetLibraryView : public QMainWindow {
-    Q_OBJECT
+class WidgetLibraryView : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetLibraryView(QWidget *parent = 0);
-    ~WidgetLibraryView();
-	QLineEdit *lineEditFind;
+	WidgetLibraryView(QWidget* parent = 0);
+	~WidgetLibraryView();
+	QLineEdit* lineEditFind;
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetLibraryView *ui;
+	Ui::WidgetLibraryView* ui;
 
 private slots:
 	void on_splitterLibraryView_customContextMenuRequested(QPoint pos);

@@ -24,22 +24,24 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-    class WidgetPacketDump;
+namespace Ui
+{
+	class WidgetPacketDump;
 }
 
-class WidgetPacketDump : public QMainWindow {
-    Q_OBJECT
+class WidgetPacketDump : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetPacketDump(QWidget *parent = 0);
-    ~WidgetPacketDump();
+	WidgetPacketDump(QWidget* parent = 0);
+	~WidgetPacketDump();
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetPacketDump *ui;
+	Ui::WidgetPacketDump* ui;
 
 private slots:
 	void skinChangeEvent();

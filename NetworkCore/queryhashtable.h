@@ -48,7 +48,7 @@ public:
 	quint32				m_nInfinity;
 	quint32				m_nCount;
 	CBuffer*			m_pBuffer;
-	CQueryHashGroup*	m_pGroup;
+	CQueryHashGroup* 	m_pGroup;
 
 protected:
 	static quint32 HashWord(const char* pSz, const quint32 nLength, qint32 nBits);
@@ -81,18 +81,18 @@ protected:
 
 struct G2_QHT_RESET
 {
-    char    nCmd;       // 0 - reset
-    quint32 nTableSize; // 2 ^ size_in_bits
-    char    nInfinity;  // 1
+	char    nCmd;       // 0 - reset
+	quint32 nTableSize; // 2 ^ size_in_bits
+	char    nInfinity;  // 1
 };
 struct G2_QHT_PATCH
 {
-    char    nCmd;           // 1 - patch
-    char    nFragNum;       //
-    char    nFragCount;
-    char    nCompression;   // 0 - bez, 1 defl
-    char    nBits;          // 1
-    //(data)
+	char    nCmd;           // 1 - patch
+	char    nFragNum;       //
+	char    nFragCount;
+	char    nCompression;   // 0 - bez, 1 defl
+	char    nBits;          // 1
+	//(data)
 };
 
 #pragma pack(pop)

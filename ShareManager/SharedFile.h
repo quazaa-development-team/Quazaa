@@ -44,7 +44,7 @@ public:
 
 	QList<CHash*> m_lHashes;
 public:
-    CSharedFile();
+	CSharedFile();
 	~CSharedFile();
 	void Stat();
 	void Serialize(QSqlDatabase* pDatabase);

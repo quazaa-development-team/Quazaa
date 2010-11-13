@@ -29,27 +29,31 @@
 CHandshakes Handshakes;
 CThread HandshakesThread;
 
-CHandshakes::CHandshakes(QObject *parent) :
+CHandshakes::CHandshakes(QObject* parent) :
 	QTcpServer(parent)
 {
-    m_nAccepted = 0;
+	m_nAccepted = 0;
 	m_bActive = false;
 }
 
 CHandshakes::~CHandshakes()
 {
-	if( m_bActive )
+	if(m_bActive)
+	{
 		Disconnect();
+	}
 }
 
 void CHandshakes::Listen()
 {
 	QMutexLocker l(&m_pSection);
 
-	if( m_bActive )
+	if(m_bActive)
+	{
 		return;
+	}
 
-    m_nAccepted = 0;
+	m_nAccepted = 0;
 	m_bActive = true;
 
 	HandshakesThread.start("Handshakes", &m_pSection, this);
@@ -67,12 +71,12 @@ void CHandshakes::incomingConnection(int handle)
 {
 	QMutexLocker l(&m_pSection);
 
-    CHandshake* pNew = new CHandshake();
+	CHandshake* pNew = new CHandshake();
 	m_lHandshakes.insert(pNew);
 	m_pController->AddSocket(pNew);
 	pNew->AcceptFrom(handle);
 	pNew->moveToThread(&HandshakesThread);
-    m_nAccepted++;
+	m_nAccepted++;
 }
 
 void CHandshakes::OnTimer()
@@ -81,18 +85,20 @@ void CHandshakes::OnTimer()
 
 	quint32 tNow = time(0);
 
-    foreach(CHandshake* pHs, m_lHandshakes)
-    {
-        pHs->OnTimer(tNow);
-    }
+	foreach(CHandshake * pHs, m_lHandshakes)
+	{
+		pHs->OnTimer(tNow);
+	}
 }
-void CHandshakes::RemoveHandshake(CHandshake *pHs)
+void CHandshakes::RemoveHandshake(CHandshake* pHs)
 {
 	QMutexLocker l(&m_pSection);
 
-    m_lHandshakes.remove(pHs);
-	if( m_pController )
+	m_lHandshakes.remove(pHs);
+	if(m_pController)
+	{
 		m_pController->RemoveSocket(pHs);
+	}
 }
 
 void CHandshakes::SetupThread()
@@ -106,7 +112,7 @@ void CHandshakes::SetupThread()
 
 	bool bOK = QTcpServer::listen(QHostAddress::Any, Network.GetLocalAddress().port);
 
-	if( bOK )
+	if(bOK)
 	{
 		systemLog.postLog(LogSeverity::Notice, "Handshakes: listening on port %d.", Network.GetLocalAddress().port);
 	}
@@ -121,10 +127,10 @@ void CHandshakes::SetupThread()
 }
 void CHandshakes::CleanupThread()
 {
-	if( isListening( ))
+	if(isListening())
 	{
 		close();
-		foreach( CHandshake* pHs, m_lHandshakes )
+		foreach(CHandshake * pHs, m_lHandshakes)
 		{
 			m_pController->RemoveSocket(pHs);
 			pHs->deleteLater();

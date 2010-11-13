@@ -27,7 +27,7 @@
 #include <QQueue>
 #include "ShareManager/SharedFile.h"
 
-class CFileHasher:public QThread
+class CFileHasher: public QThread
 {
 	Q_OBJECT
 public:

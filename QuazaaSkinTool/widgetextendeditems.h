@@ -3,25 +3,27 @@
 
 #include <QtGui>
 
-namespace Ui {
-    class WidgetExtendedItems;
+namespace Ui
+{
+	class WidgetExtendedItems;
 }
 
-class WidgetExtendedItems : public QMainWindow {
-    Q_OBJECT
+class WidgetExtendedItems : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetExtendedItems(QWidget *parent = 0);
-    ~WidgetExtendedItems();
-	QSlider *seekSlider;
-	QSlider *volumeSlider;
-	QLabel *labelSeekSlider;
-	QLabel *labelVolumeSlider;
+	WidgetExtendedItems(QWidget* parent = 0);
+	~WidgetExtendedItems();
+	QSlider* seekSlider;
+	QSlider* volumeSlider;
+	QLabel* labelSeekSlider;
+	QLabel* labelVolumeSlider;
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetExtendedItems *ui;
+	Ui::WidgetExtendedItems* ui;
 
 public slots:
 	void skinChangeEvent();

@@ -40,7 +40,7 @@ public:
 	enum Event { Status, Notice, Message, Action };
 
 public slots:
-	void startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );
+	void startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort);
 	void stopIrc();
 	void sendIrcMessage(QString channel, QString message);
 signals:
@@ -59,11 +59,11 @@ protected slots:
 	void on_IrcSession_bufferRemoved(Irc::Buffer* buffer);
 	void messageReceived(QString, QString);
 	void numericMessageReceived(QString, uint, QStringList);
-	void ctcpActionReceived(QString,QString);
-	void noticeReceived(QString,QString);
+	void ctcpActionReceived(QString, QString);
+	void noticeReceived(QString, QString);
 
 protected:
-	Irc::Session *ircSession;
+	Irc::Session* ircSession;
 };
 
 #endif //QUAZAAIRC_H

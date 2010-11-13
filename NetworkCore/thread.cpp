@@ -21,7 +21,7 @@
 
 #include "thread.h"
 
-CThread::CThread(QObject *parent) :
-    QThread(parent)
+CThread::CThread(QObject* parent) :
+	QThread(parent)
 {
 }

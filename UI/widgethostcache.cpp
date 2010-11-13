@@ -25,7 +25,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetHostCache::WidgetHostCache(QWidget *parent) :
+WidgetHostCache::WidgetHostCache(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetHostCache)
 {
@@ -41,15 +41,16 @@ WidgetHostCache::~WidgetHostCache()
 	delete ui;
 }
 
-void WidgetHostCache::changeEvent(QEvent *e)
+void WidgetHostCache::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -70,9 +71,9 @@ void WidgetHostCache::on_splitterHostCache_customContextMenuRequested(QPoint pos
 {
 	Q_UNUSED(pos);
 
-	if (ui->splitterHostCache->handle(1)->underMouse())
+	if(ui->splitterHostCache->handle(1)->underMouse())
 	{
-		if (ui->splitterHostCache->sizes()[0] > 0)
+		if(ui->splitterHostCache->sizes()[0] > 0)
 		{
 			quazaaSettings.WinMain.HostCacheSplitterRestoreLeft = ui->splitterHostCache->sizes()[0];
 			quazaaSettings.WinMain.HostCacheSplitterRestoreRight = ui->splitterHostCache->sizes()[1];
@@ -80,7 +81,9 @@ void WidgetHostCache::on_splitterHostCache_customContextMenuRequested(QPoint pos
 			newSizes.append(0);
 			newSizes.append(ui->splitterHostCache->sizes()[0] + ui->splitterHostCache->sizes()[1]);
 			ui->splitterHostCache->setSizes(newSizes);
-		} else {
+		}
+		else
+		{
 			QList<int> sizesList;
 			sizesList.append(quazaaSettings.WinMain.HostCacheSplitterRestoreLeft);
 			sizesList.append(quazaaSettings.WinMain.HostCacheSplitterRestoreRight);

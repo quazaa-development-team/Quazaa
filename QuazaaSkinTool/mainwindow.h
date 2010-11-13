@@ -28,29 +28,31 @@
 #include "widgetextendeditems.h"
 #include "widgetnavigation.h"
 
-namespace Ui {
+namespace Ui
+{
 	class MainWindow;
 }
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
 	Q_OBJECT
 public:
-	MainWindow(QWidget *parent = 0);
+	MainWindow(QWidget* parent = 0);
 	~MainWindow();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::MainWindow *ui;
-	void insertCssProperty(const QString &name, const QString &value);
-	QtGradientManager *gradientManager;
-	WidgetExtendedItems *pageExtendedItems;
-	WidgetNavigation *pageNavigation;
-	QAction *m_addImageAction;
-	QAction *m_addGradientAction;
-	QAction *m_addColorAction;
-	QAction *m_addFontAction;
+	Ui::MainWindow* ui;
+	void insertCssProperty(const QString& name, const QString& value);
+	QtGradientManager* gradientManager;
+	WidgetExtendedItems* pageExtendedItems;
+	WidgetNavigation* pageNavigation;
+	QAction* m_addImageAction;
+	QAction* m_addGradientAction;
+	QAction* m_addColorAction;
+	QAction* m_addFontAction;
 	bool isMainWindow;
 	QString currentSelectionText;
 	bool saved;
@@ -61,8 +63,8 @@ private:
 	QColor colorWarning;
 	QColor colorError;
 	QColor colorCritical;
-	QMenu *menuPreview;
-	QMenu *menuPreviewSubmenu;
+	QMenu* menuPreview;
+	QMenu* menuPreviewSubmenu;
 
 private slots:
 	void on_checkBoxBoldListsHighlighted_clicked(bool checked);
@@ -89,7 +91,7 @@ private slots:
 	void on_toolButtonColorInformation_clicked();
 	void applyIcon();
 	void on_plainTextEditDescription_textChanged();
-	void on_lineEditVersion_textChanged(QString );
+	void on_lineEditVersion_textChanged(QString);
 	void on_checkBoxMainIconVisible_toggled(bool checked);
 	void on_plainTextEditStyleSheet_textChanged();
 	void applySheets();
@@ -105,17 +107,17 @@ private slots:
 	void on_actionOpen_triggered();
 	void on_treeWidgetSelector_itemClicked(QTreeWidgetItem* item, int column);
 	void validateStyleSheet();
-	bool isStyleSheetValid(const QString &styleSheet);
+	bool isStyleSheetValid(const QString& styleSheet);
 	void slotContextMenuRequested();
-	void slotAddImage(const QString &property);
-	void slotAddGradient(const QString &property);
-	void slotAddColor(const QString &property);
+	void slotAddImage(const QString& property);
+	void slotAddGradient(const QString& property);
+	void slotAddColor(const QString& property);
 	void slotAddFont();
 	void on_actionNew_triggered();
 	void enableEditing(bool enable);
 	void skinChangeEvent();
 	void updateWindowStyleSheet(bool mainWindw);
-	void closeEvent(QCloseEvent *e);
+	void closeEvent(QCloseEvent* e);
 	void updateLogPreview();
 	void on_toolButtonColorMessagesNormal_clicked();
 	void on_checkBoxBoldMessagesNormal_clicked(bool checked);
@@ -141,7 +143,7 @@ private slots:
 	void on_checkBoxBoldUsersHalfOperator_clicked(bool checked);
 	void on_toolButtonColorUsersVoiced_clicked();
 	void on_checkBoxBoldUsersVoiced_clicked(bool checked);
-	void contextMenuEvent(QContextMenuEvent *event);
+	void contextMenuEvent(QContextMenuEvent* event);
 };
 
 #endif // MAINWINDOW_H

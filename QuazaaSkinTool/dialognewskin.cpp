@@ -22,7 +22,7 @@
 #include "dialognewskin.h"
 #include "ui_dialognewskin.h"
 
-DialogNewSkin::DialogNewSkin(QWidget *parent) :
+DialogNewSkin::DialogNewSkin(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::DialogNewSkin)
 {
@@ -34,15 +34,16 @@ DialogNewSkin::~DialogNewSkin()
 	delete ui;
 }
 
-void DialogNewSkin::changeEvent(QEvent *e)
+void DialogNewSkin::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

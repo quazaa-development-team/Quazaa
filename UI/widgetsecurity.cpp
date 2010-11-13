@@ -27,7 +27,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetSecurity::WidgetSecurity(QWidget *parent) :
+WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetSecurity)
 {
@@ -42,15 +42,16 @@ WidgetSecurity::~WidgetSecurity()
 	delete ui;
 }
 
-void WidgetSecurity::changeEvent(QEvent *e)
+void WidgetSecurity::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -68,8 +69,8 @@ void WidgetSecurity::saveWidget()
 
 void WidgetSecurity::on_actionSecurityAddRule_triggered()
 {
-	QSkinDialog *dlgSkinAddRule = new QSkinDialog(false, true, false, false, this);
-	DialogAddRule *dlgAddRule = new DialogAddRule;
+	QSkinDialog* dlgSkinAddRule = new QSkinDialog(false, true, false, false, this);
+	DialogAddRule* dlgAddRule = new DialogAddRule;
 
 	dlgSkinAddRule->addChildWidget(dlgAddRule);
 
@@ -79,8 +80,8 @@ void WidgetSecurity::on_actionSecurityAddRule_triggered()
 
 void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 {
-	QSkinDialog *dlgSkinSecuritySubscriptions = new QSkinDialog(false, true, false, false, this);
-	DialogSecuritySubscriptions *dlgSecuritySubscriptions = new DialogSecuritySubscriptions;
+	QSkinDialog* dlgSkinSecuritySubscriptions = new QSkinDialog(false, true, false, false, this);
+	DialogSecuritySubscriptions* dlgSecuritySubscriptions = new DialogSecuritySubscriptions;
 
 	dlgSkinSecuritySubscriptions->addChildWidget(dlgSecuritySubscriptions);
 

@@ -28,7 +28,7 @@
 
 #include "NetworkCore/query.h"
 
-WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
+WidgetSearchResults::WidgetSearchResults(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetSearchResults)
 {
@@ -42,7 +42,7 @@ WidgetSearchResults::WidgetSearchResults(QWidget *parent) :
 	restoreState(quazaaSettings.WinMain.SearchToolbar);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
-	WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
+	WidgetSearchTemplate* tabNewSearch = new WidgetSearchTemplate();
 	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
 	ui->tabWidgetSearch->setCurrentIndex(0);
 	connect(tabNewSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
@@ -54,15 +54,16 @@ WidgetSearchResults::~WidgetSearchResults()
 	delete ui;
 }
 
-void WidgetSearchResults::changeEvent(QEvent *e)
+void WidgetSearchResults::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -82,10 +83,10 @@ void WidgetSearchResults::saveWidget()
 
 void WidgetSearchResults::startSearch(QString searchString)
 {
-	if (searchString != "")
+	if(searchString != "")
 	{
 		WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-		if( pWg )
+		if(pWg)
 		{
 			CQuery* pQuery = new CQuery();
 			pQuery->SetDescriptiveName(searchString);
@@ -95,13 +96,13 @@ void WidgetSearchResults::startSearch(QString searchString)
 	}
 }
 
-void WidgetSearchResults::startNewSearch(QString *searchString)
+void WidgetSearchResults::startNewSearch(QString* searchString)
 {
-	if (searchString != QString(""))
+	if(searchString != QString(""))
 	{
 		addSearchTab();
 		WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-		if( pWg )
+		if(pWg)
 		{
 			CQuery* pQuery = new CQuery();
 			pQuery->SetDescriptiveName(QString(*searchString));
@@ -113,7 +114,7 @@ void WidgetSearchResults::startNewSearch(QString *searchString)
 
 void WidgetSearchResults::addSearchTab()
 {
-	WidgetSearchTemplate *tabNewSearch = new WidgetSearchTemplate();
+	WidgetSearchTemplate* tabNewSearch = new WidgetSearchTemplate();
 	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
 	ui->tabWidgetSearch->setCurrentIndex(ui->tabWidgetSearch->count());
 	ui->tabWidgetSearch->setTabsClosable(true);
@@ -124,8 +125,8 @@ void WidgetSearchResults::on_tabWidgetSearch_tabCloseRequested(int index)
 {
 	WidgetSearchTemplate* pWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->widget(index));
 	ui->tabWidgetSearch->removeTab(index);
-		delete pWidget;
-	if (ui->tabWidgetSearch->count() == 1)
+	delete pWidget;
+	if(ui->tabWidgetSearch->count() == 1)
 	{
 		ui->tabWidgetSearch->setTabsClosable(false);
 	}
@@ -134,17 +135,19 @@ void WidgetSearchResults::on_tabWidgetSearch_tabCloseRequested(int index)
 void WidgetSearchResults::stopSearch()
 {
 	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-	if( pWg )
+	if(pWg)
 	{
-		if ( pWg->searchState == SearchState::Searching )
+		if(pWg->searchState == SearchState::Searching)
+		{
 			pWg->PauseSearch();
+		}
 	}
 }
 
 bool WidgetSearchResults::clearSearch()
 {
 	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-	if( pWg )
+	if(pWg)
 	{
 		qDebug() << "Clear search captured in WidgetSearchResults.";
 
@@ -158,8 +161,8 @@ bool WidgetSearchResults::clearSearch()
 
 void WidgetSearchResults::on_actionFilterMore_triggered()
 {
-	QSkinDialog *dlgSkinFilterSearch = new QSkinDialog(false, true, false, false, this);
-	DialogFilterSearch *dlgFilterSearch = new DialogFilterSearch;
+	QSkinDialog* dlgSkinFilterSearch = new QSkinDialog(false, true, false, false, this);
+	DialogFilterSearch* dlgFilterSearch = new DialogFilterSearch;
 
 	dlgSkinFilterSearch->addChildWidget(dlgFilterSearch);
 
@@ -171,9 +174,9 @@ void WidgetSearchResults::on_splitterSearchDetails_customContextMenuRequested(QP
 {
 	Q_UNUSED(pos);
 
-	if (ui->splitterSearchDetails->handle(1)->underMouse())
+	if(ui->splitterSearchDetails->handle(1)->underMouse())
 	{
-		if (ui->splitterSearchDetails->sizes()[1] > 0)
+		if(ui->splitterSearchDetails->sizes()[1] > 0)
 		{
 			quazaaSettings.WinMain.SearchResultsSplitterRestoreTop = ui->splitterSearchDetails->sizes()[0];
 			quazaaSettings.WinMain.SearchResultsSplitterRestoreBottom = ui->splitterSearchDetails->sizes()[1];
@@ -181,7 +184,9 @@ void WidgetSearchResults::on_splitterSearchDetails_customContextMenuRequested(QP
 			newSizes.append(ui->splitterSearchDetails->sizes()[0] + ui->splitterSearchDetails->sizes()[1]);
 			newSizes.append(0);
 			ui->splitterSearchDetails->setSizes(newSizes);
-		} else {
+		}
+		else
+		{
 			QList<int> sizesList;
 			sizesList.append(quazaaSettings.WinMain.SearchResultsSplitterRestoreTop);
 			sizesList.append(quazaaSettings.WinMain.SearchResultsSplitterRestoreBottom);
@@ -196,14 +201,14 @@ void WidgetSearchResults::on_tabWidgetSearch_currentChanged(int index)
 
 	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
 	emit searchTabChanged(pWg);
-	emit statsUpdated( pWg );
+	emit statsUpdated(pWg);
 }
 
-void WidgetSearchResults::onStatsUpdated( WidgetSearchTemplate *searchWidget )
+void WidgetSearchResults::onStatsUpdated(WidgetSearchTemplate* searchWidget)
 {
 	ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->indexOf(searchWidget), (QString("%1 [%2,%3]").arg(searchWidget->sSearchString).arg(searchWidget->nFiles).arg(searchWidget->nHits)));
-	if ( ( searchWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget()) ) )
+	if((searchWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget())))
 	{
-		emit statsUpdated( searchWidget );
+		emit statsUpdated(searchWidget);
 	}
 }

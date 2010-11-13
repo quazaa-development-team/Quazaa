@@ -23,7 +23,7 @@
 #include "ui_dialogcreatetorrent.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogCreateTorrent::DialogCreateTorrent(QWidget *parent) :
+DialogCreateTorrent::DialogCreateTorrent(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogCreateTorrent)
 {
@@ -38,14 +38,15 @@ DialogCreateTorrent::~DialogCreateTorrent()
 	delete m_ui;
 }
 
-void DialogCreateTorrent::changeEvent(QEvent *e)
+void DialogCreateTorrent::changeEvent(QEvent* e)
 {
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

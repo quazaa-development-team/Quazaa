@@ -24,26 +24,28 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-    class WidgetGraph;
+namespace Ui
+{
+	class WidgetGraph;
 }
 
-class WidgetGraph : public QMainWindow {
-    Q_OBJECT
+class WidgetGraph : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetGraph(QWidget *parent = 0);
-    ~WidgetGraph();
+	WidgetGraph(QWidget* parent = 0);
+	~WidgetGraph();
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetGraph *ui;
+	Ui::WidgetGraph* ui;
 
 private slots:
 	void on_splitterGraph_customContextMenuRequested(QPoint pos);
- void skinChangeEvent();
+	void skinChangeEvent();
 };
 
 #endif // WIDGETGRAPH_H

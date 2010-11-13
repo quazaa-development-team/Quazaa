@@ -4,22 +4,24 @@
 #include <QMainWindow>
 #include <QActionGroup>
 
-namespace Ui {
-    class WidgetNavigation;
+namespace Ui
+{
+	class WidgetNavigation;
 }
 
-class WidgetNavigation : public QMainWindow {
-    Q_OBJECT
+class WidgetNavigation : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetNavigation(QWidget *parent = 0);
-    ~WidgetNavigation();
-	QActionGroup *actionGroupMainNavigation;
+	WidgetNavigation(QWidget* parent = 0);
+	~WidgetNavigation();
+	QActionGroup* actionGroupMainNavigation;
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetNavigation *ui;
+	Ui::WidgetNavigation* ui;
 
 public slots:
 	void skinChangeEvent();

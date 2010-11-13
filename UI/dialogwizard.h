@@ -24,22 +24,24 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogWizard;
 }
 
-class DialogWizard : public QDialog {
+class DialogWizard : public QDialog
+{
 	Q_OBJECT
 	Q_DISABLE_COPY(DialogWizard)
 public:
-	explicit DialogWizard(QWidget *parent = 0);
+	explicit DialogWizard(QWidget* parent = 0);
 	virtual ~DialogWizard();
 
 protected:
-	virtual void changeEvent(QEvent *e);
+	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogWizard *m_ui;
+	Ui::DialogWizard* m_ui;
 
 signals:
 	void closed();

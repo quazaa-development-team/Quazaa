@@ -45,7 +45,7 @@ CSharedFile::CSharedFile()
 	m_nSize = 0;
 	m_nLastModified = 0;
 
-	if( !CSharedFile::m_bMetaRegistered )
+	if(!CSharedFile::m_bMetaRegistered)
 	{
 		qRegisterMetaType<CSharedFile>("CSharedFile");
 		qRegisterMetaType<CSharedFilePtr>("CSharedFilePtr");
@@ -55,28 +55,28 @@ CSharedFile::CSharedFile()
 
 CSharedFile::~CSharedFile()
 {
-	while( !m_lHashes.isEmpty() )
+	while(!m_lHashes.isEmpty())
 	{
 		delete m_lHashes.takeFirst();
 	}
 }
 
-void CSharedFile::Serialize(QSqlDatabase *pDatabase)
+void CSharedFile::Serialize(QSqlDatabase* pDatabase)
 {
 	// get directory id if needed
-	if( m_nDirectoryID == 0 )
+	if(m_nDirectoryID == 0)
 	{
 		QSqlQuery query(*pDatabase);
 
 		query.prepare("SELECT id FROM dirs WHERE path LIKE '?'");
 		query.bindValue(0, m_sDirectory);
-		if( !query.exec() )
+		if(!query.exec())
 		{
 			qDebug() << "Cannot fetch directory id: " << query.lastError().text();
 			return;
 		}
 
-		if( query.size() != 1 )
+		if(query.size() != 1)
 		{
 			qDebug() << "Bad record number: " << query.size();
 			return;
@@ -88,7 +88,7 @@ void CSharedFile::Serialize(QSqlDatabase *pDatabase)
 	}
 
 	// now insert or update file record
-	if( m_nFileID == 0 )
+	if(m_nFileID == 0)
 	{
 		// insert
 
@@ -101,7 +101,7 @@ void CSharedFile::Serialize(QSqlDatabase *pDatabase)
 		query.bindValue(2, m_nSize);
 		query.bindValue(3, m_nLastModified);
 		query.bindValue(4, m_bShared);
-		if( !query.exec() )
+		if(!query.exec())
 		{
 			qDebug() << "Cannot insert new record: " << query.lastError().text();
 			return;
@@ -113,45 +113,45 @@ void CSharedFile::Serialize(QSqlDatabase *pDatabase)
 		QSqlQuery q2(*pDatabase);
 		q2.exec(QString("DELETE FROM hashes WHERE file_id = %1").arg(nFileID));
 
-		QMap<QString,QVariant> mapValues;
+		QMap<QString, QVariant> mapValues;
 		mapValues.insert("file_id", QVariant(nFileID));
 
-		foreach( CHash* oHash, m_lHashes)
+		foreach(CHash * oHash, m_lHashes)
 		{
-			if( pDatabase->record("hashes").contains(oHash->GetFamilyName()) )
+			if(pDatabase->record("hashes").contains(oHash->GetFamilyName()))
 			{
 				mapValues.insert(oHash->GetFamilyName(), oHash->RawValue());
 			}
 		}
 
-		if( mapValues.count() > 1 )
+		if(mapValues.count() > 1)
 		{
 			QSqlQuery qh(*pDatabase);
 
 			QString sFields, sValues;
 
-			for( QMap<QString,QVariant>::iterator itValues = mapValues.begin(); itValues != mapValues.end(); itValues++ )
+			for(QMap<QString, QVariant>::iterator itValues = mapValues.begin(); itValues != mapValues.end(); itValues++)
 			{
 				sFields.append(itValues.key()).append(",");
 			}
 			sFields.truncate(sFields.size() - 1);
 
-			for( int i = 0; i < mapValues.count(); i++ )
+			for(int i = 0; i < mapValues.count(); i++)
 			{
 				sValues += "?,";
 			}
 			sValues.truncate(sValues.size() - 1);
 
-			qh.prepare(QString("INSERT INTO hashes (" + sFields + ") VALUES (" + sValues + ")") );
+			qh.prepare(QString("INSERT INTO hashes (" + sFields + ") VALUES (" + sValues + ")"));
 
 			int nCurrPos = 0;
-			for( QMap<QString,QVariant>::iterator itValues = mapValues.begin(); itValues != mapValues.end(); itValues++ )
+			for(QMap<QString, QVariant>::iterator itValues = mapValues.begin(); itValues != mapValues.end(); itValues++)
 			{
 				qh.bindValue(nCurrPos, QVariant(itValues.value()));
 				nCurrPos++;
 			}
 
-			if( !qh.exec() )
+			if(!qh.exec())
 			{
 				qDebug() << "Cannot insert hashes: " << qh.lastError().text() << qh.executedQuery();
 			}
@@ -162,7 +162,7 @@ void CSharedFile::Serialize(QSqlDatabase *pDatabase)
 
 		QSqlQuery qkw(*pDatabase);
 		qkw.prepare("INSERT OR IGNORE INTO keywords (keyword) VALUES (?)");
-		foreach( QString sKey, lKeywords )
+		foreach(QString sKey, lKeywords)
 		{
 			qkw.bindValue(0, QVariant(sKey));
 			qkw.exec();
@@ -175,9 +175,9 @@ void CSharedFile::Serialize(QSqlDatabase *pDatabase)
 
 void CSharedFile::Stat()
 {
-	QFileInfo f( m_sDirectory + "/" + m_sFileName );
+	QFileInfo f(m_sDirectory + "/" + m_sFileName);
 
-	if( f.exists() )
+	if(f.exists())
 	{
 		m_nLastModified = f.lastModified().toTime_t();
 		m_nSize = f.size();

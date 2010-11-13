@@ -24,21 +24,23 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogAddRule;
 }
 
-class DialogAddRule : public QDialog {
+class DialogAddRule : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogAddRule(QWidget *parent = 0);
+	DialogAddRule(QWidget* parent = 0);
 	~DialogAddRule();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogAddRule *m_ui;
+	Ui::DialogAddRule* m_ui;
 
 signals:
 	void closed();

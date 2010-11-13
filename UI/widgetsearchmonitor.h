@@ -24,22 +24,24 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-    class WidgetSearchMonitor;
+namespace Ui
+{
+	class WidgetSearchMonitor;
 }
 
-class WidgetSearchMonitor : public QMainWindow {
-    Q_OBJECT
+class WidgetSearchMonitor : public QMainWindow
+{
+	Q_OBJECT
 public:
-    WidgetSearchMonitor(QWidget *parent = 0);
-    ~WidgetSearchMonitor();
+	WidgetSearchMonitor(QWidget* parent = 0);
+	~WidgetSearchMonitor();
 	void saveWidget();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetSearchMonitor *ui;
+	Ui::WidgetSearchMonitor* ui;
 
 private slots:
 	void skinChangeEvent();

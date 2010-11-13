@@ -24,22 +24,24 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogPreviewPrepare;
 }
 
-class DialogPreviewPrepare : public QDialog {
+class DialogPreviewPrepare : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogPreviewPrepare(QWidget *parent = 0);
+	DialogPreviewPrepare(QWidget* parent = 0);
 	~DialogPreviewPrepare();
 	void updateProgress(int percent, QString fileName);
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogPreviewPrepare *m_ui;
+	Ui::DialogPreviewPrepare* m_ui;
 
 signals:
 	void closed();

@@ -25,7 +25,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetActivity::WidgetActivity(QWidget *parent) :
+WidgetActivity::WidgetActivity(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetActivity)
 {
@@ -44,15 +44,16 @@ WidgetActivity::~WidgetActivity()
 	delete ui;
 }
 
-void WidgetActivity::changeEvent(QEvent *e)
+void WidgetActivity::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -73,9 +74,9 @@ void WidgetActivity::on_splitterActivity_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
-	if (ui->splitterActivity->handle(1)->underMouse())
+	if(ui->splitterActivity->handle(1)->underMouse())
 	{
-		if (ui->splitterActivity->sizes()[1] > 0)
+		if(ui->splitterActivity->sizes()[1] > 0)
 		{
 			quazaaSettings.WinMain.ActivitySplitterRestoreTop = ui->splitterActivity->sizes()[0];
 			quazaaSettings.WinMain.ActivitySplitterRestoreBottom = ui->splitterActivity->sizes()[1];
@@ -83,7 +84,9 @@ void WidgetActivity::on_splitterActivity_customContextMenuRequested(QPoint pos)
 			newSizes.append(ui->splitterActivity->sizes()[0] + ui->splitterActivity->sizes()[1]);
 			newSizes.append(0);
 			ui->splitterActivity->setSizes(newSizes);
-		} else {
+		}
+		else
+		{
 			QList<int> sizesList;
 			sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreTop);
 			sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreBottom);
@@ -94,7 +97,7 @@ void WidgetActivity::on_splitterActivity_customContextMenuRequested(QPoint pos)
 
 void WidgetActivity::on_toolButtonSystemLogHeader_clicked()
 {
-	if (ui->splitterActivity->sizes()[0] > 0)
+	if(ui->splitterActivity->sizes()[0] > 0)
 	{
 		quazaaSettings.WinMain.ActivitySplitterRestoreTop = ui->splitterActivity->sizes()[0];
 		quazaaSettings.WinMain.ActivitySplitterRestoreBottom = ui->splitterActivity->sizes()[1];
@@ -102,7 +105,9 @@ void WidgetActivity::on_toolButtonSystemLogHeader_clicked()
 		newSizes.append(0);
 		newSizes.append(ui->splitterActivity->sizes()[0] + ui->splitterActivity->sizes()[1]);
 		ui->splitterActivity->setSizes(newSizes);
-	} else {
+	}
+	else
+	{
 		QList<int> sizesList;
 		sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreTop);
 		sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreBottom);
@@ -112,7 +117,7 @@ void WidgetActivity::on_toolButtonSystemLogHeader_clicked()
 
 void WidgetActivity::on_toolButtonNeighboursHeader_clicked()
 {
-	if (ui->splitterActivity->sizes()[1] > 0)
+	if(ui->splitterActivity->sizes()[1] > 0)
 	{
 		quazaaSettings.WinMain.ActivitySplitterRestoreTop = ui->splitterActivity->sizes()[0];
 		quazaaSettings.WinMain.ActivitySplitterRestoreBottom = ui->splitterActivity->sizes()[1];
@@ -120,7 +125,9 @@ void WidgetActivity::on_toolButtonNeighboursHeader_clicked()
 		newSizes.append(ui->splitterActivity->sizes()[0] + ui->splitterActivity->sizes()[1]);
 		newSizes.append(0);
 		ui->splitterActivity->setSizes(newSizes);
-	} else {
+	}
+	else
+	{
 		QList<int> sizesList;
 		sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreTop);
 		sizesList.append(quazaaSettings.WinMain.ActivitySplitterRestoreBottom);

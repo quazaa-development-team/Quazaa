@@ -3,7 +3,7 @@
 
 #include "../QSkinDialog/qskinsettings.h"
 
-WidgetExtendedItems::WidgetExtendedItems(QWidget *parent) :
+WidgetExtendedItems::WidgetExtendedItems(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetExtendedItems)
 {
@@ -28,15 +28,16 @@ WidgetExtendedItems::~WidgetExtendedItems()
 	delete ui;
 }
 
-void WidgetExtendedItems::changeEvent(QEvent *e)
+void WidgetExtendedItems::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

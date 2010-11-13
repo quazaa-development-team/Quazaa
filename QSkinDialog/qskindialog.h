@@ -16,30 +16,41 @@
 #include <QtGui>
 #include <QPoint>
 
-namespace Ui {
+namespace Ui
+{
 	class QSkinDialog;
 }
 
-class QSkinDialog : public QDialog {
+class QSkinDialog : public QDialog
+{
 	Q_OBJECT
 public:
-	QSkinDialog(bool sizable = false, bool closable = false, bool mainDialog = false, bool preview = false, QWidget *parent = 0);
+	QSkinDialog(bool sizable = false, bool closable = false, bool mainDialog = false, bool preview = false, QWidget* parent = 0);
 	~QSkinDialog();
-	void addChildWidget(QWidget *parent = 0);
+	void addChildWidget(QWidget* parent = 0);
 	void loadPreviewSkin(QString file);
-	QRect dialogNormalGeometry() {return this->normalGeometry;}
-	bool isMinimized() { return minimized; }
-	bool isMaximized() { return maximized; }
+	QRect dialogNormalGeometry()
+	{
+		return this->normalGeometry;
+	}
+	bool isMinimized()
+	{
+		return minimized;
+	}
+	bool isMaximized()
+	{
+		return maximized;
+	}
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 signals:
 	void mainClose();
 	void needToShow();
 
 private:
-	Ui::QSkinDialog *ui;
+	Ui::QSkinDialog* ui;
 	QPoint dragPosition;
 	int iDragPosition;
 	QRect normalGeometry;
@@ -58,11 +69,11 @@ private:
 	bool sizableTopRight;
 	bool sizableRight;
 	bool sizableBottomRight;
-	QMenu *systemMenu;
-	QAction *systemRestoreAction;
-	QAction *systemMinimizeAction;
-	QAction *systemMaximizeAction;
-	QAction *systemCloseAction;
+	QMenu* systemMenu;
+	QAction* systemRestoreAction;
+	QAction* systemMinimizeAction;
+	QAction* systemMaximizeAction;
+	QAction* systemCloseAction;
 
 public slots:
 	void setMaximized(bool maximize);
@@ -80,12 +91,12 @@ private slots:
 	void onClose();
 	void onMaximize();
 	void onMinimize();
-	void mousePressEvent(QMouseEvent *e);
-	void mouseMoveEvent(QMouseEvent *e);
-	void mouseReleaseEvent(QMouseEvent *e);
-	void mouseDoubleClickEvent(QMouseEvent *e);
-	void setWindowTitle(const QString &);
-	void setWindowIcon(const QIcon &icon);
+	void mousePressEvent(QMouseEvent* e);
+	void mouseMoveEvent(QMouseEvent* e);
+	void mouseReleaseEvent(QMouseEvent* e);
+	void mouseDoubleClickEvent(QMouseEvent* e);
+	void setWindowTitle(const QString&);
+	void setWindowIcon(const QIcon& icon);
 	void skinChangeEvent();
 };
 

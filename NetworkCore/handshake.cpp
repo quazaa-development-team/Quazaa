@@ -29,25 +29,25 @@
 #include "quazaaglobals.h"
 
 CHandshake::CHandshake(QObject* parent)
-	:CNetworkConnection(parent)
+	: CNetworkConnection(parent)
 {
 	connect(this, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
 	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(deleteLater()));
 }
 CHandshake::~CHandshake()
 {
-    Handshakes.RemoveHandshake(this);
+	Handshakes.RemoveHandshake(this);
 }
 
 void CHandshake::OnTimer(quint32 tNow)
 {
-    //qDebug() << "handshake timer";
-	if( tNow - m_tConnected > 15 )
-    {
-        qDebug() << "Timed out handshaking with " << m_pSocket->peerAddress().toString().toAscii().constData();
+	//qDebug() << "handshake timer";
+	if(tNow - m_tConnected > 15)
+	{
+		qDebug() << "Timed out handshaking with " << m_pSocket->peerAddress().toString().toAscii().constData();
 		Close();
-        deleteLater();
-    }
+		deleteLater();
+	}
 }
 void CHandshake::OnRead()
 {
@@ -55,18 +55,20 @@ void CHandshake::OnRead()
 
 	m_bReadyReadSent = false;
 
-	if( bytesAvailable() < 8 )
-        return;
+	if(bytesAvailable() < 8)
+	{
+		return;
+	}
 
-	if( Peek(8).startsWith("GNUTELLA") )
-    {
-        qDebug("Incoming connection from %s is Gnutella Neighbour connection", m_pSocket->peerAddress().toString().toAscii().constData());
+	if(Peek(8).startsWith("GNUTELLA"))
+	{
+		qDebug("Incoming connection from %s is Gnutella Neighbour connection", m_pSocket->peerAddress().toString().toAscii().constData());
 		Handshakes.RemoveHandshake(this);
 		Neighbours.OnAccept(this);
 	}
-    else
-    {
-        qDebug("Closing connection with %s - unknown protocol", m_pSocket->peerAddress().toString().toAscii().constData());
+	else
+	{
+		qDebug("Closing connection with %s - unknown protocol", m_pSocket->peerAddress().toString().toAscii().constData());
 
 		QByteArray baResp;
 		baResp += "HTTP/1.1 501 Not Implemented\r\n";
@@ -75,7 +77,7 @@ void CHandshake::OnRead()
 
 		Write(baResp);
 		Close(true);
-    }
+	}
 
 	delete this;
 }

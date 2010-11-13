@@ -25,7 +25,7 @@
 #include "QSkinDialog/qskinsettings.h"
 #include <QFileDialog>
 
-DialogEditShares::DialogEditShares(QWidget *parent) :
+DialogEditShares::DialogEditShares(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogEditShares)
 {
@@ -41,14 +41,15 @@ DialogEditShares::~DialogEditShares()
 	delete m_ui;
 }
 
-void DialogEditShares::changeEvent(QEvent *e)
+void DialogEditShares::changeEvent(QEvent* e)
 {
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -61,7 +62,7 @@ void DialogEditShares::on_pushButtonCancel_clicked()
 void DialogEditShares::on_pushButtonOk_clicked()
 {
 	quazaaSettings.Library.Shares.clear();
-	for (int m_iSharesRow = 0; m_iSharesRow < m_ui->listWidgetShares->count(); ++m_iSharesRow)
+	for(int m_iSharesRow = 0; m_iSharesRow < m_ui->listWidgetShares->count(); ++m_iSharesRow)
 	{
 		m_ui->listWidgetShares->setCurrentRow(m_iSharesRow);
 		quazaaSettings.Library.Shares.append(m_ui->listWidgetShares->currentItem()->text());
@@ -75,10 +76,10 @@ void DialogEditShares::on_pushButtonAdd_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QString directory = QFileDialog::getExistingDirectory(this,
-							tr("Select A Folder To Share"),
-							quazaaSettings.Downloads.CompletePath,
-							options);
-	if (!directory.isEmpty())
+	                    tr("Select A Folder To Share"),
+	                    quazaaSettings.Downloads.CompletePath,
+	                    options);
+	if(!directory.isEmpty())
 	{
 		m_ui->listWidgetShares->addItem(directory);
 		m_ui->pushButtonOk->setEnabled(true);

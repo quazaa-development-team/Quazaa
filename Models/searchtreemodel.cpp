@@ -29,57 +29,69 @@ SearchTreeModel::SearchTreeModel()
 {
 	QList<QVariant> rootData;
 	rootData << "File"
-			<< "Extension"
-			<< "Size"
-			<< "Rating"
-			<< "Status"
-			<< "Host/Count"
-			<< "Speed"
-			<< "Client"
-			<< "Country";
+	         << "Extension"
+	         << "Size"
+	         << "Rating"
+	         << "Status"
+	         << "Host/Count"
+	         << "Speed"
+	         << "Client"
+	         << "Country";
 	rootItem = new SearchTreeItem(rootData);
 	nFileCount = 0;
 }
 
 SearchTreeModel::~SearchTreeModel()
 {
-    clear();
-    delete rootItem;
+	clear();
+	delete rootItem;
 }
 
 bool SearchTreeModel::isRoot(QModelIndex index)
 {
-	SearchTreeItem *item;
+	SearchTreeItem* item;
 
-	if (!index.isValid())
+	if(!index.isValid())
+	{
 		item = rootItem;
+	}
 	else
+	{
 		item = static_cast<SearchTreeItem*>(index.internalPointer());
+	}
 
-	if (item == rootItem)
+	if(item == rootItem)
+	{
 		return true;
+	}
 
 	return false;
 }
 
-int SearchTreeModel::columnCount(const QModelIndex &parent) const
+int SearchTreeModel::columnCount(const QModelIndex& parent) const
 {
-	if (parent.isValid())
+	if(parent.isValid())
+	{
 		return static_cast<SearchTreeItem*>(parent.internalPointer())->columnCount();
+	}
 	else
+	{
 		return rootItem->columnCount();
+	}
 }
 
-QVariant SearchTreeModel::data(const QModelIndex &index, int role) const
+QVariant SearchTreeModel::data(const QModelIndex& index, int role) const
 {
-	if (!index.isValid())
-		return QVariant();
-
-	SearchTreeItem *item = static_cast<SearchTreeItem*>(index.internalPointer());
-
-	if ( role == Qt::DecorationRole )
+	if(!index.isValid())
 	{
-		if (index.column() == 0)
+		return QVariant();
+	}
+
+	SearchTreeItem* item = static_cast<SearchTreeItem*>(index.internalPointer());
+
+	if(role == Qt::DecorationRole)
+	{
+		if(index.column() == 0)
 		{
 			return item->HitData.iNetwork;
 		}
@@ -90,78 +102,104 @@ QVariant SearchTreeModel::data(const QModelIndex &index, int role) const
 		}
 	}
 
-	if ( role == Qt::DisplayRole )
+	if(role == Qt::DisplayRole)
+	{
 		return item->data(index.column());
+	}
 
 	return QVariant();
 }
 
-Qt::ItemFlags SearchTreeModel::flags(const QModelIndex &index) const
+Qt::ItemFlags SearchTreeModel::flags(const QModelIndex& index) const
 {
-	if (!index.isValid())
+	if(!index.isValid())
+	{
 		return 0;
+	}
 
 	return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 QVariant SearchTreeModel::headerData(int section, Qt::Orientation orientation,
-							   int role) const
+                                     int role) const
 {
-	if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+	if(orientation == Qt::Horizontal && role == Qt::DisplayRole)
+	{
 		return rootItem->data(section);
+	}
 
 	return QVariant();
 }
 
-QModelIndex SearchTreeModel::index(int row, int column, const QModelIndex &parent)
-			const
+QModelIndex SearchTreeModel::index(int row, int column, const QModelIndex& parent)
+const
 {
-	if (!hasIndex(row, column, parent))
+	if(!hasIndex(row, column, parent))
+	{
 		return QModelIndex();
+	}
 
-	SearchTreeItem *parentItem;
+	SearchTreeItem* parentItem;
 
-	if (!parent.isValid())
+	if(!parent.isValid())
+	{
 		parentItem = rootItem;
+	}
 	else
+	{
 		parentItem = static_cast<SearchTreeItem*>(parent.internalPointer());
+	}
 
-	SearchTreeItem *childItem = parentItem->child(row);
-	if (childItem)
+	SearchTreeItem* childItem = parentItem->child(row);
+	if(childItem)
+	{
 		return createIndex(row, column, childItem);
+	}
 	else
+	{
 		return QModelIndex();
+	}
 }
 
-QModelIndex SearchTreeModel::parent(const QModelIndex &index) const
+QModelIndex SearchTreeModel::parent(const QModelIndex& index) const
 {
-	if (!index.isValid())
+	if(!index.isValid())
+	{
 		return QModelIndex();
+	}
 
-	SearchTreeItem *childItem = static_cast<SearchTreeItem*>(index.internalPointer());
-	SearchTreeItem *parentItem = childItem->parent();
+	SearchTreeItem* childItem = static_cast<SearchTreeItem*>(index.internalPointer());
+	SearchTreeItem* parentItem = childItem->parent();
 
-	if (parentItem == rootItem)
+	if(parentItem == rootItem)
+	{
 		return QModelIndex();
+	}
 
 	return createIndex(parentItem->row(), 0, parentItem);
 }
 
-int SearchTreeModel::rowCount(const QModelIndex &parent) const
+int SearchTreeModel::rowCount(const QModelIndex& parent) const
 {
-	SearchTreeItem *parentItem;
-	if (parent.column() > 0)
+	SearchTreeItem* parentItem;
+	if(parent.column() > 0)
+	{
 		return 0;
+	}
 
-	if (!parent.isValid())
+	if(!parent.isValid())
+	{
 		parentItem = rootItem;
+	}
 	else
+	{
 		parentItem = static_cast<SearchTreeItem*>(parent.internalPointer());
+	}
 
 	return parentItem->childCount();
 }
 
-void SearchTreeModel::setupModelData(const QStringList &lines, SearchTreeItem *parent)
+void SearchTreeModel::setupModelData(const QStringList& lines, SearchTreeItem* parent)
 {
 	QList<SearchTreeItem*> parents;
 	QList<int> indentations;
@@ -170,33 +208,45 @@ void SearchTreeModel::setupModelData(const QStringList &lines, SearchTreeItem *p
 
 	int number = 0;
 
-	while (number < lines.count()) {
+	while(number < lines.count())
+	{
 		int position = 0;
-		while (position < lines[number].length()) {
-			if (lines[number].mid(position, 1) != " ")
+		while(position < lines[number].length())
+		{
+			if(lines[number].mid(position, 1) != " ")
+			{
 				break;
+			}
 			position++;
 		}
 
 		QString lineData = lines[number].mid(position).trimmed();
 
-		if (!lineData.isEmpty()) {
+		if(!lineData.isEmpty())
+		{
 			// Read the column data from the rest of the line.
 			QStringList columnStrings = lineData.split("\t", QString::SkipEmptyParts);
 			QList<QVariant> columnData;
-			for (int column = 0; column < columnStrings.count(); ++column)
+			for(int column = 0; column < columnStrings.count(); ++column)
+			{
 				columnData << columnStrings[column];
+			}
 
-			if (position > indentations.last()) {
+			if(position > indentations.last())
+			{
 				// The last child of the current parent is now the new parent
 				// unless the current parent has no children.
 
-				if (parents.last()->childCount() > 0) {
-					parents << parents.last()->child(parents.last()->childCount()-1);
+				if(parents.last()->childCount() > 0)
+				{
+					parents << parents.last()->child(parents.last()->childCount() - 1);
 					indentations << position;
 				}
-			} else {
-				while (position < indentations.last() && parents.count() > 0) {
+			}
+			else
+			{
+				while(position < indentations.last() && parents.count() > 0)
+				{
 					parents.pop_back();
 					indentations.pop_back();
 				}
@@ -224,40 +274,40 @@ void SearchTreeModel::clear()
 
 void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 {
-        CQueryHit* pHit2 = pHit.data();
+	CQueryHit* pHit2 = pHit.data();
 
-        while( pHit2 != 0 )
-		{
+	while(pHit2 != 0)
+	{
 		int existingSearch = rootItem->find(rootItem, pHit2->m_oSha1.ToString());
 
-		if (existingSearch == -1)
+		if(existingSearch == -1)
 		{
 			QFileInfo fileInfo(pHit2->m_sDescriptiveName);
 			QString sCountry = GeoIP.findCountryCode(pHit2->m_pHitInfo.data()->m_oNodeAddress);
 			beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
 			QList<QVariant> m_lParentData;
 			m_lParentData <<  fileInfo.completeBaseName()
-					<< fileInfo.suffix()
-					<< pHit2->m_nObjectSize
-					<< ""
-					<< ""
-					<< 1
-					<< ""
-					<< ""
-					<< "";
-			SearchTreeItem *m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
+			              << fileInfo.suffix()
+			              << pHit2->m_nObjectSize
+			              << ""
+			              << ""
+			              << 1
+			              << ""
+			              << ""
+			              << "";
+			SearchTreeItem* m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
 			m_oParentItem->HitData.oSha1Hash = pHit2->m_oSha1;
 			QList<QVariant> m_lChildData;
 			m_lChildData << fileInfo.completeBaseName()
-					<< fileInfo.suffix()
-					<< pHit2->m_nObjectSize
-					<< ""
-					<< ""
-					<< pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
-					<< ""
-					<< Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
-					<< GeoIP.countryNameFromCode(sCountry);
-			SearchTreeItem *m_oChildItem = new SearchTreeItem(m_lChildData, m_oParentItem);
+			             << fileInfo.suffix()
+			             << pHit2->m_nObjectSize
+			             << ""
+			             << ""
+			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
+			             << ""
+			             << Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
+			             << GeoIP.countryNameFromCode(sCountry);
+			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, m_oParentItem);
 			m_oChildItem->HitData.oSha1Hash = pHit2->m_oSha1;
 			m_oChildItem->HitData.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
 			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
@@ -268,23 +318,23 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			nFileCount = rootItem->childCount();
 			emit updateStats();
 		}
-		else if ( !rootItem->child(existingSearch)->duplicateCheck( rootItem->child(existingSearch), pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()))
+		else if(!rootItem->child(existingSearch)->duplicateCheck(rootItem->child(existingSearch), pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()))
 		{
 			QModelIndex idxParent = index(existingSearch, 0, QModelIndex());
 			QFileInfo fileInfo(pHit2->m_sDescriptiveName);
 			QString sCountry = GeoIP.findCountryCode(pHit2->m_pHitInfo.data()->m_oNodeAddress);
-			beginInsertRows( idxParent, rootItem->child(existingSearch)->childCount(), rootItem->child(existingSearch)->childCount());
+			beginInsertRows(idxParent, rootItem->child(existingSearch)->childCount(), rootItem->child(existingSearch)->childCount());
 			QList<QVariant> m_lChildData;
 			m_lChildData << fileInfo.completeBaseName()
-					<< fileInfo.suffix()
-					<< pHit2->m_nObjectSize
-					<< ""
-					<< ""
-					<< pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
-					<< ""
-					<< Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
-					<< GeoIP.countryNameFromCode(sCountry);
-			SearchTreeItem *m_oChildItem = new SearchTreeItem(m_lChildData, rootItem->child(existingSearch));
+			             << fileInfo.suffix()
+			             << pHit2->m_nObjectSize
+			             << ""
+			             << ""
+			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
+			             << ""
+			             << Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
+			             << GeoIP.countryNameFromCode(sCountry);
+			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, rootItem->child(existingSearch));
 			m_oChildItem->HitData.oSha1Hash = pHit2->m_oSha1;
 			m_oChildItem->HitData.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
 			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
@@ -292,7 +342,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			rootItem->child(existingSearch)->appendChild(m_oChildItem);
 			rootItem->child(existingSearch)->updateHitCount(rootItem->child(existingSearch)->childCount());
 			endInsertRows();
-                        emit updateStats();
+			emit updateStats();
 		}
 
 		QModelIndex idx1 = index(0, 0, QModelIndex());
@@ -303,7 +353,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 	}
 }
 
-SearchTreeItem::SearchTreeItem(const QList<QVariant> &data, SearchTreeItem *parent)
+SearchTreeItem::SearchTreeItem(const QList<QVariant> &data, SearchTreeItem* parent)
 {
 	parentItem = parent;
 	itemData = data;
@@ -314,7 +364,7 @@ SearchTreeItem::~SearchTreeItem()
 	qDeleteAll(childItems);
 }
 
-void SearchTreeItem::appendChild(SearchTreeItem *item)
+void SearchTreeItem::appendChild(SearchTreeItem* item)
 {
 	childItems.append(item);
 }
@@ -324,7 +374,7 @@ void SearchTreeItem::clearChildren()
 	childItems.clear();
 }
 
-SearchTreeItem *SearchTreeItem::child(int row)
+SearchTreeItem* SearchTreeItem::child(int row)
 {
 	return childItems.value(row);
 }
@@ -339,12 +389,14 @@ int SearchTreeItem::columnCount() const
 	return itemData.count();
 }
 
-int SearchTreeItem::find(SearchTreeItem *containerItem, QString hash)
+int SearchTreeItem::find(SearchTreeItem* containerItem, QString hash)
 {
-	for (int index = 0; index < containerItem->childItems.size(); ++index)
+	for(int index = 0; index < containerItem->childItems.size(); ++index)
 	{
-		if (containerItem->child(index)->HitData.oSha1Hash.ToString() == hash)
+		if(containerItem->child(index)->HitData.oSha1Hash.ToString() == hash)
+		{
 			return index;
+		}
 	}
 	return -1;
 }
@@ -354,15 +406,17 @@ QVariant SearchTreeItem::data(int column) const
 	return itemData.value(column);
 }
 
-SearchTreeItem *SearchTreeItem::parent()
+SearchTreeItem* SearchTreeItem::parent()
 {
 	return parentItem;
 }
 
 int SearchTreeItem::row() const
 {
-	if (parentItem)
+	if(parentItem)
+	{
 		return parentItem->childItems.indexOf(const_cast<SearchTreeItem*>(this));
+	}
 
 	return 0;
 }
@@ -372,12 +426,14 @@ void SearchTreeItem::updateHitCount(int count)
 	itemData[5] = count;
 }
 
-bool SearchTreeItem::duplicateCheck(SearchTreeItem *containerItem, QString ip)
+bool SearchTreeItem::duplicateCheck(SearchTreeItem* containerItem, QString ip)
 {
-	for (int index = 0; index < containerItem->childItems.size(); ++index)
+	for(int index = 0; index < containerItem->childItems.size(); ++index)
 	{
-		if (containerItem->child(index)->data(5).toString() == ip)
+		if(containerItem->child(index)->data(5).toString() == ip)
+		{
 			return true;
+		}
 	}
 	return false;
 }

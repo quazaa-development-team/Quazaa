@@ -25,7 +25,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetMedia::WidgetMedia(QWidget *parent) :
+WidgetMedia::WidgetMedia(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetMedia)
 {
@@ -52,15 +52,16 @@ WidgetMedia::~WidgetMedia()
 	delete ui;
 }
 
-void WidgetMedia::changeEvent(QEvent *e)
+void WidgetMedia::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -105,9 +106,9 @@ void WidgetMedia::on_splitterMedia_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
-	if (ui->splitterMedia->handle(1)->underMouse())
+	if(ui->splitterMedia->handle(1)->underMouse())
 	{
-		if (ui->splitterMedia->sizes()[1] > 0)
+		if(ui->splitterMedia->sizes()[1] > 0)
 		{
 			quazaaSettings.WinMain.MediaSplitterRestoreLeft = ui->splitterMedia->sizes()[0];
 			quazaaSettings.WinMain.MediaSplitterRestoreRight = ui->splitterMedia->sizes()[1];
@@ -115,7 +116,9 @@ void WidgetMedia::on_splitterMedia_customContextMenuRequested(QPoint pos)
 			newSizes.append(ui->splitterMedia->sizes()[0] + ui->splitterMedia->sizes()[1]);
 			newSizes.append(0);
 			ui->splitterMedia->setSizes(newSizes);
-		} else {
+		}
+		else
+		{
 			QList<int> sizesList;
 			sizesList.append(quazaaSettings.WinMain.MediaSplitterRestoreLeft);
 			sizesList.append(quazaaSettings.WinMain.MediaSplitterRestoreRight);
@@ -126,7 +129,7 @@ void WidgetMedia::on_splitterMedia_customContextMenuRequested(QPoint pos)
 
 void WidgetMedia::on_toolButtonMediaPlaylistTaskHeader_clicked()
 {
-	if (ui->splitterMedia->sizes()[0] > 0)
+	if(ui->splitterMedia->sizes()[0] > 0)
 	{
 		quazaaSettings.WinMain.MediaSplitterRestoreLeft = ui->splitterMedia->sizes()[0];
 		quazaaSettings.WinMain.MediaSplitterRestoreRight = ui->splitterMedia->sizes()[1];
@@ -134,7 +137,9 @@ void WidgetMedia::on_toolButtonMediaPlaylistTaskHeader_clicked()
 		newSizes.append(0);
 		newSizes.append(ui->splitterMedia->sizes()[0] + ui->splitterMedia->sizes()[1]);
 		ui->splitterMedia->setSizes(newSizes);
-	} else {
+	}
+	else
+	{
 		QList<int> sizesList;
 		sizesList.append(quazaaSettings.WinMain.MediaSplitterRestoreLeft);
 		sizesList.append(quazaaSettings.WinMain.MediaSplitterRestoreRight);

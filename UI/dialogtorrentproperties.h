@@ -24,21 +24,23 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogTorrentProperties;
 }
 
-class DialogTorrentProperties : public QDialog {
+class DialogTorrentProperties : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogTorrentProperties(QWidget *parent = 0);
+	DialogTorrentProperties(QWidget* parent = 0);
 	~DialogTorrentProperties();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogTorrentProperties *m_ui;
+	Ui::DialogTorrentProperties* m_ui;
 
 signals:
 	void closed();

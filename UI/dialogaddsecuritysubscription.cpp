@@ -23,7 +23,7 @@
 #include "ui_dialogaddsecuritysubscription.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogAddSecuritySubscription::DialogAddSecuritySubscription(QWidget *parent) :
+DialogAddSecuritySubscription::DialogAddSecuritySubscription(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAddSecuritySubscription)
 {
@@ -37,15 +37,16 @@ DialogAddSecuritySubscription::~DialogAddSecuritySubscription()
 	delete m_ui;
 }
 
-void DialogAddSecuritySubscription::changeEvent(QEvent *e)
+void DialogAddSecuritySubscription::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

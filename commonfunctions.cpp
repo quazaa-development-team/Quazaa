@@ -34,7 +34,7 @@ void CommonFunctions::FolderOpen(QString file)
 {
 	QDir completePath(file);
 
-	if (!completePath.exists())
+	if(!completePath.exists())
 	{
 		completePath.mkpath(file);
 	}
@@ -48,46 +48,78 @@ QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
 	double nBPS = nBytesPerSec;
 
 	int nStep = 0;
-	while( nBPS > 1024 )
+	while(nBPS > 1024)
 	{
 		nBPS /= 1024;
 		nStep++;
-		if( nStep == 3 )
+		if(nStep == 3)
+		{
 			break;
+		}
 	}
 
-	if( nStep )
+	if(nStep)
+	{
 		return QString().sprintf("%1.2f %s", nBPS, szUnit[nStep]);
+	}
 	else
+	{
 		return QString().sprintf("%1.0f %s", nBPS, szUnit[nStep]);
+	}
 }
 
 QString CommonFunctions::VendorCodeToName(QString vendorCode)
 {
-	if ( vendorCode == "RAZA" )
+	if(vendorCode == "RAZA")
+	{
 		return "Shareaza";
-	if ( vendorCode == "RAZB" )
+	}
+	if(vendorCode == "RAZB")
+	{
 		return "Shareaza Beta";
-	if ( vendorCode == "QAZA" )
+	}
+	if(vendorCode == "QAZA")
+	{
 		return "Quazaa";
-	if ( vendorCode == "QAZB" )
+	}
+	if(vendorCode == "QAZB")
+	{
 		return "Quazaa Beta";
-	if ( vendorCode == "SHLN" )
+	}
+	if(vendorCode == "SHLN")
+	{
 		return "Sharelin";
-	if ( vendorCode == "RZCB" )
+	}
+	if(vendorCode == "RZCB")
+	{
 		return "Shareaza Plus";
-	if ( vendorCode == "FSCP" )
+	}
+	if(vendorCode == "FSCP")
+	{
 		return "FileScope";
-	if ( vendorCode == "AGIO" )
+	}
+	if(vendorCode == "AGIO")
+	{
 		return "Adiago";
-	if ( vendorCode == "GNUC" )
+	}
+	if(vendorCode == "GNUC")
+	{
 		return "Gnucleus";
-	if ( vendorCode == "MLDK" )
+	}
+	if(vendorCode == "MLDK")
+	{
 		return "MLDonkey";
-	if ( vendorCode == "MMMM" )
+	}
+	if(vendorCode == "MMMM")
+	{
 		return "Morpheus";
-	if ( vendorCode == "PEER" )
+	}
+	if(vendorCode == "PEER")
+	{
 		return "PeerProject";
+	}
 	else
+	{
 		return vendorCode;
+	}
 }

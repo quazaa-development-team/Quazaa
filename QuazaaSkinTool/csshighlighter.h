@@ -67,7 +67,7 @@ class CssHighlighter : public QSyntaxHighlighter
 {
 	Q_OBJECT
 public:
-	explicit CssHighlighter(QTextDocument *document);
+	explicit CssHighlighter(QTextDocument* document);
 
 protected:
 	void highlightBlock(const QString&);
@@ -75,7 +75,8 @@ protected:
 
 private:
 	enum State { Selector, Property, Value, Pseudo, Pseudo1, Pseudo2, Quote,
-				 MaybeComment, Comment, MaybeCommentEnd };
+	             MaybeComment, Comment, MaybeCommentEnd
+	           };
 };
 
 QT_END_NAMESPACE

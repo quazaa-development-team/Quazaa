@@ -26,7 +26,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetLibraryView::WidgetLibraryView(QWidget *parent) :
+WidgetLibraryView::WidgetLibraryView(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetLibraryView)
 {
@@ -45,15 +45,16 @@ WidgetLibraryView::~WidgetLibraryView()
 	delete ui;
 }
 
-void WidgetLibraryView::changeEvent(QEvent *e)
+void WidgetLibraryView::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -73,8 +74,8 @@ void WidgetLibraryView::saveWidget()
 
 void WidgetLibraryView::on_actionFind_triggered()
 {
-	QSkinDialog *dlgSkinLibrarySearch = new QSkinDialog(false, true, false, false, this);
-	DialogLibrarySearch *dlgLibrarySearch = new DialogLibrarySearch;
+	QSkinDialog* dlgSkinLibrarySearch = new QSkinDialog(false, true, false, false, this);
+	DialogLibrarySearch* dlgLibrarySearch = new DialogLibrarySearch;
 
 	dlgSkinLibrarySearch->addChildWidget(dlgLibrarySearch);
 
@@ -86,9 +87,9 @@ void WidgetLibraryView::on_splitterLibraryView_customContextMenuRequested(QPoint
 {
 	Q_UNUSED(pos);
 
-	if (ui->splitterLibraryView->handle(1)->underMouse())
+	if(ui->splitterLibraryView->handle(1)->underMouse())
 	{
-		if (ui->splitterLibraryView->sizes()[1] > 0)
+		if(ui->splitterLibraryView->sizes()[1] > 0)
 		{
 			quazaaSettings.WinMain.LibraryDetailsSplitterRestoreTop = ui->splitterLibraryView->sizes()[0];
 			quazaaSettings.WinMain.LibraryDetailsSplitterRestoreBottom = ui->splitterLibraryView->sizes()[1];
@@ -96,7 +97,9 @@ void WidgetLibraryView::on_splitterLibraryView_customContextMenuRequested(QPoint
 			newSizes.append(ui->splitterLibraryView->sizes()[0] + ui->splitterLibraryView->sizes()[1]);
 			newSizes.append(0);
 			ui->splitterLibraryView->setSizes(newSizes);
-		} else {
+		}
+		else
+		{
 			QList<int> sizesList;
 			sizesList.append(quazaaSettings.WinMain.LibraryDetailsSplitterRestoreTop);
 			sizesList.append(quazaaSettings.WinMain.LibraryDetailsSplitterRestoreBottom);

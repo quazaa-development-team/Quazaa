@@ -23,7 +23,7 @@
 #include "ui_dialogselectvisualisation.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogSelectVisualisation::DialogSelectVisualisation(QWidget *parent) :
+DialogSelectVisualisation::DialogSelectVisualisation(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogSelectVisualisation)
 {
@@ -37,15 +37,16 @@ DialogSelectVisualisation::~DialogSelectVisualisation()
 	delete m_ui;
 }
 
-void DialogSelectVisualisation::changeEvent(QEvent *e)
+void DialogSelectVisualisation::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

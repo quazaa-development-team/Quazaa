@@ -3,11 +3,11 @@
 
 #include "../QSkinDialog/qskinsettings.h"
 
-WidgetNavigation::WidgetNavigation(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetNavigation)
+WidgetNavigation::WidgetNavigation(QWidget* parent) :
+	QMainWindow(parent),
+	ui(new Ui::WidgetNavigation)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	actionGroupMainNavigation = new QActionGroup(this);
 	actionGroupMainNavigation->addAction(ui->actionHome);
 	actionGroupMainNavigation->addAction(ui->actionLibrary);
@@ -22,19 +22,20 @@ WidgetNavigation::WidgetNavigation(QWidget *parent) :
 
 WidgetNavigation::~WidgetNavigation()
 {
-    delete ui;
+	delete ui;
 }
 
-void WidgetNavigation::changeEvent(QEvent *e)
+void WidgetNavigation::changeEvent(QEvent* e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
+	}
 }
 
 void WidgetNavigation::skinChangeEvent()

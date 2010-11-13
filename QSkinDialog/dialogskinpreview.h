@@ -15,24 +15,26 @@
 #include <QtGui>
 #include <QPoint>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogSkinPreview;
 }
 
-class DialogSkinPreview : public QDialog {
+class DialogSkinPreview : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogSkinPreview(QWidget *parent = 0);
+	DialogSkinPreview(QWidget* parent = 0);
 	~DialogSkinPreview();
 
 public slots:
 	void loadSkin(QString file = "");
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogSkinPreview *ui;
+	Ui::DialogSkinPreview* ui;
 };
 
 #endif // DIALOGSKINPREVIEW_H

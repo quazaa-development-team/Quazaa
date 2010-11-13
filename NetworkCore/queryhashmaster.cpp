@@ -31,7 +31,7 @@ CQueryHashMaster::CQueryHashMaster()
 
 CQueryHashMaster::~CQueryHashMaster()
 {
-	Q_ASSERT( GetCount() == 0 );
+	Q_ASSERT(GetCount() == 0);
 }
 
 void CQueryHashMaster::Create()
@@ -46,42 +46,45 @@ void CQueryHashMaster::Create()
 
 void CQueryHashMaster::Add(CQueryHashTable* pTable)
 {
-	Q_ASSERT( m_nPerGroup > 0 );
-	Q_ASSERT( pTable != 0 );
-	Q_ASSERT( pTable->m_nHash > 0 );
-	Q_ASSERT( pTable->m_pGroup == 0 );
+	Q_ASSERT(m_nPerGroup > 0);
+	Q_ASSERT(pTable != 0);
+	Q_ASSERT(pTable->m_nHash > 0);
+	Q_ASSERT(pTable->m_pGroup == 0);
 
-	for( QList<CQueryHashGroup*>::iterator itGroup = m_pGroups.begin(); itGroup != m_pGroups.end(); itGroup++ )
+	for(QList<CQueryHashGroup*>::iterator itGroup = m_pGroups.begin(); itGroup != m_pGroups.end(); itGroup++)
 	{
 		CQueryHashGroup* pGroup = *itGroup;
 
-		if ( pGroup->m_nHash == pTable->m_nHash &&
-			 pGroup->GetCount() < m_nPerGroup )
+		if(pGroup->m_nHash == pTable->m_nHash &&
+		        pGroup->GetCount() < m_nPerGroup)
 		{
-			pGroup->Add( pTable );
+			pGroup->Add(pTable);
 			m_bValid = false;
 			return;
 		}
 	}
 
-	CQueryHashGroup* pGroup = new CQueryHashGroup( pTable->m_nHash );
-	m_pGroups.append( pGroup );
-	pGroup->Add( pTable );
+	CQueryHashGroup* pGroup = new CQueryHashGroup(pTable->m_nHash);
+	m_pGroups.append(pGroup);
+	pGroup->Add(pTable);
 	m_bValid = false;
 }
 
 void CQueryHashMaster::Remove(CQueryHashTable* pTable)
 {
-	Q_ASSERT( pTable != 0 );
-	if ( pTable->m_pGroup == 0 ) return;
+	Q_ASSERT(pTable != 0);
+	if(pTable->m_pGroup == 0)
+	{
+		return;
+	}
 
 	CQueryHashGroup* pGroup = pTable->m_pGroup;
-	pGroup->Remove( pTable );
+	pGroup->Remove(pTable);
 
-	if ( pGroup->GetCount() == 0 )
+	if(pGroup->GetCount() == 0)
 	{
 		int pos = m_pGroups.indexOf(pGroup);
-		Q_ASSERT( pos >= 0 );
+		Q_ASSERT(pos >= 0);
 		m_pGroups.removeAt(pos);
 		delete pGroup;
 	}
@@ -93,29 +96,37 @@ void CQueryHashMaster::Build()
 {
 	quint32 tNow = time(0);
 
-	if ( m_bValid )
+	if(m_bValid)
 	{
-		if ( tNow - m_nCookie < 600 ) return;
+		if(tNow - m_nCookie < 600)
+		{
+			return;
+		}
 	}
 	else
 	{
-		if ( tNow - m_nCookie < 20 ) return;
+		if(tNow - m_nCookie < 20)
+		{
+			return;
+		}
 	}
 
 	QMutexLocker l(&ShareManager.m_oSection);
 
 	const CQueryHashTable* pLocalTable = ShareManager.GetHashTable();
 
-	if( !pLocalTable )
+	if(!pLocalTable)
+	{
 		return;
+	}
 
 	Clear();
-	Merge( pLocalTable );
+	Merge(pLocalTable);
 
-	for( QList<CQueryHashGroup*>::iterator itGroup = m_pGroups.begin(); itGroup != m_pGroups.end(); itGroup++ )
+	for(QList<CQueryHashGroup*>::iterator itGroup = m_pGroups.begin(); itGroup != m_pGroups.end(); itGroup++)
 	{
 		CQueryHashGroup* pGroup = *itGroup;
-		Merge( pGroup );
+		Merge(pGroup);
 	}
 
 

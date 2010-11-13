@@ -49,32 +49,32 @@ QT_END_NAMESPACE
 //! [1]
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    MainWindow();
+	MainWindow();
 
 public slots:
-    void populateJavaScriptWindowObject();
-    void formValues(QString str);
+	void populateJavaScriptWindowObject();
+	void formValues(QString str);
 
 
 protected slots:
 
-    void adjustLocation();
-    void changeLocation();
-    void adjustTitle();
-    void setProgress(int p);
-    void finishLoading(bool);
+	void adjustLocation();
+	void changeLocation();
+	void adjustTitle();
+	void setProgress(int p);
+	void finishLoading(bool);
 
 private:
-    QString jQuery;
-    QWebView *view;
-    QLineEdit *locationEdit;
-    QTextEdit *logPane;
-    QAction *rotateAction;
-    int progress;
-    QString postString;
-    bool firstRequest;
-//! [1]
+	QString jQuery;
+	QWebView* view;
+	QLineEdit* locationEdit;
+	QTextEdit* logPane;
+	QAction* rotateAction;
+	int progress;
+	QString postString;
+	bool firstRequest;
+	//! [1]
 };

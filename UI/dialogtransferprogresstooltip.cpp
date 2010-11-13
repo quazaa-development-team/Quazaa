@@ -23,7 +23,7 @@
 #include "ui_dialogtransferprogresstooltip.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogTransferProgressTooltip::DialogTransferProgressTooltip(QWidget *parent) :
+DialogTransferProgressTooltip::DialogTransferProgressTooltip(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogTransferProgressTooltip)
 {
@@ -37,21 +37,22 @@ DialogTransferProgressTooltip::~DialogTransferProgressTooltip()
 	delete m_ui;
 }
 
-void DialogTransferProgressTooltip::changeEvent(QEvent *e)
+void DialogTransferProgressTooltip::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
 void DialogTransferProgressTooltip::updateProgress(int percent, QString transferSpeed, QString timeRemaining,
-												   QString volumeDownloaded, QString numberSources, QPixmap icon,
-												   QString file, QString size, QString type, QStringList hashes)
+        QString volumeDownloaded, QString numberSources, QPixmap icon,
+        QString file, QString size, QString type, QStringList hashes)
 {
 	m_ui->progressBarProgress->setValue(percent);
 	m_ui->labelTransferSpeed->setText(transferSpeed);

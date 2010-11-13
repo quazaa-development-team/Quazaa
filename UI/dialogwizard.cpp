@@ -25,7 +25,7 @@
 #include "QSkinDialog/qskinsettings.h"
 #include <QFileDialog>
 
-DialogWizard::DialogWizard(QWidget *parent) :
+DialogWizard::DialogWizard(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogWizard)
 {
@@ -33,8 +33,8 @@ DialogWizard::DialogWizard(QWidget *parent) :
 	m_ui->comboBoxGender->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
-	m_ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed/1024)*8);
-	m_ui->doubleSpinBoxOutSpeed->setValue((quazaaSettings.Connection.OutSpeed/1024)*8);
+	m_ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed / 1024) * 8);
+	m_ui->doubleSpinBoxOutSpeed->setValue((quazaaSettings.Connection.OutSpeed / 1024) * 8);
 	m_ui->spinBoxQuazaaPort->setValue(quazaaSettings.Connection.Port);
 	m_ui->checkBoxRandomPort->setChecked(quazaaSettings.Connection.RandomPort);
 	m_ui->checkBoxUPnP->setChecked(quazaaSettings.Security.EnableUPnP);
@@ -67,14 +67,15 @@ DialogWizard::~DialogWizard()
 	delete m_ui;
 }
 
-void DialogWizard::changeEvent(QEvent *e)
+void DialogWizard::changeEvent(QEvent* e)
 {
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -160,14 +161,14 @@ void DialogWizard::on_pushButtonSystemBack_clicked()
 
 void DialogWizard::on_pushButtonSystemFinish_clicked()
 {
-	quazaaSettings.Connection.InSpeed = (m_ui->doubleSpinBoxInSpeed->value()/8)*1024;
-	quazaaSettings.Connection.OutSpeed = (m_ui->doubleSpinBoxOutSpeed->value()/8)*1024;
+	quazaaSettings.Connection.InSpeed = (m_ui->doubleSpinBoxInSpeed->value() / 8) * 1024;
+	quazaaSettings.Connection.OutSpeed = (m_ui->doubleSpinBoxOutSpeed->value() / 8) * 1024;
 	quazaaSettings.Connection.Port = m_ui->spinBoxQuazaaPort->value();
 	quazaaSettings.Connection.RandomPort = m_ui->checkBoxRandomPort->isChecked();
 	quazaaSettings.Security.EnableUPnP = m_ui->checkBoxUPnP->isChecked();
 	quazaaSettings.Security.AllowSharesBrowse = m_ui->checkBoxAllowBrowseShares->isChecked();
 	quazaaSettings.Library.Shares.clear();
-	for (int m_iSharesRow = 0; m_iSharesRow < m_ui->listWidgetShares->count(); ++m_iSharesRow)
+	for(int m_iSharesRow = 0; m_iSharesRow < m_ui->listWidgetShares->count(); ++m_iSharesRow)
 	{
 		m_ui->listWidgetShares->setCurrentRow(m_iSharesRow);
 		quazaaSettings.Library.Shares.append(m_ui->listWidgetShares->currentItem()->text());
@@ -207,10 +208,10 @@ void DialogWizard::on_pushButtonSharesAdd_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QString directory = QFileDialog::getExistingDirectory(this,
-							tr("Select A Folder To Share"),
-							quazaaSettings.Downloads.CompletePath,
-							options);
-	if (!directory.isEmpty())
+	                    tr("Select A Folder To Share"),
+	                    quazaaSettings.Downloads.CompletePath,
+	                    options);
+	if(!directory.isEmpty())
 	{
 		m_ui->listWidgetShares->addItem(directory);
 	}

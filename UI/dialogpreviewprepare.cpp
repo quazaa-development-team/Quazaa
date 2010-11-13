@@ -23,7 +23,7 @@
 #include "ui_dialogpreviewprepare.h"
 #include "QSkinDialog/qskinsettings.h"
 
-DialogPreviewPrepare::DialogPreviewPrepare(QWidget *parent) :
+DialogPreviewPrepare::DialogPreviewPrepare(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogPreviewPrepare)
 {
@@ -37,15 +37,16 @@ DialogPreviewPrepare::~DialogPreviewPrepare()
 	delete m_ui;
 }
 
-void DialogPreviewPrepare::changeEvent(QEvent *e)
+void DialogPreviewPrepare::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

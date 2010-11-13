@@ -25,7 +25,7 @@
 #include "quazaasettings.h"
 #include "QSkinDialog/qskinsettings.h"
 
-WidgetTransfers::WidgetTransfers(QWidget *parent) :
+WidgetTransfers::WidgetTransfers(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetTransfers)
 {
@@ -44,15 +44,16 @@ WidgetTransfers::~WidgetTransfers()
 	delete ui;
 }
 
-void WidgetTransfers::changeEvent(QEvent *e)
+void WidgetTransfers::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -73,9 +74,9 @@ void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos
 {
 	Q_UNUSED(pos);
 
-	if (ui->splitterTransfers->handle(1)->underMouse())
+	if(ui->splitterTransfers->handle(1)->underMouse())
 	{
-		if (ui->splitterTransfers->sizes()[1] > 0)
+		if(ui->splitterTransfers->sizes()[1] > 0)
 		{
 			quazaaSettings.WinMain.TransfersSplitterRestoreTop = ui->splitterTransfers->sizes()[0];
 			quazaaSettings.WinMain.TransfersSplitterRestoreBottom = ui->splitterTransfers->sizes()[1];
@@ -83,7 +84,9 @@ void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos
 			newSizes.append(ui->splitterTransfers->sizes()[0] + ui->splitterTransfers->sizes()[1]);
 			newSizes.append(0);
 			ui->splitterTransfers->setSizes(newSizes);
-		} else {
+		}
+		else
+		{
 			QList<int> sizesList;
 			sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreTop);
 			sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreBottom);
@@ -94,7 +97,7 @@ void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos
 
 void WidgetTransfers::on_toolButtonUploadsHeader_clicked()
 {
-	if (ui->splitterTransfers->sizes()[0] > 0)
+	if(ui->splitterTransfers->sizes()[0] > 0)
 	{
 		quazaaSettings.WinMain.TransfersSplitterRestoreTop = ui->splitterTransfers->sizes()[0];
 		quazaaSettings.WinMain.TransfersSplitterRestoreBottom = ui->splitterTransfers->sizes()[1];
@@ -102,7 +105,9 @@ void WidgetTransfers::on_toolButtonUploadsHeader_clicked()
 		newSizes.append(0);
 		newSizes.append(ui->splitterTransfers->sizes()[0] + ui->splitterTransfers->sizes()[1]);
 		ui->splitterTransfers->setSizes(newSizes);
-	} else {
+	}
+	else
+	{
 		QList<int> sizesList;
 		sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreTop);
 		sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreBottom);
@@ -112,7 +117,7 @@ void WidgetTransfers::on_toolButtonUploadsHeader_clicked()
 
 void WidgetTransfers::on_toolButtonDownloadsHeader_clicked()
 {
-	if (ui->splitterTransfers->sizes()[1] > 0)
+	if(ui->splitterTransfers->sizes()[1] > 0)
 	{
 		quazaaSettings.WinMain.TransfersSplitterRestoreTop = ui->splitterTransfers->sizes()[0];
 		quazaaSettings.WinMain.TransfersSplitterRestoreBottom = ui->splitterTransfers->sizes()[1];
@@ -120,7 +125,9 @@ void WidgetTransfers::on_toolButtonDownloadsHeader_clicked()
 		newSizes.append(ui->splitterTransfers->sizes()[0] + ui->splitterTransfers->sizes()[1]);
 		newSizes.append(0);
 		ui->splitterTransfers->setSizes(newSizes);
-	} else {
+	}
+	else
+	{
 		QList<int> sizesList;
 		sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreTop);
 		sizesList.append(quazaaSettings.WinMain.TransfersSplitterRestoreBottom);

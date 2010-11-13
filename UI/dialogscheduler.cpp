@@ -25,7 +25,7 @@
 #include <QListView>
 
 
-DialogScheduler::DialogScheduler(QWidget *parent) :
+DialogScheduler::DialogScheduler(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogScheduler)
 {
@@ -41,68 +41,69 @@ DialogScheduler::~DialogScheduler()
 	delete m_ui;
 }
 
-void DialogScheduler::changeEvent(QEvent *e)
+void DialogScheduler::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
 void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 {
-	switch (index)
+	switch(index)
 	{
-	case 0:
-		m_ui->spinBoxBandwidth->setEnabled(true);
-		m_ui->labelNetworks->setEnabled(true);
-		m_ui->checkBoxAres->setEnabled(true);
-		m_ui->checkBoxBitTorrent->setEnabled(true);
-		m_ui->checkBoxEDonkey->setEnabled(true);
-		m_ui->checkBoxG2->setEnabled(true);
-		m_ui->labelStop->setEnabled(true);
-		m_ui->dateTimeEditStop->setEnabled(true);
-		break;
-	case 1:
-		m_ui->spinBoxBandwidth->setEnabled(false);
-		m_ui->labelNetworks->setEnabled(false);
-		m_ui->checkBoxAres->setEnabled(false);
-		m_ui->checkBoxBitTorrent->setEnabled(false);
-		m_ui->checkBoxEDonkey->setEnabled(false);
-		m_ui->checkBoxG2->setEnabled(false);
-		m_ui->labelStop->setEnabled(true);
-		m_ui->dateTimeEditStop->setEnabled(true);
-		break;
-	case 2:
-		m_ui->spinBoxBandwidth->setEnabled(false);
-		m_ui->labelNetworks->setEnabled(false);
-		m_ui->checkBoxAres->setEnabled(false);
-		m_ui->checkBoxBitTorrent->setEnabled(false);
-		m_ui->checkBoxEDonkey->setEnabled(false);
-		m_ui->checkBoxG2->setEnabled(false);
-		m_ui->labelStop->setEnabled(false);
-		m_ui->dateTimeEditStop->setEnabled(false);
-		break;
-	default:
-		m_ui->spinBoxBandwidth->setEnabled(true);
-		m_ui->labelNetworks->setEnabled(true);
-		m_ui->checkBoxAres->setEnabled(true);
-		m_ui->checkBoxBitTorrent->setEnabled(true);
-		m_ui->checkBoxEDonkey->setEnabled(true);
-		m_ui->checkBoxG2->setEnabled(true);
-		m_ui->labelStop->setEnabled(true);
-		m_ui->dateTimeEditStop->setEnabled(true);
-		break;
+		case 0:
+			m_ui->spinBoxBandwidth->setEnabled(true);
+			m_ui->labelNetworks->setEnabled(true);
+			m_ui->checkBoxAres->setEnabled(true);
+			m_ui->checkBoxBitTorrent->setEnabled(true);
+			m_ui->checkBoxEDonkey->setEnabled(true);
+			m_ui->checkBoxG2->setEnabled(true);
+			m_ui->labelStop->setEnabled(true);
+			m_ui->dateTimeEditStop->setEnabled(true);
+			break;
+		case 1:
+			m_ui->spinBoxBandwidth->setEnabled(false);
+			m_ui->labelNetworks->setEnabled(false);
+			m_ui->checkBoxAres->setEnabled(false);
+			m_ui->checkBoxBitTorrent->setEnabled(false);
+			m_ui->checkBoxEDonkey->setEnabled(false);
+			m_ui->checkBoxG2->setEnabled(false);
+			m_ui->labelStop->setEnabled(true);
+			m_ui->dateTimeEditStop->setEnabled(true);
+			break;
+		case 2:
+			m_ui->spinBoxBandwidth->setEnabled(false);
+			m_ui->labelNetworks->setEnabled(false);
+			m_ui->checkBoxAres->setEnabled(false);
+			m_ui->checkBoxBitTorrent->setEnabled(false);
+			m_ui->checkBoxEDonkey->setEnabled(false);
+			m_ui->checkBoxG2->setEnabled(false);
+			m_ui->labelStop->setEnabled(false);
+			m_ui->dateTimeEditStop->setEnabled(false);
+			break;
+		default:
+			m_ui->spinBoxBandwidth->setEnabled(true);
+			m_ui->labelNetworks->setEnabled(true);
+			m_ui->checkBoxAres->setEnabled(true);
+			m_ui->checkBoxBitTorrent->setEnabled(true);
+			m_ui->checkBoxEDonkey->setEnabled(true);
+			m_ui->checkBoxG2->setEnabled(true);
+			m_ui->labelStop->setEnabled(true);
+			m_ui->dateTimeEditStop->setEnabled(true);
+			break;
 	}
 }
 
 void DialogScheduler::on_pushButtonOK_clicked()
 {
-	if (m_ui->pushButtonApply->isEnabled())
+	if(m_ui->pushButtonApply->isEnabled())
 	{
 		m_ui->pushButtonApply->click();
 	}

@@ -37,5 +37,5 @@ uint qHash(const QUuid& key)
 	nHash ^= *(quint32*)(void*)&key.data4[0];
 	nHash ^= *(quint32*)(void*)&key.data4[4];
 
-    return nHash;
+	return nHash;
 }

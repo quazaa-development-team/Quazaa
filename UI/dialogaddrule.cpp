@@ -24,7 +24,7 @@
 #include "QSkinDialog/qskinsettings.h"
 #include <QListView>
 
-DialogAddRule::DialogAddRule(QWidget *parent) :
+DialogAddRule::DialogAddRule(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAddRule)
 {
@@ -42,15 +42,16 @@ DialogAddRule::~DialogAddRule()
 	delete m_ui;
 }
 
-void DialogAddRule::changeEvent(QEvent *e)
+void DialogAddRule::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		m_ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 

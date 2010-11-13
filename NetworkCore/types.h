@@ -38,76 +38,76 @@
 
 struct IPv4_ENDPOINT
 {
-    quint32 ip;
-    quint16  port;
+	quint32 ip;
+	quint16  port;
 
-    IPv4_ENDPOINT(const quint32 addr = 0, const quint16 p = 0)
-    {
-        ip = addr;
-        port = p;
+	IPv4_ENDPOINT(const quint32 addr = 0, const quint16 p = 0)
+	{
+		ip = addr;
+		port = p;
 	}
 
-    IPv4_ENDPOINT(const QString& s)
-    {
-        QStringList l1 = s.split(":");
-        if( l1.count() != 2 )
-        {
-            ip = 0;
-            port = 0;
-            return;
-        }
+	IPv4_ENDPOINT(const QString& s)
+	{
+		QStringList l1 = s.split(":");
+		if(l1.count() != 2)
+		{
+			ip = 0;
+			port = 0;
+			return;
+		}
 
-        port = l1.at(1).toShort();
+		port = l1.at(1).toShort();
 
-        QStringList l = l1.at(0).split(".");
-        if( l.count() != 4 )
-        {
-            ip = 0;
-            port = 0;
-            return;
-        }
-        ip = 0;
+		QStringList l = l1.at(0).split(".");
+		if(l.count() != 4)
+		{
+			ip = 0;
+			port = 0;
+			return;
+		}
+		ip = 0;
 
-        for( int i = 0; i < 4; i++)
-        {
-            uint b = l.at(i).toUInt();
-            if( b > 255 )
-            {
-                ip = 0;
-                port = 0;
-                return;
-            }
-            ip <<= 8;
-            ip += b;
-        }
-    }
+		for(int i = 0; i < 4; i++)
+		{
+			uint b = l.at(i).toUInt();
+			if(b > 255)
+			{
+				ip = 0;
+				port = 0;
+				return;
+			}
+			ip <<= 8;
+			ip += b;
+		}
+	}
 
-    QString toString()
-    {
-        QString r;
+	QString toString()
+	{
+		QString r;
 
-        r.sprintf("%d.%d.%d.%d:%d", (ip >> 24) & 0xFF, (ip >> 16) & 0xFF, (ip >> 8) & 0xFF, ip & 0xFF , port);
+		r.sprintf("%d.%d.%d.%d:%d", (ip >> 24) & 0xFF, (ip >> 16) & 0xFF, (ip >> 8) & 0xFF, ip & 0xFF , port);
 
-        return r;
-    }
-    QString toStringNoPort()
-    {
-        QString r;
+		return r;
+	}
+	QString toStringNoPort()
+	{
+		QString r;
 
-        r.sprintf("%d.%d.%d.%d", (ip >> 24) & 0xFF, (ip >> 16) & 0xFF, (ip >> 8) & 0xFF, ip & 0xFF);
+		r.sprintf("%d.%d.%d.%d", (ip >> 24) & 0xFF, (ip >> 16) & 0xFF, (ip >> 8) & 0xFF, ip & 0xFF);
 
-        return r;
-    }
+		return r;
+	}
 
 
-    bool operator==(IPv4_ENDPOINT& rhs)
-    {
-        return (ip == rhs.ip);
-    }
-    bool operator!=(IPv4_ENDPOINT& rhs)
-    {
-        return (ip != rhs.ip);
-    }
+	bool operator==(IPv4_ENDPOINT& rhs)
+	{
+		return (ip == rhs.ip);
+	}
+	bool operator!=(IPv4_ENDPOINT& rhs)
+	{
+		return (ip != rhs.ip);
+	}
 };
 
 uint qHash(const QUuid& key);

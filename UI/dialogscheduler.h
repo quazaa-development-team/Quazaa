@@ -24,21 +24,23 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
+namespace Ui
+{
 	class DialogScheduler;
 }
 
-class DialogScheduler : public QDialog {
+class DialogScheduler : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogScheduler(QWidget *parent = 0);
+	DialogScheduler(QWidget* parent = 0);
 	~DialogScheduler();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogScheduler *m_ui;
+	Ui::DialogScheduler* m_ui;
 
 signals:
 	void closed();

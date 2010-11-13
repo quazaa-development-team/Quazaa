@@ -24,20 +24,23 @@
 
 #include <QtGui/QDialog>
 
-namespace Ui {
-	class DialogSecuritySubscriptions;}
+namespace Ui
+{
+	class DialogSecuritySubscriptions;
+}
 
-class DialogSecuritySubscriptions : public QDialog {
+class DialogSecuritySubscriptions : public QDialog
+{
 	Q_OBJECT
 public:
-	DialogSecuritySubscriptions(QWidget *parent = 0);
+	DialogSecuritySubscriptions(QWidget* parent = 0);
 	~DialogSecuritySubscriptions();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogSecuritySubscriptions *m_ui;
+	Ui::DialogSecuritySubscriptions* m_ui;
 
 signals:
 	void closed();

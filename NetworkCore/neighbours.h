@@ -33,16 +33,16 @@ class CRateController;
 
 class CNeighbours : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
 	QMutex			 m_pSection;
 
 protected:
 	QList<CG2Node*>		 m_lNodes;
-	CRateController*	 m_pController;
+	CRateController* 	m_pController;
 
-	QHash<quint32, CG2Node*> m_lNodesByAddr; // lookups by ip address
+	QHash<quint32, CG2Node*> m_lNodesByAddr;  // lookups by ip address
 	QSet<CG2Node*>			 m_lNodesByPtr;	// lookups by pointer
 
 public:
@@ -51,7 +51,7 @@ public:
 	bool	m_bActive;
 
 public:
-	CNeighbours(QObject *parent = 0);
+	CNeighbours(QObject* parent = 0);
 	~CNeighbours();
 
 	void Connect();

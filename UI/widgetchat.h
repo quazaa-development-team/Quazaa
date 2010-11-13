@@ -25,23 +25,25 @@
 #include <QWidget>
 #include "widgetchatcenter.h"
 
-namespace Ui {
+namespace Ui
+{
 	class WidgetChat;
 }
 
-class WidgetChat : public QWidget {
+class WidgetChat : public QWidget
+{
 	Q_OBJECT
 public:
-	WidgetChat(QWidget *parent = 0);
+	WidgetChat(QWidget* parent = 0);
 	~WidgetChat();
-	WidgetChatCenter *panelChatCenter;
+	WidgetChatCenter* panelChatCenter;
 	void saveWidget();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetChat *ui;
+	Ui::WidgetChat* ui;
 
 private slots:
 	void on_splitterChat_customContextMenuRequested(QPoint pos);
