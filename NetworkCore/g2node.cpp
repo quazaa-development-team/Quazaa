@@ -1305,6 +1305,7 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 		return;
 	}
 
+	// temporary code
 	// just read guid for now to have it in routing table
 
 	QUuid oGUID;
@@ -1325,10 +1326,20 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
+	/*
+	 * Anti-DDoS
+	 * Code below is to minimize the impact caused by forwarded searches.
+	 * We restrict number of queries with a given return address sent by this neighbouring hub.
+	 * We allow unlimited queried for this connected hub (when its address is specified in query).
+	 * Our hub can still be searched via other neighbouring hubs.
+	 * This is to protect inter-hub query forwarding where nothing is checked.
+	 * The main problem is still there, though.
+	 */
+
 	if( Network.isHub() && m_nType == G2_HUB ) // must be both hubs
 	{
 		QHash<quint32,quint32>::const_iterator itEntry = m_lRABan.find(oReturnAddr.ip);
-		if( itEntry != m_lRABan.end() && time(0) - itEntry.value() < 60 )
+		if( itEntry != m_lRABan.end() && time(0) - itEntry.value() < 60 && itEntry.key() != oReturnAddr.ip )
 		{
 			qDebug() << "Dropping query for return address " << oReturnAddr.toStringNoPort() << "on hub" << m_oAddress.toStringNoPort();
 			return; // drop excess packets
