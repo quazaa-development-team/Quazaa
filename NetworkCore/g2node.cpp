@@ -355,17 +355,36 @@ void CG2Node::OnTimer(quint32 tNow)
 		}*/
 
 		if((m_nType == G2_HUB && tNow - m_tConnected > 90) &&
-		        ((m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie) &&
-		         (tNow - m_pLocalTable->m_nCookie > 60) &&
-		         (tNow - QueryHashMaster.m_nCookie > 30) ||
-		         QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
-		         !m_pLocalTable->m_bLive)
+				((m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie) &&
+				 (tNow - m_pLocalTable->m_nCookie > 60) &&
+				 (tNow - QueryHashMaster.m_nCookie > 30) ||
+				 QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
+				 !m_pLocalTable->m_bLive)
 		  )
 		{
 			if(m_pLocalTable->PatchTo(&QueryHashMaster, this))
 			{
 				systemLog.postLog(LogSeverity::Notice, "Sending query routing table to %s (%d bits, %d entries, %d bytes, %d%% full)",  m_oAddress.toStringNoPort().toAscii().constData(), m_pLocalTable->m_nBits, m_pLocalTable->m_nHash, m_pLocalTable->m_nHash / 8, m_pLocalTable->GetPercent());
 			}
+		}
+
+		// Anti-DDoS
+		// cleaning table
+		if( m_lRABan.size() >= 1000 )
+		{
+			qDebug() << "Clearing bans on hub " << m_oAddress.toStringNoPort();
+			for( QHash<quint32,quint32>::iterator itBan = m_lRABan.begin(); itBan != m_lRABan.end(); )
+			{
+				if( tNow - itBan.value() > 60 ) // 1 minute
+				{
+					itBan = m_lRABan.erase(itBan);
+				}
+				else
+				{
+					++itBan;
+				}
+			}
+			qDebug() << "Still active bans: " << m_lRABan.size();
 		}
 
 
@@ -1289,10 +1308,35 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 	// just read guid for now to have it in routing table
 
 	QUuid oGUID;
-	if(pPacket->m_bCompound)
+	IPv4_ENDPOINT oReturnAddr;
+
+	char szType[9];
+	quint32 nLength = 0, nNext = 0;
+
+	while(pPacket->ReadPacket(&szType[0], nLength))
 	{
-		pPacket->SkipCompound();
+		nNext = pPacket->m_nPosition + nLength;
+
+		if( strcmp(&szType[0], "UDP") == 0 && nLength >= 6 )
+		{
+			pPacket->ReadHostAddress(&oReturnAddr);
+		}
+
+		pPacket->m_nPosition = nNext;
 	}
+
+	if( Network.isHub() && m_nType == G2_HUB ) // must be both hubs
+	{
+		QHash<quint32,quint32>::const_iterator itEntry = m_lRABan.find(oReturnAddr.ip);
+		if( itEntry != m_lRABan.end() && time(0) - itEntry.value() < 60 )
+		{
+			qDebug() << "Dropping query for return address " << oReturnAddr.toStringNoPort() << "on hub" << m_oAddress.toStringNoPort();
+			return; // drop excess packets
+		}
+		m_lRABan.insert(oReturnAddr.ip, time(0));
+		qDebug() << "Banning return address" << oReturnAddr.toStringNoPort() << "on hub " << m_oAddress.toStringNoPort() << " num banned: " << m_lRABan.size();
+	}
+
 
 	if(pPacket->GetRemaining() >= 16)
 	{

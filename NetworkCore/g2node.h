@@ -25,6 +25,7 @@
 #include "compressedconnection.h"
 #include <QElapsedTimer>
 #include <QQueue>
+#include <QHash>
 
 class G2Packet;
 class CQueryHashTable;
@@ -65,6 +66,8 @@ public:
 
 	bool			m_bSendQHT;
 	quint32			m_tLastQHT;
+
+	QHash<quint32,quint32> m_lRABan; // list of banned return addresses
 
 	quint32			m_nCookie;
 
