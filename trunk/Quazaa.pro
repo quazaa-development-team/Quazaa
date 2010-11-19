@@ -178,7 +178,8 @@ SOURCES += main.cpp \
 	3rdparty/libircclient-qt/src/ircbuffer.cpp \
 	3rdparty/libircclient-qt/src/irc.cpp \
 	UI/widgetchattab.cpp \
-    NetworkCore/buffer.cpp
+    NetworkCore/buffer.cpp \
+    UI/dialogprivatemessage.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -288,7 +289,8 @@ HEADERS += UI/dialoglanguage.h \
 	3rdparty/libircclient-qt/include/ircbuffer.h \
 	3rdparty/libircclient-qt/include/irc.h \
 	UI/widgetchattab.h \
-    NetworkCore/buffer.h
+    NetworkCore/buffer.h \
+    UI/dialogprivatemessage.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
@@ -342,7 +344,8 @@ FORMS += UI/dialoglanguage.ui \
 	UI/widgetsearchmonitor.ui \
 	UI/widgethitmonitor.ui \
 	UI/dialogconnectto.ui \
-	UI/widgetchattab.ui
+	UI/widgetchattab.ui \
+    UI/dialogprivatemessage.ui
 TRANSLATIONS = Language/quazaa_af.ts \
 	Language/quazaa_ar.ts \
 	Language/quazaa_ca.ts \
