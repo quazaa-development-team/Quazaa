@@ -1,3 +1,24 @@
+//
+// endpoint.cpp
+//
+// Copyright © Quazaa Development Team, 2009-2010.
+// This file is part of QUAZAA (quazaa.sourceforge.net)
+//
+// Quazaa is free software; you can redistribute it
+// and/or modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 3 of
+// the License, or (at your option) any later version.
+//
+// Quazaa is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Quazaa; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+//
+
 #include "endpoint.h"
 
 #include <QStringList>
@@ -7,21 +28,37 @@ CEndPoint::CEndPoint()
 {
 	m_nPort = 0;
 }
+
 CEndPoint::CEndPoint(quint32 ip4Addr, quint16 nPort)
 	:QHostAddress(ip4Addr), m_nPort(nPort)
-{}
+{
+
+}
+
 CEndPoint::CEndPoint(quint8 *ip6Addr, quint16 nPort)
 	:QHostAddress(ip6Addr), m_nPort(nPort)
-{}
+{
+
+}
+
 CEndPoint::CEndPoint(const Q_IPV6ADDR &ip6Addr, quint16 nPort)
 	:QHostAddress(ip6Addr), m_nPort(nPort)
-{}
+{
+
+}
+
 CEndPoint::CEndPoint(const sockaddr *sockaddr, quint16 nPort)
 	:QHostAddress(sockaddr), m_nPort(nPort)
-{}
+{
+
+}
+
 CEndPoint::CEndPoint(const QString &address, quint16 nPort)
 	:QHostAddress(address), m_nPort(nPort)
-{}
+{
+
+}
+
 CEndPoint::CEndPoint(const QString &address)
 {
 	if( address.count(":") >= 2 )
@@ -75,9 +112,12 @@ CEndPoint::CEndPoint(const CEndPoint &copy)
 {
 	m_nPort = copy.m_nPort;
 }
+
 CEndPoint::CEndPoint(SpecialAddress address, quint16 nPort)
 	:QHostAddress(address), m_nPort(nPort)
-{}
+{
+
+}
 
 void CEndPoint::clear()
 {
@@ -96,10 +136,12 @@ QString CEndPoint::toStringWithPort() const
 		return QString("[%1]:%2").arg(toString()).arg(m_nPort);
 	}
 }
+
 quint16 CEndPoint::port() const
 {
 	return m_nPort;
 }
+
 void CEndPoint::setPort(const quint16 nPort)
 {
 	m_nPort = nPort;
