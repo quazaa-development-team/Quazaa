@@ -34,6 +34,7 @@
 #include <QtEndian>
 #include <QUuid>
 
+#include "endpoint.h"
 #include "systemlog.h"
 
 struct IPv4_ENDPOINT

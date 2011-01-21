@@ -40,7 +40,6 @@
 #include "ShareManager.h"
 #include "quazaairc.h"
 
-
 QuazaaGlobals quazaaGlobals;
 
 int main(int argc, char* argv[])
@@ -147,7 +146,7 @@ int main(int argc, char* argv[])
 	// problem with Visual C++ because it lets you cheat and is the source for
 	// popup malware.) so it will make the icon in the task bar blink instead.
 	QObject::connect(&theApp, SIGNAL(messageReceived(const QString&)),
-	                 &skinWinMain, SLOT(restore()));
+					 &skinWinMain, SLOT(restore()));
 	theApp.setActivationWindow(&skinWinMain);
 	QObject::connect(&skinWinMain, SIGNAL(needToShow()), &theApp, SLOT(activateWindow()));
 
