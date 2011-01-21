@@ -747,6 +747,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 		// Save Skin Settings
 		quazaaSettings.Skin.File = skinFile;
 		skinSettings.loadSkin(skinFile);
+                qDebug() << "Switching skin to: " << skinSettings.skinName;
 
 		emit skinChanged();
 		quazaaSettings.saveSkinSettings();

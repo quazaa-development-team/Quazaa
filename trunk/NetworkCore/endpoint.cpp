@@ -107,6 +107,7 @@ CEndPoint::CEndPoint(const QString &address)
 		QHostAddress::setAddress(l1.at(0));
 	}
 }
+
 CEndPoint::CEndPoint(const CEndPoint &copy)
 	:QHostAddress(copy)
 {
