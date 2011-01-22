@@ -27,10 +27,10 @@
 
 CHash::CHash(const CHash &rhs)
 {
-	systemLog.postLog(LogSeverity::Debug, "Calling CHash copy ctor");
+	systemLog.postLog("Calling CHash copy ctor", LogSeverity::Debug);
 
 	if( !rhs.m_bFinalized )
-			systemLog.postLog(LogSeverity::Warning, "WARNING: Copying non-finalized CHash");
+			systemLog.postLog("WARNING: Copying non-finalized CHash", LogSeverity::Warning);
 
 	m_baRawValue = rhs.m_baRawValue;
 	m_nHashAlgorithm = rhs.m_nHashAlgorithm;

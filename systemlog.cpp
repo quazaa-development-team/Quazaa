@@ -21,6 +21,7 @@
 
 #include "systemlog.h"
 #include <QMetaType>
+#include <QtCore>
 
 SystemLog systemLog;
 
@@ -31,6 +32,20 @@ SystemLog::SystemLog()
 
 void SystemLog::postLog(QString message, LogSeverity::Severity severity)
 {
+	switch(severity)
+	{
+	case LogSeverity::Debug:
+		qDebug() << message;
+		break;
+	case LogSeverity::Warning:
+		qWarning() << message;
+		break;
+	case LogSeverity::Critical:
+		qCritical() << message;
+		break;
+	default:
+		break;
+	}
 	emit logPosted(message, severity);
 }
 void SystemLog::postLog(LogSeverity::Severity severity, const char* format, ...)
