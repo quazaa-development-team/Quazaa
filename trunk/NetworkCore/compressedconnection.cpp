@@ -273,7 +273,7 @@ void CCompressedConnection::Deflate()
 		}
 		else
 		{
-			systemLog.postLog(tr("Error in compressor! ").arg(nRet), LogSeverity::Debug);
+			systemLog.postLog(tr("Error in compressor! %1").arg(nRet), LogSeverity::Debug);
 			//qDebug() << "Error in compressor!" << nRet;
 			Close();
 			break;

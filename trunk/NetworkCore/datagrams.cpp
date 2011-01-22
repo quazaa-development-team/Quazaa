@@ -29,6 +29,7 @@
 #include "hostcache.h"
 #include "searchmanager.h"
 #include "queryhit.h"
+#include "systemlog.h"
 
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
@@ -84,8 +85,10 @@ CDatagrams::~CDatagrams()
 
 void CDatagrams::SetupThread()
 {
-	qDebug() << "SetupThread";
-	qDebug() << "Thread id: " << QThread::currentThreadId();
+	systemLog.postLog(tr("Setup Thread"), LogSeverity::Debug);
+	//qDebug() << "SetupThread";
+	systemLog.postLog(tr("Thread id: %1").arg(QThread::currentThreadId()), LogSeverity::Debug);
+	//qDebug() << "Thread id: " << QThread::currentThreadId();
 
 	Q_ASSERT(m_pSocket == 0);
 	Q_ASSERT(m_tSender == 0);
@@ -96,7 +99,8 @@ void CDatagrams::SetupThread()
 	CEndPoint addr = Network.GetLocalAddress();
 	if(m_pSocket->bind(addr.port()))
 	{
-		qDebug() << "Datagrams listening on " << m_pSocket->localPort() << addr.port();
+		systemLog.postLog(tr("Datagrams listening on %1 %2").arg(m_pSocket->localPort()).arg(addr.port()), LogSeverity::Debug);
+		//qDebug() << "Datagrams listening on " << m_pSocket->localPort() << addr.port();
 		m_nDiscarded = 0;
 
 		for(int i = 0; i < quazaaSettings.Gnutella2.UdpBuffers; i++)
@@ -125,7 +129,8 @@ void CDatagrams::SetupThread()
 	}
 	else
 	{
-		qDebug() << "Can't bind UDP socket! UDP communication disabled!";
+		systemLog.postLog(tr("Can't bind UDP socket! UDP communication disabled!"), LogSeverity::Debug);
+		//qDebug() << "Can't bind UDP socket! UDP communication disabled!";
 		Disconnect();
 	}
 }
@@ -136,7 +141,8 @@ void CDatagrams::Listen()
 
 	if(m_bActive)
 	{
-		qDebug() << "CDatagrams::Listen - already listening";
+		systemLog.postLog(tr("CDatagrams::Listen - already listening"), LogSeverity::Debug);
+		//qDebug() << "CDatagrams::Listen - already listening";
 		return;
 	}
 
@@ -294,7 +300,8 @@ void CDatagrams::OnReceiveGND()
 				RemoveOldIn(true);
 				if(m_FreeDGIn.isEmpty())
 				{
-					qDebug() << "UDP in frames exhausted";
+					systemLog.postLog(tr("UDP in frames exhausted"), LogSeverity::Debug);
+					//qDebug() << "UDP in frames exhausted";
 					m_nDiscarded++;
 					return;
 				}
@@ -608,7 +615,8 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 	if(m_FreeDGOut.isEmpty())
 	{
 		Remove(m_SendCache.last());
-		qDebug() << "UDP out frames exhausted";
+		systemLog.postLog(tr("UDP out frames exhausted"), LogSeverity::Debug);
+		//qDebug() << "UDP out frames exhausted";
 	}
 
 	if(m_FreeBuffer.isEmpty())
@@ -617,7 +625,8 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 
 		if(m_FreeBuffer.isEmpty())
 		{
-			qDebug() << "UDP out discarded, out of buffers";
+			systemLog.postLog(tr("UDP out discarded, out of buffers"), LogSeverity::Debug);
+			//qDebug() << "UDP out discarded, out of buffers";
 			return;
 		}
 	}
@@ -673,7 +682,8 @@ void CDatagrams::OnPacket(CEndPoint addr, G2Packet* pPacket)
 	}
 	catch(...)
 	{
-		qDebug() << "malformed packet";
+		systemLog.postLog(tr("malformed packet"), LogSeverity::Debug);
+		//qDebug() << "malformed packet";
 	}
 }
 
@@ -853,7 +863,8 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 	HostCache.m_pSection.unlock();
 
 
-	qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
+	systemLog.postLog(tr("Got a query key for %1 = 0x%2").arg(addr.toString().toAscii().constData()).arg(nKey), LogSeverity::Debug);
+	//qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
 
 	if(Network.isHub() && !nKeyHost.isNull() /*&& nKeyHost != Network.m_oAddress.ip*/)
 	{

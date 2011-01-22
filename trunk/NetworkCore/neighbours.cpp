@@ -105,7 +105,8 @@ CG2Node* CNeighbours::OnAccept(CNetworkConnection* pConn)
 {
 	if(!m_pSection.tryLock(50))
 	{
-		qDebug() << "Not accepting incoming connection. Neighbours overloaded";
+		systemLog.postLog(tr("Not accepting incoming connection. Neighbours overloaded"), LogSeverity::Debug);
+		//qDebug() << "Not accepting incoming connection. Neighbours overloaded";
 		pConn->Close();
 		pConn->deleteLater();
 		return 0;
