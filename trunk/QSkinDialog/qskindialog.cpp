@@ -70,6 +70,7 @@ QSkinDialog::QSkinDialog(bool sizable, bool closable, bool mainDialog, bool prev
 	}
 	// To enable alpha blending and transparency in the frame
 	setAttribute(Qt::WA_TranslucentBackground);
+	setAttribute(Qt::WA_StaticContents);
 
 	this->setMaximumSize(QApplication::desktop()->availableGeometry(this).width(), QApplication::desktop()->availableGeometry(this).height());
 
@@ -534,7 +535,7 @@ void QSkinDialog::on_windowIcon_clicked()
 // in all skinned dialogs
 void QSkinDialog::skinChangeEvent()
 {
-	if(!dialogPreview)
+/*	if(!dialogPreview)
 	{
 		if(isMainDialog)
 		{
@@ -574,7 +575,7 @@ void QSkinDialog::skinChangeEvent()
 			ui->windowIconFrame->setStyleSheet(skinSettings.childWindowIconFrameStyleSheet);
 			ui->windowIcon->setVisible(skinSettings.childWindowIconVisible);
 		}
-	}
+	}*/
 }
 
 void QSkinDialog::on_windowIconFrame_customContextMenuRequested(QPoint pos)
