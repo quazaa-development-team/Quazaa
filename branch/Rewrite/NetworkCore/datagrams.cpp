@@ -87,7 +87,7 @@ void CDatagrams::SetupThread()
 {
 	systemLog.postLog(tr("Setup Thread"), LogSeverity::Debug);
 	//qDebug() << "SetupThread";
-	systemLog.postLog(tr("Thread id: %1").arg(QThread::currentThreadId()), LogSeverity::Debug);
+	systemLog.postLog(tr("Thread id: %1").arg((quint32)QThread::currentThreadId()), LogSeverity::Debug);
 	//qDebug() << "Thread id: " << QThread::currentThreadId();
 
 	Q_ASSERT(m_pSocket == 0);
