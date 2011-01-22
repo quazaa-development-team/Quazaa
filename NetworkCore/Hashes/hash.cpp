@@ -20,16 +20,17 @@
 //
 
 #include "hash.h"
+#include "systemlog.h"
 #include <QCryptographicHash>
 #include "3rdparty/CyoEncode/CyoEncode.h"
 #include "3rdparty/CyoEncode/CyoDecode.h"
 
 CHash::CHash(const CHash &rhs)
 {
-	qDebug() << "Calling CHash copy ctor";
+	systemLog.postLog(LogSeverity::Debug, "Calling CHash copy ctor");
 
 	if( !rhs.m_bFinalized )
-		qWarning() << "WARNING: Copying non-finalized CHash";
+			systemLog.postLog(LogSeverity::Warning, "WARNING: Copying non-finalized CHash");
 
 	m_baRawValue = rhs.m_baRawValue;
 	m_nHashAlgorithm = rhs.m_nHashAlgorithm;

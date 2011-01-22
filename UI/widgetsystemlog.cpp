@@ -106,14 +106,16 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 					break;
 				case LogSeverity::Debug:
 					if(ui->actionShowDebug->isChecked())
-					{
-						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightDebug).arg(skinSettings.logColorDebug.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+										{
+											ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightDebug).arg(skinSettings.logColorDebug.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+											qDebug() << message;
 					}
 					break;
 				case LogSeverity::Warning:
 					if(ui->actionShowWarnings->isChecked())
 					{
 						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightWarning).arg(skinSettings.logColorWarning.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+						qWarning() << message;
 					}
 					break;
 				case LogSeverity::Error:
@@ -125,8 +127,9 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 				case LogSeverity::Critical:
 					if(ui->actionShowCritical->isChecked())
 					{
-						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightCritical).arg(skinSettings.logColorCritical.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
-					}
+											ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg(skinSettings.logWeightCritical).arg(skinSettings.logColorCritical.name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(message));
+											qCritical() << message;
+										}
 					break;
 			}
 		}
@@ -156,12 +159,14 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 					if(ui->actionShowDebug->isChecked())
 					{
 						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightDebug).arg(skinSettings.logColorDebug.name()).arg(message));
+						qDebug() << message;
 					}
 					break;
 				case LogSeverity::Warning:
 					if(ui->actionShowWarnings->isChecked())
 					{
 						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightWarning).arg(skinSettings.logColorWarning.name()).arg(message));
+						qWarning() << message;
 					}
 					break;
 				case LogSeverity::Error:
@@ -174,6 +179,7 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 					if(ui->actionShowCritical->isChecked())
 					{
 						ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg(skinSettings.logWeightCritical).arg(skinSettings.logColorCritical.name()).arg(message));
+						qCritical() << message;
 					}
 					break;
 			}
