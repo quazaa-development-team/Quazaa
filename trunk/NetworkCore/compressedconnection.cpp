@@ -21,6 +21,7 @@
 
 #include "compressedconnection.h"
 #include "buffer.h"
+#include "systemlog.h"
 
 CCompressedConnection::CCompressedConnection(QObject* parent) :
 	CNetworkConnection(parent)
@@ -221,7 +222,8 @@ void CCompressedConnection::Inflate()
 
 	if(nRet != Z_OK)
 	{
-		qDebug() << "Error in decompressor" << nRet;
+		systemLog.postLog(tr("Error in decompressor! ").arg(nRet), LogSeverity::Debug);
+		//qDebug() << "Error in decompressor" << nRet;
 
 		Close();
 	}
@@ -271,7 +273,8 @@ void CCompressedConnection::Deflate()
 		}
 		else
 		{
-			qDebug() << "Error in compressor!" << nRet;
+			systemLog.postLog(tr("Error in compressor! ").arg(nRet), LogSeverity::Debug);
+			//qDebug() << "Error in compressor!" << nRet;
 			Close();
 			break;
 		}
