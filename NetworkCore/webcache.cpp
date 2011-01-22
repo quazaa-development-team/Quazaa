@@ -94,7 +94,7 @@ void CWebCache::RequestRandom()
 		u.addQueryItem("net", "gnutella2");
 		u.addQueryItem("client", "BROV1.0");
 
-		systemLog.postLog(QString("Querying ").arg(u.toString()), LogSeverity::Debug);
+		systemLog.postLog(tr("Querying ").arg(u.toString()), LogSeverity::Debug);
 		//qDebug("Querying " + u.toString().toAscii());
 
 		m_lCaches[nIndex].m_tLastQuery = time(0);
