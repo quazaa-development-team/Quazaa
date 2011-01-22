@@ -261,11 +261,13 @@ void CG2Node::OnRead()
 		{
 			if(pPacket)
 			{
-				qDebug() << pPacket->ToHex() << "\n" << pPacket->ToASCII();
+				systemLog.postLog(tr("%1\n%2").arg(pPacket->ToHex()).arg(pPacket->ToASCII()), LogSeverity::Debug);
+				//qDebug() << pPacket->ToHex() << "\n" << pPacket->ToASCII();
 				pPacket->Release();
 			}
 
-			qDebug() << "Packet error - " << m_oAddress.toString().toAscii();
+			systemLog.postLog(tr("Packet error - ").arg(m_oAddress.toString()), LogSeverity::Debug);
+			//qDebug() << "Packet error - " << m_oAddress.toString().toAscii();
 			m_nState = nsClosing;
 			emit NodeStateChanged();
 			delete this;
@@ -280,7 +282,7 @@ void CG2Node::OnError(QAbstractSocket::SocketError e)
 		HostCache.OnFailure(m_oAddress);
 	}
 
-	//systemLog.postLog(tr("Remote host closed connection: ") + m_oAddress.toString() + tr(". Error: ") + m_pSocket->errorString(), LogSeverity::Notice);
+	//systemLog.postLog(tr("Remote host closed connection: %1. Error: %2").arg(m_oAddress.toString()).arg(m_pSocket->errorString()), LogSeverity::Notice);
 	//qDebug() << "OnError(" << e << ")" << m_oAddress.toString();
 	delete this;
 }
@@ -314,9 +316,10 @@ void CG2Node::OnTimer(quint32 tNow)
 	{
 		if(tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
 		{
-			systemLog.postLog(LogSeverity::Error, "Closing connection to %s due to lack of traffic.", m_oAddress.toString().toAscii().constData());
-			systemLog.postLog(LogSeverity::Debug, "Conn %u, Packet %u, bytes avail %d, net bytes avail %d, ping %u", tNow - m_tConnected, tNow - m_tLastPacketIn, bytesAvailable(), networkBytesAvailable(), tNow - m_tLastPingOut);
-			qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "minute dead";
+			systemLog.postLog(tr("Closing connection to %1 due to lack of traffic.").arg(m_oAddress.toString()), LogSeverity::Error);
+			systemLog.postLog(tr("Conn %1, Packet %2, bytes avail %3, net bytes avail %4, ping %5").arg(tNow - m_tConnected).arg(tNow - m_tLastPacketIn).arg(bytesAvailable()).arg(networkBytesAvailable()).arg(tNow - m_tLastPingOut), LogSeverity::Debug);
+			systemLog.postLog(tr("Closing connection with %1 minute dead").arg(m_oAddress.toString()));
+			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "minute dead";
 			m_nState = nsClosing;
 			emit NodeStateChanged();
 			Close();
@@ -338,7 +341,8 @@ void CG2Node::OnTimer(quint32 tNow)
 
 		if(m_nPingsWaiting > 0 && tNow - m_tLastPingOut > quazaaSettings.Gnutella2.PingTimeout && tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
 		{
-			qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "ping timed out";
+			systemLog.postLog(tr("Closing connection with %1 ping timed out").arg(m_oAddress.toString()), LogSeverity::Debug);
+			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "ping timed out";
 			m_nState = nsClosing;
 			emit NodeStateChanged();
 			Close();
@@ -364,7 +368,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		{
 			if(m_pLocalTable->PatchTo(&QueryHashMaster, this))
 			{
-				systemLog.postLog(LogSeverity::Notice, "Sending query routing table to %s (%d bits, %d entries, %d bytes, %d%% full)",  m_oAddress.toString().toAscii().constData(), m_pLocalTable->m_nBits, m_pLocalTable->m_nHash, m_pLocalTable->m_nHash / 8, m_pLocalTable->GetPercent());
+				systemLog.postLog(tr("Sending query routing table to %1 (%2 bits, %3 entries, %4 bytes, %5%% full)").arg(m_oAddress.toString().toAscii().constData()).arg(m_pLocalTable->m_nBits).arg(m_pLocalTable->m_nHash).arg(m_pLocalTable->m_nHash / 8).arg(m_pLocalTable->GetPercent()), LogSeverity::Notice);
 			}
 		}
 
@@ -372,7 +376,8 @@ void CG2Node::OnTimer(quint32 tNow)
 		// cleaning table
 		if( m_lRABan.size() >= 1000 )
 		{
-			qDebug() << "Clearing bans on hub " << m_oAddress.toString();
+			systemLog.postLog(tr("Clearing bans on hub %1").arg(m_oAddress.toString()), LogSeverity::Debug);
+			//qDebug() << "Clearing bans on hub " << m_oAddress.toString();
 			for( QHash<quint32,quint32>::iterator itBan = m_lRABan.begin(); itBan != m_lRABan.end(); )
 			{
 				if( tNow - itBan.value() > 60 ) // 1 minute
@@ -384,7 +389,8 @@ void CG2Node::OnTimer(quint32 tNow)
 					++itBan;
 				}
 			}
-			qDebug() << "Still active bans: " << m_lRABan.size();
+			systemLog.postLog(tr("Still active bans: %1").arg(m_lRABan.size()), LogSeverity::Debug);
+			//qDebug() << "Still active bans: " << m_lRABan.size();
 		}
 
 
@@ -504,7 +510,8 @@ void CG2Node::ParseIncomingHandshake()
 		{
 			if(!EnableInputCompression())
 			{
-				qDebug() << "Inflate init error!";
+				systemLog.postLog(tr("Inflate init error!"), LogSeverity::Debug);
+				//qDebug() << "Inflate init error!";
 				Close();
 				return;
 			}
@@ -514,7 +521,8 @@ void CG2Node::ParseIncomingHandshake()
 		{
 			if(!EnableOutputCompression())
 			{
-				qDebug() << "Deflate init error!";
+				systemLog.postLog(tr("Deflate init error!"), LogSeverity::Debug);
+				//qDebug() << "Deflate init error!";
 				Close();
 				return;
 			}
@@ -535,7 +543,8 @@ void CG2Node::ParseIncomingHandshake()
 	}
 	else
 	{
-		qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
+		systemLog.postLog(tr("Connection rejected: %1").arg(sHs.left(sHs.indexOf("\r\n"))), LogSeverity::Debug);
+		//qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
 		m_nState = nsClosing;
 		emit NodeStateChanged();
 		Close();
@@ -575,7 +584,8 @@ void CG2Node::ParseOutgoingHandshake()
 
 	if(sHs.left(16) != "GNUTELLA/0.6 200")
 	{
-		qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
+		systemLog.postLog(tr("Connection rejected: %1").arg(sHs.left(sHs.indexOf("\r\n"))), LogSeverity::Debug);
+		//qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
 		Close();
 		return;
 	}
@@ -653,7 +663,8 @@ void CG2Node::ParseOutgoingHandshake()
 	{
 		if(!EnableOutputCompression())
 		{
-			qDebug() << "Deflate init error!";
+			systemLog.postLog(tr("Deflate init error!"), LogSeverity::Debug);
+			//qDebug() << "Deflate init error!";
 			Close();
 			return;
 		}
@@ -671,13 +682,14 @@ void CG2Node::ParseOutgoingHandshake()
 		m_pLocalTable = new CQueryHashTable();
 	}
 
-	systemLog.postLog(LogSeverity::Information, "Gnutella2 connection with %s established.", qPrintable(m_oAddress.toString()));
+	systemLog.postLog(tr("Gnutella2 connection with %1 established.").arg(qPrintable(m_oAddress.toString())), LogSeverity::Information);
 }
 void CG2Node::Send_ConnectError(QString sReason)
 {
-	systemLog.postLog(LogSeverity::Information, "Rejecting connection with %s: %s", qPrintable(m_oAddress.toString()), qPrintable(sReason));
+	systemLog.postLog(tr("Rejecting connection with %1: %2").arg(qPrintable(m_oAddress.toString())).arg(qPrintable(sReason)), LogSeverity::Information);
 
-	qDebug() << "Rejecting connection:" << sReason;
+	systemLog.postLog(tr("Rejecting connection: %1").arg(sReason), LogSeverity::Debug);
+	//qDebug() << "Rejecting connection:" << sReason;
 
 	QByteArray sHs;
 
@@ -843,7 +855,8 @@ void CG2Node::OnPacket(G2Packet* pPacket)
 		}
 		else
 		{
-			qDebug() << "Unknown packet " << pPacket->GetType();
+			systemLog.postLog(tr("Unknown packet %1").arg(pPacket->GetType()), LogSeverity::Debug);
+			//qDebug() << "Unknown packet " << pPacket->GetType();
 		}
 	}
 	/*}
@@ -1157,7 +1170,8 @@ void CG2Node::OnQHT(G2Packet* pPacket)
 	{
 		if(!Network.isHub())
 		{
-			qDebug() << "Received unexpected Query Routing Table, ignoring";
+			systemLog.postLog(tr("Recieved unexpected Query Routing Table, ignoring"), LogSeverity::Debug);
+			//qDebug() << "Received unexpected Query Routing Table, ignoring";
 			return;
 		}
 
@@ -1168,19 +1182,19 @@ void CG2Node::OnQHT(G2Packet* pPacket)
 
 	if(!m_pRemoteTable->OnPacket(pPacket))
 	{
-		systemLog.postLog(LogSeverity::Error, "Neighbour %s sent bad query hash table update. Closing connection.", m_oAddress.toString().toAscii().constData());
+		systemLog.postLog(tr("Neighbour %1 sent bad query hash table update. Closing connection.").arg(m_oAddress.toString().toAscii().constData()), LogSeverity::Error);
 		Close();
 		return;
 	}
 
 	if(m_pRemoteTable->m_bLive && !bLive)
 	{
-		systemLog.postLog(LogSeverity::Notice, "Neighbour %s updated its query hash table. %u bits %u%% full.", m_oAddress.toString().toUtf8().constData(), m_pRemoteTable->m_nBits, m_pRemoteTable->GetPercent());
+		systemLog.postLog(tr("Neighbour %1 updated its query hash table. %2 bits %3%% full.").arg(m_oAddress.toString().toUtf8().constData()).arg(m_pRemoteTable->m_nBits).arg(m_pRemoteTable->GetPercent()), LogSeverity::Notice);
 	}
 
 	if(m_nType == G2_LEAF && m_pRemoteTable && m_pRemoteTable->GetPercent() > 90)
 	{
-		systemLog.postLog(LogSeverity::Error, "Dropping neighbour %s - hash table too full.", m_oAddress.toString().toAscii().constData());
+		systemLog.postLog(tr("Dropping neighbour %1 - hash table too full.").arg(m_oAddress.toString().toAscii().constData()), LogSeverity::Error);
 		Close();
 		return;
 	}
@@ -1330,7 +1344,8 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 	{
 		pCache->SetKey(nKey, &m_oAddress);
 
-		qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toAscii().constData(), m_oAddress.toString().toAscii().constData(), nKey);
+		systemLog.postLog(tr("Got a query key from %1 via %2 = 0x%3").arg(addr.toString().toAscii().constData()).arg(m_oAddress.toString().toAscii().constData()).arg(nKey), LogSeverity::Debug);
+		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toAscii().constData(), m_oAddress.toString().toAscii().constData(), nKey);
 	}
 	HostCache.m_pSection.unlock();
 }

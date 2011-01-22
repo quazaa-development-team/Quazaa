@@ -20,6 +20,7 @@
 //
 
 #include "g2packet.h"
+#include "systemlog.h"
 #include "buffer.h"
 
 G2PacketPool G2Packets;
@@ -43,7 +44,8 @@ G2Packet::~G2Packet()
 {
 	if(m_nReference != 0)
 	{
-		qDebug() << "not released " << (char*)&m_sType[0];
+		systemLog.postLog(qApp->tr("not released  %1").arg((char*)&m_sType[0]), LogSeverity::Debug);
+		//qDebug() << "not released " << (char*)&m_sType[0];
 	}
 	Q_ASSERT(m_nReference == 0);
 
