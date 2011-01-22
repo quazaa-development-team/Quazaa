@@ -66,7 +66,7 @@ void DialogConnectTo::on_pushButtonConnect_clicked()
 {
 	if(ui->comboBoxAddress->currentText().contains(":"))
 	{
-		IPv4_ENDPOINT ip(ui->comboBoxAddress->currentText());
+		CEndPoint ip(ui->comboBoxAddress->currentText());
 
 		Network.m_pSection.lock();
 		Network.ConnectTo(ip);
@@ -74,7 +74,7 @@ void DialogConnectTo::on_pushButtonConnect_clicked()
 	}
 	else
 	{
-		IPv4_ENDPOINT ip(ui->comboBoxAddress->currentText() + ":" + ui->spinBoxPort->text());
+		CEndPoint ip(ui->comboBoxAddress->currentText() + ":" + ui->spinBoxPort->text());
 
 		Network.m_pSection.lock();
 		Network.ConnectTo(ip);

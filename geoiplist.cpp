@@ -50,11 +50,11 @@ void GeoIPList::loadGeoIP()
 	{
 		QStringList line = in.readLine().split(" ");
 
-		IPv4_ENDPOINT rBegin(line[0] + ":0");
-		IPv4_ENDPOINT rEnd(line[1] + ":0");
+		CEndPoint rBegin(line[0] + ":0");
+		CEndPoint rEnd(line[1] + ":0");
 		QString sCountry = line[2];
 
-		QPair<quint32, QPair<quint32, QString> > item = QPair<quint32, QPair<quint32, QString> >(rBegin.ip, QPair<quint32, QString>(rEnd.ip, sCountry));
+		QPair<quint32, QPair<quint32, QString> > item = QPair<quint32, QPair<quint32, QString> >(rBegin.toIPv4Address(), QPair<quint32, QString>(rEnd.toIPv4Address(), sCountry));
 		m_lDatabase.append(item);
 	}
 

@@ -42,7 +42,7 @@ protected:
 	QList<CG2Node*>		 m_lNodes;
 	CRateController* 	m_pController;
 
-	QHash<quint32, CG2Node*> m_lNodesByAddr;  // lookups by ip address
+	QHash<QHostAddress, CG2Node*> m_lNodesByAddr;  // lookups by ip address
 	QSet<CG2Node*>			 m_lNodesByPtr;	// lookups by pointer
 
 public:
@@ -59,16 +59,14 @@ public:
 
 	void Clear();
 
-	CG2Node* ConnectTo(IPv4_ENDPOINT& oAddress);
-	CG2Node* ConnectTo(QHostAddress& oAddress, quint16 nPort);
+	CG2Node* ConnectTo(CEndPoint& oAddress);
 	CG2Node* OnAccept(CNetworkConnection* pConn);
 
 	void DisconnectYoungest(G2NodeType nType, bool bCore);
 
 	void AddNode(CG2Node* pNode);
 	void RemoveNode(CG2Node* pNode);
-	CG2Node* Find(IPv4_ENDPOINT& oAddress);
-	CG2Node* Find(quint32 nAddress);
+	CG2Node* Find(QHostAddress& oAddress);
 
 	bool NeighbourExists(const CG2Node* pNode);
 

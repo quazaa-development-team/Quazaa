@@ -31,7 +31,7 @@ struct G2RouteItem
 {
 	QUuid           pGUID;
 	CG2Node*        pNeighbour;
-	IPv4_ENDPOINT   pEndpoint;
+	CEndPoint	    pEndpoint;
 	quint32         nExpireTime;
 
 	G2RouteItem()
@@ -50,14 +50,14 @@ public:
 	CRouteTable();
 	~CRouteTable();
 
-	bool Add(QUuid& pGUID, CG2Node* pNeighbour = 0, IPv4_ENDPOINT* pEndpoint = 0, bool bNoExpire = false);
+	bool Add(QUuid& pGUID, CG2Node* pNeighbour = 0, CEndPoint* pEndpoint = 0, bool bNoExpire = false);
 	bool Add(QUuid& pGUID, CG2Node* pNeighbour, bool bNoExpire = false);
-	bool Add(QUuid& pGUID, IPv4_ENDPOINT& pEndpoint, bool bNoExpire = false);
+	bool Add(QUuid& pGUID, CEndPoint& pEndpoint, bool bNoExpire = false);
 
 	void Remove(QUuid& pGUID);
 	void Remove(CG2Node* pNeighbour);
 
-	bool Find(QUuid& pGUID, CG2Node** ppNeighbour = 0, IPv4_ENDPOINT* pEndpoint = 0);
+	bool Find(QUuid& pGUID, CG2Node** ppNeighbour = 0, CEndPoint* pEndpoint = 0);
 
 	void ExpireOldRoutes(bool bForce = false);
 	void Clear();

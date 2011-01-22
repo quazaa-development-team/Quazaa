@@ -31,11 +31,11 @@ const quint32 ReconnectTime = 3600;
 class CHostCacheHost
 {
 public:
-	IPv4_ENDPOINT   m_oAddress;     // Adres huba
+	CEndPoint       m_oAddress;     // Adres huba
 	quint32         m_tTimestamp;   // Kiedy ostatnio widziany
 
 	quint32         m_nQueryKey;    // QK
-	quint32         m_nKeyHost;     // host dla ktorego jest QK
+	CEndPoint       m_nKeyHost;     // host dla ktorego jest QK
 	quint32         m_nKeyTime;     // kiedy odebrano OK?
 
 	quint32         m_tAck;         // czas ostatniej operacji wymagajacej potwierdzenia
@@ -50,7 +50,6 @@ public:
 		m_tTimestamp = 0;
 
 		m_nQueryKey = 0;
-		m_nKeyHost = 0;
 		m_nKeyTime = 0;
 
 		m_tRetryAfter = 0;
@@ -90,7 +89,7 @@ public:
 		return (tNow - m_tLastQuery) >= 120;
 	}
 
-	void SetKey(quint32 nKey, IPv4_ENDPOINT* pHost = 0);
+	void SetKey(quint32 nKey, CEndPoint* pHost = 0);
 };
 
 class CHostCache
@@ -104,14 +103,14 @@ public:
 	CHostCache();
 	~CHostCache();
 
-	CHostCacheHost* Add(IPv4_ENDPOINT host, quint32 ts);
+	CHostCacheHost* Add(CEndPoint host, quint32 ts);
 	void AddXTry(QString& sHeader);
 	QString GetXTry();
-	void Update(IPv4_ENDPOINT oHost);
+	void Update(CEndPoint oHost);
 	void Update(CHostCacheHost* pHost);
 	void Remove(CHostCacheHost* pRemove);
-	CHostCacheHost* Find(IPv4_ENDPOINT oHost);
-	void OnFailure(IPv4_ENDPOINT addr);
+	CHostCacheHost* Find(CEndPoint oHost);
+	void OnFailure(CEndPoint addr);
 	CHostCacheHost* Get();
 	CHostCacheHost* GetConnectable(quint32 tNow = 0, QString sCountry = QString("ZZ"));
 

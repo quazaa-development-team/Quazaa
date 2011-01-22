@@ -41,7 +41,7 @@ CQueryHit::~CQueryHit()
 	}
 }
 
-QueryHitInfo* CQueryHit::ReadInfo(G2Packet* pPacket, IPv4_ENDPOINT* pSender)
+QueryHitInfo* CQueryHit::ReadInfo(G2Packet* pPacket, CEndPoint* pSender)
 {
 	// do a shallow parsing...
 
@@ -81,9 +81,9 @@ QueryHitInfo* CQueryHit::ReadInfo(G2Packet* pPacket, IPv4_ENDPOINT* pSender)
 
 			if(strcmp("NA", szType) == 0 && nLength >= 6)
 			{
-				IPv4_ENDPOINT oNodeAddr;
-				pPacket->ReadHostAddress(&oNodeAddr);
-				if(oNodeAddr.ip != 0 && oNodeAddr.port != 0)
+				CEndPoint oNodeAddr;
+				pPacket->ReadHostAddress(&oNodeAddr, !(nLength >=18));
+				if(!oNodeAddr.isNull())
 				{
 					pHitInfo->m_oNodeAddress = oNodeAddr;
 					bHaveNA = true;
@@ -100,9 +100,9 @@ QueryHitInfo* CQueryHit::ReadInfo(G2Packet* pPacket, IPv4_ENDPOINT* pSender)
 			}
 			else if(strcmp("NH", szType) == 0 && nLength >= 6)
 			{
-				IPv4_ENDPOINT oNH;
-				pPacket->ReadHostAddress(&oNH);
-				if(oNH.ip != 0 && oNH.port != 0)
+				CEndPoint oNH;
+				pPacket->ReadHostAddress(&oNH, !(nLength >= 18));
+				if(!oNH.isNull())
 				{
 					pHitInfo->m_lNeighbouringHubs.append(oNH);
 				}
@@ -368,12 +368,12 @@ void CQueryHit::ResolveURLs()
 	}
 
 	/*if( m_lURNs.isEmpty() )
-	    return;*/
+		return;*/
 
 	// TODO: odpowiednie kodowanie... (Appropriate Encoding)
 	if(m_oSha1.IsValid())
 	{
-		m_sURL = m_sURL.sprintf("http://%s/uri-res/N2R?%s", m_pHitInfo->m_oNodeAddress.toString().toAscii().constData(), m_oSha1.ToURN().toAscii().constData());
+		m_sURL = m_sURL.sprintf("http://%s/uri-res/N2R?%s", m_pHitInfo->m_oNodeAddress.toStringWithPort().toAscii().constData(), m_oSha1.ToURN().toAscii().constData());
 	}
 }
 bool CQueryHit::IsValid(CQuery* pQuery)

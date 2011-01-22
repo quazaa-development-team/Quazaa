@@ -57,7 +57,7 @@ public:
 	QTcpSocket* m_pSocket;  // sockecik ;)
 
 	// Adres hosta
-	IPv4_ENDPOINT   m_oAddress;
+	CEndPoint   m_oAddress;
 
 	// Bufory I/O
 	CBuffer* m_pInput;
@@ -78,8 +78,7 @@ public:
 	void moveToThread(QThread* thread);
 
 public:
-	virtual void ConnectTo(IPv4_ENDPOINT oAddress);
-	virtual void ConnectTo(QHostAddress oAddress, quint16 nPort);
+	virtual void ConnectTo(CEndPoint oAddress);
 	virtual void AttachTo(CNetworkConnection* pOther);
 	virtual void AcceptFrom(int nHandle);
 	virtual void Close(bool bDelayed = false);
@@ -121,7 +120,7 @@ public:
 	bool isValid() const;
 	void setReadBufferSize(qint64 nSize);
 
-	inline IPv4_ENDPOINT GetAddress()
+	inline CEndPoint GetAddress()
 	{
 		return m_oAddress;
 	}

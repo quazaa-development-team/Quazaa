@@ -303,7 +303,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			             << pHit2->m_nObjectSize
 			             << ""
 			             << ""
-			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
+			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()
 			             << ""
 			             << Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
 			             << GeoIP.countryNameFromCode(sCountry);
@@ -318,7 +318,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			nFileCount = rootItem->childCount();
 			emit updateStats();
 		}
-		else if(!rootItem->child(existingSearch)->duplicateCheck(rootItem->child(existingSearch), pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()))
+		else if(!rootItem->child(existingSearch)->duplicateCheck(rootItem->child(existingSearch), pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()))
 		{
 			QModelIndex idxParent = index(existingSearch, 0, QModelIndex());
 			QFileInfo fileInfo(pHit2->m_sDescriptiveName);
@@ -330,7 +330,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			             << pHit2->m_nObjectSize
 			             << ""
 			             << ""
-			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toStringNoPort()
+			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()
 			             << ""
 			             << Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
 			             << GeoIP.countryNameFromCode(sCountry);

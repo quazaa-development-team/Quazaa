@@ -75,18 +75,13 @@ public:
 	CG2Node(QObject* parent = 0);
 	~CG2Node();
 
-	virtual void ConnectTo(QHostAddress oAddress, quint16 nPort)
+	virtual void ConnectTo(CEndPoint oAddress)
 	{
 		systemLog.postLog(LogSeverity::Information, "Initiating neighbour connection to %s...", qPrintable(oAddress.toString()));
 		m_nState = nsConnecting;
-		CNetworkConnection::ConnectTo(oAddress, nPort);
+		CNetworkConnection::ConnectTo(oAddress);
 		SetupSlots();
 	}
-	virtual void ConnectTo(IPv4_ENDPOINT oAddress)
-	{
-		CNetworkConnection::ConnectTo(oAddress);
-	}
-
 	void AttachTo(CNetworkConnection* pOther)
 	{
 		m_nState = nsHandshaking;

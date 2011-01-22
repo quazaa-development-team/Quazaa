@@ -59,6 +59,12 @@ CEndPoint::CEndPoint(const QString &address, quint16 nPort)
 
 }
 
+CEndPoint::CEndPoint(const QHostAddress &address, quint16 nPort)
+	:QHostAddress(address), m_nPort(nPort)
+{
+
+}
+
 CEndPoint::CEndPoint(const QString &address)
 {
 	if( address.count(":") >= 2 )

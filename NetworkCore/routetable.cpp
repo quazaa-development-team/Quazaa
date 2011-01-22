@@ -29,7 +29,7 @@ CRouteTable::~CRouteTable()
 
 }
 
-bool CRouteTable::Add(QUuid& pGUID, CG2Node* pNeighbour, IPv4_ENDPOINT* pEndpoint, bool bNoExpire)
+bool CRouteTable::Add(QUuid& pGUID, CG2Node* pNeighbour, CEndPoint* pEndpoint, bool bNoExpire)
 {
 
 	//qDebug() << "CRouteTable::Add " << pGUID << pNeighbour << pEndpoint << bNoExpire;
@@ -105,7 +105,7 @@ bool CRouteTable::Add(QUuid& pGUID, CG2Node* pNeighbour, bool bNoExpire)
 {
 	return Add(pGUID, pNeighbour, 0, bNoExpire);
 }
-bool CRouteTable::Add(QUuid& pGUID, IPv4_ENDPOINT& pEndpoint, bool bNoExpire)
+bool CRouteTable::Add(QUuid& pGUID, CEndPoint& pEndpoint, bool bNoExpire)
 {
 	return Add(pGUID, 0, &pEndpoint, bNoExpire);
 }
@@ -120,7 +120,7 @@ void CRouteTable::Remove(CG2Node* pNeighbour)
 	{
 		if(itRoute.value().pNeighbour == pNeighbour)
 		{
-			if(itRoute.value().pEndpoint.ip == 0)
+			if(!itRoute.value().pEndpoint.isNull())
 			{
 				itRoute = m_lRoutes.erase(itRoute);
 			}
@@ -138,7 +138,7 @@ void CRouteTable::Remove(CG2Node* pNeighbour)
 	}
 }
 
-bool CRouteTable::Find(QUuid& pGUID, CG2Node** ppNeighbour, IPv4_ENDPOINT* pEndpoint)
+bool CRouteTable::Find(QUuid& pGUID, CG2Node** ppNeighbour, CEndPoint* pEndpoint)
 {
 	if(m_lRoutes.contains(pGUID))
 	{

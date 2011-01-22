@@ -93,19 +93,11 @@ void CNeighbours::Clear()
 	}
 }
 
-CG2Node* CNeighbours::ConnectTo(IPv4_ENDPOINT& oAddress)
+CG2Node* CNeighbours::ConnectTo(CEndPoint& oAddress)
 {
 	CG2Node* pNode = new CG2Node(this);
 	AddNode(pNode);
 	pNode->ConnectTo(oAddress);
-	return pNode;
-}
-
-CG2Node* CNeighbours::ConnectTo(QHostAddress& oAddress, quint16 nPort)
-{
-	CG2Node* pNode = new CG2Node(this);
-	AddNode(pNode);
-	pNode->ConnectTo(oAddress, nPort);
 	return pNode;
 }
 
@@ -168,7 +160,7 @@ void CNeighbours::DisconnectYoungest(G2NodeType nType, bool bCore)
 void CNeighbours::AddNode(CG2Node* pNode)
 {
 	m_lNodes.append(pNode);
-	m_lNodesByAddr.insert(pNode->m_oAddress.ip, pNode);
+	m_lNodesByAddr.insert(pNode->m_oAddress, pNode);
 	m_lNodesByPtr.insert(pNode);
 	m_pController->AddSocket(pNode);
 }
@@ -177,27 +169,19 @@ void CNeighbours::RemoveNode(CG2Node* pNode)
 {
 	m_pController->RemoveSocket(pNode);
 	m_lNodes.removeAll(pNode);
-	m_lNodesByAddr.remove(pNode->m_oAddress.ip);
+	m_lNodesByAddr.remove(pNode->m_oAddress);
 	m_lNodesByPtr.remove(pNode);
 
 	Network.m_oRoutingTable.Remove(pNode);
 }
 
-CG2Node* CNeighbours::Find(IPv4_ENDPOINT& oAddress)
+CG2Node* CNeighbours::Find(QHostAddress& oAddress)
 {
-	return Find(oAddress.ip);
-}
-
-CG2Node* CNeighbours::Find(quint32 nAddress)
-{
-	if(!m_lNodesByAddr.contains(nAddress))
+	if( m_lNodesByAddr.contains(oAddress) )
 	{
-		return 0;
+		return m_lNodesByAddr.value(oAddress);
 	}
-	else
-	{
-		return m_lNodesByAddr.value(nAddress);
-	}
+	return 0;
 }
 
 bool CNeighbours::NeighbourExists(const CG2Node* pNode)

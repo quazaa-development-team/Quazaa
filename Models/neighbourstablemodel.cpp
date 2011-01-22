@@ -98,7 +98,7 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 		switch(index.column())
 		{
 			case 0:
-				return const_cast<IPv4_ENDPOINT*>(&n.oAddress)->toString();
+				return const_cast<CEndPoint*>(&n.oAddress)->toStringWithPort();
 			case 1:
 				return StateToString(n.nState);
 			case 2:

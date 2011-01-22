@@ -173,12 +173,12 @@ public:
 		Write((void*)&nNew, sizeof(T));
 	}
 	template <typename T>
-	inline void WriteIntBE(T& nValue)
+	inline void WriteIntBE(T nValue)
 	{
 		WriteIntBE(&nValue);
 	}
 	template <typename T>
-	inline void WriteIntLE(T& nValue)
+	inline void WriteIntLE(T nValue)
 	{
 		WriteIntLE(&nValue);
 	}
@@ -193,10 +193,26 @@ public:
 		Write(&nByte, 1);
 	}
 
-	void ReadHostAddress(IPv4_ENDPOINT* pDest)
+	void ReadHostAddress(CEndPoint* pDest, bool bIP4 = true)
 	{
-		ReadIntBE(&pDest->ip);
-		ReadIntLE(&pDest->port);
+		if( bIP4 )
+		{
+			quint32 nIP;
+			quint16 nPort;
+			ReadIntBE(&nIP);
+			ReadIntLE(&nPort);
+			pDest->setAddress(nIP);
+			pDest->setPort(nPort);
+		}
+		else
+		{
+			Q_IPV6ADDR ip6;
+			quint16 nPort;
+			Read(&ip6, 16);
+			ReadIntLE(&nPort);
+			pDest->setAddress(ip6);
+			pDest->setPort(nPort);
+		}
 	}
 
 	QUuid ReadGUID()
@@ -209,11 +225,21 @@ public:
 
 		return ret;
 	}
-	void WriteHostAddress(IPv4_ENDPOINT* pSrc)
+	void WriteHostAddress(CEndPoint* pSrc)
 	{
-		Ensure(6);
-		WriteIntBE(&pSrc->ip);
-		WriteIntLE(&pSrc->port);
+		if( pSrc->protocol() == 0 ) // IPv4
+		{
+			Ensure(6);
+			WriteIntBE(pSrc->toIPv4Address());
+			WriteIntLE(pSrc->port());
+		}
+		else
+		{
+			Ensure(18);
+			Q_IPV6ADDR ip6 = pSrc->toIPv6Address();
+			Write(&ip6, 16);
+			WriteIntLE(pSrc->port());
+		}
 	}
 	void WriteGUID(QUuid& guid)
 	{

@@ -46,13 +46,16 @@ public:
 	void loadGeoIP();
 	inline QString findCountryCode(QString IP)
 	{
-		IPv4_ENDPOINT ipAddress(IP);
+		CEndPoint ipAddress(IP);
 
 		return findCountryCode(ipAddress);
 	}
-	inline QString findCountryCode(IPv4_ENDPOINT& ip)
+	inline QString findCountryCode(CEndPoint& ip)
 	{
-		return findCountryCode(ip.ip);
+		if( ip.protocol() == 1 ) // IPv6
+			return "ZZ";
+		quint32 ip4 = ip.toIPv4Address();
+		return findCountryCode(ip4);
 	}
 
 	QString findCountryCode(quint32& nIp, quint32 nBegin = 0, quint32 nEnd = 0xFFFFFFFF);

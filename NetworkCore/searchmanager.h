@@ -53,7 +53,7 @@ public:
 	CManagedSearch* Find(QUuid& oGUID);
 
 	// zwraca true jesli pakiet ma byc routowany
-	bool OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, QUuid& oGUID);
+	bool OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUuid& oGUID);
 	bool OnQueryHit(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
 signals:

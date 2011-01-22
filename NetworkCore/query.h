@@ -53,7 +53,7 @@ public:
 	void SetSizeRestriction(quint64 nMin, quint64 nMax);
 	void SetMetadata(QString sMeta);
 
-	G2Packet* ToG2Packet(IPv4_ENDPOINT* pAddr = 0, quint32 nKey = 0);
+	G2Packet* ToG2Packet(CEndPoint* pAddr = 0, quint32 nKey = 0);
 };
 
 #endif // QUERY_H

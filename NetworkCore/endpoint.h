@@ -37,6 +37,7 @@ public:
 	explicit CEndPoint(const sockaddr *sockaddr, quint16 nPort = 0);
 	explicit CEndPoint(const QString &address, quint16 nPort);
 	explicit CEndPoint(const QString &address);
+	explicit CEndPoint(const QHostAddress &address, quint16 nPort);
 	CEndPoint(const CEndPoint &copy);
 	CEndPoint(SpecialAddress address, quint16 nPort = 0);
 

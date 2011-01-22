@@ -32,12 +32,12 @@ const quint32 MaxCacheHosts = 1000;
 
 CHostCache HostCache;
 
-void CHostCacheHost::SetKey(quint32 nKey, IPv4_ENDPOINT* pHost)
+void CHostCacheHost::SetKey(quint32 nKey, CEndPoint* pHost)
 {
 	m_tAck = 0;
 	m_nQueryKey = nKey;
 	m_nKeyTime = time(0);
-	m_nKeyHost = pHost ? pHost->ip : Network.GetLocalAddress().ip;
+	m_nKeyHost = pHost ? *pHost : Network.GetLocalAddress();
 }
 
 CHostCache::CHostCache()
@@ -50,22 +50,19 @@ CHostCache::CHostCache()
 		quint16 nVersion;
 		s >> nVersion;
 
-		IPv4_ENDPOINT addr;
+		CEndPoint addr;
 		quint32 ts;
+		quint16 nPort;
 
 		while(!f.atEnd())
 		{
-			s >> addr.ip >> addr.port >> ts;
+			s >> *(QHostAddress*)&addr >> nPort >> ts;
+			addr.setPort(nPort);
 			Add(addr, ts);
 		}
 		f.close();
 
 	}
-
-	IPv4_ENDPOINT e("127.0.0.1:6346");
-	Add(e, 0);
-	IPv4_ENDPOINT cc("127.0.0.5:6348");
-	Add(cc, 0);
 
 	PruneOldHosts();
 }
@@ -79,11 +76,11 @@ CHostCache::~CHostCache()
 	}
 }
 
-CHostCacheHost* CHostCache::Add(IPv4_ENDPOINT host, quint32 ts)
+CHostCacheHost* CHostCache::Add(CEndPoint host, quint32 ts)
 {
 	//qDebug() << "CHostCache::Add " << host.toString() << ts;
 
-	if(host.ip == 0 || host.port == 0)
+	if(host.isNull())
 	{
 		return 0;
 	}
@@ -153,8 +150,8 @@ void CHostCache::AddXTry(QString& sHeader)
 			continue;
 		}
 
-		IPv4_ENDPOINT addr(le.at(0));
-		if(addr.ip == 0 || addr.port == 0)
+		CEndPoint addr(le.at(0));
+		if(addr.isNull())
 		{
 			continue;
 		}
@@ -179,7 +176,7 @@ QString CHostCache::GetXTry()
 		if((quint32)m_lHosts.size() > nCount)
 		{
 			CHostCacheHost* pHost = m_lHosts.at(nCount);
-			sRet.append(pHost->m_oAddress.toString() + " ");
+			sRet.append(pHost->m_oAddress.toStringWithPort() + " ");
 
 			sRet.append(QDateTime::fromTime_t(pHost->m_tTimestamp).toString("yyyy-MM-ddThh:mm:ssZ"));
 			sRet.append(",");
@@ -200,7 +197,7 @@ QString CHostCache::GetXTry()
 	return "X-Try-Hubs: " + sRet.left(sRet.size() - 1) + "\r\n";
 }
 
-void CHostCache::Update(IPv4_ENDPOINT oHost)
+void CHostCache::Update(CEndPoint oHost)
 {
 	CHostCacheHost* pHost = Find(oHost);
 
@@ -236,7 +233,7 @@ void CHostCache::Remove(CHostCacheHost* pRemove)
 	}
 }
 
-CHostCacheHost* CHostCache::Find(IPv4_ENDPOINT oHost)
+CHostCacheHost* CHostCache::Find(CEndPoint oHost)
 {
 	CHostCacheHost* pFind = 0;
 
@@ -252,7 +249,7 @@ CHostCacheHost* CHostCache::Find(IPv4_ENDPOINT oHost)
 	return pFind;
 }
 
-void CHostCache::OnFailure(IPv4_ENDPOINT addr)
+void CHostCache::OnFailure(CEndPoint addr)
 {
 	if(CHostCacheHost* pHost = Find(addr))
 	{
@@ -267,14 +264,14 @@ void CHostCache::Save()
 	if(f.open(QFile::WriteOnly))
 	{
 		QDataStream s(&f);
-		quint16 nVersion = 1;
+		quint16 nVersion = 2;
 		s << nVersion;
 
 		if(!m_lHosts.isEmpty())
 		{
 			foreach(CHostCacheHost * pHost, m_lHosts)
 			{
-				s << pHost->m_oAddress.ip << pHost->m_oAddress.port << pHost->m_tTimestamp;
+				s << *(QHostAddress*)&pHost->m_oAddress << pHost->m_oAddress.port() << pHost->m_tTimestamp;
 			}
 		}
 

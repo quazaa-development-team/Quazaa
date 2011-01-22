@@ -110,15 +110,15 @@ void CHandshakes::SetupThread()
 	m_pController->SetDownloadLimit(4096);
 	m_pController->SetUploadLimit(4096);
 
-	bool bOK = QTcpServer::listen(QHostAddress::Any, Network.GetLocalAddress().port);
+	bool bOK = QTcpServer::listen(QHostAddress::Any, Network.GetLocalAddress().port());
 
 	if(bOK)
 	{
-		systemLog.postLog(LogSeverity::Notice, "Handshakes: listening on port %d.", Network.GetLocalAddress().port);
+		systemLog.postLog(LogSeverity::Notice, "Handshakes: listening on port %d.", Network.GetLocalAddress().port());
 	}
 	else
 	{
-		systemLog.postLog(LogSeverity::Error, "Handshakes: cannot listen on port %d, incoming connections will be unavailable.", Network.GetLocalAddress().port);
+		systemLog.postLog(LogSeverity::Error, "Handshakes: cannot listen on port %d, incoming connections will be unavailable.", Network.GetLocalAddress().port());
 	}
 
 	m_pTimer = new QTimer(this);

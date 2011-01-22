@@ -45,10 +45,9 @@ DatagramIn::~DatagramIn()
 	}
 }
 
-void DatagramIn::Create(IPv4_ENDPOINT pHost, quint8 nFlags, quint16 nSequence, quint8 nCount)
+void DatagramIn::Create(CEndPoint pHost, quint8 nFlags, quint16 nSequence, quint8 nCount)
 {
-	m_oAddress.ip = pHost.ip;
-	m_oAddress.port = pHost.port;
+	m_oAddress = pHost;
 
 	m_nSequence = nSequence;
 	m_bCompressed = (nFlags & 0x01) ? true : false;
@@ -135,7 +134,7 @@ DatagramOut::~DatagramOut()
 		delete[] m_pLocked;
 	}
 }
-void DatagramOut::Create(IPv4_ENDPOINT oAddr, G2Packet* pPacket, quint16 nSequence, CBuffer* pBuffer, bool bAck)
+void DatagramOut::Create(CEndPoint oAddr, G2Packet* pPacket, quint16 nSequence, CBuffer* pBuffer, bool bAck)
 {
 	Q_ASSERT(m_pBuffer == 0);
 
