@@ -55,7 +55,7 @@ CNetwork::CNetwork(QObject* parent)
 {
 	m_pSecondTimer = 0;
 	//m_oAddress.port = 6346;
-	m_oAddress.port = quazaaSettings.Connection.Port;
+	m_oAddress.setPort ( quazaaSettings.Connection.Port );
 
 	m_bNeedUpdateLNI = true;
 	m_nLNIWait = 60;
@@ -104,7 +104,7 @@ void CNetwork::Connect()
 	}
 
 	m_bActive = true;
-	m_oAddress.port = quazaaSettings.Connection.Port;
+	m_oAddress.setPort(quazaaSettings.Connection.Port);
 
 	m_nNextCheck = quazaaSettings.Gnutella2.AdaptiveCheckPeriod;
 	m_nBusyPeriods = 0;
@@ -323,14 +323,14 @@ bool CNetwork::IsFirewalled()
 
 void CNetwork::AcquireLocalAddress(QString& sHeader)
 {
-	IPv4_ENDPOINT hostAddr(sHeader + ":0");
+	CEndPoint hostAddr(sHeader + ":0");
 
-	if(hostAddr.ip != 0)
+	if(!hostAddr.isNull())
 	{
-		m_oAddress.ip = hostAddr.ip;
+		m_oAddress.setAddress(sHeader);
 	}
 }
-bool CNetwork::IsConnectedTo(IPv4_ENDPOINT addr)
+bool CNetwork::IsConnectedTo(CEndPoint addr)
 {
 	for(int i = 0; i < Neighbours.m_lNodes.size(); i++)
 	{
@@ -346,7 +346,7 @@ bool CNetwork::IsConnectedTo(IPv4_ENDPOINT addr)
 bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket)
 {
 	CG2Node* pNode = 0;
-	IPv4_ENDPOINT pAddr;
+	CEndPoint pAddr;
 
 	if(m_oRoutingTable.Find(pTargetGUID, &pNode, &pAddr))
 	{
@@ -356,7 +356,7 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket)
 			qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to neighbour: " << pNode->m_oAddress.toString().toAscii().constData();
 			return true;
 		}
-		else if(pAddr.ip)
+		else if(!pAddr.isNull())
 		{
 			Datagrams.SendPacket(pAddr, pPacket, true);
 			qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to remote node: " << pNode->m_oAddress.toString().toAscii().constData();
@@ -375,7 +375,7 @@ bool CNetwork::RoutePacket(G2Packet* pPacket, CG2Node* pNbr)
 	if(pPacket->GetTo(pGUID) && pGUID != quazaaSettings.Profile.GUID)   // no i adres != moj adres
 	{
 		CG2Node* pNode = 0;
-		IPv4_ENDPOINT pAddr;
+		CEndPoint pAddr;
 
 		if(m_oRoutingTable.Find(pGUID, &pNode, &pAddr))
 		{
@@ -406,7 +406,7 @@ bool CNetwork::RoutePacket(G2Packet* pPacket, CG2Node* pNbr)
 				pNode->SendPacket(pPacket, true, false);
 				return true;
 			}
-			else if(pAddr.ip && bForwardUDP)
+			else if(!pAddr.isNull() && bForwardUDP)
 			{
 				Datagrams.SendPacket(pAddr, pPacket, true);
 				return true;
@@ -451,7 +451,7 @@ void CNetwork::AdaptiveHubRun()
 	}*/
 }
 
-void CNetwork::ConnectTo(IPv4_ENDPOINT& addr)
+void CNetwork::ConnectTo(CEndPoint& addr)
 {
 	// TODO: Verify network is connected before attempting connection and create connection if it is not
 	CG2Node* pNew = Neighbours.ConnectTo(addr);
@@ -702,7 +702,7 @@ void CNetwork::RoutePackets()
 
 					while(!Datagrams.m_lPendingQKA.isEmpty() && !oTimer.hasExpired(250))
 					{
-						QPair<quint32, G2Packet*> oPair = Datagrams.m_lPendingQKA.takeFirst();
+						QPair<QHostAddress, G2Packet*> oPair = Datagrams.m_lPendingQKA.takeFirst();
 
 						if(CG2Node* pNode = Neighbours.Find(oPair.first))
 						{

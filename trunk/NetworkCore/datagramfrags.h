@@ -30,7 +30,7 @@ class G2Packet;
 class DatagramIn
 {
 protected:
-	IPv4_ENDPOINT   m_oAddress;
+	CEndPoint  m_oAddress;
 
 	quint16 m_nSequence;
 	quint8  m_nCount;
@@ -45,7 +45,7 @@ public:
 	DatagramIn();
 	~DatagramIn();
 
-	void Create(IPv4_ENDPOINT pHost, quint8 nFlags, quint16 nSequence, quint8 nCount);
+	void Create(CEndPoint pHost, quint8 nFlags, quint16 nSequence, quint8 nCount);
 	bool Add(quint8 nPart, const void* pData, qint32 nLength);
 	G2Packet* ToG2Packet();
 
@@ -58,7 +58,7 @@ class DatagramWatcher;
 class DatagramOut
 {
 protected:
-	IPv4_ENDPOINT   m_oAddress;
+	CEndPoint   m_oAddress;
 
 	quint16     m_nSequence;
 	bool        m_bCompressed;
@@ -78,7 +78,7 @@ public:
 	DatagramOut();
 	~DatagramOut();
 
-	void Create(IPv4_ENDPOINT oAddr, G2Packet* pPacket, quint16 nSequence, CBuffer* pBuffer, bool bAck = false);
+	void Create(CEndPoint oAddr, G2Packet* pPacket, quint16 nSequence, CBuffer* pBuffer, bool bAck = false);
 	bool GetPacket(quint32 tNow, char** ppPacket, quint32* pnPacket, bool bResend = false);
 	bool Acknowledge(quint8 nPart);
 

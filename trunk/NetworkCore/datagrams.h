@@ -68,9 +68,9 @@ protected:
 	QLinkedList<DatagramOut*>		 m_FreeDGOut;
 	quint16                          m_nSequence;
 
-	QHash < quint32,
-	      QHash<quint32, DatagramIn*>
-	      >                    m_RecvCache;		// for searching by ip & sequence
+	QHash < QHostAddress,
+		  QHash<quint32, DatagramIn*>
+		  >                    m_RecvCache;		// for searching by ip & sequence
 	QLinkedList<DatagramIn*> m_RecvCacheTime;	// a list ordered by recv time, last is oldest
 
 	QLinkedList<DatagramIn*> m_FreeDGIn;		// a list of free incoming packets
@@ -90,7 +90,7 @@ protected:
 
 	quint32 m_nDiscarded;
 
-	QLinkedList<QPair<quint32, G2Packet*> > m_lPendingQKA;
+	QLinkedList<QPair<QHostAddress, G2Packet*> > m_lPendingQKA;
 	QLinkedList<QPair<QUuid, G2Packet*> >   m_lPendingQA;
 	QLinkedList<QueuedQueryHit>   m_lPendingQH2;
 
@@ -101,7 +101,7 @@ public:
 	void Listen();
 	void Disconnect();
 
-	void SendPacket(IPv4_ENDPOINT& oAddr, G2Packet* pPacket, bool bAck = false, DatagramWatcher* pWatcher = 0, void* pParam = 0);
+	void SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck = false, DatagramWatcher* pWatcher = 0, void* pParam = 0);
 
 	void RemoveOldIn(bool bForce = false);
 	void Remove(DatagramIn* pDG, bool bReclaim = false);
@@ -109,15 +109,15 @@ public:
 	void OnReceiveGND();
 	void OnAcknowledgeGND();
 
-	void OnPacket(IPv4_ENDPOINT addr, G2Packet* pPacket);
+	void OnPacket(CEndPoint addr, G2Packet* pPacket);
 	// pierdołki
-	void OnPing(IPv4_ENDPOINT& addr, G2Packet* pPacket);
-	void OnPong(IPv4_ENDPOINT& addr, G2Packet* pPacket);
-	void OnCRAWLR(IPv4_ENDPOINT& addr, G2Packet* pPacket);
+	void OnPing(CEndPoint& addr, G2Packet* pPacket);
+	void OnPong(CEndPoint& addr, G2Packet* pPacket);
+	void OnCRAWLR(CEndPoint& addr, G2Packet* pPacket);
 	// szukanie
-	void OnQKA(IPv4_ENDPOINT& addr, G2Packet* pPacket);
-	void OnQA(IPv4_ENDPOINT& addr, G2Packet* pPacket);
-	void OnQH2(IPv4_ENDPOINT& addr, G2Packet* pPacket);
+	void OnQKA(CEndPoint& addr, G2Packet* pPacket);
+	void OnQA(CEndPoint& addr, G2Packet* pPacket);
+	void OnQH2(CEndPoint& addr, G2Packet* pPacket);
 
 	inline void UpdateStats()
 	{

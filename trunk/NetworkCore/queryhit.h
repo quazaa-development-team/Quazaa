@@ -33,11 +33,11 @@ class CQuery;
 
 struct QueryHitInfo
 {
-	IPv4_ENDPOINT   m_oNodeAddress;
-	IPv4_ENDPOINT	m_oSenderAddress;
+	CEndPoint	    m_oNodeAddress;
+	CEndPoint		m_oSenderAddress;
 	QUuid           m_oGUID;
 	QUuid           m_oNodeGUID;
-	QList<IPv4_ENDPOINT>    m_lNeighbouringHubs;
+	QList<CEndPoint>    m_lNeighbouringHubs;
 	quint8          m_nHops;
 	QString			m_sVendor;
 
@@ -81,7 +81,7 @@ public:
 	CQueryHit();
 	~CQueryHit();
 
-	static QueryHitInfo* ReadInfo(G2Packet* pPacket, IPv4_ENDPOINT* pSender = 0);
+	static QueryHitInfo* ReadInfo(G2Packet* pPacket, CEndPoint* pSender = 0);
 	static CQueryHit*     ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
 	void Delete();

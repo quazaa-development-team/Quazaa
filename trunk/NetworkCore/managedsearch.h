@@ -48,7 +48,7 @@ public:
 
 	QUuid   m_oGUID;
 
-	QHash<quint32, quint32>		m_lSearchedNodes;
+	QHash<QHostAddress, quint32>		m_lSearchedNodes;
 
 	CQueryHit*					m_pCachedHit;
 	quint32						m_nCachedHits;
@@ -67,7 +67,7 @@ public:
 	void SearchNeighbours(quint32 tNow);
 	void SearchG2(quint32 tNow, quint32* pnMaxPackets);
 
-	void OnHostAcknowledge(quint32 nHost, quint32 tNow);
+	void OnHostAcknowledge(QHostAddress nHost, quint32 tNow);
 	void OnQueryHit(CQueryHit* pHits);
 	void SendHits();
 

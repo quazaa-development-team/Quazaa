@@ -72,7 +72,7 @@ void CQuery::AddURN(const char* pURN, quint32 nLength)
 	}
 }
 
-G2Packet* CQuery::ToG2Packet(IPv4_ENDPOINT* pAddr, quint32 nKey)
+G2Packet* CQuery::ToG2Packet(CEndPoint* pAddr, quint32 nKey)
 {
 	G2Packet* pPacket = G2Packet::New("Q2", true);
 
@@ -104,34 +104,34 @@ G2Packet* CQuery::ToG2Packet(IPv4_ENDPOINT* pAddr, quint32 nKey)
 
 	/*if( m_nMinimumSize > 0 && m_nMaximumSize < 0xFFFFFFFFFFFFFFFF )
 	{
-	    G2Packet* pSZR = pPacket->WriteChild("SZR");
-	    pSZR->WriteIntLE(m_nMinimumSize);
-	    pSZR->WriteIntLE(m_nMaximumSize);
+		G2Packet* pSZR = pPacket->WriteChild("SZR");
+		pSZR->WriteIntLE(m_nMinimumSize);
+		pSZR->WriteIntLE(m_nMaximumSize);
 	}
 	else if( m_nMinimumSize > 0 )
 	{
-	    G2Packet* pSZR = pPacket->WriteChild("SZR");
-	    pSZR->WriteIntLE(m_nMinimumSize);
-	    pSZR->WriteIntLE(0xFFFFFFFFFFFFFFFF);
+		G2Packet* pSZR = pPacket->WriteChild("SZR");
+		pSZR->WriteIntLE(m_nMinimumSize);
+		pSZR->WriteIntLE(0xFFFFFFFFFFFFFFFF);
 	}
 	else if( m_nMaximumSize < 0xFFFFFFFFFFFFFFFF )
 	{
-	    G2Packet* pSZR = pPacket->WriteChild("SZR");
-	    pSZR->WriteIntLE(0);
-	    pSZR->WriteIntLE(m_nMaximumSize);
+		G2Packet* pSZR = pPacket->WriteChild("SZR");
+		pSZR->WriteIntLE(0);
+		pSZR->WriteIntLE(m_nMaximumSize);
 	}
 
 	if( bWantURL || bWantDN || bWantMD || bWantPFS )
 	{
-	    G2Packet* pInt = pPacket->WriteChild("I");
-	    if( bWantURL )
-	        pInt->WriteString("URL", true);
-	    if( bWantDN )
-	        pInt->WriteString("DN", true);
-	    if( bWantMD )
-	        pInt->WriteString("MD", true);
-	    if( bWantPFS )
-	        pInt->WriteString("PFS", true);
+		G2Packet* pInt = pPacket->WriteChild("I");
+		if( bWantURL )
+			pInt->WriteString("URL", true);
+		if( bWantDN )
+			pInt->WriteString("DN", true);
+		if( bWantMD )
+			pInt->WriteString("MD", true);
+		if( bWantPFS )
+			pInt->WriteString("PFS", true);
 	}*/
 
 	pPacket->WriteByte(0);

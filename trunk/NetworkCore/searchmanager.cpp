@@ -116,7 +116,7 @@ void CSearchManager::OnTimer()
 
 }
 
-bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, QUuid& oGUID)
+bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUuid& oGUID)
 {
 	if(!pPacket->m_bCompound)
 	{
@@ -137,8 +137,8 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, 
 	{
 		// YES, this is ours, let's parse the packet and process it
 
-		quint32 nFromIp = addr.ip;
-		QList<quint32>  lDone;
+		CEndPoint oFromIp = addr;
+		QList<QHostAddress>  lDone;
 		quint32 nRetryAfter = 0;
 		qint64 tAdjust = 0;
 		quint32 tNow = time(0);
@@ -156,27 +156,53 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, 
 
 			if(strcmp("D", szType) == 0 && nLength >= 4)
 			{
-				quint32 nIp = pPacket->ReadIntBE<quint32>();
-				lDone.append(nIp);
-
-				if(nLength >= 6)
+				QHostAddress ha;
+				if( nLength >= 16 )
 				{
-					quint16 nPort = pPacket->ReadIntLE<quint16>();
-					IPv4_ENDPOINT a(nIp, nPort);
-					HostCache.Add(a, tNow);
-				}
+					// IPv6
+					Q_IPV6ADDR nIP;
+					pPacket->Read(&nIP, 16);
+					ha.setAddress(nIP);
 
-				if(nLength >= 8)
-				{
-					nLeaves += pPacket->ReadIntLE<quint16>();
+					if( nLength >= 18 )
+					{
+						quint16 nPort = pPacket->ReadIntLE<quint16>();
+						CEndPoint a(nIP, nPort);
+						HostCache.Add(a, tNow);
+					}
+
+					if(nLength >= 20)
+					{
+						nLeaves += pPacket->ReadIntLE<quint16>();
+					}
 				}
+				else
+				{
+					// IPv4
+					quint32 nIP = pPacket->ReadIntBE<quint32>();
+					ha.setAddress(nIP);
+
+					if(nLength >= 6)
+					{
+						quint16 nPort = pPacket->ReadIntLE<quint16>();
+						CEndPoint a(nIP, nPort);
+						HostCache.Add(a, tNow);
+					}
+
+					if(nLength >= 8)
+					{
+						nLeaves += pPacket->ReadIntLE<quint16>();
+					}
+				}
+				lDone.append(ha);
+
 				nHubs++;
 			}
 			else if(strcmp("S", szType) == 0 && nLength >= 6)
 			{
-				IPv4_ENDPOINT a;
-				pPacket->ReadHostAddress(&a);
-				quint32 tSeen = (nLength >= 10) ? pPacket->ReadIntLE<quint32>() + tAdjust : tNow;
+				CEndPoint a;
+				pPacket->ReadHostAddress(&a, !(nLength >= 18));
+				quint32 tSeen = (nLength >= (a.protocol() == 0 ? 10 : 22)) ? pPacket->ReadIntLE<quint32>() + tAdjust : tNow;
 
 				HostCache.Add(a, tSeen);
 				nSuggestedHubs++;
@@ -196,7 +222,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, 
 					nRetryAfter = pPacket->ReadIntLE<quint16>();
 				}
 
-				CHostCacheHost* pHost = HostCache.Find(IPv4_ENDPOINT(nFromIp));
+				CHostCacheHost* pHost = HostCache.Find(oFromIp);
 				if(pHost)
 				{
 					pHost->m_tRetryAfter = tNow + nRetryAfter;
@@ -204,7 +230,17 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, 
 			}
 			else if(strcmp("FR", szType) == 0 && nLength >= 4)
 			{
-				nFromIp = pPacket->ReadIntBE<quint32>();
+				if( nLength >= 16 )
+				{
+					Q_IPV6ADDR ip;
+					pPacket->Read(&ip, 16);
+					oFromIp.setAddress(ip);
+				}
+				else
+				{
+					quint32 nFromIp = pPacket->ReadIntBE<quint32>();
+					oFromIp.setAddress(nFromIp);
+				}
 			}
 
 			pPacket->m_nPosition = nNext;
@@ -213,12 +249,12 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, IPv4_ENDPOINT& addr, 
 		// we already know QA GUID
 
 		qDebug("Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
-		       addr.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
+			   addr.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
 
 		pSearch->m_nHubs += nHubs;
 		pSearch->m_nLeaves += nLeaves;
 
-		pSearch->OnHostAcknowledge(nFromIp, tNow);
+		pSearch->OnHostAcknowledge(oFromIp, tNow);
 
 		for(int i = 0; i < lDone.size(); i++)
 		{

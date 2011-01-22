@@ -49,7 +49,7 @@ public:
 	bool             m_bNeedUpdateLNI;
 	quint32          m_nLNIWait;
 	quint32          m_nKHLWait;
-	IPv4_ENDPOINT    m_oAddress;
+	CEndPoint	     m_oAddress;
 
 	CRouteTable      m_oRoutingTable;
 	quint32          m_tCleanRoutesNext;
@@ -89,13 +89,13 @@ public:
 	{
 		return (m_nNodeState == G2_HUB);
 	}
-	inline IPv4_ENDPOINT GetLocalAddress()
+	inline CEndPoint GetLocalAddress()
 	{
 		return m_oAddress;
 	}
 
 
-	bool IsConnectedTo(IPv4_ENDPOINT addr);
+	bool IsConnectedTo(CEndPoint addr);
 
 	void HubBalancing();
 	bool SwitchClientMode(G2NodeType nRequestedMode);
@@ -106,7 +106,7 @@ public slots:
 	void SetupThread();
 	void CleanupThread();
 
-	void ConnectTo(IPv4_ENDPOINT& addr);
+	void ConnectTo(CEndPoint& addr);
 	/*void DisconnectFrom(IPv4_ENDPOINT& ip);
 	void DisconnectFrom(int index);
 	void DisconnectFrom(CG2Node* pNode);*/

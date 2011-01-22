@@ -34,7 +34,7 @@ class CG2Node;
 typedef struct
 {
 	CG2Node*  pNode;
-	IPv4_ENDPOINT oAddress;
+	CEndPoint     oAddress;
 	G2NodeType    nType;
 	int           nState;
 	quint32       tConnected;

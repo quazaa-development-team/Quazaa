@@ -133,7 +133,7 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 				if(lp[0] == "H" || lp[0] == "h")
 				{
 					// host
-					HostCache.Add(IPv4_ENDPOINT(lp[1]), 0);
+					HostCache.Add(CEndPoint(lp[1]), 0);
 				}
 			}
 			else

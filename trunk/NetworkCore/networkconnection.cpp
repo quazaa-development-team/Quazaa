@@ -21,7 +21,6 @@
 
 #include "networkconnection.h"
 
-#include <QHostAddress>
 #include <QTcpSocket>
 #include <QMetaType>
 
@@ -70,16 +69,9 @@ CNetworkConnection::~CNetworkConnection()
 	}
 }
 
-void CNetworkConnection::ConnectTo(IPv4_ENDPOINT oAddress)
+void CNetworkConnection::ConnectTo(CEndPoint oAddress)
 {
-	QHostAddress hostAddr(oAddress.ip);
-
-	ConnectTo(hostAddr, oAddress.port);
-}
-void CNetworkConnection::ConnectTo(QHostAddress oAddress, quint16 nPort)
-{
-	m_oAddress.ip = oAddress.toIPv4Address();
-	m_oAddress.port = nPort;
+	m_oAddress = oAddress;
 
 	m_bInitiated = true;
 	m_bConnected = false;
@@ -93,7 +85,7 @@ void CNetworkConnection::ConnectTo(QHostAddress oAddress, quint16 nPort)
 
 	m_pSocket = new QTcpSocket();
 	initializeSocket();
-	m_pSocket->connectToHost(oAddress, nPort);
+	m_pSocket->connectToHost(oAddress, oAddress.port());
 
 }
 
@@ -113,8 +105,15 @@ void CNetworkConnection::AttachTo(CNetworkConnection* pOther)
 	m_pOutput = pOther->m_pOutput;
 	pOther->m_pInput = pOther->m_pOutput = 0;
 
-	m_oAddress.ip = m_pSocket->peerAddress().toIPv4Address();
-	m_oAddress.port = m_pSocket->peerPort();
+	if( m_pSocket->peerAddress().protocol() == 0 )
+	{
+		m_oAddress.setAddress(m_pSocket->peerAddress().toIPv4Address());
+	}
+	else
+	{
+		m_oAddress.setAddress(m_pSocket->peerAddress().toIPv6Address());
+	}
+	m_oAddress.setPort(m_pSocket->peerPort());
 
 	initializeSocket();
 
@@ -142,8 +141,15 @@ void CNetworkConnection::AcceptFrom(int nHandle)
 	m_pOutput = new CBuffer(8192);
 
 	m_pSocket->setSocketDescriptor(nHandle);
-	m_oAddress.ip = m_pSocket->peerAddress().toIPv4Address();
-	m_oAddress.port = m_pSocket->peerPort();
+	if( m_pSocket->peerAddress().protocol() == 0 )
+	{
+		m_oAddress.setAddress(m_pSocket->peerAddress().toIPv4Address());
+	}
+	else
+	{
+		m_oAddress.setAddress(m_pSocket->peerAddress().toIPv6Address());
+	}
+	m_oAddress.setPort(m_pSocket->peerPort());
 
 	emit readyToTransfer();
 
@@ -182,21 +188,21 @@ void CNetworkConnection::initializeSocket()
 	m_pSocket->disconnect();
 
 	connect(m_pSocket, SIGNAL(connected()),
-	        this, SIGNAL(connected()));
+			this, SIGNAL(connected()));
 	connect(m_pSocket, SIGNAL(connected()),
-	        this, SIGNAL(readyToTransfer()));
+			this, SIGNAL(readyToTransfer()));
 	connect(m_pSocket, SIGNAL(readyRead()),
-	        this, SIGNAL(readyToTransfer()));
+			this, SIGNAL(readyToTransfer()));
 	connect(m_pSocket, SIGNAL(disconnected()),
-	        this, SIGNAL(disconnected()));
+			this, SIGNAL(disconnected()));
 	connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-	        this, SIGNAL(error(QAbstractSocket::SocketError)));
+			this, SIGNAL(error(QAbstractSocket::SocketError)));
 	connect(m_pSocket, SIGNAL(bytesWritten(qint64)),
-	        this, SIGNAL(bytesWritten(qint64)));
+			this, SIGNAL(bytesWritten(qint64)));
 	connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
-	        this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
+			this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
 	connect(m_pSocket, SIGNAL(aboutToClose()),
-	        this, SLOT(OnAboutToClose()));
+			this, SLOT(OnAboutToClose()));
 }
 
 qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)

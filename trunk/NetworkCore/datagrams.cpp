@@ -93,10 +93,10 @@ void CDatagrams::SetupThread()
 	m_pSocket = new QUdpSocket(this);
 	m_tSender = new QTimer(this);
 
-	IPv4_ENDPOINT addr = Network.GetLocalAddress();
-	if(m_pSocket->bind(addr.port))
+	CEndPoint addr = Network.GetLocalAddress();
+	if(m_pSocket->bind(addr.port()))
 	{
-		qDebug() << "Datagrams listening on " << m_pSocket->localPort() << addr.port;
+		qDebug() << "Datagrams listening on " << m_pSocket->localPort() << addr.port();
 		m_nDiscarded = 0;
 
 		for(int i = 0; i < quazaaSettings.Gnutella2.UdpBuffers; i++)
@@ -263,7 +263,7 @@ void CDatagrams::OnReceiveGND()
 {
 
 	GND_HEADER* pHeader = (GND_HEADER*)m_pRecvBuffer->data();
-	quint32 nIp = m_pHostAddress->toIPv4Address();
+	QHostAddress nIp = *m_pHostAddress;
 	quint32 nSeq = ((pHeader->nSequence << 16) & 0xFFFF0000) + (m_nPort & 0x0000FFFF);
 
 	//qDebug("Received GND from %s:%u nSequence = %u nPart = %u nCount = %u", m_pHostAddress->toString().toAscii().constData(), m_nPort, pHeader->nSequence, pHeader->nPart, pHeader->nCount);
@@ -311,7 +311,7 @@ void CDatagrams::OnReceiveGND()
 			return;
 		}
 
-		pDG->Create(IPv4_ENDPOINT(m_pHostAddress->toIPv4Address(), m_nPort), pHeader->nFlags, pHeader->nSequence, pHeader->nCount);
+		pDG->Create(CEndPoint(*m_pHostAddress, m_nPort), pHeader->nFlags, pHeader->nSequence, pHeader->nCount);
 
 		for(int i = 0; i < pHeader->nCount; i++)
 		{
@@ -342,7 +342,7 @@ void CDatagrams::OnReceiveGND()
 		G2Packet* pPacket = 0;
 		try
 		{
-			IPv4_ENDPOINT addr(m_pHostAddress->toIPv4Address(), m_nPort);
+			CEndPoint addr(*m_pHostAddress, m_nPort);
 			pPacket = pDG->ToG2Packet();
 			if(pPacket)
 			{
@@ -402,14 +402,14 @@ void CDatagrams::Remove(DatagramIn* pDG, bool bReclaim)
 		return;
 	}
 
-	if(m_RecvCache.contains(pDG->m_oAddress.ip))
+	if(m_RecvCache.contains(pDG->m_oAddress))
 	{
-		quint32 nSeq = ((pDG->m_nSequence << 16) & 0xFFFF0000) + (pDG->m_oAddress.port & 0x0000FFFF);
-		Q_ASSERT(pDG == m_RecvCache[pDG->m_oAddress.ip][nSeq]);
-		m_RecvCache[pDG->m_oAddress.ip].remove(nSeq);
-		if(m_RecvCache[pDG->m_oAddress.ip].isEmpty())
+		quint32 nSeq = ((pDG->m_nSequence << 16) & 0xFFFF0000) + (pDG->m_oAddress.port() & 0x0000FFFF);
+		Q_ASSERT(pDG == m_RecvCache[pDG->m_oAddress][nSeq]);
+		m_RecvCache[pDG->m_oAddress].remove(nSeq);
+		if(m_RecvCache[pDG->m_oAddress].isEmpty())
 		{
-			m_RecvCache.remove(pDG->m_oAddress.ip);
+			m_RecvCache.remove(pDG->m_oAddress);
 		}
 
 		m_RecvCacheTime.removeOne(pDG);
@@ -531,7 +531,7 @@ void CDatagrams::FlushSendCache()
 
 	quint32 nToWrite = (m_nUploadLimit * nMsecs) / 1000;
 
-	quint32 nLastHost = 0;
+	QHostAddress nLastHost;
 
 	while(nToWrite > 0 && !m_SendCache.isEmpty())
 	{
@@ -544,7 +544,7 @@ void CDatagrams::FlushSendCache()
 		{
 			DatagramOut* pDG = *itPacket;
 
-			if(pDG->m_oAddress.ip == nLastHost)
+			if(pDG->m_oAddress == nLastHost)
 			{
 				continue;
 			}
@@ -554,9 +554,9 @@ void CDatagrams::FlushSendCache()
 			{
 				//qDebug() << "UDP sending to " << pDG->m_oAddress.toString().toAscii().constData() << "seq" << pDG->m_nSequence << "nPart" << ((GND_HEADER*)&pPacket)->nPart << "count" << pDG->m_nCount;
 
-				m_pSocket->writeDatagram(pPacket, nPacket, QHostAddress(pDG->m_oAddress.ip), pDG->m_oAddress.port);
+				m_pSocket->writeDatagram(pPacket, nPacket, pDG->m_oAddress, pDG->m_oAddress.port());
 
-				nLastHost = pDG->m_oAddress.ip;
+				nLastHost = pDG->m_oAddress;
 
 				if(nToWrite >= nPacket)
 				{
@@ -593,7 +593,7 @@ void CDatagrams::FlushSendCache()
 
 }
 
-void CDatagrams::SendPacket(IPv4_ENDPOINT& oAddr, G2Packet* pPacket, bool bAck, DatagramWatcher* pWatcher, void* pParam)
+void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, DatagramWatcher* pWatcher, void* pParam)
 {
 	if(!m_bActive)
 	{
@@ -638,7 +638,7 @@ void CDatagrams::SendPacket(IPv4_ENDPOINT& oAddr, G2Packet* pPacket, bool bAck, 
 }
 
 
-void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet* pPacket)
+void CDatagrams::OnPacket(CEndPoint addr, G2Packet* pPacket)
 {
 	try
 	{
@@ -677,7 +677,7 @@ void CDatagrams::OnPacket(IPv4_ENDPOINT addr, G2Packet* pPacket)
 	}
 }
 
-void CDatagrams::OnPing(IPv4_ENDPOINT& addr, G2Packet* pPacket)
+void CDatagrams::OnPing(CEndPoint& addr, G2Packet* pPacket)
 {
 	Q_UNUSED(pPacket);
 
@@ -686,7 +686,7 @@ void CDatagrams::OnPing(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 	pNew->Release();
 }
 
-void CDatagrams::OnPong(IPv4_ENDPOINT& addr, G2Packet* pPacket)
+void CDatagrams::OnPong(CEndPoint& addr, G2Packet* pPacket)
 {
 	if(pPacket->m_bCompound)
 	{
@@ -709,7 +709,7 @@ void CDatagrams::OnPong(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 		}
 	}
 }
-void CDatagrams::OnCRAWLR(IPv4_ENDPOINT& addr, G2Packet* pPacket)
+void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 {
 	QMutexLocker l(&Network.m_pSection);
 	QMutexLocker l2(&Neighbours.m_pSection);
@@ -763,7 +763,7 @@ void CDatagrams::OnCRAWLR(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 	{
 		pTmp->WritePacket("LEAF", 0);
 	}
-	pTmp->WritePacket("NA", 6)->WriteHostAddress(&Network.m_oAddress);
+	pTmp->WritePacket("NA", ((Network.m_oAddress.protocol() == 0) ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
 	pTmp->WritePacket("CV", quazaaGlobals.UserAgentString().toUtf8().size())->WriteString(quazaaGlobals.UserAgentString(), false);
 	pTmp->WritePacket("V", 4)->WriteString(quazaaGlobals.VendorCode(), false);;
 	quint16 nLeaves = Neighbours.m_nLeavesConnected;
@@ -784,7 +784,7 @@ void CDatagrams::OnCRAWLR(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 			if(pNode->m_nType == G2_HUB)
 			{
 				G2Packet* pNH = G2Packet::New("NH");
-				pNH->WritePacket("NA", 6)->WriteHostAddress(&pNode->m_oAddress);
+				pNH->WritePacket("NA", ((pNode->m_oAddress.protocol() == 0) ? 6 : 18))->WriteHostAddress(&pNode->m_oAddress);
 				pNH->WritePacket("HS", 2)->WriteIntLE(pNode->m_nLeafCount);
 				pCA->WritePacket(pNH);
 				pNH->Release();
@@ -792,7 +792,7 @@ void CDatagrams::OnCRAWLR(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 			else if(pNode->m_nType == G2_LEAF)
 			{
 				G2Packet* pNL = G2Packet::New("NL");
-				pNL->WritePacket("NA", 6)->WriteHostAddress(&pNode->m_oAddress);
+				pNL->WritePacket("NA", ((pNode->m_oAddress.protocol() == 0) ? 6 : 18))->WriteHostAddress(&pNode->m_oAddress);
 				pCA->WritePacket(pNL);
 				pNL->Release();
 			}
@@ -803,7 +803,7 @@ void CDatagrams::OnCRAWLR(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 
 	pCA->Release();
 }
-void CDatagrams::OnQKA(IPv4_ENDPOINT& addr, G2Packet* pPacket)
+void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 {
 	if(!pPacket->m_bCompound)
 	{
@@ -811,7 +811,7 @@ void CDatagrams::OnQKA(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 	}
 
 	quint32 nKey = 0;
-	quint32 nKeyHost = 0;
+	QHostAddress nKeyHost;
 
 	char szType[9];
 	quint32 nLength = 0, nNext = 0;
@@ -826,7 +826,20 @@ void CDatagrams::OnQKA(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 		}
 		else if(strcmp("SNA", szType) == 0 && nLength >= 4)
 		{
-			pPacket->ReadIntBE(&nKeyHost);
+			CEndPoint ep;
+
+			if( nLength >= 16 )
+			{
+				Q_IPV6ADDR ip;
+				pPacket->Read(&ip, 16);
+				nKeyHost.setAddress(ip);
+			}
+			else
+			{
+				quint32 nIp;
+				pPacket->ReadIntBE(&nIp);
+				nKeyHost.setAddress(nIp);
+			}
 		}
 		pPacket->m_nPosition = nNext;
 	}
@@ -842,25 +855,43 @@ void CDatagrams::OnQKA(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 
 	qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
 
-	if(Network.isHub() && nKeyHost != 0 /*&& nKeyHost != Network.m_oAddress.ip*/)
+	if(Network.isHub() && !nKeyHost.isNull() /*&& nKeyHost != Network.m_oAddress.ip*/)
 	{
-		uchar* pOut = pPacket->WriteGetPointer(11, 0);
-		*pOut++ = 0x50;
-		*pOut++ = 6;
-		*pOut++ = 'Q';
-		*pOut++ = 'N';
-		*pOut++ = 'A';
+		if( addr.protocol() == 0 )
+		{
+			uchar* pOut = pPacket->WriteGetPointer(11, 0);
+			*pOut++ = 0x50;
+			*pOut++ = 6;
+			*pOut++ = 'Q';
+			*pOut++ = 'N';
+			*pOut++ = 'A';
 
-		quint32 nIP = qToBigEndian(addr.ip);
-		quint16 nPort = qToLittleEndian(addr.port);
-		memcpy(pOut, &nIP, 4);
-		memcpy(pOut + 4, &nPort, 2);
+			quint32 nIP = qToBigEndian(addr.toIPv4Address());
+			quint16 nPort = qToLittleEndian(addr.port());
+			memcpy(pOut, &nIP, 4);
+			memcpy(pOut + 4, &nPort, 2);
+		}
+		else
+		{
+			// IPv6
+			uchar* pOut = pPacket->WriteGetPointer(11, 0);
+			*pOut++ = 0x50;
+			*pOut++ = 18;
+			*pOut++ = 'Q';
+			*pOut++ = 'N';
+			*pOut++ = 'A';
+
+			Q_IPV6ADDR nIP = addr.toIPv6Address();
+			quint16 nPort = qToLittleEndian(addr.port());
+			memcpy(pOut, &nIP, 16);
+			memcpy(pOut + 16, &nPort, 2);
+		}
 
 		QMutexLocker l(&m_pSection);
 		bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
 
 		pPacket->AddRef();
-		m_lPendingQKA.append(qMakePair<quint32, G2Packet*>(nKeyHost, pPacket));
+		m_lPendingQKA.append(qMakePair<QHostAddress, G2Packet*>(nKeyHost, pPacket));
 
 		while(m_lPendingQKA.size() > 1000)
 		{
@@ -875,7 +906,7 @@ void CDatagrams::OnQKA(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 	// TODO Forwarding jesli hub i SNA != lokalny, dodac QNA
 
 }
-void CDatagrams::OnQA(IPv4_ENDPOINT& addr, G2Packet* pPacket)
+void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 {
 	HostCache.m_pSection.lock();
 
@@ -921,7 +952,7 @@ void CDatagrams::OnQA(IPv4_ENDPOINT& addr, G2Packet* pPacket)
 
 }
 
-void CDatagrams::OnQH2(IPv4_ENDPOINT& addr, G2Packet* pPacket)
+void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 {
 	if(!pPacket->m_bCompound)
 	{
