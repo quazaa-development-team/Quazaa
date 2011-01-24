@@ -24,6 +24,7 @@
 #include "queryhashgroup.h"
 #include <QString>
 #include "network.h"
+#include "neighbour.h"
 #include "g2node.h"
 #include "g2packet.h"
 #include "zlibutils.h"
@@ -341,7 +342,7 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 }
 
 bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
-                              CG2Node* pNeighbour)
+							  CG2Node* pNeighbour)
 {
 	if(!pTarget->m_pHash)
 	{
@@ -584,7 +585,7 @@ bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 	}
 
 	m_pBuffer->append((char*)pPacket->m_pBuffer + pPacket->m_nPosition,
-	                  pPacket->m_nLength - pPacket->m_nPosition);
+					  pPacket->m_nLength - pPacket->m_nPosition);
 
 	if(nSequence < nMaximum)
 	{

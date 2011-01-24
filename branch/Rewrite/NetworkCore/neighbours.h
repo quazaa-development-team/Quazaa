@@ -27,7 +27,7 @@
 
 #include "types.h"
 
-class CG2Node;
+class CNeighbour;
 class CNetworkConnection;
 class CRateController;
 
@@ -39,11 +39,11 @@ public:
 	QMutex			 m_pSection;
 
 protected:
-	QList<CG2Node*>		 m_lNodes;
+	QList<CNeighbour*>		 m_lNodes;
 	CRateController* 	m_pController;
 
-	QHash<QHostAddress, CG2Node*> m_lNodesByAddr;  // lookups by ip address
-	QSet<CG2Node*>			 m_lNodesByPtr;	// lookups by pointer
+	QHash<QHostAddress, CNeighbour*> m_lNodesByAddr;  // lookups by ip address
+	QSet<CNeighbour*>			 m_lNodesByPtr;	// lookups by pointer
 
 public:
 	quint32	m_nHubsConnected;
@@ -59,16 +59,16 @@ public:
 
 	void Clear();
 
-	CG2Node* ConnectTo(CEndPoint& oAddress);
-	CG2Node* OnAccept(CNetworkConnection* pConn);
+	CNeighbour* ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol);
+	CNeighbour* OnAccept(CNetworkConnection* pConn);
 
-	void DisconnectYoungest(G2NodeType nType, bool bCore);
+	void DisconnectYoungest(DiscoveryProtocol nProtocol, int nType = 0, bool bCore = false);
 
-	void AddNode(CG2Node* pNode);
-	void RemoveNode(CG2Node* pNode);
-	CG2Node* Find(QHostAddress& oAddress);
+	void AddNode(CNeighbour* pNode);
+	void RemoveNode(CNeighbour* pNode);
+	CNeighbour* Find(QHostAddress& oAddress, DiscoveryProtocol nProtocol);
 
-	bool NeighbourExists(const CG2Node* pNode);
+	bool NeighbourExists(const CNeighbour* pNode);
 
 	void Maintain();
 	bool NeedMore(G2NodeType nType);
@@ -76,11 +76,11 @@ public:
 	qint64 DownloadSpeed();
 	qint64 UploadSpeed();
 
-	inline QList<CG2Node*>::iterator begin()
+	inline QList<CNeighbour*>::iterator begin()
 	{
 		return m_lNodes.begin();
 	}
-	inline QList<CG2Node*>::iterator end()
+	inline QList<CNeighbour*>::iterator end()
 	{
 		return m_lNodes.end();
 	}
@@ -89,7 +89,7 @@ public:
 	{
 		return m_lNodes.size();
 	}
-	inline CG2Node* GetAt(int nIndex)
+	inline CNeighbour* GetAt(int nIndex)
 	{
 		Q_ASSERT(nIndex >= 0 && nIndex < m_lNodes.size());
 

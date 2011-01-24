@@ -22,7 +22,7 @@
 #ifndef G2NODE_H
 #define G2NODE_H
 
-#include "compressedconnection.h"
+#include "neighbour.h"
 #include <QElapsedTimer>
 #include <QQueue>
 #include <QHash>
@@ -30,27 +30,14 @@
 class G2Packet;
 class CQueryHashTable;
 
-enum G2NodeState { nsClosed, nsConnecting, nsHandshaking, nsConnected, nsClosing, nsError };
-
-class CG2Node : public CCompressedConnection
+class CG2Node : public CNeighbour
 {
 	Q_OBJECT
 
 public:
-	quint32         m_tLastPacketIn;
-	quint32         m_tLastPacketOut;
-	quint32         m_nPacketsIn;
-	quint32         m_nPacketsOut;
-	QString         m_sUserAgent;
 	bool            m_bG2Core;
 	bool			m_bCachedKeys;
 	G2NodeType      m_nType;
-	G2NodeState     m_nState;
-	quint32         m_tLastPingOut;
-	quint32         m_nPingsWaiting;
-	QElapsedTimer   m_tRTTTimer;
-	qint64          m_tRTT;
-	quint32         m_tLastQuery;
 
 	quint16         m_nLeafCount;
 	quint16         m_nLeafMax;
@@ -69,31 +56,19 @@ public:
 
 	QHash<quint32,quint32> m_lRABan; // list of banned return addresses
 
-	quint32			m_nCookie;
-
 public:
 	CG2Node(QObject* parent = 0);
 	~CG2Node();
 
-	virtual void ConnectTo(CEndPoint oAddress)
-	{
-		systemLog.postLog(LogSeverity::Information, "Initiating neighbour connection to %s...", qPrintable(oAddress.toString()));
-		m_nState = nsConnecting;
-		CNetworkConnection::ConnectTo(oAddress);
-		SetupSlots();
-	}
 	void AttachTo(CNetworkConnection* pOther)
 	{
-		m_nState = nsHandshaking;
-		SetupSlots();
-		CCompressedConnection::AttachTo(pOther);
+		CNeighbour::AttachTo(pOther);
 	}
 
 	void SendPacket(G2Packet* pPacket, bool bBuffered = false, bool bRelease = false);
 	void FlushSendQueue(bool bFullFlush = false);
 
 protected:
-	void SetupSlots();
 
 	void ParseOutgoingHandshake();
 	void ParseIncomingHandshake();

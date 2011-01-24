@@ -29,11 +29,11 @@
 #include <QMutex>
 #include <QIcon>
 
-class CG2Node;
+class CNeighbour;
 
 typedef struct
 {
-	CG2Node*  pNode;
+	CNeighbour*   pNode;
 	CEndPoint     oAddress;
 	G2NodeType    nType;
 	int           nState;
@@ -84,12 +84,12 @@ private:
 	QWidget* m_oContainer;
 
 public slots:
-	bool NodeExists(CG2Node* pNode);
-	void OnNodeAdded(CG2Node* pNode);
-	void AddNode(CG2Node* pNode, bool bSignal = true);
-	void UpdateNeighbourData(CG2Node* pNode);
-	void UpdateNode(CG2Node* pNode, bool bSignal = true);
-	void OnRemoveNode(CG2Node* pNode);
+	bool NodeExists(CNeighbour* pNode);
+	void OnNodeAdded(CNeighbour* pNode);
+	void AddNode(CNeighbour* pNode, bool bSignal = true);
+	void UpdateNeighbourData(CNeighbour* pNode);
+	void UpdateNode(CNeighbour* pNode, bool bSignal = true);
+	void OnRemoveNode(CNeighbour* pNode);
 	void UpdateAll();
 };
 

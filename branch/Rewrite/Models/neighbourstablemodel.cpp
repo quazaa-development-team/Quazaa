@@ -26,20 +26,21 @@
 #include <QIcon>
 #include <QMutexLocker>
 #include <QFont>
+#include "neighbour.h"
 #include "g2node.h"
 #include "network.h"
 #include "neighbours.h"
 #include "geoiplist.h"
- 
+
 
 CNeighboursTableModel::CNeighboursTableModel(QObject* parent, QWidget* container) :
 	QAbstractTableModel(parent)
 {
 	m_oContainer = container;
 
-	connect(&Network, SIGNAL(NodeAdded(CG2Node*)), this, SLOT(OnNodeAdded(CG2Node*)), Qt::QueuedConnection);
+	/*connect(&Network, SIGNAL(NodeAdded(CG2Node*)), this, SLOT(OnNodeAdded(CG2Node*)), Qt::QueuedConnection);
 	connect(&Network, SIGNAL(NodeUpdated(CG2Node*)), this, SLOT(UpdateNeighbourData(CG2Node*)), Qt::QueuedConnection);
-	connect(&Network, SIGNAL(NodeRemoved(CG2Node*)), this, SLOT(OnRemoveNode(CG2Node*)), Qt::QueuedConnection);
+	connect(&Network, SIGNAL(NodeRemoved(CG2Node*)), this, SLOT(OnRemoveNode(CG2Node*)), Qt::QueuedConnection);*/
 }
 
 CNeighboursTableModel::~CNeighboursTableModel()
@@ -213,25 +214,17 @@ QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientat
 	return QVariant();
 }
 
-bool CNeighboursTableModel::NodeExists(CG2Node* pNode)
+bool CNeighboursTableModel::NodeExists(CNeighbour* pNode)
 {
 	if(Neighbours.GetCount() == 0)
 	{
 		return false;
 	}
 
-	for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
-	{
-		if(pNode == *itNode)
-		{
-			return true;
-		}
-	}
-
-	return false;
+	return Neighbours.NeighbourExists(pNode);
 }
 
-void CNeighboursTableModel::OnNodeAdded(CG2Node* pNode)
+void CNeighboursTableModel::OnNodeAdded(CNeighbour* pNode)
 {
 	Q_UNUSED(pNode);
 
@@ -246,7 +239,7 @@ void CNeighboursTableModel::OnNodeAdded(CG2Node* pNode)
 	Network.m_pSection.unlock();*/
 }
 
-void CNeighboursTableModel::AddNode(CG2Node* pNode, bool bSignal)
+void CNeighboursTableModel::AddNode(CNeighbour* pNode, bool bSignal)
 {
 	//qDebug() << "AddNode";
 
@@ -265,13 +258,14 @@ void CNeighboursTableModel::AddNode(CG2Node* pNode, bool bSignal)
 	nbr.nBytesSent = pNode->m_mOutput.m_nTotal;
 	nbr.nCompressionIn = pNode->GetTotalInDecompressed();
 	nbr.nCompressionOut = pNode->GetTotalOutCompressed();
-	nbr.nLeafCount = pNode->m_nLeafCount;
-	nbr.nLeafMax = pNode->m_nLeafMax;
+	// G2
+	nbr.nLeafCount = ((CG2Node*)pNode)->m_nLeafCount;
+	nbr.nLeafMax = ((CG2Node*)pNode)->m_nLeafMax;
 	nbr.nPacketsIn = pNode->m_nPacketsIn;
 	nbr.nPacketsOut = pNode->m_nPacketsOut;
 	nbr.nRTT = pNode->m_tRTT;
 	nbr.nState = pNode->m_nState;
-	nbr.nType = pNode->m_nType;
+	nbr.nType = ((CG2Node*)pNode)->m_nType;
 	nbr.sUserAgent = pNode->m_sUserAgent;
 	QString sCountry = GeoIP.findCountryCode(nbr.pNode->m_oAddress);
 	nbr.sCountry = GeoIP.countryNameFromCode(sCountry);
@@ -289,7 +283,7 @@ void CNeighboursTableModel::AddNode(CG2Node* pNode, bool bSignal)
 	}
 }
 
-void CNeighboursTableModel::UpdateNeighbourData(CG2Node* pNode)
+void CNeighboursTableModel::UpdateNeighbourData(CNeighbour* pNode)
 {
 	//qDebug() << "UpdateNeighboursData";
 
@@ -305,7 +299,7 @@ void CNeighboursTableModel::UpdateNeighbourData(CG2Node* pNode)
 
 	Neighbours.m_pSection.unlock();
 }
-void CNeighboursTableModel::UpdateNode(CG2Node* pNode, bool bSignal)
+void CNeighboursTableModel::UpdateNode(CNeighbour* pNode, bool bSignal)
 {
 	//qDebug() << "UpdateNode";
 
@@ -323,13 +317,14 @@ void CNeighboursTableModel::UpdateNode(CG2Node* pNode, bool bSignal)
 			m_lNodes[i].nBytesSent = pNode->m_mOutput.m_nTotal;
 			m_lNodes[i].nCompressionIn = pNode->GetTotalInDecompressed();
 			m_lNodes[i].nCompressionOut = pNode->GetTotalOutCompressed();
-			m_lNodes[i].nLeafCount = pNode->m_nLeafCount;
-			m_lNodes[i].nLeafMax = pNode->m_nLeafMax;
+			// G2
+			m_lNodes[i].nLeafCount = ((CG2Node*)pNode)->m_nLeafCount;
+			m_lNodes[i].nLeafMax = ((CG2Node*)pNode)->m_nLeafMax;
 			m_lNodes[i].nPacketsIn = pNode->m_nPacketsIn;
 			m_lNodes[i].nPacketsOut = pNode->m_nPacketsOut;
 			m_lNodes[i].nRTT = pNode->m_tRTT;
 			m_lNodes[i].nState = pNode->m_nState;
-			m_lNodes[i].nType = pNode->m_nType;
+			m_lNodes[i].nType = ((CG2Node*)pNode)->m_nType;
 			m_lNodes[i].sUserAgent = pNode->m_sUserAgent;
 
 			if(bSignal)
@@ -344,7 +339,7 @@ void CNeighboursTableModel::UpdateNode(CG2Node* pNode, bool bSignal)
 	}
 }
 
-void CNeighboursTableModel::OnRemoveNode(CG2Node* pNode)
+void CNeighboursTableModel::OnRemoveNode(CNeighbour* pNode)
 {
 	//qDebug() << "OnRemoveNode";
 
@@ -424,7 +419,7 @@ void CNeighboursTableModel::UpdateAll()
 
 		// now add missing nodes or update existing
 
-		for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+		for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 		{
 			bool bFound = false;
 

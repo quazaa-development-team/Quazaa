@@ -143,9 +143,12 @@ void CManagedSearch::SearchNeighbours(quint32 tNow)
 
 	QMutexLocker l(&Neighbours.m_pSection);
 
-	for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
-		CG2Node* pNode = *itNode;
+		if( (*itNode)->m_nProtocol != dpGnutella2 )
+			continue;
+
+		CG2Node* pNode = (CG2Node*)(*itNode);
 
 		if(pNode->m_nState == nsConnected
 				&& tNow - pNode->m_tConnected > 15
@@ -205,9 +208,12 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 			QMutexLocker l(&Neighbours.m_pSection);
 
 			bool bFound = false;
-			for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+			for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 			{
-				CG2Node* pNode = *itNode;
+				if( (*itNode)->m_nProtocol != dpGnutella2 )
+					continue;
+
+				CG2Node* pNode = (CG2Node*)(*itNode);
 				if(pHost->m_nKeyHost == pNode->m_oAddress)
 				{
 					pReceiver = &pNode->m_oAddress;
@@ -266,9 +272,12 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 			else
 			{
 				bool bCheckLast = Neighbours.m_nHubsConnected > 2;
-				for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+				for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 				{
-					CG2Node* pNode = *itNode;
+					if( (*itNode)->m_nProtocol != dpGnutella2 )
+						continue;
+
+					CG2Node* pNode = (CG2Node*)(*itNode);
 
 					if(m_lSearchedNodes.contains(pNode->m_oAddress)
 							&& pNode->m_nType == G2_HUB)

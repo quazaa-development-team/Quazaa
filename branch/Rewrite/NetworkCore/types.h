@@ -39,9 +39,26 @@
 
 uint qHash(const QUuid& key);
 
+enum DiscoveryProtocol
+{
+	dpNull,
+	dpGnutella2
+};
+
+enum TransferProtocol
+{
+	tpNull,
+	tpHTTP,
+	tpBitTorrent
+};
+
+enum NodeState { nsClosed, nsConnecting, nsHandshaking, nsConnected, nsClosing, nsError };
+
 enum G2NodeType {G2_UNKNOWN = 0, G2_LEAF = 1, G2_HUB = 2};
 
 typedef unsigned char BYTE;
 
-#endif
+#endif // __cplusplus
+
+
 #endif // TYPES_H

@@ -786,9 +786,12 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 	pCA->WritePacket(pTmp);
 	pTmp->Release();
 
-	for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
-		CG2Node* pNode = *itNode;
+		if( (*itNode)->m_nProtocol != dpGnutella2 )
+			continue;
+
+		CG2Node* pNode = (CG2Node*)*itNode;
 		if(pNode->m_nState == nsConnected)
 		{
 			if(pNode->m_nType == G2_HUB)

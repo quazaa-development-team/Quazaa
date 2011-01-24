@@ -237,12 +237,16 @@ void CNetwork::OnSecondTimer()
 
 			m_bNeedUpdateLNI = false;
 
-			for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+			for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 			{
-				CG2Node* pNode = *itNode;
+				CNeighbour* pNode = *itNode;
+
+				if( pNode->m_nProtocol != dpGnutella2 )
+					continue;
+
 				if(pNode->m_nState == nsConnected)
 				{
-					pNode->SendLNI();
+					((CG2Node*)pNode)->SendLNI();
 				}
 			}
 		}
@@ -283,10 +287,14 @@ void CNetwork::DispatchKHL()
 	quint32 ts = time(0);
 	pKHL->WritePacket("TS", 4)->WriteIntLE(ts);
 
-	for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
-		CG2Node* pNode = *itNode;
-		if(pNode->m_nType == G2_HUB && pNode->m_nState == nsConnected)
+		CNeighbour* pNode = *itNode;
+
+		if( pNode->m_nProtocol != dpGnutella2 )
+				continue;
+
+		if(((CG2Node*)pNode)->m_nType == G2_HUB && pNode->m_nState == nsConnected)
 		{
 			pKHL->WritePacket("NH", 6)->WriteHostAddress(&pNode->m_oAddress);
 		}
@@ -301,12 +309,16 @@ void CNetwork::DispatchKHL()
 	}
 
 
-	for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
-		CG2Node* pNode = *itNode;
+		CNeighbour* pNode = *itNode;
+
+		if( pNode->m_nProtocol != dpGnutella2 )
+			continue;
+
 		if(pNode->m_nState == nsConnected)
 		{
-			pNode->SendPacket(pKHL, false, false);
+			((CG2Node*)pNode)->SendPacket(pKHL, false, false);
 		}
 	}
 	pKHL->Release();
@@ -458,12 +470,12 @@ void CNetwork::AdaptiveHubRun()
 void CNetwork::ConnectTo(CEndPoint& addr)
 {
 	// TODO: Verify network is connected before attempting connection and create connection if it is not
-	CG2Node* pNew = Neighbours.ConnectTo(addr);
+	/*CG2Node* pNew = Neighbours.ConnectTo(addr);
 
 	if(pNew)
 	{
 		pNew->moveToThread(&NetworkThread);
-	}
+	}*/
 }
 
 // WARNING: pNode must be a valid pointer
@@ -522,13 +534,13 @@ void CNetwork::HubBalancing()
 	}
 
 	// check how many leaves are in local hub cluster
-	for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
-		CG2Node* pNode = *itNode;
-		if(pNode->m_nState == nsConnected && pNode->m_nType == G2_HUB)
+		CNeighbour* pNode = *itNode;
+		if( pNode->m_nProtocol == dpGnutella2 && pNode->m_nState == nsConnected && ((CG2Node*)pNode)->m_nType == G2_HUB)
 		{
-			nLeaves += pNode->m_nLeafCount;
-			nMaxLeaves += pNode->m_nLeafMax;
+			nLeaves += ((CG2Node*)pNode)->m_nLeafCount;
+			nMaxLeaves += ((CG2Node*)pNode)->m_nLeafMax;
 		}
 	}
 
@@ -708,9 +720,9 @@ void CNetwork::RoutePackets()
 					{
 						QPair<QHostAddress, G2Packet*> oPair = Datagrams.m_lPendingQKA.takeFirst();
 
-						if(CG2Node* pNode = Neighbours.Find(oPair.first))
+						if(CNeighbour* pNode = Neighbours.Find(oPair.first, dpGnutella2))
 						{
-							pNode->SendPacket(oPair.second, true, true);
+							((CG2Node*)pNode)->SendPacket(oPair.second, true, true);
 						}
 						else
 						{

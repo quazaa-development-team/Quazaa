@@ -168,7 +168,8 @@ SOURCES += main.cpp \
 	UI/widgetchattab.cpp \
 	NetworkCore/buffer.cpp \
 	NetworkCore/endpoint.cpp \
-	UI/dialogprivatemessage.cpp
+	UI/dialogprivatemessage.cpp \
+    NetworkCore/neighbour.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -277,7 +278,8 @@ HEADERS += UI/dialoglanguage.h \
 	UI/widgetchattab.h \
 	NetworkCore/buffer.h \
 	NetworkCore/endpoint.h \
-	UI/dialogprivatemessage.h
+	UI/dialogprivatemessage.h \
+    NetworkCore/neighbour.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \

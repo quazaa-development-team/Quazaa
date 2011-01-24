@@ -39,15 +39,13 @@
 //#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject* parent) :
-	CCompressedConnection(parent)
+	CNeighbour(parent)
 {
-	m_nState = nsClosed;
+
+	m_nProtocol = dpGnutella2;
+
 	m_nType = G2_UNKNOWN;
-	m_tLastPacketIn = m_tLastPacketOut = 0;
-	m_tLastPingOut = 0;
-	m_nPingsWaiting = 0;
-	m_tRTT = 0;
-	m_nPacketsIn = m_nPacketsOut = 0;
+
 	m_nLeafCount = m_nLeafMax = 0;
 	m_bAcceptDeflate = false;
 	m_tLastQuery = 0;
@@ -57,8 +55,6 @@ CG2Node::CG2Node(QObject* parent) :
 
 	m_pLocalTable = 0;
 	m_pRemoteTable = 0;
-
-	m_nCookie = 0;
 }
 
 CG2Node::~CG2Node()
@@ -77,10 +73,6 @@ CG2Node::~CG2Node()
 	{
 		delete m_pRemoteTable;
 	}
-
-	Neighbours.m_pSection.lock();
-	Neighbours.RemoveNode(this);
-	Neighbours.m_pSection.unlock();
 }
 
 void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
@@ -171,14 +163,6 @@ void CG2Node::FlushSendQueue(bool bFullFlush)
 	}*/
 }
 
-void CG2Node::SetupSlots()
-{
-	connect(this, SIGNAL(connected()), this, SLOT(OnConnect()), Qt::QueuedConnection);
-	connect(this, SIGNAL(disconnected()), this, SLOT(OnDisconnect()), Qt::QueuedConnection);
-	connect(this, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
-	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(OnError(QAbstractSocket::SocketError)), Qt::QueuedConnection);
-	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(OnStateChange(QAbstractSocket::SocketState)), Qt::QueuedConnection);
-}
 
 void CG2Node::OnConnect()
 {
@@ -299,33 +283,10 @@ void CG2Node::OnStateChange(QAbstractSocket::SocketState s)
 void CG2Node::OnTimer(quint32 tNow)
 {
 
-	if(m_nState < nsConnected)
-	{
-		if(tNow - m_tConnected > quazaaSettings.Connection.TimeoutConnect)
-		{
-			if(m_bInitiated)
-			{
-				HostCache.OnFailure(m_oAddress);
-			}
-			m_nState = nsClosing;
-			Close();
-			return;
-		}
-	}
-	else if(m_nState == nsConnected)
-	{
-		if(tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
-		{
-			systemLog.postLog(tr("Closing connection to %1 due to lack of traffic.").arg(m_oAddress.toString()), LogSeverity::Error);
-			systemLog.postLog(tr("Conn %1, Packet %2, bytes avail %3, net bytes avail %4, ping %5").arg(tNow - m_tConnected).arg(tNow - m_tLastPacketIn).arg(bytesAvailable()).arg(networkBytesAvailable()).arg(tNow - m_tLastPingOut), LogSeverity::Debug);
-			systemLog.postLog(tr("Closing connection with %1 minute dead").arg(m_oAddress.toString()));
-			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "minute dead";
-			m_nState = nsClosing;
-			emit NodeStateChanged();
-			Close();
-			return;
-		}
+	CNeighbour::OnTimer(tNow);
 
+	if(m_nState == nsConnected)
+	{
 		if(m_nPingsWaiting == 0 && (tNow - m_tLastPacketIn >= 30 || tNow - m_tLastPingOut >= quazaaSettings.Gnutella2.PingRate))
 		{
 			// Jesli dostalismy ostatni pakiet co najmniej 30 sekund temu
@@ -337,16 +298,6 @@ void CG2Node::OnTimer(quint32 tNow)
 			m_nPingsWaiting++;
 			m_tLastPingOut = tNow;
 			m_tRTTTimer.start();
-		}
-
-		if(m_nPingsWaiting > 0 && tNow - m_tLastPingOut > quazaaSettings.Gnutella2.PingTimeout && tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
-		{
-			systemLog.postLog(tr("Closing connection with %1 ping timed out").arg(m_oAddress.toString()), LogSeverity::Debug);
-			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "ping timed out";
-			m_nState = nsClosing;
-			emit NodeStateChanged();
-			Close();
-			return;
 		}
 
 		/*if( m_tKeyRequest > 0 && tNow - m_tKeyRequest > 90 )
@@ -937,11 +888,11 @@ void CG2Node::OnPing(G2Packet* pPacket)
 				int nIndex = qrand() % nCount;
 				if(!lToRelayIndex.contains(nIndex))
 				{
-					CG2Node* pNode = Neighbours.GetAt(nIndex);
-					if(pNode != this && pNode->m_nState == nsConnected)
+					CNeighbour* pNode = Neighbours.GetAt(nIndex);
+					if(pNode != this && pNode->m_nProtocol == dpGnutella2 && pNode->m_nState == nsConnected)
 					{
 						pPacket->AddRef();
-						pNode->SendPacket(pPacket, true, true);
+						((CG2Node*)pNode)->SendPacket(pPacket, true, true);
 						nRelayed++;
 					}
 				}

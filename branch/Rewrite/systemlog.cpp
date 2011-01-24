@@ -35,13 +35,13 @@ void SystemLog::postLog(QString message, LogSeverity::Severity severity)
 	switch(severity)
 	{
 	case LogSeverity::Debug:
-		qDebug() << message;
+		qDebug() << qPrintable(message);
 		break;
 	case LogSeverity::Warning:
-		qWarning() << message;
+		qWarning() << qPrintable(message);
 		break;
 	case LogSeverity::Critical:
-		qCritical() << message;
+		qCritical() << qPrintable(message);
 		break;
 	default:
 		break;
