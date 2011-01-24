@@ -105,15 +105,10 @@ int main(int argc, char *argv[])
 	winMain.loadTrayIcon();
 
 	// Make the main window show if the user tried to open another instance
-	// Windows programming guidelines state the window cannot activate without
-	// direct user interaction (Qt follows Microsoft's rediculous rules that even
-	// Microsoft doesn't follow.) due to popup issues etc. (We never had this
-	// problem with Visual C++ because it lets you cheat and is the source for
-	// popup malware.) so it will make the icon in the task bar blink instead.
 	QObject::connect(&theApp, SIGNAL(messageReceived(const QString&)),
 					 &winMain, SLOT(show()));
 	theApp.setActivationWindow(&winMain);
-	QObject::connect(&winMain, SIGNAL(needToShow()), &theApp, SLOT(activateWindow()));
+	QObject::connect(&winMain, SIGNAL(show()), &theApp, SLOT(activateWindow()));
 
 	dlgSplash->updateProgress(100, QObject::tr("Welcome to Quazaa!"));
 	qApp->processEvents();
