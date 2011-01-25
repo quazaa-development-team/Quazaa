@@ -1052,7 +1052,15 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	intListInitializer << 0 << 0;
 
 	window->setGeometry(m_qSettings.value("NormalPositionAndSize", QRect(QPoint(200, 200), QSize(535, 104))).toRect());
+	if (m_qSettings.value("WindowMaximized", false).toBool())
+	{
+		window->setWindowState(window->windowState() |= Qt::WindowMaximized);
+	}
 	//window->isMaximized(m_qSettings.value("WindowMaximized", false).toBool());
+	if (m_qSettings.value("WindowMinimized", false).toBool())
+	{
+		window->setWindowState(window->windowState() |= Qt::WindowMinimized);
+	}
 	//window->isMinimized(m_qSettings.value("WindowMinimized", false).toBool());
 	quazaaSettings.WinMain.Visible = m_qSettings.value("WindowVisible", true).toBool();
 
