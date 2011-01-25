@@ -16,6 +16,7 @@
 # Qt modules used in application
 QT += network \
 	sql
+
 TARGET = Quazaa
 
 # Paths

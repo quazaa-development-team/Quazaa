@@ -494,7 +494,7 @@ void CG2Node::ParseIncomingHandshake()
 	}
 	else
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Connection rejected: %1").arg(sHs.left(sHs.indexOf("\r\n"))));
+		systemLog.postLog(LogSeverity::Debug, QString("Connection to %1 rejected: %2").arg(this->m_oAddress.toString()).arg(sHs.left(sHs.indexOf("\r\n"))));
 		//qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
 		m_nState = nsClosing;
 		emit NodeStateChanged();
@@ -535,7 +535,7 @@ void CG2Node::ParseOutgoingHandshake()
 
 	if(sHs.left(16) != "GNUTELLA/0.6 200")
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Connection rejected: %1").arg(sHs.left(sHs.indexOf("\r\n"))));
+		systemLog.postLog(LogSeverity::Debug, QString("Connection to %1 rejected: %2").arg(this->m_oAddress.toString()).arg(sHs.left(sHs.indexOf("\r\n"))));
 		//qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
 		Close();
 		return;
