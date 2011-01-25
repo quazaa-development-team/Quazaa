@@ -116,11 +116,12 @@ CNeighbour* CNeighbours::OnAccept(CNetworkConnection* pConn)
 {
 	// TODO: Make new CNeighbour deriviate for handshaking with Gnutella clients
 
-	qDebug() << "CNeighbours::OnAccept";
+	systemLog.postLog("CNeighbours::OnAccept", LogSeverity::Debug);
+	//qDebug() << "CNeighbours::OnAccept";
 
 	if(!m_pSection.tryLock(50))
 	{
-		systemLog.postLog(tr("Not accepting incoming connection. Neighbours overloaded"), LogSeverity::Debug);
+		systemLog.postLog("Not accepting incoming connection. Neighbours overloaded", LogSeverity::Debug);
 		//qDebug() << "Not accepting incoming connection. Neighbours overloaded";
 		pConn->Close();
 		pConn->deleteLater();

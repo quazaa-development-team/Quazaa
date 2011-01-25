@@ -245,12 +245,12 @@ void CG2Node::OnRead()
 		{
 			if(pPacket)
 			{
-				systemLog.postLog(tr("%1\n%2").arg(pPacket->ToHex()).arg(pPacket->ToASCII()), LogSeverity::Debug);
+				systemLog.postLog(QString("%1\n%2").arg(pPacket->ToHex()).arg(pPacket->ToASCII()), LogSeverity::Debug);
 				//qDebug() << pPacket->ToHex() << "\n" << pPacket->ToASCII();
 				pPacket->Release();
 			}
 
-			systemLog.postLog(tr("Packet error - ").arg(m_oAddress.toString()), LogSeverity::Debug);
+			systemLog.postLog(QString("Packet error - ").arg(m_oAddress.toString()), LogSeverity::Debug);
 			//qDebug() << "Packet error - " << m_oAddress.toString().toAscii();
 			m_nState = nsClosing;
 			emit NodeStateChanged();
@@ -319,7 +319,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		{
 			if(m_pLocalTable->PatchTo(&QueryHashMaster, this))
 			{
-				systemLog.postLog(tr("Sending query routing table to %1 (%2 bits, %3 entries, %4 bytes, %5%% full)").arg(m_oAddress.toString().toAscii().constData()).arg(m_pLocalTable->m_nBits).arg(m_pLocalTable->m_nHash).arg(m_pLocalTable->m_nHash / 8).arg(m_pLocalTable->GetPercent()), LogSeverity::Notice);
+				systemLog.postLog(QString("Sending query routing table to %1 (%2 bits, %3 entries, %4 bytes, %5%% full)").arg(m_oAddress.toString().toAscii().constData()).arg(m_pLocalTable->m_nBits).arg(m_pLocalTable->m_nHash).arg(m_pLocalTable->m_nHash / 8).arg(m_pLocalTable->GetPercent()), LogSeverity::Notice);
 			}
 		}
 
@@ -327,7 +327,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		// cleaning table
 		if( m_lRABan.size() >= 1000 )
 		{
-			systemLog.postLog(tr("Clearing bans on hub %1").arg(m_oAddress.toString()), LogSeverity::Debug);
+			systemLog.postLog(QString("Clearing bans on hub %1").arg(m_oAddress.toString()), LogSeverity::Debug);
 			//qDebug() << "Clearing bans on hub " << m_oAddress.toString();
 			for( QHash<quint32,quint32>::iterator itBan = m_lRABan.begin(); itBan != m_lRABan.end(); )
 			{
@@ -340,7 +340,7 @@ void CG2Node::OnTimer(quint32 tNow)
 					++itBan;
 				}
 			}
-			systemLog.postLog(tr("Still active bans: %1").arg(m_lRABan.size()), LogSeverity::Debug);
+			systemLog.postLog(QString("Still active bans: %1").arg(m_lRABan.size()), LogSeverity::Debug);
 			//qDebug() << "Still active bans: " << m_lRABan.size();
 		}
 
@@ -461,7 +461,7 @@ void CG2Node::ParseIncomingHandshake()
 		{
 			if(!EnableInputCompression())
 			{
-				systemLog.postLog(tr("Inflate init error!"), LogSeverity::Debug);
+				systemLog.postLog(QString("Inflate init error!"), LogSeverity::Debug);
 				//qDebug() << "Inflate init error!";
 				Close();
 				return;
@@ -472,7 +472,7 @@ void CG2Node::ParseIncomingHandshake()
 		{
 			if(!EnableOutputCompression())
 			{
-				systemLog.postLog(tr("Deflate init error!"), LogSeverity::Debug);
+				systemLog.postLog(QString("Deflate init error!"), LogSeverity::Debug);
 				//qDebug() << "Deflate init error!";
 				Close();
 				return;
@@ -494,7 +494,7 @@ void CG2Node::ParseIncomingHandshake()
 	}
 	else
 	{
-		systemLog.postLog(tr("Connection rejected: %1").arg(sHs.left(sHs.indexOf("\r\n"))), LogSeverity::Debug);
+		systemLog.postLog(QString("Connection rejected: %1").arg(sHs.left(sHs.indexOf("\r\n"))), LogSeverity::Debug);
 		//qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
 		m_nState = nsClosing;
 		emit NodeStateChanged();
@@ -535,7 +535,7 @@ void CG2Node::ParseOutgoingHandshake()
 
 	if(sHs.left(16) != "GNUTELLA/0.6 200")
 	{
-		systemLog.postLog(tr("Connection rejected: %1").arg(sHs.left(sHs.indexOf("\r\n"))), LogSeverity::Debug);
+		systemLog.postLog(QString("Connection rejected: %1").arg(sHs.left(sHs.indexOf("\r\n"))), LogSeverity::Debug);
 		//qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
 		Close();
 		return;
@@ -572,7 +572,8 @@ void CG2Node::ParseOutgoingHandshake()
 	{
 		if(!EnableInputCompression())
 		{
-			qDebug() << "Inflate init error!";
+			systemLog.postLog("Inflate init error!", LogSeverity::Debug);
+			//qDebug() << "Inflate init error!";
 			Close();
 			return;
 		}
@@ -614,7 +615,7 @@ void CG2Node::ParseOutgoingHandshake()
 	{
 		if(!EnableOutputCompression())
 		{
-			systemLog.postLog(tr("Deflate init error!"), LogSeverity::Debug);
+			systemLog.postLog("Deflate init error!", LogSeverity::Debug);
 			//qDebug() << "Deflate init error!";
 			Close();
 			return;
@@ -639,7 +640,7 @@ void CG2Node::Send_ConnectError(QString sReason)
 {
 	systemLog.postLog(tr("Rejecting connection with %1: %2").arg(qPrintable(m_oAddress.toString())).arg(qPrintable(sReason)), LogSeverity::Information);
 
-	systemLog.postLog(tr("Rejecting connection: %1").arg(sReason), LogSeverity::Debug);
+	systemLog.postLog(QString("Rejecting connection: %1").arg(sReason), LogSeverity::Debug);
 	//qDebug() << "Rejecting connection:" << sReason;
 
 	QByteArray sHs;
@@ -806,7 +807,7 @@ void CG2Node::OnPacket(G2Packet* pPacket)
 		}
 		else
 		{
-			systemLog.postLog(tr("Unknown packet %1").arg(pPacket->GetType()), LogSeverity::Debug);
+			systemLog.postLog(QString("G2 TCP recieved unknown packet %1").arg(pPacket->GetType()), LogSeverity::Debug);
 			//qDebug() << "Unknown packet " << pPacket->GetType();
 		}
 	}
@@ -1121,7 +1122,7 @@ void CG2Node::OnQHT(G2Packet* pPacket)
 	{
 		if(!Network.isHub())
 		{
-			systemLog.postLog(tr("Recieved unexpected Query Routing Table, ignoring"), LogSeverity::Debug);
+			systemLog.postLog(QString("Recieved unexpected Query Routing Table, ignoring"), LogSeverity::Debug);
 			//qDebug() << "Received unexpected Query Routing Table, ignoring";
 			return;
 		}
@@ -1295,7 +1296,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 	{
 		pCache->SetKey(nKey, &m_oAddress);
 
-		systemLog.postLog(tr("Got a query key from %1 via %2 = 0x%3").arg(addr.toString().toAscii().constData()).arg(m_oAddress.toString().toAscii().constData()).arg(nKey), LogSeverity::Debug);
+		systemLog.postLog(QString("Got a query key from %1 via %2 = 0x%3").arg(addr.toString().toAscii().constData()).arg(m_oAddress.toString().toAscii().constData()).arg(QString().number(nKey, 16)), LogSeverity::Debug);
 		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toAscii().constData(), m_oAddress.toString().toAscii().constData(), nKey);
 	}
 	HostCache.m_pSection.unlock();

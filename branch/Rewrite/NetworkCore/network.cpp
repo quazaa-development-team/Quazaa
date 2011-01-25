@@ -90,7 +90,7 @@ void CNetwork::Connect()
 
 	if(m_bActive)
 	{
-		systemLog.postLog(tr("Network already started"), LogSeverity::Debug);
+		systemLog.postLog("Network already started", LogSeverity::Debug);
 		//qDebug() << "Network already started";
 		return;
 	}
@@ -172,7 +172,8 @@ void CNetwork::OnSecondTimer()
 {
 	if(!m_pSection.tryLock(150))
 	{
-		qWarning() << "WARNING: Network core overloaded!";
+		systemLog.postLog(tr("WARNING: Network core overloaded!"), LogSeverity::Warning);
+		//qWarning() << "WARNING: Network core overloaded!";
 		return;
 	}
 
@@ -366,22 +367,23 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket)
 		if(pNode)
 		{
 			pNode->SendPacket(pPacket, true, false);
-			systemLog.postLog(tr("CNetwork::RoutePacket %1 Packet: %2 routed to neighbour: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()), LogSeverity::Debug);
+			systemLog.postLog(QString("CNetwork::RoutePacket %1 Packet: %2 routed to neighbour: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()), LogSeverity::Debug);
 			//qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to neighbour: " << pNode->m_oAddress.toString().toAscii().constData();
 			return true;
 		}
 		else if(!pAddr.isNull())
 		{
 			Datagrams.SendPacket(pAddr, pPacket, true);
-			systemLog.postLog(tr("CNetwork::RoutePacket %1 Packet: %2 routed to remote node: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()), LogSeverity::Debug);
+			systemLog.postLog(QString("CNetwork::RoutePacket %1 Packet: %2 routed to remote node: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()), LogSeverity::Debug);
 			//qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to remote node: " << pNode->m_oAddress.toString().toAscii().constData();
 			return true;
 		}
-		systemLog.postLog(tr("CNetwork::RoutePacket - No node and no address!"), LogSeverity::Debug);
+		systemLog.postLog(QString("CNetwork::RoutePacket - No node and no address!"), LogSeverity::Debug);
 		//qDebug() << "CNetwork::RoutePacket - weird thing, should not happen...";
 	}
 
-	qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " DROPPED!";
+	systemLog.postLog(QString("CNetwork::RoutePacket %1 Packet: %2 DROPED!").arg(pTargetGUID.toString()).arg(pPacket->GetType()), LogSeverity::Debug);
+	//qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " DROPPED!";
 	return false;
 }
 bool CNetwork::RoutePacket(G2Packet* pPacket, CG2Node* pNbr)
