@@ -36,6 +36,7 @@ WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
 	ui->actionPauseLogDisplay->setChecked(quazaaSettings.Logging.IsPaused);
 	logMenu = new QMenu(ui->textEditSystemLog);
 	logMenu->addAction(ui->actionCopy);
+	logMenu->addSeparator();
 	logMenu->addAction(ui->actionShowInformation);
 	ui->actionShowInformation->setChecked(quazaaSettings.Logging.ShowInformation);
 	logMenu->addAction(ui->actionShowSecurity);
