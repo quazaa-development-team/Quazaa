@@ -48,7 +48,8 @@ private:
 	QMenu* logMenu;
 
 private slots:
-	void on_textEditSystemLog_customContextMenuRequested(QPoint pos);
+	void on_actionCopy_triggered();
+ void on_textEditSystemLog_customContextMenuRequested(QPoint pos);
 	void on_actionClearBuffer_triggered();
 	 
 	void appendLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);

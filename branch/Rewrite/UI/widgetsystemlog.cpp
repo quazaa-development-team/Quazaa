@@ -35,6 +35,7 @@ WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
 	quazaaSettings.loadLogSettings();
 	ui->actionPauseLogDisplay->setChecked(quazaaSettings.Logging.IsPaused);
 	logMenu = new QMenu(ui->textEditSystemLog);
+	logMenu->addAction(ui->actionCopy);
 	logMenu->addAction(ui->actionShowInformation);
 	ui->actionShowInformation->setChecked(quazaaSettings.Logging.ShowInformation);
 	logMenu->addAction(ui->actionShowSecurity);
@@ -200,4 +201,9 @@ void WidgetSystemLog::on_textEditSystemLog_customContextMenuRequested(QPoint pos
 {
 	Q_UNUSED(pos);
 	logMenu->exec(QCursor::pos());
+}
+
+void WidgetSystemLog::on_actionCopy_triggered()
+{
+	ui->textEditSystemLog->copy();
 }
