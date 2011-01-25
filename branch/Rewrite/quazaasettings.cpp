@@ -972,9 +972,8 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 
 	QSettings m_qSettings(quazaaGlobals.ApplicationOrganizationName(), quazaaGlobals.ApplicationName());
 
-	m_qSettings.setValue("NormalPositionAndSize", window->normalGeometry());
-	m_qSettings.setValue("WindowMinimized", window->isMinimized());
-	m_qSettings.setValue("WindowMaximized", window->isMaximized());
+	m_qSettings.setValue("WindowGeometry", window->saveGeometry());
+	m_qSettings.setValue("WindowState", window->saveState());
 	m_qSettings.setValue("WindowVisible", window->isVisible());
 
 	m_qSettings.setValue("ActiveTab", quazaaSettings.WinMain.ActiveTab);
@@ -1051,17 +1050,8 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	QList<QVariant> intListInitializer;
 	intListInitializer << 0 << 0;
 
-	window->setGeometry(m_qSettings.value("NormalPositionAndSize", QRect(QPoint(200, 200), QSize(535, 104))).toRect());
-	if (m_qSettings.value("WindowMaximized", false).toBool())
-	{
-		window->setWindowState(window->windowState() |= Qt::WindowMaximized);
-	}
-	//window->isMaximized(m_qSettings.value("WindowMaximized", false).toBool());
-	if (m_qSettings.value("WindowMinimized", false).toBool())
-	{
-		window->setWindowState(window->windowState() |= Qt::WindowMinimized);
-	}
-	//window->isMinimized(m_qSettings.value("WindowMinimized", false).toBool());
+	window->restoreGeometry(m_qSettings.value("WindowGeometry").toByteArray());
+	window->restoreState(m_qSettings.value("WindowState").toByteArray());
 	quazaaSettings.WinMain.Visible = m_qSettings.value("WindowVisible", true).toBool();
 
 	quazaaSettings.WinMain.ActiveTab = m_qSettings.value("ActiveTab", 0).toInt();
