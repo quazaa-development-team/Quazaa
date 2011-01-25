@@ -30,7 +30,7 @@ SystemLog::SystemLog()
 	qRegisterMetaType<LogSeverity::Severity>("LogSeverity::Severity");
 }
 
-void SystemLog::postLog(QString message, LogSeverity::Severity severity)
+void SystemLog::postLog(LogSeverity::Severity severity, QString message)
 {
 	switch(severity)
 	{
@@ -53,6 +53,6 @@ void SystemLog::postLog(LogSeverity::Severity severity, const char* format, ...)
 	va_list argList;
 	va_start(argList, format);
 	QString message = QString().vsprintf(format, argList);
-	postLog(message, severity);
+	postLog(severity, message);
 	va_end(argList);
 }

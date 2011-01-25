@@ -140,7 +140,7 @@ bool WidgetSearchResults::clearSearch()
 	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
 	if(pWg)
 	{
-		qDebug() << "Clear search captured in WidgetSearchResults.";
+		//qDebug() << "Clear search captured in WidgetSearchResults.";
 
 		pWg->StopSearch();
 		pWg->ClearSearch();

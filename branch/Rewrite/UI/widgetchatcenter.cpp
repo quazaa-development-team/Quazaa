@@ -25,6 +25,7 @@
 #include "ui_widgetchatcenter.h"
 #include "dialogsettings.h"
 #include "dialogprofile.h"
+#include "systemlog.h"
 
 #include "quazaasettings.h"
 #include "ircbuffer.h"
@@ -44,7 +45,8 @@ WidgetChatCenter::WidgetChatCenter(QWidget* parent) :
 		quazaaIrc->startIrc(quazaaSettings.Chat.IrcUseSSL, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
 		ui->actionConnect->setEnabled(false);
 		ui->actionDisconnect->setEnabled(true);
-		qDebug() << "Trying to connect to IRC";
+		systemLog.postLog(LogSeverity::Debug, QString("Trying to connect to IRC"));
+		//qDebug() << "Trying to connect to IRC";
 	}
 	else
 	{
@@ -95,7 +97,8 @@ void WidgetChatCenter::on_actionConnect_triggered()
 	quazaaIrc->startIrc(quazaaSettings.Chat.IrcUseSSL, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
 	ui->actionConnect->setEnabled(false);
 	ui->actionDisconnect->setEnabled(true);
-	qDebug() << "Trying to connect to IRC";
+	systemLog.postLog(LogSeverity::Debug, QString("Trying to connect to IRC"));
+	//qDebug() << "Trying to connect to IRC";
 }
 
 void WidgetChatCenter::on_actionChatSettings_triggered()
@@ -109,7 +112,8 @@ void WidgetChatCenter::on_actionDisconnect_triggered()
 	quazaaIrc->stopIrc();
 	ui->actionConnect->setEnabled(true);
 	ui->actionDisconnect->setEnabled(false);
-	qDebug() << "Trying to disconnect from IRC";
+	systemLog.postLog(LogSeverity::Debug, QString("Trying to disconnect from IRC"));
+	//qDebug() << "Trying to disconnect from IRC";
 }
 
 void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event)
@@ -132,7 +136,8 @@ void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QStrin
 		evendt = "server";
 	}
 
-	qDebug() << "Got a message from buffer " + (buffer->receiver()) + " | sender = " + sender + "| event = " + evendt;
+	systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
+	//qDebug() << "Got a message from buffer " + (buffer->receiver()) + " | sender = " + sender + "| event = " + evendt;
 	QString receiver = buffer->receiver();
 
 	switch(event)
@@ -153,7 +158,8 @@ void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QStrin
 			tabByName("*status")->append(message);
 			break;
 		default:
-			qDebug() << "This should not happen!";
+			systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter::appendMessage: No event!"));
+			//qDebug() << "This should not happen!";
 			break;
 	}
 }
@@ -170,7 +176,8 @@ WidgetChatTab* WidgetChatCenter::tabByName(QString name)
 			return tab;
 		}
 	}
-	qDebug() << "CREATING A NEW TAB :: " + name;
+	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter Creating a new tab: %1").arg(name));
+	//qDebug() << "CREATING A NEW TAB :: " + name;
 	// if the tab doesn't exist, create it
 	tab = new WidgetChatTab(quazaaIrc);
 	tab->setName(name);
@@ -210,7 +217,8 @@ void WidgetChatCenter::channelNames(QStringList names)
 
 WidgetChatTab* WidgetChatCenter::currentTab()
 {
-	qDebug() << "getting WidgetChatCenter::currentTab()";
+	systemLog.postLog(LogSeverity::Debug, QString("getting WidgetChatCenter::currentTab()"));
+	//qDebug() << "getting WidgetChatCenter::currentTab()";
 	return qobject_cast<WidgetChatTab*>(ui->tabWidget->currentWidget());
 }
 
@@ -232,7 +240,7 @@ void WidgetChatCenter::addBuffer(QString name)
 
 void WidgetChatCenter::on_tabWidget_currentChanged(QWidget*)
 {
-	qDebug() << "Emitting channel changed.";
+	//qDebug() << "Emitting channel changed.";
 	emit channelChanged(currentTab());
 }
 

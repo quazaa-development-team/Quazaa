@@ -44,7 +44,8 @@ public:
 	{
 		m_sThreadName = strName;
 
-		qDebug() << strName << "Thread::start";
+		systemLog.postLog(LogSeverity::Debug, QString("%1 Thread::start").arg(strName));
+		//qDebug() << strName << "Thread::start";
 		//QMutexLocker l(pMutex);
 		m_pMutex = pMutex;
 		m_pTargetObject = pTargetObj;
@@ -52,29 +53,35 @@ public:
 		{
 			pTargetObj->moveToThread(this);
 		}
-		qDebug() << strName << "Starting...";
+		systemLog.postLog(LogSeverity::Debug, QString("%1 Starting...").arg(strName));
+		//qDebug() << strName << "Starting...";
 		QThread::start(p);
-		qDebug() << strName << "Waiting for thread to start...";
+		systemLog.postLog(LogSeverity::Debug, QString("%1 Waiting for thread to start...").arg(strName));
+		//qDebug() << strName << "Waiting for thread to start...";
 		if(!isRunning())
 		{
 			m_oStartCond.wait(m_pMutex);
 		}
-		qDebug() << strName << "Thread started";
+		systemLog.postLog(LogSeverity::Debug, QString("%1 Thread started").arg(strName));
+		//qDebug() << strName << "Thread started";
 	}
 
 	void exit(int retcode)
 	{
 		//QMutexLocker l(m_pMutex);
-		qDebug() << m_sThreadName << "Exiting thread";
+		systemLog.postLog(LogSeverity::Debug, QString("%1 Exiting thread").arg(m_sThreadName));
+		//qDebug() << m_sThreadName << "Exiting thread";
 		QThread::exit(retcode);
-		qDebug() << m_sThreadName << "Waiting for thread to finish...";
+		systemLog.postLog(LogSeverity::Debug, QString("%1 Waiting for thread to finish...").arg(m_sThreadName));
+		//qDebug() << m_sThreadName << "Waiting for thread to finish...";
 
 		if(isRunning())
 		{
 			m_oStartCond.wait(m_pMutex);
 		}
 		//wait();
-		qDebug() << m_sThreadName << "Thread Finished";
+		systemLog.postLog(LogSeverity::Debug, QString("%1 Thread Finished").arg(m_sThreadName));
+		//qDebug() << m_sThreadName << "Thread Finished";
 	}
 
 protected:
@@ -87,7 +94,8 @@ protected:
 		{
 			if(!QMetaObject::invokeMethod(m_pTargetObject, "SetupThread", Qt::DirectConnection))
 			{
-				qWarning() << "Failed to call target's SetupThread method";
+				systemLog.postLog(LogSeverity::Warning, "Failed to call target's SetupThread method");
+				//qWarning() << "Failed to call target's SetupThread method";
 			}
 		}
 
@@ -103,7 +111,8 @@ protected:
 		{
 			if(!QMetaObject::invokeMethod(m_pTargetObject, "CleanupThread", Qt::DirectConnection))
 			{
-				qWarning() << "Failed to call target's CleanupThread method";
+				systemLog.postLog(LogSeverity::Warning, "Failed to call target's CleanupThread method");
+				//qWarning() << "Failed to call target's CleanupThread method";
 			}
 		}
 

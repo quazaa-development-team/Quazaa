@@ -90,7 +90,7 @@ void CNetwork::Connect()
 
 	if(m_bActive)
 	{
-		systemLog.postLog("Network already started", LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, "Network already started");
 		//qDebug() << "Network already started";
 		return;
 	}
@@ -172,7 +172,7 @@ void CNetwork::OnSecondTimer()
 {
 	if(!m_pSection.tryLock(150))
 	{
-		systemLog.postLog(tr("WARNING: Network core overloaded!"), LogSeverity::Warning);
+		systemLog.postLog(LogSeverity::Warning, tr("WARNING: Network core overloaded!"));
 		//qWarning() << "WARNING: Network core overloaded!";
 		return;
 	}
@@ -367,22 +367,22 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket)
 		if(pNode)
 		{
 			pNode->SendPacket(pPacket, true, false);
-			systemLog.postLog(QString("CNetwork::RoutePacket %1 Packet: %2 routed to neighbour: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()), LogSeverity::Debug);
+			systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 routed to neighbour: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()));
 			//qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to neighbour: " << pNode->m_oAddress.toString().toAscii().constData();
 			return true;
 		}
 		else if(!pAddr.isNull())
 		{
 			Datagrams.SendPacket(pAddr, pPacket, true);
-			systemLog.postLog(QString("CNetwork::RoutePacket %1 Packet: %2 routed to remote node: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()), LogSeverity::Debug);
+			systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 routed to remote node: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()));
 			//qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to remote node: " << pNode->m_oAddress.toString().toAscii().constData();
 			return true;
 		}
-		systemLog.postLog(QString("CNetwork::RoutePacket - No node and no address!"), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket - No node and no address!"));
 		//qDebug() << "CNetwork::RoutePacket - weird thing, should not happen...";
 	}
 
-	systemLog.postLog(QString("CNetwork::RoutePacket %1 Packet: %2 DROPED!").arg(pTargetGUID.toString()).arg(pPacket->GetType()), LogSeverity::Debug);
+	systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 DROPED!").arg(pTargetGUID.toString()).arg(pPacket->GetType()));
 	//qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " DROPPED!";
 	return false;
 }
@@ -741,7 +741,7 @@ void CNetwork::RoutePackets()
 			Neighbours.m_pSection.unlock();
 		}
 
-		systemLog.postLog(tr("Datagrams left to be routed: QA:%1 QH2:%2 QKA:%3").arg(Datagrams.m_lPendingQA.size()).arg(Datagrams.m_lPendingQH2.size()).arg(Datagrams.m_lPendingQKA.size()), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("Datagrams left to be routed: QA:%1 QH2:%2 QKA:%3").arg(Datagrams.m_lPendingQA.size()).arg(Datagrams.m_lPendingQH2.size()).arg(Datagrams.m_lPendingQKA.size()));
 		//qDebug() << "Datagrams left to be routed: QA:" << Datagrams.m_lPendingQA.size() << " QH2:" << Datagrams.m_lPendingQH2.size() << " QKA:" << Datagrams.m_lPendingQKA.size();
 
 		Datagrams.m_pSection.unlock();

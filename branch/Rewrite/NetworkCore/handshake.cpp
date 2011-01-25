@@ -44,7 +44,7 @@ void CHandshake::OnTimer(quint32 tNow)
 	//qDebug() << "handshake timer";
 	if(tNow - m_tConnected > 15)
 	{
-		systemLog.postLog(QString("Timed out handshaking with  %1").arg(m_pSocket->peerAddress().toString().toAscii().constData()), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("Timed out handshaking with  %1").arg(m_pSocket->peerAddress().toString().toAscii().constData()));
 		//qDebug() << "Timed out handshaking with " << m_pSocket->peerAddress().toString().toAscii().constData();
 		Close();
 		deleteLater();
@@ -63,14 +63,14 @@ void CHandshake::OnRead()
 
 	if(Peek(8).startsWith("GNUTELLA"))
 	{
-		systemLog.postLog(QString("Incoming connection from %1 is Gnutella Neighbour connection").arg(m_pSocket->peerAddress().toString().toAscii().constData()), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("Incoming connection from %1 is Gnutella Neighbour connection").arg(m_pSocket->peerAddress().toString().toAscii().constData()));
 		//qDebug("Incoming connection from %s is Gnutella Neighbour connection", m_pSocket->peerAddress().toString().toAscii().constData());
 		Handshakes.RemoveHandshake(this);
 		Neighbours.OnAccept(this);
 	}
 	else
 	{
-		systemLog.postLog(QString("Closing connection with %1 - unknown protocol").arg(m_pSocket->peerAddress().toString().toAscii().constData()), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 - unknown protocol").arg(m_pSocket->peerAddress().toString().toAscii().constData()));
 		//qDebug("Closing connection with %s - unknown protocol", m_pSocket->peerAddress().toString().toAscii().constData());
 
 		QByteArray baResp;

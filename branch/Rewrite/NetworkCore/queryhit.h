@@ -48,7 +48,8 @@ struct QueryHitInfo
 
 	~QueryHitInfo()
 	{
-		qDebug("hit info deleted");
+		systemLog.postLog(LogSeverity::Debug, "Hit info deleted");
+		//qDebug("hit info deleted");
 	}
 };
 

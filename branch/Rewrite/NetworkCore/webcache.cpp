@@ -58,7 +58,8 @@ CWebCache::CWebCache()
 }
 CWebCache::~CWebCache()
 {
-	qDebug("Destroying CWebCache");
+	systemLog.postLog(LogSeverity::Debug, QString("Destroying CWebCache"));
+	//qDebug("Destroying CWebCache");
 	delete m_pRequest;
 	m_pRequest = 0;
 	CancelRequests();
@@ -66,7 +67,8 @@ CWebCache::~CWebCache()
 
 void CWebCache::CancelRequests()
 {
-	qDebug("CancelRequests()");
+	systemLog.postLog(LogSeverity::Debug, QString("CancelRequests()"));
+	//qDebug("CancelRequests()");
 
 	if(m_bRequesting)
 	{
@@ -78,6 +80,7 @@ void CWebCache::CancelRequests()
 
 void CWebCache::RequestRandom()
 {
+	systemLog.postLog(LogSeverity::Debug, QString("RequestRandom()"));
 	qDebug("RequestRandom()");
 
 	quint32 nIndex = rand() % m_lCaches.size();
@@ -94,7 +97,7 @@ void CWebCache::RequestRandom()
 		u.addQueryItem("net", "gnutella2");
 		u.addQueryItem("client", "BROV1.0");
 
-		systemLog.postLog(tr("Querying ").arg(u.toString()), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("Querying %1").arg(u.toString()));
 		//qDebug("Querying " + u.toString().toAscii());
 
 		m_lCaches[nIndex].m_tLastQuery = time(0);
@@ -109,11 +112,13 @@ void CWebCache::RequestRandom()
 
 void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 {
-	qDebug("OnRequestComplete()");
+	systemLog.postLog(LogSeverity::Debug, QString("OnRequestComplete()"));
+	//qDebug("OnRequestComplete()");
 
 	if(pReply->error() == QNetworkReply::NoError)
 	{
-		qDebug("Parsing GWC response");
+		systemLog.postLog(LogSeverity::Debug, QString("Parsing GWC response"));
+		//qDebug("Parsing GWC response");
 
 		QString ln;
 
@@ -126,6 +131,7 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 				break;
 			}
 
+			systemLog.postLog(LogSeverity::Debug, QString("Line: %1").arg(ln));
 			qDebug() << "Line: " << ln;
 
 			QStringList lp = ln.split("|");
@@ -140,7 +146,8 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 			}
 			else
 			{
-				qDebug() << "Parse error";
+				systemLog.postLog(LogSeverity::Debug, QString("Parse error"));
+				//qDebug() << "Parse error";
 			}
 		}
 

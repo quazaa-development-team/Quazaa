@@ -44,7 +44,7 @@ G2Packet::~G2Packet()
 {
 	if(m_nReference != 0)
 	{
-		systemLog.postLog(QString("not released  %1").arg((char*)&m_sType[0]), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("%1 not released").arg((char*)&m_sType[0]));
 		//qDebug() << "not released " << (char*)&m_sType[0];
 	}
 	Q_ASSERT(m_nReference == 0);

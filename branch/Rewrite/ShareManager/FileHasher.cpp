@@ -70,7 +70,8 @@ CFileHasher* CFileHasher::HashFile(CSharedFilePtr pFile)
 		{
 			if(!m_pHashers[i])
 			{
-				qDebug() << "Starting hasher: " << m_nRunningHashers;
+				systemLog.postLog(LogSeverity::Debug, QString("Starting hasher: %1").arg(m_nRunningHashers));
+				//qDebug() << "Starting hasher: " << m_nRunningHashers;
 				m_pHashers[i] = new CFileHasher();
 				connect(m_pHashers[i], SIGNAL(QueueEmpty()), &ShareManager, SLOT(RunHashing()), Qt::UniqueConnection);
 				connect(m_pHashers[i], SIGNAL(FileHashed(CSharedFilePtr)), &ShareManager, SLOT(OnFileHashed(CSharedFilePtr)), Qt::UniqueConnection);
@@ -101,7 +102,8 @@ void CFileHasher::run()
 	while(!m_lQueue.isEmpty())
 	{
 		CSharedFilePtr pFile = m_lQueue.dequeue();
-		qDebug() << "Hashing" << pFile->m_sFileName;
+		systemLog.postLog(LogSeverity::Debug, QString("Hashing %1").arg(pFile->m_sFileName));
+		//qDebug() << "Hashing" << pFile->m_sFileName;
 		tTime.start();
 		m_pSection.unlock();
 
@@ -120,7 +122,8 @@ void CFileHasher::run()
 			{
 				if(!m_bActive)
 				{
-					qDebug() << "CFileHasher aborting...";
+					systemLog.postLog(LogSeverity::Debug, QString("CFileHasher aborting..."));
+					//qDebug() << "CFileHasher aborting...";
 					bHashed = false;
 					break;
 				}
@@ -129,7 +132,8 @@ void CFileHasher::run()
 				if(nRead < 0)
 				{
 					bHashed = false;
-					qDebug() << "File read error:" << f.error();
+					systemLog.postLog(LogSeverity::Debug, QString("File read error: %1").arg(f.error()));
+					//qDebug() << "File read error:" << f.error();
 					break;
 				}
 				else if(nRead < nBufferSize)
@@ -148,18 +152,21 @@ void CFileHasher::run()
 		}
 		else
 		{
-			qDebug() << "File open error: " << f.error();
+			systemLog.postLog(LogSeverity::Debug, QString("File open error: %1").arg(f.error()));
+			//qDebug() << "File open error: " << f.error();
 			bHashed = false;
 		}
 
 		if(bHashed)
 		{
 			double nRate = (f.size() / (tTime.elapsed() / 1000.0)) / 1024.0 / 1024.0;
-			qDebug() << "File " << pFile->m_sFileName << "hashed at" << nRate << "MB/s:";
+			systemLog.postLog(LogSeverity::Debug, QString("File %1 hashed at %2 MB/s").arg(pFile->m_sFileName).arg(nRate));
+			//qDebug() << "File " << pFile->m_sFileName << "hashed at" << nRate << "MB/s:";
 			for(int i = 0; i < pFile->m_lHashes.size(); i++)
 			{
 				pFile->m_lHashes[i]->Finalize();
-				qDebug() << pFile->m_lHashes[i]->ToURN();
+				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(pFile->m_lHashes[i]->ToURN()));
+				//qDebug() << pFile->m_lHashes[i]->ToURN();
 			}
 			emit FileHashed(pFile);
 		}
@@ -174,7 +181,8 @@ void CFileHasher::run()
 		if(bHashed && m_lQueue.isEmpty())
 		{
 			emit QueueEmpty();
-			qDebug() << "Hasher " << this << "waiting...";
+			systemLog.postLog(LogSeverity::Debug, QString("Hasher waiting..."));
+			//qDebug() << "Hasher " << this << "waiting...";
 			CFileHasher::m_oWaitCond.wait(&m_pSection, 10000);
 		}
 	}
@@ -198,6 +206,7 @@ void CFileHasher::run()
 
 	m_pSection.unlock();
 
-	qDebug() << "CFileHasher done. " << m_nRunningHashers;
+	systemLog.postLog(LogSeverity::Debug, QString("CFileHasher done. %1").arg(m_nRunningHashers));
+	//qDebug() << "CFileHasher done. " << m_nRunningHashers;
 }
 

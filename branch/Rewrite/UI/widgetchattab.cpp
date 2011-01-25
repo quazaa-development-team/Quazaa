@@ -22,6 +22,7 @@
 
 #include "widgetchattab.h"
 #include "ui_widgetchattab.h"
+#include "systemlog.h"
 
  
 
@@ -84,7 +85,8 @@ void WidgetChatTab::append(QString text)
 
 void WidgetChatTab::channelNames(QStringList names)
 {
-	qDebug() << "My name is >> " + name;
+	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatTab name is: %1").arg(name));
+	//qDebug() << "My name is >> " + name;
 	/*for (int i = 0; i < names.size(); ++i) {
 		qDebug() << "CName: "+names.at(i);
 		//ui->listWidgetChatUsers->addItem(names.at(i));

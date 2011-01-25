@@ -39,7 +39,7 @@ signals:
 	void logPosted(QString message, LogSeverity::Severity severity);
 
 public slots:
-	void postLog(QString message, LogSeverity::Severity severity = LogSeverity::Information);
+	void postLog(LogSeverity::Severity severity, QString message);
 public:
 	void postLog(LogSeverity::Severity severity, const char* format, ...);
 };

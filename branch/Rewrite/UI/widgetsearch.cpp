@@ -93,7 +93,7 @@ void WidgetSearch::on_toolButtonSearchClear_clicked()
 	}
 	else if(ui->toolButtonSearchClear->text() == "Clear")
 	{
-		qDebug() << "Clear search triggered.";
+		//qDebug() << "Clear search triggered.";
 		bool cleared = panelSearchResults->clearSearch();
 		if(cleared)
 		{

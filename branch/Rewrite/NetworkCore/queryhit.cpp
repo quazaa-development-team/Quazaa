@@ -33,7 +33,7 @@ CQueryHit::CQueryHit()
 }
 CQueryHit::~CQueryHit()
 {
-	qDebug() << "CQueryHit destructor";
+	//qDebug() << "CQueryHit destructor";
 
 	if(m_pNext)
 	{
@@ -123,7 +123,8 @@ QueryHitInfo* CQueryHit::ReadInfo(G2Packet* pPacket, CEndPoint* pSender)
 
 	if(pPacket->GetRemaining() < 17 || !bHaveHits || !bHaveNA || !bHaveGUID)
 	{
-		qDebug() << "Malformatted hit in CSearchManager" << pPacket->GetRemaining() << bHaveHits << bHaveNA << bHaveGUID;
+		systemLog.postLog(LogSeverity::Debug, QString("Malformatted hit in CSearchManager %1 %2 %3 %4").arg(pPacket->GetRemaining()).arg(bHaveHits).arg(bHaveNA).arg(bHaveGUID));
+		//qDebug() << "Malformatted hit in CSearchManager" << pPacket->GetRemaining() << bHaveHits << bHaveNA << bHaveGUID;
 		delete pHitInfo;
 		return 0;
 	}
@@ -310,6 +311,7 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 	}
 	catch(...) // packet incomplete, packet error, parser takes care of stream end
 	{
+		systemLog.postLog(LogSeverity::Debug, "EXCEPTION IN QUERY HIT PARSING!");
 		qDebug() << "EXCEPTION IN QUERY HIT PARSING!";
 		if(pThisHit)
 		{

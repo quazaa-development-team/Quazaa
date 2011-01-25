@@ -110,7 +110,7 @@ void WidgetSearchTemplate::PauseSearch()
 
 void WidgetSearchTemplate::ClearSearch()
 {
-	qDebug() << "Clear search captured in widget search template.";
+	//qDebug() << "Clear search captured in widget search template.";
 	searchModel->clear();
 	qApp->processEvents();
 }

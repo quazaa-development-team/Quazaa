@@ -117,6 +117,6 @@ void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
 
 void WidgetChat::updateUserList(WidgetChatTab* currentTab)
 {
-	qDebug() << "Signal successful. In WidgetChat::updateUserList()";
+	//qDebug() << "Signal successful. In WidgetChat::updateUserList()";
 	ui->listViewChatUsers->setModel(currentTab->userList);
 }

@@ -85,9 +85,9 @@ CDatagrams::~CDatagrams()
 
 void CDatagrams::SetupThread()
 {
-	systemLog.postLog(QString("Setup Thread"), LogSeverity::Debug);
+	systemLog.postLog(LogSeverity::Debug, QString("Setup Thread"));
 	//qDebug() << "SetupThread";
-	systemLog.postLog(QString("Thread id: %1").arg((quint32)QThread::currentThreadId()), LogSeverity::Debug);
+	systemLog.postLog(LogSeverity::Debug, QString("Thread id: %1").arg((quint32)QThread::currentThreadId()));
 	//qDebug() << "Thread id: " << QThread::currentThreadId();
 
 	Q_ASSERT(m_pSocket == 0);
@@ -99,7 +99,7 @@ void CDatagrams::SetupThread()
 	CEndPoint addr = Network.GetLocalAddress();
 	if(m_pSocket->bind(addr.port()))
 	{
-		systemLog.postLog(QString("Datagrams listening on %1 %2").arg(m_pSocket->localPort()).arg(addr.port()), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("Datagrams listening on %1 %2").arg(m_pSocket->localPort()).arg(addr.port()));
 		//qDebug() << "Datagrams listening on " << m_pSocket->localPort() << addr.port();
 		m_nDiscarded = 0;
 
@@ -129,7 +129,7 @@ void CDatagrams::SetupThread()
 	}
 	else
 	{
-		systemLog.postLog(QString("Can't bind UDP socket! UDP communication disabled!"), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("Can't bind UDP socket! UDP communication disabled!"));
 		//qDebug() << "Can't bind UDP socket! UDP communication disabled!";
 		Disconnect();
 	}
@@ -141,7 +141,7 @@ void CDatagrams::Listen()
 
 	if(m_bActive)
 	{
-		systemLog.postLog(QString("CDatagrams::Listen - already listening"), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("CDatagrams::Listen - already listening"));
 		//qDebug() << "CDatagrams::Listen - already listening";
 		return;
 	}
@@ -300,7 +300,7 @@ void CDatagrams::OnReceiveGND()
 				RemoveOldIn(true);
 				if(m_FreeDGIn.isEmpty())
 				{
-					systemLog.postLog(QString("UDP in frames exhausted"), LogSeverity::Debug);
+					systemLog.postLog(LogSeverity::Debug, QString("UDP in frames exhausted"));
 					//qDebug() << "UDP in frames exhausted";
 					m_nDiscarded++;
 					return;
@@ -615,7 +615,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 	if(m_FreeDGOut.isEmpty())
 	{
 		Remove(m_SendCache.last());
-		systemLog.postLog(QString("UDP out frames exhausted"), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("UDP out frames exhausted"));
 		//qDebug() << "UDP out frames exhausted";
 	}
 
@@ -625,7 +625,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 
 		if(m_FreeBuffer.isEmpty())
 		{
-			systemLog.postLog(QString("UDP out discarded, out of buffers"), LogSeverity::Debug);
+			systemLog.postLog(LogSeverity::Debug, QString("UDP out discarded, out of buffers"));
 			//qDebug() << "UDP out discarded, out of buffers";
 			return;
 		}
@@ -677,13 +677,13 @@ void CDatagrams::OnPacket(CEndPoint addr, G2Packet* pPacket)
 		}
 		else
 		{
-			systemLog.postLog(QString("G2 UDP recieved unknown packet %1").arg(pPacket->GetType()), LogSeverity::Debug);
+			systemLog.postLog(LogSeverity::Debug, QString("G2 UDP recieved unknown packet %1").arg(pPacket->GetType()));
 			//qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
 		}
 	}
 	catch(...)
 	{
-		systemLog.postLog(QString("malformed packet"), LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, QString("malformed packet"));
 		//qDebug() << "malformed packet";
 	}
 }
@@ -867,7 +867,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 	HostCache.m_pSection.unlock();
 
 
-	systemLog.postLog(QString("Got a query key for %1 = 0x%2").arg(addr.toString().toAscii().constData()).arg(nKey), LogSeverity::Debug);
+	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toAscii().constData()).arg(nKey));
 	//qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
 
 	if(Network.isHub() && !nKeyHost.isNull() /*&& nKeyHost != Network.m_oAddress.ip*/)

@@ -412,7 +412,7 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 
 	if(!ZLibUtils::Compress(baBuffer))
 	{
-		systemLog.postLog("QHT compress error", LogSeverity::Debug);
+		systemLog.postLog(LogSeverity::Debug, "QHT compress error");
 		//qDebug() << "QHT compress error";
 		return false;
 	}
@@ -838,7 +838,7 @@ void CQueryHashTable::AddString(const QString& strString)
 
 int CQueryHashTable::MakeKeywords(QString sPhrase, QStringList& outList)
 {
-	systemLog.postLog(LogSeverity::Debug, "Making keywords from: %s", sPhrase);
+	systemLog.postLog(LogSeverity::Debug, QString("Making keywords from: %1").arg(sPhrase));
 	//qDebug() << "Making keywords from:" << sPhrase;
 
 	// remove all garbage from phrase
@@ -874,7 +874,7 @@ int CQueryHashTable::MakeKeywords(QString sPhrase, QStringList& outList)
 
 	foreach(QString sDebug, outList)
 	{
-		systemLog.postLog(LogSeverity::Debug, "Added keyword: %s", sDebug);
+		systemLog.postLog(LogSeverity::Debug, QString("Added keyword: %1").arg(sDebug));
 		//qDebug() << "Added keyword:" << sDebug;
 	}
 

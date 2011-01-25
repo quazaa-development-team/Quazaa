@@ -37,25 +37,29 @@ QuazaaIRC::QuazaaIRC(QObject* parent) :
 
 void QuazaaIRC::on_IrcSession_connected()
 {
-	qDebug() << "IRC connected:";
+	systemLog.postLog(LogSeverity::Debug, QString("IRC connected."));
+	//qDebug() << "IRC connected:";
 	m_connected = true;
 }
 
 void QuazaaIRC::on_IrcSession_disconnected()
 {
-	qDebug() << "IRC disconnected:";
+	systemLog.postLog(LogSeverity::Debug, QString("IRC disconnected."));
+	//qDebug() << "IRC disconnected:";
 	m_connected = false;
 }
 
 void QuazaaIRC::on_IrcSession_welcomed()
 {
-	qDebug() << "IRC welcomed";
+	systemLog.postLog(LogSeverity::Debug, QString("IRC welcomed."));
+	//qDebug() << "IRC welcomed";
 	ircSession->join("#quazaa-dev");
 }
 
 void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 {
-	qDebug() << "buffer added:" << buffer->receiver();
+	systemLog.postLog(LogSeverity::Debug, QString("IRC buffer added: %1").arg(buffer->receiver()));
+	//qDebug() << "buffer added:" << buffer->receiver();
 	emit bufferAdded(buffer->receiver());
 	buffer->names();
 	connect(buffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
@@ -67,12 +71,14 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 
 void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
 {
-	qDebug() << "buffer removed:" << buffer->receiver();
+	systemLog.postLog(LogSeverity::Debug, QString("IRC buffer removed: %1").arg(buffer->receiver()));
+	//qDebug() << "buffer removed:" << buffer->receiver();
 }
 
 void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort)
 {
-	qDebug() << "QuazaaIRC::startIrc() " << ircServer;
+	systemLog.postLog(LogSeverity::Debug, QString("QuazaaIRC::startIRC() %1").arg(ircServer));
+	//qDebug() << "QuazaaIRC::startIrc() " << ircServer;
 	ircSession = new Irc::Session(this);
 
 	
@@ -103,7 +109,8 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 
 void QuazaaIRC::stopIrc()
 {
-	qDebug() << "QuazaaIRC::stopIrc()";
+	systemLog.postLog(LogSeverity::Debug, QString("QuazaaIRC::stopIRC()"));
+	//qDebug() << "QuazaaIRC::stopIrc()";
 
 	if( ircSession )
 	{
@@ -126,7 +133,7 @@ void QuazaaIRC::noticeReceived(QString sender, QString message)
 
 void QuazaaIRC::messageReceived(QString sender, QString message)
 {
-	qDebug() << "Emitting messageReceived from quazaairc.cpp";
+	//qDebug() << "Emitting messageReceived from quazaairc.cpp";
 	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, QuazaaIRC::Message);
 }
 
