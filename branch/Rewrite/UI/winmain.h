@@ -84,11 +84,6 @@ public:
 	WidgetSearchMonitor* pageSearchMonitor;
 	WidgetHitMonitor* pageHitMonitor;
 
-signals:
-	void closed();
-	void hideMain();
-	void showMain();
-
 protected:
 	void changeEvent(QEvent* e);
 

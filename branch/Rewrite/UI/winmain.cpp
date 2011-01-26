@@ -296,7 +296,7 @@ bool WinMain::event(QEvent* e)
 						quazaaShutdown();
 						return false;
 					case 2:
-						emit hideMain();
+						hide();
 						e->ignore();
 						return true;
 					case 3:
@@ -316,6 +316,11 @@ bool WinMain::event(QEvent* e)
 			neighboursRefresher->start(1000);
 			break;
 		case QEvent::Hide:
+			if(quazaaSettings.System.MinimizeToTray)
+			{
+				hide();
+				e->ignore();
+			}
 			if(neighboursRefresher)
 			{
 				neighboursRefresher->stop();
@@ -462,7 +467,6 @@ void WinMain::quazaaShutdown()
 	delete trayIcon;
 
 	dlgSplash->close();
-	emit closed();
 }
 
 void WinMain::on_actionHome_triggered()
@@ -621,11 +625,11 @@ void WinMain::on_actionShowOrHide_triggered()
 {
 	if(isVisible())
 	{
-		emit hideMain();
+		hide();
 	}
 	else
 	{
-		emit showMain();
+		show();
 	}
 }
 
