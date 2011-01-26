@@ -42,7 +42,7 @@ WidgetMedia::WidgetMedia(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.MediaToolbars);
 	ui->splitterMedia->restoreState(quazaaSettings.WinMain.MediaSplitter);
 	mediaPlayer = new QuazaaMediaPlayer(ui->horizontalLayoutVideoWidget, this);
-	ui->treeViewMediaPlaylist->setModel(mediaPlayer->mediaPlaylistModel);
+	ui->listViewMediaPlaylist->setModel(mediaPlayer->mediaPlaylistModel);
 	ui->actionMediaRepeat->setChecked(quazaaSettings.Media.Repeat);
 	ui->actionMediaShuffle->setChecked(quazaaSettings.Media.Shuffle);
 }
