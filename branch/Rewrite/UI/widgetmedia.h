@@ -24,6 +24,7 @@
 
 #include <QMainWindow>
 #include <QSlider>
+#include "QuazaaMediaPlayer/quazaamediaplayer.h"
 
 namespace Ui
 {
@@ -38,6 +39,7 @@ public:
 	~WidgetMedia();
 	QSlider* seekSlider;
 	QSlider* volumeSlider;
+	QuazaaMediaPlayer *mediaPlayer;
 	void saveWidget();
 
 protected:

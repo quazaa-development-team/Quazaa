@@ -1,13 +1,22 @@
 #ifndef QUAZAAMEDIAPLAYER_H
 #define QUAZAAMEDIAPLAYER_H
 
-#include <QObject>
+#include <QtGui>
+#include <QtMultimediaKit/QMediaPlayer>
+#include <QtMultimediaKit/QMediaPlaylist>
+#include <playlistmodel.h>
+#include <QtMultimediaKit/QVideoWidget>
 
 class QuazaaMediaPlayer : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
+
 public:
-    explicit QuazaaMediaPlayer(QObject *parent = 0);
+	explicit QuazaaMediaPlayer(QHBoxLayout *videoWidgetLayout, QObject *parent = 0);
+	QMediaPlayer *m_oMediaPlayer;
+	QMediaPlaylist *mediaPlaylist;
+	PlaylistModel *mediaPlaylistModel;
+	QVideoWidget *videoWidget;
 
 signals:
 

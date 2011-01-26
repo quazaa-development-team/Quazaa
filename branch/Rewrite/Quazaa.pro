@@ -46,7 +46,7 @@ win32:LIBS += -Lbin # if you are at windows os
 mac:CONFIG -= app_bundle
 CONFIG += no_icu \
 	mobility
-MOBILITY += multimediakit
+MOBILITY += multimedia
 DEFINES += IRC_STATIC \
 	IRC_NO_DEPRECATED
 
@@ -173,7 +173,8 @@ SOURCES += main.cpp \
 	NetworkCore/endpoint.cpp \
 	UI/dialogprivatemessage.cpp \
     NetworkCore/neighbour.cpp \
-    QuazaaMediaPlayer/quazaamediaplayer.cpp
+    QuazaaMediaPlayer/quazaamediaplayer.cpp \
+    Models/playlistmodel.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -284,7 +285,8 @@ HEADERS += UI/dialoglanguage.h \
 	NetworkCore/endpoint.h \
 	UI/dialogprivatemessage.h \
     NetworkCore/neighbour.h \
-    QuazaaMediaPlayer/quazaamediaplayer.h
+    QuazaaMediaPlayer/quazaamediaplayer.h \
+    Models/playlistmodel.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \

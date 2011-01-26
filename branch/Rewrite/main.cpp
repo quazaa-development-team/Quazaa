@@ -21,6 +21,7 @@
 #include "quazaairc.h"
 
 QuazaaGlobals quazaaGlobals;
+
 int main(int argc, char *argv[])
 {
 	QtSingleApplication theApp(argc, argv);

@@ -41,6 +41,8 @@ WidgetMedia::WidgetMedia(QWidget* parent) :
 	ui->toolBarPlayControls->addWidget(volumeSlider);
 	restoreState(quazaaSettings.WinMain.MediaToolbars);
 	ui->splitterMedia->restoreState(quazaaSettings.WinMain.MediaSplitter);
+	mediaPlayer = new QuazaaMediaPlayer(ui->horizontalLayoutVideoWidget, this);
+	ui->treeViewMediaPlaylist->setModel(mediaPlayer->mediaPlaylistModel);
 	ui->actionMediaRepeat->setChecked(quazaaSettings.Media.Repeat);
 	ui->actionMediaShuffle->setChecked(quazaaSettings.Media.Shuffle);
 }
