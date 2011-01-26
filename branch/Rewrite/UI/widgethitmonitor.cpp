@@ -59,6 +59,6 @@ void WidgetHitMonitor::saveWidget()
 
 void WidgetHitMonitor::on_actionMore_triggered()
 {
-	DialogFilterSearch* dlgFilterSearch = new DialogFilterSearch;
+	DialogFilterSearch* dlgFilterSearch = new DialogFilterSearch(this);
 	dlgFilterSearch->show();
 }

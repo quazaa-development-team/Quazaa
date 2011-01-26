@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>607</width>
-    <height>202</height>
+    <width>609</width>
+    <height>204</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,9 @@
     <widget class="QFrame" name="frameSplashBackground">
      <property name="styleSheet">
       <string notr="true">QFrame {
-	border-image: url(:/Resource/Splash.png) repeat;
+	border: 3px solid transparent;
+	border-bottom: 4px solid transparent;
+	border-image: url(:/Resource/screen.png);
 }</string>
      </property>
      <property name="frameShape">
@@ -277,10 +279,16 @@ padding-left: 5px;</string>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>17</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>300</width>
-             <height>10</height>
+             <height>17</height>
             </size>
            </property>
            <property name="palette">
@@ -349,8 +357,8 @@ padding-left: 5px;</string>
            </property>
            <property name="styleSheet">
             <string notr="true">font-weight: bold;
-max-height: 10px;
-min-height: 10px;
+max-height: 17px;
+min-height: 17px;
 max-width: 300px;
 min-width: 300px;</string>
            </property>
@@ -383,6 +391,7 @@ min-height: 172px;
 max-height: 172px;
 min-width: 605px;
 max-width: 605px;
+border: 0px solid transparent;
 border-image: url(:/Resource/QuazaaLogo.png);</string>
         </property>
         <property name="text">

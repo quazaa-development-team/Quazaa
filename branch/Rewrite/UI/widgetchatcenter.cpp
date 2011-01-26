@@ -246,6 +246,6 @@ void WidgetChatCenter::on_tabWidget_currentChanged(QWidget*)
 
 void WidgetChatCenter::on_actionEditMyProfile_triggered()
 {
-	DialogProfile* dlgProfile = new DialogProfile;
+	DialogProfile* dlgProfile = new DialogProfile(this);
 	dlgProfile->show();
 }

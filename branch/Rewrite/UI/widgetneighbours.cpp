@@ -132,7 +132,7 @@ void WidgetNeighbours::updateEDonkey()
 
 void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 {
-	DialogConnectTo* dlgConnectTo = new DialogConnectTo;
+	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	dlgConnectTo->show();
 }
 

@@ -59,7 +59,7 @@ void WidgetLibrary::changeEvent(QEvent* e)
 
 void WidgetLibrary::on_toolButtonLibraryEditShares_clicked()
 {
-	DialogEditShares* dlgEditShares = new DialogEditShares;
+	DialogEditShares* dlgEditShares = new DialogEditShares(this);
 	dlgEditShares->show();
 }
 

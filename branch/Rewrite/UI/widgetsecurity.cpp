@@ -60,12 +60,12 @@ void WidgetSecurity::saveWidget()
 
 void WidgetSecurity::on_actionSecurityAddRule_triggered()
 {
-	DialogAddRule* dlgAddRule = new DialogAddRule;
+	DialogAddRule* dlgAddRule = new DialogAddRule(this);
 	dlgAddRule->show();
 }
 
 void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 {
-	DialogSecuritySubscriptions* dlgSecuritySubscriptions = new DialogSecuritySubscriptions;
+	DialogSecuritySubscriptions* dlgSecuritySubscriptions = new DialogSecuritySubscriptions(this);
 	dlgSecuritySubscriptions->show();
 }

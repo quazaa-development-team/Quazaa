@@ -64,7 +64,7 @@ void WidgetLibraryView::saveWidget()
 
 void WidgetLibraryView::on_actionFind_triggered()
 {
-	DialogLibrarySearch* dlgLibrarySearch = new DialogLibrarySearch;
+	DialogLibrarySearch* dlgLibrarySearch = new DialogLibrarySearch(this);
 	dlgLibrarySearch->show();
 }
 

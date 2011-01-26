@@ -81,14 +81,14 @@ void WidgetHome::on_labelTorrentsTaskSeedTorrentLink_linkActivated(QString link)
 void WidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
-	DialogAddDownload* dlgAddDownload = new DialogAddDownload;
+	DialogAddDownload* dlgAddDownload = new DialogAddDownload(this);
 	dlgAddDownload->show();
 }
 
 void WidgetHome::on_labelWelcomeOpenTorrentLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
-	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent;
+	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent(this);
 	dlgOpenTorrent->show();
 }
 
@@ -102,7 +102,7 @@ void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
 void WidgetHome::on_labelWelcomeWizardLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
-	DialogWizard* dlgWizard = new DialogWizard();
+	DialogWizard* dlgWizard = new DialogWizard(this);
 	dlgWizard->show();
 }
 

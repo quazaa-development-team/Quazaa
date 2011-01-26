@@ -152,7 +152,7 @@ bool WidgetSearchResults::clearSearch()
 
 void WidgetSearchResults::on_actionFilterMore_triggered()
 {
-	DialogFilterSearch* dlgFilterSearch = new DialogFilterSearch;
+	DialogFilterSearch* dlgFilterSearch = new DialogFilterSearch(this);
 	dlgFilterSearch->show();
 }
 

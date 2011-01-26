@@ -431,7 +431,7 @@ void WinMain::changeEvent(QEvent* e)
 
 void WinMain::quazaaShutdown()
 {
-	DialogSplash* dlgSplash = new DialogSplash;
+	DialogSplash* dlgSplash = new DialogSplash(this);
 	dlgSplash->show();
 
 	dlgSplash->updateProgress(5, tr("Closing Networks..."));
@@ -641,7 +641,7 @@ void WinMain::on_actionExit_triggered()
 
 void WinMain::on_actionAbout_triggered()
 {
-	DialogAbout* dlgAbout = new DialogAbout;
+	DialogAbout* dlgAbout = new DialogAbout(this);
 
 	dlgAbout->show();
 }
@@ -654,7 +654,7 @@ void WinMain::on_actionSettings_triggered()
 
 void WinMain::on_actionCreateTorrent_triggered()
 {
-	DialogCreateTorrent* dlgCreateTorrent = new DialogCreateTorrent;
+	DialogCreateTorrent* dlgCreateTorrent = new DialogCreateTorrent(this);
 	dlgCreateTorrent->show();
 }
 
@@ -665,13 +665,13 @@ void WinMain::on_actionSeedTorrent_triggered()
 
 void WinMain::on_actionOpenTorrent_triggered()
 {
-	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent;
+	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent(this);
 	dlgOpenTorrent->show();
 }
 
 void WinMain::on_actionShares_triggered()
 {
-	DialogEditShares* dlgEditShares = new DialogEditShares;
+	DialogEditShares* dlgEditShares = new DialogEditShares(this);
 	dlgEditShares->show();
 }
 
@@ -682,14 +682,14 @@ void WinMain::on_actionOpenDownloadFolder_triggered()
 
 void WinMain::on_actionURLDownload_triggered()
 {
-	DialogAddDownload* dlgAddDownload = new DialogAddDownload;
+	DialogAddDownload* dlgAddDownload = new DialogAddDownload(this);
 
 	dlgAddDownload->show();
 }
 
 void WinMain::on_actionImportPartials_triggered()
 {
-	DialogDownloadsImport* dlgDownloadsImport = new DialogDownloadsImport;
+	DialogDownloadsImport* dlgDownloadsImport = new DialogDownloadsImport(this);
 	dlgDownloadsImport->show();
 }
 
@@ -701,13 +701,13 @@ void WinMain::on_actionChooseSkin_triggered()
 
 void WinMain::on_actionChooseLanguage_triggered()
 {
-	DialogLanguage* dlgLanguage = new DialogLanguage;
+	DialogLanguage* dlgLanguage = new DialogLanguage(this);
 	dlgLanguage->exec();
 }
 
 void WinMain::on_actionQuickstartWizard_triggered()
 {
-	DialogWizard* dlgWizard = new DialogWizard();
+	DialogWizard* dlgWizard = new DialogWizard(this);
 	dlgWizard->show();
 }
 
@@ -743,7 +743,7 @@ void WinMain::on_actionQuazaaForums_triggered()
 
 void WinMain::on_actionEditMyProfile_triggered()
 {
-	DialogProfile* dlgProfile = new DialogProfile;
+	DialogProfile* dlgProfile = new DialogProfile(this);
 	dlgProfile->show();
 }
 
@@ -836,6 +836,6 @@ void WinMain::updateStatusBar()
 
 void WinMain::on_actionConnectTo_triggered()
 {
-	DialogConnectTo* dlgConnectTo = new DialogConnectTo;
+	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	dlgConnectTo->show();
 }

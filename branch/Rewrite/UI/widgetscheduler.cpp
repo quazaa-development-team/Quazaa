@@ -59,12 +59,12 @@ void WidgetScheduler::saveWidget()
 
 void WidgetScheduler::on_actionAddScheduledTask_triggered()
 {
-	DialogScheduler* dlgScheduler = new DialogScheduler;
+	DialogScheduler* dlgScheduler = new DialogScheduler(this);
 	dlgScheduler->show();
 }
 
 void WidgetScheduler::on_actionScheduleProperties_triggered()
 {
-	DialogScheduler* dlgScheduler = new DialogScheduler;
+	DialogScheduler* dlgScheduler = new DialogScheduler(this);
 	dlgScheduler->show();
 }
