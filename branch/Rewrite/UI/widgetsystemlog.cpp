@@ -25,7 +25,6 @@
 #include "quazaasettings.h"
 
 #include <QMenu>
- 
 
 WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
 	QMainWindow(parent),

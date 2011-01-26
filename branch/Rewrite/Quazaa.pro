@@ -44,7 +44,9 @@ CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 # Additional config
 win32:LIBS += -Lbin # if you are at windows os
 mac:CONFIG -= app_bundle
-CONFIG += no_icu
+CONFIG += no_icu \
+	mobility
+MOBILITY += multimediakit
 DEFINES += IRC_STATIC \
 	IRC_NO_DEPRECATED
 
@@ -170,7 +172,8 @@ SOURCES += main.cpp \
 	NetworkCore/buffer.cpp \
 	NetworkCore/endpoint.cpp \
 	UI/dialogprivatemessage.cpp \
-    NetworkCore/neighbour.cpp
+    NetworkCore/neighbour.cpp \
+    QuazaaMediaPlayer/quazaamediaplayer.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -280,7 +283,8 @@ HEADERS += UI/dialoglanguage.h \
 	NetworkCore/buffer.h \
 	NetworkCore/endpoint.h \
 	UI/dialogprivatemessage.h \
-    NetworkCore/neighbour.h
+    NetworkCore/neighbour.h \
+    QuazaaMediaPlayer/quazaamediaplayer.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
