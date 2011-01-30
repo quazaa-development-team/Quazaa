@@ -39,6 +39,12 @@ WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 	ui(new Ui::WidgetNeighbours)
 {
 	ui->setupUi(this);
+	neighboursMenu = new QMenu(ui->tableViewNeighbours);
+	neighboursMenu->addAction(ui->actionNeighbourDisconnect);
+	neighboursMenu->addAction(ui->actionNetworkBan);
+	neighboursMenu->addSeparator();
+	neighboursMenu->addAction(ui->actionViewProfile);
+	neighboursMenu->addAction(ui->actionNetworkBrowse);
 	labelG2StatsIcon = new QLabel();
 	QPixmap const pixmapG2Stats = QPixmap(":/Resource/Networks/Gnutella2.png");
 	labelG2StatsIcon->setPixmap(pixmapG2Stats);
@@ -165,4 +171,10 @@ void WidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 		pNode->Close();
 	}
 	Neighbours.m_pSection.unlock();
+}
+
+void WidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint pos)
+{
+	Q_UNUSED(pos);
+	neighboursMenu->exec(QCursor::pos());
 }

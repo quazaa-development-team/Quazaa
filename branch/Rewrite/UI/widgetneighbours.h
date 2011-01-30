@@ -50,9 +50,11 @@ protected:
 
 private:
 	Ui::WidgetNeighbours* ui;
+		QMenu *neighboursMenu;
 
 private slots:
-	void on_actionNeighbourDisconnect_triggered();
+	void on_tableViewNeighbours_customContextMenuRequested(QPoint pos);
+ void on_actionNeighbourDisconnect_triggered();
 	void on_actionNeighbourConnectTo_triggered();
 	void on_actionSettings_triggered();
 
