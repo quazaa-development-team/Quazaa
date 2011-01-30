@@ -25,6 +25,8 @@
 #include <QtGui>
 #include <QAbstractItemModel>
 
+class CNeighboursTableModel;
+
 namespace Ui
 {
 	class WidgetNeighbours;
@@ -41,6 +43,7 @@ public:
 	void saveWidget();
 	QLabel* labelG2StatsIcon;
 	QLabel* labelG2Stats;
+	CNeighboursTableModel* neighboursList;
 
 protected:
 	void changeEvent(QEvent* e);
@@ -52,7 +55,9 @@ private slots:
 	void on_actionNeighbourDisconnect_triggered();
 	void on_actionNeighbourConnectTo_triggered();
 	void on_actionSettings_triggered();
-	 
+
+	void onTimer();
+
 	void updateG2();
 	void updateAres();
 	void updateEDonkey();

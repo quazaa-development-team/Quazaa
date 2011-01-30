@@ -309,7 +309,7 @@ void CG2Node::OnTimer(quint32 tNow)
 			return;
 		}*/
 
-		if((m_nType == G2_HUB && tNow - m_tConnected > 90) &&
+		if((m_nType == G2_HUB && tNow - m_tConnected > 30) &&
 				((m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie) &&
 				 (tNow - m_pLocalTable->m_nCookie > 60) &&
 				 (tNow - QueryHashMaster.m_nCookie > 30) ||

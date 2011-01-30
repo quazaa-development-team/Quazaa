@@ -42,7 +42,7 @@
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
- 
+
 #include "commonfunctions.h"
 #include "handshakes.h"
 #include "network.h"
@@ -225,17 +225,9 @@ WinMain::WinMain(QWidget* parent) :
 	connect(pageHome, SIGNAL(triggerSecurity()), this, SLOT(on_actionSecurity_triggered()));
 	connect(pageHome, SIGNAL(triggerTransfers()), this, SLOT(on_actionTransfers_triggered()));
 
-	QSortFilterProxyModel* neighboursSortModel = new QSortFilterProxyModel(this);
-	neighboursList = new CNeighboursTableModel(this, pageActivity->panelNeighbours->treeView());
-	neighboursSortModel->setSourceModel(neighboursList);
-	pageActivity->panelNeighbours->setModel(neighboursSortModel);
-	//pageActivity->panelNeighbours->setModel(neighboursList);
-	neighboursSortModel->setDynamicSortFilter(true);
-
 	neighboursRefresher = new QTimer(this);
-	connect(neighboursRefresher, SIGNAL(timeout()), neighboursList, SLOT(UpdateAll()));
 	connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
-	connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbours, SLOT(updateG2()));
+	connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbours, SLOT(onTimer()));
 
 	update();
 	qApp->processEvents();
@@ -272,7 +264,7 @@ void WinMain::loadTrayIcon()
 	trayIcon->setContextMenu(trayMenu);
 	// Connect an event handler to the tray icon so we can handle mouse events
 	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-	        this, SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
+			this, SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
 	trayIcon->show();
 }
 

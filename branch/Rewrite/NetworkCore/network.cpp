@@ -125,6 +125,7 @@ void CNetwork::Connect()
 	NetworkThread.start("Network", &m_pSection, this);
 
 	SearchManager.moveToThread(&NetworkThread);
+	Neighbours.moveToThread(&NetworkThread);
 	Neighbours.Connect();
 
 }

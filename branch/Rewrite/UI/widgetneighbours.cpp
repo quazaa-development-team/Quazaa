@@ -25,12 +25,14 @@
 #include "dialogconnectto.h"
 
 #include "quazaasettings.h"
- 
+
 
 #include "commonfunctions.h"
 #include "network.h"
 #include "neighbours.h"
+#include "neighbour.h"
 #include "datagrams.h"
+#include "neighbourstablemodel.h"
 
 WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 	QMainWindow(parent),
@@ -47,6 +49,12 @@ WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 	ui->toolBarG2->addWidget(labelG2Stats);
 	restoreState(quazaaSettings.WinMain.NeighboursToolbars);
 	ui->tableViewNeighbours->horizontalHeader()->restoreState(quazaaSettings.WinMain.NeighboursHeader);
+
+	neighboursList = new CNeighboursTableModel(this, treeView());
+	QSortFilterProxyModel* neighboursSortModel = new QSortFilterProxyModel(this);
+	neighboursSortModel->setSourceModel(neighboursList);
+	setModel(neighboursSortModel);
+	neighboursSortModel->setDynamicSortFilter(true);
 }
 
 WidgetNeighbours::~WidgetNeighbours()
@@ -130,6 +138,12 @@ void WidgetNeighbours::updateEDonkey()
 
 }
 
+void WidgetNeighbours::onTimer()
+{
+	neighboursList->UpdateAll();
+	updateG2();
+}
+
 void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 {
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
@@ -138,5 +152,17 @@ void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 
 void WidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 {
+	QModelIndex idx = ui->tableViewNeighbours->currentIndex();
+	CNeighbour* pNode = neighboursList->NodeFromIndex(idx);
 
+	if( pNode == 0 )
+		return;
+
+	Neighbours.m_pSection.lock();
+	if( Neighbours.NeighbourExists(pNode) )
+	{
+		systemLog.postLog(LogSeverity::Information, qPrintable(tr("Closing connection to neighbour %s")), qPrintable(pNode->m_oAddress.toStringWithPort()));
+		pNode->Close();
+	}
+	Neighbours.m_pSection.unlock();
 }

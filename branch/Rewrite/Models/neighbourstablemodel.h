@@ -24,43 +24,69 @@
 
 #include <QAbstractTableModel>
 #include "types.h"
-#include <QList>
+#include <QVector>
 #include <QTime>
 #include <QMutex>
 #include <QIcon>
 
 class CNeighbour;
 
-typedef struct
-{
-	CNeighbour*   pNode;
-	CEndPoint     oAddress;
-	G2NodeType    nType;
-	int           nState;
-	quint32       tConnected;
-	quint32       nPacketsIn;
-	quint32       nPacketsOut;
-	quint32       nBandwidthIn;
-	quint32       nBandwidthOut;
-	quint64       nBytesSent;
-	quint64       nBytesReceived;
-	float         nCompressionIn;
-	float         nCompressionOut;
-	quint32       nLeafCount;
-	quint32       nLeafMax;
-	qint64        nRTT;
-	QString       sUserAgent;
-	QString		  sCountry;
-	QIcon		  iNetwork;
-	QIcon		  iCountry;
-} sNeighbour;
-
 class CNeighboursTableModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
+	enum Column
+	{
+		ADDRESS = 0,
+		STATUS,
+		TIME,
+		BANDWIDTH,
+		BYTES,
+		PACKETS,
+		MODE,
+		LEAVES,
+		PING,
+		USER_AGENT,
+		COUNTRY,
+		_NO_OF_COLUMNS
+	};
+
+	struct Neighbour
+	{
+		CNeighbour*   pNode;
+
+
+		CEndPoint     oAddress;
+		G2NodeType    nType;
+		int           nState;
+		quint32       tConnected;
+		quint32       nPacketsIn;
+		quint32       nPacketsOut;
+		quint32       nBandwidthIn;
+		quint32       nBandwidthOut;
+		quint64       nBytesSent;
+		quint64       nBytesReceived;
+		float         nCompressionIn;
+		float         nCompressionOut;
+		quint32       nLeafCount;
+		quint32       nLeafMax;
+		qint64        nRTT;
+		QString       sUserAgent;
+		QString		  sCountry;
+		QIcon		  iNetwork;
+		QIcon		  iCountry;
+
+		Neighbour(CNeighbour* pNeighbour);
+		void update(int row, QModelIndexList& to_update, CNeighboursTableModel* model);
+		QVariant data(int col) const;
+
+		QString StateToString(int s) const;
+		QString TypeToString(G2NodeType t) const;
+
+	};
+
 protected:
-	QList<sNeighbour>   m_lNodes;
+	QVector<Neighbour*>   m_lNodes;
 public:
 	explicit CNeighboursTableModel(QObject* parent = 0, QWidget* container = 0);
 	~CNeighboursTableModel();
@@ -69,27 +95,17 @@ public:
 	int columnCount(const QModelIndex& parent) const;
 	QVariant data(const QModelIndex& index, int role) const;
 	QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-	//Qt::ItemFlags flags(const QModelIndex &index) const;
-	QList<sNeighbour>* GetList()
-	{
-		return &m_lNodes;
-	}
+	QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 
-
+	CNeighbour* NodeFromIndex(const QModelIndex& index);
 protected:
-	QString StateToString(int s) const;
-	QString TypeToString(G2NodeType t) const;
 
 private:
 	QWidget* m_oContainer;
 
 public slots:
-	bool NodeExists(CNeighbour* pNode);
-	void OnNodeAdded(CNeighbour* pNode);
-	void AddNode(CNeighbour* pNode, bool bSignal = true);
-	void UpdateNeighbourData(CNeighbour* pNode);
-	void UpdateNode(CNeighbour* pNode, bool bSignal = true);
-	void OnRemoveNode(CNeighbour* pNode);
+	void AddNode(CNeighbour* pNode);
+	void RemoveNode(CNeighbour* pNode);
 	void UpdateAll();
 };
 

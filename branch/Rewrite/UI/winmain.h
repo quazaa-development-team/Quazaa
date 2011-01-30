@@ -43,8 +43,6 @@
 #include "widgetsearchmonitor.h"
 #include "widgethitmonitor.h"
 
-#include "neighbourstablemodel.h"
-
 namespace Ui
 {
 	class WinMain;
@@ -61,7 +59,6 @@ public:
 
 	bool interfaceLoaded;
 	QTimer* neighboursRefresher;
-	CNeighboursTableModel* neighboursList;
 	QActionGroup* actionGroupMainNavigation;
 	QLabel* labelBandwidthTotals;
 	QLabel* labelFirewallStatus;
@@ -140,7 +137,7 @@ private slots:
 	void quazaaShutdown();
 	void quazaaStartup();
 	void icon_activated(QSystemTrayIcon::ActivationReason reason);
-	 
+
 	void startNewSearch(QString* searchString);
 	void updateStatusBar();
 };

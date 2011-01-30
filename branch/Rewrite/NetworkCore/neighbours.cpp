@@ -60,7 +60,6 @@ void CNeighbours::Connect()
 
 	m_nHubsConnected = m_nLeavesConnected = 0;
 
-	moveToThread(&NetworkThread);
 	m_pController->moveToThread(&NetworkThread);
 
 	m_bActive = true;
@@ -180,6 +179,8 @@ void CNeighbours::AddNode(CNeighbour* pNode)
 	m_lNodesByAddr.insert(pNode->m_oAddress, pNode);
 	m_lNodesByPtr.insert(pNode);
 	m_pController->AddSocket(pNode);
+
+	emit NeighbourAdded(pNode);
 }
 
 void CNeighbours::RemoveNode(CNeighbour* pNode)
@@ -191,6 +192,8 @@ void CNeighbours::RemoveNode(CNeighbour* pNode)
 
 	if( pNode->m_nProtocol == dpGnutella2 )
 		Network.m_oRoutingTable.Remove(static_cast<CG2Node*>(pNode));
+
+	emit NeighbourRemoved(pNode);
 }
 
 CNeighbour* CNeighbours::Find(QHostAddress& oAddress, DiscoveryProtocol nProtocol)

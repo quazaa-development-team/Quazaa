@@ -23,7 +23,7 @@
 #include "ui_widgetactivity.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetActivity::WidgetActivity(QWidget* parent) :
 	QWidget(parent),

@@ -97,6 +97,8 @@ public:
 	}
 
 signals:
+	void NeighbourAdded(CNeighbour*);
+	void NeighbourRemoved(CNeighbour*);
 
 public slots:
 

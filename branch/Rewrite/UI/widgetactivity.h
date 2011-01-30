@@ -51,7 +51,7 @@ private slots:
 	void on_toolButtonNeighboursHeader_clicked();
 	void on_toolButtonSystemLogHeader_clicked();
 	void on_splitterActivity_customContextMenuRequested(QPoint pos);
-	 
+
 };
 
 #endif // WIDGETACTIVITY_H
