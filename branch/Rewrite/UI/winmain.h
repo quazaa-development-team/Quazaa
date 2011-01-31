@@ -55,7 +55,6 @@ public:
 	WinMain(QWidget* parent = 0);
 	~WinMain();
 	void loadTrayIcon();
-	bool event(QEvent* e);
 
 	bool interfaceLoaded;
 	QTimer* neighboursRefresher;
@@ -83,6 +82,7 @@ public:
 
 protected:
 	void changeEvent(QEvent* e);
+	bool event(QEvent* e);
 
 private:
 	Ui::WinMain* ui;
