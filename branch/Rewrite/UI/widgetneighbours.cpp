@@ -57,10 +57,7 @@ WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 	ui->tableViewNeighbours->horizontalHeader()->restoreState(quazaaSettings.WinMain.NeighboursHeader);
 
 	neighboursList = new CNeighboursTableModel(this, treeView());
-	QSortFilterProxyModel* neighboursSortModel = new QSortFilterProxyModel(this);
-	neighboursSortModel->setSourceModel(neighboursList);
-	setModel(neighboursSortModel);
-	neighboursSortModel->setDynamicSortFilter(true);
+	setModel(neighboursList);
 }
 
 WidgetNeighbours::~WidgetNeighbours()

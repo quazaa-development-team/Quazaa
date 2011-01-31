@@ -35,6 +35,7 @@ class CNeighboursTableModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
+public:
 	enum Column
 	{
 		ADDRESS = 0,
@@ -77,8 +78,9 @@ class CNeighboursTableModel : public QAbstractTableModel
 		QIcon		  iCountry;
 
 		Neighbour(CNeighbour* pNeighbour);
-		void update(int row, QModelIndexList& to_update, CNeighboursTableModel* model);
+		bool update(int row, int col, QModelIndexList& to_update, CNeighboursTableModel* model);
 		QVariant data(int col) const;
+		bool lessThan(int col, CNeighboursTableModel::Neighbour* pOther) const;
 
 		QString StateToString(int s) const;
 		QString TypeToString(G2NodeType t) const;
@@ -97,11 +99,16 @@ public:
 	QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 	QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 
+	void sort(int column, Qt::SortOrder order);
+
 	CNeighbour* NodeFromIndex(const QModelIndex& index);
 protected:
 
 private:
-	QWidget* m_oContainer;
+	QWidget*		m_oContainer;
+	int				m_nSortColumn;
+	Qt::SortOrder	m_nSortOrder;
+	bool			m_bNeedSorting;
 
 public slots:
 	void AddNode(CNeighbour* pNode);

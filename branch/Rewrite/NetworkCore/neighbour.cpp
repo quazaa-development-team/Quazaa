@@ -50,7 +50,7 @@ void CNeighbour::OnTimer(quint32 tNow)
 	}
 	else if(m_nState == nsConnected)
 	{
-		if(tNow - m_tLastPacketIn > 300 /*quazaaSettings.Connection.TimeoutTraffic*/)
+		if(tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
 		{
 			systemLog.postLog(LogSeverity::Error, tr("Closing connection to %1 due to lack of traffic.").arg(m_oAddress.toString()));
 			systemLog.postLog(LogSeverity::Debug, QString("Conn %1, Packet %2, bytes avail %3, net bytes avail %4, ping %5").arg(tNow - m_tConnected).arg(tNow - m_tLastPacketIn).arg(bytesAvailable()).arg(networkBytesAvailable()).arg(tNow - m_tLastPingOut));
@@ -61,7 +61,7 @@ void CNeighbour::OnTimer(quint32 tNow)
 			return;
 		}
 
-		if(m_nPingsWaiting > 0 && tNow - m_tLastPingOut > 600 /*quazaaSettings.Gnutella2.PingTimeout*/ && tNow - m_tLastPacketIn > 300 /*quazaaSettings.Connection.TimeoutTraffic*/)
+		if(m_nPingsWaiting > 0 && tNow - m_tLastPingOut > quazaaSettings.Gnutella2.PingTimeout && tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 ping timed out").arg(m_oAddress.toString()));
 			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "ping timed out";

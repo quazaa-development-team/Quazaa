@@ -70,10 +70,12 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour *pNeighbour) : pNode(pNei
 	}
 
 }
-void CNeighboursTableModel::Neighbour::update(int row, QModelIndexList &to_update, CNeighboursTableModel *model)
+bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList &to_update, CNeighboursTableModel *model)
 {
 	if( !Neighbours.NeighbourExists(pNode) )
-		return;
+		return false;
+
+	bool bRet = false;
 
 	quint32 tNow = time(0);
 
@@ -81,44 +83,61 @@ void CNeighboursTableModel::Neighbour::update(int row, QModelIndexList &to_updat
 	{
 		to_update.append(model->index(row, ADDRESS));
 		oAddress = pNode->GetAddress();
+
+		if( col == ADDRESS )
+			bRet = true;
 	}
 
 	tConnected = tNow - pNode->m_tConnected;
 	to_update.append(model->index(row, TIME));
+	if( col == TIME )
+		bRet = true;
 
 	nBandwidthIn = pNode->m_mInput.Usage();
 	nBandwidthOut = pNode->m_mOutput.Usage();
 	to_update.append(model->index(row, BANDWIDTH));
+	if( col == BANDWIDTH )
+		bRet = true;
 
 	nBytesReceived = pNode->m_mInput.m_nTotal;
 	nBytesSent = pNode->m_mOutput.m_nTotal;
 	nCompressionIn = pNode->GetTotalInDecompressed();
 	nCompressionOut = pNode->GetTotalOutCompressed();
 	to_update.append(model->index(row, BYTES));
+	if( col == BYTES )
+		bRet = true;
 
 	if( nPacketsIn != pNode->m_nPacketsIn || nPacketsOut != pNode->m_nPacketsOut )
 	{
 		nPacketsIn = pNode->m_nPacketsIn;
 		nPacketsOut = pNode->m_nPacketsOut;
 		to_update.append(model->index(row, PACKETS));
+		if( col == PACKETS )
+			bRet = true;
 	}
 
 	if( nRTT != pNode->m_tRTT )
 	{
 		nRTT = pNode->m_tRTT;
 		to_update.append(model->index(row, PING));
+		if( col == PING )
+			bRet = true;
 	}
 
 	if( nState != pNode->m_nState )
 	{
 		nState = pNode->m_nState;
 		to_update.append(model->index(row, STATUS));
+		if( col == STATUS )
+			bRet = true;
 	}
 
 	if( sUserAgent != pNode->m_sUserAgent )
 	{
 		sUserAgent = pNode->m_sUserAgent;
 		to_update.append(model->index(row, USER_AGENT));
+		if( col == USER_AGENT )
+			bRet = true;
 	}
 
 	switch( pNode->m_nProtocol )
@@ -129,17 +148,23 @@ void CNeighboursTableModel::Neighbour::update(int row, QModelIndexList &to_updat
 			nLeafCount = ((CG2Node*)pNode)->m_nLeafCount;
 			nLeafMax = ((CG2Node*)pNode)->m_nLeafMax;
 			to_update.append(model->index(row, LEAVES));
+			if( col == LEAVES )
+				bRet = true;
 		}
 
 		if( nType != ((CG2Node*)pNode)->m_nType )
 		{
 			nType = ((CG2Node*)pNode)->m_nType;
 			to_update.append(model->index(row, MODE));
+			if( col == MODE )
+				bRet = true;
 		}
 		break;
 	default:
 		break;
 	}
+
+	return bRet;
 }
 
 QVariant CNeighboursTableModel::Neighbour::data(int col) const
@@ -179,6 +204,41 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 
 
 	return QVariant();
+}
+bool CNeighboursTableModel::Neighbour::lessThan(int col, CNeighboursTableModel::Neighbour *pOther) const
+{
+	switch(col)
+	{
+	case ADDRESS:
+		return oAddress.toString() < pOther->oAddress.toString();
+	case STATUS:
+		return nState < pOther->nState;
+	case TIME:
+		return tConnected < pOther->tConnected;
+	case BANDWIDTH:
+		return (nBandwidthIn + nBandwidthOut) < (pOther->nBandwidthIn + pOther->nBandwidthOut);
+	case BYTES:
+		return (nBytesReceived + nBytesSent) < (pOther->nBytesReceived + pOther->nBytesSent);
+	case PACKETS:
+		return (nPacketsIn + nPacketsOut) < (pOther->nPacketsIn + pOther->nPacketsOut);
+	case MODE:
+		return TypeToString(nType) < TypeToString(pOther->nType);
+	case LEAVES:
+		return nLeafCount < pOther->nLeafCount;
+	case PING:
+		if( nState < nsConnected )
+			return false;
+		if( pOther->nState < nsConnected )
+			return true;
+		return nRTT < pOther->nRTT;
+	case USER_AGENT:
+		return sUserAgent < pOther->sUserAgent;
+	case COUNTRY:
+		return GeoIP.countryNameFromCode(sCountry) < GeoIP.countryNameFromCode(pOther->sCountry);
+	default:
+		return false;
+	}
+
 }
 QString CNeighboursTableModel::Neighbour::StateToString(int s) const
 {
@@ -221,6 +281,8 @@ CNeighboursTableModel::CNeighboursTableModel(QObject* parent, QWidget* container
 	QAbstractTableModel(parent)
 {
 	m_oContainer = container;
+	m_nSortColumn = -1;
+	m_bNeedSorting = false;
 
 	connect(&Neighbours, SIGNAL(NeighbourAdded(CNeighbour*)), this, SLOT(AddNode(CNeighbour*)), Qt::QueuedConnection);
 	connect(&Neighbours, SIGNAL(NeighbourRemoved(CNeighbour*)), this, SLOT(RemoveNode(CNeighbour*)), Qt::QueuedConnection);
@@ -399,6 +461,37 @@ QModelIndex CNeighboursTableModel::index(int row, int column, const QModelIndex 
 		return createIndex(row, column, m_lNodes[row]);
 }
 
+class CNeighboursTableModelCmp
+{
+public:
+	CNeighboursTableModelCmp(int col,Qt::SortOrder order) : col(col),order(order)
+	{}
+
+	bool operator()(CNeighboursTableModel::Neighbour* a,CNeighboursTableModel::Neighbour* b)
+	{
+		if( order == Qt::AscendingOrder )
+		{
+			return a->lessThan(col, b);
+		}
+		else
+		{
+			return b->lessThan(col, a);
+		}
+	}
+
+	int col;
+	Qt::SortOrder order;
+};
+void CNeighboursTableModel::sort(int column, Qt::SortOrder order)
+{
+	m_nSortColumn = column;
+	m_nSortOrder = order;
+
+	emit layoutAboutToBeChanged();
+	qStableSort(m_lNodes.begin(), m_lNodes.end(), CNeighboursTableModelCmp(column, order));
+	emit layoutChanged();
+}
+
 CNeighbour* CNeighboursTableModel::NodeFromIndex(const QModelIndex &index)
 {
 	if (index.isValid() && index.row() < m_lNodes.count() && index.row() >= 0)
@@ -415,13 +508,13 @@ void CNeighboursTableModel::AddNode(CNeighbour* pNode)
 		beginInsertRows(QModelIndex(), m_lNodes.size(), m_lNodes.size());
 		m_lNodes.append(new Neighbour(pNode));
 		endInsertRows();
+		m_bNeedSorting = true;
 	}
 	Neighbours.m_pSection.unlock();
 }
 
 void CNeighboursTableModel::RemoveNode(CNeighbour* pNode)
 {
-	Neighbours.m_pSection.lock();
 	for(int i = 0, nMax = m_lNodes.size(); i < nMax; i++)
 	{
 		if(m_lNodes[i]->pNode == pNode)
@@ -430,31 +523,45 @@ void CNeighboursTableModel::RemoveNode(CNeighbour* pNode)
 			delete m_lNodes[i];
 			m_lNodes.remove(i, 1);
 			endRemoveRows();
+			m_bNeedSorting = true;
 			break;
 		}
 	}
-	Neighbours.m_pSection.unlock();
 }
 
 void CNeighboursTableModel::UpdateAll()
 {
 	QModelIndexList uplist;
+	bool bSort = m_bNeedSorting;
 
 	if(Neighbours.m_pSection.tryLock())
 	{
 		for( int i = 0, max = m_lNodes.count(); i < max; ++i )
 		{
-			m_lNodes[i]->update(i, uplist, this);
+			if( m_lNodes[i]->update(i, m_nSortColumn, uplist, this) )
+				bSort = true;
 		}
 
 		Neighbours.m_pSection.unlock();
 	}
 
-	if( !uplist.isEmpty() ) // TODO: better
+	if( bSort )
 	{
-		foreach( QModelIndex idx, uplist )
+		sort(m_nSortColumn, m_nSortOrder);
+	}
+	else
+	{
+		if( !uplist.isEmpty() )
 		{
-			emit dataChanged(idx, idx);
+			foreach( QModelIndex idx, uplist )
+			{
+				QAbstractItemView* pView = qobject_cast<QAbstractItemView*>(m_oContainer);
+
+				if( pView )
+				{
+					pView->update(idx);
+				}
+			}
 		}
 	}
 }
