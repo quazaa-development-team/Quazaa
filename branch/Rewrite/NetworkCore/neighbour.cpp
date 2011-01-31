@@ -24,15 +24,6 @@ CNeighbour::~CNeighbour()
 	Neighbours.m_pSection.unlock();
 }
 
-void CNeighbour::SetupSlots()
-{
-	connect(this, SIGNAL(connected()), this, SLOT(OnConnect()), Qt::QueuedConnection);
-	connect(this, SIGNAL(disconnected()), this, SLOT(OnDisconnect()), Qt::QueuedConnection);
-	connect(this, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
-	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(OnError(QAbstractSocket::SocketError)), Qt::QueuedConnection);
-	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(OnStateChange(QAbstractSocket::SocketState)), Qt::QueuedConnection);
-}
-
 void CNeighbour::OnTimer(quint32 tNow)
 {
 	if(m_nState < nsConnected)

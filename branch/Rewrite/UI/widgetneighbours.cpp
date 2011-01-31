@@ -175,3 +175,8 @@ void WidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint 
 	Q_UNUSED(pos);
 	neighboursMenu->exec(QCursor::pos());
 }
+
+void WidgetNeighbours::on_actionNetworkChatWith_triggered()
+{
+
+}

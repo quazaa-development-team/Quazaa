@@ -218,9 +218,9 @@ public:
 	QUuid ReadGUID()
 	{
 		QUuid ret;
-		ReadIntBE(&ret.data1);
-		ReadIntBE(&ret.data2);
-		ReadIntBE(&ret.data3);
+		ReadIntLE(&ret.data1);
+		ReadIntLE(&ret.data2);
+		ReadIntLE(&ret.data3);
 		Read(&ret.data4[0], 8);
 
 		return ret;
@@ -244,9 +244,9 @@ public:
 	void WriteGUID(QUuid& guid)
 	{
 		Ensure(16);
-		WriteIntBE(guid.data1);
-		WriteIntBE(guid.data2);
-		WriteIntBE(guid.data3);
+		WriteIntLE(guid.data1);
+		WriteIntLE(guid.data2);
+		WriteIntLE(guid.data3);
 		Write(&guid.data4[0], 8);
 	}
 

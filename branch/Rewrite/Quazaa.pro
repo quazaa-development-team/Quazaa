@@ -174,7 +174,9 @@ SOURCES += main.cpp \
 	UI/dialogprivatemessage.cpp \
     NetworkCore/neighbour.cpp \
     QuazaaMediaPlayer/quazaamediaplayer.cpp \
-    Models/playlistmodel.cpp
+    Models/playlistmodel.cpp \
+    Chat/chatcore.cpp \
+    Chat/chatsession.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -286,7 +288,9 @@ HEADERS += UI/dialoglanguage.h \
 	UI/dialogprivatemessage.h \
     NetworkCore/neighbour.h \
     QuazaaMediaPlayer/quazaamediaplayer.h \
-    Models/playlistmodel.h
+    Models/playlistmodel.h \
+    Chat/chatcore.h \
+    Chat/chatsession.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \

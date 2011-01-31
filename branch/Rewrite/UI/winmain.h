@@ -43,6 +43,11 @@
 #include "widgetsearchmonitor.h"
 #include "widgethitmonitor.h"
 
+#include "dialogprivatemessage.h"
+#include <QList>
+#include <QUuid>
+#include "Chat/chatsession.h"
+
 namespace Ui
 {
 	class WinMain;
@@ -79,6 +84,12 @@ public:
 	WidgetPacketDump* pagePacketDump;
 	WidgetSearchMonitor* pageSearchMonitor;
 	WidgetHitMonitor* pageHitMonitor;
+
+protected:
+	QList<DialogPrivateMessage*> m_lChatWindows;
+
+public:
+	void OpenChat(CEndPoint oRemoteHost, DiscoveryProtocol nProtocol, QUuid* pGUID = 0);
 
 protected:
 	void changeEvent(QEvent* e);
@@ -142,4 +153,5 @@ private slots:
 	void updateStatusBar();
 };
 
+extern WinMain* MainWindow;
 #endif // WINMAIN_H

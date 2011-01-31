@@ -53,6 +53,8 @@
 
 #include <QTimer>
 
+WinMain* MainWindow = 0;
+
 void WinMain::quazaaStartup()
 {
 }
@@ -90,9 +92,9 @@ WinMain::WinMain(QWidget* parent) :
 	pageHome = new WidgetHome();
 	ui->stackedWidgetMain->addWidget(pageHome);
 	pageLibrary = new WidgetLibrary();
-        ui->stackedWidgetMain->addWidget(pageLibrary);
-        pageMedia = new WidgetMedia();
-        ui->stackedWidgetMain->addWidget(pageMedia);
+		ui->stackedWidgetMain->addWidget(pageLibrary);
+		pageMedia = new WidgetMedia();
+		ui->stackedWidgetMain->addWidget(pageMedia);
 	pageSearch = new WidgetSearch();
 	ui->stackedWidgetMain->addWidget(pageSearch);
 	pageTransfers = new WidgetTransfers();
@@ -830,4 +832,11 @@ void WinMain::on_actionConnectTo_triggered()
 {
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	dlgConnectTo->show();
+}
+
+
+void WinMain::OpenChat(CEndPoint oRemoteHost, DiscoveryProtocol nProtocol, QUuid *pGUID)
+{
+
+
 }

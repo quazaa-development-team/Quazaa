@@ -173,6 +173,12 @@ signals:
 protected slots:
 	void OnAboutToClose();
 
+public slots:
+	virtual void OnConnect() = 0;
+	virtual void OnDisconnect() = 0;
+	virtual void OnRead() = 0;
+	virtual void OnError(QAbstractSocket::SocketError e) = 0;
+	virtual void OnStateChange(QAbstractSocket::SocketState s) = 0;
 
 public:
 	TCPBandwidthMeter m_mInput;

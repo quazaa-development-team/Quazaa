@@ -203,6 +203,12 @@ void CNetworkConnection::initializeSocket()
 			this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
 	connect(m_pSocket, SIGNAL(aboutToClose()),
 			this, SLOT(OnAboutToClose()));
+
+	connect(this, SIGNAL(connected()), this, SLOT(OnConnect()), Qt::QueuedConnection);
+	connect(this, SIGNAL(disconnected()), this, SLOT(OnDisconnect()), Qt::QueuedConnection);
+	connect(this, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
+	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(OnError(QAbstractSocket::SocketError)), Qt::QueuedConnection);
+	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(OnStateChange(QAbstractSocket::SocketState)), Qt::QueuedConnection);
 }
 
 qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)

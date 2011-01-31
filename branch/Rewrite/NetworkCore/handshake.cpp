@@ -84,3 +84,21 @@ void CHandshake::OnRead()
 
 	delete this;
 }
+
+void CHandshake::OnConnect()
+{
+
+}
+void CHandshake::OnDisconnect()
+{
+
+}
+void CHandshake::OnError(QAbstractSocket::SocketError e)
+{
+	Q_UNUSED(e);
+}
+
+void CHandshake::OnStateChange(QAbstractSocket::SocketState s)
+{
+	Q_UNUSED(s);
+}

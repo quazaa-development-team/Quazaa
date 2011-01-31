@@ -25,6 +25,7 @@ QuazaaGlobals quazaaGlobals;
 int main(int argc, char *argv[])
 {
 	QtSingleApplication theApp(argc, argv);
+
 	// Check if the application is already running
 	if(theApp.sendMessage("Show App"))
 	{
@@ -93,23 +94,23 @@ int main(int argc, char *argv[])
 	dlgSplash->updateProgress(80, QObject::tr("Loading User Interface..."));
 	qApp->processEvents();
 
-	WinMain winMain;
+	MainWindow = new WinMain();
 	if(quazaaSettings.WinMain.Visible)
 	{
-		winMain.show();
+		MainWindow->show();
 	}
 
 
 
 	dlgSplash->updateProgress(90, QObject::tr("Loading Tray Icon..."));
 	qApp->processEvents();
-	winMain.loadTrayIcon();
+	MainWindow->loadTrayIcon();
 
 	// Make the main window show if the user tried to open another instance
 	QObject::connect(&theApp, SIGNAL(messageReceived(const QString&)),
-					 &winMain, SLOT(show()));
-	theApp.setActivationWindow(&winMain);
-	QObject::connect(&winMain, SIGNAL(show()), &theApp, SLOT(activateWindow()));
+					 MainWindow, SLOT(show()));
+	theApp.setActivationWindow(MainWindow);
+	QObject::connect(MainWindow, SIGNAL(show()), &theApp, SLOT(activateWindow()));
 
 	dlgSplash->updateProgress(100, QObject::tr("Welcome to Quazaa!"));
 	qApp->processEvents();
