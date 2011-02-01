@@ -25,6 +25,7 @@
 
 #include <QtGui>
 #include "quazaairc.h"
+#include "widgetchatinput.h"
 
 namespace Ui
 {
@@ -39,9 +40,6 @@ public:
 	explicit WidgetChatTab(QuazaaIRC* quazaaIrc, QWidget* parent = 0);
 	~WidgetChatTab();
 	QString name;
-	QLineEdit* lineEditTextInput;
-	QToolButton* toolButtonSmilies;
-	QToolButton* toolButtonOp;
 	QStringListModel* userList;
 
 public slots:
@@ -49,6 +47,7 @@ public slots:
 	void append(QString text);
 	void setName(QString str);
 	void channelNames(QStringList names);
+	void onSendMessage(QString message);
 
 protected:
 	void changeEvent(QEvent* e);
@@ -56,10 +55,6 @@ protected:
 private:
 	Ui::WidgetChatTab* ui;
 	QuazaaIRC* m_oQuazaaIrc;
-
-private slots:
-	 
-	void on_actionSend_triggered();
 };
 
 #endif // WIDGETCHATTAB_H

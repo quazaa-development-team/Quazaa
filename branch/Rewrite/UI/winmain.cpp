@@ -92,9 +92,9 @@ WinMain::WinMain(QWidget* parent) :
 	pageHome = new WidgetHome();
 	ui->stackedWidgetMain->addWidget(pageHome);
 	pageLibrary = new WidgetLibrary();
-		ui->stackedWidgetMain->addWidget(pageLibrary);
-		pageMedia = new WidgetMedia();
-		ui->stackedWidgetMain->addWidget(pageMedia);
+	ui->stackedWidgetMain->addWidget(pageLibrary);
+	pageMedia = new WidgetMedia();
+	ui->stackedWidgetMain->addWidget(pageMedia);
 	pageSearch = new WidgetSearch();
 	ui->stackedWidgetMain->addWidget(pageSearch);
 	pageTransfers = new WidgetTransfers();
@@ -119,6 +119,9 @@ WinMain::WinMain(QWidget* parent) :
 	ui->stackedWidgetMain->addWidget(pageSearchMonitor);
 	pageHitMonitor = new WidgetHitMonitor;
 	ui->stackedWidgetMain->addWidget(pageHitMonitor);
+
+	dlgPrivateMessages = new DialogPrivateMessages(this);
+	dlgPrivateMessages->show();
 
 	// Set up the navigation toolbar
 	actionGroupMainNavigation = new QActionGroup(this);

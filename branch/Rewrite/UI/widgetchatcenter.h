@@ -28,6 +28,7 @@
 
 #include "quazaairc.h"
 #include "widgetchattab.h"
+#include "widgetchatinput.h"
 
 namespace Ui
 {
@@ -44,9 +45,11 @@ public:
 	void saveWidget();
 	WidgetChatTab* tabByName(QString);
 	WidgetChatTab* currentTab();
+	WidgetChatInput *widgetChatInput;
 
 signals:
 	void channelChanged(WidgetChatTab* channel);
+	void messageSent(QString *text);
 
 protected:
 	void changeEvent(QEvent* e);
@@ -59,13 +62,14 @@ private slots:
 	void on_actionDisconnect_triggered();
 	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
-	 
+
+	void onSendMessage(QString message);
 	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event);
 	void channelNames(QStringList list);
 	void setPrefixes(QString modes, QString mprefs);
 	//void joined(QString chan);
 	void addBuffer(QString name);
-	void on_tabWidget_currentChanged(QWidget*);
+	void on_tabWidgetChatRooms_currentChanged(QWidget*);
 	void on_actionEditMyProfile_triggered();
 };
 

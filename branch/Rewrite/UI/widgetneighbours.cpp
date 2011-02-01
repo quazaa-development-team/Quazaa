@@ -43,6 +43,7 @@ WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 	neighboursMenu->addAction(ui->actionNeighbourDisconnect);
 	neighboursMenu->addAction(ui->actionNetworkBan);
 	neighboursMenu->addSeparator();
+	neighboursMenu->addAction(ui->actionNetworkChatWith);
 	neighboursMenu->addAction(ui->actionViewProfile);
 	neighboursMenu->addAction(ui->actionNetworkBrowse);
 	labelG2StatsIcon = new QLabel();

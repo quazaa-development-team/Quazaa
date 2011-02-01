@@ -34,21 +34,7 @@ WidgetChatTab::WidgetChatTab(QuazaaIRC* quazaaIrc, QWidget* parent) :
 {
 	ui->setupUi(this);
 	m_oQuazaaIrc = quazaaIrc;
-	lineEditTextInput = new QLineEdit();
-	lineEditTextInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	toolButtonSmilies = new QToolButton();
-	toolButtonSmilies->setToolTip("Smilies");
-	toolButtonSmilies->setPopupMode(QToolButton::MenuButtonPopup);
-	toolButtonSmilies->setIcon(QIcon(":/Resource/Smileys/colonClosingparentheses.png"));
-	toolButtonOp = new QToolButton();
-	toolButtonOp->setToolTip("Operator Commands");
-	toolButtonOp->setPopupMode(QToolButton::MenuButtonPopup);
-	toolButtonOp->setIcon(QIcon(":/Resource/Generic/QuazaaForums.png"));
-	ui->toolBarMessage->insertWidget(ui->actionSend, lineEditTextInput);
-	ui->toolBarActions->addWidget(toolButtonSmilies);
-	ui->toolBarActions->addWidget(toolButtonOp);
 	userList = new QStringListModel();
-	connect(lineEditTextInput, SIGNAL(returnPressed()), this, SLOT(on_actionSend_triggered()));
 }
 
 WidgetChatTab::~WidgetChatTab()
@@ -99,11 +85,7 @@ void WidgetChatTab::channelNames(QStringList names)
 }
 
 
-void WidgetChatTab::on_actionSend_triggered()
+void WidgetChatTab::onSendMessage(QString message)
 {
-	if(lineEditTextInput->text() != "")
-	{
-		m_oQuazaaIrc->sendIrcMessage(name, lineEditTextInput->text());
-		lineEditTextInput->setText("");
-	}
+	m_oQuazaaIrc->sendIrcMessage(name, message);
 }

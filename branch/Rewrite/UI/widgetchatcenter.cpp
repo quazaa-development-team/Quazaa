@@ -60,8 +60,11 @@ WidgetChatCenter::WidgetChatCenter(QWidget* parent) :
 	connect(quazaaIrc, SIGNAL(setPrefixes(QString, QString)), this, SLOT(setPrefixes(QString, QString)));
 	//connect(quazaaIrc, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
 
+	widgetChatInput = new WidgetChatInput(this);
+	connect(widgetChatInput, SIGNAL(messageSent(QString)), this, SLOT(onSendMessage(QString)));
+	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
 	WidgetChatTab* wct = new WidgetChatTab(quazaaIrc, this);
-	ui->tabWidget->addTab(wct, "Status");
+	ui->tabWidgetChatRooms->addTab(wct, "Status");
 	wct->setName("*status"); // * is not allowed by RFC (IIRC)
 }
 
@@ -167,7 +170,7 @@ void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QStrin
 WidgetChatTab* WidgetChatCenter::tabByName(QString name)
 {
 	WidgetChatTab* tab;
-	QList<WidgetChatTab*> allTabs = ui->tabWidget->findChildren<WidgetChatTab*>();
+	QList<WidgetChatTab*> allTabs = ui->tabWidgetChatRooms->findChildren<WidgetChatTab*>();
 	for(int i = 0; i < allTabs.size(); ++i)
 	{
 		if(allTabs.at(i)->name == name)
@@ -181,7 +184,7 @@ WidgetChatTab* WidgetChatCenter::tabByName(QString name)
 	// if the tab doesn't exist, create it
 	tab = new WidgetChatTab(quazaaIrc);
 	tab->setName(name);
-	ui->tabWidget->addTab(tab, Irc::Util::nickFromTarget(name));
+	ui->tabWidgetChatRooms->addTab(tab, Irc::Util::nickFromTarget(name));
 	return tab;
 }
 
@@ -219,7 +222,7 @@ WidgetChatTab* WidgetChatCenter::currentTab()
 {
 	systemLog.postLog(LogSeverity::Debug, QString("getting WidgetChatCenter::currentTab()"));
 	//qDebug() << "getting WidgetChatCenter::currentTab()";
-	return qobject_cast<WidgetChatTab*>(ui->tabWidget->currentWidget());
+	return qobject_cast<WidgetChatTab*>(ui->tabWidgetChatRooms->currentWidget());
 }
 
 void WidgetChatCenter::setPrefixes(QString modes, QString mprefs)
@@ -234,11 +237,11 @@ void WidgetChatCenter::addBuffer(QString name)
 	if(name.at(0) == '#')
 	{
 		// tab will be auto-created
-		ui->tabWidget->setCurrentWidget(tabByName(name));
+		ui->tabWidgetChatRooms->setCurrentWidget(tabByName(name));
 	}
 }
 
-void WidgetChatCenter::on_tabWidget_currentChanged(QWidget*)
+void WidgetChatCenter::on_tabWidgetChatRooms_currentChanged(QWidget*)
 {
 	//qDebug() << "Emitting channel changed.";
 	emit channelChanged(currentTab());
@@ -248,4 +251,10 @@ void WidgetChatCenter::on_actionEditMyProfile_triggered()
 {
 	DialogProfile* dlgProfile = new DialogProfile(this);
 	dlgProfile->show();
+}
+
+
+void WidgetChatCenter::onSendMessage(QString message)
+{
+	currentTab()->onSendMessage(message);
 }
