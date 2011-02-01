@@ -83,29 +83,38 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionColor"/>
    <addaction name="actionBold"/>
    <addaction name="actionItalic"/>
    <addaction name="actionUnderline"/>
   </widget>
   <action name="actionBold">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/FormatTextBold.png</normaloff>:/Resource/Generic/FormatTextBold.png</iconset>
+   </property>
    <property name="text">
     <string>Bold</string>
    </property>
   </action>
   <action name="actionItalic">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/FormatTextItalic.png</normaloff>:/Resource/Generic/FormatTextItalic.png</iconset>
+   </property>
    <property name="text">
     <string>Italic</string>
    </property>
   </action>
   <action name="actionUnderline">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/FormatTextUnderline.png</normaloff>:/Resource/Generic/FormatTextUnderline.png</iconset>
+   </property>
    <property name="text">
     <string>Underline</string>
-   </property>
-  </action>
-  <action name="actionColor">
-   <property name="text">
-    <string>Color</string>
    </property>
   </action>
  </widget>

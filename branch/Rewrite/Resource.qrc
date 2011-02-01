@@ -485,5 +485,8 @@
         <file>Resource/spinUpOff.png</file>
         <file>Resource/spinUpPressed.png</file>
         <file>Resource/toolbarGrip.png</file>
+        <file>Resource/Generic/FormatTextBold.png</file>
+        <file>Resource/Generic/FormatTextUnderline.png</file>
+        <file>Resource/Generic/FormatTextItalic.png</file>
     </qresource>
 </RCC>
