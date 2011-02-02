@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include "widgetreturnemittextedit.h"
+#include "widgetsmileylist.h"
 
 namespace Ui {
     class WidgetChatInput;
@@ -17,10 +18,13 @@ public:
 signals:
 	void messageSent(QTextDocument *text);
 	void messageSent(QString text);
+	void closing();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 	WidgetReturnEmitTextEdit *textEditInput;
+	WidgetSmileyList *widgetSmileyList;
+	QToolButton *toolButtonPickColor;
 
 private:
     Ui::WidgetChatInput *ui;
@@ -31,7 +35,10 @@ public slots:
 	void setText(QString text);
 
 private slots:
+	void on_actionBold_toggled(bool checked);
 	void on_toolButtonSend_clicked();
+	void pickColor();
+	void pickSmiley();
 };
 
 #endif // WIDGETCHATINPUT_H

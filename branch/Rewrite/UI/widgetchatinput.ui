@@ -100,6 +100,9 @@
    </property>
   </action>
   <action name="actionItalic">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/FormatTextItalic.png</normaloff>:/Resource/Generic/FormatTextItalic.png</iconset>
@@ -109,6 +112,9 @@
    </property>
   </action>
   <action name="actionUnderline">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/FormatTextUnderline.png</normaloff>:/Resource/Generic/FormatTextUnderline.png</iconset>
