@@ -125,9 +125,9 @@ p, li { white-space: pre-wrap; }
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>180</width>
-         <height>543</height>
+         <y>-77</y>
+         <width>178</width>
+         <height>448</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -697,8 +697,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>385</width>
-            <height>559</height>
+            <width>384</width>
+            <height>468</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -711,7 +711,7 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QStackedWidget" name="stackedWidgetSettings">
              <property name="currentIndex">
-              <number>14</number>
+              <number>12</number>
              </property>
              <widget class="QWidget" name="pageSystem">
               <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -2399,7 +2399,7 @@ p, li { white-space: pre-wrap; }
                      <number>1024</number>
                     </property>
                     <property name="maximum">
-                     <number>49151</number>
+                     <number>65535</number>
                     </property>
                     <property name="value">
                      <number>6350</number>
@@ -3568,6 +3568,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
+  <include location="../Resource.qrc"/>
   <include location="../Resource.qrc"/>
  </resources>
  <connections>
