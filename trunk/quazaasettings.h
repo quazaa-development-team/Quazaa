@@ -475,7 +475,7 @@ namespace Settings
 
 	struct sGnutella2
 	{
-		int			ClientMode;								// Desired mode of operation: MODE_AUTO, MODE_LEAF, MODE_HUB
+		int			ClientMode;								// Desired mode of operation: G2_AUTO, G2_LEAF, G2_HUB
 		bool		Enable;									// Connect to G2
 		int			HAWPeriod;
 		int			HostCount;								// Number of hosts in X-Try-Hubs

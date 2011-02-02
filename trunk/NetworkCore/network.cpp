@@ -507,12 +507,14 @@ void CNetwork::HubBalancing()
 		if(Neighbours.m_nHubsConnected == 0)   // if we're not connected to any hub
 		{
 			m_nMinutesTrying++;
-			if(m_nMinutesTrying > MINUTES_TRYING_BEFORE_SWITCH)   // if no hub connects in this time
+			if(m_nMinutesTrying > MINUTES_TRYING_BEFORE_SWITCH && quazaaSettings.Gnutella2.ClientMode != G2_LEAF)   // if no hub connects in this time
 			{
 				// emergency switch to hub mode, normal downgrades will filter out bad upgrades
 				systemLog.postLog(LogSeverity::Notice, "No HUB connections for %u minutes, switching to HUB mode.", MINUTES_TRYING_BEFORE_SWITCH);
 				SwitchClientMode(G2_HUB);
 			}
+			systemLog.postLog(LogSeverity::Notice, "No connection is established yet thus terminating report.");
+
 			return;
 		}
 		else
@@ -520,19 +522,7 @@ void CNetwork::HubBalancing()
 			m_nMinutesTrying = 0;
 		}
 	}
-
-	// check how many leaves are in local hub cluster
-	for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
-	{
-		CG2Node* pNode = *itNode;
-		if(pNode->m_nState == nsConnected && pNode->m_nType == G2_HUB)
-		{
-			nLeaves += pNode->m_nLeafCount;
-			nMaxLeaves += pNode->m_nLeafMax;
-		}
-	}
-
-	if(isHub())
+	else
 	{
 		// add our numbers to cluster load
 		nLeaves += Neighbours.m_nLeavesConnected;
@@ -540,6 +530,29 @@ void CNetwork::HubBalancing()
 		// and calculate local hub load percentage
 		nLocalLoad = Neighbours.m_nLeavesConnected * 100 / quazaaSettings.Gnutella2.NumLeafs;
 		systemLog.postLog(LogSeverity::Notice, "Local Hub load: %u%%, leaves connected: %u, capacity: %u", nLocalLoad, Neighbours.m_nLeavesConnected, quazaaSettings.Gnutella2.NumLeafs);
+	}
+
+	qint32 nInvalidLeafCounts = 0;
+	// check how many leaves are in local hub cluster
+	for(QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+	{
+		CG2Node* pNode = *itNode;
+		if(pNode->m_nState == nsConnected && pNode->m_nType == G2_HUB)
+		{
+			if((pNode->m_nLeafCount > 0) && (pNode->m_nLeafMax > 0))
+			{
+				nLeaves += pNode->m_nLeafCount;
+				nMaxLeaves += pNode->m_nLeafMax;
+			}
+			else ++nInvalidLeafCounts;
+			
+		}
+	}
+
+	if(nInvalidLeafCounts/Neighbours.m_nHubsConnected > 10/100)
+	{
+		systemLog.postLog(LogSeverity::Notice, "More than 10% of nodes have not reported valid info thus terminating report.");
+		return;
 	}
 
 	// calculate local cluster load percentage
