@@ -68,7 +68,7 @@ font-weight: bold;</string>
     </layout>
    </item>
    <item>
-    <widget class="QTextEdit" name="textEdit"/>
+    <widget class="QTextBrowser" name="textEdit"/>
    </item>
   </layout>
  </widget>
