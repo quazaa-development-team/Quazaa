@@ -4,8 +4,9 @@
 #include "networkconnection.h"
 #include <QUuid>
 
-class DialogPrivateMessage;
+class WidgetPrivateMessage;
 class G2Packet;
+class QTextDocument;
 
 enum ChatState
 {
@@ -13,6 +14,7 @@ enum ChatState
 	csConnecting,
 	csHandshaking,
 	csConnected,
+	csActive,
 	csClosing,
 	csClosed
 };
@@ -21,34 +23,28 @@ class CChatSession : public CNetworkConnection
 {
 	Q_OBJECT
 protected:
-	DialogPrivateMessage* m_pDialog;
-	QUuid				  m_oGUID;
+	WidgetPrivateMessage* m_pWidget;
 	bool				  m_bShareaza;
 public:
+	QUuid			  m_oGUID;
 	DiscoveryProtocol m_nProtocol;
 	ChatState		  m_nState;
 	QString			  m_sNick;
 public:
-	CChatSession(DialogPrivateMessage* pDialog = 0, QUuid* oGUID = 0, QObject *parent = 0);
-	~CChatSession();
-	void ConnectTo(CEndPoint oAddress);
+	CChatSession(QObject *parent = 0);
+	virtual ~CChatSession();
 
-	void OnTimer(quint32 tNow);
+	virtual void Connect();
 
-protected:
-	void SetupDialog();
-	void ParseOutgoingHandshakeG2();
+	virtual void OnTimer(quint32 tNow);
 
-	void Send_ChatOKG2(bool bReply);
-	void Send_ChatErrorG2(QString sReason);
-	void SendStartupsG2();
-	void SendPacketG2(G2Packet* pPacket, bool bRelease = true);
-	void OnPacket(G2Packet* pPacket);
-	void OnUPROC(G2Packet* pPacket);
-	void OnUPROD(G2Packet* pPacket);
-	void OnCHATANS(G2Packet* pPacket);
+	void SetupWidget(WidgetPrivateMessage* pWg);
 
 signals:
+	void incomingMessage(QString, bool = false);
+	void systemMessage(QString);
+	void nickChanged(QString);
+	void guidChanged(QUuid);
 
 public slots:
 	void OnConnect();
@@ -56,6 +52,9 @@ public slots:
 	void OnRead();
 	void OnError(QAbstractSocket::SocketError e);
 	void OnStateChange(QAbstractSocket::SocketState s);
+
+	virtual void SendMessage(QString sMessage, bool bAction = false) = 0;
+	virtual void SendMessage(QTextDocument* pMessage, bool bAction = false) = 0;
 
 };
 

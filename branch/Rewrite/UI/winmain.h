@@ -46,7 +46,8 @@
 #include "dialogprivatemessages.h"
 #include <QList>
 #include <QUuid>
-#include "Chat/chatsession.h"
+
+class CChatSession;
 
 namespace Ui
 {
@@ -86,8 +87,8 @@ public:
 	WidgetHitMonitor* pageHitMonitor;
 	DialogPrivateMessages *dlgPrivateMessages;
 
-public:
-	void OpenChat(CEndPoint oRemoteHost, DiscoveryProtocol nProtocol, QUuid* pGUID = 0);
+public slots:
+	void OpenChat(CChatSession* pSess);
 
 protected:
 	void changeEvent(QEvent* e);

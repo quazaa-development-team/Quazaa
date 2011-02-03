@@ -182,8 +182,10 @@ SOURCES += main.cpp \
     UI/dialogprivatemessages.cpp \
     UI/widgetchatinput.cpp \
     UI/widgetprivatemessage.cpp \
+    Chat/chatsessiong2.cpp \
     UI/widgetreturnemittextedit.cpp \
-    UI/widgetsmileylist.cpp
+    UI/widgetsmileylist.cpp \
+    Chat/chatconverter.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -300,8 +302,10 @@ HEADERS += UI/dialoglanguage.h \
     UI/dialogprivatemessages.h \
     UI/widgetchatinput.h \
     UI/widgetprivatemessage.h \
+    Chat/chatsessiong2.h \
     UI/widgetreturnemittextedit.h \
-    UI/widgetsmileylist.h
+    UI/widgetsmileylist.h \
+    Chat/chatconverter.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \

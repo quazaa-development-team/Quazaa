@@ -4,29 +4,38 @@
 #include <QDialog>
 #include "widgetchatinput.h"
 #include "Chat/chatsession.h"
-#include "widgetprivatemessage.h"
+
+class WidgetPrivateMessage;
+class QTextDocument;
 
 namespace Ui {
-    class DialogPrivateMessages;
+	class DialogPrivateMessages;
 }
 
 class DialogPrivateMessages : public QDialog {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    DialogPrivateMessages(QWidget *parent = 0);
+	DialogPrivateMessages(QWidget *parent = 0);
 	~DialogPrivateMessages();
 
+	WidgetPrivateMessage* FindByGUID(QUuid oGUID);
+
+	void OpenChat(CChatSession* pSess);
+
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 	QList<WidgetPrivateMessage*> m_lChatWindows;
 
 private:
-    Ui::DialogPrivateMessages *ui;
+	Ui::DialogPrivateMessages *ui;
 	WidgetChatInput *widgetChatInput;
-	CChatSession *chatSession;
+	WidgetPrivateMessage* m_pCurrentWidget;
 
 public slots:
-	void addChatSession(CChatSession *newChatSession);
+	void onMessageSent(QTextDocument* pDoc);
+	void onWindowDestroyed(QObject* pWg);
+private slots:
+	void on_tabWidgetPrivateMessages_currentChanged(int index);
 };
 
 #endif // DIALOGPRIVATEMESSAGES_H

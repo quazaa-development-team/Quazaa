@@ -34,6 +34,8 @@
 #include "datagrams.h"
 #include "neighbourstablemodel.h"
 
+#include "Chat/chatsessiong2.h"
+
 WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetNeighbours)
@@ -179,5 +181,6 @@ void WidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint 
 
 void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 {
-
+	CChatSessionG2* pS = new CChatSessionG2(CEndPoint("127.0.0.1", 6348));
+	pS->Connect();
 }

@@ -36,6 +36,7 @@ protected slots:
 public:
 
 signals:
+	void openChatWindow(CChatSession*);
 
 public slots:
 

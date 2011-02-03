@@ -51,6 +51,10 @@
 #include "geoiplist.h"
 #include "ShareManager.h"
 
+#include "Chat/chatsession.h"
+#include "Chat/chatsessiong2.h"
+#include "Chat/chatcore.h"
+
 #include <QTimer>
 
 WinMain* MainWindow = 0;
@@ -120,8 +124,7 @@ WinMain::WinMain(QWidget* parent) :
 	pageHitMonitor = new WidgetHitMonitor;
 	ui->stackedWidgetMain->addWidget(pageHitMonitor);
 
-	dlgPrivateMessages = new DialogPrivateMessages(this);
-	dlgPrivateMessages->show();
+	dlgPrivateMessages = 0;
 
 	// Set up the navigation toolbar
 	actionGroupMainNavigation = new QActionGroup(this);
@@ -238,6 +241,8 @@ WinMain::WinMain(QWidget* parent) :
 	qApp->processEvents();
 
 	interfaceLoaded = true;
+
+	connect(&ChatCore, SIGNAL(openChatWindow(CChatSession*)), this, SLOT(OpenChat(CChatSession*)));
 }
 
 WinMain::~WinMain()
@@ -838,8 +843,15 @@ void WinMain::on_actionConnectTo_triggered()
 }
 
 
-void WinMain::OpenChat(CEndPoint oRemoteHost, DiscoveryProtocol nProtocol, QUuid *pGUID)
+void WinMain::OpenChat(CChatSession* pSess)
 {
+	if( dlgPrivateMessages == 0 )
+	{
+		dlgPrivateMessages = new DialogPrivateMessages(this);
+		connect(dlgPrivateMessages, SIGNAL(destroyed()), this, SLOT(onLastChatClosed()));
+	}
 
-
+	dlgPrivateMessages->OpenChat(pSess);
+	dlgPrivateMessages->show();
 }
+

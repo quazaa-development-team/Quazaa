@@ -4,8 +4,8 @@
 #include <QColorDialog>
 
 WidgetChatInput::WidgetChatInput(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::WidgetChatInput)
+	QMainWindow(parent),
+	ui(new Ui::WidgetChatInput)
 {
 	ui->setupUi(this);
 	textEditInput = new WidgetReturnEmitTextEdit(this);
@@ -14,6 +14,7 @@ WidgetChatInput::WidgetChatInput(QWidget *parent) :
 	checkBoxSendOnEnter->setChecked(true);
 	connect(checkBoxSendOnEnter, SIGNAL(toggled(bool)), textEditInput, SLOT(setEmitsReturn(bool)));
 	connect(textEditInput, SIGNAL(returnPressed()), ui->toolButtonSend, SLOT(click()));
+	connect(textEditInput, SIGNAL(currentCharFormatChanged(QTextCharFormat)), this, SLOT(onTextFormatChange(QTextCharFormat)));
 	toolButtonSmilies = new QToolButton();
 	toolButtonSmilies->setPopupMode(QToolButton::InstantPopup);
 	toolButtonSmilies->setToolTip(tr("Smilies"));
@@ -37,19 +38,19 @@ WidgetChatInput::WidgetChatInput(QWidget *parent) :
 
 WidgetChatInput::~WidgetChatInput()
 {
-    delete ui;
+	delete ui;
 }
 
 void WidgetChatInput::changeEvent(QEvent *e)
 {
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QMainWindow::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 
 void WidgetChatInput::on_toolButtonSend_clicked()
@@ -57,8 +58,9 @@ void WidgetChatInput::on_toolButtonSend_clicked()
 	if (!textEditInput->document()->isEmpty())
 	{
 		emit messageSent(textEditInput->document());
-		emit messageSent(textEditInput->document()->toPlainText());
+		QTextCharFormat oldFormat = textEditInput->currentCharFormat();
 		textEditInput->document()->clear();
+		textEditInput->setCurrentCharFormat(oldFormat);
 	}
 }
 
@@ -66,6 +68,39 @@ void WidgetChatInput::setText(QString text)
 {
 	textEditInput->setHtml(text);
 }
+
+void WidgetChatInput::onTextFormatChange(QTextCharFormat newFormat)
+{
+	if( newFormat.fontWeight() == QFont::Normal )
+		ui->actionBold->setChecked(false);
+	else if( newFormat.fontWeight() == QFont::Bold )
+		ui->actionBold->setChecked(true);
+
+	ui->actionItalic->setChecked(newFormat.fontItalic());
+	ui->actionUnderline->setChecked(newFormat.fontUnderline());
+}
+
+void WidgetChatInput::on_actionBold_toggled(bool checked)
+{
+	QTextCharFormat format = textEditInput->currentCharFormat();
+	format.setFontWeight((checked ? QFont::Bold : QFont::Normal));
+	textEditInput->setCurrentCharFormat(format);
+}
+
+void WidgetChatInput::on_actionItalic_toggled(bool checked)
+{
+	QTextCharFormat format = textEditInput->currentCharFormat();
+	format.setFontItalic(checked);
+	textEditInput->setCurrentCharFormat(format);
+}
+
+void WidgetChatInput::on_actionUnderline_toggled(bool checked)
+{
+	QTextCharFormat format = textEditInput->currentCharFormat();
+	format.setFontUnderline(checked);
+	textEditInput->setCurrentCharFormat(format);
+}
+
 
 void WidgetChatInput::pickColor()
 {
@@ -86,10 +121,4 @@ void WidgetChatInput::pickSmiley()
 	widgetSmileyList->show();
 }
 
-void WidgetChatInput::on_actionBold_toggled(bool checked)
-{
-	if (checked)
-		textEditInput->setFontWeight(QFont::Bold);
-	else
-		textEditInput->setFontWeight(QFont::Normal);
-}
+
