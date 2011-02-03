@@ -68,7 +68,11 @@ font-weight: bold;</string>
     </layout>
    </item>
    <item>
-    <widget class="QTextBrowser" name="textEdit"/>
+    <widget class="QTextBrowser" name="textEdit">
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

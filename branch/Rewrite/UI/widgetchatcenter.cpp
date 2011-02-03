@@ -61,7 +61,7 @@ WidgetChatCenter::WidgetChatCenter(QWidget* parent) :
 	//connect(quazaaIrc, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
 
 	widgetChatInput = new WidgetChatInput(this);
-	connect(widgetChatInput, SIGNAL(messageSent(QString)), this, SLOT(onSendMessage(QString)));
+	connect(widgetChatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onSendMessage(QTextDocument*)));
 	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
 	WidgetChatTab* wct = new WidgetChatTab(quazaaIrc, this);
 	ui->tabWidgetChatRooms->addTab(wct, "Status");
@@ -146,7 +146,7 @@ void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QStrin
 	switch(event)
 	{
 		case QuazaaIRC::Message:
-			tabByName(receiver)->append("<" + Irc::Util::nickFromTarget(sender) + "> " + message);
+		tabByName(receiver)->append("&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + message);
 			break;
 		case QuazaaIRC::Notice:
 			currentTab()->append("<html><font color=blue>" + Irc::Util::nickFromTarget(sender) + ": " + message + "</font></html>");
@@ -254,7 +254,8 @@ void WidgetChatCenter::on_actionEditMyProfile_triggered()
 }
 
 
-void WidgetChatCenter::onSendMessage(QString message)
+void WidgetChatCenter::onSendMessage(QTextDocument *message)
 {
-	currentTab()->onSendMessage(message);
+	qDebug() << "WidgetchatCenter::onSendMessage triggered";
+	currentTab()->onSendMessage(message->toPlainText());
 }

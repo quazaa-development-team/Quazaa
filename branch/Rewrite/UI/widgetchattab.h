@@ -55,6 +55,9 @@ protected:
 private:
 	Ui::WidgetChatTab* ui;
 	QuazaaIRC* m_oQuazaaIrc;
+
+private slots:
+	void on_textBrowser_anchorClicked(QUrl link);
 };
 
 #endif // WIDGETCHATTAB_H

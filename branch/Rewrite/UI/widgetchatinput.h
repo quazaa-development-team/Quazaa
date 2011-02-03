@@ -17,7 +17,6 @@ public:
 
 signals:
 	void messageSent(QTextDocument *text);
-	void messageSent(QString text);
 	void closing();
 
 protected:

@@ -24,8 +24,8 @@
 #include "ui_widgetchattab.h"
 #include "systemlog.h"
 
- 
 
+#include <QDesktopServices>
 #include <QStringList>
 
 WidgetChatTab::WidgetChatTab(QuazaaIRC* quazaaIrc, QWidget* parent) :
@@ -66,7 +66,7 @@ void WidgetChatTab::saveWidget()
 
 void WidgetChatTab::append(QString text)
 {
-	ui->textBrowser->append(text);
+	ui->textBrowser->insertHtml(text + "<br />");
 }
 
 void WidgetChatTab::channelNames(QStringList names)
@@ -88,4 +88,9 @@ void WidgetChatTab::channelNames(QStringList names)
 void WidgetChatTab::onSendMessage(QString message)
 {
 	m_oQuazaaIrc->sendIrcMessage(name, message);
+}
+
+void WidgetChatTab::on_textBrowser_anchorClicked(QUrl link)
+{
+	QDesktopServices::openUrl(link);
 }

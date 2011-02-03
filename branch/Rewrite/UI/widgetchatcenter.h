@@ -25,6 +25,7 @@
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QToolButton>
+#include <QTextDocument>
 
 #include "quazaairc.h"
 #include "widgetchattab.h"
@@ -63,7 +64,7 @@ private slots:
 	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
 
-	void onSendMessage(QString message);
+	void onSendMessage(QTextDocument *message);
 	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event);
 	void channelNames(QStringList list);
 	void setPrefixes(QString modes, QString mprefs);
