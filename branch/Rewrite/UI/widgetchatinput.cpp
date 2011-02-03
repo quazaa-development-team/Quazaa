@@ -17,7 +17,7 @@ WidgetChatInput::WidgetChatInput(QWidget *parent) :
 	toolButtonSmilies = new QToolButton();
 	toolButtonSmilies->setPopupMode(QToolButton::InstantPopup);
 	toolButtonSmilies->setToolTip(tr("Smilies"));
-	toolButtonSmilies->setIcon(QIcon(":/Resource/Smileys/colonClosingparentheses.png"));
+	toolButtonSmilies->setIcon(QIcon(":/Resource/Smileys/0.png"));
 	widgetSmileyList = new WidgetSmileyList(this);
 	toolButtonSmilies->setMenu(widgetSmileyList);
 	toolButtonPickColor = new QToolButton(this);

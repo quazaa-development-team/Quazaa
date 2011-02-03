@@ -411,46 +411,6 @@
         <file>Resource/Generic/Notice.png</file>
         <file>Resource/Generic/System.png</file>
         <file>Resource/Generic/Integration.png</file>
-        <file>Resource/Smileys/8Closingparentheses.png</file>
-        <file>Resource/Smileys/8D.png</file>
-        <file>Resource/Smileys/8O.png</file>
-        <file>Resource/Smileys/8Pipe.png</file>
-        <file>Resource/Smileys/asteriskD.png</file>
-        <file>Resource/Smileys/backslashColonD.png</file>
-        <file>Resource/Smileys/backslashColonO.png</file>
-        <file>Resource/Smileys/backslashColonP.png</file>
-        <file>Resource/Smileys/bPipe.png</file>
-        <file>Resource/Smileys/caratOCarat.png</file>
-        <file>Resource/Smileys/caratUnderscoreCarat.png</file>
-        <file>Resource/Smileys/colonClosingparentheses.png</file>
-        <file>Resource/Smileys/colonClosingparenthesesClosingparentheses.png</file>
-        <file>Resource/Smileys/colonOpeningparenthesesOpeningparentheses.png</file>
-        <file>Resource/Smileys/colonPipe.png</file>
-        <file>Resource/Smileys/colonX.png</file>
-        <file>Resource/Smileys/colonXD.png</file>
-        <file>Resource/Smileys/colonXP.png</file>
-        <file>Resource/Smileys/greaterthanColonClosingparentheses.png</file>
-        <file>Resource/Smileys/greaterthanColonClosingparenthesesClosingparentheses.png</file>
-        <file>Resource/Smileys/greaterthanColonD.png</file>
-        <file>Resource/Smileys/greaterthanColonO.png</file>
-        <file>Resource/Smileys/greaterthanColonOpeningparentheses.png</file>
-        <file>Resource/Smileys/greaterthanColonP.png</file>
-        <file>Resource/Smileys/greaterthanColonSlash.png</file>
-        <file>Resource/Smileys/greaterthanColonX.png</file>
-        <file>Resource/Smileys/greaterthanPipeO.png</file>
-        <file>Resource/Smileys/lessthan8Pipe.png</file>
-        <file>Resource/Smileys/lessthanColonClosingparentheses.png</file>
-        <file>Resource/Smileys/lessthanColonD.png</file>
-        <file>Resource/Smileys/lessthanColonDTilde.png</file>
-        <file>Resource/Smileys/lessthanColonO.png</file>
-        <file>Resource/Smileys/lessthanColonOpeningparentheses.png</file>
-        <file>Resource/Smileys/lessthanColonOpeningparenthesesOpeningparentheses.png</file>
-        <file>Resource/Smileys/lessthanColonSlash.png</file>
-        <file>Resource/Smileys/lessthanD.png</file>
-        <file>Resource/Smileys/lol.png</file>
-        <file>Resource/Smileys/minusPeriodMinus.png</file>
-        <file>Resource/Smileys/pipeColonClosingparentheses.png</file>
-        <file>Resource/Smileys/semicolonClosingparentheses.png</file>
         <file>Resource/checkboxChecked.png</file>
         <file>Resource/checkboxCheckedHover.png</file>
         <file>Resource/checkboxCheckedPressed.png</file>
@@ -488,5 +448,45 @@
         <file>Resource/Generic/FormatTextBold.png</file>
         <file>Resource/Generic/FormatTextUnderline.png</file>
         <file>Resource/Generic/FormatTextItalic.png</file>
+        <file>Resource/Smileys/0.png</file>
+        <file>Resource/Smileys/1.png</file>
+        <file>Resource/Smileys/2.png</file>
+        <file>Resource/Smileys/3.png</file>
+        <file>Resource/Smileys/4.png</file>
+        <file>Resource/Smileys/5.png</file>
+        <file>Resource/Smileys/6.png</file>
+        <file>Resource/Smileys/7.png</file>
+        <file>Resource/Smileys/8.png</file>
+        <file>Resource/Smileys/9.png</file>
+        <file>Resource/Smileys/14.png</file>
+        <file>Resource/Smileys/15.png</file>
+        <file>Resource/Smileys/16.png</file>
+        <file>Resource/Smileys/17.png</file>
+        <file>Resource/Smileys/18.png</file>
+        <file>Resource/Smileys/19.png</file>
+        <file>Resource/Smileys/10.png</file>
+        <file>Resource/Smileys/21.png</file>
+        <file>Resource/Smileys/22.png</file>
+        <file>Resource/Smileys/23.png</file>
+        <file>Resource/Smileys/24.png</file>
+        <file>Resource/Smileys/11.png</file>
+        <file>Resource/Smileys/12.png</file>
+        <file>Resource/Smileys/13.png</file>
+        <file>Resource/Smileys/25.png</file>
+        <file>Resource/Smileys/26.png</file>
+        <file>Resource/Smileys/27.png</file>
+        <file>Resource/Smileys/28.png</file>
+        <file>Resource/Smileys/29.png</file>
+        <file>Resource/Smileys/30.png</file>
+        <file>Resource/Smileys/31.png</file>
+        <file>Resource/Smileys/32.png</file>
+        <file>Resource/Smileys/33.png</file>
+        <file>Resource/Smileys/34.png</file>
+        <file>Resource/Smileys/35.png</file>
+        <file>Resource/Smileys/36.png</file>
+        <file>Resource/Smileys/37.png</file>
+        <file>Resource/Smileys/38.png</file>
+        <file>Resource/Smileys/39.png</file>
+        <file>Resource/Smileys/40.png</file>
     </qresource>
 </RCC>

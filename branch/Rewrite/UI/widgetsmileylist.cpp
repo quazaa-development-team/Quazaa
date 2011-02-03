@@ -7,6 +7,7 @@ WidgetSmileyList::WidgetSmileyList(QWidget *parent) :
     ui->setupUi(this);
 	setWindowFlags(windowFlags() |= Qt::FramelessWindowHint);
 	setAttribute(Qt::WA_TranslucentBackground);
+	ui->listWidget->setAutoFillBackground(true);
 	connect(this, SIGNAL(aboutToShow()), ui->listWidget, SLOT(clearSelection()));
 }
 
