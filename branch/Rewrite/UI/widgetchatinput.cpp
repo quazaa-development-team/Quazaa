@@ -114,11 +114,3 @@ void WidgetChatInput::pickColor()
 }
 
 
-void WidgetChatInput::pickSmiley()
-{
-	connect(this, SIGNAL(closing()), widgetSmileyList, SLOT(close()));
-	widgetSmileyList->move(toolButtonSmilies->mapToGlobal(toolButtonSmilies->geometry().bottomLeft()));
-	widgetSmileyList->show();
-}
-
-

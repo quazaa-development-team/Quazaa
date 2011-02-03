@@ -181,6 +181,15 @@ void WidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint 
 
 void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 {
-	CChatSessionG2* pS = new CChatSessionG2(CEndPoint("127.0.0.1", 6348));
-	pS->Connect();
+	if (ui->tableViewNeighbours->currentIndex().isValid())
+	{
+		QModelIndex idx = ui->tableViewNeighbours->currentIndex();
+		CNeighbour* pNode = neighboursList->NodeFromIndex(idx);
+
+		if( pNode == 0 )
+			return;
+
+		CChatSessionG2* pS = new CChatSessionG2(CEndPoint(pNode->m_oAddress.toString(), pNode->m_oAddress.port()));
+		pS->Connect();
+	}
 }

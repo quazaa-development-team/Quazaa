@@ -15,6 +15,7 @@ DialogPrivateMessages::DialogPrivateMessages(QWidget *parent) :
 	connect(widgetChatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onMessageSent(QTextDocument*)));
 	ui->horizontalLayoutChatInput->addWidget(widgetChatInput);
 	m_pCurrentWidget = 0;
+	qRegisterMetaType<QUuid>("QUuid");
 }
 
 DialogPrivateMessages::~DialogPrivateMessages()

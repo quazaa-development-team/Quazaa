@@ -40,7 +40,6 @@ private slots:
 	void on_toolButtonSend_clicked();
 	void onTextFormatChange(QTextCharFormat newFormat);
 	void pickColor();
-	void pickSmiley();
 };
 
 #endif // WIDGETCHATINPUT_H
