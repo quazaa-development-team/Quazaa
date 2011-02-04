@@ -181,6 +181,8 @@ void WidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint 
 
 void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 {
+	QMutexLocker l(&Neighbours.m_pSection);
+
 	if (ui->tableViewNeighbours->currentIndex().isValid())
 	{
 		QModelIndex idx = ui->tableViewNeighbours->currentIndex();
@@ -193,10 +195,8 @@ void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 		{
 		case dpGnutella2:
 		{
-			//CChatSessionG2* pS = new CChatSessionG2(CEndPoint(pNode->m_oAddress.toString(), pNode->m_oAddress.port()));
-			//pS->Connect();
-			CChatSessionG2* brov = new CChatSessionG2(CEndPoint("83.25.242.77", 6346));
-			brov->Connect();
+			CChatSessionG2* pS = new CChatSessionG2(pNode->m_oAddress);
+			pS->Connect();
 			break;
 		}
 		default:
