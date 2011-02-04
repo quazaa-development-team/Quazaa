@@ -43,8 +43,8 @@ CChatSessionG2::CChatSessionG2(CEndPoint oRemoteHost, QObject *parent) :
 
 void CChatSessionG2::Connect()
 {
-	CChatSession::Connect();
 	CNetworkConnection::ConnectTo(m_oRemoteHost);
+	CChatSession::Connect();
 }
 
 void CChatSessionG2::OnConnect()

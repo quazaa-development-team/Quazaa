@@ -25,7 +25,6 @@ void CChatCore::Add(CChatSession *pSession)
 
 	Start();
 
-	pSession->moveToThread(&ChatThread);
 	m_pController->AddSocket(pSession);
 }
 void CChatCore::Remove(CChatSession *pSession)

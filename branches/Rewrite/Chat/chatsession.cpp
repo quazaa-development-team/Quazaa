@@ -24,6 +24,9 @@ void CChatSession::Connect()
 	MainWindow->OpenChat(this);
 	m_nState = csConnecting;
 	ChatCore.Add(this);
+
+	if( thread() != &ChatThread )
+		moveToThread(&ChatThread);
 }
 
 
