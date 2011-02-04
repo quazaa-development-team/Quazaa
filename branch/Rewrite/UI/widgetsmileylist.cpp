@@ -4,7 +4,8 @@
 WidgetSmileyList::WidgetSmileyList(QWidget *parent) :
     ui(new Ui::WidgetSmileyList)
 {
-    ui->setupUi(this);
+	Q_UNUSED(parent);
+	ui->setupUi(this);
 	setWindowFlags(windowFlags() |= Qt::FramelessWindowHint);
 	setAttribute(Qt::WA_TranslucentBackground);
 	ui->listWidget->setAutoFillBackground(true);

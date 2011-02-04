@@ -1,5 +1,5 @@
 //
-// anyfile.ext
+// widgetchatroom.cpp
 //
 // Copyright  Quazaa Development Team, 2009-2010.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -20,29 +20,29 @@
 //
 
 
-#include "widgetchattab.h"
-#include "ui_widgetchattab.h"
+#include "widgetchatroom.h"
+#include "ui_widgetchatroom.h"
 #include "systemlog.h"
 
 
 #include <QDesktopServices>
 #include <QStringList>
 
-WidgetChatTab::WidgetChatTab(QuazaaIRC* quazaaIrc, QWidget* parent) :
+WidgetChatRoom::WidgetChatRoom(QuazaaIRC* quazaaIrc, QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetChatTab)
+	ui(new Ui::WidgetChatRoom)
 {
 	ui->setupUi(this);
 	m_oQuazaaIrc = quazaaIrc;
 	userList = new QStringListModel();
 }
 
-WidgetChatTab::~WidgetChatTab()
+WidgetChatRoom::~WidgetChatRoom()
 {
 	delete ui;
 }
 
-void WidgetChatTab::changeEvent(QEvent* e)
+void WidgetChatRoom::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -55,21 +55,21 @@ void WidgetChatTab::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetChatTab::setName(QString str)
+void WidgetChatRoom::setName(QString str)
 {
 	name = str;
 }
 
-void WidgetChatTab::saveWidget()
+void WidgetChatRoom::saveWidget()
 {
 }
 
-void WidgetChatTab::append(QString text)
+void WidgetChatRoom::append(QString text)
 {
-	ui->textBrowser->insertHtml(text + "<br />");
+	ui->textBrowser->append(text);
 }
 
-void WidgetChatTab::channelNames(QStringList names)
+void WidgetChatRoom::userNames(QStringList userNames)
 {
 	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatTab name is: %1").arg(name));
 	//qDebug() << "My name is >> " + name;
@@ -80,17 +80,17 @@ void WidgetChatTab::channelNames(QStringList names)
 	}
 	*/
 
-	userList->setStringList(names);
+	userList->setStringList(userNames);
 	//ui->listWidgetChatUsers->addItem()
 }
 
 
-void WidgetChatTab::onSendMessage(QString message)
+void WidgetChatRoom::onSendMessage(QString message)
 {
 	m_oQuazaaIrc->sendIrcMessage(name, message);
 }
 
-void WidgetChatTab::on_textBrowser_anchorClicked(QUrl link)
+void WidgetChatRoom::on_textBrowser_anchorClicked(QUrl link)
 {
 	QDesktopServices::openUrl(link);
 }

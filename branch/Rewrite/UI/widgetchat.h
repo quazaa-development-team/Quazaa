@@ -23,7 +23,7 @@
 #define WIDGETCHAT_H
 
 #include <QWidget>
-#include "widgetchatcenter.h"
+#include "widgetchatmiddle.h"
 
 namespace Ui
 {
@@ -36,7 +36,7 @@ class WidgetChat : public QWidget
 public:
 	WidgetChat(QWidget* parent = 0);
 	~WidgetChat();
-	WidgetChatCenter* panelChatCenter;
+	WidgetChatMiddle* panelChatMiddle;
 	void saveWidget();
 
 protected:
@@ -48,7 +48,7 @@ private:
 private slots:
 	void on_splitterChat_customContextMenuRequested(QPoint pos);
 	 
-	void updateUserList(WidgetChatTab* currentTab);
+	void updateUserList(WidgetChatRoom* currentTab);
 };
 
 #endif // WIDGETCHAT_H

@@ -189,7 +189,19 @@ void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 		if( pNode == 0 )
 			return;
 
-		CChatSessionG2* pS = new CChatSessionG2(CEndPoint(pNode->m_oAddress.toString(), pNode->m_oAddress.port()));
-		pS->Connect();
+		switch( pNode->m_nProtocol)
+		{
+		case dpGnutella2:
+		{
+			//CChatSessionG2* pS = new CChatSessionG2(CEndPoint(pNode->m_oAddress.toString(), pNode->m_oAddress.port()));
+			//pS->Connect();
+			CChatSessionG2* brov = new CChatSessionG2(CEndPoint("83.25.242.77", 6346));
+			brov->Connect();
+			break;
+		}
+		default:
+			break;
+
+		}
 	}
 }

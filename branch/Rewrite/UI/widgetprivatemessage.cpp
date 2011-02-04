@@ -3,6 +3,9 @@
 #include "quazaasettings.h"
 #include "Chat/chatconverter.h"
 
+#include <QDesktopServices>
+#include <QScrollBar>
+
 WidgetPrivateMessage::WidgetPrivateMessage(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetPrivateMessage)
@@ -28,26 +31,28 @@ void WidgetPrivateMessage::changeEvent(QEvent *e)
 	}
 }
 
+void WidgetPrivateMessage::on_textEdit_anchorClicked(QUrl link)
+{
+	QDesktopServices::openUrl(link);
+}
+
 void WidgetPrivateMessage::OnIncomingMessage(QString sMessage, bool bAction)
 {
 	qDebug() << "incoming message: " << sMessage;
-
 	if( bAction )
 	{
-		ui->textEdit->insertHtml("* " + m_sNick + " " + sMessage);
+		ui->textEdit->append("* " + m_sNick + " " + sMessage);
 	}
 	else
 	{
-		ui->textEdit->insertHtml("&lt;" + m_sNick + "&gt;: " + sMessage);
+		ui->textEdit->append("&lt;" + m_sNick + "&gt;: " + sMessage);
 	}
-	ui->textEdit->insertHtml("<br />");
 }
 void WidgetPrivateMessage::OnSystemMessage(QString sMessage)
 {
 	qDebug() << "system message: " << sMessage;
 
-	ui->textEdit->insertHtml("<font color=\"#FF0000\"><b>[SYSTEM]</b> " + sMessage + "</font>");
-	ui->textEdit->insertHtml("<br />");
+	ui->textEdit->append("<font color=\"#FF0000\"><b>[SYSTEM]</b> " + sMessage + "</font>");
 }
 void WidgetPrivateMessage::OnGUIDChanged(QUuid oGUID)
 {
@@ -64,14 +69,12 @@ void WidgetPrivateMessage::SendMessage(QString sMessage, bool bAction)
 {
 	if( bAction )
 	{
-		ui->textEdit->insertHtml("* " + quazaaSettings.Profile.GnutellaScreenName + " " + sMessage);
+		ui->textEdit->append("* " + quazaaSettings.Profile.GnutellaScreenName + " " + sMessage);
 	}
 	else
 	{
-		ui->textEdit->insertHtml("&lt;" + quazaaSettings.Profile.GnutellaScreenName + "&gt;: " + sMessage);
+		ui->textEdit->append("&lt;" + quazaaSettings.Profile.GnutellaScreenName + "&gt;: " + sMessage);
 	}
-
-	ui->textEdit->insertHtml("<br />");
 
 	emit SendMessageS(sMessage, bAction);
 }
@@ -82,14 +85,12 @@ void WidgetPrivateMessage::SendMessage(QTextDocument *pMessage, bool bAction)
 
 	if( bAction )
 	{
-		ui->textEdit->insertHtml("* " + quazaaSettings.Profile.GnutellaScreenName + " " + oConv.toHtml());
+		ui->textEdit->append("* " + quazaaSettings.Profile.GnutellaScreenName + " " + oConv.toHtml());
 	}
 	else
 	{
-		ui->textEdit->insertHtml("&lt;" + quazaaSettings.Profile.GnutellaScreenName + "&gt;: " + oConv.toHtml());
+		ui->textEdit->append("&lt;" + quazaaSettings.Profile.GnutellaScreenName + "&gt;: " + oConv.toHtml());
 	}
-
-	ui->textEdit->insertHtml("<br />");
 
 	emit SendMessageS(pMessage->clone(), bAction);
 }

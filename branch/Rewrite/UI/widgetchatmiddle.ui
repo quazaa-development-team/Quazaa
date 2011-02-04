@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetChatCenter</class>
- <widget class="QMainWindow" name="WidgetChatCenter">
+ <class>WidgetChatMiddle</class>
+ <widget class="QMainWindow" name="WidgetChatMiddle">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,30 +14,25 @@
    <string>Chat Center</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <property name="margin">
      <number>0</number>
     </property>
     <item>
-     <widget class="QSplitter" name="splitter">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+     <widget class="QTabWidget" name="tabWidgetChatRooms">
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
       </property>
-      <widget class="QTabWidget" name="tabWidgetChatRooms">
-       <property name="tabPosition">
-        <enum>QTabWidget::North</enum>
-       </property>
-       <property name="currentIndex">
-        <number>-1</number>
-       </property>
-       <property name="tabsClosable">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QWidget" name="horizontalLayoutWidget">
-       <layout class="QHBoxLayout" name="horizontalLayoutTextInput"/>
-      </widget>
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
      </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayoutTextInput"/>
     </item>
    </layout>
   </widget>
@@ -74,7 +69,7 @@
   </widget>
   <action name="actionConnect">
    <property name="icon">
-    <iconset resource="../Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -83,7 +78,7 @@
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset resource="../Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -92,7 +87,7 @@
   </action>
   <action name="actionEditMyProfile">
    <property name="icon">
-    <iconset resource="../Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -101,7 +96,7 @@
   </action>
   <action name="actionChatSettings">
    <property name="icon">
-    <iconset resource="../Resource.qrc">
+    <iconset>
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -112,8 +107,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="../Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

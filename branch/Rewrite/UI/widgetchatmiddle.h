@@ -28,35 +28,35 @@
 #include <QTextDocument>
 
 #include "quazaairc.h"
-#include "widgetchattab.h"
+#include "widgetchatroom.h"
 #include "widgetchatinput.h"
 
 namespace Ui
 {
-	class WidgetChatCenter;
+	class WidgetChatMiddle;
 }
 
-class WidgetChatCenter : public QMainWindow
+class WidgetChatMiddle : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetChatCenter(QWidget* parent = 0);
-	~WidgetChatCenter();
+	WidgetChatMiddle(QWidget* parent = 0);
+	~WidgetChatMiddle();
 	QuazaaIRC* quazaaIrc;
 	void saveWidget();
-	WidgetChatTab* tabByName(QString);
-	WidgetChatTab* currentTab();
+	WidgetChatRoom* tabByName(QString);
+	WidgetChatRoom* currentTab();
 	WidgetChatInput *widgetChatInput;
 
 signals:
-	void channelChanged(WidgetChatTab* channel);
+	void channelChanged(WidgetChatRoom* channel);
 	void messageSent(QString *text);
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetChatCenter* ui;
+	Ui::WidgetChatMiddle* ui;
 	QString prefixChars, prefixModes;
 
 private slots:

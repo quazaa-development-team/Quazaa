@@ -87,6 +87,9 @@ public:
 	WidgetHitMonitor* pageHitMonitor;
 	DialogPrivateMessages *dlgPrivateMessages;
 
+signals:
+	void Show();
+
 public slots:
 	void OpenChat(CChatSession* pSess);
 

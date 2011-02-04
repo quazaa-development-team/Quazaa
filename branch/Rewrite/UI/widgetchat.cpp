@@ -31,13 +31,13 @@ WidgetChat::WidgetChat(QWidget* parent) :
 	ui(new Ui::WidgetChat)
 {
 	ui->setupUi(this);
-	panelChatCenter = new WidgetChatCenter();
+	panelChatMiddle = new WidgetChatMiddle();
 	ui->splitterChat->restoreState(quazaaSettings.WinMain.ChatSplitter);
-	ui->verticalLayoutChatCenter->addWidget(panelChatCenter);
+	ui->verticalLayoutChatMiddle->addWidget(panelChatMiddle);
 	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
 	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
 
-	connect(panelChatCenter, SIGNAL(channelChanged(WidgetChatTab*)), this, SLOT(updateUserList(WidgetChatTab*)));
+	connect(panelChatMiddle, SIGNAL(channelChanged(WidgetChatRoom*)), this, SLOT(updateUserList(WidgetChatRoom*)));
 }
 
 WidgetChat::~WidgetChat()
@@ -63,7 +63,7 @@ void WidgetChat::saveWidget()
 	quazaaSettings.WinMain.ChatSplitter = ui->splitterChat->saveState();
 	quazaaSettings.WinMain.ChatFriendsTaskVisible = ui->toolButtonChatFriendsHeader->isChecked();
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
-	panelChatCenter->saveWidget();
+	panelChatMiddle->saveWidget();
 }
 
 void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
@@ -115,7 +115,7 @@ void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
 	}
 }
 
-void WidgetChat::updateUserList(WidgetChatTab* currentTab)
+void WidgetChat::updateUserList(WidgetChatRoom* currentTab)
 {
 	//qDebug() << "Signal successful. In WidgetChat::updateUserList()";
 	ui->listViewChatUsers->setModel(currentTab->userList);

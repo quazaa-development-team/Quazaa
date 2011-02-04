@@ -2,6 +2,7 @@
 
 WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 {
+	Q_UNUSED(parent);
 	emitReturn = true;
 }
 

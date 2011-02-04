@@ -2,6 +2,7 @@
 #define WIDGETPRIVATEMESSAGE_H
 
 #include <QWidget>
+#include <QUrl>
 #include "types.h"
 #include "Chat/chatsession.h"
 
@@ -40,6 +41,9 @@ public slots:
 	void OnSystemMessage(QString sMessage);
 	void OnGUIDChanged(QUuid oGUID);
 	void OnNickChanged(QString sNick);
+
+private slots:
+	void on_textEdit_anchorClicked(QUrl link);
 };
 
 #endif // WIDGETPRIVATEMESSAGE_H

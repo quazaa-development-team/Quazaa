@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 	QObject::connect(&theApp, SIGNAL(messageReceived(const QString&)),
 					 MainWindow, SLOT(show()));
 	theApp.setActivationWindow(MainWindow);
-	QObject::connect(MainWindow, SIGNAL(show()), &theApp, SLOT(activateWindow()));
+	QObject::connect(MainWindow, SIGNAL(Show()), &theApp, SLOT(activateWindow()));
 
 	dlgSplash->updateProgress(100, QObject::tr("Welcome to Quazaa!"));
 	qApp->processEvents();

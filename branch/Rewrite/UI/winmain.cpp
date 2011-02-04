@@ -315,6 +315,7 @@ bool WinMain::event(QEvent* e)
 				return false;
 			}
 		case QEvent::Show:
+			emit Show();
 			neighboursRefresher->start(1000);
 			break;
 		case QEvent::Hide:
@@ -847,7 +848,7 @@ void WinMain::OpenChat(CChatSession* pSess)
 {
 	if( dlgPrivateMessages == 0 )
 	{
-		dlgPrivateMessages = new DialogPrivateMessages(this);
+		dlgPrivateMessages = new DialogPrivateMessages(0);
 		connect(dlgPrivateMessages, SIGNAL(destroyed()), this, SLOT(onLastChatClosed()));
 	}
 

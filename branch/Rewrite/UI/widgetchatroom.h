@@ -1,5 +1,5 @@
 //
-// anyfile.ext
+// widgetchatroom.h
 //
 // Copyright  Quazaa Development Team, 2009-2010.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -20,8 +20,8 @@
 //
 
 
-#ifndef WIDGETCHATTAB_H
-#define WIDGETCHATTAB_H
+#ifndef WIDGETCHATROOM_H
+#define WIDGETCHATROOM_H
 
 #include <QtGui>
 #include "quazaairc.h"
@@ -29,16 +29,16 @@
 
 namespace Ui
 {
-	class WidgetChatTab;
+	class WidgetChatRoom;
 }
 
-class WidgetChatTab : public QMainWindow
+class WidgetChatRoom : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	explicit WidgetChatTab(QuazaaIRC* quazaaIrc, QWidget* parent = 0);
-	~WidgetChatTab();
+	explicit WidgetChatRoom(QuazaaIRC* quazaaIrc, QWidget* parent = 0);
+	~WidgetChatRoom();
 	QString name;
 	QStringListModel* userList;
 
@@ -46,14 +46,14 @@ public slots:
 	void saveWidget();
 	void append(QString text);
 	void setName(QString str);
-	void channelNames(QStringList names);
+	void userNames(QStringList names);
 	void onSendMessage(QString message);
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetChatTab* ui;
+	Ui::WidgetChatRoom* ui;
 	QuazaaIRC* m_oQuazaaIrc;
 
 private slots:

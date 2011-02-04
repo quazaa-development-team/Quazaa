@@ -21,8 +21,8 @@
 
 #include "widgetchat.h"
 #include "ui_widgetchat.h"
-#include "widgetchatcenter.h"
-#include "ui_widgetchatcenter.h"
+#include "widgetchatmiddle.h"
+#include "ui_widgetchatmiddle.h"
 #include "dialogsettings.h"
 #include "dialogprofile.h"
 #include "systemlog.h"
@@ -34,9 +34,9 @@
 #include "quazaairc.h"
  
 
-WidgetChatCenter::WidgetChatCenter(QWidget* parent) :
+WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetChatCenter)
+	ui(new Ui::WidgetChatMiddle)
 {
 	ui->setupUi(this);
 	quazaaIrc = new QuazaaIRC();
@@ -63,12 +63,12 @@ WidgetChatCenter::WidgetChatCenter(QWidget* parent) :
 	widgetChatInput = new WidgetChatInput(this);
 	connect(widgetChatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onSendMessage(QTextDocument*)));
 	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
-	WidgetChatTab* wct = new WidgetChatTab(quazaaIrc, this);
+	WidgetChatRoom* wct = new WidgetChatRoom(quazaaIrc, this);
 	ui->tabWidgetChatRooms->addTab(wct, "Status");
 	wct->setName("*status"); // * is not allowed by RFC (IIRC)
 }
 
-WidgetChatCenter::~WidgetChatCenter()
+WidgetChatMiddle::~WidgetChatMiddle()
 {
 	if(ui->actionDisconnect->isEnabled())
 	{
@@ -77,7 +77,7 @@ WidgetChatCenter::~WidgetChatCenter()
 	delete ui;
 }
 
-void WidgetChatCenter::changeEvent(QEvent* e)
+void WidgetChatMiddle::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -90,12 +90,12 @@ void WidgetChatCenter::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetChatCenter::saveWidget()
+void WidgetChatMiddle::saveWidget()
 {
 	quazaaSettings.WinMain.ChatToolbars = saveState();
 }
 
-void WidgetChatCenter::on_actionConnect_triggered()
+void WidgetChatMiddle::on_actionConnect_triggered()
 {
 	quazaaIrc->startIrc(quazaaSettings.Chat.IrcUseSSL, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
 	ui->actionConnect->setEnabled(false);
@@ -104,13 +104,13 @@ void WidgetChatCenter::on_actionConnect_triggered()
 	//qDebug() << "Trying to connect to IRC";
 }
 
-void WidgetChatCenter::on_actionChatSettings_triggered()
+void WidgetChatMiddle::on_actionChatSettings_triggered()
 {
 	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Chat);
 	dlgSettings->show();
 }
 
-void WidgetChatCenter::on_actionDisconnect_triggered()
+void WidgetChatMiddle::on_actionDisconnect_triggered()
 {
 	quazaaIrc->stopIrc();
 	ui->actionConnect->setEnabled(true);
@@ -119,7 +119,7 @@ void WidgetChatCenter::on_actionDisconnect_triggered()
 	//qDebug() << "Trying to disconnect from IRC";
 }
 
-void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event)
+void WidgetChatMiddle::appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event)
 {
 	QString evendt;
 	if(event == QuazaaIRC::Message)
@@ -167,10 +167,10 @@ void WidgetChatCenter::appendMessage(Irc::Buffer* buffer, QString sender, QStrin
 	}
 }
 
-WidgetChatTab* WidgetChatCenter::tabByName(QString name)
+WidgetChatRoom* WidgetChatMiddle::tabByName(QString name)
 {
-	WidgetChatTab* tab;
-	QList<WidgetChatTab*> allTabs = ui->tabWidgetChatRooms->findChildren<WidgetChatTab*>();
+	WidgetChatRoom* tab;
+	QList<WidgetChatRoom*> allTabs = ui->tabWidgetChatRooms->findChildren<WidgetChatRoom*>();
 	for(int i = 0; i < allTabs.size(); ++i)
 	{
 		if(allTabs.at(i)->name == name)
@@ -182,15 +182,15 @@ WidgetChatTab* WidgetChatCenter::tabByName(QString name)
 	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter Creating a new tab: %1").arg(name));
 	//qDebug() << "CREATING A NEW TAB :: " + name;
 	// if the tab doesn't exist, create it
-	tab = new WidgetChatTab(quazaaIrc);
+	tab = new WidgetChatRoom(quazaaIrc);
 	tab->setName(name);
 	ui->tabWidgetChatRooms->addTab(tab, Irc::Util::nickFromTarget(name));
 	return tab;
 }
 
-void WidgetChatCenter::channelNames(QStringList names)
+void WidgetChatMiddle::channelNames(QStringList names)
 {
-	WidgetChatTab* tab	= tabByName(names.at(2));
+	WidgetChatRoom* tab	= tabByName(names.at(2));
 	QString namestr		= names.at(3);
 	QStringList list	= namestr.split(" ");
 
@@ -215,24 +215,24 @@ void WidgetChatCenter::channelNames(QStringList names)
 		sorted.append(list.at(values.at(i)));
 	}
 
-	tab->channelNames(sorted);
+	tab->userNames(sorted);
 }
 
-WidgetChatTab* WidgetChatCenter::currentTab()
+WidgetChatRoom* WidgetChatMiddle::currentTab()
 {
 	systemLog.postLog(LogSeverity::Debug, QString("getting WidgetChatCenter::currentTab()"));
 	//qDebug() << "getting WidgetChatCenter::currentTab()";
-	return qobject_cast<WidgetChatTab*>(ui->tabWidgetChatRooms->currentWidget());
+	return qobject_cast<WidgetChatRoom*>(ui->tabWidgetChatRooms->currentWidget());
 }
 
-void WidgetChatCenter::setPrefixes(QString modes, QString mprefs)
+void WidgetChatMiddle::setPrefixes(QString modes, QString mprefs)
 {
 	// overkill ?
 	prefixModes = modes;
 	prefixChars = mprefs;
 }
 
-void WidgetChatCenter::addBuffer(QString name)
+void WidgetChatMiddle::addBuffer(QString name)
 {
 	if(name.at(0) == '#')
 	{
@@ -241,20 +241,20 @@ void WidgetChatCenter::addBuffer(QString name)
 	}
 }
 
-void WidgetChatCenter::on_tabWidgetChatRooms_currentChanged(QWidget*)
+void WidgetChatMiddle::on_tabWidgetChatRooms_currentChanged(QWidget*)
 {
 	//qDebug() << "Emitting channel changed.";
 	emit channelChanged(currentTab());
 }
 
-void WidgetChatCenter::on_actionEditMyProfile_triggered()
+void WidgetChatMiddle::on_actionEditMyProfile_triggered()
 {
 	DialogProfile* dlgProfile = new DialogProfile(this);
 	dlgProfile->show();
 }
 
 
-void WidgetChatCenter::onSendMessage(QTextDocument *message)
+void WidgetChatMiddle::onSendMessage(QTextDocument *message)
 {
 	qDebug() << "WidgetchatCenter::onSendMessage triggered";
 	currentTab()->onSendMessage(message->toPlainText());

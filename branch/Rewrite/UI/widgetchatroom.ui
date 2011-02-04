@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetChatTab</class>
- <widget class="QMainWindow" name="WidgetChatTab">
+ <class>WidgetChatRoom</class>
+ <widget class="QMainWindow" name="WidgetChatRoom">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -42,7 +42,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../Resource.qrc">:/Resource/Chat/ChatWelcome.png</pixmap>
+          <pixmap>:/Resource/Chat/ChatWelcome.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>false</bool>
@@ -96,8 +96,6 @@ p, li { white-space: pre-wrap; }
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="../Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

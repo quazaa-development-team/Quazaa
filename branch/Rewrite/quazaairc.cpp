@@ -22,7 +22,7 @@
 #include "types.h"
 #include "quazaairc.h"
 #include "ircutil.h"
-#include "widgetchattab.h"
+#include "widgetchatroom.h"
 
 #include <ircsession.h>
 #include <ircbuffer.h>

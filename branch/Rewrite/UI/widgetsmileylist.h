@@ -11,7 +11,7 @@ namespace Ui {
 class WidgetSmileyList : public QMenu {
     Q_OBJECT
 public:
-    WidgetSmileyList(QWidget *parent = 0);
+	WidgetSmileyList(QWidget *parent = 0);
     ~WidgetSmileyList();
 
 protected:

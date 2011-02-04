@@ -143,7 +143,7 @@ SOURCES += main.cpp \
     UI/widgetsystemlog.cpp \
     UI/widgetneighbours.cpp \
     UI/widgetchat.cpp \
-    UI/widgetchatcenter.cpp \
+	UI/widgetchatmiddle.cpp \
     UI/widgethostcache.cpp \
     UI/widgetdiscovery.cpp \
     UI/widgetscheduler.cpp \
@@ -171,7 +171,7 @@ SOURCES += main.cpp \
     3rdparty/libircclient-qt/src/ircdccsession.cpp \
     3rdparty/libircclient-qt/src/ircbuffer.cpp \
     3rdparty/libircclient-qt/src/irc.cpp \
-    UI/widgetchattab.cpp \
+	UI/widgetchatroom.cpp \
     NetworkCore/buffer.cpp \
     NetworkCore/endpoint.cpp \
     NetworkCore/neighbour.cpp \
@@ -260,7 +260,7 @@ HEADERS += UI/dialoglanguage.h \
     UI/widgetsystemlog.h \
     UI/widgetneighbours.h \
     UI/widgetchat.h \
-    UI/widgetchatcenter.h \
+	UI/widgetchatmiddle.h \
     UI/widgethostcache.h \
     UI/widgetdiscovery.h \
     UI/widgetscheduler.h \
@@ -291,7 +291,7 @@ HEADERS += UI/dialoglanguage.h \
     3rdparty/libircclient-qt/include/ircbuffer_p.h \
     3rdparty/libircclient-qt/include/ircbuffer.h \
     3rdparty/libircclient-qt/include/irc.h \
-    UI/widgetchattab.h \
+	UI/widgetchatroom.h \
     NetworkCore/buffer.h \
     NetworkCore/endpoint.h \
     NetworkCore/neighbour.h \
@@ -348,7 +348,7 @@ FORMS += UI/dialoglanguage.ui \
     UI/widgetsystemlog.ui \
     UI/widgetneighbours.ui \
     UI/widgetchat.ui \
-    UI/widgetchatcenter.ui \
+	UI/widgetchatmiddle.ui \
     UI/widgethostcache.ui \
     UI/widgetdiscovery.ui \
     UI/widgetscheduler.ui \
@@ -357,7 +357,7 @@ FORMS += UI/dialoglanguage.ui \
     UI/widgetsearchmonitor.ui \
     UI/widgethitmonitor.ui \
     UI/dialogconnectto.ui \
-    UI/widgetchattab.ui \
+	UI/widgetchatroom.ui \
     UI/dialogprivatemessages.ui \
     UI/widgetchatinput.ui \
     UI/widgetprivatemessage.ui \

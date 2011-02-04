@@ -452,7 +452,7 @@ QHeaderView {
       </layout>
      </widget>
      <widget class="QWidget" name="layoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayoutChatCenter">
+      <layout class="QVBoxLayout" name="verticalLayoutChatMiddle">
        <property name="spacing">
         <number>0</number>
        </property>
