@@ -37,8 +37,8 @@ WidgetChat::WidgetChat(QWidget* parent) :
 	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
 	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
 	ui->listViewChatRooms->setModel(panelChatMiddle->channelListModel);
-
 	connect(panelChatMiddle, SIGNAL(channelChanged(WidgetChatRoom*)), this, SLOT(updateUserList(WidgetChatRoom*)));
+	connect(this, SIGNAL(changeRoom(int)), panelChatMiddle, SLOT(changeRoom(int)));
 }
 
 WidgetChat::~WidgetChat()
@@ -120,4 +120,18 @@ void WidgetChat::updateUserList(WidgetChatRoom* currentTab)
 {
 	//qDebug() << "Signal successful. In WidgetChat::updateUserList()";
 	ui->listViewChatUsers->setModel(currentTab->userList);
+}
+
+void WidgetChat::on_listViewChatRooms_pressed(QModelIndex index)
+{
+	switch (QApplication::mouseButtons ())
+	{
+	case Qt::LeftButton:
+		emit changeRoom(index.row());
+		break;
+	case Qt::RightButton:
+		break;
+	default:
+		break;
+	}
 }

@@ -43,9 +43,6 @@ public:
 	WidgetChatMiddle(QWidget* parent = 0);
 	~WidgetChatMiddle();
 	QuazaaIRC* quazaaIrc;
-	void saveWidget();
-	WidgetChatRoom* tabByName(QString);
-	WidgetChatRoom* currentTab();
 	WidgetChatInput *widgetChatInput;
 	QStringListModel *channelListModel;
 
@@ -61,19 +58,24 @@ private:
 	QString prefixChars, prefixModes;
 	QStringList channelList;
 
+public slots:
+	void saveWidget();
+	WidgetChatRoom* roomByName(QString);
+	WidgetChatRoom* currentTab();
+
 private slots:
 	void on_actionDisconnect_triggered();
 	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
-
 	void onSendMessage(QTextDocument *message);
 	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event);
 	void userNames(QStringList list);
 	void setPrefixes(QString modes, QString mprefs);
-	//void joined(QString chan);
 	void addBuffer(QString name);
-	void on_tabWidgetChatRooms_currentChanged(QWidget*);
+	void on_stackedWidgetChatRooms_currentChanged(QWidget*);
 	void on_actionEditMyProfile_triggered();
+	void changeRoom(int index);
+	QStringList caseInsensitiveSecondarySort(QStringList list);
 };
 
 #endif // WIDGETCHATCENTER_H

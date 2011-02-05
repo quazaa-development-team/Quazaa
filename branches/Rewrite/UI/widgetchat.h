@@ -39,6 +39,9 @@ public:
 	WidgetChatMiddle* panelChatMiddle;
 	void saveWidget();
 
+signals:
+	void changeRoom(int index);
+
 protected:
 	void changeEvent(QEvent* e);
 
@@ -46,8 +49,8 @@ private:
 	Ui::WidgetChat* ui;
 
 private slots:
+	void on_listViewChatRooms_pressed(QModelIndex index);
 	void on_splitterChat_customContextMenuRequested(QPoint pos);
-	 
 	void updateUserList(WidgetChatRoom* currentTab);
 };
 

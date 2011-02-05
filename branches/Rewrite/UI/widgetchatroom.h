@@ -39,13 +39,13 @@ class WidgetChatRoom : public QMainWindow
 public:
 	explicit WidgetChatRoom(QuazaaIRC* quazaaIrc, QWidget* parent = 0);
 	~WidgetChatRoom();
-	QString name;
+	QString roomName;
 	QStringListModel* userList;
 
 public slots:
 	void saveWidget();
 	void append(QString text);
-	void setName(QString str);
+	void setRoomName(QString str);
 	void userNames(QStringList names);
 	void onSendMessage(QString message);
 
@@ -60,4 +60,4 @@ private slots:
 	void on_textBrowser_anchorClicked(QUrl link);
 };
 
-#endif // WIDGETCHATTAB_H
+#endif // WIDGETCHATROOM_H

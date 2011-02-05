@@ -39,8 +39,6 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	ui(new Ui::WidgetChatMiddle)
 {
 	ui->setupUi(this);
-	channelListModel = new QStringListModel();
-	channelListModel->setStringList(channelList);
 	quazaaIrc = new QuazaaIRC();
 	if(quazaaSettings.Chat.ConnectOnStartup)
 	{
@@ -66,8 +64,11 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	connect(widgetChatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onSendMessage(QTextDocument*)));
 	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
 	WidgetChatRoom* wct = new WidgetChatRoom(quazaaIrc, this);
-	ui->tabWidgetChatRooms->addTab(wct, "Status");
-	wct->setName("*status"); // * is not allowed by RFC (IIRC)
+	channelListModel = new QStringListModel();
+	ui->stackedWidgetChatRooms->addWidget(wct);
+	wct->setRoomName("*status"); // * is not allowed by RFC (IIRC)
+	channelList << "Status";
+	channelListModel->setStringList(channelList);
 }
 
 WidgetChatMiddle::~WidgetChatMiddle()
@@ -147,84 +148,110 @@ void WidgetChatMiddle::appendMessage(Irc::Buffer* buffer, QString sender, QStrin
 
 	switch(event)
 	{
-		case QuazaaIRC::Message:
-		tabByName(receiver)->append("&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + message);
-			break;
-		case QuazaaIRC::Notice:
-			currentTab()->append("<html><font color=blue>" + Irc::Util::nickFromTarget(sender) + ": " + message + "</font></html>");
-			break;
-		case QuazaaIRC::Action:
-			tabByName(receiver)->append("<html><font color=purple>* " + Irc::Util::nickFromTarget(sender) + " " + message + "</font></html>");
-			break;
-		case QuazaaIRC::Status:
-			//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
-			//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
-			//tab->append(message);
-			tabByName("*status")->append(message);
-			break;
-		default:
-			systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter::appendMessage: No event!"));
-			//qDebug() << "This should not happen!";
-			break;
+	case QuazaaIRC::Message:
+		roomByName(receiver)->append("&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + message);
+		break;
+
+	case QuazaaIRC::Notice:
+		currentTab()->append("<html><font color=blue>" + Irc::Util::nickFromTarget(sender) + ": " + message + "</font></html>");
+		break;
+
+	case QuazaaIRC::Action:
+		roomByName(receiver)->append("<html><font color=purple>* " + Irc::Util::nickFromTarget(sender) + " " + message + "</font></html>");
+		break;
+
+	case QuazaaIRC::Status:
+		//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
+		//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
+		//tab->append(message);
+		roomByName("*status")->append(message);
+	break;
+
+	default:
+		systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter::appendMessage: No event!"));
+		//qDebug() << "This should not happen!";
+		break;
 	}
 }
 
-WidgetChatRoom* WidgetChatMiddle::tabByName(QString name)
+WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName)
 {
-	WidgetChatRoom* tab;
-	QList<WidgetChatRoom*> allTabs = ui->tabWidgetChatRooms->findChildren<WidgetChatRoom*>();
-	for(int i = 0; i < allTabs.size(); ++i)
+	WidgetChatRoom* room;
+	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
+	for(int i = 0; i < allRooms.size(); ++i)
 	{
-		if(allTabs.at(i)->name == name)
+		if(allRooms.at(i)->roomName == roomName)
 		{
-			tab = allTabs.at(i);
-			return tab;
+			room = allRooms.at(i);
+			return room;
 		}
 	}
-	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter Creating a new tab: %1").arg(name));
+	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatMiddle Creating a new tab: %1").arg(roomName));
 	//qDebug() << "CREATING A NEW TAB :: " + name;
 	// if the tab doesn't exist, create it
-	tab = new WidgetChatRoom(quazaaIrc);
-	tab->setName(name);
-	ui->tabWidgetChatRooms->addTab(tab, Irc::Util::nickFromTarget(name));
-	return tab;
+	room = new WidgetChatRoom(quazaaIrc);
+	room->setRoomName(roomName);
+	ui->stackedWidgetChatRooms->addWidget(room);
+	channelList << roomName;
+	channelListModel->setStringList(channelList);
+	emit channelChanged(room);
+	return room;
 }
 
 void WidgetChatMiddle::userNames(QStringList names)
 {
-	WidgetChatRoom* tab	= tabByName(names.at(2));
+	WidgetChatRoom* room	= roomByName(names.at(2));
 	QString namestr		= names.at(3);
-	QStringList list	= namestr.split(" ");
+	QStringList userList	= namestr.split(" ");
 
-	list.sort();
-	QMultiMap<int, int> map;
+	userList.sort();
+	QStringList ownerList;
+	QStringList administratorList;
+	QStringList operatorList;
+	QStringList halfOperatorList;
+	QStringList voiceList;
+	QStringList regularList;
 
-	for(int i = 0; i < list.size(); ++i)
+	for(int i = 0; i < userList.size(); ++i)
 	{
-		QString user = list.at(i);
-		int idx = prefixChars.indexOf(user.at(0));
-		if(idx < 0)
-		{
-			idx = prefixChars.length();    // normal user
-		}
-		map.insert(idx, i);
+		QString user = userList.at(i);
+		if (user.at(0) == '~')
+			ownerList << user;
+		else if (user.at(0) == '&')
+			administratorList << user;
+		else if (user.at(0) == '@')
+			operatorList << user;
+		else if (user.at(0) == '%')
+			halfOperatorList << user;
+		else if (user.at(0) == '+')
+			voiceList << user;
+		else
+			regularList << user;
 	}
+	
+	QStringList sortedUserList;
+	sortedUserList << caseInsensitiveSecondarySort(ownerList) << caseInsensitiveSecondarySort(administratorList)
+			<< caseInsensitiveSecondarySort(operatorList) << caseInsensitiveSecondarySort(halfOperatorList)
+			<< caseInsensitiveSecondarySort(voiceList) << caseInsensitiveSecondarySort(regularList);
 
-	QStringList sorted;
-	QList<int> values = map.values();
-	for(int i = 0; i < values.size(); ++i)
-	{
-		sorted.append(list.at(values.at(i)));
-	}
+	room->userNames(sortedUserList);
+}
 
-	tab->userNames(sorted);
+QStringList WidgetChatMiddle::caseInsensitiveSecondarySort(QStringList list)
+{
+	 QMap<QString, QString> map;
+	 foreach (QString str, list)
+		 map.insert(str.toLower(), str);
+
+	 list = map.values();
+	 return list;
 }
 
 WidgetChatRoom* WidgetChatMiddle::currentTab()
 {
-	systemLog.postLog(LogSeverity::Debug, QString("getting WidgetChatCenter::currentTab()"));
+	systemLog.postLog(LogSeverity::Debug, QString("getting WidgetChatMiddle::currentTab()"));
 	//qDebug() << "getting WidgetChatCenter::currentTab()";
-	return qobject_cast<WidgetChatRoom*>(ui->tabWidgetChatRooms->currentWidget());
+	return qobject_cast<WidgetChatRoom*>(ui->stackedWidgetChatRooms->currentWidget());
 }
 
 void WidgetChatMiddle::setPrefixes(QString modes, QString mprefs)
@@ -239,11 +266,11 @@ void WidgetChatMiddle::addBuffer(QString name)
 	if(name.at(0) == '#')
 	{
 		// tab will be auto-created
-		ui->tabWidgetChatRooms->setCurrentWidget(tabByName(name));
+		ui->stackedWidgetChatRooms->setCurrentWidget(roomByName(name));
 	}
 }
 
-void WidgetChatMiddle::on_tabWidgetChatRooms_currentChanged(QWidget*)
+void WidgetChatMiddle::on_stackedWidgetChatRooms_currentChanged(QWidget*)
 {
 	//qDebug() << "Emitting channel changed.";
 	emit channelChanged(currentTab());
@@ -260,4 +287,10 @@ void WidgetChatMiddle::onSendMessage(QTextDocument *message)
 {
 	qDebug() << "WidgetchatCenter::onSendMessage triggered";
 	currentTab()->onSendMessage(message->toPlainText());
+}
+
+void WidgetChatMiddle::changeRoom(int index)
+{
+	ui->stackedWidgetChatRooms->setCurrentIndex(index);
+	emit channelChanged(currentTab());
 }

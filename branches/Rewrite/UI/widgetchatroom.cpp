@@ -55,9 +55,9 @@ void WidgetChatRoom::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetChatRoom::setName(QString str)
+void WidgetChatRoom::setRoomName(QString str)
 {
-	name = str;
+	roomName = str;
 }
 
 void WidgetChatRoom::saveWidget()
@@ -71,7 +71,7 @@ void WidgetChatRoom::append(QString text)
 
 void WidgetChatRoom::userNames(QStringList userNames)
 {
-	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatTab name is: %1").arg(name));
+	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatRoom name is: %1").arg(roomName));
 	//qDebug() << "My name is >> " + name;
 	/*for (int i = 0; i < names.size(); ++i) {
 		qDebug() << "CName: "+names.at(i);
@@ -87,7 +87,7 @@ void WidgetChatRoom::userNames(QStringList userNames)
 
 void WidgetChatRoom::onSendMessage(QString message)
 {
-	m_oQuazaaIrc->sendIrcMessage(name, message);
+	m_oQuazaaIrc->sendIrcMessage(roomName, message);
 }
 
 void WidgetChatRoom::on_textBrowser_anchorClicked(QUrl link)

@@ -14,7 +14,7 @@
    <string>Chat</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -124,7 +124,7 @@ QToolButton:checked {
                  <string>Add</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="../Resource.qrc">
                   <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -144,7 +144,7 @@ QToolButton:checked {
                  <string>Remove</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="../Resource.qrc">
                   <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -229,7 +229,7 @@ QToolButton:hover {
             <string>Rooms</string>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../Resource.qrc">
              <normaloff>:/Resource/Chat/Rooms.png</normaloff>:/Resource/Chat/Rooms.png</iconset>
            </property>
            <property name="checkable">
@@ -275,7 +275,7 @@ QToolButton:hover {
             <string>Friends</string>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../Resource.qrc">
              <normaloff>:/Resource/Chat/Friends.png</normaloff>:/Resource/Chat/Friends.png</iconset>
            </property>
            <property name="checkable">
@@ -351,7 +351,7 @@ QToolButton:checked {
                  <string>Add</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="../Resource.qrc">
                   <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -371,7 +371,7 @@ QToolButton:checked {
                  <string>Remove</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="../Resource.qrc">
                   <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -547,7 +547,7 @@ QToolButton:checked {
                  <string>Add To Friends</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="../Resource.qrc">
                   <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -567,7 +567,7 @@ QToolButton:checked {
                  <string>Ignore</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="../Resource.qrc">
                   <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -659,7 +659,7 @@ QHeaderView {
             <string>In Room</string>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../Resource.qrc">
              <normaloff>:/Resource/Chat/Users.png</normaloff>:/Resource/Chat/Users.png</iconset>
            </property>
            <property name="toolButtonStyle">
@@ -675,7 +675,9 @@ QHeaderView {
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>toolButtonChatRoomsHeader</sender>

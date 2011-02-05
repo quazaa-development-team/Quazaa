@@ -19,17 +19,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTabWidget" name="tabWidgetChatRooms">
-      <property name="tabPosition">
-       <enum>QTabWidget::North</enum>
-      </property>
-      <property name="currentIndex">
-       <number>-1</number>
-      </property>
-      <property name="tabsClosable">
-       <bool>true</bool>
-      </property>
-     </widget>
+     <widget class="QStackedWidget" name="stackedWidgetChatRooms"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayoutTextInput"/>
@@ -69,7 +59,7 @@
   </widget>
   <action name="actionConnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
    </property>
    <property name="text">
@@ -78,7 +68,7 @@
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
    </property>
    <property name="text">
@@ -87,8 +77,8 @@
   </action>
   <action name="actionEditMyProfile">
    <property name="icon">
-    <iconset>
-     <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Chat/DefaultAvatar.png</normaloff>:/Resource/Chat/DefaultAvatar.png</iconset>
    </property>
    <property name="text">
     <string>Edit My Profile</string>
@@ -96,7 +86,7 @@
   </action>
   <action name="actionChatSettings">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
    </property>
    <property name="text">
@@ -107,6 +97,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
