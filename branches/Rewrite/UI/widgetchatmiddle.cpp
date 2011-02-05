@@ -153,7 +153,7 @@ void WidgetChatMiddle::appendMessage(Irc::Buffer* buffer, QString sender, QStrin
 		break;
 
 	case QuazaaIRC::Notice:
-		currentTab()->append("<html><font color=blue>" + Irc::Util::nickFromTarget(sender) + ": " + message + "</font></html>");
+		currentRoom()->append("<html><font color=blue>" + Irc::Util::nickFromTarget(sender) + ": " + message + "</font></html>");
 		break;
 
 	case QuazaaIRC::Action:
@@ -194,12 +194,13 @@ WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName)
 	ui->stackedWidgetChatRooms->addWidget(room);
 	channelList << roomName;
 	channelListModel->setStringList(channelList);
-	emit channelChanged(room);
+	emit roomChanged(room);
 	return room;
 }
 
 void WidgetChatMiddle::userNames(QStringList names)
 {
+	int operators;
 	WidgetChatRoom* room	= roomByName(names.at(2));
 	QString namestr		= names.at(3);
 	QStringList userList	= namestr.split(" ");
@@ -216,17 +217,33 @@ void WidgetChatMiddle::userNames(QStringList names)
 	{
 		QString user = userList.at(i);
 		if (user.at(0) == '~')
+		{
+			operators ++;
 			ownerList << user;
+		}
 		else if (user.at(0) == '&')
+		{
+			operators ++;
 			administratorList << user;
+		}
 		else if (user.at(0) == '@')
+		{
+			operators ++;
 			operatorList << user;
+		}
 		else if (user.at(0) == '%')
+		{
+			operators ++;
 			halfOperatorList << user;
+		}
 		else if (user.at(0) == '+')
+		{
 			voiceList << user;
+		}
 		else
+		{
 			regularList << user;
+		}
 	}
 	
 	QStringList sortedUserList;
@@ -234,6 +251,9 @@ void WidgetChatMiddle::userNames(QStringList names)
 			<< caseInsensitiveSecondarySort(operatorList) << caseInsensitiveSecondarySort(halfOperatorList)
 			<< caseInsensitiveSecondarySort(voiceList) << caseInsensitiveSecondarySort(regularList);
 
+	room->operators = operators;
+	room->users = sortedUserList.count();
+	emit updateUserCount(operators, sortedUserList.count());
 	room->userNames(sortedUserList);
 }
 
@@ -247,7 +267,7 @@ QStringList WidgetChatMiddle::caseInsensitiveSecondarySort(QStringList list)
 	 return list;
 }
 
-WidgetChatRoom* WidgetChatMiddle::currentTab()
+WidgetChatRoom* WidgetChatMiddle::currentRoom()
 {
 	systemLog.postLog(LogSeverity::Debug, QString("getting WidgetChatMiddle::currentTab()"));
 	//qDebug() << "getting WidgetChatCenter::currentTab()";
@@ -273,7 +293,7 @@ void WidgetChatMiddle::addBuffer(QString name)
 void WidgetChatMiddle::on_stackedWidgetChatRooms_currentChanged(QWidget*)
 {
 	//qDebug() << "Emitting channel changed.";
-	emit channelChanged(currentTab());
+	emit roomChanged(currentRoom());
 }
 
 void WidgetChatMiddle::on_actionEditMyProfile_triggered()
@@ -286,11 +306,11 @@ void WidgetChatMiddle::on_actionEditMyProfile_triggered()
 void WidgetChatMiddle::onSendMessage(QTextDocument *message)
 {
 	qDebug() << "WidgetchatCenter::onSendMessage triggered";
-	currentTab()->onSendMessage(message->toPlainText());
+	currentRoom()->onSendMessage(message->toPlainText());
 }
 
 void WidgetChatMiddle::changeRoom(int index)
 {
 	ui->stackedWidgetChatRooms->setCurrentIndex(index);
-	emit channelChanged(currentTab());
+	emit roomChanged(currentRoom());
 }

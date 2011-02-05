@@ -35,6 +35,8 @@ WidgetChatRoom::WidgetChatRoom(QuazaaIRC* quazaaIrc, QWidget* parent) :
 	ui->setupUi(this);
 	m_oQuazaaIrc = quazaaIrc;
 	userList = new QStringListModel();
+	operators = 0;
+	users = 0;
 }
 
 WidgetChatRoom::~WidgetChatRoom()

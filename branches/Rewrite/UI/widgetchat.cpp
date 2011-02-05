@@ -37,8 +37,9 @@ WidgetChat::WidgetChat(QWidget* parent) :
 	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
 	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
 	ui->listViewChatRooms->setModel(panelChatMiddle->channelListModel);
-	connect(panelChatMiddle, SIGNAL(channelChanged(WidgetChatRoom*)), this, SLOT(updateUserList(WidgetChatRoom*)));
+	connect(panelChatMiddle, SIGNAL(roomChanged(WidgetChatRoom*)), this, SLOT(updateUserList(WidgetChatRoom*)));
 	connect(this, SIGNAL(changeRoom(int)), panelChatMiddle, SLOT(changeRoom(int)));
+	connect(panelChatMiddle, SIGNAL(updateUserCount(int,int)), this, SLOT(updateUserCount(int,int)));
 }
 
 WidgetChat::~WidgetChat()
@@ -120,6 +121,7 @@ void WidgetChat::updateUserList(WidgetChatRoom* currentTab)
 {
 	//qDebug() << "Signal successful. In WidgetChat::updateUserList()";
 	ui->listViewChatUsers->setModel(currentTab->userList);
+	updateUserCount(currentTab->operators, currentTab->users);
 }
 
 void WidgetChat::on_listViewChatRooms_pressed(QModelIndex index)
@@ -134,4 +136,10 @@ void WidgetChat::on_listViewChatRooms_pressed(QModelIndex index)
 	default:
 		break;
 	}
+}
+
+
+void WidgetChat::updateUserCount(int operators, int users)
+{
+	ui->labelChatUsersCount->setText(tr("%1 Operators, %2 Total").arg(operators).arg(users));
 }

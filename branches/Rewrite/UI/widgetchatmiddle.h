@@ -47,8 +47,9 @@ public:
 	QStringListModel *channelListModel;
 
 signals:
-	void channelChanged(WidgetChatRoom* channel);
+	void roomChanged(WidgetChatRoom* room);
 	void messageSent(QString *text);
+	void updateUserCount(int operators, int users);
 
 protected:
 	void changeEvent(QEvent* e);
@@ -61,7 +62,7 @@ private:
 public slots:
 	void saveWidget();
 	WidgetChatRoom* roomByName(QString);
-	WidgetChatRoom* currentTab();
+	WidgetChatRoom* currentRoom();
 
 private slots:
 	void on_actionDisconnect_triggered();

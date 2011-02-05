@@ -41,6 +41,7 @@ public:
 	~WidgetChatRoom();
 	QString roomName;
 	QStringListModel* userList;
+	int operators, users;
 
 public slots:
 	void saveWidget();
