@@ -29,8 +29,8 @@ WidgetChatInput::WidgetChatInput(QWidget *parent) :
 	toolButtonPickColor->setToolTip(tr("Font Color"));
 	connect(toolButtonPickColor, SIGNAL(clicked()), this, SLOT(pickColor()));
 	toolButtonPrivateMessage = new QToolButton(this);
-	toolButtonPrivateMessage->setText(tr("Add Private Message"));
-	toolButtonPrivateMessage->setToolTip(tr("Add Private Message"));
+	toolButtonPrivateMessage->setText(tr("New Private Message"));
+	toolButtonPrivateMessage->setToolTip(tr("New Private Message"));
 	toolButtonPrivateMessage->setIcon(QIcon(":/Resource/Chat/Chat.png"));
 	ui->toolBarTextTools->insertWidget(ui->actionBold, toolButtonPickColor);
 	ui->toolBarTextTools->addSeparator();

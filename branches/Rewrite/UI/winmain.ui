@@ -947,7 +947,7 @@ padding: 2px;</string>
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
-    <string>Chat With</string>
+    <string>New Private Message</string>
    </property>
    <property name="toolTip">
     <string>Chat With</string>
