@@ -39,6 +39,8 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	ui(new Ui::WidgetChatMiddle)
 {
 	ui->setupUi(this);
+	channelListModel = new QStringListModel();
+	channelListModel->setStringList(channelList);
 	quazaaIrc = new QuazaaIRC();
 	if(quazaaSettings.Chat.ConnectOnStartup)
 	{
@@ -55,7 +57,7 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	}
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
 	connect(quazaaIrc, SIGNAL(appendMessage(Irc::Buffer*, QString, QString, QuazaaIRC::Event)), this, SLOT(appendMessage(Irc::Buffer*, QString, QString, QuazaaIRC::Event)));
-	connect(quazaaIrc, SIGNAL(channelNames(QStringList)), this, SLOT(channelNames(QStringList)));
+	connect(quazaaIrc, SIGNAL(userNames(QStringList)), this, SLOT(userNames(QStringList)));
 	connect(quazaaIrc, SIGNAL(bufferAdded(QString)), this, SLOT(addBuffer(QString)));
 	connect(quazaaIrc, SIGNAL(setPrefixes(QString, QString)), this, SLOT(setPrefixes(QString, QString)));
 	//connect(quazaaIrc, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
@@ -188,7 +190,7 @@ WidgetChatRoom* WidgetChatMiddle::tabByName(QString name)
 	return tab;
 }
 
-void WidgetChatMiddle::channelNames(QStringList names)
+void WidgetChatMiddle::userNames(QStringList names)
 {
 	WidgetChatRoom* tab	= tabByName(names.at(2));
 	QString namestr		= names.at(3);

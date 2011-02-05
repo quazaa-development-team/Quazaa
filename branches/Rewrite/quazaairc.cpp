@@ -147,7 +147,7 @@ void QuazaaIRC::numericMessageReceived(QString sender, uint code, QStringList li
 	switch (code)
 	{
 		case Irc::Rfc::RPL_NAMREPLY:
-			emit channelNames(list);
+			emit userNames(list);
 		break;
 		case Irc::Rfc::RPL_BOUNCE:
 		{

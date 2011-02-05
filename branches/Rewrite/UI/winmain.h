@@ -44,6 +44,7 @@
 #include "widgethitmonitor.h"
 
 #include "dialogprivatemessages.h"
+#include "dialogprivatemessageconnect.h"
 #include <QList>
 #include <QUuid>
 
@@ -89,6 +90,7 @@ public:
 
 signals:
 	void Show();
+	void closing();
 
 public slots:
 	void OpenChat(CChatSession* pSess);
@@ -104,6 +106,7 @@ private:
 	QString udpFirewalled;
 
 private slots:
+	void on_actionChatWith_triggered();
 	void on_actionConnectTo_triggered();
 	void on_actionAres_triggered(bool checked);
 	void on_actionGnutella2_triggered(bool checked);
@@ -150,7 +153,10 @@ private slots:
 	void quazaaShutdown();
 	void quazaaStartup();
 	void icon_activated(QSystemTrayIcon::ActivationReason reason);
-
+	void onG2PrivateMessage(CEndPoint ip);
+	void onEDonkeyPrivateMessage(CEndPoint ip);
+	void onAresPrivateMessage(CEndPoint ip);
+	void onIRCPrivateMessage(QString nick);
 	void startNewSearch(QString* searchString);
 	void updateStatusBar();
 };

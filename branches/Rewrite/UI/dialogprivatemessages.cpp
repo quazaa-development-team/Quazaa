@@ -54,7 +54,6 @@ void DialogPrivateMessages::OpenChat(CChatSession* pSess)
 	if( pWg == 0 )
 	{
 		pWg = new WidgetPrivateMessage(this);
-		connect(pWg, SIGNAL(destroyed(QObject*)), this, SLOT(onWindowDestroyed(QObject*)));
 		m_lChatWindows.append(pWg);
 		int idx = ui->tabWidgetPrivateMessages->addTab(pWg, pSess->m_oAddress.toStringWithPort());
 		m_pCurrentWidget = pWg;
@@ -64,6 +63,7 @@ void DialogPrivateMessages::OpenChat(CChatSession* pSess)
 	pSess->SetupWidget(pWg);
 	pWg->show();
 	ChatCore.m_pSection.unlock();
+	raise();
 }
 
 void DialogPrivateMessages::onMessageSent(QTextDocument *pDoc)
@@ -101,18 +101,19 @@ void DialogPrivateMessages::onMessageSent(QTextDocument *pDoc)
 	m_pCurrentWidget->SendMessage(pDoc, false);
 }
 
-void DialogPrivateMessages::onWindowDestroyed(QObject *pWg)
+void DialogPrivateMessages::on_tabWidgetPrivateMessages_currentChanged(int index)
 {
-	int index = m_lChatWindows.indexOf(qobject_cast<WidgetPrivateMessage*>(pWg));
+	if( ui->tabWidgetPrivateMessages->count() > 0 )
+		m_pCurrentWidget = m_lChatWindows[index];
+}
+
+void DialogPrivateMessages::on_tabWidgetPrivateMessages_tabCloseRequested(int index)
+{
+	ui->tabWidgetPrivateMessages->removeTab(index);
 	m_lChatWindows.removeAt(index);
 
 	if( m_lChatWindows.isEmpty() )
 	{
-		delete this;
+		close();
 	}
-}
-
-void DialogPrivateMessages::on_tabWidgetPrivateMessages_currentChanged(int index)
-{
-	m_pCurrentWidget = m_lChatWindows[index];
 }

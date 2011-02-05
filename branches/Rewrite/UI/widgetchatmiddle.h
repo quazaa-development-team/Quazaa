@@ -47,6 +47,7 @@ public:
 	WidgetChatRoom* tabByName(QString);
 	WidgetChatRoom* currentTab();
 	WidgetChatInput *widgetChatInput;
+	QStringListModel *channelListModel;
 
 signals:
 	void channelChanged(WidgetChatRoom* channel);
@@ -58,6 +59,7 @@ protected:
 private:
 	Ui::WidgetChatMiddle* ui;
 	QString prefixChars, prefixModes;
+	QStringList channelList;
 
 private slots:
 	void on_actionDisconnect_triggered();
@@ -66,7 +68,7 @@ private slots:
 
 	void onSendMessage(QTextDocument *message);
 	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event);
-	void channelNames(QStringList list);
+	void userNames(QStringList list);
 	void setPrefixes(QString modes, QString mprefs);
 	//void joined(QString chan);
 	void addBuffer(QString name);

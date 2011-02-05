@@ -465,6 +465,7 @@ void WinMain::quazaaShutdown()
 	pageSearchMonitor->saveWidget();
 	pageHitMonitor->saveWidget();
 	quazaaSettings.saveWindowSettings(this);
+	emit closing();
 
 	dlgSplash->updateProgress(20, tr("Removing Tray Icon..."));
 	delete trayIcon;
@@ -850,9 +851,41 @@ void WinMain::OpenChat(CChatSession* pSess)
 	{
 		dlgPrivateMessages = new DialogPrivateMessages(0);
 		connect(dlgPrivateMessages, SIGNAL(destroyed()), this, SLOT(onLastChatClosed()));
+		connect(this, SIGNAL(closing()), dlgPrivateMessages, SLOT(close()));
 	}
 
 	dlgPrivateMessages->OpenChat(pSess);
 	dlgPrivateMessages->show();
 }
 
+
+void WinMain::on_actionChatWith_triggered()
+{
+	DialogPrivateMessageConnect *dlgPrivateMessageConnect = new DialogPrivateMessageConnect(this);
+	connect(dlgPrivateMessageConnect, SIGNAL(startG2PrivateMessage(CEndPoint)), this, SLOT(onG2PrivateMessage(CEndPoint)));
+	connect(dlgPrivateMessageConnect, SIGNAL(startEDonkeyPrivateMessage(CEndPoint)), this, SLOT(onEDonkeyPrivateMessage(CEndPoint)));
+	connect(dlgPrivateMessageConnect, SIGNAL(startAresPrivateMessage(CEndPoint)), this, SLOT(onAresPrivateMessage(CEndPoint)));
+	connect(dlgPrivateMessageConnect, SIGNAL(startIRCPrivateMessage(QString)), this, SLOT(onIRCPrivateMessage(QString)));
+	dlgPrivateMessageConnect->show();
+}
+
+void WinMain::onG2PrivateMessage(CEndPoint ip)
+{
+	CChatSessionG2* pS = new CChatSessionG2(ip);
+	pS->Connect();
+}
+
+void WinMain::onEDonkeyPrivateMessage(CEndPoint ip)
+{
+
+}
+
+void WinMain::onAresPrivateMessage(CEndPoint ip)
+{
+
+}
+
+void WinMain::onIRCPrivateMessage(QString nick)
+{
+
+}

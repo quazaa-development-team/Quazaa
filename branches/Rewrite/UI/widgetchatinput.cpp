@@ -1,5 +1,8 @@
 #include "widgetchatinput.h"
 #include "ui_widgetchatinput.h"
+#include "dialogprivatemessageconnect.h"
+
+#include "Chat/chatsessiong2.h"
 
 #include <QColorDialog>
 
@@ -25,6 +28,10 @@ WidgetChatInput::WidgetChatInput(QWidget *parent) :
 	toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(textEditInput->textColor().name()));
 	toolButtonPickColor->setToolTip(tr("Font Color"));
 	connect(toolButtonPickColor, SIGNAL(clicked()), this, SLOT(pickColor()));
+	toolButtonPrivateMessage = new QToolButton(this);
+	toolButtonPrivateMessage->setText(tr("Add Private Message"));
+	toolButtonPrivateMessage->setToolTip(tr("Add Private Message"));
+	toolButtonPrivateMessage->setIcon(QIcon(":/Resource/Chat/DefaultAvatar.png"));
 	ui->toolBarTextTools->insertWidget(ui->actionBold, toolButtonPickColor);
 	ui->toolBarTextTools->addSeparator();
 	ui->toolBarTextTools->addWidget(toolButtonSmilies);
@@ -32,8 +39,11 @@ WidgetChatInput::WidgetChatInput(QWidget *parent) :
 	ui->actionBold->setChecked(textEditInput->fontWeight() == QFont::Bold);
 	ui->actionItalic->setChecked(textEditInput->fontItalic());
 	ui->actionUnderline->setChecked(textEditInput->fontUnderline());
+	ui->toolBarTextTools->addWidget(toolButtonPrivateMessage);
+	toolButtonPrivateMessage->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 	connect(ui->actionItalic, SIGNAL(toggled(bool)), textEditInput, SLOT(setFontItalic(bool)));
 	connect(ui->actionUnderline, SIGNAL(toggled(bool)), textEditInput, SLOT(setFontUnderline(bool)));
+	connect(toolButtonPrivateMessage, SIGNAL(clicked()), this, SLOT(addPrivateMessage()));
 }
 
 WidgetChatInput::~WidgetChatInput()
@@ -111,4 +121,35 @@ void WidgetChatInput::pickColor()
 		textEditInput->setTextColor(fontColor);
 		toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(fontColor.name()));
 	}
+}
+
+void WidgetChatInput::addPrivateMessage()
+{
+	DialogPrivateMessageConnect *dlgPrivateMessageConnect = new DialogPrivateMessageConnect(this);
+	connect(dlgPrivateMessageConnect, SIGNAL(startG2PrivateMessage(CEndPoint)), this, SLOT(onG2PrivateMessage(CEndPoint)));
+	connect(dlgPrivateMessageConnect, SIGNAL(startEDonkeyPrivateMessage(CEndPoint)), this, SLOT(onEDonkeyPrivateMessage(CEndPoint)));
+	connect(dlgPrivateMessageConnect, SIGNAL(startAresPrivateMessage(CEndPoint)), this, SLOT(onAresPrivateMessage(CEndPoint)));
+	connect(dlgPrivateMessageConnect, SIGNAL(startIRCPrivateMessage(QString)), this, SLOT(onIRCPrivateMessage(QString)));
+	dlgPrivateMessageConnect->show();
+}
+
+void WidgetChatInput::onG2PrivateMessage(CEndPoint ip)
+{
+	CChatSessionG2* pS = new CChatSessionG2(ip);
+	pS->Connect();
+}
+
+void WidgetChatInput::onEDonkeyPrivateMessage(CEndPoint ip)
+{
+
+}
+
+void WidgetChatInput::onAresPrivateMessage(CEndPoint ip)
+{
+
+}
+
+void WidgetChatInput::onIRCPrivateMessage(QString nick)
+{
+
 }

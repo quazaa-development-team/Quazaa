@@ -33,9 +33,9 @@ private:
 
 public slots:
 	void onMessageSent(QTextDocument* pDoc);
-	void onWindowDestroyed(QObject* pWg);
 private slots:
-	void on_tabWidgetPrivateMessages_currentChanged(int index);
+	void on_tabWidgetPrivateMessages_tabCloseRequested(int index);
+ void on_tabWidgetPrivateMessages_currentChanged(int index);
 };
 
 #endif // DIALOGPRIVATEMESSAGES_H

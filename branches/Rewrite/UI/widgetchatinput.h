@@ -5,6 +5,8 @@
 #include "widgetreturnemittextedit.h"
 #include "widgetsmileylist.h"
 
+#include "network.h"
+
 namespace Ui {
 	class WidgetChatInput;
 }
@@ -22,13 +24,14 @@ signals:
 protected:
 	void changeEvent(QEvent *e);
 	WidgetReturnEmitTextEdit *textEditInput;
-	WidgetSmileyList *widgetSmileyList;
-	QToolButton *toolButtonPickColor;
 
 private:
 	Ui::WidgetChatInput *ui;
 	QCheckBox *checkBoxSendOnEnter;
 	QToolButton *toolButtonSmilies;
+	WidgetSmileyList *widgetSmileyList;
+	QToolButton *toolButtonPickColor;
+	QToolButton *toolButtonPrivateMessage;
 
 public slots:
 	void setText(QString text);
@@ -40,6 +43,11 @@ private slots:
 	void on_toolButtonSend_clicked();
 	void onTextFormatChange(QTextCharFormat newFormat);
 	void pickColor();
+	void addPrivateMessage();
+	void onG2PrivateMessage(CEndPoint ip);
+	void onEDonkeyPrivateMessage(CEndPoint ip);
+	void onAresPrivateMessage(CEndPoint ip);
+	void onIRCPrivateMessage(QString nick);
 };
 
 #endif // WIDGETCHATINPUT_H

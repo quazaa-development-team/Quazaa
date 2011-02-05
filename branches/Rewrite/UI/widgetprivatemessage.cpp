@@ -62,7 +62,7 @@ void WidgetPrivateMessage::OnNickChanged(QString sNick)
 {
 	OnSystemMessage(m_sNick + " is now known as " + sNick);
 	m_sNick = sNick;
-	ui->label->setText(m_sNick);
+	ui->labelName->setText(m_sNick);
 }
 
 void WidgetPrivateMessage::SendMessage(QString sMessage, bool bAction)

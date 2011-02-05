@@ -47,9 +47,10 @@ public slots:
 	void startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );
 	void stopIrc();
 	void sendIrcMessage(QString channel, QString message);
+
 signals:
 	void setPrefixes(QString modes, QString mprefs);
-	void channelNames(QStringList list);
+	void userNames(QStringList list);
 	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event);
 	void bufferAdded(QString str);
 	void joined(QString chan);

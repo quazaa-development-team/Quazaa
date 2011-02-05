@@ -36,6 +36,7 @@ WidgetChat::WidgetChat(QWidget* parent) :
 	ui->verticalLayoutChatMiddle->addWidget(panelChatMiddle);
 	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
 	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
+	ui->listViewChatRooms->setModel(panelChatMiddle->channelListModel);
 
 	connect(panelChatMiddle, SIGNAL(channelChanged(WidgetChatRoom*)), this, SLOT(updateUserList(WidgetChatRoom*)));
 }
