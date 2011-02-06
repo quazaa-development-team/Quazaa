@@ -22,9 +22,6 @@
 #include "dialogconnectto.h"
 #include "ui_dialogconnectto.h"
 
- 
-
-#include "network.h"
 #include <QListView>
 
 DialogConnectTo::DialogConnectTo(QWidget* parent) :
@@ -32,6 +29,7 @@ DialogConnectTo::DialogConnectTo(QWidget* parent) :
 	ui(new Ui::DialogConnectTo)
 {
 	ui->setupUi(this);
+	ui->pushButtonConnect->setDefault(true);
 	ui->comboBoxAddress->setView(new QListView());
 	ui->comboBoxNetwork->setView(new QListView());
 }
@@ -56,29 +54,62 @@ void DialogConnectTo::changeEvent(QEvent* e)
 
 void DialogConnectTo::on_pushButtonCancel_clicked()
 {
-	emit closed();
-	close();
+	reject();
 }
 
 void DialogConnectTo::on_pushButtonConnect_clicked()
 {
 	if(ui->comboBoxAddress->currentText().contains(":"))
 	{
-		CEndPoint ip(ui->comboBoxAddress->currentText());
-
-		Network.m_pSection.lock();
-		Network.ConnectTo(ip);
-		Network.m_pSection.unlock();
+		addressAndPort = ui->comboBoxAddress->currentText();
 	}
 	else
 	{
-		CEndPoint ip(ui->comboBoxAddress->currentText() + ":" + ui->spinBoxPort->text());
-
-		Network.m_pSection.lock();
-		Network.ConnectTo(ip);
-		Network.m_pSection.unlock();
+		addressAndPort = ui->comboBoxAddress->currentText() + ":" + ui->spinBoxPort->text();
 	}
 
-	emit closed();
-	close();
+	accept();
+}
+
+
+QString DialogConnectTo::getAddressAndPort()
+{
+	return addressAndPort;
+}
+
+
+DialogConnectTo::ConnectNetwork DialogConnectTo::getConnectNetwork()
+{
+	return connectNetwork;
+}
+
+void DialogConnectTo::setAddressAndPort(QString newAddressAndPort)
+{
+	addressAndPort = newAddressAndPort;
+	QStringList addressAndPortList = newAddressAndPort.split(":");
+	ui->comboBoxAddress->setEditText(addressAndPortList.value(0));
+	QString port = addressAndPortList.value(1);
+	ui->spinBoxPort->setValue(port.toInt());
+}
+
+void DialogConnectTo::setConnectNetwork(ConnectNetwork network)
+{
+	connectNetwork = network;
+	ui->comboBoxNetwork->setCurrentIndex(network);
+}
+
+void DialogConnectTo::on_comboBoxNetwork_currentIndexChanged(int index)
+{
+	switch (index)
+	{
+	case 0:
+		connectNetwork = DialogConnectTo::G2;
+		break;
+	case 1:
+		connectNetwork = DialogConnectTo::eDonkey;
+		break;
+	case 2:
+		connectNetwork = DialogConnectTo::Ares;
+		break;
+	}
 }

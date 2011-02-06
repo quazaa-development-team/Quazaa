@@ -841,7 +841,27 @@ void WinMain::updateStatusBar()
 void WinMain::on_actionConnectTo_triggered()
 {
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
-	dlgConnectTo->show();
+	bool accepted = dlgConnectTo->exec();
+
+	if (accepted)
+	{
+		CEndPoint ip(dlgConnectTo->getAddressAndPort());
+
+		switch (dlgConnectTo->getConnectNetwork())
+		{
+		case DialogConnectTo::G2:
+			Network.m_pSection.lock();
+			Network.ConnectTo(ip);
+			Network.m_pSection.unlock();
+			break;
+		case DialogConnectTo::eDonkey:
+			break;
+		case DialogConnectTo::Ares:
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 
@@ -860,32 +880,28 @@ void WinMain::OpenChat(CChatSession* pSess)
 
 
 void WinMain::on_actionChatWith_triggered()
-{
-	DialogPrivateMessageConnect *dlgPrivateMessageConnect = new DialogPrivateMessageConnect(this);
-	connect(dlgPrivateMessageConnect, SIGNAL(startG2PrivateMessage(CEndPoint)), this, SLOT(onG2PrivateMessage(CEndPoint)));
-	connect(dlgPrivateMessageConnect, SIGNAL(startEDonkeyPrivateMessage(CEndPoint)), this, SLOT(onEDonkeyPrivateMessage(CEndPoint)));
-	connect(dlgPrivateMessageConnect, SIGNAL(startAresPrivateMessage(CEndPoint)), this, SLOT(onAresPrivateMessage(CEndPoint)));
-	connect(dlgPrivateMessageConnect, SIGNAL(startIRCPrivateMessage(QString)), this, SLOT(onIRCPrivateMessage(QString)));
-	dlgPrivateMessageConnect->show();
-}
+{	
+	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
+	bool accepted = dlgConnectTo->exec();
 
-void WinMain::onG2PrivateMessage(CEndPoint ip)
-{
-	CChatSessionG2* pS = new CChatSessionG2(ip);
-	pS->Connect();
-}
+	if (accepted)
+	{
+		CEndPoint ip(dlgConnectTo->getAddressAndPort());
 
-void WinMain::onEDonkeyPrivateMessage(CEndPoint ip)
-{
-
-}
-
-void WinMain::onAresPrivateMessage(CEndPoint ip)
-{
-
-}
-
-void WinMain::onIRCPrivateMessage(QString nick)
-{
-
+		switch (dlgConnectTo->getConnectNetwork())
+		{
+		case DialogConnectTo::G2:
+		{
+			CChatSessionG2* pS = new CChatSessionG2(ip);
+			pS->Connect();
+			break;
+		}
+		case DialogConnectTo::eDonkey:
+			break;
+		case DialogConnectTo::Ares:
+			break;
+		default:
+			break;
+		}
+	}
 }

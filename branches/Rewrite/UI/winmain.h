@@ -44,7 +44,6 @@
 #include "widgethitmonitor.h"
 
 #include "dialogprivatemessages.h"
-#include "dialogprivatemessageconnect.h"
 #include <QList>
 #include <QUuid>
 
@@ -153,10 +152,6 @@ private slots:
 	void quazaaShutdown();
 	void quazaaStartup();
 	void icon_activated(QSystemTrayIcon::ActivationReason reason);
-	void onG2PrivateMessage(CEndPoint ip);
-	void onEDonkeyPrivateMessage(CEndPoint ip);
-	void onAresPrivateMessage(CEndPoint ip);
-	void onIRCPrivateMessage(QString nick);
 	void startNewSearch(QString* searchString);
 	void updateStatusBar();
 };

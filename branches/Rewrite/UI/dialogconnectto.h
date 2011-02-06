@@ -24,6 +24,7 @@
 
 #include <QDialog>
 #include "types.h"
+#include "network.h"
 
 namespace Ui
 {
@@ -36,6 +37,7 @@ class DialogConnectTo : public QDialog
 public:
 	DialogConnectTo(QWidget* parent = 0);
 	~DialogConnectTo();
+	enum ConnectNetwork{G2 = 0, eDonkey, Ares};
 
 signals:
 	void closed();
@@ -45,11 +47,19 @@ protected:
 
 private:
 	Ui::DialogConnectTo* ui;
+	QString addressAndPort;
+	ConnectNetwork connectNetwork;
+
+public slots:
+	QString getAddressAndPort();
+	ConnectNetwork getConnectNetwork();
+	void setAddressAndPort(QString newAddressAndPort);
+	void setConnectNetwork(ConnectNetwork network);
 
 private slots:
+	void on_comboBoxNetwork_currentIndexChanged(int index);
 	void on_pushButtonConnect_clicked();
 	void on_pushButtonCancel_clicked();
-	 
 };
 
 #endif // DIALOGCONNECTTO_H

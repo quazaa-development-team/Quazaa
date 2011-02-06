@@ -44,10 +44,6 @@ private slots:
 	void onTextFormatChange(QTextCharFormat newFormat);
 	void pickColor();
 	void addPrivateMessage();
-	void onG2PrivateMessage(CEndPoint ip);
-	void onEDonkeyPrivateMessage(CEndPoint ip);
-	void onAresPrivateMessage(CEndPoint ip);
-	void onIRCPrivateMessage(QString nick);
 };
 
 #endif // WIDGETCHATINPUT_H

@@ -1,6 +1,6 @@
 #include "widgetchatinput.h"
 #include "ui_widgetchatinput.h"
-#include "dialogprivatemessageconnect.h"
+#include "dialogconnectto.h"
 
 #include "Chat/chatsessiong2.h"
 
@@ -125,31 +125,27 @@ void WidgetChatInput::pickColor()
 
 void WidgetChatInput::addPrivateMessage()
 {
-	DialogPrivateMessageConnect *dlgPrivateMessageConnect = new DialogPrivateMessageConnect(this);
-	connect(dlgPrivateMessageConnect, SIGNAL(startG2PrivateMessage(CEndPoint)), this, SLOT(onG2PrivateMessage(CEndPoint)));
-	connect(dlgPrivateMessageConnect, SIGNAL(startEDonkeyPrivateMessage(CEndPoint)), this, SLOT(onEDonkeyPrivateMessage(CEndPoint)));
-	connect(dlgPrivateMessageConnect, SIGNAL(startAresPrivateMessage(CEndPoint)), this, SLOT(onAresPrivateMessage(CEndPoint)));
-	connect(dlgPrivateMessageConnect, SIGNAL(startIRCPrivateMessage(QString)), this, SLOT(onIRCPrivateMessage(QString)));
-	dlgPrivateMessageConnect->show();
-}
+	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
+	bool accepted = dlgConnectTo->exec();
 
-void WidgetChatInput::onG2PrivateMessage(CEndPoint ip)
-{
-	CChatSessionG2* pS = new CChatSessionG2(ip);
-	pS->Connect();
-}
+	if (accepted)
+	{
+		CEndPoint ip(dlgConnectTo->getAddressAndPort());
 
-void WidgetChatInput::onEDonkeyPrivateMessage(CEndPoint ip)
-{
-
-}
-
-void WidgetChatInput::onAresPrivateMessage(CEndPoint ip)
-{
-
-}
-
-void WidgetChatInput::onIRCPrivateMessage(QString nick)
-{
-
+		switch (dlgConnectTo->getConnectNetwork())
+		{
+		case DialogConnectTo::G2:
+		{
+			CChatSessionG2* pS = new CChatSessionG2(ip);
+			pS->Connect();
+			break;
+		}
+		case DialogConnectTo::eDonkey:
+			break;
+		case DialogConnectTo::Ares:
+			break;
+		default:
+			break;
+		}
+	}
 }

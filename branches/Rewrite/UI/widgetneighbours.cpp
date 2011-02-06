@@ -153,7 +153,27 @@ void WidgetNeighbours::onTimer()
 void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 {
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
-	dlgConnectTo->show();
+	bool accepted = dlgConnectTo->exec();
+
+	if (accepted)
+	{
+		CEndPoint ip(dlgConnectTo->getAddressAndPort());
+
+		switch (dlgConnectTo->getConnectNetwork())
+		{
+		case DialogConnectTo::G2:
+			Network.m_pSection.lock();
+			Network.ConnectTo(ip);
+			Network.m_pSection.unlock();
+			break;
+		case DialogConnectTo::eDonkey:
+			break;
+		case DialogConnectTo::Ares:
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void WidgetNeighbours::on_actionNeighbourDisconnect_triggered()
