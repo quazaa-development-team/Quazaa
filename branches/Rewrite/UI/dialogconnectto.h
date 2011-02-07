@@ -25,7 +25,6 @@
 #include <QDialog>
 #include "types.h"
 #include "network.h"
-#include "iputilities.h"
 
 namespace Ui
 {
