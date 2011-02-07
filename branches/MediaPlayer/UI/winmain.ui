@@ -1,0 +1,961 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WinMain</class>
+ <widget class="QMainWindow" name="WinMain">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>580</width>
+    <height>354</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Quazaa</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Resource.qrc">
+    <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="frameMainHeader">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="horizontalSpacing">
+        <number>2</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>0</number>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="labelMainHeaderLogo">
+         <property name="minimumSize">
+          <size>
+           <width>26</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>26</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent;
+padding: 2px;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../Resource.qrc">:/Resource/Generic/Home.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="labelMainHeaderText">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Quazaa Home</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="stackedWidgetMain">
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubarMain">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>580</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar {
+	background-color: transparent;
+}</string>
+   </property>
+   <widget class="QMenu" name="menuNetwork">
+    <property name="title">
+     <string>Network</string>
+    </property>
+    <widget class="QMenu" name="menuConnect_To">
+     <property name="title">
+      <string>Choose Networks</string>
+     </property>
+     <addaction name="actionGnutella2"/>
+     <addaction name="actionAres"/>
+     <addaction name="actionEDonkey"/>
+    </widget>
+    <addaction name="actionConnect"/>
+    <addaction name="actionDisconnect"/>
+    <addaction name="separator"/>
+    <addaction name="menuConnect_To"/>
+    <addaction name="separator"/>
+    <addaction name="actionChatWith"/>
+    <addaction name="actionConnectTo"/>
+    <addaction name="actionBrowseHost"/>
+    <addaction name="separator"/>
+    <addaction name="actionExitAfterTransfers"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <widget class="QMenu" name="menuAdvanced">
+     <property name="title">
+      <string>Advanced</string>
+     </property>
+     <addaction name="actionGraph"/>
+     <addaction name="actionPacketDump"/>
+     <addaction name="actionSearchMonitor"/>
+     <addaction name="actionHitMonitor"/>
+    </widget>
+    <addaction name="actionHome"/>
+    <addaction name="actionLibrary"/>
+    <addaction name="actionMedia"/>
+    <addaction name="actionSearch"/>
+    <addaction name="actionTransfers"/>
+    <addaction name="actionSecurity"/>
+    <addaction name="actionActivity"/>
+    <addaction name="actionChat"/>
+    <addaction name="separator"/>
+    <addaction name="actionHostCache"/>
+    <addaction name="actionDiscovery"/>
+    <addaction name="actionScheduler"/>
+    <addaction name="menuAdvanced"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <widget class="QMenu" name="menuBitTorrent">
+     <property name="title">
+      <string>BitTorrent</string>
+     </property>
+     <addaction name="actionCreateTorrent"/>
+     <addaction name="actionSeedTorrent"/>
+     <addaction name="actionOpenTorrent"/>
+    </widget>
+    <addaction name="menuBitTorrent"/>
+    <addaction name="actionURLDownload"/>
+    <addaction name="actionOpenDownloadFolder"/>
+    <addaction name="actionShares"/>
+    <addaction name="actionImportPartials"/>
+    <addaction name="separator"/>
+    <addaction name="actionChooseSkin"/>
+    <addaction name="actionChooseLanguage"/>
+    <addaction name="separator"/>
+    <addaction name="actionEditMyProfile"/>
+    <addaction name="actionQuickstartWizard"/>
+    <addaction name="actionSettings"/>
+   </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Window</string>
+    </property>
+    <addaction name="actionLockPanels"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionUsersGuide"/>
+    <addaction name="actionQuazaaForums"/>
+    <addaction name="actionFAQ"/>
+    <addaction name="separator"/>
+    <addaction name="actionCheckForNewVersion"/>
+    <addaction name="actionConnectionTest"/>
+    <addaction name="separator"/>
+    <addaction name="actionDonate"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuNetwork"/>
+   <addaction name="menuView"/>
+   <addaction name="menuTools"/>
+   <addaction name="menuWindow"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="sizeGripEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="toolBarNavigation">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionHome"/>
+   <addaction name="actionLibrary"/>
+   <addaction name="actionMedia"/>
+   <addaction name="actionSearch"/>
+   <addaction name="actionTransfers"/>
+   <addaction name="actionSecurity"/>
+   <addaction name="actionActivity"/>
+   <addaction name="actionChat"/>
+  </widget>
+  <widget class="QToolBar" name="toolBarMainMenu">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar::item:!selected,  QMenuBar::item:!pressed {
+    background: transparent;
+}</string>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::BottomToolBarArea|Qt::TopToolBarArea</set>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Exit.png</normaloff>:/Resource/Generic/Exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Quazaa32.png</normaloff>:/Resource/Quazaa32.png</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionLockPanels">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/LockPanels.png</normaloff>:/Resource/Generic/LockPanels.png</iconset>
+   </property>
+   <property name="text">
+    <string>Lock Panels</string>
+   </property>
+  </action>
+  <action name="actionHome">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Home.png</normaloff>:/Resource/Generic/Home.png</iconset>
+   </property>
+   <property name="text">
+    <string>Home</string>
+   </property>
+   <property name="toolTip">
+    <string>Home</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Home</string>
+   </property>
+  </action>
+  <action name="actionLibrary">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
+   </property>
+   <property name="text">
+    <string>Library</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Library</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Search</string>
+   </property>
+  </action>
+  <action name="actionTransfers">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
+   </property>
+   <property name="text">
+    <string>Transfers</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Transfers</string>
+   </property>
+  </action>
+  <action name="actionSecurity">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
+   </property>
+   <property name="text">
+    <string>Security</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Security</string>
+   </property>
+  </action>
+  <action name="actionActivity">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Globe.png</normaloff>:/Resource/Generic/Globe.png</iconset>
+   </property>
+   <property name="text">
+    <string>Activity</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Activity</string>
+   </property>
+  </action>
+  <action name="actionMedia">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/Media.png</normaloff>:/Resource/Media/Media.png</iconset>
+   </property>
+   <property name="text">
+    <string>Media</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Media</string>
+   </property>
+   <property name="skinIdentifier" stdset="0">
+    <string/>
+   </property>
+  </action>
+  <action name="actionCreateTorrent">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Networks/CreateTorrent.png</normaloff>:/Resource/Networks/CreateTorrent.png</iconset>
+   </property>
+   <property name="text">
+    <string>Create Torrent</string>
+   </property>
+  </action>
+  <action name="actionSeedTorrent">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Networks/SeedTorrent.png</normaloff>:/Resource/Networks/SeedTorrent.png</iconset>
+   </property>
+   <property name="text">
+    <string>Seed Torrent</string>
+   </property>
+  </action>
+  <action name="actionOpenTorrent">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Networks/BitTorrent.png</normaloff>:/Resource/Networks/BitTorrent.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Torrent</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Torrent</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionEDonkey">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
+   </property>
+   <property name="text">
+    <string>eDonkey</string>
+   </property>
+   <property name="toolTip">
+    <string>eDonkey</string>
+   </property>
+  </action>
+  <action name="actionGnutella2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
+   </property>
+   <property name="text">
+    <string>Gnutella 2</string>
+   </property>
+  </action>
+  <action name="actionConnect">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
+   </property>
+   <property name="text">
+    <string>Connect</string>
+   </property>
+  </action>
+  <action name="actionDisconnect">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/Disconnect.png</normaloff>:/Resource/Network/Disconnect.png</iconset>
+   </property>
+   <property name="text">
+    <string>Disconnect</string>
+   </property>
+  </action>
+  <action name="actionConnectTo">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/ConnectTo.png</normaloff>:/Resource/Network/ConnectTo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Connect To</string>
+   </property>
+  </action>
+  <action name="actionExitAfterTransfers">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/ExitAfterTransfers.png</normaloff>:/Resource/Generic/ExitAfterTransfers.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit After Transfers</string>
+   </property>
+  </action>
+  <action name="actionChat">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
+   </property>
+   <property name="text">
+    <string>Chat</string>
+   </property>
+   <property name="whatsThis">
+    <string notr="true">Chat</string>
+   </property>
+  </action>
+  <action name="actionHostCache">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/HostCache.png</normaloff>:/Resource/Network/HostCache.png</iconset>
+   </property>
+   <property name="text">
+    <string>Host Cache</string>
+   </property>
+   <property name="toolTip">
+    <string>Host Cache</string>
+   </property>
+   <property name="statusTip">
+    <string notr="true">Host Cache</string>
+   </property>
+  </action>
+  <action name="actionDiscovery">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/Discovery.png</normaloff>:/Resource/Network/Discovery.png</iconset>
+   </property>
+   <property name="text">
+    <string>Discovery</string>
+   </property>
+   <property name="statusTip">
+    <string notr="true">Discovery</string>
+   </property>
+  </action>
+  <action name="actionGraph">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Graph.png</normaloff>:/Resource/Generic/Graph.png</iconset>
+   </property>
+   <property name="text">
+    <string>Graph</string>
+   </property>
+   <property name="statusTip">
+    <string notr="true">Graph</string>
+   </property>
+  </action>
+  <action name="actionPacketDump">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/PacketDump.png</normaloff>:/Resource/Network/PacketDump.png</iconset>
+   </property>
+   <property name="text">
+    <string>Packet Dump</string>
+   </property>
+   <property name="statusTip">
+    <string notr="true">Packet Dump</string>
+   </property>
+  </action>
+  <action name="actionHitMonitor">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/HitMonitor.png</normaloff>:/Resource/Network/HitMonitor.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hit Monitor</string>
+   </property>
+   <property name="statusTip">
+    <string notr="true">Hit Monitor</string>
+   </property>
+  </action>
+  <action name="actionSearchMonitor">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/SearchMonitor.png</normaloff>:/Resource/Network/SearchMonitor.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search Monitor</string>
+   </property>
+   <property name="statusTip">
+    <string notr="true">Search Monitor</string>
+   </property>
+  </action>
+  <action name="actionShares">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Library/SharedFolders.png</normaloff>:/Resource/Library/SharedFolders.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit Shared Folders</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit Shared Folders</string>
+   </property>
+  </action>
+  <action name="actionURLDownload">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/URLDownload.png</normaloff>:/Resource/Generic/URLDownload.png</iconset>
+   </property>
+   <property name="text">
+    <string>Download File</string>
+   </property>
+  </action>
+  <action name="actionImportPartials">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Library/ImportPartials.png</normaloff>:/Resource/Library/ImportPartials.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import Partials</string>
+   </property>
+  </action>
+  <action name="actionOpenDownloadFolder">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Library/OpenDownloadFolder.png</normaloff>:/Resource/Library/OpenDownloadFolder.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Download Folder</string>
+   </property>
+  </action>
+  <action name="actionChooseSkin">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Skin.png</normaloff>:/Resource/Generic/Skin.png</iconset>
+   </property>
+   <property name="text">
+    <string>Choose Skin</string>
+   </property>
+  </action>
+  <action name="actionChooseLanguage">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Language.png</normaloff>:/Resource/Generic/Language.png</iconset>
+   </property>
+   <property name="text">
+    <string>Choose Language</string>
+   </property>
+  </action>
+  <action name="actionQuickstartWizard">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Wizard.png</normaloff>:/Resource/Generic/Wizard.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quickstart Wizard</string>
+   </property>
+  </action>
+  <action name="actionUsersGuide">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/UsersGuide.png</normaloff>:/Resource/Generic/UsersGuide.png</iconset>
+   </property>
+   <property name="text">
+    <string>User's Guide</string>
+   </property>
+  </action>
+  <action name="actionFAQ">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Help.png</normaloff>:/Resource/Generic/Help.png</iconset>
+   </property>
+   <property name="text">
+    <string>FAQ</string>
+   </property>
+  </action>
+  <action name="actionConnectionTest">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
+   </property>
+   <property name="text">
+    <string>Connection Test</string>
+   </property>
+  </action>
+  <action name="actionCheckForNewVersion">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
+   </property>
+   <property name="text">
+    <string>Check For New Version</string>
+   </property>
+  </action>
+  <action name="actionDonate">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Donate.png</normaloff>:/Resource/Generic/Donate.png</iconset>
+   </property>
+   <property name="text">
+    <string>Donate</string>
+   </property>
+  </action>
+  <action name="actionQuazaaForums">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/QuazaaForums.png</normaloff>:/Resource/Generic/QuazaaForums.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quazaa Forums</string>
+   </property>
+  </action>
+  <action name="actionAres">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ares</string>
+   </property>
+  </action>
+  <action name="actionScheduler">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Scheduler.png</normaloff>:/Resource/Generic/Scheduler.png</iconset>
+   </property>
+   <property name="text">
+    <string>Scheduler</string>
+   </property>
+   <property name="toolTip">
+    <string>Scheduler</string>
+   </property>
+  </action>
+  <action name="actionShowOrHide">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show/Hide Quazaa</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/Hide Quazaa</string>
+   </property>
+  </action>
+  <action name="actionEditMyProfile">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Chat/DefaultAvatar.png</normaloff>:/Resource/Chat/DefaultAvatar.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit My Profile</string>
+   </property>
+  </action>
+  <action name="actionNewSearch">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/NewSearch.png</normaloff>:/Resource/Generic/NewSearch.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Search</string>
+   </property>
+   <property name="toolTip">
+    <string>Start A New Search</string>
+   </property>
+  </action>
+  <action name="actionMediaPlay">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/PlayMedia.png</normaloff>
+     <normalon>:/Resource/Media/PauseMedia.png</normalon>:/Resource/Media/PlayMedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Play</string>
+   </property>
+   <property name="toolTip">
+    <string>Play</string>
+   </property>
+  </action>
+  <action name="actionMediaOpen">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/OpenMedia.png</normaloff>:/Resource/Media/OpenMedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Media</string>
+   </property>
+  </action>
+  <action name="actionMediaRewind">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/PreviousMediaTrack.png</normaloff>:/Resource/Media/PreviousMediaTrack.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rewind</string>
+   </property>
+   <property name="toolTip">
+    <string>Rewind</string>
+   </property>
+  </action>
+  <action name="actionMediaNextTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/NextMediaTrack.png</normaloff>:/Resource/Media/NextMediaTrack.png</iconset>
+   </property>
+   <property name="text">
+    <string>Next Track</string>
+   </property>
+  </action>
+  <action name="actionBrowseHost">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
+   </property>
+   <property name="text">
+    <string>Browse Host</string>
+   </property>
+   <property name="toolTip">
+    <string>Browse Host</string>
+   </property>
+  </action>
+  <action name="actionMediaStop">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/StopMedia.png</normaloff>:/Resource/Media/StopMedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stop Media</string>
+   </property>
+  </action>
+  <action name="actionMediaRepeat">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/Repeat.png</normaloff>:/Resource/Media/Repeat.png</iconset>
+   </property>
+   <property name="text">
+    <string>Repeat</string>
+   </property>
+   <property name="toolTip">
+    <string>Repeat</string>
+   </property>
+  </action>
+  <action name="actionMediaShuffle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/Shuffle.png</normaloff>:/Resource/Media/Shuffle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Shuffle</string>
+   </property>
+   <property name="toolTip">
+    <string>Shuffle</string>
+   </property>
+  </action>
+  <action name="actionMediaSettings">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="toolTip">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionMediaMute">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/Unmute.png</normaloff>:/Resource/Media/Unmute.png</iconset>
+   </property>
+   <property name="text">
+    <string>Mute</string>
+   </property>
+   <property name="toolTip">
+    <string>Mute</string>
+   </property>
+  </action>
+  <action name="actionChatWith">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Private Message</string>
+   </property>
+   <property name="toolTip">
+    <string>Chat With</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

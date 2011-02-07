@@ -28,7 +28,7 @@ MOC_DIR = temp/moc
 UI_DIR = temp/uic
 INCLUDEPATH += NetworkCore \
     UI \
-	3rdparty \
+    3rdparty \
     3rdparty/libircclient-qt/include \
     Models \
     ShareManager \
@@ -176,7 +176,6 @@ SOURCES += main.cpp \
     NetworkCore/buffer.cpp \
     NetworkCore/endpoint.cpp \
     NetworkCore/neighbour.cpp \
-    QuazaaMediaPlayer/quazaamediaplayer.cpp \
     Models/playlistmodel.cpp \
     Chat/chatcore.cpp \
     Chat/chatsession.cpp \
@@ -296,7 +295,6 @@ HEADERS += UI/dialoglanguage.h \
     NetworkCore/buffer.h \
     NetworkCore/endpoint.h \
     NetworkCore/neighbour.h \
-    QuazaaMediaPlayer/quazaamediaplayer.h \
     Models/playlistmodel.h \
     Chat/chatcore.h \
     Chat/chatsession.h \
@@ -306,7 +304,7 @@ HEADERS += UI/dialoglanguage.h \
     Chat/chatsessiong2.h \
     UI/widgetreturnemittextedit.h \
     UI/widgetsmileylist.h \
-	Chat/chatconverter.h
+    Chat/chatconverter.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \
