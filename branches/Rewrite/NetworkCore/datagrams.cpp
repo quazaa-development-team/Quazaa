@@ -677,7 +677,7 @@ void CDatagrams::OnPacket(CEndPoint addr, G2Packet* pPacket)
 		}
 		else
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("G2 UDP recieved unknown packet %1").arg(pPacket->GetType()));
+			//systemLog.postLog(LogSeverity::Debug, QString("G2 UDP recieved unknown packet %1").arg(pPacket->GetType()));
 			//qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
 		}
 	}

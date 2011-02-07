@@ -79,35 +79,20 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 {
 	m_nPacketsOut++;
 
-	if(m_lSendQueue.size() > 128)
-	{
-		m_lSendQueue.takeLast()->Release();
-	}
-
-	pPacket->AddRef();
-
 	if(bBuffered)
 	{
+		while( m_lSendQueue.size() > 128 )
+		{
+			m_lSendQueue.dequeue()->Release();
+		}
+
+		pPacket->AddRef();
 		m_lSendQueue.enqueue(pPacket);
 	}
 	else
 	{
-		m_lSendQueue.prepend(pPacket);
-	}
-
-	/*if( bBuffered )
-	{
-		pPacket->AddRef(); // FlushSendQueue will release
-
-		if( m_lSendQueue.size() < 128 )
-			m_lSendQueue.enqueue(pPacket);
-		else
-			pPacket->Release();
-	}
-	else
-	{
 		pPacket->ToBuffer(GetOutputBuffer());
-	}*/
+	}
 
 	if(bRelease)
 	{
@@ -150,17 +135,6 @@ void CG2Node::FlushSendQueue(bool bFullFlush)
 	}
 
 	emit readyToTransfer();
-
-	/*while( bytesToWrite() == 0 && m_lSendQueue.size() )
-	{
-		while( pOutput->size() < 4096 && m_lSendQueue.size() )
-		{
-			G2Packet* pPacket = m_lSendQueue.dequeue();
-			pPacket->ToBuffer(pOutput);
-			pPacket->Release();
-		}
-		emit readyToTransfer();
-	}*/
 }
 
 

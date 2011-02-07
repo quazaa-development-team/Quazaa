@@ -396,6 +396,7 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 		if((pDwordBuffer[ nPosition ] = pDwordHashS[ nPosition ] ^ pDwordHashT[ nPosition ]) != 0)
 		{
 			bChanged = true;
+			break;
 		}
 	}
 	if(bChanged)
