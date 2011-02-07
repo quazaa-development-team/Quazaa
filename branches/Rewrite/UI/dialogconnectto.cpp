@@ -23,6 +23,7 @@
 #include "ui_dialogconnectto.h"
 
 #include <QListView>
+#include <QMessageBox>
 
 DialogConnectTo::DialogConnectTo(QWidget* parent) :
 	QDialog(parent),
@@ -59,16 +60,41 @@ void DialogConnectTo::on_pushButtonCancel_clicked()
 
 void DialogConnectTo::on_pushButtonConnect_clicked()
 {
-	if(ui->comboBoxAddress->currentText().contains(":"))
+	CEndPoint tempAddress;
+	if(ui->comboBoxAddress->currentText().count(":") > 1) // ipv6 address, check if includes port
 	{
-		addressAndPort = ui->comboBoxAddress->currentText();
+		if(ui->comboBoxAddress->currentText().contains("[") && ui->comboBoxAddress->currentText().contains("]")
+			&& !ui->comboBoxAddress->currentText().endsWith("]")) // ipv6 address with port
+		{
+			tempAddress.setAddressWithPort(ui->comboBoxAddress->currentText());
+		} else { // ipv6 address without port
+			tempAddress.setAddress(ui->comboBoxAddress->currentText());
+			tempAddress.setPort(ui->spinBoxPort->value());
+
+		}
 	}
-	else
+	else if(ui->comboBoxAddress->currentText().contains(":") ) //ipv4 address with port
 	{
-		addressAndPort = ui->comboBoxAddress->currentText() + ":" + ui->spinBoxPort->text();
+		tempAddress.setAddressWithPort(ui->comboBoxAddress->currentText());
+	}
+	else //ipv4 address
+	{
+		tempAddress.setAddress(ui->comboBoxAddress->currentText());
+		tempAddress.setPort(ui->spinBoxPort->value());
 	}
 
-	accept();
+	if ((QAbstractSocket::IPv4Protocol == tempAddress.protocol()) || (QAbstractSocket::IPv6Protocol == tempAddress.protocol()))
+	{
+		addressAndPort = tempAddress.toStringWithPort();
+		accept();
+	}	else {
+		QMessageBox msgBox;
+		 msgBox.setText(tr("Address is invalid."));
+		 msgBox.setInformativeText(tr("Please enter a valid IP Address."));
+		 msgBox.setStandardButtons(QMessageBox::Ok);
+		 msgBox.setDefaultButton(QMessageBox::Ok);
+		 msgBox.exec();
+	}
 }
 
 
@@ -86,10 +112,9 @@ DialogConnectTo::ConnectNetwork DialogConnectTo::getConnectNetwork()
 void DialogConnectTo::setAddressAndPort(QString newAddressAndPort)
 {
 	addressAndPort = newAddressAndPort;
-	QStringList addressAndPortList = newAddressAndPort.split(":");
-	ui->comboBoxAddress->setEditText(addressAndPortList.value(0));
-	QString port = addressAndPortList.value(1);
-	ui->spinBoxPort->setValue(port.toInt());
+	CEndPoint address(newAddressAndPort);
+	ui->comboBoxAddress->setEditText(address.toString());
+	ui->spinBoxPort->setValue(address.port());
 }
 
 void DialogConnectTo::setConnectNetwork(ConnectNetwork network)

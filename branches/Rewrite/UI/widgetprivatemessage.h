@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QUrl>
 #include "types.h"
-#include "Chat/chatsession.h"
+#include "chatsession.h"
 
 class QTextDocument;
 

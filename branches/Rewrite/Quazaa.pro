@@ -29,9 +29,11 @@ UI_DIR = temp/uic
 INCLUDEPATH += NetworkCore \
     UI \
     3rdparty \
+	3rdparty/iputilities \
     3rdparty/libircclient-qt/include \
     Models \
-    ShareManager \
+	ShareManager \
+	Chat \
     .
 
 # Append _debug to executable name when compiling using debug config
@@ -185,7 +187,8 @@ SOURCES += main.cpp \
     Chat/chatsessiong2.cpp \
     UI/widgetreturnemittextedit.cpp \
     UI/widgetsmileylist.cpp \
-    Chat/chatconverter.cpp
+    Chat/chatconverter.cpp \
+    3rdparty/iputilities/iputilities.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -305,7 +308,8 @@ HEADERS += UI/dialoglanguage.h \
     Chat/chatsessiong2.h \
     UI/widgetreturnemittextedit.h \
     UI/widgetsmileylist.h \
-    Chat/chatconverter.h
+    Chat/chatconverter.h \
+    3rdparty/iputilities/iputilities.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \

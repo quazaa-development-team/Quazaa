@@ -34,7 +34,7 @@
 #include "datagrams.h"
 #include "neighbourstablemodel.h"
 
-#include "Chat/chatsessiong2.h"
+#include "chatsessiong2.h"
 
 WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 	QMainWindow(parent),

@@ -1,7 +1,7 @@
 #ifndef CHATSESSIONG2_H
 #define CHATSESSIONG2_H
 
-#include "Chat/chatsession.h"
+#include "chatsession.h"
 
 class G2Packet;
 

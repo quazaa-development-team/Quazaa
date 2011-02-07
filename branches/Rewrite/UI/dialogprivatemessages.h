@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "widgetchatinput.h"
-#include "Chat/chatsession.h"
+#include "chatsession.h"
 
 class WidgetPrivateMessage;
 class QTextDocument;

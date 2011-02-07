@@ -2,7 +2,7 @@
 #include "ui_dialogprivatemessages.h"
 
 #include "widgetprivatemessage.h"
-#include "Chat/chatcore.h"
+#include "chatcore.h"
 
 #include <QTextDocument>
 

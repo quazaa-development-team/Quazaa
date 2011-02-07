@@ -153,3 +153,52 @@ void CEndPoint::setPort(const quint16 nPort)
 {
 	m_nPort = nPort;
 }
+
+void CEndPoint::setAddressWithPort(const QString &address)
+{
+	if( address.count(":") >= 2 )
+	{
+		// IPv6
+
+		if( address.left(1) == "[" )
+		{
+			// IPv6 with port in brackets
+			int pos = address.lastIndexOf("]:");
+
+			if( pos == -1 )
+			{
+				// error
+				QHostAddress::setAddress(quint32(0));
+				m_nPort = 0;
+			}
+			else
+			{
+				QString sAddr = address.mid(1, pos - 1);
+				QHostAddress::setAddress(sAddr);
+				m_nPort = address.mid(pos + 2).toUShort();
+			}
+		}
+		else
+		{
+			// IPv6, address only
+			m_nPort = 0;
+			QHostAddress::setAddress(address);
+		}
+	}
+	else
+	{
+		// IPv4
+
+		QStringList l1 = address.split(":");
+		if(l1.count() != 2)
+		{
+			QHostAddress::setAddress(quint32(0));
+			m_nPort = 0;
+			return;
+		}
+
+		m_nPort = l1.at(1).toUShort();
+
+		QHostAddress::setAddress(l1.at(0));
+	}
+}

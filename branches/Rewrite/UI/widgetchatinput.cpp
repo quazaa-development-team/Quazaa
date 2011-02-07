@@ -2,7 +2,7 @@
 #include "ui_widgetchatinput.h"
 #include "dialogconnectto.h"
 
-#include "Chat/chatsessiong2.h"
+#include "chatsessiong2.h"
 
 #include <QColorDialog>
 

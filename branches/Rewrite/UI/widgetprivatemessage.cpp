@@ -1,7 +1,7 @@
 #include "widgetprivatemessage.h"
 #include "ui_widgetprivatemessage.h"
 #include "quazaasettings.h"
-#include "Chat/chatconverter.h"
+#include "chatconverter.h"
 
 #include <QDesktopServices>
 #include <QScrollBar>

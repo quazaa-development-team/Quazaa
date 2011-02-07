@@ -40,6 +40,7 @@ public:
 	explicit CEndPoint(const QHostAddress &address, quint16 nPort);
 	CEndPoint(const CEndPoint &copy);
 	CEndPoint(SpecialAddress address, quint16 nPort = 0);
+	void setAddressWithPort(const QString &address);
 
 public:
 	void clear();

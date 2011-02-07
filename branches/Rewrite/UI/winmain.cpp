@@ -51,9 +51,9 @@
 #include "geoiplist.h"
 #include "ShareManager.h"
 
-#include "Chat/chatsession.h"
-#include "Chat/chatsessiong2.h"
-#include "Chat/chatcore.h"
+#include "chatsession.h"
+#include "chatsessiong2.h"
+#include "chatcore.h"
 
 #include <QTimer>
 
