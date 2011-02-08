@@ -1115,12 +1115,12 @@ void CG2Node::OnQHT(G2Packet* pPacket)
 
 	if(m_pRemoteTable->m_bLive && !bLive)
 	{
-		systemLog.postLog(LogSeverity::Notice, tr("Neighbour %1 updated its query hash table. %2 bits %3%% full.").arg(m_oAddress.toString().toUtf8().constData()).arg(m_pRemoteTable->m_nBits).arg(m_pRemoteTable->GetPercent()));
+		systemLog.postLog(LogSeverity::Notice, tr("Neighbour %1 updated its query hash table. %2 bits %3% full.").arg(m_oAddress.toString().toUtf8().constData()).arg(m_pRemoteTable->m_nBits).arg(m_pRemoteTable->GetPercent()));
 	}
 
 	if(m_nType == G2_LEAF && m_pRemoteTable && m_pRemoteTable->GetPercent() > 90)
 	{
-		systemLog.postLog(LogSeverity::Error, tr("Dropping neighbour %1 - hash table too full.").arg(m_oAddress.toString().toAscii().constData()));
+		systemLog.postLog(LogSeverity::Error, tr("Dropping neighbour %1 - hash table fill percentage too high.").arg(m_oAddress.toString().toAscii().constData()));
 		Close();
 		return;
 	}

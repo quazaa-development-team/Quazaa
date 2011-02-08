@@ -464,22 +464,22 @@ QModelIndex CNeighboursTableModel::index(int row, int column, const QModelIndex 
 class CNeighboursTableModelCmp
 {
 public:
-	CNeighboursTableModelCmp(int col,Qt::SortOrder o) : col(col),order(o)
+	CNeighboursTableModelCmp(int col,Qt::SortOrder o) : column(col),order(o)
 	{}
 
 	bool operator()(CNeighboursTableModel::Neighbour* a,CNeighboursTableModel::Neighbour* b)
 	{
 		if( order == Qt::AscendingOrder )
 		{
-			return a->lessThan(col, b);
+			return a->lessThan(column, b);
 		}
 		else
 		{
-			return b->lessThan(col, a);
+			return b->lessThan(column, a);
 		}
 	}
 
-	int col;
+	int column;
 	Qt::SortOrder order;
 };
 void CNeighboursTableModel::sort(int column, Qt::SortOrder order)
