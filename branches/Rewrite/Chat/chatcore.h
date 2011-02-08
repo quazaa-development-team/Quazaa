@@ -17,6 +17,7 @@ public:
 protected:
 	QList<CChatSession*> m_lSessions;
 	CRateController* m_pController;
+	bool m_bActive;
 public:
 	CChatCore(QObject *parent = 0);
 	virtual ~CChatCore();

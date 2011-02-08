@@ -6,12 +6,12 @@ CChatCore ChatCore;
 CThread ChatThread;
 
 CChatCore::CChatCore(QObject *parent) :
-	QObject(parent)
+	QObject(parent), m_bActive(false)
 {
 }
 CChatCore::~CChatCore()
 {
-	if( ChatThread.isRunning() )
+	if( m_bActive )
 		Stop();
 }
 
@@ -40,10 +40,11 @@ void CChatCore::Remove(CChatSession *pSession)
 
 void CChatCore::Start()
 {
-	if( ChatThread.isRunning() )
+	if( m_bActive )
 		return;
 
 	ChatThread.start("ChatCore", &m_pSection);
+	m_bActive = true;
 
 	m_pController = new CRateController(&m_pSection);
 	m_pController->SetDownloadLimit(8192);
@@ -53,6 +54,7 @@ void CChatCore::Start()
 void CChatCore::Stop()
 {
 	ChatThread.exit(0);
+	m_bActive = false;
 
 	qDeleteAll(m_lSessions);
 	m_lSessions.clear();

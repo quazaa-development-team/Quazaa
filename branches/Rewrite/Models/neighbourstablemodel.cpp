@@ -464,7 +464,7 @@ QModelIndex CNeighboursTableModel::index(int row, int column, const QModelIndex 
 class CNeighboursTableModelCmp
 {
 public:
-	CNeighboursTableModelCmp(int col,Qt::SortOrder order) : col(col),order(order)
+	CNeighboursTableModelCmp(int col,Qt::SortOrder o) : col(col),order(o)
 	{}
 
 	bool operator()(CNeighboursTableModel::Neighbour* a,CNeighboursTableModel::Neighbour* b)
