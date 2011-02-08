@@ -33,6 +33,7 @@ DialogConnectTo::DialogConnectTo(QWidget* parent) :
 	ui->pushButtonConnect->setDefault(true);
 	ui->comboBoxAddress->setView(new QListView());
 	ui->comboBoxNetwork->setView(new QListView());
+	setConnectNetwork(DialogConnectTo::G2);
 }
 
 DialogConnectTo::~DialogConnectTo()
@@ -87,7 +88,7 @@ void DialogConnectTo::on_pushButtonConnect_clicked()
 	{
 		addressAndPort = tempAddress.toStringWithPort();
 		accept();
-	}	else {
+	} else {
 		QMessageBox msgBox;
 		 msgBox.setText(tr("Address is invalid."));
 		 msgBox.setInformativeText(tr("Please enter a valid IP Address."));
