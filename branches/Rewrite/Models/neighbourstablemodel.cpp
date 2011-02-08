@@ -68,8 +68,8 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour *pNeighbour) : pNode(pNei
 	default:
 		break;
 	}
-
 }
+
 bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList &to_update, CNeighboursTableModel *model)
 {
 	if( !Neighbours.NeighbourExists(pNode) )
@@ -205,6 +205,7 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 
 	return QVariant();
 }
+
 bool CNeighboursTableModel::Neighbour::lessThan(int col, CNeighboursTableModel::Neighbour *pOther) const
 {
 	switch(col)

@@ -72,7 +72,7 @@ SOURCES += main.cpp \
     quazaasettings.cpp \
     UI/dialogsplash.cpp \
     UI/widgetsearchtemplate.cpp \
-    UI/dialogwizard.cpp \
+    UI/olddialogwizard.cpp \
     UI/dialogtransferprogresstooltip.cpp \
     UI/dialogtorrentproperties.cpp \
     UI/dialogselectvisualisation.cpp \
@@ -182,13 +182,14 @@ SOURCES += main.cpp \
     Chat/chatsessiong2.cpp \
     UI/widgetreturnemittextedit.cpp \
     UI/widgetsmileylist.cpp \
-    Chat/chatconverter.cpp
+    Chat/chatconverter.cpp \
+    UI/wizardquickstart.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
     UI/dialogsplash.h \
     UI/widgetsearchtemplate.h \
-    UI/dialogwizard.h \
+    UI/olddialogwizard.h \
     UI/dialogtransferprogresstooltip.h \
     UI/dialogtorrentproperties.h \
     UI/dialogsettings.h \
@@ -300,11 +301,12 @@ HEADERS += UI/dialoglanguage.h \
     Chat/chatsessiong2.h \
     UI/widgetreturnemittextedit.h \
     UI/widgetsmileylist.h \
-    Chat/chatconverter.h
+    Chat/chatconverter.h \
+    UI/wizardquickstart.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \
-    UI/dialogwizard.ui \
+    UI/olddialogwizard.ui \
     UI/dialogtransferprogresstooltip.ui \
     UI/dialogtorrentproperties.ui \
     UI/dialogsettings.ui \
@@ -356,7 +358,8 @@ FORMS += UI/dialoglanguage.ui \
     UI/dialogprivatemessages.ui \
     UI/widgetchatinput.ui \
     UI/widgetprivatemessage.ui \
-    UI/widgetsmileylist.ui
+    UI/widgetsmileylist.ui \
+    UI/wizardquickstart.ui
 TRANSLATIONS = Language/quazaa_af.ts \
     Language/quazaa_ar.ts \
     Language/quazaa_ca.ts \
