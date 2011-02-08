@@ -41,9 +41,7 @@ CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 # Additional config
 win32:LIBS += -Lbin # if you are at windows os
 mac:CONFIG -= app_bundle
-CONFIG += no_icu \
-    mobility
-MOBILITY += multimedia
+CONFIG += no_icu
 DEFINES += IRC_STATIC \
     IRC_NO_DEPRECATED
 TEMPLATE = app
@@ -176,7 +174,6 @@ SOURCES += main.cpp \
     NetworkCore/buffer.cpp \
     NetworkCore/endpoint.cpp \
     NetworkCore/neighbour.cpp \
-    Models/playlistmodel.cpp \
     Chat/chatcore.cpp \
     Chat/chatsession.cpp \
     UI/dialogprivatemessages.cpp \
@@ -295,7 +292,6 @@ HEADERS += UI/dialoglanguage.h \
     NetworkCore/buffer.h \
     NetworkCore/endpoint.h \
     NetworkCore/neighbour.h \
-    Models/playlistmodel.h \
     Chat/chatcore.h \
     Chat/chatsession.h \
     UI/dialogprivatemessages.h \
