@@ -72,7 +72,6 @@ SOURCES += main.cpp \
     quazaasettings.cpp \
     UI/dialogsplash.cpp \
     UI/widgetsearchtemplate.cpp \
-    UI/olddialogwizard.cpp \
     UI/dialogtransferprogresstooltip.cpp \
     UI/dialogtorrentproperties.cpp \
     UI/dialogselectvisualisation.cpp \
@@ -189,7 +188,6 @@ HEADERS += UI/dialoglanguage.h \
     quazaaglobals.h \
     UI/dialogsplash.h \
     UI/widgetsearchtemplate.h \
-    UI/olddialogwizard.h \
     UI/dialogtransferprogresstooltip.h \
     UI/dialogtorrentproperties.h \
     UI/dialogsettings.h \
@@ -306,7 +304,6 @@ HEADERS += UI/dialoglanguage.h \
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \
-    UI/olddialogwizard.ui \
     UI/dialogtransferprogresstooltip.ui \
     UI/dialogtorrentproperties.ui \
     UI/dialogsettings.ui \

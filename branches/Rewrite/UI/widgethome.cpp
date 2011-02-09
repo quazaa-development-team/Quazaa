@@ -24,7 +24,7 @@
 #include "dialogadddownload.h"
 #include "dialogopentorrent.h"
 #include "dialogsettings.h"
-#include "dialogwizard.h"
+#include "wizardquickstart.h"
 #include "widgetsearchtemplate.h"
 #include "systemlog.h"
 
@@ -102,8 +102,8 @@ void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
 void WidgetHome::on_labelWelcomeWizardLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
-	DialogWizard* dlgWizard = new DialogWizard(this);
-	dlgWizard->show();
+	WizardQuickStart* wzrdQuickStart = new WizardQuickStart(this);
+	wzrdQuickStart->exec();
 }
 
 void WidgetHome::on_labelWelcomeUserGuideLink_linkActivated(QString link)

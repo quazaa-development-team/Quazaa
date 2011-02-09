@@ -15,8 +15,16 @@ public:
     explicit WizardQuickStart(QWidget *parent = 0);
     ~WizardQuickStart();
 
+protected:
+	virtual void changeEvent(QEvent* e);
+
 private:
     Ui::WizardQuickStart *ui;
+
+private slots:
+	void on_pushButtonSharesRemove_clicked();
+	void on_pushButtonSharesAdd_clicked();
+	void accept();
 };
 
 #endif // WIZARDQUICKSTART_H

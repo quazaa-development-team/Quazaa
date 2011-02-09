@@ -14,9 +14,9 @@
 #include "geoiplist.h"
 #include "network.h"
 #include "queryhashmaster.h"
-#include "UI/dialogsplash.h"
-#include "UI/dialoglanguage.h"
-#include "UI/dialogwizard.h"
+#include "dialogsplash.h"
+#include "dialoglanguage.h"
+#include "wizardquickstart.h"
 #include "ShareManager.h"
 #include "quazaairc.h"
 
@@ -69,8 +69,8 @@ int main(int argc, char *argv[])
 		quazaaSettings.saveSettings();
 		quazaaSettings.saveProfile();
 
-		DialogWizard* dlgWizard = new DialogWizard();
-		dlgWizard->exec();
+		WizardQuickStart* wzrdQuickStart = new WizardQuickStart();
+		wzrdQuickStart->exec();
 	}
 
 	//Load profile

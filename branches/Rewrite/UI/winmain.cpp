@@ -23,7 +23,7 @@
 #include "ui_winmain.h"
 #include "dialogclosetype.h"
 #include "dialogsplash.h"
-#include "dialogwizard.h"
+#include "wizardquickstart.h"
 #include "dialogabout.h"
 #include "dialogopentorrent.h"
 #include "dialogcreatetorrent.h"
@@ -711,8 +711,8 @@ void WinMain::on_actionChooseLanguage_triggered()
 
 void WinMain::on_actionQuickstartWizard_triggered()
 {
-	DialogWizard* dlgWizard = new DialogWizard(this);
-	dlgWizard->show();
+    WizardQuickStart* wzrdQuickStart = new WizardQuickStart(this);
+    wzrdQuickStart->exec();
 }
 
 void WinMain::on_actionUsersGuide_triggered()
