@@ -1,10 +1,11 @@
 #include "chatuserlistmodel.h"
+#include <QDebug>
 
 ChatUserListModel::ChatUserListModel()
 {
 	rootItem = new ChatUserItem("Users");
 	nOperatorCount = 0;
-	iOwner = QIcon(":/Resource/Chat/Owner.png");
+	iOwner = QIcon(":/Resource/Chat/Normal.png");
 	iAdmin = QIcon(":/Resource/Chat/Admin.png");
 	iOperator = QIcon(":/Resource/Chat/Op.png");
 	iHalfOperator = QIcon(":/Resource/Chat/HalfOp.png");
@@ -173,11 +174,12 @@ void ChatUserListModel::addUser(QString name)
 		beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
 		rootItem->appendChild(m_oChatUserItem);
 		endInsertRows();
-		emit updateUserCount(nOperatorCount, rootItem->childCount());
 		QModelIndex idx1 = index(0, 0, QModelIndex());
 		QModelIndex idx2 = index(rootItem->childCount(), 1, QModelIndex());
 		emit dataChanged(idx1, idx2);
-		sort();
+		sort(Qt::AscendingOrder);
+		nUserCount = rootItem->childCount();
+		emit updateUserCount(nOperatorCount, nUserCount);
 	}
 	else
 	{
@@ -185,10 +187,13 @@ void ChatUserListModel::addUser(QString name)
 		if(duplicate != -1)
 		{
 			rootItem->childItems.replace(duplicate, m_oChatUserItem);
+			sort();
 			QModelIndex idx1 = index(0, 0, QModelIndex());
 			QModelIndex idx2 = index(rootItem->childCount(), 1, QModelIndex());
 			emit dataChanged(idx1, idx2);
-			sort();
+			sort(Qt::AscendingOrder);
+			nUserCount = rootItem->childCount();
+			emit updateUserCount(nOperatorCount, nUserCount);
 		}
 	}
 }
@@ -224,9 +229,12 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 	QList<ChatUserItem*> voiceList;
 	QList<ChatUserItem*> normalList;
 
+	qDebug() << "ChatUserListModel::sort";
+
 	emit layoutAboutToBeChanged();
-	if (order = Qt::AscendingOrder)
+	if (order == Qt::AscendingOrder)
 	{
+		qDebug() << "ChatUserListModel::sort Ascending Order";
 		for (int i = 0; i < rootItem->childItems.size(); ++i)
 		{
 			switch (rootItem->childItems.at(i)->userMode)
@@ -250,16 +258,17 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 				normalList.append(rootItem->childItems.at(i));
 				break;
 			}
-
-			rootItem->childItems.clear();
-			rootItem->childItems.append(caseInsensitiveSecondarySort(ownerList, order));
-			rootItem->childItems.append(caseInsensitiveSecondarySort(administratorList, order));
-			rootItem->childItems.append(caseInsensitiveSecondarySort(operatorList, order));
-			rootItem->childItems.append(caseInsensitiveSecondarySort(halfOperatorList, order));
-			rootItem->childItems.append(caseInsensitiveSecondarySort(voiceList, order));
-			rootItem->childItems.append(caseInsensitiveSecondarySort(normalList, order));
 		}
-	} else if (order = Qt::AscendingOrder){
+
+		rootItem->childItems.clear();
+		rootItem->childItems.append(caseInsensitiveSecondarySort(ownerList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(administratorList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(operatorList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(halfOperatorList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(voiceList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(normalList, order));
+	} else if (order == Qt::DescendingOrder){
+		qDebug() << "ChatUserListModel::sort Descending Order";
 		for (int i = rootItem->childItems.size(); i > 0; --i)
 		{
 			switch (rootItem->childItems.at(i)->userMode)
@@ -283,22 +292,24 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 				normalList.append(rootItem->childItems.at(i));
 				break;
 			}
-
-			rootItem->childItems.clear();
-			rootItem->childItems.append(caseInsensitiveSecondarySort(normalList, order));
-			rootItem->childItems.append(caseInsensitiveSecondarySort(voiceList, order));
-			rootItem->childItems.append(caseInsensitiveSecondarySort(halfOperatorList, order));
-			rootItem->childItems.append(caseInsensitiveSecondarySort(operatorList, order));
-			rootItem->childItems.append(caseInsensitiveSecondarySort(administratorList, order));
-			rootItem->childItems.append(caseInsensitiveSecondarySort(ownerList, order));
 		}
+
+		rootItem->childItems.clear();
+		rootItem->childItems.append(caseInsensitiveSecondarySort(normalList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(voiceList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(halfOperatorList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(operatorList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(administratorList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(ownerList, order));
 	}
 	emit layoutChanged();
 }
 
 QList<ChatUserItem*> ChatUserListModel::caseInsensitiveSecondarySort(QList<ChatUserItem*> list, Qt::SortOrder order)
 {
-	 if (order = Qt::AscendingOrder)
+
+	qDebug() << "ChatUserListModel::caseInsensitiveSecondarySort";
+	 if (order == Qt::AscendingOrder)
 	 {
 		 QMap<QString, ChatUserItem*> map;
 		 for (int i = 0; i < list.size(); ++i)

@@ -200,7 +200,6 @@ WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName)
 
 void WidgetChatMiddle::userNames(QStringList names)
 {
-	int operators;
 	WidgetChatRoom* room	= roomByName(names.at(2));
 	QString namestr		= names.at(3);
 	QStringList userList	= namestr.split(" ");
@@ -257,6 +256,8 @@ void WidgetChatMiddle::userNames(QStringList names)
 	room->users = sortedUserList.count();
 	emit updateUserCount(operators, sortedUserList.count());
  */
+	emit updateUserCount(currentRoom()->chatUserListModel->nOperatorCount, currentRoom()->chatUserListModel->nUserCount);
+	emit roomChanged(currentRoom());
 	room->userNames(userList);
 }
 

@@ -493,5 +493,6 @@
         <file>Resource/Chat/Op.png</file>
         <file>Resource/Chat/Voice.png</file>
         <file>Resource/Chat/Owner.png</file>
+        <file>Resource/Chat/Normal.png</file>
     </qresource>
 </RCC>

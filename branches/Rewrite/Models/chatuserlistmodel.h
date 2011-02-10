@@ -53,7 +53,9 @@ public:
 					  const QModelIndex& parent = QModelIndex()) const;
 	int rowCount(const QModelIndex& parent = QModelIndex()) const;
 	int nOperatorCount;
+	int nUserCount;
 	void sort(Qt::SortOrder order = Qt::AscendingOrder);
+	bool bNeedsSorting;
 	QIcon iOwner;
 	QIcon iAdmin;
 	QIcon iOperator;

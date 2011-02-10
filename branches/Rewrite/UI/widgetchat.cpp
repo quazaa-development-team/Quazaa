@@ -121,7 +121,7 @@ void WidgetChat::updateUserList(WidgetChatRoom* currentTab)
 {
 	//qDebug() << "Signal successful. In WidgetChat::updateUserList()";
 	ui->listViewChatUsers->setModel(currentTab->chatUserListModel);
-	updateUserCount(currentTab->operators, currentTab->users);
+	updateUserCount(currentTab->chatUserListModel->nOperatorCount, currentTab->chatUserListModel->nUserCount);
 }
 
 void WidgetChat::on_listViewChatRooms_pressed(QModelIndex index)
