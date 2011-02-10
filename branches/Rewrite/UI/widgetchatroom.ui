@@ -42,7 +42,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>:/Resource/Chat/ChatWelcome.png</pixmap>
+          <pixmap resource="../Resource.qrc">:/Resource/Chat/ChatWelcome.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>false</bool>
@@ -91,11 +91,16 @@ p, li { white-space: pre-wrap; }
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="openLinks">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

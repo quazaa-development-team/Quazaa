@@ -142,29 +142,29 @@ void WidgetChatMiddle::appendMessage(Irc::Buffer* buffer, QString sender, QStrin
 		evendt = "server";
 	}
 
-	systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
+	//systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
 	//qDebug() << "Got a message from buffer " + (buffer->receiver()) + " | sender = " + sender + "| event = " + evendt;
 	QString receiver = buffer->receiver();
 
 	switch(event)
 	{
 	case QuazaaIRC::Message:
-		roomByName(receiver)->append("&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + message);
+		roomByName(receiver)->append("&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + Irc::Util::messageToHtml(message));
 		break;
 
 	case QuazaaIRC::Notice:
-		currentRoom()->append("<html><font color=blue>" + Irc::Util::nickFromTarget(sender) + ": " + message + "</font></html>");
+		currentRoom()->append("<html><font color=blue>" + Irc::Util::nickFromTarget(sender) + ": " + Irc::Util::messageToHtml(message) + "</font></html>");
 		break;
 
 	case QuazaaIRC::Action:
-		roomByName(receiver)->append("<html><font color=purple>* " + Irc::Util::nickFromTarget(sender) + " " + message + "</font></html>");
+		roomByName(receiver)->append("<html><font color=purple>* " + Irc::Util::nickFromTarget(sender) + " " + Irc::Util::messageToHtml(message) + "</font></html>");
 		break;
 
 	case QuazaaIRC::Status:
 		//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
 		//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
 		//tab->append(message);
-		roomByName("*status")->append(message);
+		roomByName("*status")->append(Irc::Util::messageToHtml(message));
 	break;
 
 	default:
@@ -200,9 +200,13 @@ WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName)
 
 void WidgetChatMiddle::userNames(QStringList names)
 {
+	for (int i = 0; i < names.size(); i++)
+		qDebug() << "WidgetChatMiddle::userNames" << i << names.at(i);
 	WidgetChatRoom* room	= roomByName(names.at(2));
-	QString namestr		= names.at(3);
-	QStringList userList	= namestr.split(" ");
+	QString sNameStore		= names.at(3);
+	QStringList userList	= sNameStore.split(" ");
+
+
 
 
 	/*
@@ -273,7 +277,7 @@ void WidgetChatMiddle::userNames(QStringList names)
 
 WidgetChatRoom* WidgetChatMiddle::currentRoom()
 {
-	systemLog.postLog(LogSeverity::Debug, QString("getting WidgetChatMiddle::currentTab()"));
+	//systemLog.postLog(LogSeverity::Debug, QString("getting WidgetChatMiddle::currentTab()"));
 	//qDebug() << "getting WidgetChatCenter::currentTab()";
 	return qobject_cast<WidgetChatRoom*>(ui->stackedWidgetChatRooms->currentWidget());
 }

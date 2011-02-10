@@ -229,12 +229,9 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 	QList<ChatUserItem*> voiceList;
 	QList<ChatUserItem*> normalList;
 
-	qDebug() << "ChatUserListModel::sort";
-
 	emit layoutAboutToBeChanged();
 	if (order == Qt::AscendingOrder)
 	{
-		qDebug() << "ChatUserListModel::sort Ascending Order";
 		for (int i = 0; i < rootItem->childItems.size(); ++i)
 		{
 			switch (rootItem->childItems.at(i)->userMode)
@@ -268,7 +265,6 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 		rootItem->childItems.append(caseInsensitiveSecondarySort(voiceList, order));
 		rootItem->childItems.append(caseInsensitiveSecondarySort(normalList, order));
 	} else if (order == Qt::DescendingOrder){
-		qDebug() << "ChatUserListModel::sort Descending Order";
 		for (int i = rootItem->childItems.size(); i > 0; --i)
 		{
 			switch (rootItem->childItems.at(i)->userMode)
@@ -307,8 +303,6 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 
 QList<ChatUserItem*> ChatUserListModel::caseInsensitiveSecondarySort(QList<ChatUserItem*> list, Qt::SortOrder order)
 {
-
-	qDebug() << "ChatUserListModel::caseInsensitiveSecondarySort";
 	 if (order == Qt::AscendingOrder)
 	 {
 		 QMap<QString, ChatUserItem*> map;
