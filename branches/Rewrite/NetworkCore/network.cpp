@@ -511,7 +511,7 @@ void CNetwork::HubBalancing()
 {
 	QMutexLocker l(&Neighbours.m_pSection);
 
-	systemLog.postLog(LogSeverity::Notice, "*** HUB BALANCING REPORT ***");
+	//systemLog.postLog(LogSeverity::Notice, "*** HUB BALANCING REPORT ***");
 
 	// get the local hub cluster load
 	quint32 nLeaves = 0, nMaxLeaves = 0, nClusterLoad = 0, nLocalLoad = 0;
@@ -525,7 +525,7 @@ void CNetwork::HubBalancing()
 			if(m_nMinutesTrying > MINUTES_TRYING_BEFORE_SWITCH)   // if no hub connects in this time
 			{
 				// emergency switch to hub mode, normal downgrades will filter out bad upgrades
-				systemLog.postLog(LogSeverity::Notice, "No HUB connections for %u minutes, switching to HUB mode.", MINUTES_TRYING_BEFORE_SWITCH);
+				systemLog.postLog(LogSeverity::Notice, "Hub Balancing: No HUB connections for %u minutes, switching to HUB mode.", MINUTES_TRYING_BEFORE_SWITCH);
 				SwitchClientMode(G2_HUB);
 			}
 			return;
@@ -554,25 +554,25 @@ void CNetwork::HubBalancing()
 		nMaxLeaves += quazaaSettings.Gnutella2.NumLeafs;
 		// and calculate local hub load percentage
 		nLocalLoad = Neighbours.m_nLeavesConnected * 100 / quazaaSettings.Gnutella2.NumLeafs;
-		systemLog.postLog(LogSeverity::Notice, "Local Hub load: %u%%, leaves connected: %u, capacity: %u", nLocalLoad, Neighbours.m_nLeavesConnected, quazaaSettings.Gnutella2.NumLeafs);
+		systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Local Hub load: %u%%, leaves connected: %u, capacity: %u", nLocalLoad, Neighbours.m_nLeavesConnected, quazaaSettings.Gnutella2.NumLeafs);
 	}
 
 	// calculate local cluster load percentage
 	nClusterLoad = nLeaves * 100 / nMaxLeaves;
 
-	systemLog.postLog(LogSeverity::Notice, "Local Hub Cluster load: %u%%, leaves connected: %u, capacity: %u", nClusterLoad, nLeaves, nMaxLeaves);
+	systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Local Hub Cluster load: %u%%, leaves connected: %u, capacity: %u", nClusterLoad, nLeaves, nMaxLeaves);
 
 	if(nClusterLoad < 50)
 	{
 		// if local cluster load is below 50%, increment counter
 		m_nMinutesBelow50++;
-		systemLog.postLog(LogSeverity::Notice, "Cluster loaded below 50%% for %u minutes.", m_nMinutesBelow50);
+		systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Cluster loaded below 50%% for %u minutes.", m_nMinutesBelow50);
 	}
 	else if(nClusterLoad > 90)
 	{
 		// if local cluster load is above 90%, increment counter
 		m_nMinutesAbove90++;
-		systemLog.postLog(LogSeverity::Notice, "Cluster loaded above 90%% for %u minutes.", m_nMinutesAbove90);
+		systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Cluster loaded above 90%% for %u minutes.", m_nMinutesAbove90);
 	}
 	else
 	{
@@ -583,7 +583,7 @@ void CNetwork::HubBalancing()
 
 	if(quazaaSettings.Gnutella2.ClientMode != 0)   // if client mode is forced in settings
 	{
-		systemLog.postLog(LogSeverity::Notice, "Not checking for mode change possibility: current client mode forced.");
+		systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Not checking for mode change possibility: current client mode forced.");
 		return;
 	}
 
@@ -596,7 +596,7 @@ void CNetwork::HubBalancing()
 	if(tNow - m_tLastModeChange < MODE_CHANGE_WAIT)
 	{
 		// too early for mode change
-		systemLog.postLog(LogSeverity::Notice, "Not checking for mode change possibility: too early from last mode change.");
+		systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Not checking for mode change possibility: too early from last mode change.");
 		return;
 	}
 
@@ -608,19 +608,19 @@ void CNetwork::HubBalancing()
 		{
 			if(nLocalLoad > 50)   // and our load is below 50%
 			{
-				systemLog.postLog(LogSeverity::Notice, "Cluster load too low for too long, staying in HUB mode, we are above 50%% of our capacity.");
+				systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Cluster load too low for too long, staying in HUB mode, we are above 50%% of our capacity.");
 			}
 			else
 			{
 				// switch to leaf mode
-				systemLog.postLog(LogSeverity::Notice, "Cluster load too low for too long, switching to LEAF mode.");
+				systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Cluster load too low for too long, switching to LEAF mode.");
 				SwitchClientMode(G2_LEAF);
 			}
 		}
 		else
 		{
 			// no connections to other hubs - stay in HUB mode
-			systemLog.postLog(LogSeverity::Notice, "Cluster load too low for too long, staying in HUB mode due to lack of HUB connections.");
+			systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Cluster load too low for too long, staying in HUB mode due to lack of HUB connections.");
 		}
 	}
 	else if(!isHub() && m_nMinutesAbove90 > UPGRADE_TIMEOUT)
@@ -632,13 +632,13 @@ void CNetwork::HubBalancing()
 		if(!IsFirewalled())
 		{
 			// switch to HUB mode
-			systemLog.postLog(LogSeverity::Notice, "Cluster load too high for too long, switching to HUB mode.");
+			systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Cluster load too high for too long, switching to HUB mode.");
 			SwitchClientMode(G2_HUB);
 		}
 	}
 	else
 	{
-		systemLog.postLog(LogSeverity::Notice, "No need for mode change.");
+		systemLog.postLog(LogSeverity::Notice, "Hub Balancing: No need for mode change.");
 	}
 
 }
@@ -662,7 +662,7 @@ bool CNetwork::SwitchClientMode(G2NodeType nRequestedMode)
 	Neighbours.Clear();
 	m_nNodeState = nRequestedMode;
 
-	systemLog.postLog(LogSeverity::Notice, "Switched to %s mode.", (isHub() ? "HUB" : "LEAF"));
+	systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Switched to %s mode.", (isHub() ? "HUB" : "LEAF"));
 
 	return true;
 }
