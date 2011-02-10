@@ -5,12 +5,12 @@ ChatUserListModel::ChatUserListModel()
 {
 	rootItem = new ChatUserItem("Users");
 	nOperatorCount = 0;
-	iOwner = QIcon(":/Resource/Chat/Normal.png");
+	iOwner = QIcon(":/Resource/Chat/Owner.png");
 	iAdmin = QIcon(":/Resource/Chat/Admin.png");
 	iOperator = QIcon(":/Resource/Chat/Op.png");
 	iHalfOperator = QIcon(":/Resource/Chat/HalfOp.png");
 	iVoice = QIcon(":/Resource/Chat/Voice.png");
-	iNormal = QIcon(":/Resource/Chat/Chat.png");
+	iNormal = QIcon(":/Resource/Chat/Normal.png");
 }
 
 ChatUserListModel::~ChatUserListModel()
