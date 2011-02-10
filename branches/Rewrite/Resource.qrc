@@ -488,5 +488,10 @@
         <file>Resource/Smileys/38.png</file>
         <file>Resource/Smileys/39.png</file>
         <file>Resource/Smileys/40.png</file>
+        <file>Resource/Chat/Admin.png</file>
+        <file>Resource/Chat/HalfOp.png</file>
+        <file>Resource/Chat/Op.png</file>
+        <file>Resource/Chat/Voice.png</file>
+        <file>Resource/Chat/Owner.png</file>
     </qresource>
 </RCC>

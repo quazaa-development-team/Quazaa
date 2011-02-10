@@ -182,7 +182,8 @@ SOURCES += main.cpp \
     UI/widgetreturnemittextedit.cpp \
     UI/widgetsmileylist.cpp \
     Chat/chatconverter.cpp \
-    UI/wizardquickstart.cpp
+    UI/wizardquickstart.cpp \
+    Models/chatuserlistmodel.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -300,7 +301,8 @@ HEADERS += UI/dialoglanguage.h \
     UI/widgetreturnemittextedit.h \
     UI/widgetsmileylist.h \
     Chat/chatconverter.h \
-    UI/wizardquickstart.h
+    UI/wizardquickstart.h \
+    Models/chatuserlistmodel.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \

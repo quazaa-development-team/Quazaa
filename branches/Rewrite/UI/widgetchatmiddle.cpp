@@ -205,6 +205,8 @@ void WidgetChatMiddle::userNames(QStringList names)
 	QString namestr		= names.at(3);
 	QStringList userList	= namestr.split(" ");
 
+
+	/*
 	userList.sort();
 	QStringList ownerList;
 	QStringList administratorList;
@@ -254,10 +256,11 @@ void WidgetChatMiddle::userNames(QStringList names)
 	room->operators = operators;
 	room->users = sortedUserList.count();
 	emit updateUserCount(operators, sortedUserList.count());
-	room->userNames(sortedUserList);
+ */
+	room->userNames(userList);
 }
 
-QStringList WidgetChatMiddle::caseInsensitiveSecondarySort(QStringList list)
+/*QStringList WidgetChatMiddle::caseInsensitiveSecondarySort(QStringList list)
 {
 	 QMap<QString, QString> map;
 	 foreach (QString str, list)
@@ -265,7 +268,7 @@ QStringList WidgetChatMiddle::caseInsensitiveSecondarySort(QStringList list)
 
 	 list = map.values();
 	 return list;
-}
+}*/
 
 WidgetChatRoom* WidgetChatMiddle::currentRoom()
 {

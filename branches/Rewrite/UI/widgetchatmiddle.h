@@ -76,7 +76,7 @@ private slots:
 	void on_stackedWidgetChatRooms_currentChanged(QWidget*);
 	void on_actionEditMyProfile_triggered();
 	void changeRoom(int index);
-	QStringList caseInsensitiveSecondarySort(QStringList list);
+	//QStringList caseInsensitiveSecondarySort(QStringList list);
 };
 
 #endif // WIDGETCHATCENTER_H

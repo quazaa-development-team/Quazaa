@@ -26,6 +26,7 @@
 #include <QtGui>
 #include "quazaairc.h"
 #include "widgetchatinput.h"
+#include "chatuserlistmodel.h"
 
 namespace Ui
 {
@@ -40,8 +41,8 @@ public:
 	explicit WidgetChatRoom(QuazaaIRC* quazaaIrc, QWidget* parent = 0);
 	~WidgetChatRoom();
 	QString roomName;
-	QStringListModel* userList;
 	int operators, users;
+	ChatUserListModel *chatUserListModel;
 
 public slots:
 	void saveWidget();
