@@ -230,16 +230,10 @@ void CCompressedConnection::Inflate()
 
 void CCompressedConnection::Deflate()
 {
-	if(m_pZOutput->size() == 0)
-	{
-		return;
-	}
-
 	qint32 nFlushMode = Z_NO_FLUSH;
 
 	if(m_tDeflateFlush.elapsed() > 250ll || m_nTotalOutput > m_nNextDeflateFlush)
 	{
-		m_bOutputPending = false;
 		nFlushMode = Z_SYNC_FLUSH;
 		m_nNextDeflateFlush += 4096;
 		m_tDeflateFlush.start();
@@ -280,5 +274,7 @@ void CCompressedConnection::Deflate()
 
 	}
 	while(m_sOutput.avail_in != 0);
+
+	m_bOutputPending = (nFlushMode == Z_NO_FLUSH);
 
 }

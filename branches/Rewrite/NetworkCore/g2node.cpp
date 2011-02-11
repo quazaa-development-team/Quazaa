@@ -36,7 +36,7 @@
 
 #include <QTcpSocket>
 
-#define _DISABLE_COMPRESSION
+//#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject* parent) :
 	CNeighbour(parent)
@@ -79,7 +79,7 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 {
 	m_nPacketsOut++;
 
-	/*if(bBuffered)
+	if(bBuffered)
 	{
 		while( m_lSendQueue.size() > 128 )
 		{
@@ -92,9 +92,7 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 	else
 	{
 		pPacket->ToBuffer(GetOutputBuffer());
-	}*/
-
-	pPacket->ToBuffer(GetOutputBuffer());
+	}
 
 	if(bRelease)
 	{
@@ -223,8 +221,7 @@ void CG2Node::OnTimer(quint32 tNow)
 
 	if(m_nState == nsConnected)
 	{
-		//if(m_nPingsWaiting == 0 && (tNow - m_tLastPacketIn >= 30 || tNow - m_tLastPingOut >= quazaaSettings.Gnutella2.PingRate))
-		if( tNow % 5 == 0 )
+		if(m_nPingsWaiting == 0 && (tNow - m_tLastPacketIn >= 30 || tNow - m_tLastPingOut >= quazaaSettings.Gnutella2.PingRate))
 		{
 			// Jesli dostalismy ostatni pakiet co najmniej 30 sekund temu
 			// lub wyslalismy ostatniego pinga co najmniej 2 minuty temu
@@ -281,8 +278,6 @@ void CG2Node::OnTimer(quint32 tNow)
 			//qDebug() << "Still active bans: " << m_lRABan.size();
 		}
 
-
-		//FlushSendQueue(true);
 	}
 	else if(m_nState == nsClosing)
 	{
@@ -1356,14 +1351,6 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 
 qint64 CG2Node::writeToNetwork(qint64 nBytes)
 {
-
-	// first, get rid of data waiting in out buffer
-	if( bytesToWrite() )
-		return CNeighbour::writeToNetwork(nBytes);
-
-	// now if rate controller allows us to send anything more
-	// process send queue
-
 	qint64 nTotalSent = 0;
 
 	while( nTotalSent < nBytes && !m_lSendQueue.isEmpty() && GetOutputBuffer()->isEmpty() )
@@ -1378,5 +1365,5 @@ qint64 CG2Node::writeToNetwork(qint64 nBytes)
 		nTotalSent += nSent;
 	}
 
-	return nTotalSent;
+	return nTotalSent + CNeighbour::writeToNetwork(nBytes - nTotalSent);
 }

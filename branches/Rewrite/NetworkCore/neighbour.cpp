@@ -51,13 +51,13 @@ void CNeighbour::OnTimer(quint32 tNow)
 			return;
 		}
 
-		/*if(m_nPingsWaiting > 0 && tNow - m_tLastPingOut > quazaaSettings.Gnutella2.PingTimeout && tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
+		if(m_nPingsWaiting > 0 && tNow - m_tLastPingOut > quazaaSettings.Gnutella2.PingTimeout && tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 ping timed out").arg(m_oAddress.toString()));
 			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "ping timed out";
 			Close();
 			return;
-		}*/
+		}
 	}
 }
 

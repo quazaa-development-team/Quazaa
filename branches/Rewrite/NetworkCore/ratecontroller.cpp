@@ -129,7 +129,7 @@ void CRateController::transfer()
 
 			if(m_nUploadLimit * 2 > pConn->m_pSocket->bytesToWrite())
 			{
-				qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->bytesToWrite());
+				qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->m_pSocket->bytesToWrite());
 
 				if(nChunkSize > 0)
 				{
