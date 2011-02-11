@@ -15,6 +15,7 @@
 #include "ircutil.h"
 #include <QString>
 #include <QRegExp>
+#include <QDebug>
 
 /*!
     \class Irc::Util ircutil.h
@@ -56,7 +57,7 @@ namespace Irc
         processed.replace(QLatin1Char('&'), QLatin1String("&amp;"));
         processed.replace(QLatin1Char('<'), QLatin1String("&lt;"));
         processed.replace(QLatin1Char('>'), QLatin1String("&gt;"));
-        processed.replace(QLatin1Char('\t'), QLatin1String("&nbsp;"));
+		processed.replace(QLatin1Char('\t'), QLatin1String("&nbsp;"));
 
         enum
         {
@@ -74,12 +75,13 @@ namespace Irc
         while (pos < processed.size())
         {
             if (state & Color)
-            {
-                QString tmp = processed.mid(pos, 2);
-                processed.remove(pos, 2);
+			{
+				qDebug() << "Coloring code: " << processed;
+				QString tmp = processed.mid(pos, 1);
+				processed.remove(pos, 1);
                 processed = processed.arg(colorNameFromCode(tmp.toInt()));
                 state &= ~Color;
-                pos += 2;
+				pos += 2;
                 continue;
             }
 
@@ -102,13 +104,13 @@ namespace Irc
                 state ^= Color;
                 break;
 
-            /*case '\x09': // italic
+			case '\x09': // italic
                 if (state & Italic)
                     replacement = QLatin1String("</span>");
                 else
-                    replacement = QLatin1String("<span style='text-decoration: underline'>");
+					replacement = QLatin1String("<span style='font-style: italic'>");
                 state ^= Italic;
-                break;*/
+				break;
 
             case '\x13': // strike-through
                 if (state & StrikeThrough)
@@ -142,7 +144,7 @@ namespace Irc
 
             if (!replacement.isNull())
             {
-                processed.replace(pos, 1, replacement);
+				processed.replace(pos, 1, replacement);
                 pos += replacement.length();
             }
             else

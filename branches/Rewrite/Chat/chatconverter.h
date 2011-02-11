@@ -7,6 +7,7 @@ class QTextFragment;
 
 #include <QString>
 #include <QStack>
+#include <QColor>
 
 class CChatConverter
 {
@@ -14,7 +15,8 @@ class CChatConverter
 	enum OutputFormats
 	{
 		HTML,
-		BBCODE
+		BBCODE,
+		IRCCODE
 	};
 
 	QString			m_pResult;
@@ -30,10 +32,12 @@ public:
 
 	QString toHtml();
 	QString toBBCode();
+	QString toIRC();
 private:
 	void processBlock(QTextBlock* pBlock);
 	void processFragment(QTextFragment* pFrag);
 	void processFragmentBB(QTextFragment* pFrag);
+	void processFragmentIRC(QTextFragment* pFrag);
 };
 
 #endif // CHATCONVERTER_H

@@ -1,10 +1,14 @@
 #include "chatuserlistmodel.h"
+
+#include "ircutil.h"
+
 #include <QDebug>
 
 ChatUserListModel::ChatUserListModel()
 {
 	rootItem = new ChatUserItem("Users");
 	nOperatorCount = 0;
+	nUserCount = 0;
 	iOwner = QIcon(":/Resource/Chat/Owner.png");
 	iAdmin = QIcon(":/Resource/Chat/Admin.png");
 	iOperator = QIcon(":/Resource/Chat/Op.png");
@@ -73,6 +77,10 @@ QVariant ChatUserListModel::data(const QModelIndex& index, int role) const
 		return item->sDisplayNick;
 	}
 
+	if(role == Qt::ToolTipRole)
+	{
+		//todo: put tooltip here when its ready :D
+	}
 	return QVariant();
 }
 
@@ -162,6 +170,7 @@ void ChatUserListModel::clear()
 
 void ChatUserListModel::addUser(QString name)
 {
+	qDebug() << "ChatUserListModel::addUser " << name << " Host: " << Irc::Util::hostFromTarget(name);
 	int existingUser = rootItem->find(name);
 
 	ChatUserItem* m_oChatUserItem = new ChatUserItem(name, rootItem);

@@ -24,7 +24,6 @@
 #include "ui_widgetchatroom.h"
 #include "systemlog.h"
 
-
 #include <QDesktopServices>
 #include <QStringList>
 
@@ -73,7 +72,7 @@ void WidgetChatRoom::append(QString text)
 
 void WidgetChatRoom::userNames(QStringList userNames)
 {
-	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatRoom name is: %1").arg(roomName));
+	//systemLog.postLog(LogSeverity::Debug, QString("WidgetChatRoom name is: %1").arg(roomName));
 	//qDebug() << "My name is >> " + name;
 	/*for (int i = 0; i < names.size(); ++i) {
 		qDebug() << "CName: "+names.at(i);

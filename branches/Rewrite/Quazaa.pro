@@ -183,7 +183,8 @@ SOURCES += main.cpp \
     UI/widgetsmileylist.cpp \
     Chat/chatconverter.cpp \
     UI/wizardquickstart.cpp \
-    Models/chatuserlistmodel.cpp
+    Models/chatuserlistmodel.cpp \
+    UI/dialogirccolordialog.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -302,7 +303,8 @@ HEADERS += UI/dialoglanguage.h \
     UI/widgetsmileylist.h \
     Chat/chatconverter.h \
     UI/wizardquickstart.h \
-    Models/chatuserlistmodel.h
+    Models/chatuserlistmodel.h \
+    UI/dialogirccolordialog.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \
@@ -358,7 +360,8 @@ FORMS += UI/dialoglanguage.ui \
     UI/widgetchatinput.ui \
     UI/widgetprivatemessage.ui \
     UI/widgetsmileylist.ui \
-    UI/wizardquickstart.ui
+    UI/wizardquickstart.ui \
+    UI/dialogirccolordialog.ui
 TRANSLATIONS = Language/quazaa_af.ts \
     Language/quazaa_ar.ts \
     Language/quazaa_ca.ts \

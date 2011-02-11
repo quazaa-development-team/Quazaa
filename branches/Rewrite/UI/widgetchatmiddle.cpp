@@ -26,6 +26,7 @@
 #include "dialogsettings.h"
 #include "dialogprofile.h"
 #include "systemlog.h"
+#include "chatconverter.h"
 
 #include "quazaasettings.h"
 #include "ircbuffer.h"
@@ -60,7 +61,7 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	connect(quazaaIrc, SIGNAL(setPrefixes(QString, QString)), this, SLOT(setPrefixes(QString, QString)));
 	//connect(quazaaIrc, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
 
-	widgetChatInput = new WidgetChatInput(this);
+	widgetChatInput = new WidgetChatInput(this, true);
 	connect(widgetChatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onSendMessage(QTextDocument*)));
 	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
 	WidgetChatRoom* wct = new WidgetChatRoom(quazaaIrc, this);
@@ -314,7 +315,8 @@ void WidgetChatMiddle::on_actionEditMyProfile_triggered()
 void WidgetChatMiddle::onSendMessage(QTextDocument *message)
 {
 	qDebug() << "WidgetchatCenter::onSendMessage triggered";
-	currentRoom()->onSendMessage(message->toPlainText());
+	CChatConverter oConv(message);
+	currentRoom()->onSendMessage(oConv.toIRC());
 }
 
 void WidgetChatMiddle::changeRoom(int index)

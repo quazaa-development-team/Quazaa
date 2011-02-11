@@ -1,17 +1,20 @@
 #include "widgetchatinput.h"
 #include "ui_widgetchatinput.h"
 #include "dialogconnectto.h"
+#include "dialogirccolordialog.h"
 
 #include "chatsessiong2.h"
 
 #include <QColorDialog>
 
-WidgetChatInput::WidgetChatInput(QWidget *parent) :
+WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIRC) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetChatInput)
 {
 	ui->setupUi(this);
+	bIsIRC = isIRC;
 	textEditInput = new WidgetReturnEmitTextEdit(this);
+	connect(textEditInput, SIGNAL(cursorPositionChanged()), this, SLOT(updateToolbar()));
 	ui->horizontalLayoutInput->addWidget(textEditInput);
 	checkBoxSendOnEnter = new QCheckBox(tr("Send On Enter"), this);
 	checkBoxSendOnEnter->setChecked(true);
@@ -115,7 +118,16 @@ void WidgetChatInput::on_actionUnderline_toggled(bool checked)
 void WidgetChatInput::pickColor()
 {
 	QColor fontColor;
-	fontColor = QColorDialog::getColor(textEditInput->textColor(), this, tr("Select Font Color"));
+	if (bIsIRC)
+	{
+		DialogIRCColorDialog *dlgIRCColor = new DialogIRCColorDialog(textEditInput->textColor(), this);
+		bool accepted = dlgIRCColor->exec();
+		if (accepted)
+			fontColor = dlgIRCColor->m_oIRCColor;
+	}
+	else
+		fontColor = QColorDialog::getColor(textEditInput->textColor(), this, tr("Select Font Color"));
+
 	if (fontColor.isValid())
 	{
 		textEditInput->setTextColor(fontColor);
@@ -148,4 +160,12 @@ void WidgetChatInput::addPrivateMessage()
 			break;
 		}
 	}
+}
+
+void WidgetChatInput::updateToolbar()
+{
+	toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(textEditInput->textColor().name()));
+	ui->actionBold->setChecked(textEditInput->fontWeight() == QFont::Bold);
+	ui->actionItalic->setChecked(textEditInput->fontItalic());
+	ui->actionUnderline->setChecked(textEditInput->fontUnderline());
 }

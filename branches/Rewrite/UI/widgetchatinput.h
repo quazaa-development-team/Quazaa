@@ -14,7 +14,7 @@ namespace Ui {
 class WidgetChatInput : public QMainWindow {
 	Q_OBJECT
 public:
-	WidgetChatInput(QWidget *parent = 0);
+	WidgetChatInput(QWidget *parent = 0, bool isIRC = false);
 	~WidgetChatInput();
 
 signals:
@@ -32,6 +32,7 @@ private:
 	WidgetSmileyList *widgetSmileyList;
 	QToolButton *toolButtonPickColor;
 	QToolButton *toolButtonPrivateMessage;
+	bool bIsIRC;
 
 public slots:
 	void setText(QString text);
@@ -44,6 +45,7 @@ private slots:
 	void onTextFormatChange(QTextCharFormat newFormat);
 	void pickColor();
 	void addPrivateMessage();
+	void updateToolbar();
 };
 
 #endif // WIDGETCHATINPUT_H
