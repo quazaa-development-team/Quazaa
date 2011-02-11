@@ -86,7 +86,7 @@
     in IRC commands but need to be stripped (i.e. ident and host part
     should be cut off) before using. This can be done either explicitly,
     by calling Irc::Util::nickFromTarget(), or implicitly for all the
-    messages - by setting this option with Irc::Session::setOption().
+    messages - by setting this option with Irc::Session::setOptions().
  */
 
 /*! \var Irc::Session::EchoMessages
@@ -102,6 +102,20 @@
     \fn void Irc::Session::connected()
 
     This signal is emitted after a connection has been successfully established.
+ */
+
+/*!
+    \fn void Irc::Session::welcomed()
+
+    This signal is emitted when the welcome message has been received.
+
+    \sa Irc::Rfc::RPL_WELCOME
+ */
+
+/*!
+    \fn void Irc::Session::reconnecting()
+
+    This signal is emitted when the session is about to reconnect.
  */
 
 /*!
@@ -121,6 +135,124 @@
 
     This signal is emitted whenever a \a buffer was removed.
  */
+
+/*!
+    \fn void Irc::Session::capabilitiesListed(const QStringList& capabilities)
+
+    This signal is emitted when the library receives a list of
+    supported capabilities for this session.
+
+    \sa requestCapabilities()
+ */
+
+/*!
+    \fn void Irc::Session::capabilitiesAcked(const QStringList& capabilities)
+
+    This signal is emitted when the server acknowledges the use of
+    a previously requested list of capabilities. Note that if you
+    request a list of capabilities, either all of them will be
+    acked, or all of them will be nacked.
+ */
+
+/*!
+    \fn void Irc::Session::capabilitiesNotAcked(const QStringList& capabilities)
+
+    This signal is emitted when the server disacknowledges enabling
+    a previously requested list of capabilities. This means that none
+    of the requested capabilities will be enabled, even if some of them
+    were valid. (Any previously enabled capabilities will still be
+    enabled.)
+ */
+ 
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgJoined ( const QString &origin, const QString &channel)
+
+    \deprecated Use Irc::Buffer::joined(const QString& origin)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgParted (const QString &origin, const QString &channel, const QString &message)
+
+    \deprecated Use Irc::Buffer::parted(const QString& origin, const QString& message)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgQuit (const QString &origin, const QString &message)
+
+    \deprecated Use Irc::Buffer::quit(const QString& origin, const QString& message)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgNickChanged (const QString &origin, const QString &nick)
+
+    \deprecated Use Irc::Buffer::nickChanged(const QString& origin, const QString& nick)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgModeChanged (const QString &origin, const QString &receiver, const QString &mode, const QString &args)
+
+    \deprecated Use Irc::Buffer::modeChanged(const QString& origin, const QString& mode, const QString& args)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgTopicChanged (const QString &origin, const QString &channel, const QString &topic)
+
+    \deprecated Use Irc::Buffer::topicChanged(const QString& origin, const QString& topic)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgInvited (const QString &origin, const QString &receiver, const QString &channel)
+
+    \deprecated Use Irc::Buffer::invited(const QString& origin, const QString& receiver, const QString& channel)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgKicked (const QString &origin, const QString &channel, const QString &nick, const QString &message)
+
+    \deprecated Use Irc::Buffer::kicked(const QString& origin, const QString& nick, const QString& message)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgMessageReceived (const QString &origin, const QString &receiver, const QString &message)
+
+    \deprecated Use Irc::Buffer::messageReceived(const QString& origin, const QString& message)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgNoticeReceived (const QString &origin, const QString &receiver, const QString &notice)
+
+    \deprecated Use Irc::Buffer::noticeReceived(const QString& origin, const QString& notice)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgCtcpRequestReceived (const QString &origin, const QString &request)
+
+    \deprecated Use Irc::Buffer::ctcpRequestReceived(const QString& origin, const QString& request)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgCtcpReplyReceived (const QString &origin, const QString &reply)
+
+    \deprecated Use Irc::Buffer::ctcpReplyReceived(const QString& origin, const QString& reply)
+ */
+ 
+ /*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgCtcpActionReceived (const QString &origin, const QString &receiver, const QString &action)
+
+    \deprecated Use Irc::Buffer::ctcpActionReceived(const QString& origin, const QString& action)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgNumericMessageReceived (const QString &origin, uint code, const QStringList &params)
+
+    \deprecated Use Irc::Buffer::numericMessageReceived(const QString& origin, uint code, const QStringList& params)
+ */
+
+/*!
+    \fn Q_DECL_DEPRECATED void Irc::Session::msgUnknownMessageReceived (const QString &origin, const QStringList &params)
+
+    \deprecated Use Irc::Buffer::unknownMessageReceived(const QString& origin, const QStringList& params)
+*/
 
 static QByteArray detectEncoding(const QByteArray& text)
 {
@@ -169,7 +301,8 @@ namespace Irc
         timer(),
         defaultBuffer(),
         buffers(),
-        welcomed(false)
+        welcomed(false),
+        capabilitiesSupported(false)
     {
     }
 
@@ -186,12 +319,17 @@ namespace Irc
     {
         Q_Q(Session);
 
-        Q_ASSERT( !nick.isEmpty() );
-        Q_ASSERT( !ident.isEmpty() );
+        Q_ASSERT(!nick.isEmpty());
+        Q_ASSERT(!ident.isEmpty());
 
         // stop autoreconnecting...
         if (timer.isActive())
             timer.stop();
+
+        // Send CAP LS first; if the server understands it this will
+        // temporarily pause the handshake until CAP END is sent, so we
+        // know whether the server supports the CAP extension.
+        socket->write("CAP LS\r\n");
 
         if (!password.isEmpty())
             socket->write(QString(QLatin1String("PASS %1\r\n")).arg(password).toLocal8Bit());
@@ -202,11 +340,12 @@ namespace Irc
         // ignored by the IRC server when the USER command comes from
         // a directly connected client (for security reasons)", therefore
         // we don't need them.
-        socket->write(QString(QLatin1String("USER %1 unknown unknown :%2\r\n")).arg(ident).arg(realName).toLocal8Bit());
+        socket->write(QString(QLatin1String("USER %1 unknown unknown :%2\r\n")).arg(ident, realName).toLocal8Bit());
 
         defaultBuffer = createBuffer(host);
         emit q->connected();
         welcomed = false;
+        capabilitiesSupported = false;
     }
 
     void SessionPrivate::_q_disconnected()
@@ -348,17 +487,23 @@ namespace Irc
                 {
                     Q_ASSERT(defaultBuffer);
                     defaultBuffer->d_func()->setReceiver(prefix, false);
+
                     emit q->welcomed();
                     welcomed = true;
+
+                    if (!capabilitiesSupported && !wantedCapabilities.isEmpty())
+                        emit q->capabilitiesNotAcked(wantedCapabilities);
+                    wantedCapabilities.clear();
+
                     break;
                 }
 
                 case Irc::Rfc::RPL_TOPIC:
                 {
-                    QString topic = params.value(1);
-                    QString target = resolveTarget(QString(), topic);
+                    QString channel = params.value(1);
+                    QString target = resolveTarget(QString(), channel);
                     Buffer* buffer = createBuffer(target);
-                    buffer->d_func()->topic = topic;
+                    buffer->d_func()->topic = params.value(2);
                     break;
                 }
 
@@ -374,6 +519,14 @@ namespace Irc
                     QStringList names = list.value(2).split(QLatin1String(" "), QString::SkipEmptyParts);
                     foreach (const QString& name, names)
                         buffer->d_func()->addName(name);
+                    break;
+                }
+
+                case Irc::Rfc::RPL_ENDOFNAMES:
+                {
+                    QString target = resolveTarget(QString(), params.value(1));
+                    Buffer* buffer = createBuffer(target);
+                    emit buffer->namesReceived(buffer->names());
                     break;
                 }
 
@@ -463,11 +616,20 @@ namespace Irc
             else if (command == QLatin1String("PART"))
             {
                 QString channel = params.value(0);
-                QString message = params.value(1);
                 QString target = resolveTarget(prefix, channel);
-                Buffer* buffer = createBuffer(target);
-                buffer->d_func()->removeName(Util::nickFromTarget(prefix));
-                emit buffer->parted(prefix, message);
+                if (nick != Util::nickFromTarget(prefix))
+                {
+                    QString message = params.value(1);
+                    Buffer* buffer = createBuffer(target);
+                    buffer->d_func()->removeName(Util::nickFromTarget(prefix));
+                    emit buffer->parted(prefix, message);
+                }
+                else if (buffers.contains(target))
+                {
+                    Buffer* buffer = buffers.value(target);
+                    removeBuffer(buffer);
+                    buffer->deleteLater();
+                }
             }
             else if (command == QLatin1String("MODE"))
             {
@@ -509,6 +671,8 @@ namespace Irc
             {
                 QString message = params.value(1);
 
+                Irc::Buffer::MessageFlags flags = getMessageFlags(message);
+
                 if (message.startsWith(QLatin1Char('\1')) && message.endsWith(QLatin1Char('\1')))
                 {
                     message.remove(0, 1);
@@ -519,13 +683,13 @@ namespace Irc
                         QString receiver = params.value(0);
                         QString target = resolveTarget(prefix, receiver);
                         Buffer* buffer = createBuffer(target);
-                        emit buffer->ctcpActionReceived(prefix, message.mid(7));
+                        emit buffer->ctcpActionReceived(prefix, message.mid(7), flags);
                     }
                     else
                     {
                         // TODO: check params
                         if (defaultBuffer)
-                            emit defaultBuffer->ctcpRequestReceived(prefix, /*receiver,*/ message);
+                            emit defaultBuffer->ctcpRequestReceived(prefix, /*receiver,*/ message, flags);
                     }
                 }
                 else
@@ -533,7 +697,7 @@ namespace Irc
                     QString receiver = params.value(0);
                     QString target = resolveTarget(prefix, receiver);
                     Buffer* buffer = createBuffer(target);
-                    emit buffer->messageReceived(prefix, message);
+                    emit buffer->messageReceived(prefix, message, flags);
                 }
             }
             else if (command == QLatin1String("NOTICE"))
@@ -547,6 +711,8 @@ namespace Irc
                 QString receiver = params.value(0);
                 QString message = params.value(1);
 
+                Irc::Buffer::MessageFlags flags = getMessageFlags(message);
+
                 if (message.startsWith(QLatin1Char('\1')) && message.endsWith(QLatin1Char('\1')))
                 {
                     message.remove(0, 1);
@@ -554,18 +720,80 @@ namespace Irc
 
                     // TODO: check params
                     if (defaultBuffer)
-                        emit defaultBuffer->ctcpReplyReceived(prefix, /*receiver,*/ message);
+                        emit defaultBuffer->ctcpReplyReceived(prefix, /*receiver,*/ message, flags);
                 }
                 else
                 {
                     QString target = resolveTarget(prefix, receiver);
                     Buffer* buffer = createBuffer(target);
-                    emit buffer->noticeReceived(prefix, message);
+                    emit buffer->noticeReceived(prefix, message, flags);
                 }
             }
             else if (command == QLatin1String("KILL"))
             {
                 ; // ignore this event - not all servers generate this
+            }
+            else if (command == QLatin1String("CAP"))
+            {
+                QString subcommand = params.at(1);
+                bool endList = params.size() < 3
+                            || params.at(2) != QLatin1String("*");
+
+                QString rawCapabilities = params.at(params.size()-1);
+                tempCapabilities.append(rawCapabilities.split(QLatin1String(" ")));
+
+                if (subcommand == QLatin1String("LS") && endList)
+                {
+                    capabilities = tempCapabilities;
+
+                    emit q->capabilitiesListed(capabilities);
+
+                    // Request in-library supported capabilities right away
+                    wantedCapabilities.append(QLatin1String("identify-msg"));
+
+                    if (!welcomed)
+                    {
+                        capabilitiesSupported = true;
+                        if (wantedCapabilities.isEmpty())
+                            socket->write("CAP END\r\n");
+                        else
+                            q->requestCapabilities(wantedCapabilities);
+                    }
+                }
+                else if (subcommand == QLatin1String("LIST") && endList)
+                {
+                    enabledCapabilities = tempCapabilities;
+                }
+                else if (subcommand == QLatin1String("ACK") && endList)
+                {
+                    foreach (const QString &cap, tempCapabilities)
+                    {
+                        if (cap.startsWith(QString::fromAscii("-")))
+                            // remove disabled capabilities from the list
+                            for (int capi = 0; capi <
+                                   enabledCapabilities.size(); ++capi)
+                            {
+                                if (enabledCapabilities.at(capi).compare(
+                                        cap.mid(1), Qt::CaseInsensitive)
+                                  == 0)
+                                    enabledCapabilities.removeAt(capi);
+                            }
+                        else
+                            enabledCapabilities.append(cap);
+                    }
+
+                    if (!welcomed)
+                        socket->write("CAP END\r\n");
+                    emit q->capabilitiesAcked(tempCapabilities);
+                }
+                else if (subcommand == QLatin1String("NAK") && endList)
+                {
+                    if (!welcomed)
+                        socket->write("CAP END\r\n");
+                    emit q->capabilitiesNotAcked(tempCapabilities);
+                }
+
+                tempCapabilities.clear();
             }
             else
             {
@@ -576,6 +804,29 @@ namespace Irc
                     emit defaultBuffer->unknownMessageReceived(prefix, params);
             }
         }
+    }
+
+    Irc::Buffer::MessageFlags SessionPrivate::getMessageFlags(QString& message) const
+    {
+        Q_Q(const Session);
+        if (q->capabilityEnabled(QLatin1String("identify-msg")))
+        {
+            const QChar identstate = message.at(0);
+            message.remove(0, 1);
+            switch (identstate.toAscii())
+            {
+            case '+':
+                return Irc::Buffer::IdentifiedFlag;
+            case '-':
+                break;
+            default:
+                qWarning() << "Unknown identification state character"
+                              " in PRIVMSG with identify-msg enabled:"
+                           << identstate;
+            }
+        }
+
+        return Irc::Buffer::NoFlags;
     }
 
     bool SessionPrivate::isConnected() const
@@ -610,7 +861,15 @@ namespace Irc
     {
         Q_Q(Session);
         QString lower = receiver.toLower();
-        if (!buffers.contains(lower))
+        QString lowerNick = Util::nickFromTarget(receiver).toLower();
+        if (lower != lowerNick && buffers.contains(lowerNick))
+        {
+            Buffer* buffer = buffers.value(lowerNick);
+            buffer->d_func()->setReceiver(lower);
+            buffers.insert(lower, buffer);
+            buffers.remove(lowerNick);
+        }
+        else if (!buffers.contains(lower) && !buffers.contains(lowerNick))
         {
             Buffer* buffer = q->createBuffer(receiver);
             buffers.insert(lower, buffer);
@@ -1032,9 +1291,136 @@ namespace Irc
     }
 
     /*!
+        Returns the list of capabilities the server supports, as reported
+        by the server (including any modifiers). If empty, the
+        server might not implement the capabilities extension, or it might
+        simply not support any specific capability.
+     */
+    QStringList Session::supportedCapabilities() const
+    {
+        Q_D(const Session);
+        return d->capabilities;
+    }
+
+    /*!
+        Returns the list of enabled capabilities for this session, as reported
+        by the server (including any modifiers).
+
+        \sa requestCapabilities()
+     */
+    QStringList Session::enabledCapabilities() const
+    {
+        Q_D(const Session);
+        return d->enabledCapabilities;
+    }
+
+    /*!
+        Returns whether a capability is enabled for this session.
+
+        If you give modifier names along with the name (i.e. '=' or '~'), this
+        method will remove them; it will match them to any name delivered by
+        the server, whether or not it sends any modifiers along. Behaviour when
+        including the 'disabled modifier' ('-') is undefined; you should negate
+        the return value of this method instead.
+
+        Note: This does not include the network specific modifier (i.e. '.').
+        For example, =identify-msg matches ~IDENTIFY-MSG but not .identify-msg.
+
+        \sa enabledCapabilities()
+     */
+    bool Session::capabilityEnabled(const QString& name) const
+    {
+        QString cleanName = name;
+        while (cleanName.startsWith(QLatin1Char('='))
+            || cleanName.startsWith(QLatin1Char('~')))
+            cleanName.remove(0, 1);
+
+        foreach (const QString &mod, enabledCapabilities())
+        {
+            QString copy = mod;
+            while (copy.startsWith(QLatin1Char('='))
+                || copy.startsWith(QLatin1Char('~')))
+                copy.remove(0, 1);
+
+            if (cleanName.compare(copy, Qt::CaseInsensitive) == 0)
+                return true;
+        }
+
+        return false;
+    }
+
+    /*!
+        Requests a capability in the server.
+
+        \sa supportedCapabilities()
+        \sa clearCapabilities()
+        \sa capabilitiesAcked()
+        \sa capabilitiesNotAcked()
+     */
+    void Session::requestCapabilities(const QStringList& capabilities)
+    {
+        Q_D(Session);
+
+        if (d->capabilitiesSupported)
+        {
+            // We're far enough in the handshake to send them right away.
+            QString caps;
+            foreach (const QString &rawCap, d->wantedCapabilities) {
+                QString cap = rawCap;
+                cap.remove(QLatin1String("\r"));
+                cap.remove(QLatin1String("\n"));
+                caps.append(cap + QLatin1String(" "));
+            }
+            d->socket->write(QString::fromAscii("CAP REQ :%1\r\n")
+                              .arg(caps).toAscii());
+            return;
+        }
+
+        if (!d->welcomed)
+        {
+            // Queue the requested capabilities to request them later.
+            d->wantedCapabilities.append(capabilities);
+            d->wantedCapabilities.removeDuplicates();
+            return;
+        }
+
+        // Capabilities are requested while they are not supported. Emit
+        // an artificial NACK
+        emit capabilitiesNotAcked(capabilities);
+    }
+
+    /*!
+        Clear all non-sticky capabilities for this session.
+
+        \sa enabledCapabilities()
+        \sa requestCapabilities()
+        \sa supportedCapabilities()
+     */
+    void Session::clearCapabilities()
+    {
+        Q_D(Session);
+        if (d->welcomed)
+            d->socket->write("CAP CLEAR\r\n");
+        else
+            d->wantedCapabilities.clear();
+    }
+
+    /*!
+        Returns all allocated buffers.
+
+        \sa buffer()
+     */
+    QList<Buffer*> Session::buffers() const
+    {
+        Q_D(const Session);
+        return d->buffers.values();
+    }
+
+    /*!
         Returns the buffer for \a receiver. Returns \c 0
         if the buffer does not exist.
 
+        \sa buffers()
         \sa addBuffer()
      */
     Buffer* Session::buffer(const QString& receiver) const
@@ -1114,7 +1500,7 @@ namespace Irc
         Q_D(Session);
         qint64 bytes = -1;
         if (d->socket)
-            d->socket->write(message.toUtf8() + QByteArray("\r\n"));
+            bytes = d->socket->write(message.toUtf8() + QByteArray("\r\n"));
         return bytes != -1;
     }
 
@@ -1123,7 +1509,7 @@ namespace Irc
      */
     bool Session::motd()
     {
-        return raw(QString(QLatin1String("MOTD")));
+        return raw(QLatin1String("MOTD"));
     }
 
     /*!
@@ -1134,7 +1520,7 @@ namespace Irc
         if (key.isEmpty())
             return raw(QString(QLatin1String("JOIN %1")).arg(channel));
         else
-            return raw(QString(QLatin1String("JOIN %1 %2")).arg(channel).arg(key));
+            return raw(QString(QLatin1String("JOIN %1 %2")).arg(channel, key));
     }
 
     /*!
@@ -1145,7 +1531,7 @@ namespace Irc
         if (reason.isEmpty())
             return raw(QString(QLatin1String("PART %1")).arg(channel));
         else
-            return raw(QString(QLatin1String("PART %1 :%2")).arg(channel).arg(reason));
+            return raw(QString(QLatin1String("PART %1 :%2")).arg(channel, reason));
     }
 
     /*!
@@ -1170,7 +1556,7 @@ namespace Irc
     bool Session::list(const QString& channel)
     {
         if (channel.isEmpty())
-            return raw(QString(QLatin1String("LIST")));
+            return raw(QLatin1String("LIST"));
         else
             return raw(QString(QLatin1String("LIST %1")).arg(channel));
     }
@@ -1180,7 +1566,7 @@ namespace Irc
      */
     bool Session::whois(const QString& nick)
     {
-        return raw(QString(QLatin1String("WHOIS %1 %2")).arg(nick).arg(nick));
+        return raw(QString(QLatin1String("WHOIS %1 %2")).arg(nick, nick));
     }
 
     /*!
@@ -1188,7 +1574,7 @@ namespace Irc
      */
     bool Session::whowas(const QString& nick)
     {
-        return raw(QString(QLatin1String("WHOWAS %1 %2")).arg(nick).arg(nick));
+        return raw(QString(QLatin1String("WHOWAS %1 %2")).arg(nick, nick));
     }
 
     /*!
@@ -1199,7 +1585,7 @@ namespace Irc
         if (mode.isEmpty())
             return raw(QString(QLatin1String("MODE %1")).arg(target));
         else
-            return raw(QString(QLatin1String("MODE %1 %2")).arg(target).arg(mode));
+            return raw(QString(QLatin1String("MODE %1 %2")).arg(target, mode));
     }
 
     /*!
@@ -1210,7 +1596,7 @@ namespace Irc
         if (topic.isEmpty())
             return raw(QString(QLatin1String("TOPIC %1")).arg(channel));
         else
-            return raw(QString(QLatin1String("TOPIC %1 :%2")).arg(channel).arg(topic));
+            return raw(QString(QLatin1String("TOPIC %1 :%2")).arg(channel, topic));
     }
 
     /*!
@@ -1218,7 +1604,7 @@ namespace Irc
      */
     bool Session::invite(const QString& nick, const QString& channel)
     {
-        return raw(QString(QLatin1String("INVITE %1 %2")).arg(nick).arg(channel));
+        return raw(QString(QLatin1String("INVITE %1 %2")).arg(nick, channel));
     }
 
     /*!
@@ -1227,9 +1613,9 @@ namespace Irc
     bool Session::kick(const QString& nick, const QString& channel, const QString& reason)
     {
         if (reason.isEmpty())
-            return raw(QString(QLatin1String("KICK %1 %2")).arg(channel).arg(nick));
+            return raw(QString(QLatin1String("KICK %1 %2")).arg(channel, nick));
         else
-            return raw(QString(QLatin1String("KICK %1 %2 :%3")).arg(channel).arg(nick).arg(reason));
+            return raw(QString(QLatin1String("KICK %1 %2 :%3")).arg(channel, nick, reason));
     }
 
     /*!
@@ -1241,9 +1627,9 @@ namespace Irc
         if (d->options & Session::EchoMessages)
         {
             Buffer* buffer = d->createBuffer(receiver);
-            emit buffer->messageReceived(d->nick, message);
+            emit buffer->messageReceived(d->nick, message, Irc::Buffer::EchoFlag);
         }
-		return raw(QString(QLatin1String("PRIVMSG %1 :%2")).arg(Util::nickFromTarget(receiver)).arg(message));
+        return raw(QString(QLatin1String("PRIVMSG %1 :%2")).arg(Util::nickFromTarget(receiver), message));
     }
 
     /*!
@@ -1255,9 +1641,9 @@ namespace Irc
         if (d->options & Session::EchoMessages)
         {
             Buffer* buffer = d->createBuffer(receiver);
-            emit buffer->noticeReceived(d->nick, notice);
+            emit buffer->noticeReceived(d->nick, notice, Irc::Buffer::EchoFlag);
         }
-        return raw(QString(QLatin1String("NOTICE %1 :%2")).arg(receiver).arg(notice));
+        return raw(QString(QLatin1String("NOTICE %1 :%2")).arg(Util::nickFromTarget(receiver), notice));
     }
 
     /*!
@@ -1269,9 +1655,9 @@ namespace Irc
         if (d->options & Session::EchoMessages)
         {
             Buffer* buffer = d->createBuffer(receiver);
-            emit buffer->ctcpActionReceived(d->nick, action);
+            emit buffer->ctcpActionReceived(d->nick, action, Irc::Buffer::EchoFlag);
         }
-        return raw(QString(QLatin1String("PRIVMSG %1 :\x01" "ACTION %2\x01")).arg(receiver).arg(action));
+        return raw(QString(QLatin1String("PRIVMSG %1 :\x01" "ACTION %2\x01")).arg(Util::nickFromTarget(receiver), action));
     }
 
     /*!
@@ -1279,7 +1665,7 @@ namespace Irc
      */
     bool Session::ctcpRequest(const QString& nick, const QString& request)
     {
-        return raw(QString(QLatin1String("PRIVMSG %1 :\x01%2\x01")).arg(nick).arg(request));
+        return raw(QString(QLatin1String("PRIVMSG %1 :\x01%2\x01")).arg(Util::nickFromTarget(nick), request));
     }
 
     /*!
@@ -1287,11 +1673,14 @@ namespace Irc
      */
     bool Session::ctcpReply(const QString& nick, const QString& reply)
     {
-        return raw(QString(QLatin1String("NOTICE %1 :\x01%2\x01")).arg(nick).arg(reply));
+        return raw(QString(QLatin1String("NOTICE %1 :\x01%2\x01")).arg(Util::nickFromTarget(nick), reply));
     }
 
     /*!
         Returns a new Irc::Buffer object to act as an IRC buffer for \a receiver.
+
+        This virtual factory method can be overridden for example in order to make
+        Irc::Session use a subclass of Irc::Buffer.
      */
     Buffer* Session::createBuffer(const QString& receiver)
     {
@@ -1319,81 +1708,97 @@ namespace Irc
 
 #ifndef IRC_NO_DEPRECATED
     // TODO: for backwards compatibility, to be removed in 1.0
+    /*! \deprecated Use Irc::Session::raw() */
     bool Session::sendRaw(const QString& message)
     {
         qWarning() << "IrcSession::sendRaw(message) [slot] is DEPRECATED";
         return Session::raw(message);
     }
+    /*! \deprecated Use Irc::Session::join() */
     bool Session::cmdJoin(const QString& channel, const QString& key)
     {
         qWarning() << "IrcSession::cmdJoin(channel, key) [slot] is DEPRECATED";
         return Session::join(channel, key);
     }
+    /*! \deprecated Use Irc::Session::part() */
     bool Session::cmdPart(const QString& channel, const QString& reason)
     {
         qWarning() << "IrcSession::cmdPart(channel, reason) [slot] is DEPRECATED";
         return Session::part(channel, reason);
     }
+    /*! \deprecated Use Irc::Session::quit() */
     bool Session::cmdQuit(const QString& reason)
     {
         qWarning() << "IrcSession::cmdQuit(reason) [slot] is DEPRECATED";
         return Session::quit(reason);
     }
+    /*! \deprecated Use Irc::Session::names() */
     bool Session::cmdNames(const QString& channel)
     {
         qWarning() << "IrcSession::cmdNames(channel) [slot] is DEPRECATED";
         return Session::names(channel);
     }
+    /*! \deprecated Use Irc::Session::list() */
     bool Session::cmdList(const QString& channel)
     {
         qWarning() << "IrcSession::cmdList(channel) [slot] is DEPRECATED";
         return Session::list(channel);
     }
+    /*! \deprecated Use Irc::Session::whois() */
     bool Session::cmdWhois(const QString& nick)
     {
         qWarning() << "IrcSession::cmdWhois(nick) [slot] is DEPRECATED";
         return Session::whois(nick);
     }
+    /*! \deprecated Use Irc::Session::mode() */
     bool Session::cmdMode(const QString& target, const QString& mode)
     {
         qWarning() << "IrcSession::cmdMode(target, mode) [slot] is DEPRECATED";
         return Session::mode(target, mode);
     }
+    /*! \deprecated Use Irc::Session::topic() */
     bool Session::cmdTopic(const QString& channel, const QString& topic)
     {
         qWarning() << "IrcSession::cmdTopic(channel, topic) [slot] is DEPRECATED";
         return Session::topic(channel, topic);
     }
+    /*! \deprecated Use Irc::Session::invite() */
     bool Session::cmdInvite(const QString& nick, const QString& channel)
     {
         qWarning() << "IrcSession::cmdInvite(nick, channel) [slot] is DEPRECATED";
         return Session::invite(nick, channel);
     }
+    /*! \deprecated Use Irc::Session::kick() */
     bool Session::cmdKick(const QString& nick, const QString& channel, const QString& reason)
     {
         qWarning() << "IrcSession::cmdKick(nick, channel, reason) [slot] is DEPRECATED";
         return Session::kick(nick, channel, reason);
     }
+    /*! \deprecated Use Irc::Session::message() */
     bool Session::cmdMessage(const QString& receiver, const QString& message)
     {
         qWarning() << "IrcSession::cmdMessage(receiver, message) [slot] is DEPRECATED";
         return Session::message(receiver, message);
     }
+    /*! \deprecated Use Irc::Session::notice() */
     bool Session::cmdNotice(const QString& receiver, const QString& notice)
     {
         qWarning() << "IrcSession::cmdNotice(receiver, notice) [slot] is DEPRECATED";
         return Session::notice(receiver, notice);
     }
+    /*! \deprecated Use Irc::Session::ctcpAction() */
     bool Session::cmdCtcpAction(const QString& receiver, const QString& action)
     {
         qWarning() << "IrcSession::cmdCtcpAction(receiver, action) [slot] is DEPRECATED";
         return Session::ctcpAction(receiver, action);
     }
+    /*! \deprecated Use Irc::Session::ctcpRequest() */
     bool Session::cmdCtcpRequest(const QString& nick, const QString& request)
     {
         qWarning() << "IrcSession::cmdCtcpRequest(request) [slot] is DEPRECATED";
         return Session::ctcpRequest(nick, request);
     }
+    /*! \deprecated Use Irc::Session::ctcpReply() */
     bool Session::cmdCtcpReply(const QString& nick, const QString& reply)
     {
         qWarning() << "IrcSession::cmdCtcpReply(reply) [slot] is DEPRECATED";

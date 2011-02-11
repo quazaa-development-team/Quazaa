@@ -49,7 +49,7 @@
     
     \sa IRC_VERSION_STR and Irc::version().
  */
-#define IRC_VERSION 0x000000
+#define IRC_VERSION 0x000600
 
 /*!
     \def IRC_VERSION_STR
@@ -59,11 +59,8 @@
 
     \sa Irc::version() and IRC_VERSION.
  */
-#define IRC_VERSION_STR "trunk"
+#define IRC_VERSION_STR "0.6.0"
 
-/*!
-    \internal
- */
 #ifndef QT_FORWARD_DECLARE_CLASS
 #   define QT_FORWARD_DECLARE_CLASS(name) class name;
 #endif // QT_FORWARD_DECLARE_CLASS

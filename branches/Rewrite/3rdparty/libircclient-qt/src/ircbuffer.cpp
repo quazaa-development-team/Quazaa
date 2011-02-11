@@ -21,13 +21,54 @@
     \class Irc::Buffer ircbuffer.h
     \brief The Irc::Buffer class provides an IRC buffer.
 
-    ...
+    The Irc::Buffer class acts as a buffer for a single receiver. Receivers
+    can be:
+    \li the server
+    \li channels
+    \li queries.
+
+    Server/channel/query specific messages are delivered to the corresponding
+    buffer.
+
+    \note Buffers are not intended to be instantiated directly, but via the
+    virtual factory method Irc::Session::createBuffer().
  */
+
+/*!
+    \enum Irc::Buffer::MessageFlag
+
+    This enum describes available message flags.
+ */
+
+/*!
+    \var Irc::Buffer::NoFlags
+
+    No flags for the message.
+ */
+
+/*!
+    \var Irc::Buffer::IdentifiedFlag
+
+    Message was sent from an identified nick.
+ */
+
+/*!
+    \var Irc::Buffer::EchoFlag
+
+    Message echoed back from library.
+ */
+
 
 /*!
     \fn void Irc::Buffer::receiverChanged(const QString& receiver)
 
     This signal is emitted whenever \a receiver has changed.
+ */
+
+/*!
+    \fn void Irc::Buffer::motdReceived(const QString& motd)
+
+    This signal is emitted when message of the day \a motd has been received.
  */
 
 /*!
@@ -46,6 +87,12 @@
     \fn void Irc::Buffer::quit(const QString& origin, const QString& message)
 
     This signal is emitted when \a origin has quit with \a message.
+ */
+
+/*!
+    \fn void Irc::Buffer::namesReceived(const QStringList& names)
+
+    This signal is emitted when the list of \a names has been received.
  */
 
 /*!
@@ -79,31 +126,31 @@
  */
 
 /*!
-    \fn void Irc::Buffer::messageReceived(const QString& origin, const QString& message)
+    \fn void Irc::Buffer::messageReceived(const QString& origin, const QString& message, Irc::Buffer::MessageFlags flags = Irc::Buffer::NoFlags)
 
     This signal is emitted when \a origin has sent \a message.
  */
 
 /*!
-    \fn void Irc::Buffer::noticeReceived(const QString& origin, const QString& notice)
+    \fn void Irc::Buffer::noticeReceived(const QString& origin, const QString& notice, Irc::Buffer::MessageFlags flags = Irc::Buffer::NoFlags)
 
     This signal is emitted when \a origin has sent \a notice.
  */
 
 /*!
-    \fn void Irc::Buffer::ctcpRequestReceived(const QString& origin, const QString& request)
+    \fn void Irc::Buffer::ctcpRequestReceived(const QString& origin, const QString& request, Irc::Buffer::MessageFlags flags = Irc::Buffer::NoFlags)
 
     This signal is emitted when \a origin has sent a CTCP \a request.
  */
 
 /*!
-    \fn void Irc::Buffer::ctcpReplyReceived(const QString& origin, const QString& reply)
+    \fn void Irc::Buffer::ctcpReplyReceived(const QString& origin, const QString& reply, Irc::Buffer::MessageFlags flags = Irc::Buffer::NoFlags)
 
     This signal is emitted when \a origin has sent a CTCP \a reply.
  */
 
 /*!
-    \fn void Irc::Buffer::ctcpActionReceived(const QString& origin, const QString& action)
+    \fn void Irc::Buffer::ctcpActionReceived(const QString& origin, const QString& action, Irc::Buffer::MessageFlags flags = Irc::Buffer::NoFlags)
 
     This signal is emitted when \a origin has sent a CTCP \a action.
  */
@@ -196,6 +243,11 @@ namespace Irc
         }
     }
 
+    /*!
+        Constructs a new IRC buffer with \a receiver and \a parent.
+
+        \sa Session::createBuffer()
+     */
     Buffer::Buffer(const QString& receiver, Session* parent) : QObject(parent), d_ptr(new BufferPrivate)
     {
         Q_D(Buffer);

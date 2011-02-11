@@ -19,6 +19,7 @@
 #include <QObject>
 
 QT_FORWARD_DECLARE_CLASS(QAbstractSocket)
+QT_FORWARD_DECLARE_CLASS(QStringList)
 
 namespace Irc
 {
@@ -38,6 +39,8 @@ namespace Irc
         Q_PROPERTY(QString password READ password WRITE setPassword)
         Q_PROPERTY(quint16 port READ port WRITE setPort)
         Q_PROPERTY(QString realName READ realName WRITE setRealName)
+        Q_PROPERTY(QStringList supportedCapabilities READ supportedCapabilities)
+        Q_PROPERTY(QStringList enabledCapabilities READ enabledCapabilities)
         Q_FLAGS(Options)
         Q_ENUMS(Option)
 
@@ -88,11 +91,16 @@ namespace Irc
         QAbstractSocket* socket() const;
         void setSocket(QAbstractSocket* socket);
 
+        QList<Buffer*> buffers() const;
         Buffer* buffer(const QString& receiver = QString()) const;
         Buffer* addBuffer(const QString& receiver);
 
         Buffer* defaultBuffer() const;
         void setDefaultBuffer(Buffer* buffer);
+
+        QStringList supportedCapabilities() const;
+        QStringList enabledCapabilities() const;
+        bool capabilityEnabled(const QString& name) const;
 
     public Q_SLOTS:
         void connectToServer(const QString& hostName = QString(), quint16 port = 6667);
@@ -117,6 +125,9 @@ namespace Irc
         bool ctcpAction(const QString& receiver, const QString& action);
         bool ctcpRequest(const QString& nick, const QString& request);
         bool ctcpReply(const QString& nick, const QString& reply);
+
+        void requestCapabilities(const QStringList& capabilities);
+        void clearCapabilities();
 
 #ifndef IRC_NO_DEPRECATED
         // TODO: for backwards compatibility, to be removed in 1.0
@@ -146,6 +157,10 @@ namespace Irc
 
         void bufferAdded(Irc::Buffer* buffer);
         void bufferRemoved(Irc::Buffer* buffer);
+
+        void capabilitiesListed(const QStringList& capabilities);
+        void capabilitiesAcked(const QStringList& capabilities);
+        void capabilitiesNotAcked(const QStringList& capabilities);
 
 #ifndef IRC_NO_DEPRECATED
         // TODO: for backwards compatibility, to be removed in 1.0
