@@ -79,7 +79,7 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 {
 	m_nPacketsOut++;
 
-	if(bBuffered)
+	/*if(bBuffered)
 	{
 		while( m_lSendQueue.size() > 128 )
 		{
@@ -92,7 +92,9 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 	else
 	{
 		pPacket->ToBuffer(GetOutputBuffer());
-	}
+	}*/
+
+	pPacket->ToBuffer(GetOutputBuffer());
 
 	if(bRelease)
 	{
@@ -221,7 +223,8 @@ void CG2Node::OnTimer(quint32 tNow)
 
 	if(m_nState == nsConnected)
 	{
-		if(m_nPingsWaiting == 0 && (tNow - m_tLastPacketIn >= 30 || tNow - m_tLastPingOut >= quazaaSettings.Gnutella2.PingRate))
+		//if(m_nPingsWaiting == 0 && (tNow - m_tLastPacketIn >= 30 || tNow - m_tLastPingOut >= quazaaSettings.Gnutella2.PingRate))
+		if( tNow % 5 == 0 )
 		{
 			// Jesli dostalismy ostatni pakiet co najmniej 30 sekund temu
 			// lub wyslalismy ostatniego pinga co najmniej 2 minuty temu
@@ -1353,19 +1356,15 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 
 qint64 CG2Node::writeToNetwork(qint64 nBytes)
 {
-	qint64 nTotalSent = 0;
 
-	// send everything left in out buffer
-	while( nTotalSent < nBytes && !GetOutputBuffer()->isEmpty() )
-	{
-		qint64 nSent = CNeighbour::writeToNetwork(nBytes - nTotalSent);
-		if( nSent < 0 )
-			return nTotalSent;
-		nTotalSent += nSent;
-	}
+	// first, get rid of data waiting in out buffer
+	if( bytesToWrite() )
+		return CNeighbour::writeToNetwork(nBytes);
 
 	// now if rate controller allows us to send anything more
 	// process send queue
+
+	qint64 nTotalSent = 0;
 
 	while( nTotalSent < nBytes && !m_lSendQueue.isEmpty() && GetOutputBuffer()->isEmpty() )
 	{
