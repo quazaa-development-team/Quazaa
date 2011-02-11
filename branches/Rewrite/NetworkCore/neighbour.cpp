@@ -34,7 +34,8 @@ void CNeighbour::OnTimer(quint32 tNow)
 			{
 				HostCache.OnFailure(m_oAddress);
 			}
-			m_nState = nsClosing;
+
+			systemLog.postLog(LogSeverity::Information, "Timed out handshaking with %s.", qPrintable(m_oAddress.toStringWithPort()));
 			Close();
 			return;
 		}
@@ -45,7 +46,6 @@ void CNeighbour::OnTimer(quint32 tNow)
 		{
 			systemLog.postLog(LogSeverity::Error, tr("Closing connection to %1 due to lack of traffic.").arg(m_oAddress.toString()));
 			systemLog.postLog(LogSeverity::Debug, QString("Conn %1, Packet %2, bytes avail %3, net bytes avail %4, ping %5").arg(tNow - m_tConnected).arg(tNow - m_tLastPacketIn).arg(bytesAvailable()).arg(networkBytesAvailable()).arg(tNow - m_tLastPingOut));
-			systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 minute dead").arg(m_oAddress.toString()));
 			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "minute dead";
 			Close();
 			return;

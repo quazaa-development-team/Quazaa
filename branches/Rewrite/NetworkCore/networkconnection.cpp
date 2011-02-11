@@ -152,6 +152,7 @@ void CNetworkConnection::AcceptFrom(int nHandle)
 
 void CNetworkConnection::Close(bool bDelayed)
 {
+	systemLog.postLog(LogSeverity::Information, "Closing connection to %s.", qPrintable(m_oAddress.toStringWithPort()));
 	if(bDelayed)
 	{
 		m_bDelayedClose = true;
@@ -160,13 +161,13 @@ void CNetworkConnection::Close(bool bDelayed)
 			writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
 			m_pSocket->flush();
 		}
-		m_pSocket->close();
+		m_pSocket->disconnectFromHost();
 	}
 	else
 	{
 		m_pSocket->abort();
+		emit disconnected();
 	}
-	emit disconnected();
 }
 
 void CNetworkConnection::moveToThread(QThread* thread)
@@ -197,7 +198,7 @@ void CNetworkConnection::initializeSocket()
 	connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
 			this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
 	connect(m_pSocket, SIGNAL(aboutToClose()),
-			this, SLOT(OnAboutToClose()));
+			this, SIGNAL(aboutToClose()));
 
 	connect(this, SIGNAL(connected()), this, SLOT(OnConnect()), Qt::QueuedConnection);
 	connect(this, SIGNAL(disconnected()), this, SLOT(OnDisconnect()), Qt::QueuedConnection);
@@ -277,17 +278,6 @@ qint64 CNetworkConnection::writeData(const char* data, qint64 len)
 	emit readyToTransfer();
 	return len;
 }
-
-
-void CNetworkConnection::OnAboutToClose()
-{
-	if(m_bDelayedClose && (!GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty()))
-	{
-		writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
-	}
-	emit aboutToClose();
-}
-
 
 qint64 CNetworkConnection::bytesAvailable()
 {

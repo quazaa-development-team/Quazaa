@@ -138,9 +138,6 @@ void CG2Node::OnConnect()
 }
 void CG2Node::OnDisconnect()
 {
-	//QMutexLocker l(&Neighbours.m_pSection);
-	//qDebug("OnDisconnect()");
-	systemLog.postLog(LogSeverity::Information, "Connection with %s was dropped: %s", qPrintable(m_oAddress.toString()), qPrintable(m_pSocket->errorString()));
 	delete this;
 }
 
@@ -195,13 +192,17 @@ void CG2Node::OnRead()
 }
 void CG2Node::OnError(QAbstractSocket::SocketError e)
 {
-	if(e != QAbstractSocket::RemoteHostClosedError)
+	if(e == QAbstractSocket::RemoteHostClosedError)
+	{
+		systemLog.postLog(LogSeverity::Information, "Neighbour %s dropped connection unexpectedly.", qPrintable(m_oAddress.toStringWithPort()));
+	}
+	else
 	{
 		HostCache.OnFailure(m_oAddress);
+		systemLog.postLog(LogSeverity::Error, "Neighbour %s dropped connection unexpectedly (socket error: %s).", qPrintable(m_oAddress.toStringWithPort()), qPrintable(m_pSocket->errorString()));
 	}
 
-	//systemLog.postLog(tr("Remote host closed connection: %1. Error: %2").arg(m_oAddress.toString()).arg(m_pSocket->errorString()), LogSeverity::Notice);
-	//qDebug() << "OnError(" << e << ")" << m_oAddress.toString();
+
 	delete this;
 }
 
@@ -278,17 +279,6 @@ void CG2Node::OnTimer(quint32 tNow)
 			//qDebug() << "Still active bans: " << m_lRABan.size();
 		}
 
-	}
-	else if(m_nState == nsClosing)
-	{
-		if(m_nType == G2_UNKNOWN && tNow - m_tConnected > 20)
-		{
-			Close();
-		}
-		else if(tNow - m_tLastPacketIn > 20)
-		{
-			Close();
-		}
 	}
 }
 
@@ -830,25 +820,6 @@ void CG2Node::OnPing(G2Packet* pPacket)
 					}
 				}
 			}
-
-			/*QList<CG2Node*> lToRelay;
-
-			for( QList<CG2Node*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode )
-			{
-				CG2Node* pNode = *itNode;
-				if( pNode != this && pNode->m_nState == nsConnected )
-					lToRelay.append(pNode);
-			}
-
-			for( int nCount = 0; nCount < quazaaSettings.Gnutella2.PingRelayLimit && lToRelay.size(); nCount++ )
-			{
-				int nIndex = qrand() % lToRelay.size();
-				pPacket->AddRef();
-				CG2Node* pNode = lToRelay.at(nIndex);
-				pNode->SendPacket(pPacket, true, true);
-				lToRelay.removeAt(nIndex);
-			}*/
-
 			return;
 		}
 	}

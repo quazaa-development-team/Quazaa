@@ -167,9 +167,6 @@ signals:
 	void aboutToClose();
 	void readyToTransfer();
 
-protected slots:
-	void OnAboutToClose();
-
 public slots:
 	virtual void OnConnect() = 0;
 	virtual void OnDisconnect() = 0;

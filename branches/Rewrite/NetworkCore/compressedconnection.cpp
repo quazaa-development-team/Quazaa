@@ -239,6 +239,9 @@ void CCompressedConnection::Deflate()
 		m_tDeflateFlush.start();
 	}
 
+	if( m_pZOutput->size() == 0 && nFlushMode == Z_NO_FLUSH )
+		return;
+
 	do
 	{
 		m_sOutput.next_in = (Bytef*)m_pZOutput->data();
