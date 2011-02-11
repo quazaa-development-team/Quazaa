@@ -47,7 +47,6 @@ void CNeighbour::OnTimer(quint32 tNow)
 			systemLog.postLog(LogSeverity::Debug, QString("Conn %1, Packet %2, bytes avail %3, net bytes avail %4, ping %5").arg(tNow - m_tConnected).arg(tNow - m_tLastPacketIn).arg(bytesAvailable()).arg(networkBytesAvailable()).arg(tNow - m_tLastPingOut));
 			systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 minute dead").arg(m_oAddress.toString()));
 			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "minute dead";
-			m_nState = nsClosing;
 			Close();
 			return;
 		}
@@ -56,10 +55,14 @@ void CNeighbour::OnTimer(quint32 tNow)
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 ping timed out").arg(m_oAddress.toString()));
 			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "ping timed out";
-			m_nState = nsClosing;
-			//bemit NodeStateChanged();
 			Close();
 			return;
 		}
 	}
+}
+
+void CNeighbour::Close(bool bDelayed)
+{
+	m_nState = nsClosing;
+	CCompressedConnection::Close(bDelayed);
 }

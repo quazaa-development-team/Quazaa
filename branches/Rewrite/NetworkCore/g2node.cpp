@@ -36,7 +36,7 @@
 
 #include <QTcpSocket>
 
-//#define _DISABLE_COMPRESSION
+#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject* parent) :
 	CNeighbour(parent)
@@ -99,44 +99,8 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 		pPacket->Release();
 	}
 
-	FlushSendQueue(!bBuffered);
-}
-void CG2Node::FlushSendQueue(bool bFullFlush)
-{
-	CBuffer* pOutput = GetOutputBuffer();
-
-	if(m_lSendQueue.isEmpty())
-	{
-		return;    // nothing to do here
-	}
-
-	if(bFullFlush && pOutput->isEmpty())
-	{
-		while(!m_lSendQueue.isEmpty())
-		{
-			G2Packet* pPacket = m_lSendQueue.dequeue();
-			pPacket->ToBuffer(pOutput);
-			pPacket->Release();
-		}
-
-		if(m_bCompressedOutput)
-		{
-			m_bOutputPending = true;
-		}
-	}
-	else
-	{
-		while(bytesToWrite() < 4096 && !m_lSendQueue.isEmpty())
-		{
-			G2Packet* pPacket = m_lSendQueue.dequeue();
-			pPacket->ToBuffer(pOutput);
-			pPacket->Release();
-		}
-	}
-
 	emit readyToTransfer();
 }
-
 
 void CG2Node::OnConnect()
 {
@@ -182,8 +146,6 @@ void CG2Node::OnDisconnect()
 
 void CG2Node::OnRead()
 {
-	m_bReadyReadSent = false;
-
 	//qDebug() << "CG2Node::OnRead";
 	if(m_nState == nsHandshaking)
 	{
@@ -226,9 +188,7 @@ void CG2Node::OnRead()
 
 			systemLog.postLog(LogSeverity::Debug, QString("Packet error - ").arg(m_oAddress.toString()));
 			//qDebug() << "Packet error - " << m_oAddress.toString().toAscii();
-			m_nState = nsClosing;
-			emit NodeStateChanged();
-			delete this;
+			Close();
 		}
 	}
 
@@ -319,7 +279,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		}
 
 
-		FlushSendQueue(true);
+		//FlushSendQueue(true);
 	}
 	else if(m_nState == nsClosing)
 	{
@@ -1389,4 +1349,35 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 			SendPacket(pQA, true, true);
 		}
 	}
+}
+
+qint64 CG2Node::writeToNetwork(qint64 nBytes)
+{
+	qint64 nTotalSent = 0;
+
+	// send everything left in out buffer
+	while( nTotalSent < nBytes && !GetOutputBuffer()->isEmpty() )
+	{
+		qint64 nSent = CNeighbour::writeToNetwork(nBytes - nTotalSent);
+		if( nSent < 0 )
+			return nTotalSent;
+		nTotalSent += nSent;
+	}
+
+	// now if rate controller allows us to send anything more
+	// process send queue
+
+	while( nTotalSent < nBytes && !m_lSendQueue.isEmpty() && GetOutputBuffer()->isEmpty() )
+	{
+		G2Packet* pPacket = m_lSendQueue.dequeue();
+		pPacket->ToBuffer(GetOutputBuffer());
+		pPacket->Release();
+
+		qint64 nSent = CNeighbour::writeToNetwork(nBytes - nTotalSent);
+		if( nSent < 0 )
+			return nTotalSent;
+		nTotalSent += nSent;
+	}
+
+	return nTotalSent;
 }

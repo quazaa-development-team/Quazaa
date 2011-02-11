@@ -69,9 +69,6 @@ public:
 
 	bool	m_bDelayedClose;
 
-protected:
-	bool	m_bReadyReadSent; // if operating on input buffer directly - set it to false when you're done
-
 public:
 	CNetworkConnection(QObject* parent = 0);
 	virtual ~CNetworkConnection();

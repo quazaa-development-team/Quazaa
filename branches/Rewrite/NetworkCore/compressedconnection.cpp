@@ -148,9 +148,8 @@ qint64 CCompressedConnection::readFromNetwork(qint64 nBytes)
 	if(m_bCompressedInput)
 	{
 		Inflate();
-		if(m_pZInput->size() && !m_bReadyReadSent)
+		if(m_pZInput->size())
 		{
-			m_bReadyReadSent = true;
 			emit readyRead();
 		}
 	}
@@ -238,7 +237,7 @@ void CCompressedConnection::Deflate()
 
 	qint32 nFlushMode = Z_NO_FLUSH;
 
-	if(m_bOutputPending || m_tDeflateFlush.elapsed() > 250ll || m_nTotalOutput > m_nNextDeflateFlush)
+	if(m_tDeflateFlush.elapsed() > 250ll || m_nTotalOutput > m_nNextDeflateFlush)
 	{
 		m_bOutputPending = false;
 		nFlushMode = Z_SYNC_FLUSH;

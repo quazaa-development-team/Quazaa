@@ -77,7 +77,7 @@ void CRateController::transfer()
 	qint64 nToRead = (m_nDownloadLimit * nMsecs) / 1000;
 	qint64 nToWrite = (m_nUploadLimit * nMsecs) / 1000;
 
-	if(nToRead <= 0 && nToWrite <= 0)
+	if(nToRead == 0 && nToWrite == 0)
 	{
 		sheduleTransfer();
 		return;
@@ -116,7 +116,7 @@ void CRateController::transfer()
 
 			bool bDataTransferred = false;
 			qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
-			if(nAvailable > 0 && nToRead > 0)
+			if(nAvailable > 0)
 			{
 				qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
 				if(nReadBytes > 0)
@@ -161,7 +161,7 @@ void CRateController::transfer()
 	}
 	while(bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty());
 
-	if(bCanTransferMore || !lSockets.isEmpty())
+	if(bCanTransferMore || nToRead == 0 || nToWrite == 0)
 	{
 		sheduleTransfer();
 	}

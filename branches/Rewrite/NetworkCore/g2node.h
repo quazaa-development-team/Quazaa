@@ -66,8 +66,6 @@ public:
 	}
 
 	void SendPacket(G2Packet* pPacket, bool bBuffered = false, bool bRelease = false);
-	void FlushSendQueue(bool bFullFlush = false);
-
 protected:
 
 	void ParseOutgoingHandshake();
@@ -103,6 +101,15 @@ protected:
 	void OnQH2(G2Packet* pPacket);
 	void OnQuery(G2Packet* pPacket);
 
+protected:
+	qint64 writeToNetwork(qint64 nBytes);
+	bool HasData()
+	{
+		if( !m_lSendQueue.isEmpty() )
+			return true;
+
+		return CNeighbour::HasData();
+	}
 
 	friend class CNetwork;
 };

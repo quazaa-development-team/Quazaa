@@ -54,8 +54,6 @@ void CHandshake::OnRead()
 {
 	//qDebug() << "CHandshake::OnRead()";
 
-	m_bReadyReadSent = false;
-
 	if(bytesAvailable() < 8)
 	{
 		return;

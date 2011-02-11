@@ -110,7 +110,6 @@ void CChatSessionG2::OnRead()
 
 			CNetworkConnection::Close();
 		}
-		m_bReadyReadSent = false;
 	}
 }
 
