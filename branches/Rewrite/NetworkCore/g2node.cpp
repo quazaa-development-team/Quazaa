@@ -1324,17 +1324,23 @@ qint64 CG2Node::writeToNetwork(qint64 nBytes)
 {
 	qint64 nTotalSent = 0;
 
-	while( nTotalSent < nBytes && !m_lSendQueue.isEmpty() && GetOutputBuffer()->isEmpty() )
+	do
 	{
-		G2Packet* pPacket = m_lSendQueue.dequeue();
-		pPacket->ToBuffer(GetOutputBuffer());
-		pPacket->Release();
+		while( !m_lSendQueue.isEmpty() && GetOutputBuffer()->size() < 4096 )
+		{
+			G2Packet* pPacket = m_lSendQueue.dequeue();
+			pPacket->ToBuffer(GetOutputBuffer());
+			pPacket->Release();
+		}
 
 		qint64 nSent = CNeighbour::writeToNetwork(nBytes - nTotalSent);
-		if( nSent < 0 )
-			return nTotalSent;
+
+		if( nSent <= 0 )
+			return nTotalSent ? nTotalSent : nSent;
+
 		nTotalSent += nSent;
 	}
+	while ( nTotalSent < nBytes );
 
-	return nTotalSent + CNeighbour::writeToNetwork(nBytes - nTotalSent);
+	return nTotalSent;
 }
