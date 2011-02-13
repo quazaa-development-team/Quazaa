@@ -49,10 +49,8 @@ public slots:
 	void sendIrcMessage(QString channel, QString message);
 
 signals:
-	void setPrefixes(QString modes, QString mprefs);
-	void userNames(QStringList list);
 	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event);
-	void bufferAdded(QString str);
+	void bufferAdded(Irc::Buffer* buffer);
 	void joined(QString chan);
 
 protected slots:
@@ -63,7 +61,6 @@ protected slots:
 	void on_IrcSession_bufferAdded(Irc::Buffer* buffer);
 	void on_IrcSession_bufferRemoved(Irc::Buffer* buffer);
 	void messageReceived(QString, QString);
-	void numericMessageReceived(QString, uint, QStringList);
 	void ctcpActionReceived(QString,QString);
 	void noticeReceived(QString,QString);
 

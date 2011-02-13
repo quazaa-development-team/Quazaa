@@ -27,12 +27,12 @@ else {
 MOC_DIR = temp/moc
 UI_DIR = temp/uic
 INCLUDEPATH += NetworkCore \
-    UI \
+	UI \
     3rdparty \
     3rdparty/libircclient-qt/include \
     Models \
     ShareManager \
-    Chat \
+	Chat \
     .
 
 # Append _debug to executable name when compiling using debug config
@@ -183,9 +183,9 @@ SOURCES += main.cpp \
     UI/widgetsmileylist.cpp \
     Chat/chatconverter.cpp \
     UI/wizardquickstart.cpp \
-    Models/chatuserlistmodel.cpp \
+	Models/chatuserlistmodel.cpp \
     UI/dialogirccolordialog.cpp \
-    NetworkCore/querykeys.cpp
+	NetworkCore/querykeys.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -304,9 +304,9 @@ HEADERS += UI/dialoglanguage.h \
     UI/widgetsmileylist.h \
     Chat/chatconverter.h \
     UI/wizardquickstart.h \
-    Models/chatuserlistmodel.h \
+	Models/chatuserlistmodel.h \
     UI/dialogirccolordialog.h \
-    NetworkCore/querykeys.h
+	NetworkCore/querykeys.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \

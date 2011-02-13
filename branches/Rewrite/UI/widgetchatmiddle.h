@@ -56,12 +56,12 @@ protected:
 
 private:
 	Ui::WidgetChatMiddle* ui;
-	QString prefixChars, prefixModes;
 	QStringList channelList;
 
 public slots:
 	void saveWidget();
 	WidgetChatRoom* roomByName(QString);
+	WidgetChatRoom* roomByBuffer(Irc::Buffer* buffer);
 	WidgetChatRoom* currentRoom();
 
 private slots:
@@ -69,10 +69,7 @@ private slots:
 	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
 	void onSendMessage(QTextDocument *message);
-	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event);
-	void userNames(QStringList list);
-	void setPrefixes(QString modes, QString mprefs);
-	void addBuffer(QString name);
+	void addBuffer(Irc::Buffer *buffer);
 	void on_stackedWidgetChatRooms_currentChanged(QWidget*);
 	void on_actionEditMyProfile_triggered();
 	void changeRoom(int index);

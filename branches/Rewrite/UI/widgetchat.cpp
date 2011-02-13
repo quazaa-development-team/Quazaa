@@ -39,7 +39,6 @@ WidgetChat::WidgetChat(QWidget* parent) :
 	ui->listViewChatRooms->setModel(panelChatMiddle->channelListModel);
 	connect(panelChatMiddle, SIGNAL(roomChanged(WidgetChatRoom*)), this, SLOT(updateUserList(WidgetChatRoom*)));
 	connect(this, SIGNAL(changeRoom(int)), panelChatMiddle, SLOT(changeRoom(int)));
-	connect(panelChatMiddle, SIGNAL(updateUserCount(int,int)), this, SLOT(updateUserCount(int,int)));
 }
 
 WidgetChat::~WidgetChat()
@@ -121,7 +120,7 @@ void WidgetChat::updateUserList(WidgetChatRoom* currentTab)
 {
 	//qDebug() << "Signal successful. In WidgetChat::updateUserList()";
 	ui->listViewChatUsers->setModel(currentTab->chatUserListModel);
-	updateUserCount(currentTab->chatUserListModel->nOperatorCount, currentTab->chatUserListModel->nUserCount);
+	ui->labelChatUsersCount->setText(tr("%1 Operators, %2 Total").arg(currentTab->chatUserListModel->nOperatorCount).arg(currentTab->chatUserListModel->nUserCount));
 }
 
 void WidgetChat::on_listViewChatRooms_pressed(QModelIndex index)
@@ -136,10 +135,4 @@ void WidgetChat::on_listViewChatRooms_pressed(QModelIndex index)
 	default:
 		break;
 	}
-}
-
-
-void WidgetChat::updateUserCount(int operators, int users)
-{
-	ui->labelChatUsersCount->setText(tr("%1 Operators, %2 Total").arg(operators).arg(users));
 }

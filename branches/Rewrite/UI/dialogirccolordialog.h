@@ -41,15 +41,15 @@ private slots:
 
 	void on_toolButtonLime_clicked();
 
-	void on_toolButtonMaroon_clicked();
-
 	void on_toolButtonRed_clicked();
-
-	void on_toolButtonOrange_clicked();
 
 	void on_toolButtonYellow_clicked();
 
-	void on_toolButton_2_clicked();
+	void on_toolButtonBrown_clicked();
+
+	void on_toolButtonCancel_clicked();
+
+	void on_toolButtonOlive_clicked();
 
 private:
     Ui::DialogIRCColorDialog *ui;

@@ -60,7 +60,7 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 {
 	systemLog.postLog(LogSeverity::Debug, QString("IRC buffer added: %1").arg(buffer->receiver()));
 	//qDebug() << "buffer added:" << buffer->receiver();
-	emit bufferAdded(buffer->receiver());
+	emit bufferAdded(buffer);
 	buffer->names();
 	connect(buffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
 	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this, SLOT(numericMessageReceived(QString,uint,QStringList)));
@@ -140,33 +140,4 @@ void QuazaaIRC::messageReceived(QString sender, QString message)
 void QuazaaIRC::ctcpActionReceived(QString sender, QString message)
 {
 	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, QuazaaIRC::Action);
-}
-
-void QuazaaIRC::numericMessageReceived(QString sender, uint code, QStringList list)
-{
-	switch (code)
-	{
-		case Irc::Rfc::RPL_NAMREPLY:
-			emit userNames(list);
-		break;
-		case Irc::Rfc::RPL_BOUNCE:
-		{
-			for (int i = 0 ; i<list.size() ; ++i) {
-				QString opt = list.at(i);
-				if (opt.startsWith("PREFIX=", Qt::CaseInsensitive))
-				{
-					QString prefstr	= opt.split("=")[1];
-					QString modes	= prefstr.mid(1, prefstr.indexOf(")")-1);
-					QString mprefs	= prefstr.right(modes.length());
-					emit setPrefixes(modes, mprefs);
-				}
-			}
-		}
-		default:
-		{
-			// append to status
-			list.removeFirst();
-			emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, "[" + QString::number(code) + "] " + list.join(" "), QuazaaIRC::Status);
-		}
-	}
 }

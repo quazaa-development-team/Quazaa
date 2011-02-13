@@ -24,18 +24,21 @@
 #include "ui_widgetchatroom.h"
 #include "systemlog.h"
 
+#include "ircutil.h"
+
 #include <QDesktopServices>
 #include <QStringList>
 
-WidgetChatRoom::WidgetChatRoom(QuazaaIRC* quazaaIrc, QWidget* parent) :
+WidgetChatRoom::WidgetChatRoom(QuazaaIRC* quazaaIrc, Irc::Buffer* buffer, QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetChatRoom)
 {
 	ui->setupUi(this);
 	m_oQuazaaIrc = quazaaIrc;
+	roomBuffer = buffer;
 	chatUserListModel = new ChatUserListModel();
-	operators = 0;
-	users = 0;
+	connect(roomBuffer, SIGNAL(topicChanged(QString,QString)), this, SLOT(onTopicChanged(QString,QString)));
+	connect(roomBuffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this ,SLOT(numericMessageReceived(QString,uint,QStringList)));
 }
 
 WidgetChatRoom::~WidgetChatRoom()
@@ -65,22 +68,14 @@ void WidgetChatRoom::saveWidget()
 {
 }
 
-void WidgetChatRoom::append(QString text)
-{
-	ui->textBrowser->append(text);
-}
-
 void WidgetChatRoom::userNames(QStringList userNames)
 {
-	//systemLog.postLog(LogSeverity::Debug, QString("WidgetChatRoom name is: %1").arg(roomName));
-	//qDebug() << "My name is >> " + name;
-	/*for (int i = 0; i < names.size(); ++i) {
-		qDebug() << "CName: "+names.at(i);
-		//ui->listWidgetChatUsers->addItem(names.at(i));
-		//new QListWidgetItem(names.at(i), ui->listWidgetChatUsers);
-	}
-	*/
-	chatUserListModel->addUsers(userNames);
+	for (int i = 0; i < userNames.size(); i++);
+	QString sNameStore		= userNames.at(3);
+	QStringList userList	= sNameStore.split(" ");
+
+	chatUserListModel->addUsers(roomBuffer->names());
+	//emit updateUserCount(chatUserListModel->nOperatorCount, chatUserListModel->nUserCount);
 	//userList->setStringList(userNames);
 	//ui->listWidgetChatUsers->addItem()
 }
@@ -94,4 +89,100 @@ void WidgetChatRoom::onSendMessage(QString message)
 void WidgetChatRoom::on_textBrowser_anchorClicked(QUrl link)
 {
 	QDesktopServices::openUrl(link);
+}
+
+
+void WidgetChatRoom::appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event)
+{
+	QString evendt;
+	if(event == QuazaaIRC::Message)
+	{
+		evendt = "message";
+	}
+	else if(event == QuazaaIRC::Notice)
+	{
+		evendt = "notice";
+	}
+	else if(event == QuazaaIRC::Action)
+	{
+		evendt = "action";
+	}
+	else
+	{
+		evendt = "server";
+	}
+
+	//systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
+	//qDebug() << "Got a message from buffer " + (buffer->receiver()) + " | sender = " + sender + "| event = " + evendt;
+	QString receiver = buffer->receiver();
+	Irc::Util util;
+
+	switch(event)
+	{
+	case QuazaaIRC::Message:
+		ui->textBrowser->append("&lt;" + util.nickFromTarget(sender) + "&gt; " + util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true));
+		break;
+
+	case QuazaaIRC::Notice:
+		ui->textBrowser->append(util.nickFromTarget(sender) + ": " + util.messageToHtml(message, QColor("olive").name(), true, true, true));
+		break;
+
+	case QuazaaIRC::Action:
+		ui->textBrowser->append("* " + util.nickFromTarget(sender) + " " + util.messageToHtml(message, QColor("purple").name(), true, true, true));
+		break;
+
+	case QuazaaIRC::Status:
+		//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
+		//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
+		//tab->append(message);
+		ui->textBrowser->append(util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true));
+	break;
+
+	default:
+		systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter::appendMessage: No event!"));
+		//qDebug() << "This should not happen!";
+		break;
+	}
+}
+
+void WidgetChatRoom::onTopicChanged(QString origin, QString topic)
+{
+	ui->lineEditTopic->setText(topic);
+}
+
+void WidgetChatRoom::numericMessageReceived(QString sender, uint code, QStringList list)
+{
+	switch (code)
+	{
+		case Irc::Rfc::RPL_NAMREPLY:
+			userNames(list);
+		break;
+		case Irc::Rfc::RPL_BOUNCE:
+		{
+			for (int i = 0 ; i<list.size() ; ++i) {
+				QString opt = list.at(i);
+				if (opt.startsWith("PREFIX=", Qt::CaseInsensitive))
+				{
+					QString prefstr	= opt.split("=")[1];
+					QString modes	= prefstr.mid(1, prefstr.indexOf(")")-1);
+					QString mprefs	= prefstr.right(modes.length());
+					setPrefixes(modes, mprefs);
+				}
+			}
+		}
+		default:
+		{
+			// append to status
+			list.removeFirst();
+			appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, "[" + QString::number(code) + "] " + list.join(" "), QuazaaIRC::Status);
+		}
+	}
+}
+
+
+void WidgetChatRoom::setPrefixes(QString modes, QString mprefs)
+{
+	// overkill ?
+	prefixModes = modes;
+	prefixChars = mprefs;
 }

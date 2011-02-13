@@ -55,21 +55,14 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 		ui->actionDisconnect->setEnabled(false);
 	}
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
-	connect(quazaaIrc, SIGNAL(appendMessage(Irc::Buffer*, QString, QString, QuazaaIRC::Event)), this, SLOT(appendMessage(Irc::Buffer*, QString, QString, QuazaaIRC::Event)));
-	connect(quazaaIrc, SIGNAL(userNames(QStringList)), this, SLOT(userNames(QStringList)));
-	connect(quazaaIrc, SIGNAL(bufferAdded(QString)), this, SLOT(addBuffer(QString)));
+	connect(quazaaIrc, SIGNAL(bufferAdded(Irc::Buffer*)), this, SLOT(addBuffer(Irc::Buffer*)));
 	connect(quazaaIrc, SIGNAL(setPrefixes(QString, QString)), this, SLOT(setPrefixes(QString, QString)));
 	//connect(quazaaIrc, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
 
 	widgetChatInput = new WidgetChatInput(this, true);
 	connect(widgetChatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onSendMessage(QTextDocument*)));
 	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
-	WidgetChatRoom* wct = new WidgetChatRoom(quazaaIrc, this);
 	channelListModel = new QStringListModel();
-	ui->stackedWidgetChatRooms->addWidget(wct);
-	wct->setRoomName("*status"); // * is not allowed by RFC (IIRC)
-	channelList << "Status";
-	channelListModel->setStringList(channelList);
 }
 
 WidgetChatMiddle::~WidgetChatMiddle()
@@ -123,94 +116,40 @@ void WidgetChatMiddle::on_actionDisconnect_triggered()
 	//qDebug() << "Trying to disconnect from IRC";
 }
 
-void WidgetChatMiddle::appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event)
-{
-	QString evendt;
-	if(event == QuazaaIRC::Message)
-	{
-		evendt = "message";
-	}
-	else if(event == QuazaaIRC::Notice)
-	{
-		evendt = "notice";
-	}
-	else if(event == QuazaaIRC::Action)
-	{
-		evendt = "action";
-	}
-	else
-	{
-		evendt = "server";
-	}
-
-	//systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
-	//qDebug() << "Got a message from buffer " + (buffer->receiver()) + " | sender = " + sender + "| event = " + evendt;
-	QString receiver = buffer->receiver();
-	Irc::Util util;
-
-	switch(event)
-	{
-	case QuazaaIRC::Message:
-		roomByName(receiver)->append("<html>&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + util.messageToHtml(message, qApp->palette().foreground().color().name() + "</html>", true, true, true));
-		break;
-
-	case QuazaaIRC::Notice:
-		currentRoom()->append("<html>" + Irc::Util::nickFromTarget(sender) + ": " + util.messageToHtml(message, QColor("blue").name(), true, true, true) + "</html>");
-		break;
-
-	case QuazaaIRC::Action:
-		roomByName(receiver)->append("<html>* " + Irc::Util::nickFromTarget(sender) + " " + util.messageToHtml(message, QColor("purple").name(), true, true, true) + "</html>");
-		break;
-
-	case QuazaaIRC::Status:
-		//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
-		//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
-		//tab->append(message);
-		roomByName("*status")->append(util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true));
-	break;
-
-	default:
-		systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter::appendMessage: No event!"));
-		//qDebug() << "This should not happen!";
-		break;
-	}
-}
-
 WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName)
 {
-	WidgetChatRoom* room;
 	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
 	for(int i = 0; i < allRooms.size(); ++i)
 	{
 		if(allRooms.at(i)->roomName == roomName)
 		{
-			room = allRooms.at(i);
-			return room;
+			return allRooms.at(i);
 		}
 	}
-	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatMiddle Creating a new tab: %1").arg(roomName));
+
+	return 0;
+}
+
+WidgetChatRoom* WidgetChatMiddle::roomByBuffer(Irc::Buffer* buffer)
+{
+	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
+	for(int i = 0; i < allRooms.size(); ++i)
+	{
+		if(allRooms.at(i)->roomName == buffer->receiver())
+		{
+			return allRooms.at(i);
+		}
+	}
+	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatMiddle Creating a new room: %1").arg(buffer->receiver()));
 	//qDebug() << "CREATING A NEW TAB :: " + name;
 	// if the tab doesn't exist, create it
-	room = new WidgetChatRoom(quazaaIrc);
-	room->setRoomName(roomName);
+	WidgetChatRoom *room = new WidgetChatRoom(quazaaIrc, buffer);
+	room->setRoomName(buffer->receiver());
 	ui->stackedWidgetChatRooms->addWidget(room);
-	channelList << roomName;
+	channelList << buffer->receiver();
 	channelListModel->setStringList(channelList);
 	emit roomChanged(room);
 	return room;
-}
-
-void WidgetChatMiddle::userNames(QStringList names)
-{
-	for (int i = 0; i < names.size(); i++)
-		qDebug() << "WidgetChatMiddle::userNames" << i << names.at(i);
-	WidgetChatRoom* room	= roomByName(names.at(2));
-	QString sNameStore		= names.at(3);
-	QStringList userList	= sNameStore.split(" ");
-
-	emit updateUserCount(currentRoom()->chatUserListModel->nOperatorCount, currentRoom()->chatUserListModel->nUserCount);
-	emit roomChanged(currentRoom());
-	room->userNames(userList);
 }
 
 WidgetChatRoom* WidgetChatMiddle::currentRoom()
@@ -220,21 +159,12 @@ WidgetChatRoom* WidgetChatMiddle::currentRoom()
 	return qobject_cast<WidgetChatRoom*>(ui->stackedWidgetChatRooms->currentWidget());
 }
 
-void WidgetChatMiddle::setPrefixes(QString modes, QString mprefs)
+void WidgetChatMiddle::addBuffer(Irc::Buffer* buffer)
 {
-	// overkill ?
-	prefixModes = modes;
-	prefixChars = mprefs;
+	ui->stackedWidgetChatRooms->setCurrentWidget(roomByBuffer(buffer));
 }
 
-void WidgetChatMiddle::addBuffer(QString name)
-{
-	if(name.at(0) == '#')
-	{
-		// tab will be auto-created
-		ui->stackedWidgetChatRooms->setCurrentWidget(roomByName(name));
-	}
-}
+
 
 void WidgetChatMiddle::on_stackedWidgetChatRooms_currentChanged(QWidget*)
 {

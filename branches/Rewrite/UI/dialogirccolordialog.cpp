@@ -86,21 +86,9 @@ void DialogIRCColorDialog::on_toolButtonLime_clicked()
 	accept();
 }
 
-void DialogIRCColorDialog::on_toolButtonMaroon_clicked()
-{
-	m_oIRCColor.setNamedColor("maroon");
-	accept();
-}
-
 void DialogIRCColorDialog::on_toolButtonRed_clicked()
 {
 	m_oIRCColor.setNamedColor("red");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonOrange_clicked()
-{
-	m_oIRCColor.setNamedColor("orange");
 	accept();
 }
 
@@ -110,7 +98,19 @@ void DialogIRCColorDialog::on_toolButtonYellow_clicked()
 	accept();
 }
 
-void DialogIRCColorDialog::on_toolButton_2_clicked()
+void DialogIRCColorDialog::on_toolButtonBrown_clicked()
+{
+	m_oIRCColor.setNamedColor("brown");
+	accept();
+}
+
+void DialogIRCColorDialog::on_toolButtonCancel_clicked()
 {
 	reject();
+}
+
+void DialogIRCColorDialog::on_toolButtonOlive_clicked()
+{
+	m_oIRCColor.setNamedColor("orange");
+	accept();
 }

@@ -252,7 +252,7 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "5" && (fmt.foreground().color() != QColor("maroon")) )
+		else if( m_pStack.top() == "5" && (fmt.foreground().color() != QColor("brown")) )
 		{
 			m_pResult.append("1");
 			bLoop = true;
@@ -264,7 +264,7 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "7" && (fmt.foreground().color() != QColor("orange")) )
+		else if( m_pStack.top() == "7" && (fmt.foreground().color() != QColor("olive")) )
 		{
 			m_pResult.append("1");
 			bLoop = true;
@@ -363,7 +363,7 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 		m_pResult.append("4");
 		m_pStack.push("4");
 	}
-	else if( (fmt.foreground().color() == QColor("maroon")) && !m_pStack.contains("5"))
+	else if( (fmt.foreground().color() == QColor("brown")) && !m_pStack.contains("5"))
 	{
 		m_pResult.append("5");
 		m_pStack.push("5");
@@ -373,7 +373,7 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 		m_pResult.append("6");
 		m_pStack.push("6");
 	}
-	else if( (fmt.foreground().color() == QColor("orange")) && !m_pStack.contains("7"))
+	else if( (fmt.foreground().color() == QColor("olive")) && !m_pStack.contains("7"))
 	{
 		m_pResult.append("7");
 		m_pStack.push("7");

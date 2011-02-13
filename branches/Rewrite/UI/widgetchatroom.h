@@ -28,6 +28,8 @@
 #include "widgetchatinput.h"
 #include "chatuserlistmodel.h"
 
+#include "ircbuffer.h"
+
 namespace Ui
 {
 	class WidgetChatRoom;
@@ -38,7 +40,7 @@ class WidgetChatRoom : public QMainWindow
 	Q_OBJECT
 
 public:
-	explicit WidgetChatRoom(QuazaaIRC* quazaaIrc, QWidget* parent = 0);
+	explicit WidgetChatRoom(QuazaaIRC* quazaaIrc, Irc::Buffer* buffer, QWidget* parent = 0);
 	~WidgetChatRoom();
 	QString roomName;
 	int operators, users;
@@ -46,7 +48,6 @@ public:
 
 public slots:
 	void saveWidget();
-	void append(QString text);
 	void setRoomName(QString str);
 	void userNames(QStringList names);
 	void onSendMessage(QString message);
@@ -57,9 +58,15 @@ protected:
 private:
 	Ui::WidgetChatRoom* ui;
 	QuazaaIRC* m_oQuazaaIrc;
+	Irc::Buffer* roomBuffer;
+	QString prefixChars, prefixModes;
 
 private slots:
 	void on_textBrowser_anchorClicked(QUrl link);
+	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event);
+	void onTopicChanged(QString origin, QString topic);
+	void numericMessageReceived(QString, uint, QStringList);
+	void setPrefixes(QString modes, QString mprefs);
 };
 
 #endif // WIDGETCHATROOM_H

@@ -27,7 +27,7 @@
    <item row="1" column="1">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QToolButton" name="toolButton_2">
+      <widget class="QToolButton" name="toolButtonCancel">
        <property name="text">
         <string>Cancel</string>
        </property>
@@ -71,68 +71,6 @@
       </property>
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="2" column="3">
-         <widget class="QToolButton" name="toolButtonLime">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Lime</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton { 
-background-color: lime; 
-border-style: outset; 
-border-width: 2px;	
-border-radius: 6px; 
-border-color: lightgrey; 
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="QToolButton" name="toolButtonWhite">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>White</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton { 
-background-color: white; 
-border-style: outset; 
-border-width: 2px;	
-border-radius: 6px; 
-border-color: lightgrey; 
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0">
          <widget class="QToolButton" name="toolButtonBlack">
           <property name="minimumSize">
@@ -165,68 +103,6 @@ border-color: lightgrey;
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QToolButton" name="toolButtonGray">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Gray</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton { 
-background-color: gray; 
-border-style: outset; 
-border-width: 2px;	
-border-radius: 6px; 
-border-color: lightgrey; 
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QToolButton" name="toolButtonLightGray">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Light Gray</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton { 
-background-color: lightgray; 
-border-style: outset; 
-border-width: 2px;	
-border-radius: 6px; 
-border-color: lightgrey; 
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
          <widget class="QToolButton" name="toolButtonNavy">
           <property name="minimumSize">
            <size>
@@ -257,100 +133,100 @@ border-color: lightgrey;
           </property>
          </widget>
         </item>
+        <item row="0" column="2">
+         <widget class="QToolButton" name="toolButtonGreen">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Green</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton { 
+background-color: green; 
+border-style: outset; 
+border-width: 2px;	
+border-radius: 6px; 
+border-color: lightgrey; 
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QToolButton" name="toolButtonRed">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Red</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton { 
+background-color: red; 
+border-style: outset; 
+border-width: 2px;	
+border-radius: 6px; 
+border-color: lightgrey; 
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QToolButton" name="toolButtonBrown">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Maroon</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton { 
+background-color: brown; 
+border-style: outset; 
+border-width: 2px;	
+border-radius: 6px; 
+border-color: lightgrey; 
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="1">
-         <widget class="QToolButton" name="toolButtonBlue">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Blue</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton { 
-background-color: blue; 
-border-style: outset; 
-border-width: 2px;	
-border-radius: 6px; 
-border-color: lightgrey; 
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QToolButton" name="toolButtonDarkCyan">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Dark Cyan</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton { 
-background-color: darkcyan; 
-border-style: outset; 
-border-width: 2px;	
-border-radius: 6px; 
-border-color: lightgrey; 
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QToolButton" name="toolButtonCyan">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Cyan</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton { 
-background-color: cyan; 
-border-style: outset; 
-border-width: 2px;	
-border-radius: 6px; 
-border-color: lightgrey; 
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
          <widget class="QToolButton" name="toolButtonPurple">
           <property name="minimumSize">
            <size>
@@ -381,7 +257,193 @@ border-color: lightgrey;
           </property>
          </widget>
         </item>
+        <item row="1" column="2">
+         <widget class="QToolButton" name="toolButtonOlive">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Orange</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton { 
+background-color: olive; 
+border-style: outset; 
+border-width: 2px;	
+border-radius: 6px; 
+border-color: lightgrey; 
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QToolButton" name="toolButtonYellow">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Yellow</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton { 
+background-color: yellow; 
+border-style: outset; 
+border-width: 2px;	
+border-radius: 6px; 
+border-color: lightgrey; 
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QToolButton" name="toolButtonLime">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Lime</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton { 
+background-color: lime; 
+border-style: outset; 
+border-width: 2px;	
+border-radius: 6px; 
+border-color: lightgrey; 
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="1">
+         <widget class="QToolButton" name="toolButtonDarkCyan">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Dark Cyan</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton { 
+background-color: darkcyan; 
+border-style: outset; 
+border-width: 2px;	
+border-radius: 6px; 
+border-color: lightgrey; 
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QToolButton" name="toolButtonCyan">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Cyan</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton { 
+background-color: cyan; 
+border-style: outset; 
+border-width: 2px;	
+border-radius: 6px; 
+border-color: lightgrey; 
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QToolButton" name="toolButtonBlue">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Blue</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton { 
+background-color: blue; 
+border-style: outset; 
+border-width: 2px;	
+border-radius: 6px; 
+border-color: lightgrey; 
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
          <widget class="QToolButton" name="toolButtonMagenta">
           <property name="minimumSize">
            <size>
@@ -415,101 +477,8 @@ border-color: lightgrey;
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QToolButton" name="toolButtonGreen">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Green</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton { 
-background-color: green; 
-border-style: outset; 
-border-width: 2px;	
-border-radius: 6px; 
-border-color: lightgrey; 
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QToolButton" name="toolButtonMaroon">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Maroon</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton { 
-background-color: maroon; 
-border-style: outset; 
-border-width: 2px;	
-border-radius: 6px; 
-border-color: lightgrey; 
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="3">
-         <widget class="QToolButton" name="toolButtonYellow">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Yellow</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton { 
-background-color: yellow; 
-border-style: outset; 
-border-width: 2px;	
-border-radius: 6px; 
-border-color: lightgrey; 
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="2">
-         <widget class="QToolButton" name="toolButtonOrange">
+         <widget class="QToolButton" name="toolButtonLightGray">
           <property name="minimumSize">
            <size>
             <width>32</width>
@@ -517,11 +486,11 @@ border-color: lightgrey;
            </size>
           </property>
           <property name="toolTip">
-           <string>Orange</string>
+           <string>Light Gray</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QToolButton { 
-background-color: orange; 
+background-color: lightgray; 
 border-style: outset; 
 border-width: 2px;	
 border-radius: 6px; 
@@ -540,7 +509,7 @@ border-color: lightgrey;
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QToolButton" name="toolButtonRed">
+         <widget class="QToolButton" name="toolButtonGray">
           <property name="minimumSize">
            <size>
             <width>32</width>
@@ -548,11 +517,11 @@ border-color: lightgrey;
            </size>
           </property>
           <property name="toolTip">
-           <string>Red</string>
+           <string>Gray</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QToolButton { 
-background-color: red; 
+background-color: gray; 
 border-style: outset; 
 border-width: 2px;	
 border-radius: 6px; 

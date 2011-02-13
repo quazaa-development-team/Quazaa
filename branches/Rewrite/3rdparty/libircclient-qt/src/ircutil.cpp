@@ -12,6 +12,14 @@
 * License for more details.
 */
 
+/*
+  Parts of this code come from Konversation and are copyrighted to:
+  Copyright (C) 2002 Dario Abatianni <eisfuchs@tigress.com>
+  Copyright (C) 2004 Peter Simonsson <psn@linux.se>
+  Copyright (C) 2006-2008 Eike Hein <hein@kde.org>
+  Copyright (C) 2004-2009 Eli Mackenzie <argonel@gmail.com>
+*/
+
 #include "ircutil.h"
 #include <QString>
 #include <QRegExp>
@@ -290,9 +298,9 @@ namespace Irc
 		case 2:  return QColor("navy");
 		case 3:  return QColor("green");
 		case 4:  return QColor("red");
-		case 5:  return QColor("maroon");
+		case 5:  return QColor("brown");
 		case 6:  return QColor("purple");
-		case 7:  return QColor("orange");
+		case 7:  return QColor("olive");
 		case 8:  return QColor("yellow");
 		case 9:  return QColor("lime");
 		case 10: return QColor("darkcyan");
