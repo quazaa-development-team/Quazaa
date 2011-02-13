@@ -57,6 +57,7 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
 	connect(quazaaIrc, SIGNAL(bufferAdded(Irc::Buffer*)), this, SLOT(addBuffer(Irc::Buffer*)));
 	connect(quazaaIrc, SIGNAL(setPrefixes(QString, QString)), this, SLOT(setPrefixes(QString, QString)));
+
 	//connect(quazaaIrc, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
 
 	widgetChatInput = new WidgetChatInput(this, true);

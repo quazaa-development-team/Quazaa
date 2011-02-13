@@ -37,6 +37,11 @@ WidgetChatRoom::WidgetChatRoom(QuazaaIRC* quazaaIrc, Irc::Buffer* buffer, QWidge
 	m_oQuazaaIrc = quazaaIrc;
 	roomBuffer = buffer;
 	chatUserListModel = new ChatUserListModel();
+	buffer->names();
+	connect(roomBuffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
+	connect(roomBuffer, SIGNAL(ctcpActionReceived(QString,QString)), this, SLOT(ctcpActionReceived(QString,QString)));
+	connect(roomBuffer, SIGNAL(noticeReceived(QString,QString)), this, SLOT(noticeReceived(QString,QString)));
+	connect(roomBuffer, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
 	connect(roomBuffer, SIGNAL(topicChanged(QString,QString)), this, SLOT(onTopicChanged(QString,QString)));
 	connect(roomBuffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this ,SLOT(numericMessageReceived(QString,uint,QStringList)));
 }
@@ -185,4 +190,20 @@ void WidgetChatRoom::setPrefixes(QString modes, QString mprefs)
 	// overkill ?
 	prefixModes = modes;
 	prefixChars = mprefs;
+}
+
+void WidgetChatRoom::noticeReceived(QString sender, QString message)
+{
+	appendMessage(roomBuffer, sender, message, QuazaaIRC::Notice);
+}
+
+void WidgetChatRoom::messageReceived(QString sender, QString message)
+{
+	//qDebug() << "Emitting messageReceived from quazaairc.cpp";
+	appendMessage(roomBuffer, sender, message, QuazaaIRC::Message);
+}
+
+void WidgetChatRoom::ctcpActionReceived(QString sender, QString message)
+{
+	appendMessage(roomBuffer, sender, message, QuazaaIRC::Action);
 }

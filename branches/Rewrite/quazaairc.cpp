@@ -125,19 +125,3 @@ void QuazaaIRC::sendIrcMessage(QString channel, QString message)
 	//qDebug() << "Sending message to: " + tab->name + " ("+message+")";
 	if( m_connected ) ircSession->message(channel, message);
 }
-
-void QuazaaIRC::noticeReceived(QString sender, QString message)
-{
-	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, QuazaaIRC::Notice);
-}
-
-void QuazaaIRC::messageReceived(QString sender, QString message)
-{
-	//qDebug() << "Emitting messageReceived from quazaairc.cpp";
-	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, QuazaaIRC::Message);
-}
-
-void QuazaaIRC::ctcpActionReceived(QString sender, QString message)
-{
-	emit appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, message, QuazaaIRC::Action);
-}

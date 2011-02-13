@@ -60,9 +60,6 @@ protected slots:
 
 	void on_IrcSession_bufferAdded(Irc::Buffer* buffer);
 	void on_IrcSession_bufferRemoved(Irc::Buffer* buffer);
-	void messageReceived(QString, QString);
-	void ctcpActionReceived(QString,QString);
-	void noticeReceived(QString,QString);
 
 protected:
 	Irc::Session *ircSession;

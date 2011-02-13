@@ -67,6 +67,9 @@ private slots:
 	void onTopicChanged(QString origin, QString topic);
 	void numericMessageReceived(QString, uint, QStringList);
 	void setPrefixes(QString modes, QString mprefs);
+	void messageReceived(QString, QString);
+	void ctcpActionReceived(QString,QString);
+	void noticeReceived(QString,QString);
 };
 
 #endif // WIDGETCHATROOM_H
