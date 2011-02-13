@@ -184,7 +184,8 @@ SOURCES += main.cpp \
     Chat/chatconverter.cpp \
     UI/wizardquickstart.cpp \
     Models/chatuserlistmodel.cpp \
-    UI/dialogirccolordialog.cpp
+    UI/dialogirccolordialog.cpp \
+    NetworkCore/querykeys.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -304,7 +305,8 @@ HEADERS += UI/dialoglanguage.h \
     Chat/chatconverter.h \
     UI/wizardquickstart.h \
     Models/chatuserlistmodel.h \
-    UI/dialogirccolordialog.h
+    UI/dialogirccolordialog.h \
+    NetworkCore/querykeys.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \

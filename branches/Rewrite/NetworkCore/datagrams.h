@@ -110,11 +110,10 @@ public:
 	void OnAcknowledgeGND();
 
 	void OnPacket(CEndPoint addr, G2Packet* pPacket);
-	// pierdołki
 	void OnPing(CEndPoint& addr, G2Packet* pPacket);
 	void OnPong(CEndPoint& addr, G2Packet* pPacket);
 	void OnCRAWLR(CEndPoint& addr, G2Packet* pPacket);
-	// szukanie
+	void OnQKR(CEndPoint& addr, G2Packet* pPacket);
 	void OnQKA(CEndPoint& addr, G2Packet* pPacket);
 	void OnQA(CEndPoint& addr, G2Packet* pPacket);
 	void OnQH2(CEndPoint& addr, G2Packet* pPacket);

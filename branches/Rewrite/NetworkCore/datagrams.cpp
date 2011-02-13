@@ -30,6 +30,7 @@
 #include "searchmanager.h"
 #include "queryhit.h"
 #include "systemlog.h"
+#include "querykeys.h"
 
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
@@ -663,6 +664,10 @@ void CDatagrams::OnPacket(CEndPoint addr, G2Packet* pPacket)
 		{
 			OnCRAWLR(addr, pPacket);
 		}
+		else if(pPacket->IsType("QKR"))
+		{
+			OnQKR(addr, pPacket);
+		}
 		else if(pPacket->IsType("QKA"))
 		{
 			OnQKA(addr, pPacket);
@@ -817,6 +822,71 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 
 	pCA->Release();
 }
+void CDatagrams::OnQKR(CEndPoint &addr, G2Packet *pPacket)
+{
+	if( !Network.isHub() )
+		return;
+
+	CEndPoint oRequestedAddress = addr;
+	CEndPoint oSendingAddress = addr;
+
+	if( pPacket->m_bCompound )
+	{
+		char szType[9];
+		quint32 nLength = 0, nNext = 0;
+
+		while(pPacket->ReadPacket(&szType[0], nLength))
+		{
+			nNext = pPacket->m_nPosition + nLength;
+
+			if(strcmp("SNA", szType) == 0 && nLength >= 4)
+			{
+				if( nLength >= 16 )
+				{
+					Q_IPV6ADDR ip;
+					pPacket->Read(&ip, 16);
+					oSendingAddress.setAddress(ip);
+				}
+				else
+				{
+					quint32 nIp;
+					nIp = pPacket->ReadIntBE<quint32>();
+					oSendingAddress.setAddress(nIp);
+				}
+			}
+			else if(strcmp("RNA", szType) == 0 && nLength >= 6)
+			{
+				if( nLength >= 18 )
+				{
+					pPacket->ReadHostAddress(&oRequestedAddress, false);
+				}
+				else
+				{
+					pPacket->ReadHostAddress(&oRequestedAddress);
+				}
+			}
+			pPacket->m_nPosition = nNext;
+		}
+	}
+
+	if( !oRequestedAddress.port() )
+		return;
+
+	G2Packet* pAns = G2Packet::New("QKA", true);
+	quint32 nKey = QueryKeys.Create(oRequestedAddress);
+	pAns->WritePacket("QK", 4);
+	pAns->WriteIntBE(nKey);
+	G2Packet* pSNA = G2Packet::New("SNA");
+	pSNA->WriteHostAddress(&oSendingAddress);
+	pAns->WritePacket(pSNA);
+	pSNA->Release();
+
+	SendPacket(oRequestedAddress, pAns, true);
+	pAns->Release();
+
+	systemLog.postLog(LogSeverity::Debug, "Node %s asked for a query key (0x%08x) for node %s", qPrintable(addr.toStringWithPort()), nKey, qPrintable(oRequestedAddress.toStringWithPort()));
+}
+
 void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 {
 	if(!pPacket->m_bCompound)
