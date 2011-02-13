@@ -469,7 +469,7 @@ namespace Settings
 		int			HostCacheSize;							// Size of host cache
 		int			HostCacheView;
 		int			MaxHits;								// Max hits allowed for a single query
-		int			MaxResults;								// Maximum results to return to a single query
+		quint32		MaxResults;								// Maximum results to return to a single query
 		int			RouteCache;								// Cache for route to peer
 	};
 

@@ -210,111 +210,111 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 	{
 		bLoop = false;
 
-		if( m_pStack.top() == "\x02 " && fmt.fontWeight() <= QFont::Normal )
+		if( m_pStack.top() == "\x02" && fmt.fontWeight() <= QFont::Normal )
 		{
-			m_pResult.append("\x02 ");
+			m_pResult.append("\x02");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "\x09 " && !fmt.fontItalic() )
+		else if( m_pStack.top() == "\x09" && !fmt.fontItalic() )
 		{
-			m_pResult.append("\x09 ");
+			m_pResult.append("\x09");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "\x15 " && !fmt.fontUnderline() )
+		else if( m_pStack.top() == "\x15" && !fmt.fontUnderline() )
 		{
-			m_pResult.append("\x15 ");
+			m_pResult.append("\x15");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "0 " && (fmt.foreground().color() != QColor("white")) )
+		else if( m_pStack.top() == "0" && (fmt.foreground().color() != QColor("white")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "2 " && (fmt.foreground().color() != QColor("navy")) )
+		else if( m_pStack.top() == "2" && (fmt.foreground().color() != QColor("navy")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "3 " && (fmt.foreground().color() != QColor("green")) )
+		else if( m_pStack.top() == "3" && (fmt.foreground().color() != QColor("green")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "4 " && (fmt.foreground().color() != QColor("red")) )
+		else if( m_pStack.top() == "4" && (fmt.foreground().color() != QColor("red")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "5 " && (fmt.foreground().color() != QColor("maroon")) )
+		else if( m_pStack.top() == "5" && (fmt.foreground().color() != QColor("maroon")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "6 " && (fmt.foreground().color() != QColor("purple")) )
+		else if( m_pStack.top() == "6" && (fmt.foreground().color() != QColor("purple")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "7 " && (fmt.foreground().color() != QColor("orange")) )
+		else if( m_pStack.top() == "7" && (fmt.foreground().color() != QColor("orange")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "8 " && (fmt.foreground().color() != QColor("yellow")) )
+		else if( m_pStack.top() == "8" && (fmt.foreground().color() != QColor("yellow")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "9 " && (fmt.foreground().color() != QColor("lime")) )
+		else if( m_pStack.top() == "9" && (fmt.foreground().color() != QColor("lime")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "10 " && (fmt.foreground().color() != QColor("darkcyan")) )
+		else if( m_pStack.top() == "10" && (fmt.foreground().color() != QColor("darkcyan")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "11 " && (fmt.foreground().color() != QColor("cyan")) )
+		else if( m_pStack.top() == "11" && (fmt.foreground().color() != QColor("cyan")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "12 " && (fmt.foreground().color() != QColor("blue")) )
+		else if( m_pStack.top() == "12" && (fmt.foreground().color() != QColor("blue")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "13 " && (fmt.foreground().color() != QColor("magenta")) )
+		else if( m_pStack.top() == "13" && (fmt.foreground().color() != QColor("magenta")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "14 " && (fmt.foreground().color() != QColor("gray")) )
+		else if( m_pStack.top() == "14" && (fmt.foreground().color() != QColor("gray")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "15 " && (fmt.foreground().color() != QColor("lightgray")) )
+		else if( m_pStack.top() == "15" && (fmt.foreground().color() != QColor("lightgray")) )
 		{
-			m_pResult.append("1 ");
+			m_pResult.append("1");
 			bLoop = true;
 			m_pStack.pop();
 		}
@@ -323,100 +323,100 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 
 	if( fmt.fontWeight() > QFont::Normal && !m_pStack.contains("\x02") )
 	{
-		m_pResult.append("\x02 ");
-		m_pStack.push("\x02 ");
+		m_pResult.append("\x02");
+		m_pStack.push("\x02");
 	}
 
-	if( fmt.fontItalic() && !m_pStack.contains("\x09 "))
+	if( fmt.fontItalic() && !m_pStack.contains("\x09"))
 	{
-		m_pResult.append("\x09 ");
-		m_pStack.push("\x09 ");
+		m_pResult.append("\x09");
+		m_pStack.push("\x09");
 	}
 
-	if( fmt.fontUnderline() && !m_pStack.contains("\x15 "))
+	if( fmt.fontUnderline() && !m_pStack.contains("\x15"))
 	{
-		m_pResult.append("\x15 ");
-		m_pStack.push("\x15 ");
+		m_pResult.append("\x15");
+		m_pStack.push("\x15");
 	}
-	else if( (fmt.foreground().color() == QColor("white")) && !m_pStack.contains("0 "))
+	else if( (fmt.foreground().color() == QColor("white")) && !m_pStack.contains("0"))
 	{
-		m_pResult.append("0 ");
-		m_pStack.push("0 ");
+		m_pResult.append("0");
+		m_pStack.push("0");
 	}
-	else if( (fmt.foreground().color() == QColor("black")) && !m_pStack.contains("1 "))
+	else if( (fmt.foreground().color() == QColor("black")) && !m_pStack.contains("1"))
 	{
-		m_pResult.append("1 ");
-		m_pStack.push("1 ");
+		m_pResult.append("1");
+		m_pStack.push("1");
 	}
-	else if( (fmt.foreground().color() == QColor("navy")) && !m_pStack.contains("2 "))
+	else if( (fmt.foreground().color() == QColor("navy")) && !m_pStack.contains("2"))
 	{
-		m_pResult.append("2 ");
-		m_pStack.push("2 ");
+		m_pResult.append("2");
+		m_pStack.push("2");
 	}
-	else if( (fmt.foreground().color() == QColor("green")) && !m_pStack.contains("3 "))
+	else if( (fmt.foreground().color() == QColor("green")) && !m_pStack.contains("3"))
 	{
-		m_pResult.append("3 ");
-		m_pStack.push("3 ");
+		m_pResult.append("3");
+		m_pStack.push("3");
 	}
-	else if( (fmt.foreground().color() == QColor("red")) && !m_pStack.contains("4 "))
+	else if( (fmt.foreground().color() == QColor("red")) && !m_pStack.contains("4"))
 	{
-		m_pResult.append("4 ");
-		m_pStack.push("4 ");
+		m_pResult.append("4");
+		m_pStack.push("4");
 	}
-	else if( (fmt.foreground().color() == QColor("maroon")) && !m_pStack.contains("5 "))
+	else if( (fmt.foreground().color() == QColor("maroon")) && !m_pStack.contains("5"))
 	{
-		m_pResult.append("5 ");
-		m_pStack.push("5 ");
+		m_pResult.append("5");
+		m_pStack.push("5");
 	}
-	else if( (fmt.foreground().color() == QColor("purple")) && !m_pStack.contains("6 "))
+	else if( (fmt.foreground().color() == QColor("purple")) && !m_pStack.contains("6"))
 	{
-		m_pResult.append("6 ");
-		m_pStack.push("6 ");
+		m_pResult.append("6");
+		m_pStack.push("6");
 	}
-	else if( (fmt.foreground().color() == QColor("orange")) && !m_pStack.contains("7 "))
+	else if( (fmt.foreground().color() == QColor("orange")) && !m_pStack.contains("7"))
 	{
-		m_pResult.append("7 ");
-		m_pStack.push("7 ");
+		m_pResult.append("7");
+		m_pStack.push("7");
 	}
-	else if( (fmt.foreground().color() == QColor("yellow")) && !m_pStack.contains("8 "))
+	else if( (fmt.foreground().color() == QColor("yellow")) && !m_pStack.contains("8"))
 	{
-		m_pResult.append("8 ");
-		m_pStack.push("8 ");
+		m_pResult.append("8");
+		m_pStack.push("8");
 	}
-	else if( (fmt.foreground().color() == QColor("lime")) && !m_pStack.contains("9 "))
+	else if( (fmt.foreground().color() == QColor("lime")) && !m_pStack.contains("9"))
 	{
-		m_pResult.append("9 ");
-		m_pStack.push("9 ");
+		m_pResult.append("9");
+		m_pStack.push("9");
 	}
-	else if( (fmt.foreground().color() == QColor("darkcyan")) && !m_pStack.contains("10 "))
+	else if( (fmt.foreground().color() == QColor("darkcyan")) && !m_pStack.contains("10"))
 	{
-		m_pResult.append("10 ");
-		m_pStack.push("10 ");
+		m_pResult.append("10");
+		m_pStack.push("10");
 	}
-	else if( (fmt.foreground().color() == QColor("cyan")) && !m_pStack.contains("11 "))
+	else if( (fmt.foreground().color() == QColor("cyan")) && !m_pStack.contains("11"))
 	{
-		m_pResult.append("11 ");
-		m_pStack.push("11 ");
+		m_pResult.append("11");
+		m_pStack.push("11");
 	}
-	else if( (fmt.foreground().color() == QColor("blue")) && !m_pStack.contains("12 "))
+	else if( (fmt.foreground().color() == QColor("blue")) && !m_pStack.contains("12"))
 	{
-		m_pResult.append("12 ");
-		m_pStack.push("12 ");
+		m_pResult.append("12");
+		m_pStack.push("12");
 	}
-	else if( (fmt.foreground().color() == QColor("magenta")) && !m_pStack.contains("13 "))
+	else if( (fmt.foreground().color() == QColor("magenta")) && !m_pStack.contains("13"))
 	{
-		m_pResult.append("13 ");
-		m_pStack.push("13 ");
+		m_pResult.append("13");
+		m_pStack.push("13");
 	}
-	else if( (fmt.foreground().color() == QColor("gray")) && !m_pStack.contains("14 "))
+	else if( (fmt.foreground().color() == QColor("gray")) && !m_pStack.contains("14"))
 	{
-		m_pResult.append("14 ");
-		m_pStack.push("14 ");
+		m_pResult.append("14");
+		m_pStack.push("14");
 	}
-	else if( (fmt.foreground().color() == QColor("lightgray")) && !m_pStack.contains("15 "))
+	else if( (fmt.foreground().color() == QColor("lightgray")) && !m_pStack.contains("15"))
 	{
-		m_pResult.append("15 ");
-		m_pStack.push("15 ");
+		m_pResult.append("15");
+		m_pStack.push("15");
 	}
 
 	m_pResult.append(pFrag->text());

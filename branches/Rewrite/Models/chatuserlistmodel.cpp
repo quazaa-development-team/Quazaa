@@ -159,7 +159,6 @@ int ChatUserListModel::rowCount(const QModelIndex& parent) const
 void ChatUserListModel::clear()
 {
 	beginRemoveRows(QModelIndex(), 0, rootItem->childCount());
-		//qDebug() << "clearSearch passing to rootItem";
 	rootItem->clearChildren();
 	endRemoveRows();
 
@@ -170,7 +169,6 @@ void ChatUserListModel::clear()
 
 void ChatUserListModel::addUser(QString name)
 {
-	qDebug() << "ChatUserListModel::addUser " << name << " Host: " << Irc::Util::hostFromTarget(name);
 	int existingUser = rootItem->find(name);
 
 	ChatUserItem* m_oChatUserItem = new ChatUserItem(name, rootItem);

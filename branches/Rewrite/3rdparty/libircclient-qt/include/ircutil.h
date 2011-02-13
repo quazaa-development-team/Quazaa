@@ -16,17 +16,21 @@
 #define IRC_UTIL_H
 
 #include <irc.h>
+#include <QPair>
+#include <QColor>
 
 namespace Irc
 {
-    class IRC_EXPORT Util
+	class IRC_EXPORT Util
     {
-    public:
-        static QString nickFromTarget(const QString& target);
-        static QString hostFromTarget(const QString& target);
-        static QString messageToHtml(const QString& message);
-        static QString colorNameFromCode(int code);
-    };
+	public:
+		static QString nickFromTarget(const QString& target);
+		static QString hostFromTarget(const QString& target);
+		void replaceDecoration(QString& line, char decoration, char replacement);
+		QString messageToHtml(const QString& line, const QString& defaultColor, bool parseURL, bool allowBeep, bool allowColors);
+		QString extractUrlData(QString text, bool doHyperlinks);
+		QColor ircColorCode(int code);
+	};
 }
 
 #endif // IRC_UTIL_H

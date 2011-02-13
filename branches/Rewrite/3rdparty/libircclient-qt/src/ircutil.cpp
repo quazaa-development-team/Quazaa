@@ -16,13 +16,15 @@
 #include <QString>
 #include <QRegExp>
 #include <QDebug>
+#include <QApplication>
+#include <QPalette>
 
 /*!
     \class Irc::Util ircutil.h
     \brief The Irc::Util class provides IRC related utility functions.
  */
 
-static QRegExp URL_PATTERN(QLatin1String("((www\\.(?!\\.)|(ssh|fish|irc|(f|sf|ht)tp(|s))://)(\\.?[\\d\\w/,\\':~\\^\\?=;#@\\-\\+\\%\\*\\{\\}\\!\\(\\)]|&)+)|([-.\\d\\w]+@[-.\\d\\w]{2,}\\.[\\w]{2,})"), Qt::CaseInsensitive);
+static QRegExp urlPattern("((www\\.(?!\\.)|(ssh|magnet|fish|irc|amarok|(f|sf|ht)tp(|s))://)|(magnet:)(\\.?[\\d\\w/,\\':~\\?=;#@\\-\\+\\%\\*\\{\\}\\!\\(\\)\\[\\]]|&)+)|([-.\\d\\w]+@[-.\\d\\w]{2,}\\.[\\w]{2,})""([-.\\d\\w]+@[-.\\d\\w]{2,}\\.[\\w]{2,})");
 
 namespace Irc
 {
@@ -51,188 +53,255 @@ namespace Irc
         Furthermore, this function detects URLs and replaces
         them with appropriate HTML hyperlinks.
     */
-    QString Util::messageToHtml(const QString& message)
-    {
-        QString processed = message;
-        processed.replace(QLatin1Char('&'), QLatin1String("&amp;"));
-        processed.replace(QLatin1Char('<'), QLatin1String("&lt;"));
-        processed.replace(QLatin1Char('>'), QLatin1String("&gt;"));
-		processed.replace(QLatin1Char('\t'), QLatin1String("&nbsp;"));
 
-        enum
-        {
-            None            = 0x0,
-            Bold            = 0x1,
-            Color           = 0x2,
-            Italic          = 0x4,
-            StrikeThrough   = 0x8,
-            Underline       = 0x10,
-            Inverse         = 0x20
-        };
-        int state = None;
+	void Util::replaceDecoration(QString& line, char decoration, char replacement)
+	{
+		int pos;
+		bool decorated = false;
 
-        int pos = 0;
-        while (pos < processed.size())
-        {
-            if (state & Color)
+		while((pos=line.indexOf(decoration))!=-1)
+		{
+			line.replace(pos,1,(decorated) ? QString("</%1>").arg(replacement) : QString("<%1>").arg(replacement));
+			decorated = !decorated;
+		}
+	}
+
+	QString Util::messageToHtml(const QString& line, const QString& defaultColor, bool parseURL, bool allowBeep, bool allowColors)
+	{
+		QString filteredLine(line);
+
+		//Since we can't turn off whitespace simplification withouteliminating text wrapping,
+		//  if the line starts with a space turn it into a non-breaking space.
+		//    (which magically turns back into a space on copy)
+
+		if (filteredLine[0]==' ')
+			filteredLine[0]='\xA0';
+
+		// TODO: Use QStyleSheet::escape() here
+		// Replace all < with &lt;
+		filteredLine.replace('<',"\x0blt;");
+		// Replace all > with &gt;
+		filteredLine.replace('>', "\x0bgt;");
+
+		if(filteredLine.contains('\x07'))
+		{
+			if(allowBeep)
 			{
-				qDebug() << "Coloring code: " << processed;
-				QString tmp = processed.mid(pos, 1);
-				processed.remove(pos, 1);
-                processed = processed.arg(colorNameFromCode(tmp.toInt()));
-                state &= ~Color;
-				pos += 2;
-                continue;
-            }
+				QApplication::beep();
+			}
+		}
 
-            QString replacement;
-            switch (processed.at(pos).unicode())
-            {
-            case '\x02': // bold
-                if (state & Bold)
-                    replacement = QLatin1String("</span>");
-                else
-                    replacement = QLatin1String("<span style='font-weight: bold'>");
-                state ^= Bold;
-                break;
+		// replace \003 and \017 codes with rich text color codes
+		// captures          1    2                   23 4                   4 3     1
+		QRegExp colorRegExp("(\003([0-9]|0[0-9]|1[0-5]|)(,([0-9]|0[0-9]|1[0-5])|,|)|\017)");
 
-            case '\x03': // color
-                if (state & Color)
-                    replacement = QLatin1String("</span>");
-                else
-                    replacement = QLatin1String("<span style='color: %1'>");
-                state ^= Color;
-                break;
+		int pos;
+		bool firstColor = true;
+		QString colorString;
 
-			case '\x09': // italic
-                if (state & Italic)
-                    replacement = QLatin1String("</span>");
-                else
-					replacement = QLatin1String("<span style='font-style: italic'>");
-                state ^= Italic;
-				break;
+		while((pos=colorRegExp.indexIn(filteredLine))!=-1)
+		{
+			if(!allowColors)
+			{
+				qDebug() << "Colors not allowed.";
+				colorString.clear();
+			}
+			else
+			{
+				colorString = (firstColor) ? QString() : QString("</font>");
 
-            case '\x13': // strike-through
-                if (state & StrikeThrough)
-                    replacement = QLatin1String("</span>");
-                else
-                    replacement = QLatin1String("<span style='text-decoration: line-through'>");
-                state ^= StrikeThrough;
-                break;
+				// reset colors on \017 to default value
+				if(colorRegExp.cap(1) == "\017")
+				{
+					colorString += "<font color=\""+defaultColor+"\">";
+				}
+				else
+				{
+					if(!colorRegExp.cap(2).isEmpty())
+					{
+						int foregroundColor = colorRegExp.cap(2).toInt();
+						colorString += "<font color=\"" + ircColorCode(foregroundColor).name() + "\">";
+					}
+					else
+					{
+						colorString += "<font color=\""+defaultColor+"\">";
+					}
+				}
 
-            case '\x15': // underline
-            case '\x1f': // underline
-                if (state & Underline)
-                    replacement = QLatin1String("</span>");
-                else
-                    replacement = QLatin1String("<span style='text-decoration: underline'>");
-                state ^= Underline;
-                break;
+				firstColor = false;
+			}
 
-            case '\x16': // inverse
-                state ^= Inverse;
-                break;
+			filteredLine.replace(pos, colorRegExp.cap(0).length(), colorString);
+		}
 
-            case '\x0f': // none
-                replacement = QLatin1String("</span>");
-                state = None;
-                break;
+		if(!firstColor)
+			filteredLine+="</font>";
 
-            default:
-                break;
-            }
+		// Replace all text decorations
+		// TODO: \017 should reset all text decorations to plain text
+		replaceDecoration(filteredLine,'\x02','b');
+		replaceDecoration(filteredLine,'\x1d','i');
+		replaceDecoration(filteredLine,'\x13','s');
+		replaceDecoration(filteredLine,'\x15','u');
+		replaceDecoration(filteredLine,'\x16','b');   // should be inverse
+		replaceDecoration(filteredLine,'\x1f','u');
 
-            if (!replacement.isNull())
-            {
-				processed.replace(pos, 1, replacement);
-                pos += replacement.length();
-            }
-            else
-            {
-                ++pos;
-            }
-        }
+		if(parseURL)
+		{
+			filteredLine = extractUrlData(filteredLine, true);
+		}
+		else
+		{
+			// Change & to &amp; to prevent html entities to do strange things to the text
+			filteredLine.replace('&', "&amp;");
+			filteredLine.replace("\x0b", "&");
+		}
 
-        pos = 0;
-        while ((pos = URL_PATTERN.indexIn(processed, pos)) >= 0)
-        {
-            int len = URL_PATTERN.matchedLength();
-            QString href = processed.mid(pos, len);
+		//filteredLine = Konversation::Emoticons::parseEmoticons(filteredLine);
 
-            // Don't consider trailing &gt; as part of the link.
-            QString append;
-            if (href.endsWith(QLatin1String("&gt;")))
-            {
-                append.append(href.right(4));
-                href.chop(4);
-            }
+		// Replace pairs of spaces with "<space>&nbsp;" to preserve some semblance of text wrapping
+		filteredLine.replace("  "," \xA0");
+		return filteredLine;
+	}
 
-            // Don't consider trailing comma or semi-colon as part of the link.
-            if (href.endsWith(QLatin1Char(',')) || href.endsWith(QLatin1Char(';')))
-            {
-                append.append(href.right(1));
-                href.chop(1);
-            }
+	QString Util::extractUrlData(QString text, bool doHyperlinks)
+	{
+		// QTime timer;
+		// timer.start();
 
-            // Don't consider trailing closing parenthesis part of the link when
-            // there's an opening parenthesis preceding in the beginning of the
-            // URL or there is no opening parenthesis in the URL at all.
-            if (pos > 0 && href.endsWith(QLatin1Char(')')) 
-                && (processed.at(pos-1) == QLatin1Char('(') 
-                || !href.contains(QLatin1Char('('))))
-            {
-                append.prepend(href.right(1));
-                href.chop(1);
-            }
+		int pos = 0;
+		int urlLen = 0;
 
-            // Qt doesn't support (?<=pattern) so we do it here
-            if (pos > 0 && processed.at(pos-1).isLetterOrNumber())
-            {
-                pos++;
-                continue;
-            }
+		QString link;
+		QString insertText;
+		QString protocol;
+		QString href;
+		QString append;
 
-            QString protocol;
-            if (URL_PATTERN.cap(1).startsWith(QLatin1String("www."), Qt::CaseInsensitive))
-                protocol = QLatin1String("http://");
-            else if (URL_PATTERN.cap(1).isEmpty())
-                protocol = QLatin1String("mailto:");
+		urlPattern.setCaseSensitivity(Qt::CaseInsensitive);
 
-            QString source = href;
-            source.replace(QLatin1String("&amp;"), QLatin1String("&"));
+		if (doHyperlinks)
+		{
+			link = "<a href=\"#%1\">%2</a>";
 
-            QString link = QString(QLatin1String("<a href='%1%2'>%3</a>")).arg(protocol, source, href) + append;
-            processed.replace(pos, len, link);
-            pos += link.length();
-        }
+			if (text.contains("#"))
+			{
+				QRegExp chanExp("(^|\\s|^\"|\\s\"|,|'|\\(|\\:|!|@|%|\\+)(#[^,\\s;\\)\\:\\/\\(\\<\\>]*[^.,\\s;\\)\\:\\/\\(\"\''\\<\\>])");
 
-        return processed;
-    }
+				while ((pos = chanExp.indexIn(text, pos)) >= 0)
+				{
+					href = chanExp.cap(2);
+					urlLen = href.length();
+					pos += chanExp.cap(1).length();
 
-    /*!
-        Converts \a code to a color name.
-    */
-    QString Util::colorNameFromCode(int code)
-    {
-        switch (code)
-        {
-        case 0:  return QLatin1String("white");
-        case 1:  return QLatin1String("black");
-        case 2:  return QLatin1String("navy");
-        case 3:  return QLatin1String("green");
-        case 4:  return QLatin1String("red");
-        case 5:  return QLatin1String("maroon");
-        case 6:  return QLatin1String("purple");
-        case 7:  return QLatin1String("orange");
-        case 8:  return QLatin1String("yellow");
-        case 9:  return QLatin1String("lime");
-        case 10: return QLatin1String("darkcyan");
-        case 11: return QLatin1String("cyan");
-        case 12: return QLatin1String("blue");
-        case 13: return QLatin1String("magenta");
-        case 14: return QLatin1String("gray");
-        case 15: return QLatin1String("lightgray");
-        default: return QLatin1String("black");
-        }
-    }
+					insertText = link.arg(href, href);
+					text.replace(pos, urlLen, insertText);
+					pos += insertText.length();
+				}
+			}
+
+			link = "<a href=\"%1%2\">%3</a>";
+
+			pos = 0;
+			urlLen = 0;
+		}
+
+		while ((pos = urlPattern.indexIn(text, pos)) >= 0)
+		{
+			urlLen = urlPattern.matchedLength();
+
+			// check if the matched text is already replaced as a channel
+			if (doHyperlinks && text.lastIndexOf("<a", pos ) >text.lastIndexOf("</a>", pos))
+			{
+				++pos;
+				continue;
+			}
+
+			protocol.clear();
+			href = text.mid(pos, urlLen);
+			append.clear();
+
+			// Don't consider trailing comma part of link.
+			if (href.right(1) == ",")
+			{
+				href.truncate(href.length()-1);
+				append = ',';
+			}
+
+			// Don't consider trailing semicolon part of link.
+			if (href.right(1) == ";")
+			{
+				href.truncate(href.length()-1);
+				append = ';';
+			}
+
+			// Don't consider trailing closing parenthesis part of link when
+			// there's an opening parenthesis preceding the beginning of the
+			// URL or there is no opening parenthesis in the URL at all.
+			if (href.right(1) == ")" && (text.mid(pos-1, 1) == "(" || !href.contains("(")))
+			{
+				href.truncate(href.length()-1);
+				append.prepend(")");
+			}
+
+			if (doHyperlinks)
+			{
+				// Qt doesn't support (?<=pattern) so we do it here
+				if ((pos > 0) &&text[pos-1].isLetterOrNumber())
+				{
+					pos++;
+					continue;
+				}
+
+				if (urlPattern.cap(1).startsWith(QLatin1String("www."), Qt::CaseInsensitive))
+					protocol = "http://";
+				else if (urlPattern.cap(1).isEmpty())
+					protocol = "mailto:";
+
+				// Use \x0b as a placeholder for & so we can read them after changing all & in the normal text to &amp;
+				insertText = link.arg(protocol, QString(href).replace('&', "\x0b"), href) + append;
+
+				text.replace(pos, urlLen, insertText);
+			}
+			else
+				insertText = href + append;
+
+			pos += insertText.length();
+		}
+
+		if (doHyperlinks)
+		{
+			// Change & to &amp; to prevent html entities to do strange things to the text
+			text.replace('&', "&amp;");
+			text.replace("\x0b", "&");
+		}
+
+		// kDebug() << "Took (msecs) : " << timer.elapsed() << " for " <<text;
+
+		return text;
+	}
+
+	QColor Util::ircColorCode(int code)
+	{
+		switch (code)
+		{
+		case 0:  return QColor("white");
+		case 1:  return QColor("black");
+		case 2:  return QColor("navy");
+		case 3:  return QColor("green");
+		case 4:  return QColor("red");
+		case 5:  return QColor("maroon");
+		case 6:  return QColor("purple");
+		case 7:  return QColor("orange");
+		case 8:  return QColor("yellow");
+		case 9:  return QColor("lime");
+		case 10: return QColor("darkcyan");
+		case 11: return QColor("cyan");
+		case 12: return QColor("blue");
+		case 13: return QColor("magenta");
+		case 14: return QColor("gray");
+		case 15: return QColor("lightgray");
+		default: return QColor("black");
+		}
+	}
 }

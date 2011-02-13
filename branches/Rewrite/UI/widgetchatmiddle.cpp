@@ -146,26 +146,27 @@ void WidgetChatMiddle::appendMessage(Irc::Buffer* buffer, QString sender, QStrin
 	//systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
 	//qDebug() << "Got a message from buffer " + (buffer->receiver()) + " | sender = " + sender + "| event = " + evendt;
 	QString receiver = buffer->receiver();
+	Irc::Util util;
 
 	switch(event)
 	{
 	case QuazaaIRC::Message:
-		roomByName(receiver)->append("&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + Irc::Util::messageToHtml(message));
+		roomByName(receiver)->append("<html>&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + util.messageToHtml(message, qApp->palette().foreground().color().name() + "</html>", true, true, true));
 		break;
 
 	case QuazaaIRC::Notice:
-		currentRoom()->append("<html><font color=blue>" + Irc::Util::nickFromTarget(sender) + ": " + Irc::Util::messageToHtml(message) + "</font></html>");
+		currentRoom()->append("<html>" + Irc::Util::nickFromTarget(sender) + ": " + util.messageToHtml(message, QColor("blue").name(), true, true, true) + "</html>");
 		break;
 
 	case QuazaaIRC::Action:
-		roomByName(receiver)->append("<html><font color=purple>* " + Irc::Util::nickFromTarget(sender) + " " + Irc::Util::messageToHtml(message) + "</font></html>");
+		roomByName(receiver)->append("<html>* " + Irc::Util::nickFromTarget(sender) + " " + util.messageToHtml(message, QColor("purple").name(), true, true, true) + "</html>");
 		break;
 
 	case QuazaaIRC::Status:
 		//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
 		//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
 		//tab->append(message);
-		roomByName("*status")->append(Irc::Util::messageToHtml(message));
+		roomByName("*status")->append(util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true));
 	break;
 
 	default:
@@ -207,74 +208,10 @@ void WidgetChatMiddle::userNames(QStringList names)
 	QString sNameStore		= names.at(3);
 	QStringList userList	= sNameStore.split(" ");
 
-
-
-
-	/*
-	userList.sort();
-	QStringList ownerList;
-	QStringList administratorList;
-	QStringList operatorList;
-	QStringList halfOperatorList;
-	QStringList voiceList;
-	QStringList regularList;
-
-	for(int i = 0; i < userList.size(); ++i)
-	{
-		QString user = userList.at(i);
-		if (user.at(0) == '~')
-		{
-			operators ++;
-			ownerList << user;
-		}
-		else if (user.at(0) == '&')
-		{
-			operators ++;
-			administratorList << user;
-		}
-		else if (user.at(0) == '@')
-		{
-			operators ++;
-			operatorList << user;
-		}
-		else if (user.at(0) == '%')
-		{
-			operators ++;
-			halfOperatorList << user;
-		}
-		else if (user.at(0) == '+')
-		{
-			voiceList << user;
-		}
-		else
-		{
-			regularList << user;
-		}
-	}
-	
-	QStringList sortedUserList;
-	sortedUserList << caseInsensitiveSecondarySort(ownerList) << caseInsensitiveSecondarySort(administratorList)
-			<< caseInsensitiveSecondarySort(operatorList) << caseInsensitiveSecondarySort(halfOperatorList)
-			<< caseInsensitiveSecondarySort(voiceList) << caseInsensitiveSecondarySort(regularList);
-
-	room->operators = operators;
-	room->users = sortedUserList.count();
-	emit updateUserCount(operators, sortedUserList.count());
- */
 	emit updateUserCount(currentRoom()->chatUserListModel->nOperatorCount, currentRoom()->chatUserListModel->nUserCount);
 	emit roomChanged(currentRoom());
 	room->userNames(userList);
 }
-
-/*QStringList WidgetChatMiddle::caseInsensitiveSecondarySort(QStringList list)
-{
-	 QMap<QString, QString> map;
-	 foreach (QString str, list)
-		 map.insert(str.toLower(), str);
-
-	 list = map.values();
-	 return list;
-}*/
 
 WidgetChatRoom* WidgetChatMiddle::currentRoom()
 {
@@ -314,7 +251,6 @@ void WidgetChatMiddle::on_actionEditMyProfile_triggered()
 
 void WidgetChatMiddle::onSendMessage(QTextDocument *message)
 {
-	qDebug() << "WidgetchatCenter::onSendMessage triggered";
 	CChatConverter oConv(message);
 	currentRoom()->onSendMessage(oConv.toIRC());
 }
