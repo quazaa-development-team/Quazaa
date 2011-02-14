@@ -101,16 +101,19 @@ void WidgetChatRoom::appendMessage(QString sender, QString message, IrcEvent::Ir
 		ui->textBrowser->append("&lt;" + util.nickFromTarget(sender) + "&gt; " + util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true));
 		break;
 	case IrcEvent::Notice:
-		ui->textBrowser->append(util.nickFromTarget(sender) + ": " + util.messageToHtml(message, QColor("olive").name(), true, true, true));
+		ui->textBrowser->append(wrapWithColor(util.nickFromTarget(sender) + ": " + util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true), QColor("red").name()));
 		break;
 	case IrcEvent::Action:
-		ui->textBrowser->append("* " + util.nickFromTarget(sender) + " " + util.messageToHtml(message, QColor("purple").name(), true, true, true));
+		ui->textBrowser->append(wrapWithColor("* " + util.nickFromTarget(sender) + " " + util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true), QColor("blue").name()));
 		break;
 	case IrcEvent::Server:
 		//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
 		//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
 		//tab->append(message);
-		ui->textBrowser->append(util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true));
+		ui->textBrowser->append(wrapWithColor(util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true), QColor("olive").name()));
+		break;
+	case IrcEvent::Status:
+		ui->textBrowser->append(wrapWithColor(util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
 		break;
 
 	default:
@@ -149,7 +152,7 @@ void WidgetChatRoom::numericMessageReceived(QString sender, uint code, QStringLi
 		{
 			// append to status
 			list.removeFirst();
-			appendMessage(sender, "[" + QString::number(code) + "] " + list.join(" "), IrcEvent::Status);
+			appendMessage(sender, "[" + QString::number(code) + "] " + list.join(" "), IrcEvent::Server);
 		}
 	}
 }
@@ -182,25 +185,43 @@ void WidgetChatRoom::joined(QString name)
 {
 	Irc::Util util;
 	qDebug() << name << "joined chat";
-	ui->textBrowser->append(util.messageToHtml(tr("%1 has joined this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(name), QColor("purple").name(), true, true, true));
+	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
+		 tr("%1 has joined this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(name),
+		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
 }
 
 void WidgetChatRoom::parted(QString name, QString reason)
 {
 	Irc::Util util;
-	chatUserListModel->removeUser(Irc::Util::nickFromTarget(name));
-	ui->textBrowser->append(util.messageToHtml(tr("%1 has left this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason), QColor("purple").name(), true, true, true));
+	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
+		 tr("%1 has left this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason),
+		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
 }
 
 void WidgetChatRoom::leftServer(QString name, QString reason)
 {
 	Irc::Util util;
-	chatUserListModel->removeUser(Irc::Util::nickFromTarget(name));
-	ui->textBrowser->append(util.messageToHtml(tr("%1 has left this server (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason), QColor("purple").name(), true, true, true));
+	name = Irc::Util::nickFromTarget(name);
+	if (name.at(0) == ('~' || '&' || '%' || '-'))
+	{
+		name.remove(0,1);
+	}
+	chatUserListModel->removeUser(name);
+	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
+		tr("%1 has left this server (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason),
+		qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
 }
 
 void WidgetChatRoom::updateUsers()
 {
 	chatUserListModel->clear();
 	chatUserListModel->addUsers(roomBuffer);
+}
+
+QString WidgetChatRoom::wrapWithColor(QString message, QString wrapColor)
+{
+	message.prepend("<font color=\"" + wrapColor + "\">");
+	message.append("</font>");
+
+	return message;
 }

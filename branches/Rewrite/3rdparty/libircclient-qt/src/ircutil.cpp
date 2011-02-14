@@ -32,7 +32,7 @@
     \brief The Irc::Util class provides IRC related utility functions.
  */
 
-static QRegExp urlPattern("((www\\.(?!\\.)|(ssh|magnet|fish|irc|amarok|(f|sf|ht)tp(|s))://)|(magnet:)(\\.?[\\d\\w/,\\':~\\?=;#@\\-\\+\\%\\*\\{\\}\\!\\(\\)\\[\\]]|&)+)|([-.\\d\\w]+@[-.\\d\\w]{2,}\\.[\\w]{2,})""([-.\\d\\w]+@[-.\\d\\w]{2,}\\.[\\w]{2,})");
+static QRegExp urlPattern("((www\\.(?!\\.)|(fish|irc|amarok|(f|sf|ht)tp(|s))://)(\\.?[\\d\\w/,\\':~\\?=;#@\\-\\+\\%\\*\\{\\}\\!\\(\\)\\[\\]]|&)+)|""([-.\\d\\w]+@[-.\\d\\w]{2,}\\.[\\w]{2,})");
 
 namespace Irc
 {
@@ -219,7 +219,7 @@ namespace Irc
 			urlLen = urlPattern.matchedLength();
 
 			// check if the matched text is already replaced as a channel
-			if (doHyperlinks && text.lastIndexOf("<a", pos ) >text.lastIndexOf("</a>", pos))
+			if (doHyperlinks && text.lastIndexOf("<a", pos ) > text.lastIndexOf("</a>", pos))
 			{
 				++pos;
 				continue;
@@ -255,7 +255,7 @@ namespace Irc
 			if (doHyperlinks)
 			{
 				// Qt doesn't support (?<=pattern) so we do it here
-				if ((pos > 0) &&text[pos-1].isLetterOrNumber())
+				if ((pos > 0) && text[pos-1].isLetterOrNumber())
 				{
 					pos++;
 					continue;
@@ -284,7 +284,7 @@ namespace Irc
 			text.replace("\x0b", "&");
 		}
 
-		// kDebug() << "Took (msecs) : " << timer.elapsed() << " for " <<text;
+		// kDebug() << "Took (msecs) : " << timer.elapsed() << " for " << text;
 
 		return text;
 	}

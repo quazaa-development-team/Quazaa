@@ -339,7 +339,6 @@ ChatUserItem::ChatUserItem(QString nick, QString modes, ChatUserItem* parent)
 {
 	parentItem = parent;
 	sModes = modes;
-	qDebug() << "Name added. Name is " << nick << ". Modes are " << modes;
 	if (nick.at(0) == '~') //owner
 	{
 		modes.append("~");
