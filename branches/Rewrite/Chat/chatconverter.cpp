@@ -314,7 +314,7 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 		}
 		else if( m_pStack.top() == "15" && (fmt.foreground().color() != QColor("lightgray")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}

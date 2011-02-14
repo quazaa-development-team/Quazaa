@@ -74,7 +74,7 @@ QVariant ChatUserListModel::data(const QModelIndex& index, int role) const
 
 	if(role == Qt::DisplayRole)
 	{
-		return item->sDisplayNick;
+		return item->sNick;
 	}
 
 	if(role == Qt::ToolTipRole)
@@ -171,6 +171,7 @@ void ChatUserListModel::addUser(QString name, QString modes)
 {
 	int existingUser = rootItem->find(name);
 
+	qDebug() << "Adding user " << name << " with mode " << modes;
 	ChatUserItem* m_oChatUserItem = new ChatUserItem(name, modes, rootItem);
 
 	if(existingUser == -1)
@@ -190,7 +191,7 @@ void ChatUserListModel::addUser(QString name, QString modes)
 	}
 	else
 	{
-		int duplicate = rootItem->duplicateCheck(m_oChatUserItem->sDisplayNick);
+		int duplicate = rootItem->duplicateCheck(m_oChatUserItem->sNick);
 		if(duplicate != -1)
 		{
 			rootItem->childItems.replace(duplicate, m_oChatUserItem);
@@ -335,67 +336,130 @@ QList<ChatUserItem*> ChatUserListModel::caseInsensitiveSecondarySort(QList<ChatU
 	 }
 }
 
+void ChatUserListModel::updateUserMode(QString hostMask, QString mode, QString name)
+{
+	int existingUser = rootItem->find(name);
+
+	if (existingUser != -1)
+	{
+		QString sAction = mode.at(0);
+		QString sMode = mode.at(1);
+		if (sAction == "+")
+		{
+			if (sMode.contains('q'))
+			{
+				rootItem->childItems.at(existingUser)->sModes = "q";
+				rootItem->childItems.at(existingUser)->userMode = UserMode::Owner;
+			}
+			else if (sMode.contains('a') && highestMode(existingUser) < UserMode::Administrator)
+			{
+				rootItem->childItems.at(existingUser)->sModes = "a";
+				rootItem->childItems.at(existingUser)->userMode = UserMode::Administrator;
+			}
+			else if (sMode.contains('o') && highestMode(existingUser) < UserMode::Operator)
+			{
+				rootItem->childItems.at(existingUser)->sModes = "o";
+				rootItem->childItems.at(existingUser)->userMode = UserMode::Operator;
+			}
+			else if (sMode.contains('h') && highestMode(existingUser) < UserMode::HalfOperator)
+			{
+				rootItem->childItems.at(existingUser)->sModes = "h";
+				rootItem->childItems.at(existingUser)->userMode = UserMode::HalfOperator;
+			}
+			else if (sMode.contains('v') && highestMode(existingUser) < UserMode::Voice)
+			{
+				rootItem->childItems.at(existingUser)->sModes = "v";
+				rootItem->childItems.at(existingUser)->userMode = UserMode::Voice;
+			}
+		} else {
+			if (sMode.contains('q'))
+			{
+				rootItem->childItems.at(existingUser)->sModes.remove("q");
+				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
+			}
+			else if (sMode.contains('a'))
+			{
+				rootItem->childItems.at(existingUser)->sModes.remove("a");
+				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
+			}
+			else if (sMode.contains('o'))
+			{
+				rootItem->childItems.at(existingUser)->sModes.remove("o");
+				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
+			}
+			else if (sMode.contains('h'))
+			{
+				rootItem->childItems.at(existingUser)->sModes.remove("h");
+				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
+			}
+			else if (sMode.contains('v'))
+			{
+				rootItem->childItems.at(existingUser)->sModes.remove("v");
+				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
+			}
+		}
+		sort();
+	}
+}
+
+UserMode::UserMode ChatUserListModel::highestMode(int index)
+{
+	if (rootItem->childItems.at(index)->sModes.contains('q'))
+	{
+		return UserMode::Owner;
+	}
+	else if (rootItem->childItems.at(index)->sModes.contains('a'))
+	{
+		return UserMode::Administrator;
+	}
+	else if (rootItem->childItems.at(index)->sModes.contains('o'))
+	{
+		return UserMode::Operator;
+	}
+	else if (rootItem->childItems.at(index)->sModes.contains('h'))
+	{
+		return UserMode::HalfOperator;
+	}
+	else if (rootItem->childItems.at(index)->sModes.contains('v'))
+	{
+		return UserMode::Voice;
+	} else {
+		return UserMode::Normal;
+	}
+}
+
 ChatUserItem::ChatUserItem(QString nick, QString modes, ChatUserItem* parent)
 {
 	parentItem = parent;
 	sModes = modes;
-	if (nick.at(0) == '~') //owner
-	{
-		modes.append("~");
-		nick.remove(0,1);
-	} else if (nick.at(0) == '&') //admin
-	{
-		modes.append("a");
-		nick.remove(0,1);
-	} else if (nick.at(0) == '%') //halfop
-	{
-		modes.append("h");
-		nick.remove(0,1);
-	} else if (nick.at(0) == '-') //muted
-	{
-		modes.append("m");
-		nick.remove(0,1);
-	}
 
-	if (modes.contains('~'))
+	if (modes.contains('q'))
 	{
-		sDisplayNick = nick;
-		sNick = nick.prepend('~');
+		sNick = nick;
 		userMode = UserMode::Owner;
 	}
 	else if (modes.contains('a'))
 	{
-		sDisplayNick = nick;
-		sNick = nick.prepend('&');
+		sNick = nick;
 		userMode = UserMode::Administrator;
 	}
 	else if (modes.contains('o'))
 	{
-		sDisplayNick = nick;
-		sNick = nick.prepend('@');
+		sNick = nick;
 		userMode = UserMode::Operator;
 	}
 	else if (modes.contains('h'))
 	{
-		sDisplayNick = nick;
-		sNick = nick.prepend('%');
+		sNick = nick;
 		userMode = UserMode::HalfOperator;
 	}
 	else if (modes.contains('v'))
 	{
-		sDisplayNick = nick;
-		sNick = nick.prepend('+');
-		userMode = UserMode::Voice;
-	}
-	else if (modes.contains("m"))
-	{
-		sDisplayNick = nick;
-		sNick = nick.prepend('-');
+		sNick = nick;
 		userMode = UserMode::Voice;
 	}
 	else
 	{
-		sDisplayNick = nick;
 		sNick = nick;
 		userMode = UserMode::Normal;
 	}
@@ -452,7 +516,7 @@ int ChatUserItem::row() const
 {
 	if(parentItem)
 	{
-		return parentItem->childItems.indexOf(const_cast<ChatUserItem*>(this));
+		return childItems.indexOf(const_cast<ChatUserItem*>(this));
 	}
 
 	return 0;
@@ -460,9 +524,9 @@ int ChatUserItem::row() const
 
 int ChatUserItem::duplicateCheck(QString displayNick)
 {
-	for(int index = 0; index < parentItem->childItems.size(); ++index)
+	for(int index = 0; index < childItems.size(); ++index)
 	{
-		if(parentItem->child(index)->sDisplayNick == displayNick)
+		if(child(index)->sNick == displayNick)
 		{
 			return index;
 		}

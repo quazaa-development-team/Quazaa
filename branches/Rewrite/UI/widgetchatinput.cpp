@@ -73,11 +73,12 @@ void WidgetChatInput::on_toolButtonSend_clicked()
 		if (textEditInput->document()->lineCount() > 1)
 		{
 			QStringList lineList = textEditInput->document()->toHtml().split("\n");
-			for(int i = 0; i < lineList.size(); i++)
+			for(int i = 4; i < lineList.size(); i++)
 			{
 				QTextDocument *line = new QTextDocument();
 				line->setHtml(lineList.at(i));
-				emit messageSent(line);
+				if (!line->toPlainText().isEmpty() || line->toPlainText() != "p, li { white-space: pre-wrap; }")
+					emit messageSent(line);
 			}
 		} else {
 			emit messageSent(textEditInput->document());

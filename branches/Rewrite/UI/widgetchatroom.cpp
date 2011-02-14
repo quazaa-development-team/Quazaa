@@ -47,6 +47,7 @@ WidgetChatRoom::WidgetChatRoom(QuazaaIRC* quazaaIrc, Irc::Buffer* buffer, QWidge
 	connect(roomBuffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this ,SLOT(numericMessageReceived(QString,uint,QStringList)));
 	connect(roomBuffer, SIGNAL(namesReceived(QStringList)), this, SLOT(updateUsers()));
 	connect(roomBuffer, SIGNAL(quit(QString,QString)), this, SLOT(leftServer(QString,QString)));
+	connect(roomBuffer, SIGNAL(modeChanged(QString,QString,QString)), this, SLOT(updateUserMode(QString,QString,QString)));
 }
 
 WidgetChatRoom::~WidgetChatRoom()
@@ -184,32 +185,34 @@ void WidgetChatRoom::ctcpActionReceived(QString sender, QString message)
 void WidgetChatRoom::joined(QString name)
 {
 	Irc::Util util;
-	qDebug() << name << "joined chat";
+
+	name = Irc::Util::nickFromTarget(name);
 	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
 		 tr("%1 has joined this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(name),
 		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
+	qDebug() << "User " << name << " joined room with mode " << roomBuffer->modes(name);
+	chatUserListModel->addUser(name, roomBuffer->modes(name));
 }
 
 void WidgetChatRoom::parted(QString name, QString reason)
 {
 	Irc::Util util;
+	name = Irc::Util::nickFromTarget(name);
 	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
 		 tr("%1 has left this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason),
 		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
+	chatUserListModel->removeUser(name);
 }
 
 void WidgetChatRoom::leftServer(QString name, QString reason)
 {
 	Irc::Util util;
+
 	name = Irc::Util::nickFromTarget(name);
-	if (name.at(0) == ('~' || '&' || '%' || '-'))
-	{
-		name.remove(0,1);
-	}
-	chatUserListModel->removeUser(name);
 	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
 		tr("%1 has left this server (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason),
 		qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
+	chatUserListModel->removeUser(name);
 }
 
 void WidgetChatRoom::updateUsers()
@@ -224,4 +227,14 @@ QString WidgetChatRoom::wrapWithColor(QString message, QString wrapColor)
 	message.append("</font>");
 
 	return message;
+}
+
+void WidgetChatRoom::updateUserMode(QString hostMask,QString mode,QString name)
+{
+	Irc::Util util;
+
+	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
+		 tr("%1 sets mode %2 on %3.").arg(util.nickFromTarget(hostMask)).arg(mode).arg(name),
+		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
+	chatUserListModel->updateUserMode(hostMask, mode, name);
 }

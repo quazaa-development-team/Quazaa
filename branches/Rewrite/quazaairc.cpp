@@ -32,7 +32,6 @@
 QuazaaIRC::QuazaaIRC(QObject* parent) :
 		QObject(parent)
 {
-	m_connected = false;
 }
 
 void QuazaaIRC::on_IrcSession_connected()
@@ -63,6 +62,7 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 	emit bufferAdded(buffer);
 	buffer->names();
 	connect(buffer, SIGNAL(joined(QString)), this, SIGNAL(joined(QString)));
+	connect(buffer, SIGNAL(ctcpRequestReceived(QString,QString)), this, SLOT(ctcpReply(QString,QString)));
 }
 
 void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
@@ -120,4 +120,10 @@ void QuazaaIRC::sendIrcMessage(QString channel, QString message)
 {
 	//qDebug() << "Sending message to: " + tab->name + " ("+message+")";
 	if( m_connected ) ircSession->message(channel, message);
+}
+
+void QuazaaIRC::ctcpReply(QString nick, QString reply)
+{
+	reply = "VERSION Quazaa 0.1a Copyright© Quazaa Development Team, 2009-2011";
+	ircSession->ctcpReply(nick, reply);
 }

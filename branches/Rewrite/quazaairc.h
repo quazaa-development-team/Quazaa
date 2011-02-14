@@ -62,6 +62,7 @@ protected slots:
 
 	void on_IrcSession_bufferAdded(Irc::Buffer* buffer);
 	void on_IrcSession_bufferRemoved(Irc::Buffer* buffer);
+	void ctcpReply(QString nick, QString reply);
 
 protected:
 	Irc::Session *ircSession;

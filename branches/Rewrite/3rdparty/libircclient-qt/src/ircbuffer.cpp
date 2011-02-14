@@ -177,16 +177,36 @@ namespace Irc
     void BufferPrivate::addName(QString name)
     {
         QString mode;
-        if (name.startsWith(QLatin1Char('@')))
-        {
-            mode = QLatin1Char('o');
-            name = name.remove(0, 1);
-        }
-        else if (name.startsWith(QLatin1Char('+')))
-        {
-            mode = QLatin1Char('v');
-            name = name.remove(0, 1);
-        }
+		if (name.startsWith(QLatin1Char('~'))) //owner
+		{
+			mode = QLatin1Char('q');
+			name.remove(0,1);
+		}
+		if (name.startsWith(QLatin1Char('&'))) //admin
+		{
+			mode = QLatin1Char('a');
+			name.remove(0,1);
+		}
+		if (name.startsWith(QLatin1Char('@'))) //operator
+		{
+			mode = QLatin1Char('o');
+			name.remove(0, 1);
+		}
+		if (name.startsWith(QLatin1Char('%'))) //halfop
+		{
+			mode = QLatin1Char('h');
+			name.remove(0,1);
+		}
+		if (name.startsWith(QLatin1Char('+'))) //voiced
+		{
+			mode = QLatin1Char('v');
+			name.remove(0, 1);
+		}
+		if (name.startsWith(QLatin1Char('-'))) //muted
+		{
+			mode = QLatin1Char('m');
+			name.remove(0,1);
+		}
         names.insert(name, mode);
     }
 

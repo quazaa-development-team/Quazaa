@@ -77,6 +77,7 @@ private slots:
 	void leftServer(QString name, QString reason);
 	void updateUsers();
 	QString wrapWithColor(QString message, QString wrapColor);
+	void updateUserMode(QString hostMask,QString mode,QString name);
 };
 
 #endif // WIDGETCHATROOM_H
