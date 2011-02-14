@@ -70,7 +70,18 @@ void WidgetChatInput::on_toolButtonSend_clicked()
 {
 	if (!textEditInput->document()->isEmpty())
 	{
-		emit messageSent(textEditInput->document());
+		if (textEditInput->document()->lineCount() > 1)
+		{
+			QStringList lineList = textEditInput->document()->toHtml().split("\n");
+			for(int i = 0; i < lineList.size(); i++)
+			{
+				QTextDocument *line = new QTextDocument();
+				line->setHtml(lineList.at(i));
+				emit messageSent(line);
+			}
+		} else {
+			emit messageSent(textEditInput->document());
+		}
 		QTextCharFormat oldFormat = textEditInput->currentCharFormat();
 		textEditInput->document()->clear();
 		textEditInput->setCurrentCharFormat(oldFormat);

@@ -6,7 +6,7 @@
 
 ChatUserListModel::ChatUserListModel()
 {
-	rootItem = new ChatUserItem("Users");
+	rootItem = new ChatUserItem("Users", "");
 	nOperatorCount = 0;
 	nUserCount = 0;
 	iOwner = QIcon(":/Resource/Chat/Owner.png");
@@ -167,11 +167,11 @@ void ChatUserListModel::clear()
 	emit dataChanged(idx1, idx2);
 }
 
-void ChatUserListModel::addUser(QString name)
+void ChatUserListModel::addUser(QString name, QString modes)
 {
 	int existingUser = rootItem->find(name);
 
-	ChatUserItem* m_oChatUserItem = new ChatUserItem(name, rootItem);
+	ChatUserItem* m_oChatUserItem = new ChatUserItem(name, modes, rootItem);
 
 	if(existingUser == -1)
 	{
@@ -221,10 +221,13 @@ void ChatUserListModel::removeUser(QString name)
 	}
 }
 
-void ChatUserListModel::addUsers(QStringList names)
+void ChatUserListModel::addUsers(Irc::Buffer* buffer)
 {
-	for (int i = 0; i < names.size(); ++i)
-		addUser(names.at(i));
+	QStringList names = buffer->names();
+	for (int i = 0; i < names.size(); i++)
+	{
+		addUser(names.at(i), buffer->modes(names.at(i)));
+	}
 }
 
 void ChatUserListModel::sort(Qt::SortOrder order)
@@ -332,39 +335,69 @@ QList<ChatUserItem*> ChatUserListModel::caseInsensitiveSecondarySort(QList<ChatU
 	 }
 }
 
-ChatUserItem::ChatUserItem(QString nick, ChatUserItem* parent)
+ChatUserItem::ChatUserItem(QString nick, QString modes, ChatUserItem* parent)
 {
 	parentItem = parent;
-
-	sNick = nick;
-	if (nick.at(0) == '~')
+	sModes = modes;
+	qDebug() << "Name added. Name is " << nick << ". Modes are " << modes;
+	if (nick.at(0) == '~') //owner
 	{
-		sDisplayNick = nick.remove(0,1);
+		modes.append("~");
+		nick.remove(0,1);
+	} else if (nick.at(0) == '&') //admin
+	{
+		modes.append("a");
+		nick.remove(0,1);
+	} else if (nick.at(0) == '%') //halfop
+	{
+		modes.append("h");
+		nick.remove(0,1);
+	} else if (nick.at(0) == '-') //muted
+	{
+		modes.append("m");
+		nick.remove(0,1);
+	}
+
+	if (modes.contains('~'))
+	{
+		sDisplayNick = nick;
+		sNick = nick.prepend('~');
 		userMode = UserMode::Owner;
 	}
-	else if (nick.at(0) == '&')
+	else if (modes.contains('a'))
 	{
-		sDisplayNick = nick.remove(0,1);
+		sDisplayNick = nick;
+		sNick = nick.prepend('&');
 		userMode = UserMode::Administrator;
 	}
-	else if (nick.at(0) == '@')
+	else if (modes.contains('o'))
 	{
-		sDisplayNick = nick.remove(0,1);
+		sDisplayNick = nick;
+		sNick = nick.prepend('@');
 		userMode = UserMode::Operator;
 	}
-	else if (nick.at(0) == '%')
+	else if (modes.contains('h'))
 	{
-		sDisplayNick = nick.remove(0,1);
+		sDisplayNick = nick;
+		sNick = nick.prepend('%');
 		userMode = UserMode::HalfOperator;
 	}
-	else if (nick.at(0) == '+')
+	else if (modes.contains('v'))
 	{
-		sDisplayNick = nick.remove(0,1);
+		sDisplayNick = nick;
+		sNick = nick.prepend('+');
+		userMode = UserMode::Voice;
+	}
+	else if (modes.contains("m"))
+	{
+		sDisplayNick = nick;
+		sNick = nick.prepend('-');
 		userMode = UserMode::Voice;
 	}
 	else
 	{
 		sDisplayNick = nick;
+		sNick = nick;
 		userMode = UserMode::Normal;
 	}
 }

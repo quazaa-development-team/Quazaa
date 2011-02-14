@@ -58,8 +58,6 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	connect(quazaaIrc, SIGNAL(bufferAdded(Irc::Buffer*)), this, SLOT(addBuffer(Irc::Buffer*)));
 	connect(quazaaIrc, SIGNAL(setPrefixes(QString, QString)), this, SLOT(setPrefixes(QString, QString)));
 
-	//connect(quazaaIrc, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
-
 	widgetChatInput = new WidgetChatInput(this, true);
 	connect(widgetChatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onSendMessage(QTextDocument*)));
 	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
@@ -122,7 +120,7 @@ WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName)
 	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
 	for(int i = 0; i < allRooms.size(); ++i)
 	{
-		if(allRooms.at(i)->roomName == roomName)
+		if(allRooms.at(i)->sRoomName == roomName)
 		{
 			return allRooms.at(i);
 		}
@@ -136,7 +134,7 @@ WidgetChatRoom* WidgetChatMiddle::roomByBuffer(Irc::Buffer* buffer)
 	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
 	for(int i = 0; i < allRooms.size(); ++i)
 	{
-		if(allRooms.at(i)->roomName == buffer->receiver())
+		if(allRooms.at(i)->sRoomName == buffer->receiver())
 		{
 			return allRooms.at(i);
 		}

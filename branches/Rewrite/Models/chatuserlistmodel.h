@@ -4,6 +4,8 @@
 #include <QAbstractListModel>
 #include <QStringList>
 #include <QIcon>
+#include <QHash>
+#include <ircbuffer.h>
 
 namespace UserMode
 {
@@ -14,12 +16,13 @@ class ChatUserItem : public QObject
 {
 	Q_OBJECT
 public:
-	ChatUserItem(QString name = "", ChatUserItem* parent = 0);
+	ChatUserItem(QString nick, QString modes, ChatUserItem* parent = 0);
 	~ChatUserItem();
 
 	UserMode::UserMode userMode;
 	QString sNick;
 	QString sDisplayNick;
+	QString sModes;
 
 	void appendChild(ChatUserItem* child);
 	void clearChildren();
@@ -72,8 +75,8 @@ private:
 public slots:
 	void clear();
 	bool isRoot(QModelIndex index);
-	void addUser(QString name);
-	void addUsers(QStringList names);
+	void addUser(QString name, QString modes);
+	void addUsers(Irc::Buffer* buffer);
 	void removeUser(QString name);
 
 private slots:

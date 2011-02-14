@@ -111,6 +111,6 @@ void DialogIRCColorDialog::on_toolButtonCancel_clicked()
 
 void DialogIRCColorDialog::on_toolButtonOlive_clicked()
 {
-	m_oIRCColor.setNamedColor("orange");
+	m_oIRCColor.setNamedColor("olive");
 	accept();
 }

@@ -62,10 +62,6 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 	//qDebug() << "buffer added:" << buffer->receiver();
 	emit bufferAdded(buffer);
 	buffer->names();
-	connect(buffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
-	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this, SLOT(numericMessageReceived(QString,uint,QStringList)));
-	connect(buffer, SIGNAL(ctcpActionReceived(QString,QString)), this, SLOT(ctcpActionReceived(QString,QString)));
-	connect(buffer, SIGNAL(noticeReceived(QString,QString)), this, SLOT(noticeReceived(QString,QString)));
 	connect(buffer, SIGNAL(joined(QString)), this, SIGNAL(joined(QString)));
 }
 

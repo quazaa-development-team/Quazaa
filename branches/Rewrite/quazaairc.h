@@ -30,6 +30,10 @@ namespace Irc
 	class Buffer;
 }
 
+namespace IrcEvent {
+	enum IrcEvent { Command, Status, Notice, Message, Action, Server };
+}
+
 class QuazaaIRC : public QObject
 {
 	Q_OBJECT
@@ -41,7 +45,6 @@ protected:
 
 public:
 	QuazaaIRC(QObject* parent = 0);
-	enum Event { Status, Notice, Message, Action };
 
 public slots:
 	void startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );
@@ -49,7 +52,6 @@ public slots:
 	void sendIrcMessage(QString channel, QString message);
 
 signals:
-	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event);
 	void bufferAdded(Irc::Buffer* buffer);
 	void joined(QString chan);
 

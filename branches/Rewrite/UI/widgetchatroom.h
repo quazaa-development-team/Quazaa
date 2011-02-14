@@ -42,14 +42,16 @@ class WidgetChatRoom : public QMainWindow
 public:
 	explicit WidgetChatRoom(QuazaaIRC* quazaaIrc, Irc::Buffer* buffer, QWidget* parent = 0);
 	~WidgetChatRoom();
-	QString roomName;
+	QString sRoomName;
 	int operators, users;
 	ChatUserListModel *chatUserListModel;
+
+signals:
+	void userNames(QStringList names);
 
 public slots:
 	void saveWidget();
 	void setRoomName(QString str);
-	void userNames(QStringList names);
 	void onSendMessage(QString message);
 
 protected:
@@ -63,13 +65,17 @@ private:
 
 private slots:
 	void on_textBrowser_anchorClicked(QUrl link);
-	void appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event);
+	void appendMessage(QString sender, QString message, IrcEvent::IrcEvent event);
 	void onTopicChanged(QString origin, QString topic);
 	void numericMessageReceived(QString, uint, QStringList);
 	void setPrefixes(QString modes, QString mprefs);
 	void messageReceived(QString, QString);
 	void ctcpActionReceived(QString,QString);
 	void noticeReceived(QString,QString);
+	void joined(QString name);
+	void parted(QString name, QString reason);
+	void leftServer(QString name, QString reason);
+	void updateUsers();
 };
 
 #endif // WIDGETCHATROOM_H

@@ -42,8 +42,11 @@ WidgetChatRoom::WidgetChatRoom(QuazaaIRC* quazaaIrc, Irc::Buffer* buffer, QWidge
 	connect(roomBuffer, SIGNAL(ctcpActionReceived(QString,QString)), this, SLOT(ctcpActionReceived(QString,QString)));
 	connect(roomBuffer, SIGNAL(noticeReceived(QString,QString)), this, SLOT(noticeReceived(QString,QString)));
 	connect(roomBuffer, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
+	connect(roomBuffer, SIGNAL(parted(QString,QString)), this, SLOT(parted(QString,QString)));
 	connect(roomBuffer, SIGNAL(topicChanged(QString,QString)), this, SLOT(onTopicChanged(QString,QString)));
 	connect(roomBuffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this ,SLOT(numericMessageReceived(QString,uint,QStringList)));
+	connect(roomBuffer, SIGNAL(namesReceived(QStringList)), this, SLOT(updateUsers()));
+	connect(roomBuffer, SIGNAL(quit(QString,QString)), this, SLOT(leftServer(QString,QString)));
 }
 
 WidgetChatRoom::~WidgetChatRoom()
@@ -64,31 +67,18 @@ void WidgetChatRoom::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetChatRoom::setRoomName(QString str)
+void WidgetChatRoom::setRoomName(QString roomName)
 {
-	roomName = str;
+	sRoomName = roomName;
 }
 
 void WidgetChatRoom::saveWidget()
 {
 }
 
-void WidgetChatRoom::userNames(QStringList userNames)
-{
-	for (int i = 0; i < userNames.size(); i++);
-	QString sNameStore		= userNames.at(3);
-	QStringList userList	= sNameStore.split(" ");
-
-	chatUserListModel->addUsers(roomBuffer->names());
-	//emit updateUserCount(chatUserListModel->nOperatorCount, chatUserListModel->nUserCount);
-	//userList->setStringList(userNames);
-	//ui->listWidgetChatUsers->addItem()
-}
-
-
 void WidgetChatRoom::onSendMessage(QString message)
 {
-	m_oQuazaaIrc->sendIrcMessage(roomName, message);
+	m_oQuazaaIrc->sendIrcMessage(sRoomName, message);
 }
 
 void WidgetChatRoom::on_textBrowser_anchorClicked(QUrl link)
@@ -97,51 +87,31 @@ void WidgetChatRoom::on_textBrowser_anchorClicked(QUrl link)
 }
 
 
-void WidgetChatRoom::appendMessage(Irc::Buffer* buffer, QString sender, QString message, QuazaaIRC::Event event)
-{
-	QString evendt;
-	if(event == QuazaaIRC::Message)
-	{
-		evendt = "message";
-	}
-	else if(event == QuazaaIRC::Notice)
-	{
-		evendt = "notice";
-	}
-	else if(event == QuazaaIRC::Action)
-	{
-		evendt = "action";
-	}
-	else
-	{
-		evendt = "server";
-	}
-
-	//systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
+void WidgetChatRoom::appendMessage(QString sender, QString message, IrcEvent::IrcEvent event)
+{	//systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
 	//qDebug() << "Got a message from buffer " + (buffer->receiver()) + " | sender = " + sender + "| event = " + evendt;
-	QString receiver = buffer->receiver();
 	Irc::Util util;
 
 	switch(event)
 	{
-	case QuazaaIRC::Message:
+	case IrcEvent::Command:
+
+		break;
+	case IrcEvent::Message:
 		ui->textBrowser->append("&lt;" + util.nickFromTarget(sender) + "&gt; " + util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true));
 		break;
-
-	case QuazaaIRC::Notice:
+	case IrcEvent::Notice:
 		ui->textBrowser->append(util.nickFromTarget(sender) + ": " + util.messageToHtml(message, QColor("olive").name(), true, true, true));
 		break;
-
-	case QuazaaIRC::Action:
+	case IrcEvent::Action:
 		ui->textBrowser->append("* " + util.nickFromTarget(sender) + " " + util.messageToHtml(message, QColor("purple").name(), true, true, true));
 		break;
-
-	case QuazaaIRC::Status:
+	case IrcEvent::Server:
 		//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
 		//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
 		//tab->append(message);
 		ui->textBrowser->append(util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true));
-	break;
+		break;
 
 	default:
 		systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter::appendMessage: No event!"));
@@ -160,7 +130,7 @@ void WidgetChatRoom::numericMessageReceived(QString sender, uint code, QStringLi
 	switch (code)
 	{
 		case Irc::Rfc::RPL_NAMREPLY:
-			userNames(list);
+			emit userNames(list);
 		break;
 		case Irc::Rfc::RPL_BOUNCE:
 		{
@@ -179,7 +149,7 @@ void WidgetChatRoom::numericMessageReceived(QString sender, uint code, QStringLi
 		{
 			// append to status
 			list.removeFirst();
-			appendMessage(qobject_cast<Irc::Buffer*>(QObject::sender()), sender, "[" + QString::number(code) + "] " + list.join(" "), QuazaaIRC::Status);
+			appendMessage(sender, "[" + QString::number(code) + "] " + list.join(" "), IrcEvent::Status);
 		}
 	}
 }
@@ -194,16 +164,43 @@ void WidgetChatRoom::setPrefixes(QString modes, QString mprefs)
 
 void WidgetChatRoom::noticeReceived(QString sender, QString message)
 {
-	appendMessage(roomBuffer, sender, message, QuazaaIRC::Notice);
+	appendMessage(sender, message, IrcEvent::Notice);
 }
 
 void WidgetChatRoom::messageReceived(QString sender, QString message)
 {
 	//qDebug() << "Emitting messageReceived from quazaairc.cpp";
-	appendMessage(roomBuffer, sender, message, QuazaaIRC::Message);
+	appendMessage(sender, message, IrcEvent::Message);
 }
 
 void WidgetChatRoom::ctcpActionReceived(QString sender, QString message)
 {
-	appendMessage(roomBuffer, sender, message, QuazaaIRC::Action);
+	appendMessage(sender, message, IrcEvent::Action);
+}
+
+void WidgetChatRoom::joined(QString name)
+{
+	Irc::Util util;
+	qDebug() << name << "joined chat";
+	ui->textBrowser->append(util.messageToHtml(tr("%1 has joined this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(name), QColor("purple").name(), true, true, true));
+}
+
+void WidgetChatRoom::parted(QString name, QString reason)
+{
+	Irc::Util util;
+	chatUserListModel->removeUser(Irc::Util::nickFromTarget(name));
+	ui->textBrowser->append(util.messageToHtml(tr("%1 has left this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason), QColor("purple").name(), true, true, true));
+}
+
+void WidgetChatRoom::leftServer(QString name, QString reason)
+{
+	Irc::Util util;
+	chatUserListModel->removeUser(Irc::Util::nickFromTarget(name));
+	ui->textBrowser->append(util.messageToHtml(tr("%1 has left this server (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason), QColor("purple").name(), true, true, true));
+}
+
+void WidgetChatRoom::updateUsers()
+{
+	chatUserListModel->clear();
+	chatUserListModel->addUsers(roomBuffer);
 }
