@@ -230,85 +230,85 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 		}
 		else if( m_pStack.top() == "0" && (fmt.foreground().color() != QColor("white")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "2" && (fmt.foreground().color() != QColor("navy")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "3" && (fmt.foreground().color() != QColor("green")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "4" && (fmt.foreground().color() != QColor("red")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "5" && (fmt.foreground().color() != QColor("brown")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "6" && (fmt.foreground().color() != QColor("purple")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "7" && (fmt.foreground().color() != QColor("olive")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "8" && (fmt.foreground().color() != QColor("yellow")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "9" && (fmt.foreground().color() != QColor("lime")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "10" && (fmt.foreground().color() != QColor("darkcyan")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "11" && (fmt.foreground().color() != QColor("cyan")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "12" && (fmt.foreground().color() != QColor("blue")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "13" && (fmt.foreground().color() != QColor("magenta")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
 		else if( m_pStack.top() == "14" && (fmt.foreground().color() != QColor("gray")) )
 		{
-			m_pResult.append("1");
+			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
@@ -343,10 +343,10 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 		m_pResult.append("0");
 		m_pStack.push("0");
 	}
-	else if( (fmt.foreground().color() == QColor("black")) && !m_pStack.contains("1"))
+	else if( (fmt.foreground().color() == QColor("black")) && !m_pStack.contains("\017"))
 	{
-		m_pResult.append("1");
-		m_pStack.push("1");
+		m_pResult.append("\017");
+		m_pStack.push("\017");
 	}
 	else if( (fmt.foreground().color() == QColor("navy")) && !m_pStack.contains("2"))
 	{

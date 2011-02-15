@@ -78,6 +78,7 @@ private slots:
 	void updateUsers();
 	QString wrapWithColor(QString message, QString wrapColor);
 	void updateUserMode(QString hostMask,QString mode,QString name);
+	void nickChanged(QString oldNick, QString newNick);
 };
 
 #endif // WIDGETCHATROOM_H

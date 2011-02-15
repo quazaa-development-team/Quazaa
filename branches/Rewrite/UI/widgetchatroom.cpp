@@ -48,6 +48,7 @@ WidgetChatRoom::WidgetChatRoom(QuazaaIRC* quazaaIrc, Irc::Buffer* buffer, QWidge
 	connect(roomBuffer, SIGNAL(namesReceived(QStringList)), this, SLOT(updateUsers()));
 	connect(roomBuffer, SIGNAL(quit(QString,QString)), this, SLOT(leftServer(QString,QString)));
 	connect(roomBuffer, SIGNAL(modeChanged(QString,QString,QString)), this, SLOT(updateUserMode(QString,QString,QString)));
+	connect(roomBuffer, SIGNAL(nickChanged(QString,QString)), this, SLOT(nickChanged(QString,QString)));
 }
 
 WidgetChatRoom::~WidgetChatRoom()
@@ -237,4 +238,15 @@ void WidgetChatRoom::updateUserMode(QString hostMask,QString mode,QString name)
 		 tr("%1 sets mode %2 on %3.").arg(util.nickFromTarget(hostMask)).arg(mode).arg(name),
 		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
 	chatUserListModel->updateUserMode(hostMask, mode, name);
+}
+
+void WidgetChatRoom::nickChanged(QString oldNick, QString newNick)
+{
+
+	Irc::Util util;
+
+	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
+		 tr("%1 is now known as %2.").arg(util.nickFromTarget(oldNick)).arg(newNick),
+		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
+	chatUserListModel->changeNick(util.nickFromTarget(oldNick), newNick);
 }

@@ -428,6 +428,17 @@ UserMode::UserMode ChatUserListModel::highestMode(int index)
 	}
 }
 
+void ChatUserListModel::changeNick(QString oldNick, QString newNick)
+{
+	int existingUser = rootItem->find(oldNick);
+
+	if (existingUser != -1)
+	{
+		rootItem->childItems.at(existingUser)->sNick = newNick;
+		sort();
+	}
+}
+
 ChatUserItem::ChatUserItem(QString nick, QString modes, ChatUserItem* parent)
 {
 	parentItem = parent;

@@ -80,6 +80,7 @@ public slots:
 	void removeUser(QString name);
 	void updateUserMode(QString hostmask, QString mode, QString name);
 	UserMode::UserMode highestMode(int index);
+	void changeNick(QString oldNick, QString newNick);
 
 private slots:
 	QList<ChatUserItem*> caseInsensitiveSecondarySort(QList<ChatUserItem*> list, Qt::SortOrder order);
