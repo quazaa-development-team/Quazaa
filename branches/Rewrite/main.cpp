@@ -20,6 +20,12 @@
 #include "ShareManager.h"
 #include "quazaairc.h"
 
+#ifdef Q_OS_LINUX
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <unistd.h>
+#endif
+
 QuazaaGlobals quazaaGlobals;
 
 int main(int argc, char *argv[])
@@ -33,6 +39,25 @@ int main(int argc, char *argv[])
 	}
 
 	qsrand(time(0));
+
+#ifdef Q_OS_LINUX
+
+	rlimit sLimit;
+	memset(&sLimit, 0, sizeof(rlimit));
+	getrlimit(RLIMIT_NOFILE, &sLimit);
+
+	sLimit.rlim_cur = sLimit.rlim_max;
+
+	if( setrlimit(RLIMIT_NOFILE, &sLimit) == 0 )
+	{
+		qDebug() << "Successfully raised resource limits";
+	}
+	else
+	{
+		qDebug() << "Cannot set resource limits";
+	}
+
+#endif
 
 	theApp.setApplicationName(quazaaGlobals.ApplicationName());
 	theApp.setApplicationVersion(quazaaGlobals.ApplicationVersionString());
