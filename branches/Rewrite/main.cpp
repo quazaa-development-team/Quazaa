@@ -32,6 +32,8 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
+	qsrand(time(0));
+
 	theApp.setApplicationName(quazaaGlobals.ApplicationName());
 	theApp.setApplicationVersion(quazaaGlobals.ApplicationVersionString());
 	theApp.setOrganizationDomain(quazaaGlobals.ApplicationOrganizationDomain());
