@@ -255,3 +255,18 @@ void WidgetChatRoom::nickChanged(QString oldNick, QString newNick)
 		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
 	chatUserListModel->changeNick(util.nickFromTarget(oldNick), newNick);
 }
+
+void WidgetChatRoom::addBuffer(Irc::Buffer *buffer)
+{
+	connect(buffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
+	connect(buffer, SIGNAL(ctcpActionReceived(QString,QString)), this, SLOT(ctcpActionReceived(QString,QString)));
+	connect(buffer, SIGNAL(noticeReceived(QString,QString)), this, SLOT(noticeReceived(QString,QString)));
+	connect(buffer, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
+	connect(buffer, SIGNAL(parted(QString,QString)), this, SLOT(parted(QString,QString)));
+	connect(buffer, SIGNAL(topicChanged(QString,QString)), this, SLOT(onTopicChanged(QString,QString)));
+	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this ,SLOT(numericMessageReceived(QString,uint,QStringList)));
+	connect(buffer, SIGNAL(namesReceived(QStringList)), this, SLOT(updateUsers()));
+	connect(buffer, SIGNAL(quit(QString,QString)), this, SLOT(leftServer(QString,QString)));
+	connect(buffer, SIGNAL(modeChanged(QString,QString,QString)), this, SLOT(updateUserMode(QString,QString,QString)));
+	connect(buffer, SIGNAL(nickChanged(QString,QString)), this, SLOT(nickChanged(QString,QString)));
+}

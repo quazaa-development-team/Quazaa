@@ -60,7 +60,7 @@ private:
 
 public slots:
 	void saveWidget();
-	WidgetChatRoom* roomByName(QString);
+	WidgetChatRoom* roomByName(QString roomName,Irc::Buffer *buffer);
 	WidgetChatRoom* roomByBuffer(Irc::Buffer* buffer);
 	WidgetChatRoom* currentRoom();
 
@@ -73,7 +73,6 @@ private slots:
 	void on_stackedWidgetChatRooms_currentChanged(QWidget*);
 	void on_actionEditMyProfile_triggered();
 	void changeRoom(int index);
-	//QStringList caseInsensitiveSecondarySort(QStringList list);
 };
 
 #endif // WIDGETCHATCENTER_H

@@ -182,7 +182,7 @@ namespace Irc
 #endif // IRC_NO_DEPRECATED
 
     protected:
-        virtual Buffer* createBuffer(const QString& receiver);
+		virtual Buffer* createBuffer(const QString& receiver, bool isPrivMsg = false);
 
     private:
         SessionPrivate* const d_ptr;

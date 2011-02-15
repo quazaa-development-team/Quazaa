@@ -47,7 +47,7 @@ namespace Irc
         bool isConnected() const;
         QString resolveTarget(const QString& sender, const QString& receiver) const;
 
-        Buffer* createBuffer(const QString& receiver);
+		Buffer* createBuffer(const QString& receiver, bool isPrivMsg = false);
         void removeBuffer(Buffer* buffer);
 
         Session* q_ptr;

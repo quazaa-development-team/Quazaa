@@ -115,7 +115,7 @@ void WidgetChatMiddle::on_actionDisconnect_triggered()
 	//qDebug() << "Trying to disconnect from IRC";
 }
 
-WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName)
+WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName,Irc::Buffer *buffer)
 {
 	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
 	for(int i = 0; i < allRooms.size(); ++i)
@@ -125,6 +125,13 @@ WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName)
 			return allRooms.at(i);
 		}
 	}
+	WidgetChatRoom *room = new WidgetChatRoom(quazaaIrc, buffer);
+	room->setRoomName(roomName);
+	ui->stackedWidgetChatRooms->addWidget(room);
+	channelList << buffer->receiver();
+	channelListModel->setStringList(channelList);
+	emit roomChanged(room);
+	return room;
 
 	return 0;
 }
@@ -160,10 +167,32 @@ WidgetChatRoom* WidgetChatMiddle::currentRoom()
 
 void WidgetChatMiddle::addBuffer(Irc::Buffer* buffer)
 {
-	ui->stackedWidgetChatRooms->setCurrentWidget(roomByBuffer(buffer));
+	if (!buffer->receiver().isEmpty())
+	{
+		if(buffer->isPrivMsg())
+		{
+			qDebug() << "message is a query";
+		} else {
+			if (ui->stackedWidgetChatRooms->currentIndex() == -1)
+			{
+				ui->stackedWidgetChatRooms->setCurrentWidget(roomByName(quazaaIrc->sServer, buffer));
+				return;
+			}
+			switch (buffer->receiver().at(0).unicode())
+			{
+			case '#':
+			case '&':
+			case '!':
+			case '+':
+				ui->stackedWidgetChatRooms->setCurrentWidget(roomByBuffer(buffer));
+				break;
+			default:
+				roomByName(quazaaIrc->sServer, buffer)->addBuffer(buffer);
+				break;
+			}
+		}
+	}
 }
-
-
 
 void WidgetChatMiddle::on_stackedWidgetChatRooms_currentChanged(QWidget*)
 {
@@ -201,6 +230,33 @@ void WidgetChatMiddle::onSendMessage(QTextDocument *message)
 			{
 				if( !sParam.isEmpty() )
 					currentRoom()->onSendAction(sParam);
+				return;
+			}
+			if( sCmd == "/msg")
+			{
+				QString sTarget;
+				int nSpace = sParam.indexOf(" ");
+				if( nSpace == -1 )
+					nSpace = sParam.length();
+
+				sTarget = sParam.left(nSpace).toLower();
+				sParam = sParam.mid(nSpace + 1);
+
+				if( !sParam.isEmpty() )
+					quazaaIrc->sendIrcMessage(sTarget, sParam );
+				return;
+			}
+			if( sCmd == "/cs")
+			{
+				if( !sParam.isEmpty() )
+					quazaaIrc->sendIrcMessage("chanserv", sParam );
+				return;
+			}
+			if( sCmd == "/hs")
+			{
+				if( !sParam.isEmpty() )
+					quazaaIrc->sendIrcMessage("hostserv", sParam );
+				return;
 			}
 			else
 			{

@@ -669,6 +669,7 @@ namespace Irc
             }
             else if (command == QLatin1String("PRIVMSG"))
             {
+				qDebug() << "Private message recieved.";
                 QString message = params.value(1);
 
                 Irc::Buffer::MessageFlags flags = getMessageFlags(message);
@@ -682,7 +683,7 @@ namespace Irc
                     {
                         QString receiver = params.value(0);
                         QString target = resolveTarget(prefix, receiver);
-                        Buffer* buffer = createBuffer(target);
+						Buffer* buffer = createBuffer(target, true);
                         emit buffer->ctcpActionReceived(prefix, message.mid(7), flags);
                     }
                     else
@@ -857,21 +858,21 @@ namespace Irc
         return target;
     }
 
-    Buffer* SessionPrivate::createBuffer(const QString& receiver)
+	Buffer* SessionPrivate::createBuffer(const QString& receiver, bool isPrivMsg)
     {
         Q_Q(Session);
         QString lower = receiver.toLower();
         QString lowerNick = Util::nickFromTarget(receiver).toLower();
         if (lower != lowerNick && buffers.contains(lowerNick))
         {
-            Buffer* buffer = buffers.value(lowerNick);
+			Buffer* buffer = buffers.value(lowerNick);
             buffer->d_func()->setReceiver(lower);
             buffers.insert(lower, buffer);
             buffers.remove(lowerNick);
-        }
+		}
         else if (!buffers.contains(lower) && !buffers.contains(lowerNick))
         {
-            Buffer* buffer = q->createBuffer(receiver);
+			Buffer* buffer = q->createBuffer(receiver, isPrivMsg);
             buffers.insert(lower, buffer);
             emit q->bufferAdded(buffer);
         }
@@ -1682,9 +1683,9 @@ namespace Irc
         This virtual factory method can be overridden for example in order to make
         Irc::Session use a subclass of Irc::Buffer.
      */
-    Buffer* Session::createBuffer(const QString& receiver)
+	Buffer* Session::createBuffer(const QString& receiver, bool isPrivMsg)
     {
-        Buffer* buffer = new Buffer(receiver, this);
+		Buffer* buffer = new Buffer(receiver, isPrivMsg, this);
 #ifndef IRC_NO_DEPRECATED
         // TODO: for backwards compatibility, to be removed in 1.0
         connect(buffer, SIGNAL(joined(QString)), SLOT(_q_joined(QString)));

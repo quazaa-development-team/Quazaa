@@ -54,6 +54,7 @@ public slots:
 	void setRoomName(QString str);
 	void onSendMessage(QString message);
 	void onSendAction(QString message);
+	void addBuffer(Irc::Buffer* buffer);
 
 protected:
 	void changeEvent(QEvent* e);

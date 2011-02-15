@@ -45,6 +45,7 @@ protected:
 
 public:
 	QuazaaIRC(QObject* parent = 0);
+	QString sServer;
 
 public slots:
 	void startIrc( bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort );

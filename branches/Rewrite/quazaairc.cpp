@@ -61,7 +61,6 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 	//qDebug() << "buffer added:" << buffer->receiver();
 	emit bufferAdded(buffer);
 	buffer->names();
-	connect(buffer, SIGNAL(joined(QString)), this, SIGNAL(joined(QString)));
 	connect(buffer, SIGNAL(ctcpRequestReceived(QString,QString)), this, SLOT(ctcpReply(QString,QString)));
 }
 
@@ -76,6 +75,7 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 	systemLog.postLog(LogSeverity::Debug, QString("QuazaaIRC::startIRC() %1").arg(ircServer));
 	//qDebug() << "QuazaaIRC::startIrc() " << ircServer;
 	ircSession = new Irc::Session(this);
+	sServer = ircServer;
 
 	
 
