@@ -23,6 +23,7 @@
 #include "quazaairc.h"
 #include "ircutil.h"
 #include "widgetchatroom.h"
+#include "quazaaglobals.h"
 
 #include <ircsession.h>
 #include <ircbuffer.h>
@@ -81,7 +82,7 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 
 	// stripNicks / echoMessages
 	ircSession->setOptions(Irc::Session::EchoMessages);
-
+/*
 	if (useSsl)
 	{
 		QSslSocket* socket = new QSslSocket(ircSession);
@@ -89,7 +90,7 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 		socket->setPeerVerifyMode(QSslSocket::VerifyNone);
 		ircSession->setSocket(socket);
 	}
-
+*/
 	// for connectSlotsByName, to get it working, all slots should be named like:
 	// on_IrcSession_<signal name>
 	ircSession->setObjectName("IrcSession");
@@ -123,8 +124,27 @@ void QuazaaIRC::sendIrcMessage(QString channel, QString message)
 
 }
 
-void QuazaaIRC::ctcpReply(QString nick, QString reply)
+void QuazaaIRC::ctcpReply(QString nick, QString request)
 {
-	reply = "VERSION Quazaa 0.1a Copyright© Quazaa Development Team, 2009-2011";
+	QStringList ctcp	= request.toUpper().split(" ");
+	QString action		= ctcp.at(0);
+	QString reply		= action + " ";
+
+	if (action == "VERSION")
+		reply += quazaaGlobals.UserAgentString();
+	else if (action == "TIME")
+		reply += QDateTime::currentDateTime().toString("ddd MMM dd HH:mm:ss yyyy");
+	else if (action == "PING")
+		reply = request;
+	else if (action == "FINGER") {
+		qsrand(time(0));
+		QStringList fingers = QStringList()
+			<< "Go finger someone else..."
+			<< "You naughty!"
+			<< "Oh yeah baby :o"
+			<< "Quazaa really turns me on!";
+		reply += fingers.at(qrand() % fingers.size());
+	}
+
 	ircSession->ctcpReply(nick, reply);
 }
