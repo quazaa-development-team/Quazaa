@@ -268,20 +268,18 @@ namespace Irc
 
         \sa Session::createBuffer()
      */
-	Buffer::Buffer(const QString& receiver, bool isPrivMsg, Session* parent) : QObject(parent), d_ptr(new BufferPrivate)
+	Buffer::Buffer(const QString& receiver, Session* parent) : QObject(parent), d_ptr(new BufferPrivate)
     {
         Q_D(Buffer);
         d->q_ptr = this;
-        d->receiver = receiver;
-		m_bIsPrivMsg = isPrivMsg;
+		d->receiver = receiver;
     }
 
-	Buffer::Buffer(BufferPrivate& dd, const QString& receiver, bool isPrivMsg, Session* parent) : QObject(parent), d_ptr(&dd)
+	Buffer::Buffer(BufferPrivate& dd, const QString& receiver, Session* parent) : QObject(parent), d_ptr(&dd)
     {
         Q_D(Buffer);
         d->q_ptr = this;
-        d->receiver = receiver;
-		m_bIsPrivMsg = isPrivMsg;
+		d->receiver = receiver;
     }
 
     /*!
@@ -360,11 +358,11 @@ namespace Irc
 
         \sa Session::message()
      */
-    bool Buffer::message(const QString& message)
+	bool Buffer::message(const QString& message)
     {
         Q_D(Buffer);
         Session* s = session();
-        return s && s->message(d->receiver, message);
+		return s && s->message(d->receiver, message);
     }
 
     /*!

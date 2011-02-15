@@ -120,7 +120,7 @@ namespace Irc
         bool topic(const QString& channel, const QString& topic = QString());
         bool invite(const QString& nick, const QString& channel);
         bool kick(const QString& nick, const QString& channel, const QString& reason = QString());
-        bool message(const QString& receiver, const QString& message);
+		bool message(const QString& receiver, const QString& message);
         bool notice(const QString& receiver, const QString& notice);
         bool ctcpAction(const QString& receiver, const QString& action);
         bool ctcpRequest(const QString& nick, const QString& request);
@@ -182,7 +182,7 @@ namespace Irc
 #endif // IRC_NO_DEPRECATED
 
     protected:
-		virtual Buffer* createBuffer(const QString& receiver, bool isPrivMsg = false);
+		virtual Buffer* createBuffer(const QString& receiver);
 
     private:
         SessionPrivate* const d_ptr;

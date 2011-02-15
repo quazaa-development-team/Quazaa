@@ -169,9 +169,20 @@ void WidgetChatMiddle::addBuffer(Irc::Buffer* buffer)
 {
 	if (!buffer->receiver().isEmpty())
 	{
-		if(buffer->isPrivMsg())
+		if(quazaaIrc->bLoginCompleted)
 		{
-			qDebug() << "message is a query";
+			switch (buffer->receiver().at(0).unicode())
+			{
+			case '#':
+			case '&':
+			case '!':
+			case '+':
+				ui->stackedWidgetChatRooms->setCurrentWidget(roomByBuffer(buffer));
+				break;
+			default:
+				qDebug() << "Private message.";
+				break;
+			}
 		} else {
 			if (ui->stackedWidgetChatRooms->currentIndex() == -1)
 			{

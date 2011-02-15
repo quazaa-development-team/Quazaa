@@ -19,6 +19,7 @@
 #include "wizardquickstart.h"
 #include "ShareManager.h"
 #include "quazaairc.h"
+#include "commonfunctions.h"
 
 #ifdef Q_OS_LINUX
 #include <sys/time.h>

@@ -53,6 +53,7 @@ void QuazaaIRC::on_IrcSession_welcomed()
 {
 	systemLog.postLog(LogSeverity::Debug, QString("IRC welcomed."));
 	//qDebug() << "IRC welcomed";
+	bLoginCompleted = true;
 	ircSession->join("#quazaa-dev");
 }
 
@@ -77,12 +78,13 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 	//qDebug() << "QuazaaIRC::startIrc() " << ircServer;
 	ircSession = new Irc::Session(this);
 	sServer = ircServer;
+	bLoginCompleted = false;
 
 	
 
 	// stripNicks / echoMessages
 	ircSession->setOptions(Irc::Session::EchoMessages);
-/*
+
 	if (useSsl)
 	{
 		QSslSocket* socket = new QSslSocket(ircSession);
@@ -90,18 +92,19 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 		socket->setPeerVerifyMode(QSslSocket::VerifyNone);
 		ircSession->setSocket(socket);
 	}
-*/
+
 	// for connectSlotsByName, to get it working, all slots should be named like:
 	// on_IrcSession_<signal name>
 	ircSession->setObjectName("IrcSession");
 	QMetaObject::connectSlotsByName(this);
 
 	ircSession->setNick(ircNick);
+	sNick = ircNick;
 	ircSession->setIdent("QuazaaIRC");
 	ircSession->setRealName(ircRealName);
+	sRealName = ircRealName;
 
 	ircSession->connectToServer(ircServer, ircPort);
-
 }
 
 void QuazaaIRC::stopIrc()
@@ -139,11 +142,23 @@ void QuazaaIRC::ctcpReply(QString nick, QString request)
 	else if (action == "FINGER") {
 		qsrand(time(0));
 		QStringList fingers = QStringList()
-			<< "Go finger someone else..."
-			<< "You naughty!"
-			<< "Oh yeah baby :o"
-			<< "Quazaa really turns me on!";
+			<< tr("Go finger someone else...")
+			<< tr("You naughty!")
+			<< tr("Oh yeah baby :o")
+			<< tr("Quazaa really turns me on!");
 		reply += fingers.at(qrand() % fingers.size());
+	}
+	else if (action == "SOURCE") {
+		reply += "http://sourceforge.net/scm/?type=svn&group_id=286623";
+	}
+	else if (action == "USERINFO") {
+		reply += sRealName;
+	}
+	else if (action == "CLIENTINFO") {
+		reply += "ACTION CLIENTINFO PING TIME VERSION FINGER SOURCE USERINFO";
+	}
+	else {
+		reply = "ERRMSG CTCP " + action + tr(" is an unknown request.");
 	}
 
 	ircSession->ctcpReply(nick, reply);

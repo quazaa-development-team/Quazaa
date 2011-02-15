@@ -43,7 +43,6 @@ namespace Irc
         QStringList names() const;
         QString modes(const QString& name) const;
 		QString visualMode(const QString& name) const;
-		bool isPrivMsg() { return m_bIsPrivMsg; }
 
         enum MessageFlag
         {
@@ -54,10 +53,9 @@ namespace Irc
         Q_DECLARE_FLAGS(MessageFlags, MessageFlag)
 
     public Q_SLOTS:
-        bool message(const QString& message);
+		bool message(const QString& message);
         bool notice(const QString& notice);
 		bool ctcpAction(const QString& action);
-		void setIsPrivMsg(bool isPrivMsg) { m_bIsPrivMsg = isPrivMsg; }
 
     Q_SIGNALS:
         void receiverChanged(const QString& receiver);
@@ -85,16 +83,15 @@ namespace Irc
         void unknownMessageReceived(const QString& origin, const QStringList& params);
 
     protected:
-		Buffer(const QString& receiver, bool isPrivMsg = false, Session* parent = 0);
-		Buffer(BufferPrivate& dd, const QString& receiver, bool isPrivMsg = false, Session* parent = 0);
+		Buffer(const QString& receiver, Session* parent = 0);
+		Buffer(BufferPrivate& dd, const QString& receiver, Session* parent = 0);
         BufferPrivate* const d_ptr;
 
     private:
         Q_DECLARE_PRIVATE(Buffer)
         Q_DISABLE_COPY(Buffer)
         friend class SessionPrivate;
-        friend class Session;
-		bool m_bIsPrivMsg;
+		friend class Session;
     };
 }
 

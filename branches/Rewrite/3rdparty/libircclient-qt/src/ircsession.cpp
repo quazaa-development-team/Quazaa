@@ -668,8 +668,7 @@ namespace Irc
                 emit buffer->kicked(prefix, nick, message);
             }
             else if (command == QLatin1String("PRIVMSG"))
-            {
-				qDebug() << "Private message recieved.";
+			{
                 QString message = params.value(1);
 
                 Irc::Buffer::MessageFlags flags = getMessageFlags(message);
@@ -683,7 +682,7 @@ namespace Irc
                     {
                         QString receiver = params.value(0);
                         QString target = resolveTarget(prefix, receiver);
-						Buffer* buffer = createBuffer(target, true);
+						Buffer* buffer = createBuffer(target);
                         emit buffer->ctcpActionReceived(prefix, message.mid(7), flags);
                     }
                     else
@@ -858,7 +857,7 @@ namespace Irc
         return target;
     }
 
-	Buffer* SessionPrivate::createBuffer(const QString& receiver, bool isPrivMsg)
+	Buffer* SessionPrivate::createBuffer(const QString& receiver)
     {
         Q_Q(Session);
         QString lower = receiver.toLower();
@@ -872,7 +871,7 @@ namespace Irc
 		}
         else if (!buffers.contains(lower) && !buffers.contains(lowerNick))
         {
-			Buffer* buffer = q->createBuffer(receiver, isPrivMsg);
+			Buffer* buffer = q->createBuffer(receiver);
             buffers.insert(lower, buffer);
             emit q->bufferAdded(buffer);
         }
@@ -1622,12 +1621,12 @@ namespace Irc
     /*!
         Sends a \a message to \a receiver.
      */
-    bool Session::message(const QString& receiver, const QString& message)
+	bool Session::message(const QString& receiver, const QString& message)
     {
         Q_D(Session);
         if (d->options & Session::EchoMessages)
         {
-            Buffer* buffer = d->createBuffer(receiver);
+			Buffer* buffer = d->createBuffer(receiver);
             emit buffer->messageReceived(d->nick, message, Irc::Buffer::EchoFlag);
         }
         return raw(QString(QLatin1String("PRIVMSG %1 :%2")).arg(Util::nickFromTarget(receiver), message));
@@ -1683,9 +1682,9 @@ namespace Irc
         This virtual factory method can be overridden for example in order to make
         Irc::Session use a subclass of Irc::Buffer.
      */
-	Buffer* Session::createBuffer(const QString& receiver, bool isPrivMsg)
+	Buffer* Session::createBuffer(const QString& receiver)
     {
-		Buffer* buffer = new Buffer(receiver, isPrivMsg, this);
+		Buffer* buffer = new Buffer(receiver, this);
 #ifndef IRC_NO_DEPRECATED
         // TODO: for backwards compatibility, to be removed in 1.0
         connect(buffer, SIGNAL(joined(QString)), SLOT(_q_joined(QString)));

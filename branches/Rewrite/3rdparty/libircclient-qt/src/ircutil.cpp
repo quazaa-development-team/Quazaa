@@ -149,6 +149,7 @@ namespace Irc
 		// TODO: \017 should reset all text decorations to plain text
 		replaceDecoration(filteredLine,'\x02','b');
 		replaceDecoration(filteredLine,'\x1d','i');
+		replaceDecoration(filteredLine,'\x09','i');
 		replaceDecoration(filteredLine,'\x13','s');
 		replaceDecoration(filteredLine,'\x15','u');
 		replaceDecoration(filteredLine,'\x16','b');   // should be inverse
@@ -169,6 +170,7 @@ namespace Irc
 
 		// Replace pairs of spaces with "<space>&nbsp;" to preserve some semblance of text wrapping
 		filteredLine.replace("  "," \xA0");
+		qDebug() << "Html converted line: " << filteredLine;
 		return filteredLine;
 	}
 

@@ -588,7 +588,7 @@ void QuazaaSettings::loadSettings()
 	m_qSettings.beginGroup("Chat");
 	quazaaSettings.Chat.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", false).toBool();
 	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
-	quazaaSettings.Chat.IrcServerName = m_qSettings.value("IrcServerName", "irc.nixtrixirc.net").toString();
+	quazaaSettings.Chat.IrcServerName = m_qSettings.value("IrcServerName", "eu.paradoxirc.net").toString();
 	quazaaSettings.Chat.IrcServerPort = m_qSettings.value("IrcServerPort", 6667).toInt();
 	quazaaSettings.Chat.IrcUseSSL = m_qSettings.value("IrcUseSSL", false).toBool();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
