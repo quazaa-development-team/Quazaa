@@ -180,6 +180,36 @@ void WidgetChatMiddle::on_actionEditMyProfile_triggered()
 
 void WidgetChatMiddle::onSendMessage(QTextDocument *message)
 {
+	QString sMessage = message->toPlainText();
+
+	if( sMessage.isEmpty() )
+		return;
+
+	if( sMessage.left(2) != "//" )
+	{
+		if( sMessage.left(1) == "/" ) // is it a command?
+		{
+			QString sCmd, sParam;
+			int nSpace = sMessage.indexOf(" ");
+			if( nSpace == -1 )
+				nSpace = sMessage.length();
+
+			sCmd = sMessage.left(nSpace).toLower();
+			sParam = sMessage.mid(nSpace + 1);
+
+			if( sCmd == "/me" )
+			{
+				if( !sParam.isEmpty() )
+					currentRoom()->onSendAction(sParam);
+			}
+			else
+			{
+				currentRoom()->onSendMessage("Unknown command");
+			}
+
+			return;
+		}
+	}
 	CChatConverter oConv(message);
 	currentRoom()->onSendMessage(oConv.toIRC());
 }

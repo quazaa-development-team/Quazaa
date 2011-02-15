@@ -83,6 +83,11 @@ void WidgetChatRoom::onSendMessage(QString message)
 	m_oQuazaaIrc->sendIrcMessage(sRoomName, message);
 }
 
+void WidgetChatRoom::onSendAction(QString message)
+{
+	roomBuffer->ctcpAction(message);
+}
+
 void WidgetChatRoom::on_textBrowser_anchorClicked(QUrl link)
 {
 	QDesktopServices::openUrl(link);

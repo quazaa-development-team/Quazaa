@@ -120,6 +120,7 @@ void QuazaaIRC::sendIrcMessage(QString channel, QString message)
 {
 	//qDebug() << "Sending message to: " + tab->name + " ("+message+")";
 	if( m_connected ) ircSession->message(channel, message);
+
 }
 
 void QuazaaIRC::ctcpReply(QString nick, QString reply)

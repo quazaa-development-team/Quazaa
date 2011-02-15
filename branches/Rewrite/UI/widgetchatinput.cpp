@@ -77,8 +77,7 @@ void WidgetChatInput::on_toolButtonSend_clicked()
 			{
 				QTextDocument *line = new QTextDocument();
 				line->setHtml(lineList.at(i));
-				if (!line->toPlainText().isEmpty() || line->toPlainText() != "p, li { white-space: pre-wrap; }")
-					emit messageSent(line);
+				emit messageSent(line);
 			}
 		} else {
 			emit messageSent(textEditInput->document());

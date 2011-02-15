@@ -53,6 +53,7 @@ public slots:
 	void saveWidget();
 	void setRoomName(QString str);
 	void onSendMessage(QString message);
+	void onSendAction(QString message);
 
 protected:
 	void changeEvent(QEvent* e);
