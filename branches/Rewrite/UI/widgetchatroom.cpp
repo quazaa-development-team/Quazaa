@@ -97,30 +97,28 @@ void WidgetChatRoom::on_textBrowser_anchorClicked(QUrl link)
 void WidgetChatRoom::appendMessage(QString sender, QString message, IrcEvent::IrcEvent event)
 {	//systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
 	//qDebug() << "Got a message from buffer " + (buffer->receiver()) + " | sender = " + sender + "| event = " + evendt;
-	Irc::Util util;
-
 	switch(event)
 	{
 	case IrcEvent::Command:
 
 		break;
 	case IrcEvent::Message:
-		ui->textBrowser->append("&lt;" + util.nickFromTarget(sender) + "&gt; " + util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true));
+		ui->textBrowser->append("&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true));
 		break;
 	case IrcEvent::Notice:
-		ui->textBrowser->append(wrapWithColor(util.nickFromTarget(sender) + ": " + util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true), QColor("red").name()));
+		ui->textBrowser->append(wrapWithColor(Irc::Util::nickFromTarget(sender) + ": " + Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("red").name()));
 		break;
 	case IrcEvent::Action:
-		ui->textBrowser->append(wrapWithColor("* " + util.nickFromTarget(sender) + " " + util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true), QColor("blue").name()));
+		ui->textBrowser->append(wrapWithColor("* " + Irc::Util::nickFromTarget(sender) + " " + Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("blue").name()));
 		break;
 	case IrcEvent::Server:
 		//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
 		//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
 		//tab->append(message);
-		ui->textBrowser->append(wrapWithColor(util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true), QColor("olive").name()));
+		ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("olive").name()));
 		break;
 	case IrcEvent::Status:
-		ui->textBrowser->append(wrapWithColor(util.messageToHtml(message, qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
+		ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
 		break;
 
 	default:
@@ -190,34 +188,29 @@ void WidgetChatRoom::ctcpActionReceived(QString sender, QString message)
 
 void WidgetChatRoom::joined(QString name)
 {
-	Irc::Util util;
-
 	name = Irc::Util::nickFromTarget(name);
-	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
+	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
 		 tr("%1 has joined this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(name),
-		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
+		 qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
 	qDebug() << "User " << name << " joined room with mode " << roomBuffer->modes(name);
 	chatUserListModel->addUser(name, roomBuffer->modes(name));
 }
 
 void WidgetChatRoom::parted(QString name, QString reason)
 {
-	Irc::Util util;
 	name = Irc::Util::nickFromTarget(name);
-	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
+	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
 		 tr("%1 has left this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason),
-		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
+		 qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
 	chatUserListModel->removeUser(name);
 }
 
 void WidgetChatRoom::leftServer(QString name, QString reason)
 {
-	Irc::Util util;
-
 	name = Irc::Util::nickFromTarget(name);
-	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
+	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
 		tr("%1 has left this server (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason),
-		qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
+		qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
 	chatUserListModel->removeUser(name);
 }
 
@@ -237,23 +230,18 @@ QString WidgetChatRoom::wrapWithColor(QString message, QString wrapColor)
 
 void WidgetChatRoom::updateUserMode(QString hostMask,QString mode,QString name)
 {
-	Irc::Util util;
-
-	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
-		 tr("%1 sets mode %2 on %3.").arg(util.nickFromTarget(hostMask)).arg(mode).arg(name),
-		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
+	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
+		 tr("%1 sets mode %2 on %3.").arg(Irc::Util::nickFromTarget(hostMask)).arg(mode).arg(name),
+		 qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
 	chatUserListModel->updateUserMode(hostMask, mode, name);
 }
 
 void WidgetChatRoom::nickChanged(QString oldNick, QString newNick)
 {
-
-	Irc::Util util;
-
-	ui->textBrowser->append(wrapWithColor(util.messageToHtml(
-		 tr("%1 is now known as %2.").arg(util.nickFromTarget(oldNick)).arg(newNick),
-		 qApp->palette().foreground().color().name(), true, true, true), QColor("purple").name()));
-	chatUserListModel->changeNick(util.nickFromTarget(oldNick), newNick);
+	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
+		 tr("%1 is now known as %2.").arg(Irc::Util::nickFromTarget(oldNick)).arg(newNick),
+		 qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
+	chatUserListModel->changeNick(Irc::Util::nickFromTarget(oldNick), newNick);
 }
 
 void WidgetChatRoom::addBuffer(Irc::Buffer *buffer)

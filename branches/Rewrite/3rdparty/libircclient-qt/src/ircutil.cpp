@@ -24,8 +24,6 @@
 #include <QString>
 #include <QRegExp>
 #include <QDebug>
-#include <QApplication>
-#include <QPalette>
 
 /*!
     \class Irc::Util ircutil.h
@@ -74,7 +72,7 @@ namespace Irc
 		}
 	}
 
-	QString Util::messageToHtml(const QString& line, const QString& defaultColor, bool parseURL, bool allowBeep, bool allowColors)
+	QString Util::messageToHtml(const QString& line, const QString& defaultColor, bool parseURL, bool allowColors)
 	{
 		QString filteredLine(line);
 
@@ -90,14 +88,6 @@ namespace Irc
 		filteredLine.replace('<',"\x0blt;");
 		// Replace all > with &gt;
 		filteredLine.replace('>', "\x0bgt;");
-
-		if(filteredLine.contains('\x07'))
-		{
-			if(allowBeep)
-			{
-				QApplication::beep();
-			}
-		}
 
 		// replace \003 and \017 codes with rich text color codes
 		// captures          1    2                   23 4                   4 3     1
@@ -128,7 +118,7 @@ namespace Irc
 					if(!colorRegExp.cap(2).isEmpty())
 					{
 						int foregroundColor = colorRegExp.cap(2).toInt();
-						colorString += "<font color=\"" + ircColorCode(foregroundColor).name() + "\">";
+						colorString += "<font color=\"" + ircColorCode(foregroundColor) + "\">";
 					}
 					else
 					{
@@ -291,27 +281,27 @@ namespace Irc
 		return text;
 	}
 
-	QColor Util::ircColorCode(int code)
+	QString Util::ircColorCode(int code)
 	{
 		switch (code)
 		{
-		case 0:  return QColor("white");
-		case 1:  return QColor("black");
-		case 2:  return QColor("navy");
-		case 3:  return QColor("green");
-		case 4:  return QColor("red");
-		case 5:  return QColor("brown");
-		case 6:  return QColor("purple");
-		case 7:  return QColor("olive");
-		case 8:  return QColor("yellow");
-		case 9:  return QColor("lime");
-		case 10: return QColor("darkcyan");
-		case 11: return QColor("cyan");
-		case 12: return QColor("blue");
-		case 13: return QColor("magenta");
-		case 14: return QColor("gray");
-		case 15: return QColor("lightgray");
-		default: return QColor("black");
+		case 0:  return "#ffffff"; //white
+		case 1:  return "#000000"; //black
+		case 2:  return "#000080"; //navy
+		case 3:  return "#008000"; //green
+		case 4:  return "#ff0000"; //red
+		case 5:  return "#a52a2a"; //brown
+		case 6:  return "#800080"; //purple
+		case 7:  return "#808000"; //olive
+		case 8:  return "#ffff00"; //yellow
+		case 9:  return "#00ff00"; //lime
+		case 10: return "#008b8b"; //dark cyan
+		case 11: return "#00ffff"; //cyan
+		case 12: return "#0000ff"; //blue
+		case 13: return "#ff00ff"; //magenta
+		case 14: return "#808080"; //gray
+		case 15: return "#d3d3d3"; //light gray
+		default: return "#000000"; //black
 		}
 	}
 }

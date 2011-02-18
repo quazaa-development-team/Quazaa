@@ -17,7 +17,6 @@
 
 #include <irc.h>
 #include <QPair>
-#include <QColor>
 
 namespace Irc
 {
@@ -26,10 +25,10 @@ namespace Irc
 	public:
 		static QString nickFromTarget(const QString& target);
 		static QString hostFromTarget(const QString& target);
-		void replaceDecoration(QString& line, char decoration, char replacement);
-		QString messageToHtml(const QString& line, const QString& defaultColor, bool parseURL, bool allowBeep, bool allowColors);
-		QString extractUrlData(QString text, bool doHyperlinks);
-		QColor ircColorCode(int code);
+		static void replaceDecoration(QString& line, char decoration, char replacement);
+		static QString messageToHtml(const QString& line, const QString& defaultColor = "#000000", bool parseURL = true, bool allowColors = true);
+		static QString extractUrlData(QString text, bool doHyperlinks);
+		static QString ircColorCode(int code);
 	};
 }
 

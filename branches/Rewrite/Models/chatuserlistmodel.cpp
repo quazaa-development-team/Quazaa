@@ -348,27 +348,27 @@ void ChatUserListModel::updateUserMode(QString hostMask, QString mode, QString n
 		{
 			if (sMode.contains('q'))
 			{
-				rootItem->childItems.at(existingUser)->sModes = "q";
+				rootItem->childItems.at(existingUser)->sModes += "q";
 				rootItem->childItems.at(existingUser)->userMode = UserMode::Owner;
 			}
 			else if (sMode.contains('a') && highestMode(existingUser) < UserMode::Administrator)
 			{
-				rootItem->childItems.at(existingUser)->sModes = "a";
+				rootItem->childItems.at(existingUser)->sModes += "a";
 				rootItem->childItems.at(existingUser)->userMode = UserMode::Administrator;
 			}
 			else if (sMode.contains('o') && highestMode(existingUser) < UserMode::Operator)
 			{
-				rootItem->childItems.at(existingUser)->sModes = "o";
+				rootItem->childItems.at(existingUser)->sModes += "o";
 				rootItem->childItems.at(existingUser)->userMode = UserMode::Operator;
 			}
 			else if (sMode.contains('h') && highestMode(existingUser) < UserMode::HalfOperator)
 			{
-				rootItem->childItems.at(existingUser)->sModes = "h";
+				rootItem->childItems.at(existingUser)->sModes += "h";
 				rootItem->childItems.at(existingUser)->userMode = UserMode::HalfOperator;
 			}
 			else if (sMode.contains('v') && highestMode(existingUser) < UserMode::Voice)
 			{
-				rootItem->childItems.at(existingUser)->sModes = "v";
+				rootItem->childItems.at(existingUser)->sModes += "v";
 				rootItem->childItems.at(existingUser)->userMode = UserMode::Voice;
 			}
 		} else {
