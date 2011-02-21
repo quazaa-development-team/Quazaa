@@ -171,7 +171,6 @@ void ChatUserListModel::addUser(QString name, QString modes)
 {
 	int existingUser = rootItem->find(name);
 
-	qDebug() << "Adding user " << name << " with mode " << modes;
 	ChatUserItem* m_oChatUserItem = new ChatUserItem(name, modes, rootItem);
 
 	if(existingUser == -1)

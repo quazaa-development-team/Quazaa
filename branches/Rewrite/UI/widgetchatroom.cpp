@@ -49,6 +49,8 @@ WidgetChatRoom::WidgetChatRoom(QuazaaIRC* quazaaIrc, Irc::Buffer* buffer, QWidge
 	connect(roomBuffer, SIGNAL(quit(QString,QString)), this, SLOT(leftServer(QString,QString)));
 	connect(roomBuffer, SIGNAL(modeChanged(QString,QString,QString)), this, SLOT(updateUserMode(QString,QString,QString)));
 	connect(roomBuffer, SIGNAL(nickChanged(QString,QString)), this, SLOT(nickChanged(QString,QString)));
+	connect(roomBuffer, SIGNAL(destroyed()), this, SLOT(close()));
+	connect(this, SIGNAL(destroyed()), roomBuffer, SLOT(deleteLater()));
 }
 
 WidgetChatRoom::~WidgetChatRoom()
@@ -192,7 +194,6 @@ void WidgetChatRoom::joined(QString name)
 	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
 		 tr("%1 has joined this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(name),
 		 qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
-	qDebug() << "User " << name << " joined room with mode " << roomBuffer->modes(name);
 	chatUserListModel->addUser(name, roomBuffer->modes(name));
 }
 

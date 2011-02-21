@@ -111,6 +111,14 @@ void WidgetChatMiddle::on_actionDisconnect_triggered()
 	quazaaIrc->stopIrc();
 	ui->actionConnect->setEnabled(true);
 	ui->actionDisconnect->setEnabled(false);
+	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
+	for(int i = 0; i < allRooms.size(); ++i)
+	{
+		ui->stackedWidgetChatRooms->removeWidget(allRooms.at(i));
+		allRooms.at(i)->~WidgetChatRoom();
+	}
+	channelList.clear();
+	channelListModel->setStringList(channelList);
 	systemLog.postLog(LogSeverity::Debug, QString("Trying to disconnect from IRC"));
 	//qDebug() << "Trying to disconnect from IRC";
 }
@@ -120,7 +128,7 @@ WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName,Irc::Buffer *buffe
 	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
 	for(int i = 0; i < allRooms.size(); ++i)
 	{
-		if(allRooms.at(i)->sRoomName == roomName)
+		if(allRooms.at(i)->sRoomName == roomName && allRooms.at(i) != 0)
 		{
 			return allRooms.at(i);
 		}
@@ -141,7 +149,7 @@ WidgetChatRoom* WidgetChatMiddle::roomByBuffer(Irc::Buffer* buffer)
 	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
 	for(int i = 0; i < allRooms.size(); ++i)
 	{
-		if(allRooms.at(i)->sRoomName == buffer->receiver())
+		if(allRooms.at(i)->sRoomName == buffer->receiver() && allRooms.at(i) != 0)
 		{
 			return allRooms.at(i);
 		}

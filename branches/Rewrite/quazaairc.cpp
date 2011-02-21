@@ -96,7 +96,11 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 	// for connectSlotsByName, to get it working, all slots should be named like:
 	// on_IrcSession_<signal name>
 	ircSession->setObjectName("IrcSession");
-	QMetaObject::connectSlotsByName(this);
+	connect(ircSession, SIGNAL(connected()), this, SLOT(on_IrcSession_connected()));
+	connect(ircSession, SIGNAL(disconnected()), this, SLOT(on_IrcSession_disconnected()));
+	connect(ircSession, SIGNAL(welcomed()), this, SLOT(on_IrcSession_welcomed()));
+	connect(ircSession, SIGNAL(bufferAdded(Irc::Buffer*)), this, SLOT(on_IrcSession_bufferAdded(Irc::Buffer*)));
+	connect(ircSession, SIGNAL(bufferRemoved(Irc::Buffer*)), this, SLOT(on_IrcSession_bufferRemoved(Irc::Buffer*)));
 
 	ircSession->setNick(ircNick);
 	sNick = ircNick;
@@ -114,8 +118,9 @@ void QuazaaIRC::stopIrc()
 
 	if( ircSession )
 	{
-		ircSession->disconnectFromServer();
-		ircSession->deleteLater();
+		ircSession->buffers().clear();
+		ircSession->defaultBuffer()->deleteLater();
+		ircSession->quit();
 		ircSession = 0;
 	}
 }

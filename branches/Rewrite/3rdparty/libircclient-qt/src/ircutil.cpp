@@ -23,7 +23,6 @@
 #include "ircutil.h"
 #include <QString>
 #include <QRegExp>
-#include <QDebug>
 
 /*!
     \class Irc::Util ircutil.h
@@ -101,7 +100,6 @@ namespace Irc
 		{
 			if(!allowColors)
 			{
-				qDebug() << "Colors not allowed.";
 				colorString.clear();
 			}
 			else
@@ -160,7 +158,6 @@ namespace Irc
 
 		// Replace pairs of spaces with "<space>&nbsp;" to preserve some semblance of text wrapping
 		filteredLine.replace("  "," \xA0");
-		qDebug() << "Html converted line: " << filteredLine;
 		return filteredLine;
 	}
 
