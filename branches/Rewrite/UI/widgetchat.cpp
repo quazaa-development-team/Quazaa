@@ -136,3 +136,13 @@ void WidgetChat::on_listViewChatRooms_pressed(QModelIndex index)
 		break;
 	}
 }
+
+void WidgetChat::on_toolButtonChatRoomAdd_clicked()
+{
+	bool ok;
+	QString channel = QInputDialog::getText(this, tr("Enter room to join."),
+										  tr("Room:"), QLineEdit::Normal,
+										  "#", &ok);
+	if (ok && !channel.isEmpty())
+		 panelChatMiddle->quazaaIrc->addRoom(channel);
+}

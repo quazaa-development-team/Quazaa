@@ -24,6 +24,7 @@
 #include "ircutil.h"
 #include "widgetchatroom.h"
 #include "quazaaglobals.h"
+#include "quazaasettings.h"
 
 #include <ircsession.h>
 #include <ircbuffer.h>
@@ -54,7 +55,6 @@ void QuazaaIRC::on_IrcSession_welcomed()
 	systemLog.postLog(LogSeverity::Debug, QString("IRC welcomed."));
 	//qDebug() << "IRC welcomed";
 	bLoginCompleted = true;
-	ircSession->join("#quazaa-dev");
 }
 
 void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
@@ -64,6 +64,7 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 	emit bufferAdded(buffer);
 	buffer->names();
 	connect(buffer, SIGNAL(ctcpRequestReceived(QString,QString)), this, SLOT(ctcpReply(QString,QString)));
+	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this, SLOT(numericMessageReceived(QString,uint,QStringList)));
 }
 
 void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
@@ -72,12 +73,12 @@ void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
 	//qDebug() << "buffer removed:" << buffer->receiver();
 }
 
-void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QString ircServer, int ircPort)
+void QuazaaIRC::startIrc()
 {
-	systemLog.postLog(LogSeverity::Debug, QString("QuazaaIRC::startIRC() %1").arg(ircServer));
+	systemLog.postLog(LogSeverity::Debug, QString("QuazaaIRC::startIRC() %1").arg(quazaaSettings.Chat.IrcServerName));
 	//qDebug() << "QuazaaIRC::startIrc() " << ircServer;
 	ircSession = new Irc::Session(this);
-	sServer = ircServer;
+	sServer = quazaaSettings.Chat.IrcServerName;
 	bLoginCompleted = false;
 
 	
@@ -85,7 +86,7 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 	// stripNicks / echoMessages
 	ircSession->setOptions(Irc::Session::EchoMessages);
 
-	if (useSsl)
+	if (quazaaSettings.Chat.IrcUseSSL)
 	{
 		QSslSocket* socket = new QSslSocket(ircSession);
 		socket->ignoreSslErrors();
@@ -102,13 +103,15 @@ void QuazaaIRC::startIrc(bool useSsl, QString ircNick, QString ircRealName, QStr
 	connect(ircSession, SIGNAL(bufferAdded(Irc::Buffer*)), this, SLOT(on_IrcSession_bufferAdded(Irc::Buffer*)));
 	connect(ircSession, SIGNAL(bufferRemoved(Irc::Buffer*)), this, SLOT(on_IrcSession_bufferRemoved(Irc::Buffer*)));
 
-	ircSession->setNick(ircNick);
-	sNick = ircNick;
+	ircSession->setNick(quazaaSettings.Profile.IrcNickname);
+	sNick = quazaaSettings.Profile.IrcNickname;
 	ircSession->setIdent("QuazaaIRC");
-	ircSession->setRealName(ircRealName);
-	sRealName = ircRealName;
+	ircSession->setRealName(quazaaSettings.Profile.RealName);
+	sRealName = quazaaSettings.Profile.RealName;
+	ircSession->setAutoJoinChannels(quazaaSettings.Chat.AutoJoinChannels);
 
-	ircSession->connectToServer(ircServer, ircPort);
+	qDebug() << "Connect to server called";
+	ircSession->connectToServer(quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
 }
 
 void QuazaaIRC::stopIrc()
@@ -167,4 +170,20 @@ void QuazaaIRC::ctcpReply(QString nick, QString request)
 	}
 
 	ircSession->ctcpReply(nick, reply);
+}
+
+void QuazaaIRC::numericMessageReceived(QString sender, uint code, QStringList list)
+{
+	switch (code)
+	{
+	case Irc::Rfc::ERR_NICKNAMEINUSE:
+		sNick = quazaaSettings.Profile.IrcAlternateNickname;
+		ircSession->setNick(quazaaSettings.Profile.IrcAlternateNickname);
+		break;
+	}
+}
+
+void QuazaaIRC::addRoom(QString room)
+{
+	ircSession->join(room);
 }

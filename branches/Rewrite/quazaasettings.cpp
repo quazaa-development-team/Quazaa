@@ -155,6 +155,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("IrcServerPort", quazaaSettings.Chat.IrcServerPort);
 	m_qSettings.setValue("IrcUseSSL", quazaaSettings.Chat.IrcUseSSL);
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
+	m_qSettings.setValue("AutoJoinChannels", quazaaSettings.Chat.AutoJoinChannels.join(" "));
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Connection");
@@ -592,6 +593,150 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Chat.IrcServerPort = m_qSettings.value("IrcServerPort", 6667).toInt();
 	quazaaSettings.Chat.IrcUseSSL = m_qSettings.value("IrcUseSSL", false).toBool();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
+	if(quazaaSettings.Language.File == ("quazaa_default_en"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-english").toString().split(" ");
+	}
+	//Afrikanns
+	if(quazaaSettings.Language.File == ("quazaa_af"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-afrikanns").toString().split(" ");
+	}
+	//Arabic
+	if(quazaaSettings.Language.File == ("quazaa_ar"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-arabic").toString().split(" ");
+	}
+	//Catal�
+	if(quazaaSettings.Language.File == ("quazaa_ca"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-catala").toString().split(" ");
+	}
+	//Chinese
+	if(quazaaSettings.Language.File == ("quazaa_chs"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-chinese").toString().split(" ");
+	}
+	//Ce�tina
+	if(quazaaSettings.Language.File == ("quazaa_cz"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-cestina").toString().split(" ");
+	}
+	//Deutsch
+	if(quazaaSettings.Language.File == ("quazaa_de"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-deutsch").toString().split(" ");
+	}
+	//Eesti
+	if(quazaaSettings.Language.File == ("quazaa_ee"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-eesti").toString().split(" ");
+	}
+	//Espa�ol
+	if(quazaaSettings.Language.File == ("quazaa_es"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-espanol").toString().split(" ");
+	}
+	//Suomi
+	if(quazaaSettings.Language.File == ("quazaa_fi"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-suomi").toString().split(" ");
+	}
+	//Fran�ais
+	if(quazaaSettings.Language.File == ("quazaa_fr"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-francais").toString().split(" ");
+	}
+	//Greek
+	if(quazaaSettings.Language.File == ("quazaa_gr"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-greek").toString().split(" ");
+	}
+	//Hebrew
+	if(quazaaSettings.Language.File == ("quazaa_heb"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-hebrew").toString().split(" ");
+	}
+	//Hrvatski
+	if(quazaaSettings.Language.File == ("quazaa_hr"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-hrvatski").toString().split(" ");
+	}
+	//Magyar
+	if(quazaaSettings.Language.File == ("quazaa_hu"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-mygar").toString().split(" ");
+	}
+	//Italian
+	if(quazaaSettings.Language.File == ("quazaa_it"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-italian").toString().split(" ");
+	}
+	//Japanese
+	if(quazaaSettings.Language.File == ("quazaa_ja"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-japanese").toString().split(" ");
+	}
+	//Lietuviu
+	if(quazaaSettings.Language.File == ("quazaa_lt"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-lietuviu").toString().split(" ");
+	}
+	//Nederlands
+	if(quazaaSettings.Language.File == ("quazaa_nl"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-nederlands").toString().split(" ");
+	}
+	//Norsk
+	if(quazaaSettings.Language.File == ("quazaa_no"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-norsk").toString().split(" ");
+	}
+	//Polski
+	if(quazaaSettings.Language.File == ("quazaa_pl"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-polski").toString().split(" ");
+	}
+	//Portugu�s Brasileiro
+	if(quazaaSettings.Language.File == ("quazaa_pt-br"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-portugues").toString().split(" ");
+	}
+	//Russian
+	if(quazaaSettings.Language.File == ("quazaa_ru"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-russian").toString().split(" ");
+	}
+	//Sloven�cina
+	if(quazaaSettings.Language.File == ("quazaa_sl-si"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-slovenscina").toString().split(" ");
+	}
+	//Shqip
+	if(quazaaSettings.Language.File == ("quazaa_sq"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-shqip").toString().split(" ");
+	}
+	//Srpski
+	if(quazaaSettings.Language.File == ("quazaa_sr"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-srpski").toString().split(" ");
+	}
+	//Svenska
+	if(quazaaSettings.Language.File == ("quazaa_sv"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-svenska").toString().split(" ");
+	}
+	//T�rk�e
+	if(quazaaSettings.Language.File == ("quazaa_tr"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-turkish").toString().split(" ");
+	}
+	//Thai
+	if(quazaaSettings.Language.File == ("quazaa_tw"))
+	{
+		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-thai").toString().split(" ");
+	}
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Connection");

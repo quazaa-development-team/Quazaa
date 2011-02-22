@@ -43,7 +43,7 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	quazaaIrc = new QuazaaIRC();
 	if(quazaaSettings.Chat.ConnectOnStartup)
 	{
-		quazaaIrc->startIrc(quazaaSettings.Chat.IrcUseSSL, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
+		quazaaIrc->startIrc();
 		ui->actionConnect->setEnabled(false);
 		ui->actionDisconnect->setEnabled(true);
 		systemLog.postLog(LogSeverity::Debug, QString("Trying to connect to IRC"));
@@ -68,7 +68,7 @@ WidgetChatMiddle::~WidgetChatMiddle()
 {
 	if(ui->actionDisconnect->isEnabled())
 	{
-		quazaaIrc->stopIrc();
+		on_actionDisconnect_triggered();
 	}
 	delete ui;
 }
@@ -93,7 +93,7 @@ void WidgetChatMiddle::saveWidget()
 
 void WidgetChatMiddle::on_actionConnect_triggered()
 {
-	quazaaIrc->startIrc(quazaaSettings.Chat.IrcUseSSL, quazaaSettings.Profile.IrcNickname, quazaaSettings.Profile.IrcUserName, quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
+	quazaaIrc->startIrc();
 	ui->actionConnect->setEnabled(false);
 	ui->actionDisconnect->setEnabled(true);
 	systemLog.postLog(LogSeverity::Debug, QString("Trying to connect to IRC"));
@@ -108,6 +108,9 @@ void WidgetChatMiddle::on_actionChatSettings_triggered()
 
 void WidgetChatMiddle::on_actionDisconnect_triggered()
 {
+	channelList.removeFirst();
+	if (!channelList.isEmpty())
+		quazaaSettings.Chat.AutoJoinChannels = channelList;
 	quazaaIrc->stopIrc();
 	ui->actionConnect->setEnabled(true);
 	ui->actionDisconnect->setEnabled(false);
@@ -154,7 +157,6 @@ WidgetChatRoom* WidgetChatMiddle::roomByBuffer(Irc::Buffer* buffer)
 			return allRooms.at(i);
 		}
 	}
-	systemLog.postLog(LogSeverity::Debug, QString("WidgetChatMiddle Creating a new room: %1").arg(buffer->receiver()));
 	//qDebug() << "CREATING A NEW TAB :: " + name;
 	// if the tab doesn't exist, create it
 	WidgetChatRoom *room = new WidgetChatRoom(quazaaIrc, buffer);

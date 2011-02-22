@@ -52,6 +52,7 @@ private slots:
 	void on_listViewChatRooms_pressed(QModelIndex index);
 	void on_splitterChat_customContextMenuRequested(QPoint pos);
 	void updateUserList(WidgetChatRoom* currentTab);
+	void on_toolButtonChatRoomAdd_clicked();
 };
 
 #endif // WIDGETCHAT_H

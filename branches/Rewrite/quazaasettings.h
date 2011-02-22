@@ -273,6 +273,7 @@ namespace Settings
 		int			IrcServerPort;							// Port to connect to the chat server on
 		bool		IrcUseSSL;								// Connect with SSL encryption
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
+		QStringList AutoJoinChannels;						// The channels to auto join on Chat startup
 	};
 
 	struct sProfile

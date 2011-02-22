@@ -139,23 +139,23 @@ void WidgetChatRoom::numericMessageReceived(QString sender, uint code, QStringLi
 {
 	switch (code)
 	{
-		case Irc::Rfc::RPL_NAMREPLY:
+	case Irc::Rfc::RPL_NAMREPLY:
 			emit userNames(list);
 		break;
-		case Irc::Rfc::RPL_BOUNCE:
-		{
-			for (int i = 0 ; i<list.size() ; ++i) {
-				QString opt = list.at(i);
-				if (opt.startsWith("PREFIX=", Qt::CaseInsensitive))
-				{
-					QString prefstr	= opt.split("=")[1];
-					QString modes	= prefstr.mid(1, prefstr.indexOf(")")-1);
-					QString mprefs	= prefstr.right(modes.length());
-					setPrefixes(modes, mprefs);
-				}
+	case Irc::Rfc::RPL_BOUNCE:
+	{
+		for (int i = 0 ; i<list.size() ; ++i) {
+			QString opt = list.at(i);
+			if (opt.startsWith("PREFIX=", Qt::CaseInsensitive))
+			{
+				QString prefstr	= opt.split("=")[1];
+				QString modes	= prefstr.mid(1, prefstr.indexOf(")")-1);
+				QString mprefs	= prefstr.right(modes.length());
+				setPrefixes(modes, mprefs);
 			}
 		}
-		default:
+	}
+	default:
 		{
 			// append to status
 			list.removeFirst();
