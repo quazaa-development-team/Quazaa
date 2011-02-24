@@ -59,9 +59,8 @@ void QuazaaIRC::on_IrcSession_welcomed()
 
 void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 {
-	systemLog.postLog(LogSeverity::Debug, QString("IRC buffer added: %1").arg(buffer->receiver()));
 	//qDebug() << "buffer added:" << buffer->receiver();
-	emit bufferAdded(buffer);
+	emit ircBufferAdded(buffer);
 	buffer->names();
 	connect(buffer, SIGNAL(ctcpRequestReceived(QString,QString)), this, SLOT(ctcpReply(QString,QString)));
 	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this, SLOT(numericMessageReceived(QString,uint,QStringList)));
@@ -69,7 +68,7 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 
 void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
 {
-	systemLog.postLog(LogSeverity::Debug, QString("IRC buffer removed: %1").arg(buffer->receiver()));
+	emit ircBufferRemoved(buffer);
 	//qDebug() << "buffer removed:" << buffer->receiver();
 }
 
@@ -81,7 +80,7 @@ void QuazaaIRC::startIrc()
 	sServer = quazaaSettings.Chat.IrcServerName;
 	bLoginCompleted = false;
 
-	
+
 
 	// stripNicks / echoMessages
 	ircSession->setOptions(Irc::Session::EchoMessages);
@@ -110,7 +109,6 @@ void QuazaaIRC::startIrc()
 	sRealName = quazaaSettings.Profile.RealName;
 	ircSession->setAutoJoinChannels(quazaaSettings.Chat.AutoJoinChannels);
 
-	qDebug() << "Connect to server called";
 	ircSession->connectToServer(quazaaSettings.Chat.IrcServerName, quazaaSettings.Chat.IrcServerPort);
 }
 
@@ -186,4 +184,9 @@ void QuazaaIRC::numericMessageReceived(QString sender, uint code, QStringList li
 void QuazaaIRC::addRoom(QString room)
 {
 	ircSession->join(room);
+}
+
+void QuazaaIRC::removeRoom(QString room)
+{
+	ircSession->part(room);
 }

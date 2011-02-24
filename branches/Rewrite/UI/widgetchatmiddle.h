@@ -70,7 +70,8 @@ private slots:
 	void on_actionChatSettings_triggered();
 	void onSendMessage(QTextDocument *message);
 	void addBuffer(Irc::Buffer *buffer);
-	void on_stackedWidgetChatRooms_currentChanged(QWidget*);
+	void removeBuffer(Irc::Buffer* buffer);
+	void on_stackedWidgetChatRooms_currentChanged(int);
 	void on_actionEditMyProfile_triggered();
 	void changeRoom(int index);
 };

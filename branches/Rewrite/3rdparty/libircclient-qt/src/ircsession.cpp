@@ -616,17 +616,17 @@ namespace Irc
             else if (command == QLatin1String("PART"))
             {
                 QString channel = params.value(0);
-                QString target = resolveTarget(prefix, channel);
+				QString target = resolveTarget(prefix, channel);
                 if (nick != Util::nickFromTarget(prefix))
-                {
+				{
                     QString message = params.value(1);
                     Buffer* buffer = createBuffer(target);
                     buffer->d_func()->removeName(Util::nickFromTarget(prefix));
                     emit buffer->parted(prefix, message);
                 }
-                else if (buffers.contains(target))
-                {
-                    Buffer* buffer = buffers.value(target);
+				else if (buffers.contains(target.toLower()))
+				{
+					Buffer* buffer = buffers.value(target.toLower());
                     removeBuffer(buffer);
                     buffer->deleteLater();
                 }
@@ -1529,9 +1529,13 @@ namespace Irc
     bool Session::part(const QString& channel, const QString& reason)
     {
         if (reason.isEmpty())
+		{
             return raw(QString(QLatin1String("PART %1")).arg(channel));
+		}
         else
+		{
             return raw(QString(QLatin1String("PART %1 :%2")).arg(channel, reason));
+		}
     }
 
     /*!

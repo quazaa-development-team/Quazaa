@@ -55,8 +55,9 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 		ui->actionDisconnect->setEnabled(false);
 	}
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
-	connect(quazaaIrc, SIGNAL(bufferAdded(Irc::Buffer*)), this, SLOT(addBuffer(Irc::Buffer*)));
-	connect(quazaaIrc, SIGNAL(setPrefixes(QString, QString)), this, SLOT(setPrefixes(QString, QString)));
+	connect(quazaaIrc, SIGNAL(ircBufferAdded(Irc::Buffer*)), this, SLOT(addBuffer(Irc::Buffer*)));
+	connect(quazaaIrc, SIGNAL(ircBufferRemoved(Irc::Buffer*)), this, SLOT(removeBuffer(Irc::Buffer*)));
+	//connect(quazaaIrc, SIGNAL(setPrefixes(QString, QString)), this, SLOT(setPrefixes(QString, QString)));
 
 	widgetChatInput = new WidgetChatInput(this, true);
 	connect(widgetChatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onSendMessage(QTextDocument*)));
@@ -111,14 +112,18 @@ void WidgetChatMiddle::on_actionDisconnect_triggered()
 	channelList.removeFirst();
 	if (!channelList.isEmpty())
 		quazaaSettings.Chat.AutoJoinChannels = channelList;
+	quazaaSettings.saveSettings();
 	quazaaIrc->stopIrc();
 	ui->actionConnect->setEnabled(true);
 	ui->actionDisconnect->setEnabled(false);
 	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
 	for(int i = 0; i < allRooms.size(); ++i)
 	{
-		ui->stackedWidgetChatRooms->removeWidget(allRooms.at(i));
-		allRooms.at(i)->~WidgetChatRoom();
+		if (allRooms.at(i) != 0)
+		{
+			ui->stackedWidgetChatRooms->removeWidget(allRooms.at(i));
+			allRooms.at(i)->~WidgetChatRoom();
+		}
 	}
 	channelList.clear();
 	channelListModel->setStringList(channelList);
@@ -215,10 +220,29 @@ void WidgetChatMiddle::addBuffer(Irc::Buffer* buffer)
 	}
 }
 
-void WidgetChatMiddle::on_stackedWidgetChatRooms_currentChanged(QWidget*)
+void WidgetChatMiddle::removeBuffer(Irc::Buffer* buffer)
+{
+	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
+
+	for(int i = 0; i < allRooms.size(); ++i)
+	{
+		if(allRooms.at(i)->sRoomName == buffer->receiver())
+		{
+			ui->stackedWidgetChatRooms->removeWidget(allRooms.at(i));
+			allRooms.at(i)->~WidgetChatRoom();
+		}
+	}
+	channelList.removeOne(buffer->receiver());
+	channelListModel->setStringList(channelList);
+	buffer->deleteLater();
+	emit roomChanged(currentRoom());
+}
+
+void WidgetChatMiddle::on_stackedWidgetChatRooms_currentChanged(int)
 {
 	//qDebug() << "Emitting channel changed.";
-	emit roomChanged(currentRoom());
+	if(ui->stackedWidgetChatRooms->children().size() > -1)
+		emit roomChanged(currentRoom());
 }
 
 void WidgetChatMiddle::on_actionEditMyProfile_triggered()
@@ -278,6 +302,22 @@ void WidgetChatMiddle::onSendMessage(QTextDocument *message)
 				if( !sParam.isEmpty() )
 					quazaaIrc->sendIrcMessage("hostserv", sParam );
 				return;
+			}
+			if( sCmd == "/join")
+			{
+				if( !sParam.isEmpty() )
+					quazaaIrc->addRoom(sParam);
+				return;
+			}
+			if( sCmd == "/part")
+			{
+				if( !sParam.isEmpty() )
+				{
+					quazaaIrc->removeRoom(sParam);
+					return;
+				} else {
+					quazaaIrc->removeRoom(currentRoom()->sRoomName);
+				}
 			}
 			else
 			{

@@ -119,8 +119,14 @@ void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
 void WidgetChat::updateUserList(WidgetChatRoom* currentTab)
 {
 	//qDebug() << "Signal successful. In WidgetChat::updateUserList()";
-	ui->listViewChatUsers->setModel(currentTab->chatUserListModel);
-	ui->labelChatUsersCount->setText(tr("%1 Operators, %2 Total").arg(currentTab->chatUserListModel->nOperatorCount).arg(currentTab->chatUserListModel->nUserCount));
+	if (currentTab != 0)
+	{
+		ui->frameChatRightSidebar->setVisible(true);
+		ui->listViewChatUsers->setModel(currentTab->chatUserListModel);
+		ui->labelChatUsersCount->setText(tr("%1 Operators, %2 Total").arg(currentTab->chatUserListModel->nOperatorCount).arg(currentTab->chatUserListModel->nUserCount));
+	} else {
+		ui->frameChatRightSidebar->setVisible(false);
+	}
 }
 
 void WidgetChat::on_listViewChatRooms_pressed(QModelIndex index)
@@ -145,4 +151,12 @@ void WidgetChat::on_toolButtonChatRoomAdd_clicked()
 										  "#", &ok);
 	if (ok && !channel.isEmpty())
 		 panelChatMiddle->quazaaIrc->addRoom(channel);
+}
+
+void WidgetChat::on_toolButtonChatRoomRemove_clicked()
+{
+	if (ui->listViewChatRooms->currentIndex().row() > 0)
+	{
+		panelChatMiddle->quazaaIrc->removeRoom(ui->listViewChatRooms->currentIndex().data(Qt::DisplayRole).toString());
+	}
 }

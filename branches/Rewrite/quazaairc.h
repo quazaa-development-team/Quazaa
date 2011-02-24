@@ -55,9 +55,11 @@ public slots:
 	void stopIrc();
 	void sendIrcMessage(QString channel, QString message);
 	void addRoom(QString room);
+	void removeRoom(QString room);
 
 signals:
-	void bufferAdded(Irc::Buffer* buffer);
+	void ircBufferAdded(Irc::Buffer* buffer);
+	void ircBufferRemoved(Irc::Buffer* buffer);
 	void joined(QString chan);
 
 protected slots:
