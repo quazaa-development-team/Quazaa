@@ -74,6 +74,7 @@ private slots:
 	void on_stackedWidgetChatRooms_currentChanged(int);
 	void on_actionEditMyProfile_triggered();
 	void changeRoom(int index);
+	void userCountUpdated(ChatUserListModel* chatUserListModel, int operators, int users);
 };
 
 #endif // WIDGETCHATCENTER_H

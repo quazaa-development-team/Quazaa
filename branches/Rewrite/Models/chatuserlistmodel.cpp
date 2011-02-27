@@ -175,9 +175,6 @@ void ChatUserListModel::addUser(QString name, QString modes)
 
 	if(existingUser == -1)
 	{
-		if (m_oChatUserItem->userMode == (UserMode::Owner || UserMode::Administrator || UserMode::Operator ||
-										  UserMode::HalfOperator))
-			++nOperatorCount;
 		beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
 		rootItem->appendChild(m_oChatUserItem);
 		endInsertRows();
@@ -185,8 +182,6 @@ void ChatUserListModel::addUser(QString name, QString modes)
 		QModelIndex idx2 = index(rootItem->childCount(), 1, QModelIndex());
 		emit dataChanged(idx1, idx2);
 		sort(Qt::AscendingOrder);
-		nUserCount = rootItem->childCount();
-		emit updateUserCount(nOperatorCount, nUserCount);
 	}
 	else
 	{
@@ -199,8 +194,6 @@ void ChatUserListModel::addUser(QString name, QString modes)
 			QModelIndex idx2 = index(rootItem->childCount(), 1, QModelIndex());
 			emit dataChanged(idx1, idx2);
 			sort(Qt::AscendingOrder);
-			nUserCount = rootItem->childCount();
-			emit updateUserCount(nOperatorCount, nUserCount);
 		}
 	}
 }
@@ -238,6 +231,8 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 	QList<ChatUserItem*> halfOperatorList;
 	QList<ChatUserItem*> voiceList;
 	QList<ChatUserItem*> normalList;
+	nOperatorCount = 0;
+	nUserCount = 0;
 
 	emit layoutAboutToBeChanged();
 	if (order == Qt::AscendingOrder)
@@ -248,15 +243,19 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 			{
 			case UserMode::Owner:
 				ownerList.append(rootItem->childItems.at(i));
+				nOperatorCount++;
 				break;
 			case UserMode::Administrator:
 				administratorList.append(rootItem->childItems.at(i));
+				nOperatorCount++;
 				break;
 			case UserMode::Operator:
 				operatorList.append(rootItem->childItems.at(i));
+				nOperatorCount++;
 				break;
 			case UserMode::HalfOperator:
 				halfOperatorList.append(rootItem->childItems.at(i));
+				nOperatorCount++;
 				break;
 			case UserMode::Voice:
 				voiceList.append(rootItem->childItems.at(i));
@@ -281,15 +280,19 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 			{
 			case UserMode::Owner:
 				ownerList.append(rootItem->childItems.at(i));
+				nOperatorCount++;
 				break;
 			case UserMode::Administrator:
 				administratorList.append(rootItem->childItems.at(i));
+				nOperatorCount++;
 				break;
 			case UserMode::Operator:
 				operatorList.append(rootItem->childItems.at(i));
+				nOperatorCount++;
 				break;
 			case UserMode::HalfOperator:
 				halfOperatorList.append(rootItem->childItems.at(i));
+				nOperatorCount++;
 				break;
 			case UserMode::Voice:
 				voiceList.append(rootItem->childItems.at(i));
@@ -308,7 +311,9 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 		rootItem->childItems.append(caseInsensitiveSecondarySort(administratorList, order));
 		rootItem->childItems.append(caseInsensitiveSecondarySort(ownerList, order));
 	}
+	nUserCount = rootItem->childCount();
 	emit layoutChanged();
+	emit updateUserCount(this, nOperatorCount, nUserCount);
 }
 
 QList<ChatUserItem*> ChatUserListModel::caseInsensitiveSecondarySort(QList<ChatUserItem*> list, Qt::SortOrder order)

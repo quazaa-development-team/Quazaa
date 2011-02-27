@@ -38,11 +38,13 @@ WidgetChat::WidgetChat(QWidget* parent) :
 	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
 	ui->listViewChatRooms->setModel(panelChatMiddle->channelListModel);
 	connect(panelChatMiddle, SIGNAL(roomChanged(WidgetChatRoom*)), this, SLOT(updateUserList(WidgetChatRoom*)));
+	connect(panelChatMiddle, SIGNAL(updateUserCount(int,int)), this, SLOT(updateUserCount(int,int)));
 	connect(this, SIGNAL(changeRoom(int)), panelChatMiddle, SLOT(changeRoom(int)));
 }
 
 WidgetChat::~WidgetChat()
 {
+	panelChatMiddle->close();
 	delete ui;
 }
 
@@ -159,4 +161,9 @@ void WidgetChat::on_toolButtonChatRoomRemove_clicked()
 	{
 		panelChatMiddle->quazaaIrc->removeRoom(ui->listViewChatRooms->currentIndex().data(Qt::DisplayRole).toString());
 	}
+}
+
+void WidgetChat::updateUserCount(int operators, int users)
+{
+	ui->labelChatUsersCount->setText(tr("%1 Operators, %2 Total").arg(operators).arg(users));
 }

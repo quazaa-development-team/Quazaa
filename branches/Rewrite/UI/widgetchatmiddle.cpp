@@ -67,10 +67,6 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 
 WidgetChatMiddle::~WidgetChatMiddle()
 {
-	if(ui->actionDisconnect->isEnabled())
-	{
-		on_actionDisconnect_triggered();
-	}
 	delete ui;
 }
 
@@ -89,6 +85,11 @@ void WidgetChatMiddle::changeEvent(QEvent* e)
 
 void WidgetChatMiddle::saveWidget()
 {
+	QStringList tempChannelList = channelList;
+	tempChannelList.removeFirst();
+	if (!tempChannelList.isEmpty())
+		quazaaSettings.Chat.AutoJoinChannels = tempChannelList;
+	quazaaSettings.saveSettings();
 	quazaaSettings.WinMain.ChatToolbars = saveState();
 }
 
@@ -109,9 +110,10 @@ void WidgetChatMiddle::on_actionChatSettings_triggered()
 
 void WidgetChatMiddle::on_actionDisconnect_triggered()
 {
-	channelList.removeFirst();
-	if (!channelList.isEmpty())
-		quazaaSettings.Chat.AutoJoinChannels = channelList;
+	QStringList tempChannelList = channelList;
+	tempChannelList.removeFirst();
+	if (!tempChannelList.isEmpty())
+		quazaaSettings.Chat.AutoJoinChannels = tempChannelList;
 	quazaaSettings.saveSettings();
 	quazaaIrc->stopIrc();
 	ui->actionConnect->setEnabled(true);
@@ -142,6 +144,7 @@ WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName,Irc::Buffer *buffe
 		}
 	}
 	WidgetChatRoom *room = new WidgetChatRoom(quazaaIrc, buffer);
+	connect(room->chatUserListModel, SIGNAL(updateUserCount(ChatUserListModel*,int,int)), this, SLOT(userCountUpdated(ChatUserListModel*,int,int)));
 	room->setRoomName(roomName);
 	ui->stackedWidgetChatRooms->addWidget(room);
 	channelList << buffer->receiver();
@@ -165,6 +168,7 @@ WidgetChatRoom* WidgetChatMiddle::roomByBuffer(Irc::Buffer* buffer)
 	//qDebug() << "CREATING A NEW TAB :: " + name;
 	// if the tab doesn't exist, create it
 	WidgetChatRoom *room = new WidgetChatRoom(quazaaIrc, buffer);
+	connect(room->chatUserListModel, SIGNAL(updateUserCount(ChatUserListModel*,int,int)), this, SLOT(userCountUpdated(ChatUserListModel*,int,int)));
 	room->setRoomName(buffer->receiver());
 	ui->stackedWidgetChatRooms->addWidget(room);
 	channelList << buffer->receiver();
@@ -335,4 +339,10 @@ void WidgetChatMiddle::changeRoom(int index)
 {
 	ui->stackedWidgetChatRooms->setCurrentIndex(index);
 	emit roomChanged(currentRoom());
+}
+
+void WidgetChatMiddle::userCountUpdated(ChatUserListModel* chatUserListModel, int operators, int users)
+{
+	if (currentRoom()->chatUserListModel == chatUserListModel)
+		emit updateUserCount(operators, users);
 }

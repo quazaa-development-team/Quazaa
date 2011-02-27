@@ -49,11 +49,12 @@ private:
 	Ui::WidgetChat* ui;
 
 private slots:
- void on_toolButtonChatRoomRemove_clicked();
- void on_listViewChatRooms_pressed(QModelIndex index);
+	void on_toolButtonChatRoomRemove_clicked();
+	void on_listViewChatRooms_pressed(QModelIndex index);
 	void on_splitterChat_customContextMenuRequested(QPoint pos);
 	void updateUserList(WidgetChatRoom* currentTab);
 	void on_toolButtonChatRoomAdd_clicked();
+	void updateUserCount(int operators, int users);
 };
 
 #endif // WIDGETCHAT_H

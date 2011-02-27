@@ -67,7 +67,7 @@ public:
 	QIcon iNormal;
 
 signals:
-	void updateUserCount(int operators, int users);
+	void updateUserCount(ChatUserListModel* chatUserListModel, int operators, int users);
 
 private:
 	ChatUserItem* rootItem;
