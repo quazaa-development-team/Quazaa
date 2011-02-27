@@ -18,7 +18,7 @@
 #include <ircglobal.h>
 #include <QObject>
 
-class QuazaaIrcSession;
+class Session;
 
 QT_FORWARD_DECLARE_CLASS(QHostAddress)
 QT_FORWARD_DECLARE_CLASS(QNetworkProxy)
@@ -36,7 +36,7 @@ namespace Irc
         DccSession(QObject* parent = 0);
         ~DccSession();
 
-        QuazaaIrcSession* session() const;
+        Session* session() const;
 
     public Q_SLOTS:
         bool accept();

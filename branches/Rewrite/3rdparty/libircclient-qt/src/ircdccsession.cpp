@@ -56,7 +56,7 @@ namespace Irc
         delete d;
     }
 
-    QuazaaIrcSession* DccSession::session() const
+    Session* DccSession::session() const
     {
         return 0;
     }

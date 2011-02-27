@@ -58,8 +58,7 @@ CWebCache::CWebCache()
 }
 CWebCache::~CWebCache()
 {
-	systemLog.postLog(LogSeverity::Debug, QString("Destroying CWebCache"));
-	//qDebug("Destroying CWebCache");
+	qDebug("Destroying CWebCache");
 	delete m_pRequest;
 	m_pRequest = 0;
 	CancelRequests();
@@ -67,8 +66,7 @@ CWebCache::~CWebCache()
 
 void CWebCache::CancelRequests()
 {
-	systemLog.postLog(LogSeverity::Debug, QString("CancelRequests()"));
-	//qDebug("CancelRequests()");
+	qDebug("CancelRequests()");
 
 	if(m_bRequesting)
 	{

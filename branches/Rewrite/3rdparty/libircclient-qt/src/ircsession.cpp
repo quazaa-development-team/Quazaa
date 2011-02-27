@@ -1529,13 +1529,9 @@ namespace Irc
     bool Session::part(const QString& channel, const QString& reason)
     {
         if (reason.isEmpty())
-		{
             return raw(QString(QLatin1String("PART %1")).arg(channel));
-		}
         else
-		{
             return raw(QString(QLatin1String("PART %1 :%2")).arg(channel, reason));
-		}
     }
 
     /*!
