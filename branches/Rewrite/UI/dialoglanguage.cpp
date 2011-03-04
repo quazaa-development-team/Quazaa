@@ -294,7 +294,7 @@ void DialogLanguage::on_pushButtonOK_clicked()
 			quazaaSettings.Language.File = ("quazaa_default_en");
 			break;
 	}
-	quazaaGlobals.translator.load(quazaaSettings.Language.File);
+        quazaaSettings.translator.load(quazaaSettings.Language.File);
 	quazaaSettings.saveLanguageSettings();
 	close();
 }

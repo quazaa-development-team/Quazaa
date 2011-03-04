@@ -140,7 +140,7 @@ void QuazaaIRC::ctcpReply(QString nick, QString request)
 	QString reply		= action + " ";
 
 	if (action == "VERSION")
-		reply += quazaaGlobals.UserAgentString();
+                reply += QuazaaGlobals::USER_AGENT_STRING();
 	else if (action == "TIME")
 		reply += QDateTime::currentDateTime().toString("ddd MMM dd HH:mm:ss yyyy");
 	else if (action == "PING")

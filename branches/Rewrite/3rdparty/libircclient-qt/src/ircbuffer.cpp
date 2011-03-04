@@ -177,36 +177,36 @@ namespace Irc
     void BufferPrivate::addName(QString name)
     {
         QString mode;
-		if (name.startsWith(QLatin1Char('~'))) //owner
-		{
-			mode = QLatin1Char('q');
-			name.remove(0,1);
-		}
-		if (name.startsWith(QLatin1Char('&'))) //admin
-		{
-			mode = QLatin1Char('a');
-			name.remove(0,1);
-		}
-		if (name.startsWith(QLatin1Char('@'))) //operator
-		{
-			mode = QLatin1Char('o');
-			name.remove(0, 1);
-		}
-		if (name.startsWith(QLatin1Char('%'))) //halfop
-		{
-			mode = QLatin1Char('h');
-			name.remove(0,1);
-		}
-		if (name.startsWith(QLatin1Char('+'))) //voiced
-		{
-			mode = QLatin1Char('v');
-			name.remove(0, 1);
-		}
-		if (name.startsWith(QLatin1Char('-'))) //muted
-		{
-			mode = QLatin1Char('m');
-			name.remove(0,1);
-		}
+        if (name.startsWith(QLatin1Char('~'))) //owner
+        {
+            mode = QLatin1Char('q');
+            name.remove(0,1);
+        }
+        if (name.startsWith(QLatin1Char('&'))) //admin
+        {
+           mode = QLatin1Char('a');
+           name.remove(0,1);
+        }
+        if (name.startsWith(QLatin1Char('@'))) //operator
+        {
+            mode = QLatin1Char('o');
+            name.remove(0, 1);
+        }
+        if (name.startsWith(QLatin1Char('%'))) //halfop
+        {
+            mode = QLatin1Char('h');
+            name.remove(0,1);
+        }
+        if (name.startsWith(QLatin1Char('+'))) //voiced
+        {
+            mode = QLatin1Char('v');
+            name.remove(0, 1);
+        }
+        if (name.startsWith(QLatin1Char('-'))) //muted
+        {
+            mode = QLatin1Char('m');
+            name.remove(0,1);
+        }
         names.insert(name, mode);
     }
 
@@ -268,18 +268,18 @@ namespace Irc
 
         \sa Session::createBuffer()
      */
-	Buffer::Buffer(const QString& receiver, Session* parent) : QObject(parent), d_ptr(new BufferPrivate)
+    Buffer::Buffer(const QString& receiver, Session* parent) : QObject(parent), d_ptr(new BufferPrivate)
     {
         Q_D(Buffer);
         d->q_ptr = this;
-		d->receiver = receiver;
+        d->receiver = receiver;
     }
 
-	Buffer::Buffer(BufferPrivate& dd, const QString& receiver, Session* parent) : QObject(parent), d_ptr(&dd)
+    Buffer::Buffer(BufferPrivate& dd, const QString& receiver, Session* parent) : QObject(parent), d_ptr(&dd)
     {
         Q_D(Buffer);
         d->q_ptr = this;
-		d->receiver = receiver;
+        d->receiver = receiver;
     }
 
     /*!
@@ -358,11 +358,11 @@ namespace Irc
 
         \sa Session::message()
      */
-	bool Buffer::message(const QString& message)
+    bool Buffer::message(const QString& message)
     {
         Q_D(Buffer);
         Session* s = session();
-		return s && s->message(d->receiver, message);
+        return s && s->message(d->receiver, message);
     }
 
     /*!

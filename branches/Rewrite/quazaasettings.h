@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QMainWindow>
 #include <QUuid>
+#include <QTranslator>
 
 namespace Settings
 {
@@ -618,6 +619,7 @@ class QuazaaSettings : public QObject
 	Q_OBJECT
 
 public:
+    QTranslator translator;
 	QuazaaSettings();
 	void saveSettings();
 	void loadSettings();

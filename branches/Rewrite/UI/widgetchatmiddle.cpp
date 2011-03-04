@@ -86,9 +86,10 @@ void WidgetChatMiddle::changeEvent(QEvent* e)
 void WidgetChatMiddle::saveWidget()
 {
 	QStringList tempChannelList = channelList;
-	tempChannelList.removeFirst();
+        if (!tempChannelList.isEmpty())
+            tempChannelList.removeFirst();
 	if (!tempChannelList.isEmpty())
-		quazaaSettings.Chat.AutoJoinChannels = tempChannelList;
+            quazaaSettings.Chat.AutoJoinChannels = tempChannelList;
 	quazaaSettings.saveSettings();
 	quazaaSettings.WinMain.ChatToolbars = saveState();
 }
@@ -111,7 +112,8 @@ void WidgetChatMiddle::on_actionChatSettings_triggered()
 void WidgetChatMiddle::on_actionDisconnect_triggered()
 {
 	QStringList tempChannelList = channelList;
-	tempChannelList.removeFirst();
+        if (!tempChannelList.isEmpty())
+            tempChannelList.removeFirst();
 	if (!tempChannelList.isEmpty())
 		quazaaSettings.Chat.AutoJoinChannels = tempChannelList;
 	quazaaSettings.saveSettings();

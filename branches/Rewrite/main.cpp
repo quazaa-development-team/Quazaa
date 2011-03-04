@@ -60,10 +60,10 @@ int main(int argc, char *argv[])
 
 #endif
 
-	theApp.setApplicationName(quazaaGlobals.ApplicationName());
-	theApp.setApplicationVersion(quazaaGlobals.ApplicationVersionString());
-	theApp.setOrganizationDomain(quazaaGlobals.ApplicationOrganizationDomain());
-	theApp.setOrganizationName(quazaaGlobals.ApplicationOrganizationName());
+        theApp.setApplicationName(QuazaaGlobals::APPLICATION_NAME());
+        theApp.setApplicationVersion(QuazaaGlobals::APPLICATION_VERSION_STRING());
+        theApp.setOrganizationDomain(QuazaaGlobals::APPLICATION_ORGANIZATION_DOMAIN());
+        theApp.setOrganizationName(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME());
 
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();
@@ -74,8 +74,8 @@ int main(int argc, char *argv[])
 		dlgLanguage->exec();
 	}
 
-	quazaaGlobals.translator.load(quazaaSettings.Language.File);
-	qApp->installTranslator(&quazaaGlobals.translator);
+        quazaaSettings.translator.load(quazaaSettings.Language.File);
+        qApp->installTranslator(&quazaaSettings.translator);
 
 	//Create splash window
 	DialogSplash* dlgSplash = new DialogSplash();

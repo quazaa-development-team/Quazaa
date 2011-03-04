@@ -31,7 +31,7 @@ DialogAbout::DialogAbout(QWidget* parent) :
 	m_ui(new Ui::DialogAbout)
 {
 	m_ui->setupUi(this);
-	m_ui->labelVersion->setText(m_ui->labelVersion->text().replace("&lt;version&gt;", quazaaGlobals.ApplicationVersionString()));
+        m_ui->labelVersion->setText(m_ui->labelVersion->text().replace("&lt;version&gt;", QuazaaGlobals::APPLICATION_VERSION_STRING()));
 }
 
 DialogAbout::~DialogAbout()

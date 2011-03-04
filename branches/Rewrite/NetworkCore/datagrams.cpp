@@ -780,8 +780,8 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 		pTmp->WritePacket("LEAF", 0);
 	}
 	pTmp->WritePacket("NA", ((Network.m_oAddress.protocol() == 0) ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
-	pTmp->WritePacket("CV", quazaaGlobals.UserAgentString().toUtf8().size())->WriteString(quazaaGlobals.UserAgentString(), false);
-	pTmp->WritePacket("V", 4)->WriteString(quazaaGlobals.VendorCode(), false);;
+        pTmp->WritePacket("CV", QuazaaGlobals::USER_AGENT_STRING().toUtf8().size())->WriteString(QuazaaGlobals::USER_AGENT_STRING(), false);
+        pTmp->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);;
 	quint16 nLeaves = Neighbours.m_nLeavesConnected;
 	pTmp->WritePacket("HS", 2)->WriteIntLE(nLeaves);
 	if(!quazaaSettings.Profile.GnutellaScreenName.isEmpty())

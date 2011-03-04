@@ -60,7 +60,7 @@ void CChatSessionG2::OnConnect()
 
 	baHs = "CHAT CONNECT/0.2\r\n";
 	baHs+= "Accept: application/x-gnutella2\r\n";
-	baHs+= "User-Agent: " + quazaaGlobals.UserAgentString() + "\r\n";
+        baHs+= "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	baHs+= "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n\r\n";
 
 	Write(baHs);
@@ -164,7 +164,7 @@ void CChatSessionG2::Send_ChatOK(bool bReply)
 	{
 		// 2nd header
 		sHs+= "Accept: application/x-gnutella2\r\n";
-		sHs+= "User-Agent: " + quazaaGlobals.UserAgentString() + "\r\n";
+                sHs+= "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 		sHs+= "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n";
 	}
 	sHs+= "Content-Type: application/x-gnutella2\r\n\r\n";
@@ -180,7 +180,7 @@ void CChatSessionG2::Send_ChatError(QString sReason)
 	QByteArray sHs;
 
 	sHs = "CHAT/0.2 " + sReason.toAscii() + "\r\n";
-	sHs+= "User-Agent: " + quazaaGlobals.UserAgentString() + "\r\n\r\n";
+        sHs+= "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n\r\n";
 
 	Write(sHs);
 }
