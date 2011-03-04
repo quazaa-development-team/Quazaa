@@ -23,52 +23,6 @@
     </property>
     <item>
      <widget class="QFrame" name="toolFrameLibraryStatus">
-      <property name="styleSheet">
-       <string notr="true">QToolButton {
-    border: 1px solid transparent;
-    background-color: transparent;
-}
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
-QToolButton:checked {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
-}
-
- QToolButton:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
- QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
-	padding-left: -4px;
-    padding-right: 20px; /* make way for the popup button */
- }
-
-/* the subcontrols below are used only in the MenuButtonPopup mode */
- QToolButton::menu-button {
-     border: 1px solid transparent;
-     /* 16px width + 4px for border = 20px allocated above */
-     width: 16px;
- }
-
-QToolButton::menu-button:hover {
-    border: 1px solid rgb(78, 96, 255);
-	border-left-color: 1px solid transparent;
-     /* 16px width + 4px for border = 20px allocated above */
-     width: 16px;
- }
-
- QToolButton::menu-arrow:open {
-     top: 1px; left: 1px; /* shift it a bit */
- }</string>
-      </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -207,8 +161,8 @@ QToolButton::menu-button:hover {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>558</width>
-             <height>82</height>
+             <width>556</width>
+             <height>60</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_11">

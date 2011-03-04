@@ -35,33 +35,6 @@
         <height>0</height>
        </size>
       </property>
-      <property name="styleSheet">
-       <string notr="true">QFrame {
-	 background-color: rgb(199, 202, 255);
-}
-
-QToolButton {
-    border: 1px solid transparent;
-    background-color: transparent;
-}
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
-QToolButton:checked {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
-}
-
- QToolButton:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }</string>
-      </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -118,11 +91,11 @@ QTabBar::tab:selected {
  }</string>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tabLibraryNavigatorShares">
           <attribute name="icon">
-           <iconset>
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Library/SharedFolders.png</normaloff>:/Resource/Library/SharedFolders.png</iconset>
           </attribute>
           <attribute name="title">
@@ -143,11 +116,6 @@ QTabBar::tab:selected {
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="styleSheet">
-              <string notr="true">QTreeView {
-	background-color: white;
-}</string>
-             </property>
             </widget>
            </item>
            <item row="1" column="0">
@@ -157,7 +125,7 @@ QTabBar::tab:selected {
          </widget>
          <widget class="QWidget" name="tabLibraryNavigatorOrganiser">
           <attribute name="icon">
-           <iconset>
+           <iconset resource="../Resource.qrc">
             <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
           </attribute>
           <attribute name="title">
@@ -178,11 +146,6 @@ QTabBar::tab:selected {
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="styleSheet">
-              <string notr="true">QTreeView {
-	 background-color: white;
-}</string>
-             </property>
             </widget>
            </item>
           </layout>
@@ -195,7 +158,7 @@ QTabBar::tab:selected {
           <string>Edit Shared Folders</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../Resource.qrc">
            <normaloff>:/Resource/Library/SharedFolders.png</normaloff>:/Resource/Library/SharedFolders.png</iconset>
          </property>
          <property name="toolButtonStyle">
@@ -238,6 +201,8 @@ QTabBar::tab:selected {
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

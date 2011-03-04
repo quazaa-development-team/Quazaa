@@ -48,11 +48,6 @@
        </property>
        <item>
         <widget class="QScrollArea" name="scrollAreaHomeSidebar">
-         <property name="styleSheet">
-          <string notr="true">QFrame {
-	 background-color: rgb(199, 202, 255);
-}</string>
-         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -63,9 +58,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>176</width>
-            <height>682</height>
+            <y>-366</y>
+            <width>190</width>
+            <height>700</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayoutScrollAreaHomeSidebar">
@@ -88,11 +83,6 @@
                <width>16777215</width>
                <height>185</height>
               </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}</string>
              </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -132,11 +122,6 @@ p, li { white-space: pre-wrap; }
                   <height>16777215</height>
                  </size>
                 </property>
-                <property name="styleSheet">
-                 <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
-                </property>
                </widget>
               </item>
               <item row="1" column="0">
@@ -146,19 +131,6 @@ p, li { white-space: pre-wrap; }
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
                 </property>
                 <property name="text">
                  <string>Downloads</string>
@@ -191,19 +163,6 @@ QToolButton:hover {
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
                 </property>
                 <property name="text">
                  <string>Uploads</string>
@@ -243,11 +202,6 @@ QToolButton:hover {
                   <height>16777215</height>
                  </size>
                 </property>
-                <property name="styleSheet">
-                 <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
-                </property>
                </widget>
               </item>
              </layout>
@@ -281,23 +235,9 @@ QToolButton:hover {
                </property>
                <property name="font">
                 <font>
-                 <pointsize>-1</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
                </property>
                <property name="text">
                 <string>Torrents</string>
@@ -337,11 +277,6 @@ QToolButton:hover {
                  <height>99</height>
                 </size>
                </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}</string>
-               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -371,11 +306,6 @@ QToolButton:hover {
                     <width>16777215</width>
                     <height>16777215</height>
                    </size>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
                   </property>
                  </widget>
                 </item>
@@ -410,23 +340,9 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="font">
                 <font>
-                 <pointsize>-1</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
                </property>
                <property name="text">
                 <string>Connection</string>
@@ -466,11 +382,6 @@ QToolButton:hover {
                  <height>119</height>
                 </size>
                </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame {
-    background-color: rgb(161, 178, 231);
-}</string>
-               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -500,11 +411,6 @@ QToolButton:hover {
                     <width>16777215</width>
                     <height>16777215</height>
                    </size>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
                   </property>
                  </widget>
                 </item>
@@ -539,19 +445,6 @@ p, li { white-space: pre-wrap; }
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
                </property>
                <property name="text">
                 <string>My Library</string>
@@ -596,11 +489,6 @@ QToolButton:hover {
                  <width>16777215</width>
                  <height>180</height>
                 </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -693,11 +581,6 @@ p, li { white-space: pre-wrap; }
                     <height>16777215</height>
                    </size>
                   </property>
-                  <property name="styleSheet">
-                   <string notr="true">QListView {
-	background-color: rgb(255, 255, 255);
-}</string>
-                  </property>
                  </widget>
                 </item>
                </layout>
@@ -746,8 +629,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>624</width>
-            <height>537</height>
+            <width>672</width>
+            <height>504</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">

@@ -47,10 +47,6 @@
        <height>50</height>
       </size>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background-image: url(:/Resource/HeaderBackground.png);
-color: rgb(255, 255, 255);</string>
-     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>

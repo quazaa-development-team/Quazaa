@@ -71,33 +71,6 @@
          <height>0</height>
         </size>
        </property>
-       <property name="styleSheet">
-        <string notr="true">QFrame#frameMediaPlaylistTask {
-	background-color: rgb(161, 178, 231);
-}
-
-QToolButton {
-    border: 1px solid transparent;
-    background-color: transparent;
-}
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
-QToolButton:checked {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
-}
-
- QToolButton:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }</string>
-       </property>
        <layout class="QGridLayout" name="gridLayout">
         <property name="margin">
          <number>0</number>
@@ -112,16 +85,6 @@ QToolButton:checked {
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-</string>
           </property>
           <property name="text">
            <string>Playlist</string>
@@ -300,11 +263,6 @@ QToolButton:checked {
             <width>16777215</width>
             <height>16777215</height>
            </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QTableWidget {
-	background-color: rgb(255, 255, 255);
-}</string>
           </property>
           <property name="alternatingRowColors">
            <bool>true</bool>

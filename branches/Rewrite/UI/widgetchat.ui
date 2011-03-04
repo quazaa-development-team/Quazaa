@@ -40,9 +40,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">QFrame {
-	background-color: rgb(199, 202, 255);
-}</string>
+       <string notr="true"/>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -77,31 +75,7 @@
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}
-
-QToolButton {
-    border: 1px solid transparent;
-    background-color: transparent;
-}
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
-QToolButton:checked {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
-}
-
- QToolButton:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }</string>
+            <string notr="true"/>
            </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
@@ -163,41 +137,7 @@ QToolButton:checked {
             <item row="2" column="0">
              <widget class="QListView" name="listViewChatRooms">
               <property name="styleSheet">
-               <string notr="true">QAbstractScrollArea {
-     border: 1px solid white;
-	color: black;
-	background-color: white;
-	alternate-background-color: lightgrey;
-	selection-color: white;
-     selection-background-color: rgb(65, 85, 168);
- }
-
-QHeaderView {
-	background-color:  rgb(104, 116, 152);
-}
-
- QHeaderView::section {
-     background-color: rgb(104, 116, 152);
-     color: white;
-     padding-left: 4px;
-     border: 1px solid transparent;
- }
-
- QHeaderView::section:checked
- {
-     background-color: rgb(104, 116, 152);
- }
-
- /* style the sort indicator */
- QHeaderView::down-arrow {
-	width: 20px;
-     image: url(Skin/Quazaa OS/ScrollDownArrow.png);
- }
-
- QHeaderView::up-arrow {
-	width: 20px;
-     image: url(Skin/Quazaa OS/ScrollUpArrow.png);
- }</string>
+               <string notr="true"/>
               </property>
              </widget>
             </item>
@@ -213,17 +153,7 @@ QHeaderView {
             </sizepolicy>
            </property>
            <property name="styleSheet">
-            <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>Rooms</string>
@@ -259,17 +189,7 @@ QToolButton:hover {
             </sizepolicy>
            </property>
            <property name="styleSheet">
-            <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-QToolButton:hover {
-	background-color: rgb(56, 90, 129);
-}</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>Friends</string>
@@ -304,31 +224,7 @@ QToolButton:hover {
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}
-
-QToolButton {
-    border: 1px solid transparent;
-    background-color: transparent;
-}
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
-QToolButton:checked {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
-}
-
- QToolButton:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }</string>
+            <string notr="true"/>
            </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
@@ -390,41 +286,7 @@ QToolButton:checked {
             <item row="0" column="0">
              <widget class="QListView" name="listViewChatFriends">
               <property name="styleSheet">
-               <string notr="true">QAbstractScrollArea {
-     border: 1px solid white;
-	color: black;
-	background-color: white;
-	alternate-background-color: lightgrey;
-	selection-color: white;
-     selection-background-color: rgb(65, 85, 168);
- }
-
-QHeaderView {
-	background-color:  rgb(104, 116, 152);
-}
-
- QHeaderView::section {
-     background-color: rgb(104, 116, 152);
-     color: white;
-     padding-left: 4px;
-     border: 1px solid transparent;
- }
-
- QHeaderView::section:checked
- {
-     background-color: rgb(104, 116, 152);
- }
-
- /* style the sort indicator */
- QHeaderView::down-arrow {
-	width: 20px;
-     image: url(Skin/Quazaa OS/ScrollDownArrow.png);
- }
-
- QHeaderView::up-arrow {
-	width: 20px;
-     image: url(Skin/Quazaa OS/ScrollUpArrow.png);
- }</string>
+               <string notr="true"/>
               </property>
              </widget>
             </item>
@@ -469,9 +331,7 @@ QHeaderView {
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">QFrame {
-	background-color: rgb(199, 202, 255);
-}</string>
+       <string notr="true"/>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -500,31 +360,7 @@ QHeaderView {
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">QFrame {
-	background-color: rgb(161, 178, 231);
-}
-
-QToolButton {
-    border: 1px solid transparent;
-    background-color: transparent;
-}
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-
-QToolButton:checked {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
-}
-
- QToolButton:hover {
-     border: 1px solid rgb(78, 96, 255);
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }</string>
+            <string notr="true"/>
            </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
@@ -596,41 +432,7 @@ QToolButton:checked {
             <item row="1" column="0">
              <widget class="QListView" name="listViewChatUsers">
               <property name="styleSheet">
-               <string notr="true">QAbstractScrollArea {
-     border: 1px solid white;
-	color: black;
-	background-color: white;
-	alternate-background-color: lightgrey;
-	selection-color: white;
-     selection-background-color: rgb(65, 85, 168);
- }
-
-QHeaderView {
-	background-color:  rgb(104, 116, 152);
-}
-
- QHeaderView::section {
-     background-color: rgb(104, 116, 152);
-     color: white;
-     padding-left: 4px;
-     border: 1px solid transparent;
- }
-
- QHeaderView::section:checked
- {
-     background-color: rgb(104, 116, 152);
- }
-
- /* style the sort indicator */
- QHeaderView::down-arrow {
-	width: 20px;
-     image: url(Skin/Quazaa OS/ScrollDownArrow.png);
- }
-
- QHeaderView::up-arrow {
-	width: 20px;
-     image: url(Skin/Quazaa OS/ScrollUpArrow.png);
- }</string>
+               <string notr="true"/>
               </property>
               <property name="iconSize">
                <size>
@@ -652,14 +454,7 @@ QHeaderView {
             </sizepolicy>
            </property>
            <property name="styleSheet">
-            <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>In Room</string>

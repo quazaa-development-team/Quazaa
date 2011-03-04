@@ -44,10 +44,6 @@
        <height>50</height>
       </size>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background-image: url(:/Resource/HeaderBackground.png);
-color: rgb(255, 255, 255);</string>
-     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -126,8 +122,8 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>177</width>
-         <height>468</height>
+         <width>178</width>
+         <height>463</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -697,8 +693,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>385</width>
-            <height>557</height>
+            <width>386</width>
+            <height>529</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">

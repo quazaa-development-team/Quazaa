@@ -113,8 +113,8 @@ QTabWidget::pane { /* The tab widget frame */
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>526</width>
-             <height>232</height>
+             <width>524</width>
+             <height>235</height>
             </rect>
            </property>
           </widget>
@@ -178,7 +178,7 @@ QTabWidget::pane { /* The tab widget frame */
   </widget>
   <action name="actionSearchDownload">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
    </property>
    <property name="text">
@@ -190,7 +190,7 @@ QTabWidget::pane { /* The tab widget frame */
   </action>
   <action name="actionSearchBrowseUser">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -202,7 +202,7 @@ QTabWidget::pane { /* The tab widget frame */
   </action>
   <action name="actionFilterMore">
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
    </property>
    <property name="text">
@@ -210,6 +210,8 @@ QTabWidget::pane { /* The tab widget frame */
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -26,7 +26,7 @@
    <string>Smart Download Preview</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/DownloadPreview.png</normaloff>:/Resource/Generic/DownloadPreview.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -53,10 +53,6 @@
        <height>50</height>
       </size>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background-image: url(:/Resource/HeaderBackground.png);
-color: rgb(255, 255, 255);</string>
-     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -79,7 +75,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="Resource.qrc">:/Resource/Quazaa48.png</pixmap>
+         <pixmap resource="../Resource.qrc">:/Resource/Quazaa48.png</pixmap>
         </property>
        </widget>
       </item>
@@ -179,7 +175,7 @@ p, li { white-space: pre-wrap; }
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="Resource.qrc">:/Resource/Generic/DownloadPreview.png</pixmap>
+        <pixmap resource="../Resource.qrc">:/Resource/Generic/DownloadPreview.png</pixmap>
        </property>
       </widget>
      </item>
@@ -201,7 +197,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

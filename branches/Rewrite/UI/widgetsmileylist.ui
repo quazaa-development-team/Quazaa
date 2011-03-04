@@ -12,7 +12,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>0</width>
+    <width>319</width>
     <height>120</height>
    </size>
   </property>
@@ -59,81 +59,12 @@
       <property name="text">
        <string/>
       </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/39.png</normaloff>:/Resource/Smileys/39.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
+      <property name="toolTip">
+       <string>:)</string>
       </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/40.png</normaloff>:/Resource/Smileys/40.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/38.png</normaloff>:/Resource/Smileys/38.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/37.png</normaloff>:/Resource/Smileys/37.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/36.png</normaloff>:/Resource/Smileys/36.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/35.png</normaloff>:/Resource/Smileys/35.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/34.png</normaloff>:/Resource/Smileys/34.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/33.png</normaloff>:/Resource/Smileys/33.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/32.png</normaloff>:/Resource/Smileys/32.png</iconset>
+        <normaloff>:/Resource/Smileys/0.png</normaloff>:/Resource/Smileys/0.png</iconset>
       </property>
      </item>
      <item>
@@ -141,11 +72,119 @@
        <string/>
       </property>
       <property name="toolTip">
-       <string>:/</string>
+       <string>;)</string>
       </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/31.png</normaloff>:/Resource/Smileys/31.png</iconset>
+        <normaloff>:/Resource/Smileys/1.png</normaloff>:/Resource/Smileys/1.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="toolTip">
+       <string>:D</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/2.png</normaloff>:/Resource/Smileys/2.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="toolTip">
+       <string>:))</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/3.png</normaloff>:/Resource/Smileys/3.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="toolTip">
+       <string>:x</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/4.png</normaloff>:/Resource/Smileys/4.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="toolTip">
+       <string>8D</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/5.png</normaloff>:/Resource/Smileys/5.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="toolTip">
+       <string>8)</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/6.png</normaloff>:/Resource/Smileys/6.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="toolTip">
+       <string>:O</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/7.png</normaloff>:/Resource/Smileys/7.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="toolTip">
+       <string>&lt;:(</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/8.png</normaloff>:/Resource/Smileys/8.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="toolTip">
+       <string>*D</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/9.png</normaloff>:/Resource/Smileys/9.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="toolTip">
+       <string>\:X</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/10.png</normaloff>:/Resource/Smileys/10.png</iconset>
       </property>
      </item>
      <item>
@@ -154,7 +193,7 @@
       </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/30.png</normaloff>:/Resource/Smileys/30.png</iconset>
+        <normaloff>:/Resource/Smileys/11.png</normaloff>:/Resource/Smileys/11.png</iconset>
       </property>
      </item>
      <item>
@@ -163,133 +202,7 @@
       </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/29.png</normaloff>:/Resource/Smileys/29.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/28.png</normaloff>:/Resource/Smileys/28.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/27.png</normaloff>:/Resource/Smileys/27.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/26.png</normaloff>:/Resource/Smileys/26.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/25.png</normaloff>:/Resource/Smileys/25.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/24.png</normaloff>:/Resource/Smileys/24.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/23.png</normaloff>:/Resource/Smileys/23.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/22.png</normaloff>:/Resource/Smileys/22.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/21.png</normaloff>:/Resource/Smileys/21.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/19.png</normaloff>:/Resource/Smileys/19.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/18.png</normaloff>:/Resource/Smileys/18.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/17.png</normaloff>:/Resource/Smileys/17.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/16.png</normaloff>:/Resource/Smileys/16.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/15.png</normaloff>:/Resource/Smileys/15.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/14.png</normaloff>:/Resource/Smileys/14.png</iconset>
+        <normaloff>:/Resource/Smileys/12.png</normaloff>:/Resource/Smileys/12.png</iconset>
       </property>
      </item>
      <item>
@@ -310,7 +223,7 @@
       </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/12.png</normaloff>:/Resource/Smileys/12.png</iconset>
+        <normaloff>:/Resource/Smileys/14.png</normaloff>:/Resource/Smileys/14.png</iconset>
       </property>
      </item>
      <item>
@@ -319,7 +232,133 @@
       </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/11.png</normaloff>:/Resource/Smileys/11.png</iconset>
+        <normaloff>:/Resource/Smileys/15.png</normaloff>:/Resource/Smileys/15.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/16.png</normaloff>:/Resource/Smileys/16.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/17.png</normaloff>:/Resource/Smileys/17.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/18.png</normaloff>:/Resource/Smileys/18.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/19.png</normaloff>:/Resource/Smileys/19.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/21.png</normaloff>:/Resource/Smileys/21.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/22.png</normaloff>:/Resource/Smileys/22.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/23.png</normaloff>:/Resource/Smileys/23.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/24.png</normaloff>:/Resource/Smileys/24.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/25.png</normaloff>:/Resource/Smileys/25.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/26.png</normaloff>:/Resource/Smileys/26.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/27.png</normaloff>:/Resource/Smileys/27.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/28.png</normaloff>:/Resource/Smileys/28.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/29.png</normaloff>:/Resource/Smileys/29.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../Resource.qrc">
+        <normaloff>:/Resource/Smileys/30.png</normaloff>:/Resource/Smileys/30.png</iconset>
       </property>
      </item>
      <item>
@@ -327,131 +366,92 @@
        <string/>
       </property>
       <property name="toolTip">
-       <string>\:X</string>
+       <string>:/</string>
       </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/10.png</normaloff>:/Resource/Smileys/10.png</iconset>
+        <normaloff>:/Resource/Smileys/31.png</normaloff>:/Resource/Smileys/31.png</iconset>
       </property>
      </item>
      <item>
       <property name="text">
        <string/>
       </property>
-      <property name="toolTip">
-       <string>*D</string>
-      </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/9.png</normaloff>:/Resource/Smileys/9.png</iconset>
+        <normaloff>:/Resource/Smileys/32.png</normaloff>:/Resource/Smileys/32.png</iconset>
       </property>
      </item>
      <item>
       <property name="text">
        <string/>
       </property>
-      <property name="toolTip">
-       <string>&lt;:(</string>
-      </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/8.png</normaloff>:/Resource/Smileys/8.png</iconset>
+        <normaloff>:/Resource/Smileys/33.png</normaloff>:/Resource/Smileys/33.png</iconset>
       </property>
      </item>
      <item>
       <property name="text">
        <string/>
       </property>
-      <property name="toolTip">
-       <string>:O</string>
-      </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/7.png</normaloff>:/Resource/Smileys/7.png</iconset>
+        <normaloff>:/Resource/Smileys/34.png</normaloff>:/Resource/Smileys/34.png</iconset>
       </property>
      </item>
      <item>
       <property name="text">
        <string/>
       </property>
-      <property name="toolTip">
-       <string>8)</string>
-      </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/6.png</normaloff>:/Resource/Smileys/6.png</iconset>
+        <normaloff>:/Resource/Smileys/35.png</normaloff>:/Resource/Smileys/35.png</iconset>
       </property>
      </item>
      <item>
       <property name="text">
        <string/>
       </property>
-      <property name="toolTip">
-       <string>8D</string>
-      </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/5.png</normaloff>:/Resource/Smileys/5.png</iconset>
+        <normaloff>:/Resource/Smileys/36.png</normaloff>:/Resource/Smileys/36.png</iconset>
       </property>
      </item>
      <item>
       <property name="text">
        <string/>
       </property>
-      <property name="toolTip">
-       <string>:x</string>
-      </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/4.png</normaloff>:/Resource/Smileys/4.png</iconset>
+        <normaloff>:/Resource/Smileys/37.png</normaloff>:/Resource/Smileys/37.png</iconset>
       </property>
      </item>
      <item>
       <property name="text">
        <string/>
       </property>
-      <property name="toolTip">
-       <string>:))</string>
-      </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/3.png</normaloff>:/Resource/Smileys/3.png</iconset>
+        <normaloff>:/Resource/Smileys/38.png</normaloff>:/Resource/Smileys/38.png</iconset>
       </property>
      </item>
      <item>
       <property name="text">
        <string/>
       </property>
-      <property name="toolTip">
-       <string>:D</string>
-      </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/2.png</normaloff>:/Resource/Smileys/2.png</iconset>
+        <normaloff>:/Resource/Smileys/40.png</normaloff>:/Resource/Smileys/40.png</iconset>
       </property>
      </item>
      <item>
       <property name="text">
        <string/>
       </property>
-      <property name="toolTip">
-       <string>;)</string>
-      </property>
       <property name="icon">
        <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/1.png</normaloff>:/Resource/Smileys/1.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="toolTip">
-       <string>:)</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Smileys/0.png</normaloff>:/Resource/Smileys/0.png</iconset>
+        <normaloff>:/Resource/Smileys/39.png</normaloff>:/Resource/Smileys/39.png</iconset>
       </property>
      </item>
     </widget>

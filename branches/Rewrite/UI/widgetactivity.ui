@@ -56,8 +56,6 @@
          </property>
          <property name="styleSheet">
           <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
 	border: none;
 	font-size: 16px;
 	font-weight: bold;
@@ -111,8 +109,6 @@
          </property>
          <property name="styleSheet">
           <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
 	border: none;
 	font-size: 16px;
 	font-weight: bold;

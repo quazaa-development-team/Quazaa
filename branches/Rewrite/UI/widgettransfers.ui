@@ -14,7 +14,7 @@
    <string>Transfers</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -56,8 +56,6 @@
          </property>
          <property name="styleSheet">
           <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
 	border: none;
 	font-size: 16px;
 	font-weight: bold;
@@ -68,7 +66,7 @@
           <string>Downloads</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../Resource.qrc">
            <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
          </property>
          <property name="iconSize">
@@ -111,8 +109,6 @@
          </property>
          <property name="styleSheet">
           <string notr="true">QToolButton {
-	background-color: rgb(78, 124, 179);
-	color: rgb(255, 255, 255);
 	border: none;
 	font-size: 16px;
 	font-weight: bold;
@@ -123,7 +119,7 @@
           <string>Uploads</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../Resource.qrc">
            <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
          </property>
          <property name="iconSize">
@@ -152,6 +148,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
