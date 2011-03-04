@@ -55,28 +55,6 @@ void WizardQuickStart::changeEvent(QEvent* e)
 	}
 }
 
-void WizardQuickStart::on_pushButtonSharesAdd_clicked()
-{
-	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
-	QString directory = QFileDialog::getExistingDirectory(this,
-						tr("Select A Folder To Share"),
-						quazaaSettings.Downloads.CompletePath,
-						options);
-	if(!directory.isEmpty())
-	{
-		ui->listWidgetShares->addItem(directory);
-	}
-}
-
-void WizardQuickStart::on_pushButtonSharesRemove_clicked()
-{
-	if(ui->listWidgetShares->currentRow() != -1)
-	{
-		ui->listWidgetShares->takeItem(ui->listWidgetShares->currentRow());
-	}
-}
-
-
 void WizardQuickStart::accept()
 {
 	quazaaSettings.Connection.InSpeed = (ui->doubleSpinBoxInSpeed->value() / 8) * 1024;
@@ -114,4 +92,25 @@ void WizardQuickStart::accept()
 	quazaaSettings.saveSettings();
 
 	QDialog::accept();
+}
+
+void WizardQuickStart::on_toolButtonSharesAdd_clicked()
+{
+    QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
+    QString directory = QFileDialog::getExistingDirectory(this,
+                                            tr("Select A Folder To Share"),
+                                            quazaaSettings.Downloads.CompletePath,
+                                            options);
+    if(!directory.isEmpty())
+    {
+            ui->listWidgetShares->addItem(directory);
+    }
+}
+
+void WizardQuickStart::on_toolButtonSharesRemove_clicked()
+{
+    if(ui->listWidgetShares->currentRow() != -1)
+    {
+            ui->listWidgetShares->takeItem(ui->listWidgetShares->currentRow());
+    }
 }

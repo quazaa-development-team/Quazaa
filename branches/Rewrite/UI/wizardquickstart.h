@@ -22,9 +22,9 @@ private:
     Ui::WizardQuickStart *ui;
 
 private slots:
-	void on_pushButtonSharesRemove_clicked();
-	void on_pushButtonSharesAdd_clicked();
 	void accept();
+        void on_toolButtonSharesAdd_clicked();
+        void on_toolButtonSharesRemove_clicked();
 };
 
 #endif // WIZARDQUICKSTART_H
