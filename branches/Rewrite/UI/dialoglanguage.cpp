@@ -1,23 +1,26 @@
-//
-// dialoglanguage.cpp
-//
-// Copyright © Quazaa Development Team, 2009-2010.
-// This file is part of QUAZAA (quazaa.sourceforge.net)
-//
-// Quazaa is free software; you can redistribute it
-// and/or modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2 of
-// the License, or (at your option) any later version.
-//
-// Quazaa is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Quazaa; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-//
+/*
+** dialoglanguage.cpp
+**
+** Copyright Â© Quazaa Development Team, 2009-2011.
+** This file is part of QUAZAA (quazaa.sourceforge.net)
+**
+** Quazaa is free software; this file may be used under the terms of the GNU
+** General Public License version 3.0 as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.
+**
+** Quazaa is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+**
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
+** http://www.gnu.org/copyleft/gpl.html.
+**
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 
 #include "dialoglanguage.h"
 #include "ui_dialoglanguage.h"
@@ -49,7 +52,7 @@ DialogLanguage::DialogLanguage(QWidget* parent) :
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(2);
 	}
-	//Català
+	//Catalï¿½
 	if(quazaaSettings.Language.File == ("quazaa_ca"))
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(3);
@@ -59,7 +62,7 @@ DialogLanguage::DialogLanguage(QWidget* parent) :
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(4);
 	}
-	//Ceština
+	//Ceï¿½tina
 	if(quazaaSettings.Language.File == ("quazaa_cz"))
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(5);
@@ -74,7 +77,7 @@ DialogLanguage::DialogLanguage(QWidget* parent) :
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(7);
 	}
-	//Español
+	//Espaï¿½ol
 	if(quazaaSettings.Language.File == ("quazaa_es"))
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(8);
@@ -84,7 +87,7 @@ DialogLanguage::DialogLanguage(QWidget* parent) :
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(9);
 	}
-	//Français
+	//Franï¿½ais
 	if(quazaaSettings.Language.File == ("quazaa_fr"))
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(10);
@@ -139,7 +142,7 @@ DialogLanguage::DialogLanguage(QWidget* parent) :
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(20);
 	}
-	//Português Brasileiro
+	//Portuguï¿½s Brasileiro
 	if(quazaaSettings.Language.File == ("quazaa_pt-br"))
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(21);
@@ -149,7 +152,7 @@ DialogLanguage::DialogLanguage(QWidget* parent) :
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(22);
 	}
-	//Slovenšcina
+	//Slovenï¿½cina
 	if(quazaaSettings.Language.File == ("quazaa_sl-si"))
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(23);
@@ -169,7 +172,7 @@ DialogLanguage::DialogLanguage(QWidget* parent) :
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(26);
 	}
-	//Türkçe
+	//Tï¿½rkï¿½e
 	if(quazaaSettings.Language.File == ("quazaa_tr"))
 	{
 		m_ui->listWidgetLanguages->setCurrentRow(27);
@@ -212,13 +215,13 @@ void DialogLanguage::on_pushButtonOK_clicked()
 		case 2:	//Arabic
 			quazaaSettings.Language.File = ("quazaa_ar");
 			break;
-		case 3:	//Català
+		case 3:	//Catalï¿½
 			quazaaSettings.Language.File = ("quazaa_ca");
 			break;
 		case 4:	//Chinese
 			quazaaSettings.Language.File = ("quazaa_chs");
 			break;
-		case 5:	//Ceština
+		case 5:	//Ceï¿½tina
 			quazaaSettings.Language.File = ("quazaa_cz");
 			break;
 		case 6: //Deutsch
@@ -227,13 +230,13 @@ void DialogLanguage::on_pushButtonOK_clicked()
 		case 7: //Eesti
 			quazaaSettings.Language.File = ("quazaa_ee");
 			break;
-		case 8: //Español
+		case 8: //Espaï¿½ol
 			quazaaSettings.Language.File = ("quazaa_es");
 			break;
 		case 9: //Suomi
 			quazaaSettings.Language.File = ("quazaa_fi");
 			break;
-		case 10: //Français
+		case 10: //Franï¿½ais
 			quazaaSettings.Language.File = ("quazaa_fr");
 			break;
 		case 11: //Greek
@@ -266,13 +269,13 @@ void DialogLanguage::on_pushButtonOK_clicked()
 		case 20: //Polski
 			quazaaSettings.Language.File = ("quazaa_pl");
 			break;
-		case 21: //Português Brasileiro
+		case 21: //Portuguï¿½s Brasileiro
 			quazaaSettings.Language.File = ("quazaa_pt-br");
 			break;
 		case 22: //Russian
 			quazaaSettings.Language.File = ("quazaa_ru");
 			break;
-		case 23: //Slovenšcina
+		case 23: //Slovenï¿½cina
 			quazaaSettings.Language.File = ("quazaa_sl-si");
 			break;
 		case 24: //Shqip
@@ -284,7 +287,7 @@ void DialogLanguage::on_pushButtonOK_clicked()
 		case 26: //Svenska
 			quazaaSettings.Language.File = ("quazaa_sv");
 			break;
-		case 27: //Türkçe
+		case 27: //Tï¿½rkï¿½e
 			quazaaSettings.Language.File = ("quazaa_tr");
 			break;
 		case 28: //Thai
