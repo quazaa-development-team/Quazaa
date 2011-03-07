@@ -1,5 +1,5 @@
 #
-# dialogabout.h
+# Quazaa.pro
 #
 # Copyright © Quazaaa Development Team, 2009-2011.
 # This file is part of QUAZAA (quazaa.sourceforge.net)
