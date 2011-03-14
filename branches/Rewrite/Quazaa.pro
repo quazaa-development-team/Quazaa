@@ -5,7 +5,7 @@
 # This file is part of QUAZAA (quazaa.sourceforge.net)
 #
 # Quazaa is free software; this file may be used under the terms of the GNU
-# General Public License version 3.0 as published by the Free Software
+# General Public License version 3.0 or later or later as published by the Free Software
 # Foundation and appearing in the file LICENSE.GPL included in the
 # packaging of this file.
 #
@@ -169,9 +169,9 @@ SOURCES += main.cpp \
     geoiplist.cpp \
     UI/dialogconnectto.cpp \
     NetworkCore/Hashes/hash.cpp \
-    ShareManager/ShareManager.cpp \
-    ShareManager/SharedFile.cpp \
-    ShareManager/FileHasher.cpp \
+    ShareManager/sharemanager.cpp \
+    ShareManager/sharedfile.cpp \
+    ShareManager/filehasher.cpp \
     NetworkCore/queryhashmaster.cpp \
     NetworkCore/queryhashgroup.cpp \
     Models/chatroomslistmodel.cpp \
@@ -195,9 +195,9 @@ SOURCES += main.cpp \
     UI/widgetsmileylist.cpp \
     Chat/chatconverter.cpp \
     UI/wizardquickstart.cpp \
-	Models/chatuserlistmodel.cpp \
+    Models/chatuserlistmodel.cpp \
     UI/dialogirccolordialog.cpp \
-	NetworkCore/querykeys.cpp
+    NetworkCore/querykeys.cpp
 HEADERS += UI/dialoglanguage.h \
     quazaasettings.h \
     quazaaglobals.h \
@@ -284,9 +284,9 @@ HEADERS += UI/dialoglanguage.h \
     geoiplist.h \
     UI/dialogconnectto.h \
     NetworkCore/Hashes/hash.h \
-    ShareManager/ShareManager.h \
-    ShareManager/SharedFile.h \
-    ShareManager/FileHasher.h \
+    ShareManager/sharemanager.h \
+    ShareManager/sharedfile.h \
+    ShareManager/filehasher.h \
     3rdparty/CyoEncode/CyoEncode.h \
     3rdparty/CyoEncode/CyoDecode.h \
     Models/neighbourstablemodel.h \
@@ -316,9 +316,9 @@ HEADERS += UI/dialoglanguage.h \
     UI/widgetsmileylist.h \
     Chat/chatconverter.h \
     UI/wizardquickstart.h \
-	Models/chatuserlistmodel.h \
+    Models/chatuserlistmodel.h \
     UI/dialogirccolordialog.h \
-	NetworkCore/querykeys.h
+    NetworkCore/querykeys.h
 FORMS += UI/dialoglanguage.ui \
     UI/dialogsplash.ui \
     UI/widgetsearchtemplate.ui \

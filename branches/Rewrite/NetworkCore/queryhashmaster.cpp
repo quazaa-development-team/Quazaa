@@ -5,7 +5,7 @@
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
-** General Public License version 3.0 as published by the Free Software
+** General Public License version 3.0 or later as published by the Free Software
 ** Foundation and appearing in the file LICENSE.GPL included in the
 ** packaging of this file.
 **
@@ -24,7 +24,7 @@
 
 #include "queryhashmaster.h"
 #include "queryhashgroup.h"
-#include "ShareManager.h"
+#include "sharemanager.h"
 #include <QDateTime>
 
 CQueryHashMaster QueryHashMaster;
