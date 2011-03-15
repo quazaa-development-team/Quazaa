@@ -227,6 +227,7 @@ padding: 2px;</string>
    </property>
    <property name="styleSheet">
     <string notr="true">QMenuBar::item:!selected,  QMenuBar::item:!pressed {
+	color: black;
     background: transparent;
 }</string>
    </property>
