@@ -39,12 +39,12 @@ else {
 MOC_DIR = temp/moc
 UI_DIR = temp/uic
 INCLUDEPATH += NetworkCore \
-	UI \
+    UI \
     3rdparty \
     3rdparty/libircclient-qt/include \
     Models \
     ShareManager \
-	Chat \
+    Chat \
     .
 
 # Append _debug to executable name when compiling using debug config
