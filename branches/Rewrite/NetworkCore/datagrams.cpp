@@ -43,7 +43,6 @@
 
 
 CDatagrams Datagrams;
-CThread DatagramsThread;
 
 CDatagrams::CDatagrams()
 {
@@ -87,24 +86,24 @@ CDatagrams::~CDatagrams()
 	}
 }
 
-void CDatagrams::SetupThread()
+void CDatagrams::Listen()
 {
-	systemLog.postLog(LogSeverity::Debug, QString("Setup Thread"));
-	//qDebug() << "SetupThread";
-	systemLog.postLog(LogSeverity::Debug, QString("Thread id: %1").arg((quint32)QThread::currentThreadId()));
-	//qDebug() << "Thread id: " << QThread::currentThreadId();
+	QMutexLocker l(&m_pSection);
+
+	if(m_bActive)
+	{
+		systemLog.postLog(LogSeverity::Debug, QString("CDatagrams::Listen - already listening"));
+		return;
+	}
 
 	Q_ASSERT(m_pSocket == 0);
-	Q_ASSERT(m_tSender == 0);
 
 	m_pSocket = new QUdpSocket(this);
-	m_tSender = new QTimer(this);
 
 	CEndPoint addr = Network.GetLocalAddress();
 	if(m_pSocket->bind(addr.port()))
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Datagrams listening on %1 %2").arg(m_pSocket->localPort()).arg(addr.port()));
-		//qDebug() << "Datagrams listening on " << m_pSocket->localPort() << addr.port();
+		systemLog.postLog(LogSeverity::Debug, QString("Datagrams listening on %1").arg(m_pSocket->localPort()));
 		m_nDiscarded = 0;
 
 		for(int i = 0; i < quazaaSettings.Gnutella2.UdpBuffers; i++)
@@ -123,53 +122,29 @@ void CDatagrams::SetupThread()
 		}
 
 		connect(this, SIGNAL(SendQueueUpdated()), this, SLOT(FlushSendCache()), Qt::QueuedConnection);
-		connect(m_tSender, SIGNAL(timeout()), this, SLOT(FlushSendCache()), Qt::QueuedConnection);
 		connect(m_pSocket, SIGNAL(readyRead()), this, SLOT(OnDatagram()), Qt::QueuedConnection);
 
-		m_tSender->setInterval(200);
-
 		m_bActive = true;
-		m_tMeterTimer.start();
 	}
 	else
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Can't bind UDP socket! UDP communication disabled!"));
-		//qDebug() << "Can't bind UDP socket! UDP communication disabled!";
 		Disconnect();
 	}
+
+	m_bFirewalled = true;
+
 }
 
-void CDatagrams::Listen()
+void CDatagrams::Disconnect()
 {
 	QMutexLocker l(&m_pSection);
 
-	if(m_bActive)
-	{
-		systemLog.postLog(LogSeverity::Debug, QString("CDatagrams::Listen - already listening"));
-		//qDebug() << "CDatagrams::Listen - already listening";
-		return;
-	}
-
-	//SetupThread();
-	m_bFirewalled = true;
-	DatagramsThread.start("Datagrams", &m_pSection, this);
-
-}
-
-void CDatagrams::CleanupThread()
-{
-	if(m_tSender)
-	{
-		m_tSender->stop();
-		m_tSender->disconnect();
-		delete m_tSender;
-		m_tSender = 0;
-	}
+	m_bActive = false;
 
 	if(m_pSocket)
 	{
 		m_pSocket->close();
-		m_pSocket->disconnect();
 		delete m_pSocket;
 		m_pSocket = 0;
 	}
@@ -217,16 +192,7 @@ void CDatagrams::CleanupThread()
 	{
 		m_lPendingQKA.takeFirst().second->Release();
 	}
-}
 
-void CDatagrams::Disconnect()
-{
-	QMutexLocker l(&m_pSection);
-
-	m_bActive = false;
-
-	//CleanupThread();
-	DatagramsThread.exit(0);
 }
 
 void CDatagrams::OnDatagram()
@@ -236,9 +202,7 @@ void CDatagrams::OnDatagram()
 		return;
 	}
 
-	quint32 nCounter = 500;
-
-	while(m_pSocket->hasPendingDatagrams() && nCounter--)
+	while(m_pSocket->hasPendingDatagrams())
 	{
 		qint64 nSize = m_pSocket->pendingDatagramSize();
 		m_pRecvBuffer->resize(nSize);
@@ -250,7 +214,6 @@ void CDatagrams::OnDatagram()
 		{
 			continue;
 		}
-		//return;
 
 		GND_HEADER* pHeader = (GND_HEADER*)m_pRecvBuffer->data();
 		if(strncmp((char*)&pHeader->szTag, "GND", 3) == 0 && pHeader->nPart > 0 && (pHeader->nCount == 0 || pHeader->nPart <= pHeader->nCount))
@@ -478,35 +441,6 @@ void CDatagrams::RemoveOldIn(bool bForce)
 			}
 		}
 	}
-
-	/*for( QHash<quint32, QHash<quint32, DatagramIn*> >::iterator it = m_RecvCache.begin(); it != m_RecvCache.end(); it++ )
-	{
-		for( QHash<quint32, DatagramIn*>::iterator itPacket = it.value().begin(); itPacket != it.value().end(); itPacket++ )
-		{
-			if( pOldest )
-			{
-				if( pOldest->m_tStarted < itPacket.value()->m_tStarted && (bForce || tNow - itPacket.value()->m_tStarted > quazaaSettings.Gnutella2.UdpInExpire || itPacket.value()->m_nLeft == 0) )
-				{
-					pOldest = itPacket.value();
-				}
-			}
-			else
-			{
-				if( bForce || tNow - itPacket.value()->m_tStarted > quazaaSettings.Gnutella2.UdpInExpire || itPacket.value()->m_nLeft == 0 )
-				{
-					pOldest = itPacket.value();
-				}
-
-			}
-		}
-	}
-
-	if( pOldest )
-	{
-		Remove(pOldest);
-	}*/
-
-
 }
 
 void CDatagrams::Remove(DatagramOut* pDG)
@@ -730,7 +664,6 @@ void CDatagrams::OnPong(CEndPoint& addr, G2Packet* pPacket)
 }
 void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 {
-	QMutexLocker l(&Network.m_pSection);
 	QMutexLocker l2(&Neighbours.m_pSection);
 
 	bool bRLeaf = false;

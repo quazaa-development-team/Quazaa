@@ -80,6 +80,8 @@ CG2Node::~CG2Node()
 
 void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 {
+	ASSUME_LOCK(Neighbours.m_pSection);
+
 	m_nPacketsOut++;
 
 	if(bBuffered)
@@ -146,6 +148,9 @@ void CG2Node::OnDisconnect()
 
 void CG2Node::OnRead()
 {
+
+	QMutexLocker l(&Neighbours.m_pSection);
+
 	//qDebug() << "CG2Node::OnRead";
 	if(m_nState == nsHandshaking)
 	{
@@ -745,6 +750,8 @@ void CG2Node::OnPacket(G2Packet* pPacket)
 
 void CG2Node::OnPing(G2Packet* pPacket)
 {
+	ASSUME_LOCK(Neighbours.m_pSection);
+
 	bool bUdp = false;
 	bool bRelay = false;
 	bool bTestFirewall = false;
@@ -795,8 +802,6 @@ void CG2Node::OnPing(G2Packet* pPacket)
 
 		if(Network.isHub())
 		{
-			QMutexLocker l(&Neighbours.m_pSection);
-
 			uchar* pRelay = pPacket->WriteGetPointer(7, 0);
 			*pRelay++ = 0x60;
 			*pRelay++ = 0;

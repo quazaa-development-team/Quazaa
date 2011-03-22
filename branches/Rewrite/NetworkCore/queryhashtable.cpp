@@ -845,12 +845,11 @@ int CQueryHashTable::MakeKeywords(QString sPhrase, QStringList& outList)
 	systemLog.postLog(LogSeverity::Debug, QString("Making keywords from: %1").arg(sPhrase));
 	//qDebug() << "Making keywords from:" << sPhrase;
 
-	// remove all garbage from phrase
-	sPhrase = sPhrase.replace(QRegExp("\\W"), " ").replace("_", " ").simplified().toLower();
+	sPhrase = sPhrase.replace("_", " ").simplified().toLower();
 
-	// and split it into words
+	// split it into words
 	QStringList lOut;
-	lOut = sPhrase.split(" ", QString::SkipEmptyParts);
+	lOut = sPhrase.split(QRegExp("\\W+"), QString::SkipEmptyParts);
 
 	// now filter out too short words and only numeric
 	QRegExp rx("^\\d+$");

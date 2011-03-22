@@ -61,6 +61,20 @@ enum G2NodeType {G2_UNKNOWN = 0, G2_LEAF = 1, G2_HUB = 2};
 
 typedef unsigned char BYTE;
 
+
+#ifdef _DEBUG
+
+#define ASSUME_LOCK(mutex) \
+if( (mutex).tryLock() ) { (mutex).unlock(); Q_ASSERT_X(false, Q_FUNC_INFO, "This code must be protected by " #mutex "!"); }
+
+#else
+
+#define ASSUME_LOCK(mutex) ((void)0)
+
+#endif
+
+
+
 #endif // __cplusplus
 
 

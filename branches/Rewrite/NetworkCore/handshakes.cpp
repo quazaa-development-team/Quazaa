@@ -26,6 +26,7 @@
 #include "network.h"
 #include "handshake.h"
 #include "ratecontroller.h"
+#include "neighbours.h"
 
 #include <QTimer>
 
@@ -67,6 +68,9 @@ void CHandshakes::Disconnect()
 
 	m_bActive = false;
 
+	qDeleteAll(m_lHandshakes);
+	m_lHandshakes.clear();
+
 	HandshakesThread.exit(0);
 }
 
@@ -95,13 +99,19 @@ void CHandshakes::OnTimer()
 }
 void CHandshakes::RemoveHandshake(CHandshake* pHs)
 {
-	QMutexLocker l(&m_pSection);
+	ASSUME_LOCK(Handshakes.m_pSection);
 
 	m_lHandshakes.remove(pHs);
 	if(m_pController)
 	{
 		m_pController->RemoveSocket(pHs);
 	}
+}
+
+void CHandshakes::processNeighbour(CHandshake *pHs)
+{
+	RemoveHandshake(pHs);
+	Neighbours.OnAccept(pHs);
 }
 
 void CHandshakes::SetupThread()

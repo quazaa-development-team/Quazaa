@@ -115,17 +115,20 @@ void CNetwork::Connect()
 	m_nTotalPeriods = 0;
 
 	Handshakes.Listen();
+
 	m_oRoutingTable.Clear();
+
 	m_nSecsToHubBalancing = HUB_BALANCING_INTERVAL;
 	m_tLastModeChange = time(0);
 	m_nMinutesAbove90 = m_nMinutesBelow50 = 0;
 	m_nMinutesTrying = 0;
+
 	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(OnSharesReady()), Qt::UniqueConnection);
 	connect(&Datagrams, SIGNAL(PacketQueuedForRouting()), this, SLOT(RoutePackets()), Qt::QueuedConnection);
 
-	Datagrams.moveToThread(&NetworkThread);
-
 	NetworkThread.start("Network", &m_pSection, this);
+
+	Datagrams.moveToThread(&NetworkThread);
 
 	SearchManager.moveToThread(&NetworkThread);
 	Neighbours.moveToThread(&NetworkThread);
@@ -187,7 +190,7 @@ void CNetwork::OnSecondTimer()
 		return;
 	}
 
-	if(Neighbours.m_nHubsConnected == 0 && !WebCache.isRequesting() && (HostCache.isEmpty() || HostCache.GetConnectable() == 0))
+	if(Neighbours.m_nHubsConnected == 0 && !WebCache.isRequesting() && (HostCache.isEmpty() || HostCache.GetConnectable() == 0 || m_nMinutesTrying == 1))
 	{
 		WebCache.RequestRandom();
 	}
@@ -202,9 +205,6 @@ void CNetwork::OnSecondTimer()
 		m_oRoutingTable.ExpireOldRoutes();
 		m_tCleanRoutesNext = 60;
 	}
-
-	//Datagrams.FlushSendCache();
-	emit Datagrams.SendQueueUpdated();
 
 	if(isHub() && quazaaSettings.Gnutella2.AdaptiveHub && --m_nNextCheck == 0)
 	{
@@ -277,6 +277,8 @@ void CNetwork::OnSecondTimer()
 	}
 
 	m_pSection.unlock();
+
+	emit Datagrams.SendQueueUpdated();
 }
 
 void CNetwork::DispatchKHL()

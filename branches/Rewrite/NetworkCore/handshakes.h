@@ -31,6 +31,7 @@
 #include "thread.h"
 
 class CHandshake;
+class CNetworkConnection;
 class CRateController;
 class QTimer;
 
@@ -66,9 +67,13 @@ protected slots:
 	void SetupThread();
 	void CleanupThread();
 
+signals:
+
 protected:
 	void incomingConnection(int handle);
 	void RemoveHandshake(CHandshake* pHs);
+
+	void processNeighbour(CHandshake* pHs);
 
 	friend class CHandshake;
 };

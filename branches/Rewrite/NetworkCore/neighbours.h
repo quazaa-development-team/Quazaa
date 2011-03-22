@@ -65,9 +65,6 @@ public:
 
 	void Clear();
 
-	CNeighbour* ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol);
-	CNeighbour* OnAccept(CNetworkConnection* pConn);
-
 	void DisconnectYoungest(DiscoveryProtocol nProtocol, int nType = 0, bool bCore = false);
 
 	void AddNode(CNeighbour* pNode);
@@ -107,6 +104,8 @@ signals:
 	void NeighbourRemoved(CNeighbour*);
 
 public slots:
+	CNeighbour* ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol);
+	CNeighbour* OnAccept(CNetworkConnection* pConn);
 
 
 	friend class CNetwork;

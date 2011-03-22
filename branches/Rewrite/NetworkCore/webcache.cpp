@@ -34,18 +34,11 @@ CWebCache WebCache;
 
 CWebCache::CWebCache()
 {
-	m_lCaches.append(CWebCacheHost(QUrl("http://gwc.marksieklucki.com/skulls.php")));
 	m_lCaches.append(CWebCacheHost(QUrl("http://gweb2.4octets.co.uk/gwc.php")));
-	m_lCaches.append(CWebCacheHost(QUrl("http://htmlhell.com/")));
 	m_lCaches.append(CWebCacheHost(QUrl("http://dkac.trillinux.org/dkac/dkac.php")));
-	m_lCaches.append(CWebCacheHost(QUrl("http://gwc.iblinx.com:2108/gwc/cgi-bin/fc")));
-	m_lCaches.append(CWebCacheHost(QUrl("http://www.myfoxy.net/gwc/cgi-bin/fc")));
-	m_lCaches.append(CWebCacheHost(QUrl("http://www.gofoxy.net/gwc/cgi-bin/fc")));
 	m_lCaches.append(CWebCacheHost(QUrl("http://skulls.ce3c.be/skulls.php")));
 	m_lCaches.append(CWebCacheHost(QUrl("http://gwc.lame.net/gwcii.php")));
-	m_lCaches.append(CWebCacheHost(QUrl("http://dogma.cloud.bishopston.net:33559/")));
 	m_lCaches.append(CWebCacheHost(QUrl("http://cache.leite.us/")));
-	m_lCaches.append(CWebCacheHost(QUrl("http://gofoxy.net/gwc/cgi-bin/fc")));
 	m_lCaches.append(CWebCacheHost(QUrl("http://gwebcache.ns1.net/")));
 	m_lCaches.append(CWebCacheHost(QUrl("http://cache2.leite.us/")));
 	m_lCaches.append(CWebCacheHost(QUrl("http://hub.dynoisp.com/skulls/skulls.php")));

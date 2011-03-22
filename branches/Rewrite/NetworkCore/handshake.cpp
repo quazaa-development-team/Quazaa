@@ -34,27 +34,26 @@
 CHandshake::CHandshake(QObject* parent)
 	: CNetworkConnection(parent)
 {
-	connect(this, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
-	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(deleteLater()));
 }
 CHandshake::~CHandshake()
 {
+	ASSUME_LOCK(Handshakes.m_pSection);
+
 	Handshakes.RemoveHandshake(this);
 }
 
 void CHandshake::OnTimer(quint32 tNow)
 {
-	//qDebug() << "handshake timer";
 	if(tNow - m_tConnected > 15)
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Timed out handshaking with  %1").arg(m_pSocket->peerAddress().toString().toAscii().constData()));
-		//qDebug() << "Timed out handshaking with " << m_pSocket->peerAddress().toString().toAscii().constData();
 		Close();
-		deleteLater();
 	}
 }
 void CHandshake::OnRead()
 {
+	QMutexLocker l(&Handshakes.m_pSection);
+
 	//qDebug() << "CHandshake::OnRead()";
 
 	if(bytesAvailable() < 8)
@@ -66,8 +65,8 @@ void CHandshake::OnRead()
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Incoming connection from %1 is Gnutella Neighbour connection").arg(m_pSocket->peerAddress().toString().toAscii().constData()));
 		//qDebug("Incoming connection from %s is Gnutella Neighbour connection", m_pSocket->peerAddress().toString().toAscii().constData());
-		Handshakes.RemoveHandshake(this);
-		Neighbours.OnAccept(this);
+		Handshakes.processNeighbour(this);
+		delete this;
 	}
 	else
 	{
@@ -82,8 +81,6 @@ void CHandshake::OnRead()
 		Write(baResp);
 		Close(true);
 	}
-
-	delete this;
 }
 
 void CHandshake::OnConnect()
@@ -92,11 +89,16 @@ void CHandshake::OnConnect()
 }
 void CHandshake::OnDisconnect()
 {
-
+	Handshakes.m_pSection.lock();
+	delete this;
+	Handshakes.m_pSection.unlock();
 }
 void CHandshake::OnError(QAbstractSocket::SocketError e)
 {
 	Q_UNUSED(e);
+	Handshakes.m_pSection.lock();
+	delete this;
+	Handshakes.m_pSection.unlock();
 }
 
 void CHandshake::OnStateChange(QAbstractSocket::SocketState s)

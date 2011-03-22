@@ -34,6 +34,7 @@
 #include "thread.h"
 
 #include "network.h"
+#include "handshakes.h"
 
 #include <QMutexLocker>
 
@@ -121,15 +122,21 @@ CNeighbour* CNeighbours::OnAccept(CNetworkConnection* pConn)
 {
 	// TODO: Make new CNeighbour deriviate for handshaking with Gnutella clients
 
+	Q_ASSERT(thread() == &NetworkThread);
+
 	systemLog.postLog(LogSeverity::Debug, "CNeighbours::OnAccept");
 	//qDebug() << "CNeighbours::OnAccept";
+
+	if( !m_bActive )
+	{
+		pConn->Close();
+		return 0;
+	}
 
 	if(!m_pSection.tryLock(50))
 	{
 		systemLog.postLog(LogSeverity::Debug, "Not accepting incoming connection. Neighbours overloaded");
-		//qDebug() << "Not accepting incoming connection. Neighbours overloaded";
 		pConn->Close();
-		pConn->deleteLater();
 		return 0;
 	}
 

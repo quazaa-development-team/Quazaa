@@ -43,6 +43,8 @@ CRateController::CRateController(QMutex* pMutex, QObject* parent): QObject(paren
 
 void CRateController::AddSocket(CNetworkConnection* pSock)
 {
+	ASSUME_LOCK(*m_pMutex);
+
 	connect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
 	pSock->setReadBufferSize(8192);
 	m_lSockets.insert(pSock);
@@ -51,6 +53,8 @@ void CRateController::AddSocket(CNetworkConnection* pSock)
 }
 void CRateController::RemoveSocket(CNetworkConnection* pSock)
 {
+	ASSUME_LOCK(*m_pMutex);
+
 	disconnect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
 	pSock->setReadBufferSize(0);
 	m_lSockets.remove(pSock);

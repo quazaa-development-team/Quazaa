@@ -158,9 +158,6 @@ public slots:
 	void OnDatagram();
 	void FlushSendCache();
 
-	void SetupThread();
-	void CleanupThread();
-
 signals:
 	void SendQueueUpdated();
 	void PacketQueuedForRouting();
