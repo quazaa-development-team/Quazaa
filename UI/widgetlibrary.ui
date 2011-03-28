@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WidgetLibrary</class>
+ <widget class="QWidget" name="WidgetLibrary">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>274</width>
+    <height>332</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QSplitter" name="splitterLibrary">
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QFrame" name="frameLibraryNavigator">
+      <property name="minimumSize">
+       <size>
+        <width>210</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QFrame {
+	 background-color: rgb(199, 202, 255);
+}
+
+QToolButton {
+    border: 1px solid transparent;
+    background-color: transparent;
+}
+
+ QToolButton:pressed {
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+
+QToolButton:checked {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+ QToolButton:hover {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_10">
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0" colspan="2">
+        <widget class="QTabWidget" name="tabWidgetLibraryNavigator">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QTabWidget::pane { /* The tab widget frame */
+    border-top: 2px transparent;
+	top: 1px
+ }
+
+ QTabWidget::tab-bar {
+	left: 1px;
+ }
+
+ /* Style the tab using the tab sub-control. Note that
+     it reads QTabBar _not_ QTabWidget */
+ QTabBar::tab {
+	background:transparent;
+	border: transparent;
+	min-width: 8ex;
+	padding: 3px;
+	padding-left: 2px;
+	padding-right: -2px;
+ }
+
+ QTabBar::tab:selected, QTabBar::tab:hover {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+
+QTabBar::tab:selected {
+     border: 1px solid rgb(78, 96, 255);
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+	padding-top: 3px;
+ }</string>
+         </property>
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="QWidget" name="tabLibraryNavigatorShares">
+          <attribute name="icon">
+           <iconset>
+            <normaloff>:/Resource/Library/SharedFolders.png</normaloff>:/Resource/Library/SharedFolders.png</iconset>
+          </attribute>
+          <attribute name="title">
+           <string>Shared Folders</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_12">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QTreeView" name="treeViewLibraryNavigatorShares">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QTreeView {
+	background-color: white;
+}</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QComboBox" name="comboBoxLibraryNavigatorSharesFilter"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tabLibraryNavigatorOrganiser">
+          <attribute name="icon">
+           <iconset>
+            <normaloff>:/Resource/Library/Library.png</normaloff>:/Resource/Library/Library.png</iconset>
+          </attribute>
+          <attribute name="title">
+           <string>Organiser</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_13">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QTreeView" name="treeViewLibraryNavigatorOrganiser">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QTreeView {
+	 background-color: white;
+}</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QToolButton" name="toolButtonLibraryEditShares">
+         <property name="text">
+          <string>Edit Shared Folders</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>:/Resource/Library/SharedFolders.png</normaloff>:/Resource/Library/SharedFolders.png</iconset>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <spacer name="horizontalSpacerLibraryEditShares">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QFrame" name="frameLibraryView">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayoutLibraryView">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
