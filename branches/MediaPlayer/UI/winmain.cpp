@@ -100,7 +100,8 @@ WinMain::WinMain(QWidget* parent) :
 	ui->stackedWidgetMain->addWidget(pageHome);
 	pageLibrary = new WidgetLibrary();
 	ui->stackedWidgetMain->addWidget(pageLibrary);
-	pageMedia = new WidgetMedia();
+        //pageMedia = new WidgetMedia();
+        pageMedia = new Player();
 	ui->stackedWidgetMain->addWidget(pageMedia);
 	pageSearch = new WidgetSearch();
 	ui->stackedWidgetMain->addWidget(pageSearch);
@@ -455,7 +456,7 @@ void WinMain::quazaaShutdown()
 	quazaaSettings.WinMain.MainToolbar = saveState();
 	pageHome->saveWidget();
 	pageLibrary->saveWidget();
-	pageMedia->saveWidget();
+        //pageMedia->saveWidget();
 	pageSearch->saveWidget();
 	pageTransfers->saveWidget();
 	pageSecurity->saveWidget();

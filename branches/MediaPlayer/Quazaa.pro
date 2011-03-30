@@ -23,7 +23,8 @@
 #
 
 QT += network \
-	sql
+        sql \
+        xml
 TARGET = Quazaa
 
 # Paths
@@ -39,10 +40,11 @@ else {
 MOC_DIR = temp/moc
 UI_DIR = temp/uic
 INCLUDEPATH += NetworkCore \
-	UI \
+        UI \
 	3rdparty \
 	3rdparty/libircclient-qt/include \
 	Models \
+        QuazaaMediaPlayer \
 	ShareManager \
 	Chat \
 	.
@@ -53,7 +55,8 @@ CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 # Additional config
 win32:LIBS += -Lbin # if you are at windows os
 mac:CONFIG -= app_bundle
-CONFIG += no_icu
+CONFIG += no_icu mobility
+MOBILITY = multimedia
 DEFINES += IRC_STATIC \
 	IRC_NO_DEPRECATED
 CONFIG(debug, debug|release){
@@ -200,7 +203,11 @@ SOURCES += main.cpp \
 	UI/wizardquickstart.cpp \
 	Models/chatuserlistmodel.cpp \
 	UI/dialogirccolordialog.cpp \
-	NetworkCore/querykeys.cpp
+	NetworkCore/querykeys.cpp \
+    Models/playlistmodel.cpp \
+    QuazaaMediaPlayer/videowidget.cpp \
+    QuazaaMediaPlayer/playercontrols.cpp \
+    QuazaaMediaPlayer/player.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -321,7 +328,11 @@ HEADERS += UI/dialoglanguage.h \
 	UI/wizardquickstart.h \
 	Models/chatuserlistmodel.h \
 	UI/dialogirccolordialog.h \
-	NetworkCore/querykeys.h
+	NetworkCore/querykeys.h \
+    Models/playlistmodel.h \
+    QuazaaMediaPlayer/videowidget.h \
+    QuazaaMediaPlayer/playercontrols.h \
+    QuazaaMediaPlayer/player.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \

@@ -45,6 +45,7 @@
 #include "widgetpacketdump.h"
 #include "widgetsearchmonitor.h"
 #include "widgethitmonitor.h"
+#include "player.h"
 
 #include "dialogprivatemessages.h"
 #include <QList>
@@ -75,7 +76,8 @@ public:
 	QMenu* trayMenu;
 	WidgetHome* pageHome;
 	WidgetLibrary* pageLibrary;
-	WidgetMedia* pageMedia;
+        //WidgetMedia* pageMedia;
+        Player* pageMedia;
 	WidgetSearch* pageSearch;
 	WidgetTransfers* pageTransfers;
 	WidgetSecurity* pageSecurity;
