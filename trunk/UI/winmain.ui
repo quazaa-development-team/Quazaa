@@ -17,6 +17,9 @@
    <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Quazaa.png</normaloff>:/Resource/Quazaa.png</iconset>
   </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">

@@ -85,7 +85,12 @@ WinMain::WinMain(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.MainToolbar);
 
 	//Set up the menu toolbar
+#ifdef Q_WS_MAC
+        ui->toolBarMainMenu->close();
+        ui->menubarMain->setStyleSheet("");
+#else
 	ui->toolBarMainMenu->addWidget(ui->menubarMain);
+#endif
 
 	//Set up the status bar
 	tcpFirewalled = ":/Resource/Network/ShieldRed.png";
