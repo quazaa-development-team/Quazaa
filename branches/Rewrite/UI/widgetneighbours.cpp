@@ -115,7 +115,7 @@ void WidgetNeighbours::updateG2()
 	quint32 nUDPInSpeed = 0;
 	quint32 nUDPOutSpeed = 0;
 
-	if(Neighbours.m_pSection.tryLock(50))
+	if(Neighbours.m_mutexNeighbours.tryLock(50))
 	{
 		nHubsConnected = Neighbours.m_nHubsConnected;
 		nLeavesConnected = Neighbours.m_nLeavesConnected;
@@ -123,15 +123,15 @@ void WidgetNeighbours::updateG2()
 		nTCPInSpeed = Neighbours.DownloadSpeed();
 		nTCPOutSpeed = Neighbours.UploadSpeed();
 
-		if(Network.m_pSection.tryLock(50))
+		if(Network.m_mutexNetwork.tryLock(50))
 		{
 			nUDPInSpeed = Datagrams.DownloadSpeed();
 			nUDPOutSpeed = Datagrams.UploadSpeed();
 
-			Network.m_pSection.unlock();
+			Network.m_mutexNetwork.unlock();
 		}
 
-		Neighbours.m_pSection.unlock();
+		Neighbours.m_mutexNeighbours.unlock();
 	}
 
 	labelG2Stats->setText(tr(" %1 Hubs, %2 Leaves, %3/s In:%4/s Out").arg(nHubsConnected).arg(nLeavesConnected).arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)));
@@ -165,9 +165,9 @@ void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 		switch (dlgConnectTo->getConnectNetwork())
 		{
 		case DialogConnectTo::G2:
-			Network.m_pSection.lock();
+			Network.m_mutexNetwork.lock();
 			Network.ConnectTo(ip);
-			Network.m_pSection.unlock();
+			Network.m_mutexNetwork.unlock();
 			break;
 		case DialogConnectTo::eDonkey:
 			break;
@@ -187,13 +187,13 @@ void WidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 	if( pNode == 0 )
 		return;
 
-	Neighbours.m_pSection.lock();
+	Neighbours.m_mutexNeighbours.lock();
 	if( Neighbours.NeighbourExists(pNode) )
 	{
 		systemLog.postLog(LogSeverity::Information, qPrintable(tr("Closing connection to neighbour %s")), qPrintable(pNode->m_oAddress.toStringWithPort()));
 		pNode->Close();
 	}
-	Neighbours.m_pSection.unlock();
+	Neighbours.m_mutexNeighbours.unlock();
 }
 
 void WidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint pos)
@@ -204,7 +204,7 @@ void WidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint 
 
 void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 {
-	QMutexLocker l(&Neighbours.m_pSection);
+	QMutexLocker l(&Neighbours.m_mutexNeighbours);
 
 	if (ui->tableViewNeighbours->currentIndex().isValid())
 	{

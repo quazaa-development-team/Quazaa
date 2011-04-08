@@ -89,7 +89,7 @@ CNetwork::~CNetwork()
 
 void CNetwork::Connect()
 {
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_mutexNetwork);
 
 	if(m_bActive)
 	{
@@ -126,7 +126,7 @@ void CNetwork::Connect()
 	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(OnSharesReady()), Qt::UniqueConnection);
 	connect(&Datagrams, SIGNAL(PacketQueuedForRouting()), this, SLOT(RoutePackets()), Qt::QueuedConnection);
 
-	NetworkThread.start("Network", &m_pSection, this);
+	NetworkThread.start("Network", &m_mutexNetwork, this);
 
 	Datagrams.moveToThread(&NetworkThread);
 
@@ -137,7 +137,7 @@ void CNetwork::Connect()
 }
 void CNetwork::Disconnect()
 {
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_mutexNetwork);
 
 	if(m_bActive)
 	{
@@ -177,7 +177,7 @@ void CNetwork::CleanupThread()
 
 void CNetwork::OnSecondTimer()
 {
-	if(!m_pSection.tryLock(150))
+	if(!m_mutexNetwork.tryLock(150))
 	{
 		systemLog.postLog(LogSeverity::Warning, tr("WARNING: Network core overloaded!"));
 		//qWarning() << "WARNING: Network core overloaded!";
@@ -186,7 +186,7 @@ void CNetwork::OnSecondTimer()
 
 	if(!m_bActive)
 	{
-		m_pSection.unlock();
+		m_mutexNetwork.unlock();
 		return;
 	}
 
@@ -238,7 +238,7 @@ void CNetwork::OnSecondTimer()
 	{
 		if(m_bNeedUpdateLNI)
 		{
-			QMutexLocker l(&Neighbours.m_pSection);
+			QMutexLocker l(&Neighbours.m_mutexNeighbours);
 
 			m_bNeedUpdateLNI = false;
 
@@ -265,25 +265,25 @@ void CNetwork::OnSecondTimer()
 
 	if(m_nKHLWait == 0)
 	{
-		HostCache.m_pSection.lock();
+		HostCache.m_mutexHostCache.lock();
 		HostCache.Save();
 		DispatchKHL();
 		m_nKHLWait = quazaaSettings.Gnutella2.KHLPeriod;
-		HostCache.m_pSection.unlock();
+		HostCache.m_mutexHostCache.unlock();
 	}
 	else
 	{
 		m_nKHLWait--;
 	}
 
-	m_pSection.unlock();
+	m_mutexNetwork.unlock();
 
 	emit Datagrams.SendQueueUpdated();
 }
 
 void CNetwork::DispatchKHL()
 {
-	QMutexLocker l(&Neighbours.m_pSection);
+	QMutexLocker l(&Neighbours.m_mutexNeighbours);
 
 	if(Neighbours.m_lNodes.isEmpty())
 	{
@@ -514,7 +514,7 @@ void CNetwork::OnSharesReady()
 
 void CNetwork::HubBalancing()
 {
-	QMutexLocker l(&Neighbours.m_pSection);
+	QMutexLocker l(&Neighbours.m_mutexNeighbours);
 
 	//systemLog.postLog(LogSeverity::Notice, "*** HUB BALANCING REPORT ***");
 
@@ -678,9 +678,9 @@ void CNetwork::RoutePackets()
 
 	static quint32 nWhatToRoute = 0;
 
-	if(Datagrams.m_pSection.tryLock(50))
+	if(Datagrams.m_mutexDatagrams.tryLock(50))
 	{
-		if(Neighbours.m_pSection.tryLock(50))
+		if(Neighbours.m_mutexNeighbours.tryLock(50))
 		{
 			QElapsedTimer oTimer;
 
@@ -744,12 +744,12 @@ void CNetwork::RoutePackets()
 
 			m_bPacketsPending = (!Datagrams.m_lPendingQA.isEmpty() || !Datagrams.m_lPendingQH2.isEmpty() || !Datagrams.m_lPendingQKA.isEmpty());
 
-			Neighbours.m_pSection.unlock();
+			Neighbours.m_mutexNeighbours.unlock();
 		}
 
 		systemLog.postLog(LogSeverity::Debug, QString("Datagrams left to be routed: QA:%1 QH2:%2 QKA:%3").arg(Datagrams.m_lPendingQA.size()).arg(Datagrams.m_lPendingQH2.size()).arg(Datagrams.m_lPendingQKA.size()));
 		//qDebug() << "Datagrams left to be routed: QA:" << Datagrams.m_lPendingQA.size() << " QH2:" << Datagrams.m_lPendingQH2.size() << " QKA:" << Datagrams.m_lPendingQKA.size();
 
-		Datagrams.m_pSection.unlock();
+		Datagrams.m_mutexDatagrams.unlock();
 	}
 }

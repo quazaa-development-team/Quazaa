@@ -42,7 +42,7 @@ class CNeighbours : public QObject
 	Q_OBJECT
 
 public:
-	QMutex			 m_pSection;
+	QMutex			 m_mutexNeighbours;
 
 protected:
 	QList<CNeighbour*>		 m_lNodes;

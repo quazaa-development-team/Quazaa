@@ -100,7 +100,7 @@ class CHostCache
 
 public:
 	QList<CHostCacheHost*>  m_lHosts;
-	QMutex					m_pSection;
+	QMutex					m_mutexHostCache;
 
 public:
 	CHostCache();

@@ -821,7 +821,7 @@ void WinMain::updateStatusBar()
 		Handshakes.m_pSection.unlock();
 	}
 
-	if(Network.m_pSection.tryLock(50))
+	if(Network.m_mutexNetwork.tryLock(50))
 	{
 		if(!Datagrams.IsFirewalled())
 		{
@@ -835,7 +835,7 @@ void WinMain::updateStatusBar()
 		nTCPOutSpeed = Neighbours.UploadSpeed();
 		nUDPInSpeed = Datagrams.DownloadSpeed();
 		nUDPOutSpeed = Datagrams.UploadSpeed();
-		Network.m_pSection.unlock();
+		Network.m_mutexNetwork.unlock();
 	}
 
 	labelFirewallStatus->setText(tr("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"> <html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">TCP: <img src=\"%1\" /> UDP: <img src=\"%2\" /></p></body></html>").arg(tcpFirewalled).arg(udpFirewalled));
@@ -854,9 +854,9 @@ void WinMain::on_actionConnectTo_triggered()
 		switch (dlgConnectTo->getConnectNetwork())
 		{
 		case DialogConnectTo::G2:
-			Network.m_pSection.lock();
+			Network.m_mutexNetwork.lock();
 			Network.ConnectTo(ip);
-			Network.m_pSection.unlock();
+			Network.m_mutexNetwork.unlock();
 			break;
 		case DialogConnectTo::eDonkey:
 			break;
