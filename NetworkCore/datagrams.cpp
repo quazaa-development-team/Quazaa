@@ -88,7 +88,7 @@ CDatagrams::~CDatagrams()
 
 void CDatagrams::Listen()
 {
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_mutexDatagrams);
 
 	if(m_bActive)
 	{
@@ -138,7 +138,7 @@ void CDatagrams::Listen()
 
 void CDatagrams::Disconnect()
 {
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_mutexDatagrams);
 
 	m_bActive = false;
 
@@ -254,7 +254,7 @@ void CDatagrams::OnReceiveGND()
 	}
 	else
 	{
-		QMutexLocker l(&m_pSection);
+		QMutexLocker l(&m_mutexDatagrams);
 
 		if(!m_FreeDGIn.isEmpty())
 		{
@@ -333,9 +333,9 @@ void CDatagrams::OnReceiveGND()
 			pPacket->Release();
 		}
 
-		m_pSection.lock();
+		m_mutexDatagrams.lock();
 		Remove(pDG, true);
-		m_pSection.unlock();
+		m_mutexDatagrams.unlock();
 	}
 
 }
@@ -464,7 +464,7 @@ void CDatagrams::FlushSendCache()
 		return;
 	}
 
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_mutexDatagrams);
 
 	quint32 tNow = time(0);
 
@@ -545,7 +545,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 		return;
 	}
 
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_mutexDatagrams);
 
 	Q_UNUSED(pWatcher);
 	Q_UNUSED(pParam);
@@ -664,7 +664,7 @@ void CDatagrams::OnPong(CEndPoint& addr, G2Packet* pPacket)
 }
 void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 {
-	QMutexLocker l2(&Neighbours.m_pSection);
+	QMutexLocker l2(&Neighbours.m_mutexNeighbours);
 
 	bool bRLeaf = false;
 	bool bRNick = false;
@@ -864,13 +864,13 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
-	HostCache.m_pSection.lock();
+	HostCache.m_mutexHostCache.lock();
 	CHostCacheHost* pCache = HostCache.Add(addr, 0);
 	if(pCache)
 	{
 		pCache->SetKey(nKey);
 	}
-	HostCache.m_pSection.unlock();
+	HostCache.m_mutexHostCache.unlock();
 
 
 	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toAscii().constData()).arg(nKey));
@@ -908,7 +908,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 			memcpy(pOut + 16, &nPort, 2);
 		}
 
-		QMutexLocker l(&m_pSection);
+		QMutexLocker l(&m_mutexDatagrams);
 		bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
 
 		pPacket->AddRef();
@@ -929,7 +929,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 }
 void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 {
-	HostCache.m_pSection.lock();
+	HostCache.m_mutexHostCache.lock();
 
 	CHostCacheHost* pHost = HostCache.Add(addr, 0);
 	if(pHost)
@@ -937,7 +937,7 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 		pHost->m_tAck = 0;
 	}
 
-	HostCache.m_pSection.unlock();
+	HostCache.m_mutexHostCache.unlock();
 
 	QUuid oGuid;
 
@@ -947,11 +947,11 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 		// Add from address
 		// pPacket->WriteChild("FR")->WriteHostAddress(&addr);
 
-		//QMutexLocker l(&Network.m_pSection);
+		//QMutexLocker l(&Network.m_mutexDatagrams);
 
 		//Network.RoutePacket(oGuid, pPacket);
 
-		m_pSection.lock();
+		m_mutexDatagrams.lock();
 
 		bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
 
@@ -968,7 +968,7 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 			emit PacketQueuedForRouting();
 		}
 
-		m_pSection.unlock();
+		m_mutexDatagrams.unlock();
 	}
 
 }
@@ -986,7 +986,7 @@ void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 	{
 		if(SearchManager.OnQueryHit(pPacket, pInfo) && Network.isHub() && pInfo->m_nHops < 7)
 		{
-			m_pSection.lock();
+			m_mutexDatagrams.lock();
 
 			pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
 
@@ -1011,7 +1011,7 @@ void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 				emit PacketQueuedForRouting();
 			}
 
-			m_pSection.unlock();
+			m_mutexDatagrams.unlock();
 		}
 	}
 }

@@ -43,9 +43,9 @@ CNeighbour::CNeighbour(QObject *parent) :
 
 CNeighbour::~CNeighbour()
 {
-	Neighbours.m_pSection.lock();
+	Neighbours.m_mutexNeighbours.lock();
 	Neighbours.RemoveNode(this);
-	Neighbours.m_pSection.unlock();
+	Neighbours.m_mutexNeighbours.unlock();
 }
 
 void CNeighbour::OnTimer(quint32 tNow)

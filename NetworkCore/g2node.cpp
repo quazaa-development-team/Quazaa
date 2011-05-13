@@ -80,7 +80,7 @@ CG2Node::~CG2Node()
 
 void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 {
-	ASSUME_LOCK(Neighbours.m_pSection);
+	ASSUME_LOCK(Neighbours.m_mutexNeighbours);
 
 	m_nPacketsOut++;
 
@@ -109,7 +109,7 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 
 void CG2Node::OnConnect()
 {
-	//QMutexLocker l(&Neighbours.m_pSection);
+	//QMutexLocker l(&Neighbours.m_mutexNeighbours);
 
 	systemLog.postLog(LogSeverity::Information, "Connection with %s established, handshaking...", qPrintable(m_oAddress.toString()));
 
@@ -149,7 +149,7 @@ void CG2Node::OnDisconnect()
 void CG2Node::OnRead()
 {
 
-	QMutexLocker l(&Neighbours.m_pSection);
+	QMutexLocker l(&Neighbours.m_mutexNeighbours);
 
 	//qDebug() << "CG2Node::OnRead";
 	if(m_nState == nsHandshaking)
@@ -218,7 +218,7 @@ void CG2Node::OnStateChange(QAbstractSocket::SocketState s)
 {
 	Q_UNUSED(s);
 
-	//QMutexLocker l(&Network.m_pSection);
+	//QMutexLocker l(&Network.m_mutexNetwork);
 
 	//qDebug() << "OnStateChange(" << s << ")";
 }
@@ -292,7 +292,7 @@ void CG2Node::OnTimer(quint32 tNow)
 
 void CG2Node::ParseIncomingHandshake()
 {
-	//QMutexLocker l(&Neighbours.m_pSection);
+	//QMutexLocker l(&Neighbours.m_mutexNeighbours);
 
 	qint32 nIndex = Peek(bytesAvailable()).indexOf("\r\n\r\n");
 	QString sHs = Read(nIndex + 4);
@@ -434,7 +434,7 @@ void CG2Node::ParseIncomingHandshake()
 
 void CG2Node::ParseOutgoingHandshake()
 {
-	//QMutexLocker l(&Neighbours.m_pSection);
+	//QMutexLocker l(&Neighbours.m_mutexNeighbours);
 	QString sHs = Read(Peek(bytesAvailable()).indexOf("\r\n\r\n") + 4);
 
 	//qDebug() << "Handshake receive:\n" << sHs;
@@ -750,7 +750,7 @@ void CG2Node::OnPacket(G2Packet* pPacket)
 
 void CG2Node::OnPing(G2Packet* pPacket)
 {
-	ASSUME_LOCK(Neighbours.m_pSection);
+	ASSUME_LOCK(Neighbours.m_mutexNeighbours);
 
 	bool bUdp = false;
 	bool bRelay = false;
@@ -923,7 +923,7 @@ void CG2Node::OnLNI(G2Packet* pPacket)
 
 	if(hasNA && hasGUID)
 	{
-		QMutexLocker l(&Network.m_pSection);
+		QMutexLocker l(&Network.m_mutexNetwork);
 		Network.m_oRoutingTable.Add(pGUID, this, true);
 	}
 
@@ -977,7 +977,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 					pPacket->ReadHostAddress(&pAddr);
 				}
 
-				QMutexLocker l(&Network.m_pSection);
+				QMutexLocker l(&Network.m_mutexNetwork);
 
 				Network.m_oRoutingTable.Add(pGUID, this, &pAddr, false);
 			}
@@ -1005,9 +1005,9 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 				pPacket->ReadIntLE(&nTs);
 
-				HostCache.m_pSection.lock();
+				HostCache.m_mutexHostCache.lock();
 				HostCache.Add(ep, tNow + nDiff);
-				HostCache.m_pSection.unlock();
+				HostCache.m_mutexHostCache.unlock();
 			}
 		}
 		else if(strcmp("TS", szType) == 0)
@@ -1108,7 +1108,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 		return;
 	}
 
-	QMutexLocker l(&HostCache.m_pSection);
+	QMutexLocker l(&HostCache.m_mutexHostCache);
 
 	CHostCacheHost* pHost = bCacheOK ? HostCache.Find(addr) : 0;
 
@@ -1201,7 +1201,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
-	HostCache.m_pSection.lock();
+	HostCache.m_mutexHostCache.lock();
 	CHostCacheHost* pCache = HostCache.Add(addr, 0);
 	if(pCache)
 	{
@@ -1210,7 +1210,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 		systemLog.postLog(LogSeverity::Debug, QString("Got a query key from %1 via %2 = 0x%3").arg(addr.toString().toAscii().constData()).arg(m_oAddress.toString().toAscii().constData()).arg(QString().number(nKey, 16)));
 		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toAscii().constData(), m_oAddress.toString().toAscii().constData(), nKey);
 	}
-	HostCache.m_pSection.unlock();
+	HostCache.m_mutexHostCache.unlock();
 }
 void CG2Node::OnQA(G2Packet* pPacket)
 {
@@ -1231,7 +1231,7 @@ void CG2Node::OnQH2(G2Packet* pPacket)
 
 	if(SearchManager.OnQueryHit(pPacket, pInfo))
 	{
-		Network.m_pSection.lock();
+		Network.m_mutexNetwork.lock();
 
 		if(Network.isHub() && pInfo->m_nHops < 7)
 		{
@@ -1240,7 +1240,7 @@ void CG2Node::OnQH2(G2Packet* pPacket)
 			Network.RoutePacket(pInfo->m_oGUID, pPacket);
 		}
 
-		Network.m_pSection.unlock();
+		Network.m_mutexNetwork.unlock();
 
 		delete pInfo;
 	}

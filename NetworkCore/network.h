@@ -43,7 +43,7 @@ class CNetwork : public QObject
 	Q_OBJECT
 
 public:
-	QMutex  m_pSection;
+	QMutex  m_mutexNetwork;
 
 public:
 	bool             m_bActive;
