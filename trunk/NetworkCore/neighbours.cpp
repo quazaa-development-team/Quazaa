@@ -57,11 +57,11 @@ CNeighbours::~CNeighbours()
 
 void CNeighbours::Connect()
 {
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_mutexNeighbours);
 
 	Q_ASSERT(m_pController == 0);
 
-	m_pController = new CRateController(&m_pSection);
+	m_pController = new CRateController(&m_mutexNeighbours);
 	m_pController->SetDownloadLimit(quazaaSettings.Connection.InSpeed);
 	m_pController->SetUploadLimit(quazaaSettings.Connection.OutSpeed);
 
@@ -77,7 +77,7 @@ void CNeighbours::Disconnect()
 
 	Clear();
 
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_mutexNeighbours);
 
 	delete m_pController;
 	m_pController = 0;
@@ -88,8 +88,8 @@ void CNeighbours::Disconnect()
 
 void CNeighbours::Clear()
 {
-	QMutexLocker l(&m_pSection);
-
+	QMutexLocker l(&m_mutexNeighbours);
+	
 	foreach(CNeighbour * pNode, m_lNodes)
 	{
 		pNode->Close();
@@ -133,7 +133,7 @@ CNeighbour* CNeighbours::OnAccept(CNetworkConnection* pConn)
 		return 0;
 	}
 
-	if(!m_pSection.tryLock(50))
+	if(!m_mutexNeighbours.tryLock(50))
 	{
 		systemLog.postLog(LogSeverity::Debug, "Not accepting incoming connection. Neighbours overloaded");
 		pConn->Close();
@@ -145,7 +145,7 @@ CNeighbour* CNeighbours::OnAccept(CNetworkConnection* pConn)
 	AddNode(pNew);
 	pNew->moveToThread(&NetworkThread);
 
-	m_pSection.unlock();
+	m_mutexNeighbours.unlock();
 
 	return pNew;
 }
@@ -229,7 +229,7 @@ void CNeighbours::Maintain()
 {
 	// TODO: Split that
 
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l(&m_mutexNeighbours);
 
 	quint32 tNow = time(0);
 
@@ -304,7 +304,7 @@ void CNeighbours::Maintain()
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumHubs)
 		{
-			QMutexLocker l(&HostCache.m_pSection);
+			QMutexLocker l(&HostCache.m_mutexHostCache);
 
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumHubs - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
@@ -363,7 +363,7 @@ void CNeighbours::Maintain()
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumPeers)
 		{
-			QMutexLocker l(&HostCache.m_pSection);
+			QMutexLocker l(&HostCache.m_mutexHostCache);
 
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;

@@ -144,7 +144,7 @@ void CManagedSearch::Execute(quint32 tNow, quint32* pnMaxPackets)
 void CManagedSearch::SearchNeighbours(quint32 tNow)
 {
 
-	QMutexLocker l(&Neighbours.m_pSection);
+	QMutexLocker l(&Neighbours.m_mutexNeighbours);
 
 	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
@@ -171,7 +171,7 @@ void CManagedSearch::SearchNeighbours(quint32 tNow)
 
 void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 {
-	QMutexLocker oHostCacheLock(&HostCache.m_pSection);
+	QMutexLocker oHostCacheLock(&HostCache.m_mutexHostCache);
 
 	CG2Node* pLastNeighbour = 0;
 
@@ -208,7 +208,7 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 		}
 		else
 		{
-			QMutexLocker l(&Neighbours.m_pSection);
+			QMutexLocker l(&Neighbours.m_mutexNeighbours);
 
 			bool bFound = false;
 			for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
@@ -263,7 +263,7 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 		}
 		else if(m_bCanRequestKey && tNow - pHost->m_nKeyTime > quazaaSettings.Gnutella2.QueryKeyTime)
 		{
-			QMutexLocker l(&Neighbours.m_pSection);
+			QMutexLocker l(&Neighbours.m_mutexNeighbours);
 
 			pReceiver = 0;
 			CG2Node* pHub = 0;
