@@ -58,6 +58,8 @@ CG2Node::CG2Node(QObject* parent) :
 
 	m_pLocalTable = 0;
 	m_pRemoteTable = 0;
+
+	m_nHAWWait = 0;
 }
 
 CG2Node::~CG2Node()
@@ -80,7 +82,7 @@ CG2Node::~CG2Node()
 
 void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 {
-	ASSUME_LOCK(Neighbours.m_mutexNeighbours);
+	ASSUME_LOCK(Neighbours.m_pSection);
 
 	m_nPacketsOut++;
 
@@ -109,7 +111,7 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 
 void CG2Node::OnConnect()
 {
-	//QMutexLocker l(&Neighbours.m_mutexNeighbours);
+	//QMutexLocker l(&Neighbours.m_pSection);
 
 	systemLog.postLog(LogSeverity::Information, "Connection with %s established, handshaking...", qPrintable(m_oAddress.toString()));
 
@@ -123,7 +125,7 @@ void CG2Node::OnConnect()
         sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	sHs += "Remote-IP: " + m_oAddress.toString() + "\r\n";
 	sHs += "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n";
-	if(Network.isHub())
+	if(Neighbours.IsG2Hub())
 	{
 		sHs += "X-Ultrapeer: True\r\n";
 	}
@@ -141,15 +143,11 @@ void CG2Node::OnConnect()
 
 	Write(sHs);
 }
-void CG2Node::OnDisconnect()
-{
-	delete this;
-}
 
 void CG2Node::OnRead()
 {
 
-	QMutexLocker l(&Neighbours.m_mutexNeighbours);
+	QMutexLocker l(&Neighbours.m_pSection);
 
 	//qDebug() << "CG2Node::OnRead";
 	if(m_nState == nsHandshaking)
@@ -198,30 +196,6 @@ void CG2Node::OnRead()
 	}
 
 }
-void CG2Node::OnError(QAbstractSocket::SocketError e)
-{
-	if(e == QAbstractSocket::RemoteHostClosedError)
-	{
-		systemLog.postLog(LogSeverity::Information, "Neighbour %s dropped connection unexpectedly.", qPrintable(m_oAddress.toStringWithPort()));
-	}
-	else
-	{
-		HostCache.OnFailure(m_oAddress);
-		systemLog.postLog(LogSeverity::Error, "Neighbour %s dropped connection unexpectedly (socket error: %s).", qPrintable(m_oAddress.toStringWithPort()), qPrintable(m_pSocket->errorString()));
-	}
-
-
-	delete this;
-}
-
-void CG2Node::OnStateChange(QAbstractSocket::SocketState s)
-{
-	Q_UNUSED(s);
-
-	//QMutexLocker l(&Network.m_mutexNetwork);
-
-	//qDebug() << "OnStateChange(" << s << ")";
-}
 
 void CG2Node::OnTimer(quint32 tNow)
 {
@@ -266,6 +240,19 @@ void CG2Node::OnTimer(quint32 tNow)
 			}
 		}
 
+		if( m_nType == G2_HUB && Neighbours.IsG2Hub() )
+		{
+			if( m_nHAWWait == 0 )
+			{
+				SendHAW();
+				m_nHAWWait = quazaaSettings.Gnutella2.HAWPeriod;
+			}
+			else
+			{
+				m_nHAWWait--;
+			}
+		}
+
 		// Anti-DDoS
 		// cleaning table
 		if( m_lRABan.size() >= 1000 )
@@ -292,7 +279,7 @@ void CG2Node::OnTimer(quint32 tNow)
 
 void CG2Node::ParseIncomingHandshake()
 {
-	//QMutexLocker l(&Neighbours.m_mutexNeighbours);
+	//QMutexLocker l(&Neighbours.m_pSection);
 
 	qint32 nIndex = Peek(bytesAvailable()).indexOf("\r\n\r\n");
 	QString sHs = Read(nIndex + 4);
@@ -325,7 +312,7 @@ void CG2Node::ParseIncomingHandshake()
 #ifndef _DISABLE_COMPRESSION
 		m_bAcceptDeflate = false;
 		QString sAcceptEnc = Parser::GetHeaderValue(sHs, "Accept-Encoding");
-		if(sAcceptEnc.contains("deflate") && Network.isHub())
+		if(sAcceptEnc.contains("deflate") && Neighbours.IsG2Hub())
 		{
 			m_bAcceptDeflate = true;
 		}
@@ -354,7 +341,7 @@ void CG2Node::ParseIncomingHandshake()
 
 		if(bUltra)
 		{
-			if(!Neighbours.NeedMore(G2_HUB))
+			if(!Neighbours.NeedMoreG2(G2_HUB))
 			{
 				Send_ConnectError("503 Maximum hub connections reached");
 				return;
@@ -363,7 +350,7 @@ void CG2Node::ParseIncomingHandshake()
 		}
 		else
 		{
-			if(!Neighbours.NeedMore(G2_LEAF))
+			if(!Neighbours.NeedMoreG2(G2_LEAF))
 			{
 				Send_ConnectError("503 Maximum leaf connections reached");
 				return;
@@ -434,7 +421,7 @@ void CG2Node::ParseIncomingHandshake()
 
 void CG2Node::ParseOutgoingHandshake()
 {
-	//QMutexLocker l(&Neighbours.m_mutexNeighbours);
+	//QMutexLocker l(&Neighbours.m_pSection);
 	QString sHs = Read(Peek(bytesAvailable()).indexOf("\r\n\r\n") + 4);
 
 	//qDebug() << "Handshake receive:\n" << sHs;
@@ -513,7 +500,7 @@ void CG2Node::ParseOutgoingHandshake()
 	bool bAcceptDeflate = false;
 #ifndef _DISABLE_COMPRESSION
 	QString sAcceptEnc = Parser::GetHeaderValue(sHs, "Accept-Encoding");
-	if(sAcceptEnc.contains("deflate") && Network.isHub())
+	if(sAcceptEnc.contains("deflate") && Neighbours.IsG2Hub())
 	{
 		bAcceptDeflate = true;
 	}
@@ -521,7 +508,7 @@ void CG2Node::ParseOutgoingHandshake()
 
 	if(bUltra)
 	{
-		if(!Neighbours.NeedMore(G2_HUB))
+		if(!Neighbours.NeedMoreG2(G2_HUB))
 		{
 			Send_ConnectError("503 Maximum hub connections reached");
 			return;
@@ -530,7 +517,7 @@ void CG2Node::ParseOutgoingHandshake()
 	}
 	else
 	{
-		if(!Neighbours.NeedMore(G2_LEAF))
+		if(!Neighbours.NeedMoreG2(G2_LEAF))
 		{
 			Send_ConnectError("503 Maximum leaf connections reached");
 			return;
@@ -593,7 +580,7 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
 
 	sHs += "GNUTELLA/0.6 200 OK\r\n";
         sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
-	if(Network.isHub())
+	if(Neighbours.IsG2Hub())
 	{
 		sHs += "X-Ultrapeer: True\r\n";
 	}
@@ -607,7 +594,7 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
 	{
 		// 2-handshake
 #ifndef _DISABLE_COMPRESSION
-		if(Network.isHub() && m_nType == G2_HUB)
+		if(Neighbours.IsG2Hub() && m_nType == G2_HUB)
 		{
 			sHs += "Accept-Encoding: deflate\r\n";
 		}
@@ -670,10 +657,10 @@ void CG2Node::SendLNI()
 	pLNI->WritePacket("GU", 16)->WriteGUID(quazaaSettings.Profile.GUID);
         pLNI->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);
 
-	if(Network.isHub())
+	if(Neighbours.IsG2Hub())
 	{
 		quint16 nLeavesMax = quazaaSettings.Gnutella2.NumLeafs;
-		quint16 nLeaves = Neighbours.m_nLeavesConnected;
+		quint16 nLeaves = Neighbours.m_nLeavesConnectedG2;
 		pLNI->WritePacket("HS", 4);
 		pLNI->WriteIntLE(nLeaves);
 		pLNI->WriteIntLE(nLeavesMax);
@@ -750,7 +737,7 @@ void CG2Node::OnPacket(G2Packet* pPacket)
 
 void CG2Node::OnPing(G2Packet* pPacket)
 {
-	ASSUME_LOCK(Neighbours.m_mutexNeighbours);
+	ASSUME_LOCK(Neighbours.m_pSection);
 
 	bool bUdp = false;
 	bool bRelay = false;
@@ -800,7 +787,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 	{
 		// /PI/UDP
 
-		if(Network.isHub())
+		if(Neighbours.IsG2Hub())
 		{
 			uchar* pRelay = pPacket->WriteGetPointer(7, 0);
 			*pRelay++ = 0x60;
@@ -923,7 +910,7 @@ void CG2Node::OnLNI(G2Packet* pPacket)
 
 	if(hasNA && hasGUID)
 	{
-		QMutexLocker l(&Network.m_mutexNetwork);
+		QMutexLocker l(&Network.m_pSection);
 		Network.m_oRoutingTable.Add(pGUID, this, true);
 	}
 
@@ -977,7 +964,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 					pPacket->ReadHostAddress(&pAddr);
 				}
 
-				QMutexLocker l(&Network.m_mutexNetwork);
+				QMutexLocker l(&Network.m_pSection);
 
 				Network.m_oRoutingTable.Add(pGUID, this, &pAddr, false);
 			}
@@ -1005,9 +992,9 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 				pPacket->ReadIntLE(&nTs);
 
-				HostCache.m_mutexHostCache.lock();
+				HostCache.m_pSection.lock();
 				HostCache.Add(ep, tNow + nDiff);
-				HostCache.m_mutexHostCache.unlock();
+				HostCache.m_pSection.unlock();
 			}
 		}
 		else if(strcmp("TS", szType) == 0)
@@ -1031,7 +1018,7 @@ void CG2Node::OnQHT(G2Packet* pPacket)
 {
 	if(m_pRemoteTable == 0)
 	{
-		if(!Network.isHub())
+		if(!Neighbours.IsG2Hub())
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("Recieved unexpected Query Routing Table, ignoring"));
 			//qDebug() << "Received unexpected Query Routing Table, ignoring";
@@ -1108,7 +1095,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 		return;
 	}
 
-	QMutexLocker l(&HostCache.m_mutexHostCache);
+	QMutexLocker l(&HostCache.m_pSection);
 
 	CHostCacheHost* pHost = bCacheOK ? HostCache.Find(addr) : 0;
 
@@ -1201,7 +1188,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
-	HostCache.m_mutexHostCache.lock();
+	HostCache.m_pSection.lock();
 	CHostCacheHost* pCache = HostCache.Add(addr, 0);
 	if(pCache)
 	{
@@ -1210,7 +1197,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 		systemLog.postLog(LogSeverity::Debug, QString("Got a query key from %1 via %2 = 0x%3").arg(addr.toString().toAscii().constData()).arg(m_oAddress.toString().toAscii().constData()).arg(QString().number(nKey, 16)));
 		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toAscii().constData(), m_oAddress.toString().toAscii().constData(), nKey);
 	}
-	HostCache.m_mutexHostCache.unlock();
+	HostCache.m_pSection.unlock();
 }
 void CG2Node::OnQA(G2Packet* pPacket)
 {
@@ -1231,16 +1218,16 @@ void CG2Node::OnQH2(G2Packet* pPacket)
 
 	if(SearchManager.OnQueryHit(pPacket, pInfo))
 	{
-		Network.m_mutexNetwork.lock();
+		Network.m_pSection.lock();
 
-		if(Network.isHub() && pInfo->m_nHops < 7)
+		if(Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
 		{
 			Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, this, false);
 			pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
 			Network.RoutePacket(pInfo->m_oGUID, pPacket);
 		}
 
-		Network.m_mutexNetwork.unlock();
+		Network.m_pSection.unlock();
 
 		delete pInfo;
 	}
@@ -1284,7 +1271,7 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 	 * The main problem is still there, though.
 	 */
 
-	/*if( Network.isHub() && m_nType == G2_HUB ) // must be both hubs
+	/*if( Neighbours.IsG2Hub() && m_nType == G2_HUB ) // must be both hubs
 	{
 		QHash<quint32,quint32>::const_iterator itEntry = m_lRABan.find(oReturnAddr.ip);
 		if( itEntry != m_lRABan.end() && time(0) - itEntry.value() < 60 && itEntry.key() != oReturnAddr.ip )
@@ -1308,7 +1295,7 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 			quint32 tNow = time(0);
 			pQA->WritePacket("TS", 4)->WriteIntLE(tNow);
 			pQA->WritePacket("D", (Network.m_oAddress.protocol() == 0 ? 8 : 20))->WriteHostAddress(&Network.m_oAddress);
-			quint16 nLeaves = Neighbours.m_nLeavesConnected;
+			quint16 nLeaves = Neighbours.m_nLeavesConnectedG2;
 			pQA->WriteIntLE<quint16>(nLeaves);
 
 			quint32 nCount = 0;
@@ -1351,4 +1338,25 @@ qint64 CG2Node::writeToNetwork(qint64 nBytes)
 	while ( nTotalSent < nBytes );
 
 	return nTotalSent;
+}
+
+void CG2Node::SendHAW()
+{
+	G2Packet* pPacket = G2Packet::New("HAW");
+
+	pPacket->WritePacket("NA", Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18);
+	pPacket->WriteHostAddress(&Network.m_oAddress);
+
+	pPacket->WritePacket("V", 4);
+	pPacket->WriteString(QuazaaGlobals::VENDOR_CODE());
+
+	pPacket->WritePacket("HS", 2);
+	pPacket->WriteIntLE<quint16>(Neighbours.m_nLeavesConnectedG2);
+
+	pPacket->WriteByte(100);
+	pPacket->WriteByte(0);
+	QUuid oGUID = QUuid::createUuid();
+	pPacket->WriteGUID(oGUID);
+
+	SendPacket(pPacket, false, true);
 }

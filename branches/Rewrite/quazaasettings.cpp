@@ -349,15 +349,13 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("UdpInExpire", quazaaSettings.Gnutella2.UdpInExpire);
 	m_qSettings.setValue("UdpInFrames", quazaaSettings.Gnutella2.UdpInFrames);
 	m_qSettings.setValue("UdpMTU", quazaaSettings.Gnutella2.UdpMTU);
-	m_qSettings.setValue("UdpOutExpire", quazaaSettings.Gnutella2.UdpOutExpire);
-	m_qSettings.setValue("UdpOutFrames", quazaaSettings.Gnutella2.UdpOutFrames);
 	m_qSettings.setValue("UdpOutResend", quazaaSettings.Gnutella2.UdpOutResend);
-	m_qSettings.setValue("AdaptiveHub", quazaaSettings.Gnutella2.AdaptiveHub);
-	m_qSettings.setValue("AdaptiveCheckPeriod", quazaaSettings.Gnutella2.AdaptiveCheckPeriod);
-	m_qSettings.setValue("AdaptiveTimeWindow", quazaaSettings.Gnutella2.AdaptiveTimeWindow);
-	m_qSettings.setValue("AdaptiveMaxPing", quazaaSettings.Gnutella2.AdaptiveMaxPing);
-	m_qSettings.setValue("AdaptiveMinimumLeaves", quazaaSettings.Gnutella2.AdaptiveMinimumLeaves);
-	m_qSettings.setValue("AdaptiveBusyPercentage", quazaaSettings.Gnutella2.AdaptiveBusyPercentage);
+	m_qSettings.setValue("HubBalancePeriod", quazaaSettings.Gnutella2.HubBalancePeriod);
+	m_qSettings.setValue("HubBalanceGrace", quazaaSettings.Gnutella2.HubBalanceGrace);
+	m_qSettings.setValue("HubBalanceLow", quazaaSettings.Gnutella2.HubBalanceLow);
+	m_qSettings.setValue("HubBalanceLowTime", quazaaSettings.Gnutella2.HubBalanceLowTime);
+	m_qSettings.setValue("HubBalanceHigh", quazaaSettings.Gnutella2.HubBalanceHigh);
+	m_qSettings.setValue("HubBalanceHighTime", quazaaSettings.Gnutella2.HubBalanceHighTime);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Ares");
@@ -931,12 +929,12 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Gnutella2.UdpOutExpire = m_qSettings.value("UdpOutExpire", 26).toInt();
 	quazaaSettings.Gnutella2.UdpOutFrames = m_qSettings.value("UdpOutFrames", 256).toInt();
 	quazaaSettings.Gnutella2.UdpOutResend = m_qSettings.value("UdpOutResend", 6).toInt();
-	quazaaSettings.Gnutella2.AdaptiveHub = m_qSettings.value("AdaptiveHub", true).toBool();
-	quazaaSettings.Gnutella2.AdaptiveCheckPeriod = m_qSettings.value("AdaptiveCheckPeriod", 60).toUInt();
-	quazaaSettings.Gnutella2.AdaptiveTimeWindow = m_qSettings.value("AdaptiveTimeWindow", 5).toUInt(); // periods
-	quazaaSettings.Gnutella2.AdaptiveMaxPing = m_qSettings.value("AdaptiveMaxPing", 15000).toUInt();
-	quazaaSettings.Gnutella2.AdaptiveMinimumLeaves = m_qSettings.value("AdaptiveMinimumLeaves", 100).toUInt();
-	quazaaSettings.Gnutella2.AdaptiveBusyPercentage = m_qSettings.value("AdaptiveBusyPercentage", 80).toUInt();
+	quazaaSettings.Gnutella2.HubBalancePeriod = m_qSettings.value("HubBalancePeriod", 60).toUInt();
+	quazaaSettings.Gnutella2.HubBalanceGrace = m_qSettings.value("HubBalanceGrace", 3600).toUInt();
+	quazaaSettings.Gnutella2.HubBalanceLow = m_qSettings.value("HubBalanceLow", 50).toUInt();
+	quazaaSettings.Gnutella2.HubBalanceLowTime = m_qSettings.value("HubBalanceLowTime", 30).toUInt();
+	quazaaSettings.Gnutella2.HubBalanceHigh = m_qSettings.value("HubBalanceHigh", 90).toUInt();
+	quazaaSettings.Gnutella2.HubBalanceHighTime = m_qSettings.value("HubBalanceHighTime", 30).toUInt();
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Ares");

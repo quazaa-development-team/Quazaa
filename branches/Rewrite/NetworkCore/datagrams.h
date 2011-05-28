@@ -55,7 +55,7 @@ class CDatagrams : public QObject
 	Q_OBJECT
 
 public:
-	QMutex      m_mutexDatagrams;
+	QMutex      m_pSection;
 protected:
 	quint32 m_nUploadLimit;
 

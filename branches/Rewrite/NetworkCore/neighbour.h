@@ -72,7 +72,9 @@ public:
 signals:
 
 public slots:
-
+	void OnDisconnect();
+	void OnError(QAbstractSocket::SocketError e);
+	void OnStateChange(QAbstractSocket::SocketState s);
 
 };
 
