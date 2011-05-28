@@ -96,7 +96,7 @@ CHostCacheHost* CHostCache::Add(CEndPoint host, quint32 ts)
 		}
 	}
 
-	if(ts == 0)
+	if(ts == 0 || ts > time(0) )
 	{
 		ts = time(0) - 60;
 	}
