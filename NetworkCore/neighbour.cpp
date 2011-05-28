@@ -26,6 +26,7 @@
 #include "neighbours.h"
 #include "quazaasettings.h"
 #include "hostcache.h"
+#include <QTcpSocket>
 
 CNeighbour::CNeighbour(QObject *parent) :
 	CCompressedConnection(parent)
@@ -43,9 +44,8 @@ CNeighbour::CNeighbour(QObject *parent) :
 
 CNeighbour::~CNeighbour()
 {
-	Neighbours.m_mutexNeighbours.lock();
+	ASSUME_LOCK(Neighbours.m_pSection);
 	Neighbours.RemoveNode(this);
-	Neighbours.m_mutexNeighbours.unlock();
 }
 
 void CNeighbour::OnTimer(quint32 tNow)
@@ -89,4 +89,31 @@ void CNeighbour::Close(bool bDelayed)
 {
 	m_nState = nsClosing;
 	CCompressedConnection::Close(bDelayed);
+}
+
+void CNeighbour::OnDisconnect()
+{
+	Neighbours.m_pSection.lock();
+	delete this;
+	Neighbours.m_pSection.unlock();
+}
+void CNeighbour::OnError(QAbstractSocket::SocketError e)
+{
+	if(e == QAbstractSocket::RemoteHostClosedError)
+	{
+		systemLog.postLog(LogSeverity::Information, "Neighbour %s dropped connection unexpectedly.", qPrintable(m_oAddress.toStringWithPort()));
+	}
+	else
+	{
+		HostCache.OnFailure(m_oAddress);
+		systemLog.postLog(LogSeverity::Error, "Neighbour %s dropped connection unexpectedly (socket error: %s).", qPrintable(m_oAddress.toStringWithPort()), qPrintable(m_pSocket->errorString()));
+	}
+
+	Neighbours.m_pSection.lock();
+	delete this;
+	Neighbours.m_pSection.unlock();
+}
+void CNeighbour::OnStateChange(QAbstractSocket::SocketState s)
+{
+	Q_UNUSED(s);
 }

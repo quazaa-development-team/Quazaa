@@ -506,7 +506,7 @@ CNeighbour* CNeighboursTableModel::NodeFromIndex(const QModelIndex &index)
 
 void CNeighboursTableModel::AddNode(CNeighbour* pNode)
 {
-	Neighbours.m_mutexNeighbours.lock();
+	Neighbours.m_pSection.lock();
 	if( Neighbours.NeighbourExists(pNode) )
 	{
 		beginInsertRows(QModelIndex(), m_lNodes.size(), m_lNodes.size());
@@ -514,7 +514,7 @@ void CNeighboursTableModel::AddNode(CNeighbour* pNode)
 		endInsertRows();
 		m_bNeedSorting = true;
 	}
-	Neighbours.m_mutexNeighbours.unlock();
+	Neighbours.m_pSection.unlock();
 }
 
 void CNeighboursTableModel::RemoveNode(CNeighbour* pNode)
@@ -538,7 +538,7 @@ void CNeighboursTableModel::UpdateAll()
 	QModelIndexList uplist;
 	bool bSort = m_bNeedSorting;
 
-	if(Neighbours.m_mutexNeighbours.tryLock())
+	if(Neighbours.m_pSection.tryLock())
 	{
 		for( int i = 0, max = m_lNodes.count(); i < max; ++i )
 		{
@@ -546,7 +546,7 @@ void CNeighboursTableModel::UpdateAll()
 				bSort = true;
 		}
 
-		Neighbours.m_mutexNeighbours.unlock();
+		Neighbours.m_pSection.unlock();
 	}
 
 	if( bSort )

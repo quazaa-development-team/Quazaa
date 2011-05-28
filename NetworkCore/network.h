@@ -28,11 +28,9 @@
 #include <QObject>
 #include <QMutex>
 #include "types.h"
-#include "ratecontroller.h"
 #include "routetable.h"
 
 class QTimer;
-class CG2Node;
 class CThread;
 class G2Packet;
 
@@ -43,34 +41,21 @@ class CNetwork : public QObject
 	Q_OBJECT
 
 public:
-	QMutex  m_mutexNetwork;
+	QMutex  m_pSection;
 
 public:
 	bool             m_bActive;
 	QTimer*          m_pSecondTimer;
-	G2NodeType       m_nNodeState;
 	bool             m_bNeedUpdateLNI;
 	quint32          m_nLNIWait;
-	quint32          m_nKHLWait;
 	CEndPoint	     m_oAddress;
 
 	CRouteTable      m_oRoutingTable;
 	quint32          m_tCleanRoutesNext;
 
-	quint32			 m_nNextCheck;		// secs to next AdatpiveCheckPeriod
-	quint32			 m_nBusyPeriods;	// num of busy periods
-	quint32			 m_nTotalPeriods;	// how many check periods?
-
 	bool			 m_bSharesReady;
 
-	static const quint32 HUB_BALANCING_INTERVAL = 60;
-	quint32			m_nSecsToHubBalancing;
-	quint32			m_nMinutesBelow50;
-	quint32			m_nMinutesAbove90;
-	quint32			m_nMinutesTrying;
-	quint32			m_tLastModeChange;
-
-	bool			m_bPacketsPending;
+	bool			 m_bPacketsPending;
 
 public:
 	CNetwork(QObject* parent = 0);
@@ -79,8 +64,6 @@ public:
 	void Connect();
 	void Disconnect();
 
-	bool NeedMore(G2NodeType nType);
-
 	void AcquireLocalAddress(QString& sHeader);
 	bool IsListening();
 	bool IsFirewalled();
@@ -88,10 +71,6 @@ public:
 	bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket);
 	bool RoutePacket(G2Packet* pPacket, CG2Node* pNbr = 0);
 
-	inline bool isHub()
-	{
-		return (m_nNodeState == G2_HUB);
-	}
 	inline CEndPoint GetLocalAddress()
 	{
 		return m_oAddress;
@@ -100,9 +79,6 @@ public:
 
 	bool IsConnectedTo(CEndPoint addr);
 
-	void HubBalancing();
-	bool SwitchClientMode(G2NodeType nRequestedMode);
-
 public slots:
 	void OnSecondTimer();
 
@@ -110,23 +86,12 @@ public slots:
 	void CleanupThread();
 
 	void ConnectTo(CEndPoint& addr);
-	/*void DisconnectFrom(IPv4_ENDPOINT& ip);
-	void DisconnectFrom(int index);
-	void DisconnectFrom(CG2Node* pNode);*/
 
 	void OnSharesReady();
 	void RoutePackets();
 
 signals:
-	void NodeAdded(CG2Node*);
-	void NodeRemoved(CG2Node*);
-	void NodeUpdated(CG2Node*);
 
-protected:
-	void DispatchKHL();
-	void AdaptiveHubRun();
-
-	friend class CG2Node;
 };
 
 extern CNetwork Network;
