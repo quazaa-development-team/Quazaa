@@ -57,6 +57,8 @@ public:
 	bool			m_bSendQHT;
 	quint32			m_tLastQHT;
 
+	quint32			m_nHAWWait;
+
 	QHash<quint32,quint32> m_lRABan; // list of banned return addresses
 
 public:
@@ -84,13 +86,11 @@ signals:
 	void NodeStateChanged();
 public slots:
 	void OnConnect();
-	void OnDisconnect();
 	void OnRead();
-	void OnError(QAbstractSocket::SocketError e);
-	void OnStateChange(QAbstractSocket::SocketState s);
 
 public:
 	void SendLNI();
+	void SendHAW();
 protected:
 	void OnPacket(G2Packet* pPacket);
 	void OnPing(G2Packet* pPacket);

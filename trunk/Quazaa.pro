@@ -200,7 +200,11 @@ SOURCES += main.cpp \
 	UI/wizardquickstart.cpp \
 	Models/chatuserlistmodel.cpp \
 	UI/dialogirccolordialog.cpp \
-	NetworkCore/querykeys.cpp
+	NetworkCore/querykeys.cpp \
+    NetworkCore/neighboursrouting.cpp \
+    NetworkCore/neighboursg2.cpp \
+    NetworkCore/neighboursconnections.cpp \
+    NetworkCore/neighboursbase.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -321,7 +325,11 @@ HEADERS += UI/dialoglanguage.h \
 	UI/wizardquickstart.h \
 	Models/chatuserlistmodel.h \
 	UI/dialogirccolordialog.h \
-	NetworkCore/querykeys.h
+	NetworkCore/querykeys.h \
+    NetworkCore/neighboursrouting.h \
+    NetworkCore/neighboursg2.h \
+    NetworkCore/neighboursconnections.h \
+    NetworkCore/neighboursbase.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \

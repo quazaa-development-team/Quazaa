@@ -88,7 +88,7 @@ CDatagrams::~CDatagrams()
 
 void CDatagrams::Listen()
 {
-	QMutexLocker l(&m_mutexDatagrams);
+	QMutexLocker l(&m_pSection);
 
 	if(m_bActive)
 	{
@@ -138,7 +138,7 @@ void CDatagrams::Listen()
 
 void CDatagrams::Disconnect()
 {
-	QMutexLocker l(&m_mutexDatagrams);
+	QMutexLocker l(&m_pSection);
 
 	m_bActive = false;
 
@@ -254,7 +254,7 @@ void CDatagrams::OnReceiveGND()
 	}
 	else
 	{
-		QMutexLocker l(&m_mutexDatagrams);
+		QMutexLocker l(&m_pSection);
 
 		if(!m_FreeDGIn.isEmpty())
 		{
@@ -333,9 +333,9 @@ void CDatagrams::OnReceiveGND()
 			pPacket->Release();
 		}
 
-		m_mutexDatagrams.lock();
+		m_pSection.lock();
 		Remove(pDG, true);
-		m_mutexDatagrams.unlock();
+		m_pSection.unlock();
 	}
 
 }
@@ -464,7 +464,7 @@ void CDatagrams::FlushSendCache()
 		return;
 	}
 
-	QMutexLocker l(&m_mutexDatagrams);
+	QMutexLocker l(&m_pSection);
 
 	quint32 tNow = time(0);
 
@@ -545,7 +545,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 		return;
 	}
 
-	QMutexLocker l(&m_mutexDatagrams);
+	QMutexLocker l(&m_pSection);
 
 	Q_UNUSED(pWatcher);
 	Q_UNUSED(pParam);
@@ -664,7 +664,7 @@ void CDatagrams::OnPong(CEndPoint& addr, G2Packet* pPacket)
 }
 void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 {
-	QMutexLocker l2(&Neighbours.m_mutexNeighbours);
+	QMutexLocker l2(&Neighbours.m_pSection);
 
 	bool bRLeaf = false;
 	bool bRNick = false;
@@ -707,7 +707,7 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 	G2Packet* pCA = G2Packet::New("CRAWLA", true);
 
 	G2Packet* pTmp = G2Packet::New("SELF", true);
-	if(Network.isHub())
+	if(Neighbours.IsG2Hub())
 	{
 		pTmp->WritePacket("HUB", 0);
 	}
@@ -718,7 +718,7 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 	pTmp->WritePacket("NA", ((Network.m_oAddress.protocol() == 0) ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
         pTmp->WritePacket("CV", QuazaaGlobals::USER_AGENT_STRING().toUtf8().size())->WriteString(QuazaaGlobals::USER_AGENT_STRING(), false);
         pTmp->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);;
-	quint16 nLeaves = Neighbours.m_nLeavesConnected;
+	quint16 nLeaves = Neighbours.m_nLeavesConnectedG2;
 	pTmp->WritePacket("HS", 2)->WriteIntLE(nLeaves);
 	if(!quazaaSettings.Profile.GnutellaScreenName.isEmpty())
 	{
@@ -760,7 +760,7 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 }
 void CDatagrams::OnQKR(CEndPoint &addr, G2Packet *pPacket)
 {
-	if( !Network.isHub() )
+	if( !Neighbours.IsG2Hub() )
 		return;
 
 	CEndPoint oRequestedAddress = addr;
@@ -864,19 +864,19 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
-	HostCache.m_mutexHostCache.lock();
+	HostCache.m_pSection.lock();
 	CHostCacheHost* pCache = HostCache.Add(addr, 0);
 	if(pCache)
 	{
 		pCache->SetKey(nKey);
 	}
-	HostCache.m_mutexHostCache.unlock();
+	HostCache.m_pSection.unlock();
 
 
 	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toAscii().constData()).arg(nKey));
 	//qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
 
-	if(Network.isHub() && !nKeyHost.isNull() /*&& nKeyHost != Network.m_oAddress.ip*/)
+	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() /*&& nKeyHost != Network.m_oAddress.ip*/)
 	{
 		if( addr.protocol() == 0 )
 		{
@@ -908,7 +908,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 			memcpy(pOut + 16, &nPort, 2);
 		}
 
-		QMutexLocker l(&m_mutexDatagrams);
+		QMutexLocker l(&m_pSection);
 		bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
 
 		pPacket->AddRef();
@@ -929,7 +929,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 }
 void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 {
-	HostCache.m_mutexHostCache.lock();
+	HostCache.m_pSection.lock();
 
 	CHostCacheHost* pHost = HostCache.Add(addr, 0);
 	if(pHost)
@@ -937,21 +937,21 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 		pHost->m_tAck = 0;
 	}
 
-	HostCache.m_mutexHostCache.unlock();
+	HostCache.m_pSection.unlock();
 
 	QUuid oGuid;
 
 	// Hubs are only supposed to route UDP /QA - we'll drop it if we're in leaf mode
-	if(SearchManager.OnQueryAcknowledge(pPacket, addr, oGuid) && Network.isHub())
+	if(SearchManager.OnQueryAcknowledge(pPacket, addr, oGuid) && Neighbours.IsG2Hub())
 	{
 		// Add from address
 		// pPacket->WriteChild("FR")->WriteHostAddress(&addr);
 
-		//QMutexLocker l(&Network.m_mutexDatagrams);
+		//QMutexLocker l(&Network.m_pSection);
 
 		//Network.RoutePacket(oGuid, pPacket);
 
-		m_mutexDatagrams.lock();
+		m_pSection.lock();
 
 		bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
 
@@ -968,7 +968,7 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 			emit PacketQueuedForRouting();
 		}
 
-		m_mutexDatagrams.unlock();
+		m_pSection.unlock();
 	}
 
 }
@@ -984,9 +984,9 @@ void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 
 	if(pInfo)
 	{
-		if(SearchManager.OnQueryHit(pPacket, pInfo) && Network.isHub() && pInfo->m_nHops < 7)
+		if(SearchManager.OnQueryHit(pPacket, pInfo) && Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
 		{
-			m_mutexDatagrams.lock();
+			m_pSection.lock();
 
 			pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
 
@@ -1011,7 +1011,7 @@ void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 				emit PacketQueuedForRouting();
 			}
 
-			m_mutexDatagrams.unlock();
+			m_pSection.unlock();
 		}
 	}
 }
