@@ -28,7 +28,7 @@
 #include "dialogsecuritysubscriptions.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	QMainWindow(parent),

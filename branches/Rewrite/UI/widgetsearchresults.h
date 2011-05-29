@@ -56,7 +56,7 @@ private:
 	Ui::WidgetSearchResults* ui;
 
 public slots:
-	 
+
 	void startSearch(QString searchString);
 	void startNewSearch(QString* searchString);
 	void addSearchTab();

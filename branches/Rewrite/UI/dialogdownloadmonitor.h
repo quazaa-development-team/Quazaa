@@ -53,7 +53,7 @@ signals:
 private slots:
 	void on_pushButton_clicked();
 	void on_pushButtonHide_clicked();
-	 
+
 };
 
 #endif // DIALOGDOWNLOADMONITOR_H

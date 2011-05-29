@@ -28,7 +28,7 @@
 #include <QtGui>
 
 #include "quazaasettings.h"
- 
+
 
 WidgetLibrary::WidgetLibrary(QWidget* parent) :
 	QWidget(parent),

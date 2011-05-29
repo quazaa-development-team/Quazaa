@@ -24,7 +24,7 @@
 
 #include "dialogdownloadproperties.h"
 #include "ui_dialogdownloadproperties.h"
- 
+
 
 DialogDownloadProperties::DialogDownloadProperties(QWidget* parent) :
 	QDialog(parent),

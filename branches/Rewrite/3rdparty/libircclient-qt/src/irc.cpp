@@ -56,7 +56,7 @@
  */
 const char* Irc::version()
 {
-    return IRC_VERSION_STR;
+	return IRC_VERSION_STR;
 }
 
 /*!
@@ -64,10 +64,10 @@ const char* Irc::version()
  */
 const char* Irc::Rfc::toString(uint code)
 {
-    int index = staticMetaObject.indexOfEnumerator("Numeric");
-    Q_ASSERT(index != -1);
-    QMetaEnum enumerator = staticMetaObject.enumerator(index);
-    return enumerator.valueToKey(code);
+	int index = staticMetaObject.indexOfEnumerator("Numeric");
+	Q_ASSERT(index != -1);
+	QMetaEnum enumerator = staticMetaObject.enumerator(index);
+	return enumerator.valueToKey(code);
 }
 
 /*!

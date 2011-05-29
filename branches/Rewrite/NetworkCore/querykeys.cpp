@@ -43,7 +43,7 @@ void CQueryKeys::Prepare()
 	m_nTable = 1u << 16;
 	m_pTable = new quint32[m_nTable];
 
-	for( uint i = 0; i < m_nTable; i++ )
+	for(uint i = 0; i < m_nTable; i++)
 	{
 		m_pTable[i] = qrand() % std::numeric_limits<quint32>::max();
 	}
@@ -51,8 +51,10 @@ void CQueryKeys::Prepare()
 
 quint32 CQueryKeys::Create(QHostAddress pAddr)
 {
-	if( !m_pTable )
+	if(!m_pTable)
+	{
 		Prepare();
+	}
 
 	int nHash = qHash(pAddr) % m_nTable;
 

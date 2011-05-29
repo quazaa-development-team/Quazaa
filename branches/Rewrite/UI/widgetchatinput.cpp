@@ -31,7 +31,7 @@
 
 #include <QColorDialog>
 
-WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIRC) :
+WidgetChatInput::WidgetChatInput(QWidget* parent, bool isIRC) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetChatInput)
 {
@@ -78,32 +78,35 @@ WidgetChatInput::~WidgetChatInput()
 	delete ui;
 }
 
-void WidgetChatInput::changeEvent(QEvent *e)
+void WidgetChatInput::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
 void WidgetChatInput::on_toolButtonSend_clicked()
 {
-	if (!textEditInput->document()->isEmpty())
+	if(!textEditInput->document()->isEmpty())
 	{
-		if (textEditInput->document()->lineCount() > 1)
+		if(textEditInput->document()->lineCount() > 1)
 		{
 			QStringList lineList = textEditInput->document()->toHtml().split("\n");
 			for(int i = 4; i < lineList.size(); i++)
 			{
-				QTextDocument *line = new QTextDocument();
+				QTextDocument* line = new QTextDocument();
 				line->setHtml(lineList.at(i));
 				emit messageSent(line);
 			}
-		} else {
+		}
+		else
+		{
 			emit messageSent(textEditInput->document());
 		}
 		QTextCharFormat oldFormat = textEditInput->currentCharFormat();
@@ -119,10 +122,14 @@ void WidgetChatInput::setText(QString text)
 
 void WidgetChatInput::onTextFormatChange(QTextCharFormat newFormat)
 {
-	if( newFormat.fontWeight() == QFont::Normal )
+	if(newFormat.fontWeight() == QFont::Normal)
+	{
 		ui->actionBold->setChecked(false);
-	else if( newFormat.fontWeight() == QFont::Bold )
+	}
+	else if(newFormat.fontWeight() == QFont::Bold)
+	{
 		ui->actionBold->setChecked(true);
+	}
 
 	ui->actionItalic->setChecked(newFormat.fontItalic());
 	ui->actionUnderline->setChecked(newFormat.fontUnderline());
@@ -153,17 +160,21 @@ void WidgetChatInput::on_actionUnderline_toggled(bool checked)
 void WidgetChatInput::pickColor()
 {
 	QColor fontColor;
-	if (bIsIRC)
+	if(bIsIRC)
 	{
-		DialogIRCColorDialog *dlgIRCColor = new DialogIRCColorDialog(textEditInput->textColor(), this);
+		DialogIRCColorDialog* dlgIRCColor = new DialogIRCColorDialog(textEditInput->textColor(), this);
 		bool accepted = dlgIRCColor->exec();
-		if (accepted)
+		if(accepted)
+		{
 			fontColor = dlgIRCColor->m_oIRCColor;
+		}
 	}
 	else
+	{
 		fontColor = QColorDialog::getColor(textEditInput->textColor(), this, tr("Select Font Color"));
+	}
 
-	if (fontColor.isValid())
+	if(fontColor.isValid())
 	{
 		textEditInput->setTextColor(fontColor);
 		toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(fontColor.name()));
@@ -175,24 +186,24 @@ void WidgetChatInput::addPrivateMessage()
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
 
-	if (accepted)
+	if(accepted)
 	{
 		CEndPoint ip(dlgConnectTo->getAddressAndPort());
 
-		switch (dlgConnectTo->getConnectNetwork())
+		switch(dlgConnectTo->getConnectNetwork())
 		{
-		case DialogConnectTo::G2:
-		{
-			CChatSessionG2* pS = new CChatSessionG2(ip);
-			pS->Connect();
-			break;
-		}
-		case DialogConnectTo::eDonkey:
-			break;
-		case DialogConnectTo::Ares:
-			break;
-		default:
-			break;
+			case DialogConnectTo::G2:
+			{
+				CChatSessionG2* pS = new CChatSessionG2(ip);
+				pS->Connect();
+				break;
+			}
+			case DialogConnectTo::eDonkey:
+				break;
+			case DialogConnectTo::Ares:
+				break;
+			default:
+				break;
 		}
 	}
 }

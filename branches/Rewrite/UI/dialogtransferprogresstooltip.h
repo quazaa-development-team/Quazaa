@@ -47,7 +47,7 @@ protected:
 
 private:
 	Ui::DialogTransferProgressTooltip* m_ui;
-	 
+
 };
 
 #endif // DIALOGTRANSFERPROGRESSTOOLTIP_H

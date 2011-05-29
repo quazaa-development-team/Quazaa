@@ -48,7 +48,7 @@ private:
 
 private slots:
 	void on_actionMore_triggered();
-	 
+
 };
 
 #endif // WIDGETHITMONITOR_H

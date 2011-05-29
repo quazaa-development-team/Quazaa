@@ -48,7 +48,7 @@ private:
 
 private slots:
 	void on_splitterGraph_customContextMenuRequested(QPoint pos);
-	 
+
 };
 
 #endif // WIDGETGRAPH_H

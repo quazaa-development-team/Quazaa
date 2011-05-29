@@ -25,13 +25,13 @@
 #include <QByteArray>
 
 CSHA1::CSHA1()
-	:CAbstractHash()
+	: CAbstractHash()
 {
 	m_pHash = new QCryptographicHash(QCryptographicHash::Sha1);
 	m_pHash->reset();
 }
 
-CSHA1::CSHA1(CSHA1 &rhs)
+CSHA1::CSHA1(CSHA1& rhs)
 {
 	Q_UNUSED(rhs);
 

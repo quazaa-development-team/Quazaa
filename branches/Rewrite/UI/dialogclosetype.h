@@ -50,7 +50,7 @@ signals:
 
 private slots:
 	void on_pushButtonOK_clicked();
-	 
+
 };
 
 #endif // DIALOGCLOSETYPE_H

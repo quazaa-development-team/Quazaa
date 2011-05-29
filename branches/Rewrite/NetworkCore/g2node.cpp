@@ -64,6 +64,8 @@ CG2Node::CG2Node(QObject* parent) :
 
 CG2Node::~CG2Node()
 {
+	Network.m_oRoutingTable.Remove(this);
+
 	while(m_lSendQueue.size())
 	{
 		m_lSendQueue.dequeue()->Release();
@@ -88,7 +90,7 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 
 	if(bBuffered)
 	{
-		while( m_lSendQueue.size() > 128 )
+		while(m_lSendQueue.size() > 128)
 		{
 			m_lSendQueue.dequeue()->Release();
 		}
@@ -122,7 +124,7 @@ void CG2Node::OnConnect()
 
 	sHs += "GNUTELLA CONNECT/0.6\r\n";
 	sHs += "Accept: application/x-gnutella2\r\n";
-        sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+	sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	sHs += "Remote-IP: " + m_oAddress.toString() + "\r\n";
 	sHs += "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n";
 	if(Neighbours.IsG2Hub())
@@ -227,11 +229,11 @@ void CG2Node::OnTimer(quint32 tNow)
 		}*/
 
 		if((m_nType == G2_HUB && tNow - m_tConnected > 30) &&
-				((m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie) &&
-				 (tNow - m_pLocalTable->m_nCookie > 60) &&
-				 (tNow - QueryHashMaster.m_nCookie > 30) ||
-				 QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
-				 !m_pLocalTable->m_bLive)
+		        ((m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie) &&
+		         (tNow - m_pLocalTable->m_nCookie > 60) &&
+		         (tNow - QueryHashMaster.m_nCookie > 30) ||
+		         QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
+		         !m_pLocalTable->m_bLive)
 		  )
 		{
 			if(m_pLocalTable->PatchTo(&QueryHashMaster, this))
@@ -240,9 +242,9 @@ void CG2Node::OnTimer(quint32 tNow)
 			}
 		}
 
-		if( m_nType == G2_HUB && Neighbours.IsG2Hub() )
+		if(m_nType == G2_HUB && Neighbours.IsG2Hub())
 		{
-			if( m_nHAWWait == 0 )
+			if(m_nHAWWait == 0)
 			{
 				SendHAW();
 				m_nHAWWait = quazaaSettings.Gnutella2.HAWPeriod;
@@ -255,13 +257,13 @@ void CG2Node::OnTimer(quint32 tNow)
 
 		// Anti-DDoS
 		// cleaning table
-		if( m_lRABan.size() >= 1000 )
+		if(m_lRABan.size() >= 1000)
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("Clearing bans on hub %1").arg(m_oAddress.toString()));
 			//qDebug() << "Clearing bans on hub " << m_oAddress.toString();
-			for( QHash<quint32,quint32>::iterator itBan = m_lRABan.begin(); itBan != m_lRABan.end(); )
+			for(QHash<quint32, quint32>::iterator itBan = m_lRABan.begin(); itBan != m_lRABan.end();)
 			{
-				if( tNow - itBan.value() > 60 ) // 1 minute
+				if(tNow - itBan.value() > 60)   // 1 minute
 				{
 					itBan = m_lRABan.erase(itBan);
 				}
@@ -563,7 +565,7 @@ void CG2Node::Send_ConnectError(QString sReason)
 	QByteArray sHs;
 
 	sHs += "GNUTELLA/0.6 " + sReason + "\r\n";
-        sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+	sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	sHs += "Accept: application/x-gnutella2\r\n";
 	sHs += "Content-Type: application/x-gnutella2\r\n";
 	sHs += HostCache.GetXTry();
@@ -579,7 +581,7 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
 	QByteArray sHs;
 
 	sHs += "GNUTELLA/0.6 200 OK\r\n";
-        sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+	sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	if(Neighbours.IsG2Hub())
 	{
 		sHs += "X-Ultrapeer: True\r\n";
@@ -646,7 +648,7 @@ void CG2Node::SendStartups()
 void CG2Node::SendLNI()
 {
 	G2Packet* pLNI = G2Packet::New("LNI", true);
-	if( Network.m_oAddress.protocol() == 0 )
+	if(Network.m_oAddress.protocol() == 0)
 	{
 		pLNI->WritePacket("NA", 6)->WriteHostAddress(&Network.m_oAddress);
 	}
@@ -655,7 +657,7 @@ void CG2Node::SendLNI()
 		pLNI->WritePacket("NA", 18)->WriteHostAddress(&Network.m_oAddress);
 	}
 	pLNI->WritePacket("GU", 16)->WriteGUID(quazaaSettings.Profile.GUID);
-        pLNI->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);
+	pLNI->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);
 
 	if(Neighbours.IsG2Hub())
 	{
@@ -865,7 +867,7 @@ void CG2Node::OnLNI(G2Packet* pPacket)
 
 		if(strcmp("NA", szType) == 0 && nLength >= 6)
 		{
-			if( nLength >= 18 )
+			if(nLength >= 18)
 			{
 				pPacket->ReadHostAddress(&hostAddr, false);
 			}
@@ -874,12 +876,14 @@ void CG2Node::OnLNI(G2Packet* pPacket)
 				pPacket->ReadHostAddress(&hostAddr);
 			}
 
-			if( !hostAddr.isNull() )
+			if(!hostAddr.isNull())
 			{
 				hasNA = true;
 
-				if( !m_bInitiated )
+				if(!m_bInitiated)
+				{
 					m_oAddress = hostAddr;
+				}
 			}
 
 		}
@@ -955,7 +959,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 			{
 				CEndPoint pAddr;
 
-				if( nLength >= 18 )
+				if(nLength >= 18)
 				{
 					pPacket->ReadHostAddress(&pAddr, false);
 				}
@@ -981,7 +985,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				CEndPoint ep;
 				quint32 nTs = 0;
 
-				if( nLength >= 22 )
+				if(nLength >= 22)
 				{
 					pPacket->ReadHostAddress(&ep, false);
 				}
@@ -1073,7 +1077,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 
 		if(strcmp("QNA", szType) == 0 && nLength >= 6)
 		{
-			if( nLength >= 18 )
+			if(nLength >= 18)
 			{
 				pPacket->ReadHostAddress(&addr, false);
 			}
@@ -1102,7 +1106,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 	if(pHost != 0 && pHost->m_nQueryKey != 0 && pHost->m_nKeyHost == Network.m_oAddress && time(0) - pHost->m_nKeyTime < quazaaSettings.Gnutella2.QueryKeyTime)
 	{
 		G2Packet* pQKA = G2Packet::New("QKA", true);
-		if( addr.protocol() == 0 )
+		if(addr.protocol() == 0)
 		{
 			pQKA->WritePacket("QNA", 6)->WriteHostAddress(&addr);
 		}
@@ -1117,7 +1121,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 	else
 	{
 		G2Packet* pQKR = G2Packet::New("QKR", true);
-		if( addr.protocol() == 0 )
+		if(addr.protocol() == 0)
 		{
 			pQKR->WritePacket("SNA", 6)->WriteHostAddress(&m_oAddress);
 		}
@@ -1157,12 +1161,12 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 		{
 			if(nLength >= 6)
 			{
-				if( nLength >= 18 )
+				if(nLength >= 18)
 				{
 					// IPv6 with port
 					pPacket->ReadHostAddress(&addr, false);
 				}
-				else if( nLength >= 16 )
+				else if(nLength >= 16)
 				{
 					// IPv6 without port
 					Q_IPV6ADDR ip6;
@@ -1253,7 +1257,7 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
-		if( strcmp(&szType[0], "UDP") == 0 && nLength >= 6 )
+		if(strcmp(&szType[0], "UDP") == 0 && nLength >= 6)
 		{
 			pPacket->ReadHostAddress(&oReturnAddr, !(nLength >= 18));
 		}
@@ -1321,7 +1325,7 @@ qint64 CG2Node::writeToNetwork(qint64 nBytes)
 
 	do
 	{
-		while( !m_lSendQueue.isEmpty() && GetOutputBuffer()->size() < 4096 )
+		while(!m_lSendQueue.isEmpty() && GetOutputBuffer()->size() < 4096)
 		{
 			G2Packet* pPacket = m_lSendQueue.dequeue();
 			pPacket->ToBuffer(GetOutputBuffer());
@@ -1330,12 +1334,14 @@ qint64 CG2Node::writeToNetwork(qint64 nBytes)
 
 		qint64 nSent = CNeighbour::writeToNetwork(nBytes - nTotalSent);
 
-		if( nSent <= 0 )
+		if(nSent <= 0)
+		{
 			return nTotalSent ? nTotalSent : nSent;
+		}
 
 		nTotalSent += nSent;
 	}
-	while ( nTotalSent < nBytes );
+	while(nTotalSent < nBytes);
 
 	return nTotalSent;
 }

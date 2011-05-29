@@ -30,7 +30,7 @@
 
 #include <QTextDocument>
 
-DialogPrivateMessages::DialogPrivateMessages(QWidget *parent) :
+DialogPrivateMessages::DialogPrivateMessages(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::DialogPrivateMessages)
 {
@@ -50,24 +50,27 @@ DialogPrivateMessages::~DialogPrivateMessages()
 
 WidgetPrivateMessage* DialogPrivateMessages::FindByGUID(QUuid oGUID)
 {
-	foreach( WidgetPrivateMessage* pWg, m_lChatWindows )
+	foreach(WidgetPrivateMessage * pWg, m_lChatWindows)
 	{
-		if( oGUID == pWg->m_oGUID )
+		if(oGUID == pWg->m_oGUID)
+		{
 			return pWg;
+		}
 	}
 
 	return 0;
 }
 
-void DialogPrivateMessages::changeEvent(QEvent *e)
+void DialogPrivateMessages::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -75,7 +78,7 @@ void DialogPrivateMessages::OpenChat(CChatSession* pSess)
 {
 	ChatCore.m_pSection.lock();
 	WidgetPrivateMessage* pWg = FindByGUID(pSess->m_oGUID);
-	if( pWg == 0 )
+	if(pWg == 0)
 	{
 		pWg = new WidgetPrivateMessage(this);
 		m_lChatWindows.append(pWg);
@@ -90,29 +93,35 @@ void DialogPrivateMessages::OpenChat(CChatSession* pSess)
 	raise();
 }
 
-void DialogPrivateMessages::onMessageSent(QTextDocument *pDoc)
+void DialogPrivateMessages::onMessageSent(QTextDocument* pDoc)
 {
 	QString sMessage = pDoc->toPlainText();
 
-	if( sMessage.isEmpty() )
-		return;
-
-	if( sMessage.left(2) != "//" )
+	if(sMessage.isEmpty())
 	{
-		if( sMessage.left(1) == "/" ) // is it a command?
+		return;
+	}
+
+	if(sMessage.left(2) != "//")
+	{
+		if(sMessage.left(1) == "/")   // is it a command?
 		{
 			QString sCmd, sParam;
 			int nSpace = sMessage.indexOf(" ");
-			if( nSpace == -1 )
+			if(nSpace == -1)
+			{
 				nSpace = sMessage.length();
+			}
 
 			sCmd = sMessage.left(nSpace).toLower();
 			sParam = sMessage.mid(nSpace + 1);
 
-			if( sCmd == "/me" )
+			if(sCmd == "/me")
 			{
-				if( !sParam.isEmpty() )
+				if(!sParam.isEmpty())
+				{
 					m_pCurrentWidget->SendMessage(sParam, true);
+				}
 			}
 			else
 			{
@@ -127,8 +136,10 @@ void DialogPrivateMessages::onMessageSent(QTextDocument *pDoc)
 
 void DialogPrivateMessages::on_tabWidgetPrivateMessages_currentChanged(int index)
 {
-	if( ui->tabWidgetPrivateMessages->count() > 0 )
+	if(ui->tabWidgetPrivateMessages->count() > 0)
+	{
 		m_pCurrentWidget = m_lChatWindows[index];
+	}
 }
 
 void DialogPrivateMessages::on_tabWidgetPrivateMessages_tabCloseRequested(int index)
@@ -136,7 +147,7 @@ void DialogPrivateMessages::on_tabWidgetPrivateMessages_tabCloseRequested(int in
 	ui->tabWidgetPrivateMessages->removeTab(index);
 	m_lChatWindows.removeAt(index);
 
-	if( m_lChatWindows.isEmpty() )
+	if(m_lChatWindows.isEmpty())
 	{
 		close();
 	}

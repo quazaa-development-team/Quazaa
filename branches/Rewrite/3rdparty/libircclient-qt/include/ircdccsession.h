@@ -26,32 +26,32 @@ QT_FORWARD_DECLARE_CLASS(QAbstractSocket)
 
 namespace Irc
 {
-    class DccSessionPrivate;
+	class DccSessionPrivate;
 
-    class IRC_EXPORT DccSession : public QObject
-    {
-        Q_OBJECT
+	class IRC_EXPORT DccSession : public QObject
+	{
+		Q_OBJECT
 
-    public:
-        DccSession(QObject* parent = 0);
-        ~DccSession();
+	public:
+		DccSession(QObject* parent = 0);
+		~DccSession();
 
-        Session* session() const;
+		Session* session() const;
 
-    public Q_SLOTS:
-        bool accept();
-        bool decline();
+	public Q_SLOTS:
+		bool accept();
+		bool decline();
 
-        bool sendMessage(const QString& message);
-        bool sendFile(const QString& fileName);
+		bool sendMessage(const QString& message);
+		bool sendFile(const QString& fileName);
 
-    Q_SIGNALS:
+	Q_SIGNALS:
 
-    private:
-        DccSessionPrivate* const d_ptr;
-        Q_DECLARE_PRIVATE(DccSession)
-        Q_DISABLE_COPY(DccSession)
-    };
+	private:
+		DccSessionPrivate* const d_ptr;
+		Q_DECLARE_PRIVATE(DccSession)
+		Q_DISABLE_COPY(DccSession)
+	};
 }
 
 #endif // IRC_DCC_SESSION_H

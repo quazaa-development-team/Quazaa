@@ -242,8 +242,10 @@ void CCompressedConnection::Deflate()
 		m_tDeflateFlush.start();
 	}
 
-	if( m_pZOutput->size() == 0 && nFlushMode == Z_NO_FLUSH )
+	if(m_pZOutput->size() == 0 && nFlushMode == Z_NO_FLUSH)
+	{
 		return;
+	}
 
 	do
 	{

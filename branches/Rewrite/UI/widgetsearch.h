@@ -56,7 +56,7 @@ private slots:
 	void on_toolButtonNewSearch_clicked();
 	void on_toolButtonSearchClear_clicked();
 	void on_toolButtonSearch_clicked();
-	 
+
 	void onSearchTabChanged(WidgetSearchTemplate* searchPage);
 	void updateStats(WidgetSearchTemplate* searchWidget);
 };

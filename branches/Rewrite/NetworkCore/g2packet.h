@@ -198,7 +198,7 @@ public:
 
 	void ReadHostAddress(CEndPoint* pDest, bool bIP4 = true)
 	{
-		if( bIP4 )
+		if(bIP4)
 		{
 			quint32 nIP;
 			quint16 nPort;
@@ -230,7 +230,7 @@ public:
 	}
 	void WriteHostAddress(CEndPoint* pSrc)
 	{
-		if( pSrc->protocol() == 0 ) // IPv4
+		if(pSrc->protocol() == 0)   // IPv4
 		{
 			Ensure(6);
 			WriteIntBE(pSrc->toIPv4Address());

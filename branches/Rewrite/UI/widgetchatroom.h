@@ -46,7 +46,7 @@ public:
 	~WidgetChatRoom();
 	QString sRoomName;
 	int operators, users;
-	ChatUserListModel *chatUserListModel;
+	ChatUserListModel* chatUserListModel;
 
 signals:
 	void userNames(QStringList names);
@@ -74,14 +74,14 @@ private slots:
 	void numericMessageReceived(QString, uint, QStringList);
 	void setPrefixes(QString modes, QString mprefs);
 	void messageReceived(QString, QString);
-	void ctcpActionReceived(QString,QString);
-	void noticeReceived(QString,QString);
+	void ctcpActionReceived(QString, QString);
+	void noticeReceived(QString, QString);
 	void joined(QString name);
 	void parted(QString name, QString reason);
 	void leftServer(QString name, QString reason);
 	void updateUsers();
 	QString wrapWithColor(QString message, QString wrapColor);
-	void updateUserMode(QString hostMask,QString mode,QString name);
+	void updateUserMode(QString hostMask, QString mode, QString name);
 	void nickChanged(QString oldNick, QString newNick);
 };
 

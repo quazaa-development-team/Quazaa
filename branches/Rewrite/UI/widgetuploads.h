@@ -47,7 +47,7 @@ private:
 	Ui::WidgetUploads* ui;
 
 private slots:
-	 
+
 };
 
 #endif // WIDGETUPLOADS_H

@@ -51,7 +51,7 @@
 
 QuazaaGlobals quazaaGlobals;
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 	QtSingleApplication theApp(argc, argv);
 
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
 	sLimit.rlim_cur = sLimit.rlim_max;
 
-	if( setrlimit(RLIMIT_NOFILE, &sLimit) == 0 )
+	if(setrlimit(RLIMIT_NOFILE, &sLimit) == 0)
 	{
 		qDebug() << "Successfully raised resource limits";
 	}
@@ -82,10 +82,10 @@ int main(int argc, char *argv[])
 
 #endif
 
-        theApp.setApplicationName(QuazaaGlobals::APPLICATION_NAME());
-        theApp.setApplicationVersion(QuazaaGlobals::APPLICATION_VERSION_STRING());
-        theApp.setOrganizationDomain(QuazaaGlobals::APPLICATION_ORGANIZATION_DOMAIN());
-        theApp.setOrganizationName(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME());
+	theApp.setApplicationName(QuazaaGlobals::APPLICATION_NAME());
+	theApp.setApplicationVersion(QuazaaGlobals::APPLICATION_VERSION_STRING());
+	theApp.setOrganizationDomain(QuazaaGlobals::APPLICATION_ORGANIZATION_DOMAIN());
+	theApp.setOrganizationName(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME());
 
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();
@@ -96,8 +96,8 @@ int main(int argc, char *argv[])
 		dlgLanguage->exec();
 	}
 
-        quazaaSettings.translator.load(quazaaSettings.Language.File);
-        qApp->installTranslator(&quazaaSettings.translator);
+	quazaaSettings.translator.load(quazaaSettings.Language.File);
+	qApp->installTranslator(&quazaaSettings.translator);
 
 	//Create splash window
 	DialogSplash* dlgSplash = new DialogSplash();
@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
 
 	// Make the main window show if the user tried to open another instance
 	QObject::connect(&theApp, SIGNAL(messageReceived(const QString&)),
-					 MainWindow, SLOT(show()));
+	                 MainWindow, SLOT(show()));
 	theApp.setActivationWindow(MainWindow);
 	QObject::connect(MainWindow, SIGNAL(Show()), &theApp, SLOT(activateWindow()));
 

@@ -51,7 +51,7 @@ private slots:
 	void on_splitterMedia_customContextMenuRequested(QPoint pos);
 	void on_actionMediaShuffle_triggered(bool checked);
 	void on_actionMediaRepeat_triggered(bool checked);
-	 
+
 };
 
 #endif // WIDGETMEDIA_H

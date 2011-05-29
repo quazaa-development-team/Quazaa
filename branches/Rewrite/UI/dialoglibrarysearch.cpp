@@ -24,7 +24,7 @@
 
 #include "dialoglibrarysearch.h"
 #include "ui_dialoglibrarysearch.h"
- 
+
 
 DialogLibrarySearch::DialogLibrarySearch(QWidget* parent) :
 	QDialog(parent),

@@ -32,7 +32,7 @@
 #include "systemlog.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetHome::WidgetHome(QWidget* parent) :
 	QWidget(parent),

@@ -622,7 +622,7 @@ class QuazaaSettings : public QObject
 	Q_OBJECT
 
 public:
-    QTranslator translator;
+	QTranslator translator;
 	QuazaaSettings();
 	void saveSettings();
 	void loadSettings();

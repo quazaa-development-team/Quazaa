@@ -24,7 +24,7 @@
 
 #include "dialogcreatetorrent.h"
 #include "ui_dialogcreatetorrent.h"
- 
+
 
 DialogCreateTorrent::DialogCreateTorrent(QWidget* parent) :
 	QDialog(parent),

@@ -26,7 +26,7 @@
 #include "ui_widgetdownloads.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	QMainWindow(parent),

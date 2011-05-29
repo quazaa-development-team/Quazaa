@@ -24,7 +24,7 @@
 
 #include "dialogdownloadsimport.h"
 #include "ui_dialogdownloadsimport.h"
- 
+
 
 DialogDownloadsImport::DialogDownloadsImport(QWidget* parent) :
 	QDialog(parent),

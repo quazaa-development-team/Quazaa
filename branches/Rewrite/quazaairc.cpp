@@ -35,7 +35,7 @@
 #include <QMetaObject>
 
 QuazaaIRC::QuazaaIRC(QObject* parent) :
-		QObject(parent)
+	QObject(parent)
 {
 }
 
@@ -65,8 +65,8 @@ void QuazaaIRC::on_IrcSession_bufferAdded(Irc::Buffer* buffer)
 	//qDebug() << "buffer added:" << buffer->receiver();
 	emit ircBufferAdded(buffer);
 	buffer->names();
-	connect(buffer, SIGNAL(ctcpRequestReceived(QString,QString)), this, SLOT(ctcpReply(QString,QString)));
-	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this, SLOT(numericMessageReceived(QString,uint,QStringList)));
+	connect(buffer, SIGNAL(ctcpRequestReceived(QString, QString)), this, SLOT(ctcpReply(QString, QString)));
+	connect(buffer, SIGNAL(numericMessageReceived(QString, uint, QStringList)), this, SLOT(numericMessageReceived(QString, uint, QStringList)));
 }
 
 void QuazaaIRC::on_IrcSession_bufferRemoved(Irc::Buffer* buffer)
@@ -88,7 +88,7 @@ void QuazaaIRC::startIrc()
 	// stripNicks / echoMessages
 	ircSession->setOptions(Irc::Session::EchoMessages);
 
-	if (quazaaSettings.Chat.IrcUseSSL)
+	if(quazaaSettings.Chat.IrcUseSSL)
 	{
 		QSslSocket* socket = new QSslSocket(ircSession);
 		socket->ignoreSslErrors();
@@ -96,7 +96,7 @@ void QuazaaIRC::startIrc()
 		ircSession->setSocket(socket);
 	}
 
-        ircSession->setObjectName("IrcSession");
+	ircSession->setObjectName("IrcSession");
 	connect(ircSession, SIGNAL(connected()), this, SLOT(on_IrcSession_connected()));
 	connect(ircSession, SIGNAL(disconnected()), this, SLOT(on_IrcSession_disconnected()));
 	connect(ircSession, SIGNAL(welcomed()), this, SLOT(on_IrcSession_welcomed()));
@@ -118,7 +118,7 @@ void QuazaaIRC::stopIrc()
 	systemLog.postLog(LogSeverity::Debug, QString("QuazaaIRC::stopIRC()"));
 	//qDebug() << "QuazaaIRC::stopIrc()";
 
-	if( ircSession )
+	if(ircSession)
 	{
 		ircSession->buffers().clear();
 		ircSession->defaultBuffer()->deleteLater();
@@ -130,7 +130,10 @@ void QuazaaIRC::stopIrc()
 void QuazaaIRC::sendIrcMessage(QString channel, QString message)
 {
 	//qDebug() << "Sending message to: " + tab->name + " ("+message+")";
-	if( m_connected ) ircSession->message(channel, message);
+	if(m_connected)
+	{
+		ircSession->message(channel, message);
+	}
 
 }
 
@@ -140,31 +143,42 @@ void QuazaaIRC::ctcpReply(QString nick, QString request)
 	QString action		= ctcp.at(0);
 	QString reply		= action + " ";
 
-	if (action == "VERSION")
-                reply += QuazaaGlobals::USER_AGENT_STRING();
-	else if (action == "TIME")
+	if(action == "VERSION")
+	{
+		reply += QuazaaGlobals::USER_AGENT_STRING();
+	}
+	else if(action == "TIME")
+	{
 		reply += QDateTime::currentDateTime().toString("ddd MMM dd HH:mm:ss yyyy");
-	else if (action == "PING")
+	}
+	else if(action == "PING")
+	{
 		reply = request;
-	else if (action == "FINGER") {
+	}
+	else if(action == "FINGER")
+	{
 		qsrand(time(0));
 		QStringList fingers = QStringList()
-			<< tr("Go finger someone else...")
-			<< tr("You naughty!")
-			<< tr("Oh yeah baby :o")
-			<< tr("Quazaa really turns me on!");
+		                      << tr("Go finger someone else...")
+		                      << tr("You naughty!")
+		                      << tr("Oh yeah baby :o")
+		                      << tr("Quazaa really turns me on!");
 		reply += fingers.at(qrand() % fingers.size());
 	}
-	else if (action == "SOURCE") {
+	else if(action == "SOURCE")
+	{
 		reply += "http://sourceforge.net/scm/?type=svn&group_id=286623";
 	}
-	else if (action == "USERINFO") {
+	else if(action == "USERINFO")
+	{
 		reply += sRealName;
 	}
-	else if (action == "CLIENTINFO") {
+	else if(action == "CLIENTINFO")
+	{
 		reply += "ACTION CLIENTINFO PING TIME VERSION FINGER SOURCE USERINFO";
 	}
-	else {
+	else
+	{
 		reply = "ERRMSG CTCP " + action + tr(" is an unknown request.");
 	}
 
@@ -173,12 +187,12 @@ void QuazaaIRC::ctcpReply(QString nick, QString request)
 
 void QuazaaIRC::numericMessageReceived(QString sender, uint code, QStringList list)
 {
-	switch (code)
+	switch(code)
 	{
-	case Irc::Rfc::ERR_NICKNAMEINUSE:
-		sNick = quazaaSettings.Profile.IrcAlternateNickname;
-		ircSession->setNick(quazaaSettings.Profile.IrcAlternateNickname);
-		break;
+		case Irc::Rfc::ERR_NICKNAMEINUSE:
+			sNick = quazaaSettings.Profile.IrcAlternateNickname;
+			ircSession->setNick(quazaaSettings.Profile.IrcAlternateNickname);
+			break;
 	}
 }
 

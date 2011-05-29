@@ -29,33 +29,37 @@
 CChatCore ChatCore;
 CThread ChatThread;
 
-CChatCore::CChatCore(QObject *parent) :
+CChatCore::CChatCore(QObject* parent) :
 	QObject(parent), m_bActive(false)
 {
 }
 CChatCore::~CChatCore()
 {
-	if( m_bActive )
+	if(m_bActive)
+	{
 		Stop();
+	}
 }
 
 
-void CChatCore::Add(CChatSession *pSession)
+void CChatCore::Add(CChatSession* pSession)
 {
 	QMutexLocker l(&m_pSection);
 
-	if( !m_lSessions.contains(pSession) )
+	if(!m_lSessions.contains(pSession))
+	{
 		m_lSessions.append(pSession);
+	}
 
 	Start();
 
 	m_pController->AddSocket(pSession);
 }
-void CChatCore::Remove(CChatSession *pSession)
+void CChatCore::Remove(CChatSession* pSession)
 {
 	QMutexLocker l(&m_pSection);
 
-	if( int nSession = m_lSessions.indexOf(pSession) != -1 )
+	if(int nSession = m_lSessions.indexOf(pSession) != -1)
 	{
 		m_lSessions.removeAt(nSession);
 		m_pController->RemoveSocket(pSession);
@@ -64,8 +68,10 @@ void CChatCore::Remove(CChatSession *pSession)
 
 void CChatCore::Start()
 {
-	if( m_bActive )
+	if(m_bActive)
+	{
 		return;
+	}
 
 	ChatThread.start("ChatCore", &m_pSection);
 	m_bActive = true;

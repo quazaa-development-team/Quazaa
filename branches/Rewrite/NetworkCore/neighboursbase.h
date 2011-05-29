@@ -47,7 +47,7 @@ protected:
 	QHash<QHostAddress, CNeighbour*> m_lNodesByAddr;  // lookups by ip address
 	QSet<CNeighbour*>				 m_lNodesByPtr;	// lookups by pointer
 public:
-	CNeighboursBase(QObject *parent = 0);
+	CNeighboursBase(QObject* parent = 0);
 	virtual ~CNeighboursBase();
 
 	virtual void Connect();

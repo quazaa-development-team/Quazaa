@@ -28,21 +28,23 @@
 #include <QMenu>
 #include <QListWidgetItem>
 
-namespace Ui {
-    class WidgetSmileyList;
+namespace Ui
+{
+	class WidgetSmileyList;
 }
 
-class WidgetSmileyList : public QMenu {
-    Q_OBJECT
+class WidgetSmileyList : public QMenu
+{
+	Q_OBJECT
 public:
-	WidgetSmileyList(QWidget *parent = 0);
-    ~WidgetSmileyList();
+	WidgetSmileyList(QWidget* parent = 0);
+	~WidgetSmileyList();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent* e);
 
 private:
-    Ui::WidgetSmileyList *ui;
+	Ui::WidgetSmileyList* ui;
 
 signals:
 	void smileyClicked(QString smiley);

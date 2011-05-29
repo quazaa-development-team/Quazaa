@@ -47,7 +47,7 @@ private:
 	Ui::WidgetDownloads* ui;
 
 private slots:
-	 
+
 };
 
 #endif // WIDGETDOWNLOADS_H

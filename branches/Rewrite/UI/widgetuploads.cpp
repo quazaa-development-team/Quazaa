@@ -26,7 +26,7 @@
 #include "ui_widgetuploads.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetUploads::WidgetUploads(QWidget* parent) :
 	QMainWindow(parent),

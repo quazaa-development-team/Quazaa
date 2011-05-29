@@ -50,7 +50,7 @@ signals:
 	void closed();
 
 private slots:
-	 
+
 };
 
 #endif // DIALOGHASHPROGRESS_H

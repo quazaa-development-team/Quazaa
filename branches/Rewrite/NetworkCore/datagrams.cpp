@@ -716,8 +716,8 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 		pTmp->WritePacket("LEAF", 0);
 	}
 	pTmp->WritePacket("NA", ((Network.m_oAddress.protocol() == 0) ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
-        pTmp->WritePacket("CV", QuazaaGlobals::USER_AGENT_STRING().toUtf8().size())->WriteString(QuazaaGlobals::USER_AGENT_STRING(), false);
-        pTmp->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);;
+	pTmp->WritePacket("CV", QuazaaGlobals::USER_AGENT_STRING().toUtf8().size())->WriteString(QuazaaGlobals::USER_AGENT_STRING(), false);
+	pTmp->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);;
 	quint16 nLeaves = Neighbours.m_nLeavesConnectedG2;
 	pTmp->WritePacket("HS", 2)->WriteIntLE(nLeaves);
 	if(!quazaaSettings.Profile.GnutellaScreenName.isEmpty())
@@ -730,10 +730,12 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 
 	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
-		if( (*itNode)->m_nProtocol != dpGnutella2 )
+		if((*itNode)->m_nProtocol != dpGnutella2)
+		{
 			continue;
+		}
 
-		CG2Node* pNode = (CG2Node*)*itNode;
+		CG2Node* pNode = (CG2Node*) * itNode;
 		if(pNode->m_nState == nsConnected)
 		{
 			if(pNode->m_nType == G2_HUB)
@@ -758,15 +760,17 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 
 	pCA->Release();
 }
-void CDatagrams::OnQKR(CEndPoint &addr, G2Packet *pPacket)
+void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 {
-	if( !Neighbours.IsG2Hub() )
+	if(!Neighbours.IsG2Hub())
+	{
 		return;
+	}
 
 	CEndPoint oRequestedAddress = addr;
 	CEndPoint oSendingAddress = addr;
 
-	if( pPacket->m_bCompound )
+	if(pPacket->m_bCompound)
 	{
 		char szType[9];
 		quint32 nLength = 0, nNext = 0;
@@ -777,7 +781,7 @@ void CDatagrams::OnQKR(CEndPoint &addr, G2Packet *pPacket)
 
 			if(strcmp("SNA", szType) == 0 && nLength >= 4)
 			{
-				if( nLength >= 16 )
+				if(nLength >= 16)
 				{
 					Q_IPV6ADDR ip;
 					pPacket->Read(&ip, 16);
@@ -792,7 +796,7 @@ void CDatagrams::OnQKR(CEndPoint &addr, G2Packet *pPacket)
 			}
 			else if(strcmp("RNA", szType) == 0 && nLength >= 6)
 			{
-				if( nLength >= 18 )
+				if(nLength >= 18)
 				{
 					pPacket->ReadHostAddress(&oRequestedAddress, false);
 				}
@@ -805,8 +809,10 @@ void CDatagrams::OnQKR(CEndPoint &addr, G2Packet *pPacket)
 		}
 	}
 
-	if( !oRequestedAddress.port() )
+	if(!oRequestedAddress.port())
+	{
 		return;
+	}
 
 	G2Packet* pAns = G2Packet::New("QKA", true);
 	quint32 nKey = QueryKeys.Create(oRequestedAddress);
@@ -848,7 +854,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 		{
 			CEndPoint ep;
 
-			if( nLength >= 16 )
+			if(nLength >= 16)
 			{
 				Q_IPV6ADDR ip;
 				pPacket->Read(&ip, 16);
@@ -878,7 +884,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 
 	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() /*&& nKeyHost != Network.m_oAddress.ip*/)
 	{
-		if( addr.protocol() == 0 )
+		if(addr.protocol() == 0)
 		{
 			uchar* pOut = pPacket->WriteGetPointer(11, 0);
 			*pOut++ = 0x50;

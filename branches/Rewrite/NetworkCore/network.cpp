@@ -58,7 +58,7 @@ CNetwork::CNetwork(QObject* parent)
 {
 	m_pSecondTimer = 0;
 	//m_oAddress.port = 6346;
-	m_oAddress.setPort ( quazaaSettings.Connection.Port );
+	m_oAddress.setPort(quazaaSettings.Connection.Port);
 
 	m_bNeedUpdateLNI = true;
 	m_nLNIWait = 60;
@@ -200,8 +200,10 @@ void CNetwork::OnSecondTimer()
 			{
 				CNeighbour* pNode = *itNode;
 
-				if( pNode->m_nProtocol != dpGnutella2 )
+				if(pNode->m_nProtocol != dpGnutella2)
+				{
 					continue;
+				}
 
 				if(pNode->m_nState == nsConnected)
 				{

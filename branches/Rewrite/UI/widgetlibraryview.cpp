@@ -27,7 +27,7 @@
 #include "dialoglibrarysearch.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetLibraryView::WidgetLibraryView(QWidget* parent) :
 	QMainWindow(parent),

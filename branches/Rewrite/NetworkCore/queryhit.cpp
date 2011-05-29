@@ -85,7 +85,7 @@ QueryHitInfo* CQueryHit::ReadInfo(G2Packet* pPacket, CEndPoint* pSender)
 			if(strcmp("NA", szType) == 0 && nLength >= 6)
 			{
 				CEndPoint oNodeAddr;
-				pPacket->ReadHostAddress(&oNodeAddr, !(nLength >=18));
+				pPacket->ReadHostAddress(&oNodeAddr, !(nLength >= 18));
 				if(!oNodeAddr.isNull())
 				{
 					pHitInfo->m_oNodeAddress = oNodeAddr;

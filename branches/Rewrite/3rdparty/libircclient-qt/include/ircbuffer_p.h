@@ -19,25 +19,25 @@
 
 namespace Irc
 {
-    class Buffer;
+	class Buffer;
 
-    class BufferPrivate
-    {
-        Q_DECLARE_PUBLIC(Buffer)
+	class BufferPrivate
+	{
+		Q_DECLARE_PUBLIC(Buffer)
 
-    public:
-        BufferPrivate();
+	public:
+		BufferPrivate();
 
-        void addName(QString name);
-        void removeName(const QString& name);
-        void setReceiver(const QString& rec, bool replace = true);
-        void updateMode(const QString& name, const QString& mode);
+		void addName(QString name);
+		void removeName(const QString& name);
+		void setReceiver(const QString& rec, bool replace = true);
+		void updateMode(const QString& name, const QString& mode);
 
-        Buffer* q_ptr;
-        QString receiver;
-        QString topic;
-        QHash<QString, QString> names;
-    };
+		Buffer* q_ptr;
+		QString receiver;
+		QString topic;
+		QHash<QString, QString> names;
+	};
 }
 
 #endif // IRC_BUFFER_P_H

@@ -36,7 +36,7 @@
 #include "ircutil.h"
 #include "ircsession.h"
 #include "quazaairc.h"
- 
+
 
 WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	QMainWindow(parent),
@@ -89,10 +89,14 @@ void WidgetChatMiddle::changeEvent(QEvent* e)
 void WidgetChatMiddle::saveWidget()
 {
 	QStringList tempChannelList = channelList;
-        if (!tempChannelList.isEmpty())
-            tempChannelList.removeFirst();
-	if (!tempChannelList.isEmpty())
-            quazaaSettings.Chat.AutoJoinChannels = tempChannelList;
+	if(!tempChannelList.isEmpty())
+	{
+		tempChannelList.removeFirst();
+	}
+	if(!tempChannelList.isEmpty())
+	{
+		quazaaSettings.Chat.AutoJoinChannels = tempChannelList;
+	}
 	quazaaSettings.saveSettings();
 	quazaaSettings.WinMain.ChatToolbars = saveState();
 }
@@ -115,10 +119,14 @@ void WidgetChatMiddle::on_actionChatSettings_triggered()
 void WidgetChatMiddle::on_actionDisconnect_triggered()
 {
 	QStringList tempChannelList = channelList;
-        if (!tempChannelList.isEmpty())
-            tempChannelList.removeFirst();
-	if (!tempChannelList.isEmpty())
+	if(!tempChannelList.isEmpty())
+	{
+		tempChannelList.removeFirst();
+	}
+	if(!tempChannelList.isEmpty())
+	{
 		quazaaSettings.Chat.AutoJoinChannels = tempChannelList;
+	}
 	quazaaSettings.saveSettings();
 	quazaaIrc->stopIrc();
 	ui->actionConnect->setEnabled(true);
@@ -126,7 +134,7 @@ void WidgetChatMiddle::on_actionDisconnect_triggered()
 	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
 	for(int i = 0; i < allRooms.size(); ++i)
 	{
-		if (allRooms.at(i) != 0)
+		if(allRooms.at(i) != 0)
 		{
 			ui->stackedWidgetChatRooms->removeWidget(allRooms.at(i));
 			allRooms.at(i)->~WidgetChatRoom();
@@ -138,7 +146,7 @@ void WidgetChatMiddle::on_actionDisconnect_triggered()
 	//qDebug() << "Trying to disconnect from IRC";
 }
 
-WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName,Irc::Buffer *buffer)
+WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName, Irc::Buffer* buffer)
 {
 	QList<WidgetChatRoom*> allRooms = ui->stackedWidgetChatRooms->findChildren<WidgetChatRoom*>();
 	for(int i = 0; i < allRooms.size(); ++i)
@@ -148,8 +156,8 @@ WidgetChatRoom* WidgetChatMiddle::roomByName(QString roomName,Irc::Buffer *buffe
 			return allRooms.at(i);
 		}
 	}
-	WidgetChatRoom *room = new WidgetChatRoom(quazaaIrc, buffer);
-	connect(room->chatUserListModel, SIGNAL(updateUserCount(ChatUserListModel*,int,int)), this, SLOT(userCountUpdated(ChatUserListModel*,int,int)));
+	WidgetChatRoom* room = new WidgetChatRoom(quazaaIrc, buffer);
+	connect(room->chatUserListModel, SIGNAL(updateUserCount(ChatUserListModel*, int, int)), this, SLOT(userCountUpdated(ChatUserListModel*, int, int)));
 	room->setRoomName(roomName);
 	ui->stackedWidgetChatRooms->addWidget(room);
 	channelList << buffer->receiver();
@@ -172,8 +180,8 @@ WidgetChatRoom* WidgetChatMiddle::roomByBuffer(Irc::Buffer* buffer)
 	}
 	//qDebug() << "CREATING A NEW TAB :: " + name;
 	// if the tab doesn't exist, create it
-	WidgetChatRoom *room = new WidgetChatRoom(quazaaIrc, buffer);
-	connect(room->chatUserListModel, SIGNAL(updateUserCount(ChatUserListModel*,int,int)), this, SLOT(userCountUpdated(ChatUserListModel*,int,int)));
+	WidgetChatRoom* room = new WidgetChatRoom(quazaaIrc, buffer);
+	connect(room->chatUserListModel, SIGNAL(updateUserCount(ChatUserListModel*, int, int)), this, SLOT(userCountUpdated(ChatUserListModel*, int, int)));
 	room->setRoomName(buffer->receiver());
 	ui->stackedWidgetChatRooms->addWidget(room);
 	channelList << buffer->receiver();
@@ -191,39 +199,41 @@ WidgetChatRoom* WidgetChatMiddle::currentRoom()
 
 void WidgetChatMiddle::addBuffer(Irc::Buffer* buffer)
 {
-	if (!buffer->receiver().isEmpty())
+	if(!buffer->receiver().isEmpty())
 	{
 		if(quazaaIrc->bLoginCompleted)
 		{
-			switch (buffer->receiver().at(0).unicode())
+			switch(buffer->receiver().at(0).unicode())
 			{
-			case '#':
-			case '&':
-			case '!':
-			case '+':
-				ui->stackedWidgetChatRooms->setCurrentWidget(roomByBuffer(buffer));
-				break;
-			default:
-				qDebug() << "Private message.";
-				break;
+				case '#':
+				case '&':
+				case '!':
+				case '+':
+					ui->stackedWidgetChatRooms->setCurrentWidget(roomByBuffer(buffer));
+					break;
+				default:
+					qDebug() << "Private message.";
+					break;
 			}
-		} else {
-			if (ui->stackedWidgetChatRooms->currentIndex() == -1)
+		}
+		else
+		{
+			if(ui->stackedWidgetChatRooms->currentIndex() == -1)
 			{
 				ui->stackedWidgetChatRooms->setCurrentWidget(roomByName(quazaaIrc->sServer, buffer));
 				return;
 			}
-			switch (buffer->receiver().at(0).unicode())
+			switch(buffer->receiver().at(0).unicode())
 			{
-			case '#':
-			case '&':
-			case '!':
-			case '+':
-				ui->stackedWidgetChatRooms->setCurrentWidget(roomByBuffer(buffer));
-				break;
-			default:
-				roomByName(quazaaIrc->sServer, buffer)->addBuffer(buffer);
-				break;
+				case '#':
+				case '&':
+				case '!':
+				case '+':
+					ui->stackedWidgetChatRooms->setCurrentWidget(roomByBuffer(buffer));
+					break;
+				default:
+					roomByName(quazaaIrc->sServer, buffer)->addBuffer(buffer);
+					break;
 			}
 		}
 	}
@@ -251,7 +261,9 @@ void WidgetChatMiddle::on_stackedWidgetChatRooms_currentChanged(int)
 {
 	//qDebug() << "Emitting channel changed.";
 	if(ui->stackedWidgetChatRooms->children().size() > -1)
+	{
 		emit roomChanged(currentRoom());
+	}
 }
 
 void WidgetChatMiddle::on_actionEditMyProfile_triggered()
@@ -261,70 +273,88 @@ void WidgetChatMiddle::on_actionEditMyProfile_triggered()
 }
 
 
-void WidgetChatMiddle::onSendMessage(QTextDocument *message)
+void WidgetChatMiddle::onSendMessage(QTextDocument* message)
 {
 	QString sMessage = message->toPlainText();
 
-	if( sMessage.isEmpty() )
-		return;
-
-	if( sMessage.left(2) != "//" )
+	if(sMessage.isEmpty())
 	{
-		if( sMessage.left(1) == "/" ) // is it a command?
+		return;
+	}
+
+	if(sMessage.left(2) != "//")
+	{
+		if(sMessage.left(1) == "/")   // is it a command?
 		{
 			QString sCmd, sParam;
 			int nSpace = sMessage.indexOf(" ");
-			if( nSpace == -1 )
+			if(nSpace == -1)
+			{
 				nSpace = sMessage.length();
+			}
 
 			sCmd = sMessage.left(nSpace).toLower();
 			sParam = sMessage.mid(nSpace + 1);
 
-			if( sCmd == "/me" )
+			if(sCmd == "/me")
 			{
-				if( !sParam.isEmpty() )
+				if(!sParam.isEmpty())
+				{
 					currentRoom()->onSendAction(sParam);
+				}
 				return;
 			}
-			if( sCmd == "/msg")
+			if(sCmd == "/msg")
 			{
 				QString sTarget;
 				int nSpace = sParam.indexOf(" ");
-				if( nSpace == -1 )
+				if(nSpace == -1)
+				{
 					nSpace = sParam.length();
+				}
 
 				sTarget = sParam.left(nSpace).toLower();
 				sParam = sParam.mid(nSpace + 1);
 
-				if( !sParam.isEmpty() )
-					quazaaIrc->sendIrcMessage(sTarget, sParam );
+				if(!sParam.isEmpty())
+				{
+					quazaaIrc->sendIrcMessage(sTarget, sParam);
+				}
 				return;
 			}
-			if( sCmd == "/cs")
+			if(sCmd == "/cs")
 			{
-				if( !sParam.isEmpty() )
-					quazaaIrc->sendIrcMessage("chanserv", sParam );
+				if(!sParam.isEmpty())
+				{
+					quazaaIrc->sendIrcMessage("chanserv", sParam);
+				}
 				return;
 			}
-			if( sCmd == "/hs")
+			if(sCmd == "/hs")
 			{
-				if( !sParam.isEmpty() )
-					quazaaIrc->sendIrcMessage("hostserv", sParam );
+				if(!sParam.isEmpty())
+				{
+					quazaaIrc->sendIrcMessage("hostserv", sParam);
+				}
 				return;
 			}
-			if( sCmd == "/join")
+			if(sCmd == "/join")
 			{
-				if( !sParam.isEmpty() )
+				if(!sParam.isEmpty())
+				{
 					quazaaIrc->addRoom(sParam);
+				}
 				return;
 			}
-			if( sCmd == "/part")
+			if(sCmd == "/part")
 			{
-				if( !sParam.isEmpty() )
+				if(!sParam.isEmpty())
 				{
 					quazaaIrc->removeRoom(sParam);
 					return;
-				} else {
+				}
+				else
+				{
 					quazaaIrc->removeRoom(currentRoom()->sRoomName);
 				}
 			}
@@ -348,6 +378,8 @@ void WidgetChatMiddle::changeRoom(int index)
 
 void WidgetChatMiddle::userCountUpdated(ChatUserListModel* chatUserListModel, int operators, int users)
 {
-	if (currentRoom()->chatUserListModel == chatUserListModel)
+	if(currentRoom()->chatUserListModel == chatUserListModel)
+	{
 		emit updateUserCount(operators, users);
+	}
 }

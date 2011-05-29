@@ -27,7 +27,7 @@
 #include "dialogfiltersearch.h"
 
 #include "quazaasettings.h"
- 
+
 
 #include "NetworkCore/query.h"
 

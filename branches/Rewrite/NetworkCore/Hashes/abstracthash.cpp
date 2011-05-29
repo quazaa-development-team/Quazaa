@@ -25,9 +25,9 @@ CAbstractHash::CAbstractHash()
 {
 	m_bFinalized = false;
 }
-CAbstractHash::CAbstractHash(CAbstractHash &rhs)
+CAbstractHash::CAbstractHash(CAbstractHash& rhs)
 {
-	if( this != &rhs )
+	if(this != &rhs)
 	{
 		m_baResult = rhs.RawResult();
 		m_bFinalized = true;
@@ -69,28 +69,34 @@ void CAbstractHash::Clear()
 
 bool CAbstractHash::IsValid()
 {
-	if( !m_bFinalized )
+	if(!m_bFinalized)
+	{
 		return false;
+	}
 
 	return IsValid_p();
 }
 
 QString CAbstractHash::ToString()
 {
-	if( !m_bFinalized )
+	if(!m_bFinalized)
+	{
 		Finalize();
+	}
 	return ToString_p();
 }
 
 QByteArray CAbstractHash::RawResult()
 {
-	if( !m_bFinalized )
+	if(!m_bFinalized)
+	{
 		Finalize();
+	}
 
 	return m_baResult;
 }
 
-bool CAbstractHash::FromURN(const QString &sURN)
+bool CAbstractHash::FromURN(const QString& sURN)
 {
 	Q_UNUSED(sURN);
 
@@ -99,8 +105,10 @@ bool CAbstractHash::FromURN(const QString &sURN)
 
 QString CAbstractHash::ToURN()
 {
-	if( !m_bFinalized )
+	if(!m_bFinalized)
+	{
 		Finalize();
+	}
 
 	return ToURN_p();
 }

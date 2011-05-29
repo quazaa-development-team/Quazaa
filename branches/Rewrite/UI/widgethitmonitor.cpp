@@ -27,7 +27,7 @@
 #include "dialogfiltersearch.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetHitMonitor::WidgetHitMonitor(QWidget* parent) :
 	QMainWindow(parent),

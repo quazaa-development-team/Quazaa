@@ -49,7 +49,7 @@ signals:
 	void closed();
 
 private slots:
-	 
+
 };
 
 #endif // DIALOGDOWNLOADPROPERTIES_H

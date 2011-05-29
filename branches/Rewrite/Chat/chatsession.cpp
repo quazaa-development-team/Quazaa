@@ -28,7 +28,7 @@
 #include "widgetprivatemessage.h"
 #include "winmain.h"
 
-CChatSession::CChatSession(QObject *parent) :
+CChatSession::CChatSession(QObject* parent) :
 	CNetworkConnection(parent)
 {
 	m_nState = csNull;
@@ -49,23 +49,25 @@ void CChatSession::Connect()
 	m_nState = csConnecting;
 	ChatCore.Add(this);
 
-	if( thread() != &ChatThread )
+	if(thread() != &ChatThread)
+	{
 		moveToThread(&ChatThread);
+	}
 }
 
 
 void CChatSession::OnTimer(quint32 tNow)
 {
-	if( m_nState < csConnected )
+	if(m_nState < csConnected)
 	{
-		if( tNow - m_tConnected > quazaaSettings.Connection.TimeoutConnect )
+		if(tNow - m_tConnected > quazaaSettings.Connection.TimeoutConnect)
 		{
 			m_nState = csClosed;
 			CNetworkConnection::Close();
 			emit systemMessage("Timed out connecting to remote host");
 		}
 	}
-	else if( m_nState == csConnected )
+	else if(m_nState == csConnected)
 	{
 
 	}
@@ -94,15 +96,15 @@ void CChatSession::OnStateChange(QAbstractSocket::SocketState s)
 	Q_UNUSED(s);
 }
 
-void CChatSession::SetupWidget(WidgetPrivateMessage *pWg)
+void CChatSession::SetupWidget(WidgetPrivateMessage* pWg)
 {
 	m_pWidget = pWg;
 
 	connect(this, SIGNAL(guidChanged(QUuid)), m_pWidget, SLOT(OnGUIDChanged(QUuid)));
 	connect(this, SIGNAL(nickChanged(QString)), m_pWidget, SLOT(OnNickChanged(QString)));
-	connect(this, SIGNAL(incomingMessage(QString,bool)), m_pWidget, SLOT(OnIncomingMessage(QString,bool)));
+	connect(this, SIGNAL(incomingMessage(QString, bool)), m_pWidget, SLOT(OnIncomingMessage(QString, bool)));
 	connect(this, SIGNAL(systemMessage(QString)), m_pWidget, SLOT(OnSystemMessage(QString)));
-	connect(m_pWidget, SIGNAL(SendMessageS(QString,bool)), this, SLOT(SendMessage(QString,bool)));
-	connect(m_pWidget, SIGNAL(SendMessageS(QTextDocument*,bool)), this, SLOT(SendMessage(QTextDocument*,bool)));
+	connect(m_pWidget, SIGNAL(SendMessageS(QString, bool)), this, SLOT(SendMessage(QString, bool)));
+	connect(m_pWidget, SIGNAL(SendMessageS(QTextDocument*, bool)), this, SLOT(SendMessage(QTextDocument*, bool)));
 	connect(m_pWidget, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 }

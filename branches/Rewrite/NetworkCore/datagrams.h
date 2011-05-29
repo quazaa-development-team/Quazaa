@@ -72,8 +72,8 @@ protected:
 	quint16                          m_nSequence;
 
 	QHash < QHostAddress,
-		  QHash<quint32, DatagramIn*>
-		  >                    m_RecvCache;		// for searching by ip & sequence
+	      QHash<quint32, DatagramIn*>
+	      >                    m_RecvCache;		// for searching by ip & sequence
 	QLinkedList<DatagramIn*> m_RecvCacheTime;	// a list ordered by recv time, last is oldest
 
 	QLinkedList<DatagramIn*> m_FreeDGIn;		// a list of free incoming packets

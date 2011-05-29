@@ -55,8 +55,10 @@ public:
 	}
 	inline QString findCountryCode(CEndPoint& ip)
 	{
-		if( ip.protocol() == 1 ) // IPv6
+		if(ip.protocol() == 1)   // IPv6
+		{
 			return "ZZ";
+		}
 		quint32 ip4 = ip.toIPv4Address();
 		return findCountryCode(ip4);
 	}

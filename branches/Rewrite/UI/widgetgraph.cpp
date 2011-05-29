@@ -26,7 +26,7 @@
 #include "ui_widgetgraph.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetGraph::WidgetGraph(QWidget* parent) :
 	QMainWindow(parent),

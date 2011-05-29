@@ -27,7 +27,7 @@
 
 #include "quazaasettings.h"
 #include "systemlog.h"
- 
+
 
 WidgetSearch::WidgetSearch(QWidget* parent) :
 	QWidget(parent),

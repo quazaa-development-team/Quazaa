@@ -25,7 +25,7 @@
 #include "dialogeditshares.h"
 #include "ui_dialogeditshares.h"
 #include "quazaasettings.h"
- 
+
 #include <QFileDialog>
 
 DialogEditShares::DialogEditShares(QWidget* parent) :

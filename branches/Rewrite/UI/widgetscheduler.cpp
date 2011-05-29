@@ -27,7 +27,7 @@
 #include "dialogscheduler.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetScheduler::WidgetScheduler(QWidget* parent) :
 	QMainWindow(parent),

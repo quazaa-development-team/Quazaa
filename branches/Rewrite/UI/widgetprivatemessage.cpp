@@ -30,7 +30,7 @@
 #include <QDesktopServices>
 #include <QScrollBar>
 
-WidgetPrivateMessage::WidgetPrivateMessage(QWidget *parent) :
+WidgetPrivateMessage::WidgetPrivateMessage(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetPrivateMessage)
 {
@@ -43,15 +43,16 @@ WidgetPrivateMessage::~WidgetPrivateMessage()
 	delete ui;
 }
 
-void WidgetPrivateMessage::changeEvent(QEvent *e)
+void WidgetPrivateMessage::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
-	switch (e->type()) {
-	case QEvent::LanguageChange:
-		ui->retranslateUi(this);
-		break;
-	default:
-		break;
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -63,7 +64,7 @@ void WidgetPrivateMessage::on_textEdit_anchorClicked(QUrl link)
 void WidgetPrivateMessage::OnIncomingMessage(QString sMessage, bool bAction)
 {
 	qDebug() << "incoming message: " << sMessage;
-	if( bAction )
+	if(bAction)
 	{
 		ui->textEdit->append("* " + m_sNick + " " + sMessage);
 	}
@@ -91,7 +92,7 @@ void WidgetPrivateMessage::OnNickChanged(QString sNick)
 
 void WidgetPrivateMessage::SendMessage(QString sMessage, bool bAction)
 {
-	if( bAction )
+	if(bAction)
 	{
 		ui->textEdit->append("* " + quazaaSettings.Profile.GnutellaScreenName + " " + sMessage);
 	}
@@ -103,11 +104,11 @@ void WidgetPrivateMessage::SendMessage(QString sMessage, bool bAction)
 	emit SendMessageS(sMessage, bAction);
 }
 
-void WidgetPrivateMessage::SendMessage(QTextDocument *pMessage, bool bAction)
+void WidgetPrivateMessage::SendMessage(QTextDocument* pMessage, bool bAction)
 {
 	CChatConverter oConv(pMessage);
 
-	if( bAction )
+	if(bAction)
 	{
 		ui->textEdit->append("* " + quazaaSettings.Profile.GnutellaScreenName + " " + oConv.toHtml());
 	}

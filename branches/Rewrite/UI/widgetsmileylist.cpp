@@ -25,8 +25,8 @@
 #include "widgetsmileylist.h"
 #include "ui_widgetsmileylist.h"
 
-WidgetSmileyList::WidgetSmileyList(QWidget *parent) :
-    ui(new Ui::WidgetSmileyList)
+WidgetSmileyList::WidgetSmileyList(QWidget* parent) :
+	ui(new Ui::WidgetSmileyList)
 {
 	Q_UNUSED(parent);
 	ui->setupUi(this);
@@ -38,19 +38,20 @@ WidgetSmileyList::WidgetSmileyList(QWidget *parent) :
 
 WidgetSmileyList::~WidgetSmileyList()
 {
-    delete ui;
+	delete ui;
 }
 
-void WidgetSmileyList::changeEvent(QEvent *e)
+void WidgetSmileyList::changeEvent(QEvent* e)
 {
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+	QWidget::changeEvent(e);
+	switch(e->type())
+	{
+		case QEvent::LanguageChange:
+			ui->retranslateUi(this);
+			break;
+		default:
+			break;
+	}
 }
 
 void WidgetSmileyList::on_listWidget_itemClicked(QListWidgetItem* item)

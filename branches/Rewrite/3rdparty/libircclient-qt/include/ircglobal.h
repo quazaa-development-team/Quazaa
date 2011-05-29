@@ -46,7 +46,7 @@
     session->connectToServer(host, port);
 #endif
     \endcode
-    
+
     \sa IRC_VERSION_STR and Irc::version().
  */
 #define IRC_VERSION 0x000600

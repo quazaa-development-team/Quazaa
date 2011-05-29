@@ -28,7 +28,7 @@
 #include "hostcache.h"
 #include <QTcpSocket>
 
-CNeighbour::CNeighbour(QObject *parent) :
+CNeighbour::CNeighbour(QObject* parent) :
 	CCompressedConnection(parent)
 {
 	m_nProtocol = dpNull;

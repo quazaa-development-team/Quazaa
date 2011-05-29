@@ -33,7 +33,8 @@ namespace Irc
 	class Buffer;
 }
 
-namespace IrcEvent {
+namespace IrcEvent
+{
 	enum IrcEvent { Command, Status, Notice, Message, Action, Server };
 }
 
@@ -75,7 +76,7 @@ protected slots:
 	void numericMessageReceived(QString sender, uint code, QStringList list);
 
 protected:
-	Irc::Session *ircSession;
+	Irc::Session* ircSession;
 };
 
 #endif //QUAZAAIRC_H

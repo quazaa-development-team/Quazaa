@@ -24,7 +24,7 @@
 
 #include "dialogaddsecuritysubscription.h"
 #include "ui_dialogaddsecuritysubscription.h"
- 
+
 
 DialogAddSecuritySubscription::DialogAddSecuritySubscription(QWidget* parent) :
 	QDialog(parent),

@@ -26,7 +26,7 @@
 #include "ui_widgettransfers.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetTransfers::WidgetTransfers(QWidget* parent) :
 	QWidget(parent),

@@ -26,7 +26,7 @@
 #include "ui_widgetsearchmonitor.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetSearchMonitor::WidgetSearchMonitor(QWidget* parent) :
 	QMainWindow(parent),

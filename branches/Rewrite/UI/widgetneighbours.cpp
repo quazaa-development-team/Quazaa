@@ -158,23 +158,23 @@ void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
 
-	if (accepted)
+	if(accepted)
 	{
 		CEndPoint ip(dlgConnectTo->getAddressAndPort());
 
-		switch (dlgConnectTo->getConnectNetwork())
+		switch(dlgConnectTo->getConnectNetwork())
 		{
-		case DialogConnectTo::G2:
-			Network.m_pSection.lock();
-			Network.ConnectTo(ip);
-			Network.m_pSection.unlock();
-			break;
-		case DialogConnectTo::eDonkey:
-			break;
-		case DialogConnectTo::Ares:
-			break;
-		default:
-			break;
+			case DialogConnectTo::G2:
+				Network.m_pSection.lock();
+				Network.ConnectTo(ip);
+				Network.m_pSection.unlock();
+				break;
+			case DialogConnectTo::eDonkey:
+				break;
+			case DialogConnectTo::Ares:
+				break;
+			default:
+				break;
 		}
 	}
 }
@@ -184,11 +184,13 @@ void WidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 	QModelIndex idx = ui->tableViewNeighbours->currentIndex();
 	CNeighbour* pNode = neighboursList->NodeFromIndex(idx);
 
-	if( pNode == 0 )
+	if(pNode == 0)
+	{
 		return;
+	}
 
 	Neighbours.m_pSection.lock();
-	if( Neighbours.NeighbourExists(pNode) )
+	if(Neighbours.NeighbourExists(pNode))
 	{
 		systemLog.postLog(LogSeverity::Information, qPrintable(tr("Closing connection to neighbour %s")), qPrintable(pNode->m_oAddress.toStringWithPort()));
 		pNode->Close();
@@ -206,24 +208,26 @@ void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 {
 	QMutexLocker l(&Neighbours.m_pSection);
 
-	if (ui->tableViewNeighbours->currentIndex().isValid())
+	if(ui->tableViewNeighbours->currentIndex().isValid())
 	{
 		QModelIndex idx = ui->tableViewNeighbours->currentIndex();
 		CNeighbour* pNode = neighboursList->NodeFromIndex(idx);
 
-		if( pNode == 0 )
+		if(pNode == 0)
+		{
 			return;
-
-		switch( pNode->m_nProtocol)
-		{
-		case dpGnutella2:
-		{
-			CChatSessionG2* pS = new CChatSessionG2(pNode->m_oAddress);
-			pS->Connect();
-			break;
 		}
-		default:
-			break;
+
+		switch(pNode->m_nProtocol)
+		{
+			case dpGnutella2:
+			{
+				CChatSessionG2* pS = new CChatSessionG2(pNode->m_oAddress);
+				pS->Connect();
+				break;
+			}
+			default:
+				break;
 
 		}
 	}

@@ -55,7 +55,7 @@ public:
 	ChatState		  m_nState;
 	QString			  m_sNick;
 public:
-	CChatSession(QObject *parent = 0);
+	CChatSession(QObject* parent = 0);
 	virtual ~CChatSession();
 
 	virtual void Connect();

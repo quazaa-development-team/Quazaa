@@ -26,7 +26,7 @@
 #include "ui_widgethostcache.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetHostCache::WidgetHostCache(QWidget* parent) :
 	QMainWindow(parent),

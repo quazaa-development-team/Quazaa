@@ -40,7 +40,7 @@ class DialogConnectTo : public QDialog
 public:
 	DialogConnectTo(QWidget* parent = 0);
 	~DialogConnectTo();
-	enum ConnectNetwork{G2 = 0, eDonkey, Ares};
+	enum ConnectNetwork {G2 = 0, eDonkey, Ares};
 
 signals:
 	void closed();

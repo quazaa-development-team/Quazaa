@@ -37,17 +37,17 @@ void SystemLog::postLog(LogSeverity::Severity severity, QString message)
 {
 	switch(severity)
 	{
-	case LogSeverity::Debug:
-		qDebug() << qPrintable(message);
-		break;
-	case LogSeverity::Warning:
-		qWarning() << qPrintable(message);
-		break;
-	case LogSeverity::Critical:
-		qCritical() << qPrintable(message);
-		break;
-	default:
-		break;
+		case LogSeverity::Debug:
+			qDebug() << qPrintable(message);
+			break;
+		case LogSeverity::Warning:
+			qWarning() << qPrintable(message);
+			break;
+		case LogSeverity::Critical:
+			qCritical() << qPrintable(message);
+			break;
+		default:
+			break;
 	}
 	emit logPosted(message, severity);
 }

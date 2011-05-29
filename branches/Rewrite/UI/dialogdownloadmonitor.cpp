@@ -24,7 +24,7 @@
 
 #include "dialogdownloadmonitor.h"
 #include "ui_dialogdownloadmonitor.h"
- 
+
 
 DialogDownloadMonitor::DialogDownloadMonitor(QWidget* parent) :
 	QDialog(parent),

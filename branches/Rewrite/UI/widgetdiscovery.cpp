@@ -26,7 +26,7 @@
 #include "ui_widgetdiscovery.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	QMainWindow(parent),

@@ -230,7 +230,7 @@ WinMain::WinMain(QWidget* parent) :
 			ui->actionHome->setChecked(true);
 			break;
 	}
-        ui->menubarMain->setStyleSheet("QMenuBar::item:!selected,  QMenuBar::item:!pressed { color: " + qApp->palette().buttonText().color().name() + "; background: transparent; }");
+	ui->menubarMain->setStyleSheet("QMenuBar::item:!selected,  QMenuBar::item:!pressed { color: " + qApp->palette().buttonText().color().name() + "; background: transparent; }");
 	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_clicked()));
 	connect(pageHome, SIGNAL(requestSearch(QString*)), this, SLOT(startNewSearch(QString*)));
 	connect(pageHome, SIGNAL(triggerLibrary()), this, SLOT(on_actionLibrary_triggered()));
@@ -278,7 +278,7 @@ void WinMain::loadTrayIcon()
 	trayIcon->setContextMenu(trayMenu);
 	// Connect an event handler to the tray icon so we can handle mouse events
 	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-			this, SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
+	        this, SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
 	trayIcon->show();
 }
 
@@ -715,8 +715,8 @@ void WinMain::on_actionChooseLanguage_triggered()
 
 void WinMain::on_actionQuickstartWizard_triggered()
 {
-    WizardQuickStart* wzrdQuickStart = new WizardQuickStart(this);
-    wzrdQuickStart->exec();
+	WizardQuickStart* wzrdQuickStart = new WizardQuickStart(this);
+	wzrdQuickStart->exec();
 }
 
 void WinMain::on_actionUsersGuide_triggered()
@@ -847,23 +847,23 @@ void WinMain::on_actionConnectTo_triggered()
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
 
-	if (accepted)
+	if(accepted)
 	{
 		CEndPoint ip(dlgConnectTo->getAddressAndPort());
 
-		switch (dlgConnectTo->getConnectNetwork())
+		switch(dlgConnectTo->getConnectNetwork())
 		{
-		case DialogConnectTo::G2:
-			Network.m_pSection.lock();
-			Network.ConnectTo(ip);
-			Network.m_pSection.unlock();
-			break;
-		case DialogConnectTo::eDonkey:
-			break;
-		case DialogConnectTo::Ares:
-			break;
-		default:
-			break;
+			case DialogConnectTo::G2:
+				Network.m_pSection.lock();
+				Network.ConnectTo(ip);
+				Network.m_pSection.unlock();
+				break;
+			case DialogConnectTo::eDonkey:
+				break;
+			case DialogConnectTo::Ares:
+				break;
+			default:
+				break;
 		}
 	}
 }
@@ -871,7 +871,7 @@ void WinMain::on_actionConnectTo_triggered()
 
 void WinMain::OpenChat(CChatSession* pSess)
 {
-	if( dlgPrivateMessages == 0 )
+	if(dlgPrivateMessages == 0)
 	{
 		dlgPrivateMessages = new DialogPrivateMessages(0);
 		connect(dlgPrivateMessages, SIGNAL(destroyed()), this, SLOT(onLastChatClosed()));
@@ -884,28 +884,28 @@ void WinMain::OpenChat(CChatSession* pSess)
 
 
 void WinMain::on_actionChatWith_triggered()
-{	
+{
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
 
-	if (accepted)
+	if(accepted)
 	{
 		CEndPoint ip(dlgConnectTo->getAddressAndPort());
 
-		switch (dlgConnectTo->getConnectNetwork())
+		switch(dlgConnectTo->getConnectNetwork())
 		{
-		case DialogConnectTo::G2:
-		{
-			CChatSessionG2* pS = new CChatSessionG2(ip);
-			pS->Connect();
-			break;
-		}
-		case DialogConnectTo::eDonkey:
-			break;
-		case DialogConnectTo::Ares:
-			break;
-		default:
-			break;
+			case DialogConnectTo::G2:
+			{
+				CChatSessionG2* pS = new CChatSessionG2(ip);
+				pS->Connect();
+				break;
+			}
+			case DialogConnectTo::eDonkey:
+				break;
+			case DialogConnectTo::Ares:
+				break;
+			default:
+				break;
 		}
 	}
 }

@@ -24,7 +24,7 @@
 
 #include "dialoghashprogress.h"
 #include "ui_dialoghashprogress.h"
- 
+
 
 DialogHashProgress::DialogHashProgress(QWidget* parent) :
 	QDialog(parent),

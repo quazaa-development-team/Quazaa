@@ -47,7 +47,7 @@ private:
 	Ui::WidgetPacketDump* ui;
 
 private slots:
-	 
+
 };
 
 #endif // WIDGETPACKETDUMP_H

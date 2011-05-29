@@ -59,11 +59,11 @@ public:
 
 	quint32			m_nHAWWait;
 
-	QHash<quint32,quint32> m_lRABan; // list of banned return addresses
+	QHash<quint32, quint32> m_lRABan; // list of banned return addresses
 
 public:
 	CG2Node(QObject* parent = 0);
-	~CG2Node();
+	virtual ~CG2Node();
 
 	void AttachTo(CNetworkConnection* pOther)
 	{
@@ -108,8 +108,10 @@ protected:
 	qint64 writeToNetwork(qint64 nBytes);
 	bool HasData()
 	{
-		if( !m_lSendQueue.isEmpty() )
+		if(!m_lSendQueue.isEmpty())
+		{
 			return true;
+		}
 
 		return CNeighbour::HasData();
 	}

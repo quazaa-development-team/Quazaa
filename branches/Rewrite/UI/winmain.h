@@ -88,7 +88,7 @@ public:
 	WidgetPacketDump* pagePacketDump;
 	WidgetSearchMonitor* pageSearchMonitor;
 	WidgetHitMonitor* pageHitMonitor;
-	DialogPrivateMessages *dlgPrivateMessages;
+	DialogPrivateMessages* dlgPrivateMessages;
 
 signals:
 	void Show();

@@ -24,23 +24,27 @@
 
 #include "widgetreturnemittextedit.h"
 
-WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
+WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget* parent)
 {
 	Q_UNUSED(parent);
 	emitReturn = true;
 }
 
-void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
+void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent* event)
 {
-	if (event->key() == Qt::Key_Return)
+	if(event->key() == Qt::Key_Return)
 	{
-		if (emitReturn)
+		if(emitReturn)
 		{
 			emit returnPressed();
-		} else {
+		}
+		else
+		{
 			QTextEdit::keyPressEvent(event);
 		}
-	} else {
+	}
+	else
+	{
 		QTextEdit::keyPressEvent(event);
 	}
 }

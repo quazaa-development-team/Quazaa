@@ -27,16 +27,17 @@
 
 #include <QDialog>
 
-namespace Ui {
-    class DialogIRCColorDialog;
+namespace Ui
+{
+	class DialogIRCColorDialog;
 }
 
 class DialogIRCColorDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-	explicit DialogIRCColorDialog(QColor initialColor, QWidget *parent = 0);
+	explicit DialogIRCColorDialog(QColor initialColor, QWidget* parent = 0);
 	~DialogIRCColorDialog();
 	QColor m_oIRCColor;
 
@@ -76,7 +77,7 @@ private slots:
 	void on_toolButtonOlive_clicked();
 
 private:
-    Ui::DialogIRCColorDialog *ui;
+	Ui::DialogIRCColorDialog* ui;
 };
 
 #endif // DIALOGIRCCOLORDIALOG_H

@@ -62,17 +62,17 @@ WidgetChatRoom::WidgetChatRoom(QuazaaIRC* quazaaIrc, Irc::Buffer* buffer, QWidge
 	roomBuffer = buffer;
 	chatUserListModel = new ChatUserListModel();
 	buffer->names();
-	connect(roomBuffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
-	connect(roomBuffer, SIGNAL(ctcpActionReceived(QString,QString)), this, SLOT(ctcpActionReceived(QString,QString)));
-	connect(roomBuffer, SIGNAL(noticeReceived(QString,QString)), this, SLOT(noticeReceived(QString,QString)));
+	connect(roomBuffer, SIGNAL(messageReceived(QString, QString)), this, SLOT(messageReceived(QString, QString)));
+	connect(roomBuffer, SIGNAL(ctcpActionReceived(QString, QString)), this, SLOT(ctcpActionReceived(QString, QString)));
+	connect(roomBuffer, SIGNAL(noticeReceived(QString, QString)), this, SLOT(noticeReceived(QString, QString)));
 	connect(roomBuffer, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
-	connect(roomBuffer, SIGNAL(parted(QString,QString)), this, SLOT(parted(QString,QString)));
-	connect(roomBuffer, SIGNAL(topicChanged(QString,QString)), this, SLOT(onTopicChanged(QString,QString)));
-	connect(roomBuffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this ,SLOT(numericMessageReceived(QString,uint,QStringList)));
+	connect(roomBuffer, SIGNAL(parted(QString, QString)), this, SLOT(parted(QString, QString)));
+	connect(roomBuffer, SIGNAL(topicChanged(QString, QString)), this, SLOT(onTopicChanged(QString, QString)));
+	connect(roomBuffer, SIGNAL(numericMessageReceived(QString, uint, QStringList)), this , SLOT(numericMessageReceived(QString, uint, QStringList)));
 	connect(roomBuffer, SIGNAL(namesReceived(QStringList)), this, SLOT(updateUsers()));
-	connect(roomBuffer, SIGNAL(quit(QString,QString)), this, SLOT(leftServer(QString,QString)));
-	connect(roomBuffer, SIGNAL(modeChanged(QString,QString,QString)), this, SLOT(updateUserMode(QString,QString,QString)));
-	connect(roomBuffer, SIGNAL(nickChanged(QString,QString)), this, SLOT(nickChanged(QString,QString)));
+	connect(roomBuffer, SIGNAL(quit(QString, QString)), this, SLOT(leftServer(QString, QString)));
+	connect(roomBuffer, SIGNAL(modeChanged(QString, QString, QString)), this, SLOT(updateUserMode(QString, QString, QString)));
+	connect(roomBuffer, SIGNAL(nickChanged(QString, QString)), this, SLOT(nickChanged(QString, QString)));
 	connect(roomBuffer, SIGNAL(destroyed()), this, SLOT(close()));
 	connect(this, SIGNAL(destroyed()), roomBuffer, SLOT(deleteLater()));
 }
@@ -121,36 +121,37 @@ void WidgetChatRoom::on_textBrowser_anchorClicked(QUrl link)
 
 
 void WidgetChatRoom::appendMessage(QString sender, QString message, IrcEvent::IrcEvent event)
-{	//systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
+{
+	//systemLog.postLog(LogSeverity::Debug, QString("Got a message from IRC buffer %1 | sender = %2 | event = %3").arg(buffer->receiver()).arg(sender).arg(evendt));
 	//qDebug() << "Got a message from buffer " + (buffer->receiver()) + " | sender = " + sender + "| event = " + evendt;
 	switch(event)
 	{
-	case IrcEvent::Command:
+		case IrcEvent::Command:
 
-		break;
-	case IrcEvent::Message:
-		ui->textBrowser->append("&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true));
-		break;
-	case IrcEvent::Notice:
-		ui->textBrowser->append(wrapWithColor(Irc::Util::nickFromTarget(sender) + ": " + Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("red").name()));
-		break;
-	case IrcEvent::Action:
-		ui->textBrowser->append(wrapWithColor("* " + Irc::Util::nickFromTarget(sender) + " " + Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("blue").name()));
-		break;
-	case IrcEvent::Server:
-		//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
-		//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
-		//tab->append(message);
-		ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("olive").name()));
-		break;
-	case IrcEvent::Status:
-		ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
-		break;
+			break;
+		case IrcEvent::Message:
+			ui->textBrowser->append("&lt;" + Irc::Util::nickFromTarget(sender) + "&gt; " + Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true));
+			break;
+		case IrcEvent::Notice:
+			ui->textBrowser->append(wrapWithColor(Irc::Util::nickFromTarget(sender) + ": " + Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("red").name()));
+			break;
+		case IrcEvent::Action:
+			ui->textBrowser->append(wrapWithColor("* " + Irc::Util::nickFromTarget(sender) + " " + Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("blue").name()));
+			break;
+		case IrcEvent::Server:
+			//WidgetChatTab *ctab  = qobject_cast<WidgetChatTab*>(ui->tabWidget->widget(0));
+			//qDebug() << "STATUSMESSAGE : "+buffer->receiver() + "|"+sender+"|"+message;
+			//tab->append(message);
+			ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("olive").name()));
+			break;
+		case IrcEvent::Status:
+			ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(message, qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
+			break;
 
-	default:
-		systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter::appendMessage: No event!"));
-		//qDebug() << "This should not happen!";
-		break;
+		default:
+			systemLog.postLog(LogSeverity::Debug, QString("WidgetChatCenter::appendMessage: No event!"));
+			//qDebug() << "This should not happen!";
+			break;
 	}
 }
 
@@ -161,25 +162,26 @@ void WidgetChatRoom::onTopicChanged(QString origin, QString topic)
 
 void WidgetChatRoom::numericMessageReceived(QString sender, uint code, QStringList list)
 {
-	switch (code)
+	switch(code)
 	{
-	case Irc::Rfc::RPL_NAMREPLY:
+		case Irc::Rfc::RPL_NAMREPLY:
 			emit userNames(list);
-		break;
-	case Irc::Rfc::RPL_BOUNCE:
-	{
-		for (int i = 0 ; i<list.size() ; ++i) {
-			QString opt = list.at(i);
-			if (opt.startsWith("PREFIX=", Qt::CaseInsensitive))
+			break;
+		case Irc::Rfc::RPL_BOUNCE:
+		{
+			for(int i = 0 ; i < list.size() ; ++i)
 			{
-				QString prefstr	= opt.split("=")[1];
-				QString modes	= prefstr.mid(1, prefstr.indexOf(")")-1);
-				QString mprefs	= prefstr.right(modes.length());
-				setPrefixes(modes, mprefs);
+				QString opt = list.at(i);
+				if(opt.startsWith("PREFIX=", Qt::CaseInsensitive))
+				{
+					QString prefstr	= opt.split("=")[1];
+					QString modes	= prefstr.mid(1, prefstr.indexOf(")") - 1);
+					QString mprefs	= prefstr.right(modes.length());
+					setPrefixes(modes, mprefs);
+				}
 			}
 		}
-	}
-	default:
+		default:
 		{
 			// append to status
 			list.removeFirst();
@@ -216,8 +218,8 @@ void WidgetChatRoom::joined(QString name)
 {
 	name = Irc::Util::nickFromTarget(name);
 	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
-		 tr("%1 has joined this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(name),
-		 qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
+	        tr("%1 has joined this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(name),
+	        qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
 	chatUserListModel->addUser(name, roomBuffer->modes(name));
 }
 
@@ -225,8 +227,8 @@ void WidgetChatRoom::parted(QString name, QString reason)
 {
 	name = Irc::Util::nickFromTarget(name);
 	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
-		 tr("%1 has left this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason),
-		 qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
+	        tr("%1 has left this channel (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason),
+	        qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
 	chatUserListModel->removeUser(name);
 }
 
@@ -234,8 +236,8 @@ void WidgetChatRoom::leftServer(QString name, QString reason)
 {
 	name = Irc::Util::nickFromTarget(name);
 	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
-		tr("%1 has left this server (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason),
-		qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
+	        tr("%1 has left this server (%2).").arg(Irc::Util::nickFromTarget(name)).arg(reason),
+	        qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
 	chatUserListModel->removeUser(name);
 }
 
@@ -253,33 +255,33 @@ QString WidgetChatRoom::wrapWithColor(QString message, QString wrapColor)
 	return message;
 }
 
-void WidgetChatRoom::updateUserMode(QString hostMask,QString mode,QString name)
+void WidgetChatRoom::updateUserMode(QString hostMask, QString mode, QString name)
 {
 	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
-		 tr("%1 sets mode %2 on %3.").arg(Irc::Util::nickFromTarget(hostMask)).arg(mode).arg(name),
-		 qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
+	        tr("%1 sets mode %2 on %3.").arg(Irc::Util::nickFromTarget(hostMask)).arg(mode).arg(name),
+	        qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
 	chatUserListModel->updateUserMode(hostMask, mode, name);
 }
 
 void WidgetChatRoom::nickChanged(QString oldNick, QString newNick)
 {
 	ui->textBrowser->append(wrapWithColor(Irc::Util::messageToHtml(
-		 tr("%1 is now known as %2.").arg(Irc::Util::nickFromTarget(oldNick)).arg(newNick),
-		 qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
+	        tr("%1 is now known as %2.").arg(Irc::Util::nickFromTarget(oldNick)).arg(newNick),
+	        qApp->palette().foreground().color().name(), true, true), QColor("purple").name()));
 	chatUserListModel->changeNick(Irc::Util::nickFromTarget(oldNick), newNick);
 }
 
-void WidgetChatRoom::addBuffer(Irc::Buffer *buffer)
+void WidgetChatRoom::addBuffer(Irc::Buffer* buffer)
 {
-	connect(buffer, SIGNAL(messageReceived(QString,QString)), this, SLOT(messageReceived(QString,QString)));
-	connect(buffer, SIGNAL(ctcpActionReceived(QString,QString)), this, SLOT(ctcpActionReceived(QString,QString)));
-	connect(buffer, SIGNAL(noticeReceived(QString,QString)), this, SLOT(noticeReceived(QString,QString)));
+	connect(buffer, SIGNAL(messageReceived(QString, QString)), this, SLOT(messageReceived(QString, QString)));
+	connect(buffer, SIGNAL(ctcpActionReceived(QString, QString)), this, SLOT(ctcpActionReceived(QString, QString)));
+	connect(buffer, SIGNAL(noticeReceived(QString, QString)), this, SLOT(noticeReceived(QString, QString)));
 	connect(buffer, SIGNAL(joined(QString)), this, SLOT(joined(QString)));
-	connect(buffer, SIGNAL(parted(QString,QString)), this, SLOT(parted(QString,QString)));
-	connect(buffer, SIGNAL(topicChanged(QString,QString)), this, SLOT(onTopicChanged(QString,QString)));
-	connect(buffer, SIGNAL(numericMessageReceived(QString,uint,QStringList)), this ,SLOT(numericMessageReceived(QString,uint,QStringList)));
+	connect(buffer, SIGNAL(parted(QString, QString)), this, SLOT(parted(QString, QString)));
+	connect(buffer, SIGNAL(topicChanged(QString, QString)), this, SLOT(onTopicChanged(QString, QString)));
+	connect(buffer, SIGNAL(numericMessageReceived(QString, uint, QStringList)), this , SLOT(numericMessageReceived(QString, uint, QStringList)));
 	connect(buffer, SIGNAL(namesReceived(QStringList)), this, SLOT(updateUsers()));
-	connect(buffer, SIGNAL(quit(QString,QString)), this, SLOT(leftServer(QString,QString)));
-	connect(buffer, SIGNAL(modeChanged(QString,QString,QString)), this, SLOT(updateUserMode(QString,QString,QString)));
-	connect(buffer, SIGNAL(nickChanged(QString,QString)), this, SLOT(nickChanged(QString,QString)));
+	connect(buffer, SIGNAL(quit(QString, QString)), this, SLOT(leftServer(QString, QString)));
+	connect(buffer, SIGNAL(modeChanged(QString, QString, QString)), this, SLOT(updateUserMode(QString, QString, QString)));
+	connect(buffer, SIGNAL(nickChanged(QString, QString)), this, SLOT(nickChanged(QString, QString)));
 }

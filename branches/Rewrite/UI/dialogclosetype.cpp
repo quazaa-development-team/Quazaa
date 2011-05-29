@@ -25,7 +25,7 @@
 #include "dialogclosetype.h"
 #include "ui_dialogclosetype.h"
 #include "quazaasettings.h"
- 
+
 
 DialogCloseType::DialogCloseType(QWidget* parent) :
 	QDialog(parent),

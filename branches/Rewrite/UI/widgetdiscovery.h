@@ -47,7 +47,7 @@ private:
 	Ui::WidgetDiscovery* ui;
 
 private slots:
-	 
+
 };
 
 #endif // WIDGETDISCOVERY_H

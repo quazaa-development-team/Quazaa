@@ -26,7 +26,7 @@
 #include "ui_widgetpacketdump.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetPacketDump::WidgetPacketDump(QWidget* parent) :
 	QMainWindow(parent),

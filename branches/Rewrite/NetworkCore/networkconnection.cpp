@@ -107,7 +107,7 @@ void CNetworkConnection::AttachTo(CNetworkConnection* pOther)
 	m_pOutput = pOther->m_pOutput;
 	pOther->m_pInput = pOther->m_pOutput = 0;
 
-	if( m_pSocket->peerAddress().protocol() == 0 )
+	if(m_pSocket->peerAddress().protocol() == 0)
 	{
 		m_oAddress.setAddress(m_pSocket->peerAddress().toIPv4Address());
 	}
@@ -139,7 +139,7 @@ void CNetworkConnection::AcceptFrom(int nHandle)
 	m_pOutput = new CBuffer(8192);
 
 	m_pSocket->setSocketDescriptor(nHandle);
-	if( m_pSocket->peerAddress().protocol() == 0 )
+	if(m_pSocket->peerAddress().protocol() == 0)
 	{
 		m_oAddress.setAddress(m_pSocket->peerAddress().toIPv4Address());
 	}
@@ -187,21 +187,21 @@ void CNetworkConnection::initializeSocket()
 	m_pSocket->disconnect();
 
 	connect(m_pSocket, SIGNAL(connected()),
-			this, SIGNAL(connected()));
+	        this, SIGNAL(connected()));
 	connect(m_pSocket, SIGNAL(connected()),
-			this, SIGNAL(readyToTransfer()));
+	        this, SIGNAL(readyToTransfer()));
 	connect(m_pSocket, SIGNAL(readyRead()),
-			this, SIGNAL(readyToTransfer()));
+	        this, SIGNAL(readyToTransfer()));
 	connect(m_pSocket, SIGNAL(disconnected()),
-			this, SIGNAL(disconnected()));
+	        this, SIGNAL(disconnected()));
 	connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-			this, SIGNAL(error(QAbstractSocket::SocketError)));
+	        this, SIGNAL(error(QAbstractSocket::SocketError)));
 	connect(m_pSocket, SIGNAL(bytesWritten(qint64)),
-			this, SIGNAL(bytesWritten(qint64)));
+	        this, SIGNAL(bytesWritten(qint64)));
 	connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
-			this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
+	        this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
 	connect(m_pSocket, SIGNAL(aboutToClose()),
-			this, SIGNAL(aboutToClose()));
+	        this, SIGNAL(aboutToClose()));
 
 	connect(this, SIGNAL(connected()), this, SLOT(OnConnect()), Qt::QueuedConnection);
 	connect(this, SIGNAL(disconnected()), this, SLOT(OnDisconnect()), Qt::QueuedConnection);

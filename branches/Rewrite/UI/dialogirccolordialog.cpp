@@ -25,17 +25,17 @@
 #include "dialogirccolordialog.h"
 #include "ui_dialogirccolordialog.h"
 
-DialogIRCColorDialog::DialogIRCColorDialog(QColor initialColor, QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogIRCColorDialog)
+DialogIRCColorDialog::DialogIRCColorDialog(QColor initialColor, QWidget* parent) :
+	QDialog(parent),
+	ui(new Ui::DialogIRCColorDialog)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	m_oIRCColor = initialColor;
 }
 
 DialogIRCColorDialog::~DialogIRCColorDialog()
 {
-    delete ui;
+	delete ui;
 }
 
 void DialogIRCColorDialog::on_toolButtonWhite_clicked()

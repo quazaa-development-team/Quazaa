@@ -46,12 +46,12 @@ public:
 	WidgetChatMiddle(QWidget* parent = 0);
 	~WidgetChatMiddle();
 	QuazaaIRC* quazaaIrc;
-	WidgetChatInput *widgetChatInput;
-	QStringListModel *channelListModel;
+	WidgetChatInput* widgetChatInput;
+	QStringListModel* channelListModel;
 
 signals:
 	void roomChanged(WidgetChatRoom* room);
-	void messageSent(QString *text);
+	void messageSent(QString* text);
 	void updateUserCount(int operators, int users);
 
 protected:
@@ -63,7 +63,7 @@ private:
 
 public slots:
 	void saveWidget();
-	WidgetChatRoom* roomByName(QString roomName,Irc::Buffer *buffer);
+	WidgetChatRoom* roomByName(QString roomName, Irc::Buffer* buffer);
 	WidgetChatRoom* roomByBuffer(Irc::Buffer* buffer);
 	WidgetChatRoom* currentRoom();
 
@@ -71,8 +71,8 @@ private slots:
 	void on_actionDisconnect_triggered();
 	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
-	void onSendMessage(QTextDocument *message);
-	void addBuffer(Irc::Buffer *buffer);
+	void onSendMessage(QTextDocument* message);
+	void addBuffer(Irc::Buffer* buffer);
 	void removeBuffer(Irc::Buffer* buffer);
 	void on_stackedWidgetChatRooms_currentChanged(int);
 	void on_actionEditMyProfile_triggered();

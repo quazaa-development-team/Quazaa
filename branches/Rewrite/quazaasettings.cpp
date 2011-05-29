@@ -37,7 +37,7 @@ QuazaaSettings::QuazaaSettings()
 
 void QuazaaSettings::saveSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Live");
 	m_qSettings.setValue("AdultWarning", quazaaSettings.Live.AdultWarning);
@@ -454,7 +454,7 @@ void QuazaaSettings::saveSettings()
 
 void QuazaaSettings::loadSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Live");
 	quazaaSettings.Live.AdultWarning = m_qSettings.value("AdultWarning", false).toBool();
@@ -1033,7 +1033,7 @@ void QuazaaSettings::loadSettings()
 
 void QuazaaSettings::saveProfile()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Profile");
 	m_qSettings.setValue("Age", quazaaSettings.Profile.Age);
@@ -1066,7 +1066,7 @@ void QuazaaSettings::saveProfile()
 
 void QuazaaSettings::loadProfile()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Profile");
 
@@ -1116,7 +1116,7 @@ void QuazaaSettings::loadProfile()
 void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 {
 
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.setValue("WindowGeometry", window->saveGeometry());
 	m_qSettings.setValue("WindowState", window->saveState());
@@ -1192,7 +1192,7 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 {
 
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	QList<QVariant> intListInitializer;
 	intListInitializer << 0 << 0;
 
@@ -1263,7 +1263,7 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 
 void QuazaaSettings::saveLanguageSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Language");
 	m_qSettings.setValue("LanguageFile", quazaaSettings.Language.File);
@@ -1272,7 +1272,7 @@ void QuazaaSettings::saveLanguageSettings()
 
 void QuazaaSettings::loadLanguageSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Language");
 	quazaaSettings.Language.File = m_qSettings.value("LanguageFile", ("quazaa_default_en")).toString();
@@ -1281,31 +1281,31 @@ void QuazaaSettings::loadLanguageSettings()
 
 void QuazaaSettings::saveFirstRun(bool firstRun)
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	m_qSettings.setValue("FirstRun", firstRun);
 }
 
 bool QuazaaSettings::FirstRun()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	return m_qSettings.value("FirstRun", true).toBool();
 }
 
 void QuazaaSettings::saveSkinSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	m_qSettings.setValue("SkinFile", Skin.File);
 }
 
 void QuazaaSettings::loadSkinSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	Skin.File = m_qSettings.value("SkinFile", qApp->applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
 }
 
 void QuazaaSettings::saveLogSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Logging");
 	m_qSettings.setValue("SaveLog", Logging.SaveLog);
@@ -1323,7 +1323,7 @@ void QuazaaSettings::saveLogSettings()
 
 void QuazaaSettings::loadLogSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Logging");
 	Logging.SaveLog = m_qSettings.value("SaveLog", false).toBool();

@@ -47,7 +47,7 @@ private:
 	Ui::WidgetSearchMonitor* ui;
 
 private slots:
-	 
+
 };
 
 #endif // WIDGETSEARCHMONITOR_H

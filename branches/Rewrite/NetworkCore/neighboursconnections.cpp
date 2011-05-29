@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -33,7 +33,7 @@
 #include "neighbours.h"
 #include "thread.h"
 
-CNeighboursConnections::CNeighboursConnections(QObject *parent) :
+CNeighboursConnections::CNeighboursConnections(QObject* parent) :
 	CNeighboursRouting(parent),
 	m_pController(0),
 	m_nHubsConnectedG2(0),
@@ -71,7 +71,7 @@ void CNeighboursConnections::Disconnect()
 	CNeighboursRouting::Disconnect();
 }
 
-void CNeighboursConnections::AddNode(CNeighbour *pNode)
+void CNeighboursConnections::AddNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
 
@@ -79,7 +79,7 @@ void CNeighboursConnections::AddNode(CNeighbour *pNode)
 
 	CNeighboursRouting::AddNode(pNode);
 }
-void CNeighboursConnections::RemoveNode(CNeighbour *pNode)
+void CNeighboursConnections::RemoveNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
 
@@ -133,36 +133,36 @@ void CNeighboursConnections::Maintain()
 	quint32 nCoreHubsG2 = 0, nCoreLeavesG2 = 0;
 	quint32 nUnknown = 0;
 
-	foreach(CNeighbour* pNode, m_lNodes)
+	foreach(CNeighbour * pNode, m_lNodes)
 	{
-		if( pNode->m_nState == nsConnected )
+		if(pNode->m_nState == nsConnected)
 		{
-			switch( pNode->m_nProtocol )
+			switch(pNode->m_nProtocol)
 			{
-			case dpGnutella2:
-				switch(((CG2Node*)pNode)->m_nType)
-				{
-					case G2_UNKNOWN:
-						nUnknown++;
-						break;
-					case G2_HUB:
-						nHubsG2++;
-						if(((CG2Node*)pNode)->m_bG2Core)
-						{
-							nCoreHubsG2++;
-						}
-						break;
-					case G2_LEAF:
-						nLeavesG2++;
-						if(((CG2Node*)pNode)->m_bG2Core)
-						{
-							nCoreLeavesG2++;
-						}
-				}
-				break;
-			default:
-				nUnknown++;
-				break;
+				case dpGnutella2:
+					switch(((CG2Node*)pNode)->m_nType)
+					{
+						case G2_UNKNOWN:
+							nUnknown++;
+							break;
+						case G2_HUB:
+							nHubsG2++;
+							if(((CG2Node*)pNode)->m_bG2Core)
+							{
+								nCoreHubsG2++;
+							}
+							break;
+						case G2_LEAF:
+							nLeavesG2++;
+							if(((CG2Node*)pNode)->m_bG2Core)
+							{
+								nCoreLeavesG2++;
+							}
+					}
+					break;
+				default:
+					nUnknown++;
+					break;
 			}
 		}
 		else
@@ -297,7 +297,7 @@ quint32 CNeighboursConnections::UploadSpeed()
 	return m_pController ? m_pController->UploadSpeed() : 0;
 }
 
-CNeighbour * CNeighboursConnections::OnAccept(CNetworkConnection *pConn)
+CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 {
 	// TODO: Make new CNeighbour deriviate for handshaking with Gnutella clients
 
@@ -306,7 +306,7 @@ CNeighbour * CNeighboursConnections::OnAccept(CNetworkConnection *pConn)
 	systemLog.postLog(LogSeverity::Debug, "CNeighbours::OnAccept");
 	//qDebug() << "CNeighbours::OnAccept";
 
-	if( !m_bActive )
+	if(!m_bActive)
 	{
 		pConn->Close();
 		return 0;
@@ -329,19 +329,19 @@ CNeighbour * CNeighboursConnections::OnAccept(CNetworkConnection *pConn)
 	return pNew;
 }
 
-CNeighbour * CNeighboursConnections::ConnectTo(CEndPoint &oAddress, DiscoveryProtocol nProtocol)
+CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol)
 {
 	ASSUME_LOCK(m_pSection);
 
 	CNeighbour* pNode = 0;
 
-	switch( nProtocol )
+	switch(nProtocol)
 	{
-	case dpGnutella2:
-		pNode = new CG2Node(this);
-		break;
-	default:
-		Q_ASSERT_X(0, "CNeighbours::ConnectTo", "Unknown protocol");
+		case dpGnutella2:
+			pNode = new CG2Node(this);
+			break;
+		default:
+			Q_ASSERT_X(0, "CNeighbours::ConnectTo", "Unknown protocol");
 	}
 
 	AddNode(pNode);

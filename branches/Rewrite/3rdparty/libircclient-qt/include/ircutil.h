@@ -29,17 +29,17 @@
 
 namespace Irc
 {
-    class IRC_EXPORT Util
-    {
-        public:
-            static QString nickFromTarget(const QString& target);
-            static QString hostFromTarget(const QString& target);
-            static void replaceDecoration(QString& line, QChar decoration, QChar replacement);
-            static QString messageToHtml(const QString& line, const QString& defaultColor = "#000000", bool parseURL = true, bool allowColors = true);
-            static QString extractUrlData(const QString text, bool doHyperlinks);
-            static QString rgbFromCode(int code);
-            static QString colorNameFromCode(int code);
-    };
+	class IRC_EXPORT Util
+	{
+	public:
+		static QString nickFromTarget(const QString& target);
+		static QString hostFromTarget(const QString& target);
+		static void replaceDecoration(QString& line, QChar decoration, QChar replacement);
+		static QString messageToHtml(const QString& line, const QString& defaultColor = "#000000", bool parseURL = true, bool allowColors = true);
+		static QString extractUrlData(const QString text, bool doHyperlinks);
+		static QString rgbFromCode(int code);
+		static QString colorNameFromCode(int code);
+	};
 }
 
 #endif // IRC_UTIL_H

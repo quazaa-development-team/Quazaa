@@ -27,7 +27,7 @@
 
 #include "types.h"
 
-struct invalid_hash_exception{};
+struct invalid_hash_exception {};
 
 class CHash
 {

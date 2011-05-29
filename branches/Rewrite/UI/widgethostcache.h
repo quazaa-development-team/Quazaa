@@ -48,7 +48,7 @@ private:
 
 private slots:
 	void on_splitterHostCache_customContextMenuRequested(QPoint pos);
-	 
+
 };
 
 #endif // WIDGETHOSTCACHE_H

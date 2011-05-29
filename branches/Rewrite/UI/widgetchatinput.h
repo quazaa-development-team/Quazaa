@@ -31,31 +31,33 @@
 
 #include "network.h"
 
-namespace Ui {
+namespace Ui
+{
 	class WidgetChatInput;
 }
 
-class WidgetChatInput : public QMainWindow {
+class WidgetChatInput : public QMainWindow
+{
 	Q_OBJECT
 public:
-	WidgetChatInput(QWidget *parent = 0, bool isIRC = false);
+	WidgetChatInput(QWidget* parent = 0, bool isIRC = false);
 	~WidgetChatInput();
 
 signals:
-	void messageSent(QTextDocument *text);
+	void messageSent(QTextDocument* text);
 	void closing();
 
 protected:
-	void changeEvent(QEvent *e);
-	WidgetReturnEmitTextEdit *textEditInput;
+	void changeEvent(QEvent* e);
+	WidgetReturnEmitTextEdit* textEditInput;
 
 private:
-	Ui::WidgetChatInput *ui;
-	QCheckBox *checkBoxSendOnEnter;
-	QToolButton *toolButtonSmilies;
-	WidgetSmileyList *widgetSmileyList;
-	QToolButton *toolButtonPickColor;
-	QToolButton *toolButtonPrivateMessage;
+	Ui::WidgetChatInput* ui;
+	QCheckBox* checkBoxSendOnEnter;
+	QToolButton* toolButtonSmilies;
+	WidgetSmileyList* widgetSmileyList;
+	QToolButton* toolButtonPickColor;
+	QToolButton* toolButtonPrivateMessage;
 	bool bIsIRC;
 
 public slots:

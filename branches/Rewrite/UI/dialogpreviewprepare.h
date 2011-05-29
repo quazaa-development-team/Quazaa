@@ -51,7 +51,7 @@ signals:
 
 private slots:
 	void on_pushButton_clicked();
-	 
+
 };
 
 #endif // DIALOGPREVIEWPREPARE_H

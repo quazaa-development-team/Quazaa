@@ -49,7 +49,7 @@ private:
 	Ui::DialogDownloadsImport* ui;
 
 private slots:
-	 
+
 };
 
 #endif // DIALOGDOWNLOADSIMPORT_H

@@ -68,16 +68,18 @@ void DialogConnectTo::on_pushButtonConnect_clicked()
 	if(ui->comboBoxAddress->currentText().count(":") > 1) // ipv6 address, check if includes port
 	{
 		if(ui->comboBoxAddress->currentText().contains("[") && ui->comboBoxAddress->currentText().contains("]")
-			&& !ui->comboBoxAddress->currentText().endsWith("]")) // ipv6 address with port
+		        && !ui->comboBoxAddress->currentText().endsWith("]")) // ipv6 address with port
 		{
 			tempAddress.setAddressWithPort(ui->comboBoxAddress->currentText());
-		} else { // ipv6 address without port
+		}
+		else     // ipv6 address without port
+		{
 			tempAddress.setAddress(ui->comboBoxAddress->currentText());
 			tempAddress.setPort(ui->spinBoxPort->value());
 
 		}
 	}
-	else if(ui->comboBoxAddress->currentText().contains(":") ) //ipv4 address with port
+	else if(ui->comboBoxAddress->currentText().contains(":"))  //ipv4 address with port
 	{
 		tempAddress.setAddressWithPort(ui->comboBoxAddress->currentText());
 	}
@@ -87,17 +89,19 @@ void DialogConnectTo::on_pushButtonConnect_clicked()
 		tempAddress.setPort(ui->spinBoxPort->value());
 	}
 
-	if ((QAbstractSocket::IPv4Protocol == tempAddress.protocol()) || (QAbstractSocket::IPv6Protocol == tempAddress.protocol()))
+	if((QAbstractSocket::IPv4Protocol == tempAddress.protocol()) || (QAbstractSocket::IPv6Protocol == tempAddress.protocol()))
 	{
 		addressAndPort = tempAddress.toStringWithPort();
 		accept();
-	} else {
+	}
+	else
+	{
 		QMessageBox msgBox;
-		 msgBox.setText(tr("Address is invalid."));
-		 msgBox.setInformativeText(tr("Please enter a valid IP Address."));
-		 msgBox.setStandardButtons(QMessageBox::Ok);
-		 msgBox.setDefaultButton(QMessageBox::Ok);
-		 msgBox.exec();
+		msgBox.setText(tr("Address is invalid."));
+		msgBox.setInformativeText(tr("Please enter a valid IP Address."));
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.exec();
 	}
 }
 
@@ -129,16 +133,16 @@ void DialogConnectTo::setConnectNetwork(ConnectNetwork network)
 
 void DialogConnectTo::on_comboBoxNetwork_currentIndexChanged(int index)
 {
-	switch (index)
+	switch(index)
 	{
-	case 0:
-		connectNetwork = DialogConnectTo::G2;
-		break;
-	case 1:
-		connectNetwork = DialogConnectTo::eDonkey;
-		break;
-	case 2:
-		connectNetwork = DialogConnectTo::Ares;
-		break;
+		case 0:
+			connectNetwork = DialogConnectTo::G2;
+			break;
+		case 1:
+			connectNetwork = DialogConnectTo::eDonkey;
+			break;
+		case 2:
+			connectNetwork = DialogConnectTo::Ares;
+			break;
 	}
 }

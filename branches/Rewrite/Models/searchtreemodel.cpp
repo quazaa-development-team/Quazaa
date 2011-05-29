@@ -266,7 +266,7 @@ void SearchTreeModel::setupModelData(const QStringList& lines, SearchTreeItem* p
 void SearchTreeModel::clear()
 {
 	beginRemoveRows(QModelIndex(), 0, rootItem->childCount());
-        //qDebug() << "clearSearch passing to rootItem";
+	//qDebug() << "clearSearch passing to rootItem";
 	rootItem->clearChildren();
 	endRemoveRows();
 

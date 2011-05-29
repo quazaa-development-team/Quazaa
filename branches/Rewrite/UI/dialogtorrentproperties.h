@@ -49,7 +49,7 @@ signals:
 	void closed();
 
 private slots:
-	 
+
 };
 
 #endif // DIALOGTORRENTPROPERTIES_H

@@ -26,7 +26,7 @@
 #include "ui_widgetmedia.h"
 
 #include "quazaasettings.h"
- 
+
 
 WidgetMedia::WidgetMedia(QWidget* parent) :
 	QMainWindow(parent),

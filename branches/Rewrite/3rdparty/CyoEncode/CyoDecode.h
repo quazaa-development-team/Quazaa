@@ -35,20 +35,20 @@
 extern "C" {
 #endif
 
-/* Base16 Decoding */
-int    cyoBase16Validate( const char* src, size_t size );
-size_t cyoBase16DecodeGetLength( size_t size );
-size_t cyoBase16Decode( void* dest, const char* src, size_t size );
+	/* Base16 Decoding */
+	int    cyoBase16Validate(const char* src, size_t size);
+	size_t cyoBase16DecodeGetLength(size_t size);
+	size_t cyoBase16Decode(void* dest, const char* src, size_t size);
 
-/* Base32 Decoding */
-int    cyoBase32Validate( const char* src, size_t size );
-size_t cyoBase32DecodeGetLength( size_t size );
-size_t cyoBase32Decode( void* dest, const char* src, size_t size );
+	/* Base32 Decoding */
+	int    cyoBase32Validate(const char* src, size_t size);
+	size_t cyoBase32DecodeGetLength(size_t size);
+	size_t cyoBase32Decode(void* dest, const char* src, size_t size);
 
-/* Base64 Decoding */
-int    cyoBase64Validate( const char* src, size_t size );
-size_t cyoBase64DecodeGetLength( size_t size );
-size_t cyoBase64Decode( void* dest, const char* src, size_t size );
+	/* Base64 Decoding */
+	int    cyoBase64Validate(const char* src, size_t size);
+	size_t cyoBase64DecodeGetLength(size_t size);
+	size_t cyoBase64Decode(void* dest, const char* src, size_t size);
 
 #ifdef __cplusplus
 }

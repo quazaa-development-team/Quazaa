@@ -24,7 +24,7 @@
 
 #include "dialogfiltersearch.h"
 #include "ui_dialogfiltersearch.h"
- 
+
 
 DialogFilterSearch::DialogFilterSearch(QWidget* parent) :
 	QDialog(parent),

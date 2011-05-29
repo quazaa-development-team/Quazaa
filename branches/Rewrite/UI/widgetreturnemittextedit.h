@@ -30,9 +30,9 @@
 
 class WidgetReturnEmitTextEdit : public QTextEdit
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-	explicit WidgetReturnEmitTextEdit(QWidget *parent = 0);
+	explicit WidgetReturnEmitTextEdit(QWidget* parent = 0);
 
 private:
 	bool emitReturn;

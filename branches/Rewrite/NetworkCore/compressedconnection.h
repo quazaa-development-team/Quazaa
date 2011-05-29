@@ -78,8 +78,10 @@ public:
 	}
 	inline virtual bool HasData()
 	{
-		if( m_bOutputPending )
+		if(m_bOutputPending)
+		{
 			return true;
+		}
 
 		if(m_pZInput && !m_pZInput->isEmpty())
 		{
