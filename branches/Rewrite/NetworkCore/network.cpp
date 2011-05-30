@@ -60,8 +60,6 @@ CNetwork::CNetwork(QObject* parent)
 	//m_oAddress.port = 6346;
 	m_oAddress.setPort(quazaaSettings.Connection.Port);
 
-	m_bNeedUpdateLNI = true;
-	m_nLNIWait = 60;
 	m_tCleanRoutesNext = 60;
 
 	m_bSharesReady = false;
@@ -186,37 +184,6 @@ void CNetwork::OnSecondTimer()
 	if(m_bPacketsPending)
 	{
 		RoutePackets();
-	}
-
-	if(m_nLNIWait == 0)
-	{
-		if(m_bNeedUpdateLNI)
-		{
-			QMutexLocker l(&Neighbours.m_pSection);
-
-			m_bNeedUpdateLNI = false;
-
-			for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
-			{
-				CNeighbour* pNode = *itNode;
-
-				if(pNode->m_nProtocol != dpGnutella2)
-				{
-					continue;
-				}
-
-				if(pNode->m_nState == nsConnected)
-				{
-					((CG2Node*)pNode)->SendLNI();
-				}
-			}
-		}
-
-		m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
-	}
-	else
-	{
-		m_nLNIWait--;
 	}
 
 	m_pSection.unlock();

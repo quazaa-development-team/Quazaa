@@ -171,12 +171,6 @@ void CNeighboursConnections::Maintain()
 		}
 	}
 
-
-	if(m_nHubsConnectedG2 != nHubsG2 || m_nLeavesConnectedG2 != nLeavesG2)
-	{
-		Network.m_bNeedUpdateLNI = true;
-	}
-
 	m_nHubsConnectedG2 = nHubsG2;
 	m_nLeavesConnectedG2 = nLeavesG2;
 

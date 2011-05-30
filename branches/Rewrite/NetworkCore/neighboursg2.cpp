@@ -35,11 +35,13 @@
 CNeighboursG2::CNeighboursG2(QObject* parent) :
 	CNeighboursConnections(parent),
 	m_nNextKHL(30),
+	m_nLNIWait(0),
+	m_bNeedLNI(false),
 	m_nSecsTrying(0),
+	m_tLastModeChange(0),
 	m_nHubBalanceWait(0),
 	m_nPeriodsLow(0),
-	m_nPeriodsHigh(0),
-	m_tLastModeChange(0)
+	m_nPeriodsHigh(0)
 {
 }
 CNeighboursG2::~CNeighboursG2()
@@ -58,6 +60,8 @@ void CNeighboursG2::Connect()
 	}
 
 	m_nSecsTrying = m_nHubBalanceWait = m_nPeriodsLow = m_nPeriodsHigh = 0;
+	m_bNeedLNI = false;
+	m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
 	m_tLastModeChange = time(0);
 
 	CNeighboursConnections::Connect();
@@ -90,6 +94,27 @@ void CNeighboursG2::Maintain()
 	else
 	{
 		m_nNextKHL--;
+	}
+
+	if(m_nLNIWait == 0)
+	{
+		if( m_bNeedLNI )
+		{
+			m_bNeedLNI = false;
+			m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
+
+			foreach(CNeighbour* pNode, m_lNodes)
+			{
+				if( pNode->m_nProtocol == dpGnutella2 )
+				{
+					((CG2Node*)pNode)->SendLNI();
+				}
+			}
+		}
+	}
+	else
+	{
+		--m_nLNIWait;
 	}
 
 	if(m_nHubsConnectedG2 == 0)
@@ -310,4 +335,14 @@ void CNeighboursG2::HubBalancing()
 		}
 
 	}
+}
+
+void CNeighboursG2::RemoveNode(CNeighbour *pNode)
+{
+	if( pNode->m_nProtocol == dpGnutella2 )
+	{
+		m_bNeedLNI = true;
+	}
+
+	CNeighboursConnections::RemoveNode(pNode);
 }
