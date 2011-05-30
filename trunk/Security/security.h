@@ -193,7 +193,7 @@ namespace security
 
 		bool			IsAgentDenied(const QString& strUserAgent);
 
-		void			MissCacheAdd(const quint32 &nIP);
+		void			MissCacheAdd(const QString &sIP);
 		void			MissCacheClear(const quint32 &tNow);
 		void			EvaluateCacheUsage();				// determines whether it is logical to use the cache or not
 
