@@ -1,17 +1,17 @@
 /****************************************************************************
-**
+** 
 ** Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
 ** All rights reserved.
 ** Contact: Nokia Corporation (qt-info@nokia.com)
-**
+** 
 ** This file is part of a Qt Solutions component.
 **
-** Commercial Usage
+** Commercial Usage  
 ** Licensees holding valid Qt Commercial licenses may use this file in
 ** accordance with the Qt Solutions Commercial License Agreement provided
 ** with the Software or, alternatively, in accordance with the terms
 ** contained in a written agreement between you and Nokia.
-**
+** 
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
 ** General Public License version 2.1 as published by the Free Software
@@ -19,29 +19,29 @@
 ** packaging of this file.  Please review the following information to
 ** ensure the GNU Lesser General Public License version 2.1 requirements
 ** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
+** 
 ** In addition, as a special exception, Nokia gives you certain
 ** additional rights. These rights are described in the Nokia Qt LGPL
 ** Exception version 1.1, included in the file LGPL_EXCEPTION.txt in this
 ** package.
-**
-** GNU General Public License Usage
+** 
+** GNU General Public License Usage 
 ** Alternatively, this file may be used under the terms of the GNU
 ** General Public License version 3.0 or later as published by the Free Software
 ** Foundation and appearing in the file LICENSE.GPL included in the
 ** packaging of this file.  Please review the following information to
 ** ensure the GNU General Public License version 3.0 or later requirements will be
 ** met: http://www.gnu.org/copyleft/gpl.html.
-**
+** 
 ** Please note Third Party Software included with Qt Solutions may impose
 ** additional restrictions and it is the user's responsibility to ensure
 ** that they have met the licensing requirements of the GPL, LGPL, or Qt
 ** Solutions Commercial license and the relevant license of the Third
 ** Party Software they are using.
-**
+** 
 ** If you are unsure which license is appropriate for your use, please
 ** contact Nokia at qt-info@nokia.com.
-**
+** 
 ****************************************************************************/
 
 
@@ -139,11 +139,11 @@
 */
 
 
-void QtSingleApplication::sysInit(const QString& appId)
+void QtSingleApplication::sysInit(const QString &appId)
 {
-	actWin = 0;
-	peer = new QtLocalPeer(this, appId);
-	connect(peer, SIGNAL(messageReceived(const QString&)), SIGNAL(messageReceived(const QString&)));
+    actWin = 0;
+    peer = new QtLocalPeer(this, appId);
+    connect(peer, SIGNAL(messageReceived(const QString&)), SIGNAL(messageReceived(const QString&)));
 }
 
 
@@ -157,10 +157,10 @@ void QtSingleApplication::sysInit(const QString& appId)
     QtSingleCoreApplication instead.
 */
 
-QtSingleApplication::QtSingleApplication(int& argc, char** argv, bool GUIenabled)
-	: QApplication(argc, argv, GUIenabled)
+QtSingleApplication::QtSingleApplication(int &argc, char **argv, bool GUIenabled)
+    : QApplication(argc, argv, GUIenabled)
 {
-	sysInit();
+    sysInit();
 }
 
 
@@ -170,10 +170,10 @@ QtSingleApplication::QtSingleApplication(int& argc, char** argv, bool GUIenabled
     QAppliation constructor.
 */
 
-QtSingleApplication::QtSingleApplication(const QString& appId, int& argc, char** argv)
-	: QApplication(argc, argv)
+QtSingleApplication::QtSingleApplication(const QString &appId, int &argc, char **argv)
+    : QApplication(argc, argv)
 {
-	sysInit(appId);
+    sysInit(appId);
 }
 
 
@@ -182,10 +182,10 @@ QtSingleApplication::QtSingleApplication(const QString& appId, int& argc, char**
     will be QCoreApplication::applicationFilePath(). \a argc, \a
     argv, and \a type are passed on to the QAppliation constructor.
 */
-QtSingleApplication::QtSingleApplication(int& argc, char** argv, Type type)
-	: QApplication(argc, argv, type)
+QtSingleApplication::QtSingleApplication(int &argc, char **argv, Type type)
+    : QApplication(argc, argv, type)
 {
-	sysInit();
+    sysInit();
 }
 
 
@@ -197,9 +197,9 @@ QtSingleApplication::QtSingleApplication(int& argc, char** argv, Type type)
   and \a cmap are passed on to the QApplication constructor.
 */
 QtSingleApplication::QtSingleApplication(Display* dpy, Qt::HANDLE visual, Qt::HANDLE cmap)
-	: QApplication(dpy, visual, cmap)
+    : QApplication(dpy, visual, cmap)
 {
-	sysInit();
+    sysInit();
 }
 
 /*!
@@ -209,10 +209,10 @@ QtSingleApplication::QtSingleApplication(Display* dpy, Qt::HANDLE visual, Qt::HA
   argv, \a visual, and \a cmap are passed on to the QApplication
   constructor.
 */
-QtSingleApplication::QtSingleApplication(Display* dpy, int& argc, char** argv, Qt::HANDLE visual, Qt::HANDLE cmap)
-	: QApplication(dpy, argc, argv, visual, cmap)
+QtSingleApplication::QtSingleApplication(Display *dpy, int &argc, char **argv, Qt::HANDLE visual, Qt::HANDLE cmap)
+    : QApplication(dpy, argc, argv, visual, cmap)
 {
-	sysInit();
+    sysInit();
 }
 
 /*!
@@ -222,10 +222,10 @@ QtSingleApplication::QtSingleApplication(Display* dpy, int& argc, char** argv, Q
   argv, \a visual, and \a cmap are passed on to the QApplication
   constructor.
 */
-QtSingleApplication::QtSingleApplication(Display* dpy, const QString& appId, int argc, char** argv, Qt::HANDLE visual, Qt::HANDLE cmap)
-	: QApplication(dpy, argc, argv, visual, cmap)
+QtSingleApplication::QtSingleApplication(Display* dpy, const QString &appId, int argc, char **argv, Qt::HANDLE visual, Qt::HANDLE cmap)
+    : QApplication(dpy, argc, argv, visual, cmap)
 {
-	sysInit(appId);
+    sysInit(appId);
 }
 #endif
 
@@ -243,7 +243,7 @@ QtSingleApplication::QtSingleApplication(Display* dpy, const QString& appId, int
 
 bool QtSingleApplication::isRunning()
 {
-	return peer->isClient();
+    return peer->isClient();
 }
 
 
@@ -260,9 +260,9 @@ bool QtSingleApplication::isRunning()
 
     \sa isRunning(), messageReceived()
 */
-bool QtSingleApplication::sendMessage(const QString& message, int timeout)
+bool QtSingleApplication::sendMessage(const QString &message, int timeout)
 {
-	return peer->sendMessage(message, timeout);
+    return peer->sendMessage(message, timeout);
 }
 
 
@@ -272,7 +272,7 @@ bool QtSingleApplication::sendMessage(const QString& message, int timeout)
 */
 QString QtSingleApplication::id() const
 {
-	return peer->applicationId();
+    return peer->applicationId();
 }
 
 
@@ -290,15 +290,11 @@ QString QtSingleApplication::id() const
 
 void QtSingleApplication::setActivationWindow(QWidget* aw, bool activateOnMessage)
 {
-	actWin = aw;
-	if(activateOnMessage)
-	{
-		connect(peer, SIGNAL(messageReceived(const QString&)), this, SLOT(activateWindow()));
-	}
-	else
-	{
-		disconnect(peer, SIGNAL(messageReceived(const QString&)), this, SLOT(activateWindow()));
-	}
+    actWin = aw;
+    if (activateOnMessage)
+        connect(peer, SIGNAL(messageReceived(const QString&)), this, SLOT(activateWindow()));
+    else
+        disconnect(peer, SIGNAL(messageReceived(const QString&)), this, SLOT(activateWindow()));
 }
 
 
@@ -310,7 +306,7 @@ void QtSingleApplication::setActivationWindow(QWidget* aw, bool activateOnMessag
 */
 QWidget* QtSingleApplication::activationWindow() const
 {
-	return actWin;
+    return actWin;
 }
 
 
@@ -330,12 +326,11 @@ QWidget* QtSingleApplication::activationWindow() const
 */
 void QtSingleApplication::activateWindow()
 {
-	if(actWin)
-	{
-		actWin->setWindowState(actWin->windowState() & ~Qt::WindowMinimized);
-		actWin->raise();
-		actWin->activateWindow();
-	}
+    if (actWin) {
+        actWin->setWindowState(actWin->windowState() & ~Qt::WindowMinimized);
+        actWin->raise();
+        actWin->activateWindow();
+    }
 }
 
 
