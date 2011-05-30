@@ -44,7 +44,9 @@ public:
 	CBuffer* 	m_pZInput;         // bufforki lokalne
 	CBuffer* 	m_pZOutput;
 	quint64     m_nTotalInput;      // statystyki
+	quint64		m_nTotalInputDec;
 	quint64     m_nTotalOutput;
+	quint64		m_nTotalOutputCom;
 	quint64     m_nNextDeflateFlush;
 	bool        m_bOutputPending;
 	QElapsedTimer m_tDeflateFlush;
@@ -95,13 +97,21 @@ public:
 		return CNetworkConnection::HasData();
 	}
 
-	inline quint64 GetTotalInDecompressed()
+	float GetTotalInDecompressed()
 	{
-		return m_nTotalInput;
+		if( m_nTotalInput == 0 )
+			return 0;
+
+		float ret = 1.0f - (float)m_nTotalInputDec / (float)m_nTotalInput;
+		return ret;
 	}
-	inline quint64 GetTotalOutCompressed()
+	float GetTotalOutCompressed()
 	{
-		return m_nTotalOutput;
+		if( m_nTotalOutputCom == 0 )
+			return 0;
+
+		float ret = 1.0f - (float)m_nTotalOutput / (float)m_nTotalOutputCom;
+		return ret;
 	}
 
 signals:

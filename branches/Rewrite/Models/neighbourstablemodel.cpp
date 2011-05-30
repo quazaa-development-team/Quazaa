@@ -205,7 +205,7 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 		case BANDWIDTH:
 			return QString().sprintf("%1.3f / %1.3f", nBandwidthIn / 1024.0f, nBandwidthOut / 1024.0f);
 		case BYTES:
-			return QString().sprintf("%1.3f / %1.3f KB (%1.2f / %1.2f %%)", nBytesReceived / 1024.0f, nBytesSent / 1024.0f, 100.0f * nBytesReceived / nCompressionIn, 100.0f * nBytesSent / nCompressionOut);
+			return QString().sprintf("%1.3f / %1.3f KB (%1.2f / %1.2f %%)", nBytesReceived / 1024.0f, nBytesSent / 1024.0f, 100.0f * nCompressionIn, 100.0f * nCompressionOut);
 		case PACKETS:
 			return QString().sprintf("%u - %u", nPacketsIn, nPacketsOut);
 		case MODE:
