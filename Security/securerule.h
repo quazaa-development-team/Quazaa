@@ -29,7 +29,7 @@ namespace security
 
 	public:
 		Policy		m_nAction;
-		QUuid		m_pUUID;
+		QUuid		m_oUUID;
 		quint32		m_nExpire;
 		QString		m_sComment;
 
@@ -99,6 +99,8 @@ namespace security
 
 	private:
 		inline CIPRule(const CIPRule& pRule) { *this = pRule; }
+
+		friend class CSecurity;
 	};
 
 	class CIPRangeRule : public CSecureRule
@@ -122,6 +124,8 @@ namespace security
 //		CXMLElement*	ToXML() const;
 	private:
 		inline CIPRangeRule(const CIPRangeRule& pRule) { *this = pRule; }
+
+		friend class CSecurity;
 	};
 
 	class CCountryRule : public CSecureRule
