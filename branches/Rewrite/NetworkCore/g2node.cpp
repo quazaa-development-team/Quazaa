@@ -947,8 +947,6 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 		if(strcmp("NH", szType) == 0)
 		{
-			qDebug() << "/KHL/NH: len" << nLength << "compound" << bCompound;
-
 			QUuid pGUID;
 
 			if(bCompound)

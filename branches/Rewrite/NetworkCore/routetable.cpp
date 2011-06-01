@@ -71,6 +71,8 @@ bool CRouteTable::Add(QUuid& pGUID, CG2Node* pNeighbour, CEndPoint* pEndpoint, b
 			pRoute.pEndpoint = *pEndpoint;
 		}
 
+		Q_ASSERT_X(m_lRoutes[pGUID].pNeighbour != 0 || !m_lRoutes[pGUID].pEndpoint.isNull(), Q_FUNC_INFO, "Whooops! No neighbour and no endpoint!");
+
 		return true;
 	}
 	else
@@ -98,6 +100,8 @@ bool CRouteTable::Add(QUuid& pGUID, CG2Node* pNeighbour, CEndPoint* pEndpoint, b
 		}
 
 		m_lRoutes[pGUID] = pRoute;
+
+		Q_ASSERT_X(m_lRoutes[pGUID].pNeighbour != 0 || !m_lRoutes[pGUID].pEndpoint.isNull(), Q_FUNC_INFO, "Whooops! No neighbour and no endpoint!");
 
 		return true;
 	}
@@ -143,6 +147,8 @@ void CRouteTable::Remove(CG2Node* pNeighbour)
 
 bool CRouteTable::Find(QUuid& pGUID, CG2Node** ppNeighbour, CEndPoint* pEndpoint)
 {
+	Q_ASSERT_X(ppNeighbour || pEndpoint, Q_FUNC_INFO, "Invalid arguments");
+
 	if(m_lRoutes.contains(pGUID))
 	{
 		if(ppNeighbour)
@@ -153,6 +159,8 @@ bool CRouteTable::Find(QUuid& pGUID, CG2Node** ppNeighbour, CEndPoint* pEndpoint
 		{
 			*pEndpoint = m_lRoutes[pGUID].pEndpoint;
 		}
+
+		Q_ASSERT_X(*ppNeighbour != 0 || !pEndpoint->isNull(), Q_FUNC_INFO, "Found GUID but no destination");
 
 		m_lRoutes[pGUID].nExpireTime = time(0) + RouteExpire;
 
