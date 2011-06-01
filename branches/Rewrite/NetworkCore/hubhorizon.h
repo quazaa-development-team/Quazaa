@@ -23,53 +23,65 @@
 */
 
 
-#ifndef NEIGHBOURSG2_H
-#define NEIGHBOURSG2_H
+#ifndef HUBHORIZON_H
+#define HUBHORIZON_H
 
-#include "neighboursconnections.h"
+#include "types.h"
 
 class G2Packet;
 
-class CNeighboursG2 : public CNeighboursConnections
+
+class CHubHorizonHub
 {
-	Q_OBJECT
 public:
-	CNeighboursG2(QObject* parent = 0);
-	virtual ~CNeighboursG2();
-
-	void DispatchKHL();
-	bool SwitchG2ClientMode(G2NodeType nRequestedMode);
-	bool NeedMoreG2(G2NodeType nType);
-
-	virtual void Connect();
-
-	G2Packet* CreateQueryAck(QUuid oGUID, bool bWithHubs = true, CNeighbour* pExcept = 0, bool bDone = true);
-
-	void HubBalancing();
-
-protected:
-	quint32 m_nNextKHL;
-	quint32 m_nLNIWait;
-	bool	m_bNeedLNI;
-	G2NodeType m_nClientMode;
-
-	quint32 m_nSecsTrying;		// How long we are without hub connection?
-	quint32 m_tLastModeChange;	// When we changed client mode last time?
-	quint32 m_nHubBalanceWait;
-	quint32 m_nPeriodsLow;
-	quint32 m_nPeriodsHigh;
-
-
-signals:
-
-public slots:
-	virtual void Maintain();
-
-public:
-	inline bool IsG2Hub()
-	{
-		return (m_nClientMode == G2_HUB);
-	}
+	CEndPoint		m_oAddress;
+	quint32			m_nReference;
+	CHubHorizonHub*	m_pNext;
 };
 
-#endif // NEIGHBOURSG2_H
+
+class CHubHorizonGroup
+{
+public:
+	CHubHorizonGroup();
+	virtual ~CHubHorizonGroup();
+
+protected:
+	CHubHorizonHub**	m_pList;
+	quint32				m_nCount;
+	quint32				m_nBuffer;
+
+public:
+	void		Add(CEndPoint oAddress);
+	void		Clear();
+
+};
+
+
+class CHubHorizonPool
+{
+public:
+	CHubHorizonPool();
+	virtual ~CHubHorizonPool();
+
+protected:
+	CHubHorizonHub*		m_pBuffer;
+	quint32				m_nBuffer;
+	CHubHorizonHub*		m_pFree;
+	CHubHorizonHub*		m_pActive;
+	quint32				m_nActive;
+
+public:
+	void				Setup();
+	void				Clear();
+	CHubHorizonHub*		Add(CEndPoint oAddress);
+	void				Remove(CHubHorizonHub* pHub);
+	CHubHorizonHub*		Find(CEndPoint oAddress);
+	int					AddHorizonHubs(G2Packet* pPacket);
+
+};
+
+extern CHubHorizonPool	HubHorizonPool;
+
+
+#endif // HUBHORIZON_H

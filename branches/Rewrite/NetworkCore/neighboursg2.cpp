@@ -29,6 +29,7 @@
 #include "g2node.h"
 #include "g2packet.h"
 #include "network.h"
+#include "hubhorizon.h"
 
 #include "quazaasettings.h"
 
@@ -74,12 +75,22 @@ void CNeighboursG2::Connect()
 		bStartupRequest = true;
 	}
 
+	HubHorizonPool.Setup();
+
 }
 
 void CNeighboursG2::Maintain()
 {
 	ASSUME_LOCK(m_pSection);
+
+	quint32 nNodes = m_nHubsConnectedG2 + m_nLeavesConnectedG2;
+
 	CNeighboursConnections::Maintain();
+
+	if(m_nHubsConnectedG2 + m_nLeavesConnectedG2 != nNodes)
+	{
+		m_bNeedLNI = true;
+	}
 
 	if(m_nHubsConnectedG2 == 0 && !WebCache.isRequesting() && (HostCache.isEmpty() || HostCache.GetConnectable() == 0))
 	{
@@ -98,14 +109,14 @@ void CNeighboursG2::Maintain()
 
 	if(m_nLNIWait == 0)
 	{
-		if( m_bNeedLNI )
+		if(m_bNeedLNI)
 		{
 			m_bNeedLNI = false;
 			m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
 
-			foreach(CNeighbour* pNode, m_lNodes)
+			foreach(CNeighbour * pNode, m_lNodes)
 			{
-				if( pNode->m_nProtocol == dpGnutella2 )
+				if(pNode->m_nProtocol == dpGnutella2)
 				{
 					((CG2Node*)pNode)->SendLNI();
 				}
@@ -337,12 +348,55 @@ void CNeighboursG2::HubBalancing()
 	}
 }
 
-void CNeighboursG2::RemoveNode(CNeighbour *pNode)
+
+G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour* pExcept, bool bDone)
 {
-	if( pNode->m_nProtocol == dpGnutella2 )
+	G2Packet* pPacket = G2Packet::New("QA", true);
+
+	pPacket->WritePacket("TS", 4)->WriteIntLE<quint32>(time(0));
+	pPacket->WritePacket("FR", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
+	pPacket->WritePacket("RA", 4)->WriteIntLE<quint32>(30 + 30 * m_nHubsConnectedG2);
+
+	if(bDone)
 	{
-		m_bNeedLNI = true;
+		pPacket->WritePacket("D", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 8 : 20))->WriteHostAddress(&Network.m_oAddress);
+
+		if(bWithHubs)
+		{
+			pPacket->WriteIntLE<quint16>(m_nLeavesConnectedG2);
+
+			foreach(CNeighbour * pNode, m_lNodes)
+			{
+				if(pNode->m_nProtocol == dpGnutella2 && pNode->m_nState == nsConnected && ((CG2Node*)pNode)->m_nType == G2_HUB && pNode != pExcept)
+				{
+					pPacket->WritePacket("D", (pNode->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 8 : 20))->WriteHostAddress(&pNode->m_oAddress);
+					pPacket->WriteIntLE<quint16>(((CG2Node*)pNode)->m_nLeafCount);
+				}
+			}
+
+			int nCount = HubHorizonPool.AddHorizonHubs(pPacket);
+
+			// TODO Add hubs from HostCache
+			/*if( nCount < 10 )
+			{
+				HostCache.m_pSection.lock();
+
+				foreach( CHostCacheHost* pHost, HostCache.m_lHosts )
+				{
+
+				}
+
+				HostCache.m_pSection.unlock();
+			}*/
+		}
+		else
+		{
+			pPacket->WriteIntLE<quint16>(0);
+		}
 	}
 
-	CNeighboursConnections::RemoveNode(pNode);
+	pPacket->WriteByte(0);
+	pPacket->WriteGUID(oGUID);
+
+	return pPacket;
 }

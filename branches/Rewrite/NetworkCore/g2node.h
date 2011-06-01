@@ -32,6 +32,7 @@
 
 class G2Packet;
 class CQueryHashTable;
+class CHubHorizonGroup;
 
 class CG2Node : public CNeighbour
 {
@@ -58,6 +59,8 @@ public:
 	quint32			m_tLastQHT;
 
 	quint32			m_nHAWWait;
+
+	CHubHorizonGroup*	m_pHubGroup;
 
 	QHash<quint32, quint32> m_lRABan; // list of banned return addresses
 

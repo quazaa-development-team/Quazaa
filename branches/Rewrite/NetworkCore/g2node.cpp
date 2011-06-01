@@ -33,6 +33,7 @@
 #include "queryhit.h"
 #include "queryhashtable.h"
 #include "queryhashmaster.h"
+#include "hubhorizon.h"
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
@@ -42,7 +43,8 @@
 //#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject* parent) :
-	CNeighbour(parent)
+	CNeighbour(parent),
+	m_pHubGroup(new CHubHorizonGroup)
 {
 
 	m_nProtocol = dpGnutella2;
@@ -80,6 +82,8 @@ CG2Node::~CG2Node()
 	{
 		delete m_pRemoteTable;
 	}
+
+	delete m_pHubGroup;
 }
 
 void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
@@ -930,6 +934,8 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 	quint32 nTimestamp = tNow;
 	qint64 nDiff = 0;
 
+	m_pHubGroup->Clear();
+
 	char szType[9], szInner[9];
 	quint32 nLength = 0, nInnerLength = 0;
 	bool bCompound = false;
@@ -939,23 +945,30 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
-		if(strcmp("NH", szType) == 0 && bCompound)
+		if(strcmp("NH", szType) == 0)
 		{
+			qDebug() << "/KHL/NH: len" << nLength << "compound" << bCompound;
+
 			QUuid pGUID;
 
-			while(pPacket->m_nPosition < nNext && pPacket->ReadPacket(&szInner[0], nInnerLength))
+			if(bCompound)
 			{
-				nInnerNext = pPacket->m_nPosition + nInnerLength;
-
-				if(strcmp("GU", szInner) && nInnerLength >= 16)
+				while(pPacket->m_nPosition < nNext && pPacket->ReadPacket(&szInner[0], nInnerLength))
 				{
-					pGUID = pPacket->ReadGUID();
+					nInnerNext = pPacket->m_nPosition + nInnerLength;
+
+					if(strcmp("GU", szInner) && nInnerLength >= 16)
+					{
+						pGUID = pPacket->ReadGUID();
+					}
+
+					pPacket->m_nPosition = nInnerNext;
 				}
 
-				pPacket->m_nPosition = nInnerNext;
+				nLength = nNext - pPacket->m_nPosition;
 			}
 
-			if(!pGUID.isNull() && nLength >= 6)
+			if(nLength >= 6)
 			{
 				CEndPoint pAddr;
 
@@ -968,9 +981,17 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 					pPacket->ReadHostAddress(&pAddr);
 				}
 
-				QMutexLocker l(&Network.m_pSection);
+				if(m_nType == G2_HUB)
+				{
+					m_pHubGroup->Add(pAddr);
+				}
 
-				Network.m_oRoutingTable.Add(pGUID, this, &pAddr, false);
+				if(!pGUID.isNull())
+				{
+					QMutexLocker l(&Network.m_pSection);
+
+					Network.m_oRoutingTable.Add(pGUID, this, &pAddr, false);
+				}
 			}
 		}
 		else if(strcmp("CH", szType) == 0)
@@ -1295,25 +1316,8 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 
 		if(m_nType == G2_LEAF)   // temporary
 		{
-			G2Packet* pQA = G2Packet::New("QA", true);
-			quint32 tNow = time(0);
-			pQA->WritePacket("TS", 4)->WriteIntLE(tNow);
-			pQA->WritePacket("D", (Network.m_oAddress.protocol() == 0 ? 8 : 20))->WriteHostAddress(&Network.m_oAddress);
-			quint16 nLeaves = Neighbours.m_nLeavesConnectedG2;
-			pQA->WriteIntLE<quint16>(nLeaves);
+			G2Packet* pQA = Neighbours.CreateQueryAck(oGUID, true, this, true);
 
-			quint32 nCount = 0;
-
-			for(uint i = 0; i < HostCache.size() && nCount < 10u; i++, nCount++)
-			{
-				G2Packet* pS = pQA->WritePacket("S", (HostCache.m_lHosts[i]->m_oAddress.protocol() == 0 ? 10 : 22));
-				pS->WriteHostAddress(&HostCache.m_lHosts[i]->m_oAddress);
-				pS->WriteIntLE(&HostCache.m_lHosts[i]->m_tTimestamp);
-			}
-
-			pQA->WriteByte(0);
-			pQA->WriteGUID(oGUID);
-			//qDebug() << "Sending query ACK " << pQA->ToHex() << pQA->ToASCII();
 			SendPacket(pQA, true, true);
 		}
 	}

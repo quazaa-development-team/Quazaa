@@ -99,16 +99,20 @@ public:
 
 	float GetTotalInDecompressed()
 	{
-		if( m_nTotalInput == 0 )
+		if(m_nTotalInput == 0)
+		{
 			return 0;
+		}
 
 		float ret = 1.0f - (float)m_nTotalInputDec / (float)m_nTotalInput;
 		return ret;
 	}
 	float GetTotalOutCompressed()
 	{
-		if( m_nTotalOutputCom == 0 )
+		if(m_nTotalOutputCom == 0)
+		{
 			return 0;
+		}
 
 		float ret = 1.0f - (float)m_nTotalOutput / (float)m_nTotalOutputCom;
 		return ret;

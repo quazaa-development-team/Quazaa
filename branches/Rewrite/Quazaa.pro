@@ -204,7 +204,8 @@ SOURCES += main.cpp \
     NetworkCore/neighboursrouting.cpp \
     NetworkCore/neighboursg2.cpp \
     NetworkCore/neighboursconnections.cpp \
-    NetworkCore/neighboursbase.cpp
+    NetworkCore/neighboursbase.cpp \
+    NetworkCore/hubhorizon.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -329,7 +330,8 @@ HEADERS += UI/dialoglanguage.h \
     NetworkCore/neighboursrouting.h \
     NetworkCore/neighboursg2.h \
     NetworkCore/neighboursconnections.h \
-    NetworkCore/neighboursbase.h
+    NetworkCore/neighboursbase.h \
+    NetworkCore/hubhorizon.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
