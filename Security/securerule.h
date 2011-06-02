@@ -5,8 +5,6 @@
 #include <QString>
 #include <QUuid>
 
-#include "security.h"
-
 namespace security
 {
 	class CSecureRule
@@ -42,7 +40,6 @@ namespace security
 		CSecureRule&	operator=(const CSecureRule& pRule);
 
 		bool			IsExpired(quint32 nNow, bool bSession = false) const;
-		void			Remove();
 
 		virtual CSecureRule*	GetCopy() const;
 
@@ -83,6 +80,7 @@ namespace security
 	{
 	private:
 		QHostAddress m_oIP;
+		quint32 m_nMask;
 
 	public:
 		CIPRule(bool bCreate = true);
@@ -254,7 +252,9 @@ namespace security
 	class CContentRule : public CSecureRule
 	{
 	private:
-		QString		m_sContent;
+		std::list< QString >	m_lContent;
+
+		typedef std::list< QString >::const_iterator CListIterator;
 
 	public:
 		CContentRule(bool bCreate = true);
