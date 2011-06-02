@@ -4,8 +4,6 @@
 
 using namespace security;
 
-CSecurity Security;
-
 CSecurity::CSecurity()
 {
 	m_bDenyPolicy = false;
@@ -42,7 +40,7 @@ void CSecurity::DenyPolicy(bool bDenyPolicy)
 	}
 }
 
-bool CSecurity::Check(CSecureRule* pRule) const
+bool CSecurity::Check(CSecureRule* pRule)
 {
 	QMutexLocker l( &m_pSection );
 
@@ -1525,7 +1523,7 @@ CSecurity::CIterator CSecurity::GetHash(const QString& sSHA1,
 	bool bMD5  = !(  sMD5.isEmpty() );
 
 	// Find out how many hashes we are searching for.
-	BYTE count = bSHA1 + bED2K + bBTIH + bTTH + bMD5;
+	quint8 count = bSHA1 + bED2K + bBTIH + bTTH + bMD5;
 
 	// We are not searching for any hash. :)
 	if ( !count ) return GetEnd();
@@ -1607,8 +1605,8 @@ CSecurity::CIterator CSecurity::Remove(CIterator it)
 	{
 	case CSecureRule::srContentAddress:
 		{
-			quint32 nIP = ((CIPRule*)pRule)->m_oIP;
-			CAddressRuleMap::iterator i = m_IPs.find( nIP );
+			QString sIP = ((CIPRule*)pRule)->m_oIP.toString();
+			CAddressRuleMap::iterator i = m_IPs.find( sIP );
 
 			if ( i != m_IPs.end() && (*i).second->m_oUUID == pRule->m_oUUID )
 			{
@@ -1634,9 +1632,6 @@ CSecurity::CIterator CSecurity::Remove(CIterator it)
 
 				i++;
 			}
-
-			if( pRule->m_nAction == CSecureRule::srAccept )
-				MissCacheClear( static_cast< quint32 >( time( NULL ) ) );
 
 			if ( m_bUseMissCache )
 				EvaluateCacheUsage();
@@ -1668,7 +1663,7 @@ CSecurity::CIterator CSecurity::Remove(CIterator it)
 			QString sTTH  = pHashRule->GetTTHurn();
 			QString sMD5  = pHashRule->GetMD5urn();
 
-			CHashRuleMap::const_iterator i;
+			CHashRuleMap::iterator i;
 
 			i = m_Hashes.find( sSHA1 );
 
@@ -1676,7 +1671,7 @@ CSecurity::CIterator CSecurity::Remove(CIterator it)
 			{
 				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
 				{
-					i = m_Hashes.erase( i );
+					m_Hashes.erase( i++ );
 				}
 				else
 				{
@@ -1690,7 +1685,7 @@ CSecurity::CIterator CSecurity::Remove(CIterator it)
 			{
 				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
 				{
-					i = m_Hashes.erase( i );
+					m_Hashes.erase( i++ );
 				}
 				else
 				{
@@ -1704,7 +1699,7 @@ CSecurity::CIterator CSecurity::Remove(CIterator it)
 			{
 				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
 				{
-					i = m_Hashes.erase( i );
+					m_Hashes.erase( i++ );
 				}
 				else
 				{
@@ -1718,7 +1713,7 @@ CSecurity::CIterator CSecurity::Remove(CIterator it)
 			{
 				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
 				{
-					i = m_Hashes.erase( i );
+					m_Hashes.erase( i++ );
 				}
 				else
 				{
@@ -1732,7 +1727,7 @@ CSecurity::CIterator CSecurity::Remove(CIterator it)
 			{
 				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
 				{
-					i = m_Hashes.erase( i );
+					m_Hashes.erase( i++ );
 				}
 				else
 				{
@@ -1803,7 +1798,7 @@ CSecurity::CIterator CSecurity::Remove(CIterator it)
 	m_bSaved = false;
 
 	// Remove rule entry from list of all rules
-	return m_Rules.erase( it );
+	return m_Rules.begin();//.erase( it );
 }
 
 bool CSecurity::IsAgentDenied(const QString& strUserAgent)

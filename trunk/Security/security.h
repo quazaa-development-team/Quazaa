@@ -6,12 +6,22 @@
 #include <queue>
 #include <set>
 
+#include <QHostAddress>
 #include <QMutex>
 #include <QString>
 #include <QUuid>
 
-#include "queryhit.h"
 #include "securerule.h"
+#include "time.h"
+
+/*class CSecureRule;
+class CIPRule;
+class CIPRangeRule;
+class CCountryRule;
+class CHashRule;
+class CRegExpRule;
+class CUserAgentRule;
+class CContentRule;*/
 
 // Increment this if there have been made changes to the way of storing security rules.
 #define SECURITY_CODE_VERSION	1
@@ -28,7 +38,8 @@ namespace security
 		/* ========================== Attributes ========================== */
 		/* ================================================================ */
 	public:
-		QMutex      m_pSection;
+		QMutex					m_pSection;
+		static const QString	xmlns;
 
 		typedef enum
 		{
@@ -129,7 +140,7 @@ namespace security
 		inline bool		DenyPolicy()			{ return m_bDenyPolicy; }
 		void			DenyPolicy(bool bDenyPolicy);
 
-		bool			Check(CSecureRule* pRule) const;
+		bool			Check(CSecureRule* pRule);
 		void			MoveUp(CSecureRule* pRule);
 		void			MoveDown(CSecureRule* pRule);
 		void			Add(CSecureRule* pRule);
@@ -202,5 +213,7 @@ namespace security
 //		bool			IsDenied(const CQuerySearch* pQuery, const QString& strContent);
 	};
 };
+
+extern security::CSecurity Security;
 
 #endif // SECURITY_H
