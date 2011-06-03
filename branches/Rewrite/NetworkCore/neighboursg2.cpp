@@ -116,7 +116,7 @@ void CNeighboursG2::Maintain()
 
 			foreach(CNeighbour * pNode, m_lNodes)
 			{
-				if(pNode->m_nProtocol == dpGnutella2)
+				if(pNode->m_nProtocol == dpGnutella2 && pNode->m_nState == nsConnected)
 				{
 					((CG2Node*)pNode)->SendLNI();
 				}

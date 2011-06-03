@@ -30,6 +30,7 @@
 #include <QMutexLocker>
 #include <QTimer>
 #include <QMetaObject>
+#include <QFile>
 
 CRateController::CRateController(QMutex* pMutex, QObject* parent): QObject(parent)
 {
@@ -108,6 +109,7 @@ void CRateController::transfer()
 	m_tStopWatch.start();
 
 	bool bCanTransferMore = false;
+	bool bSkipped = false;
 
 	do
 	{
@@ -122,17 +124,6 @@ void CRateController::transfer()
 			CNetworkConnection* pConn = *itSocket;
 
 			bool bDataTransferred = false;
-			qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
-			if(nAvailable > 0)
-			{
-				qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
-				if(nReadBytes > 0)
-				{
-					nToRead -= nReadBytes;
-					nDownloaded += nReadBytes;
-					bDataTransferred = true;
-				}
-			}
 
 			if(m_nUploadLimit * 2 > pConn->m_pSocket->bytesToWrite())
 			{
@@ -150,7 +141,22 @@ void CRateController::transfer()
 				}
 			}
 
-			if(bDataTransferred && pConn->HasData())
+			qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
+			if(nAvailable > 0)
+			{
+				qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
+				if(nReadBytes > 0)
+				{
+					nToRead -= nReadBytes;
+					nDownloaded += nReadBytes;
+					bDataTransferred = true;
+				}
+			}
+
+			if( pConn->m_bSkipMe )
+				bSkipped = true;
+
+			if(bDataTransferred && !pConn->m_bSkipMe && pConn->HasData())
 			{
 				bCanTransferMore = true;
 			}
@@ -168,7 +174,7 @@ void CRateController::transfer()
 	}
 	while(bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty());
 
-	if(bCanTransferMore || nToRead == 0 || nToWrite == 0)
+	if(bCanTransferMore || bSkipped || nToRead == 0 || nToWrite == 0)
 	{
 		sheduleTransfer();
 	}

@@ -288,6 +288,6 @@ void CCompressedConnection::Deflate()
 	}
 	while(m_sOutput.avail_in != 0);
 
-	m_bOutputPending = (nFlushMode == Z_NO_FLUSH);
+	m_bSkipMe = m_bOutputPending = (nFlushMode == Z_NO_FLUSH);
 
 }

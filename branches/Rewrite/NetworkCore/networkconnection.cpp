@@ -51,6 +51,7 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
 	m_bConnected = false;
 	m_tConnected = 0;
 	m_bDelayedClose = false;
+	m_bSkipMe = false;
 }
 CNetworkConnection::~CNetworkConnection()
 {
