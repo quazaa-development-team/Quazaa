@@ -168,8 +168,21 @@ void CRouteTable::ExpireOldRoutes(bool bForce)
 
 	if(bForce && m_lRoutes.size() >= MaxRoutes * 0.75)
 	{
+		quint32 tNow = time(0);
+		quint32 tExpire = tNow + RouteExpire / 2;
+
 		// redukujemy hash'a do 3/4 jego wartosci
-		while(m_lRoutes.size() >= MaxRoutes * 0.75)
+		for( QHash<QUuid, G2RouteItem*>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end() && m_lRoutes.size() > MaxRoutes * 0.75; itRoute++ )
+		{
+			if( (*itRoute)->nExpireTime < tExpire )
+			{
+				delete *itRoute;
+				m_lRoutes.erase(itRoute);
+			}
+		}
+
+		// flood protection
+		while(m_lRoutes.size() > MaxRoutes * 0.75)
 		{
 			delete *m_lRoutes.begin();
 			m_lRoutes.erase(m_lRoutes.begin());

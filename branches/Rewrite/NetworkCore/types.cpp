@@ -27,6 +27,6 @@
 uint qHash(const QUuid& key)
 {
 	uint nHash = 0;
-	nHash = qHash(key.data1) ^ qHash(key.data2) ^ qHash(key.data3) ^ qHash(reinterpret_cast<quint64>(key.data4));
+	nHash = qHash(key.data1) ^ qHash(key.data2 | (uint(key.data3) << 16)) ^ qHash(*(quint64*)(void*)&key.data4);
 	return nHash;
 }

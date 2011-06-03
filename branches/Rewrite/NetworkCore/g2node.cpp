@@ -1318,9 +1318,6 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 
 			SendPacket(pQA, true, true);
 		}
-
-		qDebug() << "Got query " << oGUID.toString();
-		Network.m_oRoutingTable.Dump();
 	}
 }
 
