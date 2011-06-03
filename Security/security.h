@@ -11,6 +11,7 @@
 #include <QString>
 #include <QUuid>
 
+#include "file.h"
 #include "securerule.h"
 #include "time.h"
 
@@ -139,7 +140,7 @@ namespace security
 		bool			ClearNewRules();
 
 		void			Ban(const QHostAddress* pAddress, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
-//		void			Ban(const CShareazaFile* pFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
+		void			Ban(const CFile* pFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
 
 		// Methods used during sanity check
 		bool			IsNewlyDenied(const QHostAddress* pAddress, const QString &source = "Unknown");

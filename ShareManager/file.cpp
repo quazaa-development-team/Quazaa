@@ -7,9 +7,9 @@ CFile::CFile(QObject *parent) :
 
 bool CFile::isTagged(QString sTag)
 {
-	QSet< QString >::ConstIterator i = m_setTags.find( sTag );
+	QSet< QString >::ConstIterator i = m_Tags.find( sTag );
 
-	if ( i != m_setTags.end() )
+	if ( i != m_Tags.end() )
 		return true;
 
 	return false;
@@ -17,10 +17,35 @@ bool CFile::isTagged(QString sTag)
 
 void CFile::addTag(QString sTag)
 {
-	m_setTags.insert( sTag );
+	m_Tags.insert( sTag );
 }
 
 bool CFile::removeTag(QString sTag)
 {
-	return m_setTags.remove( sTag );
+	return m_Tags.remove( sTag );
 }
+
+QList< CHash* > CFile::getHashes()
+{
+
+}
+
+void CFile::addHash( CHash* pHash )
+{
+	m_Hashes.push_back( pHash );
+}
+
+bool CFile::removeHash( CHash* pHash )
+{
+	for ( QList< CHash* >::Iterator i = m_Hashes.begin(); i != m_Hashes.end(); i++ )
+	{
+		if ( *pHash == **i )
+		{
+			m_Hashes.erase( i );
+			return true;
+		}
+	}
+	return false;
+}
+
+

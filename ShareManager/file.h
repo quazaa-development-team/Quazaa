@@ -9,9 +9,9 @@ class CFile : public QFile
 {
     Q_OBJECT
 
-public:
-	QList< CHash* > m_lHashes;
-	QSet< QString > m_setTags;
+private:
+	QList < CHash* > m_Hashes;
+	QSet< QString > m_Tags;
 
 public:
     explicit CFile(QObject *parent = 0);
@@ -19,6 +19,10 @@ public:
 	bool isTagged(QString sTag);
 	void addTag(QString sTag);
 	bool removeTag(QString sTag);
+
+	QList< CHash* > getHashes();
+	void addHash( CHash* pHash );
+	bool removeHash( CHash* pHash );
 
 signals:
 
