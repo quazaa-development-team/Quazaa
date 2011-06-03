@@ -7,7 +7,7 @@ CFile::CFile(QObject *parent) :
 
 bool CFile::isTagged(QString sTag)
 {
-	QSet::ConstIterator i = m_setTags.find( sTag );
+	QSet< QString >::ConstIterator i = m_setTags.find( sTag );
 
 	if ( i != m_setTags.end() )
 		return true;

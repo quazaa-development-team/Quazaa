@@ -8,7 +8,7 @@ CSecureRule::CSecureRule(bool bCreate)
 	m_nType		= srContentUndefined; // invalidates rule as long as it does not contain any useful content.
 	m_nAction	= srDeny;
 	m_sComment	= "";
-	m_nExpire	= srIndefinite;
+	m_tExpire	= srIndefinite;
 	m_nToday	= 0;
 	m_nTotal	= 0;
 
@@ -21,7 +21,7 @@ CSecureRule& CSecureRule::operator=(const CSecureRule& pRule)
 	m_nAction	= pRule.m_nAction;
 	m_sComment	= pRule.m_sComment;
 	m_oUUID		= pRule.m_oUUID;
-	m_nExpire	= pRule.m_nExpire;
+	m_tExpire	= pRule.m_tExpire;
 	m_nToday	= pRule.m_nToday;
 	m_nTotal	= pRule.m_nTotal;
 
@@ -33,9 +33,9 @@ CSecureRule& CSecureRule::operator=(const CSecureRule& pRule)
 
 bool CSecureRule::IsExpired(quint32 tNow, bool bSession) const
 {
-	if ( m_nExpire == srIndefinite ) return false;
-	if ( m_nExpire == srSession ) return bSession;
-	return m_nExpire < tNow;
+	if ( m_tExpire == srIndefinite ) return false;
+	if ( m_tExpire == srSession ) return bSession;
+	return m_tExpire < tNow;
 }
 
 CSecureRule* CSecureRule::GetCopy() const
@@ -71,276 +71,137 @@ bool CSecureRule::Match(const CQuerySearch*, const QString&) const
 //////////////////////////////////////////////////////////////////////
 // CSecureRule serialize
 
-/*void CSecureRule::Serialize(CSecureRule* &sr, CArchive& ar, int nVersion)
+void CSecureRule::Save(const CSecureRule* &sr, QDataStream &oStream)
 {
-	QString strTemp;
+	oStream << (quint8)(sr->m_nType);
+	oStream << (quint8)(sr->m_nAction);
+	oStream << sr->m_sComment;
+	oStream << sr->m_oUUID.toString();
+	oStream << sr->m_tExpire;
+	oStream << sr->m_nTotal;
 
-	if ( ar.IsStoring() )
+	switch ( sr->m_nType )
 	{
-		ar << (int)(sr->m_nType);
-		ar << sr->m_nAction;
-		ar << sr->m_sComment;
-
-		ar.Write( &(sr->m_oUUID), sizeof(GUID) );
-
-		ar << sr->m_nExpire;
-		ar << sr->m_nTotal;
-
-		switch ( sr->m_nType )
-		{
-		case srContentAddress:
-			ar.Write( &((CIPRule*)sr)->m_oIP, 4 );
-			break;
-		case srContentAddressRange:
-			ar.Write( ((CIPRangeRule*)sr)->m_oIP, 4 );
-			ar.Write( ((CIPRangeRule*)sr)->m_nMask, 4 );
-			break;
-		case srContentHash:
-			strTemp = ((CHashRule*)sr)->GetContentWords();
-			ar << strTemp;
-			break;
-		case srContentAny:
-		case srContentAll:
-			strTemp = ((CContentRule*)sr)->GetContentWords();
-			ar << strTemp;
-			break;
-		case srContentRegExp:
-			strTemp = ((CRegExpRule*)sr)->GetContentWords();
-			ar << strTemp;
-			break;
-		case srContentUserAgent:
-			strTemp = ((CUserAgentRule*)sr)->GetContentWords();
-			ar << strTemp;
-			break;
-		default:
-			// Do nothing. We don't store invalid rules.
-			break;
-		}
+	case srContentAddress:
+		oStream << ((CIPRule*)sr)->GetIP().toString();
+		break;
+	case srContentAddressRange:
+		oStream << ((CIPRangeRule*)sr)->GetIP().toString();
+		oStream << ((CIPRangeRule*)sr)->GetMask();
+		break;
+	case srContentCountry:
+		oStream << ((CCountryRule*)sr)->GetContent();
+		break;
+	case srContentHash:
+		oStream << ((CHashRule*)sr)->GetContentWords();
+		break;
+	case srContentAny:
+	case srContentAll:
+		oStream << ((CContentRule*)sr)->GetContentWords();
+		oStream << ( ( sr->Type() == srContentAll ) ? true : false );
+		break;
+	case srContentRegExp:
+		oStream << ((CRegExpRule*)sr)->GetContentWords();
+		break;
+	case srContentUserAgent:
+		oStream << ((CUserAgentRule*)sr)->GetContentWords();
+		break;
+	default:
+		// Do nothing. We don't store invalid rules.
+		break;
 	}
-	else // read from archive
+}
+
+void CSecureRule::Load(CSecureRule* &pRule, QDataStream &oStream, int)
+{
+	if( pRule )
 	{
-		int			nType;
-		BYTE		action;
-		QString		comment;
-		GUID		GUID;
-		quint32		expire;
-		quint32		total;
-
-
-		ar >> nType;
-		ar >> action;
-
-		if ( nVersion >= 2 )
-			ar >> comment;
-
-		if ( nVersion >= 4 )
-			ReadArchive( ar, &GUID, sizeof(GUID) );
-		else
-			CoCreateGuid( &GUID );
-
-		ar >> expire;
-		ar >> total;
-
-		CSecureRule* pRule = NULL;
-
-		if( nVersion > 5 )
-		{
-			switch ( nType )
-			{
-			case 0:
-				// contentless rule
-				pRule = new CSecureRule();
-				break;
-			case 1:
-				pRule = new CIPRule();
-				break;
-			case 2:
-				pRule = new CIPRangeRule();
-				break;
-			case 3:
-				pRule = new CCountryRule();
-				break;
-			case 4:
-				pRule = new CHashRule();
-				break;
-			case 5:
-				pRule = new CContentRule();
-				break;
-			case 6:
-				pRule = new CContentRule();
-				break;
-			case 7:
-				pRule = new CRegExpRule();
-				break;
-			case 8:
-				pRule = new CUserAgentRule();
-				break;
-			default:
-				ASSERT( false );
-				pRule = new CSecureRule();
-				break;
-			}
-
-			if ( pRule->m_nType == srContentAddress )
-			{
-				ReadArchive( ar, &((CIPRangeRule*)pRule)->m_oIP, 4 );
-			}
-			else if ( pRule->m_nType == srContentAddressRange )
-			{
-				ReadArchive( ar, ((CIPRangeRule*)pRule)->m_oIP, 4 );
-				ReadArchive( ar, ((CIPRangeRule*)pRule)->m_nMask, 4 );
-			}
-			else if ( pRule->m_nType == srContentAll || pRule->m_nType == srContentAny )
-			{
-				ar >> strTemp;
-				((CContentRule*)pRule)->SetContentWords( strTemp );
-			}
-			else if ( pRule->m_nType == srContentHash )
-			{
-				ar >> strTemp;
-				((CHashRule*)pRule)->SetContentWords( strTemp );
-			}
-			else if ( pRule->m_nType == srContentRegExp )
-			{
-				ar >> strTemp;
-				((CRegExpRule*)pRule)->SetContentWords( strTemp );
-			}
-			else if (pRule->m_nType == srContentUserAgent )
-			{
-				ar >> strTemp;
-				((CUserAgentRule*)pRule)->SetContentWords( strTemp );
-			}
-			else
-			{
-				// There is an empty or erroneous rule. Error handling (if necessary) should go here.
-				theApp.Message( MSG_ERROR, IDS_SECURITY_ARCHIVE_RULE_LOAD_FAIL );
-			}
-		}
-		// This handles upgrades from version 5 (and previous versions) of the security code.
-		else
-		{
-			RuleType type = srContentUndefined;
-
-			switch ( nType )
-			{
-			case 0:
-				type = srContentAddress;
-				break;
-			case 1:
-				type = srContentAny;
-				break;
-			case 2:
-				type = srContentAll;
-				break;
-			case 3:
-				type = srContentRegExp;
-				break;
-			}
-
-			if ( type == srContentAddress )
-			{
-				BYTE pIP[4], pMask[4];
-				ReadArchive( ar, pIP, 4 );
-				ReadArchive( ar, pMask, 4 );
-
-				if ( *(quint32*)pMask == 0xFFFFFFFF )
-				{
-					pRule = new CIPRule();
-					((CIPRule*)pRule)->m_oIP = *(quint32*)pIP;
-				}
-				else
-				{
-					pRule = new CIPRangeRule();
-					CopyMemory(((CIPRangeRule*)pRule)->m_oIP, pIP, sizeof( quint32 ) );
-					CopyMemory(((CIPRangeRule*)pRule)->m_nMask, pMask, sizeof( quint32 ) );
-					((CIPRangeRule*)pRule)->MaskFix();		// Make sure old rules are updated to new format
-				}
-			}
-			else
-			{
-				strTemp = "";
-				if ( nVersion < 5 )
-				{
-					ASSERT( type == srContentAny );
-
-					BYTE foo;
-					ar >> foo;
-					switch ( foo )
-					{
-					case 1:
-						type = srContentAll;
-						break;
-					case 2:
-						type = srContentRegExp;
-						break;
-					}
-				}
-
-				if ( nVersion < 3 )
-				{
-					for ( quint32_PTR nCount = ar.ReadCount() ; nCount > 0 ; nCount-- )
-					{
-						QString strWord;
-						ar >> strWord;
-
-						strTemp += ' ';
-						strTemp += strWord;
-					}
-				}
-				else
-				{
-					ar >> strTemp;
-				}
-
-				if ( type == srContentRegExp )
-				{
-					pRule = new CRegExpRule();
-					((CRegExpRule*)pRule)->SetContentWords( strTemp );
-				}
-				// Before version 6, this also included hash rules.
-				else if ( type == srContentAny || type == srContentAll )
-				{
-					QString strUrn = strTemp.mid( 0, 4 );
-
-					if ( strUrn.CompareNoCase( _T("urn:") ) == 0 )
-					{
-						CHashRule* rule = new CHashRule();
-						rule->SetContentWords( strTemp );
-
-						pRule = rule;
-					}
-					else
-					{
-						CContentRule* rule = new CContentRule();
-						rule->SetContentWords( strTemp );
-
-						rule->SetAll( type == srContentAll );
-
-						pRule = rule;
-					}
-				}
-				else
-				{
-					// There is an erroneous rule. Error handling (if necessary) should go here.
-					theApp.Message( MSG_ERROR, IDS_SECURITY_ARCHIVE_RULE_LOAD_FAIL );
-				}
-			}
-		}
-
-		pRule->m_nAction  = action;
-		pRule->m_sComment = comment;
-		pRule->m_oUUID    = GUID;
-		pRule->m_nExpire  = expire;
-		pRule->m_nTotal   = total;
-
-		if( sr )
-		{
-			delete sr;
-			sr = NULL;
-		}
-		sr = pRule;
+		delete pRule;
+		pRule = NULL;
 	}
-}*/
+
+	quint8		nType;
+	quint8		nAction;
+	QString		sComment;
+	QString		sUUID;
+	quint32		tExpire;
+	quint32		nTotal;
+
+	oStream >> nType;
+	oStream >> nAction;
+	oStream >> sComment;
+	oStream >> sUUID;
+	oStream >> tExpire;
+	oStream >> nTotal;
+
+	QString sTmp;
+	bool	bAll = true;
+
+	switch ( nType )
+	{
+	case 0:
+		// contentless rule
+		pRule = new CSecureRule();
+		break;
+	case 1:
+		pRule = new CIPRule();
+		oStream >> sTmp;
+		{
+			QHostAddress oTmp( sTmp );
+			((CIPRule*)pRule)->SetIP( oTmp );
+		}
+		break;
+	case 2:
+		pRule = new CIPRangeRule();
+		oStream >> sTmp;
+		{
+			QHostAddress oTmp( sTmp );
+			((CIPRangeRule*)pRule)->SetIP( oTmp );
+			quint32 nTmp;
+			oStream >> nTmp;
+			((CIPRangeRule*)pRule)->SetMask( nTmp );
+		}
+		break;
+	case 3:
+		pRule = new CCountryRule();
+		oStream >> sTmp;
+		((CCountryRule*)pRule)->SetContent( sTmp );
+		break;
+	case 4:
+		pRule = new CHashRule();
+		oStream >> sTmp;
+		((CHashRule*)pRule)->SetContentWords( sTmp );
+		break;
+	case 5:
+	case 6:
+		pRule = new CContentRule();
+		oStream >> sTmp;
+		oStream >> bAll;
+		((CContentRule*)pRule)->SetContentWords( sTmp );
+		((CContentRule*)pRule)->SetAll( bAll );
+		break;
+	case 7:
+		pRule = new CRegExpRule();
+		oStream >> sTmp;
+		((CRegExpRule*)pRule)->SetContentWords( sTmp );
+		break;
+	case 8:
+		pRule = new CUserAgentRule();
+		oStream >> sTmp;
+		((CUserAgentRule*)pRule)->SetContentWords( sTmp );
+		break;
+	default:
+		// There is an empty or erroneous rule. Error handling (if necessary) should go here.
+//		theApp.Message( MSG_ERROR, IDS_SECURITY_ARCHIVE_RULE_LOAD_FAIL );
+		break;
+	}
+
+	pRule->m_nAction  = (Policy)nAction;
+	pRule->m_sComment = sComment;
+	pRule->m_oUUID    = QUuid( sUUID );
+	pRule->m_tExpire  = tExpire;
+	pRule->m_nTotal   = nTotal;
+}
 
 //////////////////////////////////////////////////////////////////////
 // CSecureRule XML

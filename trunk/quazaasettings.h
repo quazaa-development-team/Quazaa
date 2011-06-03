@@ -464,6 +464,11 @@ namespace Settings
 		int			SearchSpamFilterThreshold;				// Percentage of spam hits which triggers file sources to be treated as spam
 		bool		UPnPSkipWANIPSetup;						// Skip WANIPConn1 device setup (UPnP)
 		bool		UPnPSkipWANPPPSetup;					// Skip WANPPPConn1 device setup (UPnP)
+
+		QString		DataPath;								// Path to the security.dat file
+		bool		LogIPCheckHits;							// Post log message on IsDenied( QHostAdress ) call
+		quint32		RuleExpiryInterval;						// Check the security manager for expired hosts each x seconds
+		quint32		MissCacheExpiryInterval;				// Clear the miss cache each x seconds
 	};
 
 	struct sGnutella

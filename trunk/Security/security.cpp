@@ -1,8 +1,12 @@
 #include <math.h>
 
+#include <QFile>
+
 #include "security.h"
+#include "quazaasettings.h"
 
 using namespace security;
+CSecurity Security;
 
 CSecurity::CSecurity()
 {
@@ -11,15 +15,8 @@ CSecurity::CSecurity()
 	m_bNewRulesLoaded = false;
 	m_bDelayedSanityCheckRequested = false;
 
-	// We can't load from settings here as they haven't been loaded when this is initialized.
-	m_bDebug = true;
-	m_nRuleExpiryInterval = 0;
-	m_nMissCacheExpiryInterval = 0;
-	m_nSettingsLoadInterval = 60; // load variables from settings each 60 seconds
-
 	m_nLastRuleExpiryCheck = static_cast< quint32 >( time( NULL ) );
 	m_nLastMissCacheExpiryCheck	= m_nLastRuleExpiryCheck;
-	m_nLastSettingsLoadTime		= m_nLastRuleExpiryCheck;
 
 	m_bSaved = true;
 	m_bUseMissCache = false;
@@ -79,7 +76,7 @@ void CSecurity::Add(CSecureRule* pRule)
 				pExRule = (*i).second;
 				if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 					 pExRule->m_nAction != pRule->m_nAction ||
-					 pExRule->m_nExpire != pRule->m_nExpire )
+					 pExRule->m_tExpire != pRule->m_tExpire )
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
@@ -118,7 +115,7 @@ void CSecurity::Add(CSecureRule* pRule)
 				if ( pOldRule->m_oUUID == pRule->m_oUUID )
 				{
 					if ( pOldRule->m_nAction != pRule->m_nAction ||
-						 pOldRule->m_nExpire != pRule->m_nExpire ||
+						 pOldRule->m_tExpire != pRule->m_tExpire ||
 						 pOldRule->m_oIP     != ((CIPRangeRule*)pRule)->m_oIP ||
 						 pOldRule->m_nMask   != ((CIPRangeRule*)pRule)->m_nMask )
 					{
@@ -161,7 +158,7 @@ void CSecurity::Add(CSecureRule* pRule)
 				pExRule = (*i).second;
 				if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 					 pExRule->m_nAction != pRule->m_nAction ||
-					 pExRule->m_nExpire != pRule->m_nExpire )
+					 pExRule->m_tExpire != pRule->m_tExpire )
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
@@ -208,7 +205,7 @@ void CSecurity::Add(CSecureRule* pRule)
 				{
 					if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 						 pExRule->m_nAction != pRule->m_nAction ||
-						 pExRule->m_nExpire != pRule->m_nExpire )
+						 pExRule->m_tExpire != pRule->m_tExpire )
 					{
 						// remove conflicting rule if one of the important attributes
 						// differs from the rule we'd like to add
@@ -259,7 +256,7 @@ void CSecurity::Add(CSecureRule* pRule)
 				if ( (*i)->m_oUUID == pRule->m_oUUID )
 				{
 					if ( pOldRule->m_nAction != pRule->m_nAction ||
-						 pOldRule->m_nExpire != pRule->m_nExpire ||
+						 pOldRule->m_tExpire != pRule->m_tExpire ||
 						 pOldRule->GetContentWords() != ((CRegExpRule*)pRule)->GetContentWords() )
 					{
 						// remove conflicting rule if one of the important attributes
@@ -300,7 +297,7 @@ void CSecurity::Add(CSecureRule* pRule)
 				if ( (*i)->m_oUUID == pRule->m_oUUID )
 				{
 					if ( pOldRule->m_nAction != pRule->m_nAction ||
-						 pOldRule->m_nExpire != pRule->m_nExpire ||
+						 pOldRule->m_tExpire != pRule->m_tExpire ||
 						 pOldRule->GetContentWords() != ((CRegExpRule*)pRule)->GetContentWords() )
 					{
 						// remove conflicting rule if one of the important attributes
@@ -337,7 +334,7 @@ void CSecurity::Add(CSecureRule* pRule)
 				pExRule = (*i).second;
 				if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 					 pExRule->m_nAction != pRule->m_nAction ||
-					 pExRule->m_nExpire != pRule->m_nExpire )
+					 pExRule->m_tExpire != pRule->m_tExpire )
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
@@ -763,7 +760,7 @@ void CSecurity::Ban(const QHostAddress* pAddress, BanLength nBanLength, bool bMe
 			switch( nBanLength )
 			{
 			case banSession:
-				pIPRule->m_nExpire = CSecureRule::srSession;
+				pIPRule->m_tExpire = CSecureRule::srSession;
 				return;
 
 			case ban5Mins:
@@ -787,16 +784,16 @@ void CSecurity::Ban(const QHostAddress* pAddress, BanLength nBanLength, bool bMe
 				break;
 
 			case banForever:
-				pIPRule->m_nExpire = CSecureRule::srIndefinite;
+				pIPRule->m_tExpire = CSecureRule::srIndefinite;
 				return;
 
 			default:
 				Q_ASSERT( false );
 			}
 
-			if ( pIPRule->m_nExpire < nExpireTime )
+			if ( pIPRule->m_tExpire < nExpireTime )
 			{
-				pIPRule->m_nExpire = nExpireTime;
+				pIPRule->m_tExpire = nExpireTime;
 			}
 
 			if ( bMessage )
@@ -821,35 +818,35 @@ void CSecurity::Ban(const QHostAddress* pAddress, BanLength nBanLength, bool bMe
 	switch( nBanLength )
 	{
 	case banSession:
-		pIPRule->m_nExpire	= CSecureRule::srSession;
+		pIPRule->m_tExpire	= CSecureRule::srSession;
 		pIPRule->m_sComment	= "Session Ban";
 		break;
 	case ban5Mins:
-		pIPRule->m_nExpire	= tNow + 300;
+		pIPRule->m_tExpire	= tNow + 300;
 		pIPRule->m_sComment	= "Temp Ignore";
 		break;
 	case ban30Mins:
-		pIPRule->m_nExpire	= tNow + 1800;
+		pIPRule->m_tExpire	= tNow + 1800;
 		pIPRule->m_sComment	= "Temp Ignore";
 		break;
 	case ban2Hours:
-		pIPRule->m_nExpire	= tNow + 7200;
+		pIPRule->m_tExpire	= tNow + 7200;
 		pIPRule->m_sComment	= "Temp Ignore";
 		break;
 	case banWeek:
-		pIPRule->m_nExpire	= tNow + 604800;
+		pIPRule->m_tExpire	= tNow + 604800;
 		pIPRule->m_sComment	= "Client Block";
 		break;
 	case banMonth:
-		pIPRule->m_nExpire	= tNow + 2592000; // 60*60*24*30 = 30 days
+		pIPRule->m_tExpire	= tNow + 2592000; // 60*60*24*30 = 30 days
 		pIPRule->m_sComment	= "Quick IP Block";
 		break;
 	case banForever:
-		pIPRule->m_nExpire	= CSecureRule::srIndefinite;
+		pIPRule->m_tExpire	= CSecureRule::srIndefinite;
 		pIPRule->m_sComment	= "Ban";
 		break;
 	default:
-		pIPRule->m_nExpire	= CSecureRule::srSession;
+		pIPRule->m_tExpire	= CSecureRule::srSession;
 		pIPRule->m_sComment	= "Session Ban";
 		Q_ASSERT( false ); // this should never happen
 	}
@@ -973,15 +970,11 @@ bool CSecurity::IsDenied(const QHostAddress* pAddress, const QString &source)
 		SanityCheck();
 		mutex.relock();
 	}
-	else if ( m_nLastSettingsLoadTime + m_nSettingsLoadInterval < tNow )
-	{
-		LoadSettings( tNow );
-	}
-	else if ( m_nLastRuleExpiryCheck + m_nRuleExpiryInterval < tNow )
+	else if ( m_nLastRuleExpiryCheck + quazaaSettings.Security.RuleExpiryInterval < tNow )
 	{
 		Expire();
 	}
-	else if ( m_nLastMissCacheExpiryCheck + m_nMissCacheExpiryInterval < tNow )
+	else if ( m_nLastMissCacheExpiryCheck + quazaaSettings.Security.MissCacheExpiryInterval < tNow )
 	{
 		mutex.unlock();
 		MissCacheClear( tNow );
@@ -992,7 +985,7 @@ bool CSecurity::IsDenied(const QHostAddress* pAddress, const QString &source)
 	// If the address is in cache, it is a miss and no further lookup is needed.
 	if ( m_bUseMissCache && m_Cache.count( pAddress->toString() ) )
 	{
-		if ( m_bDebug )
+		if ( quazaaSettings.Security.LogIPCheckHits )
 		{
 //			theApp.Message( MSG_DEBUG, "Skipped  repeat IP security check for %s (%i IPs cached; Call source: %s)",
 //							pAddress->toString(), m_Cache.size(), source );
@@ -1000,7 +993,7 @@ bool CSecurity::IsDenied(const QHostAddress* pAddress, const QString &source)
 
 		return m_bDenyPolicy;
 	}
-	else if ( m_bDebug )
+	else if ( quazaaSettings.Security.LogIPCheckHits )
 	{
 //		theApp.Message( MSG_DEBUG, "Called first-time IP security check for %s (Call source: %s)"),
 //						pAddress->toString(), source );
@@ -1023,9 +1016,9 @@ bool CSecurity::IsDenied(const QHostAddress* pAddress, const QString &source)
 		{
 			pIPRule->Count();
 
-			if ( pIPRule->m_nExpire > CSecureRule::srSession && pIPRule->m_nExpire < tNow + 300 )
+			if ( pIPRule->m_tExpire > CSecureRule::srSession && pIPRule->m_tExpire < tNow + 300 )
 			{	// Add 5 min penalty for early access
-				pIPRule->m_nExpire = tNow + 300;
+				pIPRule->m_tExpire = tNow + 300;
 			}
 
 			if ( pIPRule->m_nAction == CSecureRule::srAccept )
@@ -1063,9 +1056,9 @@ bool CSecurity::IsDenied(const QHostAddress* pAddress, const QString &source)
 
 			pRule->Count();
 
-			if ( pRule->m_nExpire > CSecureRule::srSession && pRule->m_nExpire < tNow + 300 )
+			if ( pRule->m_tExpire > CSecureRule::srSession && pRule->m_tExpire < tNow + 300 )
 				// Add 5 min penalty for early access
-				pRule->m_nExpire = tNow + 300;
+				pRule->m_tExpire = tNow + 300;
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 			{
@@ -1226,93 +1219,160 @@ bool CSecurity::IsVendorBlocked(const QString& sVendor) const
 
 //////////////////////////////////////////////////////////////////////
 // CSecurity load and save
-void CSecurity::LoadSettings(const quint32 tNow)
-{
-	QMutexLocker l( &m_pSection );
-
-	m_bDebug = true; //Settings.Security.DebugLogIPMissCacheHits;
-	m_nRuleExpiryInterval = 600; //Settings.Security.RuleExpiryCheckInterval;
-	m_nMissCacheExpiryInterval = 600; //Settings.Security.MissCacheExpiryInterval;
-
-	m_nLastSettingsLoadTime = tNow;
-}
 
 bool CSecurity::Load()
 {
-	LoadSettings( static_cast< quint32 >( time( NULL ) ) );
+	QString sPath = quazaaSettings.Security.DataPath.append( "security.dat" );
 
-	QMutexLocker mutex( &m_pSection );
+	if ( Load( sPath ) )
+	{
+		return true;
+	}
+	else
+	{
+		sPath = quazaaSettings.Security.DataPath.append( "security_backup.dat" );
+		return Load( sPath );
+	}
+}
 
-//	CFile pFile;
-//	QString strFile = Settings.General.UserPath + "\\Data\\Security.dat";
+bool CSecurity::Load( QString sPath )
+{
+	QFile oFile( sPath );
 
-//	if ( ! pFile.Open( strFile, CFile::modeRead ) )
-//		return false;
+	if ( ! oFile.open( QIODevice::ReadOnly ) )
+		return false;
+
+	CSecureRule* pRule = NULL;
 
 	try
 	{
-//		CArchive ar( &pFile, CArchive::load, 131072 );	// 128 KB buffer
-//		Serialize( ar );
-//		ar.Close();
-	}
-	catch ( ... /*CException* pException*/ )
-	{
+		Clear();
+
+		QDataStream oStream( &oFile );
+
+		int nVersion;
+		oStream >> nVersion;
+
+		bool bDenyPolicy;
+		oStream >> bDenyPolicy;
+
+		unsigned int nCount;
+		oStream >> nCount;
+
+		quint32 tNow = static_cast< quint32 >( time( NULL ) );
+
+		QMutexLocker mutex( &m_pSection );
+		m_bDenyPolicy = bDenyPolicy;
+		m_bIsLoading = true;
 		mutex.unlock();
 
-//		pException->Delete();
+		while ( nCount > 0 )
+		{
+			CSecureRule::Load( pRule, oStream, nVersion );
+
+			if ( pRule->IsExpired( tNow, true ) )
+			{
+				delete pRule;
+			}
+			else
+			{
+				Add( pRule );
+			}
+
+			pRule = NULL;
+
+			nCount--;
+		}
+
+		mutex.relock();
+		m_bIsLoading = false;
+		mutex.unlock();
+
+		// If necessary perform sanity check after loading.
+		SanityCheck();
+	}
+	catch ( ... )
+	{		
+		if ( pRule )
+			delete pRule;
 
 		Clear();
-//		pFile.Abort();
+		oFile.close();
+
+		QMutexLocker l( &m_pSection );
 		m_bIsLoading = false;
 
 		return false;
 	}
-
-//	pFile.Close();
+	oFile.close();
 
 	return true;
 }
 
 bool CSecurity::Save()
 {
-	QMutexLocker l( &m_pSection );
+	QMutexLocker mutex( &m_pSection );
 
 	if ( m_bSaved )		// Saving not required ATM
 	{
 		return true;
 	}
+	mutex.unlock();
 
-//	CFile pFile;
-//	QString strFile = Settings.General.UserPath + "\\Data\\Security.dat";
+	QString sBackupPath = quazaaSettings.Security.DataPath.append( "security_backup.dat" );
+	QString sPath		= quazaaSettings.Security.DataPath.append( "security.dat" );
 
-//	if ( ! pFile.Open( strFile, CFile::modeWrite|CFile::modeCreate ) )
-//		return false;
+	if ( QFile::exists( sBackupPath ) )
+	{
+		if ( !QFile::remove( sBackupPath ) )
+			return false; // Error while removing old backup file.
+	}
+
+	if ( QFile::exists( sPath ) )
+	{
+		if ( !QFile::rename( sPath, sBackupPath ) )
+			return false; // Error while renaming current database file to replace backup file.
+	}
+
+	QFile oFile( sPath );
+
+	if ( ! oFile.open( QIODevice::WriteOnly ) )
+		return false;
+
+	int nVersion = SECURITY_CODE_VERSION;
 
 	try
 	{
-//		CArchive ar( &pFile, CArchive::store, 131072 );	// 128 KB buffer
-		try
+		QDataStream oStream( &oFile );
+
+		oStream << nVersion;
+
+		// Security manager must be kept locked while working with iterators.
+		mutex.relock();
+		oStream << m_bDenyPolicy;
+
+		oStream << GetCount();
+
+		for ( CIterator i = GetIterator(); i != GetEnd(); i++ )
 		{
-//			Serialize( ar );
-//			ar.Close();
+			const CSecureRule* pRule = *i;
+			CSecureRule::Save( pRule, oStream );
 		}
-		catch ( ... /*CException* pException*/ )
-		{
-//			ar.Abort();
-//			pFile.Abort();
-//			pException->Delete();
-			return false;
-		}
-//		pFile.Close();
+		mutex.unlock();
 	}
-	catch ( ... /*CException* pException*/ )
+	catch ( ... )
 	{
-//		pFile.Abort();
-//		pException->Delete();
+
 		return false;
 	}
 
+	mutex.relock();
 	m_bSaved = true;
+	mutex.unlock();
+
+	// We don't really care whether this fails or not, as saving to the primary file was successfull.
+	QFile::remove( sBackupPath );
+	QFile::copy( sPath, sBackupPath );
 
 	return true;
 }
@@ -1430,85 +1490,6 @@ const QString CSecurity::xmlns = "http://www.shareaza.com/schemas/Security.xsd";
 
 //////////////////////////////////////////////////////////////////////
 // Private method definitions
-
-/*void CSecurity::Serialize(CArchive& ar)
-{
-	int nVersion = SECURITY_SER_VERSION;
-
-	CSecureRule* pRule = NULL;
-
-	if ( ar.IsStoring() )
-	{
-		TRACE( " >> Security Version : %d\n", nVersion );
-		ar << nVersion;
-
-		TRACE( " >> Deny Policy      : %s\n", m_bDenyPolicy ? "Deny" : "Allow" );
-		bool nDenyPolicy = m_bDenyPolicy;	// BOOL is used for compatibility with old security
-		ar << nDenyPolicy;					// code to avoid problems while up- or downgrading.
-
-		INT_PTR nCount = GetCount();
-		TRACE( " >> Rule Count       : %d\n", nCount );
-		ar.WriteCount( nCount );
-
-		for ( CIterator i = GetIterator(); i != GetEnd(); i++ )
-		{
-			pRule = *i;
-			CSecureRule::Serialize( pRule, ar, nVersion );
-
-			nCount--;
-		}
-	}
-	else // archive is
-	{
-		Clear();
-
-		ar >> nVersion;
-		TRACE( " >> Security Version : %d\n", nVersion );
-		bool nDenyPolicy;	// BOOL is used for compatibility with old security
-		ar >> nDenyPolicy;	// code to avoid problems while up- or downgrading.
-		m_bDenyPolicy = ( nDenyPolicy != 0 );
-		TRACE( " >> Deny Policy      : %s\n", m_bDenyPolicy ? "Deny" : "Allow" );
-
-		quint32 tNow = static_cast< quint32 >( time( NULL ) );
-
-		quint32_PTR nCount = ar.ReadCount();
-		TRACE( " >> Rule Count       : %d\n", nCount );
-
-		unsigned int size = GetBestHashTableSize( nCount + nCount / 4u );
-
-		Q_ASSERT_VALID( m_pLiveList );
-		delete m_pLiveList;
-		// make sure the list size does not have to be reajusted while loading the security rules from file.
-		m_pLiveList = new CLiveList( 6, size );
-
-		RefreshDefaultPolicyItem();
-
-		m_bIsLoading = true;
-
-		while ( nCount > 0 )
-		{
-			CSecureRule::Serialize( pRule, ar, nVersion );
-
-			if ( pRule->IsExpired( tNow, true ) )
-			{
-				delete pRule;
-			}
-			else
-			{
-				Add( pRule );
-			}
-
-			pRule = NULL;
-
-			nCount--;
-		}
-
-		m_bIsLoading = false;
-
-		// if necessary perform sanity check after loading
-		SanityCheck();
-	}
-}*/
 
 CSecurity::CIterator CSecurity::GetHash(const QString& sSHA1,
 										const QString& sED2K,
@@ -1824,10 +1805,10 @@ bool CSecurity::IsAgentDenied(const QString& strUserAgent)
 
 			pRule->Count();
 
-			if ( pRule->m_nExpire > CSecureRule::srSession &&
-				pRule->m_nExpire < tNow + 300 )
+			if ( pRule->m_tExpire > CSecureRule::srSession &&
+				pRule->m_tExpire < tNow + 300 )
 				// Add 5 min penalty for early access
-				pRule->m_nExpire = tNow + 300;
+				pRule->m_tExpire = tNow + 300;
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 				return false;
@@ -1896,10 +1877,10 @@ bool CSecurity::IsDenied(const QString& strContent)
 
 			pRule->Count();
 
-			if ( pRule->m_nExpire > CSecureRule::srSession &&
-				pRule->m_nExpire < tNow + 300 )
+			if ( pRule->m_tExpire > CSecureRule::srSession &&
+				pRule->m_tExpire < tNow + 300 )
 				// Add 5 min penalty for early access
-				pRule->m_nExpire = tNow + 300;
+				pRule->m_tExpire = tNow + 300;
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 				return false;
