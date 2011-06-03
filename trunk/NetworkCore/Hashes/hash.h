@@ -47,6 +47,9 @@ public:
 	CHash(QByteArray baRaw, CHash::Algorithm algo);
 	~CHash();
 
+	bool operator==(const CHash& pRule);
+	bool operator!=(const CHash& pRule);
+
 	static int	ByteCount(CHash::Algorithm algo);
 
 	static CHash* FromURN(QString sURN);

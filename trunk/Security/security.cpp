@@ -619,120 +619,6 @@ bool CSecurity::ClearNewRules()
 //////////////////////////////////////////////////////////////////////
 // CSecurity ban
 
-/*void CSecurity::Ban(const CShareazaFile* pFile, BanLength nBanLength, bool bMessage, const QString& strComment)
-{
-	if ( !pFile )
-	{
-		theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_FILE_BAN, "" );
-		return;
-	}
-
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
-
-	QString sSHA1 = ( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  : "" );
-	QString sED2K = ( pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : "" );
-	QString sBTIH = ( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   : "" );
-	QString sTTH  = ( pFile->m_oTiger ? pFile->m_oTiger.toUrn() : "" );
-	QString sMD5  = ( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()   : "" );
-
-	// Lock section before working with iterators...
-	QMutexLocker mutex( &m_pSection );
-
-	CIterator i = GetHash( sSHA1, sED2K, sTTH, sBTIH, sMD5 );
-
-	bool bAlreadyBlocked = ( i != GetEnd() && ((CHashRule*)*i)->Match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) );
-
-	if ( bAlreadyBlocked )
-	{
-		if ( bMessage )
-		{
-//			theApp.Message( MSG_NOTICE, IDS_SECURITY_ERROR_FILE_ALREADY_BANNED, (LPCTSTR)pFile->m_sName );
-		}
-	}
-	else
-	{
-		CHashRule* pRule = new CHashRule();
-
-		switch ( nBanLength )
-		{
-		case banSession:
-			pRule->m_nExpire	= CSecureRule::srSession;
-			pRule->m_sComment	= "Session Ban";
-			break;
-		case ban5Mins:
-			pRule->m_nExpire	= tNow + 300;
-			pRule->m_sComment	= "Temp Ignore";
-			break;
-		case ban30Mins:
-			pRule->m_nExpire	= tNow + 1800;
-			pRule->m_sComment	= "Temp Ignore";
-			break;
-		case ban2Hours:
-			pRule->m_nExpire	= tNow + 7200;
-			pRule->m_sComment	= "Temp Ignore";
-			break;
-		case banWeek:
-			pRule->m_nExpire	= tNow + 604800;
-			pRule->m_sComment	= "Client Block";
-			break;
-		case banMonth:
-			pRule->m_nExpire	= tNow + 2592000; // 60*60*24*30 = 30 days
-			pRule->m_sComment	= "Quick IP Block";
-			break;
-		case banForever:
-			pRule->m_nExpire 	= CSecureRule::srIndefinite;
-			pRule->m_sComment	= "Ban";
-			break;
-		default:
-			pRule->m_nExpire	= CSecureRule::srSession;
-			pRule->m_sComment	= "Session Ban";
-			Q_ASSERT( false ); // this should never happen
-		}
-
-		if ( !( strComment.isEmpty() ) )
-			pRule->m_sComment = strComment;
-
-		// First try to get a pair of important hashes, if that doesn't work, ban everything there is.
-		if ( pFile->m_oSHA1 && pFile->m_oED2K ) // Most probable case if G2 hits are present
-		{
-			pRule->SetContentWords( pFile->m_oSHA1.toUrn()  + " " + pFile->m_oED2K.toUrn() );
-		}
-		else if ( pFile->m_oSHA1 && pFile->m_oTiger ) // Catches files with gnutella hits
-		{
-			pRule->SetContentWords( pFile->m_oSHA1.toUrn()  + " " + pFile->m_oTiger.toUrn() );
-		}
-		else if ( pFile->m_oED2K ) // eD2k network
-		{
-			pRule->SetContentWords( pFile->m_oED2K.toUrn() );
-		}
-		// other (these rules will not be really effective as they generally lack the main hashes)
-		else if ( pFile->m_oSHA1 || pFile->m_oTiger || pFile->m_oMD5 || pFile->m_oBTH )
-		{
-			pRule->SetContentWords(
-				( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  + " " : QString() ) +
-				( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   + " " : QString() ) +
-				( pFile->m_oTiger ? pFile->m_oTiger.toUrn() + " " : QString() ) +
-				( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()         : QString() ) );
-		}
-		else
-		{
-			// We got no valid hashes from that file.
-			QString str = " (File: " + pFile->m_sName + ")";
-//			theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_FILE_BAN, (LPCTSTR)str );
-			return;
-		}
-
-		mutex.unlock();
-		Add( pRule );
-
-		if ( bMessage )
-		{
-//			theApp.Message( MSG_NOTICE, IDS_NETWORK_SECURITY_BLOCKED,
-//				(LPCTSTR)pFile->m_sName );
-		}
-	}
-}*/
-
 void CSecurity::Ban(const QHostAddress* pAddress, BanLength nBanLength, bool bMessage, const QString& strComment)
 {
 	if ( !pAddress )
@@ -865,6 +751,120 @@ void CSecurity::Ban(const QHostAddress* pAddress, BanLength nBanLength, bool bMe
 //		theApp.Message( MSG_NOTICE, IDS_NETWORK_SECURITY_BLOCKED,
 //			(LPCTSTR)FromIP( AF_INET, &tmpAddr ) );
 	}
+}
+
+void CSecurity::Ban(const CFile* pFile, BanLength nBanLength, bool bMessage, const QString& strComment)
+{
+	if ( !pFile )
+	{
+//		theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_FILE_BAN, "" );
+		return;
+	}
+
+	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+
+	/*QString sSHA1 = ( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  : "" );
+	QString sED2K = ( pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : "" );
+	QString sBTIH = ( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   : "" );
+	QString sTTH  = ( pFile->m_oTiger ? pFile->m_oTiger.toUrn() : "" );
+	QString sMD5  = ( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()   : "" );*/
+
+	/*// Lock section before working with iterators...
+	QMutexLocker mutex( &m_pSection );
+
+	CIterator i = GetHash( pFile->m );
+
+	bool bAlreadyBlocked = ( i != GetEnd() && ((CHashRule*)*i)->Match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) );
+
+	if ( bAlreadyBlocked )
+	{
+		if ( bMessage )
+		{
+//			theApp.Message( MSG_NOTICE, IDS_SECURITY_ERROR_FILE_ALREADY_BANNED, (LPCTSTR)pFile->m_sName );
+		}
+	}
+	else
+	{
+		CHashRule* pRule = new CHashRule();
+
+		switch ( nBanLength )
+		{
+		case banSession:
+			pRule->m_nExpire	= CSecureRule::srSession;
+			pRule->m_sComment	= "Session Ban";
+			break;
+		case ban5Mins:
+			pRule->m_nExpire	= tNow + 300;
+			pRule->m_sComment	= "Temp Ignore";
+			break;
+		case ban30Mins:
+			pRule->m_nExpire	= tNow + 1800;
+			pRule->m_sComment	= "Temp Ignore";
+			break;
+		case ban2Hours:
+			pRule->m_nExpire	= tNow + 7200;
+			pRule->m_sComment	= "Temp Ignore";
+			break;
+		case banWeek:
+			pRule->m_nExpire	= tNow + 604800;
+			pRule->m_sComment	= "Client Block";
+			break;
+		case banMonth:
+			pRule->m_nExpire	= tNow + 2592000; // 60*60*24*30 = 30 days
+			pRule->m_sComment	= "Quick IP Block";
+			break;
+		case banForever:
+			pRule->m_nExpire 	= CSecureRule::srIndefinite;
+			pRule->m_sComment	= "Ban";
+			break;
+		default:
+			pRule->m_nExpire	= CSecureRule::srSession;
+			pRule->m_sComment	= "Session Ban";
+			Q_ASSERT( false ); // this should never happen
+		}
+
+		if ( !( strComment.isEmpty() ) )
+			pRule->m_sComment = strComment;
+
+		// First try to get a pair of important hashes, if that doesn't work, ban everything there is.
+		if ( pFile->m_oSHA1 && pFile->m_oED2K ) // Most probable case if G2 hits are present
+		{
+			pRule->SetContentWords( pFile->m_oSHA1.toUrn()  + " " + pFile->m_oED2K.toUrn() );
+		}
+		else if ( pFile->m_oSHA1 && pFile->m_oTiger ) // Catches files with gnutella hits
+		{
+			pRule->SetContentWords( pFile->m_oSHA1.toUrn()  + " " + pFile->m_oTiger.toUrn() );
+		}
+		else if ( pFile->m_oED2K ) // eD2k network
+		{
+			pRule->SetContentWords( pFile->m_oED2K.toUrn() );
+		}
+		// other (these rules will not be really effective as they generally lack the main hashes)
+		else if ( pFile->m_oSHA1 || pFile->m_oTiger || pFile->m_oMD5 || pFile->m_oBTH )
+		{
+			pRule->SetContentWords(
+				( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  + " " : QString() ) +
+				( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   + " " : QString() ) +
+				( pFile->m_oTiger ? pFile->m_oTiger.toUrn() + " " : QString() ) +
+				( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()         : QString() ) );
+		}
+		else
+		{
+			// We got no valid hashes from that file.
+			QString str = " (File: " + pFile->m_sName + ")";
+//			theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_FILE_BAN, (LPCTSTR)str );
+			return;
+		}
+
+		mutex.unlock();
+		Add( pRule );
+
+		if ( bMessage )
+		{
+//			theApp.Message( MSG_NOTICE, IDS_NETWORK_SECURITY_BLOCKED,
+//				(LPCTSTR)pFile->m_sName );
+		}
+	}*/
 }
 
 //////////////////////////////////////////////////////////////////////

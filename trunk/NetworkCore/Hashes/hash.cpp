@@ -82,6 +82,16 @@ CHash::~CHash()
 	}
 }
 
+bool CHash::operator==(const CHash& pHash)
+{
+	return m_bFinalized == pHash.m_bFinalized && m_nHashAlgorithm == pHash.m_nHashAlgorithm && m_baRawValue == pHash.m_baRawValue;
+}
+
+bool CHash::operator!=(const CHash& pHash)
+{
+	return !( *this == pHash );
+}
+
 // Returns raw hash length by hash family
 int CHash::ByteCount(CHash::Algorithm algo)
 {
