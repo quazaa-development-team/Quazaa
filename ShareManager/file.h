@@ -18,7 +18,7 @@ public:
 
 	bool isTagged(QString sTag);
 	void addTag(QString sTag);
-	void removeTag(QString sTag);
+	bool removeTag(QString sTag);
 
 signals:
 

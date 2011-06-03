@@ -14,19 +14,10 @@
 #include "securerule.h"
 #include "time.h"
 
-/*class CSecureRule;
-class CIPRule;
-class CIPRangeRule;
-class CCountryRule;
-class CHashRule;
-class CRegExpRule;
-class CUserAgentRule;
-class CContentRule;*/
-
 // Increment this if there have been made changes to the way of storing security rules.
-#define SECURITY_CODE_VERSION	1
+#define SECURITY_CODE_VERSION	0
 // History:
-// 1 - Initial implementation
+// 0 - Initial implementation
 
 namespace security
 {
@@ -103,13 +94,7 @@ namespace security
 
 		// Expire Counters
 		quint32				m_nLastRuleExpiryCheck;
-		quint32				m_nRuleExpiryInterval;
 		quint32				m_nLastMissCacheExpiryCheck;
-		quint32				m_nMissCacheExpiryInterval;
-		quint32				m_nLastSettingsLoadTime;
-		quint32				m_nSettingsLoadInterval;
-
-		bool				m_bDebug;			// Loaded from settings. Enables additionnal debug output.
 
 		bool				m_bUseMissCache;
 		bool				m_bIsLoading;		// true during import operations. Used to avoid unnecessary regeneration of LiveList.
@@ -177,7 +162,6 @@ namespace security
 		bool			IsVendorBlocked(const QString& sVendor) const;
 
 		// Export/Import/Load/Save handlers
-		void			LoadSettings(const quint32 tNow);
 		bool			Load();
 		bool			Save();
 //		bool			Import(LPCTSTR pszFile);
@@ -188,9 +172,7 @@ namespace security
 		inline CIterator	GetEnd() const		{ return m_Rules.end();   }
 		inline CIterator	GetIterator() const	{ return m_Rules.begin(); }
 
-		inline bool		Debug() const			{ return m_bDebug; }
-
-//		void			Serialize(CArchive& ar);
+		bool			Load(QString sPath);
 
 		// this returns the first rule found. Note that there might be others, too.
 		CIterator		GetHash(const QString& sSHA1,

@@ -37,7 +37,7 @@ QuazaaSettings::QuazaaSettings()
 
 void QuazaaSettings::saveSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Live");
 	m_qSettings.setValue("AdultWarning", quazaaSettings.Live.AdultWarning);
@@ -309,6 +309,11 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("SearchSpamFilterThreshold", quazaaSettings.Security.SearchSpamFilterThreshold);
 	m_qSettings.setValue("UPnPSkipWANIPSetup", quazaaSettings.Security.UPnPSkipWANIPSetup);
 	m_qSettings.setValue("UPnPSkipWANPPPSetup", quazaaSettings.Security.UPnPSkipWANPPPSetup);
+
+	m_qSettings.setValue("DataPath", quazaaSettings.Security.DataPath);
+	m_qSettings.setValue("LogIPCheckHits", quazaaSettings.Security.LogIPCheckHits);
+	m_qSettings.setValue("RuleExpiryInterval", quazaaSettings.Security.RuleExpiryInterval);
+	m_qSettings.setValue("MissCacheExpiryInterval", quazaaSettings.Security.MissCacheExpiryInterval);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Gnutella");
@@ -886,6 +891,12 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Security.SearchSpamFilterThreshold = m_qSettings.value("SearchSpamFilterThreshold", 20).toInt();
 	quazaaSettings.Security.UPnPSkipWANIPSetup = m_qSettings.value("UPnPSkipWANIPSetup", false).toBool();
 	quazaaSettings.Security.UPnPSkipWANPPPSetup = m_qSettings.value("UPnPSkipWANPPPSetup", false).toBool();
+	QString sDefault = QString( "%1/%2/" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ),
+												QCoreApplication::applicationName() );
+	quazaaSettings.Security.DataPath = m_qSettings.value( "DataPath", sDefault ).toString();
+	quazaaSettings.Security.LogIPCheckHits = m_qSettings.value("LogIPCheckHits", false).toBool();
+	quazaaSettings.Security.RuleExpiryInterval = m_qSettings.value("RuleExpiryInterval", 600).toUInt();
+	quazaaSettings.Security.MissCacheExpiryInterval = m_qSettings.value("MissCacheExpiryInterval", 600).toUInt();
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Gnutella");

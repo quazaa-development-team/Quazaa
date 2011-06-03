@@ -28,7 +28,7 @@ namespace security
 	public:
 		Policy		m_nAction;
 		QUuid		m_oUUID;
-		quint32		m_nExpire;
+		quint32		m_tExpire;
 		QString		m_sComment;
 
 	public:
@@ -65,8 +65,9 @@ namespace security
 		// Import functionality
 //		static CSecureRule*		FromXML(CXMLElement* pXML);
 
-		// Read/write rule to archive
-//		static void		Serialize(CSecureRule* &pSecureRule, CArchive& ar, int nVersion);
+		// Read/write rule from/to file
+		static void		Load(CSecureRule* &pSecureRule, QDataStream &oStream, const int nVersion);
+		static void		Save(const CSecureRule* &pSecureRule, QDataStream &oStream);
 
 	protected:
 		// Contains default code for XML generation.
@@ -80,11 +81,13 @@ namespace security
 	{
 	private:
 		QHostAddress m_oIP;
-		quint32 m_nMask;
 
 	public:
 		CIPRule(bool bCreate = true);
 		inline ~CIPRule() {}
+
+		inline void SetIP( QHostAddress &oIP ) { m_oIP = oIP; }
+		inline QHostAddress GetIP() { return m_oIP; }
 
 		// Operators
 		CIPRule&	operator=(const CIPRule& pRule);
@@ -106,11 +109,15 @@ namespace security
 	private:
 		QHostAddress m_oIP;
 		qint32       m_nMask;
-//		BYTE		m_nMask[4];
 
 	public:
 		CIPRangeRule(bool bCreate = true);
 		inline ~CIPRangeRule() {}
+
+		inline void SetIP( QHostAddress &oIP ) { m_oIP = oIP; }
+		inline QHostAddress GetIP() { return m_oIP; }
+		inline void SetMask( quint32 &nMask ) { m_nMask = nMask; }
+		inline qint32 GetMask() { return m_nMask; }
 
 		// Operators
 		CIPRangeRule& operator=(const CIPRangeRule& pRule);

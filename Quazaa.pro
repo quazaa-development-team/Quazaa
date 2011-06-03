@@ -206,7 +206,8 @@ SOURCES += main.cpp \
     NetworkCore/neighboursconnections.cpp \
     NetworkCore/neighboursbase.cpp \
     Security/security.cpp \
-    Security/securerule.cpp
+    Security/securerule.cpp \
+    ShareManager/file.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -333,7 +334,8 @@ HEADERS += UI/dialoglanguage.h \
     NetworkCore/neighboursconnections.h \
     NetworkCore/neighboursbase.h \
     Security/security.h \
-    Security/securerule.h
+    Security/securerule.h \
+    ShareManager/file.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
