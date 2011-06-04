@@ -51,7 +51,6 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
 	m_bConnected = false;
 	m_tConnected = 0;
 	m_bDelayedClose = false;
-	m_bSkipMe = false;
 }
 CNetworkConnection::~CNetworkConnection()
 {
@@ -313,9 +312,7 @@ qint64 CNetworkConnection::networkBytesAvailable() const
 
 	if(m_pSocket->state() != QTcpSocket::ConnectedState)
 	{
-		int nOldSize = m_pInput->size();
-		m_pInput->append(m_pSocket->readAll());
-		return m_pInput->size() - nOldSize;
+		return m_pInput->size();
 	}
 
 	return m_pSocket->bytesAvailable();

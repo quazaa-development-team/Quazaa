@@ -71,7 +71,6 @@ public:
 	qint32  m_tConnected;
 
 	bool	m_bDelayedClose;
-	bool	m_bSkipMe;
 
 public:
 	CNetworkConnection(QObject* parent = 0);

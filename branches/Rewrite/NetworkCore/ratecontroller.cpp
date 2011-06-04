@@ -109,11 +109,12 @@ void CRateController::transfer()
 	m_tStopWatch.start();
 
 	bool bCanTransferMore = false;
-	bool bSkipped = false;
+	bool bRestart = false;
 
 	do
 	{
 		bCanTransferMore = false;
+		bRestart = false;
 		qint64 nWriteChunk = qMax(qint64(1), nToWrite / lSockets.size());
 		qint64 nReadChunk = qMax(qint64(1), nToRead / lSockets.size());
 
@@ -138,6 +139,10 @@ void CRateController::transfer()
 						nUploaded += nBytesWritten;
 						bDataTransferred = true;
 					}
+					else if( nBytesWritten == 0 )
+					{
+						bRestart = true;
+					}
 				}
 			}
 
@@ -153,10 +158,7 @@ void CRateController::transfer()
 				}
 			}
 
-			if( pConn->m_bSkipMe )
-				bSkipped = true;
-
-			if(bDataTransferred && !pConn->m_bSkipMe && pConn->HasData())
+			if(bDataTransferred && pConn->HasData())
 			{
 				bCanTransferMore = true;
 			}
@@ -174,7 +176,7 @@ void CRateController::transfer()
 	}
 	while(bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty());
 
-	if(bCanTransferMore || bSkipped || nToRead == 0 || nToWrite == 0)
+	if(bCanTransferMore || bRestart || nToRead == 0 || nToWrite == 0)
 	{
 		sheduleTransfer();
 	}
