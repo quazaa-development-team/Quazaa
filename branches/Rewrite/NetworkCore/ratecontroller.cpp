@@ -126,35 +126,38 @@ void CRateController::transfer()
 
 			bool bDataTransferred = false;
 
-			if(m_nUploadLimit * 2 > pConn->m_pSocket->bytesToWrite())
+			if( pConn->m_pSocket->state() == QAbstractSocket::ConnectedState )
 			{
-				qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->m_pSocket->bytesToWrite());
-
-				if(nChunkSize > 0)
+				if(m_nUploadLimit * 2 > pConn->m_pSocket->bytesToWrite())
 				{
-					qint64 nBytesWritten = pConn->writeToNetwork(nChunkSize);
-					if(nBytesWritten > 0)
+					qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->m_pSocket->bytesToWrite());
+
+					if(nChunkSize > 0)
 					{
-						nToWrite -= nBytesWritten;
-						nUploaded += nBytesWritten;
-						bDataTransferred = true;
-					}
-					else if( nBytesWritten == 0 )
-					{
-						bRestart = true;
+						qint64 nBytesWritten = pConn->writeToNetwork(nChunkSize);
+						if(nBytesWritten > 0)
+						{
+							nToWrite -= nBytesWritten;
+							nUploaded += nBytesWritten;
+							bDataTransferred = true;
+						}
+						else if( nBytesWritten == 0 )
+						{
+							bRestart = true;
+						}
 					}
 				}
-			}
 
-			qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
-			if(nAvailable > 0)
-			{
-				qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
-				if(nReadBytes > 0)
+				qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
+				if(nAvailable > 0)
 				{
-					nToRead -= nReadBytes;
-					nDownloaded += nReadBytes;
-					bDataTransferred = true;
+					qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
+					if(nReadBytes > 0)
+					{
+						nToRead -= nReadBytes;
+						nDownloaded += nReadBytes;
+						bDataTransferred = true;
+					}
 				}
 			}
 
