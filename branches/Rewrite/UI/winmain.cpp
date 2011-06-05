@@ -88,10 +88,13 @@ WinMain::WinMain(QWidget* parent) :
 	ui->toolBarMainMenu->addWidget(ui->menubarMain);
 
 	//Set up the status bar
-	labelCurrentIPAddress = new QLabel(tr("unknown"));
+	labelIPAddress = new QLabel(tr("Current IP:"));
+	ui->statusbar->addPermanentWidget(labelIPAddress);
+	labelCurrentIPAddress = new QLabel(tr("Unknown"));
 	ui->statusbar->addPermanentWidget(labelCurrentIPAddress);
 	toolButtonAddressToClipboard = new QToolButton(this);
 	toolButtonAddressToClipboard->setText(tr("Copy Address"));
+	toolButtonAddressToClipboard->setAutoRaise(true);
 	ui->statusbar->addPermanentWidget(toolButtonAddressToClipboard);
 	tcpFirewalled = ":/Resource/Network/ShieldRed.png";
 	udpFirewalled = ":/Resource/Network/ShieldRed.png";

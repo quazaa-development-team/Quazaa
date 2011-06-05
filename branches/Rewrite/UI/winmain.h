@@ -70,6 +70,7 @@ public:
 	QActionGroup* actionGroupMainNavigation;
 	QLabel* labelBandwidthTotals;
 	QLabel* labelFirewallStatus;
+	QLabel* labelIPAddress;
 	QLabel* labelCurrentIPAddress;
 	QToolButton* toolButtonAddressToClipboard;
 
