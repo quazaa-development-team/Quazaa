@@ -332,13 +332,14 @@ CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProt
 	switch(nProtocol)
 	{
 		case dpGnutella2:
-			pNode = new CG2Node(this);
+			pNode = new CG2Node();
 			break;
 		default:
 			Q_ASSERT_X(0, "CNeighbours::ConnectTo", "Unknown protocol");
 	}
 
 	AddNode(pNode);
+	pNode->moveToThread(&NetworkThread);
 	pNode->ConnectTo(oAddress);
 	return pNode;
 }
