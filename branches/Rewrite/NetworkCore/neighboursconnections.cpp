@@ -338,8 +338,8 @@ CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProt
 			Q_ASSERT_X(0, "CNeighbours::ConnectTo", "Unknown protocol");
 	}
 
-        AddNode(pNode);
+	AddNode(pNode);
 	pNode->ConnectTo(oAddress);
-        pNode->moveToThread(&NetworkThread);
+	pNode->moveToThread(&NetworkThread);
 	return pNode;
 }
