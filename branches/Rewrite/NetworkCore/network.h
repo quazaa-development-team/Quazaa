@@ -89,7 +89,7 @@ public slots:
 	void RoutePackets();
 
 signals:
-
+	void LocalAddressChanged();
 };
 
 extern CNetwork Network;

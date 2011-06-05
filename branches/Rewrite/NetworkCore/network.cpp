@@ -207,6 +207,10 @@ void CNetwork::AcquireLocalAddress(QString& sHeader)
 
 	if(!hostAddr.isNull())
 	{
+		if( ((QHostAddress)hostAddr) != ((QHostAddress)m_oAddress) )
+		{
+			emit LocalAddressChanged();
+		}
 		m_oAddress.setAddress(sHeader);
 	}
 }
