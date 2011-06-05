@@ -156,7 +156,8 @@ void CNetworkConnection::AcceptFrom(int nHandle)
 void CNetworkConnection::Close(bool bDelayed)
 {
 	systemLog.postLog(LogSeverity::Information, "Closing connection to %s.", qPrintable(m_oAddress.toStringWithPort()));
-	if(bDelayed)
+
+	if( bDelayed )
 	{
 		m_bDelayedClose = true;
 		if(!GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty())
@@ -164,7 +165,15 @@ void CNetworkConnection::Close(bool bDelayed)
 			writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
 			m_pSocket->flush();
 		}
-		m_pSocket->disconnectFromHost();
+	}
+
+	QMetaObject::invokeMethod(this, "CloseInternal", Qt::AutoConnection, Q_ARG(bool, bDelayed));
+}
+void CNetworkConnection::CloseInternal(bool bDelayed)
+{
+	if(bDelayed)
+	{
+		m_pSocket->close();
 	}
 	else
 	{
