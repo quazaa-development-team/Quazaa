@@ -73,6 +73,8 @@ public:
 	QLabel* labelIPAddress;
 	QLabel* labelCurrentIPAddress;
 	QToolButton* toolButtonAddressToClipboard;
+	QFrame* frameStatusSpacer;
+	QHBoxLayout* layoutStatusSpacer;
 
 	QSystemTrayIcon* trayIcon;
 	QMenu* trayMenu;

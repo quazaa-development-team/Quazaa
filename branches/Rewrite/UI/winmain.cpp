@@ -89,14 +89,15 @@ WinMain::WinMain(QWidget* parent) :
 
 	//Set up the status bar
 	labelIPAddress = new QLabel(tr("Current IP:"));
-	ui->statusbar->addPermanentWidget(labelIPAddress);
+	ui->statusbar->addWidget(labelIPAddress);
 	labelCurrentIPAddress = new QLabel(tr("Unknown"));
-	ui->statusbar->addPermanentWidget(labelCurrentIPAddress);
+	ui->statusbar->addWidget(labelCurrentIPAddress);
 	toolButtonAddressToClipboard = new QToolButton(this);
 	toolButtonAddressToClipboard->setText(tr("Copy Address"));
 	toolButtonAddressToClipboard->setAutoRaise(true);
 	connect(toolButtonAddressToClipboard, SIGNAL(clicked()), this, SLOT(onCopyIP()));
-	ui->statusbar->addPermanentWidget(toolButtonAddressToClipboard);
+	ui->statusbar->addWidget(toolButtonAddressToClipboard);
+
 	tcpFirewalled = ":/Resource/Network/ShieldRed.png";
 	udpFirewalled = ":/Resource/Network/ShieldRed.png";
 	labelFirewallStatus = new QLabel(tr("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"> <html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">TCP: <img src=\":/Resource/Network/ShieldRed.png\" /> UDP: <img src=\":/Resource/Network/ShieldRed.png\" /></p></body></html>"));
