@@ -161,6 +161,7 @@ private slots:
 	void startNewSearch(QString* searchString);
 	void updateStatusBar();
 	void localAddressChanged();
+	void onCopyIP();
 };
 
 extern WinMain* MainWindow;

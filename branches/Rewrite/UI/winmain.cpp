@@ -95,6 +95,7 @@ WinMain::WinMain(QWidget* parent) :
 	toolButtonAddressToClipboard = new QToolButton(this);
 	toolButtonAddressToClipboard->setText(tr("Copy Address"));
 	toolButtonAddressToClipboard->setAutoRaise(true);
+	connect(toolButtonAddressToClipboard, SIGNAL(clicked()), this, SLOT(onCopyIP()));
 	ui->statusbar->addPermanentWidget(toolButtonAddressToClipboard);
 	tcpFirewalled = ":/Resource/Network/ShieldRed.png";
 	udpFirewalled = ":/Resource/Network/ShieldRed.png";
@@ -923,4 +924,12 @@ void WinMain::localAddressChanged()
 	Network.m_pSection.lock();
 	labelCurrentIPAddress->setText(Network.GetLocalAddress().toStringWithPort());
 	Network.m_pSection.unlock();
+}
+
+void WinMain::onCopyIP()
+{
+	if(labelCurrentIPAddress->text() != tr("Unknown"))
+		QApplication::clipboard()->setText(labelCurrentIPAddress->text());
+	else
+		QMessageBox::information(this, tr("Unknown IP Address"), tr("The current IP Address is unknown and cannot be copied to the clipboard."), QMessageBox::Ok);
 }
