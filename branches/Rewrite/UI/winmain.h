@@ -69,7 +69,9 @@ public:
 	QTimer* neighboursRefresher;
 	QActionGroup* actionGroupMainNavigation;
 	QLabel* labelBandwidthTotals;
-	QLabel* labelFirewallStatus;
+        QLabel* labelFirewallStatus;
+        QLabel* labelCurrentIPAddress;
+        QToolButton* toolButtonAddressToClipboard;
 
 	QSystemTrayIcon* trayIcon;
 	QMenu* trayMenu;
