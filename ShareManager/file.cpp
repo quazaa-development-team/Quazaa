@@ -3,6 +3,7 @@
 CFile::CFile(QObject *parent) :
     QFile(parent)
 {
+	m_bNull = parent; // Set marker if created with default constructor CFile::CFile().
 }
 
 bool CFile::isTagged(QString sTag)

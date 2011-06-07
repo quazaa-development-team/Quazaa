@@ -12,9 +12,12 @@ class CFile : public QFile
 private:
 	QList < CHash* > m_Hashes;
 	QSet< QString > m_Tags;
+	bool			m_bNull; // Set to 0 if constructed with default constructor.
 
 public:
     explicit CFile(QObject *parent = 0);
+
+	inline bool isNull() const { return m_bNull; }
 
 	bool isTagged(QString sTag);
 	void addTag(QString sTag);
