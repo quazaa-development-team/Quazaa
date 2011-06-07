@@ -23,7 +23,8 @@
 #
 
 QT += network \
-	sql
+	sql \
+	xml
 TARGET = Quazaa
 
 # Paths

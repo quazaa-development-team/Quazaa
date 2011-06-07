@@ -6,6 +6,7 @@
 #include <queue>
 #include <set>
 
+#include <QDomDocument>
 #include <QHostAddress>
 #include <QMutex>
 #include <QString>
@@ -121,79 +122,79 @@ namespace security
 		/* ================================================================ */
 		/* ========================== Operations ========================== */
 		/* ================================================================ */
-		inline unsigned int	GetCount() const	{ return m_Rules.size();  }
+		inline unsigned int	getCount() const	{ return m_Rules.size();  }
 
-		inline bool		DenyPolicy()			{ return m_bDenyPolicy; }
-		void			DenyPolicy(bool bDenyPolicy);
+		inline bool		getDenyPolicy() const	{ return m_bDenyPolicy; }
+		void			setDenyPolicy(bool bDenyPolicy);
 
-		bool			Check(CSecureRule* pRule);
-		void			MoveUp(CSecureRule* pRule);
-		void			MoveDown(CSecureRule* pRule);
-		void			Add(CSecureRule* pRule);
-		void			Remove(CSecureRule* pRule);
-		void			Clear();
-		void			Expire();
+		bool			check(CSecureRule* pRule);
+		void			moveUp(CSecureRule* pRule);
+		void			moveDown(CSecureRule* pRule);
+		void			add(CSecureRule* pRule);
+		void			remove(CSecureRule* pRule);
+		void			clear();
+		void			expire();
 
 		// Sanity check controll methods
-		void			SanityCheck(bool bDelay = false);
-		bool			LoadNewRules();
-		bool			ClearNewRules();
+		void			sanityCheck(bool bDelay = false);
+		bool			loadNewRules();
+		bool			clearNewRules();
 
-		void			Ban(const QHostAddress* pAddress, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
-		void			Ban(const CFile* pFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
+		void			ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
+		void			ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
 
 		// Methods used during sanity check
-		bool			IsNewlyDenied(const QHostAddress* pAddress, const QString &source = "Unknown");
-//		bool			IsNewlyDenied(const CQueryHit* pHit, const CQuerySearch* pQuery = NULL*/);
+		bool			isNewlyDenied(const QHostAddress& oAddress, const QString &source = "Unknown");
+//		bool			isNewlyDenied(const CQueryHit* pHit, const CQuerySearch* pQuery = NULL*/);
 
-		bool			IsDenied(const QHostAddress* pAddress, const QString &source = "Unknown");
+		bool			isDenied(const QHostAddress& oAddress, const QString &source = "Unknown");
 		// This does not check for the hit IP to avoid double checking.
-//		bool			IsDenied(const CQueryHit* pHit, const CQuerySearch* pQuery = NULL);
+//		bool			isDenied(const CQueryHit* pHit, const CQuerySearch* pQuery = NULL);
 
 		// Checks the user agent to see if it's a GPL breaker, or other trouble-maker
 		// We don't ban them, but also don't offer leaf slots to them.
-		bool			IsClientBad(const QString& sUserAgent) const;
+		bool			isClientBad(const QString& sUserAgent) const;
 
 		// Checks the user agent to see if it's a leecher client, or other banned client
 		// Test new releases, and remove block if/when they are fixed.
 		// Includes check of agent blocklist & agent security rules.
-		bool			IsAgentBlocked(const QString& sUserAgent);
+		bool			isAgentBlocked(const QString& sUserAgent);
 
 		// Check the evil's G1/G2 vendor code
-		bool			IsVendorBlocked(const QString& sVendor) const;
+		bool			isVendorBlocked(const QString& sVendor) const;
 
 		// Export/Import/Load/Save handlers
-		bool			Load();
-		bool			Save();
-//		bool			Import(LPCTSTR pszFile);
-//		CXMLElement*	ToXML();
-//		bool			FromXML(CXMLElement* pXML);
+		bool			load();
+		bool			save();
+		bool			import(const QString& sPath);
+		bool			fromXML(const QDomDocument& oXMLroot);
+		QDomDocument	toXML();
 
 	private:
-		inline CIterator	GetEnd() const		{ return m_Rules.end();   }
-		inline CIterator	GetIterator() const	{ return m_Rules.begin(); }
+		inline CIterator	getEnd() const		{ return m_Rules.end();   }
+		inline CIterator	getIterator() const	{ return m_Rules.begin(); }
 
-		bool			Load(QString sPath);
+		bool			load(QString sPath);
 
 		// this returns the first rule found. Note that there might be others, too.
-		CIterator		GetHash(const QString& sSHA1,
+		CIterator		getHash(const QString& sSHA1,
 								const QString& sED2K,
 								const QString& sTTH  = "",
 								const QString& sBTIH = "",
 								const QString& sMD5  = "") const;
-		CIterator		GetUUID(const QUuid& oUUID) const;
+		CIterator		getUUID(const QUuid& oUUID) const;
 
-		CIterator		Remove(CIterator i);
+		CIterator		remove(CIterator i);
 
-		bool			IsAgentDenied(const QString& strUserAgent);
+		bool			isAgentDenied(const QString& strUserAgent);
 
-		void			MissCacheAdd(const QString &sIP);
-		void			MissCacheClear(const quint32 &tNow);
-		void			EvaluateCacheUsage();				// determines whether it is logical to use the cache or not
+		void			missCacheAdd(const QString& sIP);
+		void			missCacheClear(const quint32& tNow);
+		void			evaluateCacheUsage();				// determines whether it is logical to use the cache or not
 
-		bool			IsDenied(const QString& strContent);
-//		bool			IsDenied(const CShareazaFile* pFile);
-//		bool			IsDenied(const CQuerySearch* pQuery, const QString& strContent);
+		bool			isDenied(const QString& strContent);
+//		bool			isDenied(const CShareazaFile* pFile);
+//		bool			isDenied(const CQuerySearch* pQuery, const QString& strContent);
 	};
 };
 
