@@ -67,6 +67,6 @@ public:
 	void Dump();
 };
 
-const quint32 MaxRoutes = 20000;
+const quint32 MaxRoutes = 50000;
 const quint32 RouteExpire = 600;
 #endif // ROUTETABLE_H

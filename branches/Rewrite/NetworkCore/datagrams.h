@@ -120,39 +120,13 @@ public:
 	void OnQKA(CEndPoint& addr, G2Packet* pPacket);
 	void OnQA(CEndPoint& addr, G2Packet* pPacket);
 	void OnQH2(CEndPoint& addr, G2Packet* pPacket);
+	void OnQuery(CEndPoint& addr, G2Packet* pPacket);
 
-	inline void UpdateStats()
-	{
-		if(m_tMeterTimer.elapsed() < 1000)
-		{
-			return;
-		}
-
-		m_tMeterTimer.start();
-
-		m_nAvgBandwidthIn = (m_nAvgBandwidthIn + m_nBandwidthIn) / 2;
-		m_nAvgBandwidthOut = (m_nAvgBandwidthOut + m_nBandwidthOut) / 2;
-		m_nBandwidthIn = m_nBandwidthOut = 0;
-	}
-	inline quint32 DownloadSpeed()
-	{
-		UpdateStats();
-		return m_nAvgBandwidthIn;
-	}
-	inline quint32 UploadSpeed()
-	{
-		UpdateStats();
-		return m_nAvgBandwidthOut;
-	}
-
-	inline bool IsFirewalled()
-	{
-		return m_bFirewalled;
-	}
-	inline bool isListening()
-	{
-		return (m_bActive && m_pSocket && m_pSocket->isValid());
-	}
+	inline void UpdateStats();
+	inline quint32 DownloadSpeed();
+	inline quint32 UploadSpeed();
+	inline bool IsFirewalled();
+	inline bool isListening();
 
 public slots:
 	void OnDatagram();
@@ -176,6 +150,38 @@ typedef struct
 } GND_HEADER;
 
 #pragma pack(pop)
+
+void CDatagrams::UpdateStats()
+{
+	if(m_tMeterTimer.elapsed() < 1000)
+	{
+		return;
+	}
+
+	m_tMeterTimer.start();
+
+	m_nAvgBandwidthIn = (m_nAvgBandwidthIn + m_nBandwidthIn) / 2;
+	m_nAvgBandwidthOut = (m_nAvgBandwidthOut + m_nBandwidthOut) / 2;
+	m_nBandwidthIn = m_nBandwidthOut = 0;
+}
+quint32 CDatagrams::DownloadSpeed()
+{
+	UpdateStats();
+	return m_nAvgBandwidthIn;
+}
+quint32 CDatagrams::UploadSpeed()
+{
+	UpdateStats();
+	return m_nAvgBandwidthOut;
+}
+bool CDatagrams::IsFirewalled()
+{
+	return m_bFirewalled;
+}
+bool CDatagrams::isListening()
+{
+	return (m_bActive && m_pSocket && m_pSocket->isValid());
+}
 
 extern CDatagrams Datagrams;
 

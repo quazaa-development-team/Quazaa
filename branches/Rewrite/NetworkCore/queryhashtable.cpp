@@ -35,6 +35,7 @@
 #include <QDateTime>
 #include "quazaasettings.h"
 #include "buffer.h"
+#include "query.h"
 
 // Parts of this code are borrowed from Shareaza
 
@@ -882,4 +883,27 @@ int CQueryHashTable::MakeKeywords(QString sPhrase, QStringList& outList)
 	}
 
 	return outList.size();
+}
+
+
+bool CQueryHashTable::CheckQuery(CQueryPtr pQuery)
+{
+	if( !m_bLive || !m_pHash )
+		return true;
+
+	// TODO: check hashes
+
+	int nWords = 0, nWordHits = 0;
+
+	if( pQuery->m_lHashedKeywords.size() )
+	{
+		foreach(quint32 nHash, pQuery->m_lHashedKeywords)
+		{
+			nWords++;
+			if(CheckHash(nHash))
+				nWordHits++;
+		}
+	}
+
+	return (nWords >= 3) ? (nWordHits * 3 / nWords >= 2) : (nWords == nWordHits);
 }

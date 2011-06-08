@@ -28,12 +28,19 @@
 
 #include "neighboursbase.h"
 
+class G2Packet;
+class CQuery;
+
+typedef QSharedPointer<CQuery> CQueryPtr;
+
 class CNeighboursRouting : public CNeighboursBase
 {
 	Q_OBJECT
 public:
 	CNeighboursRouting(QObject* parent = 0);
 	virtual ~CNeighboursRouting();
+
+	void RouteQuery(CQueryPtr pQuery, G2Packet* pPacket, CNeighbour* pFrom = 0, bool bToHubs = true);
 
 signals:
 

@@ -36,6 +36,7 @@
 #include <QtGlobal>
 #include <QtEndian>
 #include <QUuid>
+#include <QSharedPointer>
 
 #include "endpoint.h"
 #include "systemlog.h"

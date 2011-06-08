@@ -34,6 +34,7 @@
 #include "queryhit.h"
 #include "systemlog.h"
 #include "querykeys.h"
+#include "query.h"
 
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
@@ -617,6 +618,10 @@ void CDatagrams::OnPacket(CEndPoint addr, G2Packet* pPacket)
 		{
 			OnQH2(addr, pPacket);
 		}
+		else if(pPacket->IsType("Q2"))
+		{
+			OnQuery(addr, pPacket);
+		}
 		else
 		{
 			//systemLog.postLog(LogSeverity::Debug, QString("G2 UDP recieved unknown packet %1").arg(pPacket->GetType()));
@@ -817,7 +822,7 @@ void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 	G2Packet* pAns = G2Packet::New("QKA", true);
 	quint32 nKey = QueryKeys.Create(oRequestedAddress);
 	pAns->WritePacket("QK", 4);
-	pAns->WriteIntBE(nKey);
+	pAns->WriteIntLE(nKey);
 	G2Packet* pSNA = G2Packet::New("SNA");
 	pSNA->WriteHostAddress(&oSendingAddress);
 	pAns->WritePacket(pSNA);
@@ -1020,5 +1025,51 @@ void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 			m_pSection.unlock();
 		}
 	}
+}
+
+void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
+{
+	CQueryPtr pQuery = CQuery::FromPacket(pPacket, &addr);
+
+	if(pQuery.isNull())
+	{
+		qDebug() << "Received malformed query from" << qPrintable(addr.toStringWithPort());
+		return;
+	}
+
+	if(!QueryKeys.Check(pQuery->m_oEndpoint, pQuery->m_nQueryKey))
+	{
+		qDebug() << "Received query with bad query key from" << qPrintable(addr.toStringWithPort());
+
+
+		G2Packet* pQKA = G2Packet::New("QKA", true);
+		pQKA->WritePacket("QK", 4)->WriteIntLE<quint32>(QueryKeys.Create(pQuery->m_oEndpoint));
+
+		if( addr != pQuery->m_oEndpoint )
+		{
+			pQKA->WritePacket("SNA", (pQuery->m_oEndpoint.protocol() == QAbstractSocket::IPv6Protocol ? 18 : 6))->WriteHostAddress(&pQuery->m_oEndpoint);
+		}
+		SendPacket(addr, pPacket);
+
+		return;
+	}
+
+	if( !Network.m_oRoutingTable.Add(pQuery->m_oGUID, pQuery->m_oEndpoint) )
+	{
+		qDebug() << "Query already processed, ignoring";
+		SendPacket(pQuery->m_oEndpoint, Neighbours.CreateQueryAck(pQuery->m_oGUID, false, 0, false), true);
+		return;
+	}
+
+	qDebug() << "Processing query from: " << qPrintable(addr.toStringWithPort());
+
+	Neighbours.m_pSection.lock();
+	Neighbours.RouteQuery(pQuery, pPacket);
+	Neighbours.m_pSection.unlock();
+
+	// local search
+
+
+	SendPacket(pQuery->m_oEndpoint, Neighbours.CreateQueryAck(pQuery->m_oGUID), true);
 }
 

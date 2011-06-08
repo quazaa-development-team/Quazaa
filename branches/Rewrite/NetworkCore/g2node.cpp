@@ -30,6 +30,7 @@
 #include "parser.h"
 #include "datagrams.h"
 #include "searchmanager.h"
+#include "query.h"
 #include "queryhit.h"
 #include "queryhashtable.h"
 #include "queryhashmaster.h"
@@ -1260,25 +1261,12 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 		return;
 	}
 
-	// temporary code
-	// just read guid for now to have it in routing table
+	CQueryPtr pQuery = CQuery::FromPacket(pPacket);
 
-	QUuid oGUID;
-	CEndPoint oReturnAddr;
-
-	char szType[9];
-	quint32 nLength = 0, nNext = 0;
-
-	while(pPacket->ReadPacket(&szType[0], nLength))
+	if( pQuery.isNull() )
 	{
-		nNext = pPacket->m_nPosition + nLength;
-
-		if(strcmp(&szType[0], "UDP") == 0 && nLength >= 6)
-		{
-			pPacket->ReadHostAddress(&oReturnAddr, !(nLength >= 18));
-		}
-
-		pPacket->m_nPosition = nNext;
+		systemLog.postLog(LogSeverity::Error, "Received malformatted query from neighbour %s, ignoring.", qPrintable(m_oAddress.toString()));
+		return;
 	}
 
 	/*
@@ -1304,17 +1292,14 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 	}*/
 
 
-	if(pPacket->GetRemaining() >= 16)
+	if(Network.m_oRoutingTable.Add(pQuery->m_oGUID, this, false))
 	{
-		oGUID = pPacket->ReadGUID();
-		Network.m_oRoutingTable.Add(oGUID, this, false);
-
-		if(m_nType == G2_LEAF)   // temporary
+		if( m_nType == G2_LEAF )
 		{
-			G2Packet* pQA = Neighbours.CreateQueryAck(oGUID, true, this, true);
-
-			SendPacket(pQA, true, true);
+			SendPacket(Neighbours.CreateQueryAck(pQuery->m_oGUID, true, this, true), false, true);
 		}
+
+		Neighbours.RouteQuery(pQuery, pPacket, this, (m_nType != G2_HUB));
 	}
 }
 

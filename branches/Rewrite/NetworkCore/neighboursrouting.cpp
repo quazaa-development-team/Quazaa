@@ -24,6 +24,11 @@
 
 
 #include "neighboursrouting.h"
+#include "query.h"
+#include "neighbour.h"
+#include "g2node.h"
+#include "g2packet.h"
+#include "queryhashtable.h"
 
 CNeighboursRouting::CNeighboursRouting(QObject* parent) :
 	CNeighboursBase(parent)
@@ -31,4 +36,46 @@ CNeighboursRouting::CNeighboursRouting(QObject* parent) :
 }
 CNeighboursRouting::~CNeighboursRouting()
 {
+}
+
+
+void CNeighboursRouting::RouteQuery(CQueryPtr pQuery, G2Packet *pPacket, CNeighbour* pFrom, bool bToHubs)
+{
+	quint32 tNow = time(0);
+	quint32 nCount = 0, nHubs = 0, nLeaves = 0;
+
+	foreach(CNeighbour* pNode, m_lNodes)
+	{
+		if( pNode != pFrom && pNode->m_nState == nsConnected && pNode->m_nProtocol == dpGnutella2 && tNow - pNode->m_tConnected > 30 )
+		{
+			CG2Node* pG2 = static_cast<CG2Node*>(pNode);
+
+			if( !bToHubs && pG2->m_nType == G2_HUB )
+			{
+				continue;
+			}
+
+			if( pG2->m_pRemoteTable != 0 && pG2->m_pRemoteTable->m_bLive )
+			{
+				if( !pG2->m_pRemoteTable->CheckQuery(pQuery) )
+				{
+					continue;
+				}
+			}
+			else if( pG2->m_nType == G2_LEAF )
+			{
+				continue;
+			}
+
+			pG2->SendPacket(pPacket, true, false);
+			nCount++;
+
+			if( pG2->m_nType == G2_HUB )
+				nHubs++;
+			else
+				nLeaves++;
+		}
+	}
+
+	qDebug() << "G2 Query forwarded to " << nCount << "nodes (hubs:" << nHubs << "leaves:" << nLeaves << ")";
 }
