@@ -50,7 +50,7 @@
 #endif
 
 #include <stdio.h>
- #include <stdlib.h>
+#include <stdlib.h>
 
  void myMessageOutput(QtMsgType type, const char *msg)
  {

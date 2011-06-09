@@ -887,37 +887,11 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toAscii().constData()).arg(nKey));
 	//qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
 
-	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() /*&& nKeyHost != Network.m_oAddress.ip*/)
+	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() && ((QHostAddress)nKeyHost) != ((QHostAddress)Network.m_oAddress))
 	{
-		if(addr.protocol() == 0)
-		{
-			uchar* pOut = pPacket->WriteGetPointer(11, 0);
-			*pOut++ = 0x50;
-			*pOut++ = 6;
-			*pOut++ = 'Q';
-			*pOut++ = 'N';
-			*pOut++ = 'A';
-
-			quint32 nIP = qToBigEndian(addr.toIPv4Address());
-			quint16 nPort = qToLittleEndian(addr.port());
-			memcpy(pOut, &nIP, 4);
-			memcpy(pOut + 4, &nPort, 2);
-		}
-		else
-		{
-			// IPv6
-			uchar* pOut = pPacket->WriteGetPointer(11, 0);
-			*pOut++ = 0x50;
-			*pOut++ = 18;
-			*pOut++ = 'Q';
-			*pOut++ = 'N';
-			*pOut++ = 'A';
-
-			Q_IPV6ADDR nIP = addr.toIPv6Address();
-			quint16 nPort = qToLittleEndian(addr.port());
-			memcpy(pOut, &nIP, 16);
-			memcpy(pOut + 16, &nPort, 2);
-		}
+		G2Packet* pQNA = G2Packet::New("QNA");
+		pQNA->WriteHostAddress(&addr);
+		pPacket->PrependPacket(pQNA);
 
 		QMutexLocker l(&m_pSection);
 		bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
@@ -1050,6 +1024,7 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 			pQKA->WritePacket("SNA", (pQuery->m_oEndpoint.protocol() == QAbstractSocket::IPv6Protocol ? 18 : 6))->WriteHostAddress(&pQuery->m_oEndpoint);
 		}
 		SendPacket(addr, pPacket);
+		pQKA->Release();
 
 		return;
 	}
@@ -1057,11 +1032,23 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 	if( !Network.m_oRoutingTable.Add(pQuery->m_oGUID, pQuery->m_oEndpoint) )
 	{
 		qDebug() << "Query already processed, ignoring";
-		SendPacket(pQuery->m_oEndpoint, Neighbours.CreateQueryAck(pQuery->m_oGUID, false, 0, false), true);
+		G2Packet* pQA = Neighbours.CreateQueryAck(pQuery->m_oGUID, false, 0, false);
+		SendPacket(pQuery->m_oEndpoint, pQA, true);
+		pQA->Release();
 		return;
 	}
 
 	qDebug() << "Processing query from: " << qPrintable(addr.toStringWithPort());
+
+	// just in case
+	if( pQuery->m_oEndpoint == Network.m_oAddress )
+	{
+		systemLog.postLog(LogSeverity::Error, "Q2 received via UDP and return address points to us, changing return address to source %s", qPrintable(addr.toStringWithPort()));
+		G2Packet* pUDP = G2Packet::New("UDP");
+		pUDP->WriteHostAddress(&addr);
+		pUDP->WriteIntLE<quint32>(0);
+		pPacket->AddOrReplaceChild("UDP", pUDP);
+	}
 
 	Neighbours.m_pSection.lock();
 	Neighbours.RouteQuery(pQuery, pPacket);
@@ -1069,7 +1056,8 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 
 	// local search
 
-
-	SendPacket(pQuery->m_oEndpoint, Neighbours.CreateQueryAck(pQuery->m_oGUID), true);
+	G2Packet* pQA = Neighbours.CreateQueryAck(pQuery->m_oGUID);
+	SendPacket(pQuery->m_oEndpoint, pQA, true);
+	pQA->Release();
 }
 

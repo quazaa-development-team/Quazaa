@@ -25,6 +25,7 @@
 #include "query.h"
 #include "g2packet.h"
 #include "queryhashtable.h"
+#include "network.h"
 
 CQuery::CQuery()
 {
@@ -128,7 +129,7 @@ void CQuery::BuildG2Keywords(QString strPhrase)
 {
 	QStringList lPositive, lNegative;
 
-	strPhrase = strPhrase.trimmed().replace("_", " ").normalized(QString::NormalizationForm_KD).toLower().append(" ");
+	strPhrase = strPhrase.trimmed().replace("_", " ").normalized(QString::NormalizationForm_KC).toLower().append(" ");
 	QRegExp re("(-?\\\".*\\\"|-?\\w+)\\W+", Qt::CaseSensitive, QRegExp::RegExp2);
 	re.setMinimal(true);
 

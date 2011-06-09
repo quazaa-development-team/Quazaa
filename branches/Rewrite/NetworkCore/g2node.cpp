@@ -793,14 +793,8 @@ void CG2Node::OnPing(G2Packet* pPacket)
 
 		if(Neighbours.IsG2Hub())
 		{
-			uchar* pRelay = pPacket->WriteGetPointer(7, 0);
-			*pRelay++ = 0x60;
-			*pRelay++ = 0;
-			*pRelay++ = 'R';
-			*pRelay++ = 'E';
-			*pRelay++ = 'L';
-			*pRelay++ = 'A';
-			*pRelay++ = 'Y';
+			G2Packet* pRelay = G2Packet::New("RELAY");
+			pPacket->PrependPacket(pRelay);
 
 			int nRelayed = 0, nCount = Neighbours.GetCount();
 			QList<int> lToRelayIndex;

@@ -595,3 +595,142 @@ void G2PacketPool::NewPool()
 		m_nFree++;
 	}
 }
+
+G2Packet * G2Packet::AddOrReplaceChild(const char* pFind, G2Packet *pReplacement, bool bRelease, bool bPreserveExtensions)
+{
+	m_nPosition = 0; // start at zero
+
+	if( !m_bCompound )
+	{
+		// not a compound packet, just prepend this child
+		return PrependPacket(pReplacement, bRelease);
+	}
+
+	G2Packet* pNew = G2Packet::New(m_sType, m_bCompound);
+
+	char szType[9];
+	quint32 nLength = 0, nNext = 0;
+	bool bCompound = false, bFound = false;
+
+	while(ReadPacket(&szType[0], nLength, &bCompound))
+	{
+		nNext = m_nPosition + nLength;
+
+		if(strcmp(pFind, szType) == 0)
+		{
+			bFound = true;
+			if(!bPreserveExtensions || !bCompound)
+			{
+				pNew->WritePacket(pReplacement);
+			}
+			else
+			{
+				// if this is a compound packet, we need to copy child packets
+
+				quint32 nCompoundLength = nLength;
+				uchar* pStart = m_pBuffer + m_nPosition;
+				SkipCompound(nLength);
+				nCompoundLength -= nLength;
+
+				G2Packet* pReplace = G2Packet::New(pReplacement->m_sType, true);
+				pReplace->Write(pStart, nCompoundLength);
+				if( !pReplacement->m_bCompound && pReplacement->m_nLength > 0 )
+					pReplace->WriteByte(0);
+				pReplace->Write(pReplacement->m_pBuffer, pReplacement->m_nLength);
+				pNew->WritePacket(pReplace);
+				pReplace->Release();
+			}
+		}
+		else
+		{
+			pNew->WritePacket(szType, nLength, bCompound);
+			pNew->Write(m_pBuffer + m_nPosition, nLength);
+		}
+
+		m_nPosition = nNext;
+	}
+
+	if( !bFound )
+	{
+		pNew->Release();
+		return PrependPacket(pReplacement, bRelease);
+	}
+
+	if( GetRemaining() )
+	{
+		pNew->WriteByte(0);
+		pNew->Write(m_pBuffer + m_nPosition, m_nLength - m_nPosition);
+	}
+
+	uchar*  pBuff = m_pBuffer;
+	quint32 nBuff = m_nBuffer;
+	m_pBuffer = pNew->m_pBuffer;
+	m_nBuffer = pNew->m_nBuffer;
+	pNew->m_pBuffer = pBuff;
+	pNew->m_nBuffer = nBuff;
+	m_nLength = pNew->m_nLength;
+	m_nPosition = 0;
+	pNew->Release();
+	if( bRelease )
+		pReplacement->Release();
+
+	return this;
+}
+
+G2Packet * G2Packet::PrependPacket(G2Packet *pPacket, bool bRelease)
+{
+	if(pPacket == 0)
+	{
+		return 0;
+	}
+
+	quint32 nLength = pPacket->m_nLength;
+
+	Q_ASSERT(strlen((char*)&pPacket->m_sType) > 0);
+	Q_ASSERT(nLength <= 0xFFFFFF);
+
+	char nTypeLen	= (char)(strlen((char*)&pPacket->m_sType) - 1) & 0x07;
+	char nLenLen	= 0;
+
+	if(nLength)
+	{
+		nLenLen++;
+		if(nLength > 0xFF)
+		{
+			nLenLen++;
+			if(nLength > 0xFFFF)
+			{
+				nLenLen++;
+			}
+		}
+	}
+
+	char nFlags = (nLenLen << 6) + (nTypeLen << 3);
+
+	if(pPacket->m_bCompound)
+	{
+		nFlags |= G2_FLAG_COMPOUND;
+	}
+
+	quint32 nExpand = 2 + nLenLen + nTypeLen + pPacket->m_nLength + (m_bCompound ? 0 : 1);
+	uchar* pWrite = WriteGetPointer(nExpand, 0);
+	*pWrite = nFlags;
+	pWrite++;
+	memcpy(pWrite, &nLength, nLenLen);
+	pWrite += nLenLen;
+	memcpy(pWrite, &pPacket->m_sType, nTypeLen + 1);
+	pWrite += nTypeLen + 1;
+	memcpy(pWrite, pPacket->m_pBuffer, pPacket->m_nLength);
+	pWrite += pPacket->m_nLength;
+	if(!m_bCompound)
+		*pWrite = 0;
+
+	m_nLength += nExpand;
+
+	m_bCompound = true;
+
+	if( bRelease )
+		pPacket->Release();
+
+	return this;
+}
