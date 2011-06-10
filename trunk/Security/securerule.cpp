@@ -7,7 +7,6 @@ CSecureRule::CSecureRule(bool bCreate)
 {
 	m_nType		= srContentUndefined; // invalidates rule as long as it does not contain any useful content.
 	m_nAction	= srDeny;
-	m_sComment	= "";
 	m_tExpire	= srIndefinite;
 	m_nToday	= 0;
 	m_nTotal	= 0;
@@ -20,6 +19,7 @@ CSecureRule& CSecureRule::operator=(const CSecureRule& pRule)
 	m_nType		= pRule.m_nType;
 	m_nAction	= pRule.m_nAction;
 	m_sComment	= pRule.m_sComment;
+	m_sContent	= pRule.m_sContent;
 	m_oUUID		= pRule.m_oUUID;
 	m_tExpire	= pRule.m_tExpire;
 	m_nToday	= pRule.m_nToday;
@@ -30,14 +30,14 @@ CSecureRule& CSecureRule::operator=(const CSecureRule& pRule)
 
 bool CSecureRule::operator==(const CSecureRule& pRule)
 {
-	return ( m_nType			== pRule.m_nType	&&
-			 m_nAction			== pRule.m_nAction	&&
-			 m_sComment			== pRule.m_sComment	&&
-			 m_oUUID			== pRule.m_oUUID	&&
-			 m_tExpire			== pRule.m_tExpire	&&
-			 m_nToday			== pRule.m_nToday	&&
-			 m_nTotal			== pRule.m_nTotal   &&
-			 getContentString()	== pRule.getContentString());
+	return ( m_nType	== pRule.m_nType	&&
+			 m_nAction	== pRule.m_nAction	&&
+			 m_sComment	== pRule.m_sComment	&&
+			 m_oUUID	== pRule.m_oUUID	&&
+			 m_tExpire	== pRule.m_tExpire	&&
+			 m_nToday	== pRule.m_nToday	&&
+			 m_nTotal	== pRule.m_nTotal   &&
+			 m_sContent	== pRule.m_sContent);
 }
 
 CSecureRule* CSecureRule::getCopy() const
@@ -54,10 +54,10 @@ QString CSecureRule::getContentString() const
 {
 	// This method should never be called.
 #ifdef _DEBUG
-	Q_ASSERT( false );
+	Q_ASSERT( m_nType != srContentUndefined );
 #endif //_DEBUG
 
-	return QString();
+	return m_sContent;
 }
 
 bool CSecureRule::isExpired(quint32 tNow, bool bSession) const
@@ -541,7 +541,6 @@ CIPRule& CIPRule::operator=(const CIPRule& pRule)
 #endif //_DEBUG
 
 	this->CSecureRule::operator=( pRule );
-
 	m_oIP = pRule.m_oIP;
 
 	return *this;
@@ -591,7 +590,6 @@ CIPRangeRule& CIPRangeRule::operator=(const CIPRangeRule& pRule)
 #endif //_DEBUG
 
 	this->CSecureRule::operator=( pRule );
-
 	m_oIP   = pRule.m_oIP;
 	m_oMask = pRule.m_oMask;
 
@@ -637,7 +635,7 @@ void CIPRangeRule::toXML( QDomElement& oXMLroot ) const
 
 CCountryRule::CCountryRule(bool)
 {
-	m_sCountry = "";
+	m_nType = srContentCountry;
 }
 
 CCountryRule& CCountryRule::operator=(const CCountryRule& pRule)
@@ -647,8 +645,6 @@ CCountryRule& CCountryRule::operator=(const CCountryRule& pRule)
 #endif //_DEBUG
 
 	this->CSecureRule::operator=( pRule );
-
-	m_sCountry = pRule.m_sCountry;
 
 	return *this;
 }
@@ -674,7 +670,7 @@ void CCountryRule::toXML( QDomElement& oXMLroot ) const
 	QDomElement oElement = oXMLroot.ownerDocument().createElement( "rule" );
 
 	oElement.setAttribute( "type", "country" );
-	oElement.setAttribute( "content", m_sCountry );
+	oElement.setAttribute( "content", m_sContent );
 
 	CSecureRule::toXML( this, oElement );
 
@@ -686,12 +682,6 @@ void CCountryRule::toXML( QDomElement& oXMLroot ) const
 
 CHashRule::CHashRule(bool)
 {
-	m_sSHA1  = "";
-	m_sED2K  = "";
-	m_sBTIH  = "";
-	m_sTTH   = "";
-	m_sMD5   = "";
-
 	m_nHashWeight = 1;
 	m_nType = srContentHash;
 }
@@ -978,48 +968,41 @@ void CHashRule::setContentString(const QString& strContent)
 //		theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_FAIL );
 	}
 #endif //_DEBUG
-}
-QString CHashRule::getContentString() const
-{
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentHash );
-#endif //_DEBUG
 
-	QString strWords = "";
+	// Setting up content string.
+	m_sContent.clear();
 
 	if( m_sSHA1.length() )
 	{
-		strWords += m_sSHA1;
-		strWords += " ";
+		m_sContent += m_sSHA1;
+		m_sContent += " ";
 	}
 
 	if( m_sED2K.length() )
 	{
-		strWords += m_sED2K;
-		strWords += " ";
+		m_sContent += m_sED2K;
+		m_sContent += " ";
 	}
 
 	if( m_sBTIH.length() )
 	{
-		strWords += m_sBTIH;
-		strWords += " ";
+		m_sContent += m_sBTIH;
+		m_sContent += " ";
 	}
 
 	if( m_sTTH.length() )
 	{
-		strWords += m_sTTH;
-		strWords += " ";
+		m_sContent += m_sTTH;
+		m_sContent += " ";
 	}
 
 	if( m_sMD5.length() )
 	{
-		strWords += m_sMD5;
-		strWords += " ";
+		m_sContent += m_sMD5;
+		m_sContent += " ";
 	}
 
-	strWords.trimmed();
-
-	return strWords;
+	m_sContent.trimmed();
 }
 
 void CHashRule::toXML( QDomElement& oXMLroot ) const
@@ -1042,7 +1025,6 @@ void CHashRule::toXML( QDomElement& oXMLroot ) const
 
 CRegExpRule::CRegExpRule(bool)
 {
-	m_sContent = "";
 	m_nType = srContentRegExp;
 }
 
@@ -1053,8 +1035,6 @@ CRegExpRule& CRegExpRule::operator=(const CRegExpRule& pRule)
 #endif //_DEBUG
 
 	this->CSecureRule::operator=( pRule );
-
-	m_sContent = pRule.m_sContent;
 
 	return *this;
 }
@@ -1185,8 +1165,6 @@ void CRegExpRule::toXML( QDomElement& oXMLroot ) const
 CUserAgentRule::CUserAgentRule(bool)
 {
 	m_nType = srContentUserAgent;
-
-	m_sContent = "";
 	m_bRegExp  = false;
 }
 
@@ -1197,9 +1175,7 @@ CUserAgentRule& CUserAgentRule::operator=(const CUserAgentRule& pRule)
 #endif //_DEBUG
 
 	this->CSecureRule::operator=( pRule );
-
-	m_bRegExp  = pRule.m_bRegExp;
-	m_sContent = pRule.m_sContent;
+	m_bRegExp = pRule.m_bRegExp;
 
 	return *this;
 }
@@ -1263,7 +1239,6 @@ CContentRule& CContentRule::operator=(const CContentRule& pRule)
 #endif //_DEBUG
 
 	this->CSecureRule::operator=( pRule );
-
 	m_lContent = pRule.m_lContent;
 
 	return *this;
@@ -1291,21 +1266,12 @@ void CContentRule::setContentString(const QString& strContent)
 			m_lContent.push_back( tmp );
 		sContent = sContent.mid( ( index != -1 ) ? index : 0 );
 	}
-}
 
-QString CContentRule::getContentString() const
-{
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentAny || m_nType == srContentAll );
-#endif //_DEBUG
-
-	QString res;
+	m_sContent.clear();
 	for ( CListIterator i = m_lContent.begin() ; i != m_lContent.end() ; i++ )
 	{
-		res = res + *i;
+		m_sContent = m_sContent + *i;
 	}
-
-	return res;
 }
 
 void CContentRule::setAll(bool all)

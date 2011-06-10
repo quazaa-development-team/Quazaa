@@ -395,6 +395,9 @@ void CSecurity::add(CSecureRule* pRule)
 
 	m_bSaved = false;
 
+	// Inform CSecurityTableModel about new rule.
+	emit ruleAdded( pRule );
+
 	// Check all lists for newly denied hosts
 	if ( !m_bIsLoading )
 	{
@@ -427,42 +430,28 @@ void CSecurity::clear()
 	m_Contents.clear();
 	m_UserAgents.clear();
 
-	CSecureRule* pRule = NULL;
+	qDeleteAll( m_Rules );
+	m_Rules.clear();
 
-	for ( CIterator i = m_loadedAddressRules.begin(); i != m_loadedAddressRules.end(); i++ )
-	{
-		pRule = *i;
-		delete pRule;
-	}
+	qDeleteAll( m_loadedAddressRules );
 	m_loadedAddressRules.clear();
 
-	for ( CIterator i = m_loadedHitRules.begin(); i != m_loadedHitRules.end(); i++ )
-	{
-		pRule = *i;
-		delete pRule;
-	}
+	qDeleteAll( m_loadedHitRules );
 	m_loadedHitRules.clear();
 
-	while ( m_newAddressRules.size() )
+	CSecureRule* pRule = NULL;
+	while( m_newAddressRules.size() )
 	{
 		pRule = m_newAddressRules.front();
 		m_newAddressRules.pop();
 		delete pRule;
 	}
-
 	while ( m_newHitRules.size() )
 	{
 		pRule = m_newHitRules.front();
 		m_newHitRules.pop();
 		delete pRule;
 	}
-
-	for ( CIterator i = getIterator(); i != getEnd(); i++ )
-	{
-		pRule = *i;
-		delete pRule;
-	}
-	m_Rules.clear();
 
 	m_nLastRuleExpiryCheck = static_cast< quint32 >( time( NULL ) );
 	missCacheClear( m_nLastRuleExpiryCheck );
@@ -1762,7 +1751,9 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 		Q_ASSERT( false );
 	}
 
-	delete pRule;
+	// The only reciever, CSecurityTableModel, deals with releasing the memory.
+	emit ruleRemoved( pRule );
+//	delete pRule;
 
 	m_bSaved = false;
 

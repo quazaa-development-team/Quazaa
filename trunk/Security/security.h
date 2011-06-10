@@ -25,8 +25,9 @@ namespace security
 {
 	typedef enum { tri_unknown, tri_true, tri_false } tristate;
 
-	class CSecurity
+	class CSecurity : public QObject
 	{
+		Q_OBJECT
 		/* ================================================================ */
 		/* ========================== Attributes ========================== */
 		/* ================================================================ */
@@ -169,6 +170,13 @@ namespace security
 		bool			import(const QString& sPath);
 		bool			fromXML(const QDomDocument& oXMLroot);
 		QDomDocument	toXML();
+
+	signals:
+		// The only reciever, CSecurityTableModel, deals with releasing the memory.
+		void			ruleAdded(const CSecureRule* const pRule);
+
+		// This is the original rule object that has been added. Note that deleting it would cause serious problems.
+		void			ruleRemoved(const CSecureRule* const pRule);
 
 	private:
 		inline CIterator	getEnd() const		{ return m_Rules.end();   }
