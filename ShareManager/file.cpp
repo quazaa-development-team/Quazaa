@@ -28,7 +28,7 @@ bool CFile::removeTag(QString sTag)
 
 QList< CHash* > CFile::getHashes()
 {
-
+	return m_Hashes;
 }
 
 void CFile::addHash( CHash* pHash )

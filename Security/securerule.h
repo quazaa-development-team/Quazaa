@@ -39,10 +39,12 @@ namespace security
 
 		// Operators
 		CSecureRule&	operator=(const CSecureRule& pRule);
-
-		bool			isExpired(quint32 nNow, bool bSession = false) const;
+		bool			operator==(const CSecureRule& pRule);
 
 		virtual CSecureRule*	getCopy() const;
+		virtual QString			getContentString() const;
+
+		bool			isExpired(quint32 nNow, bool bSession = false) const;
 
 		// Hit count control
 		inline void		count() { m_nToday++; m_nTotal++; }
@@ -52,7 +54,7 @@ namespace security
 		inline void		loadTotalCount( quint32 nTotal ) { m_nTotal = nTotal; }
 
 		// get the rule type
-		inline RuleType getType() const { return m_nType; }
+		inline RuleType	getType() const { return m_nType; }
 
 		// Check content for hits
 		virtual bool	match(const QHostAddress& oAddress) const;
@@ -83,18 +85,18 @@ namespace security
 
 	public:
 		CIPRule(bool bCreate = true);
-		inline ~CIPRule() {}
-
-		inline void setIP( const QHostAddress& oIP ) { m_oIP = oIP; }
-		inline QHostAddress getIP() const { return m_oIP; }
 
 		// Operators
-		CIPRule&	operator=(const CIPRule& pRule);
+		CIPRule&			operator=(const CIPRule& pRule);
+
+		inline void			setIP( const QHostAddress& oIP ) { m_oIP = oIP; }
+		inline QHostAddress getIP() const { return m_oIP; }
 
 		inline CSecureRule*	getCopy() const { return new CIPRule( *this ); }
+		inline QString		getContentString() const { return m_oIP.toString(); }
 
-		bool			match(const QHostAddress& oAddress) const;
-		void			toXML( QDomElement& oXMLroot ) const;
+		bool				match(const QHostAddress& oAddress) const;
+		void				toXML( QDomElement& oXMLroot ) const;
 
 	private:
 		inline CIPRule(const CIPRule& pRule) { *this = pRule; }
@@ -108,17 +110,17 @@ namespace security
 
 	public:
 		CIPRangeRule(bool bCreate = true);
-		inline ~CIPRangeRule() {}
+
+		// Operators
+		CIPRangeRule&		operator=(const CIPRangeRule& pRule);
 
 		inline void			setIP( const QHostAddress& oIP ) { m_oIP = oIP; }
 		inline QHostAddress	getIP() const { return m_oIP; }
 		inline void			setMask( const quint32& nMask ) { m_oMask = QHostAddress( nMask ); }
 		inline qint32		getMask() const { return m_oMask.toIPv4Address(); }
 
-		// Operators
-		CIPRangeRule&		operator=(const CIPRangeRule& pRule);
-
 		inline CSecureRule*	getCopy() const { return new CIPRangeRule( *this ); }
+		QString				getContentString() const { return m_oIP.toString() + "/" + m_oMask.toString(); }
 
 		bool				match(const QHostAddress& oAddress) const;
 		void				toXML( QDomElement& oXMLroot ) const;
@@ -133,19 +135,19 @@ namespace security
 
 	public:
 		CCountryRule(bool bCreate = true);
-		inline ~CCountryRule() {}
 
 		// Operator
 		CCountryRule&		operator=(const CCountryRule& pRule);
+
 		inline CSecureRule*	getCopy() const { return new CCountryRule( *this ); }
 
-		inline void			setContent(const QString& strCountry) { m_sCountry = strCountry; }
-		inline QString		getContent() const { return m_sCountry; }
+		inline void			setContentString(const QString& strCountry) { m_sCountry = strCountry; }
+		inline QString		getContentString() const { return m_sCountry; }
 
 		bool				match(const QHostAddress& oAddress) const;
 		void				toXML( QDomElement& oXMLroot ) const;
 	private:
-		inline		CCountryRule(const CCountryRule& oRule) { *this = oRule; }
+		inline				CCountryRule(const CCountryRule& oRule) { *this = oRule; }
 	};
 
 	class CHashRule : public CSecureRule
@@ -159,21 +161,20 @@ namespace security
 
 		// Allows to compare 2 rules by the importance of the hashes they contain and allows to
 		// check whether 2 rules are using exactly the same hashes (uses prime number multiplication).
-		unsigned int	m_nHashWeight;
+		unsigned int		m_nHashWeight;
 
 	public:
 		CHashRule(bool bCreate = true);
-		inline ~CHashRule() {}
 
 		// Operators
-		CHashRule& operator=(const CHashRule& pRule);
-		bool operator==(const CHashRule& pRule);
-		bool operator!=(const CHashRule& pRule);
+		CHashRule&			operator=(const CHashRule& pRule);
+//		bool				operator==(const CHashRule& pRule);
+//		bool				operator!=(const CHashRule& pRule);
 
 		inline CSecureRule*	getCopy() const { return new CHashRule( *this ); }
 
-		void		setContentWords(const QString& strContent);
-		QString		getContentWords() const;
+		void				setContentString(const QString& strContent);
+		QString				getContentString() const;
 
 		inline QString		getSHA1urn() const { return m_sSHA1; }
 		inline QString		getED2Kurn() const { return m_sED2K; }
@@ -183,14 +184,14 @@ namespace security
 
 		inline unsigned int	getHashWeight() const { return m_nHashWeight; }
 
-//		bool		match(const CShareazaFile* pFile) const;
-		bool		match(const QString& sSHA1,
-						  const QString& sED2K,
-						  const QString& sTTH  = "",
-						  const QString& sBTIH = "",
-						  const QString& sMD5  = "") const;
+//		bool				match(const CShareazaFile* pFile) const;
+		bool				match(const QString& sSHA1,
+								  const QString& sED2K,
+								  const QString& sTTH  = "",
+								  const QString& sBTIH = "",
+								  const QString& sMD5  = "") const;
 
-		void		toXML( QDomElement& oXMLroot ) const;
+		void				toXML( QDomElement& oXMLroot ) const;
 
 	private:
 		inline CHashRule(const CHashRule& pRule) { *this = pRule; }
@@ -199,22 +200,21 @@ namespace security
 	class CRegExpRule : public CSecureRule
 	{
 	private:
-		QString		m_sContent;
+		QString				m_sContent;
 
 	public:
 		CRegExpRule(bool bCreate = true);
-		inline ~CRegExpRule() {}
 
 		// Operators
-		CRegExpRule&	operator=(const CRegExpRule& pRule);
+		CRegExpRule&		operator=(const CRegExpRule& pRule);
 
 		inline CSecureRule*	getCopy() const { return new CRegExpRule( *this ); }
 
-		void		setContentWords(const QString& strContent);
-		QString		getContentWords() const;
+		inline void			setContentString(const QString& strContent) { m_sContent = strContent; m_sContent.trimmed(); }
+		inline QString		getContentString() const { return m_sContent; }
 
-//		bool		match(const CQuerySearch* pQuery, const QString& strContent) const;
-		void		toXML( QDomElement& oXMLroot ) const;
+//		bool				match(const CQuerySearch* pQuery, const QString& strContent) const;
+		void				toXML( QDomElement& oXMLroot ) const;
 
 	private:
 		inline CRegExpRule(const CRegExpRule& pRule) { *this = pRule; }
@@ -223,23 +223,25 @@ namespace security
 	class CUserAgentRule : public CSecureRule
 	{
 	private:
-		QString		m_sContent;
-		bool		m_bRegExp;  // defines if the content of this rule is a regular expression filter
+		QString				m_sContent;
+		bool				m_bRegExp;  // defines if the content of this rule is a regular expression filter
 
 	public:
 		CUserAgentRule(bool bCreate = true);
-		inline ~CUserAgentRule() {}
 
 		// Operators
-		CUserAgentRule& operator=(const CUserAgentRule& pRule);
+		CUserAgentRule&		operator=(const CUserAgentRule& pRule);
 
 		inline CSecureRule*	getCopy() const { return new CUserAgentRule( *this ); }
 
-		void		setContentWords(const QString& strContent);
-		QString		getContentWords() const;
+		inline void			setRegExp(bool bRegExp) { m_bRegExp = bRegExp; }
+		inline bool			getRegExp() const { return m_bRegExp; }
 
-		bool		match(const QString& strUserAgent) const;
-		void		toXML( QDomElement& oXMLroot ) const;
+		inline void			setContentString(const QString& strContent) { m_sContent = strContent; m_sContent.trimmed(); }
+		inline QString		getContentString() const { return m_sContent; }
+
+		bool				match(const QString& strUserAgent) const;
+		void				toXML( QDomElement& oXMLroot ) const;
 
 	private:
 		inline CUserAgentRule(const CUserAgentRule& pRule) { *this = pRule; }
@@ -255,22 +257,21 @@ namespace security
 
 	public:
 		CContentRule(bool bCreate = true);
-		inline ~CContentRule() {}
 
 		// Operators
-		CContentRule&	operator=(const CContentRule& pRule);
+		CContentRule&		operator=(const CContentRule& pRule);
 
 		inline CSecureRule*	getCopy() const { return new CContentRule( *this ); }
 
-		void		setContentWords(const QString& strContent);
-		QString		getContentWords() const;
+		void				setContentString(const QString& strContent);
+		QString				getContentString() const;
 
 		// sets the type to "srContentAny" (false) or "srContentAll" (true).
-		void		setAll(bool all = true);
+		void				setAll(bool all = true);
 
-		bool		match(const QString& strContent) const;
-//		bool		match(const CShareazaFile* pFile) const;
-		void		toXML( QDomElement& oXMLroot ) const;
+		bool				match(const QString& strContent) const;
+//		bool				match(const CShareazaFile* pFile) const;
+		void				toXML( QDomElement& oXMLroot ) const;
 
 	private:
 		inline CContentRule(const CContentRule& pRule) { *this = pRule; }

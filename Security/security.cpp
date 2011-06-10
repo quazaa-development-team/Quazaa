@@ -63,6 +63,14 @@ void CSecurity::add(CSecureRule* pRule)
 
 	QMutexLocker mutex( &m_pSection );
 
+	// Add rule to list of all rules
+	CIterator iExRule = getUUID( pRule->m_oUUID );
+	if ( iExRule != getEnd() ) // we do not allow 2 rules by the same UUID
+	{
+		remove( iExRule );
+	}
+	m_Rules.push_back( pRule );
+
 	// Special treatment for the different types of rules
 	switch ( type )
 	{
@@ -148,7 +156,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 	case CSecureRule::srContentCountry:
 		{
-			QString country = ((CCountryRule*)pRule)->getContent();
+			QString country = ((CCountryRule*)pRule)->getContentString();
 			CCountryRuleMap::iterator i = m_Countries.find( country );
 
 			bNewAddress = true;
@@ -257,7 +265,7 @@ void CSecurity::add(CSecureRule* pRule)
 				{
 					if ( pOldRule->m_nAction != pRule->m_nAction ||
 						 pOldRule->m_tExpire != pRule->m_tExpire ||
-						 pOldRule->getContentWords() != ((CRegExpRule*)pRule)->getContentWords() )
+						 pOldRule->getContentString() != ((CRegExpRule*)pRule)->getContentString() )
 					{
 						// remove conflicting rule if one of the important attributes
 						// differs from the rule we'd like to add
@@ -298,7 +306,7 @@ void CSecurity::add(CSecureRule* pRule)
 				{
 					if ( pOldRule->m_nAction != pRule->m_nAction ||
 						 pOldRule->m_tExpire != pRule->m_tExpire ||
-						 pOldRule->getContentWords() != ((CRegExpRule*)pRule)->getContentWords() )
+						 pOldRule->getContentString() != ((CRegExpRule*)pRule)->getContentString() )
 					{
 						// remove conflicting rule if one of the important attributes
 						// differs from the rule we'd like to add
@@ -326,7 +334,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 	case CSecureRule::srContentUserAgent:
 		{
-			QString agent = ((CUserAgentRule*)pRule)->getContentWords();
+			QString agent = ((CUserAgentRule*)pRule)->getContentString();
 			CUserAgentRuleMap::iterator i = m_UserAgents.find( agent );
 
 			if ( i != m_UserAgents.end() ) // there is a conflicting rule in our map
@@ -379,14 +387,6 @@ void CSecurity::add(CSecureRule* pRule)
 			evaluateCacheUsage();
 	}
 
-	// Add rule to list of all rules
-	CIterator iExRule = getUUID( pRule->m_oUUID );
-	if ( iExRule != getEnd() ) // we do not allow 2 rules by the same UUID
-	{
-		remove( iExRule );
-	}
-	m_Rules.push_front( pRule );
-
 	if ( bNewAddress )	// only add IP, IP range and country rules to the queue
 		m_newAddressRules.push( pRule->getCopy() );
 
@@ -421,21 +421,13 @@ void CSecurity::clear()
 	QMutexLocker mutex( &m_pSection );
 
 	m_IPs.clear();
-
 	m_IPRanges.clear();
-
 	m_Hashes.clear();
 	m_RegExpressions.clear();
 	m_Contents.clear();
 	m_UserAgents.clear();
 
 	CSecureRule* pRule = NULL;
-	for ( CIterator i = getIterator(); i != getEnd(); i++ )
-	{
-		pRule = *i;
-		delete pRule;
-	}
-	m_Rules.clear();
 
 	for ( CIterator i = m_loadedAddressRules.begin(); i != m_loadedAddressRules.end(); i++ )
 	{
@@ -464,12 +456,16 @@ void CSecurity::clear()
 		m_newHitRules.pop();
 		delete pRule;
 	}
+
+	for ( CIterator i = getIterator(); i != getEnd(); i++ )
+	{
+		pRule = *i;
+		delete pRule;
+	}
 	m_Rules.clear();
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
-	m_nLastRuleExpiryCheck = tNow;
-
-	missCacheClear( tNow );
+	m_nLastRuleExpiryCheck = static_cast< quint32 >( time( NULL ) );
+	missCacheClear( m_nLastRuleExpiryCheck );
 
 	m_bSaved = false;
 }
@@ -1613,7 +1609,7 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 
 	case CSecureRule::srContentCountry:
 		{
-			QString country = ((CCountryRule*)pRule)->getContent();
+			QString country = pRule->getContentString();
 			CCountryRuleMap::iterator i = m_Countries.find( country );
 
 			if ( i != m_Countries.end() && (*i).second->m_oUUID == pRule->m_oUUID )
