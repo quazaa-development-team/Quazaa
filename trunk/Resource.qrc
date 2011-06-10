@@ -494,5 +494,8 @@
         <file>Resource/Chat/Voice.png</file>
         <file>Resource/Chat/Owner.png</file>
         <file>Resource/Chat/Normal.png</file>
+        <file>Resource/Security/Null.ico</file>
+        <file>Resource/Security/Accept.ico</file>
+        <file>Resource/Security/Deny.ico</file>
     </qresource>
 </RCC>

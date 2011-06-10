@@ -28,14 +28,16 @@ CSecureRule& CSecureRule::operator=(const CSecureRule& pRule)
 	return *this;
 }
 
-//////////////////////////////////////////////////////////////////////
-// CSecureRule expiry check
-
-bool CSecureRule::isExpired(quint32 tNow, bool bSession) const
+bool CSecureRule::operator==(const CSecureRule& pRule)
 {
-	if ( m_tExpire == srIndefinite ) return false;
-	if ( m_tExpire == srSession ) return bSession;
-	return m_tExpire < tNow;
+	return ( m_nType			== pRule.m_nType	&&
+			 m_nAction			== pRule.m_nAction	&&
+			 m_sComment			== pRule.m_sComment	&&
+			 m_oUUID			== pRule.m_oUUID	&&
+			 m_tExpire			== pRule.m_tExpire	&&
+			 m_nToday			== pRule.m_nToday	&&
+			 m_nTotal			== pRule.m_nTotal   &&
+			 getContentString()	== pRule.getContentString());
 }
 
 CSecureRule* CSecureRule::getCopy() const
@@ -46,6 +48,23 @@ CSecureRule* CSecureRule::getCopy() const
 #endif //_DEBUG
 
 	return new CSecureRule( *this );
+}
+
+QString CSecureRule::getContentString() const
+{
+	// This method should never be called.
+#ifdef _DEBUG
+	Q_ASSERT( false );
+#endif //_DEBUG
+
+	return QString();
+}
+
+bool CSecureRule::isExpired(quint32 tNow, bool bSession) const
+{
+	if ( m_tExpire == srIndefinite ) return false;
+	if ( m_tExpire == srSession ) return bSession;
+	return m_tExpire < tNow;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -90,21 +109,22 @@ void CSecureRule::save(const CSecureRule* pRule, QDataStream &oStream)
 		oStream << ((CIPRangeRule*)pRule)->getMask();
 		break;
 	case srContentCountry:
-		oStream << ((CCountryRule*)pRule)->getContent();
+		oStream << ((CCountryRule*)pRule)->getContentString();
 		break;
 	case srContentHash:
-		oStream << ((CHashRule*)pRule)->getContentWords();
+		oStream << ((CHashRule*)pRule)->getContentString();
 		break;
 	case srContentAny:
 	case srContentAll:
-		oStream << ((CContentRule*)pRule)->getContentWords();
+		oStream << ((CContentRule*)pRule)->getContentString();
 		oStream << ( ( pRule->getType() == srContentAll ) ? true : false );
 		break;
 	case srContentRegExp:
-		oStream << ((CRegExpRule*)pRule)->getContentWords();
+		oStream << ((CRegExpRule*)pRule)->getContentString();
 		break;
 	case srContentUserAgent:
-		oStream << ((CUserAgentRule*)pRule)->getContentWords();
+		oStream << ((CUserAgentRule*)pRule)->getContentString();
+		oStream << ((CUserAgentRule*)pRule)->getRegExp();
 		break;
 	default:
 		// Do nothing. We don't store invalid rules.
@@ -165,30 +185,32 @@ void CSecureRule::load(CSecureRule* pRule, QDataStream &oStream, int)
 	case 3:
 		pRule = new CCountryRule();
 		oStream >> sTmp;
-		((CCountryRule*)pRule)->setContent( sTmp );
+		((CCountryRule*)pRule)->setContentString( sTmp );
 		break;
 	case 4:
 		pRule = new CHashRule();
 		oStream >> sTmp;
-		((CHashRule*)pRule)->setContentWords( sTmp );
+		((CHashRule*)pRule)->setContentString( sTmp );
 		break;
 	case 5:
 	case 6:
 		pRule = new CContentRule();
 		oStream >> sTmp;
 		oStream >> bAll;
-		((CContentRule*)pRule)->setContentWords( sTmp );
+		((CContentRule*)pRule)->setContentString( sTmp );
 		((CContentRule*)pRule)->setAll( bAll );
 		break;
 	case 7:
 		pRule = new CRegExpRule();
 		oStream >> sTmp;
-		((CRegExpRule*)pRule)->setContentWords( sTmp );
+		((CRegExpRule*)pRule)->setContentString( sTmp );
 		break;
 	case 8:
 		pRule = new CUserAgentRule();
 		oStream >> sTmp;
-		((CUserAgentRule*)pRule)->setContentWords( sTmp );
+		oStream >> bAll;
+		((CUserAgentRule*)pRule)->setContentString( sTmp );
+		((CUserAgentRule*)pRule)->setRegExp( bAll );
 		break;
 	default:
 		// There is an empty or erroneous rule. Error handling (if necessary) should go here.
@@ -302,9 +324,9 @@ CSecureRule* CSecureRule::fromXML(const QDomElement &oXMLelement)
 	else if ( strType.compare( "hash", Qt::CaseInsensitive ) == 0 )
 	{
 		CHashRule* rule = new CHashRule();
-		rule->setContentWords( oXMLelement.attribute( "content" ) );
+		rule->setContentString( oXMLelement.attribute( "content" ) );
 
-		if ( rule->getContentWords().trimmed().isEmpty() )
+		if ( rule->getContentString().trimmed().isEmpty() )
 		{
 			delete rule;
 			return NULL;
@@ -315,9 +337,9 @@ CSecureRule* CSecureRule::fromXML(const QDomElement &oXMLelement)
 	else if ( strType.compare( "regexp", Qt::CaseInsensitive ) == 0 )
 	{
 		CRegExpRule* rule = new CRegExpRule();
-		rule->setContentWords( oXMLelement.attribute( "content" ) );
+		rule->setContentString( oXMLelement.attribute( "content" ) );
 
-		if ( rule->getContentWords().trimmed().isEmpty() )
+		if ( rule->getContentString().trimmed().isEmpty() )
 		{
 			delete rule;
 			return NULL;
@@ -336,9 +358,9 @@ CSecureRule* CSecureRule::fromXML(const QDomElement &oXMLelement)
 		if ( strMatch.compare( "regexp", Qt::CaseInsensitive ) == 0 )
 		{
 			CRegExpRule* rule = new CRegExpRule();
-			rule->setContentWords( strContent );
+			rule->setContentString( strContent );
 
-			if ( rule->getContentWords().trimmed().isEmpty() )
+			if ( rule->getContentString().trimmed().isEmpty() )
 			{
 				delete rule;
 				return NULL;
@@ -350,9 +372,9 @@ CSecureRule* CSecureRule::fromXML(const QDomElement &oXMLelement)
 		else if ( strUrn.compare( "urn:", Qt::CaseInsensitive ) == 0 )
 		{
 			CHashRule* rule = new CHashRule();
-			rule->setContentWords( oXMLelement.attribute( "content" ) );
+			rule->setContentString( oXMLelement.attribute( "content" ) );
 
-			if ( rule->getContentWords().trimmed().isEmpty() )
+			if ( rule->getContentString().trimmed().isEmpty() )
 			{
 				delete rule;
 				return NULL;
@@ -368,9 +390,9 @@ CSecureRule* CSecureRule::fromXML(const QDomElement &oXMLelement)
 			{
 				CContentRule* rule = new CContentRule();
 				rule->setAll( all );
-				rule->setContentWords( oXMLelement.attribute( "content" ) );
+				rule->setContentString( oXMLelement.attribute( "content" ) );
 
-				if ( rule->getContentWords().trimmed().isEmpty() )
+				if ( rule->getContentString().trimmed().isEmpty() )
 				{
 					delete rule;
 					return NULL;
@@ -387,9 +409,9 @@ CSecureRule* CSecureRule::fromXML(const QDomElement &oXMLelement)
 	else if ( strType.compare( "country", Qt::CaseInsensitive ) == 0 )
 	{
 		CCountryRule* rule = new CCountryRule();
-		rule->setContent	( oXMLelement.attribute( "content" ) );
+		rule->setContentString( oXMLelement.attribute( "content" ) );
 
-		if ( rule->getContent().trimmed().isEmpty() )
+		if ( rule->getContentString().trimmed().isEmpty() )
 		{
 			delete rule;
 			return NULL;
@@ -575,12 +597,6 @@ CIPRangeRule& CIPRangeRule::operator=(const CIPRangeRule& pRule)
 
 	return *this;
 }
-
-
-
-// todo: continue here.
-
-
 
 // todo: make this work with IPv6.
 bool CIPRangeRule::match(const QHostAddress &oAddress) const
@@ -814,7 +830,7 @@ bool CHashRule::match(const QString& sSHA1,
 	}*/
 }
 
-void CHashRule::setContentWords(const QString& strContent)
+void CHashRule::setContentString(const QString& strContent)
 {
 #ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentHash );
@@ -963,7 +979,7 @@ void CHashRule::setContentWords(const QString& strContent)
 	}
 #endif //_DEBUG
 }
-QString CHashRule::getContentWords() const
+QString CHashRule::getContentString() const
 {
 #ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentHash );
@@ -1015,7 +1031,7 @@ void CHashRule::toXML( QDomElement& oXMLroot ) const
 	QDomElement oElement = oXMLroot.ownerDocument().createElement( "rule" );
 
 	oElement.setAttribute( "type", "hash" );
-	oElement.setAttribute( "content", getContentWords() );
+	oElement.setAttribute( "content", getContentString() );
 
 	CSecureRule::toXML( this, oElement );
 
@@ -1147,23 +1163,6 @@ CRegExpRule& CRegExpRule::operator=(const CRegExpRule& pRule)
 	return ( RegExp::match( strFilter, strContent ) != 0 ); // "!= 0" disables compiler warning.
 }*/
 
-void CRegExpRule::setContentWords(const QString& strContent)
-{
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentRegExp );
-#endif //_DEBUG
-
-	m_sContent = strContent;
-}
-QString CRegExpRule::getContentWords() const
-{
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentRegExp );
-#endif //_DEBUG
-
-	return m_sContent;
-}
-
 void CRegExpRule::toXML( QDomElement& oXMLroot ) const
 {
 #ifdef _DEBUG
@@ -1173,7 +1172,7 @@ void CRegExpRule::toXML( QDomElement& oXMLroot ) const
 	QDomElement oElement = oXMLroot.ownerDocument().createElement( "rule" );
 
 	oElement.setAttribute( "type", "regexp" );
-	oElement.setAttribute( "content", getContentWords() );
+	oElement.setAttribute( "content", getContentString() );
 
 	CSecureRule::toXML( this, oElement );
 
@@ -1223,24 +1222,6 @@ bool CUserAgentRule::match(const QString& strUserAgent) const
 	return true;
 }
 
-void CUserAgentRule::setContentWords(const QString& strContent)
-{
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentUserAgent );
-#endif //_DEBUG
-
-	m_sContent = strContent;
-	m_sContent.trimmed();
-}
-QString CUserAgentRule::getContentWords() const
-{
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentUserAgent );
-#endif //_DEBUG
-
-	return m_sContent;
-}
-
 void CUserAgentRule::toXML( QDomElement& oXMLroot ) const
 {
 #ifdef _DEBUG
@@ -1260,7 +1241,7 @@ void CUserAgentRule::toXML( QDomElement& oXMLroot ) const
 		oElement.setAttribute( "match", "list" );
 	}
 
-	oElement.setAttribute( "content", getContentWords() );
+	oElement.setAttribute( "content", getContentString() );
 
 	CSecureRule::toXML( this, oElement );
 
@@ -1286,6 +1267,50 @@ CContentRule& CContentRule::operator=(const CContentRule& pRule)
 	m_lContent = pRule.m_lContent;
 
 	return *this;
+}
+
+void CContentRule::setContentString(const QString& strContent)
+{
+#ifdef _DEBUG
+	Q_ASSERT( m_nType == srContentAny || m_nType == srContentAll );
+#endif //_DEBUG
+
+	QString sContent = strContent;
+	sContent.replace( '\t', ' ' );
+
+	m_lContent.clear();
+
+	QString tmp;
+
+	while ( !sContent.isEmpty() )
+	{
+		sContent.trimmed();
+		int index = sContent.indexOf( ' ' );
+		tmp = ( index != -1 ) ? sContent.left( index ) : sContent;
+		if ( !tmp.isEmpty() )
+			m_lContent.push_back( tmp );
+		sContent = sContent.mid( ( index != -1 ) ? index : 0 );
+	}
+}
+
+QString CContentRule::getContentString() const
+{
+#ifdef _DEBUG
+	Q_ASSERT( m_nType == srContentAny || m_nType == srContentAll );
+#endif //_DEBUG
+
+	QString res;
+	for ( CListIterator i = m_lContent.begin() ; i != m_lContent.end() ; i++ )
+	{
+		res = res + *i;
+	}
+
+	return res;
+}
+
+void CContentRule::setAll(bool all)
+{
+	m_nType = all ? srContentAll : srContentAny;
 }
 
 bool CContentRule::match(const QString& strContent) const
@@ -1340,49 +1365,6 @@ bool CContentRule::match(const QString& strContent) const
 	return false;
 }*/
 
-void CContentRule::setContentWords(const QString& strContent)
-{
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentAny || m_nType == srContentAll );
-#endif //_DEBUG
-
-	QString sContent = strContent;
-	sContent.replace( '\t', ' ' );
-
-	m_lContent.clear();
-
-	QString tmp;
-
-	while ( !sContent.isEmpty() )
-	{
-		sContent.trimmed();
-		int index = sContent.indexOf( ' ' );
-		tmp = ( index != -1 ) ? sContent.left( index ) : sContent;
-		if ( !tmp.isEmpty() )
-			m_lContent.push_back( tmp );
-		sContent = sContent.mid( ( index != -1 ) ? index : 0 );
-	}
-}
-QString CContentRule::getContentWords() const
-{
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentAny || m_nType == srContentAll );
-#endif //_DEBUG
-
-	QString res;
-	for ( CListIterator i = m_lContent.begin() ; i != m_lContent.end() ; i++ )
-	{
-		res = res + *i;
-	}
-
-	return res;
-}
-
-void CContentRule::setAll(bool all)
-{
-	m_nType = all ? srContentAll : srContentAny;
-}
-
 void CContentRule::toXML( QDomElement& oXMLroot ) const
 {
 #ifdef _DEBUG
@@ -1392,7 +1374,7 @@ void CContentRule::toXML( QDomElement& oXMLroot ) const
 	QDomElement oElement = oXMLroot.ownerDocument().createElement( "rule" );
 
 	oElement.setAttribute( "type", "content" );
-	oElement.setAttribute( "content", getContentWords() );
+	oElement.setAttribute( "content", getContentString() );
 
 	if( m_nType == srContentAll )
 	{
