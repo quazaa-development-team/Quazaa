@@ -20,6 +20,7 @@ namespace security
 	protected:
 		// Type is critical to functionality and may not be changed externally.
 		RuleType	m_nType;
+		QString		m_sContent;
 
 	private:
 		// Hit counters
@@ -42,7 +43,7 @@ namespace security
 		bool			operator==(const CSecureRule& pRule);
 
 		virtual CSecureRule*	getCopy() const;
-		virtual QString			getContentString() const;
+		QString			getContentString() const;
 
 		bool			isExpired(quint32 nNow, bool bSession = false) const;
 
@@ -89,11 +90,10 @@ namespace security
 		// Operators
 		CIPRule&			operator=(const CIPRule& pRule);
 
-		inline void			setIP( const QHostAddress& oIP ) { m_oIP = oIP; }
+		inline void			setIP( const QHostAddress& oIP ) { m_oIP = oIP; m_sContent = oIP.toString(); }
 		inline QHostAddress getIP() const { return m_oIP; }
 
 		inline CSecureRule*	getCopy() const { return new CIPRule( *this ); }
-		inline QString		getContentString() const { return m_oIP.toString(); }
 
 		bool				match(const QHostAddress& oAddress) const;
 		void				toXML( QDomElement& oXMLroot ) const;
@@ -114,13 +114,12 @@ namespace security
 		// Operators
 		CIPRangeRule&		operator=(const CIPRangeRule& pRule);
 
-		inline void			setIP( const QHostAddress& oIP ) { m_oIP = oIP; }
+		inline void			setIP( const QHostAddress& oIP ) { m_oIP = oIP; m_sContent = m_oIP.toString() + "/" + m_oMask.toString(); }
 		inline QHostAddress	getIP() const { return m_oIP; }
-		inline void			setMask( const quint32& nMask ) { m_oMask = QHostAddress( nMask ); }
+		inline void			setMask( const quint32& nMask ) { m_oMask = QHostAddress( nMask ); m_sContent = m_oIP.toString() + "/" + m_oMask.toString(); }
 		inline qint32		getMask() const { return m_oMask.toIPv4Address(); }
 
 		inline CSecureRule*	getCopy() const { return new CIPRangeRule( *this ); }
-		QString				getContentString() const { return m_oIP.toString() + "/" + m_oMask.toString(); }
 
 		bool				match(const QHostAddress& oAddress) const;
 		void				toXML( QDomElement& oXMLroot ) const;
@@ -130,9 +129,6 @@ namespace security
 
 	class CCountryRule : public CSecureRule
 	{
-	private:
-		QString		m_sCountry;
-
 	public:
 		CCountryRule(bool bCreate = true);
 
@@ -141,8 +137,7 @@ namespace security
 
 		inline CSecureRule*	getCopy() const { return new CCountryRule( *this ); }
 
-		inline void			setContentString(const QString& strCountry) { m_sCountry = strCountry; }
-		inline QString		getContentString() const { return m_sCountry; }
+		inline void			setContentString(const QString& strCountry) { m_sContent = strCountry; }
 
 		bool				match(const QHostAddress& oAddress) const;
 		void				toXML( QDomElement& oXMLroot ) const;
@@ -174,7 +169,6 @@ namespace security
 		inline CSecureRule*	getCopy() const { return new CHashRule( *this ); }
 
 		void				setContentString(const QString& strContent);
-		QString				getContentString() const;
 
 		inline QString		getSHA1urn() const { return m_sSHA1; }
 		inline QString		getED2Kurn() const { return m_sED2K; }
@@ -199,9 +193,6 @@ namespace security
 
 	class CRegExpRule : public CSecureRule
 	{
-	private:
-		QString				m_sContent;
-
 	public:
 		CRegExpRule(bool bCreate = true);
 
@@ -211,7 +202,6 @@ namespace security
 		inline CSecureRule*	getCopy() const { return new CRegExpRule( *this ); }
 
 		inline void			setContentString(const QString& strContent) { m_sContent = strContent; m_sContent.trimmed(); }
-		inline QString		getContentString() const { return m_sContent; }
 
 //		bool				match(const CQuerySearch* pQuery, const QString& strContent) const;
 		void				toXML( QDomElement& oXMLroot ) const;
@@ -223,7 +213,6 @@ namespace security
 	class CUserAgentRule : public CSecureRule
 	{
 	private:
-		QString				m_sContent;
 		bool				m_bRegExp;  // defines if the content of this rule is a regular expression filter
 
 	public:
@@ -238,7 +227,6 @@ namespace security
 		inline bool			getRegExp() const { return m_bRegExp; }
 
 		inline void			setContentString(const QString& strContent) { m_sContent = strContent; m_sContent.trimmed(); }
-		inline QString		getContentString() const { return m_sContent; }
 
 		bool				match(const QString& strUserAgent) const;
 		void				toXML( QDomElement& oXMLroot ) const;
@@ -264,7 +252,6 @@ namespace security
 		inline CSecureRule*	getCopy() const { return new CContentRule( *this ); }
 
 		void				setContentString(const QString& strContent);
-		QString				getContentString() const;
 
 		// sets the type to "srContentAny" (false) or "srContentAll" (true).
 		void				setAll(bool all = true);
