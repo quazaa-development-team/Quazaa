@@ -338,8 +338,7 @@ HEADERS += UI/dialoglanguage.h \
     Security/security.h \
     Security/securerule.h \
     ShareManager/file.h \
-    Models/securitytablemodel.h \
-    Models/securitytablemodel.h
+	Models/securitytablemodel.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
