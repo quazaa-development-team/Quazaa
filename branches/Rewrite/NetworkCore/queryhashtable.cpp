@@ -894,9 +894,7 @@ bool CQueryHashTable::CheckQuery(CQueryPtr pQuery)
 
 	for(int i = 0; i < pQuery->m_lHashes.size(); ++i)
 	{
-		QString sURN = pQuery->m_lHashes[i].ToURN();
-		quint32 nHash = HashWord(qPrintable(sURN), sURN.length(), 32);
-		if(CheckHash(nHash))
+		if(CheckString(pQuery->m_lHashes[i].ToURN()))
 			return true;
 	}
 
@@ -912,5 +910,5 @@ bool CQueryHashTable::CheckQuery(CQueryPtr pQuery)
 		}
 	}
 
-	return (nWords >= 3) ? (nWordHits * 3 / nWords >= 2) : (nWords == nWordHits);
+	return (nWords >= 3) ? (nWordHits * 3 / nWords >= 2) : (nWords == nWordHits && nWords > 0);
 }
