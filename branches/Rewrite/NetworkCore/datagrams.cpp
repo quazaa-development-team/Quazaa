@@ -31,6 +31,7 @@
 #include <QTimer>
 #include "hostcache.h"
 #include "searchmanager.h"
+#include "Hashes/hash.h"
 #include "queryhit.h"
 #include "systemlog.h"
 #include "querykeys.h"

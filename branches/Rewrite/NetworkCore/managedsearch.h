@@ -25,13 +25,13 @@
 #ifndef MANAGEDSEARCH_H
 #define MANAGEDSEARCH_H
 
-#include <QObject>
+#include "types.h"
 #include <QHash>
 
-#include "queryhit.h"
-
 class CQuery;
-//class CQueryHit;
+class CQueryHit;
+
+typedef class QSharedPointer<CQueryHit> QueryHitSharedPtr;
 
 class CManagedSearch : public QObject
 {

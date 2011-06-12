@@ -27,8 +27,6 @@
 
 CHash::CHash(const CHash& rhs)
 {
-	systemLog.postLog(LogSeverity::Debug, qApp->tr("Calling CHash copy ctor"));
-
 	if(!rhs.m_bFinalized)
 	{
 		systemLog.postLog(LogSeverity::Debug, qApp->tr("WARNING: Copying non-finalized CHash"));
@@ -40,7 +38,7 @@ CHash::CHash(const CHash& rhs)
 	m_pContext = 0;
 }
 
-CHash::CHash(CHash::Algorithm algo)
+CHash::CHash(Algorithm algo)
 {
 	m_bFinalized = false;
 	m_nHashAlgorithm = algo;
@@ -87,16 +85,16 @@ CHash::~CHash()
 }
 
 // Returns raw hash length by hash family
-int CHash::ByteCount(CHash::Algorithm algo)
+int CHash::ByteCount(int algo)
 {
 	switch(algo)
 	{
 		case CHash::SHA1:
 			return 20;
 		case CHash::MD4:
-			return 20;
+			return 16;
 		case CHash::MD5:
-			return 25;
+			return 16;
 		default:
 			return 0;
 	}
@@ -131,6 +129,15 @@ CHash* CHash::FromURN(QString sURN)
 			return pRet;
 		}
 	}
+	else if(baFamily == "md5" && baValue.length() == 32)
+	{
+		if(cyoBase16Validate(baValue.data(), baValue.length()) == 0)
+		{
+			cyoBase16Decode((char*)&pVal, baValue.data(), baValue.length());
+			CHash* pRet = new CHash(QByteArray((char*)&pVal), CHash::MD5);
+			return pRet;
+		}
+	}
 
 	return 0;
 
@@ -157,6 +164,7 @@ QString CHash::ToURN()
 		case CHash::SHA1:
 			return QString("urn:sha1:") + ToString();
 		case CHash::MD5:
+			return QString("urn:md5:") + ToString();
 		case CHash::MD4:
 			break;
 	}
@@ -175,6 +183,7 @@ QString CHash::ToString()
 		case CHash::SHA1:
 			cyoBase32Encode((char*)&pBuff, RawValue().data(), 20);
 		case CHash::MD5:
+			cyoBase16Encode((char*)&pBuff, RawValue().data(), 16);
 		case CHash::MD4:
 			break;
 	}

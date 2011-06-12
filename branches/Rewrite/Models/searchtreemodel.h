@@ -30,12 +30,13 @@
 #include <QAbstractItemModel>
 #include "NetworkCore/queryhit.h"
 
+class CHash;
 
 namespace SearchHitData
 {
 	struct sSearchHitData
 	{
-		CSHA1 oSha1Hash;
+		QList<CHash> lHashes;
 		QIcon iNetwork;
 		QIcon iCountry;
 	};
@@ -56,7 +57,7 @@ public:
 	SearchTreeItem* child(int row);
 	int childCount() const;
 	int columnCount() const;
-	int find(SearchTreeItem* containerItem, QString hash);
+	int find(SearchTreeItem* containerItem, CHash& pHash);
 	void updateHitCount(int count);
 	bool duplicateCheck(SearchTreeItem* containerItem, QString ip);
 	QVariant data(int column) const;
@@ -71,7 +72,7 @@ private:
 
 class SearchTreeModel : public QAbstractItemModel
 {
-	Q_OBJECT;
+	Q_OBJECT
 
 public:
 	SearchTreeModel();

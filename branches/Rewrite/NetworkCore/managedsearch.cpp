@@ -33,6 +33,7 @@
 #include "searchmanager.h"
 #include "queryhit.h"
 #include "systemlog.h"
+#include "Hashes/hash.h"
 
 #include <QMutexLocker>
 

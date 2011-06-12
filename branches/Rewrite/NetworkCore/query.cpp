@@ -26,6 +26,7 @@
 #include "g2packet.h"
 #include "queryhashtable.h"
 #include "network.h"
+#include "Hashes/hash.h"
 
 CQuery::CQuery()
 {
@@ -51,9 +52,9 @@ void CQuery::SetSizeRestriction(quint64 nMin, quint64 nMax)
 	m_nMinimumSize = nMin;
 	m_nMaximumSize = nMax;
 }
-void CQuery::AddURN(const char* pURN, quint32 nLength)
+void CQuery::AddURN(const CHash& pHash)
 {
-	m_lURNs.append(QString::fromAscii(pURN, nLength));
+	m_lHashes.append(pHash);
 }
 
 G2Packet* CQuery::ToG2Packet(CEndPoint* pAddr, quint32 nKey)
@@ -81,9 +82,10 @@ G2Packet* CQuery::ToG2Packet(CEndPoint* pAddr, quint32 nKey)
 		pPacket->WritePacket("MD", m_sMetadata.toUtf8().size())->WriteString(m_sMetadata, false);
 	}
 
-	for(int i = 0; i < m_lURNs.size(); i++)
+	foreach(CHash pHash, m_lHashes)
 	{
-		pPacket->WritePacket("URN", m_lURNs[i].size())->WriteString(m_lURNs[i], false);
+		pPacket->WritePacket("URN", pHash.GetFamilyName().size() + CHash::ByteCount(pHash.HashAlgorithm()) + 1);
+		pPacket->WriteString(pHash.GetFamilyName() + "\0" + pHash.RawValue(), false);
 	}
 
 	/*if( m_nMinimumSize > 0 && m_nMaximumSize < 0xFFFFFFFFFFFFFFFF )
@@ -293,7 +295,56 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 		{
 			m_sDescriptiveName = pPacket->ReadString(nLength);
 		}
-		// TODO: /Q2/I /Q2/SZR /Q2/URN /Q2/MD
+		else if( strcmp("URN", szType) == 0 )
+		{
+			QString sURN;
+			QByteArray hashBuff;
+			sURN = pPacket->ReadString();
+
+			if(nLength >= 44u && sURN.compare("bp") == 0)
+			{
+				hashBuff.resize(CHash::ByteCount(CHash::SHA1));
+				pPacket->Read(hashBuff.data(), CHash::ByteCount(CHash::SHA1));
+				CHash* pHash = CHash::FromRaw(hashBuff, CHash::SHA1);
+				if(pHash)
+				{
+					m_lHashes.append(*pHash);
+					delete pHash;
+				}
+				// TODO: Tiger
+			}
+			else if(nLength >= CHash::ByteCount(CHash::SHA1) + 5u && sURN.compare("sha1") == 0)
+			{
+				hashBuff.resize(CHash::ByteCount(CHash::SHA1));
+				pPacket->Read(hashBuff.data(), CHash::ByteCount(CHash::SHA1));
+				CHash* pHash = CHash::FromRaw(hashBuff, CHash::SHA1);
+				if(pHash)
+				{
+					m_lHashes.append(*pHash);
+					delete pHash;
+				}
+			}
+		}
+		else if( strcmp("SZR", szType) == 0 && nLength >= 8 )
+		{
+			if( nLength >= 16 )
+			{
+				m_nMinimumSize = pPacket->ReadIntLE<quint64>();
+				m_nMaximumSize = pPacket->ReadIntLE<quint64>();
+			}
+			else
+			{
+				m_nMinimumSize = pPacket->ReadIntLE<quint32>();
+				m_nMaximumSize = pPacket->ReadIntLE<quint32>();
+			}
+
+		}
+		else if( strcmp("I", szType) == 0 )
+		{
+
+		}
+
+		// TODO: /Q2/MD
 
 		pPacket->m_nPosition = nNext;
 	}
@@ -310,7 +361,7 @@ bool CQuery::CheckValid()
 {
 	BuildG2Keywords(m_sDescriptiveName);
 
-	if( m_lHashedKeywords.isEmpty() )
+	if( m_lHashes.isEmpty() && m_lHashedKeywords.isEmpty() )
 		return false;
 
 	return true;

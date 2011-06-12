@@ -139,8 +139,6 @@ SOURCES += main.cpp \
 	NetworkCore/datagrams.cpp \
 	NetworkCore/datagramfrags.cpp \
 	NetworkCore/compressedconnection.cpp \
-	NetworkCore/Hashes/sha1.cpp \
-	NetworkCore/Hashes/abstracthash.cpp \
 	UI/winmain.cpp \
 	UI/widgethome.cpp \
 	UI/widgetlibrary.cpp \
@@ -259,8 +257,6 @@ HEADERS += UI/dialoglanguage.h \
 	NetworkCore/datagrams.h \
 	NetworkCore/datagramfrags.h \
 	NetworkCore/compressedconnection.h \
-	NetworkCore/Hashes/sha1.h \
-	NetworkCore/Hashes/abstracthash.h \
 	NetworkCore/queryhashtable.h \
 	NetworkCore/parser.h \
 	NetworkCore/types.h \

@@ -30,6 +30,7 @@
 #include "parser.h"
 #include "datagrams.h"
 #include "searchmanager.h"
+#include "Hashes/hash.h"
 #include "query.h"
 #include "queryhit.h"
 #include "queryhashtable.h"

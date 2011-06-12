@@ -24,6 +24,7 @@
 
 #include "queryhit.h"
 #include "g2packet.h"
+#include "Hashes/hash.h"
 
 CQueryHit::CQueryHit()
 {
@@ -188,32 +189,33 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 					if(strcmp("URN", szTypeX) == 0)
 					{
 						QString sURN;
-						char hashBuff[256];
+						QByteArray hashBuff;
 						sURN = pPacket->ReadString();
 
 						if(nLengthX >= 44u && sURN.compare("bp") == 0)
 						{
-							pPacket->Read(&hashBuff[0], CSHA1::ByteCount());
-							if(pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()))
+							hashBuff.resize(CHash::ByteCount(CHash::SHA1));
+							pPacket->Read(hashBuff.data(), CHash::ByteCount(CHash::SHA1));
+							CHash* pHash = CHash::FromRaw(hashBuff, CHash::SHA1);
+							if(pHash)
 							{
+								pHit->m_lHashes.append(*pHash);
 								bHaveURN = true;
 							}
-							else
-							{
-								pHit->m_oSha1.Clear();
-							}
+							delete pHash;
+							// TODO: Tiger
 						}
-						else if(nLengthX >= CSHA1::ByteCount() + 5u && sURN.compare("sha1") == 0)
+						else if(nLengthX >= CHash::ByteCount(CHash::SHA1) + 5u && sURN.compare("sha1") == 0)
 						{
-							pPacket->Read(&hashBuff[0], CSHA1::ByteCount());
-							if(pHit->m_oSha1.FromRawData(&hashBuff[0], CSHA1::ByteCount()))
+							hashBuff.resize(CHash::ByteCount(CHash::SHA1));
+							pPacket->Read(hashBuff.data(), CHash::ByteCount(CHash::SHA1));
+							CHash* pHash = CHash::FromRaw(hashBuff, CHash::SHA1);
+							if(pHash)
 							{
+								pHit->m_lHashes.append(*pHash);
 								bHaveURN = true;
 							}
-							else
-							{
-								pHit->m_oSha1.Clear();
-							}
+							delete pHash;
 						}
 
 
@@ -376,10 +378,10 @@ void CQueryHit::ResolveURLs()
 		return;*/
 
 	// TODO: odpowiednie kodowanie... (Appropriate Encoding)
-	if(m_oSha1.IsValid())
+	/*if(m_oSha1.IsValid())
 	{
 		m_sURL = m_sURL.sprintf("http://%s/uri-res/N2R?%s", m_pHitInfo->m_oNodeAddress.toStringWithPort().toAscii().constData(), m_oSha1.ToURN().toAscii().constData());
-	}
+	}*/
 }
 bool CQueryHit::IsValid(CQuery* pQuery)
 {

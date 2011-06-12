@@ -26,13 +26,10 @@
 #define QUERYHIT_H
 
 #include "types.h"
-#include <QList>
-#include <QSharedPointer>
-
-#include "Hashes/sha1.h"
 
 class G2Packet;
 class CQuery;
+class CHash;
 
 struct QueryHitInfo
 {
@@ -47,12 +44,6 @@ struct QueryHitInfo
 	QueryHitInfo()
 	{
 		m_sVendor = "";
-	}
-
-	~QueryHitInfo()
-	{
-		systemLog.postLog(LogSeverity::Debug, "Hit info deleted");
-		//qDebug("hit info deleted");
 	}
 };
 
@@ -69,7 +60,7 @@ public:
 
 	QSharedPointer<QueryHitInfo>   m_pHitInfo;
 
-	CSHA1           m_oSha1;
+	QList<CHash>	m_lHashes;
 	QString         m_sDescriptiveName;
 	QString         m_sURL;
 	QString         m_sMetadata;

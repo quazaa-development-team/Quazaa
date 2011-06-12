@@ -36,6 +36,7 @@
 #include "quazaasettings.h"
 #include "buffer.h"
 #include "query.h"
+#include "Hashes/hash.h"
 
 // Parts of this code are borrowed from Shareaza
 
@@ -891,7 +892,13 @@ bool CQueryHashTable::CheckQuery(CQueryPtr pQuery)
 	if( !m_bLive || !m_pHash )
 		return true;
 
-	// TODO: check hashes
+	for(int i = 0; i < pQuery->m_lHashes.size(); ++i)
+	{
+		QString sURN = pQuery->m_lHashes[i].ToURN();
+		quint32 nHash = HashWord(qPrintable(sURN), sURN.length(), 32);
+		if(CheckHash(nHash))
+			return true;
+	}
 
 	int nWords = 0, nWordHits = 0;
 

@@ -25,12 +25,11 @@
 #ifndef QUERY_H
 #define QUERY_H
 
-#include <QList>
-#include <QString>
 #include "types.h"
 
 class G2Packet;
 class CQuery;
+class CHash;
 
 typedef QSharedPointer<CQuery> CQueryPtr;
 
@@ -38,7 +37,7 @@ class CQuery
 {
 public:
 	QUuid           m_oGUID;
-	QList<QString>  m_lURNs;
+	QList<CHash>	m_lHashes;
 	QString         m_sMetadata;
 	quint64         m_nMinimumSize;
 	quint64         m_nMaximumSize;
@@ -58,7 +57,7 @@ public:
 
 	void SetGUID(QUuid& guid);
 
-	void AddURN(const char* pURN, quint32 nLength);
+	void AddURN(const CHash& pHash);
 	void SetDescriptiveName(QString sDN);
 	void SetSizeRestriction(quint64 nMin, quint64 nMax);
 	void SetMetadata(QString sMeta);

@@ -24,6 +24,7 @@
 
 
 #include "neighboursrouting.h"
+#include "Hashes/hash.h"
 #include "query.h"
 #include "neighbour.h"
 #include "g2node.h"

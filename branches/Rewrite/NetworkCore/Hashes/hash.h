@@ -43,11 +43,11 @@ protected:
 
 public:
 	CHash(const CHash& rhs);
-	CHash(CHash::Algorithm algo);
+	CHash(Algorithm algo);
 	CHash(QByteArray baRaw, CHash::Algorithm algo);
 	~CHash();
 
-	static int	ByteCount(CHash::Algorithm algo);
+	static int	ByteCount(int algo);
 
 	static CHash* FromURN(QString sURN);
 	static CHash* FromRaw(QByteArray& baRaw, CHash::Algorithm algo);
@@ -60,10 +60,31 @@ public:
 	void AddData(QByteArray& baData);
 
 	QString GetFamilyName();
-	void Finalize()
-	{
-		RawValue();
-	}
+
+	inline int HashAlgorithm();
+	inline void Finalize();
+
+	inline bool operator==(const CHash& oHash);
+	inline bool operator!=(const CHash& oHash);
 };
+
+bool CHash::operator ==(const CHash& oHash)
+{
+	Q_ASSERT(oHash.m_bFinalized && m_bFinalized);
+	return (oHash.m_nHashAlgorithm == m_nHashAlgorithm && oHash.m_baRawValue == m_baRawValue);
+}
+bool CHash::operator !=(const CHash& oHash)
+{
+	return !(*this == oHash);
+}
+int CHash::HashAlgorithm()
+{
+	return m_nHashAlgorithm;
+}
+
+void CHash::Finalize()
+{
+	RawValue();
+}
 
 #endif // HASH_H
