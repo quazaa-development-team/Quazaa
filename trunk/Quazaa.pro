@@ -209,7 +209,8 @@ SOURCES += main.cpp \
     Security/security.cpp \
     Security/securerule.cpp \
     ShareManager/file.cpp \
-    Models/securitytablemodel.cpp
+    Models/securitytablemodel.cpp \
+    globaltimedsignalqueue.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -338,7 +339,8 @@ HEADERS += UI/dialoglanguage.h \
     Security/security.h \
     Security/securerule.h \
     ShareManager/file.h \
-	Models/securitytablemodel.h
+	Models/securitytablemodel.h \
+    globaltimedsignalqueue.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
