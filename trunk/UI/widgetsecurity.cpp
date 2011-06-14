@@ -44,7 +44,8 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	m_pSecurityList = new CSecurityTableModel( this, treeView() );
 	setModel( m_pSecurityList );
 
-	SignalQueue.push( this, SLOT( update() ), 10000 );
+	connect( this, SIGNAL( requestDataUpdate() ), this, SLOT( update() ) );
+	SignalQueue.push( this, SIGNAL( updateData() ), 1000 );
 }
 
 WidgetSecurity::~WidgetSecurity()

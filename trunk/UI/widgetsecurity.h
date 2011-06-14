@@ -55,6 +55,9 @@ protected:
 private:
 	Ui::WidgetSecurity* ui;
 
+signals:
+	void requestDataUpdate();
+
 public slots:
 	void update();
 
