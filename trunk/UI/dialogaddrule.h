@@ -27,6 +27,11 @@
 
 #include <QtGui/QDialog>
 
+namespace RuleType
+{
+	enum Type { Address, Range, Country, Hash, Any, RegularExpression, UserAgent };
+}
+
 namespace Ui
 {
 	class DialogAddRule;
@@ -36,7 +41,7 @@ class DialogAddRule : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogAddRule(QWidget* parent = 0);
+	DialogAddRule(QWidget* parent = 0, RuleType::Type ruleType = RuleType::Address);
 	~DialogAddRule();
 
 protected:
