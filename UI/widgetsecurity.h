@@ -26,6 +26,9 @@
 #define WIDGETSECURITY_H
 
 #include <QMainWindow>
+#include <QAbstractItemModel>
+
+class CSecurityTableModel;
 
 namespace Ui
 {
@@ -36,15 +39,24 @@ class WidgetSecurity : public QMainWindow
 {
 	Q_OBJECT
 public:
+	CSecurityTableModel* m_pSecurityList;
+
+public:
 	WidgetSecurity(QWidget* parent = 0);
 	~WidgetSecurity();
-	void saveWidget();
+
+	void		setModel(QAbstractItemModel* model);
+	QWidget*	treeView();
+	void		saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
 	Ui::WidgetSecurity* ui;
+
+public slots:
+	void update();
 
 private slots:
 	void on_actionSubscribeSecurityList_triggered();

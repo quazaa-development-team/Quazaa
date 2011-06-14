@@ -1,5 +1,7 @@
 #include "globaltimedsignalqueue.h"
 
+CGlobalTimedSignalQueue SignalQueue;
+
 CTimerObject::CTimerObject(QObject* obj, const char* member, quint64 tInterval, bool bMultiShot,
 						   QGenericArgument val0, QGenericArgument val1,
 						   QGenericArgument val2, QGenericArgument val3,
@@ -131,7 +133,7 @@ QUuid CGlobalTimedSignalQueue::push(QObject* parent, const char* signal, quint64
 
 QUuid CGlobalTimedSignalQueue::push(CTimerObject* pTimedSignal)
 {
-	CTimerPair oPair = CTimerPair( pTimedSignal->m_tInterval, pTimedSignal );
+	CTimerPair oPair = CTimerPair( pTimedSignal->m_tTime, pTimedSignal );
 	m_QueuedSignals.push( oPair );
 	m_Signals.append( oPair.second );
 

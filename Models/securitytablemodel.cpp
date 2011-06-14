@@ -359,7 +359,7 @@ void CSecurityTableModel::sort(int column, Qt::SortOrder order)
 		return 0;
 }*/
 
-void CSecurityTableModel::addNode(CSecureRule* pRule)
+void CSecurityTableModel::addRule(CSecureRule* pRule)
 {
 	if ( Security.check( pRule ) )
 	{
@@ -370,7 +370,7 @@ void CSecurityTableModel::addNode(CSecureRule* pRule)
 	}
 }
 
-void CSecurityTableModel::removeNode(CSecureRule* pRule)
+void CSecurityTableModel::removeRule(CSecureRule* pRule)
 {
 	for ( quint32 i = 0, nMax = m_lRules.size(); i < nMax; i++ )
 	{
@@ -413,13 +413,15 @@ void CSecurityTableModel::updateAll()
 	{
 		if ( !uplist.isEmpty() )
 		{
-			foreach( QModelIndex idx, uplist )
+			foreach( QModelIndex index, uplist )
 			{
-				QAbstractItemView* pView = qobject_cast<QAbstractItemView*>(m_oContainer);
+				// todo: question: is there a reason for this line being inside the for each loop?
+				// couldn't this be moved before the loop and the loop be only called if this returns != NULL?
+				QAbstractItemView* pView = qobject_cast< QAbstractItemView* >( m_oContainer );
 
 				if ( pView )
 				{
-					pView->update( idx );
+					pView->update( index );
 				}
 			}
 		}

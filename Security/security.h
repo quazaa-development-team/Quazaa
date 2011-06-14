@@ -173,10 +173,10 @@ namespace security
 
 	signals:
 		// The only reciever, CSecurityTableModel, deals with releasing the memory.
-		void			ruleAdded(const CSecureRule* const pRule);
+		void			ruleAdded( CSecureRule* pRule);
 
 		// This is the original rule object that has been added. Note that deleting it would cause serious problems.
-		void			ruleRemoved(const CSecureRule* const pRule);
+		void			ruleRemoved( CSecureRule* pRule);
 
 	private:
 		inline CIterator	getEnd() const		{ return m_Rules.end();   }

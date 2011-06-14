@@ -22,25 +22,49 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "securitytablemodel.h"
+
 #include "widgetsecurity.h"
 #include "ui_widgetsecurity.h"
 #include "dialogaddrule.h"
 #include "dialogsecuritysubscriptions.h"
 
 #include "quazaasettings.h"
+
+#include "globaltimedsignalqueue.h"
  
 
 WidgetSecurity::WidgetSecurity(QWidget* parent) :
-	QMainWindow(parent),
-	ui(new Ui::WidgetSecurity)
+	QMainWindow( parent ),
+	ui( new Ui::WidgetSecurity )
 {
-	ui->setupUi(this);
-	restoreState(quazaaSettings.WinMain.SecurityToolbars);
+	ui->setupUi( this );
+	restoreState( quazaaSettings.WinMain.SecurityToolbars );
+
+	m_pSecurityList = new CSecurityTableModel( this, treeView() );
+	setModel( m_pSecurityList );
+
+	SignalQueue.push( this, SLOT( update() ), 10000 );
 }
 
 WidgetSecurity::~WidgetSecurity()
 {
 	delete ui;
+}
+
+void WidgetSecurity::setModel(QAbstractItemModel* model)
+{
+	ui->tableViewSecurity->setModel( model );
+}
+
+QWidget* WidgetSecurity::treeView()
+{
+	return ui->tableViewSecurity;
+}
+
+void WidgetSecurity::saveWidget()
+{
+	quazaaSettings.WinMain.SecurityToolbars = saveState();
 }
 
 void WidgetSecurity::changeEvent(QEvent* e)
@@ -56,9 +80,10 @@ void WidgetSecurity::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetSecurity::saveWidget()
+void WidgetSecurity::update()
 {
-	quazaaSettings.WinMain.SecurityToolbars = saveState();
+	m_pSecurityList->updateAll();
+	//on_actionSecurityAddRule_triggered(); // for testing purposes...
 }
 
 void WidgetSecurity::on_actionSecurityAddRule_triggered()

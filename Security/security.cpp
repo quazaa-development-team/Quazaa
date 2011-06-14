@@ -20,6 +20,12 @@ CSecurity::CSecurity()
 
 	m_bSaved = true;
 	m_bUseMissCache = false;
+
+	CIPRule* pRule = new CIPRule();
+	pRule->setIP( QHostAddress("1.1.1.1") );
+	pRule->m_sComment = "Dummy";
+
+	add( pRule );
 }
 
 CSecurity::~CSecurity()

@@ -14,7 +14,7 @@
    <string>Security</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Security/Security.png</normaloff>:/Resource/Security/Security.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -26,7 +26,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTreeView" name="treeViewSecurity"/>
+     <widget class="QTableView" name="tableViewSecurity"/>
     </item>
    </layout>
   </widget>
@@ -90,7 +90,7 @@
   </widget>
   <action name="actionSecurityAddRule">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Security/AddRule.png</normaloff>:/Resource/Security/AddRule.png</iconset>
    </property>
    <property name="text">
@@ -102,7 +102,7 @@
   </action>
   <action name="actionSecurityRemoveRule">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Security/RemoveRule.png</normaloff>:/Resource/Security/RemoveRule.png</iconset>
    </property>
    <property name="text">
@@ -114,7 +114,7 @@
   </action>
   <action name="actionSecurityModifyRule">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Security/ModifyRule.png</normaloff>:/Resource/Security/ModifyRule.png</iconset>
    </property>
    <property name="text">
@@ -126,7 +126,7 @@
   </action>
   <action name="actionSecurityImportRules">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Security/ImportRules.png</normaloff>:/Resource/Security/ImportRules.png</iconset>
    </property>
    <property name="text">
@@ -138,7 +138,7 @@
   </action>
   <action name="actionSecurityExportRules">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Security/ExportRules.png</normaloff>:/Resource/Security/ExportRules.png</iconset>
    </property>
    <property name="text">
@@ -150,7 +150,7 @@
   </action>
   <action name="actionSubscribeSecurityList">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Security/SubscribeRules.png</normaloff>:/Resource/Security/SubscribeRules.png</iconset>
    </property>
    <property name="text">
@@ -159,7 +159,7 @@
   </action>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

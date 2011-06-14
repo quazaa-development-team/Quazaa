@@ -98,6 +98,6 @@ public slots:
 	friend class CTimerObject;
 };
 
-extern CGlobalTimedSignalQueue Timer;
+extern CGlobalTimedSignalQueue SignalQueue;
 
 #endif // GLOBALTIMEDSIGNALQUEUE_H
