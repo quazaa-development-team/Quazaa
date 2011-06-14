@@ -26,7 +26,7 @@
 #include "ui_dialogaddrule.h"
 #include <QListView>
 
-DialogAddRule::DialogAddRule(QWidget* parent) :
+DialogAddRule::DialogAddRule(QWidget* parent, RuleType::Type ruleType) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAddRule)
 {
@@ -35,6 +35,37 @@ DialogAddRule::DialogAddRule(QWidget* parent) :
 	m_ui->comboBoxExpire->setView(new QListView());
 	m_ui->comboBoxHashType->setView(new QListView());
 	m_ui->comboBoxRuleType->setView(new QListView());
+	switch (ruleType)
+	{
+	case RuleType::Range:
+		m_ui->comboBoxRuleType->setCurrentIndex(1);
+		m_ui->stackedWidgetType->setCurrentIndex(1);
+		break;
+	case RuleType::Country:
+		m_ui->comboBoxRuleType->setCurrentIndex(2);
+		m_ui->stackedWidgetType->setCurrentIndex(2);
+		break;
+	case RuleType::Hash:
+		m_ui->comboBoxRuleType->setCurrentIndex(3);
+		m_ui->stackedWidgetType->setCurrentIndex(3);
+		break;
+	case RuleType::Any:
+		m_ui->comboBoxRuleType->setCurrentIndex(4);
+		m_ui->stackedWidgetType->setCurrentIndex(4);
+		break;
+	case RuleType::RegularExpression:
+		m_ui->comboBoxRuleType->setCurrentIndex(5);
+		m_ui->stackedWidgetType->setCurrentIndex(5);
+		break;
+	case RuleType::UserAgent:
+		m_ui->comboBoxRuleType->setCurrentIndex(6);
+		m_ui->stackedWidgetType->setCurrentIndex(6);
+		break;
+	default:
+		m_ui->comboBoxRuleType->setCurrentIndex(0);
+		m_ui->stackedWidgetType->setCurrentIndex(0);
+		break;
+	}
 }
 
 DialogAddRule::~DialogAddRule()
