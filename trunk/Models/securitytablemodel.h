@@ -61,7 +61,7 @@ public:
 
 	void sort(int column, Qt::SortOrder order);
 
-	CSecureRule* fromIndex(const QModelIndex& index);
+	//CSecureRule* fromIndex(const QModelIndex& index);
 
 private:
 	QWidget*		m_oContainer;
@@ -70,8 +70,8 @@ private:
 	bool			m_bNeedSorting;
 
 public slots:
-	void addNode(CSecureRule* pNode);
-	void removeNode(CSecureRule* pNode);
+	void addRule(CSecureRule* pRule);
+	void removeRule(CSecureRule* pRule);
 	void updateAll();
 };
 

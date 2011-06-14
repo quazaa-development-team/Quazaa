@@ -39,26 +39,29 @@ class WidgetNeighbours : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetNeighbours(QWidget* parent = 0);
-	~WidgetNeighbours();
-	void setModel(QAbstractItemModel* model);
-	QWidget* treeView();
-	void saveWidget();
 	QLabel* labelG2StatsIcon;
 	QLabel* labelG2Stats;
 	CNeighboursTableModel* neighboursList;
+
+public:
+	WidgetNeighbours(QWidget* parent = 0);
+	~WidgetNeighbours();
+
+	void		setModel(QAbstractItemModel* model);
+	QWidget*	treeView();
+	void		saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
 	Ui::WidgetNeighbours* ui;
-		QMenu *neighboursMenu;
+	QMenu *neighboursMenu;
 
 private slots:
 	void on_actionNetworkChatWith_triggered();
- void on_tableViewNeighbours_customContextMenuRequested(QPoint pos);
- void on_actionNeighbourDisconnect_triggered();
+	void on_tableViewNeighbours_customContextMenuRequested(QPoint pos);
+	void on_actionNeighbourDisconnect_triggered();
 	void on_actionNeighbourConnectTo_triggered();
 	void on_actionSettings_triggered();
 
