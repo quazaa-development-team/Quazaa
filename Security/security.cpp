@@ -8,6 +8,8 @@
 using namespace security;
 CSecurity Security;
 
+// Plz note: QApplication hasn't been started when the global definition creates this object,
+// so no qt specific calls (for example connect() or emit signal may be used over here.
 CSecurity::CSecurity()
 {
 	m_bDenyPolicy = false;
@@ -20,12 +22,6 @@ CSecurity::CSecurity()
 
 	m_bSaved = true;
 	m_bUseMissCache = false;
-
-	CIPRule* pRule = new CIPRule();
-	pRule->setIP( QHostAddress("1.1.1.1") );
-	pRule->m_sComment = "Dummy";
-
-	add( pRule );
 }
 
 CSecurity::~CSecurity()
