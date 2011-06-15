@@ -93,11 +93,11 @@ public slots:
 	void checkSchedule();
 
 	QUuid push(QObject* parent, const char* signal, quint64 tInterval, bool bMultiShot = true,
-			  QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
-			  QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
-			  QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
-			  QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
-			  QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+			   QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+			   QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+			   QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+			   QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+			   QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
 	bool pop(const QObject* parent, const char* signal);
 	bool pop(QUuid oTimer_ID);
