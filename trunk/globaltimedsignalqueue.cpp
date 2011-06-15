@@ -64,10 +64,10 @@ bool CTimerObject::emitSignal() const
 {
 	return ( m_sSignal.obj && m_sSignal.sName.toLatin1().data() &&
 			 QMetaObject::invokeMethod( m_sSignal.obj, m_sSignal.sName.toLatin1().data(), Qt::QueuedConnection,
-			 m_sSignal.val0, m_sSignal.val1, m_sSignal.val2,
-			 m_sSignal.val3, m_sSignal.val4, m_sSignal.val5,
-			 m_sSignal.val6, m_sSignal.val7, m_sSignal.val8,
-			 m_sSignal.val9 ) );
+										m_sSignal.val0, m_sSignal.val1, m_sSignal.val2,
+										m_sSignal.val3, m_sSignal.val4, m_sSignal.val5,
+										m_sSignal.val6, m_sSignal.val7, m_sSignal.val8,
+										m_sSignal.val9 ) );
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -165,11 +165,11 @@ void CGlobalTimedSignalQueue::checkSchedule()
 }
 
 QUuid CGlobalTimedSignalQueue::push(QObject* parent, const char* signal, quint64 tInterval, bool bMultiShot,
-								   QGenericArgument val0, QGenericArgument val1,
-								   QGenericArgument val2, QGenericArgument val3,
-								   QGenericArgument val4, QGenericArgument val5,
-								   QGenericArgument val6, QGenericArgument val7,
-								   QGenericArgument val8, QGenericArgument val9)
+									QGenericArgument val0, QGenericArgument val1,
+									QGenericArgument val2, QGenericArgument val3,
+									QGenericArgument val4, QGenericArgument val5,
+									QGenericArgument val6, QGenericArgument val7,
+									QGenericArgument val8, QGenericArgument val9)
 {
 	return push( new CTimerObject( parent, signal, tInterval, bMultiShot,
 								   val0, val1, val2, val3, val4, val5, val6, val7, val8, val9 ) );

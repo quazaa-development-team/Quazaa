@@ -80,11 +80,11 @@ bool CSecureRule::match(const QString&) const
 }
 /*bool CSecureRule::match(const CShareazaFile*) const
 {
-	return false;
+ return false;
 }
 bool CSecureRule::match(const CQuerySearch*, const QString&) const
 {
-	return false;
+ return false;
 }*/
 
 //////////////////////////////////////////////////////////////////////
@@ -166,22 +166,22 @@ void CSecureRule::load(CSecureRule* pRule, QDataStream &oStream, int)
 	case 1:
 		pRule = new CIPRule();
 		oStream >> sTmp;
-		{
-			QHostAddress oTmp( sTmp );
-			((CIPRule*)pRule)->setIP( oTmp );
-		}
-		break;
+	{
+		QHostAddress oTmp( sTmp );
+		((CIPRule*)pRule)->setIP( oTmp );
+	}
+	break;
 	case 2:
 		pRule = new CIPRangeRule();
 		oStream >> sTmp;
-		{
-			QHostAddress oTmp( sTmp );
-			((CIPRangeRule*)pRule)->setIP( oTmp );
-			quint32 nTmp;
-			oStream >> nTmp;
-			((CIPRangeRule*)pRule)->setMask( nTmp );
-		}
-		break;
+	{
+		QHostAddress oTmp( sTmp );
+		((CIPRangeRule*)pRule)->setIP( oTmp );
+		quint32 nTmp;
+		oStream >> nTmp;
+		((CIPRangeRule*)pRule)->setMask( nTmp );
+	}
+	break;
 	case 3:
 		pRule = new CCountryRule();
 		oStream >> sTmp;
@@ -214,7 +214,7 @@ void CSecureRule::load(CSecureRule* pRule, QDataStream &oStream, int)
 		break;
 	default:
 		// There is an empty or erroneous rule. Error handling (if necessary) should go here.
-//		theApp.Message( MSG_ERROR, IDS_SECURITY_ARCHIVE_RULE_LOAD_FAIL );
+		//		theApp.Message( MSG_ERROR, IDS_SECURITY_ARCHIVE_RULE_LOAD_FAIL );
 		break;
 	}
 
@@ -722,40 +722,40 @@ CHashRule& CHashRule::operator=(const CHashRule& pRule)
 /*bool CHashRule::match(const CShareazaFile* pFile) const
 {
 #ifdef _DEBUG
-	Q_ASSERT( pFile && m_nType == srContentHash );
+ Q_ASSERT( pFile && m_nType == srContentHash );
 #endif //_DEBUG
 
-	if ( !pFile )
-		return false;
+ if ( !pFile )
+  return false;
 
-	return match( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  : _T(""),
-				  pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : _T(""),
-				  pFile->m_oTiger ? pFile->m_oTiger.toUrn() : _T(""),
-				  pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   : _T(""),
-				  pFile->m_oMD5   ? pFile->m_oMD5.toUrn()   : _T("") );
+ return match( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  : _T(""),
+	  pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : _T(""),
+	  pFile->m_oTiger ? pFile->m_oTiger.toUrn() : _T(""),
+	  pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   : _T(""),
+	  pFile->m_oMD5   ? pFile->m_oMD5.toUrn()   : _T("") );
 }*/
 bool CHashRule::match(const QString& sSHA1,
-							const QString& sED2K,
-							const QString& sTTH ,
-							const QString& sBTIH,
-							const QString& sMD5  ) const
+					  const QString& sED2K,
+					  const QString& sTTH ,
+					  const QString& sBTIH,
+					  const QString& sMD5  ) const
 {
 #ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentHash );
 #endif //_DEBUG
 
 	bool result =
-		( sSHA1.isEmpty() || m_sSHA1.isEmpty() || !( m_sSHA1.compare( sSHA1 ) ) ) &&
-		( sED2K.isEmpty() || m_sED2K.isEmpty() || !( m_sED2K.compare( sED2K ) ) ) &&
-		( sBTIH.isEmpty() || m_sBTIH.isEmpty() || !( m_sBTIH.compare( sBTIH ) ) ) &&
-		( sTTH.isEmpty()  || m_sTTH.isEmpty()  || !( m_sTTH.compare ( sTTH  ) ) ) &&
-		( sMD5.isEmpty()  || m_sMD5.isEmpty()  || !( m_sMD5.compare ( sMD5  ) ) );
+			( sSHA1.isEmpty() || m_sSHA1.isEmpty() || !( m_sSHA1.compare( sSHA1 ) ) ) &&
+			( sED2K.isEmpty() || m_sED2K.isEmpty() || !( m_sED2K.compare( sED2K ) ) ) &&
+			( sBTIH.isEmpty() || m_sBTIH.isEmpty() || !( m_sBTIH.compare( sBTIH ) ) ) &&
+			( sTTH.isEmpty()  || m_sTTH.isEmpty()  || !( m_sTTH.compare ( sTTH  ) ) ) &&
+			( sMD5.isEmpty()  || m_sMD5.isEmpty()  || !( m_sMD5.compare ( sMD5  ) ) );
 
 	if( ( sSHA1.isEmpty() || m_sSHA1.isEmpty() ) &&
-		( sED2K.isEmpty() || m_sED2K.isEmpty() ) &&
-		( sBTIH.isEmpty() || m_sBTIH.isEmpty() ) &&
-		( sTTH.isEmpty()  || m_sTTH.isEmpty()  ) &&
-		( sMD5.isEmpty()  || m_sMD5.isEmpty()  ) )
+			( sED2K.isEmpty() || m_sED2K.isEmpty() ) &&
+			( sBTIH.isEmpty() || m_sBTIH.isEmpty() ) &&
+			( sTTH.isEmpty()  || m_sTTH.isEmpty()  ) &&
+			( sMD5.isEmpty()  || m_sMD5.isEmpty()  ) )
 	{
 		// If there is no pair of hashes we can compare, there is evidently no match.
 		return false;
@@ -768,56 +768,56 @@ bool CHashRule::match(const QString& sSHA1,
 	// Other implementation. As I don't know which one is faster, I'll keep it here for review.
 	/*BYTE count = 0;
 
-	if( !( m_sSHA1.isEmpty() || sSHA1.isEmpty() ) )
-	{
-		if( m_sSHA1 != sSHA1 )
-		{
-			return false;
-		}
-		count++;
-	}
-	if( !( m_sED2K.isEmpty() || sED2K.isEmpty() ) )
-	{
-		if( m_sED2K != sED2K )
-		{
-			return false;
-		}
-		count++;
-	}
-	if( !( m_sBTIH.isEmpty() || sBTIH.isEmpty() ) )
-	{
-		if( m_sBTIH != sBTIH )
-		{
-			return false;
-		}
-		count++;
-	}
-	if( !( m_sTTH.isEmpty() || sTTH.isEmpty() ) )
-	{
-		if( m_sTTH != sTTH )
-		{
-			return false;
-		}
-		count++;
-	}
-	if( !( m_sMD5.isEmpty() || sMD5.isEmpty() ) )
-	{
-		if( m_sMD5 != sMD5 )
-		{
-			return false;
-		}
-		count++;
-	}
+ if( !( m_sSHA1.isEmpty() || sSHA1.isEmpty() ) )
+ {
+  if( m_sSHA1 != sSHA1 )
+  {
+   return false;
+  }
+  count++;
+ }
+ if( !( m_sED2K.isEmpty() || sED2K.isEmpty() ) )
+ {
+  if( m_sED2K != sED2K )
+  {
+   return false;
+  }
+  count++;
+ }
+ if( !( m_sBTIH.isEmpty() || sBTIH.isEmpty() ) )
+ {
+  if( m_sBTIH != sBTIH )
+  {
+   return false;
+  }
+  count++;
+ }
+ if( !( m_sTTH.isEmpty() || sTTH.isEmpty() ) )
+ {
+  if( m_sTTH != sTTH )
+  {
+   return false;
+  }
+  count++;
+ }
+ if( !( m_sMD5.isEmpty() || sMD5.isEmpty() ) )
+ {
+  if( m_sMD5 != sMD5 )
+  {
+   return false;
+  }
+  count++;
+ }
 
-	// at least one pair of hashes needs to match for us to return true.
-	if( count )
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}*/
+ // at least one pair of hashes needs to match for us to return true.
+ if( count )
+ {
+  return true;
+ }
+ else
+ {
+  return false;
+ }*/
 }
 
 void CHashRule::setContentString(const QString& strContent)
@@ -832,15 +832,15 @@ void CHashRule::setContentString(const QString& strContent)
 	m_nHashWeight = 1;
 
 	bool bSHA1_set = false,
-		 bED2K_set = false,
-		 bBTIH_set = false,
-		 bTTH_set  = false,
-		 bMD5_set  = false,
-		 bSHA1_err = false,
-		 bED2K_err = false,
-		 bBTIH_err = false,
-		 bTTH_err  = false,
-		 bMD5_err  = false;
+			bED2K_set = false,
+			bBTIH_set = false,
+			bTTH_set  = false,
+			bMD5_set  = false,
+			bSHA1_err = false,
+			bED2K_err = false,
+			bBTIH_err = false,
+			bTTH_err  = false,
+			bMD5_err  = false;
 
 	pos1 = strContent.indexOf( "urn:sha1:" );
 	if( pos1 != -1 )
@@ -960,12 +960,12 @@ void CHashRule::setContentString(const QString& strContent)
 #ifdef _DEBUG
 	if( bSHA1_set || bTTH_set || bED2K_set || bBTIH_set || bMD5_set )
 	{
-//		if( bSHA1_err ||bTTH_err || bED2K_err || bBTIH_err || bMD5_err )
-//			theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_ERROR );
+		//		if( bSHA1_err ||bTTH_err || bED2K_err || bBTIH_err || bMD5_err )
+		//			theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_ERROR );
 	}
 	else
 	{
-//		theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_FAIL );
+		//		theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_FAIL );
 	}
 #endif //_DEBUG
 
@@ -1043,104 +1043,104 @@ CRegExpRule& CRegExpRule::operator=(const CRegExpRule& pRule)
 /*bool CRegExpRule::match(const CQuerySearch* pQuery, const QString& strContent) const
 {
 #ifdef _DEBUG
-	Q_ASSERT( pQuery && m_nType == srContentRegExp );
+ Q_ASSERT( pQuery && m_nType == srContentRegExp );
 #endif //_DEBUG
 
-	if ( !pQuery || m_sContent.isEmpty() )
-		return false;
+ if ( !pQuery || m_sContent.isEmpty() )
+  return false;
 
-	// Build a regular expression filter from the search query words.
-	// Returns an empty string if not applied or if the filter was invalid.
-	//
-	// Substitutes:
-	// <_> - inserts all query keywords;
-	// <1>..<9> - inserts query keyword number 1..9;
-	// <> - inserts next query keyword.
-	//
-	// For example regular expression:
-	//	.*(<2><1>)|(<_>).*
-	// for "music mp3" query will be converted to:
-	//	.*(mp3\s*music\s*)|(music\s*mp3\s*).*
-	//
-	// Note: \s* - matches any number of white-space symbols (including zero).
+ // Build a regular expression filter from the search query words.
+ // Returns an empty string if not applied or if the filter was invalid.
+ //
+ // Substitutes:
+ // <_> - inserts all query keywords;
+ // <1>..<9> - inserts query keyword number 1..9;
+ // <> - inserts next query keyword.
+ //
+ // For example regular expression:
+ //	.*(<2><1>)|(<_>).*
+ // for "music mp3" query will be converted to:
+ //	.*(mp3\s*music\s*)|(music\s*mp3\s*).*
+ //
+ // Note: \s* - matches any number of white-space symbols (including zero).
 
-	QString strFilter;
-	int nTotal = 0;
-	for ( LPCTSTR pszPattern = m_sContent; *pszPattern; ++pszPattern )
+ QString strFilter;
+ int nTotal = 0;
+ for ( LPCTSTR pszPattern = m_sContent; *pszPattern; ++pszPattern )
+ {
+  LPCTSTR pszLt = _tcschr( pszPattern, _T('<') );
+  if ( pszLt )
+  {
+   int nLength = pszLt - pszPattern;
+   if ( nLength )
+   {
+	strFilter.Append( pszPattern, nLength );
+   }
+
+   pszPattern = pszLt + 1;
+   bool bEnds = false;
+   bool bAll = ( *pszPattern == '_' );
+   for ( ; *pszPattern ; pszPattern++ )
+   {
+	if ( *pszPattern == '>' )
 	{
-		LPCTSTR pszLt = _tcschr( pszPattern, _T('<') );
-		if ( pszLt )
-		{
-			int nLength = pszLt - pszPattern;
-			if ( nLength )
-			{
-				strFilter.Append( pszPattern, nLength );
-			}
-
-			pszPattern = pszLt + 1;
-			bool bEnds = false;
-			bool bAll = ( *pszPattern == '_' );
-			for ( ; *pszPattern ; pszPattern++ )
-			{
-				if ( *pszPattern == '>' )
-				{
-					bEnds = true;
-					break;
-				}
-			}
-			if ( bEnds )
-			{
-				if ( bAll )
-				{
-					// Add all keywords at the "<_>" position
-					for ( CQuerySearch::const_iterator i = pQuery->begin();
-						i != pQuery->end(); ++i )
-					{
-						strFilter.AppendFormat( L"%s\\s*",
-							QString( i->first, (int)( i->second ) ) );
-					}
-				}
-				else
-				{
-					pszPattern--; // Go back
-					int nNumber = 0;
-
-					// Numbers from 1 to 9, no more
-					if ( _stscanf( &pszPattern[0], L"%i", &nNumber ) != 1 )
-						nNumber = ++nTotal;
-
-					int nWord = 1;
-					for ( CQuerySearch::const_iterator i = pQuery->begin();
-						i != pQuery->end(); ++i, ++nWord )
-					{
-						if ( nWord == nNumber )
-						{
-							strFilter.AppendFormat( L"%s\\s*",
-								QString( i->first, (int)( i->second ) ) );
-							break;
-						}
-					}
-					pszPattern++; // return to the last position
-				}
-			}
-			else
-			{
-				// no closing '>'
-				strFilter.Empty();
-				break;
-			}
-		}
-		else
-		{
-			strFilter += pszPattern;
-			break;
-		}
+	 bEnds = true;
+	 break;
 	}
+   }
+   if ( bEnds )
+   {
+	if ( bAll )
+	{
+	 // Add all keywords at the "<_>" position
+	 for ( CQuerySearch::const_iterator i = pQuery->begin();
+	  i != pQuery->end(); ++i )
+	 {
+	  strFilter.AppendFormat( L"%s\\s*",
+	   QString( i->first, (int)( i->second ) ) );
+	 }
+	}
+	else
+	{
+	 pszPattern--; // Go back
+	 int nNumber = 0;
 
-	if ( strFilter.isEmpty() )
-		return false;
+	 // Numbers from 1 to 9, no more
+	 if ( _stscanf( &pszPattern[0], L"%i", &nNumber ) != 1 )
+	  nNumber = ++nTotal;
 
-	return ( RegExp::match( strFilter, strContent ) != 0 ); // "!= 0" disables compiler warning.
+	 int nWord = 1;
+	 for ( CQuerySearch::const_iterator i = pQuery->begin();
+	  i != pQuery->end(); ++i, ++nWord )
+	 {
+	  if ( nWord == nNumber )
+	  {
+	   strFilter.AppendFormat( L"%s\\s*",
+		QString( i->first, (int)( i->second ) ) );
+	   break;
+	  }
+	 }
+	 pszPattern++; // return to the last position
+	}
+   }
+   else
+   {
+	// no closing '>'
+	strFilter.Empty();
+	break;
+   }
+  }
+  else
+  {
+   strFilter += pszPattern;
+   break;
+  }
+ }
+
+ if ( strFilter.isEmpty() )
+  return false;
+
+ return ( RegExp::match( strFilter, strContent ) != 0 ); // "!= 0" disables compiler warning.
 }*/
 
 void CRegExpRule::toXML( QDomElement& oXMLroot ) const
@@ -1188,7 +1188,7 @@ bool CUserAgentRule::match(const QString& strUserAgent) const
 
 	if( m_bRegExp )
 	{
-//		return ( RegExp::match( m_sContent, strUserAgent ) != 0 ); // "!= 0" disables compiler warning.
+		//		return ( RegExp::match( m_sContent, strUserAgent ) != 0 ); // "!= 0" disables compiler warning.
 	}
 	else
 	{
@@ -1308,27 +1308,27 @@ bool CContentRule::match(const QString& strContent) const
 /*bool CContentRule::match(const CShareazaFile* pFile) const
 {
 #ifdef _DEBUG
-	Q_ASSERT( pFile && ( m_nType == srContentAny || m_nType == srContentAll ) );
+ Q_ASSERT( pFile && ( m_nType == srContentAny || m_nType == srContentAll ) );
 #endif //_DEBUG
 
-	if ( pFile )
-	{
-		if ( pFile->m_nSize != 0 && pFile->m_nSize != SIZE_UNKNOWN )
-		{
-			if ( m_sName.lastIndexOf( '.' ) != -1 )
-			{
-				QString strExt = pFile->m_sName.mid( m_sName.lastIndexOf( '.' ) );
-				QString strExtFileSize = "size:%1:%2";
-				strExtFileSize.arg( strExt, QString( pFile->m_nSize ) );
-				if ( match( strExtFileSize ) )
-					return true;
-			}
-		}
+ if ( pFile )
+ {
+  if ( pFile->m_nSize != 0 && pFile->m_nSize != SIZE_UNKNOWN )
+  {
+   if ( m_sName.lastIndexOf( '.' ) != -1 )
+   {
+	QString strExt = pFile->m_sName.mid( m_sName.lastIndexOf( '.' ) );
+	QString strExtFileSize = "size:%1:%2";
+	strExtFileSize.arg( strExt, QString( pFile->m_nSize ) );
+	if ( match( strExtFileSize ) )
+	 return true;
+   }
+  }
 
-		if ( match( pFile->m_sName ) )
-			return true;
-	}
-	return false;
+  if ( match( pFile->m_sName ) )
+   return true;
+ }
+ return false;
 }*/
 
 void CContentRule::toXML( QDomElement& oXMLroot ) const

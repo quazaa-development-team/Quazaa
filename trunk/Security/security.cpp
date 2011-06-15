@@ -77,95 +77,142 @@ void CSecurity::add(CSecureRule* pRule)
 	switch ( type )
 	{
 	case CSecureRule::srContentAddress:
+	{
+		QString sIP = ((CIPRule*)pRule)->getIP().toString();
+		CAddressRuleMap::iterator i = m_IPs.find( sIP );
+
+		if ( i != m_IPs.end() ) // there is a potentially conflicting rule in our map
 		{
-			QString sIP = ((CIPRule*)pRule)->getIP().toString();
-			CAddressRuleMap::iterator i = m_IPs.find( sIP );
-
-			if ( i != m_IPs.end() ) // there is a potentially conflicting rule in our map
+			pExRule = (*i).second;
+			if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
+				 pExRule->m_nAction != pRule->m_nAction ||
+				 pExRule->m_tExpire != pRule->m_tExpire )
 			{
-				pExRule = (*i).second;
-				if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
-					 pExRule->m_nAction != pRule->m_nAction ||
-					 pExRule->m_tExpire != pRule->m_tExpire )
-				{
-					// remove conflicting rule if one of the important attributes
-					// differs from the rule we'd like to add
-					mutex.unlock();
-					remove( pExRule );
-					mutex.relock();
-				}
-				else
-				{
-					// the rule does not need to be added.
-					delete pRule;
-					pRule = NULL;
-					return;
-				}
-
-				pExRule = NULL;
+				// remove conflicting rule if one of the important attributes
+				// differs from the rule we'd like to add
+				mutex.unlock();
+				remove( pExRule );
+				mutex.relock();
+			}
+			else
+			{
+				// the rule does not need to be added.
+				delete pRule;
+				pRule = NULL;
+				return;
 			}
 
-			m_IPs[ sIP ] = (CIPRule*)pRule;
-
-			bNewAddress = true;
-
-			if ( !m_bUseMissCache )
-				evaluateCacheUsage();
+			pExRule = NULL;
 		}
-		break;
+
+		m_IPs[ sIP ] = (CIPRule*)pRule;
+
+		bNewAddress = true;
+
+		if ( !m_bUseMissCache )
+			evaluateCacheUsage();
+	}
+	break;
 
 	case CSecureRule::srContentAddressRange:
+	{
+		CIPRangeRuleList::iterator i = m_IPRanges.begin();
+		CIPRangeRule* pOldRule = NULL;
+
+		while ( i != m_IPRanges.end() )
 		{
-			CIPRangeRuleList::iterator i = m_IPRanges.begin();
-			CIPRangeRule* pOldRule = NULL;
-
-			while ( i != m_IPRanges.end() )
+			pOldRule = *i;
+			if ( pOldRule->m_oUUID == pRule->m_oUUID )
 			{
-				pOldRule = *i;
-				if ( pOldRule->m_oUUID == pRule->m_oUUID )
+				if ( pOldRule->m_nAction != pRule->m_nAction ||
+					 pOldRule->m_tExpire != pRule->m_tExpire ||
+					 pOldRule->getIP()   != ((CIPRangeRule*)pRule)->getIP() ||
+					 pOldRule->getMask() != ((CIPRangeRule*)pRule)->getMask() )
 				{
-					if ( pOldRule->m_nAction != pRule->m_nAction ||
-						 pOldRule->m_tExpire != pRule->m_tExpire ||
-						 pOldRule->getIP()   != ((CIPRangeRule*)pRule)->getIP() ||
-						 pOldRule->getMask() != ((CIPRangeRule*)pRule)->getMask() )
-					{
-						// remove conflicting rule if one of the important attributes
-						// differs from the rule we'd like to add
-						mutex.unlock();
-						remove( pOldRule );
-						mutex.relock();
-					}
-					else
-					{
-						// the rule does not need to be added.
-						delete pRule;
-						pRule = NULL;
-						return;
-					}
+					// remove conflicting rule if one of the important attributes
+					// differs from the rule we'd like to add
+					mutex.unlock();
+					remove( pOldRule );
+					mutex.relock();
 				}
-				pOldRule = NULL;
-				i++;
+				else
+				{
+					// the rule does not need to be added.
+					delete pRule;
+					pRule = NULL;
+					return;
+				}
 			}
-
-			m_IPRanges.push_front( (CIPRangeRule*)pRule );
-
-			bNewAddress = true;
-
-			if ( !m_bUseMissCache )
-				evaluateCacheUsage();
+			pOldRule = NULL;
+			i++;
 		}
-		break;
+
+		m_IPRanges.push_front( (CIPRangeRule*)pRule );
+
+		bNewAddress = true;
+
+		if ( !m_bUseMissCache )
+			evaluateCacheUsage();
+	}
+	break;
 
 	case CSecureRule::srContentCountry:
+	{
+		QString country = ((CCountryRule*)pRule)->getContentString();
+		CCountryRuleMap::iterator i = m_Countries.find( country );
+
+		bNewAddress = true;
+
+		if ( i != m_Countries.end() ) // there is a potentially conflicting rule in our map
 		{
-			QString country = ((CCountryRule*)pRule)->getContentString();
-			CCountryRuleMap::iterator i = m_Countries.find( country );
-
-			bNewAddress = true;
-
-			if ( i != m_Countries.end() ) // there is a potentially conflicting rule in our map
+			pExRule = (*i).second;
+			if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
+				 pExRule->m_nAction != pRule->m_nAction ||
+				 pExRule->m_tExpire != pRule->m_tExpire )
 			{
-				pExRule = (*i).second;
+				// remove conflicting rule if one of the important attributes
+				// differs from the rule we'd like to add
+				mutex.unlock();
+				remove( pExRule );
+				mutex.relock();
+			}
+			else
+			{
+				// the rule does not need to be added.
+				delete pRule;
+				pRule = NULL;
+				return;
+			}
+
+			pExRule = NULL;
+		}
+
+		m_Countries[ country ] = (CCountryRule*)pRule;
+
+		bNewAddress = true;
+
+		if ( !m_bUseMissCache )
+			evaluateCacheUsage();
+	}
+	break;
+
+	case CSecureRule::srContentHash:
+	{
+		CHashRule* pHashRule = (CHashRule*)pRule;
+
+		QString sSHA1 = pHashRule->getSHA1urn();
+		QString sED2K = pHashRule->getED2Kurn();
+		QString sBTIH = pHashRule->getBTIHurn();
+		QString sTTH  = pHashRule->getTTHurn();
+		QString sMD5  = pHashRule->getMD5urn();
+
+		CIterator i = getHash( sSHA1, sED2K, sTTH, sBTIH, sMD5 );
+
+		if ( i != getEnd() )
+		{
+			pExRule = *i;
+			if ( ((CHashRule*)*i)->getHashWeight() == pHashRule->getHashWeight() )
+			{
 				if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 					 pExRule->m_nAction != pRule->m_nAction ||
 					 pExRule->m_tExpire != pRule->m_tExpire )
@@ -178,178 +225,95 @@ void CSecurity::add(CSecureRule* pRule)
 				}
 				else
 				{
+					// there is no point on adding a rule for the same content twice,
+					// as that content is already blocked.
+					delete pRule;
+					pRule = NULL;
+					return;
+				}
+			}
+		}
+
+		// If there isn't a rule for this content or there is a rule for
+		// similar but not 100% identical content, add hashes to map.
+		if ( !( sSHA1.isEmpty() ) )
+			m_Hashes.insert( CHashPair( sSHA1, pHashRule ) );
+
+		if ( !( sED2K.isEmpty() ) )
+			m_Hashes.insert( CHashPair( sED2K, pHashRule ) );
+
+		if ( !( sBTIH.isEmpty() ) )
+			m_Hashes.insert( CHashPair( sBTIH, pHashRule ) );
+
+		if ( !( sTTH.isEmpty() ) )
+			m_Hashes.insert( CHashPair( sTTH, pHashRule ) );
+
+		if ( !( sMD5.isEmpty() ) )
+			m_Hashes.insert( CHashPair( sMD5, pHashRule ) );
+
+		bNewHit	= true;
+	}
+	break;
+
+	case CSecureRule::srContentRegExp:
+	{
+		CRegExpRuleList::iterator i = m_RegExpressions.begin();
+		CRegExpRule* pOldRule = NULL;
+
+		while ( i != m_RegExpressions.end() )
+		{
+			pOldRule = *i;
+			if ( (*i)->m_oUUID == pRule->m_oUUID )
+			{
+				if ( pOldRule->m_nAction != pRule->m_nAction ||
+					 pOldRule->m_tExpire != pRule->m_tExpire ||
+					 pOldRule->getContentString() != ((CRegExpRule*)pRule)->getContentString() )
+				{
+					// remove conflicting rule if one of the important attributes
+					// differs from the rule we'd like to add
+					mutex.unlock();
+					remove( pOldRule );
+					mutex.relock();
+				}
+				else
+				{
 					// the rule does not need to be added.
 					delete pRule;
 					pRule = NULL;
 					return;
 				}
 
-				pExRule = NULL;
+
 			}
-
-			m_Countries[ country ] = (CCountryRule*)pRule;
-
-			bNewAddress = true;
-
-			if ( !m_bUseMissCache )
-				evaluateCacheUsage();
+			pOldRule = NULL;
+			i++;
 		}
-		break;
 
-	case CSecureRule::srContentHash:
-		{
-			CHashRule* pHashRule = (CHashRule*)pRule;
+		m_RegExpressions.push_front( (CRegExpRule*)pRule );
 
-			QString sSHA1 = pHashRule->getSHA1urn();
-			QString sED2K = pHashRule->getED2Kurn();
-			QString sBTIH = pHashRule->getBTIHurn();
-			QString sTTH  = pHashRule->getTTHurn();
-			QString sMD5  = pHashRule->getMD5urn();
-
-			CIterator i = getHash( sSHA1, sED2K, sTTH, sBTIH, sMD5 );
-
-			if ( i != getEnd() )
-			{
-				pExRule = *i;
-				if ( ((CHashRule*)*i)->getHashWeight() == pHashRule->getHashWeight() )
-				{
-					if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
-						 pExRule->m_nAction != pRule->m_nAction ||
-						 pExRule->m_tExpire != pRule->m_tExpire )
-					{
-						// remove conflicting rule if one of the important attributes
-						// differs from the rule we'd like to add
-						mutex.unlock();
-						remove( pExRule );
-						mutex.relock();
-					}
-					else
-					{
-						// there is no point on adding a rule for the same content twice,
-						// as that content is already blocked.
-						delete pRule;
-						pRule = NULL;
-						return;
-					}
-				}
-			}
-
-			// If there isn't a rule for this content or there is a rule for
-			// similar but not 100% identical content, add hashes to map.
-			if ( !( sSHA1.isEmpty() ) )
-				m_Hashes.insert( CHashPair( sSHA1, pHashRule ) );
-
-			if ( !( sED2K.isEmpty() ) )
-				m_Hashes.insert( CHashPair( sED2K, pHashRule ) );
-
-			if ( !( sBTIH.isEmpty() ) )
-				m_Hashes.insert( CHashPair( sBTIH, pHashRule ) );
-
-			if ( !( sTTH.isEmpty() ) )
-				m_Hashes.insert( CHashPair( sTTH, pHashRule ) );
-
-			if ( !( sMD5.isEmpty() ) )
-				m_Hashes.insert( CHashPair( sMD5, pHashRule ) );
-
-			bNewHit	= true;
-		}
-		break;
-
-	case CSecureRule::srContentRegExp:
-		{
-			CRegExpRuleList::iterator i = m_RegExpressions.begin();
-			CRegExpRule* pOldRule = NULL;
-
-			while ( i != m_RegExpressions.end() )
-			{
-				pOldRule = *i;
-				if ( (*i)->m_oUUID == pRule->m_oUUID )
-				{
-					if ( pOldRule->m_nAction != pRule->m_nAction ||
-						 pOldRule->m_tExpire != pRule->m_tExpire ||
-						 pOldRule->getContentString() != ((CRegExpRule*)pRule)->getContentString() )
-					{
-						// remove conflicting rule if one of the important attributes
-						// differs from the rule we'd like to add
-						mutex.unlock();
-						remove( pOldRule );
-						mutex.relock();
-					}
-					else
-					{
-						// the rule does not need to be added.
-						delete pRule;
-						pRule = NULL;
-						return;
-					}
-
-
-				}
-				pOldRule = NULL;
-				i++;
-			}
-
-			m_RegExpressions.push_front( (CRegExpRule*)pRule );
-
-			bNewHit	= true;
-		}
-		break;
+		bNewHit	= true;
+	}
+	break;
 
 	case CSecureRule::srContentAll:
 	case CSecureRule::srContentAny:
+	{
+		CContentRuleList::iterator i = m_Contents.begin();
+		CContentRule* pOldRule = NULL;
+
+		while ( i != m_Contents.end() )
 		{
-			CContentRuleList::iterator i = m_Contents.begin();
-			CContentRule* pOldRule = NULL;
-
-			while ( i != m_Contents.end() )
+			pOldRule = *i;
+			if ( (*i)->m_oUUID == pRule->m_oUUID )
 			{
-				pOldRule = *i;
-				if ( (*i)->m_oUUID == pRule->m_oUUID )
-				{
-					if ( pOldRule->m_nAction != pRule->m_nAction ||
-						 pOldRule->m_tExpire != pRule->m_tExpire ||
-						 pOldRule->getContentString() != ((CRegExpRule*)pRule)->getContentString() )
-					{
-						// remove conflicting rule if one of the important attributes
-						// differs from the rule we'd like to add
-						mutex.unlock();
-						remove( pOldRule );
-						mutex.relock();
-					}
-					else
-					{
-						// the rule does not need to be added.
-						delete pRule;
-						pRule = NULL;
-						return;
-					}
-				}
-				pOldRule = NULL;
-				i++;
-			}
-
-			m_Contents.push_front( (CContentRule*)pRule );
-
-			bNewHit	= true;
-		}
-		break;
-
-	case CSecureRule::srContentUserAgent:
-		{
-			QString agent = ((CUserAgentRule*)pRule)->getContentString();
-			CUserAgentRuleMap::iterator i = m_UserAgents.find( agent );
-
-			if ( i != m_UserAgents.end() ) // there is a conflicting rule in our map
-			{
-				pExRule = (*i).second;
-				if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
-					 pExRule->m_nAction != pRule->m_nAction ||
-					 pExRule->m_tExpire != pRule->m_tExpire )
+				if ( pOldRule->m_nAction != pRule->m_nAction ||
+					 pOldRule->m_tExpire != pRule->m_tExpire ||
+					 pOldRule->getContentString() != ((CRegExpRule*)pRule)->getContentString() )
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
 					mutex.unlock();
-					remove( pExRule );
+					remove( pOldRule );
 					mutex.relock();
 				}
 				else
@@ -359,15 +323,51 @@ void CSecurity::add(CSecureRule* pRule)
 					pRule = NULL;
 					return;
 				}
+			}
+			pOldRule = NULL;
+			i++;
+		}
 
-				pExRule = NULL;
+		m_Contents.push_front( (CContentRule*)pRule );
+
+		bNewHit	= true;
+	}
+	break;
+
+	case CSecureRule::srContentUserAgent:
+	{
+		QString agent = ((CUserAgentRule*)pRule)->getContentString();
+		CUserAgentRuleMap::iterator i = m_UserAgents.find( agent );
+
+		if ( i != m_UserAgents.end() ) // there is a conflicting rule in our map
+		{
+			pExRule = (*i).second;
+			if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
+				 pExRule->m_nAction != pRule->m_nAction ||
+				 pExRule->m_tExpire != pRule->m_tExpire )
+			{
+				// remove conflicting rule if one of the important attributes
+				// differs from the rule we'd like to add
+				mutex.unlock();
+				remove( pExRule );
+				mutex.relock();
+			}
+			else
+			{
+				// the rule does not need to be added.
+				delete pRule;
+				pRule = NULL;
+				return;
 			}
 
-			m_UserAgents[ agent ] = (CUserAgentRule*)pRule;
-
-			bNewHit	= true;
+			pExRule = NULL;
 		}
-		break;
+
+		m_UserAgents[ agent ] = (CUserAgentRule*)pRule;
+
+		bNewHit	= true;
+	}
+	break;
 
 	default:
 		Q_ASSERT( false );
@@ -610,7 +610,7 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 {
 	if ( oAddress.isNull() )
 	{
-//		theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_IP_BAN );
+		//		theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_IP_BAN );
 		return;
 	}
 
@@ -671,8 +671,8 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 
 			if ( bMessage )
 			{
-//				theApp.Message( MSG_NOTICE, IDS_NETWORK_SECURITY_ALREADY_BLOCKED,
-//					oAddress.toString() );
+				//				theApp.Message( MSG_NOTICE, IDS_NETWORK_SECURITY_ALREADY_BLOCKED,
+				//					oAddress.toString() );
 			}
 
 			return;
@@ -733,8 +733,8 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 
 	if ( bMessage )
 	{
-//		theApp.Message( MSG_NOTICE, IDS_NETWORK_SECURITY_BLOCKED,
-//			(LPCTSTR)FromIP( AF_INET, &oAddress ) );
+		//		theApp.Message( MSG_NOTICE, IDS_NETWORK_SECURITY_BLOCKED,
+		//			(LPCTSTR)FromIP( AF_INET, &oAddress ) );
 	}
 }
 
@@ -742,114 +742,114 @@ void CSecurity::ban(const CFile& oFile, BanLength nBanLength, bool bMessage, con
 {
 	if ( oFile.isNull() )
 	{
-//		theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_FILE_BAN, "" );
+		//		theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_FILE_BAN, "" );
 		return;
 	}
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
 	/*QString sSHA1 = ( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  : "" );
-	QString sED2K = ( pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : "" );
-	QString sBTIH = ( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   : "" );
-	QString sTTH  = ( pFile->m_oTiger ? pFile->m_oTiger.toUrn() : "" );
-	QString sMD5  = ( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()   : "" );*/
+ QString sED2K = ( pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : "" );
+ QString sBTIH = ( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   : "" );
+ QString sTTH  = ( pFile->m_oTiger ? pFile->m_oTiger.toUrn() : "" );
+ QString sMD5  = ( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()   : "" );*/
 
 	/*// Lock section before working with iterators...
-	QMutexLocker mutex( &m_pSection );
+ QMutexLocker mutex( &m_pSection );
 
-	CIterator i = getHash( pFile->m );
+ CIterator i = getHash( pFile->m );
 
-	bool bAlreadyBlocked = ( i != getEnd() && ((CHashRule*)*i)->match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) );
+ bool bAlreadyBlocked = ( i != getEnd() && ((CHashRule*)*i)->match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) );
 
-	if ( bAlreadyBlocked )
-	{
-		if ( bMessage )
-		{
+ if ( bAlreadyBlocked )
+ {
+  if ( bMessage )
+  {
 //			theApp.Message( MSG_NOTICE, IDS_SECURITY_ERROR_FILE_ALREADY_BANNED, (LPCTSTR)pFile->m_sName );
-		}
-	}
-	else
-	{
-		CHashRule* pRule = new CHashRule();
+  }
+ }
+ else
+ {
+  CHashRule* pRule = new CHashRule();
 
-		switch ( nBanLength )
-		{
-		case banSession:
-			pRule->m_nExpire	= CSecureRule::srSession;
-			pRule->m_sComment	= "Session Ban";
-			break;
-		case ban5Mins:
-			pRule->m_nExpire	= tNow + 300;
-			pRule->m_sComment	= "Temp Ignore";
-			break;
-		case ban30Mins:
-			pRule->m_nExpire	= tNow + 1800;
-			pRule->m_sComment	= "Temp Ignore";
-			break;
-		case ban2Hours:
-			pRule->m_nExpire	= tNow + 7200;
-			pRule->m_sComment	= "Temp Ignore";
-			break;
-		case banWeek:
-			pRule->m_nExpire	= tNow + 604800;
-			pRule->m_sComment	= "Client Block";
-			break;
-		case banMonth:
-			pRule->m_nExpire	= tNow + 2592000; // 60*60*24*30 = 30 days
-			pRule->m_sComment	= "Quick IP Block";
-			break;
-		case banForever:
-			pRule->m_nExpire 	= CSecureRule::srIndefinite;
-			pRule->m_sComment	= "Ban";
-			break;
-		default:
-			pRule->m_nExpire	= CSecureRule::srSession;
-			pRule->m_sComment	= "Session Ban";
-			Q_ASSERT( false ); // this should never happen
-		}
+  switch ( nBanLength )
+  {
+  case banSession:
+   pRule->m_nExpire	= CSecureRule::srSession;
+   pRule->m_sComment	= "Session Ban";
+   break;
+  case ban5Mins:
+   pRule->m_nExpire	= tNow + 300;
+   pRule->m_sComment	= "Temp Ignore";
+   break;
+  case ban30Mins:
+   pRule->m_nExpire	= tNow + 1800;
+   pRule->m_sComment	= "Temp Ignore";
+   break;
+  case ban2Hours:
+   pRule->m_nExpire	= tNow + 7200;
+   pRule->m_sComment	= "Temp Ignore";
+   break;
+  case banWeek:
+   pRule->m_nExpire	= tNow + 604800;
+   pRule->m_sComment	= "Client Block";
+   break;
+  case banMonth:
+   pRule->m_nExpire	= tNow + 2592000; // 60*60*24*30 = 30 days
+   pRule->m_sComment	= "Quick IP Block";
+   break;
+  case banForever:
+   pRule->m_nExpire 	= CSecureRule::srIndefinite;
+   pRule->m_sComment	= "Ban";
+   break;
+  default:
+   pRule->m_nExpire	= CSecureRule::srSession;
+   pRule->m_sComment	= "Session Ban";
+   Q_ASSERT( false ); // this should never happen
+  }
 
-		if ( !( strComment.isEmpty() ) )
-			pRule->m_sComment = strComment;
+  if ( !( strComment.isEmpty() ) )
+   pRule->m_sComment = strComment;
 
-		// First try to get a pair of important hashes, if that doesn't work, ban everything there is.
-		if ( pFile->m_oSHA1 && pFile->m_oED2K ) // Most probable case if G2 hits are present
-		{
-			pRule->SetContentWords( pFile->m_oSHA1.toUrn()  + " " + pFile->m_oED2K.toUrn() );
-		}
-		else if ( pFile->m_oSHA1 && pFile->m_oTiger ) // Catches files with gnutella hits
-		{
-			pRule->SetContentWords( pFile->m_oSHA1.toUrn()  + " " + pFile->m_oTiger.toUrn() );
-		}
-		else if ( pFile->m_oED2K ) // eD2k network
-		{
-			pRule->SetContentWords( pFile->m_oED2K.toUrn() );
-		}
-		// other (these rules will not be really effective as they generally lack the main hashes)
-		else if ( pFile->m_oSHA1 || pFile->m_oTiger || pFile->m_oMD5 || pFile->m_oBTH )
-		{
-			pRule->SetContentWords(
-				( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  + " " : QString() ) +
-				( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   + " " : QString() ) +
-				( pFile->m_oTiger ? pFile->m_oTiger.toUrn() + " " : QString() ) +
-				( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()         : QString() ) );
-		}
-		else
-		{
-			// We got no valid hashes from that file.
-			QString str = " (File: " + pFile->m_sName + ")";
+  // First try to get a pair of important hashes, if that doesn't work, ban everything there is.
+  if ( pFile->m_oSHA1 && pFile->m_oED2K ) // Most probable case if G2 hits are present
+  {
+   pRule->SetContentWords( pFile->m_oSHA1.toUrn()  + " " + pFile->m_oED2K.toUrn() );
+  }
+  else if ( pFile->m_oSHA1 && pFile->m_oTiger ) // Catches files with gnutella hits
+  {
+   pRule->SetContentWords( pFile->m_oSHA1.toUrn()  + " " + pFile->m_oTiger.toUrn() );
+  }
+  else if ( pFile->m_oED2K ) // eD2k network
+  {
+   pRule->SetContentWords( pFile->m_oED2K.toUrn() );
+  }
+  // other (these rules will not be really effective as they generally lack the main hashes)
+  else if ( pFile->m_oSHA1 || pFile->m_oTiger || pFile->m_oMD5 || pFile->m_oBTH )
+  {
+   pRule->SetContentWords(
+	( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  + " " : QString() ) +
+	( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   + " " : QString() ) +
+	( pFile->m_oTiger ? pFile->m_oTiger.toUrn() + " " : QString() ) +
+	( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()         : QString() ) );
+  }
+  else
+  {
+   // We got no valid hashes from that file.
+   QString str = " (File: " + pFile->m_sName + ")";
 //			theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_FILE_BAN, (LPCTSTR)str );
-			return;
-		}
+   return;
+  }
 
-		mutex.unlock();
-		add( pRule );
+  mutex.unlock();
+  add( pRule );
 
-		if ( bMessage )
-		{
+  if ( bMessage )
+  {
 //			theApp.Message( MSG_NOTICE, IDS_NETWORK_SECURITY_BLOCKED,
 //				(LPCTSTR)pFile->m_sName );
-		}
-	}*/
+  }
+ }*/
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -898,44 +898,44 @@ bool CSecurity::isNewlyDenied(const QHostAddress& oAddress, const QString&)
 }
 /*bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const CQuerySearch* pQuery)
 {
-	if ( !pHit )
-		return false;
+ if ( !pHit )
+  return false;
 
-	CSecureRule* pRule = NULL;
-	QMutexLocker l( &m_pSection );
+ CSecureRule* pRule = NULL;
+ QMutexLocker l( &m_pSection );
 
-	// This should only be called if new rules have been loaded previously.
-	Q_ASSERT( m_bNewRulesLoaded );
+ // This should only be called if new rules have been loaded previously.
+ Q_ASSERT( m_bNewRulesLoaded );
 
-	if ( m_loadedHitRules.empty() )
-		return false;
+ if ( m_loadedHitRules.empty() )
+  return false;
 
-	CIterator i = m_loadedHitRules.begin();
+ CIterator i = m_loadedHitRules.begin();
 
-	while ( i != m_loadedHitRules.end() )
-	{
-		pRule = *i;
+ while ( i != m_loadedHitRules.end() )
+ {
+  pRule = *i;
 
-		if ( pRule->match( (CShareazaFile*)pHit ) || pRule->match( pHit->m_sName ) || pRule->match( pQuery, pHit->m_sName ) )
-		{
-			// The rules are new, so we don't need to check whether they are expired or not.
+  if ( pRule->match( (CShareazaFile*)pHit ) || pRule->match( pHit->m_sName ) || pRule->match( pQuery, pHit->m_sName ) )
+  {
+   // The rules are new, so we don't need to check whether they are expired or not.
 
-			pRule->count();
+   pRule->count();
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
-			{
-				return false;
-			}
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
-			{
-				return true;
-			}
-		}
-
-		i++;
-	}
-
+   if ( pRule->m_nAction == CSecureRule::srAccept )
+   {
 	return false;
+   }
+   else if ( pRule->m_nAction == CSecureRule::srDeny )
+   {
+	return true;
+   }
+  }
+
+  i++;
+ }
+
+ return false;
 }*/
 
 bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
@@ -972,16 +972,16 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
 	{
 		if ( quazaaSettings.Security.LogIPCheckHits )
 		{
-//			theApp.Message( MSG_DEBUG, "Skipped  repeat IP security check for %s (%i IPs cached; Call source: %s)",
-//							oAddress.toString(), m_Cache.size(), source );
+			//			theApp.Message( MSG_DEBUG, "Skipped  repeat IP security check for %s (%i IPs cached; Call source: %s)",
+			//							oAddress.toString(), m_Cache.size(), source );
 		}
 
 		return m_bDenyPolicy;
 	}
 	else if ( quazaaSettings.Security.LogIPCheckHits )
 	{
-//		theApp.Message( MSG_DEBUG, "Called first-time IP security check for %s (Call source: %s)"),
-//						oAddress.toString(), source );
+		//		theApp.Message( MSG_DEBUG, "Called first-time IP security check for %s (Call source: %s)"),
+		//						oAddress.toString(), source );
 	}
 
 	// Second, check the fast IP rules lookup map.
@@ -1068,7 +1068,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
 
 /*bool CSecurity::isDenied(const CQueryHit* pHit, const CQuerySearch* pQuery)
 {
-	return ( isDenied( (CShareazaFile*)pHit ) || isDenied( pHit->m_sName ) || isDenied( pQuery, pHit->m_sName ) );
+ return ( isDenied( (CShareazaFile*)pHit ) || isDenied( pHit->m_sName ) || isDenied( pQuery, pHit->m_sName ) );
 }*/
 
 // If the remote computer is running a client that is breaking GPL, causing problems, etc.
@@ -1441,7 +1441,7 @@ bool CSecurity::fromXML(const QDomDocument &oXMLroot)
 			}
 			else
 			{
-//				theApp.Message( MSG_ERROR, IDS_SECURITY_XML_RULE_IMPORT_FAIL );
+				//				theApp.Message( MSG_ERROR, IDS_SECURITY_XML_RULE_IMPORT_FAIL );
 			}
 		}
 	}
@@ -1564,190 +1564,190 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 	switch ( type )
 	{
 	case CSecureRule::srContentAddress:
+	{
+		QString sIP = ((CIPRule*)pRule)->getIP().toString();
+		CAddressRuleMap::iterator i = m_IPs.find( sIP );
+
+		if ( i != m_IPs.end() && (*i).second->m_oUUID == pRule->m_oUUID )
 		{
-			QString sIP = ((CIPRule*)pRule)->getIP().toString();
-			CAddressRuleMap::iterator i = m_IPs.find( sIP );
-
-			if ( i != m_IPs.end() && (*i).second->m_oUUID == pRule->m_oUUID )
-			{
-				m_IPs.erase( i );
-
-				if ( m_bUseMissCache )
-					evaluateCacheUsage();
-			}
-		}
-		break;
-
-	case CSecureRule::srContentAddressRange:
-		{
-			CIPRangeRuleList::iterator i = m_IPRanges.begin();
-
-			while ( i != m_IPRanges.end() )
-			{
-				if ( (*i)->m_oUUID == pRule->m_oUUID )
-				{
-					m_IPRanges.erase( i );
-					break;
-				}
-
-				i++;
-			}
+			m_IPs.erase( i );
 
 			if ( m_bUseMissCache )
 				evaluateCacheUsage();
 		}
-		break;
+	}
+	break;
+
+	case CSecureRule::srContentAddressRange:
+	{
+		CIPRangeRuleList::iterator i = m_IPRanges.begin();
+
+		while ( i != m_IPRanges.end() )
+		{
+			if ( (*i)->m_oUUID == pRule->m_oUUID )
+			{
+				m_IPRanges.erase( i );
+				break;
+			}
+
+			i++;
+		}
+
+		if ( m_bUseMissCache )
+			evaluateCacheUsage();
+	}
+	break;
 
 	case CSecureRule::srContentCountry:
+	{
+		QString country = pRule->getContentString();
+		CCountryRuleMap::iterator i = m_Countries.find( country );
+
+		if ( i != m_Countries.end() && (*i).second->m_oUUID == pRule->m_oUUID )
 		{
-			QString country = pRule->getContentString();
-			CCountryRuleMap::iterator i = m_Countries.find( country );
+			m_Countries.erase( i );
 
-			if ( i != m_Countries.end() && (*i).second->m_oUUID == pRule->m_oUUID )
-			{
-				m_Countries.erase( i );
-
-				if ( m_bUseMissCache )
-					evaluateCacheUsage();
-			}
+			if ( m_bUseMissCache )
+				evaluateCacheUsage();
 		}
-		break;
+	}
+	break;
 
 	case CSecureRule::srContentHash:
+	{
+		CHashRule* pHashRule = (CHashRule*)pRule;
+
+		QString sSHA1 = pHashRule->getSHA1urn();
+		QString sED2K = pHashRule->getED2Kurn();
+		QString sBTIH = pHashRule->getBTIHurn();
+		QString sTTH  = pHashRule->getTTHurn();
+		QString sMD5  = pHashRule->getMD5urn();
+
+		CHashRuleMap::iterator i;
+
+		i = m_Hashes.find( sSHA1 );
+
+		while ( i != m_Hashes.end() && (*i).second->getSHA1urn() == sSHA1 )
 		{
-			CHashRule* pHashRule = (CHashRule*)pRule;
-
-			QString sSHA1 = pHashRule->getSHA1urn();
-			QString sED2K = pHashRule->getED2Kurn();
-			QString sBTIH = pHashRule->getBTIHurn();
-			QString sTTH  = pHashRule->getTTHurn();
-			QString sMD5  = pHashRule->getMD5urn();
-
-			CHashRuleMap::iterator i;
-
-			i = m_Hashes.find( sSHA1 );
-
-			while ( i != m_Hashes.end() && (*i).second->getSHA1urn() == sSHA1 )
+			if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
 			{
-				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
-				{
-					m_Hashes.erase( i++ );
-				}
-				else
-				{
-					i++;
-				}
+				m_Hashes.erase( i++ );
 			}
-
-			i = m_Hashes.find( sED2K );
-
-			while ( i != m_Hashes.end() && (*i).second->getED2Kurn() == sED2K )
+			else
 			{
-				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
-				{
-					m_Hashes.erase( i++ );
-				}
-				else
-				{
-					i++;
-				}
-			}
-
-			i = m_Hashes.find( sBTIH );
-
-			while ( i != m_Hashes.end() && (*i).second->getBTIHurn() == sBTIH )
-			{
-				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
-				{
-					m_Hashes.erase( i++ );
-				}
-				else
-				{
-					i++;
-				}
-			}
-
-			i = m_Hashes.find( sTTH );
-
-			while ( i != m_Hashes.end() && (*i).second->getTTHurn() == sTTH )
-			{
-				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
-				{
-					m_Hashes.erase( i++ );
-				}
-				else
-				{
-					i++;
-				}
-			}
-
-			i = m_Hashes.find( sMD5 );
-
-			while ( i != m_Hashes.end() && (*i).second->getMD5urn() == sMD5 )
-			{
-				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
-				{
-					m_Hashes.erase( i++ );
-				}
-				else
-				{
-					i++;
-				}
+				i++;
 			}
 		}
-		break;
+
+		i = m_Hashes.find( sED2K );
+
+		while ( i != m_Hashes.end() && (*i).second->getED2Kurn() == sED2K )
+		{
+			if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
+			{
+				m_Hashes.erase( i++ );
+			}
+			else
+			{
+				i++;
+			}
+		}
+
+		i = m_Hashes.find( sBTIH );
+
+		while ( i != m_Hashes.end() && (*i).second->getBTIHurn() == sBTIH )
+		{
+			if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
+			{
+				m_Hashes.erase( i++ );
+			}
+			else
+			{
+				i++;
+			}
+		}
+
+		i = m_Hashes.find( sTTH );
+
+		while ( i != m_Hashes.end() && (*i).second->getTTHurn() == sTTH )
+		{
+			if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
+			{
+				m_Hashes.erase( i++ );
+			}
+			else
+			{
+				i++;
+			}
+		}
+
+		i = m_Hashes.find( sMD5 );
+
+		while ( i != m_Hashes.end() && (*i).second->getMD5urn() == sMD5 )
+		{
+			if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
+			{
+				m_Hashes.erase( i++ );
+			}
+			else
+			{
+				i++;
+			}
+		}
+	}
+	break;
 
 	case CSecureRule::srContentAll:
 	case CSecureRule::srContentAny:
+	{
+		CContentRuleList::iterator i = m_Contents.begin();
+
+		while ( i != m_Contents.end() )
 		{
-			CContentRuleList::iterator i = m_Contents.begin();
-
-			while ( i != m_Contents.end() )
+			if ( (*i)->m_oUUID == pRule->m_oUUID )
 			{
-				if ( (*i)->m_oUUID == pRule->m_oUUID )
-				{
-					m_Contents.erase( i );
-					break;
-				}
-
-				i++;
+				m_Contents.erase( i );
+				break;
 			}
+
+			i++;
 		}
-		break;
+	}
+	break;
 
 	case CSecureRule::srContentRegExp:
+	{
+		CRegExpRuleList::iterator i = m_RegExpressions.begin();
+
+		while ( i != m_RegExpressions.end() )
 		{
-			CRegExpRuleList::iterator i = m_RegExpressions.begin();
-
-			while ( i != m_RegExpressions.end() )
+			if ( (*i)->m_oUUID == pRule->m_oUUID )
 			{
-				if ( (*i)->m_oUUID == pRule->m_oUUID )
-				{
-					m_RegExpressions.erase( i );
-					break;
-				}
-
-				i++;
+				m_RegExpressions.erase( i );
+				break;
 			}
+
+			i++;
 		}
-		break;
+	}
+	break;
 
 	case CSecureRule::srContentUserAgent:
+	{
+		CRegExpRuleList::iterator i = m_RegExpressions.begin();
+
+		while ( i != m_RegExpressions.end() )
 		{
-			CRegExpRuleList::iterator i = m_RegExpressions.begin();
-
-			while ( i != m_RegExpressions.end() )
+			if ( (*i)->m_oUUID == pRule->m_oUUID )
 			{
-				if ( (*i)->m_oUUID == pRule->m_oUUID )
-				{
-					m_RegExpressions.erase( i );
-					break;
-				}
-
-				i++;
+				m_RegExpressions.erase( i );
+				break;
 			}
+
+			i++;
 		}
-		break;
+	}
+	break;
 
 	default:
 		Q_ASSERT( false );
@@ -1755,7 +1755,7 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 
 	// The only reciever, CSecurityTableModel, deals with releasing the memory.
 	emit ruleRemoved( pRule );
-//	delete pRule;
+	//	delete pRule;
 
 	m_bSaved = false;
 
@@ -1787,7 +1787,7 @@ bool CSecurity::isAgentDenied(const QString& strUserAgent)
 			pRule->count();
 
 			if ( pRule->m_tExpire > CSecureRule::srSession &&
-				pRule->m_tExpire < tNow + 300 )
+				 pRule->m_tExpire < tNow + 300 )
 				// Add 5 min penalty for early access
 				pRule->m_tExpire = tNow + 300;
 
@@ -1859,7 +1859,7 @@ bool CSecurity::isDenied(const QString& strContent)
 			pRule->count();
 
 			if ( pRule->m_tExpire > CSecureRule::srSession &&
-				pRule->m_tExpire < tNow + 300 )
+				 pRule->m_tExpire < tNow + 300 )
 				// Add 5 min penalty for early access
 				pRule->m_tExpire = tNow + 300;
 
@@ -1876,100 +1876,100 @@ bool CSecurity::isDenied(const QString& strContent)
 }
 /*bool CSecurity::isDenied(const CShareazaFile* pFile)
 {
-	if ( !pFile )
-		return false;
+ if ( !pFile )
+  return false;
 
-	// First get all available hashes.
-	QString sSHA1 = ( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  : "" );
-	QString sED2K = ( pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : "" );
-	QString sBTIH = ( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   : "" );
-	QString sTTH  = ( pFile->m_oTiger ? pFile->m_oTiger.toUrn() : "" );
-	QString sMD5  = ( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()   : "" );
+ // First get all available hashes.
+ QString sSHA1 = ( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  : "" );
+ QString sED2K = ( pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : "" );
+ QString sBTIH = ( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   : "" );
+ QString sTTH  = ( pFile->m_oTiger ? pFile->m_oTiger.toUrn() : "" );
+ QString sMD5  = ( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()   : "" );
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+ quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-	QMutexLocker mutex( &m_pSection );
+ QMutexLocker mutex( &m_pSection );
 
-	// Search for a rule matching these hashes
-	CIterator it = getHash( sSHA1, sED2K, sTTH, sBTIH, sMD5 );
+ // Search for a rule matching these hashes
+ CIterator it = getHash( sSHA1, sED2K, sTTH, sBTIH, sMD5 );
 
-	// If this rule matches the file, return denied.
-	if ( it != getEnd() && ((CHashRule*)*it)->match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) )
-		return true;
+ // If this rule matches the file, return denied.
+ if ( it != getEnd() && ((CHashRule*)*it)->match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) )
+  return true;
 
-	// Else check other content rules.
-	CContentRuleList::iterator i = m_Contents.begin();
-	while ( i != m_Contents.end() )
-	{
-		CContentRule* pRule = *i;
+ // Else check other content rules.
+ CContentRuleList::iterator i = m_Contents.begin();
+ while ( i != m_Contents.end() )
+ {
+  CContentRule* pRule = *i;
 
-		if ( pRule->match( pFile ) )
-		{
-			if ( pRule->isExpired( tNow ) )
-			{
-				mutex.unlock();
-				remove( pRule );
-				mutex.relock();
+  if ( pRule->match( pFile ) )
+  {
+   if ( pRule->isExpired( tNow ) )
+   {
+	mutex.unlock();
+	remove( pRule );
+	mutex.relock();
 
-				i = m_Contents.begin();
-				continue;
-			}
+	i = m_Contents.begin();
+	continue;
+   }
 
-			pRule->count();
+   pRule->count();
 
-			if ( pRule->m_nExpire > CSecureRule::srSession &&
-				pRule->m_nExpire < tNow + 300 )
-				// Add 5 min penalty for early access
-				pRule->m_nExpire = tNow + 300;
+   if ( pRule->m_nExpire > CSecureRule::srSession &&
+	pRule->m_nExpire < tNow + 300 )
+	// Add 5 min penalty for early access
+	pRule->m_nExpire = tNow + 300;
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
-				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
-				return true;
-		}
-
-		i++;
-	}
-
+   if ( pRule->m_nAction == CSecureRule::srAccept )
 	return false;
+   else if ( pRule->m_nAction == CSecureRule::srDeny )
+	return true;
+  }
+
+  i++;
+ }
+
+ return false;
 }*/
 /*bool CSecurity::isDenied(const CQuerySearch* pQuery, const QString& strContent)
 {
-	if ( !pQuery || strContent.isEmpty() )
-		return false;
+ if ( !pQuery || strContent.isEmpty() )
+  return false;
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+ quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-	QMutexLocker mutex( &m_pSection );
+ QMutexLocker mutex( &m_pSection );
 
-	CRegExpRuleList::iterator i = m_RegExpressions.begin();
-	while ( i != m_RegExpressions.end() )
-	{
-		CRegExpRule* pRule = *i;
+ CRegExpRuleList::iterator i = m_RegExpressions.begin();
+ while ( i != m_RegExpressions.end() )
+ {
+  CRegExpRule* pRule = *i;
 
-		if ( pRule->match( pQuery, strContent ) )
-		{
-			if ( pRule->isExpired( tNow ) )
-			{
-				mutex.unlock();
-				remove( pRule );
-				mutex.relock();
+  if ( pRule->match( pQuery, strContent ) )
+  {
+   if ( pRule->isExpired( tNow ) )
+   {
+	mutex.unlock();
+	remove( pRule );
+	mutex.relock();
 
-				i = m_RegExpressions.begin();
+	i = m_RegExpressions.begin();
 
-				continue;
-			}
+	continue;
+   }
 
-			pRule->count();
+   pRule->count();
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
-				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
-				return true;
-		}
-
-		i++;
-	}
-
+   if ( pRule->m_nAction == CSecureRule::srAccept )
 	return false;
+   else if ( pRule->m_nAction == CSecureRule::srDeny )
+	return true;
+  }
+
+  i++;
+ }
+
+ return false;
 }*/
