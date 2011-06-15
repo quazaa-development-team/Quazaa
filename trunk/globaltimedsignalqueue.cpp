@@ -71,10 +71,8 @@ QDateTime CGlobalTimedSignalQueue::m_oTime = QDateTime::currentDateTime();
 CGlobalTimedSignalQueue::CGlobalTimedSignalQueue(QObject *parent) :
 	QObject( parent )
 {
-	m_pTimer = new QTimer( this );
-
-	connect( m_pTimer, SIGNAL( timeout() ), this, SLOT( checkSchedule() ) );
-	m_pTimer->start( 1000 );
+	m_pTimer = NULL;
+	setup();
 }
 
 CGlobalTimedSignalQueue::~CGlobalTimedSignalQueue()
@@ -83,6 +81,14 @@ CGlobalTimedSignalQueue::~CGlobalTimedSignalQueue()
 	m_pTimer = NULL;
 
 	clear();
+}
+
+void CGlobalTimedSignalQueue::setup()
+{
+	if ( m_pTimer ) delete m_pTimer;
+	m_pTimer = new QTimer( this );
+	connect( m_pTimer, SIGNAL( timeout() ), this, SLOT( checkSchedule() ) );
+	m_pTimer->start( 1000 );
 }
 
 void CGlobalTimedSignalQueue::clear()

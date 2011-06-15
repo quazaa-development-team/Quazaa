@@ -31,6 +31,7 @@
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "dialoglanguage.h"
+#include "globaltimedsignalqueue.h"
 #include "qtsingleapplication/src/QtSingleApplication"
 
 #include "geoiplist.h"
@@ -82,10 +83,13 @@ int main(int argc, char *argv[])
 
 #endif
 
-        theApp.setApplicationName(QuazaaGlobals::APPLICATION_NAME());
-        theApp.setApplicationVersion(QuazaaGlobals::APPLICATION_VERSION_STRING());
-        theApp.setOrganizationDomain(QuazaaGlobals::APPLICATION_ORGANIZATION_DOMAIN());
-        theApp.setOrganizationName(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME());
+	theApp.setApplicationName(QuazaaGlobals::APPLICATION_NAME());
+	theApp.setApplicationVersion(QuazaaGlobals::APPLICATION_VERSION_STRING());
+	theApp.setOrganizationDomain(QuazaaGlobals::APPLICATION_ORGANIZATION_DOMAIN());
+	theApp.setOrganizationName(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME());
+
+	// Setup Qt elements of signal queue necessary for operation
+	SignalQueue.setup();
 
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();
@@ -96,8 +100,8 @@ int main(int argc, char *argv[])
 		dlgLanguage->exec();
 	}
 
-        quazaaSettings.translator.load(quazaaSettings.Language.File);
-        qApp->installTranslator(&quazaaSettings.translator);
+	quazaaSettings.translator.load(quazaaSettings.Language.File);
+	qApp->installTranslator(&quazaaSettings.translator);
 
 	//Create splash window
 	DialogSplash* dlgSplash = new DialogSplash();
@@ -149,8 +153,6 @@ int main(int argc, char *argv[])
 	{
 		MainWindow->show();
 	}
-
-
 
 	dlgSplash->updateProgress(90, QObject::tr("Loading Tray Icon..."));
 	qApp->processEvents();

@@ -74,6 +74,7 @@ public:
     explicit CGlobalTimedSignalQueue(QObject *parent = 0);
 	~CGlobalTimedSignalQueue();
 
+	void setup();
 	void clear();
 
 private:
