@@ -4,7 +4,7 @@
 #include <QBasicTimer>
 #include <QDateTime>
 #include <QList>
-#include <QMutexLocker>
+#include <QMutex>
 #include <QObject>
 #include <QTimerEvent>
 #include <QUuid>
