@@ -90,14 +90,14 @@ CGlobalTimedSignalQueue::~CGlobalTimedSignalQueue()
 
 void CGlobalTimedSignalQueue::setup()
 {
-	QMutexLocker l( m_pSection );
+	QMutexLocker l( &m_pSection );
 
 	m_oTimer.start( m_nPrecision, this );
 }
 
 void CGlobalTimedSignalQueue::clear()
 {
-	QMutexLocker l( m_pSection );
+	QMutexLocker l( &m_pSection );
 
 	while( !m_QueuedSignals.empty() )
 	{
@@ -112,7 +112,7 @@ void CGlobalTimedSignalQueue::setPrecision( quint64 tInterval )
 {
 	if ( tInterval )
 	{
-		QMutexLocker l( m_pSection );
+		QMutexLocker l( &m_pSection );
 
 		m_nPrecision = tInterval;
 		m_oTimer.start( m_nPrecision, this );
@@ -136,7 +136,7 @@ void CGlobalTimedSignalQueue::checkSchedule()
 	if ( m_QueuedSignals.empty() )
 		return;
 
-	QMutexLocker mutex( m_pSection );
+	QMutexLocker mutex( &m_pSection );
 
 	CTimerPair oTimedSignal = m_QueuedSignals.top();
 
@@ -177,7 +177,7 @@ QUuid CGlobalTimedSignalQueue::push(QObject* parent, const char* signal, quint64
 
 QUuid CGlobalTimedSignalQueue::push(CTimerObject* pTimedSignal)
 {
-	QMutexLocker l( m_pSection );
+	QMutexLocker l( &m_pSection );
 
 	CTimerPair oPair = CTimerPair( pTimedSignal->m_tTime, pTimedSignal );
 	m_QueuedSignals.push( oPair );
@@ -194,7 +194,7 @@ bool CGlobalTimedSignalQueue::pop(const QObject* parent, const char* signal)
 	QString sSignalName = signal;
 	bool bFound = false;
 
-	QMutexLocker l( m_pSection );
+	QMutexLocker l( &m_pSection );
 
 	for ( CSignalList::iterator i = m_Signals.begin(); i != m_Signals.end(); ++i )
 	{
@@ -214,7 +214,7 @@ bool CGlobalTimedSignalQueue::pop(const QObject* parent, const char* signal)
 
 bool CGlobalTimedSignalQueue::pop(QUuid oTimer_ID)
 {
-	QMutexLocker l( m_pSection );
+	QMutexLocker l( &m_pSection );
 
 	CSignalList::const_iterator i = m_Signals.begin();
 	while ( i != m_Signals.end() )
@@ -234,7 +234,7 @@ bool CGlobalTimedSignalQueue::pop(QUuid oTimer_ID)
 
 bool CGlobalTimedSignalQueue::setInterval(QUuid oTimer_ID, quint64 tInterval)
 {
-	QMutexLocker mutex( m_pSection );
+	QMutexLocker mutex( &m_pSection );
 
 	CSignalList::const_iterator i = m_Signals.begin();
 	while ( i != m_Signals.end() )
