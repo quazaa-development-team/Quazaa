@@ -175,7 +175,7 @@ namespace security
 		// The only reciever, CSecurityTableModel, deals with releasing the memory.
 		void			ruleAdded( CSecureRule* pRule);
 
-		// This is the original rule object that has been added. Note that deleting it would cause serious problems.
+		// This is the original rule object that has been added. Note that deleting it would cause internal problems.
 		void			ruleRemoved( CSecureRule* pRule);
 
 	private:

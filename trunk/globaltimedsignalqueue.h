@@ -1,14 +1,21 @@
 #ifndef GLOBALTIMEDSIGNALQUEUE_H
 #define GLOBALTIMEDSIGNALQUEUE_H
 
+#include <QBasicTimer>
 #include <QDateTime>
 #include <QList>
+#include <QMutexLocker>
 #include <QObject>
-#include <QTimer>
+#include <QTimerEvent>
 #include <QUuid>
 
 #include <queue>
 
+/* -------------------------------------------------------------------------------- */
+/* --------------------------------- CTimerObject --------------------------------- */
+/* -------------------------------------------------------------------------------- */
+// This is a helper class that allows to store signals and related relevant
+// information, as well as to emit the signals at a given time.
 class CTimerObject
 {
 private:
@@ -28,12 +35,12 @@ private:
 		QGenericArgument val9;
 	} m_sSignal;
 
+	QUuid	m_oUUID;
 	quint64	m_tTime;
 	quint64	m_tInterval;
 	bool	m_bMultiShot;
 
-	QUuid	m_oUUID;
-
+private:
 	CTimerObject(QObject* obj, const char* member, quint64 tInterval, bool bMultiShot = true,
 				 QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
 				 QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
@@ -45,30 +52,27 @@ private:
 	void resetTime();
 	bool emitSignal() const;
 
-public:
-	/*inline bool operator<(const CTimerObject& tObject) const
-	{
-		return this->m_tTime < tObject.m_tTime;
-	}*/
-
 	friend class CGlobalTimedSignalQueue;
 };
 
-
+/* -------------------------------------------------------------------------------- */
+/* ---------------------------- CGlobalTimedSignalQueue --------------------------- */
+/* -------------------------------------------------------------------------------- */
 class CGlobalTimedSignalQueue : public QObject
 {
     Q_OBJECT
+
 private:
 	typedef std::pair< quint64, CTimerObject* > CTimerPair;
 	typedef std::priority_queue< CTimerPair, std::deque<CTimerPair>, std::less<CTimerPair> > CSignalQueue;
 	typedef QList< CTimerObject* > CSignalList;
 
-	CSignalQueue m_QueuedSignals;
-	CSignalList m_Signals;
-
-	// todo: handle system clock changes...
-	QTimer*			m_pTimer;
-	static QDateTime m_oTime;
+	static QDateTime	m_oTime; // todo: handle system clock changes...
+	QBasicTimer			m_oTimer;
+	CSignalList			m_Signals;
+	QMutex				m_pSection;
+	quint64				m_nPrecision;
+	CSignalQueue		m_QueuedSignals;
 
 public:
     explicit CGlobalTimedSignalQueue(QObject *parent = 0);
@@ -76,14 +80,18 @@ public:
 
 	void setup();
 	void clear();
+	void setPrecision(quint64 tInterval);
+
+protected:
+	void timerEvent(QTimerEvent* event);
 
 private:
 	inline static quint64 getTimeInMs() { return m_oTime.toMSecsSinceEpoch(); }
 	QUuid push(CTimerObject* pTimedSignal);
-signals:
 
 public slots:
 	void checkSchedule();
+
 	QUuid push(QObject* parent, const char* signal, quint64 tInterval, bool bMultiShot = true,
 			  QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
 			  QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
