@@ -47,6 +47,8 @@ public:
 	CHash(QByteArray baRaw, CHash::Algorithm algo);
 	~CHash();
 
+	bool operator>(const CHash& pRule);
+	bool operator<(const CHash& pRule);
 	bool operator==(const CHash& pRule);
 	bool operator!=(const CHash& pRule);
 
@@ -55,18 +57,16 @@ public:
 	static CHash* FromURN(QString sURN);
 	static CHash* FromRaw(QByteArray& baRaw, CHash::Algorithm algo);
 
-	QString ToURN();
-	QString ToString();
-	QByteArray RawValue();
+	QString ToURN() const;
+	QString ToString() const;
+	QByteArray RawValue() const { return m_baRawValue; }
 
 	void AddData(const char* pData, quint32 nLength);
 	void AddData(QByteArray& baData);
 
+	inline CHash::Algorithm getAlgorithm() { return m_nHashAlgorithm; }
 	QString GetFamilyName();
-	void Finalize()
-	{
-		RawValue();
-	}
+	void Finalize();
 };
 
 #endif // HASH_H
