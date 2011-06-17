@@ -35,8 +35,6 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 
 	bool bRet = false;
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
-
 	if( sContent != pRule->getContentString() )
 	{
 		to_update.append( model->index( row, CONTENT ) );

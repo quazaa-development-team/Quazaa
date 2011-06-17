@@ -1,12 +1,38 @@
 #include "file.h"
 
 CFile::CFile(QObject *parent) :
-    QFile(parent)
+	QFile( parent )
 {
 	m_bNull = parent; // Set marker if created with default constructor CFile::CFile().
 }
 
-bool CFile::isTagged(QString sTag)
+CFile::CFile(const QString& name, QObject* parent) :
+	m_bNull( false )
+{
+	if ( exists() )
+		setTag( "physical" ); // Tag the file as being physically existant on HDD.
+}
+
+bool CFile::removeHash(CHash oHash)
+{
+	for ( QList< CHash >::Iterator i = m_Hashes.begin(); i != m_Hashes.end(); i++ )
+	{
+		if ( oHash == *i )
+		{
+			m_Hashes.erase( i );
+			return true;
+		}
+	}
+	return false;
+}
+
+// todo: implement this
+QString CFile::toURI(URIType type) const
+{
+	return QString();
+}
+
+bool CFile::isTagged(QString sTag) const
 {
 	QSet< QString >::ConstIterator i = m_Tags.find( sTag );
 
@@ -16,37 +42,10 @@ bool CFile::isTagged(QString sTag)
 	return false;
 }
 
-void CFile::addTag(QString sTag)
+void CFile::setFileName(const QString& name)
 {
-	m_Tags.insert( sTag );
-}
-
-bool CFile::removeTag(QString sTag)
-{
-	return m_Tags.remove( sTag );
-}
-
-QList< CHash* > CFile::getHashes()
-{
-	return m_Hashes;
-}
-
-void CFile::addHash( CHash* pHash )
-{
-	m_Hashes.push_back( pHash );
-}
-
-bool CFile::removeHash( CHash* pHash )
-{
-	for ( QList< CHash* >::Iterator i = m_Hashes.begin(); i != m_Hashes.end(); i++ )
-	{
-		if ( *pHash == **i )
-		{
-			m_Hashes.erase( i );
-			return true;
-		}
-	}
-	return false;
+	m_bNull = false;
+	QFile::setFileName( name );
 }
 
 

@@ -78,11 +78,11 @@ bool CSecureRule::match(const QString&) const
 {
 	return false;
 }
-/*bool CSecureRule::match(const CShareazaFile*) const
+bool CSecureRule::match(const CFile&) const
 {
  return false;
 }
-bool CSecureRule::match(const CQuerySearch*, const QString&) const
+/*bool CSecureRule::match(const CQuerySearch*, const QString&) const
 {
  return false;
 }*/
@@ -682,7 +682,6 @@ void CCountryRule::toXML( QDomElement& oXMLroot ) const
 
 CHashRule::CHashRule(bool)
 {
-	m_nHashWeight = 1;
 	m_nType = srContentHash;
 }
 
@@ -694,13 +693,7 @@ CHashRule& CHashRule::operator=(const CHashRule& pRule)
 
 	this->CSecureRule::operator=( pRule );
 
-	m_sSHA1 = pRule.m_sSHA1;
-	m_sED2K = pRule.m_sED2K;
-	m_sBTIH = pRule.m_sBTIH;
-	m_sTTH  = pRule.m_sTTH;
-	m_sMD5  = pRule.m_sMD5;
-
-	m_nHashWeight = pRule.m_nHashWeight;
+	m_Hashes = pRule.m_Hashes;
 
 	return *this;
 }
@@ -719,290 +712,138 @@ CHashRule& CHashRule::operator=(const CHashRule& pRule)
 //	return !( *this == pRule );
 //}
 
-/*bool CHashRule::match(const CShareazaFile* pFile) const
+QList< CHash > CHashRule::getHashes() const
 {
-#ifdef _DEBUG
- Q_ASSERT( pFile && m_nType == srContentHash );
-#endif //_DEBUG
-
- if ( !pFile )
-  return false;
-
- return match( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  : _T(""),
-	  pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : _T(""),
-	  pFile->m_oTiger ? pFile->m_oTiger.toUrn() : _T(""),
-	  pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   : _T(""),
-	  pFile->m_oMD5   ? pFile->m_oMD5.toUrn()   : _T("") );
-}*/
-bool CHashRule::match(const QString& sSHA1,
-					  const QString& sED2K,
-					  const QString& sTTH ,
-					  const QString& sBTIH,
-					  const QString& sMD5  ) const
-{
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentHash );
-#endif //_DEBUG
-
-	bool result =
-			( sSHA1.isEmpty() || m_sSHA1.isEmpty() || !( m_sSHA1.compare( sSHA1 ) ) ) &&
-			( sED2K.isEmpty() || m_sED2K.isEmpty() || !( m_sED2K.compare( sED2K ) ) ) &&
-			( sBTIH.isEmpty() || m_sBTIH.isEmpty() || !( m_sBTIH.compare( sBTIH ) ) ) &&
-			( sTTH.isEmpty()  || m_sTTH.isEmpty()  || !( m_sTTH.compare ( sTTH  ) ) ) &&
-			( sMD5.isEmpty()  || m_sMD5.isEmpty()  || !( m_sMD5.compare ( sMD5  ) ) );
-
-	if( ( sSHA1.isEmpty() || m_sSHA1.isEmpty() ) &&
-			( sED2K.isEmpty() || m_sED2K.isEmpty() ) &&
-			( sBTIH.isEmpty() || m_sBTIH.isEmpty() ) &&
-			( sTTH.isEmpty()  || m_sTTH.isEmpty()  ) &&
-			( sMD5.isEmpty()  || m_sMD5.isEmpty()  ) )
+	QList< CHash > result;
+	foreach ( CHash oHash, m_Hashes )
 	{
-		// If there is no pair of hashes we can compare, there is evidently no match.
-		return false;
-	}
-	else
-	{
-		return result;
+		result.append( oHash );
 	}
 
-	// Other implementation. As I don't know which one is faster, I'll keep it here for review.
-	/*BYTE count = 0;
-
- if( !( m_sSHA1.isEmpty() || sSHA1.isEmpty() ) )
- {
-  if( m_sSHA1 != sSHA1 )
-  {
-   return false;
-  }
-  count++;
- }
- if( !( m_sED2K.isEmpty() || sED2K.isEmpty() ) )
- {
-  if( m_sED2K != sED2K )
-  {
-   return false;
-  }
-  count++;
- }
- if( !( m_sBTIH.isEmpty() || sBTIH.isEmpty() ) )
- {
-  if( m_sBTIH != sBTIH )
-  {
-   return false;
-  }
-  count++;
- }
- if( !( m_sTTH.isEmpty() || sTTH.isEmpty() ) )
- {
-  if( m_sTTH != sTTH )
-  {
-   return false;
-  }
-  count++;
- }
- if( !( m_sMD5.isEmpty() || sMD5.isEmpty() ) )
- {
-  if( m_sMD5 != sMD5 )
-  {
-   return false;
-  }
-  count++;
- }
-
- // at least one pair of hashes needs to match for us to return true.
- if( count )
- {
-  return true;
- }
- else
- {
-  return false;
- }*/
+	return result;
 }
 
-void CHashRule::setContentString(const QString& strContent)
+void CHashRule::setContent(const QList< CHash >& hashes)
 {
 #ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentHash );
 #endif //_DEBUG
 
-	QString tmp;
+	m_sContent = "";
+
+	foreach ( CHash oHash, hashes )
+	{
+		m_Hashes.insert( oHash.getAlgorithm(), oHash );
+		m_sContent += oHash.ToURN();
+		m_sContent += " ";
+	}
+
+	m_sContent = m_sContent.trimmed();
+}
+
+void CHashRule::setContentString(const QString& sContent)
+{
+	QString tmp, sHash;
 	int pos1, pos2;
+	QList< CHash > lHashes;
 
-	m_nHashWeight = 1;
+	QString prefixes[5] = { "urn:sha1:", "urn:ed2k:", "urn:tth:", "urn:btih:", "urn:md5:" };
+	quint8 lengths[5] = { 32 + 9, 32 + 9, 39 + 8, 32 + 9, 32 + 8 };
 
-	bool bSHA1_set = false,
-			bED2K_set = false,
-			bBTIH_set = false,
-			bTTH_set  = false,
-			bMD5_set  = false,
-			bSHA1_err = false,
-			bED2K_err = false,
-			bBTIH_err = false,
-			bTTH_err  = false,
-			bMD5_err  = false;
-
-	pos1 = strContent.indexOf( "urn:sha1:" );
-	if( pos1 != -1 )
+	for ( quint8 i = 0; i < 5; ++i )
 	{
-		tmp  = strContent.mid( pos1 );
-		pos2 = tmp.indexOf( ' ' );
-		if( pos2 == 32 + 9 )
+		sHash = "";
+
+		pos1 = sContent.indexOf( prefixes[i] );
+		if ( pos1 != -1 )
 		{
-			m_sSHA1 = tmp.left( pos2 );
-			m_nHashWeight += 11;
-			bSHA1_set = true;
-		}
-		else if( pos2 == -1 && tmp.length() == 32 + 9 )
-		{
-			m_sSHA1 = tmp;
-			m_nHashWeight *= 11;
-			bSHA1_set = true;
-		}
-		else
-		{
-			bSHA1_err = true;
+			tmp  = sContent.mid( pos1 );
+			pos2 = tmp.indexOf( ' ' );
+
+			if ( pos2 == lengths[i] )
+			{
+				sHash = tmp.left( pos2 );
+			}
+			else if ( pos2 == -1 && tmp.length() == lengths[i] )
+			{
+				sHash = tmp;
+			}
+			else
+			{
+//				theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_ERROR );
+				continue;
+			}
+
+			lHashes.append( *CHash::FromURN( sHash ) );
 		}
 	}
 
-	pos1 = strContent.indexOf( "urn:ed2k:" );
-	if( pos1 != -1 )
+	if ( !lHashes.isEmpty() )
 	{
-		tmp  = strContent.mid( pos1 );
-		pos2 = tmp.indexOf( ' ' );
-		if( pos2 == 32 + 9 )
-		{
-			m_sED2K = tmp.left( pos2 );
-			m_nHashWeight *= 7;
-			bED2K_set = true;
-		}
-		else if( pos2 == -1 && tmp.length() == 32 + 9 )
-		{
-			m_sED2K = tmp;
-			m_nHashWeight *= 7;
-			bED2K_set = true;
-		}
-		else
-		{
-			bED2K_err = true;
-		}
-	}
-
-	pos1 = strContent.indexOf( "urn:tth:" ); // is this prefix correct?
-	if( pos1 != -1 )
-	{
-		tmp  = strContent.mid( pos1 );
-		pos2 = tmp.indexOf( ' ' );
-		if( pos2 == 39 + 8 )
-		{
-			m_sTTH = tmp.left( pos2 );
-			m_nHashWeight *= 5;
-			bTTH_set = true;
-		}
-		else if( pos2 == -1 && tmp.length() == 39 + 8 )
-		{
-			m_sTTH = tmp;
-			m_nHashWeight *= 5;
-			bTTH_set = true;
-		}
-		else
-		{
-			bTTH_err = true;
-		}
-	}
-
-	pos1 = strContent.indexOf( "urn:btih:" ); // is this prefix correct?
-	if( pos1 != -1 )
-	{
-		tmp  = strContent.mid( pos1 );
-		pos2 = tmp.indexOf( ' ' );
-		if( pos2 == 32 + 9 )
-		{
-			m_sBTIH = tmp.left( pos2 );
-			m_nHashWeight *= 3;
-			bBTIH_set = true;
-		}
-		else if( pos2 == -1 && tmp.length() == 32 + 9 )
-		{
-			m_sBTIH = tmp;
-			m_nHashWeight *= 3;
-			bBTIH_set = true;
-		}
-		else
-		{
-			bBTIH_err = true;
-		}
-	}
-
-	pos1 = strContent.indexOf( "urn:md5:" );
-	if( pos1 != -1 )
-	{
-		tmp  = strContent.mid( pos1 );
-		pos2 = tmp.indexOf( ' ' );
-		if( pos2 == 32 + 8 )
-		{
-			m_sMD5 = tmp.left( pos2 );
-			m_nHashWeight *= 2;
-			bMD5_set = true;
-		}
-		else if( pos2 == -1 && tmp.length() == 32 + 8 )
-		{
-			m_sMD5 = tmp;
-			m_nHashWeight *= 2;
-			bMD5_set = true;
-		}
-		else
-		{
-			bMD5_err = true;
-		}
-	}
-
-#ifdef _DEBUG
-	if( bSHA1_set || bTTH_set || bED2K_set || bBTIH_set || bMD5_set )
-	{
-		//		if( bSHA1_err ||bTTH_err || bED2K_err || bBTIH_err || bMD5_err )
-		//			theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_ERROR );
+		setContent( lHashes );
 	}
 	else
 	{
-		//		theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_FAIL );
+//		theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_FAIL );
 	}
+}
+
+bool CHashRule::hashEquals(CHashRule& oRule) const
+{
+	if ( oRule.m_Hashes.size() != m_Hashes.size() )
+		return false;
+
+	QMap< CHash::Algorithm, CHash >::const_iterator i, j;
+
+	i = m_Hashes.begin();
+	j = oRule.m_Hashes.begin();
+
+	while ( i != m_Hashes.end() )
+	{
+		if ( *i != *j )
+			return false;
+
+		++i;
+		++j;
+	}
+
+	return true;
+}
+
+bool CHashRule::match(const CFile& oFile) const
+{
+#ifdef _DEBUG
+	Q_ASSERT( m_nType == srContentHash );
 #endif //_DEBUG
 
-	// Setting up content string.
-	m_sContent.clear();
+	if ( oFile.isNull() )
+		return false;
 
-	if( m_sSHA1.length() )
+	return match( oFile.getHashes() );
+}
+bool CHashRule::match(const QList< CHash >& hashes) const
+{
+#ifdef _DEBUG
+	Q_ASSERT( m_nType == srContentHash );
+#endif //_DEBUG
+
+	QMap< CHash::Algorithm, CHash >::const_iterator i;
+	quint8 nCount = 0;
+
+	foreach ( CHash oHash, hashes )
 	{
-		m_sContent += m_sSHA1;
-		m_sContent += " ";
+		i = m_Hashes.find( oHash.getAlgorithm() );
+
+		if ( i != m_Hashes.end() )
+		{
+			++nCount;
+
+			if ( oHash != *i )
+				return false;
+		}
 	}
 
-	if( m_sED2K.length() )
-	{
-		m_sContent += m_sED2K;
-		m_sContent += " ";
-	}
-
-	if( m_sBTIH.length() )
-	{
-		m_sContent += m_sBTIH;
-		m_sContent += " ";
-	}
-
-	if( m_sTTH.length() )
-	{
-		m_sContent += m_sTTH;
-		m_sContent += " ";
-	}
-
-	if( m_sMD5.length() )
-	{
-		m_sContent += m_sMD5;
-		m_sContent += " ";
-	}
-
-	m_sContent.trimmed();
+	return nCount;
 }
 
 void CHashRule::toXML( QDomElement& oXMLroot ) const
@@ -1304,6 +1145,13 @@ bool CContentRule::match(const QString& strContent) const
 
 	return false;
 }
+
+// TODO: Implement
+bool CContentRule::match(const CFile& oFile) const
+{
+	return false;
+}
+
 // TODO: use method to safely find out extension instead of only looking for last dot in filename
 /*bool CContentRule::match(const CShareazaFile* pFile) const
 {

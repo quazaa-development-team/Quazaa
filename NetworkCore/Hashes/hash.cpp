@@ -83,22 +83,22 @@ CHash::~CHash()
 	}
 }
 
-bool CHash::operator>(const CHash& pHash)
+bool CHash::operator>(const CHash& pHash) const
 {
 	return ToString() > pHash.ToString();
 }
 
-bool CHash::operator<(const CHash& pHash)
+bool CHash::operator<(const CHash& pHash) const
 {
 	return ToString() < pHash.ToString();
 }
 
-bool CHash::operator==(const CHash& pHash)
+bool CHash::operator==(const CHash& pHash) const
 {
 	return m_bFinalized == pHash.m_bFinalized && m_nHashAlgorithm == pHash.m_nHashAlgorithm && m_baRawValue == pHash.m_baRawValue;
 }
 
-bool CHash::operator!=(const CHash& pHash)
+bool CHash::operator!=(const CHash& pHash) const
 {
 	return !( *this == pHash );
 }
@@ -170,9 +170,10 @@ QString CHash::ToURN() const
 	case CHash::SHA1:
 		return QString( "urn:sha1:" ) + ToString();
 	case CHash::MD5:
-		return QString( "urn:md5:" ) + ToString();
+//		return QString( "urn:md5:" ) + ToString();
 	case CHash::MD4:
-		return QString( "urn:ed2khash:" ) + ToString();
+//		return QString( "urn:ed2khash:" ) + ToString();
+		break;
 	}
 	return QString();
 }

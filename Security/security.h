@@ -185,11 +185,7 @@ namespace security
 		bool			load(QString sPath);
 
 		// this returns the first rule found. Note that there might be others, too.
-		CIterator		getHash(const QString& sSHA1,
-								const QString& sED2K,
-								const QString& sTTH  = "",
-								const QString& sBTIH = "",
-								const QString& sMD5  = "") const;
+		CIterator		getHash(const QList< CHash >& hashes) const;
 		CIterator		getUUID(const QUuid& oUUID) const;
 
 		CIterator		remove(CIterator i);

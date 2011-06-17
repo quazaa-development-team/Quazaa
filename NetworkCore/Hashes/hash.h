@@ -47,10 +47,10 @@ public:
 	CHash(QByteArray baRaw, CHash::Algorithm algo);
 	~CHash();
 
-	bool operator>(const CHash& pRule);
-	bool operator<(const CHash& pRule);
-	bool operator==(const CHash& pRule);
-	bool operator!=(const CHash& pRule);
+	bool operator>(const CHash& pRule) const;
+	bool operator<(const CHash& pRule) const;
+	bool operator==(const CHash& pRule) const;
+	bool operator!=(const CHash& pRule) const;
 
 	static int	ByteCount(CHash::Algorithm algo);
 
@@ -59,14 +59,25 @@ public:
 
 	QString ToURN() const;
 	QString ToString() const;
-	QByteArray RawValue() const { return m_baRawValue; }
+	inline QByteArray RawValue() const;
 
 	void AddData(const char* pData, quint32 nLength);
 	void AddData(QByteArray& baData);
 
-	inline CHash::Algorithm getAlgorithm() { return m_nHashAlgorithm; }
+	inline CHash::Algorithm getAlgorithm() const;
 	QString GetFamilyName();
 	void Finalize();
+
 };
+
+QByteArray CHash::RawValue() const
+{
+	return m_baRawValue;
+}
+
+CHash::Algorithm CHash::getAlgorithm() const
+{
+	return m_nHashAlgorithm;
+}
 
 #endif // HASH_H
