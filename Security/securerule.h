@@ -42,7 +42,6 @@ public:
 	virtual inline	~CSecureRule() {}
 
 	// Operators
-	CSecureRule&	operator=(const CSecureRule& pRule);
 	bool			operator==(const CSecureRule& pRule);
 
 	virtual CSecureRule*	getCopy() const;
@@ -75,6 +74,8 @@ public:
 	virtual void		toXML( QDomElement& oXMLroot ) const;
 
 protected:
+	CSecureRule&	operator=(const CSecureRule& pRule);
+
 	// Contains default code for XML generation.
 	static void		toXML(const CSecureRule& oRule, QDomElement& oXMLelement);
 
@@ -90,9 +91,6 @@ private:
 public:
 	CIPRule(bool bCreate = true);
 
-	// Operators
-	CIPRule&			operator=(const CIPRule& pRule);
-
 	inline void			setIP( const QHostAddress& oIP ) { m_oIP = oIP; m_sContent = oIP.toString(); }
 	inline QHostAddress getIP() const { return m_oIP; }
 
@@ -102,6 +100,8 @@ public:
 	void				toXML( QDomElement& oXMLroot ) const;
 
 private:
+	CIPRule&			operator=(const CIPRule& pRule);
+
 	inline CIPRule(const CIPRule& pRule) { *this = pRule; }
 };
 
@@ -114,9 +114,6 @@ private:
 public:
 	CIPRangeRule(bool bCreate = true);
 
-	// Operators
-	CIPRangeRule&		operator=(const CIPRangeRule& pRule);
-
 	inline void			setIP( const QHostAddress& oIP ) { m_oIP = oIP; m_sContent = m_oIP.toString() + "/" + m_oMask.toString(); }
 	inline QHostAddress	getIP() const { return m_oIP; }
 	inline void			setMask( const quint32& nMask ) { m_oMask = QHostAddress( nMask ); m_sContent = m_oIP.toString() + "/" + m_oMask.toString(); }
@@ -126,7 +123,10 @@ public:
 
 	bool				match(const QHostAddress& oAddress) const;
 	void				toXML( QDomElement& oXMLroot ) const;
+
 private:
+	CIPRangeRule&		operator=(const CIPRangeRule& pRule);
+
 	inline CIPRangeRule(const CIPRangeRule& oRule) { *this = oRule; }
 };
 
@@ -135,16 +135,16 @@ class CCountryRule : public CSecureRule
 public:
 	CCountryRule(bool bCreate = true);
 
-	// Operator
-	CCountryRule&		operator=(const CCountryRule& pRule);
-
 	inline CSecureRule*	getCopy() const { return new CCountryRule( *this ); }
 
 	inline void			setContentString(const QString& strCountry) { m_sContent = strCountry; }
 
 	bool				match(const QHostAddress& oAddress) const;
 	void				toXML( QDomElement& oXMLroot ) const;
+
 private:
+	CCountryRule&		operator=(const CCountryRule& pRule);
+
 	inline				CCountryRule(const CCountryRule& oRule) { *this = oRule; }
 };
 
@@ -157,7 +157,6 @@ public:
 	CHashRule(bool bCreate = true);
 
 	// Operators
-	CHashRule&			operator=(const CHashRule& pRule);
 	//		bool				operator==(const CHashRule& pRule);
 	//		bool				operator!=(const CHashRule& pRule);
 
@@ -174,6 +173,8 @@ public:
 	void				toXML( QDomElement& oXMLroot ) const;
 
 private:
+	CHashRule&			operator=(const CHashRule& pRule);
+
 	inline CHashRule(const CHashRule& pRule) { *this = pRule; }
 };
 
@@ -181,9 +182,6 @@ class CRegExpRule : public CSecureRule
 {
 public:
 	CRegExpRule(bool bCreate = true);
-
-	// Operators
-	CRegExpRule&		operator=(const CRegExpRule& pRule);
 
 	inline CSecureRule*	getCopy() const { return new CRegExpRule( *this ); }
 
@@ -193,6 +191,8 @@ public:
 	void				toXML( QDomElement& oXMLroot ) const;
 
 private:
+	CRegExpRule&		operator=(const CRegExpRule& pRule);
+
 	inline CRegExpRule(const CRegExpRule& pRule) { *this = pRule; }
 };
 
@@ -203,9 +203,6 @@ private:
 
 public:
 	CUserAgentRule(bool bCreate = true);
-
-	// Operators
-	CUserAgentRule&		operator=(const CUserAgentRule& pRule);
 
 	inline CSecureRule*	getCopy() const { return new CUserAgentRule( *this ); }
 
@@ -218,6 +215,8 @@ public:
 	void				toXML( QDomElement& oXMLroot ) const;
 
 private:
+	CUserAgentRule&		operator=(const CUserAgentRule& pRule);
+
 	inline CUserAgentRule(const CUserAgentRule& pRule) { *this = pRule; }
 };
 
@@ -232,9 +231,6 @@ private:
 public:
 	CContentRule(bool bCreate = true);
 
-	// Operators
-	CContentRule&		operator=(const CContentRule& pRule);
-
 	inline CSecureRule*	getCopy() const { return new CContentRule( *this ); }
 
 	void				setContentString(const QString& strContent);
@@ -247,6 +243,8 @@ public:
 	void				toXML( QDomElement& oXMLroot ) const;
 
 private:
+	CContentRule&		operator=(const CContentRule& pRule);
+
 	inline CContentRule(const CContentRule& pRule) { *this = pRule; }
 };
 
