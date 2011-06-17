@@ -46,6 +46,8 @@ void CFile::setFileName(const QString& name)
 {
 	m_bNull = false;
 	QFile::setFileName( name );
+	if ( exists() )
+		setTag( "physical" ); // Tag the file as being physically existant on HDD.
 }
 
 

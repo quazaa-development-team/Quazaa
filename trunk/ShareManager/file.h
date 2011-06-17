@@ -19,23 +19,45 @@ public:
 
 public:
 	explicit CFile(QObject *parent = NULL);
+
+	// Creates a file with a given name and parent. See QFile::QFile(const QString&
+	// name, QObject* parent = NULL) for more information.
 	CFile(const QString& name, QObject* parent = NULL);
 
+	// Returns true if the file has been created using the default constructor CFile()
+	// without any parameter and a file name has not been set using setFileName.
 	inline bool isNull() const;
 
+	// Returns a list of all hashes attributed to this file. Note that this does not
+	// perform checking operations, so it is in theory possible to have 2 differnet
+	// hashes of the same type returned within this list.
 	inline QList< CHash > getHashes() const;
+
+	// Sets a hash for the file.
 	inline void setHash(CHash oHash);
 
+	// Removes a hash from the set of hashes of a file. Returns false if the requested
+	// hash could not be found; otherwise returns true.
 	bool removeHash(CHash oHash);
 
+	// Creates an URI of the files attributes.
 	QString toURI(URIType type) const;
 
+	// Allows to store tagging information. This can be used for example to store
+	// information about whether a file is shared or not, to which sharing group it
+	// belongs or whether it exists on the hard drive or not.
 	inline void setTag(QString sTag);
+
+	// Removes a specified tag. Returns true if the operation was successful.
 	inline bool removeTag(QString sTag);
 
+	// Checks whether a file has been marked with a given tag.
 	bool isTagged(QString sTag) const;
 
-	// reimplemented functions
+	/* ------ reimplemented functions ------ */
+
+	// Sets the name of the file. Uses the same syntax as QFile::setFileName(). Sets
+	// the tag "physical" if the specified file is physically existant on the hard drive.
 	void setFileName(const QString& name);
 
 signals:
