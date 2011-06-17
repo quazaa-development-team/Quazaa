@@ -58,10 +58,8 @@ CNetwork::CNetwork(QObject* parent)
 {
 	m_pSecondTimer = 0;
 	//m_oAddress.port = 6346;
-	m_oAddress.setPort ( quazaaSettings.Connection.Port );
+	m_oAddress.setPort(quazaaSettings.Connection.Port);
 
-	m_bNeedUpdateLNI = true;
-	m_nLNIWait = 60;
 	m_tCleanRoutesNext = 60;
 
 	m_bSharesReady = false;
@@ -188,35 +186,6 @@ void CNetwork::OnSecondTimer()
 		RoutePackets();
 	}
 
-	if(m_nLNIWait == 0)
-	{
-		if(m_bNeedUpdateLNI)
-		{
-			QMutexLocker l(&Neighbours.m_pSection);
-
-			m_bNeedUpdateLNI = false;
-
-			for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
-			{
-				CNeighbour* pNode = *itNode;
-
-				if( pNode->m_nProtocol != dpGnutella2 )
-					continue;
-
-				if(pNode->m_nState == nsConnected)
-				{
-					((CG2Node*)pNode)->SendLNI();
-				}
-			}
-		}
-
-		m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
-	}
-	else
-	{
-		m_nLNIWait--;
-	}
-
 	m_pSection.unlock();
 
 	emit Datagrams.SendQueueUpdated();
@@ -238,6 +207,10 @@ void CNetwork::AcquireLocalAddress(QString& sHeader)
 
 	if(!hostAddr.isNull())
 	{
+		if( ((QHostAddress)hostAddr) != ((QHostAddress)m_oAddress) )
+		{
+			emit LocalAddressChanged();
+		}
 		m_oAddress.setAddress(sHeader);
 	}
 }
@@ -263,8 +236,7 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket)
 		else if(!pAddr.isNull())
 		{
 			Datagrams.SendPacket(pAddr, pPacket, true);
-			systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 routed to remote node: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()));
-			//qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to remote node: " << pNode->m_oAddress.toString().toAscii().constData();
+			systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 routed to remote node: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pAddr.toString().toAscii().constData()));
 			return true;
 		}
 		systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket - No node and no address!"));

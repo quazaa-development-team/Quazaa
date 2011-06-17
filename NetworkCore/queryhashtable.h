@@ -34,6 +34,9 @@ class G2Packet;
 class QByteArray;
 class CBuffer;
 class CQueryHashGroup;
+class CQuery;
+
+typedef QSharedPointer<CQuery> CQueryPtr;
 
 class CQueryHashTable : public QObject
 {
@@ -53,7 +56,7 @@ public:
 	CBuffer*			m_pBuffer;
 	CQueryHashGroup* 	m_pGroup;
 
-protected:
+public:
 	static quint32 HashWord(const char* pSz, const quint32 nLength, qint32 nBits);
 	static quint32 HashNumber(quint32 nNumber, qint32 nBits);
 
@@ -72,6 +75,7 @@ public:
 	void	AddWord(const QByteArray& sWord);
 	bool	CheckString(const QString& strString) const;
 	bool	CheckHash(const quint32 nHash) const;
+	bool	CheckQuery(CQueryPtr pQuery);
 	int		GetPercent() const;
 protected:
 	bool	OnReset(G2Packet* pPacket);

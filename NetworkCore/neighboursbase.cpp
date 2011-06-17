@@ -1,5 +1,5 @@
 /*
-** $Id: neighboursbase.cpp 587 2011-05-28 07:33:42Z brov $
+** $Id: neighboursbase.cpp 592 2011-05-29 22:29:44Z brov $
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -26,15 +26,17 @@
 #include "neighboursbase.h"
 #include "neighbour.h"
 
-CNeighboursBase::CNeighboursBase(QObject *parent) :
+CNeighboursBase::CNeighboursBase(QObject* parent) :
 	QObject(parent),
 	m_bActive(false)
 {
 }
 CNeighboursBase::~CNeighboursBase()
 {
-	if( m_bActive )
+	if(m_bActive)
+	{
 		Disconnect();
+	}
 }
 
 void CNeighboursBase::Connect()
@@ -50,7 +52,7 @@ void CNeighboursBase::Disconnect()
 	m_bActive = false;
 }
 
-void CNeighboursBase::AddNode(CNeighbour *pNode)
+void CNeighboursBase::AddNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
 
@@ -60,7 +62,7 @@ void CNeighboursBase::AddNode(CNeighbour *pNode)
 
 	emit NeighbourAdded(pNode);
 }
-void CNeighboursBase::RemoveNode(CNeighbour *pNode)
+void CNeighboursBase::RemoveNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
 
@@ -71,21 +73,23 @@ void CNeighboursBase::RemoveNode(CNeighbour *pNode)
 	emit NeighbourRemoved(pNode);
 }
 
-CNeighbour* CNeighboursBase::Find(QHostAddress &oAddress, DiscoveryProtocol nProtocol)
+CNeighbour* CNeighboursBase::Find(QHostAddress& oAddress, DiscoveryProtocol nProtocol)
 {
 	ASSUME_LOCK(m_pSection);
 
-	if( m_lNodesByAddr.contains(oAddress) )
+	if(m_lNodesByAddr.contains(oAddress))
 	{
-		foreach(CNeighbour* pRet, m_lNodesByAddr.values(oAddress))
+		foreach(CNeighbour * pRet, m_lNodesByAddr.values(oAddress))
 		{
-			if( pRet->m_nProtocol == nProtocol || nProtocol == dpNull )
+			if(pRet->m_nProtocol == nProtocol || nProtocol == dpNull)
+			{
 				return pRet;
+			}
 		}
 	}
 	return 0;
 }
-bool CNeighboursBase::NeighbourExists(const CNeighbour *pNode)
+bool CNeighboursBase::NeighbourExists(const CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
 

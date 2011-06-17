@@ -46,8 +46,6 @@ public:
 public:
 	bool             m_bActive;
 	QTimer*          m_pSecondTimer;
-	bool             m_bNeedUpdateLNI;
-	quint32          m_nLNIWait;
 	CEndPoint	     m_oAddress;
 
 	CRouteTable      m_oRoutingTable;
@@ -91,7 +89,7 @@ public slots:
 	void RoutePackets();
 
 signals:
-
+	void LocalAddressChanged();
 };
 
 extern CNetwork Network;

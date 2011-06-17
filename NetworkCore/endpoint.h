@@ -35,15 +35,15 @@ protected:
 public:
 	CEndPoint();
 	explicit CEndPoint(quint32 ip4Addr, quint16 nPort = 0);
-	explicit CEndPoint(quint8 *ip6Addr, quint16 nPort = 0);
-	explicit CEndPoint(const Q_IPV6ADDR &ip6Addr, quint16 nPort = 0);
-	explicit CEndPoint(const sockaddr *sockaddr, quint16 nPort = 0);
-	explicit CEndPoint(const QString &address, quint16 nPort);
-	explicit CEndPoint(const QString &address);
-	explicit CEndPoint(const QHostAddress &address, quint16 nPort);
-	CEndPoint(const CEndPoint &copy);
+	explicit CEndPoint(quint8* ip6Addr, quint16 nPort = 0);
+	explicit CEndPoint(const Q_IPV6ADDR& ip6Addr, quint16 nPort = 0);
+	explicit CEndPoint(const sockaddr* sockaddr, quint16 nPort = 0);
+	explicit CEndPoint(const QString& address, quint16 nPort);
+	explicit CEndPoint(const QString& address);
+	explicit CEndPoint(const QHostAddress& address, quint16 nPort);
+	CEndPoint(const CEndPoint& copy);
 	CEndPoint(SpecialAddress address, quint16 nPort = 0);
-	void setAddressWithPort(const QString &address);
+	void setAddressWithPort(const QString& address);
 
 public:
 	void clear();

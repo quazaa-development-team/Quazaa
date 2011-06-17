@@ -36,6 +36,7 @@
 #include <QtGlobal>
 #include <QtEndian>
 #include <QUuid>
+#include <QSharedPointer>
 
 #include "endpoint.h"
 #include "systemlog.h"
@@ -65,7 +66,7 @@ typedef unsigned char BYTE;
 #ifdef _DEBUG
 
 #define ASSUME_LOCK(mutex) \
-if( (mutex).tryLock() ) { (mutex).unlock(); Q_ASSERT_X(false, Q_FUNC_INFO, "This code must be protected by " #mutex "!"); }
+	if( (mutex).tryLock() ) { (mutex).unlock(); Q_ASSERT_X(false, Q_FUNC_INFO, "This code must be protected by " #mutex "!"); }
 
 #else
 

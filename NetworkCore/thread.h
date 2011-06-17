@@ -106,6 +106,8 @@ protected:
 
 		l.unlock();
 
+		qDebug() << m_sThreadName << ": thread started: " << this << currentThreadId();
+
 		exec();
 
 		l.relock();

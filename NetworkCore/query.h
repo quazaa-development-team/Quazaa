@@ -25,23 +25,29 @@
 #ifndef QUERY_H
 #define QUERY_H
 
-#include <QList>
-#include <QString>
 #include "types.h"
 
 class G2Packet;
+class CQuery;
+class CHash;
+
+typedef QSharedPointer<CQuery> CQueryPtr;
 
 class CQuery
 {
-	QList<QString>  m_lURNs;
+public:
+	QUuid           m_oGUID;
+	QList<CHash>	m_lHashes;
 	QString         m_sMetadata;
 	quint64         m_nMinimumSize;
 	quint64         m_nMaximumSize;
 	QString         m_sDescriptiveName;
+	CEndPoint		m_oEndpoint;
+	quint32			m_nQueryKey;
 
-	QUuid           m_oGUID;
-
-	G2Packet*       m_pCachedPacket;
+	QString			m_sG2PositiveWords;
+	QString			m_sG2NegativeWords;
+	QList<quint32>	m_lHashedKeywords;
 public:
 	CQuery();
 	QString DescriptiveName()
@@ -51,12 +57,20 @@ public:
 
 	void SetGUID(QUuid& guid);
 
-	void AddURN(const char* pURN, quint32 nLength);
+	void AddURN(const CHash& pHash);
 	void SetDescriptiveName(QString sDN);
 	void SetSizeRestriction(quint64 nMin, quint64 nMax);
 	void SetMetadata(QString sMeta);
 
+	void BuildG2Keywords(QString strPhrase);
+	bool CheckValid();
+
 	G2Packet* ToG2Packet(CEndPoint* pAddr = 0, quint32 nKey = 0);
+
+	static CQueryPtr FromPacket(G2Packet* pPacket, CEndPoint* pEndpoint = 0);
+
+private:
+	bool FromG2Packet(G2Packet* pPacket, CEndPoint* pEndpoint);
 };
 
 #endif // QUERY_H

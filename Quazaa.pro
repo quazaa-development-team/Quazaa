@@ -140,8 +140,6 @@ SOURCES += main.cpp \
 	NetworkCore/datagrams.cpp \
 	NetworkCore/datagramfrags.cpp \
 	NetworkCore/compressedconnection.cpp \
-	NetworkCore/Hashes/sha1.cpp \
-	NetworkCore/Hashes/abstracthash.cpp \
 	UI/winmain.cpp \
 	UI/widgethome.cpp \
 	UI/widgetlibrary.cpp \
@@ -210,7 +208,8 @@ SOURCES += main.cpp \
     Security/securerule.cpp \
     ShareManager/file.cpp \
     Models/securitytablemodel.cpp \
-    globaltimedsignalqueue.cpp
+    globaltimedsignalqueue.cpp \
+    NetworkCore/hubhorizon.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -264,8 +263,6 @@ HEADERS += UI/dialoglanguage.h \
 	NetworkCore/datagrams.h \
 	NetworkCore/datagramfrags.h \
 	NetworkCore/compressedconnection.h \
-	NetworkCore/Hashes/sha1.h \
-	NetworkCore/Hashes/abstracthash.h \
 	NetworkCore/queryhashtable.h \
 	NetworkCore/parser.h \
 	NetworkCore/types.h \
@@ -340,7 +337,8 @@ HEADERS += UI/dialoglanguage.h \
     Security/securerule.h \
     ShareManager/file.h \
 	Models/securitytablemodel.h \
-    globaltimedsignalqueue.h
+    globaltimedsignalqueue.h \
+    NetworkCore/hubhorizon.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \

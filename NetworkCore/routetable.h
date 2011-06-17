@@ -21,7 +21,6 @@
 ** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
 #ifndef ROUTETABLE_H
 #define ROUTETABLE_H
 
@@ -48,7 +47,7 @@ struct G2RouteItem
 class CRouteTable
 {
 protected:
-	QHash<QUuid, G2RouteItem>  m_lRoutes;
+	QHash<QUuid, G2RouteItem*>  m_lRoutes;
 public:
 	CRouteTable();
 	~CRouteTable();
@@ -68,6 +67,6 @@ public:
 	void Dump();
 };
 
-const quint32 MaxRoutes = 20000;
+const quint32 MaxRoutes = 50000;
 const quint32 RouteExpire = 600;
 #endif // ROUTETABLE_H

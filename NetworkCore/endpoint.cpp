@@ -33,53 +33,53 @@ CEndPoint::CEndPoint()
 }
 
 CEndPoint::CEndPoint(quint32 ip4Addr, quint16 nPort)
-	:QHostAddress(ip4Addr), m_nPort(nPort)
+	: QHostAddress(ip4Addr), m_nPort(nPort)
 {
 
 }
 
-CEndPoint::CEndPoint(quint8 *ip6Addr, quint16 nPort)
-	:QHostAddress(ip6Addr), m_nPort(nPort)
+CEndPoint::CEndPoint(quint8* ip6Addr, quint16 nPort)
+	: QHostAddress(ip6Addr), m_nPort(nPort)
 {
 
 }
 
-CEndPoint::CEndPoint(const Q_IPV6ADDR &ip6Addr, quint16 nPort)
-	:QHostAddress(ip6Addr), m_nPort(nPort)
+CEndPoint::CEndPoint(const Q_IPV6ADDR& ip6Addr, quint16 nPort)
+	: QHostAddress(ip6Addr), m_nPort(nPort)
 {
 
 }
 
-CEndPoint::CEndPoint(const sockaddr *sockaddr, quint16 nPort)
-	:QHostAddress(sockaddr), m_nPort(nPort)
+CEndPoint::CEndPoint(const sockaddr* sockaddr, quint16 nPort)
+	: QHostAddress(sockaddr), m_nPort(nPort)
 {
 
 }
 
-CEndPoint::CEndPoint(const QString &address, quint16 nPort)
-	:QHostAddress(address), m_nPort(nPort)
+CEndPoint::CEndPoint(const QString& address, quint16 nPort)
+	: QHostAddress(address), m_nPort(nPort)
 {
 
 }
 
-CEndPoint::CEndPoint(const QHostAddress &address, quint16 nPort)
-	:QHostAddress(address), m_nPort(nPort)
+CEndPoint::CEndPoint(const QHostAddress& address, quint16 nPort)
+	: QHostAddress(address), m_nPort(nPort)
 {
 
 }
 
-CEndPoint::CEndPoint(const QString &address)
+CEndPoint::CEndPoint(const QString& address)
 {
-	if( address.count(":") >= 2 )
+	if(address.count(":") >= 2)
 	{
 		// IPv6
 
-		if( address.left(1) == "[" )
+		if(address.left(1) == "[")
 		{
 			// IPv6 with port in brackets
 			int pos = address.lastIndexOf("]:");
 
-			if( pos == -1 )
+			if(pos == -1)
 			{
 				// error
 				QHostAddress::setAddress(quint32(0));
@@ -117,14 +117,14 @@ CEndPoint::CEndPoint(const QString &address)
 	}
 }
 
-CEndPoint::CEndPoint(const CEndPoint &copy)
-	:QHostAddress(copy)
+CEndPoint::CEndPoint(const CEndPoint& copy)
+	: QHostAddress(copy)
 {
 	m_nPort = copy.m_nPort;
 }
 
 CEndPoint::CEndPoint(SpecialAddress address, quint16 nPort)
-	:QHostAddress(address), m_nPort(nPort)
+	: QHostAddress(address), m_nPort(nPort)
 {
 
 }
@@ -137,7 +137,7 @@ void CEndPoint::clear()
 
 QString CEndPoint::toStringWithPort() const
 {
-	if( protocol() == QAbstractSocket::IPv4Protocol )
+	if(protocol() == QAbstractSocket::IPv4Protocol)
 	{
 		return toString().append(QString(":%1").arg(m_nPort));
 	}
@@ -157,18 +157,18 @@ void CEndPoint::setPort(const quint16 nPort)
 	m_nPort = nPort;
 }
 
-void CEndPoint::setAddressWithPort(const QString &address)
+void CEndPoint::setAddressWithPort(const QString& address)
 {
-	if( address.count(":") >= 2 )
+	if(address.count(":") >= 2)
 	{
 		// IPv6
 
-		if( address.left(1) == "[" )
+		if(address.left(1) == "[")
 		{
 			// IPv6 with port in brackets
 			int pos = address.lastIndexOf("]:");
 
-			if( pos == -1 )
+			if(pos == -1)
 			{
 				// error
 				QHostAddress::setAddress(quint32(0));

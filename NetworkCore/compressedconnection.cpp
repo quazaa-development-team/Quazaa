@@ -38,6 +38,9 @@ CCompressedConnection::CCompressedConnection(QObject* parent) :
 	m_nTotalInput = 0;
 	m_nTotalOutput = 0;
 
+	m_nTotalInputDec = 0;
+	m_nTotalOutputCom = 0;
+
 	m_nNextDeflateFlush = 4096;
 	m_bOutputPending = false;
 
@@ -212,6 +215,7 @@ void CCompressedConnection::Inflate()
 				m_pInput->remove(0, m_sInput.total_in);
 
 				m_nTotalInput += m_sInput.total_out;
+				m_nTotalInputDec += m_sInput.total_in;
 
 		}
 	}
@@ -242,8 +246,10 @@ void CCompressedConnection::Deflate()
 		m_tDeflateFlush.start();
 	}
 
-	if( m_pZOutput->size() == 0 && nFlushMode == Z_NO_FLUSH )
+	if(m_pZOutput->size() == 0 && nFlushMode == Z_NO_FLUSH)
+	{
 		return;
+	}
 
 	do
 	{
@@ -269,6 +275,7 @@ void CCompressedConnection::Deflate()
 			m_pOutput->resize(nOldSize + m_sOutput.total_out);
 			m_pZOutput->remove(0, m_sOutput.total_in);
 			m_nTotalOutput += m_sOutput.total_out;
+			m_nTotalOutputCom += m_sOutput.total_in;
 		}
 		else
 		{

@@ -33,6 +33,7 @@
 #include "searchmanager.h"
 #include "queryhit.h"
 #include "systemlog.h"
+#include "Hashes/hash.h"
 
 #include <QMutexLocker>
 
@@ -148,15 +149,17 @@ void CManagedSearch::SearchNeighbours(quint32 tNow)
 
 	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
-		if( (*itNode)->m_nProtocol != dpGnutella2 )
+		if((*itNode)->m_nProtocol != dpGnutella2)
+		{
 			continue;
+		}
 
 		CG2Node* pNode = (CG2Node*)(*itNode);
 
 		if(pNode->m_nState == nsConnected
-				&& tNow - pNode->m_tConnected > 15
-				&& tNow - pNode->m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle
-				&& !m_lSearchedNodes.contains(pNode->m_oAddress)
+		        && tNow - pNode->m_tConnected > 15
+		        && tNow - pNode->m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle
+		        && !m_lSearchedNodes.contains(pNode->m_oAddress)
 		  )
 		{
 			G2Packet* pQuery = m_pQuery->ToG2Packet();
@@ -213,8 +216,10 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 			bool bFound = false;
 			for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 			{
-				if( (*itNode)->m_nProtocol != dpGnutella2 )
+				if((*itNode)->m_nProtocol != dpGnutella2)
+				{
 					continue;
+				}
 
 				CG2Node* pNode = (CG2Node*)(*itNode);
 				if(pHost->m_nKeyHost == pNode->m_oAddress)
@@ -277,13 +282,15 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 				bool bCheckLast = Neighbours.m_nHubsConnectedG2 > 2;
 				for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 				{
-					if( (*itNode)->m_nProtocol != dpGnutella2 )
+					if((*itNode)->m_nProtocol != dpGnutella2)
+					{
 						continue;
+					}
 
 					CG2Node* pNode = (CG2Node*)(*itNode);
 
 					if(m_lSearchedNodes.contains(pNode->m_oAddress)
-							&& pNode->m_nType == G2_HUB)
+					        && pNode->m_nType == G2_HUB)
 					{
 						if((bCheckLast && pNode == pLastNeighbour))
 						{

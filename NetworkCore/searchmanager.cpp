@@ -160,14 +160,14 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 			if(strcmp("D", szType) == 0 && nLength >= 4)
 			{
 				QHostAddress ha;
-				if( nLength >= 16 )
+				if(nLength >= 16)
 				{
 					// IPv6
 					Q_IPV6ADDR nIP;
 					pPacket->Read(&nIP, 16);
 					ha.setAddress(nIP);
 
-					if( nLength >= 18 )
+					if(nLength >= 18)
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
 						CEndPoint a(nIP, nPort);
@@ -233,7 +233,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 			}
 			else if(strcmp("FR", szType) == 0 && nLength >= 4)
 			{
-				if( nLength >= 16 )
+				if(nLength >= 16)
 				{
 					Q_IPV6ADDR ip;
 					pPacket->Read(&ip, 16);
@@ -252,7 +252,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		// we already know QA GUID
 
 		systemLog.postLog(LogSeverity::Debug, "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
-			   addr.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
+		                  addr.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
 		//qDebug("Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
 		//	   addr.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
 

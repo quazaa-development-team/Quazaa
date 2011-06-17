@@ -1,5 +1,5 @@
 /*
-** $Id: neighboursg2.h 587 2011-05-28 07:33:42Z brov $
+** $Id: neighboursg2.h 597 2011-06-01 15:19:34Z brov $
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -28,11 +28,13 @@
 
 #include "neighboursconnections.h"
 
+class G2Packet;
+
 class CNeighboursG2 : public CNeighboursConnections
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-	CNeighboursG2(QObject *parent = 0);
+	CNeighboursG2(QObject* parent = 0);
 	virtual ~CNeighboursG2();
 
 	void DispatchKHL();
@@ -41,10 +43,14 @@ public:
 
 	virtual void Connect();
 
+	G2Packet* CreateQueryAck(QUuid oGUID, bool bWithHubs = true, CNeighbour* pExcept = 0, bool bDone = true);
+
 	void HubBalancing();
 
 protected:
 	quint32 m_nNextKHL;
+	quint32 m_nLNIWait;
+	bool	m_bNeedLNI;
 	G2NodeType m_nClientMode;
 
 	quint32 m_nSecsTrying;		// How long we are without hub connection?

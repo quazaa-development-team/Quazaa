@@ -30,6 +30,7 @@
 #include <QMutexLocker>
 #include <QTimer>
 #include <QMetaObject>
+#include <QFile>
 
 CRateController::CRateController(QMutex* pMutex, QObject* parent): QObject(parent)
 {
@@ -108,10 +109,12 @@ void CRateController::transfer()
 	m_tStopWatch.start();
 
 	bool bCanTransferMore = false;
+	bool bRestart = false;
 
 	do
 	{
 		bCanTransferMore = false;
+		bRestart = false;
 		qint64 nWriteChunk = qMax(qint64(1), nToWrite / lSockets.size());
 		qint64 nReadChunk = qMax(qint64(1), nToRead / lSockets.size());
 
@@ -122,29 +125,37 @@ void CRateController::transfer()
 			CNetworkConnection* pConn = *itSocket;
 
 			bool bDataTransferred = false;
-			qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
-			if(nAvailable > 0)
-			{
-				qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
-				if(nReadBytes > 0)
-				{
-					nToRead -= nReadBytes;
-					nDownloaded += nReadBytes;
-					bDataTransferred = true;
-				}
-			}
 
-			if(m_nUploadLimit * 2 > pConn->m_pSocket->bytesToWrite())
+			if( pConn->m_pSocket->state() == QAbstractSocket::ConnectedState )
 			{
-				qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->m_pSocket->bytesToWrite());
-
-				if(nChunkSize > 0)
+				if(m_nUploadLimit * 2 > pConn->m_pSocket->bytesToWrite())
 				{
-					qint64 nBytesWritten = pConn->writeToNetwork(nChunkSize);
-					if(nBytesWritten > 0)
+					qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->m_pSocket->bytesToWrite());
+
+					if(nChunkSize > 0)
 					{
-						nToWrite -= nBytesWritten;
-						nUploaded += nBytesWritten;
+						qint64 nBytesWritten = pConn->writeToNetwork(nChunkSize);
+						if(nBytesWritten > 0)
+						{
+							nToWrite -= nBytesWritten;
+							nUploaded += nBytesWritten;
+							bDataTransferred = true;
+						}
+						else if( nBytesWritten == 0 )
+						{
+							bRestart = true;
+						}
+					}
+				}
+
+				qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
+				if(nAvailable > 0)
+				{
+					qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
+					if(nReadBytes > 0)
+					{
+						nToRead -= nReadBytes;
+						nDownloaded += nReadBytes;
 						bDataTransferred = true;
 					}
 				}
@@ -168,7 +179,7 @@ void CRateController::transfer()
 	}
 	while(bCanTransferMore && (nToRead > 0 || nToWrite > 0) && !lSockets.isEmpty());
 
-	if(bCanTransferMore || nToRead == 0 || nToWrite == 0)
+	if(bCanTransferMore || bRestart || nToRead == 0 || nToWrite == 0)
 	{
 		sheduleTransfer();
 	}
