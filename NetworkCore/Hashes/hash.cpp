@@ -27,18 +27,18 @@
 
 CHash::CHash(const CHash &rhs)
 {
-	systemLog.postLog( LogSeverity::Debug, qApp->tr( "Calling CHash copy ctor" ) );
-
 	if ( !rhs.m_bFinalized )
+	{
 		systemLog.postLog( LogSeverity::Debug, qApp->tr( "WARNING: Copying non-finalized CHash" ) );
+	}
 
 	m_baRawValue = rhs.m_baRawValue;
 	m_nHashAlgorithm = rhs.m_nHashAlgorithm;
 	m_bFinalized = true;
-	m_pContext = NULL;
+	m_pContext = 0;
 }
 
-CHash::CHash(CHash::Algorithm algo)
+CHash::CHash(Algorithm algo)
 {
 	m_bFinalized = false;
 	m_nHashAlgorithm = algo;
@@ -55,18 +55,19 @@ CHash::CHash(CHash::Algorithm algo)
 		m_pContext = new QCryptographicHash( QCryptographicHash::Md5 );
 		break;
 	default:
-		m_pContext = NULL; /* error? */
+		m_pContext = 0; /* error? */
 	}
 }
 
 CHash::CHash(QByteArray baRaw, CHash::Algorithm algo)
 {
 	if ( baRaw.size() != CHash::ByteCount( algo ) )
+	{
 		throw invalid_hash_exception();
-
+	}
 	m_baRawValue = baRaw;
 	m_nHashAlgorithm = algo;
-	m_pContext = NULL;
+	m_pContext = 0;
 	m_bFinalized = true;
 }
 CHash::~CHash()
@@ -83,37 +84,17 @@ CHash::~CHash()
 	}
 }
 
-bool CHash::operator>(const CHash& pHash) const
-{
-	return ToString() > pHash.ToString();
-}
-
-bool CHash::operator<(const CHash& pHash) const
-{
-	return ToString() < pHash.ToString();
-}
-
-bool CHash::operator==(const CHash& pHash) const
-{
-	return m_bFinalized == pHash.m_bFinalized && m_nHashAlgorithm == pHash.m_nHashAlgorithm && m_baRawValue == pHash.m_baRawValue;
-}
-
-bool CHash::operator!=(const CHash& pHash) const
-{
-	return !( *this == pHash );
-}
-
 // Returns raw hash length by hash family
-int CHash::ByteCount(CHash::Algorithm algo)
+int CHash::ByteCount(int algo)
 {
 	switch( algo )
 	{
 	case CHash::SHA1:
 		return 20;
 	case CHash::MD4:
-		return 20;
+		return 16;
 	case CHash::MD5:
-		return 25;
+		return 16;
 	default:
 		return 0;
 	}
@@ -126,7 +107,9 @@ CHash* CHash::FromURN(QString sURN)
 	// urn:tree:tiger:/
 
 	if ( sURN.size() < 16 )
+	{
 		throw invalid_hash_exception();
+	}
 
 	QByteArray baFamily;
 	int nStart = ( strncmp( "urn:", sURN.toAscii().data(), 4 ) == 0 ? 4 : 0 );
@@ -146,9 +129,19 @@ CHash* CHash::FromURN(QString sURN)
 			return pRet;
 		}
 	}
-	return NULL;
-}
+	else if(baFamily == "md5" && baValue.length() == 32)
+	{
+		if(cyoBase16Validate(baValue.data(), baValue.length()) == 0)
+		{
+			cyoBase16Decode((char*)&pVal, baValue.data(), baValue.length());
+			CHash* pRet = new CHash(QByteArray((char*)&pVal), CHash::MD5);
+			return pRet;
+		}
+	}
 
+	return 0;
+
+}
 CHash* CHash::FromRaw(QByteArray &baRaw, CHash::Algorithm algo)
 {
 	try
@@ -158,8 +151,9 @@ CHash* CHash::FromRaw(QByteArray &baRaw, CHash::Algorithm algo)
 	}
 	catch( ... )
 	{
+
 	}
-	return NULL;
+	return 0;
 }
 
 // Returns URN as string
@@ -170,11 +164,11 @@ QString CHash::ToURN() const
 	case CHash::SHA1:
 		return QString( "urn:sha1:" ) + ToString();
 	case CHash::MD5:
-//		return QString( "urn:md5:" ) + ToString();
+		return QString("urn:md5:") + ToString();
 	case CHash::MD4:
-//		return QString( "urn:ed2khash:" ) + ToString();
 		break;
 	}
+
 	return QString();
 }
 
@@ -189,11 +183,33 @@ QString CHash::ToString() const
 	case CHash::SHA1:
 		cyoBase32Encode( (char*)&pBuff, RawValue().data(), 20 );
 	case CHash::MD5:
+		cyoBase16Encode((char*)&pBuff, RawValue().data(), 16);
 	case CHash::MD4:
 		break;
 	}
 
 	return QString( pBuff );
+}
+
+void CHash::Finalize()
+{
+	if(!m_bFinalized)
+	{
+		Q_ASSERT(m_pContext);
+
+		switch(m_nHashAlgorithm)
+		{
+		case CHash::SHA1:
+		case CHash::MD5:
+		case CHash::MD4:
+			m_baRawValue = ((QCryptographicHash*)m_pContext)->result();
+			delete((QCryptographicHash*)m_pContext);
+			m_pContext = 0;
+			m_bFinalized = true;
+		}
+	}
+
+	return m_baRawValue;
 }
 
 void CHash::AddData(const char *pData, quint32 nLength)
@@ -226,23 +242,4 @@ QString CHash::GetFamilyName()
 	}
 
 	return "";
-}
-
-void CHash::Finalize()
-{
-	if ( !m_bFinalized )
-	{
-		Q_ASSERT( m_pContext );
-
-		switch( m_nHashAlgorithm )
-		{
-		case CHash::SHA1:
-		case CHash::MD5:
-		case CHash::MD4:
-			m_baRawValue = ( (QCryptographicHash*)m_pContext )->result();
-			delete ( (QCryptographicHash*)m_pContext );
-			m_pContext = 0;
-			m_bFinalized = true;
-		}
-	}
 }
