@@ -144,7 +144,7 @@ void CSecurity::add(CSecureRule* pRule)
 				}
 			}
 			pOldRule = NULL;
-			i++;
+			++i;
 		}
 
 		m_IPRanges.push_front( (CIPRangeRule*)pRule );
@@ -200,18 +200,22 @@ void CSecurity::add(CSecureRule* pRule)
 	{
 		CHashRule* pHashRule = (CHashRule*)pRule;
 
-		QString sSHA1 = pHashRule->getSHA1urn();
-		QString sED2K = pHashRule->getED2Kurn();
-		QString sBTIH = pHashRule->getBTIHurn();
-		QString sTTH  = pHashRule->getTTHurn();
-		QString sMD5  = pHashRule->getMD5urn();
+		QList< CHash > oHashes = pHashRule->getHashes();
 
-		CIterator i = getHash( sSHA1, sED2K, sTTH, sBTIH, sMD5 );
+		if ( oHashes.isEmpty() )
+		{
+			// There is no point in adding an invalid rule...
+			delete pRule;
+			pRule = NULL;
+			return;
+		}
+
+		CIterator i = getHash( oHashes );
 
 		if ( i != getEnd() )
 		{
 			pExRule = *i;
-			if ( ((CHashRule*)*i)->getHashWeight() == pHashRule->getHashWeight() )
+			if ( pHashRule->hashEquals( *((CHashRule*)*i) ) )
 			{
 				if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 					 pExRule->m_nAction != pRule->m_nAction ||
@@ -236,20 +240,10 @@ void CSecurity::add(CSecureRule* pRule)
 
 		// If there isn't a rule for this content or there is a rule for
 		// similar but not 100% identical content, add hashes to map.
-		if ( !( sSHA1.isEmpty() ) )
-			m_Hashes.insert( CHashPair( sSHA1, pHashRule ) );
-
-		if ( !( sED2K.isEmpty() ) )
-			m_Hashes.insert( CHashPair( sED2K, pHashRule ) );
-
-		if ( !( sBTIH.isEmpty() ) )
-			m_Hashes.insert( CHashPair( sBTIH, pHashRule ) );
-
-		if ( !( sTTH.isEmpty() ) )
-			m_Hashes.insert( CHashPair( sTTH, pHashRule ) );
-
-		if ( !( sMD5.isEmpty() ) )
-			m_Hashes.insert( CHashPair( sMD5, pHashRule ) );
+		foreach ( CHash oHash, oHashes )
+		{
+			m_Hashes.insert( CHashPair( oHash.ToURN(), pHashRule ) );
+		}
 
 		bNewHit	= true;
 	}
@@ -286,7 +280,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 			}
 			pOldRule = NULL;
-			i++;
+			++i;
 		}
 
 		m_RegExpressions.push_front( (CRegExpRule*)pRule );
@@ -325,7 +319,7 @@ void CSecurity::add(CSecureRule* pRule)
 				}
 			}
 			pOldRule = NULL;
-			i++;
+			++i;
 		}
 
 		m_Contents.push_front( (CContentRule*)pRule );
@@ -476,7 +470,7 @@ void CSecurity::expire()
 		}
 		else
 		{
-			i++;
+			++i;
 		}
 	}
 
@@ -891,7 +885,7 @@ bool CSecurity::isNewlyDenied(const QHostAddress& oAddress, const QString&)
 			}
 		}
 
-		i++;
+		++i;
 	}
 
 	return false;
@@ -932,7 +926,7 @@ bool CSecurity::isNewlyDenied(const QHostAddress& oAddress, const QString&)
    }
   }
 
-  i++;
+  ++i;
  }
 
  return false;
@@ -1470,74 +1464,22 @@ QDomDocument CSecurity::toXML()
 //////////////////////////////////////////////////////////////////////
 // Private method definitions
 
-CSecurity::CIterator CSecurity::getHash(const QString& sSHA1,
-										const QString& sED2K,
-										const QString& sTTH ,
-										const QString& sBTIH,
-										const QString& sMD5  ) const
+CSecurity::CIterator CSecurity::getHash(const QList< CHash >& hashes) const
 {
-	bool bSHA1 = !( sSHA1.isEmpty() );
-	bool bED2K = !( sED2K.isEmpty() );
-	bool bTTH  = !(  sTTH.isEmpty() );
-	bool bBTIH = !( sBTIH.isEmpty() );
-	bool bMD5  = !(  sMD5.isEmpty() );
-
-	// Find out how many hashes we are searching for.
-	quint8 count = bSHA1 + bED2K + bBTIH + bTTH + bMD5;
-
 	// We are not searching for any hash. :)
-	if ( !count ) return getEnd();
+	if ( hashes.isEmpty() ) return getEnd();
 
 	CHashRuleMap::const_iterator i;
 
-	i = m_Hashes.find( sSHA1 );
-
-	while ( i != m_Hashes.end() )
+	foreach ( CHash oHash, hashes )
 	{
-		if ( (*i).second->match(sSHA1, sED2K, sTTH, sBTIH, sMD5) ) return getUUID( (*i).second->m_oUUID );
-		i++;
+		i = m_Hashes.find( oHash.ToURN() );
 
-		if( (*i).first != sSHA1 ) break;
-	}
-
-	i = m_Hashes.find( sED2K );
-
-	while ( i != m_Hashes.end() )
-	{
-		if ( (*i).second->match(sSHA1, sED2K, sTTH, sBTIH, sMD5) ) return getUUID( (*i).second->m_oUUID );
-		i++;
-
-		if ( (*i).first != sED2K ) break;
-	}
-
-	i = m_Hashes.find( sBTIH );
-
-	while ( i != m_Hashes.end() )
-	{
-		if ( (*i).second->match(sSHA1, sED2K, sTTH, sBTIH, sMD5) ) return getUUID( (*i).second->m_oUUID );
-		i++;
-
-		if ( (*i).first != sBTIH ) break;
-	}
-
-	i = m_Hashes.find( sTTH );
-
-	while ( i != m_Hashes.end() )
-	{
-		if ( (*i).second->match(sSHA1, sED2K, sTTH, sBTIH, sMD5) ) return getUUID( (*i).second->m_oUUID );
-		i++;
-
-		if ( (*i).first != sTTH ) break;
-	}
-
-	i = m_Hashes.find( sMD5 );
-
-	while ( i != m_Hashes.end() )
-	{
-		if ( (*i).second->match(sSHA1, sED2K, sTTH, sBTIH, sMD5) ) return getUUID( (*i).second->m_oUUID );
-		i++;
-
-		if ( (*i).first != sMD5 ) break;
+		while ( i != m_Hashes.end() && (*i).first == oHash.ToURN() )
+		{
+			if ( (*i).second->match( hashes ) ) return getUUID( (*i).second->m_oUUID );
+			++i;
+		}
 	}
 
 	return getEnd();
@@ -1590,7 +1532,7 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 				break;
 			}
 
-			i++;
+			++i;
 		}
 
 		if ( m_bUseMissCache )
@@ -1617,81 +1559,24 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 	{
 		CHashRule* pHashRule = (CHashRule*)pRule;
 
-		QString sSHA1 = pHashRule->getSHA1urn();
-		QString sED2K = pHashRule->getED2Kurn();
-		QString sBTIH = pHashRule->getBTIHurn();
-		QString sTTH  = pHashRule->getTTHurn();
-		QString sMD5  = pHashRule->getMD5urn();
+		QList< CHash > oHashes = pHashRule->getHashes();
 
 		CHashRuleMap::iterator i;
-
-		i = m_Hashes.find( sSHA1 );
-
-		while ( i != m_Hashes.end() && (*i).second->getSHA1urn() == sSHA1 )
+		foreach ( CHash oHash, oHashes )
 		{
-			if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
-			{
-				m_Hashes.erase( i++ );
-			}
-			else
-			{
-				i++;
-			}
-		}
+			i = m_Hashes.find( oHash.ToURN() );
 
-		i = m_Hashes.find( sED2K );
-
-		while ( i != m_Hashes.end() && (*i).second->getED2Kurn() == sED2K )
-		{
-			if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
+			while ( i != m_Hashes.end() && (*i).first == oHash.ToURN() )
 			{
-				m_Hashes.erase( i++ );
-			}
-			else
-			{
-				i++;
-			}
-		}
-
-		i = m_Hashes.find( sBTIH );
-
-		while ( i != m_Hashes.end() && (*i).second->getBTIHurn() == sBTIH )
-		{
-			if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
-			{
-				m_Hashes.erase( i++ );
-			}
-			else
-			{
-				i++;
-			}
-		}
-
-		i = m_Hashes.find( sTTH );
-
-		while ( i != m_Hashes.end() && (*i).second->getTTHurn() == sTTH )
-		{
-			if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
-			{
-				m_Hashes.erase( i++ );
-			}
-			else
-			{
-				i++;
-			}
-		}
-
-		i = m_Hashes.find( sMD5 );
-
-		while ( i != m_Hashes.end() && (*i).second->getMD5urn() == sMD5 )
-		{
-			if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
-			{
-				m_Hashes.erase( i++ );
-			}
-			else
-			{
-				i++;
+				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
+				{
+					m_Hashes.erase( i );
+					break;
+				}
+				else
+				{
+					++i;
+				}
 			}
 		}
 	}
@@ -1710,7 +1595,7 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 				break;
 			}
 
-			i++;
+			++i;
 		}
 	}
 	break;
@@ -1727,7 +1612,7 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 				break;
 			}
 
-			i++;
+			++i;
 		}
 	}
 	break;
@@ -1744,7 +1629,7 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 				break;
 			}
 
-			i++;
+			++i;
 		}
 	}
 	break;
@@ -1869,7 +1754,7 @@ bool CSecurity::isDenied(const QString& strContent)
 				return true;
 		}
 
-		i++;
+		++i;
 	}
 
 	return false;
@@ -1928,7 +1813,7 @@ bool CSecurity::isDenied(const QString& strContent)
 	return true;
   }
 
-  i++;
+  ++i;
  }
 
  return false;
@@ -1968,7 +1853,7 @@ bool CSecurity::isDenied(const QString& strContent)
 	return true;
   }
 
-  i++;
+  ++i;
  }
 
  return false;

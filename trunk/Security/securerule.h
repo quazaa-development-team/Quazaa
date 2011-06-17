@@ -6,6 +6,8 @@
 #include <QString>
 #include <QUuid>
 
+#include "ShareManager/file.h"
+
 namespace security
 {
 
@@ -61,8 +63,8 @@ public:
 	// Check content for hits
 	virtual bool	match(const QHostAddress& oAddress) const;
 	virtual bool	match(const QString& sContent) const;
-	//		virtual bool	match(const CShareazaFile& oFile) const;
-	//		virtual bool	match(const CQuerySearch& oQuery, const QString& strContent) const;
+	virtual bool	match(const CFile& oFile) const;
+//	virtual bool	match(const CQuerySearch& oQuery, const QString& strContent) const;
 
 	// Read/write rule from/to file
 	static void		load(CSecureRule* pRule, QDataStream& oStream, const int nVersion);
@@ -149,15 +151,7 @@ private:
 class CHashRule : public CSecureRule
 {
 private:
-	QString				m_sSHA1;	// SHA1 (Base32)
-	QString				m_sED2K;	// ED2K (MD4, Base16)
-	QString				m_sBTIH;	// BitTorrent Info Hash (Base32)
-	QString				m_sTTH;		// TigerTree Root Hash (Base32)
-	QString				m_sMD5;		// MD5 (Base16)
-
-	// Allows to compare 2 rules by the importance of the hashes they contain and allows to
-	// check whether 2 rules are using exactly the same hashes (uses prime number multiplication).
-	unsigned int		m_nHashWeight;
+	QMap< CHash::Algorithm, CHash >		m_Hashes;
 
 public:
 	CHashRule(bool bCreate = true);
@@ -168,23 +162,14 @@ public:
 	//		bool				operator!=(const CHashRule& pRule);
 
 	inline CSecureRule*	getCopy() const { return new CHashRule( *this ); }
+	QList< CHash >		getHashes() const;
 
-	void				setContentString(const QString& strContent);
+	void				setContent(const QList< CHash >& hashes);
+	void				setContentString(const QString& sContent);
+	bool				hashEquals(CHashRule& oRule) const;
 
-	inline QString		getSHA1urn() const { return m_sSHA1; }
-	inline QString		getED2Kurn() const { return m_sED2K; }
-	inline QString		getBTIHurn() const { return m_sBTIH; }
-	inline QString		getTTHurn()  const { return m_sTTH;  }
-	inline QString		getMD5urn()  const { return m_sMD5;  }
-
-	inline unsigned int	getHashWeight() const { return m_nHashWeight; }
-
-	//		bool				match(const CShareazaFile* pFile) const;
-	bool				match(const QString& sSHA1,
-							  const QString& sED2K,
-							  const QString& sTTH  = "",
-							  const QString& sBTIH = "",
-							  const QString& sMD5  = "") const;
+	bool				match(const CFile& oFile) const;
+	bool				match(const QList< CHash >& hashes) const;
 
 	void				toXML( QDomElement& oXMLroot ) const;
 
@@ -258,7 +243,7 @@ public:
 	void				setAll(bool all = true);
 
 	bool				match(const QString& strContent) const;
-	//		bool				match(const CShareazaFile* pFile) const;
+	bool				match(const CFile& pFile) const;
 	void				toXML( QDomElement& oXMLroot ) const;
 
 private:
