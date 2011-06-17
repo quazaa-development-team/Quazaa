@@ -43,41 +43,59 @@ protected:
 
 public:
 	CHash(const CHash& rhs);
-	CHash(CHash::Algorithm algo);
+	CHash(Algorithm algo);
 	CHash(QByteArray baRaw, CHash::Algorithm algo);
 	~CHash();
 
-	bool operator>(const CHash& pRule) const;
-	bool operator<(const CHash& pRule) const;
-	bool operator==(const CHash& pRule) const;
-	bool operator!=(const CHash& pRule) const;
-
-	static int	ByteCount(CHash::Algorithm algo);
+	static int	ByteCount(int algo);
 
 	static CHash* FromURN(QString sURN);
 	static CHash* FromRaw(QByteArray& baRaw, CHash::Algorithm algo);
 
 	QString ToURN() const;
 	QString ToString() const;
-	inline QByteArray RawValue() const;
 
 	void AddData(const char* pData, quint32 nLength);
 	void AddData(QByteArray& baData);
 
-	inline CHash::Algorithm getAlgorithm() const;
 	QString GetFamilyName();
+
 	void Finalize();
 
+	inline int HashAlgorithm() const;
+	inline QByteArray RawValue() const;
+
+	inline bool operator==(const CHash& oHash);
+	inline bool operator!=(const CHash& oHash);
+	inline bool operator>(const CHash& oHash);
+	inline bool operator<(const CHash& oHash);
 };
 
+bool CHash::operator ==(const CHash& oHash)
+{
+	Q_ASSERT(oHash.m_bFinalized && m_bFinalized);
+	return (oHash.m_nHashAlgorithm == m_nHashAlgorithm && oHash.m_baRawValue == m_baRawValue);
+}
+bool CHash::operator !=(const CHash& oHash)
+{
+	return !(*this == oHash);
+}
+bool CHash::operator <(const CHash& oHash)
+{
+	return (m_baRawValue < oHash.m_baRawValue);
+}
+bool CHash::operator >(const CHash& oHash)
+{
+	return (m_baRawValue > oHash.m_baRawValue);
+}
+
+int CHash::HashAlgorithm() const
+{
+	return m_nHashAlgorithm;
+}
 QByteArray CHash::RawValue() const
 {
 	return m_baRawValue;
-}
-
-CHash::Algorithm CHash::getAlgorithm() const
-{
-	return m_nHashAlgorithm;
 }
 
 #endif // HASH_H
