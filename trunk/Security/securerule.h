@@ -74,13 +74,8 @@ public:
 	virtual void		toXML( QDomElement& oXMLroot ) const;
 
 protected:
-	CSecureRule&	operator=(const CSecureRule& pRule);
-
 	// Contains default code for XML generation.
 	static void		toXML(const CSecureRule& oRule, QDomElement& oXMLelement);
-
-private:
-	inline CSecureRule(const CSecureRule& oRule) { *this = oRule; }
 };
 
 class CIPRule : public CSecureRule
@@ -99,10 +94,6 @@ public:
 	bool				match(const QHostAddress& oAddress) const;
 	void				toXML( QDomElement& oXMLroot ) const;
 
-private:
-	CIPRule&			operator=(const CIPRule& pRule);
-
-	inline CIPRule(const CIPRule& pRule) { *this = pRule; }
 };
 
 class CIPRangeRule : public CSecureRule
@@ -123,11 +114,6 @@ public:
 
 	bool				match(const QHostAddress& oAddress) const;
 	void				toXML( QDomElement& oXMLroot ) const;
-
-private:
-	CIPRangeRule&		operator=(const CIPRangeRule& pRule);
-
-	inline CIPRangeRule(const CIPRangeRule& oRule) { *this = oRule; }
 };
 
 class CCountryRule : public CSecureRule
@@ -142,10 +128,6 @@ public:
 	bool				match(const QHostAddress& oAddress) const;
 	void				toXML( QDomElement& oXMLroot ) const;
 
-private:
-	CCountryRule&		operator=(const CCountryRule& pRule);
-
-	inline				CCountryRule(const CCountryRule& oRule) { *this = oRule; }
 };
 
 class CHashRule : public CSecureRule
@@ -171,11 +153,6 @@ public:
 	bool				match(const QList< CHash >& hashes) const;
 
 	void				toXML( QDomElement& oXMLroot ) const;
-
-private:
-	CHashRule&			operator=(const CHashRule& pRule);
-
-	inline CHashRule(const CHashRule& pRule) { *this = pRule; }
 };
 
 class CRegExpRule : public CSecureRule
@@ -189,11 +166,6 @@ public:
 
 	//		bool				match(const CQuerySearch* pQuery, const QString& strContent) const;
 	void				toXML( QDomElement& oXMLroot ) const;
-
-private:
-	CRegExpRule&		operator=(const CRegExpRule& pRule);
-
-	inline CRegExpRule(const CRegExpRule& pRule) { *this = pRule; }
 };
 
 class CUserAgentRule : public CSecureRule
@@ -213,11 +185,6 @@ public:
 
 	bool				match(const QString& strUserAgent) const;
 	void				toXML( QDomElement& oXMLroot ) const;
-
-private:
-	CUserAgentRule&		operator=(const CUserAgentRule& pRule);
-
-	inline CUserAgentRule(const CUserAgentRule& pRule) { *this = pRule; }
 };
 
 // contains everyting that does not fit into the other rule classes
@@ -241,11 +208,6 @@ public:
 	bool				match(const QString& strContent) const;
 	bool				match(const CFile& pFile) const;
 	void				toXML( QDomElement& oXMLroot ) const;
-
-private:
-	CContentRule&		operator=(const CContentRule& pRule);
-
-	inline CContentRule(const CContentRule& pRule) { *this = pRule; }
 };
 
 }

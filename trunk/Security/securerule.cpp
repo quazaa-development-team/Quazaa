@@ -15,23 +15,6 @@ CSecureRule::CSecureRule(bool bCreate)
 		m_oUUID = QUuid::createUuid();
 }
 
-CSecureRule& CSecureRule::operator=(const CSecureRule& pRule)
-{
-	if ( this == &pRule )
-		return *this;
-
-	m_nType		= pRule.m_nType;
-	m_nAction	= pRule.m_nAction;
-	m_sComment	= pRule.m_sComment;
-	m_sContent	= pRule.m_sContent;
-	m_oUUID		= pRule.m_oUUID;
-	m_tExpire	= pRule.m_tExpire;
-	m_nToday	= pRule.m_nToday;
-	m_nTotal	= pRule.m_nTotal;
-
-	return *this;
-}
-
 bool CSecureRule::operator==(const CSecureRule& pRule)
 {
 	return ( m_nType	== pRule.m_nType	&&
@@ -567,21 +550,6 @@ void CIPRule::toXML( QDomElement& oXMLroot ) const
 	oXMLroot.appendChild( oElement );
 }
 
-CIPRule& CIPRule::operator=(const CIPRule& pRule)
-{
-#ifdef _DEBUG
-	Q_ASSERT( &pRule && pRule.m_nType == srContentAddress );
-#endif //_DEBUG
-
-	if ( this == &pRule )
-		return *this;
-
-	this->CSecureRule::operator=( pRule );
-	m_oIP = pRule.m_oIP;
-
-	return *this;
-}
-
 //////////////////////////////////////////////////////////////////////
 // CIPRangeRule
 
@@ -624,22 +592,6 @@ void CIPRangeRule::toXML( QDomElement& oXMLroot ) const
 	oXMLroot.appendChild( oElement );
 }
 
-CIPRangeRule& CIPRangeRule::operator=(const CIPRangeRule& pRule)
-{
-#ifdef _DEBUG
-	Q_ASSERT( &pRule && pRule.m_nType == srContentAddressRange );
-#endif //_DEBUG
-
-	if ( this == &pRule )
-		return *this;
-
-	this->CSecureRule::operator=( pRule );
-	m_oIP   = pRule.m_oIP;
-	m_oMask = pRule.m_oMask;
-
-	return *this;
-}
-
 //////////////////////////////////////////////////////////////////////
 // CCountryRule
 
@@ -676,19 +628,6 @@ void CCountryRule::toXML( QDomElement& oXMLroot ) const
 	oXMLroot.appendChild( oElement );
 }
 
-CCountryRule& CCountryRule::operator=(const CCountryRule& pRule)
-{
-#ifdef _DEBUG
-	Q_ASSERT( &pRule && pRule.m_nType == srContentCountry );
-#endif //_DEBUG
-
-	if ( this == &pRule )
-		return *this;
-
-	this->CSecureRule::operator=( pRule );
-
-	return *this;
-}
 
 //////////////////////////////////////////////////////////////////////
 // CHashRule
@@ -698,16 +637,7 @@ CHashRule::CHashRule(bool)
 	m_nType = srContentHash;
 }
 
-/*bool CHashRule::operator==(const CHashRule& pRule)
-{
-	return
-		( m_oSHA1 == pRule.m_oSHA1 ) &&
-		( m_oED2K == pRule.m_oED2K ) &&
-		( m_oBTIH == pRule.m_oBTIH ) &&
-		( m_oTTH  == pRule.m_oTTH  ) &&
-		( m_oMD5  == pRule.m_oMD5  );
-}
-bool CHashRule::operator!=(const CHashRule& pRule)
+/*bool CHashRule::operator!=(const CHashRule& pRule)
 {
 	return !( *this == pRule );
 }*/
@@ -862,22 +792,6 @@ void CHashRule::toXML( QDomElement& oXMLroot ) const
 	oXMLroot.appendChild( oElement );
 }
 
-CHashRule& CHashRule::operator=(const CHashRule& pRule)
-{
-#ifdef _DEBUG
-	Q_ASSERT( &pRule && pRule.m_nType == srContentHash );
-#endif //_DEBUG
-
-	if ( this == &pRule )
-		return *this;
-
-	this->CSecureRule::operator=( pRule );
-
-	m_Hashes = pRule.m_Hashes;
-
-	return *this;
-}
-
 //////////////////////////////////////////////////////////////////////
 // CRegExpRule
 
@@ -1006,20 +920,6 @@ void CRegExpRule::toXML( QDomElement& oXMLroot ) const
 	oXMLroot.appendChild( oElement );
 }
 
-CRegExpRule& CRegExpRule::operator=(const CRegExpRule& pRule)
-{
-#ifdef _DEBUG
-	Q_ASSERT( &pRule && pRule.m_nType == srContentRegExp );
-#endif //_DEBUG
-
-	if ( this == &pRule )
-		return *this;
-
-	this->CSecureRule::operator=( pRule );
-
-	return *this;
-}
-
 //////////////////////////////////////////////////////////////////////
 // CUserAgentRule
 
@@ -1071,21 +971,6 @@ void CUserAgentRule::toXML( QDomElement& oXMLroot ) const
 	CSecureRule::toXML( this, oElement );
 
 	oXMLroot.appendChild( oElement );
-}
-
-CUserAgentRule& CUserAgentRule::operator=(const CUserAgentRule& pRule)
-{
-#ifdef _DEBUG
-	Q_ASSERT( &pRule && pRule.m_nType == srContentUserAgent );
-#endif //_DEBUG
-
-	if ( this == &pRule )
-		return *this;
-
-	this->CSecureRule::operator=( pRule );
-	m_bRegExp = pRule.m_bRegExp;
-
-	return *this;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1210,17 +1095,3 @@ void CContentRule::toXML( QDomElement& oXMLroot ) const
 	oXMLroot.appendChild( oElement );
 }
 
-CContentRule& CContentRule::operator=(const CContentRule& pRule)
-{
-#ifdef _DEBUG
-	Q_ASSERT( &pRule && ( pRule.m_nType == srContentAny || pRule.m_nType == srContentAll ) );
-#endif //_DEBUG
-
-	if ( this == &pRule )
-		return *this;
-
-	this->CSecureRule::operator=( pRule );
-	m_lContent = pRule.m_lContent;
-
-	return *this;
-}
