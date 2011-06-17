@@ -1454,7 +1454,6 @@ QDomDocument CSecurity::toXML()
 
 	for ( CIterator i = getIterator(); i != getEnd() ; i++ )
 	{
-		// Invalid rules could return NULL.
 		(*i)->toXML( oXMLroot );
 	}
 
