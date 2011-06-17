@@ -51,7 +51,7 @@ public:
 
 
 public:
-	CNeighbour(QObject *parent = 0);
+	CNeighbour(QObject* parent = 0);
 	virtual ~CNeighbour();
 
 	virtual void ConnectTo(CEndPoint oAddress)

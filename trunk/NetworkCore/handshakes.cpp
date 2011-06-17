@@ -108,7 +108,7 @@ void CHandshakes::RemoveHandshake(CHandshake* pHs)
 	}
 }
 
-void CHandshakes::processNeighbour(CHandshake *pHs)
+void CHandshakes::processNeighbour(CHandshake* pHs)
 {
 	RemoveHandshake(pHs);
 	Neighbours.OnAccept(pHs);

@@ -75,7 +75,7 @@ void CHandshake::OnRead()
 
 		QByteArray baResp;
 		baResp += "HTTP/1.1 501 Not Implemented\r\n";
-                baResp += "Server: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+		baResp += "Server: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 		baResp += "\r\n";
 
 		Write(baResp);

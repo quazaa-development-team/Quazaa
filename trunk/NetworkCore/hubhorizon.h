@@ -1,5 +1,5 @@
 /*
-** $Id: neighboursconnections.h 592 2011-05-29 22:29:44Z brov $
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -23,44 +23,65 @@
 */
 
 
-#ifndef NEIGHBOURSCONNECTIONS_H
-#define NEIGHBOURSCONNECTIONS_H
+#ifndef HUBHORIZON_H
+#define HUBHORIZON_H
 
-#include "neighboursrouting.h"
+#include "types.h"
 
-class CNetworkConnection;
-class CRateController;
+class G2Packet;
 
-class CNeighboursConnections : public CNeighboursRouting
+
+class CHubHorizonHub
 {
-	Q_OBJECT
-protected:
-	CRateController* m_pController;
 public:
-	quint32 m_nHubsConnectedG2;
-	quint32 m_nLeavesConnectedG2;
-public:
-	CNeighboursConnections(QObject* parent = 0);
-	virtual ~CNeighboursConnections();
-
-	virtual void Connect();
-	virtual void Disconnect();
-
-	void AddNode(CNeighbour* pNode);
-	void RemoveNode(CNeighbour* pNode);
-
-	void DisconnectYoungest(DiscoveryProtocol nProtocol, int nType = 0, bool bCore = false);
-
-	virtual quint32 DownloadSpeed();
-	virtual quint32 UploadSpeed();
-
-signals:
-
-public slots:
-	CNeighbour* ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol);
-	CNeighbour* OnAccept(CNetworkConnection* pConn);
-
-	virtual void Maintain();
+	CEndPoint		m_oAddress;
+	quint32			m_nReference;
+	CHubHorizonHub*	m_pNext;
 };
 
-#endif // NEIGHBOURSCONNECTIONS_H
+
+class CHubHorizonGroup
+{
+public:
+	CHubHorizonGroup();
+	virtual ~CHubHorizonGroup();
+
+protected:
+	CHubHorizonHub**	m_pList;
+	quint32				m_nCount;
+	quint32				m_nBuffer;
+
+public:
+	void		Add(CEndPoint oAddress);
+	void		Clear();
+
+};
+
+
+class CHubHorizonPool
+{
+public:
+	CHubHorizonPool();
+	virtual ~CHubHorizonPool();
+
+protected:
+	CHubHorizonHub*		m_pBuffer;
+	quint32				m_nBuffer;
+	CHubHorizonHub*		m_pFree;
+	CHubHorizonHub*		m_pActive;
+	quint32				m_nActive;
+
+public:
+	void				Setup();
+	void				Clear();
+	CHubHorizonHub*		Add(CEndPoint oAddress);
+	void				Remove(CHubHorizonHub* pHub);
+	CHubHorizonHub*		Find(CEndPoint oAddress);
+	int					AddHorizonHubs(G2Packet* pPacket);
+
+};
+
+extern CHubHorizonPool	HubHorizonPool;
+
+
+#endif // HUBHORIZON_H

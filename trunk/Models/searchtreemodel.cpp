@@ -27,6 +27,7 @@
 #include "systemlog.h"
 #include "geoiplist.h"
 #include "commonfunctions.h"
+#include "Hashes/hash.h"
 
 SearchTreeModel::SearchTreeModel()
 {
@@ -266,7 +267,7 @@ void SearchTreeModel::setupModelData(const QStringList& lines, SearchTreeItem* p
 void SearchTreeModel::clear()
 {
 	beginRemoveRows(QModelIndex(), 0, rootItem->childCount());
-        //qDebug() << "clearSearch passing to rootItem";
+	//qDebug() << "clearSearch passing to rootItem";
 	rootItem->clearChildren();
 	endRemoveRows();
 
@@ -281,7 +282,14 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 
 	while(pHit2 != 0)
 	{
-		int existingSearch = rootItem->find(rootItem, pHit2->m_oSha1.ToString());
+		int existingSearch = -1;
+
+		foreach(CHash pHash, pHit2->m_lHashes)
+		{
+			existingSearch = rootItem->find(rootItem, pHash);
+			if(existingSearch != -1)
+				break;
+		}
 
 		if(existingSearch == -1)
 		{
@@ -299,7 +307,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			              << ""
 			              << "";
 			SearchTreeItem* m_oParentItem = new SearchTreeItem(m_lParentData, rootItem);
-			m_oParentItem->HitData.oSha1Hash = pHit2->m_oSha1;
+			m_oParentItem->HitData.lHashes << pHit2->m_lHashes;
 			QList<QVariant> m_lChildData;
 			m_lChildData << fileInfo.completeBaseName()
 			             << fileInfo.suffix()
@@ -311,7 +319,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			             << Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
 			             << GeoIP.countryNameFromCode(sCountry);
 			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, m_oParentItem);
-			m_oChildItem->HitData.oSha1Hash = pHit2->m_oSha1;
+			m_oChildItem->HitData.lHashes << pHit2->m_lHashes;
 			m_oChildItem->HitData.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
 			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
@@ -338,7 +346,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			             << Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
 			             << GeoIP.countryNameFromCode(sCountry);
 			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, rootItem->child(existingSearch));
-			m_oChildItem->HitData.oSha1Hash = pHit2->m_oSha1;
+			m_oChildItem->HitData.lHashes << pHit2->m_lHashes;
 			m_oChildItem->HitData.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
 			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
@@ -392,11 +400,11 @@ int SearchTreeItem::columnCount() const
 	return itemData.count();
 }
 
-int SearchTreeItem::find(SearchTreeItem* containerItem, QString hash)
+int SearchTreeItem::find(SearchTreeItem* containerItem, CHash& pHash)
 {
 	for(int index = 0; index < containerItem->childItems.size(); ++index)
 	{
-		if(containerItem->child(index)->HitData.oSha1Hash.ToString() == hash)
+		if(containerItem->child(index)->HitData.lHashes.contains(pHash))
 		{
 			return index;
 		}

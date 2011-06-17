@@ -35,6 +35,8 @@
 #include <QDateTime>
 #include "quazaasettings.h"
 #include "buffer.h"
+#include "query.h"
+#include "Hashes/hash.h"
 
 // Parts of this code are borrowed from Shareaza
 
@@ -345,7 +347,7 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 }
 
 bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
-							  CG2Node* pNeighbour)
+                              CG2Node* pNeighbour)
 {
 	if(!pTarget->m_pHash)
 	{
@@ -590,7 +592,7 @@ bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 	}
 
 	m_pBuffer->append((char*)pPacket->m_pBuffer + pPacket->m_nPosition,
-					  pPacket->m_nLength - pPacket->m_nPosition);
+	                  pPacket->m_nLength - pPacket->m_nPosition);
 
 	if(nSequence < nMaximum)
 	{
@@ -882,4 +884,31 @@ int CQueryHashTable::MakeKeywords(QString sPhrase, QStringList& outList)
 	}
 
 	return outList.size();
+}
+
+
+bool CQueryHashTable::CheckQuery(CQueryPtr pQuery)
+{
+	if( !m_bLive || !m_pHash )
+		return true;
+
+	for(int i = 0; i < pQuery->m_lHashes.size(); ++i)
+	{
+		if(CheckString(pQuery->m_lHashes[i].ToURN()))
+			return true;
+	}
+
+	int nWords = 0, nWordHits = 0;
+
+	if( pQuery->m_lHashedKeywords.size() )
+	{
+		foreach(quint32 nHash, pQuery->m_lHashedKeywords)
+		{
+			nWords++;
+			if(CheckHash(nHash))
+				nWordHits++;
+		}
+	}
+
+	return (nWords >= 3) ? (nWordHits * 3 / nWords >= 2) : (nWords == nWordHits && nWords > 0);
 }

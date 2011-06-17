@@ -79,20 +79,20 @@ QVariant ChatUserListModel::data(const QModelIndex& index, int role) const
 
 	if(role == Qt::DecorationRole)
 	{
-		switch (item->userMode)
+		switch(item->userMode)
 		{
-		case UserMode::Owner:
-			return iOwner;
-		case UserMode::Administrator:
-			return iAdmin;
-		case UserMode::Operator:
-			return iOperator;
-		case UserMode::HalfOperator:
-			return iHalfOperator;
-		case UserMode::Voice:
-			return iVoice;
-		default:
-			return iNormal;
+			case UserMode::Owner:
+				return iOwner;
+			case UserMode::Administrator:
+				return iAdmin;
+			case UserMode::Operator:
+				return iOperator;
+			case UserMode::HalfOperator:
+				return iHalfOperator;
+			case UserMode::Voice:
+				return iVoice;
+			default:
+				return iNormal;
 		}
 	}
 
@@ -119,7 +119,7 @@ Qt::ItemFlags ChatUserListModel::flags(const QModelIndex& index) const
 }
 
 QVariant ChatUserListModel::headerData(int section, Qt::Orientation orientation,
-									 int role) const
+                                       int role) const
 {
 	if(orientation == Qt::Horizontal && role == Qt::DisplayRole)
 	{
@@ -226,7 +226,7 @@ void ChatUserListModel::removeUser(QString name)
 {
 	int existingUser = rootItem->find(name);
 
-	if (existingUser != -1)
+	if(existingUser != -1)
 	{
 		beginRemoveRows(QModelIndex(), 0, rootItem->childCount());
 		rootItem->childItems.removeAt(existingUser);
@@ -241,7 +241,7 @@ void ChatUserListModel::removeUser(QString name)
 void ChatUserListModel::addUsers(Irc::Buffer* buffer)
 {
 	QStringList names = buffer->names();
-	for (int i = 0; i < names.size(); i++)
+	for(int i = 0; i < names.size(); i++)
 	{
 		addUser(names.at(i), buffer->modes(names.at(i)));
 	}
@@ -259,34 +259,34 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 	nUserCount = 0;
 
 	emit layoutAboutToBeChanged();
-	if (order == Qt::AscendingOrder)
+	if(order == Qt::AscendingOrder)
 	{
-		for (int i = 0; i < rootItem->childItems.size(); ++i)
+		for(int i = 0; i < rootItem->childItems.size(); ++i)
 		{
-			switch (rootItem->childItems.at(i)->userMode)
+			switch(rootItem->childItems.at(i)->userMode)
 			{
-			case UserMode::Owner:
-				ownerList.append(rootItem->childItems.at(i));
-				nOperatorCount++;
-				break;
-			case UserMode::Administrator:
-				administratorList.append(rootItem->childItems.at(i));
-				nOperatorCount++;
-				break;
-			case UserMode::Operator:
-				operatorList.append(rootItem->childItems.at(i));
-				nOperatorCount++;
-				break;
-			case UserMode::HalfOperator:
-				halfOperatorList.append(rootItem->childItems.at(i));
-				nOperatorCount++;
-				break;
-			case UserMode::Voice:
-				voiceList.append(rootItem->childItems.at(i));
-				break;
-			default:
-				normalList.append(rootItem->childItems.at(i));
-				break;
+				case UserMode::Owner:
+					ownerList.append(rootItem->childItems.at(i));
+					nOperatorCount++;
+					break;
+				case UserMode::Administrator:
+					administratorList.append(rootItem->childItems.at(i));
+					nOperatorCount++;
+					break;
+				case UserMode::Operator:
+					operatorList.append(rootItem->childItems.at(i));
+					nOperatorCount++;
+					break;
+				case UserMode::HalfOperator:
+					halfOperatorList.append(rootItem->childItems.at(i));
+					nOperatorCount++;
+					break;
+				case UserMode::Voice:
+					voiceList.append(rootItem->childItems.at(i));
+					break;
+				default:
+					normalList.append(rootItem->childItems.at(i));
+					break;
 			}
 		}
 
@@ -297,33 +297,35 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 		rootItem->childItems.append(caseInsensitiveSecondarySort(halfOperatorList, order));
 		rootItem->childItems.append(caseInsensitiveSecondarySort(voiceList, order));
 		rootItem->childItems.append(caseInsensitiveSecondarySort(normalList, order));
-	} else if (order == Qt::DescendingOrder){
-		for (int i = rootItem->childItems.size(); i > 0; --i)
+	}
+	else if(order == Qt::DescendingOrder)
+	{
+		for(int i = rootItem->childItems.size(); i > 0; --i)
 		{
-			switch (rootItem->childItems.at(i)->userMode)
+			switch(rootItem->childItems.at(i)->userMode)
 			{
-			case UserMode::Owner:
-				ownerList.append(rootItem->childItems.at(i));
-				nOperatorCount++;
-				break;
-			case UserMode::Administrator:
-				administratorList.append(rootItem->childItems.at(i));
-				nOperatorCount++;
-				break;
-			case UserMode::Operator:
-				operatorList.append(rootItem->childItems.at(i));
-				nOperatorCount++;
-				break;
-			case UserMode::HalfOperator:
-				halfOperatorList.append(rootItem->childItems.at(i));
-				nOperatorCount++;
-				break;
-			case UserMode::Voice:
-				voiceList.append(rootItem->childItems.at(i));
-				break;
-			default:
-				normalList.append(rootItem->childItems.at(i));
-				break;
+				case UserMode::Owner:
+					ownerList.append(rootItem->childItems.at(i));
+					nOperatorCount++;
+					break;
+				case UserMode::Administrator:
+					administratorList.append(rootItem->childItems.at(i));
+					nOperatorCount++;
+					break;
+				case UserMode::Operator:
+					operatorList.append(rootItem->childItems.at(i));
+					nOperatorCount++;
+					break;
+				case UserMode::HalfOperator:
+					halfOperatorList.append(rootItem->childItems.at(i));
+					nOperatorCount++;
+					break;
+				case UserMode::Voice:
+					voiceList.append(rootItem->childItems.at(i));
+					break;
+				default:
+					normalList.append(rootItem->childItems.at(i));
+					break;
 			}
 		}
 
@@ -342,85 +344,94 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 
 QList<ChatUserItem*> ChatUserListModel::caseInsensitiveSecondarySort(QList<ChatUserItem*> list, Qt::SortOrder order)
 {
-	 if (order == Qt::AscendingOrder)
-	 {
-		 QMap<QString, ChatUserItem*> map;
-		 for (int i = 0; i < list.size(); ++i)
-			 map.insert(list.at(i)->sNick.toLower(), list.at(i));
+	if(order == Qt::AscendingOrder)
+	{
+		QMap<QString, ChatUserItem*> map;
+		for(int i = 0; i < list.size(); ++i)
+		{
+			map.insert(list.at(i)->sNick.toLower(), list.at(i));
+		}
 
-		 list = map.values();
-		 return list;
-	 } else {
-		 QMap<QString, ChatUserItem*> map;
-		 for (int i = 0; i < list.size(); ++i)
-			 map.insert(list.at(i)->sNick.toLower(), list.at(i));
+		list = map.values();
+		return list;
+	}
+	else
+	{
+		QMap<QString, ChatUserItem*> map;
+		for(int i = 0; i < list.size(); ++i)
+		{
+			map.insert(list.at(i)->sNick.toLower(), list.at(i));
+		}
 
-		 list.clear();
-		 QMapIterator<QString, ChatUserItem*> i(map);
-		 for (int i = map.size(); i > 0; --i) {
-			 list.append(map.values().at(i));
-		 }
-		 return list;
-	 }
+		list.clear();
+		QMapIterator<QString, ChatUserItem*> i(map);
+		for(int i = map.size(); i > 0; --i)
+		{
+			list.append(map.values().at(i));
+		}
+		return list;
+	}
 }
 
 void ChatUserListModel::updateUserMode(QString hostMask, QString mode, QString name)
 {
 	int existingUser = rootItem->find(name);
 
-	if (existingUser != -1)
+	if(existingUser != -1)
 	{
 		QString sAction = mode.at(0);
 		QString sMode = mode.at(1);
-		if (sAction == "+")
+		if(sAction == "+")
 		{
-			if (sMode.contains('q'))
+			if(sMode.contains('q'))
 			{
 				rootItem->childItems.at(existingUser)->sModes += "q";
 				rootItem->childItems.at(existingUser)->userMode = UserMode::Owner;
 			}
-			else if (sMode.contains('a') && highestMode(existingUser) < UserMode::Administrator)
+			else if(sMode.contains('a') && highestMode(existingUser) < UserMode::Administrator)
 			{
 				rootItem->childItems.at(existingUser)->sModes += "a";
 				rootItem->childItems.at(existingUser)->userMode = UserMode::Administrator;
 			}
-			else if (sMode.contains('o') && highestMode(existingUser) < UserMode::Operator)
+			else if(sMode.contains('o') && highestMode(existingUser) < UserMode::Operator)
 			{
 				rootItem->childItems.at(existingUser)->sModes += "o";
 				rootItem->childItems.at(existingUser)->userMode = UserMode::Operator;
 			}
-			else if (sMode.contains('h') && highestMode(existingUser) < UserMode::HalfOperator)
+			else if(sMode.contains('h') && highestMode(existingUser) < UserMode::HalfOperator)
 			{
 				rootItem->childItems.at(existingUser)->sModes += "h";
 				rootItem->childItems.at(existingUser)->userMode = UserMode::HalfOperator;
 			}
-			else if (sMode.contains('v') && highestMode(existingUser) < UserMode::Voice)
+			else if(sMode.contains('v') && highestMode(existingUser) < UserMode::Voice)
 			{
 				rootItem->childItems.at(existingUser)->sModes += "v";
 				rootItem->childItems.at(existingUser)->userMode = UserMode::Voice;
 			}
-		} else {
-			if (sMode.contains('q'))
+		}
+		else
+		{
+			if(sMode.contains('q'))
 			{
 				rootItem->childItems.at(existingUser)->sModes.remove("q");
 				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
 			}
-			else if (sMode.contains('a'))
+			else if(sMode.contains('a'))
 			{
 				rootItem->childItems.at(existingUser)->sModes.remove("a");
 				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
 			}
-			else if (sMode.contains('o'))
+			else if(sMode.contains('o'))
 			{
 				rootItem->childItems.at(existingUser)->sModes.remove("o");
 				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
 			}
-			else if (sMode.contains('h'))
+			else if(sMode.contains('h'))
 			{
 				rootItem->childItems.at(existingUser)->sModes.remove("h");
 				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
 			}
-			else if (sMode.contains('v'))
+			else if(sMode.contains('v'))
 			{
 				rootItem->childItems.at(existingUser)->sModes.remove("v");
 				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
@@ -432,26 +443,28 @@ void ChatUserListModel::updateUserMode(QString hostMask, QString mode, QString n
 
 UserMode::UserMode ChatUserListModel::highestMode(int index)
 {
-	if (rootItem->childItems.at(index)->sModes.contains('q'))
+	if(rootItem->childItems.at(index)->sModes.contains('q'))
 	{
 		return UserMode::Owner;
 	}
-	else if (rootItem->childItems.at(index)->sModes.contains('a'))
+	else if(rootItem->childItems.at(index)->sModes.contains('a'))
 	{
 		return UserMode::Administrator;
 	}
-	else if (rootItem->childItems.at(index)->sModes.contains('o'))
+	else if(rootItem->childItems.at(index)->sModes.contains('o'))
 	{
 		return UserMode::Operator;
 	}
-	else if (rootItem->childItems.at(index)->sModes.contains('h'))
+	else if(rootItem->childItems.at(index)->sModes.contains('h'))
 	{
 		return UserMode::HalfOperator;
 	}
-	else if (rootItem->childItems.at(index)->sModes.contains('v'))
+	else if(rootItem->childItems.at(index)->sModes.contains('v'))
 	{
 		return UserMode::Voice;
-	} else {
+	}
+	else
+	{
 		return UserMode::Normal;
 	}
 }
@@ -460,7 +473,7 @@ void ChatUserListModel::changeNick(QString oldNick, QString newNick)
 {
 	int existingUser = rootItem->find(oldNick);
 
-	if (existingUser != -1)
+	if(existingUser != -1)
 	{
 		rootItem->childItems.at(existingUser)->sNick = newNick;
 		sort();
@@ -472,27 +485,27 @@ ChatUserItem::ChatUserItem(QString nick, QString modes, ChatUserItem* parent)
 	parentItem = parent;
 	sModes = modes;
 
-	if (modes.contains('q'))
+	if(modes.contains('q'))
 	{
 		sNick = nick;
 		userMode = UserMode::Owner;
 	}
-	else if (modes.contains('a'))
+	else if(modes.contains('a'))
 	{
 		sNick = nick;
 		userMode = UserMode::Administrator;
 	}
-	else if (modes.contains('o'))
+	else if(modes.contains('o'))
 	{
 		sNick = nick;
 		userMode = UserMode::Operator;
 	}
-	else if (modes.contains('h'))
+	else if(modes.contains('h'))
 	{
 		sNick = nick;
 		userMode = UserMode::HalfOperator;
 	}
-	else if (modes.contains('v'))
+	else if(modes.contains('v'))
 	{
 		sNick = nick;
 		userMode = UserMode::Voice;

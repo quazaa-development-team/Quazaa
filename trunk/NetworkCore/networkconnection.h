@@ -177,6 +177,9 @@ public slots:
 	virtual void OnError(QAbstractSocket::SocketError e) = 0;
 	virtual void OnStateChange(QAbstractSocket::SocketState s) = 0;
 
+protected slots:
+	void CloseInternal(bool bDelayed);
+
 public:
 	TCPBandwidthMeter m_mInput;
 	TCPBandwidthMeter m_mOutput;

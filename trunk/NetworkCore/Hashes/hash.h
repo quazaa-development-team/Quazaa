@@ -62,34 +62,34 @@ public:
 
 	void Finalize();
 
-	inline int HashAlgorithm() const;
+	inline CHash::Algorithm getAlgorithm() const;
 	inline QByteArray RawValue() const;
 
-	inline bool operator==(const CHash& oHash);
-	inline bool operator!=(const CHash& oHash);
-	inline bool operator>(const CHash& oHash);
-	inline bool operator<(const CHash& oHash);
+	inline bool operator==(const CHash& oHash) const;
+	inline bool operator!=(const CHash& oHash) const;
+	inline bool operator>(const CHash& oHash) const;
+	inline bool operator<(const CHash& oHash) const;
 };
 
-bool CHash::operator ==(const CHash& oHash)
+bool CHash::operator ==(const CHash& oHash) const
 {
 	Q_ASSERT(oHash.m_bFinalized && m_bFinalized);
 	return (oHash.m_nHashAlgorithm == m_nHashAlgorithm && oHash.m_baRawValue == m_baRawValue);
 }
-bool CHash::operator !=(const CHash& oHash)
+bool CHash::operator !=(const CHash& oHash) const
 {
 	return !(*this == oHash);
 }
-bool CHash::operator <(const CHash& oHash)
+bool CHash::operator <(const CHash& oHash) const
 {
 	return (m_baRawValue < oHash.m_baRawValue);
 }
-bool CHash::operator >(const CHash& oHash)
+bool CHash::operator >(const CHash& oHash) const
 {
 	return (m_baRawValue > oHash.m_baRawValue);
 }
 
-int CHash::HashAlgorithm() const
+CHash::Algorithm CHash::getAlgorithm() const
 {
 	return m_nHashAlgorithm;
 }

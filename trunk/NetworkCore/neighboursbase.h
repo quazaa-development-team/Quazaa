@@ -1,5 +1,5 @@
 /*
-** $Id: neighboursbase.h 587 2011-05-28 07:33:42Z brov $
+** $Id: neighboursbase.h 592 2011-05-29 22:29:44Z brov $
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -47,7 +47,7 @@ protected:
 	QHash<QHostAddress, CNeighbour*> m_lNodesByAddr;  // lookups by ip address
 	QSet<CNeighbour*>				 m_lNodesByPtr;	// lookups by pointer
 public:
-	CNeighboursBase(QObject *parent = 0);
+	CNeighboursBase(QObject* parent = 0);
 	virtual ~CNeighboursBase();
 
 	virtual void Connect();

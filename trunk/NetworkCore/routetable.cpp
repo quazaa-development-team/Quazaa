@@ -29,7 +29,8 @@ CRouteTable::CRouteTable()
 }
 CRouteTable::~CRouteTable()
 {
-
+	qDeleteAll(m_lRoutes);
+	m_lRoutes.clear();
 }
 
 bool CRouteTable::Add(QUuid& pGUID, CG2Node* pNeighbour, CEndPoint* pEndpoint, bool bNoExpire)
@@ -48,61 +49,42 @@ bool CRouteTable::Add(QUuid& pGUID, CG2Node* pNeighbour, CEndPoint* pEndpoint, b
 		ExpireOldRoutes(true);
 	}
 
-	if(m_lRoutes.contains(pGUID))
+	G2RouteItem* pRoute = 0;
+
+	if( m_lRoutes.contains(pGUID) )
 	{
-		G2RouteItem& pRoute = m_lRoutes[pGUID];
-
-		if(bNoExpire && pNeighbour)
-		{
-			pRoute.nExpireTime = 0;
-		}
-		else
-		{
-			pRoute.nExpireTime = time(0) + RouteExpire;
-		}
-
-
-		if(pNeighbour)
-		{
-			pRoute.pNeighbour = pNeighbour;
-		}
-		if(pEndpoint)
-		{
-			pRoute.pEndpoint = *pEndpoint;
-		}
-
-		return true;
+		pRoute = m_lRoutes.value(pGUID);
 	}
 	else
 	{
-		G2RouteItem pRoute;
-
-		if(bNoExpire && pNeighbour)
-		{
-			pRoute.nExpireTime = 0;
-		}
-		else
-		{
-			pRoute.nExpireTime = time(0) + RouteExpire;
-		}
-
-		pRoute.pGUID = pGUID;
-
-		if(pNeighbour)
-		{
-			pRoute.pNeighbour = pNeighbour;
-		}
-		if(pEndpoint)
-		{
-			pRoute.pEndpoint = *pEndpoint;
-		}
-
-		m_lRoutes[pGUID] = pRoute;
-
-		return true;
+		pRoute = new G2RouteItem();
+		m_lRoutes.insert(pGUID, pRoute);
 	}
 
-	return false;
+	if(bNoExpire && pNeighbour)
+	{
+		pRoute->nExpireTime = 0;
+	}
+	else
+	{
+		pRoute->nExpireTime = time(0) + RouteExpire;
+	}
+
+	pRoute->pGUID = pGUID;
+
+	if(pNeighbour)
+	{
+		pRoute->pNeighbour = pNeighbour;
+	}
+	if(pEndpoint)
+	{
+		pRoute->pEndpoint = *pEndpoint;
+	}
+
+	Q_ASSERT_X(m_lRoutes[pGUID]->pNeighbour != 0 || !m_lRoutes[pGUID]->pEndpoint.isNull(), Q_FUNC_INFO, "Whooops! No neighbour and no endpoint!");
+
+	return true;
+
 }
 bool CRouteTable::Add(QUuid& pGUID, CG2Node* pNeighbour, bool bNoExpire)
 {
@@ -115,24 +97,21 @@ bool CRouteTable::Add(QUuid& pGUID, CEndPoint& pEndpoint, bool bNoExpire)
 
 void CRouteTable::Remove(QUuid& pGUID)
 {
-	m_lRoutes.remove(pGUID);
+	G2RouteItem* pRoute = m_lRoutes.value(pGUID, 0);
+	if( pRoute )
+	{
+		m_lRoutes.remove(pGUID);
+		delete pRoute;
+	}
 }
 void CRouteTable::Remove(CG2Node* pNeighbour)
 {
-	for(QHash<QUuid, G2RouteItem>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end();)
+	for(QHash<QUuid, G2RouteItem*>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end();)
 	{
-		if(itRoute.value().pNeighbour == pNeighbour)
+		if(itRoute.value()->pNeighbour == pNeighbour)
 		{
-			if(!itRoute.value().pEndpoint.isNull())
-			{
-				itRoute = m_lRoutes.erase(itRoute);
-			}
-			else
-			{
-				itRoute.value().pNeighbour = 0;
-				itRoute.value().nExpireTime = time(0) + RouteExpire;
-				itRoute++;
-			}
+			delete *itRoute;
+			itRoute = m_lRoutes.erase(itRoute);
 		}
 		else
 		{
@@ -143,18 +122,22 @@ void CRouteTable::Remove(CG2Node* pNeighbour)
 
 bool CRouteTable::Find(QUuid& pGUID, CG2Node** ppNeighbour, CEndPoint* pEndpoint)
 {
+	Q_ASSERT_X(ppNeighbour || pEndpoint, Q_FUNC_INFO, "Invalid arguments");
+
 	if(m_lRoutes.contains(pGUID))
 	{
 		if(ppNeighbour)
 		{
-			*ppNeighbour = m_lRoutes[pGUID].pNeighbour;
+			*ppNeighbour = m_lRoutes[pGUID]->pNeighbour;
 		}
 		if(pEndpoint)
 		{
-			*pEndpoint = m_lRoutes[pGUID].pEndpoint;
+			*pEndpoint = m_lRoutes[pGUID]->pEndpoint;
 		}
 
-		m_lRoutes[pGUID].nExpireTime = time(0) + RouteExpire;
+		Q_ASSERT_X(*ppNeighbour != 0 || !pEndpoint->isNull(), Q_FUNC_INFO, "Found GUID but no destination");
+
+		m_lRoutes[pGUID]->nExpireTime = time(0) + RouteExpire;
 
 		return true;
 	}
@@ -167,10 +150,11 @@ void CRouteTable::ExpireOldRoutes(bool bForce)
 	quint32 tNow = time(0);
 
 	// najpierw wygasle
-	for(QHash<QUuid, G2RouteItem>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end();)
+	for(QHash<QUuid, G2RouteItem*>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end();)
 	{
-		if(itRoute.value().nExpireTime < tNow)
+		if(itRoute.value()->nExpireTime < tNow)
 		{
+			delete *itRoute;
 			itRoute = m_lRoutes.erase(itRoute);
 		}
 		else
@@ -184,16 +168,43 @@ void CRouteTable::ExpireOldRoutes(bool bForce)
 
 	if(bForce && m_lRoutes.size() >= MaxRoutes * 0.75)
 	{
-		// redukujemy hash'a do 3/4 jego wartosci
-		while(m_lRoutes.size() >= MaxRoutes * 0.75)
+		qint32 tExpire = RouteExpire;
+
+		while(m_lRoutes.size() > MaxRoutes * 0.75)
 		{
-			m_lRoutes.erase(m_lRoutes.begin());
+			if( tExpire > 0 )
+			{
+				tExpire /= 2;
+			}
+			else if( tExpire < 0 )
+			{
+				tExpire *= 2;
+			}
+			else
+			{
+				tExpire = -10;
+			}
+
+			// redukujemy hash'a do 3/4 jego wartosci
+			for( QHash<QUuid, G2RouteItem*>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end() && m_lRoutes.size() > MaxRoutes * 0.75; )
+			{
+				if( itRoute.value()->nExpireTime < tNow + tExpire )
+				{
+					delete *itRoute;
+					itRoute = m_lRoutes.erase(itRoute);
+				}
+				else
+				{
+					itRoute++;
+				}
+			}
 		}
 	}
 }
 
 void CRouteTable::Clear()
 {
+	qDeleteAll(m_lRoutes);
 	m_lRoutes.clear();
 }
 
@@ -209,14 +220,14 @@ void CRouteTable::Dump()
 	systemLog.postLog(LogSeverity::Debug, QString("Table size: ").arg(m_lRoutes.size()));
 	//qDebug() << "Table size: " << m_lRoutes.size();
 
-	for(QHash<QUuid, G2RouteItem>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end(); itRoute++)
+	for(QHash<QUuid, G2RouteItem*>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end(); itRoute++)
 	{
-		qint64 nExpire = itRoute.value().nExpireTime - tNow;
-		if(itRoute.value().nExpireTime == 0)
+		qint64 nExpire = itRoute.value()->nExpireTime - tNow;
+		if(itRoute.value()->nExpireTime == 0)
 		{
 			nExpire = 0;
 		}
-		systemLog.postLog(LogSeverity::Debug, "%s %i %s TTL %i", itRoute.key().toString().toAscii().constData(), itRoute.value().pNeighbour, itRoute.value().pEndpoint.toString().toAscii().constData(), nExpire);
+		systemLog.postLog(LogSeverity::Debug, "%s %i %s TTL %i", qPrintable(itRoute.key().toString()), itRoute.value()->pNeighbour, qPrintable(itRoute.value()->pEndpoint.toString()), nExpire);
 		//qDebug() << itRoute.key().toString().toAscii().constData() << itRoute.value().pNeighbour << itRoute.value().pEndpoint.toString().toAscii().constData() << " TTL " << nExpire;
 	}
 
