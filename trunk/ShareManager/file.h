@@ -102,7 +102,7 @@ bool CFile::removeTag(QString sTag)
 	return m_Tags.remove( sTag );
 }
 
-virtual qint64 CFile::size() const
+qint64 CFile::size() const
 {
 	return m_nSize;
 }
