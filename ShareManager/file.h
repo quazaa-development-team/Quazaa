@@ -13,6 +13,7 @@ private:
 	QList< CHash >	m_Hashes; // SHA1 (Base32), ED2K (MD4, Base16), BitTorrent Info Hash (Base32), TigerTree Root Hash (Base32), MD5 (Base16)
 	QSet< QString > m_Tags;
 	bool			m_bNull; // Set to 0 if constructed with default constructor.
+	qint64			m_nSize;
 
 public:
 	typedef enum { Magnet, eD2k } URIType;
@@ -60,9 +61,19 @@ public:
 	// the tag "physical" if the specified file is physically existant on the hard drive.
 	void setFileName(const QString& name);
 
+	// Returns the file size. If it is unknown for some reason, -1 is returned.
+	inline virtual qint64 size() const;
+
+	// Resizes the file. Updates the file data within this class as well as resizes the
+	// file. See QFile::resize( qint64 sz ) for documentation details.
+	bool resize( qint64 sz );
+
 signals:
 
 public slots:
+
+private:
+	void setup();
 
 };
 
@@ -89,6 +100,11 @@ void CFile::setTag(QString sTag)
 bool CFile::removeTag(QString sTag)
 {
 	return m_Tags.remove( sTag );
+}
+
+virtual qint64 CFile::size() const
+{
+	return m_nSize;
 }
 
 #endif // FILE_H
