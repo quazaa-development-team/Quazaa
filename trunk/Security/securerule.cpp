@@ -698,19 +698,19 @@ CHashRule& CHashRule::operator=(const CHashRule& pRule)
 	return *this;
 }
 
-//bool CHashRule::operator==(const CHashRule& pRule)
-//{
-//	return
-//		( m_oSHA1 == pRule.m_oSHA1 ) &&
-//		( m_oED2K == pRule.m_oED2K ) &&
-//		( m_oBTIH == pRule.m_oBTIH ) &&
-//		( m_oTTH  == pRule.m_oTTH  ) &&
-//		( m_oMD5  == pRule.m_oMD5  );
-//}
-//bool CHashRule::operator!=(const CHashRule& pRule)
-//{
-//	return !( *this == pRule );
-//}
+/*bool CHashRule::operator==(const CHashRule& pRule)
+{
+	return
+		( m_oSHA1 == pRule.m_oSHA1 ) &&
+		( m_oED2K == pRule.m_oED2K ) &&
+		( m_oBTIH == pRule.m_oBTIH ) &&
+		( m_oTTH  == pRule.m_oTTH  ) &&
+		( m_oMD5  == pRule.m_oMD5  );
+}
+bool CHashRule::operator!=(const CHashRule& pRule)
+{
+	return !( *this == pRule );
+}*/
 
 QList< CHash > CHashRule::getHashes() const
 {
@@ -1029,7 +1029,7 @@ bool CUserAgentRule::match(const QString& strUserAgent) const
 
 	if( m_bRegExp )
 	{
-		//		return ( RegExp::match( m_sContent, strUserAgent ) != 0 ); // "!= 0" disables compiler warning.
+//		return ( RegExp::match( m_sContent, strUserAgent ) != 0 ); // "!= 0" disables compiler warning.
 	}
 	else
 	{
@@ -1146,38 +1146,33 @@ bool CContentRule::match(const QString& strContent) const
 	return false;
 }
 
-// TODO: Implement
+// TODO: use method to safely find out extension instead of only looking for last dot in filename
 bool CContentRule::match(const CFile& oFile) const
 {
-	return false;
-}
-
-// TODO: use method to safely find out extension instead of only looking for last dot in filename
-/*bool CContentRule::match(const CShareazaFile* pFile) const
-{
 #ifdef _DEBUG
- Q_ASSERT( pFile && ( m_nType == srContentAny || m_nType == srContentAll ) );
+	Q_ASSERT( !oFile.isNull() && ( m_nType == srContentAny || m_nType == srContentAll ) );
 #endif //_DEBUG
 
- if ( pFile )
- {
-  if ( pFile->m_nSize != 0 && pFile->m_nSize != SIZE_UNKNOWN )
-  {
-   if ( m_sName.lastIndexOf( '.' ) != -1 )
-   {
-	QString strExt = pFile->m_sName.mid( m_sName.lastIndexOf( '.' ) );
-	QString strExtFileSize = "size:%1:%2";
-	strExtFileSize.arg( strExt, QString( pFile->m_nSize ) );
-	if ( match( strExtFileSize ) )
-	 return true;
-   }
-  }
+	if ( !oFile.isNull() )
+	{
+		if ( oFile.size() )
+		{
+			qint32 index = oFile.fileName().lastIndexOf( '.' );
+			if ( index != -1 )
+			{
+				QString strExt = oFile.fileName().mid( index );
+				QString strExtFileSize = "size:%1:%2";
+				strExtFileSize.arg( strExt, QString::number( oFile.size() ) );
+				if ( match( strExtFileSize ) )
+					return true;
+			}
+		}
 
-  if ( match( pFile->m_sName ) )
-   return true;
- }
- return false;
-}*/
+		if ( match( oFile.fileName() ) )
+			return true;
+	}
+	return false;
+}
 
 void CContentRule::toXML( QDomElement& oXMLroot ) const
 {
