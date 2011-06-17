@@ -208,8 +208,6 @@ void CHash::Finalize()
 			m_bFinalized = true;
 		}
 	}
-
-	return m_baRawValue;
 }
 
 void CHash::AddData(const char *pData, quint32 nLength)
