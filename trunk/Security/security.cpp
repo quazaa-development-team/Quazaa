@@ -43,7 +43,7 @@ bool CSecurity::check(CSecureRule* pRule)
 {
 	QMutexLocker l( &m_pSection );
 
-	return pRule != NULL && getUUID( pRule->m_oUUID ) != getEnd();
+	return pRule != NULL && getUUID( pRule->m_oUUID ) != m_Rules.end();
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 	// Add rule to list of all rules
 	CIterator iExRule = getUUID( pRule->m_oUUID );
-	if ( iExRule != getEnd() ) // we do not allow 2 rules by the same UUID
+	if ( iExRule != m_Rules.end() ) // we do not allow 2 rules by the same UUID
 	{
 		remove( iExRule );
 	}
@@ -212,7 +212,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 		CIterator i = getHash( oHashes );
 
-		if ( i != getEnd() )
+		if ( i != m_Rules.end() )
 		{
 			pExRule = *i;
 			if ( pHashRule->hashEquals( *((CHashRule*)*i) ) )
@@ -407,12 +407,12 @@ void CSecurity::add(CSecureRule* pRule)
 
 void CSecurity::remove(CSecureRule* pRule)
 {
-	if ( !pRule ) return;
+	if ( !pRule )
+		return;
 
 	QMutexLocker l( &m_pSection );
 
-	CIterator i = getUUID( pRule->m_oUUID );
-	remove( i );
+	remove( getUUID( pRule->m_oUUID ) );
 }
 
 void CSecurity::clear()
@@ -461,16 +461,17 @@ void CSecurity::expire()
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-	CIterator i = getIterator();
-	while (  i != getEnd() )
+	CIterator i, j = i = m_Rules.begin();
+	while (  i != m_Rules.end() )
 	{
 		if ( (*i)->isExpired( tNow ) )
 		{
-			i = remove( i );
+			remove( i );
+			i = j;
 		}
 		else
 		{
-			++i;
+			j = i++;
 		}
 	}
 
@@ -753,7 +754,7 @@ void CSecurity::ban(const CFile& oFile, BanLength nBanLength, bool bMessage, con
 
  CIterator i = getHash( pFile->m );
 
- bool bAlreadyBlocked = ( i != getEnd() && ((CHashRule*)*i)->match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) );
+ bool bAlreadyBlocked = ( i != m_Rules.end() && ((CHashRule*)*i)->match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) );
 
  if ( bAlreadyBlocked )
  {
@@ -1332,7 +1333,7 @@ bool CSecurity::save()
 
 		oStream << getCount();
 
-		for ( CIterator i = getIterator(); i != getEnd(); i++ )
+		for ( CIterator i = m_Rules.begin(); i != m_Rules.end(); i++ )
 		{
 			const CSecureRule* pRule = *i;
 			CSecureRule::save( pRule, oStream );
@@ -1422,7 +1423,7 @@ bool CSecurity::fromXML(const QDomDocument &oXMLroot)
 
 			if ( pRule )
 			{
-				if ( getUUID( pRule->m_oUUID ) == getEnd() && !pRule->isExpired( tNow ) )
+				if ( getUUID( pRule->m_oUUID ) == m_Rules.end() && !pRule->isExpired( tNow ) )
 				{
 					add( pRule );
 				}
@@ -1452,7 +1453,7 @@ QDomDocument CSecurity::toXML()
 	QDomElement oXMLroot = oXMLdoc.createElement( "security" );
 	oXMLroot.setAttribute( "xmlns", CSecurity::xmlns );
 
-	for ( CIterator i = getIterator(); i != getEnd() ; i++ )
+	for ( CIterator i = m_Rules.begin(); i != m_Rules.end() ; i++ )
 	{
 		(*i)->toXML( oXMLroot );
 	}
@@ -1466,7 +1467,7 @@ QDomDocument CSecurity::toXML()
 CSecurity::CIterator CSecurity::getHash(const QList< CHash >& hashes) const
 {
 	// We are not searching for any hash. :)
-	if ( hashes.isEmpty() ) return getEnd();
+	if ( hashes.isEmpty() ) return m_Rules.end();
 
 	CHashRuleMap::const_iterator i;
 
@@ -1481,22 +1482,22 @@ CSecurity::CIterator CSecurity::getHash(const QList< CHash >& hashes) const
 		}
 	}
 
-	return getEnd();
+	return m_Rules.end();
 }
 CSecurity::CIterator CSecurity::getUUID(const QUuid& oUUID) const
 {
-	for ( CIterator i = getIterator() ; i != getEnd(); i++ )
+	for ( CIterator i = m_Rules.begin() ; i != m_Rules.end(); i++ )
 	{
 		if ( (*i)->m_oUUID == oUUID ) return i;
 	}
 
-	return getEnd();
+	return m_Rules.end();
 }
 
-CSecurity::CIterator CSecurity::remove(CIterator it)
+void CSecurity::remove(CIterator it)
 {
-	if ( it == getEnd() )
-		return it;
+	if ( it == m_Rules.end() )
+		return;
 
 	CSecureRule* pRule = *it;
 	CSecureRule::RuleType type = pRule->getType();
@@ -1572,10 +1573,8 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 					m_Hashes.erase( i );
 					break;
 				}
-				else
-				{
-					++i;
-				}
+
+				++i;
 			}
 		}
 	}
@@ -1639,12 +1638,11 @@ CSecurity::CIterator CSecurity::remove(CIterator it)
 
 	// The only reciever, CSecurityTableModel, deals with releasing the memory.
 	emit ruleRemoved( pRule );
-	//	delete pRule;
 
 	m_bSaved = false;
 
 	// Remove rule entry from list of all rules
-	return m_Rules.begin();//.erase( it );
+	m_Rules.erase( getIterator<CSecurityRuleList, CSecurityRuleList::iterator, CIterator>( m_Rules, it ) );
 }
 
 bool CSecurity::isAgentDenied(const QString& strUserAgent)
@@ -1778,7 +1776,7 @@ bool CSecurity::isDenied(const QString& strContent)
  CIterator it = getHash( sSHA1, sED2K, sTTH, sBTIH, sMD5 );
 
  // If this rule matches the file, return denied.
- if ( it != getEnd() && ((CHashRule*)*it)->match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) )
+ if ( it != m_Rules.end() && ((CHashRule*)*it)->match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) )
   return true;
 
  // Else check other content rules.
