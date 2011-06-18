@@ -123,14 +123,12 @@ namespace security
 		/* ================================================================ */
 		/* ========================== Operations ========================== */
 		/* ================================================================ */
-		inline unsigned int	getCount() const	{ return m_Rules.size();  }
+		inline unsigned int	getCount() const;
 
-		inline bool		getDenyPolicy() const	{ return m_bDenyPolicy; }
+		inline bool		getDenyPolicy() const;
 		void			setDenyPolicy(bool bDenyPolicy);
 
 		bool			check(CSecureRule* pRule);
-		void			moveUp(CSecureRule* pRule);
-		void			moveDown(CSecureRule* pRule);
 		void			add(CSecureRule* pRule);
 		void			remove(CSecureRule* pRule);
 		void			clear();
@@ -179,8 +177,15 @@ namespace security
 		void			ruleRemoved( CSecureRule* pRule);
 
 	private:
-		inline CIterator	getEnd() const		{ return m_Rules.end();   }
-		inline CIterator	getIterator() const	{ return m_Rules.begin(); }
+		// This generates a read/write iterator from a read-only iterator.
+		// TODO: Convince brov to help me make this template only require 1 class parameter,
+		// as in fact T_it == T::iterator and T_const_it == T::const_iterator...
+		template<class T, class T_it, class T_const_it> inline T_it getIterator(T container, T_const_it const_it)
+		{
+			T_it i( container.begin() );
+			std::advance( i, std::distance< T_const_it >( i, const_it ) );
+			return i;
+		}
 
 		bool			load(QString sPath);
 
@@ -188,7 +193,7 @@ namespace security
 		CIterator		getHash(const QList< CHash >& hashes) const;
 		CIterator		getUUID(const QUuid& oUUID) const;
 
-		CIterator		remove(CIterator i);
+		void			remove(CIterator i);
 
 		bool			isAgentDenied(const QString& strUserAgent);
 
@@ -200,6 +205,17 @@ namespace security
 //		bool			isDenied(const CShareazaFile* pFile);
 //		bool			isDenied(const CQuerySearch* pQuery, const QString& strContent);
 	};
+
+	unsigned int CSecurity::getCount() const
+	{
+		return m_Rules.size();
+	}
+
+	bool CSecurity::getDenyPolicy() const
+	{
+		return m_bDenyPolicy;
+	}
+
 };
 
 extern security::CSecurity Security;
