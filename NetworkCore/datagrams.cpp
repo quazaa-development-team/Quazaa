@@ -28,7 +28,6 @@
 #include "datagramfrags.h"
 #include "g2node.h"
 #include "g2packet.h"
-#include <QTimer>
 #include "hostcache.h"
 #include "searchmanager.h"
 #include "Hashes/hash.h"

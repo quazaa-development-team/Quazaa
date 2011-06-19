@@ -40,8 +40,6 @@
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 
-#include <QTcpSocket>
-
 //#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject* parent) :
