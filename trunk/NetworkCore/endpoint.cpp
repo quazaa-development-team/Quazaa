@@ -224,3 +224,15 @@ bool CEndPoint::isFirewalled() const
 
 	return false;
 }
+
+CEndPoint & CEndPoint::operator =(const CEndPoint &rhs)
+{
+	QHostAddress::operator =(rhs);
+	m_nPort = rhs.m_nPort;
+	return *this;
+}
+CEndPoint & CEndPoint::operator =(const QHostAddress &rhs)
+{
+	QHostAddress::operator =(rhs);
+	return *this;
+}

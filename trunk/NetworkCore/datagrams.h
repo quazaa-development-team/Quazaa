@@ -130,7 +130,6 @@ public slots:
 
 signals:
 	void SendQueueUpdated();
-	void PacketQueuedForRouting();
 
 	friend class CNetwork;
 };
