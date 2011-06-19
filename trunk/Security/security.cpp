@@ -1061,7 +1061,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
 	CCountryRuleMap::const_iterator it_3;
 	it_3 = m_Countries.find( GeoIP.findCountryCode( oAddress ) );
 
-	if ( it_3 != m_IPs.end() )
+	if ( it_3 != m_Countries.end() )
 	{
 		CSecureRule* pCountryRule = (*it_3).second;
 		if ( pCountryRule->isExpired( tNow ) )

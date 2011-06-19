@@ -47,23 +47,27 @@ public:
 
 	GeoIPList();
 	void loadGeoIP();
-	inline QString findCountryCode(QString IP)
-	{
-		CEndPoint ipAddress(IP);
+	inline QString findCountryCode(const QString& IP) const;
+	inline QString findCountryCode(const QHostAddress& ip) const;
 
-		return findCountryCode(ipAddress);
-	}
-	inline QString findCountryCode(CEndPoint& ip)
-	{
-		if( ip.protocol() == 1 ) // IPv6
-			return "ZZ";
-		quint32 ip4 = ip.toIPv4Address();
-		return findCountryCode(ip4);
-	}
-
-	QString findCountryCode(quint32& nIp, quint32 nBegin = 0, quint32 nEnd = 0xFFFFFFFF);
-	QString countryNameFromCode(QString code);
+	QString findCountryCode(const quint32& nIp, quint32 nBegin = 0, quint32 nEnd = 0xFFFFFFFF) const;
+	QString countryNameFromCode(const QString& code) const;
 };
+
+QString GeoIPList::findCountryCode(const QString& IP) const
+{
+	CEndPoint ipAddress( IP );
+	return findCountryCode( ipAddress );
+}
+
+QString GeoIPList::findCountryCode(const QHostAddress& ip) const
+{
+	if( ip.protocol() == 1 ) // IPv6
+		return "ZZ";
+
+	quint32 ip4 = ip.toIPv4Address();
+	return findCountryCode( ip4 );
+}
 
 extern GeoIPList GeoIP;
 

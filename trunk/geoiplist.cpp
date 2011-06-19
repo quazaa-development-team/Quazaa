@@ -65,7 +65,7 @@ void GeoIPList::loadGeoIP()
 }
 
 
-QString GeoIPList::findCountryCode(quint32& nIp, quint32 nBegin, quint32 nEnd)
+QString GeoIPList::findCountryCode(const quint32& nIp, quint32 nBegin, quint32 nEnd) const
 {
 	if(!m_bListLoaded)
 	{
@@ -109,7 +109,7 @@ QString GeoIPList::findCountryCode(quint32& nIp, quint32 nBegin, quint32 nEnd)
 	return "ZZ";
 }
 
-QString GeoIPList::countryNameFromCode(QString code)
+QString GeoIPList::countryNameFromCode(const QString& code) const
 {
 	if(code == "AF")
 	{

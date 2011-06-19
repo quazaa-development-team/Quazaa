@@ -1,5 +1,6 @@
 #include "security.h"
 #include "securerule.h"
+#include "geoiplist.h"
 
 using namespace security;
 
@@ -606,7 +607,7 @@ bool CCountryRule::match(const QHostAddress& oAddress) const
 	Q_ASSERT( !oAddress.isNull() && m_nType == srContentCountry );
 #endif //_DEBUG
 
-	if ( !oAddress.isNull() /*&& theApp.getCountryCode( *pAddress ) == m_sCountry*/ )
+	if ( !oAddress.isNull() && m_sContent == GeoIPList.findCountryCode( oAddress ) )
 		return true;
 
 	return false;
