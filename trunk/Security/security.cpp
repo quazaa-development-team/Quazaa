@@ -2,6 +2,7 @@
 
 #include <QFile>
 
+#include "geoiplist.h"
 #include "security.h"
 #include "quazaasettings.h"
 
@@ -461,17 +462,19 @@ void CSecurity::expire()
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-	CIterator i, j = i = m_Rules.begin();
+	CIterator j, i = m_Rules.begin();
 	while (  i != m_Rules.end() )
 	{
 		if ( (*i)->isExpired( tNow ) )
 		{
+			j = i;
+			j++; // Make sure we have a valid iterator after removal.
 			remove( i );
 			i = j;
 		}
 		else
 		{
-			j = i++;
+			++i;
 		}
 	}
 
@@ -980,12 +983,12 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
 	}
 
 	// Second, check the fast IP rules lookup map.
-	CAddressRuleMap::const_iterator i;
-	i = m_IPs.find( oAddress.toString() );
+	CAddressRuleMap::const_iterator it_1;
+	it_1 = m_IPs.find( oAddress.toString() );
 
-	if ( i != m_IPs.end() )
+	if ( it_1 != m_IPs.end() )
 	{
-		CSecureRule* pIPRule = (*i).second;
+		CIPRule* pIPRule = (*it_1).second;
 		if ( pIPRule->isExpired( tNow ) )
 		{
 			mutex.unlock();
@@ -1009,28 +1012,29 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
 			{
 				return true;
 			}
-			else if ( ! ( pIPRule->m_nAction == CSecureRule::srNull ) )
+			else
 			{	// all rules within m_IPBlocked and m_IPAllowed should either be srAccept or srDeny.
-				Q_ASSERT( false );
+				Q_ASSERT( pIPRule->m_nAction == CSecureRule::srNull );
 			}
 		}
 	}
 
 	// Third, check whether the IP is contained within one of the IP range rules.
-	CIPRangeRuleList::iterator it = m_IPRanges.begin();
-	while ( it != m_IPRanges.end() )
+	CIPRangeRuleList::const_iterator it_2 = m_IPRanges.begin();
+	while ( it_2 != m_IPRanges.end() )
 	{
-		CIPRangeRule* pRule = *it;
+		CIPRangeRule* pRule = *it_2;
 
 		if ( pRule->match( oAddress ) )
 		{
 			if ( pRule->isExpired( tNow ) )
 			{
+				++it_2; // Make sure the iterator stays valid after erase operation.
+
 				mutex.unlock();
 				remove( pRule ); // invalidates iterator
 				mutex.relock();
 
-				it = m_IPRanges.begin();
 				continue;
 			}
 
@@ -1050,7 +1054,44 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
 			}
 		}
 
-		it++;
+		++it_2;
+	}
+
+	// Fourth, look up the IP in our country rule map.
+	CCountryRuleMap::const_iterator it_3;
+	it_3 = m_Countries.find( GeoIP.findCountryCode( oAddress ) );
+
+	if ( it_3 != m_IPs.end() )
+	{
+		CSecureRule* pCountryRule = (*it_3).second;
+		if ( pCountryRule->isExpired( tNow ) )
+		{
+			mutex.unlock();
+			remove( pCountryRule );
+			mutex.relock();
+		}
+		else
+		{
+			pCountryRule->count();
+
+			if ( pCountryRule->m_tExpire > CSecureRule::srSession && pCountryRule->m_tExpire < tNow + 300 )
+			{	// Add 5 min penalty for early access
+				pCountryRule->m_tExpire = tNow + 300;
+			}
+
+			if ( pCountryRule->m_nAction == CSecureRule::srAccept )
+			{
+				return false;
+			}
+			else if ( pCountryRule->m_nAction == CSecureRule::srDeny )
+			{
+				return true;
+			}
+			else
+			{	// all rules within m_IPBlocked and m_IPAllowed should either be srAccept or srDeny.
+				Q_ASSERT( pCountryRule->m_nAction == CSecureRule::srNull );
+			}
+		}
 	}
 
 	// If the IP is not within the rules (and we're using the cache),
@@ -1730,11 +1771,12 @@ bool CSecurity::isDenied(const QString& strContent)
 		{
 			if ( pRule->isExpired( tNow ) )
 			{
+				++i; // Make sure iterator stays valid after removal.
+
 				mutex.unlock();
 				remove( pRule );
 				mutex.relock();
 
-				i = m_Contents.begin();
 				continue;
 			}
 
