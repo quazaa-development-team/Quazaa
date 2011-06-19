@@ -26,27 +26,18 @@
 
 #include "thread.h"
 #include "webcache.h"
-#include "hostcache.h"
 #include "g2packet.h"
 #include "datagrams.h"
 #include <QTimer>
-#include <QTime>
-#include <QElapsedTimer>
-#include <QList>
 #include "g2node.h"
-#include "networkconnection.h"
 #include "handshakes.h"
 #include "neighbours.h"
 
 #include "quazaasettings.h"
 
-#include "queryhashtable.h"
 #include "queryhashmaster.h"
 #include "searchmanager.h"
 #include "sharemanager.h"
-#include "managedsearch.h"
-#include "query.h"
-#include "queryhit.h"
 
 #include "geoiplist.h"
 
