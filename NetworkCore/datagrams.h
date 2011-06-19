@@ -93,10 +93,6 @@ protected:
 
 	quint32 m_nDiscarded;
 
-	QLinkedList<QPair<QHostAddress, G2Packet*> > m_lPendingQKA;
-	QLinkedList<QPair<QUuid, G2Packet*> >   m_lPendingQA;
-	QLinkedList<QueuedQueryHit>   m_lPendingQH2;
-
 public:
 	CDatagrams();
 	~CDatagrams();
