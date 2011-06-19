@@ -744,7 +744,7 @@ void CSecurity::ban(const CFile& oFile, BanLength nBanLength, bool bMessage, con
 		return;
 	}
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	// quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
 	/*QString sSHA1 = ( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  : "" );
  QString sED2K = ( pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : "" );
