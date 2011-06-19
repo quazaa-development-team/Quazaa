@@ -123,6 +123,7 @@ void CFileHasher::run()
 			baBuffer.resize(nBufferSize);
 
 			pFile->m_lHashes.append(new CHash(CHash::SHA1));
+			pFile->m_lHashes.append(new CHash(CHash::MD5));
 
 			while(!f.atEnd())
 			{

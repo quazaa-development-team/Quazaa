@@ -54,7 +54,7 @@ class CChatSession;
 
 namespace Ui
 {
-	class WinMain;
+class WinMain;
 }
 
 class WinMain : public QMainWindow
@@ -70,6 +70,11 @@ public:
 	QActionGroup* actionGroupMainNavigation;
 	QLabel* labelBandwidthTotals;
 	QLabel* labelFirewallStatus;
+	QLabel* labelIPAddress;
+	QLabel* labelCurrentIPAddress;
+	QToolButton* toolButtonAddressToClipboard;
+	QFrame* frameStatusSpacer;
+	QHBoxLayout* layoutStatusSpacer;
 
 	QSystemTrayIcon* trayIcon;
 	QMenu* trayMenu;
@@ -88,7 +93,7 @@ public:
 	WidgetPacketDump* pagePacketDump;
 	WidgetSearchMonitor* pageSearchMonitor;
 	WidgetHitMonitor* pageHitMonitor;
-	DialogPrivateMessages *dlgPrivateMessages;
+	DialogPrivateMessages* dlgPrivateMessages;
 
 signals:
 	void Show();
@@ -157,6 +162,8 @@ private slots:
 	void icon_activated(QSystemTrayIcon::ActivationReason reason);
 	void startNewSearch(QString* searchString);
 	void updateStatusBar();
+	void localAddressChanged();
+	void onCopyIP();
 };
 
 extern WinMain* MainWindow;

@@ -88,6 +88,16 @@ WinMain::WinMain(QWidget* parent) :
 	ui->toolBarMainMenu->addWidget(ui->menubarMain);
 
 	//Set up the status bar
+	labelIPAddress = new QLabel(tr("Current IP:"));
+	ui->statusbar->addWidget(labelIPAddress);
+	labelCurrentIPAddress = new QLabel(tr("Unknown"));
+	ui->statusbar->addWidget(labelCurrentIPAddress);
+	toolButtonAddressToClipboard = new QToolButton(this);
+	toolButtonAddressToClipboard->setText(tr("Copy Address"));
+	toolButtonAddressToClipboard->setAutoRaise(true);
+	connect(toolButtonAddressToClipboard, SIGNAL(clicked()), this, SLOT(onCopyIP()));
+	ui->statusbar->addWidget(toolButtonAddressToClipboard);
+
 	tcpFirewalled = ":/Resource/Network/ShieldRed.png";
 	udpFirewalled = ":/Resource/Network/ShieldRed.png";
 	labelFirewallStatus = new QLabel(tr("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"> <html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">TCP: <img src=\":/Resource/Network/ShieldRed.png\" /> UDP: <img src=\":/Resource/Network/ShieldRed.png\" /></p></body></html>"));
@@ -149,6 +159,207 @@ WinMain::WinMain(QWidget* parent) :
 	ui->stackedWidgetMain->setCurrentIndex(quazaaSettings.WinMain.ActiveTab);
 	switch(quazaaSettings.WinMain.ActiveTab)
 	{
+	case 0:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
+		ui->labelMainHeaderText->setText(tr("Quazaa Home"));
+		ui->actionHome->setChecked(true);
+		break;
+	case 1:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
+		ui->labelMainHeaderText->setText(tr("Library"));
+		ui->actionLibrary->setChecked(true);
+		break;
+	case 2:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Media/Media.png"));
+		ui->labelMainHeaderText->setText(tr("Media"));
+		ui->actionMedia->setChecked(true);
+		break;
+	case 3:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
+		ui->labelMainHeaderText->setText(tr("Search"));
+		ui->actionSearch->setChecked(true);
+		break;
+	case 4:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
+		ui->labelMainHeaderText->setText(tr("Transfers"));
+		ui->actionTransfers->setChecked(true);
+		break;
+	case 5:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
+		ui->labelMainHeaderText->setText(tr("Security"));
+		ui->actionSecurity->setChecked(true);
+		break;
+	case 6:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Globe.png"));
+		ui->labelMainHeaderText->setText(tr("Activity"));
+		ui->actionActivity->setChecked(true);
+		break;
+	case 7:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
+		ui->labelMainHeaderText->setText(tr("Chat"));
+		ui->actionChat->setChecked(true);
+		break;
+	case 8:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
+		ui->labelMainHeaderText->setText(tr("Host Cache"));
+		ui->actionHostCache->setChecked(true);
+		break;
+	case 9:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
+		ui->labelMainHeaderText->setText(tr("Discovery"));
+		ui->actionDiscovery->setChecked(true);
+		break;
+	case 10:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
+		ui->labelMainHeaderText->setText(tr("Scheduler"));
+		ui->actionScheduler->setChecked(true);
+		break;
+	case 11:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
+		ui->labelMainHeaderText->setText(tr("Graph"));
+		ui->actionGraph->setChecked(true);
+		break;
+	case 12:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
+		ui->labelMainHeaderText->setText(tr("Packet Dump"));
+		ui->actionPacketDump->setChecked(true);
+		break;
+	case 13:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
+		ui->labelMainHeaderText->setText(tr("Search Monitor"));
+		ui->actionSearchMonitor->setChecked(true);
+		break;
+	case 14:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
+		ui->labelMainHeaderText->setText(tr("Hit Monitor"));
+		ui->actionHitMonitor->setChecked(true);
+		break;
+	default:
+		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
+		ui->labelMainHeaderText->setText(tr("Quazaa Home"));
+		ui->actionHome->setChecked(true);
+		break;
+	}
+	ui->menubarMain->setStyleSheet("QMenuBar::item:!selected,  QMenuBar::item:!pressed { color: " + qApp->palette().buttonText().color().name() + "; background: transparent; }");
+	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_clicked()));
+	connect(pageHome, SIGNAL(requestSearch(QString*)), this, SLOT(startNewSearch(QString*)));
+	connect(pageHome, SIGNAL(triggerLibrary()), this, SLOT(on_actionLibrary_triggered()));
+	connect(pageHome, SIGNAL(triggerSecurity()), this, SLOT(on_actionSecurity_triggered()));
+	connect(pageHome, SIGNAL(triggerTransfers()), this, SLOT(on_actionTransfers_triggered()));
+
+	neighboursRefresher = new QTimer(this);
+	connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
+	connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbours, SLOT(onTimer()));
+
+	update();
+	qApp->processEvents();
+
+	interfaceLoaded = true;
+
+	connect(&ChatCore, SIGNAL(openChatWindow(CChatSession*)), this, SLOT(OpenChat(CChatSession*)));
+	connect(&Network, SIGNAL(LocalAddressChanged()), this, SLOT(localAddressChanged()));
+}
+
+WinMain::~WinMain()
+{
+	delete ui;
+}
+void WinMain::loadTrayIcon()
+{
+	// Create the system tray right click menu.
+	trayMenu = new QMenu(this);
+	trayMenu->addAction(ui->actionShowOrHide);
+	trayMenu->addSeparator();
+	trayMenu->addAction(ui->actionNewSearch);
+	trayMenu->addAction(ui->actionURLDownload);
+	trayMenu->addSeparator();
+	trayMenu->addAction(ui->actionMediaPlay);
+	trayMenu->addAction(ui->actionMediaStop);
+	trayMenu->addAction(ui->actionMediaOpen);
+	trayMenu->addSeparator();
+	trayMenu->addAction(ui->actionMediaRewind);
+	trayMenu->addAction(ui->actionMediaNextTrack);
+	trayMenu->addSeparator();
+	trayMenu->addAction(ui->actionExitAfterTransfers);
+	trayMenu->addAction(ui->actionExit);
+	// Create the system tray icon
+	trayIcon = new QSystemTrayIcon(this);
+	trayIcon->setIcon(QIcon(":/Resource/Quazaa.png"));
+	trayIcon->setToolTip(tr("Quazaa"));
+	trayIcon->setContextMenu(trayMenu);
+	// Connect an event handler to the tray icon so we can handle mouse events
+	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+	        this, SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
+	trayIcon->show();
+}
+
+bool WinMain::event(QEvent* e)
+{
+	QMainWindow::event(e);
+	switch(e->type())
+	{
+	case QEvent::Close:
+		if(!bypassCloseEvent)
+		{
+			if(quazaaSettings.System.CloseMode == 0)
+			{
+				DialogCloseType* dlgCloseType = new DialogCloseType(this);
+				dlgCloseType->exec();
+			}
+
+			switch(quazaaSettings.System.CloseMode)
+			{
+			case 1:
+				quazaaShutdown();
+				return false;
+			case 2:
+				hide();
+				e->ignore();
+				return true;
+			case 3:
+				quazaaShutdown();
+				return false;
+			default:
+				quazaaShutdown();
+				return false;
+			}
+		}
+		else
+		{
+			quazaaShutdown();
+			return false;
+		}
+	case QEvent::Show:
+		emit Show();
+		neighboursRefresher->start(1000);
+		break;
+	case QEvent::Hide:
+		if(quazaaSettings.System.MinimizeToTray)
+		{
+			hide();
+			e->ignore();
+		}
+		if(neighboursRefresher)
+		{
+			neighboursRefresher->stop();
+		}
+		break;
+	default:
+		return false;
+	}
+
+	return false;
+}
+
+void WinMain::changeEvent(QEvent* e)
+{
+	QMainWindow::changeEvent(e);
+	switch(e->type())
+	{
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		switch(quazaaSettings.WinMain.ActiveTab)
+		{
 		case 0:
 			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
 			ui->labelMainHeaderText->setText(tr("Quazaa Home"));
@@ -229,210 +440,10 @@ WinMain::WinMain(QWidget* parent) :
 			ui->labelMainHeaderText->setText(tr("Quazaa Home"));
 			ui->actionHome->setChecked(true);
 			break;
-	}
-        ui->menubarMain->setStyleSheet("QMenuBar::item:!selected,  QMenuBar::item:!pressed { color: " + qApp->palette().buttonText().color().name() + "; background: transparent; }");
-	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_clicked()));
-	connect(pageHome, SIGNAL(requestSearch(QString*)), this, SLOT(startNewSearch(QString*)));
-	connect(pageHome, SIGNAL(triggerLibrary()), this, SLOT(on_actionLibrary_triggered()));
-	connect(pageHome, SIGNAL(triggerSecurity()), this, SLOT(on_actionSecurity_triggered()));
-	connect(pageHome, SIGNAL(triggerTransfers()), this, SLOT(on_actionTransfers_triggered()));
-
-	neighboursRefresher = new QTimer(this);
-	connect(neighboursRefresher, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
-	connect(neighboursRefresher, SIGNAL(timeout()), pageActivity->panelNeighbours, SLOT(onTimer()));
-
-	update();
-	qApp->processEvents();
-
-	interfaceLoaded = true;
-
-	connect(&ChatCore, SIGNAL(openChatWindow(CChatSession*)), this, SLOT(OpenChat(CChatSession*)));
-}
-
-WinMain::~WinMain()
-{
-	delete ui;
-}
-void WinMain::loadTrayIcon()
-{
-	// Create the system tray right click menu.
-	trayMenu = new QMenu(this);
-	trayMenu->addAction(ui->actionShowOrHide);
-	trayMenu->addSeparator();
-	trayMenu->addAction(ui->actionNewSearch);
-	trayMenu->addAction(ui->actionURLDownload);
-	trayMenu->addSeparator();
-	trayMenu->addAction(ui->actionMediaPlay);
-	trayMenu->addAction(ui->actionMediaStop);
-	trayMenu->addAction(ui->actionMediaOpen);
-	trayMenu->addSeparator();
-	trayMenu->addAction(ui->actionMediaRewind);
-	trayMenu->addAction(ui->actionMediaNextTrack);
-	trayMenu->addSeparator();
-	trayMenu->addAction(ui->actionExitAfterTransfers);
-	trayMenu->addAction(ui->actionExit);
-	// Create the system tray icon
-	trayIcon = new QSystemTrayIcon(this);
-	trayIcon->setIcon(QIcon(":/Resource/Quazaa.png"));
-	trayIcon->setToolTip(tr("Quazaa"));
-	trayIcon->setContextMenu(trayMenu);
-	// Connect an event handler to the tray icon so we can handle mouse events
-	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-			this, SLOT(icon_activated(QSystemTrayIcon::ActivationReason)));
-	trayIcon->show();
-}
-
-bool WinMain::event(QEvent* e)
-{
-	QMainWindow::event(e);
-	switch(e->type())
-	{
-		case QEvent::Close:
-			if(!bypassCloseEvent)
-			{
-				if(quazaaSettings.System.CloseMode == 0)
-				{
-					DialogCloseType* dlgCloseType = new DialogCloseType(this);
-					dlgCloseType->exec();
-				}
-
-				switch(quazaaSettings.System.CloseMode)
-				{
-					case 1:
-						quazaaShutdown();
-						return false;
-					case 2:
-						hide();
-						e->ignore();
-						return true;
-					case 3:
-						quazaaShutdown();
-						return false;
-					default:
-						quazaaShutdown();
-						return false;
-				}
-			}
-			else
-			{
-				quazaaShutdown();
-				return false;
-			}
-		case QEvent::Show:
-			emit Show();
-			neighboursRefresher->start(1000);
-			break;
-		case QEvent::Hide:
-			if(quazaaSettings.System.MinimizeToTray)
-			{
-				hide();
-				e->ignore();
-			}
-			if(neighboursRefresher)
-			{
-				neighboursRefresher->stop();
-			}
-			break;
-		default:
-			return false;
-	}
-
-	return false;
-}
-
-void WinMain::changeEvent(QEvent* e)
-{
-	QMainWindow::changeEvent(e);
-	switch(e->type())
-	{
-		case QEvent::LanguageChange:
-			ui->retranslateUi(this);
-			switch(quazaaSettings.WinMain.ActiveTab)
-			{
-				case 0:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
-					ui->labelMainHeaderText->setText(tr("Quazaa Home"));
-					ui->actionHome->setChecked(true);
-					break;
-				case 1:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
-					ui->labelMainHeaderText->setText(tr("Library"));
-					ui->actionLibrary->setChecked(true);
-					break;
-				case 2:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Media/Media.png"));
-					ui->labelMainHeaderText->setText(tr("Media"));
-					ui->actionMedia->setChecked(true);
-					break;
-				case 3:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
-					ui->labelMainHeaderText->setText(tr("Search"));
-					ui->actionSearch->setChecked(true);
-					break;
-				case 4:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
-					ui->labelMainHeaderText->setText(tr("Transfers"));
-					ui->actionTransfers->setChecked(true);
-					break;
-				case 5:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
-					ui->labelMainHeaderText->setText(tr("Security"));
-					ui->actionSecurity->setChecked(true);
-					break;
-				case 6:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Globe.png"));
-					ui->labelMainHeaderText->setText(tr("Activity"));
-					ui->actionActivity->setChecked(true);
-					break;
-				case 7:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
-					ui->labelMainHeaderText->setText(tr("Chat"));
-					ui->actionChat->setChecked(true);
-					break;
-				case 8:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
-					ui->labelMainHeaderText->setText(tr("Host Cache"));
-					ui->actionHostCache->setChecked(true);
-					break;
-				case 9:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
-					ui->labelMainHeaderText->setText(tr("Discovery"));
-					ui->actionDiscovery->setChecked(true);
-					break;
-				case 10:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
-					ui->labelMainHeaderText->setText(tr("Scheduler"));
-					ui->actionScheduler->setChecked(true);
-					break;
-				case 11:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
-					ui->labelMainHeaderText->setText(tr("Graph"));
-					ui->actionGraph->setChecked(true);
-					break;
-				case 12:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
-					ui->labelMainHeaderText->setText(tr("Packet Dump"));
-					ui->actionPacketDump->setChecked(true);
-					break;
-				case 13:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
-					ui->labelMainHeaderText->setText(tr("Search Monitor"));
-					ui->actionSearchMonitor->setChecked(true);
-					break;
-				case 14:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
-					ui->labelMainHeaderText->setText(tr("Hit Monitor"));
-					ui->actionHitMonitor->setChecked(true);
-					break;
-				default:
-					ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
-					ui->labelMainHeaderText->setText(tr("Quazaa Home"));
-					ui->actionHome->setChecked(true);
-					break;
-			}
-			break;
-		default:
-			break;
+		}
+		break;
+	default:
+		break;
 	}
 }
 
@@ -615,17 +626,17 @@ void WinMain::icon_activated(QSystemTrayIcon::ActivationReason reason)
 {
 	switch(reason)
 	{
-		case QSystemTrayIcon::Unknown:
-			break;
-		case QSystemTrayIcon::DoubleClick:
-			ui->actionShowOrHide->trigger();
-			break;
-		case QSystemTrayIcon::Trigger:
-			break;
-		case QSystemTrayIcon::MiddleClick:
-			break;
-		default:
-			break;
+	case QSystemTrayIcon::Unknown:
+		break;
+	case QSystemTrayIcon::DoubleClick:
+		ui->actionShowOrHide->trigger();
+		break;
+	case QSystemTrayIcon::Trigger:
+		break;
+	case QSystemTrayIcon::MiddleClick:
+		break;
+	default:
+		break;
 	}
 }
 
@@ -715,8 +726,8 @@ void WinMain::on_actionChooseLanguage_triggered()
 
 void WinMain::on_actionQuickstartWizard_triggered()
 {
-    WizardQuickStart* wzrdQuickStart = new WizardQuickStart(this);
-    wzrdQuickStart->exec();
+	WizardQuickStart* wzrdQuickStart = new WizardQuickStart(this);
+	wzrdQuickStart->exec();
 }
 
 void WinMain::on_actionUsersGuide_triggered()
@@ -847,16 +858,16 @@ void WinMain::on_actionConnectTo_triggered()
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
 
-	if (accepted)
+	if(accepted)
 	{
 		CEndPoint ip(dlgConnectTo->getAddressAndPort());
 
-		switch (dlgConnectTo->getConnectNetwork())
+		switch(dlgConnectTo->getConnectNetwork())
 		{
 		case DialogConnectTo::G2:
-			Network.m_pSection.lock();
-			Network.ConnectTo(ip);
-			Network.m_pSection.unlock();
+			Neighbours.m_pSection.lock();
+			Neighbours.ConnectTo(ip, dpGnutella2);
+			Neighbours.m_pSection.unlock();
 			break;
 		case DialogConnectTo::eDonkey:
 			break;
@@ -871,7 +882,7 @@ void WinMain::on_actionConnectTo_triggered()
 
 void WinMain::OpenChat(CChatSession* pSess)
 {
-	if( dlgPrivateMessages == 0 )
+	if(dlgPrivateMessages == 0)
 	{
 		dlgPrivateMessages = new DialogPrivateMessages(0);
 		connect(dlgPrivateMessages, SIGNAL(destroyed()), this, SLOT(onLastChatClosed()));
@@ -884,15 +895,15 @@ void WinMain::OpenChat(CChatSession* pSess)
 
 
 void WinMain::on_actionChatWith_triggered()
-{	
+{
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
 
-	if (accepted)
+	if(accepted)
 	{
 		CEndPoint ip(dlgConnectTo->getAddressAndPort());
 
-		switch (dlgConnectTo->getConnectNetwork())
+		switch(dlgConnectTo->getConnectNetwork())
 		{
 		case DialogConnectTo::G2:
 		{
@@ -908,4 +919,18 @@ void WinMain::on_actionChatWith_triggered()
 			break;
 		}
 	}
+}
+void WinMain::localAddressChanged()
+{
+	Network.m_pSection.lock();
+	labelCurrentIPAddress->setText(Network.GetLocalAddress().toStringWithPort());
+	Network.m_pSection.unlock();
+}
+
+void WinMain::onCopyIP()
+{
+	if(labelCurrentIPAddress->text() != tr("Unknown"))
+		QApplication::clipboard()->setText(labelCurrentIPAddress->text());
+	else
+		QMessageBox::information(this, tr("Unknown IP Address"), tr("The current IP Address is unknown and cannot be copied to the clipboard."), QMessageBox::Ok);
 }

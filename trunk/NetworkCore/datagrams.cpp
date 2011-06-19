@@ -177,24 +177,6 @@ void CDatagrams::Disconnect()
 	{
 		delete m_FreeBuffer.takeFirst();
 	}
-
-	while(!m_lPendingQA.isEmpty())
-	{
-		m_lPendingQA.takeFirst().second->Release();
-	}
-
-	while(!m_lPendingQH2.isEmpty())
-	{
-		QueuedQueryHit pHit = m_lPendingQH2.takeFirst();
-		pHit.m_pPacket->Release();
-		delete pHit.m_pInfo;
-	}
-
-	while(!m_lPendingQKA.isEmpty())
-	{
-		m_lPendingQKA.takeFirst().second->Release();
-	}
-
 }
 
 void CDatagrams::OnDatagram()
@@ -858,8 +840,6 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 		}
 		else if(strcmp("SNA", szType) == 0 && nLength >= 4)
 		{
-			CEndPoint ep;
-
 			if(nLength >= 16)
 			{
 				Q_IPV6ADDR ip;
@@ -888,29 +868,20 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toAscii().constData()).arg(nKey));
 	//qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
 
-	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() && ((QHostAddress)nKeyHost) != ((QHostAddress)Network.m_oAddress))
+	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() && nKeyHost != ((QHostAddress)Network.m_oAddress))
 	{
 		G2Packet* pQNA = G2Packet::New("QNA");
 		pQNA->WriteHostAddress(&addr);
 		pPacket->PrependPacket(pQNA);
 
-		QMutexLocker l(&m_pSection);
-		bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
-
-		pPacket->AddRef();
-		m_lPendingQKA.append(qMakePair<QHostAddress, G2Packet*>(nKeyHost, pPacket));
-
-		while(m_lPendingQKA.size() > 1000)
+		Neighbours.m_pSection.lock();
+		CNeighbour* pNode = Neighbours.Find(nKeyHost, dpGnutella2);
+		if( pNode )
 		{
-			m_lPendingQKA.takeFirst().second->Release();
+			((CG2Node*)pNode)->SendPacket(pPacket, true, false);
 		}
-
-		if(bNeedSignal)
-		{
-			emit PacketQueuedForRouting();
-		}
+		Neighbours.m_pSection.unlock();
 	}
-	// TODO Forwarding jesli hub i SNA != lokalny, dodac QNA
 
 }
 void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
@@ -931,30 +902,13 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 	if(SearchManager.OnQueryAcknowledge(pPacket, addr, oGuid) && Neighbours.IsG2Hub())
 	{
 		// Add from address
-		// pPacket->WriteChild("FR")->WriteHostAddress(&addr);
+		G2Packet* pFR = G2Packet::New("FR");
+		pFR->WriteHostAddress(&addr);
+		pPacket->AddOrReplaceChild("FR", pFR);
 
-		//QMutexLocker l(&Network.m_pSection);
-
-		//Network.RoutePacket(oGuid, pPacket);
-
-		m_pSection.lock();
-
-		bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
-
-		pPacket->AddRef();
-		m_lPendingQA.append(qMakePair(oGuid, pPacket));
-
-		while(m_lPendingQA.size() > 1000)
-		{
-			m_lPendingQA.takeFirst().second->Release();
-		}
-
-		if(bNeedSignal)
-		{
-			emit PacketQueuedForRouting();
-		}
-
-		m_pSection.unlock();
+		Network.m_pSection.lock();
+		Network.RoutePacket(oGuid, pPacket, true);
+		Network.m_pSection.unlock();
 	}
 
 }
@@ -972,32 +926,25 @@ void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 	{
 		if(SearchManager.OnQueryHit(pPacket, pInfo) && Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
 		{
-			m_pSection.lock();
-
 			pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
 
-			QueuedQueryHit pQueue;
-			pQueue.m_pInfo = pInfo;
-			pQueue.m_pPacket = pPacket;
+			Network.m_pSection.lock();
 
-			bool bNeedSignal = m_lPendingQKA.isEmpty() && m_lPendingQA.isEmpty() && m_lPendingQH2.isEmpty();
-
-			pPacket->AddRef();
-			m_lPendingQH2.append(pQueue);
-
-			while(m_lPendingQH2.size() > 10000)
+			if(pInfo->m_oNodeAddress == pInfo->m_oSenderAddress)
 			{
-				QueuedQueryHit pHit = m_lPendingQH2.takeFirst();
-				pHit.m_pPacket->Release();
-				delete pHit.m_pInfo;
+				// hits node address matches sender address
+				Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, pInfo->m_oSenderAddress);
+			}
+			else if(!pInfo->m_lNeighbouringHubs.isEmpty())
+			{
+				// hits address does not match sender address (probably forwarded by a hub)
+				// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
+				Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, pInfo->m_lNeighbouringHubs[0], false);
 			}
 
-			if(bNeedSignal)
-			{
-				emit PacketQueuedForRouting();
-			}
+			Network.RoutePacket(pInfo->m_oGUID, pPacket, true);
 
-			m_pSection.unlock();
+			Network.m_pSection.unlock();
 		}
 	}
 }

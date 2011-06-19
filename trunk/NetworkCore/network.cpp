@@ -64,8 +64,6 @@ CNetwork::CNetwork(QObject* parent)
 
 	m_bSharesReady = false;
 
-	m_bPacketsPending = false;
-
 }
 CNetwork::~CNetwork()
 {
@@ -181,11 +179,6 @@ void CNetwork::OnSecondTimer()
 
 	SearchManager.OnTimer();
 
-	if(m_bPacketsPending)
-	{
-		RoutePackets();
-	}
-
 	m_pSection.unlock();
 
 	emit Datagrams.SendQueueUpdated();
@@ -219,7 +212,7 @@ bool CNetwork::IsConnectedTo(CEndPoint addr)
 	return false;
 }
 
-bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket)
+bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeighbours)
 {
 	CG2Node* pNode = 0;
 	CEndPoint pAddr;
@@ -228,9 +221,21 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket)
 	{
 		if(pNode)
 		{
-			pNode->SendPacket(pPacket, true, false);
-			systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 routed to neighbour: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()));
-			//qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " routed to neighbour: " << pNode->m_oAddress.toString().toAscii().constData();
+			if( bLockNeighbours )
+			{
+				Neighbours.m_pSection.lock();
+			}
+
+			if( Neighbours.NeighbourExists(pNode) )
+			{
+				pNode->SendPacket(pPacket, true, false);
+				systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 routed to neighbour: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toAscii().constData()));
+			}
+
+			if( bLockNeighbours )
+			{
+				Neighbours.m_pSection.unlock();
+			}
 			return true;
 		}
 		else if(!pAddr.isNull())
@@ -313,86 +318,4 @@ void CNetwork::ConnectTo(CEndPoint& addr)
 void CNetwork::OnSharesReady()
 {
 	m_bSharesReady = true;
-}
-
-void CNetwork::RoutePackets()
-{
-	m_bPacketsPending = true;
-
-	static quint32 nWhatToRoute = 0;
-
-	if(Datagrams.m_pSection.tryLock(50))
-	{
-		if(Neighbours.m_pSection.tryLock(50))
-		{
-			QElapsedTimer oTimer;
-
-			oTimer.start();
-
-			switch(nWhatToRoute)
-			{
-				case 0:
-					while(!Datagrams.m_lPendingQH2.isEmpty() && !oTimer.hasExpired(250))
-					{
-						QueuedQueryHit pHit = Datagrams.m_lPendingQH2.takeFirst();
-
-						if(pHit.m_pInfo->m_oNodeAddress == pHit.m_pInfo->m_oSenderAddress)
-						{
-							// hits node address matches sender address
-							Network.m_oRoutingTable.Add(pHit.m_pInfo->m_oNodeGUID, pHit.m_pInfo->m_oSenderAddress);
-						}
-						else if(!pHit.m_pInfo->m_lNeighbouringHubs.isEmpty())
-						{
-							// hits address does not match sender address (probably forwarded by a hub)
-							// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
-							Network.m_oRoutingTable.Add(pHit.m_pInfo->m_oNodeGUID, pHit.m_pInfo->m_lNeighbouringHubs[0], false);
-						}
-
-						RoutePacket(pHit.m_pInfo->m_oGUID, pHit.m_pPacket);
-
-						pHit.m_pPacket->Release();
-						delete pHit.m_pInfo;
-					}
-
-					nWhatToRoute = 1;
-					break;
-				case 1:
-
-					while(!Datagrams.m_lPendingQA.isEmpty() && !oTimer.hasExpired(250))
-					{
-						QPair<QUuid, G2Packet*> oPair = Datagrams.m_lPendingQA.takeFirst();
-
-						RoutePacket(oPair.first, oPair.second);
-
-						oPair.second->Release();
-					}
-
-					while(!Datagrams.m_lPendingQKA.isEmpty() && !oTimer.hasExpired(250))
-					{
-						QPair<QHostAddress, G2Packet*> oPair = Datagrams.m_lPendingQKA.takeFirst();
-
-						if(CNeighbour* pNode = Neighbours.Find(oPair.first, dpGnutella2))
-						{
-							((CG2Node*)pNode)->SendPacket(oPair.second, true, true);
-						}
-						else
-						{
-							oPair.second->Release();
-						}
-					}
-
-					nWhatToRoute = 0;
-					break;
-			}
-
-			m_bPacketsPending = (!Datagrams.m_lPendingQA.isEmpty() || !Datagrams.m_lPendingQH2.isEmpty() || !Datagrams.m_lPendingQKA.isEmpty());
-
-			Neighbours.m_pSection.unlock();
-		}
-
-		systemLog.postLog(LogSeverity::Debug, QString("Datagrams left to be routed: QA:%1 QH2:%2 QKA:%3").arg(Datagrams.m_lPendingQA.size()).arg(Datagrams.m_lPendingQH2.size()).arg(Datagrams.m_lPendingQKA.size()));
-		//qDebug() << "Datagrams left to be routed: QA:" << Datagrams.m_lPendingQA.size() << " QH2:" << Datagrams.m_lPendingQH2.size() << " QKA:" << Datagrams.m_lPendingQKA.size();
-
-		Datagrams.m_pSection.unlock();
-	}
 }

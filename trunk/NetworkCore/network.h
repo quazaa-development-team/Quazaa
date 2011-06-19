@@ -53,8 +53,6 @@ public:
 
 	bool			 m_bSharesReady;
 
-	bool			 m_bPacketsPending;
-
 public:
 	CNetwork(QObject* parent = 0);
 	~CNetwork();
@@ -66,7 +64,7 @@ public:
 	bool IsListening();
 	bool IsFirewalled();
 
-	bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket);
+	bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeighbours = false);
 	bool RoutePacket(G2Packet* pPacket, CG2Node* pNbr = 0);
 
 	inline CEndPoint GetLocalAddress()
@@ -86,7 +84,6 @@ public slots:
 	void ConnectTo(CEndPoint& addr);
 
 	void OnSharesReady();
-	void RoutePackets();
 
 signals:
 	void LocalAddressChanged();
