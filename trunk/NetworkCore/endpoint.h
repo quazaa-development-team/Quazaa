@@ -50,6 +50,7 @@ public:
 	QString toStringWithPort() const;
 	quint16 port() const;
 	void setPort(const quint16 nPort);
+	bool isFirewalled() const;
 };
 
 #endif // ENDPOINT_H

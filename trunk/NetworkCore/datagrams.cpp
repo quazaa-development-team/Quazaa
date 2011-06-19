@@ -797,7 +797,7 @@ void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 		}
 	}
 
-	if(!oRequestedAddress.port())
+	if(!oRequestedAddress.port() || oRequestedAddress.isFirewalled())
 	{
 		return;
 	}

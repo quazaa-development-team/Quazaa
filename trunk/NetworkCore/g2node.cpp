@@ -1106,7 +1106,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
-	if(addr.isNull())   // TODO: sprawdzene czy adres jest za fw
+	if(addr.isFirewalled())
 	{
 		return;
 	}
