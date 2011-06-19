@@ -205,3 +205,22 @@ void CEndPoint::setAddressWithPort(const QString& address)
 		QHostAddress::setAddress(l1.at(0));
 	}
 }
+
+bool CEndPoint::isFirewalled() const
+{
+	if( isNull() )
+		return true;
+
+	if( protocol() == 0 ) // IPv4
+	{
+		quint32 nIp = toIPv4Address();
+
+		if( (nIp & 0xffff) == 0xa8c0 ) return true; // 192.168
+		if( (nIp & 0xff) == 0x0a ) return true;	// 10
+		if( (nIp & 0xf0ff) == 0x10ac ) return true; // 172.16
+		if( (nIp & 0xffff) == 0xfea9 ) return true; // 169.254
+		if( (nIp & 0xff) == 0x7f ) return true;	// 127
+	}
+
+	return false;
+}
