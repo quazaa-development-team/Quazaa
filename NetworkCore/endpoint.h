@@ -44,6 +44,8 @@ public:
 	CEndPoint(const CEndPoint& copy);
 	CEndPoint(SpecialAddress address, quint16 nPort = 0);
 	void setAddressWithPort(const QString& address);
+	CEndPoint& operator=(const CEndPoint& rhs);
+	CEndPoint& operator=(const QHostAddress& rhs);
 
 public:
 	void clear();

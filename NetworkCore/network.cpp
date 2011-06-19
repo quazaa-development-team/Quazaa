@@ -84,7 +84,6 @@ void CNetwork::Connect()
 	m_oRoutingTable.Clear();
 
 	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(OnSharesReady()), Qt::UniqueConnection);
-	connect(&Datagrams, SIGNAL(PacketQueuedForRouting()), this, SLOT(RoutePackets()), Qt::QueuedConnection);
 
 	NetworkThread.start("Network", &m_pSection, this);
 
@@ -193,9 +192,9 @@ void CNetwork::AcquireLocalAddress(QString& sHeader)
 	{
 		if( ((QHostAddress)hostAddr) != ((QHostAddress)m_oAddress) )
 		{
+			m_oAddress = (QHostAddress)hostAddr;
 			emit LocalAddressChanged();
 		}
-		m_oAddress.setAddress(sHeader);
 	}
 }
 bool CNetwork::IsConnectedTo(CEndPoint addr)
