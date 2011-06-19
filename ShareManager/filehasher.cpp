@@ -96,6 +96,7 @@ CFileHasher* CFileHasher::HashFile(CSharedFilePtr pFile)
 	return pHasher;
 }
 
+// TODO: Modify this to use the methods from QFile that are inherited by CFile instead of creating a separate QFile object.
 void CFileHasher::run()
 {
 	QTime tTime;
@@ -108,22 +109,25 @@ void CFileHasher::run()
 	while(!m_lQueue.isEmpty())
 	{
 		CSharedFilePtr pFile = m_lQueue.dequeue();
-		systemLog.postLog(LogSeverity::Debug, QString("Hashing %1").arg(pFile->m_sFileName));
+		systemLog.postLog(LogSeverity::Debug, QString("Hashing %1").arg(pFile->getFileName()));
 		//qDebug() << "Hashing" << pFile->m_sFileName;
 		tTime.start();
 		m_pSection.unlock();
 
 		bool bHashed = true;
 
+		// TODO: Remove QFile f from code.
 		QFile f;
-		f.setFileName(pFile->m_sDirectory + QString("/") + pFile->m_sFileName);
+		QList<CHash> lHashes;
+
+		f.setFileName(pFile->getDirectory() + QString("/") + pFile->getFileName());
 
 		if(f.exists() && f.open(QFile::ReadOnly))
 		{
 			baBuffer.resize(nBufferSize);
 
-			pFile->m_lHashes.append(new CHash(CHash::SHA1));
-			pFile->m_lHashes.append(new CHash(CHash::MD5));
+			lHashes.append( CHash( CHash::SHA1 ) );
+			lHashes.append( CHash( CHash::MD5 ) );
 
 			while(!f.atEnd())
 			{
@@ -148,9 +152,9 @@ void CFileHasher::run()
 					baBuffer.resize(nRead);
 				}
 
-				for(int i = 0; i < pFile->m_lHashes.size(); i++)
+				for(int i = 0; i < lHashes.size(); i++)
 				{
-					pFile->m_lHashes[i]->AddData(baBuffer);
+					lHashes[i].AddData(baBuffer);
 				}
 
 			}
@@ -167,14 +171,16 @@ void CFileHasher::run()
 		if(bHashed)
 		{
 			double nRate = (f.size() / (tTime.elapsed() / 1000.0)) / 1024.0 / 1024.0;
-			systemLog.postLog(LogSeverity::Debug, QString("File %1 hashed at %2 MB/s").arg(pFile->m_sFileName).arg(nRate));
+			systemLog.postLog(LogSeverity::Debug, QString("File %1 hashed at %2 MB/s").arg(pFile->getFileName()).arg(nRate));
 			//qDebug() << "File " << pFile->m_sFileName << "hashed at" << nRate << "MB/s:";
-			for(int i = 0; i < pFile->m_lHashes.size(); i++)
+			for(int i = 0; i < lHashes.size(); i++)
 			{
-				pFile->m_lHashes[i]->Finalize();
-				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(pFile->m_lHashes[i]->ToURN()));
+				lHashes[i].Finalize();
+				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(lHashes[i].ToURN()));
 				//qDebug() << pFile->m_lHashes[i]->ToURN();
 			}
+
+			pFile->setHashes( lHashes );
 			emit FileHashed(pFile);
 		}
 

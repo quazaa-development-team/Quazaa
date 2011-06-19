@@ -374,7 +374,7 @@ G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour*
 				}
 			}
 
-			int nCount = HubHorizonPool.AddHorizonHubs(pPacket);
+			/*int nCount = */HubHorizonPool.AddHorizonHubs(pPacket);
 
 			// TODO Add hubs from HostCache
 			/*if( nCount < 10 )

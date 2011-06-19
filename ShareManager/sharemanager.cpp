@@ -646,10 +646,8 @@ void CShareManager::RunHashing()
 	{
 		sRowIDs.append(query.record().value(0).toString()).append(",");
 
-		CSharedFilePtr pFile(new CSharedFile);
-		pFile->m_sFileName = query.record().value(1).toString();
-		pFile->m_nDirectoryID = query.record().value(2).toLongLong();
-		pFile->m_sDirectory = query.record().value(3).toString();
+		CSharedFilePtr pFile( new CSharedFile( query.record().value(3).toString() + '/' + query.record().value(1).toString() ) );
+		pFile->setDirectoryID( query.record().value(2).toLongLong() );
 
 		CFileHasher::HashFile(pFile);
 
@@ -669,14 +667,14 @@ void CShareManager::RunHashing()
 
 void CShareManager::OnFileHashed(CSharedFilePtr pFile)
 {
-	QMutexLocker l(&m_oSection);
+	QMutexLocker l( &m_oSection );
 
-	systemLog.postLog(LogSeverity::Debug, QString("OnFileHashed"));
+	systemLog.postLog( LogSeverity::Debug, QString( "OnFileHashed" ) );
 	//qDebug() << "OnFileHashed";
 
-	pFile->Stat();
+	pFile->stat();
 	pFile->m_bShared = true;
-	pFile->Serialize(&m_oDatabase);
+	pFile->serialize( &m_oDatabase );
 }
 
 CQueryHashTable* CShareManager::GetHashTable()

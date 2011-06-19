@@ -1,20 +1,48 @@
+#include <QDateTime>
+#include <QFileInfo>
+
 #include "file.h"
 
 CFile::CFile(QObject *parent) :
 	QFile( parent ),
 	m_bNull( true ),	// The file is supposed to be invaild until its name has been set.
+	m_nDirectoryID( 0 ),
+	m_nFileID( 0 ),
+	m_tLastModified( 0 ),
 	m_nSize( -1 )		// The file size is unknown as of now.
 {
 }
 
 CFile::CFile(const QString& name, QObject* parent) :
-	m_bNull( false ),
+	m_nDirectoryID( 0 ),
+	m_nFileID( 0 ),
+	m_tLastModified( 0 ),
 	m_nSize( -1 )		// The file size is unknown as of now.
 {
-	setup();
+	m_bNull = !analyseFileName( name, m_sDirectory, m_sFileName, m_sExtension );
+
+	stat();
 }
 
-bool CFile::removeHash(CHash oHash)
+CFile::CFile(const CFile& other)
+{
+	m_bNull				= other.m_bNull;
+
+	m_sDirectory		= other.m_sDirectory;
+	m_nDirectoryID		= other.m_nDirectoryID;
+	m_sFileName			= other.m_sFileName;
+	m_nFileID			= other.m_nFileID;
+	m_sExtension		= other.m_sExtension;
+	m_tLastModified		= other.m_tLastModified;
+	m_nSize				= other.m_nSize;
+
+	m_Hashes			= other.m_Hashes;
+	m_Tags				= other.m_Tags;
+
+	QFile( m_sDirectory + '/' + m_sFileName, other.parent() );
+}
+
+bool CFile::removeHash(const CHash& oHash)
 {
 	for ( QList< CHash >::Iterator i = m_Hashes.begin(); i != m_Hashes.end(); i++ )
 	{
@@ -33,7 +61,7 @@ QString CFile::toURI(URIType type) const
 	return QString();
 }
 
-bool CFile::isTagged(QString sTag) const
+bool CFile::isTagged(const QString& sTag) const
 {
 	QSet< QString >::ConstIterator i = m_Tags.find( sTag );
 
@@ -43,35 +71,120 @@ bool CFile::isTagged(QString sTag) const
 	return false;
 }
 
-void CFile::setFileName(const QString& name)
+bool CFile::setFileName(const QString& name)
 {
-	m_bNull = false;
-	QFile::setFileName( name );
+	QString s1, s2, s3;
+	if ( analyseFileName( name, s1, s2, s3 ) )
+	{
+		if ( s2.isEmpty() || s3.isEmpty() )
+			return false;
 
-	setup();
+		m_sFileName  = s2;
+		m_sExtension = s3;
+
+		// This call prevents setPhysicalFileName from reextracting m_sDirectory
+		// and m_sFileName from the string given to the function.
+		setPhysicalFileName( m_sDirectory + '/' + m_sFileName, true );
+
+		return true;
+	}
+
+	return false;
+}
+
+bool CFile::setDirectory(const QString& path)
+{
+	QString s1, s2, s3;
+	if ( analyseFileName( path, s1, s2, s3 ) )
+	{
+		if ( s1.isEmpty() )
+			return false;
+
+		m_sDirectory = s1;
+
+		// This call prevents setPhysicalFileName from reextracting m_sDirectory
+		// and m_sFileName from the string given to the function.
+		setPhysicalFileName( m_sDirectory + '/' + m_sFileName, true );
+
+		return true;
+	}
+
+	return false;
+}
+
+bool CFile::analyseFileName(const QString& sFilePathAndName, QString& sDirectory, QString& sFileName, QString& sExtension)
+{
+	if ( sFilePathAndName.length() < 3 )
+		return false;
+
+	int pos = sFilePathAndName.lastIndexOf( '/' );
+	if ( pos == -1 )
+	{
+		pos = sFilePathAndName.lastIndexOf( '.' );
+
+		if ( pos != -1 && pos && pos != sFilePathAndName.length() - 1 )
+		{
+			// We got only a file name without directory.
+			sDirectory.clear();
+			sFileName = sFilePathAndName;
+			sExtension = sFilePathAndName.mid( ++pos );
+			return true;
+		}
+	}
+	else if ( pos > 0 )
+	{
+		int pos_dot = sFilePathAndName.lastIndexOf( '.' );
+
+		if ( pos == sFilePathAndName.length() - 1 )
+		{	// We have been given only a directory name
+			sDirectory = sFilePathAndName;
+			sExtension.clear();
+			sFileName.clear();
+			return true;
+		}
+		else if ( pos < sFilePathAndName.length() - 3 && sFilePathAndName.length() > 4 &&
+				  pos_dot != -1 && pos_dot > pos && pos_dot != sFilePathAndName.length() - 1 )
+		{
+			sDirectory = sFilePathAndName.left( pos );
+			sFileName  = sFilePathAndName.mid( ++pos );
+			sExtension = sFilePathAndName.mid( ++pos_dot );
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void CFile::setPhysicalFileName(const QString& name, bool bIgnoreVariables)
+{
+	if ( !bIgnoreVariables )
+		m_bNull = !analyseFileName( name, m_sDirectory, m_sFileName, m_sExtension );
+
+	if ( !m_bNull )
+	{
+		QFile::setFileName( name );
+		stat();
+	}
 }
 
 bool CFile::resize( qint64 sz )
 {
 	bool bSuccess = QFile::resize( sz );
 	if ( bSuccess )
-		setup();
+		stat();
 	return bSuccess;
 }
 
-void CFile::setup()
+void CFile::stat()
 {
-	if ( exists() )
+	QFileInfo oInfo( fileName() );
+
+	if ( oInfo.exists() )
 	{
 		setTag( "physical" ); // Tag the file as being physically existant on HDD.
 
-		// TODO: Find out whether it is necessary to open a file to get it size from disk.
-		// size() describes as: "Reimplemented from QIODevice::size()./Returns the size of the file."
-		// This wouldn't be a problem if the description of QIODevice::size() didn't contain:
-		// "If the device is closed, the size returned will not reflect the actual size of the device."
-		open( QIODevice::ReadOnly );
-		m_nSize = QFile::size();
-		close();
+		m_tLastModified = oInfo.lastModified().toTime_t();
+		m_nSize = oInfo.size();
 	}
 }
 
