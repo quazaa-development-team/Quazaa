@@ -44,11 +44,13 @@
 #include "quazaairc.h"
 #include "commonfunctions.h"
 
+#include "Security/security.h"
+
 #ifdef Q_OS_LINUX
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <unistd.h>
-#endif
+#endif // Q_OS_LINUX
 
 QuazaaGlobals quazaaGlobals;
 
@@ -81,7 +83,7 @@ int main(int argc, char *argv[])
 		qDebug() << "Cannot set resource limits";
 	}
 
-#endif
+#endif // Q_OS_LINUX
 
 	theApp.setApplicationName(    QuazaaGlobals::APPLICATION_NAME() );
 	theApp.setApplicationVersion( QuazaaGlobals::APPLICATION_VERSION_STRING() );
@@ -127,8 +129,13 @@ int main(int argc, char *argv[])
 		wzrdQuickStart->exec();
 	}
 
+	// Load Security Manager
+	dlgSplash->updateProgress( 15, QObject::tr( "Loading Security Manager..." ) );
+	qApp->processEvents();
+	Security.load();
+
 	//Load profile
-	dlgSplash->updateProgress( 15, QObject::tr( "Loading Profile..." ) );
+	dlgSplash->updateProgress( 20, QObject::tr( "Loading Profile..." ) );
 	qApp->processEvents();
 	quazaaSettings.loadProfile();
 

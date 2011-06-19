@@ -6,8 +6,8 @@
 #include "security.h"
 #include "quazaasettings.h"
 
+security::CSecurity Security;
 using namespace security;
-CSecurity Security;
 
 // Plz note: QApplication hasn't been started when the global definition creates this object,
 // so no qt specific calls (for example connect() or emit signal may be used over here.
