@@ -607,7 +607,7 @@ bool CCountryRule::match(const QHostAddress& oAddress) const
 	Q_ASSERT( !oAddress.isNull() && m_nType == srContentCountry );
 #endif //_DEBUG
 
-	if ( !oAddress.isNull() && m_sContent == GeoIPList.findCountryCode( oAddress ) )
+	if ( !oAddress.isNull() && m_sContent == GeoIP.findCountryCode( oAddress ) )
 		return true;
 
 	return false;
