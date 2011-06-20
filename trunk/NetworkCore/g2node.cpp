@@ -1292,7 +1292,10 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 			SendPacket(Neighbours.CreateQueryAck(pQuery->m_oGUID, true, this, true), false, true);
 		}
 
-		Neighbours.RouteQuery(pQuery, pPacket, this, (m_nType != G2_HUB));
+		if( Neighbours.IsG2Hub() )
+		{
+			Neighbours.RouteQuery(pQuery, pPacket, this, (m_nType != G2_HUB));
+		}
 	}
 }
 

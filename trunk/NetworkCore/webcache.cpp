@@ -77,7 +77,7 @@ void CWebCache::RequestRandom()
 	systemLog.postLog(LogSeverity::Debug, QString("RequestRandom()"));
 	qDebug("RequestRandom()");
 
-	quint32 nIndex = rand() % m_lCaches.size();
+	quint32 nIndex = qrand() % m_lCaches.size();
 
 	if(m_lCaches[nIndex].CanQuery())
 	{

@@ -29,6 +29,7 @@
 
 #ifdef __cplusplus
 
+#include <QObject>
 #include <QApplication>
 #include <QString>
 #include <QStringList>
