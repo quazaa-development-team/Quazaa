@@ -46,7 +46,6 @@ CSharedFile::CSharedFile(QObject* parent) :
 
 	if ( !CSharedFile::m_bMetaRegistered )
 	{
-		qRegisterMetaType<CSharedFile>( "CSharedFile" );
 		qRegisterMetaType<CSharedFilePtr>( "CSharedFilePtr" );
 		CSharedFile::m_bMetaRegistered = true;
 	}
@@ -59,7 +58,6 @@ CSharedFile::CSharedFile(const QString& name, QObject* parent) :
 
 	if ( !CSharedFile::m_bMetaRegistered )
 	{
-		qRegisterMetaType<CSharedFile>( "CSharedFile" );
 		qRegisterMetaType<CSharedFilePtr>( "CSharedFilePtr" );
 		CSharedFile::m_bMetaRegistered = true;
 	}

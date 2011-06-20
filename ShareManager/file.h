@@ -33,9 +33,6 @@ public:
 	// name, QObject* parent = NULL) for more information.
 	CFile(const QString& name, QObject* parent = NULL);
 
-	// Copy constructor definition required as copy constructor of QFile seems to be private.
-	CFile(const CFile& other);
-
 	virtual ~CFile() {}
 
 	// Returns true if the file has been created using the default constructor CFile()
@@ -51,7 +48,7 @@ public:
 	inline void setHash(const CHash& oHash);
 
 	// Sets a list of hashes for the file.
-	inline void setHashes(const QList<CHash>& lHashes);
+	inline void setHashes(const QList<CHash*>& lHashes);
 
 	// Removes a hash from the set of hashes of a file. Returns false if the requested
 	// hash could not be found; otherwise returns true.
@@ -97,6 +94,9 @@ public:
 	// file. See QFile::resize( qint64 sz ) for documentation details.
 	bool resize( qint64 sz );
 
+private:
+	Q_DISABLE_COPY(CFile)
+
 signals:
 
 public slots:
@@ -125,9 +125,12 @@ void CFile::setHash(const CHash& oHash)
 	m_Hashes.push_back( oHash );
 }
 
-void CFile::setHashes(const QList<CHash>& lHashes)
+void CFile::setHashes(const QList<CHash*>& lHashes)
 {
-	m_Hashes.append( lHashes );
+	foreach(CHash* pHash, lHashes)
+	{
+		m_Hashes.append(*pHash);
+	}
 }
 
 void CFile::setTag(const QString& sTag)

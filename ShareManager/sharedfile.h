@@ -46,6 +46,9 @@ public:
 
 	void stat();
 	void serialize(QSqlDatabase* pDatabase);
+
+private:
+	Q_DISABLE_COPY(CSharedFile)
 };
 
 typedef QSharedPointer<CSharedFile> CSharedFilePtr;

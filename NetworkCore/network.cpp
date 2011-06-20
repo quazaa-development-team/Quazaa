@@ -101,7 +101,6 @@ void CNetwork::Disconnect()
 	if(m_bActive)
 	{
 		m_bActive = false;
-		disconnect(&Datagrams, SIGNAL(PacketQueuedForRouting()));
 		NetworkThread.exit(0);
 	}
 

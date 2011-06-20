@@ -14,6 +14,7 @@ CFile::CFile(QObject *parent) :
 }
 
 CFile::CFile(const QString& name, QObject* parent) :
+	QFile(name, parent),
 	m_nDirectoryID( 0 ),
 	m_nFileID( 0 ),
 	m_tLastModified( 0 ),
@@ -22,24 +23,6 @@ CFile::CFile(const QString& name, QObject* parent) :
 	m_bNull = !analyseFileName( name, m_sDirectory, m_sFileName, m_sExtension );
 
 	stat();
-}
-
-CFile::CFile(const CFile& other)
-{
-	m_bNull				= other.m_bNull;
-
-	m_sDirectory		= other.m_sDirectory;
-	m_nDirectoryID		= other.m_nDirectoryID;
-	m_sFileName			= other.m_sFileName;
-	m_nFileID			= other.m_nFileID;
-	m_sExtension		= other.m_sExtension;
-	m_tLastModified		= other.m_tLastModified;
-	m_nSize				= other.m_nSize;
-
-	m_Hashes			= other.m_Hashes;
-	m_Tags				= other.m_Tags;
-
-	QFile( m_sDirectory + '/' + m_sFileName, other.parent() );
 }
 
 bool CFile::removeHash(const CHash& oHash)

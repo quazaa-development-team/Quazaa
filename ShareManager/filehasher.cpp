@@ -116,20 +116,16 @@ void CFileHasher::run()
 
 		bool bHashed = true;
 
-		// TODO: Remove QFile f from code.
-		QFile f;
-		QList<CHash> lHashes;
+		QList<CHash*> lHashes;
 
-		f.setFileName(pFile->getDirectory() + QString("/") + pFile->getFileName());
-
-		if(f.exists() && f.open(QFile::ReadOnly))
+		if(pFile->exists() && pFile->open(QFile::ReadOnly))
 		{
 			baBuffer.resize(nBufferSize);
 
-			lHashes.append( CHash( CHash::SHA1 ) );
-			lHashes.append( CHash( CHash::MD5 ) );
+			lHashes.append( new CHash( CHash::SHA1 ) );
+			lHashes.append( new CHash( CHash::MD5 ) );
 
-			while(!f.atEnd())
+			while(!pFile->atEnd())
 			{
 				if(!m_bActive)
 				{
@@ -138,12 +134,12 @@ void CFileHasher::run()
 					bHashed = false;
 					break;
 				}
-				qint64 nRead = f.read(baBuffer.data(), nBufferSize);
+				qint64 nRead = pFile->read(baBuffer.data(), nBufferSize);
 
 				if(nRead < 0)
 				{
 					bHashed = false;
-					systemLog.postLog(LogSeverity::Debug, QString("File read error: %1").arg(f.error()));
+					systemLog.postLog(LogSeverity::Debug, QString("File read error: %1").arg(pFile->error()));
 					//qDebug() << "File read error:" << f.error();
 					break;
 				}
@@ -154,35 +150,37 @@ void CFileHasher::run()
 
 				for(int i = 0; i < lHashes.size(); i++)
 				{
-					lHashes[i].AddData(baBuffer);
+					lHashes[i]->AddData(baBuffer);
 				}
 
 			}
 
-			f.close();
+			pFile->close();
 		}
 		else
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("File open error: %1").arg(f.error()));
+			systemLog.postLog(LogSeverity::Debug, QString("File open error: %1").arg(pFile->error()));
 			//qDebug() << "File open error: " << f.error();
 			bHashed = false;
 		}
 
 		if(bHashed)
 		{
-			double nRate = (f.size() / (tTime.elapsed() / 1000.0)) / 1024.0 / 1024.0;
+			double nRate = (pFile->size() / (tTime.elapsed() / 1000.0)) / 1024.0 / 1024.0;
 			systemLog.postLog(LogSeverity::Debug, QString("File %1 hashed at %2 MB/s").arg(pFile->getFileName()).arg(nRate));
 			//qDebug() << "File " << pFile->m_sFileName << "hashed at" << nRate << "MB/s:";
 			for(int i = 0; i < lHashes.size(); i++)
 			{
-				lHashes[i].Finalize();
-				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(lHashes[i].ToURN()));
+				lHashes[i]->Finalize();
+				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(lHashes[i]->ToURN()));
 				//qDebug() << pFile->m_lHashes[i]->ToURN();
 			}
 
 			pFile->setHashes( lHashes );
 			emit FileHashed(pFile);
 		}
+
+		qDeleteAll(lHashes);
 
 		m_pSection.lock();
 
@@ -222,4 +220,3 @@ void CFileHasher::run()
 	systemLog.postLog(LogSeverity::Debug, QString("CFileHasher done. %1").arg(m_nRunningHashers));
 	//qDebug() << "CFileHasher done. " << m_nRunningHashers;
 }
-
