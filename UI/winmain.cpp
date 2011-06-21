@@ -943,7 +943,7 @@ void WinMain::onHasherStarted(int nId)
 	static DialogHashProgress* pDialog = 0;
 	if( !pDialog )
 	{
-		pDialog = new DialogHashProgress();
+		pDialog = new DialogHashProgress(QApplication::desktop());
 		connect(&ShareManager, SIGNAL(hasherStarted(int)), pDialog, SLOT(onHasherStarted(int)));
 		connect(&ShareManager, SIGNAL(hasherFinished(int)), pDialog, SLOT(onHasherFinished(int)));
 		connect(&ShareManager, SIGNAL(hashingProgress(int,QString,double,int)), pDialog, SLOT(onHashingProgress(int,QString,double,int)));

@@ -179,6 +179,7 @@ void CFileHasher::run()
 				}
 			}
 
+			emit hashingProgress(m_nId, pFile->getFileName(), 100, (tTimer.elapsed() * (nTotalRead - nLastTotalRead)) / 1000);
 			pFile->close();
 		}
 		else

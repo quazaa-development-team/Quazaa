@@ -24,6 +24,7 @@
 
 #include "dialoghashprogress.h"
 #include <QProgressBar>
+#include <QDesktopWidget>
 #include "commonfunctions.h"
 #include "ui_dialoghashprogress.h"
 #include <QDebug>
@@ -32,6 +33,7 @@ DialogHashProgress::DialogHashProgress(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogHashProgress)
 {
+	setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip | Qt::WindowStaysOnTopHint);
 	m_ui->setupUi(this);
 }
 
@@ -61,7 +63,6 @@ void DialogHashProgress::onHasherStarted(int nId)
 	m_ui->verticalLayout->addWidget(pb);
 
 	m_lProgress[nId] = qMakePair<QWidget*, QWidget*>(label, pb);
-	m_ui->frameHashProgress->adjustSize();
 }
 
 void DialogHashProgress::onHasherFinished(int nId)
@@ -82,4 +83,25 @@ void DialogHashProgress::onHashingProgress(int nId, QString sFilename, double nP
 	QString strText = sFilename + " [" + Functions.FormatBytes(nRate) + "/s]";
 	((QLabel*)m_lProgress[nId].first)->setText(strText);
 	((QProgressBar*)m_lProgress[nId].second)->setValue(nPercent);
+}
+
+void DialogHashProgress::resizeEvent(QResizeEvent* e)
+{
+	QDialog::resizeEvent(e);
+
+	int x = 0, y = 0;
+
+	QRect rectDesktop = QApplication::desktop()->availableGeometry(this);
+
+	x = rectDesktop.width() - width();
+	y = rectDesktop.height() - height();
+
+	setGeometry(x, y, width(), height());
+	update();
+}
+
+void DialogHashProgress::mousePressEvent(QMouseEvent *e)
+{
+	hide();
+	QDialog::mousePressEvent(e);
 }
