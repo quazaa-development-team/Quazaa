@@ -35,6 +35,9 @@ DialogHashProgress::DialogHashProgress(QWidget* parent) :
 {
 	setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip | Qt::WindowStaysOnTopHint);
 	m_ui->setupUi(this);
+	setWindowOpacity(0.7);
+	setMouseTracking(true);
+	qDebug() << QString("Mouse tracking is %1").arg(hasMouseTracking());
 }
 
 DialogHashProgress::~DialogHashProgress()
@@ -105,8 +108,15 @@ void DialogHashProgress::resizeEvent(QResizeEvent* e)
 	update();
 }
 
-void DialogHashProgress::mousePressEvent(QMouseEvent *e)
+void DialogHashProgress::mouseMoveEvent(QMouseEvent *e)
 {
-	hide();
+	if(mouseGrabber() && (underMouse() || m_ui->frameHashProgress->underMouse() || m_ui->labelHashIcon->underMouse() ||
+			m_ui->labelStatus->underMouse()) )
+	{
+		hide();
+	} else {
+		show();
+	}
+
 	QDialog::mousePressEvent(e);
 }
