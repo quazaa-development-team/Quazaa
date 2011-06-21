@@ -96,9 +96,10 @@ CHostCacheHost* CHostCache::Add(CEndPoint host, quint32 ts)
 		}
 	}
 
-	if(ts == 0 || ts > time(0))
+	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	if(ts == 0 || ts > tNow)
 	{
-		ts = time(0) - 60;
+		ts = tNow - 60;
 	}
 
 	CHostCacheHost* pNew = Find(host);

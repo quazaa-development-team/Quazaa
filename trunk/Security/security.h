@@ -218,6 +218,6 @@ namespace security
 
 };
 
-extern security::CSecurity Security;
+extern security::CSecurity securityManager;
 
 #endif // SECURITY_H

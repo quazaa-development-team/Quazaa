@@ -30,7 +30,7 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 
 bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_update, CSecurityTableModel *model)
 {
-	if( !Security.check( pRule ) )
+	if( !securityManager.check( pRule ) )
 		return false;
 
 	bool bRet = false;
@@ -174,8 +174,8 @@ CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 	m_nSortColumn = -1;
 	m_bNeedSorting = false;
 
-	connect( &Security, SIGNAL( ruleAdded(   CSecureRule* ) ), this, SLOT( addRule(    CSecureRule* ) ), Qt::QueuedConnection );
-	connect( &Security, SIGNAL( ruleRemoved( CSecureRule* ) ), this, SLOT( removeRule( CSecureRule* ) ), Qt::QueuedConnection );
+	connect( &securityManager, SIGNAL( ruleAdded(   CSecureRule* ) ), this, SLOT( addRule(    CSecureRule* ) ), Qt::QueuedConnection );
+	connect( &securityManager, SIGNAL( ruleRemoved( CSecureRule* ) ), this, SLOT( removeRule( CSecureRule* ) ), Qt::QueuedConnection );
 }
 
 CSecurityTableModel::~CSecurityTableModel()
@@ -359,7 +359,7 @@ void CSecurityTableModel::sort(int column, Qt::SortOrder order)
 
 void CSecurityTableModel::addRule(CSecureRule* pRule)
 {
-	if ( Security.check( pRule ) )
+	if ( securityManager.check( pRule ) )
 	{
 		beginInsertRows( QModelIndex(), m_lRules.size(), m_lRules.size() );
 		m_lRules.append( new Rule( pRule ) );
@@ -392,7 +392,7 @@ void CSecurityTableModel::updateAll()
 	QModelIndexList uplist;
 	bool bSort = m_bNeedSorting;
 
-	if ( Security.m_pSection.tryLock() )
+	if ( securityManager.m_pSection.tryLock() )
 	{
 		for ( quint32 i = 0, max = m_lRules.count(); i < max; ++i )
 		{
@@ -400,7 +400,7 @@ void CSecurityTableModel::updateAll()
 				bSort = true;
 		}
 
-		Security.m_pSection.unlock();
+		securityManager.m_pSection.unlock();
 	}
 
 	if( bSort )

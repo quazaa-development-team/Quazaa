@@ -256,7 +256,7 @@ bool G2Packet::ReadPacket(char* pszType, quint32& nLength, bool* pbCompound)
 	nLength = 0;
 	Read(&nLength, nLenLen);
 
-	if(GetRemaining() < nLength + nTypeLen + 1)
+	if(GetRemaining() < (int)(nLength + nTypeLen + 1))
 	{
 		throw packet_error();
 	}
