@@ -164,6 +164,7 @@ private slots:
 	void updateStatusBar();
 	void localAddressChanged();
 	void onCopyIP();
+	void onHasherStarted(int nId);
 };
 
 extern WinMain* MainWindow;

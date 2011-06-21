@@ -42,6 +42,7 @@
 #include "dialoglibrarysearch.h"
 #include "dialogfiltersearch.h"
 #include "dialogconnectto.h"
+#include "dialoghashprogress.h"
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
@@ -258,6 +259,7 @@ WinMain::WinMain(QWidget* parent) :
 
 	connect(&ChatCore, SIGNAL(openChatWindow(CChatSession*)), this, SLOT(OpenChat(CChatSession*)));
 	connect(&Network, SIGNAL(LocalAddressChanged()), this, SLOT(localAddressChanged()));
+	connect(&ShareManager, SIGNAL(hasherStarted(int)), this, SLOT(onHasherStarted(int)));
 }
 
 WinMain::~WinMain()
@@ -933,4 +935,19 @@ void WinMain::onCopyIP()
 		QApplication::clipboard()->setText(labelCurrentIPAddress->text());
 	else
 		QMessageBox::information(this, tr("Unknown IP Address"), tr("The current IP Address is unknown and cannot be copied to the clipboard."), QMessageBox::Ok);
+}
+
+
+void WinMain::onHasherStarted(int nId)
+{
+	static DialogHashProgress* pDialog = 0;
+	if( !pDialog )
+	{
+		pDialog = new DialogHashProgress();
+		connect(&ShareManager, SIGNAL(hasherStarted(int)), pDialog, SLOT(onHasherStarted(int)));
+		connect(&ShareManager, SIGNAL(hasherFinished(int)), pDialog, SLOT(onHasherFinished(int)));
+		connect(&ShareManager, SIGNAL(hashingProgress(int,QString,double,int)), pDialog, SLOT(onHashingProgress(int,QString,double,int)));
+	}
+	pDialog->onHasherStarted(nId);
+	pDialog->show();
 }

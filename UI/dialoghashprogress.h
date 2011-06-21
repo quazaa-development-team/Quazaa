@@ -26,6 +26,8 @@
 #define DIALOGHASHPROGRESS_H
 
 #include <QtGui/QDialog>
+#include <QHash>
+#include <QPair>
 
 namespace Ui
 {
@@ -36,9 +38,9 @@ class DialogHashProgress : public QDialog
 {
 	Q_OBJECT
 public:
+	QHash< int, QPair<QWidget*, QWidget*> > m_lProgress;
 	DialogHashProgress(QWidget* parent = 0);
 	~DialogHashProgress();
-	void updateProgress(int percent, QString status, QString file);
 
 protected:
 	void changeEvent(QEvent* e);
@@ -49,8 +51,10 @@ private:
 signals:
 	void closed();
 
-private slots:
-	 
+public slots:
+	void onHasherStarted(int nId);
+	void onHasherFinished(int nId);
+	void onHashingProgress(int nId, QString sFilename, double nPercent, int nRate);
 };
 
 #endif // DIALOGHASHPROGRESS_H

@@ -82,6 +82,11 @@ signals:
 	void sharesReady();
 	void executeQuery(const QString& sQuery);
 
+signals:
+	void hasherStarted(int); // int - hasher id
+	void hasherFinished(int); // int - hasher id
+	void hashingProgress(int, QString, double, int); // hasher id, filename, percent, rate
+
 public slots:
 	void SetupThread();
 	void CleanupThread();

@@ -28,7 +28,7 @@
 #include <QByteArray>
 #include "sharemanager.h"
 #include "quazaasettings.h"
-#include <QTime>
+#include <QElapsedTimer>
 
 QMutex CFileHasher::m_pSection;
 QQueue<CSharedFilePtr> CFileHasher::m_lQueue;
@@ -40,6 +40,7 @@ QWaitCondition CFileHasher::m_oWaitCond;
 CFileHasher::CFileHasher(QObject* parent) : QThread(parent)
 {
 	m_bActive = true;
+	m_nId = -1;
 }
 
 CFileHasher::~CFileHasher()
@@ -77,13 +78,16 @@ CFileHasher* CFileHasher::HashFile(CSharedFilePtr pFile)
 			if(!m_pHashers[i])
 			{
 				systemLog.postLog(LogSeverity::Debug, QString("Starting hasher: %1").arg(m_nRunningHashers));
-				//qDebug() << "Starting hasher: " << m_nRunningHashers;
 				m_pHashers[i] = new CFileHasher();
-				connect(m_pHashers[i], SIGNAL(QueueEmpty()), &ShareManager, SLOT(RunHashing()), Qt::UniqueConnection);
-				connect(m_pHashers[i], SIGNAL(FileHashed(CSharedFilePtr)), &ShareManager, SLOT(OnFileHashed(CSharedFilePtr)), Qt::UniqueConnection);
+				pHasher = m_pHashers[i];
+				pHasher->m_nId = i;
+				connect(pHasher, SIGNAL(QueueEmpty()), &ShareManager, SLOT(RunHashing()), Qt::UniqueConnection);
+				connect(pHasher, SIGNAL(FileHashed(CSharedFilePtr)), &ShareManager, SLOT(OnFileHashed(CSharedFilePtr)), Qt::UniqueConnection);
+				connect(pHasher, SIGNAL(hasherStarted(int)), &ShareManager, SIGNAL(hasherStarted(int)));
+				connect(pHasher, SIGNAL(hasherFinished(int)), &ShareManager, SIGNAL(hasherFinished(int)));
+				connect(pHasher, SIGNAL(hashingProgress(int,QString,double,int)), &ShareManager, SIGNAL(hashingProgress(int,QString,double,int)));
 				m_pHashers[i]->start((quazaaSettings.Library.HighPriorityHashing ? QThread::NormalPriority : QThread::LowestPriority));
 				m_nRunningHashers++;
-				pHasher = m_pHashers[i];
 				break;
 			}
 		}
@@ -96,13 +100,14 @@ CFileHasher* CFileHasher::HashFile(CSharedFilePtr pFile)
 	return pHasher;
 }
 
-// TODO: Modify this to use the methods from QFile that are inherited by CFile instead of creating a separate QFile object.
 void CFileHasher::run()
 {
-	QTime tTime;
+	QElapsedTimer tTimer;
 	QByteArray baBuffer;
 
 	const int nBufferSize = 64 * 1024;
+
+	emit hasherStarted(m_nId);
 
 	m_pSection.lock();
 
@@ -110,9 +115,10 @@ void CFileHasher::run()
 	{
 		CSharedFilePtr pFile = m_lQueue.dequeue();
 		systemLog.postLog(LogSeverity::Debug, QString("Hashing %1").arg(pFile->getFileName()));
-		//qDebug() << "Hashing" << pFile->m_sFileName;
-		tTime.start();
+
 		m_pSection.unlock();
+
+		emit hashingProgress(m_nId, pFile->getFileName(), 0, 0);
 
 		bool bHashed = true;
 
@@ -124,6 +130,13 @@ void CFileHasher::run()
 
 			lHashes.append( new CHash( CHash::SHA1 ) );
 			lHashes.append( new CHash( CHash::MD5 ) );
+
+			tTimer.start();
+			double nLastPercent = 0;
+			quint64 nFileSize = pFile->size();
+			quint64 nTotalRead = 0, nLastTotalRead = 0;
+
+			emit hashingProgress(m_nId, pFile->getFileName(), 0, 0);
 
 			while(!pFile->atEnd())
 			{
@@ -148,11 +161,22 @@ void CFileHasher::run()
 					baBuffer.resize(nRead);
 				}
 
+				nTotalRead += nRead;
+
 				for(int i = 0; i < lHashes.size(); i++)
 				{
 					lHashes[i]->AddData(baBuffer);
 				}
 
+				if( tTimer.elapsed() >= 1000 )
+				{
+					double nPercent = 100.0f * nTotalRead / float(nFileSize);
+					int nRate = (tTimer.elapsed() * (nTotalRead - nLastTotalRead)) / 1000;
+					nLastPercent = nPercent;
+					nLastTotalRead = nTotalRead;
+					tTimer.start();
+					emit hashingProgress(m_nId, pFile->getFileName(), nPercent, nRate);
+				}
 			}
 
 			pFile->close();
@@ -166,9 +190,6 @@ void CFileHasher::run()
 
 		if(bHashed)
 		{
-			double nRate = (pFile->size() / (tTime.elapsed() / 1000.0)) / 1024.0 / 1024.0;
-			systemLog.postLog(LogSeverity::Debug, QString("File %1 hashed at %2 MB/s").arg(pFile->getFileName()).arg(nRate));
-			//qDebug() << "File " << pFile->m_sFileName << "hashed at" << nRate << "MB/s:";
 			for(int i = 0; i < lHashes.size(); i++)
 			{
 				lHashes[i]->Finalize();
@@ -219,4 +240,6 @@ void CFileHasher::run()
 
 	systemLog.postLog(LogSeverity::Debug, QString("CFileHasher done. %1").arg(m_nRunningHashers));
 	//qDebug() << "CFileHasher done. " << m_nRunningHashers;
+
+	emit hasherFinished(m_nId);
 }
