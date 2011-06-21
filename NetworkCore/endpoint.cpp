@@ -231,8 +231,4 @@ CEndPoint & CEndPoint::operator =(const CEndPoint &rhs)
 	m_nPort = rhs.m_nPort;
 	return *this;
 }
-CEndPoint & CEndPoint::operator =(const QHostAddress &rhs)
-{
-	QHostAddress::operator =(rhs);
-	return *this;
-}
+

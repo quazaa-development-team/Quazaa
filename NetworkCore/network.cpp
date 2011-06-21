@@ -189,9 +189,10 @@ void CNetwork::AcquireLocalAddress(QString& sHeader)
 
 	if(!hostAddr.isNull())
 	{
+		hostAddr.setPort(m_oAddress.port());
 		if( ((QHostAddress)hostAddr) != ((QHostAddress)m_oAddress) )
 		{
-			m_oAddress = (QHostAddress)hostAddr;
+			m_oAddress = hostAddr;
 			emit LocalAddressChanged();
 		}
 	}
