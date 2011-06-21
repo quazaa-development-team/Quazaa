@@ -57,6 +57,9 @@ void DialogHashProgress::changeEvent(QEvent* e)
 
 void DialogHashProgress::onHasherStarted(int nId)
 {
+	if( m_lProgress.contains(nId) )
+		return;
+
 	QLabel* label = new QLabel();
 	QProgressBar* pb = new QProgressBar();
 	m_ui->verticalLayout->addWidget(label);
@@ -69,6 +72,7 @@ void DialogHashProgress::onHasherFinished(int nId)
 {
 	if( !m_lProgress.contains(nId) )
 		return;
+
 	QPair<QWidget*, QWidget*> pair = m_lProgress.take(nId);
 	delete pair.first;
 	delete pair.second;
@@ -80,6 +84,7 @@ void DialogHashProgress::onHashingProgress(int nId, QString sFilename, double nP
 {
 	if( !m_lProgress.contains(nId) )
 		return;
+
 	QString strText = sFilename + " [" + Functions.FormatBytes(nRate) + "/s]";
 	((QLabel*)m_lProgress[nId].first)->setText(strText);
 	((QProgressBar*)m_lProgress[nId].second)->setValue(nPercent);
