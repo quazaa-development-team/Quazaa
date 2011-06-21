@@ -245,7 +245,7 @@ CSecureRule* CSecureRule::fromXML(const QDomElement &oXMLelement)
 				{
 					pos = sMask.indexOf( '.' );
 
-					if ( sMask.isEmpty() || pos == -1 && ( i != 3 || sMask.length() > 3 ) || !pos || pos > 2 )
+					if ( sMask.isEmpty() || ( pos == -1 && ( i != 3 || sMask.length() > 3 ) ) || !pos || pos > 2 )
 					{
 						break;
 					}

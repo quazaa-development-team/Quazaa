@@ -31,7 +31,6 @@
 #include "hostcache.h"
 #include "datagrams.h"
 #include "searchmanager.h"
-#include "queryhit.h"
 #include "systemlog.h"
 #include "Hashes/hash.h"
 
@@ -393,11 +392,8 @@ void CManagedSearch::OnQueryHit(CQueryHit* pHits)
 	{
 		m_nHits++;
 		m_nCachedHits++;
+		pLast = pHit;
 		pHit = pHit->m_pNext;
-		if(pHit)
-		{
-			pLast = pHit;
-		}
 	}
 
 	//emit OnHit(pHits);
