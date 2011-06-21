@@ -105,7 +105,7 @@ void CFileHasher::run()
 	QElapsedTimer tTimer;
 	QByteArray baBuffer;
 
-	const int nBufferSize = 64 * 1024;
+	static const int nBufferSize = 2 * 1024 * 1024;
 
 	emit hasherStarted(m_nId);
 
@@ -203,6 +203,8 @@ void CFileHasher::run()
 		}
 
 		qDeleteAll(lHashes);
+
+		msleep(10);
 
 		m_pSection.lock();
 
