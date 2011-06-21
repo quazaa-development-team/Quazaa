@@ -46,6 +46,7 @@ public:
 	static QWaitCondition m_oWaitCond;
 
 	bool m_bActive;
+	int	 m_nId;
 public:
 	CFileHasher(QObject* parent = 0);
 	~CFileHasher();
@@ -55,6 +56,9 @@ public:
 signals:
 	void FileHashed(CSharedFilePtr);
 	void QueueEmpty();
+	void hasherStarted(int); // int - hasher id
+	void hasherFinished(int); // int - hasher id
+	void hashingProgress(int, QString, double, int); // hasher id, filename, percent, rate
 };
 
 #endif // FILEHASHER_H

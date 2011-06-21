@@ -99,7 +99,7 @@ void CShareManager::SetupThread()
 		// tables
 		query.exec("CREATE TABLE 'dirs' ('id' INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , 'path' TEXT NOT NULL, 'parent' INTEGER NOT NULL );");
 		query.exec("CREATE TABLE 'files' ('file_id' INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , 'dir_id' INTEGER NOT NULL , 'name' VARCHAR(255) NOT NULL , 'size' INTEGER NOT NULL , 'last_modified' INTEGER NOT NULL , 'shared' BOOL NOT NULL  DEFAULT 1);");
-		query.exec("CREATE TABLE 'hashes' ('file_id' INTEGER NOT NULL  UNIQUE , 'sha1' BLOB(20) NOT NULL );");
+		query.exec("CREATE TABLE 'hashes' ('file_id' INTEGER NOT NULL  UNIQUE , 'sha1' BLOB(20) NOT NULL, 'md5' BLOB(16) NOT NULL);");
 		query.exec("CREATE TABLE 'hash_queue' ('dir_id' INTEGER NOT NULL, 'filename' VARCHAR(255) NOT NULL);");
 		query.exec("CREATE TABLE 'keywords' ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 'keyword' TEXT NOT NULL);");
 

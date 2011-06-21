@@ -23,8 +23,10 @@
 */
 
 #include "dialoghashprogress.h"
+#include <QProgressBar>
+#include "commonfunctions.h"
 #include "ui_dialoghashprogress.h"
- 
+#include <QDebug>
 
 DialogHashProgress::DialogHashProgress(QWidget* parent) :
 	QDialog(parent),
@@ -51,9 +53,33 @@ void DialogHashProgress::changeEvent(QEvent* e)
 	}
 }
 
-void DialogHashProgress::updateProgress(int percent, QString status, QString file)
+void DialogHashProgress::onHasherStarted(int nId)
 {
-	m_ui->progressBarStatus->setValue(percent);
-	m_ui->labelStatus->setText(status);
-	m_ui->labelFileName->setText(file);
+	QLabel* label = new QLabel();
+	QProgressBar* pb = new QProgressBar();
+	m_ui->verticalLayout->addWidget(label);
+	m_ui->verticalLayout->addWidget(pb);
+
+	m_lProgress[nId] = qMakePair<QWidget*, QWidget*>(label, pb);
+	m_ui->frameHashProgress->adjustSize();
+}
+
+void DialogHashProgress::onHasherFinished(int nId)
+{
+	if( !m_lProgress.contains(nId) )
+		return;
+	QPair<QWidget*, QWidget*> pair = m_lProgress.take(nId);
+	delete pair.first;
+	delete pair.second;
+	if( m_lProgress.isEmpty() )
+		hide();
+}
+
+void DialogHashProgress::onHashingProgress(int nId, QString sFilename, double nPercent, int nRate)
+{
+	if( !m_lProgress.contains(nId) )
+		return;
+	QString strText = sFilename + " [" + Functions.FormatBytes(nRate) + "/s]";
+	((QLabel*)m_lProgress[nId].first)->setText(strText);
+	((QProgressBar*)m_lProgress[nId].second)->setValue(nPercent);
 }
