@@ -45,7 +45,7 @@ public:
 protected:
 	void changeEvent(QEvent* e);
 	void resizeEvent(QResizeEvent* e);
-	void mouseMoveEvent(QMouseEvent* e);
+	void mousePressEvent(QMouseEvent* e);
 
 private:
 	Ui::DialogHashProgress* m_ui;
