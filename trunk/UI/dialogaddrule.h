@@ -27,10 +27,8 @@
 
 #include <QtGui/QDialog>
 
-namespace RuleType
-{
-	enum Type { Address, Range, Country, Hash, Any, RegularExpression, UserAgent };
-}
+#include "Security/security.h"
+#include "Security/securerule.h"
 
 namespace Ui
 {
@@ -40,15 +38,31 @@ namespace Ui
 class DialogAddRule : public QDialog
 {
 	Q_OBJECT
+
+private:
+	typedef security::CSecureRule	 CSecureRule;
+	typedef security::CIPRule		 CIPRule;
+	typedef security::CIPRangeRule	 CIPRangeRule;
+	typedef security::CCountryRule	 CCountryRule;
+	typedef security::CHashRule		 CHashRule;
+	typedef security::CRegExpRule	 CRegExpRule;
+	typedef security::CUserAgentRule CUserAgentRule;
+	typedef security::CContentRule	 CContentRule;
+
+	typedef security::CSecurity		 CSecurity;
+
+	Ui::DialogAddRule* m_ui;
+	CSecureRule* m_pRule;
+
 public:
-	DialogAddRule(QWidget* parent = 0, RuleType::Type ruleType = RuleType::Address);
+	// Creates a dialog window using a copy of the provided rule as basis.
+	DialogAddRule(QWidget* parent = NULL, CSecureRule* pRule = NULL);
 	~DialogAddRule();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogAddRule* m_ui;
 
 signals:
 	void closed();

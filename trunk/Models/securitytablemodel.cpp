@@ -3,7 +3,11 @@
 
 CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 {
-	this->pRule	= pRule->getCopy();
+#ifdef _DEBUG
+	Q_ASSERT( pRule );
+#endif // _DEBUG
+
+	this->pNode	= pRule->getCopy();
 
 	sContent	= pRule->getContentString();
 	nAction		= pRule->m_nAction;
@@ -30,24 +34,24 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 
 bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_update, CSecurityTableModel *model)
 {
-	if( !securityManager.check( pRule ) )
+	if( !securityManager.check( pNode ) )
 		return false;
 
 	bool bRet = false;
 
-	if( sContent != pRule->getContentString() )
+	if( sContent != pNode->getContentString() )
 	{
 		to_update.append( model->index( row, CONTENT ) );
-		sContent = pRule->getContentString();
+		sContent = pNode->getContentString();
 
 		if( col == CONTENT )
 			bRet = true;
 	}
 
-	if( nAction != pRule->m_nAction )
+	if( nAction != pNode->m_nAction )
 	{
 		to_update.append( model->index( row, ACTION ) );
-		nAction = pRule->m_nAction;
+		nAction = pNode->m_nAction;
 
 		switch( nAction )
 		{
@@ -68,29 +72,29 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 			bRet = true;
 	}
 
-	if( tExpire != pRule->m_tExpire )
+	if( tExpire != pNode->m_tExpire )
 	{
 		to_update.append( model->index( row, EXPIRES ) );
-		tExpire = pRule->m_tExpire;
+		tExpire = pNode->m_tExpire;
 
 		if( col == EXPIRES )
 			bRet = true;
 	}
 
-	if( nToday != pRule->getTodayCount() )
+	if( nToday != pNode->getTodayCount() )
 	{
 		to_update.append( model->index( row, HITS ) );
-		nToday = pRule->getTodayCount();
-		nTotal = pRule->getTotalCount();
+		nToday = pNode->getTodayCount();
+		nTotal = pNode->getTotalCount();
 
 		if( col == HITS )
 			bRet = true;
 	}
 
-	if( sComment != pRule->m_sComment )
+	if( sComment != pNode->m_sComment )
 	{
 		to_update.append( model->index( row, COMMENT ) );
-		sComment = pRule->m_sComment;
+		sComment = pNode->m_sComment;
 
 		if( col == COMMENT )
 			bRet = true;
@@ -180,8 +184,8 @@ CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 
 CSecurityTableModel::~CSecurityTableModel()
 {
-	qDeleteAll( m_lRules );
-	m_lRules.clear();
+	qDeleteAll( m_lNodes );
+	m_lNodes.clear();
 }
 
 int CSecurityTableModel::rowCount(const QModelIndex& parent) const
@@ -192,7 +196,7 @@ int CSecurityTableModel::rowCount(const QModelIndex& parent) const
 	}
 	else
 	{
-		return m_lRules.count();
+		return m_lNodes.count();
 	}
 }
 
@@ -210,12 +214,12 @@ int CSecurityTableModel::columnCount(const QModelIndex& parent) const
 
 QVariant CSecurityTableModel::data(const QModelIndex& index, int role) const
 {
-	if ( !index.isValid() || index.row() > m_lRules.size() || index.row() < 0 )
+	if ( !index.isValid() || index.row() > m_lNodes.size() || index.row() < 0 )
 	{
 		return QVariant();
 	}
 
-	const Rule* pRule = m_lRules.at( index.row() );
+	const Rule* pRule = m_lNodes.at( index.row() );
 
 	if ( role == Qt::DisplayRole )
 	{
@@ -309,10 +313,10 @@ QVariant CSecurityTableModel::headerData(int section, Qt::Orientation orientatio
 
 QModelIndex CSecurityTableModel::index(int row, int column, const QModelIndex &parent) const
 {
-	if ( parent.isValid() || row < 0 || row >= m_lRules.count() )
+	if ( parent.isValid() || row < 0 || row >= m_lNodes.count() )
 		return QModelIndex();
 	else
-		return createIndex( row, column, m_lRules[row] );
+		return createIndex( row, column, m_lNodes[row] );
 }
 
 class CSecurityTableModelCmp
@@ -345,24 +349,24 @@ void CSecurityTableModel::sort(int column, Qt::SortOrder order)
 	m_nSortOrder = order;
 
 	emit layoutAboutToBeChanged();
-	qStableSort( m_lRules.begin(), m_lRules.end(), CSecurityTableModelCmp( column, order ) );
+	qStableSort( m_lNodes.begin(), m_lNodes.end(), CSecurityTableModelCmp( column, order ) );
 	emit layoutChanged();
 }
 
-/*security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &index)
+security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &index)
 {
 	if ( index.isValid() && index.row() < m_lNodes.count() && index.row() >= 0 )
-		return m_lRules[ index.row() ]->pNode;
+		return m_lNodes[ index.row() ]->pNode;
 	else
-		return 0;
-}*/
+		return NULL;
+}
 
 void CSecurityTableModel::addRule(CSecureRule* pRule)
 {
 	if ( securityManager.check( pRule ) )
 	{
-		beginInsertRows( QModelIndex(), m_lRules.size(), m_lRules.size() );
-		m_lRules.append( new Rule( pRule ) );
+		beginInsertRows( QModelIndex(), m_lNodes.size(), m_lNodes.size() );
+		m_lNodes.append( new Rule( pRule ) );
 		endInsertRows();
 		m_bNeedSorting = true;
 	}
@@ -370,13 +374,13 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 
 void CSecurityTableModel::removeRule(CSecureRule* pRule)
 {
-	for ( quint32 i = 0, nMax = m_lRules.size(); i < nMax; i++ )
+	for ( quint32 i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
 	{
-		if ( m_lRules[i]->pRule == pRule )
+		if ( m_lNodes[i]->pNode == pRule )
 		{
 			beginRemoveRows( QModelIndex(), i, i );
-			delete m_lRules[i];
-			m_lRules.remove( i, 1 );
+			delete m_lNodes[i];
+			m_lNodes.remove( i, 1 );
 			endRemoveRows();
 			m_bNeedSorting = true;
 			break;
@@ -394,9 +398,9 @@ void CSecurityTableModel::updateAll()
 
 	if ( securityManager.m_pSection.tryLock() )
 	{
-		for ( quint32 i = 0, max = m_lRules.count(); i < max; ++i )
+		for ( quint32 i = 0, max = m_lNodes.count(); i < max; ++i )
 		{
-			if ( m_lRules[i]->update( i, m_nSortColumn, uplist, this ) )
+			if ( m_lNodes[i]->update( i, m_nSortColumn, uplist, this ) )
 				bSort = true;
 		}
 

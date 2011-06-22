@@ -26,44 +26,51 @@
 #include "ui_dialogaddrule.h"
 #include <QListView>
 
-DialogAddRule::DialogAddRule(QWidget* parent, RuleType::Type ruleType) :
-	QDialog(parent),
-	m_ui(new Ui::DialogAddRule)
+DialogAddRule::DialogAddRule(QWidget* parent, CSecureRule* pRule) :
+	QDialog( parent ),
+	m_ui( new Ui::DialogAddRule )
 {
-	m_ui->setupUi(this);
-	m_ui->comboBoxAction->setView(new QListView());
-	m_ui->comboBoxExpire->setView(new QListView());
-	m_ui->comboBoxHashType->setView(new QListView());
-	m_ui->comboBoxRuleType->setView(new QListView());
-	switch (ruleType)
+	m_ui->setupUi( this );
+	m_ui->comboBoxAction->setView( new QListView() );
+	m_ui->comboBoxExpire->setView( new QListView() );
+	m_ui->comboBoxHashType->setView( new QListView() );
+	m_ui->comboBoxRuleType->setView( new QListView() );
+
+	if ( pRule )
+		m_pRule = pRule->getCopy();
+	else
+		m_pRule = new CIPRule();
+
+	switch ( m_pRule->getType() )
 	{
-	case RuleType::Range:
-		m_ui->comboBoxRuleType->setCurrentIndex(1);
-		m_ui->stackedWidgetType->setCurrentIndex(1);
+	case security::CSecureRule::srContentAddressRange:
+		m_ui->comboBoxRuleType->setCurrentIndex( 1 );
+		m_ui->stackedWidgetType->setCurrentIndex( 1 );
 		break;
-	case RuleType::Country:
-		m_ui->comboBoxRuleType->setCurrentIndex(2);
-		m_ui->stackedWidgetType->setCurrentIndex(2);
+	case security::CSecureRule::srContentCountry:
+		m_ui->comboBoxRuleType->setCurrentIndex( 2 );
+		m_ui->stackedWidgetType->setCurrentIndex( 2 );
 		break;
-	case RuleType::Hash:
-		m_ui->comboBoxRuleType->setCurrentIndex(3);
-		m_ui->stackedWidgetType->setCurrentIndex(3);
+	case security::CSecureRule::srContentHash:
+		m_ui->comboBoxRuleType->setCurrentIndex( 3 );
+		m_ui->stackedWidgetType->setCurrentIndex( 3 );
 		break;
-	case RuleType::Any:
-		m_ui->comboBoxRuleType->setCurrentIndex(4);
-		m_ui->stackedWidgetType->setCurrentIndex(4);
+	case security::CSecureRule::srContentOther:
+		m_ui->comboBoxRuleType->setCurrentIndex( 4 );
+		m_ui->stackedWidgetType->setCurrentIndex( 4 );
 		break;
-	case RuleType::RegularExpression:
-		m_ui->comboBoxRuleType->setCurrentIndex(5);
-		m_ui->stackedWidgetType->setCurrentIndex(5);
+	case security::CSecureRule::srContentRegExp:
+		m_ui->comboBoxRuleType->setCurrentIndex( 5 );
+		m_ui->stackedWidgetType->setCurrentIndex( 5 );
 		break;
-	case RuleType::UserAgent:
-		m_ui->comboBoxRuleType->setCurrentIndex(6);
-		m_ui->stackedWidgetType->setCurrentIndex(6);
+	case security::CSecureRule::srContentUserAgent:
+		m_ui->comboBoxRuleType->setCurrentIndex( 6 );
+		m_ui->stackedWidgetType->setCurrentIndex( 6 );
 		break;
+	case security::CSecureRule::srContentAddress:
 	default:
-		m_ui->comboBoxRuleType->setCurrentIndex(0);
-		m_ui->stackedWidgetType->setCurrentIndex(0);
+		m_ui->comboBoxRuleType->setCurrentIndex( 0 );
+		m_ui->stackedWidgetType->setCurrentIndex( 0 );
 		break;
 	}
 }
@@ -71,15 +78,16 @@ DialogAddRule::DialogAddRule(QWidget* parent, RuleType::Type ruleType) :
 DialogAddRule::~DialogAddRule()
 {
 	delete m_ui;
+	delete m_pRule;
 }
 
 void DialogAddRule::changeEvent(QEvent* e)
 {
-	QDialog::changeEvent(e);
-	switch(e->type())
+	QDialog::changeEvent( e );
+	switch ( e->type() )
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			m_ui->retranslateUi( this );
 			break;
 		default:
 			break;
@@ -88,6 +96,35 @@ void DialogAddRule::changeEvent(QEvent* e)
 
 void DialogAddRule::on_pushButtonOK_clicked()
 {
+	CSecureRule* pRule;
+
+	switch ( m_ui->comboBoxRuleType->currentIndex() )
+	{
+	case 0:
+		pRule = new CIPRule();
+//		((CIPRule*)pRule)->setIP( m_ui->);
+	case 1:
+		pRule = new CIPRangeRule();
+	case 2:
+		pRule = new CCountryRule();
+	case 3:
+		pRule = new CHashRule();
+	case 4:
+		pRule = new CContentRule();
+	case 5:
+		pRule = new CRegExpRule();
+	case 6:
+		pRule = new CUserAgentRule();
+	default:
+		Q_ASSERT( false );
+		pRule = new CSecureRule();
+	}
+
+	pRule->m_oUUID = m_pRule->m_oUUID;
+
+	if ( *pRule != *m_pRule )
+		securityManager.add( pRule );
+
 	emit closed();
 	close();
 }

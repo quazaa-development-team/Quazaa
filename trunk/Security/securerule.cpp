@@ -28,6 +28,11 @@ bool CSecureRule::operator==(const CSecureRule& pRule)
 			 m_sContent	== pRule.m_sContent);
 }
 
+bool CSecureRule::operator!=(const CSecureRule& pRule)
+{
+	return !( *this == pRule );
+}
+
 CSecureRule* CSecureRule::getCopy() const
 {
 	// This method should never be called.
@@ -102,17 +107,16 @@ void CSecureRule::save(const CSecureRule* pRule, QDataStream &oStream)
 	case srContentHash:
 		oStream << ((CHashRule*)pRule)->getContentString();
 		break;
-	case srContentAny:
-	case srContentAll:
-		oStream << ((CContentRule*)pRule)->getContentString();
-		oStream << ( ( pRule->getType() == srContentAll ) ? true : false );
-		break;
 	case srContentRegExp:
 		oStream << ((CRegExpRule*)pRule)->getContentString();
 		break;
 	case srContentUserAgent:
 		oStream << ((CUserAgentRule*)pRule)->getContentString();
 		oStream << ((CUserAgentRule*)pRule)->getRegExp();
+		break;
+	case srContentOther:
+		oStream << ((CContentRule*)pRule)->getContentString();
+		oStream << ((CContentRule*)pRule)->getAll();
 		break;
 	default:
 		// Do nothing. We don't store invalid rules.
@@ -143,7 +147,7 @@ void CSecureRule::load(CSecureRule* pRule, QDataStream &oStream, int)
 	oStream >> nTotal;
 
 	QString sTmp;
-	bool	bAll = true;
+	bool	bTmp = true;
 
 	switch ( nType )
 	{
@@ -181,24 +185,23 @@ void CSecureRule::load(CSecureRule* pRule, QDataStream &oStream, int)
 		((CHashRule*)pRule)->setContentString( sTmp );
 		break;
 	case 5:
-	case 6:
-		pRule = new CContentRule();
-		oStream >> sTmp;
-		oStream >> bAll;
-		((CContentRule*)pRule)->setContentString( sTmp );
-		((CContentRule*)pRule)->setAll( bAll );
-		break;
-	case 7:
 		pRule = new CRegExpRule();
 		oStream >> sTmp;
 		((CRegExpRule*)pRule)->setContentString( sTmp );
 		break;
-	case 8:
+	case 6:
 		pRule = new CUserAgentRule();
 		oStream >> sTmp;
-		oStream >> bAll;
+		oStream >> bTmp;
 		((CUserAgentRule*)pRule)->setContentString( sTmp );
-		((CUserAgentRule*)pRule)->setRegExp( bAll );
+		((CUserAgentRule*)pRule)->setRegExp( bTmp );
+		break;
+	case 7:
+		pRule = new CContentRule();
+		oStream >> sTmp;
+		oStream >> bTmp;
+		((CContentRule*)pRule)->setContentString( sTmp );
+		((CContentRule*)pRule)->setAll( bTmp );
 		break;
 	default:
 		// There is an empty or erroneous rule. Error handling (if necessary) should go here.
@@ -979,13 +982,14 @@ void CUserAgentRule::toXML( QDomElement& oXMLroot ) const
 
 CContentRule::CContentRule(bool)
 {
-	m_nType = srContentAll;
+	m_nType = srContentOther;
+	m_bAll = true;
 }
 
 void CContentRule::setContentString(const QString& strContent)
 {
 #ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentAny || m_nType == srContentAll );
+	Q_ASSERT( m_nType == srContentOther );
 #endif //_DEBUG
 
 	QString sContent = strContent;
@@ -1012,32 +1016,27 @@ void CContentRule::setContentString(const QString& strContent)
 	}
 }
 
-void CContentRule::setAll(bool all)
-{
-	m_nType = all ? srContentAll : srContentAny;
-}
-
 bool CContentRule::match(const QString& strContent) const
 {
 #ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentAny || m_nType == srContentAll );
+	Q_ASSERT( m_nType == srContentOther );
 #endif //_DEBUG
 
 	for ( CListIterator i = m_lContent.begin() ; i != m_lContent.end() ; i++ )
 	{
 		bool bFound = strContent.indexOf( *i ) != -1;
 
-		if ( bFound && m_nType == srContentAny )
+		if ( bFound && !m_bAll )
 		{
 			return true;
 		}
-		else if ( !bFound && m_nType == srContentAll )
+		else if ( !bFound && m_bAll )
 		{
 			return false;
 		}
 	}
 
-	if ( m_nType == srContentAll )
+	if ( m_bAll )
 		return true;
 
 	return false;
@@ -1047,7 +1046,7 @@ bool CContentRule::match(const QString& strContent) const
 bool CContentRule::match(const CFile& oFile) const
 {
 #ifdef _DEBUG
-	Q_ASSERT( !oFile.isNull() && ( m_nType == srContentAny || m_nType == srContentAll ) );
+	Q_ASSERT( !oFile.isNull() && m_nType == srContentOther );
 #endif //_DEBUG
 
 	if ( !oFile.isNull() )
@@ -1074,7 +1073,7 @@ bool CContentRule::match(const CFile& oFile) const
 void CContentRule::toXML( QDomElement& oXMLroot ) const
 {
 #ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentAll || m_nType == srContentAny );
+	Q_ASSERT( m_nType == srContentOther );
 #endif //_DEBUG
 
 	QDomElement oElement = oXMLroot.ownerDocument().createElement( "rule" );
@@ -1082,7 +1081,7 @@ void CContentRule::toXML( QDomElement& oXMLroot ) const
 	oElement.setAttribute( "type", "content" );
 	oElement.setAttribute( "content", getContentString() );
 
-	if( m_nType == srContentAll )
+	if ( m_bAll )
 	{
 		oElement.setAttribute( "match", "all" );
 	}

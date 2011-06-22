@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 	theApp.setOrganizationName(   QuazaaGlobals::APPLICATION_ORGANIZATION_NAME() );
 
 	// Setup Qt elements of signal queue necessary for operation
-	SignalQueue.setup();
+	signalQueue.setup();
 
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();
