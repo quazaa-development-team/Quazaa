@@ -204,7 +204,7 @@ void CFileHasher::run()
 
 		qDeleteAll(lHashes);
 
-		msleep(10);
+		msleep(150);
 
 		m_pSection.lock();
 

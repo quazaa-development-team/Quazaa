@@ -947,6 +947,7 @@ void WinMain::onHasherStarted(int nId)
 		connect(&ShareManager, SIGNAL(hasherStarted(int)), pDialog, SLOT(onHasherStarted(int)));
 		connect(&ShareManager, SIGNAL(hasherFinished(int)), pDialog, SLOT(onHasherFinished(int)));
 		connect(&ShareManager, SIGNAL(hashingProgress(int,QString,double,int)), pDialog, SLOT(onHashingProgress(int,QString,double,int)));
+		connect(&ShareManager, SIGNAL(remainingFilesChanged(qint32)), pDialog, SLOT(onRemainingFilesChanged(qint32)));
 	}
 	pDialog->onHasherStarted(nId);
 	pDialog->show();

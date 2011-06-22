@@ -35,7 +35,7 @@ DialogHashProgress::DialogHashProgress(QWidget* parent) :
 {
 	setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip | Qt::WindowStaysOnTopHint);
 	m_ui->setupUi(this);
-	setWindowOpacity(0.7);
+	setWindowOpacity(0.8);
 }
 
 DialogHashProgress::~DialogHashProgress()
@@ -110,4 +110,12 @@ void DialogHashProgress::mousePressEvent(QMouseEvent *e)
 {
 	hide();
 	QDialog::mousePressEvent(e);
+}
+
+void DialogHashProgress::onRemainingFilesChanged(qint32 nRemaining)
+{
+	QString strText(tr("Quazaa is creating hashes. Remaining files: %1"));
+	strText = strText.arg(nRemaining);
+
+	m_ui->labelStatus->setText(strText);
 }

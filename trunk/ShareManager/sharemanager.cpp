@@ -49,6 +49,7 @@ CShareManager::CShareManager(QObject* parent) :
 	m_bReady = false;
 	m_bTableReady = false;
 	m_pTable = 0;
+	m_nRemainingFiles = 0;
 }
 
 void CShareManager::Start()
@@ -547,6 +548,11 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 			systemLog.postLog(LogSeverity::Debug, QString("Cannot queue file for hashing: %1").arg(insq.lastError().text()));
 			//qDebug() << "Cannot queue file for hashing:" << insq.lastError().text();
 		}
+		else
+		{
+			m_nRemainingFiles++;
+			emit remainingFilesChanged(m_nRemainingFiles);
+		}
 	}
 	m_oDatabase.commit();
 
@@ -675,6 +681,9 @@ void CShareManager::OnFileHashed(CSharedFilePtr pFile)
 	pFile->stat();
 	pFile->m_bShared = true;
 	pFile->serialize( &m_oDatabase );
+
+	m_nRemainingFiles--;
+	emit remainingFilesChanged(m_nRemainingFiles);
 }
 
 CQueryHashTable* CShareManager::GetHashTable()
