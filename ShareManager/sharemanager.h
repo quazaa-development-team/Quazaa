@@ -52,6 +52,8 @@ protected:
 
 	CQueryHashTable* 	m_pTable;
 	bool				m_bTableReady;
+
+	qint32				m_nRemainingFiles;
 public:
 	explicit CShareManager(QObject* parent = 0);
 
@@ -86,6 +88,7 @@ signals:
 	void hasherStarted(int); // int - hasher id
 	void hasherFinished(int); // int - hasher id
 	void hashingProgress(int, QString, double, int); // hasher id, filename, percent, rate
+	void remainingFilesChanged(qint32);
 
 public slots:
 	void SetupThread();
