@@ -8,14 +8,23 @@
 
 #include "ShareManager/file.h"
 
+
+
+// TODO:
+// * Move inlines outside of class definition.
+// * Make operator== work for booleans
+// * Check if content string is set correctly in each rule type
+
+
+
 namespace security
 {
 
 class CSecureRule
 {
 public:
-	typedef enum { srContentUndefined, srContentAddress, srContentAddressRange, srContentCountry,
-				   srContentHash, srContentAny, srContentAll, srContentRegExp, srContentUserAgent } RuleType;
+	typedef enum { srContentUndefined = 0, srContentAddress = 1, srContentAddressRange = 2, srContentCountry = 3,
+				   srContentHash = 4, srContentRegExp = 5, srContentUserAgent = 6, srContentOther = 7 } RuleType;
 
 	typedef enum { srNull, srAccept, srDeny } Policy;
 	enum { srIndefinite = 0, srSession = 1 };
@@ -43,6 +52,7 @@ public:
 
 	// Operators
 	bool			operator==(const CSecureRule& pRule);
+	bool			operator!=(const CSecureRule& pRule);
 
 	virtual CSecureRule*	getCopy() const;
 	QString			getContentString() const;
@@ -191,24 +201,40 @@ public:
 class CContentRule : public CSecureRule
 {
 private:
-	std::list< QString >	m_lContent;
+	bool				m_bAll;
+	QList< QString >	m_lContent;
 
-	typedef std::list< QString >::const_iterator CListIterator;
+	typedef QList< QString >::const_iterator CListIterator;
 
 public:
 	CContentRule(bool bCreate = true);
 
-	inline CSecureRule*	getCopy() const { return new CContentRule( *this ); }
+	inline CSecureRule*	getCopy() const;
 
 	void				setContentString(const QString& strContent);
 
-	// sets the type to "srContentAny" (false) or "srContentAll" (true).
-	void				setAll(bool all = true);
+	inline void			setAll(bool all = true);
+	inline bool			getAll() const;
 
 	bool				match(const QString& strContent) const;
 	bool				match(const CFile& pFile) const;
 	void				toXML( QDomElement& oXMLroot ) const;
 };
+
+CSecureRule* CContentRule::getCopy() const
+{
+	return new CContentRule( *this );
+}
+
+void CContentRule::setAll(bool all)
+{
+	m_bAll = all;
+}
+
+bool CContentRule::getAll() const
+{
+	return m_bAll;
+}
 
 }
 

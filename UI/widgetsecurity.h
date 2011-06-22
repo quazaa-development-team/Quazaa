@@ -63,8 +63,8 @@ public slots:
 
 private slots:
 	void on_actionSubscribeSecurityList_triggered();
+	void on_actionSecurityModifyRule_triggered();
 	void on_actionSecurityAddRule_triggered();
-	 
 };
 
 #endif // WIDGETSECURITY_H

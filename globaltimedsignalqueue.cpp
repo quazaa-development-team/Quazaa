@@ -1,6 +1,6 @@
 #include "globaltimedsignalqueue.h"
 
-CGlobalTimedSignalQueue SignalQueue;
+CGlobalTimedSignalQueue signalQueue;
 
 /* -------------------------------------------------------------------------------- */
 /* --------------------------------- CTimerObject --------------------------------- */

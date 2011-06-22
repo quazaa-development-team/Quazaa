@@ -14,6 +14,12 @@ class CSecurityTableModel : public QAbstractTableModel
 
 private:
 	typedef security::CSecureRule CSecureRule;
+
+	QWidget*		m_oContainer;
+	int				m_nSortColumn;
+	Qt::SortOrder	m_nSortOrder;
+	bool			m_bNeedSorting;
+
 public:
 	enum Column
 	{
@@ -27,7 +33,7 @@ public:
 
 	struct Rule
 	{
-		CSecureRule*		pRule;
+		CSecureRule*		pNode;
 
 		QString				sContent;
 		CSecureRule::Policy	nAction;
@@ -37,7 +43,7 @@ public:
 		QString				sComment;
 		QIcon				iAction;
 
-		Rule(CSecureRule* pRule);
+		Rule(CSecureRule* pNode);
 		bool update(int row, int col, QModelIndexList& to_update, CSecurityTableModel* model);
 		QVariant data(int col) const;
 		bool lessThan(int col, CSecurityTableModel::Rule* pOther) const;
@@ -47,7 +53,7 @@ public:
 	};
 
 protected:
-	QVector<Rule*>   m_lRules;
+	QVector<Rule*>   m_lNodes;
 
 public:
 	explicit CSecurityTableModel(QObject* parent = 0, QWidget* container = 0);
@@ -61,13 +67,7 @@ public:
 
 	void sort(int column, Qt::SortOrder order);
 
-	//CSecureRule* fromIndex(const QModelIndex& index);
-
-private:
-	QWidget*		m_oContainer;
-	int				m_nSortColumn;
-	Qt::SortOrder	m_nSortOrder;
-	bool			m_bNeedSorting;
+	CSecureRule* nodeFromIndex(const QModelIndex& index);
 
 public slots:
 	void addRule(CSecureRule* pRule);

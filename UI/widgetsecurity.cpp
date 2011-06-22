@@ -45,7 +45,7 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	setModel( m_pSecurityList );
 
 	connect( this, SIGNAL( requestDataUpdate() ), this, SLOT( update() ) );
-	SignalQueue.push( this, SIGNAL( updateData() ), 1000 );
+	signalQueue.push( this, SIGNAL( updateData() ), 1000 );
 }
 
 WidgetSecurity::~WidgetSecurity()
@@ -84,13 +84,24 @@ void WidgetSecurity::changeEvent(QEvent* e)
 void WidgetSecurity::update()
 {
 	m_pSecurityList->updateAll();
-	//on_actionSecurityAddRule_triggered(); // for testing purposes...
 }
 
 void WidgetSecurity::on_actionSecurityAddRule_triggered()
 {
-	DialogAddRule* dlgAddRule = new DialogAddRule(this);
+	DialogAddRule* dlgAddRule = new DialogAddRule( this );
 	dlgAddRule->show();
+}
+
+void WidgetSecurity::on_actionSecurityModifyRule_triggered()
+{
+	QModelIndex index = ui->tableViewSecurity->currentIndex();
+
+	if ( index.isValid() )
+	{
+		security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
+		DialogAddRule* dlgAddRule = new DialogAddRule( this, pRule );
+		dlgAddRule->show();
+	}
 }
 
 void WidgetSecurity::on_actionSubscribeSecurityList_triggered()

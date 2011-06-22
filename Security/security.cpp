@@ -290,8 +290,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	break;
 
-	case CSecureRule::srContentAll:
-	case CSecureRule::srContentAny:
+	case CSecureRule::srContentOther:
 	{
 		CContentRuleList::iterator i = m_Contents.begin();
 		CContentRule* pOldRule = NULL;
@@ -1622,8 +1621,7 @@ void CSecurity::remove(CIterator it)
 	}
 	break;
 
-	case CSecureRule::srContentAll:
-	case CSecureRule::srContentAny:
+	case CSecureRule::srContentOther:
 	{
 		CContentRuleList::iterator i = m_Contents.begin();
 
