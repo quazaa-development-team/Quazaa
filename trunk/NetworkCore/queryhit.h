@@ -84,6 +84,6 @@ public:
 	bool IsValid(CQuery* pQuery = 0);
 };
 
-typedef class QSharedPointer<CQueryHit> QueryHitSharedPtr;
+typedef QSharedPointer<CQueryHit> QueryHitSharedPtr;
 
 #endif // QUERYHIT_H
