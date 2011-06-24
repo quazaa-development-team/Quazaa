@@ -24,6 +24,7 @@
 
 #include "sharedfile.h"
 
+#include <QDateTime>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -42,25 +43,31 @@ bool CSharedFile::m_bMetaRegistered = false;
 CSharedFile::CSharedFile(QObject* parent) :
 	CFile( parent )
 {
-	m_bShared = false;
-
-	if ( !CSharedFile::m_bMetaRegistered )
-	{
-		qRegisterMetaType<CSharedFilePtr>( "CSharedFilePtr" );
-		CSharedFile::m_bMetaRegistered = true;
-	}
+	setup();
 }
 
-CSharedFile::CSharedFile(const QString& name, QObject* parent) :
-	CFile( name, parent )
+CSharedFile::CSharedFile(const QString& file, QObject* parent) :
+	CFile( file, parent )
 {
-	m_bShared = false;
+	setup();
+}
 
-	if ( !CSharedFile::m_bMetaRegistered )
-	{
-		qRegisterMetaType<CSharedFilePtr>( "CSharedFilePtr" );
-		CSharedFile::m_bMetaRegistered = true;
-	}
+CSharedFile::CSharedFile(const QFile& file, QObject* parent) :
+	CFile( file, parent )
+{
+	setup();
+}
+
+CSharedFile::CSharedFile(const QDir& dir, const QString& file, QObject* parent) :
+	CFile( dir, file, parent )
+{
+	setup();
+}
+
+CSharedFile::CSharedFile(const QFileInfo& fileinfo, QObject* parent) :
+	CFile( fileinfo, parent )
+{
+	setup();
 }
 
 void CSharedFile::serialize(QSqlDatabase* pDatabase)
@@ -71,7 +78,7 @@ void CSharedFile::serialize(QSqlDatabase* pDatabase)
 		QSqlQuery query( *pDatabase );
 
 		query.prepare( "SELECT id FROM dirs WHERE path LIKE '?'" );
-		query.bindValue( 0, m_sDirectory );
+		query.bindValue( 0, absolutePath() );
 		if ( !query.exec() )
 		{
 			systemLog.postLog( LogSeverity::Debug, QString( "SQL Query failed: %1" ).arg( query.lastError().text() ) );
@@ -101,9 +108,9 @@ void CSharedFile::serialize(QSqlDatabase* pDatabase)
 		QSqlQuery query( *pDatabase );
 		query.prepare( "INSERT INTO files (dir_id, name, size, last_modified, shared) VALUES (?,?,?,?,?)" );
 		query.bindValue( 0, m_nDirectoryID );
-		query.bindValue( 1, m_sFileName );
-		query.bindValue( 2, m_nSize );
-		query.bindValue( 3, m_tLastModified );
+		query.bindValue( 1, fileName() );
+		query.bindValue( 2, size() );
+		query.bindValue( 3, lastModified().toTime_t() );
 		query.bindValue( 4, m_bShared );
 		if ( !query.exec() )
 		{
@@ -164,7 +171,7 @@ void CSharedFile::serialize(QSqlDatabase* pDatabase)
 		}
 
 		QStringList lKeywords;
-		CQueryHashTable::MakeKeywords( m_sFileName, lKeywords );
+		CQueryHashTable::MakeKeywords( fileName(), lKeywords );
 
 		QSqlQuery qkw( *pDatabase );
 		qkw.prepare( "INSERT OR IGNORE INTO keywords (keyword) VALUES (?)" );
@@ -178,7 +185,13 @@ void CSharedFile::serialize(QSqlDatabase* pDatabase)
 	}
 }
 
-void CSharedFile::stat()
+void CSharedFile::setup()
 {
-	CFile::stat();
+	m_bShared = false;
+
+	if ( !CSharedFile::m_bMetaRegistered )
+	{
+		qRegisterMetaType<CSharedFilePtr>( "CSharedFilePtr" );
+		CSharedFile::m_bMetaRegistered = true;
+	}
 }
