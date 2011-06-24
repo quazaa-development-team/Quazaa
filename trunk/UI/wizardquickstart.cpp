@@ -120,15 +120,15 @@ void WizardQuickStart::accept()
 
 void WizardQuickStart::on_toolButtonSharesAdd_clicked()
 {
-    QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
-    QString directory = QFileDialog::getExistingDirectory(this,
-                                            tr("Select A Folder To Share"),
-                                            quazaaSettings.Downloads.CompletePath,
-                                            options);
-    if(!directory.isEmpty())
-    {
-            ui->listWidgetShares->addItem(directory);
-    }
+	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
+	QDir directory(QFileDialog::getExistingDirectory(this,
+													 tr("Select A Folder To Share"),
+													 quazaaSettings.Downloads.CompletePath,
+													 options));
+	if(directory.exists())
+	{
+		ui->listWidgetShares->addItem(directory.canonicalPath());
+	}
 }
 
 void WizardQuickStart::on_toolButtonSharesRemove_clicked()

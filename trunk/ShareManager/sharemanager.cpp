@@ -356,6 +356,7 @@ void CShareManager::SyncShares()
 			while(query.next())
 			{
 				nOrphaned++;
+				systemLog.postLog(LogSeverity::Debug, QString("Directory %1 orphaned dirs").arg(nOrphaned));
 				RemoveDir(query.record().value(0).toLongLong());
 			}
 
