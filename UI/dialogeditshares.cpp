@@ -76,13 +76,13 @@ void DialogEditShares::on_pushButtonOk_clicked()
 void DialogEditShares::on_pushButtonAdd_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
-	QString directory = QFileDialog::getExistingDirectory(this,
-	                    tr("Select A Folder To Share"),
-	                    quazaaSettings.Downloads.CompletePath,
-	                    options);
-	if(!directory.isEmpty())
+	QDir directory(QFileDialog::getExistingDirectory(this,
+													 tr("Select A Folder To Share"),
+													 quazaaSettings.Downloads.CompletePath,
+													 options));
+	if(directory.exists())
 	{
-		m_ui->listWidgetShares->addItem(directory);
+		m_ui->listWidgetShares->addItem(directory.canonicalPath());
 		m_ui->pushButtonOk->setEnabled(true);
 	}
 }
