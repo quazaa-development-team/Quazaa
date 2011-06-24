@@ -81,6 +81,7 @@ public:
 
 	/* ------ QFile wrapper functions ------ */
 
+	QFile* file() { return m_pFile; }
 	inline bool copy(const QString& newName);
 	inline QFile::FileError error() const;
 	inline bool flush();
