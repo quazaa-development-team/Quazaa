@@ -41,7 +41,7 @@ CQueryHit::~CQueryHit()
 
 	if(m_pNext)
 	{
-		m_pNext->Delete();
+		delete m_pNext;
 	}
 }
 
@@ -306,7 +306,7 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 								break;
 							}
 						}
-						pHit->Delete();
+						delete pHit;
 					}
 				}
 			}
@@ -320,7 +320,7 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 		qDebug() << "EXCEPTION IN QUERY HIT PARSING!";
 		if(pThisHit)
 		{
-			pThisHit->Delete();
+			delete pThisHit;
 		}
 		//throw;
 		return 0;
@@ -329,7 +329,7 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 	// we already know query hit informations, so don't reparse them
 	if(!bHaveHits)
 	{
-		pThisHit->Delete();
+		delete pThisHit;
 		return 0;
 	}
 
@@ -357,16 +357,6 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 	return pThisHit;
 }
 
-void CQueryHit::Delete()
-{
-	if(m_pNext)
-	{
-		m_pNext->Delete();
-		m_pNext = 0;
-	}
-
-	delete this;
-}
 void CQueryHit::ResolveURLs()
 {
 	if(!m_sURL.isEmpty())
