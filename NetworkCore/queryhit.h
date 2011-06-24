@@ -73,7 +73,6 @@ public:
 	static QueryHitInfo* ReadInfo(G2Packet* pPacket, CEndPoint* pSender = 0);
 	static CQueryHit*    ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
-	void Delete();
 	void ResolveURLs();
 	bool IsValid(CQuery* pQuery = 0);
 
