@@ -40,15 +40,18 @@ public:
 	bool	m_bShared;
 
 public:
-	explicit CSharedFile(QObject *parent = NULL);
-	CSharedFile(const QString& name, QObject* parent = NULL);
+	explicit CSharedFile(QObject* parent = NULL);
+	explicit CSharedFile(const QString& file, QObject* parent = NULL);
+	explicit CSharedFile(const QFile& file, QObject* parent = NULL);
+	explicit CSharedFile(const QDir& dir, const QString& file, QObject* parent = NULL);
+	explicit CSharedFile(const QFileInfo& fileinfo, QObject* parent = NULL);
+
 	~CSharedFile() {}
 
-	void stat();
 	void serialize(QSqlDatabase* pDatabase);
 
 private:
-	Q_DISABLE_COPY(CSharedFile)
+	void setup();
 };
 
 typedef QSharedPointer<CSharedFile> CSharedFilePtr;

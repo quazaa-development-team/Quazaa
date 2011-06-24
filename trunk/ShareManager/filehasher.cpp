@@ -114,11 +114,11 @@ void CFileHasher::run()
 	while(!m_lQueue.isEmpty())
 	{
 		CSharedFilePtr pFile = m_lQueue.dequeue();
-		systemLog.postLog(LogSeverity::Debug, QString("Hashing %1").arg(pFile->getFileName()));
+		systemLog.postLog(LogSeverity::Debug, QString("Hashing %1").arg(pFile->fileName()));
 
 		m_pSection.unlock();
 
-		emit hashingProgress(m_nId, pFile->getFileName(), 0, 0);
+		emit hashingProgress(m_nId, pFile->fileName(), 0, 0);
 
 		bool bHashed = true;
 
@@ -136,7 +136,7 @@ void CFileHasher::run()
 			quint64 nFileSize = pFile->size();
 			quint64 nTotalRead = 0, nLastTotalRead = 0;
 
-			emit hashingProgress(m_nId, pFile->getFileName(), 0, 0);
+			emit hashingProgress(m_nId, pFile->fileName(), 0, 0);
 
 			while(!pFile->atEnd())
 			{
@@ -175,11 +175,11 @@ void CFileHasher::run()
 					nLastPercent = nPercent;
 					nLastTotalRead = nTotalRead;
 					tTimer.start();
-					emit hashingProgress(m_nId, pFile->getFileName(), nPercent, nRate);
+					emit hashingProgress(m_nId, pFile->fileName(), nPercent, nRate);
 				}
 			}
 
-			emit hashingProgress(m_nId, pFile->getFileName(), 100, (tTimer.elapsed() * (nTotalRead - nLastTotalRead)) / 1000);
+			emit hashingProgress(m_nId, pFile->fileName(), 100, (tTimer.elapsed() * (nTotalRead - nLastTotalRead)) / 1000);
 			pFile->close();
 		}
 		else

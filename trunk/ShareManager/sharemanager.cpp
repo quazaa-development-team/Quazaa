@@ -678,7 +678,7 @@ void CShareManager::OnFileHashed(CSharedFilePtr pFile)
 	systemLog.postLog( LogSeverity::Debug, QString( "OnFileHashed" ) );
 	//qDebug() << "OnFileHashed";
 
-	pFile->stat();
+	pFile->refresh();
 	pFile->m_bShared = true;
 	pFile->serialize( &m_oDatabase );
 
@@ -747,6 +747,4 @@ void CShareManager::BuildHashTable()
 		}
 		m_bTableReady = true;
 	}
-
-
 }
