@@ -47,12 +47,6 @@ struct QueryHitInfo
 	}
 };
 
-struct QueuedQueryHit
-{
-	QueryHitInfo* m_pInfo;
-	G2Packet*     m_pPacket;
-};
-
 class CQueryHit
 {
 public:
@@ -77,11 +71,14 @@ public:
 	~CQueryHit();
 
 	static QueryHitInfo* ReadInfo(G2Packet* pPacket, CEndPoint* pSender = 0);
-	static CQueryHit*     ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo);
+	static CQueryHit*    ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
 	void Delete();
 	void ResolveURLs();
 	bool IsValid(CQuery* pQuery = 0);
+
+private:
+	Q_DISABLE_COPY(CQueryHit)
 };
 
 typedef QSharedPointer<CQueryHit> QueryHitSharedPtr;

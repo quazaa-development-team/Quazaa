@@ -27,9 +27,9 @@
 
 #include <QHash>
 #include "types.h"
+
 class CQuery;
 class CQueryHit;
-
 typedef QSharedPointer<CQueryHit> QueryHitSharedPtr;
 
 class CManagedSearch : public QObject
