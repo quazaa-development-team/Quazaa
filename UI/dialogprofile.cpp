@@ -359,11 +359,12 @@ void DialogProfile::on_plainTextEditBio_textChanged()
 
 void DialogProfile::on_pushButtonAvatarAdd_clicked()
 {
-	m_sTempAvatarFileName = QFileDialog::getOpenFileName(this, tr("Open Avatar Image"),
+	QFileInfo avatarFile(QFileDialog::getOpenFileName(this, tr("Open Avatar Image"),
 	                        qApp->applicationDirPath(),
-	                        tr("Images") + " (*.bmp *.png *.xbm *.xpm *.jpg *.jpeg *.gif *.pbm *.pgm *.ppm)");
-	if(m_sTempAvatarFileName != "")
+							tr("Images") + " (*.bmp *.png *.xbm *.xpm *.jpg *.jpeg *.gif *.pbm *.pgm *.ppm)"));
+	if(avatarFile.exists())
 	{
+		m_sTempAvatarFileName = avatarFile.canonicalFilePath();
 		m_ui->labelAvatarPreview->setPixmap(m_sTempAvatarFileName);
 		m_ui->pushButtonApply->setEnabled(true);
 	}

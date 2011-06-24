@@ -899,13 +899,13 @@ void DialogSettings::on_pushButtonRemoveParentalFilter_clicked()
 void DialogSettings::on_toolButtonSaveBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
-	QString directory = QFileDialog::getExistingDirectory(this,
+	QDir directory(QFileDialog::getExistingDirectory(this,
 	                    tr("Select A Location To Save Files"),
 	                    ui->lineEditSaveFolder->text(),
-	                    options);
-	if(!directory.isEmpty())
+						options));
+	if(directory.exists())
 	{
-		ui->lineEditSaveFolder->setText(directory);
+		ui->lineEditSaveFolder->setText(directory.canonicalPath());
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
@@ -913,13 +913,13 @@ void DialogSettings::on_toolButtonSaveBrowse_clicked()
 void DialogSettings::on_toolButtonTempBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
-	QString directory = QFileDialog::getExistingDirectory(this,
+	QDir directory(QFileDialog::getExistingDirectory(this,
 	                    tr("Select A Folder For Temp Files"),
 	                    ui->lineEditTempFolder->text(),
-	                    options);
-	if(!directory.isEmpty())
+						options));
+	if(directory.exists())
 	{
-		ui->lineEditTempFolder->setText(directory);
+		ui->lineEditTempFolder->setText(directory.canonicalPath());
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
@@ -927,13 +927,13 @@ void DialogSettings::on_toolButtonTempBrowse_clicked()
 void DialogSettings::on_toolButtonTorrentBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
-	QString directory = QFileDialog::getExistingDirectory(this,
+	QDir directory(QFileDialog::getExistingDirectory(this,
 	                    tr("Select A Folder To Store .torrent Files"),
 	                    ui->lineEditTorrentFolder->text(),
-	                    options);
-	if(!directory.isEmpty())
+						options));
+	if(directory.exists())
 	{
-		ui->lineEditTorrentFolder->setText(directory);
+		ui->lineEditTorrentFolder->setText(directory.canonicalPath());
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
