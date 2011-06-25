@@ -81,7 +81,8 @@ public:
 
 	/* ------ QFile wrapper functions ------ */
 
-	QFile* file() { return m_pFile; }
+	inline QFile* file(); // Returns a new QFile object that allows reading and writing separate from the current CFile obejct.
+
 	inline bool copy(const QString& newName);
 	inline QFile::FileError error() const;
 	inline bool flush();
@@ -213,6 +214,11 @@ void CFile::setFile(const QDir& dir, const QString& file)
 {
 	QFileInfo::setFile( dir, file );
 	refresh();
+}
+
+QFile* CFile::file()
+{
+	return new QFile( absoluteFilePath() );
 }
 
 bool CFile::copy(const QString& newName)
