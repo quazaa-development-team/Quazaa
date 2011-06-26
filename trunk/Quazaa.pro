@@ -209,7 +209,8 @@ SOURCES += main.cpp \
     ShareManager/file.cpp \
     Models/securitytablemodel.cpp \
     globaltimedsignalqueue.cpp \
-    NetworkCore/hubhorizon.cpp
+    NetworkCore/hubhorizon.cpp \
+    ShareManager/downloadingfile.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -338,7 +339,8 @@ HEADERS += UI/dialoglanguage.h \
     ShareManager/file.h \
 	Models/securitytablemodel.h \
     globaltimedsignalqueue.h \
-    NetworkCore/hubhorizon.h
+    NetworkCore/hubhorizon.h \
+    ShareManager/downloadingfile.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
