@@ -802,111 +802,93 @@ void CHashRule::toXML( QDomElement& oXMLroot ) const
 CRegExpRule::CRegExpRule(bool)
 {
 	m_nType = srContentRegExp;
+	m_bSpecialElements = false;
 }
 
-// I suppose this is correct... :) Nothing has been changed.
-/*bool CRegExpRule::match(const CQuerySearch* pQuery, const QString& strContent) const
+void CRegExpRule::setContentString(const QString& strContent)
 {
-#ifdef _DEBUG
- Q_ASSERT( pQuery && m_nType == srContentRegExp );
-#endif //_DEBUG
+	m_sContent = strContent;
+	m_sContent.trimmed();
 
- if ( !pQuery || m_sContent.isEmpty() )
-  return false;
-
- // Build a regular expression filter from the search query words.
- // Returns an empty string if not applied or if the filter was invalid.
- //
- // Substitutes:
- // <_> - inserts all query keywords;
- // <1>..<9> - inserts query keyword number 1..9;
- // <> - inserts next query keyword.
- //
- // For example regular expression:
- //	.*(<2><1>)|(<_>).*
- // for "music mp3" query will be converted to:
- //	.*(mp3\s*music\s*)|(music\s*mp3\s*).*
- //
- // Note: \s* - matches any number of white-space symbols (including zero).
-
- QString strFilter;
- int nTotal = 0;
- for ( LPCTSTR pszPattern = m_sContent; *pszPattern; ++pszPattern )
- {
-  LPCTSTR pszLt = _tcschr( pszPattern, _T('<') );
-  if ( pszLt )
-  {
-   int nLength = pszLt - pszPattern;
-   if ( nLength )
-   {
-	strFilter.Append( pszPattern, nLength );
-   }
-
-   pszPattern = pszLt + 1;
-   bool bEnds = false;
-   bool bAll = ( *pszPattern == '_' );
-   for ( ; *pszPattern ; pszPattern++ )
-   {
-	if ( *pszPattern == '>' )
+	quint8 nCount = 0;
+	for ( quint8 i = 1; i < 10; i++ )
 	{
-	 bEnds = true;
-	 break;
+		if ( m_sContent.contains( "<" + QString::number( i ) + ">" ) )
+		{
+			nCount++;
+		}
 	}
-   }
-   if ( bEnds )
-   {
-	if ( bAll )
+
+	if ( nCount || m_sContent.contains( "<_>" ) || m_sContent.contains( "<>" ) )
 	{
-	 // Add all keywords at the "<_>" position
-	 for ( CQuerySearch::const_iterator i = pQuery->begin();
-	  i != pQuery->end(); ++i )
-	 {
-	  strFilter.AppendFormat( L"%s\\s*",
-	   QString( i->first, (int)( i->second ) ) );
-	 }
+		m_bSpecialElements = true;
 	}
 	else
 	{
-	 pszPattern--; // Go back
-	 int nNumber = 0;
-
-	 // Numbers from 1 to 9, no more
-	 if ( _stscanf( &pszPattern[0], L"%i", &nNumber ) != 1 )
-	  nNumber = ++nTotal;
-
-	 int nWord = 1;
-	 for ( CQuerySearch::const_iterator i = pQuery->begin();
-	  i != pQuery->end(); ++i, ++nWord )
-	 {
-	  if ( nWord == nNumber )
-	  {
-	   strFilter.AppendFormat( L"%s\\s*",
-		QString( i->first, (int)( i->second ) ) );
-	   break;
-	  }
-	 }
-	 pszPattern++; // return to the last position
+		m_bSpecialElements = false;
+		m_regExpContent = QRegExp( m_sContent );
 	}
-   }
-   else
-   {
-	// no closing '>'
-	strFilter.Empty();
-	break;
-   }
-  }
-  else
-  {
-   strFilter += pszPattern;
-   break;
-  }
- }
+}
 
- if ( strFilter.isEmpty() )
-  return false;
+bool CRegExpRule::match(const QString& strContent, const QList<QString>& lQuery) const
+{
+#ifdef _DEBUG
+	Q_ASSERT( m_nType == srContentRegExp );
+#endif //_DEBUG
 
- return ( RegExp::match( strFilter, strContent ) != 0 ); // "!= 0" disables compiler warning.
-}*/
+	if ( m_sContent.isEmpty() )
+		return false;
+
+	if ( m_bSpecialElements )
+	{
+		// Build a regular expression filter from the search query words.
+		// Returns an empty string if not applied or if the filter was invalid.
+		//
+		// Substitutes:
+		// <_> - inserts all query keywords;
+		// <1>..<9> - inserts query keyword number 1..9;
+		// <> - inserts next query keyword.
+		//
+		// For example regular expression:
+		//	.*(<2><1>)|(<_>).*
+		// for "music mp3" query will be converted to:
+		//	.*(mp3\s*music\s*)|(music\s*mp3\s*).*
+		//
+		// Note: \s* - matches any number of white-space symbols (including zero).
+
+		QString sFilter, sBaseFilter = m_sContent;
+
+		int pos = sBaseFilter.indexOf( '<' );
+		if ( pos != -1 )
+		{
+			quint8 nArg = 0;
+			do
+			{
+				sFilter += sBaseFilter.left( pos );
+				sBaseFilter.remove( 0, pos );
+				bool bSuccess = replace( sBaseFilter, lQuery, nArg );
+
+				pos = sBaseFilter.indexOf( '<', bSuccess ? 0 : 1 );
+			}
+			while ( pos != -1 );
+
+			sFilter += sBaseFilter;
+			QRegExp oRegExpFilter = QRegExp( sFilter );
+			return oRegExpFilter.exactMatch( strContent );
+		}
+		else
+		{
+			// This shouldn't happen, but it's covered anyway...
+			Q_ASSERT( false );
+			QRegExp oRegExpFilter = QRegExp( m_sContent );
+			return oRegExpFilter.exactMatch( strContent );
+		}
+	}
+	else
+	{
+		return m_regExpContent.exactMatch( strContent );
+	}
+}
 
 void CRegExpRule::toXML( QDomElement& oXMLroot ) const
 {
@@ -924,6 +906,48 @@ void CRegExpRule::toXML( QDomElement& oXMLroot ) const
 	oXMLroot.appendChild( oElement );
 }
 
+bool CRegExpRule::replace(QString& sReplace, const QList<QString>& lQuery, quint8& nCurrent)
+{
+	if ( sReplace.at( 0 ) != '<' )
+		return false;
+
+	if ( sReplace.length() > 1 && sReplace.at( 1 ) == '>' )
+	{
+		sReplace.remove( 0, 2 );
+		sReplace = lQuery.at( nCurrent ) + "\s*" + sReplace;
+		nCurrent++;
+		return true;
+	}
+
+	if ( sReplace.length() > 2 && sReplace.at( 2 ) == '>' )
+	{
+		if ( sReplace.at( 1 ) == '_' )
+		{
+			QString sMess;
+			for ( quint8 i = 0; i < lQuery.size(); i++ )
+			{
+				sMess += lQuery.at( i );
+				sMess += "\s*";
+			}
+			sReplace.remove( 0, 3 );
+			sReplace = sMess + sReplace;
+			return true;
+		}
+		else
+		{
+			bool bSuccess;
+			quint8 nArg = sReplace.mid( 1, 1 ).toShort( &bSuccess );
+			if ( bSuccess )
+			{
+				sReplace.remove( 0, 3 );
+				sReplace = lQuery.at( nArg ) + "\s*" + sReplace;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 //////////////////////////////////////////////////////////////////////
 // CUserAgentRule
 
@@ -931,6 +955,23 @@ CUserAgentRule::CUserAgentRule(bool)
 {
 	m_nType = srContentUserAgent;
 	m_bRegExp  = false;
+}
+
+void CUserAgentRule::setRegExp(bool bRegExp)
+{
+	m_bRegExp = bRegExp;
+
+	if ( m_bRegExp )
+		m_regExpContent = QRegExp( m_sContent );
+}
+
+void CUserAgentRule::setContentString(const QString& strContent)
+{
+	m_sContent = strContent;
+	m_sContent.trimmed();
+
+	if ( m_bRegExp )
+		m_regExpContent = QRegExp( m_sContent );
 }
 
 bool CUserAgentRule::match(const QString& strUserAgent) const
@@ -941,7 +982,7 @@ bool CUserAgentRule::match(const QString& strUserAgent) const
 
 	if( m_bRegExp )
 	{
-//		return ( RegExp::match( m_sContent, strUserAgent ) != 0 ); // "!= 0" disables compiler warning.
+		return m_regExpContent.exactMatch( strUserAgent );
 	}
 	else
 	{

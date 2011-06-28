@@ -3,6 +3,7 @@
 
 #include <QDomElement>
 #include <QHostAddress>
+#include <QRegExp>
 #include <QString>
 #include <QUuid>
 
@@ -60,14 +61,14 @@ public:
 	bool			isExpired(quint32 nNow, bool bSession = false) const;
 
 	// Hit count control
-	inline void		count() { m_nToday++; m_nTotal++; }
-	inline void		resetCount() { m_nToday = m_nTotal = 0; }
-	inline quint32	getTodayCount() const { return m_nToday; }
-	inline quint32	getTotalCount() const { return m_nTotal; }
-	inline void		loadTotalCount( quint32 nTotal ) { m_nTotal = nTotal; }
+	inline void		count();
+	inline void		resetCount();
+	inline quint32	getTodayCount() const;
+	inline quint32	getTotalCount() const;
+	inline void		loadTotalCount( quint32 nTotal );
 
 	// get the rule type
-	inline RuleType	getType() const { return m_nType; }
+	inline RuleType	getType() const;
 
 	// Check content for hits
 	virtual bool	match(const QHostAddress& oAddress) const;
@@ -88,6 +89,37 @@ protected:
 	static void		toXML(const CSecureRule& oRule, QDomElement& oXMLelement);
 };
 
+void CSecureRule::count()
+{
+	m_nToday++;
+	m_nTotal++;
+}
+
+void CSecureRule::resetCount()
+{
+	m_nToday = m_nTotal = 0;
+}
+
+quint32 CSecureRule::getTodayCount() const
+{
+	return m_nToday;
+}
+
+quint32 CSecureRule::getTotalCount() const
+{
+	return m_nTotal;
+}
+
+void CSecureRule::loadTotalCount( quint32 nTotal )
+{
+	m_nTotal = nTotal;
+}
+
+CSecureRule::RuleType CSecureRule::getType() const
+{
+	return m_nType;
+}
+
 class CIPRule : public CSecureRule
 {
 private:
@@ -96,15 +128,31 @@ private:
 public:
 	CIPRule(bool bCreate = true);
 
-	inline void			setIP( const QHostAddress& oIP ) { m_oIP = oIP; m_sContent = oIP.toString(); }
-	inline QHostAddress getIP() const { return m_oIP; }
+	inline void			setIP( const QHostAddress& oIP );
+	inline QHostAddress getIP() const;
 
-	inline CSecureRule*	getCopy() const { return new CIPRule( *this ); }
+	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QHostAddress& oAddress) const;
 	void				toXML( QDomElement& oXMLroot ) const;
 
 };
+
+void CIPRule::setIP( const QHostAddress& oIP )
+{
+	m_oIP = oIP;
+	m_sContent = oIP.toString();
+}
+
+QHostAddress CIPRule::getIP() const
+{
+	return m_oIP;
+}
+
+CSecureRule* CIPRule::getCopy() const
+{
+	return new CIPRule( *this );
+}
 
 class CIPRangeRule : public CSecureRule
 {
@@ -115,30 +163,66 @@ private:
 public:
 	CIPRangeRule(bool bCreate = true);
 
-	inline void			setIP( const QHostAddress& oIP ) { m_oIP = oIP; m_sContent = m_oIP.toString() + "/" + m_oMask.toString(); }
-	inline QHostAddress	getIP() const { return m_oIP; }
-	inline void			setMask( const quint32& nMask ) { m_oMask = QHostAddress( nMask ); m_sContent = m_oIP.toString() + "/" + m_oMask.toString(); }
-	inline qint32		getMask() const { return m_oMask.toIPv4Address(); }
+	inline void			setIP( const QHostAddress& oIP );
+	inline QHostAddress	getIP() const;
+	inline void			setMask( const quint32& nMask );
+	inline qint32		getMask() const;
 
-	inline CSecureRule*	getCopy() const { return new CIPRangeRule( *this ); }
+	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QHostAddress& oAddress) const;
 	void				toXML( QDomElement& oXMLroot ) const;
 };
+
+void CIPRangeRule::setIP( const QHostAddress& oIP )
+{
+	m_oIP = oIP;
+	m_sContent = m_oIP.toString() + "/" + m_oMask.toString();
+}
+
+QHostAddress CIPRangeRule::getIP() const
+{
+	return m_oIP;
+}
+
+void CIPRangeRule::setMask( const quint32& nMask )
+{
+	m_oMask = QHostAddress( nMask );
+	m_sContent = m_oIP.toString() + "/" + m_oMask.toString();
+}
+
+qint32 CIPRangeRule::getMask() const
+{
+	return m_oMask.toIPv4Address();
+}
+
+CSecureRule* CIPRangeRule::getCopy() const
+{
+	return new CIPRangeRule( *this );
+}
 
 class CCountryRule : public CSecureRule
 {
 public:
 	CCountryRule(bool bCreate = true);
 
-	inline CSecureRule*	getCopy() const { return new CCountryRule( *this ); }
+	inline CSecureRule*	getCopy() const;
 
-	inline void			setContentString(const QString& strCountry) { m_sContent = strCountry; }
+	inline void			setContentString(const QString& strCountry);
 
 	bool				match(const QHostAddress& oAddress) const;
 	void				toXML( QDomElement& oXMLroot ) const;
-
 };
+
+CSecureRule* CCountryRule::getCopy() const
+{
+	return new CCountryRule( *this );
+}
+
+void CCountryRule::setContentString(const QString& strCountry)
+{
+	m_sContent = strCountry;
+}
 
 class CHashRule : public CSecureRule
 {
@@ -152,7 +236,7 @@ public:
 	//		bool				operator==(const CHashRule& pRule);
 	//		bool				operator!=(const CHashRule& pRule);
 
-	inline CSecureRule*	getCopy() const { return new CHashRule( *this ); }
+	inline CSecureRule*	getCopy() const;
 	QList< CHash >		getHashes() const;
 
 	void				setContent(const QList< CHash >& hashes);
@@ -165,37 +249,66 @@ public:
 	void				toXML( QDomElement& oXMLroot ) const;
 };
 
+CSecureRule* CHashRule::getCopy() const
+{
+	return new CHashRule( *this );
+}
+
+// There are two kinds of rules: 1. Those which contain <_>, <1>...<9> or <> 2. All other rules.
 class CRegExpRule : public CSecureRule
 {
+private:
+	bool				m_bSpecialElements;
+	QRegExp				m_regExpContent;
+
 public:
 	CRegExpRule(bool bCreate = true);
 
-	inline CSecureRule*	getCopy() const { return new CRegExpRule( *this ); }
+	inline CSecureRule*	getCopy() const;
 
-	inline void			setContentString(const QString& strContent) { m_sContent = strContent; m_sContent.trimmed(); }
+	void				setContentString(const QString& strContent);
 
-	//		bool				match(const CQuerySearch* pQuery, const QString& strContent) const;
+	bool				match(const QString& strContent, const QList<QString>& lQuery = QList<QString>()) const;
 	void				toXML( QDomElement& oXMLroot ) const;
+
+private:
+	static bool			replace(QString& sReplace, const QList<QString>& lQuery, quint8& nCurrent);
 };
+
+CSecureRule* CRegExpRule::getCopy() const
+{
+	return new CRegExpRule( *this );
+}
 
 class CUserAgentRule : public CSecureRule
 {
 private:
 	bool				m_bRegExp;  // defines if the content of this rule is a regular expression filter
+	QRegExp				m_regExpContent;
 
 public:
 	CUserAgentRule(bool bCreate = true);
 
-	inline CSecureRule*	getCopy() const { return new CUserAgentRule( *this ); }
+	inline CSecureRule*	getCopy() const;
 
-	inline void			setRegExp(bool bRegExp) { m_bRegExp = bRegExp; }
-	inline bool			getRegExp() const { return m_bRegExp; }
+	void				setRegExp(bool bRegExp);
+	inline bool			getRegExp() const;
 
-	inline void			setContentString(const QString& strContent) { m_sContent = strContent; m_sContent.trimmed(); }
+	void				setContentString(const QString& strContent);
 
 	bool				match(const QString& strUserAgent) const;
 	void				toXML( QDomElement& oXMLroot ) const;
 };
+
+CSecureRule* CUserAgentRule::getCopy() const
+{
+	return new CUserAgentRule( *this );
+}
+
+bool CUserAgentRule::getRegExp() const
+{
+	return m_bRegExp;
+}
 
 // contains everyting that does not fit into the other rule classes
 class CContentRule : public CSecureRule
