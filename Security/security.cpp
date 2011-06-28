@@ -894,47 +894,47 @@ bool CSecurity::isNewlyDenied(const QHostAddress& oAddress, const QString&)
 
 	return false;
 }
-/*bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const CQuerySearch* pQuery)
+bool CSecurity::isNewlyDenied(/*const CQueryHit* pHit, */const QList<QString>& lQuery)
 {
- if ( !pHit )
-  return false;
+	//if ( !pHit )
+	//	return false;
 
- CSecureRule* pRule = NULL;
- QMutexLocker l( &m_pSection );
+	CSecureRule* pRule = NULL;
+	QMutexLocker l( &m_pSection );
 
- // This should only be called if new rules have been loaded previously.
- Q_ASSERT( m_bNewRulesLoaded );
+	// This should only be called if new rules have been loaded previously.
+	Q_ASSERT( m_bNewRulesLoaded );
 
- if ( m_loadedHitRules.empty() )
-  return false;
+	if ( m_loadedHitRules.empty() )
+		return false;
 
- CIterator i = m_loadedHitRules.begin();
+	CIterator i = m_loadedHitRules.begin();
 
- while ( i != m_loadedHitRules.end() )
- {
-  pRule = *i;
+	while ( i != m_loadedHitRules.end() )
+	{
+		pRule = *i;
 
-  if ( pRule->match( (CShareazaFile*)pHit ) || pRule->match( pHit->m_sName ) || pRule->match( pQuery, pHit->m_sName ) )
-  {
-   // The rules are new, so we don't need to check whether they are expired or not.
+		if ( true/*pRule->match( (CShareazaFile*)pHit ) || pRule->match( pHit->m_sName ) || pRule->match( pQuery, pHit->m_sName )*/ )
+		{
+			// The rules are new, so we don't need to check whether they are expired or not.
 
-   pRule->count();
+			pRule->count();
 
-   if ( pRule->m_nAction == CSecureRule::srAccept )
-   {
+			if ( pRule->m_nAction == CSecureRule::srAccept )
+			{
+				return false;
+			}
+			else if ( pRule->m_nAction == CSecureRule::srDeny )
+			{
+				return true;
+			}
+		}
+
+		++i;
+	}
+
 	return false;
-   }
-   else if ( pRule->m_nAction == CSecureRule::srDeny )
-   {
-	return true;
-   }
-  }
-
-  ++i;
- }
-
- return false;
-}*/
+}
 
 bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
 {
@@ -1102,10 +1102,10 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
 	return m_bDenyPolicy;
 }
 
-/*bool CSecurity::isDenied(const CQueryHit* pHit, const CQuerySearch* pQuery)
+bool CSecurity::isDenied(/*const CQueryHit* pHit,*/ const QList<QString>& lQuery)
 {
- return ( isDenied( (CShareazaFile*)pHit ) || isDenied( pHit->m_sName ) || isDenied( pQuery, pHit->m_sName ) );
-}*/
+	return /*( isDenied( (CFile*)pHit ) || isDenied( pHit->m_sName ) || isDenied( lQuery, pHit->m_sName ) )*/ false;
+}
 
 // If the remote computer is running a client that is breaking GPL, causing problems, etc.
 // We don't actually ban these clients, but we don't accept them as a leaf. Can still upload, though.
@@ -1797,102 +1797,120 @@ bool CSecurity::isDenied(const QString& strContent)
 
 	return false;
 }
-/*bool CSecurity::isDenied(const CShareazaFile* pFile)
+bool CSecurity::isDenied(const CFile& oFile)
 {
- if ( !pFile )
-  return false;
+	if ( oFile.isNull() )
+		return false;
 
- // First get all available hashes.
- QString sSHA1 = ( pFile->m_oSHA1  ? pFile->m_oSHA1.toUrn()  : "" );
- QString sED2K = ( pFile->m_oED2K  ? pFile->m_oED2K.toUrn()  : "" );
- QString sBTIH = ( pFile->m_oBTH   ? pFile->m_oBTH.toUrn()   : "" );
- QString sTTH  = ( pFile->m_oTiger ? pFile->m_oTiger.toUrn() : "" );
- QString sMD5  = ( pFile->m_oMD5   ? pFile->m_oMD5.toUrn()   : "" );
+	// First get all available hashes.
+	QList< CHash > hashes = oFile.getHashes();
 
- quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
- QMutexLocker mutex( &m_pSection );
+	QMutexLocker mutex( &m_pSection );
 
- // Search for a rule matching these hashes
- CIterator it = getHash( sSHA1, sED2K, sTTH, sBTIH, sMD5 );
+	// Search for a rule matching these hashes
+	CIterator it = getHash( hashes );
 
- // If this rule matches the file, return denied.
- if ( it != m_Rules.end() && ((CHashRule*)*it)->match( sSHA1, sED2K, sTTH, sBTIH, sMD5 ) )
-  return true;
+	// If this rule matches the file, return denied.
+	if ( it != m_Rules.end() && ((CHashRule*)*it)->match( hashes ) )
+		return true;
 
- // Else check other content rules.
- CContentRuleList::iterator i = m_Contents.begin();
- while ( i != m_Contents.end() )
- {
-  CContentRule* pRule = *i;
+	// Else check other content rules.
+	CContentRuleList::iterator i = m_Contents.begin();
+	while ( i != m_Contents.end() )
+	{
+		CContentRule* pRule = *i;
 
-  if ( pRule->match( pFile ) )
-  {
-   if ( pRule->isExpired( tNow ) )
-   {
-	mutex.unlock();
-	remove( pRule );
-	mutex.relock();
+		if ( pRule->match( oFile ) )
+		{
+			if ( pRule->isExpired( tNow ) )
+			{
+				bool bBegin = i != m_Contents.begin();
+				if ( bBegin )
+				{
+					i--;
+				}
 
-	i = m_Contents.begin();
-	continue;
-   }
+				mutex.unlock();
+				remove( pRule );
+				mutex.relock();
 
-   pRule->count();
+				if ( !bBegin )
+				{
+					i = m_Contents.begin();
+				}
+				continue;
+			}
 
-   if ( pRule->m_nExpire > CSecureRule::srSession &&
-	pRule->m_nExpire < tNow + 300 )
-	// Add 5 min penalty for early access
-	pRule->m_nExpire = tNow + 300;
+			pRule->count();
 
-   if ( pRule->m_nAction == CSecureRule::srAccept )
+			if ( pRule->m_tExpire > CSecureRule::srSession &&
+				 pRule->m_tExpire < tNow + 300 )
+				// Add 5 min penalty for early access
+				pRule->m_tExpire = tNow + 300;
+
+			if ( pRule->m_nAction == CSecureRule::srAccept )
+				return false;
+			else if ( pRule->m_nAction == CSecureRule::srDeny )
+				return true;
+		}
+
+		++i;
+	}
+
 	return false;
-   else if ( pRule->m_nAction == CSecureRule::srDeny )
-	return true;
-  }
-
-  ++i;
- }
-
- return false;
-}*/
-/*bool CSecurity::isDenied(const CQuerySearch* pQuery, const QString& strContent)
+}
+bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& strContent)
 {
- if ( !pQuery || strContent.isEmpty() )
-  return false;
+	if ( strContent.isEmpty() )
+		return false;
 
- quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
- QMutexLocker mutex( &m_pSection );
+	QMutexLocker mutex( &m_pSection );
 
- CRegExpRuleList::iterator i = m_RegExpressions.begin();
- while ( i != m_RegExpressions.end() )
- {
-  CRegExpRule* pRule = *i;
+	CRegExpRuleList::iterator i = m_RegExpressions.begin();
+	while ( i != m_RegExpressions.end() )
+	{
+		CRegExpRule* pRule = *i;
 
-  if ( pRule->match( pQuery, strContent ) )
-  {
-   if ( pRule->isExpired( tNow ) )
-   {
-	mutex.unlock();
-	remove( pRule );
-	mutex.relock();
+		if ( pRule->match( lQuery, strContent ) )
+		{
+			if ( pRule->isExpired( tNow ) )
+			{
+				bool bBegin = i != m_RegExpressions.begin();
+				if ( bBegin )
+				{
+					i--;
+				}
 
-	i = m_RegExpressions.begin();
+				mutex.unlock();
+				remove( pRule );
+				mutex.relock();
 
-	continue;
-   }
+				if ( !bBegin )
+				{
+					i = m_RegExpressions.begin();
+				}
+				continue;
+			}
 
-   pRule->count();
+			pRule->count();
 
-   if ( pRule->m_nAction == CSecureRule::srAccept )
+			if ( pRule->m_tExpire > CSecureRule::srSession &&
+				 pRule->m_tExpire < tNow + 300 )
+				// Add 5 min penalty for early access
+				pRule->m_tExpire = tNow + 300;
+
+			if ( pRule->m_nAction == CSecureRule::srAccept )
+				return false;
+			else if ( pRule->m_nAction == CSecureRule::srDeny )
+				return true;
+		}
+
+		++i;
+	}
+
 	return false;
-   else if ( pRule->m_nAction == CSecureRule::srDeny )
-	return true;
-  }
-
-  ++i;
- }
-
- return false;
-}*/
+}
