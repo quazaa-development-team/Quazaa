@@ -73,12 +73,12 @@ bool CSecureRule::match(const QString&) const
 }
 bool CSecureRule::match(const CFile&) const
 {
- return false;
+	return false;
 }
-/*bool CSecureRule::match(const CQuerySearch*, const QString&) const
+bool CSecureRule::match(const QList<QString>&, const QString&) const
 {
- return false;
-}*/
+	return false;
+}
 
 //////////////////////////////////////////////////////////////////////
 // CSecureRule serialize
@@ -641,11 +641,6 @@ CHashRule::CHashRule(bool)
 	m_nType = srContentHash;
 }
 
-/*bool CHashRule::operator!=(const CHashRule& pRule)
-{
-	return !( *this == pRule );
-}*/
-
 QList< CHash > CHashRule::getHashes() const
 {
 	QList< CHash > result;
@@ -830,7 +825,7 @@ void CRegExpRule::setContentString(const QString& strContent)
 	}
 }
 
-bool CRegExpRule::match(const QString& strContent, const QList<QString>& lQuery) const
+bool CRegExpRule::match(const QList<QString>& lQuery, const QString& strContent) const
 {
 #ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentRegExp );

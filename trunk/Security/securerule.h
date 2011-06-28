@@ -74,7 +74,7 @@ public:
 	virtual bool	match(const QHostAddress& oAddress) const;
 	virtual bool	match(const QString& sContent) const;
 	virtual bool	match(const CFile& oFile) const;
-//	virtual bool	match(const CQuerySearch& oQuery, const QString& strContent) const;
+	virtual bool	match(const QList<QString>& lQuery, const QString& strContent) const;
 
 	// Read/write rule from/to file
 	static void		load(CSecureRule* pRule, QDataStream& oStream, const int nVersion);
@@ -232,10 +232,6 @@ private:
 public:
 	CHashRule(bool bCreate = true);
 
-	// Operators
-	//		bool				operator==(const CHashRule& pRule);
-	//		bool				operator!=(const CHashRule& pRule);
-
 	inline CSecureRule*	getCopy() const;
 	QList< CHash >		getHashes() const;
 
@@ -268,7 +264,7 @@ public:
 
 	void				setContentString(const QString& strContent);
 
-	bool				match(const QString& strContent, const QList<QString>& lQuery = QList<QString>()) const;
+	bool				match(const QList<QString>& lQuery, const QString& strContent) const;
 	void				toXML( QDomElement& oXMLroot ) const;
 
 private:
