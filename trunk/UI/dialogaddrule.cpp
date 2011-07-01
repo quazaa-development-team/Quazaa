@@ -26,9 +26,10 @@
 #include "ui_dialogaddrule.h"
 #include <QListView>
 
-DialogAddRule::DialogAddRule(QWidget* parent, CSecureRule* pRule) :
+DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	QDialog( parent ),
-	m_ui( new Ui::DialogAddRule )
+	m_ui( new Ui::DialogAddRule ),
+	m_pParent( parent )
 {
 	m_ui->setupUi( this );
 	m_ui->comboBoxAction->setView( new QListView() );
@@ -160,11 +161,13 @@ void DialogAddRule::on_pushButtonOK_clicked()
 	}
 	pRule->m_tExpire = tExpire;
 
+	pRule->m_sComment = m_ui->lineEditComment->text();
 	pRule->m_oUUID = m_pRule->m_oUUID;
 
 	if ( *pRule != *m_pRule )
 		securityManager.add( pRule );
 
+	emit dataUpdated();
 	emit closed();
 	close();
 }

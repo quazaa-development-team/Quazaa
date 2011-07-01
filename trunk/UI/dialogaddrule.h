@@ -29,6 +29,7 @@
 
 #include "Security/security.h"
 #include "Security/securerule.h"
+#include "widgetsecurity.h"
 
 namespace Ui
 {
@@ -53,10 +54,11 @@ private:
 
 	Ui::DialogAddRule* m_ui;
 	CSecureRule* m_pRule;
+	WidgetSecurity* m_pParent;
 
 public:
 	// Creates a dialog window using a copy of the provided rule as basis.
-	DialogAddRule(QWidget* parent = NULL, CSecureRule* pRule = NULL);
+	DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule = NULL);
 	~DialogAddRule();
 
 protected:
@@ -66,6 +68,7 @@ private:
 
 signals:
 	void closed();
+	void dataUpdated();
 
 private slots:
 	void on_pushButtonCancel_clicked();

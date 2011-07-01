@@ -19,13 +19,13 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 	switch( pRule->m_nAction )
 	{
 	case security::CSecureRule::srNull:
-		iAction = QIcon( ":/Resource/Security/Null.ico" );
+		//iAction = QIcon( ":/Resource/Security/Null.ico" );
 		break;
 	case security::CSecureRule::srAccept:
-		iAction = QIcon( ":/Resource/Security/Accept.ico" );
+		//iAction = QIcon( ":/Resource/Security/Accept.ico" );
 		break;
 	case security::CSecureRule::srDeny:
-		iAction = QIcon( ":/Resource/Security/Deny.ico" );
+		//iAction = QIcon( ":/Resource/Security/Deny.ico" );
 		break;
 	default:
 		Q_ASSERT( false );
@@ -34,12 +34,12 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 
 bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_update, CSecurityTableModel *model)
 {
-	if( !securityManager.check( pNode ) )
+	if ( !securityManager.check( pNode ) )
 		return false;
 
 	bool bRet = false;
 
-	if( sContent != pNode->getContentString() )
+	if ( sContent != pNode->getContentString() )
 	{
 		to_update.append( model->index( row, CONTENT ) );
 		sContent = pNode->getContentString();
@@ -48,7 +48,7 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 			bRet = true;
 	}
 
-	if( nAction != pNode->m_nAction )
+	if ( nAction != pNode->m_nAction )
 	{
 		to_update.append( model->index( row, ACTION ) );
 		nAction = pNode->m_nAction;
@@ -68,35 +68,35 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 			Q_ASSERT( false );
 		}
 
-		if( col == ACTION )
+		if ( col == ACTION )
 			bRet = true;
 	}
 
-	if( tExpire != pNode->m_tExpire )
+	if ( tExpire != pNode->m_tExpire )
 	{
 		to_update.append( model->index( row, EXPIRES ) );
 		tExpire = pNode->m_tExpire;
 
-		if( col == EXPIRES )
+		if ( col == EXPIRES )
 			bRet = true;
 	}
 
-	if( nToday != pNode->getTodayCount() )
+	if ( nToday != pNode->getTodayCount() )
 	{
 		to_update.append( model->index( row, HITS ) );
 		nToday = pNode->getTodayCount();
 		nTotal = pNode->getTotalCount();
 
-		if( col == HITS )
+		if ( col == HITS )
 			bRet = true;
 	}
 
-	if( sComment != pNode->m_sComment )
+	if ( sComment != pNode->m_sComment )
 	{
 		to_update.append( model->index( row, COMMENT ) );
 		sComment = pNode->m_sComment;
 
-		if( col == COMMENT )
+		if ( col == COMMENT )
 			bRet = true;
 	}
 
@@ -105,7 +105,7 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 
 QVariant CSecurityTableModel::Rule::data(int col) const
 {
-	switch(col)
+	switch ( col )
 	{
 		case CONTENT:
 			return sContent;
@@ -114,7 +114,7 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 		case EXPIRES:
 			return expiryToString( tExpire );
 		case HITS:
-			return QString().sprintf("%.2u (%.2u)", nToday, nTotal);
+			return QString().sprintf( "%.2u (%.2u)", nToday, nTotal );
 		case COMMENT:
 			return sComment;
 	}
@@ -124,7 +124,10 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 
 bool CSecurityTableModel::Rule::lessThan(int col, CSecurityTableModel::Rule *pOther) const
 {
-	switch(col)
+	if ( !pOther )
+		return false;
+
+	switch ( col )
 	{
 	case CONTENT:
 		return sContent < pOther->sContent;
@@ -163,9 +166,9 @@ QString CSecurityTableModel::Rule::expiryToString(quint32 tExpire) const
 	switch( tExpire )
 	{
 	case CSecureRule::srIndefinite:
-		return "Never";
+		return tr( "Never" );
 	case CSecureRule::srSession:
-		return "Session";
+		return tr( "Session" );
 	}
 
 	return QString().sprintf("%.2u:%.2u:%.2u", tExpire / 3600, (tExpire % 3600 / 60), (tExpire % 3600) % 60);
@@ -325,7 +328,8 @@ public:
 	CSecurityTableModelCmp( int col, Qt::SortOrder o ) :
 		column( col ),
 		order( o )
-	{}
+	{
+	}
 
 	bool operator()( CSecurityTableModel::Rule* a, CSecurityTableModel::Rule* b )
 	{
@@ -396,18 +400,13 @@ void CSecurityTableModel::updateAll()
 	QModelIndexList uplist;
 	bool bSort = m_bNeedSorting;
 
-	if ( securityManager.m_pSection.tryLock() )
+	for ( quint32 i = 0, max = m_lNodes.count(); i < max; ++i )
 	{
-		for ( quint32 i = 0, max = m_lNodes.count(); i < max; ++i )
-		{
-			if ( m_lNodes[i]->update( i, m_nSortColumn, uplist, this ) )
-				bSort = true;
-		}
-
-		securityManager.m_pSection.unlock();
+		if ( m_lNodes[i]->update( i, m_nSortColumn, uplist, this ) )
+			bSort = true;
 	}
 
-	if( bSort )
+	if ( bSort )
 	{
 		sort( m_nSortColumn, m_nSortOrder );
 	}
@@ -415,7 +414,7 @@ void CSecurityTableModel::updateAll()
 	{
 		if ( !uplist.isEmpty() )
 		{
-			foreach( QModelIndex index, uplist )
+			foreach ( QModelIndex index, uplist )
 			{
 				// todo: question: is there a reason for this line being inside the for each loop?
 				// couldn't this be moved before the loop and the loop be only called if this returns != NULL?

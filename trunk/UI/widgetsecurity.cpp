@@ -45,7 +45,7 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	setModel( m_pSecurityList );
 
 	connect( this, SIGNAL( requestDataUpdate() ), this, SLOT( update() ) );
-	signalQueue.push( this, SIGNAL( updateData() ), 1000 );
+	signalQueue.push( this, SIGNAL( requestDataUpdate() ), 1000 );
 }
 
 WidgetSecurity::~WidgetSecurity()
@@ -70,11 +70,11 @@ void WidgetSecurity::saveWidget()
 
 void WidgetSecurity::changeEvent(QEvent* e)
 {
-	QMainWindow::changeEvent(e);
-	switch(e->type())
+	QMainWindow::changeEvent( e );
+	switch ( e->type() )
 	{
 		case QEvent::LanguageChange:
-			ui->retranslateUi(this);
+			ui->retranslateUi( this );
 			break;
 		default:
 			break;
@@ -89,6 +89,7 @@ void WidgetSecurity::update()
 void WidgetSecurity::on_actionSecurityAddRule_triggered()
 {
 	DialogAddRule* dlgAddRule = new DialogAddRule( this );
+	connect( dlgAddRule, SIGNAL( dataUpdated() ), SLOT( update() ), Qt::QueuedConnection );
 	dlgAddRule->show();
 }
 
@@ -106,6 +107,6 @@ void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 
 void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 {
-	DialogSecuritySubscriptions* dlgSecuritySubscriptions = new DialogSecuritySubscriptions(this);
+	DialogSecuritySubscriptions* dlgSecuritySubscriptions = new DialogSecuritySubscriptions( this );
 	dlgSecuritySubscriptions->show();
 }
