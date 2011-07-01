@@ -82,6 +82,33 @@ win32-msvc2008 {
 	QMAKE_LFLAGS_DEBUG += /FIXED:NO
 }
 
+win32-msvc2010 {
+	!build_pass:message(Setting up MSVC 2010 Compiler flags)
+	QMAKE_CFLAGS_DEBUG += /Gd \
+		/arch:SSE2 \
+		/Gm \
+		/RTC1 \
+		/MDd \
+		/Zi
+	QMAKE_CFLAGS_RELEASE += /Gd \
+		/arch:SSE2 \
+		/GA \
+		/Og \
+		/MD
+	QMAKE_CXXFLAGS_DEBUG += /Gd \
+		/arch:SSE2 \
+		/Gm \
+		/RTC1 \
+		/MDd \
+		/Zi
+	QMAKE_CXXFLAGS_RELEASE += /Gd \
+		/arch:SSE2 \
+		/GA \
+		/Og \
+		/MD
+	QMAKE_LFLAGS_DEBUG += /FIXED:NO
+}
+
 # Sources
 SOURCES += main.cpp \
 	UI/dialoglanguage.cpp \
