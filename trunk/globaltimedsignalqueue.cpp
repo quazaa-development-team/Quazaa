@@ -1,3 +1,5 @@
+#include <QSignalSpy>
+
 #include "globaltimedsignalqueue.h"
 
 CGlobalTimedSignalQueue signalQueue;
@@ -62,12 +64,11 @@ void CTimerObject::resetTime()
 
 bool CTimerObject::emitSignal() const
 {
-	return ( m_sSignal.obj && m_sSignal.sName.toLatin1().data() &&
-			 QMetaObject::invokeMethod( m_sSignal.obj, m_sSignal.sName.toLatin1().data(), Qt::QueuedConnection,
-										m_sSignal.val0, m_sSignal.val1, m_sSignal.val2,
-										m_sSignal.val3, m_sSignal.val4, m_sSignal.val5,
-										m_sSignal.val6, m_sSignal.val7, m_sSignal.val8,
-										m_sSignal.val9 ) );
+	return QMetaObject::invokeMethod( m_sSignal.obj, m_sSignal.sName.toLatin1().data(), Qt::QueuedConnection,
+									  m_sSignal.val0, m_sSignal.val1, m_sSignal.val2,
+									  m_sSignal.val3, m_sSignal.val4, m_sSignal.val5,
+									  m_sSignal.val6, m_sSignal.val7, m_sSignal.val8,
+									  m_sSignal.val9 );
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -144,9 +145,10 @@ void CGlobalTimedSignalQueue::checkSchedule()
 	{
 		if ( oTimedSignal.second != NULL )
 		{
-			oTimedSignal.second->emitSignal();
+			// If emitting the signal was unsuccessful, we're not going to send it again.
+			bool bSuccess = oTimedSignal.second->emitSignal();
 
-			if ( oTimedSignal.second->m_bMultiShot )
+			if ( oTimedSignal.second->m_bMultiShot && bSuccess )
 			{
 				oTimedSignal.second->resetTime();
 				m_QueuedSignals.push( oTimedSignal );
@@ -171,6 +173,10 @@ QUuid CGlobalTimedSignalQueue::push(QObject* parent, const char* signal, quint64
 									QGenericArgument val6, QGenericArgument val7,
 									QGenericArgument val8, QGenericArgument val9)
 {
+	QSignalSpy managedSignal( parent, signal );
+	Q_ASSERT_X( managedSignal.isValid(), "CGlobalTimedSignalQueue::push()",
+				"An invalid signal has been requested to be stored." );
+
 	return push( new CTimerObject( parent, signal, tInterval, bMultiShot,
 								   val0, val1, val2, val3, val4, val5, val6, val7, val8, val9 ) );
 }
