@@ -6,7 +6,7 @@ using namespace security;
 
 CSecureRule::CSecureRule(bool bCreate)
 {
-	m_nType		= srContentUndefined; // invalidates rule as long as it does not contain any useful content.
+	m_nType		= srContentUndefined; // This invalidates rule as long as it does not contain any useful content.
 	m_nAction	= srDeny;
 	m_tExpire	= srIndefinite;
 	m_nToday	= 0;
@@ -14,6 +14,8 @@ CSecureRule::CSecureRule(bool bCreate)
 
 	if ( bCreate )
 		m_oUUID = QUuid::createUuid();
+	else
+		m_oUUID = QUuid();
 }
 
 bool CSecureRule::operator==(const CSecureRule& pRule)
