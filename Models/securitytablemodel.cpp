@@ -114,7 +114,7 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 		case EXPIRES:
 			return expiryToString( tExpire );
 		case HITS:
-			return QString().sprintf( "%.2u (%.2u)", nToday, nTotal );
+			return QString( "%1 (%2)" ).arg( QString::number( nToday ), QString::number( nTotal ) );
 		case COMMENT:
 			return sComment;
 	}

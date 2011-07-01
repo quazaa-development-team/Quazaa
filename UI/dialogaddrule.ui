@@ -787,16 +787,16 @@ p, li { white-space: pre-wrap; }
             <property name="title">
              <string>User Agent</string>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QLineEdit" name="lineEditUserAgent"/>
+             </item>
              <item>
               <widget class="QCheckBox" name="checkBoxUserAgent">
                <property name="text">
                 <string>Regular Expression</string>
                </property>
               </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEditUserAgent"/>
              </item>
             </layout>
            </widget>
@@ -811,7 +811,6 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="../Resource.qrc"/>
   <include location="../Resource.qrc"/>
  </resources>
  <connections>
