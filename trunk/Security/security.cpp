@@ -27,6 +27,17 @@ CSecurity::CSecurity()
 
 CSecurity::~CSecurity()
 {
+
+
+
+
+	// TODO: reenable default path loader in settings
+
+
+
+
+
+	//save();
 	clear();
 }
 
@@ -403,6 +414,9 @@ void CSecurity::add(CSecureRule* pRule)
 		// this is done uppon completion of the entire process.
 		sanityCheck();
 	}
+
+	mutex.unlock();
+	save();
 }
 
 void CSecurity::remove(CSecureRule* pRule)
@@ -1243,7 +1257,8 @@ bool CSecurity::isVendorBlocked(const QString& sVendor) const
 
 bool CSecurity::load()
 {
-	QString sPath = quazaaSettings.Security.DataPath.append( "security.dat" );
+	qDebug() << quazaaSettings.Security.DataPath;
+	QString sPath = quazaaSettings.Security.DataPath + "security.dat";
 
 	if ( load( sPath ) )
 	{
@@ -1251,7 +1266,7 @@ bool CSecurity::load()
 	}
 	else
 	{
-		sPath = quazaaSettings.Security.DataPath.append( "security_backup.dat" );
+		sPath = quazaaSettings.Security.DataPath + "security_backup.dat";
 		return load( sPath );
 	}
 }
@@ -1330,18 +1345,18 @@ bool CSecurity::load( QString sPath )
 	return true;
 }
 
-bool CSecurity::save()
+bool CSecurity::save(bool bForceSaving)
 {
 	QMutexLocker mutex( &m_pSection );
 
-	if ( m_bSaved )		// Saving not required ATM.
+	if ( m_bSaved && !bForceSaving )		// Saving not required ATM.
 	{
 		return true;
 	}
 	mutex.unlock();
-
-	QString sBackupPath = quazaaSettings.Security.DataPath.append( "security_backup.dat" );
-	QString sPath		= quazaaSettings.Security.DataPath.append( "security.dat" );
+	qDebug() << quazaaSettings.Security.DataPath;
+	QString sBackupPath = quazaaSettings.Security.DataPath + "security_backup.dat";
+	QString sPath		= quazaaSettings.Security.DataPath + "security.dat";
 
 	if ( QFile::exists( sBackupPath ) )
 	{
@@ -1379,15 +1394,14 @@ bool CSecurity::save()
 			const CSecureRule* pRule = *i;
 			CSecureRule::save( pRule, oStream );
 		}
-		mutex.unlock();
 	}
 	catch ( ... )
 	{
 
+		mutex.unlock();
 		return false;
 	}
 
-	mutex.relock();
 	m_bSaved = true;
 	mutex.unlock();
 
