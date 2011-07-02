@@ -164,7 +164,7 @@ namespace security
 
 		// Export/Import/Load/Save handlers
 		bool			load();
-		bool			save();
+		bool			save(bool bForceSaving = false);				// brov: this method should be called on exit with bForceSaving = true.
 		bool			import(const QString& sPath);
 		bool			fromXML(const QDomDocument& oXMLroot);
 		QDomDocument	toXML();

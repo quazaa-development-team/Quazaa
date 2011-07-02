@@ -891,9 +891,9 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Security.SearchSpamFilterThreshold = m_qSettings.value("SearchSpamFilterThreshold", 20).toInt();
 	quazaaSettings.Security.UPnPSkipWANIPSetup = m_qSettings.value("UPnPSkipWANIPSetup", false).toBool();
 	quazaaSettings.Security.UPnPSkipWANPPPSetup = m_qSettings.value("UPnPSkipWANPPPSetup", false).toBool();
-	QString sDefault = QString( "%1/%2/" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ),
-												QCoreApplication::applicationName() );
-	quazaaSettings.Security.DataPath = m_qSettings.value( "DataPath", sDefault ).toString();
+	QString sDefault = QString( "%1\\%2\\" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ),
+												  "Data" /*QCoreApplication::applicationName()*/ );
+	quazaaSettings.Security.DataPath = sDefault;//m_qSettings.value( "DataPath", sDefault ).toString();
 	quazaaSettings.Security.LogIPCheckHits = m_qSettings.value("LogIPCheckHits", false).toBool();
 	quazaaSettings.Security.RuleExpiryInterval = m_qSettings.value("RuleExpiryInterval", 600).toUInt();
 	quazaaSettings.Security.MissCacheExpiryInterval = m_qSettings.value("MissCacheExpiryInterval", 600).toUInt();
