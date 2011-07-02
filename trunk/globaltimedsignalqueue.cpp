@@ -1,4 +1,6 @@
+#ifdef _DEBUG
 #include <QSignalSpy>
+#endif // _DEBUG
 
 #include "globaltimedsignalqueue.h"
 
@@ -173,9 +175,11 @@ QUuid CGlobalTimedSignalQueue::push(QObject* parent, const char* signal, quint64
 									QGenericArgument val6, QGenericArgument val7,
 									QGenericArgument val8, QGenericArgument val9)
 {
+#ifdef _DEBUG
 	QSignalSpy managedSignal( parent, signal );
 	Q_ASSERT_X( managedSignal.isValid(), "CGlobalTimedSignalQueue::push()",
 				"An invalid signal has been requested to be stored." );
+#endif // _DEBUG
 
 	return push( new CTimerObject( parent, signal, tInterval, bMultiShot,
 								   val0, val1, val2, val3, val4, val5, val6, val7, val8, val9 ) );
