@@ -31,7 +31,7 @@
 
 #include "quazaasettings.h"
 
-#include "globaltimedsignalqueue.h"
+#include "timedsignalqueue.h"
  
 
 WidgetSecurity::WidgetSecurity(QWidget* parent) :
@@ -45,7 +45,7 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	setModel( m_pSecurityList );
 
 	connect( this, SIGNAL( requestDataUpdate() ), this, SLOT( update() ) );
-	signalQueue.push( this, SIGNAL( requestDataUpdate() ), 1000 );
+	signalQueue.push( this, SIGNAL( requestDataUpdate() ), 1000, true );
 }
 
 WidgetSecurity::~WidgetSecurity()
