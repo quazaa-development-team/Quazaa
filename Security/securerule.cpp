@@ -911,7 +911,7 @@ bool CRegExpRule::replace(QString& sReplace, const QList<QString>& lQuery, quint
 	if ( sReplace.length() > 1 && sReplace.at( 1 ) == '>' )
 	{
 		sReplace.remove( 0, 2 );
-		sReplace = lQuery.at( nCurrent ) + "\s*" + sReplace;
+		sReplace = lQuery.at( nCurrent ) + "\\s*" + sReplace;
 		nCurrent++;
 		return true;
 	}
@@ -924,7 +924,7 @@ bool CRegExpRule::replace(QString& sReplace, const QList<QString>& lQuery, quint
 			for ( quint8 i = 0; i < lQuery.size(); i++ )
 			{
 				sMess += lQuery.at( i );
-				sMess += "\s*";
+				sMess += "\\s*";
 			}
 			sReplace.remove( 0, 3 );
 			sReplace = sMess + sReplace;
@@ -937,7 +937,7 @@ bool CRegExpRule::replace(QString& sReplace, const QList<QString>& lQuery, quint
 			if ( bSuccess )
 			{
 				sReplace.remove( 0, 3 );
-				sReplace = lQuery.at( nArg ) + "\s*" + sReplace;
+				sReplace = lQuery.at( nArg ) + "\\s*" + sReplace;
 				return true;
 			}
 		}
