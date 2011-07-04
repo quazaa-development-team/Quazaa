@@ -2,7 +2,9 @@
 #define DOWNLOADINGFILE_H
 
 #include "file.h"
-#include "downloadsource.h"
+#include "queryhit.h"
+
+class CDownloadSource;
 
 class CDownload : public CFile
 {
@@ -25,6 +27,10 @@ public:
 	// restart instead of having all sources trying to query at the same time.
 	// TODO: Implement
 	quint32 requestInitialSourceAccessTime();
+
+	bool add(const CQueryHit* const pHit);
+	bool add(const CDownloadSource* pSource);
+	bool remove(CDownloadSource* pSource, bool requestDeletion = true);
 
 	inline void setFutureFileNames( const QList<QString>& lNames );
 	inline void addFutureFileName( const QString& sName );
