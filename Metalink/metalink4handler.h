@@ -10,7 +10,7 @@
 
 class CMetalink4Handler : public CMetalinkHandler
 {
-    Q_OBJECT
+	Q_OBJECT
 
 private:
 	bool			m_bNull;
