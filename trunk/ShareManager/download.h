@@ -2,20 +2,29 @@
 #define DOWNLOADINGFILE_H
 
 #include "file.h"
+#include "downloadsource.h"
 
-class CDownloadingFile : public CFile
+class CDownload : public CFile
 {
 private:
 	QList<QString>	m_lFileNames;			// All names of the file as returned by the different search sources, including eventual user input.
 	quint8			m_nSeclectedFileName;	// The file name currently selected to be used when migrating the file out of the incompletes directory.
 	QString			m_sTargetDirectory;		// The directory the file will be moved to uppon completion.
 
+	QList<CDownloadSource*> m_lSources;
+
 public:
-	explicit CDownloadingFile(QObject* parent = NULL);
-	explicit CDownloadingFile(const QString& file, QObject* parent = NULL);
-	explicit CDownloadingFile(const QFile& file, QObject* parent = NULL);
-	explicit CDownloadingFile(const QDir& dir, const QString& file, QObject* parent = NULL);
-	explicit CDownloadingFile(const QFileInfo& fileinfo, QObject* parent = NULL);
+	explicit CDownload(QObject* parent = NULL);
+	explicit CDownload(const QString& file, QObject* parent = NULL);
+	explicit CDownload(const QFile& file, QObject* parent = NULL);
+	explicit CDownload(const QDir& dir, const QString& file, QObject* parent = NULL);
+	explicit CDownload(const QFileInfo& fileinfo, QObject* parent = NULL);
+
+	// This method is queried by sources to schedule the time of their initial access.
+	// The goal of this method is to allow the program to query a certain number of sources/s on
+	// restart instead of having all sources trying to query at the same time.
+	// TODO: Implement
+	quint32 requestInitialSourceAccessTime();
 
 	inline void setFutureFileNames( const QList<QString>& lNames );
 	inline void addFutureFileName( const QString& sName );
@@ -33,50 +42,50 @@ public:
 	inline bool finalize();
 };
 
-void CDownloadingFile::setFutureFileNames( const QList<QString>& lNames )
+void CDownload::setFutureFileNames( const QList<QString>& lNames )
 {
 	m_lFileNames = lNames;
 	m_nSeclectedFileName = m_nSeclectedFileName < m_lFileNames.size() ? m_nSeclectedFileName : 0;
 }
 
-void CDownloadingFile::addFutureFileName( const QString& sName )
+void CDownload::addFutureFileName( const QString& sName )
 {
 	m_lFileNames.append( sName );
 }
 
-QList<QString> CDownloadingFile::getFutureFileNames() const
+QList<QString> CDownload::getFutureFileNames() const
 {
 	return m_lFileNames;
 }
 
-void CDownloadingFile::setSelectedFileNameID( const quint8& ID )
+void CDownload::setSelectedFileNameID( const quint8& ID )
 {
 	m_nSeclectedFileName = ID < m_lFileNames.size() ? ID : m_nSeclectedFileName;
 }
 
-quint8 CDownloadingFile::getSelectedFileNameID() const
+quint8 CDownload::getSelectedFileNameID() const
 {
 	return m_nSeclectedFileName;
 }
 
-QString CDownloadingFile::getSelectedFileName() const
+QString CDownload::getSelectedFileName() const
 {
 	// Set functions perform the necessary checks to make sure m_nSeclectedFileName is always valid.
 	return m_lFileNames.at( m_nSeclectedFileName );
 }
 
-void CDownloadingFile::setTargetDirectory( const QString& sDirectory )
+void CDownload::setTargetDirectory( const QString& sDirectory )
 {
 	m_sTargetDirectory = sDirectory;
 }
 
-QString CDownloadingFile::getTargetDirectory() const
+QString CDownload::getTargetDirectory() const
 {
 	return m_sTargetDirectory;
 }
 
 // Moves completed download to target directory.
-bool CDownloadingFile::finalize()
+bool CDownload::finalize()
 {
 	// TODO: create kind of a buffer between Quazaa and HDD writes to prevent our
 	// program to hang (partially) when big amounts of data havve to be written on disk.
