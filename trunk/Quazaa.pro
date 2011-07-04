@@ -236,13 +236,12 @@ SOURCES += main.cpp \
     Security/securerule.cpp \
     ShareManager/file.cpp \
     Models/securitytablemodel.cpp \
-    globaltimedsignalqueue.cpp \
     NetworkCore/hubhorizon.cpp \
     Metalink/metalink4handler.cpp \
     ShareManager/download.cpp \
-    ShareManager/download.cpp \
-    Metalink/metalinkhandler.cpp \
-    ShareManager/downloadsource.cpp
+    ShareManager/downloadsource.cpp \
+    timedsignalqueue.cpp \
+    Metalink/metalinkhandler.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -374,9 +373,9 @@ HEADERS += UI/dialoglanguage.h \
     NetworkCore/hubhorizon.h \
     Metalink/metalink4handler.h \
     ShareManager/download.h \
-    ShareManager/download.h \
-    Metalink/metalinkhandler.h \
-    ShareManager/downloadsource.h
+    ShareManager/downloadsource.h \
+    timedsignalqueue.h \
+    Metalink/metalinkhandler.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \

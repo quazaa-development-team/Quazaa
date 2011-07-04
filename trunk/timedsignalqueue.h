@@ -1,5 +1,5 @@
-#ifndef GLOBALTIMEDSIGNALQUEUE_H
-#define GLOBALTIMEDSIGNALQUEUE_H
+#ifndef TIMEDSIGNALQUEUE_H
+#define TIMEDSIGNALQUEUE_H
 
 #include <QBasicTimer>
 #include <QDateTime>
@@ -41,24 +41,32 @@ private:
 	bool	m_bMultiShot;
 
 private:
-	CTimerObject(QObject* obj, const char* member, quint64 tInterval, bool bMultiShot = true,
+	CTimerObject(QObject* obj, const char* member, quint64 tInterval, bool bMultiShot,
 				 QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
 				 QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
 				 QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
 				 QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
 				 QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+
+	CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
+				 QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+				 QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+				 QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+				 QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+				 QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+
 	CTimerObject(const CTimerObject* const pTimerObject);
 
 	void resetTime();
 	bool emitSignal() const;
 
-	friend class CGlobalTimedSignalQueue;
+	friend class CTimedSignalQueue;
 };
 
 /* -------------------------------------------------------------------------------- */
 /* ---------------------------- CGlobalTimedSignalQueue --------------------------- */
 /* -------------------------------------------------------------------------------- */
-class CGlobalTimedSignalQueue : public QObject
+class CTimedSignalQueue : public QObject
 {
     Q_OBJECT
 
@@ -75,11 +83,16 @@ private:
 	CSignalQueue		m_QueuedSignals;
 
 public:
-    explicit CGlobalTimedSignalQueue(QObject *parent = 0);
-	~CGlobalTimedSignalQueue();
+	explicit CTimedSignalQueue(QObject *parent = 0);
+	~CTimedSignalQueue();
 
+	// (Re)initializes internal structures. Note that this does NOT clear the queue.
 	void setup();
+
+	// Clears the queue and removes all scheduled items.
 	void clear();
+
+	// Sets the interval used by the queue to check for new signals to be scheduled. This defaults to 1000ms.
 	void setPrecision(quint64 tInterval);
 
 protected:
@@ -90,23 +103,41 @@ private:
 	QUuid push(CTimerObject* pTimedSignal);
 
 public slots:
+	// Allows to manually check for new scheduled items in the queue.
 	void checkSchedule();
 
-	QUuid push(QObject* parent, const char* signal, quint64 tInterval, bool bMultiShot = true,
+	// This schedules a signal or slot to be invoqued after an interval of tInterval milliseconds.
+	// If multiShot is set to true, the slot will be invoqued in the given interval until the signal queue
+	// recieves a pop() request for the signal or the given parent turns invalid.
+	QUuid push(QObject* parent, const char* signal, quint64 tInterval, bool multiShot,
 			   QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
 			   QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
 			   QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
 			   QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
 			   QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
+	// This schedules a signal to be invoqued once at a given schedule time tSchedule.
+	QUuid push(QObject* parent, const char* signal, quint32 tSchedule,
+			   QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+			   QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+			   QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+			   QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+			   QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+
+	// Removes all scheduled combinations of a given parent and signal/slot from the queue.
 	bool pop(const QObject* parent, const char* signal);
+
+	// Removes a scheduled parent + signal/slot combination by its UUID.
 	bool pop(QUuid oTimer_ID);
 
+	// Sets the interval time of a given parent + signal/slot combination to tInterval. After this call,
+	// the next schedule time of that combination is in tInterval milliseconds, no matter the timing state
+	// of the previously scheduled combination.
 	bool setInterval(QUuid oTimer_ID, quint64 tInterval);
 
 	friend class CTimerObject;
 };
 
-extern CGlobalTimedSignalQueue signalQueue;
+extern CTimedSignalQueue signalQueue;
 
-#endif // GLOBALTIMEDSIGNALQUEUE_H
+#endif // TIMEDSIGNALQUEUE_H
