@@ -8,6 +8,7 @@ CFile::CFile(CFile& file) :
 	QFileInfo( file.absoluteFilePath() ),
 	m_nDirectoryID( file.m_nDirectoryID ),
 	m_nFileID( file.m_nFileID ),
+	m_bNull( file.m_bNull ),
 	m_Hashes( file.m_Hashes ),
 	m_Tags( file.m_Tags )
 {
@@ -19,7 +20,8 @@ CFile::CFile(QObject* parent) :
 	QFileInfo(),
 	m_nDirectoryID( 0 ),
 	m_nFileID( 0 ),
-	m_pFile( NULL )
+	m_pFile( NULL ),
+	m_bNull( !parent )
 {
 }
 
@@ -28,7 +30,8 @@ CFile::CFile(const QString& file, QObject* parent) :
 	QFileInfo( file ),
 	m_nDirectoryID( 0 ),
 	m_nFileID( 0 ),
-	m_pFile( NULL )
+	m_pFile( NULL ),
+	m_bNull( false )
 {
 	refresh();
 }
@@ -38,7 +41,8 @@ CFile::CFile(const QFile& file, QObject* parent) :
 	QFileInfo( file ),
 	m_nDirectoryID( 0 ),
 	m_nFileID( 0 ),
-	m_pFile( NULL )
+	m_pFile( NULL ),
+	m_bNull( false )
 {
 	refresh();
 }
@@ -48,7 +52,8 @@ CFile::CFile(const QDir& dir, const QString& file, QObject* parent) :
 	QFileInfo( dir, file ),
 	m_nDirectoryID( 0 ),
 	m_nFileID( 0 ),
-	m_pFile( NULL )
+	m_pFile( NULL ),
+	m_bNull( false )
 {
 	refresh();
 }
@@ -58,7 +63,8 @@ CFile::CFile(const QFileInfo& fileinfo, QObject* parent) :
 	QFileInfo( fileinfo ),
 	m_nDirectoryID( 0 ),
 	m_nFileID( 0 ),
-	m_pFile( NULL )
+	m_pFile( NULL ),
+	m_bNull( false )
 {
 	refresh();
 }

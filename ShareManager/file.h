@@ -15,6 +15,8 @@ protected:
 	quint64			m_nFileID;
 	QFile*			m_pFile;
 
+	bool			m_bNull;
+
 	QList< CHash >	m_Hashes; // SHA1 (Base32), ED2K (MD4, Base16), BitTorrent Info Hash (Base32), TigerTree Root Hash (Base32), MD5 (Base16)
 	QSet< QString > m_Tags;
 
@@ -36,6 +38,7 @@ public:
 
 	// Returns true if the file has been created using the default constructor CFile()
 	// without any parameter and a file name has not been set using setFileName.
+	// To verify whether a file exists physically on the HDD, use CFile::exists().
 	inline bool isNull() const;
 
 	// Returns a list of all hashes attributed to this file. Note that this does not
@@ -147,7 +150,7 @@ CFile::~CFile()
 
 bool CFile::isNull() const
 {
-	return !m_pFile;
+	return m_bNull;
 }
 
 QList< CHash > CFile::getHashes() const
@@ -200,18 +203,23 @@ quint64 CFile::getFileID() const
 
 void CFile::setFile(const QString& file)
 {
+	if ( !file.isEmpty() )
+		m_bNull = false;
 	QFileInfo::setFile( file );
 	refresh();
 }
 
 void CFile::setFile(const QFile& file)
 {
+	m_bNull = false;
 	QFileInfo::setFile( file );
 	refresh();
 }
 
 void CFile::setFile(const QDir& dir, const QString& file)
 {
+	if ( !file.isEmpty() )
+		m_bNull = false;
 	QFileInfo::setFile( dir, file );
 	refresh();
 }
