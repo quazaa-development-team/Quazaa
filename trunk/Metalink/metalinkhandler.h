@@ -1,14 +1,16 @@
-#ifndef CMETALINKHANDLER_H
-#define CMETALINKHANDLER_H
+#ifndef METALINKHANDLER_H
+#define METALINKHANDLER_H
 
 #include <QObject>
 
-#include "download.h"
+class QFile;
+class CDownload;
 
 // Pure virtual class for all Metalink handlers to inherit from.
 class CMetalinkHandler : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
+
 public:
 	explicit CMetalinkHandler(QFile& metalinkFile, QObject *parent = 0);
 
@@ -22,4 +24,4 @@ public slots:
 
 };
 
-#endif // CMETALINKHANDLER_H
+#endif // METALINKHANDLER_H
