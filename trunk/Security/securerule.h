@@ -9,15 +9,6 @@
 
 #include "ShareManager/file.h"
 
-
-
-// TODO:
-// * Move inlines outside of class definition.
-// * Make operator== work for booleans
-// * Check if content string is set correctly in each rule type
-
-
-
 namespace security
 {
 
@@ -52,8 +43,8 @@ public:
 	virtual inline	~CSecureRule() {}
 
 	// Operators
-	bool			operator==(const CSecureRule& pRule);
-	bool			operator!=(const CSecureRule& pRule);
+	virtual bool	operator==(const CSecureRule& pRule) const;
+	bool			operator!=(const CSecureRule& pRule) const;
 
 	virtual CSecureRule*	getCopy() const;
 	QString			getContentString() const;
@@ -260,6 +251,8 @@ private:
 public:
 	CRegExpRule(bool bCreate = true);
 
+	bool				operator==(const CSecureRule& pRule) const;
+
 	inline CSecureRule*	getCopy() const;
 
 	void				setContentString(const QString& strContent);
@@ -284,6 +277,8 @@ private:
 
 public:
 	CUserAgentRule(bool bCreate = true);
+
+	bool				operator==(const CSecureRule& pRule) const;
 
 	inline CSecureRule*	getCopy() const;
 
@@ -317,6 +312,8 @@ private:
 
 public:
 	CContentRule(bool bCreate = true);
+
+	bool				operator==(const CSecureRule& pRule) const;
 
 	inline CSecureRule*	getCopy() const;
 

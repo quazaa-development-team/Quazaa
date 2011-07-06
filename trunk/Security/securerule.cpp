@@ -47,7 +47,6 @@ CSecureRule* CSecureRule::getCopy() const
 
 QString CSecureRule::getContentString() const
 {
-	// This method should never be called.
 #ifdef _DEBUG
 	Q_ASSERT( m_nType != srContentUndefined );
 #endif //_DEBUG
@@ -678,8 +677,8 @@ void CHashRule::setContentString(const QString& sContent)
 	int pos1, pos2;
 	QList< CHash > lHashes;
 
-	QString prefixes[5] = { "urn:sha1:", "urn:ed2k:", "urn:tth:", "urn:btih:", "urn:md5:" };
-	quint8 lengths[5] = { 32 + 9, 32 + 9, 39 + 8, 32 + 9, 32 + 8 };
+	QString prefixes[5] = { "urn:sha1:", "urn:ed2k:", "urn:tree:tiger:", "urn:btih:", "urn:md5:" };
+	quint8 lengths[5] = { 32 + 9, 32 + 9, 39 + 15, 32 + 9, 32 + 8 };
 
 	for ( quint8 i = 0; i < 5; ++i )
 	{
@@ -802,10 +801,14 @@ CRegExpRule::CRegExpRule(bool)
 	m_bSpecialElements = false;
 }
 
+bool CRegExpRule::operator==(const CSecureRule& pRule) const
+{
+	return CSecureRule::operator==( pRule ) && m_bSpecialElements == ((CRegExpRule)pRule).m_bSpecialElements;
+}
+
 void CRegExpRule::setContentString(const QString& strContent)
 {
-	m_sContent = strContent;
-	m_sContent.trimmed();
+	m_sContent = strContent.trimmed();
 
 	quint8 nCount = 0;
 	for ( quint8 i = 1; i < 10; i++ )
@@ -954,6 +957,11 @@ CUserAgentRule::CUserAgentRule(bool)
 	m_bRegExp  = false;
 }
 
+bool CUserAgentRule::operator==(const CSecureRule& pRule) const
+{
+	return CSecureRule::operator==( pRule ) && m_bRegExp == ((CUserAgentRule)pRule).m_bRegExp;
+}
+
 void CUserAgentRule::setRegExp(bool bRegExp)
 {
 	m_bRegExp = bRegExp;
@@ -964,8 +972,7 @@ void CUserAgentRule::setRegExp(bool bRegExp)
 
 void CUserAgentRule::setContentString(const QString& strContent)
 {
-	m_sContent = strContent;
-	m_sContent.trimmed();
+	m_sContent = strContent.trimmed();
 
 	if ( m_bRegExp )
 		m_regExpContent = QRegExp( m_sContent );
@@ -1024,6 +1031,11 @@ CContentRule::CContentRule(bool)
 	m_bAll = true;
 }
 
+bool CContentRule::operator==(const CSecureRule& pRule) const
+{
+	return CSecureRule::operator==( pRule ) && m_bAll == ((CContentRule)pRule).m_bAll;
+}
+
 void CContentRule::setContentString(const QString& strContent)
 {
 #ifdef _DEBUG
@@ -1039,7 +1051,7 @@ void CContentRule::setContentString(const QString& strContent)
 
 	while ( !sContent.isEmpty() )
 	{
-		sContent.trimmed();
+		sContent = sContent.trimmed();
 		int index = sContent.indexOf( ' ' );
 		tmp = ( index != -1 ) ? sContent.left( index ) : sContent;
 		if ( !tmp.isEmpty() )
@@ -1050,7 +1062,7 @@ void CContentRule::setContentString(const QString& strContent)
 	m_sContent.clear();
 	for ( CListIterator i = m_lContent.begin() ; i != m_lContent.end() ; i++ )
 	{
-		m_sContent = m_sContent + *i;
+		m_sContent += *i;
 	}
 }
 
