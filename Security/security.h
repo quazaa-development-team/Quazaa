@@ -23,7 +23,7 @@
 
 namespace security
 {
-	typedef enum { tri_unknown, tri_true, tri_false } tristate;
+	// typedef enum { tri_unknown, tri_true, tri_false } tristate;
 
 	class CSecurity : public QObject
 	{
@@ -96,14 +96,14 @@ namespace security
 		CUserAgentRuleMap	m_UserAgents;
 
 		// Expire Counters
-		quint32				m_nLastRuleExpiryCheck;
-		quint32				m_nLastMissCacheExpiryCheck;
+		quint32				m_tLastRuleExpiryCheck;
+		quint32				m_tLastMissCacheExpiryCheck;
 
 		bool				m_bUseMissCache;
-		bool				m_bIsLoading;		// true during import operations. Used to avoid unnecessary regeneration of LiveList.
+		bool				m_bIsLoading;		// true during import operations. Used to avoid unnecessary GUI updates.
 		bool				m_bNewRulesLoaded;	// true if new rules for sanity check have been loaded.
 		bool				m_bDelayedSanityCheckRequested;
-		quint32				m_nSanityCheckRequestTime;
+		quint32				m_tSanityCheckRequestTime;
 
 		bool				m_bSaved;			// true if current security manager state already saved to file, false otherwise
 
@@ -113,10 +113,10 @@ namespace security
 		// Note that the default policy is only applied to IP related rules, as everything
 		// else does not make any sense.
 
+	public:
 		/* ================================================================ */
 		/* ========================= Construction ========================= */
 		/* ================================================================ */
-	public:
 		CSecurity();
 		~CSecurity();
 
@@ -125,7 +125,7 @@ namespace security
 		/* ================================================================ */
 		inline unsigned int	getCount() const;
 
-		inline bool		getDenyPolicy() const;
+		inline bool		denyPolicy() const;
 		void			setDenyPolicy(bool bDenyPolicy);
 
 		bool			check(CSecureRule* pRule);
@@ -143,7 +143,7 @@ namespace security
 		void			ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
 
 		// Methods used during sanity check
-		bool			isNewlyDenied(const QHostAddress& oAddress, const QString &source = "Unknown");
+		bool			isNewlyDenied(const QHostAddress& oAddress);
 		bool			isNewlyDenied(/*const CQueryHit* pHit,*/ const QList<QString>& lQuery);
 
 		bool			isDenied(const QHostAddress& oAddress, const QString &source = "Unknown");
@@ -166,15 +166,12 @@ namespace security
 		bool			load();
 		bool			save(bool bForceSaving = false);				// brov: this method should be called on exit with bForceSaving = true.
 		bool			import(const QString& sPath);
-		bool			fromXML(const QDomDocument& oXMLroot);
 		QDomDocument	toXML();
+		bool			fromXML(const QDomDocument& oXMLroot);
 
 	signals:
-		// The only reciever, CSecurityTableModel, deals with releasing the memory.
-		void			ruleAdded( CSecureRule* pRule);
-
-		// This is the original rule object that has been added. Note that deleting it would cause internal problems.
-		void			ruleRemoved( CSecureRule* pRule);
+		void			ruleAdded(QSharedPointer<CSecureRule> pRule);
+		void			ruleRemoved(QSharedPointer<CSecureRule> pRule);
 
 	private:
 		// This generates a read/write iterator from a read-only iterator.
@@ -211,12 +208,12 @@ namespace security
 		return m_Rules.size();
 	}
 
-	bool CSecurity::getDenyPolicy() const
+	bool CSecurity::denyPolicy() const
 	{
 		return m_bDenyPolicy;
 	}
 
-};
+}
 
 extern security::CSecurity securityManager;
 
