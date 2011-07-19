@@ -42,7 +42,7 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	else
 		m_pRule = new CIPRule();
 
-	switch ( m_pRule->getType() )
+	switch ( m_pRule->type() )
 	{
 	case security::CSecureRule::srContentAddressRange:
 		m_ui->comboBoxRuleType->setCurrentIndex( 1 );
@@ -57,7 +57,7 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 		m_ui->comboBoxRuleType->setCurrentIndex( 3 );
 		m_ui->stackedWidgetType->setCurrentIndex( 3 );
 		break;
-	case security::CSecureRule::srContentOther:
+	case security::CSecureRule::srContentText:
 		m_ui->comboBoxRuleType->setCurrentIndex( 4 );
 		m_ui->stackedWidgetType->setCurrentIndex( 4 );
 		m_ui->lineEditContent->setText( m_pRule->getContentString() );
@@ -103,7 +103,7 @@ void DialogAddRule::changeEvent(QEvent* e)
 // TODO: change user interface for IPs and hashes.
 void DialogAddRule::on_pushButtonOK_clicked()
 {
-	CSecureRule* pRule;
+	CSecureRule* pRule = NULL;
 	QList<CHash> lHashes;
 	CHash* pHash;
 
@@ -147,25 +147,27 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	default:
 		Q_ASSERT( false );
-		pRule = new CSecureRule();
 	}
 
-	quint32 tExpire = m_ui->comboBoxExpire->currentIndex();
-	if ( tExpire == 2 )
+	if ( pRule )
 	{
-		tExpire = 0;
-		tExpire += m_ui->lineEditMinutes->text().toUShort() * 60;
-		tExpire += m_ui->lineEditHours->text().toUShort() * 3600;
-		tExpire += m_ui->lineEditDays->text().toUShort() * 216000;
-		tExpire += static_cast< quint32 >( time( NULL ) );
+		quint32 tExpire = m_ui->comboBoxExpire->currentIndex();
+		if ( tExpire == 2 )
+		{
+			tExpire = 0;
+			tExpire += m_ui->lineEditMinutes->text().toUShort() * 60;
+			tExpire += m_ui->lineEditHours->text().toUShort() * 3600;
+			tExpire += m_ui->lineEditDays->text().toUShort() * 216000;
+			tExpire += static_cast< quint32 >( time( NULL ) );
+		}
+		pRule->m_tExpire = tExpire;
+
+		pRule->m_sComment = m_ui->lineEditComment->text();
+		pRule->m_oUUID = m_pRule->m_oUUID;
+
+		if ( *pRule != *m_pRule )
+			securityManager.add( pRule );
 	}
-	pRule->m_tExpire = tExpire;
-
-	pRule->m_sComment = m_ui->lineEditComment->text();
-	pRule->m_oUUID = m_pRule->m_oUUID;
-
-	if ( *pRule != *m_pRule )
-		securityManager.add( pRule );
 
 	emit dataUpdated();
 	emit closed();

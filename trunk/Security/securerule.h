@@ -16,7 +16,7 @@ class CSecureRule
 {
 public:
 	typedef enum { srContentUndefined = 0, srContentAddress = 1, srContentAddressRange = 2, srContentCountry = 3,
-				   srContentHash = 4, srContentRegExp = 5, srContentUserAgent = 6, srContentOther = 7 } RuleType;
+				   srContentHash = 4, srContentRegExp = 5, srContentUserAgent = 6, srContentText = 7 } RuleType;
 
 	typedef enum { srNull, srAccept, srDeny } Policy;
 	enum { srIndefinite = 0, srSession = 1 };
@@ -43,11 +43,11 @@ public:
 	virtual inline	~CSecureRule() {}
 
 	// Operators
-	virtual bool	operator==(const CSecureRule& pRule) const;
-	bool			operator!=(const CSecureRule& pRule) const;
+	virtual bool            operator==(const CSecureRule& pRule) const;
+	bool					operator!=(const CSecureRule& pRule) const;
 
 	virtual CSecureRule*	getCopy() const;
-	QString			getContentString() const;
+	QString					getContentString() const;
 
 	bool			isExpired(quint32 nNow, bool bSession = false) const;
 
@@ -59,7 +59,7 @@ public:
 	inline void		loadTotalCount( quint32 nTotal );
 
 	// get the rule type
-	inline RuleType	getType() const;
+	inline RuleType	type() const;
 
 	// Check content for hits
 	virtual bool	match(const QHostAddress& oAddress) const;
@@ -69,15 +69,15 @@ public:
 
 	// Read/write rule from/to file
 	static void		load(CSecureRule* pRule, QDataStream& oStream, const int nVersion);
-	static void		save(const CSecureRule* pRule, QDataStream& oStream);
+	static void     save(const CSecureRule* pRule, QDataStream& oStream);
 
 	// XML Import/Export functionality
-	static CSecureRule*	fromXML(const QDomElement& oXMLnode);
-	virtual void		toXML( QDomElement& oXMLroot ) const;
+	static CSecureRule*	fromXML(const QDomElement& oXMLnode, float nVersion);
+	inline virtual void	toXML(QDomElement& oXMLroot) const;
 
 protected:
 	// Contains default code for XML generation.
-	static void		toXML(const CSecureRule& oRule, QDomElement& oXMLelement);
+	static void			toXML(const CSecureRule& oRule, QDomElement& oXMLelement);
 };
 
 void CSecureRule::count()
@@ -106,10 +106,16 @@ void CSecureRule::loadTotalCount( quint32 nTotal )
 	m_nTotal = nTotal;
 }
 
-CSecureRule::RuleType CSecureRule::getType() const
+CSecureRule::RuleType CSecureRule::type() const
 {
 	return m_nType;
 }
+
+void CSecureRule::toXML(QDomElement& oXMLroot) const {}
+
+/*  ------------------------------------------------------------ */
+/*  ------------------------- CIPRule -------------------------- */
+/*  ------------------------------------------------------------ */
 
 class CIPRule : public CSecureRule
 {
@@ -119,15 +125,20 @@ private:
 public:
 	CIPRule(bool bCreate = true);
 
+	inline QHostAddress IP() const;
 	inline void			setIP( const QHostAddress& oIP );
-	inline QHostAddress getIP() const;
 
 	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QHostAddress& oAddress) const;
-	void				toXML( QDomElement& oXMLroot ) const;
+	void				toXML(QDomElement& oXMLroot) const;
 
 };
+
+QHostAddress CIPRule::IP() const
+{
+	return m_oIP;
+}
 
 void CIPRule::setIP( const QHostAddress& oIP )
 {
@@ -135,15 +146,14 @@ void CIPRule::setIP( const QHostAddress& oIP )
 	m_sContent = oIP.toString();
 }
 
-QHostAddress CIPRule::getIP() const
-{
-	return m_oIP;
-}
-
 CSecureRule* CIPRule::getCopy() const
 {
 	return new CIPRule( *this );
 }
+
+/*  ------------------------------------------------------------ */
+/*  ---------------------- CIPRangeRule ------------------------ */
+/*  ------------------------------------------------------------ */
 
 class CIPRangeRule : public CSecureRule
 {
@@ -154,16 +164,21 @@ private:
 public:
 	CIPRangeRule(bool bCreate = true);
 
+	inline QHostAddress	IP() const;
 	inline void			setIP( const QHostAddress& oIP );
-	inline QHostAddress	getIP() const;
+	inline qint32		mask() const;
 	inline void			setMask( const quint32& nMask );
-	inline qint32		getMask() const;
 
 	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QHostAddress& oAddress) const;
-	void				toXML( QDomElement& oXMLroot ) const;
+	void				toXML(QDomElement& oXMLroot) const;
 };
+
+QHostAddress CIPRangeRule::IP() const
+{
+	return m_oIP;
+}
 
 void CIPRangeRule::setIP( const QHostAddress& oIP )
 {
@@ -171,26 +186,25 @@ void CIPRangeRule::setIP( const QHostAddress& oIP )
 	m_sContent = m_oIP.toString() + "/" + m_oMask.toString();
 }
 
-QHostAddress CIPRangeRule::getIP() const
+qint32 CIPRangeRule::mask() const
 {
-	return m_oIP;
+	return m_oMask.toIPv4Address();
 }
 
-void CIPRangeRule::setMask( const quint32& nMask )
+void CIPRangeRule::setMask(const quint32& nMask)
 {
 	m_oMask = QHostAddress( nMask );
 	m_sContent = m_oIP.toString() + "/" + m_oMask.toString();
-}
-
-qint32 CIPRangeRule::getMask() const
-{
-	return m_oMask.toIPv4Address();
 }
 
 CSecureRule* CIPRangeRule::getCopy() const
 {
 	return new CIPRangeRule( *this );
 }
+
+/*  ------------------------------------------------------------ */
+/*  ---------------------- CCountryRule ------------------------ */
+/*  ------------------------------------------------------------ */
 
 class CCountryRule : public CSecureRule
 {
@@ -202,7 +216,7 @@ public:
 	inline void			setContentString(const QString& strCountry);
 
 	bool				match(const QHostAddress& oAddress) const;
-	void				toXML( QDomElement& oXMLroot ) const;
+	void				toXML(QDomElement& oXMLroot) const;
 };
 
 CSecureRule* CCountryRule::getCopy() const
@@ -214,6 +228,10 @@ void CCountryRule::setContentString(const QString& strCountry)
 {
 	m_sContent = strCountry;
 }
+
+/*  ------------------------------------------------------------ */
+/*  ------------------------ CHashRule ------------------------- */
+/*  ------------------------------------------------------------ */
 
 class CHashRule : public CSecureRule
 {
@@ -233,13 +251,17 @@ public:
 	bool				match(const CFile& oFile) const;
 	bool				match(const QList< CHash >& hashes) const;
 
-	void				toXML( QDomElement& oXMLroot ) const;
+	void				toXML(QDomElement& oXMLroot) const;
 };
 
 CSecureRule* CHashRule::getCopy() const
 {
 	return new CHashRule( *this );
 }
+
+/*  ------------------------------------------------------------ */
+/*  ----------------------- CRegExpRule ------------------------ */
+/*  ------------------------------------------------------------ */
 
 // There are two kinds of rules: 1. Those which contain <_>, <1>...<9> or <> 2. All other rules.
 class CRegExpRule : public CSecureRule
@@ -258,7 +280,7 @@ public:
 	void				setContentString(const QString& strContent);
 
 	bool				match(const QList<QString>& lQuery, const QString& strContent) const;
-	void				toXML( QDomElement& oXMLroot ) const;
+	void				toXML(QDomElement& oXMLroot) const;
 
 private:
 	static bool			replace(QString& sReplace, const QList<QString>& lQuery, quint8& nCurrent);
@@ -268,6 +290,10 @@ CSecureRule* CRegExpRule::getCopy() const
 {
 	return new CRegExpRule( *this );
 }
+
+/*  ------------------------------------------------------------ */
+/*  ---------------------- CUserAgentRule ---------------------- */
+/*  ------------------------------------------------------------ */
 
 class CUserAgentRule : public CSecureRule
 {
@@ -288,7 +314,7 @@ public:
 	void				setContentString(const QString& strContent);
 
 	bool				match(const QString& strUserAgent) const;
-	void				toXML( QDomElement& oXMLroot ) const;
+	void				toXML(QDomElement& oXMLroot) const;
 };
 
 CSecureRule* CUserAgentRule::getCopy() const
@@ -300,6 +326,10 @@ bool CUserAgentRule::getRegExp() const
 {
 	return m_bRegExp;
 }
+
+/*  ------------------------------------------------------------ */
+/*  ----------------------- CContentRule ----------------------- */
+/*  ------------------------------------------------------------ */
 
 // contains everyting that does not fit into the other rule classes
 class CContentRule : public CSecureRule
@@ -324,7 +354,7 @@ public:
 
 	bool				match(const QString& strContent) const;
 	bool				match(const CFile& pFile) const;
-	void				toXML( QDomElement& oXMLroot ) const;
+	void				toXML(QDomElement& oXMLroot) const;
 };
 
 CSecureRule* CContentRule::getCopy() const
