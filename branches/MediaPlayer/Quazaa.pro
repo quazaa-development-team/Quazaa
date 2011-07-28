@@ -40,13 +40,15 @@ else {
 MOC_DIR = temp/moc
 UI_DIR = temp/uic
 INCLUDEPATH += NetworkCore \
-        UI \
+	UI \
 	3rdparty \
 	3rdparty/libircclient-qt/include \
 	Models \
-        QuazaaMediaPlayer \
+	QuazaaMediaPlayer \
 	ShareManager \
 	Chat \
+	QtMobility \
+	QtMultimediaKit\
 	.
 
 # Append _debug to executable name when compiling using debug config
@@ -332,7 +334,7 @@ HEADERS += UI/dialoglanguage.h \
     Models/playlistmodel.h \
     QuazaaMediaPlayer/videowidget.h \
     QuazaaMediaPlayer/playercontrols.h \
-    QuazaaMediaPlayer/player.h
+	QuazaaMediaPlayer/player.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
