@@ -922,7 +922,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 	quint32 tNow = time(0);
 	quint32 nTimestamp = tNow;
-	qint64 nDiff = 0;
+	quint32 nDiff = 0;
 
 	m_pHubGroup->Clear();
 
@@ -1006,7 +1006,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				pPacket->ReadIntLE(&nTs);
 
 				HostCache.m_pSection.lock();
-				HostCache.Add(ep, tNow + nDiff);
+				HostCache.Add(ep, (tNow + nDiff & 0xFFFFFFFFFFF)  );
 				HostCache.m_pSection.unlock();
 			}
 		}

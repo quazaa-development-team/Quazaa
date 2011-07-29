@@ -38,29 +38,74 @@ GeoIPList::GeoIPList()
 
 void GeoIPList::loadGeoIP()
 {
-	QFile file(qApp->applicationDirPath() + "/GeoIP/geoip.dat");
-	if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	bool readFromOriginalGeoIP = false;
+	//First trying to deserialize from ser file
+	QFile iFile( qApp->applicationDirPath() + "/geoIP.ser" );
+	if ( ! iFile.open( QIODevice::ReadOnly ) )
 	{
-		return;
+		systemLog.postLog(LogSeverity::Warning, QObject::tr("Unable to load GeoIP serialization file for loading"));
+		readFromOriginalGeoIP = true;
+	}
+	else
+	{
+		try
+		{
+			QDataStream iStream( &iFile );
+			iStream >> m_lDatabase;
+		}
+		catch(...)
+		{
+			systemLog.postLog(LogSeverity::Warning, QObject::tr("Unable to deserialize GeoIP list"));
+			readFromOriginalGeoIP = true;
+		}
+		iFile.close();
 	}
 
-	m_lDatabase.clear();
-
-	// TODO: optimize it
-
-	QTextStream in(&file);
-	while(!in.atEnd())
+	if(readFromOriginalGeoIP)
 	{
-		QStringList line = in.readLine().split(" ");
+		QFile file(qApp->applicationDirPath() + "/GeoIP/geoip.dat");
+		if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+		{
+			return;
+		}
 
-		CEndPoint rBegin(line[0] + ":0");
-		CEndPoint rEnd(line[1] + ":0");
-		QString sCountry = line[2];
+		m_lDatabase.clear();
 
-		QPair<quint32, QPair<quint32, QString> > item = QPair<quint32, QPair<quint32, QString> >(rBegin.toIPv4Address(), QPair<quint32, QString>(rEnd.toIPv4Address(), sCountry));
-		m_lDatabase.append(item);
+		// TODO: optimize it
+
+		QTextStream in(&file);
+		while(!in.atEnd())
+		{
+			QStringList line = in.readLine().split(" ");
+
+			CEndPoint rBegin(line[0] + ":0");
+			CEndPoint rEnd(line[1] + ":0");
+			QString sCountry = line[2];
+
+			QPair<quint32, QPair<quint32, QString> > item = QPair<quint32, QPair<quint32, QString> >(rBegin.toIPv4Address(), QPair<quint32, QString>(rEnd.toIPv4Address(), sCountry));
+			m_lDatabase.append(item);
+		}
+
+		QFile oFile( qApp->applicationDirPath() +  "/geoIP.ser" );
+		if ( ! oFile.open( QIODevice::WriteOnly ) )
+		{
+			systemLog.postLog(LogSeverity::Error, QObject::tr("Unable to open GeoIP serialization file for saving"));
+		}
+		else
+		{
+			try
+			{
+				QDataStream oStream( &oFile );
+				oStream << m_lDatabase;
+			}
+			catch(...)
+			{
+				systemLog.postLog(LogSeverity::Error, QObject::tr("Unable to serialize GeoIP list"));
+			}
+			oFile.close();
+		}
+
 	}
-
 	m_bListLoaded = !m_lDatabase.isEmpty();
 }
 

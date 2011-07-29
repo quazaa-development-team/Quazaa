@@ -1233,9 +1233,9 @@ bool CSecurity::load()
 
 bool CSecurity::load( QString sPath )
 {
-	QFile oFile( sPath );
+	QFile iFile( sPath );
 
-	if ( ! oFile.open( QIODevice::ReadOnly ) )
+	if ( ! iFile.open( QIODevice::ReadOnly ) )
 		return false;
 
 	CSecureRule* pRule = NULL;
@@ -1244,16 +1244,16 @@ bool CSecurity::load( QString sPath )
 	{
 		clear();
 
-		QDataStream oStream( &oFile );
+		QDataStream iStream( &iFile );
 
 		unsigned short nVersion;
-		oStream >> nVersion;
+		iStream >> nVersion;
 
 		bool bDenyPolicy;
-		oStream >> bDenyPolicy;
+		iStream >> bDenyPolicy;
 
 		unsigned int nCount;
-		oStream >> nCount;
+		iStream >> nCount;
 
 		quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
@@ -1264,7 +1264,7 @@ bool CSecurity::load( QString sPath )
 
 		while ( nCount > 0 )
 		{
-			CSecureRule::load( pRule, oStream, nVersion );
+			CSecureRule::load( pRule, iStream, nVersion );
 
 			if ( pRule->isExpired( tNow, true ) )
 			{
@@ -1293,14 +1293,14 @@ bool CSecurity::load( QString sPath )
 			delete pRule;
 
 		clear();
-		oFile.close();
+		iFile.close();
 
 		QMutexLocker l( &m_pSection );
 		m_bIsLoading = false;
 
 		return false;
 	}
-	oFile.close();
+	iFile.close();
 
 	return true;
 }
@@ -1366,6 +1366,7 @@ bool CSecurity::save(bool bForceSaving)
 	m_bSaved = true;
 	mutex.unlock();
 
+	oFile.close();
 	// We don't really care whether this fails or not, as saving to the primary file was successfull.
 	QFile::remove( sBackupPath );
 	QFile::copy( sPath, sBackupPath );
