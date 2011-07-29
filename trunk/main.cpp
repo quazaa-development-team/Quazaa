@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
 
 	//Load profile
 	dlgSplash->updateProgress( 20, QObject::tr( "Loading Profile..." ) );
-	//qApp->processEvents();
+	qApp->processEvents();
 	quazaaSettings.loadProfile();
 
 	//Load the networks
@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
 	ShareManager.Start();
 
 	dlgSplash->updateProgress( 80, QObject::tr( "Loading User Interface..." ) );
-	//qApp->processEvents();
+	qApp->processEvents();
 
 	MainWindow = new WinMain();
 	if ( quazaaSettings.WinMain.Visible )
