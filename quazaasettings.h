@@ -640,7 +640,7 @@ public:
 	void saveLanguageSettings();
 	void loadLanguageSettings();
 	void saveFirstRun(bool firstRun);
-	bool FirstRun();
+	bool isFirstRun();
 	void saveLogSettings();
 	void loadLogSettings();
 

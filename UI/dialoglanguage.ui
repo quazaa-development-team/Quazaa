@@ -120,289 +120,6 @@ p, li { white-space: pre-wrap; }
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QListWidget" name="listWidgetLanguages">
-     <property name="resizeMode">
-      <enum>QListView::Adjust</enum>
-     </property>
-     <property name="layoutMode">
-      <enum>QListView::SinglePass</enum>
-     </property>
-     <property name="viewMode">
-      <enum>QListView::IconMode</enum>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-     <property name="currentRow">
-      <number>-1</number>
-     </property>
-     <property name="sortingEnabled">
-      <bool>false</bool>
-     </property>
-     <item>
-      <property name="text">
-       <string notr="true">English (Default)</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/enlang.png</normaloff>:/Resource/Flags/enlang.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Afrikanns</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/za.png</normaloff>:/Resource/Flags/za.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Arabic العربية</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/ae.png</normaloff>:/Resource/Flags/ae.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Català</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/ad.png</normaloff>:/Resource/Flags/ad.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">简体中文</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/cn.png</normaloff>:/Resource/Flags/cn.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Čeština</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/cz.png</normaloff>:/Resource/Flags/cz.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Deutsch</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/de.png</normaloff>:/Resource/Flags/de.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Eesti</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/ee.png</normaloff>:/Resource/Flags/ee.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Español</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/eslang.png</normaloff>:/Resource/Flags/eslang.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Suomi</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/fi.png</normaloff>:/Resource/Flags/fi.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Français</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/fr.png</normaloff>:/Resource/Flags/fr.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Ελληνικά</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/gr.png</normaloff>:/Resource/Flags/gr.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">עברית</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/il.png</normaloff>:/Resource/Flags/il.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Hrvatski</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/hr.png</normaloff>:/Resource/Flags/hr.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Magyar</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/hu.png</normaloff>:/Resource/Flags/hu.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Italian</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/it.png</normaloff>:/Resource/Flags/it.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">日本語</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/jp.png</normaloff>:/Resource/Flags/jp.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Lietuvių</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/lt.png</normaloff>:/Resource/Flags/lt.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Nederlands</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/nl.png</normaloff>:/Resource/Flags/nl.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Norsk</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/no.png</normaloff>:/Resource/Flags/no.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Polski</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/pl.png</normaloff>:/Resource/Flags/pl.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Português Brasileiro</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/br.png</normaloff>:/Resource/Flags/br.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Pусский</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/ru.png</normaloff>:/Resource/Flags/ru.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Slovenščina</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/si.png</normaloff>:/Resource/Flags/si.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Shqip</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/al.png</normaloff>:/Resource/Flags/al.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Srpski</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/hr.png</normaloff>:/Resource/Flags/hr.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Svenska</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/se.png</normaloff>:/Resource/Flags/se.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">Türkçe</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/tr.png</normaloff>:/Resource/Flags/tr.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">繁體中文</string>
-      </property>
-      <property name="icon">
-       <iconset resource="../Resource.qrc">
-        <normaloff>:/Resource/Flags/tw.png</normaloff>:/Resource/Flags/tw.png</iconset>
-      </property>
-     </item>
-    </widget>
-   </item>
    <item row="2" column="0">
     <layout class="QGridLayout" name="gridLayoutFooter">
      <property name="margin">
@@ -411,7 +128,7 @@ p, li { white-space: pre-wrap; }
      <property name="spacing">
       <number>4</number>
      </property>
-     <item row="0" column="0">
+     <item row="1" column="0">
       <spacer name="horizontalSpacerFooter">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -424,7 +141,7 @@ p, li { white-space: pre-wrap; }
        </property>
       </spacer>
      </item>
-     <item row="0" column="1">
+     <item row="1" column="1">
       <widget class="QPushButton" name="pushButtonOK">
        <property name="enabled">
         <bool>false</bool>
@@ -434,11 +151,303 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
+     <item row="1" column="2">
       <widget class="QPushButton" name="pushButtonCancel">
        <property name="text">
         <string>Cancel</string>
        </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="3">
+      <widget class="QListWidget" name="listWidgetLanguages">
+       <property name="resizeMode">
+        <enum>QListView::Adjust</enum>
+       </property>
+       <property name="layoutMode">
+        <enum>QListView::SinglePass</enum>
+       </property>
+       <property name="viewMode">
+        <enum>QListView::IconMode</enum>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="currentRow">
+        <number>-1</number>
+       </property>
+       <property name="sortingEnabled">
+        <bool>false</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string notr="true">English (Default)</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/enlang.png</normaloff>:/Resource/Flags/enlang.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Afrikanns</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/za.png</normaloff>:/Resource/Flags/za.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Arabic العربية</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/ae.png</normaloff>:/Resource/Flags/ae.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Català</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/ad.png</normaloff>:/Resource/Flags/ad.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">简体中文</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/cn.png</normaloff>:/Resource/Flags/cn.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Čeština</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/cz.png</normaloff>:/Resource/Flags/cz.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Deutsch</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/de.png</normaloff>:/Resource/Flags/de.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Eesti</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/ee.png</normaloff>:/Resource/Flags/ee.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Español</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/eslang.png</normaloff>:/Resource/Flags/eslang.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Farsi فارسی</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/ir.png</normaloff>:/Resource/Flags/ir.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Suomi</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/fi.png</normaloff>:/Resource/Flags/fi.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Français</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/fr.png</normaloff>:/Resource/Flags/fr.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Ελληνικά</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/gr.png</normaloff>:/Resource/Flags/gr.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">עברית</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/il.png</normaloff>:/Resource/Flags/il.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Hrvatski</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/hr.png</normaloff>:/Resource/Flags/hr.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Magyar</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/hu.png</normaloff>:/Resource/Flags/hu.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Italian</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/it.png</normaloff>:/Resource/Flags/it.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">日本語</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/jp.png</normaloff>:/Resource/Flags/jp.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Lietuvių</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/lt.png</normaloff>:/Resource/Flags/lt.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Nederlands</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/nl.png</normaloff>:/Resource/Flags/nl.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Norsk</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/no.png</normaloff>:/Resource/Flags/no.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Polski</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/pl.png</normaloff>:/Resource/Flags/pl.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Português Brasileiro</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/br.png</normaloff>:/Resource/Flags/br.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Pусский</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/ru.png</normaloff>:/Resource/Flags/ru.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Slovenščina</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/si.png</normaloff>:/Resource/Flags/si.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Shqip</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/al.png</normaloff>:/Resource/Flags/al.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Srpski</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/hr.png</normaloff>:/Resource/Flags/hr.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Svenska</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/se.png</normaloff>:/Resource/Flags/se.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">Türkçe</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/tr.png</normaloff>:/Resource/Flags/tr.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">繁體中文</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Flags/tw.png</normaloff>:/Resource/Flags/tw.png</iconset>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -446,6 +455,9 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
+  <include location="../Resource.qrc"/>
+  <include location="../Resource.qrc"/>
+  <include location="../Resource.qrc"/>
   <include location="../Resource.qrc"/>
  </resources>
  <connections/>

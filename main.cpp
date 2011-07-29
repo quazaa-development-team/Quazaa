@@ -114,13 +114,6 @@ int main(int argc, char *argv[])
 
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();
-
-	if ( quazaaSettings.FirstRun() )
-	{
-		DialogLanguage* dlgLanguage = new DialogLanguage();
-		dlgLanguage->exec();
-	}
-
 	quazaaSettings.translator.load( quazaaSettings.Language.File );
 	qApp->installTranslator( &quazaaSettings.translator );
 
@@ -137,8 +130,11 @@ int main(int argc, char *argv[])
 	//Check if this is Quazaa's first run
 	dlgSplash->updateProgress( 5, QObject::tr( "Checking for first run..." ) );
 	qApp->processEvents();
-	if ( quazaaSettings.FirstRun() )
+	if ( quazaaSettings.isFirstRun() )
 	{
+		DialogLanguage* dlgLanguage = new DialogLanguage();
+		dlgLanguage->exec();
+
 		dlgSplash->updateProgress( 10, QObject::tr( "Running first run wizard..." ) );
 		quazaaSettings.saveFirstRun( false );
 		quazaaSettings.saveSettings();
@@ -151,16 +147,16 @@ int main(int argc, char *argv[])
 	// Load Security Manager
 	dlgSplash->updateProgress( 15, QObject::tr( "Loading Security Manager..." ) );
 	qApp->processEvents();
-	securityManager.load();
+	if(!securityManager.load()) systemLog.postLog(LogSeverity::Information, QObject::tr("Security data file was not available."));
 
 	//Load profile
 	dlgSplash->updateProgress( 20, QObject::tr( "Loading Profile..." ) );
-	qApp->processEvents();
+	//qApp->processEvents();
 	quazaaSettings.loadProfile();
 
 	//Load the networks
-	dlgSplash->updateProgress( 25, QObject::tr( "Loading Networks..." ) );
-	qApp->processEvents();
+	//dlgSplash->updateProgress( 25, QObject::tr( "Loading Networks..." ) );
+	//qApp->processEvents();
 
 	//initialize geoip list
 	GeoIP.loadGeoIP();
@@ -172,7 +168,7 @@ int main(int argc, char *argv[])
 	ShareManager.Start();
 
 	dlgSplash->updateProgress( 80, QObject::tr( "Loading User Interface..." ) );
-	qApp->processEvents();
+	//qApp->processEvents();
 
 	MainWindow = new WinMain();
 	if ( quazaaSettings.WinMain.Visible )

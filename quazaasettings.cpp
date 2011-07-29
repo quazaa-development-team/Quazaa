@@ -1296,7 +1296,7 @@ void QuazaaSettings::saveFirstRun(bool firstRun)
 	m_qSettings.setValue("FirstRun", firstRun);
 }
 
-bool QuazaaSettings::FirstRun()
+bool QuazaaSettings::isFirstRun()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	return m_qSettings.value("FirstRun", true).toBool();
