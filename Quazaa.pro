@@ -90,7 +90,8 @@ win32-msvc2010 {
 		/Gm \
 		/RTC1 \
 		/MDd \
-		/Zi
+		/Zi \
+		/GS
 	QMAKE_CFLAGS_RELEASE += /Gd \
 		/arch:SSE2 \
 		/GA \
@@ -101,12 +102,13 @@ win32-msvc2010 {
 		/Gm \
 		/RTC1 \
 		/MDd \
-		/Zi
+		/Zi \
+		/GS
 	QMAKE_CXXFLAGS_RELEASE += /Gd \
 		/arch:SSE2 \
 		/GA \
 		/Og \
-		/MD
+		/MD 
 	QMAKE_LFLAGS_DEBUG += /FIXED:NO
 }
 
@@ -442,6 +444,7 @@ TRANSLATIONS = Language/quazaa_af.ts \
 	Language/quazaa_default_en.ts \
 	Language/quazaa_ee.ts \
 	Language/quazaa_es.ts \
+	Language/quazaa_fa.ts \
 	Language/quazaa_fi.ts \
 	Language/quazaa_fr.ts \
 	Language/quazaa_gr.ts \
