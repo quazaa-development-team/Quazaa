@@ -91,7 +91,9 @@ protected:
 	quint32         m_nAvgBandwidthOut;
 	QTime           m_tMeterTimer;
 
-	quint32 m_nDiscarded;
+	quint32			m_nDiscarded;
+	quint32			m_nInFrags;
+	quint32			m_nOutFrags;
 
 public:
 	CDatagrams();

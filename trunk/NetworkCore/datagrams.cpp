@@ -59,6 +59,9 @@ CDatagrams::CDatagrams()
 	m_tSender = 0;
 	m_bFirewalled = true;
 
+	m_nInFrags = 0;
+	m_nOutFrags = 0;
+
 }
 CDatagrams::~CDatagrams()
 {
@@ -197,6 +200,8 @@ void CDatagrams::OnDatagram()
 		{
 			continue;
 		}
+
+		m_nInFrags++;
 
 		GND_HEADER* pHeader = (GND_HEADER*)m_pRecvBuffer->data();
 		if(strncmp((char*)&pHeader->szTag, "GND", 3) == 0 && pHeader->nPart > 0 && (pHeader->nCount == 0 || pHeader->nPart <= pHeader->nCount))
@@ -483,6 +488,7 @@ void CDatagrams::FlushSendCache()
 				//qDebug() << "UDP sending to " << pDG->m_oAddress.toString().toAscii().constData() << "seq" << pDG->m_nSequence << "nPart" << ((GND_HEADER*)&pPacket)->nPart << "count" << pDG->m_nCount;
 
 				m_pSocket->writeDatagram(pPacket, nPacket, pDG->m_oAddress, pDG->m_oAddress.port());
+				m_nOutFrags++;
 
 				nLastHost = pDG->m_oAddress;
 
@@ -553,7 +559,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 	}
 
 	DatagramOut* pDG = m_FreeDGOut.takeFirst();
-	pDG->Create(oAddr, pPacket, m_nSequence++, m_FreeBuffer.takeFirst(), bAck);
+	pDG->Create(oAddr, pPacket, m_nSequence++, m_FreeBuffer.takeFirst(), (bAck && (m_nInFrags > 0))); // to prevent net spam when unable to receive datagrams
 
 	m_SendCache.prepend(pDG);
 	m_SendCacheMap[pDG->m_nSequence] = pDG;

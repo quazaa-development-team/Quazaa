@@ -1006,7 +1006,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				pPacket->ReadIntLE(&nTs);
 
 				HostCache.m_pSection.lock();
-				HostCache.Add(ep, (tNow + nDiff & 0xFFFFFFFFFFF)  );
+				HostCache.Add(ep, (tNow + nDiff));
 				HostCache.m_pSection.unlock();
 			}
 		}
