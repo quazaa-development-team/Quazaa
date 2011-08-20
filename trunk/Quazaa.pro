@@ -54,8 +54,7 @@ CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 # Additional config
 win32:LIBS += -Lbin # if you are at windows os
 mac:CONFIG -= app_bundle
-CONFIG += no_icu \
-	qtestlib
+CONFIG += no_icu
 DEFINES += IRC_STATIC \
 	IRC_NO_DEPRECATED
 CONFIG(debug, debug|release){
