@@ -83,6 +83,12 @@ void CSearchManager::OnTimer()
 		return;
 	}
 
+	foreach(CManagedSearch* pSearch, m_lSearches)
+	{
+		if(pSearch->m_bPaused)
+			nSearches--;
+	}
+
 	m_nPruneCounter++;
 	if(m_nPruneCounter % 30 == 0)
 	{
