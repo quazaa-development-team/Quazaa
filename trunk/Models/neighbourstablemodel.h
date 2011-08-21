@@ -42,7 +42,6 @@ public:
 	enum Column
 	{
 		ADDRESS = 0,
-		STATUS,
 		TIME,
 		BANDWIDTH,
 		BYTES,

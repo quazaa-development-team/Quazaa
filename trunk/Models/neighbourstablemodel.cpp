@@ -95,11 +95,23 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 		}
 	}
 
-	tConnected = tNow - pNode->m_tConnected;
-	to_update.append(model->index(row, TIME));
-	if(col == TIME)
+	if( nState != pNode->m_nState && nState != nsConnected )
 	{
-		bRet = true;
+		nState = pNode->m_nState;
+		to_update.append(model->index(row, TIME));
+		if( col == TIME )
+		{
+			bRet = true;
+		}
+	}
+	else if( nState == nsConnected )
+	{
+		tConnected = tNow - pNode->m_tConnected;
+		to_update.append(model->index(row, TIME));
+		if(col == TIME)
+		{
+			bRet = true;
+		}
 	}
 
 	nBandwidthIn = pNode->m_mInput.Usage();
@@ -136,16 +148,6 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 		nRTT = pNode->m_tRTT;
 		to_update.append(model->index(row, PING));
 		if(col == PING)
-		{
-			bRet = true;
-		}
-	}
-
-	if(nState != pNode->m_nState)
-	{
-		nState = pNode->m_nState;
-		to_update.append(model->index(row, STATUS));
-		if(col == STATUS)
 		{
 			bRet = true;
 		}
@@ -198,10 +200,11 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 	{
 		case ADDRESS:
 			return const_cast<CEndPoint*>(&oAddress)->toStringWithPort();
-		case STATUS:
-			return StateToString(nState);
 		case TIME:
-			return QString().sprintf("%.2u:%.2u:%.2u", tConnected / 3600, (tConnected % 3600 / 60), (tConnected % 3600) % 60);
+			if( nState == nsConnected )
+				return QString().sprintf("%.2u:%.2u:%.2u", tConnected / 3600, (tConnected % 3600 / 60), (tConnected % 3600) % 60);
+			else
+				return StateToString(nState);
 		case BANDWIDTH:
 			return QString().sprintf("%1.3f / %1.3f", nBandwidthIn / 1024.0f, nBandwidthOut / 1024.0f);
 		case BYTES:
@@ -237,9 +240,9 @@ bool CNeighboursTableModel::Neighbour::lessThan(int col, CNeighboursTableModel::
 	{
 		case ADDRESS:
 			return oAddress.toString() < pOther->oAddress.toString();
-		case STATUS:
-			return nState < pOther->nState;
 		case TIME:
+			if( nState != nsConnected )
+				return true;
 			return tConnected < pOther->tConnected;
 		case BANDWIDTH:
 			return (nBandwidthIn + nBandwidthOut) < (pOther->nBandwidthIn + pOther->nBandwidthOut);
@@ -429,8 +432,6 @@ QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientat
 		{
 			case ADDRESS:
 				return tr("Address");
-			case STATUS:
-				return tr("Status");
 			case TIME:
 				return tr("Time");
 			case BANDWIDTH:
@@ -457,8 +458,6 @@ QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientat
 		{
 			case ADDRESS:
 				return tr("The address of remote host");
-			case STATUS:
-				return tr("Connection status");
 			case TIME:
 				return tr("When this host was connected");
 			case BANDWIDTH:
