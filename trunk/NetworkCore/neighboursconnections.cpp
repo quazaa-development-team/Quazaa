@@ -203,8 +203,11 @@ void CNeighboursConnections::Maintain()
 
 				if(pHost)
 				{
-					ConnectTo(pHost->m_oAddress, dpGnutella2);
-					pHost->m_tLastConnect = tNow;
+					if( !Neighbours.Find(pHost->m_oAddress) )
+					{
+						ConnectTo(pHost->m_oAddress, dpGnutella2);
+						pHost->m_tLastConnect = tNow;
+					}
 				}
 				else
 				{
@@ -259,8 +262,11 @@ void CNeighboursConnections::Maintain()
 
 				if(pHost)
 				{
-					ConnectTo(pHost->m_oAddress, dpGnutella2);
-					pHost->m_tLastConnect = tNow;
+					if( !Neighbours.Find(pHost->m_oAddress) )
+					{
+						ConnectTo(pHost->m_oAddress, dpGnutella2);
+						pHost->m_tLastConnect = tNow;
+					}
 				}
 				else
 				{
