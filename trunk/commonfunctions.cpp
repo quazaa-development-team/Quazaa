@@ -41,7 +41,7 @@ void CommonFunctions::FolderOpen(QString file)
 	{
 		completePath.mkpath( file );
 	}
-        QDesktopServices::openUrl( QUrl::fromLocalFile(file) );
+		QDesktopServices::openUrl( QUrl::fromLocalFile(file) );
 }
 
 QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
