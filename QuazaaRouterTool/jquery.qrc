@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>jquery.min.js</file>
-        <file>form.html</file>
-        <file>alal.cgi</file>
-    </qresource>
-</RCC>
