@@ -28,7 +28,7 @@
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "dialoglanguage.h"
-#include "timedsignalqueue.h"
+//#include "timedsignalqueue.h"
 #include "qtsingleapplication/src/QtSingleApplication"
 
 #include "geoiplist.h"
@@ -110,7 +110,8 @@ int main(int argc, char *argv[])
 	theApp.setOrganizationName(   QuazaaGlobals::APPLICATION_ORGANIZATION_NAME() );
 
 	// Setup Qt elements of signal queue necessary for operation
-	signalQueue.setup();
+	//signalQueue.setup();
+	// disabled for now
 
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();

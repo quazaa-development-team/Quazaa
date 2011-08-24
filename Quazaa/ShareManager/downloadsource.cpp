@@ -27,6 +27,6 @@ quint32 CDownloadSource::secToNextAccess(const quint32& tNow)
 bool CDownloadSource::schdeuleNextAccess(const quint32& tAccess)
 {
 	m_tNextAccess = tAccess;
-	signalQueue.push( this, SLOT( query() ), tAccess );
+	//signalQueue.push( this, SLOT( query() ), tAccess );
 	return true;
 }

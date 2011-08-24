@@ -48,6 +48,18 @@ INCLUDEPATH += NetworkCore \
 	Chat \
 	.
 
+# Version stuff
+MAJOR = 0
+MINOR = 1
+VERSION_HEADER = ./version.h
+
+versiontarget.target = $$VERSION_HEADER
+versiontarget.commands = ../VersionTool/debug/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
+versiontarget.depends = FORCE
+
+PRE_TARGETDEPS += $$VERSION_HEADER
+QMAKE_EXTRA_TARGETS += versiontarget
+
 # Append _debug to executable name when compiling using debug config
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 
@@ -241,7 +253,7 @@ SOURCES += main.cpp \
     Metalink/metalink4handler.cpp \
     ShareManager/download.cpp \
     ShareManager/downloadsource.cpp \
-    timedsignalqueue.cpp \
+	#timedsignalqueue.cpp \
     Metalink/metalinkhandler.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
@@ -370,12 +382,11 @@ HEADERS += UI/dialoglanguage.h \
     Security/securerule.h \
     ShareManager/file.h \
 	Models/securitytablemodel.h \
-    globaltimedsignalqueue.h \
     NetworkCore/hubhorizon.h \
     Metalink/metalink4handler.h \
     ShareManager/download.h \
     ShareManager/downloadsource.h \
-    timedsignalqueue.h \
+	#timedsignalqueue.h \
     Metalink/metalinkhandler.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
