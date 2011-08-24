@@ -26,6 +26,7 @@
 #define QUAZAAGLOBALS_H
 
 #include <QObject>
+#include "version.h"
 
 class QuazaaGlobals : public QObject
 {
@@ -38,21 +39,21 @@ public:
 #ifdef QT_DEBUG
         static QString APPLICATION_VERSION()
 	{
-		return "0,0,1,8A";
+			return QString().sprintf("%d.%d.r%d (debug build)", Version::MAJOR, Version::MINOR, Version::REVISION);
 	}
 #else
         static QString APPLICATION_VERSION()
 	{
-		return "0,0,1,8";
+		return QString().sprintf("%d.%d.r%d", Version::MAJOR, Version::MINOR, Version::REVISION);
 	}
 #endif
         static QString APPLICATION_VERSION_STRING()
 	{
-                return "0.0.1.8a (rev.559 2010-09-08)";
+		return QString().sprintf("%d.%d.r%d (%s)", Version::MAJOR, Version::MINOR, Version::REVISION, Version::BUILD_DATE);
 	}
         static QString APPLICATION_FINGERPRINT()
 	{
-		return "QZ,0,0,1,8";
+		return "QZ" + APPLICATION_VERSION();
 	}
         static QString APPLICATION_ORGANIZATION_NAME()
 	{
