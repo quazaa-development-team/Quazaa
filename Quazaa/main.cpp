@@ -73,7 +73,7 @@ QuazaaGlobals quazaaGlobals;
 
 int main(int argc, char *argv[])
 {
-	qInstallMsgHandler(myMessageOutput);
+	//qInstallMsgHandler(myMessageOutput);
 
 	QtSingleApplication theApp( argc, argv );
 

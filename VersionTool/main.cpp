@@ -17,7 +17,7 @@ using namespace std;
 static QString getBuildNumber()
 {
   const QDateTime today(QDateTime::currentDateTimeUtc());
-  return (today.date().toString("yyyyMMdd") + today.time().toString("hhmmss"));
+  return (today.date().toString("yyyy-MM-dd"));
 }
 
 static int getSubversionRevision()
