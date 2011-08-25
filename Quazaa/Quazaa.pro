@@ -254,7 +254,8 @@ SOURCES += main.cpp \
     ShareManager/download.cpp \
     ShareManager/downloadsource.cpp \
 	#timedsignalqueue.cpp \
-    Metalink/metalinkhandler.cpp
+    Metalink/metalinkhandler.cpp \
+    quazaaglobals.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
