@@ -95,6 +95,9 @@ void CSearchManager::OnTimer()
 		HostCache.PruneByQueryAck();
 	}
 
+	if( nSearches == 0 )
+		return;
+
 	quint32 nPacketsPerSearch = qMax<quint32>(1, nPacketsLeft / nSearches);
 	quint32 tNow = time(0);
 
