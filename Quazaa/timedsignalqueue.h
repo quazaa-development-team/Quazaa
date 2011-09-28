@@ -2,8 +2,9 @@
 #define TIMEDSIGNALQUEUE_H
 
 #include <QBasicTimer>
-#include <QDateTime>
+#include <QElapsedTimer>
 #include <QList>
+#include <QMultiMap>
 #include <QMutex>
 #include <QObject>
 #include <QTimerEvent>
@@ -71,11 +72,11 @@ class CTimedSignalQueue : public QObject
     Q_OBJECT
 
 private:
-	typedef std::pair< quint64, CTimerObject* > CTimerPair;
-	typedef std::priority_queue< CTimerPair, std::deque<CTimerPair>, std::less<CTimerPair> > CSignalQueue;
+	typedef QMultiMap<quint64, CTimerObject*> CSignalQueue;
+	typedef QMultiMap<quint64, CTimerObject*>::iterator CSignalQueueIterator;
 	typedef QList< CTimerObject* > CSignalList;
 
-	static QDateTime	m_oTime; // todo: handle system clock changes...
+	static QElapsedTimer m_oTime; // todo: handle system clock changes...
 	QBasicTimer			m_oTimer;
 	CSignalList			m_Signals;
 	QMutex				m_pSection;
@@ -89,6 +90,8 @@ public:
 	// (Re)initializes internal structures. Note that this does NOT clear the queue.
 	void setup();
 
+	void stop();
+
 	// Clears the queue and removes all scheduled items.
 	void clear();
 
@@ -99,7 +102,13 @@ protected:
 	void timerEvent(QTimerEvent* event);
 
 private:
-	inline static quint64 getTimeInMs() { return m_oTime.toMSecsSinceEpoch(); }
+	inline static quint64 getTimeInMs()
+	{
+		if( !m_oTime.isValid() )
+			m_oTime.start();
+
+		return m_oTime.elapsed();
+	}
 	QUuid push(CTimerObject* pTimedSignal);
 
 public slots:
