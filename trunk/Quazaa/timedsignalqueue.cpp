@@ -1,8 +1,7 @@
-#ifdef _DEBUG
-#include <QSignalSpy>
-#endif // _DEBUG
+#include <QDebug>
 
 #include "timedsignalqueue.h"
+#include "types.h"
 
 CTimedSignalQueue signalQueue;
 
@@ -105,13 +104,12 @@ bool CTimerObject::emitSignal() const
 /* ---------------------------- CTimedSignalQueue --------------------------- */
 /* -------------------------------------------------------------------------------- */
 
-QDateTime CTimedSignalQueue::m_oTime = QDateTime::currentDateTime();
+QElapsedTimer CTimedSignalQueue::m_oTime;
 
 CTimedSignalQueue::CTimedSignalQueue(QObject *parent) :
 	QObject( parent ),
 	m_nPrecision( 1000 )
 {
-	setup();
 }
 
 CTimedSignalQueue::~CTimedSignalQueue()
@@ -126,14 +124,21 @@ void CTimedSignalQueue::setup()
 	m_oTimer.start( m_nPrecision, this );
 }
 
+void CTimedSignalQueue::stop()
+{
+	ASSUME_LOCK(m_pSection);
+
+	m_oTimer.stop();
+}
+
 void CTimedSignalQueue::clear()
 {
 	QMutexLocker l( &m_pSection );
 
-	while( !m_QueuedSignals.empty() )
+	for( CSignalQueueIterator it = m_QueuedSignals.begin(); it != m_QueuedSignals.end(); )
 	{
-		delete m_QueuedSignals.top().second;
-		m_QueuedSignals.pop();
+		delete it.value();
+		it = m_QueuedSignals.erase(it);
 	}
 
 	m_Signals.clear();
@@ -164,35 +169,29 @@ void CTimedSignalQueue::timerEvent(QTimerEvent* event)
 
 void CTimedSignalQueue::checkSchedule()
 {
-	if ( m_QueuedSignals.empty() )
-		return;
+	QMutexLocker l(&m_pSection);
 
-	QMutexLocker mutex( &m_pSection );
+	quint64 tTimeMs = getTimeInMs();
 
-	CTimerPair oTimedSignal = m_QueuedSignals.top();
-
-	if ( oTimedSignal.first <= getTimeInMs() )
+	for( CSignalQueueIterator it = m_QueuedSignals.begin(); it != m_QueuedSignals.end(); )
 	{
-		if ( oTimedSignal.second != NULL )
+		if( it.key() >= tTimeMs )
+			break;
+
+		CTimerObject* pObj = it.value();
+		it = m_QueuedSignals.erase(it);
+
+		bool bSuccess = pObj->emitSignal();
+
+		if( bSuccess && pObj->m_bMultiShot )
 		{
-			// If emitting the signal was unsuccessful, we're not going to send it again.
-			bool bSuccess = oTimedSignal.second->emitSignal();
-
-			if ( oTimedSignal.second->m_bMultiShot && bSuccess )
-			{
-				oTimedSignal.second->resetTime();
-				m_QueuedSignals.push( oTimedSignal );
-			}
-			else
-			{
-				delete oTimedSignal.second;
-				oTimedSignal.second = NULL;
-			}
+			pObj->resetTime();
+			m_QueuedSignals.insert(pObj->m_tTime, pObj);
 		}
-		m_QueuedSignals.pop();
-
-		mutex.unlock();
-		checkSchedule();
+		else
+		{
+			delete pObj;
+		}
 	}
 }
 
@@ -203,12 +202,6 @@ QUuid CTimedSignalQueue::push(QObject* parent, const char* signal, quint64 tInte
 									QGenericArgument val6, QGenericArgument val7,
 									QGenericArgument val8, QGenericArgument val9)
 {
-#ifdef _DEBUG
-	QSignalSpy managedSignal( parent, signal );
-	Q_ASSERT_X( managedSignal.isValid(), "CTimedSignalQueue::push()",
-				"An invalid signal has been requested to be stored." );
-#endif // _DEBUG
-
 	return push( new CTimerObject( parent, signal, tInterval, bMultiShot,
 								   val0, val1, val2, val3, val4, val5, val6, val7, val8, val9 ) );
 }
@@ -220,12 +213,6 @@ QUuid CTimedSignalQueue::push(QObject* parent, const char* signal, quint32 tSche
 									QGenericArgument val6, QGenericArgument val7,
 									QGenericArgument val8, QGenericArgument val9)
 {
-#ifdef _DEBUG
-	QSignalSpy managedSignal( parent, signal );
-	Q_ASSERT_X( managedSignal.isValid(), "CTimedSignalQueue::push()",
-				"An invalid signal has been requested to be stored." );
-#endif // _DEBUG
-
 	return push( new CTimerObject( parent, signal, tSchedule,
 								   val0, val1, val2, val3, val4, val5, val6, val7, val8, val9 ) );
 }
@@ -234,11 +221,10 @@ QUuid CTimedSignalQueue::push(CTimerObject* pTimedSignal)
 {
 	QMutexLocker l( &m_pSection );
 
-	CTimerPair oPair = CTimerPair( pTimedSignal->m_tTime, pTimedSignal );
-	m_QueuedSignals.push( oPair );
-	m_Signals.append( oPair.second );
+	m_QueuedSignals.insert(pTimedSignal->m_tTime, pTimedSignal);
+	m_Signals.append( pTimedSignal );
 
-	return oPair.second->m_oUUID;
+	return pTimedSignal->m_oUUID;
 }
 
 bool CTimedSignalQueue::pop(const QObject* parent, const char* signal)
@@ -251,16 +237,28 @@ bool CTimedSignalQueue::pop(const QObject* parent, const char* signal)
 
 	QMutexLocker l( &m_pSection );
 
-	for ( CSignalList::iterator i = m_Signals.begin(); i != m_Signals.end(); ++i )
+	for(CSignalList::iterator itList = m_Signals.begin(); itList != m_Signals.end(); )
 	{
-		if ( (*i)->m_sSignal.obj == parent && (*i)->m_sSignal.sName == sSignalName )
+		if ( (*itList)->m_sSignal.obj == parent && (*itList)->m_sSignal.sName == sSignalName )
 		{
-			CTimerObject* tmp = *i;
-			delete tmp;
-			tmp = NULL;
-
-			i = m_Signals.erase( i )--;
+			for(CSignalQueueIterator itQueue = m_QueuedSignals.begin(); itQueue != m_QueuedSignals.end(); )
+			{
+				if( itQueue.value() == *itList )
+				{
+					itQueue = m_QueuedSignals.erase(itQueue);
+				}
+				else
+				{
+					++itQueue;
+				}
+			}
+			delete *itList;
+			itList = m_Signals.erase(itList);
 			bFound = true;
+		}
+		else
+		{
+			++itList;
 		}
 	}
 
@@ -271,19 +269,32 @@ bool CTimedSignalQueue::pop(QUuid oTimer_ID)
 {
 	QMutexLocker l( &m_pSection );
 
-	CSignalList::const_iterator i = m_Signals.begin();
-	while ( i != m_Signals.end() )
+	for(CSignalList::iterator itList = m_Signals.begin(); itList != m_Signals.end(); )
 	{
-		if ( (*i)->m_oUUID == oTimer_ID )
+		if ( (*itList)->m_oUUID == oTimer_ID )
 		{
-			CTimerObject* tmp = *i;
-			delete tmp;
-			tmp = NULL;
-
+			for(CSignalQueueIterator itQueue = m_QueuedSignals.begin(); itQueue != m_QueuedSignals.end(); )
+			{
+				if( itQueue.value() == *itList )
+				{
+					itQueue = m_QueuedSignals.erase(itQueue);
+					break;
+				}
+				else
+				{
+					++itQueue;
+				}
+			}
+			delete *itList;
+			itList = m_Signals.erase(itList);
 			return true;
 		}
-		++i;
+		else
+		{
+			++itList;
+		}
 	}
+
 	return false;
 }
 
@@ -296,12 +307,11 @@ bool CTimedSignalQueue::setInterval(QUuid oTimer_ID, quint64 tInterval)
 	{
 		if ( (*i)->m_oUUID == oTimer_ID )
 		{
-			CTimerObject* tmp = *i;
-			CTimerObject* pTimerCopy = new CTimerObject( tmp );
-			delete tmp;
-			tmp = NULL;
+			CTimerObject* pTimerCopy = new CTimerObject( *i );
 
 			mutex.unlock();
+
+			pop(oTimer_ID);
 
 			pTimerCopy->m_tInterval = tInterval;
 			pTimerCopy->resetTime();
