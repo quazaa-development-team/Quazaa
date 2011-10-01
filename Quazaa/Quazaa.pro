@@ -253,9 +253,10 @@ SOURCES += main.cpp \
     Metalink/metalink4handler.cpp \
     ShareManager/download.cpp \
     ShareManager/downloadsource.cpp \
-	#timedsignalqueue.cpp \
+    timedsignalqueue.cpp \
     Metalink/metalinkhandler.cpp \
-    quazaaglobals.cpp
+    quazaaglobals.cpp \
+    Models/sharesnavigatortreemodel.cpp
 HEADERS += UI/dialoglanguage.h \
 	quazaasettings.h \
 	quazaaglobals.h \
@@ -387,8 +388,9 @@ HEADERS += UI/dialoglanguage.h \
     Metalink/metalink4handler.h \
     ShareManager/download.h \
     ShareManager/downloadsource.h \
-	#timedsignalqueue.h \
-    Metalink/metalinkhandler.h
+    timedsignalqueue.h \
+    Metalink/metalinkhandler.h \
+    Models/sharesnavigatortreemodel.h
 FORMS += UI/dialoglanguage.ui \
 	UI/dialogsplash.ui \
 	UI/widgetsearchtemplate.ui \
@@ -480,3 +482,5 @@ TRANSLATIONS = Language/quazaa_af.ts \
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
+
+

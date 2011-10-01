@@ -30,7 +30,8 @@
 #include "NetworkCore/query.h"
 #include "queryhit.h"
 #include "searchtreemodel.h"
-#include "downloads.h"
+#include "NetworkCore/managedsearch.h"
+//#include "downloads.h"
 
 WidgetSearchResults::WidgetSearchResults(QWidget* parent) :
 	QMainWindow(parent),
@@ -81,29 +82,35 @@ void WidgetSearchResults::startSearch(QString searchString)
 {
 	if(searchString != "")
 	{
-		WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-		if(pWg)
+                WidgetSearchTemplate* searchTab = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+                if(searchTab)
 		{
+                    if(searchTab->m_pSearch != 0 && searchTab->sSearchString == searchString)
+                    {
+                        searchTab->StartSearch(searchTab->m_pSearch->m_pQuery);
+                    } else {
 			CQuery* pQuery = new CQuery();
 			pQuery->SetDescriptiveName(searchString);
-			pWg->StartSearch(pQuery);
-			connect(pWg, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
+                        searchTab->StartSearch(pQuery);
+                        connect(searchTab, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
 			ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
+                    }
 		}
 	}
 }
 
+// Makes a new search tab and starts a search in it
 void WidgetSearchResults::startNewSearch(QString* searchString)
 {
 	if(searchString != QString(""))
 	{
 		addSearchTab();
-		WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-		if(pWg)
+                WidgetSearchTemplate* searchTab = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+                if(searchTab)
 		{
 			CQuery* pQuery = new CQuery();
 			pQuery->SetDescriptiveName(QString(*searchString));
-			pWg->StartSearch(pQuery);
+                        searchTab->StartSearch(pQuery);
 			ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), QString(*searchString));
 		}
 	}
