@@ -568,8 +568,23 @@ void CG2Node::Send_ConnectError(QString sReason)
 	sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	sHs += "Accept: application/x-gnutella2\r\n";
 	sHs += "Content-Type: application/x-gnutella2\r\n";
+
 	sHs += HostCache.GetXTry();
-	sHs += "\r\n";
+	for(QList<CNeighbour*>::iterator it = Neighbours.begin(); it != Neighbours.end(); ++it)
+	{
+		CNeighbour* pNeighbour = *it;
+		// add neighbours with free slots, to promote faster connections
+		if( pNeighbour->m_nState == nsConnected
+				&& pNeighbour->m_nProtocol == dpGnutella2
+				&& ((CG2Node*)pNeighbour)->m_nType == G2_HUB
+				&& ((CG2Node*)pNeighbour) ->m_nLeafMax > 0
+				&& 100 * ((CG2Node*)pNeighbour)->m_nLeafCount / ((CG2Node*)pNeighbour)->m_nLeafMax < 90 )
+		{
+			sHs += "," + pNeighbour->m_oAddress.toStringWithPort() + " " + QDateTime::currentDateTimeUtc().toString("yyyy-MM-ddThh:mmZ");
+		}
+	}
+
+	sHs += "\r\n\r\n";
 
 	//qDebug() << "Handshake send:\n" << sHs;
 	Write(sHs);
