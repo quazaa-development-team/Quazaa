@@ -41,7 +41,7 @@ class CQuery;
 
 namespace SearchState
 {
-	enum SearchState { Stopped, Searching, Paused };
+        enum SearchState { Default, Stopped, Searching, Paused };
 };
 
 class WidgetSearchTemplate : public QWidget
