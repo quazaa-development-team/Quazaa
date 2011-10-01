@@ -31,7 +31,7 @@
 #include "queryhit.h"
 #include "searchtreemodel.h"
 #include "NetworkCore/managedsearch.h"
-//#include "downloads.h"
+#include "downloads.h"
 
 WidgetSearchResults::WidgetSearchResults(QWidget* parent) :
 	QMainWindow(parent),
@@ -226,7 +226,26 @@ void WidgetSearchResults::on_actionSearchDownload_triggered()
 
 			if( pItem != NULL )
 			{
+				CQueryHit* pHits = 0;
+				CQueryHit* pLast = 0;
 
+				for(int i = 0; i < pItem->childCount(); ++i)
+				{
+					if( pLast )
+					{
+						pLast->m_pNext = new CQueryHit(pItem->child(i)->HitData.pQueryHit.data());
+						pLast = pLast->m_pNext;
+					}
+					else
+					{
+						pHits = new CQueryHit(pItem->child(i)->HitData.pQueryHit.data());
+						pLast = pHits;
+					}
+				}
+
+				Downloads.add(pHits);
+
+				delete pHits;
 			}
 		}
 	}
