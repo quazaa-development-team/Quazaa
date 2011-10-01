@@ -171,6 +171,8 @@ signals:
 	void readyToTransfer();
 
 public slots:
+	void OnDisconnectInt();
+	void OnErrorInt(QAbstractSocket::SocketError e);
 	virtual void OnConnect() = 0;
 	virtual void OnDisconnect() = 0;
 	virtual void OnRead() = 0;

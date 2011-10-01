@@ -86,10 +86,11 @@ void WidgetSearchTemplate::StartSearch(CQuery* pQuery)
 		m_pSearch = new CManagedSearch(pQuery);
 		connect(m_pSearch, SIGNAL(OnHit(QueryHitSharedPtr)), searchModel, SLOT(addQueryHit(QueryHitSharedPtr)));
 		connect(m_pSearch, SIGNAL(StatsUpdated()), this, SLOT(OnStatsUpdated()));
+		connect(m_pSearch, SIGNAL(StateChanged()), this, SLOT(OnStateChanged()));
 	}
 
-	m_pSearch->Start();
 	searchState = SearchState::Searching;
+	m_pSearch->Start();
 	sSearchString = m_pSearch->m_pQuery->DescriptiveName();
 }
 
@@ -97,18 +98,18 @@ void WidgetSearchTemplate::StopSearch()
 {
 	Q_ASSERT(m_pSearch != 0);
 
+	searchState = SearchState::Stopped;
 	m_pSearch->Stop();
 	delete m_pSearch;
 	m_pSearch = 0;
-	searchState = SearchState::Stopped;
 }
 
 void WidgetSearchTemplate::PauseSearch()
 {
 	Q_ASSERT(m_pSearch != 0);
 
-	m_pSearch->Pause();
 	searchState = SearchState::Paused;
+	m_pSearch->Pause();
 }
 
 void WidgetSearchTemplate::ClearSearch()
@@ -125,4 +126,36 @@ void WidgetSearchTemplate::OnStatsUpdated()
 	nHubs = m_pSearch->m_nHubs;
 	nLeaves = m_pSearch->m_nLeaves;
 	emit statsUpdated(this);
+}
+
+QModelIndex WidgetSearchTemplate::CurrentItem()
+{
+	QModelIndex idx = m_ui->treeViewSearchResults->currentIndex();
+	const QSortFilterProxyModel* pModel = static_cast<const QSortFilterProxyModel*>(idx.model());
+	return pModel->mapToSource(idx);
+}
+
+void WidgetSearchTemplate::OnStateChanged()
+{
+	if( m_pSearch )
+	{
+		if( m_pSearch->m_bPaused )
+		{
+			searchState = SearchState::Paused;
+		}
+		else if( m_pSearch->m_bActive && !m_pSearch->m_bPaused )
+		{
+			searchState = SearchState::Searching;
+		}
+		else
+		{
+			searchState = SearchState::Stopped;
+		}
+	}
+	else
+	{
+		searchState = SearchState::Stopped;
+	}
+
+	emit stateChanged();
 }

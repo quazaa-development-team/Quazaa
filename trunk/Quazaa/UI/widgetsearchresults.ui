@@ -113,8 +113,8 @@ QTabWidget::pane { /* The tab widget frame */
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>524</width>
-             <height>235</height>
+             <width>528</width>
+             <height>232</height>
             </rect>
            </property>
           </widget>

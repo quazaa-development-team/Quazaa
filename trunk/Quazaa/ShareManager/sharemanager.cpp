@@ -694,6 +694,7 @@ void CShareManager::OnFileHashed(CSharedFilePtr pFile)
 
 CQueryHashTable* CShareManager::GetHashTable()
 {
+	ASSUME_LOCK(m_oSection)
 	if(!m_bReady || !m_bTableReady)
 	{
 		return 0;
@@ -704,6 +705,7 @@ CQueryHashTable* CShareManager::GetHashTable()
 
 void CShareManager::BuildHashTable()
 {
+	ASSUME_LOCK(m_oSection)
 	if(m_pTable == 0)
 	{
 		m_pTable = new CQueryHashTable();

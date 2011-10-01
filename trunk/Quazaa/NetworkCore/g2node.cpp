@@ -233,11 +233,11 @@ void CG2Node::OnTimer(quint32 tNow)
 		}*/
 
 		if ( ( m_nType == G2_HUB && tNow - m_tConnected > 30 ) &&
-			 ( ( ( m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie ) &&
-				 ( tNow - m_pLocalTable->m_nCookie > 60 ) &&
-				 ( tNow - QueryHashMaster.m_nCookie > 30 ) ) ||
-			   ( QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ) ||
-			   !m_pLocalTable->m_bLive ) )
+			 (( m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie &&
+				tNow - m_pLocalTable->m_nCookie > 60 ) ||
+			  ( QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
+				!m_pLocalTable->m_bLive ))
+			 )
 		{
 			if(m_pLocalTable->PatchTo(&QueryHashMaster, this))
 			{
@@ -920,8 +920,8 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 		return;
 	}
 
-	quint32 tNow = time(0);
-	quint32 nTimestamp = tNow;
+	QDateTime tNow = QDateTime::currentDateTimeUtc();
+	QDateTime nTimestamp = tNow;
 	quint32 nDiff = 0;
 
 	m_pHubGroup->Clear();
@@ -1006,7 +1006,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				pPacket->ReadIntLE(&nTs);
 
 				HostCache.m_pSection.lock();
-				HostCache.Add(ep, (tNow + nDiff));
+				HostCache.Add(ep, tNow.addSecs(nDiff));
 				HostCache.m_pSection.unlock();
 			}
 		}
@@ -1019,8 +1019,10 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 			if(nLength >= 4)
 			{
-				pPacket->ReadIntLE(&nTimestamp);
-				nDiff = tNow - nTimestamp;
+				quint32 nTs = 0;
+				pPacket->ReadIntLE(&nTs);
+				nTimestamp = QDateTime::fromTime_t(nTs);
+				nDiff = nTimestamp.secsTo(tNow);
 			}
 		}
 		pPacket->m_nPosition = nNext;
@@ -1112,7 +1114,9 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 
 	CHostCacheHost* pHost = bCacheOK ? HostCache.Find(addr) : 0;
 
-	if(pHost != 0 && pHost->m_nQueryKey != 0 && pHost->m_nKeyHost == Network.m_oAddress && time(0) - pHost->m_nKeyTime < quazaaSettings.Gnutella2.QueryKeyTime)
+	QDateTime tNow = QDateTime::currentDateTimeUtc();
+
+	if(pHost != 0 && pHost->m_nQueryKey != 0 && pHost->m_nKeyHost == Network.m_oAddress && pHost->m_nKeyTime.secsTo(tNow) < quazaaSettings.Gnutella2.QueryKeyTime)
 	{
 		G2Packet* pQKA = G2Packet::New("QKA", true);
 		if(addr.protocol() == 0)
@@ -1202,7 +1206,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 	}
 
 	HostCache.m_pSection.lock();
-	CHostCacheHost* pCache = HostCache.Add(addr, 0);
+	CHostCacheHost* pCache = HostCache.Add(addr);
 	if(pCache)
 	{
 		pCache->SetKey(nKey, &m_oAddress);

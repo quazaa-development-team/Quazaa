@@ -862,7 +862,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 	}
 
 	HostCache.m_pSection.lock();
-	CHostCacheHost* pCache = HostCache.Add(addr, 0);
+	CHostCacheHost* pCache = HostCache.Add(addr);
 	if(pCache)
 	{
 		pCache->SetKey(nKey);
@@ -893,10 +893,10 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 {
 	HostCache.m_pSection.lock();
 
-	CHostCacheHost* pHost = HostCache.Add(addr, 0);
+	CHostCacheHost* pHost = HostCache.Add(addr);
 	if(pHost)
 	{
-		pHost->m_tAck = 0;
+		pHost->m_tAck = QDateTime();
 	}
 
 	HostCache.m_pSection.unlock();

@@ -116,6 +116,8 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 
 		QString ln;
 
+		QDateTime tNow = QDateTime::currentDateTimeUtc();
+
 		while(true)
 		{
 			ln = pReply->readLine(2048);
@@ -135,7 +137,7 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 				if(lp[0] == "H" || lp[0] == "h")
 				{
 					// host
-					HostCache.Add(CEndPoint(lp[1]), 0);
+					HostCache.Add(CEndPoint(lp[1]), tNow);
 				}
 			}
 			else

@@ -39,6 +39,7 @@ namespace SearchHitData
 		QList<CHash> lHashes;
 		QIcon iNetwork;
 		QIcon iCountry;
+		QueryHitSharedPtr pQueryHit;
 	};
 };
 
@@ -85,6 +86,7 @@ public:
 	QModelIndex index(int row, int column,
 	                  const QModelIndex& parent = QModelIndex()) const;
 	QModelIndex parent(const QModelIndex& index) const;
+	SearchTreeItem* itemFromIndex(QModelIndex index);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const;
 	int nFileCount;

@@ -46,6 +46,8 @@ WidgetSearch::WidgetSearch(QWidget* parent) :
 	ui->verticalLayoutSearchResults->addWidget(panelSearchResults);
 	connect(panelSearchResults, SIGNAL(searchTabChanged(WidgetSearchTemplate*)), this, SLOT(onSearchTabChanged(WidgetSearchTemplate*)));
 	connect(panelSearchResults, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(updateStats(WidgetSearchTemplate*)));
+	connect(panelSearchResults, SIGNAL(stateChanged()), this, SLOT(updateButtons()));
+	panelSearchResults->on_tabWidgetSearch_currentChanged(-1);
 }
 
 WidgetSearch::~WidgetSearch()
@@ -78,36 +80,30 @@ void WidgetSearch::saveWidget()
 
 void WidgetSearch::on_toolButtonSearch_clicked()
 {
-	panelSearchResults->startSearch(ui->lineEditSearch->text());
-	ui->toolButtonSearch->setText(tr("Searching"));
-	ui->toolButtonSearch->setEnabled(false);
-	ui->toolButtonSearchClear->setText("Stop");
-	ui->toolButtonSearchClear->setEnabled(true);
+	if( currentPage->searchState == SearchState::Paused || currentPage->searchState == SearchState::Stopped )
+	{
+		// TODO: handle additional criteria
+		panelSearchResults->startSearch(ui->lineEditSearch->text());
+		updateButtons();
+	}
 }
 
 void WidgetSearch::on_toolButtonSearchClear_clicked()
 {
-	if(ui->toolButtonSearchClear->text() == "Stop")
+	if(currentPage->searchState == SearchState::Searching || currentPage->searchState == SearchState::Paused)
 	{
-		ui->toolButtonSearch->setText(tr("More"));
-		ui->toolButtonSearch->setEnabled(true);
-		ui->toolButtonSearchClear->setText("Clear");
 		panelSearchResults->stopSearch();
 	}
-	else if(ui->toolButtonSearchClear->text() == "Clear")
+	else
 	{
-		//qDebug() << "Clear search triggered.";
 		bool cleared = panelSearchResults->clearSearch();
 		if(cleared)
 		{
-			ui->toolButtonSearch->setText(tr("Search"));
-			ui->toolButtonSearch->setEnabled(true);
-			ui->toolButtonSearchClear->setText("Stop");
-			ui->toolButtonSearchClear->setEnabled(false);
 			ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
 			ui->labelSearchResultsFound->setText(tr("No Files Found"));
 		}
 	}
+	updateButtons();
 }
 
 void WidgetSearch::startNewSearch(QString* searchString)
@@ -147,33 +143,10 @@ void WidgetSearch::on_splitterSearch_customContextMenuRequested(QPoint pos)
 
 void WidgetSearch::onSearchTabChanged(WidgetSearchTemplate* searchPage)
 {
+	currentPage = searchPage;
 	ui->lineEditSearch->setText(searchPage->sSearchString);
 
-	switch(searchPage->searchState)
-	{
-		case SearchState::Searching:
-			ui->toolButtonSearch->setText(tr("Searching"));
-			ui->toolButtonSearch->setEnabled(false);
-			ui->toolButtonSearchClear->setText("Stop");
-			ui->toolButtonSearchClear->setEnabled(true);
-			break;
-		case SearchState::Paused:
-			ui->toolButtonSearch->setText(tr("More"));
-			ui->toolButtonSearch->setEnabled(true);
-			ui->toolButtonSearchClear->setText("Clear");
-			panelSearchResults->stopSearch();
-			break;
-		case SearchState::Stopped:
-			ui->toolButtonSearch->setText(tr("Search"));
-			ui->toolButtonSearch->setEnabled(true);
-			ui->toolButtonSearchClear->setText("Stop");
-			ui->toolButtonSearchClear->setEnabled(false);
-			ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
-			ui->labelSearchResultsFound->setText(tr("No Files Found"));
-			break;
-		default:
-			break;
-	}
+	updateButtons(searchPage->m_pSearch == 0);
 }
 
 void WidgetSearch::updateStats(WidgetSearchTemplate* searchWidget)
@@ -187,5 +160,43 @@ void WidgetSearch::updateStats(WidgetSearchTemplate* searchWidget)
 	if(searchWidget->nFiles == 0 && searchWidget->nHits == 0)
 	{
 		ui->labelSearchResultsFound->setText(tr("No Files Found"));
+	}
+}
+
+void WidgetSearch::updateButtons(bool bInitial)
+{
+	WidgetSearchTemplate* searchPage = currentPage;
+
+	switch(searchPage->searchState)
+	{
+		case SearchState::Searching:
+			ui->toolButtonSearch->setText(tr("Searching"));
+			ui->toolButtonSearch->setEnabled(false);
+			ui->toolButtonSearchClear->setText("Pause");
+			ui->toolButtonSearchClear->setEnabled(true);
+			break;
+		case SearchState::Paused:
+			ui->toolButtonSearch->setText(tr("More"));
+			ui->toolButtonSearch->setEnabled(true);
+			ui->toolButtonSearchClear->setText("Stop");
+			break;
+		case SearchState::Stopped:
+			if( bInitial )
+			{
+				ui->toolButtonSearch->setText(tr("Search"));
+				ui->toolButtonSearchClear->setEnabled(false);
+			}
+			else
+			{
+				ui->toolButtonSearch->setText(tr("More"));
+				ui->toolButtonSearchClear->setEnabled(true);
+			}
+			ui->toolButtonSearch->setEnabled(true);
+			ui->toolButtonSearchClear->setText("Clear");
+			ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
+			ui->labelSearchResultsFound->setText(tr("No Files Found"));
+			break;
+		default:
+			break;
 	}
 }

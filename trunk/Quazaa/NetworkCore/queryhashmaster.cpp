@@ -117,17 +117,20 @@ void CQueryHashMaster::Build()
 		}
 	}
 
-	QMutexLocker l(&ShareManager.m_oSection);
+	ShareManager.m_oSection.lock();
 
 	const CQueryHashTable* pLocalTable = ShareManager.GetHashTable();
 
 	if(!pLocalTable)
 	{
+		ShareManager.m_oSection.unlock();
 		return;
 	}
 
 	Clear();
 	Merge(pLocalTable);
+
+	ShareManager.m_oSection.unlock();
 
 	for(QList<CQueryHashGroup*>::iterator itGroup = m_pGroups.begin(); itGroup != m_pGroups.end(); itGroup++)
 	{

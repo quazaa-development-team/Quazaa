@@ -68,6 +68,7 @@ public:
 
 public:
 	CQueryHit();
+	CQueryHit(CQueryHit* pHit);
 	~CQueryHit();
 
 	static QueryHitInfo* ReadInfo(G2Packet* pPacket, CEndPoint* pSender = 0);
@@ -75,9 +76,6 @@ public:
 
 	void ResolveURLs();
 	bool IsValid(CQuery* pQuery = 0);
-
-private:
-	Q_DISABLE_COPY(CQueryHit)
 };
 
 typedef QSharedPointer<CQueryHit> QueryHitSharedPtr;

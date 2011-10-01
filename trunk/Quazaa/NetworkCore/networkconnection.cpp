@@ -202,9 +202,9 @@ void CNetworkConnection::initializeSocket()
 	connect(m_pSocket, SIGNAL(readyRead()),
 	        this, SIGNAL(readyToTransfer()));
 	connect(m_pSocket, SIGNAL(disconnected()),
-	        this, SIGNAL(disconnected()));
+			this, SLOT(OnDisconnectInt()));
 	connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-	        this, SIGNAL(error(QAbstractSocket::SocketError)));
+			this, SLOT(OnErrorInt(QAbstractSocket::SocketError)));
 	connect(m_pSocket, SIGNAL(bytesWritten(qint64)),
 	        this, SIGNAL(bytesWritten(qint64)));
 	connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
@@ -429,4 +429,30 @@ quint32 TCPBandwidthMeter::Usage()
 	}
 
 	return nUsage;
+}
+
+void CNetworkConnection::OnDisconnectInt()
+{
+	// read data if available
+	if( networkBytesAvailable() )
+	{
+		readFromNetwork(networkBytesAvailable());
+	}
+
+	// notify objects
+	emit disconnected();
+}
+
+void CNetworkConnection::OnErrorInt(QAbstractSocket::SocketError e)
+{
+	// read any leftovers from the socket if remote host closed connection and the socket is still in connected state
+	if( e == QAbstractSocket::RemoteHostClosedError )
+	{
+		if( m_pSocket->state() == QAbstractSocket::ConnectedState )
+		{
+			while(readFromNetwork(1024) > 0){}
+		}
+		return;
+	}
+	emit error(e);
 }

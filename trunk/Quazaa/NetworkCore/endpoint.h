@@ -23,7 +23,7 @@
 */
 
 #ifndef ENDPOINT_H
-#define RNDPOINT_H
+#define ENDPOINT_H
 
 #include <QHostAddress>
 
