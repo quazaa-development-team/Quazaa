@@ -106,6 +106,10 @@ void GeoIPList::loadGeoIP()
 		}
 
 	}
+
+	// sort the database so binary search can work
+	qSort(m_lDatabase);
+
 	m_bListLoaded = !m_lDatabase.isEmpty();
 }
 

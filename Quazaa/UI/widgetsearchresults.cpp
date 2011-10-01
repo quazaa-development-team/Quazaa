@@ -27,9 +27,10 @@
 #include "dialogfiltersearch.h"
 
 #include "quazaasettings.h"
- 
-
 #include "NetworkCore/query.h"
+#include "queryhit.h"
+#include "searchtreemodel.h"
+#include "downloads.h"
 
 WidgetSearchResults::WidgetSearchResults(QWidget* parent) :
 	QMainWindow(parent),
@@ -48,6 +49,7 @@ WidgetSearchResults::WidgetSearchResults(QWidget* parent) :
 	ui->tabWidgetSearch->setCurrentIndex(0);
 	connect(tabNewSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
 	ui->splitterSearchDetails->restoreState(quazaaSettings.WinMain.SearchDetailsSplitter);
+	emit searchTabChanged(tabNewSearch);
 }
 
 WidgetSearchResults::~WidgetSearchResults()
@@ -85,6 +87,7 @@ void WidgetSearchResults::startSearch(QString searchString)
 			CQuery* pQuery = new CQuery();
 			pQuery->SetDescriptiveName(searchString);
 			pWg->StartSearch(pQuery);
+			connect(pWg, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
 			ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
 		}
 	}
@@ -109,8 +112,8 @@ void WidgetSearchResults::startNewSearch(QString* searchString)
 void WidgetSearchResults::addSearchTab()
 {
 	WidgetSearchTemplate* tabNewSearch = new WidgetSearchTemplate();
-	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
-	ui->tabWidgetSearch->setCurrentIndex(ui->tabWidgetSearch->count());
+	int nTab = ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
+	ui->tabWidgetSearch->setCurrentIndex(nTab);
 	ui->tabWidgetSearch->setTabsClosable(true);
 	connect(tabNewSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
 }
@@ -135,6 +138,10 @@ void WidgetSearchResults::stopSearch()
 		{
 			pWg->PauseSearch();
 		}
+		else if(pWg->searchState == SearchState::Paused)
+		{
+			pWg->StopSearch();
+		}
 	}
 }
 
@@ -144,8 +151,6 @@ bool WidgetSearchResults::clearSearch()
 	if(pWg)
 	{
 		//qDebug() << "Clear search captured in WidgetSearchResults.";
-
-		pWg->StopSearch();
 		pWg->ClearSearch();
 		ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), tr("Search"));
 		return true;
@@ -199,5 +204,23 @@ void WidgetSearchResults::onStatsUpdated(WidgetSearchTemplate* searchWidget)
 	if((searchWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget())))
 	{
 		emit statsUpdated(searchWidget);
+	}
+}
+
+void WidgetSearchResults::on_actionSearchDownload_triggered()
+{
+	if( ui->tabWidgetSearch->currentIndex() != -1 )
+	{
+		WidgetSearchTemplate* pWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+
+		if( pWidget )
+		{
+			SearchTreeItem* pItem = pWidget->searchModel->itemFromIndex(pWidget->CurrentItem());
+
+			if( pItem != NULL )
+			{
+
+			}
+		}
 	}
 }

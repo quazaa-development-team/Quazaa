@@ -323,11 +323,13 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			m_oChildItem->HitData.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
 			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
+			QueryHitSharedPtr pHitX(new CQueryHit(pHit2));
+			m_oChildItem->HitData.pQueryHit = pHitX;
+
 			rootItem->appendChild(m_oParentItem);
 			m_oParentItem->appendChild(m_oChildItem);
 			endInsertRows();
 			nFileCount = rootItem->childCount();
-			emit updateStats();
 		}
 		else if(!rootItem->child(existingSearch)->duplicateCheck(rootItem->child(existingSearch), pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()))
 		{
@@ -350,18 +352,22 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			m_oChildItem->HitData.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
 			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
+			QueryHitSharedPtr pHitX(new CQueryHit(pHit2));
+			m_oChildItem->HitData.pQueryHit = pHitX;
+
 			rootItem->child(existingSearch)->appendChild(m_oChildItem);
 			rootItem->child(existingSearch)->updateHitCount(rootItem->child(existingSearch)->childCount());
 			endInsertRows();
-			emit updateStats();
 		}
-
-		QModelIndex idx1 = index(0, 0, QModelIndex());
-		QModelIndex idx2 = index(rootItem->childCount(), 10, QModelIndex());
-		emit dataChanged(idx1, idx2);
 
 		pHit2 = pHit2->m_pNext;
 	}
+
+	emit updateStats();
+
+	QModelIndex idx1 = index(0, 0, QModelIndex());
+	QModelIndex idx2 = index(rootItem->childCount(), 10, QModelIndex());
+	emit dataChanged(idx1, idx2);
 }
 
 SearchTreeItem::SearchTreeItem(const QList<QVariant> &data, SearchTreeItem* parent)
@@ -377,11 +383,13 @@ SearchTreeItem::~SearchTreeItem()
 
 void SearchTreeItem::appendChild(SearchTreeItem* item)
 {
+	item->parentItem = this;
 	childItems.append(item);
 }
 
 void SearchTreeItem::clearChildren()
 {
+	qDeleteAll(childItems);
 	childItems.clear();
 }
 
@@ -447,4 +455,27 @@ bool SearchTreeItem::duplicateCheck(SearchTreeItem* containerItem, QString ip)
 		}
 	}
 	return false;
+}
+
+SearchTreeItem * SearchTreeModel::itemFromIndex(QModelIndex index)
+{
+	Q_ASSERT(index.model() == this);
+
+	if(index.isValid())
+	{
+		QModelIndex idxThis = index;
+
+		while( parent(idxThis).isValid() )
+		{
+			idxThis = parent(idxThis);
+		}
+
+		SearchTreeItem* pThis = static_cast<SearchTreeItem*>(idxThis.internalPointer());
+
+		Q_ASSERT(pThis != NULL);
+
+		return pThis;
+	}
+
+	return NULL;
 }

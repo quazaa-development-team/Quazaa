@@ -40,6 +40,7 @@ public:
 	WidgetSearch(QWidget* parent = 0);
 	~WidgetSearch();
 	WidgetSearchResults* panelSearchResults;
+	WidgetSearchTemplate* currentPage;
 	void saveWidget();
 
 protected:
@@ -59,6 +60,7 @@ private slots:
 	 
 	void onSearchTabChanged(WidgetSearchTemplate* searchPage);
 	void updateStats(WidgetSearchTemplate* searchWidget);
+	void updateButtons(bool bInitial = false);
 };
 
 #endif // WIDGETSEARCH_H

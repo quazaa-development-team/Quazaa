@@ -45,7 +45,7 @@ CManagedSearch::CManagedSearch(CQuery* pQuery, QObject* parent) :
 	m_bActive = false;
 	m_bPaused = false;
 	m_pQuery = pQuery;
-	m_tStarted = time(0);
+	m_tStarted = QDateTime::currentDateTimeUtc();
 
 	m_oGUID = QUuid::createUuid();
 	pQuery->SetGUID(m_oGUID);
@@ -57,6 +57,7 @@ CManagedSearch::CManagedSearch(CQuery* pQuery, QObject* parent) :
 	m_nCookie = 0;
 	m_nCachedHits = 0;
 	m_pCachedHit = 0;
+	m_nQueryHitLimit = quazaaSettings.Gnutella.MaxResults;
 }
 
 CManagedSearch::~CManagedSearch()
@@ -90,6 +91,7 @@ void CManagedSearch::Start()
 	m_bPaused = false;
 
 	m_nQueryCount = 0;
+	m_nQueryHitLimit = m_nHits + quazaaSettings.Gnutella.MaxResults;
 
 	emit StateChanged();
 }
@@ -110,7 +112,7 @@ void CManagedSearch::Stop()
 	emit StateChanged();
 }
 
-void CManagedSearch::Execute(quint32 tNow, quint32* pnMaxPackets)
+void CManagedSearch::Execute(QDateTime& tNow, quint32* pnMaxPackets)
 {
 	if(!m_bActive)
 	{
@@ -127,7 +129,7 @@ void CManagedSearch::Execute(quint32 tNow, quint32* pnMaxPackets)
 
 	quint32 nMaxPackets = *pnMaxPackets;
 
-	if(tNow - m_tStarted < 30)
+	if(m_tStarted.secsTo(tNow) < 30)
 	{
 		nMaxPackets = qMin(quint32(2), nMaxPackets);
 	}
@@ -142,10 +144,11 @@ void CManagedSearch::Execute(quint32 tNow, quint32* pnMaxPackets)
 	m_bCanRequestKey = !m_bCanRequestKey;
 }
 
-void CManagedSearch::SearchNeighbours(quint32 tNow)
+void CManagedSearch::SearchNeighbours(QDateTime& tNow)
 {
-
 	QMutexLocker l(&Neighbours.m_pSection);
+
+	quint32 tNowT = tNow.toTime_t();
 
 	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
@@ -157,8 +160,8 @@ void CManagedSearch::SearchNeighbours(quint32 tNow)
 		CG2Node* pNode = (CG2Node*)(*itNode);
 
 		if(pNode->m_nState == nsConnected
-		        && tNow - pNode->m_tConnected > 15
-		        && tNow - pNode->m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle
+				&& tNowT - pNode->m_tConnected > 15
+				&& tNowT - pNode->m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle
 		        && !m_lSearchedNodes.contains(pNode->m_oAddress)
 		  )
 		{
@@ -172,7 +175,7 @@ void CManagedSearch::SearchNeighbours(quint32 tNow)
 	}
 }
 
-void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
+void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 {
 	QMutexLocker oHostCacheLock(&HostCache.m_pSection);
 
@@ -240,7 +243,7 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 
 			if(m_lSearchedNodes.contains(pHost->m_oAddress))
 			{
-				if(tNow - m_lSearchedNodes[pHost->m_oAddress] < quazaaSettings.Gnutella2.QueryHostThrottle)
+				if(m_lSearchedNodes[pHost->m_oAddress].secsTo(tNow) < quazaaSettings.Gnutella2.QueryHostThrottle)
 				{
 					continue;
 				}
@@ -249,7 +252,7 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 			m_lSearchedNodes[pHost->m_oAddress] = tNow;
 
 			pHost->m_tLastQuery = tNow;
-			if(pHost->m_tAck == 0)
+			if(pHost->m_tAck.isNull())
 			{
 				pHost->m_tAck = tNow;
 			}
@@ -266,7 +269,7 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 				m_nQueryCount++;
 			}
 		}
-		else if(m_bCanRequestKey && tNow - pHost->m_nKeyTime > quazaaSettings.Gnutella2.QueryKeyTime)
+		else if(m_bCanRequestKey && pHost->m_nKeyTime.secsTo(tNow) > quazaaSettings.Gnutella2.QueryKeyTime)
 		{
 			QMutexLocker l(&Neighbours.m_pSection);
 
@@ -318,7 +321,7 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 					pLastNeighbour = pHub;
 					if(pHub->m_tKeyRequest == 0)
 					{
-						pHub->m_tKeyRequest = tNow;
+						pHub->m_tKeyRequest = tNow.toTime_t();
 					}
 				}
 			}
@@ -333,7 +336,7 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 				pHub->SendPacket(pQKR, true, true);
 				*pnMaxPackets -= 1;
 
-				if(pHost->m_tAck == 0)
+				if(pHost->m_tAck.isNull())
 				{
 					pHost->m_tAck = tNow;
 				}
@@ -363,7 +366,7 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 
 				*pnMaxPackets -= 1;
 
-				if(pHost->m_tAck == 0)
+				if(pHost->m_tAck.isNull())
 				{
 					pHost->m_tAck = tNow;
 				}
@@ -379,7 +382,7 @@ void CManagedSearch::SearchG2(quint32 tNow, quint32* pnMaxPackets)
 	}
 }
 
-void CManagedSearch::OnHostAcknowledge(QHostAddress nHost, quint32 tNow)
+void CManagedSearch::OnHostAcknowledge(QHostAddress nHost, QDateTime& tNow)
 {
 	m_lSearchedNodes[nHost] = tNow;
 }
@@ -399,21 +402,19 @@ void CManagedSearch::OnQueryHit(CQueryHit* pHits)
 
 	//emit OnHit(pHits);
 
-	if(!m_pCachedHit)
+	if(m_pCachedHit)
 	{
-		m_pCachedHit = pHits;
+		pLast->m_pNext = m_pCachedHit;
 	}
-	else if(pLast)
-	{
-		pLast->m_pNext = pHits;
-	}
+
+	m_pCachedHit = pHits;
 
 	if(m_nCachedHits > 100)
 	{
 		SendHits();
 	}
 
-	if(m_nHits > quazaaSettings.Gnutella.MaxResults)
+	if(m_nHits > m_nQueryHitLimit)
 	{
 		Pause();
 	}

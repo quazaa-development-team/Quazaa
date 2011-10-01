@@ -35,6 +35,23 @@ CQueryHit::CQueryHit()
 	m_nPartialBytesAvailable = 0;
 	m_bIsP2PIMCapable = false;
 }
+CQueryHit::CQueryHit(CQueryHit *pHit):
+	m_pNext(NULL),
+	m_pHitInfo(pHit->m_pHitInfo),
+	m_lHashes(pHit->m_lHashes),
+	m_sDescriptiveName(pHit->m_sDescriptiveName),
+	m_sURL(pHit->m_sURL),
+	m_sMetadata(pHit->m_sMetadata),
+	m_nObjectSize(pHit->m_nObjectSize),
+	m_nCachedSources(pHit->m_nCachedSources),
+	m_bIsPartial(pHit->m_bIsPartial),
+	m_nPartialBytesAvailable(pHit->m_nPartialBytesAvailable),
+	m_sPreviewURL(pHit->m_sPreviewURL),
+	m_bIsP2PIMCapable(pHit->m_bIsP2PIMCapable)
+
+{
+}
+
 CQueryHit::~CQueryHit()
 {
 	//qDebug() << "CQueryHit destructor";

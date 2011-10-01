@@ -36,10 +36,10 @@ class CManagedSearch : public QObject
 {
 	Q_OBJECT
 public:
-	quint32 m_tStarted;
-	bool    m_bActive;
-	bool    m_bPaused;
-	CQuery* m_pQuery;
+	QDateTime m_tStarted;
+	bool      m_bActive;
+	bool      m_bPaused;
+	CQuery*   m_pQuery;
 
 	bool    m_bCanRequestKey;
 
@@ -47,10 +47,11 @@ public:
 	quint32 m_nLeaves;
 	quint32 m_nHits;
 	quint32 m_nQueryCount;
+	quint32 m_nQueryHitLimit;
 
 	QUuid   m_oGUID;
 
-	QHash<QHostAddress, quint32>		m_lSearchedNodes;
+	QHash<QHostAddress, QDateTime>		m_lSearchedNodes;
 
 	CQueryHit*					m_pCachedHit;
 	quint32						m_nCachedHits;
@@ -65,11 +66,11 @@ public:
 	void Stop();
 	void Pause();
 
-	void Execute(quint32 tNow, quint32* pnMaxPackets);
-	void SearchNeighbours(quint32 tNow);
-	void SearchG2(quint32 tNow, quint32* pnMaxPackets);
+	void Execute(QDateTime& tNow, quint32* pnMaxPackets);
+	void SearchNeighbours(QDateTime& tNow);
+	void SearchG2(QDateTime& tNow, quint32* pnMaxPackets);
 
-	void OnHostAcknowledge(QHostAddress nHost, quint32 tNow);
+	void OnHostAcknowledge(QHostAddress nHost, QDateTime& tNow);
 	void OnQueryHit(CQueryHit* pHits);
 	void SendHits();
 

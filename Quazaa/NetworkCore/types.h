@@ -38,6 +38,7 @@
 #include <QtEndian>
 #include <QUuid>
 #include <QSharedPointer>
+#include <QDateTime>
 
 #include "endpoint.h"
 #include "systemlog.h"

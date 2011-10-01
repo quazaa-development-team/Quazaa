@@ -30,6 +30,8 @@
 #include <QLineEdit>
 #include "widgetsearchtemplate.h"
 
+class WidgetSearch;
+
 namespace Ui
 {
 	class WidgetSearchResults;
@@ -48,6 +50,7 @@ public:
 signals:
 	void searchTabChanged(WidgetSearchTemplate* searchPage);
 	void statsUpdated(WidgetSearchTemplate* searchPage);
+	void stateChanged();
 
 protected:
 	void changeEvent(QEvent* e);
@@ -69,6 +72,9 @@ private slots:
 	void on_splitterSearchDetails_customContextMenuRequested(QPoint pos);
 	void on_actionFilterMore_triggered();
 	void on_tabWidgetSearch_tabCloseRequested(int index);
+	void on_actionSearchDownload_triggered();
+
+	friend class WidgetSearch;
 };
 
 #endif // WIDGETSEARCHRESULTS_H

@@ -35,61 +35,52 @@ class CHostCacheHost
 {
 public:
 	CEndPoint       m_oAddress;     // Adres huba
-	quint32         m_tTimestamp;   // Kiedy ostatnio widziany
+	QDateTime       m_tTimestamp;   // Kiedy ostatnio widziany
 
 	quint32         m_nQueryKey;    // QK
 	CEndPoint       m_nKeyHost;     // host dla ktorego jest QK
-	quint32         m_nKeyTime;     // kiedy odebrano OK?
+	QDateTime       m_nKeyTime;     // kiedy odebrano OK?
 
-	quint32         m_tAck;         // czas ostatniej operacji wymagajacej potwierdzenia
+	QDateTime       m_tAck;         // czas ostatniej operacji wymagajacej potwierdzenia
 
-	quint32         m_tLastQuery;   // kiedy poslano ostatnie zapytanie?
-	quint32         m_tRetryAfter;  // kiedy mozna ponowic?
-	quint32         m_tLastConnect; // kiedy ostatnio sie polaczylismy?
+	QDateTime       m_tLastQuery;   // kiedy poslano ostatnie zapytanie?
+	QDateTime       m_tRetryAfter;  // kiedy mozna ponowic?
+	QDateTime       m_tLastConnect; // kiedy ostatnio sie polaczylismy?
 
 public:
 	CHostCacheHost()
 	{
-		m_tTimestamp = 0;
-
 		m_nQueryKey = 0;
-		m_nKeyTime = 0;
-
-		m_tRetryAfter = 0;
-		m_tAck = 0;
-
-		m_tLastQuery = 0;
-		m_tLastConnect = 0;
 	}
 
-	bool CanQuery(quint32 tNow = 0)
+	bool CanQuery(QDateTime tNow = QDateTime::currentDateTimeUtc())
 	{
-		if(tNow == 0)
+		if(tNow.isNull())
 		{
-			tNow = time(0);
+			tNow = QDateTime::currentDateTimeUtc();
 		}
 
-		if(m_tAck != 0)
-		{
-			return false;
-		}
-
-		if(tNow - m_tTimestamp > 3600)
+		if(!m_tAck.isNull())
 		{
 			return false;
 		}
 
-		if(m_tRetryAfter != 0 && tNow < m_tRetryAfter)
+		if(m_tTimestamp.secsTo(tNow) > 3600)
 		{
 			return false;
 		}
 
-		if(m_tLastQuery == 0)
+		if(!m_tRetryAfter.isNull() && tNow.secsTo(m_tRetryAfter) < 0)
+		{
+			return false;
+		}
+
+		if(m_tLastQuery.isNull())
 		{
 			return true;
 		}
 
-		return (tNow - m_tLastQuery) >= 120;
+		return (m_tLastQuery.secsTo(tNow) >= 120);
 	}
 
 	void SetKey(quint32 nKey, CEndPoint* pHost = 0);
@@ -106,7 +97,7 @@ public:
 	CHostCache();
 	~CHostCache();
 
-	CHostCacheHost* Add(CEndPoint host, quint32 ts);
+	CHostCacheHost* Add(CEndPoint host, QDateTime ts = QDateTime::currentDateTimeUtc());
 	void AddXTry(QString& sHeader);
 	QString GetXTry();
 	void Update(CEndPoint oHost);
@@ -115,7 +106,7 @@ public:
 	CHostCacheHost* Find(CEndPoint oHost);
 	void OnFailure(CEndPoint addr);
 	CHostCacheHost* Get();
-	CHostCacheHost* GetConnectable(quint32 tNow = 0, QString sCountry = QString("ZZ"));
+	CHostCacheHost* GetConnectable(QDateTime tNow = QDateTime::currentDateTimeUtc(), QString sCountry = QString("ZZ"));
 
 	void Save();
 

@@ -26,7 +26,6 @@
 #include <QFile>
 #include <QDataStream>
 #include <QStringList>
-#include <QDateTime>
 #include "network.h"
 #include <time.h>
 #include "geoiplist.h"
@@ -37,9 +36,9 @@ CHostCache HostCache;
 
 void CHostCacheHost::SetKey(quint32 nKey, CEndPoint* pHost)
 {
-	m_tAck = 0;
+	m_tAck = QDateTime();
 	m_nQueryKey = nKey;
-	m_nKeyTime = time(0);
+	m_nKeyTime = QDateTime::currentDateTimeUtc();
 	m_nKeyHost = pHost ? *pHost : Network.GetLocalAddress();
 }
 
@@ -54,7 +53,7 @@ CHostCache::CHostCache()
 		s >> nVersion;
 
 		CEndPoint addr;
-		quint32 ts;
+		QDateTime ts = QDateTime::currentDateTimeUtc();
 		quint16 nPort;
 
 		while(!f.atEnd())
@@ -79,7 +78,7 @@ CHostCache::~CHostCache()
 	}
 }
 
-CHostCacheHost* CHostCache::Add(CEndPoint host, quint32 ts)
+CHostCacheHost* CHostCache::Add(CEndPoint host, QDateTime ts)
 {
 	//qDebug() << "CHostCache::Add " << host.toString() << ts;
 
@@ -96,10 +95,11 @@ CHostCacheHost* CHostCache::Add(CEndPoint host, quint32 ts)
 		}
 	}
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
-	if(ts == 0 || ts > tNow)
+	QDateTime tNow = QDateTime::currentDateTimeUtc();
+
+	if(ts.isNull() || ts > tNow)
 	{
-		ts = tNow - 60;
+		ts = tNow.addSecs(-60);
 	}
 
 	CHostCacheHost* pNew = Find(host);
@@ -138,7 +138,6 @@ CHostCacheHost* CHostCache::Add(CEndPoint host, quint32 ts)
 void CHostCache::AddXTry(QString& sHeader)
 {
 	// X-Try-Hubs: 86.141.203.14:6346 2010-02-23T16:17Z,91.78.12.117:1164 2010-02-23T16:17Z,89.74.83.103:7972 2010-02-23T16:17Z,93.89.196.113:5649 2010-02-23T16:17Z,24.193.237.252:6346 2010-02-23T16:17Z,24.226.149.80:6346 2010-02-23T16:17Z,89.142.217.180:9633 2010-02-23T16:17Z,83.219.112.111:6346 2010-02-23T16:17Z,201.17.187.205:6346 2010-02-23T16:17Z,213.29.19.41:6346 2010-02-23T16:17Z,78.231.224.180:6346 2010-02-23T16:17Z,213.143.88.92:6346 2010-02-23T16:17Z,77.209.25.104:1515 2010-02-23T16:17Z,86.220.168.24:59153 2010-02-23T16:17Z,88.183.80.110:6346 2010-02-23T16:17Z
-
 	QStringList l = sHeader.split(",");
 
 	if(l.isEmpty())
@@ -159,9 +158,13 @@ void CHostCache::AddXTry(QString& sHeader)
 		{
 			continue;
 		}
-
-		Add(addr, time(0));
+		QDateTime oTs = QDateTime::fromString(le.at(1), "yyyy-MM-ddThh:mmZ");
+		if( !oTs.isValid() )
+			oTs = QDateTime::currentDateTime();
+		Add(addr, oTs);
 	}
+
+	Save();
 }
 QString CHostCache::GetXTry()
 {
@@ -182,7 +185,7 @@ QString CHostCache::GetXTry()
 			CHostCacheHost* pHost = m_lHosts.at(nCount);
 			sRet.append(pHost->m_oAddress.toStringWithPort() + " ");
 
-			sRet.append(QDateTime::fromTime_t(pHost->m_tTimestamp).toString("yyyy-MM-ddThh:mm:ssZ"));
+			sRet.append(pHost->m_tTimestamp.toString("yyyy-MM-ddThh:mmZ"));
 			sRet.append(",");
 
 		}
@@ -221,7 +224,7 @@ void CHostCache::Update(CHostCacheHost* pHost)
 	}
 
 	m_lHosts.removeAt(nIndex);
-	pHost->m_tTimestamp = time(0);
+	pHost->m_tTimestamp = QDateTime::currentDateTimeUtc();
 	m_lHosts.prepend(pHost);
 }
 
@@ -297,14 +300,9 @@ CHostCacheHost* CHostCache::Get()
 
 	return pHost;
 }
-CHostCacheHost* CHostCache::GetConnectable(quint32 tNow, QString sCountry)
+CHostCacheHost* CHostCache::GetConnectable(QDateTime tNow, QString sCountry)
 {
 	bool bCountry = (sCountry != "ZZ");
-
-	if(tNow == 0)
-	{
-		tNow = time(0);
-	}
 
 	if(m_lHosts.isEmpty())
 	{
@@ -314,11 +312,13 @@ CHostCacheHost* CHostCache::GetConnectable(quint32 tNow, QString sCountry)
 	foreach(CHostCacheHost * pHost, m_lHosts)
 	{
 		if(bCountry)
+		{
 			if(sCountry != GeoIP.findCountryCode(pHost->m_oAddress))
 			{
 				continue;
 			}
-		if(tNow - pHost->m_tLastConnect > ReconnectTime)
+		}
+		if(pHost->m_tLastConnect.secsTo(tNow) > ReconnectTime)
 		{
 			return pHost;
 		}
@@ -329,11 +329,11 @@ CHostCacheHost* CHostCache::GetConnectable(quint32 tNow, QString sCountry)
 
 void CHostCache::PruneOldHosts()
 {
-	quint32 tNow = time(0);
+	QDateTime tNow = QDateTime::currentDateTimeUtc();
 
 	for(int i = 0; i < m_lHosts.size();)
 	{
-		if(tNow - m_lHosts[i]->m_tTimestamp > 86400)
+		if(m_lHosts[i]->m_tTimestamp.secsTo(tNow) > 86400)
 		{
 			m_lHosts.removeAt(i);
 		}
@@ -346,11 +346,11 @@ void CHostCache::PruneOldHosts()
 
 void CHostCache::PruneByQueryAck()
 {
-	quint32 tNow = time(0);
+	QDateTime tNow = QDateTime::currentDateTimeUtc();
 
 	for(int i = 0; i < m_lHosts.size();)
 	{
-		if(m_lHosts[i]->m_tAck && tNow - m_lHosts[i]->m_tAck > 600)
+		if(!m_lHosts[i]->m_tAck.isNull() && m_lHosts[i]->m_tAck.secsTo(tNow) > 600)
 		{
 			m_lHosts.removeAt(i);
 		}

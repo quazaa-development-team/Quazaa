@@ -192,7 +192,7 @@ void CNeighboursConnections::Maintain()
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumHubs - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
 
-			quint32 tNow = time(0);
+			QDateTime tNow = QDateTime::currentDateTimeUtc();
 			bool bCountry = true;
 			int  nCountry = 0;
 
@@ -251,7 +251,7 @@ void CNeighboursConnections::Maintain()
 		{
 			QMutexLocker l(&HostCache.m_pSection);
 
-			quint32 tNow = time(0);
+			QDateTime tNow = QDateTime::currentDateTimeUtc();
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
 

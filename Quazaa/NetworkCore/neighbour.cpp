@@ -59,7 +59,11 @@ void CNeighbour::OnTimer(quint32 tNow)
 				HostCache.OnFailure(m_oAddress);
 			}
 
-			systemLog.postLog(LogSeverity::Information, "Timed out handshaking with %s.", qPrintable(m_oAddress.toStringWithPort()));
+			if( m_nState == nsConnecting )
+				systemLog.postLog(LogSeverity::Information, qPrintable(tr("Timed out connecting to %s.")), qPrintable(m_oAddress.toStringWithPort()));
+			else
+				systemLog.postLog(LogSeverity::Information, qPrintable(tr("Timed out handshaking with %s.")), qPrintable(m_oAddress.toStringWithPort()));
+
 			Close();
 			return;
 		}

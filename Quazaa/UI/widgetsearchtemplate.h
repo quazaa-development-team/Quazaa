@@ -58,6 +58,7 @@ public:
 	void PauseSearch();
 	void StopSearch();
 	void ClearSearch();
+	QModelIndex CurrentItem();
 
 	int nHubs;
 	int nLeaves;
@@ -71,6 +72,7 @@ public:
 
 signals:
 	void statsUpdated(WidgetSearchTemplate* thisSearch);
+	void stateChanged();
 
 protected:
 	void changeEvent(QEvent* e);
@@ -80,6 +82,7 @@ private:
 
 protected slots:
 	void OnStatsUpdated();
+	void OnStateChanged();
 };
 
 #endif // WIDGETSEARCHTEMPLATE_H
