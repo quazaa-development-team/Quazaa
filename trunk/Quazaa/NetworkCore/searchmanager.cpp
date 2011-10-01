@@ -85,6 +85,7 @@ void CSearchManager::OnTimer()
 
 	foreach(CManagedSearch* pSearch, m_lSearches)
 	{
+		pSearch->SendHits();
 		if(pSearch->m_bPaused)
 			nSearches--;
 	}
@@ -118,7 +119,6 @@ void CSearchManager::OnTimer()
 
 			nPacketsLeft += nPacket;
 		}
-		pSearch->SendHits();
 	}
 
 	if(bUpdate || m_lSearches.size() == 1)
