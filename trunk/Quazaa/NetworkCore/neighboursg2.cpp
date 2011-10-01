@@ -167,8 +167,7 @@ void CNeighboursG2::DispatchKHL()
 	}
 
 	G2Packet* pKHL = G2Packet::New("KHL");
-	quint32 ts = time(0);
-	pKHL->WritePacket("TS", 4)->WriteIntLE(ts);
+	pKHL->WritePacket("TS", 4)->WriteIntLE<quint32>(QDateTime::currentDateTimeUtc().toTime_t());
 
 	foreach(CNeighbour * pNode, m_lNodes)
 	{
@@ -198,7 +197,7 @@ void CNeighboursG2::DispatchKHL()
 	for(; nCount < (quint32)quazaaSettings.Gnutella2.KHLHubCount && HostCache.size() > nCount; nCount++)
 	{
 		pKHL->WritePacket("CH", 10)->WriteHostAddress(&HostCache.m_lHosts.at(nCount)->m_oAddress);
-		pKHL->WriteIntLE(&HostCache.m_lHosts.at(nCount)->m_tTimestamp);
+		pKHL->WriteIntLE<quint32>(HostCache.m_lHosts.at(nCount)->m_tTimestamp.toTime_t());
 	}
 
 	HostCache.m_pSection.unlock();
@@ -353,7 +352,7 @@ G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour*
 {
 	G2Packet* pPacket = G2Packet::New("QA", true);
 
-	pPacket->WritePacket("TS", 4)->WriteIntLE<quint32>(time(0));
+	pPacket->WritePacket("TS", 4)->WriteIntLE<quint32>(QDateTime::currentDateTimeUtc().toTime_t());
 	pPacket->WritePacket("FR", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
 	pPacket->WritePacket("RA", 4)->WriteIntLE<quint32>(30 + 30 * m_nHubsConnectedG2);
 
