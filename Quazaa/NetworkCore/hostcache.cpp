@@ -201,7 +201,7 @@ QString CHostCache::GetXTry()
 		return QString();
 	}
 
-	return "X-Try-Hubs: " + sRet.left(sRet.size() - 1) + "\r\n";
+	return "X-Try-Hubs: " + sRet.left(sRet.size() - 1);
 }
 
 void CHostCache::Update(CEndPoint oHost)
