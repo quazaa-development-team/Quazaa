@@ -42,7 +42,7 @@ WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget* parent
 	nHits = 0;
 	nHubs = 0;
 	nLeaves = 0;
-	searchState = SearchState::Stopped;
+        searchState = SearchState::Default;
 	QSortFilterProxyModel* sortModel = new QSortFilterProxyModel(this);
 	searchModel = new SearchTreeModel();
 	sortModel->setSourceModel(searchModel);
@@ -115,6 +115,7 @@ void WidgetSearchTemplate::PauseSearch()
 void WidgetSearchTemplate::ClearSearch()
 {
 	//qDebug() << "Clear search captured in widget search template.";
+        searchState = SearchState::Default;
 	searchModel->clear();
 	qApp->processEvents();
 }
@@ -154,7 +155,7 @@ void WidgetSearchTemplate::OnStateChanged()
 	}
 	else
 	{
-		searchState = SearchState::Stopped;
+                searchState = SearchState::Stopped;
 	}
 
 	emit stateChanged();

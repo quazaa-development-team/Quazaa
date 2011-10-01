@@ -80,7 +80,7 @@ void WidgetSearch::saveWidget()
 
 void WidgetSearch::on_toolButtonSearch_clicked()
 {
-	if( currentPage->searchState == SearchState::Paused || currentPage->searchState == SearchState::Stopped )
+        if( currentPage->searchState == SearchState::Paused || currentPage->searchState == SearchState::Stopped || currentPage->searchState == SearchState::Default )
 	{
 		// TODO: handle additional criteria
 		panelSearchResults->startSearch(ui->lineEditSearch->text());
@@ -196,7 +196,13 @@ void WidgetSearch::updateButtons(bool bInitial)
 			ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
 			ui->labelSearchResultsFound->setText(tr("No Files Found"));
 			break;
-		default:
-			break;
+                default:
+                        ui->toolButtonSearch->setText(tr("Search"));
+                        ui->toolButtonSearchClear->setEnabled(false);
+                        ui->toolButtonSearch->setEnabled(true);
+                        ui->toolButtonSearchClear->setText("Clear");
+                        ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
+                        ui->labelSearchResultsFound->setText(tr("No Files Found"));
+                        break;
 	}
 }
