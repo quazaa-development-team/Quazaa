@@ -265,8 +265,7 @@ SOURCES += \
     3rdparty/communi/src/ircmessage.cpp \
     3rdparty/communi/src/ircencoder.cpp \
     3rdparty/communi/src/irccommand.cpp \
-    3rdparty/communi/src/irc.cpp \
-    ircsessionmanager.cpp \
+	3rdparty/communi/src/irc.cpp \
     3rdparty/communi/shared/src/messagehandler.cpp \
     3rdparty/communi/shared/src/messageformatter.cpp \
     3rdparty/communi/shared/src/commandparser.cpp \
@@ -410,8 +409,7 @@ HEADERS += \
     3rdparty/communi/include/ircglobal.h \
     3rdparty/communi/include/ircencoder_p.h \
     3rdparty/communi/include/irccommand.h \
-    3rdparty/communi/include/irc.h \
-    ircsessionmanager.h \
+	3rdparty/communi/include/irc.h \
     3rdparty/communi/shared/include/messagehandler.h \
     3rdparty/communi/shared/include/messageformatter.h \
     3rdparty/communi/shared/include/commandparser.h \
