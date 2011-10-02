@@ -39,10 +39,6 @@ WidgetChat::WidgetChat(QWidget* parent) :
 	ui->verticalLayoutChatMiddle->addWidget(panelChatMiddle);
 	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
 	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
-	ui->listViewChatRooms->setModel(panelChatMiddle->channelListModel);
-	connect(panelChatMiddle, SIGNAL(roomChanged(WidgetChatRoom*)), this, SLOT(updateUserList(WidgetChatRoom*)));
-	connect(panelChatMiddle, SIGNAL(updateUserCount(int,int)), this, SLOT(updateUserCount(int,int)));
-	connect(this, SIGNAL(changeRoom(int)), panelChatMiddle, SLOT(changeRoom(int)));
 }
 
 WidgetChat::~WidgetChat()
@@ -119,54 +115,4 @@ void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
 			ui->splitterChat->setSizes(sizesList);
 		}
 	}
-}
-
-void WidgetChat::updateUserList(WidgetChatRoom* currentTab)
-{
-	//qDebug() << "Signal successful. In WidgetChat::updateUserList()";
-	if (currentTab != 0)
-	{
-		ui->frameChatRightSidebar->setVisible(true);
-		ui->listViewChatUsers->setModel(currentTab->chatUserListModel);
-		ui->labelChatUsersCount->setText(tr("%1 Operators, %2 Total").arg(currentTab->chatUserListModel->nOperatorCount).arg(currentTab->chatUserListModel->nUserCount));
-	} else {
-		ui->frameChatRightSidebar->setVisible(false);
-	}
-}
-
-void WidgetChat::on_listViewChatRooms_pressed(QModelIndex index)
-{
-	switch (QApplication::mouseButtons ())
-	{
-	case Qt::LeftButton:
-		emit changeRoom(index.row());
-		break;
-	case Qt::RightButton:
-		break;
-	default:
-		break;
-	}
-}
-
-void WidgetChat::on_toolButtonChatRoomAdd_clicked()
-{
-	bool ok;
-	QString channel = QInputDialog::getText(this, tr("Enter room to join."),
-										  tr("Room:"), QLineEdit::Normal,
-										  "#", &ok);
-	if (ok && !channel.isEmpty())
-		 panelChatMiddle->quazaaIrc->addRoom(channel);
-}
-
-void WidgetChat::on_toolButtonChatRoomRemove_clicked()
-{
-	if (ui->listViewChatRooms->currentIndex().row() > 0)
-	{
-		panelChatMiddle->quazaaIrc->removeRoom(ui->listViewChatRooms->currentIndex().data(Qt::DisplayRole).toString());
-	}
-}
-
-void WidgetChat::updateUserCount(int operators, int users)
-{
-	ui->labelChatUsersCount->setText(tr("%1 Operators, %2 Total").arg(operators).arg(users));
 }

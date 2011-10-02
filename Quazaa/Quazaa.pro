@@ -43,7 +43,8 @@ UI_DIR = temp/uic
 INCLUDEPATH += NetworkCore \
 	UI \
 	3rdparty \
-	3rdparty/libircclient-qt/include \
+	3rdparty/communi/include \
+	3rdparty/icu \
 	Models \
 	ShareManager \
 	Chat \
@@ -68,9 +69,8 @@ CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 # Additional config
 win32:LIBS += -Lbin # if you are at windows os
 mac:CONFIG -= app_bundle
-CONFIG += no_icu
-DEFINES += IRC_STATIC \
-	IRC_NO_DEPRECATED
+#CONFIG += no_icu
+DEFINES += COMMUNI_STATIC
 CONFIG(debug, debug|release){
 	DEFINES += _DEBUG
 }
@@ -130,12 +130,7 @@ SOURCES += \
 	#Metalink/metalink4handler.cpp \
 	#Metalink/metalinkhandler.cpp \
 	3rdparty/CyoEncode/CyoDecode.c \
-	3rdparty/CyoEncode/CyoEncode.c \
-	3rdparty/libircclient-qt/src/irc.cpp \
-	3rdparty/libircclient-qt/src/ircbuffer.cpp \
-	3rdparty/libircclient-qt/src/ircdccsession.cpp \
-	3rdparty/libircclient-qt/src/ircsession.cpp \
-	3rdparty/libircclient-qt/src/ircutil.cpp \
+		3rdparty/CyoEncode/CyoEncode.c \
 	Chat/chatconverter.cpp \
 	Chat/chatcore.cpp \
 	Chat/chatsession.cpp \
@@ -191,7 +186,6 @@ SOURCES += \
 	qtsingleapplication/src/qtsingleapplication.cpp \
 	qtsingleapplication/src/qtsinglecoreapplication.cpp \
 	quazaaglobals.cpp \
-	quazaairc.cpp \
 	quazaasettings.cpp \
 	Security/securerule.cpp \
 	Security/security.cpp \
@@ -262,21 +256,21 @@ SOURCES += \
 	UI/widgettransfers.cpp \
 	UI/widgetuploads.cpp \
 	UI/winmain.cpp \
-	UI/wizardquickstart.cpp
+	UI/wizardquickstart.cpp \
+    3rdparty/communi/src/ircutil.cpp \
+    3rdparty/communi/src/ircsession.cpp \
+    3rdparty/communi/src/ircsender.cpp \
+    3rdparty/communi/src/ircparser.cpp \
+    3rdparty/communi/src/ircmessage.cpp \
+    3rdparty/communi/src/ircencoder.cpp \
+    3rdparty/communi/src/irccommand.cpp \
+    3rdparty/communi/src/irc.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
 	#Metalink/metalinkhandler.h \
 	3rdparty/CyoEncode/CyoDecode.h \
-	3rdparty/CyoEncode/CyoEncode.h \
-	3rdparty/libircclient-qt/include/irc.h \
-	3rdparty/libircclient-qt/include/ircbuffer_p.h \
-	3rdparty/libircclient-qt/include/ircbuffer.h \
-	3rdparty/libircclient-qt/include/ircdccsession.h \
-	3rdparty/libircclient-qt/include/ircglobal.h \
-	3rdparty/libircclient-qt/include/ircsession_p.h \
-	3rdparty/libircclient-qt/include/ircsession.h \
-	3rdparty/libircclient-qt/include/ircutil.h \
+		3rdparty/CyoEncode/CyoEncode.h \
 	Chat/chatconverter.h \
 	Chat/chatcore.h \
 	Chat/chatsession.h \
@@ -330,7 +324,6 @@ HEADERS += \
 	qtsingleapplication/src/qtsingleapplication.h \
 	qtsingleapplication/src/qtsinglecoreapplication.h \
 	quazaaglobals.h \
-	quazaairc.h \
 	quazaasettings.h \
 	Security/securerule.h \
 	Security/security.h \
@@ -401,7 +394,17 @@ HEADERS += \
 	UI/widgettransfers.h \
 	UI/widgetuploads.h \
 	UI/winmain.h \
-	UI/wizardquickstart.h
+	UI/wizardquickstart.h \
+    3rdparty/communi/include/ircutil.h \
+    3rdparty/communi/include/ircsession_p.h \
+    3rdparty/communi/include/ircsession.h \
+    3rdparty/communi/include/ircsender.h \
+    3rdparty/communi/include/ircparser_p.h \
+    3rdparty/communi/include/ircmessage.h \
+    3rdparty/communi/include/ircglobal.h \
+    3rdparty/communi/include/ircencoder_p.h \
+    3rdparty/communi/include/irccommand.h \
+    3rdparty/communi/include/irc.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -497,4 +500,9 @@ TRANSLATIONS = \
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
+
+
+
+
+
 

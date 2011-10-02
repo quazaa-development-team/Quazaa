@@ -30,7 +30,6 @@
 #include <QToolButton>
 #include <QTextDocument>
 
-#include "quazaairc.h"
 #include "widgetchatroom.h"
 #include "widgetchatinput.h"
 
@@ -45,39 +44,20 @@ class WidgetChatMiddle : public QMainWindow
 public:
 	WidgetChatMiddle(QWidget* parent = 0);
 	~WidgetChatMiddle();
-	QuazaaIRC* quazaaIrc;
 	WidgetChatInput *widgetChatInput;
-	QStringListModel *channelListModel;
-
-signals:
-	void roomChanged(WidgetChatRoom* room);
-	void messageSent(QString *text);
-	void updateUserCount(int operators, int users);
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
 	Ui::WidgetChatMiddle* ui;
-	QStringList channelList;
 
 public slots:
 	void saveWidget();
-	WidgetChatRoom* roomByName(QString roomName,Irc::Buffer *buffer);
-	WidgetChatRoom* roomByBuffer(Irc::Buffer* buffer);
-	WidgetChatRoom* currentRoom();
 
 private slots:
-	void on_actionDisconnect_triggered();
-	void on_actionConnect_triggered();
 	void on_actionChatSettings_triggered();
-	void onSendMessage(QTextDocument *message);
-	void addBuffer(Irc::Buffer *buffer);
-	void removeBuffer(Irc::Buffer* buffer);
-	void on_stackedWidgetChatRooms_currentChanged(int);
 	void on_actionEditMyProfile_triggered();
-	void changeRoom(int index);
-	void userCountUpdated(ChatUserListModel* chatUserListModel, int operators, int users);
 };
 
 #endif // WIDGETCHATCENTER_H

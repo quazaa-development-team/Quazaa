@@ -29,7 +29,6 @@
 #include <QStringList>
 #include <QIcon>
 #include <QHash>
-#include <ircbuffer.h>
 
 namespace UserMode
 {
@@ -100,7 +99,7 @@ public slots:
 	void clear();
 	bool isRoot(QModelIndex index);
 	void addUser(QString name, QString modes);
-	void addUsers(Irc::Buffer* buffer);
+	void addUsers(QStringList users);
 	void removeUser(QString name);
 	void updateUserMode(QString hostmask, QString mode, QString name);
 	UserMode::UserMode highestMode(int index);
