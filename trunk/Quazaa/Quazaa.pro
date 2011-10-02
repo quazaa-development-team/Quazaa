@@ -69,7 +69,6 @@ CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 # Additional config
 win32:LIBS += -Lbin # if you are at windows os
 mac:CONFIG -= app_bundle
-#CONFIG += no_icu
 DEFINES += COMMUNI_STATIC
 CONFIG(debug, debug|release){
 	DEFINES += _DEBUG
