@@ -135,7 +135,7 @@
              </layout>
             </item>
             <item row="2" column="0">
-             <widget class="QListView" name="listViewChatRooms">
+             <widget class="QTreeView" name="treeViewChatRooms">
               <property name="styleSheet">
                <string notr="true"/>
               </property>
