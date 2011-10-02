@@ -269,7 +269,8 @@ SOURCES += \
     ircsessionmanager.cpp \
     3rdparty/communi/shared/src/messagehandler.cpp \
     3rdparty/communi/shared/src/messageformatter.cpp \
-    3rdparty/communi/shared/src/commandparser.cpp
+    3rdparty/communi/shared/src/commandparser.cpp \
+    Chat/ircsessionmanager.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -413,7 +414,8 @@ HEADERS += \
     ircsessionmanager.h \
     3rdparty/communi/shared/include/messagehandler.h \
     3rdparty/communi/shared/include/messageformatter.h \
-    3rdparty/communi/shared/include/commandparser.h
+    3rdparty/communi/shared/include/commandparser.h \
+    Chat/ircsessionmanager.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -509,6 +511,8 @@ TRANSLATIONS = \
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
+
+
 
 
 
