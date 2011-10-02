@@ -94,7 +94,7 @@ void WidgetSearchResults::startSearch(QString searchString)
                             searchTab->StartSearch(searchTab->m_pSearch->m_pQuery);
                             connect(searchTab, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
                         } else {
-                            int result = QMessageBox::question(this, tr("You have started a new search."), tr("Would you like to start this search in a new tab?\n\nIf you perform this search in the current tab, you will lose the %1 search.").arg(searchTab->sSearchString), QMessageBox::Yes|QMessageBox::No);
+                            int result = QMessageBox::question(this, tr("You have started a new search."), tr("Would you like to start this search in a new tab?\n\nIf you perform this search in the current tab, you will mix the results of %1 search with the results of the new %2 search.").arg(searchTab->sSearchString).arg(searchString), QMessageBox::Yes|QMessageBox::No);
                             if(result == QMessageBox::Yes)
                             {
                                 addSearchTab();

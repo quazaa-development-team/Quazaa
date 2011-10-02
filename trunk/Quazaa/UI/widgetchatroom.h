@@ -26,11 +26,9 @@
 #define WIDGETCHATROOM_H
 
 #include <QtGui>
-#include "quazaairc.h"
 #include "widgetchatinput.h"
 #include "chatuserlistmodel.h"
 
-#include "ircbuffer.h"
 
 namespace Ui
 {
@@ -42,47 +40,15 @@ class WidgetChatRoom : public QMainWindow
 	Q_OBJECT
 
 public:
-	explicit WidgetChatRoom(QuazaaIRC* quazaaIrc, Irc::Buffer* buffer, QWidget* parent = 0);
+	explicit WidgetChatRoom( QWidget* parent = 0);
 	~WidgetChatRoom();
-	QString sRoomName;
-	int operators, users;
 	ChatUserListModel *chatUserListModel;
-
-signals:
-	void userNames(QStringList names);
-
-public slots:
-	void saveWidget();
-	void setRoomName(QString str);
-	void onSendMessage(QString message);
-	void onSendAction(QString message);
-	void addBuffer(Irc::Buffer* buffer);
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
 	Ui::WidgetChatRoom* ui;
-	QuazaaIRC* m_oQuazaaIrc;
-	Irc::Buffer* roomBuffer;
-	QString prefixChars, prefixModes;
-
-private slots:
-	void on_textBrowser_anchorClicked(QUrl link);
-	void appendMessage(QString sender, QString message, IrcEvent::IrcEvent event);
-	void onTopicChanged(QString origin, QString topic);
-	void numericMessageReceived(QString, uint, QStringList);
-	void setPrefixes(QString modes, QString mprefs);
-	void messageReceived(QString, QString);
-	void ctcpActionReceived(QString,QString);
-	void noticeReceived(QString,QString);
-	void joined(QString name);
-	void parted(QString name, QString reason);
-	void leftServer(QString name, QString reason);
-	void updateUsers();
-	QString wrapWithColor(QString message, QString wrapColor);
-	void updateUserMode(QString hostMask,QString mode,QString name);
-	void nickChanged(QString oldNick, QString newNick);
 };
 
 #endif // WIDGETCHATROOM_H

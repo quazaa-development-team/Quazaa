@@ -238,13 +238,9 @@ void ChatUserListModel::removeUser(QString name)
 	}
 }
 
-void ChatUserListModel::addUsers(Irc::Buffer* buffer)
+void ChatUserListModel::addUsers(QStringList users)
 {
-	QStringList names = buffer->names();
-	for(int i = 0; i < names.size(); i++)
-	{
-		addUser(names.at(i), buffer->modes(names.at(i)));
-	}
+
 }
 
 void ChatUserListModel::sort(Qt::SortOrder order)
