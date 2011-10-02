@@ -122,7 +122,6 @@ void CManagedSearch::Execute(QDateTime& tNow, quint32* pnMaxPackets)
 	if(m_nQueryCount > quazaaSettings.Gnutella2.QueryLimit)
 	{
 		systemLog.postLog(LogSeverity::Debug, "Pausing search: query limit reached");
-		//qDebug() << "==========> Pausing search: query limit reached";
 		Pause();
 		return;
 	}
@@ -414,8 +413,9 @@ void CManagedSearch::OnQueryHit(CQueryHit* pHits)
 		SendHits();
 	}
 
-	if(m_nHits > m_nQueryHitLimit)
+	if(m_nHits > m_nQueryHitLimit && !m_bPaused)
 	{
+		systemLog.postLog(LogSeverity::Debug, tr("Pausing search: query hit limit reached"));
 		Pause();
 	}
 }
