@@ -108,6 +108,8 @@ void WidgetSearchResults::startSearch(QString searchString)
                                     searchTab->StartSearch(pQuery);
                                     connect(searchTab, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
                                     ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
+                                    emit searchTabChanged(searchTab);
+                                    emit statsUpdated(searchTab);
                             }
                         }
                     } else {
@@ -135,6 +137,8 @@ void WidgetSearchResults::startNewSearch(QString* searchString)
                         searchTab->StartSearch(pQuery);
                         connect(searchTab, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
 			ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), QString(*searchString));
+                        emit searchTabChanged(searchTab);
+                        emit statsUpdated(searchTab);
 		}
 	}
 }
