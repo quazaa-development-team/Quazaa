@@ -7,10 +7,9 @@ CDownload::CDownload(CQueryHit* pHit, QObject *parent) :
 {
 	Q_ASSERT(pHit != NULL);
 
-	CQueryHit* pThis = pHit;
 	int nSources = 0;
-	m_sDisplayName = pThis->m_sDescriptiveName;
-	m_nSize = pThis->m_nObjectSize;
+	m_sDisplayName = pHit->m_sDescriptiveName;
+	m_nSize = pHit->m_nObjectSize;
 	m_lCompleted.setSize(m_nSize);
 	m_lVerified.setSize(m_nSize);
 	m_lActive.setSize(m_nSize);
@@ -23,6 +22,34 @@ CDownload::CDownload(CQueryHit* pHit, QObject *parent) :
 	m_lFiles.append(oFile);
 	m_bMultifile = false;
 	// hashes are not needed here, for single file download
+
+	nSources = addSource(pHit);
+
+	m_nState = dsQueued;
+
+	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Created download for %s with %d sources.")), qPrintable(m_sDisplayName), nSources);
+}
+
+bool CDownload::addSource(CDownloadSource *pSource)
+{
+	foreach(CDownloadSource* pThis, m_lSources)
+	{
+		if( (!pThis->m_oGUID.isNull() && pThis->m_oGUID == pSource->m_oGUID)
+				|| (pThis->m_oAddress == pSource->m_oAddress)
+				|| (!pThis->m_sURL.isEmpty() && pThis->m_sURL == pSource->m_sURL))
+		{
+			return false;
+		}
+	}
+
+	m_lSources.append(pSource);
+
+	return true;
+}
+int CDownload::addSource(CQueryHit *pHit)
+{
+	CQueryHit* pThis = pHit;
+	int nSources = 0;
 
 	while(pThis != NULL)
 	{
@@ -57,23 +84,5 @@ CDownload::CDownload(CQueryHit* pHit, QObject *parent) :
 		pThis = pThis->m_pNext;
 	}
 
-	m_nState = dsQueued;
-	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Created download for %s with %d sources.")), qPrintable(m_sDisplayName), nSources);
-}
-
-bool CDownload::addSource(CDownloadSource *pSource)
-{
-	foreach(CDownloadSource* pThis, m_lSources)
-	{
-		if( (!pThis->m_oGUID.isNull() && pThis->m_oGUID == pSource->m_oGUID)
-				|| (pThis->m_oAddress == pSource->m_oAddress)
-				|| (!pThis->m_sURL.isEmpty() && pThis->m_sURL == pSource->m_sURL))
-		{
-			return false;
-		}
-	}
-
-	m_lSources.append(pSource);
-
-	return true;
+	return nSources;
 }

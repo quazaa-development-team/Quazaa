@@ -937,7 +937,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 	QDateTime tNow = QDateTime::currentDateTimeUtc();
 	QDateTime nTimestamp = tNow;
-	quint32 nDiff = 0;
+	qint32 nDiff = 0;
 
 	m_pHubGroup->Clear();
 

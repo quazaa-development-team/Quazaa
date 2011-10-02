@@ -51,6 +51,7 @@ public:
 	void pause();
 	void cancelDownload();
 	bool addSource(CDownloadSource* pSource);
+	int  addSource(CQueryHit* pHit);
 signals:
 
 public slots:
