@@ -58,7 +58,12 @@ MINOR = 1
 VERSION_HEADER = ./version.h
 
 versiontarget.target = $$VERSION_HEADER
-versiontarget.commands = ../VersionTool/debug/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
+CONFIG(debug, debug|release) {
+	versiontarget.commands = ../VersionTool/debug/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
+}
+else {
+	versiontarget.commands = ../VersionTool/release/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
+}
 versiontarget.depends = FORCE
 
 PRE_TARGETDEPS += $$VERSION_HEADER
