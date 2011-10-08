@@ -6608,6 +6608,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="528"/>
+        <location filename="../UI/widgetsearch.cpp" line="195"/>
+        <location filename="../UI/widgetsearch.cpp" line="203"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
@@ -6617,10 +6619,20 @@ p, li { white-space: pre-wrap; }
         <translation>Wyszukiwanie</translation>
     </message>
     <message>
+        <location filename="../UI/widgetsearch.cpp" line="175"/>
+        <source>Pause</source>
+        <translation type="unfinished">Wstrzymaj</translation>
+    </message>
+    <message>
         <location filename="../UI/widgetsearch.cpp" line="179"/>
         <location filename="../UI/widgetsearch.cpp" line="191"/>
         <source>More</source>
         <translation>Więcej</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetsearch.cpp" line="181"/>
+        <source>Stop</source>
+        <translation>Zatrzymaj</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.cpp" line="154"/>
@@ -6837,12 +6849,12 @@ If you perform this search in the current tab, you will mix the results of %1 se
     <message>
         <location filename="../UI/widgetsmileylist.ui" line="123"/>
         <source>8D</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">8D</translation>
     </message>
     <message>
         <location filename="../UI/widgetsmileylist.ui" line="135"/>
         <source>8)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">8)</translation>
     </message>
     <message>
         <location filename="../UI/widgetsmileylist.ui" line="147"/>
@@ -7255,7 +7267,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/winmain.cpp" line="412"/>
         <location filename="../UI/winmain.cpp" line="577"/>
         <source>Discovery</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Odnajdywanie (discovery)</translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="571"/>
@@ -7845,12 +7857,12 @@ Enjoy using Quazaa!</source>
     <message>
         <location filename="../UI/mediasettings.ui" line="72"/>
         <source>4/3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">4/3</translation>
     </message>
     <message>
         <location filename="../UI/mediasettings.ui" line="77"/>
         <source>16/9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">16/9</translation>
     </message>
     <message>
         <location filename="../UI/mediasettings.ui" line="85"/>

@@ -6561,6 +6561,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="528"/>
+        <location filename="../UI/widgetsearch.cpp" line="195"/>
+        <location filename="../UI/widgetsearch.cpp" line="203"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6570,9 +6572,19 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../UI/widgetsearch.cpp" line="175"/>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../UI/widgetsearch.cpp" line="179"/>
         <location filename="../UI/widgetsearch.cpp" line="191"/>
         <source>More</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetsearch.cpp" line="181"/>
+        <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
