@@ -2,18 +2,15 @@
 
 #include <QStyle>
 
+#include "sharemanager.h"
+
 SharesNavigatorTreeModel::SharesNavigatorTreeModel()
 {
         QList<QVariant> rootData;
-        rootData << "File"
-                 << "Extension"
-                 << "Size"
-                 << "Rating"
-                 << "Status"
-                 << "Host/Count"
-                 << "Speed"
-                 << "Client"
-                 << "Country";
+		rootData << "Folder"
+				 << "Full Path"
+				 << "ParentIndex"
+				 << "Index";
         rootItem = new SharesNavigatorTreeItem(rootData);
         nFileCount = 0;
 }

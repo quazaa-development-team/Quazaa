@@ -172,13 +172,13 @@ void WidgetSearch::updateButtons(bool bInitial)
 		case SearchState::Searching:
 			ui->toolButtonSearch->setText(tr("Searching"));
 			ui->toolButtonSearch->setEnabled(false);
-			ui->toolButtonSearchClear->setText("Pause");
+			ui->toolButtonSearchClear->setText(tr("Pause"));
 			ui->toolButtonSearchClear->setEnabled(true);
 			break;
 		case SearchState::Paused:
 			ui->toolButtonSearch->setText(tr("More"));
 			ui->toolButtonSearch->setEnabled(true);
-			ui->toolButtonSearchClear->setText("Stop");
+			ui->toolButtonSearchClear->setText(tr("Stop"));
 			break;
 		case SearchState::Stopped:
 			if( bInitial )
@@ -192,7 +192,7 @@ void WidgetSearch::updateButtons(bool bInitial)
 				ui->toolButtonSearchClear->setEnabled(true);
 			}
 			ui->toolButtonSearch->setEnabled(true);
-			ui->toolButtonSearchClear->setText("Clear");
+			ui->toolButtonSearchClear->setText(tr("Clear"));
 			ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
 			ui->labelSearchResultsFound->setText(tr("No Files Found"));
 			break;
@@ -200,7 +200,7 @@ void WidgetSearch::updateButtons(bool bInitial)
                         ui->toolButtonSearch->setText(tr("Search"));
                         ui->toolButtonSearchClear->setEnabled(false);
                         ui->toolButtonSearch->setEnabled(true);
-                        ui->toolButtonSearchClear->setText("Clear");
+						ui->toolButtonSearchClear->setText(tr("Clear"));
                         ui->labelSearchResultsSearching->setText(tr("Not Currently Searching"));
                         ui->labelSearchResultsFound->setText(tr("No Files Found"));
                         break;
