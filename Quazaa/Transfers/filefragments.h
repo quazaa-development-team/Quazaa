@@ -13,9 +13,9 @@ protected:
 public:
 	CFileFragments(quint64 nFileLength = 0);
 	bool insert(const quint64 nBegin, const quint64 nEnd);
-	QPair<quint64, quint64> largestEmpty();
+	QPair<quint64, quint64> largestEmpty(const CFileFragments& oExcept = CFileFragments());
+	QPair<quint64, quint64> smallestEmpty(const CFileFragments& oExcept = CFileFragments());
 	QString available();
-
 public:
 	inline quint64 size();
 	inline void erase(quint64 nBegin, quint64 nEnd);

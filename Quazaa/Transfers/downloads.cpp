@@ -15,3 +15,11 @@ void CDownloads::add(CQueryHit *pHit)
 	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Queued download job for %s")), qPrintable(pDownload->m_sDisplayName));
 	emit downloadAdded();
 }
+
+void CDownloads::start()
+{
+}
+
+void CDownloads::stop()
+{
+}
