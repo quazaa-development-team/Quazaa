@@ -47,12 +47,12 @@ WidgetSearchResults::WidgetSearchResults(QWidget* parent) :
 	ui->toolBarFilter->insertWidget(ui->actionFilterMore, labelFilter);
 	ui->toolBarFilter->insertWidget(ui->actionFilterMore, lineEditFilter);
 	restoreState(quazaaSettings.WinMain.SearchToolbar);
-	WidgetSearchTemplate* tabNewSearch = new WidgetSearchTemplate();
-	ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
+	WidgetSearchTemplate* tabSearch = new WidgetSearchTemplate();
+	ui->tabWidgetSearch->addTab(tabSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
 	ui->tabWidgetSearch->setCurrentIndex(0);
-	connect(tabNewSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
+	connect(tabSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
 	ui->splitterSearchDetails->restoreState(quazaaSettings.WinMain.SearchDetailsSplitter);
-	emit searchTabChanged(tabNewSearch);
+	emit searchTabChanged(tabSearch);
 }
 
 WidgetSearchResults::~WidgetSearchResults()
@@ -84,39 +84,39 @@ void WidgetSearchResults::startSearch(QString searchString)
 {
 	if(searchString != "")
 	{
-                WidgetSearchTemplate* searchTab = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-                if(searchTab)
+				WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+				if(tabSearch)
 		{
-                    if(searchTab->m_pSearch != 0)
+					if(tabSearch->m_pSearch != 0)
                     {
-                        if( searchTab->sSearchString == searchString)
+						if( tabSearch->sSearchString == searchString)
                         {
-                            searchTab->StartSearch(searchTab->m_pSearch->m_pQuery);
-                            connect(searchTab, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
+							tabSearch->StartSearch(tabSearch->m_pSearch->m_pQuery);
+							connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
                         } else {
-                            int result = QMessageBox::question(this, tr("You have started a new search."), tr("Would you like to start this search in a new tab?\n\nIf you perform this search in the current tab, you will mix the results of %1 search with the results of the new %2 search.").arg(searchTab->sSearchString).arg(searchString), QMessageBox::Yes|QMessageBox::No);
+							int result = QMessageBox::question(this, tr("You have started a new search."), tr("Would you like to start this search in a new tab?\n\nIf you perform this search in the current tab, you will mix the results of %1 search with the results of the new %2 search.").arg(tabSearch->sSearchString).arg(searchString), QMessageBox::Yes|QMessageBox::No);
                             if(result == QMessageBox::Yes)
                             {
                                 addSearchTab();
-                                searchTab = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+								tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
                             }
 
-                            if(searchTab)
+							if(tabSearch)
                             {
                                     CQuery* pQuery = new CQuery();
                                     pQuery->SetDescriptiveName(searchString);
-                                    searchTab->StartSearch(pQuery);
-                                    connect(searchTab, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
+									tabSearch->StartSearch(pQuery);
+									connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
                                     ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
-                                    emit searchTabChanged(searchTab);
-                                    emit statsUpdated(searchTab);
+									emit searchTabChanged(tabSearch);
+									emit statsUpdated(tabSearch);
                             }
                         }
                     } else {
 			CQuery* pQuery = new CQuery();
 			pQuery->SetDescriptiveName(searchString);
-                        searchTab->StartSearch(pQuery);
-                        connect(searchTab, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
+						tabSearch->StartSearch(pQuery);
+						connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
 			ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
                     }
 		}
@@ -129,34 +129,34 @@ void WidgetSearchResults::startNewSearch(QString* searchString)
 	if(searchString != QString(""))
 	{
 		addSearchTab();
-                WidgetSearchTemplate* searchTab = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-                if(searchTab)
+				WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+				if(tabSearch)
 		{
 			CQuery* pQuery = new CQuery();
 			pQuery->SetDescriptiveName(QString(*searchString));
-                        searchTab->StartSearch(pQuery);
-                        connect(searchTab, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
+						tabSearch->StartSearch(pQuery);
+						connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
 			ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), QString(*searchString));
-                        emit searchTabChanged(searchTab);
-                        emit statsUpdated(searchTab);
+						emit searchTabChanged(tabSearch);
+						emit statsUpdated(tabSearch);
 		}
 	}
 }
 
 void WidgetSearchResults::addSearchTab()
 {
-	WidgetSearchTemplate* tabNewSearch = new WidgetSearchTemplate();
-	int nTab = ui->tabWidgetSearch->addTab(tabNewSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
+	WidgetSearchTemplate* tabSearch = new WidgetSearchTemplate();
+	int nTab = ui->tabWidgetSearch->addTab(tabSearch, QIcon(":/Resource/Generic/Search.png"), tr("Search"));
 	ui->tabWidgetSearch->setCurrentIndex(nTab);
 	ui->tabWidgetSearch->setTabsClosable(true);
-	connect(tabNewSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
+	connect(tabSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
 }
 
 void WidgetSearchResults::on_tabWidgetSearch_tabCloseRequested(int index)
 {
-	WidgetSearchTemplate* pWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->widget(index));
+	WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->widget(index));
 	ui->tabWidgetSearch->removeTab(index);
-	delete pWidget;
+	delete tabSearch;
 	if(ui->tabWidgetSearch->count() == 1)
 	{
 		ui->tabWidgetSearch->setTabsClosable(false);
@@ -165,27 +165,27 @@ void WidgetSearchResults::on_tabWidgetSearch_tabCloseRequested(int index)
 
 void WidgetSearchResults::stopSearch()
 {
-	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-	if(pWg)
+	WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+	if(tabSearch)
 	{
-		if(pWg->searchState == SearchState::Searching)
+		if(tabSearch->searchState == SearchState::Searching)
 		{
-			pWg->PauseSearch();
+			tabSearch->PauseSearch();
 		}
-		else if(pWg->searchState == SearchState::Paused)
+		else if(tabSearch->searchState == SearchState::Paused)
 		{
-			pWg->StopSearch();
+			tabSearch->StopSearch();
 		}
 	}
 }
 
 bool WidgetSearchResults::clearSearch()
 {
-	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-	if(pWg)
+	WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+	if(tabSearch)
 	{
 		//qDebug() << "Clear search captured in WidgetSearchResults.";
-		pWg->ClearSearch();
+		tabSearch->ClearSearch();
 		ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), tr("Search"));
 		return true;
 	}
@@ -227,9 +227,9 @@ void WidgetSearchResults::on_tabWidgetSearch_currentChanged(int index)
 {
 	Q_UNUSED(index);
 
-	WidgetSearchTemplate* pWg = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-	emit searchTabChanged(pWg);
-	emit statsUpdated(pWg);
+	WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+	emit searchTabChanged(tabSearch);
+	emit statsUpdated(tabSearch);
 }
 
 void WidgetSearchResults::onStatsUpdated(WidgetSearchTemplate* searchWidget)
@@ -245,27 +245,27 @@ void WidgetSearchResults::on_actionSearchDownload_triggered()
 {
 	if( ui->tabWidgetSearch->currentIndex() != -1 )
 	{
-		WidgetSearchTemplate* pWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+		WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
 
-		if( pWidget )
+		if( tabSearch )
 		{
-			SearchTreeItem* pItem = pWidget->searchModel->itemFromIndex(pWidget->CurrentItem());
+			SearchTreeItem* itemSearch = tabSearch->searchModel->itemFromIndex(tabSearch->CurrentItem());
 
-			if( pItem != NULL )
+			if( itemSearch != NULL )
 			{
 				CQueryHit* pHits = 0;
 				CQueryHit* pLast = 0;
 
-				for(int i = 0; i < pItem->childCount(); ++i)
+				for(int i = 0; i < itemSearch->childCount(); ++i)
 				{
 					if( pLast )
 					{
-						pLast->m_pNext = new CQueryHit(pItem->child(i)->HitData.pQueryHit.data());
+						pLast->m_pNext = new CQueryHit(itemSearch->child(i)->HitData.pQueryHit.data());
 						pLast = pLast->m_pNext;
 					}
 					else
 					{
-						pHits = new CQueryHit(pItem->child(i)->HitData.pQueryHit.data());
+						pHits = new CQueryHit(itemSearch->child(i)->HitData.pQueryHit.data());
 						pLast = pHits;
 					}
 				}
