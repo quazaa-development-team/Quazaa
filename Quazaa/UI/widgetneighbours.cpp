@@ -165,9 +165,9 @@ void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 		switch (dlgConnectTo->getConnectNetwork())
 		{
 		case DialogConnectTo::G2:
-			Network.m_pSection.lock();
-			Network.ConnectTo(ip);
-			Network.m_pSection.unlock();
+			Neighbours.m_pSection.lock();
+			Neighbours.ConnectTo(ip, dpGnutella2);
+			Neighbours.m_pSection.unlock();
 			break;
 		case DialogConnectTo::eDonkey:
 			break;
