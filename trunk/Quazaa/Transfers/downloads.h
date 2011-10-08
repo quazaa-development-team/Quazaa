@@ -17,6 +17,9 @@ public:
 public:
 	CDownloads(QObject *parent = 0);
 
+	void start();
+	void stop();
+
 	void add(CQueryHit* pHit);
 signals:
 	void downloadAdded();
