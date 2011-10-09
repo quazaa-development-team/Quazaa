@@ -83,6 +83,7 @@ namespace Settings
 		QByteArray	ActivitySplitter;				// Activity splitter position
 		QByteArray	SchedulerToolbar;			// Scheduler Toolbar
 		QByteArray	SearchDetailsSplitter;		// Search details splitter position
+		QByteArray	SearchHeader;				// Header for all searches
 		int			SearchResultsSplitterRestoreTop;	// The width left side of the search results splitter should restore to when right clicked
 		int			SearchResultsSplitterRestoreBottom;	// The width left side of the search results splitter should restore to when right clicked
 		bool		SearchFileTypeTaskVisible;	// The File Type task in the Search sidebar

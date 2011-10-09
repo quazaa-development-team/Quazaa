@@ -1182,6 +1182,7 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("SchedulerToolbar", quazaaSettings.WinMain.SchedulerToolbar);
 	m_qSettings.setValue("SearchDetailsSplitter", quazaaSettings.WinMain.SearchDetailsSplitter);
 	m_qSettings.setValue("SearchFileTypeTaskVisible", quazaaSettings.WinMain.SearchFileTypeTaskVisible);
+	m_qSettings.setValue("SearchHeader", quazaaSettings.WinMain.SearchHeader);
 	m_qSettings.setValue("SearchMonitorToolbar", quazaaSettings.WinMain.SearchMonitorToolbar);
 	m_qSettings.setValue("SearchNetworksTaskVisible", quazaaSettings.WinMain.SearchNetworksTaskVisible);
 	m_qSettings.setValue("SearchResultsSplitterRestoreTop", quazaaSettings.WinMain.SearchResultsSplitterRestoreTop);
@@ -1253,6 +1254,7 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.ActivitySplitter = m_qSettings.value("ActivitySplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.SchedulerToolbar = m_qSettings.value("SchedulerToolbar", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.SearchDetailsSplitter = m_qSettings.value("SearchDetailsSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.SearchHeader = m_qSettings.value("SearchHeader", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.SearchTaskVisible = m_qSettings.value("SearchTaskVisible", true).toBool();
 	quazaaSettings.WinMain.SearchNetworksTaskVisible = m_qSettings.value("SearchNetworksTaskVisible", true).toBool();
 	quazaaSettings.WinMain.SearchFileTypeTaskVisible = m_qSettings.value("SearchFileTypeTaskVisible", true).toBool();

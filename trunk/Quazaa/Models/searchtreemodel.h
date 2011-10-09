@@ -93,6 +93,7 @@ public:
 
 signals:
 	void updateStats();
+	void sort();
 
 private:
 	void setupModelData(const QStringList& lines, SearchTreeItem* parent);

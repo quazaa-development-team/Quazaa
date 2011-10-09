@@ -368,6 +368,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 	QModelIndex idx1 = index(0, 0, QModelIndex());
 	QModelIndex idx2 = index(rootItem->childCount(), 10, QModelIndex());
 	emit dataChanged(idx1, idx2);
+	emit sort();
 }
 
 SearchTreeItem::SearchTreeItem(const QList<QVariant> &data, SearchTreeItem* parent)
