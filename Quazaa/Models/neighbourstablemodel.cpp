@@ -519,6 +519,7 @@ public:
 	int column;
 	Qt::SortOrder order;
 };
+
 void CNeighboursTableModel::sort(int column, Qt::SortOrder order)
 {
 	m_nSortColumn = column;

@@ -26,6 +26,7 @@
 #define WIDGETSEARCHTEMPLATE_H
 
 #include <QtGui/QDialog>
+#include <QSortFilterProxyModel>
 #include "searchtreemodel.h"
 
 namespace Ui
@@ -52,6 +53,7 @@ public:
 	WidgetSearchTemplate(QString searchString = "", QWidget* parent = 0);
 	~WidgetSearchTemplate();
 	SearchTreeModel* searchModel;
+	QSortFilterProxyModel* sortModel;
 	CManagedSearch* m_pSearch;
 
 	void StartSearch(CQuery* pQuery);
@@ -83,6 +85,7 @@ private:
 protected slots:
 	void OnStatsUpdated();
 	void OnStateChanged();
+	void Sort();
 };
 
 #endif // WIDGETSEARCHTEMPLATE_H

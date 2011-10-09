@@ -64,10 +64,12 @@ WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 
 	neighboursList = new CNeighboursTableModel(this, treeView());
 	setModel(neighboursList);
+	neighboursList->sort(ui->tableViewNeighbours->horizontalHeader()->sortIndicatorSection(), ui->tableViewNeighbours->horizontalHeader()->sortIndicatorOrder());
 }
 
 WidgetNeighbours::~WidgetNeighbours()
 {
+	quazaaSettings.WinMain.NeighboursHeader = ui->tableViewNeighbours->horizontalHeader()->saveState();
 	delete ui;
 }
 
