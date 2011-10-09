@@ -49,6 +49,8 @@ public:
 	void AddNode(CNeighbour* pNode);
 	void RemoveNode(CNeighbour* pNode);
 
+	CNeighbour* RandomNode(DiscoveryProtocol nProtocol, int nType, CNeighbour* pNodeExcept);
+
 	void DisconnectYoungest(DiscoveryProtocol nProtocol, int nType = 0, bool bCore = false);
 
 	virtual quint32 DownloadSpeed();

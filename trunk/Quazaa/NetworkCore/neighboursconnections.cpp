@@ -79,6 +79,7 @@ void CNeighboursConnections::AddNode(CNeighbour* pNode)
 
 	CNeighboursRouting::AddNode(pNode);
 }
+
 void CNeighboursConnections::RemoveNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
@@ -87,6 +88,32 @@ void CNeighboursConnections::RemoveNode(CNeighbour* pNode)
 
 	CNeighboursRouting::RemoveNode(pNode);
 }
+
+CNeighbour* CNeighboursConnections::RandomNode(DiscoveryProtocol nProtocol, int nType, CNeighbour* pNodeExcept)
+{
+	QList<CNeighbour*> lNodeList;
+
+	for(QList<CNeighbour*>::iterator i = m_lNodes.begin(); i != m_lNodes.end(); i++)
+	{
+		if((*i)->m_nState == nsConnected && (*i)->m_nProtocol == nProtocol)
+		{
+			if(( nProtocol == dpGnutella2 ) && ( ((CG2Node*)(*i))->m_nType == nType ) && ( (*i) != pNodeExcept ))
+			{
+				lNodeList.append((*i));
+			}
+		}
+	}
+
+	if(lNodeList.isEmpty())
+	{
+		return 0;
+	}
+
+	int nIndex = qrand() % (lNodeList.count() - 1);
+
+	return lNodeList.at(nIndex);
+}
+
 void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int nType, bool bCore)
 {
 	CNeighbour* pNode = 0;

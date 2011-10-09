@@ -739,6 +739,10 @@ void CG2Node::OnPacket(G2Packet* pPacket)
 		{
 			OnQH2(pPacket);
 		}
+		else if(pPacket->IsType("HAW"))
+		{
+			OnHaw(pPacket);
+		}
 		else
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("G2 TCP recieved unknown packet %1").arg(pPacket->GetType()));
@@ -1265,6 +1269,7 @@ void CG2Node::OnQH2(G2Packet* pPacket)
 	}
 
 }
+
 void CG2Node::OnQuery(G2Packet* pPacket)
 {
 	if(!pPacket->m_bCompound)
@@ -1363,4 +1368,81 @@ void CG2Node::SendHAW()
 	pPacket->WriteGUID(oGUID);
 
 	SendPacket(pPacket, false, true);
+}
+
+void CG2Node::OnHaw(G2Packet *pPacket)
+{
+	if ( ! pPacket->m_bCompound ) 	return;
+
+	QString strVendor;
+	char szType[9];
+	quint32 nLength = 0, nNext = 0;
+
+	CEndPoint addr;
+
+	while ( pPacket->ReadPacket( &szType[0], nLength ) )
+	{
+		nNext = pPacket->m_nPosition + nLength;
+
+		if ( strcmp("V", szType) && nLength >= 4 )
+		{
+			strVendor = pPacket->ReadString( 4 );
+		}
+		else if ( strcmp("NA", szType) )
+		{
+			if(nLength >= 6)
+			{
+				if(nLength >= 18)
+				{
+					// IPv6 with port
+					pPacket->ReadHostAddress(&addr, false);
+				}
+				else if(nLength >= 16)
+				{
+					// IPv6 without port
+					Q_IPV6ADDR ip6;
+					pPacket->Read(&ip6, 16);
+					addr.setAddress(ip6);
+				}
+				else
+				{
+					// IPv4 with port
+					pPacket->ReadHostAddress(&addr);
+				}
+			}
+			else if(nLength >= 4)
+			{
+				// IPv4 without port
+				quint32 ip4;
+				pPacket->ReadIntBE(&ip4);
+				addr.setAddress(ip4);
+				addr.setPort(6346);
+			}
+		}
+
+		pPacket->m_nPosition = nNext;
+	}
+
+	if ( pPacket->GetRemaining() < 2 + 16 ) return;
+
+	BYTE* pPtr	= pPacket->m_pBuffer + pPacket->m_nPosition;
+	BYTE nTTL	= pPacket->ReadByte();
+	BYTE nHops	= pPacket->ReadByte();
+
+	QUuid oGUID = pPacket->ReadGUID();
+
+	HostCache.Add( addr );
+
+	if ( nTTL > 0 && nHops < 255 )
+	{
+		//m_pGUIDCache->Add( oGUID, this );
+
+		pPtr[0] = nTTL  - 1;
+		pPtr[1] = nHops + 1;
+
+		if ( CG2Node* pNeighbour = (CG2Node*)Neighbours.RandomNode( dpGnutella2, G2_HUB,  this ) )
+		{
+			pNeighbour->SendPacket( pPacket, false, true );
+		}
+	}
 }
