@@ -528,3 +528,5 @@ TRANSLATIONS = \
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
+
+

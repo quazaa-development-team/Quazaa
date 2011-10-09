@@ -49,6 +49,8 @@ public:
 	bool            m_bAcceptDeflate;
 
 	quint32         m_tKeyRequest;
+	quint32			m_tLastHAWIn;			// Time when HAW packet recievied
+	quint32			m_nCountHAWIn;			// Number of HAW packets recievied
 
 	QQueue<G2Packet*>   m_lSendQueue;
 
@@ -106,6 +108,7 @@ protected:
 	void OnQA(G2Packet* pPacket);
 	void OnQH2(G2Packet* pPacket);
 	void OnQuery(G2Packet* pPacket);
+	void OnHaw(G2Packet* pPacket);
 
 protected:
 	qint64 writeToNetwork(qint64 nBytes);
