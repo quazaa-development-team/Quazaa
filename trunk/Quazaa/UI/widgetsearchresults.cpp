@@ -33,6 +33,8 @@
 #include "NetworkCore/managedsearch.h"
 #include "downloads.h"
 
+#include "systemlog.h"
+
 #include <QMessageBox>
 
 WidgetSearchResults::WidgetSearchResults(QWidget* parent) :
@@ -84,41 +86,43 @@ void WidgetSearchResults::startSearch(QString searchString)
 {
 	if(searchString != "")
 	{
-				WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-				if(tabSearch)
+		WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+		if(tabSearch)
 		{
-					if(tabSearch->m_pSearch != 0)
-                    {
-						if( tabSearch->sSearchString == searchString)
-                        {
-							tabSearch->StartSearch(tabSearch->m_pSearch->m_pQuery);
-							connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
-                        } else {
-							int result = QMessageBox::question(this, tr("You have started a new search."), tr("Would you like to start this search in a new tab?\n\nIf you perform this search in the current tab, you will mix the results of %1 search with the results of the new %2 search.").arg(tabSearch->sSearchString).arg(searchString), QMessageBox::Yes|QMessageBox::No);
-                            if(result == QMessageBox::Yes)
-                            {
-                                addSearchTab();
-								tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-                            }
+			if(tabSearch->m_pSearch)
+			{
+				if( tabSearch->sSearchString == searchString)
+				{
+					tabSearch->StartSearch(tabSearch->m_pSearch->m_pQuery);
+					connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
+					emit searchTabChanged(tabSearch);
+					emit statsUpdated(tabSearch);
+				} else {
+					int result = QMessageBox::question(this, tr("You have started a new search."), tr("Would you like to start this search in a new tab?\n\nIf you perform this search in the current tab, you will mix the results of %1 search with the results of the new %2 search.").arg(tabSearch->sSearchString).arg(searchString), QMessageBox::Yes|QMessageBox::No);
+					if(result == QMessageBox::Yes)
+					{
+						addSearchTab();
+						tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+					}
 
-							if(tabSearch)
-                            {
-                                    CQuery* pQuery = new CQuery();
-                                    pQuery->SetDescriptiveName(searchString);
-									tabSearch->StartSearch(pQuery);
-									connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
-                                    ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
-									emit searchTabChanged(tabSearch);
-									emit statsUpdated(tabSearch);
-                            }
-                        }
-                    } else {
-			CQuery* pQuery = new CQuery();
-			pQuery->SetDescriptiveName(searchString);
+					if(tabSearch)
+					{
+						CQuery* pQuery = new CQuery();
+						pQuery->SetDescriptiveName(searchString);
 						tabSearch->StartSearch(pQuery);
 						connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
-			ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
-                    }
+						ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
+						emit searchTabChanged(tabSearch);
+						emit statsUpdated(tabSearch);
+					}
+				}
+			} else {
+				CQuery* pQuery = new CQuery();
+				pQuery->SetDescriptiveName(searchString);
+				tabSearch->StartSearch(pQuery);
+				connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
+				ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
+			}
 		}
 	}
 }
