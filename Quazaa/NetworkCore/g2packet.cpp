@@ -725,12 +725,30 @@ G2Packet * G2Packet::PrependPacket(G2Packet *pPacket, bool bRelease)
 	if(!m_bCompound)
 		*pWrite = 0;
 
-	m_nLength += nExpand;
-
 	m_bCompound = true;
 
 	if( bRelease )
 		pPacket->Release();
 
 	return this;
+}
+
+QString G2Packet::Dump() const
+{
+	QString sHex = ToHex();
+	QString sAscii = ToASCII();
+	QString sRet;
+
+	int nOffset = 0;
+
+	sRet = QString("Type: %1, length: %2, compound: %3\nOffset      Hex                             ASCII\n------------------------------------------------------\n").arg(m_sType).arg(m_nLength).arg(m_bCompound);
+
+	for( ; nOffset < sAscii.length(); nOffset += 10 )
+	{
+		QString sLine("0x%1  %2  %3\n");
+
+		sRet += sLine.arg(nOffset, 8, 16, QLatin1Char('0')).arg(sHex.mid(nOffset * 3, 10 * 3), -30, QLatin1Char(' ')).arg(sAscii.mid(nOffset, 10));
+	}
+
+	return sRet;
 }

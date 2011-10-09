@@ -109,7 +109,7 @@ CNeighbour* CNeighboursConnections::RandomNode(DiscoveryProtocol nProtocol, int 
 		return 0;
 	}
 
-	int nIndex = qrand() % (lNodeList.count() - 1);
+	int nIndex = qrand() % lNodeList.count();
 
 	return lNodeList.at(nIndex);
 }

@@ -190,13 +190,11 @@ void CG2Node::OnRead()
 		{
 			if(pPacket)
 			{
-				systemLog.postLog(LogSeverity::Debug, QString("%1\n%2").arg(pPacket->ToHex()).arg(pPacket->ToASCII()));
-				//qDebug() << pPacket->ToHex() << "\n" << pPacket->ToASCII();
+				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(pPacket->Dump()));
 				pPacket->Release();
 			}
 
-			systemLog.postLog(LogSeverity::Debug, QString("Packet error - ").arg(m_oAddress.toString()));
-			//qDebug() << "Packet error - " << m_oAddress.toString().toAscii();
+			systemLog.postLog(LogSeverity::Debug, QString("Packet error - %1").arg(m_oAddress.toString()));
 			Close();
 		}
 	}
@@ -1362,6 +1360,7 @@ void CG2Node::SendHAW()
 	pPacket->WritePacket("HS", 2);
 	pPacket->WriteIntLE<quint16>(Neighbours.m_nLeavesConnectedG2);
 
+	pPacket->WriteByte(0); // end of child packets
 	pPacket->WriteByte(100);
 	pPacket->WriteByte(0);
 	QUuid oGUID = QUuid::createUuid();
@@ -1384,11 +1383,11 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
-		if ( strcmp("V", szType) && nLength >= 4 )
+		if ( strcmp("V", szType) == 0 && nLength >= 4 )
 		{
 			strVendor = pPacket->ReadString( 4 );
 		}
-		else if ( strcmp("NA", szType) )
+		else if ( strcmp("NA", szType) == 0 )
 		{
 			if(nLength >= 6)
 			{
@@ -1397,26 +1396,11 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 					// IPv6 with port
 					pPacket->ReadHostAddress(&addr, false);
 				}
-				else if(nLength >= 16)
-				{
-					// IPv6 without port
-					Q_IPV6ADDR ip6;
-					pPacket->Read(&ip6, 16);
-					addr.setAddress(ip6);
-				}
 				else
 				{
 					// IPv4 with port
 					pPacket->ReadHostAddress(&addr);
 				}
-			}
-			else if(nLength >= 4)
-			{
-				// IPv4 without port
-				quint32 ip4;
-				pPacket->ReadIntBE(&ip4);
-				addr.setAddress(ip4);
-				addr.setPort(6346);
 			}
 		}
 
@@ -1442,7 +1426,7 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 
 		if ( CG2Node* pNeighbour = (CG2Node*)Neighbours.RandomNode( dpGnutella2, G2_HUB,  this ) )
 		{
-			pNeighbour->SendPacket( pPacket, false, true );
+			pNeighbour->SendPacket( pPacket, false, false );
 		}
 	}
 }

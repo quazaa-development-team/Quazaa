@@ -124,6 +124,7 @@ public:
 
 	QString ToHex() const;
 	QString ToASCII() const;
+	QString Dump() const;
 
 protected:
 	friend class G2PacketPool;
