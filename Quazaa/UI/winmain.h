@@ -57,12 +57,12 @@ namespace Ui
 class WinMain;
 }
 
-class WinMain : public QMainWindow
+class CWinMain : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WinMain(QWidget* parent = 0);
-	~WinMain();
+	CWinMain(QWidget* parent = 0);
+	~CWinMain();
 	void loadTrayIcon();
 
 	bool interfaceLoaded;
@@ -168,5 +168,5 @@ private slots:
 	void onHasherStarted(int nId);
 };
 
-extern WinMain* MainWindow;
+extern CWinMain* MainWindow;
 #endif // WINMAIN_H

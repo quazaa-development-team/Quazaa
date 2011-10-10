@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
 	dlgSplash->updateProgress( 80, QObject::tr( "Loading User Interface..." ) );
 	qApp->processEvents();
 
-	MainWindow = new WinMain();
+	MainWindow = new CWinMain();
 	if ( quazaaSettings.WinMain.Visible )
 	{
 		MainWindow->show();
