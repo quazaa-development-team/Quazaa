@@ -469,7 +469,7 @@ void CWinMain::quazaaShutdown()
 	DialogSplash* dlgSplash = new DialogSplash(this);
 	dlgSplash->show();
 
-	dlgSplash->updateProgress(5, tr("Closing Networks..."));
+	dlgSplash->updateProgress(95, tr("Closing Networks..."));
 	qApp->processEvents();
 	neighboursRefresher->stop();
 	delete neighboursRefresher;
@@ -477,11 +477,11 @@ void CWinMain::quazaaShutdown()
 	Network.Disconnect();
 	ShareManager.Stop();
 
-	dlgSplash->updateProgress(10, tr("Saving Settings..."));
+	dlgSplash->updateProgress(90, tr("Saving Settings..."));
 	qApp->processEvents();
 	quazaaSettings.saveSettings();
 
-	dlgSplash->updateProgress(15, tr("Saving UI..."));
+	dlgSplash->updateProgress(85, tr("Saving UI..."));
 	qApp->processEvents();
 	quazaaSettings.WinMain.MainToolbar = saveState();
 	pageHome->saveWidget();
@@ -502,7 +502,7 @@ void CWinMain::quazaaShutdown()
 	quazaaSettings.saveWindowSettings(this);
 	emit closing();
 
-	dlgSplash->updateProgress(20, tr("Removing Tray Icon..."));
+	dlgSplash->updateProgress(80, tr("Removing Tray Icon..."));
 	qApp->processEvents();
 	delete trayIcon;
 
