@@ -1134,6 +1134,7 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("WindowVisible", window->isVisible());
 
 	m_qSettings.setValue("ActiveTab", quazaaSettings.WinMain.ActiveTab);
+	m_qSettings.setValue("ActivitySplitter", quazaaSettings.WinMain.ActivitySplitter);
 	m_qSettings.setValue("ActivitySplitterRestoreTop", quazaaSettings.WinMain.ActivitySplitterRestoreTop);
 	m_qSettings.setValue("ActivitySplitterRestoreBottom", quazaaSettings.WinMain.ActivitySplitterRestoreBottom);
 	m_qSettings.setValue("ChatRoomsTaskVisible", quazaaSettings.WinMain.ChatRoomsTaskVisible);
@@ -1178,7 +1179,6 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("NeighboursToolbars", quazaaSettings.WinMain.NeighboursToolbars);
 	m_qSettings.setValue("NeighboursHeader", quazaaSettings.WinMain.NeighboursHeader);
 	m_qSettings.setValue("PacketDumpToolbar", quazaaSettings.WinMain.PacketDumpToolbar);
-	m_qSettings.setValue("ActivitySplitter", quazaaSettings.WinMain.ActivitySplitter);
 	m_qSettings.setValue("SchedulerToolbar", quazaaSettings.WinMain.SchedulerToolbar);
 	m_qSettings.setValue("SearchDetailsSplitter", quazaaSettings.WinMain.SearchDetailsSplitter);
 	m_qSettings.setValue("SearchFileTypeTaskVisible", quazaaSettings.WinMain.SearchFileTypeTaskVisible);
@@ -1213,6 +1213,9 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.Visible = m_qSettings.value("WindowVisible", true).toBool();
 
 	quazaaSettings.WinMain.ActiveTab = m_qSettings.value("ActiveTab", 0).toInt();
+	quazaaSettings.WinMain.ActivitySplitter = m_qSettings.value("ActivitySplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.ActivitySplitterRestoreTop = m_qSettings.value("ActivitySplitterRestoreTop", 0).toInt();
+	quazaaSettings.WinMain.ActivitySplitterRestoreBottom = m_qSettings.value("ActivitySplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = m_qSettings.value("ChatRoomsTaskVisible", true).toBool();
 	quazaaSettings.WinMain.ChatFriendsTaskVisible = m_qSettings.value("ChatFriendsTaskVisible", true).toBool();
 	quazaaSettings.WinMain.ChatSplitter = m_qSettings.value("ChatSplitter", QByteArray()).toByteArray();
@@ -1251,7 +1254,6 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.NeighboursToolbars = m_qSettings.value("NeighboursToolbars", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.NeighboursHeader = m_qSettings.value("NeighboursHeader", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.PacketDumpToolbar = m_qSettings.value("PacketDumpToolbar", QByteArray()).toByteArray();
-	quazaaSettings.WinMain.ActivitySplitter = m_qSettings.value("ActivitySplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.SchedulerToolbar = m_qSettings.value("SchedulerToolbar", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.SearchDetailsSplitter = m_qSettings.value("SearchDetailsSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.SearchHeader = m_qSettings.value("SearchHeader", QByteArray()).toByteArray();
