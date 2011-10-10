@@ -86,6 +86,7 @@ void WidgetSearch::on_toolButtonSearch_clicked()
 		panelSearchResults->startSearch(ui->lineEditSearch->text());
 		updateButtons();
 	}
+	focusSearchInput();
 }
 
 void WidgetSearch::on_toolButtonSearchClear_clicked()
@@ -104,16 +105,19 @@ void WidgetSearch::on_toolButtonSearchClear_clicked()
 		}
 	}
 	updateButtons();
+	focusSearchInput();
 }
 
 void WidgetSearch::startNewSearch(QString* searchString)
 {
 	panelSearchResults->startNewSearch(searchString);
+	focusSearchInput();
 }
 
 void WidgetSearch::on_toolButtonNewSearch_clicked()
 {
 	panelSearchResults->addSearchTab();
+	focusSearchInput();
 }
 
 void WidgetSearch::on_splitterSearch_customContextMenuRequested(QPoint pos)
@@ -147,6 +151,7 @@ void WidgetSearch::onSearchTabChanged(WidgetSearchTemplate* searchPage)
 	ui->lineEditSearch->setText(searchPage->sSearchString);
 
 	updateButtons(searchPage->m_pSearch == 0);
+	focusSearchInput();
 }
 
 void WidgetSearch::updateStats(WidgetSearchTemplate* searchWidget)
@@ -205,4 +210,9 @@ void WidgetSearch::updateButtons(bool bInitial)
                         ui->labelSearchResultsFound->setText(tr("No Files Found"));
                         break;
 	}
+}
+
+void WidgetSearch::focusSearchInput()
+{
+	ui->lineEditSearch->setFocus();
 }
