@@ -203,6 +203,7 @@ padding: 2px;</string>
     <addaction name="actionConnectionTest"/>
     <addaction name="separator"/>
     <addaction name="actionDonate"/>
+    <addaction name="actionAbout_Qt"/>
     <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuNetwork"/>
@@ -935,6 +936,15 @@ padding: 2px;</string>
    </property>
    <property name="toolTip">
     <string>Chat With</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Credits/QT.png</normaloff>:/Resource/Credits/QT.png</iconset>
+   </property>
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>

@@ -55,15 +55,19 @@ INCLUDEPATH += NetworkCore \
 # Version stuff
 MAJOR = 0
 MINOR = 1
-VERSION_HEADER = ./version.h
+win32:VERSION_HEADER = .\\version.h
+else:VERSION_HEADER = ./version.h
 
 versiontarget.target = $$VERSION_HEADER
 CONFIG(debug, debug|release) {
-	versiontarget.commands = ../VersionTool/debug/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
+	win32:VERSION_COMMAND = ..\\VersionTool\\debug\\VersionTool.exe
+	else:VERSION_COMMAND = ../VersionTool/debug/VersionTool
 }
 else {
-	versiontarget.commands = ../VersionTool/release/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
+	win32:VERSION_COMMAND = ..\\VersionTool\\release\\VersionTool.exe
+	else:VERSION_COMMAND = ../VersionTool/release/VersionTool
 }
+versiontarget.commands = $$VERSION_COMMAND $$MAJOR $$MINOR $$VERSION_HEADER
 versiontarget.depends = FORCE
 
 PRE_TARGETDEPS += $$VERSION_HEADER

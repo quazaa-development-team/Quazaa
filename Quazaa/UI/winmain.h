@@ -166,6 +166,7 @@ private slots:
 	void localAddressChanged();
 	void onCopyIP();
 	void onHasherStarted(int nId);
+	void on_actionAbout_Qt_triggered();
 };
 
 extern CWinMain* MainWindow;
