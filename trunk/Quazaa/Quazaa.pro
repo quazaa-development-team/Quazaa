@@ -85,7 +85,7 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 
 # Additional config
-win32:LIBS += -Lbin # if you are at windows os
+win32:LIBS += -Lbin -luser32 # if you are at windows os
 mac:CONFIG -= app_bundle
 mac:LIBS += -lz
 DEFINES += COMMUNI_STATIC
@@ -118,7 +118,7 @@ win32-msvc2010 {
 	!build_pass:message(Setting up MSVC 2010 Compiler flags)
 	QMAKE_CFLAGS_DEBUG += /Gd \
 		/arch:SSE2 \
-		/Gm \
+		#/Gm \
 		/RTC1 \
 		/MDd \
 		/Zi \
@@ -130,7 +130,7 @@ win32-msvc2010 {
 		/MD
 	QMAKE_CXXFLAGS_DEBUG += /Gd \
 		/arch:SSE2 \
-		/Gm \
+		#/Gm \
 		/RTC1 \
 		/MDd \
 		/Zi \

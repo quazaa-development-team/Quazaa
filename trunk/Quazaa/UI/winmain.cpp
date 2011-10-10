@@ -60,18 +60,18 @@
 #include "chatcore.h"
 
 #ifdef Q_OS_WIN
-#include "windows.h"
+#include <windows.h>
 #endif //Q_OS_WIN
 
 #include <QTimer>
 
-WinMain::WinMain* MainWindow = 0;
+CWinMain* MainWindow = 0;
 
-void WinMain::quazaaStartup()
+void CWinMain::quazaaStartup()
 {
 }
 
-WinMain::WinMain(QWidget* parent) :
+CWinMain::CWinMain(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WinMain)
 {
@@ -273,11 +273,11 @@ WinMain::WinMain(QWidget* parent) :
 	connect(&ShareManager, SIGNAL(hasherStarted(int)), this, SLOT(onHasherStarted(int)));
 }
 
-WinMain::~WinMain()
+CWinMain::~CWinMain()
 {
 	delete ui;
 }
-void WinMain::loadTrayIcon()
+void CWinMain::loadTrayIcon()
 {
 	// Create the system tray right click menu.
 	trayMenu = new QMenu(this);
@@ -306,7 +306,7 @@ void WinMain::loadTrayIcon()
 	trayIcon->show();
 }
 
-bool WinMain::event(QEvent* e)
+bool CWinMain::event(QEvent* e)
 {
 	QMainWindow::event(e);
 	switch(e->type())
@@ -358,7 +358,7 @@ bool WinMain::event(QEvent* e)
 	return false;
 }
 
-void WinMain::changeEvent(QEvent* e)
+void CWinMain::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -464,7 +464,7 @@ void WinMain::changeEvent(QEvent* e)
 	}
 }
 
-void WinMain::quazaaShutdown()
+void CWinMain::quazaaShutdown()
 {
 	DialogSplash* dlgSplash = new DialogSplash(this);
 	dlgSplash->show();
@@ -505,7 +505,7 @@ void WinMain::quazaaShutdown()
 	dlgSplash->close();
 }
 
-void WinMain::on_actionHome_triggered()
+void CWinMain::on_actionHome_triggered()
 {
 	ui->actionHome->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
@@ -514,7 +514,7 @@ void WinMain::on_actionHome_triggered()
 	quazaaSettings.WinMain.ActiveTab = 0;
 }
 
-void WinMain::on_actionLibrary_triggered()
+void CWinMain::on_actionLibrary_triggered()
 {
 	ui->actionLibrary->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
@@ -523,7 +523,7 @@ void WinMain::on_actionLibrary_triggered()
 	quazaaSettings.WinMain.ActiveTab = 1;
 }
 
-void WinMain::on_actionMedia_triggered()
+void CWinMain::on_actionMedia_triggered()
 {
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Media/Media.png"));
 	ui->labelMainHeaderText->setText(tr("Media"));
@@ -531,7 +531,7 @@ void WinMain::on_actionMedia_triggered()
 	quazaaSettings.WinMain.ActiveTab = 2;
 }
 
-void WinMain::on_actionSearch_triggered()
+void CWinMain::on_actionSearch_triggered()
 {
 	ui->actionSearch->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
@@ -541,7 +541,7 @@ void WinMain::on_actionSearch_triggered()
 	pageSearch->focusSearchInput();
 }
 
-void WinMain::on_actionTransfers_triggered()
+void CWinMain::on_actionTransfers_triggered()
 {
 	ui->actionTransfers->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
@@ -550,7 +550,7 @@ void WinMain::on_actionTransfers_triggered()
 	quazaaSettings.WinMain.ActiveTab = 4;
 }
 
-void WinMain::on_actionSecurity_triggered()
+void CWinMain::on_actionSecurity_triggered()
 {
 	ui->actionSecurity->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
@@ -559,7 +559,7 @@ void WinMain::on_actionSecurity_triggered()
 	quazaaSettings.WinMain.ActiveTab = 5;
 }
 
-void WinMain::on_actionActivity_triggered()
+void CWinMain::on_actionActivity_triggered()
 {
 	ui->actionActivity->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Globe.png"));
@@ -568,7 +568,7 @@ void WinMain::on_actionActivity_triggered()
 	quazaaSettings.WinMain.ActiveTab = 6;
 }
 
-void WinMain::on_actionChat_triggered()
+void CWinMain::on_actionChat_triggered()
 {
 	ui->actionChat->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
@@ -577,7 +577,7 @@ void WinMain::on_actionChat_triggered()
 	quazaaSettings.WinMain.ActiveTab = 7;
 }
 
-void WinMain::on_actionHostCache_triggered()
+void CWinMain::on_actionHostCache_triggered()
 {
 	ui->actionHostCache->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
@@ -586,7 +586,7 @@ void WinMain::on_actionHostCache_triggered()
 	quazaaSettings.WinMain.ActiveTab = 8;
 }
 
-void WinMain::on_actionDiscovery_triggered()
+void CWinMain::on_actionDiscovery_triggered()
 {
 	ui->actionDiscovery->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
@@ -595,7 +595,7 @@ void WinMain::on_actionDiscovery_triggered()
 	quazaaSettings.WinMain.ActiveTab = 9;
 }
 
-void WinMain::on_actionScheduler_triggered()
+void CWinMain::on_actionScheduler_triggered()
 {
 	ui->actionScheduler->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
@@ -604,7 +604,7 @@ void WinMain::on_actionScheduler_triggered()
 	quazaaSettings.WinMain.ActiveTab = 10;
 }
 
-void WinMain::on_actionGraph_triggered()
+void CWinMain::on_actionGraph_triggered()
 {
 	ui->actionGraph->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
@@ -613,7 +613,7 @@ void WinMain::on_actionGraph_triggered()
 	quazaaSettings.WinMain.ActiveTab = 11;
 }
 
-void WinMain::on_actionPacketDump_triggered()
+void CWinMain::on_actionPacketDump_triggered()
 {
 	ui->actionPacketDump->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
@@ -622,7 +622,7 @@ void WinMain::on_actionPacketDump_triggered()
 	quazaaSettings.WinMain.ActiveTab = 12;
 }
 
-void WinMain::on_actionSearchMonitor_triggered()
+void CWinMain::on_actionSearchMonitor_triggered()
 {
 	ui->actionSearchMonitor->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
@@ -631,7 +631,7 @@ void WinMain::on_actionSearchMonitor_triggered()
 	quazaaSettings.WinMain.ActiveTab = 13;
 }
 
-void WinMain::on_actionHitMonitor_triggered()
+void CWinMain::on_actionHitMonitor_triggered()
 {
 	ui->actionHitMonitor->setChecked(true);
 	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
@@ -640,7 +640,7 @@ void WinMain::on_actionHitMonitor_triggered()
 	quazaaSettings.WinMain.ActiveTab = 14;
 }
 
-void WinMain::icon_activated(QSystemTrayIcon::ActivationReason reason)
+void CWinMain::icon_activated(QSystemTrayIcon::ActivationReason reason)
 {
 	switch(reason)
 	{
@@ -658,7 +658,7 @@ void WinMain::icon_activated(QSystemTrayIcon::ActivationReason reason)
 	}
 }
 
-void WinMain::on_actionShowOrHide_triggered()
+void CWinMain::on_actionShowOrHide_triggered()
 {
 	if(isVisible())
 	{
@@ -670,7 +670,7 @@ void WinMain::on_actionShowOrHide_triggered()
 	}
 }
 
-void WinMain::showOnTop()
+void CWinMain::showOnTop()
 {
 #ifdef Q_OS_WIN
 	// THIS IS A HACK:
@@ -701,162 +701,162 @@ void WinMain::showOnTop()
 		raise();
 }
 
-void WinMain::on_actionExit_triggered()
+void CWinMain::on_actionExit_triggered()
 {
 	bypassCloseEvent = true;
 	close();
 }
 
-void WinMain::on_actionAbout_triggered()
+void CWinMain::on_actionAbout_triggered()
 {
 	DialogAbout* dlgAbout = new DialogAbout(this);
 
 	dlgAbout->show();
 }
 
-void WinMain::on_actionSettings_triggered()
+void CWinMain::on_actionSettings_triggered()
 {
 	DialogSettings* dlgSettings = new DialogSettings(this);
 	dlgSettings->show();
 }
 
-void WinMain::on_actionCreateTorrent_triggered()
+void CWinMain::on_actionCreateTorrent_triggered()
 {
 	DialogCreateTorrent* dlgCreateTorrent = new DialogCreateTorrent(this);
 	dlgCreateTorrent->show();
 }
 
-void WinMain::on_actionSeedTorrent_triggered()
+void CWinMain::on_actionSeedTorrent_triggered()
 {
 
 }
 
-void WinMain::on_actionOpenTorrent_triggered()
+void CWinMain::on_actionOpenTorrent_triggered()
 {
 	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent(this);
 	dlgOpenTorrent->show();
 }
 
-void WinMain::on_actionShares_triggered()
+void CWinMain::on_actionShares_triggered()
 {
 	DialogEditShares* dlgEditShares = new DialogEditShares(this);
 	dlgEditShares->show();
 }
 
-void WinMain::on_actionOpenDownloadFolder_triggered()
+void CWinMain::on_actionOpenDownloadFolder_triggered()
 {
 	Functions.FolderOpen(quazaaSettings.Downloads.CompletePath);
 }
 
-void WinMain::on_actionURLDownload_triggered()
+void CWinMain::on_actionURLDownload_triggered()
 {
 	DialogAddDownload* dlgAddDownload = new DialogAddDownload(this);
 
 	dlgAddDownload->show();
 }
 
-void WinMain::on_actionImportPartials_triggered()
+void CWinMain::on_actionImportPartials_triggered()
 {
 	DialogDownloadsImport* dlgDownloadsImport = new DialogDownloadsImport(this);
 	dlgDownloadsImport->show();
 }
 
-void WinMain::on_actionChooseSkin_triggered()
+void CWinMain::on_actionChooseSkin_triggered()
 {
 	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Skins);
 	dlgSettings->show();
 }
 
-void WinMain::on_actionChooseLanguage_triggered()
+void CWinMain::on_actionChooseLanguage_triggered()
 {
 	DialogLanguage* dlgLanguage = new DialogLanguage(this);
 	dlgLanguage->exec();
 }
 
-void WinMain::on_actionQuickstartWizard_triggered()
+void CWinMain::on_actionQuickstartWizard_triggered()
 {
 	WizardQuickStart* wzrdQuickStart = new WizardQuickStart(this);
 	wzrdQuickStart->exec();
 }
 
-void WinMain::on_actionUsersGuide_triggered()
+void CWinMain::on_actionUsersGuide_triggered()
 {
 	QDesktopServices::openUrl(QUrl("http://quazaa.sourceforge.net/wiki/Manual", QUrl::TolerantMode));
 }
 
-void WinMain::on_actionFAQ_triggered()
+void CWinMain::on_actionFAQ_triggered()
 {
 	QDesktopServices::openUrl(QUrl("http://quazaa.sourceforge.net/wiki/FAQ", QUrl::TolerantMode));
 }
 
-void WinMain::on_actionConnectionTest_triggered()
+void CWinMain::on_actionConnectionTest_triggered()
 {
 	QDesktopServices::openUrl(QUrl(QString("http://jlh.no-ip.org/connectiontest/index.php?port=%1&lang=%2&test=1").arg(quazaaSettings.Connection.Port).arg("en"), QUrl::TolerantMode));
 }
 
-void WinMain::on_actionCheckForNewVersion_triggered()
+void CWinMain::on_actionCheckForNewVersion_triggered()
 {
 
 }
 
-void WinMain::on_actionDonate_triggered()
+void CWinMain::on_actionDonate_triggered()
 {
 	QDesktopServices::openUrl(QUrl("https://sourceforge.net/donate/index.php?group_id=286623", QUrl::TolerantMode));
 }
 
-void WinMain::on_actionQuazaaForums_triggered()
+void CWinMain::on_actionQuazaaForums_triggered()
 {
 	QDesktopServices::openUrl(QUrl("http://quazaa.sourceforge.net/forum/", QUrl::TolerantMode));
 }
 
-void WinMain::on_actionEditMyProfile_triggered()
+void CWinMain::on_actionEditMyProfile_triggered()
 {
 	DialogProfile* dlgProfile = new DialogProfile(this);
 	dlgProfile->show();
 }
 
-void WinMain::on_actionNewSearch_triggered()
+void CWinMain::on_actionNewSearch_triggered()
 {
 	ui->actionSearch->trigger();
 }
 
-void WinMain::on_actionConnect_triggered()
+void CWinMain::on_actionConnect_triggered()
 {
 	ui->actionConnect->setEnabled(false);
 	ui->actionDisconnect->setEnabled(true);
 	Network.Connect();
 }
 
-void WinMain::on_actionDisconnect_triggered()
+void CWinMain::on_actionDisconnect_triggered()
 {
 	ui->actionConnect->setEnabled(true);
 	ui->actionDisconnect->setEnabled(false);
 	Network.Disconnect();
 }
 
-void WinMain::on_actionEDonkey_triggered(bool checked)
+void CWinMain::on_actionEDonkey_triggered(bool checked)
 {
 	quazaaSettings.EDonkey.Enable = checked;
 }
 
-void WinMain::on_actionGnutella2_triggered(bool checked)
+void CWinMain::on_actionGnutella2_triggered(bool checked)
 {
 	quazaaSettings.Gnutella2.Enable = checked;
 }
 
-void WinMain::on_actionAres_triggered(bool checked)
+void CWinMain::on_actionAres_triggered(bool checked)
 {
 	quazaaSettings.Ares.Enable = checked;
 }
 
-void WinMain::startNewSearch(QString* searchString)
+void CWinMain::startNewSearch(QString* searchString)
 {
 	ui->stackedWidgetMain->setCurrentIndex(3);
 	pageSearch->startNewSearch(searchString);
 }
 
 
-void WinMain::updateStatusBar()
+void CWinMain::updateStatusBar()
 {
 	quint16 nTCPInSpeed = 0;
 	quint16 nTCPOutSpeed = 0;
@@ -902,7 +902,7 @@ void WinMain::updateStatusBar()
 	labelBandwidthTotals->setText(tr("%1/s In:%2/s Out [D:%3/U:%4]").arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
 }
 
-void WinMain::on_actionConnectTo_triggered()
+void CWinMain::on_actionConnectTo_triggered()
 {
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
@@ -929,7 +929,7 @@ void WinMain::on_actionConnectTo_triggered()
 }
 
 
-void WinMain::OpenChat(CChatSession* pSess)
+void CWinMain::OpenChat(CChatSession* pSess)
 {
 	if(dlgPrivateMessages == 0)
 	{
@@ -943,7 +943,7 @@ void WinMain::OpenChat(CChatSession* pSess)
 }
 
 
-void WinMain::on_actionChatWith_triggered()
+void CWinMain::on_actionChatWith_triggered()
 {
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
@@ -969,14 +969,14 @@ void WinMain::on_actionChatWith_triggered()
 		}
 	}
 }
-void WinMain::localAddressChanged()
+void CWinMain::localAddressChanged()
 {
 	Network.m_pSection.lock();
 	labelCurrentIPAddress->setText(Network.GetLocalAddress().toStringWithPort());
 	Network.m_pSection.unlock();
 }
 
-void WinMain::onCopyIP()
+void CWinMain::onCopyIP()
 {
 	if(labelCurrentIPAddress->text() != tr("Unknown"))
 		QApplication::clipboard()->setText(labelCurrentIPAddress->text());
@@ -985,7 +985,7 @@ void WinMain::onCopyIP()
 }
 
 
-void WinMain::onHasherStarted(int nId)
+void CWinMain::onHasherStarted(int nId)
 {
 	static DialogHashProgress* pDialog = 0;
 	if( !pDialog )
