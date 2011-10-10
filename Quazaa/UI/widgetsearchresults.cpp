@@ -234,6 +234,7 @@ void WidgetSearchResults::on_tabWidgetSearch_currentChanged(int index)
 	WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
 	emit searchTabChanged(tabSearch);
 	emit statsUpdated(tabSearch);
+	tabSearch->loadHeaderState();
 }
 
 void WidgetSearchResults::onStatsUpdated(WidgetSearchTemplate* searchWidget)

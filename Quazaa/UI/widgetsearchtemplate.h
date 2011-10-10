@@ -86,6 +86,10 @@ protected slots:
 	void OnStatsUpdated();
 	void OnStateChanged();
 	void Sort();
+
+public slots:
+	void saveHeaderState();
+	void loadHeaderState();
 };
 
 #endif // WIDGETSEARCHTEMPLATE_H
