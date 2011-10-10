@@ -470,6 +470,7 @@ void CWinMain::quazaaShutdown()
 	dlgSplash->show();
 
 	dlgSplash->updateProgress(5, tr("Closing Networks..."));
+	qApp->processEvents();
 	neighboursRefresher->stop();
 	delete neighboursRefresher;
 	neighboursRefresher = 0;
@@ -477,9 +478,11 @@ void CWinMain::quazaaShutdown()
 	ShareManager.Stop();
 
 	dlgSplash->updateProgress(10, tr("Saving Settings..."));
+	qApp->processEvents();
 	quazaaSettings.saveSettings();
 
 	dlgSplash->updateProgress(15, tr("Saving UI..."));
+	qApp->processEvents();
 	quazaaSettings.WinMain.MainToolbar = saveState();
 	pageHome->saveWidget();
 	pageLibrary->saveWidget();
@@ -500,6 +503,7 @@ void CWinMain::quazaaShutdown()
 	emit closing();
 
 	dlgSplash->updateProgress(20, tr("Removing Tray Icon..."));
+	qApp->processEvents();
 	delete trayIcon;
 
 	dlgSplash->close();
@@ -998,4 +1002,9 @@ void CWinMain::onHasherStarted(int nId)
 	}
 	pDialog->onHasherStarted(nId);
 	pDialog->show();
+}
+
+void CWinMain::on_actionAbout_Qt_triggered()
+{
+	qApp->aboutQt();
 }
