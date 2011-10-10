@@ -59,9 +59,13 @@
 #include "chatsessiong2.h"
 #include "chatcore.h"
 
+#ifdef Q_OS_WIN
+#include "windows.h"
+#endif //Q_OS_WIN
+
 #include <QTimer>
 
-WinMain* MainWindow = 0;
+WinMain::WinMain* MainWindow = 0;
 
 void WinMain::quazaaStartup()
 {
@@ -662,9 +666,39 @@ void WinMain::on_actionShowOrHide_triggered()
 	}
 	else
 	{
-		show();
-		raise();
+		showOnTop();
 	}
+}
+
+void WinMain::showOnTop()
+{
+#ifdef Q_OS_WIN
+	// THIS IS A HACK:
+	// from QT documentation:
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	// void QWidget::activateWindow ()
+	// ...
+	// On Windows, if you are calling this when the application is not currently
+	// the active one then it will not make it the active window. It will change
+	// the color of the taskbar entry to indicate that the window has changed in
+	// some way. This is because Microsoft do not allow an application to
+	// interrupt what the user is currently doing in another application.
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	// This hack does not give the focus to the app but brings it to front so
+	// the user sees it.
+	SetWindowPos(effectiveWinId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+	SetWindowPos(effectiveWinId(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+	// HACK END
+#elif Q_OS_LINUX
+
+#endif
+		raise();
+		if (isMaximized())
+			showMaximized();
+		else
+			showNormal();
+		activateWindow();
+		raise();
 }
 
 void WinMain::on_actionExit_triggered()

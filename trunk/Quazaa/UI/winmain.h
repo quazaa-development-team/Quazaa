@@ -101,6 +101,7 @@ signals:
 
 public slots:
 	void OpenChat(CChatSession* pSess);
+	void showOnTop();
 
 protected:
 	void changeEvent(QEvent* e);
