@@ -30,6 +30,8 @@
 #include "NetworkCore/query.h"
 #include "NetworkCore/queryhit.h"
 
+#include "quazaasettings.h"
+
 WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget* parent) :
 	QWidget(parent),
 	m_ui(new Ui::WidgetSearchTemplate)
@@ -49,6 +51,10 @@ WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget* parent
 	sortModel->setDynamicSortFilter(false);
 	connect(searchModel, SIGNAL(sort()), this, SLOT(Sort()));
 	connect(searchModel, SIGNAL(updateStats()), this, SLOT(OnStatsUpdated()));
+	loadHeaderState();
+	connect(m_ui->treeViewSearchResults->header(), SIGNAL(sectionMoved(int,int,int)), this, SLOT(saveHeaderState()));
+	connect(m_ui->treeViewSearchResults->header(), SIGNAL(sectionResized(int,int,int)), this, SLOT(saveHeaderState()));
+	connect(m_ui->treeViewSearchResults->header(), SIGNAL(sectionClicked(int)), this, SLOT(saveHeaderState()));
 }
 
 WidgetSearchTemplate::~WidgetSearchTemplate()
@@ -163,6 +169,15 @@ void WidgetSearchTemplate::OnStateChanged()
 
 void WidgetSearchTemplate::Sort()
 {
-	systemLog.postLog(LogSeverity::Debug, "Calling sortModel->sort");
 	sortModel->sort(sortModel->sortColumn(), sortModel->sortOrder());
+}
+
+void WidgetSearchTemplate::saveHeaderState()
+{
+	quazaaSettings.WinMain.SearchHeader = m_ui->treeViewSearchResults->header()->saveState();
+}
+
+void WidgetSearchTemplate::loadHeaderState()
+{
+	m_ui->treeViewSearchResults->header()->restoreState(quazaaSettings.WinMain.SearchHeader);
 }
