@@ -60,11 +60,11 @@ else:VERSION_HEADER = ./version.h
 
 versiontarget.target = $$VERSION_HEADER
 CONFIG(debug, debug|release) {
-	win32:VERSION_COMMAND = ..\\VersionTool\\debug\\VersionTool.exe
+	win32:VERSION_COMMAND = ..\\VersionTool\\debug\\VersionTool
 	else:VERSION_COMMAND = ../VersionTool/debug/VersionTool
 }
 else {
-	win32:VERSION_COMMAND = ..\\VersionTool\\release\\VersionTool.exe
+	win32:VERSION_COMMAND = ..\\VersionTool\\release\\VersionTool
 	else:VERSION_COMMAND = ../VersionTool/release/VersionTool
 }
 versiontarget.commands = $$VERSION_COMMAND $$MAJOR $$MINOR $$VERSION_HEADER
