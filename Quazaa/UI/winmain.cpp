@@ -86,7 +86,11 @@ WinMain::WinMain(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.MainToolbar);
 
 	//Set up the menu toolbar
+#ifndef Q_OS_MAC
 	ui->toolBarMainMenu->addWidget(ui->menubarMain);
+#else
+	ui->toolBarMainMenu->setVisible(false);
+#endif
 
 	//Set up the status bar
 	labelIPAddress = new QLabel(tr("Current IP:"));
@@ -179,6 +183,7 @@ WinMain::WinMain(QWidget* parent) :
 		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
 		ui->labelMainHeaderText->setText(tr("Search"));
 		ui->actionSearch->setChecked(true);
+		pageSearch->focusSearchInput();
 		break;
 	case 4:
 		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
@@ -241,7 +246,9 @@ WinMain::WinMain(QWidget* parent) :
 		ui->actionHome->setChecked(true);
 		break;
 	}
-	ui->menubarMain->setStyleSheet("QMenuBar::item:!selected,  QMenuBar::item:!pressed { color: " + qApp->palette().buttonText().color().name() + "; background: transparent; }");
+#ifndef Q_OS_MAC
+	ui->toolBarMainMenu->setStyleSheet("QMenuBar::item:!selected,  QMenuBar::item:!pressed { color: " + qApp->palette().buttonText().color().name() + "; background: transparent; } QMenuBar { background: transparent; }");
+#endif
 	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_clicked()));
 	connect(pageHome, SIGNAL(requestSearch(QString*)), this, SLOT(startNewSearch(QString*)));
 	connect(pageHome, SIGNAL(triggerLibrary()), this, SLOT(on_actionLibrary_triggered()));
@@ -332,15 +339,9 @@ bool WinMain::event(QEvent* e)
 			return false;
 		}
 	case QEvent::Show:
-		emit Show();
 		neighboursRefresher->start(1000);
 		break;
 	case QEvent::Hide:
-		if(quazaaSettings.System.MinimizeToTray)
-		{
-			hide();
-			e->ignore();
-		}
 		if(neighboursRefresher)
 		{
 			neighboursRefresher->stop();
@@ -444,6 +445,16 @@ void WinMain::changeEvent(QEvent* e)
 			break;
 		}
 		break;
+	case QEvent::WindowStateChange:
+		{
+			QWindowStateChangeEvent *event = (QWindowStateChangeEvent*)e;
+			// make sure we only do this for minimize events
+			if ((event->oldState() != Qt::WindowMinimized) && isMinimized() && quazaaSettings.System.MinimizeToTray)
+			{
+				QTimer::singleShot(0, this, SLOT(hide()));
+				e->ignore();
+			}
+		}
 	default:
 		break;
 	}
@@ -523,6 +534,7 @@ void WinMain::on_actionSearch_triggered()
 	ui->labelMainHeaderText->setText(tr("Search"));
 	ui->stackedWidgetMain->setCurrentIndex(3);
 	quazaaSettings.WinMain.ActiveTab = 3;
+	pageSearch->focusSearchInput();
 }
 
 void WinMain::on_actionTransfers_triggered()
@@ -651,6 +663,7 @@ void WinMain::on_actionShowOrHide_triggered()
 	else
 	{
 		show();
+		raise();
 	}
 }
 

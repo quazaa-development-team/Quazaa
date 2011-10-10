@@ -107,9 +107,7 @@ padding: 2px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QMenuBar {
-	background-color: transparent;
-}</string>
+    <string notr="true"/>
    </property>
    <widget class="QMenu" name="menuNetwork">
     <property name="title">
@@ -226,9 +224,7 @@ padding: 2px;</string>
     <string>toolBar</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QMenuBar::item:!selected,  QMenuBar::item:!pressed {
-    background: transparent;
-}</string>
+    <string notr="true"/>
    </property>
    <property name="allowedAreas">
     <set>Qt::BottomToolBarArea|Qt::TopToolBarArea</set>
