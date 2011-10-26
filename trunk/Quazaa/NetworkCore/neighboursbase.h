@@ -1,5 +1,5 @@
 /*
-** $Id: neighboursbase.h 592 2011-05-29 22:29:44Z brov $
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
