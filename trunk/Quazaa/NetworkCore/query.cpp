@@ -1,5 +1,5 @@
 /*
-** query.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,32 +13,34 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "query.h"
 #include "g2packet.h"
 #include "queryhashtable.h"
 #include "network.h"
 #include "Hashes/hash.h"
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 CQuery::CQuery()
 {
 	m_nMinimumSize = 0;
 	m_nMaximumSize = Q_UINT64_C(0xffffffffffffffff);
 }
-
 void CQuery::SetGUID(QUuid& guid)
 {
 	m_oGUID = guid;
 }
-
 void CQuery::SetDescriptiveName(QString sDN)
 {
 	m_sDescriptiveName = sDN;
@@ -56,23 +58,19 @@ void CQuery::AddURN(const CHash& pHash)
 {
 	m_lHashes.append(pHash);
 }
-
 G2Packet* CQuery::ToG2Packet(CEndPoint* pAddr, quint32 nKey)
 {
 	G2Packet* pPacket = G2Packet::New("Q2", true);
-
 	//bool bWantURL = true;
 	bool bWantDN = (!m_sDescriptiveName.isEmpty());
 	bool bWantMD = !m_sMetadata.isEmpty();
 	//bool bWantPFS = true;
-
 	if(pAddr)
 	{
 		G2Packet* pUDP = pPacket->WritePacket("UDP", 10);
 		pUDP->WriteHostAddress(pAddr);
 		pUDP->WriteIntLE(nKey);
 	}
-
 	if(bWantDN)
 	{
 		pPacket->WritePacket("DN", m_sDescriptiveName.toUtf8().size())->WriteString(m_sDescriptiveName, false);
@@ -81,68 +79,28 @@ G2Packet* CQuery::ToG2Packet(CEndPoint* pAddr, quint32 nKey)
 	{
 		pPacket->WritePacket("MD", m_sMetadata.toUtf8().size())->WriteString(m_sMetadata, false);
 	}
-
 	foreach(CHash pHash, m_lHashes)
 	{
 		pPacket->WritePacket("URN", pHash.GetFamilyName().size() + CHash::ByteCount(pHash.getAlgorithm()) + 1);
 		pPacket->WriteString(pHash.GetFamilyName() + "\0" + pHash.RawValue(), false);
 	}
-
-	/*if( m_nMinimumSize > 0 && m_nMaximumSize < 0xFFFFFFFFFFFFFFFF )
-	{
-		G2Packet* pSZR = pPacket->WriteChild("SZR");
-		pSZR->WriteIntLE(m_nMinimumSize);
-		pSZR->WriteIntLE(m_nMaximumSize);
-	}
-	else if( m_nMinimumSize > 0 )
-	{
-		G2Packet* pSZR = pPacket->WriteChild("SZR");
-		pSZR->WriteIntLE(m_nMinimumSize);
-		pSZR->WriteIntLE(0xFFFFFFFFFFFFFFFF);
-	}
-	else if( m_nMaximumSize < 0xFFFFFFFFFFFFFFFF )
-	{
-		G2Packet* pSZR = pPacket->WriteChild("SZR");
-		pSZR->WriteIntLE(0);
-		pSZR->WriteIntLE(m_nMaximumSize);
-	}
-
-	if( bWantURL || bWantDN || bWantMD || bWantPFS )
-	{
-		G2Packet* pInt = pPacket->WriteChild("I");
-		if( bWantURL )
-			pInt->WriteString("URL", true);
-		if( bWantDN )
-			pInt->WriteString("DN", true);
-		if( bWantMD )
-			pInt->WriteString("MD", true);
-		if( bWantPFS )
-			pInt->WriteString("PFS", true);
-	}*/
-
+	
 	pPacket->WriteByte(0);
 	pPacket->WriteGUID(m_oGUID);
-
 	return pPacket;
 }
-
-
 void CQuery::BuildG2Keywords(QString strPhrase)
 {
 	QStringList lPositive, lNegative;
-
 	strPhrase = strPhrase.trimmed().replace("_", " ").normalized(QString::NormalizationForm_KC).toLower().append(" ");
 	QRegExp re("(-?\\\".*\\\"|-?\\w+)\\W+", Qt::CaseSensitive, QRegExp::RegExp2);
 	re.setMinimal(true);
-
 	QStringList list;
 	int pos = 0, oldPos = 0;
 	bool hasDash = false;
-
 	while ((pos = re.indexIn(strPhrase, pos)) != -1)
 	{
 		QString sWord = re.cap(1);
-
 		if( hasDash && pos - re.matchedLength() - oldPos == 0 && list.last().size() < 4 && sWord.size() < 4)
 		{
 			list.last().append("-").append(sWord);
@@ -151,10 +109,8 @@ void CQuery::BuildG2Keywords(QString strPhrase)
 		{
 			list << sWord;
 		}
-
 		oldPos = pos;
 		pos += re.matchedLength();
-
 		if( strPhrase.mid(pos - 1, 1) == "-" )
 		{
 			hasDash = true;
@@ -164,9 +120,7 @@ void CQuery::BuildG2Keywords(QString strPhrase)
 			hasDash = false;
 		}
 	}
-
 	list.removeDuplicates();
-
 	for(QStringList::iterator itWord = list.begin(); itWord != list.end();)
 	{
 		if((*itWord).size() < 4)
@@ -178,9 +132,7 @@ void CQuery::BuildG2Keywords(QString strPhrase)
 			itWord++;
 		}
 	}
-
 	QRegExp rx("\\w+", Qt::CaseSensitive, QRegExp::RegExp2);
-
 	foreach(QString sWord, list)
 	{
 		if( sWord.at(0) == '-' && sWord.at(1) != '"' )
@@ -193,7 +145,6 @@ void CQuery::BuildG2Keywords(QString strPhrase)
 		{
 			// positive quoted phrase
 			m_sG2PositiveWords.append(sWord).append(",");
-
 			// extract words
 			int p = 0;
 			while( (p = rx.indexIn(sWord, p)) != -1 )
@@ -206,7 +157,6 @@ void CQuery::BuildG2Keywords(QString strPhrase)
 		{
 			// negative quoted phrase
 			m_sG2NegativeWords.append(sWord).append(",");
-
 			// extract words
 			int p = 0;
 			while( (p = rx.indexIn(sWord, p)) != -1 )
@@ -222,26 +172,21 @@ void CQuery::BuildG2Keywords(QString strPhrase)
 			lPositive.append(sWord);
 		}
 	}
-
 	m_sG2PositiveWords.chop(1);
 	m_sG2NegativeWords.chop(1);
-
 	foreach( QString sWord, lNegative )
 	{
 		lPositive.removeAll(sWord);
 	}
-
 	foreach(QString sWord, lPositive)
 	{
 		quint32 nHash = CQueryHashTable::HashWord(sWord.toUtf8().constData(), sWord.toUtf8().size(), 32);
 		m_lHashedKeywords.append(nHash);
 	}
 }
-
 CQueryPtr CQuery::FromPacket(G2Packet *pPacket, CEndPoint *pEndpoint)
 {
 	CQueryPtr pQuery(new CQuery());
-
 	try
 	{
 		if( pQuery->FromG2Packet(pPacket, pEndpoint) )
@@ -249,24 +194,18 @@ CQueryPtr CQuery::FromPacket(G2Packet *pPacket, CEndPoint *pEndpoint)
 	}
 	catch(...)
 	{
-
 	}
-
 	return CQueryPtr();
 }
-
 bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 {
 	if( !pPacket->m_bCompound )
 		return false;
-
 	char szType[9];
 	quint32 nLength = 0, nNext = 0;
-
 	while(pPacket->ReadPacket(&szType[0], nLength))
 	{
 		nNext = pPacket->m_nPosition + nLength;
-
 		if( strcmp("UDP", szType) == 0 && nLength >= 6 )
 		{
 			if( nLength > 18 )
@@ -279,14 +218,11 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 				// IPv4
 				pPacket->ReadHostAddress(&m_oEndpoint);
 			}
-
 			if( m_oEndpoint.isNull() && pEndpoint )
 				m_oEndpoint = *pEndpoint;
-
 			if( nLength >= 10 || nLength >= 22 )
 			{
 				m_nQueryKey = pPacket->ReadIntLE<quint32>();
-
 				quint32* pKey = (quint32*)(pPacket->m_pBuffer + pPacket->m_nPosition - 4);
 				*pKey = 0;
 			}
@@ -300,7 +236,6 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 			QString sURN;
 			QByteArray hashBuff;
 			sURN = pPacket->ReadString();
-
 			if(nLength >= 44u && sURN.compare("bp") == 0)
 			{
 				hashBuff.resize(CHash::ByteCount(CHash::SHA1));
@@ -337,32 +272,23 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 				m_nMinimumSize = pPacket->ReadIntLE<quint32>();
 				m_nMaximumSize = pPacket->ReadIntLE<quint32>();
 			}
-
 		}
 		else if( strcmp("I", szType) == 0 )
 		{
-
 		}
-
 		// TODO: /Q2/MD
-
 		pPacket->m_nPosition = nNext;
 	}
-
 	if( pPacket->GetRemaining() < 16 )
 		return false;
-
 	m_oGUID = pPacket->ReadGUID();
-
 	return CheckValid();
 }
-
 bool CQuery::CheckValid()
 {
 	BuildG2Keywords(m_sDescriptiveName);
-
 	if( m_lHashes.isEmpty() && m_lHashedKeywords.isEmpty() )
 		return false;
-
 	return true;
 }
+

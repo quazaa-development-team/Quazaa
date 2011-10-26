@@ -1,5 +1,5 @@
 /*
-** widgetchatinput.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,24 +13,26 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "widgetchatinput.h"
 #include "ui_widgetchatinput.h"
 #include "dialogconnectto.h"
 #include "dialogirccolordialog.h"
-
 #include "chatsessiong2.h"
-
 #include <QColorDialog>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIRC) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetChatInput)
@@ -72,12 +74,10 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIRC) :
 	connect(ui->actionUnderline, SIGNAL(toggled(bool)), textEditInput, SLOT(setFontUnderline(bool)));
 	connect(toolButtonPrivateMessage, SIGNAL(clicked()), this, SLOT(addPrivateMessage()));
 }
-
 WidgetChatInput::~WidgetChatInput()
 {
 	delete ui;
 }
-
 void WidgetChatInput::changeEvent(QEvent *e)
 {
 	QMainWindow::changeEvent(e);
@@ -89,7 +89,6 @@ void WidgetChatInput::changeEvent(QEvent *e)
 		break;
 	}
 }
-
 void WidgetChatInput::on_toolButtonSend_clicked()
 {
 	if (!textEditInput->document()->isEmpty())
@@ -111,45 +110,37 @@ void WidgetChatInput::on_toolButtonSend_clicked()
 		textEditInput->setCurrentCharFormat(oldFormat);
 	}
 }
-
 void WidgetChatInput::setText(QString text)
 {
 	textEditInput->setHtml(text);
 }
-
 void WidgetChatInput::onTextFormatChange(QTextCharFormat newFormat)
 {
 	if( newFormat.fontWeight() == QFont::Normal )
 		ui->actionBold->setChecked(false);
 	else if( newFormat.fontWeight() == QFont::Bold )
 		ui->actionBold->setChecked(true);
-
 	ui->actionItalic->setChecked(newFormat.fontItalic());
 	ui->actionUnderline->setChecked(newFormat.fontUnderline());
 }
-
 void WidgetChatInput::on_actionBold_toggled(bool checked)
 {
 	QTextCharFormat format = textEditInput->currentCharFormat();
 	format.setFontWeight((checked ? QFont::Bold : QFont::Normal));
 	textEditInput->setCurrentCharFormat(format);
 }
-
 void WidgetChatInput::on_actionItalic_toggled(bool checked)
 {
 	QTextCharFormat format = textEditInput->currentCharFormat();
 	format.setFontItalic(checked);
 	textEditInput->setCurrentCharFormat(format);
 }
-
 void WidgetChatInput::on_actionUnderline_toggled(bool checked)
 {
 	QTextCharFormat format = textEditInput->currentCharFormat();
 	format.setFontUnderline(checked);
 	textEditInput->setCurrentCharFormat(format);
 }
-
-
 void WidgetChatInput::pickColor()
 {
 	QColor fontColor;
@@ -162,23 +153,19 @@ void WidgetChatInput::pickColor()
 	}
 	else
 		fontColor = QColorDialog::getColor(textEditInput->textColor(), this, tr("Select Font Color"));
-
 	if (fontColor.isValid())
 	{
 		textEditInput->setTextColor(fontColor);
 		toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(fontColor.name()));
 	}
 }
-
 void WidgetChatInput::addPrivateMessage()
 {
 	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
-
 	if (accepted)
 	{
 		CEndPoint ip(dlgConnectTo->getAddressAndPort());
-
 		switch (dlgConnectTo->getConnectNetwork())
 		{
 		case DialogConnectTo::G2:
@@ -196,7 +183,6 @@ void WidgetChatInput::addPrivateMessage()
 		}
 	}
 }
-
 void WidgetChatInput::updateToolbar()
 {
 	toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(textEditInput->textColor().name()));
@@ -204,3 +190,4 @@ void WidgetChatInput::updateToolbar()
 	ui->actionItalic->setChecked(textEditInput->fontItalic());
 	ui->actionUnderline->setChecked(textEditInput->fontUnderline());
 }
+

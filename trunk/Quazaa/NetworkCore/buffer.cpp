@@ -1,5 +1,5 @@
 /*
-** buffer.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,20 +13,23 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "buffer.h"
 
+#include "buffer.h"
 #include <QByteArray>
 #include <exception>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 CBuffer::CBuffer(quint32 nMinimum) :
 	m_pBuffer(0),
 	m_nLength(0),
@@ -41,20 +44,15 @@ CBuffer::~CBuffer()
 		qFree(m_pBuffer);
 	}
 }
-
 CBuffer& CBuffer::append(const void* pData, const quint32 nLength)
 {
 	if(pData == 0 || nLength == 0)
 	{
 		return *this;
 	}
-
 	ensure(nLength);
-
 	memcpy(m_pBuffer + m_nLength, pData, nLength);
-
 	m_nLength += nLength;
-
 	return *this;
 }
 CBuffer& CBuffer::append(const char* pStr)
@@ -69,7 +67,6 @@ CBuffer& CBuffer::append(CBuffer& pOther)
 {
 	return append(pOther.data(), pOther.size());
 }
-
 CBuffer& CBuffer::prepend(const void* pData, const quint32 nLength)
 {
 	return insert(0, pData, nLength);
@@ -78,29 +75,22 @@ CBuffer& CBuffer::prepend(const char* pStr)
 {
 	return prepend(pStr, qstrlen(pStr));
 }
-
 CBuffer& CBuffer::insert(const quint32 i, const void* pData, const quint32 nLength)
 {
 	if(pData == 0)
 	{
 		return *this;
 	}
-
 	ensure(nLength);
-
 	memmove(m_pBuffer + i + nLength, m_pBuffer + i, m_nLength - i);
-
 	memcpy(m_pBuffer + i, pData, nLength);
-
 	m_nLength += nLength;
-
 	return *this;
 }
 CBuffer& CBuffer::insert(const quint32 i, const char* pStr)
 {
 	return insert(i, pStr, qstrlen(pStr));
 }
-
 CBuffer& CBuffer::remove(const quint32 nPos, const quint32 nLength)
 {
 	if(nPos == 0 && nLength >= m_nLength)
@@ -116,14 +106,12 @@ CBuffer& CBuffer::remove(const quint32 nPos, const quint32 nLength)
 		memmove(m_pBuffer + nPos, m_pBuffer + nPos + nLength, m_nLength - nPos - nLength);
 		m_nLength -= nLength;
 	}
-
 	return *this;
 }
 CBuffer& CBuffer::remove(const quint32 nLength)
 {
 	return remove(0, nLength);
 }
-
 void CBuffer::ensure(const quint32 nLength)
 {
 	if(nLength > 0xffffffff - m_nBuffer)
@@ -131,7 +119,6 @@ void CBuffer::ensure(const quint32 nLength)
 		qWarning() << "nLength > UINT_MAX in CBuffer::ensure()";
 		throw std::bad_alloc();
 	}
-
 	if(m_nBuffer - m_nLength > nLength)
 	{
 		// we shrink the buffer if we allocated twice as minimum and we actually need less than minimum
@@ -148,9 +135,7 @@ void CBuffer::ensure(const quint32 nLength)
 		}
 		return;
 	}
-
 	quint32 nBuffer = m_nLength + nLength;
-
 	// first alloc will be m_nMinimum bytes or 1024
 	// if we need more, we allocate twice as needed
 	if(nBuffer < qMax(1024u, m_nMinimum))
@@ -161,19 +146,15 @@ void CBuffer::ensure(const quint32 nLength)
 	{
 		nBuffer *= 2;
 	}
-
 	char* pBuffer = (char*)qRealloc(m_pBuffer, nBuffer);
-
 	if(!pBuffer)
 	{
 		qWarning() << "Out of memory in CBuffer::ensure()";
 		throw std::bad_alloc();
 	}
-
 	m_nBuffer = nBuffer;
 	m_pBuffer = pBuffer;
 }
-
 void CBuffer::resize(const quint32 nLength)
 {
 	if(nLength <= m_nLength || nLength <= m_nBuffer)
@@ -193,3 +174,4 @@ void CBuffer::resize(const quint32 nLength)
 		m_nLength = nLength;
 	}
 }
+

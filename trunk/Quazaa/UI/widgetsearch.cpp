@@ -1,5 +1,5 @@
 /*
-** widgetsearch.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,22 +13,24 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "widgetsearch.h"
 #include "ui_widgetsearch.h"
-
 #include "quazaasettings.h"
 #include "systemlog.h"
- 
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 WidgetSearch::WidgetSearch(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetSearch)
@@ -49,12 +51,10 @@ WidgetSearch::WidgetSearch(QWidget* parent) :
 	connect(panelSearchResults, SIGNAL(stateChanged()), this, SLOT(updateButtons()));
 	panelSearchResults->on_tabWidgetSearch_currentChanged(-1);
 }
-
 WidgetSearch::~WidgetSearch()
 {
 	delete ui;
 }
-
 void WidgetSearch::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
@@ -67,7 +67,6 @@ void WidgetSearch::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void WidgetSearch::saveWidget()
 {
 	quazaaSettings.WinMain.SearchSplitter = ui->splitterSearch->saveState();
@@ -77,7 +76,6 @@ void WidgetSearch::saveWidget()
 	quazaaSettings.WinMain.SearchTaskVisible = ui->toolButtonSearchTaskHeader->isChecked();
 	panelSearchResults->saveWidget();
 }
-
 void WidgetSearch::on_toolButtonSearch_clicked()
 {
         if( currentPage->searchState == SearchState::Paused || currentPage->searchState == SearchState::Stopped || currentPage->searchState == SearchState::Default )
@@ -88,7 +86,6 @@ void WidgetSearch::on_toolButtonSearch_clicked()
 	}
 	focusSearchInput();
 }
-
 void WidgetSearch::on_toolButtonSearchClear_clicked()
 {
 	if(currentPage->searchState == SearchState::Searching || currentPage->searchState == SearchState::Paused)
@@ -107,23 +104,19 @@ void WidgetSearch::on_toolButtonSearchClear_clicked()
 	updateButtons();
 	focusSearchInput();
 }
-
 void WidgetSearch::startNewSearch(QString* searchString)
 {
 	panelSearchResults->startNewSearch(searchString);
 	focusSearchInput();
 }
-
 void WidgetSearch::on_toolButtonNewSearch_clicked()
 {
 	panelSearchResults->addSearchTab();
 	focusSearchInput();
 }
-
 void WidgetSearch::on_splitterSearch_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
-
 	if(ui->splitterSearch->handle(1)->underMouse())
 	{
 		if(ui->splitterSearch->sizes()[0] > 0)
@@ -144,16 +137,13 @@ void WidgetSearch::on_splitterSearch_customContextMenuRequested(QPoint pos)
 		}
 	}
 }
-
 void WidgetSearch::onSearchTabChanged(WidgetSearchTemplate* searchPage)
 {
 	currentPage = searchPage;
 	ui->lineEditSearch->setText(searchPage->sSearchString);
-
 	updateButtons(searchPage->m_pSearch == 0);
 	focusSearchInput();
 }
-
 void WidgetSearch::updateStats(WidgetSearchTemplate* searchWidget)
 {
 	ui->labelSearchResultsSearching->setText(tr("%1 hubs,%2 leaves.").arg(searchWidget->nHubs).arg(searchWidget->nLeaves));
@@ -167,11 +157,9 @@ void WidgetSearch::updateStats(WidgetSearchTemplate* searchWidget)
 		ui->labelSearchResultsFound->setText(tr("No Files Found"));
 	}
 }
-
 void WidgetSearch::updateButtons(bool bInitial)
 {
 	WidgetSearchTemplate* searchPage = currentPage;
-
 	switch(searchPage->searchState)
 	{
 		case SearchState::Searching:
@@ -211,8 +199,8 @@ void WidgetSearch::updateButtons(bool bInitial)
                         break;
 	}
 }
-
 void WidgetSearch::focusSearchInput()
 {
 	ui->lineEditSearch->setFocus();
 }
+

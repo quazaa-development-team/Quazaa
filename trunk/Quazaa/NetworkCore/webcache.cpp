@@ -1,5 +1,5 @@
 /*
-** webcache.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,25 +13,27 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "webcache.h"
 #include "hostcache.h"
 #include "systemlog.h"
-
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QStringList>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 CWebCache WebCache;
-
 CWebCache::CWebCache()
 {
 	m_lCaches.append(CWebCacheHost(QUrl("http://gweb2.4octets.co.uk/gwc.php")));
@@ -48,7 +50,6 @@ CWebCache::CWebCache()
 	m_lCaches.append(CWebCacheHost(QUrl("http://cache.wru.pl/skulls.php")));
 	m_lCaches.append(CWebCacheHost(QUrl("http://karma.cloud.bishopston.net:33559/")));
 	m_lCaches.append(CWebCacheHost(QUrl("http://gwc.camppneus.com.br/skulls.php")));
-
 	m_pRequest = 0;
 	m_pReply = 0;
 }
@@ -59,11 +60,9 @@ CWebCache::~CWebCache()
 	m_pRequest = 0;
 	CancelRequests();
 }
-
 void CWebCache::CancelRequests()
 {
 	qDebug("CancelRequests()");
-
 	if(m_bRequesting)
 	{
 		m_pRequest->deleteLater();
@@ -71,67 +70,50 @@ void CWebCache::CancelRequests()
 		m_bRequesting = false;
 	}
 }
-
 void CWebCache::RequestRandom()
 {
 	systemLog.postLog(LogSeverity::Debug, QString("RequestRandom()"));
 	qDebug("RequestRandom()");
-
 	quint32 nIndex = qrand() % m_lCaches.size();
-
 	if(m_lCaches[nIndex].CanQuery())
 	{
 		CancelRequests();
-
 		m_bRequesting = true;
-
 		QUrl u = m_lCaches.at(nIndex).m_sUrl;
 		u.addQueryItem("get", "1");
 		u.addQueryItem("hostfile", "1");
 		u.addQueryItem("net", "gnutella2");
 		u.addQueryItem("client", "BROV1.0");
-
 		systemLog.postLog(LogSeverity::Debug, QString("Querying %1").arg(u.toString()));
 		//qDebug("Querying " + u.toString().toAscii());
-
 		m_lCaches[nIndex].m_tLastQuery = time(0);
 		QNetworkRequest req(u);
 		req.setRawHeader("User-Agent", "G2Core/0.1");
-
 		m_pRequest = new QNetworkAccessManager();
 		connect(m_pRequest, SIGNAL(finished(QNetworkReply*)), this, SLOT(OnRequestComplete(QNetworkReply*)));
 		m_pReply = m_pRequest->get(req);
 	}
 }
-
 void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 {
 	systemLog.postLog(LogSeverity::Debug, QString("OnRequestComplete()"));
 	//qDebug("OnRequestComplete()");
-
 	if(pReply->error() == QNetworkReply::NoError)
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Parsing GWC response"));
 		//qDebug("Parsing GWC response");
-
 		QString ln;
-
 		QDateTime tNow = QDateTime::currentDateTimeUtc();
-
 		while(true)
 		{
 			ln = pReply->readLine(2048);
-
 			if(ln.isEmpty())
 			{
 				break;
 			}
-
 			systemLog.postLog(LogSeverity::Debug, QString("Line: %1").arg(ln));
 			qDebug() << "Line: " << ln;
-
 			QStringList lp = ln.split("|");
-
 			if(lp.size() >= 2)
 			{
 				if(lp[0] == "H" || lp[0] == "h")
@@ -146,12 +128,11 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 				//qDebug() << "Parse error";
 			}
 		}
-
 	}
-
 	m_bRequesting = false;
 	pReply->deleteLater();
 	m_pRequest->deleteLater();;
 	m_pRequest = 0;
 	m_pReply = 0;
 }
+

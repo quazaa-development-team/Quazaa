@@ -1,7 +1,7 @@
 /*
-** dialogabout.cpp
+** $Id$
 **
-** Copyright  Quazaa Development Team, 2009-2011.
+** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -13,14 +13,15 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "dialogabout.h"
 #include "ui_dialogabout.h"
@@ -28,7 +29,10 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QUrl>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 DialogAbout::DialogAbout(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAbout)
@@ -36,12 +40,10 @@ DialogAbout::DialogAbout(QWidget* parent) :
 	m_ui->setupUi(this);
         m_ui->labelVersion->setText(m_ui->labelVersion->text().replace("&lt;version&gt;", QuazaaGlobals::APPLICATION_VERSION_STRING()));
 }
-
 DialogAbout::~DialogAbout()
 {
 	delete m_ui;
 }
-
 void DialogAbout::changeEvent(QEvent* e)
 {
 	switch(e->type())
@@ -53,19 +55,17 @@ void DialogAbout::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void DialogAbout::on_pushButtonOK_clicked()
 {
 	emit closed();
 	close();
 }
-
 void DialogAbout::on_labelCopyright_linkActivated(QString link)
 {
 	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
 }
-
 void DialogAbout::on_textBrowserCredits_anchorClicked(QUrl link)
 {
 	QDesktopServices::openUrl(link);
 }
+

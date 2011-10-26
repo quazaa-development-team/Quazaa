@@ -1,5 +1,5 @@
 /*
-** widgetgraph.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,21 +13,23 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "widgetgraph.h"
 #include "ui_widgetgraph.h"
-
 #include "quazaasettings.h"
- 
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 WidgetGraph::WidgetGraph(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetGraph)
@@ -36,12 +38,10 @@ WidgetGraph::WidgetGraph(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.GraphToolbar);
 	ui->splitterGraph->restoreState(quazaaSettings.WinMain.GraphSplitter);
 }
-
 WidgetGraph::~WidgetGraph()
 {
 	delete ui;
 }
-
 void WidgetGraph::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -54,17 +54,14 @@ void WidgetGraph::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void WidgetGraph::saveWidget()
 {
 	quazaaSettings.WinMain.GraphToolbar = saveState();
 	quazaaSettings.WinMain.GraphSplitter = ui->splitterGraph->saveState();
 }
-
 void WidgetGraph::on_splitterGraph_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
-
 	if(ui->splitterGraph->handle(1)->underMouse())
 	{
 		if(ui->splitterGraph->sizes()[0] > 0)
@@ -85,3 +82,4 @@ void WidgetGraph::on_splitterGraph_customContextMenuRequested(QPoint pos)
 		}
 	}
 }
+

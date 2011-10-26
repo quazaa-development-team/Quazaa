@@ -1,5 +1,5 @@
 /*
-** dialogconnectto.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,21 +13,24 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "dialogconnectto.h"
 #include "ui_dialogconnectto.h"
-
 #include <QListView>
 #include <QMessageBox>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 DialogConnectTo::DialogConnectTo(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::DialogConnectTo)
@@ -38,12 +41,10 @@ DialogConnectTo::DialogConnectTo(QWidget* parent) :
 	ui->comboBoxNetwork->setView(new QListView());
 	setConnectNetwork(DialogConnectTo::G2);
 }
-
 DialogConnectTo::~DialogConnectTo()
 {
 	delete ui;
 }
-
 void DialogConnectTo::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -56,12 +57,10 @@ void DialogConnectTo::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void DialogConnectTo::on_pushButtonCancel_clicked()
 {
 	reject();
 }
-
 void DialogConnectTo::on_pushButtonConnect_clicked()
 {
 	CEndPoint tempAddress;
@@ -74,7 +73,6 @@ void DialogConnectTo::on_pushButtonConnect_clicked()
 		} else { // ipv6 address without port
 			tempAddress.setAddress(ui->comboBoxAddress->currentText());
 			tempAddress.setPort(ui->spinBoxPort->value());
-
 		}
 	}
 	else if(ui->comboBoxAddress->currentText().contains(":") ) //ipv4 address with port
@@ -86,7 +84,6 @@ void DialogConnectTo::on_pushButtonConnect_clicked()
 		tempAddress.setAddress(ui->comboBoxAddress->currentText());
 		tempAddress.setPort(ui->spinBoxPort->value());
 	}
-
 	if ((QAbstractSocket::IPv4Protocol == tempAddress.protocol()) || (QAbstractSocket::IPv6Protocol == tempAddress.protocol()))
 	{
 		addressAndPort = tempAddress.toStringWithPort();
@@ -100,19 +97,14 @@ void DialogConnectTo::on_pushButtonConnect_clicked()
 		 msgBox.exec();
 	}
 }
-
-
 QString DialogConnectTo::getAddressAndPort()
 {
 	return addressAndPort;
 }
-
-
 DialogConnectTo::ConnectNetwork DialogConnectTo::getConnectNetwork()
 {
 	return connectNetwork;
 }
-
 void DialogConnectTo::setAddressAndPort(QString newAddressAndPort)
 {
 	addressAndPort = newAddressAndPort;
@@ -120,13 +112,11 @@ void DialogConnectTo::setAddressAndPort(QString newAddressAndPort)
 	ui->comboBoxAddress->setEditText(address.toString());
 	ui->spinBoxPort->setValue(address.port());
 }
-
 void DialogConnectTo::setConnectNetwork(ConnectNetwork network)
 {
 	connectNetwork = network;
 	ui->comboBoxNetwork->setCurrentIndex(network);
 }
-
 void DialogConnectTo::on_comboBoxNetwork_currentIndexChanged(int index)
 {
 	switch (index)
@@ -142,3 +132,4 @@ void DialogConnectTo::on_comboBoxNetwork_currentIndexChanged(int index)
 		break;
 	}
 }
+

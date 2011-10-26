@@ -1,5 +1,5 @@
 /*
-** chatsession.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,47 +13,46 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "chatsession.h"
 #include "chatcore.h"
 #include "quazaasettings.h"
 #include "widgetprivatemessage.h"
 #include "winmain.h"
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 CChatSession::CChatSession(QObject *parent) :
 	CNetworkConnection(parent)
 {
 	m_nState = csNull;
 	m_nProtocol = dpNull;
 	m_pWidget = 0;
-
 	m_bShareaza = false;
 }
 CChatSession::~CChatSession()
 {
 	ChatCore.Remove(this);
 }
-
 // called from GUI thread
 void CChatSession::Connect()
 {
 	MainWindow->OpenChat(this);
 	m_nState = csConnecting;
 	ChatCore.Add(this);
-
 	if( thread() != &ChatThread )
 		moveToThread(&ChatThread);
 }
-
-
 void CChatSession::OnTimer(quint32 tNow)
 {
 	if( m_nState < csConnected )
@@ -67,13 +66,10 @@ void CChatSession::OnTimer(quint32 tNow)
 	}
 	else if( m_nState == csConnected )
 	{
-
 	}
 }
-
 void CChatSession::OnConnect()
 {
-
 }
 void CChatSession::OnDisconnect()
 {
@@ -82,22 +78,18 @@ void CChatSession::OnDisconnect()
 }
 void CChatSession::OnRead()
 {
-
 }
 void CChatSession::OnError(QAbstractSocket::SocketError e)
 {
 	Q_UNUSED(e);
 }
-
 void CChatSession::OnStateChange(QAbstractSocket::SocketState s)
 {
 	Q_UNUSED(s);
 }
-
 void CChatSession::SetupWidget(WidgetPrivateMessage *pWg)
 {
 	m_pWidget = pWg;
-
 	connect(this, SIGNAL(guidChanged(QUuid)), m_pWidget, SLOT(OnGUIDChanged(QUuid)));
 	connect(this, SIGNAL(nickChanged(QString)), m_pWidget, SLOT(OnNickChanged(QString)));
 	connect(this, SIGNAL(incomingMessage(QString,bool)), m_pWidget, SLOT(OnIncomingMessage(QString,bool)));
@@ -106,3 +98,4 @@ void CChatSession::SetupWidget(WidgetPrivateMessage *pWg)
 	connect(m_pWidget, SIGNAL(SendMessageS(QTextDocument*,bool)), this, SLOT(SendMessage(QTextDocument*,bool)));
 	connect(m_pWidget, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 }
+

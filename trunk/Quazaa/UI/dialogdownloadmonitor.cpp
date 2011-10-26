@@ -1,5 +1,5 @@
 /*
-** dialogdownloadmonitor.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,31 +13,32 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "dialogdownloadmonitor.h"
 #include "ui_dialogdownloadmonitor.h"
- 
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 DialogDownloadMonitor::DialogDownloadMonitor(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogDownloadMonitor)
 {
 	m_ui->setupUi(this);
 }
-
 DialogDownloadMonitor::~DialogDownloadMonitor()
 {
 	delete m_ui;
 }
-
 void DialogDownloadMonitor::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -50,19 +51,16 @@ void DialogDownloadMonitor::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void DialogDownloadMonitor::on_pushButtonHide_clicked()
 {
 	emit closed();
 	close();
 }
-
 void DialogDownloadMonitor::on_pushButton_clicked()
 {
 	emit closed();
 	close();
 }
-
 void DialogDownloadMonitor::updateProgress(int percent, QString transferSpeed, QString timeRemaining,
         QString volumeDownloaded, QString numberSources, QPixmap icon,
         QString status, QString file)
@@ -76,3 +74,4 @@ void DialogDownloadMonitor::updateProgress(int percent, QString transferSpeed, Q
 	m_ui->labelStatus->setText(status);
 	m_ui->labelFileName->setText(file);
 }
+

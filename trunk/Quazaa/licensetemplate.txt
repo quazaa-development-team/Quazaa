@@ -1,5 +1,5 @@
 /*
-** %FILENAME%
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-%YEAR%.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)

@@ -1,57 +1,38 @@
-/****************************************************************************
-** 
-** Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
-** All rights reserved.
-** Contact: Nokia Corporation (qt-info@nokia.com)
-** 
-** This file is part of a Qt Solutions component.
+/*
+** $Id$
 **
-** Commercial Usage  
-** Licensees holding valid Qt Commercial licenses may use this file in
-** accordance with the Qt Solutions Commercial License Agreement provided
-** with the Software or, alternatively, in accordance with the terms
-** contained in a written agreement between you and Nokia.
-** 
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-** 
-** In addition, as a special exception, Nokia gives you certain
-** additional rights. These rights are described in the Nokia Qt LGPL
-** Exception version 1.1, included in the file LGPL_EXCEPTION.txt in this
-** package.
-** 
-** GNU General Public License Usage 
-** Alternatively, this file may be used under the terms of the GNU
+** Copyright © Quazaa Development Team, 2009-2011.
+** This file is part of QUAZAA (quazaa.sourceforge.net)
+**
+** Quazaa is free software; this file may be used under the terms of the GNU
 ** General Public License version 3.0 or later as published by the Free Software
 ** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU General Public License version 3.0 or later requirements will be
-** met: http://www.gnu.org/copyleft/gpl.html.
-** 
-** Please note Third Party Software included with Qt Solutions may impose
-** additional restrictions and it is the user's responsibility to ensure
-** that they have met the licensing requirements of the GPL, LGPL, or Qt
-** Solutions Commercial license and the relevant license of the Third
-** Party Software they are using.
-** 
-** If you are unsure which license is appropriate for your use, please
-** contact Nokia at qt-info@nokia.com.
-** 
-****************************************************************************/
+** packaging of this file.
+**
+** Quazaa is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+**
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
+** http://www.gnu.org/copyleft/gpl.html.
+**
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
 
 #include "qtlockedfile.h"
 #include <qt_windows.h>
 #include <QtCore/QFileInfo>
-
 #define MUTEX_PREFIX "QtLockedFile mutex "
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 // Maximum number of concurrent read locks. Must not be greater than MAXIMUM_WAIT_OBJECTS
 #define MAX_READERS MAXIMUM_WAIT_OBJECTS
-
 Qt::HANDLE QtLockedFile::getMutexHandle(int idx, bool doCreate)
 {
     if (mutexname.isEmpty()) {
@@ -62,7 +43,6 @@ Qt::HANDLE QtLockedFile::getMutexHandle(int idx, bool doCreate)
     QString mname(mutexname);
     if (idx >= 0)
         mname += QString::number(idx);
-
     Qt::HANDLE mutex;
     if (doCreate) {
         QT_WA( { mutex = CreateMutexW(NULL, FALSE, (TCHAR*)mname.utf16()); },
@@ -83,7 +63,6 @@ Qt::HANDLE QtLockedFile::getMutexHandle(int idx, bool doCreate)
     }
     return mutex;
 }
-
 bool QtLockedFile::waitMutex(Qt::HANDLE mutex, bool doBlock)
 {
     Q_ASSERT(mutex);
@@ -100,31 +79,22 @@ bool QtLockedFile::waitMutex(Qt::HANDLE mutex, bool doBlock)
     }
     return false;
 }
-
-
-
 bool QtLockedFile::lock(LockMode mode, bool block)
 {
     if (!isOpen()) {
         qWarning("QtLockedFile::lock(): file is not opened");
         return false;
     }
-
     if (mode == NoLock)
         return unlock();
-
     if (mode == m_lock_mode)
         return true;
-
     if (m_lock_mode != NoLock)
         unlock();
-
     if (!wmutex && !(wmutex = getMutexHandle(-1, true)))
         return false;
-
     if (!waitMutex(wmutex, block))
         return false;
-
     if (mode == ReadLock) {
         int idx = 0;
         for (; idx < MAX_READERS; idx++) {
@@ -171,21 +141,17 @@ bool QtLockedFile::lock(LockMode mode, bool block)
             }
         }
     }
-
     m_lock_mode = mode;
     return true;
 }
-
 bool QtLockedFile::unlock()
 {
     if (!isOpen()) {
         qWarning("QtLockedFile::unlock(): file is not opened");
         return false;
     }
-
     if (!isLocked())
         return true;
-
     if (m_lock_mode == ReadLock) {
         ReleaseMutex(rmutex);
         CloseHandle(rmutex);
@@ -199,11 +165,9 @@ bool QtLockedFile::unlock()
         rmutexes.clear();
         ReleaseMutex(wmutex);
     }
-
     m_lock_mode = QtLockedFile::NoLock;
     return true;
 }
-
 QtLockedFile::~QtLockedFile()
 {
     if (isOpen())
@@ -211,3 +175,4 @@ QtLockedFile::~QtLockedFile()
     if (wmutex)
         CloseHandle(wmutex);
 }
+

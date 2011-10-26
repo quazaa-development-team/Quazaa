@@ -1,5 +1,5 @@
 /*
-** filehasher.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,14 +13,15 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "filehasher.h"
 #include "Hashes/hash.h"
@@ -29,20 +30,21 @@
 #include "sharemanager.h"
 #include "quazaasettings.h"
 #include <QElapsedTimer>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 QMutex CFileHasher::m_pSection;
 QQueue<CSharedFilePtr> CFileHasher::m_lQueue;
 CFileHasher** CFileHasher::m_pHashers = 0;
 quint32  CFileHasher::m_nMaxHashers = 1;
 quint32  CFileHasher::m_nRunningHashers = 0;
 QWaitCondition CFileHasher::m_oWaitCond;
-
 CFileHasher::CFileHasher(QObject* parent) : QThread(parent)
 {
 	m_bActive = true;
 	m_nId = -1;
 }
-
 CFileHasher::~CFileHasher()
 {
 	m_bActive = false;
@@ -51,11 +53,9 @@ CFileHasher::~CFileHasher()
 		wait();
 	}
 }
-
 CFileHasher* CFileHasher::HashFile(CSharedFilePtr pFile)
 {
 	m_pSection.lock();
-
 	if(m_pHashers == 0)
 	{
 		m_nMaxHashers = qMin<quint32>(4, qMax<quint32>(2, QThread::idealThreadCount()));
@@ -65,12 +65,9 @@ CFileHasher* CFileHasher::HashFile(CSharedFilePtr pFile)
 			m_pHashers[i] = 0;
 		}
 	}
-
 	//qDebug() << "File" << pFile->m_sFilename << "queued for hashing";
 	m_lQueue.enqueue(pFile);
-
 	CFileHasher* pHasher = 0;
-
 	if(m_nRunningHashers < (uint)m_lQueue.size() && m_nRunningHashers < m_nMaxHashers)
 	{
 		for(uint i = 0; i < m_nMaxHashers; i++)
@@ -92,52 +89,35 @@ CFileHasher* CFileHasher::HashFile(CSharedFilePtr pFile)
 			}
 		}
 	}
-
 	m_pSection.unlock();
-
 	CFileHasher::m_oWaitCond.wakeOne();
-
 	return pHasher;
 }
-
 void CFileHasher::run()
 {
 	QElapsedTimer tTimer;
 	QByteArray baBuffer;
-
 	static const int nBufferSize = 2 * 1024 * 1024;
-
 	emit hasherStarted(m_nId);
-
 	m_pSection.lock();
-
 	while(!m_lQueue.isEmpty())
 	{
 		CSharedFilePtr pFile = m_lQueue.dequeue();
 		systemLog.postLog(LogSeverity::Debug, QString("Hashing %1").arg(pFile->fileName()));
-
 		m_pSection.unlock();
-
 		emit hashingProgress(m_nId, pFile->fileName(), 0, 0);
-
 		bool bHashed = true;
-
 		QList<CHash*> lHashes;
-
 		if(pFile->exists() && pFile->open(QFile::ReadOnly))
 		{
 			baBuffer.resize(nBufferSize);
-
 			lHashes.append( new CHash( CHash::SHA1 ) );
 			lHashes.append( new CHash( CHash::MD5 ) );
-
 			tTimer.start();
 			double nLastPercent = 0;
 			quint64 nFileSize = pFile->size();
 			quint64 nTotalRead = 0, nLastTotalRead = 0;
-
 			emit hashingProgress(m_nId, pFile->fileName(), 0, 0);
-
 			while(!pFile->atEnd())
 			{
 				if(!m_bActive)
@@ -148,7 +128,6 @@ void CFileHasher::run()
 					break;
 				}
 				qint64 nRead = pFile->read(baBuffer.data(), nBufferSize);
-
 				if(nRead < 0)
 				{
 					bHashed = false;
@@ -160,14 +139,11 @@ void CFileHasher::run()
 				{
 					baBuffer.resize(nRead);
 				}
-
 				nTotalRead += nRead;
-
 				for(int i = 0; i < lHashes.size(); i++)
 				{
 					lHashes[i]->AddData(baBuffer);
 				}
-
 				if( tTimer.elapsed() >= 1000 )
 				{
 					double nPercent = 100.0f * nTotalRead / float(nFileSize);
@@ -178,7 +154,6 @@ void CFileHasher::run()
 					emit hashingProgress(m_nId, pFile->fileName(), nPercent, nRate);
 				}
 			}
-
 			emit hashingProgress(m_nId, pFile->fileName(), 100, (tTimer.elapsed() * (nTotalRead - nLastTotalRead)) / 1000);
 			pFile->close();
 		}
@@ -188,7 +163,6 @@ void CFileHasher::run()
 			//qDebug() << "File open error: " << f.error();
 			bHashed = false;
 		}
-
 		if(bHashed)
 		{
 			for(int i = 0; i < lHashes.size(); i++)
@@ -197,22 +171,16 @@ void CFileHasher::run()
 				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(lHashes[i]->ToURN()));
 				//qDebug() << pFile->m_lHashes[i]->ToURN();
 			}
-
 			pFile->setHashes( lHashes );
 			emit FileHashed(pFile);
 		}
-
 		qDeleteAll(lHashes);
-
 		msleep(150);
-
 		m_pSection.lock();
-
 		if(!m_bActive)
 		{
 			break;
 		}
-
 		if(bHashed && m_lQueue.isEmpty())
 		{
 			emit QueueEmpty();
@@ -221,7 +189,6 @@ void CFileHasher::run()
 			CFileHasher::m_oWaitCond.wait(&m_pSection, 10000);
 		}
 	}
-
 	for(uint i = 0; i < m_nMaxHashers; i++)
 	{
 		if(m_pHashers[i] == this)
@@ -229,7 +196,6 @@ void CFileHasher::run()
 			m_pHashers[i] = 0;
 			deleteLater();
 			m_nRunningHashers--;
-
 			if(m_nRunningHashers == 0)
 			{
 				delete [] m_pHashers;
@@ -238,11 +204,9 @@ void CFileHasher::run()
 			break;
 		}
 	}
-
 	m_pSection.unlock();
-
 	systemLog.postLog(LogSeverity::Debug, QString("CFileHasher done. %1").arg(m_nRunningHashers));
 	//qDebug() << "CFileHasher done. " << m_nRunningHashers;
-
 	emit hasherFinished(m_nId);
 }
+

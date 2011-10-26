@@ -1,5 +1,5 @@
 /*
-** dialogeditshares.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,21 +13,24 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "dialogeditshares.h"
 #include "ui_dialogeditshares.h"
 #include "quazaasettings.h"
- 
 #include <QFileDialog>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 DialogEditShares::DialogEditShares(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogEditShares)
@@ -36,12 +39,10 @@ DialogEditShares::DialogEditShares(QWidget* parent) :
 	m_ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
 	m_ui->pushButtonOk->setEnabled(false);
 }
-
 DialogEditShares::~DialogEditShares()
 {
 	delete m_ui;
 }
-
 void DialogEditShares::changeEvent(QEvent* e)
 {
 	switch(e->type())
@@ -53,13 +54,11 @@ void DialogEditShares::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void DialogEditShares::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
-
 void DialogEditShares::on_pushButtonOk_clicked()
 {
 	quazaaSettings.Library.Shares.clear();
@@ -72,7 +71,6 @@ void DialogEditShares::on_pushButtonOk_clicked()
 	emit closed();
 	close();
 }
-
 void DialogEditShares::on_pushButtonAdd_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
@@ -86,7 +84,6 @@ void DialogEditShares::on_pushButtonAdd_clicked()
 		m_ui->pushButtonOk->setEnabled(true);
 	}
 }
-
 void DialogEditShares::on_pushButtonRemove_clicked()
 {
 	if(m_ui->listWidgetShares->currentRow() != -1)
@@ -95,3 +92,4 @@ void DialogEditShares::on_pushButtonRemove_clicked()
 		m_ui->pushButtonOk->setEnabled(true);
 	}
 }
+

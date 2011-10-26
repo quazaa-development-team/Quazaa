@@ -1,5 +1,5 @@
 /*
-** dialogprivatemessage.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,23 +13,25 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "dialogprivatemessages.h"
 #include "ui_dialogprivatemessages.h"
-
 #include "widgetprivatemessage.h"
 #include "chatcore.h"
-
 #include <QTextDocument>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 DialogPrivateMessages::DialogPrivateMessages(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::DialogPrivateMessages)
@@ -41,13 +43,11 @@ DialogPrivateMessages::DialogPrivateMessages(QWidget *parent) :
 	m_pCurrentWidget = 0;
 	qRegisterMetaType<QUuid>("QUuid");
 }
-
 DialogPrivateMessages::~DialogPrivateMessages()
 {
 	delete widgetChatInput;
 	delete ui;
 }
-
 WidgetPrivateMessage* DialogPrivateMessages::FindByGUID(QUuid oGUID)
 {
 	foreach( WidgetPrivateMessage* pWg, m_lChatWindows )
@@ -55,10 +55,8 @@ WidgetPrivateMessage* DialogPrivateMessages::FindByGUID(QUuid oGUID)
 		if( oGUID == pWg->m_oGUID )
 			return pWg;
 	}
-
 	return 0;
 }
-
 void DialogPrivateMessages::changeEvent(QEvent *e)
 {
 	QDialog::changeEvent(e);
@@ -70,7 +68,6 @@ void DialogPrivateMessages::changeEvent(QEvent *e)
 		break;
 	}
 }
-
 void DialogPrivateMessages::OpenChat(CChatSession* pSess)
 {
 	ChatCore.m_pSection.lock();
@@ -83,20 +80,16 @@ void DialogPrivateMessages::OpenChat(CChatSession* pSess)
 		m_pCurrentWidget = pWg;
 		ui->tabWidgetPrivateMessages->setCurrentIndex(idx);
 	}
-
 	pSess->SetupWidget(pWg);
 	pWg->show();
 	ChatCore.m_pSection.unlock();
 	raise();
 }
-
 void DialogPrivateMessages::onMessageSent(QTextDocument *pDoc)
 {
 	QString sMessage = pDoc->toPlainText();
-
 	if( sMessage.isEmpty() )
 		return;
-
 	if( sMessage.left(2) != "//" )
 	{
 		if( sMessage.left(1) == "/" ) // is it a command?
@@ -105,10 +98,8 @@ void DialogPrivateMessages::onMessageSent(QTextDocument *pDoc)
 			int nSpace = sMessage.indexOf(" ");
 			if( nSpace == -1 )
 				nSpace = sMessage.length();
-
 			sCmd = sMessage.left(nSpace).toLower();
 			sParam = sMessage.mid(nSpace + 1);
-
 			if( sCmd == "/me" )
 			{
 				if( !sParam.isEmpty() )
@@ -118,26 +109,23 @@ void DialogPrivateMessages::onMessageSent(QTextDocument *pDoc)
 			{
 				m_pCurrentWidget->OnSystemMessage("Unknown command");
 			}
-
 			return;
 		}
 	}
 	m_pCurrentWidget->SendMessage(pDoc, false);
 }
-
 void DialogPrivateMessages::on_tabWidgetPrivateMessages_currentChanged(int index)
 {
 	if( ui->tabWidgetPrivateMessages->count() > 0 )
 		m_pCurrentWidget = m_lChatWindows[index];
 }
-
 void DialogPrivateMessages::on_tabWidgetPrivateMessages_tabCloseRequested(int index)
 {
 	ui->tabWidgetPrivateMessages->removeTab(index);
 	m_lChatWindows.removeAt(index);
-
 	if( m_lChatWindows.isEmpty() )
 	{
 		close();
 	}
 }
+

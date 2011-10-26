@@ -1,5 +1,5 @@
 /*
-** dialogselectvisualisation.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,30 +13,32 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "dialogselectvisualisation.h"
 #include "ui_dialogselectvisualisation.h"
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 DialogSelectVisualisation::DialogSelectVisualisation(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogSelectVisualisation)
 {
 	m_ui->setupUi(this);
 }
-
 DialogSelectVisualisation::~DialogSelectVisualisation()
 {
 	delete m_ui;
 }
-
 void DialogSelectVisualisation::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -49,7 +51,6 @@ void DialogSelectVisualisation::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void DialogSelectVisualisation::on_pushButtonOK_clicked()
 {
 	if(m_ui->pushButtonApply->isEnabled())
@@ -59,9 +60,9 @@ void DialogSelectVisualisation::on_pushButtonOK_clicked()
 	emit closed();
 	close();
 }
-
 void DialogSelectVisualisation::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
+

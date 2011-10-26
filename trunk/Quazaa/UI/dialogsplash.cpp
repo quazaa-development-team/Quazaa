@@ -1,5 +1,5 @@
 /*
-** dialogsplash.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,20 +13,23 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "dialogsplash.h"
 #include "ui_dialogsplash.h"
-
 #include <QDesktopWidget>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 DialogSplash::DialogSplash(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogSplash)
@@ -36,12 +39,10 @@ DialogSplash::DialogSplash(QWidget* parent) :
 	setAttribute(Qt::WA_TranslucentBackground);
 	move(QPoint(((QApplication::desktop()->screenGeometry(this).width() / 2) - (width() / 2)), ((QApplication::desktop()->screenGeometry(this).height() / 2) - (height() / 2))));
 }
-
 DialogSplash::~DialogSplash()
 {
 	delete m_ui;
 }
-
 void DialogSplash::changeEvent(QEvent* e)
 {
 	switch(e->type())
@@ -53,9 +54,9 @@ void DialogSplash::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void DialogSplash::updateProgress(int percent, QString status)
 {
 	m_ui->progressBarStatus->setValue(percent);
 	m_ui->labelStatus->setText(status);
 }
+
