@@ -95,7 +95,7 @@ DEFINES += COMMUNI_STATIC
 CONFIG(debug, debug|release){
 	DEFINES += _DEBUG
 	# Uncomment this to enable memleak reporting
-	#DEFINES += _DEBUG_MEMLEAKS
+	DEFINES += _DEBUG_MEMLEAKS
 }
 TEMPLATE = app
 
@@ -287,10 +287,7 @@ SOURCES += \
     3rdparty/communi/src/ircmessage.cpp \
     3rdparty/communi/src/ircencoder.cpp \
     3rdparty/communi/src/irccommand.cpp \
-	3rdparty/communi/src/irc.cpp \
-    3rdparty/communi/shared/src/messagehandler.cpp \
-    3rdparty/communi/shared/src/messageformatter.cpp \
-    3rdparty/communi/shared/src/commandparser.cpp \
+        3rdparty/communi/src/irc.cpp \
     Chat/ircsessionmanager.cpp \
     Transfers/transfer.cpp
 
@@ -432,104 +429,101 @@ HEADERS += \
     3rdparty/communi/include/ircglobal.h \
     3rdparty/communi/include/ircencoder_p.h \
     3rdparty/communi/include/irccommand.h \
-	3rdparty/communi/include/irc.h \
-    3rdparty/communi/shared/include/messagehandler.h \
-    3rdparty/communi/shared/include/messageformatter.h \
-    3rdparty/communi/shared/include/commandparser.h \
+        3rdparty/communi/include/irc.h \
     Chat/ircsessionmanager.h \
     Transfers/transfer.h
 
 FORMS += \
-	UI/dialogabout.ui \
-	UI/dialogadddownload.ui \
-	UI/dialogaddrule.ui \
-	UI/dialogaddsecuritysubscription.ui \
-	UI/dialogclosetype.ui \
-	UI/dialogconnectto.ui \
-	UI/dialogcreatetorrent.ui \
-	UI/dialogdownloadmonitor.ui \
-	UI/dialogdownloadproperties.ui \
-	UI/dialogdownloadsimport.ui \
-	UI/dialogeditshares.ui \
-	UI/dialogfiltersearch.ui \
-	UI/dialoghashprogress.ui \
-	UI/dialogirccolordialog.ui \
-	UI/dialoglanguage.ui \
-	UI/dialoglibrarysearch.ui \
-	UI/dialogopentorrent.ui \
-	UI/dialogpreviewprepare.ui \
-	UI/dialogprivatemessages.ui \
-	UI/dialogprofile.ui \
-	UI/dialogscheduler.ui \
-	UI/dialogsecuritysubscriptions.ui \
-	UI/dialogselectvisualisation.ui \
-	UI/dialogsettings.ui \
-	UI/dialogsplash.ui \
-	UI/dialogtorrentproperties.ui \
-	UI/dialogtransferprogresstooltip.ui \
-	UI/mediasettings.ui \
-	UI/widgetactivity.ui \
-	UI/widgetchat.ui \
-	UI/widgetchatinput.ui \
-	UI/widgetchatmiddle.ui \
-	UI/widgetchatroom.ui \
-	UI/widgetdiscovery.ui \
-	UI/widgetdownloads.ui \
-	UI/widgetgraph.ui \
-	UI/widgethitmonitor.ui \
-	UI/widgethome.ui \
-	UI/widgethostcache.ui \
-	UI/widgetlibrary.ui \
-	UI/widgetlibraryview.ui \
-	UI/widgetmedia.ui \
-	UI/widgetneighbours.ui \
-	UI/widgetpacketdump.ui \
-	UI/widgetprivatemessage.ui \
-	UI/widgetscheduler.ui \
-	UI/widgetsearch.ui \
-	UI/widgetsearchmonitor.ui \
-	UI/widgetsearchresults.ui \
-	UI/widgetsearchtemplate.ui \
-	UI/widgetsecurity.ui \
-	UI/widgetsmileylist.ui \
-	UI/widgetsystemlog.ui \
-	UI/widgettransfers.ui \
-	UI/widgetuploads.ui \
-	UI/winmain.ui \
-	UI/wizardquickstart.ui
+        UI/dialogabout.ui \
+        UI/dialogadddownload.ui \
+        UI/dialogaddrule.ui \
+        UI/dialogaddsecuritysubscription.ui \
+        UI/dialogclosetype.ui \
+        UI/dialogconnectto.ui \
+        UI/dialogcreatetorrent.ui \
+        UI/dialogdownloadmonitor.ui \
+        UI/dialogdownloadproperties.ui \
+        UI/dialogdownloadsimport.ui \
+        UI/dialogeditshares.ui \
+        UI/dialogfiltersearch.ui \
+        UI/dialoghashprogress.ui \
+        UI/dialogirccolordialog.ui \
+        UI/dialoglanguage.ui \
+        UI/dialoglibrarysearch.ui \
+        UI/dialogopentorrent.ui \
+        UI/dialogpreviewprepare.ui \
+        UI/dialogprivatemessages.ui \
+        UI/dialogprofile.ui \
+        UI/dialogscheduler.ui \
+        UI/dialogsecuritysubscriptions.ui \
+        UI/dialogselectvisualisation.ui \
+        UI/dialogsettings.ui \
+        UI/dialogsplash.ui \
+        UI/dialogtorrentproperties.ui \
+        UI/dialogtransferprogresstooltip.ui \
+        UI/mediasettings.ui \
+        UI/widgetactivity.ui \
+        UI/widgetchat.ui \
+        UI/widgetchatinput.ui \
+        UI/widgetchatmiddle.ui \
+        UI/widgetchatroom.ui \
+        UI/widgetdiscovery.ui \
+        UI/widgetdownloads.ui \
+        UI/widgetgraph.ui \
+        UI/widgethitmonitor.ui \
+        UI/widgethome.ui \
+        UI/widgethostcache.ui \
+        UI/widgetlibrary.ui \
+        UI/widgetlibraryview.ui \
+        UI/widgetmedia.ui \
+        UI/widgetneighbours.ui \
+        UI/widgetpacketdump.ui \
+        UI/widgetprivatemessage.ui \
+        UI/widgetscheduler.ui \
+        UI/widgetsearch.ui \
+        UI/widgetsearchmonitor.ui \
+        UI/widgetsearchresults.ui \
+        UI/widgetsearchtemplate.ui \
+        UI/widgetsecurity.ui \
+        UI/widgetsmileylist.ui \
+        UI/widgetsystemlog.ui \
+        UI/widgettransfers.ui \
+        UI/widgetuploads.ui \
+        UI/winmain.ui \
+        UI/wizardquickstart.ui
 
 TRANSLATIONS = \
-	Language/quazaa_af.ts \
-	Language/quazaa_ar.ts \
-	Language/quazaa_ca.ts \
-	Language/quazaa_chs.ts \
-	Language/quazaa_cz.ts \
-	Language/quazaa_de.ts \
-	Language/quazaa_default_en.ts \
-	Language/quazaa_ee.ts \
-	Language/quazaa_es.ts \
-	Language/quazaa_fa.ts \
-	Language/quazaa_fi.ts \
-	Language/quazaa_fr.ts \
-	Language/quazaa_gr.ts \
-	Language/quazaa_heb.ts \
-	Language/quazaa_hr.ts \
-	Language/quazaa_hu.ts \
-	Language/quazaa_it.ts \
-	Language/quazaa_ja.ts \
-	Language/quazaa_lt.ts \
-	Language/quazaa_nl.ts \
-	Language/quazaa_no.ts \
-	Language/quazaa_pl.ts \
-	Language/quazaa_pt-br.ts \
-	Language/quazaa_pt.ts \
-	Language/quazaa_ru.ts \
-	Language/quazaa_sl-si.ts \
-	Language/quazaa_sq.ts \
-	Language/quazaa_sr.ts \
-	Language/quazaa_sv.ts \
-	Language/quazaa_tr.ts \
-	Language/quazaa_tw.ts
+        Language/quazaa_af.ts \
+        Language/quazaa_ar.ts \
+        Language/quazaa_ca.ts \
+        Language/quazaa_chs.ts \
+        Language/quazaa_cz.ts \
+        Language/quazaa_de.ts \
+        Language/quazaa_default_en.ts \
+        Language/quazaa_ee.ts \
+        Language/quazaa_es.ts \
+        Language/quazaa_fa.ts \
+        Language/quazaa_fi.ts \
+        Language/quazaa_fr.ts \
+        Language/quazaa_gr.ts \
+        Language/quazaa_heb.ts \
+        Language/quazaa_hr.ts \
+        Language/quazaa_hu.ts \
+        Language/quazaa_it.ts \
+        Language/quazaa_ja.ts \
+        Language/quazaa_lt.ts \
+        Language/quazaa_nl.ts \
+        Language/quazaa_no.ts \
+        Language/quazaa_pl.ts \
+        Language/quazaa_pt-br.ts \
+        Language/quazaa_pt.ts \
+        Language/quazaa_ru.ts \
+        Language/quazaa_sl-si.ts \
+        Language/quazaa_sq.ts \
+        Language/quazaa_sr.ts \
+        Language/quazaa_sv.ts \
+        Language/quazaa_tr.ts \
+        Language/quazaa_tw.ts
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3

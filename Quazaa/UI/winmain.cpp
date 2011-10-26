@@ -480,6 +480,7 @@ void CWinMain::quazaaShutdown()
 	qApp->processEvents();
 	delete trayIcon;
 	dlgSplash->close();
+	delete this;
 }
 void CWinMain::on_actionHome_triggered()
 {
