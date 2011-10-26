@@ -1,5 +1,5 @@
 /*
-** $Id: neighboursg2.h 597 2011-06-01 15:19:34Z brov $
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)

@@ -1,5 +1,5 @@
 /*
-** $Id: neighboursrouting.h 620 2011-06-08 14:34:07Z brov $
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
