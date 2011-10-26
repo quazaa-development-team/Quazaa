@@ -76,6 +76,7 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIRC) :
 }
 WidgetChatInput::~WidgetChatInput()
 {
+	delete widgetSmileyList;
 	delete ui;
 }
 void WidgetChatInput::changeEvent(QEvent *e)

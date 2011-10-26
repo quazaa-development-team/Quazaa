@@ -64,6 +64,7 @@ WidgetSearchTemplate::~WidgetSearchTemplate()
 	{
 		StopSearch();
 	}
+	delete searchModel;
 	delete m_ui;
 }
 void WidgetSearchTemplate::changeEvent(QEvent* e)
