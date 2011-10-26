@@ -1,5 +1,5 @@
 /*
-** widgetchat.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,22 +13,24 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "widgetchat.h"
 #include "ui_widgetchat.h"
-
 #include "quazaasettings.h"
- 
 #include "systemlog.h"
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 WidgetChat::WidgetChat(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetChat)
@@ -40,13 +42,11 @@ WidgetChat::WidgetChat(QWidget* parent) :
 	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
 	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
 }
-
 WidgetChat::~WidgetChat()
 {
 	panelChatMiddle->close();
 	delete ui;
 }
-
 void WidgetChat::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
@@ -59,7 +59,6 @@ void WidgetChat::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void WidgetChat::saveWidget()
 {
 	quazaaSettings.WinMain.ChatSplitter = ui->splitterChat->saveState();
@@ -67,11 +66,9 @@ void WidgetChat::saveWidget()
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
 	panelChatMiddle->saveWidget();
 }
-
 void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
-
 	if(ui->splitterChat->handle(1)->underMouse())
 	{
 		if(ui->splitterChat->sizes()[0] > 0)
@@ -93,7 +90,6 @@ void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
 			ui->splitterChat->setSizes(sizesList);
 		}
 	}
-
 	if(ui->splitterChat->handle(2)->underMouse())
 	{
 		if(ui->splitterChat->sizes()[2] > 0)
@@ -116,3 +112,4 @@ void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
 		}
 	}
 }
+

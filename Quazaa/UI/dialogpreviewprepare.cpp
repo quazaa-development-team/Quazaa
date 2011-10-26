@@ -1,7 +1,7 @@
 /*
-** dialogpreviewprepare.cpp
+** $Id$
 **
-** Copyright  Quazaa Development Team, 2009-2011.
+** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -13,30 +13,32 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "dialogpreviewprepare.h"
 #include "ui_dialogpreviewprepare.h"
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 DialogPreviewPrepare::DialogPreviewPrepare(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogPreviewPrepare)
 {
 	m_ui->setupUi(this);
 }
-
 DialogPreviewPrepare::~DialogPreviewPrepare()
 {
 	delete m_ui;
 }
-
 void DialogPreviewPrepare::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -49,15 +51,14 @@ void DialogPreviewPrepare::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void DialogPreviewPrepare::on_pushButton_clicked()
 {
 	emit closed();
 	close();
 }
-
 void DialogPreviewPrepare::updateProgress(int percent, QString fileName)
 {
 	m_ui->progressBarStatus->setValue(percent);
 	m_ui->labelFileName->setText(fileName);
 }
+

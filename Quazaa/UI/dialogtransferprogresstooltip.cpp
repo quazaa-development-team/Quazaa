@@ -1,5 +1,5 @@
 /*
-** dialogtransferprogress.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,30 +13,32 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "dialogtransferprogresstooltip.h"
 #include "ui_dialogtransferprogresstooltip.h"
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 DialogTransferProgressTooltip::DialogTransferProgressTooltip(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogTransferProgressTooltip)
 {
 	m_ui->setupUi(this);
 }
-
 DialogTransferProgressTooltip::~DialogTransferProgressTooltip()
 {
 	delete m_ui;
 }
-
 void DialogTransferProgressTooltip::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -49,7 +51,6 @@ void DialogTransferProgressTooltip::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void DialogTransferProgressTooltip::updateProgress(int percent, QString transferSpeed, QString timeRemaining,
         QString volumeDownloaded, QString numberSources, QPixmap icon,
         QString file, QString size, QString type, QStringList hashes)
@@ -68,3 +69,4 @@ void DialogTransferProgressTooltip::updateProgress(int percent, QString transfer
 	m_ui->labelED2KHash->setText(hashes.at(2));
 	m_ui->labelMD5Hash->setText(hashes.at(3));
 }
+

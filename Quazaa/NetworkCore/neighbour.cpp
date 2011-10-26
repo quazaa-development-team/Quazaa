@@ -1,5 +1,5 @@
 /*
-** neighbour.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,41 +13,41 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "neighbour.h"
 #include "neighbours.h"
 #include "quazaasettings.h"
 #include "hostcache.h"
 #include <QTcpSocket>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 CNeighbour::CNeighbour(QObject* parent) :
 	CCompressedConnection(parent)
 {
 	m_nProtocol = dpNull;
-
 	m_nState = nsClosed;
 	m_tLastPacketIn = m_tLastPacketOut = 0;
 	m_tLastPingOut = 0;
 	m_nPingsWaiting = 0;
 	m_tRTT = 0;
 	m_nPacketsIn = m_nPacketsOut = 0;
-
 }
-
 CNeighbour::~CNeighbour()
 {
 	ASSUME_LOCK(Neighbours.m_pSection);
 	Neighbours.RemoveNode(this);
 }
-
 void CNeighbour::OnTimer(quint32 tNow)
 {
 	if(m_nState < nsConnected)
@@ -58,12 +58,10 @@ void CNeighbour::OnTimer(quint32 tNow)
 			{
 				HostCache.OnFailure(m_oAddress);
 			}
-
 			if( m_nState == nsConnecting )
 				systemLog.postLog(LogSeverity::Information, qPrintable(tr("Timed out connecting to %s.")), qPrintable(m_oAddress.toStringWithPort()));
 			else
 				systemLog.postLog(LogSeverity::Information, qPrintable(tr("Timed out handshaking with %s.")), qPrintable(m_oAddress.toStringWithPort()));
-
 			Close();
 			return;
 		}
@@ -78,7 +76,6 @@ void CNeighbour::OnTimer(quint32 tNow)
 			Close();
 			return;
 		}
-
 		if(m_nPingsWaiting > 0 && tNow - m_tLastPingOut > quazaaSettings.Gnutella2.PingTimeout && tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 ping timed out").arg(m_oAddress.toString()));
@@ -88,13 +85,11 @@ void CNeighbour::OnTimer(quint32 tNow)
 		}
 	}
 }
-
 void CNeighbour::Close(bool bDelayed)
 {
 	m_nState = nsClosing;
 	CCompressedConnection::Close(bDelayed);
 }
-
 void CNeighbour::OnDisconnect()
 {
 	Neighbours.m_pSection.lock();
@@ -112,7 +107,6 @@ void CNeighbour::OnError(QAbstractSocket::SocketError e)
 		HostCache.OnFailure(m_oAddress);
 		systemLog.postLog(LogSeverity::Error, "Neighbour %s dropped connection unexpectedly (socket error: %s).", qPrintable(m_oAddress.toStringWithPort()), qPrintable(m_pSocket->errorString()));
 	}
-
 	Neighbours.m_pSection.lock();
 	delete this;
 	Neighbours.m_pSection.unlock();
@@ -121,3 +115,4 @@ void CNeighbour::OnStateChange(QAbstractSocket::SocketState s)
 {
 	Q_UNUSED(s);
 }
+

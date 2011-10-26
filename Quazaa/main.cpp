@@ -1,5 +1,5 @@
 /*
-** main.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,24 +13,23 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <QtGui/QApplication>
 
+#include <QtGui/QApplication>
 #include "winmain.h"
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "dialoglanguage.h"
 #include "timedsignalqueue.h"
 #include "qtsingleapplication/src/QtSingleApplication"
-
 #include "geoiplist.h"
 #include "network.h"
 #include "queryhashmaster.h"
@@ -39,60 +38,87 @@
 #include "wizardquickstart.h"
 #include "sharemanager.h"
 #include "commonfunctions.h"
-
 #include "Security/security.h"
-
 #ifdef Q_OS_LINUX
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <unistd.h>
 #endif // Q_OS_LINUX
-
-#include <stdio.h>
-#include <stdlib.h>
-
-void myMessageOutput(QtMsgType type, const char *msg)
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define _CRTDBG_MAP_ALLOC
+	#include <stdlib.h>
+	#include <crtdbg.h>
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
+#if defined(_MSC_VER) && defined(_DEBUG)
+#include <string.h>
+_CRT_REPORT_HOOK prevHook;
+int reportingHook(int reportType, char* userMessage, int* retVal)
 {
-	switch (type) {
-	case QtDebugMsg:
-		fprintf(stderr, "Debug: %s\n", msg);
-		break;
-	case QtWarningMsg:
-		fprintf(stderr, "Warning: %s\n", msg);
-		break;
-	case QtCriticalMsg:
-		fprintf(stderr, "Critical: %s\n", msg);
-		break;
-	case QtFatalMsg:
-		fprintf(stderr, "Fatal: %s\n", msg);
-		abort();
-	}
+	Q_UNUSED(reportType);
+	Q_UNUSED(retVal);
+	// This function is called several times for each memory leak.
+	// Each time a part of the error message is supplied.
+	// This holds number of subsequent detail messages after
+	// a leak was reported
+	const int numFollowupDebugMsgParts = 3;
+	static bool ignoreMessage = false;
+	static int debugMsgPartsCount = 0;
+	// check if the memory leak reporting starts
+	if ((strncmp(userMessage,"Detected memory leaks!\n", 10) == 0)
+			|| ignoreMessage)
+	{
+		// check if the memory leak reporting ends
+		if (strncmp(userMessage,"Object dump complete.\n", 10) == 0)
+		{
+			_CrtSetReportHook(prevHook);
+			ignoreMessage = false;
+		} else
+			ignoreMessage = true;
+		// something from our own code?
+		if(strstr(userMessage, ".cpp") == NULL)
+		{
+			if(debugMsgPartsCount++ < numFollowupDebugMsgParts)
+				// give it back to _CrtDbgReport() to be printed to the console
+				return FALSE;
+			else
+				return TRUE;  // ignore it
+		} else
+		{
+			debugMsgPartsCount = 0;
+			// give it back to _CrtDbgReport() to be printed to the console
+			return FALSE;
+		}
+	} else
+		// give it back to _CrtDbgReport() to be printed to the console
+		return FALSE;
 }
-
+void setFilterDebugHook(void)
+{
+	//change the report function to only report memory leaks from program code
+	prevHook = _CrtSetReportHook(reportingHook);
+}
+#endif
 QuazaaGlobals quazaaGlobals;
-
 int main(int argc, char *argv[])
 {
-	//qInstallMsgHandler(myMessageOutput);
-
+#if defined(_MSC_VER) && defined(_DEBUG) && defined(_DEBUG_MEMLEAKS)
+	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	setFilterDebugHook();
+#endif
 	QtSingleApplication theApp( argc, argv );
-
 	// Check if the application is already running
 	if( theApp.sendMessage( "Show App" ) )
 	{
 		return 0;
 	}
-
 	qsrand( time( 0 ) );
-
 #ifdef Q_OS_LINUX
-
 	rlimit sLimit;
 	memset( &sLimit, 0, sizeof( rlimit ) );
 	getrlimit( RLIMIT_NOFILE, &sLimit );
-
 	sLimit.rlim_cur = sLimit.rlim_max;
-
 	if( setrlimit( RLIMIT_NOFILE, &sLimit ) == 0 )
 	{
 		qDebug() << "Successfully raised resource limits";
@@ -101,32 +127,24 @@ int main(int argc, char *argv[])
 	{
 		qDebug() << "Cannot set resource limits";
 	}
-
 #endif // Q_OS_LINUX
-
 	theApp.setApplicationName(    QuazaaGlobals::APPLICATION_NAME() );
 	theApp.setApplicationVersion( QuazaaGlobals::APPLICATION_VERSION_STRING() );
 	theApp.setOrganizationDomain( QuazaaGlobals::APPLICATION_ORGANIZATION_DOMAIN() );
 	theApp.setOrganizationName(   QuazaaGlobals::APPLICATION_ORGANIZATION_NAME() );
-
 	// Setup Qt elements of signal queue necessary for operation
 	signalQueue.setup();
-
 	//Initialize multilanguage support
 	quazaaSettings.loadLanguageSettings();
 	quazaaSettings.translator.load( quazaaSettings.Language.File );
 	qApp->installTranslator( &quazaaSettings.translator );
-
 	//Create splash window
 	DialogSplash* dlgSplash = new DialogSplash();
 	dlgSplash->show();
-
 	dlgSplash->updateProgress( 1, QObject::tr( "Loading settings..." ) );
 	qApp->processEvents();
-
 	//Initialize Settings
 	quazaaSettings.loadSettings();
-
 	//Check if this is Quazaa's first run
 	dlgSplash->updateProgress( 5, QObject::tr( "Checking for first run..." ) );
 	qApp->processEvents();
@@ -134,68 +152,55 @@ int main(int argc, char *argv[])
 	{
 		DialogLanguage* dlgLanguage = new DialogLanguage();
 		dlgLanguage->exec();
-
 		dlgSplash->updateProgress( 10, QObject::tr( "Running first run wizard..." ) );
 		quazaaSettings.saveFirstRun( false );
 		quazaaSettings.saveSettings();
 		quazaaSettings.saveProfile();
-
 		WizardQuickStart* wzrdQuickStart = new WizardQuickStart();
 		wzrdQuickStart->exec();
 	}
-
 	// Load Security Manager
 	dlgSplash->updateProgress( 15, QObject::tr( "Loading Security Manager..." ) );
 	qApp->processEvents();
 	if(!securityManager.load()) systemLog.postLog(LogSeverity::Information, QObject::tr("Security data file was not available."));
-
 	//Load profile
 	dlgSplash->updateProgress( 20, QObject::tr( "Loading Profile..." ) );
 	qApp->processEvents();
 	quazaaSettings.loadProfile();
-
 	//Load the networks
 	//dlgSplash->updateProgress( 25, QObject::tr( "Loading Networks..." ) );
 	//qApp->processEvents();
-
 	//initialize geoip list
 	GeoIP.loadGeoIP();
-
 	//Load the library
 	dlgSplash->updateProgress( 50, QObject::tr( "Loading Library..." ) );
 	qApp->processEvents();
 	QueryHashMaster.Create();
 	ShareManager.Start();
-
 	dlgSplash->updateProgress( 80, QObject::tr( "Loading User Interface..." ) );
 	qApp->processEvents();
-
 	MainWindow = new CWinMain();
 	if ( quazaaSettings.WinMain.Visible )
 	{
 		MainWindow->show();
 	}
-
 	dlgSplash->updateProgress( 90, QObject::tr( "Loading Tray Icon..." ) );
 	qApp->processEvents();
 	MainWindow->loadTrayIcon();
-
 	// Make the main window show if the user tried to open another instance
 	QObject::connect( &theApp, SIGNAL( messageReceived( const QString& ) ),
 					  MainWindow, SLOT( showOnTop() ));
 	theApp.setActivationWindow( MainWindow );
-
 	dlgSplash->updateProgress( 100, QObject::tr( "Welcome to Quazaa!" ) );
 	qApp->processEvents();
 	dlgSplash->close();
 	dlgSplash->deleteLater();
 	dlgSplash = 0;
-
 	// Start networks if needed
 	if( quazaaSettings.Gnutella2.Enable )
 	{
 		Network.Connect();
 	}
-
 	return theApp.exec();
 }
+

@@ -1,5 +1,5 @@
 /*
-** neighbourstablemodel.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,17 +13,17 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "neighbourstablemodel.h"
 
+#include "neighbourstablemodel.h"
 #include <QColor>
 #include <QSize>
 #include <QIcon>
@@ -35,12 +35,13 @@
 #include "neighbours.h"
 #include "geoiplist.h"
 #include <qabstractitemview.h>
-
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode(pNeighbour)
 {
 	quint32 tNow = time(0);
-
 	oAddress = pNode->GetAddress();
 	tConnected = tNow - pNode->m_tConnected;
 	nBandwidthIn = pNode->m_mInput.Usage();
@@ -59,7 +60,6 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode(pNei
 	sUserAgent = pNode->m_sUserAgent;
 	sCountry = GeoIP.findCountryCode(pNode->m_oAddress);
 	iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
-
 	switch(pNode->m_nProtocol)
 	{
 		case dpGnutella2:
@@ -72,29 +72,23 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode(pNei
 			break;
 	}
 }
-
 bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList& to_update, CNeighboursTableModel* model)
 {
 	if(!Neighbours.NeighbourExists(pNode))
 	{
 		return false;
 	}
-
 	bool bRet = false;
-
 	quint32 tNow = time(0);
-
 	if(oAddress != pNode->GetAddress())
 	{
 		to_update.append(model->index(row, ADDRESS));
 		oAddress = pNode->GetAddress();
-
 		if(col == ADDRESS)
 		{
 			bRet = true;
 		}
 	}
-
 	if( nState != pNode->m_nState && nState != nsConnected )
 	{
 		nState = pNode->m_nState;
@@ -113,7 +107,6 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 			bRet = true;
 		}
 	}
-
 	nBandwidthIn = pNode->m_mInput.Usage();
 	nBandwidthOut = pNode->m_mOutput.Usage();
 	to_update.append(model->index(row, BANDWIDTH));
@@ -121,7 +114,6 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 	{
 		bRet = true;
 	}
-
 	nBytesReceived = pNode->m_mInput.m_nTotal;
 	nBytesSent = pNode->m_mOutput.m_nTotal;
 	nCompressionIn = pNode->GetTotalInDecompressed();
@@ -131,7 +123,6 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 	{
 		bRet = true;
 	}
-
 	if(nPacketsIn != pNode->m_nPacketsIn || nPacketsOut != pNode->m_nPacketsOut)
 	{
 		nPacketsIn = pNode->m_nPacketsIn;
@@ -142,7 +133,6 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 			bRet = true;
 		}
 	}
-
 	if(nRTT != pNode->m_tRTT)
 	{
 		nRTT = pNode->m_tRTT;
@@ -152,7 +142,6 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 			bRet = true;
 		}
 	}
-
 	if(sUserAgent != pNode->m_sUserAgent)
 	{
 		sUserAgent = pNode->m_sUserAgent;
@@ -162,7 +151,6 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 			bRet = true;
 		}
 	}
-
 	switch(pNode->m_nProtocol)
 	{
 		case dpGnutella2:
@@ -176,7 +164,6 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 					bRet = true;
 				}
 			}
-
 			if(nType != ((CG2Node*)pNode)->m_nType)
 			{
 				nType = ((CG2Node*)pNode)->m_nType;
@@ -190,10 +177,8 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 		default:
 			break;
 	}
-
 	return bRet;
 }
-
 QVariant CNeighboursTableModel::Neighbour::data(int col) const
 {
 	switch(col)
@@ -229,11 +214,8 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 		case COUNTRY:
 			return GeoIP.countryNameFromCode(sCountry);
 	}
-
-
 	return QVariant();
 }
-
 bool CNeighboursTableModel::Neighbour::lessThan(int col, CNeighboursTableModel::Neighbour* pOther) const
 {
 	switch(col)
@@ -271,7 +253,6 @@ bool CNeighboursTableModel::Neighbour::lessThan(int col, CNeighboursTableModel::
 		default:
 			return false;
 	}
-
 }
 QString CNeighboursTableModel::Neighbour::StateToString(int s) const
 {
@@ -290,7 +271,6 @@ QString CNeighboursTableModel::Neighbour::StateToString(int s) const
 		case nsError:
 			return "error";
 	}
-
 	return QString();
 }
 QString CNeighboursTableModel::Neighbour::TypeToString(G2NodeType t) const
@@ -308,25 +288,20 @@ QString CNeighboursTableModel::Neighbour::TypeToString(G2NodeType t) const
 		return "";
 	}
 }
-
-
 CNeighboursTableModel::CNeighboursTableModel(QObject* parent, QWidget* container) :
 	QAbstractTableModel(parent)
 {
 	m_oContainer = container;
 	m_nSortColumn = -1;
 	m_bNeedSorting = false;
-
 	connect(&Neighbours, SIGNAL(NeighbourAdded(CNeighbour*)), this, SLOT(AddNode(CNeighbour*)), Qt::QueuedConnection);
 	connect(&Neighbours, SIGNAL(NeighbourRemoved(CNeighbour*)), this, SLOT(RemoveNode(CNeighbour*)), Qt::QueuedConnection);
 }
-
 CNeighboursTableModel::~CNeighboursTableModel()
 {
 	qDeleteAll(m_lNodes);
 	m_lNodes.clear();
 }
-
 int CNeighboursTableModel::rowCount(const QModelIndex& parent) const
 {
 	if(parent.isValid())
@@ -338,7 +313,6 @@ int CNeighboursTableModel::rowCount(const QModelIndex& parent) const
 		return m_lNodes.count();
 	}
 }
-
 int CNeighboursTableModel::columnCount(const QModelIndex& parent) const
 {
 	if(parent.isValid())
@@ -350,21 +324,17 @@ int CNeighboursTableModel::columnCount(const QModelIndex& parent) const
 		return _NO_OF_COLUMNS;
 	}
 }
-
 QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 {
 	if(!index.isValid())
 	{
 		return QVariant();
 	}
-
 	if(index.row() > m_lNodes.size() || index.row() < 0)
 	{
 		return QVariant();
 	}
-
 	const Neighbour* nbr = m_lNodes.at(index.row());
-
 	if(role == Qt::DisplayRole)
 	{
 		return nbr->data(index.column());
@@ -414,18 +384,14 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 				break;
 		}
 	}
-
 	return QVariant();
 }
-
 QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
 	if(orientation != Qt::Horizontal)
 	{
 		return QVariant();
 	}
-
-
 	if(role == Qt::DisplayRole)
 	{
 		switch(section)
@@ -478,7 +444,6 @@ QVariant CNeighboursTableModel::headerData(int section, Qt::Orientation orientat
 				return tr("Country");
 		}
 	}
-
 	return QVariant();
 }
 QModelIndex CNeighboursTableModel::index(int row, int column, const QModelIndex& parent) const
@@ -487,7 +452,6 @@ QModelIndex CNeighboursTableModel::index(int row, int column, const QModelIndex&
 	{
 		return QModelIndex();
 	}
-
 	if(row < 0 || row >= m_lNodes.count())
 	{
 		return QModelIndex();
@@ -497,13 +461,11 @@ QModelIndex CNeighboursTableModel::index(int row, int column, const QModelIndex&
 		return createIndex(row, column, m_lNodes[row]);
 	}
 }
-
 class CNeighboursTableModelCmp
 {
 public:
 	CNeighboursTableModelCmp(int col, Qt::SortOrder o) : column(col), order(o)
 	{}
-
 	bool operator()(CNeighboursTableModel::Neighbour* a, CNeighboursTableModel::Neighbour* b)
 	{
 		if(order == Qt::AscendingOrder)
@@ -515,21 +477,17 @@ public:
 			return b->lessThan(column, a);
 		}
 	}
-
 	int column;
 	Qt::SortOrder order;
 };
-
 void CNeighboursTableModel::sort(int column, Qt::SortOrder order)
 {
 	m_nSortColumn = column;
 	m_nSortOrder = order;
-
 	emit layoutAboutToBeChanged();
 	qStableSort(m_lNodes.begin(), m_lNodes.end(), CNeighboursTableModelCmp(column, order));
 	emit layoutChanged();
 }
-
 CNeighbour* CNeighboursTableModel::NodeFromIndex(const QModelIndex& index)
 {
 	if(index.isValid() && index.row() < m_lNodes.count() && index.row() >= 0)
@@ -541,7 +499,6 @@ CNeighbour* CNeighboursTableModel::NodeFromIndex(const QModelIndex& index)
 		return 0;
 	}
 }
-
 void CNeighboursTableModel::AddNode(CNeighbour* pNode)
 {
 	Neighbours.m_pSection.lock();
@@ -554,7 +511,6 @@ void CNeighboursTableModel::AddNode(CNeighbour* pNode)
 	}
 	Neighbours.m_pSection.unlock();
 }
-
 void CNeighboursTableModel::RemoveNode(CNeighbour* pNode)
 {
 	for(int i = 0, nMax = m_lNodes.size(); i < nMax; i++)
@@ -570,12 +526,10 @@ void CNeighboursTableModel::RemoveNode(CNeighbour* pNode)
 		}
 	}
 }
-
 void CNeighboursTableModel::UpdateAll()
 {
 	QModelIndexList uplist;
 	bool bSort = m_bNeedSorting;
-
 	if(Neighbours.m_pSection.tryLock())
 	{
 		for(int i = 0, max = m_lNodes.count(); i < max; ++i)
@@ -585,10 +539,8 @@ void CNeighboursTableModel::UpdateAll()
 				bSort = true;
 			}
 		}
-
 		Neighbours.m_pSection.unlock();
 	}
-
 	if(bSort)
 	{
 		sort(m_nSortColumn, m_nSortOrder);
@@ -600,7 +552,6 @@ void CNeighboursTableModel::UpdateAll()
 			foreach(QModelIndex idx, uplist)
 			{
 				QAbstractItemView* pView = qobject_cast<QAbstractItemView*>(m_oContainer);
-
 				if(pView)
 				{
 					pView->update(idx);
@@ -609,3 +560,4 @@ void CNeighboursTableModel::UpdateAll()
 		}
 	}
 }
+

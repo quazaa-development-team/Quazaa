@@ -1,5 +1,5 @@
 /*
-** queryhashgroup.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,19 +13,23 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "queryhashgroup.h"
 #include "queryhashmaster.h"
 #include "quazaasettings.h"
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 CQueryHashGroup::CQueryHashGroup(quint32 nHash)
 {
 	m_nHash = nHash ? nHash : 1u << quazaaSettings.Library.QueryRouteSize;
@@ -33,63 +37,49 @@ CQueryHashGroup::CQueryHashGroup(quint32 nHash)
 	memset(m_pHash, 0, m_nHash);
 	m_nCount = 0;
 }
-
 CQueryHashGroup::~CQueryHashGroup()
 {
 #ifdef _DEBUG
 	uchar* pTest = m_pHash;
-
 	for(quint32 nHash = m_nHash ; nHash ; nHash--)
 	{
 		Q_ASSERT(*pTest++ == 0);
 	}
 #endif
-
 	delete [] m_pHash;
 }
-
 void CQueryHashGroup::Add(CQueryHashTable* pTable)
 {
 	Q_ASSERT(pTable != 0);
 	Q_ASSERT(pTable->m_pGroup == 0);
 	Q_ASSERT(m_pTables.indexOf(pTable) == -1);
-
 	pTable->m_pGroup = this;
 	m_pTables.append(pTable);
-
 	Operate(pTable, true);
 	QueryHashMaster.Invalidate();
 }
-
 void CQueryHashGroup::Remove(CQueryHashTable* pTable)
 {
 	Q_ASSERT(pTable != 0);
 	Q_ASSERT(pTable->m_pGroup == this);
-
 	int pos = m_pTables.indexOf(pTable);
 	Q_ASSERT(pos != -1);
-
 	m_pTables.removeAt(pos);
 	pTable->m_pGroup = 0;
-
 	Operate(pTable, false);
 	QueryHashMaster.Invalidate();
 }
-
 void CQueryHashGroup::Operate(CQueryHashTable* pTable, bool bAdd)
 {
 	Q_ASSERT(m_pHash != 0);
 	Q_ASSERT(pTable->m_nHash == m_nHash);
-
 	uchar* pSource = pTable->m_pHash;
 	uchar* pTarget = m_pHash;
-
 	if(bAdd)
 	{
 		for(quint32 nHash = m_nHash >> 3 ; nHash ; nHash--)
 		{
 			register uchar nSource = *pSource++;
-
 			if((nSource & 0x01) == 0)
 			{
 				(*pTarget++) ++;
@@ -161,7 +151,6 @@ void CQueryHashGroup::Operate(CQueryHashTable* pTable, bool bAdd)
 		for(quint32 nHash = m_nHash >> 3 ; nHash ; nHash--)
 		{
 			register uchar nSource = *pSource++;
-
 			if((nSource & 0x01) == 0)
 			{
 				(*pTarget++) --;
@@ -229,3 +218,4 @@ void CQueryHashGroup::Operate(CQueryHashTable* pTable, bool bAdd)
 		}
 	}
 }
+

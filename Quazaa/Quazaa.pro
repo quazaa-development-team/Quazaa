@@ -94,6 +94,8 @@ mac:LIBS += -lz
 DEFINES += COMMUNI_STATIC
 CONFIG(debug, debug|release){
 	DEFINES += _DEBUG
+	# Uncomment this to enable memleak reporting
+	#DEFINES += _DEBUG_MEMLEAKS
 }
 TEMPLATE = app
 

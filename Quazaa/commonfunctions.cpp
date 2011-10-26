@@ -1,7 +1,7 @@
 /*
-** commonfunctions.cpp
+** $Id$
 **
-** Copyright  Quazaa Development Team, 2009-2011.
+** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -13,43 +13,41 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "commonfunctions.h"
 #include <QDir>
 #include <QDesktopServices>
 #include <QUrl>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 CommonFunctions Functions;
-
 CommonFunctions::CommonFunctions()
 {
 }
-
 void CommonFunctions::FolderOpen(QString file)
 {
 	QDir completePath( file );
-
 	if ( !completePath.exists() )
 	{
 		completePath.mkpath( file );
 	}
 		QDesktopServices::openUrl( QUrl::fromLocalFile(file) );
 }
-
 QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
 {
 	const char* szUnit[4] = {"B", "KB", "MB", "GB"};
-
 	double nBPS = nBytesPerSec;
-
 	int nStep = 0;
 	while ( nBPS > 1024 )
 	{
@@ -60,7 +58,6 @@ QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
 			break;
 		}
 	}
-
 	if ( nStep )
 	{
 		return QString().sprintf( "%1.2f %s", nBPS, szUnit[nStep] );
@@ -70,7 +67,6 @@ QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
 		return QString().sprintf( "%1.0f %s", nBPS, szUnit[nStep] );
 	}
 }
-
 QString CommonFunctions::VendorCodeToName(QString vendorCode)
 {
 	if ( vendorCode == "RAZA" )
@@ -126,3 +122,4 @@ QString CommonFunctions::VendorCodeToName(QString vendorCode)
 		return vendorCode;
 	}
 }
+

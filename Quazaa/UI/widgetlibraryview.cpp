@@ -1,5 +1,5 @@
 /*
-** widgetlibraryview.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,22 +13,24 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 
 #include "widgetlibraryview.h"
 #include "ui_widgetlibraryview.h"
 #include "dialoglibrarysearch.h"
-
 #include "quazaasettings.h"
- 
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 WidgetLibraryView::WidgetLibraryView(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetLibraryView)
@@ -40,12 +42,10 @@ WidgetLibraryView::WidgetLibraryView(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.LibraryToolbar);
 	ui->splitterLibraryView->restoreState(quazaaSettings.WinMain.LibraryDetailsSplitter);
 }
-
 WidgetLibraryView::~WidgetLibraryView()
 {
 	delete ui;
 }
-
 void WidgetLibraryView::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -58,23 +58,19 @@ void WidgetLibraryView::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void WidgetLibraryView::saveWidget()
 {
 	quazaaSettings.WinMain.LibraryToolbar = saveState();
 	quazaaSettings.WinMain.LibraryDetailsSplitter = ui->splitterLibraryView->saveState();
 }
-
 void WidgetLibraryView::on_actionFind_triggered()
 {
 	DialogLibrarySearch* dlgLibrarySearch = new DialogLibrarySearch(this);
 	dlgLibrarySearch->show();
 }
-
 void WidgetLibraryView::on_splitterLibraryView_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
-
 	if(ui->splitterLibraryView->handle(1)->underMouse())
 	{
 		if(ui->splitterLibraryView->sizes()[1] > 0)
@@ -95,3 +91,4 @@ void WidgetLibraryView::on_splitterLibraryView_customContextMenuRequested(QPoint
 		}
 	}
 }
+

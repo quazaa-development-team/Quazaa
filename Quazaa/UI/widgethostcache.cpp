@@ -1,5 +1,5 @@
 /*
-** widgethostcache.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,21 +13,23 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "widgethostcache.h"
 #include "ui_widgethostcache.h"
-
 #include "quazaasettings.h"
- 
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 WidgetHostCache::WidgetHostCache(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetHostCache)
@@ -36,12 +38,10 @@ WidgetHostCache::WidgetHostCache(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.HostCacheToolbar);
 	ui->splitterHostCache->restoreState(quazaaSettings.WinMain.HostCacheSplitter);
 }
-
 WidgetHostCache::~WidgetHostCache()
 {
 	delete ui;
 }
-
 void WidgetHostCache::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -54,17 +54,14 @@ void WidgetHostCache::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void WidgetHostCache::saveWidget()
 {
 	quazaaSettings.WinMain.HostCacheToolbar = saveState();
 	quazaaSettings.WinMain.HostCacheSplitter = ui->splitterHostCache->saveState();
 }
-
 void WidgetHostCache::on_splitterHostCache_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
-
 	if(ui->splitterHostCache->handle(1)->underMouse())
 	{
 		if(ui->splitterHostCache->sizes()[0] > 0)
@@ -85,3 +82,4 @@ void WidgetHostCache::on_splitterHostCache_customContextMenuRequested(QPoint pos
 		}
 	}
 }
+

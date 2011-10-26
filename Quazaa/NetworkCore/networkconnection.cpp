@@ -1,5 +1,5 @@
 /*
-** networkconnection.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,22 +13,24 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "networkconnection.h"
 
+#include "networkconnection.h"
 #include <QTcpSocket>
 #include <QMetaType>
-
 #include "buffer.h"
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 CNetworkConnection::CNetworkConnection(QObject* parent)
 	: QObject(parent)
 {
@@ -39,14 +41,10 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
 		qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
 		bMetaRegistered = true;
 	}
-
 	//qDebug() << "CNetworkConnection constructor";
-
 	m_pSocket = 0;
-
 	m_pInput = 0;
 	m_pOutput = 0;
-
 	m_bInitiated = false;
 	m_bConnected = false;
 	m_tConnected = 0;
@@ -55,7 +53,6 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
 CNetworkConnection::~CNetworkConnection()
 {
 	//qDebug() << "CNetworkConnection destructor";
-
 	if(m_pInput)
 	{
 		delete m_pInput;
@@ -64,49 +61,39 @@ CNetworkConnection::~CNetworkConnection()
 	{
 		delete m_pOutput;
 	}
-
 	if(m_pSocket)
 	{
 		delete m_pSocket;
 	}
 }
-
 void CNetworkConnection::ConnectTo(CEndPoint oAddress)
 {
 	m_oAddress = oAddress;
-
 	m_bInitiated = true;
 	m_bConnected = false;
 	m_tConnected = time(0);
-
 	Q_ASSERT(m_pInput == 0);
 	Q_ASSERT(m_pOutput == 0);
 	m_pInput = new CBuffer(8192);
 	m_pOutput = new CBuffer(8192);
 	Q_ASSERT(m_pSocket == 0);
-
 	m_pSocket = new QTcpSocket();
 	initializeSocket();
 	m_pSocket->connectToHost(oAddress, oAddress.port());
-
 }
-
 void CNetworkConnection::AttachTo(CNetworkConnection* pOther)
 {
 	Q_ASSERT(m_pSocket == 0);
 	m_pSocket = pOther->m_pSocket;
 	pOther->m_pSocket = 0;
-
 	m_bConnected = pOther->m_bConnected;
 	m_tConnected = pOther->m_tConnected;
 	m_bInitiated = pOther->m_bInitiated;
-
 	Q_ASSERT(m_pInput == 0);
 	Q_ASSERT(m_pOutput == 0);
 	m_pInput = pOther->m_pInput;
 	m_pOutput = pOther->m_pOutput;
 	pOther->m_pInput = pOther->m_pOutput = 0;
-
 	if(m_pSocket->peerAddress().protocol() == 0)
 	{
 		m_oAddress.setAddress(m_pSocket->peerAddress().toIPv4Address());
@@ -116,28 +103,21 @@ void CNetworkConnection::AttachTo(CNetworkConnection* pOther)
 		m_oAddress.setAddress(m_pSocket->peerAddress().toIPv6Address());
 	}
 	m_oAddress.setPort(m_pSocket->peerPort());
-
 	initializeSocket();
-
 	emit readyRead();
-
 }
 void CNetworkConnection::AcceptFrom(int nHandle)
 {
 	Q_ASSERT(m_pSocket == 0);
 	m_pSocket = new QTcpSocket();
-
 	initializeSocket();
-
 	m_bInitiated = false;
 	m_bConnected = true;
 	m_tConnected = time(0);
-
 	Q_ASSERT(m_pInput == 0);
 	Q_ASSERT(m_pOutput == 0);
 	m_pInput = new CBuffer(8192);
 	m_pOutput = new CBuffer(8192);
-
 	m_pSocket->setSocketDescriptor(nHandle);
 	if(m_pSocket->peerAddress().protocol() == 0)
 	{
@@ -148,15 +128,11 @@ void CNetworkConnection::AcceptFrom(int nHandle)
 		m_oAddress.setAddress(m_pSocket->peerAddress().toIPv6Address());
 	}
 	m_oAddress.setPort(m_pSocket->peerPort());
-
 	emit readyToTransfer();
-
 }
-
 void CNetworkConnection::Close(bool bDelayed)
 {
 	systemLog.postLog(LogSeverity::Information, "Closing connection to %s.", qPrintable(m_oAddress.toStringWithPort()));
-
 	if( bDelayed )
 	{
 		m_bDelayedClose = true;
@@ -166,7 +142,6 @@ void CNetworkConnection::Close(bool bDelayed)
 			m_pSocket->flush();
 		}
 	}
-
 	QMetaObject::invokeMethod(this, "CloseInternal", Qt::AutoConnection, Q_ARG(bool, bDelayed));
 }
 void CNetworkConnection::CloseInternal(bool bDelayed)
@@ -181,7 +156,6 @@ void CNetworkConnection::CloseInternal(bool bDelayed)
 		emit disconnected();
 	}
 }
-
 void CNetworkConnection::moveToThread(QThread* thread)
 {
 	if(m_pSocket)
@@ -190,11 +164,9 @@ void CNetworkConnection::moveToThread(QThread* thread)
 	}
 	QObject::moveToThread(thread);
 }
-
 void CNetworkConnection::initializeSocket()
 {
 	m_pSocket->disconnect();
-
 	connect(m_pSocket, SIGNAL(connected()),
 	        this, SIGNAL(connected()));
 	connect(m_pSocket, SIGNAL(connected()),
@@ -211,22 +183,18 @@ void CNetworkConnection::initializeSocket()
 	        this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
 	connect(m_pSocket, SIGNAL(aboutToClose()),
 	        this, SIGNAL(aboutToClose()));
-
 	connect(this, SIGNAL(connected()), this, SLOT(OnConnect()), Qt::QueuedConnection);
 	connect(this, SIGNAL(disconnected()), this, SLOT(OnDisconnect()), Qt::QueuedConnection);
 	connect(this, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
 	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(OnError(QAbstractSocket::SocketError)), Qt::QueuedConnection);
 	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(OnStateChange(QAbstractSocket::SocketState)), Qt::QueuedConnection);
 }
-
 qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)
 {
 	Q_ASSERT(m_pInput != 0);
 	Q_ASSERT(nBytes >= 0);
-
 	int nOldSize = m_pInput->size();
 	qint64 nBytesRead = 0;
-
 	if(m_pSocket->state() != QTcpSocket::ConnectedState)
 	{
 		m_pInput->append(m_pSocket->readAll());
@@ -238,78 +206,62 @@ qint64 CNetworkConnection::readFromNetwork(qint64 nBytes)
 		nBytesRead = m_pSocket->read(m_pInput->data() + nOldSize, nBytes);
 		m_pInput->resize((nBytesRead <= 0 ? nOldSize : nOldSize + nBytesRead));
 	}
-
 	if(nBytesRead > 0)
 	{
 		m_mInput.Add(nBytesRead);
 		emit readyRead();
 	}
-
 	return nBytesRead;
 }
 qint64 CNetworkConnection::writeToNetwork(qint64 nBytes)
 {
 	Q_ASSERT(m_pOutput != 0);
 	Q_ASSERT(nBytes >= 0);
-
 	qint64 nBytesWritten = m_pSocket->write(m_pOutput->data(), qMin((qint64)m_pOutput->size(), nBytes));
-
 	if(nBytesWritten <= 0)
 	{
 		return nBytesWritten;
 	}
-
 	m_pOutput->remove(0, nBytesWritten);
 	m_mOutput.Add(nBytesWritten);
-
 	return nBytesWritten;
 }
 qint64 CNetworkConnection::readData(char* data, qint64 maxlen)
 {
 	Q_ASSERT(m_pInput != 0);
-
 	int nBytesRead = qMin<qint64>(maxlen, m_pInput->size());
 	memcpy(data, m_pInput->data(), nBytesRead);
 	m_pInput->remove(0, nBytesRead);
-
 	if(m_pSocket->state() != QTcpSocket::ConnectedState)
 	{
 		m_pInput->append(m_pSocket->readAll());
 	}
-
 	return (qint64)nBytesRead;
 }
-
 qint64 CNetworkConnection::writeData(const char* data, qint64 len)
 {
 	Q_ASSERT(m_pOutput != 0);
-
 	int nOldSize = m_pOutput->size();
 	m_pOutput->resize(nOldSize + len);
 	memcpy(m_pOutput->data() + nOldSize, data, len);
 	emit readyToTransfer();
 	return len;
 }
-
 qint64 CNetworkConnection::bytesAvailable()
 {
 	Q_ASSERT(m_pInput != 0);
-
 	if(m_pSocket->state() != QTcpSocket::ConnectedState)
 	{
 		m_pInput->append(m_pSocket->readAll());
 	}
-
 	return m_pInput->size();
 }
-
 qint64 CNetworkConnection::bytesToWrite() const
 {
 	if(!m_pSocket)
 	{
 		return 0;
 	}
-
 	return m_pSocket->bytesToWrite() + m_pOutput->size();
 }
 qint64 CNetworkConnection::networkBytesAvailable() const
@@ -318,12 +270,10 @@ qint64 CNetworkConnection::networkBytesAvailable() const
 	{
 		return 0;
 	}
-
 	if(m_pSocket->state() != QTcpSocket::ConnectedState)
 	{
 		return m_pInput->size();
 	}
-
 	return m_pSocket->bytesAvailable();
 }
 bool CNetworkConnection::isValid() const
@@ -332,7 +282,6 @@ bool CNetworkConnection::isValid() const
 	{
 		return false;
 	}
-
 	return m_pSocket->isValid();
 }
 void CNetworkConnection::setReadBufferSize(qint64 nSize)
@@ -342,70 +291,56 @@ void CNetworkConnection::setReadBufferSize(qint64 nSize)
 		m_pSocket->setReadBufferSize(nSize);
 	}
 }
-
 QByteArray CNetworkConnection::Read(qint64 nMaxSize)
 {
 	QByteArray baRet;
-
 	baRet.resize(qMin<qint64>(nMaxSize, GetInputBuffer()->size()));
 	readData(baRet.data(), baRet.size());
 	return baRet;
 }
-
 QByteArray CNetworkConnection::Peek(qint64 nMaxLength)
 {
 	CBuffer* pBuffer = GetInputBuffer();
-
 	return QByteArray::fromRawData(pBuffer->data(), qMin<qint64>(nMaxLength > 0 ? nMaxLength : pBuffer->size(), pBuffer->size()));
 }
-
 TCPBandwidthMeter::TCPBandwidthMeter()
 {
 	memset(&m_pSlots[0], 0, sizeof(m_pSlots));
 	m_nCurrentSlot = m_nTotal = 0;
 	m_tTime.start();
 }
-
 void TCPBandwidthMeter::Add(quint32 nBytes)
 {
 	if(m_tTime.hasExpired(250))
 	{
 		int nSlotsToClear = qMin(20ll, m_tTime.elapsed() / 250ll);
-
 		for(; nSlotsToClear; nSlotsToClear--)
 		{
 			m_nCurrentSlot = (m_nCurrentSlot + 1) % 20;
 			m_pSlots[m_nCurrentSlot] = 0;
 		}
-
 		m_tTime.start();
 	}
-
 	m_pSlots[m_nCurrentSlot] += nBytes;
 	m_nTotal += nBytes;
 }
 quint32 TCPBandwidthMeter::AvgUsage()
 {
 	quint64 nTotal = 0;
-
 	if(m_tTime.hasExpired(250))
 	{
 		int nSlotsToClear = qMin(20ll, m_tTime.elapsed() / 250ll);
-
 		for(; nSlotsToClear; nSlotsToClear--)
 		{
 			m_nCurrentSlot = (m_nCurrentSlot + 1) % 20;
 			m_pSlots[m_nCurrentSlot] = 0;
 		}
-
 		m_tTime.start();
 	}
-
 	for(int i = 0; i < 20; i++)
 	{
 		nTotal += m_pSlots[i];
 	}
-
 	return nTotal / 5;
 }
 quint32 TCPBandwidthMeter::Usage()
@@ -414,10 +349,8 @@ quint32 TCPBandwidthMeter::Usage()
 	{
 		return 0;
 	}
-
 	int nSlot = m_nCurrentSlot;
 	quint32 nUsage = 0;
-
 	for(int i = 0; i < 4; i++)
 	{
 		nUsage += m_pSlots[nSlot];
@@ -427,10 +360,8 @@ quint32 TCPBandwidthMeter::Usage()
 			nSlot = 19;
 		}
 	}
-
 	return nUsage;
 }
-
 void CNetworkConnection::OnDisconnectInt()
 {
 	// read data if available
@@ -438,11 +369,9 @@ void CNetworkConnection::OnDisconnectInt()
 	{
 		readFromNetwork(networkBytesAvailable());
 	}
-
 	// notify objects
 	emit disconnected();
 }
-
 void CNetworkConnection::OnErrorInt(QAbstractSocket::SocketError e)
 {
 	// read any leftovers from the socket if remote host closed connection and the socket is still in connected state
@@ -456,3 +385,4 @@ void CNetworkConnection::OnErrorInt(QAbstractSocket::SocketError e)
 	}
 	emit error(e);
 }
+

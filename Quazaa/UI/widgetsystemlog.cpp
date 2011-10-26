@@ -1,5 +1,5 @@
 /*
-** widgetsystemlog.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,22 +13,24 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "widgetsystemlog.h"
 #include "ui_widgetsystemlog.h"
-
 #include "quazaasettings.h"
-
 #include <QMenu>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetSystemLog)
@@ -57,12 +59,10 @@ WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
 	ui->actionToggleTimestamp->setChecked(quazaaSettings.Logging.LogShowTimestamp);
 	connect(&systemLog, SIGNAL(logPosted(QString, LogSeverity::Severity)), this, SLOT(appendLog(QString, LogSeverity::Severity)));
 }
-
 WidgetSystemLog::~WidgetSystemLog()
 {
 	delete ui;
 }
-
 void WidgetSystemLog::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -75,13 +75,11 @@ void WidgetSystemLog::changeEvent(QEvent* e)
 			break;
 	}
 }
-
 void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 {
 	if(!ui->actionPauseLogDisplay->isChecked())
 	{
 		QStringList sLines = message.split(QRegExp("\r\n|\n|\r"));
-
 		foreach(QString sLine, sLines)
 		{
 			if(ui->actionToggleTimestamp->isChecked())
@@ -184,7 +182,6 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 		}
 	}
 }
-
 void WidgetSystemLog::saveWidget()
 {
 	quazaaSettings.WinMain.SystemLogToolbar = saveState();
@@ -199,19 +196,17 @@ void WidgetSystemLog::saveWidget()
 	quazaaSettings.Logging.IsPaused = ui->actionPauseLogDisplay->isChecked();
 	quazaaSettings.saveLogSettings();
 }
-
 void WidgetSystemLog::on_actionClearBuffer_triggered()
 {
 	ui->textEditSystemLog->clear();
 }
-
 void WidgetSystemLog::on_textEditSystemLog_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 	logMenu->exec(QCursor::pos());
 }
-
 void WidgetSystemLog::on_actionCopy_triggered()
 {
 	ui->textEditSystemLog->copy();
 }
+

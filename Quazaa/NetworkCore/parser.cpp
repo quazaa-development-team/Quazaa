@@ -1,5 +1,5 @@
 /*
-** parser.cpp
+** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -13,20 +13,23 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public
-** License version 3.0 requirements will be met:
+** Please review the following information to ensure the GNU General Public 
+** License version 3.0 requirements will be met: 
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** You should have received a copy of the GNU General Public License version 
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "parser.h"
 
+#include "parser.h"
 #include <QString>
 #include <QList>
-
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
+	#define new DEBUG_NEW
+#endif
 namespace Parser
 {
 	QString GetHeaderValue(QString& headers, QString headerName)
@@ -34,30 +37,23 @@ namespace Parser
 		qint32 nStart;
 		qint32 nEnd;
 		qint32 nColon;
-
 		headerName += ":";
-
 		nStart = headers.indexOf(headerName, 0, Qt::CaseInsensitive);
-
 		if(nStart < 0)
 		{
 			return QString();
 		}
-
 		nEnd = headers.indexOf("\r\n", nStart);
-
 		if(nEnd < 0)
 		{
 			return QString();
 		}
-
 		nColon = headers.indexOf(":", nStart);
-
 		if(nColon < 0 || nColon > nEnd)
 		{
 			return QString();
 		}
-
 		return headers.mid(nColon + 1, nEnd - nColon).trimmed();
 	}
 };
+
