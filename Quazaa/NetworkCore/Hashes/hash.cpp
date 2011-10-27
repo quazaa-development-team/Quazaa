@@ -28,25 +28,29 @@
 #include <QCryptographicHash>
 #include "3rdparty/CyoEncode/CyoEncode.h"
 #include "3rdparty/CyoEncode/CyoDecode.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CHash::CHash(const CHash &rhs)
 {
 	if ( !rhs.m_bFinalized )
 	{
 		systemLog.postLog( LogSeverity::Debug, QObject::tr( "WARNING: Copying non-finalized CHash" ) );
 	}
+
 	m_baRawValue = rhs.m_baRawValue;
 	m_nHashAlgorithm = rhs.m_nHashAlgorithm;
 	m_bFinalized = true;
 	m_pContext = 0;
 }
+
 CHash::CHash(Algorithm algo)
 {
 	m_bFinalized = false;
 	m_nHashAlgorithm = algo;
+
 	switch( algo )
 	{
 	case CHash::SHA1:
@@ -59,9 +63,10 @@ CHash::CHash(Algorithm algo)
 		m_pContext = new QCryptographicHash( QCryptographicHash::Md5 );
 		break;
 	default:
-		m_pContext = 0; 
+		m_pContext = 0; /* error? */
 	}
 }
+
 CHash::CHash(QByteArray baRaw, CHash::Algorithm algo)
 {
 	if ( baRaw.size() != CHash::ByteCount( algo ) )
@@ -86,6 +91,7 @@ CHash::~CHash()
 		}
 	}
 }
+
 // Returns raw hash length by hash family
 int CHash::ByteCount(int algo)
 {
@@ -101,21 +107,25 @@ int CHash::ByteCount(int algo)
 		return 0;
 	}
 }
+
 // Parses URN and returns CHash pointer if conversion succeed, 0 otherwise
 CHash* CHash::FromURN(QString sURN)
 {
 	// try to get hash family from URN
 	// urn:tree:tiger:/
+
 	if ( sURN.size() < 16 )
 	{
 		throw invalid_hash_exception();
 	}
+
 	QByteArray baFamily;
 	int nStart = ( strncmp( "urn:", sURN.toAscii().data(), 4 ) == 0 ? 4 : 0 );
 	int nStartHash = sURN.indexOf( ":", nStart ) + 1;
 	baFamily = sURN.mid( nStart, nStartHash - nStart - 1 ).toLower().toAscii();
 	QByteArray baValue = sURN.mid( nStartHash ).toAscii();
 	char pVal[ 128 ];
+
 	if ( baFamily == "sha1" && baValue.length() == 32 )
 	{
 		// sha1 base32 encoded
@@ -136,7 +146,9 @@ CHash* CHash::FromURN(QString sURN)
 			return pRet;
 		}
 	}
+
 	return 0;
+
 }
 CHash* CHash::FromRaw(QByteArray &baRaw, CHash::Algorithm algo)
 {
@@ -147,9 +159,11 @@ CHash* CHash::FromRaw(QByteArray &baRaw, CHash::Algorithm algo)
 	}
 	catch( ... )
 	{
+
 	}
 	return 0;
 }
+
 // Returns URN as string
 QString CHash::ToURN() const
 {
@@ -162,13 +176,16 @@ QString CHash::ToURN() const
 	case CHash::MD4:
 		break;
 	}
+
 	return QString();
 }
+
 // Returns hash value as a string in most natural encoding
 QString CHash::ToString() const
 {
 	char pBuff[128];
 	memset( &pBuff, 0, sizeof( pBuff ) );
+
 	switch( m_nHashAlgorithm )
 	{
 	case CHash::SHA1:
@@ -178,13 +195,16 @@ QString CHash::ToString() const
 	case CHash::MD4:
 		break;
 	}
+
 	return QString( pBuff );
 }
+
 void CHash::Finalize()
 {
 	if(!m_bFinalized)
 	{
 		Q_ASSERT(m_pContext);
+
 		switch(m_nHashAlgorithm)
 		{
 		case CHash::SHA1:
@@ -197,9 +217,11 @@ void CHash::Finalize()
 		}
 	}
 }
+
 void CHash::AddData(const char *pData, quint32 nLength)
 {
 	Q_ASSERT( !m_bFinalized && m_pContext );
+
 	switch( m_nHashAlgorithm )
 	{
 	case CHash::SHA1:
@@ -212,6 +234,7 @@ void CHash::AddData(QByteArray &baData)
 {
 	AddData( baData.data(), baData.length() );
 }
+
 QString CHash::GetFamilyName()
 {
 	switch( m_nHashAlgorithm )
@@ -223,6 +246,7 @@ QString CHash::GetFamilyName()
 	case CHash::MD4:
 		return QString( "md4" );
 	}
+
 	return "";
 }
 

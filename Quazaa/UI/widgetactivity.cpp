@@ -22,14 +22,15 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetactivity.h"
 #include "ui_widgetactivity.h"
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetActivity::WidgetActivity(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetActivity)
@@ -41,10 +42,12 @@ WidgetActivity::WidgetActivity(QWidget* parent) :
 	panelSystemLog = new WidgetSystemLog();
 	ui->verticalLayoutSystemLog->addWidget(panelSystemLog);
 }
+
 WidgetActivity::~WidgetActivity()
 {
 	delete ui;
 }
+
 void WidgetActivity::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
@@ -57,15 +60,18 @@ void WidgetActivity::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetActivity::saveWidget()
 {
 	quazaaSettings.WinMain.ActivitySplitter = ui->splitterActivity->saveState();
 	panelNeighbours->saveWidget();
 	panelSystemLog->saveWidget();
 }
+
 void WidgetActivity::on_splitterActivity_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
+
 	if(ui->splitterActivity->handle(1)->underMouse())
 	{
 		if(ui->splitterActivity->sizes()[1] > 0)
@@ -86,6 +92,7 @@ void WidgetActivity::on_splitterActivity_customContextMenuRequested(QPoint pos)
 		}
 	}
 }
+
 void WidgetActivity::on_toolButtonSystemLogHeader_clicked()
 {
 	if(ui->splitterActivity->sizes()[0] > 0)
@@ -105,6 +112,7 @@ void WidgetActivity::on_toolButtonSystemLogHeader_clicked()
 		ui->splitterActivity->setSizes(sizesList);
 	}
 }
+
 void WidgetActivity::on_toolButtonNeighboursHeader_clicked()
 {
 	if(ui->splitterActivity->sizes()[1] > 0)

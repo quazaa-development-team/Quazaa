@@ -22,17 +22,17 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogabout.h"
 #include "ui_dialogabout.h"
 #include "quazaaglobals.h"
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QUrl>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogAbout::DialogAbout(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAbout)
@@ -40,10 +40,12 @@ DialogAbout::DialogAbout(QWidget* parent) :
 	m_ui->setupUi(this);
         m_ui->labelVersion->setText(m_ui->labelVersion->text().replace("&lt;version&gt;", QuazaaGlobals::APPLICATION_VERSION_STRING()));
 }
+
 DialogAbout::~DialogAbout()
 {
 	delete m_ui;
 }
+
 void DialogAbout::changeEvent(QEvent* e)
 {
 	switch(e->type())
@@ -55,15 +57,18 @@ void DialogAbout::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogAbout::on_pushButtonOK_clicked()
 {
 	emit closed();
 	close();
 }
+
 void DialogAbout::on_labelCopyright_linkActivated(QString link)
 {
 	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
 }
+
 void DialogAbout::on_textBrowserCredits_anchorClicked(QUrl link)
 {
 	QDesktopServices::openUrl(link);

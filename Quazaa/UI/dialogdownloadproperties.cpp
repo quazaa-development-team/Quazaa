@@ -22,23 +22,25 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogdownloadproperties.h"
 #include "ui_dialogdownloadproperties.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogDownloadProperties::DialogDownloadProperties(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogDownloadProperties)
 {
 	m_ui->setupUi(this);
 }
+
 DialogDownloadProperties::~DialogDownloadProperties()
 {
 	delete m_ui;
 }
+
 void DialogDownloadProperties::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);

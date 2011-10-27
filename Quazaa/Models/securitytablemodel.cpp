@@ -22,25 +22,28 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "securitytablemodel.h"
 #include "Security/security.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 {
 #ifdef _DEBUG
 	Q_ASSERT( pRule );
 #endif // _DEBUG
+
 	this->pNode	= pRule->getCopy();
+
 	sContent	= pRule->getContentString();
 	nAction		= pRule->m_nAction;
 	tExpire		= pRule->m_tExpire;
 	nToday		= pRule->getTodayCount();
 	nTotal		= pRule->getTotalCount();
 	sComment	= pRule->m_sComment;
+
 	switch( pRule->m_nAction )
 	{
 	case security::CSecureRule::srNull:
@@ -56,22 +59,28 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 		Q_ASSERT( false );
 	}
 }
+
 bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_update, CSecurityTableModel *model)
 {
 	if ( !securityManager.check( pNode ) )
 		return false;
+
 	bool bRet = false;
+
 	if ( sContent != pNode->getContentString() )
 	{
 		to_update.append( model->index( row, CONTENT ) );
 		sContent = pNode->getContentString();
+
 		if( col == CONTENT )
 			bRet = true;
 	}
+
 	if ( nAction != pNode->m_nAction )
 	{
 		to_update.append( model->index( row, ACTION ) );
 		nAction = pNode->m_nAction;
+
 		switch( nAction )
 		{
 		case security::CSecureRule::srNull:
@@ -86,33 +95,42 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 		default:
 			Q_ASSERT( false );
 		}
+
 		if ( col == ACTION )
 			bRet = true;
 	}
+
 	if ( tExpire != pNode->m_tExpire )
 	{
 		to_update.append( model->index( row, EXPIRES ) );
 		tExpire = pNode->m_tExpire;
+
 		if ( col == EXPIRES )
 			bRet = true;
 	}
+
 	if ( nToday != pNode->getTodayCount() )
 	{
 		to_update.append( model->index( row, HITS ) );
 		nToday = pNode->getTodayCount();
 		nTotal = pNode->getTotalCount();
+
 		if ( col == HITS )
 			bRet = true;
 	}
+
 	if ( sComment != pNode->m_sComment )
 	{
 		to_update.append( model->index( row, COMMENT ) );
 		sComment = pNode->m_sComment;
+
 		if ( col == COMMENT )
 			bRet = true;
 	}
+
 	return bRet;
 }
+
 QVariant CSecurityTableModel::Rule::data(int col) const
 {
 	switch ( col )
@@ -128,12 +146,15 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 		case COMMENT:
 			return sComment;
 	}
+
 	return QVariant();
 }
+
 bool CSecurityTableModel::Rule::lessThan(int col, CSecurityTableModel::Rule *pOther) const
 {
 	if ( !pOther )
 		return false;
+
 	switch ( col )
 	{
 	case CONTENT:
@@ -149,7 +170,9 @@ bool CSecurityTableModel::Rule::lessThan(int col, CSecurityTableModel::Rule *pOt
 	default:
 		return false;
 	}
+
 }
+
 QString CSecurityTableModel::Rule::actionToString(CSecureRule::Policy nAction) const
 {
 	switch( nAction )
@@ -161,8 +184,10 @@ QString CSecurityTableModel::Rule::actionToString(CSecureRule::Policy nAction) c
 	case CSecureRule::srDeny:
 		return "Deny";
 	}
+
 	return QString();
 }
+
 // TODO: Implement loading translation string.
 QString CSecurityTableModel::Rule::expiryToString(quint32 tExpire) const
 {
@@ -173,22 +198,27 @@ QString CSecurityTableModel::Rule::expiryToString(quint32 tExpire) const
 	case CSecureRule::srSession:
 		return tr( "Session" );
 	}
+
 	return QString().sprintf("%.2u:%.2u:%.2u", tExpire / 3600, (tExpire % 3600 / 60), (tExpire % 3600) % 60);
 }
+
 CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 	QAbstractTableModel( parent )
 {
 	m_oContainer = container;
 	m_nSortColumn = -1;
 	m_bNeedSorting = false;
+
 	connect( &securityManager, SIGNAL( ruleAdded(   CSecureRule* ) ), this, SLOT( addRule(    CSecureRule* ) ), Qt::QueuedConnection );
 	connect( &securityManager, SIGNAL( ruleRemoved( CSecureRule* ) ), this, SLOT( removeRule( CSecureRule* ) ), Qt::QueuedConnection );
 }
+
 CSecurityTableModel::~CSecurityTableModel()
 {
 	qDeleteAll( m_lNodes );
 	m_lNodes.clear();
 }
+
 int CSecurityTableModel::rowCount(const QModelIndex& parent) const
 {
 	if ( parent.isValid() )
@@ -200,6 +230,7 @@ int CSecurityTableModel::rowCount(const QModelIndex& parent) const
 		return m_lNodes.count();
 	}
 }
+
 int CSecurityTableModel::columnCount(const QModelIndex& parent) const
 {
 	if ( parent.isValid() )
@@ -211,13 +242,16 @@ int CSecurityTableModel::columnCount(const QModelIndex& parent) const
 		return _NO_OF_COLUMNS;
 	}
 }
+
 QVariant CSecurityTableModel::data(const QModelIndex& index, int role) const
 {
 	if ( !index.isValid() || index.row() > m_lNodes.size() || index.row() < 0 )
 	{
 		return QVariant();
 	}
+
 	const Rule* pRule = m_lNodes.at( index.row() );
+
 	if ( role == Qt::DisplayRole )
 	{
 		return pRule->data( index.column() );
@@ -229,14 +263,49 @@ QVariant CSecurityTableModel::data(const QModelIndex& index, int role) const
 			return pRule->iAction;
 		}
 	}
-	
-	
+	/*else if ( role == Qt::ForegroundRole )
+	{
+		switch ( nbr->nState )
+		{
+			case nsConnected:
+				//return skinSettings.listsColorSpecial;
+				break;
+			case nsConnecting:
+				//return skinSettings.listsColorActive;
+				break;
+			default:
+				//return skinSettings.listsColorNormal;
+				break;
+		}
+	}*/
+	/*else if ( role == Qt::FontRole )
+	{
+		QFont font = qApp->font(m_oContainer);
+		switch ( nbr->nState )
+		{
+			case nsConnected:
+				//font.setWeight(skinSettings.listsWeightSpecial);
+				return font;
+				break;
+			case nsConnecting:
+				//font.setWeight(skinSettings.listsWeightActive);
+				return font;
+				break;
+			default:
+				//font.setWeight(skinSettings.listsWeightNormal);
+				return font;
+				break;
+		}
+	}*/
+
 	return QVariant();
 }
+
 QVariant CSecurityTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
 	if( orientation != Qt::Horizontal )
 		return QVariant();
+
 	if ( role == Qt::DisplayRole )
 	{
 		switch ( section )
@@ -269,8 +338,10 @@ QVariant CSecurityTableModel::headerData(int section, Qt::Orientation orientatio
 			return tr("Comment");
 		}
 	}
+
 	return QVariant();
 }
+
 QModelIndex CSecurityTableModel::index(int row, int column, const QModelIndex &parent) const
 {
 	if ( parent.isValid() || row < 0 || row >= m_lNodes.count() )
@@ -278,6 +349,7 @@ QModelIndex CSecurityTableModel::index(int row, int column, const QModelIndex &p
 	else
 		return createIndex( row, column, m_lNodes[row] );
 }
+
 class CSecurityTableModelCmp
 {
 public:
@@ -286,6 +358,7 @@ public:
 		order( o )
 	{
 	}
+
 	bool operator()( CSecurityTableModel::Rule* a, CSecurityTableModel::Rule* b )
 	{
 		if( order == Qt::AscendingOrder )
@@ -297,17 +370,21 @@ public:
 			return b->lessThan( column, a );
 		}
 	}
+
 	int column;
 	Qt::SortOrder order;
 };
+
 void CSecurityTableModel::sort(int column, Qt::SortOrder order)
 {
 	m_nSortColumn = column;
 	m_nSortOrder = order;
+
 	emit layoutAboutToBeChanged();
 	qStableSort( m_lNodes.begin(), m_lNodes.end(), CSecurityTableModelCmp( column, order ) );
 	emit layoutChanged();
 }
+
 security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &index)
 {
 	if ( index.isValid() && index.row() < m_lNodes.count() && index.row() >= 0 )
@@ -315,6 +392,7 @@ security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &ind
 	else
 		return NULL;
 }
+
 void CSecurityTableModel::addRule(CSecureRule* pRule)
 {
 	if ( securityManager.check( pRule ) )
@@ -325,6 +403,7 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 		m_bNeedSorting = true;
 	}
 }
+
 void CSecurityTableModel::removeRule(CSecureRule* pRule)
 {
 	for ( quint32 i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
@@ -339,18 +418,22 @@ void CSecurityTableModel::removeRule(CSecureRule* pRule)
 			break;
 		}
 	}
+
 	delete pRule;
 	pRule = NULL;
 }
+
 void CSecurityTableModel::updateAll()
 {
 	QModelIndexList uplist;
 	bool bSort = m_bNeedSorting;
+
 	for ( quint32 i = 0, max = m_lNodes.count(); i < max; ++i )
 	{
 		if ( m_lNodes[i]->update( i, m_nSortColumn, uplist, this ) )
 			bSort = true;
 	}
+
 	if ( bSort )
 	{
 		sort( m_nSortColumn, m_nSortOrder );
@@ -364,6 +447,7 @@ void CSecurityTableModel::updateAll()
 				// todo: question: is there a reason for this line being inside the for each loop?
 				// couldn't this be moved before the loop and the loop be only called if this returns != NULL?
 				QAbstractItemView* pView = qobject_cast< QAbstractItemView* >( m_oContainer );
+
 				if ( pView )
 				{
 					pView->update( index );

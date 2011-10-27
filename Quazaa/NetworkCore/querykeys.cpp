@@ -22,39 +22,46 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "querykeys.h"
 #include <limits>
 #include <QHostAddress>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CQueryKeys QueryKeys;
+
 CQueryKeys::CQueryKeys()
 	: m_pTable(0), m_nTable(0)
 {
 }
+
 CQueryKeys::~CQueryKeys()
 {
 	delete [] m_pTable;
 }
+
 void CQueryKeys::Prepare()
 {
 	m_nTable = 1u << 16;
 	m_pTable = new quint32[m_nTable];
+
 	for(uint i = 0; i < m_nTable; i++)
 	{
 		m_pTable[i] = qrand() % std::numeric_limits<quint32>::max();
 	}
 }
+
 quint32 CQueryKeys::Create(QHostAddress pAddr)
 {
 	if(!m_pTable)
 	{
 		Prepare();
 	}
+
 	int nHash = qHash(pAddr) % m_nTable;
+
 	return m_pTable[nHash];
 }
 bool CQueryKeys::Check(QHostAddress pAddr, quint32 nKey)

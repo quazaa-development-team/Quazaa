@@ -22,14 +22,15 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "parser.h"
+
 #include <QString>
 #include <QList>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 namespace Parser
 {
 	QString GetHeaderValue(QString& headers, QString headerName)
@@ -37,22 +38,30 @@ namespace Parser
 		qint32 nStart;
 		qint32 nEnd;
 		qint32 nColon;
+
 		headerName += ":";
+
 		nStart = headers.indexOf(headerName, 0, Qt::CaseInsensitive);
+
 		if(nStart < 0)
 		{
 			return QString();
 		}
+
 		nEnd = headers.indexOf("\r\n", nStart);
+
 		if(nEnd < 0)
 		{
 			return QString();
 		}
+
 		nColon = headers.indexOf(":", nStart);
+
 		if(nColon < 0 || nColon > nEnd)
 		{
 			return QString();
 		}
+
 		return headers.mid(nColon + 1, nEnd - nColon).trimmed();
 	}
 };

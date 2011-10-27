@@ -22,23 +22,25 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogadddownload.h"
 #include "ui_dialogadddownload.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogAddDownload::DialogAddDownload(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAddDownload)
 {
 	m_ui->setupUi(this);
 }
+
 DialogAddDownload::~DialogAddDownload()
 {
 	delete m_ui;
 }
+
 void DialogAddDownload::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -51,11 +53,13 @@ void DialogAddDownload::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogAddDownload::on_pushButtonDownload_clicked()
 {
 	emit closed();
 	close();
 }
+
 void DialogAddDownload::on_pushButtonCancel_clicked()
 {
 	emit closed();

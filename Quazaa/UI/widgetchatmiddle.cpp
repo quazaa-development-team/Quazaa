@@ -22,7 +22,6 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetchat.h"
 #include "ui_widgetchat.h"
 #include "widgetchatmiddle.h"
@@ -31,26 +30,31 @@
 #include "dialogprofile.h"
 #include "systemlog.h"
 #include "chatconverter.h"
+
 #include "quazaasettings.h"
 #include "ircutil.h"
 #include "ircsession.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetChatMiddle)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
+
 	widgetChatInput = new WidgetChatInput(this, true);
 	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
 }
+
 WidgetChatMiddle::~WidgetChatMiddle()
 {
 	delete ui;
 }
+
 void WidgetChatMiddle::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -63,16 +67,19 @@ void WidgetChatMiddle::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetChatMiddle::saveWidget()
 {
 	quazaaSettings.saveSettings();
 	quazaaSettings.WinMain.ChatToolbars = saveState();
 }
+
 void WidgetChatMiddle::on_actionChatSettings_triggered()
 {
 	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Chat);
 	dlgSettings->show();
 }
+
 void WidgetChatMiddle::on_actionEditMyProfile_triggered()
 {
 	DialogProfile* dlgProfile = new DialogProfile(this);

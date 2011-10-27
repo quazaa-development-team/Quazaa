@@ -22,7 +22,6 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "neighboursconnections.h"
 #include "ratecontroller.h"
 #include "g2node.h"
@@ -32,10 +31,11 @@
 #include "geoiplist.h"
 #include "neighbours.h"
 #include "thread.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CNeighboursConnections::CNeighboursConnections(QObject* parent) :
 	CNeighboursRouting(parent),
 	m_pController(0),
@@ -46,40 +46,56 @@ CNeighboursConnections::CNeighboursConnections(QObject* parent) :
 CNeighboursConnections::~CNeighboursConnections()
 {
 }
+
 void CNeighboursConnections::Connect()
 {
 	QMutexLocker l(&m_pSection);
+
 	Q_ASSERT(m_pController == 0);
+
 	m_pController = new CRateController(&m_pSection);
 	m_pController->SetDownloadLimit(quazaaSettings.Connection.InSpeed);
 	m_pController->SetUploadLimit(quazaaSettings.Connection.OutSpeed);
 	m_pController->moveToThread(&NetworkThread);
+
 	m_nHubsConnectedG2 = m_nLeavesConnectedG2 = 0;
+
 	CNeighboursRouting::Connect();
 }
 void CNeighboursConnections::Disconnect()
 {
 	QMutexLocker l(&m_pSection);
+
 	qDeleteAll(m_lNodes);
+
 	delete m_pController;
 	m_pController = 0;
+
 	CNeighboursRouting::Disconnect();
 }
+
 void CNeighboursConnections::AddNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
+
 	m_pController->AddSocket(pNode);
+
 	CNeighboursRouting::AddNode(pNode);
 }
+
 void CNeighboursConnections::RemoveNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
+
 	m_pController->RemoveSocket(pNode);
+
 	CNeighboursRouting::RemoveNode(pNode);
 }
+
 CNeighbour* CNeighboursConnections::RandomNode(DiscoveryProtocol nProtocol, int nType, CNeighbour* pNodeExcept)
 {
 	QList<CNeighbour*> lNodeList;
+
 	for(QList<CNeighbour*>::iterator i = m_lNodes.begin(); i != m_lNodes.end(); i++)
 	{
 		if((*i)->m_nState == nsConnected && (*i)->m_nProtocol == nProtocol)
@@ -90,16 +106,21 @@ CNeighbour* CNeighboursConnections::RandomNode(DiscoveryProtocol nProtocol, int 
 			}
 		}
 	}
+
 	if(lNodeList.isEmpty())
 	{
 		return 0;
 	}
+
 	int nIndex = qrand() % lNodeList.count();
+
 	return lNodeList.at(nIndex);
 }
+
 void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int nType, bool bCore)
 {
 	CNeighbour* pNode = 0;
+
 	for(QList<CNeighbour*>::iterator i = m_lNodes.begin(); i != m_lNodes.end(); i++)
 	{
 		if((*i)->m_nState == nsConnected && (*i)->m_nProtocol == nProtocol)
@@ -110,6 +131,7 @@ void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int
 				{
 					continue;
 				}
+
 				if(pNode == 0)
 				{
 					pNode = (*i);
@@ -124,18 +146,23 @@ void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int
 			}
 		}
 	}
+
 	if(pNode)
 	{
 		pNode->Close();
 	}
 }
+
 void CNeighboursConnections::Maintain()
 {
 	ASSUME_LOCK(m_pSection);
+
 	CNeighboursRouting::Maintain();
+
 	quint32 nHubsG2 = 0, nLeavesG2 = 0;
 	quint32 nCoreHubsG2 = 0, nCoreLeavesG2 = 0;
 	quint32 nUnknown = 0;
+
 	foreach(CNeighbour * pNode, m_lNodes)
 	{
 		if(pNode->m_nState == nsConnected)
@@ -173,13 +200,16 @@ void CNeighboursConnections::Maintain()
 			nUnknown++;
 		}
 	}
+
 	m_nHubsConnectedG2 = nHubsG2;
 	m_nLeavesConnectedG2 = nLeavesG2;
+
 	if(!Neighbours.IsG2Hub())
 	{
 		if(nHubsG2 > quazaaSettings.Gnutella2.NumHubs)
 		{
 			int nToDisconnect = nHubsG2 - quazaaSettings.Gnutella2.NumHubs;
+
 			for(; nToDisconnect; nToDisconnect--)
 			{
 				DisconnectYoungest(dpGnutella2, G2_HUB, (nCoreHubsG2 / nHubsG2) > 0.5);
@@ -188,15 +218,19 @@ void CNeighboursConnections::Maintain()
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumHubs)
 		{
 			QMutexLocker l(&HostCache.m_pSection);
+
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumHubs - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
+
 			QDateTime tNow = QDateTime::currentDateTimeUtc();
 			bool bCountry = true;
 			int  nCountry = 0;
+
 			for(; nAttempt > 0; nAttempt--)
 			{
 				// nowe polaczenie
 				CHostCacheHost* pHost = HostCache.GetConnectable(tNow, (bCountry ? (quazaaSettings.Connection.PreferredCountries.size() ? quazaaSettings.Connection.PreferredCountries.at(nCountry) : GeoIP.findCountryCode(Network.m_oAddress)) : "ZZ"));
+
 				if(pHost)
 				{
 					if( !Neighbours.Find(pHost->m_oAddress) )
@@ -228,6 +262,7 @@ void CNeighboursConnections::Maintain()
 					}
 				}
 			}
+
 		}
 	}
 	else
@@ -236,6 +271,7 @@ void CNeighboursConnections::Maintain()
 		{
 			// rozlaczyc hub
 			int nToDisconnect = nHubsG2 - quazaaSettings.Gnutella2.NumPeers;
+
 			for(; nToDisconnect; nToDisconnect--)
 			{
 				DisconnectYoungest(dpGnutella2, G2_HUB, (nCoreHubsG2 / nHubsG2) > 0.5);
@@ -244,13 +280,16 @@ void CNeighboursConnections::Maintain()
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumPeers)
 		{
 			QMutexLocker l(&HostCache.m_pSection);
+
 			QDateTime tNow = QDateTime::currentDateTimeUtc();
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
+
 			for(; nAttempt > 0; nAttempt--)
 			{
 				// nowe polaczenie
 				CHostCacheHost* pHost = HostCache.GetConnectable(tNow);
+
 				if(pHost)
 				{
 					if( !Neighbours.Find(pHost->m_oAddress) )
@@ -265,9 +304,11 @@ void CNeighboursConnections::Maintain()
 				}
 			}
 		}
+
 		if(nLeavesG2 > quazaaSettings.Gnutella2.NumLeafs)
 		{
 			int nToDisconnect = nLeavesG2 - quazaaSettings.Gnutella2.NumLeafs;
+
 			for(; nToDisconnect; nToDisconnect--)
 			{
 				DisconnectYoungest(dpGnutella2, G2_LEAF, (nCoreLeavesG2 / nLeavesG2) > 0.5);
@@ -275,42 +316,55 @@ void CNeighboursConnections::Maintain()
 		}
 	}
 }
+
 quint32 CNeighboursConnections::DownloadSpeed()
 {
 	return m_pController ? m_pController->DownloadSpeed() : 0;
 }
+
 quint32 CNeighboursConnections::UploadSpeed()
 {
 	return m_pController ? m_pController->UploadSpeed() : 0;
 }
+
 CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 {
 	// TODO: Make new CNeighbour deriviate for handshaking with Gnutella clients
+
 	Q_ASSERT(thread() == &NetworkThread);
+
 	systemLog.postLog(LogSeverity::Debug, "CNeighbours::OnAccept");
 	//qDebug() << "CNeighbours::OnAccept";
+
 	if(!m_bActive)
 	{
 		pConn->Close();
 		return 0;
 	}
+
 	if(!m_pSection.tryLock(50))
 	{
 		systemLog.postLog(LogSeverity::Debug, "Not accepting incoming connection. Neighbours overloaded");
 		pConn->Close();
 		return 0;
 	}
+
 	CG2Node* pNew = new CG2Node();
 	pNew->AttachTo(pConn);
 	AddNode(pNew);
 	pNew->moveToThread(&NetworkThread);
+
 	m_pSection.unlock();
+
 	return pNew;
 }
+
 CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol)
 {
 	ASSUME_LOCK(m_pSection);
+
 	CNeighbour* pNode = 0;
+
 	switch(nProtocol)
 	{
 		case dpGnutella2:
@@ -319,6 +373,7 @@ CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProt
 		default:
 			Q_ASSERT_X(0, "CNeighbours::ConnectTo", "Unknown protocol");
 	}
+
 	AddNode(pNode);
 	pNode->ConnectTo(oAddress);
 	pNode->moveToThread(&NetworkThread);

@@ -22,14 +22,14 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogscheduler.h"
 #include "ui_dialogscheduler.h"
 #include <QListView>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogScheduler::DialogScheduler(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogScheduler)
@@ -38,10 +38,12 @@ DialogScheduler::DialogScheduler(QWidget* parent) :
 	m_ui->comboBoxAction->setView(new QListView());
 	m_ui->comboBoxOnceWeekly->setView(new QListView());
 }
+
 DialogScheduler::~DialogScheduler()
 {
 	delete m_ui;
 }
+
 void DialogScheduler::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -54,6 +56,7 @@ void DialogScheduler::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 {
 	switch(index)
@@ -100,6 +103,7 @@ void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 			break;
 	}
 }
+
 void DialogScheduler::on_pushButtonOK_clicked()
 {
 	if(m_ui->pushButtonApply->isEnabled())
@@ -109,6 +113,7 @@ void DialogScheduler::on_pushButtonOK_clicked()
 	emit closed();
 	close();
 }
+
 void DialogScheduler::on_pushButtonCancel_clicked()
 {
 	emit closed();

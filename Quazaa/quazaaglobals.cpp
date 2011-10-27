@@ -22,17 +22,18 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "quazaaglobals.h"
 #include "version.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 QString QuazaaGlobals::APPLICATION_NAME()
 {
 	return "Quazaa";
 }
+
 #ifdef QT_DEBUG
 QString QuazaaGlobals::APPLICATION_VERSION()
 {
@@ -44,26 +45,32 @@ QString QuazaaGlobals::APPLICATION_VERSION()
 	return QString().sprintf("%d.%d.r%d", Version::MAJOR, Version::MINOR, Version::REVISION);
 }
 #endif
+
 QString QuazaaGlobals::APPLICATION_VERSION_STRING()
 {
 	return QString().sprintf("%d.%d.r%d (%s)", Version::MAJOR, Version::MINOR, Version::REVISION, Version::BUILD_DATE);
 }
+
 QString QuazaaGlobals::APPLICATION_FINGERPRINT()
 {
 	return "QZ" + APPLICATION_VERSION();
 }
+
 QString QuazaaGlobals::APPLICATION_ORGANIZATION_NAME()
 {
 	return "Quazaa Development Team";
 }
+
 QString QuazaaGlobals::APPLICATION_ORGANIZATION_DOMAIN()
 {
 	return "http://quazaa.sourceforge.net";
 }
+
 QString QuazaaGlobals::USER_AGENT_STRING()
 {
 	return APPLICATION_NAME() + "/" + APPLICATION_VERSION().replace(",", ".");
 }
+
 #ifdef QT_DEBUG
 QString QuazaaGlobals::VENDOR_CODE()
 {
@@ -75,6 +82,7 @@ QString QuazaaGlobals::VENDOR_CODE()
 	return "QAZA";
 }
 #endif
+
 QString QuazaaGlobals::MEDIA_OPEN_FILTER()
 {
 	return tr("All Media Files ") + "(*.3g2 *.3gp *.3gp2 *.3gpp *.d2v *.divx *.amr *.amv *.asf *.avi *.bik *.drc *.dsa *.dsm *.dss *.dsv *.evo *.flc *.fli *.flic *.flv *.hdmov *.ifo *.ivf *.m1v *.m2p *.m2t *.m2ts *.m2v *.m4v *.mkv *.mov *.mp2v *.mp4 *.mp4v *.mpe *.mpeg *.mpg *.mpv2 *.mpv4 *.mts *.ogm *.ogv *.pss *.pva *.ram *.ratdvd *.rm *.rmm *.roq *.rp *.rmvb *.rpm *.rt *.smi *.smil *.smk *.swf *.tp *.tpr *.ts *.tta *.vob *.vp6 *.wm *.wmp *.wmv *.aac *.ac3 *.aif *.aifc *.aiff *.alac *.au *.cda *.dts *.flac *.mid *.midi *.m1a *.m2a *.m4a *.m4b *.mka *.mpa *.mpc *.mp2 *.mp3 *.oga *.ogg *.ra *.rmi *.snd *.wav *.wma);;" + tr("All Files ") + "(*.*);;" + tr("Video Files ") + "(*.3g2 *.3gp *.3gp2 *.3gpp *.d2v *.divx *.amr *.amv *.asf *.avi *.bik *.drc *.dsa *.dsm *.dss *.dsv *.evo *.flc *.fli *.flic *.flv *.hdmov *.ifo *.ivf *.m1v *.m2p *.m2t *.m2ts *.m2v *.m4v *.mkv *.mov *.mp2v *.mp4 *.mp4v *.mpe *.mpeg *.mpg *.mpv2 *.mpv4 *.mts *.ogm *.ogv *.pss *.pva *.ram *.ratdvd *.rm *.rmm *.roq *.rp *.rmvb *.rpm *.rt *.smi *.smil *.smk *.swf *.tp *.tpr *.ts *.tta *.vob *.vp6 *.wm *.wmp *.wmv);;" + tr("Audio Files") + " (*.aac *.ac3 *.aif *.aifc *.aiff *.alac *.au *.cda *.dts *.flac *.mid *.midi *.m1a *.m2a *.m4a *.m4b *.mka *.mpa *.mpc *.mp2 *.mp3 *.oga *.ogg *.ra *.rmi *.snd *.wav *.wma)";

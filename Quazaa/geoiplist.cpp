@@ -22,22 +22,24 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include <QApplication>
 #include <QFile>
 #include <QTextStream>
 #include "geoiplist.h"
 #include "types.h"
 #include "systemlog.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 GeoIPList GeoIP;
+
 GeoIPList::GeoIPList()
 {
 	m_bListLoaded = false;
 }
+
 void GeoIPList::loadGeoIP()
 {
 	bool readFromOriginalGeoIP = false;
@@ -62,6 +64,7 @@ void GeoIPList::loadGeoIP()
 		}
 		iFile.close();
 	}
+
 	if(readFromOriginalGeoIP)
 	{
 		QFile file(qApp->applicationDirPath() + "/GeoIP/geoip.dat");
@@ -69,18 +72,24 @@ void GeoIPList::loadGeoIP()
 		{
 			return;
 		}
+
 		m_lDatabase.clear();
+
 		// TODO: optimize it
+
 		QTextStream in(&file);
 		while(!in.atEnd())
 		{
 			QStringList line = in.readLine().split(" ");
+
 			CEndPoint rBegin(line[0] + ":0");
 			CEndPoint rEnd(line[1] + ":0");
 			QString sCountry = line[2];
+
 			QPair<quint32, QPair<quint32, QString> > item = QPair<quint32, QPair<quint32, QString> >(rBegin.toIPv4Address(), QPair<quint32, QString>(rEnd.toIPv4Address(), sCountry));
 			m_lDatabase.append(item);
 		}
+
 		QFile oFile( qApp->applicationDirPath() +  "/geoIP.ser" );
 		if ( ! oFile.open( QIODevice::WriteOnly ) )
 		{
@@ -99,18 +108,24 @@ void GeoIPList::loadGeoIP()
 			}
 			oFile.close();
 		}
+
 	}
+
 	// sort the database so binary search can work
 	qSort(m_lDatabase);
+
 	m_bListLoaded = !m_lDatabase.isEmpty();
 }
+
 QString GeoIPList::findCountryCode(const quint32& nIp, quint32 nBegin, quint32 nEnd) const
 {
 	if(!m_bListLoaded)
 	{
 		return "ZZ";
 	}
+
 	nEnd = qMin<quint32>(nEnd, m_lDatabase.size());
+
 	if(nEnd - nBegin < 3)
 	{
 		// just in case...
@@ -121,24 +136,31 @@ QString GeoIPList::findCountryCode(const quint32& nIp, quint32 nBegin, quint32 n
 				return m_lDatabase[i].second.second;
 			}
 		}
+
 		return "ZZ";
 	}
 	else
 	{
 		int nIndex = ((nEnd - nBegin) / 2) + nBegin;
+
 		if(nIp > m_lDatabase[nIndex].first)
 		{
 			// range above half
+
 			return findCountryCode(nIp, nIndex, nEnd);
 		}
 		else if(nIp < m_lDatabase[nIndex].first)
 		{
 			// range below half
+
 			return findCountryCode(nIp, nBegin, nIndex);
 		}
+
 	}
+
 	return "ZZ";
 }
+
 QString GeoIPList::countryNameFromCode(const QString& code) const
 {
 	if(code == "AF")

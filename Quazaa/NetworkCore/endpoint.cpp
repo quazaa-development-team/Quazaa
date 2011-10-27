@@ -22,51 +22,67 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "endpoint.h"
+
 #include <QStringList>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CEndPoint::CEndPoint()
 	: QHostAddress()
 {
 	m_nPort = 0;
 }
+
 CEndPoint::CEndPoint(quint32 ip4Addr, quint16 nPort)
 	: QHostAddress(ip4Addr), m_nPort(nPort)
 {
+
 }
+
 CEndPoint::CEndPoint(quint8* ip6Addr, quint16 nPort)
 	: QHostAddress(ip6Addr), m_nPort(nPort)
 {
+
 }
+
 CEndPoint::CEndPoint(const Q_IPV6ADDR& ip6Addr, quint16 nPort)
 	: QHostAddress(ip6Addr), m_nPort(nPort)
 {
+
 }
+
 CEndPoint::CEndPoint(const sockaddr* sockaddr, quint16 nPort)
 	: QHostAddress(sockaddr), m_nPort(nPort)
 {
+
 }
+
 CEndPoint::CEndPoint(const QString& address, quint16 nPort)
 	: QHostAddress(address), m_nPort(nPort)
 {
+
 }
+
 CEndPoint::CEndPoint(const QHostAddress& address, quint16 nPort)
 	: QHostAddress(address), m_nPort(nPort)
 {
+
 }
+
 CEndPoint::CEndPoint(const QString& address)
 {
 	if(address.count(":") >= 2)
 	{
 		// IPv6
+
 		if(address.left(1) == "[")
 		{
 			// IPv6 with port in brackets
 			int pos = address.lastIndexOf("]:");
+
 			if(pos == -1)
 			{
 				// error
@@ -90,6 +106,7 @@ CEndPoint::CEndPoint(const QString& address)
 	else
 	{
 		// IPv4
+
 		QStringList l1 = address.split(":");
 		if(l1.count() != 2)
 		{
@@ -97,24 +114,31 @@ CEndPoint::CEndPoint(const QString& address)
 			m_nPort = 0;
 			return;
 		}
+
 		m_nPort = l1.at(1).toUShort();
+
 		QHostAddress::setAddress(l1.at(0));
 	}
 }
+
 CEndPoint::CEndPoint(const CEndPoint& copy)
 	: QHostAddress(copy)
 {
 	m_nPort = copy.m_nPort;
 }
+
 CEndPoint::CEndPoint(SpecialAddress address, quint16 nPort)
 	: QHostAddress(address), m_nPort(nPort)
 {
+
 }
+
 void CEndPoint::clear()
 {
 	m_nPort = 0;
 	QHostAddress::clear();
 }
+
 QString CEndPoint::toStringWithPort() const
 {
 	if(protocol() == QAbstractSocket::IPv4Protocol)
@@ -126,23 +150,28 @@ QString CEndPoint::toStringWithPort() const
 		return QString("[%1]:%2").arg(toString()).arg(m_nPort);
 	}
 }
+
 quint16 CEndPoint::port() const
 {
 	return m_nPort;
 }
+
 void CEndPoint::setPort(const quint16 nPort)
 {
 	m_nPort = nPort;
 }
+
 void CEndPoint::setAddressWithPort(const QString& address)
 {
 	if(address.count(":") >= 2)
 	{
 		// IPv6
+
 		if(address.left(1) == "[")
 		{
 			// IPv6 with port in brackets
 			int pos = address.lastIndexOf("]:");
+
 			if(pos == -1)
 			{
 				// error
@@ -166,6 +195,7 @@ void CEndPoint::setAddressWithPort(const QString& address)
 	else
 	{
 		// IPv4
+
 		QStringList l1 = address.split(":");
 		if(l1.count() != 2)
 		{
@@ -173,25 +203,32 @@ void CEndPoint::setAddressWithPort(const QString& address)
 			m_nPort = 0;
 			return;
 		}
+
 		m_nPort = l1.at(1).toUShort();
+
 		QHostAddress::setAddress(l1.at(0));
 	}
 }
+
 bool CEndPoint::isFirewalled() const
 {
 	if( isNull() )
 		return true;
+
 	if( protocol() == 0 ) // IPv4
 	{
 		quint32 nIp = toIPv4Address();
+
 		if( (nIp & 0xffff) == 0xa8c0 ) return true; // 192.168
 		if( (nIp & 0xff) == 0x0a ) return true;	// 10
 		if( (nIp & 0xf0ff) == 0x10ac ) return true; // 172.16
 		if( (nIp & 0xffff) == 0xfea9 ) return true; // 169.254
 		if( (nIp & 0xff) == 0x7f ) return true;	// 127
 	}
+
 	return false;
 }
+
 CEndPoint & CEndPoint::operator =(const CEndPoint &rhs)
 {
 	QHostAddress::operator =(rhs);

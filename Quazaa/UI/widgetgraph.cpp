@@ -22,14 +22,15 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetgraph.h"
 #include "ui_widgetgraph.h"
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetGraph::WidgetGraph(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetGraph)
@@ -38,10 +39,12 @@ WidgetGraph::WidgetGraph(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.GraphToolbar);
 	ui->splitterGraph->restoreState(quazaaSettings.WinMain.GraphSplitter);
 }
+
 WidgetGraph::~WidgetGraph()
 {
 	delete ui;
 }
+
 void WidgetGraph::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -54,14 +57,17 @@ void WidgetGraph::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetGraph::saveWidget()
 {
 	quazaaSettings.WinMain.GraphToolbar = saveState();
 	quazaaSettings.WinMain.GraphSplitter = ui->splitterGraph->saveState();
 }
+
 void WidgetGraph::on_splitterGraph_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
+
 	if(ui->splitterGraph->handle(1)->underMouse())
 	{
 		if(ui->splitterGraph->sizes()[0] > 0)

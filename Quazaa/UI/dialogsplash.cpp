@@ -22,14 +22,15 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogsplash.h"
 #include "ui_dialogsplash.h"
+
 #include <QDesktopWidget>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogSplash::DialogSplash(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogSplash)
@@ -39,10 +40,12 @@ DialogSplash::DialogSplash(QWidget* parent) :
 	setAttribute(Qt::WA_TranslucentBackground);
 	move(QPoint(((QApplication::desktop()->screenGeometry(this).width() / 2) - (width() / 2)), ((QApplication::desktop()->screenGeometry(this).height() / 2) - (height() / 2))));
 }
+
 DialogSplash::~DialogSplash()
 {
 	delete m_ui;
 }
+
 void DialogSplash::changeEvent(QEvent* e)
 {
 	switch(e->type())
@@ -54,6 +57,7 @@ void DialogSplash::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogSplash::updateProgress(int percent, QString status)
 {
 	m_ui->progressBarStatus->setValue(percent);

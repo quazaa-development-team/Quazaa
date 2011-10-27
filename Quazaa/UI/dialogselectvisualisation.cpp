@@ -22,23 +22,25 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogselectvisualisation.h"
 #include "ui_dialogselectvisualisation.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogSelectVisualisation::DialogSelectVisualisation(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogSelectVisualisation)
 {
 	m_ui->setupUi(this);
 }
+
 DialogSelectVisualisation::~DialogSelectVisualisation()
 {
 	delete m_ui;
 }
+
 void DialogSelectVisualisation::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -51,6 +53,7 @@ void DialogSelectVisualisation::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogSelectVisualisation::on_pushButtonOK_clicked()
 {
 	if(m_ui->pushButtonApply->isEnabled())
@@ -60,6 +63,7 @@ void DialogSelectVisualisation::on_pushButtonOK_clicked()
 	emit closed();
 	close();
 }
+
 void DialogSelectVisualisation::on_pushButtonCancel_clicked()
 {
 	emit closed();

@@ -22,13 +22,13 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogcreatetorrent.h"
 #include "ui_dialogcreatetorrent.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogCreateTorrent::DialogCreateTorrent(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogCreateTorrent)
@@ -36,10 +36,12 @@ DialogCreateTorrent::DialogCreateTorrent(QWidget* parent) :
 	m_ui->setupUi(this);
 	m_ui->comboBoxSeedDHT->setView(new QListView());
 }
+
 DialogCreateTorrent::~DialogCreateTorrent()
 {
 	delete m_ui;
 }
+
 void DialogCreateTorrent::changeEvent(QEvent* e)
 {
 	switch(e->type())
@@ -51,11 +53,13 @@ void DialogCreateTorrent::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogCreateTorrent::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
+
 void DialogCreateTorrent::on_pushButtonSave_clicked()
 {
 	emit closed();

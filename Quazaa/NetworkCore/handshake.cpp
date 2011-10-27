@@ -22,17 +22,19 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "handshake.h"
 #include "handshakes.h"
 #include "network.h"
 #include "neighbours.h"
+
 #include <QTcpSocket>
+
 #include "quazaaglobals.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CHandshake::CHandshake(QObject* parent)
 	: CNetworkConnection(parent)
 {
@@ -40,8 +42,10 @@ CHandshake::CHandshake(QObject* parent)
 CHandshake::~CHandshake()
 {
 	ASSUME_LOCK(Handshakes.m_pSection);
+
 	Handshakes.RemoveHandshake(this);
 }
+
 void CHandshake::OnTimer(quint32 tNow)
 {
 	if(tNow - m_tConnected > 15)
@@ -53,11 +57,14 @@ void CHandshake::OnTimer(quint32 tNow)
 void CHandshake::OnRead()
 {
 	QMutexLocker l(&Handshakes.m_pSection);
+
 	//qDebug() << "CHandshake::OnRead()";
+
 	if(bytesAvailable() < 8)
 	{
 		return;
 	}
+
 	if(Peek(8).startsWith("GNUTELLA"))
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Incoming connection from %1 is Gnutella Neighbour connection").arg(m_pSocket->peerAddress().toString().toAscii().constData()));
@@ -69,16 +76,20 @@ void CHandshake::OnRead()
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 - unknown protocol").arg(m_pSocket->peerAddress().toString().toAscii().constData()));
 		//qDebug("Closing connection with %s - unknown protocol", m_pSocket->peerAddress().toString().toAscii().constData());
+
 		QByteArray baResp;
 		baResp += "HTTP/1.1 501 Not Implemented\r\n";
 		baResp += "Server: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 		baResp += "\r\n";
+
 		Write(baResp);
 		Close(true);
 	}
 }
+
 void CHandshake::OnConnect()
 {
+
 }
 void CHandshake::OnDisconnect()
 {
@@ -93,6 +104,7 @@ void CHandshake::OnError(QAbstractSocket::SocketError e)
 	delete this;
 	Handshakes.m_pSection.unlock();
 }
+
 void CHandshake::OnStateChange(QAbstractSocket::SocketState s)
 {
 	Q_UNUSED(s);

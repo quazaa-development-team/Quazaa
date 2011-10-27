@@ -25,14 +25,18 @@
 
 #include "widgetchatroom.h"
 #include "ui_widgetchatroom.h"
+
 #include "systemlog.h"
+
 #include "ircutil.h"
+
 #include <QDesktopServices>
 #include <QStringList>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetChatRoom::WidgetChatRoom(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetChatRoom)
@@ -40,10 +44,12 @@ WidgetChatRoom::WidgetChatRoom(QWidget* parent) :
 	ui->setupUi(this);
 	chatUserListModel = new ChatUserListModel();
 }
+
 WidgetChatRoom::~WidgetChatRoom()
 {
 	delete ui;
 }
+
 void WidgetChatRoom::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);

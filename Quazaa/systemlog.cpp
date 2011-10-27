@@ -22,19 +22,21 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "systemlog.h"
 #include <QMetaType>
 #include <QtCore>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 SystemLog systemLog;
+
 SystemLog::SystemLog()
 {
 	qRegisterMetaType<LogSeverity::Severity>("LogSeverity::Severity");
 }
+
 void SystemLog::postLog(LogSeverity::Severity severity, QString message)
 {
 	switch(severity)

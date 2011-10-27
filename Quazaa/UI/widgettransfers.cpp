@@ -22,14 +22,15 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgettransfers.h"
 #include "ui_widgettransfers.h"
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetTransfers::WidgetTransfers(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetTransfers)
@@ -41,10 +42,12 @@ WidgetTransfers::WidgetTransfers(QWidget* parent) :
 	panelUploads = new WidgetUploads();
 	ui->verticalLayoutUploads->addWidget(panelUploads);
 }
+
 WidgetTransfers::~WidgetTransfers()
 {
 	delete ui;
 }
+
 void WidgetTransfers::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
@@ -57,15 +60,18 @@ void WidgetTransfers::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetTransfers::saveWidget()
 {
 	quazaaSettings.WinMain.TransfersSplitter = ui->splitterTransfers->saveState();
 	panelDownloads->saveWidget();
 	panelUploads->saveWidget();
 }
+
 void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
+
 	if(ui->splitterTransfers->handle(1)->underMouse())
 	{
 		if(ui->splitterTransfers->sizes()[1] > 0)
@@ -86,6 +92,7 @@ void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos
 		}
 	}
 }
+
 void WidgetTransfers::on_toolButtonUploadsHeader_clicked()
 {
 	if(ui->splitterTransfers->sizes()[0] > 0)
@@ -105,6 +112,7 @@ void WidgetTransfers::on_toolButtonUploadsHeader_clicked()
 		ui->splitterTransfers->setSizes(sizesList);
 	}
 }
+
 void WidgetTransfers::on_toolButtonDownloadsHeader_clicked()
 {
 	if(ui->splitterTransfers->sizes()[1] > 0)

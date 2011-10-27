@@ -22,16 +22,16 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogprofile.h"
 #include "ui_dialogprofile.h"
 #include "quazaasettings.h"
 #include <QFileDialog>
 #include <QUuid>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogProfile::DialogProfile(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogProfile)
@@ -92,10 +92,12 @@ DialogProfile::DialogProfile(QWidget* parent) :
 	m_ui->labelGUID->setText(tempGUID.toString().remove(QRegExp("[{}]")));
 	m_ui->pushButtonApply->setEnabled(false);
 }
+
 DialogProfile::~DialogProfile()
 {
 	delete m_ui;
 }
+
 void DialogProfile::changeEvent(QEvent* e)
 {
 	switch(e->type())
@@ -107,12 +109,14 @@ void DialogProfile::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogProfile::on_treeWidgetProfileNavigation_itemSelectionChanged()
 {
 	QTreeWidgetItem* item = m_ui->treeWidgetProfileNavigation->currentItem();
 	int column = m_ui->treeWidgetProfileNavigation->currentColumn();
 	QString m_sItemName;
 	m_sItemName = item->text(column);
+
 	if(m_sItemName == tr("Identity"))
 	{
 		m_ui->pagesProfile->setCurrentIndex(0);
@@ -154,6 +158,7 @@ void DialogProfile::on_treeWidgetProfileNavigation_itemSelectionChanged()
 		return;
 	}
 }
+
 void DialogProfile::on_pushButtonOK_clicked()
 {
 	if(m_ui->pushButtonApply->isEnabled())
@@ -163,15 +168,18 @@ void DialogProfile::on_pushButtonOK_clicked()
 	emit closed();
 	close();
 }
+
 void DialogProfile::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
+
 void DialogProfile::on_lineEditGnutellaSceenName_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_pushButtonApply_clicked()
 {
 	quazaaSettings.Profile.GnutellaScreenName = m_ui->lineEditGnutellaSceenName->text();
@@ -215,82 +223,102 @@ void DialogProfile::on_pushButtonApply_clicked()
 	quazaaSettings.saveProfile();
 	m_ui->pushButtonApply->setEnabled(false);
 }
+
 void DialogProfile::on_lineEditNickname_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditAltNickname_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditUserName_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditRealName_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_comboBoxGender_currentIndexChanged(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_spinBoxAge_valueChanged(int)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_checkBoxAllowBrowse_clicked()
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditEmail_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditMSN_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditYahoo_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditICQ_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditAOL_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditJabber_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditMySpace_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditCountry_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditStateProvince_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditCity_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditLatitude_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditLonitude_textEdited(QString)
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_lineEditInterest_textEdited(QString)
 {
 	if(m_ui->lineEditInterest->text() == "")
@@ -302,6 +330,7 @@ void DialogProfile::on_lineEditInterest_textEdited(QString)
 		m_ui->pushButtonInterestsAdd->setEnabled(true);
 	}
 }
+
 void DialogProfile::on_pushButtonInterestsAdd_clicked()
 {
 	if(m_ui->lineEditInterest->text() != "")
@@ -310,6 +339,7 @@ void DialogProfile::on_pushButtonInterestsAdd_clicked()
 		m_ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogProfile::on_pushButtonInterestsRemove_clicked()
 {
 	if(m_ui->listWidgetInterests->currentRow() != -1)
@@ -319,15 +349,18 @@ void DialogProfile::on_pushButtonInterestsRemove_clicked()
 		m_ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogProfile::on_listWidgetRemoved_itemClicked(QListWidgetItem* item)
 {
 	m_ui->lineEditInterest->setText(item->text());
 	m_ui->pushButtonInterestsAdd->setEnabled(true);
 }
+
 void DialogProfile::on_plainTextEditBio_textChanged()
 {
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_pushButtonAvatarAdd_clicked()
 {
 	QFileInfo avatarFile(QFileDialog::getOpenFileName(this, tr("Open Avatar Image"),
@@ -340,12 +373,14 @@ void DialogProfile::on_pushButtonAvatarAdd_clicked()
 		m_ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogProfile::on_pushButtonRemove_clicked()
 {
 	m_sTempAvatarFileName = ":/Chat/Graphics/Chat/DefaultAvatar.png";
 	m_ui->labelAvatarPreview->setPixmap(QPixmap(m_sTempAvatarFileName));
 	m_ui->pushButtonApply->setEnabled(true);
 }
+
 void DialogProfile::on_pushButtonNewWebsite_clicked()
 {
 	if(m_ui->lineEditAddress->text() != "" && m_ui->lineEditWebsite->text() != "")
@@ -357,6 +392,7 @@ void DialogProfile::on_pushButtonNewWebsite_clicked()
 		m_ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogProfile::on_pushButtonRemoveWebsite_clicked()
 {
 	if(m_ui->treeWidgetFavorites->currentIndex().isValid())
@@ -366,6 +402,7 @@ void DialogProfile::on_pushButtonRemoveWebsite_clicked()
 		m_ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogProfile::on_pushButtonGenerateNewGUID_clicked()
 {
 	tempGUID = QUuid::createUuid();

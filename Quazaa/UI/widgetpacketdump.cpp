@@ -22,14 +22,15 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetpacketdump.h"
 #include "ui_widgetpacketdump.h"
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetPacketDump::WidgetPacketDump(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetPacketDump)
@@ -37,10 +38,12 @@ WidgetPacketDump::WidgetPacketDump(QWidget* parent) :
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.PacketDumpToolbar);
 }
+
 WidgetPacketDump::~WidgetPacketDump()
 {
 	delete ui;
 }
+
 void WidgetPacketDump::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -53,6 +56,7 @@ void WidgetPacketDump::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetPacketDump::saveWidget()
 {
 	quazaaSettings.WinMain.PacketDumpToolbar = saveState();

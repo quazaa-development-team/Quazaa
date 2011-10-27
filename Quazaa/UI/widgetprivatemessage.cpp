@@ -22,17 +22,18 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetprivatemessage.h"
 #include "ui_widgetprivatemessage.h"
 #include "quazaasettings.h"
 #include "chatconverter.h"
+
 #include <QDesktopServices>
 #include <QScrollBar>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetPrivateMessage::WidgetPrivateMessage(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetPrivateMessage)
@@ -40,10 +41,12 @@ WidgetPrivateMessage::WidgetPrivateMessage(QWidget *parent) :
 	ui->setupUi(this);
 	m_pSession = 0;
 }
+
 WidgetPrivateMessage::~WidgetPrivateMessage()
 {
 	delete ui;
 }
+
 void WidgetPrivateMessage::changeEvent(QEvent *e)
 {
 	QWidget::changeEvent(e);
@@ -55,10 +58,12 @@ void WidgetPrivateMessage::changeEvent(QEvent *e)
 		break;
 	}
 }
+
 void WidgetPrivateMessage::on_textEdit_anchorClicked(QUrl link)
 {
 	QDesktopServices::openUrl(link);
 }
+
 void WidgetPrivateMessage::OnIncomingMessage(QString sMessage, bool bAction)
 {
 	qDebug() << "incoming message: " << sMessage;
@@ -74,6 +79,7 @@ void WidgetPrivateMessage::OnIncomingMessage(QString sMessage, bool bAction)
 void WidgetPrivateMessage::OnSystemMessage(QString sMessage)
 {
 	qDebug() << "system message: " << sMessage;
+
 	ui->textEdit->append("<font color=\"#FF0000\"><b>[SYSTEM]</b> " + sMessage + "</font>");
 }
 void WidgetPrivateMessage::OnGUIDChanged(QUuid oGUID)
@@ -86,6 +92,7 @@ void WidgetPrivateMessage::OnNickChanged(QString sNick)
 	m_sNick = sNick;
 	ui->labelName->setText(m_sNick);
 }
+
 void WidgetPrivateMessage::SendMessage(QString sMessage, bool bAction)
 {
 	if( bAction )
@@ -96,11 +103,14 @@ void WidgetPrivateMessage::SendMessage(QString sMessage, bool bAction)
 	{
 		ui->textEdit->append("&lt;" + quazaaSettings.Profile.GnutellaScreenName + "&gt;: " + sMessage);
 	}
+
 	emit SendMessageS(sMessage, bAction);
 }
+
 void WidgetPrivateMessage::SendMessage(QTextDocument *pMessage, bool bAction)
 {
 	CChatConverter oConv(pMessage);
+
 	if( bAction )
 	{
 		ui->textEdit->append("* " + quazaaSettings.Profile.GnutellaScreenName + " " + oConv.toHtml());
@@ -109,6 +119,7 @@ void WidgetPrivateMessage::SendMessage(QTextDocument *pMessage, bool bAction)
 	{
 		ui->textEdit->append("&lt;" + quazaaSettings.Profile.GnutellaScreenName + "&gt;: " + oConv.toHtml());
 	}
+
 	emit SendMessageS(pMessage->clone(), bAction);
 }
 
