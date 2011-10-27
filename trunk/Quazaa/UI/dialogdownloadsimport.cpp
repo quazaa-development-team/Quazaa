@@ -22,24 +22,26 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogdownloadsimport.h"
 #include "ui_dialogdownloadsimport.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogDownloadsImport::DialogDownloadsImport(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::DialogDownloadsImport)
 {
 	ui->setupUi(this);
 }
+
 DialogDownloadsImport::~DialogDownloadsImport()
 {
 	delete ui;
 	emit closed();
 }
+
 void DialogDownloadsImport::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);

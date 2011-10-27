@@ -22,23 +22,25 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogaddsecuritysubscription.h"
 #include "ui_dialogaddsecuritysubscription.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogAddSecuritySubscription::DialogAddSecuritySubscription(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogAddSecuritySubscription)
 {
 	m_ui->setupUi(this);
 }
+
 DialogAddSecuritySubscription::~DialogAddSecuritySubscription()
 {
 	delete m_ui;
 }
+
 void DialogAddSecuritySubscription::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -51,11 +53,13 @@ void DialogAddSecuritySubscription::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogAddSecuritySubscription::on_pushButtonSubscribe_clicked()
 {
 	emit closed();
 	close();
 }
+
 void DialogAddSecuritySubscription::on_pushButtonCancel_clicked()
 {
 	emit closed();

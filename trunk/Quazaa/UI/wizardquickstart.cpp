@@ -22,15 +22,15 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "wizardquickstart.h"
 #include "ui_wizardquickstart.h"
 #include "quazaasettings.h"
 #include <QFileDialog>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WizardQuickStart::WizardQuickStart(QWidget *parent) :
     QWizard(parent),
     ui(new Ui::WizardQuickStart)
@@ -65,10 +65,12 @@ WizardQuickStart::WizardQuickStart(QWidget *parent) :
 	ui->checkBoxSimpleProgress->setChecked(quazaaSettings.Transfers.SimpleProgressBar);
 	ui->checkBoxSlowHashing->setChecked(!quazaaSettings.Library.HighPriorityHashing);
 }
+
 WizardQuickStart::~WizardQuickStart()
 {
     delete ui;
 }
+
 void WizardQuickStart::changeEvent(QEvent* e)
 {
 	switch(e->type())
@@ -80,6 +82,7 @@ void WizardQuickStart::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WizardQuickStart::accept()
 {
 	quazaaSettings.Connection.InSpeed = (ui->doubleSpinBoxInSpeed->value() / 8) * 1024;
@@ -115,8 +118,10 @@ void WizardQuickStart::accept()
 	quazaaSettings.Library.HighPriorityHashing = !ui->checkBoxSlowHashing->isChecked();
 	quazaaSettings.saveProfile();
 	quazaaSettings.saveSettings();
+
 	QDialog::accept();
 }
+
 void WizardQuickStart::on_toolButtonSharesAdd_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
@@ -129,6 +134,7 @@ void WizardQuickStart::on_toolButtonSharesAdd_clicked()
 		ui->listWidgetShares->addItem(directory.canonicalPath());
 	}
 }
+
 void WizardQuickStart::on_toolButtonSharesRemove_clicked()
 {
     if(ui->listWidgetShares->currentRow() != -1)

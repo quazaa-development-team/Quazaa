@@ -22,16 +22,17 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetlibrary.h"
 #include "ui_widgetlibrary.h"
 #include "dialogeditshares.h"
 #include <QtGui>
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetLibrary::WidgetLibrary(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetLibrary)
@@ -43,10 +44,12 @@ WidgetLibrary::WidgetLibrary(QWidget* parent) :
 	panelLibraryView = new WidgetLibraryView();
 	ui->verticalLayoutLibraryView->addWidget(panelLibraryView);
 }
+
 WidgetLibrary::~WidgetLibrary()
 {
 	delete ui;
 }
+
 void WidgetLibrary::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
@@ -59,20 +62,24 @@ void WidgetLibrary::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetLibrary::on_toolButtonLibraryEditShares_clicked()
 {
 	DialogEditShares* dlgEditShares = new DialogEditShares(this);
 	dlgEditShares->show();
 }
+
 void WidgetLibrary::saveWidget()
 {
 	quazaaSettings.WinMain.LibraryNavigatorTab = ui->tabWidgetLibraryNavigator->currentIndex();
 	quazaaSettings.WinMain.LibrarySplitter = ui->splitterLibrary->saveState();
 	panelLibraryView->saveWidget();
 }
+
 void WidgetLibrary::on_splitterLibrary_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
+
 	if(ui->splitterLibrary->handle(1)->underMouse())
 	{
 		if(ui->splitterLibrary->sizes()[0] > 0)
@@ -93,7 +100,9 @@ void WidgetLibrary::on_splitterLibrary_customContextMenuRequested(QPoint pos)
 		}
 	}
 }
+
 void WidgetLibrary::initializeLibrary()
 {
+
 }
 

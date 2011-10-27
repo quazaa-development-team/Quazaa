@@ -22,7 +22,6 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "searchmanager.h"
 #include "managedsearch.h"
 #include "queryhit.h"
@@ -31,23 +30,30 @@
 #include "hostcache.h"
 #include "network.h"
 #include <QMetaType>
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CSearchManager SearchManager;
+
 const quint32 PacketsPerSec = 8;
+
 CSearchManager::CSearchManager(QObject* parent) :
 	QObject(parent)
 {
 	m_nPruneCounter = 0;
 	m_nCookie = 0;
+
 	qRegisterMetaType<QueryHitSharedPtr>("QueryHitSharedPtr");
 }
+
 void CSearchManager::Add(CManagedSearch* pSearch)
 {
 	QMutexLocker l(&m_pSection);
+
 	Q_ASSERT(!m_lSearches.contains(pSearch->m_oGUID));
 	m_lSearches.insert(pSearch->m_oGUID, pSearch);
 	if(pSearch->thread() != SearchManager.thread())
@@ -55,42 +61,54 @@ void CSearchManager::Add(CManagedSearch* pSearch)
 		pSearch->moveToThread(SearchManager.thread());
 	}
 }
+
 void CSearchManager::Remove(CManagedSearch* pSearch)
 {
 	QMutexLocker l(&m_pSection);
+
 	Q_ASSERT(m_lSearches.contains(pSearch->m_oGUID));
 	m_lSearches.remove(pSearch->m_oGUID);
 }
+
 CManagedSearch* CSearchManager::Find(QUuid& oGUID)
 {
 	return m_lSearches.value(oGUID, 0);
 }
+
 void CSearchManager::OnTimer()
 {
 	QMutexLocker l(&m_pSection);
+
 	quint32 nSearches = m_lSearches.size();
 	quint32 nPacketsLeft = PacketsPerSec;
+
 	if(nSearches == 0)
 	{
 		return;
 	}
+
 	foreach(CManagedSearch* pSearch, m_lSearches)
 	{
 		pSearch->SendHits();
 		if(pSearch->m_bPaused)
 			nSearches--;
 	}
+
 	m_nPruneCounter++;
 	if(m_nPruneCounter % 30 == 0)
 	{
 		HostCache.PruneByQueryAck();
 	}
+
 	if( nSearches == 0 )
 		return;
+
 	quint32 nPacketsPerSearch = qMax<quint32>(1, nPacketsLeft / nSearches);
 	QDateTime tNow = QDateTime::currentDateTimeUtc();
+
 	quint32 nPacket = 0;
 	bool bUpdate = true;
+
 	for(QHash<QUuid, CManagedSearch*>::iterator itSearch = m_lSearches.begin(); itSearch != m_lSearches.end() && nPacketsLeft > 0; itSearch++)
 	{
 		CManagedSearch* pSearch = itSearch.value();
@@ -98,45 +116,60 @@ void CSearchManager::OnTimer()
 		{
 			nPacket = nPacketsPerSearch;
 			nPacketsLeft -= nPacket;
+
 			pSearch->Execute(tNow, &nPacket);
 			pSearch->m_nCookie = m_nCookie;
 			bUpdate = false;
+
 			nPacketsLeft += nPacket;
 		}
 	}
+
 	if(bUpdate || m_lSearches.size() == 1)
 	{
 		m_nCookie++;
 	}
+
 }
+
 bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUuid& oGUID)
 {
 	if(!pPacket->m_bCompound)
 	{
 		return false;
 	}
+
 	pPacket->SkipCompound();			// skip children to get search GUID
 	if(pPacket->GetRemaining() < 16)	// must be at least 16 bytes for GUID
 	{
 		return false;
 	}
+
 	oGUID = pPacket->ReadGUID();		// Read search GUID
+
 	QMutexLocker l(&m_pSection);
+
 	if(CManagedSearch* pSearch = Find(oGUID))	// is it our Query Ack?
 	{
 		// YES, this is ours, let's parse the packet and process it
+
 		CEndPoint oFromIp = addr;
 		QList<QHostAddress>  lDone;
 		quint32 nRetryAfter = 0;
 		qint64 tAdjust = 0;
 		QDateTime tNow = QDateTime::currentDateTimeUtc();
+
 		quint32 nHubs = 0, nLeaves = 0, nSuggestedHubs = 0;
+
 		pPacket->m_nPosition = 0;	// reset position
+
 		char szType[9];
 		quint32 nLength = 0, nNext = 0;
+
 		while(pPacket->ReadPacket(&szType[0], nLength))
 		{
 			nNext = pPacket->m_nPosition + nLength;
+
 			if(strcmp("D", szType) == 0 && nLength >= 4)
 			{
 				QHostAddress ha;
@@ -146,12 +179,14 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 					Q_IPV6ADDR nIP;
 					pPacket->Read(&nIP, 16);
 					ha.setAddress(nIP);
+
 					if(nLength >= 18)
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
 						CEndPoint a(nIP, nPort);
 						HostCache.Add(a, tNow);
 					}
+
 					if(nLength >= 20)
 					{
 						nLeaves += pPacket->ReadIntLE<quint16>();
@@ -162,18 +197,21 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 					// IPv4
 					quint32 nIP = pPacket->ReadIntBE<quint32>();
 					ha.setAddress(nIP);
+
 					if(nLength >= 6)
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
 						CEndPoint a(nIP, nPort);
 						HostCache.Add(a, tNow);
 					}
+
 					if(nLength >= 8)
 					{
 						nLeaves += pPacket->ReadIntLE<quint16>();
 					}
 				}
 				lDone.append(ha);
+
 				nHubs++;
 			}
 			else if(strcmp("S", szType) == 0 && nLength >= 6)
@@ -181,6 +219,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				CEndPoint a;
 				pPacket->ReadHostAddress(&a, !(nLength >= 18));
 				quint32 tSeen = (nLength >= (a.protocol() == 0 ? 10 : 22)) ? pPacket->ReadIntLE<quint32>() + tAdjust : tNow.toTime_t() - 60;
+
 				HostCache.Add(a, QDateTime::fromTime_t(tSeen));
 				nSuggestedHubs++;
 			}
@@ -198,6 +237,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				{
 					nRetryAfter = pPacket->ReadIntLE<quint16>();
 				}
+
 				CHostCacheHost* pHost = HostCache.Find(oFromIp);
 				if(pHost)
 				{
@@ -218,39 +258,55 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 					oFromIp.setAddress(nFromIp);
 				}
 			}
+
 			pPacket->m_nPosition = nNext;
 		}
+
 		// we already know QA GUID
+
 		systemLog.postLog(LogSeverity::Debug, "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
 						  oFromIp.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
 		//qDebug("Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
 		//	   addr.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
+
 		pSearch->m_nHubs += nHubs;
 		pSearch->m_nLeaves += nLeaves;
+
 		pSearch->OnHostAcknowledge(oFromIp, tNow);
+
 		for(int i = 0; i < lDone.size(); i++)
 		{
 			pSearch->OnHostAcknowledge(lDone[i], tNow);
 		}
+
 		emit pSearch->StatsUpdated();
+
 		return false;
 	}
+
 	// not our ack - tell caller to route it
 	return true;
+
 }
+
 bool CSearchManager::OnQueryHit(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 {
 	QMutexLocker l(&m_pSection);
+
 	if(CManagedSearch* pSearch = Find(pHitInfo->m_oGUID))
 	{
 		// our search
+
 		CQueryHit* pHit = CQueryHit::ReadPacket(pPacket, pHitInfo);
+
 		if(pHit)
 		{
 			pSearch->OnQueryHit(pHit);
 		}
+
 		return false;
 	}
+
 	return true;
 }
 

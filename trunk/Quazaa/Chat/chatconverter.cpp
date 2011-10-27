@@ -22,34 +22,40 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "chatconverter.h"
+
 #include <QTextDocument>
 #include <QTextBlock>
 #include <QTextFragment>
 #include <QTextCharFormat>
+
 #include <QDebug>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CChatConverter::CChatConverter(QTextDocument *pDoc) :
 		m_pDocument(pDoc)
 {
 }
 CChatConverter::~CChatConverter()
 {
+
 }
 QString CChatConverter::toHtml()
 {
 	m_nOutputFormat = HTML;
 	m_pResult.clear();
 	m_pStack.clear();
+
 	QTextBlock currentBlock = m_pDocument->begin();
+
 	while (currentBlock.isValid()) {
 		processBlock(&currentBlock);
 		currentBlock = currentBlock.next();
 	}
+
 	return m_pResult;
 }
 QString CChatConverter::toBBCode()
@@ -57,11 +63,14 @@ QString CChatConverter::toBBCode()
 	m_nOutputFormat = BBCODE;
 	m_pResult.clear();
 	m_pStack.clear();
+
 	QTextBlock currentBlock = m_pDocument->begin();
+
 	while (currentBlock.isValid()) {
 		processBlock(&currentBlock);
 		currentBlock = currentBlock.next();
 	}
+
 	return m_pResult;
 }
 QString CChatConverter::toIRC()
@@ -69,13 +78,17 @@ QString CChatConverter::toIRC()
 	m_nOutputFormat = IRCCODE;
 	m_pResult.clear();
 	m_pStack.clear();
+
 	QTextBlock currentBlock = m_pDocument->begin();
+
 	while (currentBlock.isValid()) {
 		processBlock(&currentBlock);
 		currentBlock = currentBlock.next();
 	}
+
 	return m_pResult;
 }
+
 void CChatConverter::processBlock(QTextBlock *pBlock)
 {
 	QTextBlock::iterator it;
@@ -96,6 +109,7 @@ void CChatConverter::processBlock(QTextBlock *pBlock)
 			}
 		}
 	}
+
 	while( !m_pStack.isEmpty() )
 	{
 		QString sTag = m_pStack.pop();
@@ -116,10 +130,12 @@ void CChatConverter::processBlock(QTextBlock *pBlock)
 void CChatConverter::processFragment(QTextFragment *pFrag)
 {
 	QTextCharFormat fmt = pFrag->charFormat();
+
 	bool bLoop = true;
 	while( bLoop && !m_pStack.isEmpty() )
 	{
 		bLoop = false;
+
 		if( m_pStack.top() == "b" && fmt.fontWeight() <= QFont::Normal )
 		{
 			m_pResult.append("</b>");
@@ -138,31 +154,39 @@ void CChatConverter::processFragment(QTextFragment *pFrag)
 			bLoop = true;
 			m_pStack.pop();
 		}
+
 	}
+
 	if( fmt.fontWeight() > QFont::Normal && !m_pStack.contains("b") )
 	{
 		m_pResult.append("<b>");
 		m_pStack.push("b");
 	}
+
 	if( fmt.fontItalic() && !m_pStack.contains("i"))
 	{
 		m_pResult.append("<i>");
 		m_pStack.push("i");
 	}
+
 	if( fmt.fontUnderline() && !m_pStack.contains("u"))
 	{
 		m_pResult.append("<u>");
 		m_pStack.push("u");
 	}
+
 	m_pResult.append(pFrag->text());
 }
+
 void CChatConverter::processFragmentBB(QTextFragment *pFrag)
 {
 	QTextCharFormat fmt = pFrag->charFormat();
+
 	bool bLoop = true;
 	while( bLoop && !m_pStack.isEmpty() )
 	{
 		bLoop = false;
+
 		if( m_pStack.top() == "b" && fmt.fontWeight() <= QFont::Normal )
 		{
 			m_pResult.append("[/b]");
@@ -181,31 +205,39 @@ void CChatConverter::processFragmentBB(QTextFragment *pFrag)
 			bLoop = true;
 			m_pStack.pop();
 		}
+
 	}
+
 	if( fmt.fontWeight() > QFont::Normal && !m_pStack.contains("b") )
 	{
 		m_pResult.append("[b]");
 		m_pStack.push("b");
 	}
+
 	if( fmt.fontItalic() && !m_pStack.contains("i"))
 	{
 		m_pResult.append("[i]");
 		m_pStack.push("i");
 	}
+
 	if( fmt.fontUnderline() && !m_pStack.contains("u"))
 	{
 		m_pResult.append("[u]");
 		m_pStack.push("u");
 	}
+
 	m_pResult.append(pFrag->text());
 }
+
 void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 {
 	QTextCharFormat fmt = pFrag->charFormat();
+
 	bool bLoop = true;
 	while( bLoop && !m_pStack.isEmpty() )
 	{
 		bLoop = false;
+
 		if( m_pStack.top() == "\x02" && fmt.fontWeight() <= QFont::Normal )
 		{
 			m_pResult.append("\x02");
@@ -314,17 +346,21 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 			bLoop = true;
 			m_pStack.pop();
 		}
+
 	}
+
 	if( fmt.fontWeight() > QFont::Normal && !m_pStack.contains("\x02") )
 	{
 		m_pResult.append("\x02");
 		m_pStack.push("\x02");
 	}
+
 	if( fmt.fontItalic() && !m_pStack.contains("\x09"))
 	{
 		m_pResult.append("\x09");
 		m_pStack.push("\x09");
 	}
+
 	if( fmt.fontUnderline() && !m_pStack.contains("\x15"))
 	{
 		m_pResult.append("\x15");
@@ -410,6 +446,7 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 		m_pResult.append("15");
 		m_pStack.push("15");
 	}
+
 	m_pResult.append(pFrag->text());
 }
 

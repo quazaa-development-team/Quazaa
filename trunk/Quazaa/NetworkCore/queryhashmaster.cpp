@@ -22,41 +22,48 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "queryhashmaster.h"
 #include "queryhashgroup.h"
 #include "sharemanager.h"
 #include <QDateTime>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CQueryHashMaster QueryHashMaster;
+
 CQueryHashMaster::CQueryHashMaster()
 {
 	m_nPerGroup = 0;
 }
+
 CQueryHashMaster::~CQueryHashMaster()
 {
 	Q_ASSERT(GetCount() == 0);
 }
+
 void CQueryHashMaster::Create()
 {
 	CQueryHashTable::Create();
+
 	m_nPerGroup			= 100;
 	m_bValid			= false;
 	m_bLive				= false;
 	m_nCookie			= 0;
 }
+
 void CQueryHashMaster::Add(CQueryHashTable* pTable)
 {
 	Q_ASSERT(m_nPerGroup > 0);
 	Q_ASSERT(pTable != 0);
 	Q_ASSERT(pTable->m_nHash > 0);
 	Q_ASSERT(pTable->m_pGroup == 0);
+
 	for(QList<CQueryHashGroup*>::iterator itGroup = m_pGroups.begin(); itGroup != m_pGroups.end(); itGroup++)
 	{
 		CQueryHashGroup* pGroup = *itGroup;
+
 		if(pGroup->m_nHash == pTable->m_nHash &&
 		        pGroup->GetCount() < m_nPerGroup)
 		{
@@ -65,11 +72,13 @@ void CQueryHashMaster::Add(CQueryHashTable* pTable)
 			return;
 		}
 	}
+
 	CQueryHashGroup* pGroup = new CQueryHashGroup(pTable->m_nHash);
 	m_pGroups.append(pGroup);
 	pGroup->Add(pTable);
 	m_bValid = false;
 }
+
 void CQueryHashMaster::Remove(CQueryHashTable* pTable)
 {
 	Q_ASSERT(pTable != 0);
@@ -77,8 +86,10 @@ void CQueryHashMaster::Remove(CQueryHashTable* pTable)
 	{
 		return;
 	}
+
 	CQueryHashGroup* pGroup = pTable->m_pGroup;
 	pGroup->Remove(pTable);
+
 	if(pGroup->GetCount() == 0)
 	{
 		int pos = m_pGroups.indexOf(pGroup);
@@ -86,11 +97,14 @@ void CQueryHashMaster::Remove(CQueryHashTable* pTable)
 		m_pGroups.removeAt(pos);
 		delete pGroup;
 	}
+
 	m_bValid = false;
 }
+
 void CQueryHashMaster::Build()
 {
 	quint32 tNow = time(0);
+
 	if(m_bValid)
 	{
 		if(tNow - m_nCookie < 600)
@@ -105,21 +119,28 @@ void CQueryHashMaster::Build()
 			return;
 		}
 	}
+
 	ShareManager.m_oSection.lock();
+
 	const CQueryHashTable* pLocalTable = ShareManager.GetHashTable();
+
 	if(!pLocalTable)
 	{
 		ShareManager.m_oSection.unlock();
 		return;
 	}
+
 	Clear();
 	Merge(pLocalTable);
+
 	ShareManager.m_oSection.unlock();
+
 	for(QList<CQueryHashGroup*>::iterator itGroup = m_pGroups.begin(); itGroup != m_pGroups.end(); itGroup++)
 	{
 		CQueryHashGroup* pGroup = *itGroup;
 		Merge(pGroup);
 	}
+
 	m_bValid	= true;
 	m_bLive		= true;
 	m_nCookie	= tNow;

@@ -22,23 +22,25 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialoglibrarysearch.h"
 #include "ui_dialoglibrarysearch.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogLibrarySearch::DialogLibrarySearch(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::DialogLibrarySearch)
 {
 	ui->setupUi(this);
 }
+
 DialogLibrarySearch::~DialogLibrarySearch()
 {
 	delete ui;
 }
+
 void DialogLibrarySearch::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -51,11 +53,13 @@ void DialogLibrarySearch::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogLibrarySearch::on_pushButtonSearch_clicked()
 {
 	emit closed();
 	close();
 }
+
 void DialogLibrarySearch::on_pushButtonCancel_clicked()
 {
 	emit closed();

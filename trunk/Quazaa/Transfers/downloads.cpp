@@ -22,18 +22,20 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "downloads.h"
 #include "download.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CDownloads Downloads;
+
 CDownloads::CDownloads(QObject *parent) :
     QObject(parent)
 {
 }
+
 void CDownloads::add(CQueryHit *pHit)
 {
 	CDownload* pDownload = new CDownload(pHit, this);
@@ -41,9 +43,11 @@ void CDownloads::add(CQueryHit *pHit)
 	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Queued download job for %s")), qPrintable(pDownload->m_sDisplayName));
 	emit downloadAdded();
 }
+
 void CDownloads::start()
 {
 }
+
 void CDownloads::stop()
 {
 }

@@ -22,7 +22,6 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "queryhashtable.h"
 #include "queryhashmaster.h"
 #include "queryhashgroup.h"
@@ -38,11 +37,13 @@
 #include "buffer.h"
 #include "query.h"
 #include "Hashes/hash.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 // Parts of this code are borrowed from Shareaza
+
 CQueryHashTable::CQueryHashTable() : QObject(0),
 	m_bLive(false)
 	,	m_nCookie(0ul)
@@ -55,15 +56,18 @@ CQueryHashTable::CQueryHashTable() : QObject(0),
 	,	m_pGroup(0)
 {
 }
+
 CQueryHashTable::~CQueryHashTable()
 {
 	if(m_pGroup)
 	{
 		QueryHashMaster.Remove(this);
 	}
+
 	delete [] m_pHash;
 	delete m_pBuffer;
 }
+
 void CQueryHashTable::Create()
 {
 	const bool bGrouped = (m_pGroup != 0);
@@ -71,58 +75,72 @@ void CQueryHashTable::Create()
 	{
 		QueryHashMaster.Remove(this);
 	}
+
 	delete [] m_pHash;
+
 	m_bLive		= true;
 	m_nCookie	= time(0) + 1;
 	m_nBits		= quazaaSettings.Library.QueryRouteSize;
 	m_nHash		= 1u << m_nBits;
 	m_pHash		= new uchar[(m_nHash + 31) / 8 ];
 	m_nCount	= 0;
+
 	memset(m_pHash, 0xFF, (m_nHash + 31) / 8);
+
 	if(bGrouped)
 	{
 		QueryHashMaster.Add(this);
 	}
 }
+
 void CQueryHashTable::Clear()
 {
 	if(!m_pHash)
 	{
 		return;
 	}
+
 	const bool bGrouped = (m_pGroup != 0);
 	if(bGrouped)
 	{
 		QueryHashMaster.Remove(this);
 	}
+
 	m_nCookie	= time(0) + 1;
 	m_nCount	= 0;
+
 	memset(m_pHash, 0xFF, (m_nHash + 31) / 8);
+
 	if(bGrouped)
 	{
 		QueryHashMaster.Add(this);
 	}
 }
+
 bool CQueryHashTable::Merge(const CQueryHashTable* pSource)
 {
 	if(!m_pHash || !pSource->m_pHash)
 	{
 		return false;
 	}
+
 	if(m_nHash == pSource->m_nHash)
 	{
 		uchar* pSourcePtr	= pSource->m_pHash;
 		uchar* pDestPtr		= m_pHash;
+
 		for(quint32 nPosition = m_nHash >> 3 ; nPosition ; --nPosition)
 		{
 			register uchar nSourceByte = *pSourcePtr;
 			register uchar nDestByte = *pDestPtr;
+
 #define DO_MERGE(MASKVAL) \
 	if ( ! ( nSourceByte & MASKVAL ) && ( nDestByte & MASKVAL ) ) \
 	{ \
 		*pDestPtr &= ~ MASKVAL; \
 		++m_nCount; \
 	}
+
 			DO_MERGE(0x01);
 			DO_MERGE(0x02);
 			DO_MERGE(0x04);
@@ -132,6 +150,7 @@ bool CQueryHashTable::Merge(const CQueryHashTable* pSource)
 			DO_MERGE(0x40);
 			DO_MERGE(0x80);
 #undef DO_MERGE
+
 			++pSourcePtr;
 			++pDestPtr;
 		}
@@ -140,6 +159,7 @@ bool CQueryHashTable::Merge(const CQueryHashTable* pSource)
 	{
 		int nDestScale		= 1;
 		int nSourceScale	= 1;
+
 		if(m_nHash > pSource->m_nHash)
 		{
 			quint32 nIterate = pSource->m_nHash;
@@ -147,6 +167,7 @@ bool CQueryHashTable::Merge(const CQueryHashTable* pSource)
 			{
 				++nDestScale;
 			}
+
 			if(nIterate != m_nHash)
 			{
 				return false;
@@ -159,24 +180,29 @@ bool CQueryHashTable::Merge(const CQueryHashTable* pSource)
 			{
 				++nSourceScale;
 			}
+
 			if(nIterate != pSource->m_nHash)
 			{
 				return false;
 			}
 		}
+
 		uchar* pSourcePtr	= pSource->m_pHash;
 		uchar* pDestPtr		= m_pHash;
 		uchar nSourceMask	= 0x01;
 		uchar nDestMask		= 0x01;
+
 		for(quint32 nDest = 0, nSource = 0 ; nDest < m_nHash && nSource < pSource->m_nHash ;)
 		{
 			bool bValue = true;
+
 			for(int nSample = 0 ; nSample < nSourceScale ; ++nSample, ++nSource)
 			{
 				if((*pSourcePtr & nSourceMask) == 0)
 				{
 					bValue = false;
 				}
+
 				if(nSourceMask == 0x80)
 				{
 					nSourceMask = 0x01;
@@ -187,6 +213,7 @@ bool CQueryHashTable::Merge(const CQueryHashTable* pSource)
 					nSourceMask <<= 1;
 				}
 			}
+
 			for(int nSample = 0 ; nSample < nDestScale ; ++nSample, ++nDest)
 			{
 				if(! bValue && (*pDestPtr & nDestMask))
@@ -194,6 +221,7 @@ bool CQueryHashTable::Merge(const CQueryHashTable* pSource)
 					*pDestPtr &= ~nDestMask;
 					++m_nCount;
 				}
+
 				if(nDestMask == 0x80)
 				{
 					nDestMask = 0x01;
@@ -206,28 +234,35 @@ bool CQueryHashTable::Merge(const CQueryHashTable* pSource)
 			}
 		}
 	}
+
 	m_nCookie = time(0) + 1;
+
 	return true;
 }
+
 bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 {
 	if(!m_pHash || !pSource->m_pHash)
 	{
 		return false;
 	}
+
 	if(m_nHash == pSource->m_nHash)
 	{
 		uchar* pSourcePtr	= pSource->m_pHash;
 		uchar* pDestPtr		= m_pHash;
+
 		for(quint32 nPosition = m_nHash >> 3 ; nPosition ; --nPosition)
 		{
 			register uchar nDestByte = *pDestPtr;
+
 #define DO_MERGE(MASKVAL) \
 	if ( *pSourcePtr++ && ( nDestByte & MASKVAL ) ) \
 	{ \
 		*pDestPtr &= ~ MASKVAL; \
 		m_nCount++; \
 	}
+
 			DO_MERGE(0x01);
 			DO_MERGE(0x02);
 			DO_MERGE(0x04);
@@ -237,6 +272,7 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 			DO_MERGE(0x40);
 			DO_MERGE(0x80);
 #undef DO_MERGE
+
 			++pDestPtr;
 		}
 	}
@@ -244,6 +280,7 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 	{
 		int nDestScale		= 1;
 		int nSourceScale	= 1;
+
 		if(m_nHash > pSource->m_nHash)
 		{
 			quint32 nIterate = pSource->m_nHash;
@@ -251,6 +288,7 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 			{
 				++nDestScale;
 			}
+
 			if(nIterate != m_nHash)
 			{
 				return false;
@@ -263,17 +301,21 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 			{
 				++nSourceScale;
 			}
+
 			if(nIterate != pSource->m_nHash)
 			{
 				return false;
 			}
 		}
+
 		uchar* pSourcePtr	= pSource->m_pHash;
 		uchar* pDestPtr		= m_pHash;
 		uchar nDestMask		= 0x01;
+
 		for(quint32 nDest = 0, nSource = 0 ; nDest < m_nHash && nSource < pSource->m_nHash ;)
 		{
 			bool bValue = true;
+
 			for(int nSample = 0 ; nSample < nSourceScale ; nSample++, nSource++)
 			{
 				if(*pSourcePtr++)
@@ -281,6 +323,7 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 					bValue = false;
 				}
 			}
+
 			for(int nSample = 0 ; nSample < nDestScale ; ++nSample, ++nDest)
 			{
 				if(! bValue && (*pDestPtr & nDestMask))
@@ -288,6 +331,7 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 					*pDestPtr &= ~nDestMask;
 					++m_nCount;
 				}
+
 				if(nDestMask == 0x80)
 				{
 					nDestMask = 0x01;
@@ -300,9 +344,12 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 			}
 		}
 	}
+
 	m_nCookie = time(0);
+
 	return true;
 }
+
 bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
                               CG2Node* pNeighbour)
 {
@@ -310,33 +357,44 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 	{
 		return false;
 	}
+
 	if(m_nCookie == pTarget->m_nCookie)
 	{
 		return false;
 	}
+
 	m_nCookie	= pTarget->m_nCookie;
 	m_nCount	= pTarget->m_nCount;
+
 	bool bChanged = false;
+
 	if(!m_pHash || m_nHash != pTarget->m_nHash)
 	{
 		delete [] m_pHash;
 		m_pHash = 0;
+
 		m_nBits		= pTarget->m_nBits;
 		m_nHash		= pTarget->m_nHash;
 		m_pHash		= new uchar[(m_nHash + 31) / 8 ];
+
 		memset(m_pHash, 0xFF, (m_nHash + 31) / 8);
+
 		G2Packet* pReset = G2Packet::New("QHT");
 		pReset->WriteByte(0);
 		pReset->WriteIntLE(m_nHash);
 		pReset->WriteByte(1);
+
 		pNeighbour->SendPacket(pReset, false, true);
+
 		bChanged = true;
 	}
+
 	CBuffer baBuffer;
 	baBuffer.resize((m_nHash + 31) / 8);
 	uchar* pBuffer	= (uchar*)baBuffer.data();
 	uchar* pHashT	= pTarget->m_pHash;
 	uchar* pHashS	= m_pHash;
+
 	const quint32 nEnd = (m_nHash + 31) / 32;
 	quint32* const pDwordBuffer = reinterpret_cast< quint32* >(pBuffer);
 	const quint32* const pDwordHashS = reinterpret_cast< quint32* >(pHashS);
@@ -352,24 +410,30 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 	{
 		memcpy(pHashS, pHashT, (m_nHash + 31) / 8);
 	}
+
 	if(!bChanged && m_bLive)
 	{
 		return false;
 	}
+
 	baBuffer.resize(m_nHash / 8);
+
 	if(!ZLibUtils::Compress(baBuffer))
 	{
 		systemLog.postLog(LogSeverity::Debug, "QHT compress error");
 		//qDebug() << "QHT compress error";
 		return false;
 	}
+
 	quint32 nFrags = 1;
 	const quint32 nFragSize = 2048;
 	quint32 nToWrite = baBuffer.size();
+
 	while(nToWrite > nFrags * nFragSize)
 	{
 		nFrags++;
 	}
+
 	quint32 nOffset = 0;
 	for(uchar nFrag = 1; nFrag <= nFrags; nFrag++)
 	{
@@ -379,29 +443,39 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 		p.nCompression = 1;
 		p.nFragCount = nFrags;
 		p.nFragNum = nFrag;
+
 		G2Packet* pPatch = G2Packet::New("QHT");
 		pPatch->Write((void*)&p, sizeof(p));
+
 		quint32 nFs = qMin(nToWrite, nFragSize);
+
 		pPatch->Write((void*)(baBuffer.data() + nOffset), nFs);
+
 		nOffset += nFs;
 		nToWrite -= nFs;
 		pNeighbour->SendPacket(pPatch, false, true);
 	}
+
 	m_bLive = true;
+
 	return true;
 }
+
 bool CQueryHashTable::OnPacket(G2Packet* pPacket)
 {
 	if(pPacket->m_nLength < 1)
 	{
 		return false;
 	}
+
 	quint32 nLength = pPacket->m_nLength;
 	if(pPacket->m_bCompound)
 	{
 		pPacket->SkipCompound(nLength);
 	}
+
 	uchar nVariant = pPacket->ReadByte();
+
 	if(nVariant == 0)
 	{
 		return OnReset(pPacket);
@@ -410,108 +484,139 @@ bool CQueryHashTable::OnPacket(G2Packet* pPacket)
 	{
 		return OnPatch(pPacket);
 	}
+
 	return false;
 }
+
 bool CQueryHashTable::OnReset(G2Packet* pPacket)
 {
 	if(pPacket->m_nLength != 6)
 	{
 		return false;
 	}
+
 	quint32 nHashSize	= 0;
+
 	const bool bGrouped = (m_pGroup != 0);
 	if(bGrouped)
 	{
 		QueryHashMaster.Remove(this);
 	}
+
 	nHashSize	= pPacket->ReadIntLE<quint32>();
 	m_nInfinity	= pPacket->ReadByte();
+
 	if(nHashSize < 64)
 	{
 		return false;
 	}
+
 	if(!m_pHash || nHashSize != m_nHash)
 	{
 		delete [] m_pHash;
 		m_pHash = 0;
+
 		for(m_nHash = 1, m_nBits = 0 ; m_nHash < nHashSize ; ++m_nBits)
 		{
 			m_nHash *= 2;
 		}
+
 		if(m_nHash != nHashSize)
 		{
 			return false;
 		}
+
 		if(m_nBits > 24)
 		{
 			return false;
 		}
+
 		m_pHash	= new uchar[(m_nHash + 31) / 8 ];
 	}
+
 	memset(m_pHash, 0xFF, (m_nHash + 31) / 8);
+
 	if(bGrouped)
 	{
 		QueryHashMaster.Add(this);
 	}
+
 	m_bLive		= false;
 	m_nCookie	= time(0);
 	m_nCount	= 0;
+
 	m_pBuffer->clear();
+
 	return true;
 }
+
 bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 {
 	if(pPacket->m_nLength < 5)
 	{
 		return false;
 	}
+
 	if(!m_pHash)
 	{
 		return false;
 	}
+
 	if(!m_pBuffer)
 	{
 		return false;
 	}
+
 	uchar nSequence		= pPacket->ReadByte();
 	uchar nMaximum		= pPacket->ReadByte();
 	uchar nCompression	= pPacket->ReadByte();
 	uchar nBits			= pPacket->ReadByte();
+
 	if(nBits != 1 && nBits != 4 && nBits != 8)
 	{
 		return false;
 	}
+
 	if(nSequence < 1 || nSequence > nMaximum)
 	{
 		return false;
 	}
+
 	if(nCompression > 1)
 	{
 		return false;
 	}
+
 	if(nSequence == 1)
 	{
 		m_pBuffer->clear();
 	}
+
 	m_pBuffer->append((char*)pPacket->m_pBuffer + pPacket->m_nPosition,
 	                  pPacket->m_nLength - pPacket->m_nPosition);
+
 	if(nSequence < nMaximum)
 	{
 		return true;
 	}
+
 	if(nCompression == 1)
 	{
 		ZLibUtils::Uncompress(*m_pBuffer);
 	}
+
 	if(m_pBuffer->size() != m_nHash / (8 / nBits))
 	{
 		m_pBuffer->clear();
 		return false;
 	}
+
 	uchar* pData		= (uchar*)m_pBuffer->data();
 	uchar* pHash		= m_pHash;
+
 	const bool bGroup = (m_pGroup && m_pGroup->m_nHash == m_nHash);
 	uchar* pGroup	= bGroup ? m_pGroup->m_pHash : 0;
+
 	if(nBits == 1)
 	{
 		for(quint32 nPosition = (m_nHash >> 3) ; nPosition ; --nPosition, ++pHash, ++pData)
@@ -540,6 +645,7 @@ bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 					{
 						--m_nCount;
 						*pHash |= nMask;
+
 						if(bGroup)
 						{
 #ifdef _DEBUG
@@ -553,7 +659,9 @@ bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 						}
 					}
 				}
+
 				++pGroup;
+
 				if(nMask == 0x80)
 				{
 					break;
@@ -566,31 +674,40 @@ bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 		m_pBuffer->clear();
 		return false;
 	}
+
 	m_bLive		= true;
 	m_nCookie	= time(0);
+
 	if(bGroup)
 	{
 		QueryHashMaster.Invalidate();
 	}
+
 	return true;
 }
+
 void CQueryHashTable::AddExactString(const QString& strString)
 {
 	if(! m_pHash)
 	{
 		return;
 	}
+
 	QByteArray baUTF8;
 	baUTF8 = strString.toUtf8();
+
 	AddExact(baUTF8.data(), baUTF8.size());
 }
+
 void CQueryHashTable::Add(const char* pszString, size_t nLength)
 {
 	if(nLength < 4)
 	{
 		return;
 	}
+
 	quint32 tNow = time(0);
+
 	quint32 nHash	= HashWord(pszString, nLength, m_nBits);
 	uchar* pHash	= m_pHash + (nHash >> 3);
 	uchar nMask	= uchar(1 << (nHash & 7));
@@ -600,6 +717,7 @@ void CQueryHashTable::Add(const char* pszString, size_t nLength)
 		++m_nCount;
 		*pHash &= ~nMask;
 	}
+
 	if(nLength >= 5)
 	{
 		nHash	= HashWord(pszString, nLength - 1, m_nBits);
@@ -611,6 +729,7 @@ void CQueryHashTable::Add(const char* pszString, size_t nLength)
 			++m_nCount;
 			*pHash &= ~nMask;
 		}
+
 		nHash	= HashWord(pszString, nLength - 2, m_nBits);
 		pHash	= m_pHash + (nHash >> 3);
 		nMask	= uchar(1 << (nHash & 7));
@@ -622,12 +741,14 @@ void CQueryHashTable::Add(const char* pszString, size_t nLength)
 		}
 	}
 }
+
 void CQueryHashTable::AddExact(const char* pszString, size_t nLength)
 {
 	if(! nLength)
 	{
 		return;
 	}
+
 	quint32 nHash	= HashWord(pszString, nLength, m_nBits);
 	uchar* pHash	= m_pHash + (nHash >> 3);
 	uchar nMask		= uchar(1 << (nHash & 7));
@@ -638,38 +759,48 @@ void CQueryHashTable::AddExact(const char* pszString, size_t nLength)
 		*pHash &= ~nMask;
 	}
 }
+
 bool CQueryHashTable::CheckString(const QString& strString) const
 {
 	if(!m_bLive || !m_pHash || strString.isEmpty())
 	{
 		return true;
 	}
+
 	QByteArray baUTF8;
 	baUTF8 = strString.toUtf8();
+
 	quint32 nHash	= HashWord(baUTF8.data(), baUTF8.size(), m_nBits);
 	uchar* pHash	= m_pHash + (nHash >> 3);
 	uchar nMask		= uchar(1 << (nHash & 7));
+
 	return !(*pHash & nMask);
 }
+
 bool CQueryHashTable::CheckHash(const quint32 nHash) const
 {
 	if(!m_bLive || !m_pHash)
 	{
 		return true;
 	}
+
 	quint32 lHash	= nHash >> (32 - m_nBits);
 	uchar* pHash	= m_pHash + (lHash >> 3);
 	uchar nMask		= uchar(1 << (lHash & 7));
+
 	return !(*pHash & nMask);
 }
+
 int CQueryHashTable::GetPercent() const
 {
 	if(!m_pHash || !m_nHash)
 	{
 		return 0;
 	}
+
 	return m_nCount * 100 / m_nHash;
 }
+
 quint32 CQueryHashTable::HashWord(const char* pSz, quint32 nLength, qint32 nBits)
 {
 	quint32 nNumber = 0;
@@ -683,19 +814,23 @@ quint32 CQueryHashTable::HashWord(const char* pSz, quint32 nLength, qint32 nBits
 	}
 	return HashNumber(nNumber, nBits);
 }
+
 quint32 CQueryHashTable::HashNumber(quint32 nNumber, qint32 nBits)
 {
 	quint64 nProduct = (quint64)nNumber * (quint64)0x4F1BBCDC;
 	quint64 nHash = (nProduct << 32) >> (32 + (32 - nBits));
 	return (quint32)nHash;
 }
+
 void CQueryHashTable::AddString(const QString& strString)
 {
 	if(!m_pHash)
 	{
 		return;
 	}
+
 	QStringList keywords;
+
 	if(CQueryHashTable::MakeKeywords(strString, keywords))
 	{
 		foreach(QString kw, keywords)
@@ -705,14 +840,18 @@ void CQueryHashTable::AddString(const QString& strString)
 		}
 	}
 }
+
 int CQueryHashTable::MakeKeywords(QString sPhrase, QStringList& outList)
 {
 	systemLog.postLog(LogSeverity::Debug, QString("Making keywords from: %1").arg(sPhrase));
 	//qDebug() << "Making keywords from:" << sPhrase;
+
 	sPhrase = sPhrase.replace("_", " ").simplified().toLower();
+
 	// split it into words
 	QStringList lOut;
 	lOut = sPhrase.split(QRegExp("\\W+"), QString::SkipEmptyParts);
+
 	// now filter out too short words and only numeric
 	QRegExp rx("^\\d+$");
 	foreach(QString sWord, lOut)
@@ -722,34 +861,43 @@ int CQueryHashTable::MakeKeywords(QString sPhrase, QStringList& outList)
 		{
 			continue;
 		}
+
 		if(rx.indexIn(sWord) != -1)
 		{
 			continue;
 		}
+
 		outList.append(sWord);
+
 		if(sWord.length() > 5)
 		{
 			outList.append(sWord.left(sWord.length() - 1));
 			outList.append(sWord.left(sWord.length() - 2));
 		}
 	}
+
 	foreach(QString sDebug, outList)
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Added keyword: %1").arg(sDebug));
 		//qDebug() << "Added keyword:" << sDebug;
 	}
+
 	return outList.size();
 }
+
 bool CQueryHashTable::CheckQuery(CQueryPtr pQuery)
 {
 	if( !m_bLive || !m_pHash )
 		return true;
+
 	for(int i = 0; i < pQuery->m_lHashes.size(); ++i)
 	{
 		if(CheckString(pQuery->m_lHashes[i].ToURN()))
 			return true;
 	}
+
 	int nWords = 0, nWordHits = 0;
+
 	if( pQuery->m_lHashedKeywords.size() )
 	{
 		foreach(quint32 nHash, pQuery->m_lHashedKeywords)
@@ -759,6 +907,7 @@ bool CQueryHashTable::CheckQuery(CQueryPtr pQuery)
 				nWordHits++;
 		}
 	}
+
 	return (nWords >= 3) ? (nWordHits * 3 / nWords >= 2) : (nWords == nWordHits && nWords > 0);
 }
 

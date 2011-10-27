@@ -22,15 +22,17 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogsettings.h"
 #include "ui_dialogsettings.h"
+
 #include "quazaasettings.h"
+
 #include "dialogprofile.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page) :
 	QDialog(parent),
 	ui(new Ui::DialogSettings)
@@ -40,7 +42,9 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->comboBoxOnClose->setView(new QListView());
 	ui->comboBoxQueueLength->setView(new QListView());
 	switchSettingsPage(page);
+
 	newSkinSelected = false;
+
 	// Load Basic Settings
 	ui->checkBoxStartWithSystem->setChecked(quazaaSettings.System.StartWithSystem);
 	ui->checkBoxConnectOnStart->setChecked(quazaaSettings.System.ConnectOnStartup);
@@ -48,10 +52,12 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->checkBoxOnMinimize->setChecked(quazaaSettings.System.MinimizeToTray);
 	ui->spinBoxDiskWarn->setValue(quazaaSettings.System.DiskSpaceWarning);
 	ui->spinBoxDiskStop->setValue(quazaaSettings.System.DiskSpaceStop);
+
 	// Load Parental Settings
 	ui->checkBoxParentalChatFilter->setChecked(quazaaSettings.Parental.ChatAdultCensor);
 	ui->checkBoxParentalSearchFilter->setChecked(quazaaSettings.Parental.FilterAdultSearchResults);
 	ui->listWidgetParentalFilter->addItems(quazaaSettings.Parental.AdultFilter);
+
 	// Load Library Settings
 	ui->checkBoxLibraryRememberViews->setChecked(quazaaSettings.Library.RememberViews);
 	ui->checkBoxQuickHashing->setChecked(quazaaSettings.Library.HighPriorityHashing);
@@ -62,18 +68,23 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->spinBoxFileHistoryDays->setValue(quazaaSettings.Library.HistoryDays);
 	ui->listWidgetFileTypesSafeOpen->addItems(quazaaSettings.Library.SafeExecuteTypes);
 	ui->listWidgetFileTypesNeverShare->addItems(quazaaSettings.Library.NeverShareTypes);
+
 	// File Types Settings
+
 	// Load Media Player Settings
+
 	// Load Search Settings
 	ui->checkBoxSearchExpandMultiSorce->setChecked(quazaaSettings.Search.ExpandSearchMatches);
 	ui->checkBoxSearchSwitchOnDownload->setChecked(quazaaSettings.Search.SwitchOnDownload);
 	ui->checkBoxSearchHighlightNewMatches->setChecked(quazaaSettings.Search.HighlightNew);
+
 	// Load Private Messages Settings
 	ui->checkBoxPrivateMessagesAres->setChecked(quazaaSettings.PrivateMessages.AresEnable);
 	ui->checkBoxPrivateMessagesGnutella->setChecked(quazaaSettings.PrivateMessages.Gnutella2Enable);
 	ui->checkBoxPrivateMessagesEDonkey->setChecked(quazaaSettings.PrivateMessages.eDonkeyEnable);
 	ui->spinBoxPrivateMessagesIdleMessage->setValue(quazaaSettings.PrivateMessages.AwayMessageIdleTime);
 	ui->plainTextEditPrivateMessagesIdleMessage->setPlainText(quazaaSettings.PrivateMessages.AwayMessage);
+
 	// Load Chat Settings
 	ui->checkBoxIrcConnectOnStart->setChecked(quazaaSettings.Chat.ConnectOnStartup);
 	ui->checkBoxIrcEnableFileTransfers->setChecked(quazaaSettings.Chat.EnableFileTransfers);
@@ -81,12 +92,14 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->checkBoxIrcSSL->setChecked(quazaaSettings.Chat.IrcUseSSL);
 	ui->lineEditIrcServer->setText(quazaaSettings.Chat.IrcServerName);
 	ui->spinBoxIrcPort->setValue(quazaaSettings.Chat.IrcServerPort);
+
 	// Load Connection Settings
 	ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed / 1024) * 8);
 	ui->doubleSpinBoxOutSpeed->setValue((quazaaSettings.Connection.OutSpeed / 1024) * 8);
 	ui->spinBoxNetworkPort->setValue(quazaaSettings.Connection.Port);
 	ui->checkBoxRandomPort->setChecked(quazaaSettings.Connection.RandomPort);
 	ui->spinBoxConnectionTimeout->setValue(quazaaSettings.Connection.TimeoutConnect);
+
 	// Load Web Settings
 	ui->checkBoxIntegrationMagnetLinks->setChecked(quazaaSettings.Web.Magnet);
 	ui->checkBoxIntegrationAresLinks->setChecked(quazaaSettings.Web.Ares);
@@ -95,9 +108,11 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->checkBoxIntegrationEDonkeyLinks->setChecked(quazaaSettings.Web.ED2K);
 	ui->checkBoxManageWebDownloads->setChecked(quazaaSettings.Web.BrowserIntegration);
 	ui->listWidgetManageDownloadTypes->addItems(quazaaSettings.Web.ManageDownloadTypes);
+
 	// Load Transfer Settings
 	ui->checkBoxOnlyDownloadConnectedNetworks->setChecked(quazaaSettings.Transfers.RequireConnectedNetwork);
 	ui->checkBoxSimpleProgress->setChecked(quazaaSettings.Transfers.SimpleProgressBar);
+
 	// Load Download Settings
 	ui->checkBoxExpandDownloads->setChecked(quazaaSettings.Downloads.ExpandDownloads);
 	ui->lineEditSaveFolder->setText(quazaaSettings.Downloads.CompletePath);
@@ -106,11 +121,13 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->spinBoxMaxFiles->setValue(quazaaSettings.Downloads.MaxFiles);
 	ui->spinBoxMaxTransfers->setValue(quazaaSettings.Downloads.MaxTransfers);
 	ui->spinBoxTransfersPerFile->setValue(quazaaSettings.Downloads.MaxTransfersPerFile);
+
 	// Load Upload Settings
 	ui->checkBoxSharePartials->setChecked(quazaaSettings.Uploads.SharePartials);
 	ui->checkBoxSharingLimitHub->setChecked(quazaaSettings.Uploads.HubShareLimiting);
 	ui->checkBoxSharePreviews->setChecked(quazaaSettings.Uploads.SharePreviews);
 	ui->spinBoxUniqueHostLimit->setValue(quazaaSettings.Uploads.MaxPerHost);
+
 	// Load Security Settings
 	ui->checkBoxChatFilterSpam->setChecked(quazaaSettings.Security.ChatFilter);
 	ui->checkBoxAllowBrowseProfile->setChecked(quazaaSettings.Security.AllowProfileBrowse);
@@ -123,14 +140,17 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->checkBoxEnableUPnP->setChecked(quazaaSettings.Security.EnableUPnP);
 	ui->checkBoxAllowBrowseShares->setChecked(quazaaSettings.Security.AllowSharesBrowse);
 	ui->listWidgetUserAgents->addItems(quazaaSettings.Security.BlockedAgentUploadFilter);
+
 	// Load Gnutella 2 Settings
 	ui->checkBoxConnectG2->setChecked(quazaaSettings.Gnutella2.Enable);
 	ui->comboBoxG2Mode->setCurrentIndex(quazaaSettings.Gnutella2.ClientMode);
 	ui->spinBoxG2LeafToHub->setValue(quazaaSettings.Gnutella2.NumHubs);
 	ui->spinBoxG2HubToLeaf->setValue(quazaaSettings.Gnutella2.NumLeafs);
 	ui->spinBoxG2HubToHub->setValue(quazaaSettings.Gnutella2.NumPeers);
+
 	// Load Ares Settings
 	ui->checkBoxConnectAres->setChecked(quazaaSettings.Ares.Enable);
+
 	// Load eDonkey 2k Settings
 	ui->checkBoxConnectEDonkey->setChecked(quazaaSettings.EDonkey.Enable);
 	ui->checkBoxConnectKAD->setChecked(quazaaSettings.EDonkey.EnableKad);
@@ -140,6 +160,7 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->spinBoxED2kMaxClients->setValue(quazaaSettings.EDonkey.MaxClients);
 	ui->checkBoxAutoQueryServerList->setChecked(quazaaSettings.EDonkey.MetAutoQuery);
 	ui->lineEditEDonkeyServerListUrl->setText(quazaaSettings.EDonkey.ServerListURL);
+
 	// Load BitTorrent Settings
 	ui->checkBoxTorrentSaveDialog->setChecked(quazaaSettings.BitTorrent.UseSaveDialog);
 	ui->checkBoxTorrentsStartPaused->setChecked(quazaaSettings.BitTorrent.StartPaused);
@@ -153,9 +174,11 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->checkBoxTorrentsPreferTorrent->setChecked(quazaaSettings.BitTorrent.PreferBTSources);
 	ui->checkBoxTorrentsUseKademlia->setChecked(quazaaSettings.BitTorrent.UseKademlia);
 	ui->lineEditTorrentFolder->setText(quazaaSettings.BitTorrent.TorrentPath);
+
 	// Set Generic Control States
 	ui->groupBoxParentalFilter->setVisible(false);
 	ui->pushButtonApply->setEnabled(false);
+
 	// System Settings
 	connect(ui->checkBoxStartWithSystem, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxConnectOnStart, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -163,9 +186,11 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	connect(ui->checkBoxOnMinimize, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->spinBoxDiskWarn, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->spinBoxDiskStop, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
 	// Parental Settings
 	connect(ui->checkBoxParentalChatFilter, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxParentalSearchFilter, SIGNAL(clicked()), this, SLOT(enableApply()));
+
 	// Library Settings
 	connect(ui->checkBoxLibraryRememberViews, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxQuickHashing, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -174,18 +199,23 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	connect(ui->checkBoxVideoSeriesDetection, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->spinBoxFileHistoryRemember, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->spinBoxFileHistoryDays, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
 	// File Types Settings
+
 	// Media Player Settings
+
 	// Search Settings
 	connect(ui->checkBoxSearchExpandMultiSorce, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxSearchSwitchOnDownload, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxSearchHighlightNewMatches, SIGNAL(clicked()), this, SLOT(enableApply()));
+
 	// Private Messages Settings
 	connect(ui->checkBoxPrivateMessagesAres, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->plainTextEditPrivateMessagesIdleMessage, SIGNAL(textChanged()), this, SLOT(enableApply()));
 	connect(ui->spinBoxPrivateMessagesIdleMessage, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->checkBoxPrivateMessagesEDonkey, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxPrivateMessagesGnutella, SIGNAL(clicked()), this, SLOT(enableApply()));
+
 	// Chat Settings
 	connect(ui->checkBoxPrivateMessagesGnutella, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxIrcConnectOnStart, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -195,12 +225,14 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	connect(ui->lineEditIrcServer, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
 	connect(ui->spinBoxIrcPort, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->checkBoxIrcSSL, SIGNAL(clicked()), this, SLOT(enableApply()));
+
 	// Connection Settings
 	connect(ui->doubleSpinBoxInSpeed, SIGNAL(valueChanged(double)), this, SLOT(enableApply()));
 	connect(ui->doubleSpinBoxOutSpeed, SIGNAL(valueChanged(double)), this, SLOT(enableApply()));
 	connect(ui->spinBoxNetworkPort, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->checkBoxRandomPort, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->spinBoxConnectionTimeout, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
 	// Web Settings
 	connect(ui->checkBoxIntegrationMagnetLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxIntegrationAresLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -208,9 +240,11 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	connect(ui->checkBoxIntegrationPioletLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxIntegrationEDonkeyLinks, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxManageWebDownloads, SIGNAL(clicked()), this, SLOT(enableApply()));
+
 	// Transfer Settings
 	connect(ui->checkBoxOnlyDownloadConnectedNetworks, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxSimpleProgress, SIGNAL(clicked()), this, SLOT(enableApply()));
+
 	// Download Settings
 	connect(ui->checkBoxExpandDownloads, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->lineEditSaveFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
@@ -219,11 +253,13 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	connect(ui->spinBoxMaxFiles, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->spinBoxMaxTransfers, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->spinBoxTransfersPerFile, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
 	// Upload Settings
 	connect(ui->checkBoxSharePartials, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxSharingLimitHub, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxSharePreviews, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->spinBoxUniqueHostLimit, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
 	// Security Settings
 	connect(ui->checkBoxChatFilterSpam, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxAllowBrowseProfile, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -235,14 +271,17 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	connect(ui->checkBoxIgnoreLocalIP, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxEnableUPnP, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxAllowBrowseShares, SIGNAL(clicked()), this, SLOT(enableApply()));
+
 	// Gnutella 2 Settings
 	connect(ui->checkBoxConnectG2, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->comboBoxG2Mode, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApply()));
 	connect(ui->spinBoxG2LeafToHub, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->spinBoxG2HubToLeaf, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->spinBoxG2HubToHub, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
+
 	// Ares Settings
 	connect(ui->checkBoxConnectAres, SIGNAL(clicked()), this, SLOT(enableApply()));
+
 	// eDonkey 2k Settings
 	connect(ui->checkBoxConnectEDonkey, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxConnectKAD, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -252,6 +291,7 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	connect(ui->spinBoxED2kMaxClients, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->checkBoxAutoQueryServerList, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->lineEditEDonkeyServerListUrl, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+
 	// BitTorrent Settings
 	connect(ui->checkBoxTorrentSaveDialog, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxTorrentsStartPaused, SIGNAL(clicked()), this, SLOT(enableApply()));
@@ -266,10 +306,12 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	connect(ui->checkBoxTorrentsUseKademlia, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->lineEditTorrentFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
 }
+
 DialogSettings::~DialogSettings()
 {
 	delete ui;
 }
+
 void DialogSettings::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -282,6 +324,7 @@ void DialogSettings::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogSettings::switchSettingsPage(SettingsPage::settingsPage page)
 {
 	switch(page)
@@ -485,26 +528,32 @@ void DialogSettings::switchSettingsPage(SettingsPage::settingsPage page)
 			break;
 	}
 }
+
 void DialogSettings::on_listWidgetGeneralTask_clicked(QModelIndex index)
 {
 	ui->stackedWidgetSettings->setCurrentIndex(index.row());
 }
+
 void DialogSettings::on_listWidgetCommunityTask_clicked(QModelIndex index)
 {
 	ui->stackedWidgetSettings->setCurrentIndex(index.row() + 8);
 }
+
 void DialogSettings::on_listWidgetSecurityTask_clicked(QModelIndex index)
 {
 	ui->stackedWidgetSettings->setCurrentIndex(index.row() + 10);
 }
+
 void DialogSettings::on_listWidgetNetworkTask_clicked(QModelIndex index)
 {
 	ui->stackedWidgetSettings->setCurrentIndex(index.row() + 12);
 }
+
 void DialogSettings::on_listWidgetProtocolsTask_clicked(QModelIndex index)
 {
 	ui->stackedWidgetSettings->setCurrentIndex(index.row() + 16);
 }
+
 void DialogSettings::on_pushButtonOk_clicked()
 {
 	if(ui->pushButtonApply->isEnabled())
@@ -514,11 +563,13 @@ void DialogSettings::on_pushButtonOk_clicked()
 	emit closed();
 	close();
 }
+
 void DialogSettings::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
+
 void DialogSettings::on_pushButtonApply_clicked()
 {
 	// Save Basic Settings
@@ -528,6 +579,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.System.MinimizeToTray = ui->checkBoxOnMinimize->isChecked();
 	quazaaSettings.System.DiskSpaceWarning = ui->spinBoxDiskWarn->value();
 	quazaaSettings.System.DiskSpaceStop = ui->spinBoxDiskStop->value();
+
 	// Save Parental Settings
 	quazaaSettings.Parental.ChatAdultCensor = ui->checkBoxParentalChatFilter->isChecked();
 	quazaaSettings.Parental.FilterAdultSearchResults = ui->checkBoxParentalSearchFilter->isChecked();
@@ -537,6 +589,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 		ui->listWidgetParentalFilter->setCurrentRow(m_iAdultFilterRow);
 		quazaaSettings.Parental.AdultFilter.append(ui->listWidgetParentalFilter->currentItem()->text());
 	}
+
 	// Save Library Settings
 	quazaaSettings.Library.RememberViews = ui->checkBoxLibraryRememberViews->isChecked();
 	quazaaSettings.Library.HighPriorityHashing = ui->checkBoxQuickHashing->isChecked();
@@ -557,18 +610,23 @@ void DialogSettings::on_pushButtonApply_clicked()
 		ui->listWidgetFileTypesNeverShare->setCurrentRow(m_iNeverShareRow);
 		quazaaSettings.Library.NeverShareTypes.append(ui->listWidgetFileTypesNeverShare->currentItem()->text());
 	}
+
 	// Save File Types Settings
+
 	// Save Media Player Settings
+
 	// Save Search Settings
 	quazaaSettings.Search.ExpandSearchMatches = ui->checkBoxSearchExpandMultiSorce->isChecked();
 	quazaaSettings.Search.SwitchOnDownload = ui->checkBoxSearchSwitchOnDownload->isChecked();
 	quazaaSettings.Search.HighlightNew = ui->checkBoxSearchHighlightNewMatches->isChecked();
+
 	// Save Private Messages Settings
 	quazaaSettings.PrivateMessages.AresEnable = ui->checkBoxPrivateMessagesAres->isChecked();
 	quazaaSettings.PrivateMessages.AwayMessage = ui->plainTextEditPrivateMessagesIdleMessage->toPlainText();
 	quazaaSettings.PrivateMessages.AwayMessageIdleTime = ui->spinBoxPrivateMessagesIdleMessage->value();
 	quazaaSettings.PrivateMessages.eDonkeyEnable = ui->checkBoxPrivateMessagesEDonkey->isChecked();
 	quazaaSettings.PrivateMessages.Gnutella2Enable = ui->checkBoxPrivateMessagesGnutella->isChecked();
+
 	// Save Chat Settings
 	quazaaSettings.Chat.ConnectOnStartup = ui->checkBoxIrcConnectOnStart->isChecked();
 	quazaaSettings.Chat.EnableFileTransfers = ui->checkBoxIrcEnableFileTransfers->isChecked();
@@ -576,12 +634,14 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Chat.IrcServerName = ui->lineEditIrcServer->text();
 	quazaaSettings.Chat.IrcServerPort = ui->spinBoxIrcPort->value();
 	quazaaSettings.Chat.IrcUseSSL = ui->checkBoxIrcSSL->isChecked();
+
 	// Save Connection Settings
 	quazaaSettings.Connection.InSpeed = (ui->doubleSpinBoxInSpeed->value() / 8) * 1024;
 	quazaaSettings.Connection.OutSpeed = (ui->doubleSpinBoxOutSpeed->value() / 8) * 1024;
 	quazaaSettings.Connection.Port = ui->spinBoxNetworkPort->value();
 	quazaaSettings.Connection.RandomPort = ui->checkBoxRandomPort->isChecked();
 	quazaaSettings.Connection.TimeoutConnect = ui->spinBoxConnectionTimeout->value();
+
 	// Save Web Settings
 	quazaaSettings.Web.Magnet = ui->checkBoxIntegrationMagnetLinks->isChecked();
 	quazaaSettings.Web.Ares = ui->checkBoxIntegrationAresLinks->isChecked();
@@ -595,9 +655,11 @@ void DialogSettings::on_pushButtonApply_clicked()
 		ui->listWidgetManageDownloadTypes->setCurrentRow(m_iDownloadTypesRow);
 		quazaaSettings.Web.ManageDownloadTypes.append(ui->listWidgetManageDownloadTypes->currentItem()->text());
 	}
+
 	// Save Transfer Settings
 	quazaaSettings.Transfers.RequireConnectedNetwork = ui->checkBoxOnlyDownloadConnectedNetworks->isChecked();
 	quazaaSettings.Transfers.SimpleProgressBar = ui->checkBoxSimpleProgress->isChecked();
+
 	// Save Download Settings
 	quazaaSettings.Downloads.ExpandDownloads = ui->checkBoxExpandDownloads->isChecked();
 	quazaaSettings.Downloads.CompletePath = ui->lineEditSaveFolder->text();
@@ -606,11 +668,13 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Downloads.MaxFiles = ui->spinBoxMaxFiles->value();
 	quazaaSettings.Downloads.MaxTransfers = ui->spinBoxMaxTransfers->value();
 	quazaaSettings.Downloads.MaxTransfersPerFile = ui->spinBoxTransfersPerFile->value();
+
 	// Save Upload Settings
 	quazaaSettings.Uploads.SharePartials = ui->checkBoxSharePartials->isChecked();
 	quazaaSettings.Uploads.HubShareLimiting = ui->checkBoxSharingLimitHub->isChecked();
 	quazaaSettings.Uploads.SharePreviews = ui->checkBoxSharePreviews->isChecked();
 	quazaaSettings.Uploads.MaxPerHost = ui->spinBoxUniqueHostLimit->value();
+
 	// Save Security Settings
 	quazaaSettings.Security.ChatFilter = ui->checkBoxChatFilterSpam->isChecked();
 	quazaaSettings.Security.AllowProfileBrowse = ui->checkBoxAllowBrowseProfile->isChecked();
@@ -628,14 +692,17 @@ void DialogSettings::on_pushButtonApply_clicked()
 		ui->listWidgetUserAgents->setCurrentRow(m_iUserAgentsRow);
 		quazaaSettings.Security.BlockedAgentUploadFilter.append(ui->listWidgetUserAgents->currentItem()->text());
 	}
+
 	// Save Gnutella 2 Settings
 	quazaaSettings.Gnutella2.Enable = ui->checkBoxConnectG2->isChecked();
 	quazaaSettings.Gnutella2.ClientMode = ui->comboBoxG2Mode->currentIndex();
 	quazaaSettings.Gnutella2.NumHubs = ui->spinBoxG2LeafToHub->value();
 	quazaaSettings.Gnutella2.NumLeafs = ui->spinBoxG2HubToLeaf->value();
 	quazaaSettings.Gnutella2.NumPeers = ui->spinBoxG2HubToHub->value();
+
 	// Save Ares Settings
 	quazaaSettings.Ares.Enable = ui->checkBoxConnectAres->isChecked();
+
 	// Save eDonkey 2k Settings
 	quazaaSettings.EDonkey.Enable = ui->checkBoxConnectEDonkey->isChecked();
 	quazaaSettings.EDonkey.EnableKad = ui->checkBoxConnectKAD->isChecked();
@@ -645,6 +712,7 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.EDonkey.MaxClients = ui->spinBoxED2kMaxClients->value();
 	quazaaSettings.EDonkey.MetAutoQuery = ui->checkBoxAutoQueryServerList->isChecked();
 	quazaaSettings.EDonkey.ServerListURL = ui->lineEditEDonkeyServerListUrl->text();
+
 	// Save BitTorrent Settings
 	quazaaSettings.BitTorrent.UseSaveDialog = ui->checkBoxTorrentSaveDialog->isChecked();
 	quazaaSettings.BitTorrent.StartPaused = ui->checkBoxTorrentsStartPaused->isChecked();
@@ -658,39 +726,48 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.BitTorrent.PreferBTSources = ui->checkBoxTorrentsPreferTorrent->isChecked();
 	quazaaSettings.BitTorrent.UseKademlia = ui->checkBoxTorrentsUseKademlia->isChecked();
 	quazaaSettings.BitTorrent.TorrentPath = ui->lineEditTorrentFolder->text();
+
 	// Reset Apply Enabled To False
 	quazaaSettings.saveSettings();
 	ui->pushButtonApply->setEnabled(false);
 }
+
 void DialogSettings::on_pushButtonProfileEdit_clicked()
 {
 	DialogProfile* dlgProfile = new DialogProfile(this);
+
 	dlgProfile->exec();
 }
+
 void DialogSettings::on_pushButtonShowParentalFilter_clicked()
 {
 	ui->groupBoxParentalFilter->setVisible(true);
 }
+
 void DialogSettings::on_labelConfigureG2_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 	switchSettingsPage(SettingsPage::Gnutella2);
 }
+
 void DialogSettings::on_labelConfigureAres_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 	switchSettingsPage(SettingsPage::Ares);
 }
+
 void DialogSettings::on_labelConfigureEDonkey_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 	switchSettingsPage(SettingsPage::EDonkey);
 }
+
 void DialogSettings::on_labelConfigureBitTorrent_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 	switchSettingsPage(SettingsPage::BitTorrent);
 }
+
 void DialogSettings::on_listWidgetSkins_itemClicked(QListWidgetItem* item)
 {
 	newSkinSelected = true;
@@ -701,13 +778,17 @@ void DialogSettings::on_listWidgetSkins_itemClicked(QListWidgetItem* item)
 	tempSkinAuthor = reader.value("skinAuthor", "").toString();
 	tempSkinVersion = reader.value("skinVersion", "").toString();
 	tempSkinDescription = reader.value("skinDescription", "").toString();
+
 	ui->labelSkinAuthor->setText(tr("Author: %1").arg(tempSkinAuthor));
 	ui->labelSkinVersion->setText(tr("Version: %1").arg(tempSkinVersion));
 	ui->plainTextEditSkinDescription->setPlainText(tempSkinDescription);
 }
+
 void DialogSettings::on_pushButtonSkinPreview_clicked()
 {
+
 }
+
 void DialogSettings::on_pushButtonFileTypesSafeOpenAdd_clicked()
 {
 	bool m_bOkPressed;
@@ -720,6 +801,7 @@ void DialogSettings::on_pushButtonFileTypesSafeOpenAdd_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_pushButtonFileTypesNeverShareAdd_clicked()
 {
 	bool m_bOkPressed;
@@ -732,6 +814,7 @@ void DialogSettings::on_pushButtonFileTypesNeverShareAdd_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_pushButtonAddManageDownloadTypes_clicked()
 {
 	bool m_bOkPressed;
@@ -744,6 +827,7 @@ void DialogSettings::on_pushButtonAddManageDownloadTypes_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_pushButtonUserAgentAdd_clicked()
 {
 	bool m_bOkPressed;
@@ -756,6 +840,7 @@ void DialogSettings::on_pushButtonUserAgentAdd_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_pushButtonAddParentalFilter_clicked()
 {
 	bool m_bOkPressed;
@@ -768,6 +853,7 @@ void DialogSettings::on_pushButtonAddParentalFilter_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_pushButtonFileTypesSafeOpenRemove_clicked()
 {
 	if(ui->listWidgetFileTypesSafeOpen->currentRow() != -1)
@@ -776,6 +862,7 @@ void DialogSettings::on_pushButtonFileTypesSafeOpenRemove_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_pushButtonFileTypesNeverShareRemove_clicked()
 {
 	if(ui->listWidgetFileTypesNeverShare->currentRow() != -1)
@@ -784,6 +871,7 @@ void DialogSettings::on_pushButtonFileTypesNeverShareRemove_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_pushButtonRemoveManageDownloadTypes_clicked()
 {
 	if(ui->listWidgetManageDownloadTypes->currentRow() != -1)
@@ -792,6 +880,7 @@ void DialogSettings::on_pushButtonRemoveManageDownloadTypes_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_pushButtonUserAgentRemove_clicked()
 {
 	if(ui->listWidgetUserAgents->currentRow() != -1)
@@ -800,6 +889,7 @@ void DialogSettings::on_pushButtonUserAgentRemove_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_pushButtonRemoveParentalFilter_clicked()
 {
 	if(ui->listWidgetParentalFilter->currentRow() != -1)
@@ -808,6 +898,7 @@ void DialogSettings::on_pushButtonRemoveParentalFilter_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_toolButtonSaveBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
@@ -821,6 +912,7 @@ void DialogSettings::on_toolButtonSaveBrowse_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_toolButtonTempBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
@@ -834,6 +926,7 @@ void DialogSettings::on_toolButtonTempBrowse_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::on_toolButtonTorrentBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
@@ -847,6 +940,7 @@ void DialogSettings::on_toolButtonTorrentBrowse_clicked()
 		ui->pushButtonApply->setEnabled(true);
 	}
 }
+
 void DialogSettings::enableApply()
 {
 	ui->pushButtonApply->setEnabled(true);

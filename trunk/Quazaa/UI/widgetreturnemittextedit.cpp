@@ -22,17 +22,18 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetreturnemittextedit.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 {
 	Q_UNUSED(parent);
 	emitReturn = true;
 }
+
 void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 {
 	if (event->key() == Qt::Key_Return)
@@ -47,10 +48,12 @@ void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 		QTextEdit::keyPressEvent(event);
 	}
 }
+
 void WidgetReturnEmitTextEdit::setEmitsReturn(bool shouldEmit)
 {
 	emitReturn = shouldEmit;
 }
+
 bool WidgetReturnEmitTextEdit::emitsReturn()
 {
 	return emitReturn;

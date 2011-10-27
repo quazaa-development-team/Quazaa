@@ -22,32 +22,38 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "commonfunctions.h"
 #include <QDir>
 #include <QDesktopServices>
 #include <QUrl>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CommonFunctions Functions;
+
 CommonFunctions::CommonFunctions()
 {
 }
+
 void CommonFunctions::FolderOpen(QString file)
 {
 	QDir completePath( file );
+
 	if ( !completePath.exists() )
 	{
 		completePath.mkpath( file );
 	}
 		QDesktopServices::openUrl( QUrl::fromLocalFile(file) );
 }
+
 QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
 {
 	const char* szUnit[4] = {"B", "KB", "MB", "GB"};
+
 	double nBPS = nBytesPerSec;
+
 	int nStep = 0;
 	while ( nBPS > 1024 )
 	{
@@ -58,6 +64,7 @@ QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
 			break;
 		}
 	}
+
 	if ( nStep )
 	{
 		return QString().sprintf( "%1.2f %s", nBPS, szUnit[nStep] );
@@ -67,6 +74,7 @@ QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
 		return QString().sprintf( "%1.0f %s", nBPS, szUnit[nStep] );
 	}
 }
+
 QString CommonFunctions::VendorCodeToName(QString vendorCode)
 {
 	if ( vendorCode == "RAZA" )

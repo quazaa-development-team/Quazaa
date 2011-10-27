@@ -22,13 +22,13 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "downloadsource.h"
 #include "queryhit.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CDownloadSource::CDownloadSource(CQueryHit* pHit)
 {
 	m_oAddress = pHit->m_pHitInfo->m_oNodeAddress;

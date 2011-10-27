@@ -22,15 +22,16 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgethitmonitor.h"
 #include "ui_widgethitmonitor.h"
 #include "dialogfiltersearch.h"
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetHitMonitor::WidgetHitMonitor(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetHitMonitor)
@@ -38,10 +39,12 @@ WidgetHitMonitor::WidgetHitMonitor(QWidget* parent) :
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.HitMonitorToolbar);
 }
+
 WidgetHitMonitor::~WidgetHitMonitor()
 {
 	delete ui;
 }
+
 void WidgetHitMonitor::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -54,10 +57,12 @@ void WidgetHitMonitor::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetHitMonitor::saveWidget()
 {
 	quazaaSettings.WinMain.HitMonitorToolbar = saveState();
 }
+
 void WidgetHitMonitor::on_actionMore_triggered()
 {
 	DialogFilterSearch* dlgFilterSearch = new DialogFilterSearch(this);

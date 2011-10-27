@@ -22,14 +22,15 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetuploads.h"
 #include "ui_widgetuploads.h"
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetUploads::WidgetUploads(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetUploads)
@@ -37,10 +38,12 @@ WidgetUploads::WidgetUploads(QWidget* parent) :
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.UploadsToolbar);
 }
+
 WidgetUploads::~WidgetUploads()
 {
 	delete ui;
 }
+
 void WidgetUploads::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -53,6 +56,7 @@ void WidgetUploads::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetUploads::saveWidget()
 {
 	quazaaSettings.WinMain.UploadsToolbar = saveState();

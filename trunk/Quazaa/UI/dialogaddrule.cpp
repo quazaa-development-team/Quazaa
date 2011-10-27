@@ -22,14 +22,14 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogaddrule.h"
 #include "ui_dialogaddrule.h"
 #include <QListView>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	QDialog( parent ),
 	m_ui( new Ui::DialogAddRule ),
@@ -40,10 +40,12 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	m_ui->comboBoxExpire->setView( new QListView() );
 	m_ui->comboBoxHashType->setView( new QListView() );
 	m_ui->comboBoxRuleType->setView( new QListView() );
+
 	if ( pRule )
 		m_pRule = pRule->getCopy();
 	else
 		m_pRule = new CIPRule();
+
 	switch ( m_pRule->type() )
 	{
 	case security::CSecureRule::srContentAddressRange:
@@ -82,11 +84,13 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 		break;
 	}
 }
+
 DialogAddRule::~DialogAddRule()
 {
 	delete m_ui;
 	delete m_pRule;
 }
+
 void DialogAddRule::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent( e );
@@ -99,12 +103,14 @@ void DialogAddRule::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 // TODO: change user interface for IPs and hashes.
 void DialogAddRule::on_pushButtonOK_clicked()
 {
 	CSecureRule* pRule = NULL;
 	QList<CHash> lHashes;
 	CHash* pHash;
+
 	switch ( m_ui->comboBoxRuleType->currentIndex() )
 	{
 	case 0:
@@ -119,11 +125,14 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 3:
 		pRule = new CHashRule();
+
 		pHash = CHash::FromURN( m_ui->lineEditHash->text() );
 		if ( pHash )
 			lHashes.append( *pHash );
+
 		delete pHash;
 		pHash = NULL;
+
 		((CHashRule*)pRule)->setContent( lHashes );
 		break;
 	case 4:
@@ -143,6 +152,7 @@ void DialogAddRule::on_pushButtonOK_clicked()
 	default:
 		Q_ASSERT( false );
 	}
+
 	if ( pRule )
 	{
 		quint32 tExpire = m_ui->comboBoxExpire->currentIndex();
@@ -155,20 +165,25 @@ void DialogAddRule::on_pushButtonOK_clicked()
 			tExpire += static_cast< quint32 >( time( NULL ) );
 		}
 		pRule->m_tExpire = tExpire;
+
 		pRule->m_sComment = m_ui->lineEditComment->text();
 		pRule->m_oUUID = m_pRule->m_oUUID;
+
 		if ( *pRule != *m_pRule )
 			securityManager.add( pRule );
 	}
+
 	emit dataUpdated();
 	emit closed();
 	close();
 }
+
 void DialogAddRule::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
+
 void DialogAddRule::on_comboBoxExpire_currentIndexChanged(int index)
 {
 	if ( index == 2 )
@@ -184,28 +199,34 @@ void DialogAddRule::on_comboBoxExpire_currentIndexChanged(int index)
 		m_ui->lineEditMinutes->setEnabled( false );
 	}
 }
+
 void DialogAddRule::on_lineEditMinutes_lostFocus()
 {
 	quint64 nMinutes = m_ui->lineEditMinutes->text().toULong();
 	quint64 nHours = m_ui->lineEditHours->text().toULong();
 	quint64 nDays = m_ui->lineEditDays->text().toULong();
+
 	m_ui->lineEditMinutes->setText( QString::number( nMinutes % 60 ) );
 	nHours += nMinutes / 60;
 	m_ui->lineEditHours->setText( QString::number( nHours % 24 ) );
 	nDays += nHours / 24;
 	m_ui->lineEditDays->setText( QString::number( nDays ) );
 }
+
 void DialogAddRule::on_lineEditHours_lostFocus()
 {
 	quint64 nHours = m_ui->lineEditHours->text().toULong();
 	quint64 nDays = m_ui->lineEditDays->text().toULong();
+
 	m_ui->lineEditHours->setText( QString::number( nHours % 24 ) );
 	nDays += nHours / 24;
 	m_ui->lineEditDays->setText( QString::number( nDays ) );
 }
+
 void DialogAddRule::on_lineEditDays_lostFocus()
 {
 	quint64 nDays = m_ui->lineEditDays->text().toULong();
+
 	m_ui->lineEditDays->setText( QString::number( nDays ) );
 }
 

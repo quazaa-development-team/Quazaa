@@ -22,23 +22,25 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogfiltersearch.h"
 #include "ui_dialogfiltersearch.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogFilterSearch::DialogFilterSearch(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogFilterSearch)
 {
 	m_ui->setupUi(this);
 }
+
 DialogFilterSearch::~DialogFilterSearch()
 {
 	delete m_ui;
 }
+
 void DialogFilterSearch::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -51,11 +53,13 @@ void DialogFilterSearch::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogFilterSearch::on_pushButtonFilter_clicked()
 {
 	emit closed();
 	close();
 }
+
 void DialogFilterSearch::on_pushButtonCancel_clicked()
 {
 	emit closed();

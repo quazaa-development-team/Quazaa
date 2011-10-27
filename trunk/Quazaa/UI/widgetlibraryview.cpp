@@ -22,15 +22,16 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetlibraryview.h"
 #include "ui_widgetlibraryview.h"
 #include "dialoglibrarysearch.h"
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetLibraryView::WidgetLibraryView(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetLibraryView)
@@ -42,10 +43,12 @@ WidgetLibraryView::WidgetLibraryView(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.LibraryToolbar);
 	ui->splitterLibraryView->restoreState(quazaaSettings.WinMain.LibraryDetailsSplitter);
 }
+
 WidgetLibraryView::~WidgetLibraryView()
 {
 	delete ui;
 }
+
 void WidgetLibraryView::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -58,19 +61,23 @@ void WidgetLibraryView::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetLibraryView::saveWidget()
 {
 	quazaaSettings.WinMain.LibraryToolbar = saveState();
 	quazaaSettings.WinMain.LibraryDetailsSplitter = ui->splitterLibraryView->saveState();
 }
+
 void WidgetLibraryView::on_actionFind_triggered()
 {
 	DialogLibrarySearch* dlgLibrarySearch = new DialogLibrarySearch(this);
 	dlgLibrarySearch->show();
 }
+
 void WidgetLibraryView::on_splitterLibraryView_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
+
 	if(ui->splitterLibraryView->handle(1)->underMouse())
 	{
 		if(ui->splitterLibraryView->sizes()[1] > 0)

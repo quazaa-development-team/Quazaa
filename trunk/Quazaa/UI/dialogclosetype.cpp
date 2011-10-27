@@ -22,24 +22,26 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "dialogclosetype.h"
 #include "ui_dialogclosetype.h"
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 DialogCloseType::DialogCloseType(QWidget* parent) :
 	QDialog(parent),
 	m_ui(new Ui::DialogCloseType)
 {
 	m_ui->setupUi(this);
 }
+
 DialogCloseType::~DialogCloseType()
 {
 	delete m_ui;
 }
+
 void DialogCloseType::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
@@ -52,6 +54,7 @@ void DialogCloseType::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void DialogCloseType::on_pushButtonOK_clicked()
 {
 	quazaaSettings.System.CloseMode = m_ui->comboBoxCloseType->currentIndex() + 1;

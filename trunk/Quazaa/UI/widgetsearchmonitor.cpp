@@ -22,14 +22,15 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetsearchmonitor.h"
 #include "ui_widgetsearchmonitor.h"
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetSearchMonitor::WidgetSearchMonitor(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetSearchMonitor)
@@ -37,10 +38,12 @@ WidgetSearchMonitor::WidgetSearchMonitor(QWidget* parent) :
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.SearchMonitorToolbar);
 }
+
 WidgetSearchMonitor::~WidgetSearchMonitor()
 {
 	delete ui;
 }
+
 void WidgetSearchMonitor::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -53,6 +56,7 @@ void WidgetSearchMonitor::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetSearchMonitor::saveWidget()
 {
 	quazaaSettings.WinMain.SearchMonitorToolbar = saveState();

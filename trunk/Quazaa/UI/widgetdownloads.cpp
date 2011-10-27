@@ -22,14 +22,15 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "widgetdownloads.h"
 #include "ui_widgetdownloads.h"
+
 #include "quazaasettings.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetDownloads)
@@ -37,10 +38,12 @@ WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.DownloadsToolbar);
 }
+
 WidgetDownloads::~WidgetDownloads()
 {
 	delete ui;
 }
+
 void WidgetDownloads::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
@@ -53,6 +56,7 @@ void WidgetDownloads::changeEvent(QEvent* e)
 			break;
 	}
 }
+
 void WidgetDownloads::saveWidget()
 {
 	quazaaSettings.WinMain.DownloadsToolbar = saveState();

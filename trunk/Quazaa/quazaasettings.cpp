@@ -22,24 +22,27 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 #include <QtCore>
 #include <QSettings>
 #include <QUuid>
 #include <QDesktopServices>
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 QuazaaSettings quazaaSettings;
+
 QuazaaSettings::QuazaaSettings()
 {
 }
+
 void QuazaaSettings::saveSettings()
 {
 		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
 	m_qSettings.beginGroup("Live");
 	m_qSettings.setValue("AdultWarning", quazaaSettings.Live.AdultWarning);
 	m_qSettings.setValue("AutoClose", quazaaSettings.Live.AutoClose);
@@ -53,6 +56,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("QueueLimitWarning", quazaaSettings.Live.QueueLimitWarning);
 	m_qSettings.setValue("UploadLimitWarning", quazaaSettings.Live.UploadLimitWarning);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("System");
 	m_qSettings.setValue("CloseMode", quazaaSettings.System.CloseMode);
 	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.System.ConnectOnStartup);
@@ -61,11 +65,13 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("MinimizeToTray", quazaaSettings.System.MinimizeToTray);
 	m_qSettings.setValue("StartWithSystem", quazaaSettings.System.StartWithSystem);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Parental");
 	m_qSettings.setValue("AdultFilter", quazaaSettings.Parental.AdultFilter);
 	m_qSettings.setValue("ChatAdultCensor", quazaaSettings.Parental.ChatAdultCensor);
 	m_qSettings.setValue("FilterAdultSearchResults", quazaaSettings.Parental.FilterAdultSearchResults);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Library");
 	m_qSettings.setValue("FilterURI", quazaaSettings.Library.FilterURI);
 	m_qSettings.setValue("GhostFiles", quazaaSettings.Library.GhostFiles);
@@ -104,6 +110,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("TigerHeight", quazaaSettings.Library.TigerHeight);
 	m_qSettings.setValue("TreeSize", quazaaSettings.Library.TreeSize);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("MediaPlayer");
 	m_qSettings.setValue("Aspect", quazaaSettings.Media.Aspect);
 	m_qSettings.setValue("AudioVisualPlugin", quazaaSettings.Media.AudioVisualPlugin);
@@ -120,6 +127,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("Volume", quazaaSettings.Media.Volume);
 	m_qSettings.setValue("Zoom", quazaaSettings.Media.Zoom);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Search");
 	m_qSettings.setValue("BlankSchemaURI", quazaaSettings.Search.BlankSchemaURI);
 	m_qSettings.setValue("BrowseTreeSize", quazaaSettings.Search.BrowseTreeSize);
@@ -138,6 +146,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("ShowNames", quazaaSettings.Search.ShowNames);
 	m_qSettings.setValue("SwitchOnDownload", quazaaSettings.Search.SwitchOnDownload);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("PrivateMessages");
 	m_qSettings.setValue("AresEnable", quazaaSettings.PrivateMessages.AresEnable);
 	m_qSettings.setValue("AwayMessage", quazaaSettings.PrivateMessages.AwayMessage);
@@ -145,6 +154,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("eDonkeyEnable", quazaaSettings.PrivateMessages.eDonkeyEnable);
 	m_qSettings.setValue("Gnutella2Enable", quazaaSettings.PrivateMessages.Gnutella2Enable);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Chat");
 	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.Chat.ConnectOnStartup);
 	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
@@ -154,6 +164,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
 	m_qSettings.setValue("AutoJoinChannels", quazaaSettings.Chat.AutoJoinChannels.join(" "));
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Connection");
 	m_qSettings.setValue("DetectConnectionLoss", quazaaSettings.Connection.DetectConnectionLoss);
 	m_qSettings.setValue("DetectConnectionReset", quazaaSettings.Connection.DetectConnectionReset);
@@ -168,6 +179,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("TimeoutTraffic", quazaaSettings.Connection.TimeoutTraffic);
 	m_qSettings.setValue("PreferredCountries", quazaaSettings.Connection.PreferredCountries);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Web");
 	m_qSettings.setValue("Ares", quazaaSettings.Web.Ares);
 	m_qSettings.setValue("BrowserIntegration", quazaaSettings.Web.BrowserIntegration);
@@ -178,6 +190,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("Piolet", quazaaSettings.Web.Piolet);
 	m_qSettings.setValue("Torrent", quazaaSettings.Web.Torrent);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("WebServices");
 	m_qSettings.setValue("BitziAgent", quazaaSettings.WebServices.BitziAgent);
 	m_qSettings.setValue("BitziOkay", quazaaSettings.WebServices.BitziOkay);
@@ -188,6 +201,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("ShareMonkeyOkay", quazaaSettings.WebServices.ShareMonkeyOkay);
 	m_qSettings.setValue("ShareMonkeySaveThumbnail", quazaaSettings.WebServices.ShareMonkeySaveThumbnail);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Transfers");
 	m_qSettings.setValue("BandwidthHubIn", quazaaSettings.Transfers.BandwidthHubIn);
 	m_qSettings.setValue("BandwidthHubOut", quazaaSettings.Transfers.BandwidthHubOut);
@@ -202,6 +216,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("RequireConnectedNetwork", quazaaSettings.Transfers.RequireConnectedNetwork);
 	m_qSettings.setValue("SimpleProgressBar", quazaaSettings.Transfers.SimpleProgressBar);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Downloads");
 	m_qSettings.setValue("AllowBackwards", quazaaSettings.Downloads.AllowBackwards);
 	m_qSettings.setValue("AutoClear", quazaaSettings.Downloads.AutoClear);
@@ -250,6 +265,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("WebHookEnable", quazaaSettings.Downloads.WebHookEnable);
 	m_qSettings.setValue("WebHookExtensions", quazaaSettings.Downloads.WebHookExtensions);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Uploads");
 	m_qSettings.setValue("AllowBackwards", quazaaSettings.Uploads.AllowBackwards);
 	m_qSettings.setValue("AutoClear", quazaaSettings.Uploads.AutoClear);
@@ -274,6 +290,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("ShareTiger", quazaaSettings.Uploads.ShareTiger);
 	m_qSettings.setValue("ThrottleMode", quazaaSettings.Uploads.ThrottleMode);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Security");
 	m_qSettings.setValue("AllowProfileBrowse", quazaaSettings.Security.AllowProfileBrowse);
 	m_qSettings.setValue("AllowSharesBrowse", quazaaSettings.Security.AllowSharesBrowse);
@@ -296,11 +313,13 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("SearchSpamFilterThreshold", quazaaSettings.Security.SearchSpamFilterThreshold);
 	m_qSettings.setValue("UPnPSkipWANIPSetup", quazaaSettings.Security.UPnPSkipWANIPSetup);
 	m_qSettings.setValue("UPnPSkipWANPPPSetup", quazaaSettings.Security.UPnPSkipWANPPPSetup);
+
 	m_qSettings.setValue("DataPath", quazaaSettings.Security.DataPath);
 	m_qSettings.setValue("LogIPCheckHits", quazaaSettings.Security.LogIPCheckHits);
 	m_qSettings.setValue("RuleExpiryInterval", quazaaSettings.Security.RuleExpiryInterval);
 	m_qSettings.setValue("MissCacheExpiryInterval", quazaaSettings.Security.MissCacheExpiryInterval);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Gnutella");
 	m_qSettings.setValue("ConnectFactor", quazaaSettings.Gnutella.ConnectFactor);
 	m_qSettings.setValue("ConnectThrottle", quazaaSettings.Gnutella.ConnectThrottle);
@@ -311,6 +330,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("MaxResults", quazaaSettings.Gnutella.MaxResults);
 	m_qSettings.setValue("RouteCache", quazaaSettings.Gnutella.RouteCache);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Gnutella2");
 	m_qSettings.setValue("ClientMode", quazaaSettings.Gnutella2.ClientMode);
 	m_qSettings.setValue("Enable", quazaaSettings.Gnutella2.Enable);
@@ -346,12 +366,14 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("HubBalanceHigh", quazaaSettings.Gnutella2.HubBalanceHigh);
 	m_qSettings.setValue("HubBalanceHighTime", quazaaSettings.Gnutella2.HubBalanceHighTime);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Ares");
 	m_qSettings.setValue("Enable", quazaaSettings.Ares.Enable);
 	m_qSettings.setValue("MaximumDownloads", quazaaSettings.Ares.MaximumDownloads);
 	m_qSettings.setValue("MaximumUploads", quazaaSettings.Ares.MaximumUploads);
 	m_qSettings.setValue("MaximumUploadsPerUser", quazaaSettings.Ares.MaximumUploadsPerUser);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("eDonkey");
 	m_qSettings.setValue("DefaultServerFlags", quazaaSettings.EDonkey.DefaultServerFlags);
 	m_qSettings.setValue("DequeueTime", quazaaSettings.EDonkey.DequeueTime);
@@ -389,6 +411,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("StatsGlobalThrottle", quazaaSettings.EDonkey.StatsGlobalThrottle);
 	m_qSettings.setValue("StatsServerThrottle", quazaaSettings.EDonkey.StatsServerThrottle);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("BitTorrent");
 	m_qSettings.setValue("AutoClear", quazaaSettings.BitTorrent.AutoClear);
 	m_qSettings.setValue("AutoSeed", quazaaSettings.BitTorrent.AutoSeed);
@@ -421,6 +444,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("UseSaveDialog", quazaaSettings.BitTorrent.UseSaveDialog);
 	m_qSettings.setValue("UseTemp", quazaaSettings.BitTorrent.UseTemp);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Discovery");
 	m_qSettings.setValue("AccessThrottle", quazaaSettings.Discovery.AccessThrottle);
 	m_qSettings.setValue("BootstrapCount", quazaaSettings.Discovery.BootstrapCount);
@@ -431,12 +455,16 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("Lowpoint", quazaaSettings.Discovery.Lowpoint);
 	m_qSettings.setValue("UpdatePeriod", quazaaSettings.Discovery.UpdatePeriod);
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Scheduler");
+
 	m_qSettings.endGroup();
 }
+
 void QuazaaSettings::loadSettings()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
 	m_qSettings.beginGroup("Live");
 	quazaaSettings.Live.AdultWarning = m_qSettings.value("AdultWarning", false).toBool();
 	quazaaSettings.Live.AutoClose = m_qSettings.value("AutoClose", false).toBool();
@@ -450,6 +478,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Live.QueueLimitWarning = m_qSettings.value("QueueLimitWarning", false).toBool();
 	quazaaSettings.Live.UploadLimitWarning = m_qSettings.value("UploadLimitWarning", false).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("System");
 	quazaaSettings.System.CloseMode = m_qSettings.value("CloseMode", 0).toInt();
 	quazaaSettings.System.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", true).toBool();
@@ -458,6 +487,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.System.MinimizeToTray = m_qSettings.value("MinimizeToTray", false).toBool();
 	quazaaSettings.System.StartWithSystem = m_qSettings.value("StartWithSystem", false).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Parental");
 	quazaaSettings.Parental.AdultFilter = m_qSettings.value("AdultFilter",
 	                                      QStringList() << "shit" << "fuck" << "damn" << "bitch"
@@ -466,6 +496,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Parental.ChatAdultCensor = m_qSettings.value("ChatAdultCensor", true).toBool();
 	quazaaSettings.Parental.FilterAdultSearchResults = m_qSettings.value("FilterAdultSearchResults", true).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Library");
 	quazaaSettings.Library.FilterURI = m_qSettings.value("FilterURI", "").toString();
 	quazaaSettings.Library.GhostFiles = m_qSettings.value("GhostFiles", true).toBool();
@@ -517,6 +548,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Library.TigerHeight = m_qSettings.value("TigerHeight", 9).toInt();
 	quazaaSettings.Library.TreeSize = m_qSettings.value("TreeSize", 200).toInt();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("MediaPlayer");
 	quazaaSettings.Media.Aspect = m_qSettings.value("Aspect", 0).toInt();
 	quazaaSettings.Media.AudioVisualPlugin = m_qSettings.value("AudioVisualPlugin", "").toString();
@@ -536,6 +568,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Media.Volume = m_qSettings.value("Volume", 1.0).toReal();
 	quazaaSettings.Media.Zoom = m_qSettings.value("Zoom", 0).toInt();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Search");
 	quazaaSettings.Search.BlankSchemaURI = m_qSettings.value("BlankSchemaURI", "").toString();
 	quazaaSettings.Search.BrowseTreeSize = m_qSettings.value("BrowseTreeSize", 180).toInt();
@@ -554,6 +587,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Search.ShowNames = m_qSettings.value("ShowNames", true).toBool();
 	quazaaSettings.Search.SwitchOnDownload = m_qSettings.value("SwitchOnDownload", true).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("PrivateMessages");
 	quazaaSettings.PrivateMessages.AresEnable = m_qSettings.value("AresEnable", true).toBool();
 	quazaaSettings.PrivateMessages.AwayMessage = m_qSettings.value("AwayMessage", "This Quazaa user is currently away from their computer.").toBool();
@@ -561,6 +595,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.PrivateMessages.eDonkeyEnable = m_qSettings.value("eDonkeyEnable", false).toBool();
 	quazaaSettings.PrivateMessages.Gnutella2Enable = m_qSettings.value("Gnutella2Enable", false).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Chat");
 	quazaaSettings.Chat.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", false).toBool();
 	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
@@ -713,6 +748,7 @@ void QuazaaSettings::loadSettings()
 		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-thai").toString().split(" ");
 	}
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Connection");
 	quazaaSettings.Connection.DetectConnectionLoss = m_qSettings.value("DetectConnectionLoss", true).toBool();
 	quazaaSettings.Connection.DetectConnectionReset = m_qSettings.value("DetectConnectionReset", false).toBool();
@@ -727,6 +763,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Connection.TimeoutTraffic = m_qSettings.value("TimeoutTraffic", 60).toUInt();
 	quazaaSettings.Connection.PreferredCountries = m_qSettings.value("PreferredCountries", QStringList()).toStringList();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Web");
 	quazaaSettings.Web.BrowserIntegration = m_qSettings.value("BrowserIntegration", false).toBool();
 	quazaaSettings.Web.Ares = m_qSettings.value("Ares", true).toBool();
@@ -740,6 +777,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Web.Piolet = m_qSettings.value("Piolet", true).toBool();
 	quazaaSettings.Web.Torrent = m_qSettings.value("Torrent", true).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("WebServices");
 	quazaaSettings.WebServices.BitziAgent = m_qSettings.value("BitziAgent", ".").toString();
 	quazaaSettings.WebServices.BitziOkay = m_qSettings.value("BitziOkay", false).toBool();
@@ -750,6 +788,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.WebServices.ShareMonkeyOkay = m_qSettings.value("ShareMonkeyOkay", false).toBool();
 	quazaaSettings.WebServices.ShareMonkeySaveThumbnail = m_qSettings.value("ShareMonkeySaveThumbnail", false).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Transfers");
 	quazaaSettings.Transfers.BandwidthHubIn = m_qSettings.value("HubIn", 0).toInt();
 	quazaaSettings.Transfers.BandwidthHubOut = m_qSettings.value("HubOut", 0).toInt();
@@ -764,6 +803,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Transfers.RequireConnectedNetwork = m_qSettings.value("RequireConnectedNetwork", true).toBool();
 	quazaaSettings.Transfers.SimpleProgressBar = m_qSettings.value("SimpleProgressBar", false).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Downloads");
 	quazaaSettings.Downloads.AllowBackwards = m_qSettings.value("AllowBackwards", true).toBool();
 	quazaaSettings.Downloads.AutoClear = m_qSettings.value("AutoClear", false).toBool();
@@ -808,6 +848,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Downloads.VerifyFiles = m_qSettings.value("VerifyFiles", true).toBool();
 	quazaaSettings.Downloads.VerifyTiger = m_qSettings.value("VerifyTiger", true).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Uploads");
 	quazaaSettings.Uploads.AllowBackwards = m_qSettings.value("AllowBackwards", true).toBool();
 	quazaaSettings.Uploads.AutoClear = m_qSettings.value("AutoClear", false).toBool();
@@ -832,6 +873,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Uploads.ShareTiger = m_qSettings.value("ShareTiger", true).toBool();
 	quazaaSettings.Uploads.ThrottleMode = m_qSettings.value("ThrottleMode", true).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Security");
 	quazaaSettings.Security.AllowProfileBrowse = m_qSettings.value("AllowProfileBrowse", true).toBool();
 	quazaaSettings.Security.AllowSharesBrowse = m_qSettings.value("AllowSharesBrowse", true).toBool();
@@ -854,12 +896,13 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Security.UPnPSkipWANIPSetup = m_qSettings.value("UPnPSkipWANIPSetup", false).toBool();
 	quazaaSettings.Security.UPnPSkipWANPPPSetup = m_qSettings.value("UPnPSkipWANPPPSetup", false).toBool();
 	QString sDefault = QString( "%1\\%2\\" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ),
-												  "Data"  );
+												  "Data" /*QCoreApplication::applicationName()*/ );
 	quazaaSettings.Security.DataPath = sDefault;//m_qSettings.value( "DataPath", sDefault ).toString();
 	quazaaSettings.Security.LogIPCheckHits = m_qSettings.value("LogIPCheckHits", false).toBool();
 	quazaaSettings.Security.RuleExpiryInterval = m_qSettings.value("RuleExpiryInterval", 600).toUInt();
 	quazaaSettings.Security.MissCacheExpiryInterval = m_qSettings.value("MissCacheExpiryInterval", 600).toUInt();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Gnutella");
 	quazaaSettings.Gnutella.ConnectFactor = m_qSettings.value("ConnectFactor", 3).toInt();
 	quazaaSettings.Gnutella.ConnectThrottle = m_qSettings.value("ConnectThrottle", 120).toInt();
@@ -870,6 +913,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Gnutella.MaxResults = m_qSettings.value("MaxResults", 150).toInt();
 	quazaaSettings.Gnutella.RouteCache = m_qSettings.value("RouteCache", 10).toInt();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Gnutella2");
 	quazaaSettings.Gnutella2.ClientMode = m_qSettings.value("ClientMode", 0).toInt();
 	quazaaSettings.Gnutella2.Enable = m_qSettings.value("Enable", true).toBool();
@@ -907,12 +951,14 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Gnutella2.HubBalanceHigh = m_qSettings.value("HubBalanceHigh", 90).toUInt();
 	quazaaSettings.Gnutella2.HubBalanceHighTime = m_qSettings.value("HubBalanceHighTime", 30).toUInt();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Ares");
 	quazaaSettings.Ares.Enable = m_qSettings.value("Enable", true).toBool();
 	quazaaSettings.Ares.MaximumDownloads = m_qSettings.value("MaximumDownloads", 10).toInt();
 	quazaaSettings.Ares.MaximumUploads = m_qSettings.value("MaximumUploads", 6).toInt();
 	quazaaSettings.Ares.MaximumUploadsPerUser = m_qSettings.value("MaximumUploadsPerUser", 3).toInt();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("eDonkey");
 	quazaaSettings.EDonkey.DefaultServerFlags = m_qSettings.value("DefaultServerFlags", "ffffffff").toString();
 	quazaaSettings.EDonkey.DequeueTime = m_qSettings.value("DequeueTime", 60).toInt();
@@ -950,6 +996,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.EDonkey.StatsGlobalThrottle = m_qSettings.value("StatsGlobalThrottle", 30).toInt();
 	quazaaSettings.EDonkey.StatsServerThrottle = m_qSettings.value("StatsServerThrottle", 7).toInt();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("BitTorrent");
 	quazaaSettings.BitTorrent.AutoClear = m_qSettings.value("AutoClear", false).toBool();
 	quazaaSettings.BitTorrent.AutoSeed = m_qSettings.value("AutoSeed", true).toBool();
@@ -982,6 +1029,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.BitTorrent.UseSaveDialog = m_qSettings.value("UseSaveDialog", false).toBool();
 	quazaaSettings.BitTorrent.UseTemp = m_qSettings.value("UseTemp", false).toBool();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Discovery");
 	quazaaSettings.Discovery.AccessThrottle = m_qSettings.value("AccessThrottle", 60).toInt();
 	quazaaSettings.Discovery.BootstrapCount = m_qSettings.value("BootstrapCount", 10).toInt();
@@ -992,12 +1040,16 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Discovery.Lowpoint = m_qSettings.value("Lowpoint", 10).toInt();
 	quazaaSettings.Discovery.UpdatePeriod = m_qSettings.value("UpdatePeriod", 30).toInt();
 	m_qSettings.endGroup();
+
 	m_qSettings.beginGroup("Scheduler");
+
 	m_qSettings.endGroup();
 }
+
 void QuazaaSettings::saveProfile()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
 	m_qSettings.beginGroup("Profile");
 	m_qSettings.setValue("Age", quazaaSettings.Profile.Age);
 	m_qSettings.setValue("AolScreenName", quazaaSettings.Profile.AolScreenName);							// Aol screen name
@@ -1026,10 +1078,13 @@ void QuazaaSettings::saveProfile()
 	m_qSettings.setValue("YahooID", quazaaSettings.Profile.YahooID);								// Yahoo Messenger ID
 	m_qSettings.endGroup();
 }
+
 void QuazaaSettings::loadProfile()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
 	m_qSettings.beginGroup("Profile");
+
 	quazaaSettings.Profile.Age = m_qSettings.value("Age", 18).toInt();
 	quazaaSettings.Profile.AolScreenName = m_qSettings.value("AolScreenName", "").toString();
 	quazaaSettings.Profile.AvatarPath = m_qSettings.value("AvatarPath", ":/Resource/Chat/DefaultAvatar.png").toString();
@@ -1072,12 +1127,16 @@ void QuazaaSettings::loadProfile()
 	quazaaSettings.Profile.YahooID = m_qSettings.value("YahooID", "").toString();
 	m_qSettings.endGroup();
 }
+
 void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 {
+
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
 	m_qSettings.setValue("WindowGeometry", window->saveGeometry());
 	m_qSettings.setValue("WindowState", window->saveState());
 	m_qSettings.setValue("WindowVisible", window->isVisible());
+
 	m_qSettings.setValue("ActiveTab", quazaaSettings.WinMain.ActiveTab);
 	m_qSettings.setValue("ActivitySplitter", quazaaSettings.WinMain.ActivitySplitter);
 	m_qSettings.setValue("ActivitySplitterRestoreTop", quazaaSettings.WinMain.ActivitySplitterRestoreTop);
@@ -1145,14 +1204,18 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("TransfersSplitterRestoreBottom", quazaaSettings.WinMain.TransfersSplitterRestoreBottom);
 	m_qSettings.setValue("UploadsToolbar", quazaaSettings.WinMain.UploadsToolbar);
 }
+
 void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 {
+
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	QList<QVariant> intListInitializer;
 	intListInitializer << 0 << 0;
+
 	window->restoreGeometry(m_qSettings.value("WindowGeometry").toByteArray());
 	window->restoreState(m_qSettings.value("WindowState").toByteArray());
 	quazaaSettings.WinMain.Visible = m_qSettings.value("WindowVisible", true).toBool();
+
 	quazaaSettings.WinMain.ActiveTab = m_qSettings.value("ActiveTab", 0).toInt();
 	quazaaSettings.WinMain.ActivitySplitter = m_qSettings.value("ActivitySplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.ActivitySplitterRestoreTop = m_qSettings.value("ActivitySplitterRestoreTop", 0).toInt();
@@ -1216,43 +1279,53 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.TransfersSplitterRestoreBottom = m_qSettings.value("TransfersSplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.UploadsToolbar = m_qSettings.value("UploadsToolbar", QByteArray()).toByteArray();
 }
+
 void QuazaaSettings::saveLanguageSettings()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
 	m_qSettings.beginGroup("Language");
 	m_qSettings.setValue("LanguageFile", quazaaSettings.Language.File);
 	m_qSettings.endGroup();
 }
+
 void QuazaaSettings::loadLanguageSettings()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
 	m_qSettings.beginGroup("Language");
 	quazaaSettings.Language.File = m_qSettings.value("LanguageFile", ("quazaa_default_en")).toString();
 	m_qSettings.endGroup();
 }
+
 void QuazaaSettings::saveFirstRun(bool firstRun)
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	m_qSettings.setValue("FirstRun", firstRun);
 }
+
 bool QuazaaSettings::isFirstRun()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	return m_qSettings.value("FirstRun", true).toBool();
 }
+
 void QuazaaSettings::saveSkinSettings()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	m_qSettings.setValue("SkinFile", Skin.File);
 }
+
 void QuazaaSettings::loadSkinSettings()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	Skin.File = m_qSettings.value("SkinFile", qApp->applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
 }
+
 void QuazaaSettings::saveLogSettings()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
 	m_qSettings.beginGroup("Logging");
 	m_qSettings.setValue("SaveLog", Logging.SaveLog);
 	m_qSettings.setValue("LogShowTimestamp", Logging.LogShowTimestamp);
@@ -1266,9 +1339,11 @@ void QuazaaSettings::saveLogSettings()
 	m_qSettings.setValue("IsPaused", Logging.IsPaused);
 	m_qSettings.endGroup();
 }
+
 void QuazaaSettings::loadLogSettings()
 {
         QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
 	m_qSettings.beginGroup("Logging");
 	Logging.SaveLog = m_qSettings.value("SaveLog", false).toBool();
 	Logging.LogShowTimestamp = m_qSettings.value("LogShowTimestamp", true).toBool();

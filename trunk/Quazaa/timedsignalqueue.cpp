@@ -22,15 +22,21 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #include <QDebug>
+
 #include "timedsignalqueue.h"
 #include "types.h"
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
-	#define new DEBUG_NEW
+
+#ifdef _DEBUG
+#include "debug_new.h"
 #endif
+
 CTimedSignalQueue signalQueue;
+
+/* -------------------------------------------------------------------------------- */
+/* --------------------------------- CTimerObject --------------------------------- */
+/* -------------------------------------------------------------------------------- */
+
 CTimerObject::CTimerObject(QObject* obj, const char* member, quint64 tInterval, bool bMultiShot,
 						   QGenericArgument val0, QGenericArgument val1,
 						   QGenericArgument val2, QGenericArgument val3,
@@ -41,6 +47,7 @@ CTimerObject::CTimerObject(QObject* obj, const char* member, quint64 tInterval, 
 	m_bMultiShot( bMultiShot )
 {
 	resetTime();
+
 	m_sSignal.obj = obj;
 	m_sSignal.sName = member;
 	m_sSignal.val0 = val0;
@@ -53,8 +60,10 @@ CTimerObject::CTimerObject(QObject* obj, const char* member, quint64 tInterval, 
 	m_sSignal.val7 = val7;
 	m_sSignal.val8 = val8;
 	m_sSignal.val9 = val9;
+
 	m_oUUID = QUuid::createUuid();
 }
+
 CTimerObject::CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
 						   QGenericArgument val0, QGenericArgument val1,
 						   QGenericArgument val2, QGenericArgument val3,
@@ -66,6 +75,7 @@ CTimerObject::CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
 {
 	m_tTime = 1000;
 	m_tTime *= tSchedule;
+
 	m_sSignal.obj = obj;
 	m_sSignal.sName = member;
 	m_sSignal.val0 = val0;
@@ -78,14 +88,18 @@ CTimerObject::CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
 	m_sSignal.val7 = val7;
 	m_sSignal.val8 = val8;
 	m_sSignal.val9 = val9;
+
 	m_oUUID = QUuid::createUuid();
 }
+
 CTimerObject::CTimerObject(const CTimerObject* const pTimerObject)
 {
 	m_tTime			= pTimerObject->m_tTime;
 	m_tInterval		= pTimerObject->m_tInterval;
 	m_bMultiShot	= pTimerObject->m_bMultiShot;
+
 	m_oUUID			= pTimerObject->m_oUUID;
+
 	m_sSignal.obj	= pTimerObject->m_sSignal.obj;
 	m_sSignal.sName = pTimerObject->m_sSignal.sName;
 	m_sSignal.val0	= pTimerObject->m_sSignal.val0;
@@ -99,10 +113,12 @@ CTimerObject::CTimerObject(const CTimerObject* const pTimerObject)
 	m_sSignal.val8	= pTimerObject->m_sSignal.val8;
 	m_sSignal.val9	= pTimerObject->m_sSignal.val9;
 }
+
 void CTimerObject::resetTime()
 {
 	m_tTime = CTimedSignalQueue::getTimeInMs() + m_tInterval;
 }
+
 bool CTimerObject::emitSignal() const
 {
 	return QMetaObject::invokeMethod( m_sSignal.obj, m_sSignal.sName.toLatin1().data(), Qt::QueuedConnection,
@@ -111,45 +127,62 @@ bool CTimerObject::emitSignal() const
 									  m_sSignal.val6, m_sSignal.val7, m_sSignal.val8,
 									  m_sSignal.val9 );
 }
+
+/* -------------------------------------------------------------------------------- */
+/* ---------------------------- CTimedSignalQueue --------------------------- */
+/* -------------------------------------------------------------------------------- */
+
 QElapsedTimer CTimedSignalQueue::m_oTime;
+
 CTimedSignalQueue::CTimedSignalQueue(QObject *parent) :
 	QObject( parent ),
 	m_nPrecision( 1000 )
 {
 }
+
 CTimedSignalQueue::~CTimedSignalQueue()
 {
 	clear();
 }
+
 void CTimedSignalQueue::setup()
 {
 	QMutexLocker l( &m_pSection );
+
 	m_oTimer.start( m_nPrecision, this );
 }
+
 void CTimedSignalQueue::stop()
 {
 	ASSUME_LOCK(m_pSection);
+
 	m_oTimer.stop();
 }
+
 void CTimedSignalQueue::clear()
 {
 	QMutexLocker l( &m_pSection );
+
 	for( CSignalQueueIterator it = m_QueuedSignals.begin(); it != m_QueuedSignals.end(); )
 	{
 		delete it.value();
 		it = m_QueuedSignals.erase(it);
 	}
+
 	m_Signals.clear();
 }
+
 void CTimedSignalQueue::setPrecision( quint64 tInterval )
 {
 	if ( tInterval )
 	{
 		QMutexLocker l( &m_pSection );
+
 		m_nPrecision = tInterval;
 		m_oTimer.start( m_nPrecision, this );
 	}
 }
+
 void CTimedSignalQueue::timerEvent(QTimerEvent* event)
 {
 	if ( event->timerId() == m_oTimer.timerId() )
@@ -161,17 +194,23 @@ void CTimedSignalQueue::timerEvent(QTimerEvent* event)
 		QObject::timerEvent( event );
 	}
 }
+
 void CTimedSignalQueue::checkSchedule()
 {
 	QMutexLocker l(&m_pSection);
+
 	quint64 tTimeMs = getTimeInMs();
+
 	for( CSignalQueueIterator it = m_QueuedSignals.begin(); it != m_QueuedSignals.end(); )
 	{
 		if( it.key() >= tTimeMs )
 			break;
+
 		CTimerObject* pObj = it.value();
 		it = m_QueuedSignals.erase(it);
+
 		bool bSuccess = pObj->emitSignal();
+
 		if( bSuccess && pObj->m_bMultiShot )
 		{
 			pObj->resetTime();
@@ -183,6 +222,7 @@ void CTimedSignalQueue::checkSchedule()
 		}
 	}
 }
+
 QUuid CTimedSignalQueue::push(QObject* parent, const char* signal, quint64 tInterval, bool bMultiShot,
 									QGenericArgument val0, QGenericArgument val1,
 									QGenericArgument val2, QGenericArgument val3,
@@ -193,6 +233,7 @@ QUuid CTimedSignalQueue::push(QObject* parent, const char* signal, quint64 tInte
 	return push( new CTimerObject( parent, signal, tInterval, bMultiShot,
 								   val0, val1, val2, val3, val4, val5, val6, val7, val8, val9 ) );
 }
+
 QUuid CTimedSignalQueue::push(QObject* parent, const char* signal, quint32 tSchedule,
 									QGenericArgument val0, QGenericArgument val1,
 									QGenericArgument val2, QGenericArgument val3,
@@ -203,20 +244,27 @@ QUuid CTimedSignalQueue::push(QObject* parent, const char* signal, quint32 tSche
 	return push( new CTimerObject( parent, signal, tSchedule,
 								   val0, val1, val2, val3, val4, val5, val6, val7, val8, val9 ) );
 }
+
 QUuid CTimedSignalQueue::push(CTimerObject* pTimedSignal)
 {
 	QMutexLocker l( &m_pSection );
+
 	m_QueuedSignals.insert(pTimedSignal->m_tTime, pTimedSignal);
 	m_Signals.append( pTimedSignal );
+
 	return pTimedSignal->m_oUUID;
 }
+
 bool CTimedSignalQueue::pop(const QObject* parent, const char* signal)
 {
 	if ( !parent || !signal )
 		return false;
+
 	QString sSignalName = signal;
 	bool bFound = false;
+
 	QMutexLocker l( &m_pSection );
+
 	for(CSignalList::iterator itList = m_Signals.begin(); itList != m_Signals.end(); )
 	{
 		if ( (*itList)->m_sSignal.obj == parent && (*itList)->m_sSignal.sName == sSignalName )
@@ -241,11 +289,14 @@ bool CTimedSignalQueue::pop(const QObject* parent, const char* signal)
 			++itList;
 		}
 	}
+
 	return bFound;
 }
+
 bool CTimedSignalQueue::pop(QUuid oTimer_ID)
 {
 	QMutexLocker l( &m_pSection );
+
 	for(CSignalList::iterator itList = m_Signals.begin(); itList != m_Signals.end(); )
 	{
 		if ( (*itList)->m_oUUID == oTimer_ID )
@@ -271,22 +322,30 @@ bool CTimedSignalQueue::pop(QUuid oTimer_ID)
 			++itList;
 		}
 	}
+
 	return false;
 }
+
 bool CTimedSignalQueue::setInterval(QUuid oTimer_ID, quint64 tInterval)
 {
 	QMutexLocker mutex( &m_pSection );
+
 	CSignalList::const_iterator i = m_Signals.begin();
 	while ( i != m_Signals.end() )
 	{
 		if ( (*i)->m_oUUID == oTimer_ID )
 		{
 			CTimerObject* pTimerCopy = new CTimerObject( *i );
+
 			mutex.unlock();
+
 			pop(oTimer_ID);
+
 			pTimerCopy->m_tInterval = tInterval;
 			pTimerCopy->resetTime();
+
 			push( pTimerCopy );
+
 			return true;
 		}
 		++i;
