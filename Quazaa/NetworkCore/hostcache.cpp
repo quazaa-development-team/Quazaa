@@ -339,6 +339,7 @@ void CHostCache::PruneOldHosts()
 	{
 		if(m_lHosts[i]->m_tTimestamp.secsTo(tNow) > 86400)
 		{
+			delete m_lHosts[i];
 			m_lHosts.removeAt(i);
 		}
 		else
@@ -356,6 +357,7 @@ void CHostCache::PruneByQueryAck()
 	{
 		if(!m_lHosts[i]->m_tAck.isNull() && m_lHosts[i]->m_tAck.secsTo(tNow) > 600)
 		{
+			delete m_lHosts[i];
 			m_lHosts.removeAt(i);
 		}
 		else
