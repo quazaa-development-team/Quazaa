@@ -34,10 +34,11 @@ SystemLog systemLog;
 
 SystemLog::SystemLog()
 {
+	qRegisterMetaType<LogCategory::Category>("LogCategory::Category");
 	qRegisterMetaType<LogSeverity::Severity>("LogSeverity::Severity");
 }
 
-void SystemLog::postLog(LogSeverity::Severity severity, QString message)
+void SystemLog::postLog(LogCategory::Category category, LogSeverity::Severity severity, QString message)
 {
 	switch(severity)
 	{
@@ -53,14 +54,14 @@ void SystemLog::postLog(LogSeverity::Severity severity, QString message)
 	default:
 		break;
 	}
-	emit logPosted(message, severity);
+	emit logPosted(message, category, severity);
 }
-void SystemLog::postLog(LogSeverity::Severity severity, const char* format, ...)
+void SystemLog::postLog(LogCategory::Category category, LogSeverity::Severity severity, const char* format, ...)
 {
 	va_list argList;
 	va_start(argList, format);
 	QString message = QString().vsprintf(format, argList);
-	postLog(severity, message);
+	postLog(category, severity, message);
 	va_end(argList);
 }
 

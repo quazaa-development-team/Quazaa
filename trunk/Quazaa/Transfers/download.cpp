@@ -55,7 +55,7 @@ CDownload::CDownload(CQueryHit* pHit, QObject *parent) :
 
 	m_nState = dsQueued;
 
-	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Created download for %s with %d sources.")), qPrintable(m_sDisplayName), nSources);
+	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Created download for %s with %d sources.")), qPrintable(m_sDisplayName), nSources);
 }
 
 bool CDownload::addSource(CDownloadSource *pSource)

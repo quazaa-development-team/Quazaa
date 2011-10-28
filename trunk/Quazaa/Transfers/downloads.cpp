@@ -40,7 +40,7 @@ void CDownloads::add(CQueryHit *pHit)
 {
 	CDownload* pDownload = new CDownload(pHit, this);
 	m_lDownloads.append(pDownload);
-	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Queued download job for %s")), qPrintable(pDownload->m_sDisplayName));
+	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Queued download job for %s")), qPrintable(pDownload->m_sDisplayName));
 	emit downloadAdded();
 }
 

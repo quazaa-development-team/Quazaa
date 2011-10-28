@@ -59,7 +59,7 @@ WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
 	ui->actionShowCritical->setChecked(quazaaSettings.Logging.ShowCritical);
 	restoreState(quazaaSettings.WinMain.SystemLogToolbar);
 	ui->actionToggleTimestamp->setChecked(quazaaSettings.Logging.LogShowTimestamp);
-	connect(&systemLog, SIGNAL(logPosted(QString, LogSeverity::Severity)), this, SLOT(appendLog(QString, LogSeverity::Severity)));
+	connect(&systemLog, SIGNAL(logPosted(QString, LogCategory::Category, LogSeverity::Severity)), this, SLOT(appendLog(QString, LogCategory::Category, LogSeverity::Severity)));
 }
 
 WidgetSystemLog::~WidgetSystemLog()
@@ -80,11 +80,31 @@ void WidgetSystemLog::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
+void WidgetSystemLog::appendLog(QString message, LogCategory::Category category, LogSeverity::Severity severity)
 {
 	if(!ui->actionPauseLogDisplay->isChecked())
 	{
 		QStringList sLines = message.split(QRegExp("\r\n|\n|\r"));
+		QString categoryIcon;
+
+		switch (category)
+		{
+		case LogCategory::Network:
+			categoryIcon = "<img src=\":/Resource/LogIcon/Network.png\" />";
+			break;
+		case LogCategory::Library:
+			categoryIcon = "<img src=\":/Resource/LogIcon/Library.png\" />";
+			break;
+		case LogCategory::MediaPlayer:
+			categoryIcon = "<img src=\":/Resource/LogIcon/Media.png\" />";
+			break;
+		case LogCategory::Chat:
+			categoryIcon = "<img src=\":/Resource/LogIcon/Friends.png\" />";
+			break;
+		default:
+			categoryIcon = "";
+			break;
+		}
 
 		foreach(QString sLine, sLines)
 		{
@@ -96,43 +116,43 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 					case LogSeverity::Information:
 						if(ui->actionShowInformation->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg("font-weight:normal;").arg(QColor(qRgb(0, 0, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:%4 %5</span>").arg("font-weight:normal;").arg(QColor(qRgb(0, 0, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Security:
 						if(ui->actionShowSecurity->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg("font-weight:600;").arg(QColor(qRgb(170, 170, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:%4 %5</span>").arg("font-weight:600;").arg(QColor(qRgb(170, 170, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Notice:
 						if(ui->actionShowNotice->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg("font-weight:600;").arg(QColor(qRgb(0, 170, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:%4 %5</span>").arg("font-weight:600;").arg(QColor(qRgb(0, 170, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Debug:
 						if(ui->actionShowDebug->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg("font-weight:normal;").arg(QColor(qRgb(117, 117, 117)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:%4 %5</span>").arg("font-weight:normal;").arg(QColor(qRgb(117, 117, 117)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Warning:
 						if(ui->actionShowWarnings->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg("font-weight:normal;").arg(QColor(qRgb(255, 0, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:%4 %5</span>").arg("font-weight:normal;").arg(QColor(qRgb(255, 0, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Error:
 						if(ui->actionShowError->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg("font-weight:600;").arg(QColor(qRgb(170, 0, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:%4 %5</span>").arg("font-weight:600;").arg(QColor(qRgb(170, 0, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Critical:
 						if(ui->actionShowCritical->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3: %4</span>").arg("font-weight:600;").arg(QColor(qRgb(255, 0, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3:%4 %5</span>").arg("font-weight:600;").arg(QColor(qRgb(255, 0, 0)).name()).arg(timeStamp.toString("hh:mm:ss.zzz")).arg(categoryIcon).arg(sLine));
 						}
 						break;
 				}
@@ -144,43 +164,43 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 					case LogSeverity::Information:
 						if(ui->actionShowInformation->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:normal;").arg(QColor(qRgb(0, 0, 0)).name()).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3 %4</span>").arg("font-weight:normal;").arg(QColor(qRgb(0, 0, 0)).name()).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Security:
 						if(ui->actionShowSecurity->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:600;").arg(QColor(qRgb(170, 170, 0)).name()).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:600;").arg(QColor(qRgb(170, 170, 0)).name()).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Notice:
 						if(ui->actionShowNotice->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:600;").arg(QColor(qRgb(0, 170, 0)).name()).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:600;").arg(QColor(qRgb(0, 170, 0)).name()).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Debug:
 						if(ui->actionShowDebug->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:normal;").arg(QColor(qRgb(117, 117, 117)).name()).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:normal;").arg(QColor(qRgb(117, 117, 117)).name()).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Warning:
 						if(ui->actionShowWarnings->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:normal;").arg(QColor(qRgb(255, 0, 0)).name()).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:normal;").arg(QColor(qRgb(255, 0, 0)).name()).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Error:
 						if(ui->actionShowError->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:600;").arg(QColor(qRgb(170, 0, 0)).name()).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:600;").arg(QColor(qRgb(170, 0, 0)).name()).arg(categoryIcon).arg(sLine));
 						}
 						break;
 					case LogSeverity::Critical:
 						if(ui->actionShowCritical->isChecked())
 						{
-							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:600;").arg(QColor(qRgb(255, 0, 0)).name()).arg(sLine));
+							ui->textEditSystemLog->append(QString("<span style=\" font-size:8pt; %1 color:%2;\">%3</span>").arg("font-weight:600;").arg(QColor(qRgb(255, 0, 0)).name()).arg(categoryIcon).arg(sLine));
 						}
 						break;
 				}

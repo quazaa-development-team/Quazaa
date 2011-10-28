@@ -99,7 +99,7 @@ void CDatagrams::Listen()
 
 	if(m_bActive)
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("CDatagrams::Listen - already listening"));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("CDatagrams::Listen - already listening"));
 		return;
 	}
 
@@ -110,7 +110,7 @@ void CDatagrams::Listen()
 	CEndPoint addr = Network.GetLocalAddress();
 	if(m_pSocket->bind(addr.port()))
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Datagrams listening on %1").arg(m_pSocket->localPort()));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Datagrams listening on %1").arg(m_pSocket->localPort()));
 		m_nDiscarded = 0;
 
 		for(int i = 0; i < quazaaSettings.Gnutella2.UdpBuffers; i++)
@@ -135,7 +135,7 @@ void CDatagrams::Listen()
 	}
 	else
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Can't bind UDP socket! UDP communication disabled!"));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Can't bind UDP socket! UDP communication disabled!"));
 		Disconnect();
 	}
 
@@ -258,7 +258,7 @@ void CDatagrams::OnReceiveGND()
 				RemoveOldIn(true);
 				if(m_FreeDGIn.isEmpty())
 				{
-					systemLog.postLog(LogSeverity::Debug, QString("UDP in frames exhausted"));
+					systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("UDP in frames exhausted"));
 					//qDebug() << "UDP in frames exhausted";
 					m_nDiscarded++;
 					return;
@@ -545,7 +545,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 	if(m_FreeDGOut.isEmpty())
 	{
 		Remove(m_SendCache.last());
-		systemLog.postLog(LogSeverity::Debug, QString("UDP out frames exhausted"));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("UDP out frames exhausted"));
 		//qDebug() << "UDP out frames exhausted";
 	}
 
@@ -555,7 +555,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 
 		if(m_FreeBuffer.isEmpty())
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("UDP out discarded, out of buffers"));
+			systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("UDP out discarded, out of buffers"));
 			//qDebug() << "UDP out discarded, out of buffers";
 			return;
 		}
@@ -613,13 +613,13 @@ void CDatagrams::OnPacket(CEndPoint addr, G2Packet* pPacket)
 		}
 		else
 		{
-			//systemLog.postLog(LogSeverity::Debug, QString("G2 UDP recieved unknown packet %1").arg(pPacket->GetType()));
+			//systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("G2 UDP recieved unknown packet %1").arg(pPacket->GetType()));
 			//qDebug() << "UDP RECEIVED unknown packet " << pPacket->GetType();
 		}
 	}
 	catch(...)
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("malformed packet"));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("malformed packet"));
 		//qDebug() << "malformed packet";
 	}
 }
@@ -819,7 +819,7 @@ void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 	SendPacket(oRequestedAddress, pAns, true);
 	pAns->Release();
 
-	systemLog.postLog(LogSeverity::Debug, "Node %s asked for a query key (0x%08x) for node %s", qPrintable(addr.toStringWithPort()), nKey, qPrintable(oRequestedAddress.toStringWithPort()));
+	systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "Node %s asked for a query key (0x%08x) for node %s", qPrintable(addr.toStringWithPort()), nKey, qPrintable(oRequestedAddress.toStringWithPort()));
 }
 
 void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
@@ -869,7 +869,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 	}
 	HostCache.m_pSection.unlock();
 
-	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toAscii().constData()).arg(nKey));
+	systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toAscii().constData()).arg(nKey));
 	//qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
 
 	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() && nKeyHost != ((QHostAddress)Network.m_oAddress))
@@ -994,7 +994,7 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 	// just in case
 	if( pQuery->m_oEndpoint == Network.m_oAddress )
 	{
-		systemLog.postLog(LogSeverity::Error, "Q2 received via UDP and return address points to us, changing return address to source %s", qPrintable(addr.toStringWithPort()));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Error, "Q2 received via UDP and return address points to us, changing return address to source %s", qPrintable(addr.toStringWithPort()));
 		G2Packet* pUDP = G2Packet::New("UDP");
 		pUDP->WriteHostAddress(&addr);
 		pUDP->WriteIntLE<quint32>(0);

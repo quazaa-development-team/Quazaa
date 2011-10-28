@@ -48,7 +48,7 @@ void CTransfers::start()
 	if( m_bActive )
 		return;
 
-	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Starting transfers...")));
+	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Starting transfers...")));
 
 	m_bActive = true;
 	TransfersThread.start("Transfers", &m_pSection);

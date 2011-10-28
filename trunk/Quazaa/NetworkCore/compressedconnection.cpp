@@ -231,7 +231,7 @@ void CCompressedConnection::Inflate()
 
 	if(nRet != Z_OK)
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Error in decompressor! ").arg(nRet));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Error in decompressor! ").arg(nRet));
 		//qDebug() << "Error in decompressor" << nRet;
 
 		Close();
@@ -282,7 +282,7 @@ void CCompressedConnection::Deflate()
 		}
 		else
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("Error in compressor! %1").arg(nRet));
+			systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Error in compressor! %1").arg(nRet));
 			//qDebug() << "Error in compressor!" << nRet;
 			Close();
 			break;

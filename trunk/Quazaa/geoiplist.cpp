@@ -47,7 +47,7 @@ void GeoIPList::loadGeoIP()
 	QFile iFile( qApp->applicationDirPath() + "/geoIP.ser" );
 	if ( ! iFile.open( QIODevice::ReadOnly ) )
 	{
-		systemLog.postLog(LogSeverity::Warning, QObject::tr("Unable to load GeoIP serialization file for loading"));
+		systemLog.postLog(LogCategory::General, LogSeverity::Warning, QObject::tr("Unable to load GeoIP serialization file for loading"));
 		readFromOriginalGeoIP = true;
 	}
 	else
@@ -59,7 +59,7 @@ void GeoIPList::loadGeoIP()
 		}
 		catch(...)
 		{
-			systemLog.postLog(LogSeverity::Warning, QObject::tr("Unable to deserialize GeoIP list"));
+			systemLog.postLog(LogCategory::General, LogSeverity::Warning, QObject::tr("Unable to deserialize GeoIP list"));
 			readFromOriginalGeoIP = true;
 		}
 		iFile.close();
@@ -93,7 +93,7 @@ void GeoIPList::loadGeoIP()
 		QFile oFile( qApp->applicationDirPath() +  "/geoIP.ser" );
 		if ( ! oFile.open( QIODevice::WriteOnly ) )
 		{
-			systemLog.postLog(LogSeverity::Error, QObject::tr("Unable to open GeoIP serialization file for saving"));
+			systemLog.postLog(LogCategory::General, LogSeverity::Error, QObject::tr("Unable to open GeoIP serialization file for saving"));
 		}
 		else
 		{
@@ -104,7 +104,7 @@ void GeoIPList::loadGeoIP()
 			}
 			catch(...)
 			{
-				systemLog.postLog(LogSeverity::Error, QObject::tr("Unable to serialize GeoIP list"));
+				systemLog.postLog(LogCategory::General, LogSeverity::Error, QObject::tr("Unable to serialize GeoIP list"));
 			}
 			oFile.close();
 		}
