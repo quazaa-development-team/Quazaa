@@ -42,6 +42,9 @@ WidgetChatRoom::WidgetChatRoom(QWidget* parent) :
 	ui(new Ui::WidgetChatRoom)
 {
 	ui->setupUi(this);
+	QFont font("Monospace");
+	font.setStyleHint(QFont::TypeWriter);
+	ui->textBrowser->setFont(font);
 	chatUserListModel = new ChatUserListModel();
 }
 
