@@ -1,5 +1,5 @@
 /*
-** $Id$
+** $Id: widgetchat.cpp 779 2011-10-27 17:44:44Z brov $
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -22,8 +22,8 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "widgetchat.h"
-#include "ui_widgetchat.h"
+#include "widgetirc.h"
+#include "ui_widgetirc.h"
 
 #include "quazaasettings.h"
 
@@ -33,25 +33,28 @@
 #include "debug_new.h"
 #endif
 
-WidgetChat::WidgetChat(QWidget* parent) :
+WidgetIRC::WidgetIRC(QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::WidgetChat)
+	ui(new Ui::WidgetIRC)
 {
 	ui->setupUi(this);
-	panelChatMiddle = new WidgetChatMiddle();
+	panelIRCConnections = new WidgetIRCConnections();
 	ui->splitterChat->restoreState(quazaaSettings.WinMain.ChatSplitter);
-	ui->verticalLayoutChatMiddle->addWidget(panelChatMiddle);
+	ui->verticalLayoutChatMiddle->addWidget(panelIRCConnections);
 	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
+	connect(ui->toolButtonChatFriendsHeader, SIGNAL(toggled(bool)), this, SLOT(toggleLeftSpacer()));
 	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
+	connect(ui->toolButtonChatRoomsHeader, SIGNAL(toggled(bool)), this, SLOT(toggleLeftSpacer()));
+	toggleLeftSpacer();
 }
 
-WidgetChat::~WidgetChat()
+WidgetIRC::~WidgetIRC()
 {
-	panelChatMiddle->close();
+	panelIRCConnections->close();
 	delete ui;
 }
 
-void WidgetChat::changeEvent(QEvent* e)
+void WidgetIRC::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
 	switch(e->type())
@@ -64,15 +67,15 @@ void WidgetChat::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetChat::saveWidget()
+void WidgetIRC::saveWidget()
 {
 	quazaaSettings.WinMain.ChatSplitter = ui->splitterChat->saveState();
 	quazaaSettings.WinMain.ChatFriendsTaskVisible = ui->toolButtonChatFriendsHeader->isChecked();
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
-	panelChatMiddle->saveWidget();
+	panelIRCConnections->saveWidget();
 }
 
-void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
+void WidgetIRC::on_splitterChat_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
@@ -121,3 +124,14 @@ void WidgetChat::on_splitterChat_customContextMenuRequested(QPoint pos)
 	}
 }
 
+void WidgetIRC::toggleLeftSpacer()
+{
+	if(!ui->toolButtonChatFriendsHeader->isChecked() && !ui->toolButtonChatRoomsHeader->isChecked())
+	{
+		ui->verticalSpacerLeftSidebarFiller->changeSize(0,0,QSizePolicy::Fixed,QSizePolicy::MinimumExpanding);
+		ui->verticalLayoutLeftSidebar->invalidate();
+	} else {
+		ui->verticalSpacerLeftSidebarFiller->changeSize(0,0,QSizePolicy::Fixed,QSizePolicy::Preferred);
+		ui->verticalLayoutLeftSidebar->invalidate();
+	}
+}
