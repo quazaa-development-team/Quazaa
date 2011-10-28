@@ -38,6 +38,9 @@ WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
 	ui(new Ui::WidgetSystemLog)
 {
 	ui->setupUi(this);
+	QFont font("Monospace");
+	font.setStyleHint(QFont::TypeWriter);
+	ui->textEditSystemLog->setFont(font);
 	quazaaSettings.loadLogSettings();
 	ui->actionPauseLogDisplay->setChecked(quazaaSettings.Logging.IsPaused);
 	logMenu = new QMenu(ui->textEditSystemLog);
