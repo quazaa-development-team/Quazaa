@@ -42,6 +42,9 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIRC) :
 	ui->setupUi(this);
 	bIsIRC = isIRC;
 	textEditInput = new WidgetReturnEmitTextEdit(this);
+	QFont font("Monospace");
+	font.setStyleHint(QFont::TypeWriter);
+	textEditInput->setFont(font);
 	connect(textEditInput, SIGNAL(cursorPositionChanged()), this, SLOT(updateToolbar()));
 	ui->horizontalLayoutInput->addWidget(textEditInput);
 	checkBoxSendOnEnter = new QCheckBox(tr("Send On Enter"), this);
