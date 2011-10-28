@@ -1,5 +1,5 @@
 /*
-** $Id$
+** $Id: widgetchatmiddle.cpp 779 2011-10-27 17:44:44Z brov $
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -22,10 +22,10 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "widgetchat.h"
-#include "ui_widgetchat.h"
-#include "widgetchatmiddle.h"
-#include "ui_widgetchatmiddle.h"
+#include "widgetirc.h"
+#include "ui_widgetirc.h"
+#include "widgetircconnections.h"
+#include "ui_widgetircconnections.h"
 #include "dialogsettings.h"
 #include "dialogprofile.h"
 #include "systemlog.h"
@@ -39,9 +39,9 @@
 #include "debug_new.h"
 #endif
 
-WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
+WidgetIRCConnections::WidgetIRCConnections(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetChatMiddle)
+	ui(new Ui::WidgetIRCConnections)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
@@ -50,12 +50,12 @@ WidgetChatMiddle::WidgetChatMiddle(QWidget* parent) :
 	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
 }
 
-WidgetChatMiddle::~WidgetChatMiddle()
+WidgetIRCConnections::~WidgetIRCConnections()
 {
 	delete ui;
 }
 
-void WidgetChatMiddle::changeEvent(QEvent* e)
+void WidgetIRCConnections::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -68,19 +68,19 @@ void WidgetChatMiddle::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetChatMiddle::saveWidget()
+void WidgetIRCConnections::saveWidget()
 {
 	quazaaSettings.saveSettings();
 	quazaaSettings.WinMain.ChatToolbars = saveState();
 }
 
-void WidgetChatMiddle::on_actionChatSettings_triggered()
+void WidgetIRCConnections::on_actionChatSettings_triggered()
 {
 	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Chat);
 	dlgSettings->show();
 }
 
-void WidgetChatMiddle::on_actionEditMyProfile_triggered()
+void WidgetIRCConnections::on_actionEditMyProfile_triggered()
 {
 	DialogProfile* dlgProfile = new DialogProfile(this);
 	dlgProfile->show();

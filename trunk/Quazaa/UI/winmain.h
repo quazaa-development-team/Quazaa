@@ -37,7 +37,7 @@
 #include "widgettransfers.h"
 #include "widgetsecurity.h"
 #include "widgetactivity.h"
-#include "widgetchat.h"
+#include "widgetirc.h"
 #include "widgethostcache.h"
 #include "widgetdiscovery.h"
 #include "widgetscheduler.h"
@@ -85,7 +85,7 @@ public:
 	WidgetTransfers* pageTransfers;
 	WidgetSecurity* pageSecurity;
 	WidgetActivity* pageActivity;
-	WidgetChat* pageChat;
+	WidgetIRC* pageIRC;
 	WidgetHostCache* pageHostCache;
 	WidgetDiscovery* pageDiscovery;
 	WidgetScheduler* pageScheduler;

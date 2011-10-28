@@ -1,5 +1,5 @@
 /*
-** $Id$
+** $Id: ircsessionmanager.cpp 779 2011-10-27 17:44:44Z brov $
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)

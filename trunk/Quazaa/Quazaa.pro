@@ -249,10 +249,7 @@ SOURCES += \
 	UI/dialogtorrentproperties.cpp \
 	UI/dialogtransferprogresstooltip.cpp \
 	UI/widgetactivity.cpp \
-	UI/widgetchat.cpp \
 	UI/widgetchatinput.cpp \
-	UI/widgetchatmiddle.cpp \
-	UI/widgetchatroom.cpp \
 	UI/widgetdiscovery.cpp \
 	UI/widgetdownloads.cpp \
 	UI/widgetgraph.cpp \
@@ -288,7 +285,14 @@ SOURCES += \
 	3rdparty/communi/src/irc.cpp \
     Chat/ircsessionmanager.cpp \
     Transfers/transfer.cpp \
-    3rdparty/nvwa/debug_new.cpp
+    3rdparty/nvwa/debug_new.cpp \
+    UI/widgetircserver.cpp \
+    UI/widgetircchannel.cpp \
+    UI/widgetirc.cpp \
+    UI/widgetircconnections.cpp \
+    Chat/IRC/messagehandler.cpp \
+    Chat/IRC/messageformatter.cpp \
+    Chat/IRC/commandparser.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -390,10 +394,7 @@ HEADERS += \
 	UI/dialogtorrentproperties.h \
 	UI/dialogtransferprogresstooltip.h \
 	UI/widgetactivity.h \
-	UI/widgetchat.h \
 	UI/widgetchatinput.h \
-	UI/widgetchatmiddle.h \
-	UI/widgetchatroom.h \
 	UI/widgetdiscovery.h \
 	UI/widgetdownloads.h \
 	UI/widgetgraph.h \
@@ -433,7 +434,14 @@ HEADERS += \
     Transfers/transfer.h \
     3rdparty/nvwa/fast_mutex.h \
     3rdparty/nvwa/debug_new.h \
-    3rdparty/nvwa/static_assert.h
+    3rdparty/nvwa/static_assert.h \
+    UI/widgetircserver.h \
+    UI/widgetircchannel.h \
+    UI/widgetirc.h \
+    UI/widgetircconnections.h \
+    Chat/IRC/messagehandler.h \
+    Chat/IRC/messageformatter.h \
+    Chat/IRC/commandparser.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -465,10 +473,7 @@ FORMS += \
 	UI/dialogtransferprogresstooltip.ui \
 	UI/mediasettings.ui \
 	UI/widgetactivity.ui \
-	UI/widgetchat.ui \
 	UI/widgetchatinput.ui \
-	UI/widgetchatmiddle.ui \
-	UI/widgetchatroom.ui \
 	UI/widgetdiscovery.ui \
 	UI/widgetdownloads.ui \
 	UI/widgetgraph.ui \
@@ -492,7 +497,11 @@ FORMS += \
 	UI/widgettransfers.ui \
 	UI/widgetuploads.ui \
 	UI/winmain.ui \
-	UI/wizardquickstart.ui
+	UI/wizardquickstart.ui \
+    UI/widgetircserver.ui \
+    UI/widgetircchannel.ui \
+    UI/widgetirc.ui \
+    UI/widgetircconnections.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \
@@ -529,6 +538,33 @@ TRANSLATIONS = \
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

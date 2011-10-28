@@ -1,5 +1,5 @@
 /*
-** $Id$
+** $Id: widgetchatroom.cpp 783 2011-10-28 10:11:41Z smokexyz $
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -23,8 +23,8 @@
 */
 
 
-#include "widgetchatroom.h"
-#include "ui_widgetchatroom.h"
+#include "widgetircchannel.h"
+#include "ui_widgetircchannel.h"
 
 #include "systemlog.h"
 
@@ -37,9 +37,9 @@
 #include "debug_new.h"
 #endif
 
-WidgetChatRoom::WidgetChatRoom(QWidget* parent) :
+WidgetIRCChannel::WidgetIRCChannel(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetChatRoom)
+	ui(new Ui::WidgetIRCChannel)
 {
 	ui->setupUi(this);
 	QFont font("Monospace");
@@ -48,12 +48,12 @@ WidgetChatRoom::WidgetChatRoom(QWidget* parent) :
 	chatUserListModel = new ChatUserListModel();
 }
 
-WidgetChatRoom::~WidgetChatRoom()
+WidgetIRCChannel::~WidgetIRCChannel()
 {
 	delete ui;
 }
 
-void WidgetChatRoom::changeEvent(QEvent* e)
+void WidgetIRCChannel::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())

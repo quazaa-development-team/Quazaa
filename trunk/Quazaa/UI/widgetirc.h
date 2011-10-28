@@ -1,5 +1,5 @@
 /*
-** widgetchatroom.h
+** widgetchat.h
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -22,33 +22,38 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef WIDGETCHATROOM_H
-#define WIDGETCHATROOM_H
+#ifndef WIDGETCHAT_H
+#define WIDGETCHAT_H
 
-#include <QtGui>
-#include "widgetchatinput.h"
-#include "chatuserlistmodel.h"
-
+#include <QWidget>
+#include "widgetircconnections.h"
 
 namespace Ui
 {
-	class WidgetChatRoom;
+	class WidgetIRC;
 }
 
-class WidgetChatRoom : public QMainWindow
+class WidgetIRC : public QWidget
 {
 	Q_OBJECT
-
 public:
-	explicit WidgetChatRoom( QWidget* parent = 0);
-	~WidgetChatRoom();
-	ChatUserListModel *chatUserListModel;
+	WidgetIRC(QWidget* parent = 0);
+	~WidgetIRC();
+	WidgetIRCConnections* panelIRCConnections;
+	void saveWidget();
+
+signals:
+	void changeRoom(int index);
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetChatRoom* ui;
+	Ui::WidgetIRC* ui;
+
+private slots:
+	void on_splitterChat_customContextMenuRequested(QPoint pos);
+	void toggleLeftSpacer();
 };
 
-#endif // WIDGETCHATROOM_H
+#endif // WIDGETCHAT_H
