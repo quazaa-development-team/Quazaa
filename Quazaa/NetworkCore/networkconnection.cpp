@@ -159,7 +159,7 @@ void CNetworkConnection::AcceptFrom(int nHandle)
 
 void CNetworkConnection::Close(bool bDelayed)
 {
-	systemLog.postLog(LogSeverity::Information, "Closing connection to %s.", qPrintable(m_oAddress.toStringWithPort()));
+	systemLog.postLog(LogCategory::Network, LogSeverity::Information, "Closing connection to %s.", qPrintable(m_oAddress.toStringWithPort()));
 
 	if( bDelayed )
 	{

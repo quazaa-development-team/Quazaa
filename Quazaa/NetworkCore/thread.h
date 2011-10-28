@@ -47,7 +47,7 @@ public:
 	{
 		m_sThreadName = strName;
 
-		systemLog.postLog(LogSeverity::Debug, QString("%1 Thread::start").arg(strName));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("%1 Thread::start").arg(strName));
 		//qDebug() << strName << "Thread::start";
 		//QMutexLocker l(pMutex);
 		m_pMutex = pMutex;
@@ -56,26 +56,26 @@ public:
 		{
 			pTargetObj->moveToThread(this);
 		}
-		systemLog.postLog(LogSeverity::Debug, QString("%1 Starting...").arg(strName));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("%1 Starting...").arg(strName));
 		//qDebug() << strName << "Starting...";
 		QThread::start(p);
-		systemLog.postLog(LogSeverity::Debug, QString("%1 Waiting for thread to start...").arg(strName));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("%1 Waiting for thread to start...").arg(strName));
 		//qDebug() << strName << "Waiting for thread to start...";
 		if(!isRunning())
 		{
 			m_oStartCond.wait(m_pMutex);
 		}
-		systemLog.postLog(LogSeverity::Debug, QString("%1 Thread started").arg(strName));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("%1 Thread started").arg(strName));
 		//qDebug() << strName << "Thread started";
 	}
 
 	void exit(int retcode)
 	{
 		//QMutexLocker l(m_pMutex);
-		systemLog.postLog(LogSeverity::Debug, QString("%1 Exiting thread").arg(m_sThreadName));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("%1 Exiting thread").arg(m_sThreadName));
 		//qDebug() << m_sThreadName << "Exiting thread";
 		QThread::exit(retcode);
-		systemLog.postLog(LogSeverity::Debug, QString("%1 Waiting for thread to finish...").arg(m_sThreadName));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("%1 Waiting for thread to finish...").arg(m_sThreadName));
 		//qDebug() << m_sThreadName << "Waiting for thread to finish...";
 
 		if(isRunning())
@@ -83,7 +83,7 @@ public:
 			m_oStartCond.wait(m_pMutex);
 		}
 		//wait();
-		systemLog.postLog(LogSeverity::Debug, QString("%1 Thread Finished").arg(m_sThreadName));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("%1 Thread Finished").arg(m_sThreadName));
 		//qDebug() << m_sThreadName << "Thread Finished";
 	}
 
@@ -97,7 +97,7 @@ protected:
 		{
 			if(!QMetaObject::invokeMethod(m_pTargetObject, "SetupThread", Qt::DirectConnection))
 			{
-				systemLog.postLog(LogSeverity::Warning, "Failed to call target's SetupThread method");
+				systemLog.postLog(LogCategory::Network, LogSeverity::Warning, "Failed to call target's SetupThread method");
 				//qWarning() << "Failed to call target's SetupThread method";
 			}
 		}
@@ -116,7 +116,7 @@ protected:
 		{
 			if(!QMetaObject::invokeMethod(m_pTargetObject, "CleanupThread", Qt::DirectConnection))
 			{
-				systemLog.postLog(LogSeverity::Warning, "Failed to call target's CleanupThread method");
+				systemLog.postLog(LogCategory::Network, LogSeverity::Warning, "Failed to call target's CleanupThread method");
 				//qWarning() << "Failed to call target's CleanupThread method";
 			}
 		}

@@ -333,7 +333,7 @@ CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 
 	Q_ASSERT(thread() == &NetworkThread);
 
-	systemLog.postLog(LogSeverity::Debug, "CNeighbours::OnAccept");
+	systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "CNeighbours::OnAccept");
 	//qDebug() << "CNeighbours::OnAccept";
 
 	if(!m_bActive)
@@ -344,7 +344,7 @@ CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 
 	if(!m_pSection.tryLock(50))
 	{
-		systemLog.postLog(LogSeverity::Debug, "Not accepting incoming connection. Neighbours overloaded");
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "Not accepting incoming connection. Neighbours overloaded");
 		pConn->Close();
 		return 0;
 	}

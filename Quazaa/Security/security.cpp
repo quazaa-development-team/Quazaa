@@ -637,7 +637,7 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 	if ( oAddress.isNull() )
 	{
 		//		theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_IP_BAN );
-		//		systemLog.postLog(LogSeverity::Notice, tr("String to translate."));
+		//		systemLog.postLog(LogCategory::Network, LogSeverity::Notice, tr("String to translate."));
 		return;
 	}
 

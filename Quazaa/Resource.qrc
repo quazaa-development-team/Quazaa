@@ -497,5 +497,9 @@
         <file>Resource/Security/Null.ico</file>
         <file>Resource/Security/Accept.ico</file>
         <file>Resource/Security/Deny.ico</file>
+        <file>Resource/LogIcon/Friends.png</file>
+        <file>Resource/LogIcon/Library.png</file>
+        <file>Resource/LogIcon/Media.png</file>
+        <file>Resource/LogIcon/Network.png</file>
     </qresource>
 </RCC>

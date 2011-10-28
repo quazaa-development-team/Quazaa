@@ -78,7 +78,7 @@ void CWebCache::CancelRequests()
 
 void CWebCache::RequestRandom()
 {
-	systemLog.postLog(LogSeverity::Debug, QString("RequestRandom()"));
+	systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("RequestRandom()"));
 	qDebug("RequestRandom()");
 
 	quint32 nIndex = qrand() % m_lCaches.size();
@@ -95,7 +95,7 @@ void CWebCache::RequestRandom()
 		u.addQueryItem("net", "gnutella2");
 		u.addQueryItem("client", "BROV1.0");
 
-		systemLog.postLog(LogSeverity::Debug, QString("Querying %1").arg(u.toString()));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Querying %1").arg(u.toString()));
 		//qDebug("Querying " + u.toString().toAscii());
 
 		m_lCaches[nIndex].m_tLastQuery = time(0);
@@ -110,12 +110,12 @@ void CWebCache::RequestRandom()
 
 void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 {
-	systemLog.postLog(LogSeverity::Debug, QString("OnRequestComplete()"));
+	systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("OnRequestComplete()"));
 	//qDebug("OnRequestComplete()");
 
 	if(pReply->error() == QNetworkReply::NoError)
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Parsing GWC response"));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Parsing GWC response"));
 		//qDebug("Parsing GWC response");
 
 		QString ln;
@@ -131,7 +131,7 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 				break;
 			}
 
-			systemLog.postLog(LogSeverity::Debug, QString("Line: %1").arg(ln));
+			systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Line: %1").arg(ln));
 			qDebug() << "Line: " << ln;
 
 			QStringList lp = ln.split("|");
@@ -146,7 +146,7 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 			}
 			else
 			{
-				systemLog.postLog(LogSeverity::Debug, QString("Parse error"));
+				systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Parse error"));
 				//qDebug() << "Parse error";
 			}
 		}

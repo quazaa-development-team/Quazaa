@@ -241,7 +241,7 @@ bool CNeighboursG2::SwitchG2ClientMode(G2NodeType nRequestedMode)
 
 	m_nClientMode = nRequestedMode;
 
-	systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Switched to %s mode.", (IsG2Hub() ? "HUB" : "LEAF"));
+	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, "Hub Balancing: Switched to %s mode.", (IsG2Hub() ? "HUB" : "LEAF"));
 
 	return true;
 }
@@ -305,7 +305,7 @@ void CNeighboursG2::HubBalancing()
 
 			if(m_nPeriodsHigh >= quazaaSettings.Gnutella2.HubBalanceHighTime)
 			{
-				systemLog.postLog(LogSeverity::Notice, "Switching to G2 HUB mode");
+				systemLog.postLog(LogCategory::Network, LogSeverity::Notice, "Switching to G2 HUB mode");
 				SwitchG2ClientMode(G2_HUB);
 				return;
 			}
@@ -337,7 +337,7 @@ void CNeighboursG2::HubBalancing()
 
 			if(m_nPeriodsLow >= quazaaSettings.Gnutella2.HubBalanceLowTime)
 			{
-				systemLog.postLog(LogSeverity::Notice, "Switching to G2 LEAF mode");
+				systemLog.postLog(LogCategory::Network, LogSeverity::Notice, "Switching to G2 LEAF mode");
 				SwitchG2ClientMode(G2_LEAF);
 				return;
 			}

@@ -32,6 +32,11 @@ namespace LogSeverity
 	enum Severity { Information, Security, Notice, Debug, Warning, Error, Critical };
 }
 
+namespace LogCategory
+{
+	enum Category { General, Network, Chat, MediaPlayer, Library };
+}
+
 class SystemLog : public QObject
 {
 	Q_OBJECT
@@ -39,12 +44,12 @@ public:
 	SystemLog();
 
 signals:
-	void logPosted(QString message, LogSeverity::Severity severity);
+	void logPosted(QString message, LogCategory::Category category, LogSeverity::Severity severity);
 
 public slots:
-	void postLog(LogSeverity::Severity severity, QString message);
+	void postLog(LogCategory::Category category, LogSeverity::Severity severity, QString message);
 public:
-	void postLog(LogSeverity::Severity severity, const char* format, ...);
+	void postLog(LogCategory::Category category, LogSeverity::Severity severity, const char* format, ...);
 };
 
 extern SystemLog systemLog;

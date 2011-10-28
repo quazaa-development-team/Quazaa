@@ -125,7 +125,7 @@ void CManagedSearch::Execute(QDateTime& tNow, quint32* pnMaxPackets)
 
 	if(m_nQueryCount > quazaaSettings.Gnutella2.QueryLimit)
 	{
-		systemLog.postLog(LogSeverity::Debug, "Pausing search: query limit reached");
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "Pausing search: query limit reached");
 		Pause();
 		return;
 	}
@@ -264,7 +264,7 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 
 			if(pQuery)
 			{
-				systemLog.postLog(LogSeverity::Debug, QString("Querying %1").arg(pHost->m_oAddress.toString().toAscii().constData()));
+				systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Querying %1").arg(pHost->m_oAddress.toString().toAscii().constData()));
 				//qDebug("Querying %s", pHost->m_oAddress.toString().toAscii().constData());
 				*pnMaxPackets -= 1;
 				Datagrams.SendPacket(pHost->m_oAddress, pQuery, true);
@@ -334,7 +334,7 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 				G2Packet* pQKR = G2Packet::New("QKR", true);
 				pQKR->WritePacket("QNA", (pHost->m_oAddress.protocol() == 0 ? 6 : 18))->WriteHostAddress(&pHost->m_oAddress);
 
-				systemLog.postLog(LogSeverity::Debug, QString("Requesting query key from %1 through %2").arg(pHost->m_oAddress.toString().toAscii().constData()).arg(pHub->m_oAddress.toString().toAscii().constData()));
+				systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Requesting query key from %1 through %2").arg(pHost->m_oAddress.toString().toAscii().constData()).arg(pHub->m_oAddress.toString().toAscii().constData()));
 				//qDebug("Requesting query key from %s through %s", pHost->m_oAddress.toString().toAscii().constData(), pHub->m_oAddress.toString().toAscii().constData());
 				pHub->SendPacket(pQKR, true, true);
 				*pnMaxPackets -= 1;
@@ -354,7 +354,7 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 					G2Packet* pQKR = G2Packet::New("QKR", false);
 					Datagrams.SendPacket(pHost->m_oAddress, pQKR, false);
 					pQKR->Release();
-					systemLog.postLog(LogSeverity::Debug, QString("Requesting query key from %1").arg(pHost->m_oAddress.toString().toAscii().constData()));
+					systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Requesting query key from %1").arg(pHost->m_oAddress.toString().toAscii().constData()));
 					//qDebug("Requesting query key from %s", pHost->m_oAddress.toString().toAscii().constData());
 				}
 				else
@@ -363,7 +363,7 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 					pQKR->WritePacket("RNA", (pReceiver->protocol() == 0 ? 6 : 18))->WriteHostAddress(pReceiver);
 					Datagrams.SendPacket(pHost->m_oAddress, pQKR, false);
 					pQKR->Release();
-					systemLog.postLog(LogSeverity::Debug, QString("Requesting query key from %1 for %2").arg(pHost->m_oAddress.toString().toAscii().constData()).arg(pReceiver->toString().toAscii().constData()));
+					systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Requesting query key from %1 for %2").arg(pHost->m_oAddress.toString().toAscii().constData()).arg(pReceiver->toString().toAscii().constData()));
 					//qDebug("Requesting query key from %s for %s", pHost->m_oAddress.toString().toAscii().constData(), pReceiver->toString().toAscii().constData());
 				}
 
@@ -419,7 +419,7 @@ void CManagedSearch::OnQueryHit(CQueryHit* pHits)
 
 	if(m_nHits > m_nQueryHitLimit && !m_bPaused)
 	{
-		systemLog.postLog(LogSeverity::Debug, tr("Pausing search: query hit limit reached"));
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, tr("Pausing search: query hit limit reached"));
 		Pause();
 	}
 }
@@ -430,7 +430,7 @@ void CManagedSearch::SendHits()
 		return;
 	}
 
-	systemLog.postLog(LogSeverity::Debug, QString("Sending hits... %1").arg(m_nCachedHits));
+	systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Sending hits... %1").arg(m_nCachedHits));
 	//qDebug() << "Sending hits..." << m_nCachedHits;
 	QueryHitSharedPtr pSHits(m_pCachedHit);
 	emit OnHit(pSHits);

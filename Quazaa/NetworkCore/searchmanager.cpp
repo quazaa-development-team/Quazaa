@@ -264,7 +264,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 
 		// we already know QA GUID
 
-		systemLog.postLog(LogSeverity::Debug, "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
 						  oFromIp.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
 		//qDebug("Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
 		//	   addr.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);

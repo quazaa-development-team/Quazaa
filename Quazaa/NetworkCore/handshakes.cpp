@@ -131,11 +131,11 @@ void CHandshakes::SetupThread()
 
 	if(bOK)
 	{
-		systemLog.postLog(LogSeverity::Notice, "Handshakes: listening on port %d.", Network.GetLocalAddress().port());
+		systemLog.postLog(LogCategory::Network, LogSeverity::Notice, "Handshakes: listening on port %d.", Network.GetLocalAddress().port());
 	}
 	else
 	{
-		systemLog.postLog(LogSeverity::Error, "Handshakes: cannot listen on port %d, incoming connections will be unavailable.", Network.GetLocalAddress().port());
+		systemLog.postLog(LogCategory::Network, LogSeverity::Error, "Handshakes: cannot listen on port %d, incoming connections will be unavailable.", Network.GetLocalAddress().port());
 	}
 
 	m_pTimer = new QTimer(this);
