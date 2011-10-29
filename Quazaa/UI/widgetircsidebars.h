@@ -1,5 +1,5 @@
 /*
-** widgetchatmiddle.h
+** widgetchat.h
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -22,42 +22,39 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef WIDGETCHATCENTER_H
-#define WIDGETCHATCENTER_H
+#ifndef WIDGETCHAT_H
+#define WIDGETCHAT_H
 
-#include <QMainWindow>
-#include <QLineEdit>
-#include <QToolButton>
-#include <QTextDocument>
-
-#include "widgetircchannel.h"
-#include "widgetchatinput.h"
+#include <QWidget>
+#include "widgetircmain.h"
 
 namespace Ui
 {
-	class WidgetIRCConnections;
+	class WidgetIRCSidebars;
 }
 
-class WidgetIRCConnections : public QMainWindow
+class WidgetIRCSidebars : public QWidget
 {
 	Q_OBJECT
 public:
-	WidgetIRCConnections(QWidget* parent = 0);
-	~WidgetIRCConnections();
-	WidgetChatInput *widgetChatInput;
+	WidgetIRCSidebars(QWidget* parent = 0);
+	~WidgetIRCSidebars();
+	WidgetIRCMain* panelIRCMain;
+	void saveWidget();
+
+signals:
+	void changeRoom(int index);
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetIRCConnections* ui;
-
-public slots:
-	void saveWidget();
+	Ui::WidgetIRCSidebars* ui;
 
 private slots:
-	void on_actionChatSettings_triggered();
-	void on_actionEditMyProfile_triggered();
+	void on_splitterChat_customContextMenuRequested(QPoint pos);
+	void on_toolButtonChatFriendsHeader_clicked();
+	void on_toolButtonChatUsersHeader_clicked();
 };
 
-#endif // WIDGETCHATCENTER_H
+#endif // WIDGETCHAT_H

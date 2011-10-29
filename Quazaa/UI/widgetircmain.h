@@ -1,5 +1,5 @@
 /*
-** widgetchatroom.h
+** widgetchatmiddle.h
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -22,33 +22,41 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef WIDGETCHATROOM_H
-#define WIDGETCHATROOM_H
+#ifndef WIDGETCHATCENTER_H
+#define WIDGETCHATCENTER_H
 
-#include <QtGui>
+#include <QMainWindow>
+#include <QLineEdit>
+#include <QToolButton>
+#include <QTextDocument>
+
 #include "widgetchatinput.h"
-#include "chatuserlistmodel.h"
-
 
 namespace Ui
 {
-	class WidgetIRCChannel;
+	class WidgetIRCMain;
 }
 
-class WidgetIRCChannel : public QMainWindow
+class WidgetIRCMain : public QMainWindow
 {
 	Q_OBJECT
-
 public:
-	explicit WidgetIRCChannel( QWidget* parent = 0);
-	~WidgetIRCChannel();
-	ChatUserListModel *chatUserListModel;
+	WidgetIRCMain(QWidget* parent = 0);
+	~WidgetIRCMain();
+	WidgetChatInput *widgetChatInput;
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetIRCChannel* ui;
+	Ui::WidgetIRCMain* ui;
+
+public slots:
+	void saveWidget();
+
+private slots:
+	void on_actionChatSettings_triggered();
+	void on_actionEditMyProfile_triggered();
 };
 
-#endif // WIDGETCHATROOM_H
+#endif // WIDGETCHATCENTER_H
