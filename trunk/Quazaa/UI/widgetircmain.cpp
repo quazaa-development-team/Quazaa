@@ -1,5 +1,5 @@
 /*
-** $Id: widgetchatroom.cpp 783 2011-10-28 10:11:41Z smokexyz $
+** $Id: widgetchatmiddle.cpp 779 2011-10-27 17:44:44Z brov $
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -22,38 +22,40 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
-#include "widgetircchannel.h"
-#include "ui_widgetircchannel.h"
-
+#include "widgetircsidebars.h"
+#include "ui_widgetircsidebars.h"
+#include "widgetircmain.h"
+#include "ui_widgetircmain.h"
+#include "dialogsettings.h"
+#include "dialogprofile.h"
 #include "systemlog.h"
+#include "chatconverter.h"
 
+#include "quazaasettings.h"
 #include "ircutil.h"
-
-#include <QDesktopServices>
-#include <QStringList>
+#include "ircsession.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
 
-WidgetIRCChannel::WidgetIRCChannel(QWidget* parent) :
+WidgetIRCMain::WidgetIRCMain(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetIRCChannel)
+	ui(new Ui::WidgetIRCMain)
 {
 	ui->setupUi(this);
-	QFont font("Monospace");
-	font.setStyleHint(QFont::TypeWriter);
-	ui->textBrowser->setFont(font);
-	chatUserListModel = new ChatUserListModel();
+	restoreState(quazaaSettings.WinMain.ChatToolbars);
+
+	widgetChatInput = new WidgetChatInput(this, true);
+	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
 }
 
-WidgetIRCChannel::~WidgetIRCChannel()
+WidgetIRCMain::~WidgetIRCMain()
 {
 	delete ui;
 }
 
-void WidgetIRCChannel::changeEvent(QEvent* e)
+void WidgetIRCMain::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -64,5 +66,23 @@ void WidgetIRCChannel::changeEvent(QEvent* e)
 		default:
 			break;
 	}
+}
+
+void WidgetIRCMain::saveWidget()
+{
+	quazaaSettings.saveSettings();
+	quazaaSettings.WinMain.ChatToolbars = saveState();
+}
+
+void WidgetIRCMain::on_actionChatSettings_triggered()
+{
+	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Chat);
+	dlgSettings->show();
+}
+
+void WidgetIRCMain::on_actionEditMyProfile_triggered()
+{
+	DialogProfile* dlgProfile = new DialogProfile(this);
+	dlgProfile->show();
 }
 

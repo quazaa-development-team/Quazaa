@@ -22,8 +22,8 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "widgetirc.h"
-#include "ui_widgetirc.h"
+#include "widgetircsidebars.h"
+#include "ui_widgetircsidebars.h"
 
 #include "quazaasettings.h"
 
@@ -33,28 +33,23 @@
 #include "debug_new.h"
 #endif
 
-WidgetIRC::WidgetIRC(QWidget* parent) :
+WidgetIRCSidebars::WidgetIRCSidebars(QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::WidgetIRC)
+	ui(new Ui::WidgetIRCSidebars)
 {
 	ui->setupUi(this);
-	panelIRCConnections = new WidgetIRCConnections();
+	panelIRCMain = new WidgetIRCMain();
 	ui->splitterChat->restoreState(quazaaSettings.WinMain.ChatSplitter);
-	ui->verticalLayoutChatMiddle->addWidget(panelIRCConnections);
-	ui->toolButtonChatFriendsHeader->setChecked(quazaaSettings.WinMain.ChatFriendsTaskVisible);
-	connect(ui->toolButtonChatFriendsHeader, SIGNAL(toggled(bool)), this, SLOT(toggleLeftSpacer()));
-	ui->toolButtonChatRoomsHeader->setChecked(quazaaSettings.WinMain.ChatRoomsTaskVisible);
-	connect(ui->toolButtonChatRoomsHeader, SIGNAL(toggled(bool)), this, SLOT(toggleLeftSpacer()));
-	toggleLeftSpacer();
+	ui->verticalLayoutChatMiddle->addWidget(panelIRCMain);
 }
 
-WidgetIRC::~WidgetIRC()
+WidgetIRCSidebars::~WidgetIRCSidebars()
 {
-	panelIRCConnections->close();
+	panelIRCMain->close();
 	delete ui;
 }
 
-void WidgetIRC::changeEvent(QEvent* e)
+void WidgetIRCSidebars::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
 	switch(e->type())
@@ -67,15 +62,13 @@ void WidgetIRC::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetIRC::saveWidget()
+void WidgetIRCSidebars::saveWidget()
 {
 	quazaaSettings.WinMain.ChatSplitter = ui->splitterChat->saveState();
-	quazaaSettings.WinMain.ChatFriendsTaskVisible = ui->toolButtonChatFriendsHeader->isChecked();
-	quazaaSettings.WinMain.ChatRoomsTaskVisible = ui->toolButtonChatRoomsHeader->isChecked();
-	panelIRCConnections->saveWidget();
+	panelIRCMain->saveWidget();
 }
 
-void WidgetIRC::on_splitterChat_customContextMenuRequested(QPoint pos)
+void WidgetIRCSidebars::on_splitterChat_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
@@ -124,14 +117,46 @@ void WidgetIRC::on_splitterChat_customContextMenuRequested(QPoint pos)
 	}
 }
 
-void WidgetIRC::toggleLeftSpacer()
+void WidgetIRCSidebars::on_toolButtonChatFriendsHeader_clicked()
 {
-	if(!ui->toolButtonChatFriendsHeader->isChecked() && !ui->toolButtonChatRoomsHeader->isChecked())
+	if(ui->splitterChat->sizes()[0] > 0)
 	{
-		ui->verticalSpacerLeftSidebarFiller->changeSize(0,0,QSizePolicy::Fixed,QSizePolicy::MinimumExpanding);
-		ui->verticalLayoutLeftSidebar->invalidate();
-	} else {
-		ui->verticalSpacerLeftSidebarFiller->changeSize(0,0,QSizePolicy::Fixed,QSizePolicy::Preferred);
-		ui->verticalLayoutLeftSidebar->invalidate();
+		quazaaSettings.WinMain.ChatSplitterRestoreLeft = ui->splitterChat->sizes()[0];
+		quazaaSettings.WinMain.ChatSplitterRestoreMiddle = ui->splitterChat->sizes()[1];
+		QList<int> newSizes;
+		newSizes.append(0);
+		newSizes.append(ui->splitterChat->sizes()[0] + ui->splitterChat->sizes()[1]);
+		newSizes.append(ui->splitterChat->sizes()[2]);
+		ui->splitterChat->setSizes(newSizes);
+	}
+	else
+	{
+		QList<int> sizesList;
+		sizesList.append(quazaaSettings.WinMain.ChatSplitterRestoreLeft);
+		sizesList.append(quazaaSettings.WinMain.ChatSplitterRestoreMiddle);
+		sizesList.append(ui->splitterChat->sizes()[2]);
+		ui->splitterChat->setSizes(sizesList);
+	}
+}
+
+void WidgetIRCSidebars::on_toolButtonChatUsersHeader_clicked()
+{
+	if(ui->splitterChat->sizes()[2] > 0)
+	{
+		quazaaSettings.WinMain.ChatSplitterRestoreMiddle = ui->splitterChat->sizes()[1];
+		quazaaSettings.WinMain.ChatSplitterRestoreRight = ui->splitterChat->sizes()[2];
+		QList<int> newSizes;
+		newSizes.append(ui->splitterChat->sizes()[0]);
+		newSizes.append(ui->splitterChat->sizes()[1] + ui->splitterChat->sizes()[2]);
+		newSizes.append(0);
+		ui->splitterChat->setSizes(newSizes);
+	}
+	else
+	{
+		QList<int> sizesList;
+		sizesList.append(ui->splitterChat->sizes()[0]);
+		sizesList.append(quazaaSettings.WinMain.ChatSplitterRestoreMiddle);
+		sizesList.append(quazaaSettings.WinMain.ChatSplitterRestoreRight);
+		ui->splitterChat->setSizes(sizesList);
 	}
 }

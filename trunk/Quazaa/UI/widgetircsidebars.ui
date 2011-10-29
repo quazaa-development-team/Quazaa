@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetIRC</class>
- <widget class="QWidget" name="WidgetIRC">
+ <class>WidgetIRCSidebars</class>
+ <widget class="QWidget" name="WidgetIRCSidebars">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>586</width>
-    <height>397</height>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,126 +56,6 @@
         <number>4</number>
        </property>
        <item>
-        <layout class="QGridLayout" name="gridLayoutChatRoomsTask">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item row="1" column="0" colspan="2">
-          <widget class="QFrame" name="frameChatRoomsTask">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-             <horstretch>0</horstretch>
-             <verstretch>1</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Sunken</enum>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_43">
-            <property name="margin">
-             <number>0</number>
-            </property>
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <item row="3" column="0" colspan="2">
-             <layout class="QGridLayout" name="gridLayoutChatRoomsButtons">
-              <item row="0" column="0">
-               <widget class="QToolButton" name="toolButtonChatRoomAdd">
-                <property name="text">
-                 <string>Add</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../Resource.qrc">
-                  <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>20</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QToolButton" name="toolButtonChatRoomRemove">
-                <property name="text">
-                 <string>Remove</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../Resource.qrc">
-                  <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>20</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="2" column="0">
-             <widget class="QTreeView" name="treeViewChatRooms">
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QToolButton" name="toolButtonChatRoomsHeader">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Rooms</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../Resource.qrc">
-             <normaloff>:/Resource/Chat/Rooms.png</normaloff>:/Resource/Chat/Rooms.png</iconset>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
         <layout class="QGridLayout" name="gridLayoutChatFriendsTask">
          <property name="spacing">
           <number>0</number>
@@ -199,10 +79,10 @@
              <normaloff>:/Resource/Chat/Friends.png</normaloff>:/Resource/Chat/Friends.png</iconset>
            </property>
            <property name="checkable">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <property name="checked">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <property name="toolButtonStyle">
             <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -294,22 +174,6 @@
           </widget>
          </item>
         </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacerLeftSidebarFiller">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Preferred</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
@@ -479,38 +343,5 @@
  <resources>
   <include location="../Resource.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>toolButtonChatRoomsHeader</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>frameChatRoomsTask</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>41</x>
-     <y>13</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>41</x>
-     <y>27</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>toolButtonChatFriendsHeader</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>frameChatFriendsTask</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>87</x>
-     <y>209</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>87</x>
-     <y>221</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

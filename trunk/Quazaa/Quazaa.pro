@@ -283,22 +283,16 @@ SOURCES += \
     3rdparty/communi/src/ircencoder.cpp \
     3rdparty/communi/src/irccommand.cpp \
 	3rdparty/communi/src/irc.cpp \
-    Chat/ircsessionmanager.cpp \
     Transfers/transfer.cpp \
-    3rdparty/nvwa/debug_new.cpp \
-    UI/widgetircserver.cpp \
-    UI/widgetircchannel.cpp \
-    UI/widgetirc.cpp \
-    UI/widgetircconnections.cpp \
-    Chat/IRC/messagehandler.cpp \
-    Chat/IRC/messageformatter.cpp \
-    Chat/IRC/commandparser.cpp
+	3rdparty/nvwa/debug_new.cpp \
+    UI/widgetircmain.cpp \
+    UI/widgetircsidebars.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
 	#Metalink/metalinkhandler.h \
 	3rdparty/CyoEncode/CyoDecode.h \
-		3rdparty/CyoEncode/CyoEncode.h \
+	3rdparty/CyoEncode/CyoEncode.h \
 	Chat/chatconverter.h \
 	Chat/chatcore.h \
 	Chat/chatsession.h \
@@ -430,18 +424,12 @@ HEADERS += \
     3rdparty/communi/include/ircencoder_p.h \
     3rdparty/communi/include/irccommand.h \
 	3rdparty/communi/include/irc.h \
-    Chat/ircsessionmanager.h \
     Transfers/transfer.h \
     3rdparty/nvwa/fast_mutex.h \
     3rdparty/nvwa/debug_new.h \
-    3rdparty/nvwa/static_assert.h \
-    UI/widgetircserver.h \
-    UI/widgetircchannel.h \
-    UI/widgetirc.h \
-    UI/widgetircconnections.h \
-    Chat/IRC/messagehandler.h \
-    Chat/IRC/messageformatter.h \
-    Chat/IRC/commandparser.h
+	3rdparty/nvwa/static_assert.h \
+    UI/widgetircmain.h \
+    UI/widgetircsidebars.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -498,10 +486,8 @@ FORMS += \
 	UI/widgetuploads.ui \
 	UI/winmain.ui \
 	UI/wizardquickstart.ui \
-    UI/widgetircserver.ui \
-    UI/widgetircchannel.ui \
-    UI/widgetirc.ui \
-    UI/widgetircconnections.ui
+    UI/widgetircmain.ui \
+    UI/widgetircsidebars.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \
@@ -538,6 +524,18 @@ TRANSLATIONS = \
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
