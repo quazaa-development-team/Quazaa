@@ -52,6 +52,8 @@ INCLUDEPATH += NetworkCore \
 	Transfers \
 	.
 
+include(Chat/IRC/irc.pri)
+
 # Version stuff
 MAJOR = 0
 MINOR = 1
