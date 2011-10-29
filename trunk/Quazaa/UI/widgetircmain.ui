@@ -21,9 +21,6 @@
     <property name="margin">
      <number>0</number>
     </property>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayoutTextInput"/>
-    </item>
    </layout>
   </widget>
   <widget class="QToolBar" name="toolBarChatControls">

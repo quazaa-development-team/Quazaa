@@ -501,5 +501,7 @@
         <file>Resource/LogIcon/Library.png</file>
         <file>Resource/LogIcon/Media.png</file>
         <file>Resource/LogIcon/Network.png</file>
+        <file>Resource/welcome_footer.html</file>
+        <file>Resource/welcome_header.html</file>
     </qresource>
 </RCC>

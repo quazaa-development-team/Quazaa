@@ -48,11 +48,11 @@ static QString readHtmlFile(const QString& filePath)
 
 void WelcomePage::updateHtml()
 {
-    QString headerHtml = readHtmlFile(":/resources/welcome_header.html");
+	QString headerHtml = readHtmlFile(":/Resource/welcome_header.html");
 	headerHtml = headerHtml.arg(QApplication::applicationName())
-			.arg(tr("Creaming your mouth with P2P goodness."));
+			.arg(tr("Please respect others while using this service."));
     header->setText(headerHtml);
-    footer->setText(readHtmlFile(":/resources/welcome_footer.html"));
+	footer->setText(readHtmlFile(":/Resource/welcome_footer.html"));
 }
 
 QWidget* WelcomePage::createBody(QWidget* parent) const
@@ -60,25 +60,16 @@ QWidget* WelcomePage::createBody(QWidget* parent) const
     QWidget* body = new QWidget(parent);
 
     QCommandLinkButton* connectButton = new QCommandLinkButton(tr("Connect"), body);
-    connectButton->setDescription(tr("New IRC connection"));
-    QCommandLinkButton* settingsButton = new QCommandLinkButton(tr("Settings"), body);
-	settingsButton->setDescription(tr("Configure %1").arg(QApplication::applicationName()));
+	connectButton->setDescription(tr("New IRC connection"));
 
-    connect(connectButton, SIGNAL(clicked()), this, SIGNAL(connectRequested()));
-	connect(settingsButton, SIGNAL(clicked()), this, SLOT(showSettings()));
-
-    QCommandLinkButton* aboutQtButton = new QCommandLinkButton(tr("Qt"), body);
-    aboutQtButton->setDescription(tr("About Qt toolkit"));
-	connect(aboutQtButton, SIGNAL(clicked()), qApp, SLOT(aboutQt()));
+	connect(connectButton, SIGNAL(clicked()), this, SIGNAL(connectRequested()));
 
     QGridLayout* layout = new QGridLayout(body);
     layout->setColumnStretch(0, 1);
     layout->setColumnStretch(3, 1);
     layout->setRowStretch(0, 1);
-    layout->addWidget(connectButton, 1, 1);
-	layout->addWidget(settingsButton, 1, 2);
+	layout->addWidget(connectButton, 1, 1);
 
-    layout->addWidget(aboutQtButton, 5, 1);
     layout->setRowStretch(6, 1);
 
 	layout->setRowStretch(7, 1);

@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>GeneralWizardPage</class>
  <widget class="QWizardPage" name="GeneralWizardPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>268</width>
+    <height>115</height>
+   </rect>
+  </property>
   <property name="title">
    <string>General settings</string>
   </property>
@@ -9,6 +17,9 @@
    <string>Adjust general settings</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
+   <property name="fieldGrowthPolicy">
+    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+   </property>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="enabled">
@@ -30,33 +41,16 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>&amp;Font:</string>
+      <string>&amp;Scrollback:</string>
      </property>
      <property name="buddy">
-      <cstring>fontComboBox</cstring>
+      <cstring>blockSpinBox</cstring>
      </property>
     </widget>
    </item>
    <item row="1" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QFontComboBox" name="fontComboBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="sizeSpinBox"/>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="1">
     <widget class="QSpinBox" name="blockSpinBox">
      <property name="maximum">
       <number>9999</number>
@@ -67,16 +61,6 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>&amp;Scrollback:</string>
-     </property>
-     <property name="buddy">
-      <cstring>blockSpinBox</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>&amp;Messages:</string>
@@ -86,7 +70,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="2" column="1">
     <widget class="QCheckBox" name="timeStampCheckBox">
      <property name="text">
       <string>Timestamp</string>
@@ -100,7 +84,6 @@
  </widget>
  <tabstops>
   <tabstop>langComboBox</tabstop>
-  <tabstop>fontComboBox</tabstop>
  </tabstops>
  <resources/>
  <connections/>
