@@ -41,7 +41,7 @@ QuazaaSettings::QuazaaSettings()
 
 void QuazaaSettings::saveSettings()
 {
-		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Live");
 	m_qSettings.setValue("AdultWarning", quazaaSettings.Live.AdultWarning);
@@ -153,16 +153,6 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("AwayMessageIdleTime", quazaaSettings.PrivateMessages.AwayMessageIdleTime);
 	m_qSettings.setValue("eDonkeyEnable", quazaaSettings.PrivateMessages.eDonkeyEnable);
 	m_qSettings.setValue("Gnutella2Enable", quazaaSettings.PrivateMessages.Gnutella2Enable);
-	m_qSettings.endGroup();
-
-	m_qSettings.beginGroup("Chat");
-	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.Chat.ConnectOnStartup);
-	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
-	m_qSettings.setValue("IrcServerName", quazaaSettings.Chat.IrcServerName);
-	m_qSettings.setValue("IrcServerPort", quazaaSettings.Chat.IrcServerPort);
-	m_qSettings.setValue("IrcUseSSL", quazaaSettings.Chat.IrcUseSSL);
-	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
-	m_qSettings.setValue("AutoJoinChannels", quazaaSettings.Chat.AutoJoinChannels.join(" "));
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Connection");
@@ -596,159 +586,6 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.PrivateMessages.Gnutella2Enable = m_qSettings.value("Gnutella2Enable", false).toBool();
 	m_qSettings.endGroup();
 
-	m_qSettings.beginGroup("Chat");
-	quazaaSettings.Chat.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", false).toBool();
-	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
-	quazaaSettings.Chat.IrcServerName = m_qSettings.value("IrcServerName", "eu.paradoxirc.net").toString();
-	quazaaSettings.Chat.IrcServerPort = m_qSettings.value("IrcServerPort", 6667).toInt();
-	quazaaSettings.Chat.IrcUseSSL = m_qSettings.value("IrcUseSSL", false).toBool();
-	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
-	if(quazaaSettings.Language.File == ("quazaa_default_en"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-english").toString().split(" ");
-	}
-	//Afrikanns
-	if(quazaaSettings.Language.File == ("quazaa_af"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-afrikanns").toString().split(" ");
-	}
-	//Arabic
-	if(quazaaSettings.Language.File == ("quazaa_ar"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-arabic").toString().split(" ");
-	}
-	//Catal�
-	if(quazaaSettings.Language.File == ("quazaa_ca"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-catala").toString().split(" ");
-	}
-	//Chinese
-	if(quazaaSettings.Language.File == ("quazaa_chs"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-chinese").toString().split(" ");
-	}
-	//Ce�tina
-	if(quazaaSettings.Language.File == ("quazaa_cz"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-cestina").toString().split(" ");
-	}
-	//Deutsch
-	if(quazaaSettings.Language.File == ("quazaa_de"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-deutsch").toString().split(" ");
-	}
-	//Eesti
-	if(quazaaSettings.Language.File == ("quazaa_ee"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-eesti").toString().split(" ");
-	}
-	//Espa�ol
-	if(quazaaSettings.Language.File == ("quazaa_es"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-espanol").toString().split(" ");
-	}
-	//Suomi
-	if(quazaaSettings.Language.File == ("quazaa_fi"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-suomi").toString().split(" ");
-	}
-	//Fran�ais
-	if(quazaaSettings.Language.File == ("quazaa_fr"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-francais").toString().split(" ");
-	}
-	//Greek
-	if(quazaaSettings.Language.File == ("quazaa_gr"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-greek").toString().split(" ");
-	}
-	//Hebrew
-	if(quazaaSettings.Language.File == ("quazaa_heb"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-hebrew").toString().split(" ");
-	}
-	//Hrvatski
-	if(quazaaSettings.Language.File == ("quazaa_hr"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-hrvatski").toString().split(" ");
-	}
-	//Magyar
-	if(quazaaSettings.Language.File == ("quazaa_hu"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-mygar").toString().split(" ");
-	}
-	//Italian
-	if(quazaaSettings.Language.File == ("quazaa_it"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-italian").toString().split(" ");
-	}
-	//Japanese
-	if(quazaaSettings.Language.File == ("quazaa_ja"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-japanese").toString().split(" ");
-	}
-	//Lietuviu
-	if(quazaaSettings.Language.File == ("quazaa_lt"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-lietuviu").toString().split(" ");
-	}
-	//Nederlands
-	if(quazaaSettings.Language.File == ("quazaa_nl"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-nederlands").toString().split(" ");
-	}
-	//Norsk
-	if(quazaaSettings.Language.File == ("quazaa_no"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-norsk").toString().split(" ");
-	}
-	//Polski
-	if(quazaaSettings.Language.File == ("quazaa_pl"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-polski").toString().split(" ");
-	}
-	//Portugu�s Brasileiro
-	if(quazaaSettings.Language.File == ("quazaa_pt-br"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-portugues").toString().split(" ");
-	}
-	//Russian
-	if(quazaaSettings.Language.File == ("quazaa_ru"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-russian").toString().split(" ");
-	}
-	//Sloven�cina
-	if(quazaaSettings.Language.File == ("quazaa_sl-si"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-slovenscina").toString().split(" ");
-	}
-	//Shqip
-	if(quazaaSettings.Language.File == ("quazaa_sq"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-shqip").toString().split(" ");
-	}
-	//Srpski
-	if(quazaaSettings.Language.File == ("quazaa_sr"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-srpski").toString().split(" ");
-	}
-	//Svenska
-	if(quazaaSettings.Language.File == ("quazaa_sv"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-svenska").toString().split(" ");
-	}
-	//T�rk�e
-	if(quazaaSettings.Language.File == ("quazaa_tr"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-turkish").toString().split(" ");
-	}
-	//Thai
-	if(quazaaSettings.Language.File == ("quazaa_tw"))
-	{
-		quazaaSettings.Chat.AutoJoinChannels = m_qSettings.value("AutoJoinChannels", "#quazaa #quazaa-thai").toString().split(" ");
-	}
-	m_qSettings.endGroup();
-
 	m_qSettings.beginGroup("Connection");
 	quazaaSettings.Connection.DetectConnectionLoss = m_qSettings.value("DetectConnectionLoss", true).toBool();
 	quazaaSettings.Connection.DetectConnectionReset = m_qSettings.value("DetectConnectionReset", false).toBool();
@@ -1046,9 +883,100 @@ void QuazaaSettings::loadSettings()
 	m_qSettings.endGroup();
 }
 
+void QuazaaSettings::saveChatConnections()
+{
+
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
+	m_qSettings.beginGroup("Chat");
+	m_qSettings.setValue("Connections", quazaaSettings.Chat.Connections);
+	m_qSettings.endGroup();
+}
+
+void QuazaaSettings::loadChatConnections()
+{
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
+	m_qSettings.beginGroup("Chat");
+	quazaaSettings.Chat.Connections = m_qSettings.value("Connections", QVariant());
+	m_qSettings.endGroup();
+}
+
+void QuazaaSettings::saveChat()
+{
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
+	m_qSettings.beginGroup("Chat");
+	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.Chat.ConnectOnStartup);
+	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
+	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
+
+	m_qSettings.setValue("MessagesJoins", quazaaSettings.Chat.Messages[IRCMessageType::Joins]);
+	m_qSettings.setValue("MessagesParts", quazaaSettings.Chat.Messages[IRCMessageType::Parts]);
+	m_qSettings.setValue("MessagesNicks", quazaaSettings.Chat.Messages[IRCMessageType::Nicks]);
+	m_qSettings.setValue("MessagesModes", quazaaSettings.Chat.Messages[IRCMessageType::Modes]);
+	m_qSettings.setValue("MessagesKicks", quazaaSettings.Chat.Messages[IRCMessageType::Kicks]);
+	m_qSettings.setValue("MessagesQuits", quazaaSettings.Chat.Messages[IRCMessageType::Quits]);
+	m_qSettings.setValue("MessagesTopics", quazaaSettings.Chat.Messages[IRCMessageType::Topics]);
+
+	m_qSettings.setValue("HighlightsJoins", quazaaSettings.Chat.Highlights[IRCMessageType::Joins]);
+	m_qSettings.setValue("HighlightsParts", quazaaSettings.Chat.Highlights[IRCMessageType::Parts]);
+	m_qSettings.setValue("HighlightsNicks", quazaaSettings.Chat.Highlights[IRCMessageType::Nicks]);
+	m_qSettings.setValue("HighlightsModes", quazaaSettings.Chat.Highlights[IRCMessageType::Modes]);
+	m_qSettings.setValue("HighlightsKicks", quazaaSettings.Chat.Highlights[IRCMessageType::Kicks]);
+	m_qSettings.setValue("HighlightsQuits", quazaaSettings.Chat.Highlights[IRCMessageType::Quits]);
+	m_qSettings.setValue("HighlightsTopics", quazaaSettings.Chat.Highlights[IRCMessageType::Topics]);
+
+	// TODO: the default values should respect palette
+	m_qSettings.setValue("ColorsBackground", quazaaSettings.Chat.Colors[IRCColorType::Background]);
+	m_qSettings.setValue("ColorsMessage", quazaaSettings.Chat.Colors[IRCColorType::Message]);
+	m_qSettings.setValue("ColorsEvent", quazaaSettings.Chat.Colors[IRCColorType::Event]);
+	m_qSettings.setValue("ColorsNotice", quazaaSettings.Chat.Colors[IRCColorType::Notice]);
+	m_qSettings.setValue("ColorsAction", quazaaSettings.Chat.Colors[IRCColorType::Action]);
+	m_qSettings.setValue("ColorsHighlight", quazaaSettings.Chat.Colors[IRCColorType::Highlight]);
+	m_qSettings.endGroup();
+
+	emit chatSettingsChanged();
+}
+
+void QuazaaSettings::loadChat()
+{
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+
+	m_qSettings.beginGroup("Chat");
+	quazaaSettings.Chat.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", false).toBool();
+	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
+	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
+
+	quazaaSettings.Chat.Messages[IRCMessageType::Joins] =  m_qSettings.value("MessagesJoins", true).toBool();
+	quazaaSettings.Chat.Messages[IRCMessageType::Parts] = m_qSettings.value("MessagesParts", true).toBool();
+	quazaaSettings.Chat.Messages[IRCMessageType::Nicks] = m_qSettings.value("MessagesNicks", true).toBool();
+	quazaaSettings.Chat.Messages[IRCMessageType::Modes] = m_qSettings.value("MessagesModes", true).toBool();
+	quazaaSettings.Chat.Messages[IRCMessageType::Kicks] = m_qSettings.value("MessagesKicks", true).toBool();
+	quazaaSettings.Chat.Messages[IRCMessageType::Quits] = m_qSettings.value("MessagesQuits", true).toBool();
+	quazaaSettings.Chat.Messages[IRCMessageType::Topics] = m_qSettings.value("MessagesTopics", true).toBool();
+
+	quazaaSettings.Chat.Highlights[IRCMessageType::Joins] = m_qSettings.value("HighlightsJoins", false).toBool();
+	quazaaSettings.Chat.Highlights[IRCMessageType::Parts] = m_qSettings.value("HighlightsParts", false).toBool();
+	quazaaSettings.Chat.Highlights[IRCMessageType::Nicks] = m_qSettings.value("HighlightsNicks", false).toBool();
+	quazaaSettings.Chat.Highlights[IRCMessageType::Modes] = m_qSettings.value("HighlightsModes", false).toBool();
+	quazaaSettings.Chat.Highlights[IRCMessageType::Kicks] = m_qSettings.value("HighlightsKicks", false).toBool();
+	quazaaSettings.Chat.Highlights[IRCMessageType::Quits] = m_qSettings.value("HighlightsQuits", false).toBool();
+	quazaaSettings.Chat.Highlights[IRCMessageType::Topics] = m_qSettings.value("HighlightsTopics", false).toBool();
+
+	// TODO: the default values should respect palette
+	quazaaSettings.Chat.Colors[IRCColorType::Background] = m_qSettings.value("ColorsBackground", "white").toString();
+	quazaaSettings.Chat.Colors[IRCColorType::Message] = m_qSettings.value("ColorsMessage", "black").toString();
+	quazaaSettings.Chat.Colors[IRCColorType::Event] = m_qSettings.value("ColorsEvent", "gray").toString();
+	quazaaSettings.Chat.Colors[IRCColorType::Notice] = m_qSettings.value("ColorsNotice", "brown").toString();
+	quazaaSettings.Chat.Colors[IRCColorType::Action] = m_qSettings.value("ColorsAction", "darkmagenta").toString();
+	quazaaSettings.Chat.Colors[IRCColorType::Highlight] = m_qSettings.value("ColorsHighlight", "red").toString();
+	m_qSettings.endGroup();
+}
+
 void QuazaaSettings::saveProfile()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Profile");
 	m_qSettings.setValue("Age", quazaaSettings.Profile.Age);
@@ -1361,4 +1289,3 @@ void QuazaaSettings::loadLogSettings()
 	Logging.IsPaused = m_qSettings.value("IsPaused", false).toBool();
 	m_qSettings.endGroup();
 }
-

@@ -89,9 +89,6 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->checkBoxIrcConnectOnStart->setChecked(quazaaSettings.Chat.ConnectOnStartup);
 	ui->checkBoxIrcEnableFileTransfers->setChecked(quazaaSettings.Chat.EnableFileTransfers);
 	ui->checkBoxIrcShowTimestamp->setChecked(quazaaSettings.Chat.ShowTimestamp);
-	ui->checkBoxIrcSSL->setChecked(quazaaSettings.Chat.IrcUseSSL);
-	ui->lineEditIrcServer->setText(quazaaSettings.Chat.IrcServerName);
-	ui->spinBoxIrcPort->setValue(quazaaSettings.Chat.IrcServerPort);
 
 	// Load Connection Settings
 	ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed / 1024) * 8);
@@ -631,9 +628,6 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.Chat.ConnectOnStartup = ui->checkBoxIrcConnectOnStart->isChecked();
 	quazaaSettings.Chat.EnableFileTransfers = ui->checkBoxIrcEnableFileTransfers->isChecked();
 	quazaaSettings.Chat.ShowTimestamp = ui->checkBoxIrcShowTimestamp->isChecked();
-	quazaaSettings.Chat.IrcServerName = ui->lineEditIrcServer->text();
-	quazaaSettings.Chat.IrcServerPort = ui->spinBoxIrcPort->value();
-	quazaaSettings.Chat.IrcUseSSL = ui->checkBoxIrcSSL->isChecked();
 
 	// Save Connection Settings
 	quazaaSettings.Connection.InSpeed = (ui->doubleSpinBoxInSpeed->value() / 8) * 1024;

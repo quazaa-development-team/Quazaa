@@ -29,6 +29,32 @@
 #include <QMainWindow>
 #include <QUuid>
 #include <QTranslator>
+#include <QVariant>
+
+namespace IRCMessageType {
+	enum MessageType
+	{
+		Joins,
+		Parts,
+		Nicks,
+		Modes,
+		Kicks,
+		Quits,
+		Topics
+	};
+}
+
+namespace IRCColorType {
+	enum ColorType
+	{
+		Background,
+		Message,
+		Event,
+		Notice,
+		Action,
+		Highlight
+	};
+}
 
 namespace Settings
 {
@@ -272,13 +298,38 @@ namespace Settings
 
 	struct sChat
 	{
+		QVariant	Connections;							// IRC server connections
 		bool		ConnectOnStartup;						// Connect to the chat server and enter rooms on startup
 		bool		EnableFileTransfers;					// Enable IRC File Transfers
-		QString		IrcServerName;							// Web address of the Irc chat server
-		int			IrcServerPort;							// Port to connect to the chat server on
-		bool		IrcUseSSL;								// Connect with SSL encryption
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
-		QStringList AutoJoinChannels;						// The channels to auto join on Chat startup
+
+		enum MessageType
+		{
+			Joins,
+			Parts,
+			Nicks,
+			Modes,
+			Kicks,
+			Quits,
+			Topics
+		};
+
+		enum ColorType
+		{
+			Background,
+			Message,
+			Event,
+			Notice,
+			Action,
+			Highlight
+		};
+
+		QHash<int, bool> Messages;
+		QHash<int, bool> Highlights;
+		QHash<int, QString> Colors;
+		QString Language;
+		int MaxBlockCount;
+		bool TimeStamp;
 	};
 
 	struct sProfile
@@ -632,6 +683,10 @@ public:
 	QuazaaSettings();
 	void saveSettings();
 	void loadSettings();
+	void saveChatConnections();
+	void loadChatConnections();
+	void saveChat();
+	void loadChat();
 	void saveProfile();
 	void loadProfile();
 	void saveSkinSettings();
@@ -646,7 +701,6 @@ public:
 	void loadLogSettings();
 
 public:
-
 	Settings::sWinMain			WinMain;
 	Settings::sLive				Live;
 	Settings::sSystem			System;
@@ -673,6 +727,9 @@ public:
 	Settings::sEDonkey			EDonkey;
 	Settings::sBitTorrent		BitTorrent;
 	Settings::sDiscovery		Discovery;
+
+signals:
+	void chatSettingsChanged();
 };
 
 extern QuazaaSettings quazaaSettings;
