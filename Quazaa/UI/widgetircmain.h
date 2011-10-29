@@ -31,7 +31,6 @@
 #include <QTextDocument>
 
 #include "maintabwidget.h"
-#include "widgetchatinput.h"
 
 struct Connection;
 
@@ -46,7 +45,6 @@ class WidgetIRCMain : public QMainWindow
 public:
 	WidgetIRCMain(QWidget* parent = 0);
 	~WidgetIRCMain();
-	WidgetChatInput *widgetChatInput;
 
 protected:
 	void changeEvent(QEvent* e);

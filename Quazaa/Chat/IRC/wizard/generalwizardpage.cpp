@@ -20,19 +20,6 @@ GeneralWizardPage::GeneralWizardPage(QWidget* parent) : QWizardPage(parent)
     setPixmap(QWizard::LogoPixmap, QPixmap(":/resources/oxygen/64x64/actions/configure.png"));
 }
 
-QFont GeneralWizardPage::font() const
-{
-    QFont font = ui.fontComboBox->currentFont();
-    font.setPointSize(ui.sizeSpinBox->value());
-    return font;
-}
-
-void GeneralWizardPage::setFont(const QFont& font)
-{
-    ui.fontComboBox->setCurrentFont(font);
-    ui.sizeSpinBox->setValue(font.pointSize());
-}
-
 QString GeneralWizardPage::language() const
 {
     // TODO

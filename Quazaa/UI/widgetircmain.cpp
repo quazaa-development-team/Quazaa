@@ -34,6 +34,7 @@
 #include "quazaasettings.h"
 
 #include "connectionwizard.h"
+#include "settingswizard.h"
 #include "sessiontabwidget.h"
 #include "maintabwidget.h"
 #include "sharedtimer.h"
@@ -56,9 +57,6 @@ WidgetIRCMain::WidgetIRCMain(QWidget* parent) :
 	createWelcomeView();
 	qRegisterMetaTypeStreamOperators<Connection>("Connection");
 	qRegisterMetaTypeStreamOperators<Connections>("Connections");
-
-	widgetChatInput = new WidgetChatInput(this, true);
-	ui->horizontalLayoutTextInput->addWidget(widgetChatInput);
 
 	QTimer::singleShot(1000, this, SLOT(initialize()));
 }
@@ -101,8 +99,8 @@ void WidgetIRCMain::saveWidget()
 
 void WidgetIRCMain::on_actionChatSettings_triggered()
 {
-	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Chat);
-	dlgSettings->show();
+	SettingsWizard wizard(qApp->activeWindow());
+	wizard.exec();
 }
 
 void WidgetIRCMain::on_actionEditMyProfile_triggered()
