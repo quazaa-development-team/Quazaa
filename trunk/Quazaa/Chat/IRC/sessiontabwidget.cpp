@@ -36,7 +36,7 @@ SessionTabWidget::SessionTabWidget(Session* session, QWidget* parent) :
 
     QShortcut* shortcut = new QShortcut(QKeySequence::Close, this);
     connect(shortcut, SIGNAL(activated()), this, SLOT(closeCurrentView()));
-	connect(&quazaaSettings, SIGNAL(chatSettingsChanged), this, SLOT(applySettings()));
+	connect(&quazaaSettings, SIGNAL(chatSettingsChanged()), this, SLOT(applySettings()));
 
 	applySettings();
 

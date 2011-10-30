@@ -24,7 +24,8 @@ class TabBar : public QTabBar
 public:
     TabBar(QWidget* parent = 0) : QTabBar(parent)
     {
-        addTab(tr("+"));
+		int i = addTab("");
+		setTabIcon(i, QIcon(":/Resource/Generic/Add.png"));
         setSelectionBehaviorOnRemove(SelectLeftTab);
     }
 

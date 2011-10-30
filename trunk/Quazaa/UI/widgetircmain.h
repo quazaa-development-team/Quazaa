@@ -48,7 +48,6 @@ public:
 
 protected:
 	void changeEvent(QEvent* e);
-	void closeEvent(QCloseEvent* event);
 
 private:
 	Ui::WidgetIRCMain* ui;
@@ -65,6 +64,7 @@ private slots:
 	void on_actionChatSettings_triggered();
 	void on_actionEditMyProfile_triggered();
 	void initialize();
+	void disconnect();
 	void tabActivated(int index);
 	void createWelcomeView();
 	void createTabbedView();

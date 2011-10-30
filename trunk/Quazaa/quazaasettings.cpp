@@ -898,7 +898,7 @@ void QuazaaSettings::loadChatConnections()
 	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Chat");
-	quazaaSettings.Chat.Connections = m_qSettings.value("Connections", QVariant());
+	quazaaSettings.Chat.Connections = m_qSettings.value("Connections");
 	m_qSettings.endGroup();
 }
 

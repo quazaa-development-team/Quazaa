@@ -55,10 +55,16 @@ WidgetIRCMain::WidgetIRCMain(QWidget* parent) :
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
 	createWelcomeView();
+	quazaaSettings.loadChat();
 	qRegisterMetaTypeStreamOperators<Connection>("Connection");
 	qRegisterMetaTypeStreamOperators<Connections>("Connections");
 
-	QTimer::singleShot(1000, this, SLOT(initialize()));
+	connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(initialize()));
+	connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(disconnect()));
+	if(quazaaSettings.Chat.ConnectOnStartup)
+	{
+		QTimer::singleShot(1000, this, SLOT(initialize()));
+	}
 }
 
 WidgetIRCMain::~WidgetIRCMain()
@@ -95,6 +101,27 @@ void WidgetIRCMain::saveWidget()
 {
 	quazaaSettings.saveSettings();
 	quazaaSettings.WinMain.ChatToolbars = saveState();
+
+	Connections connections;
+	for (int i = 0; tabWidgetMain && i < tabWidgetMain->count(); ++i)
+	{
+		SessionTabWidget* tab = qobject_cast<SessionTabWidget*>(tabWidgetMain->widget(i));
+		if (tab)
+		{
+			Connection connection = tab->session()->connection();
+			connection.nick = tab->session()->nickName();
+			connection.channels = tab->channels();
+			connections += connection;
+			tab->quit();
+			tabWidgetMain->removeTab(i);
+		}
+	}
+
+	if(!connections.isEmpty())
+	{
+		quazaaSettings.Chat.Connections.setValue(QVariant::fromValue(connections));
+		quazaaSettings.saveChatConnections();
+	}
 }
 
 void WidgetIRCMain::on_actionChatSettings_triggered()
@@ -125,9 +152,17 @@ void WidgetIRCMain::connectTo(const Connection& connection)
 	wizard.setConnection(connection);
 
 	if (!connection.host.isEmpty() && !connection.nick.isEmpty())
+	{
 		connectToImpl(connection);
+		ui->actionConnect->setEnabled(false);
+		ui->actionDisconnect->setEnabled(true);
+	}
 	else if (wizard.exec())
+	{
 		connectToImpl(wizard.connection());
+		ui->actionConnect->setEnabled(false);
+		ui->actionDisconnect->setEnabled(true);
+	}
 }
 
 void WidgetIRCMain::connectToImpl(const Connection& connection)
@@ -148,7 +183,24 @@ void WidgetIRCMain::connectToImpl(const Connection& connection)
 	tabWidgetMain->setCurrentIndex(index);
 }
 
-void WidgetIRCMain::closeEvent(QCloseEvent* event)
+void WidgetIRCMain::initialize()
+{
+	quazaaSettings.loadChatConnections();
+	Connections connections = quazaaSettings.Chat.Connections.value<Connections>();
+
+	foreach (const Connection& connection, connections)
+		connectToImpl(connection);
+
+	if (connections.isEmpty())
+	{
+		connectTo(Connection());
+	} else {
+		ui->actionConnect->setEnabled(false);
+		ui->actionDisconnect->setEnabled(true);
+	}
+}
+
+void WidgetIRCMain::disconnect()
 {
 	Connections connections;
 	for (int i = 0; tabWidgetMain && i < tabWidgetMain->count(); ++i)
@@ -161,24 +213,18 @@ void WidgetIRCMain::closeEvent(QCloseEvent* event)
 			connection.channels = tab->channels();
 			connections += connection;
 			tab->quit();
+			tabWidgetMain->removeTab(i);
 		}
 	}
-	quazaaSettings.Chat.Connections = QVariant::fromValue(connections);
-	quazaaSettings.saveChatConnections();
 
-	QMainWindow::closeEvent(event);
-}
+	if(!connections.isEmpty())
+	{
+		quazaaSettings.Chat.Connections.setValue(QVariant::fromValue(connections));
+		quazaaSettings.saveChatConnections();
+	}
 
-void WidgetIRCMain::initialize()
-{
-	quazaaSettings.loadChatConnections();
-	Connections connections = quazaaSettings.Chat.Connections.value<Connections>();
-
-	foreach (const Connection& connection, connections)
-		connectToImpl(connection);
-
-	if (connections.isEmpty())
-		connectTo(Connection());
+	ui->actionConnect->setEnabled(true);
+	ui->actionDisconnect->setEnabled(false);
 }
 
 void WidgetIRCMain::tabActivated(int index)
@@ -202,6 +248,7 @@ void WidgetIRCMain::createWelcomeView()
 {
 	WelcomePage* welcomePage = new WelcomePage(this);
 	connect(welcomePage, SIGNAL(connectRequested()), this, SLOT(connectTo()));
+	connect(welcomePage->connectButton, SIGNAL(clicked()), this, SLOT(initialize()));
 	setCentralWidget(welcomePage);
 	tabWidgetMain = 0;
 }
@@ -212,7 +259,6 @@ void WidgetIRCMain::createTabbedView()
 	setCentralWidget(tabWidgetMain);
 	connect(tabWidgetMain, SIGNAL(newTabRequested()), this, SLOT(onNewTabRequested()), Qt::QueuedConnection);
 	connect(tabWidgetMain, SIGNAL(currentChanged(int)), this, SLOT(tabActivated(int)));
-	connect(tabWidgetMain, SIGNAL(alertStatusChanged(bool)), this, SLOT(activateAlert(bool)));
 }
 
 void WidgetIRCMain::onNewTabRequested()

@@ -69,7 +69,7 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
     QShortcut* shortcut = new QShortcut(Qt::Key_Escape, this);
     connect(shortcut, SIGNAL(activated()), this, SLOT(onEscPressed()));
 
-    connect(qApp, SIGNAL(settingsChanged(Settings)), this, SLOT(applySettings(Settings)));
+	connect(&quazaaSettings, SIGNAL(chatSettingsChanged()), this, SLOT(applySettings()));
 	applySettings();
 }
 

@@ -16,6 +16,8 @@
 #define WELCOMEPAGE_H
 
 #include <QWidget>
+#include <QCommandLinkButton>
+
 class QLabel;
 
 class WelcomePage : public QWidget
@@ -24,6 +26,7 @@ class WelcomePage : public QWidget
 
 public:
     WelcomePage(QWidget* parent = 0);
+	QCommandLinkButton* connectButton;
 
 signals:
     void connectRequested();
@@ -33,7 +36,7 @@ private slots:
 	void showSettings();
 
 private:
-    QWidget* createBody(QWidget* parent = 0) const;
+	QWidget* createBody(QWidget* parent = 0);
 
     QLabel* header;
     QLabel* footer;
