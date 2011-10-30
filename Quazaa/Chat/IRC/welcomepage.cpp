@@ -14,7 +14,6 @@
 
 #include "welcomepage.h"
 #include "settingswizard.h"
-#include <QCommandLinkButton>
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -55,14 +54,12 @@ void WelcomePage::updateHtml()
 	footer->setText(readHtmlFile(":/Resource/welcome_footer.html"));
 }
 
-QWidget* WelcomePage::createBody(QWidget* parent) const
+QWidget* WelcomePage::createBody(QWidget* parent)
 {
     QWidget* body = new QWidget(parent);
 
-    QCommandLinkButton* connectButton = new QCommandLinkButton(tr("Connect"), body);
-	connectButton->setDescription(tr("New IRC connection"));
-
-	connect(connectButton, SIGNAL(clicked()), this, SIGNAL(connectRequested()));
+	connectButton = new QCommandLinkButton(tr("Connect"), body);
+	connectButton->setDescription(tr("Connect or create new IRC connection."));
 
     QGridLayout* layout = new QGridLayout(body);
     layout->setColumnStretch(0, 1);
