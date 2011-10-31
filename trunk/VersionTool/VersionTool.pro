@@ -14,5 +14,11 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
+CONFIG(debug, debug|release) {
+	DESTDIR = ./debug
+}
+else {
+	DESTDIR = ./release
+}
 
 SOURCES += main.cpp
