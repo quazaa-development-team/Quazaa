@@ -31,11 +31,21 @@ QStringListModel* MessageView::MessageViewData::commandModel = 0;
 MessageView::MessageView(IrcSession* session, QWidget* parent) :
     QWidget(parent)
 {
-    d.setupUi(this);
+	d.setupUi(this);
+
+	d.m_bIsStatusChannel = false;
+
+	closeButton = new QToolButton(this);
+	closeButton->setIcon(QIcon(":/Resource/Generic/Exit.png"));
+	connect(closeButton, SIGNAL(clicked()), this, SLOT(part()));
 
     setFocusProxy(d.lineEditor);
     d.textBrowser->installEventFilter(this);
     d.textBrowser->viewport()->installEventFilter(this);
+
+	QFont font("Monospace");
+	font.setStyleHint(QFont::TypeWriter);
+	d.textBrowser->setFont(font);
 
     d.session = session;
     d.formatter.setHightlights(QStringList(session->nickName()));
@@ -64,7 +74,7 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
     connect(d.lineEditor, SIGNAL(typed(QString)), this, SLOT(showHelp(QString)));
 
     d.helpLabel->hide();
-    d.findFrame->setTextEdit(d.textBrowser);
+	d.findFrame->setTextEdit(d.textBrowser);
 
     QShortcut* shortcut = new QShortcut(Qt::Key_Escape, this);
     connect(shortcut, SIGNAL(activated()), this, SLOT(onEscPressed()));
@@ -87,6 +97,11 @@ void MessageView::setReceiver(const QString& receiver)
     d.receiver = receiver;
 }
 
+void MessageView::setStatusChannel(bool statusChannel)
+{
+	d.m_bIsStatusChannel = statusChannel;
+}
+
 bool MessageView::isChannelView() const
 {
     if (d.receiver.isEmpty())
@@ -100,8 +115,13 @@ bool MessageView::isChannelView() const
         case '+':
             return true;
         default:
-            return false;
+			return false;
     }
+}
+
+bool MessageView::isStatusChannel() const
+{
+	return d.m_bIsStatusChannel;
 }
 
 void MessageView::showHelp(const QString& text, bool error)
@@ -207,6 +227,22 @@ void MessageView::onSend(const QString& text)
     {
         showHelp(text, true);
     }
+}
+
+void MessageView::part()
+{
+	if(!isChannelView())
+	{
+		if(isStatusChannel())
+		{
+			onSend("/quit");
+		} else {
+			//emit removeQuery(receiver());
+			emit closeQuery(this);
+		}
+	} else {
+		onSend("/part");
+	}
 }
 
 void MessageView::applySettings()

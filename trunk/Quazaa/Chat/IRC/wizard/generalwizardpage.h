@@ -31,6 +31,9 @@ public:
     QString language() const;
     void setLanguage(const QString& language);
 
+	bool connectOnStartup() const;
+	void setConnectOnStartup(bool connectOnStartup);
+
     int maxBlockCount() const;
     void setMaxBlockCount(int count);
 

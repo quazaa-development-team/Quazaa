@@ -24,7 +24,7 @@ enum Columns
 MessagesWizardPage::MessagesWizardPage(QWidget* parent) : QWizardPage(parent)
 {
     ui.setupUi(this);
-    setPixmap(QWizard::LogoPixmap, QPixmap(":/resources/oxygen/64x64/actions/bookmark.png"));
+	setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/oxygen/64x64/actions/bookmark.png"));
     ui.treeWidget->header()->setResizeMode(Name, QHeaderView::Stretch);
     ui.treeWidget->header()->setResizeMode(Message, QHeaderView::ResizeToContents);
     ui.treeWidget->header()->setResizeMode(Highlight, QHeaderView::ResizeToContents);

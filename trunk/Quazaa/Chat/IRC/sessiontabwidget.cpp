@@ -46,6 +46,7 @@ SessionTabWidget::SessionTabWidget(Session* session, QWidget* parent) :
 
     MessageView* view = openView(d.handler.session()->host());
     d.handler.setDefaultReceiver(view);
+	view->setStatusChannel(true);
 }
 
 Session* SessionTabWidget::session() const
@@ -73,12 +74,15 @@ MessageView* SessionTabWidget::openView(const QString& receiver)
         view->setReceiver(receiver);
         connect(view, SIGNAL(alert(MessageView*, bool)), this, SLOT(alertTab(MessageView*, bool)));
         connect(view, SIGNAL(highlight(MessageView*, bool)), this, SLOT(highlightTab(MessageView*, bool)));
-        connect(view, SIGNAL(query(QString)), this, SLOT(openView(QString)));
+		connect(view, SIGNAL(query(QString)), this, SLOT(openView(QString)));
         connect(view, SIGNAL(aboutToQuit()), this, SLOT(onAboutToQuit()));
+		connect(view, SIGNAL(removeQuery(QString)), this, SLOT(removeView(QString)));
+		connect(view, SIGNAL(closeQuery(MessageView*)), this, SLOT(closeView(MessageView*)));
 
         d.handler.addReceiver(receiver, view);
         d.views.insert(receiver.toLower(), view);
-        addTab(view, receiver);
+		int index = addTab(view, receiver);
+		tabBar()->setTabButton(index, QTabBar::RightSide, view->closeButton);
     }
     if (view)
         setCurrentWidget(view);
@@ -100,15 +104,20 @@ void SessionTabWidget::removeView(const QString& receiver)
 void SessionTabWidget::closeCurrentView()
 {
     MessageView* view = d.views.value(tabText(currentIndex()).toLower());
-    if (view)
-    {
-        if (indexOf(view) == 0)
-            quit();
-        else if (view->isChannelView())
-            d.handler.session()->sendCommand(IrcCommand::createPart(view->receiver()));
+	closeView(view);
+}
 
-        d.handler.removeReceiver(view->receiver());
-    }
+void SessionTabWidget::closeView(MessageView *view)
+{
+	if (view)
+	{
+		if (indexOf(view) == 0)
+			quit();
+		else if (view->isChannelView())
+			d.handler.session()->sendCommand(IrcCommand::createPart(view->receiver()));
+
+		d.handler.removeReceiver(view->receiver());
+	}
 }
 
 void SessionTabWidget::renameView(const QString& from, const QString& to)

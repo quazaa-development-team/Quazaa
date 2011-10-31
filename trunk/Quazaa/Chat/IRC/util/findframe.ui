@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>FindFrame</class>
  <widget class="QFrame" name="FindFrame">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>588</width>
+    <height>26</height>
+   </rect>
+  </property>
   <property name="frameShape">
    <enum>QFrame::StyledPanel</enum>
   </property>
@@ -18,8 +26,8 @@
    <item>
     <widget class="QPushButton" name="toolClose">
      <property name="icon">
-      <iconset>
-       <normaloff>:/resources/oxygen/16x16/actions/dialog_close.png</normaloff>:/resources/oxygen/16x16/actions/dialog_close.png</iconset>
+      <iconset resource="../../../Resource.qrc">
+       <normaloff>:/Resource/oxygen/16x16/actions/dialog_close.png</normaloff>:/Resource/oxygen/16x16/actions/dialog_close.png</iconset>
      </property>
     </widget>
    </item>
@@ -36,8 +44,8 @@
       <string>Previous</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>:/resources/oxygen/16x16/actions/1leftarrow.png</normaloff>:/resources/oxygen/16x16/actions/1leftarrow.png</iconset>
+      <iconset resource="../../../Resource.qrc">
+       <normaloff>:/Resource/oxygen/16x16/actions/1leftarrow.png</normaloff>:/Resource/oxygen/16x16/actions/1leftarrow.png</iconset>
      </property>
     </widget>
    </item>
@@ -47,8 +55,8 @@
       <string>Next</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>:/resources/oxygen/16x16/actions/1rightarrow.png</normaloff>:/resources/oxygen/16x16/actions/1rightarrow.png</iconset>
+      <iconset resource="../../../Resource.qrc">
+       <normaloff>:/Resource/oxygen/16x16/actions/1rightarrow.png</normaloff>:/Resource/oxygen/16x16/actions/1rightarrow.png</iconset>
      </property>
     </widget>
    </item>
@@ -78,6 +86,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

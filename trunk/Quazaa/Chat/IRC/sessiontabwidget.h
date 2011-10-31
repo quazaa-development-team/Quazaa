@@ -35,9 +35,10 @@ public:
     QStringList channels() const;
 
 public slots:
-    MessageView* openView(const QString& receiver);
+	MessageView* openView(const QString& receiver);
     void removeView(const QString& receiver);
     void closeCurrentView();
+	void closeView(MessageView* view);
     void renameView(const QString& from, const QString& to);
     void quit(const QString& message = QString());
 
