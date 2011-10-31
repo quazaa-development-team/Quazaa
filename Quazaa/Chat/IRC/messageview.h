@@ -50,8 +50,7 @@ public slots:
 signals:
     void highlight(MessageView* view, bool on);
     void alert(MessageView* view, bool on);
-    void query(const QString& user);
-	void removeQuery(const QString& user);
+	void query(const QString& user);
 	void closeQuery(MessageView *view);
     void aboutToQuit();
 

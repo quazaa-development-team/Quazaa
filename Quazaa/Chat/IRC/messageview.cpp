@@ -237,7 +237,6 @@ void MessageView::part()
 		{
 			onSend("/quit");
 		} else {
-			//emit removeQuery(receiver());
 			emit closeQuery(this);
 		}
 	} else {

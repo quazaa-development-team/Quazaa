@@ -75,14 +75,21 @@ MessageView* SessionTabWidget::openView(const QString& receiver)
         connect(view, SIGNAL(alert(MessageView*, bool)), this, SLOT(alertTab(MessageView*, bool)));
         connect(view, SIGNAL(highlight(MessageView*, bool)), this, SLOT(highlightTab(MessageView*, bool)));
 		connect(view, SIGNAL(query(QString)), this, SLOT(openView(QString)));
-        connect(view, SIGNAL(aboutToQuit()), this, SLOT(onAboutToQuit()));
-		connect(view, SIGNAL(removeQuery(QString)), this, SLOT(removeView(QString)));
+		connect(view, SIGNAL(aboutToQuit()), this, SLOT(onAboutToQuit()));
 		connect(view, SIGNAL(closeQuery(MessageView*)), this, SLOT(closeView(MessageView*)));
 
         d.handler.addReceiver(receiver, view);
         d.views.insert(receiver.toLower(), view);
 		int index = addTab(view, receiver);
 		tabBar()->setTabButton(index, QTabBar::RightSide, view->closeButton);
+		if(index == 0)
+		{
+			setTabIcon(index, QIcon(":/Resource/Network/Network.png"));
+		} else if(view->isChannelView()) {
+			setTabIcon(index, QIcon(":/Resource/Chat/Rooms.png"));
+		} else {
+			setTabIcon(index, QIcon(":/Resource/Chat/Chat.png"));
+		}
     }
     if (view)
         setCurrentWidget(view);
