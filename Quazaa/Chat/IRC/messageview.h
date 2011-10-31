@@ -21,6 +21,8 @@
 #include "commandparser.h"
 #include "messageformatter.h"
 
+#include <QToolButton>
+
 class QStringListModel;
 
 class MessageView : public QWidget
@@ -32,10 +34,14 @@ public:
     MessageView(IrcSession* session, QWidget* parent = 0);
     ~MessageView();
 
+	QToolButton* closeButton;
+
     QString receiver() const;
-    void setReceiver(const QString& receiver);
+	void setReceiver(const QString& receiver);
+	void setStatusChannel(bool statusChannel);
 
     bool isChannelView() const;
+	bool isStatusChannel() const;
 
 public slots:
     void showHelp(const QString& text, bool error = false);
@@ -45,6 +51,8 @@ signals:
     void highlight(MessageView* view, bool on);
     void alert(MessageView* view, bool on);
     void query(const QString& user);
+	void removeQuery(const QString& user);
+	void closeQuery(MessageView *view);
     void aboutToQuit();
 
 protected:
@@ -53,7 +61,8 @@ protected:
 protected slots:
     void receiveMessage(IrcMessage* message);
     void addUser(const QString& user);
-    void removeUser(const QString& user);
+	void removeUser(const QString& user);
+	void part();
 
 private slots:
     void onEscPressed();
@@ -69,7 +78,8 @@ private:
         CommandParser parser;
         MessageFormatter formatter;
         QStringListModel* userModel;
-        static QStringListModel* commandModel;
+		static QStringListModel* commandModel;
+		bool m_bIsStatusChannel;
     } d;
 };
 

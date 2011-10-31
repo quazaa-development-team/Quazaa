@@ -503,5 +503,18 @@
         <file>Resource/LogIcon/Network.png</file>
         <file>Resource/welcome_footer.html</file>
         <file>Resource/welcome_header.html</file>
+        <file>Resource/oxygen/16x16/actions/1leftarrow.png</file>
+        <file>Resource/oxygen/16x16/actions/1rightarrow.png</file>
+        <file>Resource/oxygen/16x16/actions/add.png</file>
+        <file>Resource/oxygen/16x16/actions/dialog_close.png</file>
+        <file>Resource/oxygen/16x16/actions/edit.png</file>
+        <file>Resource/oxygen/16x16/actions/remove.png</file>
+        <file>Resource/oxygen/64x64/actions/bookmark.png</file>
+        <file>Resource/oxygen/64x64/actions/color_line.png</file>
+        <file>Resource/oxygen/64x64/actions/configure.png</file>
+        <file>Resource/oxygen/64x64/actions/forward.png</file>
+        <file>Resource/oxygen/64x64/actions/network.png</file>
+        <file>Resource/oxygen/64x64/actions/save_all.png</file>
+        <file>Resource/oxygen/64x64/actions/user.png</file>
     </qresource>
 </RCC>

@@ -17,7 +17,7 @@
 GeneralWizardPage::GeneralWizardPage(QWidget* parent) : QWizardPage(parent)
 {
     ui.setupUi(this);
-    setPixmap(QWizard::LogoPixmap, QPixmap(":/resources/oxygen/64x64/actions/configure.png"));
+	setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/oxygen/64x64/actions/configure.png"));
 }
 
 QString GeneralWizardPage::language() const
@@ -30,6 +30,16 @@ void GeneralWizardPage::setLanguage(const QString& language)
 {
     // TODO
     Q_UNUSED(language);
+}
+
+bool GeneralWizardPage::connectOnStartup() const
+{
+	return ui.checkBoxConnectOnStartup->isChecked();
+}
+
+void GeneralWizardPage::setConnectOnStartup(bool connectOnStartup)
+{
+	ui.checkBoxConnectOnStartup->setChecked(connectOnStartup);
 }
 
 int GeneralWizardPage::maxBlockCount() const

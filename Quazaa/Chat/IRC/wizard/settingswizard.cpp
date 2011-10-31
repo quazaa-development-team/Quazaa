@@ -29,7 +29,7 @@ SettingsWizard::SettingsWizard(QWidget* parent) : QWizard(parent)
 
 void SettingsWizard::saveSettings()
 {
-	quazaaSettings.Chat.Language = static_cast<GeneralWizardPage*>(page(GeneralPage))->language();
+	quazaaSettings.Chat.ConnectOnStartup = static_cast<GeneralWizardPage*>(page(GeneralPage))->connectOnStartup();
 	quazaaSettings.Chat.MaxBlockCount = static_cast<GeneralWizardPage*>(page(GeneralPage))->maxBlockCount();
 	quazaaSettings.Chat.TimeStamp = static_cast<GeneralWizardPage*>(page(GeneralPage))->timeStamp();
 	quazaaSettings.Chat.Messages = static_cast<MessagesWizardPage*>(page(MessagesPage))->messages();
@@ -41,7 +41,7 @@ void SettingsWizard::saveSettings()
 
 void SettingsWizard::loadSettings()
 {
-	static_cast<GeneralWizardPage*>(page(GeneralPage))->setLanguage(quazaaSettings.Chat.Language);
+	static_cast<GeneralWizardPage*>(page(GeneralPage))->setConnectOnStartup(quazaaSettings.Chat.ConnectOnStartup);
 	static_cast<GeneralWizardPage*>(page(GeneralPage))->setMaxBlockCount(quazaaSettings.Chat.MaxBlockCount);
 	static_cast<GeneralWizardPage*>(page(GeneralPage))->setTimeStamp(quazaaSettings.Chat.TimeStamp);
 	static_cast<MessagesWizardPage*>(page(MessagesPage))->setMessages(quazaaSettings.Chat.Messages);

@@ -19,7 +19,7 @@
 ConnectionWizardPage::ConnectionWizardPage(QWidget* parent) : QWizardPage(parent)
 {
     ui.setupUi(this);
-    setPixmap(QWizard::LogoPixmap, QPixmap(":/resources/oxygen/64x64/actions/save_all.png"));
+	setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/oxygen/64x64/actions/save_all.png"));
 
     QSettings settings;
     QStringList names = settings.value("connectionNames").toStringList();
