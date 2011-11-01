@@ -51,7 +51,7 @@ void CHostCacheHost::SetKey(quint32 nKey, CEndPoint* pHost)
 CHostCache::CHostCache()
 {
 	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
-	if(!path.exists());
+	if(!path.exists())
 		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
 	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
 
@@ -276,7 +276,7 @@ void CHostCache::OnFailure(CEndPoint addr)
 void CHostCache::Save()
 {
 	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
-	if(!path.exists());
+	if(!path.exists())
 		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
 	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
 
