@@ -32,6 +32,7 @@
 #include <QDateTime>
 #include <QVariant>
 #include <QList>
+#include <QDesktopServices>
 
 #include "quazaasettings.h"
 #include "queryhashmaster.h"
@@ -70,7 +71,11 @@ void CShareManager::SetupThread()
 	systemLog.postLog(LogCategory::Library, LogSeverity::Debug, QString("Setting up ShareManager thread"));
 	//qDebug() << "Setting up ShareManager thread";
 	m_oDatabase = QSqlDatabase::addDatabase("QSQLITE", "Shares");
-	m_oDatabase.setDatabaseName("shares.sdb");
+	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	if(!path.exists());
+		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+
+	m_oDatabase.setDatabaseName(QString("%1%2.quazaa%2shares.sdb").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).arg(QDir::separator()));
 
 	if(!m_oDatabase.open())
 	{

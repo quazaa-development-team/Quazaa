@@ -29,6 +29,8 @@
 #include "network.h"
 #include <time.h>
 #include "geoiplist.h"
+#include <QDesktopServices>
+#include <QDir>
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -48,7 +50,10 @@ void CHostCacheHost::SetKey(quint32 nKey, CEndPoint* pHost)
 
 CHostCache::CHostCache()
 {
-	QFile f("hostcache.dat");
+	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	if(!path.exists());
+		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
 
 	if(f.exists() && f.open(QFile::ReadOnly))
 	{
@@ -270,7 +275,10 @@ void CHostCache::OnFailure(CEndPoint addr)
 
 void CHostCache::Save()
 {
-	QFile f("hostcache.dat");
+	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	if(!path.exists());
+		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
 
 	if(f.open(QFile::WriteOnly))
 	{
