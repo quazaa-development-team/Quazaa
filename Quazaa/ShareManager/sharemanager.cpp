@@ -72,7 +72,7 @@ void CShareManager::SetupThread()
 	//qDebug() << "Setting up ShareManager thread";
 	m_oDatabase = QSqlDatabase::addDatabase("QSQLITE", "Shares");
 	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
-	if(!path.exists());
+	if(!path.exists())
 		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
 
 	m_oDatabase.setDatabaseName(QString("%1%2.quazaa%2shares.sdb").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).arg(QDir::separator()));
