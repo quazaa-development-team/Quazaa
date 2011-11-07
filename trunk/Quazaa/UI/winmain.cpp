@@ -698,9 +698,7 @@ void CWinMain::showOnTop()
 	// the user sees it.
 	SetWindowPos(effectiveWinId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 	SetWindowPos(effectiveWinId(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-	// HACK END
-#elif Q_OS_LINUX
-
+        // HACK END
 #endif
 		raise();
 		if (isMaximized())
