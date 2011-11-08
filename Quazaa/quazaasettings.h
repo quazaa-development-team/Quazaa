@@ -517,6 +517,8 @@ namespace Settings
 		bool		UPnPSkipWANIPSetup;						// Skip WANIPConn1 device setup (UPnP)
 		bool		UPnPSkipWANPPPSetup;					// Skip WANPPPConn1 device setup (UPnP)
 
+		/* --- Settings used by security manager --- */
+// TODO: Make sure slot settingsChanged() is called if these settings are changed to inform security manager about the changes.
 		QString		DataPath;								// Path to the security.dat file
 		bool		LogIPCheckHits;							// Post log message on IsDenied( QHostAdress ) call
 		quint32		RuleExpiryInterval;						// Check the security manager for expired hosts each x seconds
@@ -730,6 +732,7 @@ public:
 
 signals:
 	void chatSettingsChanged();
+	void securitySettingsChanged();
 };
 
 extern QuazaaSettings quazaaSettings;
