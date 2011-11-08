@@ -65,7 +65,7 @@ private:
 };
 
 /* -------------------------------------------------------------------------------- */
-/* ---------------------------- CGlobalTimedSignalQueue --------------------------- */
+/* ------------------------------- CTimedSignalQueue ------------------------------ */
 /* -------------------------------------------------------------------------------- */
 class CTimedSignalQueue : public QObject
 {
@@ -74,11 +74,9 @@ class CTimedSignalQueue : public QObject
 private:
 	typedef QMultiMap<quint64, CTimerObject*> CSignalQueue;
 	typedef QMultiMap<quint64, CTimerObject*>::iterator CSignalQueueIterator;
-	typedef QList< CTimerObject* > CSignalList;
 
 	static QElapsedTimer m_oTime; // todo: handle system clock changes...
 	QBasicTimer			m_oTimer;
-	CSignalList			m_Signals;
 	QMutex				m_pSection;
 	quint64				m_nPrecision;
 	CSignalQueue		m_QueuedSignals;
@@ -134,7 +132,8 @@ public slots:
 			   QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
 	// Removes all scheduled combinations of a given parent and signal/slot from the queue.
-	bool pop(const QObject* parent, const char* signal);
+	// If no signal/slot is specified, all entries for the given parent are removed.
+	bool pop(const QObject* parent, const char* signal = NULL);
 
 	// Removes a scheduled parent + signal/slot combination by its UUID.
 	bool pop(QUuid oTimer_ID);
