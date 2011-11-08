@@ -168,8 +168,6 @@ void CTimedSignalQueue::clear()
 		delete it.value();
 		it = m_QueuedSignals.erase(it);
 	}
-
-	m_Signals.clear();
 }
 
 void CTimedSignalQueue::setPrecision( quint64 tInterval )
@@ -201,9 +199,9 @@ void CTimedSignalQueue::checkSchedule()
 
 	quint64 tTimeMs = getTimeInMs();
 
-	for( CSignalQueueIterator it = m_QueuedSignals.begin(); it != m_QueuedSignals.end(); )
+	for ( CSignalQueueIterator it = m_QueuedSignals.begin(); it != m_QueuedSignals.end(); )
 	{
-		if( it.key() >= tTimeMs )
+		if ( it.key() > tTimeMs )
 			break;
 
 		CTimerObject* pObj = it.value();
@@ -211,7 +209,7 @@ void CTimedSignalQueue::checkSchedule()
 
 		bool bSuccess = pObj->emitSignal();
 
-		if( bSuccess && pObj->m_bMultiShot )
+		if ( bSuccess && pObj->m_bMultiShot )
 		{
 			pObj->resetTime();
 			m_QueuedSignals.insert(pObj->m_tTime, pObj);
@@ -250,43 +248,34 @@ QUuid CTimedSignalQueue::push(CTimerObject* pTimedSignal)
 	QMutexLocker l( &m_pSection );
 
 	m_QueuedSignals.insert(pTimedSignal->m_tTime, pTimedSignal);
-	m_Signals.append( pTimedSignal );
 
 	return pTimedSignal->m_oUUID;
 }
 
 bool CTimedSignalQueue::pop(const QObject* parent, const char* signal)
 {
-	if ( !parent || !signal )
+	if ( !parent )
 		return false;
 
-	QString sSignalName = signal;
 	bool bFound = false;
+	QString sSignalName = "";;
+
+	if ( signal )
+		sSignalName = signal;
 
 	QMutexLocker l( &m_pSection );
 
-	for(CSignalList::iterator itList = m_Signals.begin(); itList != m_Signals.end(); )
+	for ( CSignalQueueIterator itQueue = m_QueuedSignals.begin(); itQueue != m_QueuedSignals.end(); )
 	{
-		if ( (*itList)->m_sSignal.obj == parent && (*itList)->m_sSignal.sName == sSignalName )
+		if ( itQueue.value()->m_sSignal.obj == parent && ( !signal || itQueue.value()->m_sSignal.sName == sSignalName ) )
 		{
-			for(CSignalQueueIterator itQueue = m_QueuedSignals.begin(); itQueue != m_QueuedSignals.end(); )
-			{
-				if( itQueue.value() == *itList )
-				{
-					itQueue = m_QueuedSignals.erase(itQueue);
-				}
-				else
-				{
-					++itQueue;
-				}
-			}
-			delete *itList;
-			itList = m_Signals.erase(itList);
+			delete itQueue.value();
+			itQueue = m_QueuedSignals.erase(itQueue);
 			bFound = true;
 		}
 		else
 		{
-			++itList;
+			++itQueue;
 		}
 	}
 
@@ -297,29 +286,17 @@ bool CTimedSignalQueue::pop(QUuid oTimer_ID)
 {
 	QMutexLocker l( &m_pSection );
 
-	for(CSignalList::iterator itList = m_Signals.begin(); itList != m_Signals.end(); )
+	for ( CSignalQueueIterator itQueue = m_QueuedSignals.begin(); itQueue != m_QueuedSignals.end(); )
 	{
-		if ( (*itList)->m_oUUID == oTimer_ID )
+		if ( itQueue.value()->m_oUUID == oTimer_ID )
 		{
-			for(CSignalQueueIterator itQueue = m_QueuedSignals.begin(); itQueue != m_QueuedSignals.end(); )
-			{
-				if( itQueue.value() == *itList )
-				{
-					itQueue = m_QueuedSignals.erase(itQueue);
-					break;
-				}
-				else
-				{
-					++itQueue;
-				}
-			}
-			delete *itList;
-			itList = m_Signals.erase(itList);
+			delete itQueue.value();
+			m_QueuedSignals.erase(itQueue);
 			return true;
 		}
 		else
 		{
-			++itList;
+			++itQueue;
 		}
 	}
 
@@ -330,16 +307,16 @@ bool CTimedSignalQueue::setInterval(QUuid oTimer_ID, quint64 tInterval)
 {
 	QMutexLocker mutex( &m_pSection );
 
-	CSignalList::const_iterator i = m_Signals.begin();
-	while ( i != m_Signals.end() )
+	CSignalQueueIterator i = m_QueuedSignals.begin();
+	while ( i != m_QueuedSignals.end() )
 	{
-		if ( (*i)->m_oUUID == oTimer_ID )
+		if ( i.value()->m_oUUID == oTimer_ID )
 		{
 			CTimerObject* pTimerCopy = new CTimerObject( *i );
 
 			mutex.unlock();
 
-			pop(oTimer_ID);
+			pop( oTimer_ID );
 
 			pTimerCopy->m_tInterval = tInterval;
 			pTimerCopy->resetTime();
