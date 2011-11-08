@@ -151,6 +151,9 @@ int main(int argc, char *argv[])
 	// Load Security Manager
 	dlgSplash->updateProgress( 15, QObject::tr( "Loading Security Manager..." ) );
 	qApp->processEvents();
+	securityManager.initialize();
+	dlgSplash->updateProgress( 16, QObject::tr( "Loading Security Manager..." ) );
+	qApp->processEvents();
 	if(!securityManager.load()) systemLog.postLog(LogCategory::General, LogSeverity::Information, QObject::tr("Security data file was not available."));
 
 	//Load profile
