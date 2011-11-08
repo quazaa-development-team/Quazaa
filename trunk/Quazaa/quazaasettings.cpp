@@ -669,8 +669,8 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Downloads.RequestHash = m_qSettings.value("RequestHash", true).toBool();
 	quazaaSettings.Downloads.RequestHTTP11 = m_qSettings.value("RequestHTTP11", true).toBool();
 	quazaaSettings.Downloads.RequestURLENC = m_qSettings.value("RequestURLENC", true).toBool();
-	quazaaSettings.Downloads.RetryDelay = m_qSettings.value("RetryDelay", 600000).toInt();
-	quazaaSettings.Downloads.SaveInterval = m_qSettings.value("SaveInterval", 60000).toInt();
+	quazaaSettings.Downloads.RetryDelay = m_qSettings.value("RetryDelay", 600000).toUInt();
+	quazaaSettings.Downloads.SaveInterval = m_qSettings.value("SaveInterval", 60000).toUInt();
 	quazaaSettings.Downloads.SearchPeriod = m_qSettings.value("SearchPeriod", 120000).toInt();
 	quazaaSettings.Downloads.ShowPercent = m_qSettings.value("ShowPercent", false).toBool();
 	quazaaSettings.Downloads.ShowSources = m_qSettings.value("ShowSources", false).toBool();
