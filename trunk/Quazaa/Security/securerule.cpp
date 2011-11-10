@@ -112,7 +112,7 @@ bool CSecureRule::match(const QList<QString>&, const QString&) const
 //////////////////////////////////////////////////////////////////////
 // CSecureRule serialize
 
-void CSecureRule::save(const CSecureRule* pRule, QDataStream &oStream)
+void CSecureRule::save(const CSecureRule* const pRule, QDataStream &oStream)
 {
 	oStream << (quint8)(pRule->m_nType);
 	oStream << (quint8)(pRule->m_nAction);

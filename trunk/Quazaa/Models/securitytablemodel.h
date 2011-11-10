@@ -43,10 +43,10 @@ public:
 		QString				sComment;
 		QIcon				iAction;
 
-		Rule(CSecureRule* pNode);
+		Rule(const CSecureRule* const pNode);
 		bool update(int row, int col, QModelIndexList& to_update, CSecurityTableModel* model);
 		QVariant data(int col) const;
-		bool lessThan(int col, CSecurityTableModel::Rule* pOther) const;
+		bool lessThan(int col, const CSecurityTableModel::Rule* const pOther) const;
 
 		QString actionToString(CSecureRule::Policy nAction) const;
 		QString expiryToString(quint32 tExpire) const;
@@ -70,8 +70,8 @@ public:
 	CSecureRule* nodeFromIndex(const QModelIndex& index);
 
 public slots:
-	void addRule(CSecureRule* pRule);
-	void removeRule(CSecureRule* pRule);
+	void addRule(const QSharedPointer<CSecureRule> pRule);
+	void removeRule(const QSharedPointer<CSecureRule> pRule);
 	void updateAll();
 };
 

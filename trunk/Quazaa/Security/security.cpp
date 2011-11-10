@@ -83,7 +83,7 @@ void CSecurity::setDenyPolicy(bool bDenyPolicy)
   * Checks whether a rule with the same UUID exists within the security database.
   * Locking: R
   */
-bool CSecurity::check(CSecureRule* pRule)
+bool CSecurity::check(const CSecureRule* const pRule)
 {
 	QReadLocker l( &m_pRWMutex );
 

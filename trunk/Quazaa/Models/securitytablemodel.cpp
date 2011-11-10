@@ -29,7 +29,7 @@
 #include "debug_new.h"
 #endif
 
-CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
+CSecurityTableModel::Rule::Rule(const CSecureRule* const pRule)
 {
 #ifdef _DEBUG
 	Q_ASSERT( pRule );
@@ -150,7 +150,7 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 	return QVariant();
 }
 
-bool CSecurityTableModel::Rule::lessThan(int col, CSecurityTableModel::Rule *pOther) const
+bool CSecurityTableModel::Rule::lessThan(int col, const CSecurityTableModel::Rule* const pOther) const
 {
 	if ( !pOther )
 		return false;
@@ -209,8 +209,8 @@ CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 	m_nSortColumn = -1;
 	m_bNeedSorting = false;
 
-	connect( &securityManager, SIGNAL( ruleAdded(   CSecureRule* ) ), this, SLOT( addRule(    CSecureRule* ) ), Qt::QueuedConnection );
-	connect( &securityManager, SIGNAL( ruleRemoved( CSecureRule* ) ), this, SLOT( removeRule( CSecureRule* ) ), Qt::QueuedConnection );
+	connect( &securityManager, SIGNAL( ruleAdded(   QSharedPointer<CSecureRule> ) ), this, SLOT( addRule(    QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
+	connect( &securityManager, SIGNAL( ruleRemoved( QSharedPointer<CSecureRule> ) ), this, SLOT( removeRule( QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
 }
 
 CSecurityTableModel::~CSecurityTableModel()
@@ -393,18 +393,18 @@ security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &ind
 		return NULL;
 }
 
-void CSecurityTableModel::addRule(CSecureRule* pRule)
+void CSecurityTableModel::addRule(const QSharedPointer<CSecureRule> pRule)
 {
-	if ( securityManager.check( pRule ) )
+	if ( securityManager.check( pRule.data() ) )
 	{
 		beginInsertRows( QModelIndex(), m_lNodes.size(), m_lNodes.size() );
-		m_lNodes.append( new Rule( pRule ) );
+		m_lNodes.append( new Rule( pRule.data() ) );
 		endInsertRows();
 		m_bNeedSorting = true;
 	}
 }
 
-void CSecurityTableModel::removeRule(CSecureRule* pRule)
+void CSecurityTableModel::removeRule(const QSharedPointer<CSecureRule> pRule)
 {
 	for ( quint32 i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
 	{
@@ -418,9 +418,6 @@ void CSecurityTableModel::removeRule(CSecureRule* pRule)
 			break;
 		}
 	}
-
-	delete pRule;
-	pRule = NULL;
 }
 
 void CSecurityTableModel::updateAll()
