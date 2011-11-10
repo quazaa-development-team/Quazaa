@@ -69,7 +69,7 @@ public:
 
 	// Read/write rule from/to file
 	static void		load(CSecureRule* pRule, QDataStream& oStream, const int nVersion);
-	static void     save(const CSecureRule* pRule, QDataStream& oStream);
+	static void     save(const CSecureRule* const pRule, QDataStream& oStream);
 
 	// XML Import/Export functionality
 	static CSecureRule*	fromXML(const QDomElement& oXMLnode, float nVersion);

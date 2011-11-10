@@ -135,7 +135,7 @@ namespace security
 		inline bool		denyPolicy() const;
 		void			setDenyPolicy(bool bDenyPolicy);
 
-		bool			check(CSecureRule* pRule);
+		bool			check(const CSecureRule* const pRule);
 		void			add(CSecureRule* pRule);
 		inline void		remove(CSecureRule* pRule);
 		void			clear();
