@@ -139,7 +139,7 @@ void WidgetNeighbours::updateG2()
 		Neighbours.m_pSection.unlock();
 	}
 
-	labelG2Stats->setText(tr(" %1 Hubs, %2 Leaves, %3/s In:%4/s Out").arg(nHubsConnected).arg(nLeavesConnected).arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)));
+	labelG2Stats->setText(tr(" %1 Hubs, %2 Leaves, %3/s In:%4/s Out").arg(nHubsConnected).arg(nLeavesConnected).arg(common::formatBytes(nTCPInSpeed + nUDPInSpeed)).arg(common::formatBytes(nTCPOutSpeed + nUDPOutSpeed)));
 }
 
 void WidgetNeighbours::updateAres()

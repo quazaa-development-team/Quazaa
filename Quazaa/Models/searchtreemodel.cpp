@@ -320,7 +320,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			             << ""
 			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()
 			             << ""
-			             << Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
+						 << common::vendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
 			             << GeoIP.countryNameFromCode(sCountry);
 			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, m_oParentItem);
 			m_oChildItem->HitData.lHashes << pHit2->m_lHashes;
@@ -349,7 +349,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			             << ""
 			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()
 			             << ""
-			             << Functions.VendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
+						 << common::vendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
 			             << GeoIP.countryNameFromCode(sCountry);
 			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, rootItem->child(existingSearch));
 			m_oChildItem->HitData.lHashes << pHit2->m_lHashes;

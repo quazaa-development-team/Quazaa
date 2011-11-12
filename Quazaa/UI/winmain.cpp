@@ -757,7 +757,7 @@ void CWinMain::on_actionShares_triggered()
 
 void CWinMain::on_actionOpenDownloadFolder_triggered()
 {
-	Functions.FolderOpen(quazaaSettings.Downloads.CompletePath);
+	common::folderOpen(quazaaSettings.Downloads.CompletePath);
 }
 
 void CWinMain::on_actionURLDownload_triggered()
@@ -910,7 +910,7 @@ void CWinMain::updateStatusBar()
 	}
 
 	labelFirewallStatus->setText(tr("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"> <html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">TCP: <img src=\"%1\" /> UDP: <img src=\"%2\" /></p></body></html>").arg(tcpFirewalled).arg(udpFirewalled));
-	labelBandwidthTotals->setText(tr("%1/s In:%2/s Out [D:%3/U:%4]").arg(Functions.FormatBytes(nTCPInSpeed + nUDPInSpeed)).arg(Functions.FormatBytes(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
+	labelBandwidthTotals->setText(tr("%1/s In:%2/s Out [D:%3/U:%4]").arg(common::formatBytes(nTCPInSpeed + nUDPInSpeed)).arg(common::formatBytes(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
 }
 
 void CWinMain::on_actionConnectTo_triggered()

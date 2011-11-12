@@ -25,21 +25,24 @@
 #ifndef COMMONFUNCTIONS_H
 #define COMMONFUNCTIONS_H
 
-#include <QObject>
 #include <QReadWriteLock>
 
-class CommonFunctions : public QObject
+namespace common
 {
-public:
-	CommonFunctions();
-	void FolderOpen(QString file);
-	QString FormatBytes(quint64 nBytesPerSec);
-	QString VendorCodeToName(QString vendorCode);
-};
+	void folderOpen(QString file);
+	QString formatBytes(quint64 nBytesPerSec);
+	QString vendorCodeToName(QString vendorCode);
+
+	// This generates a read/write iterator from a read-only iterator.
+	template<class T> inline typename T::iterator getRWIterator(T container, typename T::const_iterator const_it)
+	{
+		typename T::iterator i( container.begin() );
+		std::advance( i, std::distance< typename T::const_iterator >( i, const_it ) );
+		return i;
+	}
+}
 
 
-
-extern CommonFunctions Functions;
 
 // Convenience class to make sure the lock state is always well defined while allowing to use timeouts.
 // Class can also be used recursively. Plz make sure you don't modify the QReadWriteLock externally
