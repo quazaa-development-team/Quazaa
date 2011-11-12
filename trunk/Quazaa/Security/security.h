@@ -12,6 +12,7 @@
 #include <QString>
 #include <QUuid>
 
+#include "commonfunctions.h"
 #include "file.h"
 #include "securerule.h"
 #include "time.h"
@@ -166,7 +167,7 @@ namespace security
 		// Export/Import/Load/Save handlers
 		void			initialize(); // connects signals etc.
 		bool			load();
-		bool			save(bool bForceSaving = false);				// brov: this method should be called on exit with bForceSaving = true.
+		bool			save(bool bForceSaving = false);
 		bool			import(const QString& sPath);
 		QDomDocument	toXML();
 		bool			fromXML(const QDomDocument& oXMLroot);
@@ -197,17 +198,6 @@ namespace security
 		void			loadNewRules();
 		void			clearNewRules();
 
-
-		// This generates a read/write iterator from a read-only iterator.
-// TODO: Convince brov to help me make this template only require 1 class parameter,
-// as in fact T_it == T::iterator and T_const_it == T::const_iterator...
-		template<class T, class T_it, class T_const_it> inline T_it getRWIterator(T container, T_const_it const_it)
-		{
-			T_it i( container.begin() );
-			std::advance( i, std::distance< T_const_it >( i, const_it ) );
-			return i;
-		}
-
 		bool			load(QString sPath);
 
 		// this returns the first rule found. Note that there might be others, too.
@@ -221,12 +211,22 @@ namespace security
 		bool			isAgentDenied(const QString& strUserAgent);
 
 		void			missCacheAdd(const QString& sIP);
-		void			missCacheClear(const quint32& tNow, bool bRefreshInterval = true);
+		void			missCacheClear(bool bRefreshInterval);
 		void			evaluateCacheUsage();				// determines whether it is logical to use the cache or not
 
 		bool			isDenied(const QString& strContent);
 		bool			isDenied(const CFile& oFile);
 		bool			isDenied(const QList<QString>& lQuery, const QString& strContent);
+
+		// This generates a read/write iterator from a read-only iterator.
+// TODO: Convince brov to help me make this template only require 1 class parameter,
+// as in fact T_it == T::iterator and T_const_it == T::const_iterator...
+		template<class T, class T_it, class T_const_it> inline T_it getRWIterator(T container, T_const_it const_it)
+		{
+			T_it i( container.begin() );
+			std::advance( i, std::distance< T_const_it >( i, const_it ) );
+			return i;
+		}
 	};
 
 	unsigned int CSecurity::getCount() const
@@ -257,54 +257,6 @@ namespace security
 
 		remove( getUUID( pRule->m_oUUID ) );
 	}
-
-	// Convenience class to make sure the lock state is always well defined while allowing to use timeouts.
-	// Class can also be used recursively. Plz make sure you don't modify the QReadWriteLock externally
-	// while using it in this class.
-	class CTimeoutWriteLocker
-	{
-	private:
-		QReadWriteLock*	m_pRWLock;
-		int				m_nLockCount;
-
-	public:
-		inline CTimeoutWriteLocker(QReadWriteLock* lock, bool* success = NULL, int timeout = -1) :
-			m_pRWLock( lock ),
-			m_nLockCount( 0 )
-		{
-			bool result = lock->tryLockForWrite( timeout );
-			if ( success )
-				*success = result;
-			m_nLockCount += (int)result;
-		}
-
-		inline ~CTimeoutWriteLocker()
-		{
-			while ( m_nLockCount )
-			{
-				unlock();
-			}
-		}
-
-		inline QReadWriteLock* readWriteLock() const
-		{
-			return m_pRWLock;
-		}
-
-		inline bool relock(int timeout = -1)
-		{
-			bool result = m_pRWLock->tryLockForWrite( timeout );
-			m_nLockCount += (int)result;
-			return result;
-		}
-
-		inline void unlock()
-		{
-			m_pRWLock->unlock();
-			m_nLockCount--;
-		}
-	};
-
 }
 
 extern security::CSecurity securityManager;
