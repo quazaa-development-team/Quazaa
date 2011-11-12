@@ -170,7 +170,10 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		pRule->m_oUUID = m_pRule->m_oUUID;
 
 		if ( *pRule != *m_pRule )
+		{
+			securityManager.remove( m_pRule );
 			securityManager.add( pRule );
+		}
 	}
 
 	emit dataUpdated();
