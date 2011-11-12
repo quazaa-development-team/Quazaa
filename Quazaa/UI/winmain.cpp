@@ -483,7 +483,7 @@ void CWinMain::quazaaShutdown()
 
 	dlgSplash->updateProgress(90, tr("Saving Security Manager..."));
 	qApp->processEvents();
-	securityManager.save( true ); //Force saving to disk is enabled to save the statistics counters.
+	securityManager.stop(); // Prepare Security Manager for shutdown (this includes saving the security rules to disk)
 
 	dlgSplash->updateProgress(85, tr("Saving Settings..."));
 	qApp->processEvents();
