@@ -111,7 +111,7 @@ CSecureRule::RuleType CSecureRule::type() const
 	return m_nType;
 }
 
-void CSecureRule::toXML(QDomElement& oXMLroot) const {}
+void CSecureRule::toXML(QDomElement&) const {}
 
 /*  ------------------------------------------------------------ */
 /*  ------------------------- CIPRule -------------------------- */
