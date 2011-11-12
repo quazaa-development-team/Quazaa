@@ -221,10 +221,10 @@ namespace security
 		// This generates a read/write iterator from a read-only iterator.
 // TODO: Convince brov to help me make this template only require 1 class parameter,
 // as in fact T_it == T::iterator and T_const_it == T::const_iterator...
-		template<class T, class T_it, class T_const_it> inline T_it getRWIterator(T container, T_const_it const_it)
+		template<class T> inline typename T::iterator getRWIterator(T container, typename T::const_iterator const_it)
 		{
-			T_it i( container.begin() );
-			std::advance( i, std::distance< T_const_it >( i, const_it ) );
+			typename T::iterator i( container.begin() );
+			std::advance( i, std::distance< typename T::const_iterator >( i, const_it ) );
 			return i;
 		}
 	};
