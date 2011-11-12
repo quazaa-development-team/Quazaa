@@ -31,13 +31,7 @@
 #include "debug_new.h"
 #endif
 
-CommonFunctions Functions;
-
-CommonFunctions::CommonFunctions()
-{
-}
-
-void CommonFunctions::FolderOpen(QString file)
+void common::folderOpen(QString file)
 {
 	QDir completePath( file );
 
@@ -45,10 +39,10 @@ void CommonFunctions::FolderOpen(QString file)
 	{
 		completePath.mkpath( file );
 	}
-		QDesktopServices::openUrl( QUrl::fromLocalFile(file) );
+	QDesktopServices::openUrl( QUrl::fromLocalFile(file) );
 }
 
-QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
+QString common::formatBytes(quint64 nBytesPerSec)
 {
 	const char* szUnit[4] = {"B", "KB", "MB", "GB"};
 
@@ -75,7 +69,7 @@ QString CommonFunctions::FormatBytes(quint64 nBytesPerSec)
 	}
 }
 
-QString CommonFunctions::VendorCodeToName(QString vendorCode)
+QString common::vendorCodeToName(QString vendorCode)
 {
 	if ( vendorCode == "RAZA" )
 	{

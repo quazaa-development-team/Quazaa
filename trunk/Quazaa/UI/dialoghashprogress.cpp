@@ -90,7 +90,7 @@ void DialogHashProgress::onHashingProgress(int nId, QString sFilename, double nP
 	if( !m_lProgress.contains(nId) )
 		return;
 
-	QString strText = sFilename + " [" + Functions.FormatBytes(nRate) + "/s]";
+	QString strText = sFilename + " [" + common::formatBytes(nRate) + "/s]";
 	((QLabel*)m_lProgress[nId].first)->setText(strText);
 	((QProgressBar*)m_lProgress[nId].second)->setValue(nPercent);
 }

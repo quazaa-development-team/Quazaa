@@ -217,16 +217,6 @@ namespace security
 		bool			isDenied(const QString& strContent);
 		bool			isDenied(const CFile& oFile);
 		bool			isDenied(const QList<QString>& lQuery, const QString& strContent);
-
-		// This generates a read/write iterator from a read-only iterator.
-// TODO: Convince brov to help me make this template only require 1 class parameter,
-// as in fact T_it == T::iterator and T_const_it == T::const_iterator...
-		template<class T> inline typename T::iterator getRWIterator(T container, typename T::const_iterator const_it)
-		{
-			typename T::iterator i( container.begin() );
-			std::advance( i, std::distance< typename T::const_iterator >( i, const_it ) );
-			return i;
-		}
 	};
 
 	unsigned int CSecurity::getCount() const
