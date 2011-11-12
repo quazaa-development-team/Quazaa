@@ -6,7 +6,7 @@
     <message>
         <location filename="../Transfers/download.cpp" line="30"/>
         <source>Created download for %s with %d sources.</source>
-        <translation type="unfinished"></translation>
+        <translation>Starte Download von %s mit %d Quellen.</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
     <message>
         <location filename="../Transfers/downloads.cpp" line="15"/>
         <source>Queued download job for %s</source>
-        <translation type="unfinished"></translation>
+        <translation>Download %s wurde der Warteschlange hinzugefügt</translation>
     </message>
 </context>
 <context>
@@ -22,32 +22,33 @@
     <message>
         <location filename="../NetworkCore/g2node.cpp" line="244"/>
         <source>Sending query routing table to %1 (%2 bits, %3 entries, %4 bytes, %5% full)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sende Query-Routing-Tabelle an %1 (%2 Bit, %3 Einträge, %4 Bytes, %5% voll)</translation>
     </message>
     <message>
         <location filename="../NetworkCore/g2node.cpp" line="559"/>
         <source>Gnutella2 connection with %1 established.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gnutella2-Verbindung mit %1 hergestellt.</translation>
     </message>
     <message>
         <location filename="../NetworkCore/g2node.cpp" line="563"/>
         <source>Rejecting connection with %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Besseres Wort fuer ablehnen finden...</translatorcomment>
+        <translation>Verbindung mit %1 abgelehnt: %2</translation>
     </message>
     <message>
         <location filename="../NetworkCore/g2node.cpp" line="1065"/>
         <source>Neighbour %1 sent bad query hash table update. Closing connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehlerhaftes Query-Hash-Tabellenupdate von Nachbar %1 erhalten. Schließe Verbindung.</translation>
     </message>
     <message>
         <location filename="../NetworkCore/g2node.cpp" line="1072"/>
         <source>Neighbour %1 updated its query hash table. %2 bits %3% full.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachbar %1 aktualisierte seine Query-Hash-Tabelle. %2 Bit %3% voll.</translation>
     </message>
     <message>
         <location filename="../NetworkCore/g2node.cpp" line="1077"/>
         <source>Dropping neighbour %1 - hash table fill percentage too high.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schließe Verbindung mit Nachbar %1 - Hash-Tabelle zu voll.</translation>
     </message>
 </context>
 <context>
