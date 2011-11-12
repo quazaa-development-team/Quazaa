@@ -66,8 +66,6 @@ CSecurity::CSecurity() :
   */
 CSecurity::~CSecurity()
 {
-	clear();				// Release memory and free containers.
-	signalQueue.pop( this );// Remove all cleanup intervall timers from the queue.
 }
 
 /**
@@ -1069,7 +1067,7 @@ bool CSecurity::isVendorBlocked(const QString& sVendor) const
   * Initializes signal/slot connections, pulls settings and sets up cleanup interval counters.
   * Locking: RW
   */
-void CSecurity::initialize()
+bool CSecurity::start()
 {
 	// Register QSharedPointer<CSecureRule> to allow using this type with queued signal/slot connections.
 	qRegisterMetaType<QSharedPointer<CSecureRule>>("QSharedPointer<CSecureRule>");
@@ -1082,6 +1080,26 @@ void CSecurity::initialize()
 	// Set up interval timed cleanup operations.
 	m_idRuleExpiry = signalQueue.push( this, SLOT(expire()), m_tRuleExpiryInterval, true );
 	m_idMissCacheExpiry = signalQueue.push( this, SLOT(missCacheClear()), m_tMissCacheExpiryInterval, true );
+
+	return load(); // Load security rules from HDD
+}
+
+/**
+  * Saves the rules to disk, disonnects signal/slot connections, frees memory
+  * and clears up storage containers.
+  * Call this to make the security manager ready for destruction
+  * Locking: RW
+  */
+bool CSecurity::stop()
+{
+	disconnect( &quazaaSettings, SIGNAL(securitySettingsChanged()), this, SLOT(settingsChanged()) );
+
+	bool bSaved = save( true );			// Save security rules to disk.
+	clear();				// Release memory and free containers.
+
+	signalQueue.pop( this );// Remove all cleanup intervall timers from the queue.
+
+	return bSaved;
 }
 
 /**

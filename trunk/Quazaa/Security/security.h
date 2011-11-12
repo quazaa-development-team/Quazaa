@@ -165,7 +165,8 @@ namespace security
 		bool			isVendorBlocked(const QString& sVendor) const;
 
 		// Export/Import/Load/Save handlers
-		void			initialize(); // connects signals etc.
+		bool			start(); // connects signals etc.
+		bool			stop(); // makes the Security Manager ready for destruction
 		bool			load();
 		bool			save(bool bForceSaving = false);
 		bool			import(const QString& sPath);
