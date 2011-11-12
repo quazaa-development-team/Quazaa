@@ -46,7 +46,7 @@ public:
 	~WidgetSecurity();
 
 	void		setModel(QAbstractItemModel* model);
-	QWidget*	treeView();
+	QWidget*	tableView();
 	void		saveWidget();
 
 protected:
@@ -56,7 +56,6 @@ private:
 	Ui::WidgetSecurity* ui;
 
 signals:
-	void requestDataUpdate();
 
 public slots:
 	void update();

@@ -44,11 +44,10 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	ui->setupUi( this );
 	restoreState( quazaaSettings.WinMain.SecurityToolbars );
 
-	m_pSecurityList = new CSecurityTableModel( this, treeView() );
+	m_pSecurityList = new CSecurityTableModel( this, tableView() );
 	setModel( m_pSecurityList );
-
-	connect( this, SIGNAL( requestDataUpdate() ), this, SLOT( update() ) );
-	signalQueue.push( this, "requestDataUpdate", 1000, true );
+	m_pSecurityList->sort( ui->tableViewSecurity->horizontalHeader()->sortIndicatorSection(),
+						   ui->tableViewSecurity->horizontalHeader()->sortIndicatorOrder() );
 }
 
 WidgetSecurity::~WidgetSecurity()
@@ -61,7 +60,7 @@ void WidgetSecurity::setModel(QAbstractItemModel* model)
 	ui->tableViewSecurity->setModel( model );
 }
 
-QWidget* WidgetSecurity::treeView()
+QWidget* WidgetSecurity::tableView()
 {
 	return ui->tableViewSecurity;
 }
@@ -104,6 +103,7 @@ void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 	{
 		security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
 		DialogAddRule* dlgAddRule = new DialogAddRule( this, pRule );
+		connect( dlgAddRule, SIGNAL( dataUpdated() ), SLOT( update() ), Qt::QueuedConnection );
 		dlgAddRule->show();
 	}
 }
