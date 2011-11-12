@@ -25,6 +25,7 @@
 #include <math.h>
 
 #include <QFile>
+#include <QMetaType>
 
 #include "geoiplist.h"
 #include "quazaasettings.h"
@@ -102,8 +103,6 @@ void CSecurity::add(CSecureRule* pRule)
 
 	// check for invalid rules
 	Q_ASSERT( pRule->type() > 0 && pRule->type() < 8 && pRule->m_nAction < 3 );
-
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
 	CSecureRule::RuleType type = pRule->type();
 	CSecureRule* pExRule = NULL;
@@ -408,7 +407,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	else if ( type == CSecureRule::srContentAddressRange || type == CSecureRule::srContentCountry )
 	{
-		missCacheClear( tNow );
+		missCacheClear( true );
 
 		if ( !m_bUseMissCache )
 			evaluateCacheUsage();
@@ -480,7 +479,7 @@ void CSecurity::clear()
 	}
 
 	signalQueue.setInterval( m_idRuleExpiry, m_tRuleExpiryInterval ); // Change
-	missCacheClear( static_cast< quint32 >( time( NULL ) ) );
+	missCacheClear( true );
 
 	m_bSaved = false;
 }
@@ -764,7 +763,7 @@ bool CSecurity::isNewlyDenied(const QHostAddress& oAddress)
   * Checks a hit against the list of loaded new security rules.
   * Locking: R
   */
-bool CSecurity::isNewlyDenied(/*const CQueryHit* pHit, */const QList<QString>& lQuery)
+bool CSecurity::isNewlyDenied(/*const CQueryHit* pHit, */const QList<QString>& /*lQuery*/)
 {
 	//if ( !pHit )
 	//	return false;
@@ -809,7 +808,7 @@ bool CSecurity::isNewlyDenied(/*const CQueryHit* pHit, */const QList<QString>& l
   * Checks an IP against the security database. Writes a message to the system log if LogIPCheckHits is true.
   * Locking: R (+ RW if new IP is added to miss cache)
   */
-bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
+bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/)
 {
 	if ( oAddress.isNull() )
 		return false;
@@ -917,7 +916,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString &source)
   * Checks a hit against the security database.
   * Locking:   *** Will be implemented alongside with hit filtering ***
   */
-bool CSecurity::isDenied(/*const CQueryHit* pHit,*/ const QList<QString>& lQuery)
+bool CSecurity::isDenied(/*const CQueryHit* pHit,*/ const QList<QString>& /*lQuery*/)
 {
 	// return ( isDenied( (CFile*)pHit ) || isDenied( pHit->m_sName ) || isDenied( lQuery, pHit->m_sName ) );
 	return false;
@@ -1072,6 +1071,9 @@ bool CSecurity::isVendorBlocked(const QString& sVendor) const
   */
 void CSecurity::initialize()
 {
+	// Register QSharedPointer<CSecureRule> to allow using this type with queued signal/slot connections.
+	qRegisterMetaType<QSharedPointer<CSecureRule>>("QSharedPointer<CSecureRule>");
+
 	connect( &quazaaSettings, SIGNAL(securitySettingsChanged()), SLOT(settingsChanged()), Qt::QueuedConnection );
 
 	// Pull settings from global database to local copy.
@@ -1383,12 +1385,12 @@ bool CSecurity::fromXML(const QDomDocument &oXMLroot)
   */
 void CSecurity::sanityCheck()
 {
-	bool *bSuccess;
+	bool bSuccess;
 	CTimeoutWriteLocker( &m_pRWMutex, bSuccess, 500 );
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-	if ( *bSuccess )
+	if ( bSuccess )
 	{
 		// This indicates that an error happend previously.
 		Q_ASSERT( !m_bNewRulesLoaded || !m_loadedAddressRules.empty() || !m_loadedHitRules.empty() );
@@ -1431,12 +1433,12 @@ void CSecurity::sanityCheck()
   */
 void CSecurity::sanityCheckPerformed()
 {
-	bool *bSuccess;
+	bool bSuccess;
 	CTimeoutWriteLocker( &m_pRWMutex, bSuccess, 500 );
 
 	if ( m_bNewRulesLoaded )
 	{
-		if ( *bSuccess )
+		if ( bSuccess )
 		{
 			Q_ASSERT( m_nPendingOperations > 0 );
 
@@ -1498,7 +1500,7 @@ void CSecurity::expire()
 void CSecurity::missCacheClear()
 {
 	QWriteLocker l( &m_pRWMutex );
-	missCacheClear( static_cast< quint32 >( time( NULL ) ), false );
+	missCacheClear( false );
 }
 
 /**
@@ -1831,7 +1833,7 @@ void CSecurity::missCacheAdd(const QString &sIP)
 		evaluateCacheUsage();
 	}
 }
-void CSecurity::missCacheClear(const quint32 &tNow, bool bRefreshInterval)
+void CSecurity::missCacheClear(bool bRefreshInterval)
 {
 	m_Cache.clear();
 
