@@ -481,11 +481,15 @@ void CWinMain::quazaaShutdown()
 	Network.Disconnect();
 	ShareManager.Stop();
 
-	dlgSplash->updateProgress(90, tr("Saving Settings..."));
+	dlgSplash->updateProgress(90, tr("Saving Security Manager..."));
+	qApp->processEvents();
+	securityManager.save( true ); //Force saving to disk is enabled to save the statistics counters.
+
+	dlgSplash->updateProgress(85, tr("Saving Settings..."));
 	qApp->processEvents();
 	quazaaSettings.saveSettings();
 
-	dlgSplash->updateProgress(85, tr("Saving UI..."));
+	dlgSplash->updateProgress(80, tr("Saving UI..."));
 	qApp->processEvents();
 	quazaaSettings.WinMain.MainToolbar = saveState();
 	pageHome->saveWidget();
@@ -506,7 +510,7 @@ void CWinMain::quazaaShutdown()
 	quazaaSettings.saveWindowSettings(this);
 	emit closing();
 
-	dlgSplash->updateProgress(80, tr("Removing Tray Icon..."));
+	dlgSplash->updateProgress(75, tr("Removing Tray Icon..."));
 	qApp->processEvents();
 	delete trayIcon;
 
