@@ -514,6 +514,8 @@ void CWinMain::quazaaShutdown()
 	qApp->processEvents();
 	delete trayIcon;
 
+	qApp->processEvents();
+
 	dlgSplash->close();
 
 	delete this;
@@ -716,7 +718,8 @@ void CWinMain::showOnTop()
 void CWinMain::on_actionExit_triggered()
 {
 	bypassCloseEvent = true;
-	close();
+	QCloseEvent* ev = new QCloseEvent();
+	QApplication::postEvent(this, ev, Qt::HighEventPriority);
 }
 
 void CWinMain::on_actionAbout_triggered()

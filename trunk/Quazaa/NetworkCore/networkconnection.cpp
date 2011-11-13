@@ -36,13 +36,7 @@
 CNetworkConnection::CNetworkConnection(QObject* parent)
 	: QObject(parent)
 {
-	static bool bMetaRegistered = false;
-	if(!bMetaRegistered)
-	{
-		qRegisterMetaType<QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
-		qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
-		bMetaRegistered = true;
-	}
+	static int dummy = qRegisterMetaType<QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
 
 	//qDebug() << "CNetworkConnection constructor";
 

@@ -33,8 +33,6 @@ class QSqlDatabase;
 
 class CSharedFile : public CFile
 {
-protected:
-	static bool	m_bMetaRegistered;
 
 public:
 	bool	m_bShared;
