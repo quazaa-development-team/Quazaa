@@ -33,7 +33,7 @@ namespace security
 		/* ========================== Attributes ========================== */
 		/* ================================================================ */
 	public:
-		static const QString	xmlns;
+		static const QString xmlns;
 
 		typedef enum
 		{
@@ -62,7 +62,7 @@ namespace security
 
 		typedef CSecurityRuleList::const_iterator CIterator;
 
-		QReadWriteLock		m_pRWMutex;
+		QReadWriteLock		m_pRWLock;
 
 		// contains all rules
 		CSecurityRuleList	m_Rules;
@@ -242,11 +242,13 @@ namespace security
 	// for internal use only
 	void CSecurity::remove(CSecureRule* pRule, bool bLockRequired)
 	{
-		QWriteLocker mutex( &m_pRWMutex );
-		if ( !bLockRequired )
-			mutex.unlock();
+		if ( bLockRequired )
+			m_pRWLock.lockForWrite();
 
 		remove( getUUID( pRule->m_oUUID ) );
+
+		if ( bLockRequired )
+			m_pRWLock.unlock();
 	}
 }
 

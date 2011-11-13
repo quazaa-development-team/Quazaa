@@ -74,7 +74,7 @@ CSecurity::~CSecurity()
   */
 void CSecurity::setDenyPolicy(bool bDenyPolicy)
 {
-	QWriteLocker l( &m_pRWMutex );
+	QWriteLocker l( &m_pRWLock );
 	m_bDenyPolicy = bDenyPolicy;
 }
 
@@ -84,7 +84,7 @@ void CSecurity::setDenyPolicy(bool bDenyPolicy)
   */
 bool CSecurity::check(const CSecureRule* const pRule)
 {
-	QReadLocker l( &m_pRWMutex );
+	QReadLocker l( &m_pRWLock );
 
 	return pRule != NULL && getUUID( pRule->m_oUUID ) != m_Rules.end();
 }
@@ -108,7 +108,7 @@ void CSecurity::add(CSecureRule* pRule)
 	bool bNewAddress = false;
 	bool bNewHit	 = false;
 
-	QWriteLocker mutex( &m_pRWMutex );
+	QWriteLocker mutex( &m_pRWLock );
 
 	// Special treatment for the different types of rules
 	switch ( type )
@@ -443,7 +443,7 @@ void CSecurity::add(CSecureRule* pRule)
   */
 void CSecurity::clear()
 {
-	QWriteLocker l( &m_pRWMutex );
+	QWriteLocker l( &m_pRWLock );
 
 	m_IPs.clear();
 	m_IPRanges.clear();
@@ -498,7 +498,7 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 		return;
 	}
 
-	QWriteLocker mutex( &m_pRWMutex );
+	QWriteLocker mutex( &m_pRWLock );
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
@@ -628,7 +628,7 @@ void CSecurity::ban(const CFile& oFile, BanLength nBanLength, bool bMessage, con
 		return;
 	}
 
-	QReadLocker mutex( &m_pRWMutex );
+	QReadLocker mutex( &m_pRWLock );
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
@@ -723,7 +723,7 @@ bool CSecurity::isNewlyDenied(const QHostAddress& oAddress)
 		return false;
 
 	CSecureRule* pRule = NULL;
-	QReadLocker l( &m_pRWMutex );
+	QReadLocker l( &m_pRWLock );
 
 	// This should only be called if new rules have been loaded previously.
 	Q_ASSERT( m_bNewRulesLoaded );
@@ -767,7 +767,7 @@ bool CSecurity::isNewlyDenied(/*const CQueryHit* pHit, */const QList<QString>& /
 	//	return false;
 
 	CSecureRule* pRule = NULL;
-	QReadLocker l( &m_pRWMutex );
+	QReadLocker l( &m_pRWLock );
 
 	// This should only be called if new rules have been loaded previously.
 	Q_ASSERT( m_bNewRulesLoaded );
@@ -811,7 +811,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 	if ( oAddress.isNull() )
 		return false;
 
-	QReadLocker mutex( &m_pRWMutex );
+	QReadLocker mutex( &m_pRWLock );
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
@@ -1151,7 +1151,7 @@ bool CSecurity::load( QString sPath )
 
 		quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-		QWriteLocker mutex( &m_pRWMutex );
+		QWriteLocker mutex( &m_pRWLock );
 		m_bDenyPolicy = bDenyPolicy;
 		m_bIsLoading = true; // Prevent sanity check from being executed at each add() operation.
 		mutex.unlock();
@@ -1189,7 +1189,7 @@ bool CSecurity::load( QString sPath )
 		clear();
 		iFile.close();
 
-		QWriteLocker l( &m_pRWMutex );
+		QWriteLocker l( &m_pRWLock );
 		m_bIsLoading = false;
 
 		return false;
@@ -1206,7 +1206,7 @@ bool CSecurity::load( QString sPath )
   */
 bool CSecurity::save(bool bForceSaving)
 {
-	QReadLocker mutex( &m_pRWMutex );
+	QReadLocker mutex( &m_pRWLock );
 
 	if ( m_bSaved && !bForceSaving )		// Saving not required ATM.
 	{
@@ -1255,7 +1255,7 @@ bool CSecurity::save(bool bForceSaving)
 	}
 
 	mutex.unlock();
-	QWriteLocker tmp( &m_pRWMutex ); // temporary switch to write lock
+	QWriteLocker tmp( &m_pRWLock ); // temporary switch to write lock
 	m_bSaved = true;
 	tmp.unlock();
 
@@ -1317,7 +1317,7 @@ QDomDocument CSecurity::toXML()
 
 	oXMLroot.setAttribute( "version", "2.0" );
 
-	QReadLocker l( &m_pRWMutex );
+	QReadLocker l( &m_pRWLock );
 	for ( CIterator i = m_Rules.begin(); i != m_Rules.end() ; ++i )
 	{
 		(*i)->toXML( oXMLroot );
@@ -1348,7 +1348,7 @@ bool CSecurity::fromXML(const QDomDocument &oXMLroot)
 	CSecureRule* pRule = NULL;
 	unsigned int nRuleCount = 0;
 
-	QWriteLocker mutex( &m_pRWMutex );
+	QWriteLocker mutex( &m_pRWLock );
 	m_bIsLoading = true;
 	mutex.unlock();
 
@@ -1404,7 +1404,7 @@ bool CSecurity::fromXML(const QDomDocument &oXMLroot)
 void CSecurity::sanityCheck()
 {
 	bool bSuccess;
-	CTimeoutWriteLocker( &m_pRWMutex, bSuccess, 500 );
+	CTimeoutWriteLocker( &m_pRWLock, bSuccess, 500 );
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
@@ -1452,7 +1452,7 @@ void CSecurity::sanityCheck()
 void CSecurity::sanityCheckPerformed()
 {
 	bool bSuccess;
-	CTimeoutWriteLocker( &m_pRWMutex, bSuccess, 500 );
+	CTimeoutWriteLocker( &m_pRWLock, bSuccess, 500 );
 
 	if ( m_bNewRulesLoaded )
 	{
@@ -1479,7 +1479,7 @@ void CSecurity::sanityCheckPerformed()
   */
 void CSecurity::forceEndOfSanityCheck()
 {
-	QWriteLocker l( &m_pRWMutex );
+	QWriteLocker l( &m_pRWLock );
 	clearNewRules();
 	m_nPendingOperations = 0;
 }
@@ -1490,7 +1490,7 @@ void CSecurity::forceEndOfSanityCheck()
   */
 void CSecurity::expire()
 {
-	QWriteLocker l( &m_pRWMutex );
+	QWriteLocker l( &m_pRWLock );
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
@@ -1517,7 +1517,7 @@ void CSecurity::expire()
   */
 void CSecurity::missCacheClear()
 {
-	QWriteLocker l( &m_pRWMutex );
+	QWriteLocker l( &m_pRWLock );
 	missCacheClear( false );
 }
 
@@ -1528,7 +1528,7 @@ void CSecurity::missCacheClear()
   */
 void CSecurity::settingsChanged()
 {
-	QWriteLocker l( &m_pRWMutex );
+	QWriteLocker l( &m_pRWLock );
 	m_sDataPath					= quazaaSettings.Security.DataPath;
 	m_bLogIPCheckHits			= quazaaSettings.Security.LogIPCheckHits;
 
@@ -1811,7 +1811,7 @@ bool CSecurity::isAgentDenied(const QString& strUserAgent)
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-	QReadLocker lock( &m_pRWMutex );
+	QReadLocker lock( &m_pRWLock );
 
 	CUserAgentRuleMap::iterator i = m_UserAgents.find( strUserAgent );
 	if ( i != m_UserAgents.end() )
@@ -1846,7 +1846,7 @@ void CSecurity::missCacheAdd(const QString &sIP)
 {
 	if ( m_bUseMissCache )
 	{
-		QWriteLocker l( &m_pRWMutex );
+		QWriteLocker l( &m_pRWLock );
 		m_Cache.insert( sIP );
 		evaluateCacheUsage();
 	}
@@ -1911,7 +1911,7 @@ bool CSecurity::isDenied(const QString& strContent)
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-	QReadLocker mutex( &m_pRWMutex );
+	QReadLocker mutex( &m_pRWLock );
 
 	CContentRuleList::iterator i = m_Contents.begin();
 	while ( i != m_Contents.end() )
@@ -1955,7 +1955,7 @@ bool CSecurity::isDenied(const CFile& oFile)
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-	QReadLocker mutex( &m_pRWMutex );
+	QReadLocker mutex( &m_pRWLock );
 
 	// Search for a rule matching these hashes
 	CIterator it = getHash( hashes );
@@ -2013,7 +2013,7 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& strContent
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-	QReadLocker mutex( &m_pRWMutex );
+	QReadLocker mutex( &m_pRWLock );
 
 	CRegExpRuleList::iterator i = m_RegExpressions.begin();
 	while ( i != m_RegExpressions.end() )
