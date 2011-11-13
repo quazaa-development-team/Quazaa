@@ -41,8 +41,6 @@
 #include "debug_new.h"
 #endif
 
-bool CSharedFile::m_bMetaRegistered = false;
-
 CSharedFile::CSharedFile(QObject* parent) :
 	CFile( parent )
 {
@@ -192,10 +190,6 @@ void CSharedFile::setup()
 {
 	m_bShared = false;
 
-	if ( !CSharedFile::m_bMetaRegistered )
-	{
-		qRegisterMetaType<CSharedFilePtr>( "CSharedFilePtr" );
-		CSharedFile::m_bMetaRegistered = true;
-	}
+	static int dummy = qRegisterMetaType<CSharedFilePtr>( "CSharedFilePtr" );
 }
 
