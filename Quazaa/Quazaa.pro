@@ -102,50 +102,62 @@ TEMPLATE = app
 # MSVC-specific compiler flags
 win32-msvc2008 {
 	!build_pass:message(Setting up MSVC 2008 Compiler flags)
-	QMAKE_CFLAGS_DEBUG += /Gd \
-		/arch:SSE2 \
+        QMAKE_CFLAGS_DEBUG += /Gd \
 		/Gm \
 		/RTC1
-	QMAKE_CFLAGS_RELEASE += /Gd \
-		/arch:SSE2 \
+        QMAKE_CFLAGS_RELEASE += /Gd \
 		/GA
-	QMAKE_CXXFLAGS_DEBUG += /Gd \
-		/arch:SSE2 \
+        QMAKE_CXXFLAGS_DEBUG += /Gd \
 		/Gm \
 		/RTC1
-	QMAKE_CXXFLAGS_RELEASE += /Gd \
-		/arch:SSE2 \
+        QMAKE_CXXFLAGS_RELEASE += /Gd \
 		/GA
-	QMAKE_LFLAGS_DEBUG += /FIXED:NO
+        QMAKE_LFLAGS_DEBUG += /FIXED:NO
+
+        QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
+        X64 = $$find(QT_INSTALL_PREFIX, 64)
+        isEmpty(X64){
+            !build_pass:message( "Building for 32 bit")
+            QMAKE_CFLAGS_DEBUG +=/arch:SSE2
+            QMAKE_CFLAGS_RELEASE += /arch:SSE2
+            QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
+            QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
+        }
 }
 
 win32-msvc2010 {
 	!build_pass:message(Setting up MSVC 2010 Compiler flags)
-	QMAKE_CFLAGS_DEBUG += /Gd \
-		/arch:SSE2 \
+        QMAKE_CFLAGS_DEBUG += /Gd \
 		#/Gm \
 		/RTC1 \
 		/MDd \
 		/Zi \
 		/GS
-	QMAKE_CFLAGS_RELEASE += /Gd \
-		/arch:SSE2 \
+        QMAKE_CFLAGS_RELEASE += /Gd \
 		/GA \
 		/Og \
 		/MD
-	QMAKE_CXXFLAGS_DEBUG += /Gd \
-		/arch:SSE2 \
+        QMAKE_CXXFLAGS_DEBUG += /Gd \
 		#/Gm \
 		/RTC1 \
 		/MDd \
 		/Zi \
 		/GS
-	QMAKE_CXXFLAGS_RELEASE += /Gd \
-		/arch:SSE2 \
+        QMAKE_CXXFLAGS_RELEASE += /Gd \
 		/GA \
 		/Og \
 		/MD 
 	QMAKE_LFLAGS_DEBUG += /FIXED:NO
+
+        QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
+        X64 = $$find(QT_INSTALL_PREFIX, 64)
+        isEmpty(X64){
+            !build_pass:message( "Building for 32 bit")
+            QMAKE_CFLAGS_DEBUG += /arch:SSE2
+            QMAKE_CFLAGS_RELEASE += /arch:SSE2
+            QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
+            QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
+        }
 }
 
 # Sources
