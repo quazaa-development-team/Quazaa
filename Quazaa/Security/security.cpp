@@ -1070,7 +1070,7 @@ bool CSecurity::isVendorBlocked(const QString& sVendor) const
 bool CSecurity::start()
 {
 	// Register QSharedPointer<CSecureRule> to allow using this type with queued signal/slot connections.
-	qRegisterMetaType<QSharedPointer<CSecureRule>>("QSharedPointer<CSecureRule>");
+	qRegisterMetaType< QSharedPointer< CSecureRule > >("QSharedPointer<CSecureRule>");
 
 	connect( &quazaaSettings, SIGNAL(securitySettingsChanged()), SLOT(settingsChanged()), Qt::QueuedConnection );
 

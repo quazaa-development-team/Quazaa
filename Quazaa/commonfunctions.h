@@ -25,6 +25,8 @@
 #ifndef COMMONFUNCTIONS_H
 #define COMMONFUNCTIONS_H
 
+#include <iterator>
+
 #include <QReadWriteLock>
 
 namespace common
