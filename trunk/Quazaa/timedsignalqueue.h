@@ -23,7 +23,7 @@ private:
 	struct
 	{
 		QObject* obj;
-		QString sName;
+		const char* sName;
 		QGenericArgument val0;
 		QGenericArgument val1;
 		QGenericArgument val2;
@@ -57,6 +57,8 @@ private:
 				 QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
 	CTimerObject(const CTimerObject* const pTimerObject);
+
+	~CTimerObject();
 
 	void resetTime();
 	bool emitSignal() const;

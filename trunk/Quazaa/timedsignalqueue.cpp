@@ -101,7 +101,14 @@ CTimerObject::CTimerObject(const CTimerObject* const pTimerObject)
 	m_oUUID			= pTimerObject->m_oUUID;
 
 	m_sSignal.obj	= pTimerObject->m_sSignal.obj;
-	m_sSignal.sName = pTimerObject->m_sSignal.sName;
+
+	// Copy the c-string from pTimerObject
+	const size_t nLength = strlen( pTimerObject->m_sSignal.sName );
+	char* sTmp = new char[nLength + 1]; // We need 1 extra char for the terminal 0.
+	strcpy( sTmp, pTimerObject->m_sSignal.sName );	// This is supposed to be safe as eventual changes to pTimerObject->
+													// m_sSignal.sName should originate from the same thread.
+	m_sSignal.sName = sTmp;
+
 	m_sSignal.val0	= pTimerObject->m_sSignal.val0;
 	m_sSignal.val1	= pTimerObject->m_sSignal.val1;
 	m_sSignal.val2	= pTimerObject->m_sSignal.val2;
@@ -114,6 +121,11 @@ CTimerObject::CTimerObject(const CTimerObject* const pTimerObject)
 	m_sSignal.val9	= pTimerObject->m_sSignal.val9;
 }
 
+CTimerObject::~CTimerObject()
+{
+	delete[] m_sSignal.sName;
+}
+
 void CTimerObject::resetTime()
 {
 	m_tTime = CTimedSignalQueue::getTimeInMs() + m_tInterval;
@@ -121,7 +133,7 @@ void CTimerObject::resetTime()
 
 bool CTimerObject::emitSignal() const
 {
-	return QMetaObject::invokeMethod( m_sSignal.obj, m_sSignal.sName.toLatin1().data(), Qt::QueuedConnection,
+	return QMetaObject::invokeMethod( m_sSignal.obj, m_sSignal.sName, Qt::QueuedConnection,
 									  m_sSignal.val0, m_sSignal.val1, m_sSignal.val2,
 									  m_sSignal.val3, m_sSignal.val4, m_sSignal.val5,
 									  m_sSignal.val6, m_sSignal.val7, m_sSignal.val8,
@@ -129,7 +141,7 @@ bool CTimerObject::emitSignal() const
 }
 
 /* -------------------------------------------------------------------------------- */
-/* ---------------------------- CTimedSignalQueue --------------------------- */
+/* ------------------------------- CTimedSignalQueue ------------------------------ */
 /* -------------------------------------------------------------------------------- */
 
 QElapsedTimer CTimedSignalQueue::m_oTime;
@@ -258,7 +270,7 @@ bool CTimedSignalQueue::pop(const QObject* parent, const char* signal)
 		return false;
 
 	bool bFound = false;
-	QString sSignalName = "";;
+	QString sSignalName = "";
 
 	if ( signal )
 		sSignalName = signal;
@@ -267,7 +279,7 @@ bool CTimedSignalQueue::pop(const QObject* parent, const char* signal)
 
 	for ( CSignalQueueIterator itQueue = m_QueuedSignals.begin(); itQueue != m_QueuedSignals.end(); )
 	{
-		if ( itQueue.value()->m_sSignal.obj == parent && ( !signal || itQueue.value()->m_sSignal.sName == sSignalName ) )
+		if ( itQueue.value()->m_sSignal.obj == parent && ( !signal || sSignalName == itQueue.value()->m_sSignal.sName ) )
 		{
 			delete itQueue.value();
 			itQueue = m_QueuedSignals.erase(itQueue);
