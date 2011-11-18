@@ -38,7 +38,6 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	m_ui->setupUi( this );
 	m_ui->comboBoxAction->setView( new QListView() );
 	m_ui->comboBoxExpire->setView( new QListView() );
-	m_ui->comboBoxHashType->setView( new QListView() );
 	m_ui->comboBoxRuleType->setView( new QListView() );
 
 	if ( pRule )
@@ -81,6 +80,7 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	default:
 		m_ui->comboBoxRuleType->setCurrentIndex( 0 );
 		m_ui->stackedWidgetType->setCurrentIndex( 0 );
+		m_ui->lineEditIP->setText( ((CIPRule*)m_pRule)->getContentString() );
 		break;
 	}
 }
@@ -104,7 +104,7 @@ void DialogAddRule::changeEvent(QEvent* e)
 	}
 }
 
-// TODO: change user interface for IPs and hashes.
+// TODO: change user interface for IP ranges and hashes.
 void DialogAddRule::on_pushButtonOK_clicked()
 {
 	CSecureRule* pRule = NULL;
@@ -115,9 +115,11 @@ void DialogAddRule::on_pushButtonOK_clicked()
 	{
 	case 0:
 		pRule = new CIPRule();
+		((CIPRule*)pRule)->setIP( QHostAddress( m_ui->lineEditIP->text() ) );
 		break;
 	case 1:
 		pRule = new CIPRangeRule();
+
 		break;
 	case 2:
 		pRule = new CCountryRule();
