@@ -208,29 +208,32 @@ void CTimedSignalQueue::timerEvent(QTimerEvent* event)
 
 void CTimedSignalQueue::checkSchedule()
 {
-	QMutexLocker l(&m_pSection);
-
-	quint64 tTimeMs = getTimeInMs();
-
-	for ( CSignalQueueIterator it = m_QueuedSignals.begin(); it != m_QueuedSignals.end(); )
+	if ( m_pSection.tryLock( m_nPrecision / 2 ) )
 	{
-		if ( it.key() > tTimeMs )
-			break;
+		quint64 tTimeMs = getTimeInMs();
 
-		CTimerObject* pObj = it.value();
-		it = m_QueuedSignals.erase(it);
-
-		bool bSuccess = pObj->emitSignal();
-
-		if ( bSuccess && pObj->m_bMultiShot )
+		for ( CSignalQueueIterator it = m_QueuedSignals.begin(); it != m_QueuedSignals.end(); )
 		{
-			pObj->resetTime();
-			m_QueuedSignals.insert( pObj->m_tTime, pObj );
+			if ( it.key() > tTimeMs )
+				break;
+
+			CTimerObject* pObj = it.value();
+			it = m_QueuedSignals.erase(it);
+
+			bool bSuccess = pObj->emitSignal();
+
+			if ( bSuccess && pObj->m_bMultiShot )
+			{
+				pObj->resetTime();
+				m_QueuedSignals.insert( pObj->m_tTime, pObj );
+			}
+			else
+			{
+				delete pObj;
+			}
 		}
-		else
-		{
-			delete pObj;
-		}
+
+		m_pSection.unlock();
 	}
 }
 
