@@ -154,6 +154,7 @@ CTimedSignalQueue::CTimedSignalQueue(QObject *parent) :
 
 CTimedSignalQueue::~CTimedSignalQueue()
 {
+	stop(); // Prevent timer events from occurring during cleanup process.
 	clear();
 }
 
@@ -224,7 +225,7 @@ void CTimedSignalQueue::checkSchedule()
 		if ( bSuccess && pObj->m_bMultiShot )
 		{
 			pObj->resetTime();
-			m_QueuedSignals.insert(pObj->m_tTime, pObj);
+			m_QueuedSignals.insert( pObj->m_tTime, pObj );
 		}
 		else
 		{
