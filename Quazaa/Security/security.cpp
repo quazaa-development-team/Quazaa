@@ -698,7 +698,7 @@ void CSecurity::ban(const CFile& oFile, BanLength nBanLength, bool bMessage, con
 		}
 		else
 		{
-			pRule->setContent( hashes );
+			pRule->setHashes( hashes );
 		}
 
 		add( pRule );

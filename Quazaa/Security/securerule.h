@@ -46,8 +46,10 @@ public:
 	virtual bool            operator==(const CSecureRule& pRule) const;
 	bool					operator!=(const CSecureRule& pRule) const;
 
-	virtual CSecureRule*	getCopy() const;
+	virtual bool			parseContent(QString& sContent);
 	QString					getContentString() const;
+
+	virtual CSecureRule*	getCopy() const;
 
 	bool			isExpired(quint32 nNow, bool bSession = false) const;
 
@@ -128,6 +130,8 @@ public:
 	inline QHostAddress IP() const;
 	inline void			setIP( const QHostAddress& oIP );
 
+	bool				parseContent(QString& sContent);
+
 	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QHostAddress& oAddress) const;
@@ -158,48 +162,69 @@ CSecureRule* CIPRule::getCopy() const
 class CIPRangeRule : public CSecureRule
 {
 private:
-	QHostAddress m_oIP;
-	QHostAddress m_oMask;
+	QPair<QHostAddress, int> m_oSubNet;
 
 public:
 	CIPRangeRule(bool bCreate = true);
 
 	inline QHostAddress	IP() const;
-	inline void			setIP( const QHostAddress& oIP );
-	inline qint32		mask() const;
-	inline void			setMask( const quint32& nMask );
+//	inline bool			setIP(const QHostAddress& oIP);
+	inline int			mask() const;
+//	inline bool			setMask(const int& nMask);
+
+	bool				parseContent(QString& sContent);
 
 	inline CSecureRule*	getCopy() const;
 
-	bool				match(const QHostAddress& oAddress) const;
+	inline bool			match(const QHostAddress& oAddress) const;
 	void				toXML(QDomElement& oXMLroot) const;
 };
 
 QHostAddress CIPRangeRule::IP() const
 {
-	return m_oIP;
+	return m_oSubNet.first;
 }
 
-void CIPRangeRule::setIP( const QHostAddress& oIP )
+/*bool CIPRangeRule::setIP(const QHostAddress& oIP)
 {
-	m_oIP = oIP;
-	m_sContent = m_oIP.toString() + "/" + m_oMask.toString();
+	if ( !oIP.isNull() )
+	{
+		m_oSubNet.first = oIP;
+		m_sContent = m_oSubNet.first.toString() + "/" + m_oSubNet.second;
+		return true;
+	}
+	return false;
+}*/
+
+int CIPRangeRule::mask() const
+{
+	return m_oSubNet.second;
 }
 
-qint32 CIPRangeRule::mask() const
+/*bool CIPRangeRule::setMask(const int& nMask)
 {
-	return m_oMask.toIPv4Address();
-}
-
-void CIPRangeRule::setMask(const quint32& nMask)
-{
-	m_oMask = QHostAddress( nMask );
-	m_sContent = m_oIP.toString() + "/" + m_oMask.toString();
-}
+	if ( nMask > -1 && ( m_oSubNet.first.protocol() == QAbstractSocket::IPv6Protocol && nMask < 129
+					  || m_oSubNet.first.protocol() == QAbstractSocket::IPv4Protocol && nMask < 33 ) )
+	{
+		m_oSubNet.second = nMask;
+		m_sContent = m_oSubNet.first.toString() + "/" + m_oSubNet.second;
+		return true;
+	}
+	return false;
+}*/
 
 CSecureRule* CIPRangeRule::getCopy() const
 {
 	return new CIPRangeRule( *this );
+}
+
+bool CIPRangeRule::match(const QHostAddress &oAddress) const
+{
+#ifdef _DEBUG
+	Q_ASSERT( m_nType == srContentAddressRange );
+#endif //_DEBUG
+
+	return oAddress.isInSubnet( m_oSubNet );
 }
 
 /*  ------------------------------------------------------------ */
@@ -211,9 +236,9 @@ class CCountryRule : public CSecureRule
 public:
 	CCountryRule(bool bCreate = true);
 
-	inline CSecureRule*	getCopy() const;
+	bool				parseContent(const QString& sContent);
 
-	inline void			setContentString(const QString& strCountry);
+	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QHostAddress& oAddress) const;
 	void				toXML(QDomElement& oXMLroot) const;
@@ -224,11 +249,6 @@ CSecureRule* CCountryRule::getCopy() const
 	return new CCountryRule( *this );
 }
 
-void CCountryRule::setContentString(const QString& strCountry)
-{
-	m_sContent = strCountry;
-}
-
 /*  ------------------------------------------------------------ */
 /*  ------------------------ CHashRule ------------------------- */
 /*  ------------------------------------------------------------ */
@@ -236,16 +256,18 @@ void CCountryRule::setContentString(const QString& strCountry)
 class CHashRule : public CSecureRule
 {
 private:
-	QMap< CHash::Algorithm, CHash >		m_Hashes;
+	QMap< CHash::Algorithm, CHash >	m_Hashes;
 
 public:
 	CHashRule(bool bCreate = true);
 
-	inline CSecureRule*	getCopy() const;
 	QList< CHash >		getHashes() const;
+	void				setHashes(const QList< CHash >& hashes);
 
-	void				setContent(const QList< CHash >& hashes);
-	void				setContentString(const QString& sContent);
+	bool				parseContent(const QString& sContent);
+
+	inline CSecureRule*	getCopy() const;
+
 	bool				hashEquals(CHashRule& oRule) const;
 
 	bool				match(const CFile& oFile) const;
@@ -263,7 +285,8 @@ CSecureRule* CHashRule::getCopy() const
 /*  ----------------------- CRegExpRule ------------------------ */
 /*  ------------------------------------------------------------ */
 
-// There are two kinds of rules: 1. Those which contain <_>, <1>...<9> or <> 2. All other rules.
+// There are two kinds of rules:1. Those which contain <_>, <1>...<9> or <>
+//								2. All other rules.
 class CRegExpRule : public CSecureRule
 {
 private:
@@ -275,9 +298,9 @@ public:
 
 	bool				operator==(const CSecureRule& pRule) const;
 
-	inline CSecureRule*	getCopy() const;
+	bool				parseContent(const QString& sContent);
 
-	void				setContentString(const QString& strContent);
+	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QList<QString>& lQuery, const QString& strContent) const;
 	void				toXML(QDomElement& oXMLroot) const;
@@ -306,12 +329,12 @@ public:
 
 	bool				operator==(const CSecureRule& pRule) const;
 
-	inline CSecureRule*	getCopy() const;
-
 	void				setRegExp(bool bRegExp);
 	inline bool			getRegExp() const;
 
-	void				setContentString(const QString& strContent);
+	bool				parseContent(const QString& sContent);
+
+	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QString& strUserAgent) const;
 	void				toXML(QDomElement& oXMLroot) const;
@@ -345,12 +368,12 @@ public:
 
 	bool				operator==(const CSecureRule& pRule) const;
 
-	inline CSecureRule*	getCopy() const;
-
-	void				setContentString(const QString& strContent);
-
 	inline void			setAll(bool all = true);
 	inline bool			getAll() const;
+
+	bool				parseContent(const QString& sContent);
+
+	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QString& strContent) const;
 	bool				match(const CFile& pFile) const;

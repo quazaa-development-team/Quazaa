@@ -108,14 +108,16 @@ void DialogAddRule::changeEvent(QEvent* e)
 void DialogAddRule::on_pushButtonOK_clicked()
 {
 	CSecureRule* pRule = NULL;
-	QList<CHash> lHashes;
-	CHash* pHash;
 
 	switch ( m_ui->comboBoxRuleType->currentIndex() )
 	{
 	case 0:
 		pRule = new CIPRule();
-		((CIPRule*)pRule)->setIP( QHostAddress( m_ui->lineEditIP->text() ) );
+		if ( !pRule->parseContent( m_ui->lineEditIP->text() ) )
+		{
+			delete pRule;
+			pRule = NULL;
+		}
 		break;
 	case 1:
 		pRule = new CIPRangeRule();
@@ -123,33 +125,45 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 2:
 		pRule = new CCountryRule();
-		((CCountryRule*)pRule)->setContentString( m_ui->lineEditCountry->text() );
+		if ( !pRule->parseContent( m_ui->lineEditCountry->text() ) )
+		{
+			delete pRule;
+			pRule = NULL;
+		}
 		break;
 	case 3:
 		pRule = new CHashRule();
-
-		pHash = CHash::FromURN( m_ui->lineEditHash->text() );
-		if ( pHash )
-			lHashes.append( *pHash );
-
-		delete pHash;
-		pHash = NULL;
-
-		((CHashRule*)pRule)->setContent( lHashes );
+		if ( !pRule->parseContent( m_ui->lineEditHash->text() ) )
+		{
+			delete pRule;
+			pRule = NULL;
+		}
 		break;
 	case 4:
 		pRule = new CContentRule();
-		((CContentRule*)pRule)->setContentString( m_ui->lineEditContent->text() );
+		if ( !pRule->parseContent( m_ui->lineEditContent->text() ) )
+		{
+			delete pRule;
+			pRule = NULL;
+		}
 		((CContentRule*)pRule)->setAll( m_ui->radioButtonMatchAll->isChecked() );
 		break;
 	case 5:
 		pRule = new CRegExpRule();
-		((CRegExpRule*)pRule)->setContentString( m_ui->lineEditRegularExpression->text() );
+		if ( !pRule->parseContent( m_ui->lineEditRegularExpression->text() ) )
+		{
+			delete pRule;
+			pRule = NULL;
+		}
 		break;
 	case 6:
 		pRule = new CUserAgentRule();
+		if ( !pRule->parseContent( m_ui->lineEditUserAgent->text() ) )
+		{
+			delete pRule;
+			pRule = NULL;
+		}
 		((CUserAgentRule*)pRule)->setRegExp( m_ui->checkBoxUserAgent->isChecked() );
-		((CUserAgentRule*)pRule)->setContentString( m_ui->lineEditUserAgent->text() );
 		break;
 	default:
 		Q_ASSERT( false );
