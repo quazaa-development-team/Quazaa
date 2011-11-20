@@ -235,6 +235,10 @@ void CTimedSignalQueue::checkSchedule()
 
 		m_pSection.unlock();
 	}
+	else
+	{
+		qDebug() << "CTimedSignalQueue::checkSchedule(): Unable to aquire a lock. Skipping check.";
+	}
 }
 
 QUuid CTimedSignalQueue::push(QObject* parent, const char* signal, quint64 tInterval, bool bMultiShot,
