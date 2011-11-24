@@ -49,7 +49,14 @@ CTimerObject::CTimerObject(QObject* obj, const char* member, quint64 tInterval, 
 	resetTime();
 
 	m_sSignal.obj = obj;
-	m_sSignal.sName = member;
+
+	// Copy the c-string we have been given.
+	const size_t nLength = strlen( member );
+	char* sTmp = new char[nLength + 1];	// We need 1 extra char for the terminal \0.
+	strcpy( sTmp, member );				// This is supposed to be safe as eventual changes to pTimerObject->
+										// m_sSignal.sName should originate from the same thread.
+	m_sSignal.sName = sTmp;
+
 	m_sSignal.val0 = val0;
 	m_sSignal.val1 = val1;
 	m_sSignal.val2 = val2;
@@ -77,7 +84,14 @@ CTimerObject::CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
 	m_tTime *= tSchedule;
 
 	m_sSignal.obj = obj;
-	m_sSignal.sName = member;
+
+	// Copy the c-string we have been given.
+	const size_t nLength = strlen( member );
+	char* sTmp = new char[nLength + 1];	// We need 1 extra char for the terminal \0.
+	strcpy( sTmp, member );				// This is supposed to be safe as eventual changes to pTimerObject->
+										// m_sSignal.sName should originate from the same thread.
+	m_sSignal.sName = sTmp;
+
 	m_sSignal.val0 = val0;
 	m_sSignal.val1 = val1;
 	m_sSignal.val2 = val2;
@@ -104,7 +118,7 @@ CTimerObject::CTimerObject(const CTimerObject* const pTimerObject)
 
 	// Copy the c-string from pTimerObject
 	const size_t nLength = strlen( pTimerObject->m_sSignal.sName );
-	char* sTmp = new char[nLength + 1]; // We need 1 extra char for the terminal 0.
+	char* sTmp = new char[nLength + 1];				// We need 1 extra char for the terminal 0.
 	strcpy( sTmp, pTimerObject->m_sSignal.sName );	// This is supposed to be safe as eventual changes to pTimerObject->
 													// m_sSignal.sName should originate from the same thread.
 	m_sSignal.sName = sTmp;
@@ -167,7 +181,7 @@ void CTimedSignalQueue::setup()
 
 void CTimedSignalQueue::stop()
 {
-	ASSUME_LOCK(m_pSection);
+	QMutexLocker l( &m_pSection );
 
 	m_oTimer.stop();
 }
@@ -305,13 +319,15 @@ bool CTimedSignalQueue::pop(const QObject* parent, const char* signal)
 bool CTimedSignalQueue::pop(QUuid oTimer_ID)
 {
 	QMutexLocker l( &m_pSection );
+	CTimerObject* pTimer;
 
 	for ( CSignalQueueIterator itQueue = m_QueuedSignals.begin(); itQueue != m_QueuedSignals.end(); )
 	{
-		if ( itQueue.value()->m_oUUID == oTimer_ID )
+		pTimer = itQueue.value();
+		if ( pTimer->m_oUUID == oTimer_ID )
 		{
-			delete itQueue.value();
-			m_QueuedSignals.erase(itQueue);
+			m_QueuedSignals.erase( itQueue );
+			delete pTimer;
 			return true;
 		}
 		else
@@ -326,11 +342,13 @@ bool CTimedSignalQueue::pop(QUuid oTimer_ID)
 bool CTimedSignalQueue::setInterval(QUuid oTimer_ID, quint64 tInterval)
 {
 	QMutexLocker mutex( &m_pSection );
+	CTimerObject* pTimer;
 
 	CSignalQueueIterator i = m_QueuedSignals.begin();
 	while ( i != m_QueuedSignals.end() )
 	{
-		if ( i.value()->m_oUUID == oTimer_ID )
+		pTimer = i.value();
+		if ( pTimer->m_oUUID == oTimer_ID )
 		{
 			CTimerObject* pTimerCopy = new CTimerObject( *i );
 
