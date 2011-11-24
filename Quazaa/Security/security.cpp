@@ -1127,9 +1127,9 @@ bool CSecurity::load()
   */
 bool CSecurity::load( QString sPath )
 {
-	QFile iFile( sPath );
+	QFile oFile( sPath );
 
-	if ( ! iFile.open( QIODevice::ReadOnly ) )
+	if ( ! oFile.open( QIODevice::ReadOnly ) )
 		return false;
 
 	CSecureRule* pRule = NULL;
@@ -1138,7 +1138,7 @@ bool CSecurity::load( QString sPath )
 	{
 		clear();
 
-		QDataStream iStream( &iFile );
+		QDataStream iStream( &oFile );
 
 		unsigned short nVersion;
 		iStream >> nVersion;
@@ -1187,14 +1187,14 @@ bool CSecurity::load( QString sPath )
 			delete pRule;
 
 		clear();
-		iFile.close();
+		oFile.close();
 
 		QWriteLocker l( &m_pRWLock );
 		m_bIsLoading = false;
 
 		return false;
 	}
-	iFile.close();
+	oFile.close();
 
 	return true;
 }
@@ -1216,21 +1216,15 @@ bool CSecurity::save(bool bForceSaving)
 	QString sBackupPath = m_sDataPath + "security_backup.dat";
 	QString sPath		= m_sDataPath + "security.dat";
 
-	if ( QFile::exists( sBackupPath ) )
-	{
-		if ( !QFile::remove( sBackupPath ) )
-			return false; // Error while removing old backup file.
-	}
+	if ( QFile::exists( sBackupPath ) && !QFile::remove( sBackupPath ) )
+		return false; // Error while removing old backup file.
 
-	if ( QFile::exists( sPath ) )
-	{
-		if ( !QFile::rename( sPath, sBackupPath ) )
-			return false; // Error while renaming current database file to replace backup file.
-	}
+	if ( QFile::exists( sPath ) && !QFile::rename( sPath, sBackupPath ) )
+		return false; // Error while renaming current database file to replace backup file.
 
 	QFile oFile( sPath );
 
-	if ( ! oFile.open( QIODevice::WriteOnly ) )
+	if ( !oFile.open( QIODevice::WriteOnly ) )
 		return false;
 
 	unsigned short nVersion = SECURITY_CODE_VERSION;
