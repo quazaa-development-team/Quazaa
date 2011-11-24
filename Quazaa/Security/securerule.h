@@ -46,7 +46,7 @@ public:
 	virtual bool            operator==(const CSecureRule& pRule) const;
 	bool					operator!=(const CSecureRule& pRule) const;
 
-	virtual bool			parseContent(QString& sContent);
+	virtual bool			parseContent(const QString& sContent);
 	QString					getContentString() const;
 
 	virtual CSecureRule*	getCopy() const;
@@ -130,7 +130,7 @@ public:
 	inline QHostAddress IP() const;
 	inline void			setIP( const QHostAddress& oIP );
 
-	bool				parseContent(QString& sContent);
+	bool				parseContent(const QString& sContent);
 
 	inline CSecureRule*	getCopy() const;
 
@@ -172,7 +172,7 @@ public:
 	inline int			mask() const;
 //	inline bool			setMask(const int& nMask);
 
-	bool				parseContent(QString& sContent);
+	bool				parseContent(const QString& sContent);
 
 	inline CSecureRule*	getCopy() const;
 
