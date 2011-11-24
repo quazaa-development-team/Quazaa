@@ -73,7 +73,7 @@ CSecureRule* CSecureRule::getCopy() const
 	return new CSecureRule( *this );
 }
 
-bool CSecureRule::parseContent(QString& content)
+bool CSecureRule::parseContent(const QString& content)
 {
 #ifdef _DEBUG
 	Q_ASSERT( m_nType != srContentUndefined );
@@ -544,7 +544,7 @@ CIPRule::CIPRule(bool)
 	m_nType = srContentAddress;
 }
 
-bool CIPRule::parseContent(QString& sContent)
+bool CIPRule::parseContent(const QString& sContent)
 {
 	QHostAddress oAddress;
 	if ( oAddress.setAddress( sContent ) )
@@ -592,7 +592,7 @@ CIPRangeRule::CIPRangeRule(bool)
 	m_nType = srContentAddressRange;
 }
 
-bool CIPRangeRule::parseContent(QString& sContent)
+bool CIPRangeRule::parseContent(const QString& sContent)
 {
 	QPair<QHostAddress, int> oPair = QHostAddress::parseSubnet( sContent );
 

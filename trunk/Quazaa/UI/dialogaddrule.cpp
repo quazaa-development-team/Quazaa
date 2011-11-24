@@ -108,12 +108,14 @@ void DialogAddRule::changeEvent(QEvent* e)
 void DialogAddRule::on_pushButtonOK_clicked()
 {
 	CSecureRule* pRule = NULL;
+	QString sTmp;
 
 	switch ( m_ui->comboBoxRuleType->currentIndex() )
 	{
 	case 0:
 		pRule = new CIPRule();
-		if ( !pRule->parseContent( m_ui->lineEditIP->text() ) )
+		sTmp = m_ui->lineEditIP->text();
+		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
 			pRule = NULL;
@@ -125,7 +127,8 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 2:
 		pRule = new CCountryRule();
-		if ( !pRule->parseContent( m_ui->lineEditCountry->text() ) )
+		sTmp = m_ui->lineEditCountry->text();
+		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
 			pRule = NULL;
@@ -133,7 +136,8 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 3:
 		pRule = new CHashRule();
-		if ( !pRule->parseContent( m_ui->lineEditHash->text() ) )
+		sTmp = m_ui->lineEditHash->text();
+		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
 			pRule = NULL;
@@ -141,7 +145,8 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 4:
 		pRule = new CContentRule();
-		if ( !pRule->parseContent( m_ui->lineEditContent->text() ) )
+		sTmp = m_ui->lineEditContent->text();
+		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
 			pRule = NULL;
@@ -150,7 +155,8 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 5:
 		pRule = new CRegExpRule();
-		if ( !pRule->parseContent( m_ui->lineEditRegularExpression->text() ) )
+		sTmp = m_ui->lineEditRegularExpression->text();
+		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
 			pRule = NULL;
@@ -158,7 +164,8 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 6:
 		pRule = new CUserAgentRule();
-		if ( !pRule->parseContent( m_ui->lineEditUserAgent->text() ) )
+		sTmp = m_ui->lineEditUserAgent->text();
+		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
 			pRule = NULL;
