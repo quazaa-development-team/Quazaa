@@ -26,6 +26,7 @@
 #include <QDir>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QSysInfo>
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -123,5 +124,62 @@ QString common::vendorCodeToName(QString vendorCode)
 	{
 		return vendorCode;
 	}
+}
+
+OSVersion::OSVersion osVersion()
+{
+#ifdef Q_OS_LINUX
+	return OSVersion::Linux;
+#endif
+#ifdef Q_OS_FREEBSD
+	return OSVersion::BSD;
+#endif
+#ifdef Q_OS_NETBSD
+	return OSVersion::BSD;
+#endif
+#ifdef Q_OS_OPENBSD
+	return OSVersion::BSD;
+#endif
+#ifdef Q_OS_UNIX
+	return OSVersion::Unix;
+#endif
+#ifdef Q_OS_MAC
+	switch ( QSysInfo::MacintoshVersion )
+	{
+	case QSysInfo::MV_CHEETAH:
+		return OSVersion::MacCheetah;
+	case QSysInfo::MV_PUMA:
+		return OSVersion::MacPuma;
+	case QSysInfo::MV_JAGUAR:
+		return OSVersion::MacJaguar;
+	case QSysInfo::MV_PANTHER:
+		return OSVersion::MacPanther;
+	case QSysInfo::MV_TIGER:
+		return OSVersion::MacTiger;
+	case QSysInfo::MV_LOEPARD:
+		return OSVersion::MacLeopard;
+	case QSysInfo::MV_SNOWLEOPARD:
+		return OSVersion::MacSnowLeopard;
+	default:
+		return OSVersion::MacSnowLeopard;
+	}
+#endif
+#ifdef Q_OS_WIN
+	switch ( QSysInfo::windowsVersion() )
+	{
+	case QSysInfo::WV_2000:
+		return OSVersion::Win2000;
+	case QSysInfo::WV_XP:
+		return OSVersion::WinXP;
+	case QSysInfo::WV_2003:
+		return OSVersion::Win2003;
+	case QSysInfo::WV_VISTA:
+		return OSVersion::WinVista;
+	case QSysInfo::WV_WINDOWS7:
+		return OSVersion::Win7;
+	default:
+		return OSVersion::Win7;
+	}
+#endif
 }
 

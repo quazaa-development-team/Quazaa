@@ -29,11 +29,17 @@
 
 #include <QReadWriteLock>
 
+
+namespace OSVersion {
+	enum OSVersion{ Linux, Unix, BSD, MacCheetah, MacPuma, MacJaguar, MacPanther, MacTiger, MacLeopard, MacSnowLeopard, Win2000, WinXP, Win2003, WinVista, Win7 };
+}
+
 namespace common
 {
 	void folderOpen(QString file);
 	QString formatBytes(quint64 nBytesPerSec);
 	QString vendorCodeToName(QString vendorCode);
+	OSVersion::OSVersion osVersion();
 
 	// This generates a read/write iterator from a read-only iterator.
 	template<class T> inline typename T::iterator getRWIterator(T container, typename T::const_iterator const_it)
