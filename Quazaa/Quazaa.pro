@@ -300,7 +300,8 @@ SOURCES += \
     Transfers/transfer.cpp \
 	3rdparty/nvwa/debug_new.cpp \
     UI/widgetircmain.cpp \
-    UI/widgetircsidebars.cpp
+    UI/widgetircsidebars.cpp \
+    Skin/skinsettings.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -443,7 +444,8 @@ HEADERS += \
     3rdparty/nvwa/debug_new.h \
 	3rdparty/nvwa/static_assert.h \
     UI/widgetircmain.h \
-    UI/widgetircsidebars.h
+    UI/widgetircsidebars.h \
+    Skin/skinsettings.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -538,6 +540,8 @@ TRANSLATIONS = \
 RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
+
+
 
 
 
