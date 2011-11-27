@@ -1388,6 +1388,21 @@ bool CSecurity::fromXML(const QDomDocument &oXMLroot)
 }
 
 //////////////////////////////////////////////////////////////////////
+// Qt slots
+/**
+  * Qt slot. Triggers the Security Manager to emit all rules using the ruleInfo() signal.
+  * Locking: R
+  */
+void CSecurity::requestRuleList()
+{
+	QReadLocker l( &m_pRWLock );
+	for ( CIterator i = m_Rules.begin() ; i != m_Rules.end(); i++ )
+	{
+		emit ruleInfo( QSharedPointer<CSecureRule>( (*i)->getCopy() ) );
+	}
+}
+
+//////////////////////////////////////////////////////////////////////
 // Sanity checking slots
 /**
   * Qt slot. Triggers a system wide sanity check.

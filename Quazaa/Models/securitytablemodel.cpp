@@ -60,7 +60,8 @@ CSecurityTableModel::Rule::Rule(const CSecureRule* const pRule)
 	}
 }
 
-bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_update, CSecurityTableModel *model)
+bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_update,
+									   CSecurityTableModel *model)
 {
 	if ( !securityManager.check( pNode ) )
 		return false;
@@ -199,7 +200,8 @@ QString CSecurityTableModel::Rule::expiryToString(quint32 tExpire) const
 		return tr( "Session" );
 	}
 
-	return QString().sprintf("%.2u:%.2u:%.2u", tExpire / 3600, (tExpire % 3600 / 60), (tExpire % 3600) % 60);
+	return QString().sprintf( "%.2u:%.2u:%.2u", tExpire / 3600,
+							  (tExpire % 3600 / 60), (tExpire % 3600) % 60 );
 }
 
 CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
@@ -209,8 +211,16 @@ CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 	m_nSortColumn = -1;
 	m_bNeedSorting = false;
 
-	connect( &securityManager, SIGNAL( ruleAdded(   QSharedPointer<CSecureRule> ) ), this, SLOT( addRule(    QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
-	connect( &securityManager, SIGNAL( ruleRemoved( QSharedPointer<CSecureRule> ) ), this, SLOT( removeRule( QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
+	// Note that this first slot is automatically disconnected once all rules have been recieved.
+	connect( &securityManager, SIGNAL( ruleInfo(    QSharedPointer<CSecureRule> ) ), this,
+			 SLOT( addRule(    QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
+
+	connect( &securityManager, SIGNAL( ruleAdded(   QSharedPointer<CSecureRule> ) ), this,
+			 SLOT( addRule(    QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
+	connect( &securityManager, SIGNAL( ruleRemoved( QSharedPointer<CSecureRule> ) ), this,
+			 SLOT( removeRule( QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
+
+	retrieveAllRules();
 }
 
 CSecurityTableModel::~CSecurityTableModel()
@@ -402,13 +412,18 @@ void CSecurityTableModel::addRule(const QSharedPointer<CSecureRule> pRule)
 		endInsertRows();
 		m_bNeedSorting = true;
 	}
+
+	// Make sure we don't recieve any signals we don't want once we got all rules once.
+	if ( m_lNodes.size() == securityManager.getCount() )
+		disconnect( &securityManager, SIGNAL( ruleInfo( QSharedPointer<CSecureRule> ) ),
+					this, SLOT( addRule( QSharedPointer<CSecureRule> ) ) );
 }
 
 void CSecurityTableModel::removeRule(const QSharedPointer<CSecureRule> pRule)
 {
 	for ( quint32 i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
 	{
-		if ( m_lNodes[i]->pNode == pRule )
+		if ( *(m_lNodes[i]->pNode) == *pRule )
 		{
 			beginRemoveRows( QModelIndex(), i, i );
 			delete m_lNodes[i];
@@ -442,7 +457,8 @@ void CSecurityTableModel::updateAll()
 			foreach ( QModelIndex index, uplist )
 			{
 				// todo: question: is there a reason for this line being inside the for each loop?
-				// couldn't this be moved before the loop and the loop be only called if this returns != NULL?
+				// couldn't this be moved before the loop and the loop be only called if this
+				// returns != NULL?
 				QAbstractItemView* pView = qobject_cast< QAbstractItemView* >( m_oContainer );
 
 				if ( pView )
@@ -454,3 +470,12 @@ void CSecurityTableModel::updateAll()
 	}
 }
 
+void CSecurityTableModel::retrieveAllRules()
+{
+	// Remove all rules.
+	qDeleteAll( m_lNodes );
+	m_lNodes.clear();
+
+	// Request getting them back from the Security Manager.
+	securityManager.requestRuleList();
+}
