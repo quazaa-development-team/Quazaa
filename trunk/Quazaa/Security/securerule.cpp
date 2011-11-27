@@ -73,14 +73,10 @@ CSecureRule* CSecureRule::getCopy() const
 	return new CSecureRule( *this );
 }
 
-bool CSecureRule::parseContent(const QString& content)
+bool CSecureRule::parseContent(const QString&)
 {
-#ifdef _DEBUG
-	Q_ASSERT( m_nType != srContentUndefined );
-#endif //_DEBUG
-
-	m_sContent = content;
-	return true;
+	Q_ASSERT( false );
+	return false;
 }
 
 QString CSecureRule::getContentString() const
@@ -143,7 +139,7 @@ void CSecureRule::save(const CSecureRule* const pRule, QDataStream &oStream)
 	}
 }
 
-void CSecureRule::load(CSecureRule* pRule, QDataStream &oStream, int)
+void CSecureRule::load(CSecureRule*& pRule, QDataStream &oStream, int)
 {
 	if ( pRule )
 	{
@@ -173,6 +169,7 @@ void CSecureRule::load(CSecureRule* pRule, QDataStream &oStream, int)
 	case 0:
 		// contentless rule
 		pRule = new CSecureRule();
+		Q_ASSERT( false );
 		break;
 	case 1:
 		pRule = new CIPRule();
@@ -183,7 +180,7 @@ void CSecureRule::load(CSecureRule* pRule, QDataStream &oStream, int)
 		pRule = new CIPRangeRule();
 		oStream >> sTmp;
 		pRule->parseContent( sTmp );
-	break;
+		break;
 	case 3:
 		pRule = new CCountryRule();
 		oStream >> sTmp;
@@ -214,6 +211,7 @@ void CSecureRule::load(CSecureRule* pRule, QDataStream &oStream, int)
 		((CContentRule*)pRule)->setAll( bTmp );
 		break;
 	default:
+		Q_ASSERT( false );
 		// There is an empty or erroneous rule. Error handling (if necessary) should go here.
 		//		theApp.Message( MSG_ERROR, IDS_SECURITY_ARCHIVE_RULE_LOAD_FAIL );
 		break;
@@ -550,6 +548,7 @@ bool CIPRule::parseContent(const QString& sContent)
 	if ( oAddress.setAddress( sContent ) )
 	{
 		m_oIP = oAddress;
+		m_sContent = oAddress.toString();
 		return true;
 	}
 	return false;

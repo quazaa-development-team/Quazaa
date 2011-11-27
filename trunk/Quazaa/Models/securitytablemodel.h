@@ -73,6 +73,9 @@ public slots:
 	void addRule(const QSharedPointer<CSecureRule> pRule);
 	void removeRule(const QSharedPointer<CSecureRule> pRule);
 	void updateAll();
+
+private:
+	void retrieveAllRules();
 };
 
 #endif // SECURITYTABLEMODEL_H

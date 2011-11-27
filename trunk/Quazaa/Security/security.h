@@ -174,13 +174,18 @@ namespace security
 		bool			fromXML(const QDomDocument& oXMLroot);
 
 	signals:
-		void			ruleAdded(QSharedPointer<CSecureRule> pRule);
+		void			ruleAdded(QSharedPointer<CSecureRule> pRule);	
 		void			ruleRemoved(QSharedPointer<CSecureRule> pRule);
+
+		void			ruleInfo(QSharedPointer<CSecureRule> pRule);
 
 		// This is used to inform other modules that a system wide sanity check has become necessary.
 		void			performSanityCheck();
 
 	public slots:
+		// Trigger this to let the Security Manager emit all rules
+		void			requestRuleList();
+
 		// Start system wide sanity check
 		void			sanityCheck();
 		// This slot must be triggered by all listeners to performSanityCheck() once they have completed their work.
