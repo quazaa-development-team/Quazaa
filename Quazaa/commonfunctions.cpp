@@ -126,7 +126,7 @@ QString common::vendorCodeToName(QString vendorCode)
 	}
 }
 
-OSVersion::OSVersion osVersion()
+OSVersion::OSVersion common::osVersion()
 {
 #ifdef Q_OS_LINUX
 	return OSVersion::Linux;
