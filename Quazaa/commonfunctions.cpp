@@ -156,7 +156,7 @@ OSVersion::OSVersion common::osVersion()
 		return OSVersion::MacPanther;
 	case QSysInfo::MV_TIGER:
 		return OSVersion::MacTiger;
-	case QSysInfo::MV_LOEPARD:
+	case QSysInfo::MV_LEOPARD:
 		return OSVersion::MacLeopard;
 	case QSysInfo::MV_SNOWLEOPARD:
 		return OSVersion::MacSnowLeopard;
