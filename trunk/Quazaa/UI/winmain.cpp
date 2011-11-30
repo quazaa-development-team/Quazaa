@@ -93,13 +93,6 @@ CWinMain::CWinMain(QWidget* parent) :
 	quazaaSettings.loadWindowSettings(this);
 	restoreState(quazaaSettings.WinMain.MainToolbar);
 
-	//Set up the menu toolbar
-#ifndef Q_OS_MAC
-	ui->toolBarMainMenu->addWidget(ui->menubarMain);
-#else
-	ui->toolBarMainMenu->setVisible(false);
-#endif
-
 	//Set up the status bar
 	labelIPAddress = new QLabel(tr("Current IP:"));
 	ui->statusbar->addWidget(labelIPAddress);
@@ -254,9 +247,7 @@ CWinMain::CWinMain(QWidget* parent) :
 		ui->actionHome->setChecked(true);
 		break;
 	}
-#ifndef Q_OS_MAC
-	ui->toolBarMainMenu->setStyleSheet("QMenuBar::item:!selected,  QMenuBar::item:!pressed { color: " + qApp->palette().buttonText().color().name() + "; background: transparent; } QMenuBar { background: transparent; }");
-#endif
+
 	connect(ui->actionNewSearch, SIGNAL(triggered()), pageSearch, SLOT(on_toolButtonNewSearch_clicked()));
 	connect(pageHome, SIGNAL(requestSearch(QString*)), this, SLOT(startNewSearch(QString*)));
 	connect(pageHome, SIGNAL(triggerLibrary()), this, SLOT(on_actionLibrary_triggered()));
