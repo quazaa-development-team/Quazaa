@@ -35,6 +35,8 @@ namespace security
 	public:
 		static const QString xmlns;
 
+		QReadWriteLock m_pRWLock;
+
 		typedef enum
 		{
 			banSession, ban5Mins, ban30Mins, ban2Hours, banWeek, banMonth, banForever
@@ -61,8 +63,6 @@ namespace security
 		typedef std::multimap< QString, CHashRule* > CHashRuleMap;
 
 		typedef CSecurityRuleList::const_iterator CIterator;
-
-		QReadWriteLock		m_pRWLock;
 
 		// contains all rules
 		CSecurityRuleList	m_Rules;
@@ -174,10 +174,10 @@ namespace security
 		bool			fromXML(const QDomDocument& oXMLroot);
 
 	signals:
-		void			ruleAdded(QSharedPointer<CSecureRule> pRule);	
+		void			ruleAdded(CSecureRule* pRule);
 		void			ruleRemoved(QSharedPointer<CSecureRule> pRule);
 
-		void			ruleInfo(QSharedPointer<CSecureRule> pRule);
+		void			ruleInfo(CSecureRule* pRule);
 
 		// This is used to inform other modules that a system wide sanity check has become necessary.
 		void			performSanityCheck();

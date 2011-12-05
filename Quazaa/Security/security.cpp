@@ -423,7 +423,7 @@ void CSecurity::add(CSecureRule* pRule)
 	m_bSaved = false;
 
 	// Inform CSecurityTableModel about new rule.
-	emit ruleAdded( QSharedPointer<CSecureRule>( pRule->getCopy() ) );
+	emit ruleAdded( pRule );
 
 	// If we're not loading, check all lists for newly denied hosts.
 	if ( !m_bIsLoading )
@@ -1398,7 +1398,7 @@ void CSecurity::requestRuleList()
 	QReadLocker l( &m_pRWLock );
 	for ( CIterator i = m_Rules.begin() ; i != m_Rules.end(); i++ )
 	{
-		emit ruleInfo( QSharedPointer<CSecureRule>( (*i)->getCopy() ) );
+		emit ruleInfo( *i );
 	}
 }
 
