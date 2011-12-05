@@ -50,6 +50,7 @@ INCLUDEPATH += NetworkCore \
 	ShareManager \
 	Chat \
 	Transfers \
+	Skin \
 	.
 
 include(Chat/IRC/irc.pri)
