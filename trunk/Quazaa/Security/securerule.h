@@ -1,6 +1,8 @@
 #ifndef SECURERULE_H
 #define SECURERULE_H
 
+#include <list>
+
 #include <QDomElement>
 #include <QHostAddress>
 #include <QRegExp>
@@ -30,6 +32,7 @@ private:
 	// Hit counters
 	quint32		m_nToday;
 	quint32		m_nTotal;
+	std::list<CSecureRule**>	m_lPointers;
 
 public:
 	Policy		m_nAction;
@@ -40,7 +43,7 @@ public:
 public:
 	// Construction / Destruction
 	CSecureRule(bool bCreate = true);
-	virtual inline	~CSecureRule() {}
+	virtual			~CSecureRule();
 
 	// Operators
 	virtual bool            operator==(const CSecureRule& pRule) const;
@@ -51,6 +54,8 @@ public:
 
 	virtual CSecureRule*	getCopy() const;
 
+	void			registerPointer(CSecureRule** pointer);
+
 	bool			isExpired(quint32 nNow, bool bSession = false) const;
 
 	// Hit count control
@@ -58,7 +63,7 @@ public:
 	inline void		resetCount();
 	inline quint32	getTodayCount() const;
 	inline quint32	getTotalCount() const;
-	inline void		loadTotalCount( quint32 nTotal );
+	inline void		loadTotalCount(quint32 nTotal);
 
 	// get the rule type
 	inline RuleType	type() const;

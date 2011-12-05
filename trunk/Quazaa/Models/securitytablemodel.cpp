@@ -29,14 +29,17 @@
 #include "debug_new.h"
 #endif
 
-CSecurityTableModel::Rule::Rule(const CSecureRule* const pRule)
+CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 {
 #ifdef _DEBUG
 	Q_ASSERT( pRule );
 #endif // _DEBUG
 
-	this->pNode	= pRule->getCopy();
+	QReadLocker l( &securityManager.m_pRWLock );
 
+	pRule->registerPointer( &pNode );
+
+	pNode		= pRule;
 	sContent	= pRule->getContentString();
 	nAction		= pRule->m_nAction;
 	tExpire		= pRule->m_tExpire;
@@ -63,8 +66,21 @@ CSecurityTableModel::Rule::Rule(const CSecureRule* const pRule)
 bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_update,
 									   CSecurityTableModel *model)
 {
-	if ( !securityManager.check( pNode ) )
+	QReadLocker l( &securityManager.m_pRWLock );
+
+	if ( !pNode )
 		return false;
+
+#ifdef _DEBUG
+	l.unlock();
+
+	// pNode should be set to NULL on deletion of the rule object it points to.
+	Q_ASSERT( securityManager.check( pNode ) );
+
+	l.relock();
+#endif // _DEBUG
+
+
 
 	bool bRet = false;
 
@@ -212,14 +228,17 @@ CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 	m_bNeedSorting = false;
 
 	// Note that this first slot is automatically disconnected once all rules have been recieved.
-	connect( &securityManager, SIGNAL( ruleInfo(    QSharedPointer<CSecureRule> ) ), this,
-			 SLOT( addRule(    QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
+	connect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ), this,
+			 SLOT( addRule( CSecureRule* ) ), Qt::QueuedConnection );
 
-	connect( &securityManager, SIGNAL( ruleAdded(   QSharedPointer<CSecureRule> ) ), this,
-			 SLOT( addRule(    QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
+	connect( &securityManager, SIGNAL( ruleAdded( CSecureRule* ) ), this,
+			 SLOT( addRule( CSecureRule* ) ), Qt::QueuedConnection );
+
 	connect( &securityManager, SIGNAL( ruleRemoved( QSharedPointer<CSecureRule> ) ), this,
 			 SLOT( removeRule( QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
 
+	// This needs to be called to make sure that all rules added to the securityManager before this
+	// part of the GUI is loaded are properly added to the model.
 	retrieveAllRules();
 }
 
@@ -313,7 +332,7 @@ QVariant CSecurityTableModel::data(const QModelIndex& index, int role) const
 
 QVariant CSecurityTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-	if( orientation != Qt::Horizontal )
+	if ( orientation != Qt::Horizontal )
 		return QVariant();
 
 	if ( role == Qt::DisplayRole )
@@ -403,20 +422,20 @@ security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &ind
 		return NULL;
 }
 
-void CSecurityTableModel::addRule(const QSharedPointer<CSecureRule> pRule)
+void CSecurityTableModel::addRule(CSecureRule* pRule)
 {
-	if ( securityManager.check( pRule.data() ) )
+	if ( securityManager.check( pRule ) )
 	{
 		beginInsertRows( QModelIndex(), m_lNodes.size(), m_lNodes.size() );
-		m_lNodes.append( new Rule( pRule.data() ) );
+		m_lNodes.append( new Rule( pRule ) );
 		endInsertRows();
 		m_bNeedSorting = true;
 	}
 
 	// Make sure we don't recieve any signals we don't want once we got all rules once.
 	if ( m_lNodes.size() == securityManager.getCount() )
-		disconnect( &securityManager, SIGNAL( ruleInfo( QSharedPointer<CSecureRule> ) ),
-					this, SLOT( addRule( QSharedPointer<CSecureRule> ) ) );
+		disconnect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ),
+					this, SLOT( addRule( CSecureRule* ) ) );
 }
 
 void CSecurityTableModel::removeRule(const QSharedPointer<CSecureRule> pRule)
@@ -456,7 +475,7 @@ void CSecurityTableModel::updateAll()
 		{
 			foreach ( QModelIndex index, uplist )
 			{
-				// todo: question: is there a reason for this line being inside the for each loop?
+				// TODO: question: is there a reason for this line being inside the for each loop?
 				// couldn't this be moved before the loop and the loop be only called if this
 				// returns != NULL?
 				QAbstractItemView* pView = qobject_cast< QAbstractItemView* >( m_oContainer );

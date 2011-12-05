@@ -46,6 +46,16 @@ CSecureRule::CSecureRule(bool bCreate)
 		m_oUUID = QUuid();
 }
 
+CSecureRule::~CSecureRule()
+{
+	// Set all pointers to this rule to NULL to notify them about the deletion of this object.
+	for ( std::list<CSecureRule**>::iterator i = m_lPointers.begin();
+		 i != m_lPointers.end(); ++i )
+	{
+		(*i) = NULL;
+	}
+}
+
 bool CSecureRule::operator==(const CSecureRule& pRule) const
 {
 	return ( m_nType	== pRule.m_nType	&&
@@ -63,16 +73,6 @@ bool CSecureRule::operator!=(const CSecureRule& pRule) const
 	return !( *this == pRule );
 }
 
-CSecureRule* CSecureRule::getCopy() const
-{
-	// This method should never be called.
-#ifdef _DEBUG
-	Q_ASSERT( false );
-#endif //_DEBUG
-
-	return new CSecureRule( *this );
-}
-
 bool CSecureRule::parseContent(const QString&)
 {
 	Q_ASSERT( false );
@@ -86,6 +86,21 @@ QString CSecureRule::getContentString() const
 #endif //_DEBUG
 
 	return m_sContent;
+}
+
+CSecureRule* CSecureRule::getCopy() const
+{
+	// This method should never be called.
+#ifdef _DEBUG
+	Q_ASSERT( false );
+#endif //_DEBUG
+
+	return new CSecureRule( *this );
+}
+
+void CSecureRule::registerPointer(CSecureRule** pointer)
+{
+	m_lPointers.push_back( pointer );
 }
 
 bool CSecureRule::isExpired(quint32 tNow, bool bSession) const

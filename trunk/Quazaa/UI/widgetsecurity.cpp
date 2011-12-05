@@ -101,8 +101,12 @@ void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 
 	if ( index.isValid() )
 	{
+		// Lock security manager while fiddling with rule.
+		QReadLocker lock( &securityManager.m_pRWLock );
 		security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
 		DialogAddRule* dlgAddRule = new DialogAddRule( this, pRule );
+		lock.unlock();
+
 		connect( dlgAddRule, SIGNAL( dataUpdated() ), SLOT( update() ), Qt::QueuedConnection );
 		dlgAddRule->show();
 	}
