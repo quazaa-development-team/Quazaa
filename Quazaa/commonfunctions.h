@@ -44,13 +44,13 @@ namespace common
 	// This generates a read/write iterator from a read-only iterator.
 	template<class T> inline typename T::iterator getRWIterator(T container, typename T::const_iterator const_it)
 	{
-		typename T::iterator i( container.begin() );
-		std::advance( i, std::distance< typename T::const_iterator >( i, const_it ) );
+		typename T::iterator i = container.begin();
+		typename T::const_iterator container_begin_const = container.begin();
+		int nDistance = std::distance< typename T::const_iterator >( container_begin_const, const_it );
+		std::advance( i, nDistance );
 		return i;
 	}
 }
-
-
 
 // Convenience class to make sure the lock state is always well defined while allowing to use timeouts.
 // Class can also be used recursively. Plz make sure you don't modify the QReadWriteLock externally

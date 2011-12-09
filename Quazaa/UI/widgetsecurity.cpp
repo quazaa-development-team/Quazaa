@@ -95,6 +95,19 @@ void WidgetSecurity::on_actionSecurityAddRule_triggered()
 	dlgAddRule->show();
 }
 
+void WidgetSecurity::on_actionSecurityRemoveRule_triggered()
+{
+	QModelIndex index = ui->tableViewSecurity->currentIndex();
+
+	if ( index.isValid() )
+	{
+		// Lock security manager while fiddling with rule.
+		QReadLocker l( &securityManager.m_pRWLock );
+		security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
+		securityManager.remove( pRule, false );
+	}
+}
+
 void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 {
 	QModelIndex index = ui->tableViewSecurity->currentIndex();
@@ -112,9 +125,18 @@ void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 	}
 }
 
+void WidgetSecurity::on_actionSecurityImportRules_triggered()
+{
+
+}
+
+void WidgetSecurity::on_actionSecurityExportRules_triggered()
+{
+
+}
+
 void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 {
 	DialogSecuritySubscriptions* dlgSecuritySubscriptions = new DialogSecuritySubscriptions( this );
 	dlgSecuritySubscriptions->show();
 }
-

@@ -138,7 +138,8 @@ namespace security
 
 		bool			check(const CSecureRule* const pRule);
 		void			add(CSecureRule* pRule);
-		inline void		remove(CSecureRule* pRule);
+		// Use bLockRequired to enable/disable locking inside function.
+		inline void		remove(CSecureRule* pRule, bool bLockRequired = true);
 		void			clear();
 
 		void			ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
@@ -210,8 +211,6 @@ namespace security
 		CIterator		getHash(const QList< CHash >& hashes) const;
 		CIterator		getUUID(const QUuid& oUUID) const;
 
-		// Use bLockRequired to enable/disable locking inside function.
-		inline void		remove(CSecureRule* pRule, bool bLockRequired);
 		void			remove(CIterator i);
 
 		bool			isAgentDenied(const QString& strUserAgent);
@@ -235,18 +234,11 @@ namespace security
 		return m_bDenyPolicy;
 	}
 
-	// publically available
-	void CSecurity::remove(CSecureRule* pRule)
+	void CSecurity::remove(CSecureRule* pRule, bool bLockRequired)
 	{
 		if ( !pRule )
 			return;
 
-		remove( pRule, true );
-	}
-
-	// for internal use only
-	void CSecurity::remove(CSecureRule* pRule, bool bLockRequired)
-	{
 		if ( bLockRequired )
 			m_pRWLock.lockForWrite();
 
