@@ -61,9 +61,12 @@ public slots:
 	void update();
 
 private slots:
-	void on_actionSubscribeSecurityList_triggered();
-	void on_actionSecurityModifyRule_triggered();
 	void on_actionSecurityAddRule_triggered();
+	void on_actionSecurityRemoveRule_triggered();
+	void on_actionSecurityModifyRule_triggered();
+	void on_actionSecurityImportRules_triggered();
+	void on_actionSecurityExportRules_triggered();
+	void on_actionSubscribeSecurityList_triggered();
 };
 
 #endif // WIDGETSECURITY_H
