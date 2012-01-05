@@ -30,7 +30,6 @@ TARGET = Quazaa
 # Paths
 DESTDIR = ./bin
 CONFIG(debug, debug|release) {
-	QT += testlib
 	OBJECTS_DIR = temp/obj/debug
 	RCC_DIR = temp/qrc/debug
 }
@@ -133,21 +132,25 @@ win32-msvc2010 {
 		/RTC1 \
 		/MDd \
 		/Zi \
-		/GS
+		/GS \
+		/MP
         QMAKE_CFLAGS_RELEASE += /Gd \
 		/GA \
 		/Og \
-		/MD
+		/MD \
+		/MP
         QMAKE_CXXFLAGS_DEBUG += /Gd \
 		#/Gm \
 		/RTC1 \
 		/MDd \
 		/Zi \
-		/GS
+		/GS \
+		/MP
         QMAKE_CXXFLAGS_RELEASE += /Gd \
 		/GA \
 		/Og \
-		/MD 
+		/MD \
+		/MP
 	QMAKE_LFLAGS_DEBUG += /FIXED:NO
 
         QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]

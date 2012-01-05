@@ -66,7 +66,11 @@ void CNeighboursConnections::Disconnect()
 {
 	QMutexLocker l(&m_pSection);
 
-	qDeleteAll(m_lNodes);
+	while(!m_lNodes.isEmpty())
+	{
+		CNeighbour* pCurr = m_lNodes.takeFirst();
+		delete pCurr;
+	}
 
 	delete m_pController;
 	m_pController = 0;
