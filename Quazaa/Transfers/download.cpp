@@ -31,7 +31,8 @@
 #endif
 
 CDownload::CDownload(CQueryHit* pHit, QObject *parent) :
-    QObject(parent)
+	QObject(parent),
+	m_bSignalSources(false)
 {
 	Q_ASSERT(pHit != NULL);
 
@@ -71,6 +72,9 @@ bool CDownload::addSource(CDownloadSource *pSource)
 	}
 
 	m_lSources.append(pSource);
+
+	if( m_bSignalSources )
+		emit sourceAdded(pSource);
 
 	return true;
 }
@@ -114,4 +118,25 @@ int CDownload::addSource(CQueryHit *pHit)
 
 	return nSources;
 }
+
+bool CDownload::sourceExists(CDownloadSource *pSource)
+{
+	return (m_lSources.indexOf(pSource) != -1);
+}
+
+// Invoked by download model
+// let the download go to the model first, giving a chance to connect signals to corresponding objects
+// then request sources for this download, so model can stay in sync
+void CDownload::emitSources()
+{
+	if( !m_bSignalSources )
+	{
+		m_bSignalSources = true;
+		foreach(CDownloadSource* pSource, m_lSources)
+		{
+			emit sourceAdded(pSource);
+		}
+	}
+}
+
 

@@ -39,6 +39,7 @@
 #include "wizardquickstart.h"
 #include "sharemanager.h"
 #include "commonfunctions.h"
+#include "transfers.h"
 
 #include "Security/security.h"
 
@@ -172,6 +173,11 @@ int main(int argc, char *argv[])
 	qApp->processEvents();
 	QueryHashMaster.Create();
 	ShareManager.Start();
+
+	// Load Download Manager
+	dlgSplash->updateProgress(60, QObject::tr("Loading Transfer Manager..."));
+	qApp->processEvents();
+	Transfers.start();
 
 	dlgSplash->updateProgress( 80, QObject::tr( "Loading User Interface..." ) );
 	qApp->processEvents();

@@ -44,6 +44,8 @@ public:
 	CFileFragments			m_lVerified;
 	CFileFragments			m_lActive;
 	QList<CHash>			m_lHashes; // hashes for whole download
+
+	bool					m_bSignalSources;
 public:
 	CDownload(CQueryHit* pHit, QObject *parent = 0);
 
@@ -52,10 +54,11 @@ public:
 	void cancelDownload();
 	bool addSource(CDownloadSource* pSource);
 	int  addSource(CQueryHit* pHit);
+	bool sourceExists(CDownloadSource* pSource);
 signals:
-
+	void sourceAdded(CDownloadSource*);
 public slots:
-
+	void emitSources();
 };
 
 #endif // DOWNLOAD_H
