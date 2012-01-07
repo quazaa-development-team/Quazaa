@@ -28,6 +28,10 @@
 #include "download.h"
 #include "downloadsource.h"
 
+#include "commonfunctions.h"
+
+using namespace common;
+
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
@@ -262,13 +266,13 @@ QVariant CDownloadItem::data(int column) const
 			return m_sName;
 		break;
 	case CDownloadsTreeModel::SIZE:
-			return m_nSize;
+			return formatBytes(m_nSize);
 		break;
 	case CDownloadsTreeModel::PROGRESS:
 			return m_nProgress;
 		break;
 	case CDownloadsTreeModel::BANDWIDTH:
-			return m_nBandwidth;
+			return formatBytes(m_nBandwidth).append("/s");
 		break;
 	case CDownloadsTreeModel::STATUS:
 			return m_nStatus;
@@ -280,7 +284,7 @@ QVariant CDownloadItem::data(int column) const
 			return QVariant();
 		break;
 	case CDownloadsTreeModel::COMPLETED:
-			return m_nCompleted;
+			return formatBytes(m_nCompleted);
 		break;
 	case CDownloadsTreeModel::COUNTRY:
 			return QVariant();
@@ -340,13 +344,13 @@ QVariant CDownloadSourceItem::data(int column) const
 			return m_sAddress;
 		break;
 	case CDownloadsTreeModel::SIZE:
-			return m_nSize;
+			return formatBytes(m_nSize);
 		break;
 	case CDownloadsTreeModel::PROGRESS:
 			return QVariant();
 		break;
 	case CDownloadsTreeModel::BANDWIDTH:
-			return m_nBandwidth;
+			return formatBytes(m_nBandwidth).append("/s");
 		break;
 	case CDownloadsTreeModel::STATUS:
 			return m_nStatus;
@@ -358,7 +362,7 @@ QVariant CDownloadSourceItem::data(int column) const
 			return m_sClient;
 		break;
 	case CDownloadsTreeModel::COMPLETED:
-			return m_nDownloaded;
+			return formatBytes(m_nDownloaded);
 		break;
 	case CDownloadsTreeModel::COUNTRY:
 			return m_sCountry;
