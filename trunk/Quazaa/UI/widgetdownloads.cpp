@@ -26,8 +26,10 @@
 #include "ui_widgetdownloads.h"
 
 #include "quazaasettings.h"
-
+#include "quazaaglobals.h"
 #include "downloadstreemodel.h"
+
+#include <QFontMetrics>
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -41,6 +43,19 @@ WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	m_pModel = new CDownloadsTreeModel();
 	ui->treeViewDownloads->setModel(m_pModel);
 	ui->treeViewDownloads->setItemDelegate(new CDownloadsItemDelegate(this));
+
+	// Set up header sizes
+	QFontMetrics fm = ui->treeViewDownloads->fontMetrics();
+	QHeaderView* header = ui->treeViewDownloads->header();
+	header->resizeSection(CDownloadsTreeModel::NAME, fm.width("a-typical-name-of-mp3-or-movie-or-xxx-or-other-porn.avi"));
+	header->resizeSection(CDownloadsTreeModel::SIZE, fm.width(" 123.45 MB "));
+	header->resizeSection(CDownloadsTreeModel::COMPLETED, fm.width(" 1234.45 MB "));
+	header->resizeSection(CDownloadsTreeModel::BANDWIDTH, fm.width(" 1234.45 MB/s "));
+	header->resizeSection(CDownloadsTreeModel::CLIENT, fm.width(QuazaaGlobals::USER_AGENT_STRING()));
+	header->resizeSection(CDownloadsTreeModel::PROGRESS, 200);
+	header->resizeSection(CDownloadsTreeModel::PRIORITY, fm.width("    Priority    "));
+	header->resizeSection(CDownloadsTreeModel::STATUS, fm.width("Tracker Down"));
+
 	restoreState(quazaaSettings.WinMain.DownloadsToolbar);
 }
 
