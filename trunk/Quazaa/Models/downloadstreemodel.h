@@ -31,6 +31,7 @@
 
 class CDownload;
 class CDownloadSource;
+class CDownloadsTreeModel;
 
 class CDownloadsItemBase : public QObject
 {
@@ -57,7 +58,7 @@ class CDownloadItem : public CDownloadsItemBase
 {
 	Q_OBJECT
 public:
-	CDownloadItem(CDownload* download, CDownloadsItemBase* parent, QObject* parentQObject = 0);
+	CDownloadItem(CDownload* download, CDownloadsItemBase* parent, CDownloadsTreeModel* model, QObject* parentQObject = 0);
 	virtual ~CDownloadItem();
 
 	void appendChild(CDownloadsItemBase* child);
@@ -72,6 +73,10 @@ protected:
 	int		m_nStatus;		// download status
 	int		m_nPriority;	//
 	quint64 m_nCompleted;	// bytes completed
+
+	CDownloadsTreeModel* m_pModel;
+public slots:
+	void onSourceAdded(CDownloadSource* pSource);
 };
 
 class CDownloadSourceItem : public CDownloadsItemBase
@@ -131,7 +136,9 @@ private:
 signals:
 	
 public slots:
-	
+	void onDownloadAdded(CDownload* pDownload);
+
+	friend class CDownloadItem;
 };
 
 #endif // DOWNLOADSTREEMODEL_H

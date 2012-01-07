@@ -24,6 +24,9 @@
 
 
 #include "downloadstreemodel.h"
+#include "downloads.h"
+#include "download.h"
+#include "downloadsource.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -33,6 +36,7 @@ CDownloadsTreeModel::CDownloadsTreeModel(QObject *parent) :
     QAbstractItemModel(parent)
 {
 	rootItem = new CDownloadsItemBase(this);
+	connect(&Downloads, SIGNAL(downloadAdded(CDownload*)), this, SLOT(onDownloadAdded(CDownload*)), Qt::QueuedConnection);
 }
 
 CDownloadsTreeModel::~CDownloadsTreeModel()
@@ -155,6 +159,19 @@ int CDownloadsTreeModel::columnCount(const QModelIndex &parent) const
 	return _NO_OF_COLUMNS;
 }
 
+void CDownloadsTreeModel::onDownloadAdded(CDownload *pDownload)
+{
+	QMutexLocker l(&Downloads.m_pSection);
+
+	if(!Downloads.exists(pDownload))
+		return;
+
+	beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
+	CDownloadItem* pItem = new CDownloadItem(pDownload, rootItem, this);
+	rootItem->appendChild(pItem);
+	endInsertRows();
+}
+
 
 
 CDownloadsItemBase::CDownloadsItemBase(QObject *parent)
@@ -206,20 +223,24 @@ CDownloadsItemBase *CDownloadsItemBase::parent()
 	return parentItem;
 }
 
-CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, QObject *parentQObject)
+CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CDownloadsTreeModel* model, QObject *parentQObject)
 	: CDownloadsItemBase(parentQObject),
-	  m_pDownload(download)
+	  m_pDownload(download),
+	  m_pModel(model)
 {
 	parentItem = parent;
 
-	// TODO: import values from CDownload
-	m_sName = "";
-	m_nSize = 0;
+	connect(download, SIGNAL(sourceAdded(CDownloadSource*)), this, SLOT(onSourceAdded(CDownloadSource*)), Qt::QueuedConnection);
+
+	m_sName = download->m_sDisplayName;
+	m_nSize = download->m_nSize;
 	m_nProgress = 0;
 	m_nBandwidth = 0;
-	m_nStatus = 0;
+	m_nStatus = download->m_nState;
 	m_nPriority = 0;
-	m_nCompleted = 0;
+	m_nCompleted = download->m_nCompletedSize;
+
+	QMetaObject::invokeMethod(download, "emitSources", Qt::QueuedConnection);
 }
 
 CDownloadItem::~CDownloadItem()
@@ -271,6 +292,19 @@ QVariant CDownloadItem::data(int column) const
 	}
 }
 
+void CDownloadItem::onSourceAdded(CDownloadSource *pSource)
+{
+	QMutexLocker l(&Downloads.m_pSection);
+
+	if(m_pDownload->sourceExists(pSource))
+	{
+		m_pModel->beginInsertRows(m_pModel->index(row(), 0), childCount(), childCount());
+		CDownloadSourceItem* pItem = new CDownloadSourceItem(pSource, this);
+		appendChild(pItem);
+		m_pModel->endInsertRows();
+	}
+}
+
 CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownloadsItemBase *parent, QObject *parentQObject)
 	: CDownloadsItemBase(parentQObject),
 	  m_pDownloadSource(downloadSource)
@@ -278,7 +312,7 @@ CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownl
 	parentItem = parent;
 
 	// TODO: import values from downloadSource
-	m_sAddress = "";
+	m_sAddress = downloadSource->m_oAddress.toStringWithPort();
 	m_nSize = 0;
 	m_nProgress = 0;
 	m_nBandwidth = 0;

@@ -24,6 +24,7 @@
 
 #include "downloads.h"
 #include "download.h"
+#include "transfers.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,14 +35,24 @@ CDownloads Downloads;
 CDownloads::CDownloads(QObject *parent) :
     QObject(parent)
 {
+	qRegisterMetaType<CDownload*>("CDownload*");
+	qRegisterMetaType<CDownloadSource*>("CDownloadSource*");
 }
 
 void CDownloads::add(CQueryHit *pHit)
 {
-	CDownload* pDownload = new CDownload(pHit, this);
+	ASSUME_LOCK(Downloads.m_pSection);
+
+	CDownload* pDownload = new CDownload(pHit);
+	pDownload->moveToThread(&TransfersThread);
 	m_lDownloads.append(pDownload);
 	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Queued download job for %s")), qPrintable(pDownload->m_sDisplayName));
-	emit downloadAdded();
+	emit downloadAdded(pDownload);
+}
+
+bool CDownloads::exists(CDownload *pDownload)
+{
+	return (m_lDownloads.indexOf(pDownload) != -1);
 }
 
 void CDownloads::start()

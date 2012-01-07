@@ -21,12 +21,15 @@ public:
 	void stop();
 
 	void add(CQueryHit* pHit);
+
+	bool exists(CDownload* pDownload);
 signals:
-	void downloadAdded();
+	void downloadAdded(CDownload*);
 	void downloadRemoved();
 public slots:
 
 };
 
 extern CDownloads Downloads;
+
 #endif // DOWNLOADS_H
