@@ -40,6 +40,7 @@ WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	ui->setupUi(this);
 	m_pModel = new CDownloadsTreeModel();
 	ui->treeViewDownloads->setModel(m_pModel);
+	ui->treeViewDownloads->setItemDelegate(new CDownloadsItemDelegate(this));
 	restoreState(quazaaSettings.WinMain.DownloadsToolbar);
 }
 
