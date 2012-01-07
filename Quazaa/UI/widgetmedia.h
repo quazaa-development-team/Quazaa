@@ -1,7 +1,7 @@
 //
 // widgetmedia.h
 //
-// Copyright © Quazaa Development Team, 2009-2010.
+// Copyright © Quazaa Development Team, 2009-2012.
 // This file is part of QUAZAA (quazaa.sourceforge.net)
 //
 // Quazaa is free software; you can redistribute it
