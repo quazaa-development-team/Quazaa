@@ -305,7 +305,8 @@ SOURCES += \
 	3rdparty/nvwa/debug_new.cpp \
     UI/widgetircmain.cpp \
     UI/widgetircsidebars.cpp \
-    Skin/skinsettings.cpp
+    Skin/skinsettings.cpp \
+    Models/downloadstreemodel.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -449,7 +450,8 @@ HEADERS += \
 	3rdparty/nvwa/static_assert.h \
     UI/widgetircmain.h \
     UI/widgetircsidebars.h \
-    Skin/skinsettings.h
+    Skin/skinsettings.h \
+    Models/downloadstreemodel.h
 
 FORMS += \
 	UI/dialogabout.ui \

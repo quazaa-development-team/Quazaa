@@ -27,6 +27,8 @@
 
 #include <QMainWindow>
 
+class CDownloadsTreeModel;
+
 namespace Ui
 {
 	class WidgetDownloads;
@@ -45,6 +47,8 @@ protected:
 
 private:
 	Ui::WidgetDownloads* ui;
+
+	CDownloadsTreeModel* m_pModel;
 
 private slots:
 	 

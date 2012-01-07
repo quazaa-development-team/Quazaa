@@ -27,6 +27,8 @@
 
 #include "quazaasettings.h"
 
+#include "downloadstreemodel.h"
+
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
@@ -36,11 +38,14 @@ WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	ui(new Ui::WidgetDownloads)
 {
 	ui->setupUi(this);
+	m_pModel = new CDownloadsTreeModel();
+	ui->treeViewDownloads->setModel(m_pModel);
 	restoreState(quazaaSettings.WinMain.DownloadsToolbar);
 }
 
 WidgetDownloads::~WidgetDownloads()
 {
+	delete m_pModel;
 	delete ui;
 }
 
