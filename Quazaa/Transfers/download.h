@@ -60,6 +60,7 @@ public:
 		:m_bSignalSources(false)
 	{}
 	CDownload(CQueryHit* pHit, QObject *parent = 0);
+	~CDownload();
 
 	void start();
 	void pause();
