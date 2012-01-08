@@ -33,7 +33,15 @@ public:
 		dsCompleted
 	};
 
+	enum Priority
+	{
+		HIGH = -1,
+		NORMAL = 0,
+		LOW = 1
+	};
+
 	QString					m_sDisplayName;
+	QString					m_sTempName;
 	quint64					m_nSize;
 	quint64					m_nCompletedSize;
 	DownloadState			m_nState;
@@ -46,7 +54,11 @@ public:
 	QList<CHash>			m_lHashes; // hashes for whole download
 
 	bool					m_bSignalSources;
+	int						m_nPriority;
 public:
+	CDownload()
+		:m_bSignalSources(false)
+	{}
 	CDownload(CQueryHit* pHit, QObject *parent = 0);
 
 	void start();
@@ -60,5 +72,8 @@ signals:
 public slots:
 	void emitSources();
 };
+
+QDataStream& operator<<(QDataStream& s, const CDownload& rhs);
+QDataStream& operator>>(QDataStream& s, CDownload& rhs);
 
 #endif // DOWNLOAD_H

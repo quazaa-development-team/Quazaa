@@ -33,6 +33,8 @@
 #include "debug_new.h"
 #endif
 
+using namespace common;
+
 SearchTreeModel::SearchTreeModel()
 {
 	QList<QVariant> rootData;
@@ -303,7 +305,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			QList<QVariant> m_lParentData;
 			m_lParentData <<  fileInfo.completeBaseName()
 			              << fileInfo.suffix()
-			              << pHit2->m_nObjectSize
+						  << formatBytes(pHit2->m_nObjectSize)
 			              << ""
 			              << ""
 			              << 1
@@ -315,7 +317,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			QList<QVariant> m_lChildData;
 			m_lChildData << fileInfo.completeBaseName()
 			             << fileInfo.suffix()
-			             << pHit2->m_nObjectSize
+						 << formatBytes(pHit2->m_nObjectSize)
 			             << ""
 			             << ""
 			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()
@@ -344,7 +346,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			QList<QVariant> m_lChildData;
 			m_lChildData << fileInfo.completeBaseName()
 			             << fileInfo.suffix()
-			             << pHit2->m_nObjectSize
+						 << formatBytes(pHit2->m_nObjectSize)
 			             << ""
 			             << ""
 			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()

@@ -54,6 +54,7 @@
 #include "datagrams.h"
 #include "geoiplist.h"
 #include "sharemanager.h"
+#include "transfers.h"
 
 #include "chatsession.h"
 #include "chatsessiong2.h"
@@ -472,15 +473,19 @@ void CWinMain::quazaaShutdown()
 	Network.Disconnect();
 	ShareManager.Stop();
 
-	dlgSplash->updateProgress(90, tr("Saving Security Manager..."));
+	dlgSplash->updateProgress(85, tr("Stopping transfers..."));
+	qApp->processEvents();
+	Transfers.stop();
+
+	dlgSplash->updateProgress(60, tr("Saving Security Manager..."));
 	qApp->processEvents();
 	securityManager.stop(); // Prepare Security Manager for shutdown (this includes saving the security rules to disk)
 
-	dlgSplash->updateProgress(85, tr("Saving Settings..."));
+	dlgSplash->updateProgress(50, tr("Saving Settings..."));
 	qApp->processEvents();
 	quazaaSettings.saveSettings();
 
-	dlgSplash->updateProgress(80, tr("Saving UI..."));
+	dlgSplash->updateProgress(40, tr("Saving UI..."));
 	qApp->processEvents();
 	quazaaSettings.WinMain.MainToolbar = saveState();
 	pageHome->saveWidget();
@@ -501,7 +506,7 @@ void CWinMain::quazaaShutdown()
 	quazaaSettings.saveWindowSettings(this);
 	emit closing();
 
-	dlgSplash->updateProgress(75, tr("Removing Tray Icon..."));
+	dlgSplash->updateProgress(5, tr("Removing Tray Icon..."));
 	qApp->processEvents();
 	delete trayIcon;
 

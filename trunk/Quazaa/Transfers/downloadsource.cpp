@@ -29,6 +29,13 @@
 #include "debug_new.h"
 #endif
 
+CDownloadSource::CDownloadSource()
+	: m_bPush(false),
+	  m_nFailures(0)
+{
+	m_tNextAccess = time(0);
+}
+
 CDownloadSource::CDownloadSource(CQueryHit* pHit)
 {
 	m_oAddress = pHit->m_pHitInfo->m_oNodeAddress;
@@ -42,3 +49,67 @@ CDownloadSource::CDownloadSource(CQueryHit* pHit)
 	m_nFailures = 0;
 }
 
+QDataStream& operator<<(QDataStream& s, const CDownloadSource& rhs)
+{
+	if( !rhs.m_bPush ) // do not store push sources (they may be useless after restart)
+	{
+		s << "download-source" << quint32(1); // version
+		s << "address" << rhs.m_oAddress;
+		s << "protocol" << rhs.m_nProtocol;
+		s << "network" << rhs.m_nNetwork;
+		s << "guid" << rhs.m_oGUID;
+		s << "url" << rhs.m_sURL;
+		s << "download-source-end";
+	}
+
+	return s;
+}
+QDataStream& operator>>(QDataStream& s, CDownloadSource& rhs)
+{
+	// download-source tag is handled elsewhere
+
+	quint32 nVer = 0;
+	s >> nVer;
+
+	if( nVer == 1 )
+	{
+		QByteArray sTag;
+		s >> sTag;
+		sTag.chop(1);
+
+		while( sTag != "download-source-end" && s.status() == QDataStream::Ok )
+		{
+			qDebug() << sTag;
+			if( sTag == "address")
+			{
+				s >> rhs.m_oAddress;
+			}
+			else if( sTag == "protocol" )
+			{
+				// TODO: sanity check...
+				int x;
+				s >> x;
+				rhs.m_nProtocol = static_cast<TransferProtocol>(x);
+			}
+			else if( sTag == "network" )
+			{
+				int x;
+				s >> x;
+				rhs.m_nNetwork = static_cast<DiscoveryProtocol>(x);
+			}
+			else if( sTag == "guid" )
+			{
+				s >> rhs.m_oGUID;
+			}
+			else if( sTag == "url" )
+			{
+				s >> rhs.m_sURL;
+			}
+
+			s >> sTag;
+			sTag.chop(1);
+		}
+	}
+
+	return s;
+}

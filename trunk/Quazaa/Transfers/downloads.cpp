@@ -26,6 +26,11 @@
 #include "download.h"
 #include "transfers.h"
 
+#include "quazaasettings.h"
+
+#include <QDir>
+#include <QFile>
+
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
@@ -57,9 +62,71 @@ bool CDownloads::exists(CDownload *pDownload)
 
 void CDownloads::start()
 {
+	QMutexLocker l(&m_pSection);
+
+	QDir d(quazaaSettings.Downloads.IncompletePath);
+
+	if( !d.exists() )
+		d.mkpath(quazaaSettings.Downloads.IncompletePath);
+
+	if( d.isReadable() )
+	{
+		QStringList files = d.entryList(QStringList() << "*.!qd");
+
+		foreach(QString f, files)
+		{
+			QFile file(quazaaSettings.Downloads.IncompletePath + "/" + f);
+
+			if( file.exists() && file.open(QFile::ReadOnly) )
+			{
+				CDownload* pDownload = new CDownload();
+				QDataStream stream(&file);
+
+				stream >> *pDownload;
+
+				pDownload->moveToThread(&TransfersThread);
+				m_lDownloads.append(pDownload);
+				emit downloadAdded(pDownload);
+				systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Loaded download: %s")), qPrintable(pDownload->m_sDisplayName));
+			}
+		}
+	}
 }
 
 void CDownloads::stop()
 {
+	QMutexLocker l(&m_pSection);
+
+	foreach( CDownload* pDownload, m_lDownloads )
+	{
+		QString sFileName = pDownload->m_sTempName;
+
+		sFileName.append(".!qd");
+
+		QFile f(quazaaSettings.Downloads.IncompletePath + "/" + sFileName);
+
+		if( f.open(QFile::WriteOnly) )
+		{
+			QDataStream s(&f);
+
+			s << *pDownload;
+
+			f.close();
+		}
+
+		delete pDownload;
+	}
+
+	m_lDownloads.clear();
+}
+
+void CDownloads::emitDownloads()
+{
+	QMutexLocker l(&m_pSection);
+
+	foreach( CDownload* pDl, m_lDownloads )
+	{
+		emit downloadAdded(pDl);
+	}
 }
 

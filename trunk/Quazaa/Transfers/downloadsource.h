@@ -19,6 +19,7 @@ public:
 	quint32				m_nFailures;	// number of failures
 	QString				m_sURL;			// URL
 public:
+	CDownloadSource();
 	CDownloadSource(CQueryHit* pHit);
 
 public:
@@ -29,5 +30,8 @@ bool CDownloadSource::CanAccess()
 {
 	return time(0) > m_tNextAccess;
 }
+
+QDataStream& operator<<(QDataStream& s, const CDownloadSource& rhs);
+QDataStream& operator>>(QDataStream& s, CDownloadSource& rhs);
 
 #endif // DOWNLOADSOURCE_H
