@@ -52,6 +52,11 @@ public:
 	quint16 port() const;
 	void setPort(const quint16 nPort);
 	bool isFirewalled() const;
+
+	friend QDataStream &operator<<(QDataStream &, const CEndPoint &);
+	friend QDataStream &operator>>(QDataStream &, CEndPoint &);
 };
 
+QDataStream &operator<<(QDataStream &s, const CEndPoint &rhs);
+QDataStream &operator>>(QDataStream &s, CEndPoint &rhs);
 #endif // ENDPOINT_H

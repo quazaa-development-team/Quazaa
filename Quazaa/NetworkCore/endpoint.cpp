@@ -236,3 +236,19 @@ CEndPoint & CEndPoint::operator =(const CEndPoint &rhs)
 	return *this;
 }
 
+QDataStream &operator<<(QDataStream &s, const CEndPoint &rhs)
+{
+	s << *dynamic_cast<const QHostAddress*>(&rhs);
+	s << rhs.m_nPort;
+
+	return s;
+}
+
+QDataStream &operator>>(QDataStream &s, CEndPoint &rhs)
+{
+	QHostAddress* pHa = dynamic_cast<QHostAddress*>(&rhs);
+	s >> *pHa;
+	s >> rhs.m_nPort;
+
+	return s;
+}

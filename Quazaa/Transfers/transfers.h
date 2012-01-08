@@ -24,6 +24,7 @@ protected:
 
 public:
 	CTransfers(QObject* parent = 0);
+	~CTransfers();
 	void start();
 	void stop();
 

@@ -40,7 +40,12 @@ CTransfers::CTransfers(QObject* parent)
 	: QObject(parent),
 	  m_bActive(false)
 {
-	m_pController = new CRateController(&m_pSection, this);
+	m_pController = new CRateController(&m_pSection);
+}
+
+CTransfers::~CTransfers()
+{
+	delete m_pController;
 }
 
 void CTransfers::start()
@@ -62,7 +67,10 @@ void CTransfers::stop()
 	if( !m_bActive )
 		return;
 
+	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Stopping transfers...")));
+
 	m_bActive = false;
+	TransfersThread.exit(0);
 	Downloads.stop();
 }
 

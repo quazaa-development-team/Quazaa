@@ -27,7 +27,7 @@ signals:
 	void downloadAdded(CDownload*);
 	void downloadRemoved();
 public slots:
-
+	void emitDownloads();
 };
 
 extern CDownloads Downloads;

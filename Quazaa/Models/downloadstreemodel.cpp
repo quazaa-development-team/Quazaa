@@ -41,6 +41,7 @@ CDownloadsTreeModel::CDownloadsTreeModel(QObject *parent) :
 {
 	rootItem = new CDownloadsItemBase(this);
 	connect(&Downloads, SIGNAL(downloadAdded(CDownload*)), this, SLOT(onDownloadAdded(CDownload*)), Qt::QueuedConnection);
+	QMetaObject::invokeMethod(&Downloads, "emitDownloads");
 }
 
 CDownloadsTreeModel::~CDownloadsTreeModel()
@@ -255,7 +256,7 @@ CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CD
 	m_nProgress = 0;
 	m_nBandwidth = 0;
 	m_nStatus = download->m_nState;
-	m_nPriority = 0;
+	m_nPriority = download->m_nPriority;
 	m_nCompleted = download->m_nCompletedSize;
 
 	QMetaObject::invokeMethod(download, "emitSources", Qt::QueuedConnection);
@@ -286,13 +287,32 @@ QVariant CDownloadItem::data(int column) const
 			return m_nProgress;
 		break;
 	case CDownloadsTreeModel::BANDWIDTH:
-			return formatBytes(m_nBandwidth).append("/s");
+			if(m_nBandwidth == 0)
+				return QVariant();
+			else
+				return formatBytes(m_nBandwidth).append("/s");
 		break;
 	case CDownloadsTreeModel::STATUS:
 			return m_nStatus;
 		break;
 	case CDownloadsTreeModel::PRIORITY:
-			return m_nPriority;
+			switch(m_nPriority)
+			{
+				case CDownload::LOW:
+					return tr("Low");
+				case CDownload::NORMAL:
+					return tr("Normal");
+				case CDownload::HIGH:
+					return tr("High");
+				default:
+					if(m_nPriority < CDownload::HIGH)
+						return tr("Highest");
+					else if(m_nPriority > CDownload::LOW)
+						return tr("Lowest");
+					else
+						return tr("Unknown"); // not possible, but...
+			}
+
 		break;
 	case CDownloadsTreeModel::CLIENT:
 			return QVariant();
@@ -364,7 +384,10 @@ QVariant CDownloadSourceItem::data(int column) const
 			return QVariant();
 		break;
 	case CDownloadsTreeModel::BANDWIDTH:
-			return formatBytes(m_nBandwidth).append("/s");
+			if(m_nBandwidth == 0)
+				return QVariant();
+			else
+				return formatBytes(m_nBandwidth).append("/s");
 		break;
 	case CDownloadsTreeModel::STATUS:
 			return m_nStatus;

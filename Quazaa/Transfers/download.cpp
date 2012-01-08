@@ -30,9 +30,151 @@
 #include "debug_new.h"
 #endif
 
+QDataStream& operator<<(QDataStream& s, const CDownload& rhs)
+{
+	// basic info
+	s << quint32(1); // version
+	s << "dn" << rhs.m_sDisplayName;
+	s << "tn" << rhs.m_sTempName;
+	s << "s" << rhs.m_nSize;
+	s << "cs" << rhs.m_nCompletedSize;
+	s << "state" << rhs.m_nState;
+	s << "mf" << rhs.m_bMultifile;
+	s << "pr" << rhs.m_nPriority;
+
+	// files
+	foreach(CDownload::FileListItem i, rhs.m_lFiles)
+	{
+		s << "file" << quint32(1); // version
+		s << "name" << i.sFileName;
+		s << "so" << i.nStartOffset;
+		s << "eo" << i.nEndOffset;
+		foreach(CHash h, i.lHashes)
+		{
+			s << "hash" << h.ToURN();
+		}
+		s << "file-end";
+	}
+
+	// sources
+	foreach(CDownloadSource* pSource, rhs.m_lSources)
+	{
+		s << *pSource;
+	}
+
+	// TODO: save file fragments
+
+	s << "eof";
+	return s;
+}
+QDataStream& operator>>(QDataStream& s, CDownload& rhs)
+{
+	quint32 nVer;
+
+	s >> nVer;
+
+	if( nVer == 1 )
+	{
+		QByteArray sTag;
+		s >> sTag;
+		sTag.chop(1);
+
+		while( sTag != "eof" && s.status() == QDataStream::Ok )
+		{
+			if( sTag == "dn" )
+			{
+				s >> rhs.m_sDisplayName;
+			}
+			else if( sTag == "tn" )
+			{
+				s >> rhs.m_sTempName;
+			}
+			else if( sTag == "s" )
+			{
+				quint64 nSize;
+				s >> nSize;
+				rhs.m_nSize = nSize;
+				rhs.m_lActive.setSize(nSize);
+				rhs.m_lCompleted.setSize(nSize);
+				rhs.m_lVerified.setSize(nSize);
+			}
+			else if( sTag == "cs" )
+			{
+				s >> rhs.m_nCompletedSize;
+			}
+			else if( sTag == "state" )
+			{
+				int x;
+				s >> x;
+				rhs.m_nState = static_cast<CDownload::DownloadState>(x);
+			}
+			else if( sTag == "mf" )
+			{
+				s >> rhs.m_bMultifile;
+			}
+			else if( sTag == "pr" )
+			{
+				s >> rhs.m_nPriority;
+			}
+			else if( sTag == "file" )
+			{
+				quint32 nVerF;
+				s >> nVerF;
+
+				if( nVerF == 1 )
+				{
+					CDownload::FileListItem item;
+
+					QByteArray sTag2;
+					s >> sTag2;
+					sTag2.chop(1);
+
+					while( sTag2 != "file-end" && s.status() == QDataStream::Ok )
+					{
+						if( sTag2 == "name" )
+						{
+							s >> item.sFileName;
+						}
+						else if( sTag2 == "so" )
+						{
+							s >> item.nStartOffset;
+						}
+						else if( sTag2 == "eo" )
+						{
+							s >> item.nEndOffset;
+						}
+						else if( sTag2 == "hash" )
+						{
+							QString sHash;
+							s >> sHash;
+							CHash* pHash = CHash::FromURN(sHash);
+							item.lHashes.append(*pHash);
+							delete pHash;
+						}
+
+						s >> sTag2;
+						sTag2.chop(1);
+					}
+				}
+			}
+			else if( sTag == "download-source" )
+			{
+				CDownloadSource* pSource = new CDownloadSource();
+				s >> *pSource;
+				rhs.addSource(pSource);
+			}
+
+			s >> sTag;
+			sTag.chop(1);
+		}
+	}
+	return s;
+}
+
 CDownload::CDownload(CQueryHit* pHit, QObject *parent) :
 	QObject(parent),
-	m_bSignalSources(false)
+	m_bSignalSources(false),
+	m_nPriority(NORMAL)
 {
 	Q_ASSERT(pHit != NULL);
 
@@ -43,6 +185,7 @@ CDownload::CDownload(CQueryHit* pHit, QObject *parent) :
 	m_lVerified.setSize(m_nSize);
 	m_lActive.setSize(m_nSize);
 	m_nCompletedSize = 0;
+	m_sTempName = QString().number(qrand() % qrand()).append("-").append(m_sDisplayName).replace(QRegExp("[^a-zA-Z0-9\\s\\-\\_\\.]+"), "");
 
 	FileListItem oFile;
 	oFile.sFileName = m_sDisplayName;

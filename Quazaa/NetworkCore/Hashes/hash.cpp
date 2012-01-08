@@ -250,3 +250,18 @@ QString CHash::GetFamilyName()
 	return "";
 }
 
+QDataStream& operator<<(QDataStream& s, const CHash& rhs)
+{
+	s << rhs.ToURN();
+	return s;
+}
+QDataStream& operator>>(QDataStream& s, CHash& rhs)
+{
+	QString sTmp;
+	s >> sTmp;
+	CHash* pHash = CHash::FromURN(sTmp);
+	rhs = *pHash;
+	delete pHash;
+	return s;
+}
+

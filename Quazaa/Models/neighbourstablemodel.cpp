@@ -226,7 +226,10 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 				return QString();
 			}
 		case PING:
-			return QString("%1 ms").arg(nRTT);
+			if( nRTT > 0)
+				return QString("%1 ms").arg(nRTT);
+			else
+				return QVariant();
 		case USER_AGENT:
 			return sUserAgent;
 		case COUNTRY:

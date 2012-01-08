@@ -97,5 +97,7 @@ QByteArray CHash::RawValue() const
 {
 	return m_baRawValue;
 }
+QDataStream& operator<<(QDataStream& s, const CHash& rhs);
+QDataStream& operator>>(QDataStream& s, CHash& rhs);
 
 #endif // HASH_H
