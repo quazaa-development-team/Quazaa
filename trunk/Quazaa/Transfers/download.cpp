@@ -202,6 +202,11 @@ CDownload::CDownload(CQueryHit* pHit, QObject *parent) :
 	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Created download for %s with %d sources.")), qPrintable(m_sDisplayName), nSources);
 }
 
+CDownload::~CDownload()
+{
+	qDeleteAll(m_lSources);
+}
+
 bool CDownload::addSource(CDownloadSource *pSource)
 {
 	foreach(CDownloadSource* pThis, m_lSources)
