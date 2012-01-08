@@ -53,12 +53,26 @@ QVariant CDownloadsTreeModel::data(const QModelIndex &index, int role) const
 	if (!index.isValid())
 		return QVariant();
 
-	if (role != Qt::DisplayRole)
-		return QVariant();
+	switch(role)
+	{
+		case Qt::DisplayRole:
+		{
+			CDownloadsItemBase *item = static_cast<CDownloadsItemBase*>(index.internalPointer());
+			return item->data(index.column());
+		}
+		case Qt::TextAlignmentRole:
+		{
+			switch(index.column())
+			{
+				case CDownloadsTreeModel::BANDWIDTH:
+				case CDownloadsTreeModel::STATUS:
+				case CDownloadsTreeModel::COMPLETED:
+					return Qt::AlignCenter;
+			}
+		}
+	}
 
-	CDownloadsItemBase *item = static_cast<CDownloadsItemBase*>(index.internalPointer());
-
-	return item->data(index.column());
+	return QVariant();
 }
 
 Qt::ItemFlags CDownloadsTreeModel::flags(const QModelIndex &index) const
