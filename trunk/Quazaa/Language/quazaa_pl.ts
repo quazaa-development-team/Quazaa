@@ -1,26 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="pl">
+<TS version="2.0" language="pl_PL">
 <context>
     <name>CDownload</name>
     <message>
-        <location filename="../Transfers/download.cpp" line="30"/>
+        <location filename="../Transfers/download.cpp" line="202"/>
         <source>Created download for %s with %d sources.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
+    <name>CDownloadItem</name>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="301"/>
+        <source>Queued</source>
+        <translation>W kolejce</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="303"/>
+        <source>Paused</source>
+        <translation>Wstrzymane</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="305"/>
+        <source>Searching</source>
+        <translation>Wyszukiwanie</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="307"/>
+        <source>Pending</source>
+        <translation>Oczekujący</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="309"/>
+        <source>Downloading</source>
+        <translation>Pobieranie</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="311"/>
+        <source>Verifying</source>
+        <translation>Weryfikowanie</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="313"/>
+        <source>Moving</source>
+        <translation>Przenoszenie</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="315"/>
+        <source>File Error</source>
+        <translation>Błąd pliku</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="317"/>
+        <source>Completed</source>
+        <translation>Ukończone</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="319"/>
+        <location filename="../Models/downloadstreemodel.cpp" line="336"/>
+        <source>Unknown</source>
+        <translation>Nieznane</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="325"/>
+        <source>Low</source>
+        <translation>Niski</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="327"/>
+        <source>Normal</source>
+        <translation>Normalny</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="329"/>
+        <source>High</source>
+        <translation>Wysoki</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="332"/>
+        <source>Highest</source>
+        <translation>Najwyższy</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="334"/>
+        <source>Lowest</source>
+        <translation>Najniższy</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../Models/downloadstreemodel.cpp" line="343"/>
+        <source>(%n source(s))</source>
+        <translation>
+            <numerusform>(%n źródło)</numerusform>
+            <numerusform>(%n źródła)</numerusform>
+            <numerusform>(%n źródeł)</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="345"/>
+        <source>(No Sources)</source>
+        <translation>Brak źródeł</translation>
+    </message>
+</context>
+<context>
     <name>CDownloads</name>
     <message>
-        <location filename="../Transfers/downloads.cpp" line="15"/>
+        <location filename="../Transfers/downloads.cpp" line="55"/>
         <source>Queued download job for %s</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Transfers/downloads.cpp" line="91"/>
+        <source>Loaded download: %s</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CDownloadsTreeModel</name>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="94"/>
+        <source>Downloaded file</source>
+        <translation>Pobierany plik</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="97"/>
+        <source>Size</source>
+        <translation>Rozmiar</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="100"/>
+        <source>Progress</source>
+        <translation>Postęp</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="103"/>
+        <source>Bandwidth</source>
+        <translation>Pasmo</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="106"/>
+        <source>Status</source>
+        <translation>Stan</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="109"/>
+        <source>Priority</source>
+        <translation>Priorytet</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="112"/>
+        <source>Client</source>
+        <translation>Klient</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="115"/>
+        <source>Completed</source>
+        <translation>Ukończone</translation>
+    </message>
+    <message>
+        <location filename="../Models/downloadstreemodel.cpp" line="118"/>
+        <source>Country</source>
+        <translation>Państwo</translation>
     </message>
 </context>
 <context>
     <name>CG2Node</name>
     <message>
-        <location filename="../NetworkCore/g2node.cpp" line="244"/>
+        <location filename="../NetworkCore/g2node.cpp" line="246"/>
         <source>Sending query routing table to %1 (%2 bits, %3 entries, %4 bytes, %5% full)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -35,17 +181,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../NetworkCore/g2node.cpp" line="1065"/>
+        <location filename="../NetworkCore/g2node.cpp" line="1068"/>
         <source>Neighbour %1 sent bad query hash table update. Closing connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../NetworkCore/g2node.cpp" line="1072"/>
+        <location filename="../NetworkCore/g2node.cpp" line="1075"/>
         <source>Neighbour %1 updated its query hash table. %2 bits %3% full.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../NetworkCore/g2node.cpp" line="1077"/>
+        <location filename="../NetworkCore/g2node.cpp" line="1080"/>
         <source>Dropping neighbour %1 - hash table fill percentage too high.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -53,7 +199,7 @@
 <context>
     <name>CManagedSearch</name>
     <message>
-        <location filename="../NetworkCore/managedsearch.cpp" line="418"/>
+        <location filename="../NetworkCore/managedsearch.cpp" line="422"/>
         <source>Pausing search: query hit limit reached</source>
         <translation type="unfinished"></translation>
     </message>
@@ -61,17 +207,17 @@
 <context>
     <name>CNeighbour</name>
     <message>
-        <location filename="../NetworkCore/neighbour.cpp" line="63"/>
+        <location filename="../NetworkCore/neighbour.cpp" line="67"/>
         <source>Timed out connecting to %s.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../NetworkCore/neighbour.cpp" line="65"/>
+        <location filename="../NetworkCore/neighbour.cpp" line="69"/>
         <source>Timed out handshaking with %s.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../NetworkCore/neighbour.cpp" line="75"/>
+        <location filename="../NetworkCore/neighbour.cpp" line="79"/>
         <source>Closing connection to %1 due to lack of traffic.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -79,98 +225,98 @@
 <context>
     <name>CNeighboursTableModel</name>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="434"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="437"/>
         <source>Address</source>
         <translation>Adres</translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="436"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="439"/>
         <source>Time</source>
         <translation>Czas</translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="438"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="441"/>
         <source>Bandwidth</source>
-        <translation type="unfinished"></translation>
+        <translation>Pasmo</translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="440"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="443"/>
         <source>Bytes</source>
-        <translation>bajty</translation>
+        <translation>Bajty</translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="442"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="445"/>
         <source>Packets</source>
         <translation>Pakiety</translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="444"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="447"/>
         <source>Mode</source>
         <translation>Tryb</translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="446"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="449"/>
         <source>Leaves</source>
-        <translation type="unfinished"></translation>
+        <translation>Listki</translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="448"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="451"/>
         <source>Ping</source>
-        <translation type="unfinished"></translation>
+        <translation>Ping</translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="450"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="453"/>
         <source>User Agent</source>
-        <translation>Przeglądarka</translation>
+        <translation>Klient</translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="452"/>
-        <location filename="../Models/neighbourstablemodel.cpp" line="478"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="455"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="481"/>
         <source>Country</source>
-        <translation>Country</translation>
+        <translation>Państwo</translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="460"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="463"/>
         <source>The address of remote host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="462"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="465"/>
         <source>When this host was connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="464"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="467"/>
         <source>Current download/upload bandwidth (and dl/ul compression)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="466"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="469"/>
         <source>How much data we downloaded/uploaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="468"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="471"/>
         <source>Number of received/sent packets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="470"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="473"/>
         <source>Type of connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="472"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="475"/>
         <source>Number of nodes connected to the host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="474"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="477"/>
         <source>How fast remote host can reply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/neighbourstablemodel.cpp" line="476"/>
+        <location filename="../Models/neighbourstablemodel.cpp" line="479"/>
         <source>Software operating on remote host</source>
         <translation type="unfinished"></translation>
     </message>
@@ -178,7 +324,7 @@
 <context>
     <name>CNetwork</name>
     <message>
-        <location filename="../NetworkCore/network.cpp" line="140"/>
+        <location filename="../NetworkCore/network.cpp" line="142"/>
         <source>WARNING: Network core overloaded!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -186,58 +332,58 @@
 <context>
     <name>CSecurityTableModel</name>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="169"/>
+        <location filename="../Models/securitytablemodel.cpp" line="214"/>
         <source>Never</source>
-        <translation>Nigdy</translation>
+        <translation type="unfinished">Nigdy</translation>
     </message>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="171"/>
+        <location filename="../Models/securitytablemodel.cpp" line="216"/>
         <source>Session</source>
-        <translation>Sesja</translation>
+        <translation type="unfinished">Sesja</translation>
     </message>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="286"/>
+        <location filename="../Models/securitytablemodel.cpp" line="343"/>
         <source>Content</source>
-        <translation>Treść</translation>
+        <translation type="unfinished">Treść</translation>
     </message>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="288"/>
+        <location filename="../Models/securitytablemodel.cpp" line="345"/>
         <source>Action</source>
-        <translation>Działanie</translation>
+        <translation type="unfinished">Działanie</translation>
     </message>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="290"/>
+        <location filename="../Models/securitytablemodel.cpp" line="347"/>
         <source>Expires</source>
-        <translation>Ulega przedawnieniu</translation>
+        <translation type="unfinished">Ulega przedawnieniu</translation>
     </message>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="292"/>
+        <location filename="../Models/securitytablemodel.cpp" line="349"/>
         <source>Hits</source>
-        <translation>Trafień</translation>
+        <translation type="unfinished">Trafień</translation>
     </message>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="294"/>
-        <location filename="../Models/securitytablemodel.cpp" line="310"/>
+        <location filename="../Models/securitytablemodel.cpp" line="351"/>
+        <location filename="../Models/securitytablemodel.cpp" line="367"/>
         <source>Comment</source>
-        <translation>Komentarz</translation>
+        <translation type="unfinished">Komentarz</translation>
     </message>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="302"/>
+        <location filename="../Models/securitytablemodel.cpp" line="359"/>
         <source>The content of the Security Manager rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="304"/>
+        <location filename="../Models/securitytablemodel.cpp" line="361"/>
         <source>Whether a rule blocks or allows content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="306"/>
+        <location filename="../Models/securitytablemodel.cpp" line="363"/>
         <source>When the Security Manager rule expires</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Models/securitytablemodel.cpp" line="308"/>
+        <location filename="../Models/securitytablemodel.cpp" line="365"/>
         <source>How often the rule has been hit today (since its creation date)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -245,8 +391,278 @@
 <context>
     <name>CTransfers</name>
     <message>
-        <location filename="../Transfers/transfers.cpp" line="23"/>
+        <location filename="../Transfers/transfers.cpp" line="56"/>
         <source>Starting transfers...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Transfers/transfers.cpp" line="70"/>
+        <source>Stopping transfers...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CWinMain</name>
+    <message>
+        <location filename="../UI/winmain.cpp" line="98"/>
+        <source>Current IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="100"/>
+        <location filename="../UI/winmain.cpp" line="989"/>
+        <source>Unknown</source>
+        <translation type="unfinished">Nieznane</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="103"/>
+        <source>Copy Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="110"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt; &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Segoe UI&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TCP: &lt;img src=&quot;:/Resource/Network/ShieldRed.png&quot; /&gt; UDP: &lt;img src=&quot;:/Resource/Network/ShieldRed.png&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="171"/>
+        <location filename="../UI/winmain.cpp" line="247"/>
+        <location filename="../UI/winmain.cpp" line="368"/>
+        <location filename="../UI/winmain.cpp" line="443"/>
+        <location filename="../UI/winmain.cpp" line="524"/>
+        <source>Quazaa Home</source>
+        <translation type="unfinished">Start!</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="176"/>
+        <location filename="../UI/winmain.cpp" line="373"/>
+        <location filename="../UI/winmain.cpp" line="533"/>
+        <source>Library</source>
+        <translation type="unfinished">Zasoby</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="181"/>
+        <location filename="../UI/winmain.cpp" line="378"/>
+        <location filename="../UI/winmain.cpp" line="541"/>
+        <source>Media</source>
+        <translation type="unfinished">Media</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="186"/>
+        <location filename="../UI/winmain.cpp" line="383"/>
+        <location filename="../UI/winmain.cpp" line="550"/>
+        <source>Search</source>
+        <translation type="unfinished">Szukaj</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="192"/>
+        <location filename="../UI/winmain.cpp" line="388"/>
+        <location filename="../UI/winmain.cpp" line="560"/>
+        <source>Transfers</source>
+        <translation type="unfinished">Transfery</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="197"/>
+        <location filename="../UI/winmain.cpp" line="393"/>
+        <location filename="../UI/winmain.cpp" line="569"/>
+        <source>Security</source>
+        <translation type="unfinished">Bezpieczeństwo</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="202"/>
+        <location filename="../UI/winmain.cpp" line="398"/>
+        <location filename="../UI/winmain.cpp" line="578"/>
+        <source>Activity</source>
+        <translation type="unfinished">Aktywność</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="207"/>
+        <location filename="../UI/winmain.cpp" line="403"/>
+        <location filename="../UI/winmain.cpp" line="587"/>
+        <source>Chat</source>
+        <translation type="unfinished">Rozmowa</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="212"/>
+        <location filename="../UI/winmain.cpp" line="408"/>
+        <location filename="../UI/winmain.cpp" line="596"/>
+        <source>Host Cache</source>
+        <translation type="unfinished">Cache Hostów</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="217"/>
+        <location filename="../UI/winmain.cpp" line="413"/>
+        <location filename="../UI/winmain.cpp" line="605"/>
+        <source>Discovery</source>
+        <translation type="unfinished">Odnajdywanie (discovery)</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="222"/>
+        <location filename="../UI/winmain.cpp" line="418"/>
+        <location filename="../UI/winmain.cpp" line="614"/>
+        <source>Scheduler</source>
+        <translation type="unfinished">Harmonogram</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="227"/>
+        <location filename="../UI/winmain.cpp" line="423"/>
+        <location filename="../UI/winmain.cpp" line="623"/>
+        <source>Graph</source>
+        <translation type="unfinished">Wykres</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="232"/>
+        <location filename="../UI/winmain.cpp" line="428"/>
+        <location filename="../UI/winmain.cpp" line="632"/>
+        <source>Packet Dump</source>
+        <translation type="unfinished">Zrzut pakietów</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="237"/>
+        <location filename="../UI/winmain.cpp" line="433"/>
+        <location filename="../UI/winmain.cpp" line="641"/>
+        <source>Search Monitor</source>
+        <translation type="unfinished">Monitor wyszukiwań</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="242"/>
+        <location filename="../UI/winmain.cpp" line="438"/>
+        <location filename="../UI/winmain.cpp" line="650"/>
+        <source>Hit Monitor</source>
+        <translation type="unfinished">Monitor trafień</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="297"/>
+        <source>Quazaa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="468"/>
+        <source>Closing Networks...</source>
+        <translation type="unfinished">Zamykanie sieci...</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="476"/>
+        <source>Stopping transfers...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="480"/>
+        <source>Saving Security Manager...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="484"/>
+        <source>Saving Settings...</source>
+        <translation type="unfinished">Zapisywanie ustawień...</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="488"/>
+        <source>Saving UI...</source>
+        <translation type="unfinished">Zapisywanie UI...</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="509"/>
+        <source>Removing Tray Icon...</source>
+        <translation type="unfinished">Usuwanie ikony systemowej...</translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="911"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt; &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Segoe UI&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TCP: &lt;img src=&quot;%1&quot; /&gt; UDP: &lt;img src=&quot;%2&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="912"/>
+        <source>%1/s In:%2/s Out [D:%3/U:%4]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="992"/>
+        <source>Unknown IP Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/winmain.cpp" line="992"/>
+        <source>The current IP Address is unknown and cannot be copied to the clipboard.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ColorsWizardPage</name>
+    <message>
+        <location filename="../Chat/IRC/wizard/colorswizardpage.ui" line="14"/>
+        <source>Color settings</source>
+        <translation type="unfinished">Ustawienia kolorów</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/colorswizardpage.ui" line="17"/>
+        <source>Define message colors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/colorswizardpage.ui" line="33"/>
+        <source>Type</source>
+        <translation type="unfinished">Typ</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/colorswizardpage.ui" line="38"/>
+        <source>Color</source>
+        <translation type="unfinished">Kolor</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/colorswizardpage.ui" line="43"/>
+        <source>Background</source>
+        <translation type="unfinished">Tło</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/colorswizardpage.ui" line="51"/>
+        <source>Message</source>
+        <translation type="unfinished">Wiadomość</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/colorswizardpage.ui" line="59"/>
+        <source>Event</source>
+        <translation type="unfinished">Zdarzenie</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/colorswizardpage.ui" line="70"/>
+        <source>Notice</source>
+        <translation type="unfinished">Informacje</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/colorswizardpage.ui" line="78"/>
+        <source>Action</source>
+        <translation type="unfinished">Działanie</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/colorswizardpage.ui" line="86"/>
+        <source>Highlight</source>
+        <translation type="unfinished">Podświetlenie</translation>
+    </message>
+</context>
+<context>
+    <name>ConnectionWizard</name>
+    <message>
+        <location filename="../Chat/IRC/wizard/connectionwizard.cpp" line="22"/>
+        <source>Connection</source>
+        <translation type="unfinished">Połączenie</translation>
+    </message>
+</context>
+<context>
+    <name>ConnectionWizardPage</name>
+    <message>
+        <location filename="../Chat/IRC/wizard/connectionwizardpage.ui" line="6"/>
+        <source>Connection information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/connectionwizardpage.ui" line="9"/>
+        <source>An optional name for the connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/connectionwizardpage.ui" line="18"/>
+        <source>&amp;Name:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -315,8 +731,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;cyko_01, oce, Old Death&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa Chat Server Hosting&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;irc.p2pchat.net&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;irc.nixtrixirc.net&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://paradoxirc.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Paradox IRC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://p2pchat.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;P2PChat&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://nixtrixirc.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Nixtrix IRC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Thanks to the Quazaa community!&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Thanks to everyone who helped us in the forums and Quazaa IRC chatrooms. Those of you who help new users, troubleshoot user&apos;s technical problems, submit bug reports or help create the security lists.&lt;/span&gt;&lt;/p&gt;
@@ -345,12 +762,17 @@ p, li { white-space: pre-wrap; }
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/QT.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.nokia.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;QT&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;The Qt Software Development Kit&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.nokia.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;The Qt Software Development Kit&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Credits/Gimp.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.gimp.org&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;The Gimp&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;A free graphics editor&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;The following libraries are included in Quazaa:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; font-weight:600;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://gitorious.org/communi&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Communi&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://www.boost.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Boost&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://www.cyotec.com/2009/09/cyoencode.html&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;CyoEncode&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://site.icu-project.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;icu&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;https://sourceforge.net/projects/nvwa/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;nvwa&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; and &lt;/span&gt;&lt;a href=&quot;http://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;zlib&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Quazaa uses code and user interface designs from the following programs:&lt;/span&gt;&lt;/p&gt;
 &lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;10&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
@@ -373,14 +795,14 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/Resource/Networks/Ares.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://aresgalaxy.sourceforge.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Ares&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;An open-source P2P client&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; font-weight:600;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; color:#000000;&quot;&gt;BitTorrent, the BitTorrent Logo, and Torrent are trademarks of BitTorrent, Inc.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogabout.ui" line="283"/>
+        <location filename="../UI/dialogabout.ui" line="289"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
 </context>
 <context>
@@ -415,198 +837,185 @@ p, li { white-space: pre-wrap; }
         <translation>Zasada bezpieczeństwa</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="92"/>
+        <location filename="../UI/dialogaddrule.ui" line="716"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="99"/>
+        <location filename="../UI/dialogaddrule.ui" line="723"/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="136"/>
+        <location filename="../UI/dialogaddrule.ui" line="105"/>
         <source>Rule</source>
         <translation>Zasada</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="142"/>
+        <location filename="../UI/dialogaddrule.ui" line="111"/>
         <source>Type:</source>
         <translation>Typ:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="150"/>
-        <location filename="../UI/dialogaddrule.ui" line="339"/>
+        <location filename="../UI/dialogaddrule.ui" line="119"/>
+        <location filename="../UI/dialogaddrule.ui" line="308"/>
         <source>IP Address</source>
         <translation>Adres IP</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="155"/>
-        <location filename="../UI/dialogaddrule.ui" line="446"/>
+        <location filename="../UI/dialogaddrule.ui" line="124"/>
+        <location filename="../UI/dialogaddrule.ui" line="388"/>
         <source>IP Address Range</source>
         <translation>Zakres adresów IP</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="170"/>
-        <location filename="../UI/dialogaddrule.ui" line="711"/>
+        <location filename="../UI/dialogaddrule.ui" line="139"/>
+        <location filename="../UI/dialogaddrule.ui" line="611"/>
         <source>Content Filter</source>
         <translation>Filtr zawartości</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="165"/>
-        <location filename="../UI/dialogaddrule.ui" line="620"/>
+        <location filename="../UI/dialogaddrule.ui" line="134"/>
+        <location filename="../UI/dialogaddrule.ui" line="562"/>
         <source>File Filter</source>
         <translation>Filtr pliku</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="160"/>
-        <location filename="../UI/dialogaddrule.ui" line="589"/>
+        <location filename="../UI/dialogaddrule.ui" line="129"/>
+        <location filename="../UI/dialogaddrule.ui" line="531"/>
         <source>Country</source>
-        <translation>Country</translation>
+        <translation type="unfinished">Country</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="180"/>
-        <location filename="../UI/dialogaddrule.ui" line="788"/>
+        <location filename="../UI/dialogaddrule.ui" line="149"/>
+        <location filename="../UI/dialogaddrule.ui" line="688"/>
         <source>User Agent</source>
-        <translation>Przeglądarka</translation>
+        <translation type="unfinished">Przeglądarka</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="188"/>
+        <location filename="../UI/dialogaddrule.ui" line="157"/>
         <source>Comment:</source>
         <translation>Komentarz:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="201"/>
+        <location filename="../UI/dialogaddrule.ui" line="170"/>
         <source>Options</source>
         <translation>Opcje</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="236"/>
+        <location filename="../UI/dialogaddrule.ui" line="205"/>
         <source>Day(s)</source>
         <translation>Dni</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="243"/>
+        <location filename="../UI/dialogaddrule.ui" line="212"/>
         <source>Hour(s)</source>
         <translation>Godzin(y)</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="250"/>
+        <location filename="../UI/dialogaddrule.ui" line="219"/>
         <source>Minute(s)</source>
         <translation>Minut(y)</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="259"/>
+        <location filename="../UI/dialogaddrule.ui" line="228"/>
         <source>Action:</source>
         <translation>Akcja:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="266"/>
+        <location filename="../UI/dialogaddrule.ui" line="235"/>
         <source>Expire:</source>
         <translation>Wygasa:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="280"/>
+        <location filename="../UI/dialogaddrule.ui" line="249"/>
         <source>None</source>
         <translation>nic</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="285"/>
+        <location filename="../UI/dialogaddrule.ui" line="254"/>
         <source>Accept</source>
         <translation>Akceptuj</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="290"/>
+        <location filename="../UI/dialogaddrule.ui" line="259"/>
         <source>Deny</source>
         <translation>Odrzuć</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="305"/>
+        <location filename="../UI/dialogaddrule.ui" line="274"/>
         <source>Never (Indefinite)</source>
         <translation>Nigdy</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="310"/>
+        <location filename="../UI/dialogaddrule.ui" line="279"/>
         <source>At End Of Session</source>
         <translation>Na końcu sesji</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="315"/>
+        <location filename="../UI/dialogaddrule.ui" line="284"/>
         <source>After:</source>
         <translation>Po:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="345"/>
+        <location filename="../UI/dialogaddrule.ui" line="331"/>
         <source>IP Address:</source>
         <translation>Adres IP:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="352"/>
-        <location filename="../UI/dialogaddrule.ui" line="533"/>
+        <location filename="../UI/dialogaddrule.ui" line="338"/>
+        <source>0.0.0.0</source>
+        <translation type="unfinished">0.0.0.0</translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogaddrule.ui" line="347"/>
+        <source>For example: 192.168.1.1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogaddrule.ui" line="475"/>
         <source>Netmask:</source>
         <translation>Maska podsieci:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="463"/>
+        <location filename="../UI/dialogaddrule.ui" line="405"/>
         <source>Start IP Address:</source>
         <translation>Początkowy adres IP:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="498"/>
+        <location filename="../UI/dialogaddrule.ui" line="440"/>
         <source>End IP Address:</source>
         <translation>Końcowy adres IP:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="731"/>
+        <location filename="../UI/dialogaddrule.ui" line="579"/>
+        <source>URI:</source>
+        <translation type="unfinished">URI:</translation>
+    </message>
+    <message>
+        <location filename="../UI/dialogaddrule.ui" line="631"/>
         <source>Match Any</source>
         <translation>Dopasuj którekolwiek</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="741"/>
+        <location filename="../UI/dialogaddrule.ui" line="641"/>
         <source>Match All</source>
         <translation>Dopasuj wszystkie</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="175"/>
-        <location filename="../UI/dialogaddrule.ui" line="766"/>
-        <location filename="../UI/dialogaddrule.ui" line="797"/>
+        <location filename="../UI/dialogaddrule.ui" line="144"/>
+        <location filename="../UI/dialogaddrule.ui" line="666"/>
+        <location filename="../UI/dialogaddrule.ui" line="697"/>
         <source>Regular Expression</source>
         <translation>Wyrażenie Regularne</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="637"/>
         <source>Hash:</source>
-        <translation>Hash:</translation>
+        <translation type="obsolete">Hash:</translation>
     </message>
     <message>
-        <location filename="../UI/dialogaddrule.ui" line="650"/>
         <source>Hash Type:</source>
-        <translation>Typ:</translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogaddrule.ui" line="668"/>
-        <source>SHA1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogaddrule.ui" line="673"/>
-        <source>Tiger-Root</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogaddrule.ui" line="678"/>
-        <source>ED2K</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogaddrule.ui" line="683"/>
-        <source>MD5</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../UI/dialogaddrule.ui" line="688"/>
-        <source>BitTorrent</source>
-        <translation></translation>
+        <translation type="obsolete">Typ:</translation>
     </message>
 </context>
 <context>
@@ -624,7 +1033,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="117"/>
         <source>Subscribe</source>
-        <translation>Subskrybuj</translation>
+        <translation type="unfinished">Subskrybuj</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="128"/>
@@ -667,12 +1076,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="221"/>
         <source>Language</source>
-        <translation>Język</translation>
+        <translation type="unfinished">Język</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="226"/>
         <source>Home Page</source>
-        <translation>Strona domowa</translation>
+        <translation type="unfinished">Strona domowa</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="231"/>
@@ -683,7 +1092,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="241"/>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="268"/>
         <source>English</source>
-        <translation>Angielski</translation>
+        <translation type="unfinished">Angielski</translation>
     </message>
     <message>
         <location filename="../UI/dialogaddsecuritysubscription.ui" line="248"/>
@@ -782,12 +1191,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogconnectto.cpp" line="96"/>
+        <location filename="../UI/dialogconnectto.cpp" line="100"/>
         <source>Address is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogconnectto.cpp" line="97"/>
+        <location filename="../UI/dialogconnectto.cpp" line="101"/>
         <source>Please enter a valid IP Address.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -802,12 +1211,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="49"/>
         <source>Details</source>
-        <translation>Szczegóły</translation>
+        <translation type="unfinished">Szczegóły</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="63"/>
         <source>Creator</source>
-        <translation>Twórca</translation>
+        <translation type="unfinished">Twórca</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="70"/>
@@ -817,7 +1226,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="79"/>
         <source>Comment</source>
-        <translation>Komentarz</translation>
+        <translation type="unfinished">Komentarz</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="91"/>
@@ -832,17 +1241,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="111"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="unfinished">...</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="120"/>
         <source>Private</source>
-        <translation>Private</translation>
+        <translation type="unfinished">Private</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="128"/>
         <source>Files</source>
-        <translation>Pliki</translation>
+        <translation type="unfinished">Pliki</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="140"/>
@@ -852,12 +1261,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="149"/>
         <source>File</source>
-        <translation>Plik</translation>
+        <translation type="unfinished">Plik</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="156"/>
         <source>Directory</source>
-        <translation>Katalog</translation>
+        <translation type="unfinished">Katalog</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="176"/>
@@ -869,7 +1278,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="189"/>
         <source>Trackers</source>
-        <translation>Trackery</translation>
+        <translation type="unfinished">Trackery</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="203"/>
@@ -890,7 +1299,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="291"/>
         <source>Tracker</source>
-        <translation>Tracker</translation>
+        <translation type="unfinished">Tracker</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="296"/>
@@ -910,7 +1319,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="342"/>
         <source>Port </source>
-        <translation>Port </translation>
+        <translation type="unfinished">Port </translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="350"/>
@@ -925,17 +1334,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="402"/>
         <source>Port</source>
-        <translation>Port</translation>
+        <translation type="unfinished">Port</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="407"/>
         <source>Type</source>
-        <translation>Typ</translation>
+        <translation type="unfinished">Typ</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="484"/>
         <source>Save</source>
-        <translation>Zapisz</translation>
+        <translation type="unfinished">Zapisz</translation>
     </message>
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="491"/>
@@ -945,7 +1354,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogcreatetorrent.ui" line="498"/>
         <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <translation type="unfinished">Zastosuj</translation>
     </message>
 </context>
 <context>
@@ -953,7 +1362,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialog</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="106"/>
@@ -980,7 +1389,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogdownloadmonitor.ui" line="186"/>
         <location filename="../UI/dialogdownloadmonitor.ui" line="193"/>
         <source>N/A</source>
-        <translation>nie dotyczy</translation>
+        <translation type="unfinished">nie dotyczy</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="158"/>
@@ -1010,12 +1419,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="244"/>
         <source>Hide</source>
-        <translation>Ukryj</translation>
+        <translation type="unfinished">Ukryj</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadmonitor.ui" line="255"/>
         <source>Preview</source>
-        <translation>Podgląd</translation>
+        <translation type="unfinished">Podgląd</translation>
     </message>
 </context>
 <context>
@@ -1028,7 +1437,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="49"/>
         <source>General</source>
-        <translation>Ogólne</translation>
+        <translation type="unfinished">Ogólne</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="67"/>
@@ -1048,7 +1457,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="95"/>
         <source>Filename:</source>
-        <translation>Nazwa pliku:</translation>
+        <translation type="unfinished">Nazwa pliku:</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="105"/>
@@ -1058,7 +1467,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="131"/>
         <source>Location:</source>
-        <translation>Lokalizacja:</translation>
+        <translation type="unfinished">Lokalizacja:</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="143"/>
@@ -1068,13 +1477,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="174"/>
         <source>Trusted</source>
-        <translation>Zaufane</translation>
+        <translation type="unfinished">Zaufane</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="255"/>
         <location filename="../UI/dialogdownloadproperties.ui" line="287"/>
         <source>Actions</source>
-        <translation>Działania</translation>
+        <translation type="unfinished">Działania</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="299"/>
@@ -1139,12 +1548,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="383"/>
         <source>Erase</source>
-        <translation>Wymaż</translation>
+        <translation type="unfinished">Wymaż</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="418"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadproperties.ui" line="425"/>
@@ -1167,12 +1576,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogdownloadsimport.ui" line="154"/>
         <source>Yes</source>
-        <translation>Tak</translation>
+        <translation type="unfinished">Tak</translation>
     </message>
     <message>
         <location filename="../UI/dialogdownloadsimport.ui" line="161"/>
         <source>No</source>
-        <translation>Nie</translation>
+        <translation type="unfinished">Nie</translation>
     </message>
 </context>
 <context>
@@ -1200,7 +1609,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogeditshares.ui" line="171"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogeditshares.ui" line="178"/>
@@ -1208,7 +1617,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Anuluj</translation>
     </message>
     <message>
-        <location filename="../UI/dialogeditshares.cpp" line="80"/>
+        <location filename="../UI/dialogeditshares.cpp" line="84"/>
         <source>Select A Folder To Share</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1228,7 +1637,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="129"/>
         <source>Filter</source>
-        <translation>Filtr</translation>
+        <translation type="unfinished">Filtr</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="166"/>
@@ -1267,17 +1676,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="237"/>
         <source>Minimum:</source>
-        <translation>Minimum:</translation>
+        <translation type="unfinished">Minimum:</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="244"/>
         <source>Maximum:</source>
-        <translation>Maksimum:</translation>
+        <translation type="unfinished">Maksimum:</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="257"/>
         <source>Hide</source>
-        <translation>Ukryj</translation>
+        <translation type="unfinished">Ukryj</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="269"/>
@@ -1327,7 +1736,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="335"/>
         <source>Filters</source>
-        <translation>Filtry</translation>
+        <translation type="unfinished">Filtry</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="357"/>
@@ -1337,12 +1746,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="364"/>
         <source>Save As</source>
-        <translation>Zapisz jako</translation>
+        <translation type="unfinished">Zapisz jako</translation>
     </message>
     <message>
         <location filename="../UI/dialogfiltersearch.ui" line="371"/>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation type="unfinished">Usuń</translation>
     </message>
 </context>
 <context>
@@ -1350,7 +1759,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialoghashprogress.ui" line="41"/>
         <source>Dialog</source>
-        <translation>Dialog</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../UI/dialoghashprogress.ui" line="135"/>
@@ -1358,7 +1767,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialoghashprogress.cpp" line="117"/>
+        <location filename="../UI/dialoghashprogress.cpp" line="121"/>
         <source>Quazaa is creating hashes. Remaining files: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1378,7 +1787,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="83"/>
         <source>Black</source>
-        <translation>Czarne</translation>
+        <translation type="unfinished">Czarne</translation>
     </message>
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="114"/>
@@ -1388,12 +1797,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="145"/>
         <source>Green</source>
-        <translation>Zielone</translation>
+        <translation type="unfinished">Zielone</translation>
     </message>
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="176"/>
         <source>Red</source>
-        <translation>Czerwony</translation>
+        <translation type="unfinished">Czerwony</translation>
     </message>
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="207"/>
@@ -1408,12 +1817,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="269"/>
         <source>Orange</source>
-        <translation>Oranje</translation>
+        <translation type="unfinished">Oranje</translation>
     </message>
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="300"/>
         <source>Yellow</source>
-        <translation>Żółty</translation>
+        <translation type="unfinished">Żółty</translation>
     </message>
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="331"/>
@@ -1428,27 +1837,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="393"/>
         <source>Cyan</source>
-        <translation>Cyan</translation>
+        <translation type="unfinished">Cyan</translation>
     </message>
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="424"/>
         <source>Blue</source>
-        <translation>Niebieskie</translation>
+        <translation type="unfinished">Niebieskie</translation>
     </message>
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="458"/>
         <source>Magenta</source>
-        <translation>Purpurowe</translation>
+        <translation type="unfinished">Purpurowe</translation>
     </message>
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="489"/>
         <source>Light Gray</source>
-        <translation>Jasnoszary</translation>
+        <translation type="unfinished">Jasnoszary</translation>
     </message>
     <message>
         <location filename="../UI/dialogirccolordialog.ui" line="520"/>
         <source>Gray</source>
-        <translation>Szary</translation>
+        <translation type="unfinished">Szary</translation>
     </message>
 </context>
 <context>
@@ -1456,12 +1865,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialoglanguage.ui" line="29"/>
         <source>Select Language</source>
-        <translation>Wybierz język</translation>
+        <translation type="unfinished">Wybierz język</translation>
     </message>
     <message>
         <location filename="../UI/dialoglanguage.ui" line="150"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
     <message>
         <location filename="../UI/dialoglanguage.ui" line="157"/>
@@ -1543,7 +1952,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="243"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogopentorrent.ui" line="263"/>
@@ -1566,7 +1975,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogpreviewprepare.ui" line="112"/>
         <source>File Name</source>
-        <translation>Nazwa pliku</translation>
+        <translation type="unfinished">Nazwa pliku</translation>
     </message>
     <message>
         <location filename="../UI/dialogpreviewprepare.ui" line="126"/>
@@ -1596,12 +2005,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogprofile.ui" line="23"/>
         <source>Edit Profile</source>
-        <translation>Zapisz profil</translation>
+        <translation type="unfinished">Zapisz profil</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="274"/>
         <source>Name</source>
-        <translation>Nazwa</translation>
+        <translation type="unfinished">Nazwa</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="286"/>
@@ -1636,12 +2045,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogprofile.ui" line="355"/>
         <source>Male</source>
-        <translation>Male</translation>
+        <translation type="unfinished">Male</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="360"/>
         <source>Female</source>
-        <translation>rodzaju żeńskiego</translation>
+        <translation type="unfinished">rodzaju żeńskiego</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="368"/>
@@ -1686,12 +2095,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogprofile.ui" line="504"/>
         <source>Yahoo ID:</source>
-        <translation>Identyfikator Yahoo:</translation>
+        <translation type="unfinished">Identyfikator Yahoo:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="514"/>
         <source>ICQ UIN:</source>
-        <translation>Numer ICQ:</translation>
+        <translation type="unfinished">Numer ICQ:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="524"/>
@@ -1701,7 +2110,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogprofile.ui" line="534"/>
         <source>Jabber ID:</source>
-        <translation>Identyfikator Jabbera:</translation>
+        <translation type="unfinished">Identyfikator Jabbera:</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="544"/>
@@ -1711,22 +2120,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogprofile.ui" line="580"/>
         <source>Mapping</source>
-        <translation>Mapowanie</translation>
+        <translation type="unfinished">Mapowanie</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="592"/>
         <source>Latitude</source>
-        <translation>Szerokość</translation>
+        <translation type="unfinished">Szerokość</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="599"/>
         <source>Longitude</source>
-        <translation>Długość</translation>
+        <translation type="unfinished">Długość</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="628"/>
         <source>Interests</source>
-        <translation>Zainteresowania</translation>
+        <translation type="unfinished">Zainteresowania</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="670"/>
@@ -1741,27 +2150,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogprofile.ui" line="721"/>
         <source>Location</source>
-        <translation>Położenie</translation>
+        <translation type="unfinished">Położenie</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="733"/>
         <source>Country</source>
-        <translation>Country</translation>
+        <translation type="unfinished">Country</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="740"/>
         <source>City</source>
-        <translation>Miasto</translation>
+        <translation type="unfinished">Miasto</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="753"/>
         <source>State/Province</source>
-        <translation>Województwo/Stan</translation>
+        <translation type="unfinished">Województwo/Stan</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="146"/>
         <location filename="../UI/dialogprofile.ui" line="789"/>
-        <location filename="../UI/dialogprofile.cpp" line="131"/>
+        <location filename="../UI/dialogprofile.cpp" line="135"/>
         <source>Bio</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1790,18 +2199,18 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogprofile.ui" line="1018"/>
         <location filename="../UI/dialogprofile.ui" line="1033"/>
         <source>Website</source>
-        <translation>Strona WWW</translation>
+        <translation type="unfinished">Strona WWW</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1023"/>
         <location filename="../UI/dialogprofile.ui" line="1040"/>
         <source>Address</source>
-        <translation>Adres</translation>
+        <translation type="unfinished">Adres</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1067"/>
         <source>New</source>
-        <translation>Nowy</translation>
+        <translation type="unfinished">Nowy</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1125"/>
@@ -1816,7 +2225,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogprofile.ui" line="1189"/>
         <source>GUID</source>
-        <translation>GUID</translation>
+        <translation type="unfinished">GUID</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="1212"/>
@@ -1826,50 +2235,50 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogprofile.ui" line="127"/>
         <location filename="../UI/dialogprofile.ui" line="141"/>
-        <location filename="../UI/dialogprofile.cpp" line="126"/>
+        <location filename="../UI/dialogprofile.cpp" line="130"/>
         <source>Profile</source>
-        <translation>Profil</translation>
+        <translation type="unfinished">Profil</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="132"/>
-        <location filename="../UI/dialogprofile.cpp" line="116"/>
+        <location filename="../UI/dialogprofile.cpp" line="120"/>
         <source>Identity</source>
-        <translation>Tożsamość</translation>
+        <translation type="unfinished">Tożsamość</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="136"/>
-        <location filename="../UI/dialogprofile.cpp" line="121"/>
+        <location filename="../UI/dialogprofile.cpp" line="125"/>
         <source>Contact</source>
-        <translation>Kontakt</translation>
+        <translation type="unfinished">Kontakt</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="151"/>
-        <location filename="../UI/dialogprofile.cpp" line="136"/>
+        <location filename="../UI/dialogprofile.cpp" line="140"/>
         <source>Avatar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="157"/>
-        <location filename="../UI/dialogprofile.cpp" line="141"/>
+        <location filename="../UI/dialogprofile.cpp" line="145"/>
         <source>Favorites</source>
-        <translation>Ulubione</translation>
+        <translation type="unfinished">Ulubione</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="161"/>
-        <location filename="../UI/dialogprofile.cpp" line="146"/>
+        <location filename="../UI/dialogprofile.cpp" line="150"/>
         <source>Files</source>
-        <translation>Pliki</translation>
+        <translation type="unfinished">Pliki</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="167"/>
-        <location filename="../UI/dialogprofile.cpp" line="151"/>
+        <location filename="../UI/dialogprofile.cpp" line="155"/>
         <source>Certificate</source>
-        <translation>Certyfikat</translation>
+        <translation type="unfinished">Certyfikat</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="183"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogprofile.ui" line="190"/>
@@ -1879,17 +2288,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogprofile.ui" line="203"/>
         <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <translation type="unfinished">Zastosuj</translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.cpp" line="362"/>
+        <location filename="../UI/dialogprofile.cpp" line="366"/>
         <source>Open Avatar Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogprofile.cpp" line="364"/>
+        <location filename="../UI/dialogprofile.cpp" line="368"/>
         <source>Images</source>
-        <translation>Obrazki</translation>
+        <translation type="unfinished">Obrazki</translation>
     </message>
 </context>
 <context>
@@ -1902,12 +2311,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogscheduler.ui" line="654"/>
         <source>Daily</source>
-        <translation>Dziennie</translation>
+        <translation type="unfinished">Dziennie</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="659"/>
         <source>Weekly</source>
-        <translation>Tygodniowo</translation>
+        <translation type="unfinished">Tygodniowo</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="165"/>
@@ -1927,7 +2336,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogscheduler.ui" line="183"/>
         <source>BitTorrent</source>
-        <translation>BitTorrent</translation>
+        <translation type="unfinished">BitTorrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="205"/>
@@ -1977,7 +2386,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogscheduler.ui" line="667"/>
         <source>Frequency:</source>
-        <translation>Częstotliwość:</translation>
+        <translation type="unfinished">Częstotliwość:</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="674"/>
@@ -1995,7 +2404,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogscheduler.ui" line="504"/>
         <location filename="../UI/dialogscheduler.ui" line="545"/>
         <source>Start:</source>
-        <translation>Rozpoczęcie:</translation>
+        <translation type="unfinished">Rozpoczęcie:</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="259"/>
@@ -2008,47 +2417,47 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogscheduler.ui" line="524"/>
         <location filename="../UI/dialogscheduler.ui" line="555"/>
         <source>Stop:</source>
-        <translation>Zatrzymaj:</translation>
+        <translation type="unfinished">Zatrzymaj:</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="376"/>
         <source>Sunday</source>
-        <translation>niedziela</translation>
+        <translation type="unfinished">niedziela</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="383"/>
         <source>Monday</source>
-        <translation>poniedziałek</translation>
+        <translation type="unfinished">poniedziałek</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="413"/>
         <source>Tuesday</source>
-        <translation>wtorek</translation>
+        <translation type="unfinished">wtorek</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="457"/>
         <source>Wednesday</source>
-        <translation>środa</translation>
+        <translation type="unfinished">środa</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="511"/>
         <source>Saturday</source>
-        <translation>sobota</translation>
+        <translation type="unfinished">sobota</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="531"/>
         <source>Thursday</source>
-        <translation>czwartek</translation>
+        <translation type="unfinished">czwartek</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="538"/>
         <source>Friday</source>
-        <translation>piątek</translation>
+        <translation type="unfinished">piątek</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="116"/>
         <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <translation type="unfinished">Zastosuj</translation>
     </message>
     <message>
         <location filename="../UI/dialogscheduler.ui" line="123"/>
@@ -2058,7 +2467,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogscheduler.ui" line="130"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
 </context>
 <context>
@@ -2081,12 +2490,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="116"/>
         <source>Enabled</source>
-        <translation>Włączony</translation>
+        <translation type="unfinished">Włączone</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="135"/>
         <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <translation type="unfinished">Zastosuj</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="142"/>
@@ -2101,7 +2510,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="160"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogsecuritysubscriptions.ui" line="180"/>
@@ -2159,12 +2568,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="199"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogselectvisualisation.ui" line="209"/>
         <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <translation type="unfinished">Zastosuj</translation>
     </message>
 </context>
 <context>
@@ -2179,7 +2588,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogsettings.ui" line="395"/>
         <location filename="../UI/dialogsettings.ui" line="723"/>
         <source>General</source>
-        <translation>Ogólne</translation>
+        <translation type="unfinished">Ogólne</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="404"/>
@@ -2194,7 +2603,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="189"/>
         <source>System</source>
-        <translation>System</translation>
+        <translation type="unfinished">System</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="207"/>
@@ -2209,7 +2618,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="225"/>
         <source>Media Player</source>
-        <translation>Odtwarzacz multimediów</translation>
+        <translation type="unfinished">Odtwarzacz multimediów</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="234"/>
@@ -2219,13 +2628,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="243"/>
         <source>Integration</source>
-        <translation>Integracja</translation>
+        <translation type="unfinished">Integracja</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="280"/>
         <location filename="../UI/dialogsettings.ui" line="1858"/>
         <source>Community</source>
-        <translation>Społeczność</translation>
+        <translation type="unfinished">Społeczność</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="319"/>
@@ -2235,12 +2644,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="328"/>
         <source>Chat</source>
-        <translation>Rozmowa</translation>
+        <translation type="unfinished">Rozmowa</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="252"/>
         <source>Plugins</source>
-        <translation>Wtyczki</translation>
+        <translation type="unfinished">Wtyczki</translation>
     </message>
     <message>
         <source>Advanced</source>
@@ -2249,7 +2658,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="471"/>
         <source>Connection</source>
-        <translation>Połączenie</translation>
+        <translation type="unfinished">Połączenie</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="480"/>
@@ -2260,12 +2669,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="489"/>
         <source>Downloads</source>
-        <translation>Pobierane</translation>
+        <translation type="unfinished">Pobierane</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="498"/>
         <source>Uploads</source>
-        <translation>Wysyłane</translation>
+        <translation type="unfinished">Wysyłane</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="356"/>
@@ -2293,7 +2702,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogsettings.ui" line="592"/>
         <location filename="../UI/dialogsettings.ui" line="3487"/>
         <source>BitTorrent</source>
-        <translation>BitTorrent</translation>
+        <translation type="unfinished">BitTorrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="752"/>
@@ -2382,23 +2791,23 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="950"/>
         <source>Install</source>
-        <translation>Instaluj</translation>
+        <translation type="unfinished">Instaluj</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="970"/>
         <source>Preview</source>
-        <translation>Podgląd</translation>
+        <translation type="unfinished">Podgląd</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="977"/>
         <location filename="../UI/dialogsettings.ui" line="2774"/>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation type="unfinished">Usuń</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="907"/>
         <source>Description:</source>
-        <translation>Opis:</translation>
+        <translation type="unfinished">Opis:</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1003"/>
@@ -2439,7 +2848,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="1065"/>
         <source> files</source>
-        <translation> pliki</translation>
+        <translation type="unfinished"> pliki</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1085"/>
@@ -2489,7 +2898,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="526"/>
         <source>Protocols</source>
-        <translation>Protokoły</translation>
+        <translation type="unfinished">Protokoły</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="735"/>
@@ -2526,7 +2935,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="889"/>
         <source>Author: </source>
-        <translation>Autor: </translation>
+        <translation type="unfinished">Autor: </translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="896"/>
@@ -2551,7 +2960,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="1259"/>
         <source>Open With</source>
-        <translation>Otwórz za pomocą</translation>
+        <translation type="unfinished">Otwórz za pomocą</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1271"/>
@@ -2561,12 +2970,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="1279"/>
         <source>File Type</source>
-        <translation>Typ pliku</translation>
+        <translation type="unfinished">Typ pliku</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1284"/>
         <source>Program</source>
-        <translation>Program</translation>
+        <translation type="unfinished">Program</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1326"/>
@@ -2591,7 +3000,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="1578"/>
         <source>Name: </source>
-        <translation>Nazwa: </translation>
+        <translation type="unfinished">Nazwa: </translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1585"/>
@@ -2621,7 +3030,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="1640"/>
         <source>Auto Away</source>
-        <translation>Automatyczny status Nieobecny</translation>
+        <translation type="unfinished">Automatyczny status Nieobecny</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1646"/>
@@ -2652,7 +3061,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogsettings.ui" line="1806"/>
         <location filename="../UI/dialogsettings.ui" line="2392"/>
         <source>Port: </source>
-        <translation>Port: </translation>
+        <translation type="unfinished">Port: </translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="3401"/>
@@ -2704,7 +3113,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="1566"/>
         <source>Plugin Information</source>
-        <translation>Informacja o wtyczce</translation>
+        <translation type="unfinished">Informacja o wtyczce</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2304"/>
@@ -2724,17 +3133,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="2377"/>
         <source>Port</source>
-        <translation>Port</translation>
+        <translation type="unfinished">Port</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2408"/>
         <source>Random</source>
-        <translation>Losowo</translation>
+        <translation type="unfinished">Losowo</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1446"/>
         <source>Download Manager</source>
-        <translation>Menedżer pobierania</translation>
+        <translation type="unfinished">Menedżer pobierania</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="1452"/>
@@ -2759,7 +3168,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="2245"/>
         <source>Speed</source>
-        <translation>Szybkość</translation>
+        <translation type="unfinished">Szybkość</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2257"/>
@@ -2790,7 +3199,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/dialogsettings.ui" line="2260"/>
         <location filename="../UI/dialogsettings.ui" line="2282"/>
         <source> kbps</source>
-        <translation> kbps</translation>
+        <translation type="unfinished"> kbps</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2466"/>
@@ -2815,17 +3224,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="2593"/>
         <source>5</source>
-        <translation>5</translation>
+        <translation type="unfinished">5</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2598"/>
         <source>10</source>
-        <translation>10</translation>
+        <translation type="unfinished">10</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2603"/>
         <source>20</source>
-        <translation>20</translation>
+        <translation type="unfinished">20</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2608"/>
@@ -2895,22 +3304,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="2760"/>
         <source>New</source>
-        <translation>Nowy</translation>
+        <translation type="unfinished">Nowy</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2767"/>
         <source>Edit</source>
-        <translation>Edytuj</translation>
+        <translation type="unfinished">Edytuj</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2737"/>
         <source>Name</source>
-        <translation>Nazwa</translation>
+        <translation type="unfinished">Nazwa</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2742"/>
         <source>Criteria</source>
-        <translation>Kryteria</translation>
+        <translation type="unfinished">Kryteria</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2747"/>
@@ -2970,7 +3379,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="2816"/>
         <source>Mode:</source>
-        <translation>Tryb:</translation>
+        <translation type="unfinished">Tryb:</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2833"/>
@@ -2985,7 +3394,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="2843"/>
         <source>Hub</source>
-        <translation>Koncentrator</translation>
+        <translation type="unfinished">Koncentrator</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2878"/>
@@ -3052,7 +3461,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="3094"/>
         <source>Download...</source>
-        <translation>Pobierz...</translation>
+        <translation type="unfinished">Pobierz...</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="3084"/>
@@ -3097,7 +3506,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="3141"/>
         <source>Connections</source>
-        <translation>Połączenia</translation>
+        <translation type="unfinished">Połączenia</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="2866"/>
@@ -3206,91 +3615,91 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogsettings.ui" line="660"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogsettings.ui" line="677"/>
         <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <translation type="unfinished">Zastosuj</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="779"/>
+        <location filename="../UI/dialogsettings.cpp" line="776"/>
         <source>Author: %1</source>
-        <translation>Autor: %1</translation>
+        <translation type="unfinished">Autor: %1</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="780"/>
+        <location filename="../UI/dialogsettings.cpp" line="777"/>
         <source>Version: %1</source>
-        <translation>Wersja: %1</translation>
+        <translation type="unfinished">Wersja: %1</translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="792"/>
+        <location filename="../UI/dialogsettings.cpp" line="789"/>
         <source>Add Safe To Open File Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="793"/>
+        <location filename="../UI/dialogsettings.cpp" line="790"/>
         <source>Type the extension of the file type to add and press OK. 
 WARNING: This file type will always be opened!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="805"/>
+        <location filename="../UI/dialogsettings.cpp" line="802"/>
         <source>Add Never Share File Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="806"/>
+        <location filename="../UI/dialogsettings.cpp" line="803"/>
         <source>Type the extension of the file type to add and press OK. 
 WARNING: This file type will never be shared!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="818"/>
+        <location filename="../UI/dialogsettings.cpp" line="815"/>
         <source>Add Download Types to Manage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="819"/>
+        <location filename="../UI/dialogsettings.cpp" line="816"/>
         <source>Type the extension of the file type you want the download manager to manage and press OK. 
 Quazaa will detect downloads of these types and manage them for you.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="831"/>
+        <location filename="../UI/dialogsettings.cpp" line="828"/>
         <source>Add User Agents to Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="832"/>
+        <location filename="../UI/dialogsettings.cpp" line="829"/>
         <source>Type the vendor code of the client to block and press OK. 
 WARNING: Quazaa will block all communications with this client!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="844"/>
+        <location filename="../UI/dialogsettings.cpp" line="841"/>
         <source>Add Words to Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="845"/>
+        <location filename="../UI/dialogsettings.cpp" line="842"/>
         <source>Type the word to block and press OK. 
 WARNING: No downloads containing these words will be listed in searches 
 and these words will be replaced by &quot;!%@$#&quot; in chat!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="903"/>
+        <location filename="../UI/dialogsettings.cpp" line="900"/>
         <source>Select A Location To Save Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="917"/>
+        <location filename="../UI/dialogsettings.cpp" line="914"/>
         <source>Select A Folder For Temp Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/dialogsettings.cpp" line="931"/>
+        <location filename="../UI/dialogsettings.cpp" line="928"/>
         <source>Select A Folder To Store .torrent Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3318,7 +3727,7 @@ and these words will be replaced by &quot;!%@$#&quot; in chat!</source>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="66"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="73"/>
@@ -3328,7 +3737,7 @@ and these words will be replaced by &quot;!%@$#&quot; in chat!</source>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="86"/>
         <source>General</source>
-        <translation>Ogólne</translation>
+        <translation type="unfinished">Ogólne</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="104"/>
@@ -3348,7 +3757,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="132"/>
         <source>Filename:</source>
-        <translation>Nazwa pliku:</translation>
+        <translation type="unfinished">Nazwa pliku:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="142"/>
@@ -3358,7 +3767,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="168"/>
         <source>Location:</source>
-        <translation>Lokalizacja:</translation>
+        <translation type="unfinished">Lokalizacja:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="180"/>
@@ -3368,13 +3777,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="211"/>
         <source>Trusted</source>
-        <translation>Zaufane</translation>
+        <translation type="unfinished">Zaufane</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="292"/>
         <location filename="../UI/dialogtorrentproperties.ui" line="324"/>
         <source>Actions</source>
-        <translation>Działania</translation>
+        <translation type="unfinished">Działania</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="336"/>
@@ -3439,12 +3848,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="420"/>
         <source>Erase</source>
-        <translation>Wymaż</translation>
+        <translation type="unfinished">Wymaż</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="431"/>
         <source>Torrent</source>
-        <translation>Torrent</translation>
+        <translation type="unfinished">Torrent</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="437"/>
@@ -3454,12 +3863,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="451"/>
         <source>Name:</source>
-        <translation>Nazwa:</translation>
+        <translation type="unfinished">Nazwa:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="461"/>
         <source>Created:</source>
-        <translation>Utworzony:</translation>
+        <translation type="unfinished">Utworzony:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="471"/>
@@ -3469,12 +3878,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="481"/>
         <source>Comments:</source>
-        <translation>Komentarze:</translation>
+        <translation type="unfinished">Komentarze:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="488"/>
         <source>Notes:</source>
-        <translation>Adnotacje:</translation>
+        <translation type="unfinished">Adnotacje:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="510"/>
@@ -3489,7 +3898,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="532"/>
         <source>As Needed</source>
-        <translation>Jeśli potrzebne</translation>
+        <translation type="unfinished">Jeśli potrzebne</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="537"/>
@@ -3504,7 +3913,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="547"/>
         <source>Never</source>
-        <translation>Nigdy</translation>
+        <translation type="unfinished">Nigdy</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="555"/>
@@ -3514,37 +3923,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="571"/>
         <source>Files</source>
-        <translation>Pliki</translation>
+        <translation type="unfinished">Pliki</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="605"/>
         <source>Filename</source>
-        <translation>Nazwa pliku.</translation>
+        <translation type="unfinished">Nazwa pliku.</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="610"/>
         <source>Path</source>
-        <translation>Ścieżka</translation>
+        <translation type="unfinished">Ścieżka</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="615"/>
         <source>Size</source>
-        <translation>Rozmiar</translation>
+        <translation type="unfinished">Rozmiar</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="620"/>
         <source>Progress</source>
-        <translation>Postęp</translation>
+        <translation type="unfinished">Postęp</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="625"/>
         <source>Priority</source>
-        <translation>Priorytet</translation>
+        <translation type="unfinished">Priorytet</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="634"/>
         <source>Trackers</source>
-        <translation>Trackery</translation>
+        <translation type="unfinished">Trackery</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="646"/>
@@ -3574,7 +3983,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="701"/>
         <source>Disabled</source>
-        <translation>Wyłączony</translation>
+        <translation type="unfinished">Wyłączony</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="706"/>
@@ -3594,17 +4003,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="724"/>
         <source>Refresh</source>
-        <translation>Odśwież</translation>
+        <translation type="unfinished">Odśwież</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="737"/>
         <source>Tracker</source>
-        <translation>Tracker</translation>
+        <translation type="unfinished">Tracker</translation>
     </message>
     <message>
         <location filename="../UI/dialogtorrentproperties.ui" line="742"/>
         <source>Status</source>
-        <translation>Stan</translation>
+        <translation type="unfinished">Stan</translation>
     </message>
 </context>
 <context>
@@ -3612,7 +4021,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialog</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="94"/>
@@ -3626,7 +4035,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="132"/>
         <source>Size:</source>
-        <translation>Rozmiar:</translation>
+        <translation type="unfinished">Rozmiar:</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="139"/>
@@ -3636,12 +4045,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="152"/>
         <source>size</source>
-        <translation>rozmiar</translation>
+        <translation type="unfinished">rozmiar</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="165"/>
         <source>type</source>
-        <translation>typ</translation>
+        <translation type="unfinished">typ</translation>
     </message>
     <message>
         <location filename="../UI/dialogtransferprogresstooltip.ui" line="176"/>
@@ -3708,252 +4117,384 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>MessageFormatter</name>
+    <name>FindFrame</name>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="134"/>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="197"/>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="293"/>
-        <source>[%1] %2</source>
-        <translation>[%1] %2</translation>
+        <location filename="../Chat/IRC/util/findframe.ui" line="44"/>
+        <source>Previous</source>
+        <translation type="unfinished">Poprzednie</translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="137"/>
+        <location filename="../Chat/IRC/util/findframe.ui" line="55"/>
+        <source>Next</source>
+        <translation type="unfinished">Dalej</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/util/findframe.ui" line="66"/>
+        <source>Case Sensitive</source>
+        <translation type="unfinished">Uwzględnij wielkość liter</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/util/findframe.ui" line="73"/>
+        <source>Whole words</source>
+        <translation type="unfinished">Całe wyrazy</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/util/findframe.ui" line="80"/>
+        <source>&lt;img src=&quot;:/trolltech/styles/commonstyle/images/fileinfo-16.png&quot;&gt;&amp;nbsp;Search wrapped</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GeneralWizardPage</name>
+    <message>
+        <location filename="../Chat/IRC/wizard/generalwizardpage.ui" line="14"/>
+        <source>General settings</source>
+        <translation type="unfinished">Ogólne ustawienia</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/generalwizardpage.ui" line="17"/>
+        <source>Adjust general settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/generalwizardpage.ui" line="26"/>
+        <source>&amp;Scrollback:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/generalwizardpage.ui" line="46"/>
+        <source>&amp;Messages:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/generalwizardpage.ui" line="56"/>
+        <source>Timestamp</source>
+        <translation type="unfinished">Znacznik czasu</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/generalwizardpage.ui" line="66"/>
+        <source>Connect On Startup</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MessageFormatter</name>
+    <message>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="134"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="197"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="293"/>
+        <source>[%1] %2</source>
+        <translation type="unfinished">[%1] %2</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="137"/>
         <source>&lt;span class=&apos;%1&apos;&gt;%2&lt;/span&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="145"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="145"/>
         <source>! %1 invited to %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="151"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="151"/>
         <source>! %1 joined %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="159"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="159"/>
         <source>! %1 kicked %2 (%3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="161"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="161"/>
         <source>! %1 kicked %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="167"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="167"/>
         <source>! %1 sets mode %2 %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="174"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="174"/>
         <source>! %1 changed nick to %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="187"/>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="259"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="187"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="259"/>
         <source>! %1 time is %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="189"/>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="257"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="189"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="257"/>
         <source>! %1 version is %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="206"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="206"/>
         <source>[INFO] %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="208"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="208"/>
         <source>[ERROR] %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="214"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="214"/>
         <source>[MOTD] %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="220"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="220"/>
         <source>! %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="222"/>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="262"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="222"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="262"/>
         <source>! %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="224"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="224"/>
         <source>! %1 is %2@%3 (%4)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="226"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="226"/>
         <source>! %1 is online via %2 (%3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="228"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="228"/>
         <source>! %1 %3 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="230"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="230"/>
         <source>! %1 was %2@%3 %4 %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="234"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="234"/>
         <source>! %1 has been online since %2 (idle for %3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="237"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="237"/>
         <source>! %1 is on channels %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="239"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="239"/>
         <source>! %1 mode is %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="241"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="241"/>
         <source>! %1 url is %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="244"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="244"/>
         <source>! %1 was created %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="247"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="247"/>
         <source>! %1 has no topic set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="249"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="249"/>
         <source>! %1 topic is &quot;%2&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="252"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="252"/>
         <source>! %1 topic was set %2 by %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="255"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="255"/>
         <source>! inviting %1 to %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="272"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="272"/>
         <source>! %1 has %2 users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="274"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="274"/>
         <source>! %1 users (%3): %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="282"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="282"/>
         <source>%1!%2@%3 via %4 (%5)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="287"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="287"/>
         <source>! &apos;%1&apos; users: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="301"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="301"/>
         <source>! %1 parted %2 (%3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="303"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="303"/>
         <source>! %1 parted %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="319"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="319"/>
         <source>* %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="321"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="321"/>
         <source>! %1 requested %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="323"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="323"/>
         <source>&amp;lt;%1&amp;gt; %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="330"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="330"/>
         <source>! %1 has quit (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="332"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="332"/>
         <source>! %1 has quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="339"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="339"/>
         <source>! %1 sets topic &quot;%2&quot; on %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="345"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="345"/>
         <source>? %1 %2 %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../3rdparty/communi/shared/src/messageformatter.cpp" line="356"/>
+        <location filename="../Chat/IRC/shared/src/messageformatter.cpp" line="356"/>
         <source>! %1 replied in %2s</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MessageView</name>
+    <message>
+        <location filename="../Chat/IRC/messageview.cpp" line="146"/>
+        <source>Unknown command &apos;%1&apos;</source>
+        <translation type="unfinished">Nieznane polecenie &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>MessagesWizardPage</name>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="6"/>
+        <source>Message settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="9"/>
+        <source>Define shown and highlighted messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="31"/>
+        <source>Message</source>
+        <translation type="unfinished">Wiadomość</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="36"/>
+        <source>Show</source>
+        <translation type="unfinished">Pokaż</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="41"/>
+        <source>Highlight</source>
+        <translation type="unfinished">Podświetlenie</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="46"/>
+        <source>Joins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="66"/>
+        <source>Parts</source>
+        <translation type="unfinished">Części</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="86"/>
+        <source>Nick changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="106"/>
+        <source>Mode changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="126"/>
+        <source>Kicks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="146"/>
+        <source>Quits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/messageswizardpage.ui" line="166"/>
+        <source>Topic changes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="124"/>
+        <location filename="../main.cpp" line="129"/>
         <source>Loading settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="131"/>
+        <location filename="../main.cpp" line="136"/>
         <source>Checking for first run...</source>
         <translation type="unfinished">Sprawdzanie pierwszego startu...</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="138"/>
+        <location filename="../main.cpp" line="143"/>
         <source>Running first run wizard...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="148"/>
+        <location filename="../main.cpp" line="153"/>
         <source>Loading Security Manager...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="150"/>
+        <location filename="../main.cpp" line="157"/>
         <source>Security data file was not available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="153"/>
+        <location filename="../main.cpp" line="160"/>
         <source>Loading Profile...</source>
         <translation type="unfinished">Ładowanie Profilu...</translation>
     </message>
@@ -3962,1325 +4503,1330 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Ładowanie sieci...</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="165"/>
+        <location filename="../main.cpp" line="172"/>
         <source>Loading Library...</source>
         <translation type="unfinished">Ładowanie zasobów...</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="170"/>
+        <location filename="../main.cpp" line="178"/>
+        <source>Loading Transfer Manager...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="182"/>
         <source>Loading User Interface...</source>
         <translation type="unfinished">Ładowanie interfejsu użytkownika...</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="179"/>
+        <location filename="../main.cpp" line="191"/>
         <source>Loading Tray Icon...</source>
         <translation type="unfinished">Ładowanie ikony systemowej...</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="189"/>
+        <location filename="../main.cpp" line="200"/>
         <source>Welcome to Quazaa!</source>
         <translation type="unfinished">Witaj w Quazaa!</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="46"/>
+        <location filename="../NetworkCore/Hashes/hash.cpp" line="40"/>
+        <source>WARNING: Copying non-finalized CHash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../geoiplist.cpp" line="50"/>
         <source>Unable to load GeoIP serialization file for loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="58"/>
+        <location filename="../geoiplist.cpp" line="62"/>
         <source>Unable to deserialize GeoIP list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="92"/>
+        <location filename="../geoiplist.cpp" line="96"/>
         <source>Unable to open GeoIP serialization file for saving</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="103"/>
+        <location filename="../geoiplist.cpp" line="107"/>
         <source>Unable to serialize GeoIP list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="165"/>
+        <location filename="../geoiplist.cpp" line="168"/>
         <source>Afghanistan</source>
-        <translation>Afganistan</translation>
+        <translation type="unfinished">Afganistan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="169"/>
+        <location filename="../geoiplist.cpp" line="172"/>
         <source>Aland Islands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="173"/>
+        <location filename="../geoiplist.cpp" line="176"/>
         <source>Albania</source>
-        <translation>Albania</translation>
+        <translation type="unfinished">Albania</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="177"/>
+        <location filename="../geoiplist.cpp" line="180"/>
         <source>Algeria</source>
-        <translation>Algieria</translation>
+        <translation type="unfinished">Algieria</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="181"/>
+        <location filename="../geoiplist.cpp" line="184"/>
         <source>American Samoa</source>
-        <translation>Samoa Amerykańskie</translation>
+        <translation type="unfinished">Samoa Amerykańskie</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="185"/>
+        <location filename="../geoiplist.cpp" line="188"/>
         <source>Andorra</source>
-        <translation>Andorra</translation>
+        <translation type="unfinished">Andorra</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="189"/>
+        <location filename="../geoiplist.cpp" line="192"/>
         <source>Angola</source>
-        <translation>Angola</translation>
+        <translation type="unfinished">Angola</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="193"/>
+        <location filename="../geoiplist.cpp" line="196"/>
         <source>Anguilla</source>
-        <translation>Anguilla</translation>
+        <translation type="unfinished">Anguilla</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="197"/>
+        <location filename="../geoiplist.cpp" line="200"/>
         <source>Antarctica</source>
-        <translation>Antarktyda</translation>
+        <translation type="unfinished">Antarktyda</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="201"/>
+        <location filename="../geoiplist.cpp" line="204"/>
         <source>Antigua And Barbuda</source>
-        <translation>Antigua i Barbuda</translation>
+        <translation type="unfinished">Antigua i Barbuda</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="205"/>
+        <location filename="../geoiplist.cpp" line="208"/>
         <source>Argentina</source>
-        <translation>Argentyna</translation>
+        <translation type="unfinished">Argentyna</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="209"/>
+        <location filename="../geoiplist.cpp" line="212"/>
         <source>Armenia</source>
-        <translation>Armenia</translation>
+        <translation type="unfinished">Armenia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="213"/>
+        <location filename="../geoiplist.cpp" line="216"/>
         <source>Aruba</source>
-        <translation>Aruba</translation>
+        <translation type="unfinished">Aruba</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="217"/>
+        <location filename="../geoiplist.cpp" line="220"/>
         <source>Australia</source>
-        <translation>Australia</translation>
+        <translation type="unfinished">Australia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="221"/>
+        <location filename="../geoiplist.cpp" line="224"/>
         <source>Austria</source>
-        <translation>Austria</translation>
+        <translation type="unfinished">Austria</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="225"/>
+        <location filename="../geoiplist.cpp" line="228"/>
         <source>Azerbaijan</source>
-        <translation>Azerbejdżan</translation>
+        <translation type="unfinished">Azerbejdżan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="229"/>
+        <location filename="../geoiplist.cpp" line="232"/>
         <source>Bahamas</source>
-        <translation>Bahamy</translation>
+        <translation type="unfinished">Bahamy</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="233"/>
+        <location filename="../geoiplist.cpp" line="236"/>
         <source>Bahrain</source>
-        <translation>Bahrajn</translation>
+        <translation type="unfinished">Bahrajn</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="237"/>
+        <location filename="../geoiplist.cpp" line="240"/>
         <source>Bangladesh</source>
-        <translation>Bangladesz</translation>
+        <translation type="unfinished">Bangladesz</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="241"/>
+        <location filename="../geoiplist.cpp" line="244"/>
         <source>Barbados</source>
-        <translation>Barbados</translation>
+        <translation type="unfinished">Barbados</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="245"/>
+        <location filename="../geoiplist.cpp" line="248"/>
         <source>Belarus</source>
-        <translation>Białoruś</translation>
+        <translation type="unfinished">Białoruś</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="249"/>
+        <location filename="../geoiplist.cpp" line="252"/>
         <source>Belgium</source>
-        <translation>Belgia</translation>
+        <translation type="unfinished">Belgia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="253"/>
+        <location filename="../geoiplist.cpp" line="256"/>
         <source>Belize</source>
-        <translation>Belize</translation>
+        <translation type="unfinished">Belize</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="257"/>
+        <location filename="../geoiplist.cpp" line="260"/>
         <source>Benin</source>
-        <translation>Benin</translation>
+        <translation type="unfinished">Benin</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="261"/>
+        <location filename="../geoiplist.cpp" line="264"/>
         <source>Bermuda</source>
-        <translation>Bermudy</translation>
+        <translation type="unfinished">Bermudy</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="265"/>
+        <location filename="../geoiplist.cpp" line="268"/>
         <source>Bhutan</source>
-        <translation>Bhutan</translation>
+        <translation type="unfinished">Bhutan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="269"/>
+        <location filename="../geoiplist.cpp" line="272"/>
         <source>Bolivia, Plurinational State Of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="273"/>
+        <location filename="../geoiplist.cpp" line="276"/>
         <source>Bosnia And Herzegovina</source>
-        <translation>Bośnia i Hercegowina</translation>
+        <translation type="unfinished">Bośnia i Hercegowina</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="277"/>
+        <location filename="../geoiplist.cpp" line="280"/>
         <source>Botswana</source>
-        <translation>Botswana</translation>
+        <translation type="unfinished">Botswana</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="281"/>
+        <location filename="../geoiplist.cpp" line="284"/>
         <source>Bouvet Island</source>
-        <translation>Wyspa Bouveta</translation>
+        <translation type="unfinished">Wyspa Bouveta</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="285"/>
+        <location filename="../geoiplist.cpp" line="288"/>
         <source>Brazil</source>
-        <translation>Brazylia</translation>
+        <translation type="unfinished">Brazylia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="289"/>
+        <location filename="../geoiplist.cpp" line="292"/>
         <source>British Indian Ocean Territory</source>
-        <translation>Brytyjskie Terytorium Oceanu Indyjskiego</translation>
+        <translation type="unfinished">Brytyjskie Terytorium Oceanu Indyjskiego</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="293"/>
+        <location filename="../geoiplist.cpp" line="296"/>
         <source>Brunei Darussalam</source>
-        <translation>Brunei Darussalam</translation>
+        <translation type="unfinished">Brunei Darussalam</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="297"/>
+        <location filename="../geoiplist.cpp" line="300"/>
         <source>Bulgaria</source>
-        <translation>Bułgaria</translation>
+        <translation type="unfinished">Bułgaria</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="301"/>
+        <location filename="../geoiplist.cpp" line="304"/>
         <source>Burkina Faso</source>
-        <translation>Burkina Faso</translation>
+        <translation type="unfinished">Burkina Faso</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="305"/>
+        <location filename="../geoiplist.cpp" line="308"/>
         <source>Burundi</source>
-        <translation>Burundi</translation>
+        <translation type="unfinished">Burundi</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="309"/>
+        <location filename="../geoiplist.cpp" line="312"/>
         <source>Cambodia</source>
-        <translation>Kambodża</translation>
+        <translation type="unfinished">Kambodża</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="313"/>
+        <location filename="../geoiplist.cpp" line="316"/>
         <source>Cameroon</source>
-        <translation>Kamerun</translation>
+        <translation type="unfinished">Kamerun</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="317"/>
+        <location filename="../geoiplist.cpp" line="320"/>
         <source>Canada</source>
-        <translation>Kanada</translation>
+        <translation type="unfinished">Kanada</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="321"/>
+        <location filename="../geoiplist.cpp" line="324"/>
         <source>Cape Verde</source>
-        <translation>Cape Verde</translation>
+        <translation type="unfinished">Cape Verde</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="325"/>
+        <location filename="../geoiplist.cpp" line="328"/>
         <source>Cayman Islands</source>
-        <translation>Kajmany</translation>
+        <translation type="unfinished">Kajmany</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="329"/>
+        <location filename="../geoiplist.cpp" line="332"/>
         <source>Central African Republic</source>
-        <translation>Republika Środkowej Afryki</translation>
+        <translation type="unfinished">Republika Środkowej Afryki</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="333"/>
+        <location filename="../geoiplist.cpp" line="336"/>
         <source>Chad</source>
-        <translation>Czad</translation>
+        <translation type="unfinished">Czad</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="337"/>
+        <location filename="../geoiplist.cpp" line="340"/>
         <source>Chile</source>
-        <translation>Chile</translation>
+        <translation type="unfinished">Chile</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="341"/>
+        <location filename="../geoiplist.cpp" line="344"/>
         <source>China</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="345"/>
+        <location filename="../geoiplist.cpp" line="348"/>
         <source>Christmas Island</source>
-        <translation>Wyspy Bożego Narodzenia</translation>
+        <translation type="unfinished">Wyspy Bożego Narodzenia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="349"/>
+        <location filename="../geoiplist.cpp" line="352"/>
         <source>Cocos (Keeling) Islands</source>
-        <translation>Wyspy Kokosowe (Keelinga)</translation>
+        <translation type="unfinished">Wyspy Kokosowe (Keelinga)</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="353"/>
+        <location filename="../geoiplist.cpp" line="356"/>
         <source>Colombia</source>
-        <translation>Kolumbia</translation>
+        <translation type="unfinished">Kolumbia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="357"/>
+        <location filename="../geoiplist.cpp" line="360"/>
         <source>Comoros</source>
-        <translation>Komory</translation>
+        <translation type="unfinished">Komory</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="361"/>
+        <location filename="../geoiplist.cpp" line="364"/>
         <source>Congo</source>
-        <translation>Kongo</translation>
+        <translation type="unfinished">Kongo</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="365"/>
+        <location filename="../geoiplist.cpp" line="368"/>
         <source>Congo, The Democratic Republic Of The</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="369"/>
+        <location filename="../geoiplist.cpp" line="372"/>
         <source>Cook Islands</source>
-        <translation>Wyspy Cooka</translation>
+        <translation type="unfinished">Wyspy Cooka</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="373"/>
+        <location filename="../geoiplist.cpp" line="376"/>
         <source>Costa Rica</source>
-        <translation>Kostaryka</translation>
+        <translation type="unfinished">Kostaryka</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="377"/>
+        <location filename="../geoiplist.cpp" line="380"/>
         <source>Cote D&apos;Ivoire</source>
-        <translation>Wybrzeże Kości Słoniowej</translation>
+        <translation type="unfinished">Wybrzeże Kości Słoniowej</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="381"/>
+        <location filename="../geoiplist.cpp" line="384"/>
         <source>Croatia</source>
-        <translation>Chorwacja</translation>
+        <translation type="unfinished">Chorwacja</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="385"/>
+        <location filename="../geoiplist.cpp" line="388"/>
         <source>Cuba</source>
-        <translation>Kuba</translation>
+        <translation type="unfinished">Kuba</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="389"/>
+        <location filename="../geoiplist.cpp" line="392"/>
         <source>Cyprus</source>
-        <translation>Cypr</translation>
+        <translation type="unfinished">Cypr</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="393"/>
+        <location filename="../geoiplist.cpp" line="396"/>
         <source>Czech Republic</source>
-        <translation>Republika Czeska</translation>
+        <translation type="unfinished">Republika Czeska</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="397"/>
+        <location filename="../geoiplist.cpp" line="400"/>
         <source>Denmark</source>
-        <translation>Dania</translation>
+        <translation type="unfinished">Dania</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="401"/>
+        <location filename="../geoiplist.cpp" line="404"/>
         <source>Djibouti</source>
-        <translation>Dżibuti</translation>
+        <translation type="unfinished">Dżibuti</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="405"/>
+        <location filename="../geoiplist.cpp" line="408"/>
         <source>Dominica</source>
-        <translation>Dominika</translation>
+        <translation type="unfinished">Dominika</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="409"/>
+        <location filename="../geoiplist.cpp" line="412"/>
         <source>Dominican Republic</source>
-        <translation>Dominikana</translation>
+        <translation type="unfinished">Dominikana</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="413"/>
+        <location filename="../geoiplist.cpp" line="416"/>
         <source>Ecuador</source>
-        <translation>Ekwador</translation>
+        <translation type="unfinished">Ekwador</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="417"/>
+        <location filename="../geoiplist.cpp" line="420"/>
         <source>Egypt</source>
-        <translation>Egipt</translation>
+        <translation type="unfinished">Egipt</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="421"/>
+        <location filename="../geoiplist.cpp" line="424"/>
         <source>El Salvador</source>
-        <translation>Salwador</translation>
+        <translation type="unfinished">Salwador</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="425"/>
+        <location filename="../geoiplist.cpp" line="428"/>
         <source>Equatorial Guinea</source>
-        <translation>Gwinea Równikowa</translation>
+        <translation type="unfinished">Gwinea Równikowa</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="429"/>
+        <location filename="../geoiplist.cpp" line="432"/>
         <source>Eritrea</source>
-        <translation>Erytrea</translation>
+        <translation type="unfinished">Erytrea</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="433"/>
+        <location filename="../geoiplist.cpp" line="436"/>
         <source>Estonia</source>
-        <translation>Estonia</translation>
+        <translation type="unfinished">Estonia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="437"/>
+        <location filename="../geoiplist.cpp" line="440"/>
         <source>Ethiopia</source>
-        <translation>Etiopia</translation>
+        <translation type="unfinished">Etiopia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="441"/>
+        <location filename="../geoiplist.cpp" line="444"/>
         <source>European Union</source>
-        <translation>Unia Europejska</translation>
+        <translation type="unfinished">Unia Europejska</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="445"/>
+        <location filename="../geoiplist.cpp" line="448"/>
         <source>Falkland Islands (Malvinas)</source>
-        <translation>Wyspy Falklandzkie (Malwiny)</translation>
+        <translation type="unfinished">Wyspy Falklandzkie (Malwiny)</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="449"/>
+        <location filename="../geoiplist.cpp" line="452"/>
         <source>Faroe Islands</source>
-        <translation>Wyspy Faroe</translation>
+        <translation type="unfinished">Wyspy Faroe</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="453"/>
+        <location filename="../geoiplist.cpp" line="456"/>
         <source>Fiji</source>
-        <translation>Fidżi</translation>
+        <translation type="unfinished">Fidżi</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="457"/>
+        <location filename="../geoiplist.cpp" line="460"/>
         <source>Finland</source>
-        <translation>Finlandia</translation>
+        <translation type="unfinished">Finlandia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="461"/>
+        <location filename="../geoiplist.cpp" line="464"/>
         <source>France</source>
-        <translation>Francja</translation>
+        <translation type="unfinished">Francja</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="465"/>
+        <location filename="../geoiplist.cpp" line="468"/>
         <source>French Guiana</source>
-        <translation>Gujana Francuska</translation>
+        <translation type="unfinished">Gujana Francuska</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="469"/>
+        <location filename="../geoiplist.cpp" line="472"/>
         <source>French Polynesia</source>
-        <translation>Polinezja Francuska</translation>
+        <translation type="unfinished">Polinezja Francuska</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="473"/>
+        <location filename="../geoiplist.cpp" line="476"/>
         <source>French Southern Territories</source>
-        <translation>Francuskie Terytoria Południowe i Antarktyczne</translation>
+        <translation type="unfinished">Francuskie Terytoria Południowe i Antarktyczne</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="477"/>
+        <location filename="../geoiplist.cpp" line="480"/>
         <source>Gabon</source>
-        <translation>Gabon</translation>
+        <translation type="unfinished">Gabon</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="481"/>
+        <location filename="../geoiplist.cpp" line="484"/>
         <source>Gambia</source>
-        <translation>Gambia</translation>
+        <translation type="unfinished">Gambia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="485"/>
+        <location filename="../geoiplist.cpp" line="488"/>
         <source>Georgia</source>
-        <translation>Gruzja</translation>
+        <translation type="unfinished">Gruzja</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="489"/>
+        <location filename="../geoiplist.cpp" line="492"/>
         <source>Germany</source>
-        <translation>Niemcy</translation>
+        <translation type="unfinished">Niemcy</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="493"/>
+        <location filename="../geoiplist.cpp" line="496"/>
         <source>Ghana</source>
-        <translation>Ghana</translation>
+        <translation type="unfinished">Ghana</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="497"/>
+        <location filename="../geoiplist.cpp" line="500"/>
         <source>Gibraltar</source>
-        <translation>Gibraltar</translation>
+        <translation type="unfinished">Gibraltar</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="501"/>
+        <location filename="../geoiplist.cpp" line="504"/>
         <source>Greece</source>
-        <translation>Grecja</translation>
+        <translation type="unfinished">Grecja</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="505"/>
+        <location filename="../geoiplist.cpp" line="508"/>
         <source>Greenland</source>
-        <translation>Grenlandia</translation>
+        <translation type="unfinished">Grenlandia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="509"/>
+        <location filename="../geoiplist.cpp" line="512"/>
         <source>Grenada</source>
-        <translation>Grenada</translation>
+        <translation type="unfinished">Grenada</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="513"/>
+        <location filename="../geoiplist.cpp" line="516"/>
         <source>Guadeloupe</source>
-        <translation>Gwadelupa</translation>
+        <translation type="unfinished">Gwadelupa</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="517"/>
+        <location filename="../geoiplist.cpp" line="520"/>
         <source>Guam</source>
-        <translation>Guam</translation>
+        <translation type="unfinished">Guam</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="521"/>
+        <location filename="../geoiplist.cpp" line="524"/>
         <source>Guatemala</source>
-        <translation>Gwatemala</translation>
+        <translation type="unfinished">Gwatemala</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="525"/>
+        <location filename="../geoiplist.cpp" line="528"/>
         <source>Guernsey</source>
-        <translation>Guernsey</translation>
+        <translation type="unfinished">Guernsey</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="529"/>
+        <location filename="../geoiplist.cpp" line="532"/>
         <source>Guinea</source>
-        <translation>Gwinea</translation>
+        <translation type="unfinished">Gwinea</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="533"/>
+        <location filename="../geoiplist.cpp" line="536"/>
         <source>Guinea-Bissau</source>
-        <translation>Gwinea-Bissau</translation>
+        <translation type="unfinished">Gwinea-Bissau</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="537"/>
+        <location filename="../geoiplist.cpp" line="540"/>
         <source>Guyana</source>
-        <translation>Gujana</translation>
+        <translation type="unfinished">Gujana</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="541"/>
+        <location filename="../geoiplist.cpp" line="544"/>
         <source>Haiti</source>
-        <translation>Haiti</translation>
+        <translation type="unfinished">Haiti</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="545"/>
+        <location filename="../geoiplist.cpp" line="548"/>
         <source>Heard Island And McDonald Islands</source>
-        <translation>Wyspa Heard i Wyspy McDonalda</translation>
+        <translation type="unfinished">Wyspa Heard i Wyspy McDonalda</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="549"/>
+        <location filename="../geoiplist.cpp" line="552"/>
         <source>Holy See (Vatican City State)</source>
-        <translation>Watykan</translation>
+        <translation type="unfinished">Watykan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="553"/>
+        <location filename="../geoiplist.cpp" line="556"/>
         <source>Honduras</source>
-        <translation>Honduras</translation>
+        <translation type="unfinished">Honduras</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="557"/>
+        <location filename="../geoiplist.cpp" line="560"/>
         <source>Hong Kong</source>
-        <translation>Hong Kong</translation>
+        <translation type="unfinished">Hong Kong</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="561"/>
+        <location filename="../geoiplist.cpp" line="564"/>
         <source>Hungary</source>
-        <translation>Węgry</translation>
+        <translation type="unfinished">Węgry</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="565"/>
+        <location filename="../geoiplist.cpp" line="568"/>
         <source>Iceland</source>
-        <translation>Islandia</translation>
+        <translation type="unfinished">Islandia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="569"/>
+        <location filename="../geoiplist.cpp" line="572"/>
         <source>India</source>
-        <translation>Indie</translation>
+        <translation type="unfinished">Indie</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="573"/>
+        <location filename="../geoiplist.cpp" line="576"/>
         <source>Indonesia</source>
-        <translation>Indonezja</translation>
+        <translation type="unfinished">Indonezja</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="577"/>
+        <location filename="../geoiplist.cpp" line="580"/>
         <source>Iran (Islamic Republic Of)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="581"/>
+        <location filename="../geoiplist.cpp" line="584"/>
         <source>Iraq</source>
-        <translation>Irak</translation>
+        <translation type="unfinished">Irak</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="585"/>
+        <location filename="../geoiplist.cpp" line="588"/>
         <source>Ireland</source>
-        <translation>Irlandia</translation>
+        <translation type="unfinished">Irlandia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="589"/>
+        <location filename="../geoiplist.cpp" line="592"/>
         <source>Isle Of Man</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="593"/>
+        <location filename="../geoiplist.cpp" line="596"/>
         <source>Israel</source>
-        <translation>Izrael</translation>
+        <translation type="unfinished">Izrael</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="597"/>
+        <location filename="../geoiplist.cpp" line="600"/>
         <source>Italy</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="601"/>
+        <location filename="../geoiplist.cpp" line="604"/>
         <source>Jamaica</source>
-        <translation>Jamajka</translation>
+        <translation type="unfinished">Jamajka</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="605"/>
+        <location filename="../geoiplist.cpp" line="608"/>
         <source>Japan</source>
-        <translation>Japonia</translation>
+        <translation type="unfinished">Japonia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="609"/>
+        <location filename="../geoiplist.cpp" line="612"/>
         <source>Jersey</source>
-        <translation>Jersey</translation>
+        <translation type="unfinished">Jersey</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="613"/>
+        <location filename="../geoiplist.cpp" line="616"/>
         <source>Jordan</source>
-        <translation>Jordania</translation>
+        <translation type="unfinished">Jordania</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="617"/>
+        <location filename="../geoiplist.cpp" line="620"/>
         <source>Kazakhstan</source>
-        <translation>Kazachstan</translation>
+        <translation type="unfinished">Kazachstan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="621"/>
+        <location filename="../geoiplist.cpp" line="624"/>
         <source>Kenya</source>
-        <translation>Kenia</translation>
+        <translation type="unfinished">Kenia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="625"/>
+        <location filename="../geoiplist.cpp" line="628"/>
         <source>Kiribati</source>
-        <translation>Kiribati</translation>
+        <translation type="unfinished">Kiribati</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="629"/>
+        <location filename="../geoiplist.cpp" line="632"/>
         <source>Korea, Democratic People&apos;s Republic Of</source>
-        <translation>Koreańska Republika Ludowo-Demokratyczna</translation>
+        <translation type="unfinished">Koreańska Republika Ludowo-Demokratyczna</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="633"/>
+        <location filename="../geoiplist.cpp" line="636"/>
         <source>Korea, Republic Of</source>
-        <translation>Republika Korei</translation>
+        <translation type="unfinished">Republika Korei</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="637"/>
+        <location filename="../geoiplist.cpp" line="640"/>
         <source>Kuwait</source>
-        <translation>Kuwait</translation>
+        <translation type="unfinished">Kuwait</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="641"/>
+        <location filename="../geoiplist.cpp" line="644"/>
         <source>Kyrgyzsyan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="645"/>
+        <location filename="../geoiplist.cpp" line="648"/>
         <source>Lao People&apos;s Democratic Republic</source>
-        <translation>Laotańska Republika Ludowo-Demokratyczna</translation>
+        <translation type="unfinished">Laotańska Republika Ludowo-Demokratyczna</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="649"/>
+        <location filename="../geoiplist.cpp" line="652"/>
         <source>Latvia</source>
-        <translation>Łotwa</translation>
+        <translation type="unfinished">Łotwa</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="653"/>
+        <location filename="../geoiplist.cpp" line="656"/>
         <source>Lebanon</source>
-        <translation>Liban</translation>
+        <translation type="unfinished">Liban</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="657"/>
+        <location filename="../geoiplist.cpp" line="660"/>
         <source>Lesotho</source>
-        <translation>Lesoto</translation>
+        <translation type="unfinished">Lesoto</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="661"/>
+        <location filename="../geoiplist.cpp" line="664"/>
         <source>Liberia</source>
-        <translation>Liberia</translation>
+        <translation type="unfinished">Liberia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="665"/>
+        <location filename="../geoiplist.cpp" line="668"/>
         <source>Libyan Arab Jamahiriya</source>
-        <translation>Libia</translation>
+        <translation type="unfinished">Libia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="669"/>
+        <location filename="../geoiplist.cpp" line="672"/>
         <source>Lirchtenstein</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="673"/>
+        <location filename="../geoiplist.cpp" line="676"/>
         <source>Lithuania</source>
-        <translation>Litwa</translation>
+        <translation type="unfinished">Litwa</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="677"/>
+        <location filename="../geoiplist.cpp" line="680"/>
         <source>Luxembourg</source>
-        <translation>Luksemburg</translation>
+        <translation type="unfinished">Luksemburg</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="681"/>
+        <location filename="../geoiplist.cpp" line="684"/>
         <source>Macao</source>
-        <translation>Macao</translation>
+        <translation type="unfinished">Macao</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="685"/>
+        <location filename="../geoiplist.cpp" line="688"/>
         <source>Macedonia, The Former Yugoslav Republic Of</source>
-        <translation>Była Jugosłowiańska Republika Macedonii</translation>
+        <translation type="unfinished">Była Jugosłowiańska Republika Macedonii</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="689"/>
+        <location filename="../geoiplist.cpp" line="692"/>
         <source>Madagascar</source>
-        <translation>Madagaskar</translation>
+        <translation type="unfinished">Madagaskar</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="693"/>
+        <location filename="../geoiplist.cpp" line="696"/>
         <source>Malawi</source>
-        <translation>Malawi</translation>
+        <translation type="unfinished">Malawi</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="697"/>
+        <location filename="../geoiplist.cpp" line="700"/>
         <source>Malaysia</source>
-        <translation>Malezja</translation>
+        <translation type="unfinished">Malezja</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="701"/>
+        <location filename="../geoiplist.cpp" line="704"/>
         <source>Maldives</source>
-        <translation>Malediwy</translation>
+        <translation type="unfinished">Malediwy</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="705"/>
+        <location filename="../geoiplist.cpp" line="708"/>
         <source>Mali</source>
-        <translation>Mali</translation>
+        <translation type="unfinished">Mali</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="709"/>
+        <location filename="../geoiplist.cpp" line="712"/>
         <source>Malta</source>
-        <translation>Malta</translation>
+        <translation type="unfinished">Malta</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="713"/>
+        <location filename="../geoiplist.cpp" line="716"/>
         <source>Marshall Islands</source>
-        <translation>Wyspy Marshalla</translation>
+        <translation type="unfinished">Wyspy Marshalla</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="717"/>
+        <location filename="../geoiplist.cpp" line="720"/>
         <source>Martinique</source>
-        <translation>Martynika</translation>
+        <translation type="unfinished">Martynika</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="721"/>
+        <location filename="../geoiplist.cpp" line="724"/>
         <source>Mauritania</source>
-        <translation>Mauretania</translation>
+        <translation type="unfinished">Mauretania</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="725"/>
+        <location filename="../geoiplist.cpp" line="728"/>
         <source>Mauritius</source>
-        <translation>Mauritius</translation>
+        <translation type="unfinished">Mauritius</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="729"/>
+        <location filename="../geoiplist.cpp" line="732"/>
         <source>Mayotte</source>
-        <translation>Majotta</translation>
+        <translation type="unfinished">Majotta</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="733"/>
+        <location filename="../geoiplist.cpp" line="736"/>
         <source>Mexico</source>
-        <translation>Meksyk</translation>
+        <translation type="unfinished">Meksyk</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="737"/>
+        <location filename="../geoiplist.cpp" line="740"/>
         <source>Mirconesia, Federated States Of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="741"/>
+        <location filename="../geoiplist.cpp" line="744"/>
         <source>Moldova, Republic Of</source>
-        <translation>Republika Mołdawii</translation>
+        <translation type="unfinished">Republika Mołdawii</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="745"/>
+        <location filename="../geoiplist.cpp" line="748"/>
         <source>Monacao</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="749"/>
+        <location filename="../geoiplist.cpp" line="752"/>
         <source>Mongolia</source>
-        <translation>Mongolia</translation>
+        <translation type="unfinished">Mongolia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="753"/>
+        <location filename="../geoiplist.cpp" line="756"/>
         <source>Montenegro</source>
-        <translation>Czarnogóra</translation>
+        <translation type="unfinished">Czarnogóra</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="757"/>
+        <location filename="../geoiplist.cpp" line="760"/>
         <source>Montserrat</source>
-        <translation>Montserrat</translation>
+        <translation type="unfinished">Montserrat</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="761"/>
+        <location filename="../geoiplist.cpp" line="764"/>
         <source>Morocco</source>
-        <translation>Maroko</translation>
+        <translation type="unfinished">Maroko</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="765"/>
+        <location filename="../geoiplist.cpp" line="768"/>
         <source>Mozambique</source>
-        <translation>Mozambik</translation>
+        <translation type="unfinished">Mozambik</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="769"/>
+        <location filename="../geoiplist.cpp" line="772"/>
         <source>Myanmar</source>
-        <translation>Myanmar</translation>
+        <translation type="unfinished">Myanmar</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="773"/>
+        <location filename="../geoiplist.cpp" line="776"/>
         <source>Namibia</source>
-        <translation>Namibia</translation>
+        <translation type="unfinished">Namibia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="777"/>
+        <location filename="../geoiplist.cpp" line="780"/>
         <source>Nauru</source>
-        <translation>Nauru</translation>
+        <translation type="unfinished">Nauru</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="781"/>
+        <location filename="../geoiplist.cpp" line="784"/>
         <source>Nepal</source>
-        <translation>Nepal</translation>
+        <translation type="unfinished">Nepal</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="785"/>
+        <location filename="../geoiplist.cpp" line="788"/>
         <source>Netherlands</source>
-        <translation>Holandia</translation>
+        <translation type="unfinished">Holandia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="789"/>
+        <location filename="../geoiplist.cpp" line="792"/>
         <source>Netherlands Anitlles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="793"/>
+        <location filename="../geoiplist.cpp" line="796"/>
         <source>New Caledonia</source>
-        <translation>Nowa Kaledonia</translation>
+        <translation type="unfinished">Nowa Kaledonia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="797"/>
+        <location filename="../geoiplist.cpp" line="800"/>
         <source>New Zealand</source>
-        <translation>Nowa Zelandia</translation>
+        <translation type="unfinished">Nowa Zelandia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="801"/>
+        <location filename="../geoiplist.cpp" line="804"/>
         <source>Nicaragua</source>
-        <translation>Nikaragua</translation>
+        <translation type="unfinished">Nikaragua</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="805"/>
+        <location filename="../geoiplist.cpp" line="808"/>
         <source>Niger</source>
-        <translation>Niger</translation>
+        <translation type="unfinished">Niger</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="809"/>
+        <location filename="../geoiplist.cpp" line="812"/>
         <source>Nigeria</source>
-        <translation>Nigeria</translation>
+        <translation type="unfinished">Nigeria</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="813"/>
+        <location filename="../geoiplist.cpp" line="816"/>
         <source>Niue</source>
-        <translation>Niue</translation>
+        <translation type="unfinished">Niue</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="817"/>
+        <location filename="../geoiplist.cpp" line="820"/>
         <source>Norfolk Island</source>
-        <translation>Wyspy Norfolk</translation>
+        <translation type="unfinished">Wyspy Norfolk</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="821"/>
+        <location filename="../geoiplist.cpp" line="824"/>
         <source>Northern Mariana Islands</source>
-        <translation>Mariany Północne</translation>
+        <translation type="unfinished">Mariany Północne</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="825"/>
+        <location filename="../geoiplist.cpp" line="828"/>
         <source>Norway</source>
-        <translation>Norwegia</translation>
+        <translation type="unfinished">Norwegia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="829"/>
+        <location filename="../geoiplist.cpp" line="832"/>
         <source>Oman</source>
-        <translation>Oman</translation>
+        <translation type="unfinished">Oman</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="833"/>
+        <location filename="../geoiplist.cpp" line="836"/>
         <source>Pakistan</source>
-        <translation>Pakistan</translation>
+        <translation type="unfinished">Pakistan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="837"/>
+        <location filename="../geoiplist.cpp" line="840"/>
         <source>Palau</source>
-        <translation>Palau</translation>
+        <translation type="unfinished">Palau</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="841"/>
+        <location filename="../geoiplist.cpp" line="844"/>
         <source>Palestinian Territory, Occupied</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="845"/>
+        <location filename="../geoiplist.cpp" line="848"/>
         <source>Panama</source>
-        <translation>Panama</translation>
+        <translation type="unfinished">Panama</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="849"/>
+        <location filename="../geoiplist.cpp" line="852"/>
         <source>Papua New Guinea</source>
-        <translation>Papua Nowa Gwinea</translation>
+        <translation type="unfinished">Papua Nowa Gwinea</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="853"/>
+        <location filename="../geoiplist.cpp" line="856"/>
         <source>Paraguay</source>
-        <translation>Paragwaj</translation>
+        <translation type="unfinished">Paragwaj</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="857"/>
+        <location filename="../geoiplist.cpp" line="860"/>
         <source>Peru</source>
-        <translation>Peru</translation>
+        <translation type="unfinished">Peru</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="861"/>
+        <location filename="../geoiplist.cpp" line="864"/>
         <source>Philippines</source>
-        <translation>Filipiny</translation>
+        <translation type="unfinished">Filipiny</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="865"/>
+        <location filename="../geoiplist.cpp" line="868"/>
         <source>Pitcairn</source>
-        <translation>Pitcairn</translation>
+        <translation type="unfinished">Pitcairn</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="869"/>
+        <location filename="../geoiplist.cpp" line="872"/>
         <source>Poland</source>
-        <translation>Polska</translation>
+        <translation type="unfinished">Polska</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="873"/>
+        <location filename="../geoiplist.cpp" line="876"/>
         <source>Portugal</source>
-        <translation>Portugalia</translation>
+        <translation type="unfinished">Portugalia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="877"/>
+        <location filename="../geoiplist.cpp" line="880"/>
         <source>Puerto Rico</source>
-        <translation>Puerto Rico</translation>
+        <translation type="unfinished">Puerto Rico</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="881"/>
+        <location filename="../geoiplist.cpp" line="884"/>
         <source>Qatar</source>
-        <translation>Katar</translation>
+        <translation type="unfinished">Katar</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="885"/>
+        <location filename="../geoiplist.cpp" line="888"/>
         <source>Reunion</source>
-        <translation>Wyspa Reunion</translation>
+        <translation type="unfinished">Wyspa Reunion</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="889"/>
+        <location filename="../geoiplist.cpp" line="892"/>
         <source>Romania</source>
-        <translation>Rumunia</translation>
+        <translation type="unfinished">Rumunia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="893"/>
+        <location filename="../geoiplist.cpp" line="896"/>
         <source>Russian Federation</source>
-        <translation>Federacja Rosyjska</translation>
+        <translation type="unfinished">Federacja Rosyjska</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="897"/>
+        <location filename="../geoiplist.cpp" line="900"/>
         <source>Rwanda</source>
-        <translation>Ruanda</translation>
+        <translation type="unfinished">Ruanda</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="901"/>
+        <location filename="../geoiplist.cpp" line="904"/>
         <source>Saint Barthelemy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="905"/>
+        <location filename="../geoiplist.cpp" line="908"/>
         <source>Saint Helena, Ascension And Tristan Da Cunha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="909"/>
+        <location filename="../geoiplist.cpp" line="912"/>
         <source>Saint Kitts And Nevis</source>
-        <translation>St Kitts i Nevis</translation>
+        <translation type="unfinished">St Kitts i Nevis</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="913"/>
+        <location filename="../geoiplist.cpp" line="916"/>
         <source>Saint Lucia</source>
-        <translation>Saint Lucia</translation>
+        <translation type="unfinished">Saint Lucia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="917"/>
+        <location filename="../geoiplist.cpp" line="920"/>
         <source>Saint Martin (French Part)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="921"/>
+        <location filename="../geoiplist.cpp" line="924"/>
         <source>Saint Pierre And Miquelon</source>
-        <translation>Saint Pierre i Miquelon</translation>
+        <translation type="unfinished">Saint Pierre i Miquelon</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="925"/>
+        <location filename="../geoiplist.cpp" line="928"/>
         <source>Saint Vincent And The Grenadines</source>
-        <translation>Saint Vincent i Grenady</translation>
+        <translation type="unfinished">Saint Vincent i Grenady</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="929"/>
+        <location filename="../geoiplist.cpp" line="932"/>
         <source>Samoa</source>
-        <translation>Samoa</translation>
+        <translation type="unfinished">Samoa</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="933"/>
+        <location filename="../geoiplist.cpp" line="936"/>
         <source>San Marino</source>
-        <translation>San Marino</translation>
+        <translation type="unfinished">San Marino</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="937"/>
+        <location filename="../geoiplist.cpp" line="940"/>
         <source>Sao Tome And Principe</source>
-        <translation>Sao Tome i Principe</translation>
+        <translation type="unfinished">Sao Tome i Principe</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="941"/>
+        <location filename="../geoiplist.cpp" line="944"/>
         <source>Saudi Arabia</source>
-        <translation>Arabia Saudyjska</translation>
+        <translation type="unfinished">Arabia Saudyjska</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="945"/>
+        <location filename="../geoiplist.cpp" line="948"/>
         <source>Senegal</source>
-        <translation>Senegal</translation>
+        <translation type="unfinished">Senegal</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="949"/>
+        <location filename="../geoiplist.cpp" line="952"/>
         <source>Serbia</source>
-        <translation>Serbia</translation>
+        <translation type="unfinished">Serbia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="953"/>
+        <location filename="../geoiplist.cpp" line="956"/>
         <source>Serbia and Montenegro</source>
-        <translation>Serbia i Czarnogóra</translation>
+        <translation type="unfinished">Serbia i Czarnogóra</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="957"/>
+        <location filename="../geoiplist.cpp" line="960"/>
         <source>Seychelles</source>
-        <translation>Seszele</translation>
+        <translation type="unfinished">Seszele</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="961"/>
+        <location filename="../geoiplist.cpp" line="964"/>
         <source>Sierra Leone</source>
-        <translation>Sierra Leone</translation>
+        <translation type="unfinished">Sierra Leone</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="965"/>
+        <location filename="../geoiplist.cpp" line="968"/>
         <source>Singapore</source>
-        <translation>Singapur</translation>
+        <translation type="unfinished">Singapur</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="969"/>
+        <location filename="../geoiplist.cpp" line="972"/>
         <source>Slovakia</source>
-        <translation>Słowacja</translation>
+        <translation type="unfinished">Słowacja</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="973"/>
+        <location filename="../geoiplist.cpp" line="976"/>
         <source>Slovenia</source>
-        <translation>Słowenia</translation>
+        <translation type="unfinished">Słowenia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="977"/>
+        <location filename="../geoiplist.cpp" line="980"/>
         <source>Solomon Islands</source>
-        <translation>Wyspy Salomona</translation>
+        <translation type="unfinished">Wyspy Salomona</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="981"/>
+        <location filename="../geoiplist.cpp" line="984"/>
         <source>Somalia</source>
-        <translation>Somalia</translation>
+        <translation type="unfinished">Somalia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="985"/>
+        <location filename="../geoiplist.cpp" line="988"/>
         <source>South Africa</source>
-        <translation>Afryka Południowa</translation>
+        <translation type="unfinished">Afryka Południowa</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="989"/>
+        <location filename="../geoiplist.cpp" line="992"/>
         <source>South Georgia And The South Sandwich Islands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="993"/>
+        <location filename="../geoiplist.cpp" line="996"/>
         <source>Spain</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="997"/>
+        <location filename="../geoiplist.cpp" line="1000"/>
         <source>Sri Lanka</source>
-        <translation>Sri Lanka</translation>
+        <translation type="unfinished">Sri Lanka</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1001"/>
+        <location filename="../geoiplist.cpp" line="1004"/>
         <source>Sudan</source>
-        <translation>Sudan</translation>
+        <translation type="unfinished">Sudan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1005"/>
+        <location filename="../geoiplist.cpp" line="1008"/>
         <source>Suriname</source>
-        <translation>Surinam</translation>
+        <translation type="unfinished">Surinam</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1009"/>
+        <location filename="../geoiplist.cpp" line="1012"/>
         <source>Svalbard And Jan Mayen</source>
-        <translation>Svalbard i Jan Meyen</translation>
+        <translation type="unfinished">Svalbard i Jan Meyen</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1013"/>
+        <location filename="../geoiplist.cpp" line="1016"/>
         <source>Swaziland</source>
-        <translation>Suazi</translation>
+        <translation type="unfinished">Suazi</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1017"/>
+        <location filename="../geoiplist.cpp" line="1020"/>
         <source>Sweden</source>
-        <translation>Szwecja</translation>
+        <translation type="unfinished">Szwecja</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1021"/>
+        <location filename="../geoiplist.cpp" line="1024"/>
         <source>Switzerland</source>
-        <translation>Szwajcaria</translation>
+        <translation type="unfinished">Szwajcaria</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1025"/>
+        <location filename="../geoiplist.cpp" line="1028"/>
         <source>Syrian Arab Republic</source>
-        <translation>Syryjska Republika Arabska</translation>
+        <translation type="unfinished">Syryjska Republika Arabska</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1029"/>
+        <location filename="../geoiplist.cpp" line="1032"/>
         <source>Taiwan, Province Of China</source>
-        <translation>Tajwan</translation>
+        <translation type="unfinished">Tajwan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1033"/>
+        <location filename="../geoiplist.cpp" line="1036"/>
         <source>Tajikistan</source>
-        <translation>Tadżykistan</translation>
+        <translation type="unfinished">Tadżykistan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1037"/>
+        <location filename="../geoiplist.cpp" line="1040"/>
         <source>Tanzania, United Republic Of</source>
-        <translation>Zjednoczona Republika Tanzanii</translation>
+        <translation type="unfinished">Zjednoczona Republika Tanzanii</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1041"/>
+        <location filename="../geoiplist.cpp" line="1044"/>
         <source>Thailand</source>
-        <translation>Tajlandia</translation>
+        <translation type="unfinished">Tajlandia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1045"/>
+        <location filename="../geoiplist.cpp" line="1048"/>
         <source>Timor-Leste</source>
-        <translation>Timor Wschodni</translation>
+        <translation type="unfinished">Timor Wschodni</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1049"/>
+        <location filename="../geoiplist.cpp" line="1052"/>
         <source>Togo</source>
-        <translation>Togo</translation>
+        <translation type="unfinished">Togo</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1053"/>
+        <location filename="../geoiplist.cpp" line="1056"/>
         <source>Tokelau</source>
-        <translation>Tokelau</translation>
+        <translation type="unfinished">Tokelau</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1057"/>
+        <location filename="../geoiplist.cpp" line="1060"/>
         <source>Tonga</source>
-        <translation>Tonga</translation>
+        <translation type="unfinished">Tonga</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1061"/>
+        <location filename="../geoiplist.cpp" line="1064"/>
         <source>Trinadad And Tobago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1065"/>
+        <location filename="../geoiplist.cpp" line="1068"/>
         <source>Tunisia</source>
-        <translation>Tunezja</translation>
+        <translation type="unfinished">Tunezja</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1069"/>
+        <location filename="../geoiplist.cpp" line="1072"/>
         <source>Turkey</source>
-        <translation>Turcja</translation>
+        <translation type="unfinished">Turcja</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1073"/>
+        <location filename="../geoiplist.cpp" line="1076"/>
         <source>Turkmenistan</source>
-        <translation>Turkmenistan</translation>
+        <translation type="unfinished">Turkmenistan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1077"/>
+        <location filename="../geoiplist.cpp" line="1080"/>
         <source>Turks And Caicos Islands</source>
-        <translation>Wyspy Turks i Caicos</translation>
+        <translation type="unfinished">Wyspy Turks i Caicos</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1081"/>
+        <location filename="../geoiplist.cpp" line="1084"/>
         <source>Tubalu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1085"/>
+        <location filename="../geoiplist.cpp" line="1088"/>
         <source>Uganda</source>
-        <translation>Uganda</translation>
+        <translation type="unfinished">Uganda</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1089"/>
+        <location filename="../geoiplist.cpp" line="1092"/>
         <source>Ukraine</source>
-        <translation>Ukraina</translation>
+        <translation type="unfinished">Ukraina</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1093"/>
+        <location filename="../geoiplist.cpp" line="1096"/>
         <source>United Arab Emirates</source>
-        <translation>Zjednoczone Emiraty Arabskie</translation>
+        <translation type="unfinished">Zjednoczone Emiraty Arabskie</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1097"/>
+        <location filename="../geoiplist.cpp" line="1100"/>
         <source>United Kingdom</source>
-        <translation>Wielka Brytania</translation>
+        <translation type="unfinished">Wielka Brytania</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1101"/>
+        <location filename="../geoiplist.cpp" line="1104"/>
         <source>United States</source>
-        <translation>Stany Zjednoczone</translation>
+        <translation type="unfinished">Stany Zjednoczone</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1105"/>
+        <location filename="../geoiplist.cpp" line="1108"/>
         <source>United States Minor Ooutlying Islands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1109"/>
+        <location filename="../geoiplist.cpp" line="1112"/>
         <source>Uraguay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1113"/>
+        <location filename="../geoiplist.cpp" line="1116"/>
         <source>Uzbekistan</source>
-        <translation>Uzbekistan</translation>
+        <translation type="unfinished">Uzbekistan</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1117"/>
+        <location filename="../geoiplist.cpp" line="1120"/>
         <source>Vanuatu</source>
-        <translation>Vanuatu</translation>
+        <translation type="unfinished">Vanuatu</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1121"/>
+        <location filename="../geoiplist.cpp" line="1124"/>
         <source>Vatican City State (Holy See)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1125"/>
+        <location filename="../geoiplist.cpp" line="1128"/>
         <source>Venezuela, Boliviarian Ropublic Of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1129"/>
+        <location filename="../geoiplist.cpp" line="1132"/>
         <source>Viet Nam</source>
-        <translation>Wietnam</translation>
+        <translation type="unfinished">Wietnam</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1133"/>
+        <location filename="../geoiplist.cpp" line="1136"/>
         <source>Virgin Islands (British)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1137"/>
+        <location filename="../geoiplist.cpp" line="1140"/>
         <source>Virgin Islands (U.S.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1141"/>
+        <location filename="../geoiplist.cpp" line="1144"/>
         <source>Wallis And Futuna</source>
-        <translation>Wallis i Futuna</translation>
+        <translation type="unfinished">Wallis i Futuna</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1145"/>
+        <location filename="../geoiplist.cpp" line="1148"/>
         <source>Western Sahara</source>
-        <translation>Zachodnia Sahara</translation>
+        <translation type="unfinished">Zachodnia Sahara</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1149"/>
+        <location filename="../geoiplist.cpp" line="1152"/>
         <source>Yemen</source>
-        <translation>Jemen</translation>
+        <translation type="unfinished">Jemen</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1153"/>
+        <location filename="../geoiplist.cpp" line="1156"/>
         <source>Yugoslavia</source>
-        <translation>Jugosławia</translation>
+        <translation type="unfinished">Jugosławia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1157"/>
+        <location filename="../geoiplist.cpp" line="1160"/>
         <source>Zambia</source>
-        <translation>Zambia</translation>
+        <translation type="unfinished">Zambia</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1161"/>
+        <location filename="../geoiplist.cpp" line="1164"/>
         <source>Zimbabwe</source>
-        <translation>Zimbabwe</translation>
+        <translation type="unfinished">Zimbabwe</translation>
     </message>
     <message>
-        <location filename="../geoiplist.cpp" line="1165"/>
+        <location filename="../geoiplist.cpp" line="1168"/>
         <source>Unknown</source>
-        <translation>Nieznane</translation>
-    </message>
-    <message>
-        <location filename="../NetworkCore/Hashes/hash.cpp" line="32"/>
-        <source>WARNING: Copying non-finalized CHash</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nieznane</translation>
     </message>
 </context>
 <context>
     <name>QuazaaGlobals</name>
     <message>
-        <location filename="../quazaaglobals.cpp" line="84"/>
+        <location filename="../quazaaglobals.cpp" line="88"/>
         <source>All Media Files </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../quazaaglobals.cpp" line="84"/>
+        <location filename="../quazaaglobals.cpp" line="88"/>
         <source>All Files </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../quazaaglobals.cpp" line="84"/>
+        <location filename="../quazaaglobals.cpp" line="88"/>
         <source>Video Files </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../quazaaglobals.cpp" line="84"/>
+        <location filename="../quazaaglobals.cpp" line="88"/>
         <source>Audio Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5288,8 +5834,138 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QuazaaSettings</name>
     <message>
-        <location filename="../quazaasettings.cpp" line="1095"/>
+        <location filename="../quazaasettings.cpp" line="1027"/>
         <source>Quazaa-%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ServerWizardPage</name>
+    <message>
+        <location filename="../Chat/IRC/wizard/serverwizardpage.ui" line="6"/>
+        <source>Server details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/serverwizardpage.ui" line="9"/>
+        <source>Details used to connect to IRC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/serverwizardpage.ui" line="21"/>
+        <source>&amp;Host:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/serverwizardpage.ui" line="31"/>
+        <source>Entering a server host is mandatory. The connection is established to the given server host and port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/serverwizardpage.ui" line="47"/>
+        <source>&amp;Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/serverwizardpage.ui" line="65"/>
+        <source>Entering a server port is mandatory. The connection is established to the given server host and port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/serverwizardpage.ui" line="81"/>
+        <source>If this check box is checked, a secure connection is established to the given server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/serverwizardpage.ui" line="84"/>
+        <source>&amp;Secure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/serverwizardpage.ui" line="93"/>
+        <source>Pass&amp;word:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/serverwizardpage.ui" line="103"/>
+        <source>Entering a server password is optional. Some servers are secured with a password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SessionTabWidget</name>
+    <message>
+        <location filename="../Chat/IRC/sessiontabwidget.cpp" line="149"/>
+        <source>%1 %2</source>
+        <translation type="unfinished">%1 %2</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/sessiontabwidget.cpp" line="184"/>
+        <source>Join channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/sessiontabwidget.cpp" line="184"/>
+        <source>Channel:</source>
+        <translation type="unfinished">Kanał:</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsWizard</name>
+    <message>
+        <location filename="../Chat/IRC/wizard/settingswizard.cpp" line="22"/>
+        <source>Settings</source>
+        <translation type="unfinished">Ustawienia</translation>
+    </message>
+</context>
+<context>
+    <name>UserWizardPage</name>
+    <message>
+        <location filename="../Chat/IRC/wizard/userwizardpage.ui" line="6"/>
+        <source>User details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/userwizardpage.ui" line="9"/>
+        <source>Details used to identify user on IRC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/userwizardpage.ui" line="21"/>
+        <source>&amp;Nick name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/userwizardpage.ui" line="31"/>
+        <source>Entering a nick name is mandatory. The nick name identifies You on IRC.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/userwizardpage.ui" line="41"/>
+        <source>&amp;Real name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/wizard/userwizardpage.ui" line="51"/>
+        <source>Entering a real name is optional. The real name identifies You on IRC.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePage</name>
+    <message>
+        <location filename="../Chat/IRC/welcomepage.cpp" line="52"/>
+        <source>Please respect others while using this service.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/welcomepage.cpp" line="61"/>
+        <source>Connect</source>
+        <translation type="unfinished">Połącz</translation>
+    </message>
+    <message>
+        <location filename="../Chat/IRC/welcomepage.cpp" line="62"/>
+        <source>Connect or create new IRC connection.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5314,51 +5990,32 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>WidgetChat</name>
     <message>
-        <location filename="../UI/widgetchat.ui" line="14"/>
-        <source>Chat</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetchat.ui" line="98"/>
-        <location filename="../UI/widgetchat.ui" line="247"/>
         <source>Add</source>
-        <translation>Dodaj</translation>
+        <translation type="obsolete">Dodaj</translation>
     </message>
     <message>
-        <location filename="../UI/widgetchat.ui" line="118"/>
-        <location filename="../UI/widgetchat.ui" line="267"/>
         <source>Remove</source>
-        <translation>Usuń</translation>
+        <translation type="obsolete">Usuń</translation>
     </message>
     <message>
-        <location filename="../UI/widgetchat.ui" line="159"/>
         <source>Rooms</source>
-        <translation>Pokoje</translation>
+        <translation type="obsolete">Pokoje</translation>
     </message>
     <message>
-        <location filename="../UI/widgetchat.ui" line="195"/>
         <source>Friends</source>
-        <translation>Przyjaciele</translation>
+        <translation type="obsolete">Przyjaciele</translation>
     </message>
     <message>
-        <location filename="../UI/widgetchat.ui" line="425"/>
-        <source>0 Operators, 0 Total</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetchat.ui" line="460"/>
         <source>In Room</source>
-        <translation>W pokoju</translation>
+        <translation type="obsolete">W pokoju</translation>
     </message>
     <message>
-        <location filename="../UI/widgetchat.ui" line="383"/>
         <source>Add To Friends</source>
-        <translation>Dodaj do listy przyjaciół</translation>
+        <translation type="obsolete">Dodaj do listy przyjaciół</translation>
     </message>
     <message>
-        <location filename="../UI/widgetchat.ui" line="403"/>
         <source>Ignore</source>
-        <translation>Ignoruj</translation>
+        <translation type="obsolete">Ignoruj</translation>
     </message>
     <message>
         <source>0 ops, 0 total.</source>
@@ -5394,27 +6051,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetchatinput.ui" line="67"/>
         <source>Send</source>
-        <translation>Wyślij</translation>
+        <translation type="unfinished">Wyślij</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatinput.ui" line="87"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatinput.ui" line="114"/>
         <source>Bold</source>
-        <translation>Pogrubienie</translation>
+        <translation type="unfinished">Pogrubienie</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatinput.ui" line="117"/>
         <source>Ctrl+B</source>
-        <translation>Ctrl+B</translation>
+        <translation type="unfinished">Ctrl+B</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatinput.ui" line="129"/>
         <source>Italic</source>
-        <translation>Kursywa</translation>
+        <translation type="unfinished">Kursywa</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatinput.ui" line="132"/>
@@ -5424,7 +6081,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetchatinput.ui" line="144"/>
         <source>Underline</source>
-        <translation>Podkreślenie</translation>
+        <translation type="unfinished">Podkreślenie</translation>
     </message>
     <message>
         <location filename="../UI/widgetchatinput.ui" line="147"/>
@@ -5432,90 +6089,29 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetchatinput.cpp" line="43"/>
+        <location filename="../UI/widgetchatinput.cpp" line="50"/>
         <source>Send On Enter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetchatinput.cpp" line="50"/>
+        <location filename="../UI/widgetchatinput.cpp" line="57"/>
         <source>Smilies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetchatinput.cpp" line="56"/>
+        <location filename="../UI/widgetchatinput.cpp" line="63"/>
         <source>Font Color</source>
-        <translation>Kolor czcionki</translation>
+        <translation type="unfinished">Kolor czcionki</translation>
     </message>
     <message>
-        <location filename="../UI/widgetchatinput.cpp" line="59"/>
-        <location filename="../UI/widgetchatinput.cpp" line="60"/>
+        <location filename="../UI/widgetchatinput.cpp" line="66"/>
+        <location filename="../UI/widgetchatinput.cpp" line="67"/>
         <source>New Private Message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetchatinput.cpp" line="164"/>
+        <location filename="../UI/widgetchatinput.cpp" line="171"/>
         <source>Select Font Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WidgetChatMiddle</name>
-    <message>
-        <location filename="../UI/widgetchatmiddle.ui" line="14"/>
-        <source>Chat Center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetchatmiddle.ui" line="55"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Welcome to Quazaa Chat!&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Please respect others while using this service.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetchatmiddle.ui" line="80"/>
-        <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetchatmiddle.ui" line="112"/>
-        <source>Connect</source>
-        <translation type="unfinished">Połącz</translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetchatmiddle.ui" line="121"/>
-        <source>Disconnect</source>
-        <translation type="unfinished">Rozłącz</translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetchatmiddle.ui" line="130"/>
-        <source>Edit My Profile</source>
-        <translation type="unfinished">Edytuj Profil</translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetchatmiddle.ui" line="139"/>
-        <location filename="../UI/widgetchatmiddle.ui" line="142"/>
-        <source>Settings</source>
-        <translation type="unfinished">Ustawienia</translation>
-    </message>
-</context>
-<context>
-    <name>WidgetChatRoom</name>
-    <message>
-        <location filename="../UI/widgetchatroom.ui" line="14"/>
-        <source>MainWindow</source>
-        <translation>MainWindow</translation>
-    </message>
-    <message>
-        <location filename="../UI/widgetchatroom.ui" line="46"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5529,7 +6125,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="38"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="68"/>
@@ -5545,7 +6141,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetdiscovery.ui" line="140"/>
         <location filename="../UI/widgetdiscovery.ui" line="143"/>
         <source>Add Service</source>
-        <translation>Dodaj usługę</translation>
+        <translation type="unfinished">Dodaj usługę</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="152"/>
@@ -5593,7 +6189,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetdiscovery.ui" line="224"/>
         <location filename="../UI/widgetdiscovery.ui" line="227"/>
         <source>Properties</source>
-        <translation>Właściwości</translation>
+        <translation type="unfinished">Właściwości</translation>
     </message>
     <message>
         <location filename="../UI/widgetdiscovery.ui" line="236"/>
@@ -5607,13 +6203,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetdownloads.ui" line="14"/>
         <source>Downloads</source>
-        <translation>Pobierane</translation>
+        <translation type="unfinished">Pobierane</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="44"/>
         <location filename="../UI/widgetdownloads.ui" line="106"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="71"/>
@@ -5624,19 +6220,19 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetdownloads.ui" line="138"/>
         <location filename="../UI/widgetdownloads.ui" line="141"/>
         <source>All</source>
-        <translation>Wszystko</translation>
+        <translation type="unfinished">Wszystko</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="150"/>
         <location filename="../UI/widgetdownloads.ui" line="153"/>
         <source>Preview</source>
-        <translation>Podgląd</translation>
+        <translation type="unfinished">Podgląd</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="162"/>
         <location filename="../UI/widgetdownloads.ui" line="165"/>
         <source>Pause</source>
-        <translation>Wstrzymaj</translation>
+        <translation type="unfinished">Wstrzymaj</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="174"/>
@@ -5660,7 +6256,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetdownloads.ui" line="210"/>
         <location filename="../UI/widgetdownloads.ui" line="213"/>
         <source>Properties</source>
-        <translation>Właściwości</translation>
+        <translation type="unfinished">Właściwości</translation>
     </message>
     <message>
         <location filename="../UI/widgetdownloads.ui" line="222"/>
@@ -5676,7 +6272,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetdownloads.ui" line="243"/>
         <source>Filter</source>
-        <translation>Filtr</translation>
+        <translation type="unfinished">Filtr</translation>
     </message>
 </context>
 <context>
@@ -5684,7 +6280,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetgraph.ui" line="14"/>
         <source>MainWindow</source>
-        <translation>MainWindow</translation>
+        <translation type="unfinished">MainWindow</translation>
     </message>
     <message>
         <location filename="../UI/widgetgraph.ui" line="41"/>
@@ -5707,27 +6303,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="14"/>
         <source>MainWindow</source>
-        <translation>MainWindow</translation>
+        <translation type="unfinished">MainWindow</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="33"/>
         <source>Extension</source>
-        <translation>Rozszerzenie</translation>
+        <translation type="unfinished">Rozszerzenie</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="38"/>
         <source>Size</source>
-        <translation>Rozmiar</translation>
+        <translation type="unfinished">Rozmiar</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="43"/>
         <source>Rating</source>
-        <translation>Ocena</translation>
+        <translation type="unfinished">Ocena</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="48"/>
         <source>Status</source>
-        <translation>Stan</translation>
+        <translation type="unfinished">Stan</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="53"/>
@@ -5737,47 +6333,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="58"/>
         <source>Speed</source>
-        <translation>Szybkość</translation>
+        <translation type="unfinished">Szybkość</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="63"/>
         <source>Client</source>
-        <translation>Klient</translation>
+        <translation type="unfinished">Klient</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="68"/>
         <source>Time</source>
-        <translation>Czas</translation>
+        <translation type="unfinished">Czas</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="73"/>
         <source>Country</source>
-        <translation>Country</translation>
+        <translation type="unfinished">Country</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="78"/>
         <source>Duration</source>
-        <translation>Czas trwania</translation>
+        <translation type="unfinished">Czas trwania</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="83"/>
         <source>Bitrate</source>
-        <translation>Szybkość transmisji.</translation>
+        <translation type="unfinished">Szybkość transmisji.</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="88"/>
         <source>Channels</source>
-        <translation>Kanały</translation>
+        <translation type="unfinished">Kanały</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="93"/>
         <source>Language</source>
-        <translation>Język</translation>
+        <translation type="unfinished">Język</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="105"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="136"/>
@@ -5811,7 +6407,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethitmonitor.ui" line="209"/>
         <source>More</source>
-        <translation>Więcej</translation>
+        <translation type="unfinished">Więcej</translation>
     </message>
 </context>
 <context>
@@ -5833,17 +6429,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethome.ui" line="136"/>
         <source>Downloads</source>
-        <translation>Pobierane</translation>
+        <translation type="unfinished">Pobierane</translation>
     </message>
     <message>
         <location filename="../UI/widgethome.ui" line="168"/>
         <source>Uploads</source>
-        <translation>Wysyłane</translation>
+        <translation type="unfinished">Wysyłane</translation>
     </message>
     <message>
         <location filename="../UI/widgethome.ui" line="243"/>
         <source>Torrents</source>
-        <translation>Torrenty</translation>
+        <translation type="unfinished">Torrenty</translation>
     </message>
     <message>
         <location filename="../UI/widgethome.ui" line="315"/>
@@ -5857,7 +6453,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethome.ui" line="348"/>
         <source>Connection</source>
-        <translation>Połączenie</translation>
+        <translation type="unfinished">Połączenie</translation>
     </message>
     <message>
         <location filename="../UI/widgethome.ui" line="420"/>
@@ -5961,7 +6557,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethome.ui" line="846"/>
         <source>Start Search</source>
-        <translation>Rozpocznij wyszukiwanie</translation>
+        <translation type="unfinished">Rozpocznij wyszukiwanie</translation>
     </message>
     <message>
         <location filename="../UI/widgethome.ui" line="853"/>
@@ -6015,7 +6611,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethostcache.ui" line="14"/>
         <source>MainWindow</source>
-        <translation>MainWindow</translation>
+        <translation type="unfinished">MainWindow</translation>
     </message>
     <message>
         <location filename="../UI/widgethostcache.ui" line="43"/>
@@ -6055,7 +6651,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethostcache.ui" line="90"/>
         <source>BitTorrent</source>
-        <translation>BitTorrent</translation>
+        <translation type="unfinished">BitTorrent</translation>
     </message>
     <message>
         <location filename="../UI/widgethostcache.ui" line="98"/>
@@ -6070,7 +6666,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgethostcache.ui" line="125"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgethostcache.ui" line="155"/>
@@ -6089,16 +6685,93 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>WidgetIRCMain</name>
+    <message>
+        <location filename="../UI/widgetircmain.ui" line="14"/>
+        <source>Chat Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircmain.ui" line="31"/>
+        <source>toolBar</source>
+        <translation type="unfinished">pasekNarzędzi</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircmain.ui" line="63"/>
+        <source>Connect</source>
+        <translation type="unfinished">Połącz</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircmain.ui" line="75"/>
+        <source>Disconnect</source>
+        <translation type="unfinished">Rozłącz</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircmain.ui" line="84"/>
+        <source>Edit My Profile</source>
+        <translation type="unfinished">Edytuj Profil</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircmain.ui" line="93"/>
+        <location filename="../UI/widgetircmain.ui" line="96"/>
+        <source>Settings</source>
+        <translation type="unfinished">Ustawienia</translation>
+    </message>
+</context>
+<context>
+    <name>WidgetIRCSidebars</name>
+    <message>
+        <location filename="../UI/widgetircsidebars.ui" line="14"/>
+        <source>Chat</source>
+        <translation type="unfinished">Rozmowa</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircsidebars.ui" line="75"/>
+        <source>Friends</source>
+        <translation type="unfinished">Przyjaciele</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircsidebars.ui" line="127"/>
+        <source>Add</source>
+        <translation type="unfinished">Dodaj</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircsidebars.ui" line="147"/>
+        <source>Remove</source>
+        <translation type="unfinished">Usuń</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircsidebars.ui" line="247"/>
+        <source>Add To Friends</source>
+        <translation type="unfinished">Dodaj do listy przyjaciół</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircsidebars.ui" line="267"/>
+        <source>Ignore</source>
+        <translation type="unfinished">Ignoruj</translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircsidebars.ui" line="289"/>
+        <source>0 Operators, 0 Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UI/widgetircsidebars.ui" line="324"/>
+        <source>In Room</source>
+        <translation type="unfinished">W pokoju</translation>
+    </message>
+</context>
+<context>
     <name>WidgetLibrary</name>
     <message>
         <location filename="../UI/widgetlibrary.ui" line="14"/>
         <source>Form</source>
-        <translation>Okno formy</translation>
+        <translation type="unfinished">Formularz</translation>
     </message>
     <message>
         <location filename="../UI/widgetlibrary.ui" line="102"/>
         <source>Shared Folders</source>
-        <translation>Katalogi współdzielone</translation>
+        <translation type="unfinished">Katalogi współdzielone</translation>
     </message>
     <message>
         <location filename="../UI/widgetlibrary.ui" line="132"/>
@@ -6116,7 +6789,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetlibraryview.ui" line="14"/>
         <source>MainWindow</source>
-        <translation>MainWindow</translation>
+        <translation type="unfinished">MainWindow</translation>
     </message>
     <message>
         <location filename="../UI/widgetlibraryview.ui" line="45"/>
@@ -6131,7 +6804,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetlibraryview.ui" line="190"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetlibraryview.ui" line="218"/>
@@ -6152,7 +6825,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetlibraryview.ui" line="264"/>
         <source>Find</source>
-        <translation>Znajdź</translation>
+        <translation type="unfinished">Znajdź</translation>
     </message>
 </context>
 <context>
@@ -6160,7 +6833,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetmedia.ui" line="14"/>
         <source>Media</source>
-        <translation>Media</translation>
+        <translation type="unfinished">Media</translation>
     </message>
     <message>
         <location filename="../UI/widgetmedia.ui" line="127"/>
@@ -6177,13 +6850,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetmedia.ui" line="96"/>
         <source>Playlist</source>
-        <translation>Lista utworów.</translation>
+        <translation type="unfinished">Lista utworów.</translation>
     </message>
     <message>
         <location filename="../UI/widgetmedia.ui" line="147"/>
         <location filename="../UI/widgetmedia.ui" line="150"/>
         <source>Remove From Playlist</source>
-        <translation>Usuń z listy utworów</translation>
+        <translation type="unfinished">Usuń z listy utworów</translation>
     </message>
     <message>
         <location filename="../UI/widgetmedia.ui" line="203"/>
@@ -6200,12 +6873,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetmedia.ui" line="183"/>
         <location filename="../UI/widgetmedia.ui" line="186"/>
         <source>Clear Playlist</source>
-        <translation>Wyczyść listę odtwarzania</translation>
+        <translation type="unfinished">Wyczyść listę odtwarzania</translation>
     </message>
     <message>
         <location filename="../UI/widgetmedia.ui" line="292"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetmedia.ui" line="315"/>
@@ -6255,7 +6928,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetmedia.ui" line="432"/>
         <location filename="../UI/widgetmedia.ui" line="435"/>
         <source>Fullscreen</source>
-        <translation>Pełen ekran</translation>
+        <translation type="unfinished">Pełen ekran</translation>
     </message>
     <message>
         <location filename="../UI/widgetmedia.ui" line="444"/>
@@ -6281,7 +6954,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetneighbours.ui" line="102"/>
         <location filename="../UI/widgetneighbours.ui" line="162"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetneighbours.ui" line="134"/>
@@ -6310,7 +6983,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/widgetneighbours.ui" line="223"/>
         <location filename="../UI/widgetneighbours.ui" line="226"/>
         <source>Browse</source>
-        <translation>Przeglądaj</translation>
+        <translation type="unfinished">Przeglądaj</translation>
     </message>
     <message>
         <location filename="../UI/widgetneighbours.ui" line="235"/>
@@ -6348,15 +7021,15 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetneighbours.ui" line="316"/>
         <source>View Profile</source>
-        <translation>Profil widoku</translation>
+        <translation type="unfinished">Profil widoku</translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbours.cpp" line="137"/>
+        <location filename="../UI/widgetneighbours.cpp" line="142"/>
         <source> %1 Hubs, %2 Leaves, %3/s In:%4/s Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetneighbours.cpp" line="193"/>
+        <location filename="../UI/widgetneighbours.cpp" line="198"/>
         <source>Closing connection to neighbour %s</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6366,27 +7039,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="14"/>
         <source>MainWindow</source>
-        <translation>MainWindow</translation>
+        <translation type="unfinished">MainWindow</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="43"/>
         <source>Time</source>
-        <translation>Czas</translation>
+        <translation type="unfinished">Czas</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="48"/>
         <source>Address</source>
-        <translation>Adres</translation>
+        <translation type="unfinished">Adres</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="53"/>
         <source>Protocol</source>
-        <translation>Protokół</translation>
+        <translation type="unfinished">Protokół</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="58"/>
         <source>Type</source>
-        <translation>Typ</translation>
+        <translation type="unfinished">Typ</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="63"/>
@@ -6401,12 +7074,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="73"/>
         <source>ASCII</source>
-        <translation>ASCII</translation>
+        <translation type="unfinished">ASCII</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="85"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetpacketdump.ui" line="114"/>
@@ -6431,7 +7104,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetprivatemessage.ui" line="70"/>
         <source>Name</source>
-        <translation>Nazwa</translation>
+        <translation type="unfinished">Nazwa</translation>
     </message>
 </context>
 <context>
@@ -6439,37 +7112,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetscheduler.ui" line="14"/>
         <source>MainWindow</source>
-        <translation>MainWindow</translation>
+        <translation type="unfinished">MainWindow</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="39"/>
         <source>Action</source>
-        <translation>Działanie</translation>
+        <translation type="unfinished">Działanie</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="44"/>
         <source>Frequency</source>
-        <translation>Częstotliwość</translation>
+        <translation type="unfinished">Częstotliwość</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="49"/>
         <source>Active</source>
-        <translation>Aktywna</translation>
+        <translation type="unfinished">Aktywna</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="54"/>
         <source>Status</source>
-        <translation>Stan</translation>
+        <translation type="unfinished">Stan</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="59"/>
         <source>Details</source>
-        <translation>Szczegóły</translation>
+        <translation type="unfinished">Szczegóły</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="71"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="106"/>
@@ -6485,22 +7158,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetscheduler.ui" line="133"/>
         <source>Activate</source>
-        <translation>Uaktywnij</translation>
+        <translation type="unfinished">Uaktywnij</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="142"/>
         <source>Move Up</source>
-        <translation>Przesuń w górę</translation>
+        <translation type="unfinished">Przesuń w górę</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="151"/>
         <source>Move Down</source>
-        <translation>Przesuń w dół</translation>
+        <translation type="unfinished">Przesuń w dół</translation>
     </message>
     <message>
         <location filename="../UI/widgetscheduler.ui" line="160"/>
         <source>Properties</source>
-        <translation>Właściwości</translation>
+        <translation type="unfinished">Właściwości</translation>
     </message>
 </context>
 <context>
@@ -6508,7 +7181,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearch.ui" line="14"/>
         <source>Form</source>
-        <translation>Okno formy</translation>
+        <translation type="unfinished">Formularz</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="81"/>
@@ -6518,7 +7191,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearch.ui" line="112"/>
         <source>Results</source>
-        <translation>Wyniki</translation>
+        <translation type="unfinished">Wyniki</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="163"/>
@@ -6528,23 +7201,23 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearch.ui" line="177"/>
         <source>Found:</source>
-        <translation>Znaleziono:</translation>
+        <translation type="unfinished">Znaleziono:</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="184"/>
-        <location filename="../UI/widgetsearch.cpp" line="102"/>
-        <location filename="../UI/widgetsearch.cpp" line="158"/>
-        <location filename="../UI/widgetsearch.cpp" line="196"/>
+        <location filename="../UI/widgetsearch.cpp" line="106"/>
+        <location filename="../UI/widgetsearch.cpp" line="166"/>
         <location filename="../UI/widgetsearch.cpp" line="204"/>
+        <location filename="../UI/widgetsearch.cpp" line="212"/>
         <source>Not Currently Searching</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="191"/>
-        <location filename="../UI/widgetsearch.cpp" line="103"/>
-        <location filename="../UI/widgetsearch.cpp" line="162"/>
-        <location filename="../UI/widgetsearch.cpp" line="197"/>
+        <location filename="../UI/widgetsearch.cpp" line="107"/>
+        <location filename="../UI/widgetsearch.cpp" line="170"/>
         <location filename="../UI/widgetsearch.cpp" line="205"/>
+        <location filename="../UI/widgetsearch.cpp" line="213"/>
         <source>No Files Found</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6556,7 +7229,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearch.ui" line="270"/>
         <source>to</source>
-        <translation>do</translation>
+        <translation type="unfinished">do</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="289"/>
@@ -6591,8 +7264,8 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearch.ui" line="432"/>
         <location filename="../UI/widgetsearch.ui" line="511"/>
-        <location filename="../UI/widgetsearch.cpp" line="186"/>
-        <location filename="../UI/widgetsearch.cpp" line="200"/>
+        <location filename="../UI/widgetsearch.cpp" line="194"/>
+        <location filename="../UI/widgetsearch.cpp" line="208"/>
         <source>Search</source>
         <translation type="unfinished">Szukaj</translation>
     </message>
@@ -6608,39 +7281,39 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../UI/widgetsearch.ui" line="528"/>
-        <location filename="../UI/widgetsearch.cpp" line="195"/>
         <location filename="../UI/widgetsearch.cpp" line="203"/>
+        <location filename="../UI/widgetsearch.cpp" line="211"/>
         <source>Clear</source>
-        <translation>Wyczyść</translation>
+        <translation type="unfinished">Wyczyść</translation>
     </message>
     <message>
-        <location filename="../UI/widgetsearch.cpp" line="173"/>
+        <location filename="../UI/widgetsearch.cpp" line="181"/>
         <source>Searching</source>
-        <translation>Wyszukiwanie</translation>
+        <translation type="unfinished">Wyszukiwanie</translation>
     </message>
     <message>
-        <location filename="../UI/widgetsearch.cpp" line="175"/>
+        <location filename="../UI/widgetsearch.cpp" line="183"/>
         <source>Pause</source>
         <translation type="unfinished">Wstrzymaj</translation>
     </message>
     <message>
-        <location filename="../UI/widgetsearch.cpp" line="179"/>
-        <location filename="../UI/widgetsearch.cpp" line="191"/>
+        <location filename="../UI/widgetsearch.cpp" line="187"/>
+        <location filename="../UI/widgetsearch.cpp" line="199"/>
         <source>More</source>
-        <translation>Więcej</translation>
+        <translation type="unfinished">Więcej</translation>
     </message>
     <message>
-        <location filename="../UI/widgetsearch.cpp" line="181"/>
+        <location filename="../UI/widgetsearch.cpp" line="189"/>
         <source>Stop</source>
-        <translation>Zatrzymaj</translation>
+        <translation type="unfinished">Zatrzymaj</translation>
     </message>
     <message>
-        <location filename="../UI/widgetsearch.cpp" line="154"/>
+        <location filename="../UI/widgetsearch.cpp" line="162"/>
         <source>%1 hubs,%2 leaves.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsearch.cpp" line="155"/>
+        <location filename="../UI/widgetsearch.cpp" line="163"/>
         <source>%1 files in %2 hits.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6650,7 +7323,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearchmonitor.ui" line="14"/>
         <source>MainWindow</source>
-        <translation>MainWindow</translation>
+        <translation type="unfinished">MainWindow</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearchmonitor.ui" line="39"/>
@@ -6660,7 +7333,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearchmonitor.ui" line="44"/>
         <source>Schema</source>
-        <translation>Schemat</translation>
+        <translation type="unfinished">Schemat</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearchmonitor.ui" line="49"/>
@@ -6670,7 +7343,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearchmonitor.ui" line="61"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearchmonitor.ui" line="95"/>
@@ -6708,13 +7381,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearchresults.ui" line="14"/>
         <source>MainWindow</source>
-        <translation>MainWindow</translation>
+        <translation type="unfinished">MainWindow</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearchresults.ui" line="134"/>
         <location filename="../UI/widgetsearchresults.ui" line="160"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetsearchresults.ui" line="185"/>
@@ -6731,22 +7404,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetsearchresults.ui" line="209"/>
         <source>More</source>
-        <translation>Więcej</translation>
+        <translation type="unfinished">Więcej</translation>
     </message>
     <message>
-        <location filename="../UI/widgetsearchresults.cpp" line="51"/>
-        <location filename="../UI/widgetsearchresults.cpp" line="149"/>
-        <location filename="../UI/widgetsearchresults.cpp" line="189"/>
+        <location filename="../UI/widgetsearchresults.cpp" line="57"/>
+        <location filename="../UI/widgetsearchresults.cpp" line="156"/>
+        <location filename="../UI/widgetsearchresults.cpp" line="196"/>
         <source>Search</source>
         <translation type="unfinished">Szukaj</translation>
     </message>
     <message>
-        <location filename="../UI/widgetsearchresults.cpp" line="97"/>
+        <location filename="../UI/widgetsearchresults.cpp" line="104"/>
         <source>You have started a new search.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsearchresults.cpp" line="97"/>
+        <location filename="../UI/widgetsearchresults.cpp" line="104"/>
         <source>Would you like to start this search in a new tab?
 
 If you perform this search in the current tab, you will mix the results of %1 search with the results of the new %2 search.</source>
@@ -6771,7 +7444,7 @@ If you perform this search in the current tab, you will mix the results of %1 se
     <message>
         <location filename="../UI/widgetsecurity.ui" line="84"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetsecurity.ui" line="115"/>
@@ -6800,7 +7473,7 @@ If you perform this search in the current tab, you will mix the results of %1 se
         <location filename="../UI/widgetsecurity.ui" line="179"/>
         <location filename="../UI/widgetsecurity.ui" line="182"/>
         <source>Import Rules</source>
-        <translation>Zasady importu</translation>
+        <translation type="unfinished">Zasady importu</translation>
     </message>
     <message>
         <location filename="../UI/widgetsecurity.ui" line="191"/>
@@ -6819,7 +7492,7 @@ If you perform this search in the current tab, you will mix the results of %1 se
     <message>
         <location filename="../UI/widgetsmileylist.ui" line="26"/>
         <source>Form</source>
-        <translation>Okno formy</translation>
+        <translation type="unfinished">Formularz</translation>
     </message>
     <message>
         <location filename="../UI/widgetsmileylist.ui" line="63"/>
@@ -6849,12 +7522,12 @@ If you perform this search in the current tab, you will mix the results of %1 se
     <message>
         <location filename="../UI/widgetsmileylist.ui" line="123"/>
         <source>8D</source>
-        <translation type="unfinished">8D</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/widgetsmileylist.ui" line="135"/>
         <source>8)</source>
-        <translation type="unfinished">8)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/widgetsmileylist.ui" line="147"/>
@@ -6899,81 +7572,76 @@ If you perform this search in the current tab, you will mix the results of %1 se
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Segoe UI&apos;; font-size:10pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Segoe UI&apos;; font-size:10pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Segoe UI&apos;; font-size:10pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Segoe UI&apos;; font-size:10pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Segoe UI&apos;; font-size:10pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="63"/>
+        <location filename="../UI/widgetsystemlog.ui" line="58"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="99"/>
+        <location filename="../UI/widgetsystemlog.ui" line="94"/>
         <source>Toggle Timestamp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="108"/>
-        <location filename="../UI/widgetsystemlog.ui" line="111"/>
+        <location filename="../UI/widgetsystemlog.ui" line="103"/>
+        <location filename="../UI/widgetsystemlog.ui" line="106"/>
         <source>Clear Buffer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="123"/>
-        <location filename="../UI/widgetsystemlog.ui" line="126"/>
+        <location filename="../UI/widgetsystemlog.ui" line="118"/>
+        <location filename="../UI/widgetsystemlog.ui" line="121"/>
         <source>Pause Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="138"/>
-        <location filename="../UI/widgetsystemlog.ui" line="141"/>
+        <location filename="../UI/widgetsystemlog.ui" line="133"/>
+        <location filename="../UI/widgetsystemlog.ui" line="136"/>
         <source>Show Warning Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="153"/>
+        <location filename="../UI/widgetsystemlog.ui" line="148"/>
         <source>Show Information Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="165"/>
+        <location filename="../UI/widgetsystemlog.ui" line="160"/>
         <source>Show Security Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="177"/>
+        <location filename="../UI/widgetsystemlog.ui" line="172"/>
         <source>Show Notice Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="189"/>
+        <location filename="../UI/widgetsystemlog.ui" line="184"/>
         <source>Show Debug Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="201"/>
+        <location filename="../UI/widgetsystemlog.ui" line="196"/>
         <source>Show Error Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="213"/>
-        <location filename="../UI/widgetsystemlog.ui" line="216"/>
+        <location filename="../UI/widgetsystemlog.ui" line="208"/>
+        <location filename="../UI/widgetsystemlog.ui" line="211"/>
         <source>Show Critical Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/widgetsystemlog.ui" line="228"/>
+        <location filename="../UI/widgetsystemlog.ui" line="223"/>
         <source>Copy</source>
-        <translation>Kopiuj</translation>
+        <translation type="unfinished">Kopiuj</translation>
     </message>
 </context>
 <context>
@@ -6986,12 +7654,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgettransfers.ui" line="66"/>
         <source>Downloads</source>
-        <translation>Pobierane</translation>
+        <translation type="unfinished">Pobierane</translation>
     </message>
     <message>
         <location filename="../UI/widgettransfers.ui" line="119"/>
         <source>Uploads</source>
-        <translation>Wysyłane</translation>
+        <translation type="unfinished">Wysyłane</translation>
     </message>
 </context>
 <context>
@@ -6999,12 +7667,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetuploads.ui" line="14"/>
         <source>MainWindow</source>
-        <translation>MainWindow</translation>
+        <translation type="unfinished">MainWindow</translation>
     </message>
     <message>
         <location filename="../UI/widgetuploads.ui" line="34"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
         <location filename="../UI/widgetuploads.ui" line="69"/>
@@ -7054,475 +7722,386 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/widgetuploads.ui" line="176"/>
         <source>Filter</source>
-        <translation>Filtr</translation>
+        <translation type="unfinished">Filtr</translation>
     </message>
 </context>
 <context>
     <name>WinMain</name>
     <message>
         <location filename="../UI/winmain.ui" line="14"/>
-        <location filename="../UI/winmain.cpp" line="290"/>
         <source>Quazaa</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../UI/winmain.ui" line="84"/>
-        <location filename="../UI/winmain.cpp" line="165"/>
-        <location filename="../UI/winmain.cpp" line="240"/>
-        <location filename="../UI/winmain.cpp" line="367"/>
-        <location filename="../UI/winmain.cpp" line="442"/>
-        <location filename="../UI/winmain.cpp" line="497"/>
         <source>Quazaa Home</source>
         <translation>Start!</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="116"/>
+        <location filename="../UI/winmain.ui" line="114"/>
         <source>Network</source>
         <translation>Sieć</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="120"/>
+        <location filename="../UI/winmain.ui" line="118"/>
         <source>Choose Networks</source>
         <translation>Wybierz sieci</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="140"/>
+        <location filename="../UI/winmain.ui" line="138"/>
         <source>View</source>
         <translation>Widok</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="144"/>
+        <location filename="../UI/winmain.ui" line="142"/>
         <source>Advanced</source>
         <translation>Zaawansowane</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="167"/>
+        <location filename="../UI/winmain.ui" line="165"/>
         <source>Tools</source>
         <translation>Narzędzia</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="171"/>
+        <location filename="../UI/winmain.ui" line="169"/>
         <source>BitTorrent</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="192"/>
+        <location filename="../UI/winmain.ui" line="190"/>
         <source>Window</source>
         <translation>Okno</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="198"/>
+        <location filename="../UI/winmain.ui" line="196"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="226"/>
-        <location filename="../UI/winmain.ui" line="245"/>
+        <location filename="../UI/winmain.ui" line="222"/>
         <source>toolBar</source>
-        <translation>pasekNarzędzi</translation>
+        <translation type="unfinished">pasekNarzędzi</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="271"/>
+        <location filename="../UI/winmain.ui" line="248"/>
         <source>Exit</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="280"/>
+        <location filename="../UI/winmain.ui" line="257"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="289"/>
+        <location filename="../UI/winmain.ui" line="266"/>
         <source>Lock Panels</source>
         <translation>Zablokuj panele</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="304"/>
-        <location filename="../UI/winmain.ui" line="307"/>
+        <location filename="../UI/winmain.ui" line="281"/>
+        <location filename="../UI/winmain.ui" line="284"/>
         <source>Home</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="325"/>
-        <location filename="../UI/winmain.cpp" line="170"/>
-        <location filename="../UI/winmain.cpp" line="372"/>
-        <location filename="../UI/winmain.cpp" line="506"/>
+        <location filename="../UI/winmain.ui" line="302"/>
         <source>Library</source>
         <translation>Zasoby</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="340"/>
-        <location filename="../UI/winmain.cpp" line="180"/>
-        <location filename="../UI/winmain.cpp" line="382"/>
-        <location filename="../UI/winmain.cpp" line="523"/>
+        <location filename="../UI/winmain.ui" line="317"/>
         <source>Search</source>
         <translation>Szukaj</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="355"/>
-        <location filename="../UI/winmain.cpp" line="185"/>
-        <location filename="../UI/winmain.cpp" line="387"/>
-        <location filename="../UI/winmain.cpp" line="532"/>
+        <location filename="../UI/winmain.ui" line="332"/>
         <source>Transfers</source>
         <translation>Transfery</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="370"/>
-        <location filename="../UI/winmain.cpp" line="190"/>
-        <location filename="../UI/winmain.cpp" line="392"/>
-        <location filename="../UI/winmain.cpp" line="541"/>
+        <location filename="../UI/winmain.ui" line="347"/>
         <source>Security</source>
         <translation>Bezpieczeństwo</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="385"/>
-        <location filename="../UI/winmain.cpp" line="195"/>
-        <location filename="../UI/winmain.cpp" line="397"/>
-        <location filename="../UI/winmain.cpp" line="550"/>
+        <location filename="../UI/winmain.ui" line="362"/>
         <source>Activity</source>
         <translation>Aktywność</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="400"/>
-        <location filename="../UI/winmain.cpp" line="175"/>
-        <location filename="../UI/winmain.cpp" line="377"/>
-        <location filename="../UI/winmain.cpp" line="514"/>
+        <location filename="../UI/winmain.ui" line="377"/>
         <source>Media</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="415"/>
+        <location filename="../UI/winmain.ui" line="392"/>
         <source>Create Torrent</source>
         <translation>Stwórz Torrent</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="424"/>
+        <location filename="../UI/winmain.ui" line="401"/>
         <source>Seed Torrent</source>
         <translation>Udostępnij Torrent</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="433"/>
-        <location filename="../UI/winmain.ui" line="436"/>
+        <location filename="../UI/winmain.ui" line="410"/>
+        <location filename="../UI/winmain.ui" line="413"/>
         <source>Open Torrent</source>
         <translation>Otwórz Torrent</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="445"/>
-        <location filename="../UI/winmain.ui" line="914"/>
-        <location filename="../UI/winmain.ui" line="917"/>
+        <location filename="../UI/winmain.ui" line="422"/>
+        <location filename="../UI/winmain.ui" line="891"/>
+        <location filename="../UI/winmain.ui" line="894"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="457"/>
-        <location filename="../UI/winmain.ui" line="460"/>
+        <location filename="../UI/winmain.ui" line="434"/>
+        <location filename="../UI/winmain.ui" line="437"/>
         <source>eDonkey</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="475"/>
+        <location filename="../UI/winmain.ui" line="452"/>
         <source>Gnutella 2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="484"/>
+        <location filename="../UI/winmain.ui" line="461"/>
         <source>Connect</source>
         <translation>Połącz</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="493"/>
+        <location filename="../UI/winmain.ui" line="470"/>
         <source>Disconnect</source>
         <translation>Rozłącz</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="502"/>
+        <location filename="../UI/winmain.ui" line="479"/>
         <source>Connect To</source>
         <translation>Połącz z</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="511"/>
+        <location filename="../UI/winmain.ui" line="488"/>
         <source>Exit After Transfers</source>
         <translation>Zamknij po zakończeniu transferów</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="523"/>
-        <location filename="../UI/winmain.cpp" line="200"/>
-        <location filename="../UI/winmain.cpp" line="402"/>
-        <location filename="../UI/winmain.cpp" line="559"/>
+        <location filename="../UI/winmain.ui" line="500"/>
         <source>Chat</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="538"/>
-        <location filename="../UI/winmain.ui" line="541"/>
-        <location filename="../UI/winmain.cpp" line="205"/>
-        <location filename="../UI/winmain.cpp" line="407"/>
-        <location filename="../UI/winmain.cpp" line="568"/>
+        <location filename="../UI/winmain.ui" line="515"/>
+        <location filename="../UI/winmain.ui" line="518"/>
         <source>Host Cache</source>
         <translation>Cache Hostów</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="556"/>
-        <location filename="../UI/winmain.cpp" line="210"/>
-        <location filename="../UI/winmain.cpp" line="412"/>
-        <location filename="../UI/winmain.cpp" line="577"/>
+        <location filename="../UI/winmain.ui" line="533"/>
         <source>Discovery</source>
-        <translation type="unfinished">Odnajdywanie (discovery)</translation>
+        <translation>Odnajdywanie (discovery)</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="571"/>
-        <location filename="../UI/winmain.cpp" line="220"/>
-        <location filename="../UI/winmain.cpp" line="422"/>
-        <location filename="../UI/winmain.cpp" line="595"/>
+        <location filename="../UI/winmain.ui" line="548"/>
         <source>Graph</source>
         <translation>Wykres</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="586"/>
-        <location filename="../UI/winmain.cpp" line="225"/>
-        <location filename="../UI/winmain.cpp" line="427"/>
-        <location filename="../UI/winmain.cpp" line="604"/>
+        <location filename="../UI/winmain.ui" line="563"/>
         <source>Packet Dump</source>
         <translation>Zrzut pakietów</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="601"/>
-        <location filename="../UI/winmain.cpp" line="235"/>
-        <location filename="../UI/winmain.cpp" line="437"/>
-        <location filename="../UI/winmain.cpp" line="622"/>
+        <location filename="../UI/winmain.ui" line="578"/>
         <source>Hit Monitor</source>
         <translation>Monitor trafień</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="616"/>
-        <location filename="../UI/winmain.cpp" line="230"/>
-        <location filename="../UI/winmain.cpp" line="432"/>
-        <location filename="../UI/winmain.cpp" line="613"/>
+        <location filename="../UI/winmain.ui" line="593"/>
         <source>Search Monitor</source>
         <translation>Monitor wyszukiwań</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="628"/>
-        <location filename="../UI/winmain.ui" line="631"/>
+        <location filename="../UI/winmain.ui" line="605"/>
+        <location filename="../UI/winmain.ui" line="608"/>
         <source>Edit Shared Folders</source>
         <translation>Edytuj udostępnione foldery</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="640"/>
+        <location filename="../UI/winmain.ui" line="617"/>
         <source>Download File</source>
         <translation>Pobierz plik</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="649"/>
+        <location filename="../UI/winmain.ui" line="626"/>
         <source>Import Partials</source>
         <translation>Importuj pliki częściowe</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="658"/>
+        <location filename="../UI/winmain.ui" line="635"/>
         <source>Open Download Folder</source>
         <translation>Otwórz folder pobierania</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="667"/>
+        <location filename="../UI/winmain.ui" line="644"/>
         <source>Choose Skin</source>
         <translation>Wybierz skórkę</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="676"/>
+        <location filename="../UI/winmain.ui" line="653"/>
         <source>Choose Language</source>
         <translation>Wybierz język / Choose Language</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="685"/>
+        <location filename="../UI/winmain.ui" line="662"/>
         <source>Quickstart Wizard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="694"/>
+        <location filename="../UI/winmain.ui" line="671"/>
         <source>User&apos;s Guide</source>
         <translation>Podręcznik użytkownika</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="703"/>
+        <location filename="../UI/winmain.ui" line="680"/>
         <source>FAQ</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="712"/>
+        <location filename="../UI/winmain.ui" line="689"/>
         <source>Connection Test</source>
         <translation>Test połączenia</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="721"/>
+        <location filename="../UI/winmain.ui" line="698"/>
         <source>Check For New Version</source>
         <translation>Sprawdź czy jest nowa wersja</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="730"/>
+        <location filename="../UI/winmain.ui" line="707"/>
         <source>Donate</source>
         <translation>Wsparcie projektu</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="739"/>
+        <location filename="../UI/winmain.ui" line="716"/>
         <source>Quazaa Forums</source>
         <translation>Forum Quazaa</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="751"/>
+        <location filename="../UI/winmain.ui" line="728"/>
         <source>Ares</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="763"/>
-        <location filename="../UI/winmain.ui" line="766"/>
-        <location filename="../UI/winmain.cpp" line="215"/>
-        <location filename="../UI/winmain.cpp" line="417"/>
-        <location filename="../UI/winmain.cpp" line="586"/>
+        <location filename="../UI/winmain.ui" line="740"/>
+        <location filename="../UI/winmain.ui" line="743"/>
         <source>Scheduler</source>
         <translation>Harmonogram</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="775"/>
-        <location filename="../UI/winmain.ui" line="778"/>
+        <location filename="../UI/winmain.ui" line="752"/>
+        <location filename="../UI/winmain.ui" line="755"/>
         <source>Show/Hide Quazaa</source>
         <translation>Pokż/Ukryj Quazaa</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="787"/>
+        <location filename="../UI/winmain.ui" line="764"/>
         <source>Edit My Profile</source>
         <translation>Edytuj Profil</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="796"/>
+        <location filename="../UI/winmain.ui" line="773"/>
         <source>New Search</source>
         <translation>Szukaj</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="799"/>
+        <location filename="../UI/winmain.ui" line="776"/>
         <source>Start A New Search</source>
         <translation>Rozpocznij nowe wyszukiwanie</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="812"/>
-        <location filename="../UI/winmain.ui" line="815"/>
+        <location filename="../UI/winmain.ui" line="789"/>
+        <location filename="../UI/winmain.ui" line="792"/>
         <source>Play</source>
         <translation>Odtwarzaj</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="824"/>
+        <location filename="../UI/winmain.ui" line="801"/>
         <source>Open Media</source>
         <translation>Otwórz...</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="836"/>
-        <location filename="../UI/winmain.ui" line="839"/>
+        <location filename="../UI/winmain.ui" line="813"/>
+        <location filename="../UI/winmain.ui" line="816"/>
         <source>Rewind</source>
         <translation>Do tyłu</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="851"/>
+        <location filename="../UI/winmain.ui" line="828"/>
         <source>Next Track</source>
         <translation>Następna ścieżka</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="860"/>
-        <location filename="../UI/winmain.ui" line="863"/>
+        <location filename="../UI/winmain.ui" line="837"/>
+        <location filename="../UI/winmain.ui" line="840"/>
         <source>Browse Host</source>
         <translation>Przeglądaj Hosta</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="875"/>
+        <location filename="../UI/winmain.ui" line="852"/>
         <source>Stop Media</source>
         <translation>Zatrzymaj</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="887"/>
-        <location filename="../UI/winmain.ui" line="890"/>
+        <location filename="../UI/winmain.ui" line="864"/>
+        <location filename="../UI/winmain.ui" line="867"/>
         <source>Repeat</source>
         <translation>Powtarzaj</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="902"/>
-        <location filename="../UI/winmain.ui" line="905"/>
+        <location filename="../UI/winmain.ui" line="879"/>
+        <location filename="../UI/winmain.ui" line="882"/>
         <source>Shuffle</source>
         <translation>Losowo</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="926"/>
-        <location filename="../UI/winmain.ui" line="929"/>
+        <location filename="../UI/winmain.ui" line="903"/>
+        <location filename="../UI/winmain.ui" line="906"/>
         <source>Mute</source>
         <translation>Wycisz</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="938"/>
+        <location filename="../UI/winmain.ui" line="915"/>
         <source>New Private Message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.ui" line="941"/>
+        <location filename="../UI/winmain.ui" line="918"/>
         <source>Chat With</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="92"/>
-        <source>Current IP:</source>
-        <translation type="unfinished"></translation>
+        <location filename="../UI/winmain.ui" line="927"/>
+        <source>About Qt</source>
+        <translation type="unfinished">O Qt</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="94"/>
-        <location filename="../UI/winmain.cpp" line="934"/>
-        <source>Unknown</source>
-        <translation>Nieznane</translation>
-    </message>
-    <message>
-        <location filename="../UI/winmain.cpp" line="97"/>
-        <source>Copy Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/winmain.cpp" line="104"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt; &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Segoe UI&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TCP: &lt;img src=&quot;:/Resource/Network/ShieldRed.png&quot; /&gt; UDP: &lt;img src=&quot;:/Resource/Network/ShieldRed.png&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/winmain.cpp" line="457"/>
         <source>Closing Networks...</source>
-        <translation>Zamykanie sieci...</translation>
+        <translation type="obsolete">Zamykanie sieci...</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="464"/>
         <source>Saving Settings...</source>
-        <translation>Zapisywanie ustawień...</translation>
+        <translation type="obsolete">Zapisywanie ustawień...</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="467"/>
         <source>Saving UI...</source>
-        <translation>Zapisywanie UI...</translation>
+        <translation type="obsolete">Zapisywanie UI...</translation>
     </message>
     <message>
-        <location filename="../UI/winmain.cpp" line="487"/>
         <source>Removing Tray Icon...</source>
-        <translation>Usuwanie ikony systemowej...</translation>
-    </message>
-    <message>
-        <location filename="../UI/winmain.cpp" line="854"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt; &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Segoe UI&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TCP: &lt;img src=&quot;%1&quot; /&gt; UDP: &lt;img src=&quot;%2&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/winmain.cpp" line="855"/>
-        <source>%1/s In:%2/s Out [D:%3/U:%4]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/winmain.cpp" line="937"/>
-        <source>Unknown IP Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UI/winmain.cpp" line="937"/>
-        <source>The current IP Address is unknown and cannot be copied to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Usuwanie ikony systemowej...</translation>
     </message>
 </context>
 <context>
@@ -7565,7 +8144,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/wizardquickstart.ui" line="81"/>
         <source>Connection</source>
-        <translation>Połączenie</translation>
+        <translation type="unfinished">Połączenie</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="84"/>
@@ -7590,7 +8169,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../UI/wizardquickstart.ui" line="121"/>
         <location filename="../UI/wizardquickstart.ui" line="146"/>
         <source> kbps</source>
-        <translation> kbps</translation>
+        <translation type="unfinished"> kbps</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="143"/>
@@ -7600,12 +8179,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/wizardquickstart.ui" line="177"/>
         <source>Port</source>
-        <translation>Port</translation>
+        <translation type="unfinished">Port</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="196"/>
         <source>Random</source>
-        <translation>Losowo</translation>
+        <translation type="unfinished">Losowo</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="203"/>
@@ -7615,7 +8194,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/wizardquickstart.ui" line="221"/>
         <source>Shares</source>
-        <translation>Udziały</translation>
+        <translation type="unfinished">Udziały</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="224"/>
@@ -7655,7 +8234,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/wizardquickstart.ui" line="318"/>
         <source>Community</source>
-        <translation>Społeczność</translation>
+        <translation type="unfinished">Społeczność</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="321"/>
@@ -7702,12 +8281,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/wizardquickstart.ui" line="410"/>
         <source>Male</source>
-        <translation>Male</translation>
+        <translation type="unfinished">Male</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="415"/>
         <source>Female</source>
-        <translation>rodzaju żeńskiego</translation>
+        <translation type="unfinished">rodzaju żeńskiego</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="420"/>
@@ -7722,22 +8301,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/wizardquickstart.ui" line="456"/>
         <source>Location</source>
-        <translation>Położenie</translation>
+        <translation type="unfinished">Położenie</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="462"/>
         <source>Country</source>
-        <translation>Country</translation>
+        <translation type="unfinished">Country</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="469"/>
         <source>City</source>
-        <translation>Miasto</translation>
+        <translation type="unfinished">Miasto</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="476"/>
         <source>State/Province</source>
-        <translation>Województwo/Stan</translation>
+        <translation type="unfinished">Województwo/Stan</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="496"/>
@@ -7782,7 +8361,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../UI/wizardquickstart.ui" line="557"/>
         <source>System</source>
-        <translation>System</translation>
+        <translation type="unfinished">System</translation>
     </message>
     <message>
         <location filename="../UI/wizardquickstart.ui" line="560"/>
@@ -7822,7 +8401,7 @@ Enjoy using Quazaa!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UI/wizardquickstart.cpp" line="125"/>
+        <location filename="../UI/wizardquickstart.cpp" line="129"/>
         <source>Select A Folder To Share</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7847,22 +8426,22 @@ Enjoy using Quazaa!</source>
     <message>
         <location filename="../UI/mediasettings.ui" line="62"/>
         <source>Auto</source>
-        <translation>Auto</translation>
+        <translation type="unfinished">Auto</translation>
     </message>
     <message>
         <location filename="../UI/mediasettings.ui" line="67"/>
         <source>Stretch</source>
-        <translation>Rozciągnij</translation>
+        <translation type="unfinished">Rozciągnij</translation>
     </message>
     <message>
         <location filename="../UI/mediasettings.ui" line="72"/>
         <source>4/3</source>
-        <translation type="unfinished">4/3</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/mediasettings.ui" line="77"/>
         <source>16/9</source>
-        <translation type="unfinished">16/9</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../UI/mediasettings.ui" line="85"/>
@@ -7912,7 +8491,7 @@ Enjoy using Quazaa!</source>
     <message>
         <location filename="../UI/mediasettings.ui" line="295"/>
         <source>0</source>
-        <translation>0</translation>
+        <translation type="unfinished">0</translation>
     </message>
     <message>
         <location filename="../UI/mediasettings.ui" line="320"/>

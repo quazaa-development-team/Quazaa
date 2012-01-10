@@ -195,7 +195,8 @@ void CDownloadsTreeModel::onDownloadAdded(CDownload *pDownload)
 
 CDownloadsItemBase::CDownloadsItemBase(QObject *parent)
 	: QObject(parent),
-	  parentItem(0)
+	  parentItem(0),
+	  m_bChanged(false)
 {
 }
 
@@ -250,6 +251,7 @@ CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CD
 	parentItem = parent;
 
 	connect(download, SIGNAL(sourceAdded(CDownloadSource*)), this, SLOT(onSourceAdded(CDownloadSource*)), Qt::QueuedConnection);
+	connect(download, SIGNAL(stateChanged(int)), this, SLOT(onStateChanged(int)), Qt::QueuedConnection);
 
 	m_sName = download->m_sDisplayName;
 	m_nSize = download->m_nSize;
@@ -293,7 +295,28 @@ QVariant CDownloadItem::data(int column) const
 				return formatBytes(m_nBandwidth).append("/s");
 		break;
 	case CDownloadsTreeModel::STATUS:
-			return m_nStatus;
+			switch( m_nStatus )
+			{
+				case CDownload::dsQueued:
+					return tr("Queued");
+				case CDownload::dsPaused:
+					return tr("Paused");
+				case CDownload::dsSearching:
+					return tr("Searching");
+				case CDownload::dsPending:
+					return tr("Pending");
+				case CDownload::dsDownloading:
+					return tr("Downloading");
+				case CDownload::dsVerifying:
+					return tr("Verifying");
+				case CDownload::dsMoving:
+					return tr("Moving");
+				case CDownload::dsFileError:
+					return tr("File Error");
+				case CDownload::dsCompleted:
+					return tr("Completed");
+			}
+			return tr("Unknown"); // should not happen, but...
 		break;
 	case CDownloadsTreeModel::PRIORITY:
 			switch(m_nPriority)
@@ -315,7 +338,11 @@ QVariant CDownloadItem::data(int column) const
 
 		break;
 	case CDownloadsTreeModel::CLIENT:
-			return QVariant();
+			if( childCount() )
+			{
+				return QString(tr("(%n source(s))", "", childCount()));
+			}
+			return tr("(No Sources)");
 		break;
 	case CDownloadsTreeModel::COMPLETED:
 			return formatBytes(m_nCompleted);
@@ -341,6 +368,12 @@ void CDownloadItem::onSourceAdded(CDownloadSource *pSource)
 		appendChild(pItem);
 		m_pModel->endInsertRows();
 	}
+}
+
+void CDownloadItem::onStateChanged(int state)
+{
+	m_nStatus = state;
+	m_bChanged = true;
 }
 
 CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownloadsItemBase *parent, QObject *parentQObject)
