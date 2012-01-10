@@ -68,8 +68,11 @@ public:
 	bool addSource(CDownloadSource* pSource);
 	int  addSource(CQueryHit* pHit);
 	bool sourceExists(CDownloadSource* pSource);
+protected:
+	void setState(CDownload::DownloadState state);
 signals:
 	void sourceAdded(CDownloadSource*);
+	void stateChanged(int);
 public slots:
 	void emitSources();
 };

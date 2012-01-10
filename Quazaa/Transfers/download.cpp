@@ -197,7 +197,7 @@ CDownload::CDownload(CQueryHit* pHit, QObject *parent) :
 
 	nSources = addSource(pHit);
 
-	m_nState = dsQueued;
+	setState(dsQueued);
 
 	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Created download for %s with %d sources.")), qPrintable(m_sDisplayName), nSources);
 }
@@ -270,6 +270,12 @@ int CDownload::addSource(CQueryHit *pHit)
 bool CDownload::sourceExists(CDownloadSource *pSource)
 {
 	return (m_lSources.indexOf(pSource) != -1);
+}
+
+void CDownload::setState(CDownload::DownloadState state)
+{
+	m_nState = state;
+	emit stateChanged(state);
 }
 
 // Invoked by download model

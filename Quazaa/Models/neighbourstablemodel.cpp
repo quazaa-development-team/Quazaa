@@ -600,11 +600,11 @@ void CNeighboursTableModel::UpdateAll()
 	{
 		if(!uplist.isEmpty())
 		{
-			foreach(QModelIndex idx, uplist)
-			{
-				QAbstractItemView* pView = qobject_cast<QAbstractItemView*>(m_oContainer);
+			QAbstractItemView* pView = qobject_cast<QAbstractItemView*>(m_oContainer);
 
-				if(pView)
+			if( pView )
+			{
+				foreach(QModelIndex idx, uplist)
 				{
 					pView->update(idx);
 				}

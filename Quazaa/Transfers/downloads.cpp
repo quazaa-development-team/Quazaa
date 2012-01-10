@@ -42,6 +42,7 @@ CDownloads::CDownloads(QObject *parent) :
 {
 	qRegisterMetaType<CDownload*>("CDownload*");
 	qRegisterMetaType<CDownloadSource*>("CDownloadSource*");
+	qRegisterMetaType<CDownload::DownloadState>("CDownload::DownloadState");
 }
 
 void CDownloads::add(CQueryHit *pHit)

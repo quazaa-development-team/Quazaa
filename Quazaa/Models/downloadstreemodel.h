@@ -50,6 +50,8 @@ public:
 	virtual int row() const;
 	virtual CDownloadsItemBase* parent();
 
+	bool m_bChanged;
+
 protected:
 	CDownloadsItemBase* parentItem;
 	QList<CDownloadsItemBase*> childItems;
@@ -79,6 +81,7 @@ protected:
 	CDownloadsTreeModel* m_pModel;
 public slots:
 	void onSourceAdded(CDownloadSource* pSource);
+	void onStateChanged(int state);
 };
 
 class CDownloadSourceItem : public CDownloadsItemBase
