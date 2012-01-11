@@ -279,22 +279,18 @@ QVariant CDownloadItem::data(int column) const
 {
 	switch(column)
 	{
-	case CDownloadsTreeModel::NAME:
+		case CDownloadsTreeModel::NAME:
 			return m_sName;
-		break;
-	case CDownloadsTreeModel::SIZE:
+		case CDownloadsTreeModel::SIZE:
 			return formatBytes(m_nSize);
-		break;
-	case CDownloadsTreeModel::PROGRESS:
+		case CDownloadsTreeModel::PROGRESS:
 			return m_nProgress;
-		break;
-	case CDownloadsTreeModel::BANDWIDTH:
+		case CDownloadsTreeModel::BANDWIDTH:
 			if(m_nBandwidth == 0)
 				return QVariant();
 			else
 				return formatBytes(m_nBandwidth).append("/s");
-		break;
-	case CDownloadsTreeModel::STATUS:
+		case CDownloadsTreeModel::STATUS:
 			switch( m_nStatus )
 			{
 				case CDownload::dsQueued:
@@ -317,8 +313,7 @@ QVariant CDownloadItem::data(int column) const
 					return tr("Completed");
 			}
 			return tr("Unknown"); // should not happen, but...
-		break;
-	case CDownloadsTreeModel::PRIORITY:
+		case CDownloadsTreeModel::PRIORITY:
 			switch(m_nPriority)
 			{
 				case CDownload::LOW:
@@ -335,24 +330,18 @@ QVariant CDownloadItem::data(int column) const
 					else
 						return tr("Unknown"); // not possible, but...
 			}
-
-		break;
-	case CDownloadsTreeModel::CLIENT:
+		case CDownloadsTreeModel::CLIENT:
 			if( childCount() )
 			{
 				return QString(tr("(%n source(s))", "", childCount()));
 			}
 			return tr("(No Sources)");
-		break;
-	case CDownloadsTreeModel::COMPLETED:
+		case CDownloadsTreeModel::COMPLETED:
 			return formatBytes(m_nCompleted);
-		break;
-	case CDownloadsTreeModel::COUNTRY:
+		case CDownloadsTreeModel::COUNTRY:
 			return QVariant();
-		break;
-	default:
+		default:
 			return QVariant();
-		break;
 
 	}
 }

@@ -45,16 +45,19 @@ WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	ui->treeViewDownloads->setItemDelegate(new CDownloadsItemDelegate(this));
 
 	// Set up header sizes
-	QFontMetrics fm = ui->treeViewDownloads->fontMetrics();
-	QHeaderView* header = ui->treeViewDownloads->header();
-	header->resizeSection(CDownloadsTreeModel::NAME, fm.width("a-typical-name-of-mp3-or-movie-or-xxx-or-other-porn.avi"));
-	header->resizeSection(CDownloadsTreeModel::SIZE, fm.width(" 123.45 MB "));
-	header->resizeSection(CDownloadsTreeModel::COMPLETED, fm.width(" 1234.45 MB "));
-	header->resizeSection(CDownloadsTreeModel::BANDWIDTH, fm.width(" 1234.45 MB/s "));
-	header->resizeSection(CDownloadsTreeModel::CLIENT, fm.width(QuazaaGlobals::USER_AGENT_STRING()));
-	header->resizeSection(CDownloadsTreeModel::PROGRESS, 200);
-	header->resizeSection(CDownloadsTreeModel::PRIORITY, fm.width("    Priority    "));
-	header->resizeSection(CDownloadsTreeModel::STATUS, fm.width("Tracker Down"));
+	if(!ui->treeViewDownloads->header()->restoreState(quazaaSettings.WinMain.DownloadsHeader))
+	{
+		QFontMetrics fm = ui->treeViewDownloads->fontMetrics();
+		QHeaderView* header = ui->treeViewDownloads->header();
+		header->resizeSection(CDownloadsTreeModel::NAME, fm.width("a-typical-name-of-mp3-or-movie-or-xxx-or-other-porn.avi"));
+		header->resizeSection(CDownloadsTreeModel::SIZE, fm.width(" 123.45 MB "));
+		header->resizeSection(CDownloadsTreeModel::COMPLETED, fm.width(" 1234.45 MB "));
+		header->resizeSection(CDownloadsTreeModel::BANDWIDTH, fm.width(" 1234.45 MB/s "));
+		header->resizeSection(CDownloadsTreeModel::CLIENT, fm.width(QuazaaGlobals::USER_AGENT_STRING()));
+		header->resizeSection(CDownloadsTreeModel::PROGRESS, 200);
+		header->resizeSection(CDownloadsTreeModel::PRIORITY, fm.width("    Priority    "));
+		header->resizeSection(CDownloadsTreeModel::STATUS, fm.width("Tracker Down"));
+	}
 
 	restoreState(quazaaSettings.WinMain.DownloadsToolbar);
 }
@@ -81,5 +84,6 @@ void WidgetDownloads::changeEvent(QEvent* e)
 void WidgetDownloads::saveWidget()
 {
 	quazaaSettings.WinMain.DownloadsToolbar = saveState();
+	quazaaSettings.WinMain.DownloadsHeader = ui->treeViewDownloads->header()->saveState();
 }
 

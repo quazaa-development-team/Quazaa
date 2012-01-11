@@ -1078,6 +1078,7 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("ChatToolbars", quazaaSettings.WinMain.ChatToolbars);
 	m_qSettings.setValue("DiscoveryToolbar", quazaaSettings.WinMain.DiscoveryToolbar);
 	m_qSettings.setValue("DownloadsToolbar", quazaaSettings.WinMain.DownloadsToolbar);
+	m_qSettings.setValue("DownloadsHeader", quazaaSettings.WinMain.DownloadsHeader);
 	m_qSettings.setValue("GraphSplitter", quazaaSettings.WinMain.GraphSplitter);
 	m_qSettings.setValue("GraphSplitterRestoreLeft", quazaaSettings.WinMain.GraphSplitterRestoreLeft);
 	m_qSettings.setValue("GraphSplitterRestoreRight", quazaaSettings.WinMain.GraphSplitterRestoreRight);
@@ -1157,6 +1158,7 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.ChatToolbars = m_qSettings.value("ChatToolbars", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DiscoveryToolbar = m_qSettings.value("DiscoveryToolbar", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DownloadsToolbar = m_qSettings.value("DownloadsToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.DownloadsHeader = m_qSettings.value("DownloadsHeader", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.GraphSplitter = m_qSettings.value("GraphSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.GraphToolbar = m_qSettings.value("GraphToolbar", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.HomeLibraryTaskVisible = m_qSettings.value("HomeLibraryTaskVisible", true).toBool();

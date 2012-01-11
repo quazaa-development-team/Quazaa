@@ -48,6 +48,8 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	securityMenu->addAction(ui->actionSecurityRemoveRule);
 	securityMenu->addAction(ui->actionSecurityExportRules);
 
+	tableView()->setContextMenuPolicy(Qt::CustomContextMenu);
+
 	restoreState( quazaaSettings.WinMain.SecurityToolbars );
 
 	m_pSecurityList = new CSecurityTableModel( this, tableView() );
@@ -150,5 +152,5 @@ void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoint &pos)
 {
 	Q_UNUSED( pos );
-	securityMenu->exec( QCursor::pos() );
+	securityMenu->popup( QCursor::pos() );
 }

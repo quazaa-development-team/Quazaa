@@ -72,6 +72,7 @@ namespace Settings
 		QByteArray	ChatToolbars;				// Chat Toolbars
 		QByteArray	DiscoveryToolbar;			// DiscoveryToolbar
 		QByteArray	DownloadsToolbar;			// Downloads Toolbar
+		QByteArray	DownloadsHeader;			// Downloads header
 		QByteArray	GraphSplitter;				// Graph splitter position
 		int			GraphSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
 		int			GraphSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
