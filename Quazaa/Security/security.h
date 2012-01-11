@@ -222,6 +222,8 @@ namespace security
 		bool			isDenied(const QString& strContent);
 		bool			isDenied(const CFile& oFile);
 		bool			isDenied(const QList<QString>& lQuery, const QString& strContent);
+
+		inline CSecurityRuleList::iterator getRWIterator(CIterator const_it);
 	};
 
 	unsigned int CSecurity::getCount() const
@@ -246,6 +248,15 @@ namespace security
 
 		if ( bLockRequired )
 			m_pRWLock.unlock();
+	}
+
+	CSecurity::CSecurityRuleList::iterator CSecurity::getRWIterator(CIterator const_it)
+	{
+		CSecurityRuleList::iterator i = m_Rules.begin();
+		CIterator const_begin = m_Rules.begin();
+		int nDistance = std::distance< CIterator >( const_begin, const_it );
+		std::advance( i, nDistance );
+		return i;
 	}
 }
 
