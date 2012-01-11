@@ -79,7 +79,6 @@ QDataStream& operator>>(QDataStream& s, CDownloadSource& rhs)
 
 		while( sTag != "download-source-end" && s.status() == QDataStream::Ok )
 		{
-			qDebug() << sTag;
 			if( sTag == "address")
 			{
 				s >> rhs.m_oAddress;
