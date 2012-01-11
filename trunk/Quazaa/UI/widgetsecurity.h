@@ -25,7 +25,7 @@
 #ifndef WIDGETSECURITY_H
 #define WIDGETSECURITY_H
 
-#include <QMainWindow>
+#include <QtGui>
 #include <QAbstractItemModel>
 
 class CSecurityTableModel;
@@ -54,6 +54,7 @@ protected:
 
 private:
 	Ui::WidgetSecurity* ui;
+	QMenu* securityMenu;
 
 signals:
 
@@ -67,6 +68,7 @@ private slots:
 	void on_actionSecurityImportRules_triggered();
 	void on_actionSecurityExportRules_triggered();
 	void on_actionSubscribeSecurityList_triggered();
+	void on_tableViewSecurity_customContextMenuRequested(const QPoint &pos);
 };
 
 #endif // WIDGETSECURITY_H

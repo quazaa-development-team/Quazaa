@@ -433,7 +433,7 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 	}
 
 	// Make sure we don't recieve any signals we don't want once we got all rules once.
-	if ( m_lNodes.size() == securityManager.getCount() )
+	if ( m_lNodes.size() == (int)securityManager.getCount() )
 		disconnect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ),
 					this, SLOT( addRule( CSecureRule* ) ) );
 }

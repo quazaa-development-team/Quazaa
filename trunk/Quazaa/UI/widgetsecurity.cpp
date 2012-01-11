@@ -42,6 +42,12 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	ui( new Ui::WidgetSecurity )
 {
 	ui->setupUi( this );
+
+	securityMenu = new QMenu(ui->tableViewSecurity);
+	securityMenu->addAction(ui->actionSecurityModifyRule);
+	securityMenu->addAction(ui->actionSecurityRemoveRule);
+	securityMenu->addAction(ui->actionSecurityExportRules);
+
 	restoreState( quazaaSettings.WinMain.SecurityToolbars );
 
 	m_pSecurityList = new CSecurityTableModel( this, tableView() );
@@ -139,4 +145,10 @@ void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 {
 	DialogSecuritySubscriptions* dlgSecuritySubscriptions = new DialogSecuritySubscriptions( this );
 	dlgSecuritySubscriptions->show();
+}
+
+void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoint &pos)
+{
+	Q_UNUSED( pos );
+	securityMenu->exec( QCursor::pos() );
 }
