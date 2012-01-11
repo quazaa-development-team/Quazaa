@@ -1808,7 +1808,8 @@ void CSecurity::remove(CIterator it)
 	m_bSaved = false;
 
 	// Remove rule entry from list of all rules
-	m_Rules.erase( common::getRWIterator<CSecurityRuleList>( m_Rules, it ) );
+	// m_Rules.erase( common::getRWIterator<CSecurityRuleList>( m_Rules, it ) );
+	m_Rules.erase( getRWIterator( it ) );
 
 	emit ruleRemoved( QSharedPointer<CSecureRule>( pRule ) );
 }
