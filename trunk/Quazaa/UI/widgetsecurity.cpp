@@ -147,9 +147,9 @@ void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 	dlgSecuritySubscriptions->show();
 }
 
-void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoint &)
+void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoint& point)
 {
-	QModelIndex index = ui->tableViewSecurity->currentIndex();
+	QModelIndex index = ui->tableViewSecurity->indexAt( point );
 
 	if ( index.isValid() )
 	{
@@ -167,13 +167,27 @@ void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoin
 	securityMenu->popup( QCursor::pos() );
 }
 
-void WidgetSecurity::on_tableViewSecurity_doubleClicked(const QModelIndex &)
+void WidgetSecurity::on_tableViewSecurity_doubleClicked(const QModelIndex& index)
 {
-	QModelIndex index = ui->tableViewSecurity->currentIndex();
-
 	if ( index.isValid() )
 	{
 		on_actionSecurityModifyRule_triggered();
+	}
+	else
+	{
+		ui->actionSecurityExportRules->setEnabled( false );
+		ui->actionSecurityModifyRule->setEnabled( false );
+		ui->actionSecurityRemoveRule->setEnabled( false );
+	}
+}
+
+void WidgetSecurity::on_tableViewSecurity_clicked(const QModelIndex& index)
+{
+	if ( index.isValid() )
+	{
+		ui->actionSecurityExportRules->setEnabled( true );
+		ui->actionSecurityModifyRule->setEnabled( true );
+		ui->actionSecurityRemoveRule->setEnabled( true );
 	}
 	else
 	{

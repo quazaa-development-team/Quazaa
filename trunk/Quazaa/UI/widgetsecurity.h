@@ -70,6 +70,7 @@ private slots:
 	void on_actionSubscribeSecurityList_triggered();
 	void on_tableViewSecurity_customContextMenuRequested(const QPoint &pos);
 	void on_tableViewSecurity_doubleClicked(const QModelIndex &index);
+	void on_tableViewSecurity_clicked(const QModelIndex &index);
 };
 
 #endif // WIDGETSECURITY_H
