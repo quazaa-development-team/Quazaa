@@ -41,7 +41,10 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	m_ui->comboBoxRuleType->setView( new QListView() );
 
 	if ( pRule )
+	{
 		m_pRule = pRule->getCopy();
+		m_ui->lineEditComment->setText( m_pRule->m_sComment );
+	}
 	else
 		m_pRule = new CIPRule();
 

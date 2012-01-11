@@ -48,8 +48,6 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	securityMenu->addAction(ui->actionSecurityRemoveRule);
 	securityMenu->addAction(ui->actionSecurityExportRules);
 
-	tableView()->setContextMenuPolicy(Qt::CustomContextMenu);
-
 	restoreState( quazaaSettings.WinMain.SecurityToolbars );
 
 	m_pSecurityList = new CSecurityTableModel( this, tableView() );
@@ -149,8 +147,38 @@ void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 	dlgSecuritySubscriptions->show();
 }
 
-void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoint &pos)
+void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoint &)
 {
-	Q_UNUSED( pos );
+	QModelIndex index = ui->tableViewSecurity->currentIndex();
+
+	if ( index.isValid() )
+	{
+		ui->actionSecurityExportRules->setEnabled( true );
+		ui->actionSecurityModifyRule->setEnabled( true );
+		ui->actionSecurityRemoveRule->setEnabled( true );
+	}
+	else
+	{
+		ui->actionSecurityExportRules->setEnabled( false );
+		ui->actionSecurityModifyRule->setEnabled( false );
+		ui->actionSecurityRemoveRule->setEnabled( false );
+	}
+
 	securityMenu->popup( QCursor::pos() );
+}
+
+void WidgetSecurity::on_tableViewSecurity_doubleClicked(const QModelIndex &)
+{
+	QModelIndex index = ui->tableViewSecurity->currentIndex();
+
+	if ( index.isValid() )
+	{
+		on_actionSecurityModifyRule_triggered();
+	}
+	else
+	{
+		ui->actionSecurityExportRules->setEnabled( false );
+		ui->actionSecurityModifyRule->setEnabled( false );
+		ui->actionSecurityRemoveRule->setEnabled( false );
+	}
 }
