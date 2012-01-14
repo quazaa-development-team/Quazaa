@@ -38,9 +38,9 @@
 
 WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget* parent) :
 	QWidget(parent),
-	m_ui(new Ui::WidgetSearchTemplate)
+	ui(new Ui::WidgetSearchTemplate)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 	sSearchString = searchString;
 	m_pSearch = 0;
 	nFiles = 0;
@@ -51,14 +51,14 @@ WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget* parent
 	sortModel = new QSortFilterProxyModel(this);
 	searchModel = new SearchTreeModel();
 	sortModel->setSourceModel(searchModel);
-	m_ui->treeViewSearchResults->setModel(sortModel);
+	ui->treeViewSearchResults->setModel(sortModel);
 	sortModel->setDynamicSortFilter(false);
 	connect(searchModel, SIGNAL(sort()), this, SLOT(Sort()));
 	connect(searchModel, SIGNAL(updateStats()), this, SLOT(OnStatsUpdated()));
 	loadHeaderState();
-	connect(m_ui->treeViewSearchResults->header(), SIGNAL(sectionMoved(int,int,int)), this, SLOT(saveHeaderState()));
-	connect(m_ui->treeViewSearchResults->header(), SIGNAL(sectionResized(int,int,int)), this, SLOT(saveHeaderState()));
-	connect(m_ui->treeViewSearchResults->header(), SIGNAL(sectionClicked(int)), this, SLOT(saveHeaderState()));
+	connect(ui->treeViewSearchResults->header(), SIGNAL(sectionMoved(int,int,int)), this, SLOT(saveHeaderState()));
+	connect(ui->treeViewSearchResults->header(), SIGNAL(sectionResized(int,int,int)), this, SLOT(saveHeaderState()));
+	connect(ui->treeViewSearchResults->header(), SIGNAL(sectionClicked(int)), this, SLOT(saveHeaderState()));
 }
 
 WidgetSearchTemplate::~WidgetSearchTemplate()
@@ -69,7 +69,7 @@ WidgetSearchTemplate::~WidgetSearchTemplate()
 	}
 
 	delete searchModel;
-	delete m_ui;
+	delete ui;
 }
 
 void WidgetSearchTemplate::changeEvent(QEvent* e)
@@ -78,7 +78,7 @@ void WidgetSearchTemplate::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -143,7 +143,7 @@ void WidgetSearchTemplate::OnStatsUpdated()
 
 QModelIndex WidgetSearchTemplate::CurrentItem()
 {
-	QModelIndex idx = m_ui->treeViewSearchResults->currentIndex();
+	QModelIndex idx = ui->treeViewSearchResults->currentIndex();
 	const QSortFilterProxyModel* pModel = static_cast<const QSortFilterProxyModel*>(idx.model());
 	return pModel->mapToSource(idx);
 }
@@ -180,11 +180,11 @@ void WidgetSearchTemplate::Sort()
 
 void WidgetSearchTemplate::saveHeaderState()
 {
-	quazaaSettings.WinMain.SearchHeader = m_ui->treeViewSearchResults->header()->saveState();
+	quazaaSettings.WinMain.SearchHeader = ui->treeViewSearchResults->header()->saveState();
 }
 
 void WidgetSearchTemplate::loadHeaderState()
 {
-	m_ui->treeViewSearchResults->header()->restoreState(quazaaSettings.WinMain.SearchHeader);
+	ui->treeViewSearchResults->header()->restoreState(quazaaSettings.WinMain.SearchHeader);
 }
 

@@ -31,14 +31,14 @@
 
 DialogTransferProgressTooltip::DialogTransferProgressTooltip(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogTransferProgressTooltip)
+	ui(new Ui::DialogTransferProgressTooltip)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 DialogTransferProgressTooltip::~DialogTransferProgressTooltip()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogTransferProgressTooltip::changeEvent(QEvent* e)
@@ -47,7 +47,7 @@ void DialogTransferProgressTooltip::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -58,18 +58,18 @@ void DialogTransferProgressTooltip::updateProgress(int percent, QString transfer
         QString volumeDownloaded, QString numberSources, QPixmap icon,
         QString file, QString size, QString type, QStringList hashes)
 {
-	m_ui->progressBarProgress->setValue(percent);
-	m_ui->labelTransferSpeed->setText(transferSpeed);
-	m_ui->labelTimeRemaining->setText(timeRemaining);
-	m_ui->labelVolumeDownloaded->setText(volumeDownloaded);
-	m_ui->labelNumberSources->setText(numberSources);
-	m_ui->labelFileIcon->setPixmap(icon);
-	m_ui->labelFileName->setText(file);
-	m_ui->labelSize->setText(size);
-	m_ui->labelType->setText(type);
-	m_ui->labelSHA1Hash->setText(hashes.at(0));
-	m_ui->labelTigerTreeHash->setText(hashes.at(1));
-	m_ui->labelED2KHash->setText(hashes.at(2));
-	m_ui->labelMD5Hash->setText(hashes.at(3));
+	ui->progressBarProgress->setValue(percent);
+	ui->labelTransferSpeed->setText(transferSpeed);
+	ui->labelTimeRemaining->setText(timeRemaining);
+	ui->labelVolumeDownloaded->setText(volumeDownloaded);
+	ui->labelNumberSources->setText(numberSources);
+	ui->labelFileIcon->setPixmap(icon);
+	ui->labelFileName->setText(file);
+	ui->labelSize->setText(size);
+	ui->labelType->setText(type);
+	ui->labelSHA1Hash->setText(hashes.at(0));
+	ui->labelTigerTreeHash->setText(hashes.at(1));
+	ui->labelED2KHash->setText(hashes.at(2));
+	ui->labelMD5Hash->setText(hashes.at(3));
 }
 

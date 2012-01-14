@@ -43,7 +43,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogFilterSearch* m_ui;
+	Ui::DialogFilterSearch* ui;
 
 signals:
 	void closed();

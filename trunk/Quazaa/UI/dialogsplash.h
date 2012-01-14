@@ -45,7 +45,7 @@ protected:
 	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogSplash* m_ui;
+	Ui::DialogSplash* ui;
 };
 
 #endif // DIALOGSPLASH_H

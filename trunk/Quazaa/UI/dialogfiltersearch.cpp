@@ -31,14 +31,14 @@
 
 DialogFilterSearch::DialogFilterSearch(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogFilterSearch)
+	ui(new Ui::DialogFilterSearch)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 DialogFilterSearch::~DialogFilterSearch()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogFilterSearch::changeEvent(QEvent* e)
@@ -47,7 +47,7 @@ void DialogFilterSearch::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;

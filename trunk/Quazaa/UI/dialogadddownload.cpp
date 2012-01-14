@@ -31,14 +31,14 @@
 
 DialogAddDownload::DialogAddDownload(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogAddDownload)
+	ui(new Ui::DialogAddDownload)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 DialogAddDownload::~DialogAddDownload()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogAddDownload::changeEvent(QEvent* e)
@@ -47,7 +47,7 @@ void DialogAddDownload::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;

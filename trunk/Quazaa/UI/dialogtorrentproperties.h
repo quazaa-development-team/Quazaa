@@ -43,7 +43,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogTorrentProperties* m_ui;
+	Ui::DialogTorrentProperties* ui;
 
 signals:
 	void closed();

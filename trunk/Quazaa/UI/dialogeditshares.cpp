@@ -34,16 +34,16 @@
 
 DialogEditShares::DialogEditShares(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogEditShares)
+	ui(new Ui::DialogEditShares)
 {
-	m_ui->setupUi(this);
-	m_ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
-	m_ui->pushButtonOk->setEnabled(false);
+	ui->setupUi(this);
+	ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
+	ui->pushButtonOk->setEnabled(false);
 }
 
 DialogEditShares::~DialogEditShares()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogEditShares::changeEvent(QEvent* e)
@@ -51,7 +51,7 @@ void DialogEditShares::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -67,10 +67,10 @@ void DialogEditShares::on_pushButtonCancel_clicked()
 void DialogEditShares::on_pushButtonOk_clicked()
 {
 	quazaaSettings.Library.Shares.clear();
-	for(int m_iSharesRow = 0; m_iSharesRow < m_ui->listWidgetShares->count(); ++m_iSharesRow)
+	for(int m_iSharesRow = 0; m_iSharesRow < ui->listWidgetShares->count(); ++m_iSharesRow)
 	{
-		m_ui->listWidgetShares->setCurrentRow(m_iSharesRow);
-		quazaaSettings.Library.Shares.append(m_ui->listWidgetShares->currentItem()->text());
+		ui->listWidgetShares->setCurrentRow(m_iSharesRow);
+		quazaaSettings.Library.Shares.append(ui->listWidgetShares->currentItem()->text());
 	}
 	quazaaSettings.Library.Shares.removeDuplicates();
 	emit closed();
@@ -86,17 +86,17 @@ void DialogEditShares::on_pushButtonAdd_clicked()
 													 options));
 	if(directory.exists())
 	{
-		m_ui->listWidgetShares->addItem(directory.canonicalPath());
-		m_ui->pushButtonOk->setEnabled(true);
+		ui->listWidgetShares->addItem(directory.canonicalPath());
+		ui->pushButtonOk->setEnabled(true);
 	}
 }
 
 void DialogEditShares::on_pushButtonRemove_clicked()
 {
-	if(m_ui->listWidgetShares->currentRow() != -1)
+	if(ui->listWidgetShares->currentRow() != -1)
 	{
-		m_ui->listWidgetShares->takeItem(m_ui->listWidgetShares->currentRow());
-		m_ui->pushButtonOk->setEnabled(true);
+		ui->listWidgetShares->takeItem(ui->listWidgetShares->currentRow());
+		ui->pushButtonOk->setEnabled(true);
 	}
 }
 

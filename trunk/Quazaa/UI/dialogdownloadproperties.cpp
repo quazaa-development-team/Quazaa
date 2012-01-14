@@ -31,14 +31,14 @@
 
 DialogDownloadProperties::DialogDownloadProperties(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogDownloadProperties)
+	ui(new Ui::DialogDownloadProperties)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 DialogDownloadProperties::~DialogDownloadProperties()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogDownloadProperties::changeEvent(QEvent* e)
@@ -47,7 +47,7 @@ void DialogDownloadProperties::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;

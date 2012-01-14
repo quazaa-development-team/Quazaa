@@ -43,7 +43,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogDownloadProperties* m_ui;
+	Ui::DialogDownloadProperties* ui;
 
 signals:
 	void closed();

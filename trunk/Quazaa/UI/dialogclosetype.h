@@ -43,7 +43,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogCloseType* m_ui;
+	Ui::DialogCloseType* ui;
 
 signals:
 	void closed();

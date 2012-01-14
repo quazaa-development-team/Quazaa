@@ -43,7 +43,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogAddSecuritySubscription* m_ui;
+	Ui::DialogAddSecuritySubscription* ui;
 
 signals:
 	void closed();

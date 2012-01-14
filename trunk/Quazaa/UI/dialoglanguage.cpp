@@ -36,165 +36,165 @@
 
 DialogLanguage::DialogLanguage(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogLanguage)
+	ui(new Ui::DialogLanguage)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 	//Set the list selection according to which language file is selected
 	//English
 	if(quazaaSettings.Language.File == ("quazaa_default_en"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(0);
+		ui->listWidgetLanguages->setCurrentRow(0);
 	}
 	//Afrikanns
 	if(quazaaSettings.Language.File == ("quazaa_af"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(1);
+		ui->listWidgetLanguages->setCurrentRow(1);
 	}
 	//Arabic
 	if(quazaaSettings.Language.File == ("quazaa_ar"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(2);
+		ui->listWidgetLanguages->setCurrentRow(2);
 	}
 	//Catal�
 	if(quazaaSettings.Language.File == ("quazaa_ca"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(3);
+		ui->listWidgetLanguages->setCurrentRow(3);
 	}
 	//Chinese
 	if(quazaaSettings.Language.File == ("quazaa_chs"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(4);
+		ui->listWidgetLanguages->setCurrentRow(4);
 	}
 	//Ce�tina
 	if(quazaaSettings.Language.File == ("quazaa_cz"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(5);
+		ui->listWidgetLanguages->setCurrentRow(5);
 	}
 	//Deutsch
 	if(quazaaSettings.Language.File == ("quazaa_de"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(6);
+		ui->listWidgetLanguages->setCurrentRow(6);
 	}
 	//Eesti
 	if(quazaaSettings.Language.File == ("quazaa_ee"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(7);
+		ui->listWidgetLanguages->setCurrentRow(7);
 	}
 	//Espa�ol
 	if(quazaaSettings.Language.File == ("quazaa_es"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(8);
+		ui->listWidgetLanguages->setCurrentRow(8);
 	}
 	//Farsi
 	if(quazaaSettings.Language.File == ("quazaa_fa"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(9);
+		ui->listWidgetLanguages->setCurrentRow(9);
 	}
 	//Suomi
 	if(quazaaSettings.Language.File == ("quazaa_fi"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(10);
+		ui->listWidgetLanguages->setCurrentRow(10);
 	}
 	//Fran�ais
 	if(quazaaSettings.Language.File == ("quazaa_fr"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(11);
+		ui->listWidgetLanguages->setCurrentRow(11);
 	}
 	//Greek
 	if(quazaaSettings.Language.File == ("quazaa_gr"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(12);
+		ui->listWidgetLanguages->setCurrentRow(12);
 	}
 	//Hebrew
 	if(quazaaSettings.Language.File == ("quazaa_heb"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(13);
+		ui->listWidgetLanguages->setCurrentRow(13);
 	}
 	//Hrvatski
 	if(quazaaSettings.Language.File == ("quazaa_hr"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(14);
+		ui->listWidgetLanguages->setCurrentRow(14);
 	}
 	//Magyar
 	if(quazaaSettings.Language.File == ("quazaa_hu"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(15);
+		ui->listWidgetLanguages->setCurrentRow(15);
 	}
 	//Italian
 	if(quazaaSettings.Language.File == ("quazaa_it"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(16);
+		ui->listWidgetLanguages->setCurrentRow(16);
 	}
 	//Japanese
 	if(quazaaSettings.Language.File == ("quazaa_ja"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(17);
+		ui->listWidgetLanguages->setCurrentRow(17);
 	}
 	//Lietuviu
 	if(quazaaSettings.Language.File == ("quazaa_lt"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(18);
+		ui->listWidgetLanguages->setCurrentRow(18);
 	}
 	//Nederlands
 	if(quazaaSettings.Language.File == ("quazaa_nl"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(19);
+		ui->listWidgetLanguages->setCurrentRow(19);
 	}
 	//Norsk
 	if(quazaaSettings.Language.File == ("quazaa_no"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(20);
+		ui->listWidgetLanguages->setCurrentRow(20);
 	}
 	//Polski
 	if(quazaaSettings.Language.File == ("quazaa_pl"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(21);
+		ui->listWidgetLanguages->setCurrentRow(21);
 	}
 	//Portugu�s Brasileiro
 	if(quazaaSettings.Language.File == ("quazaa_pt-br"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(22);
+		ui->listWidgetLanguages->setCurrentRow(22);
 	}
 	//Russian
 	if(quazaaSettings.Language.File == ("quazaa_ru"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(23);
+		ui->listWidgetLanguages->setCurrentRow(23);
 	}
 	//Sloven�cina
 	if(quazaaSettings.Language.File == ("quazaa_sl-si"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(24);
+		ui->listWidgetLanguages->setCurrentRow(24);
 	}
 	//Shqip
 	if(quazaaSettings.Language.File == ("quazaa_sq"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(25);
+		ui->listWidgetLanguages->setCurrentRow(25);
 	}
 	//Srpski
 	if(quazaaSettings.Language.File == ("quazaa_sr"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(26);
+		ui->listWidgetLanguages->setCurrentRow(26);
 	}
 	//Svenska
 	if(quazaaSettings.Language.File == ("quazaa_sv"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(27);
+		ui->listWidgetLanguages->setCurrentRow(27);
 	}
 	//T�rk�e
 	if(quazaaSettings.Language.File == ("quazaa_tr"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(28);
+		ui->listWidgetLanguages->setCurrentRow(28);
 	}
 	//Thai
 	if(quazaaSettings.Language.File == ("quazaa_tw"))
 	{
-		m_ui->listWidgetLanguages->setCurrentRow(29);
+		ui->listWidgetLanguages->setCurrentRow(29);
 	}
 }
 
 DialogLanguage::~DialogLanguage()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogLanguage::changeEvent(QEvent* e)
@@ -203,7 +203,7 @@ void DialogLanguage::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -212,7 +212,7 @@ void DialogLanguage::changeEvent(QEvent* e)
 
 void DialogLanguage::on_pushButtonOK_clicked()
 {
-	switch(m_ui->listWidgetLanguages->currentRow())
+	switch(ui->listWidgetLanguages->currentRow())
 	{
 		case 0: //English
 			quazaaSettings.Language.File = ("quazaa_default_en");
@@ -323,6 +323,6 @@ void DialogLanguage::on_listWidgetLanguages_itemClicked(QListWidgetItem* item)
 {
 	Q_UNUSED(item);
 
-	m_ui->pushButtonOK->setEnabled(true);
+	ui->pushButtonOK->setEnabled(true);
 }
 

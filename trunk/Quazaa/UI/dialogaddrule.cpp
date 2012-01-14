@@ -32,18 +32,18 @@
 
 DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	QDialog( parent ),
-	m_ui( new Ui::DialogAddRule ),
+	ui( new Ui::DialogAddRule ),
 	m_pParent( parent )
 {
-	m_ui->setupUi( this );
-	m_ui->comboBoxAction->setView( new QListView() );
-	m_ui->comboBoxExpire->setView( new QListView() );
-	m_ui->comboBoxRuleType->setView( new QListView() );
+	ui->setupUi( this );
+	ui->comboBoxAction->setView( new QListView() );
+	ui->comboBoxExpire->setView( new QListView() );
+	ui->comboBoxRuleType->setView( new QListView() );
 
 	if ( pRule )
 	{
 		m_pRule = pRule->getCopy();
-		m_ui->lineEditComment->setText( m_pRule->m_sComment );
+		ui->lineEditComment->setText( m_pRule->m_sComment );
 	}
 	else
 		m_pRule = new CIPRule();
@@ -51,46 +51,46 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	switch ( m_pRule->type() )
 	{
 	case security::CSecureRule::srContentAddressRange:
-		m_ui->comboBoxRuleType->setCurrentIndex( 1 );
-		m_ui->stackedWidgetType->setCurrentIndex( 1 );
+		ui->comboBoxRuleType->setCurrentIndex( 1 );
+		ui->stackedWidgetType->setCurrentIndex( 1 );
 		break;
 	case security::CSecureRule::srContentCountry:
-		m_ui->comboBoxRuleType->setCurrentIndex( 2 );
-		m_ui->stackedWidgetType->setCurrentIndex( 2 );
-		m_ui->lineEditCountry->setText( m_pRule->getContentString() );
+		ui->comboBoxRuleType->setCurrentIndex( 2 );
+		ui->stackedWidgetType->setCurrentIndex( 2 );
+		ui->lineEditCountry->setText( m_pRule->getContentString() );
 		break;
 	case security::CSecureRule::srContentHash:
-		m_ui->comboBoxRuleType->setCurrentIndex( 3 );
-		m_ui->stackedWidgetType->setCurrentIndex( 3 );
+		ui->comboBoxRuleType->setCurrentIndex( 3 );
+		ui->stackedWidgetType->setCurrentIndex( 3 );
 		break;
 	case security::CSecureRule::srContentText:
-		m_ui->comboBoxRuleType->setCurrentIndex( 4 );
-		m_ui->stackedWidgetType->setCurrentIndex( 4 );
-		m_ui->lineEditContent->setText( m_pRule->getContentString() );
+		ui->comboBoxRuleType->setCurrentIndex( 4 );
+		ui->stackedWidgetType->setCurrentIndex( 4 );
+		ui->lineEditContent->setText( m_pRule->getContentString() );
 		break;
 	case security::CSecureRule::srContentRegExp:
-		m_ui->comboBoxRuleType->setCurrentIndex( 5 );
-		m_ui->stackedWidgetType->setCurrentIndex( 5 );
-		m_ui->lineEditRegularExpression->setText( m_pRule->getContentString() );
+		ui->comboBoxRuleType->setCurrentIndex( 5 );
+		ui->stackedWidgetType->setCurrentIndex( 5 );
+		ui->lineEditRegularExpression->setText( m_pRule->getContentString() );
 		break;
 	case security::CSecureRule::srContentUserAgent:
-		m_ui->comboBoxRuleType->setCurrentIndex( 6 );
-		m_ui->stackedWidgetType->setCurrentIndex( 6 );
-		m_ui->checkBoxUserAgent->setChecked( ((CUserAgentRule*)m_pRule)->getRegExp() );
-		m_ui->lineEditUserAgent->setText( m_pRule->getContentString() );
+		ui->comboBoxRuleType->setCurrentIndex( 6 );
+		ui->stackedWidgetType->setCurrentIndex( 6 );
+		ui->checkBoxUserAgent->setChecked( ((CUserAgentRule*)m_pRule)->getRegExp() );
+		ui->lineEditUserAgent->setText( m_pRule->getContentString() );
 		break;
 	case security::CSecureRule::srContentAddress:
 	default:
-		m_ui->comboBoxRuleType->setCurrentIndex( 0 );
-		m_ui->stackedWidgetType->setCurrentIndex( 0 );
-		m_ui->lineEditIP->setText( ((CIPRule*)m_pRule)->getContentString() );
+		ui->comboBoxRuleType->setCurrentIndex( 0 );
+		ui->stackedWidgetType->setCurrentIndex( 0 );
+		ui->lineEditIP->setText( ((CIPRule*)m_pRule)->getContentString() );
 		break;
 	}
 }
 
 DialogAddRule::~DialogAddRule()
 {
-	delete m_ui;
+	delete ui;
 	delete m_pRule;
 }
 
@@ -100,7 +100,7 @@ void DialogAddRule::changeEvent(QEvent* e)
 	switch ( e->type() )
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi( this );
+			ui->retranslateUi( this );
 			break;
 		default:
 			break;
@@ -113,11 +113,11 @@ void DialogAddRule::on_pushButtonOK_clicked()
 	CSecureRule* pRule = NULL;
 	QString sTmp;
 
-	switch ( m_ui->comboBoxRuleType->currentIndex() )
+	switch ( ui->comboBoxRuleType->currentIndex() )
 	{
 	case 0:
 		pRule = new CIPRule();
-		sTmp = m_ui->lineEditIP->text();
+		sTmp = ui->lineEditIP->text();
 		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
@@ -130,7 +130,7 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 2:
 		pRule = new CCountryRule();
-		sTmp = m_ui->lineEditCountry->text();
+		sTmp = ui->lineEditCountry->text();
 		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
@@ -139,7 +139,7 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 3:
 		pRule = new CHashRule();
-		sTmp = m_ui->lineEditHash->text();
+		sTmp = ui->lineEditHash->text();
 		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
@@ -148,17 +148,17 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 4:
 		pRule = new CContentRule();
-		sTmp = m_ui->lineEditContent->text();
+		sTmp = ui->lineEditContent->text();
 		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
 			pRule = NULL;
 		}
-		((CContentRule*)pRule)->setAll( m_ui->radioButtonMatchAll->isChecked() );
+		((CContentRule*)pRule)->setAll( ui->radioButtonMatchAll->isChecked() );
 		break;
 	case 5:
 		pRule = new CRegExpRule();
-		sTmp = m_ui->lineEditRegularExpression->text();
+		sTmp = ui->lineEditRegularExpression->text();
 		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
@@ -167,13 +167,13 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 6:
 		pRule = new CUserAgentRule();
-		sTmp = m_ui->lineEditUserAgent->text();
+		sTmp = ui->lineEditUserAgent->text();
 		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
 			pRule = NULL;
 		}
-		((CUserAgentRule*)pRule)->setRegExp( m_ui->checkBoxUserAgent->isChecked() );
+		((CUserAgentRule*)pRule)->setRegExp( ui->checkBoxUserAgent->isChecked() );
 		break;
 	default:
 		Q_ASSERT( false );
@@ -181,18 +181,18 @@ void DialogAddRule::on_pushButtonOK_clicked()
 
 	if ( pRule )
 	{
-		quint32 tExpire = m_ui->comboBoxExpire->currentIndex();
+		quint32 tExpire = ui->comboBoxExpire->currentIndex();
 		if ( tExpire == 2 )
 		{
 			tExpire = 0;
-			tExpire += m_ui->lineEditMinutes->text().toUShort() * 60;
-			tExpire += m_ui->lineEditHours->text().toUShort() * 3600;
-			tExpire += m_ui->lineEditDays->text().toUShort() * 216000;
+			tExpire += ui->lineEditMinutes->text().toUShort() * 60;
+			tExpire += ui->lineEditHours->text().toUShort() * 3600;
+			tExpire += ui->lineEditDays->text().toUShort() * 216000;
 			tExpire += static_cast< quint32 >( time( NULL ) );
 		}
 		pRule->m_tExpire = tExpire;
 
-		pRule->m_sComment = m_ui->lineEditComment->text();
+		pRule->m_sComment = ui->lineEditComment->text();
 		pRule->m_oUUID = m_pRule->m_oUUID;
 
 		if ( *pRule != *m_pRule )
@@ -217,45 +217,45 @@ void DialogAddRule::on_comboBoxExpire_currentIndexChanged(int index)
 {
 	if ( index == 2 )
 	{
-		m_ui->lineEditDays->setEnabled( true );
-		m_ui->lineEditHours->setEnabled( true );
-		m_ui->lineEditMinutes->setEnabled( true );
+		ui->lineEditDays->setEnabled( true );
+		ui->lineEditHours->setEnabled( true );
+		ui->lineEditMinutes->setEnabled( true );
 	}
 	else
 	{
-		m_ui->lineEditDays->setEnabled( false );
-		m_ui->lineEditHours->setEnabled( false );
-		m_ui->lineEditMinutes->setEnabled( false );
+		ui->lineEditDays->setEnabled( false );
+		ui->lineEditHours->setEnabled( false );
+		ui->lineEditMinutes->setEnabled( false );
 	}
 }
 
 void DialogAddRule::on_lineEditMinutes_lostFocus()
 {
-	quint64 nMinutes = m_ui->lineEditMinutes->text().toULong();
-	quint64 nHours = m_ui->lineEditHours->text().toULong();
-	quint64 nDays = m_ui->lineEditDays->text().toULong();
+	quint64 nMinutes = ui->lineEditMinutes->text().toULong();
+	quint64 nHours = ui->lineEditHours->text().toULong();
+	quint64 nDays = ui->lineEditDays->text().toULong();
 
-	m_ui->lineEditMinutes->setText( QString::number( nMinutes % 60 ) );
+	ui->lineEditMinutes->setText( QString::number( nMinutes % 60 ) );
 	nHours += nMinutes / 60;
-	m_ui->lineEditHours->setText( QString::number( nHours % 24 ) );
+	ui->lineEditHours->setText( QString::number( nHours % 24 ) );
 	nDays += nHours / 24;
-	m_ui->lineEditDays->setText( QString::number( nDays ) );
+	ui->lineEditDays->setText( QString::number( nDays ) );
 }
 
 void DialogAddRule::on_lineEditHours_lostFocus()
 {
-	quint64 nHours = m_ui->lineEditHours->text().toULong();
-	quint64 nDays = m_ui->lineEditDays->text().toULong();
+	quint64 nHours = ui->lineEditHours->text().toULong();
+	quint64 nDays = ui->lineEditDays->text().toULong();
 
-	m_ui->lineEditHours->setText( QString::number( nHours % 24 ) );
+	ui->lineEditHours->setText( QString::number( nHours % 24 ) );
 	nDays += nHours / 24;
-	m_ui->lineEditDays->setText( QString::number( nDays ) );
+	ui->lineEditDays->setText( QString::number( nDays ) );
 }
 
 void DialogAddRule::on_lineEditDays_lostFocus()
 {
-	quint64 nDays = m_ui->lineEditDays->text().toULong();
+	quint64 nDays = ui->lineEditDays->text().toULong();
 
-	m_ui->lineEditDays->setText( QString::number( nDays ) );
+	ui->lineEditDays->setText( QString::number( nDays ) );
 }
 

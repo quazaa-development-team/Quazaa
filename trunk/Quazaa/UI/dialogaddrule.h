@@ -52,7 +52,7 @@ private:
 
 	typedef security::CSecurity		 CSecurity;
 
-	Ui::DialogAddRule* m_ui;
+	Ui::DialogAddRule* ui;
 	CSecureRule* m_pRule;
 	WidgetSecurity* m_pParent;
 

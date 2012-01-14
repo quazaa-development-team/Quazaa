@@ -31,14 +31,14 @@
 
 DialogTorrentProperties::DialogTorrentProperties(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogTorrentProperties)
+	ui(new Ui::DialogTorrentProperties)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 DialogTorrentProperties::~DialogTorrentProperties()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogTorrentProperties::changeEvent(QEvent* e)
@@ -47,7 +47,7 @@ void DialogTorrentProperties::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;

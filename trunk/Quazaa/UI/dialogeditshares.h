@@ -44,7 +44,7 @@ protected:
 	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogEditShares* m_ui;
+	Ui::DialogEditShares* ui;
 
 signals:
 	void closed();
