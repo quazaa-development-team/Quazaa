@@ -41,6 +41,15 @@
 #include <QScopedPointer>
 #include <QDateTime>
 
+// STL
+#include <set>
+#include <utility>
+#include <functional>
+#include <algorithm>
+#include <limits>
+#include <iterator>
+#include <exception>
+
 #include "endpoint.h"
 #include "systemlog.h"
 
@@ -62,6 +71,8 @@ enum TransferProtocol
 enum NodeState { nsClosed, nsConnecting, nsHandshaking, nsConnected, nsClosing, nsError };
 
 enum G2NodeType {G2_UNKNOWN = 0, G2_LEAF = 1, G2_HUB = 2};
+
+const quint64 SIZE_UNKNOWN = ~0ull;
 
 typedef unsigned char BYTE;
 

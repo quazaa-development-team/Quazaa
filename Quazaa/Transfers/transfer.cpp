@@ -23,13 +23,27 @@
 */
 
 #include "transfer.h"
+#include "transfers.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
 
-CTransfer::CTransfer(QObject *parent) :
-    CNetworkConnection(parent)
+CTransfer::CTransfer(void* pOwner, QObject *parent) :
+	CNetworkConnection(parent),
+	m_pOwner(pOwner)
+{
+	ASSUME_LOCK(Transfers.m_pSection);
+	Transfers.add(this);
+}
+
+CTransfer::~CTransfer()
+{
+	ASSUME_LOCK(Transfers.m_pSection);
+	Transfers.remove(this);
+}
+
+void CTransfer::onTimer(quint32 tNow)
 {
 }
 

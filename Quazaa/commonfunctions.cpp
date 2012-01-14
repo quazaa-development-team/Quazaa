@@ -27,6 +27,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QSysInfo>
+#include "Hashes/hash.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -45,7 +46,7 @@ void common::folderOpen(QString file)
 
 QString common::formatBytes(quint64 nBytesPerSec)
 {
-	const char* szUnit[4] = {"B", "KB", "MB", "GB"};
+	const char* szUnit[5] = {"B", "KiB", "MiB", "GiB", "TiB"};
 
 	double nBPS = nBytesPerSec;
 
@@ -54,7 +55,7 @@ QString common::formatBytes(quint64 nBytesPerSec)
 	{
 		nBPS /= 1024;
 		nStep++;
-		if ( nStep == 3 )
+		if ( nStep == 4 )
 		{
 			break;
 		}
@@ -183,3 +184,19 @@ OSVersion::OSVersion common::osVersion()
 #endif
 }
 
+QString common::fixFileName(QString sName)
+{
+	QString sRet = sName;
+	// \ * / ? % : | " > <
+	sRet.replace(QRegExp("[\\\\\\*\\/\\?\\%\\:\\|\\\"\\>\\<\\x0000]"), "_");
+	return sRet.left(255);
+}
+
+QString common::getTempFileName(QString sName)
+{
+	CHash oHashName(CHash::SHA1);
+	oHashName.AddData(sName.toUtf8());
+	oHashName.AddData(QString().number(qrand() % qrand()).append(QDateTime::currentDateTimeUtc().toString(Qt::ISODate)).toAscii());
+	oHashName.Finalize();
+	return oHashName.ToString();
+}

@@ -60,6 +60,10 @@ void CTransfers::start()
 	m_pController->moveToThread(&TransfersThread);
 	Downloads.start();
 	Downloads.moveToThread(&TransfersThread);
+
+	connect(&m_oTimer, SIGNAL(timeout()), this, SLOT(onTimer()));
+	connect(&m_oTimer, SIGNAL(timeout()), &Downloads, SLOT(onTimer()));
+	m_oTimer.start(1000);
 }
 
 void CTransfers::stop()
@@ -74,33 +78,52 @@ void CTransfers::stop()
 	Downloads.stop();
 }
 
-void CTransfers::startTransfer(void *pOwner, CTransfer *pTransfer)
+void CTransfers::add(CTransfer *pTransfer)
 {
 	QMutexLocker l(&m_pSection);
 
-	if(!m_bActive)
+	Q_ASSERT_X(m_bActive, "CTransfers::add()", "Adding transfer while thread is inactive");
+
+	if( m_lTransfers.contains(pTransfer->m_pOwner, pTransfer) )
 	{
-		qDebug() << "Not starting new transfer because CTransfers is not active";
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "CTransfers::add(): transfer already added!");
 		return;
 	}
 
-	QList<CTransfer*> oList = m_lTransfers.values(pOwner);
-	if( oList.contains(pTransfer) )
+	m_lTransfers.insert(pTransfer->m_pOwner, pTransfer);
+	m_pController->AddSocket(pTransfer);
+	// start
+}
+
+void CTransfers::remove(CTransfer *pTransfer)
+{
+	QMutexLocker l(&m_pSection);
+
+	if(!m_lTransfers.contains(pTransfer->m_pOwner, pTransfer))
 	{
-		qDebug() << "Not starting new transfer because it's already started";
+		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "CTransfers::remove(): removing non-existing transfer!");
 		return;
 	}
 
-	m_lTransfers.insert(pOwner, pTransfer);
-
-	// start();
+	m_pController->RemoveSocket(pTransfer);
+	m_lTransfers.remove(pTransfer->m_pOwner, pTransfer);
 }
 
-void CTransfers::stopTransfer(void *pOwner, CTransfer *pTransfer)
+QList<CTransfer *> CTransfers::getByOwner(void *pOwner)
 {
+	return m_lTransfers.values(pOwner);
 }
 
-void CTransfers::removeAllTransfersByOwner(void *pOwner)
+void CTransfers::onTimer()
 {
+	if(!m_bActive || m_lTransfers.isEmpty())
+		return;
+
+	QMutexLocker l(&m_pSection);
+
+	foreach(CTransfer* pTransfer, m_lTransfers)
+	{
+		pTransfer->onTimer();
+	}
 }
 

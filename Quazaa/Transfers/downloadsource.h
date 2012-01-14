@@ -3,10 +3,15 @@
 
 #include "types.h"
 #include "Hashes/hash.h"
-class CQueryHit;
+#include "FileFragments.hpp"
 
-class CDownloadSource
+class CQueryHit;
+class CDownload;
+class CTransfer;
+
+class CDownloadSource : public QObject
 {
+	Q_OBJECT
 public:
 	CEndPoint			m_oAddress;		// source address
 	bool				m_bPush;		// is it a push source?
@@ -18,17 +23,37 @@ public:
 	time_t				m_tNextAccess;	// seconds since 1970
 	quint32				m_nFailures;	// number of failures
 	QString				m_sURL;			// URL
+
+	CDownload*			m_pDownload;
+	CTransfer*			m_pTransfer;
+
+	Fragments::List		m_lAvailableFrags;
+	Fragments::List		m_lDownloadedFrags;
 public:
-	CDownloadSource();
-	CDownloadSource(CQueryHit* pHit);
+	CDownloadSource(CDownload* pDownload, QObject* parent = 0);
+	CDownloadSource(CDownload* pDownload, CQueryHit* pHit, QObject* parent = 0);
+	virtual ~CDownloadSource();
+
+public slots:
+	CTransfer*  createTransfer();
+	void		closeTransfer();
 
 public:
-	inline bool CanAccess();
+	inline bool canAccess();
+	inline bool hasTransfer();
+
+signals:
+	void transferCreated();
+	void transferClosed();
 };
 
-bool CDownloadSource::CanAccess()
+bool CDownloadSource::canAccess()
 {
 	return time(0) > m_tNextAccess;
+}
+bool CDownloadSource::hasTransfer()
+{
+	return (m_pTransfer != 0);
 }
 
 QDataStream& operator<<(QDataStream& s, const CDownloadSource& rhs);

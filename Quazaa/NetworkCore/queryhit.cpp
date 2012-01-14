@@ -383,14 +383,10 @@ void CQueryHit::ResolveURLs()
 		return;
 	}
 
-	/*if( m_lURNs.isEmpty() )
-		return;*/
+	if( m_lHashes.isEmpty() )
+		return;
 
-	// TODO: odpowiednie kodowanie... (Appropriate Encoding)
-	/*if(m_oSha1.IsValid())
-	{
-		m_sURL = m_sURL.sprintf("http://%s/uri-res/N2R?%s", m_pHitInfo->m_oNodeAddress.toStringWithPort().toAscii().constData(), m_oSha1.ToURN().toAscii().constData());
-	}*/
+	m_sURL = QString("http://%1/uri-res/N2R?%2").arg(m_pHitInfo->m_oNodeAddress.toStringWithPort()).arg(m_lHashes[0].ToURN());
 }
 bool CQueryHit::IsValid(CQuery* pQuery)
 {
