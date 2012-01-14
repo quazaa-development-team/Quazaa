@@ -50,6 +50,7 @@ INCLUDEPATH += NetworkCore \
 	Chat \
 	Transfers \
 	Skin \
+	FileFragments \
 	.
 
 include(Chat/IRC/irc.pri)
@@ -123,6 +124,8 @@ win32-msvc2008 {
             QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
             QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
         }
+
+		DEFINES += _CRT_SECURE_NO_WARNINGS;
 }
 
 win32-msvc2010 {
@@ -162,6 +165,8 @@ win32-msvc2010 {
             QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
             QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
         }
+
+		DEFINES += _CRT_SECURE_NO_WARNINGS;
 }
 
 # Sources
@@ -237,7 +242,6 @@ SOURCES += \
 	Transfers/download.cpp \
 	Transfers/downloads.cpp \
 	Transfers/downloadsource.cpp \
-	Transfers/filefragments.cpp \
 	Transfers/transfers.cpp \
 	UI/dialogabout.cpp \
 	UI/dialogadddownload.cpp \
@@ -306,7 +310,8 @@ SOURCES += \
     UI/widgetircmain.cpp \
     UI/widgetircsidebars.cpp \
     Skin/skinsettings.cpp \
-    Models/downloadstreemodel.cpp
+    Models/downloadstreemodel.cpp \
+    Transfers/downloadtransfer.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -378,7 +383,6 @@ HEADERS += \
 	Transfers/download.h \
 	Transfers/downloads.h \
 	Transfers/downloadsource.h \
-	Transfers/filefragments.h \
 	Transfers/transfers.h \
 	UI/dialogabout.h \
 	UI/dialogadddownload.h \
@@ -451,7 +455,15 @@ HEADERS += \
     UI/widgetircmain.h \
     UI/widgetircsidebars.h \
     Skin/skinsettings.h \
-    Models/downloadstreemodel.h
+    Models/downloadstreemodel.h \
+    Transfers/downloadtransfer.h \
+    FileFragments/Ranges.hpp \
+    FileFragments/Range.hpp \
+    FileFragments/Queue.hpp \
+    FileFragments/List.hpp \
+    FileFragments/FileFragments.hpp \
+    FileFragments/Exception.hpp \
+    FileFragments/Compatibility.hpp
 
 FORMS += \
 	UI/dialogabout.ui \

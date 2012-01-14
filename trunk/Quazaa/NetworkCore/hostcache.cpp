@@ -36,7 +36,7 @@
 #include "debug_new.h"
 #endif
 
-const quint32 MaxCacheHosts = 300;
+const quint32 MaxCacheHosts = 3000;
 
 CHostCache HostCache;
 

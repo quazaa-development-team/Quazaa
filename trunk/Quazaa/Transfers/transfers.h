@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QMutex>
 #include <QMultiHash>
+#include <QTimer>
 
 #include "thread.h"
 
@@ -18,6 +19,7 @@ public:
 	QMutex m_pSection;
 	bool   m_bActive;
 	CRateController* m_pController;
+	QTimer m_oTimer;
 
 protected:
 	QMultiHash<void*, CTransfer*> m_lTransfers;
@@ -28,12 +30,14 @@ public:
 	void start();
 	void stop();
 
+	void add(CTransfer* pTransfer);
+	void remove(CTransfer* pTransfer);
+
+	QList<CTransfer*> getByOwner(void* pOwner);
 signals:
 
 public slots:
-	void startTransfer(void* pOwner, CTransfer* pTransfer);
-	void stopTransfer(void* pOwner, CTransfer* pTransfer);
-	void removeAllTransfersByOwner(void* pOwner);
+	void onTimer();
 };
 
 extern CTransfers Transfers;

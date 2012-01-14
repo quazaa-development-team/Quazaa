@@ -1,7 +1,7 @@
 /*
-** commonfunctions.h
+** $Id$
 **
-** Copyright Â© Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -40,6 +40,14 @@ namespace common
 	QString formatBytes(quint64 nBytesPerSec);
 	QString vendorCodeToName(QString vendorCode);
 	OSVersion::OSVersion osVersion();
+	QString fixFileName(QString sName);
+	QString getTempFileName(QString sName);
+
+	template <typename T>
+	inline T getRandomNum(T min, T max)
+	{
+		return static_cast<T>((qrand() * (max - min + 1) / RAND_MAX + 1.0) + min);
+	}
 
 // TODO: Make this work.
 	// This generates a read/write iterator from a read-only iterator.

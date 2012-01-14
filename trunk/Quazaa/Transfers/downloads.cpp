@@ -52,6 +52,7 @@ void CDownloads::add(CQueryHit *pHit)
 	CDownload* pDownload = new CDownload(pHit);
 	pDownload->moveToThread(&TransfersThread);
 	m_lDownloads.append(pDownload);
+	pDownload->saveState();
 	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Queued download job for %s")), qPrintable(pDownload->m_sDisplayName));
 	emit downloadAdded(pDownload);
 }
@@ -100,19 +101,9 @@ void CDownloads::stop()
 
 	foreach( CDownload* pDownload, m_lDownloads )
 	{
-		QString sFileName = pDownload->m_sTempName;
-
-		sFileName.append(".!qd");
-
-		QFile f(quazaaSettings.Downloads.IncompletePath + "/" + sFileName);
-
-		if( f.open(QFile::WriteOnly) )
+		if( pDownload->isModified() )
 		{
-			QDataStream s(&f);
-
-			s << *pDownload;
-
-			f.close();
+			pDownload->saveState();
 		}
 
 		delete pDownload;
@@ -128,6 +119,72 @@ void CDownloads::emitDownloads()
 	foreach( CDownload* pDl, m_lDownloads )
 	{
 		emit downloadAdded(pDl);
+	}
+}
+
+void CDownloads::onTimer()
+{
+	if(m_lDownloads.isEmpty())
+		return;
+
+	QMutexLocker l(&m_pSection);
+
+	int nActive = 0, nQueued = 0, nTransfers = 0;
+
+	foreach(CDownload* pDownload, m_lDownloads)
+	{
+		switch(pDownload->m_nState)
+		{
+			case CDownload::dsQueued:
+				nQueued++;
+				break;
+			case CDownload::dsPaused:
+				break;
+			case CDownload::dsPending:
+			case CDownload::dsSearching:
+			case CDownload::dsDownloading:
+				nActive++;
+				nTransfers += pDownload->transfersCount();
+				break;
+			case CDownload::dsVerifying:
+			case CDownload::dsMoving:
+			case CDownload::dsFileError:
+			case CDownload::dsCompleted:
+				break;
+
+		}
+	}
+
+	int nTransfersLeft = quazaaSettings.Downloads.MaxTransfers - nTransfers;
+
+	foreach(CDownload* pDownload, m_lDownloads)
+	{
+		if( pDownload->m_nState == CDownload::dsPending )
+		{
+			if( false /* starved? */ )
+			{
+				// stop it
+			}
+			else if( pDownload->sourceCount() < quazaaSettings.Downloads.MinSources /* and not too early */)
+			{
+				// run search
+			}
+		}
+		else if( pDownload->m_nState == CDownload::dsQueued )
+		{
+			if( nActive < quazaaSettings.Downloads.MaxFiles )
+			{
+				systemLog.postLog(LogCategory::Network, LogSeverity::Information, QString(tr("Starting download: %1")).arg(pDownload->m_sDisplayName));
+				pDownload->start();
+				nActive++;
+			}
+		}
+
+		if( pDownload->canDownload() && nTransfersLeft > 0 )
+		{
+			int nAllow = qMin(3, (nTransfersLeft / (nActive + 1)));
+			nTransfersLeft -= pDownload->startTransfers(nAllow);
+		}
 	}
 }
 

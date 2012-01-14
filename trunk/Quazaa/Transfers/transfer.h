@@ -6,9 +6,14 @@
 class CTransfer : public CNetworkConnection
 {
     Q_OBJECT
-public:
-	CTransfer(QObject *parent = 0);
 
+public:
+	void* m_pOwner;
+public:
+	CTransfer(void* pOwner, QObject *parent = 0);
+	virtual ~CTransfer();
+
+	virtual void onTimer(quint32 tNow = 0);
 signals:
 
 public slots:

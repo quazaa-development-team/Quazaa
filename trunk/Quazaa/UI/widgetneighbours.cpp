@@ -203,8 +203,11 @@ void WidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 
 void WidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint pos)
 {
-	Q_UNUSED(pos);
-	neighboursMenu->exec(QCursor::pos());
+	QModelIndex currIndex = ui->tableViewNeighbours->indexAt(pos);
+	if( currIndex.isValid() )
+	{
+		neighboursMenu->exec(QCursor::pos());
+	}
 }
 
 void WidgetNeighbours::on_actionNetworkChatWith_triggered()

@@ -24,19 +24,33 @@
 
 #include "downloadsource.h"
 #include "queryhit.h"
+#include "downloads.h"
+#include "download.h"
+
+#include "transfer.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
 
-CDownloadSource::CDownloadSource()
-	: m_bPush(false),
-	  m_nFailures(0)
+CDownloadSource::CDownloadSource(CDownload *pDownload, QObject *parent)
+	: QObject(parent),
+	  m_bPush(false),
+	  m_nFailures(0),
+	  m_pDownload(pDownload),
+	  m_pTransfer(0),
+	  m_lAvailableFrags(pDownload->m_nSize),
+	  m_lDownloadedFrags(pDownload->m_nSize)
 {
 	m_tNextAccess = time(0);
 }
 
-CDownloadSource::CDownloadSource(CQueryHit* pHit)
+CDownloadSource::CDownloadSource(CDownload *pDownload, CQueryHit *pHit, QObject *parent)
+	: QObject(parent),
+	  m_pDownload(pDownload),
+	  m_pTransfer(0),
+	  m_lAvailableFrags(pDownload->m_nSize),
+	  m_lDownloadedFrags(pDownload->m_nSize)
 {
 	m_oAddress = pHit->m_pHitInfo->m_oNodeAddress;
 	m_bPush = false; // todo
@@ -47,6 +61,47 @@ CDownloadSource::CDownloadSource(CQueryHit* pHit)
 	m_lHashes << pHit->m_lHashes;
 	m_tNextAccess = time(0);
 	m_nFailures = 0;
+	m_sURL = pHit->m_sURL;
+}
+
+CDownloadSource::~CDownloadSource()
+{
+	closeTransfer();
+	m_pDownload->removeSource(this);
+}
+
+CTransfer *CDownloadSource::createTransfer()
+{
+	ASSUME_LOCK(Downloads.m_pSection);
+
+	CTransfer* pTransfer = 0;
+
+	switch(m_nProtocol)
+	{
+		case tpHTTP:
+			break;
+		case tpBitTorrent:
+			break;
+		default:
+			Q_ASSERT_X(0, "CDownloadSource::createTransfer()", "Invalid protocol id specified");
+	}
+
+	if( pTransfer )
+		emit transferCreated();
+
+	return pTransfer;
+}
+
+void CDownloadSource::closeTransfer()
+{
+	ASSUME_LOCK(Downloads.m_pSection);
+
+	if( m_pTransfer )
+	{
+		delete m_pTransfer;
+		m_pTransfer = 0;
+		emit transferClosed();
+	}
 }
 
 QDataStream& operator<<(QDataStream& s, const CDownloadSource& rhs)

@@ -28,6 +28,7 @@ signals:
 	void downloadRemoved();
 public slots:
 	void emitDownloads();
+	void onTimer();
 };
 
 extern CDownloads Downloads;
