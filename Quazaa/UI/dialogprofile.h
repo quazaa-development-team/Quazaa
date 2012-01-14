@@ -47,7 +47,7 @@ protected:
 	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogProfile* m_ui;
+	Ui::DialogProfile* ui;
 	QUuid tempGUID;
 
 signals:

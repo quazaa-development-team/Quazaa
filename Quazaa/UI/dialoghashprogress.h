@@ -48,7 +48,7 @@ protected:
 	void mousePressEvent(QMouseEvent* e);
 
 private:
-	Ui::DialogHashProgress* m_ui;
+	Ui::DialogHashProgress* ui;
 
 signals:
 	void closed();

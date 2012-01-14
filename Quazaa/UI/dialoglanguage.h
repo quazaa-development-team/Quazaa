@@ -44,7 +44,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogLanguage* m_ui;
+	Ui::DialogLanguage* ui;
 
 signals:
 	void closed();

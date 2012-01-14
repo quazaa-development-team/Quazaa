@@ -35,16 +35,16 @@
 
 DialogHashProgress::DialogHashProgress(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogHashProgress)
+	ui(new Ui::DialogHashProgress)
 {
 	setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip | Qt::WindowStaysOnTopHint);
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 	setWindowOpacity(0.8);
 }
 
 DialogHashProgress::~DialogHashProgress()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogHashProgress::changeEvent(QEvent* e)
@@ -53,7 +53,7 @@ void DialogHashProgress::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -67,8 +67,8 @@ void DialogHashProgress::onHasherStarted(int nId)
 
 	QLabel* label = new QLabel();
 	QProgressBar* pb = new QProgressBar();
-	m_ui->verticalLayout->addWidget(label);
-	m_ui->verticalLayout->addWidget(pb);
+	ui->verticalLayout->addWidget(label);
+	ui->verticalLayout->addWidget(pb);
 
 	m_lProgress[nId] = qMakePair<QWidget*, QWidget*>(label, pb);
 }
@@ -121,6 +121,6 @@ void DialogHashProgress::onRemainingFilesChanged(qint32 nRemaining)
 	QString strText(tr("Quazaa is creating hashes. Remaining files: %1"));
 	strText = strText.arg(nRemaining);
 
-	m_ui->labelStatus->setText(strText);
+	ui->labelStatus->setText(strText);
 }
 

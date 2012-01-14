@@ -43,7 +43,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogScheduler* m_ui;
+	Ui::DialogScheduler* ui;
 
 signals:
 	void closed();

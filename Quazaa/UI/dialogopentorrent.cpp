@@ -33,15 +33,15 @@
 
 DialogOpenTorrent::DialogOpenTorrent(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogOpenTorrent)
+	ui(new Ui::DialogOpenTorrent)
 {
-	m_ui->setupUi(this);
-	m_ui->comboBoxAllocationMode->setView(new QListView());
+	ui->setupUi(this);
+	ui->comboBoxAllocationMode->setView(new QListView());
 }
 
 DialogOpenTorrent::~DialogOpenTorrent()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogOpenTorrent::changeEvent(QEvent* e)
@@ -49,7 +49,7 @@ void DialogOpenTorrent::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;

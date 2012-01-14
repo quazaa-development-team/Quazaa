@@ -31,14 +31,14 @@
 
 DialogAddSecuritySubscription::DialogAddSecuritySubscription(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogAddSecuritySubscription)
+	ui(new Ui::DialogAddSecuritySubscription)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 DialogAddSecuritySubscription::~DialogAddSecuritySubscription()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogAddSecuritySubscription::changeEvent(QEvent* e)
@@ -47,7 +47,7 @@ void DialogAddSecuritySubscription::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;

@@ -31,14 +31,14 @@
 
 DialogDownloadMonitor::DialogDownloadMonitor(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogDownloadMonitor)
+	ui(new Ui::DialogDownloadMonitor)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 DialogDownloadMonitor::~DialogDownloadMonitor()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogDownloadMonitor::changeEvent(QEvent* e)
@@ -47,7 +47,7 @@ void DialogDownloadMonitor::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -70,13 +70,13 @@ void DialogDownloadMonitor::updateProgress(int percent, QString transferSpeed, Q
         QString volumeDownloaded, QString numberSources, QPixmap icon,
         QString status, QString file)
 {
-	m_ui->progressBarStatus->setValue(percent);
-	m_ui->labelEstimatedTimeRemaining->setText(timeRemaining);
-	m_ui->labelTransferSpeed->setText(transferSpeed);
-	m_ui->labelVolumeDownloaded->setText(volumeDownloaded);
-	m_ui->labelNumberSources->setText(numberSources);
-	m_ui->labelFileIcon->setPixmap(icon);
-	m_ui->labelStatus->setText(status);
-	m_ui->labelFileName->setText(file);
+	ui->progressBarStatus->setValue(percent);
+	ui->labelEstimatedTimeRemaining->setText(timeRemaining);
+	ui->labelTransferSpeed->setText(transferSpeed);
+	ui->labelVolumeDownloaded->setText(volumeDownloaded);
+	ui->labelNumberSources->setText(numberSources);
+	ui->labelFileIcon->setPixmap(icon);
+	ui->labelStatus->setText(status);
+	ui->labelFileName->setText(file);
 }
 

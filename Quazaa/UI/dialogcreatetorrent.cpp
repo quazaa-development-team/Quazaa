@@ -31,15 +31,15 @@
 
 DialogCreateTorrent::DialogCreateTorrent(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogCreateTorrent)
+	ui(new Ui::DialogCreateTorrent)
 {
-	m_ui->setupUi(this);
-	m_ui->comboBoxSeedDHT->setView(new QListView());
+	ui->setupUi(this);
+	ui->comboBoxSeedDHT->setView(new QListView());
 }
 
 DialogCreateTorrent::~DialogCreateTorrent()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogCreateTorrent::changeEvent(QEvent* e)
@@ -47,7 +47,7 @@ void DialogCreateTorrent::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;

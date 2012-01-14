@@ -34,22 +34,22 @@
 
 DialogSplash::DialogSplash(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogSplash)
+	ui(new Ui::DialogSplash)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 	setWindowFlags(Qt::FramelessWindowHint);
 	setAttribute(Qt::WA_TranslucentBackground);
-	m_ui->frameSplashBackground->setStyleSheet(skinSettings.splashBackground);
-	m_ui->frameSplashFooter->setStyleSheet(skinSettings.splashFooter);
-	m_ui->labelStatus->setStyleSheet(skinSettings.splashStatus);
-	m_ui->labelLogo->setStyleSheet(skinSettings.splashLogo);
-	m_ui->progressBarStatus->setStyleSheet(skinSettings.splashProgress);
+	ui->frameSplashBackground->setStyleSheet(skinSettings.splashBackground);
+	ui->frameSplashFooter->setStyleSheet(skinSettings.splashFooter);
+	ui->labelStatus->setStyleSheet(skinSettings.splashStatus);
+	ui->labelLogo->setStyleSheet(skinSettings.splashLogo);
+	ui->progressBarStatus->setStyleSheet(skinSettings.splashProgress);
 	move(QPoint(((QApplication::desktop()->screenGeometry(this).width() / 2) - (width() / 2)), ((QApplication::desktop()->screenGeometry(this).height() / 2) - (height() / 2))));
 }
 
 DialogSplash::~DialogSplash()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogSplash::changeEvent(QEvent* e)
@@ -57,7 +57,7 @@ void DialogSplash::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -66,7 +66,7 @@ void DialogSplash::changeEvent(QEvent* e)
 
 void DialogSplash::updateProgress(int percent, QString status)
 {
-	m_ui->progressBarStatus->setValue(percent);
-	m_ui->labelStatus->setText(status);
+	ui->progressBarStatus->setValue(percent);
+	ui->labelStatus->setText(status);
 }
 
