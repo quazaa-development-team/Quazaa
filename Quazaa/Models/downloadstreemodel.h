@@ -28,6 +28,7 @@
 
 #include <QAbstractItemModel>
 #include "types.h"
+#include "FileFragments.hpp"
 
 #include <QItemDelegate>
 
@@ -146,6 +147,8 @@ public slots:
 	friend class CDownloadItem;
 };
 
+#include <QPainter>
+
 class CDownloadsItemDelegate : public QItemDelegate
 {
 	Q_OBJECT
@@ -153,6 +156,25 @@ public:
 	inline CDownloadsItemDelegate(QObject* parent)
 		: QItemDelegate(parent)
 	{}
+
+	inline void paintFrags(const Fragments::List& frags, const QColor& color, const QStyleOptionViewItem& option, QPainter* painter) const
+	{
+		int		width = option.rect.width();
+		quint64 fileSize = frags.limit();
+		double  factor = (width * 1.0f) / (fileSize * 1.0f);
+
+		QBrush brush(color, Qt::SolidPattern);
+		painter->setBrush(brush);
+		painter->setPen(Qt::NoPen);
+
+		Fragments::List::const_iterator pItr = frags.begin();
+		const Fragments::List::const_iterator pEnd = frags.end();
+		for ( ; pItr != pEnd; ++pItr )
+		{
+			QRectF r(option.rect.left() + pItr->begin() * factor, option.rect.top(), pItr->size() * factor, option.rect.height());
+			painter->drawRect(r);
+		}
+	}
 
 	inline void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const
 	{
@@ -162,6 +184,26 @@ public:
 			return;
 		}
 
+		Fragments::List list(100);
+		list.insert(Fragments::Fragment(0,10));
+		list.insert(Fragments::Fragment(40,60));
+		list.insert(Fragments::Fragment(80,100));
+
+		paintFrags(list, QColor::fromRgb(255,128,0), option, painter);
+
+		QPen pen(Qt::black);
+		pen.setWidth(4);
+		painter->setPen(pen);
+		painter->setBrush(Qt::NoBrush);
+		painter->drawRect(option.rect);
+
+		pen.setWidth(2);
+		pen.setColor(Qt::white);
+		painter->setPen(pen);
+		painter->drawLine(option.rect.topLeft(), option.rect.topRight());
+		painter->drawLine(option.rect.bottomLeft(), option.rect.bottomRight());
+
+		/*
 		// Set up a QStyleOptionProgressBar to precisely mimic the
 		// environment of a progress bar.
 		QStyleOptionProgressBar progressBarOption;
@@ -180,7 +222,7 @@ public:
 		progressBarOption.text = QString().sprintf("%d%%", progressBarOption.progress);
 
 		// Draw the progress bar onto the view.
-		QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
+		QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);*/
 	}
 };
 
