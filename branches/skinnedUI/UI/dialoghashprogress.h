@@ -41,7 +41,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogHashProgress* m_ui;
+	Ui::DialogHashProgress* ui;
 
 signals:
 	void closed();

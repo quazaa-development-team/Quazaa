@@ -26,20 +26,20 @@
 
 DialogAddRule::DialogAddRule(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogAddRule)
+	ui(new Ui::DialogAddRule)
 {
-	m_ui->setupUi(this);
-	m_ui->comboBoxAction->setView(new QListView());
-	m_ui->comboBoxExpire->setView(new QListView());
-	m_ui->comboBoxHashType->setView(new QListView());
-	m_ui->comboBoxRuleType->setView(new QListView());
+	ui->setupUi(this);
+	ui->comboBoxAction->setView(new QListView());
+	ui->comboBoxExpire->setView(new QListView());
+	ui->comboBoxHashType->setView(new QListView());
+	ui->comboBoxRuleType->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
 
 DialogAddRule::~DialogAddRule()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogAddRule::changeEvent(QEvent* e)
@@ -48,7 +48,7 @@ void DialogAddRule::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -69,5 +69,5 @@ void DialogAddRule::on_pushButtonCancel_clicked()
 
 void DialogAddRule::skinChangeEvent()
 {
-	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

@@ -27,17 +27,17 @@
 
 DialogOpenTorrent::DialogOpenTorrent(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogOpenTorrent)
+	ui(new Ui::DialogOpenTorrent)
 {
-	m_ui->setupUi(this);
-	m_ui->comboBoxAllocationMode->setView(new QListView());
+	ui->setupUi(this);
+	ui->comboBoxAllocationMode->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
 
 DialogOpenTorrent::~DialogOpenTorrent()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogOpenTorrent::changeEvent(QEvent* e)
@@ -45,7 +45,7 @@ void DialogOpenTorrent::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -66,5 +66,5 @@ void DialogOpenTorrent::on_pushButtonCancel_clicked()
 
 void DialogOpenTorrent::skinChangeEvent()
 {
-	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

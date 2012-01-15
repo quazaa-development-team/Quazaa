@@ -40,7 +40,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogSelectVisualisation* m_ui;
+	Ui::DialogSelectVisualisation* ui;
 
 signals:
 	void closed();

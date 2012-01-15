@@ -26,16 +26,16 @@
 
 DialogCloseType::DialogCloseType(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogCloseType)
+	ui(new Ui::DialogCloseType)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
 
 DialogCloseType::~DialogCloseType()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogCloseType::changeEvent(QEvent* e)
@@ -44,7 +44,7 @@ void DialogCloseType::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -53,7 +53,7 @@ void DialogCloseType::changeEvent(QEvent* e)
 
 void DialogCloseType::on_pushButtonOK_clicked()
 {
-	quazaaSettings.System.CloseMode = m_ui->comboBoxCloseType->currentIndex() + 1;
+	quazaaSettings.System.CloseMode = ui->comboBoxCloseType->currentIndex() + 1;
 	emit closed();
 	close();
 }
@@ -61,5 +61,5 @@ void DialogCloseType::on_pushButtonOK_clicked()
 void DialogCloseType::skinChangeEvent()
 {
 	setStyleSheet(skinSettings.standardItems);
-	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

@@ -73,7 +73,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetSearchTemplate* m_ui;
+	Ui::WidgetSearchTemplate* ui;
 
 protected slots:
 	void OnStatsUpdated();

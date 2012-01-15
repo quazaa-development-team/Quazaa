@@ -40,7 +40,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogAddDownload* m_ui;
+	Ui::DialogAddDownload* ui;
 
 signals:
 	void closed();

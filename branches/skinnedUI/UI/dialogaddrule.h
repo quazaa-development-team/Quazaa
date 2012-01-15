@@ -40,7 +40,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogAddRule* m_ui;
+	Ui::DialogAddRule* ui;
 
 signals:
 	void closed();
