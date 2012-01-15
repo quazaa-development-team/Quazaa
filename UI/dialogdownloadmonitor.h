@@ -42,7 +42,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogDownloadMonitor* m_ui;
+	Ui::DialogDownloadMonitor* ui;
 
 signals:
 	void closed();

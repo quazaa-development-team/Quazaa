@@ -30,17 +30,17 @@
 
 DialogAbout::DialogAbout(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogAbout)
+	ui(new Ui::DialogAbout)
 {
-	m_ui->setupUi(this);
-	m_ui->labelVersion->setText(m_ui->labelVersion->text().replace("&lt;version&gt;", quazaaGlobals.ApplicationVersionString()));
+	ui->setupUi(this);
+	ui->labelVersion->setText(ui->labelVersion->text().replace("&lt;version&gt;", quazaaGlobals.ApplicationVersionString()));
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
 
 DialogAbout::~DialogAbout()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogAbout::changeEvent(QEvent* e)
@@ -48,7 +48,7 @@ void DialogAbout::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -73,5 +73,5 @@ void DialogAbout::on_textBrowserCredits_anchorClicked(QUrl link)
 
 void DialogAbout::skinChangeEvent()
 {
-	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

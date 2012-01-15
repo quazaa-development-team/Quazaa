@@ -27,16 +27,16 @@
 
 DialogSecuritySubscriptions::DialogSecuritySubscriptions(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogSecuritySubscriptions)
+	ui(new Ui::DialogSecuritySubscriptions)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
 
 DialogSecuritySubscriptions::~DialogSecuritySubscriptions()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogSecuritySubscriptions::changeEvent(QEvent* e)
@@ -45,7 +45,7 @@ void DialogSecuritySubscriptions::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -65,9 +65,9 @@ void DialogSecuritySubscriptions::on_pushButtonAddSubscription_clicked()
 
 void DialogSecuritySubscriptions::on_pushButtonOK_clicked()
 {
-	if(m_ui->pushButtonApply->isEnabled())
+	if(ui->pushButtonApply->isEnabled())
 	{
-		m_ui->pushButtonApply->click();
+		ui->pushButtonApply->click();
 	}
 	emit closed();
 	close();
@@ -81,6 +81,6 @@ void DialogSecuritySubscriptions::on_pushButtonCancel_clicked()
 
 void DialogSecuritySubscriptions::skinChangeEvent()
 {
-	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
-	m_ui->treeWidgetSubscriptions->setStyleSheet(skinSettings.listViews);
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	ui->treeWidgetSubscriptions->setStyleSheet(skinSettings.listViews);
 }

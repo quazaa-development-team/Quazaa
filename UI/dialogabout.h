@@ -42,7 +42,7 @@ protected:
 	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogAbout* m_ui;
+	Ui::DialogAbout* ui;
 
 signals:
 	void closed();

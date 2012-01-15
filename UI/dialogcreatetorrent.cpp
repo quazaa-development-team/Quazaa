@@ -25,17 +25,17 @@
 
 DialogCreateTorrent::DialogCreateTorrent(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogCreateTorrent)
+	ui(new Ui::DialogCreateTorrent)
 {
-	m_ui->setupUi(this);
-	m_ui->comboBoxSeedDHT->setView(new QListView());
+	ui->setupUi(this);
+	ui->comboBoxSeedDHT->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
 
 DialogCreateTorrent::~DialogCreateTorrent()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogCreateTorrent::changeEvent(QEvent* e)
@@ -43,7 +43,7 @@ void DialogCreateTorrent::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -64,8 +64,8 @@ void DialogCreateTorrent::on_pushButtonSave_clicked()
 
 void DialogCreateTorrent::skinChangeEvent()
 {
-	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
-	m_ui->listWidgetFilesDirectories->setStyleSheet(skinSettings.listViews);
-	m_ui->treeWidgetDHTSeed->setStyleSheet(skinSettings.listViews);
-	m_ui->treeWidgetTracker->setStyleSheet(skinSettings.listViews);
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	ui->listWidgetFilesDirectories->setStyleSheet(skinSettings.listViews);
+	ui->treeWidgetDHTSeed->setStyleSheet(skinSettings.listViews);
+	ui->treeWidgetTracker->setStyleSheet(skinSettings.listViews);
 }

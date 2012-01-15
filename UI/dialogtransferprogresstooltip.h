@@ -43,7 +43,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogTransferProgressTooltip* m_ui;
+	Ui::DialogTransferProgressTooltip* ui;
 	void skinChangeEvent();
 };
 

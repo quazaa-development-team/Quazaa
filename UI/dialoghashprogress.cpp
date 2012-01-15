@@ -25,16 +25,16 @@
 
 DialogHashProgress::DialogHashProgress(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogHashProgress)
+	ui(new Ui::DialogHashProgress)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
 
 DialogHashProgress::~DialogHashProgress()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogHashProgress::changeEvent(QEvent* e)
@@ -43,7 +43,7 @@ void DialogHashProgress::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -52,9 +52,9 @@ void DialogHashProgress::changeEvent(QEvent* e)
 
 void DialogHashProgress::updateProgress(int percent, QString status, QString file)
 {
-	m_ui->progressBarStatus->setValue(percent);
-	m_ui->labelStatus->setText(status);
-	m_ui->labelFileName->setText(file);
+	ui->progressBarStatus->setValue(percent);
+	ui->labelStatus->setText(status);
+	ui->labelFileName->setText(file);
 }
 
 void DialogHashProgress::skinChangeEvent()

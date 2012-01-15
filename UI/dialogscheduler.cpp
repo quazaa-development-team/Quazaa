@@ -27,18 +27,18 @@
 
 DialogScheduler::DialogScheduler(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogScheduler)
+	ui(new Ui::DialogScheduler)
 {
-	m_ui->setupUi(this);
-	m_ui->comboBoxAction->setView(new QListView());
-	m_ui->comboBoxOnceWeekly->setView(new QListView());
+	ui->setupUi(this);
+	ui->comboBoxAction->setView(new QListView());
+	ui->comboBoxOnceWeekly->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
 
 DialogScheduler::~DialogScheduler()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogScheduler::changeEvent(QEvent* e)
@@ -47,7 +47,7 @@ void DialogScheduler::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -59,53 +59,53 @@ void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 	switch(index)
 	{
 		case 0:
-			m_ui->spinBoxBandwidth->setEnabled(true);
-			m_ui->labelNetworks->setEnabled(true);
-			m_ui->checkBoxAres->setEnabled(true);
-			m_ui->checkBoxBitTorrent->setEnabled(true);
-			m_ui->checkBoxEDonkey->setEnabled(true);
-			m_ui->checkBoxG2->setEnabled(true);
-			m_ui->labelStop->setEnabled(true);
-			m_ui->dateTimeEditStop->setEnabled(true);
+			ui->spinBoxBandwidth->setEnabled(true);
+			ui->labelNetworks->setEnabled(true);
+			ui->checkBoxAres->setEnabled(true);
+			ui->checkBoxBitTorrent->setEnabled(true);
+			ui->checkBoxEDonkey->setEnabled(true);
+			ui->checkBoxG2->setEnabled(true);
+			ui->labelStop->setEnabled(true);
+			ui->dateTimeEditStop->setEnabled(true);
 			break;
 		case 1:
-			m_ui->spinBoxBandwidth->setEnabled(false);
-			m_ui->labelNetworks->setEnabled(false);
-			m_ui->checkBoxAres->setEnabled(false);
-			m_ui->checkBoxBitTorrent->setEnabled(false);
-			m_ui->checkBoxEDonkey->setEnabled(false);
-			m_ui->checkBoxG2->setEnabled(false);
-			m_ui->labelStop->setEnabled(true);
-			m_ui->dateTimeEditStop->setEnabled(true);
+			ui->spinBoxBandwidth->setEnabled(false);
+			ui->labelNetworks->setEnabled(false);
+			ui->checkBoxAres->setEnabled(false);
+			ui->checkBoxBitTorrent->setEnabled(false);
+			ui->checkBoxEDonkey->setEnabled(false);
+			ui->checkBoxG2->setEnabled(false);
+			ui->labelStop->setEnabled(true);
+			ui->dateTimeEditStop->setEnabled(true);
 			break;
 		case 2:
-			m_ui->spinBoxBandwidth->setEnabled(false);
-			m_ui->labelNetworks->setEnabled(false);
-			m_ui->checkBoxAres->setEnabled(false);
-			m_ui->checkBoxBitTorrent->setEnabled(false);
-			m_ui->checkBoxEDonkey->setEnabled(false);
-			m_ui->checkBoxG2->setEnabled(false);
-			m_ui->labelStop->setEnabled(false);
-			m_ui->dateTimeEditStop->setEnabled(false);
+			ui->spinBoxBandwidth->setEnabled(false);
+			ui->labelNetworks->setEnabled(false);
+			ui->checkBoxAres->setEnabled(false);
+			ui->checkBoxBitTorrent->setEnabled(false);
+			ui->checkBoxEDonkey->setEnabled(false);
+			ui->checkBoxG2->setEnabled(false);
+			ui->labelStop->setEnabled(false);
+			ui->dateTimeEditStop->setEnabled(false);
 			break;
 		default:
-			m_ui->spinBoxBandwidth->setEnabled(true);
-			m_ui->labelNetworks->setEnabled(true);
-			m_ui->checkBoxAres->setEnabled(true);
-			m_ui->checkBoxBitTorrent->setEnabled(true);
-			m_ui->checkBoxEDonkey->setEnabled(true);
-			m_ui->checkBoxG2->setEnabled(true);
-			m_ui->labelStop->setEnabled(true);
-			m_ui->dateTimeEditStop->setEnabled(true);
+			ui->spinBoxBandwidth->setEnabled(true);
+			ui->labelNetworks->setEnabled(true);
+			ui->checkBoxAres->setEnabled(true);
+			ui->checkBoxBitTorrent->setEnabled(true);
+			ui->checkBoxEDonkey->setEnabled(true);
+			ui->checkBoxG2->setEnabled(true);
+			ui->labelStop->setEnabled(true);
+			ui->dateTimeEditStop->setEnabled(true);
 			break;
 	}
 }
 
 void DialogScheduler::on_pushButtonOK_clicked()
 {
-	if(m_ui->pushButtonApply->isEnabled())
+	if(ui->pushButtonApply->isEnabled())
 	{
-		m_ui->pushButtonApply->click();
+		ui->pushButtonApply->click();
 	}
 	emit closed();
 	close();
@@ -119,5 +119,5 @@ void DialogScheduler::on_pushButtonCancel_clicked()
 
 void DialogScheduler::skinChangeEvent()
 {
-	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

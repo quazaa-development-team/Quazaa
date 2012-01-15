@@ -27,44 +27,44 @@
 
 DialogWizard::DialogWizard(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogWizard)
+	ui(new Ui::DialogWizard)
 {
-	m_ui->setupUi(this);
-	m_ui->comboBoxGender->setView(new QListView());
+	ui->setupUi(this);
+	ui->comboBoxGender->setView(new QListView());
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
-	m_ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed / 1024) * 8);
-	m_ui->doubleSpinBoxOutSpeed->setValue((quazaaSettings.Connection.OutSpeed / 1024) * 8);
-	m_ui->spinBoxQuazaaPort->setValue(quazaaSettings.Connection.Port);
-	m_ui->checkBoxRandomPort->setChecked(quazaaSettings.Connection.RandomPort);
-	m_ui->checkBoxUPnP->setChecked(quazaaSettings.Security.EnableUPnP);
-	m_ui->checkBoxAllowBrowseShares->setChecked(quazaaSettings.Security.AllowSharesBrowse);
-	m_ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
-	m_ui->checkBoxAllowBrowseProfile->setChecked(quazaaSettings.Security.AllowProfileBrowse);
-	m_ui->lineEditIrcNick->setText(quazaaSettings.Profile.IrcNickname);
-	m_ui->lineEditIrcAlternateNick->setText(quazaaSettings.Profile.IrcAlternateNickname);
-	m_ui->lineEditGnutellaScreenName->setText(quazaaSettings.Profile.GnutellaScreenName);
-	m_ui->comboBoxGender->setCurrentIndex(quazaaSettings.Profile.Gender);
-	m_ui->spinBoxAge->setValue(quazaaSettings.Profile.Age);
-	m_ui->lineEditCountry->setText(quazaaSettings.Profile.Country);
-	m_ui->lineEditStateProvince->setText(quazaaSettings.Profile.StateProvince);
-	m_ui->lineEditCity->setText(quazaaSettings.Profile.City);
-	m_ui->checkBoxG2Connect->setChecked(quazaaSettings.Gnutella2.Enable);
-	m_ui->checkBoxAresConnect->setChecked(quazaaSettings.Ares.Enable);
-	m_ui->checkBoxED2kConnect->setChecked(quazaaSettings.EDonkey.Enable);
-	m_ui->checkBoxKadConnect->setChecked(quazaaSettings.EDonkey.EnableKad);
-	m_ui->checkBoxBitTorrentLinks->setChecked(quazaaSettings.Web.Torrent);
-	m_ui->checkBoxBitTorrentKademliaConnect->setChecked(quazaaSettings.BitTorrent.UseKademlia);
-	m_ui->checkBoxConnectNetworksAlways->setChecked(quazaaSettings.System.ConnectOnStartup);
-	m_ui->checkBoxOSStart->setChecked(quazaaSettings.System.StartWithSystem);
-	m_ui->checkBoxSimpleProgress->setChecked(quazaaSettings.Transfers.SimpleProgressBar);
-	m_ui->checkBoxSlowHashing->setChecked(!quazaaSettings.Library.HighPriorityHashing);
-	m_ui->pagesWizard->setCurrentIndex(0);
+	ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed / 1024) * 8);
+	ui->doubleSpinBoxOutSpeed->setValue((quazaaSettings.Connection.OutSpeed / 1024) * 8);
+	ui->spinBoxQuazaaPort->setValue(quazaaSettings.Connection.Port);
+	ui->checkBoxRandomPort->setChecked(quazaaSettings.Connection.RandomPort);
+	ui->checkBoxUPnP->setChecked(quazaaSettings.Security.EnableUPnP);
+	ui->checkBoxAllowBrowseShares->setChecked(quazaaSettings.Security.AllowSharesBrowse);
+	ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
+	ui->checkBoxAllowBrowseProfile->setChecked(quazaaSettings.Security.AllowProfileBrowse);
+	ui->lineEditIrcNick->setText(quazaaSettings.Profile.IrcNickname);
+	ui->lineEditIrcAlternateNick->setText(quazaaSettings.Profile.IrcAlternateNickname);
+	ui->lineEditGnutellaScreenName->setText(quazaaSettings.Profile.GnutellaScreenName);
+	ui->comboBoxGender->setCurrentIndex(quazaaSettings.Profile.Gender);
+	ui->spinBoxAge->setValue(quazaaSettings.Profile.Age);
+	ui->lineEditCountry->setText(quazaaSettings.Profile.Country);
+	ui->lineEditStateProvince->setText(quazaaSettings.Profile.StateProvince);
+	ui->lineEditCity->setText(quazaaSettings.Profile.City);
+	ui->checkBoxG2Connect->setChecked(quazaaSettings.Gnutella2.Enable);
+	ui->checkBoxAresConnect->setChecked(quazaaSettings.Ares.Enable);
+	ui->checkBoxED2kConnect->setChecked(quazaaSettings.EDonkey.Enable);
+	ui->checkBoxKadConnect->setChecked(quazaaSettings.EDonkey.EnableKad);
+	ui->checkBoxBitTorrentLinks->setChecked(quazaaSettings.Web.Torrent);
+	ui->checkBoxBitTorrentKademliaConnect->setChecked(quazaaSettings.BitTorrent.UseKademlia);
+	ui->checkBoxConnectNetworksAlways->setChecked(quazaaSettings.System.ConnectOnStartup);
+	ui->checkBoxOSStart->setChecked(quazaaSettings.System.StartWithSystem);
+	ui->checkBoxSimpleProgress->setChecked(quazaaSettings.Transfers.SimpleProgressBar);
+	ui->checkBoxSlowHashing->setChecked(!quazaaSettings.Library.HighPriorityHashing);
+	ui->pagesWizard->setCurrentIndex(0);
 }
 
 DialogWizard::~DialogWizard()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogWizard::changeEvent(QEvent* e)
@@ -72,7 +72,7 @@ void DialogWizard::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -81,12 +81,12 @@ void DialogWizard::changeEvent(QEvent* e)
 
 void DialogWizard::on_pushButtonConnectionBack_clicked()
 {
-	m_ui->pagesWizard->setCurrentIndex(0);
+	ui->pagesWizard->setCurrentIndex(0);
 }
 
 void DialogWizard::on_pushButtonConnectionNext_clicked()
 {
-	m_ui->pagesWizard->setCurrentIndex(2);
+	ui->pagesWizard->setCurrentIndex(2);
 }
 
 void DialogWizard::on_pushButtonConnectionExit_clicked()
@@ -97,7 +97,7 @@ void DialogWizard::on_pushButtonConnectionExit_clicked()
 
 void DialogWizard::on_pushButtonWelcomeNext_clicked()
 {
-	m_ui->pagesWizard->setCurrentIndex(1);
+	ui->pagesWizard->setCurrentIndex(1);
 }
 
 void DialogWizard::on_pushButtonWelcomeExit_clicked()
@@ -108,12 +108,12 @@ void DialogWizard::on_pushButtonWelcomeExit_clicked()
 
 void DialogWizard::on_pushButtonSharesBack_clicked()
 {
-	m_ui->pagesWizard->setCurrentIndex(1);
+	ui->pagesWizard->setCurrentIndex(1);
 }
 
 void DialogWizard::on_pushButtonSharesNext_clicked()
 {
-	m_ui->pagesWizard->setCurrentIndex(3);
+	ui->pagesWizard->setCurrentIndex(3);
 }
 
 void DialogWizard::on_pushButtonSharesExit_clicked()
@@ -124,12 +124,12 @@ void DialogWizard::on_pushButtonSharesExit_clicked()
 
 void DialogWizard::on_pushButtonChatBack_clicked()
 {
-	m_ui->pagesWizard->setCurrentIndex(2);
+	ui->pagesWizard->setCurrentIndex(2);
 }
 
 void DialogWizard::on_pushButtonChatNext_clicked()
 {
-	m_ui->pagesWizard->setCurrentIndex(4);
+	ui->pagesWizard->setCurrentIndex(4);
 }
 
 void DialogWizard::on_pushButtonChatExit_clicked()
@@ -140,12 +140,12 @@ void DialogWizard::on_pushButtonChatExit_clicked()
 
 void DialogWizard::on_pushButtonNetworksBack_clicked()
 {
-	m_ui->pagesWizard->setCurrentIndex(3);
+	ui->pagesWizard->setCurrentIndex(3);
 }
 
 void DialogWizard::on_pushButtonNetworksNext_clicked()
 {
-	m_ui->pagesWizard->setCurrentIndex(5);
+	ui->pagesWizard->setCurrentIndex(5);
 }
 
 void DialogWizard::on_pushButtonNetworksExit_clicked()
@@ -156,42 +156,42 @@ void DialogWizard::on_pushButtonNetworksExit_clicked()
 
 void DialogWizard::on_pushButtonSystemBack_clicked()
 {
-	m_ui->pagesWizard->setCurrentIndex(4);
+	ui->pagesWizard->setCurrentIndex(4);
 }
 
 void DialogWizard::on_pushButtonSystemFinish_clicked()
 {
-	quazaaSettings.Connection.InSpeed = (m_ui->doubleSpinBoxInSpeed->value() / 8) * 1024;
-	quazaaSettings.Connection.OutSpeed = (m_ui->doubleSpinBoxOutSpeed->value() / 8) * 1024;
-	quazaaSettings.Connection.Port = m_ui->spinBoxQuazaaPort->value();
-	quazaaSettings.Connection.RandomPort = m_ui->checkBoxRandomPort->isChecked();
-	quazaaSettings.Security.EnableUPnP = m_ui->checkBoxUPnP->isChecked();
-	quazaaSettings.Security.AllowSharesBrowse = m_ui->checkBoxAllowBrowseShares->isChecked();
+	quazaaSettings.Connection.InSpeed = (ui->doubleSpinBoxInSpeed->value() / 8) * 1024;
+	quazaaSettings.Connection.OutSpeed = (ui->doubleSpinBoxOutSpeed->value() / 8) * 1024;
+	quazaaSettings.Connection.Port = ui->spinBoxQuazaaPort->value();
+	quazaaSettings.Connection.RandomPort = ui->checkBoxRandomPort->isChecked();
+	quazaaSettings.Security.EnableUPnP = ui->checkBoxUPnP->isChecked();
+	quazaaSettings.Security.AllowSharesBrowse = ui->checkBoxAllowBrowseShares->isChecked();
 	quazaaSettings.Library.Shares.clear();
-	for(int m_iSharesRow = 0; m_iSharesRow < m_ui->listWidgetShares->count(); ++m_iSharesRow)
+	for(int m_iSharesRow = 0; m_iSharesRow < ui->listWidgetShares->count(); ++m_iSharesRow)
 	{
-		m_ui->listWidgetShares->setCurrentRow(m_iSharesRow);
-		quazaaSettings.Library.Shares.append(m_ui->listWidgetShares->currentItem()->text());
+		ui->listWidgetShares->setCurrentRow(m_iSharesRow);
+		quazaaSettings.Library.Shares.append(ui->listWidgetShares->currentItem()->text());
 	}
-	quazaaSettings.Security.AllowProfileBrowse = m_ui->checkBoxAllowBrowseProfile->isChecked();
-	quazaaSettings.Profile.IrcNickname = m_ui->lineEditIrcNick->text();
-	quazaaSettings.Profile.IrcAlternateNickname = m_ui->lineEditIrcAlternateNick->text();
-	quazaaSettings.Profile.GnutellaScreenName = m_ui->lineEditGnutellaScreenName->text();
-	quazaaSettings.Profile.Gender = m_ui->comboBoxGender->currentIndex();
-	quazaaSettings.Profile.Age = m_ui->spinBoxAge->value();
-	quazaaSettings.Profile.Country = m_ui->lineEditCountry->text();
-	quazaaSettings.Profile.StateProvince = m_ui->lineEditStateProvince->text();
-	quazaaSettings.Profile.City = m_ui->lineEditCity->text();
-	quazaaSettings.Gnutella2.Enable = m_ui->checkBoxG2Connect->isChecked();
-	quazaaSettings.Ares.Enable = m_ui->checkBoxAresConnect->isChecked();
-	quazaaSettings.EDonkey.Enable = m_ui->checkBoxED2kConnect->isChecked();
-	quazaaSettings.EDonkey.EnableKad = m_ui->checkBoxKadConnect->isChecked();
-	quazaaSettings.Web.Torrent = m_ui->checkBoxBitTorrentLinks->isChecked();
-	quazaaSettings.BitTorrent.UseKademlia = m_ui->checkBoxBitTorrentKademliaConnect->isChecked();
-	quazaaSettings.System.ConnectOnStartup = m_ui->checkBoxConnectNetworksAlways->isChecked();
-	quazaaSettings.System.StartWithSystem = m_ui->checkBoxOSStart->isChecked();
-	quazaaSettings.Transfers.SimpleProgressBar = m_ui->checkBoxSimpleProgress->isChecked();
-	quazaaSettings.Library.HighPriorityHashing = !m_ui->checkBoxSlowHashing->isChecked();
+	quazaaSettings.Security.AllowProfileBrowse = ui->checkBoxAllowBrowseProfile->isChecked();
+	quazaaSettings.Profile.IrcNickname = ui->lineEditIrcNick->text();
+	quazaaSettings.Profile.IrcAlternateNickname = ui->lineEditIrcAlternateNick->text();
+	quazaaSettings.Profile.GnutellaScreenName = ui->lineEditGnutellaScreenName->text();
+	quazaaSettings.Profile.Gender = ui->comboBoxGender->currentIndex();
+	quazaaSettings.Profile.Age = ui->spinBoxAge->value();
+	quazaaSettings.Profile.Country = ui->lineEditCountry->text();
+	quazaaSettings.Profile.StateProvince = ui->lineEditStateProvince->text();
+	quazaaSettings.Profile.City = ui->lineEditCity->text();
+	quazaaSettings.Gnutella2.Enable = ui->checkBoxG2Connect->isChecked();
+	quazaaSettings.Ares.Enable = ui->checkBoxAresConnect->isChecked();
+	quazaaSettings.EDonkey.Enable = ui->checkBoxED2kConnect->isChecked();
+	quazaaSettings.EDonkey.EnableKad = ui->checkBoxKadConnect->isChecked();
+	quazaaSettings.Web.Torrent = ui->checkBoxBitTorrentLinks->isChecked();
+	quazaaSettings.BitTorrent.UseKademlia = ui->checkBoxBitTorrentKademliaConnect->isChecked();
+	quazaaSettings.System.ConnectOnStartup = ui->checkBoxConnectNetworksAlways->isChecked();
+	quazaaSettings.System.StartWithSystem = ui->checkBoxOSStart->isChecked();
+	quazaaSettings.Transfers.SimpleProgressBar = ui->checkBoxSimpleProgress->isChecked();
+	quazaaSettings.Library.HighPriorityHashing = !ui->checkBoxSlowHashing->isChecked();
 	quazaaSettings.saveProfile();
 	quazaaSettings.saveSettings();
 	emit closed();
@@ -213,21 +213,21 @@ void DialogWizard::on_pushButtonSharesAdd_clicked()
 	                    options);
 	if(!directory.isEmpty())
 	{
-		m_ui->listWidgetShares->addItem(directory);
+		ui->listWidgetShares->addItem(directory);
 	}
 }
 
 void DialogWizard::on_pushButtonSharesRemove_clicked()
 {
-	if(m_ui->listWidgetShares->currentRow() != -1)
+	if(ui->listWidgetShares->currentRow() != -1)
 	{
-		m_ui->listWidgetShares->takeItem(m_ui->listWidgetShares->currentRow());
+		ui->listWidgetShares->takeItem(ui->listWidgetShares->currentRow());
 	}
 }
 
 
 void DialogWizard::skinChangeEvent()
 {
-	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
-	m_ui->listWidgetShares->setStyleSheet(skinSettings.listViews);
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	ui->listWidgetShares->setStyleSheet(skinSettings.listViews);
 }

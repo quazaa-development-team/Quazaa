@@ -41,7 +41,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogPreviewPrepare* m_ui;
+	Ui::DialogPreviewPrepare* ui;
 
 signals:
 	void closed();

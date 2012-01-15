@@ -25,16 +25,16 @@
 
 DialogSelectVisualisation::DialogSelectVisualisation(QWidget* parent) :
 	QDialog(parent),
-	m_ui(new Ui::DialogSelectVisualisation)
+	ui(new Ui::DialogSelectVisualisation)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 	connect(&skinSettings, SIGNAL(skinChanged()), this, SLOT(skinChangeEvent()));
 	skinChangeEvent();
 }
 
 DialogSelectVisualisation::~DialogSelectVisualisation()
 {
-	delete m_ui;
+	delete ui;
 }
 
 void DialogSelectVisualisation::changeEvent(QEvent* e)
@@ -43,7 +43,7 @@ void DialogSelectVisualisation::changeEvent(QEvent* e)
 	switch(e->type())
 	{
 		case QEvent::LanguageChange:
-			m_ui->retranslateUi(this);
+			ui->retranslateUi(this);
 			break;
 		default:
 			break;
@@ -52,9 +52,9 @@ void DialogSelectVisualisation::changeEvent(QEvent* e)
 
 void DialogSelectVisualisation::on_pushButtonOK_clicked()
 {
-	if(m_ui->pushButtonApply->isEnabled())
+	if(ui->pushButtonApply->isEnabled())
 	{
-		m_ui->pushButtonApply->click();
+		ui->pushButtonApply->click();
 	}
 	emit closed();
 	close();
@@ -68,5 +68,5 @@ void DialogSelectVisualisation::on_pushButtonCancel_clicked()
 
 void DialogSelectVisualisation::skinChangeEvent()
 {
-	m_ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

@@ -41,7 +41,7 @@ protected:
 	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogCreateTorrent* m_ui;
+	Ui::DialogCreateTorrent* ui;
 
 signals:
 	void closed();
