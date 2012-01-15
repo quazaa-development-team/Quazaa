@@ -172,7 +172,7 @@ public:
 		const Fragments::List::const_iterator pEnd = frags.end();
 		for ( ; pItr != pEnd; ++pItr )
 		{
-			QRectF r(option.rect.left() + pItr->begin() * factor, option.rect.top() + 2, pItr->size() * factor, option.rect.height() -2 );
+			QRectF r(option.rect.left() + pItr->begin() * factor + 1, option.rect.top() + 2, pItr->size() * factor - 1, option.rect.height() -2 );
 			painter->drawRect(r);
 		}
 	}

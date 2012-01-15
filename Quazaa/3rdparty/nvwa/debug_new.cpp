@@ -297,7 +297,7 @@ bool new_verbose_flag = false;
  * one may change it to a user stream if needed (say, #new_verbose_flag
  * is \c true and there are a lot of (de)allocations).
  */
-FILE* new_output_fp = stderr;
+FILE* new_output_fp = stdout;
 
 /**
  * Pointer to the program name.  Its initial value is the macro
