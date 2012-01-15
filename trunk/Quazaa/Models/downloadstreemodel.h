@@ -165,7 +165,8 @@ public:
 		double  factor = (width * 1.0f) / (fileSize * 1.0f);
 
 		QBrush progressBrush(color, Qt::SolidPattern);
-		QBrush verifiedBrush(Qt::green, Qt::SolidPattern);
+		QBrush verifiedBrush(QColor(32, 112, 20), Qt::SolidPattern);
+		QBrush verifyFailedBrush(Qt::red, Qt::SolidPattern);
 
 		painter->setPen(Qt::NoPen);
 
@@ -180,8 +181,13 @@ public:
 			// Paint verified sections
 			// if (current fragment isVerified)
 			painter->setBrush(verifiedBrush);
-			r = QRectF(option.rect.left() + pItr->begin() * factor + 1, option.rect.bottom() - 4, pItr->size() * factor - 1, 4 );
+			r = QRectF(option.rect.left() + pItr->begin() * factor + 1, option.rect.bottom() - 5, pItr->size() * factor - 1, 5 );
 			painter->drawRect(r);
+
+			// TODO if(current fragment failedVerification)
+			// painter->setBrush(verifyFailedBrush);
+			// r = QRectF(option.rect.left() + pItr->begin() * factor + 1, option.rect.bottom() - 4, pItr->size() * factor - 1, 4 );
+			// painter->drawRect(r);
 		}
 	}
 
