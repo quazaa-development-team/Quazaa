@@ -164,15 +164,23 @@ public:
 		quint64 fileSize = frags.limit();
 		double  factor = (width * 1.0f) / (fileSize * 1.0f);
 
-		QBrush brush(color, Qt::SolidPattern);
-		painter->setBrush(brush);
+		QBrush progressBrush(color, Qt::SolidPattern);
+		QBrush verifiedBrush(Qt::green, Qt::SolidPattern);
+
 		painter->setPen(Qt::NoPen);
 
 		Fragments::List::const_iterator pItr = frags.begin();
 		const Fragments::List::const_iterator pEnd = frags.end();
 		for ( ; pItr != pEnd; ++pItr )
 		{
+			painter->setBrush(progressBrush);
 			QRectF r(option.rect.left() + pItr->begin() * factor + 1, option.rect.top() + 2, pItr->size() * factor - 1, option.rect.height() -2 );
+			painter->drawRect(r);
+
+			// Paint verified sections
+			// if (current fragment isVerified)
+			painter->setBrush(verifiedBrush);
+			r = QRectF(option.rect.left() + pItr->begin() * factor + 1, option.rect.bottom() - 4, pItr->size() * factor - 1, 4 );
 			painter->drawRect(r);
 		}
 	}
