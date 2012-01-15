@@ -31,6 +31,7 @@
 #include "FileFragments.hpp"
 
 #include <QItemDelegate>
+#include <QPalette>
 
 class CDownload;
 class CDownloadSource;
@@ -171,7 +172,7 @@ public:
 		const Fragments::List::const_iterator pEnd = frags.end();
 		for ( ; pItr != pEnd; ++pItr )
 		{
-			QRectF r(option.rect.left() + pItr->begin() * factor, option.rect.top(), pItr->size() * factor, option.rect.height());
+			QRectF r(option.rect.left() + pItr->begin() * factor, option.rect.top() + 2, pItr->size() * factor, option.rect.height() -2 );
 			painter->drawRect(r);
 		}
 	}
@@ -191,17 +192,20 @@ public:
 
 		paintFrags(list, QColor::fromRgb(255,128,0), option, painter);
 
-		QPen pen(Qt::black);
+		QPen pen(Qt::transparent);
 		pen.setWidth(4);
 		painter->setPen(pen);
 		painter->setBrush(Qt::NoBrush);
 		painter->drawRect(option.rect);
 
-		pen.setWidth(2);
-		pen.setColor(Qt::white);
+		pen.setWidth(1);
+		pen.setColor(qApp->palette().color(QPalette::Mid));
 		painter->setPen(pen);
-		painter->drawLine(option.rect.topLeft(), option.rect.topRight());
-		painter->drawLine(option.rect.bottomLeft(), option.rect.bottomRight());
+		QRect borderRect(option.rect.left(), option.rect.top() + 1, option.rect.width(), option.rect.height() - 1);
+		painter->drawLine(borderRect.topLeft(), borderRect.topRight());
+		painter->drawLine(borderRect.topLeft(), borderRect.bottomLeft());
+		painter->drawLine(borderRect.bottomLeft(), borderRect.bottomRight());
+		painter->drawLine(borderRect.topRight(), borderRect.bottomRight());
 
 		/*
 		// Set up a QStyleOptionProgressBar to precisely mimic the
