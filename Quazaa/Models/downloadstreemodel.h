@@ -165,7 +165,7 @@ public:
 		double  factor = (width * 1.0f) / (fileSize * 1.0f);
 
 		QBrush progressBrush(color, Qt::SolidPattern);
-		QBrush verifiedBrush(QColor(32, 112, 20), Qt::SolidPattern);
+		QBrush verifiedBrush(QColor(48, 94, 137), Qt::SolidPattern);
 		QBrush verifyFailedBrush(Qt::red, Qt::SolidPattern);
 
 		painter->setPen(Qt::NoPen);
