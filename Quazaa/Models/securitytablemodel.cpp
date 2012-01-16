@@ -432,10 +432,15 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 		m_bNeedSorting = true;
 	}
 
-	// Make sure we don't recieve any signals we don't want once we got all rules once.
-	if ( m_lNodes.size() == (int)securityManager.getCount() )
-		disconnect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ),
-					this, SLOT( addRule( CSecureRule* ) ) );
+    if ( QObject::receivers ( SIGNAL( ruleInfo( CSecureRule* ) ) ) )
+    {
+        QReadLocker l( &(securityManager.m_pRWLock) );
+
+        // Make sure we don't recieve any signals we don't want once we got all rules once.
+        if ( m_lNodes.size() == (int)securityManager.getCount() )
+            disconnect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ),
+                        this, SLOT( addRule( CSecureRule* ) ) );
+    }
 }
 
 void CSecurityTableModel::removeRule(const QSharedPointer<CSecureRule> pRule)
