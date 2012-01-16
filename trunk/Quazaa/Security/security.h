@@ -131,7 +131,7 @@ namespace security
 		/* ================================================================ */
 		/* ========================== Operations ========================== */
 		/* ================================================================ */
-        inline size_t	getCount() const;
+		inline quint32	getCount() const;
 
 		inline bool		denyPolicy() const;
 		void			setDenyPolicy(bool bDenyPolicy);
@@ -226,7 +226,7 @@ namespace security
 		inline CSecurityRuleList::iterator getRWIterator(CIterator const_it);
 	};
 
-    size_t CSecurity::getCount() const
+	quint32 CSecurity::getCount() const
 	{
 		return m_Rules.size();
 	}
