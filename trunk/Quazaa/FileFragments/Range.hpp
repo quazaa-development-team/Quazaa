@@ -57,7 +57,7 @@ public:
 			m_range.first = ~0ULL - 1000;
 			m_range.second = ~0ULL;
 
-			qDebug("RangeError - default - begin: %u - end: %u", begin, end );
+			qDebug( qPrintable(QString("RangeError - default - begin: %1 - end: %2").arg(begin).arg(end)) );
 		}
 	}   
 	Range(std::pair< size_type, size_type > range, const payload_type& payload = payload_type())
@@ -68,7 +68,7 @@ public:
 			m_range.first = ~0ULL - 1000;
 			m_range.second = ~0ULL;
 
-			qDebug( "RangeError - pair - begin: %u - end: %u", range.first, range.second );
+			qDebug( qPrintable(QString("RangeError - pair - begin: %1 - end: %2").arg(range.first).arg(range.second)) );
 		}
 	}
 
@@ -109,7 +109,7 @@ template< typename SizeT, class PayloadT >
 struct RangeCompare
 : public std::binary_function< Range< SizeT, PayloadT >, Range< SizeT, PayloadT >, bool >
 {
-	result_type operator()(first_argument_type lhs, second_argument_type rhs) const
+	typename RangeCompare<SizeT, PayloadT>::result_type operator()(typename RangeCompare<SizeT, PayloadT>::first_argument_type lhs, typename RangeCompare<SizeT, PayloadT>::second_argument_type rhs) const
 	{
 		return lhs.end() <= rhs.begin();
 	}
