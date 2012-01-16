@@ -53,7 +53,7 @@ CTimerObject::CTimerObject(QObject* obj, const char* member, quint64 tInterval, 
 	// Copy the c-string we have been given.
 	const size_t nLength = strlen( member );
 	char* sTmp = new char[nLength + 1];	// We need 1 extra char for the terminal \0.
-	strcpy( sTmp, member );				// This is supposed to be safe as eventual changes to pTimerObject->
+	qstrcpy( sTmp, member );				// This is supposed to be safe as eventual changes to pTimerObject->
 										// m_sSignal.sName should originate from the same thread.
 	m_sSignal.sName = sTmp;
 
@@ -88,7 +88,7 @@ CTimerObject::CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
 	// Copy the c-string we have been given.
 	const size_t nLength = strlen( member );
 	char* sTmp = new char[nLength + 1];	// We need 1 extra char for the terminal \0.
-	strcpy( sTmp, member );				// This is supposed to be safe as eventual changes to pTimerObject->
+	qstrcpy( sTmp, member );				// This is supposed to be safe as eventual changes to pTimerObject->
 										// m_sSignal.sName should originate from the same thread.
 	m_sSignal.sName = sTmp;
 
@@ -119,7 +119,7 @@ CTimerObject::CTimerObject(const CTimerObject* const pTimerObject)
 	// Copy the c-string from pTimerObject
 	const size_t nLength = strlen( pTimerObject->m_sSignal.sName );
 	char* sTmp = new char[nLength + 1];				// We need 1 extra char for the terminal 0.
-	strcpy( sTmp, pTimerObject->m_sSignal.sName );	// This is supposed to be safe as eventual changes to pTimerObject->
+	qstrcpy( sTmp, pTimerObject->m_sSignal.sName );	// This is supposed to be safe as eventual changes to pTimerObject->
 													// m_sSignal.sName should originate from the same thread.
 	m_sSignal.sName = sTmp;
 

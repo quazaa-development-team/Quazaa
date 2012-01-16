@@ -157,7 +157,7 @@ void DatagramOut::Create(CEndPoint oAddr, G2Packet* pPacket, quint16 nSequence, 
 	m_nAcked = m_nCount;
 
 	GND_HEADER pHeader;
-	strncpy(&pHeader.szTag[0], "GND", 3);
+	qstrncpy(&pHeader.szTag[0], "GND", 3);
 	pHeader.nFlags = (m_bCompressed ? 0x01 : 0);
 	m_bAck = bAck;
 	if(m_bAck)
