@@ -230,7 +230,7 @@ void CHash::AddData(const char *pData, quint32 nLength)
 		( (QCryptographicHash*)m_pContext )->addData( pData, nLength );
 	}
 }
-void CHash::AddData(QByteArray &baData)
+void CHash::AddData(QByteArray baData)
 {
 	AddData( baData.data(), baData.length() );
 }

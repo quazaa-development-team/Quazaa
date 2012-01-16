@@ -56,7 +56,7 @@ public:
 	QString ToString() const;
 
 	void AddData(const char* pData, quint32 nLength);
-	void AddData(QByteArray& baData);
+	void AddData(QByteArray baData);
 
 	QString GetFamilyName();
 
