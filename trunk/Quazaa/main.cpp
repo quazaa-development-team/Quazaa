@@ -29,7 +29,7 @@
 #include "quazaasettings.h"
 #include "dialoglanguage.h"
 #include "timedsignalqueue.h"
-#include "qtsingleapplication/src/QtSingleApplication"
+#include <QtSingleApplication>
 
 #include "geoiplist.h"
 #include "network.h"

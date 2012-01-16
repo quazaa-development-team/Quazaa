@@ -53,6 +53,7 @@ INCLUDEPATH += NetworkCore \
 	FileFragments \
 	.
 
+include(3rdparty/qtsingleapplication/qtsingleapplication.pri)
 include(Chat/IRC/irc.pri)
 
 # Version stuff
@@ -222,12 +223,6 @@ SOURCES += \
 	NetworkCore/types.cpp \
 	NetworkCore/webcache.cpp \
 	NetworkCore/zlibutils.cpp \
-	qtsingleapplication/src/qtlocalpeer.cpp \
-	qtsingleapplication/src/qtlockedfile_unix.cpp \
-	qtsingleapplication/src/qtlockedfile_win.cpp \
-	qtsingleapplication/src/qtlockedfile.cpp \
-	qtsingleapplication/src/qtsingleapplication.cpp \
-	qtsingleapplication/src/qtsinglecoreapplication.cpp \
 	quazaaglobals.cpp \
 	quazaasettings.cpp \
 	Security/securerule.cpp \
@@ -365,10 +360,6 @@ HEADERS += \
 	NetworkCore/types.h \
 	NetworkCore/webcache.h \
 	NetworkCore/zlibutils.h \
-	qtsingleapplication/src/qtlocalpeer.h \
-	qtsingleapplication/src/qtlockedfile.h \
-	qtsingleapplication/src/qtsingleapplication.h \
-	qtsingleapplication/src/qtsinglecoreapplication.h \
 	quazaaglobals.h \
 	quazaasettings.h \
 	Security/securerule.h \
