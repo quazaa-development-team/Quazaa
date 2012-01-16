@@ -33,6 +33,7 @@
 namespace Fragments
 {
 
+
 template< class RangeT, class ContainerT >
 class ListTraits
 {

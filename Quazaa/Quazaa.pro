@@ -151,7 +151,6 @@ win32-msvc2010 {
 		/MP
         QMAKE_CXXFLAGS_RELEASE += /Gd \
 		/GA \
-		/Og \
 		/MD \
 		/MP
 	QMAKE_LFLAGS_DEBUG += /FIXED:NO
