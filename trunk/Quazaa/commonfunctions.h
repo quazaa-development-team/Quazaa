@@ -26,13 +26,14 @@
 #define COMMONFUNCTIONS_H
 
 #include <iterator>
+#include <stdlib.h>
 
 #include <QReadWriteLock>
 
 
 namespace OSVersion {
 	enum OSVersion{ Linux, Unix, BSD, MacCheetah, MacPuma, MacJaguar, MacPanther, MacTiger, MacLeopard, MacSnowLeopard, Win2000, WinXP, Win2003, WinVista, Win7 };
-};
+}
 
 namespace common
 {
