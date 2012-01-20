@@ -76,7 +76,7 @@ QVariant CDownloadsTreeModel::data(const QModelIndex &index, int role) const
 		{
 			if(index.column() == CDownloadsTreeModel::NAME)
 			{
-				CDownloadsItemBase *item = static_cast<CDownloadsItemBase*>(index.internalPointer());
+				CDownloadSourceItem *item = static_cast<CDownloadSourceItem*>(index.internalPointer());
 				switch(item->m_nProtocol)
 				{
 					case tpHTTP:
@@ -87,10 +87,10 @@ QVariant CDownloadsTreeModel::data(const QModelIndex &index, int role) const
 			}
 			if(index.column() == CDownloadsTreeModel::COUNTRY)
 			{
-				CDownloadsItemBase *item = static_cast<CDownloadsItemBase*>(index.internalPointer());
+				CDownloadSourceItem *item = static_cast<CDownloadSourceItem*>(index.internalPointer());
 				if(item->m_nProtocol != tpNull)
 				{
-					return item->m_iCountry;
+					return QIcon(":/Resource/Flags/" + item->getCountry().toLower() + ".png");
 				}
 			}
 		}
@@ -222,7 +222,6 @@ CDownloadsItemBase::CDownloadsItemBase(QObject *parent)
 	  m_bChanged(false)
 {
 	m_nProtocol = tpNull;
-	m_iCountry = QIcon();
 }
 
 CDownloadsItemBase::~CDownloadsItemBase()
@@ -286,7 +285,6 @@ CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CD
 	m_nPriority = download->m_nPriority;
 	m_nCompleted = download->m_nCompletedSize;
 	m_nProtocol = tpNull;
-	m_iCountry = QIcon();
 
 	QMetaObject::invokeMethod(download, "emitSources", Qt::QueuedConnection);
 }
@@ -407,7 +405,6 @@ CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownl
 	m_sClient = "";
 	m_nDownloaded = 0;
 	m_sCountry = GeoIP.findCountryCode(downloadSource->m_oAddress);
-	m_iCountry = QIcon(":/Resource/Flags/" + m_sCountry.toLower() + ".png");
 	m_nProtocol = downloadSource->m_nProtocol;
 }
 
@@ -460,4 +457,9 @@ QVariant CDownloadSourceItem::data(int column) const
 		break;
 
 	}
+}
+
+QString CDownloadSourceItem::getCountry()
+{
+	return m_sCountry;
 }

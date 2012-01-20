@@ -53,7 +53,6 @@ public:
 	virtual CDownloadsItemBase* parent();
 
 	bool m_bChanged;
-	QIcon m_iCountry;
 	TransferProtocol m_nProtocol;	// the network used. this should always be tpNull for CDownloadsItemBase but child sources should always contain a value
 
 protected:
@@ -108,6 +107,9 @@ protected:
 	QString m_sClient;		// remote client
 	quint64 m_nDownloaded;	// downloaded bytes from this source
 	QString m_sCountry;		//
+
+public slots:
+	QString getCountry();
 };
 
 class CDownloadsTreeModel : public QAbstractItemModel
