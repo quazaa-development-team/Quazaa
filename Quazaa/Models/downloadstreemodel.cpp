@@ -218,8 +218,8 @@ void CDownloadsTreeModel::onDownloadAdded(CDownload *pDownload)
 
 CDownloadsItemBase::CDownloadsItemBase(QObject *parent)
 	: QObject(parent),
-	  parentItem(0),
-	  m_bChanged(false)
+	  m_bChanged(false),
+	  parentItem(0)
 {
 	m_nProtocol = tpNull;
 }

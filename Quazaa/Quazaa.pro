@@ -305,7 +305,8 @@ SOURCES += \
     UI/widgetircsidebars.cpp \
     Skin/skinsettings.cpp \
     Models/downloadstreemodel.cpp \
-    Transfers/downloadtransfer.cpp
+    Transfers/downloadtransfer.cpp \
+    UI/suggestedlineedit.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -453,7 +454,8 @@ HEADERS += \
     FileFragments/List.hpp \
     FileFragments/FileFragments.hpp \
     FileFragments/Exception.hpp \
-    FileFragments/Compatibility.hpp
+    FileFragments/Compatibility.hpp \
+    UI/suggestedlineedit.h
 
 FORMS += \
 	UI/dialogabout.ui \

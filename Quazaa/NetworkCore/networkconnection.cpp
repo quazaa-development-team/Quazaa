@@ -38,6 +38,8 @@ CNetworkConnection::CNetworkConnection(QObject* parent)
 {
 	static int dummy = qRegisterMetaType<QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
 	static int dummy2 = qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
+	Q_UNUSED(dummy);
+	Q_UNUSED(dummy2);
 
 	//qDebug() << "CNetworkConnection constructor";
 
