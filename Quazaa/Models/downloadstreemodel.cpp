@@ -29,6 +29,7 @@
 #include "downloadsource.h"
 
 #include "commonfunctions.h"
+#include "geoiplist.h"
 
 using namespace common;
 
@@ -73,7 +74,7 @@ QVariant CDownloadsTreeModel::data(const QModelIndex &index, int role) const
 		}
 	case Qt::DecorationRole:
 		{
-			if(index.column() == 0)
+			if(index.column() == CDownloadsTreeModel::NAME)
 			{
 				CDownloadsItemBase *item = static_cast<CDownloadsItemBase*>(index.internalPointer());
 				switch(item->m_nProtocol)
@@ -82,6 +83,14 @@ QVariant CDownloadsTreeModel::data(const QModelIndex &index, int role) const
 						return QIcon(":/Resource/Networks/http.png");
 					case tpBitTorrent:
 						return QIcon(":/Resource/Networks/BitTorrent.png");
+				}
+			}
+			if(index.column() == CDownloadsTreeModel::COUNTRY)
+			{
+				CDownloadsItemBase *item = static_cast<CDownloadsItemBase*>(index.internalPointer());
+				if(item->m_nProtocol != tpNull)
+				{
+					return item->m_iCountry;
 				}
 			}
 		}
@@ -213,6 +222,7 @@ CDownloadsItemBase::CDownloadsItemBase(QObject *parent)
 	  m_bChanged(false)
 {
 	m_nProtocol = tpNull;
+	m_iCountry = QIcon();
 }
 
 CDownloadsItemBase::~CDownloadsItemBase()
@@ -276,6 +286,7 @@ CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CD
 	m_nPriority = download->m_nPriority;
 	m_nCompleted = download->m_nCompletedSize;
 	m_nProtocol = tpNull;
+	m_iCountry = QIcon();
 
 	QMetaObject::invokeMethod(download, "emitSources", Qt::QueuedConnection);
 }
@@ -395,7 +406,8 @@ CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownl
 	m_nStatus = 0;
 	m_sClient = "";
 	m_nDownloaded = 0;
-	m_sCountry = "";
+	m_sCountry = GeoIP.findCountryCode(downloadSource->m_oAddress);
+	m_iCountry = QIcon(":/Resource/Flags/" + m_sCountry.toLower() + ".png");
 	m_nProtocol = downloadSource->m_nProtocol;
 }
 
@@ -441,7 +453,7 @@ QVariant CDownloadSourceItem::data(int column) const
 			return formatBytes(m_nDownloaded);
 		break;
 	case CDownloadsTreeModel::COUNTRY:
-			return m_sCountry;
+			return GeoIP.countryNameFromCode(m_sCountry);
 		break;
 	default:
 			return QVariant();
