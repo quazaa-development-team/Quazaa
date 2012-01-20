@@ -191,5 +191,6 @@ void CSharedFile::setup()
 	m_bShared = false;
 
 	static int dummy = qRegisterMetaType<CSharedFilePtr>( "CSharedFilePtr" );
+	Q_UNUSED(dummy);
 }
 

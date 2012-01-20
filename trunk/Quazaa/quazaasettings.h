@@ -560,7 +560,7 @@ namespace Settings
 		quint32		QueryHostDeadline;						// Time before ending queries
 		quint32		QueryHostThrottle;						// Bandwidth throttling for queries
 		quint32		QueryLimit;								// Maximum amount of concurrent queries
-		quint32		QueryKeyTime;							// Time in seconds before re-requesting query key
+		qint32		QueryKeyTime;							// Time in seconds before re-requesting query key
 		int			RequeryDelay;							// Time before sending another query
 		int			UdpBuffers;								// UDP protocol buffer size
 		quint32		UdpInExpire;							// Time before incoming an incloming UDP connection

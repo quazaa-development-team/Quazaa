@@ -31,6 +31,7 @@
 #include "geoiplist.h"
 #include <QDesktopServices>
 #include <QDir>
+#include "quazaasettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -330,7 +331,7 @@ CHostCacheHost* CHostCache::GetConnectable(QDateTime tNow, QString sCountry)
 				continue;
 			}
 		}
-		if(pHost->m_tLastConnect.secsTo(tNow) > ReconnectTime)
+		if(pHost->m_tLastConnect.secsTo(tNow) > quazaaSettings.Gnutella.ConnectThrottle)
 		{
 			return pHost;
 		}

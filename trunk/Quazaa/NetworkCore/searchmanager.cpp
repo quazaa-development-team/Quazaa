@@ -218,7 +218,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 			{
 				CEndPoint a;
 				pPacket->ReadHostAddress(&a, !(nLength >= 18));
-				quint32 tSeen = (nLength >= (a.protocol() == 0 ? 10 : 22)) ? pPacket->ReadIntLE<quint32>() + tAdjust : tNow.toTime_t() - 60;
+				quint32 tSeen = (nLength >= (a.protocol() == 0 ? 10u : 22u)) ? pPacket->ReadIntLE<quint32>() + tAdjust : tNow.toTime_t() - 60;
 
 				HostCache.Add(a, QDateTime::fromTime_t(tSeen));
 				nSuggestedHubs++;

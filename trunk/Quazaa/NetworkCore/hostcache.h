@@ -29,8 +29,6 @@
 #include <QList>
 #include <QMutex>
 
-const quint32 ReconnectTime = 3600;
-
 class CHostCacheHost
 {
 public:

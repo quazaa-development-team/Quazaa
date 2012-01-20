@@ -246,7 +246,7 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 
 			if(m_lSearchedNodes.contains(pHost->m_oAddress))
 			{
-				if(m_lSearchedNodes[pHost->m_oAddress].secsTo(tNow) < quazaaSettings.Gnutella2.QueryHostThrottle)
+				if(m_lSearchedNodes[pHost->m_oAddress].secsTo(tNow) < static_cast<int>(quazaaSettings.Gnutella2.QueryHostThrottle))
 				{
 					continue;
 				}

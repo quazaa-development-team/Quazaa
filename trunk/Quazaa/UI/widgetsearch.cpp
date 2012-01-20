@@ -27,6 +27,10 @@
 
 #include "quazaasettings.h"
 #include "systemlog.h"
+#include "suggestedlineedit.h"
+#include <QNetworkAccessManager>
+
+QNetworkAccessManager netManager; // TODO: move it to a better place ;)
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -51,6 +55,12 @@ WidgetSearch::WidgetSearch(QWidget* parent) :
 	connect(panelSearchResults, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(updateStats(WidgetSearchTemplate*)));
 	connect(panelSearchResults, SIGNAL(stateChanged()), this, SLOT(updateButtons()));
 	panelSearchResults->on_tabWidgetSearch_currentChanged(-1);
+
+	// TODO: make some settings to control this thingy
+	CSuggestedLineEdit* pSuggest = new CSuggestedLineEdit(ui->lineEditSearch, this);
+	pSuggest->setEnableExternal(true);
+	pSuggest->setMaxRecentItems(20);
+	pSuggest->setNetworkAccessManager(&netManager);
 }
 
 WidgetSearch::~WidgetSearch()
