@@ -740,5 +740,6 @@
         <file>Resource/Luna/top.png</file>
         <file>Resource/Luna/top-in.png</file>
         <file>Resource/Luna/unclickableTaskHeader.png</file>
+        <file>Resource/Networks/http.png</file>
     </qresource>
 </RCC>
