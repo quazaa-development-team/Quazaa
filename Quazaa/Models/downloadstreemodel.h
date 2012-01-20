@@ -53,6 +53,7 @@ public:
 	virtual CDownloadsItemBase* parent();
 
 	bool m_bChanged;
+	TransferProtocol m_nProtocol;	// the network used. this should always be tpNull for CDownloadsItemBase but child sources should always contain a value
 
 protected:
 	CDownloadsItemBase* parentItem;

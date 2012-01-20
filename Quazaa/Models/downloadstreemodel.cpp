@@ -71,6 +71,20 @@ QVariant CDownloadsTreeModel::data(const QModelIndex &index, int role) const
 					return Qt::AlignCenter;
 			}
 		}
+	case Qt::DecorationRole:
+		{
+			if(index.column() == 0)
+			{
+				CDownloadsItemBase *item = static_cast<CDownloadsItemBase*>(index.internalPointer());
+				switch(item->m_nProtocol)
+				{
+					case tpHTTP:
+						return QIcon(":/Resource/Networks/http.png");
+					case tpBitTorrent:
+						return QIcon(":/Resource/Networks/BitTorrent.png");
+				}
+			}
+		}
 	}
 
 	return QVariant();
@@ -198,6 +212,7 @@ CDownloadsItemBase::CDownloadsItemBase(QObject *parent)
 	  parentItem(0),
 	  m_bChanged(false)
 {
+	m_nProtocol = tpNull;
 }
 
 CDownloadsItemBase::~CDownloadsItemBase()
@@ -260,6 +275,7 @@ CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CD
 	m_nStatus = download->m_nState;
 	m_nPriority = download->m_nPriority;
 	m_nCompleted = download->m_nCompletedSize;
+	m_nProtocol = tpNull;
 
 	QMetaObject::invokeMethod(download, "emitSources", Qt::QueuedConnection);
 }
@@ -380,6 +396,7 @@ CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownl
 	m_sClient = "";
 	m_nDownloaded = 0;
 	m_sCountry = "";
+	m_nProtocol = downloadSource->m_nProtocol;
 }
 
 CDownloadSourceItem::~CDownloadSourceItem()
