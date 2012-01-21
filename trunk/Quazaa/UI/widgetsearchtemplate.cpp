@@ -135,9 +135,12 @@ void WidgetSearchTemplate::ClearSearch()
 void WidgetSearchTemplate::OnStatsUpdated()
 {
 	nFiles = searchModel->nFileCount;
-	nHits = m_pSearch->m_nHits;
-	nHubs = m_pSearch->m_nHubs;
-	nLeaves = m_pSearch->m_nLeaves;
+	if(m_pSearch)
+	{
+		nHits = m_pSearch->m_nHits;
+		nHubs = m_pSearch->m_nHubs;
+		nLeaves = m_pSearch->m_nLeaves;
+	}
 	emit statsUpdated(this);
 }
 
