@@ -53,9 +53,11 @@ CSuggestedLineEdit::CSuggestedLineEdit(QLineEdit *lineEdit, QObject *parent) :
 	}
 	lineEdit->completer()->setModel(m_pModel);
 	lineEdit->completer()->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+	lineEdit->completer()->setWrapAround(false);
 	connect(m_pLineEdit->completer(), SIGNAL(activated(QString)), this, SLOT(updateRecent()));
 	connect(m_pLineEdit, SIGNAL(returnPressed()), this, SLOT(updateRecent()));
-	connect(m_pLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(QString)));
+	connect(m_pLineEdit, SIGNAL(textEdited(const QString&)), this, SLOT(onTextChanged(QString)));
+	connect(m_pLineEdit->completer()->popup(), SIGNAL(clicked(const QModelIndex&)), this, SLOT(onItemActivated(const QModelIndex&)));
 
 	// object name used to save/restore recent suggestions
 	QString sObjName;
@@ -129,7 +131,10 @@ int CSuggestedLineEdit::maxRecentItems()
 
 void CSuggestedLineEdit::updateRecent()
 {
-	QString text = m_pLineEdit->text().toLower();
+	QString text = m_pLineEdit->text().toLower().trimmed();
+
+	if( text.isEmpty() )
+		return;
 
 	if( m_lRecent.contains(text) )
 	{
@@ -181,6 +186,7 @@ void CSuggestedLineEdit::setupCompleter()
 		{
 			QStandardItem* pSuggestionsItem = new QStandardItem();
 			pSuggestionsItem->setEnabled(false);
+			pSuggestionsItem->setSelectable(false);
 			pSuggestionsItem->setText(tr("Suggestions"));
 
 			m_pModel->appendRow(pSuggestionsItem);
@@ -196,12 +202,14 @@ void CSuggestedLineEdit::setupCompleter()
 	{
 		QStandardItem* item = new QStandardItem(tr("No recent items"));
 		item->setEnabled(false);
+		item->setSelectable(false);
 		m_pModel->appendRow(item);
 	}
 	else
 	{
 		QStandardItem* item = new QStandardItem(tr("Recent items"));
 		item->setEnabled(false);
+		item->setSelectable(false);
 		m_pModel->appendRow(item);
 
 		for(int i = 0; i < m_lRecent.size(); ++i)
@@ -209,6 +217,15 @@ void CSuggestedLineEdit::setupCompleter()
 			QStandardItem* newItem = new QStandardItem(m_lRecent.at(i));
 			m_pModel->appendRow(newItem);
 		}
+
+		QStandardItem* clrItem = new QStandardItem(tr("Clear recent items"));
+		QFont font;
+		font.setItalic(true);
+		font.setUnderline(true);
+		clrItem->setFont(font);
+		clrItem->setData(1, Qt::UserRole + 10);
+		clrItem->setTextAlignment(Qt::AlignRight);
+		m_pModel->appendRow(clrItem);
 	}
 
 	QAbstractItemView *view = m_pLineEdit->completer()->popup();
@@ -228,10 +245,13 @@ void CSuggestedLineEdit::finished()
 	QStringList suggestionsList;
 	QByteArray result = reply->readAll();
 	QXmlStreamReader xml(result);
-	while (!xml.atEnd()) {
+	while (!xml.atEnd())
+	{
 		xml.readNext();
-		if (xml.tokenType() == QXmlStreamReader::StartElement) {
-			if (xml.name() == QLatin1String("suggestion")) {
+		if (xml.tokenType() == QXmlStreamReader::StartElement)
+		{
+			if (xml.name() == QLatin1String("suggestion"))
+			{
 				QStringRef str = xml.attributes().value(QLatin1String("data"));
 				suggestionsList << str.toString();
 			}
@@ -250,6 +270,12 @@ void CSuggestedLineEdit::finished()
 	setupCompleter();
 }
 
+void CSuggestedLineEdit::clearRecent()
+{
+	m_lRecent.clear();
+	setupCompleter();
+}
+
 void CSuggestedLineEdit::onTextChanged(const QString &text)
 {
 	if(text.isEmpty())
@@ -261,6 +287,18 @@ void CSuggestedLineEdit::onTextChanged(const QString &text)
 	else
 	{
 		QTimer::singleShot(250, this, SLOT(getSuggestions()));
+	}
+}
+
+void CSuggestedLineEdit::onItemActivated(const QModelIndex &index)
+{
+	if( index.isValid() )
+	{
+		if(index.data(Qt::UserRole + 10).toInt() == 1)
+		{
+			clearRecent();
+			m_pLineEdit->setText(m_pLineEdit->completer()->completionPrefix());
+		}
 	}
 }
 
