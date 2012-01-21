@@ -31,6 +31,7 @@
 class QLineEdit;
 class QStandardItemModel;
 class QNetworkAccessManager;
+class QModelIndex;
 
 class CSuggestedLineEdit : public QObject
 {
@@ -65,9 +66,11 @@ public slots:
 	void getSuggestions();
 	void setupCompleter();
 	void finished();
+	void clearRecent();
 
 private slots:
 	void onTextChanged(const QString& text);
+	void onItemActivated(const QModelIndex& index);
 };
 
 
