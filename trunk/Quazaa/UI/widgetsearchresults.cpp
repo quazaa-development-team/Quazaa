@@ -157,6 +157,7 @@ void WidgetSearchResults::addSearchTab()
 	ui->tabWidgetSearch->setCurrentIndex(nTab);
 	ui->tabWidgetSearch->setTabsClosable(true);
 	connect(tabSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
+	connect(tabSearch, SIGNAL(resultsDoubleClicked()), this, SLOT(on_actionSearchDownload_triggered()));
 }
 
 void WidgetSearchResults::on_tabWidgetSearch_tabCloseRequested(int index)

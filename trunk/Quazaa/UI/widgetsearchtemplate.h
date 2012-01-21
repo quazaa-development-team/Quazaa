@@ -90,6 +90,8 @@ protected slots:
 public slots:
 	void saveHeaderState();
 	void loadHeaderState();
+private slots:
+	void on_treeViewSearchResults_doubleClicked(const QModelIndex &index);
 };
 
 #endif // WIDGETSEARCHTEMPLATE_H
