@@ -29,6 +29,7 @@
 #include "NetworkCore/managedsearch.h"
 #include "NetworkCore/query.h"
 #include "NetworkCore/queryhit.h"
+#include "downloads.h"
 
 #include "quazaasettings.h"
 
@@ -191,3 +192,34 @@ void WidgetSearchTemplate::loadHeaderState()
 	ui->treeViewSearchResults->header()->restoreState(quazaaSettings.WinMain.SearchHeader);
 }
 
+
+void WidgetSearchTemplate::on_treeViewSearchResults_doubleClicked(const QModelIndex &index)
+{
+	SearchTreeItem* itemSearch = searchModel->itemFromIndex(CurrentItem());
+
+	if( itemSearch != NULL )
+	{
+		CQueryHit* pHits = 0;
+		CQueryHit* pLast = 0;
+
+		for(int i = 0; i < itemSearch->childCount(); ++i)
+		{
+			if( pLast )
+			{
+				pLast->m_pNext = new CQueryHit(itemSearch->child(i)->HitData.pQueryHit.data());
+				pLast = pLast->m_pNext;
+			}
+			else
+			{
+				pHits = new CQueryHit(itemSearch->child(i)->HitData.pQueryHit.data());
+				pLast = pHits;
+			}
+		}
+
+		Downloads.m_pSection.lock();
+		Downloads.add(pHits);
+		Downloads.m_pSection.unlock();
+
+		delete pHits;
+	}
+}
