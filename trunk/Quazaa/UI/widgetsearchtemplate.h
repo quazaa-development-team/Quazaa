@@ -98,6 +98,7 @@ private slots:
 	void on_treeViewSearchResults_customContextMenuRequested(const QPoint &pos);
 	void on_actionDownload_triggered();
 	void on_actionViewReviews_triggered();
+	void on_actionVirusTotalCheck_triggered();
 };
 
 #endif // WIDGETSEARCHTEMPLATE_H
