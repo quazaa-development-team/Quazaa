@@ -26,6 +26,7 @@
 #define WIDGETDOWNLOADS_H
 
 #include <QMainWindow>
+#include <QMenu>
 
 class CDownloadsTreeModel;
 
@@ -49,9 +50,11 @@ private:
 	Ui::WidgetDownloads* ui;
 
 	CDownloadsTreeModel* m_pModel;
+	QMenu *downloadMenu;
 
 private slots:
 	 
+	void on_treeViewDownloads_customContextMenuRequested(const QPoint &pos);
 };
 
 #endif // WIDGETDOWNLOADS_H

@@ -29,6 +29,7 @@
 #include "NetworkCore/managedsearch.h"
 #include "NetworkCore/query.h"
 #include "NetworkCore/queryhit.h"
+#include "NetworkCore/Hashes/hash.h"
 #include "downloads.h"
 
 #include "quazaasettings.h"
@@ -37,11 +38,23 @@
 #include "debug_new.h"
 #endif
 
+#include <QDesktopServices>
+#include <QUrl>
+
 WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetSearchTemplate)
 {
 	ui->setupUi(this);
+	searchMenu = new QMenu(this);
+	searchMenu->addAction(ui->actionDownload);
+	searchMenu->addSeparator();
+	searchMenu->addAction(ui->actionMarkAsJunk);
+	searchMenu->addAction(ui->actionClearResults);
+	searchMenu->addSeparator();
+	searchMenu->addAction(ui->actionViewReviews);
+	searchMenu->addAction(ui->actionVirusTotalCheck);
+
 	sSearchString = searchString;
 	m_pSearch = 0;
 	nFiles = 0;
@@ -195,7 +208,7 @@ void WidgetSearchTemplate::loadHeaderState()
 
 void WidgetSearchTemplate::on_treeViewSearchResults_doubleClicked(const QModelIndex &index)
 {
-	SearchTreeItem* itemSearch = searchModel->itemFromIndex(CurrentItem());
+	SearchTreeItem* itemSearch = searchModel->itemFromIndex(index);
 
 	if( itemSearch != NULL )
 	{
@@ -221,5 +234,34 @@ void WidgetSearchTemplate::on_treeViewSearchResults_doubleClicked(const QModelIn
 		Downloads.m_pSection.unlock();
 
 		delete pHits;
+	}
+}
+
+void WidgetSearchTemplate::on_treeViewSearchResults_customContextMenuRequested(const QPoint &pos)
+{
+	QModelIndex currIndex = ui->treeViewSearchResults->indexAt(pos);
+	if( currIndex.isValid() )
+	{
+		searchMenu->exec(QCursor::pos());
+	}
+}
+
+void WidgetSearchTemplate::on_actionDownload_triggered()
+{
+	SearchTreeItem* itemSearch = searchModel->itemFromIndex(CurrentItem());
+
+	if( itemSearch != NULL )
+	{
+		on_treeViewSearchResults_doubleClicked(CurrentItem());
+	}
+}
+
+void WidgetSearchTemplate::on_actionViewReviews_triggered()
+{
+	SearchTreeItem* itemSearch = searchModel->itemFromIndex(CurrentItem());
+
+	if( itemSearch != NULL )
+	{
+		QDesktopServices::openUrl( QUrl(QString("http://bitzi.com/lookup/%1?v=detail&ref=quazaa").arg(itemSearch->HitData.lHashes.at(0).ToString()), QUrl::TolerantMode) );
 	}
 }

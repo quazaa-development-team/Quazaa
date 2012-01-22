@@ -40,6 +40,23 @@ WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	ui(new Ui::WidgetDownloads)
 {
 	ui->setupUi(this);
+	downloadMenu = new QMenu(this);
+	downloadMenu->addAction(ui->actionPreview);
+	downloadMenu->addAction(ui->actionAddToPlaylist);
+	downloadMenu->addAction(ui->actionShowMonitor);
+	downloadMenu->addSeparator();
+	downloadMenu->addAction(ui->actionResume);
+	downloadMenu->addAction(ui->actionPause);
+	downloadMenu->addAction(ui->actionCancel);
+	downloadMenu->addSeparator();
+	downloadMenu->addAction(ui->actionFindMoreSources);
+	downloadMenu->addSeparator();
+	downloadMenu->addAction(ui->actionViewReviews);
+	downloadMenu->addAction(ui->actionVirusTotalCheck);
+	downloadMenu->addSeparator();
+	downloadMenu->addAction(ui->actionHelp);
+	downloadMenu->addAction(ui->actionProperties);
+
 	m_pModel = new CDownloadsTreeModel();
 	ui->treeViewDownloads->setModel(m_pModel);
 	ui->treeViewDownloads->setItemDelegate(new CDownloadsItemDelegate(this));
@@ -87,3 +104,12 @@ void WidgetDownloads::saveWidget()
 	quazaaSettings.WinMain.DownloadsHeader = ui->treeViewDownloads->header()->saveState();
 }
 
+
+void WidgetDownloads::on_treeViewDownloads_customContextMenuRequested(const QPoint &pos)
+{
+	QModelIndex currIndex = ui->treeViewDownloads->indexAt(pos);
+	if( currIndex.isValid() )
+	{
+		downloadMenu->exec(QCursor::pos());
+	}
+}

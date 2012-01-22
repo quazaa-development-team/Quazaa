@@ -27,6 +27,7 @@
 
 #include <QtGui/QDialog>
 #include <QSortFilterProxyModel>
+#include <QMenu>
 #include "searchtreemodel.h"
 
 namespace Ui
@@ -82,6 +83,8 @@ protected:
 private:
 	Ui::WidgetSearchTemplate* ui;
 
+	QMenu *searchMenu;
+
 protected slots:
 	void OnStatsUpdated();
 	void OnStateChanged();
@@ -92,6 +95,9 @@ public slots:
 	void loadHeaderState();
 private slots:
 	void on_treeViewSearchResults_doubleClicked(const QModelIndex &index);
+	void on_treeViewSearchResults_customContextMenuRequested(const QPoint &pos);
+	void on_actionDownload_triggered();
+	void on_actionViewReviews_triggered();
 };
 
 #endif // WIDGETSEARCHTEMPLATE_H

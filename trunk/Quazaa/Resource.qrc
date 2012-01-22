@@ -741,5 +741,6 @@
         <file>Resource/Luna/top-in.png</file>
         <file>Resource/Luna/unclickableTaskHeader.png</file>
         <file>Resource/Networks/http.png</file>
+        <file>Resource/Network/virustotal-virus-scanner.png</file>
     </qresource>
 </RCC>
