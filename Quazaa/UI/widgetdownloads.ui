@@ -32,7 +32,11 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTreeView" name="treeViewDownloads"/>
+     <widget class="QTreeView" name="treeViewDownloads">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -61,7 +65,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionDownloadsFilterAll"/>
+   <addaction name="actionFilterAll"/>
   </widget>
   <widget class="QToolBar" name="toolBarControls">
    <property name="contextMenuPolicy">
@@ -88,15 +92,15 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionDownloadsPreview"/>
-   <addaction name="actionDownloadsPause"/>
-   <addaction name="actionDownloadsCancel"/>
+   <addaction name="actionPreview"/>
+   <addaction name="actionPause"/>
+   <addaction name="actionCancel"/>
    <addaction name="actionOpenTorrent"/>
    <addaction name="separator"/>
-   <addaction name="actionDownloadMarkAsJunk"/>
-   <addaction name="actionDownloadShowMonitor"/>
+   <addaction name="actionMarkAsJunk"/>
+   <addaction name="actionShowMonitor"/>
    <addaction name="separator"/>
-   <addaction name="actionDownloadProperties"/>
+   <addaction name="actionProperties"/>
   </widget>
   <widget class="QToolBar" name="toolBarFilter">
    <property name="contextMenuPolicy">
@@ -126,7 +130,7 @@
    <addaction name="actionClearCompleted"/>
    <addaction name="actionFilter"/>
   </widget>
-  <action name="actionDownloadsFilterAll">
+  <action name="actionFilterAll">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -141,7 +145,7 @@
     <string>All</string>
    </property>
   </action>
-  <action name="actionDownloadsPreview">
+  <action name="actionPreview">
    <property name="icon">
     <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/PlayMedia.png</normaloff>:/Resource/Media/PlayMedia.png</iconset>
@@ -153,7 +157,7 @@
     <string>Preview</string>
    </property>
   </action>
-  <action name="actionDownloadsPause">
+  <action name="actionPause">
    <property name="icon">
     <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
@@ -165,7 +169,7 @@
     <string>Pause</string>
    </property>
   </action>
-  <action name="actionDownloadsCancel">
+  <action name="actionCancel">
    <property name="icon">
     <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Cancel.png</normaloff>:/Resource/Generic/Cancel.png</iconset>
@@ -177,7 +181,7 @@
     <string>Cancel</string>
    </property>
   </action>
-  <action name="actionDownloadMarkAsJunk">
+  <action name="actionMarkAsJunk">
    <property name="icon">
     <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Library/Junk.png</normaloff>:/Resource/Library/Junk.png</iconset>
@@ -189,7 +193,7 @@
     <string>Mark As Junk</string>
    </property>
   </action>
-  <action name="actionDownloadShowMonitor">
+  <action name="actionShowMonitor">
    <property name="icon">
     <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Graph.png</normaloff>:/Resource/Generic/Graph.png</iconset>
@@ -201,7 +205,7 @@
     <string>Show Monitor</string>
    </property>
   </action>
-  <action name="actionDownloadProperties">
+  <action name="actionProperties">
    <property name="icon">
     <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
@@ -241,6 +245,60 @@
    </property>
    <property name="text">
     <string>Filter</string>
+   </property>
+  </action>
+  <action name="actionResume">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/DownloadPreview.png</normaloff>:/Resource/Generic/DownloadPreview.png</iconset>
+   </property>
+   <property name="text">
+    <string>Resume</string>
+   </property>
+  </action>
+  <action name="actionAddToPlaylist">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/AddPlaylist.png</normaloff>:/Resource/Media/AddPlaylist.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add To Playlist</string>
+   </property>
+  </action>
+  <action name="actionViewReviews">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
+   </property>
+   <property name="text">
+    <string>View Reviews</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Help.png</normaloff>:/Resource/Generic/Help.png</iconset>
+   </property>
+   <property name="text">
+    <string>Help</string>
+   </property>
+  </action>
+  <action name="actionFindMoreSources">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Find More Sources</string>
+   </property>
+  </action>
+  <action name="actionVirusTotalCheck">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/virustotal-virus-scanner.png</normaloff>:/Resource/Network/virustotal-virus-scanner.png</iconset>
+   </property>
+   <property name="text">
+    <string>Virus Total Check</string>
    </property>
   </action>
  </widget>
