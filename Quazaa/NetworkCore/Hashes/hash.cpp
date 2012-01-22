@@ -169,12 +169,12 @@ QString CHash::ToURN() const
 {
 	switch( m_nHashAlgorithm )
 	{
-	case CHash::SHA1:
-		return QString( "urn:sha1:" ) + ToString();
-	case CHash::MD5:
-		return QString("urn:md5:") + ToString();
-	case CHash::MD4:
-		break;
+		case CHash::SHA1:
+			return QString( "urn:sha1:" ) + ToString();
+		case CHash::MD5:
+			return QString("urn:md5:") + ToString();
+		case CHash::MD4:
+			break;
 	}
 
 	return QString();
@@ -188,12 +188,14 @@ QString CHash::ToString() const
 
 	switch( m_nHashAlgorithm )
 	{
-	case CHash::SHA1:
-		cyoBase32Encode( (char*)&pBuff, RawValue().data(), 20 );
-	case CHash::MD5:
-		cyoBase16Encode((char*)&pBuff, RawValue().data(), 16);
-	case CHash::MD4:
-		break;
+		case CHash::SHA1:
+			cyoBase32Encode( (char*)&pBuff, RawValue().data(), 20 );
+			break;
+		case CHash::MD5:
+			cyoBase16Encode((char*)&pBuff, RawValue().data(), 16);
+			break;
+		case CHash::MD4:
+			break;
 	}
 
 	return QString( pBuff );
