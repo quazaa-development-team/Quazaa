@@ -208,7 +208,8 @@ void WidgetSearchTemplate::loadHeaderState()
 
 void WidgetSearchTemplate::on_treeViewSearchResults_doubleClicked(const QModelIndex &index)
 {
-	SearchTreeItem* itemSearch = searchModel->itemFromIndex(index);
+	Q_UNUSED(index);
+	SearchTreeItem* itemSearch = searchModel->itemFromIndex(CurrentItem());
 
 	if( itemSearch != NULL )
 	{
