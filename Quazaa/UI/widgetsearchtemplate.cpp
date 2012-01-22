@@ -263,7 +263,7 @@ void WidgetSearchTemplate::on_actionViewReviews_triggered()
 
 	if( itemSearch != NULL )
 	{
-		QDesktopServices::openUrl( QUrl(QString("http://bitzi.com/lookup/%1.%2?v=detail&ref=quazaa").arg(itemSearch->HitData.lHashes.at(0).ToString()).arg("TTH"), QUrl::TolerantMode) );
+		QDesktopServices::openUrl( QUrl(QString("http://bitzi.com/lookup/%1?v=detail&ref=quazaa").arg(itemSearch->HitData.lHashes.at(0).ToString()), QUrl::TolerantMode) );
 	}
 }
 
