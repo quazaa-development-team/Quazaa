@@ -272,6 +272,6 @@ void WidgetSearchTemplate::on_actionVirusTotalCheck_triggered()
 
 	if( itemSearch != NULL )
 	{
-		QDesktopServices::openUrl( QUrl(QString("www.virustotal.com/latest-report.html?resource=%1").arg(itemSearch->HitData.lHashes.at(0).ToString()), QUrl::TolerantMode) );
+		QDesktopServices::openUrl( QUrl(QString("www.virustotal.com/latest-report.html?resource=%1").arg(QString(itemSearch->HitData.lHashes.at(0).RawValue().toHex())), QUrl::TolerantMode) );
 	}
 }
