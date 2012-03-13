@@ -49,7 +49,7 @@ private:
 	Ui::DialogDownloadsImport* ui;
 
 private slots:
-	 
+	void setSkin();
 };
 
 #endif // DIALOGDOWNLOADSIMPORT_H

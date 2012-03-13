@@ -28,6 +28,7 @@
 #include "dialogconnectto.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #include "commonfunctions.h"
 #include "network.h"
@@ -68,6 +69,7 @@ WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 	neighboursList = new CNeighboursTableModel(this, treeView());
 	setModel(neighboursList);
 	neighboursList->sort(ui->tableViewNeighbours->horizontalHeader()->sortIndicatorSection(), ui->tableViewNeighbours->horizontalHeader()->sortIndicatorOrder());
+	setSkin();
 }
 
 WidgetNeighbours::~WidgetNeighbours()
@@ -171,7 +173,7 @@ void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 		{
 		case DialogConnectTo::G2:
 			Neighbours.m_pSection.lock();
-			Neighbours.ConnectTo(ip, dpGnutella2);
+			Neighbours.ConnectTo(ip, dpGnutella2, false);
 			Neighbours.m_pSection.unlock();
 			break;
 		case DialogConnectTo::eDonkey:
@@ -195,7 +197,7 @@ void WidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 	Neighbours.m_pSection.lock();
 	if( Neighbours.NeighbourExists(pNode) )
 	{
-		systemLog.postLog(LogCategory::Network, LogSeverity::Information, qPrintable(tr("Closing connection to neighbour %s")), qPrintable(pNode->m_oAddress.toStringWithPort()));
+		systemLog.postLog(LogSeverity::Information, qPrintable(tr("Closing connection to neighbour %s")), qPrintable(pNode->m_oAddress.toStringWithPort()));
 		pNode->Close();
 	}
 	Neighbours.m_pSection.unlock();
@@ -237,3 +239,7 @@ void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 	}
 }
 
+void WidgetNeighbours::setSkin()
+{
+	ui->tableViewNeighbours->setStyleSheet(skinSettings.listViews);
+}

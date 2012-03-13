@@ -26,6 +26,8 @@
 #include "ui_dialoglanguage.h"
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
+#include "skinsettings.h"
+
 #include <QFile>
 #include <QFileInfo>
 #include <QTranslator>
@@ -190,6 +192,7 @@ DialogLanguage::DialogLanguage(QWidget* parent) :
 	{
 		ui->listWidgetLanguages->setCurrentRow(29);
 	}
+	setSkin();
 }
 
 DialogLanguage::~DialogLanguage()
@@ -326,3 +329,7 @@ void DialogLanguage::on_listWidgetLanguages_itemClicked(QListWidgetItem* item)
 	ui->pushButtonOK->setEnabled(true);
 }
 
+void DialogLanguage::setSkin()
+{
+
+}

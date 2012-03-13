@@ -49,6 +49,8 @@ public:
 
 	NodeState       m_nState;
 
+	bool			m_bAutomatic;
+
 
 public:
 	CNeighbour(QObject* parent = 0);
@@ -56,7 +58,7 @@ public:
 
 	virtual void ConnectTo(CEndPoint oAddress)
 	{
-		systemLog.postLog(LogCategory::Network, LogSeverity::Information, "Initiating neighbour connection to %s...", qPrintable(oAddress.toString()));
+		systemLog.postLog(LogSeverity::Information, "Initiating neighbour connection to %s...", qPrintable(oAddress.toString()));
 		m_nState = nsConnecting;
 		CNetworkConnection::ConnectTo(oAddress);
 	}
@@ -74,7 +76,6 @@ signals:
 public slots:
 	void OnDisconnect();
 	void OnError(QAbstractSocket::SocketError e);
-	void OnStateChange(QAbstractSocket::SocketState s);
 
 };
 

@@ -31,6 +31,7 @@
 #include "NetworkCore/queryhit.h"
 
 class CHash;
+class CFileIconProvider;
 
 namespace SearchHitData
 {
@@ -91,6 +92,8 @@ public:
 	int columnCount(const QModelIndex& parent = QModelIndex()) const;
 	int nFileCount;
 
+private:
+	CFileIconProvider* m_pIconProvider;
 signals:
 	void updateStats();
 	void sort();

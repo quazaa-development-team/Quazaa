@@ -63,6 +63,7 @@ private slots:
 	void on_comboBoxNetwork_currentIndexChanged(int index);
 	void on_pushButtonConnect_clicked();
 	void on_pushButtonCancel_clicked();
+	void setSkin();
 };
 
 #endif // DIALOGCONNECTTO_H

@@ -53,8 +53,8 @@ private:
 	QMenu *downloadMenu;
 
 private slots:
-	 
 	void on_treeViewDownloads_customContextMenuRequested(const QPoint &pos);
+	void setSkin();
 };
 
 #endif // WIDGETDOWNLOADS_H

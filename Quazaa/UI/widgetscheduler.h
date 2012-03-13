@@ -49,7 +49,7 @@ private:
 private slots:
 	void on_actionScheduleProperties_triggered();
 	void on_actionAddScheduledTask_triggered();
-	 
+	void setSkin();
 };
 
 #endif // WIDGETSCHEDULER_H

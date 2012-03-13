@@ -30,6 +30,7 @@
 
 #include <QReadWriteLock>
 
+#define NO_OF_REGISTRATIONS 8
 
 namespace OSVersion {
 	enum OSVersion{ Linux, Unix, BSD, MacCheetah, MacPuma, MacJaguar, MacPanther, MacTiger, MacLeopard, MacSnowLeopard, Win2000, WinXP, Win2003, WinVista, Win7 };
@@ -44,11 +45,65 @@ namespace common
 	QString fixFileName(QString sName);
 	QString getTempFileName(QString sName);
 
-	template <typename T>
-	inline T getRandomNum(T min, T max)
-	{
-		return static_cast<T>((qrand() * (max - min + 1) / RAND_MAX + 1.0) + min);
-	}
+    struct registeredSet
+    {
+        quint64 num64;
+        quint8 num8;
+    };
+    struct registerEntry
+    {
+        quint64 num64[NO_OF_REGISTRATIONS];
+    };
+    static quint64 registeredNumbers[NO_OF_REGISTRATIONS] = {};
+
+    registeredSet registerNumber();
+    bool unregisterNumber(registeredSet registered);
+
+    /**
+      * Returns an empty but initilized registerEntry.
+      */
+    inline registerEntry getRegisterEntry()
+    {
+        registerEntry res = { {} };
+        return res;
+    }
+
+    /**
+      * Returns true if registering set to entry was successful; false if already registered.
+      */
+    inline bool applyRegisteredSet( registeredSet &set, registerEntry &entry )
+    {
+        if ( entry.num64[set.num8] & set.num64 )
+        {
+            return false;
+        }
+        else
+        {
+            entry.num64[set.num8] &= set.num64;
+            return true;
+        }
+    }
+
+    /**
+      * Returns true if set was already registered to entry; false if already registered.
+      */
+    inline bool isRegisteredToEntry( registeredSet &set, registerEntry &entry )
+    {
+        if ( entry.num64[set.num8] & set.num64 )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    template <typename T>
+    inline T getRandomNum(T min, T max)
+    {
+		return min + T( ((max - min) + 1) * qrand() / (RAND_MAX + 1.0) );
+    }
 
 // TODO: Make this work.
 	// This generates a read/write iterator from a read-only iterator.
@@ -61,6 +116,7 @@ namespace common
 		return i;
 	}*/
 }
+
 
 // Convenience class to make sure the lock state is always well defined while allowing to use timeouts.
 // Class can also be used recursively. Plz make sure you don't modify the QReadWriteLock externally

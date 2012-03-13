@@ -35,6 +35,7 @@
  * @author  Wu Yongwei
  *
  */
+#ifdef _USE_DEBUG_NEW
 
 #ifndef _DEBUG_NEW_H
 #define _DEBUG_NEW_H
@@ -179,3 +180,5 @@ public:
 static __debug_new_counter __debug_new_count;
 
 #endif // _DEBUG_NEW_H
+
+#endif // _USE_DEBUG_NEW

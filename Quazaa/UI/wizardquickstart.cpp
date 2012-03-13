@@ -25,6 +25,8 @@
 #include "wizardquickstart.h"
 #include "ui_wizardquickstart.h"
 #include "quazaasettings.h"
+#include "skinsettings.h"
+
 #include <QFileDialog>
 
 #ifdef _DEBUG
@@ -64,6 +66,7 @@ WizardQuickStart::WizardQuickStart(QWidget *parent) :
 	ui->checkBoxOSStart->setChecked(quazaaSettings.System.StartWithSystem);
 	ui->checkBoxSimpleProgress->setChecked(quazaaSettings.Transfers.SimpleProgressBar);
 	ui->checkBoxSlowHashing->setChecked(!quazaaSettings.Library.HighPriorityHashing);
+	setSkin();
 }
 
 WizardQuickStart::~WizardQuickStart()
@@ -143,3 +146,7 @@ void WizardQuickStart::on_toolButtonSharesRemove_clicked()
     }
 }
 
+void WizardQuickStart::setSkin()
+{
+
+}

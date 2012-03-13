@@ -44,45 +44,23 @@ public:
 	QDateTime       m_tLastQuery;   // kiedy poslano ostatnie zapytanie?
 	QDateTime       m_tRetryAfter;  // kiedy mozna ponowic?
 	QDateTime       m_tLastConnect; // kiedy ostatnio sie polaczylismy?
+	qint32			m_nFailures;
+
+	QString			m_sCountry;
 
 public:
 	CHostCacheHost()
 	{
 		m_nQueryKey = 0;
+		m_sCountry = "ZZ";
+		m_nFailures = 0;
 	}
 
-	bool CanQuery(QDateTime tNow = QDateTime::currentDateTimeUtc())
-	{
-		if(tNow.isNull())
-		{
-			tNow = QDateTime::currentDateTimeUtc();
-		}
-
-		if(!m_tAck.isNull())
-		{
-			return false;
-		}
-
-		if(m_tTimestamp.secsTo(tNow) > 3600)
-		{
-			return false;
-		}
-
-		if(!m_tRetryAfter.isNull() && tNow.secsTo(m_tRetryAfter) < 0)
-		{
-			return false;
-		}
-
-		if(m_tLastQuery.isNull())
-		{
-			return true;
-		}
-
-		return (m_tLastQuery.secsTo(tNow) >= 120);
-	}
-
+	bool CanQuery(QDateTime tNow = QDateTime::currentDateTimeUtc());
 	void SetKey(quint32 nKey, CEndPoint* pHost = 0);
 };
+
+typedef QList<CHostCacheHost*>::iterator CHostCacheIterator;
 
 class CHostCache
 {
@@ -90,22 +68,34 @@ class CHostCache
 public:
 	QList<CHostCacheHost*>  m_lHosts;
 	QMutex					m_pSection;
+	QDateTime				m_tLastSave;
 
 public:
 	CHostCache();
 	~CHostCache();
 
 	CHostCacheHost* Add(CEndPoint host, QDateTime ts = QDateTime::currentDateTimeUtc());
-	void AddXTry(QString& sHeader);
-	QString GetXTry();
+
+	CHostCacheIterator FindIterator(CEndPoint oHost);
+	CHostCacheIterator FindIterator(CHostCacheHost* pHost);
+	inline CHostCacheHost* Find(CEndPoint oHost);
+	inline CHostCacheHost* Find(CHostCacheHost *pHost);
+
 	void Update(CEndPoint oHost);
 	void Update(CHostCacheHost* pHost);
+	void Update(CHostCacheIterator itHost);
+
 	void Remove(CHostCacheHost* pRemove);
-	CHostCacheHost* Find(CEndPoint oHost);
+	void Remove(CEndPoint oHost);
+
+	void AddXTry(QString& sHeader);
+	QString GetXTry();
+
 	void OnFailure(CEndPoint addr);
 	CHostCacheHost* Get();
-	CHostCacheHost* GetConnectable(QDateTime tNow = QDateTime::currentDateTimeUtc(), QString sCountry = QString("ZZ"));
+	CHostCacheHost* GetConnectable(QDateTime tNow = QDateTime::currentDateTimeUtc(), QList<CHostCacheHost*> oExcept = QList<CHostCacheHost*>(), QString sCountry = QString("ZZ"));
 
+	void Load();
 	void Save();
 
 	void PruneOldHosts();
@@ -120,6 +110,17 @@ public:
 		return (size() == 0);
 	}
 };
+
+CHostCacheHost* CHostCache::Find(CEndPoint oHost)
+{
+	CHostCacheIterator it = FindIterator(oHost);
+	return (it == m_lHosts.end() ? 0 : *it);
+}
+CHostCacheHost* CHostCache::Find(CHostCacheHost *pHost)
+{
+	CHostCacheIterator it = FindIterator(pHost);
+	return (it == m_lHosts.end() ? 0 : *it);
+}
 
 extern CHostCache HostCache;
 

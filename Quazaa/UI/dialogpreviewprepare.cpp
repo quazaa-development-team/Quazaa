@@ -24,6 +24,7 @@
 
 #include "dialogpreviewprepare.h"
 #include "ui_dialogpreviewprepare.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,6 +35,7 @@ DialogPreviewPrepare::DialogPreviewPrepare(QWidget* parent) :
 	ui(new Ui::DialogPreviewPrepare)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogPreviewPrepare::~DialogPreviewPrepare()
@@ -66,3 +68,7 @@ void DialogPreviewPrepare::updateProgress(int percent, QString fileName)
 	ui->labelFileName->setText(fileName);
 }
 
+void DialogPreviewPrepare::setSkin()
+{
+
+}

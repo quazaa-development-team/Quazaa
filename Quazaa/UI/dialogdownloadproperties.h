@@ -49,7 +49,7 @@ signals:
 	void closed();
 
 private slots:
-	 
+	void setSkin();
 };
 
 #endif // DIALOGDOWNLOADPROPERTIES_H

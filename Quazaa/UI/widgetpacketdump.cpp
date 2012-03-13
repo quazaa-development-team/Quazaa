@@ -26,6 +26,7 @@
 #include "ui_widgetpacketdump.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -37,6 +38,7 @@ WidgetPacketDump::WidgetPacketDump(QWidget* parent) :
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.PacketDumpToolbar);
+	setSkin();
 }
 
 WidgetPacketDump::~WidgetPacketDump()
@@ -62,3 +64,7 @@ void WidgetPacketDump::saveWidget()
 	quazaaSettings.WinMain.PacketDumpToolbar = saveState();
 }
 
+void WidgetPacketDump::setSkin()
+{
+
+}

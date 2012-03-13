@@ -167,6 +167,7 @@ private slots:
 	void onCopyIP();
 	void onHasherStarted(int nId);
 	void on_actionAbout_Qt_triggered();
+	void setSkin();
 };
 
 extern CWinMain* MainWindow;

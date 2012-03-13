@@ -30,6 +30,8 @@
 
 #include "commonfunctions.h"
 #include "geoiplist.h"
+#include "fileiconprovider.h"
+#include "networkiconprovider.h"
 
 using namespace common;
 
@@ -38,7 +40,8 @@ using namespace common;
 #endif
 
 CDownloadsTreeModel::CDownloadsTreeModel(QObject *parent) :
-    QAbstractItemModel(parent)
+	QAbstractItemModel(parent),
+	m_pIconProvider(new CFileIconProvider)
 {
 	rootItem = new CDownloadsItemBase(this);
 	connect(&Downloads, SIGNAL(downloadAdded(CDownload*)), this, SLOT(onDownloadAdded(CDownload*)), Qt::QueuedConnection);
@@ -48,6 +51,7 @@ CDownloadsTreeModel::CDownloadsTreeModel(QObject *parent) :
 CDownloadsTreeModel::~CDownloadsTreeModel()
 {
 	delete rootItem;
+	delete m_pIconProvider;
 }
 
 QVariant CDownloadsTreeModel::data(const QModelIndex &index, int role) const
@@ -76,13 +80,15 @@ QVariant CDownloadsTreeModel::data(const QModelIndex &index, int role) const
 		{
 			if(index.column() == CDownloadsTreeModel::NAME)
 			{
-				CDownloadSourceItem *item = static_cast<CDownloadSourceItem*>(index.internalPointer());
-				switch(item->m_nProtocol)
+				if( !index.parent().isValid() )
 				{
-					case tpHTTP:
-						return QIcon(":/Resource/Networks/http.png");
-					case tpBitTorrent:
-						return QIcon(":/Resource/Networks/BitTorrent.png");
+					CDownloadItem *item = static_cast<CDownloadItem*>(index.internalPointer());
+					return m_pIconProvider->icon(item->data(CDownloadsTreeModel::NAME).toString());
+				}
+				else
+				{
+					CDownloadSourceItem *item = static_cast<CDownloadSourceItem*>(index.internalPointer());
+					return CNetworkIconProvider::icon(item->m_nProtocol);
 				}
 			}
 			if(index.column() == CDownloadsTreeModel::COUNTRY)

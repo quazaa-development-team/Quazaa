@@ -24,6 +24,7 @@
 
 #include "dialogdownloadproperties.h"
 #include "ui_dialogdownloadproperties.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,6 +35,7 @@ DialogDownloadProperties::DialogDownloadProperties(QWidget* parent) :
 	ui(new Ui::DialogDownloadProperties)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogDownloadProperties::~DialogDownloadProperties()
@@ -54,3 +56,7 @@ void DialogDownloadProperties::changeEvent(QEvent* e)
 	}
 }
 
+void DialogDownloadProperties::setSkin()
+{
+
+}

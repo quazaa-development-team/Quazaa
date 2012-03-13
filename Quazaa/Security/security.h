@@ -13,7 +13,6 @@
 #include <QUuid>
 
 #include "commonfunctions.h"
-#include "file.h"
 #include "securerule.h"
 #include "time.h"
 
@@ -42,7 +41,7 @@ namespace security
 			banSession, ban5Mins, ban30Mins, ban2Hours, banWeek, banMonth, banForever
 		} BanLength;
 
-	private:		
+	private:
 		typedef std::pair< QString, CHashRule* > CHashPair;
 
 		typedef std::list< CSecureRule*  > CSecurityRuleList;
@@ -143,7 +142,7 @@ namespace security
 		void			clear();
 
 		void			ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
-		void			ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
+//		void			ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
 
 		// Methods used during sanity check
 		bool			isNewlyDenied(const QHostAddress& oAddress);
@@ -151,7 +150,7 @@ namespace security
 
 		bool			isDenied(const QHostAddress& oAddress, const QString &source = "Unknown");
 		// This does not check for the hit IP to avoid double checking.
-		bool			isDenied(/*const CQueryHit* pHit, */const QList<QString>& lQuery);
+		bool			isDenied(const CQueryHit* const pHit, const QList<QString>& lQuery);
 
 		// Checks the user agent to see if it's a GPL breaker, or other trouble-maker
 		// We don't ban them, but also don't offer leaf slots to them.
@@ -219,9 +218,9 @@ namespace security
 		void			missCacheClear(bool bRefreshInterval);
 		void			evaluateCacheUsage();				// determines whether it is logical to use the cache or not
 
-		bool			isDenied(const QString& strContent);
-		bool			isDenied(const CFile& oFile);
-		bool			isDenied(const QList<QString>& lQuery, const QString& strContent);
+		bool			isDenied(const QString& sContent);
+		bool			isDenied(const CQueryHit* const pHit);
+		bool			isDenied(const QList<QString>& lQuery, const QString& sContent);
 
 		inline CSecurityRuleList::iterator getRWIterator(CIterator const_it);
 	};

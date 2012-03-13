@@ -23,6 +23,7 @@
 */
 
 #include "suggestedlineedit.h"
+#include "skinsettings.h"
 
 #include <QLineEdit>
 #include <QCompleter>
@@ -72,6 +73,7 @@ CSuggestedLineEdit::CSuggestedLineEdit(QLineEdit *lineEdit, QObject *parent) :
 	sObjName.append(lineEdit->objectName());
 
 	setObjectName(sObjName);
+	setSkin();
 
 	load();
 }
@@ -302,3 +304,7 @@ void CSuggestedLineEdit::onItemActivated(const QModelIndex &index)
 	}
 }
 
+void CSuggestedLineEdit::setSkin()
+{
+
+}

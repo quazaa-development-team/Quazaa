@@ -55,6 +55,7 @@ private slots:
 	void on_splitterChat_customContextMenuRequested(QPoint pos);
 	void on_toolButtonChatFriendsHeader_clicked();
 	void on_toolButtonChatUsersHeader_clicked();
+	void setSkin();
 };
 
 #endif // WIDGETCHAT_H

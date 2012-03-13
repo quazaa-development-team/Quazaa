@@ -53,6 +53,7 @@ private slots:
 	void on_listWidgetLanguages_itemClicked(QListWidgetItem* item);
 	void on_pushButtonOK_clicked();
 	void on_pushButtonCancel_clicked();
+	void setSkin();
 };
 
 #endif // DIALOGLANGUAGE_H

@@ -32,6 +32,7 @@
 #include "chatconverter.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #include "connectionwizard.h"
 #include "settingswizard.h"
@@ -65,6 +66,7 @@ WidgetIRCMain::WidgetIRCMain(QWidget* parent) :
 	{
 		QTimer::singleShot(1000, this, SLOT(initialize()));
 	}
+	setSkin();
 }
 
 WidgetIRCMain::~WidgetIRCMain()
@@ -269,4 +271,7 @@ void WidgetIRCMain::onNewTabRequested()
 		connectTo();
 }
 
+void WidgetIRCMain::setSkin()
+{
 
+}

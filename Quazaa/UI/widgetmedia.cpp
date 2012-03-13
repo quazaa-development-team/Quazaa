@@ -26,10 +26,13 @@
 #include "ui_widgetmedia.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
+
+// The Media Tab's Base Widget
 
 WidgetMedia::WidgetMedia(QWidget* parent) :
 	QMainWindow(parent),
@@ -49,6 +52,7 @@ WidgetMedia::WidgetMedia(QWidget* parent) :
 	ui->splitterMedia->restoreState(quazaaSettings.WinMain.MediaSplitter);
 	ui->actionMediaRepeat->setChecked(quazaaSettings.Media.Repeat);
 	ui->actionMediaShuffle->setChecked(quazaaSettings.Media.Shuffle);
+	setSkin();
 }
 
 WidgetMedia::~WidgetMedia()
@@ -140,3 +144,13 @@ void WidgetMedia::on_toolButtonMediaPlaylistTaskHeader_clicked()
 	}
 }
 
+void WidgetMedia::setSkin()
+{
+	seekSlider->setStyleSheet(skinSettings.seekSlider);
+	volumeSlider->setStyleSheet(skinSettings.volumeSlider);
+	ui->toolButtonMediaPlaylistTaskHeader->setStyleSheet(skinSettings.taskHeader);
+	ui->frameMediaPlaylistTask->setStyleSheet(skinSettings.sidebarBackground);
+	ui->toolBarPlayControls->setStyleSheet(skinSettings.mediaToolbar);
+	ui->toolBarSettings->setStyleSheet(skinSettings.mediaToolbar);
+	ui->listViewMediaPlaylist->setStyleSheet(skinSettings.listViews);
+}

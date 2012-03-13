@@ -58,6 +58,7 @@ public slots:
 	void onHasherFinished(int nId);
 	void onHashingProgress(int nId, QString sFilename, double nPercent, int nRate);
 	void onRemainingFilesChanged(qint32 nRemaining);
+	void setSkin();
 };
 
 #endif // DIALOGHASHPROGRESS_H

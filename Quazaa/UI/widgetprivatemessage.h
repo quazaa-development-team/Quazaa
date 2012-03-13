@@ -68,6 +68,7 @@ public slots:
 
 private slots:
 	void on_textEdit_anchorClicked(QUrl link);
+	void setSkin();
 };
 
 #endif // WIDGETPRIVATEMESSAGE_H

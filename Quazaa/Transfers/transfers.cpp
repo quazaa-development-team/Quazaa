@@ -53,7 +53,7 @@ void CTransfers::start()
 	if( m_bActive )
 		return;
 
-	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Starting transfers...")));
+	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Starting transfers...")));
 
 	m_bActive = true;
 	TransfersThread.start("Transfers", &m_pSection);
@@ -71,7 +71,7 @@ void CTransfers::stop()
 	if( !m_bActive )
 		return;
 
-	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Stopping transfers...")));
+	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Stopping transfers...")));
 
 	m_bActive = false;
 	TransfersThread.exit(0);
@@ -86,7 +86,7 @@ void CTransfers::add(CTransfer *pTransfer)
 
 	if( m_lTransfers.contains(pTransfer->m_pOwner, pTransfer) )
 	{
-		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "CTransfers::add(): transfer already added!");
+		systemLog.postLog(LogSeverity::Debug, "CTransfers::add(): transfer already added!");
 		return;
 	}
 
@@ -101,7 +101,7 @@ void CTransfers::remove(CTransfer *pTransfer)
 
 	if(!m_lTransfers.contains(pTransfer->m_pOwner, pTransfer))
 	{
-		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "CTransfers::remove(): removing non-existing transfer!");
+		systemLog.postLog(LogSeverity::Debug, "CTransfers::remove(): removing non-existing transfer!");
 		return;
 	}
 

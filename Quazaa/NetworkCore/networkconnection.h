@@ -70,8 +70,6 @@ public:
 	bool    m_bConnected;
 	qint32  m_tConnected;
 
-	bool	m_bDelayedClose;
-
 public:
 	CNetworkConnection(QObject* parent = 0);
 	virtual ~CNetworkConnection();
@@ -83,18 +81,21 @@ public:
 	virtual void AcceptFrom(int nHandle);
 	virtual void Close(bool bDelayed = false);
 
+private:
+	Q_INVOKABLE void closeImplementation(bool bDelayed);
+
 public:
 	void Write(QByteArray& baData)
 	{
 		Write(baData.constData(), baData.size());
 	}
 
-	void Write(const char* szData, quint32 nLength)
+	inline void Write(const char* szData, quint32 nLength)
 	{
 		writeData(szData, nLength);
 	}
 
-	qint64 Read(char* pData, qint64 nMaxSize = 0)
+	inline qint64 Read(char* pData, qint64 nMaxSize = 0)
 	{
 		return readData(pData, nMaxSize);
 	}
@@ -120,7 +121,7 @@ public:
 	bool isValid() const;
 	void setReadBufferSize(qint64 nSize);
 
-	inline CEndPoint GetAddress()
+	inline CEndPoint GetAddress() const
 	{
 		return m_oAddress;
 	}
@@ -173,14 +174,13 @@ signals:
 public slots:
 	void OnDisconnectInt();
 	void OnErrorInt(QAbstractSocket::SocketError e);
+
+public slots:
 	virtual void OnConnect() = 0;
 	virtual void OnDisconnect() = 0;
 	virtual void OnRead() = 0;
 	virtual void OnError(QAbstractSocket::SocketError e) = 0;
-	virtual void OnStateChange(QAbstractSocket::SocketState s) = 0;
-
-protected slots:
-	void CloseInternal(bool bDelayed);
+	virtual void OnStateChange(QAbstractSocket::SocketState s);
 
 public:
 	TCPBandwidthMeter m_mInput;

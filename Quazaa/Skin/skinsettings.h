@@ -8,14 +8,7 @@ class SkinSettings : public QObject
 {
     Q_OBJECT
 public:
-    explicit SkinSettings(QObject *parent = 0);
-
-	// Splash Screen
-	QString splashBackground;
-	QString splashLogo;
-	QString splashFooter;
-	QString splashProgress;
-	QString splashStatus;
+	explicit SkinSettings(QObject *parent = 0);
 
 	// Standard Items
 	QString standardItems;
@@ -34,17 +27,9 @@ public:
 	QString navigationToolbar;
 
 	// Headers
-	QString libraryViewHeader;
 	QString genericHeader;
-	QString homeHeader;
-	QString libraryHeader;
-	QString mediaHeader;
-	QString searchHeader;
-	QString transfersHeader;
-	QString securityHeader;
-	QString activityHeader;
-	QString chatHeader;
 	QString dialogHeader;
+	QString taskHeader;
 
 	// Media
 	QString seekSlider;

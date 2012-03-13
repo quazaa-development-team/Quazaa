@@ -77,6 +77,7 @@ private slots:
 	void on_lineEditMinutes_lostFocus();
 	void on_lineEditHours_lostFocus();
 	void on_lineEditDays_lostFocus();
+	void setSkin();
 };
 
 #endif // DIALOGADDRULE_H

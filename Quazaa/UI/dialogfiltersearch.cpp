@@ -24,6 +24,7 @@
 
 #include "dialogfiltersearch.h"
 #include "ui_dialogfiltersearch.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,6 +35,7 @@ DialogFilterSearch::DialogFilterSearch(QWidget* parent) :
 	ui(new Ui::DialogFilterSearch)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogFilterSearch::~DialogFilterSearch()
@@ -66,3 +68,7 @@ void DialogFilterSearch::on_pushButtonCancel_clicked()
 	close();
 }
 
+void DialogFilterSearch::setSkin()
+{
+
+}

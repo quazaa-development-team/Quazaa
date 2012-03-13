@@ -36,6 +36,8 @@
  *
  */
 
+#ifdef _USE_DEBUG_NEW
+
 #include <new>
 #include <assert.h>
 #include <limits.h>
@@ -1010,3 +1012,5 @@ __debug_new_counter::~__debug_new_counter()
 #endif
         }
 }
+
+#endif // _USE_DEBUG_NEW

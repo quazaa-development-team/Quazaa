@@ -134,7 +134,6 @@
         <file>Resource/Generic/Copy.png</file>
         <file>Resource/Library/PlayAlbum.png</file>
         <file>Resource/Library/Library.png</file>
-        <file>Resource/screen.png</file>
         <file>Resource/Media/LoadPlaylist.png</file>
         <file>Resource/Media/AddPlaylist.png</file>
         <file>Resource/maxButton.png</file>
@@ -620,7 +619,6 @@
         <file>Resource/Aero/tabDisabled.png</file>
         <file>Resource/Aero/tabHover.png</file>
         <file>Resource/Aero/tabPressed.png</file>
-        <file>Resource/Aero/task.png</file>
         <file>Resource/Aero/taskArrowChecked.png</file>
         <file>Resource/Aero/taskArrowUnchecked.png</file>
         <file>Resource/Aero/toolbar.png</file>
@@ -742,5 +740,34 @@
         <file>Resource/Luna/unclickableTaskHeader.png</file>
         <file>Resource/Networks/http.png</file>
         <file>Resource/Network/virustotal-virus-scanner.png</file>
+        <file>Resource/Aero/activityHeader.png</file>
+        <file>Resource/Aero/activityToolButtonHoverChecked.png</file>
+        <file>Resource/Aero/activityToolButtonPressed.png</file>
+        <file>Resource/Aero/chatHeader.png</file>
+        <file>Resource/Aero/chatToolButtonHoverChecked.png</file>
+        <file>Resource/Aero/chatToolButtonPressed.png</file>
+        <file>Resource/Aero/homeHeader.png</file>
+        <file>Resource/Aero/homeToolButtonHoverChecked.png</file>
+        <file>Resource/Aero/homeToolButtonPressed.png</file>
+        <file>Resource/Aero/libraryHeader.png</file>
+        <file>Resource/Aero/libraryToolButtonHoverChecked.png</file>
+        <file>Resource/Aero/libraryToolButtonPressed.png</file>
+        <file>Resource/Aero/mediaHeader.png</file>
+        <file>Resource/Aero/mediaToolButtonHoverChecked.png</file>
+        <file>Resource/Aero/mediaToolButtonPressed.png</file>
+        <file>Resource/Aero/searchHeader.png</file>
+        <file>Resource/Aero/searchToolButtonHoverChecked.png</file>
+        <file>Resource/Aero/searchToolButtonPressed.png</file>
+        <file>Resource/Aero/securityHeader.png</file>
+        <file>Resource/Aero/securityToolButtonHoverChecked.png</file>
+        <file>Resource/Aero/securityToolButtonPressed.png</file>
+        <file>Resource/Aero/transfersHeader.png</file>
+        <file>Resource/Aero/transfersToolButtonHoverChecked.png</file>
+        <file>Resource/Aero/transfersToolButtonPressed.png</file>
+        <file>Resource/Aero/taskHeader.png</file>
+        <file>Resource/Luna/taskHeaderOff.png</file>
+        <file>Resource/splash.png</file>
+        <file>Resource/Load bar empty.png</file>
+        <file>Resource/Load bar full no bg.png</file>
     </qresource>
 </RCC>

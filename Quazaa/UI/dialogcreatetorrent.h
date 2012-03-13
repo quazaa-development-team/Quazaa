@@ -52,7 +52,7 @@ signals:
 private slots:
 	void on_pushButtonSave_clicked();
 	void on_pushButtonCancel_clicked();
-	 
+	void setSkin();
 };
 
 #endif // DIALOGCREATETORRENT_H

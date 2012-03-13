@@ -25,6 +25,7 @@
 #include "dialogclosetype.h"
 #include "ui_dialogclosetype.h"
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -35,6 +36,7 @@ DialogCloseType::DialogCloseType(QWidget* parent) :
 	ui(new Ui::DialogCloseType)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogCloseType::~DialogCloseType()
@@ -62,3 +64,7 @@ void DialogCloseType::on_pushButtonOK_clicked()
 	close();
 }
 
+void DialogCloseType::setSkin()
+{
+
+}

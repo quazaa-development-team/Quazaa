@@ -47,7 +47,7 @@ private:
 	Ui::WidgetSearchMonitor* ui;
 
 private slots:
-	 
+	void setSkin();
 };
 
 #endif // WIDGETSEARCHMONITOR_H

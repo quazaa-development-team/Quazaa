@@ -26,6 +26,7 @@
 #include "ui_dialogsecuritysubscriptions.h"
 #include "dialogaddsecuritysubscription.h"
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -36,6 +37,7 @@ DialogSecuritySubscriptions::DialogSecuritySubscriptions(QWidget* parent) :
 	ui(new Ui::DialogSecuritySubscriptions)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogSecuritySubscriptions::~DialogSecuritySubscriptions()
@@ -79,3 +81,7 @@ void DialogSecuritySubscriptions::on_pushButtonCancel_clicked()
 	close();
 }
 
+void DialogSecuritySubscriptions::setSkin()
+{
+
+}

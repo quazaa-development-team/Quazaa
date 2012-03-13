@@ -73,6 +73,7 @@ private slots:
 	void on_actionFilterMore_triggered();
 	void on_tabWidgetSearch_tabCloseRequested(int index);
 	void on_actionSearchDownload_triggered();
+	void setSkin();
 
 	friend class WidgetSearch;
 };

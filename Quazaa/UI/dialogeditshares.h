@@ -54,7 +54,7 @@ private slots:
 	void on_pushButtonAdd_clicked();
 	void on_pushButtonOk_clicked();
 	void on_pushButtonCancel_clicked();
-	 
+	void setSkin();
 };
 
 #endif // DIALOGEDITSHARES_H

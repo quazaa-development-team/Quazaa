@@ -47,7 +47,7 @@ private:
 	Ui::WidgetUploads* ui;
 
 private slots:
-	 
+	void setSkin();
 };
 
 #endif // WIDGETUPLOADS_H

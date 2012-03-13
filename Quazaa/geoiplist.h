@@ -31,6 +31,8 @@
 #include <QList>
 #include <QPair>
 
+typedef QPair<quint32, QPair<quint32, QString> > GeoIPEntry;
+
 class GeoIPList
 {
 protected:
@@ -43,14 +45,14 @@ public:
 	};
 	sGeoID GeoID;
 
-	QList<QPair<quint32, QPair<quint32, QString> > > m_lDatabase;
+	QList<GeoIPEntry> m_lDatabase;
 
 	GeoIPList();
 	void loadGeoIP();
 	inline QString findCountryCode(const QString& IP) const;
 	inline QString findCountryCode(const QHostAddress& ip) const;
 
-	QString findCountryCode(const quint32& nIp, quint32 nBegin = 0, quint32 nEnd = 0xFFFFFFFF) const;
+	QString findCountryCode(const quint32 nIp) const;
 	QString countryNameFromCode(const QString& code) const;
 };
 
@@ -65,7 +67,7 @@ QString GeoIPList::findCountryCode(const QHostAddress& ip) const
 	if( ip.protocol() == 1 ) // IPv6
 		return "ZZ";
 
-	quint32 ip4 = ip.toIPv4Address();
+	const quint32 ip4 = ip.toIPv4Address();
 	return findCountryCode( ip4 );
 }
 

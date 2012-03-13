@@ -24,6 +24,7 @@
 
 #include "dialogopentorrent.h"
 #include "ui_dialogopentorrent.h"
+#include "skinsettings.h"
 
 #include <QListView>
 
@@ -37,6 +38,7 @@ DialogOpenTorrent::DialogOpenTorrent(QWidget* parent) :
 {
 	ui->setupUi(this);
 	ui->comboBoxAllocationMode->setView(new QListView());
+	setSkin();
 }
 
 DialogOpenTorrent::~DialogOpenTorrent()
@@ -68,3 +70,7 @@ void DialogOpenTorrent::on_pushButtonCancel_clicked()
 	close();
 }
 
+void DialogOpenTorrent::setSkin()
+{
+
+}

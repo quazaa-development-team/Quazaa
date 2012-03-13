@@ -51,7 +51,7 @@ signals:
 private slots:
 	void on_pushButtonCancel_clicked();
 	void on_pushButtonSearch_clicked();
-	 
+	void setSkin();
 };
 
 #endif // DIALOGLIBRARYSEARCH_H

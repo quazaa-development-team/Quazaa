@@ -69,6 +69,7 @@ private slots:
 	void createWelcomeView();
 	void createTabbedView();
 	void onNewTabRequested();
+	void setSkin();
 };
 
 #endif // WIDGETCHATCENTER_H

@@ -64,7 +64,7 @@ public:
 	bool IsListening();
 	bool IsFirewalled();
 
-	bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeighbours = false);
+	bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeighbours = false, bool bBuffered = true);
 	bool RoutePacket(G2Packet* pPacket, CG2Node* pNbr = 0);
 
 	inline CEndPoint GetLocalAddress()

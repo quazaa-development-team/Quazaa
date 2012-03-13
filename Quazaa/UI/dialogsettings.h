@@ -87,6 +87,7 @@ private slots:
 	void on_toolButtonSaveBrowse_clicked();
 	void on_toolButtonTempBrowse_clicked();
 	void on_toolButtonTorrentBrowse_clicked();
+	void setSkin();
 
 private:
 	Ui::DialogSettings* ui;
@@ -99,7 +100,6 @@ private:
 
 signals:
 	void closed();
-	void skinChanged();
 };
 
 #endif // DIALOGSETTINGS_H

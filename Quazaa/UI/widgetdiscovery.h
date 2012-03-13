@@ -47,7 +47,7 @@ private:
 	Ui::WidgetDiscovery* ui;
 
 private slots:
-	 
+	void setSkin();
 };
 
 #endif // WIDGETDISCOVERY_H

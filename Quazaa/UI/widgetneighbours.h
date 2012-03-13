@@ -70,6 +70,7 @@ private slots:
 	void updateG2();
 	void updateAres();
 	void updateEDonkey();
+	void setSkin();
 };
 
 #endif // WIDGETNEIGHBORS_H

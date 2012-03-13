@@ -61,6 +61,7 @@ private slots:
 	void onSearchTabChanged(WidgetSearchTemplate* searchPage);
 	void updateStats(WidgetSearchTemplate* searchWidget);
 	void updateButtons(bool bInitial = false);
+	void setSkin();
 };
 
 #endif // WIDGETSEARCH_H

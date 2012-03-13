@@ -9,7 +9,8 @@
 #include <QString>
 #include <QUuid>
 
-#include "ShareManager/file.h"
+#include "NetworkCore/Hashes/hash.h"
+#include "NetworkCore/queryhit.h"
 
 namespace security
 {
@@ -71,7 +72,7 @@ public:
 	// Check content for hits
 	virtual bool	match(const QHostAddress& oAddress) const;
 	virtual bool	match(const QString& sContent) const;
-	virtual bool	match(const CFile& oFile) const;
+	virtual bool    match(const CQueryHit* const pHit) const;
 	virtual bool	match(const QList<QString>& lQuery, const QString& strContent) const;
 
 	// Read/write rule from/to file
@@ -173,9 +174,9 @@ public:
 	CIPRangeRule(bool bCreate = true);
 
 	inline QHostAddress	IP() const;
-//	inline bool			setIP(const QHostAddress& oIP);
+	//	inline bool			setIP(const QHostAddress& oIP);
 	inline int			mask() const;
-//	inline bool			setMask(const int& nMask);
+	//	inline bool			setMask(const int& nMask);
 
 	bool				parseContent(const QString& sContent);
 
@@ -275,8 +276,8 @@ public:
 
 	bool				hashEquals(CHashRule& oRule) const;
 
-	bool				match(const CFile& oFile) const;
-	bool				match(const QList< CHash >& hashes) const;
+	bool				match(const CQueryHit* const pHit) const;
+	bool				match(const QList<CHash>& lHashes) const;
 
 	void				toXML(QDomElement& oXMLroot) const;
 };
@@ -380,8 +381,9 @@ public:
 
 	inline CSecureRule*	getCopy() const;
 
-	bool				match(const QString& strContent) const;
-	bool				match(const CFile& pFile) const;
+	bool				match(const QString& sFileName) const;
+	bool				match(const CQueryHit* const pHit) const;
+
 	void				toXML(QDomElement& oXMLroot) const;
 };
 

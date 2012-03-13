@@ -24,6 +24,8 @@
 
 #include "dialogaddrule.h"
 #include "ui_dialogaddrule.h"
+#include "skinsettings.h"
+
 #include <QListView>
 
 #ifdef _DEBUG
@@ -86,6 +88,7 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 		ui->lineEditIP->setText( ((CIPRule*)m_pRule)->getContentString() );
 		break;
 	}
+	setSkin();
 }
 
 DialogAddRule::~DialogAddRule()
@@ -259,3 +262,7 @@ void DialogAddRule::on_lineEditDays_lostFocus()
 	ui->lineEditDays->setText( QString::number( nDays ) );
 }
 
+void DialogAddRule::setSkin()
+{
+
+}

@@ -54,6 +54,7 @@ private slots:
 	void on_textBrowserCredits_anchorClicked(QUrl link);
 	void on_labelCopyright_linkActivated(QString link);
 	void on_pushButtonOK_clicked();
+	void setSkin();
 };
 
 #endif // DIALOGABOUT_H

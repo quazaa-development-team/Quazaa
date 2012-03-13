@@ -49,6 +49,7 @@ signals:
 
 private slots:
 	void on_listWidget_itemClicked(QListWidgetItem* item);
+	void setSkin();
 };
 
 #endif // WIDGETSMILEYLIST_H

@@ -71,6 +71,7 @@ private slots:
 	void on_tableViewSecurity_customContextMenuRequested(const QPoint &pos);
 	void on_tableViewSecurity_doubleClicked(const QModelIndex &index);
 	void on_tableViewSecurity_clicked(const QModelIndex &index);
+	void setSkin();
 };
 
 #endif // WIDGETSECURITY_H

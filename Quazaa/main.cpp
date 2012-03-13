@@ -40,6 +40,7 @@
 #include "sharemanager.h"
 #include "commonfunctions.h"
 #include "transfers.h"
+#include "hostcache.h"
 
 #include "Security/security.h"
 
@@ -56,37 +57,49 @@
 #include "debug_new.h"
 #endif
 
-void myMessageOutput(QtMsgType type, const char *msg)
-{
-	switch (type) {
-	case QtDebugMsg:
-		fprintf(stderr, "Debug: %s\n", msg);
-		break;
-	case QtWarningMsg:
-		fprintf(stderr, "Warning: %s\n", msg);
-		break;
-	case QtCriticalMsg:
-		fprintf(stderr, "Critical: %s\n", msg);
-		break;
-	case QtFatalMsg:
-		fprintf(stderr, "Fatal: %s\n", msg);
-		abort();
-	}
-}
-
+#ifdef _SNAPSHOT_BUILD
+	#include <QMessageBox>
+	#include "version.h"
+#endif
 QuazaaGlobals quazaaGlobals;
 
 int main(int argc, char *argv[])
 {
-	//qInstallMsgHandler(myMessageOutput);
-
 	QtSingleApplication theApp( argc, argv );
+
+	QStringList args = QApplication::arguments();
 
 	// Check if the application is already running
 	if( theApp.sendMessage( "Show App" ) )
 	{
 		return 0;
 	}
+
+// To enable this, run qmake with "DEFINES+=_SNAPSHOT_BUILD"
+#ifdef _SNAPSHOT_BUILD
+	QDate oExpire = QDate::fromString(Version::BUILD_DATE, Qt::ISODate).addDays(60);
+
+	if( QDate::currentDate() > oExpire )
+	{
+		QMessageBox::information(NULL, QObject::tr("Cool Software, but..."), QObject::tr("This build is expired. If you wish to continue using this Cool Software you must download either latest stable release or latest snapshot build from http://quazaa.sf.net/.\n\nThe program will now terminate."));
+		return 0;
+	}
+
+	if( !args.contains("--no-alpha-warning") )
+	{
+		int ret = QMessageBox::warning(NULL,
+									   QObject::tr("Snapshot/Debug Build Warning"),
+									   QObject::tr("WARNING: This is a SNAPSHOT BUILD of Quazaa. \n"
+												   "It is NOT meant for GENERAL USE, and is only for testing specific features in a controlled environment.\n"
+												   "It will frequently stop running, or will display debug information to assist testing.\n"
+												   "This build will expire on %1.\n\n"
+												   "Do you wish to continue?"
+												   ).arg(oExpire.toString(Qt::SystemLocaleLongDate)),
+									   QMessageBox::Yes | QMessageBox::No);
+		if( ret == QMessageBox::No )
+			return 0;
+	}
+#endif
 
 	qsrand( time( 0 ) );
 
@@ -125,6 +138,7 @@ int main(int argc, char *argv[])
 	//Create splash window
 	DialogSplash* dlgSplash = new DialogSplash();
 	dlgSplash->show();
+	qApp->processEvents();
 
 	dlgSplash->updateProgress( 1, QObject::tr( "Loading settings..." ) );
 	qApp->processEvents();
@@ -153,7 +167,7 @@ int main(int argc, char *argv[])
 	dlgSplash->updateProgress( 15, QObject::tr( "Loading Security Manager..." ) );
 	qApp->processEvents();
 	if ( !securityManager.start() )
-		systemLog.postLog( LogCategory::General, LogSeverity::Information,
+		systemLog.postLog( LogSeverity::Information,
 						   QObject::tr( "Security data file was not available." ) );
 
 	//Load profile
@@ -161,9 +175,12 @@ int main(int argc, char *argv[])
 	qApp->processEvents();
 	quazaaSettings.loadProfile();
 
-	//Load the networks
-	//dlgSplash->updateProgress( 25, QObject::tr( "Loading Networks..." ) );
-	//qApp->processEvents();
+	//Load Host Cache
+	dlgSplash->updateProgress( 30, QObject::tr( "Loading Host Cache..." ) );
+	qApp->processEvents();
+	HostCache.m_pSection.lock();
+	HostCache.Load();
+	HostCache.m_pSection.unlock();
 
 	//initialize geoip list
 	GeoIP.loadGeoIP();
@@ -199,14 +216,17 @@ int main(int argc, char *argv[])
 
 	dlgSplash->updateProgress( 100, QObject::tr( "Welcome to Quazaa!" ) );
 	qApp->processEvents();
-	dlgSplash->close();
+
 	dlgSplash->deleteLater();
 	dlgSplash = 0;
 
 	// Start networks if needed
-	if( quazaaSettings.Gnutella2.Enable )
+	if(quazaaSettings.System.ConnectOnStartup)
 	{
-		Network.Connect();
+		if( quazaaSettings.Gnutella2.Enable )
+		{
+			Network.Connect();
+		}
 	}
 
 	return theApp.exec();

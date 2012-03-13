@@ -47,8 +47,9 @@ private:
 
 private slots:
 	void accept();
-        void on_toolButtonSharesAdd_clicked();
-        void on_toolButtonSharesRemove_clicked();
+	void on_toolButtonSharesAdd_clicked();
+	void on_toolButtonSharesRemove_clicked();
+	void setSkin();
 };
 
 #endif // WIZARDQUICKSTART_H

@@ -26,6 +26,7 @@
 #include "ui_widgetircsidebars.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #include "systemlog.h"
 
@@ -41,6 +42,7 @@ WidgetIRCSidebars::WidgetIRCSidebars(QWidget* parent) :
 	panelIRCMain = new WidgetIRCMain();
 	ui->splitterChat->restoreState(quazaaSettings.WinMain.ChatSplitter);
 	ui->verticalLayoutChatMiddle->addWidget(panelIRCMain);
+	setSkin();
 }
 
 WidgetIRCSidebars::~WidgetIRCSidebars()
@@ -159,4 +161,16 @@ void WidgetIRCSidebars::on_toolButtonChatUsersHeader_clicked()
 		sizesList.append(quazaaSettings.WinMain.ChatSplitterRestoreRight);
 		ui->splitterChat->setSizes(sizesList);
 	}
+}
+
+void WidgetIRCSidebars::setSkin()
+{
+	ui->frameChatLeftSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->toolButtonChatFriendsHeader->setStyleSheet(skinSettings.taskHeader);
+	ui->frameChatFriendsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->toolButtonChatUsersHeader->setStyleSheet(skinSettings.taskHeader);
+	ui->frameChatUsersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameChatRightSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->listViewChatFriends->setStyleSheet(skinSettings.listViews);
+	ui->listViewChatUsers->setStyleSheet(skinSettings.listViews);
 }

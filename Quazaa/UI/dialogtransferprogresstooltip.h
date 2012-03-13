@@ -47,7 +47,9 @@ protected:
 
 private:
 	Ui::DialogTransferProgressTooltip* ui;
-	 
+
+private slots:
+	void setSkin();
 };
 
 #endif // DIALOGTRANSFERPROGRESSTOOLTIP_H

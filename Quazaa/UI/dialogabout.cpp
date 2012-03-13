@@ -25,6 +25,7 @@
 #include "dialogabout.h"
 #include "ui_dialogabout.h"
 #include "quazaaglobals.h"
+#include "skinsettings.h"
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QUrl>
@@ -38,7 +39,8 @@ DialogAbout::DialogAbout(QWidget* parent) :
 	ui(new Ui::DialogAbout)
 {
 	ui->setupUi(this);
-        ui->labelVersion->setText(ui->labelVersion->text().replace("&lt;version&gt;", QuazaaGlobals::APPLICATION_VERSION_STRING()));
+	ui->labelVersion->setText(ui->labelVersion->text().replace("&lt;version&gt;", QuazaaGlobals::APPLICATION_VERSION_STRING()));
+	setSkin();
 }
 
 DialogAbout::~DialogAbout()
@@ -74,3 +76,7 @@ void DialogAbout::on_textBrowserCredits_anchorClicked(QUrl link)
 	QDesktopServices::openUrl(link);
 }
 
+void DialogAbout::setSkin()
+{
+	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
+}

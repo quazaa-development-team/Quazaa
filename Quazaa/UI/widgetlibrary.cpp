@@ -28,6 +28,7 @@
 #include <QtGui>
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -43,6 +44,7 @@ WidgetLibrary::WidgetLibrary(QWidget* parent) :
 	ui->splitterLibrary->restoreState(quazaaSettings.WinMain.LibrarySplitter);
 	panelLibraryView = new WidgetLibraryView();
 	ui->verticalLayoutLibraryView->addWidget(panelLibraryView);
+	setSkin();
 }
 
 WidgetLibrary::~WidgetLibrary()
@@ -106,3 +108,9 @@ void WidgetLibrary::initializeLibrary()
 
 }
 
+void WidgetLibrary::setSkin()
+{
+	ui->frameLibraryNavigator->setStyleSheet(skinSettings.sidebarBackground);
+	ui->treeViewLibraryNavigatorOrganiser->setStyleSheet(skinSettings.listViews);
+	ui->treeViewLibraryNavigatorShares->setStyleSheet(skinSettings.listViews);
+}

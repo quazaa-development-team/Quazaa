@@ -31,7 +31,6 @@
 
 class CQuery;
 
-
 class CManagedSearch : public QObject
 {
 	Q_OBJECT
@@ -57,6 +56,8 @@ public:
 	quint32						m_nCachedHits;
 
 	quint32	m_nCookie;
+
+	QDateTime m_tCleanHostsNext;
 
 public:
 	CManagedSearch(CQuery* pQuery, QObject* parent = 0);

@@ -51,7 +51,7 @@ private:
 private slots:
 	void on_splitterLibraryView_customContextMenuRequested(QPoint pos);
 	void on_actionFind_triggered();
-	 
+	void setSkin();
 };
 
 #endif // WIDGETLIBRARYVIEW_H

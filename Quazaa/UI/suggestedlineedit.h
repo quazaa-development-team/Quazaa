@@ -71,6 +71,7 @@ public slots:
 private slots:
 	void onTextChanged(const QString& text);
 	void onItemActivated(const QModelIndex& index);
+	void setSkin();
 };
 
 

@@ -26,6 +26,7 @@
 #include "ui_widgetprivatemessage.h"
 #include "quazaasettings.h"
 #include "chatconverter.h"
+#include "skinsettings.h"
 
 #include <QDesktopServices>
 #include <QScrollBar>
@@ -40,6 +41,7 @@ WidgetPrivateMessage::WidgetPrivateMessage(QWidget *parent) :
 {
 	ui->setupUi(this);
 	m_pSession = 0;
+	setSkin();
 }
 
 WidgetPrivateMessage::~WidgetPrivateMessage()
@@ -123,3 +125,7 @@ void WidgetPrivateMessage::SendMessage(QTextDocument *pMessage, bool bAction)
 	emit SendMessageS(pMessage->clone(), bAction);
 }
 
+void WidgetPrivateMessage::setSkin()
+{
+
+}

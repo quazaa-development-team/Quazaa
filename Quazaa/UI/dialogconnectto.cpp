@@ -24,6 +24,7 @@
 
 #include "dialogconnectto.h"
 #include "ui_dialogconnectto.h"
+#include "skinsettings.h"
 
 #include <QListView>
 #include <QMessageBox>
@@ -41,6 +42,8 @@ DialogConnectTo::DialogConnectTo(QWidget* parent) :
 	ui->comboBoxAddress->setView(new QListView());
 	ui->comboBoxNetwork->setView(new QListView());
 	setConnectNetwork(DialogConnectTo::G2);
+	ui->comboBoxAddress->setFocus();
+	setSkin();
 }
 
 DialogConnectTo::~DialogConnectTo()
@@ -145,3 +148,7 @@ void DialogConnectTo::on_comboBoxNetwork_currentIndexChanged(int index)
 	}
 }
 
+void DialogConnectTo::setSkin()
+{
+
+}

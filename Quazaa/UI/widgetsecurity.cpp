@@ -30,6 +30,7 @@
 #include "dialogsecuritysubscriptions.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #include "timedsignalqueue.h"
 
@@ -54,6 +55,7 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	setModel( m_pSecurityList );
 	m_pSecurityList->sort( ui->tableViewSecurity->horizontalHeader()->sortIndicatorSection(),
 						   ui->tableViewSecurity->horizontalHeader()->sortIndicatorOrder() );
+	setSkin();
 }
 
 WidgetSecurity::~WidgetSecurity()
@@ -195,4 +197,9 @@ void WidgetSecurity::on_tableViewSecurity_clicked(const QModelIndex& index)
 		ui->actionSecurityModifyRule->setEnabled( false );
 		ui->actionSecurityRemoveRule->setEnabled( false );
 	}
+}
+
+void WidgetSecurity::setSkin()
+{
+	ui->tableViewSecurity->setStyleSheet(skinSettings.listViews);
 }

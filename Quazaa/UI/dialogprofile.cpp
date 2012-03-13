@@ -25,6 +25,8 @@
 #include "dialogprofile.h"
 #include "ui_dialogprofile.h"
 #include "quazaasettings.h"
+#include "skinsettings.h"
+
 #include <QFileDialog>
 #include <QUuid>
 
@@ -91,6 +93,7 @@ DialogProfile::DialogProfile(QWidget* parent) :
 	tempGUID = QUuid::createUuid();
 	ui->labelGUID->setText(tempGUID.toString().remove(QRegExp("[{}]")));
 	ui->pushButtonApply->setEnabled(false);
+	setSkin();
 }
 
 DialogProfile::~DialogProfile()
@@ -410,3 +413,7 @@ void DialogProfile::on_pushButtonGenerateNewGUID_clicked()
 	ui->pushButtonApply->setEnabled(true);
 }
 
+void DialogProfile::setSkin()
+{
+
+}

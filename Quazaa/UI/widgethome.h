@@ -63,7 +63,7 @@ private slots:
 	void on_labelWelcomeURLDownloadLink_linkActivated(QString link);
 	void on_labelTorrentsTaskSeedTorrentLink_linkActivated(QString link);
 	void on_labelLibraryTaskHashFaster_linkActivated(QString link);
-	 
+	void setSkin();
 };
 
 #endif // WIDGETHOME_H

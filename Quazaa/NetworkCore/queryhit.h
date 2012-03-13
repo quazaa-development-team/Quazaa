@@ -55,8 +55,8 @@ public:
 	QSharedPointer<QueryHitInfo>   m_pHitInfo;
 
 	QList<CHash>	m_lHashes;
-	QString         m_sDescriptiveName;
-	QString         m_sURL;
+    QString         m_sDescriptiveName;         // File name
+    QString         m_sURL;                     // http://{IP}:{port}/uri-res/N2R?{URN}
 	QString         m_sMetadata;
 	quint64         m_nObjectSize;
 	quint32         m_nCachedSources;

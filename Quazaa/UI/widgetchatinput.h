@@ -70,6 +70,7 @@ private slots:
 	void pickColor();
 	void addPrivateMessage();
 	void updateToolbar();
+	void setSkin();
 };
 
 #endif // WIDGETCHATINPUT_H

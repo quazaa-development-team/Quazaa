@@ -26,6 +26,7 @@
 #include "ui_widgetchatinput.h"
 #include "dialogconnectto.h"
 #include "dialogirccolordialog.h"
+#include "skinsettings.h"
 
 #include "chatsessiong2.h"
 
@@ -78,6 +79,7 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIRC) :
 	connect(ui->actionItalic, SIGNAL(toggled(bool)), textEditInput, SLOT(setFontItalic(bool)));
 	connect(ui->actionUnderline, SIGNAL(toggled(bool)), textEditInput, SLOT(setFontUnderline(bool)));
 	connect(toolButtonPrivateMessage, SIGNAL(clicked()), this, SLOT(addPrivateMessage()));
+	setSkin();
 }
 
 WidgetChatInput::~WidgetChatInput()
@@ -212,3 +214,7 @@ void WidgetChatInput::updateToolbar()
 	ui->actionUnderline->setChecked(textEditInput->fontUnderline());
 }
 
+void WidgetChatInput::setSkin()
+{
+
+}

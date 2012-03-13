@@ -32,6 +32,7 @@
 #include "systemlog.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -54,6 +55,7 @@ WidgetHome::WidgetHome(QWidget* parent) :
 	ui->lineEditWelcomeSearch->setText(quazaaSettings.WinMain.HomeSearchString);
 	ui->toolButtonHomeTorrentsTaskHeader->setChecked(quazaaSettings.WinMain.HomeTorrentsTaskVisible);
 	ui->toolButtonHomeTransfersTaskUploadsHeader->setChecked(quazaaSettings.WinMain.HomeUploadsTaskVisible);
+	setSkin();
 }
 
 WidgetHome::~WidgetHome()
@@ -167,3 +169,22 @@ void WidgetHome::on_splitterHome_customContextMenuRequested(QPoint pos)
 	}
 }
 
+void WidgetHome::setSkin()
+{
+	ui->scrollAreaHomeSidebar->setStyleSheet(skinSettings.sidebarBackground);
+	ui->toolButtonHomeLibraryTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonHomeConnectionTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonHomeLibraryTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonHomeTorrentsTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonHomeTransfersTaskDownloadsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->toolButtonHomeTransfersTaskUploadsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameLibraryTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameConnectionTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameTorrentsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->frameTransfersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->listWidgetConnectionTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetLibraryTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetTorrentsTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetTransfersTaskDownloadsTool->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetTransfersTaskUploadsTool->setStyleSheet(skinSettings.listViews);
+}

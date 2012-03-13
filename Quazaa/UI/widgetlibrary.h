@@ -54,7 +54,7 @@ public slots:
 private slots:
 	void on_splitterLibrary_customContextMenuRequested(QPoint pos);
 	void on_toolButtonLibraryEditShares_clicked();
-	 
+	void setSkin();
 };
 
 #endif // WIDGETLIBRARY_H

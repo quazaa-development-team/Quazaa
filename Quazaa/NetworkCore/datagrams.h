@@ -129,6 +129,7 @@ public:
 public slots:
 	void OnDatagram();
 	void FlushSendCache();
+	void __FlushSendCache();
 
 signals:
 	void SendQueueUpdated();

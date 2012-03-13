@@ -80,12 +80,6 @@ void CSearchManager::OnTimer()
 	QMutexLocker l(&m_pSection);
 
 	quint32 nSearches = m_lSearches.size();
-	quint32 nPacketsLeft = PacketsPerSec;
-
-	if(nSearches == 0)
-	{
-		return;
-	}
 
 	foreach(CManagedSearch* pSearch, m_lSearches)
 	{
@@ -94,42 +88,43 @@ void CSearchManager::OnTimer()
 			nSearches--;
 	}
 
+	if( nSearches == 0 )
+		return;
+
 	m_nPruneCounter++;
 	if(m_nPruneCounter % 30 == 0)
 	{
 		HostCache.PruneByQueryAck();
 	}
 
-	if( nSearches == 0 )
-		return;
-
-	quint32 nPacketsPerSearch = qMax<quint32>(1, nPacketsLeft / nSearches);
+	quint32 nPacketsLeft = PacketsPerSec;
+	quint32 nPacketsPerSearch = qMin(4u, nPacketsLeft / nSearches + 1u);
 	QDateTime tNow = QDateTime::currentDateTimeUtc();
 
-	quint32 nPacket = 0;
-	bool bUpdate = true;
+	quint32 nExecuted = 0;
 
-	for(QHash<QUuid, CManagedSearch*>::iterator itSearch = m_lSearches.begin(); itSearch != m_lSearches.end() && nPacketsLeft > 0; itSearch++)
+	foreach(CManagedSearch* pSearch, m_lSearches)
 	{
-		CManagedSearch* pSearch = itSearch.value();
-		if(pSearch->m_nCookie != m_nCookie)
-		{
-			nPacket = nPacketsPerSearch;
-			nPacketsLeft -= nPacket;
+		if( pSearch->m_bPaused )
+			continue;
 
+		if( pSearch->m_nCookie != m_nCookie )
+		{
+			quint32 nPacket = qMin(nPacketsPerSearch, nPacketsLeft);
 			pSearch->Execute(tNow, &nPacket);
 			pSearch->m_nCookie = m_nCookie;
-			bUpdate = false;
+			nPacketsLeft -= ((nPacketsLeft < nPacketsPerSearch) ? (nPacketsLeft - nPacket) : (nPacketsPerSearch - nPacket));
+			++nExecuted;
 
-			nPacketsLeft += nPacket;
+			if( nPacketsLeft == 0 )
+				break;
 		}
 	}
 
-	if(bUpdate || m_lSearches.size() == 1)
+	if( nPacketsLeft > 0 || nExecuted == nSearches )
 	{
-		m_nCookie++;
+		++m_nCookie;
 	}
-
 }
 
 bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUuid& oGUID)
@@ -184,7 +179,9 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
 						CEndPoint a(nIP, nPort);
+						HostCache.m_pSection.lock();
 						HostCache.Add(a, tNow);
+						HostCache.m_pSection.unlock();
 					}
 
 					if(nLength >= 20)
@@ -202,7 +199,10 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
 						CEndPoint a(nIP, nPort);
+
+						HostCache.m_pSection.lock();
 						HostCache.Add(a, tNow);
+						HostCache.m_pSection.unlock();
 					}
 
 					if(nLength >= 8)
@@ -220,7 +220,13 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				pPacket->ReadHostAddress(&a, !(nLength >= 18));
 				quint32 tSeen = (nLength >= (a.protocol() == 0 ? 10u : 22u)) ? pPacket->ReadIntLE<quint32>() + tAdjust : tNow.toTime_t() - 60;
 
-				HostCache.Add(a, QDateTime::fromTime_t(tSeen));
+				QDateTime ts = QDateTime::fromTime_t(tSeen);
+				ts.setTimeSpec(Qt::UTC);
+
+				HostCache.m_pSection.lock();
+				HostCache.Add(a, ts);
+				HostCache.m_pSection.unlock();
+
 				nSuggestedHubs++;
 			}
 			else if(strcmp("TS", szType) == 0 && nLength >= 4)
@@ -238,11 +244,13 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 					nRetryAfter = pPacket->ReadIntLE<quint16>();
 				}
 
+				HostCache.m_pSection.lock();
 				CHostCacheHost* pHost = HostCache.Find(oFromIp);
 				if(pHost)
 				{
 					pHost->m_tRetryAfter = tNow.addSecs(nRetryAfter);
 				}
+				HostCache.m_pSection.unlock();
 			}
 			else if(strcmp("FR", szType) == 0 && nLength >= 4)
 			{
@@ -264,7 +272,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 
 		// we already know QA GUID
 
-		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
+		systemLog.postLog(LogSeverity::Debug, "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
 						  oFromIp.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
 		//qDebug("Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
 		//	   addr.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);

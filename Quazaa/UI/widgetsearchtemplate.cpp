@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -33,6 +33,7 @@
 #include "downloads.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -55,24 +56,25 @@ WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget* parent
 	searchMenu->addAction(ui->actionViewReviews);
 	searchMenu->addAction(ui->actionVirusTotalCheck);
 
-	sSearchString = searchString;
+	m_sSearchString = searchString;
 	m_pSearch = 0;
-	nFiles = 0;
-	nHits = 0;
-	nHubs = 0;
-	nLeaves = 0;
-	searchState = SearchState::Default;
-	sortModel = new QSortFilterProxyModel(this);
-	searchModel = new SearchTreeModel();
-	sortModel->setSourceModel(searchModel);
-	ui->treeViewSearchResults->setModel(sortModel);
-	sortModel->setDynamicSortFilter(false);
-	connect(searchModel, SIGNAL(sort()), this, SLOT(Sort()));
-	connect(searchModel, SIGNAL(updateStats()), this, SLOT(OnStatsUpdated()));
+	m_nFiles = 0;
+	m_nHits = 0;
+	m_nHubs = 0;
+	m_nLeaves = 0;
+	m_searchState = SearchState::Default;
+	m_pSortModel = new QSortFilterProxyModel(this);
+	m_pSearchModel = new SearchTreeModel();
+	m_pSortModel->setSourceModel(m_pSearchModel);
+	ui->treeViewSearchResults->setModel(m_pSortModel);
+	m_pSortModel->setDynamicSortFilter(false);
+	connect(m_pSearchModel, SIGNAL(sort()), this, SLOT(Sort()));
+	connect(m_pSearchModel, SIGNAL(updateStats()), this, SLOT(OnStatsUpdated()));
 	loadHeaderState();
 	connect(ui->treeViewSearchResults->header(), SIGNAL(sectionMoved(int,int,int)), this, SLOT(saveHeaderState()));
 	connect(ui->treeViewSearchResults->header(), SIGNAL(sectionResized(int,int,int)), this, SLOT(saveHeaderState()));
 	connect(ui->treeViewSearchResults->header(), SIGNAL(sectionClicked(int)), this, SLOT(saveHeaderState()));
+	setSkin();
 }
 
 WidgetSearchTemplate::~WidgetSearchTemplate()
@@ -82,7 +84,7 @@ WidgetSearchTemplate::~WidgetSearchTemplate()
 		StopSearch();
 	}
 
-	delete searchModel;
+	delete m_pSearchModel;
 	delete ui;
 }
 
@@ -101,30 +103,30 @@ void WidgetSearchTemplate::changeEvent(QEvent* e)
 
 void WidgetSearchTemplate::StartSearch(CQuery* pQuery)
 {
-	if(m_pSearch && m_pSearch->m_pQuery != pQuery)
+	if ( m_pSearch && m_pSearch->m_pQuery != pQuery )
 	{
 		delete m_pSearch;
 		m_pSearch = 0;
 	}
 
-	if(!m_pSearch)
+	if ( !m_pSearch )
 	{
-		m_pSearch = new CManagedSearch(pQuery);
-		connect(m_pSearch, SIGNAL(OnHit(QueryHitSharedPtr)), searchModel, SLOT(addQueryHit(QueryHitSharedPtr)));
-		connect(m_pSearch, SIGNAL(StatsUpdated()), this, SLOT(OnStatsUpdated()));
-		connect(m_pSearch, SIGNAL(StateChanged()), this, SLOT(OnStateChanged()));
+		m_pSearch = new CManagedSearch( pQuery );
+		connect( m_pSearch, SIGNAL( OnHit( QueryHitSharedPtr) ), m_pSearchModel, SLOT( addQueryHit( QueryHitSharedPtr ) ) );
+		connect( m_pSearch, SIGNAL( StatsUpdated() ), this, SLOT( OnStatsUpdated() ) );
+		connect( m_pSearch, SIGNAL( StateChanged() ), this, SLOT( OnStateChanged() ) );
 	}
 
-	searchState = SearchState::Searching;
+	m_searchState = SearchState::Searching;
 	m_pSearch->Start();
-	sSearchString = m_pSearch->m_pQuery->DescriptiveName();
+	m_sSearchString = m_pSearch->m_pQuery->DescriptiveName();
 }
 
 void WidgetSearchTemplate::StopSearch()
 {
 	Q_ASSERT(m_pSearch != 0);
 
-	searchState = SearchState::Stopped;
+	m_searchState = SearchState::Stopped;
 	m_pSearch->Stop();
 	delete m_pSearch;
 	m_pSearch = 0;
@@ -134,26 +136,26 @@ void WidgetSearchTemplate::PauseSearch()
 {
 	Q_ASSERT(m_pSearch != 0);
 
-	searchState = SearchState::Paused;
+	m_searchState = SearchState::Paused;
 	m_pSearch->Pause();
 }
 
 void WidgetSearchTemplate::ClearSearch()
 {
 	//qDebug() << "Clear search captured in widget search template.";
-        searchState = SearchState::Default;
-	searchModel->clear();
+		m_searchState = SearchState::Default;
+	m_pSearchModel->clear();
 	qApp->processEvents();
 }
 
 void WidgetSearchTemplate::OnStatsUpdated()
 {
-	nFiles = searchModel->nFileCount;
+	m_nFiles = m_pSearchModel->nFileCount;
 	if(m_pSearch)
 	{
-		nHits = m_pSearch->m_nHits;
-		nHubs = m_pSearch->m_nHubs;
-		nLeaves = m_pSearch->m_nLeaves;
+		m_nHits = m_pSearch->m_nHits;
+		m_nHubs = m_pSearch->m_nHubs;
+		m_nLeaves = m_pSearch->m_nLeaves;
 	}
 	emit statsUpdated(this);
 }
@@ -171,20 +173,20 @@ void WidgetSearchTemplate::OnStateChanged()
 	{
 		if( m_pSearch->m_bPaused )
 		{
-			searchState = SearchState::Paused;
+			m_searchState = SearchState::Paused;
 		}
 		else if( m_pSearch->m_bActive && !m_pSearch->m_bPaused )
 		{
-			searchState = SearchState::Searching;
+			m_searchState = SearchState::Searching;
 		}
 		else
 		{
-			searchState = SearchState::Stopped;
+			m_searchState = SearchState::Stopped;
 		}
 	}
 	else
 	{
-                searchState = SearchState::Stopped;
+				m_searchState = SearchState::Stopped;
 	}
 
 	emit stateChanged();
@@ -192,7 +194,7 @@ void WidgetSearchTemplate::OnStateChanged()
 
 void WidgetSearchTemplate::Sort()
 {
-	sortModel->sort(sortModel->sortColumn(), sortModel->sortOrder());
+	m_pSortModel->sort(m_pSortModel->sortColumn(), m_pSortModel->sortOrder());
 }
 
 void WidgetSearchTemplate::saveHeaderState()
@@ -209,7 +211,7 @@ void WidgetSearchTemplate::loadHeaderState()
 void WidgetSearchTemplate::on_treeViewSearchResults_doubleClicked(const QModelIndex &index)
 {
 	Q_UNUSED(index);
-	SearchTreeItem* itemSearch = searchModel->itemFromIndex(CurrentItem());
+	SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
 
 	if( itemSearch != NULL )
 	{
@@ -249,7 +251,7 @@ void WidgetSearchTemplate::on_treeViewSearchResults_customContextMenuRequested(c
 
 void WidgetSearchTemplate::on_actionDownload_triggered()
 {
-	SearchTreeItem* itemSearch = searchModel->itemFromIndex(CurrentItem());
+	SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
 
 	if( itemSearch != NULL )
 	{
@@ -259,7 +261,7 @@ void WidgetSearchTemplate::on_actionDownload_triggered()
 
 void WidgetSearchTemplate::on_actionViewReviews_triggered()
 {
-	SearchTreeItem* itemSearch = searchModel->itemFromIndex(CurrentItem());
+	SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
 
 	if( itemSearch != NULL )
 	{
@@ -268,10 +270,15 @@ void WidgetSearchTemplate::on_actionViewReviews_triggered()
 }
 
 void WidgetSearchTemplate::on_actionVirusTotalCheck_triggered()
-{SearchTreeItem* itemSearch = searchModel->itemFromIndex(CurrentItem());
+{SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
 
 	if( itemSearch != NULL )
 	{
 		QDesktopServices::openUrl( QUrl(QString("www.virustotal.com/latest-report.html?resource=%1").arg(QString(itemSearch->HitData.lHashes.at(0).RawValue().toHex())), QUrl::TolerantMode) );
 	}
+}
+
+void WidgetSearchTemplate::setSkin()
+{
+	ui->treeViewSearchResults->setStyleSheet(skinSettings.listViews);
 }

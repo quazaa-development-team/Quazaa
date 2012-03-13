@@ -43,6 +43,7 @@
 #include "dialogfiltersearch.h"
 #include "dialogconnectto.h"
 #include "dialoghashprogress.h"
+#include "skinsettings.h"
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
@@ -55,6 +56,7 @@
 #include "geoiplist.h"
 #include "sharemanager.h"
 #include "transfers.h"
+#include "hostcache.h"
 
 #include "chatsession.h"
 #include "chatsessiong2.h"
@@ -167,84 +169,52 @@ CWinMain::CWinMain(QWidget* parent) :
 	switch(quazaaSettings.WinMain.ActiveTab)
 	{
 	case 0:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
-		ui->labelMainHeaderText->setText(tr("Quazaa Home"));
 		ui->actionHome->setChecked(true);
 		break;
 	case 1:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
-		ui->labelMainHeaderText->setText(tr("Library"));
 		ui->actionLibrary->setChecked(true);
 		break;
 	case 2:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Media/Media.png"));
-		ui->labelMainHeaderText->setText(tr("Media"));
 		ui->actionMedia->setChecked(true);
 		break;
 	case 3:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
-		ui->labelMainHeaderText->setText(tr("Search"));
 		ui->actionSearch->setChecked(true);
 		pageSearch->focusSearchInput();
 		break;
 	case 4:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
-		ui->labelMainHeaderText->setText(tr("Transfers"));
 		ui->actionTransfers->setChecked(true);
 		break;
 	case 5:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
-		ui->labelMainHeaderText->setText(tr("Security"));
 		ui->actionSecurity->setChecked(true);
 		break;
 	case 6:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Globe.png"));
-		ui->labelMainHeaderText->setText(tr("Activity"));
 		ui->actionActivity->setChecked(true);
 		break;
 	case 7:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
-		ui->labelMainHeaderText->setText(tr("Chat"));
 		ui->actionChat->setChecked(true);
 		break;
 	case 8:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
-		ui->labelMainHeaderText->setText(tr("Host Cache"));
 		ui->actionHostCache->setChecked(true);
 		break;
 	case 9:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
-		ui->labelMainHeaderText->setText(tr("Discovery"));
 		ui->actionDiscovery->setChecked(true);
 		break;
 	case 10:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
-		ui->labelMainHeaderText->setText(tr("Scheduler"));
 		ui->actionScheduler->setChecked(true);
 		break;
 	case 11:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
-		ui->labelMainHeaderText->setText(tr("Graph"));
 		ui->actionGraph->setChecked(true);
 		break;
 	case 12:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
-		ui->labelMainHeaderText->setText(tr("Packet Dump"));
 		ui->actionPacketDump->setChecked(true);
 		break;
 	case 13:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
-		ui->labelMainHeaderText->setText(tr("Search Monitor"));
 		ui->actionSearchMonitor->setChecked(true);
 		break;
 	case 14:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
-		ui->labelMainHeaderText->setText(tr("Hit Monitor"));
 		ui->actionHitMonitor->setChecked(true);
 		break;
 	default:
-		ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
-		ui->labelMainHeaderText->setText(tr("Quazaa Home"));
 		ui->actionHome->setChecked(true);
 		break;
 	}
@@ -267,6 +237,7 @@ CWinMain::CWinMain(QWidget* parent) :
 	connect(&ChatCore, SIGNAL(openChatWindow(CChatSession*)), this, SLOT(OpenChat(CChatSession*)));
 	connect(&Network, SIGNAL(LocalAddressChanged()), this, SLOT(localAddressChanged()));
 	connect(&ShareManager, SIGNAL(hasherStarted(int)), this, SLOT(onHasherStarted(int)));
+	setSkin();
 }
 
 CWinMain::~CWinMain()
@@ -364,83 +335,51 @@ void CWinMain::changeEvent(QEvent* e)
 		switch(quazaaSettings.WinMain.ActiveTab)
 		{
 		case 0:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
-			ui->labelMainHeaderText->setText(tr("Quazaa Home"));
 			ui->actionHome->setChecked(true);
 			break;
 		case 1:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
-			ui->labelMainHeaderText->setText(tr("Library"));
 			ui->actionLibrary->setChecked(true);
 			break;
 		case 2:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Media/Media.png"));
-			ui->labelMainHeaderText->setText(tr("Media"));
 			ui->actionMedia->setChecked(true);
 			break;
 		case 3:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
-			ui->labelMainHeaderText->setText(tr("Search"));
 			ui->actionSearch->setChecked(true);
 			break;
 		case 4:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
-			ui->labelMainHeaderText->setText(tr("Transfers"));
 			ui->actionTransfers->setChecked(true);
 			break;
 		case 5:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
-			ui->labelMainHeaderText->setText(tr("Security"));
 			ui->actionSecurity->setChecked(true);
 			break;
 		case 6:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Globe.png"));
-			ui->labelMainHeaderText->setText(tr("Activity"));
 			ui->actionActivity->setChecked(true);
 			break;
 		case 7:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
-			ui->labelMainHeaderText->setText(tr("Chat"));
 			ui->actionChat->setChecked(true);
 			break;
 		case 8:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
-			ui->labelMainHeaderText->setText(tr("Host Cache"));
 			ui->actionHostCache->setChecked(true);
 			break;
 		case 9:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
-			ui->labelMainHeaderText->setText(tr("Discovery"));
 			ui->actionDiscovery->setChecked(true);
 			break;
 		case 10:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
-			ui->labelMainHeaderText->setText(tr("Scheduler"));
 			ui->actionScheduler->setChecked(true);
 			break;
 		case 11:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
-			ui->labelMainHeaderText->setText(tr("Graph"));
 			ui->actionGraph->setChecked(true);
 			break;
 		case 12:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
-			ui->labelMainHeaderText->setText(tr("Packet Dump"));
 			ui->actionPacketDump->setChecked(true);
 			break;
 		case 13:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
-			ui->labelMainHeaderText->setText(tr("Search Monitor"));
 			ui->actionSearchMonitor->setChecked(true);
 			break;
 		case 14:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
-			ui->labelMainHeaderText->setText(tr("Hit Monitor"));
 			ui->actionHitMonitor->setChecked(true);
 			break;
 		default:
-			ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
-			ui->labelMainHeaderText->setText(tr("Quazaa Home"));
 			ui->actionHome->setChecked(true);
 			break;
 		}
@@ -462,7 +401,7 @@ void CWinMain::changeEvent(QEvent* e)
 
 void CWinMain::quazaaShutdown()
 {
-	DialogSplash* dlgSplash = new DialogSplash(this);
+	DialogSplash* dlgSplash = new DialogSplash();
 	dlgSplash->show();
 
 	dlgSplash->updateProgress(95, tr("Closing Networks..."));
@@ -485,7 +424,13 @@ void CWinMain::quazaaShutdown()
 	qApp->processEvents();
 	quazaaSettings.saveSettings();
 
-	dlgSplash->updateProgress(40, tr("Saving UI..."));
+	dlgSplash->updateProgress(40, tr("Saving Host Cache..."));
+	qApp->processEvents();
+	HostCache.m_pSection.lock();
+	HostCache.Save();
+	HostCache.m_pSection.unlock();
+
+	dlgSplash->updateProgress(20, tr("Saving UI..."));
 	qApp->processEvents();
 	quazaaSettings.WinMain.MainToolbar = saveState();
 	pageHome->saveWidget();
@@ -520,8 +465,6 @@ void CWinMain::quazaaShutdown()
 void CWinMain::on_actionHome_triggered()
 {
 	ui->actionHome->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Home.png"));
-	ui->labelMainHeaderText->setText(tr("Quazaa Home"));
 	ui->stackedWidgetMain->setCurrentIndex(0);
 	quazaaSettings.WinMain.ActiveTab = 0;
 }
@@ -529,16 +472,13 @@ void CWinMain::on_actionHome_triggered()
 void CWinMain::on_actionLibrary_triggered()
 {
 	ui->actionLibrary->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Library/Library.png"));
-	ui->labelMainHeaderText->setText(tr("Library"));
 	ui->stackedWidgetMain->setCurrentIndex(1);
 	quazaaSettings.WinMain.ActiveTab = 1;
 }
 
 void CWinMain::on_actionMedia_triggered()
 {
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Media/Media.png"));
-	ui->labelMainHeaderText->setText(tr("Media"));
+	ui->actionMedia->setChecked(true);
 	ui->stackedWidgetMain->setCurrentIndex(2);
 	quazaaSettings.WinMain.ActiveTab = 2;
 }
@@ -546,8 +486,6 @@ void CWinMain::on_actionMedia_triggered()
 void CWinMain::on_actionSearch_triggered()
 {
 	ui->actionSearch->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Search.png"));
-	ui->labelMainHeaderText->setText(tr("Search"));
 	ui->stackedWidgetMain->setCurrentIndex(3);
 	quazaaSettings.WinMain.ActiveTab = 3;
 	pageSearch->focusSearchInput();
@@ -556,8 +494,6 @@ void CWinMain::on_actionSearch_triggered()
 void CWinMain::on_actionTransfers_triggered()
 {
 	ui->actionTransfers->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Transfers.png"));
-	ui->labelMainHeaderText->setText(tr("Transfers"));
 	ui->stackedWidgetMain->setCurrentIndex(4);
 	quazaaSettings.WinMain.ActiveTab = 4;
 }
@@ -565,8 +501,6 @@ void CWinMain::on_actionTransfers_triggered()
 void CWinMain::on_actionSecurity_triggered()
 {
 	ui->actionSecurity->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Security/Security.png"));
-	ui->labelMainHeaderText->setText(tr("Security"));
 	ui->stackedWidgetMain->setCurrentIndex(5);
 	quazaaSettings.WinMain.ActiveTab = 5;
 }
@@ -574,8 +508,6 @@ void CWinMain::on_actionSecurity_triggered()
 void CWinMain::on_actionActivity_triggered()
 {
 	ui->actionActivity->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Globe.png"));
-	ui->labelMainHeaderText->setText(tr("Activity"));
 	ui->stackedWidgetMain->setCurrentIndex(6);
 	quazaaSettings.WinMain.ActiveTab = 6;
 }
@@ -583,8 +515,6 @@ void CWinMain::on_actionActivity_triggered()
 void CWinMain::on_actionChat_triggered()
 {
 	ui->actionChat->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Chat/Chat.png"));
-	ui->labelMainHeaderText->setText(tr("Chat"));
 	ui->stackedWidgetMain->setCurrentIndex(7);
 	quazaaSettings.WinMain.ActiveTab = 7;
 }
@@ -592,8 +522,6 @@ void CWinMain::on_actionChat_triggered()
 void CWinMain::on_actionHostCache_triggered()
 {
 	ui->actionHostCache->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HostCache.png"));
-	ui->labelMainHeaderText->setText(tr("Host Cache"));
 	ui->stackedWidgetMain->setCurrentIndex(8);
 	quazaaSettings.WinMain.ActiveTab = 8;
 }
@@ -601,8 +529,6 @@ void CWinMain::on_actionHostCache_triggered()
 void CWinMain::on_actionDiscovery_triggered()
 {
 	ui->actionDiscovery->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/Discovery.png"));
-	ui->labelMainHeaderText->setText(tr("Discovery"));
 	ui->stackedWidgetMain->setCurrentIndex(9);
 	quazaaSettings.WinMain.ActiveTab = 9;
 }
@@ -610,8 +536,6 @@ void CWinMain::on_actionDiscovery_triggered()
 void CWinMain::on_actionScheduler_triggered()
 {
 	ui->actionScheduler->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Scheduler.png"));
-	ui->labelMainHeaderText->setText(tr("Scheduler"));
 	ui->stackedWidgetMain->setCurrentIndex(10);
 	quazaaSettings.WinMain.ActiveTab = 10;
 }
@@ -619,8 +543,6 @@ void CWinMain::on_actionScheduler_triggered()
 void CWinMain::on_actionGraph_triggered()
 {
 	ui->actionGraph->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Generic/Graph.png"));
-	ui->labelMainHeaderText->setText(tr("Graph"));
 	ui->stackedWidgetMain->setCurrentIndex(11);
 	quazaaSettings.WinMain.ActiveTab = 11;
 }
@@ -628,8 +550,6 @@ void CWinMain::on_actionGraph_triggered()
 void CWinMain::on_actionPacketDump_triggered()
 {
 	ui->actionPacketDump->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/PacketDump.png"));
-	ui->labelMainHeaderText->setText(tr("Packet Dump"));
 	ui->stackedWidgetMain->setCurrentIndex(12);
 	quazaaSettings.WinMain.ActiveTab = 12;
 }
@@ -637,8 +557,6 @@ void CWinMain::on_actionPacketDump_triggered()
 void CWinMain::on_actionSearchMonitor_triggered()
 {
 	ui->actionSearchMonitor->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/SearchMonitor.png"));
-	ui->labelMainHeaderText->setText(tr("Search Monitor"));
 	ui->stackedWidgetMain->setCurrentIndex(13);
 	quazaaSettings.WinMain.ActiveTab = 13;
 }
@@ -646,8 +564,6 @@ void CWinMain::on_actionSearchMonitor_triggered()
 void CWinMain::on_actionHitMonitor_triggered()
 {
 	ui->actionHitMonitor->setChecked(true);
-	ui->labelMainHeaderLogo->setPixmap(QPixmap(":/Resource/Network/HitMonitor.png"));
-	ui->labelMainHeaderText->setText(tr("Hit Monitor"));
 	ui->stackedWidgetMain->setCurrentIndex(14);
 	quazaaSettings.WinMain.ActiveTab = 14;
 }
@@ -925,7 +841,7 @@ void CWinMain::on_actionConnectTo_triggered()
 		{
 		case DialogConnectTo::G2:
 			Neighbours.m_pSection.lock();
-			Neighbours.ConnectTo(ip, dpGnutella2);
+			Neighbours.ConnectTo(ip, dpGnutella2, false);
 			Neighbours.m_pSection.unlock();
 			break;
 		case DialogConnectTo::eDonkey:
@@ -1012,3 +928,8 @@ void CWinMain::on_actionAbout_Qt_triggered()
 	qApp->aboutQt();
 }
 
+void CWinMain::setSkin()
+{
+	setStyleSheet(skinSettings.standardItems);
+	ui->toolBarNavigation->setStyleSheet(skinSettings.navigationToolbar);
+}

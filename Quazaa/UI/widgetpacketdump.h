@@ -47,7 +47,7 @@ private:
 	Ui::WidgetPacketDump* ui;
 
 private slots:
-	 
+	void setSkin();
 };
 
 #endif // WIDGETPACKETDUMP_H

@@ -46,6 +46,7 @@ signals:
 public slots:
 	void setEmitsReturn(bool shouldEmit);
 	bool emitsReturn();
+	void setSkin();
 };
 
 #endif // WIDGETRETURNEMITTEXTEDIT_H
