@@ -43,6 +43,7 @@ CNeighbour::CNeighbour(QObject* parent) :
 	m_nPingsWaiting = 0;
 	m_tRTT = 0;
 	m_nPacketsIn = m_nPacketsOut = 0;
+	m_bAutomatic = true;
 
 }
 
@@ -60,13 +61,15 @@ void CNeighbour::OnTimer(quint32 tNow)
 		{
 			if(m_bInitiated)
 			{
+				HostCache.m_pSection.lock();
 				HostCache.OnFailure(m_oAddress);
+				HostCache.m_pSection.unlock();
 			}
 
 			if( m_nState == nsConnecting )
-				systemLog.postLog(LogCategory::Network, LogSeverity::Information, qPrintable(tr("Timed out connecting to %s.")), qPrintable(m_oAddress.toStringWithPort()));
+				systemLog.postLog(LogSeverity::Information, qPrintable(tr("Timed out connecting to %s.")), qPrintable(m_oAddress.toStringWithPort()));
 			else
-				systemLog.postLog(LogCategory::Network, LogSeverity::Information, qPrintable(tr("Timed out handshaking with %s.")), qPrintable(m_oAddress.toStringWithPort()));
+				systemLog.postLog(LogSeverity::Information, qPrintable(tr("Timed out handshaking with %s.")), qPrintable(m_oAddress.toStringWithPort()));
 
 			Close();
 			return;
@@ -76,8 +79,8 @@ void CNeighbour::OnTimer(quint32 tNow)
 	{
 		if(tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
 		{
-			systemLog.postLog(LogCategory::Network, LogSeverity::Error, tr("Closing connection to %1 due to lack of traffic.").arg(m_oAddress.toString()));
-			systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Conn %1, Packet %2, bytes avail %3, net bytes avail %4, ping %5").arg(tNow - m_tConnected).arg(tNow - m_tLastPacketIn).arg(bytesAvailable()).arg(networkBytesAvailable()).arg(tNow - m_tLastPingOut));
+			systemLog.postLog(LogSeverity::Error, tr("Closing connection to %1 due to lack of traffic.").arg(m_oAddress.toString()));
+			systemLog.postLog(LogSeverity::Debug, QString("Conn %1, Packet %2, bytes avail %3, net bytes avail %4, ping %5").arg(tNow - m_tConnected).arg(tNow - m_tLastPacketIn).arg(bytesAvailable()).arg(networkBytesAvailable()).arg(tNow - m_tLastPingOut));
 			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "minute dead";
 			Close();
 			return;
@@ -85,7 +88,7 @@ void CNeighbour::OnTimer(quint32 tNow)
 
 		if(m_nPingsWaiting > 0 && tNow - m_tLastPingOut > quazaaSettings.Gnutella2.PingTimeout && tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
 		{
-			systemLog.postLog(LogCategory::Network, LogSeverity::Debug, QString("Closing connection with %1 ping timed out").arg(m_oAddress.toString()));
+			systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 ping timed out").arg(m_oAddress.toString()));
 			//qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "ping timed out";
 			Close();
 			return;
@@ -109,20 +112,20 @@ void CNeighbour::OnError(QAbstractSocket::SocketError e)
 {
 	if(e == QAbstractSocket::RemoteHostClosedError)
 	{
-		systemLog.postLog(LogCategory::Network, LogSeverity::Information, "Neighbour %s dropped connection unexpectedly.", qPrintable(m_oAddress.toStringWithPort()));
+		if( m_nState != nsHandshaking )
+			systemLog.postLog(LogSeverity::Information, "Neighbour %s dropped connection unexpectedly.", qPrintable(m_oAddress.toStringWithPort()));
 	}
 	else
 	{
-		HostCache.OnFailure(m_oAddress);
-		systemLog.postLog(LogCategory::Network, LogSeverity::Error, "Neighbour %s dropped connection unexpectedly (socket error: %s).", qPrintable(m_oAddress.toStringWithPort()), qPrintable(m_pSocket->errorString()));
-	}
+		systemLog.postLog(LogSeverity::Error, "Neighbour %s dropped connection unexpectedly (socket error: %s).", qPrintable(m_oAddress.toStringWithPort()), qPrintable(m_pSocket->errorString()));
 
-	Neighbours.m_pSection.lock();
-	delete this;
-	Neighbours.m_pSection.unlock();
-}
-void CNeighbour::OnStateChange(QAbstractSocket::SocketState s)
-{
-	Q_UNUSED(s);
+		HostCache.m_pSection.lock();
+		HostCache.OnFailure(m_oAddress);
+		HostCache.m_pSection.unlock();
+
+		Neighbours.m_pSection.lock();
+		delete this;
+		Neighbours.m_pSection.unlock();
+	}
 }
 

@@ -37,7 +37,7 @@ CHash::CHash(const CHash &rhs)
 {
 	if ( !rhs.m_bFinalized )
 	{
-		systemLog.postLog(LogCategory::Library, LogSeverity::Debug, QObject::tr( "WARNING: Copying non-finalized CHash" ) );
+		systemLog.postLog(LogSeverity::Debug, QObject::tr( "WARNING: Copying non-finalized CHash" ) );
 	}
 
 	m_baRawValue = rhs.m_baRawValue;

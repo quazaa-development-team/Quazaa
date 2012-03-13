@@ -24,6 +24,7 @@
 
 #include "dialogdownloadsimport.h"
 #include "ui_dialogdownloadsimport.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,6 +35,7 @@ DialogDownloadsImport::DialogDownloadsImport(QWidget* parent) :
 	ui(new Ui::DialogDownloadsImport)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogDownloadsImport::~DialogDownloadsImport()
@@ -55,3 +57,7 @@ void DialogDownloadsImport::changeEvent(QEvent* e)
 	}
 }
 
+void DialogDownloadsImport::setSkin()
+{
+
+}

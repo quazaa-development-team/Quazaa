@@ -27,6 +27,7 @@
 #include "dialoglibrarysearch.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -42,6 +43,7 @@ WidgetLibraryView::WidgetLibraryView(QWidget* parent) :
 	ui->toolBarSearch->insertWidget(ui->actionFind, lineEditFind);
 	restoreState(quazaaSettings.WinMain.LibraryToolbar);
 	ui->splitterLibraryView->restoreState(quazaaSettings.WinMain.LibraryDetailsSplitter);
+	setSkin();
 }
 
 WidgetLibraryView::~WidgetLibraryView()
@@ -99,3 +101,7 @@ void WidgetLibraryView::on_splitterLibraryView_customContextMenuRequested(QPoint
 	}
 }
 
+void WidgetLibraryView::setSkin()
+{
+
+}

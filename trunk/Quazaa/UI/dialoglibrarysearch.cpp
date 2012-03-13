@@ -24,6 +24,7 @@
 
 #include "dialoglibrarysearch.h"
 #include "ui_dialoglibrarysearch.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,6 +35,7 @@ DialogLibrarySearch::DialogLibrarySearch(QWidget* parent) :
 	ui(new Ui::DialogLibrarySearch)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogLibrarySearch::~DialogLibrarySearch()
@@ -66,3 +68,7 @@ void DialogLibrarySearch::on_pushButtonCancel_clicked()
 	close();
 }
 
+void DialogLibrarySearch::setSkin()
+{
+
+}

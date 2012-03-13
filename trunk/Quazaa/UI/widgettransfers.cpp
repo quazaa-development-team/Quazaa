@@ -26,6 +26,7 @@
 #include "ui_widgettransfers.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -41,6 +42,7 @@ WidgetTransfers::WidgetTransfers(QWidget* parent) :
 	ui->verticalLayoutDownloads->addWidget(panelDownloads);
 	panelUploads = new WidgetUploads();
 	ui->verticalLayoutUploads->addWidget(panelUploads);
+	setSkin();
 }
 
 WidgetTransfers::~WidgetTransfers()
@@ -133,3 +135,8 @@ void WidgetTransfers::on_toolButtonDownloadsHeader_clicked()
 	}
 }
 
+void WidgetTransfers::setSkin()
+{
+	ui->toolButtonDownloadsHeader->setStyleSheet(skinSettings.taskHeader);
+	ui->toolButtonUploadsHeader->setStyleSheet(skinSettings.taskHeader);
+}

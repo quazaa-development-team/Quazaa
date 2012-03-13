@@ -24,6 +24,7 @@
 
 #include "widgetactivity.h"
 #include "ui_widgetactivity.h"
+#include "skinsettings.h"
 
 #include "quazaasettings.h"
 
@@ -41,6 +42,7 @@ WidgetActivity::WidgetActivity(QWidget* parent) :
 	ui->verticalLayoutNeighbours->addWidget(panelNeighbours);
 	panelSystemLog = new WidgetSystemLog();
 	ui->verticalLayoutSystemLog->addWidget(panelSystemLog);
+	setSkin();
 }
 
 WidgetActivity::~WidgetActivity()
@@ -133,3 +135,8 @@ void WidgetActivity::on_toolButtonNeighboursHeader_clicked()
 	}
 }
 
+void WidgetActivity::setSkin()
+{
+	ui->toolButtonNeighboursHeader->setStyleSheet(skinSettings.taskHeader);
+	ui->toolButtonSystemLogHeader->setStyleSheet(skinSettings.taskHeader);
+}

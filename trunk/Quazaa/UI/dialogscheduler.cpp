@@ -24,6 +24,8 @@
 
 #include "dialogscheduler.h"
 #include "ui_dialogscheduler.h"
+#include "skinsettings.h"
+
 #include <QListView>
 
 #ifdef _DEBUG
@@ -37,6 +39,7 @@ DialogScheduler::DialogScheduler(QWidget* parent) :
 	ui->setupUi(this);
 	ui->comboBoxAction->setView(new QListView());
 	ui->comboBoxOnceWeekly->setView(new QListView());
+	setSkin();
 }
 
 DialogScheduler::~DialogScheduler()
@@ -120,3 +123,7 @@ void DialogScheduler::on_pushButtonCancel_clicked()
 	close();
 }
 
+void DialogScheduler::setSkin()
+{
+
+}

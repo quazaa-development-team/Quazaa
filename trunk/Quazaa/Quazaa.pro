@@ -51,6 +51,7 @@ INCLUDEPATH += NetworkCore \
 	Transfers \
 	Skin \
 	FileFragments \
+	Misc \
 	.
 
 include(3rdparty/qtsingleapplication/qtsingleapplication.pri)
@@ -92,8 +93,7 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 
 # Additional config
-win32:LIBS += -Lbin -luser32 # if you are at windows os
-mac:CONFIG -= app_bundle
+win32:LIBS += -Lbin -luser32 -lole32 -lshell32 # if you are at windows os
 mac:LIBS += -lz
 DEFINES += COMMUNI_STATIC
 CONFIG(debug, debug|release){
@@ -126,7 +126,7 @@ win32-msvc2008 {
             QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
         }
 
-		DEFINES += _CRT_SECURE_NO_WARNINGS;
+		DEFINES += _CRT_SECURE_NO_WARNINGS
 }
 
 win32-msvc2010 {
@@ -166,7 +166,7 @@ win32-msvc2010 {
             QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
         }
 
-		DEFINES += _CRT_SECURE_NO_WARNINGS;
+		DEFINES += _CRT_SECURE_NO_WARNINGS
 }
 
 # Sources
@@ -306,7 +306,9 @@ SOURCES += \
     Skin/skinsettings.cpp \
     Models/downloadstreemodel.cpp \
     Transfers/downloadtransfer.cpp \
-    UI/suggestedlineedit.cpp
+    UI/suggestedlineedit.cpp \
+    Misc/fileiconprovider.cpp \
+    Misc/networkiconprovider.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -455,7 +457,9 @@ HEADERS += \
     FileFragments/FileFragments.hpp \
     FileFragments/Exception.hpp \
     FileFragments/Compatibility.hpp \
-    UI/suggestedlineedit.h
+    UI/suggestedlineedit.h \
+    Misc/fileiconprovider.h \
+    Misc/networkiconprovider.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -551,6 +555,18 @@ RESOURCES += Resource.qrc
 RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
 
+mac {
+    QM_DATA.path = Contents/MacOS
+    for(translation, TRANSLATIONS) {
+        translation ~= s/\\.ts$/.qm
+        QM_DATA.files += $$DESTDIR/$$basename(translation)
+    }
+    QMAKE_BUNDLE_DATA += QM_DATA
+
+    GEOIP_DATA.path = Contents/MacOS
+    GEOIP_DATA.files += $$DESTDIR/GeoIP
+    QMAKE_BUNDLE_DATA += GEOIP_DATA
+}
 
 
 

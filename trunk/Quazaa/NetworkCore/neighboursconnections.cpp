@@ -31,6 +31,7 @@
 #include "geoiplist.h"
 #include "neighbours.h"
 #include "thread.h"
+#include "commonfunctions.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -116,7 +117,7 @@ CNeighbour* CNeighboursConnections::RandomNode(DiscoveryProtocol nProtocol, int 
 		return 0;
 	}
 
-	int nIndex = qrand() % lNodeList.count();
+	int nIndex = common::getRandomNum(0, lNodeList.size() - 1);
 
 	return lNodeList.at(nIndex);
 }
@@ -125,15 +126,26 @@ void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int
 {
 	CNeighbour* pNode = 0;
 
-	for(QList<CNeighbour*>::iterator i = m_lNodes.begin(); i != m_lNodes.end(); i++)
+	bool bKeepManual = true;
+
+	time_t tNow = time(0);
+
+	while(1)
 	{
-		if((*i)->m_nState == nsConnected && (*i)->m_nProtocol == nProtocol)
+		for(QList<CNeighbour*>::const_iterator i = m_lNodes.begin(); i != m_lNodes.end(); i++)
 		{
-			if(nProtocol == dpGnutella2 && ((CG2Node*)(*i))->m_nType == nType)
+			if((*i)->m_nState == nsConnected && (*i)->m_nProtocol == nProtocol)
 			{
-				if(!bCore && ((CG2Node*)(*i))->m_bG2Core)
-				{
+				if( bKeepManual && !(*i)->m_bAutomatic && tNow - (*i)->m_tConnected < 120 )
 					continue;
+
+				if( nProtocol == dpGnutella2 )
+				{
+						if( ((CG2Node*)(*i))->m_nType != nType // if node type is not requested type
+								|| (!bCore && ((CG2Node*)(*i))->m_bG2Core) ) // or we don't want to disconnect "our" nodes
+						{
+							continue;
+						}
 				}
 
 				if(pNode == 0)
@@ -149,11 +161,23 @@ void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int
 				}
 			}
 		}
-	}
 
-	if(pNode)
-	{
-		pNode->Close();
+		if(pNode)
+		{
+			// we found a node to disconnect
+			pNode->Close();
+			break;
+		}
+		else if(bKeepManual)
+		{
+			// no node to disconnect, try manually connected nodes as well
+			bKeepManual = false;
+		}
+		else
+		{
+			// nothing to do here...
+			break;
+		}
 	}
 }
 
@@ -216,7 +240,7 @@ void CNeighboursConnections::Maintain()
 
 			for(; nToDisconnect; nToDisconnect--)
 			{
-				DisconnectYoungest(dpGnutella2, G2_HUB, (nCoreHubsG2 / nHubsG2) > 0.5);
+				DisconnectYoungest(dpGnutella2, G2_HUB, (100 * nCoreHubsG2 / nHubsG2) > 50);
 			}
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumHubs)
@@ -229,11 +253,12 @@ void CNeighboursConnections::Maintain()
 			QDateTime tNow = QDateTime::currentDateTimeUtc();
 			bool bCountry = true;
 			int  nCountry = 0;
+			QList<CHostCacheHost*> oExcept;
 
 			for(; nAttempt > 0; nAttempt--)
 			{
 				// nowe polaczenie
-				CHostCacheHost* pHost = HostCache.GetConnectable(tNow, (bCountry ? (quazaaSettings.Connection.PreferredCountries.size() ? quazaaSettings.Connection.PreferredCountries.at(nCountry) : GeoIP.findCountryCode(Network.m_oAddress)) : "ZZ"));
+				CHostCacheHost* pHost = HostCache.GetConnectable(tNow, oExcept, (bCountry ? (quazaaSettings.Connection.PreferredCountries.size() ? quazaaSettings.Connection.PreferredCountries.at(nCountry) : GeoIP.findCountryCode(Network.m_oAddress)) : "ZZ"));
 
 				if(pHost)
 				{
@@ -241,6 +266,11 @@ void CNeighboursConnections::Maintain()
 					{
 						ConnectTo(pHost->m_oAddress, dpGnutella2);
 						pHost->m_tLastConnect = tNow;
+					}
+					else
+					{
+						oExcept.append(pHost);
+						nAttempt++;
 					}
 				}
 				else
@@ -266,7 +296,6 @@ void CNeighboursConnections::Maintain()
 					}
 				}
 			}
-
 		}
 	}
 	else
@@ -278,7 +307,7 @@ void CNeighboursConnections::Maintain()
 
 			for(; nToDisconnect; nToDisconnect--)
 			{
-				DisconnectYoungest(dpGnutella2, G2_HUB, (nCoreHubsG2 / nHubsG2) > 0.5);
+				DisconnectYoungest(dpGnutella2, G2_HUB, (100 * nCoreHubsG2 / nHubsG2) > 50);
 			}
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumPeers)
@@ -288,11 +317,12 @@ void CNeighboursConnections::Maintain()
 			QDateTime tNow = QDateTime::currentDateTimeUtc();
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
+			QList<CHostCacheHost*> oExcept;
 
 			for(; nAttempt > 0; nAttempt--)
 			{
 				// nowe polaczenie
-				CHostCacheHost* pHost = HostCache.GetConnectable(tNow);
+				CHostCacheHost* pHost = HostCache.GetConnectable(tNow, oExcept);
 
 				if(pHost)
 				{
@@ -300,6 +330,11 @@ void CNeighboursConnections::Maintain()
 					{
 						ConnectTo(pHost->m_oAddress, dpGnutella2);
 						pHost->m_tLastConnect = tNow;
+					}
+					else
+					{
+						oExcept.append(pHost);
+						nAttempt++;
 					}
 				}
 				else
@@ -315,7 +350,7 @@ void CNeighboursConnections::Maintain()
 
 			for(; nToDisconnect; nToDisconnect--)
 			{
-				DisconnectYoungest(dpGnutella2, G2_LEAF, (nCoreLeavesG2 / nLeavesG2) > 0.5);
+				DisconnectYoungest(dpGnutella2, G2_LEAF, (100 * nCoreLeavesG2 / nLeavesG2) > 50);
 			}
 		}
 	}
@@ -335,9 +370,7 @@ CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 {
 	// TODO: Make new CNeighbour deriviate for handshaking with Gnutella clients
 
-	Q_ASSERT(thread() == &NetworkThread);
-
-	systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "CNeighbours::OnAccept");
+	systemLog.postLog(LogSeverity::Debug, "CNeighbours::OnAccept");
 	//qDebug() << "CNeighbours::OnAccept";
 
 	if(!m_bActive)
@@ -348,7 +381,7 @@ CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 
 	if(!m_pSection.tryLock(50))
 	{
-		systemLog.postLog(LogCategory::Network, LogSeverity::Debug, "Not accepting incoming connection. Neighbours overloaded");
+		systemLog.postLog(LogSeverity::Debug, "Not accepting incoming connection. Neighbours overloaded");
 		pConn->Close();
 		return 0;
 	}
@@ -363,7 +396,7 @@ CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 	return pNew;
 }
 
-CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol)
+CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol, bool bAutomatic)
 {
 	ASSUME_LOCK(m_pSection);
 
@@ -378,9 +411,10 @@ CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProt
 			Q_ASSERT_X(0, "CNeighbours::ConnectTo", "Unknown protocol");
 	}
 
-	AddNode(pNode);
+	pNode->m_bAutomatic = bAutomatic;
 	pNode->ConnectTo(oAddress);
 	pNode->moveToThread(&NetworkThread);
+	AddNode(pNode);
 	return pNode;
 }
 

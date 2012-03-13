@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -27,6 +27,8 @@
 #include "dialogfiltersearch.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
+
 #include "NetworkCore/query.h"
 #include "queryhit.h"
 #include "searchtreemodel.h"
@@ -59,6 +61,7 @@ WidgetSearchResults::WidgetSearchResults(QWidget* parent) :
 	connect(tabSearch, SIGNAL(statsUpdated(WidgetSearchTemplate*)), this, SLOT(onStatsUpdated(WidgetSearchTemplate*)));
 	ui->splitterSearchDetails->restoreState(quazaaSettings.WinMain.SearchDetailsSplitter);
 	emit searchTabChanged(tabSearch);
+	setSkin();
 }
 
 WidgetSearchResults::~WidgetSearchResults()
@@ -87,44 +90,48 @@ void WidgetSearchResults::saveWidget()
 
 void WidgetSearchResults::startSearch(QString searchString)
 {
-	if(searchString != "")
+	if ( !searchString.isEmpty() )
 	{
-		WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
-		if(tabSearch)
+		WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>( ui->tabWidgetSearch->currentWidget() );
+		if ( tabSearch )
 		{
-			if(tabSearch->m_pSearch)
+			if ( tabSearch->m_pSearch )
 			{
-				if( tabSearch->sSearchString == searchString)
+				if ( tabSearch->m_sSearchString == searchString )
 				{
-					tabSearch->StartSearch(tabSearch->m_pSearch->m_pQuery);
-					connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
-					emit searchTabChanged(tabSearch);
-					emit statsUpdated(tabSearch);
-				} else {
-					int result = QMessageBox::question(this, tr("You have started a new search."), tr("Would you like to start this search in a new tab?\n\nIf you perform this search in the current tab, you will mix the results of %1 search with the results of the new %2 search.").arg(tabSearch->sSearchString).arg(searchString), QMessageBox::Yes|QMessageBox::No);
-					if(result == QMessageBox::Yes)
+					tabSearch->StartSearch( tabSearch->m_pSearch->m_pQuery );
+					connect( tabSearch, SIGNAL( stateChanged() ), this, SIGNAL( stateChanged() ) );
+					emit searchTabChanged( tabSearch );
+					emit statsUpdated( tabSearch );
+				}
+				else
+				{
+					int result = QMessageBox::question( this, tr( "You have started a new search." ), tr("Would you like to start this search in a new tab?\n\nIf you perform this search in the current tab, you will mix the results of %1 search with the results of the new %2 search.").arg(tabSearch->m_sSearchString).arg(searchString), QMessageBox::Yes|QMessageBox::No);
+					if ( result == QMessageBox::Yes )
 					{
 						addSearchTab();
-						tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
+						tabSearch = qobject_cast<WidgetSearchTemplate*>( ui->tabWidgetSearch->currentWidget() );
 					}
 
-					if(tabSearch)
+					if ( tabSearch )
 					{
 						CQuery* pQuery = new CQuery();
-						pQuery->SetDescriptiveName(searchString);
-						tabSearch->StartSearch(pQuery);
-						connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
-						ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
-						emit searchTabChanged(tabSearch);
-						emit statsUpdated(tabSearch);
+						pQuery->SetDescriptiveName( searchString );
+						tabSearch->StartSearch( pQuery );
+						connect( tabSearch, SIGNAL( stateChanged() ), this, SIGNAL( stateChanged() ) );
+						ui->tabWidgetSearch->setTabText( ui->tabWidgetSearch->currentIndex(), searchString );
+						emit searchTabChanged( tabSearch );
+						emit statsUpdated( tabSearch );
 					}
 				}
-			} else {
+			}
+			else
+			{
 				CQuery* pQuery = new CQuery();
-				pQuery->SetDescriptiveName(searchString);
-				tabSearch->StartSearch(pQuery);
-				connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
-				ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), searchString);
+				pQuery->SetDescriptiveName( searchString );
+				tabSearch->StartSearch( pQuery );
+				connect( tabSearch, SIGNAL( stateChanged() ), this, SIGNAL( stateChanged() ) );
+				ui->tabWidgetSearch->setTabText( ui->tabWidgetSearch->currentIndex(), searchString );
 			}
 		}
 	}
@@ -176,11 +183,11 @@ void WidgetSearchResults::stopSearch()
 	WidgetSearchTemplate* tabSearch = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget());
 	if(tabSearch)
 	{
-		if(tabSearch->searchState == SearchState::Searching)
+		if(tabSearch->m_searchState == SearchState::Searching)
 		{
 			tabSearch->PauseSearch();
 		}
-		else if(tabSearch->searchState == SearchState::Paused)
+		else if(tabSearch->m_searchState == SearchState::Paused)
 		{
 			tabSearch->StopSearch();
 		}
@@ -243,7 +250,7 @@ void WidgetSearchResults::on_tabWidgetSearch_currentChanged(int index)
 
 void WidgetSearchResults::onStatsUpdated(WidgetSearchTemplate* searchWidget)
 {
-	ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->indexOf(searchWidget), (QString("%1 [%2,%3]").arg(searchWidget->sSearchString).arg(searchWidget->nFiles).arg(searchWidget->nHits)));
+	ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->indexOf(searchWidget), (QString("%1 [%2,%3]").arg(searchWidget->m_sSearchString).arg(searchWidget->m_nFiles).arg(searchWidget->m_nHits)));
 	if((searchWidget = qobject_cast<WidgetSearchTemplate*>(ui->tabWidgetSearch->currentWidget())))
 	{
 		emit statsUpdated(searchWidget);
@@ -258,7 +265,7 @@ void WidgetSearchResults::on_actionSearchDownload_triggered()
 
 		if( tabSearch )
 		{
-			SearchTreeItem* itemSearch = tabSearch->searchModel->itemFromIndex(tabSearch->CurrentItem());
+			SearchTreeItem* itemSearch = tabSearch->m_pSearchModel->itemFromIndex(tabSearch->CurrentItem());
 
 			if( itemSearch != NULL )
 			{
@@ -289,3 +296,7 @@ void WidgetSearchResults::on_actionSearchDownload_triggered()
 	}
 }
 
+void WidgetSearchResults::setSkin()
+{
+
+}

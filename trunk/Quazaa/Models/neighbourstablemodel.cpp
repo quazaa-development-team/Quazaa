@@ -35,6 +35,7 @@
 #include "neighbours.h"
 #include "geoiplist.h"
 #include <qabstractitemview.h>
+#include "networkiconprovider.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -68,12 +69,13 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode(pNei
 		case dpGnutella2:
 			nLeafCount = ((CG2Node*)pNode)->m_nLeafCount;
 			nLeafMax = ((CG2Node*)pNode)->m_nLeafMax;
-			iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
 			nType = ((CG2Node*)pNode)->m_nType;
 			break;
 		default:
 			break;
 	}
+
+	iNetwork = CNetworkIconProvider::icon(pNode->m_nProtocol);
 }
 
 bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList& to_update, CNeighboursTableModel* model)

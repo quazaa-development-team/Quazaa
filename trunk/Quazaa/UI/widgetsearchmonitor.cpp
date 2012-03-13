@@ -26,6 +26,7 @@
 #include "ui_widgetsearchmonitor.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -37,6 +38,7 @@ WidgetSearchMonitor::WidgetSearchMonitor(QWidget* parent) :
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.SearchMonitorToolbar);
+	setSkin();
 }
 
 WidgetSearchMonitor::~WidgetSearchMonitor()
@@ -62,3 +64,7 @@ void WidgetSearchMonitor::saveWidget()
 	quazaaSettings.WinMain.SearchMonitorToolbar = saveState();
 }
 
+void WidgetSearchMonitor::setSkin()
+{
+
+}

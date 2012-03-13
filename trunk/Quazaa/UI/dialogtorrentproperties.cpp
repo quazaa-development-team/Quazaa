@@ -24,6 +24,7 @@
 
 #include "dialogtorrentproperties.h"
 #include "ui_dialogtorrentproperties.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,6 +35,7 @@ DialogTorrentProperties::DialogTorrentProperties(QWidget* parent) :
 	ui(new Ui::DialogTorrentProperties)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogTorrentProperties::~DialogTorrentProperties()
@@ -54,3 +56,7 @@ void DialogTorrentProperties::changeEvent(QEvent* e)
 	}
 }
 
+void DialogTorrentProperties::setSkin()
+{
+
+}

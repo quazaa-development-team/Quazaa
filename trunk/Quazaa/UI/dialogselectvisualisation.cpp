@@ -24,6 +24,7 @@
 
 #include "dialogselectvisualisation.h"
 #include "ui_dialogselectvisualisation.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,6 +35,7 @@ DialogSelectVisualisation::DialogSelectVisualisation(QWidget* parent) :
 	ui(new Ui::DialogSelectVisualisation)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogSelectVisualisation::~DialogSelectVisualisation()
@@ -70,3 +72,7 @@ void DialogSelectVisualisation::on_pushButtonCancel_clicked()
 	close();
 }
 
+void DialogSelectVisualisation::setSkin()
+{
+
+}

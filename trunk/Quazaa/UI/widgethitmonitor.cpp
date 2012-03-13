@@ -27,6 +27,7 @@
 #include "dialogfiltersearch.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -38,6 +39,7 @@ WidgetHitMonitor::WidgetHitMonitor(QWidget* parent) :
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.HitMonitorToolbar);
+	setSkin();
 }
 
 WidgetHitMonitor::~WidgetHitMonitor()
@@ -69,3 +71,7 @@ void WidgetHitMonitor::on_actionMore_triggered()
 	dlgFilterSearch->show();
 }
 
+void WidgetHitMonitor::setSkin()
+{
+
+}

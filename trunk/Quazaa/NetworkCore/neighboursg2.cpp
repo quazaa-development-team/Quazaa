@@ -170,7 +170,10 @@ void CNeighboursG2::DispatchKHL()
 	}
 
 	G2Packet* pKHL = G2Packet::New("KHL");
-	pKHL->WritePacket("TS", 4)->WriteIntLE<quint32>(QDateTime::currentDateTimeUtc().toTime_t());
+
+	QDateTime tNow = QDateTime::currentDateTimeUtc();
+
+	pKHL->WritePacket("TS", 4)->WriteIntLE<quint32>(tNow.toTime_t());
 
 	foreach(CNeighbour * pNode, m_lNodes)
 	{
@@ -194,13 +197,25 @@ void CNeighboursG2::DispatchKHL()
 
 	HostCache.m_pSection.lock();
 
-	quint32 nCount = 0;
+	quint32 nCount = quazaaSettings.Gnutella2.KHLHubCount;
+	CHostCacheIterator itHost = HostCache.m_lHosts.begin();
 
-	// TODO: IPv6
-	for(; nCount < (quint32)quazaaSettings.Gnutella2.KHLHubCount && HostCache.size() > nCount; nCount++)
+	for(; nCount > 0 && itHost != HostCache.m_lHosts.end(); itHost++)
 	{
-		pKHL->WritePacket("CH", 10)->WriteHostAddress(&HostCache.m_lHosts.at(nCount)->m_oAddress);
-		pKHL->WriteIntLE<quint32>(HostCache.m_lHosts.at(nCount)->m_tTimestamp.toTime_t());
+		if( (*itHost)->m_nFailures == 0 && (*itHost)->m_tTimestamp.secsTo(tNow) < quazaaSettings.Gnutella2.HostCurrent )
+		{
+			if( (*itHost)->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol )
+			{
+				pKHL->WritePacket("CH", 10)->WriteHostAddress(&(*itHost)->m_oAddress);
+				pKHL->WriteIntLE<quint32>((*itHost)->m_tTimestamp.toTime_t());
+			}
+			else
+			{
+				pKHL->WritePacket("CH", 22)->WriteHostAddress(&(*itHost)->m_oAddress);
+				pKHL->WriteIntLE<quint32>((*itHost)->m_tTimestamp.toTime_t());
+			}
+			--nCount;
+		}
 	}
 
 	HostCache.m_pSection.unlock();
@@ -241,7 +256,7 @@ bool CNeighboursG2::SwitchG2ClientMode(G2NodeType nRequestedMode)
 
 	m_nClientMode = nRequestedMode;
 
-	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, "Hub Balancing: Switched to %s mode.", (IsG2Hub() ? "HUB" : "LEAF"));
+	systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Switched to %s mode.", (IsG2Hub() ? "HUB" : "LEAF"));
 
 	return true;
 }
@@ -305,7 +320,7 @@ void CNeighboursG2::HubBalancing()
 
 			if(m_nPeriodsHigh >= quazaaSettings.Gnutella2.HubBalanceHighTime)
 			{
-				systemLog.postLog(LogCategory::Network, LogSeverity::Notice, "Switching to G2 HUB mode");
+				systemLog.postLog(LogSeverity::Notice, "Switching to G2 HUB mode");
 				SwitchG2ClientMode(G2_HUB);
 				return;
 			}
@@ -337,7 +352,7 @@ void CNeighboursG2::HubBalancing()
 
 			if(m_nPeriodsLow >= quazaaSettings.Gnutella2.HubBalanceLowTime)
 			{
-				systemLog.postLog(LogCategory::Network, LogSeverity::Notice, "Switching to G2 LEAF mode");
+				systemLog.postLog(LogSeverity::Notice, "Switching to G2 LEAF mode");
 				SwitchG2ClientMode(G2_LEAF);
 				return;
 			}

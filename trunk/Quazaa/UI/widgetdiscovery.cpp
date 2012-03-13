@@ -26,6 +26,7 @@
 #include "ui_widgetdiscovery.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -37,6 +38,7 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.DiscoveryToolbar);
+	setSkin();
 }
 
 WidgetDiscovery::~WidgetDiscovery()
@@ -62,3 +64,7 @@ void WidgetDiscovery::saveWidget()
 	quazaaSettings.WinMain.DiscoveryToolbar = saveState();
 }
 
+void WidgetDiscovery::setSkin()
+{
+
+}

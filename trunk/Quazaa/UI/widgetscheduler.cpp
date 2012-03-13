@@ -27,6 +27,7 @@
 #include "dialogscheduler.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -38,6 +39,7 @@ WidgetScheduler::WidgetScheduler(QWidget* parent) :
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.SchedulerToolbar);
+	setSkin();
 }
 
 WidgetScheduler::~WidgetScheduler()
@@ -75,3 +77,7 @@ void WidgetScheduler::on_actionScheduleProperties_triggered()
 	dlgScheduler->show();
 }
 
+void WidgetScheduler::setSkin()
+{
+
+}

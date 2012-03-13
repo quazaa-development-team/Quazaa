@@ -47,7 +47,7 @@ void GeoIPList::loadGeoIP()
 	QFile iFile( qApp->applicationDirPath() + "/geoIP.ser" );
 	if ( ! iFile.open( QIODevice::ReadOnly ) )
 	{
-		systemLog.postLog(LogCategory::General, LogSeverity::Warning, QObject::tr("Unable to load GeoIP serialization file for loading"));
+		systemLog.postLog(LogSeverity::Warning, QObject::tr("Unable to load GeoIP serialization file for loading"));
 		readFromOriginalGeoIP = true;
 	}
 	else
@@ -59,7 +59,7 @@ void GeoIPList::loadGeoIP()
 		}
 		catch(...)
 		{
-			systemLog.postLog(LogCategory::General, LogSeverity::Warning, QObject::tr("Unable to deserialize GeoIP list"));
+			systemLog.postLog(LogSeverity::Warning, QObject::tr("Unable to deserialize GeoIP list"));
 			readFromOriginalGeoIP = true;
 		}
 		iFile.close();
@@ -86,14 +86,14 @@ void GeoIPList::loadGeoIP()
 			CEndPoint rEnd(line[1] + ":0");
 			QString sCountry = line[2];
 
-			QPair<quint32, QPair<quint32, QString> > item = QPair<quint32, QPair<quint32, QString> >(rBegin.toIPv4Address(), QPair<quint32, QString>(rEnd.toIPv4Address(), sCountry));
+			GeoIPEntry item = QPair<quint32, QPair<quint32, QString> >(rBegin.toIPv4Address(), QPair<quint32, QString>(rEnd.toIPv4Address(), sCountry));
 			m_lDatabase.append(item);
 		}
 
 		QFile oFile( qApp->applicationDirPath() +  "/geoIP.ser" );
 		if ( ! oFile.open( QIODevice::WriteOnly ) )
 		{
-			systemLog.postLog(LogCategory::General, LogSeverity::Error, QObject::tr("Unable to open GeoIP serialization file for saving"));
+			systemLog.postLog(LogSeverity::Error, QObject::tr("Unable to open GeoIP serialization file for saving"));
 		}
 		else
 		{
@@ -104,7 +104,7 @@ void GeoIPList::loadGeoIP()
 			}
 			catch(...)
 			{
-				systemLog.postLog(LogCategory::General, LogSeverity::Error, QObject::tr("Unable to serialize GeoIP list"));
+				systemLog.postLog(LogSeverity::Error, QObject::tr("Unable to serialize GeoIP list"));
 			}
 			oFile.close();
 		}
@@ -117,45 +117,40 @@ void GeoIPList::loadGeoIP()
 	m_bListLoaded = !m_lDatabase.isEmpty();
 }
 
-QString GeoIPList::findCountryCode(const quint32& nIp, quint32 nBegin, quint32 nEnd) const
+QString GeoIPList::findCountryCode(const quint32 nIp) const
 {
 	if(!m_bListLoaded)
 	{
 		return "ZZ";
 	}
 
-	nEnd = qMin<quint32>(nEnd, m_lDatabase.size());
+	int nMiddle;
+	int nBegin = 0;
+	int nEnd = m_lDatabase.size();
 
-	if(nEnd - nBegin < 3)
+	int n = nEnd - nBegin;
+
+	int nHalf;
+
+	while (n > 0)
 	{
-		// just in case...
-		for(uint i = nBegin; i <= nEnd; i++)
+		nHalf = n >> 1;
+
+		nMiddle = nBegin + nHalf;
+
+		if (nIp < m_lDatabase.at(nMiddle).first )
 		{
-			if(m_lDatabase[i].first <= nIp && m_lDatabase[i].second.first >= nIp)
+			n = nHalf;
+		}
+		else
+		{
+			if( nIp <= m_lDatabase.at(nMiddle).second.first )
 			{
-				return m_lDatabase[i].second.second;
+				return m_lDatabase.at(nMiddle).second.second;
 			}
+			nBegin = nMiddle + 1;
+			n -= nHalf + 1;
 		}
-
-		return "ZZ";
-	}
-	else
-	{
-		int nIndex = ((nEnd - nBegin) / 2) + nBegin;
-
-		if(nIp > m_lDatabase[nIndex].first)
-		{
-			// range above half
-
-			return findCountryCode(nIp, nIndex, nEnd);
-		}
-		else if(nIp < m_lDatabase[nIndex].first)
-		{
-			// range below half
-
-			return findCountryCode(nIp, nBegin, nIndex);
-		}
-
 	}
 
 	return "ZZ";

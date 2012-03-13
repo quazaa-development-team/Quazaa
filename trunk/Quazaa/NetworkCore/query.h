@@ -41,13 +41,14 @@ public:
 	QString         m_sMetadata;
 	quint64         m_nMinimumSize;
 	quint64         m_nMaximumSize;
-	QString         m_sDescriptiveName;
+	QString         m_sDescriptiveName;	// Complete search string.
 	CEndPoint		m_oEndpoint;
 	quint32			m_nQueryKey;
 
 	QString			m_sG2PositiveWords;
 	QString			m_sG2NegativeWords;
 	QList<quint32>	m_lHashedKeywords;
+
 public:
 	CQuery();
 	QString DescriptiveName()
@@ -62,7 +63,6 @@ public:
 	void SetSizeRestriction(quint64 nMin, quint64 nMax);
 	void SetMetadata(QString sMeta);
 
-	void BuildG2Keywords(QString strPhrase);
 	bool CheckValid();
 
 	G2Packet* ToG2Packet(CEndPoint* pAddr = 0, quint32 nKey = 0);
@@ -70,6 +70,7 @@ public:
 	static CQueryPtr FromPacket(G2Packet* pPacket, CEndPoint* pEndpoint = 0);
 
 private:
+	void BuildG2Keywords(QString strPhrase);
 	bool FromG2Packet(G2Packet* pPacket, CEndPoint* pEndpoint);
 };
 

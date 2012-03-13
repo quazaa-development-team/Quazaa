@@ -53,7 +53,7 @@ void CDownloads::add(CQueryHit *pHit)
 	pDownload->moveToThread(&TransfersThread);
 	m_lDownloads.append(pDownload);
 	pDownload->saveState();
-	systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Queued download job for %s")), qPrintable(pDownload->m_sDisplayName));
+	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Queued download job for %s")), qPrintable(pDownload->m_sDisplayName));
 	emit downloadAdded(pDownload);
 }
 
@@ -89,7 +89,7 @@ void CDownloads::start()
 				pDownload->moveToThread(&TransfersThread);
 				m_lDownloads.append(pDownload);
 				emit downloadAdded(pDownload);
-				systemLog.postLog(LogCategory::Network, LogSeverity::Notice, qPrintable(tr("Loaded download: %s")), qPrintable(pDownload->m_sDisplayName));
+				systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Loaded download: %s")), qPrintable(pDownload->m_sDisplayName));
 			}
 		}
 	}
@@ -174,7 +174,7 @@ void CDownloads::onTimer()
 		{
 			if( nActive < quazaaSettings.Downloads.MaxFiles )
 			{
-				systemLog.postLog(LogCategory::Network, LogSeverity::Information, QString(tr("Starting download: %1")).arg(pDownload->m_sDisplayName));
+				systemLog.postLog(LogSeverity::Information, QString(tr("Starting download: %1")).arg(pDownload->m_sDisplayName));
 				pDownload->start();
 				nActive++;
 			}

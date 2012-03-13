@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -121,7 +121,7 @@ bool CSecureRule::match(const QString&) const
 {
 	return false;
 }
-bool CSecureRule::match(const CFile&) const
+bool CSecureRule::match(const CQueryHit* const) const
 {
 	return false;
 }
@@ -790,27 +790,16 @@ bool CHashRule::hashEquals(CHashRule& oRule) const
 	return true;
 }
 
-bool CHashRule::match(const CFile& oFile) const
+bool CHashRule::match(const CQueryHit* const pHit) const
 {
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentHash );
-#endif //_DEBUG
-
-	if ( oFile.isNull() )
-		return false;
-
-	return match( oFile.getHashes() );
+	return match( pHit->m_lHashes );
 }
-bool CHashRule::match(const QList< CHash >& hashes) const
+bool CHashRule::match(const QList<CHash>& lHashes) const
 {
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentHash );
-#endif //_DEBUG
-
 	QMap< CHash::Algorithm, CHash >::const_iterator i;
 	quint8 nCount = 0;
 
-	foreach ( CHash oHash, hashes )
+	foreach ( CHash oHash, lHashes )
 	{
 		i = m_Hashes.find( oHash.getAlgorithm() );
 
@@ -883,7 +872,7 @@ bool CRegExpRule::parseContent(const QString& sContent)
 	}
 }
 
-bool CRegExpRule::match(const QList<QString>& lQuery, const QString& strContent) const
+bool CRegExpRule::match(const QList<QString>& lQuery, const QString& sContent) const
 {
 #ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentRegExp );
@@ -899,7 +888,7 @@ bool CRegExpRule::match(const QList<QString>& lQuery, const QString& strContent)
 		//
 		// Substitutes:
 		// <_> - inserts all query keywords;
-		// <1>..<9> - inserts query keyword number 1..9;
+		// <0>..<9> - inserts query keyword number 0..9;
 		// <> - inserts next query keyword.
 		//
 		// For example regular expression:
@@ -927,19 +916,19 @@ bool CRegExpRule::match(const QList<QString>& lQuery, const QString& strContent)
 
 			sFilter += sBaseFilter;
 			QRegExp oRegExpFilter = QRegExp( sFilter );
-			return oRegExpFilter.exactMatch( strContent );
+			return oRegExpFilter.exactMatch( sContent );
 		}
 		else
 		{
 			// This shouldn't happen, but it's covered anyway...
 			Q_ASSERT( false );
 			QRegExp oRegExpFilter = QRegExp( m_sContent );
-			return oRegExpFilter.exactMatch( strContent );
+			return oRegExpFilter.exactMatch( sContent );
 		}
 	}
 	else
 	{
-		return m_regExpContent.exactMatch( strContent );
+		return m_regExpContent.exactMatch( sContent );
 	}
 }
 
@@ -967,7 +956,10 @@ bool CRegExpRule::replace(QString& sReplace, const QList<QString>& lQuery, quint
 	if ( sReplace.length() > 1 && sReplace.at( 1 ) == '>' )
 	{
 		sReplace.remove( 0, 2 );
-		sReplace = lQuery.at( nCurrent ) + "\\s*" + sReplace;
+		if ( nCurrent < lQuery.size() )
+		{
+			sReplace = lQuery.at( nCurrent ) + "\\s*" + sReplace;
+		}
 		nCurrent++;
 		return true;
 	}
@@ -993,7 +985,10 @@ bool CRegExpRule::replace(QString& sReplace, const QList<QString>& lQuery, quint
 			if ( bSuccess )
 			{
 				sReplace.remove( 0, 3 );
-				sReplace = lQuery.at( nArg ) + "\\s*" + sReplace;
+				if ( nArg < lQuery.size() )
+				{
+					sReplace = lQuery.at( nArg ) + "\\s*" + sReplace;
+				}
 				return true;
 			}
 		}
@@ -1130,15 +1125,11 @@ bool CContentRule::parseContent(const QString& sContent)
 	return false;
 }
 
-bool CContentRule::match(const QString& strContent) const
+bool CContentRule::match(const QString& sFileName) const
 {
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentText );
-#endif //_DEBUG
-
 	for ( CListIterator i = m_lContent.begin() ; i != m_lContent.end() ; i++ )
 	{
-		bool bFound = strContent.indexOf( *i ) != -1;
+		bool bFound = sFileName.indexOf( *i ) != -1;
 
 		if ( bFound && !m_bAll )
 		{
@@ -1156,40 +1147,27 @@ bool CContentRule::match(const QString& strContent) const
 	return false;
 }
 
-// TODO: use method to safely find out extension instead of only looking for last dot in filename
-bool CContentRule::match(const CFile& oFile) const
+bool CContentRule::match(const CQueryHit* const pHit) const
 {
-#ifdef _DEBUG
-	Q_ASSERT( !oFile.isNull() && m_nType == srContentText );
-#endif //_DEBUG
+	if ( !pHit )
+		return false;
 
-	if ( !oFile.isNull() )
+	QString sFileName = pHit->m_sDescriptiveName;
+	qint32 index = sFileName.lastIndexOf( '.' );
+	if ( index != -1 )
 	{
-		if ( oFile.size() )
-		{
-			qint32 index = oFile.fileName().lastIndexOf( '.' );
-			if ( index != -1 )
-			{
-				QString strExt = oFile.fileName().mid( index );
-				QString strExtFileSize = "size:%1:%2";
-				strExtFileSize.arg( strExt, QString::number( oFile.size() ) );
-				if ( match( strExtFileSize ) )
-					return true;
-			}
-		}
-
-		if ( match( oFile.fileName() ) )
+		QString sExt = sFileName.mid( index );
+		QString sExtFileSize = "size:%1:%2";
+		sExtFileSize.arg( sExt, QString::number( pHit->m_nObjectSize ) );
+		if ( match( sExtFileSize ) )
 			return true;
 	}
-	return false;
+
+	return match( sFileName );
 }
 
 void CContentRule::toXML( QDomElement& oXMLroot ) const
 {
-#ifdef _DEBUG
-	Q_ASSERT( m_nType == srContentText );
-#endif //_DEBUG
-
 	QDomElement oElement = oXMLroot.ownerDocument().createElement( "rule" );
 
 	oElement.setAttribute( "type", "content" );

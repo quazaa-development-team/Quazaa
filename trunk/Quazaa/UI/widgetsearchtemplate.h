@@ -43,7 +43,7 @@ class CQuery;
 
 namespace SearchState
 {
-        enum SearchState { Default, Stopped, Searching, Paused };
+		enum SearchState { Default, Stopped, Searching, Paused };
 };
 
 class WidgetSearchTemplate : public QWidget
@@ -53,9 +53,6 @@ class WidgetSearchTemplate : public QWidget
 public:
 	WidgetSearchTemplate(QString searchString = "", QWidget* parent = 0);
 	~WidgetSearchTemplate();
-	SearchTreeModel* searchModel;
-	QSortFilterProxyModel* sortModel;
-	CManagedSearch* m_pSearch;
 
 	void StartSearch(CQuery* pQuery);
 	void PauseSearch();
@@ -63,13 +60,17 @@ public:
 	void ClearSearch();
 	QModelIndex CurrentItem();
 
-	int nHubs;
-	int nLeaves;
-	int nHits;
-	int nFiles;
+	SearchTreeModel*		m_pSearchModel;
+	QSortFilterProxyModel*	m_pSortModel;
+	CManagedSearch*			m_pSearch;
 
-	QString sSearchString;
-	SearchState::SearchState searchState;
+	int m_nHubs;
+	int m_nLeaves;
+	int m_nHits;
+	int m_nFiles;
+
+	QString m_sSearchString;
+	SearchState::SearchState m_searchState;
 
 	//void GetStats(quint32& nHubs, quint32& nLeaves, quint32& nHits);
 
@@ -99,6 +100,7 @@ private slots:
 	void on_actionDownload_triggered();
 	void on_actionViewReviews_triggered();
 	void on_actionVirusTotalCheck_triggered();
+	void setSkin();
 };
 
 #endif // WIDGETSEARCHTEMPLATE_H

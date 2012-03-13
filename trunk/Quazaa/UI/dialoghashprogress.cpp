@@ -27,6 +27,8 @@
 #include <QDesktopWidget>
 #include "commonfunctions.h"
 #include "ui_dialoghashprogress.h"
+#include "skinsettings.h"
+
 #include <QDebug>
 
 #ifdef _DEBUG
@@ -40,6 +42,7 @@ DialogHashProgress::DialogHashProgress(QWidget* parent) :
 	setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip | Qt::WindowStaysOnTopHint);
 	ui->setupUi(this);
 	setWindowOpacity(0.8);
+	setSkin();
 }
 
 DialogHashProgress::~DialogHashProgress()
@@ -124,3 +127,7 @@ void DialogHashProgress::onRemainingFilesChanged(qint32 nRemaining)
 	ui->labelStatus->setText(strText);
 }
 
+void DialogHashProgress::setSkin()
+{
+
+}

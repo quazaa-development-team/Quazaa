@@ -28,6 +28,8 @@
 #include "geoiplist.h"
 #include "commonfunctions.h"
 #include "Hashes/hash.h"
+#include "fileiconprovider.h"
+#include "networkiconprovider.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -36,6 +38,7 @@
 using namespace common;
 
 SearchTreeModel::SearchTreeModel()
+	: m_pIconProvider(new CFileIconProvider)
 {
 	QList<QVariant> rootData;
 	rootData << "File"
@@ -55,6 +58,7 @@ SearchTreeModel::~SearchTreeModel()
 {
 	clear();
 	delete rootItem;
+	delete m_pIconProvider;
 }
 
 bool SearchTreeModel::isRoot(QModelIndex index)
@@ -103,7 +107,10 @@ QVariant SearchTreeModel::data(const QModelIndex& index, int role) const
 	{
 		if(index.column() == 0)
 		{
-			return item->HitData.iNetwork;
+			if( item->parent() == rootItem )
+				return m_pIconProvider->icon(item->data(1).toString().prepend("."));
+			else
+				return item->HitData.iNetwork;
 		}
 
 		if(index.column() == 8)
@@ -326,7 +333,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			             << GeoIP.countryNameFromCode(sCountry);
 			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, m_oParentItem);
 			m_oChildItem->HitData.lHashes << pHit2->m_lHashes;
-			m_oChildItem->HitData.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
+			m_oChildItem->HitData.iNetwork = CNetworkIconProvider::icon(dpGnutella2);
 			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
 			QueryHitSharedPtr pHitX(new CQueryHit(pHit2));
@@ -355,7 +362,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			             << GeoIP.countryNameFromCode(sCountry);
 			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, rootItem->child(existingSearch));
 			m_oChildItem->HitData.lHashes << pHit2->m_lHashes;
-			m_oChildItem->HitData.iNetwork = QIcon(":/Resource/Networks/Gnutella2.png");
+			m_oChildItem->HitData.iNetwork = CNetworkIconProvider::icon(dpGnutella2);
 			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
 			QueryHitSharedPtr pHitX(new CQueryHit(pHit2));

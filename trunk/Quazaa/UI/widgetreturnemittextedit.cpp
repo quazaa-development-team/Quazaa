@@ -23,6 +23,7 @@
 */
 
 #include "widgetreturnemittextedit.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -32,6 +33,7 @@ WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 {
 	Q_UNUSED(parent);
 	emitReturn = true;
+	setSkin();
 }
 
 void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
@@ -59,3 +61,7 @@ bool WidgetReturnEmitTextEdit::emitsReturn()
 	return emitReturn;
 }
 
+void WidgetReturnEmitTextEdit::setSkin()
+{
+
+}

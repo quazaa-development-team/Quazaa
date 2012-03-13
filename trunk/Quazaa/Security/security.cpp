@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -494,7 +494,7 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 	if ( oAddress.isNull() )
 	{
 		//		theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_IP_BAN );
-		//		systemLog.postLog(LogCategory::Network, LogSeverity::Notice, tr("String to translate."));
+		//		systemLog.postLog(LogSeverity::Notice, tr("String to translate."));
 		return;
 	}
 
@@ -620,7 +620,7 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
   * Locking: R + RW while adding
   */
 // TODO: Implement priorization of hashes to not to ban too many hashes per file.
-void CSecurity::ban(const CFile& oFile, BanLength nBanLength, bool bMessage, const QString& strComment)
+/*void CSecurity::ban(const CFile& oFile, BanLength nBanLength, bool bMessage, const QString& strComment)
 {
 	if ( oFile.isNull() )
 	{
@@ -709,7 +709,7 @@ void CSecurity::ban(const CFile& oFile, BanLength nBanLength, bool bMessage, con
 			// (LPCTSTR)pFile->m_sName );
 		}
 	}
-}
+}*/
 
 //////////////////////////////////////////////////////////////////////
 // public CSecurity access checks
@@ -884,7 +884,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 		CIPRangeRule* pRule = *it_3;
 
 		if ( pRule->match( oAddress ) && !pRule->isExpired( tNow ) )
-		{			
+		{
 			// Note: The write operations in count() are not protected by any locking, so
 			// there might be eventual thread collisions that reduce the accuracy of the statistics.
 			pRule->count();
@@ -911,13 +911,16 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 }
 
 /**
-  * Checks a hit against the security database.
-  * Locking:   *** Will be implemented alongside with hit filtering ***
+  * Checks a hit against the security database. Expects a list of all search keywords in the same
+  * order they have been entered in the edit box of the GUI. Note that if no keywords are passed or
+  * the list is in the wrong order, this beaks RegEx compatibility.
+  * Locking: R (3x)
   */
-bool CSecurity::isDenied(/*const CQueryHit* pHit,*/ const QList<QString>& /*lQuery*/)
+bool CSecurity::isDenied(const CQueryHit* const pHit, const QList<QString> &lQuery)
 {
-	// return ( isDenied( (CFile*)pHit ) || isDenied( pHit->m_sName ) || isDenied( lQuery, pHit->m_sName ) );
-	return false;
+	return ( isDenied( pHit )								// test hashes, file size and extension
+		  || isDenied( pHit->m_sDescriptiveName )			// test file name
+		  || isDenied( lQuery, pHit->m_sDescriptiveName ) );// test regex
 }
 
 /**
@@ -1182,7 +1185,7 @@ bool CSecurity::load( QString sPath )
 		sanityCheck();
 	}
 	catch ( ... )
-	{		
+	{
 		if ( pRule )
 			delete pRule;
 
@@ -1834,7 +1837,7 @@ bool CSecurity::isAgentDenied(const QString& strUserAgent)
 			{
 				// We need a different kind of lock here, so unlocking and relocking is required.
 				lock.unlock();
-				remove( pRule, true );
+				remove( pRule );
 				lock.relock();
 			}
 
@@ -1914,9 +1917,9 @@ void CSecurity::evaluateCacheUsage()
 	m_bUseMissCache = ( s_nLogCache < s_nLogMult + m_IPRanges.size() * log2 );
 }
 
-bool CSecurity::isDenied(const QString& strContent)
+bool CSecurity::isDenied(const QString& sContent)
 {
-	if ( strContent.isEmpty() )
+	if ( sContent.isEmpty() )
 		return false;
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
@@ -1928,20 +1931,23 @@ bool CSecurity::isDenied(const QString& strContent)
 	{
 		CContentRule* pRule = *i;
 
-		if ( pRule->match( strContent ) )
+		if ( pRule->match( sContent ) )
 		{
 			if ( pRule->isExpired( tNow ) )
 			{
-				++i; // Make sure iterator stays valid after removal.
+				// Make sure iterator stays valid after removal.
+				++i;
 
+				// We need a different kind of lock here, so unlocking and relocking is required.
 				mutex.unlock();
-				remove( pRule, true );
+				remove( pRule );
 				mutex.relock();
 
 				continue;
 			}
 
-			// Note: We don't have a write lock here, so we can't guarantee the accuracy of this counter.
+			// Note: We don't have a write lock here, so we
+			// can't guarantee the accuracy of this counter.
 			pRule->count();
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
@@ -1955,32 +1961,45 @@ bool CSecurity::isDenied(const QString& strContent)
 
 	return false;
 }
-bool CSecurity::isDenied(const CFile& oFile)
+bool CSecurity::isDenied(const CQueryHit* const pHit)
 {
-	if ( oFile.isNull() )
+	if ( !pHit )
 		return false;
 
-	// First get all available hashes.
-	QList< CHash > hashes = oFile.getHashes();
+	const QList<CHash>& lHashes = pHit->m_lHashes;
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
 	QReadLocker mutex( &m_pRWLock );
 
 	// Search for a rule matching these hashes
-	CIterator it = getHash( hashes );
+	CIterator it = getHash( lHashes );
 
-	// If this rule matches the file, return denied.
-	if ( it != m_Rules.end() && ((CHashRule*)*it)->match( hashes ) )
-		return true;
+	// If this rule matches the file, return the specified action.
+	if ( it != m_Rules.end() )
+	{
+		CHashRule* pRule = ((CHashRule*)*it);
+		if ( pRule->match( lHashes ) )
+		{
+			// Note that we cannot guarantee the accuracy of the
+			// statistics counter as we don't have a write lock.
+			pRule->count();
+
+			if ( pRule->m_nAction == CSecureRule::srAccept )
+				return false;
+			else if ( pRule->m_nAction == CSecureRule::srDeny )
+				return true;
+		}
+	}
 
 	// Else check other content rules.
 	CContentRuleList::iterator i = m_Contents.begin();
+	CContentRule* pRule;
 	while ( i != m_Contents.end() )
 	{
-		CContentRule* pRule = *i;
+		pRule = *i;
 
-		if ( pRule->match( oFile ) )
+		if ( pRule->match( pHit ) )
 		{
 			if ( pRule->isExpired( tNow ) )
 			{
@@ -1990,8 +2009,9 @@ bool CSecurity::isDenied(const CFile& oFile)
 					i--;
 				}
 
+				// We need a different kind of lock here, so unlocking and relocking is required.
 				mutex.unlock();
-				remove( pRule, true );
+				remove( pRule );
 				mutex.relock();
 
 				if ( !bBegin )
@@ -2002,7 +2022,7 @@ bool CSecurity::isDenied(const CFile& oFile)
 			}
 
 			// Note that we cannot guarantee the accuracy of this statistics
-			// counter as we don't have a write lock.
+			// counter as we don't have a write lock here.
 			pRule->count();
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
@@ -2016,9 +2036,9 @@ bool CSecurity::isDenied(const CFile& oFile)
 
 	return false;
 }
-bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& strContent)
+bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 {
-	if ( lQuery.isEmpty() || strContent.isEmpty() )
+	if ( lQuery.isEmpty() || sContent.isEmpty() )
 		return false;
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
@@ -2030,21 +2050,23 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& strContent
 	{
 		CRegExpRule* pRule = *i;
 
-		if ( pRule->match( lQuery, strContent ) )
+		if ( pRule->match( lQuery, sContent ) )
 		{
 			if ( pRule->isExpired( tNow ) )
 			{
-				bool bBegin = i != m_RegExpressions.begin();
-				if ( bBegin )
+				// Keep the iterator valid while removing the rule.
+				bool bBegin = ( i == m_RegExpressions.begin() );
+				if ( !bBegin )
 				{
 					i--;
 				}
 
+				// We need a different kind of lock here, so unlocking and relocking is required.
 				mutex.unlock();
-				remove( pRule, true );
+				remove( pRule );
 				mutex.relock();
 
-				if ( !bBegin )
+				if ( bBegin )
 				{
 					i = m_RegExpressions.begin();
 				}

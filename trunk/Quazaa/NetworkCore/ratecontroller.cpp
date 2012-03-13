@@ -60,9 +60,11 @@ void CRateController::RemoveSocket(CNetworkConnection* pSock)
 {
 	ASSUME_LOCK(*m_pMutex);
 
-	disconnect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
-	pSock->setReadBufferSize(0);
-	m_lSockets.remove(pSock);
+	if(m_lSockets.remove(pSock))
+	{
+		disconnect(pSock, SIGNAL(readyToTransfer()), this, SLOT(sheduleTransfer()));
+		pSock->setReadBufferSize(0);
+	}
 }
 void CRateController::sheduleTransfer()
 {
@@ -130,38 +132,35 @@ void CRateController::transfer()
 
 			bool bDataTransferred = false;
 
-			if( pConn->m_pSocket->state() == QAbstractSocket::ConnectedState )
+			if(m_nUploadLimit * 2 > pConn->bytesToWrite())
 			{
-				if(m_nUploadLimit * 2 > pConn->m_pSocket->bytesToWrite())
-				{
-					qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->m_pSocket->bytesToWrite());
+				qint64 nChunkSize = qMin(qMin(nWriteChunk, nToWrite), m_nUploadLimit * 2 - pConn->bytesToWrite());
 
-					if(nChunkSize > 0)
-					{
-						qint64 nBytesWritten = pConn->writeToNetwork(nChunkSize);
-						if(nBytesWritten > 0)
-						{
-							nToWrite -= nBytesWritten;
-							nUploaded += nBytesWritten;
-							bDataTransferred = true;
-						}
-						else if( nBytesWritten == 0 )
-						{
-							bRestart = true;
-						}
-					}
-				}
-
-				qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
-				if(nAvailable > 0)
+				if(nChunkSize > 0)
 				{
-					qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
-					if(nReadBytes > 0)
+					qint64 nBytesWritten = pConn->writeToNetwork(nChunkSize);
+					if(nBytesWritten > 0)
 					{
-						nToRead -= nReadBytes;
-						nDownloaded += nReadBytes;
+						nToWrite -= nBytesWritten;
+						nUploaded += nBytesWritten;
 						bDataTransferred = true;
 					}
+					else if( nBytesWritten == 0 )
+					{
+						bRestart = true;
+					}
+				}
+			}
+
+			qint64 nAvailable = qMin(nReadChunk, pConn->networkBytesAvailable());
+			if(nAvailable > 0)
+			{
+				qint64 nReadBytes = pConn->readFromNetwork(qMin(nAvailable, nToRead));
+				if(nReadBytes > 0)
+				{
+					nToRead -= nReadBytes;
+					nDownloaded += nReadBytes;
+					bDataTransferred = true;
 				}
 			}
 

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WidgetSearchTemplate</class>
+ <widget class="QWidget" name="WidgetSearchTemplate">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>230</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Search</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Resource.qrc">
+    <normaloff>:/Resource/Generic/Search.png</normaloff>:/Resource/Generic/Search.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QTreeView" name="treeViewSearchResults">
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+     <property name="allColumnsShowFocus">
+      <bool>true</bool>
+     </property>
+     <property name="expandsOnDoubleClick">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+  <action name="actionDownload">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/DownloadPreview.png</normaloff>:/Resource/Generic/DownloadPreview.png</iconset>
+   </property>
+   <property name="text">
+    <string>Download</string>
+   </property>
+  </action>
+  <action name="actionMarkAsJunk">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Library/Junk.png</normaloff>:/Resource/Library/Junk.png</iconset>
+   </property>
+   <property name="text">
+    <string>Mark As Junk</string>
+   </property>
+  </action>
+  <action name="actionClearResults">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clear Results</string>
+   </property>
+  </action>
+  <action name="actionViewReviews">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
+   </property>
+   <property name="text">
+    <string>View Reviews</string>
+   </property>
+  </action>
+  <action name="actionVirusTotalCheck">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/virustotal-virus-scanner.png</normaloff>:/Resource/Network/virustotal-virus-scanner.png</iconset>
+   </property>
+   <property name="text">
+    <string>Virus Total Check</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -24,7 +24,7 @@
 
 #include "dialogsplash.h"
 #include "ui_dialogsplash.h"
-#include "Skin/skinsettings.h"
+#include "skinsettings.h"
 
 #include <QDesktopWidget>
 
@@ -39,11 +39,6 @@ DialogSplash::DialogSplash(QWidget* parent) :
 	ui->setupUi(this);
 	setWindowFlags(Qt::FramelessWindowHint);
 	setAttribute(Qt::WA_TranslucentBackground);
-	ui->frameSplashBackground->setStyleSheet(skinSettings.splashBackground);
-	ui->frameSplashFooter->setStyleSheet(skinSettings.splashFooter);
-	ui->labelStatus->setStyleSheet(skinSettings.splashStatus);
-	ui->labelLogo->setStyleSheet(skinSettings.splashLogo);
-	ui->progressBarStatus->setStyleSheet(skinSettings.splashProgress);
 	move(QPoint(((QApplication::desktop()->screenGeometry(this).width() / 2) - (width() / 2)), ((QApplication::desktop()->screenGeometry(this).height() / 2) - (height() / 2))));
 }
 
@@ -69,4 +64,3 @@ void DialogSplash::updateProgress(int percent, QString status)
 	ui->progressBarStatus->setValue(percent);
 	ui->labelStatus->setText(status);
 }
-

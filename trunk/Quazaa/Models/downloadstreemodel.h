@@ -36,6 +36,7 @@
 class CDownload;
 class CDownloadSource;
 class CDownloadsTreeModel;
+class CFileIconProvider;
 
 class CDownloadsItemBase : public QObject
 {
@@ -144,6 +145,7 @@ public:
 	
 private:
 	CDownloadsItemBase* rootItem;
+	CFileIconProvider* m_pIconProvider;
 signals:
 	
 public slots:

@@ -24,6 +24,7 @@
 
 #include "dialogprivatemessages.h"
 #include "ui_dialogprivatemessages.h"
+#include "skinsettings.h"
 
 #include "widgetprivatemessage.h"
 #include "chatcore.h"
@@ -44,6 +45,7 @@ DialogPrivateMessages::DialogPrivateMessages(QWidget *parent) :
 	connect(widgetChatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onMessageSent(QTextDocument*)));
 	m_pCurrentWidget = 0;
 	qRegisterMetaType<QUuid>("QUuid");
+	setSkin();
 }
 
 DialogPrivateMessages::~DialogPrivateMessages()
@@ -146,3 +148,7 @@ void DialogPrivateMessages::on_tabWidgetPrivateMessages_tabCloseRequested(int in
 	}
 }
 
+void DialogPrivateMessages::setSkin()
+{
+
+}

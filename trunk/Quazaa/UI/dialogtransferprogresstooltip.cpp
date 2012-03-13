@@ -24,6 +24,7 @@
 
 #include "dialogtransferprogresstooltip.h"
 #include "ui_dialogtransferprogresstooltip.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,6 +35,7 @@ DialogTransferProgressTooltip::DialogTransferProgressTooltip(QWidget* parent) :
 	ui(new Ui::DialogTransferProgressTooltip)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogTransferProgressTooltip::~DialogTransferProgressTooltip()
@@ -73,3 +75,7 @@ void DialogTransferProgressTooltip::updateProgress(int percent, QString transfer
 	ui->labelMD5Hash->setText(hashes.at(3));
 }
 
+void DialogTransferProgressTooltip::setSkin()
+{
+
+}

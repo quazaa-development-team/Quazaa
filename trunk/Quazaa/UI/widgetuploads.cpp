@@ -26,6 +26,7 @@
 #include "ui_widgetuploads.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -37,6 +38,7 @@ WidgetUploads::WidgetUploads(QWidget* parent) :
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.UploadsToolbar);
+	setSkin();
 }
 
 WidgetUploads::~WidgetUploads()
@@ -62,3 +64,7 @@ void WidgetUploads::saveWidget()
 	quazaaSettings.WinMain.UploadsToolbar = saveState();
 }
 
+void WidgetUploads::setSkin()
+{
+	ui->treeViewUploads->setStyleSheet(skinSettings.listViews);
+}

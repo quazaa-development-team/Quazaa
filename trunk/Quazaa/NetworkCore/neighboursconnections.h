@@ -59,7 +59,7 @@ public:
 signals:
 
 public slots:
-	CNeighbour* ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol);
+	CNeighbour* ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol, bool bAutomatic = true);
 	CNeighbour* OnAccept(CNetworkConnection* pConn);
 
 	virtual void Maintain();

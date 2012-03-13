@@ -26,6 +26,7 @@
 #include "ui_dialogsettings.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #include "dialogprofile.h"
 
@@ -302,6 +303,7 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	connect(ui->checkBoxTorrentsPreferTorrent, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->checkBoxTorrentsUseKademlia, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->lineEditTorrentFolder, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
+	setSkin();
 }
 
 DialogSettings::~DialogSettings()
@@ -940,3 +942,31 @@ void DialogSettings::enableApply()
 	ui->pushButtonApply->setEnabled(true);
 }
 
+void DialogSettings::setSkin()
+{
+	ui->frameSidebarContents->setStyleSheet(skinSettings.sidebarBackground);
+	ui->toolButtonCommunityTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameCommunityTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->toolButtonGeneralTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameGeneralTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->toolButtonNetworkTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameNetworkTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->toolButtonProtocolsTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameProtocolsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->toolButtonSecurityTask->setStyleSheet(skinSettings.sidebarTaskHeader);
+	ui->frameSecurityTask->setStyleSheet(skinSettings.sidebarTaskBackground);
+	ui->listWidgetCommunityTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetFileTypesNeverShare->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetFileTypesSafeOpen->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetGeneralTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetManageDownloadTypes->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetNetworkTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetParentalFilter->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetPlugins->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetProtocolsTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetSecurityTask->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetSkins->setStyleSheet(skinSettings.listViews);
+	ui->listWidgetUserAgents->setStyleSheet(skinSettings.listViews);
+	ui->treeWidgetQueues->setStyleSheet(skinSettings.listViews);
+	ui->tableWidgetFileTypesOpenWith->setStyleSheet(skinSettings.listViews);
+}

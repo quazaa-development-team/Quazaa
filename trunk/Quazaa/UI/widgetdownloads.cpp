@@ -28,6 +28,7 @@
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 #include "downloadstreemodel.h"
+#include "skinsettings.h"
 
 #include <QFontMetrics>
 
@@ -60,6 +61,7 @@ WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	m_pModel = new CDownloadsTreeModel();
 	ui->treeViewDownloads->setModel(m_pModel);
 	ui->treeViewDownloads->setItemDelegate(new CDownloadsItemDelegate(this));
+	setSkin();
 
 	// Set up header sizes
 	if(!ui->treeViewDownloads->header()->restoreState(quazaaSettings.WinMain.DownloadsHeader))
@@ -112,4 +114,9 @@ void WidgetDownloads::on_treeViewDownloads_customContextMenuRequested(const QPoi
 	{
 		downloadMenu->exec(QCursor::pos());
 	}
+}
+
+void WidgetDownloads::setSkin()
+{
+	ui->treeViewDownloads->setStyleSheet(skinSettings.listViews);
 }

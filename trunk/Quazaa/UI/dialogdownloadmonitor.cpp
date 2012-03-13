@@ -24,6 +24,7 @@
 
 #include "dialogdownloadmonitor.h"
 #include "ui_dialogdownloadmonitor.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,6 +35,7 @@ DialogDownloadMonitor::DialogDownloadMonitor(QWidget* parent) :
 	ui(new Ui::DialogDownloadMonitor)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogDownloadMonitor::~DialogDownloadMonitor()
@@ -80,3 +82,7 @@ void DialogDownloadMonitor::updateProgress(int percent, QString transferSpeed, Q
 	ui->labelFileName->setText(file);
 }
 
+void DialogDownloadMonitor::setSkin()
+{
+
+}

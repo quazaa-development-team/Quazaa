@@ -24,6 +24,7 @@
 
 #include "dialogcreatetorrent.h"
 #include "ui_dialogcreatetorrent.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -35,6 +36,7 @@ DialogCreateTorrent::DialogCreateTorrent(QWidget* parent) :
 {
 	ui->setupUi(this);
 	ui->comboBoxSeedDHT->setView(new QListView());
+	setSkin();
 }
 
 DialogCreateTorrent::~DialogCreateTorrent()
@@ -66,3 +68,7 @@ void DialogCreateTorrent::on_pushButtonSave_clicked()
 	close();
 }
 
+void DialogCreateTorrent::setSkin()
+{
+
+}

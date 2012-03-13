@@ -25,6 +25,7 @@
 #include "endpoint.h"
 
 #include <QStringList>
+#include <QtEndian>
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -217,7 +218,7 @@ bool CEndPoint::isFirewalled() const
 
 	if( protocol() == 0 ) // IPv4
 	{
-		quint32 nIp = toIPv4Address();
+		quint32 nIp = qToBigEndian(toIPv4Address());
 
 		if( (nIp & 0xffff) == 0xa8c0 ) return true; // 192.168
 		if( (nIp & 0xff) == 0x0a ) return true;	// 10
@@ -238,7 +239,7 @@ CEndPoint & CEndPoint::operator =(const CEndPoint &rhs)
 
 QDataStream &operator<<(QDataStream &s, const CEndPoint &rhs)
 {
-	s << *dynamic_cast<const QHostAddress*>(&rhs);
+	s << *static_cast<const QHostAddress*>(&rhs);
 	s << rhs.m_nPort;
 
 	return s;
@@ -246,7 +247,7 @@ QDataStream &operator<<(QDataStream &s, const CEndPoint &rhs)
 
 QDataStream &operator>>(QDataStream &s, CEndPoint &rhs)
 {
-	QHostAddress* pHa = dynamic_cast<QHostAddress*>(&rhs);
+	QHostAddress* pHa = static_cast<QHostAddress*>(&rhs);
 	s >> *pHa;
 	s >> rhs.m_nPort;
 

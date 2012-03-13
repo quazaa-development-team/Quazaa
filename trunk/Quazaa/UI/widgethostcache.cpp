@@ -26,6 +26,7 @@
 #include "ui_widgethostcache.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -38,6 +39,7 @@ WidgetHostCache::WidgetHostCache(QWidget* parent) :
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.HostCacheToolbar);
 	ui->splitterHostCache->restoreState(quazaaSettings.WinMain.HostCacheSplitter);
+	setSkin();
 }
 
 WidgetHostCache::~WidgetHostCache()
@@ -89,3 +91,7 @@ void WidgetHostCache::on_splitterHostCache_customContextMenuRequested(QPoint pos
 	}
 }
 
+void WidgetHostCache::setSkin()
+{
+
+}

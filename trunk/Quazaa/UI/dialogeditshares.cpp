@@ -25,6 +25,7 @@
 #include "dialogeditshares.h"
 #include "ui_dialogeditshares.h"
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #include <QFileDialog>
 
@@ -39,6 +40,7 @@ DialogEditShares::DialogEditShares(QWidget* parent) :
 	ui->setupUi(this);
 	ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
 	ui->pushButtonOk->setEnabled(false);
+	setSkin();
 }
 
 DialogEditShares::~DialogEditShares()
@@ -100,3 +102,7 @@ void DialogEditShares::on_pushButtonRemove_clicked()
 	}
 }
 
+void DialogEditShares::setSkin()
+{
+
+}

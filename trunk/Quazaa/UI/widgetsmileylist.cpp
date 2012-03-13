@@ -25,6 +25,8 @@
 #include "widgetsmileylist.h"
 #include "ui_widgetsmileylist.h"
 
+#include "skinsettings.h"
+
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
@@ -38,6 +40,7 @@ WidgetSmileyList::WidgetSmileyList(QWidget *parent) :
 	setAttribute(Qt::WA_TranslucentBackground);
 	ui->listWidget->setAutoFillBackground(true);
 	connect(this, SIGNAL(aboutToShow()), ui->listWidget, SLOT(clearSelection()));
+	setSkin();
 }
 
 WidgetSmileyList::~WidgetSmileyList()
@@ -63,3 +66,7 @@ void WidgetSmileyList::on_listWidget_itemClicked(QListWidgetItem* item)
 	close();
 }
 
+void WidgetSmileyList::setSkin()
+{
+
+}

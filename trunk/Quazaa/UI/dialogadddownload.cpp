@@ -24,6 +24,7 @@
 
 #include "dialogadddownload.h"
 #include "ui_dialogadddownload.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,6 +35,7 @@ DialogAddDownload::DialogAddDownload(QWidget* parent) :
 	ui(new Ui::DialogAddDownload)
 {
 	ui->setupUi(this);
+	setSkin();
 }
 
 DialogAddDownload::~DialogAddDownload()
@@ -64,5 +66,10 @@ void DialogAddDownload::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
+}
+
+void DialogAddDownload::setSkin()
+{
+
 }
 

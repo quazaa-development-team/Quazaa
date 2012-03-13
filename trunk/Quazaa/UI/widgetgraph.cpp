@@ -26,6 +26,7 @@
 #include "ui_widgetgraph.h"
 
 #include "quazaasettings.h"
+#include "skinsettings.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -38,6 +39,7 @@ WidgetGraph::WidgetGraph(QWidget* parent) :
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.GraphToolbar);
 	ui->splitterGraph->restoreState(quazaaSettings.WinMain.GraphSplitter);
+	setSkin();
 }
 
 WidgetGraph::~WidgetGraph()
@@ -89,3 +91,7 @@ void WidgetGraph::on_splitterGraph_customContextMenuRequested(QPoint pos)
 	}
 }
 
+void WidgetGraph::setSkin()
+{
+
+}
