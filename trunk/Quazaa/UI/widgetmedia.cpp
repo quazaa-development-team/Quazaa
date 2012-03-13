@@ -32,8 +32,6 @@
 #include "debug_new.h"
 #endif
 
-// The Media Tab's Base Widget
-
 WidgetMedia::WidgetMedia(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetMedia)
