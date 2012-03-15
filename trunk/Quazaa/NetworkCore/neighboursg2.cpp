@@ -31,6 +31,7 @@
 #include "hubhorizon.h"
 
 #include "quazaasettings.h"
+#include "quazaaglobals.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -372,6 +373,7 @@ G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour*
 	pPacket->WritePacket("TS", 4)->WriteIntLE<quint32>(QDateTime::currentDateTimeUtc().toTime_t());
 	pPacket->WritePacket("FR", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
 	pPacket->WritePacket("RA", 4)->WriteIntLE<quint32>(30 + 30 * m_nHubsConnectedG2);
+	pPacket->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);
 
 	if(bDone)
 	{
