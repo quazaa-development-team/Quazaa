@@ -23,8 +23,7 @@
 #
 
 QT += network \
-	sql \
-	xml
+	sql
 TARGET = Quazaa
 
 # Paths
@@ -104,67 +103,67 @@ TEMPLATE = app
 # MSVC-specific compiler flags
 win32-msvc2008 {
 	!build_pass:message(Setting up MSVC 2008 Compiler flags)
-        QMAKE_CFLAGS_DEBUG += /Gd \
+		QMAKE_CFLAGS_DEBUG += /Gd \
 		/Gm \
 		/RTC1
-        QMAKE_CFLAGS_RELEASE += /Gd \
+		QMAKE_CFLAGS_RELEASE += /Gd \
 		/GA
-        QMAKE_CXXFLAGS_DEBUG += /Gd \
+		QMAKE_CXXFLAGS_DEBUG += /Gd \
 		/Gm \
 		/RTC1
-        QMAKE_CXXFLAGS_RELEASE += /Gd \
+		QMAKE_CXXFLAGS_RELEASE += /Gd \
 		/GA
-        QMAKE_LFLAGS_DEBUG += /FIXED:NO
+		QMAKE_LFLAGS_DEBUG += /FIXED:NO
 
-        QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
-        X64 = $$find(QT_INSTALL_PREFIX, 64)
-        isEmpty(X64){
-            !build_pass:message( "Building for 32 bit")
-            QMAKE_CFLAGS_DEBUG +=/arch:SSE2
-            QMAKE_CFLAGS_RELEASE += /arch:SSE2
-            QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
-            QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
-        }
+		QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
+		X64 = $$find(QT_INSTALL_PREFIX, 64)
+		isEmpty(X64){
+			!build_pass:message( "Building for 32 bit")
+			QMAKE_CFLAGS_DEBUG +=/arch:SSE2
+			QMAKE_CFLAGS_RELEASE += /arch:SSE2
+			QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
+			QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
+		}
 
 		DEFINES += _CRT_SECURE_NO_WARNINGS
 }
 
 win32-msvc2010 {
 	!build_pass:message(Setting up MSVC 2010 Compiler flags)
-        QMAKE_CFLAGS_DEBUG += /Gd \
+		QMAKE_CFLAGS_DEBUG += /Gd \
 		#/Gm \
 		/RTC1 \
 		/MDd \
 		/Zi \
 		/GS \
 		/MP
-        QMAKE_CFLAGS_RELEASE += /Gd \
+		QMAKE_CFLAGS_RELEASE += /Gd \
 		/GA \
 		/Og \
 		/MD \
 		/MP
-        QMAKE_CXXFLAGS_DEBUG += /Gd \
+		QMAKE_CXXFLAGS_DEBUG += /Gd \
 		#/Gm \
 		/RTC1 \
 		/MDd \
 		/Zi \
 		/GS \
 		/MP
-        QMAKE_CXXFLAGS_RELEASE += /Gd \
+		QMAKE_CXXFLAGS_RELEASE += /Gd \
 		/GA \
 		/MD \
 		/MP
 	QMAKE_LFLAGS_DEBUG += /FIXED:NO
 
-        QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
-        X64 = $$find(QT_INSTALL_PREFIX, 64)
-        isEmpty(X64){
-            !build_pass:message( "Building for 32 bit")
-            QMAKE_CFLAGS_DEBUG += /arch:SSE2
-            QMAKE_CFLAGS_RELEASE += /arch:SSE2
-            QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
-            QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
-        }
+		QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
+		X64 = $$find(QT_INSTALL_PREFIX, 64)
+		isEmpty(X64){
+			!build_pass:message( "Building for 32 bit")
+			QMAKE_CFLAGS_DEBUG += /arch:SSE2
+			QMAKE_CFLAGS_RELEASE += /arch:SSE2
+			QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
+			QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
+		}
 
 		DEFINES += _CRT_SECURE_NO_WARNINGS
 }
@@ -291,24 +290,24 @@ SOURCES += \
 	UI/widgetuploads.cpp \
 	UI/winmain.cpp \
 	UI/wizardquickstart.cpp \
-    3rdparty/communi/src/ircutil.cpp \
-    3rdparty/communi/src/ircsession.cpp \
-    3rdparty/communi/src/ircsender.cpp \
-    3rdparty/communi/src/ircparser.cpp \
-    3rdparty/communi/src/ircmessage.cpp \
-    3rdparty/communi/src/ircencoder.cpp \
-    3rdparty/communi/src/irccommand.cpp \
+	3rdparty/communi/src/ircutil.cpp \
+	3rdparty/communi/src/ircsession.cpp \
+	3rdparty/communi/src/ircsender.cpp \
+	3rdparty/communi/src/ircparser.cpp \
+	3rdparty/communi/src/ircmessage.cpp \
+	3rdparty/communi/src/ircencoder.cpp \
+	3rdparty/communi/src/irccommand.cpp \
 	3rdparty/communi/src/irc.cpp \
-    Transfers/transfer.cpp \
+	Transfers/transfer.cpp \
 	3rdparty/nvwa/debug_new.cpp \
-    UI/widgetircmain.cpp \
-    UI/widgetircsidebars.cpp \
-    Skin/skinsettings.cpp \
-    Models/downloadstreemodel.cpp \
-    Transfers/downloadtransfer.cpp \
-    UI/suggestedlineedit.cpp \
-    Misc/fileiconprovider.cpp \
-    Misc/networkiconprovider.cpp
+	UI/widgetircmain.cpp \
+	UI/widgetircsidebars.cpp \
+	Skin/skinsettings.cpp \
+	Models/downloadstreemodel.cpp \
+	Transfers/downloadtransfer.cpp \
+	UI/suggestedlineedit.cpp \
+	Misc/fileiconprovider.cpp \
+	Misc/networkiconprovider.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -431,35 +430,35 @@ HEADERS += \
 	UI/widgetuploads.h \
 	UI/winmain.h \
 	UI/wizardquickstart.h \
-    3rdparty/communi/include/ircutil.h \
-    3rdparty/communi/include/ircsession_p.h \
-    3rdparty/communi/include/ircsession.h \
-    3rdparty/communi/include/ircsender.h \
-    3rdparty/communi/include/ircparser_p.h \
-    3rdparty/communi/include/ircmessage.h \
-    3rdparty/communi/include/ircglobal.h \
-    3rdparty/communi/include/ircencoder_p.h \
-    3rdparty/communi/include/irccommand.h \
+	3rdparty/communi/include/ircutil.h \
+	3rdparty/communi/include/ircsession_p.h \
+	3rdparty/communi/include/ircsession.h \
+	3rdparty/communi/include/ircsender.h \
+	3rdparty/communi/include/ircparser_p.h \
+	3rdparty/communi/include/ircmessage.h \
+	3rdparty/communi/include/ircglobal.h \
+	3rdparty/communi/include/ircencoder_p.h \
+	3rdparty/communi/include/irccommand.h \
 	3rdparty/communi/include/irc.h \
-    Transfers/transfer.h \
-    3rdparty/nvwa/fast_mutex.h \
-    3rdparty/nvwa/debug_new.h \
+	Transfers/transfer.h \
+	3rdparty/nvwa/fast_mutex.h \
+	3rdparty/nvwa/debug_new.h \
 	3rdparty/nvwa/static_assert.h \
-    UI/widgetircmain.h \
-    UI/widgetircsidebars.h \
-    Skin/skinsettings.h \
-    Models/downloadstreemodel.h \
-    Transfers/downloadtransfer.h \
-    FileFragments/Ranges.hpp \
-    FileFragments/Range.hpp \
-    FileFragments/Queue.hpp \
-    FileFragments/List.hpp \
-    FileFragments/FileFragments.hpp \
-    FileFragments/Exception.hpp \
-    FileFragments/Compatibility.hpp \
-    UI/suggestedlineedit.h \
-    Misc/fileiconprovider.h \
-    Misc/networkiconprovider.h
+	UI/widgetircmain.h \
+	UI/widgetircsidebars.h \
+	Skin/skinsettings.h \
+	Models/downloadstreemodel.h \
+	Transfers/downloadtransfer.h \
+	FileFragments/Ranges.hpp \
+	FileFragments/Range.hpp \
+	FileFragments/Queue.hpp \
+	FileFragments/List.hpp \
+	FileFragments/FileFragments.hpp \
+	FileFragments/Exception.hpp \
+	FileFragments/Compatibility.hpp \
+	UI/suggestedlineedit.h \
+	Misc/fileiconprovider.h \
+	Misc/networkiconprovider.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -516,8 +515,8 @@ FORMS += \
 	UI/widgetuploads.ui \
 	UI/winmain.ui \
 	UI/wizardquickstart.ui \
-    UI/widgetircmain.ui \
-    UI/widgetircsidebars.ui
+	UI/widgetircmain.ui \
+	UI/widgetircsidebars.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \
@@ -556,16 +555,16 @@ RC_FILE = Quazaa.rc
 OTHER_FILES += LICENSE.GPL3
 
 mac {
-    QM_DATA.path = Contents/MacOS
-    for(translation, TRANSLATIONS) {
-        translation ~= s/\\.ts$/.qm
-        QM_DATA.files += $$DESTDIR/$$basename(translation)
-    }
-    QMAKE_BUNDLE_DATA += QM_DATA
+	QM_DATA.path = Contents/MacOS
+	for(translation, TRANSLATIONS) {
+		translation ~= s/\\.ts$/.qm
+		QM_DATA.files += $$DESTDIR/$$basename(translation)
+	}
+	QMAKE_BUNDLE_DATA += QM_DATA
 
-    GEOIP_DATA.path = Contents/MacOS
-    GEOIP_DATA.files += $$DESTDIR/GeoIP
-    QMAKE_BUNDLE_DATA += GEOIP_DATA
+	GEOIP_DATA.path = Contents/MacOS
+	GEOIP_DATA.files += $$DESTDIR/GeoIP
+	QMAKE_BUNDLE_DATA += GEOIP_DATA
 }
 
 

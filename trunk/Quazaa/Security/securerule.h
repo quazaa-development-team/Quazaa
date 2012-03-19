@@ -3,7 +3,8 @@
 
 #include <list>
 
-#include <QDomElement>
+#include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 #include <QHostAddress>
 #include <QRegExp>
 #include <QString>
@@ -80,12 +81,12 @@ public:
 	static void     save(const CSecureRule* const pRule, QDataStream& oStream);
 
 	// XML Import/Export functionality
-	static CSecureRule*	fromXML(const QDomElement& oXMLnode, float nVersion);
-	inline virtual void	toXML(QDomElement& oXMLroot) const;
+	static CSecureRule*	fromXML(QXmlStreamReader& oXMLdocument, float nVersion);
+	inline virtual void	toXML(QXmlStreamWriter& oXMLdocument) const;
 
 protected:
 	// Contains default code for XML generation.
-	static void			toXML(const CSecureRule& oRule, QDomElement& oXMLelement);
+	static void			toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument);
 };
 
 void CSecureRule::count()
@@ -119,7 +120,7 @@ CSecureRule::RuleType CSecureRule::type() const
 	return m_nType;
 }
 
-void CSecureRule::toXML(QDomElement&) const {}
+void CSecureRule::toXML( QXmlStreamWriter& ) const {}
 
 /*  ------------------------------------------------------------ */
 /*  ------------------------- CIPRule -------------------------- */
@@ -141,7 +142,7 @@ public:
 	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QHostAddress& oAddress) const;
-	void				toXML(QDomElement& oXMLroot) const;
+	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 
 };
 
@@ -174,16 +175,14 @@ public:
 	CIPRangeRule(bool bCreate = true);
 
 	inline QHostAddress	IP() const;
-	//	inline bool			setIP(const QHostAddress& oIP);
 	inline int			mask() const;
-	//	inline bool			setMask(const int& nMask);
 
 	bool				parseContent(const QString& sContent);
 
 	inline CSecureRule*	getCopy() const;
 
 	inline bool			match(const QHostAddress& oAddress) const;
-	void				toXML(QDomElement& oXMLroot) const;
+	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 };
 
 QHostAddress CIPRangeRule::IP() const
@@ -191,33 +190,10 @@ QHostAddress CIPRangeRule::IP() const
 	return m_oSubNet.first;
 }
 
-/*bool CIPRangeRule::setIP(const QHostAddress& oIP)
-{
-	if ( !oIP.isNull() )
-	{
-		m_oSubNet.first = oIP;
-		m_sContent = m_oSubNet.first.toString() + "/" + m_oSubNet.second;
-		return true;
-	}
-	return false;
-}*/
-
 int CIPRangeRule::mask() const
 {
 	return m_oSubNet.second;
 }
-
-/*bool CIPRangeRule::setMask(const int& nMask)
-{
-	if ( nMask > -1 && ( m_oSubNet.first.protocol() == QAbstractSocket::IPv6Protocol && nMask < 129
-					  || m_oSubNet.first.protocol() == QAbstractSocket::IPv4Protocol && nMask < 33 ) )
-	{
-		m_oSubNet.second = nMask;
-		m_sContent = m_oSubNet.first.toString() + "/" + m_oSubNet.second;
-		return true;
-	}
-	return false;
-}*/
 
 CSecureRule* CIPRangeRule::getCopy() const
 {
@@ -247,7 +223,7 @@ public:
 	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QHostAddress& oAddress) const;
-	void				toXML(QDomElement& oXMLroot) const;
+	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 };
 
 CSecureRule* CCountryRule::getCopy() const
@@ -279,7 +255,7 @@ public:
 	bool				match(const CQueryHit* const pHit) const;
 	bool				match(const QList<CHash>& lHashes) const;
 
-	void				toXML(QDomElement& oXMLroot) const;
+	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 };
 
 CSecureRule* CHashRule::getCopy() const
@@ -309,7 +285,7 @@ public:
 	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QList<QString>& lQuery, const QString& strContent) const;
-	void				toXML(QDomElement& oXMLroot) const;
+	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 
 private:
 	static bool			replace(QString& sReplace, const QList<QString>& lQuery, quint8& nCurrent);
@@ -343,7 +319,7 @@ public:
 	inline CSecureRule*	getCopy() const;
 
 	bool				match(const QString& strUserAgent) const;
-	void				toXML(QDomElement& oXMLroot) const;
+	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 };
 
 CSecureRule* CUserAgentRule::getCopy() const
@@ -384,7 +360,7 @@ public:
 	bool				match(const QString& sFileName) const;
 	bool				match(const CQueryHit* const pHit) const;
 
-	void				toXML(QDomElement& oXMLroot) const;
+	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 };
 
 CSecureRule* CContentRule::getCopy() const

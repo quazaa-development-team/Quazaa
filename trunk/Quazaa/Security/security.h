@@ -6,7 +6,6 @@
 #include <queue>
 #include <set>
 
-#include <QDomDocument>
 #include <QHostAddress>
 #include <QReadWriteLock>
 #include <QString>
@@ -170,8 +169,8 @@ namespace security
 		bool			load();
 		bool			save(bool bForceSaving = false);
 		bool			import(const QString& sPath);
-		QDomDocument	toXML();
-		bool			fromXML(const QDomDocument& oXMLroot);
+		bool        	toXML(const QString& sPath) const;
+		bool			fromXML(const QString& sPath);
 
 	signals:
 		void			ruleAdded(CSecureRule* pRule);
