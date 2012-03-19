@@ -51,6 +51,7 @@ public:
 
 protected:
 	void changeEvent(QEvent* e);
+	void keyPressEvent(QKeyEvent *event);
 
 private:
 	Ui::WidgetSecurity* ui;
