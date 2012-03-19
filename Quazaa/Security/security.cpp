@@ -27,6 +27,9 @@
 #include <QFile>
 #include <QMetaType>
 
+#include <QXmlStreamReader>
+#include <QXmlStreamWriter>
+
 #include "geoiplist.h"
 #include "quazaasettings.h"
 #include "security.h"
@@ -1268,29 +1271,19 @@ bool CSecurity::save(bool bForceSaving)
 //////////////////////////////////////////////////////////////////////
 // CSecurity import
 /**
-  * Imports a security file located at sPath into the security database.
+  * Imports a security file with unknown format located at sPath into the security database.
+  * Currently, only XML is being supported.
   * Locking: RW
   */
 bool CSecurity::import(const QString &sPath)
 {
-	QFile oFile( sPath );
-
-	if ( !oFile.open( QIODevice::ReadOnly ) )
-		return false;
-
-	QDomDocument oXMLroot( "security" );
-
-	if ( oXMLroot.setContent( &oFile ) )
+	if ( fromXML( sPath ) )
 	{
-		oFile.close();
-
-		bool bResult = fromXML( oXMLroot );
 		sanityCheck();
-		return bResult;
+		return true;
 	}
 	else
 	{
-		oFile.close();
 		return false;
 	}
 }
@@ -1306,63 +1299,83 @@ const QString CSecurity::xmlns = "http://www.shareaza.com/schemas/Security.xsd";
   * Exports all rules to an XML file.
   * Locking: R
   */
-QDomDocument CSecurity::toXML()
+bool CSecurity::toXML(const QString& sPath) const
 {
-	QDomDocument oXMLdoc = QDomDocument( "security" );
-	QDomElement oXMLroot = oXMLdoc.createElement( "security" );
-	oXMLroot.setAttribute( "xmlns", CSecurity::xmlns );
+	QFile oFile( sPath );
+	if( !oFile.open( QIODevice::ReadWrite ) )
+		return false;
 
-	oXMLroot.setAttribute( "version", "2.0" );
+	QXmlStreamWriter xmlDocument( &oFile );
 
-	QReadLocker l( &m_pRWLock );
+	xmlDocument.writeStartElement( xmlns, "security" );
+	xmlDocument.writeAttribute( "version", "2.0" );
+
+	// Once the security manager exits this method, m_pRWLock returns to its initial state.
+	QReadLocker l( const_cast<QReadWriteLock *>(&m_pRWLock) );
+
 	for ( CIterator i = m_Rules.begin(); i != m_Rules.end() ; ++i )
 	{
-		(*i)->toXML( oXMLroot );
+		(*i)->toXML( xmlDocument );
 	}
 
-	return oXMLdoc;
+	xmlDocument.writeEndElement();
+
+	return true;
 }
 
 /**
   * Imports rules from an XML file.
   * Locking: RW
   */
-bool CSecurity::fromXML(const QDomDocument &oXMLroot)
+bool CSecurity::fromXML(const QString& sPath)
 {
-	if ( oXMLroot.nodeName() != "security" )
+	QFile oFile( sPath );
+	if ( !oFile.open( QIODevice::ReadOnly ) )
 		return false;
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	QXmlStreamReader xmlDocument( &oFile );
 
-	QDomElement oXMLrootElement = oXMLroot.documentElement();
-	QDomNodeList oXMLnodes = oXMLrootElement.childNodes();
+	if ( xmlDocument.atEnd() ||
+		 !xmlDocument.readNextStartElement() ||
+		 xmlDocument.name().toString().compare( "security", Qt::CaseInsensitive ) != 0 )
+		return false;
 
-	float nVersion = oXMLrootElement.attribute( "version" ).toFloat();
+	float nVersion;
 
-	const unsigned int nCount = oXMLnodes.length();
+	QXmlStreamAttributes attributes = xmlDocument.attributes();
+	{
+		bool bOK;
 
-	QDomElement oXMLelement;
-	CSecureRule* pRule = NULL;
-	unsigned int nRuleCount = 0;
+		// attributes.value() returns an empty StringRef if the attribute "version" is not present.
+		// In that case the conversion to float fails and version is set to 1.0.
+		nVersion = attributes.value( "version" ).toString().toFloat( &bOK );
+		if ( !bOK )
+		{
+			// theApp.Message( MSG_ERROR, IDS_SECURITY_XML_RULE_IMPORT_FAIL, xml version number error );
+			nVersion = 1.0;
+		}
+	}
+
+	const quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
 	QWriteLocker mutex( &m_pRWLock );
 	m_bIsLoading = true;
 	mutex.unlock();
 
-	for ( unsigned int i = 0; i < nCount; ++i )
-	{
-		if ( oXMLnodes.item( i ).isElement() )
-		{
-			oXMLelement = oXMLnodes.item( i ).toElement();
-		}
-		else
-		{
-			continue;
-		}
+	CSecureRule* pRule = NULL;
+	unsigned int nRuleCount = 0;
 
-		if ( oXMLelement.nodeName() == "rule" )
+	// For all rules do:
+	while ( !xmlDocument.atEnd() )
+	{
+		// Go forward until the beginning of the next rule
+		xmlDocument.readNextStartElement();
+
+		// Verify whether it's a rule
+		if ( xmlDocument.name().toString().compare( "rule", Qt::CaseInsensitive ) != 0 )
 		{
-			pRule = CSecureRule::fromXML( oXMLelement, nVersion );
+			// Parse it
+			pRule = CSecureRule::fromXML( xmlDocument, nVersion );
 
 			if ( pRule )
 			{
@@ -1381,6 +1394,10 @@ bool CSecurity::fromXML(const QDomDocument &oXMLroot)
 			{
 				// theApp.Message( MSG_ERROR, IDS_SECURITY_XML_RULE_IMPORT_FAIL );
 			}
+		}
+		else
+		{
+			// theApp.Message( MSG_ERROR, "unrecognized entry in xml file with name:", xmlDocument.name().toString() );
 		}
 	}
 
