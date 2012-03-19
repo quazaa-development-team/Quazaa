@@ -34,7 +34,9 @@ using namespace security;
 
 CSecureRule::CSecureRule(bool bCreate)
 {
-	m_nType		= srContentUndefined; // This invalidates rule as long as it does not contain any useful content.
+	// This invalidates rule as long as it does not contain any useful content.
+	m_nType		= srContentUndefined;
+
 	m_nAction	= srDeny;
 	m_tExpire	= srIndefinite;
 	m_nToday	= 0;
@@ -46,13 +48,28 @@ CSecureRule::CSecureRule(bool bCreate)
 		m_oUUID = QUuid();
 }
 
+CSecureRule::CSecureRule(const CSecureRule& pRule)
+{
+	// The usage of a custom copy constructor makes sure the list of registered
+	// pointers is NOT forwarded to a copy of this rule.
+
+	m_nType		= pRule.m_nType;
+	m_sContent	= pRule.m_sContent;
+	m_nToday	= pRule.m_nToday;
+	m_nTotal	= pRule.m_nTotal;
+	m_nAction	= pRule.m_nAction;
+	m_oUUID		= pRule.m_oUUID;
+	m_tExpire	= pRule.m_tExpire;
+	m_sComment	= pRule.m_sComment;
+}
+
 CSecureRule::~CSecureRule()
 {
 	// Set all pointers to this rule to NULL to notify them about the deletion of this object.
 	for ( std::list<CSecureRule**>::iterator i = m_lPointers.begin();
-		 i != m_lPointers.end(); ++i )
+		  i != m_lPointers.end(); ++i )
 	{
-		(*i) = NULL;
+		*(*i) = NULL;
 	}
 }
 
@@ -98,9 +115,14 @@ CSecureRule* CSecureRule::getCopy() const
 	return new CSecureRule( *this );
 }
 
-void CSecureRule::registerPointer(CSecureRule** pointer)
+void CSecureRule::registerPointer(CSecureRule** pRule)
 {
-	m_lPointers.push_back( pointer );
+	m_lPointers.push_back( pRule );
+}
+
+void CSecureRule::unRegisterPointer(CSecureRule** pRule)
+{
+	m_lPointers.remove( pRule );
 }
 
 bool CSecureRule::isExpired(quint32 tNow, bool bSession) const

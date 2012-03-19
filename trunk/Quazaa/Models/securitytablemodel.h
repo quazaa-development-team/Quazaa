@@ -10,7 +10,7 @@
 
 class CSecurityTableModel : public QAbstractTableModel
 {
-    Q_OBJECT
+	Q_OBJECT
 
 private:
 	typedef security::CSecureRule CSecureRule;
@@ -34,23 +34,24 @@ public:
 	struct Rule
 	{
 		// Object directly managed by security manager.
-		CSecureRule*		pNode;
+		CSecureRule*		m_pNode;
 
-		QString				sContent;
-		CSecureRule::Policy	nAction;
-		quint32				tExpire;
-		quint32				nToday;
-		quint32				nTotal;
-		QString				sComment;
-		QIcon				iAction;
+		QString				m_sContent;
+		CSecureRule::Policy	m_nAction;
+		quint32				m_tExpire;
+		quint32				m_nToday;
+		quint32				m_nTotal;
+		QString				m_sComment;
+		QIcon				m_iAction;
 
-		Rule(CSecureRule* pNode);
+		Rule(CSecureRule* pRule);
+		~Rule();
 		bool update(int row, int col, QModelIndexList& to_update, CSecurityTableModel* model);
 		QVariant data(int col) const;
 		bool lessThan(int col, const CSecurityTableModel::Rule* const pOther) const;
 
-		QString actionToString(CSecureRule::Policy nAction) const;
-		QString expiryToString(quint32 tExpire) const;
+		QString actionToString(CSecureRule::Policy m_nAction) const;
+		QString expiryToString(quint32 m_tExpire) const;
 	};
 
 protected:
