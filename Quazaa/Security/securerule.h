@@ -28,13 +28,19 @@ public:
 protected:
 	// Type is critical to functionality and may not be changed externally.
 	RuleType	m_nType;
+
+	// Contains a string representation of the rule content for faster GUI accesses.
+	// Can be accessed via getContentString().
 	QString		m_sContent;
 
 private:
 	// Hit counters
 	quint32		m_nToday;
 	quint32		m_nTotal;
-	std::list<CSecureRule**>	m_lPointers;
+
+	// List of pointers that will be set to 0 if this instance of CSecureRule is deleted.
+	// Note that the content of this list is not forwarded to copies of this rule.
+	std::list<CSecureRule**> m_lPointers;
 
 public:
 	Policy		m_nAction;
@@ -45,6 +51,8 @@ public:
 public:
 	// Construction / Destruction
 	CSecureRule(bool bCreate = true);
+	// See m_lPointers for why we don't use the default copy constructor.
+	CSecureRule(const CSecureRule& pRule);
 	virtual			~CSecureRule();
 
 	// Operators
@@ -54,9 +62,16 @@ public:
 	virtual bool			parseContent(const QString& sContent);
 	QString					getContentString() const;
 
+	// Returns a copy of the current rule. Note that this copy does not contain
+	// any information on pointers registered to the original CSecureRule object.
 	virtual CSecureRule*	getCopy() const;
 
-	void			registerPointer(CSecureRule** pointer);
+	// Registers a pointer with a secure rule to assure it is set to NULL if the secure
+	// rule is deleted. Note that a pointer who has been registered needs to be unregistered
+	// before freeing its memory.
+	void			registerPointer(CSecureRule** pRule);
+	// Call this before removing a pointer you have previously registered.
+	void			unRegisterPointer(CSecureRule** pRule);
 
 	bool			isExpired(quint32 nNow, bool bSession = false) const;
 

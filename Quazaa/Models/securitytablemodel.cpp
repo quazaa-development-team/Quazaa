@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -35,32 +35,42 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 	Q_ASSERT( pRule );
 #endif // _DEBUG
 
-	QReadLocker l( &securityManager.m_pRWLock );
+	QWriteLocker w( &securityManager.m_pRWLock );
+	m_pNode = pRule;
 
-	pRule->registerPointer( &pNode );
+	// This makes sure that if pRule is deleted within the Security Manager,
+	// pNode is correctly set to NULL. Note that a write lock is required here.
+	m_pNode->registerPointer( &m_pNode );
 
-	pNode		= pRule;
-	sContent	= pRule->getContentString();
-	nAction		= pRule->m_nAction;
-	tExpire		= pRule->m_tExpire;
-	nToday		= pRule->getTodayCount();
-	nTotal		= pRule->getTotalCount();
-	sComment	= pRule->m_sComment;
+	m_sContent	= m_pNode->getContentString();
+	m_nAction	= m_pNode->m_nAction;
+	m_tExpire	= m_pNode->m_tExpire;
+	m_nToday	= m_pNode->getTodayCount();
+	m_nTotal	= m_pNode->getTotalCount();
+	m_sComment	= m_pNode->m_sComment;
 
-	switch( pRule->m_nAction )
+	switch( m_pNode->m_nAction )
 	{
 	case security::CSecureRule::srNull:
-		//iAction = QIcon( ":/Resource/Security/Null.ico" );
+		m_iAction = QIcon( ":/Resource/Security/Null.ico" );
 		break;
 	case security::CSecureRule::srAccept:
-		//iAction = QIcon( ":/Resource/Security/Accept.ico" );
+		m_iAction = QIcon( ":/Resource/Security/Accept.ico" );
 		break;
 	case security::CSecureRule::srDeny:
-		//iAction = QIcon( ":/Resource/Security/Deny.ico" );
+		m_iAction = QIcon( ":/Resource/Security/Deny.ico" );
 		break;
 	default:
 		Q_ASSERT( false );
 	}
+}
+
+CSecurityTableModel::Rule::~Rule()
+{
+	QWriteLocker w( &securityManager.m_pRWLock );
+	// This is important to avoid memory access errors within the Security Manager.
+	if ( m_pNode )
+		m_pNode->unRegisterPointer( &m_pNode );
 }
 
 bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_update,
@@ -68,84 +78,90 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 {
 	QReadLocker l( &securityManager.m_pRWLock );
 
-	if ( !pNode )
+	if ( !m_pNode )
+	{
+
+#ifdef _DEBUG
+	// We should have been informed about this event.
+	Q_ASSERT( false );
+#endif // _DEBUG
+
 		return false;
+	}
 
 #ifdef _DEBUG
 	l.unlock();
 
 	// pNode should be set to NULL on deletion of the rule object it points to.
-	Q_ASSERT( securityManager.check( pNode ) );
+	Q_ASSERT( securityManager.check( m_pNode ) );
 
 	l.relock();
 #endif // _DEBUG
 
+	bool bReturn = false;
 
-
-	bool bRet = false;
-
-	if ( sContent != pNode->getContentString() )
+	if ( m_sContent != m_pNode->getContentString() )
 	{
 		to_update.append( model->index( row, CONTENT ) );
-		sContent = pNode->getContentString();
+		m_sContent = m_pNode->getContentString();
 
-		if( col == CONTENT )
-			bRet = true;
+		if ( col == CONTENT )
+			bReturn = true;
 	}
 
-	if ( nAction != pNode->m_nAction )
+	if ( m_nAction != m_pNode->m_nAction )
 	{
 		to_update.append( model->index( row, ACTION ) );
-		nAction = pNode->m_nAction;
+		m_nAction = m_pNode->m_nAction;
 
-		switch( nAction )
+		switch( m_nAction )
 		{
 		case security::CSecureRule::srNull:
-			iAction = QIcon( ":/Resource/Security/Null.ico" );
+			m_iAction = QIcon( ":/Resource/Security/Null.ico" );
 			break;
 		case security::CSecureRule::srAccept:
-			iAction = QIcon( ":/Resource/Security/Accept.ico" );
+			m_iAction = QIcon( ":/Resource/Security/Accept.ico" );
 			break;
 		case security::CSecureRule::srDeny:
-			iAction = QIcon( ":/Resource/Security/Deny.ico" );
+			m_iAction = QIcon( ":/Resource/Security/Deny.ico" );
 			break;
 		default:
 			Q_ASSERT( false );
 		}
 
 		if ( col == ACTION )
-			bRet = true;
+			bReturn = true;
 	}
 
-	if ( tExpire != pNode->m_tExpire )
+	if ( m_tExpire != m_pNode->m_tExpire )
 	{
 		to_update.append( model->index( row, EXPIRES ) );
-		tExpire = pNode->m_tExpire;
+		m_tExpire = m_pNode->m_tExpire;
 
 		if ( col == EXPIRES )
-			bRet = true;
+			bReturn = true;
 	}
 
-	if ( nToday != pNode->getTodayCount() )
+	if ( m_nToday != m_pNode->getTodayCount() )
 	{
 		to_update.append( model->index( row, HITS ) );
-		nToday = pNode->getTodayCount();
-		nTotal = pNode->getTotalCount();
+		m_nToday = m_pNode->getTodayCount();
+		m_nTotal = m_pNode->getTotalCount();
 
 		if ( col == HITS )
-			bRet = true;
+			bReturn = true;
 	}
 
-	if ( sComment != pNode->m_sComment )
+	if ( m_sComment != m_pNode->m_sComment )
 	{
 		to_update.append( model->index( row, COMMENT ) );
-		sComment = pNode->m_sComment;
+		m_sComment = m_pNode->m_sComment;
 
 		if ( col == COMMENT )
-			bRet = true;
+			bReturn = true;
 	}
 
-	return bRet;
+	return bReturn;
 }
 
 QVariant CSecurityTableModel::Rule::data(int col) const
@@ -153,15 +169,15 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 	switch ( col )
 	{
 		case CONTENT:
-			return sContent;
+			return m_sContent;
 		case ACTION:
-			return actionToString( nAction );
+			return actionToString( m_nAction );
 		case EXPIRES:
-			return expiryToString( tExpire );
+			return expiryToString( m_tExpire );
 		case HITS:
-			return QString( "%1 (%2)" ).arg( QString::number( nToday ), QString::number( nTotal ) );
+			return QString( "%1 (%2)" ).arg( QString::number( m_nToday ), QString::number( m_nTotal ) );
 		case COMMENT:
-			return sComment;
+			return m_sComment;
 	}
 
 	return QVariant();
@@ -175,15 +191,15 @@ bool CSecurityTableModel::Rule::lessThan(int col, const CSecurityTableModel::Rul
 	switch ( col )
 	{
 	case CONTENT:
-		return sContent < pOther->sContent;
+		return m_sContent < pOther->m_sContent;
 	case ACTION:
-		return nAction  < pOther->nAction;
+		return m_nAction  < pOther->m_nAction;
 	case EXPIRES:
-		return tExpire  < pOther->tExpire;
+		return m_tExpire  < pOther->m_tExpire;
 	case HITS:
-		return nTotal   < pOther->nTotal;
+		return m_nTotal   < pOther->m_nTotal;
 	case COMMENT:
-		return sComment < pOther->sComment;
+		return m_sComment < pOther->m_sComment;
 	default:
 		return false;
 	}
@@ -226,10 +242,6 @@ CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 	m_oContainer = container;
 	m_nSortColumn = -1;
 	m_bNeedSorting = false;
-
-	// Note that this first slot is automatically disconnected once all rules have been recieved.
-	connect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ), this,
-			 SLOT( addRule( CSecureRule* ) ), Qt::QueuedConnection );
 
 	connect( &securityManager, SIGNAL( ruleAdded( CSecureRule* ) ), this,
 			 SLOT( addRule( CSecureRule* ) ), Qt::QueuedConnection );
@@ -289,7 +301,7 @@ QVariant CSecurityTableModel::data(const QModelIndex& index, int role) const
 	{
 		if ( index.column() == ACTION )
 		{
-			return pRule->iAction;
+			return pRule->m_iAction;
 		}
 	}
 	/*else if ( role == Qt::ForegroundRole )
@@ -417,7 +429,7 @@ void CSecurityTableModel::sort(int column, Qt::SortOrder order)
 security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &index)
 {
 	if ( index.isValid() && index.row() < m_lNodes.count() && index.row() >= 0 )
-		return m_lNodes[ index.row() ]->pNode;
+		return m_lNodes[ index.row() ]->m_pNode;
 	else
 		return NULL;
 }
@@ -432,22 +444,23 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 		m_bNeedSorting = true;
 	}
 
-    if ( QObject::receivers ( SIGNAL( ruleInfo( CSecureRule* ) ) ) )
-    {
-        QReadLocker l( &(securityManager.m_pRWLock) );
+	// We should probably be the only one listening.
+	if ( QObject::receivers ( SIGNAL( ruleInfo( CSecureRule* ) ) ) )
+	{
+		QReadLocker l( &(securityManager.m_pRWLock) );
 
-        // Make sure we don't recieve any signals we don't want once we got all rules once.
-        if ( m_lNodes.size() == (int)securityManager.getCount() )
-            disconnect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ),
-                        this, SLOT( addRule( CSecureRule* ) ) );
-    }
+		// Make sure we don't recieve any signals we don't want once we got all rules once.
+		if ( m_lNodes.size() == (int)securityManager.getCount() )
+			disconnect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ),
+						this, SLOT( addRule( CSecureRule* ) ) );
+	}
 }
 
 void CSecurityTableModel::removeRule(const QSharedPointer<CSecureRule> pRule)
 {
 	for ( quint32 i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
 	{
-		if ( *(m_lNodes[i]->pNode) == *pRule )
+		if ( *(m_lNodes[i]->m_pNode) == *pRule )
 		{
 			beginRemoveRows( QModelIndex(), i, i );
 			delete m_lNodes[i];
@@ -497,8 +510,17 @@ void CSecurityTableModel::updateAll()
 void CSecurityTableModel::retrieveAllRules()
 {
 	// Remove all rules.
-	qDeleteAll( m_lNodes );
-	m_lNodes.clear();
+	if ( m_lNodes.size() )
+	{
+		beginRemoveRows( QModelIndex(), 0, m_lNodes.size() - 1 );
+		qDeleteAll( m_lNodes );
+		m_lNodes.clear();
+		endRemoveRows();
+	}
+
+	// Note that this slot is automatically disconnected once all rules have been recieved once.
+	connect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ), this,
+			 SLOT( addRule( CSecureRule* ) ), Qt::QueuedConnection );
 
 	// Request getting them back from the Security Manager.
 	securityManager.requestRuleList();
