@@ -32,6 +32,7 @@ namespace security
 		/* ================================================================ */
 	public:
 		static const QString xmlns;
+		static const char* ruleInfoSignal;
 
 		QReadWriteLock m_pRWLock;
 
@@ -51,6 +52,14 @@ namespace security
 		typedef std::queue< CSecureRule* > CNewRulesQueue;
 
 		typedef std::set< QString > CMissCache;
+
+
+
+
+		// TODO: use qHash(CEndPoint) instead of string
+
+
+
 
 		typedef std::map< QString, CIPRule*        > CAddressRuleMap;
 		typedef std::map< QString, CCountryRule*   > CCountryRuleMap;
@@ -171,6 +180,10 @@ namespace security
 		bool			import(const QString& sPath);
 		bool        	toXML(const QString& sPath) const;
 		bool			fromXML(const QString& sPath);
+
+		// Allows for external callers to find out about how many listeners there
+		// are to the Security Manager Signals.
+		int				receivers(const char* signal) const;
 
 	signals:
 		void			ruleAdded(CSecureRule* pRule);

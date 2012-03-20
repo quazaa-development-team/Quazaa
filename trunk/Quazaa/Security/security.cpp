@@ -1407,6 +1407,19 @@ bool CSecurity::fromXML(const QString& sPath)
 	return nRuleCount != 0;
 }
 
+const char* CSecurity::ruleInfoSignal = SIGNAL( ruleInfo( CSecureRule* ) );
+
+/**
+  * Returns the number of listeners to a given signal of the Security Manager.
+  * Note that this is an evel method that violates the modularity principle.
+  * Plz don't use it if you've got a problem with this (for example because of religious reasons).
+  * Locking: /
+  */
+int CSecurity::receivers(const char* signal) const
+{
+	return QObject::receivers( signal );
+}
+
 //////////////////////////////////////////////////////////////////////
 // Qt slots
 /**

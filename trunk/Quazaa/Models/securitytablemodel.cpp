@@ -440,13 +440,12 @@ void CSecurityTableModel::completeRefresh()
 	if ( m_lNodes.size() )
 	{
 		beginRemoveRows( QModelIndex(), 0, m_lNodes.size() - 1 );
-		for ( quint32 i = 0; i < m_lNodes.size(); ++i )
+		for ( int i = 0; i < m_lNodes.size(); ++i )
 		{
 			delete m_lNodes[i];
 		}
 		m_lNodes.clear();
 		endRemoveRows();
-		m_bNeedSorting = true;
 	}
 
 	// Note that this slot is automatically disconnected once all rules have been recieved once.
@@ -468,7 +467,7 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 	}
 
 	// We should probably be the only one listening.
-	if ( QObject::receivers ( SIGNAL( ruleInfo( CSecureRule* ) ) ) )
+	if ( securityManager.receivers ( security::CSecurity::ruleInfoSignal ) )
 	{
 		QReadLocker l( &(securityManager.m_pRWLock) );
 
