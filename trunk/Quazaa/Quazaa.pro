@@ -307,7 +307,8 @@ SOURCES += \
 	Transfers/downloadtransfer.cpp \
 	UI/suggestedlineedit.cpp \
 	Misc/fileiconprovider.cpp \
-	Misc/networkiconprovider.cpp
+	Misc/networkiconprovider.cpp \
+    UI/tableview.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -458,7 +459,8 @@ HEADERS += \
 	FileFragments/Compatibility.hpp \
 	UI/suggestedlineedit.h \
 	Misc/fileiconprovider.h \
-	Misc/networkiconprovider.h
+	Misc/networkiconprovider.h \
+    UI/tableview.h
 
 FORMS += \
 	UI/dialogabout.ui \
