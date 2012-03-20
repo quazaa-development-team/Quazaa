@@ -251,7 +251,7 @@ CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 
 	// This needs to be called to make sure that all rules added to the securityManager before this
 	// part of the GUI is loaded are properly added to the model.
-	retrieveAllRules();
+	completeRefresh();
 }
 
 CSecurityTableModel::~CSecurityTableModel()
@@ -363,7 +363,7 @@ QVariant CSecurityTableModel::headerData(int section, Qt::Orientation orientatio
 			return tr("Comment");
 		}
 	}
-	else if(role == Qt::ToolTipRole)
+	else if ( role == Qt::ToolTipRole )
 	{
 		switch(section)
 		{
@@ -402,7 +402,7 @@ public:
 
 	bool operator()( CSecurityTableModel::Rule* a, CSecurityTableModel::Rule* b )
 	{
-		if( order == Qt::AscendingOrder )
+		if ( order == Qt::AscendingOrder )
 		{
 			return a->lessThan( column, b );
 		}
@@ -432,6 +432,29 @@ security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &ind
 		return m_lNodes[ index.row() ]->m_pNode;
 	else
 		return NULL;
+}
+
+void CSecurityTableModel::completeRefresh()
+{
+	// Remove all rules.
+	if ( m_lNodes.size() )
+	{
+		beginRemoveRows( QModelIndex(), 0, m_lNodes.size() - 1 );
+		for ( quint32 i = 0; i < m_lNodes.size(); ++i )
+		{
+			delete m_lNodes[i];
+		}
+		m_lNodes.clear();
+		endRemoveRows();
+		m_bNeedSorting = true;
+	}
+
+	// Note that this slot is automatically disconnected once all rules have been recieved once.
+	connect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ), this,
+			 SLOT( addRule( CSecureRule* ) ), Qt::QueuedConnection );
+
+	// Request getting them back from the Security Manager.
+	securityManager.requestRuleList();
 }
 
 void CSecurityTableModel::addRule(CSecureRule* pRule)
@@ -474,6 +497,20 @@ void CSecurityTableModel::removeRule(const QSharedPointer<CSecureRule> pRule)
 
 void CSecurityTableModel::updateAll()
 {
+	{
+		QReadLocker l( &(securityManager.m_pRWLock) );
+		if ( m_lNodes.size() != (int)securityManager.getCount() )
+		{
+#ifdef _DEBUG
+			// This is not something that should have happened.
+			Q_ASSERT( false );
+#endif // _DEBUG
+
+			completeRefresh();
+			return;
+		}
+	}
+
 	QModelIndexList uplist;
 	bool bSort = m_bNeedSorting;
 
@@ -505,23 +542,4 @@ void CSecurityTableModel::updateAll()
 			}
 		}
 	}
-}
-
-void CSecurityTableModel::retrieveAllRules()
-{
-	// Remove all rules.
-	if ( m_lNodes.size() )
-	{
-		beginRemoveRows( QModelIndex(), 0, m_lNodes.size() - 1 );
-		qDeleteAll( m_lNodes );
-		m_lNodes.clear();
-		endRemoveRows();
-	}
-
-	// Note that this slot is automatically disconnected once all rules have been recieved once.
-	connect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ), this,
-			 SLOT( addRule( CSecureRule* ) ), Qt::QueuedConnection );
-
-	// Request getting them back from the Security Manager.
-	securityManager.requestRuleList();
 }

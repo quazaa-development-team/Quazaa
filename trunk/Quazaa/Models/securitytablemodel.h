@@ -71,13 +71,12 @@ public:
 
 	CSecureRule* nodeFromIndex(const QModelIndex& index);
 
+	void completeRefresh();
+
 public slots:
 	void addRule(CSecureRule* pRule);
 	void removeRule(const QSharedPointer<CSecureRule> pRule);
 	void updateAll();
-
-private:
-	void retrieveAllRules();
 };
 
 #endif // SECURITYTABLEMODEL_H
