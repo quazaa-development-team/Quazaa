@@ -44,23 +44,23 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 {
 	ui->setupUi( this );
 
-	securityMenu = new QMenu(ui->tableViewSecurity);
-	securityMenu->addAction(ui->actionSecurityModifyRule);
-	securityMenu->addAction(ui->actionSecurityRemoveRule);
-	securityMenu->addAction(ui->actionSecurityExportRules);
+	m_pSecurityMenu = new QMenu( this );
+	m_pSecurityMenu->addAction(  ui->actionSecurityModifyRule  );
+	m_pSecurityMenu->addAction(  ui->actionSecurityRemoveRule  );
+	m_pSecurityMenu->addAction(  ui->actionSecurityExportRules );
 
 	restoreState( quazaaSettings.WinMain.SecurityToolbars );
 
 	m_pSecurityList = new CSecurityTableModel( this, tableView() );
 	setModel( m_pSecurityList );
 	m_pSecurityList->sort( ui->tableViewSecurity->horizontalHeader()->sortIndicatorSection(),
-						   ui->tableViewSecurity->horizontalHeader()->sortIndicatorOrder() );
+						   ui->tableViewSecurity->horizontalHeader()->sortIndicatorOrder()    );
 	setSkin();
 }
 
 WidgetSecurity::~WidgetSecurity()
 {
-	delete ui;
+	delete ui; // Note: This does also take care of m_pSecurityMenu and m_pSecurityList.
 }
 
 void WidgetSecurity::setModel(QAbstractItemModel* model)
@@ -80,15 +80,19 @@ void WidgetSecurity::saveWidget()
 
 void WidgetSecurity::changeEvent(QEvent* e)
 {
-	QMainWindow::changeEvent( e );
 	switch ( e->type() )
 	{
 	case QEvent::LanguageChange:
+	{
 		ui->retranslateUi( this );
 		break;
+	}
+
 	default:
 		break;
 	}
+
+	QMainWindow::changeEvent( e );
 }
 
 void WidgetSecurity::keyPressEvent(QKeyEvent *e)
@@ -96,7 +100,22 @@ void WidgetSecurity::keyPressEvent(QKeyEvent *e)
 	switch ( e->key() )
 	{
 	case Qt::Key_Delete:
+	{
 		on_actionSecurityRemoveRule_triggered();
+		break;
+	}
+
+	case Qt::Key_Return:
+	{
+		on_actionSecurityModifyRule_triggered();
+		break;
+	}
+
+	case Qt::Key_F5:
+	{
+		m_pSecurityList->completeRefresh();
+		break;
+	}
 	}
 
 	QMainWindow::keyPressEvent( e );
@@ -116,28 +135,49 @@ void WidgetSecurity::on_actionSecurityAddRule_triggered()
 
 void WidgetSecurity::on_actionSecurityRemoveRule_triggered()
 {
-	QModelIndex index = ui->tableViewSecurity->currentIndex();
+	QModelIndexList selection = ui->tableViewSecurity->selectionModel()->selectedRows();
 
-	if ( index.isValid() )
+	// Lock security manager while fiddling with rules.
+	QWriteLocker l( &securityManager.m_pRWLock );
+
+	foreach( QModelIndex i, selection )
 	{
-		// Lock security manager while fiddling with rule.
-		QReadLocker l( &securityManager.m_pRWLock );
-		security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
-		securityManager.remove( pRule, false );
+		if ( i.isValid() )
+		{
+			security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( i );
+			securityManager.remove( pRule, false );
+		}
 	}
 }
 
 void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 {
-	QModelIndex index = ui->tableViewSecurity->currentIndex();
+	QModelIndexList selection = ui->tableViewSecurity->selectionModel()->selectedRows();
+	QModelIndex index = QModelIndex();
+
+	// Get the highest selected row.
+	foreach( QModelIndex i, selection )
+	{
+		if ( index.isValid() )
+		{
+			if ( index.row() > i.row() )
+				index = i;
+		}
+		else
+		{
+			index = i;
+		}
+	}
 
 	if ( index.isValid() )
 	{
 		// Lock security manager while fiddling with rule.
 		QReadLocker lock( &securityManager.m_pRWLock );
+
 		security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
 		DialogAddRule* dlgAddRule = new DialogAddRule( this, pRule );
-		lock.unlock();
+
+		lock.unlock(); // Make the Security Manager available again.
 
 		connect( dlgAddRule, SIGNAL( dataUpdated() ), SLOT( update() ), Qt::QueuedConnection );
 		dlgAddRule->show();
@@ -146,12 +186,12 @@ void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 
 void WidgetSecurity::on_actionSecurityImportRules_triggered()
 {
-
+	// TODO: Implement.
 }
 
 void WidgetSecurity::on_actionSecurityExportRules_triggered()
 {
-
+	// TODO: Implement.
 }
 
 void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
@@ -177,7 +217,7 @@ void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoin
 		ui->actionSecurityRemoveRule->setEnabled( false );
 	}
 
-	securityMenu->popup( QCursor::pos() );
+	m_pSecurityMenu->popup( QCursor::pos() );
 }
 
 void WidgetSecurity::on_tableViewSecurity_doubleClicked(const QModelIndex& index)

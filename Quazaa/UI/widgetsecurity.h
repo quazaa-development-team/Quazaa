@@ -43,19 +43,19 @@ public:
 
 public:
 	WidgetSecurity(QWidget* parent = 0);
-	~WidgetSecurity();
+	virtual ~WidgetSecurity();
 
 	void		setModel(QAbstractItemModel* model);
 	QWidget*	tableView();
 	void		saveWidget();
 
 protected:
-	void changeEvent(QEvent* e);
-	void keyPressEvent(QKeyEvent *event);
+	virtual void changeEvent(QEvent* e);
+	virtual void keyPressEvent(QKeyEvent *event);
 
 private:
 	Ui::WidgetSecurity* ui;
-	QMenu* securityMenu;
+	QMenu* m_pSecurityMenu;
 
 signals:
 
