@@ -1158,7 +1158,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 		{
 			pQKA->WritePacket("QNA", 18)->WriteHostAddress(&addr);
 		}
-		pQKA->WritePacket("QK", 4)->WriteIntBE(pHost->m_nQueryKey);
+		pQKA->WritePacket("QK", 4)->WriteIntLE(pHost->m_nQueryKey);
 		pQKA->WritePacket("CACHED", 0);
 		SendPacket(pQKA, true, true);
 	}
