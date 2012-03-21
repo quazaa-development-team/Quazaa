@@ -152,6 +152,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		QList<QHostAddress>  lDone;
 		quint32 nRetryAfter = 0;
 		qint64 tAdjust = 0;
+		QString sVendor;
 		QDateTime tNow = QDateTime::currentDateTimeUtc();
 
 		quint32 nHubs = 0, nLeaves = 0, nSuggestedHubs = 0;
@@ -266,16 +267,18 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 					oFromIp.setAddress(nFromIp);
 				}
 			}
+			else if(strcmp("V", szType) == 0 && nLength >= 4)
+			{
+				sVendor = pPacket->ReadString(4);
+			}
 
 			pPacket->m_nPosition = nNext;
 		}
 
 		// we already know QA GUID
 
-		systemLog.postLog(LogSeverity::Debug, "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
-						  oFromIp.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
-		//qDebug("Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds.",
-		//	   addr.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter);
+		systemLog.postLog(LogSeverity::Debug, "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds, %s).",
+						  oFromIp.toString().toAscii().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter, (sVendor.isEmpty() ? "unknown" : qPrintable(sVendor)));
 
 		pSearch->m_nHubs += nHubs;
 		pSearch->m_nLeaves += nLeaves;

@@ -531,7 +531,35 @@ void CNeighboursTableModel::sort(int column, Qt::SortOrder order)
 	m_nSortOrder = order;
 
 	emit layoutAboutToBeChanged();
+
+	// I hope this is the correct way to convince Qt...
+	QModelIndexList oldIdx = persistentIndexList();
+	QModelIndexList newIdx = oldIdx;
+
 	qStableSort(m_lNodes.begin(), m_lNodes.end(), CNeighboursTableModelCmp(column, order));
+
+	for( int i = 0; i < oldIdx.size(); ++i ) // For each persistent index
+	{
+		int oldRow = oldIdx.at(i).row();
+
+		// if oldRow is outside range
+		if( oldRow > m_lNodes.size()
+				// or the index points to another item
+				|| oldIdx.at(i).internalPointer() != m_lNodes.at(oldRow) )
+		{
+			// find the correct item and update persistent index
+			for( int j = 0; j < m_lNodes.size(); ++j )
+			{
+				if( oldIdx.at(oldRow).internalPointer() == m_lNodes.at(j) )
+				{
+					newIdx[i] = createIndex(j, oldIdx.at(i).column(), oldIdx.at(i).internalPointer());
+					break;
+				}
+			}
+		}
+	}
+
+	changePersistentIndexList(oldIdx, newIdx);
 	emit layoutChanged();
 }
 
@@ -566,6 +594,24 @@ void CNeighboursTableModel::RemoveNode(CNeighbour* pNode)
 	{
 		if(m_lNodes[i]->pNode == pNode)
 		{
+			// update selection
+			QModelIndexList currIdx = persistentIndexList();
+			QModelIndexList newIdx = currIdx;
+			bool bChanged = false;
+			for( int j = 0; j < currIdx.size(); ++j )
+			{
+				if( currIdx.at(j).internalPointer() == m_lNodes.at(i) )
+				{
+					newIdx[j] = QModelIndex();
+					bChanged = true;
+				}
+			}
+			if( bChanged )
+			{
+				changePersistentIndexList(currIdx, newIdx);
+			}
+
+			// remove the item
 			beginRemoveRows(QModelIndex(), i, i);
 			delete m_lNodes[i];
 			m_lNodes.remove(i, 1);
