@@ -550,7 +550,7 @@ void CNeighboursTableModel::sort(int column, Qt::SortOrder order)
 			// find the correct item and update persistent index
 			for( int j = 0; j < m_lNodes.size(); ++j )
 			{
-				if( oldIdx.at(oldRow).internalPointer() == m_lNodes.at(j) )
+				if( oldIdx.at(i).internalPointer() == m_lNodes.at(j) )
 				{
 					newIdx[i] = createIndex(j, oldIdx.at(i).column(), oldIdx.at(i).internalPointer());
 					break;
