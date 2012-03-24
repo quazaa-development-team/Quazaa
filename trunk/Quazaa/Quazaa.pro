@@ -308,7 +308,8 @@ SOURCES += \
 	UI/suggestedlineedit.cpp \
 	Misc/fileiconprovider.cpp \
 	Misc/networkiconprovider.cpp \
-    UI/tableview.cpp
+    UI/tableview.cpp \
+    Models/categorynavigatortreemodel.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -460,7 +461,8 @@ HEADERS += \
 	UI/suggestedlineedit.h \
 	Misc/fileiconprovider.h \
 	Misc/networkiconprovider.h \
-    UI/tableview.h
+    UI/tableview.h \
+    Models/categorynavigatortreemodel.h
 
 FORMS += \
 	UI/dialogabout.ui \
