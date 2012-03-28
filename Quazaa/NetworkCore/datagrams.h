@@ -34,6 +34,7 @@
 #include <QTime>
 
 #include "queryhit.h"
+#include "networkconnection.h"
 
 class G2Packet;
 
@@ -63,8 +64,8 @@ protected:
 
 	bool m_bFirewalled;
 
-	QTimer*     m_tSender;
-	QTime       m_tStopWatch;
+	QTimer*       m_tSender;
+	QElapsedTimer m_tStopWatch;
 
 	QHash<quint16, DatagramOut*>     m_SendCacheMap;    // zeby szybko odszukac pakiety po sekwencji
 	QLinkedList<DatagramOut*>		 m_SendCache;		// a lifo queue, last is oldest
@@ -85,11 +86,8 @@ protected:
 
 	bool            m_bActive;
 
-	quint32         m_nBandwidthIn;
-	quint32         m_nAvgBandwidthIn;
-	quint32         m_nBandwidthOut;
-	quint32         m_nAvgBandwidthOut;
-	QTime           m_tMeterTimer;
+	TCPBandwidthMeter m_mInput;
+	TCPBandwidthMeter m_mOutput;
 
 	quint32			m_nDiscarded;
 	quint32			m_nInFrags;
@@ -120,7 +118,6 @@ public:
 	void OnQH2(CEndPoint& addr, G2Packet* pPacket);
 	void OnQuery(CEndPoint& addr, G2Packet* pPacket);
 
-	inline void UpdateStats();
 	inline quint32 DownloadSpeed();
 	inline quint32 UploadSpeed();
 	inline bool IsFirewalled();
@@ -149,28 +146,13 @@ typedef struct
 
 #pragma pack(pop)
 
-void CDatagrams::UpdateStats()
-{
-	if(m_tMeterTimer.elapsed() < 1000)
-	{
-		return;
-	}
-
-	m_tMeterTimer.start();
-
-	m_nAvgBandwidthIn = (m_nAvgBandwidthIn + m_nBandwidthIn) / 2;
-	m_nAvgBandwidthOut = (m_nAvgBandwidthOut + m_nBandwidthOut) / 2;
-	m_nBandwidthIn = m_nBandwidthOut = 0;
-}
 quint32 CDatagrams::DownloadSpeed()
 {
-	UpdateStats();
-	return m_nAvgBandwidthIn;
+	return m_mInput.AvgUsage();
 }
 quint32 CDatagrams::UploadSpeed()
 {
-	UpdateStats();
-	return m_nAvgBandwidthOut;
+	return m_mOutput.AvgUsage();
 }
 bool CDatagrams::IsFirewalled()
 {

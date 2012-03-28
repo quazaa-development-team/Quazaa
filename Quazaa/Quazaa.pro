@@ -115,16 +115,6 @@ win32-msvc2008 {
 		/GA
 		QMAKE_LFLAGS_DEBUG += /FIXED:NO
 
-		QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
-		X64 = $$find(QT_INSTALL_PREFIX, 64)
-		isEmpty(X64){
-			!build_pass:message( "Building for 32 bit")
-			QMAKE_CFLAGS_DEBUG +=/arch:SSE2
-			QMAKE_CFLAGS_RELEASE += /arch:SSE2
-			QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
-			QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
-		}
-
 		DEFINES += _CRT_SECURE_NO_WARNINGS
 }
 
@@ -153,19 +143,23 @@ win32-msvc2010 {
 		/GA \
 		/MD \
 		/MP
-	QMAKE_LFLAGS_DEBUG += /FIXED:NO
-
-		QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
-		X64 = $$find(QT_INSTALL_PREFIX, 64)
-		isEmpty(X64){
-			!build_pass:message( "Building for 32 bit")
-			QMAKE_CFLAGS_DEBUG += /arch:SSE2
-			QMAKE_CFLAGS_RELEASE += /arch:SSE2
-			QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
-			QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
-		}
+		QMAKE_LFLAGS_DEBUG += /FIXED:NO
 
 		DEFINES += _CRT_SECURE_NO_WARNINGS
+}
+
+# use CONFIG-=sse2 to disable SSE2
+sse2 {
+
+	# MSVC
+	win32-msvc* {
+		!build_pass:message( "SSE2 Enabled")
+		QMAKE_CFLAGS_DEBUG +=/arch:SSE2
+		QMAKE_CFLAGS_RELEASE += /arch:SSE2
+		QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
+		QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
+	}
+
 }
 
 # Sources

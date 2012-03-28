@@ -131,6 +131,8 @@ void CDatagrams::Listen()
 		connect(this, SIGNAL(SendQueueUpdated()), this, SLOT(FlushSendCache()), Qt::QueuedConnection);
 		connect(m_pSocket, SIGNAL(readyRead()), this, SLOT(OnDatagram()), Qt::QueuedConnection);
 
+		m_tStopWatch.invalidate();
+
 		m_bActive = true;
 	}
 	else
@@ -197,7 +199,7 @@ void CDatagrams::OnDatagram()
 		m_pRecvBuffer->resize(nSize);
 		qint64 nReadSize = m_pSocket->readDatagram(m_pRecvBuffer->data(), nSize, m_pHostAddress, &m_nPort);
 
-		m_nBandwidthIn += nReadSize;
+		m_mInput.Add(nReadSize);
 
 		if(nReadSize < 8)
 		{
@@ -231,7 +233,10 @@ void CDatagrams::OnReceiveGND()
 	QHostAddress nIp = *m_pHostAddress;
 	quint32 nSeq = ((pHeader->nSequence << 16) & 0xFFFF0000) + (m_nPort & 0x0000FFFF);
 
-	//qDebug("Received GND from %s:%u nSequence = %u nPart = %u nCount = %u", m_pHostAddress->toString().toAscii().constData(), m_nPort, pHeader->nSequence, pHeader->nPart, pHeader->nCount);
+#ifdef DEBUG_UDP
+	systemLog.postLog(LogSeverity::Debug, "Received GND from %s:%u nSequence = %u nPart = %u nCount = %u", m_pHostAddress->toString().toAscii().constData(), m_nPort, pHeader->nSequence, pHeader->nPart, pHeader->nCount);
+#endif
+
 	DatagramIn* pDG = 0;
 
 	if(m_RecvCache.contains(nIp) && m_RecvCache[nIp].contains(nSeq))
@@ -259,8 +264,9 @@ void CDatagrams::OnReceiveGND()
 				RemoveOldIn(true);
 				if(m_FreeDGIn.isEmpty())
 				{
+#ifdef DEBUG_UDP
 					systemLog.postLog(LogSeverity::Debug, QString("UDP in frames exhausted"));
-					//qDebug() << "UDP in frames exhausted";
+#endif
 					m_nDiscarded++;
 					return;
 				}
@@ -298,8 +304,13 @@ void CDatagrams::OnReceiveGND()
 		memcpy(&oAck, pHeader, sizeof(GND_HEADER));
 		oAck.nCount = 0;
 		oAck.nFlags = 0;
-		//qDebug() << "Sending UDP ACK to " << m_pHostAddress->toString() << m_nPort;
+
+#ifdef DEBUG_UDP
+		systemLog.postLog(LogSeverity::Debug, "Sending UDP ACK to %s:%u", m_pHostAddress->toString().toAscii().constData(), m_nPort);
+#endif
+
 		m_pSocket->writeDatagram((char*)&oAck, sizeof(GND_HEADER), *m_pHostAddress, m_nPort);
+		m_mOutput.Add(sizeof(GND_HEADER));
 	}
 
 	if(pDG->Add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)))
@@ -336,7 +347,9 @@ void CDatagrams::OnAcknowledgeGND()
 {
 	GND_HEADER* pHeader = (GND_HEADER*)m_pRecvBuffer->data();
 
-	//qDebug() << "UDP received GND ACK from" << m_pHostAddress->toString().toAscii().constData() << "seq" << pHeader->nSequence << "part" << pHeader->nPart;
+#ifdef DEBUG_UDP
+	systemLog.postLog(LogSeverity::Debug, "UDP received GND ACK from %s seq %u part %u", m_pHostAddress->toString().toAscii().constData(), pHeader->nSequence, pHeader->nPart);
+#endif
 
 	if(!m_SendCacheMap.contains(pHeader->nSequence))
 	{
@@ -381,38 +394,11 @@ void CDatagrams::Remove(DatagramIn* pDG, bool bReclaim)
 		m_RecvCacheTime.removeOne(pDG);
 		m_FreeDGIn.append(pDG);
 	}
-
-	/*
-	bool bFound = false;
-
-	for( QHash<quint32, QHash<quint32, DatagramIn*> >::iterator it = m_RecvCache.begin(); it != m_RecvCache.end(); it++ )
-	{
-		for( QHash<quint32, DatagramIn*>::iterator it2 = it.value().begin(); it2 != it.value().end(); it2++ )
-		{
-			if( it2.value() == pDG )
-			{
-				bFound = true;
-				m_RecvCache[it.key()].remove(it2.key());
-				m_FreeDGIn.push(pDG);
-				break;
-			}
-		}
-
-		if( bFound )
-		{
-			if( it.value().size() == 0 )
-			{
-				m_RecvCache.remove(it.key());
-				break;
-			}
-		}
-	}*/
 }
 
 // Usuwa jeden pakiet z cache'u odbioru
 void CDatagrams::RemoveOldIn(bool bForce)
 {
-	//DatagramIn* pOldest = 0;
 	quint32 tNow = time(0);
 	bool bRemoved = false;
 
@@ -468,8 +454,8 @@ void CDatagrams::__FlushSendCache()
 
 	quint32 tNow = time(0);
 
-	qint32 nMsecs = 1000;
-	if(!m_tStopWatch.isNull())
+	qint64 nMsecs = 1000;
+	if(m_tStopWatch.isValid())
 	{
 		nMsecs = qMin(nMsecs, m_tStopWatch.elapsed());
 	}
@@ -477,6 +463,7 @@ void CDatagrams::__FlushSendCache()
 	quint32 nToWrite = (m_nUploadLimit * nMsecs) / 1000;
 
 	QHostAddress nLastHost;
+	bool bTimer = false;
 
 	while(nToWrite > 0 && !m_SendCache.isEmpty())
 	{
@@ -497,7 +484,9 @@ void CDatagrams::__FlushSendCache()
 			// TODO: sprawdzenie UDP na firewallu - mog? by? 3 stany udp
 			if(pDG->GetPacket(tNow, &pPacket, &nPacket, m_nInFrags > 0))
 			{
-				//qDebug() << "UDP sending to " << pDG->m_oAddress.toString().toAscii().constData() << "seq" << pDG->m_nSequence << "nPart" << ((GND_HEADER*)&pPacket)->nPart << "count" << pDG->m_nCount;
+#ifdef DEBUG_UDP
+				systemLog.postLog(LogSeverity::Debug, "UDP sending to %s seq %u part %u count %u", pDG->m_oAddress.toString().toAscii().constData(), pDG->m_nSequence, ((GND_HEADER*)pPacket)->nPart, pDG->m_nCount);
+#endif
 
 				m_pSocket->writeDatagram(pPacket, nPacket, pDG->m_oAddress, pDG->m_oAddress.port());
 				m_nOutFrags++;
@@ -513,7 +502,7 @@ void CDatagrams::__FlushSendCache()
 					nToWrite = 0;
 				}
 
-				m_nBandwidthOut += nPacket;
+				m_mOutput.Add(nPacket);
 
 				if(!pDG->m_bAck)
 				{
@@ -521,6 +510,7 @@ void CDatagrams::__FlushSendCache()
 				}
 
 				bSent = true;
+				bTimer = true;
 
 				break;
 			}
@@ -531,6 +521,9 @@ void CDatagrams::__FlushSendCache()
 			break;
 		}
 	}
+
+	if( bTimer )
+		m_tStopWatch.start();
 
 	while(!m_SendCache.isEmpty() && tNow - m_SendCache.back()->m_tSent > quazaaSettings.Gnutella2.UdpOutExpire)
 	{
@@ -578,7 +571,9 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 
 	// TODO: Powiadomienia do obiektow nasluchujacych, jesli podano
 
-	//qDebug() << "UDP queued for " << oAddr.toString().toAscii().constData() << "seq" << pDG->m_nSequence << "parts" << pDG->m_nCount;
+#ifdef DEBUG_UDP
+	systemLog.postLog(LogSeverity::Debug, "UDP queued for %s seq %u parts %u", oAddr.toString().toAscii().constData(), pDG->m_nSequence, pDG->m_nCount);
+#endif
 
 	//emit SendQueueUpdated();
 	__FlushSendCache();
