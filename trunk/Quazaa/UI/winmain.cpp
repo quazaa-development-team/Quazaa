@@ -807,7 +807,14 @@ void CWinMain::updateStatusBar()
 		Handshakes.m_pSection.unlock();
 	}
 
-	if(Network.m_pSection.tryLock(50))
+	if(Neighbours.m_pSection.tryLock(50))
+	{
+		nTCPInSpeed = Neighbours.DownloadSpeed();
+		nTCPOutSpeed = Neighbours.UploadSpeed();
+		Neighbours.m_pSection.unlock();
+	}
+
+	if(Datagrams.m_pSection.tryLock(50))
 	{
 		if(!Datagrams.IsFirewalled())
 		{
@@ -817,15 +824,15 @@ void CWinMain::updateStatusBar()
 		{
 			udpFirewalled = ":/Resource/Network/ShieldRed.png";
 		}
-		nTCPInSpeed = Neighbours.DownloadSpeed();
-		nTCPOutSpeed = Neighbours.UploadSpeed();
+
 		nUDPInSpeed = Datagrams.DownloadSpeed();
 		nUDPOutSpeed = Datagrams.UploadSpeed();
-		Network.m_pSection.unlock();
+
+		Datagrams.m_pSection.unlock();
 	}
 
 	labelFirewallStatus->setText(tr("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"> <html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">TCP: <img src=\"%1\" /> UDP: <img src=\"%2\" /></p></body></html>").arg(tcpFirewalled).arg(udpFirewalled));
-	labelBandwidthTotals->setText(tr("%1/s In:%2/s Out [D:%3/U:%4]").arg(common::formatBytes(nTCPInSpeed + nUDPInSpeed)).arg(common::formatBytes(nTCPOutSpeed + nUDPOutSpeed)).arg("0").arg("0"));
+	labelBandwidthTotals->setText(tr("TCP: %1/s / %2/s UDP: %3/s / %4/s").arg(common::formatBytes(nTCPInSpeed)).arg(common::formatBytes(nTCPOutSpeed)).arg(common::formatBytes(nUDPInSpeed)).arg(common::formatBytes(nUDPOutSpeed)));
 }
 
 void CWinMain::on_actionConnectTo_triggered()

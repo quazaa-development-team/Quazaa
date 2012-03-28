@@ -49,7 +49,7 @@ void CQueryKeys::Prepare()
 
 	for(uint i = 0; i < m_nTable; i++)
 	{
-		m_pTable[i] = qrand() % std::numeric_limits<quint32>::max();
+		m_pTable[i] = ((qrand() % std::numeric_limits<quint32>::max()) << 16) | qrand() % std::numeric_limits<quint32>::max();
 	}
 }
 
