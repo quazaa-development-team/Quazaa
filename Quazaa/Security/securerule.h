@@ -22,7 +22,7 @@ public:
 	typedef enum { srContentUndefined = 0, srContentAddress = 1, srContentAddressRange = 2, srContentCountry = 3,
 				   srContentHash = 4, srContentRegExp = 5, srContentUserAgent = 6, srContentText = 7 } RuleType;
 
-	typedef enum { srNull, srAccept, srDeny } Policy;
+	typedef enum { srNull = 0, srAccept = 1, srDeny = 2 } Policy;
 	enum { srIndefinite = 0, srSession = 1 };
 
 protected:
