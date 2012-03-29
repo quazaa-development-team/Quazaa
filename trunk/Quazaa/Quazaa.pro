@@ -303,7 +303,9 @@ SOURCES += \
 	Misc/fileiconprovider.cpp \
 	Misc/networkiconprovider.cpp \
     UI/tableview.cpp \
-    Models/categorynavigatortreemodel.cpp
+    Models/categorynavigatortreemodel.cpp \
+    NetworkCore/discoveryservicemanager.cpp \
+    NetworkCore/discoveryservice.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -456,7 +458,9 @@ HEADERS += \
 	Misc/fileiconprovider.h \
 	Misc/networkiconprovider.h \
     UI/tableview.h \
-    Models/categorynavigatortreemodel.h
+    Models/categorynavigatortreemodel.h \
+    NetworkCore/discoveryservicemanager.h \
+    NetworkCore/discoveryservice.h
 
 FORMS += \
 	UI/dialogabout.ui \
