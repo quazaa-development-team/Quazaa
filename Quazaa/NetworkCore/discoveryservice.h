@@ -1,6 +1,7 @@
 #ifndef DISCOVERYSERVICE_H
 #define DISCOVERYSERVICE_H
 
+#include <QDataStream>
 #include <QString>
 
 class CDiscoveryService
@@ -12,9 +13,13 @@ public:
 public:
 	CDiscoveryService();
 
+	// Read/write rule from/to file
+	static void		load(CDiscoveryService*& pService, QDataStream& oStream, const int nVersion);
+	static void     save(const CDiscoveryService* const pService, QDataStream& oStream);
+
 private:
-	ServiceType	m_ServiceType;
-	NetworkType m_NetworkType;
+	ServiceType	m_nServiceType;
+	NetworkType m_nNetworkType;
 	QString		m_sServiceURL;
 	quint8		m_nRating;
 };

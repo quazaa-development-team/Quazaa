@@ -6,6 +6,13 @@
 
 #include "discoveryservice.h"
 
+// Increment this if there have been made changes to the way of storing discovery services.
+#define DISCOVERY_CODE_VERSION	0
+// History:
+// 0 - Initial implementation
+
+// http://www.gnucleus.com/gwebcache/newgwc.html
+
 class CDiscoveryServiceManager : public QObject
 {
 	Q_OBJECT
@@ -14,12 +21,16 @@ class CDiscoveryServiceManager : public QObject
 	/* ================================================================ */
 public:
 	typedef enum { srFail = 0, srNoHosts = 1, srGotHosts = 2 } QueryResult;
+
 	typedef std::list< CDiscoveryService*  > CDiscoveryServicesList;
+	typedef CDiscoveryServicesList::const_iterator CIterator;
 
 	QReadWriteLock m_pRWLock;
 
 private:
-	CDiscoveryServicesList m_lServices;
+	CDiscoveryServicesList  m_lServices;
+	bool					m_bSaved;	// true if current security manager state has already been saved to file, false otherwise
+	bool					m_bIsRunning;
 
 public:
 	/* ================================================================ */
@@ -30,19 +41,48 @@ public:
 	/* ================================================================ */
 	/* ========================== Operations ========================== */
 	/* ================================================================ */
+	inline quint32	getCount() const;
+
 	bool	start();	// connects signals etc.
 	bool	stop();		// makes the Discovery Services Manager ready for destruction
 	bool	load();
-	bool	save();
+	bool	save(bool bForceSaving);
+
+	inline bool	isRunning();
+
+	bool	add(CDiscoveryService* pService);
+	bool	remove(CDiscoveryService* pService);
+	void	clear();
 
 signals:
 
 
 public slots:
-	void queryService( CDiscoveryService::NetworkType type );
+	void updateService(CDiscoveryService::NetworkType type); // sends our IP to service (e.g. GWC)
+	void queryService(CDiscoveryService::NetworkType type);
 
-
+private:
+	bool load( QString sPath );
 };
+
+/**
+  * Returns the number of Discovery Services.
+  * Requires Locking: R
+  */
+quint32 CDiscoveryServiceManager::getCount() const
+{
+	return m_lServices.size();
+}
+
+/**
+  * Returns true if there is currently a request operation running.
+  * Locking: R
+  */
+bool CDiscoveryServiceManager::isRunning()
+{
+	QReadLocker l( &m_pRWLock );
+	return m_bIsRunning;
+}
 
 extern CDiscoveryServiceManager discoveryManager;
 

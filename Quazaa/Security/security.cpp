@@ -30,6 +30,8 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
+#include "time.h"
+
 #include "geoiplist.h"
 #include "quazaasettings.h"
 #include "security.h"
