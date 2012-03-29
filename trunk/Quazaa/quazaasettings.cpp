@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -440,6 +440,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("AccessThrottle", quazaaSettings.Discovery.AccessThrottle);
 	m_qSettings.setValue("BootstrapCount", quazaaSettings.Discovery.BootstrapCount);
 	m_qSettings.setValue("CacheCount", quazaaSettings.Discovery.CacheCount);
+	m_qSettings.setValue("DataPath", quazaaSettings.Discovery.DataPath);
 	m_qSettings.setValue("DefaultUpdate", quazaaSettings.Discovery.DefaultUpdate);
 	m_qSettings.setValue("EnableG1GWC", quazaaSettings.Discovery.EnableG1GWC);
 	m_qSettings.setValue("FailureLimit", quazaaSettings.Discovery.FailureLimit);
@@ -454,7 +455,7 @@ void QuazaaSettings::saveSettings()
 
 void QuazaaSettings::loadSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Live");
 	quazaaSettings.Live.AdultWarning = m_qSettings.value("AdultWarning", false).toBool();
@@ -481,9 +482,9 @@ void QuazaaSettings::loadSettings()
 
 	m_qSettings.beginGroup("Parental");
 	quazaaSettings.Parental.AdultFilter = m_qSettings.value("AdultFilter",
-	                                      QStringList() << "shit" << "fuck" << "damn" << "bitch"
-	                                      << "asshole" << "ass" << "pussy" << "cock" << "cunt" << "dick"
-	                                      << "whore" << "slut" << "clit").toStringList();
+										  QStringList() << "shit" << "fuck" << "damn" << "bitch"
+										  << "asshole" << "ass" << "pussy" << "cock" << "cunt" << "dick"
+										  << "whore" << "slut" << "clit").toStringList();
 	quazaaSettings.Parental.ChatAdultCensor = m_qSettings.value("ChatAdultCensor", true).toBool();
 	quazaaSettings.Parental.FilterAdultSearchResults = m_qSettings.value("FilterAdultSearchResults", true).toBool();
 	m_qSettings.endGroup();
@@ -498,24 +499,24 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Library.HistoryTotal = m_qSettings.value("HistoryTotal", 32).toInt();
 	quazaaSettings.Library.LowPriorityHashingSpeed = m_qSettings.value("LowPriorityHashingSpeed", 2).toInt();
 	quazaaSettings.Library.NeverShareTypes = m_qSettings.value("NeverShareTypes",
-	        QStringList() << "vbs" << "js" << "jc!" << "fb!" << "bc!" << "!ut"
-	        << "dbx" << "part" << "partial" << "pst" << "reget" << "getright"
-	        << "pif" << "lnk" << "sd" << "url" << "wab" << "m4p" << "infodb"
-	        << "racestats" << "chk" << "tmp" << "temp" << "ini" << "inf" << "log"
-	        << "old" << "manifest" << "met" << "bak" << "$$$" << "---" << "~~~"
-	        << "###" << "__incomplete___" << "wma" << "wmv").toStringList();
+			QStringList() << "vbs" << "js" << "jc!" << "fb!" << "bc!" << "!ut"
+			<< "dbx" << "part" << "partial" << "pst" << "reget" << "getright"
+			<< "pif" << "lnk" << "sd" << "url" << "wab" << "m4p" << "infodb"
+			<< "racestats" << "chk" << "tmp" << "temp" << "ini" << "inf" << "log"
+			<< "old" << "manifest" << "met" << "bak" << "$$$" << "---" << "~~~"
+			<< "###" << "__incomplete___" << "wma" << "wmv").toStringList();
 	quazaaSettings.Library.PartialMatch = m_qSettings.value("PartialMatch", true).toBool();
 	quazaaSettings.Library.PreferAPETags = m_qSettings.value("PreferAPETags", true).toBool();
 	quazaaSettings.Library.QueryRouteSize = m_qSettings.value("QueryRouteSize", 20).toInt();
 	quazaaSettings.Library.RememberViews = m_qSettings.value("RememberViews", true).toBool();
 	quazaaSettings.Library.SafeExecuteTypes = m_qSettings.value("SafeExecuteTypes",
-	        QStringList() << "3gp" << "7z" << "aac" << "ace" << "ape" << "avi"
-	        << "bmp" << "co" << "collection" << "flv" << "gif" << "iso"
-	        << "jpg" << "jpeg" << "lit" << "mid" << "mov" << "m1v" << "m2v"
-	        << "m3u" << "m4a" << "mkv" << "mp2" << "mp3" << "mp4" << "mpa"
-	        << "mpe" << "mpg" << "mpeg" << "ogg" << "ogm" << "pdf" << "png"
-	        << "qt" << "rar" << "rm" << "sks" << "tar" << "tgz" << "torrent"
-	        << "txt" << "wav" << "zip").toStringList();
+			QStringList() << "3gp" << "7z" << "aac" << "ace" << "ape" << "avi"
+			<< "bmp" << "co" << "collection" << "flv" << "gif" << "iso"
+			<< "jpg" << "jpeg" << "lit" << "mid" << "mov" << "m1v" << "m2v"
+			<< "m3u" << "m4a" << "mkv" << "mp2" << "mp3" << "mp4" << "mpa"
+			<< "mpe" << "mpg" << "mpeg" << "ogg" << "ogm" << "pdf" << "png"
+			<< "qt" << "rar" << "rm" << "sks" << "tar" << "tgz" << "torrent"
+			<< "txt" << "wav" << "zip").toStringList();
 	quazaaSettings.Library.ScanAPE = m_qSettings.value("ScanAPE", true).toBool();
 	quazaaSettings.Library.ScanASF = m_qSettings.value("ScanASF", true).toBool();
 	quazaaSettings.Library.ScanAVI = m_qSettings.value("ScanAVI", true).toBool();
@@ -530,7 +531,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Library.ScanPDF = m_qSettings.value("ScanPDF", true).toBool();
 	quazaaSettings.Library.SchemaURI = m_qSettings.value("SchemaURI", "http://www.limewire.com/schemas/audio.xsd").toString();
 	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads"
-	                                << QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Torrents").toStringList();
+									<< QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Torrents").toStringList();
 	quazaaSettings.Library.ShowCoverArt = m_qSettings.value("ShowCoverArt", true).toBool();
 	quazaaSettings.Library.SmartSeriesDetection = m_qSettings.value("SmartSeriesDetection", false).toBool();
 	quazaaSettings.Library.SourceExpire = m_qSettings.value("SourceExpire", 86400).toInt();
@@ -546,9 +547,9 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Media.CustomPlayerPath = m_qSettings.value("CustomPlayerPath", "").toString();
 	quazaaSettings.Media.Handler = m_qSettings.value("MediaHandler", 0).toInt();
 	quazaaSettings.Media.FileTypes = m_qSettings.value("FileTypes", QStringList() << "asx" << "wax" << "m3u" << "wvx" << "wmx"
-	                                 << "asf" << "wav" << "snd" << "au" << "aif" << "aifc" << "aiff" << "mp3"
-	                                 << "cda" << "mid" << "rmi" << "midi" << "avi" << "mpeg" << "mpg"
-	                                 << "m1v" << "mp2" << "mpa" << "mpe").toStringList();
+									 << "asf" << "wav" << "snd" << "au" << "aif" << "aifc" << "aiff" << "mp3"
+									 << "cda" << "mid" << "rmi" << "midi" << "avi" << "mpeg" << "mpg"
+									 << "m1v" << "mp2" << "mpa" << "mpe").toStringList();
 	quazaaSettings.Media.ListVisible = m_qSettings.value("ListVisible", true).toBool();
 	quazaaSettings.Media.Mute = m_qSettings.value("Mute", false).toBool();
 	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
@@ -609,9 +610,9 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Web.Foxy = m_qSettings.value("Foxy", true).toBool();
 	quazaaSettings.Web.Magnet = m_qSettings.value("Magnet", true).toBool();
 	quazaaSettings.Web.ManageDownloadTypes = m_qSettings.value("ManageDownloadTypes", QStringList() << "7z" << "ace" << "arj"
-	        << "bin" << "exe" << "fml" << "grs" << "gz" << "hqx" << "iso"
-	        << "lzh" << "mp3" << "msi" << "r0" << "rar" << "sit" << "tar"
-	        << "tgz" << "z" << "zip").toStringList();
+			<< "bin" << "exe" << "fml" << "grs" << "gz" << "hqx" << "iso"
+			<< "lzh" << "mp3" << "msi" << "r0" << "rar" << "sit" << "tar"
+			<< "tgz" << "z" << "zip").toStringList();
 	quazaaSettings.Web.Piolet = m_qSettings.value("Piolet", true).toBool();
 	quazaaSettings.Web.Torrent = m_qSettings.value("Torrent", true).toBool();
 	m_qSettings.endGroup();
@@ -735,7 +736,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Security.UPnPSkipWANPPPSetup = m_qSettings.value("UPnPSkipWANPPPSetup", false).toBool();
 	QString sDefault = QString( "%1\\%2\\" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ),
 												  "Data" /*QCoreApplication::applicationName()*/ );
-	quazaaSettings.Security.DataPath = sDefault;//m_qSettings.value( "DataPath", sDefault ).toString();
+	quazaaSettings.Security.DataPath = m_qSettings.value( "DataPath", sDefault ).toString();
 	quazaaSettings.Security.LogIPCheckHits = m_qSettings.value("LogIPCheckHits", false).toBool();
 	quazaaSettings.Security.RuleExpiryInterval = m_qSettings.value("RuleExpiryInterval", 600).toUInt();
 	quazaaSettings.Security.MissCacheExpiryInterval = m_qSettings.value("MissCacheExpiryInterval", 600).toUInt();
@@ -872,6 +873,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Discovery.AccessThrottle = m_qSettings.value("AccessThrottle", 60).toInt();
 	quazaaSettings.Discovery.BootstrapCount = m_qSettings.value("BootstrapCount", 10).toInt();
 	quazaaSettings.Discovery.CacheCount = m_qSettings.value("CacheCount", 50).toInt();
+	quazaaSettings.Discovery.DataPath = m_qSettings.value("DataPath", sDefault).toString();
 	quazaaSettings.Discovery.DefaultUpdate = m_qSettings.value("DefaultUpdate", 60).toInt();
 	quazaaSettings.Discovery.EnableG1GWC = m_qSettings.value("EnableG1GWC", false).toBool();
 	quazaaSettings.Discovery.FailureLimit = m_qSettings.value("FailureLimit", 2).toInt();
@@ -1010,7 +1012,7 @@ void QuazaaSettings::saveProfile()
 
 void QuazaaSettings::loadProfile()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Profile");
 
@@ -1060,7 +1062,7 @@ void QuazaaSettings::loadProfile()
 void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 {
 
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.setValue("WindowGeometry", window->saveGeometry());
 	m_qSettings.setValue("WindowState", window->saveState());
@@ -1138,7 +1140,7 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 {
 
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	QList<QVariant> intListInitializer;
 	intListInitializer << 0 << 0;
 
@@ -1213,7 +1215,7 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 
 void QuazaaSettings::saveLanguageSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Language");
 	m_qSettings.setValue("LanguageFile", quazaaSettings.Language.File);
@@ -1222,7 +1224,7 @@ void QuazaaSettings::saveLanguageSettings()
 
 void QuazaaSettings::loadLanguageSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Language");
 	quazaaSettings.Language.File = m_qSettings.value("LanguageFile", ("quazaa_default_en")).toString();
@@ -1231,31 +1233,31 @@ void QuazaaSettings::loadLanguageSettings()
 
 void QuazaaSettings::saveFirstRun(bool firstRun)
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	m_qSettings.setValue("FirstRun", firstRun);
 }
 
 bool QuazaaSettings::isFirstRun()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	return m_qSettings.value("FirstRun", true).toBool();
 }
 
 void QuazaaSettings::saveSkinSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	m_qSettings.setValue("SkinFile", Skin.File);
 }
 
 void QuazaaSettings::loadSkinSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 	Skin.File = m_qSettings.value("SkinFile", qApp->applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
 }
 
 void QuazaaSettings::saveLogSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Logging");
 	m_qSettings.setValue("SaveLog", Logging.SaveLog);
@@ -1273,7 +1275,7 @@ void QuazaaSettings::saveLogSettings()
 
 void QuazaaSettings::loadLogSettings()
 {
-        QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+		QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Logging");
 	Logging.SaveLog = m_qSettings.value("SaveLog", false).toBool();

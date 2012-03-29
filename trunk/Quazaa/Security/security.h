@@ -13,7 +13,6 @@
 
 #include "commonfunctions.h"
 #include "securerule.h"
-#include "time.h"
 
 // Increment this if there have been made changes to the way of storing security rules.
 #define SECURITY_CODE_VERSION	0
