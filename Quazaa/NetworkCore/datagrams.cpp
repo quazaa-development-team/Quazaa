@@ -131,8 +131,6 @@ void CDatagrams::Listen()
 		connect(this, SIGNAL(SendQueueUpdated()), this, SLOT(FlushSendCache()), Qt::QueuedConnection);
 		connect(m_pSocket, SIGNAL(readyRead()), this, SLOT(OnDatagram()), Qt::QueuedConnection);
 
-		m_tStopWatch.invalidate();
-
 		m_bActive = true;
 	}
 	else
@@ -391,7 +389,17 @@ void CDatagrams::Remove(DatagramIn* pDG, bool bReclaim)
 			m_RecvCache.remove(pDG->m_oAddress);
 		}
 
-		m_RecvCacheTime.removeOne(pDG);
+		QMutableLinkedListIterator<DatagramIn*> itFrame(m_RecvCacheTime);
+		itFrame.toBack();
+		while(itFrame.hasPrevious())
+		{
+			if( itFrame.previous() == pDG )
+			{
+				itFrame.remove();
+				break;
+			}
+		}
+
 		m_FreeDGIn.append(pDG);
 	}
 }
@@ -424,7 +432,17 @@ void CDatagrams::RemoveOldIn(bool bForce)
 void CDatagrams::Remove(DatagramOut* pDG)
 {
 	m_SendCacheMap.remove(pDG->m_nSequence);
-	m_SendCache.removeOne(pDG);
+
+	QMutableLinkedListIterator<DatagramOut*> itFrame(m_SendCache);
+	itFrame.toBack();
+	while(itFrame.hasPrevious())
+	{
+		if( itFrame.previous() == pDG )
+		{
+			itFrame.remove();
+			break;
+		}
+	}
 	m_FreeDGOut.append(pDG);
 
 	if(pDG->m_pBuffer)
@@ -454,17 +472,11 @@ void CDatagrams::__FlushSendCache()
 
 	quint32 tNow = time(0);
 
-	qint64 nMsecs = 1000;
-	if(m_tStopWatch.isValid())
-	{
-		nMsecs = qMin(nMsecs, m_tStopWatch.elapsed());
-	}
-
-	quint32 nToWrite = (m_nUploadLimit * nMsecs) / 1000;
+	qint64 nToWrite = qint64(m_nUploadLimit) - qint64(m_mOutput.Usage());
 
 	QHostAddress nLastHost;
-	bool bTimer = false;
 
+	// it can write slightly more than limit allows... that's ok
 	while(nToWrite > 0 && !m_SendCache.isEmpty())
 	{
 		bool bSent = false;
@@ -510,7 +522,6 @@ void CDatagrams::__FlushSendCache()
 				}
 
 				bSent = true;
-				bTimer = true;
 
 				break;
 			}
@@ -521,9 +532,6 @@ void CDatagrams::__FlushSendCache()
 			break;
 		}
 	}
-
-	if( bTimer )
-		m_tStopWatch.start();
 
 	while(!m_SendCache.isEmpty() && tNow - m_SendCache.back()->m_tSent > quazaaSettings.Gnutella2.UdpOutExpire)
 	{

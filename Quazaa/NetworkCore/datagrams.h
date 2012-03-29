@@ -65,7 +65,6 @@ protected:
 	bool m_bFirewalled;
 
 	QTimer*       m_tSender;
-	QElapsedTimer m_tStopWatch;
 
 	QHash<quint16, DatagramOut*>     m_SendCacheMap;    // zeby szybko odszukac pakiety po sekwencji
 	QLinkedList<DatagramOut*>		 m_SendCache;		// a lifo queue, last is oldest
