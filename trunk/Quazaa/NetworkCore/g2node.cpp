@@ -834,7 +834,10 @@ void CG2Node::OnPing(G2Packet* pPacket)
 				if(!lToRelayIndex.contains(nIndex))
 				{
 					CNeighbour* pNode = Neighbours.GetAt(nIndex);
-					if(pNode != this && pNode->m_nProtocol == dpGnutella2 && pNode->m_nState == nsConnected)
+					if(pNode != this
+							&& pNode->m_nProtocol == dpGnutella2
+							&& pNode->m_nState == nsConnected
+							&& static_cast<CG2Node*>(pNode)->m_nType == G2_LEAF )
 					{
 						pPacket->AddRef();
 						((CG2Node*)pNode)->SendPacket(pPacket, true, true);
