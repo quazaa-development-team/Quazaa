@@ -1,6 +1,7 @@
 #include <QFile>
 
 #include "discoveryservicemanager.h"
+#include "discoveryservice.h"
 #include "quazaasettings.h"
 
 CDiscoveryServiceManager::CDiscoveryServiceManager(QObject *parent) :
@@ -31,7 +32,6 @@ bool CDiscoveryServiceManager::stop()
 
 	return bSaved;
 }
-
 
 /**
   * Loads the discovery services from HDD.
@@ -118,18 +118,24 @@ bool CDiscoveryServiceManager::save(bool bForceSaving)
   * Adds a given service.
   * Locking: RW
   */
-bool CDiscoveryServiceManager::add(CDiscoveryService* pService)
+QUuid CDiscoveryServiceManager::add(QString sURL, CDiscoveryService::ServiceType nSType,
+									CDiscoveryService::NetworkType nNType, quint8 nRating)
 {
-	return pService != NULL;
+	QWriteLocker l( &m_pRWLock );
+	CDiscoveryService* pService = new CDiscoveryService( sURL, nSType, nNType, nRating );
+	if ( add( pService ) )
+		return pService->m_oUUID;
+	else
+		return QUuid();
 }
 
 /**
   * Removes a given service.
   * Locking: RW
   */
-bool CDiscoveryServiceManager::remove(CDiscoveryService* pService)
+bool CDiscoveryServiceManager::remove(QUuid /*oServiceID*/)
 {
-	return pService != NULL;
+	return true;
 }
 
 /**
@@ -148,7 +154,7 @@ void CDiscoveryServiceManager::clear()
   * Publishes the own IP (async).
   * Locking:
   */
-void CDiscoveryServiceManager::updateService(CDiscoveryService::NetworkType /*type*/)
+void CDiscoveryServiceManager::updateService(CDiscoveryService::ServiceType /*type*/)
 {
 
 }
@@ -211,3 +217,23 @@ bool CDiscoveryServiceManager::load( QString sPath )
 	return true;
 }
 
+/**
+  * Private helper method to add a discovery service.
+  * Requires Locking: RW
+  */
+// TODO: implement check for already existant entries etc.
+bool CDiscoveryServiceManager::add( CDiscoveryService* pService )
+{
+	m_lServices.push_back( pService );
+	return true;
+}
+
+/**
+  * Used to normalize URLs to avoid adding multiple copies of the same service
+  * Requires Locking: /
+  * TODO: Implement
+  */
+void CDiscoveryServiceManager::normalizeURL(QString& /*sURL*/)
+{
+
+}

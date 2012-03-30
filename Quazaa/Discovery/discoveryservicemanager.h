@@ -2,6 +2,7 @@
 #define DISCOVERYSERVICEMANAGER_H
 
 #include <QObject>
+#include <QUuid>
 #include <QReadWriteLock>
 
 #include "discoveryservice.h"
@@ -50,19 +51,22 @@ public:
 
 	inline bool	isRunning();
 
-	bool	add(CDiscoveryService* pService);
-	bool	remove(CDiscoveryService* pService);
+	QUuid	add(QString sURL, CDiscoveryService::ServiceType nSType,
+				CDiscoveryService::NetworkType nNType, quint8 nRating = 7);
+	bool	remove(QUuid oServiceID);
 	void	clear();
 
 signals:
 
 
 public slots:
-	void updateService(CDiscoveryService::NetworkType type); // sends our IP to service (e.g. GWC)
+	void updateService(CDiscoveryService::ServiceType type); // sends our IP to service (e.g. GWC)
 	void queryService(CDiscoveryService::NetworkType type);
 
 private:
 	bool load( QString sPath );
+	bool add( CDiscoveryService* pService );
+	void normalizeURL(QString& sURL);
 };
 
 /**
