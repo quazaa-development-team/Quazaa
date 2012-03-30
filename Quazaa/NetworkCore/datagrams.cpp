@@ -389,13 +389,14 @@ void CDatagrams::Remove(DatagramIn* pDG, bool bReclaim)
 			m_RecvCache.remove(pDG->m_oAddress);
 		}
 
-		QMutableLinkedListIterator<DatagramIn*> itFrame(m_RecvCacheTime);
-		itFrame.toBack();
-		while(itFrame.hasPrevious())
+		QLinkedList<DatagramIn*>::iterator itFrame = m_RecvCacheTime.end();
+		while( itFrame != m_RecvCacheTime.begin() )
 		{
-			if( itFrame.previous() == pDG )
+			--itFrame;
+
+			if( *itFrame == pDG )
 			{
-				itFrame.remove();
+				m_RecvCacheTime.erase(itFrame);
 				break;
 			}
 		}
@@ -433,16 +434,18 @@ void CDatagrams::Remove(DatagramOut* pDG)
 {
 	m_SendCacheMap.remove(pDG->m_nSequence);
 
-	QMutableLinkedListIterator<DatagramOut*> itFrame(m_SendCache);
-	itFrame.toBack();
-	while(itFrame.hasPrevious())
+	QLinkedList<DatagramOut*>::iterator itFrame = m_SendCache.end();
+	while( itFrame != m_SendCache.begin() )
 	{
-		if( itFrame.previous() == pDG )
+		--itFrame;
+
+		if( *itFrame == pDG )
 		{
-			itFrame.remove();
+			m_SendCache.erase(itFrame);
 			break;
 		}
 	}
+
 	m_FreeDGOut.append(pDG);
 
 	if(pDG->m_pBuffer)
@@ -494,7 +497,7 @@ void CDatagrams::__FlushSendCache()
 			}
 
 			// TODO: sprawdzenie UDP na firewallu - mog? by? 3 stany udp
-			if(pDG->GetPacket(tNow, &pPacket, &nPacket, m_nInFrags > 0))
+			if(pDG->GetPacket(tNow, &pPacket, &nPacket, pDG->m_bAck && m_nInFrags > 0))
 			{
 #ifdef DEBUG_UDP
 				systemLog.postLog(LogSeverity::Debug, "UDP sending to %s seq %u part %u count %u", pDG->m_oAddress.toString().toAscii().constData(), pDG->m_nSequence, ((GND_HEADER*)pPacket)->nPart, pDG->m_nCount);
@@ -554,9 +557,13 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 
 	if(m_FreeDGOut.isEmpty())
 	{
-		Remove(m_SendCache.last());
 		systemLog.postLog(LogSeverity::Debug, QString("UDP out frames exhausted"));
-		//qDebug() << "UDP out frames exhausted";
+
+		if( !bAck ) // if caller does not want ACK, drop the packet here
+			return; // TODO: needs more testing
+
+		Remove(m_SendCache.last());
+
 	}
 
 	if(m_FreeBuffer.isEmpty())
@@ -829,7 +836,7 @@ void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 	pAns->WritePacket(pSNA);
 	pSNA->Release();
 
-	SendPacket(oRequestedAddress, pAns, true);
+	SendPacket(oRequestedAddress, pAns, false);
 	pAns->Release();
 
 	systemLog.postLog(LogSeverity::Debug, "Node %s asked for a query key (0x%08x) for node %s", qPrintable(addr.toStringWithPort()), nKey, qPrintable(oRequestedAddress.toStringWithPort()));
@@ -968,6 +975,9 @@ void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 
 void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 {
+	if( !Neighbours.IsG2Hub() )
+		return;
+
 	CQueryPtr pQuery = CQuery::FromPacket(pPacket, &addr);
 
 	if(pQuery.isNull())
