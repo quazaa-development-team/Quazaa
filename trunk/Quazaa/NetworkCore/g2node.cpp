@@ -692,8 +692,8 @@ void CG2Node::SendLNI()
 		quint16 nLeavesMax = quazaaSettings.Gnutella2.NumLeafs;
 		quint16 nLeaves = Neighbours.m_nLeavesConnectedG2;
 		pLNI->WritePacket("HS", 4);
-		pLNI->WriteIntLE(nLeaves);
-		pLNI->WriteIntLE(nLeavesMax);
+		pLNI->WriteIntLE<quint16>(nLeaves);
+		pLNI->WriteIntLE<quint16>(nLeavesMax);
 		pLNI->WritePacket("QK", 0);
 	}
 
@@ -924,8 +924,8 @@ void CG2Node::OnLNI(G2Packet* pPacket)
 		{
 			if(m_nType == G2_HUB)
 			{
-				pPacket->ReadIntLE(&m_nLeafCount);
-				pPacket->ReadIntLE(&m_nLeafMax);
+				m_nLeafCount = pPacket->ReadIntLE<quint16>();
+				m_nLeafMax = pPacket->ReadIntLE<quint16>();
 			}
 		}
 		else if(strcmp("QK", szType) == 0)
@@ -1037,7 +1037,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 					pPacket->ReadHostAddress(&ep);
 				}
 
-				pPacket->ReadIntLE(&nTs);
+				nTs = pPacket->ReadIntLE<quint32>();
 
 				HostCache.m_pSection.lock();
 				HostCache.Add(ep, tNow.addSecs(nDiff));
@@ -1053,9 +1053,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 			if(nLength >= 4)
 			{
-				quint32 nTs = 0;
-				pPacket->ReadIntLE(&nTs);
-				nTimestamp = QDateTime::fromTime_t(nTs);
+				nTimestamp = QDateTime::fromTime_t(pPacket->ReadIntLE<quint32>());
 				nDiff = nTimestamp.secsTo(tNow);
 			}
 		}
@@ -1161,7 +1159,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 		{
 			pQKA->WritePacket("QNA", 18)->WriteHostAddress(&addr);
 		}
-		pQKA->WritePacket("QK", 4)->WriteIntLE(pHost->m_nQueryKey);
+		pQKA->WritePacket("QK", 4)->WriteIntLE<quint32>(pHost->m_nQueryKey);
 		pQKA->WritePacket("CACHED", 0);
 		SendPacket(pQKA, true, true);
 	}
@@ -1211,7 +1209,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 
 		if(strcmp("QK", szType) == 0 && nLength >= 4)
 		{
-			pPacket->ReadIntLE(&nKey);
+			nKey = pPacket->ReadIntLE<quint32>();
 		}
 		else if(strcmp("QNA", szType) == 0)
 		{
@@ -1238,8 +1236,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 			else if(nLength >= 4)
 			{
 				// IPv4 without port
-				quint32 ip4;
-				pPacket->ReadIntBE(&ip4);
+				quint32 ip4 = pPacket->ReadIntBE<quint32>();
 				addr.setAddress(ip4);
 				addr.setPort(6346);
 			}

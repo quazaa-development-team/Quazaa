@@ -802,8 +802,7 @@ void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 				}
 				else
 				{
-					quint32 nIp;
-					nIp = pPacket->ReadIntBE<quint32>();
+					quint32	nIp = pPacket->ReadIntBE<quint32>();
 					oSendingAddress.setAddress(nIp);
 				}
 			}
@@ -830,7 +829,7 @@ void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 	G2Packet* pAns = G2Packet::New("QKA", true);
 	quint32 nKey = QueryKeys.Create(oRequestedAddress);
 	pAns->WritePacket("QK", 4);
-	pAns->WriteIntLE(nKey);
+	pAns->WriteIntLE<quint32>(nKey);
 	G2Packet* pSNA = G2Packet::New("SNA");
 	pSNA->WriteHostAddress(&oSendingAddress);
 	pAns->WritePacket(pSNA);
@@ -861,7 +860,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 
 		if(strcmp("QK", szType) == 0 && nLength >= 4)
 		{
-			pPacket->ReadIntLE(&nKey);
+			nKey = pPacket->ReadIntLE<quint32>();
 		}
 		else if(strcmp("SNA", szType) == 0 && nLength >= 4)
 		{
@@ -873,8 +872,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 			}
 			else
 			{
-				quint32 nIp;
-				pPacket->ReadIntBE(&nIp);
+				quint32 nIp = pPacket->ReadIntBE<quint32>();
 				nKeyHost.setAddress(nIp);
 			}
 		}
@@ -885,7 +883,14 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 	CHostCacheHost* pCache = HostCache.Add(addr);
 	if(pCache)
 	{
-		pCache->SetKey(nKey);
+		if( nKey == 0 ) // null QK means a hub does not want to be queried or just downgraded
+		{
+			HostCache.Remove(pCache);
+		}
+		else
+		{
+			pCache->SetKey(nKey);
+		}
 	}
 	HostCache.m_pSection.unlock();
 
@@ -975,9 +980,6 @@ void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 
 void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 {
-	if( !Neighbours.IsG2Hub() )
-		return;
-
 	CQueryPtr pQuery = CQuery::FromPacket(pPacket, &addr);
 
 	if(pQuery.isNull())
@@ -986,9 +988,31 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 		return;
 	}
 
+	if( !Neighbours.IsG2Hub() )
+	{
+		// Stop receiving queries from others
+		// We are here because we just downgraded to leaf mode
+		// Shareaza should not retry with QK == 0
+		// TODO: test this
+		systemLog.postLog(LogSeverity::Debug, "Sending null query key to %s because we're not a hub.", qPrintable(addr.toStringWithPort()));
+
+		G2Packet* pQKA = G2Packet::New("QKA", true);
+		pQKA->WritePacket("QK", 4)->WriteIntLE<quint32>(0);
+
+		if( addr != pQuery->m_oEndpoint )
+		{
+			pQKA->WritePacket("SNA", (pQuery->m_oEndpoint.protocol() == QAbstractSocket::IPv6Protocol ? 18 : 6))->WriteHostAddress(&pQuery->m_oEndpoint);
+		}
+
+		SendPacket(pQuery->m_oEndpoint, pQKA);
+		pQKA->Release();
+
+		return;
+	}
+
 	if(!QueryKeys.Check(pQuery->m_oEndpoint, pQuery->m_nQueryKey))
 	{
-		qDebug() << "Received query with bad query key from" << qPrintable(addr.toStringWithPort());
+		systemLog.postLog(LogSeverity::Debug, "Issuing query key correction for %s.", qPrintable(addr.toStringWithPort()));
 
 		G2Packet* pQKA = G2Packet::New("QKA", true);
 		pQKA->WritePacket("QK", 4)->WriteIntLE<quint32>(QueryKeys.Create(pQuery->m_oEndpoint));
