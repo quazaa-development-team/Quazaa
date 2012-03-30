@@ -94,14 +94,6 @@ public:
 	template <typename T>
 	inline T ReadIntLE();
 	template <typename T>
-	inline void ReadIntBE(T* pDest);
-	template <typename T>
-	inline void ReadIntLE(T* pDest);
-	template <typename T>
-	inline void WriteIntBE(T* nValue);
-	template <typename T>
-	inline void WriteIntLE(T* nValue);
-	template <typename T>
 	inline void WriteIntBE(T nValue);
 	template <typename T>
 	inline void WriteIntLE(T nValue);
@@ -229,36 +221,16 @@ T G2Packet::ReadIntLE()
 	return nRet;
 }
 template <typename T>
-void G2Packet::ReadIntBE(T* pDest)
-{
-	*pDest = ReadIntBE<T>();
-}
-template <typename T>
-void G2Packet::ReadIntLE(T* pDest)
-{
-	*pDest = ReadIntLE<T>();
-}
-template <typename T>
-void G2Packet::WriteIntBE(T* nValue)
-{
-	T nNew = qToBigEndian(*nValue);
-	Write((void*)&nNew, sizeof(T));
-}
-template <typename T>
-void G2Packet::WriteIntLE(T* nValue)
-{
-	T nNew = qToLittleEndian(*nValue);
-	Write((void*)&nNew, sizeof(T));
-}
-template <typename T>
 void G2Packet::WriteIntBE(T nValue)
 {
-	WriteIntBE(&nValue);
+	nValue = qToBigEndian(nValue);
+	Write(reinterpret_cast<void*>(&nValue), sizeof(T));
 }
 template <typename T>
 void G2Packet::WriteIntLE(T nValue)
 {
-	WriteIntLE(&nValue);
+	nValue = qToLittleEndian(nValue);
+	Write(reinterpret_cast<void*>(&nValue), sizeof(T));
 }
 uchar G2Packet::ReadByte()
 {
@@ -276,8 +248,8 @@ void G2Packet::ReadHostAddress(CEndPoint* pDest, bool bIP4)
 	{
 		quint32 nIP;
 		quint16 nPort;
-		ReadIntBE(&nIP);
-		ReadIntLE(&nPort);
+		nIP = ReadIntBE<quint32>();
+		nPort = ReadIntLE<quint16>();
 		pDest->setAddress(nIP);
 		pDest->setPort(nPort);
 	}
@@ -286,7 +258,7 @@ void G2Packet::ReadHostAddress(CEndPoint* pDest, bool bIP4)
 		Q_IPV6ADDR ip6;
 		quint16 nPort;
 		Read(&ip6, 16);
-		ReadIntLE(&nPort);
+		nPort = ReadIntLE<quint16>();
 		pDest->setAddress(ip6);
 		pDest->setPort(nPort);
 	}
@@ -295,9 +267,9 @@ void G2Packet::ReadHostAddress(CEndPoint* pDest, bool bIP4)
 QUuid G2Packet::ReadGUID()
 {
 	QUuid ret;
-	ReadIntLE(&ret.data1);
-	ReadIntLE(&ret.data2);
-	ReadIntLE(&ret.data3);
+	ret.data1 = ReadIntLE<uint>();
+	ret.data2 = ReadIntLE<ushort>();
+	ret.data3 = ReadIntLE<ushort>();
 	Read(&ret.data4[0], 8);
 
 	return ret;
