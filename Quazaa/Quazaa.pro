@@ -51,6 +51,7 @@ INCLUDEPATH += NetworkCore \
 	Skin \
 	FileFragments \
 	Misc \
+	Discovery \
 	.
 
 include(3rdparty/qtsingleapplication/qtsingleapplication.pri)
@@ -304,8 +305,8 @@ SOURCES += \
 	Misc/networkiconprovider.cpp \
     UI/tableview.cpp \
     Models/categorynavigatortreemodel.cpp \
-    NetworkCore/discoveryservicemanager.cpp \
-    NetworkCore/discoveryservice.cpp
+    Discovery/discoveryservicemanager.cpp \
+    Discovery/discoveryservice.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -459,8 +460,8 @@ HEADERS += \
 	Misc/networkiconprovider.h \
     UI/tableview.h \
     Models/categorynavigatortreemodel.h \
-    NetworkCore/discoveryservicemanager.h \
-    NetworkCore/discoveryservice.h
+    Discovery/discoveryservicemanager.h \
+    Discovery/discoveryservice.h
 
 FORMS += \
 	UI/dialogabout.ui \
