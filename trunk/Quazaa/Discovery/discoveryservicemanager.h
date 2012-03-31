@@ -62,10 +62,11 @@ signals:
 public slots:
 	void updateService(CDiscoveryService::ServiceType type); // sends our IP to service (e.g. GWC)
 	void queryService(CDiscoveryService::NetworkType type);
+	void serviceActionFinished();
 
 private:
-	bool load( QString sPath );
-	bool add( CDiscoveryService* pService );
+	bool load(QString sPath);
+	bool add(CDiscoveryService* pService);
 	void normalizeURL(QString& sURL);
 };
 

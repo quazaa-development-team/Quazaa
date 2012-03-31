@@ -1,5 +1,6 @@
 #include <QFile>
 
+#include "endpoint.h"
 #include "discoveryservicemanager.h"
 #include "discoveryservice.h"
 #include "quazaasettings.h"
@@ -13,10 +14,13 @@ CDiscoveryServiceManager::CDiscoveryServiceManager(QObject *parent) :
 
 /**
   * Initializes the Discovery Services Manager.
-  * Locking: RW
+  * Locking:
   */
 bool CDiscoveryServiceManager::start()
 {
+	// TODO: Implement.
+
+
 	qRegisterMetaType< QueryResult >("QueryResult");
 	return load();
 }
@@ -40,6 +44,8 @@ bool CDiscoveryServiceManager::stop()
 bool CDiscoveryServiceManager::load()
 {
 	QString sPath = quazaaSettings.Discovery.DataPath + "discovery.dat";
+
+	QWriteLocker l( &m_pRWLock );
 
 	if ( load( sPath ) )
 	{
@@ -135,6 +141,11 @@ QUuid CDiscoveryServiceManager::add(QString sURL, CDiscoveryService::ServiceType
   */
 bool CDiscoveryServiceManager::remove(QUuid /*oServiceID*/)
 {
+
+
+	// TODO: Implement.
+
+
 	return true;
 }
 
@@ -152,20 +163,65 @@ void CDiscoveryServiceManager::clear()
 
 /**
   * Publishes the own IP (async).
-  * Locking:
+  * Locking: R
   */
 void CDiscoveryServiceManager::updateService(CDiscoveryService::ServiceType /*type*/)
 {
+	QReadLocker readLock( &m_pRWLock );
 
+
+	// TODO: Implement.
+
+
+	CEndPoint oOwnIP;
+	CDiscoveryService* pService;
+	{
+		readLock.unlock();
+
+		m_pRWLock.lockForWrite();
+		connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
+		m_bIsRunning = true;
+		m_pRWLock.unlock();
+
+		pService->update( oOwnIP );
+	}
 }
 
 /**
   * Queries a service for a given NetworkType (async).
-  * Locking:
+  * Locking: R
   */
 void CDiscoveryServiceManager::queryService( CDiscoveryService::NetworkType /*type*/ )
 {
+	QReadLocker readLock( &m_pRWLock );
 
+
+	// TODO: Implement.
+
+
+	CDiscoveryService* pService;
+	{
+		readLock.unlock();
+
+		m_pRWLock.lockForWrite();
+		connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
+		m_bIsRunning = true;
+		m_pRWLock.unlock();
+
+		pService->query();
+	}
+}
+
+/**
+  * Slot to be triggered once service action has been finished.
+  * Locking: RW
+  */
+void CDiscoveryServiceManager::serviceActionFinished()
+{
+	m_pRWLock.lockForWrite();
+	disconnect( this, SLOT(serviceActionFinished()) );
+	m_bIsRunning = false;
+	m_pRWLock.unlock();
 }
 
 /**
@@ -221,19 +277,27 @@ bool CDiscoveryServiceManager::load( QString sPath )
   * Private helper method to add a discovery service.
   * Requires Locking: RW
   */
-// TODO: implement check for already existant entries etc.
 bool CDiscoveryServiceManager::add( CDiscoveryService* pService )
 {
+
+
+	// TODO: implement check for already existant entries etc.
+
+
 	m_lServices.push_back( pService );
 	return true;
 }
 
 /**
   * Used to normalize URLs to avoid adding multiple copies of the same service
-  * Requires Locking: /
-  * TODO: Implement
+  * Locking: /
   */
 void CDiscoveryServiceManager::normalizeURL(QString& /*sURL*/)
 {
+
+
+	// TODO: Implement.
+
+
 
 }
