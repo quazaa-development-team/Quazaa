@@ -120,8 +120,8 @@ void CSecurity::add(CSecureRule* pRule)
 	{
 	case CSecureRule::srContentAddress:
 	{
-		QString sIP = ((CIPRule*)pRule)->IP().toString();
-		CAddressRuleMap::iterator i = m_IPs.find( sIP );
+		uint nIP = qHash( ((CIPRule*)pRule)->IP() );
+		CAddressRuleMap::iterator i = m_IPs.find( nIP );
 
 		if ( i != m_IPs.end() ) // there is a potentially conflicting rule in our map
 		{
@@ -145,7 +145,7 @@ void CSecurity::add(CSecureRule* pRule)
 			pExRule = NULL;
 		}
 
-		m_IPs[ sIP ] = (CIPRule*)pRule;
+		m_IPs[ nIP ] = (CIPRule*)pRule;
 
 		bNewAddress = true;
 
@@ -276,7 +276,7 @@ void CSecurity::add(CSecureRule* pRule)
 		// similar but not 100% identical content, add hashes to map.
 		foreach ( CHash oHash, oHashes )
 		{
-			m_Hashes.insert( CHashPair( oHash.ToURN(), pHashRule ) );
+			m_Hashes.insert( CHashPair( qHash( oHash.RawValue() ), pHashRule ) );
 		}
 
 		bNewHit	= true;
@@ -403,7 +403,7 @@ void CSecurity::add(CSecureRule* pRule)
 	// If an address rule is added, the miss cache is cleared either in whole or just the relevant address
 	if ( type == CSecureRule::srContentAddress )
 	{
-		m_Cache.erase( ((CIPRule*)pRule)->IP().toString() );
+		m_Cache.erase( qHash( ((CIPRule*)pRule)->IP() ) );
 
 		if ( !m_bUseMissCache )
 			evaluateCacheUsage();
@@ -507,7 +507,7 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
-	CAddressRuleMap::const_iterator i = m_IPs.find( oAddress.toString() );
+	CAddressRuleMap::const_iterator i = m_IPs.find( qHash( oAddress ) );
 	if ( i != m_IPs.end() )
 	{
 		CSecureRule* pIPRule = (*i).second;
@@ -822,7 +822,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 
 	// First, check the miss cache if the IP is not included in the list of rules.
 	// If the address is in cache, it is a miss and no further lookup is needed.
-	if ( m_bUseMissCache && m_Cache.count( oAddress.toString() ) )
+	if ( m_bUseMissCache && m_Cache.count( qHash( oAddress ) ) )
 	{
 		if ( m_bLogIPCheckHits )
 		{
@@ -840,7 +840,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 
 	// Second, check the fast IP rules lookup map.
 	CAddressRuleMap::const_iterator it_1;
-	it_1 = m_IPs.find( oAddress.toString() );
+	it_1 = m_IPs.find( qHash( oAddress ) );
 
 	if ( it_1 != m_IPs.end() )
 	{
@@ -909,7 +909,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 
 	// If the IP is not within the rules (and we're using the cache),
 	// add the IP to the miss cache.
-	missCacheAdd( oAddress.toString() );
+	missCacheAdd( qHash( oAddress ) );
 
 	// In this case, return our default policy
 	return m_bDenyPolicy;
@@ -1674,11 +1674,11 @@ CSecurity::CIterator CSecurity::getHash(const QList< CHash >& hashes) const
 	foreach ( CHash oHash, hashes )
 	{
 		// 1. Check whether a corresponding rule can be found in our lookup container.
-		i = m_Hashes.find( oHash.ToURN() );
+		i = m_Hashes.find( qHash( oHash.RawValue() ) );
 
 		// 2. Iterate threw all rules that include the current hash
 		// (this is important for weaker hashes to deal correctly with hash collisions)
-		while ( i != m_Hashes.end() && (*i).first == oHash.ToURN() )
+		while ( i != m_Hashes.end() && (*i).first == qHash( oHash.RawValue() ) )
 		{
 			if ( (*i).second->match( hashes ) )
 				return getUUID( (*i).second->m_oUUID );
@@ -1712,8 +1712,8 @@ void CSecurity::remove(CIterator it)
 	{
 	case CSecureRule::srContentAddress:
 	{
-		QString sIP = ((CIPRule*)pRule)->IP().toString();
-		CAddressRuleMap::iterator i = m_IPs.find( sIP );
+		uint nIP = qHash( ((CIPRule*)pRule)->IP() );
+		CAddressRuleMap::iterator i = m_IPs.find( nIP );
 
 		if ( i != m_IPs.end() && (*i).second->m_oUUID == pRule->m_oUUID )
 		{
@@ -1769,9 +1769,9 @@ void CSecurity::remove(CIterator it)
 		CHashRuleMap::iterator i;
 		foreach ( CHash oHash, oHashes )
 		{
-			i = m_Hashes.find( oHash.ToURN() );
+			i = m_Hashes.find( qHash( oHash.RawValue() ) );
 
-			while ( i != m_Hashes.end() && (*i).first == oHash.ToURN() )
+			while ( i != m_Hashes.end() && (*i).first == qHash( oHash.RawValue() ) )
 			{
 				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
 				{
@@ -1887,12 +1887,12 @@ bool CSecurity::isAgentDenied(const QString& strUserAgent)
 	return false;
 }
 
-void CSecurity::missCacheAdd(const QString &sIP)
+void CSecurity::missCacheAdd(const uint &nIP)
 {
 	if ( m_bUseMissCache )
 	{
 		QWriteLocker l( &m_pRWLock );
-		m_Cache.insert( sIP );
+		m_Cache.insert( nIP );
 		evaluateCacheUsage();
 	}
 }

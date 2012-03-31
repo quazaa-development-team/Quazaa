@@ -41,7 +41,7 @@ namespace security
 		} BanLength;
 
 	private:
-		typedef std::pair< QString, CHashRule* > CHashPair;
+		typedef std::pair< uint, CHashRule* > CHashPair;
 
 		typedef std::list< CSecureRule*  > CSecurityRuleList;
 		typedef std::list< CIPRangeRule* > CIPRangeRuleList;
@@ -50,23 +50,15 @@ namespace security
 
 		typedef std::queue< CSecureRule* > CNewRulesQueue;
 
-		typedef std::set< QString > CMissCache;
+		typedef std::set< uint > CMissCache;
 
-
-
-
-		// TODO: use qHash(CEndPoint) instead of string
-
-
-
-
-		typedef std::map< QString, CIPRule*        > CAddressRuleMap;
+		typedef std::map< uint, CIPRule*           > CAddressRuleMap;
 		typedef std::map< QString, CCountryRule*   > CCountryRuleMap;
 		typedef std::map< QString, CUserAgentRule* > CUserAgentRuleMap;
 
 		// Note: Using a multimap eliminates eventual problems of hash
 		// collisions caused by weaker hashes like MD5 for example.
-		typedef std::multimap< QString, CHashRule* > CHashRuleMap;
+		typedef std::multimap< uint, CHashRule* > CHashRuleMap;
 
 		typedef CSecurityRuleList::const_iterator CIterator;
 
@@ -225,7 +217,7 @@ namespace security
 
 		bool			isAgentDenied(const QString& strUserAgent);
 
-		void			missCacheAdd(const QString& sIP);
+		void			missCacheAdd(const uint& nIP);
 		void			missCacheClear(bool bRefreshInterval);
 		void			evaluateCacheUsage();				// determines whether it is logical to use the cache or not
 
