@@ -306,7 +306,8 @@ SOURCES += \
     UI/tableview.cpp \
     Models/categorynavigatortreemodel.cpp \
     Discovery/discoveryservicemanager.cpp \
-    Discovery/discoveryservice.cpp
+    Discovery/discoveryservice.cpp \
+    Discovery/gwc.cpp
 
 HEADERS += \
 	#Metalink/metalink4handler.h \
@@ -461,7 +462,8 @@ HEADERS += \
     UI/tableview.h \
     Models/categorynavigatortreemodel.h \
     Discovery/discoveryservicemanager.h \
-    Discovery/discoveryservice.h
+    Discovery/discoveryservice.h \
+    Discovery/gwc.h
 
 FORMS += \
 	UI/dialogabout.ui \

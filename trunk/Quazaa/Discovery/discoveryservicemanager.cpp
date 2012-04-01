@@ -3,7 +3,10 @@
 #include "endpoint.h"
 #include "discoveryservicemanager.h"
 #include "discoveryservice.h"
+#include "network.h"
 #include "quazaasettings.h"
+
+#include <QDateTime>
 
 CDiscoveryServiceManager::CDiscoveryServiceManager(QObject *parent) :
 	QObject( parent ),
@@ -14,14 +17,11 @@ CDiscoveryServiceManager::CDiscoveryServiceManager(QObject *parent) :
 
 /**
   * Initializes the Discovery Services Manager.
-  * Locking:
+  * Locking: RW
   */
 bool CDiscoveryServiceManager::start()
 {
-	// TODO: Implement.
-
-
-	qRegisterMetaType< QueryResult >("QueryResult");
+	qsrand ( QDateTime::currentDateTime().toTime_t() ); // Initialize random number generator.
 	return load();
 }
 
@@ -106,10 +106,11 @@ bool CDiscoveryServiceManager::save(bool bForceSaving)
 	}
 
 	mutex.unlock();
+	QWriteLocker writeLock( &m_pRWLock ); // temporary switch to write lock
 
-	QWriteLocker tmp( &m_pRWLock ); // temporary switch to write lock
 	m_bSaved = true;
-	tmp.unlock();
+
+	writeLock.unlock();
 
 	oFile.close();
 
@@ -124,11 +125,11 @@ bool CDiscoveryServiceManager::save(bool bForceSaving)
   * Adds a given service.
   * Locking: RW
   */
-QUuid CDiscoveryServiceManager::add(QString sURL, CDiscoveryService::ServiceType nSType,
-									CDiscoveryService::NetworkType nNType, quint8 nRating)
+QUuid CDiscoveryServiceManager::add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
+									const CNetworkType& oNType, const quint8 nRating)
 {
 	QWriteLocker l( &m_pRWLock );
-	CDiscoveryService* pService = new CDiscoveryService( sURL, nSType, nNType, nRating );
+	CDiscoveryService* pService = CDiscoveryService::createService( sURL, nSType, oNType, nRating );
 	if ( add( pService ) )
 		return pService->m_oUUID;
 	else
@@ -163,52 +164,56 @@ void CDiscoveryServiceManager::clear()
 
 /**
   * Publishes the own IP (async).
-  * Locking: R
+  * Locking: RW
   */
-void CDiscoveryServiceManager::updateService(CDiscoveryService::ServiceType /*type*/)
+bool CDiscoveryServiceManager::updateService(CDiscoveryService::ServiceType type)
 {
-	QReadLocker readLock( &m_pRWLock );
+	QWriteLocker lock( &m_pRWLock );
 
+	CDiscoveryService* pService = getRandomService( type );
 
-	// TODO: Implement.
-
-
-	CEndPoint oOwnIP;
-	CDiscoveryService* pService;
+	if ( pService )
 	{
-		readLock.unlock();
+		CEndPoint oOwnIP = Network.GetLocalAddress();
 
-		m_pRWLock.lockForWrite();
 		connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
 		m_bIsRunning = true;
-		m_pRWLock.unlock();
+		lock.unlock();
 
 		pService->update( oOwnIP );
+
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
 /**
   * Queries a service for a given NetworkType (async).
-  * Locking: R
+  * Locking: RW
   */
-void CDiscoveryServiceManager::queryService( CDiscoveryService::NetworkType /*type*/ )
+bool CDiscoveryServiceManager::queryService( CNetworkType type )
 {
-	QReadLocker readLock( &m_pRWLock );
+	QWriteLocker lock( &m_pRWLock );
 
+	CDiscoveryService* pService = getRandomService( type );
 
-	// TODO: Implement.
-
-
-	CDiscoveryService* pService;
+	if ( pService )
 	{
-		readLock.unlock();
-
-		m_pRWLock.lockForWrite();
 		connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
 		m_bIsRunning = true;
-		m_pRWLock.unlock();
+
+		lock.unlock();
 
 		pService->query();
+
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
@@ -300,4 +305,80 @@ void CDiscoveryServiceManager::normalizeURL(QString& /*sURL*/)
 
 
 
+}
+
+/**
+  * Returns a (pseudo) random service of a given ServiceType.
+  * Requires Locking: R
+  */
+CDiscoveryService* CDiscoveryServiceManager::getRandomService(CDiscoveryService::ServiceType nSType)
+{
+	CDiscoveryServicesList list;
+	quint16 nTotalRating = 0;
+
+	foreach ( CDiscoveryService* pService, m_lServices )
+	{
+		if ( pService->m_nServiceType == nSType && pService->m_nRating != 0 )
+		{
+			list.push_back( pService );
+			nTotalRating += pService->m_nRating;
+		}
+	}
+
+	if ( list.empty() )
+	{
+		return NULL;
+	}
+	else
+	{
+		quint16 nSelectedRating = qrand() % nTotalRating;
+		CDiscoveryServicesList::const_iterator current = list.begin();
+		CDiscoveryService* pSelected = *current;
+
+		while ( nSelectedRating > pSelected->m_nRating )
+		{
+			nSelectedRating -= pSelected->m_nRating;
+			pSelected = *( ++current );
+		}
+
+		return pSelected;
+	}
+}
+
+/**
+  * Returns a (pseudo) random service of a given NetworkType.
+  * Requires Locking: R
+  */
+CDiscoveryService* CDiscoveryServiceManager::getRandomService(CNetworkType oNType)
+{
+	CDiscoveryServicesList list;
+	quint16 nTotalRating = 0;
+
+	foreach ( CDiscoveryService* pService, m_lServices )
+	{
+		if ( pService->m_oNetworkType.isNetwork( oNType ) && pService->m_nRating != 0 )
+		{
+			list.push_back( pService );
+			nTotalRating += pService->m_nRating;
+		}
+	}
+
+	if ( list.empty() )
+	{
+		return NULL;
+	}
+	else
+	{
+		quint16 nSelectedRating = qrand() % nTotalRating;
+		CDiscoveryServicesList::const_iterator current = list.begin();
+		CDiscoveryService* pSelected = *current;
+
+		while ( nSelectedRating > pSelected->m_nRating )
+		{
+			nSelectedRating -= pSelected->m_nRating;
+			pSelected = *( ++current );
+		}
+
+		return pSelected;
+	}
 }
