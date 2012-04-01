@@ -27,6 +27,7 @@
 
 #include <QtGui>
 #include <QAbstractItemModel>
+#include "tableview.h"
 
 class CSecurityTableModel;
 
@@ -56,6 +57,7 @@ protected:
 private:
 	Ui::WidgetSecurity* ui;
 	QMenu* m_pSecurityMenu;
+	CTableView* tableViewSecurity;
 
 signals:
 

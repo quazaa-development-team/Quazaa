@@ -51,10 +51,15 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 
 	restoreState( quazaaSettings.WinMain.SecurityToolbars );
 
+	tableViewSecurity = new CTableView();
+	ui->verticalLayoutSecurityTable->addWidget(tableViewSecurity);
+	connect(tableViewSecurity, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_tableViewSecurity_customContextMenuRequested(QPoint)));
+	connect(tableViewSecurity, SIGNAL(clicked(QModelIndex)), this, SLOT(on_tableViewSecurity_clicked(QModelIndex)));
+	connect(tableViewSecurity, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_tableViewSecurity_doubleClicked(QModelIndex)));
 	m_pSecurityList = new CSecurityTableModel( this, tableView() );
 	setModel( m_pSecurityList );
-	m_pSecurityList->sort( ui->tableViewSecurity->horizontalHeader()->sortIndicatorSection(),
-						   ui->tableViewSecurity->horizontalHeader()->sortIndicatorOrder()    );
+	m_pSecurityList->sort( tableViewSecurity->horizontalHeader()->sortIndicatorSection(),
+						   tableViewSecurity->horizontalHeader()->sortIndicatorOrder()    );
 	setSkin();
 }
 
@@ -65,12 +70,12 @@ WidgetSecurity::~WidgetSecurity()
 
 void WidgetSecurity::setModel(QAbstractItemModel* model)
 {
-	ui->tableViewSecurity->setModel( model );
+	tableViewSecurity->setModel( model );
 }
 
 QWidget* WidgetSecurity::tableView()
 {
-	return ui->tableViewSecurity;
+	return tableViewSecurity;
 }
 
 void WidgetSecurity::saveWidget()
@@ -135,7 +140,7 @@ void WidgetSecurity::on_actionSecurityAddRule_triggered()
 
 void WidgetSecurity::on_actionSecurityRemoveRule_triggered()
 {
-	QModelIndexList selection = ui->tableViewSecurity->selectionModel()->selectedRows();
+	QModelIndexList selection = tableViewSecurity->selectionModel()->selectedRows();
 
 	// Lock security manager while fiddling with rules.
 	QWriteLocker l( &securityManager.m_pRWLock );
@@ -152,7 +157,7 @@ void WidgetSecurity::on_actionSecurityRemoveRule_triggered()
 
 void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 {
-	QModelIndexList selection = ui->tableViewSecurity->selectionModel()->selectedRows();
+	QModelIndexList selection = tableViewSecurity->selectionModel()->selectedRows();
 	QModelIndex index = QModelIndex();
 
 	// Get the highest selected row.
@@ -202,7 +207,7 @@ void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 
 void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoint& point)
 {
-	QModelIndex index = ui->tableViewSecurity->indexAt( point );
+	QModelIndex index = tableViewSecurity->indexAt( point );
 
 	if ( index.isValid() )
 	{
@@ -252,5 +257,5 @@ void WidgetSecurity::on_tableViewSecurity_clicked(const QModelIndex& index)
 
 void WidgetSecurity::setSkin()
 {
-	ui->tableViewSecurity->setStyleSheet(skinSettings.listViews);
+	tableViewSecurity->setStyleSheet(skinSettings.listViews);
 }
