@@ -9,6 +9,40 @@
 
 #include "endpoint.h"
 
+class CNetworkType
+{
+private:
+	quint16 m_nNetworks;
+
+public:
+	// Extend for all new supported networks.
+	typedef enum { NoNetwork = 0, gnutella = 1, G2 = 2, Ares = 4, eDonkey2000 = 8 } NetworkType;
+
+	CNetworkType();
+	CNetworkType(quint16 type);
+	CNetworkType(NetworkType type);
+
+	bool isGnutella() const;
+	void setGnutella( bool );
+
+	bool isG2() const;
+	void setG2( bool );
+
+	bool isAres() const;
+	void setAres( bool );
+
+	bool isEDonkey2000() const;
+	void setEDonkey2000( bool );
+
+	bool isNetwork(const CNetworkType& type) const;
+	void setNetwork(const CNetworkType& type);
+
+	bool isMulti() const;
+
+	quint16 toQuint16() const;
+};
+
+
 class CDiscoveryService : QThread
 {
 	/* ================================================================ */
@@ -17,8 +51,6 @@ class CDiscoveryService : QThread
 public:
 	// Extend for all new supported service types.
 	typedef enum { srNull = 0, srGWC = 1 } ServiceType;
-	// Extend for all new supported networks.
-	typedef enum { srNoNet = 0, srG2 = 1, srMulti = 2 } NetworkType;
 
 private:
 	// Note: Extra functionality should be implemented at lower level.
@@ -29,12 +61,12 @@ private:
 	/* ================================================================ */
 
 private:
-	ServiceType	m_nServiceType;
-	NetworkType m_nNetworkType;
-	QString		m_sServiceURL;
-	quint8		m_nRating;
-	quint8      m_nProbabilityMultiplicator;
-	QUuid		m_oUUID;
+	ServiceType	 m_nServiceType;
+	CNetworkType m_oNetworkType;
+	QString		 m_sServiceURL;
+	quint8		 m_nRating;
+	quint8       m_nProbabilityMultiplicator;
+	QUuid		 m_oUUID;
 
 	QReadWriteLock	m_pRWLock;
 	Request			m_nRequest;
@@ -45,8 +77,8 @@ public:
 	/* ========================= Construction ========================= */
 	/* ================================================================ */
 	CDiscoveryService();
-	CDiscoveryService(QString sURL, ServiceType nSType, NetworkType nNType,
-					  quint8 nRating, QUuid oID = QUuid());
+	CDiscoveryService(const QString& sURL, const ServiceType nSType, const CNetworkType& oNType,
+					  const quint8 nRating, const QUuid& oID = QUuid());
 
 	virtual ~CDiscoveryService() {} // Must be implemented by subclasses.
 
@@ -56,6 +88,11 @@ public:
 	// Read/write rule from/to file
 	static void		load(CDiscoveryService*& pService, QDataStream& oStream, const int nVersion);
 	static void     save(const CDiscoveryService* const pService, QDataStream& oStream);
+
+	// Use this to generate valid services. Must be modified when writing subclasses.
+	static CDiscoveryService* createService(const QString& sURL, const ServiceType nSType,
+											const CNetworkType& oNType, const quint8 nRating,
+											const QUuid& oID = QUuid());
 
 	// Sends our IP to service if it supports the operation (e.g. if it is a GWC).
 	void update(CEndPoint& oOwnIP);

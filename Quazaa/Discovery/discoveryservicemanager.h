@@ -21,8 +21,6 @@ class CDiscoveryServiceManager : public QObject
 	/* ========================== Attributes ========================== */
 	/* ================================================================ */
 public:
-	typedef enum { srFail = 0, srNoHosts = 1, srGotHosts = 2 } QueryResult;
-
 	typedef std::list< CDiscoveryService*  > CDiscoveryServicesList;
 	typedef CDiscoveryServicesList::const_iterator CIterator;
 
@@ -30,7 +28,9 @@ public:
 
 private:
 	CDiscoveryServicesList  m_lServices;
-	bool					m_bSaved;	// true if current security manager state has already been saved to file, false otherwise
+
+	// true if current Discovery Service Manager state has already been saved to file, false otherwise.
+	bool					m_bSaved;
 	bool					m_bIsRunning;
 
 public:
@@ -51,8 +51,8 @@ public:
 
 	inline bool	isRunning();
 
-	QUuid	add(QString sURL, CDiscoveryService::ServiceType nSType,
-				CDiscoveryService::NetworkType nNType, quint8 nRating = 7);
+	QUuid	add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
+				const CNetworkType& oNType, const quint8 nRating = 7);
 	bool	remove(QUuid oServiceID);
 	void	clear();
 
@@ -60,14 +60,17 @@ signals:
 
 
 public slots:
-	void updateService(CDiscoveryService::ServiceType type); // sends our IP to service (e.g. GWC)
-	void queryService(CDiscoveryService::NetworkType type);
+	bool updateService(CDiscoveryService::ServiceType type); // sends our IP to service (e.g. GWC)
+	bool queryService(CNetworkType type);
 	void serviceActionFinished();
 
 private:
 	bool load(QString sPath);
 	bool add(CDiscoveryService* pService);
 	void normalizeURL(QString& sURL);
+
+	CDiscoveryService* getRandomService(CDiscoveryService::ServiceType nSType);
+	CDiscoveryService* getRandomService(CNetworkType oNType);
 };
 
 /**

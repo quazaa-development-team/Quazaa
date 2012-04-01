@@ -1,6 +1,88 @@
 #include "discoveryservice.h"
 #include "discoveryservicemanager.h"
 
+#include "gwc.h"
+
+CNetworkType::CNetworkType() :
+	m_nNetworks( 0 )
+{}
+
+CNetworkType::CNetworkType(quint16 type) :
+	m_nNetworks( type )
+{}
+
+CNetworkType::CNetworkType(NetworkType type) :
+	m_nNetworks( (quint16)type )
+{}
+
+bool CNetworkType::isGnutella() const
+{
+	return ( m_nNetworks | gnutella );
+}
+
+void CNetworkType::setGnutella( bool )
+{
+	m_nNetworks &= gnutella;
+}
+
+bool CNetworkType::isG2() const
+{
+	return ( m_nNetworks | G2 );
+}
+
+void CNetworkType::setG2( bool )
+{
+	m_nNetworks &= G2;
+}
+
+bool CNetworkType::isAres() const
+{
+	return ( m_nNetworks | Ares );
+}
+
+void CNetworkType::setAres( bool )
+{
+	m_nNetworks &= Ares;
+}
+
+bool CNetworkType::isEDonkey2000() const
+{
+	return ( m_nNetworks | eDonkey2000 );
+}
+
+void CNetworkType::setEDonkey2000( bool )
+{
+	m_nNetworks &= eDonkey2000;
+}
+
+bool CNetworkType::isNetwork(const CNetworkType& type) const
+{
+	return ( m_nNetworks & type.toQuint16() ) == type.toQuint16();
+}
+
+void CNetworkType::setNetwork(const CNetworkType& type)
+{
+	m_nNetworks &= type.toQuint16();
+}
+
+bool CNetworkType::isMulti() const
+{
+	if ( m_nNetworks < 2 )
+		return false;
+
+	while ( m_nNetworks > 1 )
+	{
+		if ( m_nNetworks % 2 )
+			return true;
+	}
+	return false;
+}
+
+quint16 CNetworkType::toQuint16() const
+{
+	return m_nNetworks;
+}
+
 
 /**
   * Empty constructor.
@@ -8,7 +90,7 @@
   */
 CDiscoveryService::CDiscoveryService() :
 	m_nServiceType( srNull ),
-	m_nNetworkType( srNoNet ),
+	m_oNetworkType(),
 	m_sServiceURL( "" ),
 	m_nRating( 0 ),
 	m_nProbabilityMultiplicator( 0 ),
@@ -21,10 +103,11 @@ CDiscoveryService::CDiscoveryService() :
   * Default constructor.
   * Locking: /
   */
-CDiscoveryService::CDiscoveryService(QString sURL, ServiceType nSType,
-									 NetworkType nNType, quint8 nRating, QUuid oID) :
-	m_nServiceType( nSType ),
-	m_nNetworkType( nNType ),
+CDiscoveryService::CDiscoveryService(const QString& sURL, const ServiceType,
+									 const CNetworkType& oNType,
+									 const quint8 nRating, const QUuid& oID) :
+	m_nServiceType( srNull ),
+	m_oNetworkType( oNType ),
 	m_sServiceURL( sURL ),
 	m_nRating( nRating ),
 	m_oUUID( oID ),
@@ -42,9 +125,31 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
 	QReadLocker l( &( const_cast<CDiscoveryService*>(pService) )->m_pRWLock );
 
 	oStream << (quint8)(pService->m_nServiceType);
-	oStream << (quint8)(pService->m_nNetworkType);
+	oStream << (quint16)(pService->m_oNetworkType.toQuint16());
 	oStream << (quint8)(pService->m_nRating);
 	oStream << pService->m_sServiceURL;
+}
+
+/**
+  * [static] Creates a new service...
+  * Locking: /
+  */
+CDiscoveryService* CDiscoveryService::createService(const QString& sURL, const ServiceType nSType,
+													const CNetworkType& oNType,	const quint8 nRating,
+													const QUuid& oID)
+{
+	CDiscoveryService* pService = NULL;
+
+	switch ( nSType )
+	{
+	case srGWC:
+	{
+		pService = new CGWC( sURL, nSType, oNType, nRating, oID );
+		break;
+	}
+	}
+
+	return pService;
 }
 
 /**
@@ -73,14 +178,8 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
 	oStream >> nRating;
 	oStream >> sServiceURL;
 
-	switch ( nServiceType )
-	{
-	default:
-		;
-	}
-
 	pService->m_nServiceType = (ServiceType)nServiceType;
-	pService->m_nNetworkType = (NetworkType)nNetworkType;
+	pService->m_oNetworkType = CNetworkType( nNetworkType );
 	pService->m_nRating      = nRating;
 	pService->m_sServiceURL  = sServiceURL;
 
@@ -102,7 +201,8 @@ void CDiscoveryService::update(CEndPoint& oOwnIP)
 }
 
 /**
-  * Queries the service to recieve network hosts for initial connection and/or alternative service URLs.
+  * Queries the service to recieve network hosts for initial connection and/or
+  * alternative service URLs.
   * Locking: RW
   */
 void CDiscoveryService::query()
