@@ -3,7 +3,7 @@
 
 #include <QDataStream>
 #include <QReadWriteLock>
-#include <QString>
+#include <QUrl>
 #include <QThread>
 #include <QUuid>
 
@@ -63,7 +63,7 @@ private:
 private:
 	ServiceType	 m_nServiceType;
 	CNetworkType m_oNetworkType;
-	QString		 m_sServiceURL;
+	QUrl		 m_oServiceURL;
 	quint8		 m_nRating;
 	quint8       m_nProbabilityMultiplicator;
 	QUuid		 m_oUUID;
@@ -77,7 +77,7 @@ public:
 	/* ========================= Construction ========================= */
 	/* ================================================================ */
 	CDiscoveryService();
-	CDiscoveryService(const QString& sURL, const ServiceType nSType, const CNetworkType& oNType,
+	CDiscoveryService(const QUrl& oURL, const ServiceType nSType, const CNetworkType& oNType,
 					  const quint8 nRating, const QUuid& oID = QUuid());
 
 	virtual ~CDiscoveryService() {} // Must be implemented by subclasses.
@@ -90,7 +90,7 @@ public:
 	static void     save(const CDiscoveryService* const pService, QDataStream& oStream);
 
 	// Use this to generate valid services. Must be modified when writing subclasses.
-	static CDiscoveryService* createService(const QString& sURL, const ServiceType nSType,
+	static CDiscoveryService* createService(const QUrl& oURL, const ServiceType nSType,
 											const CNetworkType& oNType, const quint8 nRating,
 											const QUuid& oID = QUuid());
 

@@ -1,4 +1,5 @@
 #include <QFile>
+#include <QUrl>
 
 #include "endpoint.h"
 #include "discoveryservicemanager.h"
@@ -128,8 +129,15 @@ bool CDiscoveryServiceManager::save(bool bForceSaving)
 QUuid CDiscoveryServiceManager::add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
 									const CNetworkType& oNType, const quint8 nRating)
 {
+	QUrl oURL( sURL );
+
+	if ( !oURL.isValid() )
+		return QUuid();
+
+	CDiscoveryService* pService = CDiscoveryService::createService( oURL, nSType, oNType, nRating );
+
 	QWriteLocker l( &m_pRWLock );
-	CDiscoveryService* pService = CDiscoveryService::createService( sURL, nSType, oNType, nRating );
+
 	if ( add( pService ) )
 		return pService->m_oUUID;
 	else
@@ -140,14 +148,24 @@ QUuid CDiscoveryServiceManager::add(const QString& sURL, const CDiscoveryService
   * Removes a given service.
   * Locking: RW
   */
-bool CDiscoveryServiceManager::remove(QUuid /*oServiceID*/)
+bool CDiscoveryServiceManager::remove(const QUuid& oServiceID)
 {
+	if ( oServiceID.isNull() )
+		return false;
 
+	QWriteLocker l( &m_pRWLock );
 
-	// TODO: Implement.
+	for ( CDiscoveryServicesList::iterator i = m_lServices.begin();
+		  i != m_lServices.end(); ++i )
+	{
+		if ( (*i)->m_oUUID == oServiceID )
+		{
+			m_lServices.erase( i );
+			return true;
+		}
+	}
 
-
-	return true;
+	return false;
 }
 
 /**
@@ -282,12 +300,26 @@ bool CDiscoveryServiceManager::load( QString sPath )
   * Private helper method to add a discovery service.
   * Requires Locking: RW
   */
-bool CDiscoveryServiceManager::add( CDiscoveryService* pService )
+bool CDiscoveryServiceManager::add(CDiscoveryService* pService)
 {
+	if ( !pService )
+		return false;
 
+	normalizeURL( pService->m_oServiceURL );
 
-	// TODO: implement check for already existant entries etc.
+	for ( CDiscoveryServicesList::iterator i = m_lServices.begin();
+		  i != m_lServices.end(); ++i )
+	{
 
+		// TODO: Improve this test.
+
+		if ( (*i)->m_oServiceURL == pService->m_oServiceURL )
+		{
+			delete pService;
+			pService = NULL;
+			return false;
+		}
+	}
 
 	m_lServices.push_back( pService );
 	return true;
@@ -297,13 +329,10 @@ bool CDiscoveryServiceManager::add( CDiscoveryService* pService )
   * Used to normalize URLs to avoid adding multiple copies of the same service
   * Locking: /
   */
-void CDiscoveryServiceManager::normalizeURL(QString& /*sURL*/)
+void CDiscoveryServiceManager::normalizeURL(QUrl& /*oURL*/)
 {
 
-
 	// TODO: Implement.
-
-
 
 }
 
