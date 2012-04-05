@@ -91,7 +91,7 @@ quint16 CNetworkType::toQuint16() const
 CDiscoveryService::CDiscoveryService() :
 	m_nServiceType( srNull ),
 	m_oNetworkType(),
-	m_sServiceURL( "" ),
+	m_oServiceURL(),
 	m_nRating( 0 ),
 	m_nProbabilityMultiplicator( 0 ),
 	m_oUUID(),
@@ -103,12 +103,12 @@ CDiscoveryService::CDiscoveryService() :
   * Default constructor.
   * Locking: /
   */
-CDiscoveryService::CDiscoveryService(const QString& sURL, const ServiceType,
+CDiscoveryService::CDiscoveryService(const QUrl& oURL, const ServiceType,
 									 const CNetworkType& oNType,
 									 const quint8 nRating, const QUuid& oID) :
 	m_nServiceType( srNull ),
 	m_oNetworkType( oNType ),
-	m_sServiceURL( sURL ),
+	m_oServiceURL( oURL ),
 	m_nRating( nRating ),
 	m_oUUID( oID ),
 	m_nRequest( srNoRequest )
@@ -127,14 +127,14 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
 	oStream << (quint8)(pService->m_nServiceType);
 	oStream << (quint16)(pService->m_oNetworkType.toQuint16());
 	oStream << (quint8)(pService->m_nRating);
-	oStream << pService->m_sServiceURL;
+	oStream << pService->m_oServiceURL;
 }
 
 /**
   * [static] Creates a new service...
   * Locking: /
   */
-CDiscoveryService* CDiscoveryService::createService(const QString& sURL, const ServiceType nSType,
+CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const ServiceType nSType,
 													const CNetworkType& oNType,	const quint8 nRating,
 													const QUuid& oID)
 {
@@ -144,7 +144,7 @@ CDiscoveryService* CDiscoveryService::createService(const QString& sURL, const S
 	{
 	case srGWC:
 	{
-		pService = new CGWC( sURL, nSType, oNType, nRating, oID );
+		pService = new CGWC( oURL, nSType, oNType, nRating, oID );
 		break;
 	}
 	}
@@ -171,17 +171,17 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
 	quint8		nServiceType;
 	quint8		nNetworkType;
 	quint8		nRating;
-	QString		sServiceURL;
+	QUrl		oServiceURL;
 
 	oStream >> nServiceType;
 	oStream >> nNetworkType;
 	oStream >> nRating;
-	oStream >> sServiceURL;
+	oStream >> oServiceURL;
 
 	pService->m_nServiceType = (ServiceType)nServiceType;
 	pService->m_oNetworkType = CNetworkType( nNetworkType );
 	pService->m_nRating      = nRating;
-	pService->m_sServiceURL  = sServiceURL;
+	pService->m_oServiceURL  = oServiceURL;
 
 	pService->m_nProbabilityMultiplicator = ( nRating < 5 ) ? nRating : 5;
 }

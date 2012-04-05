@@ -2,8 +2,9 @@
 #define DISCOVERYSERVICEMANAGER_H
 
 #include <QObject>
-#include <QUuid>
 #include <QReadWriteLock>
+#include <QString>
+#include <QUuid>
 
 #include "discoveryservice.h"
 
@@ -53,7 +54,7 @@ public:
 
 	QUuid	add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
 				const CNetworkType& oNType, const quint8 nRating = 7);
-	bool	remove(QUuid oServiceID);
+	bool	remove(const QUuid& oServiceID);
 	void	clear();
 
 signals:
@@ -67,7 +68,7 @@ public slots:
 private:
 	bool load(QString sPath);
 	bool add(CDiscoveryService* pService);
-	void normalizeURL(QString& sURL);
+	void normalizeURL(QUrl& sURL);
 
 	CDiscoveryService* getRandomService(CDiscoveryService::ServiceType nSType);
 	CDiscoveryService* getRandomService(CNetworkType oNType);
