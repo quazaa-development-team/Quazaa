@@ -28,6 +28,8 @@ SessionTabWidget::SessionTabWidget(Session* session, QWidget* parent) :
 
     connect(this, SIGNAL(currentChanged(int)), this, SLOT(tabActivated(int)));
     connect(this, SIGNAL(newTabRequested()), this, SLOT(onNewTabRequested()));
+	connect(this, SIGNAL(tabMenuRequested(int,QPoint)), this, SLOT(onTabMenuRequested(int,QPoint)));
+
     connect(session, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
 	connect(session, SIGNAL(activeChanged(bool)), this, SLOT(updateStatus()));
 	connect(session, SIGNAL(connectedChanged(bool)), this, SLOT(updateStatus()));
@@ -77,6 +79,9 @@ MessageView* SessionTabWidget::openView(const QString& receiver)
 		connect(view, SIGNAL(query(QString)), this, SLOT(openView(QString)));
 		connect(view, SIGNAL(aboutToQuit()), this, SLOT(onAboutToQuit()));
 		connect(view, SIGNAL(closeQuery(MessageView*)), this, SLOT(closeView(MessageView*)));
+		connect(view, SIGNAL(partView(MessageView*)), this, SLOT(closeView(MessageView*)));
+		connect(view, SIGNAL(join(QString)), this, SLOT(onNewTabRequested(QString)));
+
 
         d.handler.addReceiver(receiver, view);
         d.views.insert(receiver.toLower(), view);
@@ -197,9 +202,10 @@ void SessionTabWidget::tabActivated(int index)
     }
 }
 
-void SessionTabWidget::onNewTabRequested()
+void SessionTabWidget::onNewTabRequested(QString channel)
 {
-    QString channel = QInputDialog::getText(this, tr("Join channel"), tr("Channel:"));
+	if (channel.isEmpty())
+		channel = QInputDialog::getText(this, tr("Join channel"), tr("Channel:"));
     if (!channel.isEmpty())
     {
         if (channel.startsWith("#") || channel.startsWith("&"))

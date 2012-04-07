@@ -17,7 +17,6 @@
 
 #include "tabwidget.h"
 
-struct ChatSettings;
 class QShortcut;
 
 class MainTabWidget : public TabWidget
