@@ -62,10 +62,12 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
     if (!d.commandModel)
     {
         CommandParser::addCustomCommand("CONNECT", "(<host> <port>)");
-        CommandParser::addCustomCommand("QUERY", "<user>");
-		CommandParser::addCustomCommand("MSG", "<user>");
-		CommandParser::addCustomCommand("TELL", "<user>");
+		CommandParser::addCustomCommand("QUERY", "<user> <message>");
+		CommandParser::addCustomCommand("MSG", "<user> <message>");
+		CommandParser::addCustomCommand("TELL", "<user> <message>");
         CommandParser::addCustomCommand("SETTINGS", "");
+		CommandParser::addCustomCommand("JOIN", "<channel>");
+
 
         QStringList prefixedCommands;
         foreach (const QString& command, CommandParser::availableCommands())
@@ -244,12 +246,12 @@ void MessageView::part()
 	{
 		if(isStatusChannel())
 		{
-			onSend("/quit");
+			emit partView(this);
 		} else {
 			emit closeQuery(this);
 		}
 	} else {
-		onSend("/part");
+		emit partView(this);
 	}
 }
 
@@ -369,11 +371,23 @@ void MessageView::removeUser(const QString& user)
 void MessageView::onCustomCommand(const QString& command, const QStringList& params)
 {
     if (command == "QUERY")
+	{
         emit query(params.value(0));
-	if (command == "MSG")
+		if (!params.value(1).isEmpty())
+			emit queryMessage(params.value(1));
+	}
+	else if (command == "MSG")
+	{
 		emit query(params.value(0));
-	if (command == "TELL")
+		if (!params.value(1).isEmpty())
+			emit queryMessage(params.value(1));
+	}
+	else if (command == "TELL")
+	{
 		emit query(params.value(0));
+		if (!params.value(1).isEmpty())
+			emit queryMessage(params.value(1));
+	}
     else if (command == "SETTINGS")
 	{
 		SettingsWizard wizard(qApp->activeWindow());
@@ -381,6 +395,8 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
 	}
     else if (command == "CONNECT")
         QMetaObject::invokeMethod(window(), "connectTo", Q_ARG(QString, params.value(0)), params.count() > 1 ? Q_ARG(quint16, params.value(1).toInt()) : QGenericArgument());
+	else if (command == "JOIN")
+		emit join(params.value(0));
 }
 
 QString MessageView::prettyNames(const QStringList& names, int columns)

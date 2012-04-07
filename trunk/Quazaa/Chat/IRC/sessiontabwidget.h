@@ -53,7 +53,7 @@ private slots:
     void onAboutToQuit();
     void onDisconnected();
     void tabActivated(int index);
-    void onNewTabRequested();
+	void onNewTabRequested(QString channel = "");
 	void onTabMenuRequested(int index, const QPoint& pos);
 	void onTabCloseRequested();
 	void delayedTabReset();
