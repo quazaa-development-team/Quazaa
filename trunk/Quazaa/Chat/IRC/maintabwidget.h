@@ -25,13 +25,14 @@ class MainTabWidget : public TabWidget
     Q_OBJECT
 
 public:
-    MainTabWidget(QWidget* parent = 0);
+	MainTabWidget(QWidget* parent = 0);
 
 private slots:
 	void applySettings();
     void setSessionTitle(const QString& title);
-    void activateAlert(bool active);
-    void activateHighlight(bool active);
+	void setInactive(bool inactive);
+	void setAlerted(bool alerted);
+	void setHighlighted(bool highlighted);
     void moveToNextSubTab();
     void moveToPrevSubTab();
 

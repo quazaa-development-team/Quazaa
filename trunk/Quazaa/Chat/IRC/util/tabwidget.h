@@ -18,18 +18,19 @@
 #include <QTabWidget>
 #include <QColor>
 #include <QList>
-#if QT_VERSION >= 0x040600
-#include <QSwipeGesture>
-#endif // QT_VERSION
 
 class TabWidget : public QTabWidget
 {
     Q_OBJECT
+    Q_PROPERTY(QColor inactiveColor READ inactiveColor WRITE setInactiveColor)
     Q_PROPERTY(QColor alertColor READ alertColor WRITE setAlertColor)
     Q_PROPERTY(QColor highlightColor READ highlightColor WRITE setHighlightColor)
 
 public:
     TabWidget(QWidget* parent = 0);
+
+    QColor inactiveColor() const;
+    void setInactiveColor(const QColor& color);
 
     QColor alertColor() const;
     void setAlertColor(const QColor& color);
@@ -37,16 +38,14 @@ public:
     QColor highlightColor() const;
     void setHighlightColor(const QColor& color);
 
+    bool isTabInactive(int index);
+    void setTabInactive(int index, bool inactive);
+
     bool hasTabAlert(int index);
     void setTabAlert(int index, bool alert);
 
     bool hasTabHighlight(int index) const;
     void setTabHighlight(int index, bool highlight);
-
-#if QT_VERSION >= 0x040600
-    void registerSwipeGestures(Qt::Orientation orientation);
-    void unregisterSwipeGestures();
-#endif // QT_VERSION
 
 public slots:
     void moveToNextTab();
@@ -55,30 +54,30 @@ public slots:
 
 signals:
     void newTabRequested();
-    void alertStatusChanged(bool active);
-    void highlightStatusChanged(bool active);
+    void tabMenuRequested(int index, const QPoint& pos);
+    void alertStatusChanged(bool alerted);
+    void highlightStatusChanged(bool highlighted);
 
 protected:
-#if QT_VERSION >= 0x040600
-    bool event(QEvent* event);
-    bool handleSwipeGesture(QSwipeGesture* gesture, QSwipeGesture::SwipeDirection direction);
-#endif // QT_VERSION
     void tabInserted(int index);
     void tabRemoved(int index);
 
 private slots:
     void tabChanged(int index);
     void alertTimeout();
+    void colorizeTab(int index);
 
 private:
     struct TabWidgetData
     {
         int previous;
+        QColor inactiveColor;
         QColor alertColor;
         QColor highlightColor;
+        QColor currentAlertColor;
+        QList<int> inactiveIndexes;
         QList<int> alertIndexes;
         QList<int> highlightIndexes;
-        Qt::Orientation swipeOrientation;
     } d;
 };
 

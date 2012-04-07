@@ -12,31 +12,35 @@
 * GNU General Public License for more details.
 */
 
-#ifndef SESSION_H
-#define SESSION_H
+#ifndef SEARCHEDITOR_H
+#define SEARCHEDITOR_H
 
-#include <ircsession.h>
-#include "connection.h"
+#include "historylineedit.h"
+class QTextEdit;
 
-class Session : public IrcSession
+class SearchEditor : public HistoryLineEdit
 {
     Q_OBJECT
 
 public:
-    Session(QObject* parent = 0);
-    ~Session();
+    SearchEditor(QWidget* parent = 0);
 
-    Connection connection() const;
+    QTextEdit* textEdit() const;
+    void setTextEdit(QTextEdit* textEdit);
 
 public slots:
-    void connectTo(const Connection& connection);
+    void find();
+    void findNext();
+    void findPrevious();
 
-private slots:
-    void onConnected();
-    void onPassword(QString* password);
+protected slots:
+    void find(const QString& text, bool forward = false, bool backward = false);
 
 private:
-    Connection conn;
+    struct Private
+    {
+        QTextEdit* textEdit;
+    } d;
 };
 
-#endif // SESSION_H
+#endif // SEARCHEDITOR_H

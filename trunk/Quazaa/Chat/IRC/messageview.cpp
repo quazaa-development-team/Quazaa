@@ -47,16 +47,24 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
 	font.setStyleHint(QFont::TypeWriter);
 	d.textBrowser->setFont(font);
 
-    d.session = session;
-    d.formatter.setHightlights(QStringList(session->nickName()));
-    connect(&d.parser, SIGNAL(customCommand(QString,QStringList)), this, SLOT(onCustomCommand(QString,QStringList)));
+	d.formatter.setHighlights(QStringList(session->nickName()));
+	d.formatter.setMessageFormat("class='message'");
+	d.formatter.setEventFormat("class='event'");
+	d.formatter.setNoticeFormat("class='notice'");
+	d.formatter.setActionFormat("class='action'");
+	d.formatter.setUnknownFormat("class='unknown'");
+	d.formatter.setHighlightFormat("class='highlight'");
 
-    d.userModel = new QStringListModel(this);
+	d.session = session;
+	d.userModel = new QStringListModel(this);
+	connect(&d.parser, SIGNAL(customCommand(QString,QStringList)), this, SLOT(onCustomCommand(QString,QStringList)));
 
     if (!d.commandModel)
     {
         CommandParser::addCustomCommand("CONNECT", "(<host> <port>)");
         CommandParser::addCustomCommand("QUERY", "<user>");
+		CommandParser::addCustomCommand("MSG", "<user>");
+		CommandParser::addCustomCommand("TELL", "<user>");
         CommandParser::addCustomCommand("SETTINGS", "");
 
         QStringList prefixedCommands;
@@ -74,7 +82,7 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
     connect(d.lineEditor, SIGNAL(typed(QString)), this, SLOT(showHelp(QString)));
 
     d.helpLabel->hide();
-	d.findFrame->setTextEdit(d.textBrowser);
+	d.searchEditor->setTextEdit(d.textBrowser);
 
     QShortcut* shortcut = new QShortcut(Qt::Key_Escape, this);
     connect(shortcut, SIGNAL(activated()), this, SLOT(onEscPressed()));
@@ -201,7 +209,7 @@ bool MessageView::eventFilter(QObject* receiver, QEvent* event)
 void MessageView::onEscPressed()
 {
     d.helpLabel->hide();
-    d.findFrame->hide();
+	d.searchEditor->hide();
     setFocus(Qt::OtherFocusReason);
 }
 
@@ -211,6 +219,7 @@ void MessageView::onSend(const QString& text)
     if (cmd)
     {
         d.session->sendCommand(cmd);
+		d.sentCommands.insert(cmd->type());
 
         if (cmd->type() == IrcCommand::Message || cmd->type() == IrcCommand::CtcpAction)
         {
@@ -314,12 +323,23 @@ void MessageView::receiveMessage(IrcMessage* message)
         qWarning() << "unknown:" << message;
         append = false;
         break;
-    case IrcMessage::Invite:
-    case IrcMessage::Numeric:
+	case IrcMessage::Invite:
     case IrcMessage::Ping:
     case IrcMessage::Pong:
     case IrcMessage::Error:
         break;
+	case IrcMessage::Numeric: {
+			IrcNumericMessage* numeric = static_cast<IrcNumericMessage*>(message);
+			if (numeric->code() == Irc::RPL_ENDOFNAMES && d.sentCommands.contains(IrcCommand::Names))
+			{
+				QString names = prettyNames(d.formatter.currentNames(), 6);
+				appendMessage(d.formatter.formatMessage(message));
+				appendMessage(names);
+				d.sentCommands.remove(IrcCommand::Names);
+				return;
+			}
+			break;
+		}
     }
 
     if (matches)
@@ -350,6 +370,10 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
 {
     if (command == "QUERY")
         emit query(params.value(0));
+	if (command == "MSG")
+		emit query(params.value(0));
+	if (command == "TELL")
+		emit query(params.value(0));
     else if (command == "SETTINGS")
 	{
 		SettingsWizard wizard(qApp->activeWindow());
@@ -357,4 +381,19 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
 	}
     else if (command == "CONNECT")
         QMetaObject::invokeMethod(window(), "connectTo", Q_ARG(QString, params.value(0)), params.count() > 1 ? Q_ARG(quint16, params.value(1).toInt()) : QGenericArgument());
+}
+
+QString MessageView::prettyNames(const QStringList& names, int columns)
+{
+	QString message;
+	message += "<table>";
+	for (int i = 0; i < names.count(); i += columns)
+	{
+		message += "<tr>";
+		for (int j = 0; j < columns; ++j)
+			message += "<td>" + MessageFormatter::colorize(names.value(i+j)) + "&nbsp;</td>";
+		message += "</tr>";
+	}
+	message += "</table>";
+	return message;
 }

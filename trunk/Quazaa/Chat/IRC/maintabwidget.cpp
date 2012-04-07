@@ -23,10 +23,6 @@ MainTabWidget::MainTabWidget(QWidget* parent) : TabWidget(parent)
     setTabPosition(QTabWidget::West);
     setStyleSheet(".MainTabWidget::pane { border: 0px; }");
 
-#if QT_VERSION >= 0x040600
-    registerSwipeGestures(Qt::Vertical);
-#endif
-
     d.tabUpShortcut = new QShortcut(this);
     connect(d.tabUpShortcut, SIGNAL(activated()), this, SLOT(moveToPrevTab()));
 
@@ -43,6 +39,7 @@ MainTabWidget::MainTabWidget(QWidget* parent) : TabWidget(parent)
 	applySettings();
 }
 
+
 void MainTabWidget::applySettings()
 {
 	setAlertColor(QColor(quazaaSettings.Chat.Colors.value(IRCColorType::Highlight)));
@@ -56,18 +53,25 @@ void MainTabWidget::setSessionTitle(const QString& title)
         setTabText(index, title);
 }
 
-void MainTabWidget::activateAlert(bool active)
+void MainTabWidget::setInactive(bool inactive)
 {
-    int index = senderIndex();
-    if (index != -1)
-        setTabAlert(index, active);
+	int index = senderIndex();
+	if (index != -1)
+		setTabInactive(index, inactive);
 }
 
-void MainTabWidget::activateHighlight(bool active)
+void MainTabWidget::setAlerted(bool alerted)
 {
-    int index = senderIndex();
-    if (index != -1)
-        setTabHighlight(index, active);
+	int index = senderIndex();
+	if (index != -1)
+		setTabAlert(index, alerted);
+}
+
+void MainTabWidget::setHighlighted(bool highlighted)
+{
+	int index = senderIndex();
+	if (index != -1)
+		setTabHighlight(index, highlighted);
 }
 
 int MainTabWidget::senderIndex() const

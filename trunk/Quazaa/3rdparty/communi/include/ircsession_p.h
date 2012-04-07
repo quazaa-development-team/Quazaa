@@ -37,7 +37,9 @@ public:
 
     void readLines(const QByteArray& delimiter);
     void processLine(const QByteArray& line);
-    bool isConnected() const;
+    void setNick(const QString& nick);
+    void setActive(bool active);
+    void setConnected(bool connected);
 
     IrcSession* q_ptr;
     IrcEncoder encoder;
@@ -49,6 +51,8 @@ public:
     QString nickName;
     QString realName;
     bool active;
+    bool connected;
+    IrcServerInfo info;
 };
 
 #endif // IRCSESSION_P_H
