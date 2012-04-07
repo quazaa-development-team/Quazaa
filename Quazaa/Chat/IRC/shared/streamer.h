@@ -12,31 +12,19 @@
 * GNU General Public License for more details.
 */
 
-#include "connection.h"
+#ifndef STREAMER_H
+#define STREAMER_H
 
-Connection::Connection() :
-    name(),
-    host(),
-    port(6667),
-    nick(),
-    real(),
-    pass(),
-    secure(false),
-    channels()
+#include <QDataStream>
+
+template <typename T>
+static inline T readStreamValue(QDataStream& in, const T& defaultValue)
 {
+    T value;
+    in >> value;
+    if (in.status() != QDataStream::Ok)
+        value = defaultValue;
+    return value;
 }
 
-Connection::operator QVariant() const
-{
-    return QVariant::fromValue(*this);
-}
-
-bool Connection::operator==(const Connection& other) const
-{
-    return name == other.name;
-}
-
-bool Connection::operator!=(const Connection& other) const
-{
-    return name != other.name;
-}
+#endif // STREAMER_H

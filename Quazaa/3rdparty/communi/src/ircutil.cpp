@@ -1,6 +1,7 @@
 /*
 * Copyright (C) 2008-2011 J-P Nurmi <jpnurmi@gmail.com>
 * Copyright (C) 2010-2011 SmokeX <smokexjc@gmail.com>
+* Copyright (C) 2012 Mark Johnson <marknotgeorge@googlemail.com>
 *
 * This library is free software; you can redistribute it and/or modify it
 * under the terms of the GNU Lesser General Public License as published by
@@ -22,7 +23,7 @@
 */
 
 #include "ircutil.h"
-#include <QString>
+#include <QStringList>
 #include <QRegExp>
 
 /*!
@@ -73,18 +74,29 @@ QString IrcUtil::messageToHtml(const QString& message)
     {
         if (parseColor)
         {
-            int len = 2;
-            bool ok = false;
-            int code = processed.mid(pos, len).toInt(&ok);
-            if (ok)
+            // fg(,bg)
+            QRegExp rx(QLatin1String("(\\d{1,2})(?:,(\\d{1,2}))?"));
+            int idx = rx.indexIn(processed, pos);
+            if (idx == pos)
             {
-                processed.remove(pos, len);
-                QString color = colorCodeToName(code);
-                processed = processed.arg(color);
-                len = color.length();
+                bool ok = false;
+                QStringList styles;
+                processed.remove(idx, rx.matchedLength());
+
+                // foreground
+                int code = rx.cap(1).toInt(&ok);
+                if (ok)
+                    styles += QString(QLatin1String("color:%1")).arg(colorCodeToName(code, QLatin1String("black")));
+
+                // background
+                code = rx.cap(2).toInt(&ok);
+                if (ok)
+                    styles += QString(QLatin1String("background-color:%1")).arg(colorCodeToName(code, QLatin1String("transparent")));
+
+                processed = processed.arg(styles.join(QLatin1String(";")));
             }
-            pos += len;
             parseColor = false;
+            continue;
         }
 
         QString replacement;
@@ -102,7 +114,7 @@ QString IrcUtil::messageToHtml(const QString& message)
             if (state & Color)
                 replacement = QLatin1String("</span>");
             else
-                replacement = QLatin1String("<span style='color: %1'>");
+                replacement = QLatin1String("<span style='%1'>");
             state ^= Color;
             parseColor = state & Color;
             break;
@@ -218,9 +230,10 @@ QString IrcUtil::messageToHtml(const QString& message)
 }
 
 /*!
-    Converts a color \a code to a color name.
+    Converts a color \a code to a color name. If the color \a code
+    is unknown, the function returns \a defaultColor.
 */
-QString IrcUtil::colorCodeToName(int code)
+QString IrcUtil::colorCodeToName(int code, const QString& defaultColor)
 {
     switch (code)
     {
@@ -240,7 +253,7 @@ QString IrcUtil::colorCodeToName(int code)
     case 13: return QLatin1String("magenta");
     case 14: return QLatin1String("gray");
     case 15: return QLatin1String("lightgray");
-    default: return QLatin1String("black");
+    default: return defaultColor;
     }
 }
 

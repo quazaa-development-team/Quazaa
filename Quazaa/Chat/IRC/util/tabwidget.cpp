@@ -13,46 +13,65 @@
 */
 
 #include "tabwidget.h"
+#include "tabwidget_p.h"
 #include "sharedtimer.h"
-#include <QTabBar>
-#if QT_VERSION >= 0x040600
-#include <QGestureEvent>
-#endif // QT_VERSION
+#include <QContextMenuEvent>
 
-class TabBar : public QTabBar
+TabBar::TabBar(QWidget* parent) : QTabBar(parent)
 {
-public:
-    TabBar(QWidget* parent = 0) : QTabBar(parent)
-    {
-		int i = addTab("");
-		setTabIcon(i, QIcon(":/Resource/Generic/Add.png"));
-        setSelectionBehaviorOnRemove(SelectLeftTab);
-    }
+    addTab(tr("+"));
+    setSelectionBehaviorOnRemove(SelectLeftTab);
+}
 
-protected:
-    void changeEvent(QEvent* event)
+void TabBar::changeEvent(QEvent* event)
+{
+    if (event->type() == QEvent::StyleChange)
     {
-        if (event->type() == QEvent::StyleChange)
-        {
-            Qt::TextElideMode mode = elideMode();
-            QTabBar::changeEvent(event);
-            if (mode != elideMode())
-                setElideMode(mode);
-            return;
-        }
+        Qt::TextElideMode mode = elideMode();
         QTabBar::changeEvent(event);
+        if (mode != elideMode())
+            setElideMode(mode);
+        return;
     }
-};
+    QTabBar::changeEvent(event);
+}
+
+void TabBar::contextMenuEvent(QContextMenuEvent* event)
+{
+    int index = tabAt(event->pos());
+    if (index != -1)
+        emit menuRequested(index, event->globalPos());
+}
+
+void TabBar::wheelEvent(QWheelEvent* event)
+{
+    if (event->delta() > 0)
+        QMetaObject::invokeMethod(parent(), "moveToPrevTab");
+    else
+        QMetaObject::invokeMethod(parent(), "moveToNextTab");
+    QWidget::wheelEvent(event);
+}
 
 TabWidget::TabWidget(QWidget* parent) : QTabWidget(parent)
 {
     setTabBar(new TabBar(this));
     setElideMode(Qt::ElideMiddle);
     d.previous = -1;
+    d.inactiveColor = palette().color(QPalette::Disabled, QPalette::Highlight);
     d.alertColor = palette().color(QPalette::Highlight);
     d.highlightColor = palette().color(QPalette::Highlight);
-    d.swipeOrientation = Qt::Orientation(0);
     connect(this, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
+    connect(tabBar(), SIGNAL(menuRequested(int,QPoint)), this, SIGNAL(tabMenuRequested(int,QPoint)));
+}
+
+QColor TabWidget::inactiveColor() const
+{
+    return d.inactiveColor;
+}
+
+void TabWidget::setInactiveColor(const QColor& color)
+{
+    d.inactiveColor = color;
 }
 
 QColor TabWidget::alertColor() const
@@ -75,6 +94,20 @@ void TabWidget::setHighlightColor(const QColor& color)
     d.highlightColor = color;
 }
 
+bool TabWidget::isTabInactive(int index)
+{
+    return d.inactiveIndexes.contains(index);
+}
+
+void TabWidget::setTabInactive(int index, bool inactive)
+{
+    if (!inactive)
+        d.inactiveIndexes.removeAll(index);
+    else if (!d.inactiveIndexes.contains(index))
+        d.inactiveIndexes.append(index);
+    colorizeTab(index);
+}
+
 bool TabWidget::hasTabAlert(int index)
 {
     return d.alertIndexes.contains(index);
@@ -89,7 +122,6 @@ void TabWidget::setTabAlert(int index, bool alert)
         {
             emit alertStatusChanged(false);
             SharedTimer::instance()->unregisterReceiver(this, "alertTimeout");
-            setTabHighlight(index, hasTabHighlight(index));
         }
     }
     else
@@ -102,6 +134,7 @@ void TabWidget::setTabAlert(int index, bool alert)
         if (!d.alertIndexes.contains(index))
             d.alertIndexes.append(index);
     }
+    colorizeTab(index);
 }
 
 bool TabWidget::hasTabHighlight(int index) const
@@ -116,7 +149,6 @@ void TabWidget::setTabHighlight(int index, bool highlight)
         int count = d.highlightIndexes.removeAll(index);
         if (count > 0 && d.highlightIndexes.isEmpty())
             emit highlightStatusChanged(false);
-        tabBar()->setTabTextColor(index, QColor());
     }
     else
     {
@@ -124,30 +156,8 @@ void TabWidget::setTabHighlight(int index, bool highlight)
             emit highlightStatusChanged(true);
         if (!d.highlightIndexes.contains(index))
             d.highlightIndexes.append(index);
-        tabBar()->setTabTextColor(index, d.highlightColor);
     }
-}
-
-void TabWidget::registerSwipeGestures(Qt::Orientation orientation)
-{
-    if (d.swipeOrientation != 0) {
-        qWarning("TabWidget::registerSwipeGestures: already registered");
-        return;
-    }
-
-    d.swipeOrientation = orientation;
-    grabGesture(Qt::SwipeGesture);
-}
-
-void TabWidget::unregisterSwipeGestures()
-{
-    if (d.swipeOrientation == 0) {
-        qWarning("TabWidget::unregisterSwipeGestures: not registered");
-        return;
-    }
-
-    d.swipeOrientation = Qt::Orientation(0);
-    ungrabGesture(Qt::SwipeGesture);
+    colorizeTab(index);
 }
 
 void TabWidget::moveToNextTab()
@@ -171,55 +181,6 @@ void TabWidget::setTabBarVisible(bool visible)
     tabBar()->setVisible(visible);
 }
 
-#if QT_VERSION >= 0x040600
-bool TabWidget::event(QEvent* event)
-{
-    if (event->type() == QEvent::Gesture)
-    {
-        QGestureEvent* gestureEvent = static_cast<QGestureEvent*>(event);
-        QGesture* gesture = gestureEvent->gesture(Qt::SwipeGesture);
-        QSwipeGesture* swipeGesture = static_cast<QSwipeGesture*>(gesture);
-        if (swipeGesture)
-        {
-            bool accepted = false;
-            switch (d.swipeOrientation)
-            {
-                case Qt::Horizontal:
-                    accepted = handleSwipeGesture(swipeGesture, swipeGesture->horizontalDirection());
-                    break;
-                case Qt::Vertical:
-                    accepted = handleSwipeGesture(swipeGesture, swipeGesture->verticalDirection());
-                    break;
-                default:
-                    Q_ASSERT(false);
-                    break;
-            }
-            gestureEvent->setAccepted(swipeGesture, accepted);
-        }
-    }
-    return QTabWidget::event(event);
-}
-
-bool TabWidget::handleSwipeGesture(QSwipeGesture* gesture, QSwipeGesture::SwipeDirection direction)
-{
-    switch (direction)
-    {
-        case QSwipeGesture::Up:
-        case QSwipeGesture::Left:
-            if (gesture->state() == Qt::GestureFinished)
-                moveToPrevTab();
-            return true;
-        case QSwipeGesture::Down:
-        case QSwipeGesture::Right:
-            if (gesture->state() == Qt::GestureFinished)
-                moveToNextTab();
-            return true;
-        default:
-            return false;
-    }
-}
-#endif // QT_VERSION
-
 static void shiftIndexesFrom(QList<int>& indexes, int from, int delta)
 {
     QMutableListIterator<int> it(indexes);
@@ -232,12 +193,17 @@ static void shiftIndexesFrom(QList<int>& indexes, int from, int delta)
 
 void TabWidget::tabInserted(int index)
 {
+    shiftIndexesFrom(d.inactiveIndexes, index, 1);
     shiftIndexesFrom(d.alertIndexes, index, 1);
     shiftIndexesFrom(d.highlightIndexes, index, 1);
 }
 
 void TabWidget::tabRemoved(int index)
 {
+    d.inactiveIndexes.removeAll(index);
+    d.alertIndexes.removeAll(index);
+    d.highlightIndexes.removeAll(index);
+    shiftIndexesFrom(d.inactiveIndexes, index, -1);
     shiftIndexesFrom(d.alertIndexes, index, -1);
     shiftIndexesFrom(d.highlightIndexes, index, -1);
 }
@@ -258,14 +224,23 @@ void TabWidget::tabChanged(int index)
 
 void TabWidget::alertTimeout()
 {
-    QColor color;
-    if (!d.alertIndexes.isEmpty())
-    {
-        QColor tabColor = tabBar()->tabTextColor(d.alertIndexes.first());
-        if (tabColor != d.alertColor)
-            color = d.alertColor;
-    }
+    if (d.currentAlertColor == d.alertColor)
+        d.currentAlertColor = QColor();
+    else
+        d.currentAlertColor = d.alertColor;
 
     foreach (int index, d.alertIndexes)
-        tabBar()->setTabTextColor(index, color);
+        colorizeTab(index);
+}
+
+void TabWidget::colorizeTab(int index)
+{
+    if (isTabInactive(index))
+        tabBar()->setTabTextColor(index, d.inactiveColor);
+    else if (hasTabAlert(index))
+        tabBar()->setTabTextColor(index, d.currentAlertColor);
+    else if (hasTabHighlight(index))
+        tabBar()->setTabTextColor(index, d.highlightColor);
+    else
+        tabBar()->setTabTextColor(index, QColor());
 }

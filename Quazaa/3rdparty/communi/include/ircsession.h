@@ -16,26 +16,30 @@
 #define IRCSESSION_H
 
 #include <IrcGlobal>
+#include <QtCore/qhash.h>
 #include <QtCore/qobject.h>
 #include <QtCore/qscopedpointer.h>
-
-QT_FORWARD_DECLARE_CLASS(QAbstractSocket)
+#include <QtNetwork/qabstractsocket.h>
 
 class IrcCommand;
 class IrcMessage;
 class IrcSessionPrivate;
 
+typedef QHash<QString, QString> IrcServerInfo;
+
 class COMMUNI_EXPORT IrcSession : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString host READ host WRITE setHost)
-    Q_PROPERTY(int port READ port WRITE setPort)
-    Q_PROPERTY(QString userName READ userName WRITE setUserName)
+    Q_PROPERTY(QString host READ host WRITE setHost NOTIFY hostChanged)
+    Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
+    Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
     Q_PROPERTY(QString nickName READ nickName WRITE setNickName NOTIFY nickNameChanged)
-    Q_PROPERTY(QString realName READ realName WRITE setRealName)
+    Q_PROPERTY(QString realName READ realName WRITE setRealName NOTIFY realNameChanged)
     Q_PROPERTY(QByteArray encoding READ encoding WRITE setEncoding)
+    Q_PROPERTY(IrcServerInfo serverInfo READ serverInfo)
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
+    Q_PROPERTY(bool connected READ isConnected NOTIFY connectedChanged)
     Q_PROPERTY(QAbstractSocket* socket READ socket WRITE setSocket)
 
 public:
@@ -60,7 +64,11 @@ public:
     QByteArray encoding() const;
     void setEncoding(const QByteArray& encoding);
 
+    IrcServerInfo serverInfo() const;
+
     bool isActive() const;
+    bool isConnected() const;
+
     QAbstractSocket* socket() const;
     void setSocket(QAbstractSocket* socket);
 
@@ -76,9 +84,19 @@ Q_SIGNALS:
     void password(QString* password);
     void connected();
     void disconnected();
+    void socketError(QAbstractSocket::SocketError error);
+    void socketStateChanged(QAbstractSocket::SocketState state);
+
     void messageReceived(IrcMessage* message);
+
+    void hostChanged(const QString& host);
+    void portChanged(int port);
+    void userNameChanged(const QString& name);
     void nickNameChanged(const QString& name);
+    void realNameChanged(const QString& name);
+
     void activeChanged(bool active);
+    void connectedChanged(bool connected);
 
 private:
     QScopedPointer<IrcSessionPrivate> d_ptr;

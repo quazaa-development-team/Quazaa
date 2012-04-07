@@ -12,28 +12,25 @@
 * GNU General Public License for more details.
 */
 
-#ifndef CONNECTIONWIZARD_H
-#define CONNECTIONWIZARD_H
+#ifndef TABWIDGET_P_H
+#define TABWIDGET_P_H
 
-#include <QWizard>
-#include "connectioninfo.h"
+#include <QTabBar>
 
-class ConnectionWizard : public QWizard
+class TabBar : public QTabBar
 {
     Q_OBJECT
 
 public:
-    ConnectionWizard(QWidget* parent = 0);
+    TabBar(QWidget* parent = 0);
 
-    enum Page
-    {
-        UserPage,
-        ServerPage,
-        ConnectionPage
-    };
+signals:
+    void menuRequested(int index, const QPoint& pos);
 
-	ConnectionInfo connection() const;
-	void setConnection(const ConnectionInfo& connection);
+protected:
+    void changeEvent(QEvent* event);
+    void contextMenuEvent(QContextMenuEvent* event);
+    void wheelEvent(QWheelEvent* event);
 };
 
-#endif // CONNECTIONWIZARD_H
+#endif // TABWIDGET_P_H

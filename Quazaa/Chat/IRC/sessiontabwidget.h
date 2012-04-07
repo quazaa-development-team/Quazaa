@@ -38,20 +38,25 @@ public slots:
 	MessageView* openView(const QString& receiver);
     void removeView(const QString& receiver);
     void closeCurrentView();
-	void closeView(MessageView* view);
+	void closeView(MessageView *view);
+	void closeView(int index);
     void renameView(const QString& from, const QString& to);
     void quit(const QString& message = QString());
 
 signals:
-    void vibraRequested(bool on);
     void titleChanged(const QString& title);
+	void inactiveStatusChanged(bool inactive);
+
 
 private slots:
+	void updateStatus();
     void onAboutToQuit();
     void onDisconnected();
     void tabActivated(int index);
     void onNewTabRequested();
-    void delayedTabReset();
+	void onTabMenuRequested(int index, const QPoint& pos);
+	void onTabCloseRequested();
+	void delayedTabReset();
     void delayedTabResetTimeout();
     void alertTab(MessageView* view, bool on);
     void highlightTab(MessageView* view, bool on);

@@ -13,19 +13,18 @@
 */
 
 #include "messagehandler.h"
+#include "session.h"
 #include <qabstractsocket.h>
-#include <ircsession.h>
 #include <qvariant.h>
 #include <qdebug.h>
 #include <irc.h>
 
 MessageHandler::MessageHandler(QObject* parent) : QObject(parent)
 {
-    d.qml = false;
     d.session = 0;
     d.defaultReceiver = 0;
     d.currentReceiver = 0;
-    setSession(qobject_cast<IrcSession*>(parent));
+    setSession(qobject_cast<Session*>(parent));
 }
 
 MessageHandler::~MessageHandler()
@@ -34,36 +33,31 @@ MessageHandler::~MessageHandler()
     d.currentReceiver = 0;
     d.receivers.clear();
     d.channelUsers.clear();
-    d.session->socket()->waitForDisconnected(500);
+    if (d.session && d.session->isActive())
+        d.session->socket()->waitForDisconnected(500);
 }
 
-bool MessageHandler::isQml() const
-{
-    return d.qml;
-}
-
-void MessageHandler::setQml(bool qml)
-{
-    d.qml = qml;
-}
-
-IrcSession* MessageHandler::session() const
+Session* MessageHandler::session() const
 {
     return d.session;
 }
 
-void MessageHandler::setSession(IrcSession* session)
+void MessageHandler::setSession(Session* session)
 {
     if (d.session != session)
     {
         if (d.session)
+        {
+            disconnect(d.session, SIGNAL(destroyed()), this, SLOT(onSessionDestroyed()));
             disconnect(d.session, SIGNAL(messageReceived(IrcMessage*)), this, SLOT(handleMessage(IrcMessage*)));
+        }
 
         if (session)
         {
-            session->setParent(this);
+            connect(session, SIGNAL(destroyed()), this, SLOT(onSessionDestroyed()));
             connect(session, SIGNAL(messageReceived(IrcMessage*)), this, SLOT(handleMessage(IrcMessage*)));
         }
+
         d.session = session;
     }
 }
@@ -103,8 +97,8 @@ void MessageHandler::removeReceiver(const QString& name)
     const QString lower = name.toLower();
     if (d.receivers.contains(lower))
     {
-        emit receiverToBeRemoved(name);
         d.receivers.remove(name.toLower());
+        emit receiverToBeRemoved(name);
     }
 }
 
@@ -209,24 +203,43 @@ void MessageHandler::handleNoticeMessage(IrcNoticeMessage* message)
 
 void MessageHandler::handleNumericMessage(IrcNumericMessage* message)
 {
+    IrcCommand::Type command = IrcCommand::Custom;
+
     switch (message->code())
     {
     case Irc::RPL_ENDOFWHO:
+        command = IrcCommand::Who; // flow through
     case Irc::RPL_WHOREPLY:
+        if (d.session->hasSent(IrcCommand::Who))
+            sendMessage(message, d.currentReceiver);
+        break;
+
+    case Irc::RPL_ENDOFWHOIS:
+        command = IrcCommand::Whois; // flow through
+    case Irc::RPL_WHOISOPERATOR:
+    case Irc::RPL_WHOISHELPOP: // "is available for help"
+    case Irc::RPL_WHOISSPECIAL: // "is identified to services"
+    case Irc::RPL_WHOISHOST: // nick is connecting from <...>
+    case Irc::RPL_WHOISSECURE: // nick is using a secure connection
+    case Irc::RPL_WHOISUSER:
+    case Irc::RPL_WHOISSERVER:
+    case Irc::RPL_WHOISACCOUNT: // nick user is logged in as
+    case Irc::RPL_WHOISIDLE:
+    case Irc::RPL_WHOISCHANNELS:
+        if (d.session->hasSent(IrcCommand::Whois))
+            sendMessage(message, d.currentReceiver);
+        break;
+
+    case Irc::RPL_ENDOFWHOWAS:
+        command = IrcCommand::Whowas; // flow through
+    case Irc::RPL_WHOWASUSER:
+        if (d.session->hasSent(IrcCommand::Whowas))
+            sendMessage(message, d.currentReceiver);
+        break;
+
     case Irc::RPL_UNAWAY:
     case Irc::RPL_NOWAWAY:
     case Irc::RPL_AWAY:
-    case Irc::RPL_WHOISOPERATOR:
-    case 310: // "is available for help"
-    case 320: // "is identified to services"
-    case 378: // nick is connecting from <...>
-    case 671: // nick is using a secure connection
-    case Irc::RPL_WHOISUSER:
-    case Irc::RPL_WHOISSERVER:
-    case 330: // nick user is logged in as
-    case Irc::RPL_WHOWASUSER:
-    case Irc::RPL_WHOISIDLE:
-    case Irc::RPL_WHOISCHANNELS:
     case Irc::RPL_INVITING:
     case Irc::RPL_VERSION:
     case Irc::RPL_TIME:
@@ -241,43 +254,60 @@ void MessageHandler::handleNumericMessage(IrcNumericMessage* message)
     case Irc::RPL_ENDOFMOTD:
     case Irc::RPL_ENDOFSTATS:
     case Irc::RPL_ENDOFUSERS:
-    case Irc::RPL_ENDOFWHOIS:
-    case Irc::RPL_ENDOFWHOWAS:
         break; // ignore
 
     case Irc::RPL_ENDOFNAMES:
+        command = IrcCommand::Names;
+        if (d.session->hasSent(IrcCommand::Names))
+            sendMessage(message, message->parameters().value(1));
+        break;
+
     case Irc::RPL_CHANNELMODEIS:
-    case Irc::RPL_CHANNELURL:
-    case Irc::RPL_CHANNELCREATED:
+    case Irc::RPL_CHANNEL_URL:
+    case Irc::RPL_CREATIONTIME:
     case Irc::RPL_NOTOPIC:
     case Irc::RPL_TOPIC:
-    case Irc::RPL_TOPICSET:
+    case Irc::RPL_TOPICWHOTIME:
         sendMessage(message, message->parameters().value(1));
         break;
 
-    case Irc::RPL_NAMREPLY: {
-        const int count = message->parameters().count();
-        const QString channel = message->parameters().value(count - 2);
-        const QStringList nicks = message->parameters().value(count - 1).split(" ", QString::SkipEmptyParts);
-        foreach (const QString& nick, nicks)
-            d.addChannelUser(channel, nick);
-        sendMessage(message, channel);
-        break;
+    case Irc::RPL_NAMREPLY:
+        if (d.session->hasSent(IrcCommand::Names))
+        {
+            const int count = message->parameters().count();
+            const QString channel = message->parameters().value(count - 2);
+            const QStringList names = message->parameters().value(count - 1).split(" ", QString::SkipEmptyParts);
+            foreach (QString name, names)
+            {
+                if (name.startsWith("@") || name.startsWith("+"))
+                    name.remove(0, 1);
+                d.addChannelUser(channel, name);
+            }
+            sendMessage(message, channel);
         }
+        break;
 
     default:
         sendMessage(message, d.defaultReceiver);
         break;
     }
+
+    if (d.session->hasSent(command))
+        d.session->clearSent(command);
 }
 
 void MessageHandler::handlePartMessage(IrcPartMessage* message)
 {
     d.removeChannelUser(message->channel(), message->sender().name());
     if (message->sender().name() == d.session->nickName())
+    {
         removeReceiver(message->channel());
+        d.channelUsers.remove(message->channel().toLower());
+    }
     else
+    {
         sendMessage(message, message->channel());
+    }
 }
 
 void MessageHandler::handlePongMessage(IrcPongMessage* message)
@@ -306,9 +336,6 @@ void MessageHandler::handleQuitMessage(IrcQuitMessage* message)
 
     if (d.receivers.contains(nick.toLower()))
         sendMessage(message, nick);
-
-    if (nick == d.session->nickName())
-        removeReceiver(d.session->host());
 }
 
 void MessageHandler::handleTopicMessage(IrcTopicMessage* message)
@@ -323,12 +350,10 @@ void MessageHandler::handleUnknownMessage(IrcMessage* message)
 
 void MessageHandler::sendMessage(IrcMessage* message, QObject* receiver)
 {
-    if (d.qml)
-        // QML: QVariant(QObject*)
-        QMetaObject::invokeMethod(receiver, "receiveMessage", Q_ARG(QVariant, QVariant::fromValue((QObject*) message)));
-    else
-        // C++: IrcMessage*
-        QMetaObject::invokeMethod(receiver, "receiveMessage", Q_ARG(IrcMessage*, message));
+    QMetaObject::invokeMethod(receiver, "receiveMessage", Q_ARG(IrcMessage*, message));
+
+    // if the receiver was a QML element, argument type would be QVariant(QObject*):
+    // QMetaObject::invokeMethod(receiver, "receiveMessage", Q_ARG(QVariant, QVariant::fromValue((QObject*) message)));
 }
 
 void MessageHandler::sendMessage(IrcMessage* message, const QString& receiver)
@@ -336,8 +361,13 @@ void MessageHandler::sendMessage(IrcMessage* message, const QString& receiver)
     if (!d.receivers.contains(receiver.toLower()))
         emit receiverToBeAdded(receiver);
     QObject* object = getReceiver(receiver);
-    Q_ASSERT(object);
-    sendMessage(message, object);
+    if (object)
+        sendMessage(message, object);
+}
+
+void MessageHandler::onSessionDestroyed()
+{
+    setSession(0);
 }
 
 QStringList MessageHandler::Private::userChannels(const QString& user) const
@@ -350,28 +380,26 @@ QStringList MessageHandler::Private::userChannels(const QString& user) const
     return channels;
 }
 
-void MessageHandler::Private::addChannelUser(const QString& channel, const QString& user)
+void MessageHandler::Private::addChannelUser(QString channel, const QString& user)
 {
-    channelUsers[channel.toLower()].insert(user.toLower());
-    QObject* receiver = receivers.value(channel.toLower());
-    if (receiver)
+    channel = channel.toLower();
+    if (!channelUsers.value(channel).contains(user.toLower()))
     {
-        if (qml)
-            QMetaObject::invokeMethod(receiver, "addUser", Q_ARG(QVariant, user));
-        else
+        channelUsers[channel].insert(user.toLower());
+        QObject* receiver = receivers.value(channel);
+        if (receiver)
             QMetaObject::invokeMethod(receiver, "addUser", Q_ARG(QString, user));
     }
 }
 
-void MessageHandler::Private::removeChannelUser(const QString& channel, const QString& user)
+void MessageHandler::Private::removeChannelUser(QString channel, const QString& user)
 {
-    channelUsers[channel.toLower()].remove(user.toLower());
-    QObject* receiver = receivers.value(channel.toLower());
-    if (receiver)
+    channel = channel.toLower();
+    if (channelUsers.value(channel).contains(user.toLower()))
     {
-        if (qml)
-            QMetaObject::invokeMethod(receiver, "removeUser", Q_ARG(QVariant, user));
-        else
+        channelUsers[channel].remove(user.toLower());
+        QObject* receiver = receivers.value(channel);
+        if (receiver)
             QMetaObject::invokeMethod(receiver, "removeUser", Q_ARG(QString, user));
     }
 }

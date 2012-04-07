@@ -12,28 +12,34 @@
 * GNU General Public License for more details.
 */
 
-#ifndef CONNECTIONWIZARD_H
-#define CONNECTIONWIZARD_H
+#ifndef HOMEPAGE_H
+#define HOMEPAGE_H
 
-#include <QWizard>
-#include "connectioninfo.h"
+#include <QWidget>
+class QLabel;
 
-class ConnectionWizard : public QWizard
+class HomePage : public QWidget
 {
     Q_OBJECT
 
 public:
-    ConnectionWizard(QWidget* parent = 0);
+    HomePage(QWidget* parent = 0);
 
-    enum Page
-    {
-        UserPage,
-        ServerPage,
-        ConnectionPage
-    };
+signals:
+    void connectRequested();
 
-	ConnectionInfo connection() const;
-	void setConnection(const ConnectionInfo& connection);
+protected:
+    void paintEvent(QPaintEvent* event);
+
+private slots:
+    void updateHtml();
+
+private:
+    QWidget* createBody(QWidget* parent = 0) const;
+
+    QLabel* header;
+    QLabel* footer;
+    QPixmap bg;
 };
 
-#endif // CONNECTIONWIZARD_H
+#endif // HOMEPAGE_H

@@ -29,6 +29,9 @@ SessionTabWidget::SessionTabWidget(Session* session, QWidget* parent) :
     connect(this, SIGNAL(currentChanged(int)), this, SLOT(tabActivated(int)));
     connect(this, SIGNAL(newTabRequested()), this, SLOT(onNewTabRequested()));
     connect(session, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+	connect(session, SIGNAL(activeChanged(bool)), this, SLOT(updateStatus()));
+	connect(session, SIGNAL(connectedChanged(bool)), this, SLOT(updateStatus()));
+	connect(session, SIGNAL(networkChanged(QString)), this, SIGNAL(titleChanged(QString)));
 
     connect(&d.handler, SIGNAL(receiverToBeAdded(QString)), this, SLOT(openView(QString)));
     connect(&d.handler, SIGNAL(receiverToBeRemoved(QString)), this, SLOT(removeView(QString)));
@@ -40,13 +43,10 @@ SessionTabWidget::SessionTabWidget(Session* session, QWidget* parent) :
 
 	applySettings();
 
-#if QT_VERSION >= 0x040600
-    registerSwipeGestures(Qt::Horizontal);
-#endif
-
     MessageView* view = openView(d.handler.session()->host());
     d.handler.setDefaultReceiver(view);
 	view->setStatusChannel(true);
+	updateStatus();
 }
 
 Session* SessionTabWidget::session() const
@@ -101,30 +101,41 @@ void SessionTabWidget::removeView(const QString& receiver)
     MessageView* view = d.views.take(receiver.toLower());
     if (view)
     {
-        if (indexOf(view) == 0)
-            deleteLater();
-        else
-            view->deleteLater();
+		if (view)
+		{
+			if (indexOf(view) == 0)
+				deleteLater();
+			else
+				view->deleteLater();
+		}
     }
 }
 
 void SessionTabWidget::closeCurrentView()
 {
-    MessageView* view = d.views.value(tabText(currentIndex()).toLower());
-	closeView(view);
+	closeView(currentIndex());
 }
 
-void SessionTabWidget::closeView(MessageView *view)
+void SessionTabWidget::closeView(MessageView* view)
 {
 	if (view)
 	{
+		QString reason = tr("%1 %2").arg(QApplication::applicationName())
+									.arg(QuazaaGlobals::APPLICATION_VERSION_STRING());
 		if (indexOf(view) == 0)
-			quit();
+			session()->quit(reason);
 		else if (view->isChannelView())
-			d.handler.session()->sendCommand(IrcCommand::createPart(view->receiver()));
+			d.handler.session()->sendCommand(IrcCommand::createPart(view->receiver(), reason));
 
 		d.handler.removeReceiver(view->receiver());
 	}
+}
+
+void SessionTabWidget::closeView(int index)
+{
+	MessageView* view = d.views.value(tabText(index).toLower());
+
+	closeView(view);
 }
 
 void SessionTabWidget::renameView(const QString& from, const QString& to)
@@ -149,6 +160,13 @@ void SessionTabWidget::quit(const QString &message)
 		reason = tr("%1 %2").arg(QApplication::applicationName())
 							.arg(QuazaaGlobals::APPLICATION_VERSION_STRING());
     d.handler.session()->sendCommand(IrcCommand::createQuit(reason));
+}
+
+void SessionTabWidget::updateStatus()
+{
+	bool inactive = !session()->isActive() && !session()->isConnected();
+	setTabInactive(0, inactive);
+	emit inactiveStatusChanged(inactive);
 }
 
 void SessionTabWidget::onAboutToQuit()
@@ -190,6 +208,30 @@ void SessionTabWidget::onNewTabRequested()
     }
 }
 
+void SessionTabWidget::onTabMenuRequested(int index, const QPoint& pos)
+{
+	QMenu menu;
+	if (index == 0)
+	{
+		if (session()->isActive())
+			menu.addAction(tr("Disconnect"), session(), SLOT(quit()));
+		else
+			menu.addAction(tr("Reconnect"), session(), SLOT(reconnect()));
+	}
+	if (static_cast<MessageView*>(widget(index))->isChannelView())
+		menu.addAction(tr("Part"), this, SLOT(onTabCloseRequested()))->setData(index);
+	else
+		menu.addAction(tr("Close"), this, SLOT(onTabCloseRequested()))->setData(index);
+	menu.exec(pos);
+}
+
+void SessionTabWidget::onTabCloseRequested()
+{
+	QAction* action = qobject_cast<QAction*>(sender());
+	if (action)
+		closeView(action->data().toInt());
+}
+
 void SessionTabWidget::delayedTabReset()
 {
     d.delayedIndexes += currentIndex();
@@ -211,8 +253,7 @@ void SessionTabWidget::alertTab(MessageView* view, bool on)
     if (index != -1)
     {
         if (!isVisible() || !isActiveWindow() || index != currentIndex())
-            setTabAlert(index, on);
-        emit vibraRequested(on);
+			setTabAlert(index, on);
     }
 }
 

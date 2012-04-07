@@ -19,13 +19,12 @@
 #include <QObject>
 #include <IrcMessage>
 
-class IrcSession;
+class Session;
 
 class MessageHandler : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool qml READ isQml WRITE setQml)
-    Q_PROPERTY(IrcSession* session READ session WRITE setSession)
+    Q_PROPERTY(Session* session READ session WRITE setSession)
     Q_PROPERTY(QObject* defaultReceiver READ defaultReceiver WRITE setDefaultReceiver)
     Q_PROPERTY(QObject* currentReceiver READ currentReceiver WRITE setCurrentReceiver)
 
@@ -33,11 +32,8 @@ public:
     explicit MessageHandler(QObject* parent = 0);
     virtual ~MessageHandler();
 
-    bool isQml() const;
-    void setQml(bool qml);
-
-    IrcSession* session() const;
-    void setSession(IrcSession* session);
+    Session* session() const;
+    void setSession(Session* session);
 
     QObject* defaultReceiver() const;
     void setDefaultReceiver(QObject* receiver);
@@ -75,15 +71,17 @@ protected:
     void sendMessage(IrcMessage* message, QObject* receiver);
     void sendMessage(IrcMessage* message, const QString& receiver);
 
+private slots:
+    void onSessionDestroyed();
+
 private:
     struct Private
     {
         QStringList userChannels(const QString& user) const;
-        void addChannelUser(const QString& channel, const QString& user);
-        void removeChannelUser(const QString& channel, const QString& user);
+        void addChannelUser(QString channel, const QString& user);
+        void removeChannelUser(QString channel, const QString& user);
 
-        bool qml;
-        IrcSession* session;
+        Session* session;
         QObject* defaultReceiver;
         QObject* currentReceiver;
         QHash<QString, QObject*> receivers;

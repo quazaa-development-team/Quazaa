@@ -40,7 +40,7 @@
 #include "maintabwidget.h"
 #include "sharedtimer.h"
 #include "welcomepage.h"
-#include "connection.h"
+#include "connectioninfo.h"
 #include "session.h"
 
 #include <irccommand.h>
@@ -57,8 +57,8 @@ WidgetIRCMain::WidgetIRCMain(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
 	createWelcomeView();
 	quazaaSettings.loadChat();
-	qRegisterMetaTypeStreamOperators<Connection>("Connection");
-	qRegisterMetaTypeStreamOperators<Connections>("Connections");
+	qRegisterMetaTypeStreamOperators<ConnectionInfo>("Connection");
+	qRegisterMetaTypeStreamOperators<ConnectionInfos>("Connections");
 
 	connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(initialize()));
 	connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(disconnect()));
@@ -104,18 +104,14 @@ void WidgetIRCMain::saveWidget()
 	quazaaSettings.saveSettings();
 	quazaaSettings.WinMain.ChatToolbars = saveState();
 
-	Connections connections;
+	ConnectionInfos connections;
 	for (int i = 0; tabWidgetMain && i < tabWidgetMain->count(); ++i)
 	{
 		SessionTabWidget* tab = qobject_cast<SessionTabWidget*>(tabWidgetMain->widget(i));
 		if (tab)
 		{
-			Connection connection = tab->session()->connection();
-			connection.nick = tab->session()->nickName();
-			connection.channels = tab->channels();
-			connections += connection;
-			tab->quit();
-			tabWidgetMain->removeTab(i);
+			connections += tab->session()->toConnection();
+			tab->session()->quit();
 		}
 	}
 
@@ -140,7 +136,7 @@ void WidgetIRCMain::on_actionEditMyProfile_triggered()
 
 void WidgetIRCMain::connectTo(const QString& host, quint16 port, const QString& nick, const QString& password)
 {
-	Connection conn;
+	ConnectionInfo conn;
 	conn.host = host;
 	conn.port = port;
 	conn.nick = nick;
@@ -148,7 +144,7 @@ void WidgetIRCMain::connectTo(const QString& host, quint16 port, const QString& 
 	connectTo(conn);
 }
 
-void WidgetIRCMain::connectTo(const Connection& connection)
+void WidgetIRCMain::connectTo(const ConnectionInfo& connection)
 {
 	ConnectionWizard wizard;
 	wizard.setConnection(connection);
@@ -167,35 +163,39 @@ void WidgetIRCMain::connectTo(const Connection& connection)
 	}
 }
 
-void WidgetIRCMain::connectToImpl(const Connection& connection)
+void WidgetIRCMain::connectToImpl(const ConnectionInfo &connection)
 {
 	if (!tabWidgetMain)
 		createTabbedView();
 
-	Session* session = new Session(this);
-	session->connectTo(connection);
+	Session* session = Session::fromConnection(connection, this);
+	session->setUserName(quazaaSettings.Profile.IrcUserName);
+	if (session->ensureNetwork())
+		session->open();
 
 	SessionTabWidget* tab = new SessionTabWidget(session, tabWidgetMain);
 	if (connection.name.isEmpty())
 	connect(tab, SIGNAL(titleChanged(QString)), tabWidgetMain, SLOT(setSessionTitle(QString)));
+	connect(tab, SIGNAL(inactiveStatusChanged(bool)), tabWidgetMain, SLOT(setInactive(bool)));
 	connect(tab, SIGNAL(alertStatusChanged(bool)), tabWidgetMain, SLOT(activateAlert(bool)));
 	connect(tab, SIGNAL(highlightStatusChanged(bool)), tabWidgetMain, SLOT(activateHighlight(bool)));
 
 	int index = tabWidgetMain->addTab(tab, connection.name.isEmpty() ? session->host() : connection.name);
 	tabWidgetMain->setCurrentIndex(index);
+	tabWidgetMain->setTabInactive(index, !session->isActive());
 }
 
 void WidgetIRCMain::initialize()
 {
 	quazaaSettings.loadChatConnections();
-	Connections connections = quazaaSettings.Chat.Connections.value<Connections>();
+	ConnectionInfos connections = quazaaSettings.Chat.Connections.value<ConnectionInfos>();
 
-	foreach (const Connection& connection, connections)
+	foreach (const ConnectionInfo& connection, connections)
 		connectToImpl(connection);
 
 	if (connections.isEmpty())
 	{
-		connectTo(Connection());
+		connectTo(ConnectionInfo());
 	} else {
 		ui->actionConnect->setEnabled(false);
 		ui->actionDisconnect->setEnabled(true);
@@ -204,15 +204,13 @@ void WidgetIRCMain::initialize()
 
 void WidgetIRCMain::disconnect()
 {
-	Connections connections;
+	ConnectionInfos connections;
 	for (int i = 0; tabWidgetMain && i < tabWidgetMain->count(); ++i)
 	{
 		SessionTabWidget* tab = qobject_cast<SessionTabWidget*>(tabWidgetMain->widget(i));
 		if (tab)
 		{
-			Connection connection = tab->session()->connection();
-			connection.nick = tab->session()->nickName();
-			connection.channels = tab->channels();
+			ConnectionInfo connection = tab->session()->toConnection();
 			connections += connection;
 			tab->quit();
 			tabWidgetMain->removeTab(i);

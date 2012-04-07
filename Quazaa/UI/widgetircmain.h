@@ -32,7 +32,7 @@
 
 #include "maintabwidget.h"
 
-struct Connection;
+struct ConnectionInfo;
 
 namespace Ui
 {
@@ -57,8 +57,8 @@ public slots:
 	void saveWidget();
 	void connectTo(const QString& host = QString(), quint16 port = 6667,
 				   const QString& nick = QString(), const QString& password = QString());
-	void connectTo(const Connection& connection);
-	void connectToImpl(const Connection& connection);
+	void connectTo(const ConnectionInfo &connection);
+	void connectToImpl(const ConnectionInfo& connection);
 
 private slots:
 	void on_actionChatSettings_triggered();
