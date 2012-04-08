@@ -46,6 +46,8 @@ public slots:
 signals:
     void titleChanged(const QString& title);
 	void inactiveStatusChanged(bool inactive);
+	void sessionHighlighted(SessionTabWidget* session, bool on);
+	void sessionAlerted(SessionTabWidget* session, bool on);
 
 
 private slots:

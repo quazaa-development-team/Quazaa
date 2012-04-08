@@ -257,9 +257,14 @@ void SessionTabWidget::alertTab(MessageView* view, bool on)
 {
     int index = indexOf(view);
     if (index != -1)
-    {
-        if (!isVisible() || !isActiveWindow() || index != currentIndex())
-			setTabAlert(index, on);
+	{
+		if (!isVisible() || !isActiveWindow())
+		{
+			if(index != currentIndex())
+				setTabHighlight(index, on);
+			emit sessionAlerted(this, on);
+			qApp->alert(this);
+		}
     }
 }
 
@@ -268,8 +273,13 @@ void SessionTabWidget::highlightTab(MessageView* view, bool on)
     int index = indexOf(view);
     if (index != -1)
     {
-        if (!isVisible() || !isActiveWindow() || index != currentIndex())
-            setTabHighlight(index, on);
+		if (!isVisible() || !isActiveWindow())
+		{
+			if(index != currentIndex())
+				setTabHighlight(index, on);
+			emit sessionHighlighted(this, on);
+			qApp->alert(this);
+		}
     }
 }
 

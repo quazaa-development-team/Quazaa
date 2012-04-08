@@ -35,6 +35,7 @@ MainTabWidget::MainTabWidget(QWidget* parent) : TabWidget(parent)
     d.tabRightShortcut = new QShortcut(this);
     connect(d.tabRightShortcut, SIGNAL(activated()), this, SLOT(moveToNextSubTab()));
 
+	connect(this, SIGNAL(currentChanged(int)), this, SLOT(tabActivated(int)));
 	connect(&quazaaSettings, SIGNAL(chatSettingsChanged()), this, SLOT(applySettings()));
 	applySettings();
 }
@@ -60,18 +61,24 @@ void MainTabWidget::setInactive(bool inactive)
 		setTabInactive(index, inactive);
 }
 
-void MainTabWidget::setAlerted(bool alerted)
+void MainTabWidget::alertTab(SessionTabWidget* session, bool on)
 {
-	int index = senderIndex();
+	int index = indexOf(session);
 	if (index != -1)
-		setTabAlert(index, alerted);
+	{
+		if(index != currentIndex())
+			setTabHighlight(index, on);
+	}
 }
 
-void MainTabWidget::setHighlighted(bool highlighted)
+void MainTabWidget::highlightTab(SessionTabWidget* session, bool on)
 {
-	int index = senderIndex();
+	int index = indexOf(session);
 	if (index != -1)
-		setTabHighlight(index, highlighted);
+	{
+		if(index != currentIndex())
+			setTabHighlight(index, on);
+	}
 }
 
 int MainTabWidget::senderIndex() const
@@ -94,4 +101,19 @@ void MainTabWidget::moveToPrevSubTab()
     TabWidget* tabWidget = qobject_cast<TabWidget*>(currentWidget());
     if (tabWidget)
         tabWidget->moveToPrevTab();
+}
+
+void MainTabWidget::tabActivated(int index)
+{
+	if (index < count() - 1)
+	{
+		setTabAlert(index, false);
+		setTabHighlight(index, false);
+		if (isVisible())
+		{
+			window()->setWindowFilePath(tabText(index));
+			if (currentWidget())
+				currentWidget()->setFocus();
+		}
+	}
 }
