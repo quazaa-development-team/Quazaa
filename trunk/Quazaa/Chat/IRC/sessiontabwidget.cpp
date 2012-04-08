@@ -77,6 +77,7 @@ MessageView* SessionTabWidget::openView(const QString& receiver)
         connect(view, SIGNAL(alert(MessageView*, bool)), this, SLOT(alertTab(MessageView*, bool)));
         connect(view, SIGNAL(highlight(MessageView*, bool)), this, SLOT(highlightTab(MessageView*, bool)));
 		connect(view, SIGNAL(query(QString)), this, SLOT(openView(QString)));
+		connect(view, SIGNAL(queryMessage(QString,QString)), this, SLOT(messageToView(QString,QString)));
 		connect(view, SIGNAL(aboutToQuit()), this, SLOT(onAboutToQuit()));
 		connect(view, SIGNAL(closeQuery(MessageView*)), this, SLOT(closeView(MessageView*)));
 		connect(view, SIGNAL(partView(MessageView*)), this, SLOT(closeView(MessageView*)));
@@ -99,6 +100,13 @@ MessageView* SessionTabWidget::openView(const QString& receiver)
     if (view)
         setCurrentWidget(view);
     return view;
+}
+
+void SessionTabWidget::messageToView(const QString& receiver, const QString &message)
+{
+	MessageView* view = openView(receiver);
+
+	view->onSend(message);
 }
 
 void SessionTabWidget::removeView(const QString& receiver)

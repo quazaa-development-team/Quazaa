@@ -47,12 +47,13 @@ public:
 public slots:
     void showHelp(const QString& text, bool error = false);
     void appendMessage(const QString& message);
+	void onSend(const QString& text);
 
 signals:
     void highlight(MessageView* view, bool on);
     void alert(MessageView* view, bool on);
 	void query(const QString& user);
-	void queryMessage(const QString& message);
+	void queryMessage(const QString& receiver, const QString& message);
 	void closeQuery(MessageView *view);
     void aboutToQuit();
 	void partView(MessageView *view);
@@ -69,8 +70,7 @@ protected slots:
 	void part();
 
 private slots:
-    void onEscPressed();
-    void onSend(const QString& text);
+	void onEscPressed();
 	void applySettings();
     void onCustomCommand(const QString& command, const QStringList& params);
 

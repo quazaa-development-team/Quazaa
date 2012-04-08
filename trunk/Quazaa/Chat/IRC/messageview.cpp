@@ -372,21 +372,24 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
 {
     if (command == "QUERY")
 	{
-        emit query(params.value(0));
 		if (!params.value(1).isEmpty())
-			emit queryMessage(params.value(1));
+			emit queryMessage(params.value(0), params.value(1));
+		else
+			emit query(params.value(0));
 	}
 	else if (command == "MSG")
 	{
-		emit query(params.value(0));
 		if (!params.value(1).isEmpty())
-			emit queryMessage(params.value(1));
+			emit queryMessage(params.value(0),params.value(1));
+		else
+			emit query(params.value(0));
 	}
 	else if (command == "TELL")
 	{
-		emit query(params.value(0));
 		if (!params.value(1).isEmpty())
-			emit queryMessage(params.value(1));
+			emit queryMessage(params.value(0),params.value(1));
+		else
+			emit query(params.value(0));
 	}
     else if (command == "SETTINGS")
 	{
