@@ -177,8 +177,8 @@ void WidgetIRCMain::connectToImpl(const ConnectionInfo &connection)
 	if (connection.name.isEmpty())
 	connect(tab, SIGNAL(titleChanged(QString)), tabWidgetMain, SLOT(setSessionTitle(QString)));
 	connect(tab, SIGNAL(inactiveStatusChanged(bool)), tabWidgetMain, SLOT(setInactive(bool)));
-	connect(tab, SIGNAL(alertStatusChanged(bool)), tabWidgetMain, SLOT(activateAlert(bool)));
-	connect(tab, SIGNAL(highlightStatusChanged(bool)), tabWidgetMain, SLOT(activateHighlight(bool)));
+	connect(tab, SIGNAL(sessionAlerted(SessionTabWidget*,bool)), tabWidgetMain, SLOT(alertTab(SessionTabWidget*,bool)));
+	connect(tab, SIGNAL(sessionHighlighted(SessionTabWidget*,bool)), tabWidgetMain, SLOT(highlightTab(SessionTabWidget*,bool)));
 
 	int index = tabWidgetMain->addTab(tab, connection.name.isEmpty() ? session->host() : connection.name);
 	tabWidgetMain->setCurrentIndex(index);

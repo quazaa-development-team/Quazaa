@@ -16,6 +16,7 @@
 #define MAINTABWIDGET_H
 
 #include "tabwidget.h"
+#include "sessiontabwidget.h"
 
 class QShortcut;
 
@@ -30,10 +31,11 @@ private slots:
 	void applySettings();
     void setSessionTitle(const QString& title);
 	void setInactive(bool inactive);
-	void setAlerted(bool alerted);
-	void setHighlighted(bool highlighted);
+	void alertTab(SessionTabWidget* session, bool on);
+	void highlightTab(SessionTabWidget* session, bool on);
     void moveToNextSubTab();
     void moveToPrevSubTab();
+	void tabActivated(int index);
 
 private:
     int senderIndex() const;
