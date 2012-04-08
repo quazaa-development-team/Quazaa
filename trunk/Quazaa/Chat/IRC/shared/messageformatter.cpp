@@ -312,11 +312,11 @@ QString MessageFormatter::formatNumericMessage(IrcNumericMessage* message) const
     }
     case Irc::RPL_NOTOPIC:
         return tr("! %1 has no topic set").arg(P_(1));
-    case Irc::RPL_TOPIC:
-        return tr("! %1 topic is \"%2\"").arg(P_(1), IrcUtil::messageToHtml(P_(2)));
-    case Irc::RPL_TOPICWHOTIME: {
+	case Irc::RPL_TOPIC:
+		return tr("! %1 topic is \"%2\"").arg(P_(1), IrcUtil::messageToHtml(P_(2)));
+	case Irc::RPL_TOPICWHOTIME: {
         QDateTime dateTime = QDateTime::fromTime_t(P_(3).toInt());
-        return tr("! %1 topic was set %2 by %3").arg(P_(1), dateTime.toString(), P_(2));
+		return tr("! %1 topic was set %2 by %3").arg(P_(1), dateTime.toString(), P_(2));
     }
     case Irc::RPL_INVITING:
         return tr("! inviting %1 to %2").arg(prettyUser(P_(1)), P_(2));
@@ -385,8 +385,18 @@ QString MessageFormatter::formatQuitMessage(IrcQuitMessage* message) const
 QString MessageFormatter::formatTopicMessage(IrcTopicMessage* message) const
 {
     const QString sender = prettyUser(message->sender());
-    const QString topic = IrcUtil::messageToHtml(message->topic());
-    return tr("! %1 sets topic \"%2\" on %3").arg(sender, topic, message->channel());
+	const QString topic = IrcUtil::messageToHtml(message->topic());
+	return tr("! %1 sets topic \"%2\" on %3").arg(sender, topic, message->channel());
+}
+
+QString MessageFormatter::formatTopicOnly(IrcTopicMessage *message) const
+{
+	return IrcUtil::messageToHtml(message->topic());
+}
+
+QString MessageFormatter::formatTopicOnly(IrcNumericMessage *message) const
+{
+	return IrcUtil::messageToHtml(P_(2));
 }
 
 QString MessageFormatter::formatUnknownMessage(IrcMessage* message) const
