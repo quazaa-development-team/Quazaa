@@ -20,6 +20,7 @@
 #include <QShortcut>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QDesktopServices>
 #include <irccommand.h>
 #include <ircutil.h>
 #include <irc.h>
@@ -46,6 +47,9 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
 	QFont font("Monospace");
 	font.setStyleHint(QFont::TypeWriter);
 	d.textBrowser->setFont(font);
+
+	d.labelTopic->setVisible(false);
+	connect(d.labelTopic, SIGNAL(linkActivated(QString)), this, SLOT(followLink(QString)));
 
 	d.formatter.setHighlights(QStringList(session->nickName()));
 	d.formatter.setMessageFormat("class='message'");
@@ -317,9 +321,11 @@ void MessageView::receiveMessage(IrcMessage* message)
 		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Quits);
 		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Quits);
         break;
-    case IrcMessage::Topic:
+	case IrcMessage::Topic:
 		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Topics);
 		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Topics);
+		d.labelTopic->setVisible(true);
+		d.labelTopic->setText(d.formatter.formatTopicOnly(static_cast<IrcTopicMessage*>(message)));
         break;
     case IrcMessage::Unknown:
         qWarning() << "unknown:" << message;
@@ -339,6 +345,11 @@ void MessageView::receiveMessage(IrcMessage* message)
 				appendMessage(names);
 				d.sentCommands.remove(IrcCommand::Names);
 				return;
+			}
+			if (numeric->code() == Irc::RPL_TOPIC)
+			{
+				d.labelTopic->setVisible(true);
+				d.labelTopic->setText(d.formatter.formatTopicOnly(static_cast<IrcNumericMessage*>(message)));
 			}
 			break;
 		}
@@ -424,4 +435,9 @@ QString MessageView::prettyNames(const QStringList& names, int columns)
 	}
 	message += "</table>";
 	return message;
+}
+
+void MessageView::followLink(const QString &link)
+{
+	QDesktopServices::openUrl(link);
 }

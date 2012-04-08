@@ -66,7 +66,9 @@ public:
 
     static QString prettyUser(const IrcSender& sender);
     static QString prettyUser(const QString& user);
-    static QString colorize(const QString& str);
+	static QString colorize(const QString& str);
+	QString formatTopicOnly(IrcTopicMessage* message) const;
+	QString formatTopicOnly(IrcNumericMessage* message) const;
 
 protected:
     QString formatInviteMessage(IrcInviteMessage* message) const;
@@ -80,7 +82,7 @@ protected:
     QString formatPongMessage(IrcPongMessage* message) const;
     QString formatPrivateMessage(IrcPrivateMessage* message) const;
     QString formatQuitMessage(IrcQuitMessage* message) const;
-    QString formatTopicMessage(IrcTopicMessage* message) const;
+	QString formatTopicMessage(IrcTopicMessage* message) const;
     QString formatUnknownMessage(IrcMessage* message) const;
 
     static QString formatPingReply(const IrcSender& sender, const QString& arg);
