@@ -1,8 +1,9 @@
-#ifndef DISCOVERYSERVICEMANAGER_H
-#define DISCOVERYSERVICEMANAGER_H
+#ifndef DISCOVERY_H
+#define DISCOVERY_H
 
 #include <QObject>
 #include <QReadWriteLock>
+#include <QSharedPointer>
 #include <QString>
 #include <QUuid>
 
@@ -15,7 +16,16 @@
 
 // http://www.gnucleus.com/gwebcache/newgwc.html
 
-class CDiscoveryServiceManager : public QObject
+
+
+//  reuse existing network enum (the one found in types.h)
+
+
+
+namespace Discovery
+{
+
+class CDiscovery : public QObject
 {
 	Q_OBJECT
 	/* ================================================================ */
@@ -38,7 +48,7 @@ public:
 	/* ================================================================ */
 	/* ========================= Construction ========================= */
 	/* ================================================================ */
-	explicit CDiscoveryServiceManager(QObject *parent = 0);
+	explicit CDiscovery(QObject *parent = 0);
 
 	/* ================================================================ */
 	/* ========================== Operations ========================== */
@@ -50,18 +60,26 @@ public:
 	bool	load();
 	bool	save(bool bForceSaving);
 
-	inline bool	isRunning();
-
-	QUuid	add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
+	QUuid	add(const QString& sURL, const CDiscoveryService::Type nSType,
 				const CNetworkType& oNType, const quint8 nRating = 7);
 	bool	remove(const QUuid& oServiceID);
 	void	clear();
 
-signals:
+	bool	check(const CDiscoveryService* const pService);
 
+	inline bool	isRunning();
+
+signals:
+	void	serviceAdded(CDiscoveryService* pService);
+	void	serviceRemoved(QSharedPointer<CDiscoveryService> pService);
+
+	void	serviceInfo(CDiscoveryService* pService);
 
 public slots:
-	bool updateService(CDiscoveryService::ServiceType type); // sends our IP to service (e.g. GWC)
+	// Trigger this to let the Discovery Services Manager emit all rules
+	void requestRuleList();
+
+	bool updateService(CDiscoveryService::Type type); // sends our IP to service (e.g. GWC)
 	bool queryService(CNetworkType type);
 	void serviceActionFinished();
 
@@ -70,7 +88,7 @@ private:
 	bool add(CDiscoveryService* pService);
 	void normalizeURL(QUrl& sURL);
 
-	CDiscoveryService* getRandomService(CDiscoveryService::ServiceType nSType);
+	CDiscoveryService* getRandomService(CDiscoveryService::Type nSType);
 	CDiscoveryService* getRandomService(CNetworkType oNType);
 };
 
@@ -78,7 +96,7 @@ private:
   * Returns the number of Discovery Services.
   * Requires Locking: R
   */
-quint32 CDiscoveryServiceManager::getCount() const
+quint32 CDiscovery::getCount() const
 {
 	return m_lServices.size();
 }
@@ -87,12 +105,14 @@ quint32 CDiscoveryServiceManager::getCount() const
   * Returns true if there is currently a request operation running.
   * Locking: R
   */
-bool CDiscoveryServiceManager::isRunning()
+bool CDiscovery::isRunning()
 {
 	QReadLocker l( &m_pRWLock );
 	return m_bIsRunning;
 }
 
-extern CDiscoveryServiceManager discoveryManager;
+}
 
-#endif // DISCOVERYSERVICEMANAGER_H
+extern Discovery::CDiscovery discoveryManager;
+
+#endif // DISCOVERY_H
