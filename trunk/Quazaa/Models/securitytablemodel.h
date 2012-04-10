@@ -1,7 +1,6 @@
 #ifndef SECURITYTABLEMODEL_H
 #define SECURITYTABLEMODEL_H
 
-#include <QAbstractItemView>
 #include <QAbstractTableModel>
 #include <QVector>
 #include <QIcon>
@@ -13,7 +12,7 @@ class CSecurityTableModel : public QAbstractTableModel
 	Q_OBJECT
 
 private:
-	typedef security::CSecureRule CSecureRule;
+	typedef Security::CSecureRule CSecureRule;
 
 	QWidget*		m_oContainer;
 	int				m_nSortColumn;

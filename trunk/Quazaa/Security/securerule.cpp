@@ -30,7 +30,7 @@
 #include "debug_new.h"
 #endif
 
-using namespace security;
+using namespace Security;
 
 CSecureRule::CSecureRule(bool bCreate)
 {
