@@ -22,8 +22,9 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <QAbstractItemView>
+
 #include "securitytablemodel.h"
-#include "Security/security.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -39,7 +40,7 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 	m_pNode = pRule;
 
 	// This makes sure that if pRule is deleted within the Security Manager,
-	// pNode is correctly set to NULL. Note that a write lock is required here.
+	// m_pNode is correctly set to NULL. Note that a write lock is required here.
 	m_pNode->registerPointer( &m_pNode );
 
 	m_sContent	= m_pNode->getContentString();
@@ -49,15 +50,15 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 	m_nTotal	= m_pNode->getTotalCount();
 	m_sComment	= m_pNode->m_sComment;
 
-	switch( m_pNode->m_nAction )
+	switch( m_nAction )
 	{
-	case security::CSecureRule::srNull:
+	case Security::CSecureRule::srNull:
 		m_iAction = QIcon( ":/Resource/Security/Null.ico" );
 		break;
-	case security::CSecureRule::srAccept:
+	case Security::CSecureRule::srAccept:
 		m_iAction = QIcon( ":/Resource/Security/Accept.ico" );
 		break;
-	case security::CSecureRule::srDeny:
+	case Security::CSecureRule::srDeny:
 		m_iAction = QIcon( ":/Resource/Security/Deny.ico" );
 		break;
 	default:
@@ -116,13 +117,13 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 
 		switch( m_nAction )
 		{
-		case security::CSecureRule::srNull:
+		case Security::CSecureRule::srNull:
 			m_iAction = QIcon( ":/Resource/Security/Null.ico" );
 			break;
-		case security::CSecureRule::srAccept:
+		case Security::CSecureRule::srAccept:
 			m_iAction = QIcon( ":/Resource/Security/Accept.ico" );
 			break;
-		case security::CSecureRule::srDeny:
+		case Security::CSecureRule::srDeny:
 			m_iAction = QIcon( ":/Resource/Security/Deny.ico" );
 			break;
 		default:
@@ -237,12 +238,11 @@ QString CSecurityTableModel::Rule::expiryToString(quint32 tExpire) const
 }
 
 CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
-	QAbstractTableModel( parent )
+	QAbstractTableModel( parent ),
+	m_oContainer( container ),
+	m_nSortColumn( -1 ),
+	m_bNeedSorting( false )
 {
-	m_oContainer = container;
-	m_nSortColumn = -1;
-	m_bNeedSorting = false;
-
 	connect( &securityManager, SIGNAL( ruleAdded( CSecureRule* ) ), this,
 			 SLOT( addRule( CSecureRule* ) ), Qt::QueuedConnection );
 
@@ -426,7 +426,7 @@ void CSecurityTableModel::sort(int column, Qt::SortOrder order)
 	emit layoutChanged();
 }
 
-security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &index)
+Security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &index)
 {
 	if ( index.isValid() && index.row() < m_lNodes.count() && index.row() >= 0 )
 		return m_lNodes[ index.row() ]->m_pNode;
@@ -467,7 +467,7 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 	}
 
 	// We should probably be the only one listening.
-	if ( securityManager.receivers ( security::CSecurity::ruleInfoSignal ) )
+	if ( securityManager.receivers ( Security::CSecurity::ruleInfoSignal ) )
 	{
 		QReadLocker l( &(securityManager.m_pRWLock) );
 
@@ -501,7 +501,7 @@ void CSecurityTableModel::updateAll()
 		if ( m_lNodes.size() != (int)securityManager.getCount() )
 		{
 #ifdef _DEBUG
-			// This is not something that should have happened.
+			// This is something that should not have happened.
 			Q_ASSERT( false );
 #endif // _DEBUG
 

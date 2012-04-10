@@ -150,7 +150,7 @@ void WidgetSecurity::on_actionSecurityRemoveRule_triggered()
 	{
 		if ( i.isValid() )
 		{
-			security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( i );
+			Security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( i );
 			securityManager.remove( pRule, false );
 		}
 	}
@@ -180,7 +180,7 @@ void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 		// Lock security manager while fiddling with rule.
 		QReadLocker lock( &securityManager.m_pRWLock );
 
-		security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
+		Security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
 		DialogAddRule* dlgAddRule = new DialogAddRule( this, pRule );
 
 		lock.unlock(); // Make the Security Manager available again.

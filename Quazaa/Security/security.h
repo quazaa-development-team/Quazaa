@@ -19,249 +19,249 @@
 // History:
 // 0 - Initial implementation
 
-namespace security
+namespace Security
 {
-	// typedef enum { tri_unknown, tri_true, tri_false } tristate;
 
-	class CSecurity : public QObject
+class CSecurity : public QObject
+{
+	Q_OBJECT
+	/* ================================================================ */
+	/* ========================== Attributes ========================== */
+	/* ================================================================ */
+public:
+	static const QString xmlns;
+	static const char* ruleInfoSignal;
+
+	QReadWriteLock m_pRWLock;
+
+	typedef enum
 	{
-		Q_OBJECT
-		/* ================================================================ */
-		/* ========================== Attributes ========================== */
-		/* ================================================================ */
-	public:
-		static const QString xmlns;
-		static const char* ruleInfoSignal;
+		banSession, ban5Mins, ban30Mins, ban2Hours, banWeek, banMonth, banForever
+	} BanLength;
 
-		QReadWriteLock m_pRWLock;
+private:
+	typedef std::pair< uint, CHashRule* > CHashPair;
 
-		typedef enum
-		{
-			banSession, ban5Mins, ban30Mins, ban2Hours, banWeek, banMonth, banForever
-		} BanLength;
+	typedef std::list< CSecureRule*  > CSecurityRuleList;
+	typedef std::list< CIPRangeRule* > CIPRangeRuleList;
+	typedef std::list< CRegExpRule*  > CRegExpRuleList;
+	typedef std::list< CContentRule* > CContentRuleList;
 
-	private:
-		typedef std::pair< uint, CHashRule* > CHashPair;
+	typedef std::queue< CSecureRule* > CNewRulesQueue;
 
-		typedef std::list< CSecureRule*  > CSecurityRuleList;
-		typedef std::list< CIPRangeRule* > CIPRangeRuleList;
-		typedef std::list< CRegExpRule*  > CRegExpRuleList;
-		typedef std::list< CContentRule* > CContentRuleList;
+	typedef std::set< uint > CMissCache;
 
-		typedef std::queue< CSecureRule* > CNewRulesQueue;
+	typedef std::map< uint, CIPRule*           > CAddressRuleMap;
+	typedef std::map< QString, CCountryRule*   > CCountryRuleMap;
+	typedef std::map< QString, CUserAgentRule* > CUserAgentRuleMap;
 
-		typedef std::set< uint > CMissCache;
+	// Note: Using a multimap eliminates eventual problems of hash
+	// collisions caused by weaker hashes like MD5 for example.
+	typedef std::multimap< uint, CHashRule* > CHashRuleMap;
 
-		typedef std::map< uint, CIPRule*           > CAddressRuleMap;
-		typedef std::map< QString, CCountryRule*   > CCountryRuleMap;
-		typedef std::map< QString, CUserAgentRule* > CUserAgentRuleMap;
+	typedef CSecurityRuleList::const_iterator CIterator;
 
-		// Note: Using a multimap eliminates eventual problems of hash
-		// collisions caused by weaker hashes like MD5 for example.
-		typedef std::multimap< uint, CHashRule* > CHashRuleMap;
+	// contains all rules
+	CSecurityRuleList	m_Rules;
 
-		typedef CSecurityRuleList::const_iterator CIterator;
+	// Used to manage newly added rules during sanity check
+	CSecurityRuleList	m_loadedAddressRules;
+	CNewRulesQueue		m_newAddressRules;
+	CSecurityRuleList	m_loadedHitRules;
+	CNewRulesQueue		m_newHitRules;
 
-		// contains all rules
-		CSecurityRuleList	m_Rules;
+	// IP rule miss cache
+	CMissCache			m_Cache;
 
-		// Used to manage newly added rules during sanity check
-		CSecurityRuleList	m_loadedAddressRules;
-		CNewRulesQueue		m_newAddressRules;
-		CSecurityRuleList	m_loadedHitRules;
-		CNewRulesQueue		m_newHitRules;
+	// single IP blocking rules
+	CAddressRuleMap		m_IPs;
 
-		// IP rule miss cache
-		CMissCache			m_Cache;
+	// multiple IP blocking rules
+	CIPRangeRuleList	m_IPRanges;
 
-		// single IP blocking rules
-		CAddressRuleMap		m_IPs;
+	// country rules
+	CCountryRuleMap		m_Countries;
 
-		// multiple IP blocking rules
-		CIPRangeRuleList	m_IPRanges;
+	// hash rules
+	CHashRuleMap		m_Hashes;
 
-		// country rules
-		CCountryRuleMap		m_Countries;
+	// all other content rules
+	CContentRuleList	m_Contents;
 
-		// hash rules
-		CHashRuleMap		m_Hashes;
+	// RegExp rules
+	CRegExpRuleList		m_RegExpressions;
 
-		// all other content rules
-		CContentRuleList	m_Contents;
+	// User agent rules
+	CUserAgentRuleMap	m_UserAgents;
 
-		// RegExp rules
-		CRegExpRuleList		m_RegExpressions;
+	// Security manager settings
+	QString				m_sDataPath;				// Path to the security.dat file
+	bool				m_bLogIPCheckHits;			// Post log message on IsDenied( QHostAdress ) call
+	quint64				m_tRuleExpiryInterval;		// Check the security manager for expired hosts each x milliseconds
+	quint64				m_tMissCacheExpiryInterval;	// Clear the miss cache each x ms
 
-		// User agent rules
-		CUserAgentRuleMap	m_UserAgents;
+	// Timer IDs
+	QUuid				m_idRuleExpiry;			// The ID of the signalQueue object.
+	QUuid				m_idMissCacheExpiry;	// The ID of the signalQueue object.
 
-		// Security manager settings
-		QString				m_sDataPath;				// Path to the security.dat file
-		bool				m_bLogIPCheckHits;			// Post log message on IsDenied( QHostAdress ) call
-		quint64				m_tRuleExpiryInterval;		// Check the security manager for expired hosts each x milliseconds
-		quint64				m_tMissCacheExpiryInterval;	// Clear the miss cache each x ms
+	// Other
+	bool				m_bUseMissCache;
+	bool				m_bIsLoading;		// true during import operations. Used to avoid unnecessary GUI updates.
+	bool				m_bNewRulesLoaded;	// true if new rules for sanity check have been loaded.
+	unsigned short		m_nPendingOperations; // Counts the number of program modules that still need to call back after having finished a requested sanity check operation.
 
-		// Timer IDs
-		QUuid				m_idRuleExpiry;			// The ID of the signalQueue object.
-		QUuid				m_idMissCacheExpiry;	// The ID of the signalQueue object.
+	bool				m_bSaved;			// true if current security manager state has already been saved to file, false otherwise
 
-		// Other
-		bool				m_bUseMissCache;
-		bool				m_bIsLoading;		// true during import operations. Used to avoid unnecessary GUI updates.
-		bool				m_bNewRulesLoaded;	// true if new rules for sanity check have been loaded.
-		unsigned short		m_nPendingOperations; // Counts the number of program modules that still need to call back after having finished a requested sanity check operation.
+	bool				m_bDenyPolicy;
+	// m_bDenyPolicy == false : everything but specifically blocked IPs is allowed (default)
+	// m_bDenyPolicy == true  : everything but specifically allowed IPs is rejected
+	// Note that the default policy is only applied to IP related rules, as everything
+	// else does not make any sense.
 
-		bool				m_bSaved;			// true if current security manager state has already been saved to file, false otherwise
+public:
+	/* ================================================================ */
+	/* ========================= Construction ========================= */
+	/* ================================================================ */
+	CSecurity();
+	~CSecurity();
 
-		bool				m_bDenyPolicy;
-		// m_bDenyPolicy == false : everything but specifically blocked IPs is allowed (default)
-		// m_bDenyPolicy == true  : everything but specifically allowed IPs is rejected
-		// Note that the default policy is only applied to IP related rules, as everything
-		// else does not make any sense.
+	/* ================================================================ */
+	/* ========================== Operations ========================== */
+	/* ================================================================ */
+	inline quint32	getCount() const;
 
-	public:
-		/* ================================================================ */
-		/* ========================= Construction ========================= */
-		/* ================================================================ */
-		CSecurity();
-		~CSecurity();
+	inline bool		denyPolicy() const;
+	void			setDenyPolicy(bool bDenyPolicy);
 
-		/* ================================================================ */
-		/* ========================== Operations ========================== */
-		/* ================================================================ */
-		inline quint32	getCount() const;
+	bool			check(const CSecureRule* const pRule);
+	void			add(CSecureRule* pRule);
+	// Use bLockRequired to enable/disable locking inside function.
+	inline void		remove(CSecureRule* pRule, bool bLockRequired = true);
+	void			clear();
 
-		inline bool		denyPolicy() const;
-		void			setDenyPolicy(bool bDenyPolicy);
+	void			ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
+	//		void			ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
 
-		bool			check(const CSecureRule* const pRule);
-		void			add(CSecureRule* pRule);
-		// Use bLockRequired to enable/disable locking inside function.
-		inline void		remove(CSecureRule* pRule, bool bLockRequired = true);
-		void			clear();
+	// Methods used during sanity check
+	bool			isNewlyDenied(const QHostAddress& oAddress);
+	bool			isNewlyDenied(/*const CQueryHit* pHit,*/ const QList<QString>& lQuery);
 
-		void			ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
-//		void			ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
+	bool			isDenied(const QHostAddress& oAddress, const QString &source = "Unknown");
+	// This does not check for the hit IP to avoid double checking.
+	bool			isDenied(const CQueryHit* const pHit, const QList<QString>& lQuery);
 
-		// Methods used during sanity check
-		bool			isNewlyDenied(const QHostAddress& oAddress);
-		bool			isNewlyDenied(/*const CQueryHit* pHit,*/ const QList<QString>& lQuery);
+	// Checks the user agent to see if it's a GPL breaker, or other trouble-maker
+	// We don't ban them, but also don't offer leaf slots to them.
+	bool			isClientBad(const QString& sUserAgent) const;
 
-		bool			isDenied(const QHostAddress& oAddress, const QString &source = "Unknown");
-		// This does not check for the hit IP to avoid double checking.
-		bool			isDenied(const CQueryHit* const pHit, const QList<QString>& lQuery);
+	// Checks the user agent to see if it's a leecher client, or other banned client
+	// Test new releases, and remove block if/when they are fixed.
+	// Includes check of agent blocklist & agent security rules.
+	bool			isAgentBlocked(const QString& sUserAgent);
 
-		// Checks the user agent to see if it's a GPL breaker, or other trouble-maker
-		// We don't ban them, but also don't offer leaf slots to them.
-		bool			isClientBad(const QString& sUserAgent) const;
+	// Check the evil's G1/G2 vendor code
+	bool			isVendorBlocked(const QString& sVendor) const;
 
-		// Checks the user agent to see if it's a leecher client, or other banned client
-		// Test new releases, and remove block if/when they are fixed.
-		// Includes check of agent blocklist & agent security rules.
-		bool			isAgentBlocked(const QString& sUserAgent);
+	// Export/Import/Load/Save handlers
+	bool			start(); // connects signals etc.
+	bool			stop(); // makes the Security Manager ready for destruction
+	bool			load();
+	bool			save(bool bForceSaving = false);
+	bool			import(const QString& sPath);
+	bool        	toXML(const QString& sPath) const;
+	bool			fromXML(const QString& sPath);
 
-		// Check the evil's G1/G2 vendor code
-		bool			isVendorBlocked(const QString& sVendor) const;
+	// Allows for external callers to find out about how many listeners there
+	// are to the Security Manager Signals.
+	int				receivers(const char* signal) const;
 
-		// Export/Import/Load/Save handlers
-		bool			start(); // connects signals etc.
-		bool			stop(); // makes the Security Manager ready for destruction
-		bool			load();
-		bool			save(bool bForceSaving = false);
-		bool			import(const QString& sPath);
-		bool        	toXML(const QString& sPath) const;
-		bool			fromXML(const QString& sPath);
+signals:
+	void			ruleAdded(CSecureRule* pRule);
+	void			ruleRemoved(QSharedPointer<CSecureRule> pRule);
 
-		// Allows for external callers to find out about how many listeners there
-		// are to the Security Manager Signals.
-		int				receivers(const char* signal) const;
+	void			ruleInfo(CSecureRule* pRule);
 
-	signals:
-		void			ruleAdded(CSecureRule* pRule);
-		void			ruleRemoved(QSharedPointer<CSecureRule> pRule);
+	// This is used to inform other modules that a system wide sanity check has become necessary.
+	void			performSanityCheck();
 
-		void			ruleInfo(CSecureRule* pRule);
+public slots:
+	// Trigger this to let the Security Manager emit all rules
+	void			requestRuleList();
 
-		// This is used to inform other modules that a system wide sanity check has become necessary.
-		void			performSanityCheck();
+	// Start system wide sanity check
+	void			sanityCheck();
+	// This slot must be triggered by all listeners to performSanityCheck() once they have completed their work.
+	void			sanityCheckPerformed();
+	// Aborts all currently running sanity checks by clearing their rule lists.
+	void			forceEndOfSanityCheck();
 
-	public slots:
-		// Trigger this to let the Security Manager emit all rules
-		void			requestRuleList();
+	void			expire();
+	void			missCacheClear();
 
-		// Start system wide sanity check
-		void			sanityCheck();
-		// This slot must be triggered by all listeners to performSanityCheck() once they have completed their work.
-		void			sanityCheckPerformed();
-		// Aborts all currently running sanity checks by clearing their rule lists.
-		void			forceEndOfSanityCheck();
+	// Trigger this slot to inform the security manager about changes in the security settings.
+	void			settingsChanged();
 
-		void			expire();
-		void			missCacheClear();
+private:
+	// Sanity check helper methods
+	void			loadNewRules();
+	void			clearNewRules();
 
-		// Trigger this slot to inform the security manager about changes in the security settings.
-		void			settingsChanged();
+	bool			load(QString sPath);
 
-	private:
-		// Sanity check helper methods
-		void			loadNewRules();
-		void			clearNewRules();
+	// this returns the first rule found. Note that there might be others, too.
+	CIterator		getHash(const QList< CHash >& hashes) const;
+	CIterator		getUUID(const QUuid& oUUID) const;
 
-		bool			load(QString sPath);
+	void			remove(CIterator i);
 
-		// this returns the first rule found. Note that there might be others, too.
-		CIterator		getHash(const QList< CHash >& hashes) const;
-		CIterator		getUUID(const QUuid& oUUID) const;
+	bool			isAgentDenied(const QString& strUserAgent);
 
-		void			remove(CIterator i);
+	void			missCacheAdd(const uint& nIP);
+	void			missCacheClear(bool bRefreshInterval);
+	void			evaluateCacheUsage();				// determines whether it is logical to use the cache or not
 
-		bool			isAgentDenied(const QString& strUserAgent);
+	bool			isDenied(const QString& sContent);
+	bool			isDenied(const CQueryHit* const pHit);
+	bool			isDenied(const QList<QString>& lQuery, const QString& sContent);
 
-		void			missCacheAdd(const uint& nIP);
-		void			missCacheClear(bool bRefreshInterval);
-		void			evaluateCacheUsage();				// determines whether it is logical to use the cache or not
+	inline CSecurityRuleList::iterator getRWIterator(CIterator const_it);
+};
 
-		bool			isDenied(const QString& sContent);
-		bool			isDenied(const CQueryHit* const pHit);
-		bool			isDenied(const QList<QString>& lQuery, const QString& sContent);
-
-		inline CSecurityRuleList::iterator getRWIterator(CIterator const_it);
-	};
-
-	quint32 CSecurity::getCount() const
-	{
-		return m_Rules.size();
-	}
-
-	bool CSecurity::denyPolicy() const
-	{
-		return m_bDenyPolicy;
-	}
-
-	void CSecurity::remove(CSecureRule* pRule, bool bLockRequired)
-	{
-		if ( !pRule )
-			return;
-
-		if ( bLockRequired )
-			m_pRWLock.lockForWrite();
-
-		remove( getUUID( pRule->m_oUUID ) );
-
-		if ( bLockRequired )
-			m_pRWLock.unlock();
-	}
-
-	CSecurity::CSecurityRuleList::iterator CSecurity::getRWIterator(CIterator const_it)
-	{
-		CSecurityRuleList::iterator i = m_Rules.begin();
-		CIterator const_begin = m_Rules.begin();
-		int nDistance = std::distance< CIterator >( const_begin, const_it );
-		std::advance( i, nDistance );
-		return i;
-	}
+quint32 CSecurity::getCount() const
+{
+	return m_Rules.size();
 }
 
-extern security::CSecurity securityManager;
+bool CSecurity::denyPolicy() const
+{
+	return m_bDenyPolicy;
+}
+
+void CSecurity::remove(CSecureRule* pRule, bool bLockRequired)
+{
+	if ( !pRule )
+		return;
+
+	if ( bLockRequired )
+		m_pRWLock.lockForWrite();
+
+	remove( getUUID( pRule->m_oUUID ) );
+
+	if ( bLockRequired )
+		m_pRWLock.unlock();
+}
+
+CSecurity::CSecurityRuleList::iterator CSecurity::getRWIterator(CIterator const_it)
+{
+	CSecurityRuleList::iterator i = m_Rules.begin();
+	CIterator const_begin = m_Rules.begin();
+	int nDistance = std::distance< CIterator >( const_begin, const_it );
+	std::advance( i, nDistance );
+	return i;
+}
+
+}
+
+extern Security::CSecurity securityManager;
 
 #endif // SECURITY_H

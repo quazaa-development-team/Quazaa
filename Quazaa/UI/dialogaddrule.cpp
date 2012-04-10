@@ -52,36 +52,36 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 
 	switch ( m_pRule->type() )
 	{
-	case security::CSecureRule::srContentAddressRange:
+	case Security::CSecureRule::srContentAddressRange:
 		ui->comboBoxRuleType->setCurrentIndex( 1 );
 		ui->stackedWidgetType->setCurrentIndex( 1 );
 		break;
-	case security::CSecureRule::srContentCountry:
+	case Security::CSecureRule::srContentCountry:
 		ui->comboBoxRuleType->setCurrentIndex( 2 );
 		ui->stackedWidgetType->setCurrentIndex( 2 );
 		ui->lineEditCountry->setText( m_pRule->getContentString() );
 		break;
-	case security::CSecureRule::srContentHash:
+	case Security::CSecureRule::srContentHash:
 		ui->comboBoxRuleType->setCurrentIndex( 3 );
 		ui->stackedWidgetType->setCurrentIndex( 3 );
 		break;
-	case security::CSecureRule::srContentText:
+	case Security::CSecureRule::srContentText:
 		ui->comboBoxRuleType->setCurrentIndex( 4 );
 		ui->stackedWidgetType->setCurrentIndex( 4 );
 		ui->lineEditContent->setText( m_pRule->getContentString() );
 		break;
-	case security::CSecureRule::srContentRegExp:
+	case Security::CSecureRule::srContentRegExp:
 		ui->comboBoxRuleType->setCurrentIndex( 5 );
 		ui->stackedWidgetType->setCurrentIndex( 5 );
 		ui->lineEditRegularExpression->setText( m_pRule->getContentString() );
 		break;
-	case security::CSecureRule::srContentUserAgent:
+	case Security::CSecureRule::srContentUserAgent:
 		ui->comboBoxRuleType->setCurrentIndex( 6 );
 		ui->stackedWidgetType->setCurrentIndex( 6 );
 		ui->checkBoxUserAgent->setChecked( ((CUserAgentRule*)m_pRule)->getRegExp() );
 		ui->lineEditUserAgent->setText( m_pRule->getContentString() );
 		break;
-	case security::CSecureRule::srContentAddress:
+	case Security::CSecureRule::srContentAddress:
 	default:
 		ui->comboBoxRuleType->setCurrentIndex( 0 );
 		ui->stackedWidgetType->setCurrentIndex( 0 );

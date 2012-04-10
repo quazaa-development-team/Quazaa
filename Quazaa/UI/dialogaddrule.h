@@ -41,16 +41,16 @@ class DialogAddRule : public QDialog
 	Q_OBJECT
 
 private:
-	typedef security::CSecureRule	 CSecureRule;
-	typedef security::CIPRule		 CIPRule;
-	typedef security::CIPRangeRule	 CIPRangeRule;
-	typedef security::CCountryRule	 CCountryRule;
-	typedef security::CHashRule		 CHashRule;
-	typedef security::CRegExpRule	 CRegExpRule;
-	typedef security::CUserAgentRule CUserAgentRule;
-	typedef security::CContentRule	 CContentRule;
+	typedef Security::CSecureRule	 CSecureRule;
+	typedef Security::CIPRule		 CIPRule;
+	typedef Security::CIPRangeRule	 CIPRangeRule;
+	typedef Security::CCountryRule	 CCountryRule;
+	typedef Security::CHashRule		 CHashRule;
+	typedef Security::CRegExpRule	 CRegExpRule;
+	typedef Security::CUserAgentRule CUserAgentRule;
+	typedef Security::CContentRule	 CContentRule;
 
-	typedef security::CSecurity		 CSecurity;
+	typedef Security::CSecurity		 CSecurity;
 
 	Ui::DialogAddRule* ui;
 	CSecureRule* m_pRule;

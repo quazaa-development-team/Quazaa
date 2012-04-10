@@ -41,8 +41,8 @@
 #include "debug_new.h"
 #endif
 
-security::CSecurity securityManager;
-using namespace security;
+Security::CSecurity securityManager;
+using namespace Security;
 
 /**
   * Constructor. Variable initializations.

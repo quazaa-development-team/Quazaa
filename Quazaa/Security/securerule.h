@@ -13,7 +13,7 @@
 #include "NetworkCore/Hashes/hash.h"
 #include "NetworkCore/queryhit.h"
 
-namespace security
+namespace Security
 {
 
 class CSecureRule
@@ -66,8 +66,8 @@ public:
 	// any information on pointers registered to the original CSecureRule object.
 	virtual CSecureRule*	getCopy() const;
 
-	// Registers a pointer with a secure rule to assure it is set to NULL if the secure
-	// rule is deleted. Note that a pointer who has been registered needs to be unregistered
+	// Registers a pointer to a Secure Rule to assure it is set to NULL if the Secure
+	// Rule is deleted. Note that a pointer who has been registered needs to be unregistered
 	// before freeing its memory.
 	void			registerPointer(CSecureRule** pRule);
 	// Call this before removing a pointer you have previously registered.
