@@ -2,14 +2,18 @@
 #include <QUrl>
 
 #include "endpoint.h"
-#include "discoveryservicemanager.h"
+#include "discovery.h"
 #include "discoveryservice.h"
 #include "network.h"
 #include "quazaasettings.h"
 
 #include <QDateTime>
 
-CDiscoveryServiceManager::CDiscoveryServiceManager(QObject *parent) :
+Discovery::CDiscovery discoveryManager;
+
+using namespace Discovery;
+
+CDiscovery::CDiscovery(QObject *parent) :
 	QObject( parent ),
 	m_bSaved( true ),
 	m_bIsRunning( true )
@@ -20,8 +24,10 @@ CDiscoveryServiceManager::CDiscoveryServiceManager(QObject *parent) :
   * Initializes the Discovery Services Manager.
   * Locking: RW
   */
-bool CDiscoveryServiceManager::start()
+bool CDiscovery::start()
 {
+	// Register QSharedPointer< CDiscoveryService > to allow using this type with queued signal/slot connections.
+	qRegisterMetaType< QSharedPointer< CDiscoveryService > >("QSharedPointer<CSecureRule>");
 	qsrand ( QDateTime::currentDateTime().toTime_t() ); // Initialize random number generator.
 	return load();
 }
@@ -30,7 +36,7 @@ bool CDiscoveryServiceManager::start()
   * Prepares the Discovery Services Manager for destruction.
   * Locking: RW
   */
-bool CDiscoveryServiceManager::stop()
+bool CDiscovery::stop()
 {
 	bool bSaved = save( true );
 	clear();
@@ -42,7 +48,7 @@ bool CDiscoveryServiceManager::stop()
   * Loads the discovery services from HDD.
   * Locking: RW
   */
-bool CDiscoveryServiceManager::load()
+bool CDiscovery::load()
 {
 	QString sPath = quazaaSettings.Discovery.DataPath + "discovery.dat";
 
@@ -63,7 +69,7 @@ bool CDiscoveryServiceManager::load()
   * Saves the discovery services to HDD.
   * Locking: R (+RW - very short)
   */
-bool CDiscoveryServiceManager::save(bool bForceSaving)
+bool CDiscovery::save(bool bForceSaving)
 {
 	QReadLocker mutex( &m_pRWLock );
 
@@ -126,7 +132,7 @@ bool CDiscoveryServiceManager::save(bool bForceSaving)
   * Adds a given service.
   * Locking: RW
   */
-QUuid CDiscoveryServiceManager::add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
+QUuid CDiscovery::add(const QString& sURL, const CDiscoveryService::Type nSType,
 									const CNetworkType& oNType, const quint8 nRating)
 {
 	QUrl oURL( sURL );
@@ -148,7 +154,7 @@ QUuid CDiscoveryServiceManager::add(const QString& sURL, const CDiscoveryService
   * Removes a given service.
   * Locking: RW
   */
-bool CDiscoveryServiceManager::remove(const QUuid& oServiceID)
+bool CDiscovery::remove(const QUuid& oServiceID)
 {
 	if ( oServiceID.isNull() )
 		return false;
@@ -172,7 +178,7 @@ bool CDiscoveryServiceManager::remove(const QUuid& oServiceID)
   * Removes all services.
   * Locking: RW
   */
-void CDiscoveryServiceManager::clear()
+void CDiscovery::clear()
 {
 	QWriteLocker l( &m_pRWLock );
 
@@ -181,10 +187,39 @@ void CDiscoveryServiceManager::clear()
 }
 
 /**
+  * Checks whether a service is already part of the manager.
+  * Locking: R
+  */
+bool CDiscovery::check(const CDiscoveryService* const pService)
+{
+	QReadLocker l( &m_pRWLock );
+	foreach ( const CDiscoveryService* const pTmp, m_lServices )
+		if ( pTmp->m_oUUID == pService->m_oUUID )
+			return true;
+
+	return false;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Qt slots
+/**
+  * Qt slot. Triggers the Discovery Service Manager to emit all rules using the ruleInfo() signal.
+  * Locking: R
+  */
+void CDiscovery::requestRuleList()
+{
+	QReadLocker l( &m_pRWLock );
+	for ( CIterator i = m_lServices.begin() ; i != m_lServices.end(); i++ )
+	{
+		emit serviceInfo( *i );
+	}
+}
+
+/**
   * Publishes the own IP (async).
   * Locking: RW
   */
-bool CDiscoveryServiceManager::updateService(CDiscoveryService::ServiceType type)
+bool CDiscovery::updateService(CDiscoveryService::Type type)
 {
 	QWriteLocker lock( &m_pRWLock );
 
@@ -212,7 +247,7 @@ bool CDiscoveryServiceManager::updateService(CDiscoveryService::ServiceType type
   * Queries a service for a given NetworkType (async).
   * Locking: RW
   */
-bool CDiscoveryServiceManager::queryService( CNetworkType type )
+bool CDiscovery::queryService( CNetworkType type )
 {
 	QWriteLocker lock( &m_pRWLock );
 
@@ -239,7 +274,7 @@ bool CDiscoveryServiceManager::queryService( CNetworkType type )
   * Slot to be triggered once service action has been finished.
   * Locking: RW
   */
-void CDiscoveryServiceManager::serviceActionFinished()
+void CDiscovery::serviceActionFinished()
 {
 	m_pRWLock.lockForWrite();
 	disconnect( this, SLOT(serviceActionFinished()) );
@@ -251,7 +286,7 @@ void CDiscoveryServiceManager::serviceActionFinished()
   * Private helper method for load()
   * Requires Locking: RW
   */
-bool CDiscoveryServiceManager::load( QString sPath )
+bool CDiscovery::load( QString sPath )
 {
 	QFile oFile( sPath );
 
@@ -300,7 +335,7 @@ bool CDiscoveryServiceManager::load( QString sPath )
   * Private helper method to add a discovery service.
   * Requires Locking: RW
   */
-bool CDiscoveryServiceManager::add(CDiscoveryService* pService)
+bool CDiscovery::add(CDiscoveryService* pService)
 {
 	if ( !pService )
 		return false;
@@ -329,7 +364,7 @@ bool CDiscoveryServiceManager::add(CDiscoveryService* pService)
   * Used to normalize URLs to avoid adding multiple copies of the same service
   * Locking: /
   */
-void CDiscoveryServiceManager::normalizeURL(QUrl& /*oURL*/)
+void CDiscovery::normalizeURL(QUrl& /*oURL*/)
 {
 
 	// TODO: Implement.
@@ -340,7 +375,7 @@ void CDiscoveryServiceManager::normalizeURL(QUrl& /*oURL*/)
   * Returns a (pseudo) random service of a given ServiceType.
   * Requires Locking: R
   */
-CDiscoveryService* CDiscoveryServiceManager::getRandomService(CDiscoveryService::ServiceType nSType)
+CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::Type nSType)
 {
 	CDiscoveryServicesList list;
 	quint16 nTotalRating = 0;
@@ -378,7 +413,7 @@ CDiscoveryService* CDiscoveryServiceManager::getRandomService(CDiscoveryService:
   * Returns a (pseudo) random service of a given NetworkType.
   * Requires Locking: R
   */
-CDiscoveryService* CDiscoveryServiceManager::getRandomService(CNetworkType oNType)
+CDiscoveryService* CDiscovery::getRandomService(CNetworkType oNType)
 {
 	CDiscoveryServicesList list;
 	quint16 nTotalRating = 0;

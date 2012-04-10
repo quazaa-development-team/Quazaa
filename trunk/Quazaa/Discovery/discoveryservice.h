@@ -9,6 +9,9 @@
 
 #include "endpoint.h"
 
+namespace Discovery
+{
+
 class CNetworkType
 {
 private:
@@ -21,6 +24,9 @@ public:
 	CNetworkType();
 	CNetworkType(quint16 type);
 	CNetworkType(NetworkType type);
+
+	bool operator==(const CNetworkType& type) const;
+	bool operator!=(const CNetworkType& type) const;
 
 	bool isGnutella() const;
 	void setGnutella( bool );
@@ -50,7 +56,7 @@ class CDiscoveryService : QThread
 	/* ================================================================ */
 public:
 	// Extend for all new supported service types.
-	typedef enum { srNull = 0, srGWC = 1 } ServiceType;
+	typedef enum { srNull = 0, srMulti = 1, srGWC = 2 } Type;
 
 private:
 	// Note: Extra functionality should be implemented at lower level.
@@ -61,26 +67,40 @@ private:
 	/* ================================================================ */
 
 private:
-	ServiceType	 m_nServiceType;
-	CNetworkType m_oNetworkType;
-	QUrl		 m_oServiceURL;
-	quint8		 m_nRating;
-	quint8       m_nProbabilityMultiplicator;
-	QUuid		 m_oUUID;
+	Type			m_nServiceType;
+	CNetworkType	m_oNetworkType;
+	QUrl			m_oServiceURL;
+	quint8			m_nRating;
+	quint8			m_nProbabilityMultiplicator;
+	QUuid			m_oUUID;
+
+	quint32			m_nLastHosts;
+	quint32			m_nTotalHosts;
 
 	QReadWriteLock	m_pRWLock;
 	Request			m_nRequest;
 	CEndPoint		m_oOwnIP;
+
+	// List of pointers that will be set to 0 if this instance of CDiscoveryService is deleted.
+	// Note that the content of this list is not forwarded to copies of this rule.
+	std::list<CDiscoveryService**> m_lPointers;
 
 public:
 	/* ================================================================ */
 	/* ========================= Construction ========================= */
 	/* ================================================================ */
 	CDiscoveryService();
-	CDiscoveryService(const QUrl& oURL, const ServiceType nSType, const CNetworkType& oNType,
+	CDiscoveryService(const QUrl& oURL, const Type nSType, const CNetworkType& oNType,
 					  const quint8 nRating, const QUuid& oID = QUuid());
+	CDiscoveryService(const CDiscoveryService& pService);
 
-	virtual ~CDiscoveryService() {} // Must be implemented by subclasses.
+	virtual ~CDiscoveryService(); // Must be implemented by subclasses.
+
+	/* ================================================================ */
+	/* ========================== Operators  ========================== */
+	/* ================================================================ */
+	virtual bool	operator==(const CDiscoveryService& pService) const;
+	bool			operator!=(const CDiscoveryService& pService) const;
 
 	/* ================================================================ */
 	/* ========================== Operations ========================== */
@@ -90,13 +110,30 @@ public:
 	static void     save(const CDiscoveryService* const pService, QDataStream& oStream);
 
 	// Use this to generate valid services. Must be modified when writing subclasses.
-	static CDiscoveryService* createService(const QUrl& oURL, const ServiceType nSType,
+	static CDiscoveryService* createService(const QUrl& oURL, const Type nSType,
 											const CNetworkType& oNType, const quint8 nRating,
 											const QUuid& oID = QUuid());
+
+	// Registers a pointer to a Discovery Service to assure it is set to NULL if the Discovery
+	// Service is deleted. Note that a pointer who has been registered needs to be unregistered
+	// before freeing its memory.
+	void registerPointer(CDiscoveryService** pService);
+	// Call this before removing a pointer you have previously registered.
+	void unRegisterPointer(CDiscoveryService** pService);
 
 	// Sends our IP to service if it supports the operation (e.g. if it is a GWC).
 	void update(CEndPoint& oOwnIP);
 	void query();
+
+	inline Type getType() const;
+
+	inline QUrl getUrl() const;
+
+	inline void count();
+	inline quint32 getTodayCount() const;
+	inline quint32 getTotalCount() const;
+
+	virtual QString type() { return QString(); } // Must be implemented by subclasses.
 
 	/* ================================================================ */
 	/* ======================= Attribute Access ======================= */
@@ -115,8 +152,34 @@ private:
 	/* ================================================================ */
 	/* ======================== Friend Classes ======================== */
 	/* ================================================================ */
-friend class CDiscoveryServiceManager;
+friend class CDiscovery;
 };
+
+CDiscoveryService::Type CDiscoveryService::getType() const
+{
+	return m_nServiceType;
+}
+
+QUrl CDiscoveryService::getUrl() const
+{
+	return m_oServiceURL;
+}
+
+void CDiscoveryService::count()
+{
+	++m_nLastHosts;
+	++m_nTotalHosts;
+}
+
+quint32 CDiscoveryService::getTodayCount() const
+{
+	return m_nLastHosts;
+}
+
+quint32 CDiscoveryService::getTotalCount() const
+{
+	return m_nTotalHosts;
+}
 
 /**
   * Sets rating as well as probability multiplicator.
@@ -126,6 +189,8 @@ void CDiscoveryService::setRating(quint8 nRating)
 {
 	m_nRating = ( nRating > 10 ) ? 10 : nRating;
 	m_nProbabilityMultiplicator = ( m_nRating < 5 ) ? m_nRating : 5;
+}
+
 }
 
 #endif // DISCOVERYSERVICE_H

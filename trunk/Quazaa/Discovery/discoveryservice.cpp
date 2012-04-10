@@ -1,7 +1,9 @@
 #include "discoveryservice.h"
-#include "discoveryservicemanager.h"
+#include "discovery.h"
 
 #include "gwc.h"
+
+using namespace Discovery;
 
 CNetworkType::CNetworkType() :
 	m_nNetworks( 0 )
@@ -14,6 +16,16 @@ CNetworkType::CNetworkType(quint16 type) :
 CNetworkType::CNetworkType(NetworkType type) :
 	m_nNetworks( (quint16)type )
 {}
+
+bool CNetworkType::operator==(const CNetworkType& type) const
+{
+	return ( m_nNetworks == type.m_nNetworks );
+}
+
+bool CNetworkType::operator!=(const CNetworkType& type) const
+{
+	return ( m_nNetworks != type.m_nNetworks );
+}
 
 bool CNetworkType::isGnutella() const
 {
@@ -70,13 +82,25 @@ bool CNetworkType::isMulti() const
 	if ( m_nNetworks < 2 )
 		return false;
 
-	while ( m_nNetworks > 1 )
+	quint16 nNetworks = m_nNetworks;
+	bool bMulti = false;
+
+	while ( nNetworks > 1 )
 	{
-		if ( m_nNetworks % 2 )
-			return true;
+		if ( nNetworks % 2 )
+		{
+			if ( bMulti )
+				return true;
+			else
+				bMulti = true;
+		}
+
+		nNetworks /= 2;
 	}
 	return false;
 }
+
+// bool isPowerOfTwo = x && !(x & (x - 1));
 
 quint16 CNetworkType::toQuint16() const
 {
@@ -103,7 +127,7 @@ CDiscoveryService::CDiscoveryService() :
   * Default constructor.
   * Locking: /
   */
-CDiscoveryService::CDiscoveryService(const QUrl& oURL, const ServiceType,
+CDiscoveryService::CDiscoveryService(const QUrl& oURL, const Type,
 									 const CNetworkType& oNType,
 									 const quint8 nRating, const QUuid& oID) :
 	m_nServiceType( srNull ),
@@ -117,39 +141,55 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const ServiceType,
 }
 
 /**
-  * [static] Writes pService to given QDataStream.
-  * Locking: R
+  * Custom copy constructor. Note that the registered pointers are NOT copied
+  * when duplicating a CDiscoveryService.
+  * Locking: /
   */
-void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStream &oStream)
+CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService)
 {
-	QReadLocker l( &( const_cast<CDiscoveryService*>(pService) )->m_pRWLock );
+	// The usage of a custom copy constructor makes sure the list of registered
+	// pointers is NOT forwarded to a copy of this rule.
 
-	oStream << (quint8)(pService->m_nServiceType);
-	oStream << (quint16)(pService->m_oNetworkType.toQuint16());
-	oStream << (quint8)(pService->m_nRating);
-	oStream << pService->m_oServiceURL;
+	m_nServiceType	= pService.m_nServiceType;
+	m_oNetworkType  = pService.m_oNetworkType;
+	m_oServiceURL	= pService.m_oServiceURL;
+	m_nRating       = pService.m_nRating;
+	m_oUUID         = pService.m_oUUID;
+	m_nLastHosts	= pService.m_nLastHosts;
+	m_nTotalHosts	= pService.m_nTotalHosts;
+
+	m_nProbabilityMultiplicator	= pService.m_nProbabilityMultiplicator;
 }
 
 /**
-  * [static] Creates a new service...
+  * Destructor.
   * Locking: /
   */
-CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const ServiceType nSType,
-													const CNetworkType& oNType,	const quint8 nRating,
-													const QUuid& oID)
+CDiscoveryService::~CDiscoveryService()
 {
-	CDiscoveryService* pService = NULL;
-
-	switch ( nSType )
+	// Set all pointers to this rule to NULL to notify them about the deletion of this object.
+	for ( std::list<CDiscoveryService**>::iterator i = m_lPointers.begin();
+		  i != m_lPointers.end(); ++i )
 	{
-	case srGWC:
-	{
-		pService = new CGWC( oURL, nSType, oNType, nRating, oID );
-		break;
+		*(*i) = NULL;
 	}
-	}
+}
 
-	return pService;
+
+bool CDiscoveryService::operator==(const CDiscoveryService& pService) const
+{
+	return ( m_nServiceType	== pService.m_nServiceType	&&
+			 m_oNetworkType	== pService.m_oNetworkType	&&
+			 m_oServiceURL	== pService.m_oServiceURL	&&
+			 m_nRating		== pService.m_nRating		&&
+			 m_oUUID		== pService.m_oUUID			&&
+			 m_nLastHosts	== pService.m_nLastHosts	&&
+			 m_nTotalHosts	== pService.m_nTotalHosts );
+}
+
+bool CDiscoveryService::operator!=(const CDiscoveryService& pService) const
+{
+	return !( *this == pService );
 }
 
 /**
@@ -171,19 +211,81 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
 	quint8		nServiceType;
 	quint8		nNetworkType;
 	quint8		nRating;
-	QUrl		oServiceURL;
 
 	oStream >> nServiceType;
 	oStream >> nNetworkType;
-	oStream >> nRating;
-	oStream >> oServiceURL;
 
-	pService->m_nServiceType = (ServiceType)nServiceType;
+	pService->m_nServiceType = (Type)nServiceType;
 	pService->m_oNetworkType = CNetworkType( nNetworkType );
-	pService->m_nRating      = nRating;
-	pService->m_oServiceURL  = oServiceURL;
 
+	oStream >> nRating;
+
+	pService->m_nRating = nRating;
 	pService->m_nProbabilityMultiplicator = ( nRating < 5 ) ? nRating : 5;
+
+	oStream >> pService->m_oServiceURL;
+	oStream >> pService->m_nLastHosts;
+	oStream >> pService->m_nTotalHosts;
+}
+
+/**
+  * [static] Writes pService to given QDataStream.
+  * Locking: R
+  */
+void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStream &oStream)
+{
+	QReadLocker l( &( const_cast<CDiscoveryService*>(pService) )->m_pRWLock );
+
+	oStream << (quint8)(pService->m_nServiceType);
+	oStream << (quint16)(pService->m_oNetworkType.toQuint16());
+	oStream << (quint8)(pService->m_nRating);
+	oStream << pService->m_oServiceURL;
+	oStream << pService->m_nLastHosts;
+	oStream << pService->m_nTotalHosts;
+}
+
+/**
+  * [static] Creates a new service...
+  * Locking: /
+  */
+CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const Type nSType,
+													const CNetworkType& oNType,	const quint8 nRating,
+													const QUuid& oID)
+{
+	CDiscoveryService* pService = NULL;
+
+	switch ( nSType )
+	{
+	case srGWC:
+	{
+		pService = new CGWC( oURL, nSType, oNType, nRating, oID );
+		break;
+	}
+	}
+
+	return pService;
+}
+
+/**
+  * Registers a pointer.
+  * Locking: RW
+  */
+void CDiscoveryService::registerPointer(CDiscoveryService** pRule)
+{
+	m_pRWLock.lockForWrite();
+	m_lPointers.push_back( pRule );
+	m_pRWLock.unlock();
+}
+
+/**
+  * Unregisters a pointer.
+  * Locking: RW
+  */
+void CDiscoveryService::unRegisterPointer(CDiscoveryService** pRule)
+{
+	m_pRWLock.lockForWrite();
+	m_lPointers.remove( pRule );
+	m_pRWLock.unlock();
 }
 
 /**
@@ -197,7 +299,7 @@ void CDiscoveryService::update(CEndPoint& oOwnIP)
 	m_oOwnIP = oOwnIP;
 	m_pRWLock.unlock();
 
-	run(); // Start new thread.
+	start(); // Start new thread.
 }
 
 /**
@@ -211,7 +313,7 @@ void CDiscoveryService::query()
 	m_nRequest = srQuery;
 	m_pRWLock.unlock();
 
-	run(); // Start new thread.
+	start(); // Start new thread.
 }
 
 /**

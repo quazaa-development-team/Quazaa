@@ -193,7 +193,7 @@ SOURCES += \
 	Models/categorynavigatortreemodel.cpp \
 	Models/chatroomslistmodel.cpp \
 	Models/chatuserlistmodel.cpp \
-	#Models/discoverytablemodel.cpp \
+	Models/discoverytablemodel.cpp \
 	Models/downloadstreemodel.cpp \
 	Models/neighbourstablemodel.cpp \
 	Models/searchtreemodel.cpp \
@@ -347,7 +347,7 @@ HEADERS += \
 	Models/categorynavigatortreemodel.h \
 	Models/chatroomslistmodel.h \
 	Models/chatuserlistmodel.h \
-	#Models/discoverytablemodel.h \
+	Models/discoverytablemodel.h \
 	Models/downloadstreemodel.h \
 	Models/neighbourstablemodel.h \
 	Models/searchtreemodel.h \
