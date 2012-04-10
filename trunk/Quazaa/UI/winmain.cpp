@@ -848,7 +848,7 @@ void CWinMain::on_actionConnectTo_triggered()
 		{
 		case DialogConnectTo::G2:
 			Neighbours.m_pSection.lock();
-			Neighbours.ConnectTo(ip, dpGnutella2, false);
+			Neighbours.ConnectTo(ip, dpG2, false);
 			Neighbours.m_pSection.unlock();
 			break;
 		case DialogConnectTo::eDonkey:

@@ -66,7 +66,7 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode(pNei
 
 	switch(pNode->m_nProtocol)
 	{
-		case dpGnutella2:
+		case dpG2:
 			nLeafCount = ((CG2Node*)pNode)->m_nLeafCount;
 			nLeafMax = ((CG2Node*)pNode)->m_nLeafMax;
 			nType = ((CG2Node*)pNode)->m_nType;
@@ -170,7 +170,7 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 
 	switch(pNode->m_nProtocol)
 	{
-		case dpGnutella2:
+		case dpG2:
 			if(nLeafCount != ((CG2Node*)pNode)->m_nLeafCount || nLeafMax != ((CG2Node*)pNode)->m_nLeafMax)
 			{
 				nLeafCount = ((CG2Node*)pNode)->m_nLeafCount;

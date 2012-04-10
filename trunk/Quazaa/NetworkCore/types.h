@@ -57,8 +57,11 @@ uint qHash(const QUuid& key);
 
 enum DiscoveryProtocol
 {
-	dpNull,
-	dpGnutella2
+	dpNull		= 0,
+	dpgnutella	= 1,
+	dpG2		= 2,
+	dpAres		= 4,
+	dpeDonkey2000 = 8
 };
 
 enum TransferProtocol

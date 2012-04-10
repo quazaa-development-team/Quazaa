@@ -46,7 +46,7 @@ QIcon CNetworkIconProvider::icon(DiscoveryProtocol protocol)
 	{
 		case dpNull:
 			break;
-		case dpGnutella2:
+		case dpG2:
 			pixIcon.load(":/Resource/Networks/Gnutella2.png");
 			break;
 

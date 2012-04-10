@@ -185,7 +185,7 @@ void CManagedSearch::SearchNeighbours(QDateTime& tNow)
 
 	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
-		if((*itNode)->m_nProtocol != dpGnutella2)
+		if((*itNode)->m_nProtocol != dpG2)
 		{
 			continue;
 		}
@@ -277,7 +277,7 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 				// we are firewalled, so key must be for one of our connected neighbours
 				Neighbours.m_pSection.lock();
 
-				CNeighbour* pNode = Neighbours.Find(pHost->m_nKeyHost, dpGnutella2);
+				CNeighbour* pNode = Neighbours.Find(pHost->m_nKeyHost, dpG2);
 
 				if( pNode && static_cast<CG2Node*>(pNode)->m_nState == nsConnected )
 				{
@@ -345,7 +345,7 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 				bool bCheckLast = Neighbours.m_nHubsConnectedG2 > 2;
 				for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 				{
-					if((*itNode)->m_nProtocol != dpGnutella2 || (*itNode)->m_nState != nsConnected)
+					if((*itNode)->m_nProtocol != dpG2 || (*itNode)->m_nState != nsConnected)
 					{
 						continue;
 					}
