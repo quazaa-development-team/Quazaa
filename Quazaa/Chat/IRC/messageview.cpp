@@ -21,11 +21,14 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QDesktopServices>
+#include <QApplication>
 #include <irccommand.h>
 #include <ircutil.h>
 #include <irc.h>
 
 #include "quazaasettings.h"
+#include "quazaaglobals.h"
+#include "commonfunctions.h"
 
 QStringListModel* MessageView::MessageViewData::commandModel = 0;
 
@@ -71,6 +74,8 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
 		CommandParser::addCustomCommand("TELL", "<user> <message>");
         CommandParser::addCustomCommand("SETTINGS", "");
 		CommandParser::addCustomCommand("JOIN", "<channel>");
+		CommandParser::addCustomCommand("J", "<channel>");
+		CommandParser::addCustomCommand("SYSINFO", "");
 
 
         QStringList prefixedCommands;
@@ -420,6 +425,13 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
         QMetaObject::invokeMethod(window(), "connectTo", Q_ARG(QString, params.value(0)), params.count() > 1 ? Q_ARG(quint16, params.value(1).toInt()) : QGenericArgument());
 	else if (command == "JOIN")
 		emit join(params.value(0));
+	else if (command == "J")
+		emit join(params.value(0));
+	else if (command == "SYSINFO")
+	{
+		onSend(tr("Application:%1 %2 OS:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING(), common::osVersionToString()));
+		//onSend(tr("CPU:%1 Cores:%2 Memory:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING()));
+	}
 }
 
 QString MessageView::prettyNames(const QStringList& names, int columns)

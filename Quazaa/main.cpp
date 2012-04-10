@@ -62,7 +62,7 @@
 	#include "version.h"
 #endif
 
-void myMessageOutput(QtMsgType type, const char *msg)
+/*void myMessageOutput(QtMsgType type, const char *msg)
 {
 	switch (type) {
 	case QtDebugMsg:
@@ -78,13 +78,13 @@ void myMessageOutput(QtMsgType type, const char *msg)
 		fprintf(stderr, "Fatal: %s\n", msg);
 		abort();
 	}
-}
+}*/
 
 QuazaaGlobals quazaaGlobals;
 
 int main(int argc, char *argv[])
 {
-	qInstallMsgHandler(myMessageOutput);
+	//qInstallMsgHandler(myMessageOutput);
 	QtSingleApplication theApp( argc, argv );
 
 	QStringList args = QApplication::arguments();

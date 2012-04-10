@@ -463,7 +463,7 @@ HEADERS += \
     Models/categorynavigatortreemodel.h \
     Discovery/discoveryservicemanager.h \
     Discovery/discoveryservice.h \
-	Discovery/gwc.h \
+	Discovery/gwc.h
 
 FORMS += \
 	UI/dialogabout.ui \
