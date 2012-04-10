@@ -184,6 +184,63 @@ OSVersion::OSVersion common::osVersion()
 #endif
 }
 
+QString common::osVersionToString()
+{
+#ifdef Q_OS_LINUX
+	return "Linux";
+#endif
+#ifdef Q_OS_FREEBSD
+	return "Free BSD";
+#endif
+#ifdef Q_OS_NETBSD
+	return "Net BSD";
+#endif
+#ifdef Q_OS_OPENBSD
+	return "Open BSD";
+#endif
+#ifdef Q_OS_UNIX
+	return "Unix";
+#endif
+#ifdef Q_OS_MAC
+	switch ( QSysInfo::MacintoshVersion )
+	{
+	case QSysInfo::MV_CHEETAH:
+		return "Macintosh Cheetah";
+	case QSysInfo::MV_PUMA:
+		return "Macintosh Puma";
+	case QSysInfo::MV_JAGUAR:
+		return "Macintosh Jaguar";
+	case QSysInfo::MV_PANTHER:
+		return "Macintosh Panther";
+	case QSysInfo::MV_TIGER:
+		return "Macintosh Tiger";
+	case QSysInfo::MV_LEOPARD:
+		return "Macintosh Leopard";
+	case QSysInfo::MV_SNOWLEOPARD:
+		return "Macintosh Snow Leopard";
+	default:
+		return "Macintosh Snow Leopard";
+	}
+#endif
+#ifdef Q_OS_WIN
+	switch ( QSysInfo::windowsVersion() )
+	{
+	case QSysInfo::WV_2000:
+		return "Windows 2000";
+	case QSysInfo::WV_XP:
+		return "Windows XP";
+	case QSysInfo::WV_2003:
+		return "Windows 2003";
+	case QSysInfo::WV_VISTA:
+		return "Windows Vista";
+	case QSysInfo::WV_WINDOWS7:
+		return "Windows 7";
+	default:
+		return "Windows 7";
+	}
+#endif
+}
+
 QString common::fixFileName(QString sName)
 {
 	QString sRet = sName;

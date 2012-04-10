@@ -18,7 +18,7 @@ HEADERS += $$PWD/searcheditor.h
 HEADERS += $$PWD/sessiontabwidget.h
 
 SOURCES += $$PWD/homepage.cpp \
-    Chat/IRC/welcomepage.cpp
+	Chat/IRC/welcomepage.cpp
 SOURCES += $$PWD/lineeditor.cpp
 SOURCES += $$PWD/maintabwidget.cpp
 SOURCES += $$PWD/messageview.cpp

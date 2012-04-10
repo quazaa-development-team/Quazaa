@@ -42,6 +42,7 @@ namespace common
 	QString formatBytes(quint64 nBytesPerSec);
 	QString vendorCodeToName(QString vendorCode);
 	OSVersion::OSVersion osVersion();
+	QString osVersionToString();
 	QString fixFileName(QString sName);
 	QString getTempFileName(QString sName);
 

@@ -196,6 +196,7 @@ void SessionTabWidget::onDisconnected()
 
 void SessionTabWidget::tabActivated(int index)
 {
+	qDebug() << QString("Session->tabActivated(%1)").arg(index);
     if (index < count() - 1)
     {
         d.handler.setCurrentReceiver(currentWidget());
