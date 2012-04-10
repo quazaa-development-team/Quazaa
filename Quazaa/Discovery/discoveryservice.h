@@ -8,6 +8,7 @@
 #include <QUuid>
 
 #include "endpoint.h"
+#include "types.h"
 
 namespace Discovery
 {
@@ -18,12 +19,9 @@ private:
 	quint16 m_nNetworks;
 
 public:
-	// Extend for all new supported networks.
-	typedef enum { NoNetwork = 0, gnutella = 1, G2 = 2, Ares = 4, eDonkey2000 = 8 } NetworkType;
-
 	CNetworkType();
 	CNetworkType(quint16 type);
-	CNetworkType(NetworkType type);
+	CNetworkType(DiscoveryProtocol type);
 
 	bool operator==(const CNetworkType& type) const;
 	bool operator!=(const CNetworkType& type) const;
@@ -56,7 +54,7 @@ class CDiscoveryService : QThread
 	/* ================================================================ */
 public:
 	// Extend for all new supported service types.
-	typedef enum { srNull = 0, srMulti = 1, srGWC = 2 } Type;
+	typedef enum { stNull = 0, stMulti = 1, stGWC = 2 } Type;
 
 private:
 	// Note: Extra functionality should be implemented at lower level.

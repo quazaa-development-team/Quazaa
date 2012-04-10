@@ -743,7 +743,7 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 
 	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
 	{
-		if((*itNode)->m_nProtocol != dpGnutella2)
+		if((*itNode)->m_nProtocol != dpG2)
 		{
 			continue;
 		}
@@ -904,7 +904,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 		pPacket->PrependPacket(pQNA);
 
 		Neighbours.m_pSection.lock();
-		CNeighbour* pNode = Neighbours.Find(nKeyHost, dpGnutella2);
+		CNeighbour* pNode = Neighbours.Find(nKeyHost, dpG2);
 		if( pNode )
 		{
 			((CG2Node*)pNode)->SendPacket(pPacket, true, false);

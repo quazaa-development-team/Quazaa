@@ -105,7 +105,7 @@ CNeighbour* CNeighboursConnections::RandomNode(DiscoveryProtocol nProtocol, int 
 	{
 		if((*i)->m_nState == nsConnected && (*i)->m_nProtocol == nProtocol)
 		{
-			if(( nProtocol == dpGnutella2 ) && ( ((CG2Node*)(*i))->m_nType == nType ) && ( (*i) != pNodeExcept ))
+			if(( nProtocol == dpG2 ) && ( ((CG2Node*)(*i))->m_nType == nType ) && ( (*i) != pNodeExcept ))
 			{
 				lNodeList.append((*i));
 			}
@@ -139,7 +139,7 @@ void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int
 				if( bKeepManual && !(*i)->m_bAutomatic && tNow - (*i)->m_tConnected < 120 )
 					continue;
 
-				if( nProtocol == dpGnutella2 )
+				if( nProtocol == dpG2 )
 				{
 						if( ((CG2Node*)(*i))->m_nType != nType // if node type is not requested type
 								|| (!bCore && ((CG2Node*)(*i))->m_bG2Core) ) // or we don't want to disconnect "our" nodes
@@ -197,7 +197,7 @@ void CNeighboursConnections::Maintain()
 		{
 			switch(pNode->m_nProtocol)
 			{
-				case dpGnutella2:
+				case dpG2:
 					switch(((CG2Node*)pNode)->m_nType)
 					{
 						case G2_UNKNOWN:
@@ -240,7 +240,7 @@ void CNeighboursConnections::Maintain()
 
 			for(; nToDisconnect; nToDisconnect--)
 			{
-				DisconnectYoungest(dpGnutella2, G2_HUB, (100 * nCoreHubsG2 / nHubsG2) > 50);
+				DisconnectYoungest(dpG2, G2_HUB, (100 * nCoreHubsG2 / nHubsG2) > 50);
 			}
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumHubs)
@@ -264,7 +264,7 @@ void CNeighboursConnections::Maintain()
 				{
 					if( !Neighbours.Find(pHost->m_oAddress) )
 					{
-						ConnectTo(pHost->m_oAddress, dpGnutella2);
+						ConnectTo(pHost->m_oAddress, dpG2);
 						pHost->m_tLastConnect = tNow;
 					}
 					else
@@ -307,7 +307,7 @@ void CNeighboursConnections::Maintain()
 
 			for(; nToDisconnect; nToDisconnect--)
 			{
-				DisconnectYoungest(dpGnutella2, G2_HUB, (100 * nCoreHubsG2 / nHubsG2) > 50);
+				DisconnectYoungest(dpG2, G2_HUB, (100 * nCoreHubsG2 / nHubsG2) > 50);
 			}
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumPeers)
@@ -328,7 +328,7 @@ void CNeighboursConnections::Maintain()
 				{
 					if( !Neighbours.Find(pHost->m_oAddress) )
 					{
-						ConnectTo(pHost->m_oAddress, dpGnutella2);
+						ConnectTo(pHost->m_oAddress, dpG2);
 						pHost->m_tLastConnect = tNow;
 					}
 					else
@@ -350,7 +350,7 @@ void CNeighboursConnections::Maintain()
 
 			for(; nToDisconnect; nToDisconnect--)
 			{
-				DisconnectYoungest(dpGnutella2, G2_LEAF, (100 * nCoreLeavesG2 / nLeavesG2) > 50);
+				DisconnectYoungest(dpG2, G2_LEAF, (100 * nCoreLeavesG2 / nLeavesG2) > 50);
 			}
 		}
 	}
@@ -404,7 +404,7 @@ CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProt
 
 	switch(nProtocol)
 	{
-		case dpGnutella2:
+		case dpG2:
 			pNode = new CG2Node();
 			break;
 		default:

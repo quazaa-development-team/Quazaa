@@ -120,7 +120,7 @@ void CNeighboursG2::Maintain()
 
 			foreach(CNeighbour * pNode, m_lNodes)
 			{
-				if(pNode->m_nProtocol == dpGnutella2 && pNode->m_nState == nsConnected)
+				if(pNode->m_nProtocol == dpG2 && pNode->m_nState == nsConnected)
 				{
 					((CG2Node*)pNode)->SendLNI();
 				}
@@ -178,7 +178,7 @@ void CNeighboursG2::DispatchKHL()
 
 	foreach(CNeighbour * pNode, m_lNodes)
 	{
-		if(pNode->m_nProtocol != dpGnutella2)
+		if(pNode->m_nProtocol != dpG2)
 		{
 			continue;
 		}
@@ -223,7 +223,7 @@ void CNeighboursG2::DispatchKHL()
 
 	foreach(CNeighbour * pNode, m_lNodes)
 	{
-		if(pNode->m_nState == nsConnected && pNode->m_nProtocol == dpGnutella2)
+		if(pNode->m_nState == nsConnected && pNode->m_nProtocol == dpG2)
 		{
 			((CG2Node*)pNode)->SendPacket(pKHL, false, false);
 		}
@@ -249,7 +249,7 @@ bool CNeighboursG2::SwitchG2ClientMode(G2NodeType nRequestedMode)
 
 	foreach(CNeighbour * pNode, m_lNodes)
 	{
-		if(pNode->m_nProtocol == dpGnutella2)
+		if(pNode->m_nProtocol == dpG2)
 		{
 			pNode->Close();
 		}
@@ -308,7 +308,7 @@ void CNeighboursG2::HubBalancing()
 		quint32 nLeaves = 0, nCapacity = 0;
 		foreach(CNeighbour * pNode, m_lNodes)
 		{
-			if(pNode->m_nState == nsConnected && pNode->m_nProtocol == dpGnutella2 && ((CG2Node*)pNode)->m_nType == G2_HUB)
+			if(pNode->m_nState == nsConnected && pNode->m_nProtocol == dpG2 && ((CG2Node*)pNode)->m_nType == G2_HUB)
 			{
 				nLeaves += ((CG2Node*)pNode)->m_nLeafCount;
 				nCapacity += ((CG2Node*)pNode)->m_nLeafMax;
@@ -337,7 +337,7 @@ void CNeighboursG2::HubBalancing()
 		quint32 nLeaves = 0, nCapacity = 0;
 		foreach(CNeighbour * pNode, m_lNodes)
 		{
-			if(pNode->m_nState == nsConnected && pNode->m_nProtocol == dpGnutella2 && ((CG2Node*)pNode)->m_nType == G2_HUB)
+			if(pNode->m_nState == nsConnected && pNode->m_nProtocol == dpG2 && ((CG2Node*)pNode)->m_nType == G2_HUB)
 			{
 				nLeaves += ((CG2Node*)pNode)->m_nLeafCount;
 				nCapacity += ((CG2Node*)pNode)->m_nLeafMax;
@@ -385,7 +385,7 @@ G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour*
 
 			foreach(CNeighbour * pNode, m_lNodes)
 			{
-				if(pNode->m_nProtocol == dpGnutella2 && pNode->m_nState == nsConnected && ((CG2Node*)pNode)->m_nType == G2_HUB && pNode != pExcept)
+				if(pNode->m_nProtocol == dpG2 && pNode->m_nState == nsConnected && ((CG2Node*)pNode)->m_nType == G2_HUB && pNode != pExcept)
 				{
 					pPacket->WritePacket("D", (pNode->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 8 : 20))->WriteHostAddress(&pNode->m_oAddress);
 					pPacket->WriteIntLE<quint16>(((CG2Node*)pNode)->m_nLeafCount);

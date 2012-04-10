@@ -26,13 +26,13 @@ CDiscoveryTableModel::Service::Service(CDiscoveryService* pService)
 
 	switch( m_nType )
 	{
-	case Discovery::CDiscoveryService::srNull:
+	case Discovery::CDiscoveryService::stNull:
 		Q_ASSERT( false ); // Should not happen.
 		break;
-	case Discovery::CDiscoveryService::srMulti:
+	case Discovery::CDiscoveryService::stMulti:
 		// m_iType = QIcon( ":/Resource/Discovery/Multi.ico" );
 		break;
-	case Discovery::CDiscoveryService::srGWC:
+	case Discovery::CDiscoveryService::stGWC:
 		// m_iType = QIcon( ":/Resource/Discovery/GWC.ico" );
 		break;
 	default:
@@ -82,13 +82,13 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 
 		switch( m_nType )
 		{
-		case Discovery::CDiscoveryService::srNull:
+		case Discovery::CDiscoveryService::stNull:
 			Q_ASSERT( false ); // Should not happen.
 			break;
-		case Discovery::CDiscoveryService::srMulti:
+		case Discovery::CDiscoveryService::stMulti:
 			// m_iType = QIcon( ":/Resource/Discovery/Multi.ico" );
 			break;
-		case Discovery::CDiscoveryService::srGWC:
+		case Discovery::CDiscoveryService::stGWC:
 			// m_iType = QIcon( ":/Resource/Discovery/GWC.ico" );
 			break;
 		default:

@@ -13,7 +13,7 @@ CNetworkType::CNetworkType(quint16 type) :
 	m_nNetworks( type )
 {}
 
-CNetworkType::CNetworkType(NetworkType type) :
+CNetworkType::CNetworkType(DiscoveryProtocol type) :
 	m_nNetworks( (quint16)type )
 {}
 
@@ -29,42 +29,42 @@ bool CNetworkType::operator!=(const CNetworkType& type) const
 
 bool CNetworkType::isGnutella() const
 {
-	return ( m_nNetworks | gnutella );
+	return ( m_nNetworks & dpgnutella );
 }
 
 void CNetworkType::setGnutella( bool )
 {
-	m_nNetworks &= gnutella;
+	m_nNetworks |= dpgnutella;
 }
 
 bool CNetworkType::isG2() const
 {
-	return ( m_nNetworks | G2 );
+	return ( m_nNetworks & dpG2 );
 }
 
 void CNetworkType::setG2( bool )
 {
-	m_nNetworks &= G2;
+	m_nNetworks |= dpG2;
 }
 
 bool CNetworkType::isAres() const
 {
-	return ( m_nNetworks | Ares );
+	return ( m_nNetworks & dpAres );
 }
 
 void CNetworkType::setAres( bool )
 {
-	m_nNetworks &= Ares;
+	m_nNetworks |= dpAres;
 }
 
 bool CNetworkType::isEDonkey2000() const
 {
-	return ( m_nNetworks | eDonkey2000 );
+	return ( m_nNetworks & dpeDonkey2000 );
 }
 
 void CNetworkType::setEDonkey2000( bool )
 {
-	m_nNetworks &= eDonkey2000;
+	m_nNetworks |= dpeDonkey2000;
 }
 
 bool CNetworkType::isNetwork(const CNetworkType& type) const
@@ -74,33 +74,16 @@ bool CNetworkType::isNetwork(const CNetworkType& type) const
 
 void CNetworkType::setNetwork(const CNetworkType& type)
 {
-	m_nNetworks &= type.toQuint16();
+	m_nNetworks |= type.m_nNetworks;
 }
 
 bool CNetworkType::isMulti() const
 {
-	if ( m_nNetworks < 2 )
-		return false;
-
-	quint16 nNetworks = m_nNetworks;
-	bool bMulti = false;
-
-	while ( nNetworks > 1 )
-	{
-		if ( nNetworks % 2 )
-		{
-			if ( bMulti )
-				return true;
-			else
-				bMulti = true;
-		}
-
-		nNetworks /= 2;
-	}
-	return false;
+	if ( !m_nNetworks || m_nNetworks && !(m_nNetworks & (m_nNetworks - 1)) )
+		return false;	// m_nNetworks is 0 or power of 2
+	else				// m_nNetworks is not 0 or a power of 2 - meaning there are at
+		return true;	// least 2 different bits set to 1 within the 16 bit uint
 }
-
-// bool isPowerOfTwo = x && !(x & (x - 1));
 
 quint16 CNetworkType::toQuint16() const
 {
@@ -113,7 +96,7 @@ quint16 CNetworkType::toQuint16() const
   * Locking: /
   */
 CDiscoveryService::CDiscoveryService() :
-	m_nServiceType( srNull ),
+	m_nServiceType( stNull ),
 	m_oNetworkType(),
 	m_oServiceURL(),
 	m_nRating( 0 ),
@@ -130,7 +113,7 @@ CDiscoveryService::CDiscoveryService() :
 CDiscoveryService::CDiscoveryService(const QUrl& oURL, const Type,
 									 const CNetworkType& oNType,
 									 const quint8 nRating, const QUuid& oID) :
-	m_nServiceType( srNull ),
+	m_nServiceType( stNull ),
 	m_oNetworkType( oNType ),
 	m_oServiceURL( oURL ),
 	m_nRating( nRating ),
@@ -256,7 +239,7 @@ CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const Type
 
 	switch ( nSType )
 	{
-	case srGWC:
+	case stGWC:
 	{
 		pService = new CGWC( oURL, nSType, oNType, nRating, oID );
 		break;

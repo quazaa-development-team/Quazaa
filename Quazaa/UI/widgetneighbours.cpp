@@ -173,7 +173,7 @@ void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 		{
 		case DialogConnectTo::G2:
 			Neighbours.m_pSection.lock();
-			Neighbours.ConnectTo(ip, dpGnutella2, false);
+			Neighbours.ConnectTo(ip, dpG2, false);
 			Neighbours.m_pSection.unlock();
 			break;
 		case DialogConnectTo::eDonkey:
@@ -226,7 +226,7 @@ void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 
 		switch( pNode->m_nProtocol)
 		{
-		case dpGnutella2:
+		case dpG2:
 		{
 			CChatSessionG2* pS = new CChatSessionG2(pNode->m_oAddress);
 			pS->Connect();

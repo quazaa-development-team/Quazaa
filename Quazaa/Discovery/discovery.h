@@ -16,12 +16,6 @@
 
 // http://www.gnucleus.com/gwebcache/newgwc.html
 
-
-
-//  reuse existing network enum (the one found in types.h)
-
-
-
 namespace Discovery
 {
 

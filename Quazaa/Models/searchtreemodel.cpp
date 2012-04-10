@@ -333,7 +333,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			             << GeoIP.countryNameFromCode(sCountry);
 			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, m_oParentItem);
 			m_oChildItem->HitData.lHashes << pHit2->m_lHashes;
-			m_oChildItem->HitData.iNetwork = CNetworkIconProvider::icon(dpGnutella2);
+			m_oChildItem->HitData.iNetwork = CNetworkIconProvider::icon(dpG2);
 			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
 			QueryHitSharedPtr pHitX(new CQueryHit(pHit2));
@@ -362,7 +362,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
 			             << GeoIP.countryNameFromCode(sCountry);
 			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, rootItem->child(existingSearch));
 			m_oChildItem->HitData.lHashes << pHit2->m_lHashes;
-			m_oChildItem->HitData.iNetwork = CNetworkIconProvider::icon(dpGnutella2);
+			m_oChildItem->HitData.iNetwork = CNetworkIconProvider::icon(dpG2);
 			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
 			QueryHitSharedPtr pHitX(new CQueryHit(pHit2));
