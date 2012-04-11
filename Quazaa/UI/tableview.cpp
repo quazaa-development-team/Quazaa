@@ -2,6 +2,28 @@
 
 CTableView::CTableView()
 {
+	// Quazaa default view settings for table views with complete row selection.
+
+	this->setFocusPolicy( Qt::StrongFocus );
+	this->setContextMenuPolicy( Qt::CustomContextMenu );
+	this->setEditTriggers( QAbstractItemView::NoEditTriggers );
+	this->setTabKeyNavigation( false );
+	this->setDropIndicatorShown( false );
+	this->setAlternatingRowColors( true );
+	this->setSelectionBehavior( QAbstractItemView::SelectRows );
+	this->setVerticalScrollMode( QAbstractItemView::ScrollPerPixel );
+	this->setHorizontalScrollMode( QAbstractItemView::ScrollPerPixel );
+	this->setShowGrid( false );
+	this->setGridStyle( Qt::NoPen );
+	this->setSortingEnabled( true );
+	this->setWordWrap( false );
+	this->setCornerButtonEnabled( false );
+	this->horizontalHeader()->setHighlightSections( false );
+	this->horizontalHeader()->setStretchLastSection( true );
+	this->verticalHeader()->setVisible( false );
+	this->verticalHeader()->setDefaultSectionSize( 20 );
+	this->verticalHeader()->setMinimumSectionSize( 14 );
+	this->verticalHeader()->setHighlightSections( false );
 }
 
 void CTableView::keyPressEvent(QKeyEvent *e)
