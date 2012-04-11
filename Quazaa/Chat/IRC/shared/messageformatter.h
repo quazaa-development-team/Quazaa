@@ -63,8 +63,9 @@ public:
     QStringList currentNames() const;
 
     Q_INVOKABLE QString formatMessage(IrcMessage* message) const;
+	QString formatRaw(QString message);
 
-    static QString prettyUser(const IrcSender& sender);
+	static QString prettyUser(const IrcSender& sender);
     static QString prettyUser(const QString& user);
 	static QString colorize(const QString& str);
 	QString formatTopicOnly(IrcTopicMessage* message) const;
