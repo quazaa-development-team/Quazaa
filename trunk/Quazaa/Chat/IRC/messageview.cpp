@@ -76,7 +76,18 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
 		CommandParser::addCustomCommand("JOIN", "<channel>");
 		CommandParser::addCustomCommand("J", "<channel>");
 		CommandParser::addCustomCommand("SYSINFO", "");
-
+		CommandParser::addCustomCommand("NS", "<nick service command (try help)>");
+		CommandParser::addCustomCommand("CS", "<chanel service command (try help)>");
+		CommandParser::addCustomCommand("HS", "<host service command (try help)>");
+		CommandParser::addCustomCommand("MS", "<memo service command (try help)>");
+		CommandParser::addCustomCommand("BS", "<bot service command (try help)>");
+		CommandParser::addCustomCommand("OS", "<operator service command (try help)>");
+		CommandParser::addCustomCommand("NICKSERV", "<nick service command (try help)>");
+		CommandParser::addCustomCommand("CHANSERV", "<chanel service command (try help)>");
+		CommandParser::addCustomCommand("HOSTSERV", "<host service command (try help)>");
+		CommandParser::addCustomCommand("MEMOSERV", "<memo service command (try help)>");
+		CommandParser::addCustomCommand("BOTSERV", "<bot service command (try help)>");
+		CommandParser::addCustomCommand("OPERSERV", "<operator service command (try help)>");
 
         QStringList prefixedCommands;
         foreach (const QString& command, CommandParser::availableCommands())
@@ -226,27 +237,35 @@ void MessageView::onEscPressed()
 
 void MessageView::onSend(const QString& text)
 {
-    IrcCommand* cmd = d.parser.parseCommand(d.receiver, text);
-    if (cmd)
-    {
-        d.session->sendCommand(cmd);
-		d.sentCommands.insert(cmd->type());
+	if (isStatusChannel() && !text.startsWith("/"))
+	{
+		QString display = text;
+		display.prepend(tr("Raw: "));
+		appendMessage(d.formatter.formatRaw(display));
+		d.session->sendRaw(text);
+	} else {
+		IrcCommand* cmd = d.parser.parseCommand(d.receiver, text);
+		if (cmd)
+		{
+			d.session->sendCommand(cmd);
+			d.sentCommands.insert(cmd->type());
 
-        if (cmd->type() == IrcCommand::Message || cmd->type() == IrcCommand::CtcpAction)
-        {
-            IrcMessage* msg = IrcMessage::fromCommand(d.session->nickName(), cmd);
-            receiveMessage(msg);
-            delete msg;
-        }
-        else if (cmd->type() == IrcCommand::Quit)
-        {
-            emit aboutToQuit();
-        }
-    }
-    else if (d.parser.hasError())
-    {
-        showHelp(text, true);
-    }
+			if (cmd->type() == IrcCommand::Message || cmd->type() == IrcCommand::CtcpAction)
+			{
+				IrcMessage* msg = IrcMessage::fromCommand(d.session->nickName(), cmd);
+				receiveMessage(msg);
+				delete msg;
+			}
+			else if (cmd->type() == IrcCommand::Quit)
+			{
+				emit aboutToQuit();
+			}
+		}
+		else if (d.parser.hasError())
+		{
+			showHelp(text, true);
+		}
+	}
 }
 
 void MessageView::part()
@@ -398,23 +417,11 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
 	}
 	else if (command == "MSG")
 	{
-		if (!params.value(1).isEmpty())
-		{
-			QStringList message = params.mid(1);
-			emit queryMessage(params.value(0), message.join(" "));
-		}
-		else
-			emit query(params.value(0));
+		onCustomCommand("QUERY", params);
 	}
 	else if (command == "TELL")
 	{
-		if (!params.value(1).isEmpty())
-		{
-			QStringList message = params.mid(1);
-			emit queryMessage(params.value(0), message.join(" "));
-		}
-		else
-			emit query(params.value(0));
+		onCustomCommand("QUERY", params);
 	}
     else if (command == "SETTINGS")
 	{
@@ -432,6 +439,59 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
 		onSend(tr("Application:%1 %2 OS:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING(), common::osVersionToString()));
 		//onSend(tr("CPU:%1 Cores:%2 Memory:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING()));
 	}
+	else if (command == "NS")
+	{
+		QStringList arguments = params;
+		arguments.prepend("NickServ");
+		onCustomCommand("QUERY", arguments);
+	}
+	else if (command == "NICKSERV")
+		onCustomCommand("NS", params);
+
+	else if (command == "CS")
+	{
+		QStringList arguments = params;
+		arguments.prepend("ChanServ");
+		onCustomCommand("QUERY", arguments);
+	}
+	else if (command == "CHANSERV")
+		onCustomCommand("CS", params);
+
+	else if (command == "HS")
+	{
+		QStringList arguments = params;
+		arguments.prepend("HostServ");
+		onCustomCommand("QUERY", arguments);
+	}
+	else if (command == "HOSTSERV")
+		onCustomCommand("HS", params);
+
+	else if (command == "MS")
+	{
+		QStringList arguments = params;
+		arguments.prepend("MemoServ");
+		onCustomCommand("QUERY", arguments);
+	}
+	else if (command == "MEMOSERV")
+		onCustomCommand("MS", params);
+
+	else if (command == "BS")
+	{
+		QStringList arguments = params;
+		arguments.prepend("BotServ");
+		onCustomCommand("QUERY", arguments);
+	}
+	else if (command == "BOTSERV")
+		onCustomCommand("BS", params);
+
+	else if (command == "OS")
+	{
+		QStringList arguments = params;
+		arguments.prepend("OperServ");
+		onCustomCommand("QUERY", arguments);
+	}
+	else if (command == "OPERSERV")
+		onCustomCommand("OS", params);
 }
 
 QString MessageView::prettyNames(const QStringList& names, int columns)

@@ -108,7 +108,7 @@ QString MessageFormatter::actionFormat() const
 
 void MessageFormatter::setActionFormat(const QString& format)
 {
-    d.prefixedFormats.insert("*", format);
+	d.prefixedFormats.insert("*", format);
 }
 
 QString MessageFormatter::unknownFormat() const
@@ -200,8 +200,17 @@ QString MessageFormatter::formatMessage(IrcMessage* message) const
 
     if (!format.isNull())
         formatted = tr("<span %1>%2</span>").arg(format, formatted);
+	else
+		formatted = tr("<span %1>%2</span>").arg(messageFormat(), formatted);
 
     return formatted;
+}
+
+QString MessageFormatter::formatRaw(QString message)
+{
+	if (d.timeStamp)
+		message = tr("[%1] %2").arg(QTime::currentTime().toString(), message);
+	return tr("<span %1>%2</span>").arg(messageFormat(), message);
 }
 
 QString MessageFormatter::formatInviteMessage(IrcInviteMessage* message) const
