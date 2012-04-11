@@ -26,7 +26,7 @@
 #define WIDGETSECURITY_H
 
 #include <QtGui>
-#include <QAbstractItemModel>
+
 #include "tableview.h"
 
 class CSecurityTableModel;
@@ -39,8 +39,14 @@ namespace Ui
 class WidgetSecurity : public QMainWindow
 {
 	Q_OBJECT
+
 public:
 	CSecurityTableModel* m_pSecurityList;
+
+private:
+	Ui::WidgetSecurity* ui;
+	QMenu* m_pSecurityMenu;
+	CTableView* tableViewSecurity;
 
 public:
 	WidgetSecurity(QWidget* parent = 0);
@@ -54,13 +60,6 @@ protected:
 	virtual void changeEvent(QEvent* e);
 	virtual void keyPressEvent(QKeyEvent *event);
 
-private:
-	Ui::WidgetSecurity* ui;
-	QMenu* m_pSecurityMenu;
-	CTableView* tableViewSecurity;
-
-signals:
-
 public slots:
 	void update();
 
@@ -71,9 +70,11 @@ private slots:
 	void on_actionSecurityImportRules_triggered();
 	void on_actionSecurityExportRules_triggered();
 	void on_actionSubscribeSecurityList_triggered();
+
 	void on_tableViewSecurity_customContextMenuRequested(const QPoint &pos);
 	void on_tableViewSecurity_doubleClicked(const QModelIndex &index);
 	void on_tableViewSecurity_clicked(const QModelIndex &index);
+
 	void setSkin();
 };
 

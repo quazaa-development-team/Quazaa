@@ -52,11 +52,13 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	restoreState( quazaaSettings.WinMain.SecurityToolbars );
 
 	tableViewSecurity = new CTableView();
-	tableViewSecurity->verticalHeader()->setVisible(false);
-	ui->verticalLayoutSecurityTable->addWidget(tableViewSecurity);
+	tableViewSecurity->verticalHeader()->setVisible( false );
+	ui->verticalLayoutSecurityTable->addWidget( tableViewSecurity );
+
 	connect(tableViewSecurity, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_tableViewSecurity_customContextMenuRequested(QPoint)));
 	connect(tableViewSecurity, SIGNAL(clicked(QModelIndex)), this, SLOT(on_tableViewSecurity_clicked(QModelIndex)));
 	connect(tableViewSecurity, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_tableViewSecurity_doubleClicked(QModelIndex)));
+
 	m_pSecurityList = new CSecurityTableModel( this, tableView() );
 	setModel( m_pSecurityList );
 	m_pSecurityList->sort( tableViewSecurity->horizontalHeader()->sortIndicatorSection(),
@@ -258,5 +260,5 @@ void WidgetSecurity::on_tableViewSecurity_clicked(const QModelIndex& index)
 
 void WidgetSecurity::setSkin()
 {
-	tableViewSecurity->setStyleSheet(skinSettings.listViews);
+	tableViewSecurity->setStyleSheet( skinSettings.listViews );
 }

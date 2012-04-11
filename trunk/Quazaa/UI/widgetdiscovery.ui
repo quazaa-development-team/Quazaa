@@ -18,16 +18,13 @@
     <normaloff>:/Resource/Network/Discovery.png</normaloff>:/Resource/Network/Discovery.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayoutDiscoveryTable">
     <property name="spacing">
      <number>0</number>
     </property>
     <property name="margin">
      <number>0</number>
     </property>
-    <item>
-     <widget class="QTreeView" name="treeViewDiscovery"/>
-    </item>
    </layout>
   </widget>
   <widget class="QToolBar" name="toolBarServices">

@@ -25,7 +25,11 @@
 #ifndef WIDGETDISCOVERY_H
 #define WIDGETDISCOVERY_H
 
-#include <QMainWindow>
+#include <QtGui>
+
+#include "tableview.h"
+
+class CDiscoveryTableModel;
 
 namespace Ui
 {
@@ -35,18 +39,35 @@ namespace Ui
 class WidgetDiscovery : public QMainWindow
 {
 	Q_OBJECT
-public:
-	WidgetDiscovery(QWidget* parent = 0);
-	~WidgetDiscovery();
-	void saveWidget();
 
-protected:
-	void changeEvent(QEvent* e);
+public:
+	CDiscoveryTableModel* m_pDiscoveryList;
 
 private:
 	Ui::WidgetDiscovery* ui;
+	QMenu* m_pDiscoveryMenu;
+	CTableView* tableViewDiscovery;
+
+public:
+	WidgetDiscovery(QWidget* parent = 0);
+	~WidgetDiscovery();
+
+	void		setModel(QAbstractItemModel* model);
+	QWidget*	tableView();
+	void		saveWidget();
+
+protected:
+	virtual void changeEvent(QEvent* e);
+	virtual void keyPressEvent(QKeyEvent *event);
+
+public slots:
+	void update();
 
 private slots:
+	void on_tableViewDiscovery_customContextMenuRequested(const QPoint &pos);
+	void on_tableViewDiscovery_doubleClicked(const QModelIndex &index);
+	void on_tableViewDiscovery_clicked(const QModelIndex &index);
+
 	void setSkin();
 };
 

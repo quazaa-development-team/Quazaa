@@ -1,9 +1,7 @@
 #ifndef TABLEVIEW_H
 #define TABLEVIEW_H
 
-#include <QKeyEvent>
-#include <QAbstractItemModel>
-#include <QTableView>
+#include <QtGui>
 
 class CTableView : public QTableView
 {
