@@ -53,7 +53,8 @@ signals:
     void highlight(MessageView* view, bool on);
     void alert(MessageView* view, bool on);
 	void query(const QString& user);
-	void queryMessage(const QString& receiver, const QString& message);
+	void appendQueryMessage(const QString& receiver, const QString& message);
+	void appendRawMessage(const QString& message);
 	void closeQuery(MessageView *view);
     void aboutToQuit();
 	void partView(MessageView *view);
