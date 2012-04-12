@@ -110,7 +110,7 @@ CDiscoveryService::CDiscoveryService() :
   * Default constructor.
   * Locking: /
   */
-CDiscoveryService::CDiscoveryService(const QUrl& oURL, const Type,
+CDiscoveryService::CDiscoveryService(const QUrl& oURL, const ServiceType,
 									 const CNetworkType& oNType,
 									 const quint8 nRating, const QUuid& oID) :
 	m_nServiceType( stNull ),
@@ -198,7 +198,7 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
 	oStream >> nServiceType;
 	oStream >> nNetworkType;
 
-	pService->m_nServiceType = (Type)nServiceType;
+	pService->m_nServiceType = (ServiceType)nServiceType;
 	pService->m_oNetworkType = CNetworkType( nNetworkType );
 
 	oStream >> nRating;
@@ -231,7 +231,7 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
   * [static] Creates a new service...
   * Locking: /
   */
-CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const Type nSType,
+CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const ServiceType nSType,
 													const CNetworkType& oNType,	const quint8 nRating,
 													const QUuid& oID)
 {

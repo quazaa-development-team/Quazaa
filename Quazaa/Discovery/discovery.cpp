@@ -132,7 +132,7 @@ bool CDiscovery::save(bool bForceSaving)
   * Adds a given service.
   * Locking: RW
   */
-QUuid CDiscovery::add(const QString& sURL, const CDiscoveryService::Type nSType,
+QUuid CDiscovery::add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
 									const CNetworkType& oNType, const quint8 nRating)
 {
 	QUrl oURL( sURL );
@@ -219,7 +219,7 @@ void CDiscovery::requestRuleList()
   * Publishes the own IP (async).
   * Locking: RW
   */
-bool CDiscovery::updateService(CDiscoveryService::Type type)
+bool CDiscovery::updateService(CDiscoveryService::ServiceType type)
 {
 	QWriteLocker lock( &m_pRWLock );
 
@@ -375,7 +375,7 @@ void CDiscovery::normalizeURL(QUrl& /*oURL*/)
   * Returns a (pseudo) random service of a given ServiceType.
   * Requires Locking: R
   */
-CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::Type nSType)
+CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::ServiceType nSType)
 {
 	CDiscoveryServicesList list;
 	quint16 nTotalRating = 0;

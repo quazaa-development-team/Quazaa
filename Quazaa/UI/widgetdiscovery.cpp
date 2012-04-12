@@ -22,11 +22,10 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "discoverytablemodel.h"
-
 #include "widgetdiscovery.h"
 #include "ui_widgetdiscovery.h"
 
+#include "discoverytablemodel.h"
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
@@ -123,6 +122,19 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 	QMainWindow::keyPressEvent( e );
 }
 
+void WidgetDiscovery::setVisibility(Discovery::CNetworkType networks, bool bHidden)
+{
+	for ( quint32 i = m_pDiscoveryList->rowCount(); i > 0; )
+	{
+		--i;
+
+		if ( m_pDiscoveryList->nodeFromRow( i )->getNetworkType().isNetwork( networks ) )
+		{
+			tableViewDiscovery->setRowHidden( i, bHidden );
+		}
+	}
+}
+
 void WidgetDiscovery::update()
 {
 	m_pDiscoveryList->updateAll();
@@ -171,4 +183,55 @@ void WidgetDiscovery::on_tableViewDiscovery_clicked(const QModelIndex& index)
 void WidgetDiscovery::setSkin()
 {
 	tableViewDiscovery->setStyleSheet( skinSettings.listViews );
+}
+
+void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered(bool checked)
+{
+	setVisibility( Discovery::CNetworkType( dpgnutella ), !checked );
+}
+
+void WidgetDiscovery::on_actionAresDiscoveryType_triggered(bool checked)
+{
+	setVisibility( Discovery::CNetworkType( dpAres ), !checked );
+}
+
+void WidgetDiscovery::on_actionEDonkeyServerMet_triggered(bool checked)
+{
+	setVisibility( Discovery::CNetworkType( dpeDonkey2000 ), !checked );
+}
+
+void WidgetDiscovery::on_actionGWebCache_triggered(bool checked)
+{
+	setVisibility( Discovery::CNetworkType( dpG2 ), !checked );
+}
+
+
+void WidgetDiscovery::on_actionDiscoveryAddService_triggered()
+{
+
+}
+
+void WidgetDiscovery::on_actionDiscoveryBrowseStatistics_triggered()
+{
+
+}
+
+void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
+{
+
+}
+
+void WidgetDiscovery::on_actionDiscoveryQueryNow_triggered()
+{
+
+}
+
+void WidgetDiscovery::on_actionDiscoveryAdvertise_triggered()
+{
+
+}
+
+void WidgetDiscovery::on_actionDiscoveryProperties_triggered()
+{
+
 }

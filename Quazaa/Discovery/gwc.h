@@ -9,7 +9,7 @@ namespace Discovery
 class CGWC : public CDiscoveryService
 {
 public:
-	CGWC(const QUrl&, const Type, const CNetworkType&,
+	CGWC(const QUrl&, const ServiceType, const CNetworkType&,
 		 const quint8, const QUuid& = QUuid()) {}
 
 	~CGWC() {}
