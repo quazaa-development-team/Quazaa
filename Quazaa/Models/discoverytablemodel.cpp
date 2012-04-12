@@ -19,10 +19,10 @@ CDiscoveryTableModel::Service::Service(CDiscoveryService* pService)
 	// m_pNode is correctly set to NULL. Note that a write lock is required here.
 	m_pNode->registerPointer( &m_pNode );
 
-	m_sURL			= m_pNode->getUrl().toString();
-	m_nType			= m_pNode->getServiceType();
-	m_nLastHosts	= m_pNode->getTodayCount();
-	m_nTotalHosts	= m_pNode->getTotalCount();
+	m_sURL			= m_pNode->url().toString();
+	m_nType			= m_pNode->serviceType();
+	m_nLastHosts	= m_pNode->todayCount();
+	m_nTotalHosts	= m_pNode->totalCount();
 
 	switch( m_nType )
 	{
@@ -75,10 +75,10 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 
 	bool bReturn = false;
 
-	if ( m_nType != m_pNode->getServiceType() )
+	if ( m_nType != m_pNode->serviceType() )
 	{
 		to_update.append( model->index( row, TYPE ) );
-		m_nType = m_pNode->getServiceType();
+		m_nType = m_pNode->serviceType();
 
 		switch( m_nType )
 		{
@@ -99,28 +99,28 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 			bReturn = true;
 	}
 
-	if ( m_sURL != m_pNode->getUrl().toString() )
+	if ( m_sURL != m_pNode->url().toString() )
 	{
 		to_update.append( model->index( row, URL ) );
-		m_sURL = m_pNode->getUrl().toString();
+		m_sURL = m_pNode->url().toString();
 
 		if ( col == URL )
 			bReturn = true;
 	}
 
-	if ( m_nLastHosts != m_pNode->getTodayCount() )
+	if ( m_nLastHosts != m_pNode->todayCount() )
 	{
 		to_update.append( model->index( row, HOSTS ) );
-		m_nLastHosts = m_pNode->getTodayCount();
+		m_nLastHosts = m_pNode->todayCount();
 
 		if ( col == HOSTS )
 			bReturn = true;
 	}
 
-	if ( m_nTotalHosts != m_pNode->getTotalCount() )
+	if ( m_nTotalHosts != m_pNode->totalCount() )
 	{
 		to_update.append( model->index( row, TOTAL_HOSTS ) );
-		m_nTotalHosts = m_pNode->getTotalCount();
+		m_nTotalHosts = m_pNode->totalCount();
 
 		if ( col == TOTAL_HOSTS )
 			bReturn = true;
@@ -364,13 +364,13 @@ Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromRow(quint32 row)
 	}
 }
 
-/*Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index)
+Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index)
 {
 	if ( !index.isValid() || !( index.row() < m_lNodes.count() ) || index.row() < 0 )
 		return NULL;
 	else
 		return m_lNodes[ index.row() ]->m_pNode;
-}*/
+}
 
 void CDiscoveryTableModel::completeRefresh()
 {

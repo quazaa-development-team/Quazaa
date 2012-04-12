@@ -90,7 +90,6 @@ quint16 CNetworkType::toQuint16() const
 	return m_nNetworks;
 }
 
-
 /**
   * Empty constructor.
   * Locking: /
@@ -102,6 +101,7 @@ CDiscoveryService::CDiscoveryService() :
 	m_nRating( 0 ),
 	m_nProbabilityMultiplicator( 0 ),
 	m_oUUID(),
+	m_bQueued( false ),
 	m_nRequest( srNoRequest )
 {
 }
@@ -118,6 +118,7 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const ServiceType,
 	m_oServiceURL( oURL ),
 	m_nRating( nRating ),
 	m_oUUID( oID ),
+	m_bQueued( false ),
 	m_nRequest( srNoRequest )
 {
 	m_nProbabilityMultiplicator = ( nRating < 5 ) ? nRating : 5;
@@ -128,7 +129,8 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const ServiceType,
   * when duplicating a CDiscoveryService.
   * Locking: /
   */
-CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService)
+CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
+	m_bQueued( false )
 {
 	// The usage of a custom copy constructor makes sure the list of registered
 	// pointers is NOT forwarded to a copy of this rule.
@@ -158,7 +160,10 @@ CDiscoveryService::~CDiscoveryService()
 	}
 }
 
-
+/**
+  * Operator ==
+  * Locking: /
+  */
 bool CDiscoveryService::operator==(const CDiscoveryService& pService) const
 {
 	return ( m_nServiceType	== pService.m_nServiceType	&&
@@ -170,6 +175,10 @@ bool CDiscoveryService::operator==(const CDiscoveryService& pService) const
 			 m_nTotalHosts	== pService.m_nTotalHosts );
 }
 
+/**
+  * Operator !=
+  * Locking: /
+  */
 bool CDiscoveryService::operator!=(const CDiscoveryService& pService) const
 {
 	return !( *this == pService );
@@ -275,14 +284,17 @@ void CDiscoveryService::unRegisterPointer(CDiscoveryService** pRule)
   * Updates the service with the own IP if the service supports it.
   * Locking: RW
   */
-void CDiscoveryService::update(CEndPoint& oOwnIP)
+void CDiscoveryService::update(CEndPoint& oOwnIP, bool bExecute)
 {
 	m_pRWLock.lockForWrite();
 	m_nRequest = srUpdate;
 	m_oOwnIP = oOwnIP;
 	m_pRWLock.unlock();
 
-	start(); // Start new thread.
+	if ( bExecute )
+		start(); // Start new thread.
+	else
+		m_bQueued = true;
 }
 
 /**
@@ -290,13 +302,26 @@ void CDiscoveryService::update(CEndPoint& oOwnIP)
   * alternative service URLs.
   * Locking: RW
   */
-void CDiscoveryService::query()
+void CDiscoveryService::query(bool bExecute)
 {
 	m_pRWLock.lockForWrite();
 	m_nRequest = srQuery;
 	m_pRWLock.unlock();
 
-	start(); // Start new thread.
+	if ( bExecute )
+		start(); // Start new thread.
+	else
+		m_bQueued = true;
+}
+
+/**
+  * Executes queued command.
+  * Locking: /
+  */
+void CDiscoveryService::execute()
+{
+	m_bQueued = false;
+	start();
 }
 
 /**

@@ -62,7 +62,7 @@ public:
 	void sort(int column, Qt::SortOrder order);
 
 	CDiscoveryService* nodeFromRow(quint32 row);
-	//CDiscoveryService* nodeFromIndex(const QModelIndex& index);
+	CDiscoveryService* nodeFromIndex(const QModelIndex& index);
 
 	void completeRefresh();
 
