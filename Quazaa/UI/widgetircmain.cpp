@@ -71,6 +71,7 @@ WidgetIRCMain::WidgetIRCMain(QWidget* parent) :
 
 WidgetIRCMain::~WidgetIRCMain()
 {
+	disconnect();
 	delete ui;
 }
 
@@ -205,15 +206,15 @@ void WidgetIRCMain::initialize()
 void WidgetIRCMain::disconnect()
 {
 	ConnectionInfos connections;
-	for (int i = 0; tabWidgetMain && i < tabWidgetMain->count(); ++i)
+	while (1 < tabWidgetMain->count())
 	{
-		SessionTabWidget* tab = qobject_cast<SessionTabWidget*>(tabWidgetMain->widget(i));
+		SessionTabWidget* tab = qobject_cast<SessionTabWidget*>(tabWidgetMain->widget(0));
 		if (tab)
 		{
 			ConnectionInfo connection = tab->session()->toConnection();
 			connections += connection;
 			tab->quit();
-			tabWidgetMain->removeTab(i);
+			tabWidgetMain->removeTab(0);
 		}
 	}
 
