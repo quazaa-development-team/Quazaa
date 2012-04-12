@@ -63,6 +63,7 @@ private slots:
     void delayedTabResetTimeout();
     void alertTab(MessageView* view, bool on);
     void highlightTab(MessageView* view, bool on);
+	void switchToServerTab();
 	void applySettings();
 
 private:
@@ -72,6 +73,7 @@ private:
         QList<int> delayedIndexes;
         MessageHandler handler;
         QHash<QString, MessageView*> views;
+		MessageView* serverView;
     } d;
 };
 

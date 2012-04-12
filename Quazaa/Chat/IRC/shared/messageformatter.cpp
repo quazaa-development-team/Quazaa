@@ -209,7 +209,9 @@ QString MessageFormatter::formatMessage(IrcMessage* message) const
 QString MessageFormatter::formatRaw(QString message)
 {
 	if (d.timeStamp)
-		message = tr("[%1] %2").arg(QTime::currentTime().toString(), message);
+		message = tr("[%1] [RAW] %2").arg(QTime::currentTime().toString(), message);
+	else
+		message = tr("[RAW] %1").arg(message);
 	return tr("<span %1>%2</span>").arg(messageFormat(), message);
 }
 

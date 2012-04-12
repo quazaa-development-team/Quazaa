@@ -239,14 +239,21 @@ void MessageView::onSend(const QString& text)
 {
 	if (isStatusChannel() && !text.startsWith("/"))
 	{
-		QString display = text;
-		display.prepend(tr("Raw: "));
-		appendMessage(d.formatter.formatRaw(display));
-		d.session->sendRaw(text);
+		QString modify = text;
+		modify.prepend(tr("/quote "));
+		onSend(modify);
 	} else {
 		IrcCommand* cmd = d.parser.parseCommand(d.receiver, text);
 		if (cmd)
 		{
+			if (cmd->type() == IrcCommand::Quote)
+			{
+				QString rawMessage = cmd->toString();
+				if(isStatusChannel())
+					appendMessage(d.formatter.formatRaw(rawMessage));
+				else
+					emit appendRawMessage(d.formatter.formatRaw(rawMessage));
+			}
 			d.session->sendCommand(cmd);
 			d.sentCommands.insert(cmd->type());
 
@@ -359,7 +366,7 @@ void MessageView::receiveMessage(IrcMessage* message)
     case IrcMessage::Ping:
     case IrcMessage::Pong:
     case IrcMessage::Error:
-        break;
+		break;
 	case IrcMessage::Numeric: {
 			IrcNumericMessage* numeric = static_cast<IrcNumericMessage*>(message);
 			if (numeric->code() == Irc::RPL_ENDOFNAMES && d.sentCommands.contains(IrcCommand::Names))
@@ -410,7 +417,7 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
 		if (!params.value(1).isEmpty())
 		{
 			QStringList message = params.mid(1);
-			emit queryMessage(params.value(0), message.join(" "));
+			emit appendQueryMessage(params.value(0), message.join(" "));
 		}
 		else
 			emit query(params.value(0));

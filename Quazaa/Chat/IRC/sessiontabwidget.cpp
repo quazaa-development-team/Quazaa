@@ -45,9 +45,9 @@ SessionTabWidget::SessionTabWidget(Session* session, QWidget* parent) :
 
 	applySettings();
 
-    MessageView* view = openView(d.handler.session()->host());
-    d.handler.setDefaultReceiver(view);
-	view->setStatusChannel(true);
+	d.serverView = openView(d.handler.session()->host());
+	d.handler.setDefaultReceiver(d.serverView);
+	d.serverView->setStatusChannel(true);
 	updateStatus();
 }
 
@@ -77,12 +77,11 @@ MessageView* SessionTabWidget::openView(const QString& receiver)
         connect(view, SIGNAL(alert(MessageView*, bool)), this, SLOT(alertTab(MessageView*, bool)));
         connect(view, SIGNAL(highlight(MessageView*, bool)), this, SLOT(highlightTab(MessageView*, bool)));
 		connect(view, SIGNAL(query(QString)), this, SLOT(openView(QString)));
-		connect(view, SIGNAL(queryMessage(QString,QString)), this, SLOT(messageToView(QString,QString)));
+		connect(view, SIGNAL(appendQueryMessage(QString,QString)), this, SLOT(messageToView(QString,QString)));
 		connect(view, SIGNAL(aboutToQuit()), this, SLOT(onAboutToQuit()));
 		connect(view, SIGNAL(closeQuery(MessageView*)), this, SLOT(closeView(MessageView*)));
 		connect(view, SIGNAL(partView(MessageView*)), this, SLOT(closeView(MessageView*)));
 		connect(view, SIGNAL(join(QString)), this, SLOT(onNewTabRequested(QString)));
-
 
         d.handler.addReceiver(receiver, view);
         d.views.insert(receiver.toLower(), view);
@@ -93,8 +92,12 @@ MessageView* SessionTabWidget::openView(const QString& receiver)
 			setTabIcon(index, QIcon(":/Resource/Network/Network.png"));
 		} else if(view->isChannelView()) {
 			setTabIcon(index, QIcon(":/Resource/Chat/Rooms.png"));
+			connect(view, SIGNAL(appendRawMessage(QString)), d.serverView, SLOT(appendMessage(QString)));
+			connect(view, SIGNAL(appendRawMessage(QString)), this, SLOT(switchToServerTab()));
 		} else {
 			setTabIcon(index, QIcon(":/Resource/Chat/Chat.png"));
+			connect(view, SIGNAL(appendRawMessage(QString)), d.serverView, SLOT(appendMessage(QString)));
+			connect(view, SIGNAL(appendRawMessage(QString)), this, SLOT(switchToServerTab()));
 		}
     }
     if (view)
@@ -290,6 +293,11 @@ void SessionTabWidget::highlightTab(MessageView* view, bool on)
 			qApp->alert(this);
 		}
     }
+}
+
+void SessionTabWidget::switchToServerTab()
+{
+	this->setCurrentIndex(0);
 }
 
 void SessionTabWidget::applySettings()
