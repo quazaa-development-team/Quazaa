@@ -28,6 +28,7 @@
 #include <QtGui>
 
 #include "tableview.h"
+#include "discovery.h"
 
 class CDiscoveryTableModel;
 
@@ -59,6 +60,7 @@ public:
 protected:
 	virtual void changeEvent(QEvent* e);
 	virtual void keyPressEvent(QKeyEvent *event);
+	void setVisibility(Discovery::CNetworkType networks, bool bHidden);
 
 public slots:
 	void update();
@@ -69,6 +71,19 @@ private slots:
 	void on_tableViewDiscovery_clicked(const QModelIndex &index);
 
 	void setSkin();
+
+	void on_actionDiscoveryGnutellaBootstrap_triggered(bool checked);
+	void on_actionAresDiscoveryType_triggered(bool checked);
+	void on_actionEDonkeyServerMet_triggered(bool checked);
+	void on_actionGWebCache_triggered(bool checked);
+
+	void on_actionDiscoveryAddService_triggered();
+	void on_actionDiscoveryBrowseStatistics_triggered();
+	void on_actionDiscoveryRemoveService_triggered();
+	void on_actionDiscoveryQueryNow_triggered();
+	void on_actionDiscoveryAdvertise_triggered();
+	void on_actionDiscoveryProperties_triggered();
+
 };
 
 #endif // WIDGETDISCOVERY_H

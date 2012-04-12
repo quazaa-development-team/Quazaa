@@ -54,7 +54,7 @@ public:
 	bool	load();
 	bool	save(bool bForceSaving);
 
-	QUuid	add(const QString& sURL, const CDiscoveryService::Type nSType,
+	QUuid	add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
 				const CNetworkType& oNType, const quint8 nRating = 7);
 	bool	remove(const QUuid& oServiceID);
 	void	clear();
@@ -73,7 +73,7 @@ public slots:
 	// Trigger this to let the Discovery Services Manager emit all rules
 	void requestRuleList();
 
-	bool updateService(CDiscoveryService::Type type); // sends our IP to service (e.g. GWC)
+	bool updateService(CDiscoveryService::ServiceType type); // sends our IP to service (e.g. GWC)
 	bool queryService(CNetworkType type);
 	void serviceActionFinished();
 
@@ -82,7 +82,7 @@ private:
 	bool add(CDiscoveryService* pService);
 	void normalizeURL(QUrl& sURL);
 
-	CDiscoveryService* getRandomService(CDiscoveryService::Type nSType);
+	CDiscoveryService* getRandomService(CDiscoveryService::ServiceType nSType);
 	CDiscoveryService* getRandomService(CNetworkType oNType);
 };
 

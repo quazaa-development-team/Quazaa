@@ -34,7 +34,7 @@ public:
 		CDiscoveryService*		m_pNode;
 
 		QString					m_sURL;
-		CDiscoveryService::Type	m_nType;
+		CDiscoveryService::ServiceType	m_nType;
 		quint32					m_nLastHosts;
 		quint32					m_nTotalHosts;
 		QIcon					m_iType;
@@ -53,7 +53,7 @@ public:
 	explicit CDiscoveryTableModel(QObject* parent = 0, QWidget* container = 0);
 	~CDiscoveryTableModel();
 
-	int rowCount(const QModelIndex& parent) const;
+	int rowCount(const QModelIndex& parent = QModelIndex()) const;
 	int columnCount(const QModelIndex& parent) const;
 	QVariant data(const QModelIndex& index, int role) const;
 	QVariant headerData(int section, Qt::Orientation orientation, int role) const;
@@ -61,7 +61,8 @@ public:
 
 	void sort(int column, Qt::SortOrder order);
 
-	CDiscoveryService* nodeFromIndex(const QModelIndex& index);
+	CDiscoveryService* nodeFromRow(quint32 row);
+	//CDiscoveryService* nodeFromIndex(const QModelIndex& index);
 
 	void completeRefresh();
 

@@ -20,7 +20,7 @@ CDiscoveryTableModel::Service::Service(CDiscoveryService* pService)
 	m_pNode->registerPointer( &m_pNode );
 
 	m_sURL			= m_pNode->getUrl().toString();
-	m_nType			= m_pNode->getType();
+	m_nType			= m_pNode->getServiceType();
 	m_nLastHosts	= m_pNode->getTodayCount();
 	m_nTotalHosts	= m_pNode->getTotalCount();
 
@@ -75,10 +75,10 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 
 	bool bReturn = false;
 
-	if ( m_nType != m_pNode->getType() )
+	if ( m_nType != m_pNode->getServiceType() )
 	{
 		to_update.append( model->index( row, TYPE ) );
-		m_nType = m_pNode->getType();
+		m_nType = m_pNode->getServiceType();
 
 		switch( m_nType )
 		{
@@ -352,13 +352,25 @@ void CDiscoveryTableModel::sort(int column, Qt::SortOrder order)
 	emit layoutChanged();
 }
 
-Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index)
+Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromRow(quint32 row)
 {
-	if ( !index.isValid() || index.row() > m_lNodes.count() || index.row() < 0 )
+	if ( row < (quint32)m_lNodes.count() )
+	{
+		return m_lNodes[ row ]->m_pNode;
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
+/*Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index)
+{
+	if ( !index.isValid() || !( index.row() < m_lNodes.count() ) || index.row() < 0 )
 		return NULL;
 	else
 		return m_lNodes[ index.row() ]->m_pNode;
-}
+}*/
 
 void CDiscoveryTableModel::completeRefresh()
 {

@@ -54,7 +54,7 @@ class CDiscoveryService : QThread
 	/* ================================================================ */
 public:
 	// Extend for all new supported service types.
-	typedef enum { stNull = 0, stMulti = 1, stGWC = 2 } Type;
+	typedef enum { stNull = 0, stMulti = 1, stGWC = 2 } ServiceType;
 
 private:
 	// Note: Extra functionality should be implemented at lower level.
@@ -65,7 +65,7 @@ private:
 	/* ================================================================ */
 
 private:
-	Type			m_nServiceType;
+	ServiceType			m_nServiceType;
 	CNetworkType	m_oNetworkType;
 	QUrl			m_oServiceURL;
 	quint8			m_nRating;
@@ -88,7 +88,7 @@ public:
 	/* ========================= Construction ========================= */
 	/* ================================================================ */
 	CDiscoveryService();
-	CDiscoveryService(const QUrl& oURL, const Type nSType, const CNetworkType& oNType,
+	CDiscoveryService(const QUrl& oURL, const ServiceType nSType, const CNetworkType& oNType,
 					  const quint8 nRating, const QUuid& oID = QUuid());
 	CDiscoveryService(const CDiscoveryService& pService);
 
@@ -108,7 +108,7 @@ public:
 	static void     save(const CDiscoveryService* const pService, QDataStream& oStream);
 
 	// Use this to generate valid services. Must be modified when writing subclasses.
-	static CDiscoveryService* createService(const QUrl& oURL, const Type nSType,
+	static CDiscoveryService* createService(const QUrl& oURL, const ServiceType nSType,
 											const CNetworkType& oNType, const quint8 nRating,
 											const QUuid& oID = QUuid());
 
@@ -123,7 +123,8 @@ public:
 	void update(CEndPoint& oOwnIP);
 	void query();
 
-	inline Type getType() const;
+	inline ServiceType getServiceType() const;
+	inline CNetworkType getNetworkType() const;
 
 	inline QUrl getUrl() const;
 
@@ -153,9 +154,14 @@ private:
 friend class CDiscovery;
 };
 
-CDiscoveryService::Type CDiscoveryService::getType() const
+CDiscoveryService::ServiceType CDiscoveryService::getServiceType() const
 {
 	return m_nServiceType;
+}
+
+CNetworkType CDiscoveryService::getNetworkType() const
+{
+	return m_oNetworkType;
 }
 
 QUrl CDiscoveryService::getUrl() const
