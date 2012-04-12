@@ -13,6 +13,10 @@ Discovery::CDiscovery discoveryManager;
 
 using namespace Discovery;
 
+/**
+  * Default constructor.
+  * Locking: /
+  */
 CDiscovery::CDiscovery(QObject *parent) :
 	QObject( parent ),
 	m_bSaved( true ),
@@ -26,9 +30,14 @@ CDiscovery::CDiscovery(QObject *parent) :
   */
 bool CDiscovery::start()
 {
-	// Register QSharedPointer< CDiscoveryService > to allow using this type with queued signal/slot connections.
+	// Register QSharedPointer< CDiscoveryService > to allow using this type
+	// with queued signal/slot connections.
 	qRegisterMetaType< QSharedPointer< CDiscoveryService > >("QSharedPointer<CSecureRule>");
-	qsrand ( QDateTime::currentDateTime().toTime_t() ); // Initialize random number generator.
+
+	// Initialize random number generator.
+	qsrand ( QDateTime::currentDateTime().toTime_t() );
+
+	// Load rules from disk.
 	return load();
 }
 
@@ -58,7 +67,7 @@ bool CDiscovery::load()
 	{
 		return true;
 	}
-	else
+	else // Unable to load default file. Switch to backup one instead.
 	{
 		sPath = quazaaSettings.Discovery.DataPath + "discovery_backup.dat";
 		return load( sPath );
@@ -73,9 +82,9 @@ bool CDiscovery::save(bool bForceSaving)
 {
 	QReadLocker mutex( &m_pRWLock );
 
-	if ( m_bSaved && !bForceSaving )		// Saving not required ATM.
+	if ( m_bSaved && !bForceSaving )
 	{
-		return true;
+		return true; // Saving not required ATM.
 	}
 
 	QString sPath		= quazaaSettings.Discovery.DataPath + "discovery.dat";
@@ -101,9 +110,10 @@ bool CDiscovery::save(bool bForceSaving)
 		oStream << nVersion;
 		oStream << getCount();
 
-		for ( CIterator i = m_lServices.begin(); i != m_lServices.end(); ++i )
+		// write services to stream
+		for ( CIterator i = m_mServices.begin(); i != m_mServices.end(); ++i )
 		{
-			const CDiscoveryService* pService = *i;
+			const CDiscoveryService* pService = (*i).second;
 			CDiscoveryService::save( pService, oStream );
 		}
 	}
@@ -137,7 +147,7 @@ QUuid CDiscovery::add(const QString& sURL, const CDiscoveryService::ServiceType 
 {
 	QUrl oURL( sURL );
 
-	if ( !oURL.isValid() )
+	if ( !oURL.isValid() ) // Creating a service without a valid URL is nonsense.
 		return QUuid();
 
 	CDiscoveryService* pService = CDiscoveryService::createService( oURL, nSType, oNType, nRating );
@@ -145,7 +155,12 @@ QUuid CDiscovery::add(const QString& sURL, const CDiscoveryService::ServiceType 
 	QWriteLocker l( &m_pRWLock );
 
 	if ( add( pService ) )
+	{
+		// inform GUI about new service
+		emit serviceAdded( pService );
+
 		return pService->m_oUUID;
+	}
 	else
 		return QUuid();
 }
@@ -161,29 +176,55 @@ bool CDiscovery::remove(const QUuid& oServiceID)
 
 	QWriteLocker l( &m_pRWLock );
 
-	for ( CDiscoveryServicesList::iterator i = m_lServices.begin();
-		  i != m_lServices.end(); ++i )
+	try
 	{
-		if ( (*i)->m_oUUID == oServiceID )
-		{
-			m_lServices.erase( i );
-			return true;
-		}
-	}
+		// std::map::at() throws std::out_of_range if oServiceID cannot be found in the map
+		CDiscoveryService* pService = m_mServices.at( oServiceID );
 
-	return false;
+		if ( pService->isRunning() ) // Do not remove a service that is currently active.
+			return false;
+
+		m_lAsyncTODO.remove( pService ); // Remove service from TODO list if present.
+
+		// inform GUI about service removal
+		emit serviceRemoved( QSharedPointer<CDiscoveryService>( pService ) );
+
+		m_mServices.erase( oServiceID );
+		return true;
+	}
+	catch ( std::out_of_range )
+	{
+		return false;
+	}
 }
 
 /**
   * Removes all services.
   * Locking: RW
   */
-void CDiscovery::clear()
+void CDiscovery::clear(bool bInformGUI)
 {
 	QWriteLocker l( &m_pRWLock );
 
-	qDeleteAll( m_lServices );
-	m_lServices.clear();
+	if ( bInformGUI )
+	{
+		foreach ( CMapPair pair, m_mServices )
+		{
+			// QSharedPointer makes sure the services are deleted, once the GUI has been informed.
+			emit serviceRemoved( QSharedPointer<CDiscoveryService>( pair.second ) );
+
+			m_mServices.erase( pair.first );
+		}
+	}
+	else
+	{
+		foreach ( CMapPair pair, m_mServices )
+		{
+			delete pair.second;
+		}
+
+		m_mServices.clear();
+	}
 }
 
 /**
@@ -193,11 +234,21 @@ void CDiscovery::clear()
 bool CDiscovery::check(const CDiscoveryService* const pService)
 {
 	QReadLocker l( &m_pRWLock );
-	foreach ( const CDiscoveryService* const pTmp, m_lServices )
-		if ( pTmp->m_oUUID == pService->m_oUUID )
-			return true;
 
-	return false;
+	try
+	{
+		// std::map::at() throws std::out_of_range if pService->m_oUUID cannot be found in the map
+		const CDiscoveryService* const pExService = m_mServices.at( pService->m_oUUID );
+
+		if ( *pExService == *pService )
+			return true;
+		else
+			return false;
+	}
+	catch ( std::out_of_range )
+	{
+		return false;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -209,9 +260,9 @@ bool CDiscovery::check(const CDiscoveryService* const pService)
 void CDiscovery::requestRuleList()
 {
 	QReadLocker l( &m_pRWLock );
-	for ( CIterator i = m_lServices.begin() ; i != m_lServices.end(); i++ )
+	for ( CIterator i = m_mServices.begin() ; i != m_mServices.end(); i++ )
 	{
-		emit serviceInfo( *i );
+		emit serviceInfo( (*i).second );
 	}
 }
 
@@ -223,21 +274,34 @@ bool CDiscovery::updateService(CDiscoveryService::ServiceType type)
 {
 	QWriteLocker lock( &m_pRWLock );
 
-	CDiscoveryService* pService = getRandomService( type );
+	return updateHelper( getRandomService( type ), lock );
+}
 
-	if ( pService )
+/**
+  * Queries a service for a given NetworkType (async).
+  * Locking: RW
+  */
+bool CDiscovery::queryService(const CNetworkType& type)
+{
+	QWriteLocker lock( &m_pRWLock );
+
+	return queryHelper( getRandomService( type ), lock );
+}
+
+/**
+  * Publishes the own IP (async).
+  * Locking: RW
+  */
+bool CDiscovery::updateService(const QUuid& oServiceID)
+{
+	QWriteLocker lock( &m_pRWLock );
+
+	try
 	{
-		CEndPoint oOwnIP = Network.GetLocalAddress();
-
-		connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
-		m_bIsRunning = true;
-		lock.unlock();
-
-		pService->update( oOwnIP );
-
-		return true;
+		// std::map::at() throws std::out_of_range if oServiceID cannot be found in the map
+		return updateHelper( m_mServices.at( oServiceID ), lock );
 	}
-	else
+	catch ( std::out_of_range )
 	{
 		return false;
 	}
@@ -247,24 +311,16 @@ bool CDiscovery::updateService(CDiscoveryService::ServiceType type)
   * Queries a service for a given NetworkType (async).
   * Locking: RW
   */
-bool CDiscovery::queryService( CNetworkType type )
+bool CDiscovery::queryService(const QUuid& oServiceID)
 {
 	QWriteLocker lock( &m_pRWLock );
 
-	CDiscoveryService* pService = getRandomService( type );
-
-	if ( pService )
+	try
 	{
-		connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
-		m_bIsRunning = true;
-
-		lock.unlock();
-
-		pService->query();
-
-		return true;
+		// std::map::at() throws std::out_of_range if oServiceID cannot be found in the map
+		return queryHelper( m_mServices.at( oServiceID ), lock );
 	}
-	else
+	catch ( std::out_of_range )
 	{
 		return false;
 	}
@@ -277,8 +333,22 @@ bool CDiscovery::queryService( CNetworkType type )
 void CDiscovery::serviceActionFinished()
 {
 	m_pRWLock.lockForWrite();
+
 	disconnect( this, SLOT(serviceActionFinished()) );
-	m_bIsRunning = false;
+
+	if ( !m_lAsyncTODO.size() )
+	{
+		m_bIsRunning = false;
+	}
+	else
+	{
+		CDiscoveryService* pService = m_lAsyncTODO.front();
+		m_lAsyncTODO.pop_front();
+
+		connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
+		pService->execute();
+	}
+
 	m_pRWLock.unlock();
 }
 
@@ -313,7 +383,7 @@ bool CDiscovery::load( QString sPath )
 
 			add( pService );
 			pService = NULL;
-			nCount--;
+			--nCount;
 		}
 	}
 	catch ( ... )
@@ -342,13 +412,12 @@ bool CDiscovery::add(CDiscoveryService* pService)
 
 	normalizeURL( pService->m_oServiceURL );
 
-	for ( CDiscoveryServicesList::iterator i = m_lServices.begin();
-		  i != m_lServices.end(); ++i )
+	for ( CDiscoveryServicesMap::iterator i = m_mServices.begin(); i != m_mServices.end(); ++i )
 	{
 
 		// TODO: Improve this test.
 
-		if ( (*i)->m_oServiceURL == pService->m_oServiceURL )
+		if ( (*i).second->m_oServiceURL == pService->m_oServiceURL )
 		{
 			delete pService;
 			pService = NULL;
@@ -356,7 +425,7 @@ bool CDiscovery::add(CDiscoveryService* pService)
 		}
 	}
 
-	m_lServices.push_back( pService );
+	m_mServices[pService->m_oUUID] = pService;
 	return true;
 }
 
@@ -372,6 +441,76 @@ void CDiscovery::normalizeURL(QUrl& /*oURL*/)
 }
 
 /**
+  * Private helper for updateService()
+  * Locking required: RW
+  */
+bool CDiscovery::updateHelper(CDiscoveryService *pService, QWriteLocker &lock)
+{
+	if ( pService )
+	{
+		CEndPoint oOwnIP = Network.GetLocalAddress();
+
+		if ( !isRunning() )
+		{
+			connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
+			m_bIsRunning = true;
+
+			lock.unlock();
+
+			pService->update( oOwnIP );
+			return true;
+		}
+		else // queue the service for delayed updating
+		{
+			m_lAsyncTODO.push_back( pService );
+
+			lock.unlock();
+
+			pService->update( oOwnIP, false );
+			return true;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+/**
+  * Private helper for queryeService()
+  * Locking required: RW
+  */
+bool CDiscovery::queryHelper(CDiscoveryService *pService, QWriteLocker &lock)
+{
+	if ( pService )
+	{
+		if ( !isRunning() )
+		{
+			connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
+			m_bIsRunning = true;
+
+			lock.unlock();
+
+			pService->query();
+			return true;
+		}
+		else // queue the service for delayed querying
+		{
+			m_lAsyncTODO.push_back( pService );
+
+			lock.unlock();
+
+			pService->query( false );
+			return true;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+/**
   * Returns a (pseudo) random service of a given ServiceType.
   * Requires Locking: R
   */
@@ -379,10 +518,13 @@ CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::ServiceType n
 {
 	CDiscoveryServicesList list;
 	quint16 nTotalRating = 0;
+	CDiscoveryService* pService;
 
-	foreach ( CDiscoveryService* pService, m_lServices )
+	foreach ( CMapPair pair, m_mServices )
 	{
-		if ( pService->m_nServiceType == nSType && pService->m_nRating != 0 )
+		pService = pair.second;
+
+		if ( pService->m_nServiceType == nSType && pService->m_nRating && !pService->isQueued() )
 		{
 			list.push_back( pService );
 			nTotalRating += pService->m_nRating;
@@ -413,14 +555,17 @@ CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::ServiceType n
   * Returns a (pseudo) random service of a given NetworkType.
   * Requires Locking: R
   */
-CDiscoveryService* CDiscovery::getRandomService(CNetworkType oNType)
+CDiscoveryService* CDiscovery::getRandomService(const CNetworkType& oNType)
 {
 	CDiscoveryServicesList list;
 	quint16 nTotalRating = 0;
+	CDiscoveryService* pService;
 
-	foreach ( CDiscoveryService* pService, m_lServices )
+	foreach ( CMapPair pair, m_mServices )
 	{
-		if ( pService->m_oNetworkType.isNetwork( oNType ) && pService->m_nRating != 0 )
+		pService = pair.second;
+
+		if ( pService->m_oNetworkType.isNetwork( oNType ) && pService->m_nRating && !pService->isQueued() )
 		{
 			list.push_back( pService );
 			nTotalRating += pService->m_nRating;

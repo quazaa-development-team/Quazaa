@@ -128,7 +128,7 @@ void WidgetDiscovery::setVisibility(Discovery::CNetworkType networks, bool bHidd
 	{
 		--i;
 
-		if ( m_pDiscoveryList->nodeFromRow( i )->getNetworkType().isNetwork( networks ) )
+		if ( m_pDiscoveryList->nodeFromRow( i )->networkType().isNetwork( networks ) )
 		{
 			tableViewDiscovery->setRowHidden( i, bHidden );
 		}
@@ -205,10 +205,9 @@ void WidgetDiscovery::on_actionGWebCache_triggered(bool checked)
 	setVisibility( Discovery::CNetworkType( dpG2 ), !checked );
 }
 
-
 void WidgetDiscovery::on_actionDiscoveryAddService_triggered()
 {
-
+	// TODO: Pop up dialog to add service
 }
 
 void WidgetDiscovery::on_actionDiscoveryBrowseStatistics_triggered()
@@ -218,7 +217,15 @@ void WidgetDiscovery::on_actionDiscoveryBrowseStatistics_triggered()
 
 void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
 {
+	QModelIndexList selection = tableViewDiscovery->selectionModel()->selectedRows();
 
+	foreach( QModelIndex i, selection )
+	{
+		if ( i.isValid() )
+		{
+			discoveryManager.remove( m_pDiscoveryList->nodeFromIndex( i )->uuid() );
+		}
+	}
 }
 
 void WidgetDiscovery::on_actionDiscoveryQueryNow_triggered()
@@ -233,5 +240,5 @@ void WidgetDiscovery::on_actionDiscoveryAdvertise_triggered()
 
 void WidgetDiscovery::on_actionDiscoveryProperties_triggered()
 {
-
+	// TODO: Pop up dialog to edit service
 }

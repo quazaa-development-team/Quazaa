@@ -47,7 +47,7 @@ public:
 };
 
 
-class CDiscoveryService : QThread
+class CDiscoveryService : public QThread
 {
 	/* ================================================================ */
 	/* ========================= Definitions  ========================= */
@@ -65,12 +65,13 @@ private:
 	/* ================================================================ */
 
 private:
-	ServiceType			m_nServiceType;
+	ServiceType		m_nServiceType;
 	CNetworkType	m_oNetworkType;
 	QUrl			m_oServiceURL;
 	quint8			m_nRating;
 	quint8			m_nProbabilityMultiplicator;
 	QUuid			m_oUUID;
+	bool			m_bQueued;
 
 	quint32			m_nLastHosts;
 	quint32			m_nTotalHosts;
@@ -92,7 +93,7 @@ public:
 					  const quint8 nRating, const QUuid& oID = QUuid());
 	CDiscoveryService(const CDiscoveryService& pService);
 
-	virtual ~CDiscoveryService(); // Must be implemented by subclasses.
+	virtual ~CDiscoveryService(); /** Must be implemented by subclasses. */
 
 	/* ================================================================ */
 	/* ========================== Operators  ========================== */
@@ -107,7 +108,7 @@ public:
 	static void		load(CDiscoveryService*& pService, QDataStream& oStream, const int nVersion);
 	static void     save(const CDiscoveryService* const pService, QDataStream& oStream);
 
-	// Use this to generate valid services. Must be modified when writing subclasses.
+	/** Use this to generate valid services. Must be modified when writing subclasses. */
 	static CDiscoveryService* createService(const QUrl& oURL, const ServiceType nSType,
 											const CNetworkType& oNType, const quint8 nRating,
 											const QUuid& oID = QUuid());
@@ -120,19 +121,23 @@ public:
 	void unRegisterPointer(CDiscoveryService** pService);
 
 	// Sends our IP to service if it supports the operation (e.g. if it is a GWC).
-	void update(CEndPoint& oOwnIP);
-	void query();
+	void update(CEndPoint& oOwnIP,bool bExecute = true);
+	void query(bool bExecute = true);
+	void execute();
 
-	inline ServiceType getServiceType() const;
-	inline CNetworkType getNetworkType() const;
+	inline ServiceType serviceType() const;
+	inline CNetworkType networkType() const;
 
-	inline QUrl getUrl() const;
+	inline QUrl url() const;
+	inline QUuid uuid() const;
 
 	inline void count();
-	inline quint32 getTodayCount() const;
-	inline quint32 getTotalCount() const;
+	inline quint32 todayCount() const;
+	inline quint32 totalCount() const;
 
-	virtual QString type() { return QString(); } // Must be implemented by subclasses.
+	inline bool isQueued() const;
+
+	virtual QString type() { return QString(); } /** Must be implemented by subclasses. */
 
 	/* ================================================================ */
 	/* ======================= Attribute Access ======================= */
@@ -145,8 +150,8 @@ private:
 	/* ================================================================ */
 	void run();
 
-	virtual void doQuery() {}	// Must be implemented by subclasses.
-	virtual void doUpdate() {}	// Must be implemented by subclasses.
+	virtual void doQuery() {}	/** Must be implemented by subclasses. */
+	virtual void doUpdate() {}	/** Must be implemented by subclasses. */
 
 	/* ================================================================ */
 	/* ======================== Friend Classes ======================== */
@@ -154,19 +159,24 @@ private:
 friend class CDiscovery;
 };
 
-CDiscoveryService::ServiceType CDiscoveryService::getServiceType() const
+CDiscoveryService::ServiceType CDiscoveryService::serviceType() const
 {
 	return m_nServiceType;
 }
 
-CNetworkType CDiscoveryService::getNetworkType() const
+CNetworkType CDiscoveryService::networkType() const
 {
 	return m_oNetworkType;
 }
 
-QUrl CDiscoveryService::getUrl() const
+QUrl CDiscoveryService::url() const
 {
 	return m_oServiceURL;
+}
+
+QUuid CDiscoveryService::uuid() const
+{
+	return m_oUUID;
 }
 
 void CDiscoveryService::count()
@@ -175,14 +185,19 @@ void CDiscoveryService::count()
 	++m_nTotalHosts;
 }
 
-quint32 CDiscoveryService::getTodayCount() const
+quint32 CDiscoveryService::todayCount() const
 {
 	return m_nLastHosts;
 }
 
-quint32 CDiscoveryService::getTotalCount() const
+quint32 CDiscoveryService::totalCount() const
 {
 	return m_nTotalHosts;
+}
+
+bool CDiscoveryService::isQueued() const
+{
+	return m_bQueued;
 }
 
 /**
