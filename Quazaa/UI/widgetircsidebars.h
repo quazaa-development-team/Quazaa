@@ -56,6 +56,7 @@ private slots:
 	void on_toolButtonChatFriendsHeader_clicked();
 	void on_toolButtonChatUsersHeader_clicked();
 	void setSkin();
+	void onMsgTabChanged(SessionTabWidget* widget);
 };
 
 #endif // WIDGETCHAT_H

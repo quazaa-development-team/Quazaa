@@ -53,6 +53,9 @@ private:
 	Ui::WidgetIRCMain* ui;
 	MainTabWidget* tabWidgetMain;
 
+signals:
+	void msgTabChanged(SessionTabWidget*);
+
 public slots:
 	void saveWidget();
 	void connectTo(const QString& host = QString(), quint16 port = 6667,
@@ -70,6 +73,8 @@ private slots:
 	void createTabbedView();
 	void onNewTabRequested();
 	void setSkin();
+	void msgTabChanged(int index);
+
 };
 
 #endif // WIDGETCHATCENTER_H

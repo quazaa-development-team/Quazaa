@@ -315,7 +315,10 @@ void Session::handleMessage(IrcMessage* message)
     if (message->type() == IrcMessage::Join)
     {
         if (message->sender().name() == nickName())
+		{
+			m_sent.insert(IrcCommand::Names);
             addChannel(static_cast<IrcJoinMessage*>(message)->channel());
+		}
     }
     else if (message->type() == IrcMessage::Part)
     {

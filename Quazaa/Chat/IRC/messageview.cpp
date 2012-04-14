@@ -132,6 +132,11 @@ void MessageView::setStatusChannel(bool statusChannel)
 	d.m_bIsStatusChannel = statusChannel;
 }
 
+QAbstractItemModel *MessageView::userList()
+{
+	return d.userModel;
+}
+
 bool MessageView::isChannelView() const
 {
     if (d.receiver.isEmpty())
@@ -369,14 +374,14 @@ void MessageView::receiveMessage(IrcMessage* message)
 		break;
 	case IrcMessage::Numeric: {
 			IrcNumericMessage* numeric = static_cast<IrcNumericMessage*>(message);
-			if (numeric->code() == Irc::RPL_ENDOFNAMES && d.sentCommands.contains(IrcCommand::Names))
+			/*if (numeric->code() == Irc::RPL_ENDOFNAMES && d.sentCommands.contains(IrcCommand::Names))
 			{
 				QString names = prettyNames(d.formatter.currentNames(), 6);
 				appendMessage(d.formatter.formatMessage(message));
 				appendMessage(names);
 				d.sentCommands.remove(IrcCommand::Names);
 				return;
-			}
+			}*/
 			if (numeric->code() == Irc::RPL_TOPIC)
 			{
 				d.labelTopic->setVisible(true);
