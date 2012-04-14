@@ -13,28 +13,11 @@
 */
 
 #include "connectionwizardpage.h"
-#include <QCompleter>
+#include "quazaasettings.h"
 #include <QSettings>
 
 ConnectionWizardPage::ConnectionWizardPage(QWidget* parent) : QWizardPage(parent)
 {
     ui.setupUi(this);
 	setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/oxygen/64x64/actions/save_all.png"));
-
-    QSettings settings;
-    QStringList names = settings.value("connectionNames").toStringList();
-
-    QCompleter* completer = new QCompleter(names, ui.lineEditName);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    ui.lineEditName->setCompleter(completer);
-}
-
-QString ConnectionWizardPage::connectionName() const
-{
-    return ui.lineEditName->text();
-}
-
-void ConnectionWizardPage::setConnectionName(const QString& name)
-{
-    ui.lineEditName->setText(name);
 }

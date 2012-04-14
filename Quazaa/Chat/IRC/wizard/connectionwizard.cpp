@@ -13,39 +13,56 @@
 */
 
 #include "connectionwizard.h"
-#include "userwizardpage.h"
-#include "serverwizardpage.h"
-#include "connectionwizardpage.h"
+#include "quazaasettings.h"
 
 ConnectionWizard::ConnectionWizard(QWidget* parent) : QWizard(parent)
 {
     setWindowFilePath(tr("Connection"));
-    setPage(UserPage, new UserWizardPage(this));
-    setPage(ServerPage, new ServerWizardPage(this));
-    setPage(ConnectionPage, new ConnectionWizardPage(this));
+	quazaaSettings.loadChatConnectionWizard();
+	pageUser = new UserWizardPage(this);
+	pageServer = new ServerWizardPage(this);
+	pageConnection = new ConnectionWizardPage(this);
+	setPage(UserPage, pageUser);
+	setPage(ServerPage, pageServer);
+	setPage(ConnectionPage, pageConnection);
 	setOption(NoDefaultButton, false);
+}
+
+void ConnectionWizard::accept()
+{
+	if (!quazaaSettings.Chat.NickNames.contains(pageUser->nickName(), Qt::CaseInsensitive))
+		quazaaSettings.Chat.NickNames << pageUser->nickName();
+	if (!quazaaSettings.Chat.RealNames.contains(pageUser->realName(), Qt::CaseInsensitive))
+		quazaaSettings.Chat.RealNames << pageUser->realName();
+	if (!quazaaSettings.Chat.Hosts.contains(pageServer->hostName(), Qt::CaseInsensitive))
+		quazaaSettings.Chat.Hosts << pageServer->hostName();
+	if (!quazaaSettings.Chat.ConnectionNames.contains(pageConnection->connectionName(), Qt::CaseInsensitive))
+		quazaaSettings.Chat.ConnectionNames << pageConnection->connectionName();
+	quazaaSettings.saveChatConnectionWizard();
+
+	QDialog::accept();
 }
 
 ConnectionInfo ConnectionWizard::connection() const
 {
 	ConnectionInfo conn;
-    conn.nick = static_cast<UserWizardPage*>(page(UserPage))->nickName();
-    conn.real = static_cast<UserWizardPage*>(page(UserPage))->realName();
-    conn.host = static_cast<ServerWizardPage*>(page(ServerPage))->hostName();
-    conn.port = static_cast<ServerWizardPage*>(page(ServerPage))->port();
-    conn.secure = static_cast<ServerWizardPage*>(page(ServerPage))->isSecure();
-    conn.pass = static_cast<ServerWizardPage*>(page(ServerPage))->password();
-    conn.name = static_cast<ConnectionWizardPage*>(page(ConnectionPage))->connectionName();
+	conn.nick = pageUser->nickName();
+	conn.real = pageUser->realName();
+	conn.host = pageServer->hostName();
+	conn.port = pageServer->port();
+	conn.secure = pageServer->isSecure();
+	conn.pass = pageServer->password();
+	conn.name = pageConnection->connectionName();
     return conn;
 }
 
 void ConnectionWizard::setConnection(const ConnectionInfo& conn)
 {
-    static_cast<UserWizardPage*>(page(UserPage))->setNickName(conn.nick);
-    static_cast<UserWizardPage*>(page(UserPage))->setRealName(conn.real);
-    static_cast<ServerWizardPage*>(page(ServerPage))->setHostName(conn.host);
-    static_cast<ServerWizardPage*>(page(ServerPage))->setPort(conn.port);
-    static_cast<ServerWizardPage*>(page(ServerPage))->setSecure(conn.secure);
-    static_cast<ServerWizardPage*>(page(ServerPage))->setPassword(conn.pass);
-    static_cast<ConnectionWizardPage*>(page(ConnectionPage))->setConnectionName(conn.name);
+	pageUser->setNickName(conn.nick);
+	pageUser->setRealName(conn.real);
+	pageServer->setHostName(conn.host);
+	pageServer->setPort(conn.port);
+	pageServer->setSecure(conn.secure);
+	pageServer->setPassword(conn.pass);
+	pageConnection->setConnectionName(conn.name);
 }

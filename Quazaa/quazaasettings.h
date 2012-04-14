@@ -303,6 +303,10 @@ namespace Settings
 		bool		ConnectOnStartup;						// Connect to the chat server and enter rooms on startup
 		bool		EnableFileTransfers;					// Enable IRC File Transfers
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
+		QStringList Hosts;									// The list of hosts in the connect dialog
+		QStringList NickNames;								// The list of nick names in the connect dialog
+		QStringList RealNames;								// The list of real names in the connect dialog
+		QStringList ConnectionNames;						// The list of connection names in the connect dialog
 
 		enum MessageType
 		{
@@ -689,6 +693,8 @@ public:
 	void loadSettings();
 	void saveChatConnections();
 	void loadChatConnections();
+	void saveChatConnectionWizard();
+	void loadChatConnectionWizard();
 	void saveChat();
 	void loadChat();
 	void saveProfile();

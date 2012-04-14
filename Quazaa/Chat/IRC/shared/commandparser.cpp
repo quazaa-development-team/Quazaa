@@ -91,7 +91,7 @@ bool CommandParser::hasError() const
 IrcCommand* CommandParser::parseCommand(const QString& receiver, const QString& text)
 {
     *has_error() = false;
-    if (text.startsWith("/"))
+	if (text.startsWith("/") && (text.mid(0,2) != "//"))
     {
         typedef IrcCommand*(*ParseFunc)(const QString&, const QStringList&);
 
@@ -113,7 +113,7 @@ IrcCommand* CommandParser::parseCommand(const QString& receiver, const QString& 
             parseFunctions.insert("VERSION", &CommandParser::parseVersion);
             parseFunctions.insert("WHOIS", &CommandParser::parseWhois);
             parseFunctions.insert("WHOWAS", &CommandParser::parseWhowas);
-        }
+		}
 
         const QStringList words = text.mid(1).split(" ", QString::SkipEmptyParts);
         const QString command = words.value(0).toUpper();
@@ -132,8 +132,13 @@ IrcCommand* CommandParser::parseCommand(const QString& receiver, const QString& 
         }
     }
     else
-    {
-        return IrcCommand::createMessage(receiver, text);
+	{
+		if (text.mid(0,2) == "//") {
+			QString commandToMessage = text;
+			return IrcCommand::createMessage(receiver, commandToMessage.remove(0,1));
+		} else {
+			return IrcCommand::createMessage(receiver, text);
+		}
     }
 
     // unknown command

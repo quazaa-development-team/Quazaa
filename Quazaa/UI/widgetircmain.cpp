@@ -34,7 +34,7 @@
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
-#include "connectionwizard.h"
+#include "wizardircconnection.h"
 #include "settingswizard.h"
 #include "sessiontabwidget.h"
 #include "maintabwidget.h"
@@ -71,7 +71,6 @@ WidgetIRCMain::WidgetIRCMain(QWidget* parent) :
 
 WidgetIRCMain::~WidgetIRCMain()
 {
-	disconnect();
 	delete ui;
 }
 
@@ -147,8 +146,8 @@ void WidgetIRCMain::connectTo(const QString& host, quint16 port, const QString& 
 
 void WidgetIRCMain::connectTo(const ConnectionInfo& connection)
 {
-	ConnectionWizard wizard;
-	wizard.setConnection(connection);
+	WizardIrcConnection* wizard = new WizardIrcConnection(this);
+	wizard->setConnection(connection);
 
 	if (!connection.host.isEmpty() && !connection.nick.isEmpty())
 	{
@@ -156,9 +155,9 @@ void WidgetIRCMain::connectTo(const ConnectionInfo& connection)
 		ui->actionConnect->setEnabled(false);
 		ui->actionDisconnect->setEnabled(true);
 	}
-	else if (wizard.exec())
+	else if (wizard->exec())
 	{
-		connectToImpl(wizard.connection());
+		connectToImpl(wizard->connection());
 		ui->actionConnect->setEnabled(false);
 		ui->actionDisconnect->setEnabled(true);
 	}

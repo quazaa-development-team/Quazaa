@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>UserWizardPage</class>
  <widget class="QWizardPage" name="UserWizardPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>218</width>
+    <height>64</height>
+   </rect>
+  </property>
   <property name="title">
    <string>User details</string>
   </property>
@@ -10,7 +18,7 @@
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="labelNick">
      <property name="font">
       <font>
        <weight>75</weight>
@@ -20,40 +28,20 @@
      <property name="text">
       <string>&amp;Nick name:</string>
      </property>
-     <property name="buddy">
-      <cstring>lineEditNick</cstring>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelReal">
+     <property name="text">
+      <string>&amp;Real name:</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="lineEditNick">
-     <property name="whatsThis">
-      <string>Entering a nick name is mandatory. The nick name identifies You on IRC.</string>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNoAutoUppercase</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>&amp;Real name:</string>
-     </property>
-     <property name="buddy">
-      <cstring>lineEditName</cstring>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayoutNickName"/>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="lineEditName">
-     <property name="whatsThis">
-      <string>Entering a real name is optional. The real name identifies You on IRC.</string>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNoAutoUppercase</set>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayoutRealName"/>
    </item>
   </layout>
  </widget>

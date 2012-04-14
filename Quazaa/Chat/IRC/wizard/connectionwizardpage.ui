@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>ConnectionWizardPage</class>
  <widget class="QWizardPage" name="ConnectionWizardPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>188</width>
+    <height>38</height>
+   </rect>
+  </property>
   <property name="title">
    <string>Connection information</string>
   </property>
@@ -13,21 +21,14 @@
     <enum>QFormLayout::ExpandingFieldsGrow</enum>
    </property>
    <item row="0" column="0">
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="labelName">
      <property name="text">
       <string>&amp;Name:</string>
-     </property>
-     <property name="buddy">
-      <cstring>lineEditName</cstring>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="lineEditName">
-     <property name="inputMethodHints">
-      <set>Qt::ImhNoAutoUppercase</set>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayoutName"/>
    </item>
   </layout>
  </widget>

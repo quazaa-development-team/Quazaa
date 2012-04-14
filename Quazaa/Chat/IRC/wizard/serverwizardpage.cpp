@@ -13,73 +13,42 @@
 */
 
 #include "serverwizardpage.h"
-#include <QCompleter>
 #include <QSettings>
 
 ServerWizardPage::ServerWizardPage(QWidget* parent) : QWizardPage(parent)
 {
-    ui.setupUi(this);
+	ui.setupUi(this);
 	setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/oxygen/64x64/actions/network.png"));
-    connect(ui.lineEditHost, SIGNAL(textChanged(QString)), this, SIGNAL(completeChanged()));
-    connect(ui.spinBoxPort, SIGNAL(valueChanged(int)), this, SIGNAL(completeChanged()));
 
     QSettings settings;
     QStringList hosts = settings.value("hosts").toStringList();
+	if (!hosts.contains("irc.paradoxirc.net"))
+		hosts.append("irc.paradoxirc.net");
+	if (!hosts.contains("us.paradoxirc.net"))
+		hosts.append("us.paradoxirc.net");
+	if (!hosts.contains("eu.paradoxirc.net"))
+		hosts.append("eu.paradoxirc.net");
+	if (!hosts.contains("irc.p2pchat.net"))
+		hosts.append("irc.p2pchat.net");
+	if (!hosts.contains("irc.gigirc.net"))
+		hosts.append("irc.gigirc.net");
+	if (!hosts.contains("irc.freenode.net"))
+		hosts.append("irc.freenode.net");
+	if (!hosts.contains("irc.undernet.org"))
+		hosts.append("irc.undernet.org");
+	if (!hosts.contains("irc.quakenet.org"))
+		hosts.append("irc.quakenet.org");
+	if (!hosts.contains("irc.uni-erlangen.de"))
+		hosts.append("irc.uni-erlangen.de");
+	if (!hosts.contains("irc.servercentral.net"))
+		hosts.append("irc.servercentral.net");
+	if (!hosts.contains("irc.dal.net"))
+		hosts.append("irc.dal.net");
 
-    QCompleter* hostCompleter = new QCompleter(hosts, ui.lineEditHost);
-    hostCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-    ui.lineEditHost->setCompleter(hostCompleter);
-}
 
-ServerWizardPage::~ServerWizardPage()
-{
-    QSettings settings;
-    QStringList hosts = settings.value("hosts").toStringList();
-    if (!hosts.contains(hostName(), Qt::CaseInsensitive))
-        settings.setValue("hosts", hosts << hostName());
-}
-
-QString ServerWizardPage::hostName() const
-{
-    return ui.lineEditHost->text();
-}
-
-void ServerWizardPage::setHostName(const QString& hostName)
-{
-    ui.lineEditHost->setText(hostName);
-}
-
-quint16 ServerWizardPage::port() const
-{
-    return ui.spinBoxPort->value();
-}
-
-void ServerWizardPage::setPort(quint16 port)
-{
-    ui.spinBoxPort->setValue(port);
-}
-
-bool ServerWizardPage::isSecure() const
-{
-    return ui.checkBoxSecure->isChecked();
-}
-
-void ServerWizardPage::setSecure(bool secure)
-{
-    ui.checkBoxSecure->setChecked(secure);
-}
-
-QString ServerWizardPage::password() const
-{
-    return ui.lineEditPass->text();
-}
-
-void ServerWizardPage::setPassword(const QString& password)
-{
-    ui.lineEditPass->setText(password);
 }
 
 bool ServerWizardPage::isComplete() const
 {
-    return !ui.lineEditHost->text().isEmpty() && ui.spinBoxPort->hasAcceptableInput();
+
 }

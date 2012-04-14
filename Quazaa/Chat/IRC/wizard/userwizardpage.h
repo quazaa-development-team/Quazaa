@@ -22,19 +22,10 @@ class UserWizardPage : public QWizardPage
     Q_OBJECT
 
 public:
-    UserWizardPage(QWidget* parent = 0);
-    ~UserWizardPage();
-
-    QString nickName() const;
-    void setNickName(const QString& nickName);
-
-    QString realName() const;
-    void setRealName(const QString& realName);
-
-    bool isComplete() const;
+	UserWizardPage(QWidget* parent = 0);
 
 private:
-    Ui::UserWizardPage ui;
+	Ui::UserWizardPage ui;
 };
 
 #endif // USERWIZARDPAGE_H

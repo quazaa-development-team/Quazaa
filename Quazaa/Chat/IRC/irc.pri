@@ -8,17 +8,16 @@ QMAKE_CLEAN += $$PWD/*~
 
 FORMS += $$PWD/messageview.ui
 
-HEADERS += $$PWD/homepage.h \
-    Chat/IRC/welcomepage.h \
-    Chat/IRC/homepage.h
+HEADERS += $$PWD/homepage.h
+HEADERS += $$PWD/welcomepage.h
 HEADERS += $$PWD/lineeditor.h
 HEADERS += $$PWD/maintabwidget.h
 HEADERS += $$PWD/messageview.h
 HEADERS += $$PWD/searcheditor.h
 HEADERS += $$PWD/sessiontabwidget.h
 
-SOURCES += $$PWD/homepage.cpp \
-	Chat/IRC/welcomepage.cpp
+SOURCES += $$PWD/homepage.cpp
+SOURCES += $$PWD/welcomepage.cpp
 SOURCES += $$PWD/lineeditor.cpp
 SOURCES += $$PWD/maintabwidget.cpp
 SOURCES += $$PWD/messageview.cpp

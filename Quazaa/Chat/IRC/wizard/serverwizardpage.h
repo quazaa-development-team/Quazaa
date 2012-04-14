@@ -16,28 +16,15 @@
 #define SERVERWIZARDPAGE_H
 
 #include "ui_serverwizardpage.h"
+#include "completerlineedit.h"
 
 class ServerWizardPage : public QWizardPage
 {
     Q_OBJECT
 
 public:
-    ServerWizardPage(QWidget* parent = 0);
-    ~ServerWizardPage();
-
-    QString hostName() const;
-    void setHostName(const QString& hostName);
-
-    quint16 port() const;
-    void setPort(quint16 port);
-
-    bool isSecure() const;
-    void setSecure(bool secure);
-
-    QString password() const;
-    void setPassword(const QString& password);
-
-    bool isComplete() const;
+	ServerWizardPage(QWidget* parent = 0);
+	~ServerWizardPage();
 
 private:
     Ui::ServerWizardPage ui;
