@@ -922,7 +922,7 @@ void QuazaaSettings::loadChatConnectionWizard()
 
 	m_qSettings.beginGroup("Chat");
 	quazaaSettings.Chat.Hosts = m_qSettings.value("Hosts", QStringList() << "irc.paradoxirc.net" << "us.paradoxirc.net"
-												  << "eu.paradoxirc.net" << "irc.p2pchat.net" << "irc.gigirc.net"
+												  << "eu.paradoxirc.net" << "irc.p2pchat.net" << "irc.gigirc.com"
 												  << "irc.freenode.net" << "irc.undernet.org" << "irc.quakenet.org"
 												  << "irc.uni-erlangen.de" << "irc.servercentral.net" << "irc.dal.net").toStringList();
 	quazaaSettings.Chat.NickNames = m_qSettings.value("NickNames", QStringList()).toStringList();
