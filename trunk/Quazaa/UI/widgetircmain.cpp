@@ -179,6 +179,7 @@ void WidgetIRCMain::connectToImpl(const ConnectionInfo &connection)
 	connect(tab, SIGNAL(inactiveStatusChanged(bool)), tabWidgetMain, SLOT(setInactive(bool)));
 	connect(tab, SIGNAL(sessionAlerted(SessionTabWidget*,bool)), tabWidgetMain, SLOT(alertTab(SessionTabWidget*,bool)));
 	connect(tab, SIGNAL(sessionHighlighted(SessionTabWidget*,bool)), tabWidgetMain, SLOT(highlightTab(SessionTabWidget*,bool)));
+	connect(tab, SIGNAL(currentChanged(int)), this, SLOT(msgTabChanged(int)));
 
 	int index = tabWidgetMain->addTab(tab, connection.name.isEmpty() ? session->host() : connection.name);
 	tabWidgetMain->setCurrentIndex(index);
@@ -235,11 +236,12 @@ void WidgetIRCMain::tabActivated(int index)
 	}
 	else if (index < tabWidgetMain->count() - 1)
 	{
-		QTabWidget* tab = qobject_cast<QTabWidget*>(tabWidgetMain->widget(index));
+		SessionTabWidget* tab = qobject_cast<SessionTabWidget*>(tabWidgetMain->widget(index));
 		if (tab)
 		{
 			setWindowFilePath(tab->tabText(tab->currentIndex()));
 			QMetaObject::invokeMethod(tab, "delayedTabReset");
+			emit msgTabChanged(tab);
 		}
 	}
 }
@@ -272,4 +274,12 @@ void WidgetIRCMain::onNewTabRequested()
 void WidgetIRCMain::setSkin()
 {
 
+}
+
+void WidgetIRCMain::msgTabChanged(int)
+{
+	SessionTabWidget* tab = qobject_cast<SessionTabWidget*>(sender());
+
+	if( tab )
+		emit msgTabChanged(tab);
 }

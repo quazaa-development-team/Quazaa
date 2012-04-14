@@ -637,13 +637,16 @@ void IrcSession::close()
  */
 bool IrcSession::sendCommand(IrcCommand* command)
 {
-    bool res = false;
-    if (command)
-    {
-        res = sendRaw(command->toString());
-        command->deleteLater();
-    }
-    return res;
+	bool res = false;
+	if (command)
+	{
+		res = sendRaw(command->toString());
+		Q_ASSERT(command);
+
+		bool res = sendRaw(command->toString());
+		command->deleteLater();
+	}
+	return res;
 }
 
 /*!

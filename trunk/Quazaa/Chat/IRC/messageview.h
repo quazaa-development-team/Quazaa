@@ -30,6 +30,7 @@ class MessageView : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QString receiver READ receiver WRITE setReceiver)
+	Q_PROPERTY(QAbstractItemModel* userList READ userList)
 
 public:
     MessageView(IrcSession* session, QWidget* parent = 0);
@@ -40,6 +41,8 @@ public:
     QString receiver() const;
 	void setReceiver(const QString& receiver);
 	void setStatusChannel(bool statusChannel);
+
+	QAbstractItemModel* userList();
 
     bool isChannelView() const;
 	bool isStatusChannel() const;

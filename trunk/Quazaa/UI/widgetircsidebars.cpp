@@ -24,6 +24,8 @@
 
 #include "widgetircsidebars.h"
 #include "ui_widgetircsidebars.h"
+#include "sessiontabwidget.h"
+#include "messageview.h"
 
 #include "quazaasettings.h"
 #include "skinsettings.h"
@@ -40,6 +42,7 @@ WidgetIRCSidebars::WidgetIRCSidebars(QWidget* parent) :
 {
 	ui->setupUi(this);
 	panelIRCMain = new WidgetIRCMain();
+	connect(panelIRCMain, SIGNAL(msgTabChanged(SessionTabWidget*)), this, SLOT(onMsgTabChanged(SessionTabWidget*)));
 	ui->splitterChat->restoreState(quazaaSettings.WinMain.ChatSplitter);
 	ui->verticalLayoutChatMiddle->addWidget(panelIRCMain);
 	setSkin();
@@ -160,6 +163,24 @@ void WidgetIRCSidebars::on_toolButtonChatUsersHeader_clicked()
 		sizesList.append(quazaaSettings.WinMain.ChatSplitterRestoreMiddle);
 		sizesList.append(quazaaSettings.WinMain.ChatSplitterRestoreRight);
 		ui->splitterChat->setSizes(sizesList);
+	}
+}
+
+void WidgetIRCSidebars::onMsgTabChanged(SessionTabWidget* widget)
+{
+	MessageView* view = qobject_cast<MessageView*>(widget->currentWidget());
+
+	if( view )
+	{
+		if( view->isChannelView() )
+		{
+			ui->frameChatRightSidebar->show();
+			ui->listViewChatUsers->setModel(view->userList());
+		}
+		else
+		{
+			ui->frameChatRightSidebar->hide();
+		}
 	}
 }
 
