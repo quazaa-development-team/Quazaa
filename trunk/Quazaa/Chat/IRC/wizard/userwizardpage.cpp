@@ -19,58 +19,9 @@
 
 UserWizardPage::UserWizardPage(QWidget* parent) : QWizardPage(parent)
 {
-    ui.setupUi(this);
-	setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/oxygen/64x64/actions/user.png"));
-    connect(ui.lineEditNick, SIGNAL(textChanged(QString)), this, SIGNAL(completeChanged()));
+	ui.setupUi(this);
 
     QSettings settings;
     QStringList nicks = settings.value("nicks").toStringList();
-    QStringList names = settings.value("realNames").toStringList();
-
-    QCompleter* nickCompleter = new QCompleter(nicks, ui.lineEditNick);
-    nickCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-    ui.lineEditNick->setCompleter(nickCompleter);
-    QRegExpValidator* validator = new QRegExpValidator(ui.lineEditNick);
-    validator->setRegExp(QRegExp("\\S+"));
-    ui.lineEditNick->setValidator(validator);
-
-    QCompleter* nameCompleter = new QCompleter(names, ui.lineEditName);
-    nameCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-    ui.lineEditName->setCompleter(nameCompleter);
-}
-
-UserWizardPage::~UserWizardPage()
-{
-    QSettings settings;
-    QStringList nicks = settings.value("nicks").toStringList();
-    QStringList names = settings.value("realNames").toStringList();
-    if (!nicks.contains(nickName(), Qt::CaseInsensitive))
-        settings.setValue("nicks", nicks << nickName());
-    if (!names.contains(realName(), Qt::CaseInsensitive))
-        settings.setValue("realNames", names << realName());
-}
-
-QString UserWizardPage::nickName() const
-{
-    return ui.lineEditNick->text();
-}
-
-void UserWizardPage::setNickName(const QString& nickName)
-{
-    ui.lineEditNick->setText(nickName);
-}
-
-QString UserWizardPage::realName() const
-{
-    return ui.lineEditName->text();
-}
-
-void UserWizardPage::setRealName(const QString& realName)
-{
-    ui.lineEditName->setText(realName);
-}
-
-bool UserWizardPage::isComplete() const
-{
-    return !ui.lineEditNick->text().isEmpty();
+	QStringList names = settings.value("realNames").toStringList();
 }

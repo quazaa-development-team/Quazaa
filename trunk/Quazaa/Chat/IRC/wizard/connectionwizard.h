@@ -16,6 +16,9 @@
 #define CONNECTIONWIZARD_H
 
 #include <QWizard>
+#include "userwizardpage.h"
+#include "serverwizardpage.h"
+#include "connectionwizardpage.h"
 #include "connectioninfo.h"
 
 class ConnectionWizard : public QWizard
@@ -32,8 +35,15 @@ public:
         ConnectionPage
     };
 
+	UserWizardPage* pageUser;
+	ServerWizardPage* pageServer;
+	ConnectionWizardPage* pageConnection;
+
 	ConnectionInfo connection() const;
 	void setConnection(const ConnectionInfo& connection);
+
+private slots:
+	void accept();
 };
 
 #endif // CONNECTIONWIZARD_H

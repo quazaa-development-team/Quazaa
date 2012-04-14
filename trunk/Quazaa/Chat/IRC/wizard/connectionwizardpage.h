@@ -16,19 +16,17 @@
 #define CONNECTIONWIZARDPAGE_H
 
 #include "ui_connectionwizardpage.h"
+#include "completerlineedit.h"
 
 class ConnectionWizardPage : public QWizardPage
 {
     Q_OBJECT
 
 public:
-    ConnectionWizardPage(QWidget* parent = 0);
-
-    QString connectionName() const;
-    void setConnectionName(const QString& name);
+	ConnectionWizardPage(QWidget* parent = 0);
 
 private:
-    Ui::ConnectionWizardPage ui;
+	Ui::ConnectionWizardPage ui;
 };
 
 #endif // CONNECTIONWIZARDPAGE_H

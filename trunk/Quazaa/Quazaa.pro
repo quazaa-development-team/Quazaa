@@ -165,36 +165,17 @@ sse2 {
 
 # Sources
 SOURCES += \
-	3rdparty/communi/src/irc.cpp \
-	3rdparty/communi/src/irccommand.cpp \
-	3rdparty/communi/src/ircencoder.cpp \
-	3rdparty/communi/src/ircmessage.cpp \
-	3rdparty/communi/src/ircparser.cpp \
-	3rdparty/communi/src/ircsender.cpp \
-	3rdparty/communi/src/ircsession.cpp \
-	3rdparty/communi/src/ircutil.cpp \
 	3rdparty/CyoEncode/CyoDecode.c \
 	3rdparty/CyoEncode/CyoEncode.c \
-	3rdparty/nvwa/debug_new.cpp \
 	Chat/chatconverter.cpp \
 	Chat/chatcore.cpp \
 	Chat/chatsession.cpp \
 	Chat/chatsessiong2.cpp \
 	commonfunctions.cpp \
-	Discovery/discovery.cpp \
-	Discovery/discoveryservice.cpp \
-	Discovery/gwc.cpp \
 	geoiplist.cpp \
 	main.cpp \
-	#Metalink/metalink4handler.cpp \
-	#Metalink/metalinkhandler.cpp \
-	Misc/fileiconprovider.cpp \
-	Misc/networkiconprovider.cpp \
-	Models/categorynavigatortreemodel.cpp \
 	Models/chatroomslistmodel.cpp \
 	Models/chatuserlistmodel.cpp \
-	Models/discoverytablemodel.cpp \
-	Models/downloadstreemodel.cpp \
 	Models/neighbourstablemodel.cpp \
 	Models/searchtreemodel.cpp \
 	Models/securitytablemodel.cpp \
@@ -242,14 +223,11 @@ SOURCES += \
 	ShareManager/filehasher.cpp \
 	ShareManager/sharedfile.cpp \
 	ShareManager/sharemanager.cpp \
-	Skin/skinsettings.cpp \
 	systemlog.cpp \
 	timedsignalqueue.cpp \
 	Transfers/download.cpp \
 	Transfers/downloads.cpp \
 	Transfers/downloadsource.cpp \
-	Transfers/downloadtransfer.cpp \
-	Transfers/transfer.cpp \
 	Transfers/transfers.cpp \
 	UI/dialogabout.cpp \
 	UI/dialogadddownload.cpp \
@@ -278,8 +256,6 @@ SOURCES += \
 	UI/dialogsplash.cpp \
 	UI/dialogtorrentproperties.cpp \
 	UI/dialogtransferprogresstooltip.cpp \
-	UI/suggestedlineedit.cpp \
-	UI/tableview.cpp \
 	UI/widgetactivity.cpp \
 	UI/widgetchatinput.cpp \
 	UI/widgetdiscovery.cpp \
@@ -288,8 +264,6 @@ SOURCES += \
 	UI/widgethitmonitor.cpp \
 	UI/widgethome.cpp \
 	UI/widgethostcache.cpp \
-	UI/widgetircmain.cpp \
-	UI/widgetircsidebars.cpp \
 	UI/widgetlibrary.cpp \
 	UI/widgetlibraryview.cpp \
 	UI/widgetmedia.cpp \
@@ -308,52 +282,49 @@ SOURCES += \
 	UI/widgettransfers.cpp \
 	UI/widgetuploads.cpp \
 	UI/winmain.cpp \
-	UI/wizardquickstart.cpp
+	UI/wizardquickstart.cpp \
+	3rdparty/communi/src/ircutil.cpp \
+	3rdparty/communi/src/ircsession.cpp \
+	3rdparty/communi/src/ircsender.cpp \
+	3rdparty/communi/src/ircparser.cpp \
+	3rdparty/communi/src/ircmessage.cpp \
+	3rdparty/communi/src/ircencoder.cpp \
+	3rdparty/communi/src/irccommand.cpp \
+	3rdparty/communi/src/irc.cpp \
+	Transfers/transfer.cpp \
+	3rdparty/nvwa/debug_new.cpp \
+	UI/widgetircmain.cpp \
+	UI/widgetircsidebars.cpp \
+	Skin/skinsettings.cpp \
+	Models/downloadstreemodel.cpp \
+	Transfers/downloadtransfer.cpp \
+	UI/suggestedlineedit.cpp \
+	Misc/fileiconprovider.cpp \
+	Misc/networkiconprovider.cpp \
+    UI/tableview.cpp \
+	Models/categorynavigatortreemodel.cpp \
+    Discovery/discoveryservice.cpp \
+	Discovery/gwc.cpp \
+	Discovery/discovery.cpp \
+    UI/completerlineedit.cpp \
+	wizardircconnection.cpp \
+	Models/discoverytablemodel.h
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
 	3rdparty/CyoEncode/CyoEncode.h \
-	3rdparty/communi/include/irc.h \
-	3rdparty/communi/include/irccommand.h \
-	3rdparty/communi/include/ircencoder_p.h \
-	3rdparty/communi/include/ircglobal.h \
-	3rdparty/communi/include/ircmessage.h \
-	3rdparty/communi/include/ircparser_p.h \
-	3rdparty/communi/include/ircsender.h \
-	3rdparty/communi/include/ircsession.h \
-	3rdparty/communi/include/ircsession_p.h \
-	3rdparty/communi/include/ircutil.h \
-	3rdparty/nvwa/debug_new.h \
-	3rdparty/nvwa/fast_mutex.h \
-	3rdparty/nvwa/static_assert.h \
 	Chat/chatconverter.h \
 	Chat/chatcore.h \
 	Chat/chatsession.h \
 	Chat/chatsessiong2.h \
-	Discovery/discovery.h \
-	Discovery/discoveryservice.h \
-	Discovery/gwc.h \
-	FileFragments/Compatibility.hpp \
-	FileFragments/Exception.hpp \
-	FileFragments/FileFragments.hpp \
-	FileFragments/List.hpp \
-	FileFragments/Queue.hpp \
-	FileFragments/Range.hpp \
-	FileFragments/Ranges.hpp \
-	#Metalink/metalink4handler.h \
-	#Metalink/metalinkhandler.h \
-	Misc/fileiconprovider.h \
-	Misc/networkiconprovider.h \
-	Models/categorynavigatortreemodel.h \
+	commonfunctions.h \
+	geoiplist.h \
 	Models/chatroomslistmodel.h \
 	Models/chatuserlistmodel.h \
-	Models/discoverytablemodel.h \
-	Models/downloadstreemodel.h \
 	Models/neighbourstablemodel.h \
 	Models/searchtreemodel.h \
 	Models/securitytablemodel.h \
 	Models/sharesnavigatortreemodel.h \
-	NetworkCore/Hashes/hash.h \
 	NetworkCore/buffer.h \
 	NetworkCore/compressedconnection.h \
 	NetworkCore/datagramfrags.h \
@@ -363,6 +334,7 @@ HEADERS += \
 	NetworkCore/g2packet.h \
 	NetworkCore/handshake.h \
 	NetworkCore/handshakes.h \
+	NetworkCore/Hashes/hash.h \
 	NetworkCore/hostcache.h \
 	NetworkCore/hubhorizon.h \
 	NetworkCore/managedsearch.h \
@@ -389,18 +361,19 @@ HEADERS += \
 	NetworkCore/types.h \
 	NetworkCore/webcache.h \
 	NetworkCore/zlibutils.h \
+	quazaaglobals.h \
+	quazaasettings.h \
 	Security/securerule.h \
 	Security/security.h \
 	ShareManager/file.h \
 	ShareManager/filehasher.h \
 	ShareManager/sharedfile.h \
 	ShareManager/sharemanager.h \
-	Skin/skinsettings.h \
+	systemlog.h \
+	timedsignalqueue.h \
 	Transfers/download.h \
 	Transfers/downloads.h \
 	Transfers/downloadsource.h \
-	Transfers/downloadtransfer.h \
-	Transfers/transfer.h \
 	Transfers/transfers.h \
 	UI/dialogabout.h \
 	UI/dialogadddownload.h \
@@ -429,8 +402,6 @@ HEADERS += \
 	UI/dialogsplash.h \
 	UI/dialogtorrentproperties.h \
 	UI/dialogtransferprogresstooltip.h \
-	UI/suggestedlineedit.h \
-	UI/tableview.h \
 	UI/widgetactivity.h \
 	UI/widgetchatinput.h \
 	UI/widgetdiscovery.h \
@@ -439,8 +410,6 @@ HEADERS += \
 	UI/widgethitmonitor.h \
 	UI/widgethome.h \
 	UI/widgethostcache.h \
-	UI/widgetircmain.h \
-	UI/widgetircsidebars.h \
 	UI/widgetlibrary.h \
 	UI/widgetlibraryview.h \
 	UI/widgetmedia.h \
@@ -460,13 +429,43 @@ HEADERS += \
 	UI/widgetuploads.h \
 	UI/winmain.h \
 	UI/wizardquickstart.h \
-	commonfunctions.h \
-	geoiplist.h \
-	quazaaglobals.h \
-	quazaasettings.h \
-	systemlog.h \
-	timedsignalqueue.h
-
+	3rdparty/communi/include/ircutil.h \
+	3rdparty/communi/include/ircsession_p.h \
+	3rdparty/communi/include/ircsession.h \
+	3rdparty/communi/include/ircsender.h \
+	3rdparty/communi/include/ircparser_p.h \
+	3rdparty/communi/include/ircmessage.h \
+	3rdparty/communi/include/ircglobal.h \
+	3rdparty/communi/include/ircencoder_p.h \
+	3rdparty/communi/include/irccommand.h \
+	3rdparty/communi/include/irc.h \
+	Transfers/transfer.h \
+	3rdparty/nvwa/fast_mutex.h \
+	3rdparty/nvwa/debug_new.h \
+	3rdparty/nvwa/static_assert.h \
+	UI/widgetircmain.h \
+	UI/widgetircsidebars.h \
+	Skin/skinsettings.h \
+	Models/downloadstreemodel.h \
+	Transfers/downloadtransfer.h \
+	FileFragments/Ranges.hpp \
+	FileFragments/Range.hpp \
+	FileFragments/Queue.hpp \
+	FileFragments/List.hpp \
+	FileFragments/FileFragments.hpp \
+	FileFragments/Exception.hpp \
+	FileFragments/Compatibility.hpp \
+	UI/suggestedlineedit.h \
+	Misc/fileiconprovider.h \
+	Misc/networkiconprovider.h \
+    UI/tableview.h \
+	Models/categorynavigatortreemodel.h \
+    Discovery/discoveryservice.h \
+	Discovery/gwc.h \
+	Discovery/discovery.h \
+    UI/completerlineedit.h \
+	wizardircconnection.h \
+	Models/discoverytablemodel.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -505,8 +504,6 @@ FORMS += \
 	UI/widgethitmonitor.ui \
 	UI/widgethome.ui \
 	UI/widgethostcache.ui \
-	UI/widgetircmain.ui \
-	UI/widgetircsidebars.ui \
 	UI/widgetlibrary.ui \
 	UI/widgetlibraryview.ui \
 	UI/widgetmedia.ui \
@@ -524,7 +521,10 @@ FORMS += \
 	UI/widgettransfers.ui \
 	UI/widgetuploads.ui \
 	UI/winmain.ui \
-	UI/wizardquickstart.ui
+	UI/wizardquickstart.ui \
+	UI/widgetircmain.ui \
+	UI/widgetircsidebars.ui \
+    wizardircconnection.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \
