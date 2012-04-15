@@ -40,6 +40,10 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	ui->setupUi(this);
 
 	m_pDiscoveryMenu = new QMenu( this );
+	m_pDiscoveryMenu->addAction( ui->actionDiscoveryAddService );
+	m_pDiscoveryMenu->addAction( ui->actionDiscoveryRemoveService );
+	m_pDiscoveryMenu->addAction( ui->actionDiscoveryQueryNow );
+	m_pDiscoveryMenu->addAction( ui->actionDiscoveryAdvertise );
 
 	restoreState( quazaaSettings.WinMain.DiscoveryToolbar );
 
@@ -146,11 +150,17 @@ void WidgetDiscovery::on_tableViewDiscovery_customContextMenuRequested(const QPo
 
 	if ( index.isValid() )
 	{
-		// Enable / disable menu items
+		ui->actionDiscoveryAddService->setEnabled( true );
+		ui->actionDiscoveryRemoveService->setEnabled( true );
+		ui->actionDiscoveryQueryNow->setEnabled( true );
+		ui->actionDiscoveryAdvertise->setEnabled( true );
 	}
 	else
 	{
-		// Enable / disable menu items
+		ui->actionDiscoveryAddService->setEnabled( true );
+		ui->actionDiscoveryRemoveService->setEnabled( false );
+		ui->actionDiscoveryQueryNow->setEnabled( false );
+		ui->actionDiscoveryAdvertise->setEnabled( false );
 	}
 
 	m_pDiscoveryMenu->popup( QCursor::pos() );
@@ -160,11 +170,14 @@ void WidgetDiscovery::on_tableViewDiscovery_doubleClicked(const QModelIndex& ind
 {
 	if ( index.isValid() )
 	{
-		// Edit service
+		on_actionDiscoveryProperties_triggered();
 	}
 	else
 	{
-		// Enable / disable menu items
+		ui->actionDiscoveryAddService->setEnabled( true );
+		ui->actionDiscoveryRemoveService->setEnabled( false );
+		ui->actionDiscoveryQueryNow->setEnabled( false );
+		ui->actionDiscoveryAdvertise->setEnabled( false );
 	}
 }
 
@@ -172,11 +185,17 @@ void WidgetDiscovery::on_tableViewDiscovery_clicked(const QModelIndex& index)
 {
 	if ( index.isValid() )
 	{
-		// Enable / disable menu items
+		ui->actionDiscoveryAddService->setEnabled( true );
+		ui->actionDiscoveryRemoveService->setEnabled( true );
+		ui->actionDiscoveryQueryNow->setEnabled( true );
+		ui->actionDiscoveryAdvertise->setEnabled( true );
 	}
 	else
 	{
-		// Enable / disable menu items
+		ui->actionDiscoveryAddService->setEnabled( true );
+		ui->actionDiscoveryRemoveService->setEnabled( false );
+		ui->actionDiscoveryQueryNow->setEnabled( false );
+		ui->actionDiscoveryAdvertise->setEnabled( false );
 	}
 }
 
@@ -212,7 +231,7 @@ void WidgetDiscovery::on_actionDiscoveryAddService_triggered()
 
 void WidgetDiscovery::on_actionDiscoveryBrowseStatistics_triggered()
 {
-
+	// TODO: Find out what this is ispposed to do.
 }
 
 void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
@@ -223,6 +242,8 @@ void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
 	{
 		if ( i.isValid() )
 		{
+			Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( i ) ) );
+
 			discoveryManager.remove( m_pDiscoveryList->nodeFromIndex( i )->uuid() );
 		}
 	}
@@ -230,15 +251,34 @@ void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
 
 void WidgetDiscovery::on_actionDiscoveryQueryNow_triggered()
 {
+	QModelIndex index = tableViewDiscovery->currentIndex();
 
+	if ( index.isValid() )
+	{
+		Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
+
+		discoveryManager.queryService( m_pDiscoveryList->nodeFromIndex( index )->uuid() );
+	}
 }
 
 void WidgetDiscovery::on_actionDiscoveryAdvertise_triggered()
 {
+	QModelIndex index = tableViewDiscovery->currentIndex();
 
+	if ( index.isValid() )
+	{
+		Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
+
+		discoveryManager.updateService( m_pDiscoveryList->nodeFromIndex( index )->uuid() );
+	}
 }
 
 void WidgetDiscovery::on_actionDiscoveryProperties_triggered()
 {
-	// TODO: Pop up dialog to edit service
+	QModelIndex index = tableViewDiscovery->currentIndex();
+
+	if ( index.isValid() )
+	{
+		// TODO: Pop up dialog to edit service
+	}
 }
