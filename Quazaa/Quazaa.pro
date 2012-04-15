@@ -174,6 +174,8 @@ SOURCES += \
 	commonfunctions.cpp \
 	geoiplist.cpp \
 	main.cpp \
+	Metalink/metalinkhandler.cpp \
+	Metalink/metalink4handler.cpp \
 	Models/chatroomslistmodel.cpp \
 	Models/chatuserlistmodel.cpp \
 	Models/neighbourstablemodel.cpp \
@@ -301,14 +303,15 @@ SOURCES += \
 	UI/suggestedlineedit.cpp \
 	Misc/fileiconprovider.cpp \
 	Misc/networkiconprovider.cpp \
-    UI/tableview.cpp \
+	UI/tableview.cpp \
 	Models/categorynavigatortreemodel.cpp \
-    Discovery/discoveryservice.cpp \
+	Discovery/discoveryservice.cpp \
 	Discovery/gwc.cpp \
 	Discovery/discovery.cpp \
-    UI/completerlineedit.cpp \
+	UI/completerlineedit.cpp \
 	wizardircconnection.cpp \
-	Models/discoverytablemodel.h
+	Models/discoverytablemodel.h \
+    Metalink/metalink3handler.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -319,6 +322,8 @@ HEADERS += \
 	Chat/chatsessiong2.h \
 	commonfunctions.h \
 	geoiplist.h \
+	Metalink/metalinkhandler.h \
+	Metalink/metalink4handler.h \
 	Models/chatroomslistmodel.h \
 	Models/chatuserlistmodel.h \
 	Models/neighbourstablemodel.h \
@@ -458,14 +463,15 @@ HEADERS += \
 	UI/suggestedlineedit.h \
 	Misc/fileiconprovider.h \
 	Misc/networkiconprovider.h \
-    UI/tableview.h \
+	UI/tableview.h \
 	Models/categorynavigatortreemodel.h \
-    Discovery/discoveryservice.h \
+	Discovery/discoveryservice.h \
 	Discovery/gwc.h \
 	Discovery/discovery.h \
-    UI/completerlineedit.h \
+	UI/completerlineedit.h \
 	wizardircconnection.h \
-	Models/discoverytablemodel.h
+	Models/discoverytablemodel.h \
+    Metalink/metalink3handler.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -524,7 +530,7 @@ FORMS += \
 	UI/wizardquickstart.ui \
 	UI/widgetircmain.ui \
 	UI/widgetircsidebars.ui \
-    wizardircconnection.ui
+	wizardircconnection.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \
