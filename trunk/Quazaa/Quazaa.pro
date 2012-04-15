@@ -310,8 +310,7 @@ SOURCES += \
 	Discovery/discovery.cpp \
 	UI/completerlineedit.cpp \
 	wizardircconnection.cpp \
-	Models/discoverytablemodel.h \
-    Metalink/metalink3handler.cpp
+	Models/discoverytablemodel.h
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -470,8 +469,7 @@ HEADERS += \
 	Discovery/discovery.h \
 	UI/completerlineedit.h \
 	wizardircconnection.h \
-	Models/discoverytablemodel.h \
-    Metalink/metalink3handler.h
+	Models/discoverytablemodel.h
 
 FORMS += \
 	UI/dialogabout.ui \
