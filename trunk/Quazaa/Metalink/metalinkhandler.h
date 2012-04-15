@@ -3,20 +3,27 @@
 
 #include <QObject>
 
-class QFile;
-class CDownload;
+#include <QList>
+#include <QFile>
+#include <QXmlStreamReader>
 
-// Pure virtual class for all Metalink handlers to inherit from.
+#include "download.h"
+
 class CMetalinkHandler : public QObject
 {
 	Q_OBJECT
+protected:
+	bool					m_bNull; // true if invalid
+	quint32					m_nSize; // number of files in metalink
+	QXmlStreamReader		m_oMetaLink;
+	QXmlStreamReader::Error m_nParsingState;
 
 public:
-	explicit CMetalinkHandler(QFile& metalinkFile, QObject *parent = 0);
+	explicit CMetalinkHandler(QFile& oFile = QFile(), QObject *parent = 0);
+	virtual ~CMetalinkHandler();
 
-	virtual unsigned int size() = 0;
 	virtual CDownload* file(const unsigned int& ID) = 0;
-	virtual QList<CDownload*> files() = 0;
+	QList<CDownload*> files();
 
 signals:
 
