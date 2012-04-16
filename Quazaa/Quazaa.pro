@@ -309,7 +309,7 @@ SOURCES += \
 	Discovery/gwc.cpp \
 	Discovery/discovery.cpp \
 	UI/completerlineedit.cpp \
-	wizardircconnection.cpp \
+	UI/wizardircconnection.cpp \
 	Models/discoverytablemodel.h
 
 HEADERS += \
@@ -468,7 +468,7 @@ HEADERS += \
 	Discovery/gwc.h \
 	Discovery/discovery.h \
 	UI/completerlineedit.h \
-	wizardircconnection.h \
+	UI/wizardircconnection.h \
 	Models/discoverytablemodel.h
 
 FORMS += \
@@ -528,7 +528,11 @@ FORMS += \
 	UI/wizardquickstart.ui \
 	UI/widgetircmain.ui \
 	UI/widgetircsidebars.ui \
+<<<<<<< .mine
+	UI/wizardircconnection.ui
+=======
 	wizardircconnection.ui
+>>>>>>> .r942
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \

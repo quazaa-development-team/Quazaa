@@ -327,7 +327,7 @@ void Session::handleMessage(IrcMessage* message)
     }
     else if (message->type() == IrcMessage::Pong)
     {
-        if (message->parameters().contains("_C_o_m_m_u_n_i_"))
+		if (message->parameters().contains("_Q_u_a_z_a_a_"))
         {
             // slow down to 60s intervals
             setPingInterval(60);
@@ -369,7 +369,7 @@ void Session::pingServer()
     {
         // (re-)PING!
         m_lagTimer.start();
-        sendRaw("PING _C_o_m_m_u_n_i_");
+		sendRaw("PING _Q_u_a_z_a_a_");
     }
 }
 
