@@ -270,7 +270,7 @@ void IrcSessionPrivate::processLine(const QByteArray& line)
                 else if (request == "TIME")
                     reply = "TIME " + QLocale().toString(QDateTime::currentDateTime(), QLocale::ShortFormat);
                 else if (request == "VERSION")
-                    reply = QString("VERSION Communi ") + Irc::version();
+					reply = QString("VERSION Quazaa Irc with Communi ") + Irc::version();
                 if (!reply.isNull())
                     q->sendCommand(IrcCommand::createCtcpReply(msg->sender().name(), reply));
             }
@@ -637,15 +637,10 @@ void IrcSession::close()
  */
 bool IrcSession::sendCommand(IrcCommand* command)
 {
-	bool res = false;
-	if (command)
-	{
-		res = sendRaw(command->toString());
-		Q_ASSERT(command);
+	Q_ASSERT(command);
 
-		bool res = sendRaw(command->toString());
-		command->deleteLater();
-	}
+	bool res = sendRaw(command->toString());
+	command->deleteLater();
 	return res;
 }
 
