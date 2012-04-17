@@ -769,5 +769,6 @@
         <file>Resource/splash.png</file>
         <file>Resource/Load bar empty.png</file>
         <file>Resource/Load bar full no bg.png</file>
+        <file>Resource/Smileys/smile.gif</file>
     </qresource>
 </RCC>

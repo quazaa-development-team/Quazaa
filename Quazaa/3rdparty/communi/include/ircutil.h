@@ -17,6 +17,7 @@
 
 #include <IrcGlobal>
 #include <QString>
+#include <QHash>
 
 namespace IrcControlCodes
 {
@@ -64,7 +65,7 @@ namespace IrcControlCodes
 class COMMUNI_EXPORT IrcUtil
 {
 public:
-	static QString messageToHtml(const QString& message, bool escape = true, bool bShowIcons = false);
+	static QString messageToHtml(const QString& message, QHash<QString, QString> emoticons = QHash<QString, QString>());
 	static unsigned int getUnicodeColorBytes(const QString & szData, unsigned int iChar, unsigned char * pcByte1, unsigned char * pcByte2);
     static QString colorCodeToName(int code, const QString& defaultColor = QLatin1String("black"));
 };
