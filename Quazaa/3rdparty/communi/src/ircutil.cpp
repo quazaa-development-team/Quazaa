@@ -15,16 +15,18 @@
 */
 
 /*
-  Parts of this code come from Konversation and are copyrighted to:
-  Copyright (C) 2002 Dario Abatianni <eisfuchs@tigress.com>
-  Copyright (C) 2004 Peter Simonsson <psn@linux.se>
-  Copyright (C) 2006-2008 Eike Hein <hein@kde.org>
-  Copyright (C) 2004-2009 Eli Mackenzie <argonel@gmail.com>
+  Parts of this code come from KvIrc and are copyrighted to:
+  Copyright (C) 2010 Fabio Bas < ctrlaltca at gmail dot com >
 */
 
 #include "ircutil.h"
 #include <QStringList>
 #include <QRegExp>
+#include <QTextDocument> // for Qt::escape
+#include <QDebug>
+
+#define IRC_DEFAULT_BACKGROUND 100
+#define IRC_DEFAULT_FOREGROUND 101
 
 /*!
     \file ircutil.h
@@ -46,187 +48,449 @@ static QRegExp URL_PATTERN(QLatin1String("((www\\.(?!\\.)|(ssh|fish|irc|amarok|(
     Furthermore, this function detects URLs and replaces
     them with appropriate HTML hyperlinks.
 */
-QString IrcUtil::messageToHtml(const QString& message)
+QString IrcUtil::messageToHtml(const QString& message, bool bEscape, bool bShowIcons)
 {
-    QString processed = message;
-    processed.replace(QLatin1Char('&'), QLatin1String("&amp;"));
-    processed.replace(QLatin1Char('<'), QLatin1String("&lt;"));
-    processed.replace(QLatin1Char('>'), QLatin1String("&gt;"));
-    processed.replace(QLatin1Char('"'), QLatin1String("&quot;"));
-    processed.replace(QLatin1Char('\''), QLatin1String("&apos;"));
-    processed.replace(QLatin1Char('\t'), QLatin1String("&nbsp;"));
+	QString result;
+	bool bCurrentBold      = false;
+	bool bCurrentItalic    = false;
+	bool bCurrentStrikeThrough = false;
+	bool bCurrentUnderline = false;
+	bool bIgnoreIcons  = false;
 
-    enum
-    {
-        None            = 0x0,
-        Bold            = 0x1,
-        Color           = 0x2,
-        Italic          = 0x4,
-        StrikeThrough   = 0x8,
-        Underline       = 0x10,
-        Inverse         = 0x20
-    };
-    int state = None;
+	unsigned char ucCurrentForeground = IRC_DEFAULT_FOREGROUND; //default foreground
+	unsigned char ucCurrentBackground = IRC_DEFAULT_BACKGROUND; //default background
 
-    int pos = 0;
-    bool parseColor = false;
-    while (pos < processed.size())
-    {
-        if (parseColor)
-        {
-            // fg(,bg)
-            QRegExp rx(QLatin1String("(\\d{1,2})(?:,(\\d{1,2}))?"));
-            int idx = rx.indexIn(processed, pos);
-            if (idx == pos)
-            {
-                bool ok = false;
-                QStringList styles;
-                processed.remove(idx, rx.matchedLength());
+	unsigned int uIndex = 0;
 
-                // foreground
-                int code = rx.cap(1).toInt(&ok);
-                if (ok)
-                    styles += QString(QLatin1String("color:%1")).arg(colorCodeToName(code, QLatin1String("black")));
+	QString processed = bEscape ? Qt::escape(message) : message;
 
-                // background
-                code = rx.cap(2).toInt(&ok);
-                if (ok)
-                    styles += QString(QLatin1String("background-color:%1")).arg(colorCodeToName(code, QLatin1String("transparent")));
+	while(uIndex < (unsigned int)processed.length())
+	{
+		unsigned short character = processed[(int)uIndex].unicode();
+		unsigned int uStart = uIndex;
 
-                processed = processed.arg(styles.join(QLatin1String(";")));
-            }
-            parseColor = false;
-            continue;
-        }
+		while(
+			(character != IrcControlCodes::Bold) &&
+			(character != IrcControlCodes::Color) &&
+			(character != IrcControlCodes::Italic) &&
+			(character != IrcControlCodes::StrikeThrough) &&
+			(character != IrcControlCodes::Reset) &&
+			(character != IrcControlCodes::Underline) &&
+			(character != IrcControlCodes::Underline2) &&
+			(character != IrcControlCodes::Reverse) &&
+			((character != ':') || bIgnoreIcons) &&
+			((character != ';') || bIgnoreIcons) &&
+			((character != '=') || bIgnoreIcons))
+		{
+			bIgnoreIcons = false;
+			if(character == '&')
+			{
+				//look for an html entity
+				QString szEntity = processed.mid((int)uIndex,6);
+				if(szEntity == "&quot;")
+				{
+					uIndex += 5;
+				} else {
+					szEntity.truncate(5);
+					if(szEntity == "&amp;")
+					{
+						 uIndex += 4;
+					} else {
+						szEntity.truncate(4);
+						if(szEntity == "&lt;" || szEntity == "&gt;")
+							uIndex += 3;
+					}
+				}
+			}
 
-        QString replacement;
-        switch (processed.at(pos).unicode())
-        {
-        case '\x02': // bold
-            if (state & Bold)
-                replacement = QLatin1String("</span>");
-            else
-                replacement = QLatin1String("<span style='font-weight: bold'>");
-            state ^= Bold;
-            break;
+			uIndex++;
+			if(uIndex >= (unsigned int)processed.length())
+				break;
 
-        case '\x03': // color
-            if (state & Color)
-                replacement = QLatin1String("</span>");
-            else
-                replacement = QLatin1String("<span style='%1'>");
-            state ^= Color;
-            parseColor = state & Color;
-            break;
+			character = processed[(int)uIndex].unicode();
+		}
 
-        //case '\x09': // italic
-        case '\x1d': // italic
-            if (state & Italic)
-                replacement = QLatin1String("</span>");
-            else
-                replacement = QLatin1String("<span style='font-style: italic'>");
-            state ^= Italic;
-            break;
+		bIgnoreIcons = false;
+		int iLength = uIndex - uStart;
 
-        case '\x13': // strike-through
-            if (state & StrikeThrough)
-                replacement = QLatin1String("</span>");
-            else
-                replacement = QLatin1String("<span style='text-decoration: line-through'>");
-            state ^= StrikeThrough;
-            break;
+		if(iLength > 0)
+		{
+			bool bOpened = false;
 
-        case '\x15': // underline
-        case '\x1f': // underline
-            if (state & Underline)
-                replacement = QLatin1String("</span>");
-            else
-                replacement = QLatin1String("<span style='text-decoration: underline'>");
-            state ^= Underline;
-            break;
+			if(ucCurrentForeground != IRC_DEFAULT_FOREGROUND)
+			{
+				result.append("<span style=\"color:");
+				result.append(colorCodeToName(ucCurrentForeground));
+				bOpened = true;
+			}
 
-        case '\x16': // inverse
-            if (state & Inverse)
-                replacement = QLatin1String("</span>");
-            else
-                replacement = QLatin1String("<span style='font-weight: bold'>");
-            state ^= Inverse;
-            break;
+			if(ucCurrentBackground != IRC_DEFAULT_BACKGROUND)
+			{
+				if(!bOpened)
+				{
+					result.append("<span style=\"background-color:");
+					bOpened = true;
+				} else {
+					result.append(";background-color:");
+				}
+				result.append(colorCodeToName(ucCurrentBackground));
+			}
 
-        case '\x0f': // none
-            replacement = QLatin1String("</span>");
-            state = None;
-            break;
+			if(bCurrentBold)
+			{
+				if(!bOpened)
+				{
+					result.append("<span style=\"font-weight:bold");
+					bOpened = true;
+				} else {
+					result.append(";font-weight:bold");
+				}
+			}
 
-        default:
-            break;
-        }
+			if(bCurrentItalic)
+			{
+				if(!bOpened)
+				{
+					result.append("<span style=\"font-style:italic");
+					bOpened = true;
+				} else {
+					result.append(";font-style:italic");
+				}
+			}
 
-        if (!replacement.isNull())
-        {
-            processed.replace(pos, 1, replacement);
-            pos += replacement.length();
-        }
-        else
-        {
-            ++pos;
-        }
-    }
+			if(bCurrentStrikeThrough)
+			{
+				if(!bOpened)
+				{
+					result.append("<span style=\"text-decoration:line-through");
+					bOpened = true;
+				} else {
+					result.append(";text-decoration:line-through");
+				}
+			}
 
-    pos = 0;
-    while ((pos = URL_PATTERN.indexIn(processed, pos)) >= 0)
-    {
-        int len = URL_PATTERN.matchedLength();
-        QString href = processed.mid(pos, len);
+			if(bCurrentUnderline)
+			{
+				if(!bOpened)
+				{
+					result.append("<span style=\"text-decoration:underline");
+					bOpened = true;
+				} else {
+					result.append(";text-decoration:underline");
+				}
+			}
 
-        // Don't consider trailing &gt; as part of the link.
-        QString append;
-        if (href.endsWith(QLatin1String("&gt;")))
-        {
-            append.append(href.right(4));
-            href.chop(4);
-        }
+			if(bOpened)
+				result.append(";\">");
 
-        // Don't consider trailing comma or semi-colon as part of the link.
-        if (href.endsWith(QLatin1Char(',')) || href.endsWith(QLatin1Char(';')))
-        {
-            append.append(href.right(1));
-            href.chop(1);
-        }
+			result.append(processed.mid(uStart,iLength));
 
-        // Don't consider trailing closing parenthesis part of the link when
-        // there's an opening parenthesis preceding in the beginning of the
-        // URL or there is no opening parenthesis in the URL at all.
-        if (pos > 0 && href.endsWith(QLatin1Char(')'))
-            && (processed.at(pos-1) == QLatin1Char('(')
-            || !href.contains(QLatin1Char('('))))
-        {
-            append.prepend(href.right(1));
-            href.chop(1);
-        }
+			if(bOpened)
+				result.append("</span>");
+		}
 
-        // Qt doesn't support (?<=pattern) so we do it here
-        if (pos > 0 && processed.at(pos-1).isLetterOrNumber())
-        {
-            pos++;
-            continue;
-        }
+		switch(character)
+		{
+			case IrcControlCodes::Bold:
+			{
+				bCurrentBold = !bCurrentBold;
+				++uIndex;
+				break;
+			}
+			case IrcControlCodes::Color:
+			{
+				++uIndex;
+				unsigned char ucForeground;
+				unsigned char ucBackground;
+				uIndex = getUnicodeColorBytes(processed,uIndex,&ucForeground,&ucBackground);
+				if(ucForeground != IrcControlCodes::NoChange)
+					ucCurrentForeground = ucForeground;
+				else
+					ucCurrentForeground = IRC_DEFAULT_FOREGROUND; // only a CTRL+K
+				if(ucBackground != IrcControlCodes::NoChange)
+					ucCurrentBackground = ucBackground;
+				else
+					ucCurrentBackground = IRC_DEFAULT_BACKGROUND;
+				break;
+			}
+			case IrcControlCodes::Italic:
+				bCurrentItalic = !bCurrentItalic;
+				++uIndex;
+				break;
+			case IrcControlCodes::StrikeThrough:
+				bCurrentStrikeThrough = !bCurrentStrikeThrough;
+				++uIndex;
+				break;
+			case IrcControlCodes::Reset:
+			{
+				ucCurrentForeground = IRC_DEFAULT_FOREGROUND;
+				ucCurrentBackground = IRC_DEFAULT_BACKGROUND;
+				bCurrentBold = false;
+				bCurrentItalic = false;
+				bCurrentStrikeThrough = false;
+				bCurrentUnderline = false;
+				++uIndex;
+				break;
+			}
+			case IrcControlCodes::Underline:
+			case IrcControlCodes::Underline2:
+			{
+				bCurrentUnderline = !bCurrentUnderline;
+				++uIndex;
+				break;
+			}
+			case IrcControlCodes::Reverse:
+			{
+				char cAuxBack = ucCurrentBackground;
+				ucCurrentBackground = ucCurrentForeground;
+				ucCurrentForeground = cAuxBack;
+				++uIndex;
+				break;
+			}
+			case ':':
+			case ';':
+			case '=':
+			{
+				qDebug() << "Possible emoticon detected.";
+				if(bShowIcons)
+				{
+					//potential emoticon, got eyes
+					++uIndex;
+					QString szLookup;
+					szLookup.append(QChar(character));
+					unsigned short uIsEmoticon = 0;
+					unsigned int uIcoStart = uIndex;
 
-        QString protocol;
-        if (URL_PATTERN.cap(1).startsWith(QLatin1String("www."), Qt::CaseInsensitive))
-            protocol = QLatin1String("http://");
-        else if (URL_PATTERN.cap(1).isEmpty())
-            protocol = QLatin1String("mailto:");
+					if(uIndex < (unsigned int)processed.length())
+					{
+						//look up for a nose
+						if(processed[(int)uIndex] == '-')
+						{
+							szLookup.append('-');
+							uIndex++;
+						}
+					}
 
-        QString source = href;
-        source.replace(QLatin1String("&amp;"), QLatin1String("&"));
+					if(uIndex < (unsigned int)processed.length())
+					{
+						//look up for a mouth
+						unsigned short uMouth = processed[(int)uIndex].unicode();
+						switch(uMouth)
+						{
+							case ')':
+							case '(':
+							case '/':
+							case 'D':
+							case 'P':
+							case 'S':
+							case 'O':
+							case '*':
+							case '|':
+								szLookup += QChar(uMouth);
+								uIsEmoticon++;
+								uIndex++;
+								break;
+							default:
+								break;
+						}
+					}
 
-        QString link = QString(QLatin1String("<a href='%1%2'>%3</a>")).arg(protocol, source, href) + append;
-        processed.replace(pos, len, link);
-        pos += link.length();
-    }
+					if(uIndex < (unsigned int)processed.length())
+					{
+						//look up for a space
+						if(processed[(int)uIndex]== ' ')
+						{
+							uIsEmoticon++;
+						}
+					} else {
+						//got a smile at the end of the text
+						uIsEmoticon++;
+					}
 
-    return processed;
+					if(uIsEmoticon > 1)
+					{
+						qDebug() << "Emoticon is " << szLookup;
+						bIgnoreIcons = true;
+						/*
+						KviTextIcon * pIcon  = g_pTextIconManager->lookupTextIcon(szLookup);
+						// do we have that emoticon-icon association ?
+						if(pIcon)
+						{
+							result.append("<img src=\"");
+							result.append(g_pIconManager->getSmallIconResourceName(pIcon->id()));
+							if(ucCurrentBackground != IRC_DEFAULT_BACKGROUND)
+							{
+								result.append("\" style=\"background-color:");
+								result.append(KVI_OPTION_MIRCCOLOR(ucCurrentBackground).name());
+							}
+							result.append("\" />");
+						} else {
+							bIgnoreIcons = true;
+							uIndex = uIcoStart-1;
+						}
+						*/
+					} else {
+						bIgnoreIcons = true;
+						uIndex = uIcoStart-1;
+					}
+
+					break;
+					qDebug() << "Exiting emoticon detected. ";
+				} else {
+					bIgnoreIcons = true;
+				}
+			}
+		}
+	}
+
+	int pos = 0;
+	while ((pos = URL_PATTERN.indexIn(result, pos)) >= 0)
+	{
+		int len = URL_PATTERN.matchedLength();
+		QString href = result.mid(pos, len);
+
+		// Don't consider trailing &gt; as part of the link.
+		QString append;
+		if (href.endsWith(QLatin1String("&gt;")))
+		{
+			append.append(href.right(4));
+			href.chop(4);
+		}
+
+		// Don't consider trailing comma or semi-colon as part of the link.
+		if (href.endsWith(QLatin1Char(',')) || href.endsWith(QLatin1Char(';')))
+		{
+			append.append(href.right(1));
+			href.chop(1);
+		}
+
+		// Don't consider trailing closing parenthesis part of the link when
+		// there's an opening parenthesis preceding in the beginning of the
+		// URL or there is no opening parenthesis in the URL at all.
+		if (pos > 0 && href.endsWith(QLatin1Char(')'))
+			&& (result.at(pos-1) == QLatin1Char('(')
+			|| !href.contains(QLatin1Char('('))))
+		{
+			append.prepend(href.right(1));
+			href.chop(1);
+		}
+
+		// Qt doesn't support (?<=pattern) so we do it here
+		if (pos > 0 && result.at(pos-1).isLetterOrNumber())
+		{
+			pos++;
+			continue;
+		}
+
+		QString protocol;
+		if (URL_PATTERN.cap(1).startsWith(QLatin1String("www."), Qt::CaseInsensitive))
+			protocol = QLatin1String("http://");
+		else if (URL_PATTERN.cap(1).isEmpty())
+			protocol = QLatin1String("mailto:");
+
+		QString source = href;
+		source.replace(QLatin1String("&amp;"), QLatin1String("&"));
+
+		QString link = QString(QLatin1String("<a href='%1%2'>%3</a>")).arg(protocol, source, href) + append;
+		result.replace(pos, len, link);
+		pos += link.length();
+	}
+
+	//qDebug("Results %s",result.toUtf8().data());
+	return result;
+}
+
+/*!
+	Scans the szData for a mIrc color code XX,XX
+	and fills the color values in the two bytes
+*/
+
+unsigned int IrcUtil::getUnicodeColorBytes(const QString & szData, unsigned int iChar, unsigned char * pcByte1, unsigned char * pcByte2)
+{
+	if(iChar >= (unsigned int)szData.length())
+	{
+		(*pcByte1) = IrcControlCodes::NoChange;
+		(*pcByte2) = IrcControlCodes::NoChange;
+		return iChar;
+	}
+
+	unsigned short c = szData[(int)iChar].unicode();
+
+	//First we can have a digit or a comma
+	if(((c < '0') || (c > '9')))
+	{
+		// senseless : only a CTRL+K code
+		(*pcByte1) = IrcControlCodes::NoChange;
+		(*pcByte2) = IrcControlCodes::NoChange;
+		return iChar;
+	}
+
+	//Something interesting ok.
+	(*pcByte1) = c - '0'; //store the code
+	iChar++;
+	if(iChar >= (unsigned int)szData.length())
+	{
+		(*pcByte2) = IrcControlCodes::NoChange;
+		return iChar;
+	}
+
+	c = szData[(int)iChar].unicode();
+
+	if(((c < '0') || (c > '9')) && (c != ','))
+	{
+		(*pcByte2) = IrcControlCodes::NoChange;
+		return iChar;
+	}
+
+	if((c >= '0') && (c <= '9'))
+	{
+		(*pcByte1) = (((*pcByte1)*10)+(c-'0'))%16;
+		iChar++;
+		if(iChar >= (unsigned int)szData.length())
+		{
+			(*pcByte2) = IrcControlCodes::NoChange;
+			return iChar;
+		}
+		c = szData[(int)iChar].unicode();
+	}
+
+	if(c == ',')
+	{
+		iChar++;
+		if(iChar >= (unsigned int)szData.length())
+		{
+			(*pcByte2) = IrcControlCodes::NoChange;
+			return iChar;
+		}
+		c = szData[(int)iChar].unicode();
+	} else {
+		(*pcByte2) = IrcControlCodes::NoChange;
+		return iChar;
+	}
+
+	if((c < '0') || (c > '9'))
+	{
+		(*pcByte2) = IrcControlCodes::NoChange;
+		if(szData[(int)(iChar-1)].unicode()==',')
+			return iChar-1;
+		else
+			return iChar;
+	}
+
+	//Background, a color code
+	(*pcByte2) = c-'0';
+	iChar++;
+	if(iChar >= (unsigned int)szData.length())
+		return iChar;
+	c = szData[(int)iChar].unicode();
+
+	if((c >= '0') && (c <='9'))
+	{
+		(*pcByte2) = (((*pcByte2)*10) + (c-'0')) % 16;
+		iChar++;
+	}
+
+	return iChar;
 }
 
 /*!
@@ -237,22 +501,22 @@ QString IrcUtil::colorCodeToName(int code, const QString& defaultColor)
 {
     switch (code)
     {
-    case 0:  return QLatin1String("white");
-    case 1:  return QLatin1String("black");
-    case 2:  return QLatin1String("navy");
-    case 3:  return QLatin1String("green");
-    case 4:  return QLatin1String("red");
-    case 5:  return QLatin1String("maroon");
-    case 6:  return QLatin1String("purple");
-    case 7:  return QLatin1String("orange");
-    case 8:  return QLatin1String("yellow");
-    case 9:  return QLatin1String("lime");
-    case 10: return QLatin1String("darkcyan");
-    case 11: return QLatin1String("cyan");
-    case 12: return QLatin1String("blue");
-    case 13: return QLatin1String("magenta");
-    case 14: return QLatin1String("gray");
-    case 15: return QLatin1String("lightgray");
+	case IrcControlCodes::White:  return QLatin1String("white");
+	case IrcControlCodes::Black:  return QLatin1String("black");
+	case IrcControlCodes::DarkBlue:  return QLatin1String("darkblue");
+	case IrcControlCodes::DarkGreen:  return QLatin1String("darkgreen");
+	case IrcControlCodes::Red:  return QLatin1String("red");
+	case IrcControlCodes::DarkRed:  return QLatin1String("darkred");
+	case IrcControlCodes::DarkViolet:  return QLatin1String("darkviolet");
+	case IrcControlCodes::Orange:  return QLatin1String("orange");
+	case IrcControlCodes::Yellow:  return QLatin1String("yellow");
+	case IrcControlCodes::LightGreen:  return QLatin1String("lightgreen");
+	case IrcControlCodes::BlueMarine: return QLatin1String("bluemarine");
+	case IrcControlCodes::LightBlue: return QLatin1String("lightblue");
+	case IrcControlCodes::Blue: return QLatin1String("blue");
+	case IrcControlCodes::LightViolet: return QLatin1String("lightviolet");
+	case IrcControlCodes::DarkGray: return QLatin1String("darkgray");
+	case IrcControlCodes::LightGray: return QLatin1String("lightgray");
     default: return defaultColor;
     }
 }
