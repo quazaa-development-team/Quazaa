@@ -98,6 +98,7 @@ private:
         QString messageFormat;
         QString highlightFormat;
         QHash<QString, QString> prefixedFormats;
+		QHash<QString, QString> emoticons;
     } d;
 };
 

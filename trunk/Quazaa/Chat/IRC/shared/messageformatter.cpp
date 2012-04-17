@@ -45,6 +45,8 @@ MessageFormatter::MessageFormatter(QObject* parent) : QObject(parent)
 {
     d.highlight = false;
     d.timeStamp = false;
+
+	d.emoticons[":)"] = ":/Resource/Smileys/smile.gif";
 }
 
 MessageFormatter::~MessageFormatter()
@@ -269,7 +271,7 @@ QString MessageFormatter::formatNoticeMessage(IrcNoticeMessage* message) const
         if (message->message().contains(hilite))
             d.highlight = true;
     const QString sender = prettyUser(message->sender());
-	const QString msg = IrcUtil::messageToHtml(message->message());
+	const QString msg = IrcUtil::messageToHtml(message->message(), d.emoticons);
     return tr("[%1] %2").arg(sender, msg);
 }
 
@@ -279,15 +281,15 @@ QString MessageFormatter::formatNoticeMessage(IrcNoticeMessage* message) const
 QString MessageFormatter::formatNumericMessage(IrcNumericMessage* message) const
 {
     if (message->code() < 300)
-        return tr("[INFO] %1").arg(IrcUtil::messageToHtml(MID_(1)));
+		return tr("[INFO] %1").arg(IrcUtil::messageToHtml(MID_(1), d.emoticons));
     if (QByteArray(Irc::toString(message->code())).startsWith("ERR_"))
-        return tr("[ERROR] %1").arg(IrcUtil::messageToHtml(MID_(1)));
+		return tr("[ERROR] %1").arg(IrcUtil::messageToHtml(MID_(1), d.emoticons));
 
     switch (message->code())
     {
     case Irc::RPL_MOTDSTART:
     case Irc::RPL_MOTD:
-        return tr("[MOTD] %1").arg(IrcUtil::messageToHtml(MID_(1)));
+		return tr("[MOTD] %1").arg(IrcUtil::messageToHtml(MID_(1), d.emoticons));
     case Irc::RPL_AWAY:
         return tr("! %1 is away (%2)").arg(P_(1), MID_(2));
     case Irc::RPL_ENDOFWHOIS:
@@ -299,7 +301,7 @@ QString MessageFormatter::formatNumericMessage(IrcNumericMessage* message) const
     case Irc::RPL_WHOISHOST: // nick is connecting from <...>
         return tr("! %1").arg(MID_(1));
     case Irc::RPL_WHOISUSER:
-        return tr("! %1 is %2@%3 (%4)").arg(P_(1), P_(2), P_(3), IrcUtil::messageToHtml(MID_(5)));
+		return tr("! %1 is %2@%3 (%4)").arg(P_(1), P_(2), P_(3), IrcUtil::messageToHtml(MID_(5), d.emoticons));
     case Irc::RPL_WHOISSERVER:
         return tr("! %1 is online via %2 (%3)").arg(P_(1), P_(2), P_(3));
     case Irc::RPL_WHOISACCOUNT: // nick user is logged in as
@@ -316,7 +318,7 @@ QString MessageFormatter::formatNumericMessage(IrcNumericMessage* message) const
     case Irc::RPL_CHANNELMODEIS:
         return tr("! %1 mode is %2").arg(P_(1), P_(2));
     case Irc::RPL_CHANNEL_URL:
-        return tr("! %1 url is %2").arg(P_(1), IrcUtil::messageToHtml(P_(2)));
+		return tr("! %1 url is %2").arg(P_(1), IrcUtil::messageToHtml(P_(2), d.emoticons));
     case Irc::RPL_CREATIONTIME: {
         QDateTime dateTime = QDateTime::fromTime_t(P_(2).toInt());
         return tr("! %1 was created %2").arg(P_(1), dateTime.toString());
@@ -324,7 +326,7 @@ QString MessageFormatter::formatNumericMessage(IrcNumericMessage* message) const
     case Irc::RPL_NOTOPIC:
         return tr("! %1 has no topic set").arg(P_(1));
 	case Irc::RPL_TOPIC:
-		return tr("! %1 topic is \"%2\"").arg(P_(1), IrcUtil::messageToHtml(P_(2)));
+		return tr("! %1 topic is \"%2\"").arg(P_(1), IrcUtil::messageToHtml(P_(2), d.emoticons));
 	case Irc::RPL_TOPICWHOTIME: {
         QDateTime dateTime = QDateTime::fromTime_t(P_(3).toInt());
 		return tr("! %1 topic was set %2 by %3").arg(P_(1), dateTime.toString(), P_(2));
@@ -359,7 +361,7 @@ QString MessageFormatter::formatPartMessage(IrcPartMessage* message) const
 {
     const QString sender = prettyUser(message->sender());
     if (!message->reason().isEmpty())
-        return tr("! %1 parted %2 (%3)").arg(sender, message->channel(), IrcUtil::messageToHtml(message->reason()));
+		return tr("! %1 parted %2 (%3)").arg(sender, message->channel(), IrcUtil::messageToHtml(message->reason(), d.emoticons));
     else
         return tr("! %1 parted %2").arg(sender, message->channel());
 }
@@ -375,7 +377,7 @@ QString MessageFormatter::formatPrivateMessage(IrcPrivateMessage* message) const
         if (message->message().contains(hilite))
             d.highlight = true;
     const QString sender = prettyUser(message->sender());
-    const QString msg = IrcUtil::messageToHtml(message->message());
+	const QString msg = IrcUtil::messageToHtml(message->message(), d.emoticons);
     if (message->isAction())
         return tr("* %1 %2").arg(sender, msg);
     else if (message->isRequest())
@@ -388,7 +390,7 @@ QString MessageFormatter::formatQuitMessage(IrcQuitMessage* message) const
 {
     const QString sender = prettyUser(message->sender());
     if (!message->reason().isEmpty())
-        return tr("! %1 has quit (%2)").arg(sender, IrcUtil::messageToHtml(message->reason()));
+		return tr("! %1 has quit (%2)").arg(sender, IrcUtil::messageToHtml(message->reason(), d.emoticons));
     else
         return tr("! %1 has quit").arg(sender);
 }
@@ -396,18 +398,18 @@ QString MessageFormatter::formatQuitMessage(IrcQuitMessage* message) const
 QString MessageFormatter::formatTopicMessage(IrcTopicMessage* message) const
 {
     const QString sender = prettyUser(message->sender());
-	const QString topic = IrcUtil::messageToHtml(message->topic());
+	const QString topic = IrcUtil::messageToHtml(message->topic(), d.emoticons);
 	return tr("! %1 sets topic \"%2\" on %3").arg(sender, topic, message->channel());
 }
 
 QString MessageFormatter::formatTopicOnly(IrcTopicMessage *message) const
 {
-	return IrcUtil::messageToHtml(message->topic());
+	return IrcUtil::messageToHtml(message->topic(), d.emoticons);
 }
 
 QString MessageFormatter::formatTopicOnly(IrcNumericMessage *message) const
 {
-	return IrcUtil::messageToHtml(P_(2));
+	return IrcUtil::messageToHtml(P_(2), d.emoticons);
 }
 
 QString MessageFormatter::formatUnknownMessage(IrcMessage* message) const
@@ -447,7 +449,7 @@ QString MessageFormatter::colorize(const QString& str)
 
 	QColor color = QColor::fromHsl(qHash(str) % 359, 255, 64);
 
-	int backgroundLightness = (color.lightness() + 140);
+	int backgroundLightness = (color.lightness() + 160);
 
 	QColor backgroundColor = QColor::fromHsl(color.hue(), 100, backgroundLightness);
 	return QString("<span style='color:%1'><span style='background-color:%2'>%3</span></span>").arg(color.name()).arg(backgroundColor.name()).arg(str);

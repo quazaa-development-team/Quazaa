@@ -48,7 +48,7 @@ static QRegExp URL_PATTERN(QLatin1String("((www\\.(?!\\.)|(ssh|fish|irc|amarok|(
     Furthermore, this function detects URLs and replaces
     them with appropriate HTML hyperlinks.
 */
-QString IrcUtil::messageToHtml(const QString& message, bool bEscape, bool bShowIcons)
+QString IrcUtil::messageToHtml(const QString& message, QHash<QString, QString> emoticons)
 {
 	QString result;
 	bool bCurrentBold      = false;
@@ -62,7 +62,7 @@ QString IrcUtil::messageToHtml(const QString& message, bool bEscape, bool bShowI
 
 	unsigned int uIndex = 0;
 
-	QString processed = bEscape ? Qt::escape(message) : message;
+	QString processed = Qt::escape(message);
 
 	while(uIndex < (unsigned int)processed.length())
 	{
@@ -251,8 +251,7 @@ QString IrcUtil::messageToHtml(const QString& message, bool bEscape, bool bShowI
 			case ';':
 			case '=':
 			{
-				qDebug() << "Possible emoticon detected.";
-				if(bShowIcons)
+				if(!emoticons.isEmpty())
 				{
 					//potential emoticon, got eyes
 					++uIndex;
@@ -284,8 +283,10 @@ QString IrcUtil::messageToHtml(const QString& message, bool bEscape, bool bShowI
 							case 'P':
 							case 'S':
 							case 'O':
+							case 'X':
 							case '*':
 							case '|':
+							case '@':
 								szLookup += QChar(uMouth);
 								uIsEmoticon++;
 								uIndex++;
@@ -310,32 +311,29 @@ QString IrcUtil::messageToHtml(const QString& message, bool bEscape, bool bShowI
 					if(uIsEmoticon > 1)
 					{
 						qDebug() << "Emoticon is " << szLookup;
-						bIgnoreIcons = true;
-						/*
-						KviTextIcon * pIcon  = g_pTextIconManager->lookupTextIcon(szLookup);
+
 						// do we have that emoticon-icon association ?
-						if(pIcon)
+						if(emoticons.contains(szLookup))
 						{
 							result.append("<img src=\"");
-							result.append(g_pIconManager->getSmallIconResourceName(pIcon->id()));
+							result.append(emoticons.value(szLookup));
 							if(ucCurrentBackground != IRC_DEFAULT_BACKGROUND)
 							{
 								result.append("\" style=\"background-color:");
-								result.append(KVI_OPTION_MIRCCOLOR(ucCurrentBackground).name());
+								result.append(colorCodeToName(ucCurrentBackground));
 							}
 							result.append("\" />");
 						} else {
 							bIgnoreIcons = true;
 							uIndex = uIcoStart-1;
 						}
-						*/
 					} else {
 						bIgnoreIcons = true;
 						uIndex = uIcoStart-1;
 					}
 
+					qDebug() << "Exiting emoticon detection. ";
 					break;
-					qDebug() << "Exiting emoticon detected. ";
 				} else {
 					bIgnoreIcons = true;
 				}
@@ -343,6 +341,7 @@ QString IrcUtil::messageToHtml(const QString& message, bool bEscape, bool bShowI
 		}
 	}
 
+	//Begin url detection
 	int pos = 0;
 	while ((pos = URL_PATTERN.indexIn(result, pos)) >= 0)
 	{
