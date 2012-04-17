@@ -269,7 +269,7 @@ QString MessageFormatter::formatNoticeMessage(IrcNoticeMessage* message) const
         if (message->message().contains(hilite))
             d.highlight = true;
     const QString sender = prettyUser(message->sender());
-    const QString msg = IrcUtil::messageToHtml(message->message());
+	const QString msg = IrcUtil::messageToHtml(message->message());
     return tr("[%1] %2").arg(sender, msg);
 }
 
@@ -444,6 +444,11 @@ QString MessageFormatter::prettyUser(const QString& user)
 
 QString MessageFormatter::colorize(const QString& str)
 {
-    QColor color = QColor::fromHsl(qHash(str) % 359, 255, 64);
-    return QString("<span style='color:%1'>%2</span>").arg(color.name()).arg(str);
+
+	QColor color = QColor::fromHsl(qHash(str) % 359, 255, 64);
+
+	int backgroundLightness = (color.lightness() + 140);
+
+	QColor backgroundColor = QColor::fromHsl(color.hue(), 100, backgroundLightness);
+	return QString("<span style='color:%1'><span style='background-color:%2'>%3</span></span>").arg(color.name()).arg(backgroundColor.name()).arg(str);
 }

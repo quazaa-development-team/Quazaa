@@ -23,7 +23,8 @@
 #
 
 QT += network \
-	sql
+	sql \
+	xml
 TARGET = Quazaa
 
 # Paths
@@ -528,11 +529,7 @@ FORMS += \
 	UI/wizardquickstart.ui \
 	UI/widgetircmain.ui \
 	UI/widgetircsidebars.ui \
-<<<<<<< .mine
 	UI/wizardircconnection.ui
-=======
-	wizardircconnection.ui
->>>>>>> .r942
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \

@@ -51,6 +51,7 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
 	font.setStyleHint(QFont::TypeWriter);
 	d.textBrowser->setFont(font);
 
+	d.labelTopic->setTextFormat(Qt::RichText);
 	d.labelTopic->setVisible(false);
 	connect(d.labelTopic, SIGNAL(linkActivated(QString)), this, SLOT(followLink(QString)));
 
