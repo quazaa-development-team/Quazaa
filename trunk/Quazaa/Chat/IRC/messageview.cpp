@@ -46,6 +46,7 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
     setFocusProxy(d.lineEditor);
     d.textBrowser->installEventFilter(this);
     d.textBrowser->viewport()->installEventFilter(this);
+	connect(d.textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(followLink(QUrl)));
 
 	QFont font("Monospace");
 	font.setStyleHint(QFont::TypeWriter);
@@ -524,5 +525,15 @@ QString MessageView::prettyNames(const QStringList& names, int columns)
 
 void MessageView::followLink(const QString &link)
 {
-	QDesktopServices::openUrl(link);
+	if(link.startsWith("#"))
+	{
+
+	} else {
+		QDesktopServices::openUrl(link);
+	}
+}
+
+void MessageView::followLink(const QUrl &link)
+{
+	followLink(link.toString());
 }

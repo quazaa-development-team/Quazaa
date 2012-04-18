@@ -770,5 +770,22 @@
         <file>Resource/Load bar empty.png</file>
         <file>Resource/Load bar full no bg.png</file>
         <file>Resource/Smileys/smile.gif</file>
+        <file>Resource/Smileys/frown.gif</file>
+        <file>Resource/Smileys/confuse.gif</file>
+        <file>Resource/Smileys/surprise.gif</file>
+        <file>Resource/Smileys/bigsmile.gif</file>
+        <file>Resource/Smileys/tongue.gif</file>
+        <file>Resource/Smileys/worry.gif</file>
+        <file>Resource/Smileys/kiss.gif</file>
+        <file>Resource/Smileys/sneaky.gif</file>
+        <file>Resource/Smileys/angry.gif</file>
+        <file>Resource/Smileys/blue.gif</file>
+        <file>Resource/Smileys/neutral.gif</file>
+        <file>Resource/Smileys/love.gif</file>
+        <file>Resource/Smileys/wink.gif</file>
+        <file>Resource/Smileys/winkgrin.gif</file>
+        <file>Resource/Smileys/confused.gif</file>
+        <file>Resource/Smileys/winkfrown.gif</file>
+        <file>Resource/Smileys/sleepy.gif</file>
     </qresource>
 </RCC>
