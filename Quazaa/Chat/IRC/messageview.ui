@@ -29,7 +29,10 @@
       <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
-      <string>Topic: </string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../../Resource.qrc">:/Resource/Smileys/confused.gif</pixmap>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -55,10 +58,10 @@ p, li { white-space: pre-wrap; }
       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
      <property name="openExternalLinks">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="openLinks">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -110,6 +113,8 @@ p, li { white-space: pre-wrap; }
    <header>lineeditor.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

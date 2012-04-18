@@ -79,8 +79,7 @@ QString IrcUtil::messageToHtml(const QString& message, QHash<QString, QString> e
 			(character != IrcControlCodes::Underline2) &&
 			(character != IrcControlCodes::Reverse) &&
 			((character != ':') || bIgnoreIcons) &&
-			((character != ';') || bIgnoreIcons) &&
-			((character != '=') || bIgnoreIcons))
+			((character != ';') || bIgnoreIcons))
 		{
 			bIgnoreIcons = false;
 			if(character == '&')
@@ -249,7 +248,6 @@ QString IrcUtil::messageToHtml(const QString& message, QHash<QString, QString> e
 			}
 			case ':':
 			case ';':
-			case '=':
 			{
 				if(!emoticons.isEmpty())
 				{
@@ -273,12 +271,13 @@ QString IrcUtil::messageToHtml(const QString& message, QHash<QString, QString> e
 					if(uIndex < (unsigned int)processed.length())
 					{
 						//look up for a mouth
-						unsigned short uMouth = processed[(int)uIndex].unicode();
+						unsigned short uMouth = processed[(int)uIndex].toUpper().unicode();
 						switch(uMouth)
 						{
 							case ')':
 							case '(':
 							case '/':
+							case '\\':
 							case 'D':
 							case 'P':
 							case 'S':

@@ -78,6 +78,7 @@ private slots:
 	void applySettings();
     void onCustomCommand(const QString& command, const QStringList& params);
 	void followLink(const QString& link);
+	void followLink(const QUrl& link);
 
 private:static
 	QString prettyNames(const QStringList& names, int columns);

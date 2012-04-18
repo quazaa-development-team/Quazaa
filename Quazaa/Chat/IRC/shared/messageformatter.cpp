@@ -47,6 +47,45 @@ MessageFormatter::MessageFormatter(QObject* parent) : QObject(parent)
     d.timeStamp = false;
 
 	d.emoticons[":)"] = ":/Resource/Smileys/smile.gif";
+	d.emoticons[":-)"] = ":/Resource/Smileys/smile.gif";
+	d.emoticons[":("] = ":/Resource/Smileys/frown.gif";
+	d.emoticons[":-("] = ":/Resource/Smileys/frown.gif";
+	d.emoticons[":/"] = ":/Resource/Smileys/confuse.gif";
+	d.emoticons[":-/"] = ":/Resource/Smileys/confuse.gif";
+	d.emoticons[":\\"] = ":/Resource/Smileys/confused.gif";
+	d.emoticons[":-\\"] = ":/Resource/Smileys/confused.gif";
+	d.emoticons[":D"] = ":/Resource/Smileys/bigsmile.gif";
+	d.emoticons[":-D"] = ":/Resource/Smileys/bigsmile.gif";
+	d.emoticons[":P"] = ":/Resource/Smileys/tongue.gif";
+	d.emoticons[":-P"] = ":/Resource/Smileys/tongue.gif";
+	d.emoticons[":S"] = ":/Resource/Smileys/worry.gif";
+	d.emoticons[":-S"] = ":/Resource/Smileys/worry.gif";
+	d.emoticons[":O"] = ":/Resource/Smileys/surprise.gif";
+	d.emoticons[":-O"] = ":/Resource/Smileys/surprise.gif";
+	d.emoticons[":X"] = ":/Resource/Smileys/sneaky.gif";
+	d.emoticons[":-X"] = ":/Resource/Smileys/sneaky.gif";
+	d.emoticons[":Z"] = ":/Resource/Smileys/sleepy.gif";
+	d.emoticons[":-Z"] = ":/Resource/Smileys/sleepy.gif";
+	d.emoticons[":*"] = ":/Resource/Smileys/kiss.gif";
+	d.emoticons[":-*"] = ":/Resource/Smileys/kiss.gif";
+	d.emoticons[":|"] = ":/Resource/Smileys/neutral.gif";
+	d.emoticons[":-|"] = ":/Resource/Smileys/neutral.gif";
+	d.emoticons[":@"] = ":/Resource/Smileys/angry.gif";
+	d.emoticons[":-@"] = ":/Resource/Smileys/angry.gif";
+	d.emoticons[";)"] = ":/Resource/Smileys/wink.gif";
+	d.emoticons[";-)"] = ":/Resource/Smileys/wink.gif";
+	d.emoticons[";)"] = ":/Resource/Smileys/wink.gif";
+	d.emoticons[";-)"] = ":/Resource/Smileys/wink.gif";
+	d.emoticons[";D"] = ":/Resource/Smileys/winkgrin.gif";
+	d.emoticons[";-D"] = ":/Resource/Smileys/winkgrin.gif";
+	d.emoticons[";("] = ":/Resource/Smileys/winkfrown.gif";
+	d.emoticons[";-("] = ":/Resource/Smileys/winkfrown.gif";
+	d.emoticons[";*"] = ":/Resource/Smileys/love.gif";
+	d.emoticons[";-*"] = ":/Resource/Smileys/love.gif";
+	d.emoticons[";X"] = ":/Resource/Smileys/cool.gif";
+	d.emoticons[";-X"] = ":/Resource/Smileys/cool.gif";
+	d.emoticons[";@"] = ":/Resource/Smileys/evil.gif";
+	d.emoticons[";-@"] = ":/Resource/Smileys/evil.gif";
 }
 
 MessageFormatter::~MessageFormatter()
