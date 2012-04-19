@@ -174,8 +174,11 @@ void WidgetIRCSidebars::onMsgTabChanged(SessionTabWidget* widget)
 	{
 		if( view->isChannelView() )
 		{
-			ui->frameChatRightSidebar->show();
-			ui->listViewChatUsers->setModel(view->userList());
+			if( qobject_cast<MessageView*>(panelIRCMain->currentSession()->currentWidget()) == view)
+			{
+				ui->frameChatRightSidebar->show();
+				ui->listViewChatUsers->setModel(view->userList());
+			}
 		}
 		else
 		{

@@ -65,7 +65,7 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
 	d.formatter.setHighlightFormat("class='highlight'");
 
 	d.session = session;
-	d.userModel = new QStringListModel(this);
+	d.userModel = new ChatUserListModel();
 	connect(&d.parser, SIGNAL(customCommand(QString,QStringList)), this, SLOT(onCustomCommand(QString,QStringList)));
 
     if (!d.commandModel)
@@ -376,14 +376,14 @@ void MessageView::receiveMessage(IrcMessage* message)
 		break;
 	case IrcMessage::Numeric: {
 			IrcNumericMessage* numeric = static_cast<IrcNumericMessage*>(message);
-			/*if (numeric->code() == Irc::RPL_ENDOFNAMES && d.sentCommands.contains(IrcCommand::Names))
+			if (numeric->code() == Irc::RPL_ENDOFNAMES && d.sentCommands.contains(IrcCommand::Names))
 			{
 				QString names = prettyNames(d.formatter.currentNames(), 6);
 				appendMessage(d.formatter.formatMessage(message));
 				appendMessage(names);
 				d.sentCommands.remove(IrcCommand::Names);
 				return;
-			}*/
+			}
 			if (numeric->code() == Irc::RPL_TOPIC)
 			{
 				d.labelTopic->setVisible(true);
@@ -403,18 +403,43 @@ void MessageView::receiveMessage(IrcMessage* message)
 
 void MessageView::addUser(const QString& user)
 {
-    // TODO: this is far from optimal
-    QStringList users = d.userModel->stringList();
-    users.append(user);
-    d.userModel->setStringList(users);
+	// TODO: this is far from optimal
+	QString modelessUser = user;
+	QString mode;
+
+	if(user.startsWith('~'))
+	{
+		mode = "~";
+		modelessUser.remove(0,1);
+	}
+	if(user.startsWith('&'))
+	{
+		mode = "&";
+		modelessUser.remove(0,1);
+	}
+	if(user.startsWith('@'))
+	{
+		mode = "@";
+		modelessUser.remove(0,1);
+	}
+	if(user.startsWith('%'))
+	{
+		mode = "%";
+		modelessUser.remove(0,1);
+	}
+	if(user.startsWith('+'))
+	{
+		mode = "+";
+		modelessUser.remove(0,1);
+	}
+
+	d.userModel->addUser(modelessUser, mode);
 }
 
 void MessageView::removeUser(const QString& user)
 {
-    // TODO: this is far from optimal
-    QStringList users = d.userModel->stringList();
-    if (users.removeOne(user))
-        d.userModel->setStringList(users);
+	// TODO: this is far from optimal
+	d.userModel->removeUser(user);
 }
 
 void MessageView::onCustomCommand(const QString& command, const QStringList& params)

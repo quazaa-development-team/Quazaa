@@ -283,3 +283,8 @@ void WidgetIRCMain::msgTabChanged(int)
 	if( tab )
 		emit msgTabChanged(tab);
 }
+
+SessionTabWidget* WidgetIRCMain::currentSession()
+{
+	return qobject_cast<SessionTabWidget*>(tabWidgetMain->currentWidget());
+}
