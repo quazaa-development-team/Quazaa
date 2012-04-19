@@ -16,6 +16,7 @@
 #define MESSAGEVIEW_H
 
 #include "ui_messageview.h"
+#include "chatuserlistmodel.h"
 #include <ircsession.h>
 #include <ircmessage.h>
 #include <irccommand.h>
@@ -89,7 +90,7 @@ private:static
         IrcSession* session;
         CommandParser parser;
         MessageFormatter formatter;
-        QStringListModel* userModel;
+		ChatUserListModel* userModel;
 		static QStringListModel* commandModel;
 		bool m_bIsStatusChannel;
 		QSet<IrcCommand::Type> sentCommands;

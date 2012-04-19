@@ -24,6 +24,7 @@
 #include <QDateTime>
 #include <QTcpSocket>
 #include <QStringList>
+#include <QDebug>
 
 /*!
     \file ircsession.h
@@ -250,6 +251,54 @@ void IrcSessionPrivate::processLine(const QByteArray& line)
                 {
                     const QStringList keyValue = param.split("=", QString::SkipEmptyParts);
                     info.insert(keyValue.value(0), keyValue.value(1));
+					if(keyValue.value(0).contains("OVERRIDE PREFIX"))
+					{
+						QString prefixString = info.value("OVERRIDE PREFIX");
+						bool inModes = true;
+
+						for(int index = 1; index < prefixString.length(); index++)
+						{
+							if(prefixString.at(index) == ')')
+							{
+								inModes = false;
+								prefixString.remove(index,1);
+							}
+							if(inModes)
+							{
+								if(!modes.contains(prefixString.at(index)))
+									modes.append(prefixString.at(index));
+							} else {
+								if(!prefixes.contains(prefixString.at(index)))
+									prefixes.append(prefixString.at(index));
+							}
+						}
+
+						qDebug() << host << "Modes:" << modes.join("");
+						qDebug() << host << "Prefixes:" << prefixes.join("");
+					} else if(keyValue.value(0).contains("PREFIX")) {
+						QString prefixString = info.value("PREFIX");
+						bool inModes = true;
+
+						for(int index = 1; index < prefixString.length(); index++)
+						{
+							if(prefixString.at(index) == ')')
+							{
+								inModes = false;
+								prefixString.remove(index,1);
+							}
+							if(inModes)
+							{
+								if(!modes.contains(prefixString.at(index)))
+									modes.append(prefixString.at(index));
+							} else {
+								if(!prefixes.contains(prefixString.at(index)))
+									prefixes.append(prefixString.at(index));
+							}
+						}
+
+						qDebug() << host << "Modes:" << modes.join("");
+						qDebug() << host << "Prefixes:" << prefixes.join("");
+					}
                 }
                 break;
             default:

@@ -309,8 +309,6 @@ QString IrcUtil::messageToHtml(const QString& message, QHash<QString, QString> e
 
 					if(uIsEmoticon > 1)
 					{
-						qDebug() << "Emoticon is " << szLookup;
-
 						// do we have that emoticon-icon association ?
 						if(emoticons.contains(szLookup))
 						{
@@ -330,8 +328,6 @@ QString IrcUtil::messageToHtml(const QString& message, QHash<QString, QString> e
 						bIgnoreIcons = true;
 						uIndex = uIcoStart-1;
 					}
-
-					qDebug() << "Exiting emoticon detection. ";
 					break;
 				} else {
 					bIgnoreIcons = true;

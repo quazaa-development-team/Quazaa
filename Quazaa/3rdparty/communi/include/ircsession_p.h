@@ -19,6 +19,7 @@
 #include <QByteArray>
 #include <QMultiHash>
 #include <QAbstractSocket>
+#include <QStringList>
 #include "ircencoder_p.h"
 
 class IrcSessionPrivate
@@ -52,7 +53,9 @@ public:
     QString realName;
     bool active;
     bool connected;
-    IrcServerInfo info;
+	IrcServerInfo info;
+	QStringList modes;
+	QStringList prefixes;
 };
 
 #endif // IRCSESSION_P_H

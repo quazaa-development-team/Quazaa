@@ -484,27 +484,27 @@ ChatUserItem::ChatUserItem(QString nick, QString modes, ChatUserItem* parent)
 	parentItem = parent;
 	sModes = modes;
 
-	if(modes.contains('q'))
+	if(modes.contains('~'))
 	{
 		sNick = nick;
 		userMode = UserMode::Owner;
 	}
-	else if(modes.contains('a'))
+	else if(modes.contains('&'))
 	{
 		sNick = nick;
 		userMode = UserMode::Administrator;
 	}
-	else if(modes.contains('o'))
+	else if(modes.contains('@'))
 	{
 		sNick = nick;
 		userMode = UserMode::Operator;
 	}
-	else if(modes.contains('h'))
+	else if(modes.contains('%'))
 	{
 		sNick = nick;
 		userMode = UserMode::HalfOperator;
 	}
-	else if(modes.contains('v'))
+	else if(modes.contains('+'))
 	{
 		sNick = nick;
 		userMode = UserMode::Voice;

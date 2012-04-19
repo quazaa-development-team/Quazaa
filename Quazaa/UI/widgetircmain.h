@@ -62,6 +62,7 @@ public slots:
 				   const QString& nick = QString(), const QString& password = QString());
 	void connectTo(const ConnectionInfo &connection);
 	void connectToImpl(const ConnectionInfo& connection);
+	SessionTabWidget* currentSession();
 
 private slots:
 	void on_actionChatSettings_triggered();
