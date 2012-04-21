@@ -75,6 +75,12 @@ public:
     Q_INVOKABLE bool sendCommand(IrcCommand* command);
     Q_INVOKABLE bool sendRaw(const QString& message);
 
+	QStringList modes();
+	QStringList prefixes();
+
+	QString modeToPrefix(const QString& mode) const;
+	QString prefixToMode(const QString& prefix) const;
+
 public Q_SLOTS:
     void open();
     void close();
