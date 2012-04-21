@@ -711,6 +711,38 @@ bool IrcSession::sendRaw(const QString& message)
     return bytes != -1;
 }
 
+QStringList IrcSession::modes()
+{
+	Q_D(IrcSession);
+
+	return d->modes;
+}
+
+QStringList IrcSession::prefixes()
+{
+	Q_D(IrcSession);
+
+	return d->prefixes;
+}
+
+QString IrcSession::modeToPrefix(const QString& mode) const
+{
+	Q_D(const IrcSession);
+	if(d->modes.contains(mode))
+		return d->prefixes.at(d->modes.indexOf(mode));
+	else
+		return "";
+}
+
+QString IrcSession::prefixToMode(const QString& prefix) const
+{
+	Q_D(const IrcSession);
+	if(d->prefixes.contains(prefix))
+		return d->modes.at(d->prefixes.indexOf(prefix));
+	else
+		return "";
+}
+
 #ifndef QT_NO_DEBUG_STREAM
 QDebug operator<<(QDebug debug, const IrcSession* session)
 {
