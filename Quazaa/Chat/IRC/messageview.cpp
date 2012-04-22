@@ -336,10 +336,14 @@ void MessageView::receiveMessage(IrcMessage* message)
 		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Kicks);
         break;
     case IrcMessage::Mode:
+	{
 		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Modes);
 		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Modes);
+		IrcModeMessage* modeMessage = static_cast<IrcModeMessage*>(message);
+		d.userModel->updateUserMode(modeMessage->mode(), modeMessage->argument());
         break;
-    case IrcMessage::Nick:
+	}
+	case IrcMessage::Nick:
 		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Nicks);
 		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Nicks);
         break;
