@@ -32,7 +32,7 @@
 
 namespace UserMode
 {
-	enum UserMode {	Normal, Voice, HalfOperator, Operator, Administrator, Owner };
+	enum UserMode {	Normal, Voice, HalfOperator, Operator, Administrator, Owner, Immune };
 };
 
 class ChatUserItem : public QObject
