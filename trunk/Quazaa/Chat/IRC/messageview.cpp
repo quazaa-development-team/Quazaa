@@ -405,35 +405,18 @@ void MessageView::addUser(const QString& user)
 {
 	// TODO: this is far from optimal
 	QString modelessUser = user;
-	QString mode;
+	QString modes;
 
-	if(user.startsWith('~'))
+	for(int i = 0; i  < d.session->prefixes().size(); i++)
 	{
-		mode = "~";
-		modelessUser.remove(0,1);
-	}
-	if(user.startsWith('&'))
-	{
-		mode = "&";
-		modelessUser.remove(0,1);
-	}
-	if(user.startsWith('@'))
-	{
-		mode = "@";
-		modelessUser.remove(0,1);
-	}
-	if(user.startsWith('%'))
-	{
-		mode = "%";
-		modelessUser.remove(0,1);
-	}
-	if(user.startsWith('+'))
-	{
-		mode = "+";
-		modelessUser.remove(0,1);
+		if(user.startsWith(d.session->prefixes().at(i)))
+		{
+			modes = d.session->prefixToMode(d.session->prefixes().at(i));
+			modelessUser.remove(0,1);
+		}
 	}
 
-	d.userModel->addUser(modelessUser, mode);
+	d.userModel->addUser(modelessUser, modes);
 }
 
 void MessageView::removeUser(const QString& user)

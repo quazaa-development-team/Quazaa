@@ -16,7 +16,7 @@
 #include "session.h"
 #include <qabstractsocket.h>
 #include <qvariant.h>
-#include <qdebug.h>
+#include <QDebug>
 #include <irc.h>
 
 MessageHandler::MessageHandler(QObject* parent) : QObject(parent)
@@ -118,9 +118,13 @@ void MessageHandler::handleMessage(IrcMessage* message)
     case IrcMessage::Mode:
         handleModeMessage(static_cast<IrcModeMessage*>(message));
         break;
-    case IrcMessage::Nick:
+	case IrcMessage::Nick:
+	{
+		IrcNickMessage *nickMessage = static_cast<IrcNickMessage*>(message);
+		qDebug() << "Nick message:" << nickMessage->toString();
         handleNickMessage(static_cast<IrcNickMessage*>(message));
-        break;
+		break;
+	}
     case IrcMessage::Notice:
         handleNoticeMessage(static_cast<IrcNoticeMessage*>(message));
         break;
@@ -278,9 +282,7 @@ void MessageHandler::handleNumericMessage(IrcNumericMessage* message)
             const QString channel = message->parameters().value(count - 2);
             const QStringList names = message->parameters().value(count - 1).split(" ", QString::SkipEmptyParts);
             foreach (QString name, names)
-            {
-                if (name.startsWith("@") || name.startsWith("+"))
-                    name.remove(0, 1);
+			{
                 d.addChannelUser(channel, name);
             }
             sendMessage(message, channel);
@@ -382,7 +384,8 @@ QStringList MessageHandler::Private::userChannels(const QString& user) const
 
 void MessageHandler::Private::addChannelUser(QString channel, const QString& user)
 {
-    channel = channel.toLower();
+	channel = channel.toLower();
+	qDebug() << "Channel:" << channel << "User:" << user.toLower();
     if (!channelUsers.value(channel).contains(user.toLower()))
     {
         channelUsers[channel].insert(user.toLower());
