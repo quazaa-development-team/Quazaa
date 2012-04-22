@@ -385,7 +385,6 @@ QStringList MessageHandler::Private::userChannels(const QString& user) const
 void MessageHandler::Private::addChannelUser(QString channel, const QString& user)
 {
 	channel = channel.toLower();
-	qDebug() << "Channel:" << channel << "User:" << user.toLower();
     if (!channelUsers.value(channel).contains(user.toLower()))
     {
         channelUsers[channel].insert(user.toLower());

@@ -372,7 +372,7 @@ QList<ChatUserItem*> ChatUserListModel::caseInsensitiveSecondarySort(QList<ChatU
 	}
 }
 
-void ChatUserListModel::updateUserMode(QString hostMask, QString mode, QString name)
+void ChatUserListModel::updateUserMode(QString mode, QString name)
 {
 	int existingUser = rootItem->find(name);
 

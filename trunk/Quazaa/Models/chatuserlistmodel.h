@@ -101,7 +101,7 @@ public slots:
 	void addUser(QString name, QString modes);
 	void addUsers(QStringList users);
 	void removeUser(QString name);
-	void updateUserMode(QString hostmask, QString mode, QString name);
+	void updateUserMode(QString mode, QString name);
 	UserMode::UserMode highestMode(int index);
 	void changeNick(QString oldNick, QString newNick);
 
