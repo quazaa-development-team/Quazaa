@@ -37,6 +37,7 @@ ChatUserListModel::ChatUserListModel()
 	rootItem = new ChatUserItem("Users", "");
 	nOperatorCount = 0;
 	nUserCount = 0;
+	iImmune = QIcon(":/Resource/Chat/Immune.png");
 	iOwner = QIcon(":/Resource/Chat/Owner.png");
 	iAdmin = QIcon(":/Resource/Chat/Admin.png");
 	iOperator = QIcon(":/Resource/Chat/Op.png");
@@ -85,6 +86,8 @@ QVariant ChatUserListModel::data(const QModelIndex& index, int role) const
 	{
 		switch(item->userMode)
 		{
+			case UserMode::Immune:
+				return iImmune;
 			case UserMode::Owner:
 				return iOwner;
 			case UserMode::Administrator:
@@ -248,6 +251,7 @@ void ChatUserListModel::addUsers(QStringList users)
 
 void ChatUserListModel::sort(Qt::SortOrder order)
 {
+	QList<ChatUserItem*> immuneList;
 	QList<ChatUserItem*> ownerList;
 	QList<ChatUserItem*> administratorList;
 	QList<ChatUserItem*> operatorList;
@@ -264,6 +268,10 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 		{
 			switch(rootItem->childItems.at(i)->userMode)
 			{
+				case UserMode::Immune:
+					immuneList.append(rootItem->childItems.at(i));
+					nOperatorCount++;
+					break;
 				case UserMode::Owner:
 					ownerList.append(rootItem->childItems.at(i));
 					nOperatorCount++;
@@ -290,6 +298,7 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 		}
 
 		rootItem->childItems.clear();
+		rootItem->childItems.append(caseInsensitiveSecondarySort(immuneList, order));
 		rootItem->childItems.append(caseInsensitiveSecondarySort(ownerList, order));
 		rootItem->childItems.append(caseInsensitiveSecondarySort(administratorList, order));
 		rootItem->childItems.append(caseInsensitiveSecondarySort(operatorList, order));
@@ -303,6 +312,10 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 		{
 			switch(rootItem->childItems.at(i)->userMode)
 			{
+				case UserMode::Immune:
+					immuneList.append(rootItem->childItems.at(i));
+					nOperatorCount++;
+					break;
 				case UserMode::Owner:
 					ownerList.append(rootItem->childItems.at(i));
 					nOperatorCount++;
@@ -335,6 +348,7 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 		rootItem->childItems.append(caseInsensitiveSecondarySort(operatorList, order));
 		rootItem->childItems.append(caseInsensitiveSecondarySort(administratorList, order));
 		rootItem->childItems.append(caseInsensitiveSecondarySort(ownerList, order));
+		rootItem->childItems.append(caseInsensitiveSecondarySort(immuneList, order));
 	}
 	nUserCount = rootItem->childCount();
 	emit layoutChanged();
@@ -379,9 +393,14 @@ void ChatUserListModel::updateUserMode(QString mode, QString name)
 	if(existingUser != -1)
 	{
 		QString sAction = mode.at(0);
-		QString sMode = mode.at(1);
+		QString sMode = mode.mid(1);
 		if(sAction == "+")
 		{
+			if(sMode.contains('Y'))
+			{
+				rootItem->childItems.at(existingUser)->sModes += "Y";
+				rootItem->childItems.at(existingUser)->userMode = UserMode::Immune;
+			}
 			if(sMode.contains('q'))
 			{
 				rootItem->childItems.at(existingUser)->sModes += "q";
@@ -410,6 +429,11 @@ void ChatUserListModel::updateUserMode(QString mode, QString name)
 		}
 		else
 		{
+			if(sMode.contains('Y'))
+			{
+				rootItem->childItems.at(existingUser)->sModes.remove("Y");
+				rootItem->childItems.at(existingUser)->userMode = highestMode(existingUser);
+			}
 			if(sMode.contains('q'))
 			{
 				rootItem->childItems.at(existingUser)->sModes.remove("q");
@@ -442,7 +466,11 @@ void ChatUserListModel::updateUserMode(QString mode, QString name)
 
 UserMode::UserMode ChatUserListModel::highestMode(int index)
 {
-	if(rootItem->childItems.at(index)->sModes.contains('q'))
+	if(rootItem->childItems.at(index)->sModes.contains('Y'))
+	{
+		return UserMode::Immune;
+	}
+	else if(rootItem->childItems.at(index)->sModes.contains('q'))
 	{
 		return UserMode::Owner;
 	}
@@ -484,7 +512,12 @@ ChatUserItem::ChatUserItem(QString nick, QString modes, ChatUserItem* parent)
 	parentItem = parent;
 	sModes = modes;
 
-	if(modes.contains('q'))
+	if(modes.contains('Y'))
+	{
+		sNick = nick;
+		userMode = UserMode::Immune;
+	}
+	else if(modes.contains('q'))
 	{
 		sNick = nick;
 		userMode = UserMode::Owner;

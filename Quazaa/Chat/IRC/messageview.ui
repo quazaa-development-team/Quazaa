@@ -31,9 +31,6 @@
      <property name="text">
       <string/>
      </property>
-     <property name="pixmap">
-      <pixmap resource="../../Resource.qrc">:/Resource/Smileys/confused.gif</pixmap>
-     </property>
      <property name="wordWrap">
       <bool>true</bool>
      </property>
@@ -113,8 +110,6 @@ p, li { white-space: pre-wrap; }
    <header>lineeditor.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

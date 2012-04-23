@@ -295,9 +295,6 @@ void IrcSessionPrivate::processLine(const QByteArray& line)
 									prefixes.append(prefixString.at(index));
 							}
 						}
-
-						qDebug() << host << "Modes:" << modes.join("");
-						qDebug() << host << "Prefixes:" << prefixes.join("");
 					}
                 }
                 break;
