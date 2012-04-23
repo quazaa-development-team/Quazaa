@@ -121,7 +121,6 @@ void MessageHandler::handleMessage(IrcMessage* message)
 	case IrcMessage::Nick:
 	{
 		IrcNickMessage *nickMessage = static_cast<IrcNickMessage*>(message);
-		qDebug() << "Nick message:" << nickMessage->toString();
         handleNickMessage(static_cast<IrcNickMessage*>(message));
 		break;
 	}

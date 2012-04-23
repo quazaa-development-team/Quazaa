@@ -82,6 +82,7 @@ public:
 	int nUserCount;
 	void sort(Qt::SortOrder order = Qt::AscendingOrder);
 	bool bNeedsSorting;
+	QIcon iImmune;
 	QIcon iOwner;
 	QIcon iAdmin;
 	QIcon iOperator;

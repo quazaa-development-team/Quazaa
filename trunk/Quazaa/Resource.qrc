@@ -787,5 +787,6 @@
         <file>Resource/Smileys/confused.gif</file>
         <file>Resource/Smileys/winkfrown.gif</file>
         <file>Resource/Smileys/sleepy.gif</file>
+        <file>Resource/Chat/Immune.png</file>
     </qresource>
 </RCC>

@@ -91,7 +91,7 @@ MessageView* SessionTabWidget::openView(const QString& receiver)
 		{
 			setTabIcon(index, QIcon(":/Resource/Network/Network.png"));
 		} else if(view->isChannelView()) {
-			setTabIcon(index, QIcon(":/Resource/Chat/Rooms.png"));
+			setTabIcon(index, QIcon(":/Resource/Chat/Friends.png"));
 			connect(view, SIGNAL(appendRawMessage(QString)), d.serverView, SLOT(appendMessage(QString)));
 			connect(view, SIGNAL(appendRawMessage(QString)), this, SLOT(switchToServerTab()));
 		} else {
