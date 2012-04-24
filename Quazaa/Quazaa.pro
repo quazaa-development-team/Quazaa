@@ -311,7 +311,8 @@ SOURCES += \
 	Discovery/discovery.cpp \
 	UI/completerlineedit.cpp \
 	UI/wizardircconnection.cpp \
-	Models/discoverytablemodel.h
+	Models/discoverytablemodel.h \
+    Metalink/magnetlink.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -470,7 +471,8 @@ HEADERS += \
 	Discovery/discovery.h \
 	UI/completerlineedit.h \
 	UI/wizardircconnection.h \
-	Models/discoverytablemodel.h
+	Models/discoverytablemodel.h \
+    Metalink/magnetlink.h
 
 FORMS += \
 	UI/dialogabout.ui \
