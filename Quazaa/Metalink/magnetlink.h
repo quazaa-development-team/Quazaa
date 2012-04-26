@@ -21,7 +21,7 @@ private:
 		QList<QUrl> m_lURLs;		// Includes http, https, ftp, ftps, etc.
 		QList<QUrl> m_lTrackers;	// BitTorrent Trachers for this file
 
-		File(quint16 ID);
+		File();
 		bool isValid();				// Returns true if file struct contains enough data to initialize a download.
 	};
 
@@ -41,6 +41,9 @@ public:
 	  * Returns true if magnet points to at least 1 file that is valid - e.g. which we can download.
 	  */
 	inline bool isValid();
+
+private:
+	void subsectionError(QString sParam, QString sSubsection);
 };
 
 bool CMagnetLink::isValid()
