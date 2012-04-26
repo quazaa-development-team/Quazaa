@@ -21,10 +21,7 @@ CMagnetLink::File::~File()
 
 bool CMagnetLink::File::isValid()
 {
-
-	// todo: implement
-
-	return true;
+	return m_lHashes.size() || m_lURLs.size();
 }
 
 CMagnetLink::CMagnetLink()
@@ -220,6 +217,51 @@ bool CMagnetLink::parseMagnet(QString sMagnet)
 	}
 
 	return m_lFiles.size() + m_lSearches.size();
+}
+
+bool CMagnetLink::file(const quint16 nID, CDownload* pDownload)
+{
+	if ( nID >= m_lFiles.size() )
+	{
+		return false;
+	}
+
+	if ( !pDownload )
+	{
+		pDownload = new CDownload();
+	}
+
+	QList<File>::const_iterator i = m_lFiles.begin();
+	File file;
+
+	while ( i != m_lFiles.end() )
+	{
+		if ( (*i).m_nID == nID )
+		{
+			file = *i;
+			break;
+		}
+	}
+
+	// TODO: implement rest of this once Downloads have been finished.
+
+	return true;
+}
+
+CManagedSearch* CMagnetLink::search(const quint16 nID)
+{
+	if ( nID >= m_lSearches.size() )
+	{
+		return false;
+	}
+
+	QList<QString>::const_iterator i = m_lSearches.begin();
+	i += nID;
+	QString search = *i;
+
+	// TODO: implement rest of this once I got time to check searches.
+
+	return NULL;
 }
 
 void CMagnetLink::subsectionError(QString sParam, QString sSubsection)
