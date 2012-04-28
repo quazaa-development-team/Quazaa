@@ -55,6 +55,8 @@ private:
 
 signals:
 	void msgTabChanged(SessionTabWidget*);
+	void disconnected();
+	void showFriends();
 
 public slots:
 	void saveWidget();
