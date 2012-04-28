@@ -154,12 +154,14 @@ void WidgetIRCMain::connectTo(const ConnectionInfo& connection)
 		connectToImpl(connection);
 		ui->actionConnect->setEnabled(false);
 		ui->actionDisconnect->setEnabled(true);
+		emit showFriends();
 	}
 	else if (wizard->exec())
 	{
 		connectToImpl(wizard->connection());
 		ui->actionConnect->setEnabled(false);
 		ui->actionDisconnect->setEnabled(true);
+		emit showFriends();
 	}
 }
 
@@ -200,6 +202,7 @@ void WidgetIRCMain::initialize()
 	} else {
 		ui->actionConnect->setEnabled(false);
 		ui->actionDisconnect->setEnabled(true);
+		emit showFriends();
 	}
 }
 
@@ -226,6 +229,8 @@ void WidgetIRCMain::disconnect()
 
 	ui->actionConnect->setEnabled(true);
 	ui->actionDisconnect->setEnabled(false);
+
+	emit disconnected();
 }
 
 void WidgetIRCMain::tabActivated(int index)

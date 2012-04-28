@@ -41,8 +41,13 @@ WidgetIRCSidebars::WidgetIRCSidebars(QWidget* parent) :
 	ui(new Ui::WidgetIRCSidebars)
 {
 	ui->setupUi(this);
+	ui->frameChatLeftSidebar->hide();
+	ui->frameChatRightSidebar->hide();
 	panelIRCMain = new WidgetIRCMain();
+	connect(panelIRCMain, SIGNAL(showFriends()), ui->frameChatLeftSidebar, SLOT(show()));
 	connect(panelIRCMain, SIGNAL(msgTabChanged(SessionTabWidget*)), this, SLOT(onMsgTabChanged(SessionTabWidget*)));
+	connect(panelIRCMain, SIGNAL(disconnected()), ui->frameChatLeftSidebar, SLOT(hide()));
+	connect(panelIRCMain, SIGNAL(disconnected()), ui->frameChatRightSidebar, SLOT(hide()));
 	ui->splitterChat->restoreState(quazaaSettings.WinMain.ChatSplitter);
 	ui->verticalLayoutChatMiddle->addWidget(panelIRCMain);
 	setSkin();
