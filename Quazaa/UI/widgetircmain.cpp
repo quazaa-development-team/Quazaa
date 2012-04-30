@@ -49,9 +49,9 @@
 #include "debug_new.h"
 #endif
 
-WidgetIRCMain::WidgetIRCMain(QWidget* parent) :
+WidgetIrcMain::WidgetIrcMain(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetIRCMain)
+	ui(new Ui::WidgetIrcMain)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.ChatToolbars);
@@ -69,12 +69,12 @@ WidgetIRCMain::WidgetIRCMain(QWidget* parent) :
 	setSkin();
 }
 
-WidgetIRCMain::~WidgetIRCMain()
+WidgetIrcMain::~WidgetIrcMain()
 {
 	delete ui;
 }
 
-void WidgetIRCMain::changeEvent(QEvent* e)
+void WidgetIrcMain::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -99,7 +99,7 @@ void WidgetIRCMain::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetIRCMain::saveWidget()
+void WidgetIrcMain::saveWidget()
 {
 	quazaaSettings.saveSettings();
 	quazaaSettings.WinMain.ChatToolbars = saveState();
@@ -122,19 +122,19 @@ void WidgetIRCMain::saveWidget()
 	}
 }
 
-void WidgetIRCMain::on_actionChatSettings_triggered()
+void WidgetIrcMain::on_actionChatSettings_triggered()
 {
 	SettingsWizard wizard(qApp->activeWindow());
 	wizard.exec();
 }
 
-void WidgetIRCMain::on_actionEditMyProfile_triggered()
+void WidgetIrcMain::on_actionEditMyProfile_triggered()
 {
 	DialogProfile* dlgProfile = new DialogProfile(this);
 	dlgProfile->show();
 }
 
-void WidgetIRCMain::connectTo(const QString& host, quint16 port, const QString& nick, const QString& password)
+void WidgetIrcMain::connectTo(const QString& host, quint16 port, const QString& nick, const QString& password)
 {
 	ConnectionInfo conn;
 	conn.host = host;
@@ -144,7 +144,7 @@ void WidgetIRCMain::connectTo(const QString& host, quint16 port, const QString& 
 	connectTo(conn);
 }
 
-void WidgetIRCMain::connectTo(const ConnectionInfo& connection)
+void WidgetIrcMain::connectTo(const ConnectionInfo& connection)
 {
 	WizardIrcConnection* wizard = new WizardIrcConnection(this);
 	wizard->setConnection(connection);
@@ -165,7 +165,7 @@ void WidgetIRCMain::connectTo(const ConnectionInfo& connection)
 	}
 }
 
-void WidgetIRCMain::connectToImpl(const ConnectionInfo &connection)
+void WidgetIrcMain::connectToImpl(const ConnectionInfo &connection)
 {
 	if (!tabWidgetMain)
 		createTabbedView();
@@ -188,7 +188,7 @@ void WidgetIRCMain::connectToImpl(const ConnectionInfo &connection)
 	tabWidgetMain->setTabInactive(index, !session->isActive());
 }
 
-void WidgetIRCMain::initialize()
+void WidgetIrcMain::initialize()
 {
 	quazaaSettings.loadChatConnections();
 	ConnectionInfos connections = quazaaSettings.Chat.Connections.value<ConnectionInfos>();
@@ -206,7 +206,7 @@ void WidgetIRCMain::initialize()
 	}
 }
 
-void WidgetIRCMain::disconnect()
+void WidgetIrcMain::disconnect()
 {
 	ConnectionInfos connections;
 	while (1 < tabWidgetMain->count())
@@ -233,7 +233,7 @@ void WidgetIRCMain::disconnect()
 	emit disconnected();
 }
 
-void WidgetIRCMain::tabActivated(int index)
+void WidgetIrcMain::tabActivated(int index)
 {
 	if (index == -1)
 	{
@@ -251,7 +251,7 @@ void WidgetIRCMain::tabActivated(int index)
 	}
 }
 
-void WidgetIRCMain::createWelcomeView()
+void WidgetIrcMain::createWelcomeView()
 {
 	WelcomePage* welcomePage = new WelcomePage(this);
 	connect(welcomePage, SIGNAL(connectRequested()), this, SLOT(connectTo()));
@@ -260,7 +260,7 @@ void WidgetIRCMain::createWelcomeView()
 	tabWidgetMain = 0;
 }
 
-void WidgetIRCMain::createTabbedView()
+void WidgetIrcMain::createTabbedView()
 {
 	tabWidgetMain = new MainTabWidget(this);
 	setCentralWidget(tabWidgetMain);
@@ -268,7 +268,7 @@ void WidgetIRCMain::createTabbedView()
 	connect(tabWidgetMain, SIGNAL(currentChanged(int)), this, SLOT(tabActivated(int)));
 }
 
-void WidgetIRCMain::onNewTabRequested()
+void WidgetIrcMain::onNewTabRequested()
 {
 	if (tabWidgetMain->count() == 1)
 		createWelcomeView();
@@ -276,12 +276,12 @@ void WidgetIRCMain::onNewTabRequested()
 		connectTo();
 }
 
-void WidgetIRCMain::setSkin()
+void WidgetIrcMain::setSkin()
 {
 
 }
 
-void WidgetIRCMain::msgTabChanged(int)
+void WidgetIrcMain::msgTabChanged(int)
 {
 	SessionTabWidget* tab = qobject_cast<SessionTabWidget*>(sender());
 
@@ -289,7 +289,7 @@ void WidgetIRCMain::msgTabChanged(int)
 		emit msgTabChanged(tab);
 }
 
-SessionTabWidget* WidgetIRCMain::currentSession()
+SessionTabWidget* WidgetIrcMain::currentSession()
 {
 	return qobject_cast<SessionTabWidget*>(tabWidgetMain->currentWidget());
 }

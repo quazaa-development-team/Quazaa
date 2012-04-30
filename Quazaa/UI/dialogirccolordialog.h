@@ -28,55 +28,42 @@
 #include <QDialog>
 
 namespace Ui {
-    class DialogIRCColorDialog;
+    class DialogIrcColorDialog;
 }
 
-class DialogIRCColorDialog : public QDialog
+class DialogIrcColorDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-	explicit DialogIRCColorDialog(QColor initialColor, QWidget *parent = 0);
-	~DialogIRCColorDialog();
-	QColor m_oIRCColor;
+	explicit DialogIrcColorDialog(QColor initialColor, QWidget *parent = 0);
+	~DialogIrcColorDialog();
+	QColor color();
+	bool isDefaultColor();
+
 
 private slots:
-	void on_toolButtonWhite_clicked();
-
-	void on_toolButtonBlack_clicked();
-
-	void on_toolButtonNavy_clicked();
-
-	void on_toolButtonGreen_clicked();
-
+	void on_toolButtonCancel_clicked();
+	void on_toolButtonDefault_clicked();
+	void on_toolButtonDarkBlue_clicked();
+	void on_toolButtonDarkGreen_clicked();
+	void on_toolButtonRed_clicked();
+	void on_toolButtonDarkRed_clicked();
+	void on_toolButtonDarkViolet_clicked();
+	void on_toolButtonOrange_clicked();
+	void on_toolButtonYellow_clicked();
+	void on_toolButtonLightGreen_clicked();
+	void on_toolButtonCornFlowerBlue_clicked();
+	void on_toolButtonLightBlue_clicked();
+	void on_toolButtonBlue_clicked();
+	void on_toolButtonViolet_clicked();
+	void on_toolButtonDarkGray_clicked();
 	void on_toolButtonGray_clicked();
 
-	void on_toolButtonLightGray_clicked();
-
-	void on_toolButtonBlue_clicked();
-
-	void on_toolButtonDarkCyan_clicked();
-
-	void on_toolButtonCyan_clicked();
-
-	void on_toolButtonPurple_clicked();
-
-	void on_toolButtonMagenta_clicked();
-
-	void on_toolButtonLime_clicked();
-
-	void on_toolButtonRed_clicked();
-
-	void on_toolButtonYellow_clicked();
-
-	void on_toolButtonBrown_clicked();
-
-	void on_toolButtonCancel_clicked();
-
-	void on_toolButtonOlive_clicked();
-
 private:
-    Ui::DialogIRCColorDialog *ui;
+    Ui::DialogIrcColorDialog *ui;
+	QColor m_oIrcColor;
+	bool m_bDefault;
 };
 
 #endif // DIALOGIRCCOLORDIALOG_H

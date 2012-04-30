@@ -103,7 +103,7 @@ ColorsWizardPage::ColorsWizardPage(QWidget* parent) : QWizardPage(parent)
 QHash<int, QString> ColorsWizardPage::colors() const
 {
     QHash<int, QString> colors;
-	for (int i = IRCColorType::Background; i <= IRCColorType::Highlight; ++i)
+	for (int i = IrcColorType::Background; i <= IrcColorType::Highlight; ++i)
         colors[i] = ui.treeWidget->topLevelItem(i)->data(Color, Qt::DisplayRole).toString();
     return colors;
 }

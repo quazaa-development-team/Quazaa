@@ -66,26 +66,7 @@ p, li { white-space: pre-wrap; }
     <widget class="SearchEditor" name="searchEditor"/>
    </item>
    <item>
-    <widget class="QLabel" name="helpLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayoutChatInput"/>
    </item>
    <item>
     <widget class="LineEditor" name="lineEditor"/>

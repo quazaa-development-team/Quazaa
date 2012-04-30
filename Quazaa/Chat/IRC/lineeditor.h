@@ -23,8 +23,7 @@ class LineEditor : public HistoryLineEdit
     Q_OBJECT
 
 public:
-    LineEditor(QWidget* parent = 0);
-
+	LineEditor(QWidget* parent = 0);
     Completer* completer() const;
 
 signals:

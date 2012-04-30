@@ -32,7 +32,10 @@
 WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 {
 	Q_UNUSED(parent);
+	m_oCompleter = new Completer(this);
+	m_oCompleter->setWidget(this);
 	emitReturn = true;
+	connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 	setSkin();
 }
 
@@ -59,6 +62,16 @@ void WidgetReturnEmitTextEdit::setEmitsReturn(bool shouldEmit)
 bool WidgetReturnEmitTextEdit::emitsReturn()
 {
 	return emitReturn;
+}
+
+Completer* WidgetReturnEmitTextEdit::completer() const
+{
+	return m_oCompleter;
+}
+
+void WidgetReturnEmitTextEdit::onTextChanged()
+{
+	emit textChanged(toPlainText());
 }
 
 void WidgetReturnEmitTextEdit::setSkin()

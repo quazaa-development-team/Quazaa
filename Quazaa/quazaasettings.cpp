@@ -940,29 +940,29 @@ void QuazaaSettings::saveChat()
 	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
 
-	m_qSettings.setValue("MessagesJoins", quazaaSettings.Chat.Messages[IRCMessageType::Joins]);
-	m_qSettings.setValue("MessagesParts", quazaaSettings.Chat.Messages[IRCMessageType::Parts]);
-	m_qSettings.setValue("MessagesNicks", quazaaSettings.Chat.Messages[IRCMessageType::Nicks]);
-	m_qSettings.setValue("MessagesModes", quazaaSettings.Chat.Messages[IRCMessageType::Modes]);
-	m_qSettings.setValue("MessagesKicks", quazaaSettings.Chat.Messages[IRCMessageType::Kicks]);
-	m_qSettings.setValue("MessagesQuits", quazaaSettings.Chat.Messages[IRCMessageType::Quits]);
-	m_qSettings.setValue("MessagesTopics", quazaaSettings.Chat.Messages[IRCMessageType::Topics]);
+	m_qSettings.setValue("MessagesJoins", quazaaSettings.Chat.Messages[IrcMessageType::Joins]);
+	m_qSettings.setValue("MessagesParts", quazaaSettings.Chat.Messages[IrcMessageType::Parts]);
+	m_qSettings.setValue("MessagesNicks", quazaaSettings.Chat.Messages[IrcMessageType::Nicks]);
+	m_qSettings.setValue("MessagesModes", quazaaSettings.Chat.Messages[IrcMessageType::Modes]);
+	m_qSettings.setValue("MessagesKicks", quazaaSettings.Chat.Messages[IrcMessageType::Kicks]);
+	m_qSettings.setValue("MessagesQuits", quazaaSettings.Chat.Messages[IrcMessageType::Quits]);
+	m_qSettings.setValue("MessagesTopics", quazaaSettings.Chat.Messages[IrcMessageType::Topics]);
 
-	m_qSettings.setValue("HighlightsJoins", quazaaSettings.Chat.Highlights[IRCMessageType::Joins]);
-	m_qSettings.setValue("HighlightsParts", quazaaSettings.Chat.Highlights[IRCMessageType::Parts]);
-	m_qSettings.setValue("HighlightsNicks", quazaaSettings.Chat.Highlights[IRCMessageType::Nicks]);
-	m_qSettings.setValue("HighlightsModes", quazaaSettings.Chat.Highlights[IRCMessageType::Modes]);
-	m_qSettings.setValue("HighlightsKicks", quazaaSettings.Chat.Highlights[IRCMessageType::Kicks]);
-	m_qSettings.setValue("HighlightsQuits", quazaaSettings.Chat.Highlights[IRCMessageType::Quits]);
-	m_qSettings.setValue("HighlightsTopics", quazaaSettings.Chat.Highlights[IRCMessageType::Topics]);
+	m_qSettings.setValue("HighlightsJoins", quazaaSettings.Chat.Highlights[IrcMessageType::Joins]);
+	m_qSettings.setValue("HighlightsParts", quazaaSettings.Chat.Highlights[IrcMessageType::Parts]);
+	m_qSettings.setValue("HighlightsNicks", quazaaSettings.Chat.Highlights[IrcMessageType::Nicks]);
+	m_qSettings.setValue("HighlightsModes", quazaaSettings.Chat.Highlights[IrcMessageType::Modes]);
+	m_qSettings.setValue("HighlightsKicks", quazaaSettings.Chat.Highlights[IrcMessageType::Kicks]);
+	m_qSettings.setValue("HighlightsQuits", quazaaSettings.Chat.Highlights[IrcMessageType::Quits]);
+	m_qSettings.setValue("HighlightsTopics", quazaaSettings.Chat.Highlights[IrcMessageType::Topics]);
 
 	// TODO: the default values should respect palette
-	m_qSettings.setValue("ColorsBackground", quazaaSettings.Chat.Colors[IRCColorType::Background]);
-	m_qSettings.setValue("ColorsMessage", quazaaSettings.Chat.Colors[IRCColorType::Message]);
-	m_qSettings.setValue("ColorsEvent", quazaaSettings.Chat.Colors[IRCColorType::Event]);
-	m_qSettings.setValue("ColorsNotice", quazaaSettings.Chat.Colors[IRCColorType::Notice]);
-	m_qSettings.setValue("ColorsAction", quazaaSettings.Chat.Colors[IRCColorType::Action]);
-	m_qSettings.setValue("ColorsHighlight", quazaaSettings.Chat.Colors[IRCColorType::Highlight]);
+	m_qSettings.setValue("ColorsBackground", quazaaSettings.Chat.Colors[IrcColorType::Background]);
+	m_qSettings.setValue("ColorsMessage", quazaaSettings.Chat.Colors[IrcColorType::Message]);
+	m_qSettings.setValue("ColorsEvent", quazaaSettings.Chat.Colors[IrcColorType::Event]);
+	m_qSettings.setValue("ColorsNotice", quazaaSettings.Chat.Colors[IrcColorType::Notice]);
+	m_qSettings.setValue("ColorsAction", quazaaSettings.Chat.Colors[IrcColorType::Action]);
+	m_qSettings.setValue("ColorsHighlight", quazaaSettings.Chat.Colors[IrcColorType::Highlight]);
 	m_qSettings.endGroup();
 
 	emit chatSettingsChanged();
@@ -977,29 +977,29 @@ void QuazaaSettings::loadChat()
 	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
 
-	quazaaSettings.Chat.Messages[IRCMessageType::Joins] =  m_qSettings.value("MessagesJoins", true).toBool();
-	quazaaSettings.Chat.Messages[IRCMessageType::Parts] = m_qSettings.value("MessagesParts", true).toBool();
-	quazaaSettings.Chat.Messages[IRCMessageType::Nicks] = m_qSettings.value("MessagesNicks", true).toBool();
-	quazaaSettings.Chat.Messages[IRCMessageType::Modes] = m_qSettings.value("MessagesModes", true).toBool();
-	quazaaSettings.Chat.Messages[IRCMessageType::Kicks] = m_qSettings.value("MessagesKicks", true).toBool();
-	quazaaSettings.Chat.Messages[IRCMessageType::Quits] = m_qSettings.value("MessagesQuits", true).toBool();
-	quazaaSettings.Chat.Messages[IRCMessageType::Topics] = m_qSettings.value("MessagesTopics", true).toBool();
+	quazaaSettings.Chat.Messages[IrcMessageType::Joins] =  m_qSettings.value("MessagesJoins", true).toBool();
+	quazaaSettings.Chat.Messages[IrcMessageType::Parts] = m_qSettings.value("MessagesParts", true).toBool();
+	quazaaSettings.Chat.Messages[IrcMessageType::Nicks] = m_qSettings.value("MessagesNicks", true).toBool();
+	quazaaSettings.Chat.Messages[IrcMessageType::Modes] = m_qSettings.value("MessagesModes", true).toBool();
+	quazaaSettings.Chat.Messages[IrcMessageType::Kicks] = m_qSettings.value("MessagesKicks", true).toBool();
+	quazaaSettings.Chat.Messages[IrcMessageType::Quits] = m_qSettings.value("MessagesQuits", true).toBool();
+	quazaaSettings.Chat.Messages[IrcMessageType::Topics] = m_qSettings.value("MessagesTopics", true).toBool();
 
-	quazaaSettings.Chat.Highlights[IRCMessageType::Joins] = m_qSettings.value("HighlightsJoins", false).toBool();
-	quazaaSettings.Chat.Highlights[IRCMessageType::Parts] = m_qSettings.value("HighlightsParts", false).toBool();
-	quazaaSettings.Chat.Highlights[IRCMessageType::Nicks] = m_qSettings.value("HighlightsNicks", false).toBool();
-	quazaaSettings.Chat.Highlights[IRCMessageType::Modes] = m_qSettings.value("HighlightsModes", false).toBool();
-	quazaaSettings.Chat.Highlights[IRCMessageType::Kicks] = m_qSettings.value("HighlightsKicks", false).toBool();
-	quazaaSettings.Chat.Highlights[IRCMessageType::Quits] = m_qSettings.value("HighlightsQuits", false).toBool();
-	quazaaSettings.Chat.Highlights[IRCMessageType::Topics] = m_qSettings.value("HighlightsTopics", false).toBool();
+	quazaaSettings.Chat.Highlights[IrcMessageType::Joins] = m_qSettings.value("HighlightsJoins", false).toBool();
+	quazaaSettings.Chat.Highlights[IrcMessageType::Parts] = m_qSettings.value("HighlightsParts", false).toBool();
+	quazaaSettings.Chat.Highlights[IrcMessageType::Nicks] = m_qSettings.value("HighlightsNicks", false).toBool();
+	quazaaSettings.Chat.Highlights[IrcMessageType::Modes] = m_qSettings.value("HighlightsModes", false).toBool();
+	quazaaSettings.Chat.Highlights[IrcMessageType::Kicks] = m_qSettings.value("HighlightsKicks", false).toBool();
+	quazaaSettings.Chat.Highlights[IrcMessageType::Quits] = m_qSettings.value("HighlightsQuits", false).toBool();
+	quazaaSettings.Chat.Highlights[IrcMessageType::Topics] = m_qSettings.value("HighlightsTopics", false).toBool();
 
 	// TODO: the default values should respect palette
-	quazaaSettings.Chat.Colors[IRCColorType::Background] = m_qSettings.value("ColorsBackground", "white").toString();
-	quazaaSettings.Chat.Colors[IRCColorType::Message] = m_qSettings.value("ColorsMessage", "black").toString();
-	quazaaSettings.Chat.Colors[IRCColorType::Event] = m_qSettings.value("ColorsEvent", "gray").toString();
-	quazaaSettings.Chat.Colors[IRCColorType::Notice] = m_qSettings.value("ColorsNotice", "brown").toString();
-	quazaaSettings.Chat.Colors[IRCColorType::Action] = m_qSettings.value("ColorsAction", "darkmagenta").toString();
-	quazaaSettings.Chat.Colors[IRCColorType::Highlight] = m_qSettings.value("ColorsHighlight", "red").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Background] = m_qSettings.value("ColorsBackground", "white").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Message] = m_qSettings.value("ColorsMessage", "black").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "gray").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Notice] = m_qSettings.value("ColorsNotice", "brown").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Action] = m_qSettings.value("ColorsAction", "darkmagenta").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Highlight] = m_qSettings.value("ColorsHighlight", "red").toString();
 	m_qSettings.endGroup();
 }
 

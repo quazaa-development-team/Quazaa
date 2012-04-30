@@ -301,6 +301,6 @@ void SessionTabWidget::switchToServerTab()
 
 void SessionTabWidget::applySettings()
 {
-	setAlertColor(QColor(quazaaSettings.Chat.Colors.value(IRCColorType::Highlight)));
-	setHighlightColor(QColor(quazaaSettings.Chat.Colors.value(IRCColorType::Highlight)));
+	setAlertColor(QColor(quazaaSettings.Chat.Colors.value(IrcColorType::Highlight)));
+	setHighlightColor(QColor(quazaaSettings.Chat.Colors.value(IrcColorType::Highlight)));
 }

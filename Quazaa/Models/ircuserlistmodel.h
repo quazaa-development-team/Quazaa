@@ -35,41 +35,41 @@ namespace UserMode
 	enum UserMode {	Normal, Voice, HalfOperator, Operator, Administrator, Owner, Immune };
 };
 
-class ChatUserItem : public QObject
+class IrcUserItem : public QObject
 {
 	Q_OBJECT
 public:
-	ChatUserItem(QString nick, QString modes, ChatUserItem* parent = 0);
-	~ChatUserItem();
+	IrcUserItem(QString nick, QString modes, IrcUserItem* parent = 0);
+	~IrcUserItem();
 
 	UserMode::UserMode userMode;
 	QString sNick;
 	QString sDisplayNick;
 	QString sModes;
 
-	void appendChild(ChatUserItem* child);
+	void appendChild(IrcUserItem* child);
 	void clearChildren();
 
-	ChatUserItem* child(int row);
+	IrcUserItem* child(int row);
 	int childCount() const;
 	int find(QString nick);
 	int duplicateCheck(QString displayNick);
 	QVariant data(int column) const;
 	int row() const;
-	QList<ChatUserItem*> childItems;
-	ChatUserItem* parent();
+	QList<IrcUserItem*> childItems;
+	IrcUserItem* parent();
 
 private:
 	QList<QVariant> itemData;
-	ChatUserItem* parentItem;
+	IrcUserItem* parentItem;
 };
 
-class ChatUserListModel : public QAbstractListModel
+class IrcUserListModel : public QAbstractListModel
 {
 	Q_OBJECT
 public:
-	ChatUserListModel();
-	~ChatUserListModel();
+	IrcUserListModel();
+	~IrcUserListModel();
 
 	QVariant data(const QModelIndex& index, int role) const;
 	Qt::ItemFlags flags(const QModelIndex& index) const;
@@ -91,10 +91,10 @@ public:
 	QIcon iNormal;
 
 signals:
-	void updateUserCount(ChatUserListModel* chatUserListModel, int operators, int users);
+	void updateUserCount(IrcUserListModel* chatUserListModel, int operators, int users);
 
 private:
-	ChatUserItem* rootItem;
+	IrcUserItem* rootItem;
 
 public slots:
 	void clear();
@@ -107,7 +107,7 @@ public slots:
 	void changeNick(QString oldNick, QString newNick);
 
 private slots:
-	QList<ChatUserItem*> caseInsensitiveSecondarySort(QList<ChatUserItem*> list, Qt::SortOrder order);
+	QList<IrcUserItem*> caseInsensitiveSecondarySort(QList<IrcUserItem*> list, Qt::SortOrder order);
 };
 
 #endif // CHATUSERLISTMODEL_H

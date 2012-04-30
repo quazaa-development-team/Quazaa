@@ -29,117 +29,121 @@
 #include "debug_new.h"
 #endif
 
-DialogIRCColorDialog::DialogIRCColorDialog(QColor initialColor, QWidget *parent) :
+DialogIrcColorDialog::DialogIrcColorDialog(QColor initialColor, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogIRCColorDialog)
+	ui(new Ui::DialogIrcColorDialog)
 {
     ui->setupUi(this);
-	m_oIRCColor = initialColor;
+	m_oIrcColor = initialColor;
+	m_bDefault = false;
 }
 
-DialogIRCColorDialog::~DialogIRCColorDialog()
+DialogIrcColorDialog::~DialogIrcColorDialog()
 {
     delete ui;
 }
 
-void DialogIRCColorDialog::on_toolButtonWhite_clicked()
-{
-	m_oIRCColor.setNamedColor("white");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonBlack_clicked()
-{
-	m_oIRCColor.setNamedColor("black");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonNavy_clicked()
-{
-	m_oIRCColor.setNamedColor("navy");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonGreen_clicked()
-{
-	m_oIRCColor.setNamedColor("green");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonGray_clicked()
-{
-	m_oIRCColor.setNamedColor("gray");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonLightGray_clicked()
-{
-	m_oIRCColor.setNamedColor("lightGray");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonBlue_clicked()
-{
-	m_oIRCColor.setNamedColor("blue");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonDarkCyan_clicked()
-{
-	m_oIRCColor.setNamedColor("darkCyan");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonCyan_clicked()
-{
-	m_oIRCColor.setNamedColor("cyan");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonPurple_clicked()
-{
-	m_oIRCColor.setNamedColor("purple");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonMagenta_clicked()
-{
-	m_oIRCColor.setNamedColor("magenta");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonLime_clicked()
-{
-	m_oIRCColor.setNamedColor("lime");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonRed_clicked()
-{
-	m_oIRCColor.setNamedColor("red");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonYellow_clicked()
-{
-	m_oIRCColor.setNamedColor("yellow");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonBrown_clicked()
-{
-	m_oIRCColor.setNamedColor("brown");
-	accept();
-}
-
-void DialogIRCColorDialog::on_toolButtonCancel_clicked()
+void DialogIrcColorDialog::on_toolButtonCancel_clicked()
 {
 	reject();
 }
 
-void DialogIRCColorDialog::on_toolButtonOlive_clicked()
+bool DialogIrcColorDialog::isDefaultColor()
 {
-	m_oIRCColor.setNamedColor("olive");
+	return m_bDefault;
+}
+
+QColor DialogIrcColorDialog::color()
+{
+	return m_oIrcColor;
+}
+
+void DialogIrcColorDialog::on_toolButtonDefault_clicked()
+{
+	m_bDefault = true;
 	accept();
 }
 
+void DialogIrcColorDialog::on_toolButtonDarkBlue_clicked()
+{
+	m_oIrcColor.setNamedColor("darkblue");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonDarkGreen_clicked()
+{
+	m_oIrcColor.setNamedColor("darkgreen");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonRed_clicked()
+{
+	m_oIrcColor.setNamedColor("red");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonDarkRed_clicked()
+{
+	m_oIrcColor.setNamedColor("darkred");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonDarkViolet_clicked()
+{
+	m_oIrcColor.setNamedColor("darkviolet");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonOrange_clicked()
+{
+	m_oIrcColor.setNamedColor("orange");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonYellow_clicked()
+{
+	m_oIrcColor.setNamedColor("yellow");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonLightGreen_clicked()
+{
+	m_oIrcColor.setNamedColor("lightgreen");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonCornFlowerBlue_clicked()
+{
+	m_oIrcColor.setNamedColor("cornflowerblue");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonLightBlue_clicked()
+{
+	m_oIrcColor.setNamedColor("lightblue");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonBlue_clicked()
+{
+	m_oIrcColor.setNamedColor("blue");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonViolet_clicked()
+{
+	m_oIrcColor.setNamedColor("violet");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonDarkGray_clicked()
+{
+	m_oIrcColor.setNamedColor("gray");
+	accept();
+}
+
+void DialogIrcColorDialog::on_toolButtonGray_clicked()
+{
+	m_oIrcColor.setNamedColor("darkgray");
+	accept();
+}

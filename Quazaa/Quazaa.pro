@@ -177,8 +177,6 @@ SOURCES += \
 	main.cpp \
 	Metalink/metalinkhandler.cpp \
 	Metalink/metalink4handler.cpp \
-	Models/chatroomslistmodel.cpp \
-	Models/chatuserlistmodel.cpp \
 	Models/neighbourstablemodel.cpp \
 	Models/searchtreemodel.cpp \
 	Models/securitytablemodel.cpp \
@@ -312,7 +310,8 @@ SOURCES += \
 	UI/completerlineedit.cpp \
 	UI/wizardircconnection.cpp \
 	Models/discoverytablemodel.h \
-    Metalink/magnetlink.cpp
+    Metalink/magnetlink.cpp \
+    Models/ircuserlistmodel.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -325,8 +324,6 @@ HEADERS += \
 	geoiplist.h \
 	Metalink/metalinkhandler.h \
 	Metalink/metalink4handler.h \
-	Models/chatroomslistmodel.h \
-	Models/chatuserlistmodel.h \
 	Models/neighbourstablemodel.h \
 	Models/searchtreemodel.h \
 	Models/securitytablemodel.h \
@@ -472,7 +469,8 @@ HEADERS += \
 	UI/completerlineedit.h \
 	UI/wizardircconnection.h \
 	Models/discoverytablemodel.h \
-    Metalink/magnetlink.h
+    Metalink/magnetlink.h \
+    Models/ircuserlistmodel.h
 
 FORMS += \
 	UI/dialogabout.ui \

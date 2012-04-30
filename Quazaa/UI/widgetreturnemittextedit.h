@@ -28,24 +28,30 @@
 #include <QTextEdit>
 #include <QKeyEvent>
 
+#include "completer.h"
+
 class WidgetReturnEmitTextEdit : public QTextEdit
 {
 Q_OBJECT
 public:
 	explicit WidgetReturnEmitTextEdit(QWidget *parent = 0);
+	Completer* completer() const;
 
 private:
 	bool emitReturn;
+	Completer* m_oCompleter;
 
 protected:
 	void keyPressEvent(QKeyEvent* event);
 
 signals:
 	void returnPressed();
+	void textChanged(const QString &text);
 
 public slots:
 	void setEmitsReturn(bool shouldEmit);
 	bool emitsReturn();
+	void onTextChanged();
 	void setSkin();
 };
 

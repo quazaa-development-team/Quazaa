@@ -33,6 +33,24 @@ class QTextFragment;
 #include <QStack>
 #include <QColor>
 
+namespace IrcControlCodes
+{
+	/**
+	* \enum Control
+	* \brief Contains mIRC control codes
+	*/
+	enum Control {
+		Bold			= 0x02,   /**< Bold */
+		Color			= 0x03,   /**< Color */
+		Italic			= 0x09,   /**< Italic */
+		StrikeThrough	= 0x13, /**< Strike-Through */
+		Reset			= 0x0f,   /**< Reset */
+		Underline		= 0x15,   /**< Underline */
+		Underline2		= 0x1f,    /**< Underline */
+		Reverse			= 0x16   /**< Reverse */
+	};
+}
+
 class CChatConverter
 {
 
@@ -56,7 +74,7 @@ public:
 
 	QString toHtml();
 	QString toBBCode();
-	QString toIRC();
+	QString toIrc();
 private:
 	void processBlock(QTextBlock* pBlock);
 	void processFragment(QTextFragment* pFrag);

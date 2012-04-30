@@ -36,21 +36,21 @@ struct ConnectionInfo;
 
 namespace Ui
 {
-	class WidgetIRCMain;
+	class WidgetIrcMain;
 }
 
-class WidgetIRCMain : public QMainWindow
+class WidgetIrcMain : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetIRCMain(QWidget* parent = 0);
-	~WidgetIRCMain();
+	WidgetIrcMain(QWidget* parent = 0);
+	~WidgetIrcMain();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetIRCMain* ui;
+	Ui::WidgetIrcMain* ui;
 	MainTabWidget* tabWidgetMain;
 
 signals:

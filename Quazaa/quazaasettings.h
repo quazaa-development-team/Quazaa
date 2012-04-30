@@ -31,7 +31,7 @@
 #include <QTranslator>
 #include <QVariant>
 
-namespace IRCMessageType {
+namespace IrcMessageType {
 	enum MessageType
 	{
 		Joins,
@@ -44,7 +44,7 @@ namespace IRCMessageType {
 	};
 }
 
-namespace IRCColorType {
+namespace IrcColorType {
 	enum ColorType
 	{
 		Background,
@@ -299,9 +299,9 @@ namespace Settings
 
 	struct sChat
 	{
-		QVariant	Connections;							// IRC server connections
+		QVariant	Connections;							// Irc server connections
 		bool		ConnectOnStartup;						// Connect to the chat server and enter rooms on startup
-		bool		EnableFileTransfers;					// Enable IRC File Transfers
+		bool		EnableFileTransfers;					// Enable Irc File Transfers
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
 		QStringList Hosts;									// The list of hosts in the connect dialog
 		QStringList NickNames;								// The list of nick names in the connect dialog

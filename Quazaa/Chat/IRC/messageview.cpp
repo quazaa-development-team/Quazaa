@@ -29,6 +29,7 @@
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 #include "commonfunctions.h"
+#include "chatconverter.h"
 
 QStringListModel* MessageView::MessageViewData::commandModel = 0;
 
@@ -43,14 +44,17 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
 	closeButton->setIcon(QIcon(":/Resource/Generic/Exit.png"));
 	connect(closeButton, SIGNAL(clicked()), this, SLOT(part()));
 
-    setFocusProxy(d.lineEditor);
+	d.chatInput = new WidgetChatInput(0, true);
+	d.horizontalLayoutChatInput->addWidget(d.chatInput, 1);
+
+	setFocusProxy(d.chatInput->textEdit());
     d.textBrowser->installEventFilter(this);
     d.textBrowser->viewport()->installEventFilter(this);
 	connect(d.textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(followLink(QUrl)));
 
-	QFont font("Monospace");
-	font.setStyleHint(QFont::TypeWriter);
-	d.textBrowser->setFont(font);
+	QTextCharFormat format;
+	format.setFontStyleHint(QFont::TypeWriter);
+	d.textBrowser->setCurrentCharFormat(format);
 
 	d.labelTopic->setTextFormat(Qt::RichText);
 	d.labelTopic->setVisible(false);
@@ -65,7 +69,7 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
 	d.formatter.setHighlightFormat("class='highlight'");
 
 	d.session = session;
-	d.userModel = new ChatUserListModel();
+	d.userModel = new IrcUserListModel();
 	connect(&d.parser, SIGNAL(customCommand(QString,QStringList)), this, SLOT(onCustomCommand(QString,QStringList)));
 
     if (!d.commandModel)
@@ -99,13 +103,14 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
         d.commandModel->setStringList(prefixedCommands);
     }
 
-    d.lineEditor->completer()->setDefaultModel(d.userModel);
-    d.lineEditor->completer()->setSlashModel(d.commandModel);
+	d.chatInput->textEdit()->completer()->setDefaultModel(d.userModel);
+	d.chatInput->textEdit()->completer()->setSlashModel(d.commandModel);
 
-    connect(d.lineEditor, SIGNAL(send(QString)), this, SLOT(onSend(QString)));
-    connect(d.lineEditor, SIGNAL(typed(QString)), this, SLOT(showHelp(QString)));
+	connect(d.chatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onSend(QTextDocument*)));
+	connect(d.chatInput, SIGNAL(messageSent(QString)), this, SLOT(onSend(QString)));
+	connect(d.chatInput->textEdit(), SIGNAL(textChanged(QString)), this, SLOT(showHelp(QString)));
 
-    d.helpLabel->hide();
+	d.chatInput->helpLabel()->hide();
 	d.searchEditor->setTextEdit(d.textBrowser);
 
     QShortcut* shortcut = new QShortcut(Qt::Key_Escape, this);
@@ -183,12 +188,12 @@ void MessageView::showHelp(const QString& text, bool error)
             syntax = tr("Unknown command '%1'").arg(command.toUpper());
     }
 
-    d.helpLabel->setVisible(!syntax.isEmpty());
+	d.chatInput->helpLabel()->setVisible(!syntax.isEmpty());
     QPalette pal;
     if (error)
         pal.setColor(QPalette::WindowText, Qt::red);
-    d.helpLabel->setPalette(pal);
-    d.helpLabel->setText(syntax);
+	d.chatInput->helpLabel()->setPalette(pal);
+	d.chatInput->helpLabel()->setText(syntax);
 }
 
 void MessageView::appendMessage(const QString& message)
@@ -237,7 +242,7 @@ bool MessageView::eventFilter(QObject* receiver, QEvent* event)
 
 void MessageView::onEscPressed()
 {
-    d.helpLabel->hide();
+	d.chatInput->helpLabel()->hide();
 	d.searchEditor->hide();
     setFocus(Qt::OtherFocusReason);
 }
@@ -282,6 +287,12 @@ void MessageView::onSend(const QString& text)
 	}
 }
 
+void MessageView::onSend(QTextDocument *message)
+{
+	CChatConverter *converter = new CChatConverter(message);
+	onSend(converter->toIrc());
+}
+
 void MessageView::part()
 {
 	if(!isChannelView())
@@ -302,7 +313,7 @@ void MessageView::applySettings()
 	d.formatter.setTimeStamp(quazaaSettings.Chat.TimeStamp);
 	d.textBrowser->document()->setMaximumBlockCount(quazaaSettings.Chat.MaxBlockCount);
 
-	QString backgroundColor = quazaaSettings.Chat.Colors.value(IRCColorType::Background);
+	QString backgroundColor = quazaaSettings.Chat.Colors.value(IrcColorType::Background);
     d.textBrowser->setStyleSheet(QString("QTextBrowser { background-color: %1 }").arg(backgroundColor));
 
     d.textBrowser->document()->setDefaultStyleSheet(
@@ -312,11 +323,11 @@ void MessageView::applySettings()
             ".notice    { color: %3 }"
             ".action    { color: %4 }"
             ".event     { color: %5 }"
-		).arg(quazaaSettings.Chat.Colors.value((IRCColorType::Highlight)))
-		 .arg(quazaaSettings.Chat.Colors.value((IRCColorType::Message)))
-		 .arg(quazaaSettings.Chat.Colors.value((IRCColorType::Notice)))
-		 .arg(quazaaSettings.Chat.Colors.value((IRCColorType::Action)))
-		 .arg(quazaaSettings.Chat.Colors.value((IRCColorType::Event))));
+		).arg(quazaaSettings.Chat.Colors.value((IrcColorType::Highlight)))
+		 .arg(quazaaSettings.Chat.Colors.value((IrcColorType::Message)))
+		 .arg(quazaaSettings.Chat.Colors.value((IrcColorType::Notice)))
+		 .arg(quazaaSettings.Chat.Colors.value((IrcColorType::Action)))
+		 .arg(quazaaSettings.Chat.Colors.value((IrcColorType::Event))));
 }
 
 void MessageView::receiveMessage(IrcMessage* message)
@@ -328,44 +339,44 @@ void MessageView::receiveMessage(IrcMessage* message)
     switch (message->type())
     {
     case IrcMessage::Join:
-		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Joins);
-		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Joins);
+		append = quazaaSettings.Chat.Messages.value(IrcMessageType::Joins);
+		hilite = quazaaSettings.Chat.Highlights.value(IrcMessageType::Joins);
         break;
     case IrcMessage::Kick:
-		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Kicks);
-		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Kicks);
+		append = quazaaSettings.Chat.Messages.value(IrcMessageType::Kicks);
+		hilite = quazaaSettings.Chat.Highlights.value(IrcMessageType::Kicks);
         break;
     case IrcMessage::Mode:
 	{
-		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Modes);
-		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Modes);
+		append = quazaaSettings.Chat.Messages.value(IrcMessageType::Modes);
+		hilite = quazaaSettings.Chat.Highlights.value(IrcMessageType::Modes);
 		IrcModeMessage* modeMessage = static_cast<IrcModeMessage*>(message);
 		d.userModel->updateUserMode(modeMessage->mode(), modeMessage->argument());
         break;
 	}
 	case IrcMessage::Nick:
-		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Nicks);
-		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Nicks);
+		append = quazaaSettings.Chat.Messages.value(IrcMessageType::Nicks);
+		hilite = quazaaSettings.Chat.Highlights.value(IrcMessageType::Nicks);
         break;
     case IrcMessage::Notice:
         matches = static_cast<IrcNoticeMessage*>(message)->message().contains(d.session->nickName());
         hilite = true;
         break;
     case IrcMessage::Part:
-		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Parts);
-		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Parts);
+		append = quazaaSettings.Chat.Messages.value(IrcMessageType::Parts);
+		hilite = quazaaSettings.Chat.Highlights.value(IrcMessageType::Parts);
         break;
     case IrcMessage::Private:
         matches = !isChannelView() || static_cast<IrcPrivateMessage*>(message)->message().contains(d.session->nickName());
         hilite = true;
         break;
     case IrcMessage::Quit:
-		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Quits);
-		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Quits);
+		append = quazaaSettings.Chat.Messages.value(IrcMessageType::Quits);
+		hilite = quazaaSettings.Chat.Highlights.value(IrcMessageType::Quits);
         break;
 	case IrcMessage::Topic:
-		append = quazaaSettings.Chat.Messages.value(IRCMessageType::Topics);
-		hilite = quazaaSettings.Chat.Highlights.value(IRCMessageType::Topics);
+		append = quazaaSettings.Chat.Messages.value(IrcMessageType::Topics);
+		hilite = quazaaSettings.Chat.Highlights.value(IrcMessageType::Topics);
 		d.labelTopic->setVisible(true);
 		d.labelTopic->setText(d.formatter.formatTopicOnly(static_cast<IrcTopicMessage*>(message)));
         break;

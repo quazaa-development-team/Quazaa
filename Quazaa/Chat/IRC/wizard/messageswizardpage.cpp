@@ -33,7 +33,7 @@ MessagesWizardPage::MessagesWizardPage(QWidget* parent) : QWizardPage(parent)
 QHash<int, bool> MessagesWizardPage::messages() const
 {
     QHash<int, bool> messages;
-	for (int i = IRCMessageType::Joins; i <= IRCMessageType::Topics; ++i)
+	for (int i = IrcMessageType::Joins; i <= IrcMessageType::Topics; ++i)
         messages[i] = ui.treeWidget->topLevelItem(i)->checkState(Message) == Qt::Checked;
     return messages;
 }
@@ -51,7 +51,7 @@ void MessagesWizardPage::setMessages(const QHash<int, bool>& messages)
 QHash<int, bool> MessagesWizardPage::highlights() const
 {
     QHash<int, bool> highlights;
-	for (int i = IRCMessageType::Joins; i <= IRCMessageType::Topics; ++i)
+	for (int i = IrcMessageType::Joins; i <= IrcMessageType::Topics; ++i)
          highlights[i] = ui.treeWidget->topLevelItem(i)->checkState(Highlight) == Qt::Checked;
     return highlights;
 }

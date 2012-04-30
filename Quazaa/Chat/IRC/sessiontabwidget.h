@@ -74,6 +74,7 @@ private:
         MessageHandler handler;
         QHash<QString, MessageView*> views;
 		MessageView* serverView;
+
     } d;
 };
 

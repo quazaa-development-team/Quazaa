@@ -85,7 +85,7 @@ public:
 	WidgetTransfers* pageTransfers;
 	WidgetSecurity* pageSecurity;
 	WidgetActivity* pageActivity;
-	WidgetIRCSidebars* pageIRCSidebars;
+	WidgetIrcSidebars* pageIrcSidebars;
 	WidgetHostCache* pageHostCache;
 	WidgetDiscovery* pageDiscovery;
 	WidgetScheduler* pageScheduler;

@@ -16,6 +16,7 @@
 #define COMPLETER_H
 
 #include <QCompleter>
+
 class HistoryLineEdit;
 
 class Completer : public QCompleter
@@ -26,7 +27,7 @@ public:
     Completer(QObject* parent = 0);
 
     HistoryLineEdit* lineEdit() const;
-    void setLineEdit(HistoryLineEdit* lineEdit);
+	void setLineEdit(HistoryLineEdit* lineEdit);
 
     QAbstractItemModel* defaultModel() const;
     void setDefaultModel(QAbstractItemModel* model);
@@ -44,7 +45,7 @@ private:
     {
         HistoryLineEdit* lineEdit;
         QAbstractItemModel* defaultModel;
-        QAbstractItemModel* slashModel;
+		QAbstractItemModel* slashModel;
     } d;
 };
 

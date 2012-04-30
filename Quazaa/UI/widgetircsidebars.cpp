@@ -36,30 +36,30 @@
 #include "debug_new.h"
 #endif
 
-WidgetIRCSidebars::WidgetIRCSidebars(QWidget* parent) :
+WidgetIrcSidebars::WidgetIrcSidebars(QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::WidgetIRCSidebars)
+	ui(new Ui::WidgetIrcSidebars)
 {
 	ui->setupUi(this);
 	ui->frameChatLeftSidebar->hide();
 	ui->frameChatRightSidebar->hide();
-	panelIRCMain = new WidgetIRCMain();
-	connect(panelIRCMain, SIGNAL(showFriends()), ui->frameChatLeftSidebar, SLOT(show()));
-	connect(panelIRCMain, SIGNAL(msgTabChanged(SessionTabWidget*)), this, SLOT(onMsgTabChanged(SessionTabWidget*)));
-	connect(panelIRCMain, SIGNAL(disconnected()), ui->frameChatLeftSidebar, SLOT(hide()));
-	connect(panelIRCMain, SIGNAL(disconnected()), ui->frameChatRightSidebar, SLOT(hide()));
+	panelIrcMain = new WidgetIrcMain();
+	connect(panelIrcMain, SIGNAL(showFriends()), ui->frameChatLeftSidebar, SLOT(show()));
+	connect(panelIrcMain, SIGNAL(msgTabChanged(SessionTabWidget*)), this, SLOT(onMsgTabChanged(SessionTabWidget*)));
+	connect(panelIrcMain, SIGNAL(disconnected()), ui->frameChatLeftSidebar, SLOT(hide()));
+	connect(panelIrcMain, SIGNAL(disconnected()), ui->frameChatRightSidebar, SLOT(hide()));
 	ui->splitterChat->restoreState(quazaaSettings.WinMain.ChatSplitter);
-	ui->verticalLayoutChatMiddle->addWidget(panelIRCMain);
+	ui->verticalLayoutChatMiddle->addWidget(panelIrcMain);
 	setSkin();
 }
 
-WidgetIRCSidebars::~WidgetIRCSidebars()
+WidgetIrcSidebars::~WidgetIrcSidebars()
 {
-	panelIRCMain->close();
+	panelIrcMain->close();
 	delete ui;
 }
 
-void WidgetIRCSidebars::changeEvent(QEvent* e)
+void WidgetIrcSidebars::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
 	switch(e->type())
@@ -72,13 +72,13 @@ void WidgetIRCSidebars::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetIRCSidebars::saveWidget()
+void WidgetIrcSidebars::saveWidget()
 {
 	quazaaSettings.WinMain.ChatSplitter = ui->splitterChat->saveState();
-	panelIRCMain->saveWidget();
+	panelIrcMain->saveWidget();
 }
 
-void WidgetIRCSidebars::on_splitterChat_customContextMenuRequested(QPoint pos)
+void WidgetIrcSidebars::on_splitterChat_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
@@ -127,7 +127,7 @@ void WidgetIRCSidebars::on_splitterChat_customContextMenuRequested(QPoint pos)
 	}
 }
 
-void WidgetIRCSidebars::on_toolButtonChatFriendsHeader_clicked()
+void WidgetIrcSidebars::on_toolButtonChatFriendsHeader_clicked()
 {
 	if(ui->splitterChat->sizes()[0] > 0)
 	{
@@ -149,7 +149,7 @@ void WidgetIRCSidebars::on_toolButtonChatFriendsHeader_clicked()
 	}
 }
 
-void WidgetIRCSidebars::on_toolButtonChatUsersHeader_clicked()
+void WidgetIrcSidebars::on_toolButtonChatUsersHeader_clicked()
 {
 	if(ui->splitterChat->sizes()[2] > 0)
 	{
@@ -171,7 +171,7 @@ void WidgetIRCSidebars::on_toolButtonChatUsersHeader_clicked()
 	}
 }
 
-void WidgetIRCSidebars::onMsgTabChanged(SessionTabWidget* widget)
+void WidgetIrcSidebars::onMsgTabChanged(SessionTabWidget* widget)
 {
 	MessageView* view = qobject_cast<MessageView*>(widget->currentWidget());
 
@@ -179,7 +179,7 @@ void WidgetIRCSidebars::onMsgTabChanged(SessionTabWidget* widget)
 	{
 		if( view->isChannelView() )
 		{
-			if( qobject_cast<MessageView*>(panelIRCMain->currentSession()->currentWidget()) == view)
+			if( qobject_cast<MessageView*>(panelIrcMain->currentSession()->currentWidget()) == view)
 			{
 				ui->frameChatRightSidebar->show();
 				ui->listViewChatUsers->setModel(view->userList());
@@ -192,7 +192,7 @@ void WidgetIRCSidebars::onMsgTabChanged(SessionTabWidget* widget)
 	}
 }
 
-void WidgetIRCSidebars::setSkin()
+void WidgetIrcSidebars::setSkin()
 {
 	ui->frameChatLeftSidebar->setStyleSheet(skinSettings.sidebarBackground);
 	ui->toolButtonChatFriendsHeader->setStyleSheet(skinSettings.taskHeader);
