@@ -69,7 +69,7 @@ QWidget* HomePage::createBody(QWidget* parent) const
     QWidget* body = new QWidget(parent);
 
     QCommandLinkButton* connectButton = new QCommandLinkButton(tr("Connect"), body);
-    connectButton->setDescription(tr("New IRC connection"));
+	connectButton->setDescription(tr("New Irc connection"));
     QCommandLinkButton* settingsButton = new QCommandLinkButton(tr("Settings"), body);
 	settingsButton->setDescription(tr("Configure %1").arg(QApplication::applicationName()));
 

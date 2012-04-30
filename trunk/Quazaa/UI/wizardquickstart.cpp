@@ -48,8 +48,8 @@ WizardQuickStart::WizardQuickStart(QWidget *parent) :
 	ui->checkBoxAllowBrowseShares->setChecked(quazaaSettings.Security.AllowSharesBrowse);
 	ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
 	ui->checkBoxAllowBrowseProfile->setChecked(quazaaSettings.Security.AllowProfileBrowse);
-	ui->lineEditIRCNick->setText(quazaaSettings.Profile.IrcNickname);
-	ui->lineEditIRCAlternateNick->setText(quazaaSettings.Profile.IrcAlternateNickname);
+	ui->lineEditIrcNick->setText(quazaaSettings.Profile.IrcNickname);
+	ui->lineEditIrcAlternateNick->setText(quazaaSettings.Profile.IrcAlternateNickname);
 	ui->lineEditGnutellaScreenName->setText(quazaaSettings.Profile.GnutellaScreenName);
 	ui->comboBoxGender->setCurrentIndex(quazaaSettings.Profile.Gender);
 	ui->spinBoxAge->setValue(quazaaSettings.Profile.Age);
@@ -101,8 +101,8 @@ void WizardQuickStart::accept()
 		quazaaSettings.Library.Shares.append(ui->listWidgetShares->currentItem()->text());
 	}
 	quazaaSettings.Security.AllowProfileBrowse = ui->checkBoxAllowBrowseProfile->isChecked();
-	quazaaSettings.Profile.IrcNickname = ui->lineEditIRCNick->text();
-	quazaaSettings.Profile.IrcAlternateNickname = ui->lineEditIRCAlternateNick->text();
+	quazaaSettings.Profile.IrcNickname = ui->lineEditIrcNick->text();
+	quazaaSettings.Profile.IrcAlternateNickname = ui->lineEditIrcAlternateNick->text();
 	quazaaSettings.Profile.GnutellaScreenName = ui->lineEditGnutellaScreenName->text();
 	quazaaSettings.Profile.Gender = ui->comboBoxGender->currentIndex();
 	quazaaSettings.Profile.Age = ui->spinBoxAge->value();

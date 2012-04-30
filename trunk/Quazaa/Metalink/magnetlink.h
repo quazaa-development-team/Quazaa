@@ -29,7 +29,7 @@ private:
 		QString			m_sFileName;
 		QList<CHash*>	m_lHashes;		// Includes all hashes provided via <hash> tag.
 		QList<MediaURL>	m_lURLs;		// Includes http, https, ftp, ftps, etc.
-		QList<QUrl>		m_lTrackers;	// BitTorrent Trachers for this file
+		QList<QUrl>		m_lTrackers;	// BitTorrent Trackers for this file
 
 		File();
 		~File();

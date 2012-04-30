@@ -16,7 +16,8 @@
 #define MESSAGEVIEW_H
 
 #include "ui_messageview.h"
-#include "chatuserlistmodel.h"
+#include "ircuserlistmodel.h"
+#include "widgetchatinput.h"
 #include <ircsession.h>
 #include <ircmessage.h>
 #include <irccommand.h>
@@ -80,6 +81,7 @@ private slots:
     void onCustomCommand(const QString& command, const QStringList& params);
 	void followLink(const QString& link);
 	void followLink(const QUrl& link);
+	void onSend(QTextDocument *message);
 
 private:static
 	QString prettyNames(const QStringList& names, int columns);
@@ -90,10 +92,11 @@ private:static
         IrcSession* session;
         CommandParser parser;
         MessageFormatter formatter;
-		ChatUserListModel* userModel;
+		IrcUserListModel* userModel;
 		static QStringListModel* commandModel;
 		bool m_bIsStatusChannel;
 		QSet<IrcCommand::Type> sentCommands;
+		WidgetChatInput* chatInput;
     } d;
 };
 

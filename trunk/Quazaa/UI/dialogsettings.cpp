@@ -86,11 +86,6 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	ui->spinBoxPrivateMessagesIdleMessage->setValue(quazaaSettings.PrivateMessages.AwayMessageIdleTime);
 	ui->plainTextEditPrivateMessagesIdleMessage->setPlainText(quazaaSettings.PrivateMessages.AwayMessage);
 
-	// Load Chat Settings
-	ui->checkBoxIrcConnectOnStart->setChecked(quazaaSettings.Chat.ConnectOnStartup);
-	ui->checkBoxIrcEnableFileTransfers->setChecked(quazaaSettings.Chat.EnableFileTransfers);
-	ui->checkBoxIrcShowTimestamp->setChecked(quazaaSettings.Chat.ShowTimestamp);
-
 	// Load Connection Settings
 	ui->doubleSpinBoxInSpeed->setValue((quazaaSettings.Connection.InSpeed / 1024) * 8);
 	ui->doubleSpinBoxOutSpeed->setValue((quazaaSettings.Connection.OutSpeed / 1024) * 8);
@@ -216,13 +211,7 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 
 	// Chat Settings
 	connect(ui->checkBoxPrivateMessagesGnutella, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect(ui->checkBoxIrcConnectOnStart, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect(ui->checkBoxIrcEnableFileTransfers, SIGNAL(clicked()), this, SLOT(enableApply()));
-	connect(ui->checkBoxIrcShowTimestamp, SIGNAL(clicked()), this, SLOT(enableApply()));
 	connect(ui->spinBoxPrivateMessagesIdleMessage, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect(ui->lineEditIrcServer, SIGNAL(textEdited(QString)), this, SLOT(enableApply()));
-	connect(ui->spinBoxIrcPort, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
-	connect(ui->checkBoxIrcSSL, SIGNAL(clicked()), this, SLOT(enableApply()));
 
 	// Connection Settings
 	connect(ui->doubleSpinBoxInSpeed, SIGNAL(valueChanged(double)), this, SLOT(enableApply()));
@@ -625,11 +614,6 @@ void DialogSettings::on_pushButtonApply_clicked()
 	quazaaSettings.PrivateMessages.AwayMessageIdleTime = ui->spinBoxPrivateMessagesIdleMessage->value();
 	quazaaSettings.PrivateMessages.eDonkeyEnable = ui->checkBoxPrivateMessagesEDonkey->isChecked();
 	quazaaSettings.PrivateMessages.Gnutella2Enable = ui->checkBoxPrivateMessagesGnutella->isChecked();
-
-	// Save Chat Settings
-	quazaaSettings.Chat.ConnectOnStartup = ui->checkBoxIrcConnectOnStart->isChecked();
-	quazaaSettings.Chat.EnableFileTransfers = ui->checkBoxIrcEnableFileTransfers->isChecked();
-	quazaaSettings.Chat.ShowTimestamp = ui->checkBoxIrcShowTimestamp->isChecked();
 
 	// Save Connection Settings
 	quazaaSettings.Connection.InSpeed = (ui->doubleSpinBoxInSpeed->value() / 8) * 1024;

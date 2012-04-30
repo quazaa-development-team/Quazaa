@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetIRCMain</class>
- <widget class="QMainWindow" name="WidgetIRCMain">
+ <class>WidgetIrcMain</class>
+ <widget class="QMainWindow" name="WidgetIrcMain">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,7 +14,7 @@
    <string>Chat Center</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayoutIRCMain">
+   <layout class="QVBoxLayout" name="verticalLayoutIrcMain">
     <property name="spacing">
      <number>0</number>
     </property>

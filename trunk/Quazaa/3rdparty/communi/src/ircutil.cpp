@@ -505,12 +505,12 @@ QString IrcUtil::colorCodeToName(int code, const QString& defaultColor)
 	case IrcControlCodes::Orange:  return QLatin1String("orange");
 	case IrcControlCodes::Yellow:  return QLatin1String("yellow");
 	case IrcControlCodes::LightGreen:  return QLatin1String("lightgreen");
-	case IrcControlCodes::BlueMarine: return QLatin1String("bluemarine");
+	case IrcControlCodes::CornflowerBlue: return QLatin1String("cornflowerblue");
 	case IrcControlCodes::LightBlue: return QLatin1String("lightblue");
 	case IrcControlCodes::Blue: return QLatin1String("blue");
-	case IrcControlCodes::LightViolet: return QLatin1String("lightviolet");
-	case IrcControlCodes::DarkGray: return QLatin1String("darkgray");
-	case IrcControlCodes::LightGray: return QLatin1String("lightgray");
+	case IrcControlCodes::Violet: return QLatin1String("violet");
+	case IrcControlCodes::DarkGray: return QLatin1String("gray");
+	case IrcControlCodes::LightGray: return QLatin1String("darkgray");
     default: return defaultColor;
     }
 }

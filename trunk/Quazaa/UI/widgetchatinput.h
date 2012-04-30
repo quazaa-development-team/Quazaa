@@ -28,6 +28,7 @@
 #include <QtGui>
 #include "widgetreturnemittextedit.h"
 #include "widgetsmileylist.h"
+#include "completer.h"
 
 #include "network.h"
 
@@ -38,11 +39,14 @@ namespace Ui {
 class WidgetChatInput : public QMainWindow {
 	Q_OBJECT
 public:
-	WidgetChatInput(QWidget *parent = 0, bool isIRC = false);
+	WidgetChatInput(QWidget *parent = 0, bool isIrc = false);
 	~WidgetChatInput();
+	WidgetReturnEmitTextEdit* textEdit();
+	QLabel* helpLabel();
 
 signals:
 	void messageSent(QTextDocument *text);
+	void messageSent(QString text);
 	void closing();
 
 protected:
@@ -56,7 +60,7 @@ private:
 	WidgetSmileyList *widgetSmileyList;
 	QToolButton *toolButtonPickColor;
 	QToolButton *toolButtonPrivateMessage;
-	bool bIsIRC;
+	bool bIsIrc;
 
 public slots:
 	void setText(QString text);

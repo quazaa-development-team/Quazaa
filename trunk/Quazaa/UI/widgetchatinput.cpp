@@ -31,21 +31,24 @@
 #include "chatsessiong2.h"
 
 #include <QColorDialog>
+#include <QPalette>
 
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
 
-WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIRC) :
+WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetChatInput)
 {
 	ui->setupUi(this);
-	bIsIRC = isIRC;
+	bIsIrc = isIrc;
 	textEditInput = new WidgetReturnEmitTextEdit(this);
-	QFont font("Monospace");
-	font.setStyleHint(QFont::TypeWriter);
-	textEditInput->setFont(font);
+
+	QTextCharFormat format;
+	format.setFontStyleHint(QFont::TypeWriter);
+	textEditInput->setCurrentCharFormat(format);
+
 	connect(textEditInput, SIGNAL(cursorPositionChanged()), this, SLOT(updateToolbar()));
 	ui->horizontalLayoutInput->addWidget(textEditInput);
 	checkBoxSendOnEnter = new QCheckBox(tr("Send On Enter"), this);
@@ -59,10 +62,16 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIRC) :
 	toolButtonSmilies->setIcon(QIcon(":/Resource/Smileys/0.png"));
 	widgetSmileyList = new WidgetSmileyList(this);
 	toolButtonSmilies->setMenu(widgetSmileyList);
+
 	toolButtonPickColor = new QToolButton(this);
-	toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(textEditInput->textColor().name()));
+	toolButtonPickColor->setIconSize(QSize(24,24));
+	if(bIsIrc)
+		toolButtonPickColor->setIcon(QIcon(":/Resource/Generic/Skin.png"));
+	else
+		toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(textEditInput->textColor().name()));
 	toolButtonPickColor->setToolTip(tr("Font Color"));
 	connect(toolButtonPickColor, SIGNAL(clicked()), this, SLOT(pickColor()));
+
 	toolButtonPrivateMessage = new QToolButton(this);
 	toolButtonPrivateMessage->setText(tr("New Private Message"));
 	toolButtonPrivateMessage->setToolTip(tr("New Private Message"));
@@ -111,10 +120,16 @@ void WidgetChatInput::on_toolButtonSend_clicked()
 			{
 				QTextDocument *line = new QTextDocument();
 				line->setHtml(lineList.at(i));
-				emit messageSent(line);
+				if(line->toPlainText().startsWith("/"))
+					emit messageSent(line->toPlainText());
+				else
+					emit messageSent(line);
 			}
 		} else {
-			emit messageSent(textEditInput->document());
+			if(textEditInput->document()->toPlainText().startsWith("/"))
+				emit messageSent(textEditInput->document()->toPlainText());
+			else
+				emit messageSent(textEditInput->document());
 		}
 		QTextCharFormat oldFormat = textEditInput->currentCharFormat();
 		textEditInput->document()->clear();
@@ -140,42 +155,53 @@ void WidgetChatInput::onTextFormatChange(QTextCharFormat newFormat)
 
 void WidgetChatInput::on_actionBold_toggled(bool checked)
 {
-	QTextCharFormat format = textEditInput->currentCharFormat();
-	format.setFontWeight((checked ? QFont::Bold : QFont::Normal));
-	textEditInput->setCurrentCharFormat(format);
+	textEditInput->setFontWeight((checked ? QFont::Bold : QFont::Normal));
 }
 
 void WidgetChatInput::on_actionItalic_toggled(bool checked)
 {
-	QTextCharFormat format = textEditInput->currentCharFormat();
-	format.setFontItalic(checked);
-	textEditInput->setCurrentCharFormat(format);
+	textEditInput->setFontItalic(checked);
 }
 
 void WidgetChatInput::on_actionUnderline_toggled(bool checked)
 {
-	QTextCharFormat format = textEditInput->currentCharFormat();
-	format.setFontUnderline(checked);
-	textEditInput->setCurrentCharFormat(format);
+	textEditInput->setFontUnderline(checked);
 }
 
 void WidgetChatInput::pickColor()
 {
 	QColor fontColor;
-	if (bIsIRC)
+	if (bIsIrc)
 	{
-		DialogIRCColorDialog *dlgIRCColor = new DialogIRCColorDialog(textEditInput->textColor(), this);
-		bool accepted = dlgIRCColor->exec();
+		DialogIrcColorDialog *dlgIrcColor = new DialogIrcColorDialog(textEditInput->textColor(), this);
+		bool accepted = dlgIrcColor->exec();
 		if (accepted)
-			fontColor = dlgIRCColor->m_oIRCColor;
+		{
+			if (!dlgIrcColor->isDefaultColor())
+			{
+				fontColor = dlgIrcColor->color();
+				textEditInput->setTextColor(fontColor);
+				toolButtonPickColor->setIcon(QIcon());
+				toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(fontColor.name()));
+			}
+			else
+			{
+				fontColor = qApp->palette().text().color();
+				textEditInput->setTextColor(fontColor);
+				toolButtonPickColor->setIcon(QIcon(":/Resource/Generic/Skin.png"));
+				toolButtonPickColor->setStyleSheet("");
+			}
+		}
 	}
 	else
+	{
 		fontColor = QColorDialog::getColor(textEditInput->textColor(), this, tr("Select Font Color"));
 
-	if (fontColor.isValid())
-	{
-		textEditInput->setTextColor(fontColor);
-		toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(fontColor.name()));
+		if (fontColor.isValid())
+		{
+			textEditInput->setTextColor(fontColor);
+			toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(fontColor.name()));
+		}
 	}
 }
 
@@ -208,10 +234,29 @@ void WidgetChatInput::addPrivateMessage()
 
 void WidgetChatInput::updateToolbar()
 {
-	toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(textEditInput->textColor().name()));
+	if(bIsIrc && (textEditInput->textColor() != qApp->palette().text().color()) )
+	{
+		toolButtonPickColor->setIcon(QIcon());
+		toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(textEditInput->textColor().name()));
+	} else if (bIsIrc) {
+		toolButtonPickColor->setIcon(QIcon(":/Resource/Generic/Skin.png"));
+		toolButtonPickColor->setStyleSheet("");
+	} else {
+		toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(textEditInput->textColor().name()));
+	}
 	ui->actionBold->setChecked(textEditInput->fontWeight() == QFont::Bold);
 	ui->actionItalic->setChecked(textEditInput->fontItalic());
 	ui->actionUnderline->setChecked(textEditInput->fontUnderline());
+}
+
+WidgetReturnEmitTextEdit *WidgetChatInput::textEdit()
+{
+	return textEditInput;
+}
+
+QLabel *WidgetChatInput::helpLabel()
+{
+	return ui->helpLabel;
 }
 
 void WidgetChatInput::setSkin()

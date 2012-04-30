@@ -30,16 +30,16 @@
 
 namespace Ui
 {
-	class WidgetIRCSidebars;
+	class WidgetIrcSidebars;
 }
 
-class WidgetIRCSidebars : public QWidget
+class WidgetIrcSidebars : public QWidget
 {
 	Q_OBJECT
 public:
-	WidgetIRCSidebars(QWidget* parent = 0);
-	~WidgetIRCSidebars();
-	WidgetIRCMain* panelIRCMain;
+	WidgetIrcSidebars(QWidget* parent = 0);
+	~WidgetIrcSidebars();
+	WidgetIrcMain* panelIrcMain;
 	void saveWidget();
 
 signals:
@@ -49,7 +49,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetIRCSidebars* ui;
+	Ui::WidgetIrcSidebars* ui;
 
 private slots:
 	void on_splitterChat_customContextMenuRequested(QPoint pos);

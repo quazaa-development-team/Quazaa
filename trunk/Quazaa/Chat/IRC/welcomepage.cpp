@@ -59,7 +59,7 @@ QWidget* WelcomePage::createBody(QWidget* parent)
     QWidget* body = new QWidget(parent);
 
 	connectButton = new QCommandLinkButton(tr("Connect"), body);
-	connectButton->setDescription(tr("Connect or create new IRC connection."));
+	connectButton->setDescription(tr("Connect or create new Irc connection."));
 
     QGridLayout* layout = new QGridLayout(body);
     layout->setColumnStretch(0, 1);

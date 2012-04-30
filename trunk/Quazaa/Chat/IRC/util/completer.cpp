@@ -66,13 +66,13 @@ void Completer::setSlashModel(QAbstractItemModel* model)
 
 void Completer::onTabPressed()
 {
-    if (!d.lineEdit)
+	if (!d.lineEdit)
         return;
 
     // store selection
-    int pos = d.lineEdit->cursorPosition();
-    int start = d.lineEdit->selectionStart();
-    QString selected = d.lineEdit->selectedText();
+	int pos = d.lineEdit->cursorPosition();
+	int start = d.lineEdit->selectionStart();
+	QString selected = d.lineEdit->selectedText();
 
     // select current word
     d.lineEdit->cursorWordForward(false);

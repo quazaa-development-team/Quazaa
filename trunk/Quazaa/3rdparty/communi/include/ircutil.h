@@ -26,24 +26,24 @@ namespace IrcControlCodes
 	* \brief Contains mIRC color codes
 	*/
 	enum Color {
-		White       =   0,   /**< White */
-		Black       =   1,   /**< Black */
-		DarkBlue    =   2,   /**< Dark blue */
-		DarkGreen   =   3,   /**< Dark green */
-		Red         =   4,   /**< Red */
-		DarkRed     =   5,   /**< Dark red */
-		DarkViolet  =   6,   /**< Dark violet */
-		Orange      =   7,   /**< Orange */
-		Yellow      =   8,   /**< Yellow */
-		LightGreen  =   9,   /**< Light green */
-		BlueMarine  =  10,   /**< Blue marine */
-		LightBlue   =  11,   /**< Light blue */
-		Blue        =  12,   /**< Blue */
-		LightViolet =  13,   /**< Light violet */
-		DarkGray    =  14,   /**< Dark gray */
-		LightGray   =  15,   /**< Light gray */
-		Transparent = 100,   /**< Transparent, non standard color code for IrcViews */
-		NoChange    = 101    /**< No change, non standard color code for IrcViews */
+		White			=   0,   /**< White */
+		Black			=   1,   /**< Black */
+		DarkBlue		=   2,   /**< Dark blue */
+		DarkGreen		=   3,   /**< Dark green */
+		Red				=   4,   /**< Red */
+		DarkRed			=   5,   /**< Dark red */
+		DarkViolet		=   6,   /**< Dark violet */
+		Orange			=   7,   /**< Orange */
+		Yellow			=   8,   /**< Yellow */
+		LightGreen		=   9,   /**< Light green */
+		CornflowerBlue  =  10,   /**< Cornflower blue */
+		LightBlue		=  11,   /**< Light blue */
+		Blue			=  12,   /**< Blue */
+		Violet			=  13,   /**< Violet */
+		DarkGray	    =  14,   /**< Dark gray */
+		LightGray		=  15,   /**< Light gray */
+		Transparent		= 100,   /**< Transparent, non standard color code for IrcViews */
+		NoChange		= 101    /**< No change, non standard color code for IrcViews */
 	};
 
 	/**
@@ -51,14 +51,14 @@ namespace IrcControlCodes
 	* \brief Contains mIRC control codes
 	*/
 	enum Control {
-		Bold        = 0x02,   /**< Bold */
-		Color       = 0x03,   /**< Color */
-		Italic		= 0x09,   /**< Italic */
-		StrikeThrough = 0x13, /**< Strike-Through */
-		Reset       = 0x0f,   /**< Reset */
-		Underline	= 0x15,   /**< Underline */
-		Underline2	= 0x1f,    /**< Underline */
-		Reverse     = 0x16   /**< Reverse */
+		Bold			= 0x02,   /**< Bold */
+		Color			= 0x03,   /**< Color */
+		Italic			= 0x09,   /**< Italic */
+		StrikeThrough	= 0x13, /**< Strike-Through */
+		Reset			= 0x0f,   /**< Reset */
+		Underline		= 0x15,   /**< Underline */
+		Underline2		= 0x1f,    /**< Underline */
+		Reverse			= 0x16   /**< Reverse */
 	};
 }
 

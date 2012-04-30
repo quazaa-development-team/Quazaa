@@ -22,7 +22,7 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "chatuserlistmodel.h"
+#include "ircuserlistmodel.h"
 
 #include "ircutil.h"
 
@@ -32,9 +32,9 @@
 #include "debug_new.h"
 #endif
 
-ChatUserListModel::ChatUserListModel()
+IrcUserListModel::IrcUserListModel()
 {
-	rootItem = new ChatUserItem("Users", "");
+	rootItem = new IrcUserItem("Users", "");
 	nOperatorCount = 0;
 	nUserCount = 0;
 	iImmune = QIcon(":/Resource/Chat/Immune.png");
@@ -46,15 +46,15 @@ ChatUserListModel::ChatUserListModel()
 	iNormal = QIcon(":/Resource/Chat/Normal.png");
 }
 
-ChatUserListModel::~ChatUserListModel()
+IrcUserListModel::~IrcUserListModel()
 {
 	clear();
 	delete rootItem;
 }
 
-bool ChatUserListModel::isRoot(QModelIndex index)
+bool IrcUserListModel::isRoot(QModelIndex index)
 {
-	ChatUserItem* item;
+	IrcUserItem* item;
 
 	if(!index.isValid())
 	{
@@ -62,7 +62,7 @@ bool ChatUserListModel::isRoot(QModelIndex index)
 	}
 	else
 	{
-		item = static_cast<ChatUserItem*>(index.internalPointer());
+		item = static_cast<IrcUserItem*>(index.internalPointer());
 	}
 
 	if(item == rootItem)
@@ -73,14 +73,14 @@ bool ChatUserListModel::isRoot(QModelIndex index)
 	return false;
 }
 
-QVariant ChatUserListModel::data(const QModelIndex& index, int role) const
+QVariant IrcUserListModel::data(const QModelIndex& index, int role) const
 {
 	if(!index.isValid())
 	{
 		return QVariant();
 	}
 
-	ChatUserItem* item = static_cast<ChatUserItem*>(index.internalPointer());
+	IrcUserItem* item = static_cast<IrcUserItem*>(index.internalPointer());
 
 	if(role == Qt::DecorationRole)
 	{
@@ -115,7 +115,7 @@ QVariant ChatUserListModel::data(const QModelIndex& index, int role) const
 	return QVariant();
 }
 
-Qt::ItemFlags ChatUserListModel::flags(const QModelIndex& index) const
+Qt::ItemFlags IrcUserListModel::flags(const QModelIndex& index) const
 {
 	if(!index.isValid())
 	{
@@ -125,7 +125,7 @@ Qt::ItemFlags ChatUserListModel::flags(const QModelIndex& index) const
 	return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
-QVariant ChatUserListModel::headerData(int section, Qt::Orientation orientation,
+QVariant IrcUserListModel::headerData(int section, Qt::Orientation orientation,
                                        int role) const
 {
 	if(orientation == Qt::Horizontal && role == Qt::DisplayRole)
@@ -136,7 +136,7 @@ QVariant ChatUserListModel::headerData(int section, Qt::Orientation orientation,
 	return QVariant();
 }
 
-QModelIndex ChatUserListModel::index(int row, int column, const QModelIndex& parent)
+QModelIndex IrcUserListModel::index(int row, int column, const QModelIndex& parent)
 const
 {
 	if(!hasIndex(row, column, parent))
@@ -144,7 +144,7 @@ const
 		return QModelIndex();
 	}
 
-	ChatUserItem* parentItem;
+	IrcUserItem* parentItem;
 
 	if(!parent.isValid())
 	{
@@ -152,10 +152,10 @@ const
 	}
 	else
 	{
-		parentItem = static_cast<ChatUserItem*>(parent.internalPointer());
+		parentItem = static_cast<IrcUserItem*>(parent.internalPointer());
 	}
 
-	ChatUserItem* childItem = parentItem->child(row);
+	IrcUserItem* childItem = parentItem->child(row);
 	if(childItem)
 	{
 		return createIndex(row, column, childItem);
@@ -166,9 +166,9 @@ const
 	}
 }
 
-int ChatUserListModel::rowCount(const QModelIndex& parent) const
+int IrcUserListModel::rowCount(const QModelIndex& parent) const
 {
-	ChatUserItem* parentItem;
+	IrcUserItem* parentItem;
 	if(parent.column() > 0)
 	{
 		return 0;
@@ -180,13 +180,13 @@ int ChatUserListModel::rowCount(const QModelIndex& parent) const
 	}
 	else
 	{
-		parentItem = static_cast<ChatUserItem*>(parent.internalPointer());
+		parentItem = static_cast<IrcUserItem*>(parent.internalPointer());
 	}
 
 	return parentItem->childCount();
 }
 
-void ChatUserListModel::clear()
+void IrcUserListModel::clear()
 {
 	beginRemoveRows(QModelIndex(), 0, rootItem->childCount());
 	rootItem->clearChildren();
@@ -197,11 +197,11 @@ void ChatUserListModel::clear()
 	emit dataChanged(idx1, idx2);
 }
 
-void ChatUserListModel::addUser(QString name, QString modes)
+void IrcUserListModel::addUser(QString name, QString modes)
 {
 	int existingUser = rootItem->find(name);
 
-	ChatUserItem* m_oChatUserItem = new ChatUserItem(name, modes, rootItem);
+	IrcUserItem* m_oChatUserItem = new IrcUserItem(name, modes, rootItem);
 
 	if(existingUser == -1)
 	{
@@ -228,7 +228,7 @@ void ChatUserListModel::addUser(QString name, QString modes)
 	}
 }
 
-void ChatUserListModel::removeUser(QString name)
+void IrcUserListModel::removeUser(QString name)
 {
 	int existingUser = rootItem->find(name);
 
@@ -244,20 +244,20 @@ void ChatUserListModel::removeUser(QString name)
 	}
 }
 
-void ChatUserListModel::addUsers(QStringList users)
+void IrcUserListModel::addUsers(QStringList users)
 {
 
 }
 
-void ChatUserListModel::sort(Qt::SortOrder order)
+void IrcUserListModel::sort(Qt::SortOrder order)
 {
-	QList<ChatUserItem*> immuneList;
-	QList<ChatUserItem*> ownerList;
-	QList<ChatUserItem*> administratorList;
-	QList<ChatUserItem*> operatorList;
-	QList<ChatUserItem*> halfOperatorList;
-	QList<ChatUserItem*> voiceList;
-	QList<ChatUserItem*> normalList;
+	QList<IrcUserItem*> immuneList;
+	QList<IrcUserItem*> ownerList;
+	QList<IrcUserItem*> administratorList;
+	QList<IrcUserItem*> operatorList;
+	QList<IrcUserItem*> halfOperatorList;
+	QList<IrcUserItem*> voiceList;
+	QList<IrcUserItem*> normalList;
 	nOperatorCount = 0;
 	nUserCount = 0;
 
@@ -355,11 +355,11 @@ void ChatUserListModel::sort(Qt::SortOrder order)
 	emit updateUserCount(this, nOperatorCount, nUserCount);
 }
 
-QList<ChatUserItem*> ChatUserListModel::caseInsensitiveSecondarySort(QList<ChatUserItem*> list, Qt::SortOrder order)
+QList<IrcUserItem*> IrcUserListModel::caseInsensitiveSecondarySort(QList<IrcUserItem*> list, Qt::SortOrder order)
 {
 	if(order == Qt::AscendingOrder)
 	{
-		QMap<QString, ChatUserItem*> map;
+		QMap<QString, IrcUserItem*> map;
 		for(int i = 0; i < list.size(); ++i)
 		{
 			map.insert(list.at(i)->sNick.toLower(), list.at(i));
@@ -370,14 +370,14 @@ QList<ChatUserItem*> ChatUserListModel::caseInsensitiveSecondarySort(QList<ChatU
 	}
 	else
 	{
-		QMap<QString, ChatUserItem*> map;
+		QMap<QString, IrcUserItem*> map;
 		for(int i = 0; i < list.size(); ++i)
 		{
 			map.insert(list.at(i)->sNick.toLower(), list.at(i));
 		}
 
 		list.clear();
-		QMapIterator<QString, ChatUserItem*> i(map);
+		QMapIterator<QString, IrcUserItem*> i(map);
 		for(int i = map.size(); i > 0; --i)
 		{
 			list.append(map.values().at(i));
@@ -386,7 +386,7 @@ QList<ChatUserItem*> ChatUserListModel::caseInsensitiveSecondarySort(QList<ChatU
 	}
 }
 
-void ChatUserListModel::updateUserMode(QString mode, QString name)
+void IrcUserListModel::updateUserMode(QString mode, QString name)
 {
 	int existingUser = rootItem->find(name);
 
@@ -464,7 +464,7 @@ void ChatUserListModel::updateUserMode(QString mode, QString name)
 	}
 }
 
-UserMode::UserMode ChatUserListModel::highestMode(int index)
+UserMode::UserMode IrcUserListModel::highestMode(int index)
 {
 	if(rootItem->childItems.at(index)->sModes.contains('Y'))
 	{
@@ -496,7 +496,7 @@ UserMode::UserMode ChatUserListModel::highestMode(int index)
 	}
 }
 
-void ChatUserListModel::changeNick(QString oldNick, QString newNick)
+void IrcUserListModel::changeNick(QString oldNick, QString newNick)
 {
 	int existingUser = rootItem->find(oldNick);
 
@@ -507,7 +507,7 @@ void ChatUserListModel::changeNick(QString oldNick, QString newNick)
 	}
 }
 
-ChatUserItem::ChatUserItem(QString nick, QString modes, ChatUserItem* parent)
+IrcUserItem::IrcUserItem(QString nick, QString modes, IrcUserItem* parent)
 {
 	parentItem = parent;
 	sModes = modes;
@@ -549,32 +549,32 @@ ChatUserItem::ChatUserItem(QString nick, QString modes, ChatUserItem* parent)
 	}
 }
 
-ChatUserItem::~ChatUserItem()
+IrcUserItem::~IrcUserItem()
 {
 	qDeleteAll(childItems);
 }
 
-void ChatUserItem::appendChild(ChatUserItem* item)
+void IrcUserItem::appendChild(IrcUserItem* item)
 {
 	childItems.append(item);
 }
 
-void ChatUserItem::clearChildren()
+void IrcUserItem::clearChildren()
 {
 	childItems.clear();
 }
 
-ChatUserItem* ChatUserItem::child(int row)
+IrcUserItem* IrcUserItem::child(int row)
 {
 	return childItems.value(row);
 }
 
-int ChatUserItem::childCount() const
+int IrcUserItem::childCount() const
 {
 	return childItems.count();
 }
 
-int ChatUserItem::find(QString nick)
+int IrcUserItem::find(QString nick)
 {
 	for(int index = 0; index < childItems.size(); ++index)
 	{
@@ -586,27 +586,27 @@ int ChatUserItem::find(QString nick)
 	return -1;
 }
 
-QVariant ChatUserItem::data(int column) const
+QVariant IrcUserItem::data(int column) const
 {
 	return itemData.value(column);
 }
 
-ChatUserItem* ChatUserItem::parent()
+IrcUserItem* IrcUserItem::parent()
 {
 	return parentItem;
 }
 
-int ChatUserItem::row() const
+int IrcUserItem::row() const
 {
 	if(parentItem)
 	{
-		return childItems.indexOf(const_cast<ChatUserItem*>(this));
+		return childItems.indexOf(const_cast<IrcUserItem*>(this));
 	}
 
 	return 0;
 }
 
-int ChatUserItem::duplicateCheck(QString displayNick)
+int IrcUserItem::duplicateCheck(QString displayNick)
 {
 	for(int index = 0; index < childItems.size(); ++index)
 	{

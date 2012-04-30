@@ -73,7 +73,7 @@ QString CChatConverter::toBBCode()
 
 	return m_pResult;
 }
-QString CChatConverter::toIRC()
+QString CChatConverter::toIrc()
 {
 	m_nOutputFormat = IRCCODE;
 	m_pResult.clear();
@@ -238,37 +238,31 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 	{
 		bLoop = false;
 
-		if( m_pStack.top() == "\x02" && fmt.fontWeight() <= QFont::Normal )
+		if( m_pStack.top() == QString(IrcControlCodes::Bold) && fmt.fontWeight() <= QFont::Normal )
 		{
-			m_pResult.append("\x02");
+			m_pResult.append(IrcControlCodes::Bold);
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "\x09" && !fmt.fontItalic() )
+		else if( m_pStack.top() == QString(IrcControlCodes::Italic) && !fmt.fontItalic() )
 		{
-			m_pResult.append("\x09");
+			m_pResult.append(IrcControlCodes::Italic);
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "\x15" && !fmt.fontUnderline() )
+		else if( m_pStack.top() == QString(IrcControlCodes::Underline) && !fmt.fontUnderline() )
 		{
-			m_pResult.append("\x15");
+			m_pResult.append(IrcControlCodes::Underline);
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "0" && (fmt.foreground().color() != QColor("white")) )
-		{
-			m_pResult.append("\017");
-			bLoop = true;
-			m_pStack.pop();
-		}
-		else if( m_pStack.top() == "2" && (fmt.foreground().color() != QColor("navy")) )
+		else if( m_pStack.top() == "2" && (fmt.foreground().color() != QColor("darkblue")) )
 		{
 			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "3" && (fmt.foreground().color() != QColor("green")) )
+		else if( m_pStack.top() == "3" && (fmt.foreground().color() != QColor("darkgreen")) )
 		{
 			m_pResult.append("\017");
 			bLoop = true;
@@ -280,19 +274,19 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "5" && (fmt.foreground().color() != QColor("brown")) )
+		else if( m_pStack.top() == "5" && (fmt.foreground().color() != QColor("darkred")) )
 		{
 			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "6" && (fmt.foreground().color() != QColor("purple")) )
+		else if( m_pStack.top() == "6" && (fmt.foreground().color() != QColor("darkviolet")) )
 		{
 			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "7" && (fmt.foreground().color() != QColor("olive")) )
+		else if( m_pStack.top() == "7" && (fmt.foreground().color() != QColor("orange")) )
 		{
 			m_pResult.append("\017");
 			bLoop = true;
@@ -304,19 +298,19 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "9" && (fmt.foreground().color() != QColor("lime")) )
+		else if( m_pStack.top() == "9" && (fmt.foreground().color() != QColor("lightgreen")) )
 		{
 			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "10" && (fmt.foreground().color() != QColor("darkcyan")) )
+		else if( m_pStack.top() == "10" && (fmt.foreground().color() != QColor("cornflowerblue")) )
 		{
 			m_pResult.append("\017");
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "11" && (fmt.foreground().color() != QColor("cyan")) )
+		else if( m_pStack.top() == "11" && (fmt.foreground().color() != QColor("lightblue")) )
 		{
 			m_pResult.append("\017");
 			bLoop = true;
@@ -328,7 +322,7 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "13" && (fmt.foreground().color() != QColor("magenta")) )
+		else if( m_pStack.top() == "13" && (fmt.foreground().color() != QColor("violet")) )
 		{
 			m_pResult.append("\017");
 			bLoop = true;
@@ -340,7 +334,7 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == "15" && (fmt.foreground().color() != QColor("lightgray")) )
+		else if( m_pStack.top() == "15" && (fmt.foreground().color() != QColor("darkgray")) )
 		{
 			m_pResult.append("\017");
 			bLoop = true;
@@ -349,39 +343,29 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 
 	}
 
-	if( fmt.fontWeight() > QFont::Normal && !m_pStack.contains("\x02") )
+	if( fmt.fontWeight() > QFont::Normal && !m_pStack.contains(QString(IrcControlCodes::Bold)) )
 	{
-		m_pResult.append("\x02");
-		m_pStack.push("\x02");
+		m_pResult.append(IrcControlCodes::Bold);
+		m_pStack.push(QString(IrcControlCodes::Bold));
 	}
 
-	if( fmt.fontItalic() && !m_pStack.contains("\x09"))
+	if( fmt.fontItalic() && !m_pStack.contains(QString(IrcControlCodes::Italic)))
 	{
-		m_pResult.append("\x09");
-		m_pStack.push("\x09");
+		m_pResult.append(IrcControlCodes::Italic);
+		m_pStack.push(QString(IrcControlCodes::Italic));
 	}
 
-	if( fmt.fontUnderline() && !m_pStack.contains("\x15"))
+	if( fmt.fontUnderline() && !m_pStack.contains(QString(IrcControlCodes::Underline)))
 	{
-		m_pResult.append("\x15");
-		m_pStack.push("\x15");
+		m_pResult.append(IrcControlCodes::Underline);
+		m_pStack.push(QString(IrcControlCodes::Underline));
 	}
-	else if( (fmt.foreground().color() == QColor("white")) && !m_pStack.contains("0"))
-	{
-		m_pResult.append("0");
-		m_pStack.push("0");
-	}
-	else if( (fmt.foreground().color() == QColor("black")) && !m_pStack.contains("\017"))
-	{
-		m_pResult.append("\017");
-		m_pStack.push("\017");
-	}
-	else if( (fmt.foreground().color() == QColor("navy")) && !m_pStack.contains("2"))
+	else if( (fmt.foreground().color() == QColor("darkblue")) && !m_pStack.contains("2"))
 	{
 		m_pResult.append("2");
 		m_pStack.push("2");
 	}
-	else if( (fmt.foreground().color() == QColor("green")) && !m_pStack.contains("3"))
+	else if( (fmt.foreground().color() == QColor("darkgreen")) && !m_pStack.contains("3"))
 	{
 		m_pResult.append("3");
 		m_pStack.push("3");
@@ -391,17 +375,17 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 		m_pResult.append("4");
 		m_pStack.push("4");
 	}
-	else if( (fmt.foreground().color() == QColor("brown")) && !m_pStack.contains("5"))
+	else if( (fmt.foreground().color() == QColor("darkred")) && !m_pStack.contains("5"))
 	{
 		m_pResult.append("5");
 		m_pStack.push("5");
 	}
-	else if( (fmt.foreground().color() == QColor("purple")) && !m_pStack.contains("6"))
+	else if( (fmt.foreground().color() == QColor("darkviolet")) && !m_pStack.contains("6"))
 	{
 		m_pResult.append("6");
 		m_pStack.push("6");
 	}
-	else if( (fmt.foreground().color() == QColor("olive")) && !m_pStack.contains("7"))
+	else if( (fmt.foreground().color() == QColor("orange")) && !m_pStack.contains("7"))
 	{
 		m_pResult.append("7");
 		m_pStack.push("7");
@@ -411,17 +395,17 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 		m_pResult.append("8");
 		m_pStack.push("8");
 	}
-	else if( (fmt.foreground().color() == QColor("lime")) && !m_pStack.contains("9"))
+	else if( (fmt.foreground().color() == QColor("lightgreen")) && !m_pStack.contains("9"))
 	{
 		m_pResult.append("9");
 		m_pStack.push("9");
 	}
-	else if( (fmt.foreground().color() == QColor("darkcyan")) && !m_pStack.contains("10"))
+	else if( (fmt.foreground().color() == QColor("cornflowerblue")) && !m_pStack.contains("10"))
 	{
 		m_pResult.append("10");
 		m_pStack.push("10");
 	}
-	else if( (fmt.foreground().color() == QColor("cyan")) && !m_pStack.contains("11"))
+	else if( (fmt.foreground().color() == QColor("lightblue")) && !m_pStack.contains("11"))
 	{
 		m_pResult.append("11");
 		m_pStack.push("11");
@@ -431,7 +415,7 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 		m_pResult.append("12");
 		m_pStack.push("12");
 	}
-	else if( (fmt.foreground().color() == QColor("magenta")) && !m_pStack.contains("13"))
+	else if( (fmt.foreground().color() == QColor("violet")) && !m_pStack.contains("13"))
 	{
 		m_pResult.append("13");
 		m_pStack.push("13");
@@ -441,7 +425,7 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 		m_pResult.append("14");
 		m_pStack.push("14");
 	}
-	else if( (fmt.foreground().color() == QColor("lightgray")) && !m_pStack.contains("15"))
+	else if( (fmt.foreground().color() == QColor("darkgray")) && !m_pStack.contains("15"))
 	{
 		m_pResult.append("15");
 		m_pStack.push("15");
