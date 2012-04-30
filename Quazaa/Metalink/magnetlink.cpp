@@ -25,8 +25,7 @@ bool CMagnetLink::File::isValid()
 }
 
 CMagnetLink::CMagnetLink()
-{
-}
+{}
 
 CMagnetLink::CMagnetLink(QString sMagnet)
 {

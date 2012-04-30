@@ -28,6 +28,19 @@
 #include "debug_new.h"
 #endif
 
+File::File(quint16 ID) :
+	m_nID( ID ),
+	m_nFileSize( 0 )
+{}
+
+bool File::isValid()
+{
+
+	// todo: implement
+
+	return true;
+}
+
 CMetalinkHandler::CMetalinkHandler(QFile& oFile, QObject *parent) :
 	QObject( parent ),
 	m_bNull( true ),
