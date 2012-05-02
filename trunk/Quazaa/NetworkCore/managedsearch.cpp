@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -317,7 +317,7 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 			}
 		}
 		else if(m_bCanRequestKey
-				&& pHost->m_nKeyTime.secsTo(tNow) > quazaaSettings.Gnutella2.QueryHostThrottle)
+				&& pHost->m_nKeyTime.secsTo(tNow) > (long)quazaaSettings.Gnutella2.QueryHostThrottle)
 		{
 			// we can request a query key now
 			// UDP QKR is sent without ACK request, so this may be a retry

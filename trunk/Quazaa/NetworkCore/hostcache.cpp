@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -78,7 +78,7 @@ bool CHostCacheHost::CanQuery(QDateTime tNow)
 		return true;
 	}
 
-	return (m_tLastQuery.secsTo(tNow) > quazaaSettings.Gnutella2.QueryHostThrottle);
+	return (m_tLastQuery.secsTo(tNow) > (long)quazaaSettings.Gnutella2.QueryHostThrottle);
 }
 
 void CHostCacheHost::SetKey(quint32 nKey, CEndPoint* pHost)
@@ -458,7 +458,7 @@ void CHostCache::PruneByQueryAck()
 
 	for(CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end();)
 	{
-		if( !(*it)->m_tAck.isNull() && (*it)->m_tAck.secsTo(tNow) > quazaaSettings.Gnutella2.QueryHostDeadline )
+		if( !(*it)->m_tAck.isNull() && (*it)->m_tAck.secsTo(tNow) > (long)quazaaSettings.Gnutella2.QueryHostDeadline )
 		{
 			delete *it;
 			it = m_lHosts.erase(it);
