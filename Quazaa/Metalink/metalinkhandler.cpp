@@ -28,27 +28,24 @@
 #include "debug_new.h"
 #endif
 
-File::File(quint16 ID) :
+MetaFile::MetaFile(quint16 ID) :
 	m_nID( ID ),
 	m_nFileSize( 0 )
 {}
 
-bool File::isValid()
+bool MetaFile::isValid() const
 {
-
-	// todo: implement
-
-	return true;
+	return m_lHashes.size() || m_sURIs.size();
 }
 
-CMetalinkHandler::CMetalinkHandler(QFile& oFile, QObject *parent) :
-	QObject( parent ),
+CMetalinkHandler::CMetalinkHandler(QFile& oFile) :
 	m_bNull( true ),
 	m_nSize( 0 )
 {
 	if ( oFile.open( QIODevice::ReadOnly ) )
 	{
 		m_oMetaLink.setDevice( &oFile );
+		m_bNull = false;
 	}
 
 	m_nParsingState = m_oMetaLink.error();
@@ -57,7 +54,7 @@ CMetalinkHandler::CMetalinkHandler(QFile& oFile, QObject *parent) :
 CMetalinkHandler::~CMetalinkHandler()
 {}
 
-QList<CDownload*> CMetalinkHandler::files()
+QList<CDownload*> CMetalinkHandler::files() const
 {
 	QList<CDownload*> result;
 

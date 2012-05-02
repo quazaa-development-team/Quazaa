@@ -6,12 +6,12 @@
 
 #include "NetworkCore/Hashes/hash.h"
 
-CMagnetLink::File::File() :
-	m_nID( 0 ),
+CMagnetLink::MagnetFile::MagnetFile() :
+	m_bNull( true ),
 	m_nFileSize( 0 )
 {}
 
-CMagnetLink::File::~File()
+CMagnetLink::MagnetFile::~MagnetFile()
 {
 	foreach( CHash* pHash, m_lHashes )
 	{
@@ -19,7 +19,7 @@ CMagnetLink::File::~File()
 	}
 }
 
-bool CMagnetLink::File::isValid()
+bool CMagnetLink::MagnetFile::isValid() const
 {
 	return m_lHashes.size() || m_lURLs.size();
 }
@@ -30,6 +30,11 @@ CMagnetLink::CMagnetLink()
 CMagnetLink::CMagnetLink(QString sMagnet)
 {
 	parseMagnet( sMagnet );
+}
+
+CMagnetLink::MagnetFile CMagnetLink::operator[](const quint16 nID) const
+{
+	return m_lFiles[nID];
 }
 
 bool CMagnetLink::parseMagnet(QString sMagnet)
@@ -46,7 +51,7 @@ bool CMagnetLink::parseMagnet(QString sMagnet)
 	int pos, pos2, nFileNo;
 	QString sSubsection, sParam;
 
-	QMap<quint16, File> mFiles;
+	QMap<quint16, MagnetFile> mFiles;
 	QMap<quint16, QString> mSearches;
 
 	while ( sMagnet.length() )
@@ -94,9 +99,6 @@ bool CMagnetLink::parseMagnet(QString sMagnet)
 				subsectionError( sParam, sSubsection );
 				continue;
 			}
-
-			// Make sure a file with the ID we've just isolated exists within the map.
-			mFiles[nFileNo].m_nID = nFileNo;
 
 			if ( sParam.startsWith( "dn" ) )		// Display Name
 			{
@@ -197,12 +199,11 @@ bool CMagnetLink::parseMagnet(QString sMagnet)
 		}
 	}
 
-	quint16 nID = 0;
-	foreach ( File oFile, mFiles )
+	foreach ( MagnetFile oFile, mFiles )
 	{
 		if ( oFile.isValid() )
 		{
-			oFile.m_nID = nID++;
+			oFile.m_bNull = false;
 			m_lFiles.push_back( oFile );
 		}
 	}
@@ -218,7 +219,7 @@ bool CMagnetLink::parseMagnet(QString sMagnet)
 	return m_lFiles.size() + m_lSearches.size();
 }
 
-bool CMagnetLink::file(const quint16 nID, CDownload* pDownload)
+bool CMagnetLink::file(const quint16 nID, CDownload* pDownload) const
 {
 	if ( nID >= m_lFiles.size() )
 	{
@@ -230,28 +231,18 @@ bool CMagnetLink::file(const quint16 nID, CDownload* pDownload)
 		pDownload = new CDownload();
 	}
 
-	QList<File>::const_iterator i = m_lFiles.begin();
-	File file;
-
-	while ( i != m_lFiles.end() )
-	{
-		if ( (*i).m_nID == nID )
-		{
-			file = *i;
-			break;
-		}
-	}
+	MagnetFile file = operator[]( nID );
 
 	// TODO: implement rest of this once Downloads have been finished.
 
 	return true;
 }
 
-CManagedSearch* CMagnetLink::search(const quint16 nID)
+CManagedSearch* CMagnetLink::search(const quint16 nID) const
 {
 	if ( nID >= m_lSearches.size() )
 	{
-		return false;
+		return NULL;
 	}
 
 	QList<QString>::const_iterator i = m_lSearches.begin();
@@ -262,6 +253,20 @@ CManagedSearch* CMagnetLink::search(const quint16 nID)
 
 	return NULL;
 }
+
+QString CMagnetLink::searchString(const quint16 nID) const
+{
+	if ( nID >= m_lSearches.size() )
+	{
+		return QString();
+	}
+
+	QList<QString>::const_iterator i = m_lSearches.begin();
+	i += nID;
+
+	return *i;
+}
+
 
 void CMagnetLink::subsectionError(QString sParam, QString sSubsection)
 {

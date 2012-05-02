@@ -31,8 +31,8 @@
 #include "debug_new.h"
 #endif
 
-CMetalink4Handler::CMetalink4Handler(QFile& oFile, QObject *parent) :
-	CMetalinkHandler( oFile, parent ),
+CMetalink4Handler::CMetalink4Handler(QFile& oFile) :
+	CMetalinkHandler( oFile ),
 	nID( 0 )
 {
 /*
@@ -72,7 +72,7 @@ CMetalink4Handler::CMetalink4Handler(QFile& oFile, QObject *parent) :
 		m_nParsingState = m_oMetaLink.error();
 		if ( m_nParsingState != QXmlStreamReader::NoError )
 		{
-			systemLog.postLog( LogSeverity::Error, tr(
+			systemLog.postLog( LogSeverity::Error, QObject::tr(
 				"Caught error while parsing Metalink XML in line %1, respectively inside <file> tag ending in line %1."
 														).arg( m_oMetaLink.lineNumber() ) );
 		}
@@ -81,18 +81,16 @@ CMetalink4Handler::CMetalink4Handler(QFile& oFile, QObject *parent) :
 	m_bNull = fileID;
 }
 
-CDownload* CMetalink4Handler::file(const unsigned int& ID)
+CDownload* CMetalink4Handler::file(const unsigned int& ID) const
 {
-
-	m_iLastAccess;
-	m_nLastAccessID = ID;
+	// TODO: Implement.
 
 	return new CDownload();
 }
 
 bool CMetalink4Handler::parseFile(quint16 ID)
 {
-	File oCurrentFile( ID );
+	MetaFile oCurrentFile( ID );
 
 	while ( m_oMetaLink.readNextStartElement() )
 	{
@@ -132,7 +130,7 @@ bool CMetalink4Handler::parseFile(quint16 ID)
 		}
 		else
 		{
-			systemLog.postLog( LogSeverity::Information, tr(
+			systemLog.postLog( LogSeverity::Information, QObject::tr(
 				"Caught unexpected XML element while parsing <file> in Metalink XML: %1"
 															  ).arg( sComp.toString() ) );
 		}
