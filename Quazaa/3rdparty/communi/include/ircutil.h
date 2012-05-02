@@ -50,16 +50,16 @@ namespace IrcControlCodes
 	* \enum Control
 	* \brief Contains mIRC control codes
 	*/
-	enum Control {
-		Bold			= 0x02,   /**< Bold */
-		Color			= 0x03,   /**< Color */
-		Italic			= 0x09,   /**< Italic */
-		StrikeThrough	= 0x13, /**< Strike-Through */
-		Reset			= 0x0f,   /**< Reset */
-		Underline		= 0x15,   /**< Underline */
-		Underline2		= 0x1f,    /**< Underline */
-		Reverse			= 0x16   /**< Reverse */
-	};
+//	enum Control {
+//		Bold			= 0x02,   /**< Bold */
+//		Color			= 0x03,   /**< Color */
+//		Italic			= 0x09,   /**< Italic */
+//		StrikeThrough	= 0x13, /**< Strike-Through */
+//		Reset			= 0x0f,   /**< Reset */
+//		Underline		= 0x15,   /**< Underline */
+//		Underline2		= 0x1f,    /**< Underline */
+//		Reverse			= 0x16   /**< Reverse */
+//	};
 }
 
 class COMMUNI_EXPORT IrcUtil
@@ -67,7 +67,7 @@ class COMMUNI_EXPORT IrcUtil
 public:
 	static QString messageToHtml(const QString& message, QHash<QString, QString> emoticons = QHash<QString, QString>());
 	static unsigned int getUnicodeColorBytes(const QString & szData, unsigned int iChar, unsigned char * pcByte1, unsigned char * pcByte2);
-    static QString colorCodeToName(int code, const QString& defaultColor = QLatin1String("black"));
+	static QString colorCodeToName(int code, const QString& defaultColor = QLatin1String("black"));
 };
 
 #endif // IRCUTIL_H
