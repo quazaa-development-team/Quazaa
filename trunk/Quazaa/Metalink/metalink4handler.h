@@ -8,22 +8,17 @@
 
 class CMetalink4Handler : public CMetalinkHandler
 {
-	Q_OBJECT
 
 private:
 	quint16 nID;
 
 public:
-	explicit CMetalink4Handler(QFile& oFile = QFile(), QObject *parent = 0);
+	explicit CMetalink4Handler(QFile& oFile = QFile());
 
-	CDownload* file(const unsigned int& ID);
+	CDownload* file(const unsigned int& ID) const;
 
 private:
 	bool parseFile(quint16 ID);
-
-signals:
-
-public slots:
 
 };
 

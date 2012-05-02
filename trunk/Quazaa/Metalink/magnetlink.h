@@ -12,7 +12,7 @@ class CHash;
 
 class CMagnetLink
 {
-private:
+public:
 
 	// internal storage structure
 	struct MediaURL
@@ -22,27 +22,35 @@ private:
 	};
 
 	// internal storage structure
-	struct File
+	struct MagnetFile
 	{
-		quint16			m_nID;			// We assume there are no more than 2^16 files in a magnet link.
+		bool			m_bNull;
 		quint64			m_nFileSize;
 		QString			m_sFileName;
 		QList<CHash*>	m_lHashes;		// Includes all hashes provided via <hash> tag.
 		QList<MediaURL>	m_lURLs;		// Includes http, https, ftp, ftps, etc.
 		QList<QUrl>		m_lTrackers;	// BitTorrent Trackers for this file
 
-		File();
-		~File();
-		bool isValid();		// Returns true if file struct contains enough data to initialize a download.
+		MagnetFile();
+		~MagnetFile();
+		bool isNull() const;
+		bool isValid() const;		// Returns true if file struct contains enough data to initialize a download.
 	};
 
-	QString			m_sMagnet;
-	QList<File>		m_lFiles;			// Contains all files sorted by ID.
-	QList<QString>	m_lSearches;		// Contains all files sorted by ID.
+private:
+
+	QString				m_sMagnet;
+	QList<MagnetFile>	m_lFiles;			// Contains all files sorted by ID.
+	QList<QString>		m_lSearches;		// Contains all files sorted by ID.
 
 public:
 	CMagnetLink();
 	CMagnetLink(QString sMagnet);
+
+	/**
+	  * Returns File struct for ID. Remember to verify their validity with isNull().
+	  */
+	MagnetFile operator[](const quint16 nID) const;
 
 	/**
 	  * Returns true if Magnet link could be parsed without errors.
@@ -53,43 +61,44 @@ public:
 	  * Inserts the information for ID into the download passed as parameter. If NULL is passed, a
 	  * new download is created.
 	  */
-	bool file(const quint16 nID, CDownload* pDownload);
+	bool file(const quint16 nID, CDownload* pDownload) const;
 
 	/**
 	  * Creates search from ID.
 	  */
-	CManagedSearch* search(const quint16 nID);
+	CManagedSearch* search(const quint16 nID) const;
+	QString searchString(const quint16 nID) const;
 
 	/**
 	  * Returns true if magnet points to at least 1 file that is valid - e.g. which we can download.
 	  */
-	inline bool isValid();
+	inline bool isValid() const;
 
 	/**
 	  * Returns the number of valid files within this Magnet.
 	  */
-	inline int fileCount();
+	inline int fileCount() const;
 
 	/**
 	  * Returns the number of searches within this Magnet.
 	  */
-	inline int searchCount();
+	inline int searchCount() const;
 
 private:
 	void subsectionError(QString sParam, QString sSubsection);
 };
 
-bool CMagnetLink::isValid()
+bool CMagnetLink::isValid() const
 {
 	return m_lFiles.size() || m_lSearches.size();
 }
 
-int CMagnetLink::fileCount()
+int CMagnetLink::fileCount() const
 {
 	return m_lFiles.size();
 }
 
-int CMagnetLink::searchCount()
+int CMagnetLink::searchCount() const
 {
 	return m_lSearches.size();
 }
