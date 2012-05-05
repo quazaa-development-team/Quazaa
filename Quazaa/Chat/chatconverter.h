@@ -33,7 +33,7 @@ class QTextFragment;
 #include <QStack>
 #include <QColor>
 
-namespace IrcControlCodes
+namespace IrcFormatCodes
 {
 	/**
 	* \enum Control
