@@ -29,6 +29,7 @@
 #include <QKeyEvent>
 
 #include "completer.h"
+class Completer;
 
 class WidgetReturnEmitTextEdit : public QTextEdit
 {

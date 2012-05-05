@@ -26,6 +26,8 @@
 #include "skinsettings.h"
 
 #include <QShortcut>
+#include <QStyle>
+#include <QPlastiqueStyle>
 
 #ifdef _DEBUG
 #include "debug_new.h"

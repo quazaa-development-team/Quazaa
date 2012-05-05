@@ -19,6 +19,7 @@
 #include "widgetreturnemittextedit.h"
 
 class HistoryLineEdit;
+class WidgetReturnEmitTextEdit;
 
 class Completer : public QCompleter
 {
