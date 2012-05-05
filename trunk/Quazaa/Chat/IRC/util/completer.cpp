@@ -18,6 +18,7 @@
 Completer::Completer(QObject* parent) : QCompleter(parent)
 {
     d.lineEdit = 0;
+	d.textEdit = 0;
     d.defaultModel = 0;
     d.slashModel = 0;
     setCaseSensitivity(Qt::CaseInsensitive);
