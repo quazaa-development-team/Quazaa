@@ -238,21 +238,21 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 	{
 		bLoop = false;
 
-		if( m_pStack.top() == QString(IrcControlCodes::Bold) && fmt.fontWeight() <= QFont::Normal )
+		if( m_pStack.top() == QString(IrcFormatCodes::Bold) && fmt.fontWeight() <= QFont::Normal )
 		{
-			m_pResult.append(IrcControlCodes::Bold);
+			m_pResult.append(IrcFormatCodes::Bold);
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == QString(IrcControlCodes::Italic) && !fmt.fontItalic() )
+		else if( m_pStack.top() == QString(IrcFormatCodes::Italic) && !fmt.fontItalic() )
 		{
-			m_pResult.append(IrcControlCodes::Italic);
+			m_pResult.append(IrcFormatCodes::Italic);
 			bLoop = true;
 			m_pStack.pop();
 		}
-		else if( m_pStack.top() == QString(IrcControlCodes::Underline) && !fmt.fontUnderline() )
+		else if( m_pStack.top() == QString(IrcFormatCodes::Underline) && !fmt.fontUnderline() )
 		{
-			m_pResult.append(IrcControlCodes::Underline);
+			m_pResult.append(IrcFormatCodes::Underline);
 			bLoop = true;
 			m_pStack.pop();
 		}
@@ -343,22 +343,22 @@ void CChatConverter::processFragmentIRC(QTextFragment *pFrag)
 
 	}
 
-	if( fmt.fontWeight() > QFont::Normal && !m_pStack.contains(QString(IrcControlCodes::Bold)) )
+	if( fmt.fontWeight() > QFont::Normal && !m_pStack.contains(QString(IrcFormatCodes::Bold)) )
 	{
-		m_pResult.append(IrcControlCodes::Bold);
-		m_pStack.push(QString(IrcControlCodes::Bold));
+		m_pResult.append(IrcFormatCodes::Bold);
+		m_pStack.push(QString(IrcFormatCodes::Bold));
 	}
 
-	if( fmt.fontItalic() && !m_pStack.contains(QString(IrcControlCodes::Italic)))
+	if( fmt.fontItalic() && !m_pStack.contains(QString(IrcFormatCodes::Italic)))
 	{
-		m_pResult.append(IrcControlCodes::Italic);
-		m_pStack.push(QString(IrcControlCodes::Italic));
+		m_pResult.append(IrcFormatCodes::Italic);
+		m_pStack.push(QString(IrcFormatCodes::Italic));
 	}
 
-	if( fmt.fontUnderline() && !m_pStack.contains(QString(IrcControlCodes::Underline)))
+	if( fmt.fontUnderline() && !m_pStack.contains(QString(IrcFormatCodes::Underline)))
 	{
-		m_pResult.append(IrcControlCodes::Underline);
-		m_pStack.push(QString(IrcControlCodes::Underline));
+		m_pResult.append(IrcFormatCodes::Underline);
+		m_pStack.push(QString(IrcFormatCodes::Underline));
 	}
 	else if( (fmt.foreground().color() == QColor("darkblue")) && !m_pStack.contains("2"))
 	{

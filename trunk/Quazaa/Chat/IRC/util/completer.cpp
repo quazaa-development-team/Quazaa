@@ -44,6 +44,25 @@ void Completer::setLineEdit(HistoryLineEdit* lineEdit)
     }
 }
 
+WidgetReturnEmitTextEdit* Completer::textEdit() const
+{
+	return d.textEdit;
+}
+
+void Completer::setTextEdit(WidgetReturnEmitTextEdit* textEdit)
+{
+	if (d.textEdit != textEdit)
+	{
+		if (d.textEdit)
+			disconnect(d.textEdit, SIGNAL(textChanged(QString)), this, SLOT(onTextEdited()));
+
+		if (textEdit)
+			connect(textEdit, SIGNAL(textChanged(QString)), this, SLOT(onTextEdited()));
+
+		d.textEdit = textEdit;
+	}
+}
+
 QAbstractItemModel* Completer::defaultModel() const
 {
     return d.defaultModel;

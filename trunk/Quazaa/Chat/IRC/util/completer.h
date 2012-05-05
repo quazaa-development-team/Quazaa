@@ -16,6 +16,7 @@
 #define COMPLETER_H
 
 #include <QCompleter>
+#include "widgetreturnemittextedit.h"
 
 class HistoryLineEdit;
 
@@ -28,6 +29,9 @@ public:
 
     HistoryLineEdit* lineEdit() const;
 	void setLineEdit(HistoryLineEdit* lineEdit);
+
+	WidgetReturnEmitTextEdit* textEdit() const;
+	void setTextEdit(WidgetReturnEmitTextEdit* textEdit);
 
     QAbstractItemModel* defaultModel() const;
     void setDefaultModel(QAbstractItemModel* model);
@@ -44,6 +48,7 @@ private:
     struct CompleterData
     {
         HistoryLineEdit* lineEdit;
+		WidgetReturnEmitTextEdit* textEdit;
         QAbstractItemModel* defaultModel;
 		QAbstractItemModel* slashModel;
     } d;

@@ -25,6 +25,8 @@
 #include "widgetreturnemittextedit.h"
 #include "skinsettings.h"
 
+#include <QShortcut>
+
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
@@ -34,8 +36,19 @@ WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 	Q_UNUSED(parent);
 	m_oCompleter = new Completer(this);
 	m_oCompleter->setWidget(this);
+	m_oCompleter->setTextEdit(this);
+
 	emitReturn = true;
 	connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
+
+	setAttribute(Qt::WA_MacShowFocusRect, false);
+
+	// a workaround for a bug in the Oxygen style
+	if (style()->objectName() == "oxygen")
+		setStyle(new QPlastiqueStyle);
+
+	QShortcut* shortcut = new QShortcut(Qt::Key_Tab, this);
+	connect(shortcut, SIGNAL(activated()), m_oCompleter, SLOT(onTabPressed()));
 	setSkin();
 }
 
