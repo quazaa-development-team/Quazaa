@@ -6,11 +6,10 @@
 #include <QUrl>
 
 #include "download.h"
-#include "managedsearch.h"
 
 class CHash;
 
-class CMagnetLink
+class CMagnet
 {
 public:
 
@@ -31,21 +30,22 @@ public:
 		QList<MediaURL>	m_lURLs;		// Includes http, https, ftp, ftps, etc.
 		QList<QUrl>		m_lTrackers;	// BitTorrent Trackers for this file
 
-		MagnetFile();
+		MagnetFile();	   // Creates an empty MagnetFile. Note that m_bNull needs to be handled manually.
 		~MagnetFile();
 		bool isNull() const;
-		bool isValid() const;		// Returns true if file struct contains enough data to initialize a download.
+		bool isValid() const;// Returns true if file struct contains enough data to initialize a download.
 	};
 
 private:
 
+	bool				m_bNull;
 	QString				m_sMagnet;
 	QList<MagnetFile>	m_lFiles;			// Contains all files sorted by ID.
 	QList<QString>		m_lSearches;		// Contains all files sorted by ID.
 
 public:
-	CMagnetLink();
-	CMagnetLink(QString sMagnet);
+	CMagnet();
+	CMagnet(QString sMagnet);
 
 	/**
 	  * Returns File struct for ID. Remember to verify their validity with isNull().
@@ -64,13 +64,18 @@ public:
 	bool file(const quint16 nID, CDownload* pDownload) const;
 
 	/**
-	  * Creates search from ID.
+	  * Returns search string by ID. Returns empty strings for invalid IDs.
 	  */
-	CManagedSearch* search(const quint16 nID) const;
-	QString searchString(const quint16 nID) const;
+	QString search(const quint16 nID) const;
 
 	/**
-	  * Returns true if magnet points to at least 1 file that is valid - e.g. which we can download.
+	  * Returns true for magnets that have been created using the default constructor without having
+	  * ever been given a Magnet link to parse. False otherwise.
+	  */
+	inline bool isNull() const;
+
+	/**
+	  * Returns true if magnet points to at least one file that is valid - e.g. which we can download.
 	  */
 	inline bool isValid() const;
 
@@ -88,17 +93,22 @@ private:
 	void subsectionError(QString sParam, QString sSubsection);
 };
 
-bool CMagnetLink::isValid() const
+bool CMagnet::isNull() const
+{
+	return m_bNull;
+}
+
+bool CMagnet::isValid() const
 {
 	return m_lFiles.size() || m_lSearches.size();
 }
 
-int CMagnetLink::fileCount() const
+int CMagnet::fileCount() const
 {
 	return m_lFiles.size();
 }
 
-int CMagnetLink::searchCount() const
+int CMagnet::searchCount() const
 {
 	return m_lSearches.size();
 }
