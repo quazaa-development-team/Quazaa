@@ -8,10 +8,6 @@
 
 class CMetalink4Handler : public CMetalinkHandler
 {
-
-private:
-	quint16 nID;
-
 public:
 	explicit CMetalink4Handler(QFile& oFile = QFile());
 

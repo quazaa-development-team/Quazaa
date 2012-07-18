@@ -9,12 +9,18 @@
 #include <QXmlStreamReader>
 
 #include "download.h"
+#include "magnetlink.h"
 
 struct MediaURI
 {
-	QString m_sURI;
-	QString m_sLocation;
 	QString m_sType;
+	union
+	{
+        CMagnet*    m_pMagnet;	// Magnet link
+        QUrl*       m_pURL;		// http, https, ftp, ftps, etc.
+        QUrl*       m_pTorrent;	// link to .torrent file
+	};
+	QString m_sLocation;
 	quint8 m_nPriority;		// 255: highest priority; 1: lowest priority; 0: temporary disabled
 };
 
@@ -27,14 +33,14 @@ struct MetaFile
 	QString m_sVersion;
 	QString m_sLanguage;
 	QString m_sDescription;
-	QList<CHash*> m_lHashes;		// Includes all hashes provided via <hash> tag.
-	QList<MediaURI> m_sURIs;	// Includes http, https, ftp, ftps, any links to .torrent files, as well as magnet links.
+	QList<CHash*> m_lHashes;	// Includes all hashes provided via <hash> tag.
+	QList<MediaURI> m_sURIs;	// Includes web links, links to .torrent files, as well as Magnets.
 
 	MetaFile(quint16 ID);
 	bool isValid() const;				// Returns true if file struct contains enough data to initialize a download.
 };
 
-class CMetalinkHandler
+class CMetalinkHandler : public QObject
 {
 protected:
 	bool					m_bNull;		// true if invalid
@@ -53,6 +59,9 @@ public:
 	inline int size() const;
 	inline bool isNull() const;
 
+protected:
+	void postParsingError( const int line, const QString sError ) const;
+	void postParsingInfo( const int line, const QString sInfo ) const;
 };
 
 int CMetalinkHandler::size() const

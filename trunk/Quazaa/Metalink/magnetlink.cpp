@@ -6,12 +6,12 @@
 
 #include "NetworkCore/Hashes/hash.h"
 
-CMagnetLink::MagnetFile::MagnetFile() :
+CMagnet::MagnetFile::MagnetFile() :
 	m_bNull( true ),
 	m_nFileSize( 0 )
 {}
 
-CMagnetLink::MagnetFile::~MagnetFile()
+CMagnet::MagnetFile::~MagnetFile()
 {
 	foreach( CHash* pHash, m_lHashes )
 	{
@@ -19,26 +19,30 @@ CMagnetLink::MagnetFile::~MagnetFile()
 	}
 }
 
-bool CMagnetLink::MagnetFile::isValid() const
+bool CMagnet::MagnetFile::isValid() const
 {
 	return m_lHashes.size() || m_lURLs.size();
 }
 
-CMagnetLink::CMagnetLink()
+CMagnet::CMagnet() :
+	m_bNull( true )
 {}
 
-CMagnetLink::CMagnetLink(QString sMagnet)
+CMagnet::CMagnet(QString sMagnet) :
+	m_bNull( false )
 {
 	parseMagnet( sMagnet );
 }
 
-CMagnetLink::MagnetFile CMagnetLink::operator[](const quint16 nID) const
+CMagnet::MagnetFile CMagnet::operator[](const quint16 nID) const
 {
 	return m_lFiles[nID];
 }
 
-bool CMagnetLink::parseMagnet(QString sMagnet)
+bool CMagnet::parseMagnet(QString sMagnet)
 {
+	m_bNull = false;
+
 	if ( !sMagnet.startsWith( "magnet:?" ) )
 		return false;
 
@@ -219,7 +223,7 @@ bool CMagnetLink::parseMagnet(QString sMagnet)
 	return m_lFiles.size() + m_lSearches.size();
 }
 
-bool CMagnetLink::file(const quint16 nID, CDownload* pDownload) const
+bool CMagnet::file(const quint16 nID, CDownload* pDownload) const
 {
 	if ( nID >= m_lFiles.size() )
 	{
@@ -238,23 +242,7 @@ bool CMagnetLink::file(const quint16 nID, CDownload* pDownload) const
 	return true;
 }
 
-CManagedSearch* CMagnetLink::search(const quint16 nID) const
-{
-	if ( nID >= m_lSearches.size() )
-	{
-		return NULL;
-	}
-
-	QList<QString>::const_iterator i = m_lSearches.begin();
-	i += nID;
-	QString search = *i;
-
-	// TODO: implement rest of this once I got time to check searches.
-
-	return NULL;
-}
-
-QString CMagnetLink::searchString(const quint16 nID) const
+QString CMagnet::search(const quint16 nID) const
 {
 	if ( nID >= m_lSearches.size() )
 	{
@@ -268,7 +256,7 @@ QString CMagnetLink::searchString(const quint16 nID) const
 }
 
 
-void CMagnetLink::subsectionError(QString sParam, QString sSubsection)
+void CMagnet::subsectionError(QString sParam, QString sSubsection)
 {
 	QString sub = QObject::tr( "Subsection: %1=%2" ).arg( sParam, sSubsection );
 	systemLog.postLog( LogSeverity::Error, QObject::tr("Error while parsing subsection of Magnet Link:") );

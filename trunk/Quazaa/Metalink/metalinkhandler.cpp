@@ -23,6 +23,7 @@
 */
 
 #include "metalinkhandler.h"
+#include "systemlog.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -68,5 +69,23 @@ QList<CDownload*> CMetalinkHandler::files() const
 	}
 
 	return result;
+}
+
+void CMetalinkHandler::postParsingError( const int line, const QString sError ) const
+{
+	QString error = tr( "Metalink: " );
+	error += tr( "Error while parsing XML (line %1): " ).arg( line );
+	error += sError;
+
+	systemLog.postLog( LogSeverity::Error, error );
+}
+
+void CMetalinkHandler::postParsingInfo( const int line, const QString sInfo ) const
+{
+	QString info = tr( "Metalink: " );
+	info += tr( "Line %1: " ).arg( line );
+	info += sInfo;
+
+	systemLog.postLog( LogSeverity::Information, info );
 }
 

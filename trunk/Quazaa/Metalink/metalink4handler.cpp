@@ -25,15 +25,13 @@
 #include <QXmlStreamReader>
 
 #include "metalink4handler.h"
-#include "systemlog.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
 
 CMetalink4Handler::CMetalink4Handler(QFile& oFile) :
-	CMetalinkHandler( oFile ),
-	nID( 0 )
+	CMetalinkHandler( oFile )
 {
 /*
 
@@ -72,17 +70,17 @@ CMetalink4Handler::CMetalink4Handler(QFile& oFile) :
 		m_nParsingState = m_oMetaLink.error();
 		if ( m_nParsingState != QXmlStreamReader::NoError )
 		{
-			systemLog.postLog( LogSeverity::Error, QObject::tr(
-				"Caught error while parsing Metalink XML in line %1, respectively inside <file> tag ending in line %1."
-														).arg( m_oMetaLink.lineNumber() ) );
+			postParsingError( m_oMetaLink.lineNumber(),
+							  tr( "Malformatted XML or broken file detected." ) );
 		}
 	}
 
 	m_bNull = fileID;
 }
 
-CDownload* CMetalink4Handler::file(const unsigned int& ID) const
+CDownload* CMetalink4Handler::file(const unsigned int& /*ID*/) const
 {
+
 	// TODO: Implement.
 
 	return new CDownload();
@@ -95,14 +93,42 @@ bool CMetalink4Handler::parseFile(quint16 ID)
 	while ( m_oMetaLink.readNextStartElement() )
 	{
 		QStringRef sComp = m_oMetaLink.name();
+		QXmlStreamAttributes vAttributes = m_oMetaLink.attributes();
 
 		if ( !sComp.compare( "hash" ) )
 		{
+			if ( vAttributes.hasAttribute( "type" ) )
+			{
+				QString urn = "urn:" + vAttributes.value( "type" ).toString().trimmed() + ":" +
+								  m_oMetaLink.readElementText();
+				CHash* pHash = CHash::FromURN( urn );
 
+				if ( pHash )
+				{
+					oCurrentFile.m_lHashes.append( pHash );
+				}
+				else
+				{
+					postParsingInfo( m_oMetaLink.lineNumber(),
+									 tr( "Found unsupported hash of type \"%1\" within <hash> tag." ) );
+				}
+			}
+			else
+			{
+				postParsingError( m_oMetaLink.lineNumber(),
+								  tr( "<hash> tag is missing type specification." ) );
+			}
 		}
 		else if ( !sComp.compare( "url" ) )
 		{
+			MediaURI uri;
+            uri.m_sType = "url";
+            uri.m_pURL = new QUrl( m_oMetaLink.readElementText() );
 
+            if ( vAttributes.hasAttribute( "" ) )
+			{
+
+			}
 		}
 		else if ( !sComp.compare( "size" ) )
 		{
@@ -130,9 +156,8 @@ bool CMetalink4Handler::parseFile(quint16 ID)
 		}
 		else
 		{
-			systemLog.postLog( LogSeverity::Information, QObject::tr(
-				"Caught unexpected XML element while parsing <file> in Metalink XML: %1"
-															  ).arg( sComp.toString() ) );
+			QString e = tr( "Caught unexpected XML tag \"<%1>\" while parsing <file> in Metalink XML." );
+			postParsingError( m_oMetaLink.lineNumber(), e.arg( sComp.toString() ) );
 		}
 
 		/*
@@ -155,7 +180,6 @@ bool CMetalink4Handler::parseFile(quint16 ID)
 	if ( oCurrentFile.isValid() )
 	{
 		m_lFiles.push_back( oCurrentFile );
-		++nID;
 
 		return true;
 	}
