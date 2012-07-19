@@ -77,10 +77,12 @@ bool CMagnet::parseMagnet(QString sMagnet)
 			continue;
 		}
 
-		sParam = sSubsection.left( pos2 );			// get parameter type string
-		sSubsection.remove( 0, sParam.length() + 1 );	// isolate current subsection content
+		sParam = sSubsection.left( pos2 );            // get parameter type string
+		sSubsection.remove( 0, sParam.length() + 1 ); // isolate current subsection content
 
-		if ( sParam.length() == 2 || sParam.length() > 3 && sParam[2] == '.' )
+		if ( sParam.length() == 2 || sParam.length() > 3 &&
+			 ( sParam[2] == '.' ||     // covers multi file magnets
+			   sParam[1] == '.'    ) ) // covers experimental sections starting with "x."
 		{
 			// Determine ID the current file.
 			if ( sParam.length() == 2 )
@@ -237,7 +239,11 @@ bool CMagnet::file(const quint16 nID, CDownload* pDownload) const
 
 	MagnetFile file = operator[]( nID );
 
+
+
 	// TODO: implement rest of this once Downloads have been finished.
+
+
 
 	return true;
 }

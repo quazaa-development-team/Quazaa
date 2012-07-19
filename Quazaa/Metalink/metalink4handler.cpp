@@ -56,12 +56,13 @@ CMetalink4Handler::CMetalink4Handler(QFile& oFile) :
 */
 
 	quint16 fileID = 0;
+	QList<MetaFile> lFiles;
 
 	while ( !m_oMetaLink.atEnd() )
 	{
 		if ( m_oMetaLink.readNextStartElement() && !m_oMetaLink.name().compare( "file" ) )
 		{
-			if ( parseFile( fileID ) )
+			if ( parseFile( lFiles, fileID ) )
 			{
 				++fileID;
 			}
@@ -75,18 +76,34 @@ CMetalink4Handler::CMetalink4Handler(QFile& oFile) :
 		}
 	}
 
-	m_bNull = fileID;
+	// reserve space for migrating entries to vector
+	m_vFiles.reserve( lFiles.size() );
+
+	fileID = 0;
+	foreach ( MetaFile oFile, lFiles )
+	{
+		Q_ASSERT ( oFile.m_nID == fileID ); // verify sort order
+		oFile.m_nID = fileID;
+		m_vFiles[fileID++] = oFile;
+	}
+
+	m_bValid = fileID;
+
+	//TODO: Parse more data within the metalink
 }
 
-CDownload* CMetalink4Handler::file(const unsigned int& /*ID*/) const
+CDownload* CMetalink4Handler::file(const unsigned int& ID) const
 {
+	MetaFile oFile = m_vFiles[ ID ];
+
 
 	// TODO: Implement.
+
 
 	return new CDownload();
 }
 
-bool CMetalink4Handler::parseFile(quint16 ID)
+bool CMetalink4Handler::parseFile(QList<MetaFile> &lFiles, quint16 ID)
 {
 	MetaFile oCurrentFile( ID );
 
@@ -111,75 +128,164 @@ bool CMetalink4Handler::parseFile(quint16 ID)
 				{
 					postParsingInfo( m_oMetaLink.lineNumber(),
 									 tr( "Found unsupported hash of type \"%1\" within <hash> tag." ) );
+					continue;
 				}
 			}
 			else
 			{
 				postParsingError( m_oMetaLink.lineNumber(),
 								  tr( "<hash> tag is missing type specification." ) );
+				continue;
 			}
 		}
 		else if ( !sComp.compare( "url" ) )
 		{
 			MediaURI uri;
-            uri.m_sType = "url";
+			uri.m_sType = "url";
             uri.m_pURL = new QUrl( m_oMetaLink.readElementText() );
 
-            if ( vAttributes.hasAttribute( "" ) )
+			if ( uri.m_pURL->isValid() )
 			{
+				if ( vAttributes.hasAttribute( "location" ) )
+				{
+					uri.m_sLocation = vAttributes.value( "location" ).toString().trimmed();
+				}
 
+				if ( vAttributes.hasAttribute( "priority" ) )
+				{
+					bool bOK;
+					quint8 nPriority = vAttributes.value( "priority" ).toString().toUShort( &bOK );
+
+					if ( bOK && nPriority < 256 )
+					{
+						uri.m_nPriority = nPriority;
+					}
+					else
+					{
+						postParsingError( m_oMetaLink.lineNumber(),
+										  tr( "\"priority\" attribute within <url> tag could not be parsed." ) );
+					}
+				}
+
+				oCurrentFile.m_lURIs.append( uri );
+			}
+			else
+			{
+				postParsingError( m_oMetaLink.lineNumber(),
+								  tr( "Could not parse invalid URL: %1" ).arg( uri.m_pURL->toString() ) );
+				delete uri.m_pURL;
+				continue;
 			}
 		}
 		else if ( !sComp.compare( "size" ) )
 		{
+			bool bOK;
+			quint64 nFileSize = m_oMetaLink.readElementText().toULongLong( &bOK );
 
+			if ( bOK )
+			{
+				oCurrentFile.m_nFileSize = nFileSize;
+			}
+			else
+			{
+				postParsingError( m_oMetaLink.lineNumber(),
+								  tr( "<size> tag could not be parsed." ) );
+				continue;
+			}
 		}
 		else if ( !sComp.compare( "identity" ) )
 		{
-
+			oCurrentFile.m_sIdentity = m_oMetaLink.readElementText();
 		}
 		else if ( !sComp.compare( "description" ) )
 		{
-
+			oCurrentFile.m_sDescription = m_oMetaLink.readElementText();
 		}
 		else if ( !sComp.compare( "language" ) )
 		{
-
+			oCurrentFile.m_sLanguage = m_oMetaLink.readElementText();
 		}
 		else if ( !sComp.compare( "version" ) )
 		{
-
+			oCurrentFile.m_sVersion = m_oMetaLink.readElementText();
 		}
 		else if ( !sComp.compare( "metaurl" ) )
 		{
+			if ( vAttributes.hasAttribute( "mediatype" ) )
+			{
+				MediaURI uri;
+				QString sMediaType = vAttributes.value( "mediatype" ).toString().trimmed();
 
+				if ( !sMediaType.compare( "torrent" ) )
+				{
+
+					uri.m_sType = "torrent";
+					uri.m_pTorrent = new QUrl( m_oMetaLink.readElementText() );
+
+					if ( !uri.m_pTorrent->isValid() )
+					{
+						postParsingError( m_oMetaLink.lineNumber(),
+										  tr( "Could not parse invalid torrent URL: %1" ).arg( uri.m_pTorrent->toString() ) );
+						delete uri.m_pTorrent;
+						continue;
+					}
+				}
+				else if ( !sMediaType.compare( "magnet" ) )
+				{
+					uri.m_sType = "magnet";
+					uri.m_pMagnet = new CMagnet( m_oMetaLink.readElementText() );
+
+					if ( !uri.m_pMagnet->isValid() )
+					{
+						postParsingError( m_oMetaLink.lineNumber(),
+										  tr( "Could not parse magnet link: %1" ).arg( uri.m_pMagnet->toString() ) );
+						delete uri.m_pMagnet;
+						continue;
+					}
+				}
+				else
+				{
+					postParsingError( m_oMetaLink.lineNumber(),
+									  tr( "Found unknown media type \"%1\" within <metaurl> tag." ).arg( sMediaType ) );
+					continue;
+				}
+
+				if ( vAttributes.hasAttribute( "priority" ) )
+				{
+					bool bOK;
+					quint8 nPriority = vAttributes.value( "priority" ).toString().toUShort( &bOK );
+
+					if ( bOK && nPriority < 256 )
+					{
+						uri.m_nPriority = nPriority;
+					}
+					else
+					{
+						postParsingError( m_oMetaLink.lineNumber(),
+										  tr( "\"priority\" attribute within <metaurl> tag could not be parsed." ) );
+					}
+				}
+
+				oCurrentFile.m_lURIs.append( uri );
+			}
+			else
+			{
+				postParsingError( m_oMetaLink.lineNumber(),
+								  tr( "<metaurl> tag could not be parsed." ) );
+				continue;
+			}
 		}
 		else
 		{
 			QString e = tr( "Caught unexpected XML tag \"<%1>\" while parsing <file> in Metalink XML." );
 			postParsingError( m_oMetaLink.lineNumber(), e.arg( sComp.toString() ) );
+			continue;
 		}
-
-		/*
-
-	 <size>14471447</size>
-	 <identity>Example</identity>
-	 <version>1.0</version>
-	 <language>en</language>
-	 <description>
-	 A description of the example file for download.
-	 </description>
-	 <hash type="sha-256">3d6fece8033d146d8611eab4f032df738c8c1283620fd02a1f2bfec6e27d590d</hash>
-	 <url location="de" priority="1">ftp://ftp.example.com/example.ext</url>
-	 <url location="fr" priority="1">http://example.com/example.ext</url>
-	 <metaurl mediatype="torrent" priority="2">http://example.com/example.ext.torrent</metaurl>
-
-		*/
 	}
 
 	if ( oCurrentFile.isValid() )
 	{
-		m_lFiles.push_back( oCurrentFile );
+		lFiles.push_back( oCurrentFile );
 
 		return true;
 	}
