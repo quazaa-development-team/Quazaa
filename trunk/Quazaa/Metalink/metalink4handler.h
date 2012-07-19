@@ -14,8 +14,7 @@ public:
 	CDownload* file(const unsigned int& ID) const;
 
 private:
-	bool parseFile(quint16 ID);
-
+	bool parseFile(QList<MetaFile> &lFiles, quint16 ID);
 };
 
 #endif // METALINK4HANDLER_H

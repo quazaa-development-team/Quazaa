@@ -89,6 +89,11 @@ public:
 	  */
 	inline int searchCount() const;
 
+	/**
+	  * Returns a string representation of this Magnet.
+	  */
+	inline QString toString() const;
+
 private:
 	void subsectionError(QString sParam, QString sSubsection);
 };
@@ -111,6 +116,11 @@ int CMagnet::fileCount() const
 int CMagnet::searchCount() const
 {
 	return m_lSearches.size();
+}
+
+QString CMagnet::toString() const
+{
+	return m_sMagnet;
 }
 
 #endif // MAGNETLINK_H

@@ -29,6 +29,11 @@
 #include "debug_new.h"
 #endif
 
+MetaFile::MetaFile() :
+	m_nID( 0 ),
+	m_nFileSize( 0 )
+{}
+
 MetaFile::MetaFile(quint16 ID) :
 	m_nID( ID ),
 	m_nFileSize( 0 )
@@ -36,11 +41,12 @@ MetaFile::MetaFile(quint16 ID) :
 
 bool MetaFile::isValid() const
 {
-	return m_lHashes.size() || m_sURIs.size();
+	return m_lHashes.size() || m_lURIs.size();
 }
 
 CMetalinkHandler::CMetalinkHandler(QFile& oFile) :
 	m_bNull( true ),
+	m_bValid( false ),
 	m_nSize( 0 )
 {
 	if ( oFile.open( QIODevice::ReadOnly ) )
