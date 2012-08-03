@@ -1108,6 +1108,9 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("DiscoveryToolbar", quazaaSettings.WinMain.DiscoveryToolbar);
 	m_qSettings.setValue("DownloadsToolbar", quazaaSettings.WinMain.DownloadsToolbar);
 	m_qSettings.setValue("DownloadsHeader", quazaaSettings.WinMain.DownloadsHeader);
+	m_qSettings.setValue("DownloadsSplitter", quazaaSettings.WinMain.DownloadsSplitter);
+	m_qSettings.setValue("DownloadsSplitterRestoreTop", quazaaSettings.WinMain.DownloadsSplitterRestoreTop);
+	m_qSettings.setValue("DownloadsSplitterRestoreBottom", quazaaSettings.WinMain.DownloadsSplitterRestoreBottom);
 	m_qSettings.setValue("GraphSplitter", quazaaSettings.WinMain.GraphSplitter);
 	m_qSettings.setValue("GraphSplitterRestoreLeft", quazaaSettings.WinMain.GraphSplitterRestoreLeft);
 	m_qSettings.setValue("GraphSplitterRestoreRight", quazaaSettings.WinMain.GraphSplitterRestoreRight);
@@ -1160,6 +1163,9 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("TransfersSplitter", quazaaSettings.WinMain.TransfersSplitter);
 	m_qSettings.setValue("TransfersSplitterRestoreLeft", quazaaSettings.WinMain.TransfersSplitterRestoreLeft);
 	m_qSettings.setValue("TransfersSplitterRestoreRight", quazaaSettings.WinMain.TransfersSplitterRestoreRight);
+	m_qSettings.setValue("UploadsSplitter", quazaaSettings.WinMain.UploadsSplitter);
+	m_qSettings.setValue("UploadsSplitterRestoreTop", quazaaSettings.WinMain.UploadsSplitterRestoreTop);
+	m_qSettings.setValue("UploadsSplitterRestoreBottom", quazaaSettings.WinMain.UploadsSplitterRestoreBottom);
 	m_qSettings.setValue("UploadsToolbar", quazaaSettings.WinMain.UploadsToolbar);
 }
 
@@ -1188,6 +1194,9 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.DiscoveryToolbar = m_qSettings.value("DiscoveryToolbar", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DownloadsToolbar = m_qSettings.value("DownloadsToolbar", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DownloadsHeader = m_qSettings.value("DownloadsHeader", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.DownloadsSplitter = m_qSettings.value("DownloadsSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.DownloadsSplitterRestoreTop = m_qSettings.value("DownloadsSplitterRestoreTop", 0).toInt();
+	quazaaSettings.WinMain.DownloadsSplitterRestoreBottom = m_qSettings.value("DownloadsSplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.GraphSplitter = m_qSettings.value("GraphSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.GraphToolbar = m_qSettings.value("GraphToolbar", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.HomeLibraryTaskVisible = m_qSettings.value("HomeLibraryTaskVisible", true).toBool();
@@ -1236,6 +1245,9 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.TransfersSplitter = m_qSettings.value("TransfersSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.TransfersSplitterRestoreLeft = m_qSettings.value("TransfersSplitterRestoreLeft", 0).toInt();
 	quazaaSettings.WinMain.TransfersSplitterRestoreRight = m_qSettings.value("TransfersSplitterRestoreRight", 0).toInt();
+	quazaaSettings.WinMain.UploadsSplitter = m_qSettings.value("UploadsSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.UploadsSplitterRestoreTop = m_qSettings.value("UploadsSplitterRestoreTop", 0).toInt();
+	quazaaSettings.WinMain.UploadsSplitterRestoreBottom = m_qSettings.value("UploadsSplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.UploadsToolbar = m_qSettings.value("UploadsToolbar", QByteArray()).toByteArray();
 }
 

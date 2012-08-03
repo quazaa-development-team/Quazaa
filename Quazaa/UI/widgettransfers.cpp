@@ -32,6 +32,8 @@
 #include "debug_new.h"
 #endif
 
+#include <QDebug>
+
 WidgetTransfers::WidgetTransfers(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetTransfers)
@@ -42,6 +44,11 @@ WidgetTransfers::WidgetTransfers(QWidget* parent) :
 	ui->verticalLayoutDownloads->addWidget(panelDownloads);
 	panelUploads = new WidgetUploads();
 	ui->verticalLayoutUploads->addWidget(panelUploads);
+	ui->splitterDownloads->restoreState(quazaaSettings.WinMain.DownloadsSplitter);
+	ui->splitterUploads->restoreState(quazaaSettings.WinMain.UploadsSplitter);
+	ui->stackedWidgetTransfers->setCurrentIndex(0);
+	ui->tabWidgetDownloadDetails->setCurrentIndex(0);
+	ui->tabWidgetUploadDetails->setCurrentIndex(0);
 	setSkin();
 }
 
@@ -66,6 +73,8 @@ void WidgetTransfers::changeEvent(QEvent* e)
 void WidgetTransfers::saveWidget()
 {
 	quazaaSettings.WinMain.TransfersSplitter = ui->splitterTransfers->saveState();
+	quazaaSettings.WinMain.DownloadsSplitter = ui->splitterDownloads->saveState();
+	quazaaSettings.WinMain.UploadsSplitter = ui->splitterUploads->saveState();
 	panelDownloads->saveWidget();
 	panelUploads->saveWidget();
 }
@@ -76,13 +85,13 @@ void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos
 
 	if(ui->splitterTransfers->handle(1)->underMouse())
 	{
-		if(ui->splitterTransfers->sizes()[1] > 0)
+		if(ui->splitterTransfers->sizes()[0] > 0)
 		{
 			quazaaSettings.WinMain.TransfersSplitterRestoreLeft = ui->splitterTransfers->sizes()[0];
 			quazaaSettings.WinMain.TransfersSplitterRestoreRight = ui->splitterTransfers->sizes()[1];
 			QList<int> newSizes;
-			newSizes.append(ui->splitterTransfers->sizes()[0] + ui->splitterTransfers->sizes()[1]);
 			newSizes.append(0);
+			newSizes.append(ui->splitterTransfers->sizes()[0] + ui->splitterTransfers->sizes()[1]);
 			ui->splitterTransfers->setSizes(newSizes);
 		}
 		else
@@ -98,4 +107,54 @@ void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos
 void WidgetTransfers::setSkin()
 {
 
+}
+
+void WidgetTransfers::on_splitterUploads_customContextMenuRequested(const QPoint &pos)
+{
+	Q_UNUSED(pos);
+
+	if(ui->splitterUploads->handle(1)->underMouse())
+	{
+		if(ui->splitterUploads->sizes()[1] > 0)
+		{
+			quazaaSettings.WinMain.UploadsSplitterRestoreTop = ui->splitterUploads->sizes()[0];
+			quazaaSettings.WinMain.UploadsSplitterRestoreBottom = ui->splitterUploads->sizes()[1];
+			QList<int> newSizes;
+			newSizes.append(ui->splitterUploads->sizes()[0] + ui->splitterUploads->sizes()[1]);
+			newSizes.append(0);
+			ui->splitterUploads->setSizes(newSizes);
+		}
+		else
+		{
+			QList<int> sizesList;
+			sizesList.append(quazaaSettings.WinMain.UploadsSplitterRestoreTop);
+			sizesList.append(quazaaSettings.WinMain.UploadsSplitterRestoreBottom);
+			ui->splitterUploads->setSizes(sizesList);
+		}
+	}
+}
+
+void WidgetTransfers::on_splitterDownloads_customContextMenuRequested(const QPoint &pos)
+{
+	Q_UNUSED(pos);
+
+	if(ui->splitterDownloads->handle(1)->underMouse())
+	{
+		if(ui->splitterDownloads->sizes()[1] > 0)
+		{
+			quazaaSettings.WinMain.DownloadsSplitterRestoreTop = ui->splitterDownloads->sizes()[0];
+			quazaaSettings.WinMain.DownloadsSplitterRestoreBottom = ui->splitterDownloads->sizes()[1];
+			QList<int> newSizes;
+			newSizes.append(ui->splitterDownloads->sizes()[0] + ui->splitterDownloads->sizes()[1]);
+			newSizes.append(0);
+			ui->splitterDownloads->setSizes(newSizes);
+		}
+		else
+		{
+			QList<int> sizesList;
+			sizesList.append(quazaaSettings.WinMain.DownloadsSplitterRestoreTop);
+			sizesList.append(quazaaSettings.WinMain.DownloadsSplitterRestoreBottom);
+			ui->splitterDownloads->setSizes(sizesList);
+		}
+	}
 }
