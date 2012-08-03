@@ -44,9 +44,11 @@ private:
 
 protected:
 	void keyPressEvent(QKeyEvent* event);
+	virtual bool focusNextPrevChild(bool next);
 
 signals:
 	void returnPressed();
+	void tabPressed();
 	void textChanged(const QString &text);
 
 public slots:

@@ -51,8 +51,6 @@ private:
 	Ui::WidgetTransfers* ui;
 
 private slots:
-	void on_toolButtonDownloadsHeader_clicked();
-	void on_toolButtonUploadsHeader_clicked();
 	void on_splitterTransfers_customContextMenuRequested(QPoint pos);
 	void setSkin();
 };

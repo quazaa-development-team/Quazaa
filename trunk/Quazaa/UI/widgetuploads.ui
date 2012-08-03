@@ -87,11 +87,10 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionClearCompleted"/>
-   <addaction name="actionFilter"/>
   </widget>
   <action name="actionUploadsOpenOrPlay">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Media/PlayMedia.png</normaloff>:/Resource/Media/PlayMedia.png</iconset>
    </property>
    <property name="text">
@@ -103,7 +102,7 @@
   </action>
   <action name="actionUploadClear">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
    </property>
    <property name="text">
@@ -112,7 +111,7 @@
   </action>
   <action name="actionUploadMarkAsJunk">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Library/Junk.png</normaloff>:/Resource/Library/Junk.png</iconset>
    </property>
    <property name="text">
@@ -124,7 +123,7 @@
   </action>
   <action name="actionChatWithUser">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
    </property>
    <property name="text">
@@ -136,7 +135,7 @@
   </action>
   <action name="actionUploadBrowseUser">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
    </property>
    <property name="text">
@@ -148,7 +147,7 @@
   </action>
   <action name="actionUploadBanUser">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
    </property>
    <property name="text">
@@ -160,25 +159,16 @@
   </action>
   <action name="actionClearCompleted">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="../Resource.qrc">
      <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
    </property>
    <property name="text">
     <string>Clear Completed</string>
    </property>
   </action>
-  <action name="actionFilter">
-   <property name="icon">
-    <iconset resource="Resource.qrc">
-     <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
-   </property>
-   <property name="text">
-    <string>Filter</string>
-   </property>
-  </action>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>
