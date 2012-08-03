@@ -73,6 +73,9 @@ namespace Settings
 		QByteArray	DiscoveryToolbar;			// DiscoveryToolbar
 		QByteArray	DownloadsToolbar;			// Downloads Toolbar
 		QByteArray	DownloadsHeader;			// Downloads header
+		QByteArray	DownloadsSplitter;			// Downloads splitter position
+		int			DownloadsSplitterRestoreTop;	// The top height of the downloads splitter should restore when right clicked
+		int			DownloadsSplitterRestoreBottom;	// The bottom height of the downloads splitter should restore when right clicked
 		QByteArray	GraphSplitter;				// Graph splitter position
 		int			GraphSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
 		int			GraphSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
@@ -127,6 +130,9 @@ namespace Settings
 		QByteArray	TransfersSplitter;			// Transfers splitter position
 		int			TransfersSplitterRestoreLeft;	// The width left side of the search results splitter should restore to when right clicked
 		int			TransfersSplitterRestoreRight;	// The width left side of the search results splitter should restore to when right clicked
+		QByteArray	UploadsSplitter;			// Uploads splitter position
+		int			UploadsSplitterRestoreTop;	// The top height of the uploads splitter should restore when right clicked
+		int			UploadsSplitterRestoreBottom;	// The bottom height of the uploads splitter should restore when right clicked
 		QByteArray	UploadsToolbar;				// Uploads Toolbar
 		bool		Visible;						// Is the main window visible
 	};

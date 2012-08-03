@@ -53,6 +53,8 @@ private:
 private slots:
 	void on_splitterTransfers_customContextMenuRequested(QPoint pos);
 	void setSkin();
+	void on_splitterUploads_customContextMenuRequested(const QPoint &pos);
+	void on_splitterDownloads_customContextMenuRequested(const QPoint &pos);
 };
 
 #endif // WIDGETTRANSFERS_H

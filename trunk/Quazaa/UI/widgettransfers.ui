@@ -26,6 +26,9 @@
    </property>
    <item>
     <widget class="QSplitter" name="splitterTransfers">
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -63,7 +66,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="pageDownloads">
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -75,6 +78,9 @@
         </property>
         <item>
          <widget class="QSplitter" name="splitterDownloads">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -102,21 +108,37 @@
             <number>3</number>
            </property>
            <widget class="QWidget" name="tabGeneral">
+            <attribute name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
+            </attribute>
             <attribute name="title">
              <string>General</string>
             </attribute>
            </widget>
            <widget class="QWidget" name="tabTrackers">
+            <attribute name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Network/Discovery.png</normaloff>:/Resource/Network/Discovery.png</iconset>
+            </attribute>
             <attribute name="title">
              <string>Trackers</string>
             </attribute>
            </widget>
            <widget class="QWidget" name="tabPeers">
+            <attribute name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Chat/Friends.png</normaloff>:/Resource/Chat/Friends.png</iconset>
+            </attribute>
             <attribute name="title">
              <string>Peers</string>
             </attribute>
            </widget>
            <widget class="QWidget" name="tabFiles">
+            <attribute name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Library/OpenDownloadFolder.png</normaloff>:/Resource/Library/OpenDownloadFolder.png</iconset>
+            </attribute>
             <attribute name="title">
              <string>Files</string>
             </attribute>
@@ -136,6 +158,9 @@
         </property>
         <item>
          <widget class="QSplitter" name="splitterUploads">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -163,21 +188,37 @@
             <number>3</number>
            </property>
            <widget class="QWidget" name="tabGeneral">
+            <attribute name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
+            </attribute>
             <attribute name="title">
              <string>General</string>
             </attribute>
            </widget>
            <widget class="QWidget" name="tabTrackers">
+            <attribute name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Network/Discovery.png</normaloff>:/Resource/Network/Discovery.png</iconset>
+            </attribute>
             <attribute name="title">
              <string>Trackers</string>
             </attribute>
            </widget>
            <widget class="QWidget" name="tabPeers">
+            <attribute name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Chat/Friends.png</normaloff>:/Resource/Chat/Friends.png</iconset>
+            </attribute>
             <attribute name="title">
              <string>Peers</string>
             </attribute>
            </widget>
            <widget class="QWidget" name="tabFiles">
+            <attribute name="icon">
+             <iconset resource="../Resource.qrc">
+              <normaloff>:/Resource/Library/OpenDownloadFolder.png</normaloff>:/Resource/Library/OpenDownloadFolder.png</iconset>
+            </attribute>
             <attribute name="title">
              <string>Files</string>
             </attribute>
