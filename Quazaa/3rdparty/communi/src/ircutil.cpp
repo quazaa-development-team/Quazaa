@@ -338,7 +338,6 @@ QString IrcUtil::messageToHtml(const QString& message, QHash<QString, QString> e
 
 	//Begin url detection
 	int pos = 0;
-	qDebug() << result;
 	while ((pos = URL_PATTERN.indexIn(result, pos)) >= 0)
 	{
 		int len = URL_PATTERN.matchedLength();

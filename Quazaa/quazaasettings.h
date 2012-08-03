@@ -125,8 +125,8 @@ namespace Settings
 		QByteArray	SecurityToolbars;			// Security Toolbars
 		QByteArray	SystemLogToolbar;			// System Log Toolbar
 		QByteArray	TransfersSplitter;			// Transfers splitter position
-		int			TransfersSplitterRestoreTop;	// The width left side of the search results splitter should restore to when right clicked
-		int			TransfersSplitterRestoreBottom;	// The width left side of the search results splitter should restore to when right clicked
+		int			TransfersSplitterRestoreLeft;	// The width left side of the search results splitter should restore to when right clicked
+		int			TransfersSplitterRestoreRight;	// The width left side of the search results splitter should restore to when right clicked
 		QByteArray	UploadsToolbar;				// Uploads Toolbar
 		bool		Visible;						// Is the main window visible
 	};

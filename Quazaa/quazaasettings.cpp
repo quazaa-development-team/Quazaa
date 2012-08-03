@@ -1158,8 +1158,8 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("SecurityToolbars", quazaaSettings.WinMain.SecurityToolbars);
 	m_qSettings.setValue("SystemLogToolbar", quazaaSettings.WinMain.SystemLogToolbar);
 	m_qSettings.setValue("TransfersSplitter", quazaaSettings.WinMain.TransfersSplitter);
-	m_qSettings.setValue("TransfersSplitterRestoreTop", quazaaSettings.WinMain.TransfersSplitterRestoreTop);
-	m_qSettings.setValue("TransfersSplitterRestoreBottom", quazaaSettings.WinMain.TransfersSplitterRestoreBottom);
+	m_qSettings.setValue("TransfersSplitterRestoreLeft", quazaaSettings.WinMain.TransfersSplitterRestoreLeft);
+	m_qSettings.setValue("TransfersSplitterRestoreRight", quazaaSettings.WinMain.TransfersSplitterRestoreRight);
 	m_qSettings.setValue("UploadsToolbar", quazaaSettings.WinMain.UploadsToolbar);
 }
 
@@ -1234,8 +1234,8 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.SecurityToolbars = m_qSettings.value("SecurityToolbars", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.SystemLogToolbar = m_qSettings.value("SystemLogToolbar", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.TransfersSplitter = m_qSettings.value("TransfersSplitter", QByteArray()).toByteArray();
-	quazaaSettings.WinMain.TransfersSplitterRestoreTop = m_qSettings.value("TransfersSplitterRestoreTop", 0).toInt();
-	quazaaSettings.WinMain.TransfersSplitterRestoreBottom = m_qSettings.value("TransfersSplitterRestoreBottom", 0).toInt();
+	quazaaSettings.WinMain.TransfersSplitterRestoreLeft = m_qSettings.value("TransfersSplitterRestoreLeft", 0).toInt();
+	quazaaSettings.WinMain.TransfersSplitterRestoreRight = m_qSettings.value("TransfersSplitterRestoreRight", 0).toInt();
 	quazaaSettings.WinMain.UploadsToolbar = m_qSettings.value("UploadsToolbar", QByteArray()).toByteArray();
 }
 

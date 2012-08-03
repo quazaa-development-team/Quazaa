@@ -26,7 +26,6 @@
 #include "skinsettings.h"
 
 #include <QShortcut>
-#include <QStyle>
 #include <QPlastiqueStyle>
 
 #ifdef _DEBUG
@@ -49,8 +48,7 @@ WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 	if (style()->objectName() == "oxygen")
 		setStyle(new QPlastiqueStyle);
 
-	QShortcut* shortcut = new QShortcut(Qt::Key_Tab, this);
-	connect(shortcut, SIGNAL(activated()), m_oCompleter, SLOT(onTabPressed()));
+	connect(this, SIGNAL(tabPressed()), m_oCompleter, SLOT(onTabPressed()));
 	setSkin();
 }
 
@@ -92,4 +90,15 @@ void WidgetReturnEmitTextEdit::onTextChanged()
 void WidgetReturnEmitTextEdit::setSkin()
 {
 
+}
+
+bool WidgetReturnEmitTextEdit::focusNextPrevChild(bool next)
+{
+	if (!tabChangesFocus() && this->textInteractionFlags() & Qt::TextEditable)
+	{
+		emit tabPressed();
+		return true;
+	} else {
+		return QAbstractScrollArea::focusNextPrevChild(next);
+	}
 }

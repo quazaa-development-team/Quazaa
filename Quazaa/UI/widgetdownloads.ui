@@ -46,33 +46,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBarFileTypes">
-   <property name="contextMenuPolicy">
-    <enum>Qt::PreventContextMenu</enum>
-   </property>
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>16</width>
-     <height>16</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
-   <property name="floatable">
-    <bool>false</bool>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionFilterAll"/>
-  </widget>
   <widget class="QToolBar" name="toolBarControls">
    <property name="contextMenuPolicy">
     <enum>Qt::PreventContextMenu</enum>
@@ -105,8 +78,6 @@
    <addaction name="separator"/>
    <addaction name="actionMarkAsJunk"/>
    <addaction name="actionShowMonitor"/>
-   <addaction name="separator"/>
-   <addaction name="actionProperties"/>
   </widget>
   <widget class="QToolBar" name="toolBarFilter">
    <property name="contextMenuPolicy">
@@ -134,7 +105,6 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionClearCompleted"/>
-   <addaction name="actionFilter"/>
   </widget>
   <action name="actionFilterAll">
    <property name="checkable">
@@ -211,18 +181,6 @@
     <string>Show Monitor</string>
    </property>
   </action>
-  <action name="actionProperties">
-   <property name="icon">
-    <iconset resource="../Resource.qrc">
-     <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
-   </property>
-   <property name="text">
-    <string>Properties</string>
-   </property>
-   <property name="toolTip">
-    <string>Properties</string>
-   </property>
-  </action>
   <action name="actionOpenTorrent">
    <property name="icon">
     <iconset resource="../Resource.qrc">
@@ -242,15 +200,6 @@
    </property>
    <property name="text">
     <string>Clear Completed</string>
-   </property>
-  </action>
-  <action name="actionFilter">
-   <property name="icon">
-    <iconset resource="../Resource.qrc">
-     <normaloff>:/Resource/Generic/Filter.png</normaloff>:/Resource/Generic/Filter.png</iconset>
-   </property>
-   <property name="text">
-    <string>Filter</string>
    </property>
   </action>
   <action name="actionResume">

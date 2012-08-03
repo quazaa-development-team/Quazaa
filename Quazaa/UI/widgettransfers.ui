@@ -17,7 +17,7 @@
    <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -26,123 +26,167 @@
    </property>
    <item>
     <widget class="QSplitter" name="splitterTransfers">
-     <property name="contextMenuPolicy">
-      <enum>Qt::CustomContextMenu</enum>
-     </property>
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QFrame" name="frame">
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+     <widget class="QListWidget" name="listWidgetTransfers">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <property name="spacing">
-        <number>0</number>
+      <item>
+       <property name="text">
+        <string>Downloads</string>
        </property>
-       <property name="margin">
-        <number>0</number>
+       <property name="icon">
+        <iconset resource="../Resource.qrc">
+         <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
        </property>
-       <item>
-        <widget class="QToolButton" name="toolButtonDownloadsHeader">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QToolButton {
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-</string>
-         </property>
-         <property name="text">
-          <string>Downloads</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../Resource.qrc">
-           <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextBesideIcon</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayoutDownloads"/>
-       </item>
-      </layout>
+      </item>
+      <item>
+       <property name="text">
+        <string>Uploads</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../Resource.qrc">
+         <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
+       </property>
+      </item>
      </widget>
-     <widget class="QFrame" name="frame_2">
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+     <widget class="QStackedWidget" name="stackedWidgetTransfers">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>1</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+      <property name="currentIndex">
+       <number>1</number>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="margin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QToolButton" name="toolButtonUploadsHeader">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QToolButton {
-	border: none;
-	font-size: 16px;
-	font-weight: bold;
-}
-</string>
-         </property>
-         <property name="text">
-          <string>Uploads</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../Resource.qrc">
-           <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
-         </property>
-         <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextBesideIcon</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayoutUploads"/>
-       </item>
-      </layout>
+      <widget class="QWidget" name="pageDownloads">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QSplitter" name="splitterDownloads">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <widget class="QFrame" name="frameDownloads">
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayoutDownloads"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QTabWidget" name="tabWidgetDownloadDetails">
+           <property name="currentIndex">
+            <number>3</number>
+           </property>
+           <widget class="QWidget" name="tabGeneral">
+            <attribute name="title">
+             <string>General</string>
+            </attribute>
+           </widget>
+           <widget class="QWidget" name="tabTrackers">
+            <attribute name="title">
+             <string>Trackers</string>
+            </attribute>
+           </widget>
+           <widget class="QWidget" name="tabPeers">
+            <attribute name="title">
+             <string>Peers</string>
+            </attribute>
+           </widget>
+           <widget class="QWidget" name="tabFiles">
+            <attribute name="title">
+             <string>Files</string>
+            </attribute>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pageUploads">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QSplitter" name="splitterUploads">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <widget class="QFrame" name="frameUploads">
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayoutUploads"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QTabWidget" name="tabWidgetUploadDetails">
+           <property name="currentIndex">
+            <number>3</number>
+           </property>
+           <widget class="QWidget" name="tabGeneral">
+            <attribute name="title">
+             <string>General</string>
+            </attribute>
+           </widget>
+           <widget class="QWidget" name="tabTrackers">
+            <attribute name="title">
+             <string>Trackers</string>
+            </attribute>
+           </widget>
+           <widget class="QWidget" name="tabPeers">
+            <attribute name="title">
+             <string>Peers</string>
+            </attribute>
+           </widget>
+           <widget class="QWidget" name="tabFiles">
+            <attribute name="title">
+             <string>Files</string>
+            </attribute>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
    </item>
@@ -151,5 +195,22 @@
  <resources>
   <include location="../Resource.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>listWidgetTransfers</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>stackedWidgetTransfers</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>127</x>
+     <y>149</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>462</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

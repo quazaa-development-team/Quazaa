@@ -56,7 +56,6 @@ WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	downloadMenu->addAction(ui->actionVirusTotalCheck);
 	downloadMenu->addSeparator();
 	downloadMenu->addAction(ui->actionHelp);
-	downloadMenu->addAction(ui->actionProperties);
 
 	m_pModel = new CDownloadsTreeModel();
 	ui->treeViewDownloads->setModel(m_pModel);
