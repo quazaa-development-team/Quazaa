@@ -1386,21 +1386,27 @@
                   <string>Download Manager</string>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_9">
-                  <item row="1" column="0" colspan="3">
+				  <item row="0" column="0" colspan="3">
+                   <widget class="QLabel" name="labelDownloadManagerInstructions">
+                    <property name="text">
+                     <string>The download manager plugin will only attempt to download file types listed here. Other file types will be handled by your web browser. Quazaa must be running to manage downloads.</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0" colspan="2">
                    <widget class="QCheckBox" name="checkBoxManageWebDownloads">
                     <property name="text">
-                     <string>Use Quazaa to manage all my web downloads:</string>
+                     <string>Use Quazaa to manage my web downloads</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="1">
-                   <widget class="QPushButton" name="pushButtonAddManageDownloadTypes">
-                    <property name="text">
-                     <string>Add</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0" rowspan="3">
+				  <item row="1" column="2" rowspan="5">
                    <widget class="QListWidget" name="listWidgetManageDownloadTypes">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -1425,14 +1431,14 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="1">
-                   <widget class="QPushButton" name="pushButtonRemoveManageDownloadTypes">
+				  <item row="2" column="0" colspan="2">
+                   <widget class="QCheckBox" name="checkBoxWebDownloadsIgnoreFileExtensionList">
                     <property name="text">
-                     <string>Remove</string>
+                     <string>Ignore extension list</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="1">
+				  <item row="3" column="1">
                    <spacer name="verticalSpacer_7">
                     <property name="orientation">
                      <enum>Qt::Vertical</enum>
@@ -1445,31 +1451,32 @@
                     </property>
                    </spacer>
                   </item>
-                  <item row="0" column="0" colspan="3">
-                   <widget class="QLabel" name="labelDownloadManagerInstructions">
+                  <item row="4" column="1">
+                   <widget class="QPushButton" name="pushButtonAddManageDownloadTypes">
                     <property name="text">
-                     <string>The download manager plugin will only attempt to download file types listed here. Other file types will be handled by your web browser. Quazaa must be running to manage downloads.</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                    </property>
-                    <property name="wordWrap">
-                     <bool>true</bool>
+                     <string>Add</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="2">
+				  <item row="5" column="0">
                    <spacer name="horizontalSpacer_2">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeHint" stdset="0">
+					<property name="sizeHint" stdset="0">
                      <size>
-                      <width>40</width>
+                      <width>20</width>
                       <height>20</height>
                      </size>
                     </property>
                    </spacer>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QPushButton" name="pushButtonRemoveManageDownloadTypes">
+                    <property name="text">
+                     <string>Remove</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </widget>
