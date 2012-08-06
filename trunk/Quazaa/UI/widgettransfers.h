@@ -26,6 +26,7 @@
 #define WIDGETTRANSFERS_H
 
 #include <QWidget>
+#include <QTreeWidgetItem>
 #include "widgetdownloads.h"
 #include "widgetuploads.h"
 
@@ -55,6 +56,7 @@ private slots:
 	void setSkin();
 	void on_splitterUploads_customContextMenuRequested(const QPoint &pos);
 	void on_splitterDownloads_customContextMenuRequested(const QPoint &pos);
+	void on_treeWidgetTransfers_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 };
 
 #endif // WIDGETTRANSFERS_H

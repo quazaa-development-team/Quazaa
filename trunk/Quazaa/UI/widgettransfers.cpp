@@ -48,7 +48,6 @@ WidgetTransfers::WidgetTransfers(QWidget* parent) :
 	ui->splitterUploads->restoreState(quazaaSettings.WinMain.UploadsSplitter);
 	ui->stackedWidgetTransfers->setCurrentIndex(0);
 	ui->tabWidgetDownloadDetails->setCurrentIndex(0);
-	ui->tabWidgetUploadDetails->setCurrentIndex(0);
 	setSkin();
 }
 
@@ -156,5 +155,45 @@ void WidgetTransfers::on_splitterDownloads_customContextMenuRequested(const QPoi
 			sizesList.append(quazaaSettings.WinMain.DownloadsSplitterRestoreBottom);
 			ui->splitterDownloads->setSizes(sizesList);
 		}
+	}
+}
+
+void WidgetTransfers::on_treeWidgetTransfers_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+	Q_UNUSED(previous);
+
+	if(current->statusTip(0) == "Downloads")
+	{
+		ui->stackedWidgetTransfers->setCurrentIndex(0);
+	}
+
+	if(current->statusTip(0) == "CompletedDownloads")
+	{
+		ui->stackedWidgetTransfers->setCurrentIndex(0);
+	}
+
+	if(current->statusTip(0) == "Paused")
+	{
+		ui->stackedWidgetTransfers->setCurrentIndex(0);
+	}
+
+	if(current->statusTip(0) == "Active")
+	{
+		ui->stackedWidgetTransfers->setCurrentIndex(0);
+	}
+
+	if(current->statusTip(0) == "Inactive")
+	{
+		ui->stackedWidgetTransfers->setCurrentIndex(0);
+	}
+
+	if(current->statusTip(0) == "Uploads")
+	{
+		ui->stackedWidgetTransfers->setCurrentIndex(1);
+	}
+
+	if(current->statusTip(0) == "CompletedUploads")
+	{
+		ui->stackedWidgetTransfers->setCurrentIndex(1);
 	}
 }
