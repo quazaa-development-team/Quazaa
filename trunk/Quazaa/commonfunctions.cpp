@@ -258,7 +258,7 @@ QString common::getTempFileName(QString sName)
 	return oHashName.ToString();
 }
 
-common::registeredSet common::registerNumber()
+/*common::registeredSet common::registerNumber()
 {
     registeredSet result;
     result.num8 = 0;
@@ -295,4 +295,4 @@ bool common::unregisterNumber(registeredSet registered)
         return true;
     }
     return false;
-}
+}*/

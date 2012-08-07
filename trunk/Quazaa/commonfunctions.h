@@ -46,67 +46,67 @@ namespace common
 	QString fixFileName(QString sName);
 	QString getTempFileName(QString sName);
 
-    struct registeredSet
-    {
-        quint64 num64;
-        quint8 num8;
-    };
-    struct registerEntry
-    {
-        quint64 num64[NO_OF_REGISTRATIONS];
-    };
-    static quint64 registeredNumbers[NO_OF_REGISTRATIONS] = {};
+//    struct registeredSet
+//    {
+//        quint64 num64;
+//        quint8 num8;
+//    };
+//    struct registerEntry
+//    {
+//        quint64 num64[NO_OF_REGISTRATIONS];
+//    };
+//    static quint64 registeredNumbers[NO_OF_REGISTRATIONS] = {};
 
-    registeredSet registerNumber();
-    bool unregisterNumber(registeredSet registered);
+//    registeredSet registerNumber();
+//    bool unregisterNumber(registeredSet registered);
 
-    /**
-      * Returns an empty but initilized registerEntry.
-      */
-    inline registerEntry getRegisterEntry()
-    {
-        registerEntry res = { {} };
-        return res;
-    }
+//    /**
+//      * Returns an empty but initilized registerEntry.
+//      */
+//    inline registerEntry getRegisterEntry()
+//    {
+//        registerEntry res = { {} };
+//        return res;
+//    }
 
-    /**
-      * Returns true if registering set to entry was successful; false if already registered.
-      */
-    inline bool applyRegisteredSet( registeredSet &set, registerEntry &entry )
-    {
-        if ( entry.num64[set.num8] & set.num64 )
-        {
-            return false;
-        }
-        else
-        {
-            entry.num64[set.num8] &= set.num64;
-            return true;
-        }
-    }
+//    /**
+//      * Returns true if registering set to entry was successful; false if already registered.
+//      */
+//    inline bool applyRegisteredSet( registeredSet &set, registerEntry &entry )
+//    {
+//        if ( entry.num64[set.num8] & set.num64 )
+//        {
+//            return false;
+//        }
+//        else
+//        {
+//            entry.num64[set.num8] &= set.num64;
+//            return true;
+//        }
+//    }
 
-    /**
-      * Returns true if set was already registered to entry; false if already registered.
-      */
-    inline bool isRegisteredToEntry( registeredSet &set, registerEntry &entry )
-    {
-        if ( entry.num64[set.num8] & set.num64 )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+//    /**
+//      * Returns true if set was already registered to entry; false if already registered.
+//      */
+//    inline bool isRegisteredToEntry( registeredSet &set, registerEntry &entry )
+//    {
+//        if ( entry.num64[set.num8] & set.num64 )
+//        {
+//            return true;
+//        }
+//        else
+//        {
+//            return false;
+//        }
+//    }
 
-    template <typename T>
-    inline T getRandomNum(T min, T max)
-    {
+	template <typename T>
+	inline T getRandomNum(T min, T max)
+	{
 		return min + T( ((max - min) + 1) * qrand() / (RAND_MAX + 1.0) );
-    }
+	}
 
-// TODO: Make this work.
+	// TODO: Make this work.
 	// This generates a read/write iterator from a read-only iterator.
 	/*template<class T> inline typename T::iterator getRWIterator(T container, typename T::const_iterator const_it)
 	{
