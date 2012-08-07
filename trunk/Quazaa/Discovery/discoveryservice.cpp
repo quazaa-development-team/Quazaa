@@ -79,7 +79,7 @@ void CNetworkType::setNetwork(const CNetworkType& type)
 
 bool CNetworkType::isMulti() const
 {
-	if ( !m_nNetworks || m_nNetworks && !(m_nNetworks & (m_nNetworks - 1)) )
+	if ( !m_nNetworks || ( m_nNetworks && !(m_nNetworks & (m_nNetworks - 1)) ) )
 		return false;	// m_nNetworks is 0 or power of 2
 	else				// m_nNetworks is not 0 or a power of 2 - meaning there are at
 		return true;	// least 2 different bits set to 1 within the 16 bit uint
