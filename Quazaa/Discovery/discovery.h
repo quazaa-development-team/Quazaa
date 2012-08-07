@@ -31,7 +31,9 @@ public:
 	typedef std::list< CDiscoveryService*				> CDiscoveryServicesList;
 	typedef std::map < const QUuid, CDiscoveryService*	> CDiscoveryServicesMap;
 
-	typedef CDiscoveryServicesMap::const_iterator CIterator;
+	typedef CDiscoveryServicesMap::const_iterator CConstIterator;
+	typedef CDiscoveryServicesMap::iterator CIterator;
+
 	typedef CDiscoveryServicesList::const_iterator CListIterator;
 
 	QReadWriteLock m_pRWLock;

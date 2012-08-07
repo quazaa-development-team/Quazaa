@@ -44,6 +44,8 @@ bool MetaFile::isValid() const
 	return m_lHashes.size() || m_lURIs.size();
 }
 
+QFile& CMetalinkHandler::m_oEmptyQFile = getEmptyStaticFile();
+
 CMetalinkHandler::CMetalinkHandler(QFile& oFile) :
 	m_bNull( true ),
 	m_bValid( false ),
@@ -93,5 +95,11 @@ void CMetalinkHandler::postParsingInfo( const int line, const QString sInfo ) co
 	info += sInfo;
 
 	systemLog.postLog( LogSeverity::Information, info );
+}
+
+QFile& CMetalinkHandler::getEmptyStaticFile()
+{
+	static QFile s_file( NULL );
+	return s_file;
 }
 

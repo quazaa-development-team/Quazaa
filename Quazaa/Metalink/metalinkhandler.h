@@ -44,6 +44,8 @@ struct MetaFile
 class CMetalinkHandler : public QObject
 {
 protected:
+	static QFile&			m_oEmptyQFile; // MinGW workaround to enable references to be default parameters
+
 	bool                    m_bNull;  // true if created by default constructor or if the passed file couldn't be opened
 	bool                    m_bValid; // true if valid
 	quint32                 m_nSize;  // number of files in metalink
@@ -52,7 +54,7 @@ protected:
 	QVector<MetaFile>       m_vFiles; // Files are inerted in the order of their ID and always stay sorted.
 
 public:
-	explicit CMetalinkHandler(QFile& oFile = QFile());
+	explicit CMetalinkHandler(QFile& oFile = m_oEmptyQFile);
 	virtual ~CMetalinkHandler();
 
 	virtual CDownload* file(const quint16& ID) const = 0;
@@ -65,6 +67,9 @@ public:
 protected:
 	void postParsingError( const int line, const QString sError ) const;
 	void postParsingInfo( const int line, const QString sInfo ) const;
+
+private:
+	static QFile& getEmptyStaticFile(); // part of the MinGW workaround
 };
 
 int CMetalinkHandler::size() const
