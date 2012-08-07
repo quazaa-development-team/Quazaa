@@ -111,7 +111,7 @@ bool CDiscovery::save(bool bForceSaving)
 		oStream << getCount();
 
 		// write services to stream
-		for ( CIterator i = m_mServices.begin(); i != m_mServices.end(); ++i )
+		for ( CConstIterator i = m_mServices.begin(); i != m_mServices.end(); ++i )
 		{
 			const CDiscoveryService* pService = (*i).second;
 			CDiscoveryService::save( pService, oStream );
@@ -176,26 +176,23 @@ bool CDiscovery::remove(const QUuid& oServiceID)
 
 	QWriteLocker l( &m_pRWLock );
 
-	try
-	{
-		// std::map::at() throws std::out_of_range if oServiceID cannot be found in the map
-		CDiscoveryService* pService = m_mServices.at( oServiceID );
+	CIterator iService = m_mServices.find( oServiceID );
 
-		if ( pService->isRunning() ) // Do not remove a service that is currently active.
-			return false;
+	if ( iService == m_mServices.end() )
+		return false; // Unable to find service by ID
 
-		m_lAsyncTODO.remove( pService ); // Remove service from TODO list if present.
+	CDiscoveryService* pService = (*iService).second;
 
-		// inform GUI about service removal
-		emit serviceRemoved( QSharedPointer<CDiscoveryService>( pService ) );
-
-		m_mServices.erase( oServiceID );
-		return true;
-	}
-	catch ( std::out_of_range )
-	{
+	if ( pService->isRunning() ) // Do not remove a service that is currently active.
 		return false;
-	}
+
+	m_lAsyncTODO.remove( pService ); // Remove service from TODO list if present.
+
+	// inform GUI about service removal
+	emit serviceRemoved( QSharedPointer<CDiscoveryService>( pService ) );
+
+	m_mServices.erase( oServiceID );
+	return true;
 }
 
 /**
@@ -235,20 +232,17 @@ bool CDiscovery::check(const CDiscoveryService* const pService)
 {
 	QReadLocker l( &m_pRWLock );
 
-	try
-	{
-		// std::map::at() throws std::out_of_range if pService->m_oUUID cannot be found in the map
-		const CDiscoveryService* const pExService = m_mServices.at( pService->m_oUUID );
+	CConstIterator iService = m_mServices.find( pService->m_oUUID );
 
-		if ( *pExService == *pService )
-			return true;
-		else
-			return false;
-	}
-	catch ( std::out_of_range )
-	{
+	if ( iService == m_mServices.end() )
+		return false; // Unable to find service by ID
+
+	const CDiscoveryService* const pExService = (*iService).second;
+
+	if ( *pExService == *pService )
+		return true;
+	else
 		return false;
-	}
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -260,7 +254,7 @@ bool CDiscovery::check(const CDiscoveryService* const pService)
 void CDiscovery::requestRuleList()
 {
 	QReadLocker l( &m_pRWLock );
-	for ( CIterator i = m_mServices.begin() ; i != m_mServices.end(); i++ )
+	for ( CConstIterator i = m_mServices.begin() ; i != m_mServices.end(); i++ )
 	{
 		emit serviceInfo( (*i).second );
 	}
@@ -296,15 +290,14 @@ bool CDiscovery::updateService(const QUuid& oServiceID)
 {
 	QWriteLocker lock( &m_pRWLock );
 
-	try
-	{
-		// std::map::at() throws std::out_of_range if oServiceID cannot be found in the map
-		return updateHelper( m_mServices.at( oServiceID ), lock );
-	}
-	catch ( std::out_of_range )
-	{
-		return false;
-	}
+	CIterator iService = m_mServices.find( oServiceID );
+
+	if ( iService == m_mServices.end() )
+		return false; // Unable to find service by ID
+
+	CDiscoveryService* pService = (*iService).second;
+
+	return updateHelper( pService, lock );
 }
 
 /**
@@ -315,15 +308,14 @@ bool CDiscovery::queryService(const QUuid& oServiceID)
 {
 	QWriteLocker lock( &m_pRWLock );
 
-	try
-	{
-		// std::map::at() throws std::out_of_range if oServiceID cannot be found in the map
-		return queryHelper( m_mServices.at( oServiceID ), lock );
-	}
-	catch ( std::out_of_range )
-	{
-		return false;
-	}
+	CIterator iService = m_mServices.find( oServiceID );
+
+	if ( iService == m_mServices.end() )
+		return false; // Unable to find service by ID
+
+	CDiscoveryService* pService = (*iService).second;
+
+	return queryHelper( pService, lock );
 }
 
 /**

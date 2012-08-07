@@ -9,7 +9,7 @@
 class CMetalink4Handler : public CMetalinkHandler
 {
 public:
-	explicit CMetalink4Handler(QFile& oFile = QFile());
+	explicit CMetalink4Handler(QFile& oFile = m_oEmptyQFile);
 
 	CDownload* file(const unsigned int& ID) const;
 
