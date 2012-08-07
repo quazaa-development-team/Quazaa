@@ -113,7 +113,7 @@ CHostCacheHost* CHostCache::Add(CEndPoint host, QDateTime ts)
 	if(host.isFirewalled())
 		return 0;
 
-	if(m_lHosts.size() > MaxCacheHosts)
+    if( (quint32)m_lHosts.size() > MaxCacheHosts)
 	{
 		int nMax = MaxCacheHosts / 2;
 		while(m_lHosts.size() > nMax)
