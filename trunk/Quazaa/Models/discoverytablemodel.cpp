@@ -6,7 +6,7 @@
 #include "debug_new.h"
 #endif
 
-CDiscoveryTableModel::Service::Service(CDiscoveryService* pService)
+CDiscoveryTableModel::Service::Service(Discovery::CDiscoveryService* pService)
 {
 #ifdef _DEBUG
 	Q_ASSERT( pService );
@@ -432,7 +432,8 @@ void CDiscoveryTableModel::updateAll()
 {
 	{
 		QReadLocker l( &(discoveryManager.m_pRWLock) );
-		if ( m_lNodes.size() != (int)discoveryManager.getCount() )
+
+		if ( (quint32)m_lNodes.size() != discoveryManager.getCount() )
 		{
 #ifdef _DEBUG
 			// This is something that should not have happened.
@@ -459,19 +460,12 @@ void CDiscoveryTableModel::updateAll()
 	}
 	else
 	{
-		if ( !uplist.isEmpty() )
+		QAbstractItemView* pView;
+		if ( !uplist.isEmpty() && pView = qobject_cast< QAbstractItemView* >( m_oContainer ) )
 		{
 			foreach ( QModelIndex index, uplist )
 			{
-				// TODO: question: is there a reason for this line being inside the for each loop?
-				// couldn't this be moved before the loop and the loop be only called if this
-				// returns != NULL?
-				QAbstractItemView* pView = qobject_cast< QAbstractItemView* >( m_oContainer );
-
-				if ( pView )
-				{
-					pView->update( index );
-				}
+				pView->update( index );
 			}
 		}
 	}
