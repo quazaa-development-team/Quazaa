@@ -30,7 +30,7 @@ public:
 
 	struct Service
 	{
-		// Object directly managed by security manager.
+		// Object directly managed by discovery manager.
 		CDiscoveryService*		m_pNode;
 
 		QString					m_sURL;
