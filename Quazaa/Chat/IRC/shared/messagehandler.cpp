@@ -120,7 +120,7 @@ void MessageHandler::handleMessage(IrcMessage* message)
         break;
 	case IrcMessage::Nick:
 	{
-		IrcNickMessage *nickMessage = static_cast<IrcNickMessage*>(message);
+//		IrcNickMessage *nickMessage = static_cast<IrcNickMessage*>(message);
         handleNickMessage(static_cast<IrcNickMessage*>(message));
 		break;
 	}
