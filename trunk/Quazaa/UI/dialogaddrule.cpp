@@ -142,7 +142,7 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 3:
 		pRule = new CHashRule();
-		sTmp = ui->lineEditHash->text();
+		sTmp = ui->lineEditURI->text();
 		if ( !pRule->parseContent( sTmp ) )
 		{
 			delete pRule;
