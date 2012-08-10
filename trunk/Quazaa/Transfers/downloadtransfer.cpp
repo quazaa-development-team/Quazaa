@@ -5,8 +5,8 @@
 
 CDownloadTransfer::CDownloadTransfer(CDownload *pOwner, CDownloadSource *pSource, QObject *parent) :
 	CTransfer(pOwner, parent),
-	m_nState(dtsNull),
 	m_pSource(pSource),
+	m_nState(dtsNull),
 	m_tLastResponse(0),
 	m_nQueuePos(0),
 	m_nQueueLength(0)
