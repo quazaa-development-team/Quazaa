@@ -44,20 +44,20 @@ QIcon CNetworkIconProvider::icon(DiscoveryProtocol protocol)
 
 	switch(protocol)
 	{
-		case dpNull:
-			break;
-		case dpG2:
-			pixIcon.load(":/Resource/Networks/Gnutella2.png");
-			break;
-        case dpgnutella:
-			pixIcon.load(":/Resource/Networks/Gnutella2.png");
-			break;
-		case dpAres:
-			pixIcon.load(":/Resource/Networks/Ares.png");
-			break;
-		case dpeDonkey2000:
-			pixIcon.load(":/Resource/Networks/EDonkey.png");
-			break;
+	case dpNull:
+		break;
+	case dpG2:
+		pixIcon.load(":/Resource/Networks/Gnutella2.png");
+		break;
+	case dpgnutella:
+		pixIcon.load(":/Resource/Networks/Gnutella2.png");
+		break;
+	case dpAres:
+		pixIcon.load(":/Resource/Networks/Ares.png");
+		break;
+	case dpeDonkey2000:
+		pixIcon.load(":/Resource/Networks/EDonkey.png");
+		break;
 	}
 
 	if(pixIcon.isNull())
@@ -83,13 +83,13 @@ QIcon CNetworkIconProvider::icon(TransferProtocol protocol)
 
 	switch(protocol)
 	{
-		case tpNull:
-			break;
-		case tpHTTP:
-			pixIcon.load(":/Resource/Networks/http.png");
-			break;
-		case tpBitTorrent:
-			pixIcon.load(":/Resource/Networks/BitTorrent.png");
+	case tpNull:
+		break;
+	case tpHTTP:
+		pixIcon.load(":/Resource/Networks/http.png");
+		break;
+	case tpBitTorrent:
+		pixIcon.load(":/Resource/Networks/BitTorrent.png");
 	}
 
 	if(pixIcon.isNull())

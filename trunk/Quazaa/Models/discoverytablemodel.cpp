@@ -460,12 +460,16 @@ void CDiscoveryTableModel::updateAll()
 	}
 	else
 	{
-		QAbstractItemView* pView;
-		if ( !uplist.isEmpty() && pView = qobject_cast< QAbstractItemView* >( m_oContainer ) )
+		if ( !uplist.isEmpty() )
 		{
-			foreach ( QModelIndex index, uplist )
+			QAbstractItemView* pView = qobject_cast< QAbstractItemView* >( m_oContainer );
+
+			if ( pView )
 			{
-				pView->update( index );
+				foreach ( QModelIndex index, uplist )
+				{
+					pView->update( index );
+				}
 			}
 		}
 	}
