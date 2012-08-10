@@ -49,7 +49,15 @@ QIcon CNetworkIconProvider::icon(DiscoveryProtocol protocol)
 		case dpG2:
 			pixIcon.load(":/Resource/Networks/Gnutella2.png");
 			break;
-
+		case dpGnutella:
+			pixIcon.load(":/Resource/Networks/Gnutella2.png");
+			break;
+		case dpAres:
+			pixIcon.load(":/Resource/Networks/Ares.png");
+			break;
+		case dpeDonkey2000:
+			pixIcon.load(":/Resource/Networks/EDonkey.png");
+			break;
 	}
 
 	if(pixIcon.isNull())

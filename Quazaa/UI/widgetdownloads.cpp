@@ -29,6 +29,7 @@
 #include "quazaaglobals.h"
 #include "downloadstreemodel.h"
 #include "skinsettings.h"
+#include "dialogopentorrent.h"
 
 #include <QFontMetrics>
 
@@ -118,4 +119,11 @@ void WidgetDownloads::on_treeViewDownloads_customContextMenuRequested(const QPoi
 void WidgetDownloads::setSkin()
 {
 	ui->treeViewDownloads->setStyleSheet(skinSettings.listViews);
+}
+
+void WidgetDownloads::on_actionOpenTorrent_triggered()
+{
+	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent(this);
+
+	dlgOpenTorrent->show();
 }

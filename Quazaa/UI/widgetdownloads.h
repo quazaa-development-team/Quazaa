@@ -55,6 +55,7 @@ private:
 private slots:
 	void on_treeViewDownloads_customContextMenuRequested(const QPoint &pos);
 	void setSkin();
+	void on_actionOpenTorrent_triggered();
 };
 
 #endif // WIDGETDOWNLOADS_H
