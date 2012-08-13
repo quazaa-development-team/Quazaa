@@ -206,7 +206,7 @@ void WidgetDiscovery::setSkin()
 
 void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered(bool checked)
 {
-	setVisibility( Discovery::CNetworkType( dpgnutella ), !checked );
+	setVisibility( Discovery::CNetworkType( dpGnutella ), !checked );
 }
 
 void WidgetDiscovery::on_actionAresDiscoveryType_triggered(bool checked)
