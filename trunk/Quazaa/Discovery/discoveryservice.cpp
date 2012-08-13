@@ -29,12 +29,12 @@ bool CNetworkType::operator!=(const CNetworkType& type) const
 
 bool CNetworkType::isGnutella() const
 {
-	return ( m_nNetworks & dpgnutella );
+	return ( m_nNetworks & dpGnutella );
 }
 
 void CNetworkType::setGnutella( bool )
 {
-	m_nNetworks |= dpgnutella;
+	m_nNetworks |= dpGnutella;
 }
 
 bool CNetworkType::isG2() const
@@ -248,11 +248,15 @@ CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const Serv
 
 	switch ( nSType )
 	{
+	case stNull:
+		break;
 	case stGWC:
 	{
 		pService = new CGWC( oURL, nSType, oNType, nRating, oID );
 		break;
 	}
+	case stMulti:
+		break;
 	}
 
 	return pService;
