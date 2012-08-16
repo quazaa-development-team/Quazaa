@@ -51,9 +51,9 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	tableViewDiscovery->verticalHeader()->setVisible( false );
 	ui->verticalLayoutDiscoveryTable->addWidget( tableViewDiscovery );
 
-	connect(tableViewDiscovery, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_tableViewSecurity_customContextMenuRequested(QPoint)));
-	connect(tableViewDiscovery, SIGNAL(clicked(QModelIndex)), this, SLOT(on_tableViewSecurity_clicked(QModelIndex)));
-	connect(tableViewDiscovery, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_tableViewSecurity_doubleClicked(QModelIndex)));
+	connect(tableViewDiscovery, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_tableViewDiscovery_customContextMenuRequested(QPoint)));
+	connect(tableViewDiscovery, SIGNAL(clicked(QModelIndex)), this, SLOT(on_tableViewDiscovery_clicked(QModelIndex)));
+	connect(tableViewDiscovery, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_tableViewDiscovery_doubleClicked(QModelIndex)));
 
 	m_pDiscoveryList = new CDiscoveryTableModel( this, tableView() );
 	setModel( m_pDiscoveryList );

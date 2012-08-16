@@ -67,7 +67,7 @@ public:
 	void completeRefresh();
 
 public slots:
-	void addService(CDiscoveryService* pService);
+	void addService(const CDiscoveryService *pService);
 	void removeService(const QSharedPointer<CDiscoveryService> pService);
 	void updateAll();
 

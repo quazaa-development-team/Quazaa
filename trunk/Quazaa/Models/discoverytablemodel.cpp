@@ -387,19 +387,20 @@ void CDiscoveryTableModel::completeRefresh()
 	}
 
 	// Note that this slot is automatically disconnected once all rules have been recieved once.
-	connect( &discoveryManager, SIGNAL( serviceInfo( CDiscoveryService* ) ), this,
-			 SLOT( addService( CDiscoveryService* ) ), Qt::QueuedConnection );
+	connect( &discoveryManager, SIGNAL( serviceInfo(const CDiscoveryService* ) ), this,
+			 SLOT( addService(const CDiscoveryService* ) ), Qt::QueuedConnection );
 
 	// Request getting them back from the Security Manager.
 	discoveryManager.requestRuleList();
 }
 
-void CDiscoveryTableModel::addService(CDiscoveryTableModel::CDiscoveryService* pService)
+void CDiscoveryTableModel::addService( const CDiscoveryTableModel::CDiscoveryService* pService)
 {
-	if ( discoveryManager.check( pService ) )
+	CDiscoveryService *discoveryService = const_cast<CDiscoveryService*>(pService);
+	if ( discoveryManager.check( discoveryService ) )
 	{
 		beginInsertRows( QModelIndex(), m_lNodes.size(), m_lNodes.size() );
-		m_lNodes.append( new Service( pService ) );
+		m_lNodes.append( new Service( discoveryService ) );
 		endInsertRows();
 		m_bNeedSorting = true;
 	}
