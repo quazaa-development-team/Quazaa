@@ -76,13 +76,13 @@ private:
 	quint32			m_nLastHosts;
 	quint32			m_nTotalHosts;
 
-	QReadWriteLock	m_pRWLock;
+	QReadWriteLock	m_oRWLock;
 	Request			m_nRequest;
 	CEndPoint		m_oOwnIP;
 
 	// List of pointers that will be set to 0 if this instance of CDiscoveryService is deleted.
 	// Note that the content of this list is not forwarded to copies of this rule.
-	std::list<CDiscoveryService**> m_lPointers;
+	std::list<const CDiscoveryService**> m_lPointers;
 
 public:
 	/* ================================================================ */
@@ -116,9 +116,9 @@ public:
 	// Registers a pointer to a Discovery Service to assure it is set to NULL if the Discovery
 	// Service is deleted. Note that a pointer who has been registered needs to be unregistered
 	// before freeing its memory.
-	void registerPointer(CDiscoveryService** pService);
+	void registerPointer(const CDiscoveryService** pService) const;
 	// Call this before removing a pointer you have previously registered.
-	void unRegisterPointer(CDiscoveryService** pService);
+	void unRegisterPointer(const CDiscoveryService** pService) const;
 
 	// Sends our IP to service if it supports the operation (e.g. if it is a GWC).
 	void update(CEndPoint& oOwnIP,bool bExecute = true);

@@ -153,7 +153,7 @@ CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
 CDiscoveryService::~CDiscoveryService()
 {
 	// Set all pointers to this rule to NULL to notify them about the deletion of this object.
-	for ( std::list<CDiscoveryService**>::iterator i = m_lPointers.begin();
+	for ( std::list<const CDiscoveryService**>::iterator i = m_lPointers.begin();
 		  i != m_lPointers.end(); ++i )
 	{
 		*(*i) = NULL;
@@ -198,7 +198,7 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
 	}
 
 	pService = new CDiscoveryService();
-	QWriteLocker l( &pService->m_pRWLock );
+	QWriteLocker l( &pService->m_oRWLock );
 
 	quint8		nServiceType;
 	quint8		nNetworkType;
@@ -226,7 +226,7 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
   */
 void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStream &oStream)
 {
-	QReadLocker l( &( const_cast<CDiscoveryService*>(pService) )->m_pRWLock );
+	QReadLocker l( &( const_cast<CDiscoveryService*>(pService) )->m_oRWLock );
 
 	oStream << (quint8)(pService->m_nServiceType);
 	oStream << (quint16)(pService->m_oNetworkType.toQuint16());
@@ -263,25 +263,35 @@ CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const Serv
 }
 
 /**
-  * Registers a pointer.
+  * Registers a pointer. Note that this method is const, because it does not change the
+  * data defining the DiscoveryService in question. It does, however, add the pointer pService
+  * to an internal storage structure. So be careful when using.
   * Locking: RW
   */
-void CDiscoveryService::registerPointer(CDiscoveryService** pRule)
+void CDiscoveryService::registerPointer(const CDiscoveryService** pService) const
 {
-	m_pRWLock.lockForWrite();
-	m_lPointers.push_back( pRule );
-	m_pRWLock.unlock();
+	// Cildren, don't repeat this at home! :D
+	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>(this);
+
+	pModifiable->m_oRWLock.lockForWrite();
+	pModifiable->m_lPointers.push_back( pService );
+	pModifiable->m_oRWLock.unlock();
 }
 
 /**
-  * Unregisters a pointer.
+  * Unregisters a pointer. Note that this method is const, because it does not change the
+  * data defining the DiscoveryService in question. It does, however, add the pointer pService
+  * to an internal storage structure. So be careful when using.
   * Locking: RW
   */
-void CDiscoveryService::unRegisterPointer(CDiscoveryService** pRule)
+void CDiscoveryService::unRegisterPointer(const CDiscoveryService** pService) const
 {
-	m_pRWLock.lockForWrite();
-	m_lPointers.remove( pRule );
-	m_pRWLock.unlock();
+	// Cildren, don't repeat this at home! :D
+	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>(this);
+
+	pModifiable->m_oRWLock.lockForWrite();
+	pModifiable->m_lPointers.remove( pService );
+	pModifiable->m_oRWLock.unlock();
 }
 
 /**
@@ -290,10 +300,10 @@ void CDiscoveryService::unRegisterPointer(CDiscoveryService** pRule)
   */
 void CDiscoveryService::update(CEndPoint& oOwnIP, bool bExecute)
 {
-	m_pRWLock.lockForWrite();
+	m_oRWLock.lockForWrite();
 	m_nRequest = srUpdate;
 	m_oOwnIP = oOwnIP;
-	m_pRWLock.unlock();
+	m_oRWLock.unlock();
 
 	if ( bExecute )
 		start(); // Start new thread.
@@ -308,9 +318,9 @@ void CDiscoveryService::update(CEndPoint& oOwnIP, bool bExecute)
   */
 void CDiscoveryService::query(bool bExecute)
 {
-	m_pRWLock.lockForWrite();
+	m_oRWLock.lockForWrite();
 	m_nRequest = srQuery;
-	m_pRWLock.unlock();
+	m_oRWLock.unlock();
 
 	if ( bExecute )
 		start(); // Start new thread.
@@ -336,7 +346,7 @@ void CDiscoveryService::run()
 {
 	// Lock the service while running the thread to prevent service
 	// access or removal while the service is active.
-	QReadLocker l( &m_pRWLock );
+	QReadLocker l( &m_oRWLock );
 
 	switch ( m_nRequest )
 	{

@@ -407,7 +407,7 @@ bool CDiscovery::add(CDiscoveryService* pService)
 	for ( CDiscoveryServicesMap::iterator i = m_mServices.begin(); i != m_mServices.end(); ++i )
 	{
 
-		// TODO: Improve this test.
+		// TODO: Improve removal rules.
 
 		if ( (*i).second->m_oServiceURL == pService->m_oServiceURL )
 		{
@@ -503,19 +503,22 @@ bool CDiscovery::queryHelper(CDiscoveryService *pService, QWriteLocker &lock)
 }
 
 /**
-  * Returns a (pseudo) random service of a given ServiceType.
+  * Returns a (pseudo) random service of a given ServiceType. Note that a service with
+  * rating x will have an x times higher chance of being returned than a service with rating 1.
   * Requires Locking: R
   */
 CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::ServiceType nSType)
 {
 	CDiscoveryServicesList list;
-	quint16 nTotalRating = 0;
+	quint16 nTotalRating = 0;		// Used to store accumulative rating of all services
+									// taken under consideration as return value.
 	CDiscoveryService* pService;
 
 	foreach ( CMapPair pair, m_mServices )
 	{
 		pService = pair.second;
 
+		// Consider all services that have the correct type, have a rating > 0 and are not in use.
 		if ( pService->m_nServiceType == nSType && pService->m_nRating && !pService->isQueued() )
 		{
 			list.push_back( pService );
@@ -529,13 +532,17 @@ CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::ServiceType n
 	}
 	else
 	{
-		quint16 nSelectedRating = qrand() % nTotalRating;
+		// Make sure our selection is within [1 ; nTotalRating]
+		quint16 nSelectedRating = ( qrand() % nTotalRating ) + 1;
 		CDiscoveryServicesList::const_iterator current = list.begin();
 		CDiscoveryService* pSelected = *current;
 
+		// Iterate threw list until the selected service has been found.
 		while ( nSelectedRating > pSelected->m_nRating )
 		{
 			nSelectedRating -= pSelected->m_nRating;
+
+			// Set pSelected to *current after having incremented current.
 			pSelected = *( ++current );
 		}
 
@@ -550,13 +557,15 @@ CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::ServiceType n
 CDiscoveryService* CDiscovery::getRandomService(const CNetworkType& oNType)
 {
 	CDiscoveryServicesList list;
-	quint16 nTotalRating = 0;
+	quint16 nTotalRating = 0;		// Used to store accumulative rating of all services
+									// taken under consideration as return value.
 	CDiscoveryService* pService;
 
 	foreach ( CMapPair pair, m_mServices )
 	{
 		pService = pair.second;
 
+		// Consider all services that have the correct type, have a rating > 0 and are not in use.
 		if ( pService->m_oNetworkType.isNetwork( oNType ) && pService->m_nRating && !pService->isQueued() )
 		{
 			list.push_back( pService );
@@ -570,10 +579,12 @@ CDiscoveryService* CDiscovery::getRandomService(const CNetworkType& oNType)
 	}
 	else
 	{
-		quint16 nSelectedRating = qrand() % nTotalRating;
+		// Make sure our selection is within [1 ; nTotalRating]
+		quint16 nSelectedRating = ( qrand() % nTotalRating ) + 1;
 		CDiscoveryServicesList::const_iterator current = list.begin();
 		CDiscoveryService* pSelected = *current;
 
+		// Iterate threw list until the selected service has been found.
 		while ( nSelectedRating > pSelected->m_nRating )
 		{
 			nSelectedRating -= pSelected->m_nRating;

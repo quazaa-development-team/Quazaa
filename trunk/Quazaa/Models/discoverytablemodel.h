@@ -31,15 +31,15 @@ public:
 	struct Service
 	{
 		// Object directly managed by discovery manager.
-		CDiscoveryService*		m_pNode;
+		const CDiscoveryService*		m_pNode;
 
-		QString					m_sURL;
+		QString							m_sURL;
 		CDiscoveryService::ServiceType	m_nType;
-		quint32					m_nLastHosts;
-		quint32					m_nTotalHosts;
-		QIcon					m_iType;
+		quint32							m_nLastHosts;
+		quint32							m_nTotalHosts;
+		QIcon							m_iType;
 
-		Service(CDiscoveryService* pService);
+		Service(const CDiscoveryService* pService);
 		~Service();
 		bool update(int row, int col, QModelIndexList& to_update, CDiscoveryTableModel* model);
 		QVariant data(int col) const;
@@ -61,13 +61,13 @@ public:
 
 	void sort(int column, Qt::SortOrder order);
 
-	CDiscoveryService* nodeFromRow(quint32 row);
-	CDiscoveryService* nodeFromIndex(const QModelIndex& index);
+	const CDiscoveryService* nodeFromRow(quint32 row) const;
+	const CDiscoveryService* nodeFromIndex(const QModelIndex& index) const;
 
 	void completeRefresh();
 
 public slots:
-	void addService(const CDiscoveryService *pService);
+	void addService(const CDiscoveryService* pService);
 	void removeService(const QSharedPointer<CDiscoveryService> pService);
 	void updateAll();
 
