@@ -6,7 +6,7 @@
 #include "debug_new.h"
 #endif
 
-CDiscoveryTableModel::Service::Service(Discovery::CDiscoveryService* pService)
+CDiscoveryTableModel::Service::Service(const CDiscoveryService* pService)
 {
 #ifdef _DEBUG
 	Q_ASSERT( pService );
@@ -173,8 +173,8 @@ CDiscoveryTableModel::CDiscoveryTableModel(QObject *parent, QWidget* container) 
 	m_nSortColumn( -1 ),
 	m_bNeedSorting( false )
 {
-	/*connect( &discoveryManager, SIGNAL( serviceAdded( CDiscoveryService* ) ), this,
-			 SLOT( addService( CDiscoveryService* ) ), Qt::QueuedConnection );
+	/*connect( &discoveryManager, SIGNAL( serviceAdded( const CDiscoveryService* ) ), this,
+			 SLOT( addService( const CDiscoveryService* ) ), Qt::QueuedConnection );
 
 	connect( &discoveryManager, SIGNAL( serviceRemoved( QSharedPointer<CDiscoveryService> ) ), this,
 			 SLOT( removeService( QSharedPointer<CDiscoveryService> ) ), Qt::QueuedConnection );*/
@@ -352,7 +352,7 @@ void CDiscoveryTableModel::sort(int column, Qt::SortOrder order)
 	emit layoutChanged();
 }
 
-Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromRow(quint32 row)
+const Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromRow(quint32 row) const
 {
 	if ( row < (quint32)m_lNodes.count() )
 	{
@@ -364,7 +364,7 @@ Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromRow(quint32 row)
 	}
 }
 
-Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index)
+const Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index) const
 {
 	if ( !index.isValid() || !( index.row() < m_lNodes.count() ) || index.row() < 0 )
 		return NULL;
@@ -387,7 +387,7 @@ void CDiscoveryTableModel::completeRefresh()
 	}
 
 	// Note that this slot is automatically disconnected once all rules have been recieved once.
-	connect( &discoveryManager, SIGNAL( serviceInfo(const CDiscoveryService* ) ), this,
+	connect( &discoveryManager, SIGNAL( serviceInfo( const CDiscoveryService* ) ), this,
 			 SLOT( addService(const CDiscoveryService* ) ), Qt::QueuedConnection );
 
 	// Request getting them back from the Security Manager.
@@ -396,12 +396,12 @@ void CDiscoveryTableModel::completeRefresh()
 
 void CDiscoveryTableModel::addService( const CDiscoveryTableModel::CDiscoveryService* pService)
 {
-	CDiscoveryService *discoveryService = const_cast<CDiscoveryService*>(pService);
-	if ( discoveryManager.check( discoveryService ) )
+	if ( discoveryManager.check( pService ) )
 	{
 		beginInsertRows( QModelIndex(), m_lNodes.size(), m_lNodes.size() );
-		m_lNodes.append( new Service( discoveryService ) );
+		m_lNodes.append( new Service( pService ) );
 		endInsertRows();
+
 		m_bNeedSorting = true;
 	}
 
@@ -409,8 +409,8 @@ void CDiscoveryTableModel::addService( const CDiscoveryTableModel::CDiscoverySer
 
 	// Make sure we don't recieve any signals we don't want once we got all rules once.
 	if ( m_lNodes.size() == (int)discoveryManager.getCount() )
-		disconnect( &discoveryManager, SIGNAL( serviceInfo( CDiscoveryService* ) ),
-					this, SLOT( addService( CDiscoveryService* ) ) );
+		disconnect( &discoveryManager, SIGNAL( serviceInfo( const CDiscoveryService* ) ),
+					this, SLOT( addService( const CDiscoveryService* ) ) );
 }
 
 void CDiscoveryTableModel::removeService(const QSharedPointer<CDiscoveryService> pService)
