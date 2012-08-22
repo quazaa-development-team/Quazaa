@@ -95,9 +95,9 @@ CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 
 # Additional config
 win32 {
-    LIBS += -Lbin -luser32 -lole32 -lshell32 # if you are at windows os
+	LIBS += -Lbin -luser32 -lole32 -lshell32 # if you are at windows os
 } else {
-    LIBS += -lz
+	LIBS += -lz
 }
 DEFINES += COMMUNI_STATIC
 CONFIG(debug, debug|release){
