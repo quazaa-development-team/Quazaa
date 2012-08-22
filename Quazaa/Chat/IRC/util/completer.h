@@ -41,8 +41,8 @@ public:
     IrcUserListModel* tabModel() const;
     void setTabModel(IrcUserListModel* model);
 
-    QAbstractItemModel* slashModel() const;
-    void setSlashModel(QAbstractItemModel* model);
+    QStringListModel* slashModel() const;
+    void setSlashModel(QStringListModel* model);
 
 private slots:
     void onTabPressed();
@@ -54,7 +54,7 @@ private:
     {
         WidgetReturnEmitTextEdit* textEdit;
         IrcUserListModel* tabModel;
-        QAbstractItemModel* slashModel;
+        QStringListModel* slashModel;
     } d;
 };
 

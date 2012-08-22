@@ -57,12 +57,12 @@ void Completer::setTabModel(IrcUserListModel* model)
     d.tabModel = model;
 }
 
-QAbstractItemModel* Completer::slashModel() const
+QStringListModel *Completer::slashModel() const
 {
     return d.slashModel;
 }
 
-void Completer::setSlashModel(QAbstractItemModel* model)
+void Completer::setSlashModel(QStringListModel* model)
 {
     d.slashModel = model;
 }
