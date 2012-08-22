@@ -21,7 +21,7 @@ LineEditor::LineEditor(QWidget* parent) : HistoryLineEdit(parent)
 {
     d.completer = new Completer(this);
     d.completer->setWidget(this);
-    d.completer->setLineEdit(this);
+    //d.completer->setLineEdit(this);
 
     setAttribute(Qt::WA_MacShowFocusRect, false);
 
@@ -33,7 +33,7 @@ LineEditor::LineEditor(QWidget* parent) : HistoryLineEdit(parent)
     connect(shortcut, SIGNAL(activated()), d.completer, SLOT(onTabPressed()));
 
     setButtonVisible(Left, true);
-	setAutoHideButton(Left, true);
+    setAutoHideButton(Left, true);
     setButtonPixmap(Left, QPixmap(":/resources/icons/buttons/tab.png"));
     connect(this, SIGNAL(leftButtonClicked()), d.completer, SLOT(onTabPressed()));
 

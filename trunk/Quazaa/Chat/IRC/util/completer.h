@@ -17,6 +17,7 @@
 
 #include <QCompleter>
 #include "widgetreturnemittextedit.h"
+#include "ircuserlistmodel.h"
 
 class HistoryLineEdit;
 class WidgetReturnEmitTextEdit;
@@ -29,13 +30,16 @@ public:
     Completer(QObject* parent = 0);
 
     HistoryLineEdit* lineEdit() const;
-	void setLineEdit(HistoryLineEdit* lineEdit);
+    void setLineEdit(HistoryLineEdit* lineEdit);
 
-	WidgetReturnEmitTextEdit* textEdit() const;
-	void setTextEdit(WidgetReturnEmitTextEdit* textEdit);
+    WidgetReturnEmitTextEdit* textEdit() const;
+    void setTextEdit(WidgetReturnEmitTextEdit* textEdit);
 
     QAbstractItemModel* defaultModel() const;
     void setDefaultModel(QAbstractItemModel* model);
+
+    IrcUserListModel* tabModel() const;
+    void setTabModel(IrcUserListModel* model);
 
     QAbstractItemModel* slashModel() const;
     void setSlashModel(QAbstractItemModel* model);
@@ -48,10 +52,9 @@ private slots:
 private:
     struct CompleterData
     {
-        HistoryLineEdit* lineEdit;
-		WidgetReturnEmitTextEdit* textEdit;
-        QAbstractItemModel* defaultModel;
-		QAbstractItemModel* slashModel;
+        WidgetReturnEmitTextEdit* textEdit;
+        IrcUserListModel* tabModel;
+        QAbstractItemModel* slashModel;
     } d;
 };
 
