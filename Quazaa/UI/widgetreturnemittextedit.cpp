@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -27,6 +27,7 @@
 
 #include <QShortcut>
 #include <QPlastiqueStyle>
+#include <QDebug>
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -34,57 +35,64 @@
 
 WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 {
-	Q_UNUSED(parent);
-	m_oCompleter = new Completer(this);
-	m_oCompleter->setWidget(this);
-	m_oCompleter->setTextEdit(this);
+    Q_UNUSED(parent);
+    m_oCompleter = new Completer(this);
+    m_oCompleter->setWidget(this);
+    m_oCompleter->setTextEdit(this);
 
-	emitReturn = true;
-	connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
+    emitReturn = true;
+    connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 
-	setAttribute(Qt::WA_MacShowFocusRect, false);
+    setAttribute(Qt::WA_MacShowFocusRect, false);
 
-	// a workaround for a bug in the Oxygen style
-	if (style()->objectName() == "oxygen")
-		setStyle(new QPlastiqueStyle);
+    // a workaround for a bug in the Oxygen style
+    if (style()->objectName() == "oxygen")
+        setStyle(new QPlastiqueStyle);
 
-	connect(this, SIGNAL(tabPressed()), m_oCompleter, SLOT(onTabPressed()));
-	setSkin();
+    connect(this, SIGNAL(tabPressed()), m_oCompleter, SLOT(onTabPressed()));
+    setSkin();
 }
 
 void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 {
-	if (event->key() == Qt::Key_Return)
-	{
-		if (emitReturn)
-		{
-			emit returnPressed();
-		} else {
-			QTextEdit::keyPressEvent(event);
-		}
-	} else {
-		QTextEdit::keyPressEvent(event);
-	}
+    if (event->key() == Qt::Key_Return)
+    {
+        if (emitReturn)
+        {
+            emit returnPressed();
+        } else {
+            QTextEdit::keyPressEvent(event);
+        }
+    } else {
+        QTextEdit::keyPressEvent(event);
+    }
 }
 
 void WidgetReturnEmitTextEdit::setEmitsReturn(bool shouldEmit)
 {
-	emitReturn = shouldEmit;
+    emitReturn = shouldEmit;
 }
 
 bool WidgetReturnEmitTextEdit::emitsReturn()
 {
-	return emitReturn;
+    return emitReturn;
 }
 
 Completer* WidgetReturnEmitTextEdit::completer() const
 {
-	return m_oCompleter;
+    return m_oCompleter;
+}
+
+QString WidgetReturnEmitTextEdit::textUnderCursor() const
+{
+    QTextCursor tc = textCursor();
+    tc.select(QTextCursor::WordUnderCursor);
+    return tc.selectedText();
 }
 
 void WidgetReturnEmitTextEdit::onTextChanged()
 {
-	emit textChanged(toPlainText());
+    emit textChanged(toPlainText());
 }
 
 void WidgetReturnEmitTextEdit::setSkin()
@@ -94,11 +102,11 @@ void WidgetReturnEmitTextEdit::setSkin()
 
 bool WidgetReturnEmitTextEdit::focusNextPrevChild(bool next)
 {
-	if (!tabChangesFocus() && this->textInteractionFlags() & Qt::TextEditable)
-	{
-		emit tabPressed();
-		return true;
-	} else {
-		return QAbstractScrollArea::focusNextPrevChild(next);
-	}
+    if (!tabChangesFocus() && this->textInteractionFlags() & Qt::TextEditable)
+    {
+        emit tabPressed();
+        return true;
+    } else {
+        return QAbstractScrollArea::focusNextPrevChild(next);
+    }
 }

@@ -26,88 +26,90 @@
 #define CHATUSERLISTMODEL_H
 
 #include <QAbstractListModel>
+#include <QStringListModel>
 #include <QStringList>
 #include <QIcon>
 #include <QHash>
 
 namespace UserMode
 {
-	enum UserMode {	Normal, Voice, HalfOperator, Operator, Administrator, Owner, Immune };
+    enum UserMode {	Normal, Voice, HalfOperator, Operator, Administrator, Owner, Immune };
 };
 
 class IrcUserItem : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	IrcUserItem(QString nick, QString modes, IrcUserItem* parent = 0);
-	~IrcUserItem();
+    IrcUserItem(QString nick, QString modes, IrcUserItem* parent = 0);
+    ~IrcUserItem();
 
-	UserMode::UserMode userMode;
-	QString sNick;
-	QString sDisplayNick;
-	QString sModes;
+    UserMode::UserMode userMode;
+    QString sNick;
+    QString sDisplayNick;
+    QString sModes;
 
-	void appendChild(IrcUserItem* child);
-	void clearChildren();
+    void appendChild(IrcUserItem* child);
+    void clearChildren();
 
-	IrcUserItem* child(int row);
-	int childCount() const;
-	int find(QString nick);
-	int duplicateCheck(QString displayNick);
-	QVariant data(int column) const;
-	int row() const;
-	QList<IrcUserItem*> childItems;
-	IrcUserItem* parent();
+    IrcUserItem* child(int row);
+    int childCount() const;
+    int find(QString nick);
+    int duplicateCheck(QString displayNick);
+    QVariant data(int column) const;
+    int row() const;
+    QList<IrcUserItem*> childItems;
+    IrcUserItem* parent();
 
 private:
-	QList<QVariant> itemData;
-	IrcUserItem* parentItem;
+    QList<QVariant> itemData;
+    IrcUserItem* parentItem;
 };
 
 class IrcUserListModel : public QAbstractListModel
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	IrcUserListModel();
-	~IrcUserListModel();
+    IrcUserListModel();
+    ~IrcUserListModel();
 
-	QVariant data(const QModelIndex& index, int role) const;
-	Qt::ItemFlags flags(const QModelIndex& index) const;
-	QVariant headerData(int section, Qt::Orientation orientation,
-	                    int role = Qt::DisplayRole) const;
-	QModelIndex index(int row, int column,
-	                  const QModelIndex& parent = QModelIndex()) const;
-	int rowCount(const QModelIndex& parent = QModelIndex()) const;
-	int nOperatorCount;
-	int nUserCount;
-	void sort(Qt::SortOrder order = Qt::AscendingOrder);
-	bool bNeedsSorting;
-	QIcon iImmune;
-	QIcon iOwner;
-	QIcon iAdmin;
-	QIcon iOperator;
-	QIcon iHalfOperator;
-	QIcon iVoice;
-	QIcon iNormal;
+    QVariant data(const QModelIndex& index, int role) const;
+    Qt::ItemFlags flags(const QModelIndex& index) const;
+    QVariant headerData(int section, Qt::Orientation orientation,
+                        int role = Qt::DisplayRole) const;
+    QModelIndex index(int row, int column,
+                      const QModelIndex& parent = QModelIndex()) const;
+    QStringListModel* toStringListModel();
+    int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    int nOperatorCount;
+    int nUserCount;
+    void sort(Qt::SortOrder order = Qt::AscendingOrder);
+    bool bNeedsSorting;
+    QIcon iImmune;
+    QIcon iOwner;
+    QIcon iAdmin;
+    QIcon iOperator;
+    QIcon iHalfOperator;
+    QIcon iVoice;
+    QIcon iNormal;
 
 signals:
-	void updateUserCount(IrcUserListModel* chatUserListModel, int operators, int users);
+    void updateUserCount(IrcUserListModel* chatUserListModel, int operators, int users);
 
 private:
-	IrcUserItem* rootItem;
+    IrcUserItem* rootItem;
 
 public slots:
-	void clear();
-	bool isRoot(QModelIndex index);
-	void addUser(QString name, QString modes);
-	void addUsers(QStringList users);
-	void removeUser(QString name);
-	void updateUserMode(QString mode, QString name);
-	UserMode::UserMode highestMode(int index);
-	void changeNick(QString oldNick, QString newNick);
+    void clear();
+    bool isRoot(QModelIndex index);
+    void addUser(QString name, QString modes);
+    void addUsers(QStringList users);
+    void removeUser(QString name);
+    void updateUserMode(QString mode, QString name);
+    UserMode::UserMode highestMode(int index);
+    void changeNick(QString oldNick, QString newNick);
 
 private slots:
-	QList<IrcUserItem*> caseInsensitiveSecondarySort(QList<IrcUserItem*> list, Qt::SortOrder order);
+    QList<IrcUserItem*> caseInsensitiveSecondarySort(QList<IrcUserItem*> list, Qt::SortOrder order);
 };
 
 #endif // CHATUSERLISTMODEL_H
