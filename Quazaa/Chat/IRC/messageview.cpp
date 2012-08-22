@@ -81,6 +81,7 @@ MessageView::MessageView(IrcSession* session, QWidget* parent) :
         CommandParser::addCustomCommand("SETTINGS", "");
         CommandParser::addCustomCommand("JOIN", "<channel>");
         CommandParser::addCustomCommand("J", "<channel>");
+        CommandParser::addCustomCommand("PART", "");
         CommandParser::addCustomCommand("SYSINFO", "");
         CommandParser::addCustomCommand("NS", "<nick service command (try help)>");
         CommandParser::addCustomCommand("CS", "<chanel service command (try help)>");
@@ -529,6 +530,8 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
     }
     else if (command == "OPERSERV")
         onCustomCommand("OS", params);
+    else if (command == "PART")
+        part();
 }
 
 QString MessageView::prettyNames(const QStringList& names, int columns)
