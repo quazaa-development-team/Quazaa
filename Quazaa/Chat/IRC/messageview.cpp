@@ -30,6 +30,7 @@
 #include "quazaaglobals.h"
 #include "commonfunctions.h"
 #include "chatconverter.h"
+#include "quazaasysinfo.h"
 
 QStringListModel* MessageView::MessageViewData::commandModel = 0;
 
@@ -474,7 +475,7 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
         emit join(params.value(0));
     else if (command == "SYSINFO")
     {
-        onSend(tr("Application:%1 %2 OS:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING(), common::osVersionToString()));
+        onSend(tr("Application:%1 %2 OS:%3 Qt Version:%4").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING(), QuazaaSysInfo::osVersionToString(), qVersion()));
         //onSend(tr("CPU:%1 Cores:%2 Memory:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING()));
     }
     else if (command == "NS")

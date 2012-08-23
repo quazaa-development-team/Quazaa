@@ -327,7 +327,8 @@ SOURCES += \
     3rdparty/zlib/gzclose.c \
     3rdparty/zlib/deflate.c \
     3rdparty/zlib/crc32.c \
-    3rdparty/zlib/adler32.c
+    3rdparty/zlib/adler32.c \
+    quazaasysinfo.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -497,7 +498,8 @@ HEADERS += \
     3rdparty/zlib/inffast.h \
     3rdparty/zlib/gzguts.h \
     3rdparty/zlib/deflate.h \
-    3rdparty/zlib/crc32.h
+    3rdparty/zlib/crc32.h \
+    quazaasysinfo.h
 
 FORMS += \
 	UI/dialogabout.ui \
