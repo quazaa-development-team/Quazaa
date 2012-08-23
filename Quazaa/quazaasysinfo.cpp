@@ -144,7 +144,7 @@ QString QuazaaSysInfo::osVersionToString()
             operatingSystemString = "Mac OS X 10.6 Snow Leopard";
             break;
         case QSysInfo::MV_Unknown :
-            operatingSystemString = "An unknown and currently unsupported OS X platform";
+            operatingSystemString = "An unknown and currently unsupported Mac platform";
             break;
         default :
             operatingSystemString = "Unknown Mac operating system.";
