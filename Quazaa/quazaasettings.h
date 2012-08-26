@@ -58,250 +58,47 @@ namespace IrcColorType {
 
 namespace Settings
 {
-	struct sWinMain
+	struct sAres
 	{
-		int			ActiveTab;					// The active tab (Home, Library, Media, etc.)
-		int			ActivitySplitterRestoreTop;	// The width left side of the search results splitter should restore to when right clicked
-		int			ActivitySplitterRestoreBottom;	// The width left side of the search results splitter should restore to when right clicked
-		bool		ChatRoomsTaskVisible;			// The Rooms task in the Chat sidebar
-		bool		ChatFriendsTaskVisible;		// The Friends task in the Chat sidebar
-		QByteArray	ChatSplitter;
-		int			ChatSplitterRestoreLeft;
-		int			ChatSplitterRestoreMiddle;
-		int			ChatSplitterRestoreRight;
-		QByteArray	ChatToolbars;				// Chat Toolbars
-		QByteArray	DiscoveryToolbar;			// DiscoveryToolbar
-		QByteArray	DownloadsToolbar;			// Downloads Toolbar
-		QByteArray	DownloadsHeader;			// Downloads header
-		QByteArray	DownloadsSplitter;			// Downloads splitter position
-		int			DownloadsSplitterRestoreTop;	// The top height of the downloads splitter should restore when right clicked
-		int			DownloadsSplitterRestoreBottom;	// The bottom height of the downloads splitter should restore when right clicked
-		QByteArray	GraphSplitter;				// Graph splitter position
-		int			GraphSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
-		int			GraphSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
-		QByteArray	GraphToolbar;				// Graph Toolbar
-		QByteArray	HitMonitorToolbar;			// Hit Monitor Toolbar
-		bool		HomeConnectionTaskVisible;	// The Connection task in the Home sidebar
-		bool		HomeDownloadsTaskVisible;		// The Downloads task in the Home sidebar
-		bool		HomeLibraryTaskVisible;		// The Library task in the Home sidebar
-		QString		HomeSearchString;				// The text typed into the search text box on the home tab
-		QByteArray	HomeSplitter;				// The splitter between the Home sidebar and welcome frame
-		int			HomeSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
-		int			HomeSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
-		bool		HomeTorrentsTaskVisible;		// The BitTorrent task in the Home sidebar
-		bool		HomeUploadsTaskVisible;		// The Uploads task in the Home sidebar
-		QByteArray	HostCacheSplitter;			// Host Cache splitter position
-		int			HostCacheSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
-		int			HostCacheSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
-		QByteArray	HostCacheToolbar;			// Host Cache Toolbar
-		QByteArray	LibraryDetailsSplitter;		// Library details splitter position
-		int			LibraryDetailsSplitterRestoreTop;	// The width left side of the home splitter should restore to when right clicked
-		int			LibraryDetailsSplitterRestoreBottom;	// The width left side of the home splitter should restore to when right clicked
-		int			LibraryNavigatorTab;			// Shared Folders or Organiser
-		QByteArray	LibrarySplitter;				// Library splitter position
-		int			LibrarySplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
-		int			LibrarySplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
-		QByteArray	LibraryToolbar;				// Library View Toolbar
-		QByteArray	MainToolbar;				// The Navigation Toolbar
-		QByteArray	MediaSplitter;				// Media splitter position
-		int			MediaSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
-		int			MediaSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
-		QByteArray	MediaToolbars;				// Media Toolbars
-		QByteArray	NeighboursToolbars;			// Neighbours Toolbars
-		QByteArray	NeighboursHeader;			// Header in the neighbours list view
-		QByteArray	PacketDumpToolbar;			// Packet Dump Toolbar
-		QByteArray	ActivitySplitter;				// Activity splitter position
-		QByteArray	SchedulerToolbar;			// Scheduler Toolbar
-		QByteArray	SearchDetailsSplitter;		// Search details splitter position
-		QByteArray	SearchHeader;				// Header for all searches
-		int			SearchResultsSplitterRestoreTop;	// The width left side of the search results splitter should restore to when right clicked
-		int			SearchResultsSplitterRestoreBottom;	// The width left side of the search results splitter should restore to when right clicked
-		bool		SearchFileTypeTaskVisible;	// The File Type task in the Search sidebar
-		QByteArray	SearchMonitorToolbar;		// Search Monitor Toolbar
-		bool		SearchNetworksTaskVisible;	// The Networks task in the Search sidebar
-		bool		SearchResultsTaskVisible;		// The Results task in the Search sidebar
-		QByteArray	SearchSplitter;				// Search Splitter
-		int			SearchSplitterRestoreLeft;	// The width left side of the home splitter should restore to when right clicked
-		int			SearchSplitterRestoreRight;	// The width left side of the home splitter should restore to when right clicked
-		bool		SearchTaskVisible;			// The Search task in the Search sidebar
-		QByteArray	SearchToolbar;				// Search Toolbar
-		QByteArray	SecurityToolbars;			// Security Toolbars
-		QByteArray	SystemLogToolbar;			// System Log Toolbar
-		QByteArray	TransfersSplitter;			// Transfers splitter position
-		int			TransfersSplitterRestoreLeft;	// The width left side of the search results splitter should restore to when right clicked
-		int			TransfersSplitterRestoreRight;	// The width left side of the search results splitter should restore to when right clicked
-		QByteArray	UploadsSplitter;			// Uploads splitter position
-		int			UploadsSplitterRestoreTop;	// The top height of the uploads splitter should restore when right clicked
-		int			UploadsSplitterRestoreBottom;	// The bottom height of the uploads splitter should restore when right clicked
-		QByteArray	UploadsToolbar;				// Uploads Toolbar
-		bool		Visible;						// Is the main window visible
+		bool		Enable;									// Connect to Ares
+		int			MaximumDownloads;						// Max concurrent downloads
+		int			MaximumUploads;							// Max concurrent uploads
+		int			MaximumUploadsPerUser;					// Max uploads per user
 	};
 
-	struct sLive
+	struct sBitTorrent
 	{
-		bool		AdultWarning;							// Has the user been warned about the adult filter?
-		bool		AutoClose;
-		int			MonitorThrottle;						// Monitor slider settings
-		bool		DiskSpaceStop;							// Has Quazaa paused all downloads due to critical disk space?
-		bool		DiskSpaceWarning;						// Has the user been warned of low disk space?
-		bool		DiskWriteWarning;						// Has the user been warned of write problems?
-		bool		DonkeyServerWarning;					// Has the user been warned about having an empty server list?
-		QString		LastDuplicateHash;						// Stores the hash of the file about which the warning was shown
-		bool		MaliciousWarning;						// Is the warning dialog opened?
-		bool		QueueLimitWarning;						// Has the user been warned about limiting the max Q position accepted?
-		bool		UploadLimitWarning;						// Has the user been warned about the ed2k/BT ratio?
+		bool		AutoClear;								// Clear completed torrents when they meet the required share ratio
+		bool		AutoSeed;								// Automatically re-seed most recently completed torrent on start-up
+		int			BandwidthPercentage;					// Percentage of bandwidth to use when BT active.
+		int			ClearRatio;								// Share ratio a torrent must reach to be cleared. (Minimum 100%)
+		int			CodePage;								// The code page to assume for a .torrent file if it isn't UTF-8
+		QString		DefaultTracker;							// Default tracker to use if trackers listed in torrent are down
+		int			DefaultTrackerPeriod;					// Delay between tracker contact attempts if one is not specified by tracker
+		int			DhtPruneTime;
+		int			DownloadConnections;					// Number of active torrent connections allowed
+		int			DownloadTorrents;						// Number of torrents to download at once
+		bool		Endgame;								// Allow endgame mode when completing torrents. (Download same chunk from multiple sources)
+		bool		ExtraKeys;								// Check for '.utf8' keys if there is an encoding error
+		int			LinkPing;
+		int			LinkTimeout;
+		bool		Managed;								// Managed Torrents
+		bool		PreferBTSources;						// Prefer downloading from BT sources when appropriate
+		int			RandomPeriod;
+		int			RequestLimit;
+		int			RequestPipe;
+		int			RequestSize;
+		bool		ShowFilesInDownload;					// Display Individual Files In The Download Tree
+		int			SourceExchangePeriod;					// Time to exchange sources with new peers
+		bool		StartPaused;							// Start torrents in a paused state
+		bool		TestPartials;							// Do on integrity check of Bittorrent partials
+		QString		TorrentPath;							// Where .torrent files are stored
+		bool		TrackerKey;								// Send a key (random value) to trackers
+		int			UploadCount;							// Number of active torrent uploads allowed
+		bool		UseKademlia;							// Use Kademlia with bittorrent
+		bool		UseSaveDialog;							// Use torrent save dialog or use default settings
+		bool		UseTemp;
 	};
-
-	struct sSystem
-	{
-		int			CloseMode;							// How does application react when the close button it is pressed
-		bool		MinimizeToTray;						// How does application react when the minimize button it is pressed
-		bool		ConnectOnStartup;					// Connect to networks when starting Quazaa
-		int			DiskSpaceStop;						// Value at which to pause all downloads due to low disk space
-		int			DiskSpaceWarning;					// Value at which to warn the user about low disk space
-		bool		StartWithSystem;					// Start with operating system
-	};
-
-	struct sSkin
-	{
-		QString		File;								// Full path to the skin file
-	};
-
-	struct sLanguage
-	{
-		QString		File;								// What language does the user prefer
-	};
-
-	struct sParental
-	{
-		QStringList	AdultFilter;							// List of words to censor
-		bool		ChatAdultCensor;						// Censor adlt language from chat
-		bool		FilterAdultSearchResults;				// Filter adult content from searches
-	};
-
-	struct sLogging
-	{
-		bool		SaveLog;								// Create a log file on crash
-		bool		LogShowTimestamp;						// Show timestamps in the system log?
-		bool		ShowInformation;						// Show Information messages
-		bool		ShowSecurity;							// Show Security messages
-		bool		ShowNotice;								// Show Notice messages
-		bool		ShowDebug;								// Show Debug messages
-		bool		ShowWarnings;							// Show Warning messages
-		bool		ShowError;								// Show Error messages
-		bool		ShowCritical;							// Show Critical messages
-		bool		IsPaused;								// Is logging paused
-	};
-
-	struct sLibrary
-	{
-		QString		FilterURI;
-		bool		GhostFiles;								// Create ghost files specifying why files were deleted on deletion
-		bool		HashWindow;								// Display hashing progress window
-		bool		HighPriorityHashing;					// Use high priority hashing
-		int			HighPriorityHashingSpeed;				// desired speed in MB/s when hashing with hi priority
-		int			HistoryDays;							// Remember files for this many days
-		int			HistoryTotal;							// Remember this many total files in Library history
-		int			LowPriorityHashingSpeed;				// desired speed in MB/s when hashing with low priority
-		QStringList	NeverShareTypes;						// Never share these file types
-		bool		PartialMatch;
-		bool		PreferAPETags;							// Read APE tags first and only then ID3 tags from audio files
-		int			QueryRouteSize;
-		bool		RememberViews;							// Remember custom folder views
-		QStringList	SafeExecuteTypes;						// These file types are safe to open
-		bool		ScanAPE;								// Enable .ape,.mac,.apl metadata extraction by internals
-		bool		ScanASF;								// Enable .asf,.wma,.wmv metadata extraction by internals
-		bool		ScanAVI;								// Enable .avi metadata extraction by internals
-		bool		ScanCHM;								// Enable .chm metadata extraction by internals
-		bool		ScanEXE;								// Enable .exe,.dll metadata extraction by internals
-		bool		ScanImage;								// Enable .jpg,.jpeg,.gif,.png,.bmp metadata extraction by internals
-		bool		ScanMP3;								// Enable .mp3 metadata extraction by internals
-		bool		ScanMPC;								// Enable .mpc,.mpp,.mp+ metadata extraction by internals
-		bool		ScanMPEG;								// Enable .mpeg,.mpg metadata extraction by internals
-		bool		ScanMSI;								// Enable .msi metadata extraction by internals
-		bool		ScanOGG;								// Enable .ogg metadata extraction by internals
-		bool		ScanPDF;								// Enable .pdf metadata extraction by internals
-		QString		SchemaURI;
-		QStringList	Shares;									// A list of your shared folders
-		bool		ShowCoverArt;
-		bool		SmartSeriesDetection;					// Organize video files in Library by using predefined patterns
-		int			SourceExpire;
-		bool		SourceMesh;
-		int			ThumbSize;
-		int			TigerHeight;
-		int			TreeSize;
-
-		/*
-		bool		ShowVirtual;
-		int			PanelSize;
-		bool		ShowPanel;
-		bool		UseFolderGUID;							// Save/Load folder GUID using NTFS stream
-		bool		MarkFileAsDownload;						// Mark downloaded file using NTFS stream as Internet Explorer
-		bool		UseCustomFolders;						// Use desktop.ini
-		*/
-	};
-
-	struct sMedia
-	{
-		int			Aspect;									// Size video is displayed in
-		QString		AudioVisualPlugin;						// Path to visual plugin for audio. Null if none is used.
-		QString		CustomPlayerPath;						// Path to the custom player executable
-		int			Handler;							// Media Player (0 Built In, 1 Shell Open, 2 Custom)
-		QStringList	FileTypes;								// Try to open these file types as media files
-		bool		ListVisible;							// Is playlist visible
-		bool		Mute;									// Is sound muted
-		QString		OpenPath;								// The last folder where a media file was opened
-		QStringList	Playlist;								// Save playlist so it can be reopened when closing/opening Quazaa
-		bool		Shuffle;									// Is random turned on for media files?
-		bool		Repeat;									// Is repeat turned on for media files?
-		bool		StatusVisible;							// Display time remaining, etc
-		qreal		Volume;									// Sound volume
-		int			Zoom;									// The zoom level for video
-		/*
-		QString		ServicesCLSID;
-		QString		Mpeg1PreviewCLSID;
-		QString		Mp3PreviewCLSID;
-		QString		AviPreviewCLSID;
-		QString		VisWrapperCLSID;
-		QString		VisSoniqueCLSID;
-		QString		VisCLSID;
-		QString		VisPath;
-		int			VisSize;
-		QString		ServicePath;
-		bool		ShortPaths;								// Some players differently handle unicode paths but they can launch files using 8.3 paths
-		*/
-	};
-
-	struct sSearch
-	{
-		QString		BlankSchemaURI;
-		int			BrowseTreeSize;
-		int			ClearPrevious;							// Clear previous search results? 0 - ask user; 1 - no; 2 - yes.
-		bool		ExpandSearchMatches;					// Expand multi-source search matches
-		int			FilterMask;
-		bool		HighlightNew;
-		QString		LastSchemaURI;
-		int			MaxPreviewLength;						// Max size of search previews
-		QString		MonitorFilter;
-		int			MonitorQueue;
-		QString		MonitorSchemaURI;
-		bool		SchemaTypes;
-		int			Throttle;							// How often each individual search may run. Low values may cause source finding to get overlooked.
-		QString		ShareMonkeyBaseURL;
-		bool		ShowNames;
-		bool		SwitchOnDownload;						// Switch to transfers view when starting downloads
-		//bool		SanityCheck;							// Drop hits of banned hosts
-	};
-
-	struct sPrivateMessages
-	{
-		bool		Gnutella2Enable;						// Are Gnutella 2 private messages enabled?
-		bool		AresEnable;								// Are Gnutella 2 private messages enabled?
-		bool		eDonkeyEnable;							// Are Gnutella 2 private messages enabled?
-		int			AwayMessageIdleTime;					// Time in secs of idle system time before showing away message
-		QString		AwayMessage;							// The away message.
-	};
-
 
 	struct sChat
 	{
@@ -343,35 +140,6 @@ namespace Settings
 		bool TimeStamp;
 	};
 
-	struct sProfile
-	{
-		int			Age;									// Age..
-		QString		AolScreenName;							// Aol screen name
-		QString		AvatarPath;								// Path to an avatar image file. Quazaa logo used if blank
-		QString		Biography;								// Your life story..
-		QString		City;									// Your city
-		QString		Country;								// Your country..
-		QString		Email;									// EMail address
-		QStringList	Favorites;								// Favorite websites
-		QStringList	FavoritesURL;							// Favorite Websites URLs
-		int			Gender;									// Gender..
-		QString		GnutellaScreenName;						// The name displayed in searches, uploads and downloads and when users browse your system
-		QUuid		GUID;									// Unique ID for each client. Can be regenerated
-		QString		ICQuin;									// Identification number in ICQ
-		QStringList	Interests;								// What do you like to do other than use Quazaa
-		QString		IrcAlternateNickname;					// Alternate nickname in Irc chat if first one is already used
-		QString		IrcNickname;							// Nickname used in Irc chat
-		QString		IrcUserName;							// User name for Irc chat
-		QString		JabberID;								// Jabber ID
-		QString		Latitude;								// Location for a disgruntled P2P user to aim a missile
-		QString		Longitude;								// Location for a disgruntled P2P user to aim a missile
-		QString		MSNPassport;							// Microsoft's Messenger ID
-		QString		MyspaceProfile;							// Myspace profile excluding http://profile.myspace.com/
-		QString		RealName;								// User's real name
-		QString		StateProvince;							// Your state or province
-		QString		YahooID;								// Yahoo Messenger ID
-	};
-
 	struct sConnection
 	{
 		bool		DetectConnectionLoss;					// Detect loss of internet
@@ -388,44 +156,17 @@ namespace Settings
 		QStringList	PreferredCountries;						// Country preference
 	};
 
-	struct sWeb
+	struct sDiscovery
 	{
-		bool		Ares;									// Use Quazaa to open Ares links (arlnk:)
-		bool		BrowserIntegration;						// Use Quazaa to manage browser downloads?
-		bool		ED2K;									// Use Quazaa to open eDonkey 2k links (eD2k:)
-		bool		Foxy;									// Use Quazaa to open Foxy links (slightly altered magnet)
-		bool		Magnet;									// Use Quazaa to open Magnet links (magnet:)
-		QStringList	ManageDownloadTypes;					// Use Quazaa to manage these download types
-		bool		Piolet;									// Use Quazaa to open Piolet links (mp2p:)
-		bool		Torrent;								// Use Quazaa to open torrent links (.torrent files and torrent:)
-	};
-
-	struct sWebServices
-	{
-		QString		BitziAgent;
-		bool		BitziOkay;
-		QString		BitziWebSubmit;
-		QString		BitziWebView;
-		QString		BitziXML;
-		QString		ShareMonkeyCid;							// Affiliate ID
-		bool		ShareMonkeyOkay;
-		bool		ShareMonkeySaveThumbnail;
-	};
-
-	struct sTransfers
-	{
-		int			BandwidthHubIn;
-		int			BandwidthHubOut;
-		int			BandwidthHubUploads;
-		int			BandwidthLeafIn;
-		int			BandwidthLeafOut;
-		int			BandwidthPeerIn;
-		int			BandwidthPeerOut;
-		int			BandwidthRequest;
-		int			BandwidthUdpOut;
-		int			MinTransfersRest;						// For how long at least to suspend Transfers each round
-		bool		RequireConnectedNetwork;				// Only upload/download to connected networks
-		bool		SimpleProgressBar;						// Displays a simplified progress bar (lower CPU use)
+		int			AccessThrottle;
+		int			BootstrapCount;
+		int			CacheCount;								// Limit ability to learn new caches
+		QString		DataPath;
+		int			DefaultUpdate;
+		bool		EnableG1GWC;
+		int			FailureLimit;
+		int			Lowpoint;
+		int			UpdatePeriod;
 	};
 
 	struct sDownloads
@@ -478,62 +219,43 @@ namespace Settings
 		QStringList	WebHookExtensions;
 	};
 
-	struct sUploads
+	struct sEDonkey
 	{
-		bool		AllowBackwards;							// Allow data to be sent from end of range to begining where supported
-		bool		AutoClear;								// Automatically clear completed uploads ('Completed' queue)
-		int			ClampdownFactor;						// % threshold where additional uploads are denied
-		int			ClampdownFloor;							// Floor to base clampdown factor off of
-		int			ClearDelay;								// Delay between auto-clears
-		bool		DynamicPreviews;						// Dynamically create previews on request
-		int			FreeBandwidthFactor;					// Amount of bandwidth allocated for each upload
-		int			FreeBandwidthValue;						// Amount of bandwidth remaining for uploads
-		bool		HubShareLimiting;						// Limit sharing in hub mode
-		int			MaxPerHost;								// Max simultaneous uploads to one remote client
-		int			PreviewQuality;							// Quality of dynamically created previews
-		int			PreviewTransfers;						// Max simultaneous uploads of previews
-		int			QueuePollMax;
-		int			QueuePollMin;
-		int			RewardQueuePercentage;					// The percentage of each reward queue reserved for uploaders
-		int			RotateChunkLimit;						// Limit on the size of rotating chunks
-		bool		ShareHashset;							// Share the hashset for a particular file
-		bool		ShareMetadata;							// Share metadata (ID3 tags, etc.) for files
-		bool		SharePartials;							// Share new partial downloads
-		bool		SharePreviews;							// Share previews
-		bool		ShareTiger;								// Share tiger tree hashes
-		bool		ThrottleMode;							// Are we throttling upload bandwidth
-	};
-
-	struct sSecurity
-	{
-		bool		AllowProfileBrowse;						// Allow others to browse your user profile
-		bool		AllowSharesBrowse;						// Allow others to browse your shares
-		QStringList	BlockedAgentUploadFilter;				// List of bad user agents to block
-		bool		DeleteFirewallException;				// Delete Firewall exception on shutdown
-		bool		DeleteUPnPPorts;						// Delete forwarded ports on shutdown (UPnP)
-		bool		ED2kChatFilter;							// Filter known ed2k spam. (pretty bad- always on)
-		bool		EnableFirewallException;				// Create Firewall exception at startup
-		bool		EnableUPnP;								// Use UPnP to automatically set up firewalls/routers
-		int			FirewallState;							// Is a firewall blocking incloming connections?
-		bool		ChatFilter;								// Filter out chat spam
-		int			IrcFloodLimit;							// Number of messages sent by a user in 1 second before ignoring them
-		bool		IrcFloodProtection;						// Automatically ignore users that flood chat rooms with text
-		int			MaxMaliciousFileSize;					// Size for which to trigger malicious software search
-		bool		RemoteEnable;							// Enable remote access?
-		QString		RemotePassword;							// Remote access password
-		QString		RemoteUsername;							// Remote access user name
-		bool		SearchIgnoreLocalIP;					// Ingnore all 'local' (LAN) IPs
-		bool		SearchIgnoreOwnIP;						// Do not accept any ports on your external IP as a source
-		int			SearchSpamFilterThreshold;				// Percentage of spam hits which triggers file sources to be treated as spam
-		bool		UPnPSkipWANIPSetup;						// Skip WANIPConn1 device setup (UPnP)
-		bool		UPnPSkipWANPPPSetup;					// Skip WANPPPConn1 device setup (UPnP)
-
-		/* --- Settings used by security manager --- */
-// TODO: Make sure slot settingsChanged() is called if these settings are changed to inform security manager about the changes.
-		QString		DataPath;								// Path to the security.dat file
-		bool		LogIPCheckHits;							// Post log message on IsDenied( QHostAdress ) call
-		quint32		RuleExpiryInterval;						// Check the security manager for expired hosts each x seconds
-		quint32		MissCacheExpiryInterval;				// Clear the miss cache each x seconds
+		QString		DefaultServerFlags;						// Default server flags (for UDP searches)
+		int			DequeueTime;
+		bool		Enable;									// Connect to  2k
+		bool		EnableKad;								// Connect to the Kad discovery service
+		bool		Endgame;								// Allow endgame mode when completing downloads. (Download same chunk from multiple sources)
+		int			ExtendedRequest;
+		bool		FastConnect;							// Try connecting to 2 servers to get online faster
+		bool		ForceHighID;							// Reconnect if low-id. (once only)
+		int			FrameSize;
+		int			GetSourcesThrottle;						// Max rate a general GetSources can done
+		bool		LargeFileSupport;						// Allow 64 bit file sizes
+		bool		LearnNewServers;						// Get new servers from servers
+		bool		LearnNewServersClient;					// Get new servers from clients
+		bool		MagnetSearch;							// Search for magnets over ed2k (lower server load)
+		int			MaxClients;								// Max ed2k client links
+		int			MaxResults;								// Stop searching after this many search results
+		int			MaxShareCount;							// Hard limit on file list sent to server
+		bool		MetAutoQuery;							// Auto query for a new server list
+		int			MinServerFileSize;						// Minimum size a file in the library must be in order to be included in the server file list. (In KB)
+		int			NumServers;								// 1
+		int			PacketThrottle;							// ED2K packet rate limiter
+		int			QueryFileThrottle;						// Max rate a file can have GetSources done
+		int			QueryGlobalThrottle;					// Global throttle for all ed2k searches (TCP, UDP, manual and auto)
+		int			QueueRankThrottle;						// How frequently queue ranks are sent
+		int			QueryServerThrottle;					// Max rate at which an individual server can be queried
+		int			ReAskTime;
+		int			RequestPipe;
+		int			RequestSize;
+		bool		SearchCachedServers;					// Search on known remote servers in the server cache
+		bool		SendPortServer;							// Send port in tag to ed2k servers. (not needed for newer servers)
+		QString		ServerListURL;							// URL address to auto query for a new server list
+		bool		ServerWalk;								// Enable global UDP walk of servers
+		int			SourceThrottle;							// ED2K source rate limiter
+		int			StatsGlobalThrottle;					// Global throttle for server UDP stats requests
+		int			StatsServerThrottle;					// Max rate at which an individual server can be asked for stats
 	};
 
 	struct sGnutella
@@ -588,103 +310,380 @@ namespace Settings
 
 	};
 
-	struct sAres
+	struct sLanguage
 	{
-		bool		Enable;									// Connect to Ares
-		int			MaximumDownloads;						// Max concurrent downloads
-		int			MaximumUploads;							// Max concurrent uploads
-		int			MaximumUploadsPerUser;					// Max uploads per user
+		QString		File;								// What language does the user prefer
 	};
 
-	struct sEDonkey
+	struct sLibrary
 	{
-		QString		DefaultServerFlags;						// Default server flags (for UDP searches)
-		int			DequeueTime;
-		bool		Enable;									// Connect to  2k
-		bool		EnableKad;								// Connect to the Kad discovery service
-		bool		Endgame;								// Allow endgame mode when completing downloads. (Download same chunk from multiple sources)
-		int			ExtendedRequest;
-		bool		FastConnect;							// Try connecting to 2 servers to get online faster
-		bool		ForceHighID;							// Reconnect if low-id. (once only)
-		int			FrameSize;
-		int			GetSourcesThrottle;						// Max rate a general GetSources can done
-		bool		LargeFileSupport;						// Allow 64 bit file sizes
-		bool		LearnNewServers;						// Get new servers from servers
-		bool		LearnNewServersClient;					// Get new servers from clients
-		bool		MagnetSearch;							// Search for magnets over ed2k (lower server load)
-		int			MaxClients;								// Max ed2k client links
-		int			MaxResults;								// Stop searching after this many search results
-		int			MaxShareCount;							// Hard limit on file list sent to server
-		bool		MetAutoQuery;							// Auto query for a new server list
-		int			MinServerFileSize;						// Minimum size a file in the library must be in order to be included in the server file list. (In KB)
-		int			NumServers;								// 1
-		int			PacketThrottle;							// ED2K packet rate limiter
-		int			QueryFileThrottle;						// Max rate a file can have GetSources done
-		int			QueryGlobalThrottle;					// Global throttle for all ed2k searches (TCP, UDP, manual and auto)
-		int			QueueRankThrottle;						// How frequently queue ranks are sent
-		int			QueryServerThrottle;					// Max rate at which an individual server can be queried
-		int			ReAskTime;
-		int			RequestPipe;
-		int			RequestSize;
-		bool		SearchCachedServers;					// Search on known remote servers in the server cache
-		bool		SendPortServer;							// Send port in tag to ed2k servers. (not needed for newer servers)
-		QString		ServerListURL;							// URL address to auto query for a new server list
-		bool		ServerWalk;								// Enable global UDP walk of servers
-		int			SourceThrottle;							// ED2K source rate limiter
-		int			StatsGlobalThrottle;					// Global throttle for server UDP stats requests
-		int			StatsServerThrottle;					// Max rate at which an individual server can be asked for stats
+		QString		FilterURI;
+		bool		GhostFiles;								// Create ghost files specifying why files were deleted on deletion
+		bool		HashWindow;								// Display hashing progress window
+		bool		HighPriorityHashing;					// Use high priority hashing
+		int			HighPriorityHashingSpeed;				// desired speed in MB/s when hashing with hi priority
+		int			HistoryDays;							// Remember files for this many days
+		int			HistoryTotal;							// Remember this many total files in Library history
+		int			LowPriorityHashingSpeed;				// desired speed in MB/s when hashing with low priority
+		QStringList	NeverShareTypes;						// Never share these file types
+		bool		PartialMatch;
+		bool		PreferAPETags;							// Read APE tags first and only then ID3 tags from audio files
+		int			QueryRouteSize;
+		bool		RememberViews;							// Remember custom folder views
+		QStringList	SafeExecuteTypes;						// These file types are safe to open
+		bool		ScanAPE;								// Enable .ape,.mac,.apl metadata extraction by internals
+		bool		ScanASF;								// Enable .asf,.wma,.wmv metadata extraction by internals
+		bool		ScanAVI;								// Enable .avi metadata extraction by internals
+		bool		ScanCHM;								// Enable .chm metadata extraction by internals
+		bool		ScanEXE;								// Enable .exe,.dll metadata extraction by internals
+		bool		ScanImage;								// Enable .jpg,.jpeg,.gif,.png,.bmp metadata extraction by internals
+		bool		ScanMP3;								// Enable .mp3 metadata extraction by internals
+		bool		ScanMPC;								// Enable .mpc,.mpp,.mp+ metadata extraction by internals
+		bool		ScanMPEG;								// Enable .mpeg,.mpg metadata extraction by internals
+		bool		ScanMSI;								// Enable .msi metadata extraction by internals
+		bool		ScanOGG;								// Enable .ogg metadata extraction by internals
+		bool		ScanPDF;								// Enable .pdf metadata extraction by internals
+		QString		SchemaURI;
+		QStringList	Shares;									// A list of your shared folders
+		bool		ShowCoverArt;
+		bool		SmartSeriesDetection;					// Organize video files in Library by using predefined patterns
+		int			SourceExpire;
+		bool		SourceMesh;
+		int			ThumbSize;
+		int			TigerHeight;
+		int			TreeSize;
+
+		/*
+		bool		ShowVirtual;
+		int			PanelSize;
+		bool		ShowPanel;
+		bool		UseFolderGUID;							// Save/Load folder GUID using NTFS stream
+		bool		MarkFileAsDownload;						// Mark downloaded file using NTFS stream as Internet Explorer
+		bool		UseCustomFolders;						// Use desktop.ini
+		*/
 	};
 
-	struct sBitTorrent
+	struct sLive
 	{
-		bool		AutoClear;								// Clear completed torrents when they meet the required share ratio
-		bool		AutoSeed;								// Automatically re-seed most recently completed torrent on start-up
-		int			BandwidthPercentage;					// Percentage of bandwidth to use when BT active.
-		int			ClearRatio;								// Share ratio a torrent must reach to be cleared. (Minimum 100%)
-		int			CodePage;								// The code page to assume for a .torrent file if it isn't UTF-8
-		QString		DefaultTracker;							// Default tracker to use if trackers listed in torrent are down
-		int			DefaultTrackerPeriod;					// Delay between tracker contact attempts if one is not specified by tracker
-		int			DhtPruneTime;
-		int			DownloadConnections;					// Number of active torrent connections allowed
-		int			DownloadTorrents;						// Number of torrents to download at once
-		bool		Endgame;								// Allow endgame mode when completing torrents. (Download same chunk from multiple sources)
-		bool		ExtraKeys;								// Check for '.utf8' keys if there is an encoding error
-		int			LinkPing;
-		int			LinkTimeout;
-		bool		Managed;								// Managed Torrents
-		bool		PreferBTSources;						// Prefer downloading from BT sources when appropriate
-		int			RandomPeriod;
-		int			RequestLimit;
-		int			RequestPipe;
-		int			RequestSize;
-		bool		ShowFilesInDownload;					// Display Individual Files In The Download Tree
-		int			SourceExchangePeriod;					// Time to exchange sources with new peers
-		bool		StartPaused;							// Start torrents in a paused state
-		bool		TestPartials;							// Do on integrity check of Bittorrent partials
-		QString		TorrentPath;							// Where .torrent files are stored
-		bool		TrackerKey;								// Send a key (random value) to trackers
-		int			UploadCount;							// Number of active torrent uploads allowed
-		bool		UseKademlia;							// Use Kademlia with bittorrent
-		bool		UseSaveDialog;							// Use torrent save dialog or use default settings
-		bool		UseTemp;
+		bool		AdultWarning;							// Has the user been warned about the adult filter?
+		bool		AutoClose;
+		int			MonitorThrottle;						// Monitor slider settings
+		bool		DiskSpaceStop;							// Has Quazaa paused all downloads due to critical disk space?
+		bool		DiskSpaceWarning;						// Has the user been warned of low disk space?
+		bool		DiskWriteWarning;						// Has the user been warned of write problems?
+		bool		DonkeyServerWarning;					// Has the user been warned about having an empty server list?
+		QString		LastDuplicateHash;						// Stores the hash of the file about which the warning was shown
+		bool		MaliciousWarning;						// Is the warning dialog opened?
+		bool		QueueLimitWarning;						// Has the user been warned about limiting the max Q position accepted?
+		bool		UploadLimitWarning;						// Has the user been warned about the ed2k/BT ratio?
 	};
 
-	struct sDiscovery
+	struct sLogging
 	{
-		int			AccessThrottle;
-		int			BootstrapCount;
-		int			CacheCount;								// Limit ability to learn new caches
-		QString		DataPath;
-		int			DefaultUpdate;
-		bool		EnableG1GWC;
-		int			FailureLimit;
-		int			Lowpoint;
-		int			UpdatePeriod;
+		bool		SaveLog;								// Create a log file on crash
+		bool		LogShowTimestamp;						// Show timestamps in the system log?
+		bool		ShowInformation;						// Show Information messages
+		bool		ShowSecurity;							// Show Security messages
+		bool		ShowNotice;								// Show Notice messages
+		bool		ShowDebug;								// Show Debug messages
+		bool		ShowWarnings;							// Show Warning messages
+		bool		ShowError;								// Show Error messages
+		bool		ShowCritical;							// Show Critical messages
+		bool		IsPaused;								// Is logging paused
+	};
+
+	struct sMedia
+	{
+		int			Aspect;									// Size video is displayed in
+		QString		AudioVisualPlugin;						// Path to visual plugin for audio. Null if none is used.
+		QString		CustomPlayerPath;						// Path to the custom player executable
+		int			Handler;								// Media Player (0 Built In, 1 Shell Open, 2 Custom)
+		QStringList	FileTypes;								// Try to open these file types as media files
+		bool		ListVisible;							// Is playlist visible
+		bool		Mute;									// Is sound muted
+		QString		OpenPath;								// The last folder where a media file was opened
+		QStringList	Playlist;								// Save playlist so it can be reopened when closing/opening Quazaa
+		bool		Shuffle;									// Is random turned on for media files?
+		bool		Repeat;									// Is repeat turned on for media files?
+		bool		StatusVisible;							// Display time remaining, etc
+		qreal		Volume;									// Sound volume
+		int			Zoom;									// The zoom level for video
+		/*
+		QString		ServicesCLSID;
+		QString		Mpeg1PreviewCLSID;
+		QString		Mp3PreviewCLSID;
+		QString		AviPreviewCLSID;
+		QString		VisWrapperCLSID;
+		QString		VisSoniqueCLSID;
+		QString		VisCLSID;
+		QString		VisPath;
+		int			VisSize;
+		QString		ServicePath;
+		bool		ShortPaths;								// Some players differently handle unicode paths but they can launch files using 8.3 paths
+		*/
+	};
+
+	struct sParental
+	{
+		QStringList	AdultFilter;							// List of words to censor
+		bool		ChatAdultCensor;						// Censor adlt language from chat
+		bool		FilterAdultSearchResults;				// Filter adult content from searches
+	};
+
+	struct sPrivateMessages
+	{
+		bool		Gnutella2Enable;						// Are Gnutella 2 private messages enabled?
+		bool		AresEnable;								// Are Gnutella 2 private messages enabled?
+		bool		eDonkeyEnable;							// Are Gnutella 2 private messages enabled?
+		int			AwayMessageIdleTime;					// Time in secs of idle system time before showing away message
+		QString		AwayMessage;							// The away message.
+	};
+
+	struct sProfile
+	{
+		int			Age;									// Age..
+		QString		AolScreenName;							// Aol screen name
+		QString		AvatarPath;								// Path to an avatar image file. Quazaa logo used if blank
+		QString		Biography;								// Your life story..
+		QString		City;									// Your city
+		QString		Country;								// Your country..
+		QString		Email;									// EMail address
+		QStringList	Favorites;								// Favorite websites
+		QStringList	FavoritesURL;							// Favorite Websites URLs
+		int			Gender;									// Gender..
+		QString		GnutellaScreenName;						// The name displayed in searches, uploads and downloads and when users browse your system
+		QUuid		GUID;									// Unique ID for each client. Can be regenerated
+		QString		ICQuin;									// Identification number in ICQ
+		QStringList	Interests;								// What do you like to do other than use Quazaa
+		QString		IrcAlternateNickname;					// Alternate nickname in Irc chat if first one is already used
+		QString		IrcNickname;							// Nickname used in Irc chat
+		QString		IrcUserName;							// User name for Irc chat
+		QString		JabberID;								// Jabber ID
+		QString		Latitude;								// Location for a disgruntled P2P user to aim a missile
+		QString		Longitude;								// Location for a disgruntled P2P user to aim a missile
+		QString		MSNPassport;							// Microsoft's Messenger ID
+		QString		MyspaceProfile;							// Myspace profile excluding http://profile.myspace.com/
+		QString		RealName;								// User's real name
+		QString		StateProvince;							// Your state or province
+		QString		YahooID;								// Yahoo Messenger ID
 	};
 
 	struct sScheduler
 	{
 
+	};
+
+	struct sSearch
+	{
+		QString		BlankSchemaURI;
+		int			BrowseTreeSize;
+		int			ClearPrevious;							// Clear previous search results? 0 - ask user; 1 - no; 2 - yes.
+		bool		ExpandSearchMatches;					// Expand multi-source search matches
+		int			FilterMask;
+		bool		HighlightNew;
+		QString		LastSchemaURI;
+		int			MaxPreviewLength;						// Max size of search previews
+		QString		MonitorFilter;
+		int			MonitorQueue;
+		QString		MonitorSchemaURI;
+		bool		SchemaTypes;
+		int			Throttle;								// How often each individual search may run. Low values may cause source finding to get overlooked.
+		QString		ShareMonkeyBaseURL;
+		bool		ShowNames;
+		bool		SwitchOnDownload;						// Switch to transfers view when starting downloads
+		//bool		SanityCheck;							// Drop hits of banned hosts
+	};
+
+	struct sSecurity
+	{
+		bool		AllowProfileBrowse;						// Allow others to browse your user profile
+		bool		AllowSharesBrowse;						// Allow others to browse your shares
+		QStringList	BlockedAgentUploadFilter;				// List of bad user agents to block
+		bool		DeleteFirewallException;				// Delete Firewall exception on shutdown
+		bool		DeleteUPnPPorts;						// Delete forwarded ports on shutdown (UPnP)
+		bool		ED2kChatFilter;							// Filter known ed2k spam. (pretty bad- always on)
+		bool		EnableFirewallException;				// Create Firewall exception at startup
+		bool		EnableUPnP;								// Use UPnP to automatically set up firewalls/routers
+		int			FirewallState;							// Is a firewall blocking incloming connections?
+		bool		ChatFilter;								// Filter out chat spam
+		int			IrcFloodLimit;							// Number of messages sent by a user in 1 second before ignoring them
+		bool		IrcFloodProtection;						// Automatically ignore users that flood chat rooms with text
+		int			MaxMaliciousFileSize;					// Size for which to trigger malicious software search
+		bool		RemoteEnable;							// Enable remote access?
+		QString		RemotePassword;							// Remote access password
+		QString		RemoteUsername;							// Remote access user name
+		bool		SearchIgnoreLocalIP;					// Ingnore all 'local' (LAN) IPs
+		bool		SearchIgnoreOwnIP;						// Do not accept any ports on your external IP as a source
+		int			SearchSpamFilterThreshold;				// Percentage of spam hits which triggers file sources to be treated as spam
+		bool		UPnPSkipWANIPSetup;						// Skip WANIPConn1 device setup (UPnP)
+		bool		UPnPSkipWANPPPSetup;					// Skip WANPPPConn1 device setup (UPnP)
+
+		/* --- Settings used by security manager --- */
+// TODO: Make sure slot settingsChanged() is called if these settings are changed to inform security manager about the changes.
+		QString		DataPath;								// Path to the security.dat file
+		bool		LogIPCheckHits;							// Post log message on IsDenied( QHostAdress ) call
+		quint32		RuleExpiryInterval;						// Check the security manager for expired hosts each x seconds
+		quint32		MissCacheExpiryInterval;				// Clear the miss cache each x seconds
+	};
+
+	struct sSkin
+	{
+		QString		File;									// Full path to the skin file
+	};
+
+	struct sSystem
+	{
+		int			CloseMode;								// How does application react when the close button it is pressed
+		bool		MinimizeToTray;							// How does application react when the minimize button it is pressed
+		bool		ConnectOnStartup;						// Connect to networks when starting Quazaa
+		int			DiskSpaceStop;							// Value at which to pause all downloads due to low disk space
+		int			DiskSpaceWarning;						// Value at which to warn the user about low disk space
+		bool		StartWithSystem;						// Start with operating system
+	};
+
+	struct sTransfers
+	{
+		int			BandwidthHubIn;
+		int			BandwidthHubOut;
+		int			BandwidthHubUploads;
+		int			BandwidthLeafIn;
+		int			BandwidthLeafOut;
+		int			BandwidthPeerIn;
+		int			BandwidthPeerOut;
+		int			BandwidthRequest;
+		int			BandwidthUdpOut;
+		int			MinTransfersRest;						// For how long at least to suspend Transfers each round
+		bool		RequireConnectedNetwork;				// Only upload/download to connected networks
+		bool		SimpleProgressBar;						// Displays a simplified progress bar (lower CPU use)
+	};
+
+	struct sUploads
+	{
+		bool		AllowBackwards;							// Allow data to be sent from end of range to begining where supported
+		bool		AutoClear;								// Automatically clear completed uploads ('Completed' queue)
+		int			ClampdownFactor;						// % threshold where additional uploads are denied
+		int			ClampdownFloor;							// Floor to base clampdown factor off of
+		int			ClearDelay;								// Delay between auto-clears
+		bool		DynamicPreviews;						// Dynamically create previews on request
+		int			FreeBandwidthFactor;					// Amount of bandwidth allocated for each upload
+		int			FreeBandwidthValue;						// Amount of bandwidth remaining for uploads
+		bool		HubShareLimiting;						// Limit sharing in hub mode
+		int			MaxPerHost;								// Max simultaneous uploads to one remote client
+		int			PreviewQuality;							// Quality of dynamically created previews
+		int			PreviewTransfers;						// Max simultaneous uploads of previews
+		int			QueuePollMax;
+		int			QueuePollMin;
+		int			RewardQueuePercentage;					// The percentage of each reward queue reserved for uploaders
+		int			RotateChunkLimit;						// Limit on the size of rotating chunks
+		bool		ShareHashset;							// Share the hashset for a particular file
+		bool		ShareMetadata;							// Share metadata (ID3 tags, etc.) for files
+		bool		SharePartials;							// Share new partial downloads
+		bool		SharePreviews;							// Share previews
+		bool		ShareTiger;								// Share tiger tree hashes
+		bool		ThrottleMode;							// Are we throttling upload bandwidth
+	};
+
+	struct sWeb
+	{
+		bool		Ares;									// Use Quazaa to open Ares links (arlnk:)
+		bool		BrowserIntegration;						// Use Quazaa to manage browser downloads?
+		bool		ED2K;									// Use Quazaa to open eDonkey 2k links (eD2k:)
+		bool		Foxy;									// Use Quazaa to open Foxy links (slightly altered magnet)
+		bool		Magnet;									// Use Quazaa to open Magnet links (magnet:)
+		QStringList	ManageDownloadTypes;					// Use Quazaa to manage these download types
+		bool		Piolet;									// Use Quazaa to open Piolet links (mp2p:)
+		bool		Torrent;								// Use Quazaa to open torrent links (.torrent files and torrent:)
+	};
+
+	struct sWebServices
+	{
+		QString		BitziAgent;
+		bool		BitziOkay;
+		QString		BitziWebSubmit;
+		QString		BitziWebView;
+		QString		BitziXML;
+		QString		ShareMonkeyCid;							// Affiliate ID
+		bool		ShareMonkeyOkay;
+		bool		ShareMonkeySaveThumbnail;
+	};
+
+	struct sWinMain
+	{
+		int			ActiveTab;								// The active tab (Home, Library, Media, etc.)
+		int			ActivitySplitterRestoreTop;				// The width left side of the search results splitter should restore to when right clicked
+		int			ActivitySplitterRestoreBottom;			// The width left side of the search results splitter should restore to when right clicked
+		bool		ChatRoomsTaskVisible;					// The Rooms task in the Chat sidebar
+		bool		ChatFriendsTaskVisible;					// The Friends task in the Chat sidebar
+		QByteArray	ChatSplitter;
+		int			ChatSplitterRestoreLeft;
+		int			ChatSplitterRestoreMiddle;
+		int			ChatSplitterRestoreRight;
+		QByteArray	ChatToolbars;							// Chat Toolbars
+		QByteArray	DiscoveryToolbar;						// DiscoveryToolbar
+		QByteArray	DownloadsToolbar;						// Downloads Toolbar
+		QByteArray	DownloadsHeader;						// Downloads header
+		QByteArray	DownloadsSplitter;						// Downloads splitter position
+		int			DownloadsSplitterRestoreTop;			// The top height of the downloads splitter should restore when right clicked
+		int			DownloadsSplitterRestoreBottom;			// The bottom height of the downloads splitter should restore when right clicked
+		QByteArray	GraphSplitter;							// Graph splitter position
+		int			GraphSplitterRestoreLeft;				// The width left side of the home splitter should restore to when right clicked
+		int			GraphSplitterRestoreRight;				// The width left side of the home splitter should restore to when right clicked
+		QByteArray	GraphToolbar;							// Graph Toolbar
+		QByteArray	HitMonitorToolbar;						// Hit Monitor Toolbar
+		bool		HomeConnectionTaskVisible;				// The Connection task in the Home sidebar
+		bool		HomeDownloadsTaskVisible;				// The Downloads task in the Home sidebar
+		bool		HomeLibraryTaskVisible;					// The Library task in the Home sidebar
+		QString		HomeSearchString;						// The text typed into the search text box on the home tab
+		QByteArray	HomeSplitter;							// The splitter between the Home sidebar and welcome frame
+		int			HomeSplitterRestoreLeft;				// The width left side of the home splitter should restore to when right clicked
+		int			HomeSplitterRestoreRight;				// The width left side of the home splitter should restore to when right clicked
+		bool		HomeTorrentsTaskVisible;				// The BitTorrent task in the Home sidebar
+		bool		HomeUploadsTaskVisible;					// The Uploads task in the Home sidebar
+		QByteArray	HostCacheSplitter;						// Host Cache splitter position
+		int			HostCacheSplitterRestoreLeft;			// The width left side of the home splitter should restore to when right clicked
+		int			HostCacheSplitterRestoreRight;			// The width left side of the home splitter should restore to when right clicked
+		QByteArray	HostCacheToolbar;						// Host Cache Toolbar
+		QByteArray	LibraryDetailsSplitter;					// Library details splitter position
+		int			LibraryDetailsSplitterRestoreTop;		// The width left side of the home splitter should restore to when right clicked
+		int			LibraryDetailsSplitterRestoreBottom;	// The width left side of the home splitter should restore to when right clicked
+		int			LibraryNavigatorTab;					// Shared Folders or Organiser
+		QByteArray	LibrarySplitter;						// Library splitter position
+		int			LibrarySplitterRestoreLeft;				// The width left side of the home splitter should restore to when right clicked
+		int			LibrarySplitterRestoreRight;			// The width left side of the home splitter should restore to when right clicked
+		QByteArray	LibraryToolbar;							// Library View Toolbar
+		QByteArray	MainToolbar;							// The Navigation Toolbar
+		QByteArray	MediaSplitter;							// Media splitter position
+		int			MediaSplitterRestoreLeft;				// The width left side of the home splitter should restore to when right clicked
+		int			MediaSplitterRestoreRight;				// The width left side of the home splitter should restore to when right clicked
+		QByteArray	MediaToolbars;							// Media Toolbars
+		QByteArray	NeighboursToolbars;						// Neighbours Toolbars
+		QByteArray	NeighboursHeader;						// Header in the neighbours list view
+		QByteArray	PacketDumpToolbar;						// Packet Dump Toolbar
+		QByteArray	ActivitySplitter;						// Activity splitter position
+		QByteArray	SchedulerToolbar;						// Scheduler Toolbar
+		QByteArray	SearchDetailsSplitter;					// Search details splitter position
+		QByteArray	SearchHeader;							// Header for all searches
+		int			SearchResultsSplitterRestoreTop;		// The width left side of the search results splitter should restore to when right clicked
+		int			SearchResultsSplitterRestoreBottom;		// The width left side of the search results splitter should restore to when right clicked
+		bool		SearchFileTypeTaskVisible;				// The File Type task in the Search sidebar
+		QByteArray	SearchMonitorToolbar;					// Search Monitor Toolbar
+		bool		SearchNetworksTaskVisible;				// The Networks task in the Search sidebar
+		bool		SearchResultsTaskVisible;				// The Results task in the Search sidebar
+		QByteArray	SearchSplitter;							// Search Splitter
+		int			SearchSplitterRestoreLeft;				// The width left side of the home splitter should restore to when right clicked
+		int			SearchSplitterRestoreRight;				// The width left side of the home splitter should restore to when right clicked
+		bool		SearchTaskVisible;						// The Search task in the Search sidebar
+		QByteArray	SearchToolbar;							// Search Toolbar
+		QByteArray	SecurityToolbars;						// Security Toolbars
+		QByteArray	SystemLogToolbar;						// System Log Toolbar
+		QByteArray	TransfersSplitter;						// Transfers splitter position
+		int			TransfersSplitterRestoreLeft;			// The width left side of the search results splitter should restore to when right clicked
+		int			TransfersSplitterRestoreRight;			// The width left side of the search results splitter should restore to when right clicked
+		QByteArray	UploadsSplitter;						// Uploads splitter position
+		int			UploadsSplitterRestoreTop;				// The top height of the uploads splitter should restore when right clicked
+		int			UploadsSplitterRestoreBottom;			// The bottom height of the uploads splitter should restore when right clicked
+		QByteArray	UploadsToolbar;							// Uploads Toolbar
+		bool		Visible;								// Is the main window visible
 	};
 };
 
@@ -717,32 +716,32 @@ public:
 	void loadLogSettings();
 
 public:
-	Settings::sWinMain			WinMain;
-	Settings::sLive				Live;
-	Settings::sSystem			System;
-	Settings::sSkin				Skin;
-	Settings::sLanguage			Language;
-	Settings::sParental			Parental;
-	Settings::sLogging			Logging;
-	Settings::sLibrary			Library;
-	Settings::sMedia			Media;
-	Settings::sSearch			Search;
-	Settings::sPrivateMessages	PrivateMessages;
+	Settings::sAres				Ares;
+	Settings::sBitTorrent		BitTorrent;
 	Settings::sChat				Chat;
-	Settings::sProfile			Profile;
 	Settings::sConnection		Connection;
-	Settings::sWeb				Web;
-	Settings::sWebServices		WebServices;
-	Settings::sTransfers		Transfers;
+	Settings::sDiscovery		Discovery;
 	Settings::sDownloads		Downloads;
-	Settings::sUploads			Uploads;
-	Settings::sSecurity			Security;
+	Settings::sEDonkey			EDonkey;
 	Settings::sGnutella			Gnutella;
 	Settings::sGnutella2		Gnutella2;
-	Settings::sAres				Ares;
-	Settings::sEDonkey			EDonkey;
-	Settings::sBitTorrent		BitTorrent;
-	Settings::sDiscovery		Discovery;
+	Settings::sLanguage			Language;
+	Settings::sLibrary			Library;
+	Settings::sLive				Live;
+	Settings::sLogging			Logging;
+	Settings::sMedia			Media;
+	Settings::sParental			Parental;
+	Settings::sPrivateMessages	PrivateMessages;
+	Settings::sProfile			Profile;
+	Settings::sSearch			Search;
+	Settings::sSecurity			Security;
+	Settings::sSkin				Skin;
+	Settings::sSystem			System;
+	Settings::sTransfers		Transfers;
+	Settings::sUploads			Uploads;
+	Settings::sWeb				Web;
+	Settings::sWebServices		WebServices;
+	Settings::sWinMain			WinMain;
 
 signals:
 	void chatSettingsChanged();
