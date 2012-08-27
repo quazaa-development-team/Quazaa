@@ -47,10 +47,19 @@
    </attribute>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="spacing">
-     <number>0</number>
+     <number>5</number>
     </property>
-    <property name="margin">
-     <number>0</number>
+    <property name="leftMargin">
+     <number>5</number>
+    </property>
+    <property name="topMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>5</number>
+    </property>
+    <property name="bottomMargin">
+     <number>5</number>
     </property>
     <item>
      <widget class="QLabel" name="labelWelcome">
@@ -86,99 +95,134 @@ p, li { white-space: pre-wrap; }
    <attribute name="pageId">
     <string notr="true"/>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <property name="spacing">
-     <number>0</number>
+   <layout class="QGridLayout" name="gridLayoutPageConnection">
+    <property name="leftMargin">
+     <number>5</number>
     </property>
-    <property name="margin">
-     <number>0</number>
+    <property name="topMargin">
+     <number>10</number>
     </property>
-    <item>
-     <widget class="QLabel" name="labelConnectionTestLink">
-      <property name="text">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+    <property name="rightMargin">
+     <number>5</number>
+    </property>
+    <property name="bottomMargin">
+     <number>5</number>
+    </property>
+    <property name="horizontalSpacing">
+     <number>5</number>
+    </property>
+    <property name="verticalSpacing">
+     <number>10</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="groupBoxSpeed">
+      <property name="title">
+       <string>Internet Connection</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayoutGroupBoxSpeed">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="labelConnectionTestLink">
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.dslreports.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to test your internet connection speed.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QDoubleSpinBox" name="doubleSpinBoxInSpeed">
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="prefix">
+          <string>Choose your download speed: </string>
+         </property>
+         <property name="suffix">
+          <string> kbps</string>
+         </property>
+         <property name="minimum">
+          <double>28.800000000000001</double>
+         </property>
+         <property name="maximum">
+          <double>155000.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>2048.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QDoubleSpinBox" name="doubleSpinBoxOutSpeed">
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="prefix">
+          <string>Choose your upload speed: </string>
+         </property>
+         <property name="suffix">
+          <string> kbps</string>
+         </property>
+         <property name="minimum">
+          <double>28.800000000000001</double>
+         </property>
+         <property name="maximum">
+          <double>155000.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>256.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" rowspan="2">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
     </item>
-    <item>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QDoubleSpinBox" name="doubleSpinBoxInSpeed">
-        <property name="minimumSize">
-         <size>
-          <width>340</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="prefix">
-         <string>Choose your download speed: </string>
-        </property>
-        <property name="suffix">
-         <string> kbps</string>
-        </property>
-        <property name="minimum">
-         <double>28.800000000000001</double>
-        </property>
-        <property name="maximum">
-         <double>155000.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>2048.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QDoubleSpinBox" name="doubleSpinBoxOutSpeed">
-        <property name="minimumSize">
-         <size>
-          <width>340</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="prefix">
-         <string>Choose your upload speed: </string>
-        </property>
-        <property name="suffix">
-         <string> kbps</string>
-        </property>
-        <property name="minimum">
-         <double>28.800000000000001</double>
-        </property>
-        <property name="maximum">
-         <double>155000.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>256.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="groupBox">
+    <item row="1" column="0">
+     <widget class="QGroupBox" name="groupBoxPort">
       <property name="title">
        <string>Port</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_2">
+      <layout class="QGridLayout" name="gridLayoutGroupBoxPort">
        <item row="0" column="0">
         <widget class="QSpinBox" name="spinBoxPort">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="minimum">
           <number>1024</number>
          </property>
@@ -191,23 +235,58 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QCheckBox" name="checkBoxRandomPort">
+        <widget class="QPushButton" name="pushButton">
+         <property name="maximumSize">
+          <size>
+           <width>250</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="text">
-          <string>Random</string>
+          <string>Chose random port for me!</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
+       <item row="0" column="2">
+        <spacer name="horizontalSpacerGroupBoxPort">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0" colspan="3">
+        <widget class="QCheckBox" name="checkBoxRandomPort">
+         <property name="text">
+          <string>Randomize port on each session start</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QGroupBox" name="groupBoxUPnP">
+      <property name="title">
+       <string>UPnP</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayoutGroupBoxUPnP">
+       <item row="0" column="0">
         <widget class="QCheckBox" name="checkBoxUPnP">
          <property name="text">
           <string>Automatically Set Up Ports Using Universal Plug &amp;&amp; Play</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item row="1" column="0">
         <widget class="QProgressBar" name="progressBarUPnP">
          <property name="value">
-          <number>24</number>
+          <number>10</number>
          </property>
         </widget>
        </item>
@@ -228,10 +307,19 @@ p, li { white-space: pre-wrap; }
    </attribute>
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <property name="spacing">
-     <number>0</number>
+     <number>5</number>
     </property>
-    <property name="margin">
-     <number>0</number>
+    <property name="leftMargin">
+     <number>5</number>
+    </property>
+    <property name="topMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>5</number>
+    </property>
+    <property name="bottomMargin">
+     <number>5</number>
     </property>
     <item>
      <widget class="QLabel" name="label">
@@ -325,10 +413,19 @@ p, li { white-space: pre-wrap; }
    </attribute>
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <property name="spacing">
-     <number>0</number>
+     <number>5</number>
     </property>
-    <property name="margin">
-     <number>0</number>
+    <property name="leftMargin">
+     <number>5</number>
+    </property>
+    <property name="topMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>5</number>
+    </property>
+    <property name="bottomMargin">
+     <number>5</number>
     </property>
     <item>
      <widget class="QLabel" name="label_3">
@@ -503,10 +600,19 @@ p, li { white-space: pre-wrap; }
    </attribute>
    <layout class="QVBoxLayout" name="verticalLayout_4">
     <property name="spacing">
-     <number>0</number>
+     <number>5</number>
     </property>
-    <property name="margin">
-     <number>0</number>
+    <property name="leftMargin">
+     <number>5</number>
+    </property>
+    <property name="topMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>5</number>
+    </property>
+    <property name="bottomMargin">
+     <number>5</number>
     </property>
     <item>
      <widget class="QCheckBox" name="checkBoxG2Connect">
@@ -561,10 +667,19 @@ p, li { white-space: pre-wrap; }
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_5">
     <property name="spacing">
-     <number>0</number>
+     <number>5</number>
     </property>
-    <property name="margin">
-     <number>0</number>
+    <property name="leftMargin">
+     <number>5</number>
+    </property>
+    <property name="topMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>5</number>
+    </property>
+    <property name="bottomMargin">
+     <number>5</number>
     </property>
     <item>
      <widget class="QLabel" name="label_11">
