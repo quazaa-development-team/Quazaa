@@ -6,11 +6,13 @@
 
 #ifdef Q_OS_WIN
 #include <tchar.h>
-#include <inttypes.h>
+#include <QSettings>
 
 #define BUFSIZE 80
 
+#ifndef Q_CC_MSVC
 #define VER_SUITE_WH_SERVER 0x8000
+#endif
 
 //Windows product definitions
 #define PRODUCT_UNDEFINED                       0x00000000
@@ -801,25 +803,14 @@ void QuazaaSysInfo::DetectWindowsVersion()
    }
    else // Test for specific product on Windows NT 4.0 SP5 and earlier
    {
-	  HKEY hKey;
-	  TCHAR szProductType[BUFSIZE];
-	  DWORD dwBufLen=BUFSIZE;
-	  LONG lRet;
+	  QSettings registry("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions",QSettings::NativeFormat);
+	  QString sProductType;
 
-	  lRet = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
-		 L"SYSTEM\\CurrentControlSet\\Control\\ProductOptions",
-		 0, KEY_QUERY_VALUE, &hKey );
-	  if( lRet != ERROR_SUCCESS )
-		 return;
 
-	  lRet = RegQueryValueEx( hKey, L"ProductType", 0, 0,
-		 (LPBYTE) szProductType, &dwBufLen);
-	  if( (lRet != ERROR_SUCCESS) || (dwBufLen > BUFSIZE) )
-		 return;
+	  sProductType = registry.value("ProductType").toString();
+	  sProductType = sProductType.toUpper();
 
-	  RegCloseKey( hKey );
-
-	  if ( lstrcmpi( L"WINNT", szProductType) == 0 )
+	  if ( sProductType == "WINNT" )
 	  {
 		 if ( m_osvi.dwMajorVersion <= 4 )
 		 {
@@ -827,7 +818,7 @@ void QuazaaSysInfo::DetectWindowsVersion()
 			m_nWindowsEdition = WindowsEdition::Workstation;
 		 }
 	  }
-	  if ( lstrcmpi( L"LANMANNT", szProductType) == 0 )
+	  if ( sProductType == "LANMANNT" )
 	  {
 		 if ( m_osvi.dwMajorVersion == 5 && m_osvi.dwMinorVersion == 2 )
 		 {
@@ -846,7 +837,7 @@ void QuazaaSysInfo::DetectWindowsVersion()
 			m_nWindowsEdition = WindowsEdition::Server;
 		 }
 	  }
-	  if ( lstrcmpi( L"SERVERNT", szProductType) == 0 )
+	  if ( sProductType == "SERVERNT" )
 	  {
 		 if ( m_osvi.dwMajorVersion == 5 && m_osvi.dwMinorVersion == 2 )
 		 {
@@ -1192,30 +1183,27 @@ void QuazaaSysInfo::DetectWindowsServicePack()
 		HKEY hKey;
 		LONG lRet;
 
+		QSettings registry("HKEY_LOCAL_MACHINE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix", QSettings::NativeFormat);
+
 		// Test for SP6 versus SP6a.
-		lRet = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
-		L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix\\Q246009",
-		0, KEY_QUERY_VALUE, &hKey );
-		if( lRet == ERROR_SUCCESS )
+		if( registry.childGroups().contains("Q246009"))
 		{
-			sprintf(m_sServicePack, "Service Pack 6a (Build %lu)\n", m_osvi.dwBuildNumber & 0xFFFF );
+			sprintf(m_sServicePack, "Service Pack 6a (Build %lu)", m_osvi.dwBuildNumber & 0xFFFF );
 		}
 		else // Windows NT 4.0 prior to SP6a
 		{
 			char* sCSDVersion = new char[128];
 			wcstombs(sCSDVersion, m_osvi.szCSDVersion, sizeof(m_osvi.szCSDVersion));
-			sprintf(m_sServicePack, "%s (Build %lu)\n",
+			sprintf(m_sServicePack, "%s (Build %lu)",
 				sCSDVersion,
 				m_osvi.dwBuildNumber & 0xFFFF);
 		}
-
-		RegCloseKey( hKey );
 	}
 	else // Windows NT 3.51 and earlier or Windows 2000 and later
 	{
 		char* sCSDVersion = new char[128];
 		wcstombs(sCSDVersion, m_osvi.szCSDVersion, sizeof(m_osvi.szCSDVersion));
-		sprintf(m_sServicePack, "%s (Build %lu)\n",
+		sprintf(m_sServicePack, "%s (Build %lu)",
 			sCSDVersion,
 			m_osvi.dwBuildNumber & 0xFFFF);
 	}
