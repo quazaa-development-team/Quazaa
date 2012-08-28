@@ -59,7 +59,7 @@
      <number>5</number>
     </property>
     <property name="bottomMargin">
-     <number>5</number>
+     <number>10</number>
     </property>
     <item>
      <widget class="QLabel" name="labelWelcome">
@@ -87,7 +87,7 @@ p, li { white-space: pre-wrap; }
   </widget>
   <widget class="QWizardPage" name="wizardPageConnection">
    <property name="title">
-    <string>Connection</string>
+    <string>(1/5) Connection</string>
    </property>
    <property name="subTitle">
     <string>For best performance, Quazaa needs to know a little about your connection to the internet.</string>
@@ -106,7 +106,7 @@ p, li { white-space: pre-wrap; }
      <number>5</number>
     </property>
     <property name="bottomMargin">
-     <number>5</number>
+     <number>10</number>
     </property>
     <property name="horizontalSpacing">
      <number>5</number>
@@ -127,7 +127,10 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.dslreports.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to test your internet connection speed.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://speedtest.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to test your internet connection speed&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -285,8 +288,11 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="1" column="0">
         <widget class="QProgressBar" name="progressBarUPnP">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="value">
-          <number>10</number>
+          <number>0</number>
          </property>
         </widget>
        </item>
@@ -297,7 +303,7 @@ p, li { white-space: pre-wrap; }
   </widget>
   <widget class="QWizardPage" name="wizardPageShares">
    <property name="title">
-    <string>Shares</string>
+    <string>(2/5) Shares</string>
    </property>
    <property name="subTitle">
     <string>Please list any folders containing files you wish to share with others. Simply click the add button to add a new folder.</string>
@@ -305,10 +311,7 @@ p, li { white-space: pre-wrap; }
    <attribute name="pageId">
     <string notr="true"/>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <property name="spacing">
-     <number>5</number>
-    </property>
+   <layout class="QGridLayout" name="gridLayoutPageShares">
     <property name="leftMargin">
      <number>5</number>
     </property>
@@ -319,10 +322,13 @@ p, li { white-space: pre-wrap; }
      <number>5</number>
     </property>
     <property name="bottomMargin">
+     <number>10</number>
+    </property>
+    <property name="spacing">
      <number>5</number>
     </property>
-    <item>
-     <widget class="QLabel" name="label">
+    <item row="0" column="0" colspan="2">
+     <widget class="QLabel" name="labelP2PNetworkInfo">
       <property name="text">
        <string>Peer-to-Peer networks are only as good as the people who use them. All of the content available for you to use is being shared by other users. You do not have to share content to use Quazaa. However, other users are more likely to share with you if you are sharing files yourself.</string>
       </property>
@@ -331,68 +337,65 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
-    <item>
+    <item row="1" column="0" colspan="2">
      <widget class="QCheckBox" name="checkBoxAllowBrowseShares">
       <property name="text">
        <string>Allow Others To Browse My Shares</string>
       </property>
      </widget>
     </item>
-    <item>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0" rowspan="3">
-       <widget class="QListWidget" name="listWidgetShares"/>
-      </item>
-      <item row="0" column="1" colspan="2">
-       <widget class="QToolButton" name="toolButtonSharesAdd">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Add</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" colspan="2">
-       <widget class="QToolButton" name="toolButtonSharesRemove">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Remove</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
+    <item row="2" column="0" rowspan="3">
+     <widget class="QListWidget" name="listWidgetShares"/>
     </item>
-    <item>
-     <widget class="QLabel" name="label_2">
+    <item row="2" column="1">
+     <widget class="QToolButton" name="toolButtonSharesAdd">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QToolButton" name="toolButtonSharesRemove">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Remove</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <spacer name="verticalSpacerAddRemoveButtons">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="5" column="0" colspan="2">
+     <widget class="QLabel" name="labelWarningDisclaimer">
       <property name="text">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; color:#ff0000;&quot;&gt;WARNING: Be careful not to pick folders containing files with credit card numbers or other sensitive information. &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; color:#ff0000;&quot;&gt;DISCLAIMER: Distributing copyrighted works is an offense in most countries.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#aa0000;&quot;&gt;WARNING:&lt;/span&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;  &lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Be careful not to pick folders containing files with credit card numbers or other sensitive information.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:3pt; color:#000000;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#aa0000;&quot;&gt;DISCLAIMER:&lt;/span&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;  &lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Distributing copyrighted works is an offense in most countries.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="wordWrap">
        <bool>true</bool>
@@ -403,7 +406,7 @@ p, li { white-space: pre-wrap; }
   </widget>
   <widget class="QWizardPage" name="wizardPageCommunity">
    <property name="title">
-    <string>Community</string>
+    <string>(3/5) Community</string>
    </property>
    <property name="subTitle">
     <string>Enter some basic information here to identify yourself with the the various chat tools.</string>
@@ -411,7 +414,7 @@ p, li { white-space: pre-wrap; }
    <attribute name="pageId">
     <string notr="true"/>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayoutCommunity">
     <property name="spacing">
      <number>5</number>
     </property>
@@ -425,10 +428,10 @@ p, li { white-space: pre-wrap; }
      <number>5</number>
     </property>
     <property name="bottomMargin">
-     <number>5</number>
+     <number>10</number>
     </property>
     <item>
-     <widget class="QLabel" name="label_3">
+     <widget class="QLabel" name="labelPersonalInfo">
       <property name="text">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -445,140 +448,137 @@ p, li { white-space: pre-wrap; }
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="checkBoxAllowBrowseProfile">
-      <property name="text">
-       <string>Allow Others To Browse My User Profile</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Default Irc Chat Nick Name:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Default Irc Chat Alternate Nick Name:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Gnutella Screen Name:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEditIrcNick"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEditIrcAlternateNick"/>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEditGnutellaScreenName"/>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Gender: </string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboBoxGender">
-        <property name="minimumSize">
-         <size>
-          <width>120</width>
-          <height>0</height>
-         </size>
-        </property>
-        <item>
-         <property name="text">
-          <string>Male</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Female</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Not Specified</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="spinBoxAge">
-        <property name="prefix">
-         <string>Age: </string>
-        </property>
-        <property name="minimum">
-         <number>5</number>
-        </property>
-        <property name="value">
-         <number>18</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="groupBox_2">
+     <widget class="QGroupBox" name="groupBoxPersonalInfo">
       <property name="title">
-       <string>Location</string>
+       <string>Account Information</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_5">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_8">
+      <layout class="QGridLayout" name="gridLayoutPersonalInfo">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="labelIrcNick">
          <property name="text">
-          <string>Country</string>
+          <string>Default Irc Chat Nick Name: </string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_9">
+       <item row="0" column="2" colspan="2">
+        <widget class="QLineEdit" name="lineEditIrcNick"/>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="labelIrcNick">
          <property name="text">
-          <string>City</string>
+          <string>Default Irc Chat Alternate Nick Name: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" colspan="2">
+        <widget class="QLineEdit" name="lineEditIrcAlternateNick"/>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="labelGnutellaScreenName">
+         <property name="text">
+          <string>Gnutella Screen Name: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2" colspan="2">
+        <widget class="QLineEdit" name="lineEditGnutellaScreenName"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="labelGender">
+         <property name="text">
+          <string>Gender: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="comboBoxGender">
+         <property name="minimumSize">
+          <size>
+           <width>120</width>
+           <height>0</height>
+          </size>
+         </property>
+         <item>
+          <property name="text">
+           <string>Not Specified</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Male</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Female</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QSpinBox" name="spinBoxAge">
+         <property name="prefix">
+          <string>Age: </string>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <number>120</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <spacer name="horizontalSpacerGenderAndAge">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBoxLocation">
+      <property name="title">
+       <string>Location</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayoutLocation">
+       <item row="0" column="0">
+        <widget class="QLabel" name="labelCountry">
+         <property name="text">
+          <string>Country: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEditCountry"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="labelStateProvince">
+         <property name="text">
+          <string>State/Province: </string>
          </property>
         </widget>
        </item>
        <item row="0" column="3">
-        <widget class="QLabel" name="label_10">
+        <widget class="QLineEdit" name="lineEditStateProvince"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="labelCity">
          <property name="text">
-          <string>State/Province</string>
+          <string>City: </string>
          </property>
         </widget>
-       </item>
-       <item row="0" column="1" colspan="2">
-        <widget class="QLineEdit" name="lineEditCountry"/>
-       </item>
-       <item row="0" column="4">
-        <widget class="QLineEdit" name="lineEditStateProvince"/>
        </item>
        <item row="1" column="1">
         <widget class="QLineEdit" name="lineEditCity"/>
@@ -586,11 +586,21 @@ p, li { white-space: pre-wrap; }
       </layout>
      </widget>
     </item>
+    <item>
+     <widget class="QCheckBox" name="checkBoxAllowBrowseProfile">
+      <property name="text">
+       <string>Allow Others To Browse My User Profile</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QWizardPage" name="wizardPageNetworks">
    <property name="title">
-    <string>Networks</string>
+    <string>(4/5) Networks</string>
    </property>
    <property name="subTitle">
     <string>You can select which networks you would like to use here. Note: You can always select different networks later.</string>
@@ -612,7 +622,7 @@ p, li { white-space: pre-wrap; }
      <number>5</number>
     </property>
     <property name="bottomMargin">
-     <number>5</number>
+     <number>10</number>
     </property>
     <item>
      <widget class="QCheckBox" name="checkBoxG2Connect">
@@ -660,7 +670,7 @@ p, li { white-space: pre-wrap; }
   </widget>
   <widget class="QWizardPage" name="wizardPageSystem">
    <property name="title">
-    <string>System</string>
+    <string>(5/5) System</string>
    </property>
    <property name="subTitle">
     <string>These settings configure how and when Quazaa starts and how many system resources it will use.</string>
@@ -679,7 +689,7 @@ p, li { white-space: pre-wrap; }
      <number>5</number>
     </property>
     <property name="bottomMargin">
-     <number>5</number>
+     <number>10</number>
     </property>
     <item>
      <widget class="QLabel" name="label_11">
