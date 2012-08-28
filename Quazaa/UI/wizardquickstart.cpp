@@ -150,3 +150,15 @@ void WizardQuickStart::setSkin()
 {
 
 }
+
+void WizardQuickStart::on_checkBoxUPnP_stateChanged(int arg1)
+{
+	if ( arg1 == Qt::Checked )
+	{
+		ui->progressBarUPnP->setEnabled( true );
+	}
+	else
+	{
+		ui->progressBarUPnP->setEnabled( false );
+	}
+}
