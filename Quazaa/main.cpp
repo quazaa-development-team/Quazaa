@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -222,14 +222,10 @@ int main(int argc, char *argv[])
 	MainWindow = new CWinMain();
 	if ( quazaaSettings.WinMain.Visible )
 	{
-		MainWindow->show();
-	}
-
-	//TODO: Make this work
-	// Make sure quazaa starts with a maximized window on first run.
-	if ( quazaaSettings.isFirstRun() )
-	{
-		MainWindow->setWindowState( Qt::WindowMaximized );
+		if(quazaaSettings.isFirstRun())
+			MainWindow->showMaximized();
+		else
+			MainWindow->show();
 	}
 
 	dlgSplash->updateProgress( 90, QObject::tr( "Loading Tray Icon..." ) );
