@@ -225,6 +225,13 @@ int main(int argc, char *argv[])
 		MainWindow->show();
 	}
 
+	//TODO: Make this work
+	// Make sure quazaa starts with a maximized window on first run.
+	if ( quazaaSettings.isFirstRun() )
+	{
+		MainWindow->setWindowState( Qt::WindowMaximized );
+	}
+
 	dlgSplash->updateProgress( 90, QObject::tr( "Loading Tray Icon..." ) );
 	qApp->processEvents();
 	MainWindow->loadTrayIcon();

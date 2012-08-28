@@ -1180,9 +1180,6 @@ void QuazaaSysInfo::DetectWindowsServicePack()
 	if( m_osvi.dwMajorVersion == 4 &&
 		   lstrcmpi( m_osvi.szCSDVersion, L"Service Pack 6" ) == 0 )
 	{
-		HKEY hKey;
-		LONG lRet;
-
 		QSettings registry("HKEY_LOCAL_MACHINE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix", QSettings::NativeFormat);
 
 		// Test for SP6 versus SP6a.
