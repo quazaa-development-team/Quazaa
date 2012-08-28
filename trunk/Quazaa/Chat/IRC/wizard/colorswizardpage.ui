@@ -10,6 +10,13 @@
     <height>171</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string>Color</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../Resource.qrc">
+    <normaloff>:/Resource/Generic/Skin.png</normaloff>:/Resource/Generic/Skin.png</iconset>
+  </property>
   <property name="title">
    <string>Color settings</string>
   </property>
@@ -100,6 +107,8 @@
    <header>treewidget.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -16,20 +16,24 @@
 
 GeneralWizardPage::GeneralWizardPage(QWidget* parent) : QWizardPage(parent)
 {
-    ui.setupUi(this);
+	ui.setupUi(this);
 	setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/oxygen/64x64/actions/configure.png"));
+
+	connect(ui.checkBoxConnectOnStartup, SIGNAL(clicked()), this, SIGNAL(settingsChanged()));
+	connect(ui.blockSpinBox, SIGNAL(valueChanged(int)), this, SIGNAL(settingsChanged()));
+	connect(ui.timeStampCheckBox, SIGNAL(clicked()), this, SIGNAL(settingsChanged()));
 }
 
 QString GeneralWizardPage::language() const
 {
-    // TODO
-    return QString();
+	// TODO
+	return QString();
 }
 
 void GeneralWizardPage::setLanguage(const QString& language)
 {
-    // TODO
-    Q_UNUSED(language);
+	// TODO
+	Q_UNUSED(language);
 }
 
 bool GeneralWizardPage::connectOnStartup() const
@@ -44,20 +48,20 @@ void GeneralWizardPage::setConnectOnStartup(bool connectOnStartup)
 
 int GeneralWizardPage::maxBlockCount() const
 {
-    return ui.blockSpinBox->value();
+	return ui.blockSpinBox->value();
 }
 
 void GeneralWizardPage::setMaxBlockCount(int count)
 {
-    ui.blockSpinBox->setValue(count);
+	ui.blockSpinBox->setValue(count);
 }
 
 bool GeneralWizardPage::timeStamp() const
 {
-    return ui.timeStampCheckBox->isChecked();
+	return ui.timeStampCheckBox->isChecked();
 }
 
 void GeneralWizardPage::setTimeStamp(bool timeStamp)
 {
-    ui.timeStampCheckBox->setChecked(timeStamp);
+	ui.timeStampCheckBox->setChecked(timeStamp);
 }

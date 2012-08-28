@@ -10,6 +10,13 @@
     <height>115</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string>General</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../Resource.qrc">
+    <normaloff>:/Resource/Generic/Settings.png</normaloff>:/Resource/Generic/Settings.png</iconset>
+  </property>
   <property name="title">
    <string>General settings</string>
   </property>
@@ -69,6 +76,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

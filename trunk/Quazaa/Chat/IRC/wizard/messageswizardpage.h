@@ -20,19 +20,22 @@
 
 class MessagesWizardPage : public QWizardPage
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    MessagesWizardPage(QWidget* parent = 0);
+	MessagesWizardPage(QWidget* parent = 0);
 
-    QHash<int, bool> messages() const;
-    void setMessages(const QHash<int, bool>& messages);
+	QHash<int, bool> messages() const;
+	void setMessages(const QHash<int, bool>& messages);
 
-    QHash<int, bool> highlights() const;
-    void setHighlights(const QHash<int, bool>& highlights);
+	QHash<int, bool> highlights() const;
+	void setHighlights(const QHash<int, bool>& highlights);
 
 private:
-    Ui::MessagesWizardPage ui;
+	Ui::MessagesWizardPage ui;
+
+signals:
+	void settingsChanged();
 };
 
 #endif // MESSAGESWIZARDPAGE_H

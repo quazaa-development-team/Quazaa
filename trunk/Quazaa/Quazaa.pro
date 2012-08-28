@@ -328,7 +328,8 @@ SOURCES += \
     3rdparty/zlib/deflate.c \
     3rdparty/zlib/crc32.c \
     3rdparty/zlib/adler32.c \
-    quazaasysinfo.cpp
+    quazaasysinfo.cpp \
+    UI/dialogircsettings.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -499,7 +500,8 @@ HEADERS += \
     3rdparty/zlib/gzguts.h \
     3rdparty/zlib/deflate.h \
     3rdparty/zlib/crc32.h \
-    quazaasysinfo.h
+    quazaasysinfo.h \
+    UI/dialogircsettings.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -558,7 +560,8 @@ FORMS += \
 	UI/wizardquickstart.ui \
 	UI/widgetircmain.ui \
 	UI/widgetircsidebars.ui \
-	UI/wizardircconnection.ui
+	UI/wizardircconnection.ui \
+    UI/dialogircsettings.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \
