@@ -36,162 +36,169 @@
 #include "debug_new.h"
 #endif
 
-DialogLanguage::DialogLanguage(QWidget* parent) :
-	QDialog(parent),
-	ui(new Ui::DialogLanguage)
+DialogLanguage::DialogLanguage( QWidget* parent ) :
+	QDialog( parent ),
+	ui( new Ui::DialogLanguage )
 {
-	ui->setupUi(this);
+	ui->setupUi( this );
 	//Set the list selection according to which language file is selected
 	//English
-	if(quazaaSettings.Language.File == ("quazaa_default_en"))
+	if ( quazaaSettings.Language.File == ( "quazaa_default_en" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(0);
+		ui->listWidgetLanguages->setCurrentRow( 0 );
 	}
 	//Afrikanns
-	if(quazaaSettings.Language.File == ("quazaa_af"))
+	if ( quazaaSettings.Language.File == ( "quazaa_af" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(1);
+		ui->listWidgetLanguages->setCurrentRow( 1 );
 	}
 	//Arabic
-	if(quazaaSettings.Language.File == ("quazaa_ar"))
+	if ( quazaaSettings.Language.File == ( "quazaa_ar" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(2);
+		ui->listWidgetLanguages->setCurrentRow( 2 );
 	}
 	//Catal�
-	if(quazaaSettings.Language.File == ("quazaa_ca"))
+	if ( quazaaSettings.Language.File == ( "quazaa_ca" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(3);
+		ui->listWidgetLanguages->setCurrentRow( 3 );
 	}
 	//Chinese
-	if(quazaaSettings.Language.File == ("quazaa_chs"))
+	if ( quazaaSettings.Language.File == ( "quazaa_chs" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(4);
+		ui->listWidgetLanguages->setCurrentRow( 4 );
 	}
 	//Ce�tina
-	if(quazaaSettings.Language.File == ("quazaa_cz"))
+	if ( quazaaSettings.Language.File == ( "quazaa_cz" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(5);
+		ui->listWidgetLanguages->setCurrentRow( 5 );
 	}
 	//Deutsch
-	if(quazaaSettings.Language.File == ("quazaa_de"))
+	if ( quazaaSettings.Language.File == ( "quazaa_de" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(6);
+		ui->listWidgetLanguages->setCurrentRow( 6 );
 	}
 	//Eesti
-	if(quazaaSettings.Language.File == ("quazaa_ee"))
+	if ( quazaaSettings.Language.File == ( "quazaa_ee" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(7);
+		ui->listWidgetLanguages->setCurrentRow( 7 );
 	}
 	//Espa�ol
-	if(quazaaSettings.Language.File == ("quazaa_es"))
+	if ( quazaaSettings.Language.File == ( "quazaa_es" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(8);
+		ui->listWidgetLanguages->setCurrentRow( 8 );
 	}
 	//Farsi
-	if(quazaaSettings.Language.File == ("quazaa_fa"))
+	if ( quazaaSettings.Language.File == ( "quazaa_fa" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(9);
+		ui->listWidgetLanguages->setCurrentRow( 9 );
 	}
 	//Suomi
-	if(quazaaSettings.Language.File == ("quazaa_fi"))
+	if ( quazaaSettings.Language.File == ( "quazaa_fi" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(10);
+		ui->listWidgetLanguages->setCurrentRow( 10 );
 	}
 	//Fran�ais
-	if(quazaaSettings.Language.File == ("quazaa_fr"))
+	if ( quazaaSettings.Language.File == ( "quazaa_fr" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(11);
+		ui->listWidgetLanguages->setCurrentRow( 11 );
 	}
 	//Greek
-	if(quazaaSettings.Language.File == ("quazaa_gr"))
+	if ( quazaaSettings.Language.File == ( "quazaa_gr" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(12);
+		ui->listWidgetLanguages->setCurrentRow( 12 );
 	}
 	//Hebrew
-	if(quazaaSettings.Language.File == ("quazaa_heb"))
+	if ( quazaaSettings.Language.File == ( "quazaa_heb" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(13);
+		ui->listWidgetLanguages->setCurrentRow( 13 );
 	}
 	//Hrvatski
-	if(quazaaSettings.Language.File == ("quazaa_hr"))
+	if ( quazaaSettings.Language.File == ( "quazaa_hr" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(14);
+		ui->listWidgetLanguages->setCurrentRow( 14 );
 	}
 	//Magyar
-	if(quazaaSettings.Language.File == ("quazaa_hu"))
+	if ( quazaaSettings.Language.File == ( "quazaa_hu" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(15);
+		ui->listWidgetLanguages->setCurrentRow( 15 );
 	}
 	//Italian
-	if(quazaaSettings.Language.File == ("quazaa_it"))
+	if ( quazaaSettings.Language.File == ( "quazaa_it" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(16);
+		ui->listWidgetLanguages->setCurrentRow( 16 );
 	}
 	//Japanese
-	if(quazaaSettings.Language.File == ("quazaa_ja"))
+	if ( quazaaSettings.Language.File == ( "quazaa_ja" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(17);
+		ui->listWidgetLanguages->setCurrentRow( 17 );
 	}
 	//Lietuviu
-	if(quazaaSettings.Language.File == ("quazaa_lt"))
+	if ( quazaaSettings.Language.File == ( "quazaa_lt" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(18);
+		ui->listWidgetLanguages->setCurrentRow( 18 );
 	}
 	//Nederlands
-	if(quazaaSettings.Language.File == ("quazaa_nl"))
+	if ( quazaaSettings.Language.File == ( "quazaa_nl" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(19);
+		ui->listWidgetLanguages->setCurrentRow( 19 );
 	}
 	//Norsk
-	if(quazaaSettings.Language.File == ("quazaa_no"))
+	if ( quazaaSettings.Language.File == ( "quazaa_no" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(20);
+		ui->listWidgetLanguages->setCurrentRow( 20 );
 	}
 	//Polski
-	if(quazaaSettings.Language.File == ("quazaa_pl"))
+	if ( quazaaSettings.Language.File == ( "quazaa_pl" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(21);
+		ui->listWidgetLanguages->setCurrentRow( 21 );
 	}
 	//Portugu�s Brasileiro
-	if(quazaaSettings.Language.File == ("quazaa_pt-br"))
+	if ( quazaaSettings.Language.File == ( "quazaa_pt-br" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(22);
+		ui->listWidgetLanguages->setCurrentRow( 22 );
 	}
 	//Russian
-	if(quazaaSettings.Language.File == ("quazaa_ru"))
+	if ( quazaaSettings.Language.File == ( "quazaa_ru" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(23);
+		ui->listWidgetLanguages->setCurrentRow( 23 );
 	}
 	//Sloven�cina
-	if(quazaaSettings.Language.File == ("quazaa_sl-si"))
+	if ( quazaaSettings.Language.File == ( "quazaa_sl-si" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(24);
+		ui->listWidgetLanguages->setCurrentRow( 24 );
 	}
 	//Shqip
-	if(quazaaSettings.Language.File == ("quazaa_sq"))
+	if ( quazaaSettings.Language.File == ( "quazaa_sq" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(25);
+		ui->listWidgetLanguages->setCurrentRow( 25 );
 	}
 	//Srpski
-	if(quazaaSettings.Language.File == ("quazaa_sr"))
+	if ( quazaaSettings.Language.File == ( "quazaa_sr" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(26);
+		ui->listWidgetLanguages->setCurrentRow( 26 );
 	}
 	//Svenska
-	if(quazaaSettings.Language.File == ("quazaa_sv"))
+	if ( quazaaSettings.Language.File == ( "quazaa_sv" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(27);
+		ui->listWidgetLanguages->setCurrentRow( 27 );
 	}
 	//T�rk�e
-	if(quazaaSettings.Language.File == ("quazaa_tr"))
+	if ( quazaaSettings.Language.File == ( "quazaa_tr" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(28);
+		ui->listWidgetLanguages->setCurrentRow( 28 );
 	}
 	//Thai
-	if(quazaaSettings.Language.File == ("quazaa_tw"))
+	if ( quazaaSettings.Language.File == ( "quazaa_tw" ) )
 	{
-		ui->listWidgetLanguages->setCurrentRow(29);
+		ui->listWidgetLanguages->setCurrentRow( 29 );
 	}
+
+	// If a valid language setting has been detected allow user to proceed without further action.
+	if ( ui->listWidgetLanguages->currentRow() != -1 )
+	{
+		ui->pushButtonOK->setEnabled( true );
+	}
+
 	setSkin();
 }
 
@@ -200,13 +207,13 @@ DialogLanguage::~DialogLanguage()
 	delete ui;
 }
 
-void DialogLanguage::changeEvent(QEvent* e)
+void DialogLanguage::changeEvent( QEvent* e )
 {
-	QDialog::changeEvent(e);
-	switch(e->type())
+	QDialog::changeEvent( e );
+	switch( e->type() )
 	{
 		case QEvent::LanguageChange:
-			ui->retranslateUi(this);
+			ui->retranslateUi( this );
 			break;
 		default:
 			break;
@@ -215,103 +222,103 @@ void DialogLanguage::changeEvent(QEvent* e)
 
 void DialogLanguage::on_pushButtonOK_clicked()
 {
-	switch(ui->listWidgetLanguages->currentRow())
+	switch( ui->listWidgetLanguages->currentRow() )
 	{
 		case 0: //English
-			quazaaSettings.Language.File = ("quazaa_default_en");
+			quazaaSettings.Language.File = ( "quazaa_default_en" );
 			break;
 		case 1:	//Afrikanns
-			quazaaSettings.Language.File = ("quazaa_af");
+			quazaaSettings.Language.File = ( "quazaa_af" );
 			break;
 		case 2:	//Arabic
-			quazaaSettings.Language.File = ("quazaa_ar");
+			quazaaSettings.Language.File = ( "quazaa_ar" );
 			break;
 		case 3:	//Catal�
-			quazaaSettings.Language.File = ("quazaa_ca");
+			quazaaSettings.Language.File = ( "quazaa_ca" );
 			break;
 		case 4:	//Chinese
-			quazaaSettings.Language.File = ("quazaa_chs");
+			quazaaSettings.Language.File = ( "quazaa_chs" );
 			break;
 		case 5:	//Ce�tina
-			quazaaSettings.Language.File = ("quazaa_cz");
+			quazaaSettings.Language.File = ( "quazaa_cz" );
 			break;
 		case 6: //Deutsch
-			quazaaSettings.Language.File = ("quazaa_de");
+			quazaaSettings.Language.File = ( "quazaa_de" );
 			break;
 		case 7: //Eesti
-			quazaaSettings.Language.File = ("quazaa_ee");
+			quazaaSettings.Language.File = ( "quazaa_ee" );
 			break;
 		case 8: //Espa�ol
-			quazaaSettings.Language.File = ("quazaa_es");
+			quazaaSettings.Language.File = ( "quazaa_es" );
 			break;
 		case 9: //Farsi
-			quazaaSettings.Language.File = ("quazaa_fa");
+			quazaaSettings.Language.File = ( "quazaa_fa" );
 			break;
 		case 10: //Suomi
-			quazaaSettings.Language.File = ("quazaa_fi");
+			quazaaSettings.Language.File = ( "quazaa_fi" );
 			break;
 		case 11: //Fran�ais
-			quazaaSettings.Language.File = ("quazaa_fr");
+			quazaaSettings.Language.File = ( "quazaa_fr" );
 			break;
 		case 12: //Greek
-			quazaaSettings.Language.File = ("quazaa_gr");
+			quazaaSettings.Language.File = ( "quazaa_gr" );
 			break;
 		case 13: //Hebrew
-			quazaaSettings.Language.File = ("quazaa_heb");
+			quazaaSettings.Language.File = ( "quazaa_heb" );
 			break;
 		case 14: //Hrvatski
-			quazaaSettings.Language.File = ("quazaa_hr");
+			quazaaSettings.Language.File = ( "quazaa_hr" );
 			break;
 		case 15: //Magyar
-			quazaaSettings.Language.File = ("quazaa_hu");
+			quazaaSettings.Language.File = ( "quazaa_hu" );
 			break;
 		case 16: //Italian
-			quazaaSettings.Language.File = ("quazaa_it");
+			quazaaSettings.Language.File = ( "quazaa_it" );
 			break;
 		case 17: //Japanese
-			quazaaSettings.Language.File = ("quazaa_ja");
+			quazaaSettings.Language.File = ( "quazaa_ja" );
 			break;
 		case 18: //Lietuviu
-			quazaaSettings.Language.File = ("quazaa_lt");
+			quazaaSettings.Language.File = ( "quazaa_lt" );
 			break;
 		case 19: //Nederlands
-			quazaaSettings.Language.File = ("quazaa_nl");
+			quazaaSettings.Language.File = ( "quazaa_nl" );
 			break;
 		case 20: //Norsk
-			quazaaSettings.Language.File = ("quazaa_no");
+			quazaaSettings.Language.File = ( "quazaa_no" );
 			break;
 		case 21: //Polski
-			quazaaSettings.Language.File = ("quazaa_pl");
+			quazaaSettings.Language.File = ( "quazaa_pl" );
 			break;
 		case 22: //Portugu�s Brasileiro
-			quazaaSettings.Language.File = ("quazaa_pt-br");
+			quazaaSettings.Language.File = ( "quazaa_pt-br" );
 			break;
 		case 23: //Russian
-			quazaaSettings.Language.File = ("quazaa_ru");
+			quazaaSettings.Language.File = ( "quazaa_ru" );
 			break;
 		case 24: //Sloven�cina
-			quazaaSettings.Language.File = ("quazaa_sl-si");
+			quazaaSettings.Language.File = ( "quazaa_sl-si" );
 			break;
 		case 25: //Shqip
-			quazaaSettings.Language.File = ("quazaa_sq");
+			quazaaSettings.Language.File = ( "quazaa_sq" );
 			break;
 		case 26: //Srpski
-			quazaaSettings.Language.File = ("quazaa_sr");
+			quazaaSettings.Language.File = ( "quazaa_sr" );
 			break;
 		case 27: //Svenska
-			quazaaSettings.Language.File = ("quazaa_sv");
+			quazaaSettings.Language.File = ( "quazaa_sv" );
 			break;
 		case 28: //T�rk�e
-			quazaaSettings.Language.File = ("quazaa_tr");
+			quazaaSettings.Language.File = ( "quazaa_tr" );
 			break;
 		case 29: //Thai
-			quazaaSettings.Language.File = ("quazaa_tw");
+			quazaaSettings.Language.File = ( "quazaa_tw" );
 			break;
 		default: //English
-			quazaaSettings.Language.File = ("quazaa_default_en");
+			quazaaSettings.Language.File = ( "quazaa_default_en" );
 			break;
 	}
-	quazaaSettings.translator.load(quazaaSettings.Language.File);
+	quazaaSettings.translator.load( quazaaSettings.Language.File );
 	quazaaSettings.saveLanguageSettings();
 	close();
 }
@@ -322,11 +329,11 @@ void DialogLanguage::on_pushButtonCancel_clicked()
 	close();
 }
 
-void DialogLanguage::on_listWidgetLanguages_itemClicked(QListWidgetItem* item)
+void DialogLanguage::on_listWidgetLanguages_itemClicked( QListWidgetItem* item )
 {
-	Q_UNUSED(item);
+	Q_UNUSED( item );
 
-	ui->pushButtonOK->setEnabled(true);
+	ui->pushButtonOK->setEnabled( true );
 }
 
 void DialogLanguage::setSkin()
