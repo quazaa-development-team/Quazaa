@@ -20,28 +20,31 @@
 
 class GeneralWizardPage : public QWizardPage
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    GeneralWizardPage(QWidget* parent = 0);
+	GeneralWizardPage(QWidget* parent = 0);
 
-    QFont font() const;
-    void setFont(const QFont& font);
+	QFont font() const;
+	void setFont(const QFont& font);
 
-    QString language() const;
-    void setLanguage(const QString& language);
+	QString language() const;
+	void setLanguage(const QString& language);
 
 	bool connectOnStartup() const;
 	void setConnectOnStartup(bool connectOnStartup);
 
-    int maxBlockCount() const;
-    void setMaxBlockCount(int count);
+	int maxBlockCount() const;
+	void setMaxBlockCount(int count);
 
-    bool timeStamp() const;
-    void setTimeStamp(bool timeStamp);
+	bool timeStamp() const;
+	void setTimeStamp(bool timeStamp);
 
 private:
-    Ui::GeneralWizardPage ui;
+	Ui::GeneralWizardPage ui;
+
+signals:
+	void settingsChanged();
 };
 
 #endif // GENERALWIZARDPAGE_H

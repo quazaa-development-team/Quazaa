@@ -16,52 +16,54 @@
 
 enum Columns
 {
-    Name,
-    Message,
-    Highlight
+	Name,
+	Message,
+	Highlight
 };
 
 MessagesWizardPage::MessagesWizardPage(QWidget* parent) : QWizardPage(parent)
 {
-    ui.setupUi(this);
+	ui.setupUi(this);
 	setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/oxygen/64x64/actions/bookmark.png"));
-    ui.treeWidget->header()->setResizeMode(Name, QHeaderView::Stretch);
-    ui.treeWidget->header()->setResizeMode(Message, QHeaderView::ResizeToContents);
-    ui.treeWidget->header()->setResizeMode(Highlight, QHeaderView::ResizeToContents);
+	ui.treeWidget->header()->setResizeMode(Name, QHeaderView::Stretch);
+	ui.treeWidget->header()->setResizeMode(Message, QHeaderView::ResizeToContents);
+	ui.treeWidget->header()->setResizeMode(Highlight, QHeaderView::ResizeToContents);
+
+	connect(ui.treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SIGNAL(settingsChanged()));
 }
 
 QHash<int, bool> MessagesWizardPage::messages() const
 {
-    QHash<int, bool> messages;
+	QHash<int, bool> messages;
 	for (int i = IrcMessageType::Joins; i <= IrcMessageType::Topics; ++i)
-        messages[i] = ui.treeWidget->topLevelItem(i)->checkState(Message) == Qt::Checked;
-    return messages;
+		messages[i] = ui.treeWidget->topLevelItem(i)->checkState(Message) == Qt::Checked;
+	return messages;
 }
 
 void MessagesWizardPage::setMessages(const QHash<int, bool>& messages)
 {
-    QHashIterator<int, bool> it(messages);
-    while (it.hasNext())
-    {
-        it.next();
-        ui.treeWidget->topLevelItem(it.key())->setCheckState(Message, it.value() ? Qt::Checked : Qt::Unchecked);
-    }
+	QHashIterator<int, bool> it(messages);
+	while (it.hasNext())
+	{
+		it.next();
+		ui.treeWidget->topLevelItem(it.key())->setCheckState(Message, it.value() ? Qt::Checked : Qt::Unchecked);
+	}
 }
 
 QHash<int, bool> MessagesWizardPage::highlights() const
 {
-    QHash<int, bool> highlights;
+	QHash<int, bool> highlights;
 	for (int i = IrcMessageType::Joins; i <= IrcMessageType::Topics; ++i)
-         highlights[i] = ui.treeWidget->topLevelItem(i)->checkState(Highlight) == Qt::Checked;
-    return highlights;
+		 highlights[i] = ui.treeWidget->topLevelItem(i)->checkState(Highlight) == Qt::Checked;
+	return highlights;
 }
 
 void MessagesWizardPage::setHighlights(const QHash<int, bool>& highlights)
 {
-    QHashIterator<int, bool> it(highlights);
-    while (it.hasNext())
-    {
-        it.next();
-        ui.treeWidget->topLevelItem(it.key())->setCheckState(Highlight, it.value() ? Qt::Checked : Qt::Unchecked);
-    }
+	QHashIterator<int, bool> it(highlights);
+	while (it.hasNext())
+	{
+		it.next();
+		ui.treeWidget->topLevelItem(it.key())->setCheckState(Highlight, it.value() ? Qt::Checked : Qt::Unchecked);
+	}
 }

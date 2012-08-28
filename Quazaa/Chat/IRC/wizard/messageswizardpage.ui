@@ -2,6 +2,21 @@
 <ui version="4.0">
  <class>MessagesWizardPage</class>
  <widget class="QWizardPage" name="MessagesWizardPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>274</width>
+    <height>210</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Messages</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../Resource.qrc">
+    <normaloff>:/Resource/Chat/Friends.png</normaloff>:/Resource/Chat/Friends.png</iconset>
+  </property>
   <property name="title">
    <string>Message settings</string>
   </property>
@@ -20,9 +35,6 @@
      <property name="allColumnsShowFocus">
       <bool>true</bool>
      </property>
-     <attribute name="headerStretchLastSection">
-      <bool>false</bool>
-     </attribute>
      <attribute name="headerStretchLastSection">
       <bool>false</bool>
      </attribute>
@@ -185,6 +197,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

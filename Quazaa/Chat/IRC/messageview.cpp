@@ -15,7 +15,7 @@
 #include "messageview.h"
 #include "session.h"
 #include "completer.h"
-#include "settingswizard.h"
+#include "dialogircsettings.h"
 #include <QStringListModel>
 #include <QShortcut>
 #include <QKeyEvent>
@@ -464,8 +464,8 @@ void MessageView::onCustomCommand(const QString& command, const QStringList& par
 	}
 	else if (command == "SETTINGS")
 	{
-		SettingsWizard wizard(qApp->activeWindow());
-		wizard.exec();
+		DialogIrcSettings dlgSettings(qApp->activeWindow());
+		dlgSettings.exec();
 	}
 	else if (command == "CONNECT")
 		QMetaObject::invokeMethod(window(), "connectTo", Q_ARG(QString, params.value(0)), params.count() > 1 ? Q_ARG(quint16, params.value(1).toInt()) : QGenericArgument());
