@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WidgetDiscovery</class>
+ <widget class="QMainWindow" name="WidgetDiscovery">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>623</width>
+    <height>298</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Discovery</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Resource.qrc">
+    <normaloff>:/Resource/Network/Discovery.png</normaloff>:/Resource/Network/Discovery.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayoutDiscoveryTable">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+   </layout>
+  </widget>
+  <widget class="QToolBar" name="toolBarServices">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionDiscoveryGnutellaBootstrap"/>
+   <addaction name="actionGWebCache"/>
+   <addaction name="actionAresDiscoveryType"/>
+   <addaction name="actionEDonkeyServerMet"/>
+  </widget>
+  <widget class="QToolBar" name="toolBarControls">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionDiscoveryAddService"/>
+   <addaction name="actionDiscoveryRemoveService"/>
+   <addaction name="separator"/>
+   <addaction name="actionDiscoveryQueryNow"/>
+   <addaction name="actionDiscoveryAdvertise"/>
+  </widget>
+  <widget class="QToolBar" name="toolBarProperties">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar_3</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionDiscoveryBrowseStatistics"/>
+   <addaction name="actionDiscoveryProperties"/>
+  </widget>
+  <action name="actionDiscoveryGnutellaBootstrap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
+   </property>
+   <property name="text">
+    <string>G2 Bootstrap</string>
+   </property>
+   <property name="toolTip">
+    <string>G2 Bootstrap</string>
+   </property>
+  </action>
+  <action name="actionDiscoveryAddService">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Add.png</normaloff>:/Resource/Generic/Add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Service</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Service</string>
+   </property>
+  </action>
+  <action name="actionDiscoveryBrowseStatistics">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/BrowseStatistics.png</normaloff>:/Resource/Network/BrowseStatistics.png</iconset>
+   </property>
+   <property name="text">
+    <string>Browse Statistics</string>
+   </property>
+   <property name="toolTip">
+    <string>Browse Statistics</string>
+   </property>
+  </action>
+  <action name="actionAresDiscoveryType">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ares Discovery Type</string>
+   </property>
+   <property name="toolTip">
+    <string>Ares Discovery Type</string>
+   </property>
+  </action>
+  <action name="actionEDonkeyServerMet">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
+   </property>
+   <property name="text">
+    <string>eDonkey Server.met</string>
+   </property>
+   <property name="toolTip">
+    <string>eDonkey Server.met</string>
+   </property>
+  </action>
+  <action name="actionDiscoveryRemoveService">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Remove.png</normaloff>:/Resource/Generic/Remove.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Service</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove Service</string>
+   </property>
+  </action>
+  <action name="actionDiscoveryQueryNow">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/QueryNow.png</normaloff>:/Resource/Network/QueryNow.png</iconset>
+   </property>
+   <property name="text">
+    <string>Query Now</string>
+   </property>
+   <property name="toolTip">
+    <string>Query Now</string>
+   </property>
+  </action>
+  <action name="actionDiscoveryAdvertise">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/Advertise.png</normaloff>:/Resource/Network/Advertise.png</iconset>
+   </property>
+   <property name="text">
+    <string>Advertise</string>
+   </property>
+   <property name="toolTip">
+    <string>Advertise</string>
+   </property>
+  </action>
+  <action name="actionDiscoveryProperties">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Properties.png</normaloff>:/Resource/Generic/Properties.png</iconset>
+   </property>
+   <property name="text">
+    <string>Properties</string>
+   </property>
+   <property name="toolTip">
+    <string>Properties</string>
+   </property>
+  </action>
+  <action name="actionGWebCache">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
+   </property>
+   <property name="text">
+    <string>GWebCache</string>
+   </property>
+   <property name="toolTip">
+    <string>GWebCache</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

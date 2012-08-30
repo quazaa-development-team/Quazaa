@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WidgetUploads</class>
+ <widget class="QMainWindow" name="WidgetUploads">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>772</width>
+    <height>205</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QTreeView" name="treeViewUploads"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QToolBar" name="toolBarControls">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionUploadsOpenOrPlay"/>
+   <addaction name="separator"/>
+   <addaction name="actionUploadClear"/>
+   <addaction name="actionUploadMarkAsJunk"/>
+   <addaction name="separator"/>
+   <addaction name="actionUploadBrowseUser"/>
+   <addaction name="actionChatWithUser"/>
+   <addaction name="separator"/>
+   <addaction name="actionUploadBanUser"/>
+  </widget>
+  <widget class="QToolBar" name="toolBarFilter">
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionClearCompleted"/>
+  </widget>
+  <action name="actionUploadsOpenOrPlay">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Media/PlayMedia.png</normaloff>:/Resource/Media/PlayMedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Or Play</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Or Play</string>
+   </property>
+  </action>
+  <action name="actionUploadClear">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clear Upload</string>
+   </property>
+  </action>
+  <action name="actionUploadMarkAsJunk">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Library/Junk.png</normaloff>:/Resource/Library/Junk.png</iconset>
+   </property>
+   <property name="text">
+    <string>Mark As Junk</string>
+   </property>
+   <property name="toolTip">
+    <string>Mark As Junk</string>
+   </property>
+  </action>
+  <action name="actionChatWithUser">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Chat/Chat.png</normaloff>:/Resource/Chat/Chat.png</iconset>
+   </property>
+   <property name="text">
+    <string>Chat With User</string>
+   </property>
+   <property name="toolTip">
+    <string>Chat With User</string>
+   </property>
+  </action>
+  <action name="actionUploadBrowseUser">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Network/Browse.png</normaloff>:/Resource/Network/Browse.png</iconset>
+   </property>
+   <property name="text">
+    <string>Browse User</string>
+   </property>
+   <property name="toolTip">
+    <string>Browse User</string>
+   </property>
+  </action>
+  <action name="actionUploadBanUser">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Ban.png</normaloff>:/Resource/Generic/Ban.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ban User</string>
+   </property>
+   <property name="toolTip">
+    <string>Ban User</string>
+   </property>
+  </action>
+  <action name="actionClearCompleted">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/Resource/Generic/Clear.png</normaloff>:/Resource/Generic/Clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clear Completed</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

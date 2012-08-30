@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WizardIrcConnection</class>
+ <widget class="QWizard" name="WizardIrcConnection">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>214</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Add Connection Wizard</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Resource.qrc">
+    <normaloff>:/Resource/Quazaa32.png</normaloff>:/Resource/Quazaa32.png</iconset>
+  </property>
+  <property name="wizardStyle">
+   <enum>QWizard::AeroStyle</enum>
+  </property>
+  <property name="options">
+   <set>QWizard::HelpButtonOnRight</set>
+  </property>
+  <widget class="QWizardPage" name="wizardPageUser">
+   <property name="title">
+    <string>User Details</string>
+   </property>
+   <property name="subTitle">
+    <string>Details used to identify a user on Irc.</string>
+   </property>
+   <layout class="QFormLayout" name="formLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="labelNick">
+      <property name="text">
+       <string>&amp;Nick Name: </string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayoutNick"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="labelReal">
+      <property name="text">
+       <string>&amp;Real Name:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayoutReal"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="wizardPageServer">
+   <property name="title">
+    <string>Server Details</string>
+   </property>
+   <property name="subTitle">
+    <string>Details used to connect to Irc.</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="labelHost">
+      <property name="text">
+       <string>Host:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayoutHost"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="labelPort">
+      <property name="text">
+       <string>Port:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QSpinBox" name="spinBoxPort">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimum">
+       <number>1024</number>
+      </property>
+      <property name="maximum">
+       <number>65535</number>
+      </property>
+      <property name="value">
+       <number>6667</number>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="labelPassword">
+      <property name="text">
+       <string>Password:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEditPassword">
+      <property name="echoMode">
+       <enum>QLineEdit::PasswordEchoOnEdit</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QCheckBox" name="checkBoxSecure">
+      <property name="text">
+       <string>Secure</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="wizardPageConnectionName">
+   <property name="title">
+    <string>Connection Name</string>
+   </property>
+   <property name="subTitle">
+    <string>An optional name for the connection.</string>
+   </property>
+   <layout class="QFormLayout" name="formLayout_2">
+    <item row="0" column="0">
+     <widget class="QLabel" name="labelConnectionName">
+      <property name="text">
+       <string>Name:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayoutConnectionName"/>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
