@@ -90,6 +90,11 @@ updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 PRE_TARGETDEPS += compiler_updateqm_make_all
 
+# Enable C++11 compilation
+win32-g++ {
+	QMAKE_CXXFLAGS += -std=gnu++0x
+}
+
 # Append _debug to executable name when compiling using debug config
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 
@@ -181,6 +186,7 @@ SOURCES += \
 	main.cpp \
 	Misc/fileiconprovider.cpp \
 	Misc/networkiconprovider.cpp \
+	Misc/randomportselector.cpp \
 	Metalink/magnetlink.cpp \
 	Metalink/metalinkhandler.cpp \
 	Metalink/metalink4handler.cpp \
@@ -355,6 +361,7 @@ HEADERS += \
 	Metalink/metalink4handler.h \
 	Misc/fileiconprovider.h \
 	Misc/networkiconprovider.h \
+	Misc/randomportselector.h \
 	Models/categorynavigatortreemodel.h \
 	Models/discoverytablemodel.h \
 	Models/downloadstreemodel.h \
