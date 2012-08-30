@@ -1,5 +1,5 @@
 /*
-** $Id$
+** $Id: timedsignalqueue.cpp 868 2012-01-16 14:39:44Z brov $
 **
 ** Copyright © Quazaa Development Team, 2009-2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)

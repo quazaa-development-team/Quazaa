@@ -181,6 +181,7 @@ SOURCES += \
 	main.cpp \
 	Misc/fileiconprovider.cpp \
 	Misc/networkiconprovider.cpp \
+	Misc/timedsignalqueue.cpp \
 	Metalink/magnetlink.cpp \
 	Metalink/metalinkhandler.cpp \
 	Metalink/metalink4handler.cpp \
@@ -237,7 +238,6 @@ SOURCES += \
 	ShareManager/sharemanager.cpp \
 	Skin/skinsettings.cpp \
 	systemlog.cpp \
-	timedsignalqueue.cpp \
 	Transfers/download.cpp \
 	Transfers/downloads.cpp \
 	Transfers/downloadsource.cpp \
@@ -259,6 +259,7 @@ SOURCES += \
 	UI/dialogfiltersearch.cpp \
 	UI/dialoghashprogress.cpp \
 	UI/dialogirccolordialog.cpp \
+	UI/dialogircsettings.cpp \
 	UI/dialoglanguage.cpp \
 	UI/dialoglibrarysearch.cpp \
 	UI/dialogopentorrent.cpp \
@@ -313,23 +314,22 @@ SOURCES += \
 	3rdparty/communi/src/irccommand.cpp \
 	3rdparty/communi/src/irc.cpp \
 	3rdparty/nvwa/debug_new.cpp \
-    3rdparty/zlib/zutil.c \
-    3rdparty/zlib/uncompr.c \
-    3rdparty/zlib/trees.c \
-    3rdparty/zlib/inftrees.c \
-    3rdparty/zlib/inflate.c \
-    3rdparty/zlib/inffast.c \
-    3rdparty/zlib/compress.c \
-    3rdparty/zlib/infback.c \
-    3rdparty/zlib/gzwrite.c \
-    3rdparty/zlib/gzread.c \
-    3rdparty/zlib/gzlib.c \
-    3rdparty/zlib/gzclose.c \
-    3rdparty/zlib/deflate.c \
-    3rdparty/zlib/crc32.c \
-    3rdparty/zlib/adler32.c \
-    quazaasysinfo.cpp \
-    UI/dialogircsettings.cpp
+	3rdparty/zlib/zutil.c \
+	3rdparty/zlib/uncompr.c \
+	3rdparty/zlib/trees.c \
+	3rdparty/zlib/inftrees.c \
+	3rdparty/zlib/inflate.c \
+	3rdparty/zlib/inffast.c \
+	3rdparty/zlib/compress.c \
+	3rdparty/zlib/infback.c \
+	3rdparty/zlib/gzwrite.c \
+	3rdparty/zlib/gzread.c \
+	3rdparty/zlib/gzlib.c \
+	3rdparty/zlib/gzclose.c \
+	3rdparty/zlib/deflate.c \
+	3rdparty/zlib/crc32.c \
+	3rdparty/zlib/adler32.c \
+	quazaasysinfo.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -355,6 +355,8 @@ HEADERS += \
 	Metalink/metalink4handler.h \
 	Misc/fileiconprovider.h \
 	Misc/networkiconprovider.h \
+	Misc/timedsignalqueue.h \
+	Misc/timeoutwritelocker.h \
 	Models/categorynavigatortreemodel.h \
 	Models/discoverytablemodel.h \
 	Models/downloadstreemodel.h \
@@ -409,7 +411,6 @@ HEADERS += \
 	ShareManager/sharemanager.h \
 	Skin/skinsettings.h \
 	systemlog.h \
-	timedsignalqueue.h \
 	Transfers/download.h \
 	Transfers/downloads.h \
 	Transfers/downloadsource.h \
@@ -431,6 +432,7 @@ HEADERS += \
 	UI/dialogfiltersearch.h \
 	UI/dialoghashprogress.h \
 	UI/dialogirccolordialog.h \
+	UI/dialogircsettings.h \
 	UI/dialoglanguage.h \
 	UI/dialoglibrarysearch.h \
 	UI/dialogopentorrent.h \
@@ -489,19 +491,18 @@ HEADERS += \
 	3rdparty/nvwa/debug_new.h \
 	3rdparty/nvwa/fast_mutex.h \
 	3rdparty/nvwa/static_assert.h \
-    3rdparty/zlib/zutil.h \
-    3rdparty/zlib/zlib.h \
-    3rdparty/zlib/zconf.h \
-    3rdparty/zlib/trees.h \
-    3rdparty/zlib/inftrees.h \
-    3rdparty/zlib/inflate.h \
-    3rdparty/zlib/inffixed.h \
-    3rdparty/zlib/inffast.h \
-    3rdparty/zlib/gzguts.h \
-    3rdparty/zlib/deflate.h \
-    3rdparty/zlib/crc32.h \
-    quazaasysinfo.h \
-    UI/dialogircsettings.h
+	3rdparty/zlib/zutil.h \
+	3rdparty/zlib/zlib.h \
+	3rdparty/zlib/zconf.h \
+	3rdparty/zlib/trees.h \
+	3rdparty/zlib/inftrees.h \
+	3rdparty/zlib/inflate.h \
+	3rdparty/zlib/inffixed.h \
+	3rdparty/zlib/inffast.h \
+	3rdparty/zlib/gzguts.h \
+	3rdparty/zlib/deflate.h \
+	3rdparty/zlib/crc32.h \
+	quazaasysinfo.h
 
 FORMS += \
 	UI/dialogabout.ui \
