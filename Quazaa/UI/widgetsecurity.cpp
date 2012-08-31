@@ -55,9 +55,9 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	tableViewSecurity->verticalHeader()->setVisible( false );
 	ui->verticalLayoutSecurityTable->addWidget( tableViewSecurity );
 
-	connect(tableViewSecurity, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_tableViewSecurity_customContextMenuRequested(QPoint)));
-	connect(tableViewSecurity, SIGNAL(clicked(QModelIndex)), this, SLOT(on_tableViewSecurity_clicked(QModelIndex)));
-	connect(tableViewSecurity, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_tableViewSecurity_doubleClicked(QModelIndex)));
+	connect(tableViewSecurity, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tableViewSecurity_customContextMenuRequested(QPoint)));
+	connect(tableViewSecurity, SIGNAL(clicked(QModelIndex)), this, SLOT(tableViewSecurity_clicked(QModelIndex)));
+	connect(tableViewSecurity, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(tableViewSecurity_doubleClicked(QModelIndex)));
 
 	m_pSecurityList = new CSecurityTableModel( this, tableView() );
 	setModel( m_pSecurityList );
@@ -208,7 +208,7 @@ void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
 	dlgSecuritySubscriptions->show();
 }
 
-void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoint& point)
+void WidgetSecurity::tableViewSecurity_customContextMenuRequested(const QPoint& point)
 {
 	QModelIndex index = tableViewSecurity->indexAt( point );
 
@@ -228,7 +228,7 @@ void WidgetSecurity::on_tableViewSecurity_customContextMenuRequested(const QPoin
 	m_pSecurityMenu->popup( QCursor::pos() );
 }
 
-void WidgetSecurity::on_tableViewSecurity_doubleClicked(const QModelIndex& index)
+void WidgetSecurity::tableViewSecurity_doubleClicked(const QModelIndex& index)
 {
 	if ( index.isValid() )
 	{
@@ -242,7 +242,7 @@ void WidgetSecurity::on_tableViewSecurity_doubleClicked(const QModelIndex& index
 	}
 }
 
-void WidgetSecurity::on_tableViewSecurity_clicked(const QModelIndex& index)
+void WidgetSecurity::tableViewSecurity_clicked(const QModelIndex& index)
 {
 	if ( index.isValid() )
 	{

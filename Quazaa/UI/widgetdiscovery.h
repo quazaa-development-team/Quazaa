@@ -66,9 +66,9 @@ public slots:
 	void update();
 
 private slots:
-	void on_tableViewDiscovery_customContextMenuRequested(const QPoint &pos);
-	void on_tableViewDiscovery_doubleClicked(const QModelIndex &index);
-	void on_tableViewDiscovery_clicked(const QModelIndex &index);
+	void tableViewDiscovery_customContextMenuRequested(const QPoint &pos);
+	void tableViewDiscovery_doubleClicked(const QModelIndex &index);
+	void tableViewDiscovery_clicked(const QModelIndex &index);
 
 	void setSkin();
 

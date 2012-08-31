@@ -51,9 +51,9 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	tableViewDiscovery->verticalHeader()->setVisible( false );
 	ui->verticalLayoutDiscoveryTable->addWidget( tableViewDiscovery );
 
-	connect(tableViewDiscovery, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_tableViewDiscovery_customContextMenuRequested(QPoint)));
-	connect(tableViewDiscovery, SIGNAL(clicked(QModelIndex)), this, SLOT(on_tableViewDiscovery_clicked(QModelIndex)));
-	connect(tableViewDiscovery, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_tableViewDiscovery_doubleClicked(QModelIndex)));
+	connect(tableViewDiscovery, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tableViewDiscovery_customContextMenuRequested(QPoint)));
+	connect(tableViewDiscovery, SIGNAL(clicked(QModelIndex)), this, SLOT(tableViewDiscovery_clicked(QModelIndex)));
+	connect(tableViewDiscovery, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(tableViewDiscovery_doubleClicked(QModelIndex)));
 
 	m_pDiscoveryList = new CDiscoveryTableModel( this, tableView() );
 	setModel( m_pDiscoveryList );
@@ -144,7 +144,7 @@ void WidgetDiscovery::update()
 	m_pDiscoveryList->updateAll();
 }
 
-void WidgetDiscovery::on_tableViewDiscovery_customContextMenuRequested(const QPoint& point)
+void WidgetDiscovery::tableViewDiscovery_customContextMenuRequested(const QPoint& point)
 {
 	QModelIndex index = tableViewDiscovery->indexAt( point );
 
@@ -166,7 +166,7 @@ void WidgetDiscovery::on_tableViewDiscovery_customContextMenuRequested(const QPo
 	m_pDiscoveryMenu->popup( QCursor::pos() );
 }
 
-void WidgetDiscovery::on_tableViewDiscovery_doubleClicked(const QModelIndex& index)
+void WidgetDiscovery::tableViewDiscovery_doubleClicked(const QModelIndex& index)
 {
 	if ( index.isValid() )
 	{
@@ -181,7 +181,7 @@ void WidgetDiscovery::on_tableViewDiscovery_doubleClicked(const QModelIndex& ind
 	}
 }
 
-void WidgetDiscovery::on_tableViewDiscovery_clicked(const QModelIndex& index)
+void WidgetDiscovery::tableViewDiscovery_clicked(const QModelIndex& index)
 {
 	if ( index.isValid() )
 	{
