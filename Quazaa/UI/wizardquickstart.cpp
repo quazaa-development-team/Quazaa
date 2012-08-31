@@ -27,6 +27,8 @@
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
+#include "commonfunctions.h"
+
 #include <QFileDialog>
 
 #ifdef _DEBUG
@@ -161,4 +163,10 @@ void WizardQuickStart::on_checkBoxUPnP_stateChanged(int arg1)
 	{
 		ui->progressBarUPnP->setEnabled( false );
 	}
+}
+
+void WizardQuickStart::on_pushButtonRandomizePort_clicked()
+{
+	// TODO: Use random port number generator once the Qt5/C++11 branch is merged.
+	ui->spinBoxPort->setValue( common::getRandomNum( 1025, 49150 ) );
 }

@@ -238,7 +238,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pushButtonRandomizePort">
          <property name="maximumSize">
           <size>
            <width>250</width>
