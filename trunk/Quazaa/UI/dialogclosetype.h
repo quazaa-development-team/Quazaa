@@ -25,7 +25,7 @@
 #ifndef DIALOGCLOSETYPE_H
 #define DIALOGCLOSETYPE_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui
 {

@@ -25,7 +25,7 @@
 #ifndef DIALOGSETTINGS_H
 #define DIALOGSETTINGS_H
 
-#include <QtGui>
+#include <QtWidgets/QtWidgets>
 
 namespace SettingsPage
 {

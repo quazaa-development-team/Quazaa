@@ -25,7 +25,7 @@
 #ifndef WIDGETHOME_H
 #define WIDGETHOME_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 
 namespace Ui
 {

@@ -30,7 +30,7 @@
 #include "types.h"
 #include "FileFragments.hpp"
 
-#include <QItemDelegate>
+#include <QtWidgets/QItemDelegate>
 #include <QPalette>
 
 class CDownload;
@@ -142,12 +142,12 @@ public:
 	QModelIndex parent(const QModelIndex &index) const;
 	int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
-	
+
 private:
 	CDownloadsItemBase* rootItem;
 	CFileIconProvider* m_pIconProvider;
 signals:
-	
+
 public slots:
 	void onDownloadAdded(CDownload* pDownload);
 

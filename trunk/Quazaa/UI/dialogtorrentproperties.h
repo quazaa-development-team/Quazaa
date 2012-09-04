@@ -25,7 +25,7 @@
 #ifndef DIALOGTORRENTPROPERTIES_H
 #define DIALOGTORRENTPROPERTIES_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui
 {

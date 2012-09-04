@@ -15,22 +15,22 @@
 #ifndef TABWIDGET_P_H
 #define TABWIDGET_P_H
 
-#include <QTabBar>
+#include <QtWidgets/QTabBar>
 
 class TabBar : public QTabBar
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    TabBar(QWidget* parent = 0);
+	TabBar(QWidget* parent = 0);
 
 signals:
-    void menuRequested(int index, const QPoint& pos);
+	void menuRequested(int index, const QPoint& pos);
 
 protected:
-    void changeEvent(QEvent* event);
-    void contextMenuEvent(QContextMenuEvent* event);
-    void wheelEvent(QWheelEvent* event);
+	void changeEvent(QEvent* event);
+	void contextMenuEvent(QContextMenuEvent* event);
+	void wheelEvent(QWheelEvent* event);
 };
 
 #endif // TABWIDGET_P_H

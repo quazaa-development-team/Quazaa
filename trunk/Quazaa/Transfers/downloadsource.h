@@ -47,6 +47,8 @@ signals:
 	void transferClosed();
 };
 
+Q_DECLARE_METATYPE(CDownloadSource*)
+
 bool CDownloadSource::canAccess()
 {
 	return time(0) > m_tNextAccess;

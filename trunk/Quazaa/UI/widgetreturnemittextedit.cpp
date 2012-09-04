@@ -25,8 +25,8 @@
 #include "widgetreturnemittextedit.h"
 #include "skinsettings.h"
 
-#include <QShortcut>
-#include <QPlastiqueStyle>
+#include <QtWidgets/QShortcut>
+#include <QtWidgets/QPlastiqueStyle>
 #include <QDebug>
 
 #ifdef _DEBUG
@@ -35,85 +35,85 @@
 
 WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 {
-    Q_UNUSED(parent);
-    m_oCompleter = new Completer(this);
-    m_oCompleter->setWidget(this);
-    m_oCompleter->setTextEdit(this);
+	Q_UNUSED(parent);
+	m_oCompleter = new Completer(this);
+	m_oCompleter->setWidget(this);
+	m_oCompleter->setTextEdit(this);
 
-    emitReturn = true;
-    connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
+	emitReturn = true;
+	connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 
-    setAttribute(Qt::WA_MacShowFocusRect, false);
+	setAttribute(Qt::WA_MacShowFocusRect, false);
 
-    // a workaround for a bug in the Oxygen style
-    if (style()->objectName() == "oxygen")
-        setStyle(new QPlastiqueStyle);
+	// a workaround for a bug in the Oxygen style
+	if (style()->objectName() == "oxygen")
+		setStyle(new QPlastiqueStyle);
 
-    connect(this, SIGNAL(tabPressed()), m_oCompleter, SLOT(onTabPressed()));
-    setSkin();
+	connect(this, SIGNAL(tabPressed()), m_oCompleter, SLOT(onTabPressed()));
+	setSkin();
 }
 
 void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Return)
-    {
-        if (emitReturn)
-        {
-            emit returnPressed();
-        } else {
-            QTextEdit::keyPressEvent(event);
-        }
-    } else {
-        QTextEdit::keyPressEvent(event);
-    }
+	if (event->key() == Qt::Key_Return)
+	{
+		if (emitReturn)
+		{
+			emit returnPressed();
+		} else {
+			QTextEdit::keyPressEvent(event);
+		}
+	} else {
+		QTextEdit::keyPressEvent(event);
+	}
 }
 
 void WidgetReturnEmitTextEdit::setEmitsReturn(bool shouldEmit)
 {
-    emitReturn = shouldEmit;
+	emitReturn = shouldEmit;
 }
 
 bool WidgetReturnEmitTextEdit::emitsReturn()
 {
-    return emitReturn;
+	return emitReturn;
 }
 
 Completer* WidgetReturnEmitTextEdit::completer() const
 {
-    return m_oCompleter;
+	return m_oCompleter;
 }
 
 QString WidgetReturnEmitTextEdit::textUnderCursor() const
 {
-    QTextCursor tc = textCursor();
-    tc.select(QTextCursor::WordUnderCursor);
+	QTextCursor tc = textCursor();
+	tc.select(QTextCursor::WordUnderCursor);
 
-    // Save selected positions of current word.
-    int selectionStart = tc.selectionStart();
-    int selectionEnd = tc.selectionEnd();
+	// Save selected positions of current word.
+	int selectionStart = tc.selectionStart();
+	int selectionEnd = tc.selectionEnd();
 
-    // If selection is at beginning of text edit then there can't be a slash to check for
-    if (selectionStart == 0)
-        return tc.selectedText();
+	// If selection is at beginning of text edit then there can't be a slash to check for
+	if (selectionStart == 0)
+		return tc.selectedText();
 
-    // Modify selection to include previous character
-    tc.setPosition(selectionStart - 1, QTextCursor::MoveAnchor);
-    tc.setPosition(selectionEnd, QTextCursor::KeepAnchor);
+	// Modify selection to include previous character
+	tc.setPosition(selectionStart - 1, QTextCursor::MoveAnchor);
+	tc.setPosition(selectionEnd, QTextCursor::KeepAnchor);
 
-    // If previous character was / return current selection for command completion
-    if(tc.selectedText().startsWith('/'))
-        return tc.selectedText();
-    else {
-        // Else restore original selection and return for nick completion
-        tc.setPosition(selectionStart, QTextCursor::MoveAnchor);
-        tc.setPosition(selectionEnd, QTextCursor::KeepAnchor);
-        return tc.selectedText();
-    }
+	// If previous character was / return current selection for command completion
+	if(tc.selectedText().startsWith('/'))
+		return tc.selectedText();
+	else {
+		// Else restore original selection and return for nick completion
+		tc.setPosition(selectionStart, QTextCursor::MoveAnchor);
+		tc.setPosition(selectionEnd, QTextCursor::KeepAnchor);
+		return tc.selectedText();
+	}
 }
 
 void WidgetReturnEmitTextEdit::onTextChanged()
 {
-    emit textChanged(toPlainText());
+	emit textChanged(toPlainText());
 }
 
 void WidgetReturnEmitTextEdit::setSkin()
@@ -123,11 +123,11 @@ void WidgetReturnEmitTextEdit::setSkin()
 
 bool WidgetReturnEmitTextEdit::focusNextPrevChild(bool next)
 {
-    if (!tabChangesFocus() && this->textInteractionFlags() & Qt::TextEditable)
-    {
-        emit tabPressed();
-        return true;
-    } else {
-        return QAbstractScrollArea::focusNextPrevChild(next);
-    }
+	if (!tabChangesFocus() && this->textInteractionFlags() & Qt::TextEditable)
+	{
+		emit tabPressed();
+		return true;
+	} else {
+		return QAbstractScrollArea::focusNextPrevChild(next);
+	}
 }

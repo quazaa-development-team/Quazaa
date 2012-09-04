@@ -25,7 +25,7 @@
 #ifndef DIALOGSELECTVISUALISATION_H
 #define DIALOGSELECTVISUALISATION_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui
 {

@@ -25,7 +25,7 @@
 #ifndef DIALOGIRCCOLORDIALOG_H
 #define DIALOGIRCCOLORDIALOG_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui {
     class DialogIrcColorDialog;

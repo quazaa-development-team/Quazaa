@@ -25,7 +25,7 @@
 #ifndef WIDGETCHATINPUT_H
 #define WIDGETCHATINPUT_H
 
-#include <QtGui>
+#include <QtWidgets/QtWidgets>
 #include "widgetreturnemittextedit.h"
 #include "widgetsmileylist.h"
 #include "completer.h"

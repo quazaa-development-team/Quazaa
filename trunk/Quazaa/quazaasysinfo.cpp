@@ -203,7 +203,7 @@ QString QuazaaSysInfo::osVersionToString()
 {
 	QString operatingSystemString = "";
 
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
 	QString sVersion;
 	QString sEdition;
 	QString sServicePack;
@@ -503,7 +503,7 @@ QString QuazaaSysInfo::osVersionToString()
 		operatingSystemString.append(tr("with %1 ").arg(sServicePack));
 	operatingSystemString.append(sMachine);
 
-#elif defined(Q_WS_MAC)
+#elif defined(Q_OS_MAC)
 	switch ( QSysInfo::MacintoshVersion ) {
 		case QSysInfo::MV_9 :
 			operatingSystemString = "Mac OS 9 (unsupported)";

@@ -25,7 +25,7 @@
 #ifndef DIALOGOPENTORRENT_H
 #define DIALOGOPENTORRENT_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui
 {

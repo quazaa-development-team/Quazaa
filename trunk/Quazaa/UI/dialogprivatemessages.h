@@ -25,7 +25,7 @@
 #ifndef DIALOGPRIVATEMESSAGES_H
 #define DIALOGPRIVATEMESSAGES_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
 #include "widgetchatinput.h"
 #include "chatsession.h"
 

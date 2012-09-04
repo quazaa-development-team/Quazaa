@@ -25,9 +25,9 @@
 #ifndef WIDGETSEARCHRESULTS_H
 #define WIDGETSEARCHRESULTS_H
 
-#include <QMainWindow>
-#include <QLabel>
-#include <QLineEdit>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include "widgetsearchtemplate.h"
 
 class WidgetSearch;
@@ -59,7 +59,7 @@ private:
 	Ui::WidgetSearchResults* ui;
 
 public slots:
-	 
+
 	void startSearch(QString searchString);
 	void startNewSearch(QString* searchString);
 	void addSearchTab();

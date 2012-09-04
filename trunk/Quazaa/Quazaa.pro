@@ -22,7 +22,9 @@
 # Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
-QT += network \
+QT += widgets \
+	gui \
+	network \
 	sql \
 	xml
 TARGET = Quazaa
@@ -45,6 +47,7 @@ INCLUDEPATH += NetworkCore \
 	3rdparty/communi/include \
 	3rdparty/icu \
 	3rdparty/nvwa \
+	3rdparty/qtsingleapplication \
 	Models \
 	ShareManager \
 	Chat \
@@ -319,23 +322,23 @@ SOURCES += \
 	3rdparty/communi/src/irccommand.cpp \
 	3rdparty/communi/src/irc.cpp \
 	3rdparty/nvwa/debug_new.cpp \
-    3rdparty/zlib/zutil.c \
-    3rdparty/zlib/uncompr.c \
-    3rdparty/zlib/trees.c \
-    3rdparty/zlib/inftrees.c \
-    3rdparty/zlib/inflate.c \
-    3rdparty/zlib/inffast.c \
-    3rdparty/zlib/compress.c \
-    3rdparty/zlib/infback.c \
-    3rdparty/zlib/gzwrite.c \
-    3rdparty/zlib/gzread.c \
-    3rdparty/zlib/gzlib.c \
-    3rdparty/zlib/gzclose.c \
-    3rdparty/zlib/deflate.c \
-    3rdparty/zlib/crc32.c \
-    3rdparty/zlib/adler32.c \
-    quazaasysinfo.cpp \
-    UI/dialogircsettings.cpp
+	3rdparty/zlib/zutil.c \
+	3rdparty/zlib/uncompr.c \
+	3rdparty/zlib/trees.c \
+	3rdparty/zlib/inftrees.c \
+	3rdparty/zlib/inflate.c \
+	3rdparty/zlib/inffast.c \
+	3rdparty/zlib/compress.c \
+	3rdparty/zlib/infback.c \
+	3rdparty/zlib/gzwrite.c \
+	3rdparty/zlib/gzread.c \
+	3rdparty/zlib/gzlib.c \
+	3rdparty/zlib/gzclose.c \
+	3rdparty/zlib/deflate.c \
+	3rdparty/zlib/crc32.c \
+	3rdparty/zlib/adler32.c \
+	quazaasysinfo.cpp \
+	UI/dialogircsettings.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -496,19 +499,19 @@ HEADERS += \
 	3rdparty/nvwa/debug_new.h \
 	3rdparty/nvwa/fast_mutex.h \
 	3rdparty/nvwa/static_assert.h \
-    3rdparty/zlib/zutil.h \
-    3rdparty/zlib/zlib.h \
-    3rdparty/zlib/zconf.h \
-    3rdparty/zlib/trees.h \
-    3rdparty/zlib/inftrees.h \
-    3rdparty/zlib/inflate.h \
-    3rdparty/zlib/inffixed.h \
-    3rdparty/zlib/inffast.h \
-    3rdparty/zlib/gzguts.h \
-    3rdparty/zlib/deflate.h \
-    3rdparty/zlib/crc32.h \
-    quazaasysinfo.h \
-    UI/dialogircsettings.h
+	3rdparty/zlib/zutil.h \
+	3rdparty/zlib/zlib.h \
+	3rdparty/zlib/zconf.h \
+	3rdparty/zlib/trees.h \
+	3rdparty/zlib/inftrees.h \
+	3rdparty/zlib/inflate.h \
+	3rdparty/zlib/inffixed.h \
+	3rdparty/zlib/inffast.h \
+	3rdparty/zlib/gzguts.h \
+	3rdparty/zlib/deflate.h \
+	3rdparty/zlib/crc32.h \
+	quazaasysinfo.h \
+	UI/dialogircsettings.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -568,7 +571,7 @@ FORMS += \
 	UI/widgetircmain.ui \
 	UI/widgetircsidebars.ui \
 	UI/wizardircconnection.ui \
-    UI/dialogircsettings.ui
+	UI/dialogircsettings.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \

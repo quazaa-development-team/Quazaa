@@ -15,22 +15,22 @@
 #ifndef TEXTBROWSER_H
 #define TEXTBROWSER_H
 
-#include <QTextBrowser>
+#include <QtWidgets/QTextBrowser>
 
 class TextBrowser : public QTextBrowser
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    TextBrowser(QWidget* parent = 0);
+	TextBrowser(QWidget* parent = 0);
 
 public slots:
-    void scrollToTop();
-    void scrollToBottom();
-    void scrollToNextPage();
-    void scrollToPreviousPage();
+	void scrollToTop();
+	void scrollToBottom();
+	void scrollToNextPage();
+	void scrollToPreviousPage();
 
 protected:
-    void resizeEvent(QResizeEvent* event);
+	void resizeEvent(QResizeEvent* event);
 };
 
 #endif // TEXTBROWSER_H

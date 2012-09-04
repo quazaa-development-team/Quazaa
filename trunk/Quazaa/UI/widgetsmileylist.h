@@ -25,24 +25,24 @@
 #ifndef WIDGETSMILEYLIST_H
 #define WIDGETSMILEYLIST_H
 
-#include <QMenu>
-#include <QListWidgetItem>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QListWidgetItem>
 
 namespace Ui {
-    class WidgetSmileyList;
+	class WidgetSmileyList;
 }
 
 class WidgetSmileyList : public QMenu {
-    Q_OBJECT
+	Q_OBJECT
 public:
 	WidgetSmileyList(QWidget *parent = 0);
-    ~WidgetSmileyList();
+	~WidgetSmileyList();
 
 protected:
 	void changeEvent(QEvent *e);
 
 private:
-    Ui::WidgetSmileyList *ui;
+	Ui::WidgetSmileyList *ui;
 
 signals:
 	void smileyClicked(QString smiley);

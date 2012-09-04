@@ -15,31 +15,31 @@
 #ifndef WELCOMEPAGE_H
 #define WELCOMEPAGE_H
 
-#include <QWidget>
-#include <QCommandLinkButton>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QCommandLinkButton>
 
 class QLabel;
 
 class WelcomePage : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    WelcomePage(QWidget* parent = 0);
+	WelcomePage(QWidget* parent = 0);
 	QCommandLinkButton* connectButton;
 
 signals:
-    void connectRequested();
+	void connectRequested();
 
 private slots:
-    void updateHtml();
+	void updateHtml();
 	void showSettings();
 
 private:
 	QWidget* createBody(QWidget* parent = 0);
 
-    QLabel* header;
-    QLabel* footer;
+	QLabel* header;
+	QLabel* footer;
 };
 
 #endif // WELCOMEPAGE_H

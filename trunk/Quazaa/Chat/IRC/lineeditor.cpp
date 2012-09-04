@@ -14,49 +14,49 @@
 
 #include "lineeditor.h"
 #include "completer.h"
-#include <QShortcut>
-#include <QPlastiqueStyle>
+#include <QtWidgets/QShortcut>
+#include <QtWidgets/QPlastiqueStyle>
 
 LineEditor::LineEditor(QWidget* parent) : HistoryLineEdit(parent)
 {
-    d.completer = new Completer(this);
-    d.completer->setWidget(this);
-    //d.completer->setLineEdit(this);
+	d.completer = new Completer(this);
+	d.completer->setWidget(this);
+	//d.completer->setLineEdit(this);
 
-    setAttribute(Qt::WA_MacShowFocusRect, false);
+	setAttribute(Qt::WA_MacShowFocusRect, false);
 
-    // a workaround for a bug in the Oxygen style
-    if (style()->objectName() == "oxygen")
-        setStyle(new QPlastiqueStyle);
+	// a workaround for a bug in the Oxygen style
+	if (style()->objectName() == "oxygen")
+		setStyle(new QPlastiqueStyle);
 
-    QShortcut* shortcut = new QShortcut(Qt::Key_Tab, this);
-    connect(shortcut, SIGNAL(activated()), d.completer, SLOT(onTabPressed()));
+	QShortcut* shortcut = new QShortcut(Qt::Key_Tab, this);
+	connect(shortcut, SIGNAL(activated()), d.completer, SLOT(onTabPressed()));
 
-    setButtonVisible(Left, true);
-    setAutoHideButton(Left, true);
-    setButtonPixmap(Left, QPixmap(":/resources/icons/buttons/tab.png"));
-    connect(this, SIGNAL(leftButtonClicked()), d.completer, SLOT(onTabPressed()));
+	setButtonVisible(Left, true);
+	setAutoHideButton(Left, true);
+	setButtonPixmap(Left, QPixmap(":/resources/icons/buttons/tab.png"));
+	connect(this, SIGNAL(leftButtonClicked()), d.completer, SLOT(onTabPressed()));
 
-    setButtonVisible(Right, true);
-    setAutoHideButton(Right, true);
-    setButtonPixmap(Right, QPixmap(":/resources/icons/buttons/return.png"));
-    connect(this, SIGNAL(rightButtonClicked()), this, SLOT(onSend()));
+	setButtonVisible(Right, true);
+	setAutoHideButton(Right, true);
+	setButtonPixmap(Right, QPixmap(":/resources/icons/buttons/return.png"));
+	connect(this, SIGNAL(rightButtonClicked()), this, SLOT(onSend()));
 
-    connect(this, SIGNAL(returnPressed()), this, SLOT(onSend()));
-    connect(this, SIGNAL(textChanged(QString)), this, SIGNAL(typed(QString)));
+	connect(this, SIGNAL(returnPressed()), this, SLOT(onSend()));
+	connect(this, SIGNAL(textChanged(QString)), this, SIGNAL(typed(QString)));
 }
 
 Completer* LineEditor::completer() const
 {
-    return d.completer;
+	return d.completer;
 }
 
 void LineEditor::onSend()
 {
-    const QString input = text();
-    if (!input.isEmpty())
-    {
-        clear();
-        emit send(input);
-    }
+	const QString input = text();
+	if (!input.isEmpty())
+	{
+		clear();
+		emit send(input);
+	}
 }

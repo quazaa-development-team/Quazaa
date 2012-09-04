@@ -22,8 +22,8 @@
 #ifndef WIDGETMEDIA_H
 #define WIDGETMEDIA_H
 
-#include <QMainWindow>
-#include <QSlider>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QSlider>
 
 namespace Ui
 {

@@ -25,7 +25,7 @@
 #ifndef DIALOGSCHEDULER_H
 #define DIALOGSCHEDULER_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui
 {

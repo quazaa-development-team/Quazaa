@@ -11,7 +11,7 @@ class CTransfer;
 
 class CDownload : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
 	struct FileListItem
@@ -102,6 +102,9 @@ signals:
 public slots:
 	void emitSources();
 };
+
+Q_DECLARE_METATYPE(CDownload*)
+Q_DECLARE_METATYPE(CDownload::DownloadState)
 
 QDataStream& operator<<(QDataStream& s, const CDownload& rhs);
 QDataStream& operator>>(QDataStream& s, CDownload& rhs);

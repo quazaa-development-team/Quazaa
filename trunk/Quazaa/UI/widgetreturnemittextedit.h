@@ -25,7 +25,7 @@
 #ifndef WIDGETRETURNEMITTEXTEDIT_H
 #define WIDGETRETURNEMITTEXTEDIT_H
 
-#include <QTextEdit>
+#include <QtWidgets/QTextEdit>
 #include <QKeyEvent>
 
 #include "completer.h"
@@ -35,28 +35,28 @@ class WidgetReturnEmitTextEdit : public QTextEdit
 {
 Q_OBJECT
 public:
-    explicit WidgetReturnEmitTextEdit(QWidget *parent = 0);
-    Completer* completer() const;
-    QString textUnderCursor() const;
+	explicit WidgetReturnEmitTextEdit(QWidget *parent = 0);
+	Completer* completer() const;
+	QString textUnderCursor() const;
 
 private:
-    bool emitReturn;
-    Completer* m_oCompleter;
+	bool emitReturn;
+	Completer* m_oCompleter;
 
 protected:
-    void keyPressEvent(QKeyEvent* event);
-    virtual bool focusNextPrevChild(bool next);
+	void keyPressEvent(QKeyEvent* event);
+	virtual bool focusNextPrevChild(bool next);
 
 signals:
-    void returnPressed();
-    void tabPressed();
-    void textChanged(const QString &text);
+	void returnPressed();
+	void tabPressed();
+	void textChanged(const QString &text);
 
 public slots:
-    void setEmitsReturn(bool shouldEmit);
-    bool emitsReturn();
-    void onTextChanged();
-    void setSkin();
+	void setEmitsReturn(bool shouldEmit);
+	bool emitsReturn();
+	void onTextChanged();
+	void setSkin();
 };
 
 #endif // WIDGETRETURNEMITTEXTEDIT_H

@@ -30,7 +30,7 @@
 #ifdef __cplusplus
 
 #include <QObject>
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #include <QString>
 #include <QStringList>
 #include <QHostAddress>

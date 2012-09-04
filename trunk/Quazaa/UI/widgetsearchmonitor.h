@@ -25,7 +25,7 @@
 #ifndef WIDGETSEARCHMONITOR_H
 #define WIDGETSEARCHMONITOR_H
 
-#include <QMainWindow>
+#include <QtWidgets/QMainWindow>
 
 namespace Ui
 {

@@ -15,22 +15,22 @@
 #ifndef SETTINGSWIZARD_H
 #define SETTINGSWIZARD_H
 
-#include <QWizard>
+#include <QtWidgets/QWizard>
 #include "quazaasettings.h"
 
 class SettingsWizard : public QWizard
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    SettingsWizard(QWidget* parent = 0);
+	SettingsWizard(QWidget* parent = 0);
 
-    enum Page
-    {
+	enum Page
+	{
 		GeneralPage,
-        MessagesPage,
-        ColorsPage
-    };
+		MessagesPage,
+		ColorsPage
+	};
 
 private slots:
 	void loadSettings();

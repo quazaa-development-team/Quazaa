@@ -1,7 +1,7 @@
 #ifndef WIZARDIRCCONNECTION_H
 #define WIZARDIRCCONNECTION_H
 
-#include <QWizard>
+#include <QtWidgets/QWizard>
 #include "completerlineedit.h"
 
 #include "connectioninfo.h"
@@ -13,7 +13,7 @@ class WizardIrcConnection;
 class WizardIrcConnection : public QWizard
 {
 	Q_OBJECT
-	
+
 public:
 	explicit WizardIrcConnection(QWidget *parent = 0);
 	~WizardIrcConnection();
@@ -50,7 +50,7 @@ public:
 	void setConnectionName(const QString& name);
 
 	bool isComplete() const;
-	
+
 private:
 	Ui::WizardIrcConnection *ui;
 	CompleterLineEdit* lineEditNick;

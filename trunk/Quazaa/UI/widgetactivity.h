@@ -25,7 +25,7 @@
 #ifndef WIDGETACTIVITY_H
 #define WIDGETACTIVITY_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 #include "widgetneighbours.h"
 #include "widgetsystemlog.h"
 

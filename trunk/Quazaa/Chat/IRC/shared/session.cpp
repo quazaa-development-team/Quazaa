@@ -13,7 +13,7 @@
 */
 
 #include "session.h"
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #include <QSslSocket>
 #include <IrcCommand>
 #include <IrcMessage>

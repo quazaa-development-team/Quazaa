@@ -25,7 +25,7 @@
 #ifndef WIDGETHITMONITOR_H
 #define WIDGETHITMONITOR_H
 
-#include <QMainWindow>
+#include <QtWidgets/QMainWindow>
 
 namespace Ui
 {

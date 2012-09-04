@@ -1,4 +1,4 @@
-#include <QAbstractItemView>
+#include <QtWidgets/QAbstractItemView>
 
 #include "discoverytablemodel.h"
 

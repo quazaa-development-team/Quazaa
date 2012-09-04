@@ -25,7 +25,7 @@
 #ifndef DIALOGADDRULE_H
 #define DIALOGADDRULE_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 #include "Security/security.h"
 #include "Security/securerule.h"

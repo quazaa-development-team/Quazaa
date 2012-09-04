@@ -1,8 +1,8 @@
 #include "skinsettings.h"
 #include "quazaasysinfo.h"
 
-#include <QApplication>
-#include <QStyle>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QStyle>
 #include <QFont>
 
 SkinSettings skinSettings;
@@ -104,13 +104,13 @@ void SkinSettings::setLunaskin()
 	logColorCritical = QColor(qRgb(255, 0, 0));
 	logWeightCritical = "font-weight:600;";
 	listsColorNormal = QColor(0, 0, 0);
-	listsWeightNormal = qApp->font().weight();
+	listsWeightNormal = QFont().weight();
 	listsColorActive = QColor(0, 0, 180);
-	listsWeightActive = qApp->font().weight();
+	listsWeightActive = QFont().weight();
 	listsColorSpecial = QColor(0, 0, 180);
-	listsWeightSpecial = qApp->font().weight();
+	listsWeightSpecial = QFont().weight();
 	listsColorHighlighted = QColor(0, 0, 180);
-	listsWeightHighlighted = qApp->font().weight();
+	listsWeightHighlighted = QFont().weight();
 }
 
 void SkinSettings::setAeroSkin()
@@ -160,11 +160,11 @@ void SkinSettings::setAeroSkin()
 	logColorCritical = QColor(qRgb(255, 0, 0));
 	logWeightCritical = "font-weight:600;";
 	listsColorNormal = QColor(0, 0, 0);
-	listsWeightNormal = qApp->font().weight();
+	listsWeightNormal = QFont::Normal;
 	listsColorActive = QColor(0, 0, 180);
-	listsWeightActive = qApp->font().weight();
+	listsWeightActive = QFont::Normal;
 	listsColorSpecial = QColor(0, 0, 180);
-	listsWeightSpecial = qApp->font().weight();
+	listsWeightSpecial = QFont::Normal;
 	listsColorHighlighted = QColor(0, 0, 180);
-	listsWeightHighlighted = qApp->font().weight();
+	listsWeightHighlighted = QFont::Normal;
 }

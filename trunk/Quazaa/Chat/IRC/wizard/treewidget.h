@@ -15,17 +15,17 @@
 #ifndef TREEWIDGET_H
 #define TREEWIDGET_H
 
-#include <QTreeWidget>
+#include <QtWidgets/QTreeWidget>
 
 class TreeWidget : public QTreeWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    TreeWidget(QWidget* parent = 0);
+	TreeWidget(QWidget* parent = 0);
 
 protected:
-    virtual bool edit(const QModelIndex& index, EditTrigger trigger, QEvent* event);
+	virtual bool edit(const QModelIndex& index, EditTrigger trigger, QEvent* event);
 };
 
 #endif // TREEWIDGET_H

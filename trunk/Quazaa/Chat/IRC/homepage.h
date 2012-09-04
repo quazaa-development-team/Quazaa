@@ -15,31 +15,31 @@
 #ifndef HOMEPAGE_H
 #define HOMEPAGE_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 class QLabel;
 
 class HomePage : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    HomePage(QWidget* parent = 0);
+	HomePage(QWidget* parent = 0);
 
 signals:
-    void connectRequested();
+	void connectRequested();
 
 protected:
-    void paintEvent(QPaintEvent* event);
+	void paintEvent(QPaintEvent* event);
 
 private slots:
-    void updateHtml();
+	void updateHtml();
 
 private:
-    QWidget* createBody(QWidget* parent = 0) const;
+	QWidget* createBody(QWidget* parent = 0) const;
 
-    QLabel* header;
-    QLabel* footer;
-    QPixmap bg;
+	QLabel* header;
+	QLabel* footer;
+	QPixmap bg;
 };
 
 #endif // HOMEPAGE_H

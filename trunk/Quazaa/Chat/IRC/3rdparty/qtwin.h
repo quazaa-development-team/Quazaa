@@ -11,7 +11,7 @@
 #define QTWIN_H
 
 #include <QColor>
-#include <QWidget>
+#include <QtWidgets/QWidget>
 /**
   * This is a helper class for using the Desktop Window Manager
   * functionality on Windows 7 and Windows Vista. On other platforms
@@ -23,15 +23,15 @@ class WindowNotifier;
 class QtWin
 {
 public:
-    static bool enableBlurBehindWindow(QWidget *widget, bool enable = true);
-    static bool extendFrameIntoClientArea(QWidget *widget,
-                                          int left = -1, int top = -1,
-                                          int right = -1, int bottom = -1);
-    static bool isCompositionEnabled();
-    static QColor colorizatinColor();
+	static bool enableBlurBehindWindow(QWidget *widget, bool enable = true);
+	static bool extendFrameIntoClientArea(QWidget *widget,
+										  int left = -1, int top = -1,
+										  int right = -1, int bottom = -1);
+	static bool isCompositionEnabled();
+	static QColor colorizatinColor();
 
 private:
-    static WindowNotifier *windowNotifier();
+	static WindowNotifier *windowNotifier();
 };
 
 #endif // QTWIN_H

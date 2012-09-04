@@ -25,7 +25,7 @@
 #ifndef WIDGETSEARCH_H
 #define WIDGETSEARCH_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 #include "widgetsearchresults.h"
 
 namespace Ui

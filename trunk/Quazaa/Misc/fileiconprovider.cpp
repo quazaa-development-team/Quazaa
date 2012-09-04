@@ -28,13 +28,21 @@
 #include "debug_new.h"
 #endif
 
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
 #  define _WIN32_IE 0x0500
 #  include <qt_windows.h>
 #  include <commctrl.h>
 #  include <objbase.h>
 #  include <qpixmapcache.h>
 #  include <qdir.h>
+#  include <Windows.h>
+#endif
+
+#if defined(Q_OS_WINCE)
+#include <winbase.h>
+#include "qguifunctions_wince.h"
+extern bool qt_wince_is_high_dpi();
+extern bool qt_wince_is_pocket_pc();
 #endif
 
 #ifdef Q_OS_WIN
@@ -47,6 +55,201 @@
 #ifndef SHGFI_USEFILEATTRIBUTES
 #define SHGFI_USEFILEATTRIBUTES 0x000000010
 #endif
+
+// Copied missing windows icon getters from Qt 4.8 QPixmap code
+#ifndef Q_OS_WINCE
+QImage fromWinHBITMAP(HDC hdc, HBITMAP bitmap, int w, int h)
+{
+	BITMAPINFO bmi;
+	memset(&bmi, 0, sizeof(bmi));
+	bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
+	bmi.bmiHeader.biWidth       = w;
+	bmi.bmiHeader.biHeight      = -h;
+	bmi.bmiHeader.biPlanes      = 1;
+	bmi.bmiHeader.biBitCount    = 32;
+	bmi.bmiHeader.biCompression = BI_RGB;
+	bmi.bmiHeader.biSizeImage   = w * h * 4;
+
+	QImage image(w, h, QImage::Format_ARGB32_Premultiplied);
+	if (image.isNull())
+		return image;
+
+	// Get bitmap bits
+	uchar *data = (uchar *) qMalloc(bmi.bmiHeader.biSizeImage);
+
+	if (GetDIBits(hdc, bitmap, 0, h, data, &bmi, DIB_RGB_COLORS)) {
+		// Create image and copy data into image.
+		for (int y=0; y<h; ++y) {
+			void *dest = (void *) image.scanLine(y);
+			void *src = data + y * image.bytesPerLine();
+			memcpy(dest, src, image.bytesPerLine());
+		}
+	} else {
+		qWarning("qt_fromWinHBITMAP(), failed to get bitmap bits");
+	}
+	qFree(data);
+
+	return image;
+}
+
+QPixmap fromWinHICON(HICON icon)
+{
+	bool foundAlpha = false;
+	HDC screenDevice = GetDC(0);
+	HDC hdc = CreateCompatibleDC(screenDevice);
+	ReleaseDC(0, screenDevice);
+
+	ICONINFO iconinfo;
+	bool result = GetIconInfo(icon, &iconinfo); //x and y Hotspot describes the icon center
+	if (!result)
+		qWarning("QPixmap::fromWinHICON(), failed to GetIconInfo()");
+
+	int w = iconinfo.xHotspot * 2;
+	int h = iconinfo.yHotspot * 2;
+
+	BITMAPINFOHEADER bitmapInfo;
+	bitmapInfo.biSize        = sizeof(BITMAPINFOHEADER);
+	bitmapInfo.biWidth       = w;
+	bitmapInfo.biHeight      = h;
+	bitmapInfo.biPlanes      = 1;
+	bitmapInfo.biBitCount    = 32;
+	bitmapInfo.biCompression = BI_RGB;
+	bitmapInfo.biSizeImage   = 0;
+	bitmapInfo.biXPelsPerMeter = 0;
+	bitmapInfo.biYPelsPerMeter = 0;
+	bitmapInfo.biClrUsed       = 0;
+	bitmapInfo.biClrImportant  = 0;
+	DWORD* bits;
+
+	HBITMAP winBitmap = CreateDIBSection(hdc, (BITMAPINFO*)&bitmapInfo, DIB_RGB_COLORS, (VOID**)&bits, NULL, 0);
+	HGDIOBJ oldhdc = (HBITMAP)SelectObject(hdc, winBitmap);
+	DrawIconEx( hdc, 0, 0, icon, iconinfo.xHotspot * 2, iconinfo.yHotspot * 2, 0, 0, DI_NORMAL);
+	QImage image = fromWinHBITMAP(hdc, winBitmap, w, h);
+
+	for (int y = 0 ; y < h && !foundAlpha ; y++) {
+		QRgb *scanLine= reinterpret_cast<QRgb *>(image.scanLine(y));
+		for (int x = 0; x < w ; x++) {
+			if (qAlpha(scanLine[x]) != 0) {
+				foundAlpha = true;
+				break;
+			}
+		}
+	}
+	if (!foundAlpha) {
+		//If no alpha was found, we use the mask to set alpha values
+		DrawIconEx( hdc, 0, 0, icon, w, h, 0, 0, DI_MASK);
+		QImage mask = fromWinHBITMAP(hdc, winBitmap, w, h);
+
+		for (int y = 0 ; y < h ; y++){
+			QRgb *scanlineImage = reinterpret_cast<QRgb *>(image.scanLine(y));
+			QRgb *scanlineMask = mask.isNull() ? 0 : reinterpret_cast<QRgb *>(mask.scanLine(y));
+			for (int x = 0; x < w ; x++){
+				if (scanlineMask && qRed(scanlineMask[x]) != 0)
+					scanlineImage[x] = 0; //mask out this pixel
+				else
+					scanlineImage[x] |= 0xff000000; // set the alpha channel to 255
+			}
+		}
+	}
+	//dispose resources created by iconinfo call
+	DeleteObject(iconinfo.hbmMask);
+	DeleteObject(iconinfo.hbmColor);
+
+	SelectObject(hdc, oldhdc); //restore state
+	DeleteObject(winBitmap);
+	DeleteDC(hdc);
+	return QPixmap::fromImage(image);
+}
+#else //ifndef Q_OS_WINCE
+QPixmap fromWinHICON(HICON icon)
+{
+	HDC screenDevice = GetDC(0);
+	HDC hdc = CreateCompatibleDC(screenDevice);
+	ReleaseDC(0, screenDevice);
+
+	ICONINFO iconinfo;
+	bool result = GetIconInfo(icon, &iconinfo);
+	if (!result)
+		qWarning("QPixmap::fromWinHICON(), failed to GetIconInfo()");
+
+	int w = 0;
+	int h = 0;
+	if (!iconinfo.xHotspot || !iconinfo.yHotspot) {
+		// We could not retrieve the icon size via GetIconInfo,
+		// so we try again using the icon bitmap.
+		BITMAP bm;
+		int result = GetObject(iconinfo.hbmColor, sizeof(BITMAP), &bm);
+		if (!result) result = GetObject(iconinfo.hbmMask, sizeof(BITMAP), &bm);
+		if (!result) {
+			qWarning("QPixmap::fromWinHICON(), failed to retrieve icon size");
+			return QPixmap();
+		}
+		w = bm.bmWidth;
+		h = bm.bmHeight;
+	} else {
+		// x and y Hotspot describes the icon center
+		w = iconinfo.xHotspot * 2;
+		h = iconinfo.yHotspot * 2;
+	}
+	const DWORD dwImageSize = w * h * 4;
+
+	BITMAPINFO bmi;
+	memset(&bmi, 0, sizeof(bmi));
+	bmi.bmiHeader.biSize        = sizeof(BITMAPINFO);
+	bmi.bmiHeader.biWidth       = w;
+	bmi.bmiHeader.biHeight      = -h;
+	bmi.bmiHeader.biPlanes      = 1;
+	bmi.bmiHeader.biBitCount    = 32;
+	bmi.bmiHeader.biCompression = BI_RGB;
+	bmi.bmiHeader.biSizeImage   = dwImageSize;
+
+	uchar* bits;
+
+	HBITMAP winBitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, (void**) &bits, 0, 0);
+	if (winBitmap )
+		memset(bits, 0xff, dwImageSize);
+	if (!winBitmap) {
+		qWarning("QPixmap::fromWinHICON(), failed to CreateDIBSection()");
+		return QPixmap();
+	}
+
+	HGDIOBJ oldhdc = (HBITMAP)SelectObject(hdc, winBitmap);
+	if (!DrawIconEx( hdc, 0, 0, icon, w, h, 0, 0, DI_NORMAL))
+		qWarning("QPixmap::fromWinHICON(), failed to DrawIcon()");
+
+	uint mask = 0xff000000;
+	// Create image and copy data into image.
+	QImage image(w, h, QImage::Format_ARGB32);
+
+	if (!image.isNull()) { // failed to alloc?
+		int bytes_per_line = w * sizeof(QRgb);
+		for (int y=0; y < h; ++y) {
+			QRgb *dest = (QRgb *) image.scanLine(y);
+			const QRgb *src = (const QRgb *) (bits + y * bytes_per_line);
+			for (int x=0; x < w; ++x) {
+				dest[x] = src[x];
+			}
+		}
+	}
+	if (!DrawIconEx( hdc, 0, 0, icon, w, h, 0, 0, DI_MASK))
+		qWarning("QPixmap::fromWinHICON(), failed to DrawIcon()");
+	if (!image.isNull()) { // failed to alloc?
+		int bytes_per_line = w * sizeof(QRgb);
+		for (int y=0; y < h; ++y) {
+			QRgb *dest = (QRgb *) image.scanLine(y);
+			const QRgb *src = (const QRgb *) (bits + y * bytes_per_line);
+			for (int x=0; x < w; ++x) {
+				if (!src[x])
+					dest[x] = dest[x] | mask;
+			}
+		}
+	}
+	SelectObject(hdc, oldhdc); //restore state
+	DeleteObject(winBitmap);
+	DeleteDC(hdc);
+	return QPixmap::fromImage(image);
+}
+#endif //ifndef Q_OS_WINCE
 
 // QFileIconProviderPrivate::getWinIcon copy modified to get icons for non-existing files
 QIcon getWinIcon(const QFileInfo &fileInfo)
@@ -103,9 +306,9 @@ QIcon getWinIcon(const QFileInfo &fileInfo)
 		}
 		if (pixmap.isNull()) {
 #ifndef Q_OS_WINCE
-			pixmap = QPixmap::fromWinHICON(info.hIcon);
+			pixmap = fromWinHICON(info.hIcon);
 #else
-			pixmap = QPixmap::fromWinHICON(ImageList_GetIcon((HIMAGELIST) val, info.iIcon, ILD_NORMAL));
+			pixmap = fromWinHICON(ImageList_GetIcon((HIMAGELIST) val, info.iIcon, ILD_NORMAL));
 #endif
 			if (!pixmap.isNull()) {
 				retIcon.addPixmap(pixmap);
@@ -133,9 +336,9 @@ QIcon getWinIcon(const QFileInfo &fileInfo)
 			key = QString::fromLatin1("qt_dir_%1").arg(info.iIcon);
 		}
 #ifndef Q_OS_WINCE
-		pixmap = QPixmap::fromWinHICON(info.hIcon);
+		pixmap = fromWinHICON(info.hIcon);
 #else
-		pixmap = QPixmap::fromWinHICON(ImageList_GetIcon((HIMAGELIST) val, info.iIcon, ILD_NORMAL));
+		pixmap = fromWinHICON(ImageList_GetIcon((HIMAGELIST) val, info.iIcon, ILD_NORMAL));
 #endif
 		if (!pixmap.isNull()) {
 			retIcon.addPixmap(pixmap);
@@ -150,7 +353,7 @@ QIcon getWinIcon(const QFileInfo &fileInfo)
 	return retIcon;
 
 }
-#endif
+#endif //Q_OS_WIN
 
 CFileIconProvider::CFileIconProvider()
 	:QFileIconProvider()

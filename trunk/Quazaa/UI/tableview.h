@@ -1,7 +1,7 @@
 #ifndef TABLEVIEW_H
 #define TABLEVIEW_H
 
-#include <QtGui>
+#include <QtWidgets/QtWidgets>
 
 class CTableView : public QTableView
 {

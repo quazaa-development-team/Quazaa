@@ -25,14 +25,13 @@
 #include "suggestedlineedit.h"
 #include "skinsettings.h"
 
-#include <QLineEdit>
-#include <QCompleter>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QCompleter>
 #include <QStandardItemModel>
 #include <QSettings>
-#include <QAbstractItemView>
+#include <QtWidgets/QAbstractItemView>
 #include <QUrl>
 #include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QNetworkReply>
 #include <QXmlStreamReader>
 #include <QTimer>

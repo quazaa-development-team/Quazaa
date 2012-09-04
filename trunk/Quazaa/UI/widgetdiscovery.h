@@ -25,7 +25,7 @@
 #ifndef WIDGETDISCOVERY_H
 #define WIDGETDISCOVERY_H
 
-#include <QtGui>
+#include <QtWidgets/QtWidgets>
 
 #include "tableview.h"
 #include "discovery.h"

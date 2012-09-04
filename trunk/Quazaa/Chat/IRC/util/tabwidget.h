@@ -15,70 +15,70 @@
 #ifndef TABWIDGET_H
 #define TABWIDGET_H
 
-#include <QTabWidget>
+#include <QtWidgets/QTabWidget>
 #include <QColor>
 #include <QList>
 
 class TabWidget : public QTabWidget
 {
-    Q_OBJECT
-    Q_PROPERTY(QColor inactiveColor READ inactiveColor WRITE setInactiveColor)
-    Q_PROPERTY(QColor alertColor READ alertColor WRITE setAlertColor)
-    Q_PROPERTY(QColor highlightColor READ highlightColor WRITE setHighlightColor)
+	Q_OBJECT
+	Q_PROPERTY(QColor inactiveColor READ inactiveColor WRITE setInactiveColor)
+	Q_PROPERTY(QColor alertColor READ alertColor WRITE setAlertColor)
+	Q_PROPERTY(QColor highlightColor READ highlightColor WRITE setHighlightColor)
 
 public:
-    TabWidget(QWidget* parent = 0);
+	TabWidget(QWidget* parent = 0);
 
-    QColor inactiveColor() const;
-    void setInactiveColor(const QColor& color);
+	QColor inactiveColor() const;
+	void setInactiveColor(const QColor& color);
 
-    QColor alertColor() const;
-    void setAlertColor(const QColor& color);
+	QColor alertColor() const;
+	void setAlertColor(const QColor& color);
 
-    QColor highlightColor() const;
-    void setHighlightColor(const QColor& color);
+	QColor highlightColor() const;
+	void setHighlightColor(const QColor& color);
 
-    bool isTabInactive(int index);
-    void setTabInactive(int index, bool inactive);
+	bool isTabInactive(int index);
+	void setTabInactive(int index, bool inactive);
 
-    bool hasTabAlert(int index);
-    void setTabAlert(int index, bool alert);
+	bool hasTabAlert(int index);
+	void setTabAlert(int index, bool alert);
 
-    bool hasTabHighlight(int index) const;
-    void setTabHighlight(int index, bool highlight);
+	bool hasTabHighlight(int index) const;
+	void setTabHighlight(int index, bool highlight);
 
 public slots:
-    void moveToNextTab();
-    void moveToPrevTab();
-    void setTabBarVisible(bool visible);
+	void moveToNextTab();
+	void moveToPrevTab();
+	void setTabBarVisible(bool visible);
 
 signals:
-    void newTabRequested();
-    void tabMenuRequested(int index, const QPoint& pos);
-    void alertStatusChanged(bool alerted);
-    void highlightStatusChanged(bool highlighted);
+	void newTabRequested();
+	void tabMenuRequested(int index, const QPoint& pos);
+	void alertStatusChanged(bool alerted);
+	void highlightStatusChanged(bool highlighted);
 
 protected:
-    void tabInserted(int index);
-    void tabRemoved(int index);
+	void tabInserted(int index);
+	void tabRemoved(int index);
 
 private slots:
-    void tabChanged(int index);
-    void alertTimeout();
-    void colorizeTab(int index);
+	void tabChanged(int index);
+	void alertTimeout();
+	void colorizeTab(int index);
 
 private:
-    struct TabWidgetData
-    {
-        int previous;
-        QColor inactiveColor;
-        QColor alertColor;
-        QColor highlightColor;
-        QColor currentAlertColor;
-        QList<int> inactiveIndexes;
-        QList<int> alertIndexes;
-        QList<int> highlightIndexes;
-    } d;
+	struct TabWidgetData
+	{
+		int previous;
+		QColor inactiveColor;
+		QColor alertColor;
+		QColor highlightColor;
+		QColor currentAlertColor;
+		QList<int> inactiveIndexes;
+		QList<int> alertIndexes;
+		QList<int> highlightIndexes;
+	} d;
 };
 
 #endif // TABWIDGET_H

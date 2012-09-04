@@ -37,7 +37,7 @@
 
 #include "systemlog.h"
 
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 
 #ifdef _DEBUG
 #include "debug_new.h"

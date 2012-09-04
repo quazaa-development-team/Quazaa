@@ -15,7 +15,7 @@
 #ifndef COMPLETER_H
 #define COMPLETER_H
 
-#include <QCompleter>
+#include <QtWidgets/QCompleter>
 #include "widgetreturnemittextedit.h"
 #include "ircuserlistmodel.h"
 
@@ -24,38 +24,38 @@ class WidgetReturnEmitTextEdit;
 
 class Completer : public QCompleter
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    Completer(QObject* parent = 0);
+	Completer(QObject* parent = 0);
 
-    HistoryLineEdit* lineEdit() const;
-    void setLineEdit(HistoryLineEdit* lineEdit);
+	HistoryLineEdit* lineEdit() const;
+	void setLineEdit(HistoryLineEdit* lineEdit);
 
-    WidgetReturnEmitTextEdit* textEdit() const;
-    void setTextEdit(WidgetReturnEmitTextEdit* textEdit);
+	WidgetReturnEmitTextEdit* textEdit() const;
+	void setTextEdit(WidgetReturnEmitTextEdit* textEdit);
 
-    QAbstractItemModel* defaultModel() const;
-    void setDefaultModel(QAbstractItemModel* model);
+	QAbstractItemModel* defaultModel() const;
+	void setDefaultModel(QAbstractItemModel* model);
 
-    IrcUserListModel* tabModel() const;
-    void setTabModel(IrcUserListModel* model);
+	IrcUserListModel* tabModel() const;
+	void setTabModel(IrcUserListModel* model);
 
-    QStringListModel* slashModel() const;
-    void setSlashModel(QStringListModel* model);
+	QStringListModel* slashModel() const;
+	void setSlashModel(QStringListModel* model);
 
 private slots:
-    void onTabPressed();
-    void onTextEdited();
-    void insertCompletion(const QString& completion);
+	void onTabPressed();
+	void onTextEdited();
+	void insertCompletion(const QString& completion);
 
 private:
-    struct CompleterData
-    {
-        WidgetReturnEmitTextEdit* textEdit;
-        IrcUserListModel* tabModel;
-        QStringListModel* slashModel;
-    } d;
+	struct CompleterData
+	{
+		WidgetReturnEmitTextEdit* textEdit;
+		IrcUserListModel* tabModel;
+		QStringListModel* slashModel;
+	} d;
 };
 
 #endif // COMPLETER_H

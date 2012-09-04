@@ -25,8 +25,8 @@
 #ifndef DIALOGLANGUAGE_H
 #define DIALOGLANGUAGE_H
 
-#include <QtGui/QDialog>
-#include <QListWidgetItem>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QListWidgetItem>
 
 namespace Ui
 {

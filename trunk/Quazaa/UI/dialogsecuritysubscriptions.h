@@ -25,7 +25,7 @@
 #ifndef DIALOGSECURITYSUBSCRIPTIONS_H
 #define DIALOGSECURITYSUBSCRIPTIONS_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui
 {

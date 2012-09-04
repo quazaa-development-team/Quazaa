@@ -25,7 +25,7 @@
 #ifndef DIALOGDOWNLOADMONITOR_H
 #define DIALOGDOWNLOADMONITOR_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui
 {

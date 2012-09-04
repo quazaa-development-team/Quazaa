@@ -1,8 +1,8 @@
 #ifndef DIALOGIRCSETTINGS_H
 #define DIALOGIRCSETTINGS_H
 
-#include <QDialog>
-#include <QWizardPage>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QWizardPage>
 
 #include "generalwizardpage.h"
 #include "colorswizardpage.h"

@@ -25,7 +25,7 @@
 #ifndef DIALOGDOWNLOADSIMPORT_H
 #define DIALOGDOWNLOADSIMPORT_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui
 {

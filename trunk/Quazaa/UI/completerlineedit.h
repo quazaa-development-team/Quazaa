@@ -1,8 +1,8 @@
 #ifndef COMPLETERLINEEDIT_H
 #define COMPLETERLINEEDIT_H
 
-#include <QLineEdit>
-#include <QCompleter>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QCompleter>
 #include <QStringList>
 
 class CompleterLineEdit : public QLineEdit
@@ -20,7 +20,7 @@ public:
 private:
 	QCompleter* m_pCompleter;
 	bool m_bCompleteOnDoubleClick;
-	
+
 protected:
 	void mouseDoubleClickEvent(QMouseEvent *);
 

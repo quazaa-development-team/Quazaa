@@ -25,7 +25,7 @@
 #ifndef WIDGETNEIGHBORS_H
 #define WIDGETNEIGHBORS_H
 
-#include <QtGui>
+#include <QtWidgets/QtWidgets>
 #include <QAbstractItemModel>
 
 class CNeighboursTableModel;

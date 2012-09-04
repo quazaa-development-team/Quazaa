@@ -25,8 +25,8 @@
 #ifndef WIDGETDOWNLOADS_H
 #define WIDGETDOWNLOADS_H
 
-#include <QMainWindow>
-#include <QMenu>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 
 class CDownloadsTreeModel;
 

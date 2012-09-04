@@ -25,7 +25,7 @@
 #ifndef WIDGETUPLOADS_H
 #define WIDGETUPLOADS_H
 
-#include <QMainWindow>
+#include <QtWidgets/QMainWindow>
 
 namespace Ui
 {

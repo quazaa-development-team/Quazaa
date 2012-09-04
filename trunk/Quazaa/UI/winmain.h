@@ -25,9 +25,9 @@
 #ifndef WINMAIN_H
 #define WINMAIN_H
 
-#include <QMainWindow>
-#include <QActionGroup>
-#include <QSystemTrayIcon>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QActionGroup>
+#include <QtWidgets/QSystemTrayIcon>
 #include <QHideEvent>
 
 #include "widgethome.h"

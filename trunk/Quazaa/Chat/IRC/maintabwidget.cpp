@@ -14,26 +14,26 @@
 
 #include "maintabwidget.h"
 #include "quazaasettings.h"
-#include <QShortcut>
-#include <QTabBar>
-#include <QApplication>
+#include <QtWidgets/QShortcut>
+#include <QtWidgets/QTabBar>
+#include <QtWidgets/QApplication>
 
 MainTabWidget::MainTabWidget(QWidget* parent) : TabWidget(parent)
 {
-    setTabPosition(QTabWidget::West);
-    setStyleSheet(".MainTabWidget::pane { border: 0px; }");
+	setTabPosition(QTabWidget::West);
+	setStyleSheet(".MainTabWidget::pane { border: 0px; }");
 
-    d.tabUpShortcut = new QShortcut(this);
-    connect(d.tabUpShortcut, SIGNAL(activated()), this, SLOT(moveToPrevTab()));
+	d.tabUpShortcut = new QShortcut(this);
+	connect(d.tabUpShortcut, SIGNAL(activated()), this, SLOT(moveToPrevTab()));
 
-    d.tabDownShortcut = new QShortcut(this);
-    connect(d.tabDownShortcut, SIGNAL(activated()), this, SLOT(moveToNextTab()));
+	d.tabDownShortcut = new QShortcut(this);
+	connect(d.tabDownShortcut, SIGNAL(activated()), this, SLOT(moveToNextTab()));
 
-    d.tabLeftShortcut = new QShortcut(this);
-    connect(d.tabLeftShortcut, SIGNAL(activated()), this, SLOT(moveToPrevSubTab()));
+	d.tabLeftShortcut = new QShortcut(this);
+	connect(d.tabLeftShortcut, SIGNAL(activated()), this, SLOT(moveToPrevSubTab()));
 
-    d.tabRightShortcut = new QShortcut(this);
-    connect(d.tabRightShortcut, SIGNAL(activated()), this, SLOT(moveToNextSubTab()));
+	d.tabRightShortcut = new QShortcut(this);
+	connect(d.tabRightShortcut, SIGNAL(activated()), this, SLOT(moveToNextSubTab()));
 
 	connect(this, SIGNAL(currentChanged(int)), this, SLOT(tabActivated(int)));
 	connect(&quazaaSettings, SIGNAL(chatSettingsChanged()), this, SLOT(applySettings()));
@@ -49,9 +49,9 @@ void MainTabWidget::applySettings()
 
 void MainTabWidget::setSessionTitle(const QString& title)
 {
-    int index = senderIndex();
-    if (index != -1)
-        setTabText(index, title);
+	int index = senderIndex();
+	if (index != -1)
+		setTabText(index, title);
 }
 
 void MainTabWidget::setInactive(bool inactive)
@@ -83,24 +83,24 @@ void MainTabWidget::highlightTab(SessionTabWidget* session, bool on)
 
 int MainTabWidget::senderIndex() const
 {
-    if (!sender() || !sender()->isWidgetType())
-        return -1;
+	if (!sender() || !sender()->isWidgetType())
+		return -1;
 
-    return indexOf(static_cast<QWidget*>(sender()));
+	return indexOf(static_cast<QWidget*>(sender()));
 }
 
 void MainTabWidget::moveToNextSubTab()
 {
-    TabWidget* tabWidget = qobject_cast<TabWidget*>(currentWidget());
-    if (tabWidget)
-        tabWidget->moveToNextTab();
+	TabWidget* tabWidget = qobject_cast<TabWidget*>(currentWidget());
+	if (tabWidget)
+		tabWidget->moveToNextTab();
 }
 
 void MainTabWidget::moveToPrevSubTab()
 {
-    TabWidget* tabWidget = qobject_cast<TabWidget*>(currentWidget());
-    if (tabWidget)
-        tabWidget->moveToPrevTab();
+	TabWidget* tabWidget = qobject_cast<TabWidget*>(currentWidget());
+	if (tabWidget)
+		tabWidget->moveToPrevTab();
 }
 
 void MainTabWidget::tabActivated(int index)

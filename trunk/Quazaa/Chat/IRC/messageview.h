@@ -24,61 +24,61 @@
 #include "commandparser.h"
 #include "messageformatter.h"
 
-#include <QToolButton>
+#include <QtWidgets/QToolButton>
 
 class QStringListModel;
 
 class MessageView : public QWidget
 {
-    Q_OBJECT
-    Q_PROPERTY(QString receiver READ receiver WRITE setReceiver)
+	Q_OBJECT
+	Q_PROPERTY(QString receiver READ receiver WRITE setReceiver)
 	Q_PROPERTY(QAbstractItemModel* userList READ userList)
 
 public:
-    MessageView(IrcSession* session, QWidget* parent = 0);
-    ~MessageView();
+	MessageView(IrcSession* session, QWidget* parent = 0);
+	~MessageView();
 
 	QToolButton* closeButton;
 
-    QString receiver() const;
+	QString receiver() const;
 	void setReceiver(const QString& receiver);
 	void setStatusChannel(bool statusChannel);
 
 	QAbstractItemModel* userList();
 
-    bool isChannelView() const;
+	bool isChannelView() const;
 	bool isStatusChannel() const;
 
 public slots:
-    void showHelp(const QString& text, bool error = false);
-    void appendMessage(const QString& message);
+	void showHelp(const QString& text, bool error = false);
+	void appendMessage(const QString& message);
 	void onSend(const QString& text);
 
 signals:
-    void highlight(MessageView* view, bool on);
-    void alert(MessageView* view, bool on);
+	void highlight(MessageView* view, bool on);
+	void alert(MessageView* view, bool on);
 	void query(const QString& user);
 	void appendQueryMessage(const QString& receiver, const QString& message);
 	void appendRawMessage(const QString& message);
 	void closeQuery(MessageView *view);
-    void aboutToQuit();
+	void aboutToQuit();
 	void partView(MessageView *view);
 	void quitSession();
 	void join(QString channel);
 
 protected:
-    bool eventFilter(QObject* receiver, QEvent* event);
+	bool eventFilter(QObject* receiver, QEvent* event);
 
 protected slots:
-    void receiveMessage(IrcMessage* message);
-    void addUser(const QString& user);
+	void receiveMessage(IrcMessage* message);
+	void addUser(const QString& user);
 	void removeUser(const QString& user);
 	void part();
 
 private slots:
 	void onEscPressed();
 	void applySettings();
-    void onCustomCommand(const QString& command, const QStringList& params);
+	void onCustomCommand(const QString& command, const QStringList& params);
 	void followLink(const QString& link);
 	void followLink(const QUrl& link);
 	void onSend(QTextDocument *message);
@@ -87,17 +87,17 @@ private:static
 	QString prettyNames(const QStringList& names, int columns);
 
 	struct MessageViewData : public Ui::MessageView
-    {
-        QString receiver;
-        IrcSession* session;
-        CommandParser parser;
-        MessageFormatter formatter;
+	{
+		QString receiver;
+		IrcSession* session;
+		CommandParser parser;
+		MessageFormatter formatter;
 		IrcUserListModel* userModel;
 		static QStringListModel* commandModel;
 		bool m_bIsStatusChannel;
 		QSet<IrcCommand::Type> sentCommands;
 		WidgetChatInput* chatInput;
-    } d;
+	} d;
 };
 
 #endif // MESSAGEVIEW_H

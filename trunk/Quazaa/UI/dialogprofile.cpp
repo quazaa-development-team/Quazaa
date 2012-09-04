@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -27,7 +27,7 @@
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
-#include <QFileDialog>
+#include <QtWidgets/QFileDialog>
 #include <QUuid>
 
 #ifdef _DEBUG
@@ -367,7 +367,7 @@ void DialogProfile::on_plainTextEditBio_textChanged()
 void DialogProfile::on_pushButtonAvatarAdd_clicked()
 {
 	QFileInfo avatarFile(QFileDialog::getOpenFileName(this, tr("Open Avatar Image"),
-	                        qApp->applicationDirPath(),
+							qApp->applicationDirPath(),
 							tr("Images") + " (*.bmp *.png *.xbm *.xpm *.jpg *.jpeg *.gif *.pbm *.pgm *.ppm)"));
 	if(avatarFile.exists())
 	{
@@ -401,7 +401,7 @@ void DialogProfile::on_pushButtonRemoveWebsite_clicked()
 	if(ui->treeWidgetFavorites->currentIndex().isValid())
 	{
 		ui->treeWidgetFavorites->takeTopLevelItem(ui->treeWidgetFavorites->indexOfTopLevelItem
-		        (ui->treeWidgetFavorites->currentItem()));
+				(ui->treeWidgetFavorites->currentItem()));
 		ui->pushButtonApply->setEnabled(true);
 	}
 }

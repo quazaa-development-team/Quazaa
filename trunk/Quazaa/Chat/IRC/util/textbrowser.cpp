@@ -13,7 +13,7 @@
 */
 
 #include "textbrowser.h"
-#include <QScrollBar>
+#include <QtWidgets/QScrollBar>
 
 TextBrowser::TextBrowser(QWidget* parent) : QTextBrowser(parent)
 {
@@ -21,28 +21,28 @@ TextBrowser::TextBrowser(QWidget* parent) : QTextBrowser(parent)
 
 void TextBrowser::resizeEvent(QResizeEvent* event)
 {
-    QTextBrowser::resizeEvent(event);
+	QTextBrowser::resizeEvent(event);
 
-    // http://www.qtsoftware.com/developer/task-tracker/index_html?method=entry&id=240940
-    QMetaObject::invokeMethod(this, "scrollToBottom", Qt::QueuedConnection);
+	// http://www.qtsoftware.com/developer/task-tracker/index_html?method=entry&id=240940
+	QMetaObject::invokeMethod(this, "scrollToBottom", Qt::QueuedConnection);
 }
 
 void TextBrowser::scrollToTop()
 {
-    verticalScrollBar()->triggerAction(QScrollBar::SliderToMinimum);
+	verticalScrollBar()->triggerAction(QScrollBar::SliderToMinimum);
 }
 
 void TextBrowser::scrollToBottom()
 {
-    verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
+	verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
 }
 
 void TextBrowser::scrollToNextPage()
 {
-    verticalScrollBar()->triggerAction(QScrollBar::SliderPageStepAdd);
+	verticalScrollBar()->triggerAction(QScrollBar::SliderPageStepAdd);
 }
 
 void TextBrowser::scrollToPreviousPage()
 {
-    verticalScrollBar()->triggerAction(QScrollBar::SliderPageStepSub);
+	verticalScrollBar()->triggerAction(QScrollBar::SliderPageStepSub);
 }

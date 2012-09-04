@@ -13,77 +13,77 @@
 */
 
 #include "homepage.h"
-#include <QCommandLinkButton>
-#include <QGridLayout>
-#include <QVBoxLayout>
+#include <QtWidgets/QCommandLinkButton>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QVBoxLayout>
 #include <QPainter>
-#include <QLabel>
-#include <QMenu>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QMenu>
 #include <QFile>
-#include <QApplication>
+#include <QtWidgets/QApplication>
 
 HomePage::HomePage(QWidget* parent) : QWidget(parent)
 {
-    bg.load(":/resources/background.png");
+	bg.load(":/resources/background.png");
 
-    header = new QLabel(this);
-    header->setOpenExternalLinks(true);
-    header->setWordWrap(true);
-    footer = new QLabel(this);
-    footer->setOpenExternalLinks(true);
+	header = new QLabel(this);
+	header->setOpenExternalLinks(true);
+	header->setWordWrap(true);
+	footer = new QLabel(this);
+	footer->setOpenExternalLinks(true);
 
-    updateHtml();
+	updateHtml();
 
-    QVBoxLayout* layout = new QVBoxLayout(this);
-    layout->addWidget(header);
-    layout->addWidget(createBody(this), 1);
-    layout->addWidget(footer);
-    setLayout(layout);
+	QVBoxLayout* layout = new QVBoxLayout(this);
+	layout->addWidget(header);
+	layout->addWidget(createBody(this), 1);
+	layout->addWidget(footer);
+	setLayout(layout);
 }
 
 void HomePage::paintEvent(QPaintEvent* event)
 {
-    QWidget::paintEvent(event);
-    QPainter painter(this);
-    painter.drawPixmap(width() - bg.width(), height() - bg.height(), bg);
+	QWidget::paintEvent(event);
+	QPainter painter(this);
+	painter.drawPixmap(width() - bg.width(), height() - bg.height(), bg);
 }
 
 static QString readHtmlFile(const QString& filePath)
 {
-    QFile file(filePath);
-    file.open(QIODevice::ReadOnly);
-    return QString::fromUtf8(file.readAll());
+	QFile file(filePath);
+	file.open(QIODevice::ReadOnly);
+	return QString::fromUtf8(file.readAll());
 }
 
 void HomePage::updateHtml()
 {
-    QString headerHtml = readHtmlFile(":/resources/welcome_header.html");
+	QString headerHtml = readHtmlFile(":/resources/welcome_header.html");
 	headerHtml = headerHtml.arg(QApplication::applicationName())
 			.arg(tr("P2P for the masses."));
-    header->setText(headerHtml);
-    footer->setText(readHtmlFile(":/resources/welcome_footer.html"));
+	header->setText(headerHtml);
+	footer->setText(readHtmlFile(":/resources/welcome_footer.html"));
 }
 
 QWidget* HomePage::createBody(QWidget* parent) const
 {
-    QWidget* body = new QWidget(parent);
+	QWidget* body = new QWidget(parent);
 
-    QCommandLinkButton* connectButton = new QCommandLinkButton(tr("Connect"), body);
+	QCommandLinkButton* connectButton = new QCommandLinkButton(tr("Connect"), body);
 	connectButton->setDescription(tr("New Irc connection"));
-    QCommandLinkButton* settingsButton = new QCommandLinkButton(tr("Settings"), body);
+	QCommandLinkButton* settingsButton = new QCommandLinkButton(tr("Settings"), body);
 	settingsButton->setDescription(tr("Configure %1").arg(QApplication::applicationName()));
 
-    connect(connectButton, SIGNAL(clicked()), this, SIGNAL(connectRequested()));
-    connect(settingsButton, SIGNAL(clicked()), qApp, SLOT(showSettings()));
+	connect(connectButton, SIGNAL(clicked()), this, SIGNAL(connectRequested()));
+	connect(settingsButton, SIGNAL(clicked()), qApp, SLOT(showSettings()));
 
-    QGridLayout* layout = new QGridLayout(body);
-    layout->setColumnStretch(0, 1);
-    layout->setColumnStretch(3, 1);
-    layout->setRowStretch(0, 1);
-    layout->addWidget(connectButton, 1, 1);
-    layout->addWidget(settingsButton, 1, 2);
-    layout->setRowStretch(7, 1);
-    body->setLayout(layout);
+	QGridLayout* layout = new QGridLayout(body);
+	layout->setColumnStretch(0, 1);
+	layout->setColumnStretch(3, 1);
+	layout->setRowStretch(0, 1);
+	layout->addWidget(connectButton, 1, 1);
+	layout->addWidget(settingsButton, 1, 2);
+	layout->setRowStretch(7, 1);
+	body->setLayout(layout);
 
-    return body;
+	return body;
 }

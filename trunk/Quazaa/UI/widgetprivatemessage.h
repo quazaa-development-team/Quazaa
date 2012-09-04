@@ -25,7 +25,7 @@
 #ifndef WIDGETPRIVATEMESSAGE_H
 #define WIDGETPRIVATEMESSAGE_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 #include <QUrl>
 #include "types.h"
 #include "chatsession.h"
@@ -47,8 +47,8 @@ public:
 	~WidgetPrivateMessage();
 	QString inputMessage;
 
-	void SendMessage(QTextDocument* pMessage, bool bAction = false);
-	void SendMessage(QString sMessage, bool bAction = false);
+	void SendPrivateMessage(QTextDocument* pMessage, bool bAction = false);
+	void SendPrivateMessage(QString sMessage, bool bAction = false);
 
 protected:
 	void changeEvent(QEvent *e);

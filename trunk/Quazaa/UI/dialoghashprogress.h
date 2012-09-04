@@ -25,7 +25,7 @@
 #ifndef DIALOGHASHPROGRESS_H
 #define DIALOGHASHPROGRESS_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 #include <QHash>
 #include <QPair>
 

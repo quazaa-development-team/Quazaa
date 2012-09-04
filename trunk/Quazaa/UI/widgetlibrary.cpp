@@ -25,7 +25,7 @@
 #include "widgetlibrary.h"
 #include "ui_widgetlibrary.h"
 #include "dialogeditshares.h"
-#include <QtGui>
+#include <QtWidgets/QtWidgets>
 
 #include "quazaasettings.h"
 #include "skinsettings.h"

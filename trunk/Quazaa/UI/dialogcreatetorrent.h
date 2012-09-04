@@ -25,7 +25,7 @@
 #ifndef DIALOGCREATETORRENT_H
 #define DIALOGCREATETORRENT_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui
 {

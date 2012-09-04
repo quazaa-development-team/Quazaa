@@ -25,7 +25,7 @@
 #ifndef DIALOGTRANSFERPROGRESSTOOLTIP_H
 #define DIALOGTRANSFERPROGRESSTOOLTIP_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 namespace Ui
 {

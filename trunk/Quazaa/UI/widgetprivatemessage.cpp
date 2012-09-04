@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -29,7 +29,7 @@
 #include "skinsettings.h"
 
 #include <QDesktopServices>
-#include <QScrollBar>
+#include <QtWidgets/QScrollBar>
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -95,7 +95,7 @@ void WidgetPrivateMessage::OnNickChanged(QString sNick)
 	ui->labelName->setText(m_sNick);
 }
 
-void WidgetPrivateMessage::SendMessage(QString sMessage, bool bAction)
+void WidgetPrivateMessage::SendPrivateMessage(QString sMessage, bool bAction)
 {
 	if( bAction )
 	{
@@ -109,7 +109,7 @@ void WidgetPrivateMessage::SendMessage(QString sMessage, bool bAction)
 	emit SendMessageS(sMessage, bAction);
 }
 
-void WidgetPrivateMessage::SendMessage(QTextDocument *pMessage, bool bAction)
+void WidgetPrivateMessage::SendPrivateMessage(QTextDocument *pMessage, bool bAction)
 {
 	CChatConverter oConv(pMessage);
 

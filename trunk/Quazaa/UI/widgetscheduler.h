@@ -25,7 +25,7 @@
 #ifndef WIDGETSCHEDULER_H
 #define WIDGETSCHEDULER_H
 
-#include <QMainWindow>
+#include <QtWidgets/QMainWindow>
 
 namespace Ui
 {
