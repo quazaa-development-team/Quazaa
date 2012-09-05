@@ -42,15 +42,15 @@ public:
 	enum Column
 	{
 		ADDRESS = 0,
-		TIME,
-		BANDWIDTH,
-		BYTES,
-		PACKETS,
-		MODE,
-		LEAVES,
-		PING,
-		USER_AGENT,
-		COUNTRY,
+		TIME = 1,
+		BANDWIDTH = 2,
+		BYTES = 3,
+		PACKETS = 4,
+		MODE = 5,
+		LEAVES = 6,
+		PING = 7,
+		USER_AGENT = 8,
+		COUNTRY = 9,
 		_NO_OF_COLUMNS
 	};
 

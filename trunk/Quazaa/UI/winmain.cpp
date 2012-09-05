@@ -733,7 +733,7 @@ void CWinMain::on_actionDonate_triggered()
 
 void CWinMain::on_actionQuazaaForums_triggered()
 {
-	QDesktopServices::openUrl(QUrl("http://quazaa.sourceforge.net/forum/", QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl("http://quazaa.sourceforge.net/forums/", QUrl::TolerantMode));
 }
 
 void CWinMain::on_actionEditMyProfile_triggered()

@@ -169,7 +169,8 @@ int main(int argc, char *argv[])
 	//Check if this is Quazaa's first run
 	dlgSplash->updateProgress( 5, QObject::tr( "Checking for first run..." ) );
 	qApp->processEvents();
-	if ( quazaaSettings.isFirstRun() )
+	bool bFirstRun = quazaaSettings.isFirstRun();
+	if ( bFirstRun )
 	{
 		DialogLanguage* dlgLanguage = new DialogLanguage();
 		dlgLanguage->exec();
@@ -222,7 +223,7 @@ int main(int argc, char *argv[])
 	MainWindow = new CWinMain();
 	if ( quazaaSettings.WinMain.Visible )
 	{
-		if(quazaaSettings.isFirstRun())
+		if(bFirstRun)
 			MainWindow->showMaximized();
 		else
 			MainWindow->show();

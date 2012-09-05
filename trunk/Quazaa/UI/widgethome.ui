@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>621</width>
-    <height>334</height>
+    <width>718</width>
+    <height>445</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,9 +58,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-366</y>
-            <width>190</width>
-            <height>700</height>
+            <y>0</y>
+            <width>243</width>
+            <height>691</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayoutScrollAreaHomeSidebar">
@@ -628,12 +628,21 @@ p, li { white-space: pre-wrap; }
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-83</y>
             <width>672</width>
-            <height>504</height>
+            <height>511</height>
            </rect>
           </property>
-          <layout class="QGridLayout" name="gridLayout_5">
+          <property name="styleSheet">
+           <string notr="true">#frameHomeContents {
+	border-image: url(:/Resource/HomeBackground.png) repeat;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 143, 169, 255), stop:0.681818 rgba(77, 122, 145, 255), stop:1 rgba(59, 92, 109, 255));
+}</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="spacing">
+            <number>0</number>
+           </property>
            <property name="leftMargin">
             <number>20</number>
            </property>
@@ -646,20 +655,23 @@ p, li { white-space: pre-wrap; }
            <property name="bottomMargin">
             <number>9</number>
            </property>
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item row="0" column="0">
+           <item>
             <widget class="QLabel" name="labelHomeLogo">
+             <property name="styleSheet">
+              <string notr="true">background-color: transparent;</string>
+             </property>
              <property name="text">
               <string/>
              </property>
              <property name="pixmap">
               <pixmap resource="../Resource.qrc">:/Resource/QuazaaLogo.png</pixmap>
              </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item>
             <widget class="QLabel" name="labelQuazaaWelcome">
              <property name="font">
               <font>
@@ -668,12 +680,18 @@ p, li { white-space: pre-wrap; }
                <bold>false</bold>
               </font>
              </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: transparent;</string>
+             </property>
              <property name="text">
               <string>Welcome to Quazaa!</string>
              </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item>
             <layout class="QGridLayout" name="gridLayoutWelcome">
              <item row="0" column="0">
               <widget class="QLabel" name="labelWelcomeDownloadLogo">
@@ -688,6 +706,9 @@ p, li { white-space: pre-wrap; }
                  <width>24</width>
                  <height>24</height>
                 </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: transparent;</string>
                </property>
                <property name="text">
                 <string/>
@@ -708,7 +729,8 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(170, 0, 0);</string>
+                <string notr="true">color: rgb(0, 31, 95);
+background-color: transparent;</string>
                </property>
                <property name="text">
                 <string>Start Download</string>
@@ -720,6 +742,9 @@ p, li { white-space: pre-wrap; }
              </item>
              <item row="1" column="1" colspan="7">
               <widget class="QLabel" name="labelWelcomeURLDownloadLink">
+               <property name="styleSheet">
+                <string notr="true">background-color: transparent;</string>
+               </property>
                <property name="text">
                 <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -731,6 +756,9 @@ p, li { white-space: pre-wrap; }
              </item>
              <item row="2" column="1" colspan="7">
               <widget class="QLabel" name="labelWelcomeOpenTorrentLink">
+               <property name="styleSheet">
+                <string notr="true">background-color: transparent;</string>
+               </property>
                <property name="text">
                 <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -748,7 +776,8 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="styleSheet">
-                <string>color: rgb(170, 0, 0);</string>
+                <string notr="true">color: rgb(0, 31, 95);
+background-color: transparent;</string>
                </property>
                <property name="text">
                 <string>Enter keywords to search for a file below.</string>
@@ -769,6 +798,9 @@ p, li { white-space: pre-wrap; }
                  <height>24</height>
                 </size>
                </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: transparent;</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -788,6 +820,9 @@ p, li { white-space: pre-wrap; }
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: transparent;</string>
                </property>
                <property name="text">
                 <string>Keyword:</string>
@@ -835,6 +870,9 @@ p, li { white-space: pre-wrap; }
                  <bold>true</bold>
                 </font>
                </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: transparent;</string>
+               </property>
                <property name="text">
                 <string>File Type:</string>
                </property>
@@ -881,6 +919,9 @@ p, li { white-space: pre-wrap; }
                  <height>24</height>
                 </size>
                </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: transparent;</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -900,7 +941,8 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="styleSheet">
-                <string>color: rgb(170, 0, 0);</string>
+                <string notr="true">color: rgb(0, 31, 95);
+background-color: transparent;</string>
                </property>
                <property name="text">
                 <string>Customise Quazaa</string>
@@ -922,6 +964,9 @@ p, li { white-space: pre-wrap; }
                    <width>24</width>
                    <height>24</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: transparent;</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -948,6 +993,9 @@ p, li { white-space: pre-wrap; }
                    <height>24</height>
                   </size>
                  </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: transparent;</string>
+                 </property>
                  <property name="text">
                   <string/>
                  </property>
@@ -972,6 +1020,9 @@ p, li { white-space: pre-wrap; }
                    <width>24</width>
                    <height>24</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: transparent;</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -998,6 +1049,9 @@ p, li { white-space: pre-wrap; }
                    <height>24</height>
                   </size>
                  </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: transparent;</string>
+                 </property>
                  <property name="text">
                   <string/>
                  </property>
@@ -1011,6 +1065,9 @@ p, li { white-space: pre-wrap; }
                </item>
                <item row="0" column="1">
                 <widget class="QLabel" name="labelWelcomeSkinLink">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: transparent;</string>
+                 </property>
                  <property name="text">
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -1022,6 +1079,9 @@ p, li { white-space: pre-wrap; }
                </item>
                <item row="1" column="1">
                 <widget class="QLabel" name="labelWelcomeWizardLink">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: transparent;</string>
+                 </property>
                  <property name="text">
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -1033,6 +1093,9 @@ p, li { white-space: pre-wrap; }
                </item>
                <item row="2" column="1">
                 <widget class="QLabel" name="labelWelcomeUserGuideLink">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: transparent;</string>
+                 </property>
                  <property name="text">
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -1044,6 +1107,9 @@ p, li { white-space: pre-wrap; }
                </item>
                <item row="3" column="1">
                 <widget class="QLabel" name="labelWelcomeSecurityLink">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: transparent;</string>
+                 </property>
                  <property name="text">
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -1057,7 +1123,7 @@ p, li { white-space: pre-wrap; }
              </item>
             </layout>
            </item>
-           <item row="3" column="0">
+           <item>
             <spacer name="verticalSpacerHome">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
