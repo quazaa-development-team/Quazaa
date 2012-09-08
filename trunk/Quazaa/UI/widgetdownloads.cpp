@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -59,15 +59,16 @@ WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	downloadMenu->addAction(ui->actionHelp);
 
 	m_pModel = new CDownloadsTreeModel();
-	ui->treeViewDownloads->setModel(m_pModel);
-	ui->treeViewDownloads->setItemDelegate(new CDownloadsItemDelegate(this));
+	ui->tableViewDownloads->setModel(m_pModel);
+	ui->tableViewDownloads->setColumnHidden(CDownloadsTreeModel::COUNTRY, true);
+	ui->tableViewDownloads->setItemDelegate(new CDownloadsItemDelegate(this));
 	setSkin();
 
 	// Set up header sizes
-	if(!ui->treeViewDownloads->header()->restoreState(quazaaSettings.WinMain.DownloadsHeader))
+	if(!ui->tableViewDownloads->horizontalHeader()->restoreState(quazaaSettings.WinMain.DownloadsHeader))
 	{
-		QFontMetrics fm = ui->treeViewDownloads->fontMetrics();
-		QHeaderView* header = ui->treeViewDownloads->header();
+		QFontMetrics fm = ui->tableViewDownloads->fontMetrics();
+		QHeaderView* header = ui->tableViewDownloads->horizontalHeader();
 		header->resizeSection(CDownloadsTreeModel::NAME, fm.width("a-typical-name-of-mp3-or-movie-or-xxx-or-other-porn.avi"));
 		header->resizeSection(CDownloadsTreeModel::SIZE, fm.width(" 123.45 MB "));
 		header->resizeSection(CDownloadsTreeModel::COMPLETED, fm.width(" 1234.45 MB "));
@@ -103,13 +104,13 @@ void WidgetDownloads::changeEvent(QEvent* e)
 void WidgetDownloads::saveWidget()
 {
 	quazaaSettings.WinMain.DownloadsToolbar = saveState();
-	quazaaSettings.WinMain.DownloadsHeader = ui->treeViewDownloads->header()->saveState();
+	quazaaSettings.WinMain.DownloadsHeader = ui->tableViewDownloads->horizontalHeader()->saveState();
 }
 
 
-void WidgetDownloads::on_treeViewDownloads_customContextMenuRequested(const QPoint &pos)
+void WidgetDownloads::on_tableViewDownloads_customContextMenuRequested(const QPoint &pos)
 {
-	QModelIndex currIndex = ui->treeViewDownloads->indexAt(pos);
+	QModelIndex currIndex = ui->tableViewDownloads->indexAt(pos);
 	if( currIndex.isValid() )
 	{
 		downloadMenu->exec(QCursor::pos());
@@ -118,7 +119,7 @@ void WidgetDownloads::on_treeViewDownloads_customContextMenuRequested(const QPoi
 
 void WidgetDownloads::setSkin()
 {
-	ui->treeViewDownloads->setStyleSheet(skinSettings.listViews);
+	ui->tableViewDownloads->setStyleSheet(skinSettings.listViews);
 }
 
 void WidgetDownloads::on_actionOpenTorrent_triggered()

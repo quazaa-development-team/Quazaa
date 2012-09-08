@@ -36,6 +36,7 @@
 WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 {
 	Q_UNUSED(parent);
+	resetHistoryIndex();
 	m_oCompleter = new Completer(this);
 	m_oCompleter->setWidget(this);
 	m_oCompleter->setTextEdit(this);
@@ -63,7 +64,34 @@ void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 		} else {
 			QTextEdit::keyPressEvent(event);
 		}
+	} else if (event->key() == Qt::Key_Up) {
+		if (!m_lHistory.isEmpty())
+		{
+			if(m_iHistoryIndex < 1)
+				m_iHistoryIndex = (m_lHistory.size() - 1);
+			else
+				--m_iHistoryIndex;
+			event->ignore();
+			setHtml(m_lHistory.at(m_iHistoryIndex));
+		} else {
+			event->ignore();
+			QTextEdit::keyPressEvent(event);
+		}
+	} else if (event->key() == Qt::Key_Down) {
+		if (!m_lHistory.isEmpty())
+		{
+			if(m_iHistoryIndex == -1 || m_iHistoryIndex == (m_lHistory.size() - 1))
+				m_iHistoryIndex = 0;
+			else
+				++m_iHistoryIndex;
+			event->ignore();
+			setHtml(m_lHistory.at(m_iHistoryIndex));
+		} else {
+			event->ignore();
+			QTextEdit::keyPressEvent(event);
+		}
 	} else {
+		resetHistoryIndex();
 		QTextEdit::keyPressEvent(event);
 	}
 }
@@ -130,4 +158,31 @@ bool WidgetReturnEmitTextEdit::focusNextPrevChild(bool next)
 	} else {
 		return QAbstractScrollArea::focusNextPrevChild(next);
 	}
+}
+
+void WidgetReturnEmitTextEdit::addHistory(QTextDocument* document)
+{
+	if(m_lHistory.count() > 49 && !m_lHistory.isEmpty())
+	{
+		m_lHistory.removeAt(0);
+		m_lPlainTextHistory.removeAt(0);
+	}
+	if(!m_lPlainTextHistory.contains(document->toPlainText()))
+	{
+		m_lHistory.append(document->toHtml());
+		m_lPlainTextHistory.append(document->toPlainText());
+	}
+	resetHistoryIndex();
+}
+
+void WidgetReturnEmitTextEdit::addHistory(QString* text)
+{
+	QTextDocument* document = new QTextDocument();
+	document->setHtml(text->toHtmlEscaped());
+	addHistory(document);
+}
+
+void WidgetReturnEmitTextEdit::resetHistoryIndex()
+{
+	m_iHistoryIndex = -1;
 }

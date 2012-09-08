@@ -9,19 +9,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
+    <width>425</width>
     <height>400</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>410</width>
+    <width>425</width>
     <height>400</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>410</width>
+    <width>425</width>
     <height>400</height>
    </size>
   </property>
@@ -48,10 +48,34 @@
    <item row="0" column="0" colspan="3">
     <widget class="QListWidget" name="listWidgetLanguages">
      <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
+      <enum>Qt::ScrollBarAsNeeded</enum>
      </property>
      <property name="horizontalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
+     </property>
+     <property name="dragDropMode">
+      <enum>QAbstractItemView::NoDragDrop</enum>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="textElideMode">
+      <enum>Qt::ElideLeft</enum>
+     </property>
+     <property name="movement">
+      <enum>QListView::Static</enum>
+     </property>
+     <property name="flow">
+      <enum>QListView::TopToBottom</enum>
      </property>
      <property name="resizeMode">
       <enum>QListView::Adjust</enum>
@@ -61,12 +85,18 @@
      </property>
      <property name="gridSize">
       <size>
-       <width>65</width>
-       <height>70</height>
+       <width>140</width>
+       <height>35</height>
       </size>
      </property>
      <property name="viewMode">
       <enum>QListView::IconMode</enum>
+     </property>
+     <property name="uniformItemSizes">
+      <bool>false</bool>
+     </property>
+     <property name="batchSize">
+      <number>140</number>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

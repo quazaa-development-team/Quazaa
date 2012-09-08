@@ -27,7 +27,6 @@
 #include "winmain.h"
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
-#include "dialoglanguage.h"
 #include "timedsignalqueue.h"
 #include <QtSingleApplication>
 

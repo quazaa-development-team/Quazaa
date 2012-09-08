@@ -73,12 +73,14 @@ void Completer::onTabPressed()
 		return;
 
 	QString word = d.textEdit->textUnderCursor();
+	bool bIsCommand = false;
 
 	// choose model
 	if (word.startsWith('/'))
 	{
 		if (model() != d.slashModel)
 			setModel(d.slashModel);
+		bIsCommand = true;
 	}
 	else
 	{
@@ -105,6 +107,8 @@ void Completer::onTabPressed()
 			int next = currentRow() + 1;
 			setCurrentRow(next % count);
 		}
+		if ( !bIsCommand )
+			d.textEdit->insertPlainText(": ");
 	}
 }
 

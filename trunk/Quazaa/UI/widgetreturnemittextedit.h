@@ -42,6 +42,9 @@ public:
 private:
 	bool emitReturn;
 	Completer* m_oCompleter;
+	QStringList m_lHistory;
+	QStringList m_lPlainTextHistory;
+	int m_iHistoryIndex;
 
 protected:
 	void keyPressEvent(QKeyEvent* event);
@@ -57,6 +60,9 @@ public slots:
 	bool emitsReturn();
 	void onTextChanged();
 	void setSkin();
+	void addHistory(QTextDocument* document);
+	void addHistory(QString* text);
+	void resetHistoryIndex();
 };
 
 #endif // WIDGETRETURNEMITTEXTEDIT_H

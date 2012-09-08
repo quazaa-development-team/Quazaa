@@ -58,14 +58,14 @@ Qt::HANDLE QtLockedFile::getMutexHandle(int idx, bool doCreate)
 
 	Qt::HANDLE mutex;
 	if (doCreate) {
-		mutex = CreateMutexW(NULL, FALSE, (const wchar_t *)mname.utf16());
+		mutex = CreateMutexW(NULL, FALSE, (TCHAR*)mname.utf16());
 		if (!mutex) {
 			qErrnoWarning("QtLockedFile::lock(): CreateMutex failed");
 			return 0;
 		}
 	}
 	else {
-		mutex = OpenMutexW(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, (const wchar_t *)mname.utf16());
+		mutex = OpenMutexW(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, (TCHAR*)mname.utf16());
 		if (!mutex) {
 			if (GetLastError() != ERROR_FILE_NOT_FOUND)
 				qErrnoWarning("QtLockedFile::lock(): OpenMutex failed");

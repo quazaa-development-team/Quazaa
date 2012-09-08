@@ -131,6 +131,8 @@ void WidgetChatInput::on_toolButtonSend_clicked()
 			else
 				emit messageSent(textEditInput->document());
 		}
+		textEditInput->addHistory(textEditInput->document());
+		textEditInput->resetHistoryIndex();
 		QTextCharFormat oldFormat = textEditInput->currentCharFormat();
 		textEditInput->document()->clear();
 		textEditInput->setCurrentCharFormat(oldFormat);

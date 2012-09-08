@@ -338,7 +338,9 @@ SOURCES += \
 	3rdparty/zlib/crc32.c \
 	3rdparty/zlib/adler32.c \
 	quazaasysinfo.cpp \
-	UI/dialogircsettings.cpp
+	UI/dialogircsettings.cpp \
+    Models/downloadslistmodel.cpp \
+    Models/downloadsourcelistmodel.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -511,7 +513,9 @@ HEADERS += \
 	3rdparty/zlib/deflate.h \
 	3rdparty/zlib/crc32.h \
 	quazaasysinfo.h \
-	UI/dialogircsettings.h
+	UI/dialogircsettings.h \
+    Models/downloadslistmodel.h \
+    Models/downloadsourcelistmodel.h
 
 FORMS += \
 	UI/dialogabout.ui \
