@@ -189,7 +189,6 @@ SOURCES += \
 	main.cpp \
 	Misc/fileiconprovider.cpp \
 	Misc/networkiconprovider.cpp \
-	Misc/randomportselector.cpp \
 	Metalink/magnetlink.cpp \
 	Metalink/metalinkhandler.cpp \
 	Metalink/metalink4handler.cpp \
@@ -339,8 +338,8 @@ SOURCES += \
 	3rdparty/zlib/adler32.c \
 	quazaasysinfo.cpp \
 	UI/dialogircsettings.cpp \
-    Models/downloadslistmodel.cpp \
-    Models/downloadsourcelistmodel.cpp
+	Models/downloadslistmodel.cpp \
+	Models/downloadsourcelistmodel.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -366,7 +365,6 @@ HEADERS += \
 	Metalink/metalink4handler.h \
 	Misc/fileiconprovider.h \
 	Misc/networkiconprovider.h \
-	Misc/randomportselector.h \
 	Models/categorynavigatortreemodel.h \
 	Models/discoverytablemodel.h \
 	Models/downloadstreemodel.h \
@@ -514,8 +512,8 @@ HEADERS += \
 	3rdparty/zlib/crc32.h \
 	quazaasysinfo.h \
 	UI/dialogircsettings.h \
-    Models/downloadslistmodel.h \
-    Models/downloadsourcelistmodel.h
+	Models/downloadslistmodel.h \
+	Models/downloadsourcelistmodel.h
 
 FORMS += \
 	UI/dialogabout.ui \

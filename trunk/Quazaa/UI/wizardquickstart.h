@@ -51,6 +51,7 @@ private slots:
 	void on_toolButtonSharesRemove_clicked();
 	void setSkin();
 	void on_checkBoxUPnP_stateChanged(int arg1);
+	void on_pushButton_clicked();
 };
 
 #endif // WIZARDQUICKSTART_H
