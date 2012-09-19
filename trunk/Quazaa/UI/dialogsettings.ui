@@ -647,7 +647,7 @@
            <item>
             <widget class="QStackedWidget" name="stackedWidgetSettings">
              <property name="currentIndex">
-              <number>9</number>
+              <number>12</number>
              </property>
              <widget class="QWidget" name="pageSystem">
               <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1386,7 +1386,7 @@
                   <string>Download Manager</string>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_9">
-				  <item row="0" column="0" colspan="3">
+                  <item row="0" column="0" colspan="3">
                    <widget class="QLabel" name="labelDownloadManagerInstructions">
                     <property name="text">
                      <string>The download manager plugin will only attempt to download file types listed here. Other file types will be handled by your web browser. Quazaa must be running to manage downloads.</string>
@@ -1406,7 +1406,7 @@
                     </property>
                    </widget>
                   </item>
-				  <item row="1" column="2" rowspan="5">
+                  <item row="1" column="2" rowspan="5">
                    <widget class="QListWidget" name="listWidgetManageDownloadTypes">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -1431,14 +1431,14 @@
                     </property>
                    </widget>
                   </item>
-				  <item row="2" column="0" colspan="2">
+                  <item row="2" column="0" colspan="2">
                    <widget class="QCheckBox" name="checkBoxWebDownloadsIgnoreFileExtensionList">
                     <property name="text">
                      <string>Ignore extension list</string>
                     </property>
                    </widget>
                   </item>
-				  <item row="3" column="1">
+                  <item row="3" column="1">
                    <spacer name="verticalSpacer_7">
                     <property name="orientation">
                      <enum>Qt::Vertical</enum>
@@ -1458,12 +1458,12 @@
                     </property>
                    </widget>
                   </item>
-				  <item row="5" column="0">
+                  <item row="5" column="0">
                    <spacer name="horizontalSpacer_2">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-					<property name="sizeHint" stdset="0">
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>20</width>
                       <height>20</height>
@@ -2252,17 +2252,24 @@ p, li { white-space: pre-wrap; }
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="2">
+                  <item row="1" column="3">
                    <widget class="QCheckBox" name="checkBoxRandomPort">
                     <property name="text">
                      <string>Random</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="0" column="1" colspan="2">
+                  <item row="0" column="1" colspan="3">
                    <widget class="QCheckBox" name="checkBoxEnableUPnP">
                     <property name="text">
                      <string>Use UPnP to Set Up Routers/Firewalls</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="2">
+                   <widget class="QToolButton" name="toolButton">
+                    <property name="text">
+                     <string>Choose random port for me!</string>
                     </property>
                    </widget>
                   </item>

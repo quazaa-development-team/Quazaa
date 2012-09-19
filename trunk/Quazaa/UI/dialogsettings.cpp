@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -27,6 +27,7 @@
 
 #include "quazaasettings.h"
 #include "skinsettings.h"
+#include "commonfunctions.h"
 
 #include "dialogprofile.h"
 
@@ -773,8 +774,8 @@ void DialogSettings::on_pushButtonFileTypesSafeOpenAdd_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sSafeOpenItem = QInputDialog::getText(this, tr("Add Safe To Open File Type"),
-	                          tr("Type the extension of the file type to add and press OK. \nWARNING: This file type will always be opened!"),
-	                          QLineEdit::Normal, "", &m_bOkPressed);
+							  tr("Type the extension of the file type to add and press OK. \nWARNING: This file type will always be opened!"),
+							  QLineEdit::Normal, "", &m_bOkPressed);
 	if(m_bOkPressed && (!m_sSafeOpenItem.isEmpty()))
 	{
 		ui->listWidgetFileTypesSafeOpen->addItem(m_sSafeOpenItem);
@@ -786,8 +787,8 @@ void DialogSettings::on_pushButtonFileTypesNeverShareAdd_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sNeverShareItem = QInputDialog::getText(this, tr("Add Never Share File Type"),
-	                            tr("Type the extension of the file type to add and press OK. \nWARNING: This file type will never be shared!"),
-	                            QLineEdit::Normal, "", &m_bOkPressed);
+								tr("Type the extension of the file type to add and press OK. \nWARNING: This file type will never be shared!"),
+								QLineEdit::Normal, "", &m_bOkPressed);
 	if(m_bOkPressed && (!m_sNeverShareItem.isEmpty()))
 	{
 		ui->listWidgetFileTypesNeverShare->addItem(m_sNeverShareItem);
@@ -799,8 +800,8 @@ void DialogSettings::on_pushButtonAddManageDownloadTypes_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sDownloadManageItem = QInputDialog::getText(this, tr("Add Download Types to Manage"),
-	                                tr("Type the extension of the file type you want the download manager to manage and press OK. \nQuazaa will detect downloads of these types and manage them for you."),
-	                                QLineEdit::Normal, "", &m_bOkPressed);
+									tr("Type the extension of the file type you want the download manager to manage and press OK. \nQuazaa will detect downloads of these types and manage them for you."),
+									QLineEdit::Normal, "", &m_bOkPressed);
 	if(m_bOkPressed && (!m_sDownloadManageItem.isEmpty()))
 	{
 		ui->listWidgetManageDownloadTypes->addItem(m_sDownloadManageItem);
@@ -812,8 +813,8 @@ void DialogSettings::on_pushButtonUserAgentAdd_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sUserAgentItem = QInputDialog::getText(this, tr("Add User Agents to Block"),
-	                           tr("Type the vendor code of the client to block and press OK. \nWARNING: Quazaa will block all communications with this client!"),
-	                           QLineEdit::Normal, "", &m_bOkPressed);
+							   tr("Type the vendor code of the client to block and press OK. \nWARNING: Quazaa will block all communications with this client!"),
+							   QLineEdit::Normal, "", &m_bOkPressed);
 	if(m_bOkPressed && (!m_sUserAgentItem.isEmpty()))
 	{
 		ui->listWidgetUserAgents->addItem(m_sUserAgentItem);
@@ -825,8 +826,8 @@ void DialogSettings::on_pushButtonAddParentalFilter_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sParentalFilterItem = QInputDialog::getText(this, tr("Add Words to Block"),
-	                                tr("Type the word to block and press OK. \nWARNING: No downloads containing these words will be listed in searches \nand these words will be replaced by \"!%@$#\" in chat!"),
-	                                QLineEdit::Normal, "", &m_bOkPressed);
+									tr("Type the word to block and press OK. \nWARNING: No downloads containing these words will be listed in searches \nand these words will be replaced by \"!%@$#\" in chat!"),
+									QLineEdit::Normal, "", &m_bOkPressed);
 	if(m_bOkPressed && (!m_sParentalFilterItem.isEmpty()))
 	{
 		ui->listWidgetParentalFilter->addItem(m_sParentalFilterItem);
@@ -883,8 +884,8 @@ void DialogSettings::on_toolButtonSaveBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QDir directory(QFileDialog::getExistingDirectory(this,
-	                    tr("Select A Location To Save Files"),
-	                    ui->lineEditSaveFolder->text(),
+						tr("Select A Location To Save Files"),
+						ui->lineEditSaveFolder->text(),
 						options));
 	if(directory.exists())
 	{
@@ -897,8 +898,8 @@ void DialogSettings::on_toolButtonTempBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QDir directory(QFileDialog::getExistingDirectory(this,
-	                    tr("Select A Folder For Temp Files"),
-	                    ui->lineEditTempFolder->text(),
+						tr("Select A Folder For Temp Files"),
+						ui->lineEditTempFolder->text(),
 						options));
 	if(directory.exists())
 	{
@@ -911,8 +912,8 @@ void DialogSettings::on_toolButtonTorrentBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QDir directory(QFileDialog::getExistingDirectory(this,
-	                    tr("Select A Folder To Store .torrent Files"),
-	                    ui->lineEditTorrentFolder->text(),
+						tr("Select A Folder To Store .torrent Files"),
+						ui->lineEditTorrentFolder->text(),
 						options));
 	if(directory.exists())
 	{
@@ -953,4 +954,9 @@ void DialogSettings::setSkin()
 	ui->listWidgetUserAgents->setStyleSheet(skinSettings.listViews);
 	ui->treeWidgetQueues->setStyleSheet(skinSettings.listViews);
 	ui->tableWidgetFileTypesOpenWith->setStyleSheet(skinSettings.listViews);
+}
+
+void DialogSettings::on_toolButton_clicked()
+{
+	ui->spinBoxNetworkPort->setValue(common::getRandomUnusedPort());
 }

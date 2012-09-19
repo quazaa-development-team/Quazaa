@@ -65,7 +65,7 @@ private slots:
 	void on_pushButtonOk_clicked();
 	void on_pushButtonCancel_clicked();
 	void on_pushButtonApply_clicked();
-	 
+
 	void on_pushButtonProfileEdit_clicked();
 	void on_pushButtonShowParentalFilter_clicked();
 	void on_labelConfigureG2_linkActivated(QString link);
@@ -88,6 +88,8 @@ private slots:
 	void on_toolButtonTempBrowse_clicked();
 	void on_toolButtonTorrentBrowse_clicked();
 	void setSkin();
+
+	void on_toolButton_clicked();
 
 private:
 	Ui::DialogSettings* ui;
