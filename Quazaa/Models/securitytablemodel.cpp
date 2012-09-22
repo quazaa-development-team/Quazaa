@@ -30,7 +30,7 @@
 #include "debug_new.h"
 #endif
 
-CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
+CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel *model)
 {
 #ifdef _DEBUG
 	Q_ASSERT( pRule );
@@ -53,13 +53,13 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule)
 	switch( m_nAction )
 	{
 	case Security::CSecureRule::srNull:
-		m_iAction = QIcon( ":/Resource/Security/Null.ico" );
+		m_piAction = model->m_pIcons[0];
 		break;
 	case Security::CSecureRule::srAccept:
-		m_iAction = QIcon( ":/Resource/Security/Accept.ico" );
+		m_piAction = model->m_pIcons[1];
 		break;
 	case Security::CSecureRule::srDeny:
-		m_iAction = QIcon( ":/Resource/Security/Deny.ico" );
+		m_piAction = model->m_pIcons[2];
 		break;
 	default:
 		Q_ASSERT( false );
@@ -118,14 +118,13 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 		switch( m_nAction )
 		{
 		case Security::CSecureRule::srNull:
-			m_iAction = QIcon( ":/Resource/Security/Null.ico" );
+			m_piAction = model->m_pIcons[0];
 			break;
 		case Security::CSecureRule::srAccept:
-			m_iAction = QIcon( ":/Resource/Security/Accept.ico" );
+			m_piAction = model->m_pIcons[1];
 			break;
 		case Security::CSecureRule::srDeny:
-			m_iAction = QIcon( ":/Resource/Security/Deny.ico" );
-			break;
+			m_piAction = model->m_pIcons[2];
 		default:
 			Q_ASSERT( false );
 		}
@@ -243,6 +242,10 @@ CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 	m_nSortColumn( -1 ),
 	m_bNeedSorting( false )
 {
+	m_pIcons[0] = new QIcon( ":/Resource/Security/Null.ico" );
+	m_pIcons[1] = new QIcon( ":/Resource/Security/Accept.ico" );
+	m_pIcons[2] = new QIcon( ":/Resource/Security/Deny.ico" );
+
 	connect( &securityManager, SIGNAL( ruleAdded( CSecureRule* ) ), this,
 			 SLOT( addRule( CSecureRule* ) ), Qt::QueuedConnection );
 
@@ -258,6 +261,10 @@ CSecurityTableModel::~CSecurityTableModel()
 {
 	qDeleteAll( m_lNodes );
 	m_lNodes.clear();
+
+	delete m_pIcons[0];
+	delete m_pIcons[1];
+	delete m_pIcons[2];
 }
 
 int CSecurityTableModel::rowCount(const QModelIndex& parent) const
@@ -301,7 +308,7 @@ QVariant CSecurityTableModel::data(const QModelIndex& index, int role) const
 	{
 		if ( index.column() == ACTION )
 		{
-			return pRule->m_iAction;
+			return *pRule->m_piAction;
 		}
 	}
 	/*else if ( role == Qt::ForegroundRole )
@@ -461,7 +468,7 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 	if ( securityManager.check( pRule ) )
 	{
 		beginInsertRows( QModelIndex(), m_lNodes.size(), m_lNodes.size() );
-		m_lNodes.append( new Rule( pRule ) );
+		m_lNodes.append( new Rule( pRule, this ) );
 		endInsertRows();
 		m_bNeedSorting = true;
 	}
