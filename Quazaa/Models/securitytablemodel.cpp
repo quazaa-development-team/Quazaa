@@ -482,6 +482,10 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 		if ( m_lNodes.size() == (int)securityManager.getCount() )
 			disconnect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ),
 						this, SLOT( addRule( CSecureRule* ) ) );
+
+#ifdef _DEBUG
+		Q_ASSERT( m_lNodes.size() <= (int)securityManager.getCount() );
+#endif // _DEBUG
 	}
 }
 
