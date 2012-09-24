@@ -299,6 +299,9 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 DialogSettings::~DialogSettings()
 {
 	delete ui;
+
+	// free some extra RAM
+	common::getRandomUnusedPort( true );
 }
 
 void DialogSettings::changeEvent(QEvent* e)

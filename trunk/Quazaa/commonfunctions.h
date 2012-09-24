@@ -31,7 +31,7 @@
 #include <QReadWriteLock>
 #include <QList>
 
-#define NO_OF_REGISTRATIONS 8
+//#define NO_OF_REGISTRATIONS 8
 
 namespace common
 {
@@ -40,7 +40,13 @@ namespace common
 	QString vendorCodeToName(QString vendorCode);
 	QString fixFileName(QString sName);
 	QString getTempFileName(QString sName);
-	int getRandomUnusedPort();
+
+	/**
+	 * @brief getRandomUnusedPort
+	 * @param bClear - set this to true to clear the internal data structures. Frees ca. 2k RAM.
+	 * @return bClear ? 0 : a random port not known to be used by other applications
+	 */
+	quint16 getRandomUnusedPort(bool bClear = false);
 
 //    struct registeredSet
 //    {

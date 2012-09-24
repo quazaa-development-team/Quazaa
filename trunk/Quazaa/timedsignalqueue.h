@@ -12,6 +12,12 @@
 
 #include <queue>
 
+
+/**
+ * TODO: Make this fully Qt5 compatible.
+ */
+
+
 /* -------------------------------------------------------------------------------- */
 /* --------------------------------- CTimerObject --------------------------------- */
 /* -------------------------------------------------------------------------------- */
@@ -77,7 +83,7 @@ private:
 	typedef QMultiMap<quint64, CTimerObject*> CSignalQueue;
 	typedef QMultiMap<quint64, CTimerObject*>::iterator CSignalQueueIterator;
 
-	static QElapsedTimer m_oTime; // todo: handle system clock changes...
+	static QElapsedTimer m_oTime; // TODO: handle system clock changes...
 	QBasicTimer			m_oTimer;
 	QMutex				m_pSection;
 	quint64				m_nPrecision;

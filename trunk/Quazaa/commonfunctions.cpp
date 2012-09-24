@@ -145,7 +145,7 @@ QString common::getTempFileName(QString sName)
 	return oHashName.ToString();
 }
 
-int common::getRandomUnusedPort()
+quint16 common::getRandomUnusedPort(bool bClear)
 {
 	/**
 	 * This list contains are all ports that are known to be used by other applications.
@@ -155,9 +155,24 @@ int common::getRandomUnusedPort()
 	 * purposes and for automatic allocation of ephemeral ports.
 	 */
 	static QSet<quint16> oUsedPorts;
+
+	/**
+	 * This can be used to free the memory occupied by oUsedPorts if the functionality is not
+	 * needed any longer.
+	 */
+	if ( bClear )
+	{
+		oUsedPorts.clear();		// Remove all elements.
+		oUsedPorts.squeeze();	// Set internal capacity to 0.
+		return 0;
+	}
 	
 	if ( oUsedPorts.isEmpty() )
 	{
+		// avoid reallocation while building set
+		oUsedPorts.reserve(1826);
+
+		// fill set with ports
 		oUsedPorts << 1024	//  TCP	UDP	Reserved
 				<< 1025	//  TCP		NFS or IIS or Teradata
 				<< 1026	//  TCP		Often used by Microsoft DCOM services

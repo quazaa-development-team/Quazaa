@@ -123,6 +123,9 @@ void WizardQuickStart::accept()
 	quazaaSettings.saveProfile();
 	quazaaSettings.saveSettings();
 
+	// Free RAM occupied by port storage set.
+	common::getRandomUnusedPort(true);
+
 	QDialog::accept();
 }
 
