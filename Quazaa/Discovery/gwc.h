@@ -10,7 +10,7 @@ class CGWC : public CDiscoveryService
 {
 public:
 	CGWC(const QUrl&, const ServiceType, const CNetworkType&,
-		 const quint8, const QUuid& = QUuid()) {}
+         const quint8, const QUuid& = QUuid());
 
 	~CGWC() {}
 

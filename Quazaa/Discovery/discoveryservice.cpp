@@ -102,6 +102,7 @@ CDiscoveryService::CDiscoveryService() :
 	m_nProbabilityMultiplicator( 0 ),
 	m_oUUID(),
 	m_bQueued( false ),
+	m_bBlocked( false ),
 	m_nRequest( srNoRequest )
 {
 }
@@ -140,6 +141,7 @@ CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
 	m_oServiceURL	= pService.m_oServiceURL;
 	m_nRating       = pService.m_nRating;
 	m_oUUID         = pService.m_oUUID;
+	m_bBlocked      = pService.m_bBlocked;
 	m_nLastHosts	= pService.m_nLastHosts;
 	m_nTotalHosts	= pService.m_nTotalHosts;
 
@@ -171,6 +173,7 @@ bool CDiscoveryService::operator==(const CDiscoveryService& pService) const
 			 m_oServiceURL	== pService.m_oServiceURL	&&
 			 m_nRating		== pService.m_nRating		&&
 			 m_oUUID		== pService.m_oUUID			&&
+			 m_bBlocked     == pService.m_bBlocked		&&
 			 m_nLastHosts	== pService.m_nLastHosts	&&
 			 m_nTotalHosts	== pService.m_nTotalHosts );
 }
@@ -215,6 +218,7 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
 	pService->m_nRating = nRating;
 	pService->m_nProbabilityMultiplicator = ( nRating < 5 ) ? nRating : 5;
 
+	oStream >> pService->m_bBlocked;
 	oStream >> pService->m_oServiceURL;
 	oStream >> pService->m_nLastHosts;
 	oStream >> pService->m_nTotalHosts;
@@ -231,6 +235,7 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
 	oStream << (quint8)(pService->m_nServiceType);
 	oStream << (quint16)(pService->m_oNetworkType.toQuint16());
 	oStream << (quint8)(pService->m_nRating);
+	oStream << pService->m_bBlocked;
 	oStream << pService->m_oServiceURL;
 	oStream << pService->m_nLastHosts;
 	oStream << pService->m_nTotalHosts;
@@ -255,8 +260,6 @@ CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const Serv
 		pService = new CGWC( oURL, nSType, oNType, nRating, oID );
 		break;
 	}
-	case stMulti:
-		break;
 	}
 
 	return pService;

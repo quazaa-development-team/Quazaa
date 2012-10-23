@@ -407,7 +407,9 @@ bool CDiscovery::add(CDiscoveryService* pService)
 	for ( CDiscoveryServicesMap::iterator i = m_mServices.begin(); i != m_mServices.end(); ++i )
 	{
 
+
 		// TODO: Improve removal rules.
+
 
 		if ( (*i).second->m_oServiceURL == pService->m_oServiceURL )
 		{
@@ -442,7 +444,7 @@ bool CDiscovery::updateHelper(CDiscoveryService *pService, QWriteLocker &lock)
 	{
 		CEndPoint oOwnIP = Network.GetLocalAddress();
 
-		if ( !isRunning() )
+		if ( !m_bIsRunning )
 		{
 			connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
 			m_bIsRunning = true;
@@ -476,7 +478,7 @@ bool CDiscovery::queryHelper(CDiscoveryService *pService, QWriteLocker &lock)
 {
 	if ( pService )
 	{
-		if ( !isRunning() )
+		if ( !m_bIsRunning )
 		{
 			connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
 			m_bIsRunning = true;
@@ -518,8 +520,10 @@ CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::ServiceType n
 	{
 		pService = pair.second;
 
-		// Consider all services that have the correct type, have a rating > 0 and are not in use.
-		if ( pService->m_nServiceType == nSType && pService->m_nRating && !pService->isQueued() )
+		// Consider all services that have the correct type, have a rating > 0, are not blocked
+		// and are not currently in use.
+		if ( pService->m_nServiceType == nSType && pService->m_nRating &&
+			 !pService->m_bBlocked && !pService->isQueued() )
 		{
 			list.push_back( pService );
 			nTotalRating += pService->m_nRating;
