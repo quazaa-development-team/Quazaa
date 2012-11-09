@@ -31,6 +31,7 @@
 #include <QSettings>
 #include <QtWidgets/QAbstractItemView>
 #include <QUrl>
+#include <QUrlQuery>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QXmlStreamReader>
@@ -163,9 +164,12 @@ void CSuggestedLineEdit::getSuggestions()
 		}
 
 		QUrl url(QLatin1String("http://www.google.com/complete/search"));
-		url.addEncodedQueryItem(QUrl::toPercentEncoding(QLatin1String("q")),
+		QUrlQuery query;
+		query.setQuery(url.query());
+		query.addQueryItem(QUrl::toPercentEncoding(QLatin1String("q")),
 								QUrl::toPercentEncoding(text));
-		url.addQueryItem(QLatin1String("output"), QLatin1String("toolbar"));
+		query.addQueryItem(QLatin1String("output"), QLatin1String("toolbar"));
+		url.setQuery(query);
 		QNetworkRequest request(url);
 		request.setAttribute(QNetworkRequest::User, text);
 		QNetworkReply *reply = m_pNetworkAccessManager->get(request);

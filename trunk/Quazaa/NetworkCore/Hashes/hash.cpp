@@ -120,10 +120,10 @@ CHash* CHash::FromURN(QString sURN)
 	}
 
 	QByteArray baFamily;
-	int nStart = ( strncmp( "urn:", sURN.toAscii().data(), 4 ) == 0 ? 4 : 0 );
+	int nStart = ( strncmp( "urn:", sURN.toLocal8Bit().data(), 4 ) == 0 ? 4 : 0 );
 	int nStartHash = sURN.indexOf( ":", nStart ) + 1;
-	baFamily = sURN.mid( nStart, nStartHash - nStart - 1 ).toLower().toAscii();
-	QByteArray baValue = sURN.mid( nStartHash ).toAscii();
+	baFamily = sURN.mid( nStart, nStartHash - nStart - 1 ).toLower().toLocal8Bit();
+	QByteArray baValue = sURN.mid( nStartHash ).toLocal8Bit();
 	char pVal[ 128 ];
 
 	if ( baFamily == "sha1" && baValue.length() == 32 )

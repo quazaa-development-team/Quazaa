@@ -29,24 +29,24 @@
 #define IRC_DEFAULT_FOREGROUND 101
 
 /*!
-    \file ircutil.h
-    \brief #include &lt;IrcUtil&gt;
+	\file ircutil.h
+	\brief #include &lt;IrcUtil&gt;
  */
 
 /*!
-    \class IrcUtil ircutil.h <IrcUtil>
-    \ingroup utility
-    \brief The IrcUtil class provides miscellaneous utility functions.
+	\class IrcUtil ircutil.h <IrcUtil>
+	\ingroup utility
+	\brief The IrcUtil class provides miscellaneous utility functions.
  */
 
 static QRegExp URL_PATTERN(QLatin1String("((www\\.(?!\\.)|(ssh|fish|irc|amarok|(f|sf|ht)tp(|s))://)(\\.?[\\d\\w/,\\':~\\^\\?=;#@\\-\\+\\%\\*\\{\\}\\!\\(\\)\\[\\]]|&)+)|""([-.\\d\\w]+@[-.\\d\\w]{2,}\\.[\\w]{2,})"), Qt::CaseInsensitive);
 
 /*!
-    Converts \a message to HTML. This function parses the
-    message and replaces IRC-style formatting like colors,
-    bold and underline to the corresponding HTML formatting.
-    Furthermore, this function detects URLs and replaces
-    them with appropriate HTML hyperlinks.
+	Converts \a message to HTML. This function parses the
+	message and replaces IRC-style formatting like colors,
+	bold and underline to the corresponding HTML formatting.
+	Furthermore, this function detects URLs and replaces
+	them with appropriate HTML hyperlinks.
 */
 QString IrcUtil::messageToHtml(const QString& message, QHash<QString, QString> emoticons)
 {
@@ -62,7 +62,7 @@ QString IrcUtil::messageToHtml(const QString& message, QHash<QString, QString> e
 
 	unsigned int uIndex = 0;
 
-	QString processed = Qt::escape(message);
+	QString processed = QRegExp::escape(message);
 
 	while(uIndex < (unsigned int)processed.length())
 	{
@@ -488,13 +488,13 @@ unsigned int IrcUtil::getUnicodeColorBytes(const QString & szData, unsigned int 
 }
 
 /*!
-    Converts a color \a code to a color name. If the color \a code
-    is unknown, the function returns \a defaultColor.
+	Converts a color \a code to a color name. If the color \a code
+	is unknown, the function returns \a defaultColor.
 */
 QString IrcUtil::colorCodeToName(int code, const QString& defaultColor)
 {
-    switch (code)
-    {
+	switch (code)
+	{
 	case IrcControlCodes::White:  return QLatin1String("white");
 	case IrcControlCodes::Black:  return QLatin1String("black");
 	case IrcControlCodes::DarkBlue:  return QLatin1String("darkblue");
@@ -511,7 +511,7 @@ QString IrcUtil::colorCodeToName(int code, const QString& defaultColor)
 	case IrcControlCodes::Violet: return QLatin1String("violet");
 	case IrcControlCodes::DarkGray: return QLatin1String("gray");
 	case IrcControlCodes::LightGray: return QLatin1String("darkgray");
-    default: return defaultColor;
-    }
+	default: return defaultColor;
+	}
 }
 

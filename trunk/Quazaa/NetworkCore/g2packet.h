@@ -170,7 +170,7 @@ bool G2Packet::Ensure(quint32 nBytes)
 	if(m_nLength + nBytes > m_nBuffer)
 	{
 		m_nBuffer += qMax(nBytes, 128u);
-		m_pBuffer = (uchar*)qRealloc(m_pBuffer, m_nBuffer);
+		m_pBuffer = (uchar*)realloc(m_pBuffer, m_nBuffer);
 
 		if(!m_pBuffer)
 		{

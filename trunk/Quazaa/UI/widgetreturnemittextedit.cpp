@@ -26,7 +26,6 @@
 #include "skinsettings.h"
 
 #include <QtWidgets/QShortcut>
-#include <QtWidgets/QPlastiqueStyle>
 #include <QDebug>
 
 #ifdef _DEBUG
@@ -45,10 +44,6 @@ WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 	connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 
 	setAttribute(Qt::WA_MacShowFocusRect, false);
-
-	// a workaround for a bug in the Oxygen style
-	if (style()->objectName() == "oxygen")
-		setStyle(new QPlastiqueStyle);
 
 	connect(this, SIGNAL(tabPressed()), m_oCompleter, SLOT(onTabPressed()));
 	setSkin();

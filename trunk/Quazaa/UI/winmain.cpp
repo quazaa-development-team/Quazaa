@@ -67,6 +67,7 @@
 #endif //Q_OS_WIN
 
 #include <QTimer>
+#include <QDesktopServices>
 
 #ifdef _DEBUG
 #include "debug_new.h"

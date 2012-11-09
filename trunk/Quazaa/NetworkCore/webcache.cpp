@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -29,6 +29,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QStringList>
+#include <QUrlQuery>
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -90,13 +91,15 @@ void CWebCache::RequestRandom()
 		m_bRequesting = true;
 
 		QUrl u = m_lCaches.at(nIndex).m_sUrl;
-		u.addQueryItem("get", "1");
-		u.addQueryItem("hostfile", "1");
-		u.addQueryItem("net", "gnutella2");
-		u.addQueryItem("client", "BROV1.0");
+		QUrlQuery query;
+		query.addQueryItem("get", "1");
+		query.addQueryItem("hostfile", "1");
+		query.addQueryItem("net", "gnutella2");
+		query.addQueryItem("client", "BROV1.0");
+		u.setQuery(query);
 
 		systemLog.postLog(LogSeverity::Debug, QString("Querying %1").arg(u.toString()));
-		//qDebug("Querying " + u.toString().toAscii());
+		//qDebug("Querying " + u.toString().toLocal8Bit());
 
 		m_lCaches[nIndex].m_tLastQuery = time(0);
 		QNetworkRequest req(u);

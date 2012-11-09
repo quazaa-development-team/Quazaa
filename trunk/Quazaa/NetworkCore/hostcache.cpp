@@ -29,7 +29,7 @@
 #include "network.h"
 #include <time.h>
 #include "geoiplist.h"
-#include <QDesktopServices>
+#include <QStandardPaths>
 #include <QDir>
 #include "quazaasettings.h"
 
@@ -113,7 +113,7 @@ CHostCacheHost* CHostCache::Add(CEndPoint host, QDateTime ts)
 	if(host.isFirewalled())
 		return 0;
 
-    if( (quint32)m_lHosts.size() > MaxCacheHosts)
+	if( (quint32)m_lHosts.size() > MaxCacheHosts)
 	{
 		int nMax = MaxCacheHosts / 2;
 		while(m_lHosts.size() > nMax)
@@ -307,10 +307,10 @@ void CHostCache::Save()
 {
 	ASSUME_LOCK(HostCache.m_pSection);
 
-	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	QDir path = QDir(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 	if(!path.exists())
-		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
-	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+		path.mkpath(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
+	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 
 	if(f.open(QFile::WriteOnly))
 	{
@@ -392,10 +392,10 @@ void CHostCache::Load()
 {
 	ASSUME_LOCK(HostCache.m_pSection);
 
-	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	QDir path = QDir(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 	if(!path.exists())
-		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
-	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+		path.mkpath(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
+	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 
 	if(f.exists() && f.open(QFile::ReadOnly))
 	{

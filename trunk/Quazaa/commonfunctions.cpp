@@ -23,6 +23,7 @@
 */
 
 #include <QDir>
+#include <QStandardPaths>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QtGlobal>
@@ -140,7 +141,7 @@ QString common::getTempFileName(QString sName)
 {
 	CHash oHashName(CHash::SHA1);
 	oHashName.AddData(sName.toUtf8());
-	oHashName.AddData(QString().number(qrand() % qrand()).append(QDateTime::currentDateTimeUtc().toString(Qt::ISODate)).toAscii());
+	oHashName.AddData(QString().number(qrand() % qrand()).append(QDateTime::currentDateTimeUtc().toString(Qt::ISODate)).toLocal8Bit());
 	oHashName.Finalize();
 	return oHashName.ToString();
 }
@@ -166,7 +167,7 @@ quint16 common::getRandomUnusedPort(bool bClear)
 		oUsedPorts.squeeze();	// Set internal capacity to 0.
 		return 0;
 	}
-	
+
 	if ( oUsedPorts.isEmpty() )
 	{
 		// avoid reallocation while building set

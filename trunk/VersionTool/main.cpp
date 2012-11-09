@@ -31,11 +31,11 @@ static int getSubversionRevision()
 	const int pos = str.indexOf(':');
 	if (pos != -1)
 	{
-	  revision = atoi(str.mid(pos + 1).toAscii().constData());
+	  revision = atoi(str.mid(pos + 1).toLocal8Bit().constData());
 	}
 	else
 	{
-	  revision = atoi(str.toAscii().constData());
+	  revision = atoi(str.toLocal8Bit().constData());
 	}
 	process.waitForFinished();
   }
@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
   const int revision = getSubversionRevision();
   const QString build = getBuildNumber();
 
-  cout << major << '.' << minor << '.' << revision << ' ' << build.toAscii().constData() << endl;
+  cout << major << '.' << minor << '.' << revision << ' ' << build.toLocal8Bit().constData() << endl;
 
   return writeFile(argv[3], major, minor, revision, build);
 }

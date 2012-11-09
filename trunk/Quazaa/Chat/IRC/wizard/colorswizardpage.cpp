@@ -20,7 +20,6 @@ ColorsWizardPage::ColorsWizardPage(QWidget* parent) : QWizardPage(parent)
 	setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/oxygen/64x64/actions/color_line.png"));
 	m_oColorsDelegate = new ColorItemDelegate(ui.treeWidget);
 	ui.treeWidget->setItemDelegate(m_oColorsDelegate);
-	ui.treeWidget->header()->setResizeMode(Message, QHeaderView::ResizeToContents);
 
 	connect(m_oColorsDelegate, SIGNAL(colorChanged()), this, SIGNAL(settingsChanged()));
 }

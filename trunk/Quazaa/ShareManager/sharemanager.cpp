@@ -32,7 +32,7 @@
 #include <QDateTime>
 #include <QVariant>
 #include <QList>
-#include <QDesktopServices>
+#include <QStandardPaths>
 
 #include "quazaasettings.h"
 #include "queryhashmaster.h"
@@ -71,11 +71,11 @@ void CShareManager::SetupThread()
 	systemLog.postLog(LogSeverity::Debug, QString("Setting up ShareManager thread"));
 	//qDebug() << "Setting up ShareManager thread";
 	m_oDatabase = QSqlDatabase::addDatabase("QSQLITE", "Shares");
-	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	QDir path = QDir(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 	if(!path.exists())
-		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+		path.mkpath(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 
-	m_oDatabase.setDatabaseName(QString("%1%2.quazaa%2shares.sdb").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).arg(QDir::separator()));
+	m_oDatabase.setDatabaseName(QString("%1%2.quazaa%2shares.sdb").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)).arg(QDir::separator()));
 
 	if(!m_oDatabase.open())
 	{
@@ -282,7 +282,7 @@ void CShareManager::SyncShares()
 				if(!fi.exists())
 				{
 					systemLog.postLog(LogSeverity::Debug, QString("File: %1 is missing").arg(sPath));
-					//qDebug() << "File:" << sPath.toAscii() << " is missing";
+					//qDebug() << "File:" << sPath.toLocal8Bit() << " is missing";
 					RemoveFile(fquery.record().value(0).toInt());
 					nMissingFiles++;
 				}
@@ -308,7 +308,7 @@ void CShareManager::SyncShares()
 					if(bModified)
 					{
 						systemLog.postLog(LogSeverity::Debug, QString("File: %1 is midified, rehashing").arg(sPath));
-						//qDebug() << "File:" << sPath.toAscii() << " is modified, rehashing";
+						//qDebug() << "File:" << sPath.toLocal8Bit() << " is modified, rehashing";
 						RemoveFile(fquery.record().value(0).toInt());
 						nModifiedFiles++;
 					}

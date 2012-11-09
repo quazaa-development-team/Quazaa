@@ -227,7 +227,7 @@ void CG2Node::OnTimer(quint32 tNow)
 
 		/*if( m_tKeyRequest > 0 && tNow - m_tKeyRequest > 90 )
 		{
-			qDebug() << "Closing connection with " << m_oAddress.toString().toAscii() << "QueryKey wait timeout reached";
+			qDebug() << "Closing connection with " << m_oAddress.toString().toLocal8Bit() << "QueryKey wait timeout reached";
 			m_nState = nsClosing;
 			emit NodeStateChanged();
 			Close();
@@ -243,7 +243,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		{
 			if(m_pLocalTable->PatchTo(&QueryHashMaster, this))
 			{
-				systemLog.postLog(LogSeverity::Notice, tr("Sending query routing table to %1 (%2 bits, %3 entries, %4 bytes, %5% full)").arg(m_oAddress.toString().toAscii().constData()).arg(m_pLocalTable->m_nBits).arg(m_pLocalTable->m_nHash).arg(m_pLocalTable->m_nHash / 8).arg(m_pLocalTable->GetPercent()));
+				systemLog.postLog(LogSeverity::Notice, tr("Sending query routing table to %1 (%2 bits, %3 entries, %4 bytes, %5% full)").arg(m_oAddress.toString().toLocal8Bit().constData()).arg(m_pLocalTable->m_nBits).arg(m_pLocalTable->m_nHash).arg(m_pLocalTable->m_nHash / 8).arg(m_pLocalTable->GetPercent()));
 			}
 		}
 
@@ -1079,7 +1079,7 @@ void CG2Node::OnQHT(G2Packet* pPacket)
 
 	if(!m_pRemoteTable->OnPacket(pPacket))
 	{
-		systemLog.postLog(LogSeverity::Error, tr("Neighbour %1 sent bad query hash table update. Closing connection.").arg(m_oAddress.toString().toAscii().constData()));
+		systemLog.postLog(LogSeverity::Error, tr("Neighbour %1 sent bad query hash table update. Closing connection.").arg(m_oAddress.toString().toLocal8Bit().constData()));
 		Close();
 		return;
 	}
@@ -1091,7 +1091,7 @@ void CG2Node::OnQHT(G2Packet* pPacket)
 
 	if(m_nType == G2_LEAF && m_pRemoteTable && m_pRemoteTable->GetPercent() > 90)
 	{
-		systemLog.postLog(LogSeverity::Error, tr("Dropping neighbour %1 - hash table fill percentage too high.").arg(m_oAddress.toString().toAscii().constData()));
+		systemLog.postLog(LogSeverity::Error, tr("Dropping neighbour %1 - hash table fill percentage too high.").arg(m_oAddress.toString().toLocal8Bit().constData()));
 		Close();
 		return;
 	}
@@ -1251,8 +1251,8 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 	{
 		pCache->SetKey(nKey, &m_oAddress);
 
-		systemLog.postLog(LogSeverity::Debug, QString("Got a query key from %1 via %2 = 0x%3").arg(addr.toString().toAscii().constData()).arg(m_oAddress.toString().toAscii().constData()).arg(QString().number(nKey, 16)));
-		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toAscii().constData(), m_oAddress.toString().toAscii().constData(), nKey);
+		systemLog.postLog(LogSeverity::Debug, QString("Got a query key from %1 via %2 = 0x%3").arg(addr.toString().toLocal8Bit().constData()).arg(m_oAddress.toString().toLocal8Bit().constData()).arg(QString().number(nKey, 16)));
+		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toLocal8Bit().constData(), m_oAddress.toString().toLocal8Bit().constData(), nKey);
 	}
 	HostCache.m_pSection.unlock();
 }

@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -87,7 +87,7 @@ void CChatSessionG2::OnConnect()
 
 	baHs = "CHAT CONNECT/0.2\r\n";
 	baHs+= "Accept: application/x-gnutella2\r\n";
-        baHs+= "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+		baHs+= "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	baHs+= "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n\r\n";
 
 	Write(baHs);
@@ -191,7 +191,7 @@ void CChatSessionG2::Send_ChatOK(bool bReply)
 	{
 		// 2nd header
 		sHs+= "Accept: application/x-gnutella2\r\n";
-                sHs+= "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+				sHs+= "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 		sHs+= "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n";
 	}
 	sHs+= "Content-Type: application/x-gnutella2\r\n\r\n";
@@ -206,8 +206,8 @@ void CChatSessionG2::Send_ChatError(QString sReason)
 {
 	QByteArray sHs;
 
-	sHs = "CHAT/0.2 " + sReason.toAscii() + "\r\n";
-        sHs+= "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n\r\n";
+	sHs = "CHAT/0.2 " + sReason.toLocal8Bit() + "\r\n";
+		sHs+= "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n\r\n";
 
 	Write(sHs);
 }

@@ -232,7 +232,7 @@ void CDatagrams::OnReceiveGND()
 	quint32 nSeq = ((pHeader->nSequence << 16) & 0xFFFF0000) + (m_nPort & 0x0000FFFF);
 
 #ifdef DEBUG_UDP
-	systemLog.postLog(LogSeverity::Debug, "Received GND from %s:%u nSequence = %u nPart = %u nCount = %u", m_pHostAddress->toString().toAscii().constData(), m_nPort, pHeader->nSequence, pHeader->nPart, pHeader->nCount);
+	systemLog.postLog(LogSeverity::Debug, "Received GND from %s:%u nSequence = %u nPart = %u nCount = %u", m_pHostAddress->toString().toLocal8Bit().constData(), m_nPort, pHeader->nSequence, pHeader->nPart, pHeader->nCount);
 #endif
 
 	DatagramIn* pDG = 0;
@@ -304,7 +304,7 @@ void CDatagrams::OnReceiveGND()
 		oAck.nFlags = 0;
 
 #ifdef DEBUG_UDP
-		systemLog.postLog(LogSeverity::Debug, "Sending UDP ACK to %s:%u", m_pHostAddress->toString().toAscii().constData(), m_nPort);
+		systemLog.postLog(LogSeverity::Debug, "Sending UDP ACK to %s:%u", m_pHostAddress->toString().toLocal8Bit().constData(), m_nPort);
 #endif
 
 		m_pSocket->writeDatagram((char*)&oAck, sizeof(GND_HEADER), *m_pHostAddress, m_nPort);
@@ -346,7 +346,7 @@ void CDatagrams::OnAcknowledgeGND()
 	GND_HEADER* pHeader = (GND_HEADER*)m_pRecvBuffer->data();
 
 #ifdef DEBUG_UDP
-	systemLog.postLog(LogSeverity::Debug, "UDP received GND ACK from %s seq %u part %u", m_pHostAddress->toString().toAscii().constData(), pHeader->nSequence, pHeader->nPart);
+	systemLog.postLog(LogSeverity::Debug, "UDP received GND ACK from %s seq %u part %u", m_pHostAddress->toString().toLocal8Bit().constData(), pHeader->nSequence, pHeader->nPart);
 #endif
 
 	if(!m_SendCacheMap.contains(pHeader->nSequence))
@@ -500,7 +500,7 @@ void CDatagrams::__FlushSendCache()
 			if(pDG->GetPacket(tNow, &pPacket, &nPacket, pDG->m_bAck && m_nInFrags > 0))
 			{
 #ifdef DEBUG_UDP
-				systemLog.postLog(LogSeverity::Debug, "UDP sending to %s seq %u part %u count %u", pDG->m_oAddress.toString().toAscii().constData(), pDG->m_nSequence, ((GND_HEADER*)pPacket)->nPart, pDG->m_nCount);
+				systemLog.postLog(LogSeverity::Debug, "UDP sending to %s seq %u part %u count %u", pDG->m_oAddress.toString().toLocal8Bit().constData(), pDG->m_nSequence, ((GND_HEADER*)pPacket)->nPart, pDG->m_nCount);
 #endif
 
 				m_pSocket->writeDatagram(pPacket, nPacket, pDG->m_oAddress, pDG->m_oAddress.port());
@@ -587,7 +587,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 	// TODO: Powiadomienia do obiektow nasluchujacych, jesli podano
 
 #ifdef DEBUG_UDP
-	systemLog.postLog(LogSeverity::Debug, "UDP queued for %s seq %u parts %u", oAddr.toString().toAscii().constData(), pDG->m_nSequence, pDG->m_nCount);
+	systemLog.postLog(LogSeverity::Debug, "UDP queued for %s seq %u parts %u", oAddr.toString().toLocal8Bit().constData(), pDG->m_nSequence, pDG->m_nCount);
 #endif
 
 	//emit SendQueueUpdated();
@@ -894,8 +894,8 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 	}
 	HostCache.m_pSection.unlock();
 
-	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toAscii().constData()).arg(nKey));
-	//qDebug("Got a query key for %s = 0x%x", addr.toString().toAscii().constData(), nKey);
+	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toLocal8Bit().constData()).arg(nKey));
+	//qDebug("Got a query key for %s = 0x%x", addr.toString().toLocal8Bit().constData(), nKey);
 
 	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() && nKeyHost != ((QHostAddress)Network.m_oAddress))
 	{

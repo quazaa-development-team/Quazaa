@@ -231,7 +231,7 @@ void CRouteTable::Dump()
 			nExpire = 0;
 		}
 		systemLog.postLog(LogSeverity::Debug, "%s %i %s TTL %i", qPrintable(itRoute.key().toString()), itRoute.value()->pNeighbour, qPrintable(itRoute.value()->pEndpoint.toString()), nExpire);
-		//qDebug() << itRoute.key().toString().toAscii().constData() << itRoute.value().pNeighbour << itRoute.value().pEndpoint.toString().toAscii().constData() << " TTL " << nExpire;
+		//qDebug() << itRoute.key().toString().toLocal8Bit().constData() << itRoute.value().pNeighbour << itRoute.value().pEndpoint.toString().toLocal8Bit().constData() << " TTL " << nExpire;
 	}
 
 	systemLog.postLog(LogSeverity::Debug, "End of data");

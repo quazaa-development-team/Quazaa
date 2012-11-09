@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -42,7 +42,7 @@ CBuffer::~CBuffer()
 {
 	if(m_pBuffer)
 	{
-		qFree(m_pBuffer);
+		free(m_pBuffer);
 	}
 }
 
@@ -142,7 +142,7 @@ void CBuffer::ensure(const quint32 nLength)
 		if(m_nBuffer > m_nMinimum * 2 && m_nLength + nLength < m_nMinimum)
 		{
 			const quint32 nBuffer = m_nMinimum;
-			char* pBuffer = (char*)qRealloc(m_pBuffer, nBuffer);
+			char* pBuffer = (char*)realloc(m_pBuffer, nBuffer);
 			if(! pBuffer)
 			{
 				return;
@@ -166,7 +166,7 @@ void CBuffer::ensure(const quint32 nLength)
 		nBuffer *= 2;
 	}
 
-	char* pBuffer = (char*)qRealloc(m_pBuffer, nBuffer);
+	char* pBuffer = (char*)realloc(m_pBuffer, nBuffer);
 
 	if(!pBuffer)
 	{
@@ -186,7 +186,7 @@ void CBuffer::resize(const quint32 nLength)
 	}
 	else if(nLength > m_nBuffer)
 	{
-		char* pBuffer = (char*)qRealloc(m_pBuffer, nLength * 2);
+		char* pBuffer = (char*)realloc(m_pBuffer, nLength * 2);
 		if(!pBuffer)
 		{
 			qWarning() << "Out of memory in CBuffer::resize()";
