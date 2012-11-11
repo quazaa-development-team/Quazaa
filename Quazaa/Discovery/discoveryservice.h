@@ -53,8 +53,8 @@ class CDiscoveryService : public QThread
 	/* ========================= Definitions  ========================= */
 	/* ================================================================ */
 public:
-	// Extend for all new supported service types.
-	typedef enum { stNull = 0, stMulti = 1, stGWC = 2 } ServiceType;
+	/** Must be extended when writing subclasses. */
+	typedef enum { stNull = 0, stGWC = 1 } ServiceType;
 
 private:
 	// Note: Extra functionality should be implemented at lower level.
@@ -64,14 +64,15 @@ private:
 	/* ========================== Attributes ========================== */
 	/* ================================================================ */
 
-private:
-	ServiceType		m_nServiceType;
-	CNetworkType	m_oNetworkType;
+protected:
+	ServiceType		m_nServiceType;     // GWC, UHKL,...
+	CNetworkType	m_oNetworkType;     // all networks bootstrapped by this service
 	QUrl			m_oServiceURL;
-	quint8			m_nRating;
+	quint8			m_nRating;          //
 	quint8			m_nProbabilityMultiplicator;
 	QUuid			m_oUUID;
 	bool			m_bQueued;
+	bool            m_bBlocked;         // Manually blocked in discovery service manager?
 
 	quint32			m_nLastHosts;
 	quint32			m_nTotalHosts;

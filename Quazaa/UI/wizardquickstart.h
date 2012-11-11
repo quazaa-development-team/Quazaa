@@ -1,7 +1,7 @@
 /*
 ** widgetquickstart.h
 **
-** Copyright Â© Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -28,22 +28,22 @@
 #include <QtWidgets/QWizard>
 
 namespace Ui {
-	class WizardQuickStart;
+    class WizardQuickStart;
 }
 
 class WizardQuickStart : public QWizard
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit WizardQuickStart(QWidget *parent = 0);
-	~WizardQuickStart();
+    explicit WizardQuickStart(QWidget *parent = 0);
+    ~WizardQuickStart();
 
 protected:
 	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::WizardQuickStart *ui;
+    Ui::WizardQuickStart *ui;
 
 private slots:
 	void accept();
@@ -51,7 +51,8 @@ private slots:
 	void on_toolButtonSharesRemove_clicked();
 	void setSkin();
 	void on_checkBoxUPnP_stateChanged(int arg1);
-	void on_pushButton_clicked();
+	void on_pushButtonRandomizePort_clicked();
 };
 
 #endif // WIZARDQUICKSTART_H
+

@@ -1,7 +1,7 @@
 #
 # Quazaa.pro
 #
-# Copyright Â© Quazaaa Development Team, 2009-2011.
+# Copyright © Quazaaa Development Team, 2009-2011.
 # This file is part of QUAZAA (quazaa.sourceforge.net)
 #
 # Quazaa is free software; this file may be used under the terms of the GNU
@@ -189,6 +189,7 @@ SOURCES += \
 	main.cpp \
 	Misc/fileiconprovider.cpp \
 	Misc/networkiconprovider.cpp \
+	Misc/timedsignalqueue.cpp \
 	Metalink/magnetlink.cpp \
 	Metalink/metalinkhandler.cpp \
 	Metalink/metalink4handler.cpp \
@@ -245,7 +246,6 @@ SOURCES += \
 	ShareManager/sharemanager.cpp \
 	Skin/skinsettings.cpp \
 	systemlog.cpp \
-	timedsignalqueue.cpp \
 	Transfers/download.cpp \
 	Transfers/downloads.cpp \
 	Transfers/downloadsource.cpp \
@@ -267,6 +267,7 @@ SOURCES += \
 	UI/dialogfiltersearch.cpp \
 	UI/dialoghashprogress.cpp \
 	UI/dialogirccolordialog.cpp \
+	UI/dialogircsettings.cpp \
 	UI/dialoglanguage.cpp \
 	UI/dialoglibrarysearch.cpp \
 	UI/dialogopentorrent.cpp \
@@ -336,10 +337,7 @@ SOURCES += \
 	3rdparty/zlib/deflate.c \
 	3rdparty/zlib/crc32.c \
 	3rdparty/zlib/adler32.c \
-	quazaasysinfo.cpp \
-	UI/dialogircsettings.cpp \
-	Models/downloadslistmodel.cpp \
-	Models/downloadsourcelistmodel.cpp
+	quazaasysinfo.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -365,6 +363,8 @@ HEADERS += \
 	Metalink/metalink4handler.h \
 	Misc/fileiconprovider.h \
 	Misc/networkiconprovider.h \
+	Misc/timedsignalqueue.h \
+	Misc/timeoutwritelocker.h \
 	Models/categorynavigatortreemodel.h \
 	Models/discoverytablemodel.h \
 	Models/downloadstreemodel.h \
@@ -419,7 +419,6 @@ HEADERS += \
 	ShareManager/sharemanager.h \
 	Skin/skinsettings.h \
 	systemlog.h \
-	timedsignalqueue.h \
 	Transfers/download.h \
 	Transfers/downloads.h \
 	Transfers/downloadsource.h \
@@ -441,6 +440,7 @@ HEADERS += \
 	UI/dialogfiltersearch.h \
 	UI/dialoghashprogress.h \
 	UI/dialogirccolordialog.h \
+	UI/dialogircsettings.h \
 	UI/dialoglanguage.h \
 	UI/dialoglibrarysearch.h \
 	UI/dialogopentorrent.h \
@@ -510,10 +510,7 @@ HEADERS += \
 	3rdparty/zlib/gzguts.h \
 	3rdparty/zlib/deflate.h \
 	3rdparty/zlib/crc32.h \
-	quazaasysinfo.h \
-	UI/dialogircsettings.h \
-	Models/downloadslistmodel.h \
-	Models/downloadsourcelistmodel.h
+	quazaasysinfo.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -573,7 +570,7 @@ FORMS += \
 	UI/widgetircmain.ui \
 	UI/widgetircsidebars.ui \
 	UI/wizardircconnection.ui \
-	UI/dialogircsettings.ui
+    UI/dialogircsettings.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \

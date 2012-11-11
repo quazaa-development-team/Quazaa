@@ -30,6 +30,9 @@ public:
 		_NO_OF_COLUMNS
 	};
 
+	// icons used for the different rules
+	const QIcon* m_pIcons[3];
+
 	struct Rule
 	{
 		// Object directly managed by security manager.
@@ -41,9 +44,9 @@ public:
 		quint32				m_nToday;
 		quint32				m_nTotal;
 		QString				m_sComment;
-		QIcon				m_iAction;
+		const QIcon*		m_piAction;
 
-		Rule(CSecureRule* pRule);
+		Rule(CSecureRule* pRule, CSecurityTableModel* model);
 		~Rule();
 		bool update(int row, int col, QModelIndexList& to_update, CSecurityTableModel* model);
 		QVariant data(int col) const;
@@ -79,3 +82,4 @@ public slots:
 };
 
 #endif // SECURITYTABLEMODEL_H
+

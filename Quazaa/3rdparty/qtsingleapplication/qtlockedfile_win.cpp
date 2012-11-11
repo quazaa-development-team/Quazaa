@@ -1,5 +1,4 @@
-/****************************************************************************
-**
+/******************************************************************************
 ** Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
 ** All rights reserved.
 **
@@ -202,3 +201,4 @@ QtLockedFile::~QtLockedFile()
 	if (wmutex)
 		CloseHandle(wmutex);
 }
+

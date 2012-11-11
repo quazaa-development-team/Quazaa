@@ -11,7 +11,6 @@
 #include <QString>
 #include <QUuid>
 
-#include "commonfunctions.h"
 #include "securerule.h"
 
 // Increment this if there have been made changes to the way of storing security rules.

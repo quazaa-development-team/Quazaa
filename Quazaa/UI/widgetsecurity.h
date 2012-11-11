@@ -1,7 +1,7 @@
 /*
 ** widgetsecurity.h
 **
-** Copyright Â© Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -71,9 +71,9 @@ private slots:
 	void on_actionSecurityExportRules_triggered();
 	void on_actionSubscribeSecurityList_triggered();
 
-	void on_tableViewSecurity_customContextMenuRequested(const QPoint &pos);
-	void on_tableViewSecurity_doubleClicked(const QModelIndex &index);
-	void on_tableViewSecurity_clicked(const QModelIndex &index);
+	void tableViewSecurity_customContextMenuRequested(const QPoint &pos);
+	void tableViewSecurity_doubleClicked(const QModelIndex &index);
+	void tableViewSecurity_clicked(const QModelIndex &index);
 
 	void setSkin();
 };
