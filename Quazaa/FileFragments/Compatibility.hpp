@@ -22,6 +22,9 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#ifndef COMPATIBILITY_H
+#define COMPATIBILITY_H
+
 // FileFragments code borrowed from Shareaza
 // http://shareaza.sourceforge.net/
 
@@ -96,3 +99,5 @@ inline void SerializeIn(QDataStream& s, Ranges::List< Ranges::Range<quint64>, Li
 }
 
 } // namespace Fragments
+
+#endif // COMPATIBILITY_H

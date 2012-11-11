@@ -29,9 +29,9 @@ CDiscoveryTableModel::Service::Service(const CDiscoveryService* pService)
 	case Discovery::CDiscoveryService::stNull:
 		Q_ASSERT( false ); // Should not happen.
 		break;
-	case Discovery::CDiscoveryService::stMulti:
+	/*case Discovery::CDiscoveryService::stMulti:
 		// m_iType = QIcon( ":/Resource/Discovery/Multi.ico" );
-		break;
+		break;*/
 	case Discovery::CDiscoveryService::stGWC:
 		// m_iType = QIcon( ":/Resource/Discovery/GWC.ico" );
 		break;
@@ -85,9 +85,9 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 		case Discovery::CDiscoveryService::stNull:
 			Q_ASSERT( false ); // Should not happen.
 			break;
-		case Discovery::CDiscoveryService::stMulti:
+		/*case Discovery::CDiscoveryService::stMulti:
 			// m_iType = QIcon( ":/Resource/Discovery/Multi.ico" );
-			break;
+			break;*/
 		case Discovery::CDiscoveryService::stGWC:
 			// m_iType = QIcon( ":/Resource/Discovery/GWC.ico" );
 			break;
