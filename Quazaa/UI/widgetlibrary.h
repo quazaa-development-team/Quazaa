@@ -25,7 +25,7 @@
 #ifndef WIDGETLIBRARY_H
 #define WIDGETLIBRARY_H
 
-#include <QtWidgets/QWidget>
+#include <QWidget>
 #include "widgetlibraryview.h"
 
 namespace Ui

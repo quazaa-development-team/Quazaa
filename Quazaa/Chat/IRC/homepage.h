@@ -15,7 +15,7 @@
 #ifndef HOMEPAGE_H
 #define HOMEPAGE_H
 
-#include <QtWidgets/QWidget>
+#include <QWidget>
 class QLabel;
 
 class HomePage : public QWidget

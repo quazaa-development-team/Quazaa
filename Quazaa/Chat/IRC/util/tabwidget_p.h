@@ -15,7 +15,7 @@
 #ifndef TABWIDGET_P_H
 #define TABWIDGET_P_H
 
-#include <QtWidgets/QTabBar>
+#include <QTabBar>
 
 class TabBar : public QTabBar
 {

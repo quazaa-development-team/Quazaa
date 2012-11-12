@@ -25,7 +25,7 @@
 #ifndef WIDGETDISCOVERY_H
 #define WIDGETDISCOVERY_H
 
-#include <QtWidgets/QtWidgets>
+#include <QMainWindow>
 
 #include "tableview.h"
 #include "discovery.h"

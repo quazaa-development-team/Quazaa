@@ -1,4 +1,6 @@
 #include "tableview.h"
+#include <QHeaderView>
+#include <QKeyEvent>
 
 CTableView::CTableView()
 {

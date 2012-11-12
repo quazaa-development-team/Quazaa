@@ -40,7 +40,7 @@
 
 #include "qtsingleapplication.h"
 #include "qtlocalpeer.h"
-#include <QtWidgets/QWidget>
+#include <QWidget>
 
 
 /*!

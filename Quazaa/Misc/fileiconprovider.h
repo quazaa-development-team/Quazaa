@@ -25,7 +25,7 @@
 #ifndef FILEICONPROVIDER_H
 #define FILEICONPROVIDER_H
 
-#include <QtWidgets/QFileIconProvider>
+#include <QFileIconProvider>
 
 class CFileIconProvider : public QFileIconProvider
 {

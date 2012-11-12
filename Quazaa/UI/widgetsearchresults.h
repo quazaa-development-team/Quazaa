@@ -25,9 +25,9 @@
 #ifndef WIDGETSEARCHRESULTS_H
 #define WIDGETSEARCHRESULTS_H
 
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
+#include <QMainWindow>
+#include <QLabel>
+#include <QLineEdit>
 #include "widgetsearchtemplate.h"
 
 class WidgetSearch;

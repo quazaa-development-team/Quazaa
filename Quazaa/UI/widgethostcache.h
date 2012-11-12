@@ -25,7 +25,7 @@
 #ifndef WIDGETHOSTCACHE_H
 #define WIDGETHOSTCACHE_H
 
-#include <QtWidgets/QMainWindow>
+#include <QMainWindow>
 
 namespace Ui
 {

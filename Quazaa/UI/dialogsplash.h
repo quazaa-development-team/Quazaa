@@ -25,7 +25,7 @@
 #ifndef DIALOGSPLASH_H
 #define DIALOGSPLASH_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 
 namespace Ui
 {

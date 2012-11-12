@@ -25,7 +25,7 @@
 #ifndef WIDGETRETURNEMITTEXTEDIT_H
 #define WIDGETRETURNEMITTEXTEDIT_H
 
-#include <QtWidgets/QTextEdit>
+#include <QTextEdit>
 #include <QKeyEvent>
 
 #include "completer.h"

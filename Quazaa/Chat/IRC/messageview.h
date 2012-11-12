@@ -24,7 +24,7 @@
 #include "commandparser.h"
 #include "messageformatter.h"
 
-#include <QtWidgets/QToolButton>
+#include <QToolButton>
 
 class QStringListModel;
 

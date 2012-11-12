@@ -25,7 +25,7 @@
 #ifndef WIDGETGRAPH_H
 #define WIDGETGRAPH_H
 
-#include <QtWidgets/QMainWindow>
+#include <QMainWindow>
 
 namespace Ui
 {

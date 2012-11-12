@@ -25,7 +25,7 @@
 #ifndef WIZARDQUICKSTART_H
 #define WIZARDQUICKSTART_H
 
-#include <QtWidgets/QWizard>
+#include <QWizard>
 
 namespace Ui {
     class WizardQuickStart;

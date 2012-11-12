@@ -17,11 +17,11 @@
 #include "completer.h"
 #include "dialogircsettings.h"
 #include <QStringListModel>
-#include <QtWidgets/QShortcut>
+#include <QShortcut>
 #include <QKeyEvent>
 #include <QDebug>
 #include <QDesktopServices>
-#include <QtWidgets/QApplication>
+#include <QApplication>
 #include <irccommand.h>
 #include <ircutil.h>
 #include <irc.h>

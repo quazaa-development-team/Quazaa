@@ -26,7 +26,7 @@
 #include "ui_dialogaddrule.h"
 #include "skinsettings.h"
 
-#include <QtWidgets/QListView>
+#include <QListView>
 
 #ifdef _DEBUG
 #include "debug_new.h"

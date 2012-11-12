@@ -28,7 +28,7 @@
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
-#include <QtWidgets/QMenu>
+#include <QMenu>
 
 #ifdef _DEBUG
 #include "debug_new.h"

@@ -25,9 +25,9 @@
 #ifndef WIDGETCHATCENTER_H
 #define WIDGETCHATCENTER_H
 
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QToolButton>
+#include <QMainWindow>
+#include <QLineEdit>
+#include <QToolButton>
 #include <QTextDocument>
 
 #include "maintabwidget.h"

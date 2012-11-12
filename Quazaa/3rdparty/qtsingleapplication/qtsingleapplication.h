@@ -40,7 +40,7 @@
 #ifndef QTSINGLEAPPLICATION_H
 #define QTSINGLEAPPLICATION_H
 
-#include <QtWidgets/QApplication>
+#include <QApplication>
 
 class QtLocalPeer;
 

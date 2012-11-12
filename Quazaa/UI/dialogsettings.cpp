@@ -31,6 +31,10 @@
 
 #include "dialogprofile.h"
 
+#include <QSettings>
+#include <QInputDialog>
+#include <QFileDialog>
+
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif

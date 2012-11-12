@@ -15,7 +15,7 @@
 #ifndef TABWIDGET_H
 #define TABWIDGET_H
 
-#include <QtWidgets/QTabWidget>
+#include <QTabWidget>
 #include <QColor>
 #include <QList>
 

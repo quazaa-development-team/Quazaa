@@ -29,7 +29,10 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QStringList>
+
+#if QT_VERSION >= 0x050000 
 #include <QUrlQuery>
+#endif
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -91,12 +94,20 @@ void CWebCache::RequestRandom()
 		m_bRequesting = true;
 
 		QUrl u = m_lCaches.at(nIndex).m_sUrl;
+
+#if QT_VERSION >= 0x050000 
 		QUrlQuery query;
 		query.addQueryItem("get", "1");
 		query.addQueryItem("hostfile", "1");
 		query.addQueryItem("net", "gnutella2");
 		query.addQueryItem("client", "BROV1.0");
 		u.setQuery(query);
+#else
+		u.addQueryItem("get", "1");
+		u.addQueryItem("hostfile", "1");
+		u.addQueryItem("net", "gnutella2");
+		u.addQueryItem("client", "BROV1.0");
+#endif
 
 		systemLog.postLog(LogSeverity::Debug, QString("Querying %1").arg(u.toString()));
 		//qDebug("Querying " + u.toString().toLocal8Bit());

@@ -15,8 +15,8 @@
 #ifndef WELCOMEPAGE_H
 #define WELCOMEPAGE_H
 
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QCommandLinkButton>
+#include <QWidget>
+#include <QCommandLinkButton>
 
 class QLabel;
 

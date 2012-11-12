@@ -25,8 +25,8 @@
 #ifndef WIDGETSMILEYLIST_H
 #define WIDGETSMILEYLIST_H
 
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QListWidgetItem>
+#include <QMenu>
+#include <QListWidgetItem>
 
 namespace Ui {
 	class WidgetSmileyList;

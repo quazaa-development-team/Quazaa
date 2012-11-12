@@ -23,6 +23,9 @@
 #include <QStringList>
 #include <QRegExp>
 #include <QDebug>
+#if QT_VERSION < 0x050000
+#include <QTextDocument> //For Qt::escape()
+#endif
 
 #define IRC_DEFAULT_BACKGROUND 100
 #define IRC_DEFAULT_FOREGROUND 101
@@ -61,7 +64,11 @@ QString IrcUtil::messageToHtml(const QString& message, QHash<QString, QString> e
 
 	unsigned int uIndex = 0;
 
+#if QT_VERSION >= 0x050000
 	QString processed = message.toHtmlEscaped();
+#else
+	QString processed = Qt::escape(message);
+#endif
 
 	while(uIndex < (unsigned int)processed.length())
 	{

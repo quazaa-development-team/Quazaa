@@ -25,8 +25,8 @@
 #ifndef WIDGETTRANSFERS_H
 #define WIDGETTRANSFERS_H
 
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QTreeWidgetItem>
+#include <QWidget>
+#include <QTreeWidgetItem>
 #include "widgetdownloads.h"
 #include "widgetuploads.h"
 

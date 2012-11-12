@@ -16,7 +16,7 @@
 #define IRC_H
 
 #include <IrcGlobal>
-#include <QtCore/qobject.h>
+#include <qobject.h>
 
 class COMMUNI_EXPORT Irc : public QObject
 {

@@ -33,6 +33,9 @@
 #include "debug_new.h"
 #endif
 
+#include <QMenu>
+#include <QKeyEvent>
+
 WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetDiscovery)

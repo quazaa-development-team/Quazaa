@@ -25,7 +25,7 @@
 #ifndef DIALOGCONNECTTO_H
 #define DIALOGCONNECTTO_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 #include "types.h"
 #include "network.h"
 

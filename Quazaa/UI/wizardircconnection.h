@@ -1,7 +1,7 @@
 #ifndef WIZARDIRCCONNECTION_H
 #define WIZARDIRCCONNECTION_H
 
-#include <QtWidgets/QWizard>
+#include <QWizard>
 #include "completerlineedit.h"
 
 #include "connectioninfo.h"

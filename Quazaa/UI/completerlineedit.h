@@ -1,8 +1,8 @@
 #ifndef COMPLETERLINEEDIT_H
 #define COMPLETERLINEEDIT_H
 
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QCompleter>
+#include <QLineEdit>
+#include <QCompleter>
 #include <QStringList>
 
 class CompleterLineEdit : public QLineEdit

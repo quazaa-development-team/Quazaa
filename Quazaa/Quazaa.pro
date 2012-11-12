@@ -22,9 +22,18 @@
 # Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
+#check Qt version
+QT_VERSION = $$[QT_VERSION]
+QT_VERSION = $$split(QT_VERSION, ".")
+QT_VER_MAJ = $$member(QT_VERSION, 0)
+QT_VER_MIN = $$member(QT_VERSION, 1)
+
+greaterThan(QT_VER_MAJ, 4) {
 QT += widgets \
-	gui \
-	network \
+	gui
+}
+
+QT += network \
 	sql \
 	xml
 TARGET = Quazaa
@@ -570,7 +579,7 @@ FORMS += \
 	UI/widgetircmain.ui \
 	UI/widgetircsidebars.ui \
 	UI/wizardircconnection.ui \
-    UI/dialogircsettings.ui
+	UI/dialogircsettings.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \

@@ -25,9 +25,9 @@
 #ifndef WINMAIN_H
 #define WINMAIN_H
 
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QActionGroup>
-#include <QtWidgets/QSystemTrayIcon>
+#include <QMainWindow>
+#include <QActionGroup>
+#include <QSystemTrayIcon>
 #include <QHideEvent>
 
 #include "widgethome.h"
@@ -49,6 +49,7 @@
 #include "dialogprivatemessages.h"
 #include <QList>
 #include <QUuid>
+#include <QHBoxLayout>
 
 class CChatSession;
 

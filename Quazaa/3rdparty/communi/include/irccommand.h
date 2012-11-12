@@ -16,8 +16,8 @@
 #define IRCCOMMAND_H
 
 #include <IrcGlobal>
-#include <QtCore/qobject.h>
-#include <QtCore/qstringlist.h>
+#include <qobject.h>
+#include <qstringlist.h>
 
 class IrcCommandPrivate;
 

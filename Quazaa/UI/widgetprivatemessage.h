@@ -25,7 +25,7 @@
 #ifndef WIDGETPRIVATEMESSAGE_H
 #define WIDGETPRIVATEMESSAGE_H
 
-#include <QtWidgets/QWidget>
+#include <QWidget>
 #include <QUrl>
 #include "types.h"
 #include "chatsession.h"

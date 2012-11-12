@@ -28,8 +28,6 @@
 // FileFragments code borrowed from Shareaza
 // http://shareaza.sourceforge.net/
 
-#pragma once
-
 namespace Fragments
 {
 inline void SerializeOut(QDataStream& s, const Ranges::Range<quint64>& rhs)

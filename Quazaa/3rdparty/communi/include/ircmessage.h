@@ -17,8 +17,8 @@
 
 #include <IrcGlobal>
 #include <IrcSender>
-#include <QtCore/qobject.h>
-#include <QtCore/qstringlist.h>
+#include <qobject.h>
+#include <qstringlist.h>
 
 class IrcCommand;
 class IrcMessagePrivate;

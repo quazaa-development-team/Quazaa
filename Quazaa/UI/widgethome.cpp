@@ -38,6 +38,9 @@
 #include "debug_new.h"
 #endif
 
+#include <QDesktopServices>
+#include <QUrl>
+
 WidgetHome::WidgetHome(QWidget* parent) :
 	QWidget(parent),
 	ui(new Ui::WidgetHome)

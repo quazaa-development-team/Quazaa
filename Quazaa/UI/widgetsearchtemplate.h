@@ -25,9 +25,9 @@
 #ifndef WIDGETSEARCHTEMPLATE_H
 #define WIDGETSEARCHTEMPLATE_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 #include <QSortFilterProxyModel>
-#include <QtWidgets/QMenu>
+#include <QMenu>
 #include "searchtreemodel.h"
 
 namespace Ui

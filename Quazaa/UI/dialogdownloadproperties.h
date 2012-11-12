@@ -25,7 +25,7 @@
 #ifndef DIALOGDOWNLOADPROPERTIES_H
 #define DIALOGDOWNLOADPROPERTIES_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 
 namespace Ui
 {

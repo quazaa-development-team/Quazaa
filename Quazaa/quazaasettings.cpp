@@ -27,7 +27,12 @@
 #include <QtCore>
 #include <QSettings>
 #include <QUuid>
+
+#if QT_VERSION >= 0x050000 
 #include <QStandardPaths>
+#else
+#include <QDesktopServices>
+#endif
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -456,7 +461,11 @@ void QuazaaSettings::saveSettings()
 void QuazaaSettings::loadSettings()
 {
 	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
+#if QT_VERSION >= 0x050000 
 	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
+#else
+	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ), "Data" );
+#endif
 
 	m_qSettings.beginGroup("Ares");
 	quazaaSettings.Ares.Enable = m_qSettings.value("Enable", true).toBool();
@@ -490,7 +499,11 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.BitTorrent.SourceExchangePeriod = m_qSettings.value("SourceExchangePeriod", 10).toInt();
 	quazaaSettings.BitTorrent.StartPaused = m_qSettings.value("StartPaused", false).toBool();
 	quazaaSettings.BitTorrent.TestPartials = m_qSettings.value("TestPartials", true).toBool();
+#if QT_VERSION >= 0x050000 
 	quazaaSettings.BitTorrent.TorrentPath = m_qSettings.value("TorrentPath", QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Quazaa/Torrents").toString();
+#else
+	quazaaSettings.BitTorrent.TorrentPath = m_qSettings.value("TorrentPath", QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Torrents").toString();
+#endif
 	quazaaSettings.BitTorrent.TrackerKey = m_qSettings.value("TrackerKey", true).toBool();
 	quazaaSettings.BitTorrent.UploadCount = m_qSettings.value("UploadCount", 4).toInt();
 	quazaaSettings.BitTorrent.UseKademlia = m_qSettings.value("UseKademlia", true).toBool();
@@ -532,12 +545,20 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Downloads.ChunkSize = m_qSettings.value("ChunkSize", 524288).toInt();
 	quazaaSettings.Downloads.ChunkStrap = m_qSettings.value("ChunkStrap", 131072).toInt();
 	quazaaSettings.Downloads.ClearDelay = m_qSettings.value("ClearDelay", 30000).toInt();
+#if QT_VERSION >= 0x050000 
 	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+#else
+	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+#endif
 	quazaaSettings.Downloads.ConnectThrottle = m_qSettings.value("ConnectThrottle", 800).toInt();
 	quazaaSettings.Downloads.DropFailedSourcesThreshold = m_qSettings.value("DropFailedSourcesThreshold", 20).toInt();
 	quazaaSettings.Downloads.ExpandDownloads = m_qSettings.value("ExpandDownloads", false).toBool();
 	quazaaSettings.Downloads.FlushSD = m_qSettings.value("FlushSD", true).toBool();
+#if QT_VERSION >= 0x050000 
 	quazaaSettings.Downloads.IncompletePath = m_qSettings.value("IncompletePath", QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Quazaa/Incomplete").toString();
+#else
+	quazaaSettings.Downloads.IncompletePath = m_qSettings.value("IncompletePath", QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Incomplete").toString();
+#endif
 	quazaaSettings.Downloads.MaxAllowedFailures = m_qSettings.value("MaxAllowedFailures", 10).toInt();
 	quazaaSettings.Downloads.MaxConnectingSources = m_qSettings.value("MaxConnectingSources", 8).toInt();
 	quazaaSettings.Downloads.MaxFiles = m_qSettings.value("MaxFiles", 26).toInt();
@@ -698,8 +719,13 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Library.ScanOGG = m_qSettings.value("ScanOGG", true).toBool();
 	quazaaSettings.Library.ScanPDF = m_qSettings.value("ScanPDF", true).toBool();
 	quazaaSettings.Library.SchemaURI = m_qSettings.value("SchemaURI", "http://www.limewire.com/schemas/audio.xsd").toString();
+#if QT_VERSION >= 0x050000 
 	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads"
 									<< QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Quazaa/Torrents").toStringList();
+#else
+	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads"
+									<< QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Torrents").toStringList();
+#endif
 	quazaaSettings.Library.ShowCoverArt = m_qSettings.value("ShowCoverArt", true).toBool();
 	quazaaSettings.Library.SmartSeriesDetection = m_qSettings.value("SmartSeriesDetection", false).toBool();
 	quazaaSettings.Library.SourceExpire = m_qSettings.value("SourceExpire", 86400).toInt();
@@ -734,7 +760,11 @@ void QuazaaSettings::loadSettings()
 									 << "m1v" << "mp2" << "mpa" << "mpe").toStringList();
 	quazaaSettings.Media.ListVisible = m_qSettings.value("ListVisible", true).toBool();
 	quazaaSettings.Media.Mute = m_qSettings.value("Mute", false).toBool();
+#if QT_VERSION >= 0x050000 
 	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+#else
+	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+#endif
 	quazaaSettings.Media.Playlist = m_qSettings.value("Playlist", QStringList()).toStringList();
 	quazaaSettings.Media.Shuffle = m_qSettings.value("Shuffle", false).toBool();
 	quazaaSettings.Media.Repeat = m_qSettings.value("Repeat", false).toBool();

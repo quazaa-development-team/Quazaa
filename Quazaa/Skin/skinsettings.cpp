@@ -1,8 +1,8 @@
 #include "skinsettings.h"
 #include "quazaasysinfo.h"
 
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QStyle>
+#include <QApplication>
+#include <QStyle>
 #include <QFont>
 
 SkinSettings skinSettings;

@@ -25,7 +25,10 @@
 #ifndef WIDGETCHATINPUT_H
 #define WIDGETCHATINPUT_H
 
-#include <QtWidgets/QtWidgets>
+#include <QMainWindow>
+#include <QCheckBox>
+#include <QToolButton>
+#include <QLabel>
 #include "widgetreturnemittextedit.h"
 #include "widgetsmileylist.h"
 #include "completer.h"

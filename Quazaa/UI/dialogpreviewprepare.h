@@ -25,7 +25,7 @@
 #ifndef DIALOGPREVIEWPREPARE_H
 #define DIALOGPREVIEWPREPARE_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 
 namespace Ui
 {

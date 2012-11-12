@@ -38,6 +38,9 @@
 #include "debug_new.h"
 #endif
 
+#include <QMenu>
+#include <QKeyEvent>
+
 WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	QMainWindow( parent ),
 	ui( new Ui::WidgetSecurity )

@@ -25,7 +25,7 @@
 #ifndef DIALOGABOUT_H
 #define DIALOGABOUT_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 #include <QUrl>
 
 namespace Ui

@@ -15,7 +15,7 @@
 #ifndef TREEWIDGET_H
 #define TREEWIDGET_H
 
-#include <QtWidgets/QTreeWidget>
+#include <QTreeWidget>
 
 class TreeWidget : public QTreeWidget
 {

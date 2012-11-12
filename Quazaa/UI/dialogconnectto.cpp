@@ -26,8 +26,8 @@
 #include "ui_dialogconnectto.h"
 #include "skinsettings.h"
 
-#include <QtWidgets/QListView>
-#include <QtWidgets/QMessageBox>
+#include <QListView>
+#include <QMessageBox>
 
 #ifdef _DEBUG
 #include "debug_new.h"

@@ -30,7 +30,7 @@
 #include "types.h"
 #include "FileFragments.hpp"
 
-#include <QtWidgets/QItemDelegate>
+#include <QItemDelegate>
 #include <QPalette>
 
 class CDownload;

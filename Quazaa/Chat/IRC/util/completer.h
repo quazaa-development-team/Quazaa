@@ -15,7 +15,7 @@
 #ifndef COMPLETER_H
 #define COMPLETER_H
 
-#include <QtWidgets/QCompleter>
+#include <QCompleter>
 #include "widgetreturnemittextedit.h"
 #include "ircuserlistmodel.h"
 

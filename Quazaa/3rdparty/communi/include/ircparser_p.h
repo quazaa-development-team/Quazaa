@@ -16,9 +16,9 @@
 #define IRCPARSER_P_H
 
 #include <IrcGlobal>
-#include <QtCore/qstring.h>
-#include <QtCore/qbytearray.h>
-#include <QtCore/qstringlist.h>
+#include <qstring.h>
+#include <qbytearray.h>
+#include <qstringlist.h>
 
 class COMMUNI_EXPORT IrcParser
 {

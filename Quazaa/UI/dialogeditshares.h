@@ -25,7 +25,7 @@
 #ifndef DIALOGEDITSHARES_H
 #define DIALOGEDITSHARES_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 
 namespace Ui
 {

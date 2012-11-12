@@ -14,12 +14,12 @@
 
 #include "welcomepage.h"
 #include "settingswizard.h"
-#include <QtWidgets/QGridLayout>
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QMenu>
+#include <QGridLayout>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QMenu>
 #include <QFile>
-#include <QtWidgets/QApplication>
+#include <QApplication>
 
 WelcomePage::WelcomePage(QWidget* parent) : QWidget(parent)
 {

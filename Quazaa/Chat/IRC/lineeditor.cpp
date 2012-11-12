@@ -14,7 +14,7 @@
 
 #include "lineeditor.h"
 #include "completer.h"
-#include <QtWidgets/QShortcut>
+#include <QShortcut>
 
 LineEditor::LineEditor(QWidget* parent) : HistoryLineEdit(parent)
 {

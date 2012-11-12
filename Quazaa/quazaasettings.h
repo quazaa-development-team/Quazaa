@@ -26,7 +26,7 @@
 #define QUAZAASETTINGS_H
 
 #include <QObject>
-#include <QtWidgets/QMainWindow>
+#include <QMainWindow>
 #include <QUuid>
 #include <QTranslator>
 #include <QVariant>

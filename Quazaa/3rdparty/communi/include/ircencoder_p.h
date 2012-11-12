@@ -16,7 +16,7 @@
 #define IRCENCODER_P_H
 
 #include <IrcGlobal>
-#include <QtCore/qbytearray.h>
+#include <qbytearray.h>
 
 class UCharsetDetector;
 

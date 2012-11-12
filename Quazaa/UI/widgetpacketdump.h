@@ -25,7 +25,7 @@
 #ifndef WIDGETPACKETDUMP_H
 #define WIDGETPACKETDUMP_H
 
-#include <QtWidgets/QMainWindow>
+#include <QMainWindow>
 
 namespace Ui
 {

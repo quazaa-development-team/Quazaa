@@ -25,7 +25,7 @@
 #ifndef DIALOGLIBRARYSEARCH_H
 #define DIALOGLIBRARYSEARCH_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 
 namespace Ui
 {

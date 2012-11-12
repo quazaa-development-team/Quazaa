@@ -25,7 +25,7 @@
 #ifndef WIDGETCHAT_H
 #define WIDGETCHAT_H
 
-#include <QtWidgets/QWidget>
+#include <QWidget>
 #include "widgetircmain.h"
 
 namespace Ui

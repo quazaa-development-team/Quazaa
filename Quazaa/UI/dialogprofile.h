@@ -25,8 +25,8 @@
 #ifndef DIALOGPROFILE_H
 #define DIALOGPROFILE_H
 
-#include <QtWidgets/QDialog>
-#include <QtWidgets/QListWidgetItem>
+#include <QDialog>
+#include <QListWidgetItem>
 #include "quazaasettings.h"
 
 namespace Ui

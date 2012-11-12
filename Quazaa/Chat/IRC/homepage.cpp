@@ -13,14 +13,14 @@
 */
 
 #include "homepage.h"
-#include <QtWidgets/QCommandLinkButton>
-#include <QtWidgets/QGridLayout>
-#include <QtWidgets/QVBoxLayout>
+#include <QCommandLinkButton>
+#include <QGridLayout>
+#include <QVBoxLayout>
 #include <QPainter>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QMenu>
+#include <QLabel>
+#include <QMenu>
 #include <QFile>
-#include <QtWidgets/QApplication>
+#include <QApplication>
 
 HomePage::HomePage(QWidget* parent) : QWidget(parent)
 {

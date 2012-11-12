@@ -29,7 +29,13 @@
 #include "network.h"
 #include <time.h>
 #include "geoiplist.h"
+
+#if QT_VERSION >= 0x050000 
 #include <QStandardPaths>
+#else
+#include <QDesktopServices>
+#endif
+
 #include <QDir>
 #include "quazaasettings.h"
 
@@ -307,10 +313,17 @@ void CHostCache::Save()
 {
 	ASSUME_LOCK(HostCache.m_pSection);
 
+#if QT_VERSION >= 0x050000 
 	QDir path = QDir(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 	if(!path.exists())
 		path.mkpath(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
+#else
+	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	if(!path.exists())
+		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+#endif
 
 	if(f.open(QFile::WriteOnly))
 	{
@@ -392,10 +405,17 @@ void CHostCache::Load()
 {
 	ASSUME_LOCK(HostCache.m_pSection);
 
+#if QT_VERSION >= 0x050000 
 	QDir path = QDir(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 	if(!path.exists())
 		path.mkpath(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
+#else
+	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	if(!path.exists())
+		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+#endif
 
 	if(f.exists() && f.open(QFile::ReadOnly))
 	{

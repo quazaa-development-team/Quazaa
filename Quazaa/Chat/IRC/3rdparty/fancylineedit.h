@@ -33,8 +33,8 @@
 #ifndef FANCYLINEEDIT_H
 #define FANCYLINEEDIT_H
 
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QAbstractButton>
+#include <QLineEdit>
+#include <QAbstractButton>
 
 namespace Utils {
 

@@ -30,7 +30,7 @@
 
 #include "chatsessiong2.h"
 
-#include <QtWidgets/QColorDialog>
+#include <QColorDialog>
 #include <QPalette>
 
 #ifdef _DEBUG

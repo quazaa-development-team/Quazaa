@@ -13,7 +13,7 @@
 */
 
 #include "textbrowser.h"
-#include <QtWidgets/QScrollBar>
+#include <QScrollBar>
 
 TextBrowser::TextBrowser(QWidget* parent) : QTextBrowser(parent)
 {

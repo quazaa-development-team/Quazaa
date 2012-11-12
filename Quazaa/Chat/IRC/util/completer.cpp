@@ -16,7 +16,7 @@
 #include "historylineedit.h"
 
 #include <QDebug>
-#include <QtWidgets/QAbstractItemView>
+#include <QAbstractItemView>
 
 Completer::Completer(QObject* parent) : QCompleter(parent)
 {

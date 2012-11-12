@@ -14,9 +14,9 @@
 
 #include "maintabwidget.h"
 #include "quazaasettings.h"
-#include <QtWidgets/QShortcut>
-#include <QtWidgets/QTabBar>
-#include <QtWidgets/QApplication>
+#include <QShortcut>
+#include <QTabBar>
+#include <QApplication>
 
 MainTabWidget::MainTabWidget(QWidget* parent) : TabWidget(parent)
 {

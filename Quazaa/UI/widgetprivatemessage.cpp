@@ -29,7 +29,7 @@
 #include "skinsettings.h"
 
 #include <QDesktopServices>
-#include <QtWidgets/QScrollBar>
+#include <QScrollBar>
 
 #ifdef _DEBUG
 #include "debug_new.h"

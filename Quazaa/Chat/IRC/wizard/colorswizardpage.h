@@ -18,8 +18,8 @@
 #include "ui_colorswizardpage.h"
 #include "quazaasettings.h"
 
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QStyledItemDelegate>
+#include <QComboBox>
+#include <QStyledItemDelegate>
 
 enum Columns
 {

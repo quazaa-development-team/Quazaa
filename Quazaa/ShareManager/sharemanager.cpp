@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -32,7 +32,11 @@
 #include <QDateTime>
 #include <QVariant>
 #include <QList>
+#if QT_VERSION >= 0x050000 
 #include <QStandardPaths>
+#else
+#include <QDesktopServices>
+#endif
 
 #include "quazaasettings.h"
 #include "queryhashmaster.h"
@@ -71,11 +75,19 @@ void CShareManager::SetupThread()
 	systemLog.postLog(LogSeverity::Debug, QString("Setting up ShareManager thread"));
 	//qDebug() << "Setting up ShareManager thread";
 	m_oDatabase = QSqlDatabase::addDatabase("QSQLITE", "Shares");
+#if QT_VERSION >= 0x050000 
 	QDir path = QDir(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 	if(!path.exists())
 		path.mkpath(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 
 	m_oDatabase.setDatabaseName(QString("%1%2.quazaa%2shares.sdb").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)).arg(QDir::separator()));
+#else
+	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	if(!path.exists())
+		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+
+	m_oDatabase.setDatabaseName(QString("%1%2.quazaa%2shares.sdb").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).arg(QDir::separator()));
+#endif
 
 	if(!m_oDatabase.open())
 	{

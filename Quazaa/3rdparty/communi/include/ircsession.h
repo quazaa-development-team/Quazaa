@@ -16,9 +16,9 @@
 #define IRCSESSION_H
 
 #include <IrcGlobal>
-#include <QtCore/qhash.h>
-#include <QtCore/qobject.h>
-#include <QtCore/qscopedpointer.h>
+#include <qhash.h>
+#include <qobject.h>
+#include <qscopedpointer.h>
 #include <QtNetwork/qabstractsocket.h>
 
 class IrcCommand;

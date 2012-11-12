@@ -16,8 +16,8 @@
 #define IRCSENDER_H
 
 #include <IrcGlobal>
-#include <QtCore/qstring.h>
-#include <QtCore/qmetatype.h>
+#include <qstring.h>
+#include <qmetatype.h>
 
 class COMMUNI_EXPORT IrcSender
 {

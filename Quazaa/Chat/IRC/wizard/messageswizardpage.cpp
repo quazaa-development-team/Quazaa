@@ -25,9 +25,15 @@ MessagesWizardPage::MessagesWizardPage(QWidget* parent) : QWizardPage(parent)
 {
 	ui.setupUi(this);
 	setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/oxygen/64x64/actions/bookmark.png"));
+#if QT_VERSION >= 0x050000 
 	ui.treeWidget->header()->setSectionResizeMode(Name, QHeaderView::Stretch);
 	ui.treeWidget->header()->setSectionResizeMode(Message, QHeaderView::ResizeToContents);
 	ui.treeWidget->header()->setSectionResizeMode(Highlight, QHeaderView::ResizeToContents);
+#else
+	ui.treeWidget->header()->setResizeMode(Name, QHeaderView::Stretch);
+	ui.treeWidget->header()->setResizeMode(Message, QHeaderView::ResizeToContents);
+	ui.treeWidget->header()->setResizeMode(Highlight, QHeaderView::ResizeToContents);
+#endif
 
 	connect(ui.treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SIGNAL(settingsChanged()));
 }

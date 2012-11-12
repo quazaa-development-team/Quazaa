@@ -15,7 +15,7 @@
 #ifndef SETTINGSWIZARD_H
 #define SETTINGSWIZARD_H
 
-#include <QtWidgets/QWizard>
+#include <QWizard>
 #include "quazaasettings.h"
 
 class SettingsWizard : public QWizard

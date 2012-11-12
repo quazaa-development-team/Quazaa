@@ -25,8 +25,8 @@
 #ifndef WIDGETLIBRARYVIEW_H
 #define WIDGETLIBRARYVIEW_H
 
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QLineEdit>
+#include <QMainWindow>
+#include <QLineEdit>
 
 namespace Ui
 {

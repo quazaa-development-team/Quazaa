@@ -27,7 +27,7 @@
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
-#include <QtWidgets/QFileDialog>
+#include <QFileDialog>
 #include <QUuid>
 
 #ifdef _DEBUG

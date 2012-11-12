@@ -25,7 +25,7 @@
 #ifndef WIDGETSECURITY_H
 #define WIDGETSECURITY_H
 
-#include <QtWidgets/QtWidgets>
+#include <QMainWindow>
 
 #include "tableview.h"
 

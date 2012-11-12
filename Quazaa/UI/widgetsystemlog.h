@@ -25,7 +25,7 @@
 #ifndef WIDGETSYSTEMLOG_H
 #define WIDGETSYSTEMLOG_H
 
-#include <QtWidgets/QMainWindow>
+#include <QMainWindow>
 #include <QTime>
 #include "types.h"
 
