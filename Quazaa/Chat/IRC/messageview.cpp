@@ -316,7 +316,9 @@ void MessageView::applySettings()
 	d.textBrowser->document()->setMaximumBlockCount(quazaaSettings.Chat.MaxBlockCount);
 
 	QString backgroundColor = quazaaSettings.Chat.Colors.value(IrcColorType::Background);
-	d.textBrowser->setStyleSheet(QString("QTextBrowser { background-color: %1 }").arg(backgroundColor));
+	QString fontColor = quazaaSettings.Chat.Colors.value(IrcColorType::Message);
+	d.textBrowser->setStyleSheet(QString("QTextBrowser { background-color: %1; }").arg(backgroundColor));
+	d.labelTopic->setStyleSheet(QString("QLabel { border: 3px solid transparent; background-color: %1; color: %2 }").arg(backgroundColor).arg(fontColor));
 
 	d.textBrowser->document()->setDefaultStyleSheet(
 		QString(

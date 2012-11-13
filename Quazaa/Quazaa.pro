@@ -69,6 +69,7 @@ INCLUDEPATH += NetworkCore \
 
 include(3rdparty/qtsingleapplication/qtsingleapplication.pri)
 include(Chat/IRC/irc.pri)
+include(3rdparty/communi/src/3rdparty/mozilla/mozilla.pri)
 
 # Version stuff
 MAJOR = 0
@@ -322,14 +323,6 @@ SOURCES += \
 	UI/winmain.cpp \
 	UI/wizardircconnection.cpp \
 	UI/wizardquickstart.cpp \
-	3rdparty/communi/src/ircutil.cpp \
-	3rdparty/communi/src/ircsession.cpp \
-	3rdparty/communi/src/ircsender.cpp \
-	3rdparty/communi/src/ircparser.cpp \
-	3rdparty/communi/src/ircmessage.cpp \
-	3rdparty/communi/src/ircencoder.cpp \
-	3rdparty/communi/src/irccommand.cpp \
-	3rdparty/communi/src/irc.cpp \
 	3rdparty/nvwa/debug_new.cpp \
 	3rdparty/zlib/zutil.c \
 	3rdparty/zlib/uncompr.c \
@@ -346,7 +339,17 @@ SOURCES += \
 	3rdparty/zlib/deflate.c \
 	3rdparty/zlib/crc32.c \
 	3rdparty/zlib/adler32.c \
-	quazaasysinfo.cpp
+	quazaasysinfo.cpp \
+	3rdparty/communi/src/ircutil.cpp \
+	3rdparty/communi/src/ircsession.cpp \
+	3rdparty/communi/src/ircsender.cpp \
+	3rdparty/communi/src/ircmessageparser.cpp \
+	3rdparty/communi/src/ircmessagedecoder.cpp \
+	3rdparty/communi/src/ircmessage.cpp \
+	3rdparty/communi/src/irccommand.cpp \
+	3rdparty/communi/src/irccodecplugin.cpp \
+	3rdparty/communi/src/irc.cpp \
+	3rdparty/communi/src/ircformatting.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -495,16 +498,6 @@ HEADERS += \
 	UI/winmain.h \
 	UI/wizardircconnection.h \
 	UI/wizardquickstart.h \
-	3rdparty/communi/include/ircutil.h \
-	3rdparty/communi/include/ircsession_p.h \
-	3rdparty/communi/include/ircsession.h \
-	3rdparty/communi/include/ircsender.h \
-	3rdparty/communi/include/ircparser_p.h \
-	3rdparty/communi/include/ircmessage.h \
-	3rdparty/communi/include/ircglobal.h \
-	3rdparty/communi/include/ircencoder_p.h \
-	3rdparty/communi/include/irccommand.h \
-	3rdparty/communi/include/irc.h \
 	3rdparty/nvwa/debug_new.h \
 	3rdparty/nvwa/fast_mutex.h \
 	3rdparty/nvwa/static_assert.h \
@@ -519,7 +512,19 @@ HEADERS += \
 	3rdparty/zlib/gzguts.h \
 	3rdparty/zlib/deflate.h \
 	3rdparty/zlib/crc32.h \
-	quazaasysinfo.h
+	quazaasysinfo.h \
+	3rdparty/communi/include/ircutil.h \
+	3rdparty/communi/include/ircsession_p.h \
+	3rdparty/communi/include/ircsession.h \
+	3rdparty/communi/include/ircsender.h \
+	3rdparty/communi/include/ircmessageparser_p.h \
+	3rdparty/communi/include/ircmessagedecoder_p.h \
+	3rdparty/communi/include/ircmessage.h \
+	3rdparty/communi/include/ircglobal.h \
+	3rdparty/communi/include/irccommand.h \
+	3rdparty/communi/include/irccodecplugin.h \
+	3rdparty/communi/include/irc.h \
+	3rdparty/communi/include/ircformatting.h
 
 FORMS += \
 	UI/dialogabout.ui \
