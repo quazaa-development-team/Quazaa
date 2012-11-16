@@ -1,6 +1,8 @@
 #include "dialogircsettings.h"
 #include "ui_dialogircsettings.h"
 
+#include "quazaasettings.h"
+
 DialogIrcSettings::DialogIrcSettings(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::DialogIrcSettings)
@@ -32,12 +34,12 @@ DialogIrcSettings::~DialogIrcSettings()
 
 void DialogIrcSettings::saveSettings()
 {
-	quazaaSettings.Chat.ConnectOnStartup = generalPage->connectOnStartup();
+/*	quazaaSettings.Chat.ConnectOnStartup = generalPage->connectOnStartup();
 	quazaaSettings.Chat.MaxBlockCount = generalPage->maxBlockCount();
 	quazaaSettings.Chat.TimeStamp = generalPage->timeStamp();
 	quazaaSettings.Chat.Messages = messagesPage->messages();
 	quazaaSettings.Chat.Highlights = messagesPage->highlights();
-	quazaaSettings.Chat.Colors = colorsPage->colors();
+	quazaaSettings.Chat.Colors = colorsPage->colors(); */
 
 	quazaaSettings.saveChat();
 
@@ -46,12 +48,12 @@ void DialogIrcSettings::saveSettings()
 
 void DialogIrcSettings::loadSettings()
 {
-	generalPage->setConnectOnStartup(quazaaSettings.Chat.ConnectOnStartup);
+/*	generalPage->setConnectOnStartup(quazaaSettings.Chat.ConnectOnStartup);
 	generalPage->setMaxBlockCount(quazaaSettings.Chat.MaxBlockCount);
 	generalPage->setTimeStamp(quazaaSettings.Chat.TimeStamp);
 	messagesPage->setMessages(quazaaSettings.Chat.Messages);
 	messagesPage->setHighlights(quazaaSettings.Chat.Highlights);
-	colorsPage->setColors(quazaaSettings.Chat.Colors);
+	colorsPage->setColors(quazaaSettings.Chat.Colors); */
 }
 
 void DialogIrcSettings::on_pushButtonOK_clicked()

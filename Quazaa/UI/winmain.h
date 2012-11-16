@@ -37,7 +37,6 @@
 #include "widgettransfers.h"
 #include "widgetsecurity.h"
 #include "widgetactivity.h"
-#include "widgetircsidebars.h"
 #include "widgethostcache.h"
 #include "widgetdiscovery.h"
 #include "widgetscheduler.h"
@@ -45,6 +44,8 @@
 #include "widgetpacketdump.h"
 #include "widgetsearchmonitor.h"
 #include "widgethitmonitor.h"
+
+#include "mainwindow.h"
 
 #include "dialogprivatemessages.h"
 #include <QList>
@@ -86,7 +87,7 @@ public:
 	WidgetTransfers* pageTransfers;
 	WidgetSecurity* pageSecurity;
 	WidgetActivity* pageActivity;
-	WidgetIrcSidebars* pageIrcSidebars;
+	MainIrcWindow* pageIrcMain;
 	WidgetHostCache* pageHostCache;
 	WidgetDiscovery* pageDiscovery;
 	WidgetScheduler* pageScheduler;

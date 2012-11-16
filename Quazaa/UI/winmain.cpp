@@ -132,8 +132,8 @@ CWinMain::CWinMain(QWidget* parent) :
 	ui->stackedWidgetMain->addWidget(pageSecurity);
 	pageActivity = new WidgetActivity();
 	ui->stackedWidgetMain->addWidget(pageActivity);
-	pageIrcSidebars = new WidgetIrcSidebars();
-	ui->stackedWidgetMain->addWidget(pageIrcSidebars);
+	pageIrcMain = new MainIrcWindow();
+	ui->stackedWidgetMain->addWidget(pageIrcMain);
 	pageHostCache = new WidgetHostCache;
 	ui->stackedWidgetMain->addWidget(pageHostCache);
 	pageDiscovery = new WidgetDiscovery;
@@ -443,7 +443,7 @@ void CWinMain::quazaaShutdown()
 	pageTransfers->saveWidget();
 	pageSecurity->saveWidget();
 	pageActivity->saveWidget();
-	pageIrcSidebars->saveWidget();
+	//pageIrcSidebars->saveWidget();
 	pageHostCache->saveWidget();
 	pageDiscovery->saveWidget();
 	pageScheduler->saveWidget();

@@ -22,13 +22,12 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <QApplication>
+#include "application.h"
 
 #include "winmain.h"
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "timedsignalqueue.h"
-#include <QtSingleApplication>
 
 #include "geoiplist.h"
 #include "network.h"
@@ -42,6 +41,12 @@
 #include "hostcache.h"
 
 #include "Security/security.h"
+
+#include <QNetworkProxy>
+#include <QSettings>
+#include <QtPlugin>
+#include <QUrl>
+#include <Irc>
 
 #ifdef Q_OS_LINUX
 #include <sys/time.h>
@@ -60,6 +65,24 @@
 	#include <QMessageBox>
 	#include "version.h"
 #endif
+
+#ifdef COMMUNI_STATIC_ICU_PLUGIN
+	Q_IMPORT_PLUGIN(icuplugin)
+#endif
+
+#ifdef COMMUNI_STATIC_UCHARDET_PLUGIN
+	Q_IMPORT_PLUGIN(uchardetplugin)
+#endif
+
+static void setApplicationProxy(QUrl url)
+{
+	if (!url.isEmpty()) {
+		if (url.port() == -1)
+			url.setPort(8080);
+		QNetworkProxy proxy(QNetworkProxy::HttpProxy, url.host(), url.port(), url.userName(), url.password());
+		QNetworkProxy::setApplicationProxy(proxy);
+	}
+}
 
 /*void myMessageOutput(QtMsgType type, const char *msg)
 {
@@ -84,15 +107,34 @@ QuazaaGlobals quazaaGlobals;
 int main(int argc, char *argv[])
 {
 	//qInstallMsgHandler(myMessageOutput);
-	QtSingleApplication theApp( argc, argv );
+	Application theApp( argc, argv );
 
-	QStringList args = QApplication::arguments();
+	QStringList args = theApp.arguments();
 
-	// Check if the application is already running
-	if( theApp.sendMessage( "Show App" ) )
-	{
-		return 0;
-	}
+	QUrl proxy;
+	int index = args.indexOf("-proxy");
+	if (index != -1)
+		proxy = QUrl(args.value(index + 1));
+	else
+		proxy = QUrl(qgetenv("http_proxy"));
+	if (!proxy.isEmpty())
+		setApplicationProxy(proxy);
+
+	QByteArray encoding;
+	index = args.indexOf("-encoding");
+	if (index != -1)
+		encoding = args.value(index + 1).toLocal8Bit();
+	else if (!qgetenv("COMMUNI_ENCODING").isEmpty())
+		encoding = qgetenv("COMMUNI_ENCODING");
+	if (!encoding.isEmpty())
+		Application::setEncoding(encoding);
+
+	QByteArray codecPlugin;
+	index = args.indexOf("-codec-plugin");
+	if (index != -1)
+		codecPlugin = args.value(index + 1).toLocal8Bit();
+	if (!codecPlugin.isEmpty())
+		irc_set_codec_plugin(codecPlugin);
 
 // To enable this, run qmake with "DEFINES+=_SNAPSHOT_BUILD"
 #ifdef _SNAPSHOT_BUILD
@@ -231,11 +273,6 @@ int main(int argc, char *argv[])
 	dlgSplash->updateProgress( 90, QObject::tr( "Loading Tray Icon..." ) );
 	qApp->processEvents();
 	MainWindow->loadTrayIcon();
-
-	// Make the main window show if the user tried to open another instance
-	QObject::connect( &theApp, SIGNAL( messageReceived( const QString& ) ),
-					  MainWindow, SLOT( showOnTop() ));
-	theApp.setActivationWindow( MainWindow );
 
 	dlgSplash->updateProgress( 100, QObject::tr( "Welcome to Quazaa!" ) );
 	qApp->processEvents();

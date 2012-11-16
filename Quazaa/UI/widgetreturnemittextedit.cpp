@@ -28,7 +28,7 @@
 #include <QShortcut>
 #include <QDebug>
 
-#if QT_VERSION >= 0x050000 
+#if QT_VERSION >= 0x050000
 #include <QTextDocument> //For Qt::escape()
 #endif
 
@@ -42,7 +42,7 @@ WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 	resetHistoryIndex();
 	m_oCompleter = new Completer(this);
 	m_oCompleter->setWidget(this);
-	m_oCompleter->setTextEdit(this);
+	//m_oCompleter->setTextEdit(this);
 
 	emitReturn = true;
 	connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
@@ -177,7 +177,7 @@ void WidgetReturnEmitTextEdit::addHistory(QTextDocument* document)
 void WidgetReturnEmitTextEdit::addHistory(QString* text)
 {
 	QTextDocument* document = new QTextDocument();
-#if QT_VERSION >= 0x050000 
+#if QT_VERSION >= 0x050000
 	document->setHtml(text->toHtmlEscaped());
 #else
 	QString escapeText = text->toLocal8Bit();

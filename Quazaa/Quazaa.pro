@@ -68,8 +68,10 @@ INCLUDEPATH += NetworkCore \
 	.
 
 include(3rdparty/qtsingleapplication/qtsingleapplication.pri)
-include(Chat/IRC/irc.pri)
+include(3rdparty/communi/examples/desktop/src/src.pri)
+include(3rdparty/communi/examples/shared/shared.pri)
 include(3rdparty/communi/src/3rdparty/mozilla/mozilla.pri)
+
 
 # Version stuff
 MAJOR = 0
@@ -301,8 +303,6 @@ SOURCES += \
 	UI/widgethitmonitor.cpp \
 	UI/widgethome.cpp \
 	UI/widgethostcache.cpp \
-	UI/widgetircmain.cpp \
-	UI/widgetircsidebars.cpp \
 	UI/widgetlibrary.cpp \
 	UI/widgetlibraryview.cpp \
 	UI/widgetmedia.cpp \
@@ -349,7 +349,8 @@ SOURCES += \
 	3rdparty/communi/src/irccommand.cpp \
 	3rdparty/communi/src/irccodecplugin.cpp \
 	3rdparty/communi/src/irc.cpp \
-	3rdparty/communi/src/ircformatting.cpp
+	3rdparty/communi/src/ircsessioninfo.cpp \
+	3rdparty/communi/src/ircpalette.cpp
 
 HEADERS += \
 	3rdparty/CyoEncode/CyoDecode.h \
@@ -476,8 +477,6 @@ HEADERS += \
 	UI/widgethitmonitor.h \
 	UI/widgethome.h \
 	UI/widgethostcache.h \
-	UI/widgetircmain.h \
-	UI/widgetircsidebars.h \
 	UI/widgetlibrary.h \
 	UI/widgetlibraryview.h \
 	UI/widgetmedia.h \
@@ -524,7 +523,8 @@ HEADERS += \
 	3rdparty/communi/include/irccommand.h \
 	3rdparty/communi/include/irccodecplugin.h \
 	3rdparty/communi/include/irc.h \
-	3rdparty/communi/include/ircformatting.h
+	3rdparty/communi/include/ircsessioninfo.h \
+	3rdparty/communi/include/ircpalette.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -581,8 +581,6 @@ FORMS += \
 	UI/widgetuploads.ui \
 	UI/winmain.ui \
 	UI/wizardquickstart.ui \
-	UI/widgetircmain.ui \
-	UI/widgetircsidebars.ui \
 	UI/wizardircconnection.ui \
 	UI/dialogircsettings.ui
 
