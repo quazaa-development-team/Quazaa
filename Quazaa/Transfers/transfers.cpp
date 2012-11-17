@@ -74,6 +74,7 @@ void CTransfers::stop()
 	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Stopping transfers...")));
 
 	m_bActive = false;
+
 	TransfersThread.exit(0);
 	Downloads.stop();
 }

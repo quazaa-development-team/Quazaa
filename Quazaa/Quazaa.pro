@@ -117,9 +117,11 @@ CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 win32 {
 	LIBS += -Lbin -luser32 -lole32 -lshell32 # if you are at windows os
 }
-DEFINES += COMMUNI_STATIC
+DEFINES += COMMUNI_STATIC \
+	COMMUNI_STATIC_UCHARDET_PLUGIN
 CONFIG(debug, debug|release){
 	DEFINES += _DEBUG
+	QT_FATAL_WARNINGS = 1
 }
 TEMPLATE = app
 

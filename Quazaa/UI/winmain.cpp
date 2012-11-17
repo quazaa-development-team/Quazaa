@@ -407,33 +407,7 @@ void CWinMain::quazaaShutdown()
 	DialogSplash* dlgSplash = new DialogSplash();
 	dlgSplash->show();
 
-	dlgSplash->updateProgress(95, tr("Closing Networks..."));
-	qApp->processEvents();
-	neighboursRefresher->stop();
-	delete neighboursRefresher;
-	neighboursRefresher = 0;
-	Network.Disconnect();
-	ShareManager.Stop();
-
-	dlgSplash->updateProgress(85, tr("Stopping transfers..."));
-	qApp->processEvents();
-	Transfers.stop();
-
-	dlgSplash->updateProgress(60, tr("Saving Security Manager..."));
-	qApp->processEvents();
-	securityManager.stop(); // Prepare Security Manager for shutdown (this includes saving the security rules to disk)
-
-	dlgSplash->updateProgress(50, tr("Saving Settings..."));
-	qApp->processEvents();
-	quazaaSettings.saveSettings();
-
-	dlgSplash->updateProgress(40, tr("Saving Host Cache..."));
-	qApp->processEvents();
-	HostCache.m_pSection.lock();
-	HostCache.Save();
-	HostCache.m_pSection.unlock();
-
-	dlgSplash->updateProgress(20, tr("Saving UI..."));
+	dlgSplash->updateProgress(95, tr("Saving UI..."));
 	qApp->processEvents();
 	quazaaSettings.WinMain.MainToolbar = saveState();
 	pageHome->saveWidget();
@@ -443,7 +417,7 @@ void CWinMain::quazaaShutdown()
 	pageTransfers->saveWidget();
 	pageSecurity->saveWidget();
 	pageActivity->saveWidget();
-	//pageIrcSidebars->saveWidget();
+	pageIrcMain->saveWidget();
 	pageHostCache->saveWidget();
 	pageDiscovery->saveWidget();
 	pageScheduler->saveWidget();
@@ -454,9 +428,35 @@ void CWinMain::quazaaShutdown()
 	quazaaSettings.saveWindowSettings(this);
 	emit closing();
 
-	dlgSplash->updateProgress(5, tr("Removing Tray Icon..."));
+	dlgSplash->updateProgress(90, tr("Saving Settings..."));
+	qApp->processEvents();
+	quazaaSettings.saveSettings();
+
+	dlgSplash->updateProgress(85, tr("Closing Networks..."));
+	qApp->processEvents();
+	neighboursRefresher->stop();
+	delete neighboursRefresher;
+	neighboursRefresher = 0;
+	Network.Disconnect();
+	ShareManager.Stop();
+
+	dlgSplash->updateProgress(65, tr("Saving Security Manager..."));
+	qApp->processEvents();
+	securityManager.stop(); // Prepare Security Manager for shutdown (this includes saving the security rules to disk)
+
+	dlgSplash->updateProgress(50, tr("Saving Host Cache..."));
+	qApp->processEvents();
+	HostCache.m_pSection.lock();
+	HostCache.Save();
+	HostCache.m_pSection.unlock();
+
+	dlgSplash->updateProgress(30, tr("Removing Tray Icon..."));
 	qApp->processEvents();
 	delete trayIcon;
+
+	dlgSplash->updateProgress(15, tr("Stopping transfers..."));
+	qApp->processEvents();
+	Transfers.stop();
 
 	qApp->processEvents();
 

@@ -789,5 +789,6 @@
         <file>Resource/Smileys/sleepy.gif</file>
         <file>Resource/Chat/Immune.png</file>
         <file>Resource/HomeBackground.png</file>
+        <file>Resource/ajax-loader.gif</file>
     </qresource>
 </RCC>

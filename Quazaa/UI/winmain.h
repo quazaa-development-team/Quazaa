@@ -45,7 +45,7 @@
 #include "widgetsearchmonitor.h"
 #include "widgethitmonitor.h"
 
-#include "mainwindow.h"
+#include "mainircwindow.h"
 
 #include "dialogprivatemessages.h"
 #include <QList>
