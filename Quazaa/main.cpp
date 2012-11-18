@@ -47,6 +47,7 @@
 #include <QtPlugin>
 #include <QUrl>
 #include <Irc>
+#include <QIcon>
 
 #ifdef Q_OS_LINUX
 #include <sys/time.h>
@@ -64,14 +65,6 @@
 #ifdef _SNAPSHOT_BUILD
 	#include <QMessageBox>
 	#include "version.h"
-#endif
-
-#ifdef COMMUNI_STATIC_ICU_PLUGIN
-	Q_IMPORT_PLUGIN(icuplugin)
-#endif
-
-#ifdef COMMUNI_STATIC_UCHARDET_PLUGIN
-	Q_IMPORT_PLUGIN(uchardetplugin)
 #endif
 
 static void setApplicationProxy(QUrl url)
@@ -187,6 +180,20 @@ int main(int argc, char *argv[])
 	theApp.setApplicationVersion( QuazaaGlobals::APPLICATION_VERSION_STRING() );
 	theApp.setOrganizationDomain( QuazaaGlobals::APPLICATION_ORGANIZATION_DOMAIN() );
 	theApp.setOrganizationName(   QuazaaGlobals::APPLICATION_ORGANIZATION_NAME() );
+	theApp.setApplicationSlogan( QObject::tr("World class file sharing.") );
+
+	QIcon icon;
+	icon.addFile(":/Resource/Quazaa16.png");
+	icon.addFile(":/Resource/Quazaa24.png");
+	icon.addFile(":/Resource/Quazaa32.png");
+	icon.addFile(":/Resource/Quazaa48.png");
+	icon.addFile(":/Resource/Quazaa64.png");
+	icon.addFile(":/Resource/Quazaa128.png");
+	qApp->setWindowIcon(icon);
+
+	QFile file(":Resource/stylesheet.css");
+	if (file.open(QFile::ReadOnly | QIODevice::Text))
+		qApp->setStyleSheet(QString::fromUtf8(file.readAll()));
 
 	// Setup Qt elements of signal queue necessary for operation
 	signalQueue.setup();

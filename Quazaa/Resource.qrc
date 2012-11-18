@@ -790,5 +790,9 @@
         <file>Resource/Chat/Immune.png</file>
         <file>Resource/HomeBackground.png</file>
         <file>Resource/ajax-loader.gif</file>
+        <file>Resource/icons/buttons/next.png</file>
+        <file>Resource/icons/buttons/prev.png</file>
+        <file>Resource/icons/buttons/return.png</file>
+        <file>Resource/icons/buttons/tab.png</file>
     </qresource>
 </RCC>
