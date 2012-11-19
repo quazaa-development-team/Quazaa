@@ -1155,80 +1155,30 @@ p, li { white-space: pre-wrap; }
    <signal>toggled(bool)</signal>
    <receiver>frameLibraryTask</receiver>
    <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>48</x>
-     <y>-331</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>47</x>
-     <y>-291</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>toolButtonHomeTransfersTaskDownloadsHeader</sender>
    <signal>toggled(bool)</signal>
    <receiver>listWidgetTransfersTaskDownloadsTool</receiver>
    <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>132</x>
-     <y>-118</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>131</x>
-     <y>-78</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>toolButtonHomeTransfersTaskUploadsHeader</sender>
    <signal>toggled(bool)</signal>
    <receiver>listWidgetTransfersTaskUploadsTool</receiver>
    <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>107</x>
-     <y>-35</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>106</x>
-     <y>5</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>toolButtonHomeConnectionTaskHeader</sender>
    <signal>toggled(bool)</signal>
    <receiver>frameConnectionTask</receiver>
    <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>53</x>
-     <y>73</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>52</x>
-     <y>107</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>toolButtonHomeTorrentsTaskHeader</sender>
    <signal>toggled(bool)</signal>
    <receiver>frameTorrentsTask</receiver>
    <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>83</x>
-     <y>217</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>83</x>
-     <y>226</y>
-    </hint>
-   </hints>
   </connection>
  </connections>
 </ui>
