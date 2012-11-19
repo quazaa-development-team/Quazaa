@@ -12,11 +12,13 @@
 
 #include <queue>
 
-/* -------------------------------------------------------------------------------- */
-/* --------------------------------- CTimerObject --------------------------------- */
-/* -------------------------------------------------------------------------------- */
-// This is a helper class that allows to store signals and related relevant
-// information, as well as to emit the signals at a given time.
+/* ---------------------------------------------------------------------------------------------- */
+/* ---------------------------------------- CTimerObject ---------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
+/**
+ * @brief The CTimerObject class is a helper class that allows to store signals and related relevant
+ * information, as well as to emit the signals at a given time.
+ */
 class CTimerObject
 {
 private:
@@ -34,7 +36,7 @@ private:
 		QGenericArgument val7;
 		QGenericArgument val8;
 		QGenericArgument val9;
-	} m_sSignal;
+	} m_sSignal; // String based Qt4 signal
 
 	QUuid	m_oUUID;
 	quint64	m_tTime;
@@ -66,9 +68,9 @@ private:
 	friend class CTimedSignalQueue;
 };
 
-/* -------------------------------------------------------------------------------- */
-/* ------------------------------- CTimedSignalQueue ------------------------------ */
-/* -------------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
+/* -------------------------------------- CTimedSignalQueue ------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
 class CTimedSignalQueue : public QObject
 {
     Q_OBJECT
