@@ -27,13 +27,35 @@
 
 #include <QFileIconProvider>
 
+/**
+ * @brief The CFileIconProvider class can be used to get icons representing a given file Type. It
+ * handles certain Windows versions more gracefully than QFileIconProvider does.
+ */
 class CFileIconProvider : public QFileIconProvider
 {
 public:
+	/**
+	 * @brief CFileIconProvider creates a new CFileIconProvider object.
+	 */
 	CFileIconProvider();
+
+	/**
+	 * @brief ~CFileIconProvider destroys a given CFileIconProvider object.
+	 */
 	virtual ~CFileIconProvider() {}
 
+	/**
+	 * @brief icon provides an icon given a QFileInfo object.
+	 * @param info
+	 * @return The requested QIcon
+	 */
 	QIcon icon(const QFileInfo &info) const;
+
+	/**
+	 * @brief icon provides an icon given a file path.
+	 * @param info
+	 * @return The requested QIcon
+	 */
 	QIcon icon(const QString &file) const;
 };
 

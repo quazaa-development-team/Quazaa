@@ -38,6 +38,7 @@ QIcon CNetworkIconProvider::icon(DiscoveryProtocol protocol)
 	QPixmap pixIcon;
 	if( QPixmapCache::find(key, pixIcon) )
 	{
+		// pixIcon internally uses shared data to avoid needless copying.
 		icon.addPixmap(pixIcon);
 		return icon;
 	}
@@ -64,6 +65,8 @@ QIcon CNetworkIconProvider::icon(DiscoveryProtocol protocol)
 		return QIcon();
 
 	icon.addPixmap(pixIcon);
+
+	// Default cache size: 2048 KB on embedded platforms, 10240 KB on desktop platforms
 	QPixmapCache::insert(key, pixIcon);
 
 	return icon;
@@ -77,6 +80,7 @@ QIcon CNetworkIconProvider::icon(TransferProtocol protocol)
 	QPixmap pixIcon;
 	if( QPixmapCache::find(key, pixIcon) )
 	{
+		// pixIcon internally uses shared data to avoid needless copying.
 		icon.addPixmap(pixIcon);
 		return icon;
 	}
@@ -96,6 +100,8 @@ QIcon CNetworkIconProvider::icon(TransferProtocol protocol)
 		return QIcon();
 
 	icon.addPixmap(pixIcon);
+
+	// Default cache size: 2048 KB on embedded platforms, 10240 KB on desktop platforms
 	QPixmapCache::insert(key, pixIcon);
 
 	return icon;

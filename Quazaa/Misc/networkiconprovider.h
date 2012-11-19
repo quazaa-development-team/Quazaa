@@ -29,13 +29,35 @@
 
 class QIcon;
 
+/**
+ * @brief The CNetworkIconProvider class can be used to obtain network icons. It optimizes memory
+ * usage and HDD accesses using the QPixmapCache.
+ */
 class CNetworkIconProvider
 {
 private:
+	/**
+	 * @brief CNetworkIconProvider creates a new CNetworkIconProvider object.
+	 */
 	CNetworkIconProvider();
 
 public:
+	/**
+	 * @brief icon can be used to get an apporpriate icon for a given DiscoveryProtocol.
+	 * @param protocol
+	 * @return The requested icon. Note that it internally uses shared data so you don't need to
+	 *         worry about copying it around or requesting the same icon twice (in terms of memory
+	 *         consumption).
+	 */
 	static QIcon icon(DiscoveryProtocol protocol);
+
+	/**
+	 * @brief icon can be used to get an apporpriate icon for a given TransferProtocol.
+	 * @param protocol
+	 * @return The requested icon. Note that it internally uses shared data so you don't need to
+	 *         worry about copying it around or requesting the same icon twice (in terms of memory
+	 *         consumption).
+	 */
 	static QIcon icon(TransferProtocol protocol);
 };
 
