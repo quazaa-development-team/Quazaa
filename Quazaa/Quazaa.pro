@@ -30,12 +30,15 @@ QT_VER_MIN = $$member(QT_VERSION, 1)
 
 greaterThan(QT_VER_MAJ, 4) {
 QT += widgets \
-	gui
+	gui \
+	multimedia \
+	multimediawidgets
 }
 
 QT += network \
 	sql \
 	xml
+
 TARGET = Quazaa
 
 # Paths

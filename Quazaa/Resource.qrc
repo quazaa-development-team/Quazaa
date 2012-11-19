@@ -794,5 +794,10 @@
         <file>Resource/icons/buttons/prev.png</file>
         <file>Resource/icons/buttons/return.png</file>
         <file>Resource/icons/buttons/tab.png</file>
+        <file>Resource/reconnect.png</file>
+        <file>Resource/reconnect-pressed.png</file>
+        <file>Resource/stylesheet.css</file>
+        <file>Resource/welcome_footer.html</file>
+        <file>Resource/welcome_header.html</file>
     </qresource>
 </RCC>

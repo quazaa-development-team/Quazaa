@@ -191,10 +191,6 @@ int main(int argc, char *argv[])
 	icon.addFile(":/Resource/Quazaa128.png");
 	qApp->setWindowIcon(icon);
 
-	QFile file(":Resource/stylesheet.css");
-	if (file.open(QFile::ReadOnly | QIODevice::Text))
-		qApp->setStyleSheet(QString::fromUtf8(file.readAll()));
-
 	// Setup Qt elements of signal queue necessary for operation
 	signalQueue.setup();
 
