@@ -90,39 +90,40 @@ quint16 CNetworkType::toQuint16() const
 	return m_nNetworks;
 }
 
-/**
-  * Empty constructor.
-  * Locking: /
-  */
-CDiscoveryService::CDiscoveryService() :
-	m_nServiceType( stNull ),
-	m_oNetworkType(),
-	m_oServiceURL(),
-	m_nRating( 0 ),
-	m_nProbabilityMultiplicator( 0 ),
-	m_oUUID(),
-	m_bQueued( false ),
-	m_bBlocked( false ),
-	m_nRequest( srNoRequest )
-{
-}
+///**
+//  * Empty constructor.
+//  * Locking: /
+//  */
+//CDiscoveryService::CDiscoveryService() :
+//    m_nServiceType( stNull ),
+//    m_oNetworkType(),
+//    m_oServiceURL(),
+//    m_nRating( 0 ),
+//    m_nProbabilityMultiplicator( 0 ),
+//    m_oUUID(),
+//    m_bQueued( false ),
+//    m_nLastHosts( 0 ),
+//    m_nTotalHosts( 0 ),
+//    m_tLastQueried( 0 ),
+//    m_nRequest( srNoRequest )
+//{
+//}
 
 /**
   * Default constructor.
   * Locking: /
   */
-CDiscoveryService::CDiscoveryService(const QUrl& oURL, const ServiceType,
-									 const CNetworkType& oNType,
-									 const quint8 nRating, const QUuid& oID) :
+CDiscoveryService::CDiscoveryService(const QUrl& oURL, const CNetworkType& oNType, const quint8 nRating) :
 	m_nServiceType( stNull ),
 	m_oNetworkType( oNType ),
 	m_oServiceURL( oURL ),
 	m_nRating( nRating ),
-	m_oUUID( oID ),
-	m_bQueued( false ),
-	m_nRequest( srNoRequest )
+	m_nProbabilityMultiplicator( ( nRating < 5 ) ? nRating : 5 ),
+	m_nLastHosts( 0 ),
+	m_nTotalHosts( 0 ),
+	m_tLastQueried( 0 ),
+	m_bRunning( false )
 {
-	m_nProbabilityMultiplicator = ( nRating < 5 ) ? nRating : 5;
 }
 
 /**
@@ -131,20 +132,19 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const ServiceType,
   * Locking: /
   */
 CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
-	m_bQueued( false )
+	m_bRunning( false )
 {
 	// The usage of a custom copy constructor makes sure the list of registered
 	// pointers is NOT forwarded to a copy of this rule.
 
 	m_nServiceType	= pService.m_nServiceType;
-	m_oNetworkType  = pService.m_oNetworkType;
+	m_oNetworkType	= pService.m_oNetworkType;
 	m_oServiceURL	= pService.m_oServiceURL;
-	m_nRating       = pService.m_nRating;
-	m_oUUID         = pService.m_oUUID;
-	m_bBlocked      = pService.m_bBlocked;
+	m_nRating		= pService.m_nRating;
+//	m_oUUID			= pService.m_oUUID;
 	m_nLastHosts	= pService.m_nLastHosts;
 	m_nTotalHosts	= pService.m_nTotalHosts;
-
+	m_tLastQueried	= pService.m_tLastQueried;
 	m_nProbabilityMultiplicator	= pService.m_nProbabilityMultiplicator;
 }
 
@@ -170,12 +170,7 @@ bool CDiscoveryService::operator==(const CDiscoveryService& pService) const
 {
 	return ( m_nServiceType	== pService.m_nServiceType	&&
 			 m_oNetworkType	== pService.m_oNetworkType	&&
-			 m_oServiceURL	== pService.m_oServiceURL	&&
-			 m_nRating		== pService.m_nRating		&&
-			 m_oUUID		== pService.m_oUUID			&&
-			 m_bBlocked     == pService.m_bBlocked		&&
-			 m_nLastHosts	== pService.m_nLastHosts	&&
-			 m_nTotalHosts	== pService.m_nTotalHosts );
+			 m_oServiceURL	== pService.m_oServiceURL	);
 }
 
 /**
@@ -200,28 +195,32 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
 		pService = NULL;
 	}
 
-	pService = new CDiscoveryService();
-	QWriteLocker l( &pService->m_oRWLock );
-
 	quint8		nServiceType;
-	quint8		nNetworkType;
+	quint16		nNetworkType;
 	quint8		nRating;
+	QUrl		oServiceURL;
+	quint32		nLastHosts;
+	quint32		nTotalHosts;
+	quint32		tLastQueried;
 
 	oStream >> nServiceType;
 	oStream >> nNetworkType;
-
-	pService->m_nServiceType = (ServiceType)nServiceType;
-	pService->m_oNetworkType = CNetworkType( nNetworkType );
-
 	oStream >> nRating;
+	oStream >> oServiceURL;
+	oStream >> nLastHosts;
+	oStream >> nTotalHosts;
+	oStream >> tLastQueried;
 
-	pService->m_nRating = nRating;
-	pService->m_nProbabilityMultiplicator = ( nRating < 5 ) ? nRating : 5;
+	pService = createService(oServiceURL,
+							 (ServiceType)nServiceType,
+							 CNetworkType( nNetworkType ),
+							 nRating);
 
-	oStream >> pService->m_bBlocked;
-	oStream >> pService->m_oServiceURL;
-	oStream >> pService->m_nLastHosts;
-	oStream >> pService->m_nTotalHosts;
+	QWriteLocker l( &pService->m_oRWLock );
+
+	pService->m_nLastHosts   = nLastHosts;
+	pService->m_nTotalHosts  = nTotalHosts;
+	pService->m_tLastQueried = tLastQueried;
 }
 
 /**
@@ -235,10 +234,10 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
 	oStream << (quint8)(pService->m_nServiceType);
 	oStream << (quint16)(pService->m_oNetworkType.toQuint16());
 	oStream << (quint8)(pService->m_nRating);
-	oStream << pService->m_bBlocked;
 	oStream << pService->m_oServiceURL;
 	oStream << pService->m_nLastHosts;
 	oStream << pService->m_nTotalHosts;
+	oStream << pService->m_tLastQueried;
 }
 
 /**
@@ -246,8 +245,7 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
   * Locking: /
   */
 CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const ServiceType nSType,
-													const CNetworkType& oNType,	const quint8 nRating,
-													const QUuid& oID)
+													const CNetworkType& oNType,	const quint8 nRating)
 {
 	CDiscoveryService* pService = NULL;
 
@@ -257,9 +255,11 @@ CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const Serv
 		break;
 	case stGWC:
 	{
-		pService = new CGWC( oURL, nSType, oNType, nRating, oID );
+		pService = new CGWC( oURL, oNType, nRating/*, oID*/ );
 		break;
 	}
+	case stMulti:
+		break;
 	}
 
 	return pService;
@@ -273,7 +273,7 @@ CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const Serv
   */
 void CDiscoveryService::registerPointer(const CDiscoveryService** pService) const
 {
-	// Cildren, don't repeat this at home! :D
+	// Children, don't repeat this at home! :D
 	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>(this);
 
 	pModifiable->m_oRWLock.lockForWrite();
@@ -289,7 +289,7 @@ void CDiscoveryService::registerPointer(const CDiscoveryService** pService) cons
   */
 void CDiscoveryService::unRegisterPointer(const CDiscoveryService** pService) const
 {
-	// Cildren, don't repeat this at home! :D
+	// Children, don't repeat this at home! :D
 	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>(this);
 
 	pModifiable->m_oRWLock.lockForWrite();
@@ -301,17 +301,18 @@ void CDiscoveryService::unRegisterPointer(const CDiscoveryService** pService) co
   * Updates the service with the own IP if the service supports it.
   * Locking: RW
   */
-void CDiscoveryService::update(CEndPoint& oOwnIP, bool bExecute)
+void CDiscoveryService::update(CEndPoint& oOwnIP)
 {
 	m_oRWLock.lockForWrite();
-	m_nRequest = srUpdate;
-	m_oOwnIP = oOwnIP;
-	m_oRWLock.unlock();
 
-	if ( bExecute )
-		start(); // Start new thread.
-	else
-		m_bQueued = true;
+	Q_ASSERT( !m_bRunning );
+
+	m_bRunning = true;
+	m_oOwnIP = oOwnIP;
+
+	doUpdate();
+
+	m_oRWLock.unlock();
 }
 
 /**
@@ -319,53 +320,15 @@ void CDiscoveryService::update(CEndPoint& oOwnIP, bool bExecute)
   * alternative service URLs.
   * Locking: RW
   */
-void CDiscoveryService::query(bool bExecute)
+void CDiscoveryService::query()
 {
 	m_oRWLock.lockForWrite();
-	m_nRequest = srQuery;
+
+	Q_ASSERT( !m_bRunning );
+
+	m_bRunning = true;
+
+	doQuery();
+
 	m_oRWLock.unlock();
-
-	if ( bExecute )
-		start(); // Start new thread.
-	else
-		m_bQueued = true;
-}
-
-/**
-  * Executes queued command.
-  * Locking: /
-  */
-void CDiscoveryService::execute()
-{
-	m_bQueued = false;
-	start();
-}
-
-/**
-  * Starts new thread.
-  * Locking: R
-  */
-void CDiscoveryService::run()
-{
-	// Lock the service while running the thread to prevent service
-	// access or removal while the service is active.
-	QReadLocker l( &m_oRWLock );
-
-	switch ( m_nRequest )
-	{
-	case srQuery:
-	{
-		doQuery();
-		break;
-	}
-
-	case srUpdate:
-	{
-		doUpdate();
-		break;
-	}
-
-	default:
-		; // Do nothing.
-	}
 }

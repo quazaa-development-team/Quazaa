@@ -21,8 +21,8 @@ CDiscoveryTableModel::Service::Service(const CDiscoveryService* pService)
 
 	m_sURL			= m_pNode->url().toString();
 	m_nType			= m_pNode->serviceType();
-	m_nLastHosts	= m_pNode->todayCount();
-	m_nTotalHosts	= m_pNode->totalCount();
+	m_nLastHosts	= m_pNode->lastHosts();
+	m_nTotalHosts	= m_pNode->totalHosts();
 
 	switch( m_nType )
 	{
@@ -108,19 +108,19 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 			bReturn = true;
 	}
 
-	if ( m_nLastHosts != m_pNode->todayCount() )
+	if ( m_nLastHosts != m_pNode->lastHosts() )
 	{
 		to_update.append( model->index( row, HOSTS ) );
-		m_nLastHosts = m_pNode->todayCount();
+		m_nLastHosts = m_pNode->lastHosts();
 
 		if ( col == HOSTS )
 			bReturn = true;
 	}
 
-	if ( m_nTotalHosts != m_pNode->totalCount() )
+	if ( m_nTotalHosts != m_pNode->totalHosts() )
 	{
 		to_update.append( model->index( row, TOTAL_HOSTS ) );
-		m_nTotalHosts = m_pNode->totalCount();
+		m_nTotalHosts = m_pNode->totalHosts();
 
 		if ( col == TOTAL_HOSTS )
 			bReturn = true;

@@ -247,7 +247,7 @@ void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
 		{
 			Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( i ) ) );
 
-			discoveryManager.remove( m_pDiscoveryList->nodeFromIndex( i )->uuid() );
+			discoveryManager.remove( m_pDiscoveryList->nodeFromIndex( i )->url().toString() );
 		}
 	}
 }
@@ -260,7 +260,7 @@ void WidgetDiscovery::on_actionDiscoveryQueryNow_triggered()
 	{
 		Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
 
-		discoveryManager.queryService( m_pDiscoveryList->nodeFromIndex( index )->uuid() );
+		discoveryManager.queryService( m_pDiscoveryList->nodeFromIndex( index )->url().toString() );
 	}
 }
 
@@ -272,7 +272,7 @@ void WidgetDiscovery::on_actionDiscoveryAdvertise_triggered()
 	{
 		Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
 
-		discoveryManager.updateService( m_pDiscoveryList->nodeFromIndex( index )->uuid() );
+		discoveryManager.updateService( m_pDiscoveryList->nodeFromIndex( index )->url().toString() );
 	}
 }
 

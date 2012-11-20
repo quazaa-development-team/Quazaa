@@ -142,13 +142,13 @@ bool CDiscovery::save(bool bForceSaving)
   * Adds a given service.
   * Locking: RW
   */
-QUuid CDiscovery::add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
+bool CDiscovery::add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
 									const CNetworkType& oNType, const quint8 nRating)
 {
 	QUrl oURL( sURL );
 
 	if ( !oURL.isValid() ) // Creating a service without a valid URL is nonsense.
-		return QUuid();
+		return false;
 
 	CDiscoveryService* pService = CDiscoveryService::createService( oURL, nSType, oNType, nRating );
 
@@ -159,24 +159,24 @@ QUuid CDiscovery::add(const QString& sURL, const CDiscoveryService::ServiceType 
 		// inform GUI about new service
 		emit serviceAdded( pService );
 
-		return pService->m_oUUID;
+		return true;
 	}
 	else
-		return QUuid();
+		return false;
 }
 
 /**
   * Removes a given service.
   * Locking: RW
   */
-bool CDiscovery::remove(const QUuid& oServiceID)
+bool CDiscovery::remove(const QString& oServiceURL)
 {
-	if ( oServiceID.isNull() )
+	if ( oServiceURL.isNull() )
 		return false;
 
 	QWriteLocker l( &m_pRWLock );
 
-	CIterator iService = m_mServices.find( oServiceID );
+	CIterator iService = m_mServices.find( oServiceURL );
 
 	if ( iService == m_mServices.end() )
 		return false; // Unable to find service by ID
@@ -191,7 +191,7 @@ bool CDiscovery::remove(const QUuid& oServiceID)
 	// inform GUI about service removal
 	emit serviceRemoved( QSharedPointer<CDiscoveryService>( pService ) );
 
-	m_mServices.erase( oServiceID );
+	m_mServices.erase( oServiceURL );
 	return true;
 }
 
@@ -232,7 +232,7 @@ bool CDiscovery::check(const CDiscoveryService* const pService)
 {
 	QReadLocker l( &m_pRWLock );
 
-	CConstIterator iService = m_mServices.find( pService->m_oUUID );
+	CConstIterator iService = m_mServices.find( pService->url().toString() );
 
 	if ( iService == m_mServices.end() )
 		return false; // Unable to find service by ID
@@ -286,11 +286,11 @@ bool CDiscovery::queryService(const CNetworkType& type)
   * Publishes the own IP (async).
   * Locking: RW
   */
-bool CDiscovery::updateService(const QUuid& oServiceID)
+bool CDiscovery::updateService(const QString& oServiceURL)
 {
 	QWriteLocker lock( &m_pRWLock );
 
-	CIterator iService = m_mServices.find( oServiceID );
+	CIterator iService = m_mServices.find( oServiceURL );
 
 	if ( iService == m_mServices.end() )
 		return false; // Unable to find service by ID
@@ -304,11 +304,11 @@ bool CDiscovery::updateService(const QUuid& oServiceID)
   * Queries a service for a given NetworkType (async).
   * Locking: RW
   */
-bool CDiscovery::queryService(const QUuid& oServiceID)
+bool CDiscovery::queryService(const QString& oServiceURL)
 {
 	QWriteLocker lock( &m_pRWLock );
 
-	CIterator iService = m_mServices.find( oServiceID );
+	CIterator iService = m_mServices.find( oServiceURL );
 
 	if ( iService == m_mServices.end() )
 		return false; // Unable to find service by ID
@@ -338,7 +338,9 @@ void CDiscovery::serviceActionFinished()
 		m_lAsyncTODO.pop_front();
 
 		connect( pService, SIGNAL(finished()), SLOT(serviceActionFinished()), Qt::QueuedConnection );
-		pService->execute();
+
+
+		// TODO: check what needs to be done here
 	}
 
 	m_pRWLock.unlock();
@@ -402,7 +404,7 @@ bool CDiscovery::add(CDiscoveryService* pService)
 	if ( !pService )
 		return false;
 
-	normalizeURL( pService->m_oServiceURL );
+	normalizeURL( pService->url() );
 
 	for ( CDiscoveryServicesMap::iterator i = m_mServices.begin(); i != m_mServices.end(); ++i )
 	{
@@ -411,7 +413,7 @@ bool CDiscovery::add(CDiscoveryService* pService)
 		// TODO: Improve removal rules.
 
 
-		if ( (*i).second->m_oServiceURL == pService->m_oServiceURL )
+		if ( (*i).second->url() == pService->url() )
 		{
 			delete pService;
 			pService = NULL;
@@ -419,7 +421,7 @@ bool CDiscovery::add(CDiscoveryService* pService)
 		}
 	}
 
-	m_mServices[pService->m_oUUID] = pService;
+	m_mServices[pService->url().toString()] = pService;
 	return true;
 }
 
@@ -460,7 +462,10 @@ bool CDiscovery::updateHelper(CDiscoveryService *pService, QWriteLocker &lock)
 
 			lock.unlock();
 
-			pService->update( oOwnIP, false );
+
+			// TODO: what needs to be done here?
+
+			//pService->update( oOwnIP, false );
 			return true;
 		}
 	}
@@ -494,7 +499,11 @@ bool CDiscovery::queryHelper(CDiscoveryService *pService, QWriteLocker &lock)
 
 			lock.unlock();
 
-			pService->query( false );
+
+			// TODO: check what needs to be done
+
+
+			//pService->query( false );
 			return true;
 		}
 	}
@@ -522,11 +531,11 @@ CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::ServiceType n
 
 		// Consider all services that have the correct type, have a rating > 0, are not blocked
 		// and are not currently in use.
-		if ( pService->m_nServiceType == nSType && pService->m_nRating &&
-			 !pService->m_bBlocked && !pService->isQueued() )
+		if ( pService->serviceType() == nSType && pService->rating() &&
+			 !pService->isBanned() /*&& !pService->isQueued()*/ )
 		{
 			list.push_back( pService );
-			nTotalRating += pService->m_nRating;
+			nTotalRating += pService->rating();
 		}
 	}
 
@@ -542,9 +551,9 @@ CDiscoveryService* CDiscovery::getRandomService(CDiscoveryService::ServiceType n
 		CDiscoveryService* pSelected = *current;
 
 		// Iterate threw list until the selected service has been found.
-		while ( nSelectedRating > pSelected->m_nRating )
+		while ( nSelectedRating > pSelected->rating() )
 		{
-			nSelectedRating -= pSelected->m_nRating;
+			nSelectedRating -= pSelected->rating();
 
 			// Set pSelected to *current after having incremented current.
 			pSelected = *( ++current );
@@ -570,10 +579,10 @@ CDiscoveryService* CDiscovery::getRandomService(const CNetworkType& oNType)
 		pService = pair.second;
 
 		// Consider all services that have the correct type, have a rating > 0 and are not in use.
-		if ( pService->m_oNetworkType.isNetwork( oNType ) && pService->m_nRating && !pService->isQueued() )
+		if ( pService->networkType().isNetwork( oNType ) && pService->rating() /*&& !pService->isQueued()*/ )
 		{
 			list.push_back( pService );
-			nTotalRating += pService->m_nRating;
+			nTotalRating += pService->rating();
 		}
 	}
 
@@ -589,9 +598,9 @@ CDiscoveryService* CDiscovery::getRandomService(const CNetworkType& oNType)
 		CDiscoveryService* pSelected = *current;
 
 		// Iterate threw list until the selected service has been found.
-		while ( nSelectedRating > pSelected->m_nRating )
+		while ( nSelectedRating > pSelected->rating() )
 		{
-			nSelectedRating -= pSelected->m_nRating;
+			nSelectedRating -= pSelected->rating();
 			pSelected = *( ++current );
 		}
 

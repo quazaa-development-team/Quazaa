@@ -8,17 +8,34 @@ namespace Discovery
 
 class CGWC : public CDiscoveryService
 {
+	Q_OBJECT
+
+	/* ================================================================ */
+	/* ========================== Attributes ========================== */
+	/* ================================================================ */
+private:
+	QNetworkAccessManager* m_pRequest;
+
+	/* ================================================================ */
+	/* ========================= Construction ========================= */
+	/* ================================================================ */
 public:
-	CGWC(const QUrl&, const ServiceType, const CNetworkType&,
-         const quint8, const QUuid& = QUuid());
+	CGWC(const QUrl& oURL, const CNetworkType& oNType, const quint8 nRating);
 
-	~CGWC() {}
+	~CGWC();
 
-	QString type();
+	/* ================================================================ */
+	/* ========================== Operations ========================== */
+	/* ================================================================ */
+	inline QString type() { return QString( "GWC" ); }
 
 private:
-	void doQuery();
-	void doUpdate();
+	void doQuery()  throw();
+	void doUpdate() throw();
+
+private slots:
+	void queryRequestCompleted(QNetworkReply* pReply);
+	void updateRequestCompleted(QNetworkReply* pReply);
 };
 
 }

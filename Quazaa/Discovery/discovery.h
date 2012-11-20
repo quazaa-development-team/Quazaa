@@ -5,7 +5,6 @@
 #include <QReadWriteLock>
 #include <QSharedPointer>
 #include <QString>
-#include <QUuid>
 
 #include "discoveryservice.h"
 
@@ -26,10 +25,10 @@ class CDiscovery : public QObject
 	/* ========================== Attributes ========================== */
 	/* ================================================================ */
 public:
-	typedef std::pair< const QUuid, CDiscoveryService*  > CMapPair;
+	typedef std::pair< const QString, CDiscoveryService*  > CMapPair;
 
 	typedef std::list< CDiscoveryService*				> CDiscoveryServicesList;
-	typedef std::map < const QUuid, CDiscoveryService*	> CDiscoveryServicesMap;
+	typedef std::map < const QString, CDiscoveryService*	> CDiscoveryServicesMap;
 
 	typedef CDiscoveryServicesMap::const_iterator CConstIterator;
 	typedef CDiscoveryServicesMap::iterator CIterator;
@@ -62,9 +61,9 @@ public:
 	bool	load();
 	bool	save(bool bForceSaving);
 
-	QUuid	add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
+	bool	add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
 				const CNetworkType& oNType, const quint8 nRating = 7);
-	bool	remove(const QUuid& oServiceID);
+	bool	remove(const QString &oServiceURL);
 	void	clear(bool bInformGUI = false);
 
 	bool	check(const CDiscoveryService* const pService);
@@ -84,8 +83,8 @@ public slots:
 	bool updateService(CDiscoveryService::ServiceType type); // sends our IP to service (e.g. GWC)
 	bool queryService(const CNetworkType& type);
 
-	bool updateService(const QUuid& oServiceID);
-	bool queryService(const QUuid& oServiceID);
+	bool updateService(const QString& oServiceURL);
+	bool queryService(const QString& oServiceURL);
 
 	void serviceActionFinished();
 
