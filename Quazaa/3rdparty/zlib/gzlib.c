@@ -90,6 +90,7 @@ local gzFile gz_open(path, fd, mode)
 	const char *mode;
 {
 	gz_statep state;
+	int nStrLength;
 
 	/* allocate gzFile structure to return */
 	state = malloc(sizeof(gz_state));
@@ -148,12 +149,17 @@ local gzFile gz_open(path, fd, mode)
 	}
 
 	/* save the path name for error messages */
-	state->path = malloc(strlen(path) + 1);
+	nStrLength = strlen(path) + 1;
+	state->path = malloc(nStrLength);
 	if (state->path == NULL) {
 		free(state);
 		return NULL;
 	}
+#ifdef _MSC_VER
+	strcpy_s(state->path, nStrLength, path);
+#else
 	strcpy(state->path, path);
+#endif
 
 	/* open the file with the appropriate mode (or just use fd) */
 	state->fd = fd != -1 ? fd :
@@ -509,6 +515,7 @@ void ZEXPORT gz_error(state, err, msg)
 		state->msg = (char *)"out of memory";
 		return;
 	}
+
 	strcpy(state->msg, state->path);
 	strcat(state->msg, ": ");
 	strcat(state->msg, msg);
