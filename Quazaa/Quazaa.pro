@@ -191,8 +191,35 @@ sse2 {
 
 # Sources
 SOURCES += \
+	3rdparty/communi/src/ircutil.cpp \
+	3rdparty/communi/src/ircsession.cpp \
+	3rdparty/communi/src/ircsender.cpp \
+	3rdparty/communi/src/ircmessageparser.cpp \
+	3rdparty/communi/src/ircmessagedecoder.cpp \
+	3rdparty/communi/src/ircmessage.cpp \
+	3rdparty/communi/src/irccommand.cpp \
+	3rdparty/communi/src/irccodecplugin.cpp \
+	3rdparty/communi/src/irc.cpp \
+	3rdparty/communi/src/ircsessioninfo.cpp \
+	3rdparty/communi/src/ircpalette.cpp \
 	3rdparty/CyoEncode/CyoDecode.c \
 	3rdparty/CyoEncode/CyoEncode.c \
+	3rdparty/nvwa/debug_new.cpp \
+	3rdparty/zlib/zutil.c \
+	3rdparty/zlib/uncompr.c \
+	3rdparty/zlib/trees.c \
+	3rdparty/zlib/inftrees.c \
+	3rdparty/zlib/inflate.c \
+	3rdparty/zlib/inffast.c \
+	3rdparty/zlib/compress.c \
+	3rdparty/zlib/infback.c \
+	3rdparty/zlib/gzwrite.c \
+	3rdparty/zlib/gzread.c \
+	3rdparty/zlib/gzlib.c \
+	3rdparty/zlib/gzclose.c \
+	3rdparty/zlib/deflate.c \
+	3rdparty/zlib/crc32.c \
+	3rdparty/zlib/adler32.c \
 	Chat/chatconverter.cpp \
 	Chat/chatcore.cpp \
 	Chat/chatsession.cpp \
@@ -254,6 +281,7 @@ SOURCES += \
 	NetworkCore/zlibutils.cpp \
 	quazaaglobals.cpp \
 	quazaasettings.cpp \
+	quazaasysinfo.cpp \
 	Security/securerule.cpp \
 	Security/security.cpp \
 	ShareManager/file.cpp \
@@ -326,39 +354,38 @@ SOURCES += \
 	UI/widgetuploads.cpp \
 	UI/winmain.cpp \
 	UI/wizardircconnection.cpp \
-	UI/wizardquickstart.cpp \
-	3rdparty/nvwa/debug_new.cpp \
-	3rdparty/zlib/zutil.c \
-	3rdparty/zlib/uncompr.c \
-	3rdparty/zlib/trees.c \
-	3rdparty/zlib/inftrees.c \
-	3rdparty/zlib/inflate.c \
-	3rdparty/zlib/inffast.c \
-	3rdparty/zlib/compress.c \
-	3rdparty/zlib/infback.c \
-	3rdparty/zlib/gzwrite.c \
-	3rdparty/zlib/gzread.c \
-	3rdparty/zlib/gzlib.c \
-	3rdparty/zlib/gzclose.c \
-	3rdparty/zlib/deflate.c \
-	3rdparty/zlib/crc32.c \
-	3rdparty/zlib/adler32.c \
-	quazaasysinfo.cpp \
-	3rdparty/communi/src/ircutil.cpp \
-	3rdparty/communi/src/ircsession.cpp \
-	3rdparty/communi/src/ircsender.cpp \
-	3rdparty/communi/src/ircmessageparser.cpp \
-	3rdparty/communi/src/ircmessagedecoder.cpp \
-	3rdparty/communi/src/ircmessage.cpp \
-	3rdparty/communi/src/irccommand.cpp \
-	3rdparty/communi/src/irccodecplugin.cpp \
-	3rdparty/communi/src/irc.cpp \
-	3rdparty/communi/src/ircsessioninfo.cpp \
-	3rdparty/communi/src/ircpalette.cpp
+	UI/wizardquickstart.cpp
 
 HEADERS += \
+	3rdparty/communi/include/ircutil.h \
+	3rdparty/communi/include/ircsession_p.h \
+	3rdparty/communi/include/ircsession.h \
+	3rdparty/communi/include/ircsender.h \
+	3rdparty/communi/include/ircmessageparser_p.h \
+	3rdparty/communi/include/ircmessagedecoder_p.h \
+	3rdparty/communi/include/ircmessage.h \
+	3rdparty/communi/include/ircglobal.h \
+	3rdparty/communi/include/irccommand.h \
+	3rdparty/communi/include/irccodecplugin.h \
+	3rdparty/communi/include/irc.h \
+	3rdparty/communi/include/ircsessioninfo.h \
+	3rdparty/communi/include/ircpalette.h \
 	3rdparty/CyoEncode/CyoDecode.h \
 	3rdparty/CyoEncode/CyoEncode.h \
+	3rdparty/nvwa/debug_new.h \
+	3rdparty/nvwa/fast_mutex.h \
+	3rdparty/nvwa/static_assert.h \
+	3rdparty/zlib/zutil.h \
+	3rdparty/zlib/zlib.h \
+	3rdparty/zlib/zconf.h \
+	3rdparty/zlib/trees.h \
+	3rdparty/zlib/inftrees.h \
+	3rdparty/zlib/inflate.h \
+	3rdparty/zlib/inffixed.h \
+	3rdparty/zlib/inffast.h \
+	3rdparty/zlib/gzguts.h \
+	3rdparty/zlib/deflate.h \
+	3rdparty/zlib/crc32.h \
 	Chat/chatconverter.h \
 	Chat/chatcore.h \
 	Chat/chatsession.h \
@@ -428,6 +455,7 @@ HEADERS += \
 	NetworkCore/zlibutils.h \
 	quazaaglobals.h \
 	quazaasettings.h \
+	quazaasysinfo.h \
 	Security/securerule.h \
 	Security/security.h \
 	ShareManager/file.h \
@@ -500,35 +528,7 @@ HEADERS += \
 	UI/widgetuploads.h \
 	UI/winmain.h \
 	UI/wizardircconnection.h \
-	UI/wizardquickstart.h \
-	3rdparty/nvwa/debug_new.h \
-	3rdparty/nvwa/fast_mutex.h \
-	3rdparty/nvwa/static_assert.h \
-	3rdparty/zlib/zutil.h \
-	3rdparty/zlib/zlib.h \
-	3rdparty/zlib/zconf.h \
-	3rdparty/zlib/trees.h \
-	3rdparty/zlib/inftrees.h \
-	3rdparty/zlib/inflate.h \
-	3rdparty/zlib/inffixed.h \
-	3rdparty/zlib/inffast.h \
-	3rdparty/zlib/gzguts.h \
-	3rdparty/zlib/deflate.h \
-	3rdparty/zlib/crc32.h \
-	quazaasysinfo.h \
-	3rdparty/communi/include/ircutil.h \
-	3rdparty/communi/include/ircsession_p.h \
-	3rdparty/communi/include/ircsession.h \
-	3rdparty/communi/include/ircsender.h \
-	3rdparty/communi/include/ircmessageparser_p.h \
-	3rdparty/communi/include/ircmessagedecoder_p.h \
-	3rdparty/communi/include/ircmessage.h \
-	3rdparty/communi/include/ircglobal.h \
-	3rdparty/communi/include/irccommand.h \
-	3rdparty/communi/include/irccodecplugin.h \
-	3rdparty/communi/include/irc.h \
-	3rdparty/communi/include/ircsessioninfo.h \
-	3rdparty/communi/include/ircpalette.h
+	UI/wizardquickstart.h
 
 FORMS += \
 	UI/dialogabout.ui \
@@ -545,6 +545,7 @@ FORMS += \
 	UI/dialogfiltersearch.ui \
 	UI/dialoghashprogress.ui \
 	UI/dialogirccolordialog.ui \
+	UI/dialogircsettings.ui \
 	UI/dialoglanguage.ui \
 	UI/dialoglibrarysearch.ui \
 	UI/dialogopentorrent.ui \
@@ -585,8 +586,7 @@ FORMS += \
 	UI/widgetuploads.ui \
 	UI/winmain.ui \
 	UI/wizardquickstart.ui \
-	UI/wizardircconnection.ui \
-	UI/dialogircsettings.ui
+	UI/wizardircconnection.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \
@@ -636,50 +636,3 @@ mac {
 	GEOIP_DATA.files += $$DESTDIR/GeoIP
 	QMAKE_BUNDLE_DATA += GEOIP_DATA
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
