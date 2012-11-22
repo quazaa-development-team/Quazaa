@@ -1,4 +1,4 @@
-#ifndef DISCOVERYSERVICE_H
+﻿#ifndef DISCOVERYSERVICE_H
 #define DISCOVERYSERVICE_H
 
 #include <QDataStream>
@@ -6,7 +6,7 @@
 #include <QUrl>
 
 #include "endpoint.h"
-#include "types.h"
+#include "discovery.h"
 
 // Requirements of all subclasses
 #include <QNetworkAccessManager>
@@ -16,67 +16,27 @@
 namespace Discovery
 {
 
-class CNetworkType
-{
-private:
-	quint16 m_nNetworks;
-
-public:
-	CNetworkType();
-	CNetworkType(quint16 type);
-	CNetworkType(DiscoveryProtocol type);
-
-	bool operator==(const CNetworkType& type) const;
-	bool operator!=(const CNetworkType& type) const;
-
-	bool isGnutella() const;
-	void setGnutella( bool );
-
-	bool isG2() const;
-	void setG2( bool );
-
-	bool isAres() const;
-	void setAres( bool );
-
-	bool isEDonkey2000() const;
-	void setEDonkey2000( bool );
-
-	bool isNetwork(const CNetworkType& type) const;
-	void setNetwork(const CNetworkType& type);
-
-	bool isMulti() const;
-
-	quint16 toQuint16() const;
-};
-
-
 class CDiscoveryService : public QObject
 {
 	Q_OBJECT
 
 	/* ================================================================ */
-	/* ========================= Definitions  ========================= */
-	/* ================================================================ */
-public:
-	// Extend for all new supported service types.
-	typedef enum { stNull = 0, stMulti = 1, stGWC = 2 } ServiceType;
-
-
-	/* ================================================================ */
 	/* ========================== Attributes ========================== */
 	/* ================================================================ */
-
+public:
 	// TODO: Fix locking
 	QReadWriteLock	m_oRWLock;
 
 protected:
-	ServiceType		m_nServiceType;
+	TServiceType	m_nServiceType;
 	CNetworkType	m_oNetworkType;
 	QUrl			m_oServiceURL;
 	quint8			m_nRating;
 	quint8			m_nProbabilityMultiplicator;
 
 	bool			m_bBanned;
+
+	TDiscoveryID	m_nID;
 
 	quint32			m_nLastHosts;
 	quint32			m_nTotalHosts;
@@ -95,11 +55,12 @@ protected:
 	/* ================================================================ */
 public:
 //	CDiscoveryService();
-	CDiscoveryService(const QUrl& oURL, const CNetworkType& oNType, const quint8 nRating);
+	CDiscoveryService(const QUrl& oURL, const CNetworkType& oNType, quint8 nRating);
 	CDiscoveryService(const CDiscoveryService& pService);
 
 	virtual ~CDiscoveryService(); /** Must be implemented by subclasses. */
 
+private:
 	/* ================================================================ */
 	/* ========================== Operators  ========================== */
 	/* ================================================================ */
@@ -114,9 +75,10 @@ public:
 	static void     save(const CDiscoveryService* const pService, QDataStream& oStream);
 
 	/** Use this to generate valid services. Must be modified when writing subclasses. */
-	static CDiscoveryService* createService(const QUrl& oURL, const ServiceType nSType,
-											const CNetworkType& oNType, const quint8 nRating);
+	static CDiscoveryService* createService(const QString &sURL, TServiceType eSType,
+											const CNetworkType& oNType, quint8 nRating);
 
+public:
 	// Registers a pointer to a Discovery Service to assure it is set to NULL if the Discovery
 	// Service is deleted. Note that a pointer who has been registered needs to be unregistered
 	// before freeing its memory.
@@ -124,6 +86,7 @@ public:
 	// Call this before removing a pointer you have previously registered.
 	void unRegisterPointer(const CDiscoveryService** pService) const;
 
+private:
 	// Sends our IP to service if it supports the operation (e.g. if it is a GWC).
 	void update(CEndPoint& oOwnIP);
 	void query();
@@ -140,21 +103,21 @@ signals:
 public:
 	inline bool isRunning() const;
 
-	inline ServiceType serviceType() const;
+	inline TServiceType serviceType() const;
 	inline CNetworkType networkType() const;
 
 	inline QUrl url() const;
-//	inline QUuid uuid() const;
+	inline TDiscoveryID id() const;
 
 	inline quint32 lastHosts() const;
 	inline quint32 totalHosts() const;
 
-	virtual QString type() = 0; /** Must be implemented by subclasses. */
+	virtual QString type() const = 0; /** Must be implemented by subclasses. */
 
 	inline bool isBanned() const;
-	inline void setBanned(bool bBanned = true);
 
 	inline quint8 rating() const;
+
 private:
 	inline void setRating(quint8 nRating);
 
@@ -168,6 +131,7 @@ private:
 	/* ================================================================ */
 	/* ======================== Friend Classes ======================== */
 	/* ================================================================ */
+	friend class CDiscovery;
 };
 
 /**
@@ -185,7 +149,7 @@ bool CDiscoveryService::isRunning() const
  * @return
  * Requires Locking: R
  */
-CDiscoveryService::ServiceType CDiscoveryService::serviceType() const
+TServiceType CDiscoveryService::serviceType() const
 {
 	return m_nServiceType;
 }
@@ -211,14 +175,14 @@ QUrl CDiscoveryService::url() const
 }
 
 /**
- * @brief CDiscoveryService::uuid
+ * @brief CDiscoveryService::id
  * @return
  * Requires Locking: R
  */
-//QUuid CDiscoveryService::uuid() const
-//{
-//	return m_oUUID;
-//}
+TDiscoveryID CDiscoveryService::id() const
+{
+	return m_nID;
+}
 
 /**
  * @brief CDiscoveryService::lastHosts
@@ -248,16 +212,6 @@ quint32 CDiscoveryService::totalHosts() const
 bool CDiscoveryService::isBanned() const
 {
 	return m_bBanned;
-}
-
-/**
- * @brief CDiscoveryService::setBlocked
- * @param bBlocked
- * Requires Locking: RW
- */
-void CDiscoveryService::setBanned(bool bBanned)
-{
-	m_bBanned = bBanned;
 }
 
 /**

@@ -228,6 +228,7 @@ SOURCES += \
 	Discovery/discovery.cpp \
 	Discovery/discoveryservice.cpp \
 	Discovery/gwc.cpp \
+	Discovery/networktype.cpp \
 	geoiplist.cpp \
 	main.cpp \
 	Misc/fileiconprovider.cpp \
@@ -394,6 +395,7 @@ HEADERS += \
 	Discovery/discovery.h \
 	Discovery/discoveryservice.h \
 	Discovery/gwc.h \
+	Discovery/networktype.h \
 	FileFragments/Compatibility.hpp \
 	FileFragments/Exception.hpp \
 	FileFragments/FileFragments.hpp \

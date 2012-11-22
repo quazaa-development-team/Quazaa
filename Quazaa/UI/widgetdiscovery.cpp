@@ -1,7 +1,7 @@
-/*
+﻿/*
 ** $Id$
 **
-** Copyright � Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -129,7 +129,7 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 	QMainWindow::keyPressEvent( e );
 }
 
-void WidgetDiscovery::setVisibility(Discovery::CNetworkType networks, bool bHidden)
+void WidgetDiscovery::setVisibility(CNetworkType networks, bool bHidden)
 {
 	for ( quint32 i = m_pDiscoveryList->rowCount(); i > 0; )
 	{
@@ -209,22 +209,22 @@ void WidgetDiscovery::setSkin()
 
 void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered(bool checked)
 {
-	setVisibility( Discovery::CNetworkType( dpGnutella ), !checked );
+	setVisibility( CNetworkType( dpGnutella ), !checked );
 }
 
 void WidgetDiscovery::on_actionAresDiscoveryType_triggered(bool checked)
 {
-	setVisibility( Discovery::CNetworkType( dpAres ), !checked );
+	setVisibility( CNetworkType( dpAres ), !checked );
 }
 
 void WidgetDiscovery::on_actionEDonkeyServerMet_triggered(bool checked)
 {
-	setVisibility( Discovery::CNetworkType( dpeDonkey2000 ), !checked );
+	setVisibility( CNetworkType( dpeDonkey2000 ), !checked );
 }
 
 void WidgetDiscovery::on_actionGWebCache_triggered(bool checked)
 {
-	setVisibility( Discovery::CNetworkType( dpG2 ), !checked );
+	setVisibility( CNetworkType( dpG2 ), !checked );
 }
 
 void WidgetDiscovery::on_actionDiscoveryAddService_triggered()
@@ -247,7 +247,7 @@ void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
 		{
 			Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( i ) ) );
 
-			discoveryManager.remove( m_pDiscoveryList->nodeFromIndex( i )->url().toString() );
+			discoveryManager.remove( m_pDiscoveryList->nodeFromIndex( i )->id() );
 		}
 	}
 }
@@ -260,7 +260,7 @@ void WidgetDiscovery::on_actionDiscoveryQueryNow_triggered()
 	{
 		Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
 
-		discoveryManager.queryService( m_pDiscoveryList->nodeFromIndex( index )->url().toString() );
+		discoveryManager.queryService( m_pDiscoveryList->nodeFromIndex( index )->id() );
 	}
 }
 
@@ -272,7 +272,7 @@ void WidgetDiscovery::on_actionDiscoveryAdvertise_triggered()
 	{
 		Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
 
-		discoveryManager.updateService( m_pDiscoveryList->nodeFromIndex( index )->url().toString() );
+		discoveryManager.updateService( m_pDiscoveryList->nodeFromIndex( index )->id() );
 	}
 }
 
@@ -282,6 +282,6 @@ void WidgetDiscovery::on_actionDiscoveryProperties_triggered()
 
 	if ( index.isValid() )
 	{
-		// TODO: Pop up dialog to edit service
+// TODO: Pop up dialog to edit service
 	}
 }

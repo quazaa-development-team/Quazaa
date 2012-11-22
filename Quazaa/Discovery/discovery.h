@@ -1,7 +1,7 @@
-/*
+﻿/*
 ** discovery.h
 **
-** Copyright � Quazaa Development Team, 2012.
+** Copyright © Quazaa Development Team, 2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -30,6 +30,9 @@
 #include <QString>
 
 #include <map>
+#include <list>
+
+#include "networktype.h"
 
 // Increment this if there have been made changes to the way of storing discovery services.
 #define DISCOVERY_CODE_VERSION	0
@@ -38,8 +41,21 @@
 
 namespace Discovery
 {
-class CNetworkType;
+// Note on the usage of locking: By design, CDiscovery is the only one allowed to modify the CDiscoveryService
+// objects it manages. This means that everyone else needs to lock them for read when accessing them, while the
+// manager does not, it only needs to lock them for write if need be.
 class CDiscoveryService;
+
+/**
+ * @brief TServiceType: Must be updated when implementing new subclasses of CDiscoveryService.
+ */
+typedef enum { stNull = 0, stMulti = 1, stGWC = 2 } TServiceType;
+
+/**
+ * @brief TDiscoveryID: ID type used to identify and manage discovery services. All IDs are positive.
+ * 0 indicates an invalid ID.
+ */
+typedef quint16 TDiscoveryID;
 
 class CDiscovery final : public QObject
 {
@@ -48,12 +64,11 @@ class CDiscovery final : public QObject
 	/* ================================================================ */
 	/* ========================= Definitions  ========================= */
 	/* ================================================================ */
-public:
+private:
 	/**
-	 * @brief TDiscoveryID: ID type used to identify and manage discovery services. All IDs are positive.
-	 * 0 indicates an invalid ID.
+	 * @brief TDiscoveryServicesMap: Used to store and retrieve services based on their ID.
 	 */
-	typedef quint16 TDiscoveryID;
+	typedef std::map < TDiscoveryID, CDiscoveryService*  > TDiscoveryServicesMap;
 
 	/**
 	 * @brief TMapPair: pair of an ID and a discovery service pointer for use in the map.
@@ -61,9 +76,9 @@ public:
 	typedef std::pair< TDiscoveryID, CDiscoveryService*  > TMapPair;
 
 	/**
-	 * @brief TDiscoveryServicesMap: Used to store and retrieve services based on their ID.
+	 * @brief TDiscoveryServicesList: Used to temorarily store services.
 	 */
-	typedef std::map < TDiscoveryID, CDiscoveryService*  > TDiscoveryServicesMap;
+	typedef std::list < CDiscoveryService*  > TDiscoveryServicesList;
 
 	/**
 	 * @brief TConstIterator: Constant map iterator.
@@ -74,6 +89,11 @@ public:
 	 * @brief TIterator: Modifiable map iterator
 	 */
 	typedef TDiscoveryServicesMap::iterator TIterator;
+
+	/**
+	 * @brief TListIterator: Constant list iterator
+	 */
+	typedef TDiscoveryServicesList::const_iterator TListIterator;
 
 	/* ================================================================ */
 	/* ========================== Attributes ========================== */
@@ -91,7 +111,7 @@ private:
 	bool                  m_bSaved;
 
 	// next ID to be assigned by the manager.
-	TDiscoveryID          m_nNextFreeID;
+	TDiscoveryID          m_nLastID;
 
 	/* ================================================================ */
 	/* ========================= Construction ========================= */
@@ -104,8 +124,7 @@ public:
 	CDiscovery(QObject *parent = nullptr);
 
 	/**
-	 * @brief ~CDiscovery: Destructor. Aborts all pending service requests and schedules all services for
-	 * deletion.
+	 * @brief ~CDiscovery: Destructor. Make sure you have stopped the magager befor destroying it.
 	 */
 	~CDiscovery();
 
@@ -119,21 +138,21 @@ public:
 	 * null, the total number of all services is returned, no matter whether they are working or not.
 	 * Locking: YES
 	 */
-	quint32	count(const CNetworkType& oType = CNetworkType()) const;
+	quint32	count(const CNetworkType& oType = CNetworkType());
 
 	/**
 	 * @brief start initializes the Discovery Services Manager.
 	 * @return whether loading the services was successful.
 	 * Locking: YES
 	 */
-	bool	start();	// connects signals etc.
+	bool	start();
 
 	/**
 	 * @brief stop prepares the Discovery Services Manager for destruction.
 	 * @return true if the services have been successfully written to disk.
 	 * Locking: YES
 	 */
-	bool	stop();		// makes the Discovery Services Manager ready for destruction
+	bool	stop();		// prepares the Discovery Services Manager for destruction
 
 	/**
 	 * @brief save saves all discovery services to disk, if there have been important modifications to at
@@ -148,13 +167,13 @@ public:
 	/**
 	 * @brief add adds a new Service with a given URL to the manager.
 	 * @param sURL
-	 * @param nSType
+	 * @param eSType
 	 * @param oNType
 	 * @param nRating
 	 * @return the service ID used to identify the service internally; 0 if the service has not been added.
 	 * Locking: YES
 	 */
-	TDiscoveryID add(const QString& sURL, const CDiscoveryService::ServiceType nSType,
+	TDiscoveryID add(QString sURL, const TServiceType eSType,
 					 const CNetworkType& oNType, const quint8 nRating = 7);
 
 	/**
@@ -168,7 +187,7 @@ public:
 	/**
 	 * @brief clear removes all services from the manager.
 	 * @param bInformGUI: Set this to true if the GUI shall be informed about the removal of the services.
-	 * The default value is false, which is the default scenario on shutdown, where the GUI will be removed
+	 * The default value is false, which represents the scenario on shutdown, where the GUI will be removed
 	 * anyway shortly.
 	 * Locking: YES
 	 */
@@ -180,8 +199,6 @@ public:
 	 * Locking: YES
 	 */
 	bool	check(const CDiscoveryService* const pService);
-	bool	check(TDiscoveryID nServiceID);
-	bool	check(const QUrl& oServiceURL);
 
 signals:
 	/**
@@ -194,6 +211,7 @@ signals:
 	 * @brief serviceRemoved is emitted (almost) each time a service is removed from the manager.
 	 * @param nServiceID
 	 */
+	// CRITICAL: After emitting this signal, the GUI may not access the service in question any more.
 	void	serviceRemoved(TDiscoveryID nServiceID);
 
 	/**
@@ -248,6 +266,14 @@ private:
 	bool add(CDiscoveryService* pService);
 
 	/**
+	 * @brief isDuplicate checks if an identical (or very similar) service is alreads present in the manager.
+	 * @param pService
+	 * @return
+	 * Requires locking: YES
+	 */
+	bool isDuplicate(CDiscoveryService* pService);
+
+	/**
 	 * @brief normalizeURL transforms a given URL string into a standard form to easa the detection of
 	 * duplicates, filter out websites caching a service etc.
 	 * @param sURL
@@ -259,7 +285,7 @@ private:
 	 * @brief updateHelper: Helper Method. Performs a service update.
 	 * @param pService
 	 * @return false if a NULL pointer is passed as service; true otherwise.
-	 * Requires locking: NO
+	 * Requires locking: YES
 	 */
 	bool updateHelper(CDiscoveryService* pService);
 
@@ -267,7 +293,7 @@ private:
 	 * @brief queryHelper: Helper method. Performs a service query.
 	 * @param pService
 	 * @return false if a NULL pointer is passed as service; true otherwise.
-	 * Requires locking: NO
+	 * Requires locking: YES
 	 */
 	bool queryHelper(CDiscoveryService *pService);
 

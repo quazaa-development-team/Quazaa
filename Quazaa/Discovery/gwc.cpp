@@ -1,4 +1,4 @@
-#include "gwc.h"
+﻿#include "gwc.h"
 
 #if QT_VERSION >= 0x050000
 #include <QUrlQuery>
@@ -10,7 +10,7 @@
 
 using namespace Discovery;
 
-CGWC::CGWC(const QUrl& oURL, const CNetworkType& oNType, const quint8 nRating) :
+CGWC::CGWC(const QUrl& oURL, const CNetworkType& oNType, quint8 nRating) :
 	CDiscoveryService( oURL, oNType, nRating )
 {
 	m_nServiceType = stGWC;

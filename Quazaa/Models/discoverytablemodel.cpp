@@ -1,3 +1,27 @@
+/*
+** discoverytablemodel.cpp
+**
+** Copyright © Quazaa Development Team, 2009-2012.
+** This file is part of QUAZAA (quazaa.sourceforge.net)
+**
+** Quazaa is free software; this file may be used under the terms of the GNU
+** General Public License version 3.0 or later as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.
+**
+** Quazaa is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+**
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
+** http://www.gnu.org/copyleft/gpl.html.
+**
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
 #include <QAbstractItemView>
 
 #include "discoverytablemodel.h"
@@ -12,7 +36,7 @@ CDiscoveryTableModel::Service::Service(const CDiscoveryService* pService)
 	Q_ASSERT( pService );
 #endif // _DEBUG
 
-	QWriteLocker w( &discoveryManager.m_pRWLock );
+//	QWriteLocker w( &discoveryManager.m_pRWLock );
 	m_pNode = pService;
 
 	// This makes sure that if pService is deleted within the Discovery Services Manager,
@@ -26,13 +50,13 @@ CDiscoveryTableModel::Service::Service(const CDiscoveryService* pService)
 
 	switch( m_nType )
 	{
-	case Discovery::CDiscoveryService::stNull:
+	case Discovery::stNull:
 		Q_ASSERT( false ); // Should not happen.
 		break;
 	/*case Discovery::CDiscoveryService::stMulti:
 		// m_iType = QIcon( ":/Resource/Discovery/Multi.ico" );
 		break;*/
-	case Discovery::CDiscoveryService::stGWC:
+	case Discovery::stGWC:
 		// m_iType = QIcon( ":/Resource/Discovery/GWC.ico" );
 		break;
 	default:
@@ -42,7 +66,7 @@ CDiscoveryTableModel::Service::Service(const CDiscoveryService* pService)
 
 CDiscoveryTableModel::Service::~Service()
 {
-	QWriteLocker w( &discoveryManager.m_pRWLock );
+	//QWriteLocker w( &discoveryManager.m_pRWLock );
 	// This is important to avoid memory access errors within the Discovery Services Manager.
 	if ( m_pNode )
 		m_pNode->unRegisterPointer( &m_pNode );
@@ -51,7 +75,7 @@ CDiscoveryTableModel::Service::~Service()
 bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to_update,
 										   CDiscoveryTableModel *model)
 {
-	QReadLocker l( &discoveryManager.m_pRWLock );
+	//QReadLocker l( &discoveryManager.m_pRWLock );
 
 	if ( !m_pNode )
 	{
@@ -65,12 +89,12 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 	}
 
 #ifdef _DEBUG
-	l.unlock();
+	//l.unlock();
 
 	// pNode should be set to NULL on deletion of the rule object it points to.
 	Q_ASSERT( discoveryManager.check( m_pNode ) );
 
-	l.relock();
+	//l.relock();
 #endif // _DEBUG
 
 	bool bReturn = false;
@@ -82,13 +106,13 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 
 		switch( m_nType )
 		{
-		case Discovery::CDiscoveryService::stNull:
+		case Discovery::stNull:
 			Q_ASSERT( false ); // Should not happen.
 			break;
-		/*case Discovery::CDiscoveryService::stMulti:
+		/*case Discovery::stMulti:
 			// m_iType = QIcon( ":/Resource/Discovery/Multi.ico" );
 			break;*/
-		case Discovery::CDiscoveryService::stGWC:
+		case Discovery::stGWC:
 			// m_iType = QIcon( ":/Resource/Discovery/GWC.ico" );
 			break;
 		default:
@@ -391,7 +415,7 @@ void CDiscoveryTableModel::completeRefresh()
 			 SLOT( addService(const CDiscoveryService* ) ), Qt::QueuedConnection );
 
 	// Request getting them back from the Security Manager.
-	discoveryManager.requestRuleList();
+	discoveryManager.requestServiceList();
 }
 
 void CDiscoveryTableModel::addService( const CDiscoveryTableModel::CDiscoveryService* pService)
@@ -405,10 +429,10 @@ void CDiscoveryTableModel::addService( const CDiscoveryTableModel::CDiscoverySer
 		m_bNeedSorting = true;
 	}
 
-	QReadLocker l( &discoveryManager.m_pRWLock );
+//	QReadLocker l( &discoveryManager.m_pRWLock );
 
 	// Make sure we don't recieve any signals we don't want once we got all rules once.
-	if ( m_lNodes.size() == (int)discoveryManager.getCount() )
+	if ( m_lNodes.size() == (int)discoveryManager.count() )
 		disconnect( &discoveryManager, SIGNAL( serviceInfo( const CDiscoveryService* ) ),
 					this, SLOT( addService( const CDiscoveryService* ) ) );
 }
@@ -417,7 +441,7 @@ void CDiscoveryTableModel::removeService(const QSharedPointer<CDiscoveryService>
 {
 	for ( quint32 i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
 	{
-		if ( *(m_lNodes[i]->m_pNode) == *pService )
+		if ( /* *(m_lNodes[i]->m_pNode) == *pService*/ true )
 		{
 			beginRemoveRows( QModelIndex(), i, i );
 			delete m_lNodes[i];
@@ -432,9 +456,9 @@ void CDiscoveryTableModel::removeService(const QSharedPointer<CDiscoveryService>
 void CDiscoveryTableModel::updateAll()
 {
 	{
-		QReadLocker l( &(discoveryManager.m_pRWLock) );
+//		QReadLocker l( &(discoveryManager.m_pRWLock) );
 
-		if ( (quint32)m_lNodes.size() != discoveryManager.getCount() )
+		if ( (quint32)m_lNodes.size() != discoveryManager.count() )
 		{
 #ifdef _DEBUG
 			// This is something that should not have happened.

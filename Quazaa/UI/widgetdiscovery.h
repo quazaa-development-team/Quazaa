@@ -1,7 +1,7 @@
-/*
+﻿/*
 ** widgetdiscovery.h
 **
-** Copyright � Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -60,7 +60,7 @@ public:
 protected:
 	virtual void changeEvent(QEvent* e);
 	virtual void keyPressEvent(QKeyEvent *event);
-	void setVisibility(Discovery::CNetworkType networks, bool bHidden);
+	void setVisibility(CNetworkType networks, bool bHidden);
 
 public slots:
 	void update();

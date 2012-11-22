@@ -1,94 +1,7 @@
-#include "discoveryservice.h"
-#include "discovery.h"
-
+﻿#include "discoveryservice.h"
 #include "gwc.h"
 
 using namespace Discovery;
-
-CNetworkType::CNetworkType() :
-	m_nNetworks( 0 )
-{}
-
-CNetworkType::CNetworkType(quint16 type) :
-	m_nNetworks( type )
-{}
-
-CNetworkType::CNetworkType(DiscoveryProtocol type) :
-	m_nNetworks( (quint16)type )
-{}
-
-bool CNetworkType::operator==(const CNetworkType& type) const
-{
-	return ( m_nNetworks == type.m_nNetworks );
-}
-
-bool CNetworkType::operator!=(const CNetworkType& type) const
-{
-	return ( m_nNetworks != type.m_nNetworks );
-}
-
-bool CNetworkType::isGnutella() const
-{
-	return ( m_nNetworks & dpGnutella );
-}
-
-void CNetworkType::setGnutella( bool )
-{
-	m_nNetworks |= dpGnutella;
-}
-
-bool CNetworkType::isG2() const
-{
-	return ( m_nNetworks & dpG2 );
-}
-
-void CNetworkType::setG2( bool )
-{
-	m_nNetworks |= dpG2;
-}
-
-bool CNetworkType::isAres() const
-{
-	return ( m_nNetworks & dpAres );
-}
-
-void CNetworkType::setAres( bool )
-{
-	m_nNetworks |= dpAres;
-}
-
-bool CNetworkType::isEDonkey2000() const
-{
-	return ( m_nNetworks & dpeDonkey2000 );
-}
-
-void CNetworkType::setEDonkey2000( bool )
-{
-	m_nNetworks |= dpeDonkey2000;
-}
-
-bool CNetworkType::isNetwork(const CNetworkType& type) const
-{
-	return ( m_nNetworks & type.toQuint16() ) == type.toQuint16();
-}
-
-void CNetworkType::setNetwork(const CNetworkType& type)
-{
-	m_nNetworks |= type.m_nNetworks;
-}
-
-bool CNetworkType::isMulti() const
-{
-	if ( !m_nNetworks || ( m_nNetworks && !(m_nNetworks & (m_nNetworks - 1)) ) )
-		return false;	// m_nNetworks is 0 or power of 2
-	else				// m_nNetworks is not 0 or a power of 2 - meaning there are at
-		return true;	// least 2 different bits set to 1 within the 16 bit uint
-}
-
-quint16 CNetworkType::toQuint16() const
-{
-	return m_nNetworks;
-}
 
 ///**
 //  * Empty constructor.
@@ -113,7 +26,7 @@ quint16 CNetworkType::toQuint16() const
   * Default constructor.
   * Locking: /
   */
-CDiscoveryService::CDiscoveryService(const QUrl& oURL, const CNetworkType& oNType, const quint8 nRating) :
+CDiscoveryService::CDiscoveryService(const QUrl& oURL, const CNetworkType& oNType, quint8 nRating) :
 	m_nServiceType( stNull ),
 	m_oNetworkType( oNType ),
 	m_oServiceURL( oURL ),
@@ -198,7 +111,7 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
 	quint8		nServiceType;
 	quint16		nNetworkType;
 	quint8		nRating;
-	QUrl		oServiceURL;
+	QString		sURL;
 	quint32		nLastHosts;
 	quint32		nTotalHosts;
 	quint32		tLastQueried;
@@ -206,15 +119,13 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
 	oStream >> nServiceType;
 	oStream >> nNetworkType;
 	oStream >> nRating;
-	oStream >> oServiceURL;
+	oStream >> sURL;
 	oStream >> nLastHosts;
 	oStream >> nTotalHosts;
 	oStream >> tLastQueried;
 
-	pService = createService(oServiceURL,
-							 (ServiceType)nServiceType,
-							 CNetworkType( nNetworkType ),
-							 nRating);
+	pService = createService( sURL, (TServiceType)nServiceType,
+							  CNetworkType( nNetworkType ), nRating );
 
 	QWriteLocker l( &pService->m_oRWLock );
 
@@ -234,7 +145,7 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
 	oStream << (quint8)(pService->m_nServiceType);
 	oStream << (quint16)(pService->m_oNetworkType.toQuint16());
 	oStream << (quint8)(pService->m_nRating);
-	oStream << pService->m_oServiceURL;
+	oStream << pService->m_oServiceURL.toString();
 	oStream << pService->m_nLastHosts;
 	oStream << pService->m_nTotalHosts;
 	oStream << pService->m_tLastQueried;
@@ -244,18 +155,18 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
   * [static] Creates a new service...
   * Locking: /
   */
-CDiscoveryService* CDiscoveryService::createService(const QUrl& oURL, const ServiceType nSType,
-													const CNetworkType& oNType,	const quint8 nRating)
+CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServiceType eSType,
+													const CNetworkType& oNType,	quint8 nRating )
 {
-	CDiscoveryService* pService = NULL;
+	CDiscoveryService* pService = nullptr;
 
-	switch ( nSType )
+	switch ( eSType )
 	{
 	case stNull:
 		break;
 	case stGWC:
 	{
-		pService = new CGWC( oURL, oNType, nRating/*, oID*/ );
+		pService = new CGWC( sURL, oNType, nRating );
 		break;
 	}
 	case stMulti:
@@ -331,4 +242,9 @@ void CDiscoveryService::query()
 	doQuery();
 
 	m_oRWLock.unlock();
+}
+
+void CDiscoveryService::cancelRequest()
+{
+	// TODO: Implement.
 }
