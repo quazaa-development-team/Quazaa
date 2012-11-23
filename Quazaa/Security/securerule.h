@@ -92,7 +92,7 @@ public:
 	virtual bool	match(const QList<QString>& lQuery, const QString& strContent) const;
 
 	// Read/write rule from/to file
-	static void		load(CSecureRule*& pRule, QDataStream& oStream, const int nVersion);
+	static void		load(CSecureRule*& pRule, QDataStream& fsFile, const int nVersion);
 	static void     save(const CSecureRule* const pRule, QDataStream& oStream);
 
 	// XML Import/Export functionality

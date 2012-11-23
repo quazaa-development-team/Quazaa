@@ -139,7 +139,7 @@ public:
 	void			clear();
 
 	void			ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
-	//		void			ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
+//	void			ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
 
 	// Methods used during sanity check
 	bool			isNewlyDenied(const QHostAddress& oAddress);

@@ -176,7 +176,7 @@ void CSecureRule::save(const CSecureRule* const pRule, QDataStream &oStream)
 	}
 }
 
-void CSecureRule::load(CSecureRule*& pRule, QDataStream &oStream, int)
+void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 {
 	if ( pRule )
 	{
@@ -191,12 +191,12 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &oStream, int)
 	quint32		tExpire;
 	quint32		nTotal;
 
-	oStream >> nType;
-	oStream >> nAction;
-	oStream >> sComment;
-	oStream >> sUUID;
-	oStream >> tExpire;
-	oStream >> nTotal;
+	fsFile >> nType;
+	fsFile >> nAction;
+	fsFile >> sComment;
+	fsFile >> sUUID;
+	fsFile >> tExpire;
+	fsFile >> nTotal;
 
 	QString sTmp;
 	bool	bTmp = true;
@@ -210,46 +210,46 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &oStream, int)
 		break;
 	case 1:
 		pRule = new CIPRule();
-		oStream >> sTmp;
+		fsFile >> sTmp;
 		pRule->parseContent( sTmp );
 		break;
 	case 2:
 		pRule = new CIPRangeRule();
-		oStream >> sTmp;
+		fsFile >> sTmp;
 		pRule->parseContent( sTmp );
 		break;
 	case 3:
 		pRule = new CCountryRule();
-		oStream >> sTmp;
+		fsFile >> sTmp;
 		pRule->parseContent( sTmp );
 		break;
 	case 4:
 		pRule = new CHashRule();
-		oStream >> sTmp;
+		fsFile >> sTmp;
 		pRule->parseContent( sTmp );
 		break;
 	case 5:
 		pRule = new CRegExpRule();
-		oStream >> sTmp;
+		fsFile >> sTmp;
 		pRule->parseContent( sTmp );
 		break;
 	case 6:
 		pRule = new CUserAgentRule();
-		oStream >> sTmp;
-		oStream >> bTmp;
+		fsFile >> sTmp;
+		fsFile >> bTmp;
 		pRule->parseContent( sTmp );
 		((CUserAgentRule*)pRule)->setRegExp( bTmp );
 		break;
 	case 7:
 		pRule = new CContentRule();
-		oStream >> sTmp;
-		oStream >> bTmp;
+		fsFile >> sTmp;
+		fsFile >> bTmp;
 		pRule->parseContent( sTmp );
 		((CContentRule*)pRule)->setAll( bTmp );
 		break;
 	default:
 		Q_ASSERT( false );
-		// There is an empty or erroneous rule. Error handling (if necessary) should go here.
+// TODO: There is an empty or erroneous rule. Error handling (if necessary) should go here.
 		//		theApp.Message( MSG_ERROR, IDS_SECURITY_ARCHIVE_RULE_LOAD_FAIL );
 		break;
 	}

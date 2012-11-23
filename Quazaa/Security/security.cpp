@@ -1148,16 +1148,16 @@ bool CSecurity::load( QString sPath )
 	{
 		clear();
 
-		QDataStream iStream( &oFile );
+		QDataStream fsFile( &oFile );
 
-		unsigned short nVersion;
-		iStream >> nVersion;
+		quint16 nVersion;
+		fsFile >> nVersion;
 
 		bool bDenyPolicy;
-		iStream >> bDenyPolicy;
+		fsFile >> bDenyPolicy;
 
-		unsigned int nCount;
-		iStream >> nCount;
+		quint32 nCount;
+		fsFile >> nCount;
 
 		quint32 tNow = static_cast< quint32 >( time( NULL ) );
 
@@ -1168,7 +1168,7 @@ bool CSecurity::load( QString sPath )
 
 		while ( nCount > 0 )
 		{
-			CSecureRule::load( pRule, iStream, nVersion );
+			CSecureRule::load( pRule, fsFile, nVersion );
 
 			if ( pRule->isExpired( tNow, true ) )
 			{
@@ -1237,7 +1237,7 @@ bool CSecurity::save(bool bForceSaving)
 	if ( !oFile.open( QIODevice::WriteOnly ) )
 		return false;
 
-	unsigned short nVersion = SECURITY_CODE_VERSION;
+	quint16 nVersion = SECURITY_CODE_VERSION;
 
 	try
 	{
