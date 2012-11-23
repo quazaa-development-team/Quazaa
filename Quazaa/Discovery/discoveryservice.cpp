@@ -1,6 +1,9 @@
 ﻿#include "discoveryservice.h"
 #include "gwc.h"
 
+// TODO: Implement request abort time
+#include "timedsignalqueue.h"
+
 using namespace Discovery;
 
 ///**
@@ -100,7 +103,7 @@ bool CDiscoveryService::operator!=(const CDiscoveryService& pService) const
   * Note that if a non-NULL pointer is given to the function, that object is deleted.
   * Locking: RW
   */
-void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream, int)
+void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsStream, int)
 {
 	if ( pService )
 	{
@@ -116,13 +119,13 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &oStream,
 	quint32		nTotalHosts;
 	quint32		tLastQueried;
 
-	oStream >> nServiceType;
-	oStream >> nNetworkType;
-	oStream >> nRating;
-	oStream >> sURL;
-	oStream >> nLastHosts;
-	oStream >> nTotalHosts;
-	oStream >> tLastQueried;
+	fsStream >> nServiceType;
+	fsStream >> nNetworkType;
+	fsStream >> nRating;
+	fsStream >> sURL;
+	fsStream >> nLastHosts;
+	fsStream >> nTotalHosts;
+	fsStream >> tLastQueried;
 
 	pService = createService( sURL, (TServiceType)nServiceType,
 							  CNetworkType( nNetworkType ), nRating );

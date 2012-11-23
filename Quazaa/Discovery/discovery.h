@@ -266,12 +266,14 @@ private:
 	bool add(CDiscoveryService* pService);
 
 	/**
-	 * @brief isDuplicate checks if an identical (or very similar) service is alreads present in the manager.
+	 * @brief manageDuplicates checks if an identical (or very similar) service is alreads present in the
+	 * manager, decides which service to remove and frees unnecessary data.
 	 * @param pService
-	 * @return
+	 * @return true if a duplicate was detected. pService is deleted and set to nullptr in that case. false
+	 * otherwise.
 	 * Requires locking: YES
 	 */
-	bool isDuplicate(CDiscoveryService* pService);
+	bool manageDuplicates(CDiscoveryService *&pService);
 
 	/**
 	 * @brief normalizeURL transforms a given URL string into a standard form to easa the detection of

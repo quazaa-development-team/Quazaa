@@ -71,7 +71,7 @@ private:
 	/* ========================== Operations ========================== */
 	/* ================================================================ */
 	// Read/write rule from/to file
-	static void		load(CDiscoveryService*& pService, QDataStream& oStream, const int nVersion);
+	static void		load(CDiscoveryService*& pService, QDataStream& fsStream, const int nVersion);
 	static void     save(const CDiscoveryService* const pService, QDataStream& oStream);
 
 	/** Use this to generate valid services. Must be modified when writing subclasses. */

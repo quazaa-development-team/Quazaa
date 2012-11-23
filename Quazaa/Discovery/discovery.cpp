@@ -30,10 +30,7 @@
 
 #include "endpoint.h"
 #include "network.h"
-
-// TODO: Implement request abort time
 #include "quazaasettings.h"
-#include "timedsignalqueue.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -153,8 +150,6 @@ bool CDiscovery::save(bool bForceSaving)
 	if ( QFile::exists( sPath ) && !QFile::rename( sPath, sBackupPath ) )
 		return false; // Error while renaming current database file to replace backup file.
 
-// TODO: Follow naming convention for files and streams.
-
 	QFile oFile( sPath );
 
 	if ( !oFile.open( QIODevice::WriteOnly ) )
@@ -164,15 +159,15 @@ bool CDiscovery::save(bool bForceSaving)
 
 	try
 	{
-		QDataStream oStream( &oFile );
+		QDataStream fsFile( &oFile );
 
-		oStream << nVersion;
-		oStream << count();
+		fsFile << nVersion;
+		fsFile << count();
 
 		// write services to stream
 		foreach (  TMapPair pair, m_mServices )
 		{
-			CDiscoveryService::save( pair.second, oStream );
+			CDiscoveryService::save( pair.second, fsFile );
 		}
 	}
 	catch ( ... )
@@ -211,7 +206,7 @@ TDiscoveryID CDiscovery::add(QString sURL, const TServiceType eSType,
 		return 0;
 
 	// Then, normalize the fully encoded URL
-	sURL = oURL.toEncoded();
+	sURL = oURL.toString();
 	normalizeURL( sURL );
 
 	CDiscoveryService* pService = CDiscoveryService::createService( sURL, eSType, oNType, nRating );
@@ -220,11 +215,13 @@ TDiscoveryID CDiscovery::add(QString sURL, const TServiceType eSType,
 
 	if ( add( pService ) )
 	{
+		// make sure to return the right ID
+		TDiscoveryID nTmp = m_nLastID;
 		m_pSection.unlock();
 
 		// inform GUI about new service
 		emit serviceAdded( pService );
-		return m_nLastID;
+		return nTmp;
 	}
 	else
 	{
@@ -448,17 +445,18 @@ bool CDiscovery::load( QString sPath )
 	{
 		clear();
 
-		QDataStream iStream( &oFile );
+		QDataStream fsFile( &oFile );
 
 		quint16 nVersion;
 		quint32 nCount;
 
-		iStream >> nVersion;
-		iStream >> nCount;
+		fsFile >> nVersion;
+		fsFile >> nCount;
 
+		QMutexLocker l( &m_pSection );
 		while ( nCount > 0 )
 		{
-			CDiscoveryService::load( pService, iStream, nVersion );
+			CDiscoveryService::load( pService, fsFile, nVersion );
 
 			add( pService );
 			pService = nullptr;
@@ -492,36 +490,95 @@ bool CDiscovery::add(CDiscoveryService* pService)
 	if ( !pService )
 		return false;
 
-	if ( isDuplicate( pService ) )
+	if ( manageDuplicates( pService ) )
 	{
-		delete pService;
-		pService = nullptr;
 		return false;
 	}
 
-	// assign ID to service
-	pService->m_nID = ++m_nLastID;
+	if ( pService->m_nID && m_mServices.find( m_nLastID ) != m_mServices.end() )
+	{
+		// We need to assign a new ID, as the previous ID of this service is already in use.
+		// This should not happen as the previous services should be loaded into the manager before
+		// any new services that might be added during the session.
+		Q_ASSERT( false );
 
-#ifdef _DEBUG
-	// Make sure to never use the same ID twice.
-	TConstIterator i = m_mServices.find( m_nLastID );
-	Q_ASSERT( i == m_mServices.end() );
-#endif
+		pService->m_nID = 0; // set ID to invalid.
+	}
+
+	if ( !pService->m_nID )
+	{
+		TConstIterator i;
+		do
+		{
+			// Check the next ID until a free one is found.
+			i = m_mServices.find( ++m_nLastID );
+		}
+		while ( i == m_mServices.end() );
+
+		// assign ID to service
+		pService->m_nID = m_nLastID;
+	}
 
 	// push to map
-	m_mServices[m_nLastID] = pService;
+	m_mServices[pService->m_nID] = pService;
 	return true;
 }
 
 /**
- * @brief isDuplicate checks if an identical (or very similar) service is alreads present in the manager.
+ * @brief manageDuplicates checks if an identical (or very similar) service is alreads present in the
+ * manager, decides which service to remove and frees unnecessary data.
  * @param pService
- * @return
+ * @return true if a duplicate was detected. pService is deleted and set to nullptr in that case. false
+ * otherwise.
  * Requires locking: YES
  */
-bool CDiscovery::isDuplicate(CDiscoveryService* pService)
+bool CDiscovery::manageDuplicates(CDiscoveryService*& pService)
 {
-	// TODO: Implement.
+	QString sURL = pService->m_oServiceURL.toString();
+
+	foreach ( TMapPair pair, m_mServices )
+	{
+		// already existing service
+		CDiscoveryService* pExService = pair.second;
+		QString sExURL = pExService->m_oServiceURL.toString();
+
+		// check for services with the same URL; Note: all URLs should be case insesitive due to
+		// normalizeURLs(), so case sensitivity is not a problem here.
+		if ( !sExURL.compare( sURL ) )
+		{
+			if ( pService->m_nServiceType == pExService->m_nServiceType )
+			{
+				// Make sure the existing service is set to handle the networks pService handles, too.
+				// (90% of the time, this should be the case anyway, but this is more efficient than using
+				// an if statement to test the condition.)
+				pExService->m_oNetworkType.setNetwork( pService->m_oNetworkType );
+
+				delete pService;
+				pService = nullptr;
+				return true;
+			}
+			else // This should not happen. Two services with the same URL should be of the same type.
+			{
+				// Generate nice assert so that this can be analized.
+				QString sError = "Services of type %1 and %2 detected sharing the same URL: ";
+				sError.arg( pService->type(), pExService->type() );
+				sError.append( sURL );
+				Q_ASSERT_X( false, "manageDuplicates", sError.toLatin1().data() );
+			}
+		}
+
+		// check for services with only part of the URL of an other service
+		// this filters out "www.example.com"/"www.example.com/gwc.php" pairs
+		if ( sExURL.startsWith( sURL ) )
+		{
+
+		}
+		else if ( sURL.startsWith( sExURL ) )
+		{
+
+		}
+	}
+
 	return false;
 }
 
@@ -533,7 +590,26 @@ bool CDiscovery::isDuplicate(CDiscoveryService* pService)
  */
 void CDiscovery::normalizeURL(QString& sURL)
 {
+	sURL = sURL.toLower();
+
 	// TODO: Implement.
+
+
+	/*// Check it has a valid protocol
+	if ( _tcsnicmp( pszAddress, _T("http://"),  7 ) == 0 )
+		pszAddress += 7;
+	else if ( _tcsnicmp( pszAddress, _T("https://"), 8 ) == 0 )
+		pszAddress += 8;
+	else if ( _tcsnicmp( pszAddress, _T("gnutella1:host:"), 15 ) == 0 )
+		return TRUE;
+	else if ( _tcsnicmp( pszAddress, _T("gnutella2:host:"), 15 ) == 0 )
+		return TRUE;
+	else if ( _tcsnicmp( pszAddress, _T("uhc:"), 4 ) == 0 )
+		return TRUE;
+	else if ( _tcsnicmp( pszAddress, _T("ukhl:"), 5 ) == 0 )
+		return TRUE;
+	else
+		return FALSE;*/
 }
 
 /**
