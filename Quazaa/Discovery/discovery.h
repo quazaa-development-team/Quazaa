@@ -134,69 +134,69 @@ public:
 public:
 	/**
 	 * @brief count allows you to access the number of working services for a given network.
+	 * Locking: YES
 	 * @return the number of services for the specified network. If no type is specified or the type is
 	 * null, the total number of all services is returned, no matter whether they are working or not.
-	 * Locking: YES
 	 */
 	quint32	count(const CNetworkType& oType = CNetworkType());
 
 	/**
 	 * @brief start initializes the Discovery Services Manager.
-	 * @return whether loading the services was successful.
 	 * Locking: YES
+	 * @return whether loading the services was successful.
 	 */
 	bool	start();
 
 	/**
 	 * @brief stop prepares the Discovery Services Manager for destruction.
-	 * @return true if the services have been successfully written to disk.
 	 * Locking: YES
+	 * @return true if the services have been successfully written to disk.
 	 */
 	bool	stop();		// prepares the Discovery Services Manager for destruction
 
 	/**
 	 * @brief save saves all discovery services to disk, if there have been important modifications to at
 	 * least one service or bForceSaving is set to true.
+	 * Locking: YES
 	 * @param bForceSaving: Set this to true to force saving even if there have been no important service
 	 * modifications, for example to make sure the hosts from the current session are saved properly.
 	 * @return true if saving to file was successful; false otherwise.
-	 * Locking: YES
 	 */
 	bool	save(bool bForceSaving);
 
 	/**
 	 * @brief add adds a new Service with a given URL to the manager.
+	 * Locking: YES
 	 * @param sURL
 	 * @param eSType
 	 * @param oNType
 	 * @param nRating
 	 * @return the service ID used to identify the service internally; 0 if the service has not been added.
-	 * Locking: YES
 	 */
 	TDiscoveryID add(QString sURL, const TServiceType eSType,
 					 const CNetworkType& oNType, const quint8 nRating = 7);
 
 	/**
 	 * @brief remove removes a service by ID.
+	 * Locking: YES
 	 * @param nID
 	 * @return true if the removal was successful (e.g. the service could be found), false otherwise.
-	 * Locking: YES
 	 */
 	bool         remove(TDiscoveryID nID);
 
 	/**
 	 * @brief clear removes all services from the manager.
+	 * Locking: YES
 	 * @param bInformGUI: Set this to true if the GUI shall be informed about the removal of the services.
 	 * The default value is false, which represents the scenario on shutdown, where the GUI will be removed
 	 * anyway shortly.
-	 * Locking: YES
 	 */
 	void	clear(bool bInformGUI = false);
 
 	/**
 	 * @brief check verifies whether the given service is managed by the manager.
-	 * @return true if managed; false otherwise
 	 * Locking: YES
+	 * @return true if managed; false otherwise
 	 */
 	bool	check(const CDiscoveryService* const pService);
 
@@ -231,18 +231,18 @@ public slots:
 	/**
 	 * @brief updateService updates a service for a given network type with our IP. Note that not all
 	 * service types might support or require such updates.
+	 * Locking: YES
 	 * @param type
 	 * @return false if no service for the requested network type could be found; true otherwise.
-	 * Locking: YES
 	 */
 	bool updateService(const CNetworkType& type); // Random service access
 	bool updateService(TDiscoveryID nID);         // Manual service access
 
 	/**
 	 * @brief queryService
+	 * Locking: YES
 	 * @param type
 	 * @return false if no service for the requested network type could be found; true otherwise.
-	 * Locking: YES
 	 */
 	bool queryService(const CNetworkType& type); // Random service access
 	bool queryService(TDiscoveryID nID);         // Manual service access
@@ -250,8 +250,8 @@ public slots:
 private:
 	/**
 	 * @brief load retrieves stored services from the HDD.
-	 * @return true if loading from file was successful; false otherwise.
 	 * Requires locking: YES
+	 * @return true if loading from file was successful; false otherwise.
 	 */
 	bool load();
 	bool load(QString sPath);
@@ -259,52 +259,52 @@ private:
 	/**
 	 * @brief add... obvious... Note: if a duplicate is detected, the CDiscoveryService passed to the
 	 * method is deleted within.
+	 * Requires locking: YES
 	 * @param pService
 	 * @return true if the service was added; false if not (e.g. duplicate was detected).
-	 * Requires locking: YES
 	 */
 	bool add(CDiscoveryService* pService);
 
 	/**
 	 * @brief manageDuplicates checks if an identical (or very similar) service is alreads present in the
 	 * manager, decides which service to remove and frees unnecessary data.
+	 * Requires locking: YES
 	 * @param pService
 	 * @return true if a duplicate was detected. pService is deleted and set to nullptr in that case. false
 	 * otherwise.
-	 * Requires locking: YES
 	 */
 	bool manageDuplicates(CDiscoveryService *&pService);
 
 	/**
 	 * @brief normalizeURL transforms a given URL string into a standard form to easa the detection of
 	 * duplicates, filter out websites caching a service etc.
-	 * @param sURL
 	 * Requires locking: NO
+	 * @param sURL
 	 */
 	void normalizeURL(QString& sURL);
 
 	/**
 	 * @brief updateHelper: Helper Method. Performs a service update.
+	 * Requires locking: YES
 	 * @param pService
 	 * @return false if a NULL pointer is passed as service; true otherwise.
-	 * Requires locking: YES
 	 */
 	bool updateHelper(CDiscoveryService* pService);
 
 	/**
 	 * @brief queryHelper: Helper method. Performs a service query.
+	 * Requires locking: YES
 	 * @param pService
 	 * @return false if a NULL pointer is passed as service; true otherwise.
-	 * Requires locking: YES
 	 */
 	bool queryHelper(CDiscoveryService *pService);
 
 	/**
 	 * @brief getRandomService: Helper method. Allows to get a random service for a specified network.
+	 * Requires locking: YES
 	 * @param oNType
 	 * @return A discovery service for the specified network; Null if no working service could be found for
 	 * the specified network.
-	 * Requires locking: YES
 	 */
 	CDiscoveryService* getRandomService(const CNetworkType& oNType);
 };

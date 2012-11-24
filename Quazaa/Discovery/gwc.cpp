@@ -64,6 +64,8 @@ void CGWC::doQuery() throw()
 
 void CGWC::doUpdate() throw()
 {
+	 //Network.GetLocalAddress()
+
 	// TODO: Implement.
 }
 

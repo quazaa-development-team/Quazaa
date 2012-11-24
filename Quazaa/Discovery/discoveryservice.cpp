@@ -98,12 +98,8 @@ bool CDiscoveryService::operator!=(const CDiscoveryService& pService) const
 	return !( *this == pService );
 }
 
-/**
-  * [static] Reads a service from the provided QDataStream and creates a new Object from the data.
-  * Note that if a non-NULL pointer is given to the function, that object is deleted.
-  * Locking: RW
-  */
-void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsStream, int)
+
+void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, int)
 {
 	if ( pService )
 	{
@@ -119,13 +115,13 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsStream
 	quint32		nTotalHosts;
 	quint32		tLastQueried;
 
-	fsStream >> nServiceType;
-	fsStream >> nNetworkType;
-	fsStream >> nRating;
-	fsStream >> sURL;
-	fsStream >> nLastHosts;
-	fsStream >> nTotalHosts;
-	fsStream >> tLastQueried;
+	fsFile >> nServiceType;
+	fsFile >> nNetworkType;
+	fsFile >> nRating;
+	fsFile >> sURL;
+	fsFile >> nLastHosts;
+	fsFile >> nTotalHosts;
+	fsFile >> tLastQueried;
 
 	pService = createService( sURL, (TServiceType)nServiceType,
 							  CNetworkType( nNetworkType ), nRating );
@@ -141,17 +137,17 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsStream
   * [static] Writes pService to given QDataStream.
   * Locking: R
   */
-void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStream &oStream)
+void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStream &fsFile)
 {
 	QReadLocker l( &( const_cast<CDiscoveryService*>(pService) )->m_oRWLock );
 
-	oStream << (quint8)(pService->m_nServiceType);
-	oStream << (quint16)(pService->m_oNetworkType.toQuint16());
-	oStream << (quint8)(pService->m_nRating);
-	oStream << pService->m_oServiceURL.toString();
-	oStream << pService->m_nLastHosts;
-	oStream << pService->m_nTotalHosts;
-	oStream << pService->m_tLastQueried;
+	fsFile << (quint8)(pService->m_nServiceType);
+	fsFile << (quint16)(pService->m_oNetworkType.toQuint16());
+	fsFile << (quint8)(pService->m_nRating);
+	fsFile << pService->m_oServiceURL.toString();
+	fsFile << pService->m_nLastHosts;
+	fsFile << pService->m_nTotalHosts;
+	fsFile << pService->m_tLastQueried;
 }
 
 /**
@@ -179,10 +175,44 @@ CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServic
 	return pService;
 }
 
+// todo: store IP in disc. services manager or get it only when needed from network
+void CDiscoveryService::update()
+{
+	m_oRWLock.lockForWrite();
+
+	Q_ASSERT( !m_bRunning );
+
+	m_bRunning = true;
+
+	doUpdate();
+
+	m_oRWLock.unlock();
+}
+
 /**
-  * Registers a pointer. Note that this method is const, because it does not change the
-  * data defining the DiscoveryService in question. It does, however, add the pointer pService
-  * to an internal storage structure. So be careful when using.
+  *
+  * Locking: RW
+  */
+void CDiscoveryService::query()
+{
+	m_oRWLock.lockForWrite();
+
+	Q_ASSERT( !m_bRunning );
+
+	m_bRunning = true;
+
+	doQuery();
+
+	m_oRWLock.unlock();
+}
+
+void CDiscoveryService::cancelRequest()
+{
+	// TODO: Implement.
+}
+
+/**
+  *
   * Locking: RW
   */
 void CDiscoveryService::registerPointer(const CDiscoveryService** pService) const
@@ -209,45 +239,4 @@ void CDiscoveryService::unRegisterPointer(const CDiscoveryService** pService) co
 	pModifiable->m_oRWLock.lockForWrite();
 	pModifiable->m_lPointers.remove( pService );
 	pModifiable->m_oRWLock.unlock();
-}
-
-/**
-  * Updates the service with the own IP if the service supports it.
-  * Locking: RW
-  */
-void CDiscoveryService::update(CEndPoint& oOwnIP)
-{
-	m_oRWLock.lockForWrite();
-
-	Q_ASSERT( !m_bRunning );
-
-	m_bRunning = true;
-	m_oOwnIP = oOwnIP;
-
-	doUpdate();
-
-	m_oRWLock.unlock();
-}
-
-/**
-  * Queries the service to recieve network hosts for initial connection and/or
-  * alternative service URLs.
-  * Locking: RW
-  */
-void CDiscoveryService::query()
-{
-	m_oRWLock.lockForWrite();
-
-	Q_ASSERT( !m_bRunning );
-
-	m_bRunning = true;
-
-	doQuery();
-
-	m_oRWLock.unlock();
-}
-
-void CDiscoveryService::cancelRequest()
-{
-	// TODO: Implement.
 }

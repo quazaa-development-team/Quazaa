@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** discoverytablemodel.cpp
 **
 ** Copyright © Quazaa Development Team, 2009-2012.
@@ -43,7 +43,7 @@ CDiscoveryTableModel::Service::Service(const CDiscoveryService* pService)
 	// m_pNode is correctly set to NULL. Note that a write lock is required here.
 	m_pNode->registerPointer( &m_pNode );
 
-	m_sURL			= m_pNode->url().toString();
+	m_sURL			= m_pNode->url();
 	m_nType			= m_pNode->serviceType();
 	m_nLastHosts	= m_pNode->lastHosts();
 	m_nTotalHosts	= m_pNode->totalHosts();
@@ -123,10 +123,10 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 			bReturn = true;
 	}
 
-	if ( m_sURL != m_pNode->url().toString() )
+	if ( m_sURL != m_pNode->url() )
 	{
 		to_update.append( model->index( row, URL ) );
-		m_sURL = m_pNode->url().toString();
+		m_sURL = m_pNode->url();
 
 		if ( col == URL )
 			bReturn = true;
