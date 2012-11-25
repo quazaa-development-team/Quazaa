@@ -69,6 +69,11 @@ void CGWC::doUpdate() throw()
 	// TODO: Implement.
 }
 
+
+void CGWC::doCancelRequest() throw()
+{
+}
+
 void CGWC::queryRequestCompleted(QNetworkReply* pReply)
 {
 	// TODO: refine

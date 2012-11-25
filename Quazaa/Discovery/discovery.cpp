@@ -47,6 +47,7 @@ CDiscovery::CDiscovery(QObject *parent) :
 	QObject( parent ),
 	m_bSaved( true ),
 	m_nLastID( 0 )
+
 {
 }
 
@@ -106,6 +107,8 @@ bool CDiscovery::start()
 
 	// Load rules from disk.
 	QMutexLocker l( &m_pSection );
+
+	m_sMessage = tr( "[Discovery] " );
 	return load();
 }
 
@@ -139,19 +142,27 @@ bool CDiscovery::save(bool bForceSaving)
 		return true; // Saving not required ATM.
 	}
 
-	QString sPath		= quazaaSettings.Discovery.DataPath + "discovery.dat";
-	QString sBackupPath = quazaaSettings.Discovery.DataPath + "discovery_backup.dat";
+	systemLog.postLog( LogSeverity::Notice, m_sMessage + tr( "Saving Discovery Services Manager state." ) );
 
-	if ( QFile::exists( sBackupPath ) && !QFile::remove( sBackupPath ) )
-		return false; // Error while removing old backup file.
+	QString sPath          = quazaaSettings.Discovery.DataPath + "discovery.dat";
+	QString sBackupPath    = quazaaSettings.Discovery.DataPath + "discovery_backup.dat";
+	QString sTemporaryPath = sBackupPath + "_tmp";
 
-	if ( QFile::exists( sPath ) && !QFile::rename( sPath, sBackupPath ) )
-		return false; // Error while renaming current database file to replace backup file.
+	if ( QFile::exists( sTemporaryPath ) && !QFile::remove( sTemporaryPath ) )
+	{
+		systemLog.postLog( LogSeverity::Error, m_sMessage +
+						   tr( "Error: Could not free space required for data backup: " ) + sPath );
+		return false;
+	}
 
-	QFile oFile( sPath );
+	QFile oFile( sTemporaryPath );
 
 	if ( !oFile.open( QIODevice::WriteOnly ) )
+	{
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Error: Could open data file for write: " ) + sTemporaryPath );
 		return false;
+	}
 
 	quint16 nVersion = DISCOVERY_CODE_VERSION;
 
@@ -170,6 +181,8 @@ bool CDiscovery::save(bool bForceSaving)
 	}
 	catch ( ... )
 	{
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Error while writing discovery services to disk." ) );
 		return false;
 	}
 
@@ -179,9 +192,34 @@ bool CDiscovery::save(bool bForceSaving)
 
 	oFile.close();
 
-	// We don't really care whether this fails or not, as saving to the primary file was successfull.
-	QFile::remove( sBackupPath );
-	QFile::copy( sPath, sBackupPath );
+	if ( QFile::exists( sPath ) )
+	{
+		if ( !QFile::remove( sPath ) )
+		{
+			systemLog.postLog( LogSeverity::Error,
+							   m_sMessage + tr( "Error: Could not remove old data file: " ) + sPath );
+			return false;
+		}
+
+		if ( !QFile::rename( sTemporaryPath, sPath ) )
+		{
+			systemLog.postLog( LogSeverity::Error,
+							   m_sMessage + tr( "Error: Could not rename data file: " ) + sPath );
+			return false;
+		}
+	}
+
+	if ( QFile::exists( sBackupPath ) && !QFile::remove( sBackupPath ) )
+	{
+		systemLog.postLog( LogSeverity::Warning,
+						   m_sMessage + tr( "Error: Could not remove old backup file: " ) + sBackupPath );
+	}
+
+	if ( !QFile::copy( sPath, sBackupPath ) )
+	{
+		systemLog.postLog( LogSeverity::Warning, m_sMessage +
+						   tr( "Warning: Could not create create new backup file: " ) + sBackupPath );
+	}
 
 	return true;
 }
@@ -201,7 +239,13 @@ TDiscoveryID CDiscovery::add(QString sURL, const TServiceType eSType,
 	// First check whether the URL can be parsed at all.
 	QUrl oURL( sURL, QUrl::StrictMode );
 	if ( !oURL.isValid() )
+	{
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage
+						   + tr( "Error: Could not add invalid URL as a discovery service: " )
+						   + sURL );
 		return 0;
+	}
 
 	// Then, normalize the fully encoded URL
 	sURL = oURL.toString();
@@ -217,6 +261,9 @@ TDiscoveryID CDiscovery::add(QString sURL, const TServiceType eSType,
 		TDiscoveryID nTmp = m_nLastID;
 		m_pSection.unlock();
 
+		systemLog.postLog( LogSeverity::Notice,
+						   m_sMessage + tr( "Notice: New discovery service added: " ) + sURL );
+
 		// inform GUI about new service
 		emit serviceAdded( pService );
 		return nTmp;
@@ -224,6 +271,9 @@ TDiscoveryID CDiscovery::add(QString sURL, const TServiceType eSType,
 	else
 	{
 		m_pSection.unlock();
+
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Error adding service." ) );
 		return 0;
 	}
 }
@@ -237,7 +287,11 @@ TDiscoveryID CDiscovery::add(QString sURL, const TServiceType eSType,
 bool CDiscovery::remove(TDiscoveryID nID)
 {
 	if ( !nID )
+	{
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Internal error: Got request to remove invalid ID: " ) + nID );
 		return false; // invalid ID
+	}
 
 	m_pSection.lock();
 
@@ -246,6 +300,9 @@ bool CDiscovery::remove(TDiscoveryID nID)
 	if ( iService == m_mServices.end() )
 	{
 		m_pSection.unlock();
+
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Internal error: Got request to remove invalid ID: " ) + nID );
 		return false; // Unable to find service by ID
 	}
 	m_pSection.unlock();
@@ -255,6 +312,9 @@ bool CDiscovery::remove(TDiscoveryID nID)
 
 	m_pSection.lock();
 	CDiscoveryService* pService = (*iService).second;
+
+	systemLog.postLog( LogSeverity::Notice,
+					   m_sMessage + tr( "Removing discovery service: " ) + pService->m_oServiceURL.toString() );
 
 	// stop it
 	pService->cancelRequest();
@@ -356,7 +416,7 @@ bool CDiscovery::updateService(const CNetworkType& type)
 	CDiscoveryService* pService = getRandomService( type );
 	m_pSection.unlock();
 
-	return updateHelper( pService );
+	return updateHelper( pService, type );
 }
 
 bool CDiscovery::updateService(TDiscoveryID nID)
@@ -374,7 +434,7 @@ bool CDiscovery::updateService(TDiscoveryID nID)
 	CDiscoveryService* pService = (*iService).second;
 
 	m_pSection.unlock();
-	return updateHelper( pService );
+	return updateHelper( pService, pService->m_oNetworkType );
 }
 
 /**
@@ -389,7 +449,7 @@ bool CDiscovery::queryService(const CNetworkType& type)
 	CDiscoveryService* pService = getRandomService( type );
 	m_pSection.unlock();
 
-	return queryHelper( pService );
+	return queryHelper( pService, type );
 }
 
 bool CDiscovery::queryService(TDiscoveryID nID)
@@ -407,7 +467,7 @@ bool CDiscovery::queryService(TDiscoveryID nID)
 	CDiscoveryService* pService = (*iService).second;
 
 	m_pSection.unlock();
-	return queryHelper( pService );
+	return queryHelper( pService, pService->m_oNetworkType );
 }
 
 /**
@@ -421,12 +481,29 @@ bool CDiscovery::load()
 
 	if ( load( sPath ) )
 	{
+		systemLog.postLog( LogSeverity::Debug,
+						   m_sMessage + tr( "Loading discovery services from file: " ) + sPath );
 		return true;
 	}
 	else // Unable to load default file. Switch to backup one instead.
 	{
 		sPath = quazaaSettings.Discovery.DataPath + "discovery_backup.dat";
-		return load( sPath );
+
+		systemLog.postLog( LogSeverity::Warning,
+						   m_sMessage
+						   + tr( "Failed to load discovery services from primary file. Switching to backup: " )
+						   + sPath );
+
+		if ( load( sPath ) )
+		{
+			return true;
+		}
+		else
+		{
+			systemLog.postLog( LogSeverity::Error,
+							   m_sMessage + tr( "Failed to load discovery services!" ) );
+			return false;
+		}
 	}
 }
 
@@ -468,6 +545,9 @@ bool CDiscovery::load( QString sPath )
 
 		clear();
 		oFile.close();
+
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Error: Caught an exception while loading services from file!" ) );
 
 		return false;
 	}
@@ -551,6 +631,9 @@ bool CDiscovery::manageDuplicates(CDiscoveryService*& pService)
 				// an if statement to test the condition.)
 				pExService->m_oNetworkType.setNetwork( pService->m_oNetworkType );
 
+				systemLog.postLog( LogSeverity::Debug, m_sMessage
+								   + tr( "Detected a duplicate service. Not going to add the new one." ) );
+
 				delete pService;
 				pService = nullptr;
 				return true;
@@ -569,11 +652,11 @@ bool CDiscovery::manageDuplicates(CDiscoveryService*& pService)
 		// this filters out "www.example.com"/"www.example.com/gwc.php" pairs
 		if ( sExURL.startsWith( sURL ) )
 		{
-
+// TODO: implement
 		}
 		else if ( sURL.startsWith( sExURL ) )
 		{
-
+// TODO: implement
 		}
 	}
 
@@ -590,7 +673,7 @@ void CDiscovery::normalizeURL(QString& sURL)
 {
 	sURL = sURL.toLower();
 
-	// TODO: Implement.
+	// TODO: Implement
 
 
 	/*// Check it has a valid protocol
@@ -616,15 +699,20 @@ void CDiscovery::normalizeURL(QString& sURL)
  * @param pService
  * @return false if a NULL pointer is passed as service; true otherwise.
  */
-bool CDiscovery::updateHelper(CDiscoveryService *pService)
+bool CDiscovery::updateHelper(CDiscoveryService *pService, const CNetworkType &type)
 {
 	if ( pService )
 	{
+		systemLog.postLog( LogSeverity::Notice, m_sMessage + tr( "Updating service: " ) + pService->url() );
+
 		pService->update();
 		return true;
 	}
 	else
 	{
+		systemLog.postLog( LogSeverity::Warning, m_sMessage
+						   + tr( "Unable to update service for network: " ) + type.toString() );
+
 		return false;
 	}
 }
@@ -635,15 +723,20 @@ bool CDiscovery::updateHelper(CDiscoveryService *pService)
  * @param pService
  * @return false if a NULL pointer is passed as service; true otherwise.
  */
-bool CDiscovery::queryHelper(CDiscoveryService *pService)
+bool CDiscovery::queryHelper(CDiscoveryService *pService, const CNetworkType &type)
 {
 	if ( pService )
 	{
+		systemLog.postLog( LogSeverity::Notice, m_sMessage + tr( "Querying service: " ) + pService->url() );
+
 		pService->query();
 		return true;
 	}
 	else
 	{
+		systemLog.postLog( LogSeverity::Warning, m_sMessage
+						   + tr( "Unable to query service for network: " ) + type.toString() );
+
 		return false;
 	}
 }

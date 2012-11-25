@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** systemlog.h
 **
 ** Copyright © Quazaa Development Team, 2009-2012.
@@ -29,7 +29,13 @@
 
 namespace LogSeverity
 {
-	enum Severity { Information, Security, Notice, Debug, Warning, Error, Critical };
+	enum Severity { Information, // Inform the user about something
+					Security,    // security related
+					Notice,      // Inform the user about something less important
+					Debug,       // Debugging output
+					Warning,
+					Error,
+					Critical };
 }
 
 class SystemLog : public QObject

@@ -5,7 +5,6 @@
 #include <QReadWriteLock>
 #include <QUrl>
 
-#include "endpoint.h"
 #include "discovery.h"
 
 // Requirements of all subclasses
@@ -46,6 +45,8 @@ protected:
 
 	bool			m_bRunning;     // service is currently doing network communication
 
+	QUuid			m_oUUID;        // ID of cancel request (signal queue)
+
 	// List of pointers that will be set to 0 if this instance of CDiscoveryService is deleted.
 	// Note that the content of this list is not forwarded to copies of this service.
 	std::list<const CDiscoveryService**> m_lPointers;
@@ -80,7 +81,7 @@ private:
 	/**
 	 * @brief operator ==: Allows to compare two services. Services are considered to be equal if they are
 	 * of the same service type, serve the same networks and have the same URL.
-	 * Requires locking: R
+	 * Requires locking: R (both services)
 	 * @param pService
 	 * @return
 	 */
@@ -89,7 +90,7 @@ private:
 	/**
 	 * @brief operator !=: Allows to compare two services. Services are considered to be equal if they are
 	 * of the same service type, serve the same networks and have the same URL.
-	 * Requires locking: R
+	 * Requires locking: R (both services)
 	 * @param pService
 	 * @return
 	 */
@@ -143,6 +144,10 @@ private:
 	 */
 	void query();
 
+protected:
+	void serviceActionFinished();
+
+private slots:
 	/**
 	 * @brief cancelRequest stops any update or query operation currently in progress.
 	 * Locking: RW
@@ -249,8 +254,26 @@ public:
 	 */
 	inline quint32 totalHosts() const;
 
+	/**
+	 * @brief lastQueried
+	 * Requires locking: R
+	 * @return
+	 */
 	inline quint32 lastQueried() const;
+
+	/**
+	 * @brief lastSuccess
+	 * Requires locking: R
+	 * @return
+	 */
 	inline quint32 lastSuccess() const;
+
+	/**
+	 * @brief failures: Allows access to the number this service failed in a row. After a successful query or
+	 * update, 0 should be returned.
+	 * Requires locking: R
+	 * @return
+	 */
 	inline quint8 failures() const;
 
 	/**
@@ -283,6 +306,12 @@ private:
 	 * Requires locking: RW
 	 */
 	virtual void doUpdate() throw() = 0;	/** Must be implemented by subclasses. */
+
+	/**
+	 * @brief doCancelRequest: Helper method for cancelRequest(). Performs the actual cancelling.
+	 * Requires locking: RW
+	 */
+	virtual void doCancelRequest() throw() = 0;	/** Must be implemented by subclasses. */
 
 	/* ================================================================ */
 	/* ======================== Friend Classes ======================== */

@@ -49,7 +49,7 @@ class CDiscoveryService;
 /**
  * @brief TServiceType: Must be updated when implementing new subclasses of CDiscoveryService.
  */
-typedef enum { stNull = 0, stMulti = 1, stGWC = 2 } TServiceType;
+typedef enum { stNull = 0, stGWC = 1 } TServiceType;
 
 /**
  * @brief TDiscoveryID: ID type used to identify and manage discovery services. All IDs are positive.
@@ -112,6 +112,10 @@ private:
 
 	// next ID to be assigned by the manager.
 	TDiscoveryID          m_nLastID;
+
+public:
+	// text preceeding a message from the manager on the log
+	QString               m_sMessage;
 
 	/* ================================================================ */
 	/* ========================= Construction ========================= */
@@ -289,7 +293,7 @@ private:
 	 * @param pService
 	 * @return false if a NULL pointer is passed as service; true otherwise.
 	 */
-	bool updateHelper(CDiscoveryService* pService);
+	bool updateHelper(CDiscoveryService* pService, const CNetworkType& type);
 
 	/**
 	 * @brief queryHelper: Helper method. Performs a service query.
@@ -297,7 +301,7 @@ private:
 	 * @param pService
 	 * @return false if a NULL pointer is passed as service; true otherwise.
 	 */
-	bool queryHelper(CDiscoveryService *pService);
+	bool queryHelper(CDiscoveryService *pService, const CNetworkType& type);
 
 	/**
 	 * @brief getRandomService: Helper method. Allows to get a random service for a specified network.

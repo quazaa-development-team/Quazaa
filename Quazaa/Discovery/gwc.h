@@ -34,6 +34,7 @@ public:
 private:
 	void doQuery()  throw();
 	void doUpdate() throw();
+	void doCancelRequest() throw();
 
 private slots:
 	void queryRequestCompleted(QNetworkReply* pReply);
