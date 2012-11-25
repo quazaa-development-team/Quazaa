@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** networktype.cpp
 **
 ** Copyright © Quazaa Development Team, 2012.
@@ -21,6 +21,8 @@
 ** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
+#include <QObject>
 
 #include "networktype.h"
 
@@ -112,4 +114,48 @@ bool CNetworkType::isMulti() const
 quint16 CNetworkType::toQuint16() const
 {
 	return m_nNetworks;
+}
+
+QString CNetworkType::toString() const
+{
+	if ( !m_nNetworks )
+	{
+		return QString();
+	}
+
+	QString sNetworks;
+
+	if ( isGnutella() )
+	{
+		sNetworks.append( QObject::tr( "Gnutella" ) );
+	}
+
+	if ( isG2() )
+	{
+		if ( sNetworks.size() )
+		{
+			sNetworks.append( ", " );
+		}
+		sNetworks.append( QObject::tr( "G2" ) );
+	}
+
+	if ( isAres() )
+	{
+		if ( sNetworks.size() )
+		{
+			sNetworks.append( ", " );
+		}
+		sNetworks.append( QObject::tr( "Ares" ) );
+	}
+
+	if ( isEDonkey2000() )
+	{
+		if ( sNetworks.size() )
+		{
+			sNetworks.append( ", " );
+		}
+		sNetworks.append( QObject::tr( "EDonkey2000" ) );
+	}
+
+	return sNetworks;
 }

@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** networktype.h
 **
 ** Copyright © Quazaa Development Team, 2012.
@@ -26,13 +26,14 @@
 #define NETWORKTYPE_H
 
 #include <QtGlobal>
+#include <QString>
 
 enum DiscoveryProtocol
 {
-	dpNull		= 0,
-	dpGnutella	= 1,
-	dpG2		= 2,
-	dpAres		= 4,
+	dpNull        = 0,
+	dpGnutella    = 1,
+	dpG2          = 2,
+	dpAres        = 4,
 	dpeDonkey2000 = 8
 };
 
@@ -69,6 +70,8 @@ public:
 	bool isMulti() const;
 
 	quint16 toQuint16() const;
+
+	QString toString() const;
 };
 
 #endif // NETWORKTYPE_H
