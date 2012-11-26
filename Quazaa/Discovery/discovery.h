@@ -57,7 +57,7 @@ typedef enum { stNull = 0, stGWC = 1 } TServiceType;
  */
 typedef quint16 TDiscoveryID;
 
-class CDiscovery final : public QObject
+class CDiscovery : public QObject
 {
 	Q_OBJECT
 

@@ -28,7 +28,7 @@
 #include <QMainWindow>
 
 #include "tableview.h"
-#include "discovery.h"
+//#include "discovery.h"
 
 class CDiscoveryTableModel;
 
@@ -42,7 +42,7 @@ class WidgetDiscovery : public QMainWindow
 	Q_OBJECT
 
 public:
-	CDiscoveryTableModel* m_pDiscoveryList;
+	//CDiscoveryTableModel* m_pDiscoveryList;
 
 private:
 	Ui::WidgetDiscovery* ui;
@@ -60,7 +60,7 @@ public:
 protected:
 	virtual void changeEvent(QEvent* e);
 	virtual void keyPressEvent(QKeyEvent *event);
-	void setVisibility(CNetworkType networks, bool bHidden);
+	//void setVisibility(CNetworkType networks, bool bHidden);
 
 public slots:
 	void update();
