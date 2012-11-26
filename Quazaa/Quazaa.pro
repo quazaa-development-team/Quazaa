@@ -108,9 +108,10 @@ updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 PRE_TARGETDEPS += compiler_updateqm_make_all
 
-# Enable C++11 compilation
+# Enable C++11 compilation and exception handling for mingw
 win32-g++ {
 	QMAKE_CXXFLAGS += -std=gnu++0x
+	CONFIG += exceptions
 }
 
 # Append _debug to executable name when compiling using debug config
