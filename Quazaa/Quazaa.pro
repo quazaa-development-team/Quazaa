@@ -129,6 +129,10 @@ CONFIG(debug, debug|release){
 	DEFINES += _DEBUG
 	QT_FATAL_WARNINGS = 1
 }
+
+mac {
+	LIBS += -lz
+}
 TEMPLATE = app
 
 # MSVC-specific compiler flags
