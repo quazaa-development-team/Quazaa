@@ -103,8 +103,8 @@ public slots:
 	void emitSources();
 };
 
-Q_DECLARE_METATYPE(CDownload*)
-Q_DECLARE_METATYPE(CDownload::DownloadState)
+Q_DECLARE_METATYPE(CDownload*);
+Q_DECLARE_METATYPE(CDownload::DownloadState);
 
 QDataStream& operator<<(QDataStream& s, const CDownload& rhs);
 QDataStream& operator>>(QDataStream& s, CDownload& rhs);
