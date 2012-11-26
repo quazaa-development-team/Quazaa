@@ -213,6 +213,7 @@ SOURCES += \
 	3rdparty/CyoEncode/CyoDecode.c \
 	3rdparty/CyoEncode/CyoEncode.c \
 	3rdparty/nvwa/debug_new.cpp \
+!mac {
 	3rdparty/zlib/zutil.c \
 	3rdparty/zlib/uncompr.c \
 	3rdparty/zlib/trees.c \
@@ -228,6 +229,7 @@ SOURCES += \
 	3rdparty/zlib/deflate.c \
 	3rdparty/zlib/crc32.c \
 	3rdparty/zlib/adler32.c \
+}
 	Chat/chatconverter.cpp \
 	Chat/chatcore.cpp \
 	Chat/chatsession.cpp \
@@ -379,6 +381,7 @@ HEADERS += \
 	3rdparty/nvwa/debug_new.h \
 	3rdparty/nvwa/fast_mutex.h \
 	3rdparty/nvwa/static_assert.h \
+!mac {
 	3rdparty/zlib/zutil.h \
 	3rdparty/zlib/zlib.h \
 	3rdparty/zlib/zconf.h \
@@ -390,6 +393,7 @@ HEADERS += \
 	3rdparty/zlib/gzguts.h \
 	3rdparty/zlib/deflate.h \
 	3rdparty/zlib/crc32.h \
+}
 	Chat/chatconverter.h \
 	Chat/chatcore.h \
 	Chat/chatsession.h \
