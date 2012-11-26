@@ -110,7 +110,10 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 
 # Enable C++11 compilation and exception handling for mingw
 win32-g++ {
+# This causes segmentation fault when compiling on mingw32 and Qt 4 so do only if Qt >= 5
+greaterThan(QT_VER_MAJ, 4) {
 	QMAKE_CXXFLAGS += -std=gnu++0x
+}
 	CONFIG += exceptions
 }
 

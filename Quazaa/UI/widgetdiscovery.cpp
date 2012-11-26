@@ -25,7 +25,7 @@
 #include "widgetdiscovery.h"
 #include "ui_widgetdiscovery.h"
 
-#include "discoverytablemodel.h"
+//#include "discoverytablemodel.h"
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
