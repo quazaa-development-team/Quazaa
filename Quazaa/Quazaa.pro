@@ -213,23 +213,6 @@ SOURCES += \
 	3rdparty/CyoEncode/CyoDecode.c \
 	3rdparty/CyoEncode/CyoEncode.c \
 	3rdparty/nvwa/debug_new.cpp \
-!mac {
-	3rdparty/zlib/zutil.c \
-	3rdparty/zlib/uncompr.c \
-	3rdparty/zlib/trees.c \
-	3rdparty/zlib/inftrees.c \
-	3rdparty/zlib/inflate.c \
-	3rdparty/zlib/inffast.c \
-	3rdparty/zlib/compress.c \
-	3rdparty/zlib/infback.c \
-	3rdparty/zlib/gzwrite.c \
-	3rdparty/zlib/gzread.c \
-	3rdparty/zlib/gzlib.c \
-	3rdparty/zlib/gzclose.c \
-	3rdparty/zlib/deflate.c \
-	3rdparty/zlib/crc32.c \
-	3rdparty/zlib/adler32.c \
-}
 	Chat/chatconverter.cpp \
 	Chat/chatcore.cpp \
 	Chat/chatsession.cpp \
@@ -362,6 +345,25 @@ SOURCES += \
 	UI/wizardircconnection.cpp \
 	UI/wizardquickstart.cpp
 
+!mac {
+	SOURCES += \
+		3rdparty/zlib/zutil.c \
+		3rdparty/zlib/uncompr.c \
+		3rdparty/zlib/trees.c \
+		3rdparty/zlib/inftrees.c \
+		3rdparty/zlib/inflate.c \
+		3rdparty/zlib/inffast.c \
+		3rdparty/zlib/compress.c \
+		3rdparty/zlib/infback.c \
+		3rdparty/zlib/gzwrite.c \
+		3rdparty/zlib/gzread.c \
+		3rdparty/zlib/gzlib.c \
+		3rdparty/zlib/gzclose.c \
+		3rdparty/zlib/deflate.c \
+		3rdparty/zlib/crc32.c \
+		3rdparty/zlib/adler32.c
+}
+
 HEADERS += \
 	3rdparty/communi/include/ircutil.h \
 	3rdparty/communi/include/ircsession_p.h \
@@ -381,19 +383,6 @@ HEADERS += \
 	3rdparty/nvwa/debug_new.h \
 	3rdparty/nvwa/fast_mutex.h \
 	3rdparty/nvwa/static_assert.h \
-!mac {
-	3rdparty/zlib/zutil.h \
-	3rdparty/zlib/zlib.h \
-	3rdparty/zlib/zconf.h \
-	3rdparty/zlib/trees.h \
-	3rdparty/zlib/inftrees.h \
-	3rdparty/zlib/inflate.h \
-	3rdparty/zlib/inffixed.h \
-	3rdparty/zlib/inffast.h \
-	3rdparty/zlib/gzguts.h \
-	3rdparty/zlib/deflate.h \
-	3rdparty/zlib/crc32.h \
-}
 	Chat/chatconverter.h \
 	Chat/chatcore.h \
 	Chat/chatsession.h \
@@ -533,6 +522,21 @@ HEADERS += \
 	UI/winmain.h \
 	UI/wizardircconnection.h \
 	UI/wizardquickstart.h
+
+!mac {
+	HEADERS += \
+		3rdparty/zlib/zutil.h \
+		3rdparty/zlib/zlib.h \
+		3rdparty/zlib/zconf.h \
+		3rdparty/zlib/trees.h \
+		3rdparty/zlib/inftrees.h \
+		3rdparty/zlib/inflate.h \
+		3rdparty/zlib/inffixed.h \
+		3rdparty/zlib/inffast.h \
+		3rdparty/zlib/gzguts.h \
+		3rdparty/zlib/deflate.h \
+		3rdparty/zlib/crc32.h
+}
 
 FORMS += \
 	UI/dialogabout.ui \
