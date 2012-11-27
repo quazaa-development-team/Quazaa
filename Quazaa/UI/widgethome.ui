@@ -628,14 +628,14 @@ p, li { white-space: pre-wrap; }
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-83</y>
             <width>672</width>
             <height>511</height>
            </rect>
           </property>
           <property name="styleSheet">
            <string notr="true">#frameHomeContents {
-	border-image: url(:/Resource/HomeBackground.png);
+	border-image: url(:/Resource/HomeBackground.png) repeat;
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(89, 143, 169, 255), stop:0.681818 rgba(77, 122, 145, 255), stop:1 rgba(59, 92, 109, 255));
 }</string>
           </property>
@@ -1155,30 +1155,80 @@ p, li { white-space: pre-wrap; }
    <signal>toggled(bool)</signal>
    <receiver>frameLibraryTask</receiver>
    <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>toolButtonHomeTransfersTaskDownloadsHeader</sender>
    <signal>toggled(bool)</signal>
    <receiver>listWidgetTransfersTaskDownloadsTool</receiver>
    <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>toolButtonHomeTransfersTaskUploadsHeader</sender>
    <signal>toggled(bool)</signal>
    <receiver>listWidgetTransfersTaskUploadsTool</receiver>
    <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>toolButtonHomeConnectionTaskHeader</sender>
    <signal>toggled(bool)</signal>
    <receiver>frameConnectionTask</receiver>
    <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>toolButtonHomeTorrentsTaskHeader</sender>
    <signal>toggled(bool)</signal>
    <receiver>frameTorrentsTask</receiver>
    <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
  </connections>
 </ui>
