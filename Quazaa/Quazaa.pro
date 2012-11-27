@@ -218,6 +218,10 @@ SOURCES += \
 	Chat/chatsession.cpp \
 	Chat/chatsessiong2.cpp \
 	commonfunctions.cpp \
+	Discovery/discovery.cpp \
+	Discovery/discoveryservice.cpp \
+	Discovery/gwc.cpp \
+	Discovery/networktype.cpp \
 	geoiplist.cpp \
 	main.cpp \
 	Misc/fileiconprovider.cpp \
@@ -227,6 +231,7 @@ SOURCES += \
 	Metalink/metalinkhandler.cpp \
 	Metalink/metalink4handler.cpp \
 	Models/categorynavigatortreemodel.cpp \
+	Models/discoverytablemodel.cpp \
 	Models/downloadstreemodel.cpp \
 	Models/ircuserlistmodel.cpp \
 	Models/neighbourstablemodel.cpp \
@@ -388,6 +393,10 @@ HEADERS += \
 	Chat/chatsession.h \
 	Chat/chatsessiong2.h \
 	commonfunctions.h \
+	Discovery/discovery.h \
+	Discovery/discoveryservice.h \
+	Discovery/gwc.h \
+	Discovery/networktype.h \
 	FileFragments/Compatibility.hpp \
 	FileFragments/Exception.hpp \
 	FileFragments/FileFragments.hpp \
@@ -404,6 +413,7 @@ HEADERS += \
 	Misc/timedsignalqueue.h \
 	Misc/timeoutwritelocker.h \
 	Models/categorynavigatortreemodel.h \
+	Models/discoverytablemodel.h \
 	Models/downloadstreemodel.h \
 	Models/ircuserlistmodel.h \
 	Models/neighbourstablemodel.h \
