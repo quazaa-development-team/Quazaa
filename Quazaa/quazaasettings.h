@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** quazaasettings.h
 **
 ** Copyright © Quazaa Development Team, 2009-2012.
@@ -158,15 +158,15 @@ namespace Settings
 
 	struct sDiscovery
 	{
-		int			AccessThrottle;
-		int			BootstrapCount;
-		int			CacheCount;								// Limit ability to learn new caches
-		QString		DataPath;
-		int			DefaultUpdate;
-		bool		EnableG1GWC;
-		int			FailureLimit;
-		int			Lowpoint;
-		int			UpdatePeriod;
+		quint8		AccessThrottle;							// Number of seconds to wait between requests for the same service.
+		qint16		CacheCount;								// Limit ability to learn new caches. (-1 do disable)
+		QString		DataPath;								// Path to the discovery data folder. Must have a terminal slash.
+//		int			DefaultUpdate;
+//		bool		EnableG1GWC;
+		quint8		FailureLimit;							// Number of failures after which a cache should be autodisabled. (0 to disable)
+//		int			Lowpoint;
+		quint8		ServiceTimeout;							// Number of seconds after which a cache request will be cancelled automatically.
+//		int			UpdatePeriod;
 	};
 
 	struct sDownloads

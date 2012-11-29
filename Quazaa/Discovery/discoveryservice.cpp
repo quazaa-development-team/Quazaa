@@ -1,6 +1,7 @@
 ﻿#include "discoveryservice.h"
 #include "gwc.h"
 
+#include "quazaasettings.h"
 #include "timedsignalqueue.h"
 
 using namespace Discovery;
@@ -218,8 +219,10 @@ void CDiscoveryService::update()
 
 	m_oRWLock.unlock();
 
-// TODO: Add interval from settings to cancellation
-	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ), (quint32)QDateTime::currentDateTime().toTime_t() );
+	quint32 tCancelTime = (quint32)QDateTime::currentDateTime().toTime_t()
+						  + quazaaSettings.Discovery.ServiceTimeout;
+
+	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ), tCancelTime );
 }
 
 /**
@@ -239,15 +242,17 @@ void CDiscoveryService::query()
 
 	m_oRWLock.unlock();
 
-// TODO: Add interval from settings to cancellation
-	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ), (quint32)QDateTime::currentDateTime().toTime_t() );
+	quint32 tCancelTime = (quint32)QDateTime::currentDateTime().toTime_t()
+						  + quazaaSettings.Discovery.ServiceTimeout;
+
+	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ), tCancelTime );
 }
 
 void CDiscoveryService::serviceActionFinished()
 {
 	Q_ASSERT( !m_oUUID.isNull() );
 
-// TODO: Do more checks.
+	// TODO: Do more checks.
 
 	signalQueue.pop( m_oUUID );
 

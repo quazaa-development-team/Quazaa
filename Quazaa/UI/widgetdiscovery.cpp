@@ -25,7 +25,7 @@
 #include "widgetdiscovery.h"
 #include "ui_widgetdiscovery.h"
 
-//#include "discoverytablemodel.h"
+#include "discoverytablemodel.h"
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
@@ -54,9 +54,21 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	tableViewDiscovery->verticalHeader()->setVisible( false );
 	ui->verticalLayoutDiscoveryTable->addWidget( tableViewDiscovery );
 
-	connect(tableViewDiscovery, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tableViewDiscovery_customContextMenuRequested(QPoint)));
-	connect(tableViewDiscovery, SIGNAL(clicked(QModelIndex)), this, SLOT(tableViewDiscovery_clicked(QModelIndex)));
-	connect(tableViewDiscovery, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(tableViewDiscovery_doubleClicked(QModelIndex)));
+#if QT_VERSION >= 0x050000
+	{
+		connect( tableViewDiscovery, &CTableView::clicked,                    this, &WidgetDiscovery::tableViewDiscovery_clicked );
+		connect( tableViewDiscovery, &CTableView::doubleClicked,              this, &WidgetDiscovery::tableViewDiscovery_doubleClicked );
+		connect( tableViewDiscovery, &CTableView::customContextMenuRequested, this, &WidgetDiscovery::tableViewDiscovery_customContextMenuRequested );
+
+	}
+#else	// Qt4 code
+		connect( tableViewDiscovery, SIGNAL(clicked(QModelIndex)),               this, SLOT(tableViewDiscovery_clicked(QModelIndex)));
+		connect( tableViewDiscovery, SIGNAL(doubleClicked(QModelIndex)),         this, SLOT(tableViewDiscovery_doubleClicked(QModelIndex)));
+		connect( tableViewDiscovery, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tableViewDiscovery_customContextMenuRequested(QPoint)));
+#endif
+
+
+
 
 	//m_pDiscoveryList = new CDiscoveryTableModel( this, tableView() );
 	//setModel( m_pDiscoveryList );
@@ -121,7 +133,7 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 
 	case Qt::Key_F5:
 	{
-		//m_pDiscoveryList->completeRefresh();
+		m_pDiscoveryList->completeRefresh();
 		break;
 	}
 	}
@@ -129,7 +141,7 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 	QMainWindow::keyPressEvent( e );
 }
 
-/*void WidgetDiscovery::setVisibility(CNetworkType networks, bool bHidden)
+void WidgetDiscovery::setVisibility(CNetworkType networks, bool bHidden)
 {
 	for ( quint32 i = m_pDiscoveryList->rowCount(); i > 0; )
 	{
@@ -140,11 +152,11 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 			tableViewDiscovery->setRowHidden( i, bHidden );
 		}
 	}
-}*/
+}
 
 void WidgetDiscovery::update()
 {
-	//m_pDiscoveryList->updateAll();
+	m_pDiscoveryList->updateAll();
 }
 
 void WidgetDiscovery::tableViewDiscovery_customContextMenuRequested(const QPoint& point)
@@ -209,22 +221,22 @@ void WidgetDiscovery::setSkin()
 
 void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered(bool checked)
 {
-//	setVisibility( CNetworkType( dpGnutella ), !checked );
+	setVisibility( CNetworkType( dpGnutella ), !checked );
 }
 
 void WidgetDiscovery::on_actionAresDiscoveryType_triggered(bool checked)
 {
-//	setVisibility( CNetworkType( dpAres ), !checked );
+	setVisibility( CNetworkType( dpAres ), !checked );
 }
 
 void WidgetDiscovery::on_actionEDonkeyServerMet_triggered(bool checked)
 {
-//	setVisibility( CNetworkType( dpeDonkey2000 ), !checked );
+	setVisibility( CNetworkType( dpeDonkey2000 ), !checked );
 }
 
 void WidgetDiscovery::on_actionGWebCache_triggered(bool checked)
 {
-//	setVisibility( CNetworkType( dpG2 ), !checked );
+	setVisibility( CNetworkType( dpG2 ), !checked );
 }
 
 void WidgetDiscovery::on_actionDiscoveryAddService_triggered()
@@ -245,9 +257,9 @@ void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
 	{
 		if ( i.isValid() )
 		{
-			//Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( i ) ) );
+			Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( i ) ) );
 
-			//discoveryManager.remove( m_pDiscoveryList->nodeFromIndex( i )->id() );
+			discoveryManager.remove( m_pDiscoveryList->nodeFromIndex( i )->id() );
 		}
 	}
 }
@@ -258,9 +270,9 @@ void WidgetDiscovery::on_actionDiscoveryQueryNow_triggered()
 
 	if ( index.isValid() )
 	{
-		//Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
+		Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
 
-		//discoveryManager.queryService( m_pDiscoveryList->nodeFromIndex( index )->id() );
+		discoveryManager.queryService( m_pDiscoveryList->nodeFromIndex( index )->id() );
 	}
 }
 
@@ -270,9 +282,9 @@ void WidgetDiscovery::on_actionDiscoveryAdvertise_triggered()
 
 	if ( index.isValid() )
 	{
-		//Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
+		Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
 
-		//discoveryManager.updateService( m_pDiscoveryList->nodeFromIndex( index )->id() );
+		discoveryManager.updateService( m_pDiscoveryList->nodeFromIndex( index )->id() );
 	}
 }
 
