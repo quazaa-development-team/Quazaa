@@ -1,4 +1,28 @@
-﻿#include "discoveryservice.h"
+﻿/*
+** discoveryservice.cpp
+**
+** Copyright © Quazaa Development Team, 2012.
+** This file is part of QUAZAA (quazaa.sourceforge.net)
+**
+** Quazaa is free software; this file may be used under the terms of the GNU
+** General Public License version 3.0 or later as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.
+**
+** Quazaa is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+**
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
+** http://www.gnu.org/copyleft/gpl.html.
+**
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#include "discoveryservice.h"
 #include "gwc.h"
 
 #include "quazaasettings.h"
@@ -17,9 +41,9 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const CNetworkType& oNTyp
 	m_oNetworkType( oNType ),
 	m_oServiceURL( oURL ),
 	m_nRating( nRating ),
-	m_nProbabilityMultiplicator( ( nRating < 5 ) ? nRating : 5 ),
+	m_nProbabilityMultiplicator( ( nRating > 5 ) ? 5 : nRating ),
 	m_bBanned( false ),
-	m_nID( 0 ), // invalid ID
+	m_nID( 0 ),          // invalid ID
 	m_nLastHosts( 0 ),
 	m_nTotalHosts( 0 ),
 	m_tLastQueried( 0 ),
@@ -250,6 +274,10 @@ void CDiscoveryService::query()
 
 void CDiscoveryService::serviceActionFinished()
 {
+	// TODO: verify locking
+	m_oRWLock.lockForWrite();
+
+	// should only be called if we have been doing something.
 	Q_ASSERT( !m_oUUID.isNull() );
 
 	// TODO: Do more checks.
@@ -257,6 +285,8 @@ void CDiscoveryService::serviceActionFinished()
 	signalQueue.pop( m_oUUID );
 
 	m_oUUID = QUuid();
+
+	m_oRWLock.unlock();
 }
 
 /**
@@ -311,4 +341,39 @@ void CDiscoveryService::unRegisterPointer(const CDiscoveryService** pService) co
 	pModifiable->m_oRWLock.lockForWrite();
 	pModifiable->m_lPointers.remove( pService );
 	pModifiable->m_oRWLock.unlock();
+}
+
+void CDiscoveryService::updateStatisticsOnQueryFinished(quint16 nHosts)
+{
+	if ( nHosts )
+	{
+		setRating( m_nRating + 1 );
+		m_tLastSuccess = m_tLastQueried;
+		m_nFailures = 0;
+	}
+	else
+	{
+		setRating( (m_nRating > 0) ? m_nRating - 1 : 0 );
+		++m_nFailures;
+	}
+
+	serviceActionFinished();
+}
+
+void CDiscoveryService::updateStatisticsOnUpdateFinished(bool bSuccess)
+{
+	if ( bSuccess )
+	{
+		// Do not increase service rating. We do not know whether this service actually returns
+		// something usefull when queried.
+		m_tLastSuccess = m_tLastQueried;
+		m_nFailures = 0;
+	}
+	else
+	{
+		setRating( (m_nRating > 0) ? m_nRating - 1 : 0 );
+		++m_nFailures;
+	}
+
+	serviceActionFinished();
 }

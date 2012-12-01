@@ -55,16 +55,17 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	ui->verticalLayoutDiscoveryTable->addWidget( tableViewDiscovery );
 
 #if QT_VERSION >= 0x050000
-	{
-		connect( tableViewDiscovery, &CTableView::clicked,                    this, &WidgetDiscovery::tableViewDiscovery_clicked );
-		connect( tableViewDiscovery, &CTableView::doubleClicked,              this, &WidgetDiscovery::tableViewDiscovery_doubleClicked );
-		connect( tableViewDiscovery, &CTableView::customContextMenuRequested, this, &WidgetDiscovery::tableViewDiscovery_customContextMenuRequested );
 
-	}
+	connect( tableViewDiscovery, &CTableView::clicked,                    this, &WidgetDiscovery::tableViewDiscovery_clicked );
+	connect( tableViewDiscovery, &CTableView::doubleClicked,              this, &WidgetDiscovery::tableViewDiscovery_doubleClicked );
+	connect( tableViewDiscovery, &CTableView::customContextMenuRequested, this, &WidgetDiscovery::tableViewDiscovery_customContextMenuRequested );
+
 #else	// Qt4 code
-		connect( tableViewDiscovery, SIGNAL(clicked(QModelIndex)),               this, SLOT(tableViewDiscovery_clicked(QModelIndex)));
-		connect( tableViewDiscovery, SIGNAL(doubleClicked(QModelIndex)),         this, SLOT(tableViewDiscovery_doubleClicked(QModelIndex)));
-		connect( tableViewDiscovery, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tableViewDiscovery_customContextMenuRequested(QPoint)));
+
+	connect( tableViewDiscovery, SIGNAL(clicked(QModelIndex)),               this, SLOT(tableViewDiscovery_clicked(QModelIndex)));
+	connect( tableViewDiscovery, SIGNAL(doubleClicked(QModelIndex)),         this, SLOT(tableViewDiscovery_doubleClicked(QModelIndex)));
+	connect( tableViewDiscovery, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tableViewDiscovery_customContextMenuRequested(QPoint)));
+
 #endif
 
 
@@ -294,6 +295,9 @@ void WidgetDiscovery::on_actionDiscoveryProperties_triggered()
 
 	if ( index.isValid() )
 	{
+	
+	//see https://qt-project.org/wiki/New_Signal_Slot_Syntax
+	
 // TODO: Pop up dialog to edit service
 	}
 }

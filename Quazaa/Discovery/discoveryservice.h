@@ -1,4 +1,28 @@
-﻿#ifndef DISCOVERYSERVICE_H
+﻿/*
+** discoveryservice.h
+**
+** Copyright © Quazaa Development Team, 2012.
+** This file is part of QUAZAA (quazaa.sourceforge.net)
+**
+** Quazaa is free software; this file may be used under the terms of the GNU
+** General Public License version 3.0 or later as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.
+**
+** Quazaa is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+**
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
+** http://www.gnu.org/copyleft/gpl.html.
+**
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#ifndef DISCOVERYSERVICE_H
 #define DISCOVERYSERVICE_H
 
 #include <QDataStream>
@@ -8,7 +32,6 @@
 #include "discovery.h"
 
 // Requirements of all subclasses
-#include <QNetworkAccessManager>
 #include "hostcache.h"
 #include "systemlog.h"
 
@@ -30,6 +53,8 @@ protected:
 	TServiceType	m_nServiceType; // GWC, UKHL, ...
 	CNetworkType	m_oNetworkType; // could be several in case of GWC for instance
 	QUrl			m_oServiceURL;
+
+private:
 	quint8			m_nRating;      // 0: bad; 10: very good
 	quint8			m_nProbabilityMultiplicator; // [0-5] based on rating
 
@@ -144,7 +169,7 @@ private:
 	 */
 	void query();
 
-protected:
+private:
 	void serviceActionFinished();
 
 private slots:
@@ -261,6 +286,15 @@ public:
 	 */
 	inline quint32 lastQueried() const;
 
+protected:
+	/**
+	 * @brief setLastQueried sets the lastQueried attribute to tNow
+	 * Requires locking: RW
+	 * @param tNow
+	 */
+	inline void setLastQueried(quint32 tNow);
+
+public:
 	/**
 	 * @brief lastSuccess
 	 * Requires locking: R
@@ -283,6 +317,29 @@ public:
 	 */
 	inline bool isRunning() const;
 
+protected:
+	/**
+	 * @brief resetRunning sets the running boolean to false again.
+	 * Requires locking: RW
+	 */
+	inline void resetRunning();
+
+	/* ================================================================ */
+	/* =============== Specialized Attribute Accessors  =============== */
+	/* ================================================================ */
+protected:
+	/**
+	 * @brief updateStatisticsOnQuery updates statistics and failure counters
+	 * @param nHosts
+	 */
+	void updateStatisticsOnQueryFinished(quint16 nHosts);
+
+	/**
+	 * @brief updateStatisticsOnUpdate updates statistics and failure counters
+	 * @param nHosts
+	 */
+	void updateStatisticsOnUpdateFinished(bool bSuccess);
+
 private:
 	/**
 	 * @brief setRating: Helper method to set rating and probability multiplicator simultaneously.
@@ -292,7 +349,7 @@ private:
 	inline void setRating(quint8 nRating);
 
 	/* ================================================================ */
-	/* ======================= Private Helpers  ======================= */
+	/* ======================= Private Virtuals ======================= */
 	/* ================================================================ */
 private:
 	/**
@@ -364,6 +421,11 @@ quint32 CDiscoveryService::lastQueried() const
 	return m_tLastQueried;
 }
 
+void CDiscoveryService::setLastQueried(quint32 tNow)
+{
+	m_tLastQueried = tNow;
+}
+
 quint32 CDiscoveryService::lastSuccess() const
 {
 	return m_tLastSuccess;
@@ -379,10 +441,15 @@ bool CDiscoveryService::isRunning() const
 	return m_bRunning;
 }
 
+void CDiscoveryService::resetRunning()
+{
+	m_bRunning = false;
+}
+
 void CDiscoveryService::setRating(quint8 nRating)
 {
 	m_nRating = ( nRating > 10 ) ? 10 : nRating;
-	m_nProbabilityMultiplicator = ( m_nRating < 5 ) ? m_nRating : 5;
+	m_nProbabilityMultiplicator = ( nRating > 5 ) ? 5 : nRating;
 }
 
 }

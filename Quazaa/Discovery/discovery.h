@@ -28,6 +28,8 @@
 #include <QObject>
 #include <QMutex>
 #include <QString>
+#include <QNetworkAccessManager>
+#include <QSharedPointer>
 
 #include <map>
 #include <list>
@@ -112,6 +114,9 @@ private:
 
 	// next ID to be assigned by the manager.
 	TDiscoveryID          m_nLastID;
+
+	// handles web requests
+	QWeakPointer<QNetworkAccessManager> m_pNetAccessMgr;
 
 public:
 	// text preceeding a message from the manager on the log
@@ -203,6 +208,15 @@ public:
 	 * @return true if managed; false otherwise
 	 */
 	bool	check(const CDiscoveryService* const pService);
+
+	/**
+	 * @brief CDiscovery::requestNAMgr provides a shared pointer to the discovery services network access
+	 * manager. Note that the caller needs to hold his copy of the shared pointer until he has finished his
+	 * network operation to prevent the access manager from being deleted too early.
+	 * Locking: YES
+	 * @return
+	 */
+	QSharedPointer<QNetworkAccessManager> requestNAMgr();
 
 signals:
 	/**

@@ -386,6 +386,34 @@ bool CDiscovery::check(const CDiscoveryService* const pService)
 		return false;
 }
 
+/**
+ * @brief CDiscovery::requestNAMgr provides a shared pointer to the discovery services network access
+ * manager. Note that the caller needs to hold his copy of the shared pointer until he has finished his
+ * network operation to prevent the access manager from being deleted too early.
+ * Locking: YES
+ * @return
+ */
+QSharedPointer<QNetworkAccessManager> CDiscovery::requestNAMgr()
+{
+	QMutexLocker l( &m_pSection );
+
+	QSharedPointer<QNetworkAccessManager> pReturnVal;
+	if ( m_pNetAccessMgr )
+	{
+		// if the network access manager still exists (e.g. is currently used), do recycle it
+		pReturnVal = m_pNetAccessMgr.toStrongRef();
+	}
+	else
+	{
+		// else create a new access manager (will be deleted if nobody is using it anymore)
+		pReturnVal = QSharedPointer<QNetworkAccessManager>( new QNetworkAccessManager(),
+															&QObject::deleteLater );
+		m_pNetAccessMgr = pReturnVal.toWeakRef();
+	}
+
+	return pReturnVal;
+}
+
 //////////////////////////////////////////////////////////////////////
 // Qt slots
 /**
