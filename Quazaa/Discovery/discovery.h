@@ -41,11 +41,17 @@
 // History:
 // 0 - Initial implementation
 
+#define DISCOVERY_MAX_PROBABILITY 5
+
+// TODO: Implement rating based on successful connection to obtained hosts
+
 namespace Discovery
 {
-// Note on the usage of locking: By design, CDiscovery is the only one allowed to modify the CDiscoveryService
-// objects it manages. This means that everyone else needs to lock them for read when accessing them, while the
-// manager does not, it only needs to lock them for write if need be.
+// Notes:
+// 1. locking: By design, CDiscovery is the only one allowed to modify the CDiscoveryService objects it
+//             manages. This means that everyone else needs to lock them for read when accessing them,
+//             while the manager does not, it only needs to lock them for write if need be.
+// 2. times:   All times within the manager and its attached classes are UTC.
 class CDiscoveryService;
 
 /**
@@ -147,21 +153,21 @@ public:
 	 * @return the number of services for the specified network. If no type is specified or the type is
 	 * null, the total number of all services is returned, no matter whether they are working or not.
 	 */
-	quint32	count(const CNetworkType& oType = CNetworkType());
+	quint32 count(const CNetworkType& oType = CNetworkType());
 
 	/**
 	 * @brief start initializes the Discovery Services Manager.
 	 * Locking: YES
 	 * @return whether loading the services was successful.
 	 */
-	bool	start();
+	bool start();
 
 	/**
 	 * @brief stop prepares the Discovery Services Manager for destruction.
 	 * Locking: YES
 	 * @return true if the services have been successfully written to disk.
 	 */
-	bool	stop();		// prepares the Discovery Services Manager for destruction
+	bool stop();		// prepares the Discovery Services Manager for destruction
 
 	/**
 	 * @brief save saves all discovery services to disk, if there have been important modifications to at
@@ -171,7 +177,7 @@ public:
 	 * modifications, for example to make sure the hosts from the current session are saved properly.
 	 * @return true if saving to file was successful; false otherwise.
 	 */
-	bool	save(bool bForceSaving);
+	bool save(bool bForceSaving);
 
 	/**
 	 * @brief add adds a new Service with a given URL to the manager.
@@ -191,7 +197,7 @@ public:
 	 * @param nID
 	 * @return true if the removal was successful (e.g. the service could be found), false otherwise.
 	 */
-	bool         remove(TDiscoveryID nID);
+	bool remove(TDiscoveryID nID);
 
 	/**
 	 * @brief clear removes all services from the manager.
@@ -200,14 +206,14 @@ public:
 	 * The default value is false, which represents the scenario on shutdown, where the GUI will be removed
 	 * anyway shortly.
 	 */
-	void	clear(bool bInformGUI = false);
+	void clear(bool bInformGUI = false);
 
 	/**
 	 * @brief check verifies whether the given service is managed by the manager.
 	 * Locking: YES
 	 * @return true if managed; false otherwise
 	 */
-	bool	check(const CDiscoveryService* const pService);
+	bool check(const CDiscoveryService* const pService);
 
 	/**
 	 * @brief CDiscovery::requestNAMgr provides a shared pointer to the discovery services network access
@@ -216,27 +222,27 @@ public:
 	 * Locking: YES
 	 * @return
 	 */
-	QSharedPointer<QNetworkAccessManager> requestNAMgr();
+	QSharedPointer<QNetworkAccessManager> requestNAM();
 
 signals:
 	/**
 	 * @brief serviceAdded is emitted each time a new service is added to the manager.
 	 * @param pService
 	 */
-	void	serviceAdded(const CDiscoveryService* pService);
+	void serviceAdded(const CDiscoveryService* pService);
 
 	/**
 	 * @brief serviceRemoved is emitted (almost) each time a service is removed from the manager.
 	 * @param nServiceID
 	 */
 	// CRITICAL: After emitting this signal, the GUI may not access the service in question any more.
-	void	serviceRemoved(TDiscoveryID nServiceID);
+	void serviceRemoved(TDiscoveryID nServiceID);
 
 	/**
 	 * @brief serviceInfo is emitted once for each service on request via requestRuleList().
 	 * @param pService
 	 */
-	void	serviceInfo(const CDiscoveryService* pService);
+	void serviceInfo(const CDiscoveryService* pService);
 
 public slots:
 	/**
@@ -251,7 +257,7 @@ public slots:
 	 * service types might support or require such updates.
 	 * Locking: YES
 	 * @param type
-	 * @return false if no service for the requested network type could be found; true otherwise.
+	 * @return false if no service for the requested network type could be updated; true otherwise.
 	 */
 	bool updateService(const CNetworkType& type); // Random service access
 	bool updateService(TDiscoveryID nID);         // Manual service access
@@ -260,7 +266,7 @@ public slots:
 	 * @brief queryService
 	 * Locking: YES
 	 * @param type
-	 * @return false if no service for the requested network type could be found; true otherwise.
+	 * @return false if no service for the requested network type could be queried; true otherwise.
 	 */
 	bool queryService(const CNetworkType& type); // Random service access
 	bool queryService(TDiscoveryID nID);         // Manual service access
@@ -282,6 +288,11 @@ private:
 	 * @return true if the service was added; false if not (e.g. duplicate was detected).
 	 */
 	bool add(CDiscoveryService* pService);
+
+	/**
+	 * @brief addDefaults loads the DefaultServices.dat file (compatible with Shareaza) into the manager.
+	 */
+	void addDefaults();
 
 	/**
 	 * @brief manageDuplicates checks if an identical (or very similar) service is alreads present in the

@@ -41,14 +41,16 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const CNetworkType& oNTyp
 	m_oNetworkType( oNType ),
 	m_oServiceURL( oURL ),
 	m_nRating( nRating ),
-	m_nProbabilityMultiplicator( ( nRating > 5 ) ? 5 : nRating ),
+	m_nProbaMult( ( nRating > DISCOVERY_MAX_PROBABILITY ) ? DISCOVERY_MAX_PROBABILITY : nRating ),
 	m_bBanned( false ),
+	m_bZero( true ),     // mark new service as having been zero -> gets downrated fast if non functional
 	m_nID( 0 ),          // invalid ID
 	m_nLastHosts( 0 ),
 	m_nTotalHosts( 0 ),
 	m_tLastQueried( 0 ),
 	m_tLastSuccess( 0 ),
 	m_nFailures( 0 ),
+	m_nZeroRevivals( 0 ),
 	m_bRunning( false )
 {
 }
@@ -68,6 +70,7 @@ CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
 	m_oServiceURL	= pService.m_oServiceURL;
 	m_nRating		= pService.m_nRating;
 	m_bBanned		= pService.m_bBanned;
+	m_bZero			= pService.m_bZero;
 	m_nID			= pService.m_nID;
 	m_nLastHosts	= pService.m_nLastHosts;
 	m_nTotalHosts	= pService.m_nTotalHosts;
@@ -75,7 +78,8 @@ CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
 	m_tLastSuccess	= pService.m_tLastSuccess;
 	m_nFailures		= pService.m_nFailures;
 
-	m_nProbabilityMultiplicator	= pService.m_nProbabilityMultiplicator;
+	m_nZeroRevivals = pService.m_nZeroRevivals;
+	m_nProbaMult    = pService.m_nProbaMult;
 }
 
 /**
@@ -138,35 +142,41 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, 
 	QString			sURL;
 	quint8			nRating;      // 0: bad; 10: very good
 	bool			bBanned;      // service URL is blocked
+	bool			bZero;
 	TDiscoveryID	nID;          // ID used by the manager to identify the service
 	quint32			nLastHosts;   // hosts returned by the service on last query
 	quint32			nTotalHosts;  // all hosts we ever got from the service
 	quint32			tLastQueried; // last time we accessed the host
 	quint32			tLastSuccess; // last time we queried the service successfully
 	quint8			nFailures;
+	quint8			nZeroRatingFailures;
 
 	fsFile >> nServiceType;
 	fsFile >> nNetworkType;
 	fsFile >> sURL;
 	fsFile >> nRating;
 	fsFile >> bBanned;
+	fsFile >> bZero;
 	fsFile >> nID;
 	fsFile >> nLastHosts;
 	fsFile >> nTotalHosts;
 	fsFile >> tLastQueried;
 	fsFile >> tLastSuccess;
 	fsFile >> nFailures;
+	fsFile >> nZeroRatingFailures;
 
 	pService = createService( sURL, (TServiceType)nServiceType,
 							  CNetworkType( nNetworkType ), nRating );
 
-	pService->m_bBanned      = bBanned;
-	pService->m_nID          = nID;
-	pService->m_nLastHosts   = nLastHosts;
-	pService->m_nTotalHosts  = nTotalHosts;
-	pService->m_tLastQueried = tLastQueried;
-	pService->m_tLastSuccess = tLastSuccess;
-	pService->m_nFailures    = nFailures;
+	pService->m_bBanned             = bBanned;
+	pService->m_bZero               = bZero;
+	pService->m_nID                 = nID;
+	pService->m_nLastHosts          = nLastHosts;
+	pService->m_nTotalHosts         = nTotalHosts;
+	pService->m_tLastQueried        = tLastQueried;
+	pService->m_tLastSuccess        = tLastSuccess;
+	pService->m_nFailures           = nFailures;
+	pService->m_nZeroRevivals = nZeroRatingFailures;
 }
 
 /**
@@ -182,12 +192,14 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
 	fsFile << pService->m_oServiceURL.toString();
 	fsFile << (quint8)(pService->m_nRating);
 	fsFile << pService->m_bBanned;
+	fsFile << pService->m_bZero;
 	fsFile << pService->m_nID;
 	fsFile << pService->m_nLastHosts;
 	fsFile << pService->m_nTotalHosts;
 	fsFile << pService->m_tLastQueried;
 	fsFile << pService->m_tLastSuccess;
 	fsFile << pService->m_nFailures;
+	fsFile << pService->m_nZeroRevivals;
 }
 
 /**
@@ -207,7 +219,7 @@ CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServic
 	switch ( eSType )
 	{
 	case stNull:
-		Q_ASSERT( false ); // should not happen anyway
+		// TODO: Implement class for permanently banned services
 		break;
 	case stGWC:
 	{
@@ -216,11 +228,10 @@ CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServic
 	}
 	default:
 		systemLog.postLog( LogSeverity::Error, discoveryManager.m_sMessage
-+ tr( "Internal error: Creation of service with unknown type requested in CDiscoveryService::createService: " )
+						   + tr( "Internal error: Creation of service with unknown type requested: Type " )
 						   + eSType );
 
 		Q_ASSERT( false ); // unsupported service type
-
 	}
 
 	return pService;
@@ -243,10 +254,8 @@ void CDiscoveryService::update()
 
 	m_oRWLock.unlock();
 
-	quint32 tCancelTime = (quint32)QDateTime::currentDateTime().toTime_t()
-						  + quazaaSettings.Discovery.ServiceTimeout;
-
-	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ), tCancelTime );
+	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
+	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ), tNow + quazaaSettings.Discovery.ServiceTimeout );
 }
 
 /**
@@ -266,27 +275,8 @@ void CDiscoveryService::query()
 
 	m_oRWLock.unlock();
 
-	quint32 tCancelTime = (quint32)QDateTime::currentDateTime().toTime_t()
-						  + quazaaSettings.Discovery.ServiceTimeout;
-
-	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ), tCancelTime );
-}
-
-void CDiscoveryService::serviceActionFinished()
-{
-	// TODO: verify locking
-	m_oRWLock.lockForWrite();
-
-	// should only be called if we have been doing something.
-	Q_ASSERT( !m_oUUID.isNull() );
-
-	// TODO: Do more checks.
-
-	signalQueue.pop( m_oUUID );
-
-	m_oUUID = QUuid();
-
-	m_oRWLock.unlock();
+	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
+	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ), tNow + quazaaSettings.Discovery.ServiceTimeout );
 }
 
 /**
@@ -343,37 +333,94 @@ void CDiscoveryService::unRegisterPointer(const CDiscoveryService** pService) co
 	pModifiable->m_oRWLock.unlock();
 }
 
-void CDiscoveryService::updateStatisticsOnQueryFinished(quint16 nHosts)
+void CDiscoveryService::updateStatistics(bool bQuery, quint16 nHosts)
 {
-	if ( nHosts )
+	if ( bQuery )
+		m_nLastHosts = nHosts;
+
+	if ( m_bZero ) // We're dealing with a newly revived service that has been known to fail in the past.
 	{
-		setRating( m_nRating + 1 );
-		m_tLastSuccess = m_tLastQueried;
-		m_nFailures = 0;
+		if ( nHosts ) // access successful
+		{
+			// increase rating
+			setRating( m_nRating + 1 );
+
+			if ( bQuery )
+			{
+				m_nTotalHosts += nHosts;
+			}
+
+			m_tLastSuccess = m_tLastQueried;
+			m_nFailures = 0;
+
+			// revival try successful
+			m_bZero = false;
+			m_nZeroRevivals = 0;
+		}
+		else // fail
+		{
+			// revival failed
+			setRating( 0 );
+			++m_nFailures;
+
+			if ( m_nZeroRevivals >= quazaaSettings.Discovery.ZeroRatingRevivalTries )
+			{
+				// Maximum allowed revival tries reached. Assume service no longer operational.
+				m_bBanned = true;
+			}
+		}
 	}
-	else
+	else // We're dealing with a normal service.
 	{
-		setRating( (m_nRating > 0) ? m_nRating - 1 : 0 );
-		++m_nFailures;
+		if ( nHosts ) // access successful
+		{
+			// increase rating
+			setRating( m_nRating + 1 );
+
+			if ( bQuery )
+			{
+				m_nTotalHosts += nHosts;
+			}
+
+			m_tLastSuccess = m_tLastQueried;
+			m_nFailures = 0;
+		}
+		else // fail
+		{
+			++m_nFailures;
+
+			if ( quazaaSettings.Discovery.FailureLimit &&
+				 m_nFailures >= quazaaSettings.Discovery.FailureLimit )
+			{
+				// maximum allowed failures reached
+				setRating( 0 );
+			}
+			else
+			{
+				setRating( (m_nRating > 0) ? m_nRating - 1 : 0 );
+			}
+
+			if ( !m_nRating )
+			{
+				m_bZero = true;
+
+				// if no retrial at a later time is wanted, ban the service for good
+				if ( !quazaaSettings.Discovery.ZeroRatingRevivalTries )
+				{
+					m_bBanned = true;
+				}
+			}
+		}
 	}
 
-	serviceActionFinished();
+	// remove cancel request from signal queue
+	signalQueue.pop( m_oUUID );
+	m_oUUID = QUuid();
 }
 
-void CDiscoveryService::updateStatisticsOnUpdateFinished(bool bSuccess)
+void CDiscoveryService::setRating(quint8 nRating)
 {
-	if ( bSuccess )
-	{
-		// Do not increase service rating. We do not know whether this service actually returns
-		// something usefull when queried.
-		m_tLastSuccess = m_tLastQueried;
-		m_nFailures = 0;
-	}
-	else
-	{
-		setRating( (m_nRating > 0) ? m_nRating - 1 : 0 );
-		++m_nFailures;
-	}
-
-	serviceActionFinished();
+	m_nRating    = ( nRating > quazaaSettings.Discovery.MaximumServiceRating ) ?
+					   quazaaSettings.Discovery.MaximumServiceRating : nRating;
+	m_nProbaMult = ( nRating > DISCOVERY_MAX_PROBABILITY ) ? DISCOVERY_MAX_PROBABILITY : nRating;
 }

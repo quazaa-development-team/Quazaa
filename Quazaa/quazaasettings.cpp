@@ -104,16 +104,14 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Discovery");
-	m_qSettings.setValue("AccessThrottle", quazaaSettings.Discovery.AccessThrottle);
-//	m_qSettings.setValue("BootstrapCount", quazaaSettings.Discovery.BootstrapCount);
-	m_qSettings.setValue("CacheCount",     quazaaSettings.Discovery.CacheCount);
-	m_qSettings.setValue("DataPath",       quazaaSettings.Discovery.DataPath);
-//	m_qSettings.setValue("DefaultUpdate",  quazaaSettings.Discovery.DefaultUpdate);
-//	m_qSettings.setValue("EnableG1GWC",    quazaaSettings.Discovery.EnableG1GWC);
-	m_qSettings.setValue("FailureLimit",   quazaaSettings.Discovery.FailureLimit);
-//	m_qSettings.setValue("Lowpoint",       quazaaSettings.Discovery.Lowpoint);
-	m_qSettings.setValue("ServiceTimeout", quazaaSettings.Discovery.ServiceTimeout);
-//	m_qSettings.setValue("UpdatePeriod",   quazaaSettings.Discovery.UpdatePeriod);
+	m_qSettings.setValue("AccessThrottle",            quazaaSettings.Discovery.AccessThrottle);
+	m_qSettings.setValue("CacheCount",                quazaaSettings.Discovery.CacheCount);
+	m_qSettings.setValue("DataPath",                  quazaaSettings.Discovery.DataPath);
+	m_qSettings.setValue("FailureLimit",              quazaaSettings.Discovery.FailureLimit);
+	m_qSettings.setValue("MaximalServiceRating",      quazaaSettings.Discovery.MaximumServiceRating);
+	m_qSettings.setValue("ServiceTimeout",            quazaaSettings.Discovery.ServiceTimeout);
+	m_qSettings.setValue("ZeroRatingRevivalInterval", quazaaSettings.Discovery.ZeroRatingRevivalInterval);
+	m_qSettings.setValue("ZeroRatingRevivalTries",    quazaaSettings.Discovery.ZeroRatingRevivalTries);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Downloads");
@@ -528,16 +526,14 @@ void QuazaaSettings::loadSettings()
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Discovery");
-	quazaaSettings.Discovery.AccessThrottle = m_qSettings.value("AccessThrottle", 60).toUInt();
-//	quazaaSettings.Discovery.BootstrapCount = m_qSettings.value("BootstrapCount", 10).toInt();
-	quazaaSettings.Discovery.CacheCount = m_qSettings.value("CacheCount", 50).toInt();
-	quazaaSettings.Discovery.DataPath = m_qSettings.value("DataPath", sDefaultDataPath).toString();
-//	quazaaSettings.Discovery.DefaultUpdate = m_qSettings.value("DefaultUpdate", 60).toInt();
-//	quazaaSettings.Discovery.EnableG1GWC = m_qSettings.value("EnableG1GWC", false).toBool();
-	quazaaSettings.Discovery.FailureLimit = m_qSettings.value("FailureLimit", 2).toUInt();
-//	quazaaSettings.Discovery.Lowpoint = m_qSettings.value("Lowpoint", 10).toInt();
-	quazaaSettings.Discovery.ServiceTimeout = m_qSettings.value("ServiceTimeout", 10).toUInt();
-//	quazaaSettings.Discovery.UpdatePeriod = m_qSettings.value("UpdatePeriod", 30).toInt();
+	quazaaSettings.Discovery.AccessThrottle            = m_qSettings.value("AccessThrottle", 60).toUInt();
+	quazaaSettings.Discovery.CacheCount                = m_qSettings.value("CacheCount", 50).toInt();
+	quazaaSettings.Discovery.DataPath                  = m_qSettings.value("DataPath", sDefaultDataPath).toString();
+	quazaaSettings.Discovery.FailureLimit              = m_qSettings.value("FailureLimit", 2).toUInt();
+	quazaaSettings.Discovery.MaximumServiceRating      = m_qSettings.value("MaximalServiceRating", 10).toUInt();
+	quazaaSettings.Discovery.ServiceTimeout            = m_qSettings.value("ServiceTimeout", 10).toUInt();
+	quazaaSettings.Discovery.ZeroRatingRevivalInterval = m_qSettings.value("ZeroRatingRevivalInterval", 60 * 24 * 10).toUInt();
+	quazaaSettings.Discovery.ZeroRatingRevivalTries    = m_qSettings.value("ZeroRatingRevivalTries", 2 ).toUInt();
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Downloads");

@@ -158,15 +158,15 @@ namespace Settings
 
 	struct sDiscovery
 	{
-		quint8		AccessThrottle;							// Number of seconds to wait between requests for the same service.
+		quint16		AccessThrottle;							// Number of seconds to wait between consecutive requests for the same service.
 		qint16		CacheCount;								// Limit ability to learn new caches. (-1 do disable)
 		QString		DataPath;								// Path to the discovery data folder. Must have a terminal slash.
-//		int			DefaultUpdate;
-//		bool		EnableG1GWC;
-		quint8		FailureLimit;							// Number of failures after which a cache should be autodisabled. (0 to disable)
-//		int			Lowpoint;
+		quint8		FailureLimit;							// Number of failures after which a cache should be autodisabled no matter its rating. (0 to disable)
+															// Note that this setting will be ineffective if a value higher than MaximalServiceRating is chosen.
+		quint8		MaximumServiceRating;					// The highest rating a service can reach.
 		quint8		ServiceTimeout;							// Number of seconds after which a cache request will be cancelled automatically.
-//		int			UpdatePeriod;
+		quint32		ZeroRatingRevivalInterval;				// Number of seconds after which we try to revive a service with probability 0.
+		quint8		ZeroRatingRevivalTries;					// Number of times we try to revive a cache with probability 0 before banning it for good.
 	};
 
 	struct sDownloads

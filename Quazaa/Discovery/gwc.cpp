@@ -86,7 +86,7 @@ void CGWC::doQuery() throw()
 	m_pRequest->setRawHeader( "User-Agent", "G2Core/0.1" );
 
 	// obtain network access manager for query
-	m_pNAMgr = discoveryManager.requestNAMgr();
+	m_pNAMgr = discoveryManager.requestNAM();
 
 
 #if QT_VERSION >= 0x050000
@@ -176,7 +176,7 @@ void CGWC::queryRequestCompleted(QNetworkReply* pReply)
 	}
 
 	// make sure all statistics and failure counters are updated
-	updateStatisticsOnQueryFinished( nHosts );
+	updateStatistics( true, nHosts );
 
 	// clean up
 	pReply->deleteLater();
@@ -192,5 +192,5 @@ void CGWC::updateRequestCompleted(QNetworkReply* /*pReply*/)
 	QWriteLocker l( &m_oRWLock );
 
 	// TODO: Implement.
-	// updateStatisticsOnUpdateFinished(bSuccess);
+	// updateStatistics( false, bSuccess );
 }

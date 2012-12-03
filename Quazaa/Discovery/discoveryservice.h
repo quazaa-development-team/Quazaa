@@ -56,17 +56,22 @@ protected:
 
 private:
 	quint8			m_nRating;      // 0: bad; 10: very good
-	quint8			m_nProbabilityMultiplicator; // [0-5] based on rating
+	quint8			m_nProbaMult;   // probability multiplicator: [0-5] based on rating
 
 	bool			m_bBanned;      // service URL is blocked
-
+	bool			m_bZero;        // service probability has just been increased from zero or service is new.
+									// On access failure, this service will be set to 0 probability no matter its previous proba.
+									// For banned hosts, this indicates the host has been banned because of too many failures.
 	TDiscoveryID	m_nID;          // ID used by the manager to identify the service
 
 	quint32			m_nLastHosts;   // hosts returned by the service on last query
 	quint32			m_nTotalHosts;  // all hosts we ever got from the service
 	quint32			m_tLastQueried; // last time we accessed the host
+									// Note: for banned services, this holds the ban time
+									// TODO: implement.
 	quint32			m_tLastSuccess; // last time we queried the service successfully
 	quint8			m_nFailures;    // query failures in a row
+	quint8			m_nZeroRevivals;// counts number of times this service has been revived from a 0 rating.
 
 	bool			m_bRunning;     // service is currently doing network communication
 
@@ -86,7 +91,7 @@ public:
 	 * @param oNType
 	 * @param nRating
 	 */
-	CDiscoveryService(const QUrl& oURL, const CNetworkType& oNType, quint8 nRating);
+	CDiscoveryService(const QUrl& oURL, const CNetworkType& oNType, quint8 nRating = DISCOVERY_MAX_PROBABILITY);
 
 	/**
 	 * @brief CDiscoveryService: Copy constructor. Copies all but the list of registered pointers.
@@ -168,9 +173,6 @@ private:
 	 * Locking: RW
 	 */
 	void query();
-
-private:
-	void serviceActionFinished();
 
 private slots:
 	/**
@@ -329,16 +331,10 @@ protected:
 	/* ================================================================ */
 protected:
 	/**
-	 * @brief updateStatisticsOnQuery updates statistics and failure counters
+	 * @brief updateStatistics updates statistics, failure counters etc.
 	 * @param nHosts
 	 */
-	void updateStatisticsOnQueryFinished(quint16 nHosts);
-
-	/**
-	 * @brief updateStatisticsOnUpdate updates statistics and failure counters
-	 * @param nHosts
-	 */
-	void updateStatisticsOnUpdateFinished(bool bSuccess);
+	void updateStatistics(bool bQuery, quint16 nHosts);
 
 private:
 	/**
@@ -346,7 +342,7 @@ private:
 	 * Requires locking: RW
 	 * @param nRating
 	 */
-	inline void setRating(quint8 nRating);
+	void setRating(quint8 nRating);
 
 	/* ================================================================ */
 	/* ======================= Private Virtuals ======================= */
@@ -444,12 +440,6 @@ bool CDiscoveryService::isRunning() const
 void CDiscoveryService::resetRunning()
 {
 	m_bRunning = false;
-}
-
-void CDiscoveryService::setRating(quint8 nRating)
-{
-	m_nRating = ( nRating > 10 ) ? 10 : nRating;
-	m_nProbabilityMultiplicator = ( nRating > 5 ) ? 5 : nRating;
 }
 
 }

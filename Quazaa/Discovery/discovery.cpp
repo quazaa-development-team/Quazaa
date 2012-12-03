@@ -237,6 +237,7 @@ TDiscoveryID CDiscovery::add(QString sURL, const TServiceType eSType,
 							 const CNetworkType& oNType, const quint8 nRating)
 {
 	// First check whether the URL can be parsed at all.
+	// TODO: This might need refining for certain service types.
 	QUrl oURL( sURL, QUrl::StrictMode );
 	if ( !oURL.isValid() )
 	{
@@ -393,7 +394,7 @@ bool CDiscovery::check(const CDiscoveryService* const pService)
  * Locking: YES
  * @return
  */
-QSharedPointer<QNetworkAccessManager> CDiscovery::requestNAMgr()
+QSharedPointer<QNetworkAccessManager> CDiscovery::requestNAM()
 {
 	QMutexLocker l( &m_pSection );
 
@@ -436,19 +437,36 @@ void CDiscovery::requestServiceList()
  * service types might support or require such updates.
  * Locking: YES
  * @param type
- * @return false if no service for the requested network type could be found; true otherwise.
+ * @return false if no service for the requested network type could be updated; true otherwise.
  */
 bool CDiscovery::updateService(const CNetworkType& type)
 {
-	m_pSection.lock();
-	CDiscoveryService* pService = getRandomService( type );
-	m_pSection.unlock();
+	QSharedPointer<QNetworkAccessManager> pNAM = requestNAM();
 
-	return updateHelper( pService, type );
+	if ( pNAM->networkAccessible() == QNetworkAccessManager::Accessible )
+	{
+		m_pSection.lock();
+		CDiscoveryService* pService = getRandomService( type );
+		m_pSection.unlock();
+
+		return updateHelper( pService, type );
+	}
+	else
+	{
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage
+		+ tr( "Could not update service because the network connection is currently unavailable." )
+						   );
+
+		return false;
+	}
 }
 
 bool CDiscovery::updateService(TDiscoveryID nID)
 {
+	// We do not prevent users from manually querying services even if the network connection is reported
+	// to be down. Maybe they know better than we do.
+
 	m_pSection.lock();
 
 	TIterator iService = m_mServices.find( nID );
@@ -469,19 +487,36 @@ bool CDiscovery::updateService(TDiscoveryID nID)
  * @brief queryService
  * Locking: YES
  * @param type
- * @return false if no service for the requested network type could be found; true otherwise.
+ * @return false if no service for the requested network type could be queried; true otherwise.
  */
 bool CDiscovery::queryService(const CNetworkType& type)
 {
-	m_pSection.lock();
-	CDiscoveryService* pService = getRandomService( type );
-	m_pSection.unlock();
+	QSharedPointer<QNetworkAccessManager> pNAM = requestNAM();
 
-	return queryHelper( pService, type );
+	if ( pNAM->networkAccessible() == QNetworkAccessManager::Accessible )
+	{
+		m_pSection.lock();
+		CDiscoveryService* pService = getRandomService( type );
+		m_pSection.unlock();
+
+		return queryHelper( pService, type );
+	}
+	else
+	{
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage
+		+ tr( "Could not query service because the network connection is currently unavailable." )
+						   );
+
+		return false;
+	}
 }
 
 bool CDiscovery::queryService(TDiscoveryID nID)
 {
+	// We do not prevent users from manually querying services even if the network connection is reported
+	// to be down. Maybe they know better than we do.
+
 	m_pSection.lock();
 
 	TIterator iService = m_mServices.find( nID );
@@ -593,6 +628,9 @@ bool CDiscovery::load( QString sPath )
  */
 bool CDiscovery::add(CDiscoveryService* pService)
 {
+	// TODO: implement quazaaSettings.Discovery.CacheCount
+	// TODO: implement bans overwriting existing services
+
 	if ( !pService )
 		return false;
 
@@ -628,6 +666,71 @@ bool CDiscovery::add(CDiscoveryService* pService)
 	// push to map
 	m_mServices[pService->m_nID] = pService;
 	return true;
+}
+
+// Note: When modifying this method, compatibility to Shareaza should be maintained.
+void CDiscovery::addDefaults()
+{
+	QFile oFile( qApp->applicationDirPath() + "\\DefaultServices.dat" );
+
+	systemLog.postLog( LogSeverity::Debug, m_sMessage + tr( "Loading default services from file." ) );
+
+	if ( !oFile.open( QIODevice::ReadOnly ) )
+	{
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Error: Could not open file: " ) + "DefaultServices.dat" );
+		return;
+	}
+
+	try
+	{
+		QTextStream fsFile( &oFile );
+		QString     sLine, sService;
+		QChar       cType;
+
+		QMutexLocker l( &m_pSection );
+
+		while( !fsFile.atEnd() )
+		{
+			sLine = fsFile.readLine();
+
+			if ( sLine.length() < 7 )	// Blank comment line
+				continue;
+
+			cType = sLine.at( 0 );
+			sService = sLine.right( sLine.length() - 2 );
+
+
+			switch( cType.toLatin1() )
+			{
+			case '1':	// G1 service
+				break;
+			case '2':	// G2 service
+				add( sService, stGWC, CNetworkType( dpG2 ), DISCOVERY_MAX_PROBABILITY );
+				break;
+			case 'M':	// Multi-network service
+				add( sService, stGWC, CNetworkType( dpG2 ), DISCOVERY_MAX_PROBABILITY );
+				break;
+			case 'D':	// eDonkey service
+				break;
+			case 'U':	// Bootstrap and UDP Discovery Service
+				break;
+			case 'X':	// Blocked service
+				// TODO: implement class for permanently banned services with unknown type
+				add( sService, stNull, CNetworkType( dpNull ), 0 );
+				break;
+			default:	// Comment line or unsupported
+				break;
+			}
+		}
+	}
+	catch ( ... )
+	{
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Error while loading default servers from file." ) );
+	}
+
+	oFile.close();
 }
 
 /**
@@ -782,13 +885,33 @@ CDiscoveryService* CDiscovery::getRandomService(const CNetworkType& oNType)
 	quint16 nTotalRating = 0;		// Used to store accumulative rating of all services
 									// taken under consideration as return value.
 	CDiscoveryService* pService;
+	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
 
 	foreach ( TMapPair pair, m_mServices )
 	{
 		pService = pair.second;
 
-		// Consider all services that have the correct type, have a rating > 0 and are not in use.
-		if ( pService->m_oNetworkType.isNetwork( oNType ) && pService->m_nRating && !pService->m_bRunning )
+		if ( pService->m_bBanned )
+			continue; // skip banned services
+
+		bool bRatingEnabled = pService->m_nRating;
+
+		if ( !bRatingEnabled )
+		{
+			if ( pService->m_tLastQueried + quazaaSettings.Discovery.ZeroRatingRevivalInterval > tNow )
+			{
+				// Revive service
+				pService->setRating( DISCOVERY_MAX_PROBABILITY );
+				++pService->m_nZeroRevivals;
+				bRatingEnabled = true;
+			}
+		}
+
+		// Consider all services that...
+		if ( pService->m_oNetworkType.isNetwork( oNType ) && // have the correct type
+			 bRatingEnabled &&                               // have a rating > 0 or are considered for revival
+			 pService->m_tLastQueried + quazaaSettings.Discovery.AccessThrottle > tNow && // not recently used
+			 !pService->m_bRunning )                         // are not in use
 		{
 			list.push_back( pService );
 			nTotalRating += pService->m_nRating;
@@ -802,8 +925,8 @@ CDiscoveryService* CDiscovery::getRandomService(const CNetworkType& oNType)
 	else
 	{
 		// Make sure our selection is within [1 ; nTotalRating]
-		quint16 nSelectedRating = ( qrand() % nTotalRating ) + 1;
-		TDiscoveryServicesList::const_iterator current = list.begin();
+		quint16      nSelectedRating = ( qrand() % nTotalRating ) + 1;
+		TListIterator        current = list.begin();
 		CDiscoveryService* pSelected = *current;
 
 		// Iterate threw list until the selected service has been found.
