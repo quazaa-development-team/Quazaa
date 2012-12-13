@@ -43,7 +43,6 @@
 #include "Security/security.h"
 
 #include <QNetworkProxy>
-#include <QSettings>
 #include <QtPlugin>
 #include <QUrl>
 #include <Irc>

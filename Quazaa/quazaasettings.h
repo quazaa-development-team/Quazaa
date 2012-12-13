@@ -129,6 +129,7 @@ namespace Settings
 		QStringList Hosts;									// The list of hosts in the connect dialog
 		QStringList NickNames;								// The list of nick names in the connect dialog
 		QStringList RealNames;								// The list of real names in the connect dialog
+		QStringList UserNames;								// The list of user names in the connect dialog
 		QStringList ConnectionNames;						// The list of connection names in the connect dialog
 
 		QHash<int, bool> Messages;
@@ -611,7 +612,8 @@ namespace Settings
 		int			ActivitySplitterRestoreBottom;			// The width left side of the search results splitter should restore to when right clicked
 		bool		ChatRoomsTaskVisible;					// The Rooms task in the Chat sidebar
 		bool		ChatFriendsTaskVisible;					// The Friends task in the Chat sidebar
-		QByteArray	ChatSplitter;
+		QByteArray	ChatListSplitter;
+		QByteArray	ChatTreeSplitter;
 		int			ChatSplitterRestoreLeft;
 		int			ChatSplitterRestoreMiddle;
 		int			ChatSplitterRestoreRight;

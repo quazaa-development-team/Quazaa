@@ -941,6 +941,7 @@ void QuazaaSettings::saveChatConnectionWizard()
 	m_qSettings.setValue("Hosts", quazaaSettings.Chat.Hosts);
 	m_qSettings.setValue("NickNames", quazaaSettings.Chat.NickNames);
 	m_qSettings.setValue("RealNames", quazaaSettings.Chat.RealNames);
+	m_qSettings.setValue("UserNames", quazaaSettings.Chat.UserNames);
 	m_qSettings.setValue("ConnectionNames", quazaaSettings.Chat.ConnectionNames);
 	m_qSettings.endGroup();
 }
@@ -956,6 +957,7 @@ void QuazaaSettings::loadChatConnectionWizard()
 												  << "irc.uni-erlangen.de" << "irc.servercentral.net" << "irc.dal.net").toStringList();
 	quazaaSettings.Chat.NickNames = m_qSettings.value("NickNames", QStringList()).toStringList();
 	quazaaSettings.Chat.RealNames = m_qSettings.value("RealNames", QStringList()).toStringList();
+	quazaaSettings.Chat.UserNames = m_qSettings.value("UserNames", QStringList()).toStringList();
 	quazaaSettings.Chat.ConnectionNames = m_qSettings.value("ConnectionNames", QStringList()).toStringList();
 	m_qSettings.endGroup();
 }
@@ -1168,7 +1170,8 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("ActivitySplitterRestoreBottom", quazaaSettings.WinMain.ActivitySplitterRestoreBottom);
 	m_qSettings.setValue("ChatRoomsTaskVisible", quazaaSettings.WinMain.ChatRoomsTaskVisible);
 	m_qSettings.setValue("ChatFriendsTaskVisible", quazaaSettings.WinMain.ChatFriendsTaskVisible);
-	m_qSettings.setValue("ChatSplitter", quazaaSettings.WinMain.ChatSplitter);
+	m_qSettings.setValue("ChatListSplitter", quazaaSettings.WinMain.ChatListSplitter);
+	m_qSettings.setValue("ChatTreeSplitter", quazaaSettings.WinMain.ChatTreeSplitter);
 	m_qSettings.setValue("ChatSplitterRestoreLeft", quazaaSettings.WinMain.ChatSplitterRestoreLeft);
 	m_qSettings.setValue("ChatSplitterRestoreMiddle", quazaaSettings.WinMain.ChatSplitterRestoreMiddle);
 	m_qSettings.setValue("ChatSplitterRestoreRight", quazaaSettings.WinMain.ChatSplitterRestoreRight);
@@ -1254,7 +1257,8 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.ActivitySplitterRestoreBottom = m_qSettings.value("ActivitySplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = m_qSettings.value("ChatRoomsTaskVisible", true).toBool();
 	quazaaSettings.WinMain.ChatFriendsTaskVisible = m_qSettings.value("ChatFriendsTaskVisible", true).toBool();
-	quazaaSettings.WinMain.ChatSplitter = m_qSettings.value("ChatSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.ChatListSplitter = m_qSettings.value("ChatListSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.ChatTreeSplitter = m_qSettings.value("ChatTreeSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.ChatSplitterRestoreLeft = m_qSettings.value("ChatSplitterRestoreLeft", 0).toInt();
 	quazaaSettings.WinMain.ChatSplitterRestoreMiddle = m_qSettings.value("ChatSplitterRestoreMiddle", 0).toInt();
 	quazaaSettings.WinMain.ChatSplitterRestoreRight = m_qSettings.value("ChatSplitterRestoreRight", 0).toInt();
