@@ -28,7 +28,7 @@
 #include <QSettings>
 #include <QUuid>
 
-#if QT_VERSION >= 0x050000 
+#if QT_VERSION >= 0x050000
 #include <QStandardPaths>
 #else
 #include <QDesktopServices>
@@ -461,7 +461,7 @@ void QuazaaSettings::saveSettings()
 void QuazaaSettings::loadSettings()
 {
 	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
-#if QT_VERSION >= 0x050000 
+#if QT_VERSION >= 0x050000
 	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
 #else
 	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ), "Data" );
@@ -499,7 +499,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.BitTorrent.SourceExchangePeriod = m_qSettings.value("SourceExchangePeriod", 10).toInt();
 	quazaaSettings.BitTorrent.StartPaused = m_qSettings.value("StartPaused", false).toBool();
 	quazaaSettings.BitTorrent.TestPartials = m_qSettings.value("TestPartials", true).toBool();
-#if QT_VERSION >= 0x050000 
+#if QT_VERSION >= 0x050000
 	quazaaSettings.BitTorrent.TorrentPath = m_qSettings.value("TorrentPath", QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Quazaa/Torrents").toString();
 #else
 	quazaaSettings.BitTorrent.TorrentPath = m_qSettings.value("TorrentPath", QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Torrents").toString();
@@ -545,7 +545,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Downloads.ChunkSize = m_qSettings.value("ChunkSize", 524288).toInt();
 	quazaaSettings.Downloads.ChunkStrap = m_qSettings.value("ChunkStrap", 131072).toInt();
 	quazaaSettings.Downloads.ClearDelay = m_qSettings.value("ClearDelay", 30000).toInt();
-#if QT_VERSION >= 0x050000 
+#if QT_VERSION >= 0x050000
 	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
 #else
 	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
@@ -554,7 +554,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Downloads.DropFailedSourcesThreshold = m_qSettings.value("DropFailedSourcesThreshold", 20).toInt();
 	quazaaSettings.Downloads.ExpandDownloads = m_qSettings.value("ExpandDownloads", false).toBool();
 	quazaaSettings.Downloads.FlushSD = m_qSettings.value("FlushSD", true).toBool();
-#if QT_VERSION >= 0x050000 
+#if QT_VERSION >= 0x050000
 	quazaaSettings.Downloads.IncompletePath = m_qSettings.value("IncompletePath", QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Quazaa/Incomplete").toString();
 #else
 	quazaaSettings.Downloads.IncompletePath = m_qSettings.value("IncompletePath", QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Incomplete").toString();
@@ -719,7 +719,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Library.ScanOGG = m_qSettings.value("ScanOGG", true).toBool();
 	quazaaSettings.Library.ScanPDF = m_qSettings.value("ScanPDF", true).toBool();
 	quazaaSettings.Library.SchemaURI = m_qSettings.value("SchemaURI", "http://www.limewire.com/schemas/audio.xsd").toString();
-#if QT_VERSION >= 0x050000 
+#if QT_VERSION >= 0x050000
 	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads"
 									<< QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Quazaa/Torrents").toStringList();
 #else
@@ -760,7 +760,7 @@ void QuazaaSettings::loadSettings()
 									 << "m1v" << "mp2" << "mpa" << "mpe").toStringList();
 	quazaaSettings.Media.ListVisible = m_qSettings.value("ListVisible", true).toBool();
 	quazaaSettings.Media.Mute = m_qSettings.value("Mute", false).toBool();
-#if QT_VERSION >= 0x050000 
+#if QT_VERSION >= 0x050000
 	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
 #else
 	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
@@ -968,6 +968,20 @@ void QuazaaSettings::saveChat()
 	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.Chat.ConnectOnStartup);
 	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
+	m_qSettings.setValue("MaxBlockCount", quazaaSettings.Chat.MaxBlockCount);
+	m_qSettings.setValue("Layout", quazaaSettings.Chat.Layout);
+	m_qSettings.setValue("StripNicks", quazaaSettings.Chat.StripNicks);
+
+
+	m_qSettings.setValue("ShortcutsNavigateUp", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateUp]);
+	m_qSettings.setValue("ShortcutsNavigateDown", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateDown]);
+	m_qSettings.setValue("ShortcutsNavigateLeft", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateLeft]);
+	m_qSettings.setValue("ShortcutsNavigateRight", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateRight]);
+
+	m_qSettings.setValue("ShortcutsNextUnreadUp", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadUp]);
+	m_qSettings.setValue("ShortcutsNextUnreadDown", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadDown]);
+	m_qSettings.setValue("ShortcutsNextUnreadLeft", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadLeft]);
+	m_qSettings.setValue("ShortcutsNextUnreadRight", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadRight]);
 
 	m_qSettings.setValue("MessagesJoins", quazaaSettings.Chat.Messages[IrcMessageType::Joins]);
 	m_qSettings.setValue("MessagesParts", quazaaSettings.Chat.Messages[IrcMessageType::Parts]);
@@ -992,6 +1006,8 @@ void QuazaaSettings::saveChat()
 	m_qSettings.setValue("ColorsNotice", quazaaSettings.Chat.Colors[IrcColorType::Notice]);
 	m_qSettings.setValue("ColorsAction", quazaaSettings.Chat.Colors[IrcColorType::Action]);
 	m_qSettings.setValue("ColorsHighlight", quazaaSettings.Chat.Colors[IrcColorType::Highlight]);
+	m_qSettings.setValue("ColorsTimestamp", quazaaSettings.Chat.Colors[IrcColorType::TimeStamp]);
+	m_qSettings.setValue("ColorsLink", quazaaSettings.Chat.Colors[IrcColorType::Link]);
 	m_qSettings.endGroup();
 
 	emit chatSettingsChanged();
@@ -1002,9 +1018,30 @@ void QuazaaSettings::loadChat()
 	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 
 	m_qSettings.beginGroup("Chat");
+
 	quazaaSettings.Chat.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", false).toBool();
 	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
+	quazaaSettings.Chat.MaxBlockCount = m_qSettings.value("MaxBlockCount", -1).toInt();
+	quazaaSettings.Chat.Layout = m_qSettings.value("Layout", "tree").toString();
+	quazaaSettings.Chat.StripNicks = m_qSettings.value("StripNicks", false).toBool();
+
+#ifdef Q_OS_MAC
+	QString navigate("Ctrl+Alt+%1");
+	QString nextUnread("Shift+Ctrl+Alt+%1");
+#else
+	QString navigate("Alt+%1");
+	QString nextUnread("Shift+Alt+%1");
+#endif
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateUp] = m_qSettings.value("ShortcutsNavigateUp", navigate.arg("Up")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateDown] = m_qSettings.value("ShortcutsNavigateDown", navigate.arg("Down")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateLeft] = m_qSettings.value("ShortcutsNavigateLeft", navigate.arg("Left")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateRight] = m_qSettings.value("ShortcutsNavigateRight", navigate.arg("Right")).toString();
+
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadUp] = m_qSettings.value("ShortcutsNextUnreadUp", nextUnread.arg("Up")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadDown] = m_qSettings.value("ShortcutsNextUnreadDown", nextUnread.arg("Down")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadLeft] = m_qSettings.value("ShortcutsNextUnreadLeft", nextUnread.arg("Left")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadRight] = m_qSettings.value("ShortcutsNextUnreadRight", nextUnread.arg("Right")).toString();
 
 	quazaaSettings.Chat.Messages[IrcMessageType::Joins] =  m_qSettings.value("MessagesJoins", true).toBool();
 	quazaaSettings.Chat.Messages[IrcMessageType::Parts] = m_qSettings.value("MessagesParts", true).toBool();
@@ -1025,10 +1062,12 @@ void QuazaaSettings::loadChat()
 	// TODO: the default values should respect palette
 	quazaaSettings.Chat.Colors[IrcColorType::Background] = m_qSettings.value("ColorsBackground", "white").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Message] = m_qSettings.value("ColorsMessage", "black").toString();
-	quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "gray").toString();
-	quazaaSettings.Chat.Colors[IrcColorType::Notice] = m_qSettings.value("ColorsNotice", "brown").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "pink").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Notice] = m_qSettings.value("ColorsNotice", "indianred").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Action] = m_qSettings.value("ColorsAction", "darkmagenta").toString();
-	quazaaSettings.Chat.Colors[IrcColorType::Highlight] = m_qSettings.value("ColorsHighlight", "red").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Highlight] = m_qSettings.value("ColorsHighlight", "darkred").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::TimeStamp] = m_qSettings.value("ColorsTimeStamp", "gray").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Link] = m_qSettings.value("ColorsLink", "dodgerblue").toString();
 	m_qSettings.endGroup();
 }
 

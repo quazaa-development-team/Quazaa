@@ -4,9 +4,19 @@
 #include <QDialog>
 #include <QWizardPage>
 
-#include "generalwizardpage.h"
-#include "colorswizardpage.h"
-#include "messageswizardpage.h"
+namespace ColorColumns {
+	enum Columns {
+		Message,
+		Color
+	};
+}
+
+namespace ShortcutColumns {
+	enum Columns {
+		Description,
+		Shortcut
+	};
+}
 
 namespace Ui {
 class DialogIrcSettings;
@@ -22,9 +32,6 @@ public:
 
 private:
 	Ui::DialogIrcSettings *ui;
-	GeneralWizardPage *generalPage;
-	MessagesWizardPage *messagesPage;
-	ColorsWizardPage *colorsPage;
 
 public slots:
 	void saveSettings();

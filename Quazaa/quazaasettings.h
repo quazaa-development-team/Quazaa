@@ -52,7 +52,23 @@ namespace IrcColorType {
 		Event,
 		Notice,
 		Action,
-		Highlight
+		Highlight,
+		TimeStamp,
+		Link
+	};
+}
+
+namespace IrcShortcutType {
+	enum ShortcutType
+	{
+		NavigateUp,
+		NavigateDown,
+		NavigateLeft,
+		NavigateRight,
+		NextUnreadUp,
+		NextUnreadDown,
+		NextUnreadLeft,
+		NextUnreadRight
 	};
 }
 
@@ -106,38 +122,19 @@ namespace Settings
 		bool		ConnectOnStartup;						// Connect to the chat server and enter rooms on startup
 		bool		EnableFileTransfers;					// Enable Irc File Transfers
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
+		int			MaxBlockCount;							// This limits how many blocks(lines) can be in a message view
+		QString		Layout;									// Tree layout or tabbed layout
+		bool		StripNicks;								// Strip host information from nicks
+
 		QStringList Hosts;									// The list of hosts in the connect dialog
 		QStringList NickNames;								// The list of nick names in the connect dialog
 		QStringList RealNames;								// The list of real names in the connect dialog
 		QStringList ConnectionNames;						// The list of connection names in the connect dialog
 
-		enum MessageType
-		{
-			Joins,
-			Parts,
-			Nicks,
-			Modes,
-			Kicks,
-			Quits,
-			Topics
-		};
-
-		enum ColorType
-		{
-			Background,
-			Message,
-			Event,
-			Notice,
-			Action,
-			Highlight
-		};
-
 		QHash<int, bool> Messages;
 		QHash<int, bool> Highlights;
 		QHash<int, QString> Colors;
-		QString Language;
-		int MaxBlockCount;
-		bool TimeStamp;
+		QHash<int, QString> Shortcuts;
 	};
 
 	struct sConnection

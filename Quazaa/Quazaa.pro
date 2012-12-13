@@ -70,7 +70,6 @@ INCLUDEPATH += NetworkCore \
 	Discovery \
 	.
 
-include(3rdparty/qtsingleapplication/qtsingleapplication.pri)
 include(3rdparty/communi/examples/desktop/src/src.pri)
 include(3rdparty/communi/examples/shared/shared.pri)
 include(3rdparty/communi/src/3rdparty/mozilla/mozilla.pri)
@@ -209,6 +208,7 @@ SOURCES += \
 	3rdparty/communi/src/irccodecplugin.cpp \
 	3rdparty/communi/src/irc.cpp \
 	3rdparty/communi/src/ircsessioninfo.cpp \
+	3rdparty/communi/src/irctextformat.cpp \
 	3rdparty/communi/src/ircpalette.cpp \
 	3rdparty/CyoEncode/CyoDecode.c \
 	3rdparty/CyoEncode/CyoEncode.c \
@@ -377,6 +377,7 @@ HEADERS += \
 	3rdparty/communi/include/irccodecplugin.h \
 	3rdparty/communi/include/irc.h \
 	3rdparty/communi/include/ircsessioninfo.h \
+	3rdparty/communi/include/irctextformat.h \
 	3rdparty/communi/include/ircpalette.h \
 	3rdparty/CyoEncode/CyoDecode.h \
 	3rdparty/CyoEncode/CyoEncode.h \
