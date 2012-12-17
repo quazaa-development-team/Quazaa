@@ -143,7 +143,7 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, 
 	quint8			nRating;      // 0: bad; 10: very good
 	bool			bBanned;      // service URL is blocked
 	bool			bZero;
-	TDiscoveryID	nID;          // ID used by the manager to identify the service
+	TServiceID	nID;          // ID used by the manager to identify the service
 	quint32			nLastHosts;   // hosts returned by the service on last query
 	quint32			nTotalHosts;  // all hosts we ever got from the service
 	quint32			tLastQueried; // last time we accessed the host
@@ -255,7 +255,8 @@ void CDiscoveryService::update()
 	m_oRWLock.unlock();
 
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
-	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ), tNow + quazaaSettings.Discovery.ServiceTimeout );
+	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ),
+								tNow + quazaaSettings.Discovery.ServiceTimeout );
 }
 
 /**
@@ -276,7 +277,8 @@ void CDiscoveryService::query()
 	m_oRWLock.unlock();
 
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
-	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ), tNow + quazaaSettings.Discovery.ServiceTimeout );
+	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ),
+								tNow + quazaaSettings.Discovery.ServiceTimeout );
 }
 
 /**
@@ -295,41 +297,15 @@ void CDiscoveryService::cancelRequest()
 	m_oRWLock.unlock();
 }
 
-/**
- * @brief registerPointer registers a pointer pointing to the service. All registered pointers to this
- * service will be set to NULL upon deletion of the service. All registered pointers need to be
- * unregistered before removing them from memory.
- * Note that this method is const, because it does not change the data defining the DiscoveryService in
- * question. It does, however, add the pointer pService to an internal storage structure. So make sure to
- * lock the service for write when using.
- * Requires locking: RW
- * @param pService
- */
-void CDiscoveryService::registerPointer(const CDiscoveryService** pService) const
+void CDiscoveryService::lockForRead() const
 {
-	// Children, don't repeat this at home! :D
-	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>(this);
-
-	pModifiable->m_oRWLock.lockForWrite();
-	pModifiable->m_lPointers.push_back( pService );
-	pModifiable->m_oRWLock.unlock();
+	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>( this );
+	pModifiable->m_oRWLock.lockForRead();
 }
 
-/**
- * @brief unRegisterPointer unregisters a pointer previously registered.
- * Note that this method is const, because it does not change the data defining the DiscoveryService in
- * question. It does, however, add the pointer pService to an internal storage structure. So be careful
- * when using and make sure you have a write lock on the service.
- * Requires locking: RW
- * @param pService
- */
-void CDiscoveryService::unRegisterPointer(const CDiscoveryService** pService) const
+void CDiscoveryService::unlock() const
 {
-	// Children, don't repeat this at home! :D
-	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>(this);
-
-	pModifiable->m_oRWLock.lockForWrite();
-	pModifiable->m_lPointers.remove( pService );
+	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>( this );
 	pModifiable->m_oRWLock.unlock();
 }
 

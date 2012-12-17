@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** discoverytablemodel.h
 **
 ** Copyright © Quazaa Development Team, 2009-2012.
@@ -35,7 +35,9 @@ class CDiscoveryTableModel : public QAbstractTableModel
 	Q_OBJECT
 
 private:
-	typedef Discovery::CDiscoveryService CDiscoveryService;
+	typedef Discovery::TConstServicePtr TConstServicePtr;
+	typedef Discovery::TServiceType     TServiceType;
+	typedef Discovery::TServiceID       TServiceID;
 
 	QWidget*		m_oContainer;
 	int				m_nSortColumn;
@@ -55,15 +57,16 @@ public:
 	struct Service
 	{
 		// Object directly managed by discovery manager.
-		const CDiscoveryService*	m_pNode;
+		TConstServicePtr m_pNode;
+		TServiceID       m_nID;
 
-		QString						m_sURL;
-		Discovery::TServiceType		m_nType;
-		quint32						m_nLastHosts;
-		quint32						m_nTotalHosts;
-		QIcon						m_iType;
+		QString          m_sURL;
+		TServiceType     m_nType;
+		quint32          m_nLastHosts;
+		quint32          m_nTotalHosts;
+		QIcon            m_iType;
 
-		Service(const CDiscoveryService* pService);
+		Service(TConstServicePtr pService);
 		~Service();
 		bool update(int row, int col, QModelIndexList& to_update, CDiscoveryTableModel* model);
 		QVariant data(int col) const;
@@ -85,14 +88,14 @@ public:
 
 	void sort(int column, Qt::SortOrder order);
 
-	const CDiscoveryService* nodeFromRow(quint32 row) const;
-	const CDiscoveryService* nodeFromIndex(const QModelIndex& index) const;
+	TConstServicePtr nodeFromRow(quint32 row) const;
+	TConstServicePtr nodeFromIndex(const QModelIndex& index) const;
 
 	void completeRefresh();
 
 public slots:
-	void addService(const CDiscoveryService* pService);
-	void removeService(const QSharedPointer<CDiscoveryService> pService);
+	void addService(TConstServicePtr pService);
+	void removeService(TServiceID nID);
 	void updateAll();
 
 };

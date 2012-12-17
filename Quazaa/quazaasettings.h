@@ -159,7 +159,6 @@ namespace Settings
 	struct sDiscovery
 	{
 		quint16		AccessThrottle;							// Number of seconds to wait between consecutive requests for the same service.
-		qint16		CacheCount;								// Limit ability to learn new caches. (-1 do disable)
 		QString		DataPath;								// Path to the discovery data folder. Must have a terminal slash.
 		quint8		FailureLimit;							// Number of failures after which a cache should be autodisabled no matter its rating. (0 to disable)
 															// Note that this setting will be ineffective if a value higher than MaximalServiceRating is chosen.

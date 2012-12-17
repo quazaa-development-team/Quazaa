@@ -46,7 +46,6 @@ class CDiscoveryService : public QObject
 	/* ========================== Attributes ========================== */
 	/* ================================================================ */
 public:
-	// TODO: Fix locking
 	QReadWriteLock	m_oRWLock;
 
 protected:
@@ -62,7 +61,7 @@ private:
 	bool			m_bZero;        // service probability has just been increased from zero or service is new.
 									// On access failure, this service will be set to 0 probability no matter its previous proba.
 									// For banned hosts, this indicates the host has been banned because of too many failures.
-	TDiscoveryID	m_nID;          // ID used by the manager to identify the service
+	TServiceID	m_nID;          // ID used by the manager to identify the service
 
 	quint32			m_nLastHosts;   // hosts returned by the service on last query
 	quint32			m_nTotalHosts;  // all hosts we ever got from the service
@@ -127,7 +126,7 @@ private:
 	bool			operator!=(const CDiscoveryService& pService) const;
 
 	/* ================================================================ */
-	/* ========================== Operations ========================== */
+	/* ======================== Static Methods ======================== */
 	/* ================================================================ */
 	/**
 	 * @brief load reads a service from the provided QDataStream and creates a new Object from the data.
@@ -160,6 +159,9 @@ private:
 	static CDiscoveryService* createService(const QString &sURL, TServiceType eSType,
 											const CNetworkType& oNType, quint8 nRating);
 
+	/* ================================================================ */
+	/* ========================== Operations ========================== */
+	/* ================================================================ */
 	/**
 	 * @brief update sends our own IP to service if the service supports the operation (e.g. if it is a GWC).
 	 * Locking: RW
@@ -181,29 +183,6 @@ private slots:
 	 */
 	void cancelRequest();
 
-public:
-	/**
-	 * @brief registerPointer registers a pointer pointing to the service. All registered pointers to this
-	 * service will be set to NULL upon deletion of the service. All registered pointers need to be
-	 * unregistered before removing them from memory.
-	 * Note that this method is const, because it does not change the data defining the DiscoveryService in
-	 * question. It does, however, add the pointer pService to an internal storage structure. So make sure to
-	 * lock the service for write when using.
-	 * Requires locking: RW
-	 * @param pService
-	 */
-	void registerPointer(const CDiscoveryService** pService) const;
-
-	/**
-	 * @brief unRegisterPointer unregisters a pointer previously registered.
-	 * Note that this method is const, because it does not change the data defining the DiscoveryService in
-	 * question. It does, however, add the pointer pService to an internal storage structure. So be careful
-	 * when using and make sure you have a write lock on the service.
-	 * Requires locking: RW
-	 * @param pService
-	 */
-	void unRegisterPointer(const CDiscoveryService** pService) const;
-
 signals:
 	/**
 	 * @brief updateRequestComplete informs the caller of update() that his request has been completed.
@@ -218,6 +197,18 @@ signals:
 	/* ======================= Attribute Access ======================= */
 	/* ================================================================ */
 public:
+	/**
+	 * @brief lockForRead allows a reader to lock this service for read from within a constant context.
+	 * Sets locking: R
+	 */
+	void lockForRead() const;
+
+	/**
+	 * @brief unlock allows a reader to unlock this service after having finished the respective read
+	 * operations.
+	 */
+	void unlock() const;
+
 	/**
 	 * @brief serviceType
 	 * Requires locking: R
@@ -265,7 +256,7 @@ public:
 	 * Requires locking: R
 	 * @return
 	 */
-	inline TDiscoveryID id() const;
+	inline TServiceID id() const;
 
 	/**
 	 * @brief lastHosts
@@ -327,9 +318,8 @@ protected:
 	inline void resetRunning();
 
 	/* ================================================================ */
-	/* =============== Specialized Attribute Accessors  =============== */
+	/* ================ Specialized Attribute Setters  ================ */
 	/* ================================================================ */
-protected:
 	/**
 	 * @brief updateStatistics updates statistics, failure counters etc.
 	 * @param nHosts
@@ -397,7 +387,7 @@ bool CDiscoveryService::isBanned() const
 	return m_bBanned;
 }
 
-TDiscoveryID CDiscoveryService::id() const
+TServiceID CDiscoveryService::id() const
 {
 	return m_nID;
 }

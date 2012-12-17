@@ -68,13 +68,10 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 
 #endif
 
-
-
-
-	//m_pDiscoveryList = new CDiscoveryTableModel( this, tableView() );
-	//setModel( m_pDiscoveryList );
-	//m_pDiscoveryList->sort( tableViewDiscovery->horizontalHeader()->sortIndicatorSection(),
-	//						tableViewDiscovery->horizontalHeader()->sortIndicatorOrder()    );
+	m_pDiscoveryList = new CDiscoveryTableModel( this, tableView() );
+	setModel( m_pDiscoveryList );
+	m_pDiscoveryList->sort( tableViewDiscovery->horizontalHeader()->sortIndicatorSection(),
+							tableViewDiscovery->horizontalHeader()->sortIndicatorOrder()    );
 
 	setSkin();
 }
@@ -157,6 +154,8 @@ void WidgetDiscovery::setVisibility(CNetworkType networks, bool bHidden)
 
 void WidgetDiscovery::update()
 {
+	// TODO: improve
+
 	m_pDiscoveryList->updateAll();
 }
 

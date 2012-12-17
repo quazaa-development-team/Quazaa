@@ -105,7 +105,6 @@ void QuazaaSettings::saveSettings()
 
 	m_qSettings.beginGroup("Discovery");
 	m_qSettings.setValue("AccessThrottle",            quazaaSettings.Discovery.AccessThrottle);
-	m_qSettings.setValue("CacheCount",                quazaaSettings.Discovery.CacheCount);
 	m_qSettings.setValue("DataPath",                  quazaaSettings.Discovery.DataPath);
 	m_qSettings.setValue("FailureLimit",              quazaaSettings.Discovery.FailureLimit);
 	m_qSettings.setValue("MaximalServiceRating",      quazaaSettings.Discovery.MaximumServiceRating);
@@ -527,7 +526,6 @@ void QuazaaSettings::loadSettings()
 
 	m_qSettings.beginGroup("Discovery");
 	quazaaSettings.Discovery.AccessThrottle            = m_qSettings.value("AccessThrottle", 60).toUInt();
-	quazaaSettings.Discovery.CacheCount                = m_qSettings.value("CacheCount", 50).toInt();
 	quazaaSettings.Discovery.DataPath                  = m_qSettings.value("DataPath", sDefaultDataPath).toString();
 	quazaaSettings.Discovery.FailureLimit              = m_qSettings.value("FailureLimit", 2).toUInt();
 	quazaaSettings.Discovery.MaximumServiceRating      = m_qSettings.value("MaximalServiceRating", 10).toUInt();

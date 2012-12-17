@@ -30,23 +30,19 @@
 #include "debug_new.h"
 #endif
 
-CDiscoveryTableModel::Service::Service(const CDiscoveryService* pService)
+CDiscoveryTableModel::Service::Service(TConstServicePtr pService)
 {
-#ifdef _DEBUG
 	Q_ASSERT( pService );
-#endif // _DEBUG
 
-//	QWriteLocker w( &discoveryManager.m_pRWLock );
-	m_pNode = pService;
+	m_pNode       = pService;
 
-	// This makes sure that if pService is deleted within the Discovery Services Manager,
-	// m_pNode is correctly set to NULL. Note that a write lock is required here.
-	m_pNode->registerPointer( &m_pNode );
+	m_pNode->lockForRead();
 
-	m_sURL			= m_pNode->url();
-	m_nType			= m_pNode->serviceType();
-	m_nLastHosts	= m_pNode->lastHosts();
-	m_nTotalHosts	= m_pNode->totalHosts();
+	m_nID         = m_pNode->id();
+	m_sURL        = m_pNode->url();
+	m_nType       = m_pNode->serviceType();
+	m_nLastHosts  = m_pNode->lastHosts();
+	m_nTotalHosts = m_pNode->totalHosts();
 
 	switch( m_nType )
 	{
@@ -66,38 +62,16 @@ CDiscoveryTableModel::Service::Service(const CDiscoveryService* pService)
 
 CDiscoveryTableModel::Service::~Service()
 {
-	//QWriteLocker w( &discoveryManager.m_pRWLock );
-	// This is important to avoid memory access errors within the Discovery Services Manager.
-	if ( m_pNode )
-		m_pNode->unRegisterPointer( &m_pNode );
 }
 
 bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to_update,
 										   CDiscoveryTableModel *model)
 {
-	//QReadLocker l( &discoveryManager.m_pRWLock );
-
-	if ( !m_pNode )
-	{
-
-#ifdef _DEBUG
-	// We should have been informed about this event.
-	Q_ASSERT( false );
-#endif // _DEBUG
-
-		return false;
-	}
-
-#ifdef _DEBUG
-	//l.unlock();
-
-	// pNode should be set to NULL on deletion of the rule object it points to.
-	Q_ASSERT( discoveryManager.check( m_pNode ) );
-
-	//l.relock();
-#endif // _DEBUG
-
 	bool bReturn = false;
+
+	// TODO: check
+
+	m_pNode->lockForRead();
 
 	if ( m_nType != m_pNode->serviceType() )
 	{
@@ -150,6 +124,8 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 			bReturn = true;
 	}
 
+	m_pNode->unlock();
+
 	return bReturn;
 }
 
@@ -197,11 +173,23 @@ CDiscoveryTableModel::CDiscoveryTableModel(QObject *parent, QWidget* container) 
 	m_nSortColumn( -1 ),
 	m_bNeedSorting( false )
 {
-	/*connect( &discoveryManager, SIGNAL( serviceAdded( const CDiscoveryService* ) ), this,
-			 SLOT( addService( const CDiscoveryService* ) ), Qt::QueuedConnection );
 
-	connect( &discoveryManager, SIGNAL( serviceRemoved( QSharedPointer<CDiscoveryService> ) ), this,
-			 SLOT( removeService( QSharedPointer<CDiscoveryService> ) ), Qt::QueuedConnection );*/
+
+#if QT_VERSION >= 0x050000
+
+	connect( &discoveryManager, &Discovery::CDiscovery::serviceAdded, this,
+			 &CDiscoveryTableModel::addService, Qt::QueuedConnection );
+	connect( &discoveryManager, &Discovery::CDiscovery::serviceRemoved, this,
+			 &CDiscoveryTableModel::removeService, Qt::QueuedConnection );
+
+#else	// Qt4 code
+
+	connect( &discoveryManager, SIGNAL( serviceAdded( TConstServicePtr ) ), this,
+			 SLOT( addService( TConstServicePtr ) ), Qt::QueuedConnection );
+	connect( &discoveryManager, SIGNAL( serviceRemoved( TServiceType ) ), this,
+			 SLOT( removeService( TServiceType ) ), Qt::QueuedConnection );
+
+#endif
 
 	// This needs to be called to make sure that all rules added to the discoveryManager before this
 	// part of the GUI is loaded are properly added to the model.
@@ -376,7 +364,7 @@ void CDiscoveryTableModel::sort(int column, Qt::SortOrder order)
 	emit layoutChanged();
 }
 
-const Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromRow(quint32 row) const
+CDiscoveryTableModel::TConstServicePtr CDiscoveryTableModel::nodeFromRow(quint32 row) const
 {
 	if ( row < (quint32)m_lNodes.count() )
 	{
@@ -384,14 +372,14 @@ const Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromRow(quint32 ro
 	}
 	else
 	{
-		return NULL;
+		return TConstServicePtr();
 	}
 }
 
-const Discovery::CDiscoveryService* CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index) const
+CDiscoveryTableModel::TConstServicePtr CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index) const
 {
 	if ( !index.isValid() || !( index.row() < m_lNodes.count() ) || index.row() < 0 )
-		return NULL;
+		return TConstServicePtr();
 	else
 		return m_lNodes[ index.row() ]->m_pNode;
 }
@@ -411,14 +399,14 @@ void CDiscoveryTableModel::completeRefresh()
 	}
 
 	// Note that this slot is automatically disconnected once all rules have been recieved once.
-	connect( &discoveryManager, SIGNAL( serviceInfo( const CDiscoveryService* ) ), this,
-			 SLOT( addService(const CDiscoveryService* ) ), Qt::QueuedConnection );
+	connect( &discoveryManager, SIGNAL( serviceInfo( TConstServicePtr ) ), this,
+			 SLOT( addService( TConstServicePtr ) ), Qt::QueuedConnection );
 
 	// Request getting them back from the Security Manager.
 	discoveryManager.requestServiceList();
 }
 
-void CDiscoveryTableModel::addService( const CDiscoveryTableModel::CDiscoveryService* pService)
+void CDiscoveryTableModel::addService(TConstServicePtr pService)
 {
 	if ( discoveryManager.check( pService ) )
 	{
@@ -429,19 +417,17 @@ void CDiscoveryTableModel::addService( const CDiscoveryTableModel::CDiscoverySer
 		m_bNeedSorting = true;
 	}
 
-//	QReadLocker l( &discoveryManager.m_pRWLock );
-
 	// Make sure we don't recieve any signals we don't want once we got all rules once.
 	if ( m_lNodes.size() == (int)discoveryManager.count() )
 		disconnect( &discoveryManager, SIGNAL( serviceInfo( const CDiscoveryService* ) ),
 					this, SLOT( addService( const CDiscoveryService* ) ) );
 }
 
-void CDiscoveryTableModel::removeService(const QSharedPointer<CDiscoveryService> pService)
+void CDiscoveryTableModel::removeService(TServiceID nID)
 {
-	for ( quint32 i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
+	for ( int i = 0; i < m_lNodes.size(); ++i )
 	{
-		if ( /* *(m_lNodes[i]->m_pNode) == *pService*/ true )
+		if ( m_lNodes[i]->m_pNode->id() == nID )
 		{
 			beginRemoveRows( QModelIndex(), i, i );
 			delete m_lNodes[i];
