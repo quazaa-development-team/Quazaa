@@ -1,7 +1,7 @@
 #
 # Quazaa.pro
 #
-# Copyright © Quazaaa Development Team, 2009-2011.
+# Copyright Â© Quazaaa Development Team, 2009-2011.
 # This file is part of QUAZAA (quazaa.sourceforge.net)
 #
 # Quazaa is free software; this file may be used under the terms of the GNU
@@ -111,9 +111,9 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 win32-g++ {
 # This causes segmentation fault when compiling on mingw32 and Qt 4 so do only if Qt >= 5
 greaterThan(QT_VER_MAJ, 4) {
-	QMAKE_CXXFLAGS += -std=gnu++0x
+        QMAKE_CXXFLAGS += -std=gnu++0x
 }
-	CONFIG += exceptions
+        CONFIG += exceptions
 }
 
 # Append _debug to executable name when compiling using debug config
@@ -131,6 +131,9 @@ CONFIG(debug, debug|release){
 
 mac {
 	LIBS += -lz
+}
+linux {
+        LIBS += -lz
 }
 TEMPLATE = app
 
@@ -346,6 +349,7 @@ SOURCES += \
 	UI/wizardquickstart.cpp
 
 !mac {
+!linux {
 	SOURCES += \
 		3rdparty/zlib/zutil.c \
 		3rdparty/zlib/uncompr.c \
@@ -361,7 +365,8 @@ SOURCES += \
 		3rdparty/zlib/gzclose.c \
 		3rdparty/zlib/deflate.c \
 		3rdparty/zlib/crc32.c \
-		3rdparty/zlib/adler32.c
+                3rdparty/zlib/adler32.c
+}
 }
 
 HEADERS += \
@@ -525,6 +530,7 @@ HEADERS += \
 	UI/wizardquickstart.h
 
 !mac {
+!linux {
 	HEADERS += \
 		3rdparty/zlib/zutil.h \
 		3rdparty/zlib/zlib.h \
@@ -536,7 +542,8 @@ HEADERS += \
 		3rdparty/zlib/inffast.h \
 		3rdparty/zlib/gzguts.h \
 		3rdparty/zlib/deflate.h \
-		3rdparty/zlib/crc32.h
+                3rdparty/zlib/crc32.h
+}
 }
 
 FORMS += \
