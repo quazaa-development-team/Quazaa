@@ -98,8 +98,8 @@ DialogIrcSettings::DialogIrcSettings(QWidget *parent) :
 	ui->treeWidgetColors->header()->setSectionResizeMode(ColorColumns::Message, QHeaderView::ResizeToContents);
 	ui->treeWidgetShortcuts->header()->setSectionResizeMode(ShortcutColumns::Description, QHeaderView::ResizeToContents);
 #else
-	ui->treeWidgetColors->setResizeMode(ColorColumns::Message, QHeaderView::ResizeToContents);
-	ui->treeWidgetShortcuts->setResizeMode(ShortcutColumns::Description, QHeaderView::ResizeToContents);
+    ui->treeWidgetColors->header()->setResizeMode(ColorColumns::Message, QHeaderView::ResizeToContents);
+    ui->treeWidgetShortcuts->header()->setResizeMode(ShortcutColumns::Description, QHeaderView::ResizeToContents);
 #endif
 	ui->treeWidgetShortcuts->expandItem(ui->treeWidgetShortcuts->topLevelItem(0));
 	ui->treeWidgetShortcuts->expandItem(ui->treeWidgetShortcuts->topLevelItem(1));
