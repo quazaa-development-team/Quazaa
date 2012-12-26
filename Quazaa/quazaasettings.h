@@ -48,13 +48,29 @@ namespace IrcColorType {
 	enum ColorType
 	{
 		Background,
-		Message,
+        Default,
 		Event,
 		Notice,
 		Action,
 		Highlight,
 		TimeStamp,
-		Link
+        Link,
+        White,
+        Black,
+        Blue,
+        Green,
+        Red,
+        Brown,
+        Purple,
+        Orange,
+        Yellow,
+        LightGreen,
+        Cyan,
+        LightCyan,
+        LightBlue,
+        Pink,
+        Gray,
+        LightGray
 	};
 }
 

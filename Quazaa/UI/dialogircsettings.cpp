@@ -130,7 +130,7 @@ void DialogIrcSettings::saveSettings()
 	quazaaSettings.Chat.ShowTimestamp = ui->checkBoxTimeStamp->isChecked();
 
 	QHash<int, QString> colors;
-	for (int i = IrcColorType::Background; i <= IrcColorType::Link; ++i)
+    for (int i = IrcColorType::Background; i <= IrcColorType::LightGray; ++i)
 		colors[i] = ui->treeWidgetColors->topLevelItem(i)->data(ColorColumns::Color, Qt::DisplayRole).toString();
 	quazaaSettings.Chat.Colors = colors;
 	quazaaSettings.Chat.Layout = ui->comboBoxLayout->currentText().toLower();
