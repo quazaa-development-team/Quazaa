@@ -20,30 +20,17 @@ static QString getBuildNumber()
   return (today.date().toString("yyyy-MM-dd"));
 }
 
-static int getSubversionRevision()
+static QString getGitShortVersionHash()
 {
-  int revision = 0;
   QProcess process;
-  process.start("svnversion", QStringList() << "." << "--no-newline");
-  if (process.waitForStarted() && process.waitForReadyRead())
-  {
-	const QString str(process.readAll().constData());
-	const int pos = str.indexOf(':');
-	if (pos != -1)
-	{
-	  revision = atoi(str.mid(pos + 1).toLocal8Bit().constData());
-	}
-	else
-	{
-	  revision = atoi(str.toLocal8Bit().constData());
-	}
-	process.waitForFinished();
-  }
+  bool result;
+  process.start("git rev-parse --short HEAD");
+  result = process.waitForFinished(1000);
+
+  if (result)
+    return process.readAllStandardOutput().trimmed();
   else
-  {
-	  cout << "Cannot start svnversion. Make sure it is installed and it is in your PATH.\n";
-  }
-  return revision;
+      return "unknown";
 }
 
 static QByteArray readFile(const QString& fileName)
@@ -56,7 +43,7 @@ static QByteArray readFile(const QString& fileName)
   return file.readAll();
 }
 
-static int writeFile(const QString& fileName, const int major, const int minor, const int revision, const QString build)
+static int writeFile(const QString& fileName, const int major, const int minor, const QString revision, const QString build)
 {
   // Create a temp file containing the version info and
   // only replace the existing one if they are different
@@ -70,7 +57,7 @@ static int writeFile(const QString& fileName, const int major, const int minor, 
 	out << "{\r\n";
 	out << "\tstatic const int MAJOR = " << major << ";\r\n";
 	out << "\tstatic const int MINOR = " << minor << ";\r\n";
-	out << "\tstatic const int REVISION = " << revision << ";\r\n";
+    out << "\tstatic const char* REVISION = \"" << revision << "\";\r\n";
 	out << "\tstatic const char* BUILD_DATE = \"" << build << "\";\r\n";
 	out << "}\r\n\r\n";
 	out << "#endif // VERSION_H\r\n";
@@ -103,10 +90,10 @@ int main(int argc, char *argv[])
 
   const int major = atoi(argv[1]);
   const int minor = atoi(argv[2]);
-  const int revision = getSubversionRevision();
+  const QString revision = getGitShortVersionHash();
   const QString build = getBuildNumber();
 
-  cout << major << '.' << minor << '.' << revision << ' ' << build.toLocal8Bit().constData() << endl;
+  cout << major << '.' << minor << '.' << revision.toLocal8Bit().constData() << ' ' << build.toLocal8Bit().constData() << endl;
 
   return writeFile(argv[3], major, minor, revision, build);
 }
