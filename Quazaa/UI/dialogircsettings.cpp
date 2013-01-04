@@ -157,7 +157,7 @@ void DialogIrcSettings::loadSettings()
 	ui->checkBoxConnectOnStartup->setChecked(quazaaSettings.Chat.ConnectOnStartup);
 	ui->spinBoxBlockCount->setValue(quazaaSettings.Chat.MaxBlockCount);
 	ui->checkBoxTimeStamp->setChecked(quazaaSettings.Chat.ShowTimestamp);
-	ui->comboBoxLayout->setCurrentIndex((quazaaSettings.Chat.Layout == "Tabs") ? 0 : 1);
+    ui->comboBoxLayout->setCurrentIndex((quazaaSettings.Chat.Layout == "tabs") ? 0 : 1);
 
 	QHashIterator<int, QString> it(quazaaSettings.Chat.Colors);
 	while (it.hasNext()) {
