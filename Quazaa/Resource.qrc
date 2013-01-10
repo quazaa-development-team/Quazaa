@@ -797,5 +797,6 @@
         <file>Resource/stylesheet.css</file>
         <file>Resource/welcome_footer.html</file>
         <file>Resource/welcome_header.html</file>
+        <file>Resource/screen.png</file>
     </qresource>
 </RCC>
