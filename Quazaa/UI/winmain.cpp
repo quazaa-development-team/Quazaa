@@ -782,6 +782,7 @@ void CWinMain::on_actionAres_triggered(bool checked)
 void CWinMain::startNewSearch(QString* searchString)
 {
 	ui->stackedWidgetMain->setCurrentIndex(3);
+    ui->actionSearch->setChecked(true);
 	pageSearch->startNewSearch(searchString);
 }
 
