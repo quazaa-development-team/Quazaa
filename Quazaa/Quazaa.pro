@@ -121,7 +121,8 @@ win32 {
 }
 DEFINES += COMMUNI_STATIC
 CONFIG(debug, debug|release){
-	DEFINES += _DEBUG
+        DEFINES += _DEBUG \
+                _USE_DEBUG_NEW
 	QT_FATAL_WARNINGS = 1
 }
 

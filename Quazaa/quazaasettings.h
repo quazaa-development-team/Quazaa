@@ -628,11 +628,9 @@ namespace Settings
 		int			ActivitySplitterRestoreBottom;			// The width left side of the search results splitter should restore to when right clicked
 		bool		ChatRoomsTaskVisible;					// The Rooms task in the Chat sidebar
 		bool		ChatFriendsTaskVisible;					// The Friends task in the Chat sidebar
-		QByteArray	ChatListSplitter;
-		QByteArray	ChatTreeSplitter;
-		int			ChatSplitterRestoreLeft;
-		int			ChatSplitterRestoreMiddle;
-		int			ChatSplitterRestoreRight;
+        QByteArray	ChatUserListSplitter;                   // The chat splitter
+        QByteArray	ChatTreeWidget;                         // The list order in the server/channel tree
+        QByteArray  ChatTreeWidgetSplitter;                   // The splitter for the server/channel list
 		QByteArray	ChatToolbars;							// Chat Toolbars
 		QByteArray	DiscoveryToolbar;						// DiscoveryToolbar
 		QByteArray	DownloadsToolbar;						// Downloads Toolbar
@@ -644,16 +642,8 @@ namespace Settings
 		int			GraphSplitterRestoreLeft;				// The width left side of the home splitter should restore to when right clicked
 		int			GraphSplitterRestoreRight;				// The width left side of the home splitter should restore to when right clicked
 		QByteArray	GraphToolbar;							// Graph Toolbar
-		QByteArray	HitMonitorToolbar;						// Hit Monitor Toolbar
-		bool		HomeConnectionTaskVisible;				// The Connection task in the Home sidebar
-		bool		HomeDownloadsTaskVisible;				// The Downloads task in the Home sidebar
-		bool		HomeLibraryTaskVisible;					// The Library task in the Home sidebar
-		QString		HomeSearchString;						// The text typed into the search text box on the home tab
-		QByteArray	HomeSplitter;							// The splitter between the Home sidebar and welcome frame
-		int			HomeSplitterRestoreLeft;				// The width left side of the home splitter should restore to when right clicked
-		int			HomeSplitterRestoreRight;				// The width left side of the home splitter should restore to when right clicked
-		bool		HomeTorrentsTaskVisible;				// The BitTorrent task in the Home sidebar
-		bool		HomeUploadsTaskVisible;					// The Uploads task in the Home sidebar
+        QByteArray	HitMonitorToolbar;						// Hit Monitor Toolbar
+        QString		HomeSearchString;						// The text typed into the search text box on the home tab
 		QByteArray	HostCacheSplitter;						// Host Cache splitter position
 		int			HostCacheSplitterRestoreLeft;			// The width left side of the home splitter should restore to when right clicked
 		int			HostCacheSplitterRestoreRight;			// The width left side of the home splitter should restore to when right clicked
