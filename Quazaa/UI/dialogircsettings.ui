@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>289</height>
+    <width>398</width>
+    <height>287</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,16 +21,7 @@
    <property name="spacing">
     <number>2</number>
    </property>
-   <property name="leftMargin">
-    <number>2</number>
-   </property>
-   <property name="topMargin">
-    <number>2</number>
-   </property>
-   <property name="rightMargin">
-    <number>2</number>
-   </property>
-   <property name="bottomMargin">
+   <property name="margin">
     <number>2</number>
    </property>
    <item>
@@ -52,16 +43,7 @@
        <property name="verticalSpacing">
         <number>4</number>
        </property>
-       <property name="leftMargin">
-        <number>4</number>
-       </property>
-       <property name="topMargin">
-        <number>4</number>
-       </property>
-       <property name="rightMargin">
-        <number>4</number>
-       </property>
-       <property name="bottomMargin">
+       <property name="margin">
         <number>4</number>
        </property>
        <item row="1" column="0">
@@ -163,16 +145,7 @@
        <property name="spacing">
         <number>4</number>
        </property>
-       <property name="leftMargin">
-        <number>4</number>
-       </property>
-       <property name="topMargin">
-        <number>4</number>
-       </property>
-       <property name="rightMargin">
-        <number>4</number>
-       </property>
-       <property name="bottomMargin">
+       <property name="margin">
         <number>4</number>
        </property>
        <item>
@@ -306,16 +279,7 @@
        <property name="spacing">
         <number>4</number>
        </property>
-       <property name="leftMargin">
-        <number>4</number>
-       </property>
-       <property name="topMargin">
-        <number>4</number>
-       </property>
-       <property name="rightMargin">
-        <number>4</number>
-       </property>
-       <property name="bottomMargin">
+       <property name="margin">
         <number>4</number>
        </property>
        <item>
@@ -349,7 +313,7 @@
          </item>
          <item>
           <property name="text">
-           <string>Message</string>
+           <string>Default</string>
           </property>
           <property name="flags">
            <set>ItemIsSelectable|ItemIsEditable|ItemIsEnabled</set>
@@ -380,6 +344,16 @@
           </property>
           <property name="flags">
            <set>ItemIsSelectable|ItemIsEditable|ItemIsEnabled</set>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Inactive</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Alert</string>
           </property>
          </item>
          <item>

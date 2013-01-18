@@ -1007,6 +1007,8 @@ void QuazaaSettings::saveChat()
     m_qSettings.setValue("ColorsEvent", quazaaSettings.Chat.Colors[IrcColorType::Event]);
 	m_qSettings.setValue("ColorsNotice", quazaaSettings.Chat.Colors[IrcColorType::Notice]);
 	m_qSettings.setValue("ColorsAction", quazaaSettings.Chat.Colors[IrcColorType::Action]);
+    m_qSettings.setValue("ColorsInactive", quazaaSettings.Chat.Colors[IrcColorType::Inactive]);
+    m_qSettings.setValue("ColorsAlert", quazaaSettings.Chat.Colors[IrcColorType::Alert]);
 	m_qSettings.setValue("ColorsHighlight", quazaaSettings.Chat.Colors[IrcColorType::Highlight]);
 	m_qSettings.setValue("ColorsTimestamp", quazaaSettings.Chat.Colors[IrcColorType::TimeStamp]);
 	m_qSettings.setValue("ColorsLink", quazaaSettings.Chat.Colors[IrcColorType::Link]);
@@ -1083,7 +1085,9 @@ void QuazaaSettings::loadChat()
 	quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "pink").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Notice] = m_qSettings.value("ColorsNotice", "indianred").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Action] = m_qSettings.value("ColorsAction", "darkmagenta").toString();
-	quazaaSettings.Chat.Colors[IrcColorType::Highlight] = m_qSettings.value("ColorsHighlight", "darkred").toString();
+    quazaaSettings.Chat.Colors[IrcColorType::Inactive] = m_qSettings.value("ColorsInactive", "gray").toString();
+    quazaaSettings.Chat.Colors[IrcColorType::Alert] = m_qSettings.value("ColorsAlert", "red").toString();
+    quazaaSettings.Chat.Colors[IrcColorType::Highlight] = m_qSettings.value("ColorsHighlight", "maroon").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::TimeStamp] = m_qSettings.value("ColorsTimeStamp", "gray").toString();
     quazaaSettings.Chat.Colors[IrcColorType::Link] = m_qSettings.value("ColorsLink", "dodgerblue").toString();
     quazaaSettings.Chat.Colors[IrcColorType::White] = m_qSettings.value("ColorsWhite", "white").toString();

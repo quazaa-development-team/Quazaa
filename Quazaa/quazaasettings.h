@@ -52,6 +52,8 @@ namespace IrcColorType {
 		Event,
 		Notice,
 		Action,
+        Inactive,
+        Alert,
 		Highlight,
 		TimeStamp,
         Link,
