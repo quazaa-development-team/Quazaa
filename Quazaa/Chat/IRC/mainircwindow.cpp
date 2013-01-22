@@ -15,7 +15,7 @@
 
 #include "mainircwindow.h"
 #include "application.h"
-#include "connectionwizard.h"
+#include "wizardircconnection.h"
 #include "multisessiontabwidget.h"
 #include "sessiontreewidget.h"
 #include "sessiontabwidget.h"
@@ -122,7 +122,7 @@ void MainIrcWindow::connectTo(const QString& host, quint16 port, const QString& 
 
 void MainIrcWindow::connectTo(const ConnectionInfo& connection)
 {
-	ConnectionWizard wizard;
+    WizardIrcConnection wizard;
 	wizard.setConnection(connection);
 
 	if (!connection.host.isEmpty() && !connection.nick.isEmpty())
@@ -205,7 +205,7 @@ void MainIrcWindow::initialize()
 
 void MainIrcWindow::editSession(Session* session)
 {
-    ConnectionWizard wizard;
+    WizardIrcConnection wizard;
     wizard.setConnection(session->toConnection());
     if (wizard.exec())
         session->initFrom(wizard.connection());

@@ -43,6 +43,9 @@ public:
 	bool isSecure() const;
 	void setSecure(bool secure);
 
+    QString userName() const;
+    void setUserName(const QString& userName);
+
 	QString password() const;
 	void setPassword(const QString& password);
 
@@ -53,10 +56,11 @@ public:
 
 private:
 	Ui::WizardIrcConnection *ui;
-	CompleterLineEdit* lineEditNick;
-	CompleterLineEdit* lineEditReal;
-	CompleterLineEdit* lineEditHost;
-	CompleterLineEdit* lineEditConnectionName;
+    CompleterLineEdit* lineEditNickName;
+    CompleterLineEdit* lineEditRealName;
+    CompleterLineEdit* lineEditHost;
+    CompleterLineEdit* lineEditUserName;
+    CompleterLineEdit* lineEditConnectionName;
 
 private slots:
 	void accept();

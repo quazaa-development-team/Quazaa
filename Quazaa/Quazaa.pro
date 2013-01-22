@@ -31,7 +31,8 @@ QT_VER_MIN = $$member(QT_VERSION, 1)
 greaterThan(QT_VER_MAJ, 4) {
     QT += widgets \
         gui \
-        phonon
+        multimedia \
+        multimediawidgets
 }
 
 QT += network \
@@ -68,6 +69,7 @@ INCLUDEPATH += NetworkCore \
     Chat/IRC/wizard \
     3rdparty \
     3rdparty/communi/include \
+    3rdparty/icu \
     3rdparty/nvwa \
     3rdparty/qtsingleapplication \
     Models \
@@ -384,22 +386,13 @@ SOURCES += \
     Chat/IRC/gui/messageview.cpp \
     Chat/IRC/gui/menufactory.cpp \
     Chat/IRC/gui/lineeditor.cpp \
-    Chat/IRC/gui/ircsettings.cpp \
     Chat/IRC/gui/addviewdialog.cpp \
     Chat/IRC/gui/3rdparty/fancylineedit.cpp \
     Chat/IRC/gui/util/textbrowser.cpp \
     Chat/IRC/gui/util/sharedtimer.cpp \
     Chat/IRC/gui/util/historylineedit.cpp \
     Chat/IRC/gui/util/completer.cpp \
-    Chat/IRC/wizard/wizardtreewidget.cpp \
-    Chat/IRC/wizard/userwizardpage.cpp \
-    Chat/IRC/wizard/shortcutswizardpage.cpp \
-    Chat/IRC/wizard/settingswizard.cpp \
-    Chat/IRC/wizard/serverwizardpage.cpp \
-    Chat/IRC/wizard/generalwizardpage.cpp \
-    Chat/IRC/wizard/connectionwizardpage.cpp \
-    Chat/IRC/wizard/connectionwizard.cpp \
-    Chat/IRC/wizard/colorswizardpage.cpp \
+    UI/wizardtreewidget.cpp \
     3rdparty/communi/src/ircmessagedecoder_icu.cpp
 
 win32 {
@@ -608,22 +601,13 @@ HEADERS += \
     Chat/IRC/gui/messageview.h \
     Chat/IRC/gui/menufactory.h \
     Chat/IRC/gui/lineeditor.h \
-    Chat/IRC/gui/ircsettings.h \
     Chat/IRC/gui/addviewdialog.h \
     Chat/IRC/gui/3rdparty/fancylineedit.h \
     Chat/IRC/gui/util/textbrowser.h \
     Chat/IRC/gui/util/sharedtimer.h \
     Chat/IRC/gui/util/historylineedit.h \
     Chat/IRC/gui/util/completer.h \
-    Chat/IRC/wizard/wizardtreewidget.h \
-    Chat/IRC/wizard/userwizardpage.h \
-    Chat/IRC/wizard/shortcutswizardpage.h \
-    Chat/IRC/wizard/settingswizard.h \
-    Chat/IRC/wizard/serverwizardpage.h \
-    Chat/IRC/wizard/generalwizardpage.h \
-    Chat/IRC/wizard/connectionwizardpage.h \
-    Chat/IRC/wizard/connectionwizard.h \
-    Chat/IRC/wizard/colorswizardpage.h
+    UI/wizardtreewidget.h
 
 win32 {
     HEADERS += \
@@ -697,13 +681,7 @@ FORMS += \
     UI/winmain.ui \
     UI/wizardquickstart.ui \
     UI/wizardircconnection.ui \
-    Chat/IRC/gui/messageview.ui\
-    Chat/IRC/wizard/userwizardpage.ui \
-    Chat/IRC/wizard/shortcutswizardpage.ui \
-    Chat/IRC/wizard/serverwizardpage.ui \
-    Chat/IRC/wizard/generalwizardpage.ui \
-    Chat/IRC/wizard/connectionwizardpage.ui \
-    Chat/IRC/wizard/colorswizardpage.ui
+    Chat/IRC/gui/messageview.ui
 
 TRANSLATIONS = \
     Language/quazaa_af.ts \
