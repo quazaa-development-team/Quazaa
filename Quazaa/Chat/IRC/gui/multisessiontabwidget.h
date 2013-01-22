@@ -20,7 +20,7 @@
 
 class Session;
 class IrcMessage;
-class MessageView;
+class WidgetIrcMessageView;
 class SessionTabWidget;
 
 class MultiSessionTabWidget : public TabWidget
@@ -46,8 +46,8 @@ signals:
 	void sessionAdded(Session* session);
 	void sessionRemoved(Session* session);
 
-	void alerted(MessageView* view, IrcMessage* message);
-	void highlighted(MessageView* view, IrcMessage* message);
+	void alerted(WidgetIrcMessageView* view, IrcMessage* message);
+	void highlighted(WidgetIrcMessageView* view, IrcMessage* message);
 
 	void splitterChanged(const QByteArray& state);
 

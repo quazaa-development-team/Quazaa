@@ -49,8 +49,8 @@ QList<Session*> MultiSessionTabWidget::sessions() const
 void MultiSessionTabWidget::addSession(Session* session)
 {
 	SessionTabWidget* tab = new SessionTabWidget(session, this);
-	connect(tab, SIGNAL(alerted(MessageView*, IrcMessage*)), this, SIGNAL(alerted(MessageView*, IrcMessage*)));
-	connect(tab, SIGNAL(highlighted(MessageView*, IrcMessage*)), this, SIGNAL(highlighted(MessageView*, IrcMessage*)));
+	connect(tab, SIGNAL(alerted(WidgetIrcMessageView*, IrcMessage*)), this, SIGNAL(alerted(WidgetIrcMessageView*, IrcMessage*)));
+	connect(tab, SIGNAL(highlighted(WidgetIrcMessageView*, IrcMessage*)), this, SIGNAL(highlighted(WidgetIrcMessageView*, IrcMessage*)));
 	connect(tab, SIGNAL(sessionClosed(Session*)), this, SLOT(removeSession(Session*)));
 	connect(tab, SIGNAL(splitterChanged(QByteArray)), this, SLOT(restoreSplitter(QByteArray)));
 	tab->applySettings();

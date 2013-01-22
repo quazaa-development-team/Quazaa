@@ -363,7 +363,7 @@ SOURCES += \
     UI/wizardircconnection.cpp \
     UI/wizardquickstart.cpp \
     application.cpp \
-    Chat/IRC/mainircwindow.cpp \
+    UI/widgetircmain.cpp \
     Chat/IRC/homepage.cpp \
     Chat/IRC/commandparser.cpp \
     Chat/IRC/usermodel.cpp \
@@ -383,7 +383,7 @@ SOURCES += \
     Chat/IRC/gui/sessiontabwidget.cpp \
     Chat/IRC/gui/searcheditor.cpp \
     Chat/IRC/gui/multisessiontabwidget.cpp \
-    Chat/IRC/gui/messageview.cpp \
+    UI/widgetircmessageview.cpp \
     Chat/IRC/gui/menufactory.cpp \
     Chat/IRC/gui/lineeditor.cpp \
     Chat/IRC/gui/addviewdialog.cpp \
@@ -573,7 +573,7 @@ HEADERS += \
     UI/wizardircconnection.h \
     UI/wizardquickstart.h \
     application.h \
-    Chat/IRC/mainircwindow.h \
+    UI/widgetircmain.h \
     Chat/IRC/homepage.h \
     Chat/IRC/connectioninfo.h \
     Chat/IRC/commandparser.h \
@@ -598,7 +598,7 @@ HEADERS += \
     Chat/IRC/gui/sessiontabwidget.h \
     Chat/IRC/gui/searcheditor.h \
     Chat/IRC/gui/multisessiontabwidget.h \
-    Chat/IRC/gui/messageview.h \
+    UI/widgetircmessageview.h \
     Chat/IRC/gui/menufactory.h \
     Chat/IRC/gui/lineeditor.h \
     Chat/IRC/gui/addviewdialog.h \
@@ -681,7 +681,7 @@ FORMS += \
     UI/winmain.ui \
     UI/wizardquickstart.ui \
     UI/wizardircconnection.ui \
-    Chat/IRC/gui/messageview.ui
+    UI/widgetircmessageview.ui
 
 TRANSLATIONS = \
     Language/quazaa_af.ts \

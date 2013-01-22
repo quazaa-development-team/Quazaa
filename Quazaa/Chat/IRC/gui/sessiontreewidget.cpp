@@ -16,7 +16,7 @@
 #include "sessiontreewidget.h"
 #include "sessiontreedelegate.h"
 #include "sessiontreeitem.h"
-#include "messageview.h"
+#include "widgetircmessageview.h"
 #include "menufactory.h"
 #include "sharedtimer.h"
 #include "session.h"
@@ -144,7 +144,7 @@ QColor SessionTreeWidget::currentAlertColor() const
     return d.alertColor;
 }
 
-SessionTreeItem* SessionTreeWidget::viewItem(MessageView* view) const
+SessionTreeItem* SessionTreeWidget::viewItem(WidgetIrcMessageView* view) const
 {
     return d.viewItems.value(view);
 }
@@ -154,10 +154,10 @@ SessionTreeItem* SessionTreeWidget::sessionItem(Session* session) const
     return d.sessionItems.value(session);
 }
 
-void SessionTreeWidget::addView(MessageView* view)
+void SessionTreeWidget::addView(WidgetIrcMessageView* view)
 {
     SessionTreeItem* item = 0;
-    if (view->viewType() == MessageView::ServerView) {
+    if (view->viewType() == WidgetIrcMessageView::ServerView) {
         item = new SessionTreeItem(view, this);
         Session* session = view->session();
         connect(session, SIGNAL(nameChanged(QString)), this, SLOT(updateSession()));
@@ -174,21 +174,21 @@ void SessionTreeWidget::addView(MessageView* view)
     updateView(view);
 }
 
-void SessionTreeWidget::removeView(MessageView* view)
+void SessionTreeWidget::removeView(WidgetIrcMessageView* view)
 {
-    if (view->viewType() == MessageView::ServerView)
+    if (view->viewType() == WidgetIrcMessageView::ServerView)
         d.sessionItems.remove(view->session());
     delete d.viewItems.take(view);
 }
 
-void SessionTreeWidget::renameView(MessageView* view)
+void SessionTreeWidget::renameView(WidgetIrcMessageView* view)
 {
     SessionTreeItem* item = d.viewItems.value(view);
     if (item)
         item->setText(0, view->receiver());
 }
 
-void SessionTreeWidget::setCurrentView(MessageView* view)
+void SessionTreeWidget::setCurrentView(WidgetIrcMessageView* view)
 {
     SessionTreeItem* item = d.viewItems.value(view);
     if (item)
@@ -332,10 +332,10 @@ QMimeData* SessionTreeWidget::mimeData(const QList<QTreeWidgetItem*> items) cons
     return QTreeWidget::mimeData(items);
 }
 
-void SessionTreeWidget::updateView(MessageView* view)
+void SessionTreeWidget::updateView(WidgetIrcMessageView* view)
 {
     if (!view)
-        view = qobject_cast<MessageView*>(sender());
+        view = qobject_cast<WidgetIrcMessageView*>(sender());
     SessionTreeItem* item = d.viewItems.value(view);
     if (item) {
         if (!item->parent())

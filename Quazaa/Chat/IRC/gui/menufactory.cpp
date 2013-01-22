@@ -13,7 +13,7 @@
 */
 
 #include "menufactory.h"
-#include "messageview.h"
+#include "widgetircmessageview.h"
 #include "userlistview.h"
 #include "sessiontreeitem.h"
 #include "sessiontabwidget.h"
@@ -35,7 +35,7 @@ class UserViewMenu : public QMenu
     Q_OBJECT
 
 public:
-    UserViewMenu(const QString& user, MessageView* view) :
+    UserViewMenu(const QString& user, WidgetIrcMessageView* view) :
         QMenu(view), user(user), view(view)
     {
     }
@@ -54,10 +54,10 @@ private slots:
 
 private:
     QString user;
-    MessageView* view;
+    WidgetIrcMessageView* view;
 };
 
-QMenu* MenuFactory::createUserViewMenu(const QString& user, MessageView* view)
+QMenu* MenuFactory::createUserViewMenu(const QString& user, WidgetIrcMessageView* view)
 {
     UserViewMenu* menu = new UserViewMenu(user, view);
     menu->addAction(tr("Whois"), menu, SLOT(onWhoisTriggered()));
@@ -70,7 +70,7 @@ class TabViewMenu : public QMenu
     Q_OBJECT
 
 public:
-    TabViewMenu(MessageView* view, SessionTabWidget* tab) :
+    TabViewMenu(WidgetIrcMessageView* view, SessionTabWidget* tab) :
         QMenu(tab), view(view), tab(tab)
     {
     }
@@ -111,15 +111,15 @@ private slots:
     }
 
 private:
-    MessageView* view;
+    WidgetIrcMessageView* view;
     SessionTabWidget* tab;
 };
 
-QMenu* MenuFactory::createTabViewMenu(MessageView* view, SessionTabWidget* tab)
+QMenu* MenuFactory::createTabViewMenu(WidgetIrcMessageView* view, SessionTabWidget* tab)
 {
     bool active = view->session()->isActive();
     TabViewMenu* menu = new TabViewMenu(view, tab);
-    if (view->viewType() == MessageView::ServerView) {
+    if (view->viewType() == WidgetIrcMessageView::ServerView) {
         if (view->session()->isActive())
             menu->addAction(tr("Disconnect"), view->session(), SLOT(quit()));
         else
@@ -127,7 +127,7 @@ QMenu* MenuFactory::createTabViewMenu(MessageView* view, SessionTabWidget* tab)
         menu->addAction(tr("Edit"), menu, SLOT(onEditSession()))->setEnabled(!active);
         menu->addSeparator();
     } else if (active) {
-        if (view->viewType() == MessageView::ChannelView) {
+        if (view->viewType() == WidgetIrcMessageView::ChannelView) {
             if (view->userModel()->rowCount()) {
                 menu->addAction(tr("Names"), menu, SLOT(onNamesTriggered()))->setEnabled(active);
                 menu->addAction(tr("Part"), menu, SLOT(onPartTriggered()))->setEnabled(active);

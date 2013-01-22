@@ -12,7 +12,7 @@
 * GNU General Public License for more details.
 */
 
-#include "messageview.h"
+#include "widgetircmessageview.h"
 #include "menufactory.h"
 #include "completer.h"
 #include "ircuserlistmodel.h"
@@ -36,7 +36,7 @@
 static QStringListModel* command_model = 0;
 static const int VERTICAL_MARGIN = 1; // matches qlineedit_p.cpp
 
-MessageView::MessageView(MessageView::ViewType type, Session* session, QWidget* parent) :
+WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, Session* session, QWidget* parent) :
     QWidget(parent)
 {
     d.setupUi(this);
@@ -129,11 +129,11 @@ MessageView::MessageView(MessageView::ViewType type, Session* session, QWidget* 
 	applySettings();
 }
 
-MessageView::~MessageView()
+WidgetIrcMessageView::~WidgetIrcMessageView()
 {
 }
 
-bool MessageView::isActive() const
+bool WidgetIrcMessageView::isActive() const
 {
     if (!d.session->isActive())
         return false;
@@ -142,37 +142,37 @@ bool MessageView::isActive() const
     return true;
 }
 
-MessageView::ViewType MessageView::viewType() const
+WidgetIrcMessageView::ViewType WidgetIrcMessageView::viewType() const
 {
     return d.viewType;
 }
 
-Session* MessageView::session() const
+Session* WidgetIrcMessageView::session() const
 {
     return d.session;
 }
 
-IrcUserListModel* MessageView::userModel() const
+IrcUserListModel* WidgetIrcMessageView::userModel() const
 {
     return d.listView->userModel();
 }
 
-QTextBrowser* MessageView::textBrowser() const
+QTextBrowser* WidgetIrcMessageView::textBrowser() const
 {
     return d.textBrowser;
 }
 
-MessageFormatter* MessageView::messageFormatter() const
+MessageFormatter* WidgetIrcMessageView::messageFormatter() const
 {
     return d.formatter;
 }
 
-QString MessageView::receiver() const
+QString WidgetIrcMessageView::receiver() const
 {
     return d.receiver;
 }
 
-void MessageView::setReceiver(const QString& receiver)
+void WidgetIrcMessageView::setReceiver(const QString& receiver)
 {
     if (d.receiver != receiver) {
         d.receiver = receiver;
@@ -182,29 +182,29 @@ void MessageView::setReceiver(const QString& receiver)
     }
 }
 
-MenuFactory* MessageView::menuFactory() const
+MenuFactory* WidgetIrcMessageView::menuFactory() const
 {
     return d.listView->menuFactory();
 }
 
-void MessageView::setMenuFactory(MenuFactory* factory)
+void WidgetIrcMessageView::setMenuFactory(MenuFactory* factory)
 {
     d.listView->setMenuFactory(factory);
 }
 
-QByteArray MessageView::saveSplitter() const
+QByteArray WidgetIrcMessageView::saveSplitter() const
 {
     if (d.viewType != ServerView)
         return d.splitter->saveState();
     return QByteArray();
 }
 
-void MessageView::restoreSplitter(const QByteArray& state)
+void WidgetIrcMessageView::restoreSplitter(const QByteArray& state)
 {
     d.splitter->restoreState(state);
 }
 
-void MessageView::showHelp(const QString& text, bool error)
+void WidgetIrcMessageView::showHelp(const QString& text, bool error)
 {
     QString syntax;
     if (text == "/") {
@@ -231,7 +231,7 @@ void MessageView::showHelp(const QString& text, bool error)
 	d.helpLabel->setText(syntax);
 }
 
-void MessageView::appendMessage(const QString& message)
+void WidgetIrcMessageView::appendMessage(const QString& message)
 {
     if (!message.isEmpty()) {
         // workaround the link activation merge char format bug
@@ -253,13 +253,13 @@ void MessageView::appendMessage(const QString& message)
     }
 }
 
-void MessageView::hideEvent(QHideEvent* event)
+void WidgetIrcMessageView::hideEvent(QHideEvent* event)
 {
     QWidget::hideEvent(event);
     d.textBrowser->setUnseenBlock(-1);
 }
 
-bool MessageView::eventFilter(QObject* object, QEvent* event)
+bool WidgetIrcMessageView::eventFilter(QObject* object, QEvent* event)
 {
     if (object == d.textBrowser->viewport() && event->type() == QEvent::ContextMenu) {
         QContextMenuEvent* menuEvent = static_cast<QContextMenuEvent*>(event);
@@ -279,19 +279,19 @@ bool MessageView::eventFilter(QObject* object, QEvent* event)
     return QWidget::eventFilter(object, event);
 }
 
-void MessageView::onEscPressed()
+void WidgetIrcMessageView::onEscPressed()
 {
     d.helpLabel->hide();
     d.searchEditor->hide();
     setFocus(Qt::OtherFocusReason);
 }
 
-void MessageView::onSplitterMoved()
+void WidgetIrcMessageView::onSplitterMoved()
 {
     emit splitterChanged(d.splitter->saveState());
 }
 
-void MessageView::onSend(const QString& text)
+void WidgetIrcMessageView::onSend(const QString& text)
 {
 	QStringList lines = text.split(QRegExp("[\\r\\n]"), QString::SkipEmptyParts);
 	foreach (const QString& line, lines) {
@@ -325,7 +325,7 @@ void MessageView::onSend(const QString& text)
     }
 }
 
-void MessageView::onAnchorClicked(const QUrl& link)
+void WidgetIrcMessageView::onAnchorClicked(const QUrl& link)
 {
     if (link.scheme() == "nick")
         emit queried(link.toString(QUrl::RemoveScheme));
@@ -333,7 +333,7 @@ void MessageView::onAnchorClicked(const QUrl& link)
         QDesktopServices::openUrl(link);
 }
 
-void MessageView::closePressed()
+void WidgetIrcMessageView::closePressed()
 {
     switch (viewType())
     {
@@ -348,7 +348,7 @@ void MessageView::closePressed()
     }
 }
 
-void MessageView::applySettings()
+void WidgetIrcMessageView::applySettings()
 {
 	d.formatter->setTimeStamp(quazaaSettings.Chat.ShowTimestamp);
 	d.formatter->setStripNicks(quazaaSettings.Chat.StripNicks);
@@ -384,7 +384,7 @@ void MessageView::applySettings()
 		.arg(quazaaSettings.Chat.Colors.value(IrcColorType::Link)));
 }
 
-void MessageView::receiveMessage(IrcMessage* message)
+void WidgetIrcMessageView::receiveMessage(IrcMessage* message)
 {
     if (d.viewType == ChannelView)
         d.listView->processMessage(message);
@@ -458,14 +458,14 @@ void MessageView::receiveMessage(IrcMessage* message)
     }
 }
 
-bool MessageView::hasUser(const QString& user) const
+bool WidgetIrcMessageView::hasUser(const QString& user) const
 {
     return (!d.session->nickName().compare(user, Qt::CaseInsensitive)) ||
            (d.viewType == QueryView && !d.receiver.compare(user, Qt::CaseInsensitive)) ||
            (d.viewType == ChannelView && d.listView->hasUser(user));
 }
 
-void MessageView::onCustomCommand(const QString& command, const QStringList& params)
+void WidgetIrcMessageView::onCustomCommand(const QString& command, const QStringList& params)
 {
     if (command == "QUERY" || command == "M" || command == "MSG" || command == "TELL")
     {

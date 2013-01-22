@@ -13,28 +13,29 @@
 * GNU General Public License for more details.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef WIDGETIRCMAIN_H
+#define WIDGETIRCMAIN_H
 
-#include <QMainWindow>
+#include <QWidget>
+#include <QSplitter>
 #include "trayicon.h"
 
 class MultiSessionTabWidget;
 class SessionTreeWidget;
 class SessionTreeItem;
 struct ConnectionInfo;
-class MessageView;
+class WidgetIrcMessageView;
 class IrcMessage;
 class QtDockTile;
 class Session;
 
-class MainIrcWindow : public QMainWindow
+class WidgetIrcMain : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit MainIrcWindow(QWidget* parent = 0);
-	~MainIrcWindow();
+    explicit WidgetIrcMain(QWidget* parent = 0);
+    ~WidgetIrcMain();
 
 	QSize sizeHint() const;
 	void saveWidget();
@@ -54,12 +55,12 @@ private slots:
 	void editSession(Session* session);
 	void applySettings();
 	void showSettings();
-	void alert(MessageView* view, IrcMessage* message);
-	void highlight(MessageView* view, IrcMessage* message);
-	void viewAdded(MessageView* view);
-	void viewRemoved(MessageView* view);
-    void viewRenamed(MessageView* view);
-	void viewActivated(MessageView* view);
+    void alert(WidgetIrcMessageView* view, IrcMessage* message);
+    void highlight(WidgetIrcMessageView* view, IrcMessage* message);
+    void viewAdded(WidgetIrcMessageView* view);
+    void viewRemoved(WidgetIrcMessageView* view);
+    void viewRenamed(WidgetIrcMessageView* view);
+    void viewActivated(WidgetIrcMessageView* view);
 	void closeTreeItem(SessionTreeItem* item);
 	void currentTreeItemChanged(Session* session, const QString& view);
 	void splitterChanged(const QByteArray& state);
@@ -71,10 +72,10 @@ private slots:
 private:
 	void createTree();
 
+    QSplitter* splitterIrcMain;
 	SessionTreeWidget* treeWidget;
-	MultiSessionTabWidget* tabWidget;
-	TrayIcon* trayIcon;
+    MultiSessionTabWidget* tabWidget;
 	QtDockTile* dockTile;
 };
 
-#endif // MAINWINDOW_H
+#endif // WIDGETIRCMAIN_H

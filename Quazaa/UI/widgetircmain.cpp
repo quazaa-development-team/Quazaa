@@ -13,7 +13,7 @@
 * GNU General Public License for more details.
 */
 
-#include "mainircwindow.h"
+#include "widgetircmain.h"
 #include "application.h"
 #include "wizardircconnection.h"
 #include "multisessiontabwidget.h"
@@ -21,7 +21,7 @@
 #include "sessiontabwidget.h"
 #include "sessiontreeitem.h"
 #include "connectioninfo.h"
-#include "messageview.h"
+#include "widgetircmessageview.h"
 #include "homepage.h"
 #include "overlay.h"
 #include "toolbar.h"
@@ -29,22 +29,21 @@
 #include "qtdocktile.h"
 #include "dialogircsettings.h"
 #include "quazaasettings.h"
-#include <QSettings>
 #include <QToolBar>
 #include <QMenuBar>
 #include <QMenu>
 #include <QFile>
 
-MainIrcWindow::MainIrcWindow(QWidget* parent) : QMainWindow(parent),
-	treeWidget(0), trayIcon(0), dockTile(0)
+WidgetIrcMain::WidgetIrcMain(QWidget* parent) : QWidget(parent),
+    treeWidget(0), dockTile(0)
 {
 	tabWidget = new MultiSessionTabWidget(this);
 	qRegisterMetaTypeStreamOperators<ConnectionInfo>("ConnectionInfo");
 	qRegisterMetaTypeStreamOperators<ConnectionInfos>("ConnectionInfos");
 
 	connect(tabWidget, SIGNAL(newTabRequested()), this, SLOT(connectTo()), Qt::QueuedConnection);
-	connect(tabWidget, SIGNAL(alerted(MessageView*, IrcMessage*)), this, SLOT(alert(MessageView*, IrcMessage*)));
-	connect(tabWidget, SIGNAL(highlighted(MessageView*, IrcMessage*)), this, SLOT(highlight(MessageView*, IrcMessage*)));
+    connect(tabWidget, SIGNAL(alerted(WidgetIrcMessageView*, IrcMessage*)), this, SLOT(alert(WidgetIrcMessageView*, IrcMessage*)));
+    connect(tabWidget, SIGNAL(highlighted(WidgetIrcMessageView*, IrcMessage*)), this, SLOT(highlight(WidgetIrcMessageView*, IrcMessage*)));
 	connect(tabWidget, SIGNAL(splitterChanged(QByteArray)), this, SLOT(splitterChanged(QByteArray)));
 	connect(tabWidget, SIGNAL(sessionAdded(Session*)), this, SLOT(sessionAdded(Session*)));
 	connect(tabWidget, SIGNAL(sessionRemoved(Session*)), this, SLOT(sessionRemoved(Session*)));
@@ -53,10 +52,13 @@ MainIrcWindow::MainIrcWindow(QWidget* parent) : QMainWindow(parent),
     connect(homePage, SIGNAL(connectRequested()), this, SLOT(connectTo()));
 	tabWidget->insertTab(0, homePage, tr("Home"));
 
-	QSplitter* splitter = new QSplitter(this);
-	splitter->setHandleWidth(1);
-	splitter->addWidget(tabWidget);
-	setCentralWidget(splitter);
+    splitterIrcMain = new QSplitter(this);
+    splitterIrcMain->setHandleWidth(1);
+    splitterIrcMain->addWidget(tabWidget);
+
+    QVBoxLayout *centralLayout = new QVBoxLayout(this);
+    setLayout(centralLayout);
+    centralLayout->addWidget(splitterIrcMain);
 
 	if (QtDockTile::isAvailable())
 		dockTile = new QtDockTile(this);
@@ -101,16 +103,16 @@ MainIrcWindow::MainIrcWindow(QWidget* parent) : QMainWindow(parent),
 		QTimer::singleShot(1000, this, SLOT(initialize()));
 }
 
-MainIrcWindow::~MainIrcWindow()
+WidgetIrcMain::~WidgetIrcMain()
 {
 }
 
-QSize MainIrcWindow::sizeHint() const
+QSize WidgetIrcMain::sizeHint() const
 {
 	return QSize(800, 600);
 }
 
-void MainIrcWindow::connectTo(const QString& host, quint16 port, const QString& nick, const QString& password)
+void WidgetIrcMain::connectTo(const QString& host, quint16 port, const QString& nick, const QString& password)
 {
 	ConnectionInfo conn;
 	conn.host = host;
@@ -120,7 +122,7 @@ void MainIrcWindow::connectTo(const QString& host, quint16 port, const QString& 
 	connectTo(conn);
 }
 
-void MainIrcWindow::connectTo(const ConnectionInfo& connection)
+void WidgetIrcMain::connectTo(const ConnectionInfo& connection)
 {
     WizardIrcConnection wizard;
 	wizard.setConnection(connection);
@@ -131,7 +133,7 @@ void MainIrcWindow::connectTo(const ConnectionInfo& connection)
 		connectToImpl(wizard.connection());
 }
 
-void MainIrcWindow::connectToImpl(const ConnectionInfo& connection)
+void WidgetIrcMain::connectToImpl(const ConnectionInfo& connection)
 {
 	Session* session = Session::fromConnection(connection, this);
 	session->setEncoding(Application::encoding());
@@ -147,24 +149,24 @@ void MainIrcWindow::connectToImpl(const ConnectionInfo& connection)
 	updateSession(session);
 
     SessionTabWidget* tab = tabWidget->sessionWidget(session);
-    connect(tab, SIGNAL(viewAdded(MessageView*)), this, SLOT(viewAdded(MessageView*)));
-    connect(tab, SIGNAL(viewRemoved(MessageView*)), this, SLOT(viewRemoved(MessageView*)));
-    connect(tab, SIGNAL(viewRenamed(MessageView*)), this, SLOT(viewRenamed(MessageView*)));
-    connect(tab, SIGNAL(viewActivated(MessageView*)), this, SLOT(viewActivated(MessageView*)));
+    connect(tab, SIGNAL(viewAdded(WidgetIrcMessageView*)), this, SLOT(viewAdded(WidgetIrcMessageView*)));
+    connect(tab, SIGNAL(viewRemoved(WidgetIrcMessageView*)), this, SLOT(viewRemoved(WidgetIrcMessageView*)));
+    connect(tab, SIGNAL(viewRenamed(WidgetIrcMessageView*)), this, SLOT(viewRenamed(WidgetIrcMessageView*)));
+    connect(tab, SIGNAL(viewActivated(WidgetIrcMessageView*)), this, SLOT(viewActivated(WidgetIrcMessageView*)));
     connect(tab, SIGNAL(editSession(Session*)), this, SLOT(editSession(Session*)));
 
     if (!quazaaSettings.WinMain.ChatUserListSplitter.isEmpty())
         tab->restoreSplitter(quazaaSettings.WinMain.ChatUserListSplitter);
 }
 
-void MainIrcWindow::closeEvent(QCloseEvent* event)
+void WidgetIrcMain::closeEvent(QCloseEvent* event)
 {
-	QMainWindow::closeEvent(event);
+    QWidget::closeEvent(event);
 }
 
-void MainIrcWindow::changeEvent(QEvent* event)
+void WidgetIrcMain::changeEvent(QEvent* event)
 {
-	QMainWindow::changeEvent(event);
+    QWidget::changeEvent(event);
 	if (event->type() == QEvent::ActivationChange) {
 		if (isActiveWindow()) {
 			if (dockTile)
@@ -173,12 +175,12 @@ void MainIrcWindow::changeEvent(QEvent* event)
 	}
 }
 
-void MainIrcWindow::saveWidget()
+void WidgetIrcMain::saveWidget()
 {
 	if (treeWidget)
     {
         quazaaSettings.WinMain.ChatTreeWidget = treeWidget->saveState();
-        quazaaSettings.WinMain.ChatTreeWidgetSplitter = static_cast<QSplitter*>(centralWidget())->saveState();
+        quazaaSettings.WinMain.ChatTreeWidgetSplitter = splitterIrcMain->saveState();
     }
 
     ConnectionInfos connections;
@@ -191,7 +193,7 @@ void MainIrcWindow::saveWidget()
     quazaaSettings.saveChatConnections();
 }
 
-void MainIrcWindow::initialize()
+void WidgetIrcMain::initialize()
 {
     quazaaSettings.loadChatConnections();
     ConnectionInfos connections = quazaaSettings.Chat.Connections.value<ConnectionInfos>();
@@ -203,7 +205,7 @@ void MainIrcWindow::initialize()
         connectTo(ConnectionInfo());
 }
 
-void MainIrcWindow::editSession(Session* session)
+void WidgetIrcMain::editSession(Session* session)
 {
     WizardIrcConnection wizard;
     wizard.setConnection(session->toConnection());
@@ -211,7 +213,7 @@ void MainIrcWindow::editSession(Session* session)
         session->initFrom(wizard.connection());
 }
 
-void MainIrcWindow::applySettings()
+void WidgetIrcMain::applySettings()
 {
     tabWidget->applySettings();
     if (quazaaSettings.Chat.Layout == "tree") {
@@ -232,14 +234,14 @@ void MainIrcWindow::applySettings()
     setStyleSheet(css);
 }
 
-void MainIrcWindow::showSettings()
+void WidgetIrcMain::showSettings()
 {
     DialogIrcSettings *dlgIrcSettings = new DialogIrcSettings(this);
 
     dlgIrcSettings->exec();
 }
 
-void MainIrcWindow::alert(MessageView* view, IrcMessage* message)
+void WidgetIrcMain::alert(WidgetIrcMessageView* view, IrcMessage* message)
 {
     Q_UNUSED(message);
     if (!isActiveWindow()) {
@@ -250,7 +252,7 @@ void MainIrcWindow::alert(MessageView* view, IrcMessage* message)
 
     if (treeWidget) {
         SessionTreeItem* item = treeWidget->sessionItem(view->session());
-        if (view->viewType() != MessageView::ServerView)
+        if (view->viewType() != WidgetIrcMessageView::ServerView)
             item = item->findChild(view->receiver());
         if (item) {
             item->setAlerted(true);
@@ -259,19 +261,19 @@ void MainIrcWindow::alert(MessageView* view, IrcMessage* message)
     }
 }
 
-void MainIrcWindow::highlight(MessageView* view, IrcMessage* message)
+void WidgetIrcMain::highlight(WidgetIrcMessageView* view, IrcMessage* message)
 {
     Q_UNUSED(message);
     if (treeWidget) {
         SessionTreeItem* item = treeWidget->sessionItem(view->session());
-        if (view->viewType() != MessageView::ServerView)
+        if (view->viewType() != WidgetIrcMessageView::ServerView)
             item = item->findChild(view->receiver());
         if (item)
             item->setHighlighted(true);
     }
 }
 
-void MainIrcWindow::viewAdded(MessageView* view)
+void WidgetIrcMain::viewAdded(WidgetIrcMessageView* view)
 {
     if (!quazaaSettings.WinMain.ChatUserListSplitter.isEmpty())
         view->restoreSplitter(quazaaSettings.WinMain.ChatUserListSplitter);
@@ -284,7 +286,7 @@ void MainIrcWindow::viewAdded(MessageView* view)
     }
 }
 
-void MainIrcWindow::viewRemoved(MessageView* view)
+void WidgetIrcMain::viewRemoved(WidgetIrcMessageView* view)
 {
     if (treeWidget) {
         SessionTabWidget* tab = qobject_cast<SessionTabWidget*>(sender());
@@ -293,26 +295,26 @@ void MainIrcWindow::viewRemoved(MessageView* view)
     }
 }
 
-void MainIrcWindow::viewRenamed(MessageView* view)
+void WidgetIrcMain::viewRenamed(WidgetIrcMessageView* view)
 {
     if (treeWidget)
         treeWidget->renameView(view);
 }
 
-void MainIrcWindow::viewActivated(MessageView* view)
+void WidgetIrcMain::viewActivated(WidgetIrcMessageView* view)
 {
     if (treeWidget)
         treeWidget->setCurrentView(view);
 }
 
-void MainIrcWindow::closeTreeItem(SessionTreeItem* item)
+void WidgetIrcMain::closeTreeItem(SessionTreeItem* item)
 {
     SessionTabWidget* tab = tabWidget->sessionWidget(item->session());
     if (tab)
         tab->closeView(tab->indexOf(item->view()));
 }
 
-void MainIrcWindow::currentTreeItemChanged(Session* session, const QString& view)
+void WidgetIrcMain::currentTreeItemChanged(Session* session, const QString& view)
 {
     SessionTabWidget* tab = tabWidget->sessionWidget(session);
     if (tab) {
@@ -324,16 +326,16 @@ void MainIrcWindow::currentTreeItemChanged(Session* session, const QString& view
     }
 }
 
-void MainIrcWindow::splitterChanged(const QByteArray& state)
+void WidgetIrcMain::splitterChanged(const QByteArray& state)
 {
     quazaaSettings.WinMain.ChatUserListSplitter = state;
 }
 
-void MainIrcWindow::sessionAdded(Session* session)
+void WidgetIrcMain::sessionAdded(Session* session)
 {
     if (treeWidget) {
         if (SessionTabWidget* tab = tabWidget->sessionWidget(session)) {
-            if (MessageView* view = qobject_cast<MessageView*>(tab->widget(0))) {
+            if (WidgetIrcMessageView* view = qobject_cast<WidgetIrcMessageView*>(tab->widget(0))) {
                 treeWidget->addView(view);
                 treeWidget->parentWidget()->show();
             }
@@ -341,18 +343,18 @@ void MainIrcWindow::sessionAdded(Session* session)
     }
 }
 
-void MainIrcWindow::sessionRemoved(Session* session)
+void WidgetIrcMain::sessionRemoved(Session* session)
 {
     if (treeWidget) {
         if (SessionTabWidget* tab = tabWidget->sessionWidget(session)) {
-            if (MessageView* view = qobject_cast<MessageView*>(tab->widget(0)))
+            if (WidgetIrcMessageView* view = qobject_cast<WidgetIrcMessageView*>(tab->widget(0)))
                 treeWidget->removeView(view);
         }
         treeWidget->parentWidget()->setVisible(!tabWidget->sessions().isEmpty());
     }
 }
 
-void MainIrcWindow::updateSession(Session* session)
+void WidgetIrcMain::updateSession(Session* session)
 {
     if (!session)
         session = qobject_cast<Session*>(sender());
@@ -375,16 +377,15 @@ void MainIrcWindow::updateSession(Session* session)
     }
 }
 
-void MainIrcWindow::addView()
+void WidgetIrcMain::addView()
 {
     SessionTabWidget* tab = qobject_cast<SessionTabWidget*>(tabWidget->currentWidget());
     if (tab)
         QMetaObject::invokeMethod(tab, "onNewTabRequested");
 }
 
-void MainIrcWindow::createTree()
+void WidgetIrcMain::createTree()
 {
-    QSplitter* splitter = static_cast<QSplitter*>(centralWidget());
     QWidget* container = new QWidget(this);
     container->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
     container->setVisible(!tabWidget->sessions().isEmpty());
@@ -398,10 +399,10 @@ void MainIrcWindow::createTree()
 
     foreach (Session* session, tabWidget->sessions()) {
         SessionTabWidget* tab = tabWidget->sessionWidget(session);
-        if (MessageView* view = qobject_cast<MessageView*>(tab->widget(0)))
+        if (WidgetIrcMessageView* view = qobject_cast<WidgetIrcMessageView*>(tab->widget(0)))
             treeWidget->addView(view);
         for (int i = 1; i < tab->count() - 1; ++i) {
-            MessageView* view = qobject_cast<MessageView*>(tab->widget(i));
+            WidgetIrcMessageView* view = qobject_cast<WidgetIrcMessageView*>(tab->widget(i));
             if (view)
                 treeWidget->addView(view);
         }
@@ -420,9 +421,9 @@ void MainIrcWindow::createTree()
     layout->setMargin(0);
 
     container->setMinimumWidth(toolBar->sizeHint().width());
-    splitter->insertWidget(0, container);
-    splitter->setStretchFactor(1, 1);
+    splitterIrcMain->insertWidget(0, container);
+    splitterIrcMain->setStretchFactor(1, 1);
 
     if (!quazaaSettings.WinMain.ChatTreeWidgetSplitter.isEmpty())
-        splitter->restoreState(quazaaSettings.WinMain.ChatTreeWidgetSplitter);
+        splitterIrcMain->restoreState(quazaaSettings.WinMain.ChatTreeWidgetSplitter);
 }

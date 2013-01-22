@@ -45,7 +45,7 @@
 #include "widgetsearchmonitor.h"
 #include "widgethitmonitor.h"
 
-#include "mainircwindow.h"
+#include "widgetircmain.h"
 
 #include "dialogprivatemessages.h"
 #include <QList>
@@ -87,7 +87,7 @@ public:
 	WidgetTransfers* pageTransfers;
 	WidgetSecurity* pageSecurity;
 	WidgetActivity* pageActivity;
-	MainIrcWindow* pageIrcMain;
+	WidgetIrcMain* pageIrcMain;
 	WidgetHostCache* pageHostCache;
 	WidgetDiscovery* pageDiscovery;
 	WidgetScheduler* pageScheduler;

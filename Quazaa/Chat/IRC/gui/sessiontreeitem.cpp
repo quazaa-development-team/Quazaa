@@ -18,7 +18,7 @@
 
 #include "quazaasettings.h"
 
-SessionTreeItem::SessionTreeItem(MessageView* view, QTreeWidget* parent) : QTreeWidgetItem(parent)
+SessionTreeItem::SessionTreeItem(WidgetIrcMessageView* view, QTreeWidget* parent) : QTreeWidgetItem(parent)
 {
     d.view = view;
     d.alerted = false;
@@ -27,7 +27,7 @@ SessionTreeItem::SessionTreeItem(MessageView* view, QTreeWidget* parent) : QTree
     setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled);
 }
 
-SessionTreeItem::SessionTreeItem(MessageView* view, QTreeWidgetItem* parent) : QTreeWidgetItem(parent)
+SessionTreeItem::SessionTreeItem(WidgetIrcMessageView* view, QTreeWidgetItem* parent) : QTreeWidgetItem(parent)
 {
     d.view = view;
     d.alerted = false;
@@ -54,7 +54,7 @@ Session* SessionTreeItem::session() const
     return d.view->session();
 }
 
-MessageView* SessionTreeItem::view() const
+WidgetIrcMessageView* SessionTreeItem::view() const
 {
     return d.view;
 }
@@ -86,11 +86,11 @@ QVariant SessionTreeItem::data(int column, int role) const
             case 0:
             {
                 switch (d.view->viewType()) {
-                    case MessageView::ServerView:
+                    case WidgetIrcMessageView::ServerView:
                         return QIcon(":/Resource/Network/Network.png");
-                    case MessageView::ChannelView:
+                    case WidgetIrcMessageView::ChannelView:
                         return QIcon(":/Resource/Chat/Friends.png");
-                    case MessageView::QueryView:
+                    case WidgetIrcMessageView::QueryView:
                         return QIcon(":/Resource/Chat/Chat.png");
             }
         }

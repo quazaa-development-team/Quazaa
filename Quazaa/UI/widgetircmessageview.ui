@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MessageView</class>
- <widget class="QWidget" name="MessageView">
+ <class>WidgetIrcMessageView</class>
+ <widget class="QWidget" name="WidgetIrcMessageView">
   <property name="geometry">
    <rect>
     <x>0</x>

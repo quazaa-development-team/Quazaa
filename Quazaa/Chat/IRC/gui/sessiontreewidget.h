@@ -21,7 +21,7 @@
 #include <QHash>
 
 class Session;
-class MessageView;
+class WidgetIrcMessageView;
 class MenuFactory;
 class SessionTreeItem;
 
@@ -47,14 +47,14 @@ public:
 
     QColor currentAlertColor() const;
 
-    SessionTreeItem* viewItem(MessageView* view) const;
+    SessionTreeItem* viewItem(WidgetIrcMessageView* view) const;
     SessionTreeItem* sessionItem(Session* session) const;
 
 public slots:
-    void addView(MessageView* view);
-    void removeView(MessageView* view);
-    void renameView(MessageView* view);
-    void setCurrentView(MessageView* view);
+    void addView(WidgetIrcMessageView* view);
+    void removeView(WidgetIrcMessageView* view);
+    void renameView(WidgetIrcMessageView* view);
+    void setCurrentView(WidgetIrcMessageView* view);
 
     void moveToNextItem();
     void moveToPrevItem();
@@ -82,7 +82,7 @@ protected:
     QMimeData* mimeData(const QList<QTreeWidgetItem*> items) const;
 
 private slots:
-    void updateView(MessageView* view = 0);
+    void updateView(WidgetIrcMessageView* view = 0);
     void updateSession(Session* session = 0);
     void onItemSelectionChanged();
     void onItemExpanded(QTreeWidgetItem* item);
@@ -110,7 +110,7 @@ private:
         QHash<ItemStatus, QColor> colors;
         QSet<SessionTreeItem*> alertedItems;
         QSet<SessionTreeItem*> resetedItems;
-        QHash<MessageView*, SessionTreeItem*> viewItems;
+        QHash<WidgetIrcMessageView*, SessionTreeItem*> viewItems;
         QHash<Session*, SessionTreeItem*> sessionItems;
         QVariantHash state;
         mutable QTreeWidgetItem* dropParent;

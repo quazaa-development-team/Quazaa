@@ -26,7 +26,7 @@
 #include <QAbstractSocket>
 #include <QNetworkSession>
 #include "connectioninfo.h"
-#include "messageview.h"
+#include "widgetircmessageview.h"
 
 class Session : public IrcSession
 {
@@ -70,8 +70,8 @@ public:
 	QString password() const;
 	void setPassword(const QString& password);
 
-    void setDefaultView(MessageView* view);
-    MessageView* defaultView();
+    void setDefaultView(WidgetIrcMessageView* view);
+    WidgetIrcMessageView* defaultView();
 
 	ConnectionInfo toConnection() const;
 	void initFrom(const ConnectionInfo& connection);
@@ -126,7 +126,7 @@ private:
 	bool m_quit;
 	QStringList m_alternateNicks;
 	static QNetworkSession* s_network;
-    MessageView* m_defaultView;
+    WidgetIrcMessageView* m_defaultView;
 };
 
 #endif // SESSION_H

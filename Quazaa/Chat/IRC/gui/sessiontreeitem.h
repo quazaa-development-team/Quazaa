@@ -16,19 +16,19 @@
 #define SESSIONTREEITEM_H
 
 #include <QTreeWidgetItem>
-#include "messageview.h"
+#include "widgetircmessageview.h"
 
 class Session;
 
 class SessionTreeItem : public QTreeWidgetItem
 {
 public:
-    SessionTreeItem(MessageView* view, QTreeWidget* parent);
-    SessionTreeItem(MessageView* view, QTreeWidgetItem* parent);
+    SessionTreeItem(WidgetIrcMessageView* view, QTreeWidget* parent);
+    SessionTreeItem(WidgetIrcMessageView* view, QTreeWidgetItem* parent);
     ~SessionTreeItem();
 
     Session* session() const;
-    MessageView* view() const;
+    WidgetIrcMessageView* view() const;
     SessionTreeItem* findChild(const QString& name) const;
 
     QVariant data(int column, int role) const;
@@ -45,7 +45,7 @@ private:
     struct Private {
         bool alerted;
         bool highlighted;
-        MessageView* view;
+        WidgetIrcMessageView* view;
         QSet<SessionTreeItem*> alertedChildren;
         QSet<SessionTreeItem*> highlightedChildren;
     } d;

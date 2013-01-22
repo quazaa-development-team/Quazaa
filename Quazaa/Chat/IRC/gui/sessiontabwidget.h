@@ -22,7 +22,7 @@
 
 class Session;
 class IrcMessage;
-class MessageView;
+class WidgetIrcMessageView;
 class MenuFactory;
 
 class SessionTabWidget : public TabWidget
@@ -42,7 +42,7 @@ public:
 public slots:
     void restoreSplitter(const QByteArray& state);
     void switchToServerTab();
-	MessageView* openView(const QString& receiver);
+	WidgetIrcMessageView* openView(const QString& receiver);
 	void messageToView(const QString &receiver, const QString &message);
 	void removeView(const QString& receiver);
 	void closeCurrentView();
@@ -51,17 +51,17 @@ public slots:
 	void applySettings();
 
 signals:
-    void alerted(MessageView* view, IrcMessage* message);
-    void highlighted(MessageView* view, IrcMessage* message);
+    void alerted(WidgetIrcMessageView* view, IrcMessage* message);
+    void highlighted(WidgetIrcMessageView* view, IrcMessage* message);
     void inactiveStatusChanged(bool inactive);
     void sessionClosed(Session* session);
     void splitterChanged(const QByteArray& state);
     void editSession(Session* session);
 
-    void viewAdded(MessageView* view);
-    void viewRemoved(MessageView* view);
-    void viewRenamed(MessageView* view);
-    void viewActivated(MessageView* view);
+    void viewAdded(WidgetIrcMessageView* view);
+    void viewRemoved(WidgetIrcMessageView* view);
+    void viewRenamed(WidgetIrcMessageView* view);
+    void viewActivated(WidgetIrcMessageView* view);
 
 protected:
     bool event(QEvent* event);
@@ -82,7 +82,7 @@ private:
     struct SessionTabWidgetData {
         QList<int> delayedIndexes;
         MessageHandler handler;
-        QHash<QString, MessageView*> views;
+        QHash<QString, WidgetIrcMessageView*> views;
         MenuFactory* menuFactory;
     } d;
 };

@@ -12,10 +12,10 @@
 * GNU General Public License for more details.
 */
 
-#ifndef MESSAGEVIEW_H
-#define MESSAGEVIEW_H
+#ifndef WIDGETIRCMESSAGEVIEW_H
+#define WIDGETIRCMESSAGEVIEW_H
 
-#include "ui_messageview.h"
+#include "ui_widgetircmessageview.h"
 #include "messagereceiver.h"
 #include "messageformatter.h"
 #include "commandparser.h"
@@ -27,7 +27,7 @@ class MenuFactory;
 class IrcMessage;
 class Session;
 
-class MessageView : public QWidget, public MessageReceiver
+class WidgetIrcMessageView : public QWidget, public MessageReceiver
 {
     Q_OBJECT
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
@@ -36,8 +36,8 @@ class MessageView : public QWidget, public MessageReceiver
 public:
     enum ViewType { ServerView, ChannelView, QueryView };
 
-    MessageView(ViewType type, Session* session, QWidget* parent = 0);
-    ~MessageView();
+    WidgetIrcMessageView(ViewType type, Session* session, QWidget* parent = 0);
+    ~WidgetIrcMessageView();
 
 	QPushButton *closeButton;
 
@@ -91,7 +91,7 @@ private slots:
     void closePressed();
 
 private:
-	struct MessageViewData : public Ui::MessageView {
+    struct MessageViewData : public Ui::WidgetIrcMessageView {
 		ViewType viewType;
 		QString receiver;
 		Session* session;
@@ -101,4 +101,4 @@ private:
 	} d;
 };
 
-#endif // MESSAGEVIEW_H
+#endif // WIDGETIRCMESSAGEVIEW_H
