@@ -29,14 +29,18 @@ QT_VER_MAJ = $$member(QT_VERSION, 0)
 QT_VER_MIN = $$member(QT_VERSION, 1)
 
 greaterThan(QT_VER_MAJ, 4) {
-QT += widgets \
-    gui \
-    phonon
+    QT += widgets \
+        gui \
+        phonon
 }
 
 QT += network \
     sql \
     xml
+
+unix:!mac {
+    QT += dbus
+}
 
 TARGET = Quazaa
 
@@ -57,9 +61,13 @@ UI_DIR = temp/uic
 
 INCLUDEPATH += NetworkCore \
     UI \
+    Chat/IRC \
+    Chat/IRC/gui \
+    Chat/IRC/gui/3rdparty \
+    Chat/IRC/gui/util \
+    Chat/IRC/wizard \
     3rdparty \
     3rdparty/communi/include \
-    3rdparty/icu \
     3rdparty/nvwa \
     3rdparty/qtsingleapplication \
     Models \
@@ -71,6 +79,11 @@ INCLUDEPATH += NetworkCore \
     Misc \
     Discovery \
     .
+
+include(3rdparty/communi/src/3rdparty/icu/icu.pri)
+include(3rdparty/communi/src/3rdparty/mozilla/mozilla.pri)
+include(3rdparty/communi/src/3rdparty/qblowfish/qblowfish.pri)
+include(3rdparty/qtdocktile/qtdocktile.pri)
 
 # Version stuff
 MAJOR = 0
@@ -116,9 +129,6 @@ win32-g++ {
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 
 # Additional config
-win32 {
-    LIBS += -Lbin -luser32 -lole32 -lshell32 # if you are at windows os
-}
 
 DEFINES += COMMUNI_STATIC
 
@@ -128,6 +138,10 @@ CONFIG(debug, debug|release){
     QT_FATAL_WARNINGS = 1
 }
 
+
+win32 {
+    LIBS += -Lbin -luser32 -lole32 -lshell32 # if you are at windows os
+}
 mac {
     LIBS += -lz
 }
@@ -202,14 +216,12 @@ sse2 {
 
 # Sources
 SOURCES += \
-    3rdparty/communi/src/ircutil.cpp \
     3rdparty/communi/src/ircsession.cpp \
     3rdparty/communi/src/ircsender.cpp \
-    3rdparty/communi/src/ircmessageparser.cpp \
+    3rdparty/communi/src/ircmessagedata.cpp \
     3rdparty/communi/src/ircmessagedecoder.cpp \
     3rdparty/communi/src/ircmessage.cpp \
     3rdparty/communi/src/irccommand.cpp \
-    3rdparty/communi/src/irccodecplugin.cpp \
     3rdparty/communi/src/irc.cpp \
     3rdparty/communi/src/ircsessioninfo.cpp \
     3rdparty/communi/src/irctextformat.cpp \
@@ -348,7 +360,47 @@ SOURCES += \
     UI/winmain.cpp \
     UI/wizardircconnection.cpp \
     UI/wizardquickstart.cpp \
-    application.cpp
+    application.cpp \
+    Chat/IRC/mainircwindow.cpp \
+    Chat/IRC/homepage.cpp \
+    Chat/IRC/commandparser.cpp \
+    Chat/IRC/usermodel.cpp \
+    Chat/IRC/trayicon.cpp \
+    Chat/IRC/toolbar.cpp \
+    Chat/IRC/sortedusermodel.cpp \
+    Chat/IRC/session.cpp \
+    Chat/IRC/overlay.cpp \
+    Chat/IRC/messagehandler.cpp \
+    Chat/IRC/messageformatter.cpp \
+    Chat/IRC/gui/userlistview.cpp \
+    Chat/IRC/gui/tabwidget.cpp \
+    Chat/IRC/gui/settings.cpp \
+    Chat/IRC/gui/sessiontreewidget.cpp \
+    Chat/IRC/gui/sessiontreeitem.cpp \
+    Chat/IRC/gui/sessiontreedelegate.cpp \
+    Chat/IRC/gui/sessiontabwidget.cpp \
+    Chat/IRC/gui/searcheditor.cpp \
+    Chat/IRC/gui/multisessiontabwidget.cpp \
+    Chat/IRC/gui/messageview.cpp \
+    Chat/IRC/gui/menufactory.cpp \
+    Chat/IRC/gui/lineeditor.cpp \
+    Chat/IRC/gui/ircsettings.cpp \
+    Chat/IRC/gui/addviewdialog.cpp \
+    Chat/IRC/gui/3rdparty/fancylineedit.cpp \
+    Chat/IRC/gui/util/textbrowser.cpp \
+    Chat/IRC/gui/util/sharedtimer.cpp \
+    Chat/IRC/gui/util/historylineedit.cpp \
+    Chat/IRC/gui/util/completer.cpp \
+    Chat/IRC/wizard/wizardtreewidget.cpp \
+    Chat/IRC/wizard/userwizardpage.cpp \
+    Chat/IRC/wizard/shortcutswizardpage.cpp \
+    Chat/IRC/wizard/settingswizard.cpp \
+    Chat/IRC/wizard/serverwizardpage.cpp \
+    Chat/IRC/wizard/generalwizardpage.cpp \
+    Chat/IRC/wizard/connectionwizardpage.cpp \
+    Chat/IRC/wizard/connectionwizard.cpp \
+    Chat/IRC/wizard/colorswizardpage.cpp \
+    3rdparty/communi/src/ircmessagedecoder_icu.cpp
 
 win32 {
     SOURCES += \
@@ -374,12 +426,11 @@ HEADERS += \
     3rdparty/communi/include/ircsession_p.h \
     3rdparty/communi/include/ircsession.h \
     3rdparty/communi/include/ircsender.h \
-    3rdparty/communi/include/ircmessageparser_p.h \
+    3rdparty/communi/include/ircmessagedata_p.h \
     3rdparty/communi/include/ircmessagedecoder_p.h \
     3rdparty/communi/include/ircmessage.h \
     3rdparty/communi/include/ircglobal.h \
     3rdparty/communi/include/irccommand.h \
-    3rdparty/communi/include/irccodecplugin.h \
     3rdparty/communi/include/irc.h \
     3rdparty/communi/include/ircsessioninfo.h \
     3rdparty/communi/include/irctextformat.h \
@@ -528,7 +579,51 @@ HEADERS += \
     UI/winmain.h \
     UI/wizardircconnection.h \
     UI/wizardquickstart.h \
-    application.h
+    application.h \
+    Chat/IRC/mainircwindow.h \
+    Chat/IRC/homepage.h \
+    Chat/IRC/connectioninfo.h \
+    Chat/IRC/commandparser.h \
+    Chat/IRC/channelinfo.h \
+    Chat/IRC/usermodel.h \
+    Chat/IRC/trayicon.h \
+    Chat/IRC/toolbar.h \
+    Chat/IRC/streamer.h \
+    Chat/IRC/sortedusermodel.h \
+    Chat/IRC/session.h \
+    Chat/IRC/overlay.h \
+    Chat/IRC/messagereceiver.h \
+    Chat/IRC/messagehandler.h \
+    Chat/IRC/messageformatter.h \
+    Chat/IRC/gui/userlistview.h \
+    Chat/IRC/gui/tabwidget.h \
+    Chat/IRC/gui/tabwidget_p.h \
+    Chat/IRC/gui/settings.h \
+    Chat/IRC/gui/sessiontreewidget.h \
+    Chat/IRC/gui/sessiontreeitem.h \
+    Chat/IRC/gui/sessiontreedelegate.h \
+    Chat/IRC/gui/sessiontabwidget.h \
+    Chat/IRC/gui/searcheditor.h \
+    Chat/IRC/gui/multisessiontabwidget.h \
+    Chat/IRC/gui/messageview.h \
+    Chat/IRC/gui/menufactory.h \
+    Chat/IRC/gui/lineeditor.h \
+    Chat/IRC/gui/ircsettings.h \
+    Chat/IRC/gui/addviewdialog.h \
+    Chat/IRC/gui/3rdparty/fancylineedit.h \
+    Chat/IRC/gui/util/textbrowser.h \
+    Chat/IRC/gui/util/sharedtimer.h \
+    Chat/IRC/gui/util/historylineedit.h \
+    Chat/IRC/gui/util/completer.h \
+    Chat/IRC/wizard/wizardtreewidget.h \
+    Chat/IRC/wizard/userwizardpage.h \
+    Chat/IRC/wizard/shortcutswizardpage.h \
+    Chat/IRC/wizard/settingswizard.h \
+    Chat/IRC/wizard/serverwizardpage.h \
+    Chat/IRC/wizard/generalwizardpage.h \
+    Chat/IRC/wizard/connectionwizardpage.h \
+    Chat/IRC/wizard/connectionwizard.h \
+    Chat/IRC/wizard/colorswizardpage.h
 
 win32 {
     HEADERS += \
@@ -543,6 +638,7 @@ win32 {
         3rdparty/zlib/gzguts.h \
         3rdparty/zlib/deflate.h \
         3rdparty/zlib/crc32.h
+}
 
 FORMS += \
     UI/dialogabout.ui \
@@ -600,7 +696,14 @@ FORMS += \
     UI/widgetuploads.ui \
     UI/winmain.ui \
     UI/wizardquickstart.ui \
-    UI/wizardircconnection.ui
+    UI/wizardircconnection.ui \
+    Chat/IRC/gui/messageview.ui\
+    Chat/IRC/wizard/userwizardpage.ui \
+    Chat/IRC/wizard/shortcutswizardpage.ui \
+    Chat/IRC/wizard/serverwizardpage.ui \
+    Chat/IRC/wizard/generalwizardpage.ui \
+    Chat/IRC/wizard/connectionwizardpage.ui \
+    Chat/IRC/wizard/colorswizardpage.ui
 
 TRANSLATIONS = \
     Language/quazaa_af.ts \

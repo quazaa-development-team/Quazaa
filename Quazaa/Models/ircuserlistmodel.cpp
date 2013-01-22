@@ -24,7 +24,6 @@
 
 #include "ircuserlistmodel.h"
 
-#include "ircutil.h"
 #include "session.h"
 #include "ircsessioninfo.h"
 #include <ircmessage.h>

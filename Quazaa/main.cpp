@@ -121,13 +121,6 @@ int main(int argc, char *argv[])
 	if (!encoding.isEmpty())
 		Application::setEncoding(encoding);
 
-	QByteArray codecPlugin;
-	index = args.indexOf("-codec-plugin");
-	if (index != -1)
-		codecPlugin = args.value(index + 1).toLocal8Bit();
-	if (!codecPlugin.isEmpty())
-		irc_set_codec_plugin(codecPlugin);
-
 // To enable this, run qmake with "DEFINES+=_SNAPSHOT_BUILD"
 #ifdef _SNAPSHOT_BUILD
 	QDate oExpire = QDate::fromString(Version::BUILD_DATE, Qt::ISODate).addDays(60);
