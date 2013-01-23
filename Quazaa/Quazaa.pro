@@ -369,7 +369,6 @@ SOURCES += \
     Chat/IRC/usermodel.cpp \
     Chat/IRC/trayicon.cpp \
     Chat/IRC/toolbar.cpp \
-    Chat/IRC/sortedusermodel.cpp \
     Chat/IRC/session.cpp \
     Chat/IRC/overlay.cpp \
     Chat/IRC/messagehandler.cpp \
@@ -581,7 +580,6 @@ HEADERS += \
     Chat/IRC/trayicon.h \
     Chat/IRC/toolbar.h \
     Chat/IRC/streamer.h \
-    Chat/IRC/sortedusermodel.h \
     Chat/IRC/session.h \
     Chat/IRC/overlay.h \
     Chat/IRC/messagereceiver.h \
