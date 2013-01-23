@@ -49,9 +49,7 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
     ui->textEditInput->setCurrentCharFormat(format);
 
     connect(ui->textEditInput, SIGNAL(cursorPositionChanged()), this, SLOT(updateToolbar()));
-	checkBoxSendOnEnter = new QCheckBox(tr("Send On Enter"), this);
-	checkBoxSendOnEnter->setChecked(true);
-    connect(checkBoxSendOnEnter, SIGNAL(toggled(bool)), ui->textEditInput, SLOT(setEmitsReturn(bool)));
+
     connect(ui->textEditInput, SIGNAL(returnPressed()), ui->toolButtonSend, SLOT(click()));
     connect(ui->textEditInput, SIGNAL(currentCharFormatChanged(QTextCharFormat)), this, SLOT(onTextFormatChange(QTextCharFormat)));
 	toolButtonSmilies = new QToolButton();
@@ -76,8 +74,7 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
 	toolButtonPrivateMessage->setIcon(QIcon(":/Resource/Chat/Chat.png"));
 	ui->toolBarTextTools->insertWidget(ui->actionBold, toolButtonPickColor);
 	ui->toolBarTextTools->addSeparator();
-	ui->toolBarTextTools->addWidget(toolButtonSmilies);
-	ui->toolBarTextTools->addWidget(checkBoxSendOnEnter);
+    ui->toolBarTextTools->addWidget(toolButtonSmilies);
     ui->actionBold->setChecked(ui->textEditInput->fontWeight() == QFont::Bold);
     ui->actionItalic->setChecked(ui->textEditInput->fontItalic());
     ui->actionUnderline->setChecked(ui->textEditInput->fontUnderline());

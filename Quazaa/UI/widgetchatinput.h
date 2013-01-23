@@ -56,8 +56,7 @@ protected:
     void changeEvent(QEvent *e);
 
 private:
-	Ui::WidgetChatInput *ui;
-	QCheckBox *checkBoxSendOnEnter;
+    Ui::WidgetChatInput *ui;
 	QToolButton *toolButtonSmilies;
 	WidgetSmileyList *widgetSmileyList;
 	QToolButton *toolButtonPickColor;

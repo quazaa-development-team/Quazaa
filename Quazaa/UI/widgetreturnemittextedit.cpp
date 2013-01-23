@@ -57,11 +57,10 @@ void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 {
 	if (event->key() == Qt::Key_Return)
 	{
-		if (emitReturn)
-		{
-			emit returnPressed();
+        if (event->modifiers() & Qt::ShiftModifier) {
+            QTextEdit::keyPressEvent(event);
 		} else {
-			QTextEdit::keyPressEvent(event);
+            emit returnPressed();
 		}
 	} else if (event->key() == Qt::Key_Up) {
 		if (!m_lHistory.isEmpty())
@@ -93,16 +92,6 @@ void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 		resetHistoryIndex();
 		QTextEdit::keyPressEvent(event);
 	}
-}
-
-void WidgetReturnEmitTextEdit::setEmitsReturn(bool shouldEmit)
-{
-	emitReturn = shouldEmit;
-}
-
-bool WidgetReturnEmitTextEdit::emitsReturn()
-{
-	return emitReturn;
 }
 
 Completer* WidgetReturnEmitTextEdit::completer() const

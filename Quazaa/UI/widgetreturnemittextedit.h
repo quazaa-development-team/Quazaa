@@ -56,8 +56,6 @@ signals:
 	void textChanged(const QString &text);
 
 public slots:
-	void setEmitsReturn(bool shouldEmit);
-	bool emitsReturn();
 	void onTextChanged();
 	void setSkin();
 	void addHistory(QTextDocument* document);
