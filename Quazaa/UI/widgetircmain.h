@@ -18,7 +18,6 @@
 
 #include <QWidget>
 #include <QSplitter>
-#include "trayicon.h"
 
 class MultiSessionTabWidget;
 class SessionTreeWidget;
