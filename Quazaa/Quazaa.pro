@@ -374,9 +374,8 @@ SOURCES += \
     Chat/IRC/overlay.cpp \
     Chat/IRC/messagehandler.cpp \
     Chat/IRC/messageformatter.cpp \
-    Chat/IRC/gui/userlistview.cpp \
+    UI/listviewircusers.cpp \
     Chat/IRC/gui/tabwidget.cpp \
-    Chat/IRC/gui/settings.cpp \
     Chat/IRC/gui/sessiontreewidget.cpp \
     Chat/IRC/gui/sessiontreeitem.cpp \
     Chat/IRC/gui/sessiontreedelegate.cpp \
@@ -588,10 +587,9 @@ HEADERS += \
     Chat/IRC/messagereceiver.h \
     Chat/IRC/messagehandler.h \
     Chat/IRC/messageformatter.h \
-    Chat/IRC/gui/userlistview.h \
+    UI/listviewircusers.h \
     Chat/IRC/gui/tabwidget.h \
     Chat/IRC/gui/tabwidget_p.h \
-    Chat/IRC/gui/settings.h \
     Chat/IRC/gui/sessiontreewidget.h \
     Chat/IRC/gui/sessiontreeitem.h \
     Chat/IRC/gui/sessiontreedelegate.h \

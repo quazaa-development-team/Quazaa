@@ -14,7 +14,7 @@
 
 #include "menufactory.h"
 #include "widgetircmessageview.h"
-#include "userlistview.h"
+#include "listviewircusers.h"
 #include "sessiontreeitem.h"
 #include "sessiontabwidget.h"
 #include "sessiontreewidget.h"
@@ -148,7 +148,7 @@ class UserListMenu : public QMenu
     Q_OBJECT
 
 public:
-    UserListMenu(UserListView* listView) : QMenu(listView), listView(listView)
+    UserListMenu(ListViewIrcUsers* listView) : QMenu(listView), listView(listView)
     {
     }
 
@@ -198,10 +198,10 @@ private slots:
     }
 
 private:
-    UserListView* listView;
+    ListViewIrcUsers* listView;
 };
 
-QMenu* MenuFactory::createUserListMenu(const QString& user, UserListView* listView)
+QMenu* MenuFactory::createUserListMenu(const QString& user, ListViewIrcUsers* listView)
 {
     UserListMenu* menu = new UserListMenu(listView);
 
