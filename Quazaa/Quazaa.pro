@@ -366,15 +366,13 @@ SOURCES += \
     UI/widgetircmain.cpp \
     Chat/IRC/homepage.cpp \
     Chat/IRC/commandparser.cpp \
-    Chat/IRC/usermodel.cpp \
-    Chat/IRC/trayicon.cpp \
     Chat/IRC/toolbar.cpp \
     Chat/IRC/session.cpp \
     Chat/IRC/overlay.cpp \
     Chat/IRC/messagehandler.cpp \
     Chat/IRC/messageformatter.cpp \
     UI/listviewircusers.cpp \
-    Chat/IRC/gui/tabwidget.cpp \
+    UI/tabwidget.cpp \
     Chat/IRC/gui/sessiontreewidget.cpp \
     Chat/IRC/gui/sessiontreeitem.cpp \
     Chat/IRC/gui/sessiontreedelegate.cpp \
@@ -576,8 +574,6 @@ HEADERS += \
     Chat/IRC/connectioninfo.h \
     Chat/IRC/commandparser.h \
     Chat/IRC/channelinfo.h \
-    Chat/IRC/usermodel.h \
-    Chat/IRC/trayicon.h \
     Chat/IRC/toolbar.h \
     Chat/IRC/streamer.h \
     Chat/IRC/session.h \
@@ -586,8 +582,8 @@ HEADERS += \
     Chat/IRC/messagehandler.h \
     Chat/IRC/messageformatter.h \
     UI/listviewircusers.h \
-    Chat/IRC/gui/tabwidget.h \
-    Chat/IRC/gui/tabwidget_p.h \
+    UI/tabwidget.h \
+    UI/tabwidget_p.h \
     Chat/IRC/gui/sessiontreewidget.h \
     Chat/IRC/gui/sessiontreeitem.h \
     Chat/IRC/gui/sessiontreedelegate.h \
