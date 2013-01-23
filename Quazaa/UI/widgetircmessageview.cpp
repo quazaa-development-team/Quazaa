@@ -17,6 +17,7 @@
 #include "completer.h"
 #include "ircuserlistmodel.h"
 #include "session.h"
+#include "chatconverter.h"
 #include "quazaaglobals.h"
 #include <QAbstractTextDocumentLayout>
 #include <QDesktopServices>
@@ -50,13 +51,14 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
                                "QPushButton:pressed { border: 3px groove cornflowerblue; border-radius: 6px; }");
     connect(closeButton, SIGNAL(clicked()), this, SLOT(closePressed()));
 
-	d.topicLabel->setMinimumHeight(d.lineEditor->sizeHint().height());
-	d.helpLabel->setMinimumHeight(d.lineEditor->sizeHint().height());
+    d.chatInput = new WidgetChatInput(0, true);
+    d.horizontalLayoutChatInput->addWidget(d.chatInput);
+    d.chatInput->setFixedHeight(80);
 
 	connect(d.splitter, SIGNAL(splitterMoved(int, int)), this, SLOT(onSplitterMoved()));
 
-	setFocusProxy(d.lineEditor);
-	d.textBrowser->setBuddy(d.lineEditor);
+    setFocusProxy(d.chatInput->textEdit());
+    d.textBrowser->setBuddy(d.chatInput->textEdit());
 	d.textBrowser->viewport()->installEventFilter(this);
 	connect(d.textBrowser, SIGNAL(anchorClicked(QUrl)), SLOT(onAnchorClicked(QUrl)));
 
@@ -114,13 +116,14 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
 		command_model->setStringList(prefixedCommands);
 	}
 
-	d.lineEditor->completer()->setDefaultModel(d.listView->userModel());
-	d.lineEditor->completer()->setSlashModel(command_model);
+    d.chatInput->textEdit()->completer()->setDefaultModel(d.listView->userModel());
+    d.chatInput->textEdit()->completer()->setSlashModel(command_model);
 
-	connect(d.lineEditor, SIGNAL(send(QString)), this, SLOT(onSend(QString)));
-	connect(d.lineEditor, SIGNAL(typed(QString)), this, SLOT(showHelp(QString)));
+    connect(d.chatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onSend(QTextDocument*)));
+    connect(d.chatInput, SIGNAL(messageSent(QString)), this, SLOT(onSend(QString)));
+    connect(d.chatInput->textEdit(), SIGNAL(textChanged(QString)), this, SLOT(showHelp(QString)));
 
-	d.helpLabel->hide();
+    d.chatInput->helpLabel()->hide();
 	d.searchEditor->setTextEdit(d.textBrowser);
 
 	QShortcut* shortcut = new QShortcut(Qt::Key_Escape, this);
@@ -223,12 +226,12 @@ void WidgetIrcMessageView::showHelp(const QString& text, bool error)
             syntax = tr("Unknown command '%1'").arg(command.toUpper());
     }
 
-	d.helpLabel->setVisible(!syntax.isEmpty());
+    d.chatInput->helpLabel()->setVisible(!syntax.isEmpty());
 	QPalette pal;
 	if (error)
 		pal.setColor(QPalette::WindowText, quazaaSettings.Chat.Colors[IrcColorType::Highlight]);
-	d.helpLabel->setPalette(pal);
-	d.helpLabel->setText(syntax);
+    d.chatInput->helpLabel()->setPalette(pal);
+    d.chatInput->helpLabel()->setText(syntax);
 }
 
 void WidgetIrcMessageView::appendMessage(const QString& message)
@@ -281,7 +284,7 @@ bool WidgetIrcMessageView::eventFilter(QObject* object, QEvent* event)
 
 void WidgetIrcMessageView::onEscPressed()
 {
-    d.helpLabel->hide();
+    d.chatInput->helpLabel()->hide();
     d.searchEditor->hide();
     setFocus(Qt::OtherFocusReason);
 }
@@ -325,6 +328,12 @@ void WidgetIrcMessageView::onSend(const QString& text)
     }
 }
 
+void WidgetIrcMessageView::onSend(QTextDocument *message)
+{
+    CChatConverter *converter = new CChatConverter(message);
+    onSend(converter->toIrc());
+}
+
 void WidgetIrcMessageView::onAnchorClicked(const QUrl& link)
 {
     if (link.scheme() == "nick")
@@ -364,7 +373,7 @@ void WidgetIrcMessageView::applySettings()
 	QString backgroundColor = quazaaSettings.Chat.Colors.value(IrcColorType::Background);
     d.topicLabel->setStyleSheet(QString("QLabel { color: %1; background-color: %2; }").arg(foregroundColor).arg(backgroundColor));
 	d.textBrowser->setStyleSheet(QString("QTextBrowser { color: %1; background-color: %2; }").arg(foregroundColor).arg(backgroundColor));
-    d.listView->setStyleSheet(QString("UserListView { color: %1; background-color: %2; }").arg(foregroundColor).arg(backgroundColor));
+    d.listView->setStyleSheet(QString("ListViewIrcUsers { color: %1; background-color: %2; }").arg(foregroundColor).arg(backgroundColor));
 
 	d.textBrowser->document()->setDefaultStyleSheet(
 		QString(

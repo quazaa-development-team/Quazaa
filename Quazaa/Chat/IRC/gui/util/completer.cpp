@@ -20,6 +20,7 @@
 Completer::Completer(QObject* parent) : QCompleter(parent)
 {
 	d.lineEdit = 0;
+    d.textEdit = 0;
 	d.defaultModel = 0;
 	d.slashModel = 0;
 	setCaseSensitivity(Qt::CaseInsensitive);
@@ -42,7 +43,30 @@ void Completer::setLineEdit(HistoryLineEdit* lineEdit)
 			connect(lineEdit, SIGNAL(textEdited(QString)), this, SLOT(onTextEdited()));
 
 		d.lineEdit = lineEdit;
-	}
+    }
+
+    d.textEdit = 0;
+}
+
+WidgetReturnEmitTextEdit *Completer::textEdit() const
+{
+    return d.textEdit;
+}
+
+void Completer::setTextEdit(WidgetReturnEmitTextEdit *textEdit)
+{
+    if (d.textEdit != textEdit)
+    {
+        if (d.textEdit)
+            disconnect(d.textEdit, SIGNAL(textChanged(QString)), this, SLOT(onTextEdited()));
+
+        if (textEdit)
+            connect(textEdit, SIGNAL(textChanged(QString)), this, SLOT(onTextEdited()));
+
+        d.textEdit = textEdit;
+    }
+
+    d.lineEdit = 0;
 }
 
 IrcUserListModel* Completer::defaultModel() const
@@ -67,47 +91,89 @@ void Completer::setSlashModel(QAbstractItemModel* model)
 
 void Completer::onTabPressed()
 {
-	if (!d.lineEdit)
+    if (!d.lineEdit && !d.textEdit)
 		return;
 
-	// store selection
-	int pos = d.lineEdit->cursorPosition();
-	int start = d.lineEdit->selectionStart();
-	QString selected = d.lineEdit->selectedText();
+    if(d.lineEdit)
+    {
+        // store selection
+        int pos = d.lineEdit->cursorPosition();
+        int start = d.lineEdit->selectionStart();
+        QString selected = d.lineEdit->selectedText();
 
-	// select current word
-	d.lineEdit->cursorWordForward(false);
-	d.lineEdit->cursorWordBackward(true);
-	QString word = d.lineEdit->selectedText();
+        // select current word
+        d.lineEdit->cursorWordForward(false);
+        d.lineEdit->cursorWordBackward(true);
+        QString word = d.lineEdit->selectedText();
 
-	// choose model
-	if (word.startsWith('/')) {
-		if (model() != d.slashModel)
-			setModel(d.slashModel);
-	} else {
-		if (model() != d.defaultModel->toStringListModel())
-			setModel(d.defaultModel->toStringListModel());
-	}
+        // choose model
+        if (word.startsWith('/')) {
+            if (model() != d.slashModel)
+                setModel(d.slashModel);
+        } else {
+            if (model() != d.defaultModel->toStringListModel())
+                setModel(d.defaultModel->toStringListModel());
+        }
 
-	QString prefix = completionPrefix();
-	if (prefix.isEmpty() || !word.startsWith(prefix, Qt::CaseInsensitive))
-		setCompletionPrefix(word);
+        QString prefix = completionPrefix();
+        if (prefix.isEmpty() || !word.startsWith(prefix, Qt::CaseInsensitive))
+            setCompletionPrefix(word);
 
-	// restore selection
-	d.lineEdit->setCursorPosition(pos);
-	if (start != -1)
-		d.lineEdit->setSelection(start, selected.length());
+        // restore selection
+        d.lineEdit->setCursorPosition(pos);
+        if (start != -1)
+            d.lineEdit->setSelection(start, selected.length());
 
-	// complete
-	if (!word.isEmpty()) {
-		complete();
+        // complete
+        if (!word.isEmpty()) {
+            complete();
 
-		int count = completionCount();
-		if (count > 0) {
-			int next = currentRow() + 1;
-			setCurrentRow(next % count);
-		}
-	}
+            int count = completionCount();
+            if (count > 0) {
+                int next = currentRow() + 1;
+                setCurrentRow(next % count);
+            }
+        }
+    } else if(d.textEdit) {
+        QString word = d.textEdit->textUnderCursor();
+        bool bIsCommand = false;
+
+        // choose model
+        if (word.startsWith('/'))
+        {
+            if (model() != d.slashModel)
+                setModel(d.slashModel);
+            bIsCommand = true;
+        }
+        else
+        {
+            if (model() != d.defaultModel->toStringListModel())
+                setModel(d.defaultModel->toStringListModel());
+        }
+
+        if (word != completionPrefix()) {
+            setCompletionPrefix(word);
+        }
+
+        QString prefix = completionPrefix();
+        if (prefix.isEmpty() || !word.startsWith(prefix, Qt::CaseInsensitive))
+            setCompletionPrefix(word);
+
+        // complete
+        if (!word.isEmpty())
+        {
+            complete();
+
+            int count = completionCount();
+            if (count > 0)
+            {
+                int next = currentRow() + 1;
+                setCurrentRow(next % count);
+            }
+            if ( !bIsCommand )
+                d.textEdit->insertPlainText(": ");
+        }
+    }
 }
 
 void Completer::onTextEdited()
@@ -117,23 +183,33 @@ void Completer::onTextEdited()
 
 void Completer::insertCompletion(const QString& completion)
 {
-	if (!d.lineEdit)
+    if (!d.lineEdit && !d.textEdit)
 		return;
 
-	int pos = d.lineEdit->cursorPosition();
-	QString text = d.lineEdit->text();
-	if (pos > 0 && pos < text.length() && !text.at(pos - 1).isSpace())
-		d.lineEdit->cursorWordForward(false);
-	d.lineEdit->cursorWordBackward(true);
-	pos = d.lineEdit->cursorPosition();
+    if (d.lineEdit)
+    {
+        int pos = d.lineEdit->cursorPosition();
+        QString text = d.lineEdit->text();
+        if (pos > 0 && pos < text.length() && !text.at(pos - 1).isSpace())
+            d.lineEdit->cursorWordForward(false);
+        d.lineEdit->cursorWordBackward(true);
+        pos = d.lineEdit->cursorPosition();
 
-	QString tmp = completion;
-	if (pos == 0 && !completion.startsWith("/"))
-		tmp.append(":");
-	d.lineEdit->insert(tmp);
+        QString tmp = completion;
+        if (pos == 0 && !completion.startsWith("/"))
+            tmp.append(":");
+        d.lineEdit->insert(tmp);
 
-	text = d.lineEdit->text();
-	int cursor = d.lineEdit->cursorPosition();
-	if (!text.at(cursor - 1).isSpace())
-		d.lineEdit->insert(" ");
+        text = d.lineEdit->text();
+        int cursor = d.lineEdit->cursorPosition();
+        if (!text.at(cursor - 1).isSpace())
+            d.lineEdit->insert(" ");
+    } else if(d.textEdit) {
+        QTextCursor tc = d.textEdit->textCursor();
+        int extra = completion.length() - completionPrefix().length();
+        tc.movePosition(QTextCursor::Left);
+        tc.movePosition(QTextCursor::EndOfWord);
+        tc.insertText(completion.right(extra));
+        d.textEdit->setTextCursor(tc);
+    }
 }

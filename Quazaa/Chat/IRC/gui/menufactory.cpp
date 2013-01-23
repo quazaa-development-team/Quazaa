@@ -18,7 +18,7 @@
 #include "sessiontreeitem.h"
 #include "sessiontabwidget.h"
 #include "sessiontreewidget.h"
-#include "usermodel.h"
+#include "ircuserlistmodel.h"
 #include "session.h"
 #include <IrcCommand>
 

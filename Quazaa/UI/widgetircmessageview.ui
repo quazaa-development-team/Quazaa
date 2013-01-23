@@ -6,30 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>512</width>
-    <height>270</height>
+    <width>510</width>
+    <height>268</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayoutMessageView">
    <property name="spacing">
     <number>0</number>
    </property>
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
+   <property name="margin">
     <number>0</number>
    </property>
    <item>
     <widget class="QLabel" name="topicLabel">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -64,15 +55,12 @@
     <widget class="QSplitter" name="splitter">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
+       <horstretch>1</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="handleWidth">
-      <number>1</number>
      </property>
      <widget class="TextBrowser" name="textBrowser">
       <property name="sizePolicy">
@@ -93,22 +81,11 @@
       <property name="openLinks">
        <bool>false</bool>
       </property>
+      <zorder>listView</zorder>
      </widget>
-     <widget class="UserListView" name="listView">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
+     <widget class="ListViewIrcUsers" name="listView">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="uniformItemSizes">
-       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -117,29 +94,7 @@
     <widget class="SearchEditor" name="searchEditor"/>
    </item>
    <item>
-    <widget class="QLabel" name="helpLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Ignored" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="LineEditor" name="lineEditor"/>
+    <layout class="QHBoxLayout" name="horizontalLayoutChatInput"/>
    </item>
   </layout>
  </widget>
@@ -156,14 +111,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>LineEditor</class>
-   <extends>QLineEdit</extends>
-   <header>lineeditor.h</header>
-  </customwidget>
-  <customwidget>
-   <class>UserListView</class>
+   <class>ListViewIrcUsers</class>
    <extends>QListView</extends>
-   <header>userlistview.h</header>
+   <header>listviewircusers.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

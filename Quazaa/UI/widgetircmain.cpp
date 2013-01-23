@@ -48,8 +48,8 @@ WidgetIrcMain::WidgetIrcMain(QWidget* parent) : QWidget(parent),
 	connect(tabWidget, SIGNAL(sessionAdded(Session*)), this, SLOT(sessionAdded(Session*)));
 	connect(tabWidget, SIGNAL(sessionRemoved(Session*)), this, SLOT(sessionRemoved(Session*)));
 
-	HomePage* homePage = new HomePage(tabWidget);
-    connect(homePage, SIGNAL(connectRequested()), this, SLOT(connectTo()));
+	WidgetIrcHomePage* homePage = new WidgetIrcHomePage(tabWidget);
+    connect(homePage, SIGNAL(connectRequested()), this, SLOT(initialize()));
 	tabWidget->insertTab(0, homePage, tr("Home"));
 
     splitterIrcMain = new QSplitter(this);
@@ -136,8 +136,7 @@ void WidgetIrcMain::connectTo(const ConnectionInfo& connection)
 void WidgetIrcMain::connectToImpl(const ConnectionInfo& connection)
 {
 	Session* session = Session::fromConnection(connection, this);
-	session->setEncoding(Application::encoding());
-    qDebug() << "User name is:" << session->userName();
+    session->setEncoding(Application::encoding());
     if (session->userName().isEmpty())
         session->setUserName("quazaa");
 	if (!session->hasQuit() && session->ensureNetwork())

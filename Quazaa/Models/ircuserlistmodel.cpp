@@ -267,12 +267,12 @@ void IrcUserListModel::addUsers(QStringList users)
 
 		int existingUser = rootItem->find(name);
 
-		IrcUserItem* m_oChatUserItem = new IrcUserItem(name, modes, rootItem);
+        IrcUserItem* m_oChatUserItem = new IrcUserItem(name, modes, rootItem);
 
 		if(existingUser == -1)
 		{
 			beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
-			rootItem->appendChild(m_oChatUserItem);
+            rootItem->appendChild(m_oChatUserItem);
 			endInsertRows();
 			QModelIndex idx1 = index(0, 0, QModelIndex());
 			QModelIndex idx2 = index(rootItem->childCount(), 1, QModelIndex());
@@ -281,10 +281,10 @@ void IrcUserListModel::addUsers(QStringList users)
 		}
 		else
 		{
-			int duplicate = rootItem->duplicateCheck(m_oChatUserItem->sNick);
+            int duplicate = rootItem->duplicateCheck(m_oChatUserItem->sNick);
 			if(duplicate != -1)
 			{
-				rootItem->childItems.replace(duplicate, m_oChatUserItem);
+                rootItem->childItems.replace(duplicate, m_oChatUserItem);
 				sort();
 				QModelIndex idx1 = index(0, 0, QModelIndex());
 				QModelIndex idx2 = index(rootItem->childCount(), 1, QModelIndex());

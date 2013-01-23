@@ -31,7 +31,7 @@ static QString readHtmlFile(const QString& filePath)
     return QString::fromUtf8(file.readAll());
 }
 
-HomePage::HomePage(QWidget* parent) : QWidget(parent)
+WidgetIrcHomePage::WidgetIrcHomePage(QWidget* parent) : QWidget(parent)
 {
     bg.load(":/Resource/background.png");
 
@@ -70,7 +70,7 @@ HomePage::HomePage(QWidget* parent) : QWidget(parent)
     setLayout(layout);
 }
 
-void HomePage::paintEvent(QPaintEvent* event)
+void WidgetIrcHomePage::paintEvent(QPaintEvent* event)
 {
     QWidget::paintEvent(event);
     QPainter painter(this);
@@ -78,7 +78,7 @@ void HomePage::paintEvent(QPaintEvent* event)
     painter.drawPixmap(width() - bg.width(), height() - footer->height() - bg.height(), bg);
 }
 
-QWidget* HomePage::createBody(QWidget* parent) const
+QWidget* WidgetIrcHomePage::createBody(QWidget* parent) const
 {
     QWidget* body = new QWidget(parent);
 
@@ -102,7 +102,7 @@ QWidget* HomePage::createBody(QWidget* parent) const
     return body;
 }
 
-void HomePage::showSettings()
+void WidgetIrcHomePage::showSettings()
 {
     DialogIrcSettings* dlgIrcSettings = new DialogIrcSettings(this);
 

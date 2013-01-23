@@ -14,7 +14,6 @@
 */
 
 #include "application.h"
-#include "settingswizard.h"
 #include "sharedtimer.h"
 #include "connectioninfo.h"
 #include <QMessageBox>

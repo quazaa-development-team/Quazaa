@@ -12,18 +12,18 @@
 * GNU General Public License for more details.
 */
 
-#ifndef HOMEPAGE_H
-#define HOMEPAGE_H
+#ifndef WIDGETIRCHOMEPAGE_H
+#define WIDGETIRCHOMEPAGE_H
 
 #include <QWidget>
 class QLabel;
 
-class HomePage : public QWidget
+class WidgetIrcHomePage : public QWidget
 {
     Q_OBJECT
 
 public:
-    HomePage(QWidget* parent = 0);
+    WidgetIrcHomePage(QWidget* parent = 0);
 
 signals:
     void connectRequested();
@@ -43,4 +43,4 @@ private slots:
     void showSettings();
 };
 
-#endif // HOMEPAGE_H
+#endif // WIDGETIRCHOMEPAGE_H

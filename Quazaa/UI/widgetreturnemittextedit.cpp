@@ -42,7 +42,7 @@ WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 	resetHistoryIndex();
 	m_oCompleter = new Completer(this);
 	m_oCompleter->setWidget(this);
-	//m_oCompleter->setTextEdit(this);
+    m_oCompleter->setTextEdit(this);
 
 	emitReturn = true;
 	connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));

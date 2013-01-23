@@ -17,7 +17,10 @@
 #define COMPLETER_H
 
 #include <QCompleter>
+#include <widgetreturnemittextedit.h>
+
 class HistoryLineEdit;
+class WidgetReturnEmitTextEdit;
 class IrcUserListModel;
 
 class Completer : public QCompleter
@@ -29,6 +32,9 @@ public:
 
 	HistoryLineEdit* lineEdit() const;
 	void setLineEdit(HistoryLineEdit* lineEdit);
+
+    WidgetReturnEmitTextEdit* textEdit() const;
+    void setTextEdit(WidgetReturnEmitTextEdit* textEdit);
 
 	IrcUserListModel *defaultModel() const;
 	void setDefaultModel(IrcUserListModel* model);
@@ -43,6 +49,7 @@ private slots:
 
 private:
 	struct CompleterData {
+        WidgetReturnEmitTextEdit* textEdit;
 		HistoryLineEdit* lineEdit;
 		IrcUserListModel* defaultModel;
 		QAbstractItemModel* slashModel;

@@ -20,6 +20,7 @@
 #include "messageformatter.h"
 #include "commandparser.h"
 #include "ircuserlistmodel.h"
+#include "widgetchatinput.h"
 #include "quazaasettings.h"
 #include <QPushButton>
 
@@ -61,6 +62,7 @@ public slots:
 	void showHelp(const QString& text, bool error = false);
 	void appendMessage(const QString& message);
 	void onSend(const QString& text);
+    void onSend(QTextDocument *message);
 	void applySettings();
 
 signals:
@@ -96,6 +98,7 @@ private:
 		QString receiver;
 		Session* session;
 		CommandParser parser;
+        WidgetChatInput* chatInput;
 		MessageFormatter* formatter;
 		bool joined;
 	} d;

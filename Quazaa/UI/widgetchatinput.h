@@ -53,8 +53,7 @@ signals:
 	void closing();
 
 protected:
-	void changeEvent(QEvent *e);
-	WidgetReturnEmitTextEdit *textEditInput;
+    void changeEvent(QEvent *e);
 
 private:
 	Ui::WidgetChatInput *ui;
