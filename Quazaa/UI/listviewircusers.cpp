@@ -13,7 +13,6 @@
 */
 
 #include "listviewircusers.h"
-#include "sortedusermodel.h"
 #include "menufactory.h"
 #include "ircuserlistmodel.h"
 #include "session.h"
