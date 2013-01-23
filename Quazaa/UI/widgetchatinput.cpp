@@ -61,10 +61,13 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
 
 	toolButtonPickColor = new QToolButton(this);
 	toolButtonPickColor->setIconSize(QSize(24,24));
-	if(bIsIrc)
+    if(bIsIrc) {
 		toolButtonPickColor->setIcon(QIcon(":/Resource/Generic/Skin.png"));
-	else
+        toolButtonPickColor->setStyleSheet("");
+    } else {
+        toolButtonPickColor->setIcon(QIcon());
         toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(ui->textEditInput->textColor().name()));
+    }
 	toolButtonPickColor->setToolTip(tr("Font Color"));
 	connect(toolButtonPickColor, SIGNAL(clicked()), this, SLOT(pickColor()));
 
