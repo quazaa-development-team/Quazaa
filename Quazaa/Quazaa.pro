@@ -389,7 +389,8 @@ SOURCES += \
     Chat/IRC/gui/util/historylineedit.cpp \
     Chat/IRC/gui/util/completer.cpp \
     UI/wizardtreewidget.cpp \
-    3rdparty/communi/src/ircmessagedecoder_icu.cpp
+    3rdparty/communi/src/ircmessagedecoder_icu.cpp \
+    3rdparty/communi/src/ircprotocol.cpp
 
 win32 {
     SOURCES += \
@@ -599,7 +600,8 @@ HEADERS += \
     Chat/IRC/gui/util/sharedtimer.h \
     Chat/IRC/gui/util/historylineedit.h \
     Chat/IRC/gui/util/completer.h \
-    UI/wizardtreewidget.h
+    UI/wizardtreewidget.h \
+    3rdparty/communi/include/ircprotocol_p.h
 
 win32 {
     HEADERS += \
