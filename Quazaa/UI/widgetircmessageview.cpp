@@ -373,6 +373,7 @@ void WidgetIrcMessageView::applySettings()
 	QString backgroundColor = quazaaSettings.Chat.Colors.value(IrcColorType::Background);
     d.topicLabel->setStyleSheet(QString("QLabel { color: %1; background-color: %2; }").arg(foregroundColor).arg(backgroundColor));
 	d.textBrowser->setStyleSheet(QString("QTextBrowser { color: %1; background-color: %2; }").arg(foregroundColor).arg(backgroundColor));
+    d.textBrowser->setUnreadLineColor(QColor(quazaaSettings.Chat.Colors.value(IrcColorType::Alert)));
     d.listView->setStyleSheet(QString("ListViewIrcUsers { color: %1; background-color: %2; }").arg(foregroundColor).arg(backgroundColor));
 
 	d.textBrowser->document()->setDefaultStyleSheet(

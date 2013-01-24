@@ -31,6 +31,9 @@ public:
     int unseenBlock() const;
     void setUnseenBlock(int block);
 
+    QColor unreadLineColor() const;
+    void setUnreadLineColor(const QColor &color);
+
 public slots:
     void scrollToTop();
     void scrollToBottom();
@@ -46,6 +49,7 @@ protected:
 private:
     int ub;
     QWidget* bud;
+    QBrush unreadLineBrush;
 };
 
 #endif // TEXTBROWSER_H

@@ -21,6 +21,7 @@
 
 TextBrowser::TextBrowser(QWidget* parent) : QTextBrowser(parent), ub(-1), bud(0)
 {
+    unreadLineBrush = qApp->palette().highlight();
 }
 
 QWidget* TextBrowser::buddy() const
@@ -41,6 +42,16 @@ int TextBrowser::unseenBlock() const
 void TextBrowser::setUnseenBlock(int block)
 {
     ub = block;
+}
+
+QColor TextBrowser::unreadLineColor() const
+{
+    return unreadLineBrush.color();
+}
+
+void TextBrowser::setUnreadLineColor(const QColor &color)
+{
+    unreadLineBrush.setColor(color);
 }
 
 void TextBrowser::keyPressEvent(QKeyEvent* event)
@@ -107,6 +118,7 @@ void TextBrowser::paintEvent(QPaintEvent* event)
 
     if (block.isValid()) {
         painter.save();
+        painter.setBrush(unreadLineBrush);
         painter.setPen(Qt::DashLine);
         painter.translate(-horizontalScrollBar()->value(), -verticalScrollBar()->value());
 
