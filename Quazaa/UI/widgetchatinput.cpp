@@ -47,12 +47,14 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
 	QTextCharFormat format;
 	format.setFontStyleHint(QFont::TypeWriter);
     ui->textEditInput->setCurrentCharFormat(format);
+    ui->textEditInput->setTextColor(qApp->palette().text().color());
 
     connect(ui->textEditInput, SIGNAL(cursorPositionChanged()), this, SLOT(updateToolbar()));
 
     connect(ui->textEditInput, SIGNAL(returnPressed()), ui->toolButtonSend, SLOT(click()));
     connect(ui->textEditInput, SIGNAL(currentCharFormatChanged(QTextCharFormat)), this, SLOT(onTextFormatChange(QTextCharFormat)));
-	toolButtonSmilies = new QToolButton();
+
+    toolButtonSmilies = new QToolButton();
 	toolButtonSmilies->setPopupMode(QToolButton::InstantPopup);
 	toolButtonSmilies->setToolTip(tr("Smilies"));
 	toolButtonSmilies->setIcon(QIcon(":/Resource/Smileys/0.png"));
@@ -87,6 +89,7 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
     connect(ui->actionUnderline, SIGNAL(toggled(bool)), ui->textEditInput, SLOT(setFontUnderline(bool)));
 	connect(toolButtonPrivateMessage, SIGNAL(clicked()), this, SLOT(addPrivateMessage()));
 	setSkin();
+    updateToolbar();
 }
 
 WidgetChatInput::~WidgetChatInput()
@@ -181,16 +184,12 @@ void WidgetChatInput::pickColor()
 			{
 				fontColor = dlgIrcColor->color();
                 ui->textEditInput->setTextColor(fontColor);
-				toolButtonPickColor->setIcon(QIcon());
-				toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(fontColor.name()));
-			}
+                }
 			else
 			{
 				fontColor = qApp->palette().text().color();
                 ui->textEditInput->setTextColor(fontColor);
-				toolButtonPickColor->setIcon(QIcon(":/Resource/Generic/Skin.png"));
-				toolButtonPickColor->setStyleSheet("");
-			}
+            }
 		}
 	}
 	else
@@ -203,6 +202,8 @@ void WidgetChatInput::pickColor()
 			toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(fontColor.name()));
 		}
 	}
+
+    updateToolbar();
 }
 
 void WidgetChatInput::addPrivateMessage()
