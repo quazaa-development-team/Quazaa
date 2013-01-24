@@ -205,7 +205,6 @@ void Completer::insertCompletion(const QString& completion)
     } else if(d.textEdit) {
         int startIndex = d.textEdit->currentWordStartIndex();
         QTextCursor tc = d.textEdit->textCursor();
-        int savedPosition = tc.position();
         tc.movePosition(QTextCursor::StartOfWord);
         if(completion.startsWith("/"))
         {
@@ -234,8 +233,6 @@ void Completer::insertCompletion(const QString& completion)
                 tc.insertText(":");
             tc.insertText(" ");
         }
-        tc.setPosition(savedPosition);
-
         d.textEdit->setTextCursor(tc);
     }
 }
