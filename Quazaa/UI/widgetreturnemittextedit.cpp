@@ -124,7 +124,16 @@ QString WidgetReturnEmitTextEdit::textUnderCursor() const
 		tc.setPosition(selectionStart, QTextCursor::MoveAnchor);
 		tc.setPosition(selectionEnd, QTextCursor::KeepAnchor);
 		return tc.selectedText();
-	}
+    }
+}
+
+int WidgetReturnEmitTextEdit::currentWordStartIndex()
+{
+    QTextCursor tc = textCursor();
+    tc.select(QTextCursor::WordUnderCursor);
+
+    // Return start position of current word.
+    return tc.selectionStart();
 }
 
 void WidgetReturnEmitTextEdit::onTextChanged()

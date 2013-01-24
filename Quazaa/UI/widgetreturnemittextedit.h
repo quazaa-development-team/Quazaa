@@ -38,6 +38,7 @@ public:
 	explicit WidgetReturnEmitTextEdit(QWidget *parent = 0);
 	Completer* completer() const;
 	QString textUnderCursor() const;
+    int currentWordStartIndex();
 
 private:
 	bool emitReturn;

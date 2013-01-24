@@ -136,6 +136,7 @@ void Completer::onTabPressed()
         }
     } else if(d.textEdit) {
         QString word = d.textEdit->textUnderCursor();
+        int startIndex = d.textEdit->currentWordStartIndex();
         bool bIsCommand = false;
 
         // choose model
@@ -169,9 +170,10 @@ void Completer::onTabPressed()
             {
                 int next = currentRow() + 1;
                 setCurrentRow(next % count);
+
+                if ( !bIsCommand && (startIndex == 0) )
+                    d.textEdit->insertPlainText(": ");
             }
-            if ( !bIsCommand )
-                d.textEdit->insertPlainText(": ");
         }
     }
 }
