@@ -70,16 +70,6 @@ void WidgetHome::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetHome::on_labelLibraryTaskHashFaster_linkActivated(QString link)
-{
-	Q_UNUSED(link);
-}
-
-void WidgetHome::on_labelTorrentsTaskSeedTorrentLink_linkActivated(QString link)
-{
-	Q_UNUSED(link);
-}
-
 void WidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
