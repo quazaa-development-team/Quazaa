@@ -17,6 +17,8 @@
 #include "historylineedit.h"
 #include "ircuserlistmodel.h"
 
+#include <QDebug>
+
 Completer::Completer(QObject* parent) : QCompleter(parent)
 {
 	d.lineEdit = 0;
@@ -136,15 +138,12 @@ void Completer::onTabPressed()
         }
     } else if(d.textEdit) {
         QString word = d.textEdit->textUnderCursor();
-        int startIndex = d.textEdit->currentWordStartIndex();
-        bool bIsCommand = false;
 
         // choose model
         if (word.startsWith('/'))
         {
             if (model() != d.slashModel)
                 setModel(d.slashModel);
-            bIsCommand = true;
         }
         else
         {
@@ -170,11 +169,6 @@ void Completer::onTabPressed()
             {
                 int next = currentRow() + 1;
                 setCurrentRow(next % count);
-
-                if ( !bIsCommand && (startIndex == 0) )
-                    d.textEdit->insertPlainText(": ");
-                else
-                    d.textEdit->insertPlainText(" ");
             }
         }
     }
@@ -209,11 +203,39 @@ void Completer::insertCompletion(const QString& completion)
         if (!text.at(cursor - 1).isSpace())
             d.lineEdit->insert(" ");
     } else if(d.textEdit) {
+        int startIndex = d.textEdit->currentWordStartIndex();
         QTextCursor tc = d.textEdit->textCursor();
+        int savedPosition = tc.position();
         tc.movePosition(QTextCursor::StartOfWord);
+        if(completion.startsWith("/"))
+        {
+            tc.movePosition(QTextCursor::PreviousCharacter);
+            tc.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+        }
         tc.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
         tc.removeSelectedText();
         tc.insertText(completion);
+
+        if(!tc.atEnd())
+        {
+            tc.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+            if(tc.selectedText() != ":") {
+                tc.movePosition(QTextCursor::PreviousCharacter);
+                if ( !completion.startsWith("/") && (startIndex == 0) )
+                    tc.insertText(":");
+                tc.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+                if(tc.selectedText() != " ") {
+                    tc.movePosition(QTextCursor::PreviousCharacter);
+                    tc.insertText(" ");
+                }
+            }
+        } else {
+            if ( !completion.startsWith("/") && (startIndex == 0) )
+                tc.insertText(":");
+            tc.insertText(" ");
+        }
+        tc.setPosition(savedPosition);
+
         d.textEdit->setTextCursor(tc);
     }
 }
