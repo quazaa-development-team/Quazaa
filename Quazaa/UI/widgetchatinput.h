@@ -59,6 +59,7 @@ private:
     Ui::WidgetChatInput *ui;
 	QToolButton *toolButtonSmilies;
 	WidgetSmileyList *widgetSmileyList;
+    QColor defaultColor;
 	QToolButton *toolButtonPickColor;
 	QToolButton *toolButtonPrivateMessage;
 	bool bIsIrc;

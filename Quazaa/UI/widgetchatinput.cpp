@@ -44,10 +44,11 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
 	ui->setupUi(this);
     bIsIrc = isIrc;
 
+    defaultColor = ui->textEditInput->textColor();
+
 	QTextCharFormat format;
-	format.setFontStyleHint(QFont::TypeWriter);
+    format.setFontStyleHint(QFont::TypeWriter);
     ui->textEditInput->setCurrentCharFormat(format);
-    ui->textEditInput->setTextColor(qApp->palette().text().color());
 
     connect(ui->textEditInput, SIGNAL(cursorPositionChanged()), this, SLOT(updateToolbar()));
 
@@ -187,7 +188,7 @@ void WidgetChatInput::pickColor()
                 }
 			else
 			{
-				fontColor = qApp->palette().text().color();
+                fontColor = defaultColor;
                 ui->textEditInput->setTextColor(fontColor);
             }
 		}
@@ -199,8 +200,7 @@ void WidgetChatInput::pickColor()
 		if (fontColor.isValid())
 		{
             ui->textEditInput->setTextColor(fontColor);
-			toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(fontColor.name()));
-		}
+        }
 	}
 
     updateToolbar();
@@ -235,13 +235,16 @@ void WidgetChatInput::addPrivateMessage()
 
 void WidgetChatInput::updateToolbar()
 {
-    if(bIsIrc && (ui->textEditInput->textColor() != qApp->palette().text().color()) )
+    if(bIsIrc)
 	{
-		toolButtonPickColor->setIcon(QIcon());
-        toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(ui->textEditInput->textColor().name()));
-	} else if (bIsIrc) {
-		toolButtonPickColor->setIcon(QIcon(":/Resource/Generic/Skin.png"));
-		toolButtonPickColor->setStyleSheet("");
+        if((ui->textEditInput->textColor() == defaultColor))
+        {
+            toolButtonPickColor->setIcon(QIcon(":/Resource/Generic/Skin.png"));
+            toolButtonPickColor->setStyleSheet("");
+        } else {
+            toolButtonPickColor->setIcon(QIcon());
+            toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(ui->textEditInput->textColor().name()));
+        }
 	} else {
         toolButtonPickColor->setStyleSheet(QString("QToolButton { background-color: %1; border-style: outset; border-width: 2px;	border-radius: 6px; border-color: lightgrey; }").arg(ui->textEditInput->textColor().name()));
 	}

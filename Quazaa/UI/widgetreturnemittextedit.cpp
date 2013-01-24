@@ -27,6 +27,7 @@
 
 #include <QShortcut>
 #include <QDebug>
+#include <QApplication>
 
 #if QT_VERSION >= 0x050000
 #include <QTextDocument> //For Qt::escape()
@@ -148,7 +149,7 @@ void WidgetReturnEmitTextEdit::setSkin()
 
 bool WidgetReturnEmitTextEdit::focusNextPrevChild(bool next)
 {
-	if (!tabChangesFocus() && this->textInteractionFlags() & Qt::TextEditable)
+    if (!tabChangesFocus() && (textInteractionFlags() & Qt::TextEditable))
 	{
 		emit tabPressed();
 		return true;
