@@ -173,6 +173,8 @@ void Completer::onTabPressed()
 
                 if ( !bIsCommand && (startIndex == 0) )
                     d.textEdit->insertPlainText(": ");
+                else
+                    d.textEdit->insertPlainText(" ");
             }
         }
     }
@@ -208,10 +210,10 @@ void Completer::insertCompletion(const QString& completion)
             d.lineEdit->insert(" ");
     } else if(d.textEdit) {
         QTextCursor tc = d.textEdit->textCursor();
-        int extra = completion.length() - completionPrefix().length();
-        tc.movePosition(QTextCursor::Left);
-        tc.movePosition(QTextCursor::EndOfWord);
-        tc.insertText(completion.right(extra));
+        tc.movePosition(QTextCursor::StartOfWord);
+        tc.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+        tc.removeSelectedText();
+        tc.insertText(completion);
         d.textEdit->setTextCursor(tc);
     }
 }
