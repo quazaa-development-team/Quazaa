@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2012.
@@ -34,7 +34,7 @@ SystemLog systemLog;
 
 SystemLog::SystemLog()
 {
-	qRegisterMetaType<LogSeverity::Severity>("LogSeverity::Severity");
+	qRegisterMetaType<LogSeverity::Severity>( "LogSeverity::Severity" );
 }
 
 void SystemLog::postLog(LogSeverity::Severity severity, QString message)
@@ -44,19 +44,19 @@ void SystemLog::postLog(LogSeverity::Severity severity, QString message)
 	static int suppressed = 0;
 	static bool bCheck = true;
 
-	if( bCheck )
+	if ( bCheck )
 	{
-		if(severity == lastSeverity && message == lastMessage)
+		if ( severity == lastSeverity && message == lastMessage )
 		{
-			suppressed++;
+			++suppressed;
 			return;
 		}
 		else
 		{
-			if(suppressed > 0)
+			if ( suppressed > 0 )
 			{
 				bCheck = false;
-				postLog(lastSeverity, tr("Suppressed %n identical message(s).", 0, suppressed));
+				postLog ( lastSeverity, tr( "Suppressed %n identical message(s).", 0, suppressed ) );
 				bCheck = true;
 			}
 			lastMessage = message;
@@ -65,28 +65,26 @@ void SystemLog::postLog(LogSeverity::Severity severity, QString message)
 		}
 	}
 
-	switch(severity)
+	switch ( severity )
 	{
 		case LogSeverity::Debug:
-			qDebug() << qPrintable(message);
-			break;
 		case LogSeverity::Warning:
-			qWarning() << qPrintable(message);
-			break;
 		case LogSeverity::Critical:
 			qCritical() << qPrintable(message);
 			break;
 		default:
 			break;
 	}
-	emit logPosted(message, severity);
+
+	emit logPosted( message, severity );
 }
-void SystemLog::postLog(LogSeverity::Severity severity, const char* format, ...)
+
+void SystemLog::postLog( LogSeverity::Severity severity, const char* format, ... )
 {
 	va_list argList;
-	va_start(argList, format);
-	QString message = QString().vsprintf(format, argList);
-	postLog(severity, message);
-	va_end(argList);
+	va_start( argList, format );
+	QString message = QString().vsprintf( format, argList );
+	postLog( severity, message );
+	va_end( argList );
 }
 
