@@ -163,18 +163,17 @@ IrcCommand* CommandParser::parseCommand(const QString& receiver, const QString& 
 bool CommandParser::parseCustomCommand(const QString& syntax, const QStringList& params)
 {
 	QStringList tokens = syntax.split(" ", QString::SkipEmptyParts);
-	int min = 0;
-	bool noMax = false;
+    int min = 0;
 	int max = tokens.count();
 	while (!tokens.isEmpty())
 	{
 		QString p = tokens.takeFirst();
 		if ( tokens.isEmpty() && (p.endsWith("...>") || p.endsWith("...>)")) )
-			noMax = true;
+            max = INT_MAX;
 		if (!p.startsWith("(<"))
 			++min;
 	}
-	return params.count() >= min && (params.count() <= max || noMax);
+    return params.count() >= min && params.count() <= max;
 }
 
 IrcCommand* CommandParser::parseAdmin(const QString& receiver, const QStringList& params)

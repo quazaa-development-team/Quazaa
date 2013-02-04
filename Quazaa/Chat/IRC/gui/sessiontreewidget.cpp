@@ -41,9 +41,8 @@ SessionTreeWidget::SessionTreeWidget(QWidget* parent) : QTreeWidget(parent)
     header()->setResizeMode(0, QHeaderView::Stretch);
     header()->setResizeMode(1, QHeaderView::Fixed);
 #endif
-    header()->resizeSection(1, 18);
+    header()->resizeSection(1, 22);
 
-    viewport()->setAttribute(Qt::WA_Hover);
     setItemDelegate(new SessionTreeDelegate(this));
 
     setDragEnabled(true);
@@ -52,14 +51,12 @@ SessionTreeWidget::SessionTreeWidget(QWidget* parent) : QTreeWidget(parent)
 
     d.menuFactory = 0;
 
-    connect(this, SIGNAL(itemSelectionChanged()),
-            this, SLOT(onItemSelectionChanged()));
     connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)),
             this, SLOT(onItemExpanded(QTreeWidgetItem*)));
     connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)),
             this, SLOT(onItemCollapsed(QTreeWidgetItem*)));
-    connect(this, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
-            this, SLOT(onItemClicked(QTreeWidgetItem*,int)));
+    connect(this, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
+            this, SLOT(onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
 
     d.prevShortcut = new QShortcut(this);
     connect(d.prevShortcut, SIGNAL(activated()), this, SLOT(moveToPrevItem()));
@@ -139,11 +136,6 @@ void SessionTreeWidget::setStatusColor(SessionTreeWidget::ItemStatus status, con
     d.colors[status] = color;
 }
 
-QColor SessionTreeWidget::currentAlertColor() const
-{
-    return d.alertColor;
-}
-
 SessionTreeItem* SessionTreeWidget::viewItem(WidgetIrcMessageView* view) const
 {
     return d.viewItems.value(view);
@@ -218,7 +210,7 @@ void SessionTreeWidget::moveToNextUnreadItem()
         QTreeWidgetItemIterator it(current);
         while (*++it && *it != current) {
             SessionTreeItem* item = static_cast<SessionTreeItem*>(*it);
-            if (item->isAlerted() || item->isHighlighted()) {
+            if (item->badge() > 0) {
                 setCurrentItem(item);
                 break;
             }
@@ -233,7 +225,7 @@ void SessionTreeWidget::moveToPrevUnreadItem()
         QTreeWidgetItemIterator it(current);
         while (*--it && *it != current) {
             SessionTreeItem* item = static_cast<SessionTreeItem*>(*it);
-            if (item->isAlerted() || item->isHighlighted()) {
+            if (item->badge() > 0) {
                 setCurrentItem(item);
                 break;
             }
@@ -261,19 +253,6 @@ void SessionTreeWidget::collapseCurrentSession()
     }
 }
 
-void SessionTreeWidget::alert(SessionTreeItem* item)
-{
-    if (d.alertedItems.isEmpty())
-        SharedTimer::instance()->registerReceiver(this, "alertTimeout");
-    d.alertedItems.insert(item);
-}
-
-void SessionTreeWidget::unalert(SessionTreeItem* item)
-{
-    if (d.alertedItems.remove(item) && d.alertedItems.isEmpty())
-        SharedTimer::instance()->unregisterReceiver(this, "alertTimeout");
-}
-
 void SessionTreeWidget::applySettings()
 {
     QString foregroundColor = quazaaSettings.Chat.Colors.value(IrcColorType::Default);
@@ -282,13 +261,9 @@ void SessionTreeWidget::applySettings()
 
     d.colors[Active] = quazaaSettings.Chat.Colors.value(IrcColorType::Default);
     d.colors[Inactive] = quazaaSettings.Chat.Colors.value(IrcColorType::Inactive);
-    d.colors[Alert] = quazaaSettings.Chat.Colors.value(IrcColorType::Alert);
     d.colors[Highlight] = quazaaSettings.Chat.Colors.value(IrcColorType::Highlight);
-    d.alertColor = d.colors.value(Alert);
 
-    QColor alertColor(quazaaSettings.Chat.Colors.value(IrcColorType::Alert));
     QColor highlightColor(quazaaSettings.Chat.Colors.value(IrcColorType::Highlight));
-    setStatusColor(Alert, alertColor);
     setStatusColor(Highlight, highlightColor);
 
 	d.prevShortcut->setKey(QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateUp)));
@@ -356,15 +331,6 @@ void SessionTreeWidget::updateSession(Session* session)
         item->setText(0, session->name().isEmpty() ? session->host() : session->name());
 }
 
-void SessionTreeWidget::onItemSelectionChanged()
-{
-    SessionTreeItem* item = static_cast<SessionTreeItem*>(selectedItems().value(0));
-    if (item) {
-        resetItem(item);
-        emit currentViewChanged(item->session(), item->parent() ? item->text(0) : QString());
-    }
-}
-
 void SessionTreeWidget::onItemExpanded(QTreeWidgetItem* item)
 {
     static_cast<SessionTreeItem*>(item)->emitDataChanged();
@@ -375,10 +341,13 @@ void SessionTreeWidget::onItemCollapsed(QTreeWidgetItem* item)
     static_cast<SessionTreeItem*>(item)->emitDataChanged();
 }
 
-void SessionTreeWidget::onItemClicked(QTreeWidgetItem* item, int column)
+void SessionTreeWidget::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    if (column == 1)
-        emit closeItem(static_cast<SessionTreeItem*>(item));
+    if (previous)
+        resetItem(static_cast<SessionTreeItem*>(previous));
+    delayedItemReset();
+    SessionTreeItem* item = static_cast<SessionTreeItem*>(current);
+    emit currentViewChanged(item->session(), item->parent() ? item->text(0) : QString());
 }
 
 void SessionTreeWidget::delayedItemReset()
@@ -399,23 +368,9 @@ void SessionTreeWidget::delayedItemResetTimeout()
     }
 }
 
-void SessionTreeWidget::alertTimeout()
-{
-    bool active = d.alertColor == d.colors.value(Active);
-    d.alertColor = d.colors.value(active ? Alert : Active);
-
-    foreach (SessionTreeItem* item, d.alertedItems) {
-        item->emitDataChanged();
-        if (SessionTreeItem* p = static_cast<SessionTreeItem*>(item->parent()))
-            if (!p->isExpanded())
-                p->emitDataChanged();
-    }
-}
-
 void SessionTreeWidget::resetItem(SessionTreeItem* item)
 {
-    unalert(item);
-    item->setAlerted(false);
+    item->setBadge(0);
     item->setHighlighted(false);
 }
 

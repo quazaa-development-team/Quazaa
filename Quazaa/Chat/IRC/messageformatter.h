@@ -25,6 +25,7 @@ class IrcUserListModel;
 class MessageFormatter : public QObject
 {
 	Q_OBJECT
+    Q_PROPERTY(bool highlight READ hasHighlight)
 	Q_PROPERTY(QStringList highlights READ highlights WRITE setHighlights)
 	Q_PROPERTY(bool timeStamp READ timeStamp WRITE setTimeStamp)
 	Q_PROPERTY(bool stripNicks READ stripNicks WRITE setStripNicks)
@@ -40,6 +41,8 @@ public:
 	explicit MessageFormatter(QObject* parent = 0);
 	virtual ~MessageFormatter();
 
+    bool hasHighlight() const;
+
 	QStringList highlights() const;
 	void setHighlights(const QStringList& highlights);
 
@@ -49,7 +52,10 @@ public:
 	bool stripNicks() const;
 	void setStripNicks(bool strip);
 
-	QString timeStampFormat() const;
+    bool zncPlaybackMode() const;
+    void setZncPlaybackMode(bool enabled);
+
+    QString timeStampFormat() const;
 	void setTimeStampFormat(const QString& format);
 
 	QString messageFormat() const;
@@ -71,7 +77,7 @@ public:
 	void setHighlightFormat(const QString& format);
 
 	Q_INVOKABLE QString formatMessage(IrcMessage* message, IrcUserListModel *userModel = 0) const;
-	Q_INVOKABLE QString formatMessage(const QString& message) const;
+    Q_INVOKABLE QString formatMessage(const QDateTime &timeStamp, const QString& message) const;
 
     Q_INVOKABLE QString formatHtml(const QString& message) const;
     QString formatRaw(QString message);
@@ -90,6 +96,7 @@ protected:
 	QString formatQuitMessage(IrcQuitMessage* message) const;
 	QString formatTopicMessage(IrcTopicMessage* message) const;
 	QString formatUnknownMessage(IrcMessage* message) const;
+    QString formatZncPlaybackMessage(IrcPrivateMessage* message) const;
 
 	static QString formatPingReply(const IrcSender& sender, const QString& arg);
 
@@ -103,6 +110,7 @@ private:
 		bool highlight;
 		bool timeStamp;
 		bool stripNicks;
+        bool zncPlayback;
 		IrcUserListModel* userModel;
 		QStringList highlights;
 		QString timeStampFormat;

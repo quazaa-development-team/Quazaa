@@ -69,7 +69,6 @@ INCLUDEPATH += NetworkCore \
     Chat/IRC/wizard \
     3rdparty \
     3rdparty/communi/include \
-    3rdparty/icu \
     3rdparty/nvwa \
     3rdparty/qtsingleapplication \
     Models \
@@ -412,7 +411,6 @@ win32 {
 }
 
 HEADERS += \
-    3rdparty/communi/include/ircutil.h \
     3rdparty/communi/include/ircsession_p.h \
     3rdparty/communi/include/ircsession.h \
     3rdparty/communi/include/ircsender.h \

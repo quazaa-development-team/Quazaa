@@ -59,6 +59,16 @@ Session* SessionTabWidget::session() const
     return qobject_cast<Session*>(d.handler.session());
 }
 
+WidgetIrcMessageView *SessionTabWidget::currentView() const
+{
+    return qobject_cast<WidgetIrcMessageView*>(currentWidget());
+}
+
+WidgetIrcMessageView *SessionTabWidget::viewAt(int index) const
+{
+    return qobject_cast<WidgetIrcMessageView*>(widget(index));
+}
+
 MenuFactory* SessionTabWidget::menuFactory() const
 {
     if (!d.menuFactory) {
@@ -74,6 +84,8 @@ void SessionTabWidget::setMenuFactory(MenuFactory* factory)
         delete d.menuFactory;
     d.menuFactory = factory;
 }
+
+
 
 QByteArray SessionTabWidget::saveSplitter() const
 {
@@ -104,10 +116,8 @@ WidgetIrcMessageView* SessionTabWidget::openView(const QString& receiver)
 		view = new WidgetIrcMessageView(type, d.handler.session(), this);
 		view->applySettings();
 		view->setReceiver(receiver);
-		connect(view, SIGNAL(alerted(IrcMessage*)), this, SLOT(onTabAlerted(IrcMessage*)));
-		connect(view, SIGNAL(highlighted(IrcMessage*)), this, SLOT(onTabHighlighted(IrcMessage*)));
-		connect(view, SIGNAL(queried(QString)), this, SLOT(openView(QString)));
-		connect(view, SIGNAL(appendQueryMessage(QString,QString)), this, SLOT(messageToView(QString,QString)));
+        connect(view, SIGNAL(queried(QString)), this, SLOT(openView(QString)));
+        connect(view, SIGNAL(messaged(QString,QString)), this, SLOT(sendMessage(QString,QString)));
 		connect(view, SIGNAL(splitterChanged(QByteArray)), this, SLOT(restoreSplitter(QByteArray)));
         connect(view, SIGNAL(openView(QString)), this, SLOT(openView(QString)));
         connect(view, SIGNAL(closeView(QString)), this, SLOT(removeView(QString)));
@@ -134,13 +144,6 @@ WidgetIrcMessageView* SessionTabWidget::openView(const QString& receiver)
 	return view;
 }
 
-void SessionTabWidget::messageToView(const QString& receiver, const QString &message)
-{
-	WidgetIrcMessageView* view = openView(receiver);
-
-	view->onSend(message);
-}
-
 void SessionTabWidget::removeView(const QString& receiver)
 {
     WidgetIrcMessageView* view = d.views.take(receiver.toLower());
@@ -164,7 +167,7 @@ void SessionTabWidget::closeCurrentView()
 
 void SessionTabWidget::closeView(int index)
 {
-    WidgetIrcMessageView* view = qobject_cast<WidgetIrcMessageView*>(widget(index));
+    WidgetIrcMessageView* view = viewAt(index);
     if (view) {
         if (view->isActive()) {
             QString reason = tr("%1 %2").arg(QApplication::applicationName())
@@ -189,6 +192,13 @@ void SessionTabWidget::renameView(const QString& from, const QString& to)
             setTabText(index, view->receiver().replace("&", "&&"));
         emit viewRenamed(view);
     }
+}
+
+void SessionTabWidget::sendMessage(const QString &receiver, const QString &message)
+{
+    WidgetIrcMessageView* view = openView(receiver);
+    if (view)
+        view->sendMessage(message);
 }
 
 bool SessionTabWidget::event(QEvent* event)
@@ -219,7 +229,7 @@ void SessionTabWidget::resetTab(int index)
 void SessionTabWidget::tabActivated(int index)
 {
     if (index < count() - 1) {
-        WidgetIrcMessageView* view = qobject_cast<WidgetIrcMessageView*>(currentWidget());
+        WidgetIrcMessageView* view = viewAt(index);
         if (view) {
             resetTab(index);
             if (isVisible()) {
@@ -271,30 +281,6 @@ void SessionTabWidget::delayedTabResetTimeout()
     if (!d.delayedIndexes.isEmpty()) {
         resetTab(d.delayedIndexes.takeLast());
         d.delayedIndexes.clear();
-    }
-}
-
-void SessionTabWidget::onTabAlerted(IrcMessage* message)
-{
-    WidgetIrcMessageView* view = qobject_cast<WidgetIrcMessageView*>(sender());
-    int index = indexOf(view);
-    if (index != -1) {
-        if (!isVisible() || !isActiveWindow() || index != currentIndex()) {
-            setTabAlert(index, true);
-            emit alerted(view, message);
-        }
-    }
-}
-
-void SessionTabWidget::onTabHighlighted(IrcMessage* message)
-{
-    WidgetIrcMessageView* view = qobject_cast<WidgetIrcMessageView*>(sender());
-    int index = indexOf(view);
-    if (index != -1) {
-        if (!isVisible() || !isActiveWindow() || index != currentIndex()) {
-            setTabHighlight(index, true);
-            emit highlighted(view, message);
-        }
     }
 }
 

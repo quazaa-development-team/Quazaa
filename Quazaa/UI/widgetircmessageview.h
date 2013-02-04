@@ -61,8 +61,8 @@ public:
 public slots:
 	void showHelp(const QString& text, bool error = false);
 	void appendMessage(const QString& message);
-	void onSend(const QString& text);
-    void onSend(QTextDocument *message);
+	void sendMessage(const QString& text);
+    void sendMessage(QTextDocument *message);
 	void applySettings();
 
 signals:
@@ -70,9 +70,9 @@ signals:
     void receiverChanged(const QString& receiver);
 
     void highlighted(IrcMessage* message);
-    void alerted(IrcMessage* message);
+    void missed(IrcMessage* message);
     void queried(const QString& user);
-    void appendQueryMessage(const QString& user, const QString& message);
+    void messaged(const QString& user, const QString& message);
     void appendRawMessage(const QString& message);
 	void splitterChanged(const QByteArray& state);
 	void openView(const QString& view);

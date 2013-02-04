@@ -62,8 +62,7 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
 	d.textBrowser->viewport()->installEventFilter(this);
 	connect(d.textBrowser, SIGNAL(anchorClicked(QUrl)), SLOT(onAnchorClicked(QUrl)));
 
-	d.formatter = new MessageFormatter(this);
-	d.formatter->setHighlights(QStringList(session->nickName()));
+    d.formatter = new MessageFormatter(this);
 	d.formatter->setMessageFormat("class='message'");
 	d.formatter->setEventFormat("class='event'");
 	d.formatter->setNoticeFormat("class='notice'");
@@ -85,9 +84,10 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
 	}
 
 	if (!command_model) {
-		CommandParser::addCustomCommand("QUERY", "<user> (<message...>)");
+        CommandParser::addCustomCommand("QUERY", "<user>");
+        CommandParser::addCustomCommand("Q", "<user>");
         CommandParser::addCustomCommand("M", "<user> (<message...>)");
-		CommandParser::addCustomCommand("MSG", "<user> (<message...>)");
+        CommandParser::addCustomCommand("MSG", "<user/channel> (<message...>)");
 		CommandParser::addCustomCommand("TELL", "<user> (<message...>)");
 		CommandParser::addCustomCommand("J", "<channel> (<key>)");
         CommandParser::addCustomCommand("P", "(<reason...>)");
@@ -119,8 +119,8 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
     d.chatInput->textEdit()->completer()->setDefaultModel(d.listView->userModel());
     d.chatInput->textEdit()->completer()->setSlashModel(command_model);
 
-    connect(d.chatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onSend(QTextDocument*)));
-    connect(d.chatInput, SIGNAL(messageSent(QString)), this, SLOT(onSend(QString)));
+    connect(d.chatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(sendMessage(QTextDocument*)));
+    connect(d.chatInput, SIGNAL(messageSent(QString)), this, SLOT(sendMessage(QString)));
     connect(d.chatInput->textEdit(), SIGNAL(textChanged(QString)), this, SLOT(showHelp(QString)));
 
     d.chatInput->helpLabel()->hide();
@@ -294,7 +294,7 @@ void WidgetIrcMessageView::onSplitterMoved()
     emit splitterChanged(d.splitter->saveState());
 }
 
-void WidgetIrcMessageView::onSend(const QString& text)
+void WidgetIrcMessageView::sendMessage(const QString& text)
 {
 	QStringList lines = text.split(QRegExp("[\\r\\n]"), QString::SkipEmptyParts);
 	foreach (const QString& line, lines) {
@@ -302,7 +302,7 @@ void WidgetIrcMessageView::onSend(const QString& text)
         {
             QString modify = line;
             modify.prepend(tr("/quote "));
-            onSend(modify);
+            sendMessage(modify);
         } else {
             IrcCommand* cmd = d.parser.parseCommand(receiver(), line);
             if (cmd) {
@@ -316,7 +316,7 @@ void WidgetIrcMessageView::onSend(const QString& text)
                 }
                 d.session->sendCommand(cmd);
 
-                if (cmd->type() == IrcCommand::Message || cmd->type() == IrcCommand::CtcpAction) {
+                if (cmd->type() == IrcCommand::Message || cmd->type() == IrcCommand::CtcpAction || cmd->type() == IrcCommand::Notice) {
                     IrcMessage* msg = IrcMessage::fromData(":" + d.session->nickName().toUtf8() + " " + cmd->toString().toUtf8(), d.session);
                     receiveMessage(msg);
                     delete msg;
@@ -328,10 +328,10 @@ void WidgetIrcMessageView::onSend(const QString& text)
     }
 }
 
-void WidgetIrcMessageView::onSend(QTextDocument *message)
+void WidgetIrcMessageView::sendMessage(QTextDocument *message)
 {
     CChatConverter *converter = new CChatConverter(message);
-    onSend(converter->toIrc());
+    sendMessage(converter->toIrc());
 }
 
 void WidgetIrcMessageView::onAnchorClicked(const QUrl& link)
@@ -399,18 +399,17 @@ void WidgetIrcMessageView::receiveMessage(IrcMessage* message)
     if (d.viewType == ChannelView)
         d.listView->processMessage(message);
 
-    bool hilite = false;
-    bool matches = false;
-
     switch (message->type()) {
-        case IrcMessage::Notice:
-            matches = static_cast<IrcNoticeMessage*>(message)->message().contains(d.session->nickName());
-            hilite = true;
+        case IrcMessage::Private: {
+            QString content = static_cast<IrcPrivateMessage*>(message)->message();
+            if (message->sender().prefix() == "***!znc@znc.in") {
+                if (content == QLatin1String("Buffer Playback..."))
+                    d.formatter->setZncPlaybackMode(true);
+                 else if (content == QLatin1String("Playback Complete."))
+                    d.formatter->setZncPlaybackMode(false);
+            }
             break;
-        case IrcMessage::Private:
-            matches = d.viewType != ChannelView || static_cast<IrcPrivateMessage*>(message)->message().contains(d.session->nickName());
-            hilite = true;
-            break;
+        }
         case IrcMessage::Topic:
             d.topicLabel->setText(d.formatter->formatHtml(static_cast<IrcTopicMessage*>(message)->topic()));
             if (d.topicLabel->text().isEmpty())
@@ -430,11 +429,6 @@ void WidgetIrcMessageView::receiveMessage(IrcMessage* message)
                 d.joined = false;
                 emit activeChanged();
             }
-            break;
-        case IrcMessage::Invite:
-        case IrcMessage::Ping:
-        case IrcMessage::Pong:
-        case IrcMessage::Error:
             break;
         case IrcMessage::Numeric:
             switch (static_cast<IrcNumericMessage*>(message)->code()) {
@@ -457,15 +451,16 @@ void WidgetIrcMessageView::receiveMessage(IrcMessage* message)
             break;
     }
 
+    d.formatter->setHighlights(QStringList() << d.session->nickName());
     QString formatted = d.formatter->formatMessage(message, d.listView->userModel());
-    if (formatted.length()) {
-        if (matches)
-            emit alerted(message);
-        else if (hilite) // TODO: || (!d.receivedCodes.contains(Irc::RPL_ENDOFMOTD) && d.viewType == ServerView))
+    if (!isVisible() || !isActiveWindow()) {
+        if (d.formatter->hasHighlight() || (message->type() == IrcMessage::Private && d.viewType != ChannelView))
             emit highlighted(message);
-
-        appendMessage(formatted);
+        else if (message->type() == IrcMessage::Notice || message->type() == IrcMessage::Private) // TODO: || (!d.receivedCodes.contains(Irc::RPL_ENDOFMOTD) && d.viewType == ServerView))
+            emit missed(message);
     }
+
+    appendMessage(formatted);
 }
 
 bool WidgetIrcMessageView::hasUser(const QString& user) const
@@ -477,17 +472,13 @@ bool WidgetIrcMessageView::hasUser(const QString& user) const
 
 void WidgetIrcMessageView::onCustomCommand(const QString& command, const QStringList& params)
 {
-    if (command == "QUERY" || command == "M" || command == "MSG" || command == "TELL")
+    if ( command == "QUERY" || command == "Q" )
     {
-        if (!params.value(1).isEmpty())
-		{
-            QStringList message = params.mid(1);
-            emit appendQueryMessage(params.value(0), message.join(" "));
-		}
-		else
-        {
-            emit queried(params.value(0));
-        }
+        emit queried(params.value(0));
+    }
+    if ( command == "MSG" || command == "M" || command == "TELL" )
+    {
+        emit messaged(params.value(0), QStringList(params.mid(1)).join(" "));
     }
     else if (command == "J" || command == "JOIN")
     {
@@ -515,32 +506,32 @@ void WidgetIrcMessageView::onCustomCommand(const QString& command, const QString
     }
 	else if (command == "NS" || command == "NICKSERV")
 	{
-		emit appendQueryMessage("NickServ", params.join(" "));
+        emit messaged("NickServ", params.join(" "));
 	}
 	else if (command == "CS" || command == "CHANSERV")
 	{
-		emit appendQueryMessage("ChanServ", params.join(" "));
+        emit messaged("ChanServ", params.join(" "));
 	}
 	else if (command == "HS" || command == "HOSTSERV")
 	{
-		emit appendQueryMessage("HostServ", params.join(" "));
+        emit messaged("HostServ", params.join(" "));
 	}
 	else if (command == "MS" || command == "MEMOSERV")
 	{
-		emit appendQueryMessage("MemoServ", params.join(" "));
+        emit messaged("MemoServ", params.join(" "));
 	}
 	else if (command == "BS" || command == "BOTSERV")
 	{
-		emit appendQueryMessage("BotServ", params.join(" "));
+        emit messaged("BotServ", params.join(" "));
 	}
 	else if (command == "OS" || command == "OPERSERV")
 	{
-		emit appendQueryMessage("OperServ", params.join(" "));
+        emit messaged("OperServ", params.join(" "));
 	}
 	else if (command == "SYSINFO")
 	{
 		QuazaaSysInfo *sysInfo = new QuazaaSysInfo();
-		onSend(tr("Application:%1 %2 OS:%3 Qt Version:%4").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING(), sysInfo->osVersionToString(), qVersion()));
+        sendMessage(tr("Application:%1 %2 OS:%3 Qt Version:%4").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING(), sysInfo->osVersionToString(), qVersion()));
 		//onSend(tr("CPU:%1 Cores:%2 Memory:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING()));
     }
     else if (command == "CLEAR")
@@ -553,9 +544,5 @@ void WidgetIrcMessageView::onCustomCommand(const QString& command, const QString
         QStringList command = params.mid(2);
         args.append(command.join(" "));
         d.session->sendCommand(IrcCommand::createCtcpRequest(params.at(0), args));
-    }
-	else if (command == "WHOIS")
-	{
-        d.session->sendCommand(IrcCommand::createWhois(params.value(0)));
     }
 }

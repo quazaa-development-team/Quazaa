@@ -54,8 +54,8 @@ private slots:
 	void editSession(Session* session);
 	void applySettings();
 	void showSettings();
-    void alert(WidgetIrcMessageView* view, IrcMessage* message);
-    void highlight(WidgetIrcMessageView* view, IrcMessage* message);
+    void highlighted(IrcMessage* message);
+    void missed(IrcMessage* message);
     void viewAdded(WidgetIrcMessageView* view);
     void viewRemoved(WidgetIrcMessageView* view);
     void viewRenamed(WidgetIrcMessageView* view);

@@ -42,8 +42,9 @@ QSize SessionTreeDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
 
 void SessionTreeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+    const bool selected = option.state & QStyle::State_Selected;
+
     if (!index.parent().isValid()) {
-        const bool selected = option.state & QStyle::State_Selected;
         const_cast<QStyleOptionViewItem&>(option).state &= ~QStyle::State_Selected;
 
         QColor c1 = qApp->palette().color(QPalette::Light);
@@ -66,12 +67,24 @@ void SessionTreeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& o
 
     QStyledItemDelegate::paint(painter, option, index);
 
-    if (index.column() == 1 && option.state & QStyle::State_MouseOver) {
-        static const QIcon icon(":/Resource/Generic/Exit.png");
+    if (index.column() == 1) {
+        int badge = index.data(Qt::UserRole).toInt();
+        if (badge > 0) {
+            QRect rect = option.rect.adjusted(1, 3, -1, -3);
 
-        const QRect iconRect(option.rect.right() - option.rect.height(),
-            option.rect.top(), option.rect.height(), option.rect.height());
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(qApp->palette().color(QPalette::Dark));
+            painter->setRenderHint(QPainter::Antialiasing);
+            painter->drawRoundedRect(rect, 40, 80, Qt::RelativeSize);
 
-        icon.paint(painter, iconRect, Qt::AlignCenter);
+            QFont font;
+            font.setPointSize(9);
+            painter->setFont(font);
+
+            QString txt = QFontMetrics(font).elidedText(QString::number(badge), Qt::ElideRight, rect.width());
+
+            painter->setPen(qApp->palette().color(QPalette::Light));
+            painter->drawText(rect, Qt::AlignCenter, txt);
+        }
     }
 }

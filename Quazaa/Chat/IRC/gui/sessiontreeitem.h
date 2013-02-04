@@ -33,8 +33,8 @@ public:
 
     QVariant data(int column, int role) const;
 
-    bool isAlerted() const;
-    void setAlerted(bool alerted);
+    int badge() const;
+    void setBadge(int badge);
 
     bool isHighlighted() const;
     void setHighlighted(bool highlighted);
@@ -43,10 +43,8 @@ public:
 
 private:
     struct Private {
-        bool alerted;
         bool highlighted;
         WidgetIrcMessageView* view;
-        QSet<SessionTreeItem*> alertedChildren;
         QSet<SessionTreeItem*> highlightedChildren;
     } d;
     friend class SessionTreeWidget;

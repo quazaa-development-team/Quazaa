@@ -43,15 +43,23 @@ QList<Session*> MultiSessionTabWidget::sessions() const
 		if (tabWidget)
 			list += tabWidget->session();
 	}
-	return list;
+    return list;
+}
+
+SessionTabWidget *MultiSessionTabWidget::currentWidget() const
+{
+    return qobject_cast<SessionTabWidget*>(QTabWidget::currentWidget());
+}
+
+SessionTabWidget *MultiSessionTabWidget::widgetAt(int index) const
+{
+    return qobject_cast<SessionTabWidget*>(QTabWidget::widget(index));
 }
 
 void MultiSessionTabWidget::addSession(Session* session)
 {
 	SessionTabWidget* tab = new SessionTabWidget(session, this);
-	connect(tab, SIGNAL(alerted(WidgetIrcMessageView*, IrcMessage*)), this, SIGNAL(alerted(WidgetIrcMessageView*, IrcMessage*)));
-	connect(tab, SIGNAL(highlighted(WidgetIrcMessageView*, IrcMessage*)), this, SIGNAL(highlighted(WidgetIrcMessageView*, IrcMessage*)));
-	connect(tab, SIGNAL(sessionClosed(Session*)), this, SLOT(removeSession(Session*)));
+    connect(tab, SIGNAL(sessionClosed(Session*)), this, SLOT(removeSession(Session*)));
 	connect(tab, SIGNAL(splitterChanged(QByteArray)), this, SLOT(restoreSplitter(QByteArray)));
 	tab->applySettings();
 
@@ -81,7 +89,7 @@ void MultiSessionTabWidget::removeSession(Session* session)
 SessionTabWidget* MultiSessionTabWidget::sessionWidget(Session* session) const
 {
 	for (int i = 0; i < count(); ++i) {
-		SessionTabWidget* tabWidget = qobject_cast<SessionTabWidget*>(widget(i));
+        SessionTabWidget* tabWidget = widgetAt(i);
 		if (tabWidget && tabWidget->session() == session)
 			return tabWidget;
 	}
@@ -133,7 +141,7 @@ QByteArray MultiSessionTabWidget::saveSplitter() const
 void MultiSessionTabWidget::restoreSplitter(const QByteArray& state)
 {
 	for (int i = 0; i < count(); ++i) {
-		SessionTabWidget* tabWidget = qobject_cast<SessionTabWidget*>(widget(i));
+        SessionTabWidget* tabWidget = widgetAt(i);
 		if (tabWidget) {
 			tabWidget->blockSignals(true);
 			tabWidget->restoreSplitter(state);

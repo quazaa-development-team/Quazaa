@@ -34,6 +34,9 @@ public:
 
     Session* session() const;
 
+    WidgetIrcMessageView* currentView() const;
+    WidgetIrcMessageView* viewAt(int index) const;
+
     MenuFactory* menuFactory() const;
     void setMenuFactory(MenuFactory* factory);
 
@@ -42,17 +45,15 @@ public:
 public slots:
     void restoreSplitter(const QByteArray& state);
     void switchToServerTab();
-	WidgetIrcMessageView* openView(const QString& receiver);
-	void messageToView(const QString &receiver, const QString &message);
+    WidgetIrcMessageView* openView(const QString& receiver);
 	void removeView(const QString& receiver);
 	void closeCurrentView();
 	void closeView(int index);
 	void renameView(const QString& from, const QString& to);
+    void sendMessage(const QString& receiver, const QString& message);
 	void applySettings();
 
 signals:
-    void alerted(WidgetIrcMessageView* view, IrcMessage* message);
-    void highlighted(WidgetIrcMessageView* view, IrcMessage* message);
     void inactiveStatusChanged(bool inactive);
     void sessionClosed(Session* session);
     void splitterChanged(const QByteArray& state);
@@ -74,8 +75,6 @@ private slots:
     void onTabMenuRequested(int index, const QPoint& pos);
     void delayedTabReset();
     void delayedTabResetTimeout();
-    void onTabAlerted(IrcMessage* message);
-    void onTabHighlighted(IrcMessage* message);
     void onEditSession();
 
 private:

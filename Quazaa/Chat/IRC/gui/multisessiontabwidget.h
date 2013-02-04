@@ -31,6 +31,9 @@ public:
 	MultiSessionTabWidget(QWidget* parent = 0);
 
 	QList<Session*> sessions() const;
+
+    SessionTabWidget* currentWidget() const;
+    SessionTabWidget* widgetAt(int index) const;
 	SessionTabWidget* sessionWidget(Session* session) const;
 
 	QByteArray saveSplitter() const;
@@ -46,10 +49,7 @@ signals:
 	void sessionAdded(Session* session);
 	void sessionRemoved(Session* session);
 
-	void alerted(WidgetIrcMessageView* view, IrcMessage* message);
-	void highlighted(WidgetIrcMessageView* view, IrcMessage* message);
-
-	void splitterChanged(const QByteArray& state);
+    void splitterChanged(const QByteArray& state);
 
 private slots:
 	void updateTab(int index = -1);
