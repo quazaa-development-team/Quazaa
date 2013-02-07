@@ -128,6 +128,7 @@ void DialogIrcSettings::saveSettings()
 	quazaaSettings.Chat.ConnectOnStartup = ui->checkBoxConnectOnStartup->isChecked();
 	quazaaSettings.Chat.MaxBlockCount = ui->spinBoxBlockCount->value();
 	quazaaSettings.Chat.ShowTimestamp = ui->checkBoxTimeStamp->isChecked();
+    quazaaSettings.Chat.TimestampFormat = ui->lineEditTimestampFormat->text();
 
 	QHash<int, QString> colors;
     for (int i = IrcColorType::Background; i <= IrcColorType::LightGray; ++i)
@@ -157,6 +158,7 @@ void DialogIrcSettings::loadSettings()
 	ui->checkBoxConnectOnStartup->setChecked(quazaaSettings.Chat.ConnectOnStartup);
 	ui->spinBoxBlockCount->setValue(quazaaSettings.Chat.MaxBlockCount);
 	ui->checkBoxTimeStamp->setChecked(quazaaSettings.Chat.ShowTimestamp);
+    ui->lineEditTimestampFormat->setText(quazaaSettings.Chat.TimestampFormat);
     ui->comboBoxLayout->setCurrentIndex((quazaaSettings.Chat.Layout == "tabs") ? 0 : 1);
 
 	QHashIterator<int, QString> it(quazaaSettings.Chat.Colors);

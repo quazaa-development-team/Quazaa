@@ -71,9 +71,7 @@ void MultiSessionTabWidget::addSession(Session* session)
 	connect(tab, SIGNAL(inactiveStatusChanged(bool)), this, SLOT(updateTab()));
 	connect(tab, SIGNAL(alertStatusChanged(bool)), this, SLOT(updateTab()));
 	connect(session, SIGNAL(nameChanged(QString)), this, SLOT(updateTab()));
-	connect(session, SIGNAL(networkChanged(QString)), this, SLOT(updateTab()));
-
-	emit sessionAdded(session);
+    connect(session, SIGNAL(networkChanged(QString)), this, SLOT(updateTab()));
 }
 
 void MultiSessionTabWidget::removeSession(Session* session)
@@ -81,8 +79,7 @@ void MultiSessionTabWidget::removeSession(Session* session)
 	SessionTabWidget* tabWidget = sessionWidget(session);
 	if (tabWidget) {
 		removeTab(indexOf(tabWidget));
-		tabWidget->deleteLater();
-		emit sessionRemoved(session);
+        tabWidget->deleteLater();
 	}
 }
 

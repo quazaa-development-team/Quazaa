@@ -140,6 +140,7 @@ namespace Settings
 		bool		ConnectOnStartup;						// Connect to the chat server and enter rooms on startup
 		bool		EnableFileTransfers;					// Enable Irc File Transfers
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
+        QString     TimestampFormat;                        // The format of timestamps
 		int			MaxBlockCount;							// This limits how many blocks(lines) can be in a message view
 		QString		Layout;									// Tree layout or tabbed layout
 		bool		StripNicks;								// Strip host information from nicks

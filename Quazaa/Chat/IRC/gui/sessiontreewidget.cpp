@@ -76,6 +76,9 @@ SessionTreeWidget::SessionTreeWidget(QWidget* parent) : QTreeWidget(parent)
     d.collapseShortcut = new QShortcut(this);
     connect(d.collapseShortcut, SIGNAL(activated()), this, SLOT(collapseCurrentSession()));
 
+    d.mostActiveShortcut = new QShortcut(this);
+    connect(d.mostActiveShortcut, SIGNAL(activated()), this, SLOT(moveToMostActiveItem()));
+
 	applySettings();
 }
 
@@ -253,6 +256,30 @@ void SessionTreeWidget::collapseCurrentSession()
     }
 }
 
+void SessionTreeWidget::moveToMostActiveItem()
+{
+    SessionTreeItem* mostActive = 0;
+    QTreeWidgetItemIterator it(this, QTreeWidgetItemIterator::Unselected);
+    while (*it) {
+        SessionTreeItem* item = static_cast<SessionTreeItem*>(*it);
+
+        if (item->isHighlighted()) {
+            // we found a channel hilight or PM to us
+            setCurrentItem(item);
+            return;
+        }
+
+        // as a backup, store the first window with any sort of activity
+        if (!mostActive || mostActive->badge() < item->badge())
+            mostActive = item;
+
+        it++;
+    }
+
+    if (mostActive)
+        setCurrentItem(mostActive);
+}
+
 void SessionTreeWidget::applySettings()
 {
     QString foregroundColor = quazaaSettings.Chat.Colors.value(IrcColorType::Default);
@@ -272,6 +299,7 @@ void SessionTreeWidget::applySettings()
 	d.nextUnreadShortcut->setKey(QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NextUnreadDown)));
 	d.expandShortcut->setKey(QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateRight)));
 	d.collapseShortcut->setKey(QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateLeft)));
+    d.mostActiveShortcut->setKey(QKeySequence("Ctrl+S"));
 }
 
 void SessionTreeWidget::contextMenuEvent(QContextMenuEvent* event)

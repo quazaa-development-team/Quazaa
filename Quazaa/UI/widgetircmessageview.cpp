@@ -63,13 +63,6 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
 	connect(d.textBrowser, SIGNAL(anchorClicked(QUrl)), SLOT(onAnchorClicked(QUrl)));
 
     d.formatter = new MessageFormatter(this);
-	d.formatter->setMessageFormat("class='message'");
-	d.formatter->setEventFormat("class='event'");
-	d.formatter->setNoticeFormat("class='notice'");
-	d.formatter->setActionFormat("class='action'");
-	d.formatter->setUnknownFormat("class='unknown'");
-	d.formatter->setHighlightFormat("class='highlight'");
-	d.formatter->setTimeStampFormat("class='timestamp'");
 
 	d.session = session;
 	connect(&d.parser, SIGNAL(customCommand(QString, QStringList)), this, SLOT(onCustomCommand(QString, QStringList)));
@@ -127,9 +120,7 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
 	d.searchEditor->setTextEdit(d.textBrowser);
 
 	QShortcut* shortcut = new QShortcut(Qt::Key_Escape, this);
-	connect(shortcut, SIGNAL(activated()), this, SLOT(onEscPressed()));
-
-	applySettings();
+    connect(shortcut, SIGNAL(activated()), this, SLOT(onEscPressed()));
 }
 
 WidgetIrcMessageView::~WidgetIrcMessageView()
@@ -310,9 +301,9 @@ void WidgetIrcMessageView::sendMessage(const QString& text)
                 {
                     QString rawMessage = cmd->toString();
                     if(viewType() == ServerView)
-                        appendMessage(d.formatter->formatRaw(rawMessage));
+                        appendMessage(rawMessage);
                     else
-                        emit appendRawMessage(d.formatter->formatRaw(rawMessage));
+                        emit appendRawMessage(rawMessage);
                 }
                 d.session->sendCommand(cmd);
 
@@ -360,6 +351,7 @@ void WidgetIrcMessageView::closePressed()
 void WidgetIrcMessageView::applySettings()
 {
 	d.formatter->setTimeStamp(quazaaSettings.Chat.ShowTimestamp);
+    d.formatter->setTimeStampFormat(quazaaSettings.Chat.TimestampFormat);
 	d.formatter->setStripNicks(quazaaSettings.Chat.StripNicks);
 
 	d.textBrowser->document()->setMaximumBlockCount(quazaaSettings.Chat.MaxBlockCount);
@@ -399,14 +391,19 @@ void WidgetIrcMessageView::receiveMessage(IrcMessage* message)
     if (d.viewType == ChannelView)
         d.listView->processMessage(message);
 
+    bool ignore = false;
     switch (message->type()) {
         case IrcMessage::Private: {
-            QString content = static_cast<IrcPrivateMessage*>(message)->message();
-            if (message->sender().prefix() == "***!znc@znc.in") {
-                if (content == QLatin1String("Buffer Playback..."))
+            IrcSender sender = message->sender();
+            if (sender.name() == QLatin1String("***") && sender.user() == QLatin1String("znc")) {
+                QString content = static_cast<IrcPrivateMessage*>(message)->message();
+                if (content == QLatin1String("Buffer Playback...")) {
                     d.formatter->setZncPlaybackMode(true);
-                 else if (content == QLatin1String("Playback Complete."))
+                    ignore = true;
+                } else if (content == QLatin1String("Playback Complete.")) {
                     d.formatter->setZncPlaybackMode(false);
+                    ignore = true;
+                }
             }
             break;
         }
@@ -453,10 +450,11 @@ void WidgetIrcMessageView::receiveMessage(IrcMessage* message)
 
     d.formatter->setHighlights(QStringList() << d.session->nickName());
     QString formatted = d.formatter->formatMessage(message, d.listView->userModel());
-    if (!isVisible() || !isActiveWindow()) {
-        if (d.formatter->hasHighlight() || (message->type() == IrcMessage::Private && d.viewType != ChannelView))
+    if (!ignore && (!isVisible() || !isActiveWindow())) {
+        IrcMessage::Type type = d.formatter->effectiveMessageType();
+        if (d.formatter->hasHighlight() || (type == IrcMessage::Private && d.viewType != ChannelView))
             emit highlighted(message);
-        else if (message->type() == IrcMessage::Notice || message->type() == IrcMessage::Private) // TODO: || (!d.receivedCodes.contains(Irc::RPL_ENDOFMOTD) && d.viewType == ServerView))
+        else if (type == IrcMessage::Notice || type == IrcMessage::Private) // TODO: || (!d.receivedCodes.contains(Irc::RPL_ENDOFMOTD) && d.viewType == ServerView))
             emit missed(message);
     }
 

@@ -43,8 +43,6 @@ WidgetIrcMain::WidgetIrcMain(QWidget* parent) : QWidget(parent),
 
     connect(tabWidget, SIGNAL(newTabRequested()), this, SLOT(connectTo()), Qt::QueuedConnection);
     connect(tabWidget, SIGNAL(splitterChanged(QByteArray)), this, SLOT(splitterChanged(QByteArray)));
-	connect(tabWidget, SIGNAL(sessionAdded(Session*)), this, SLOT(sessionAdded(Session*)));
-	connect(tabWidget, SIGNAL(sessionRemoved(Session*)), this, SLOT(sessionRemoved(Session*)));
 
 	WidgetIrcHomePage* homePage = new WidgetIrcHomePage(tabWidget);
     connect(homePage, SIGNAL(connectRequested()), this, SLOT(initialize()));
@@ -152,7 +150,12 @@ void WidgetIrcMain::connectToImpl(const ConnectionInfo& connection)
     connect(tab, SIGNAL(viewActivated(WidgetIrcMessageView*)), this, SLOT(viewActivated(WidgetIrcMessageView*)));
     connect(tab, SIGNAL(editSession(Session*)), this, SLOT(editSession(Session*)));
 
-    treeWidget->setCurrentView(tab->viewAt(0));
+    if (WidgetIrcMessageView* view = tab->viewAt(0)) {
+        treeWidget->addView(view);
+        treeWidget->setCurrentView(view);
+        treeWidget->parentWidget()->show();
+        view->applySettings();
+    }
 
     if (!quazaaSettings.WinMain.ChatUserListSplitter.isEmpty())
         tab->restoreSplitter(quazaaSettings.WinMain.ChatUserListSplitter);
@@ -317,8 +320,14 @@ void WidgetIrcMain::viewActivated(WidgetIrcMessageView* view)
 void WidgetIrcMain::closeTreeItem(SessionTreeItem* item)
 {
     SessionTabWidget* tab = tabWidget->sessionWidget(item->session());
-    if (tab)
-        tab->closeView(tab->indexOf(item->view()));
+    if (tab) {
+        int index = tab->indexOf(item->view());
+        tab->closeView(index);
+        if (index == 0) {
+            tabWidget->removeSession(tab->session());
+            treeWidget->parentWidget()->setVisible(!tabWidget->sessions().isEmpty());
+        }
+    }
 }
 
 void WidgetIrcMain::currentTreeItemChanged(Session* session, const QString& view)
@@ -330,35 +339,13 @@ void WidgetIrcMain::currentTreeItemChanged(Session* session, const QString& view
             tab->setCurrentIndex(0);
         else
             tab->openView(view);
-    }
+        }
+        setWindowFilePath(view);
 }
 
 void WidgetIrcMain::splitterChanged(const QByteArray& state)
 {
     quazaaSettings.WinMain.ChatUserListSplitter = state;
-}
-
-void WidgetIrcMain::sessionAdded(Session* session)
-{
-    if (treeWidget) {
-        if (SessionTabWidget* tab = tabWidget->sessionWidget(session)) {
-            if (WidgetIrcMessageView* view = tab->viewAt(0)) {
-                treeWidget->addView(view);
-                treeWidget->parentWidget()->show();
-            }
-        }
-    }
-}
-
-void WidgetIrcMain::sessionRemoved(Session* session)
-{
-    if (treeWidget) {
-        if (SessionTabWidget* tab = tabWidget->sessionWidget(session)) {
-            if (WidgetIrcMessageView* view = tab->viewAt(0))
-                treeWidget->removeView(view);
-        }
-        treeWidget->parentWidget()->setVisible(!tabWidget->sessions().isEmpty());
-    }
 }
 
 void WidgetIrcMain::updateSession(Session* session)

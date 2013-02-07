@@ -970,6 +970,7 @@ void QuazaaSettings::saveChat()
 	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.Chat.ConnectOnStartup);
 	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
+    m_qSettings.setValue("TimeStampFormat", quazaaSettings.Chat.TimestampFormat);
 	m_qSettings.setValue("MaxBlockCount", quazaaSettings.Chat.MaxBlockCount);
 	m_qSettings.setValue("Layout", quazaaSettings.Chat.Layout);
 	m_qSettings.setValue("StripNicks", quazaaSettings.Chat.StripNicks);
@@ -1042,6 +1043,7 @@ void QuazaaSettings::loadChat()
 	quazaaSettings.Chat.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", false).toBool();
 	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
+    quazaaSettings.Chat.TimestampFormat = m_qSettings.value("TimeStampFormat", "[hh:mm:ss]").toString();
 	quazaaSettings.Chat.MaxBlockCount = m_qSettings.value("MaxBlockCount", -1).toInt();
 	quazaaSettings.Chat.Layout = m_qSettings.value("Layout", "tree").toString();
 	quazaaSettings.Chat.StripNicks = m_qSettings.value("StripNicks", false).toBool();

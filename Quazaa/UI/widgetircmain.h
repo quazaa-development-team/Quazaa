@@ -62,9 +62,7 @@ private slots:
     void viewActivated(WidgetIrcMessageView* view);
 	void closeTreeItem(SessionTreeItem* item);
 	void currentTreeItemChanged(Session* session, const QString& view);
-	void splitterChanged(const QByteArray& state);
-	void sessionAdded(Session* session);
-	void sessionRemoved(Session* session);
+    void splitterChanged(const QByteArray& state);
 	void updateSession(Session* session = 0);
 	void addView();
 

@@ -46,9 +46,6 @@ public slots:
 	void applySettings();
 
 signals:
-	void sessionAdded(Session* session);
-	void sessionRemoved(Session* session);
-
     void splitterChanged(const QByteArray& state);
 
 private slots:
