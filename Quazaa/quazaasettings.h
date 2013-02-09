@@ -143,7 +143,7 @@ namespace Settings
         QString     TimestampFormat;                        // The format of timestamps
 		int			MaxBlockCount;							// This limits how many blocks(lines) can be in a message view
 		QString		Layout;									// Tree layout or tabbed layout
-		bool		StripNicks;								// Strip host information from nicks
+        bool		StripNicks;								// Strip host information from nicks
 
 		QStringList Hosts;									// The list of hosts in the connect dialog
 		QStringList NickNames;								// The list of nick names in the connect dialog
@@ -155,6 +155,7 @@ namespace Settings
 		QHash<int, bool> Highlights;
 		QHash<int, QString> Colors;
 		QHash<int, QString> Shortcuts;
+        QMap<QString, QString> Aliases;                     // Command aliases
 	};
 
 	struct sConnection

@@ -18,7 +18,6 @@
 #include "ui_widgetircmessageview.h"
 #include "messagereceiver.h"
 #include "messageformatter.h"
-#include "commandparser.h"
 #include "ircuserlistmodel.h"
 #include "widgetchatinput.h"
 #include "quazaasettings.h"
@@ -89,15 +88,13 @@ private slots:
     void onEscPressed();
     void onSplitterMoved();
     void onAnchorClicked(const QUrl& link);
-    void onCustomCommand(const QString& command, const QStringList& params);
     void closePressed();
 
 private:
     struct MessageViewData : public Ui::WidgetIrcMessageView {
 		ViewType viewType;
 		QString receiver;
-		Session* session;
-		CommandParser parser;
+        Session* session;
         WidgetChatInput* chatInput;
 		MessageFormatter* formatter;
 		bool joined;

@@ -19,6 +19,8 @@
 #include <QHash>
 #include <QMap>
 
+CommandParser::Private CommandParser::d;
+
 static QMap<QString, QString>& command_syntaxes()
 {
     static QMap<QString, QString> syntaxes;
@@ -54,17 +56,32 @@ static QMap<QString, QString>& command_syntaxes()
     return syntaxes;
 }
 
-CommandParser::CommandParser(QObject* parent) : QObject(parent)
+static QString expandAlias(const QString& receiver, const QString& message)
 {
-}
-
-CommandParser::~CommandParser()
-{
+    QStringList words = message.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+    QString alias = words.takeFirst().toUpper();
+    QMap<QString, QString> aliases = CommandParser::aliases();
+    if (aliases.contains(alias)) {
+        int pos = 0;
+        QRegExp regExp("\\$(\\d+)");
+        QString command = aliases.value(alias);
+        while ((pos = regExp.indexIn(command)) != -1)
+        {
+            int index = regExp.cap(1).toInt();
+            command.replace(pos, regExp.matchedLength(), words.value(index - 1));
+        }
+        command.replace("$*", words.join(" "));
+        command.replace("$?", receiver);
+        return command;
+    }
+    return message;
 }
 
 QStringList CommandParser::availableCommands()
 {
-    return command_syntaxes().keys();
+    QStringList commands = command_syntaxes().keys() + d.aliases.keys();
+    qSort(commands);
+    return commands;
 }
 
 QStringList CommandParser::suggestedCommands(const QString& command, const QStringList& params)
@@ -79,8 +96,11 @@ QStringList CommandParser::suggestedCommands(const QString& command, const QStri
 
 QString CommandParser::syntax(const QString& command)
 {
-    if (command_syntaxes().contains(command.toUpper()))
-        return command.toUpper() + " " + command_syntaxes().value(command.toUpper());
+    QString cmd = command.toUpper();
+    if (command_syntaxes().contains(cmd))
+        return cmd + " " + command_syntaxes().value(cmd);
+    if (d.aliases.contains(cmd))
+        return d.aliases.value(cmd);
     return QString();
 }
 
@@ -94,16 +114,23 @@ void CommandParser::removeCustomCommand(const QString& command)
     command_syntaxes().remove(command.toUpper());
 }
 
-Q_GLOBAL_STATIC(bool, has_error)
-
-bool CommandParser::hasError() const
+QMap<QString, QString> CommandParser::aliases()
 {
-    return *has_error();
+    return d.aliases;
+}
+
+void CommandParser::setAliases(const QMap<QString, QString> &aliases)
+{
+    d.aliases.clear();
+    QMapIterator<QString, QString> it(aliases);
+    while (it.hasNext()) {
+        it.next();
+        d.aliases[it.key().toUpper()] = it.value();
+    }
 }
 
 IrcCommand* CommandParser::parseCommand(const QString& receiver, const QString& text)
 {
-    *has_error() = false;
     if (text.startsWith("/")) {
         typedef IrcCommand*(*ParseFunc)(const QString&, const QStringList&);
 
@@ -137,7 +164,8 @@ IrcCommand* CommandParser::parseCommand(const QString& receiver, const QString& 
             parseFunctions.insert("WHOWAS", &CommandParser::parseWhowas);
         }
 
-        const QStringList words = text.mid(1).split(" ", QString::SkipEmptyParts);
+        const QString expanded = expandAlias(receiver, text.mid(1));
+        const QStringList words = expanded.split(" ", QString::SkipEmptyParts);
         const QString command = words.value(0).toUpper();
         ParseFunc parseFunc = parseFunctions.value(command);
         if (parseFunc) {
@@ -145,22 +173,17 @@ IrcCommand* CommandParser::parseCommand(const QString& receiver, const QString& 
             if (cmd)
                 return cmd;
         } else if (command_syntaxes().contains(command.toUpper())) {
-            QStringList params = words.mid(1);
-            if (parseCustomCommand(command_syntaxes().value(command.toUpper()), params)) {
-                emit customCommand(command, params);
-                return 0;
-            }
+            return parseCustomCommand(command, words.mid(1), command_syntaxes().value(command.toUpper()));
         }
     } else {
         return IrcCommand::createMessage(receiver, text);
     }
 
     // unknown command
-    *has_error() = true;
     return 0;
 }
 
-bool CommandParser::parseCustomCommand(const QString& syntax, const QStringList& params)
+IrcCommand* CommandParser::parseCustomCommand(const QString& command, const QStringList& params, const QString& syntax)
 {
 	QStringList tokens = syntax.split(" ", QString::SkipEmptyParts);
     int min = 0;
@@ -173,7 +196,13 @@ bool CommandParser::parseCustomCommand(const QString& syntax, const QStringList&
 		if (!p.startsWith("(<"))
 			++min;
 	}
-    return params.count() >= min && params.count() <= max;
+    if (params.count() >= min && params.count() <= max) {
+        IrcCommand* cmd = new IrcCommand;
+        cmd->setType(IrcCommand::Custom);
+        cmd->setParameters(QStringList(command) + params);
+        return cmd;
+    }
+    return 0;
 }
 
 IrcCommand* CommandParser::parseAdmin(const QString& receiver, const QStringList& params)

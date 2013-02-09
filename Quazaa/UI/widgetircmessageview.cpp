@@ -13,6 +13,7 @@
 */
 
 #include "widgetircmessageview.h"
+#include "commandparser.h"
 #include "menufactory.h"
 #include "completer.h"
 #include "ircuserlistmodel.h"
@@ -64,8 +65,7 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
 
     d.formatter = new MessageFormatter(this);
 
-	d.session = session;
-	connect(&d.parser, SIGNAL(customCommand(QString, QStringList)), this, SLOT(onCustomCommand(QString, QStringList)));
+    d.session = session;
 
 	d.topicLabel->setVisible(type == ChannelView);
 	d.listView->setVisible(type == ChannelView);
@@ -77,36 +77,13 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
 	}
 
 	if (!command_model) {
+        command_model = new QStringListModel(qApp);
+
         CommandParser::addCustomCommand("QUERY", "<user>");
-        CommandParser::addCustomCommand("Q", "<user>");
-        CommandParser::addCustomCommand("M", "<user> (<message...>)");
         CommandParser::addCustomCommand("MSG", "<user/channel> (<message...>)");
-		CommandParser::addCustomCommand("TELL", "<user> (<message...>)");
-		CommandParser::addCustomCommand("J", "<channel> (<key>)");
-        CommandParser::addCustomCommand("P", "(<reason...>)");
-        CommandParser::addCustomCommand("LEAVE", "(<reason...>)");
-		CommandParser::addCustomCommand("NS", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("NICKSERV", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("CS", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("CHANSERV", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("HS", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("HOSTSERV", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("MS", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("MEMOSERV", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("BS", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("BOTSERV", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("OS", "(<command>) (<params...>)");
-		CommandParser::addCustomCommand("OPERSERV", "(<command>) (<params...>)");
         CommandParser::addCustomCommand("SYSINFO", "");
         CommandParser::addCustomCommand("CLEAR", "");
         CommandParser::addCustomCommand("CTCP", "<target> <command> (<params...>)");
-
-		QStringList prefixedCommands;
-		foreach(const QString & command, CommandParser::availableCommands())
-		prefixedCommands += "/" + command;
-
-		command_model = new QStringListModel(qApp);
-		command_model->setStringList(prefixedCommands);
 	}
 
     d.chatInput->textEdit()->completer()->setDefaultModel(d.listView->userModel());
@@ -295,7 +272,7 @@ void WidgetIrcMessageView::sendMessage(const QString& text)
             modify.prepend(tr("/quote "));
             sendMessage(modify);
         } else {
-            IrcCommand* cmd = d.parser.parseCommand(receiver(), line);
+            IrcCommand* cmd = CommandParser::parseCommand(d.receiver, line);
             if (cmd) {
                 if (cmd->type() == IrcCommand::Quote)
                 {
@@ -307,12 +284,57 @@ void WidgetIrcMessageView::sendMessage(const QString& text)
                 }
                 d.session->sendCommand(cmd);
 
-                if (cmd->type() == IrcCommand::Message || cmd->type() == IrcCommand::CtcpAction || cmd->type() == IrcCommand::Notice) {
-                    IrcMessage* msg = IrcMessage::fromData(":" + d.session->nickName().toUtf8() + " " + cmd->toString().toUtf8(), d.session);
-                    receiveMessage(msg);
-                    delete msg;
+                if (cmd->type() == IrcCommand::Custom) {
+                    QString command = cmd->parameters().value(0);
+                    QStringList params = cmd->parameters().mid(1);
+                    if (command == "CLEAR")
+                        d.textBrowser->clear();
+                    else if (command == "MSG")
+                        emit messaged(params.value(0), QStringList(params.mid(1)).join(" "));
+                    else if (command == "QUERY")
+                        emit queried(params.value(0));
+                    else if (command == "JOIN")
+                    {
+                        if (params.count() == 1 || params.count() == 2)
+                        {
+                            QString channel = params.value(0);
+                            QString password = params.value(1);
+                            if (!d.session->isChannel(channel))
+                                channel = channel.prepend("#");
+                            if (!d.session->isChannel(channel))
+                            {
+                                channel = channel.remove(0,1);
+                                channel = channel.prepend(d.session->info().channelTypes().at(0));
+                            }
+                            if (d.session->isChannel(channel))
+                                d.session->sendCommand(IrcCommand::createJoin(QStringList() << channel, QStringList() << password));
+                            emit openView(channel);
+                        }
+                    }
+                    else if (command == "SYSINFO")
+                    {
+                        QuazaaSysInfo *sysInfo = new QuazaaSysInfo();
+                        sendMessage(tr("Application:%1 %2 OS:%3 Qt Version:%4").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING(), sysInfo->osVersionToString(), qVersion()));
+                        //onSend(tr("CPU:%1 Cores:%2 Memory:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING()));
+                    }
+                    else if (command == "CTCP")
+                    {
+                        QString args = params.at(1).toUpper().append(" ");
+                        QStringList command = params.mid(2);
+                        args.append(command.join(" "));
+                        d.session->sendCommand(IrcCommand::createCtcpRequest(params.at(0), args));
+                    }
+                    delete cmd;
+                } else {
+                    d.session->sendCommand(cmd);
+
+                    if (cmd->type() == IrcCommand::Message || cmd->type() == IrcCommand::CtcpAction || cmd->type() == IrcCommand::Notice) {
+                        IrcMessage* msg = IrcMessage::fromData(":" + d.session->nickName().toUtf8() + " " + cmd->toString().toUtf8(), d.session);
+                        receiveMessage(msg);
+                        delete msg;
+                    }
                 }
-            } else if (d.parser.hasError()) {
+            } else {
                 showHelp(line, true);
             }
         }
@@ -350,6 +372,13 @@ void WidgetIrcMessageView::closePressed()
 
 void WidgetIrcMessageView::applySettings()
 {
+    CommandParser::setAliases(quazaaSettings.Chat.Aliases);
+
+    QStringList commands;
+    foreach (const QString& command, CommandParser::availableCommands())
+        commands += "/" + command;
+    command_model->setStringList(commands);
+
 	d.formatter->setTimeStamp(quazaaSettings.Chat.ShowTimestamp);
     d.formatter->setTimeStampFormat(quazaaSettings.Chat.TimestampFormat);
 	d.formatter->setStripNicks(quazaaSettings.Chat.StripNicks);
@@ -466,81 +495,4 @@ bool WidgetIrcMessageView::hasUser(const QString& user) const
     return (!d.session->nickName().compare(user, Qt::CaseInsensitive)) ||
            (d.viewType == QueryView && !d.receiver.compare(user, Qt::CaseInsensitive)) ||
            (d.viewType == ChannelView && d.listView->hasUser(user));
-}
-
-void WidgetIrcMessageView::onCustomCommand(const QString& command, const QStringList& params)
-{
-    if ( command == "QUERY" || command == "Q" )
-    {
-        emit queried(params.value(0));
-    }
-    if ( command == "MSG" || command == "M" || command == "TELL" )
-    {
-        emit messaged(params.value(0), QStringList(params.mid(1)).join(" "));
-    }
-    else if (command == "J" || command == "JOIN")
-    {
-        if (params.count() == 1 || params.count() == 2)
-        {
-            QString channel = params.value(0);
-            QString password = params.value(1);
-            if (!d.session->isChannel(channel))
-                channel = channel.prepend("#");
-            if (!d.session->isChannel(channel))
-            {
-                channel = channel.remove(0,1);
-                channel = channel.prepend(d.session->info().channelTypes().at(0));
-            }
-            if (d.session->isChannel(channel))
-                d.session->sendCommand(IrcCommand::createJoin(QStringList() << channel, QStringList() << password));
-            emit openView(channel);
-        }
-    }
-    else if (command == "P" || command == "LEAVE")
-    {
-        QStringList reason = params.mid(1);
-        IrcCommand* command = IrcCommand::createPart(receiver(), reason.join(" "));
-        session()->sendCommand(command);
-    }
-	else if (command == "NS" || command == "NICKSERV")
-	{
-        emit messaged("NickServ", params.join(" "));
-	}
-	else if (command == "CS" || command == "CHANSERV")
-	{
-        emit messaged("ChanServ", params.join(" "));
-	}
-	else if (command == "HS" || command == "HOSTSERV")
-	{
-        emit messaged("HostServ", params.join(" "));
-	}
-	else if (command == "MS" || command == "MEMOSERV")
-	{
-        emit messaged("MemoServ", params.join(" "));
-	}
-	else if (command == "BS" || command == "BOTSERV")
-	{
-        emit messaged("BotServ", params.join(" "));
-	}
-	else if (command == "OS" || command == "OPERSERV")
-	{
-        emit messaged("OperServ", params.join(" "));
-	}
-	else if (command == "SYSINFO")
-	{
-		QuazaaSysInfo *sysInfo = new QuazaaSysInfo();
-        sendMessage(tr("Application:%1 %2 OS:%3 Qt Version:%4").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING(), sysInfo->osVersionToString(), qVersion()));
-		//onSend(tr("CPU:%1 Cores:%2 Memory:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING()));
-    }
-    else if (command == "CLEAR")
-    {
-        d.textBrowser->clear();
-    }
-    else if (command == "CTCP")
-    {
-        QString args = params.at(1).toUpper().append(" ");
-        QStringList command = params.mid(2);
-        args.append(command.join(" "));
-        d.session->sendCommand(IrcCommand::createCtcpRequest(params.at(0), args));
-    }
 }

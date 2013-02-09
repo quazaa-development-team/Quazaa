@@ -270,7 +270,7 @@ void SessionTreeWidget::moveToMostActiveItem()
         }
 
         // as a backup, store the first window with any sort of activity
-        if (!mostActive || mostActive->badge() < item->badge())
+        if (item->badge() && (!mostActive || mostActive->badge() < item->badge()))
             mostActive = item;
 
         it++;

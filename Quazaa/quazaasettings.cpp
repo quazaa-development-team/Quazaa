@@ -1031,6 +1031,14 @@ void QuazaaSettings::saveChat()
     m_qSettings.setValue("ColorsLightGray", quazaaSettings.Chat.Colors[IrcColorType::LightGray]);
 	m_qSettings.endGroup();
 
+    m_qSettings.beginGroup("ChatAliases");
+    QMap<QString, QString>::const_iterator i = quazaaSettings.Chat.Aliases.constBegin();
+    while (i != quazaaSettings.Chat.Aliases.constEnd()) {
+         m_qSettings.setValue(i.key(), i.value());
+         ++i;
+     }
+    m_qSettings.endGroup();
+
 	emit chatSettingsChanged();
 }
 
@@ -1055,6 +1063,7 @@ void QuazaaSettings::loadChat()
 	QString navigate("Alt+%1");
 	QString nextUnread("Shift+Alt+%1");
 #endif
+
 	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateUp] = m_qSettings.value("ShortcutsNavigateUp", navigate.arg("Up")).toString();
 	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateDown] = m_qSettings.value("ShortcutsNavigateDown", navigate.arg("Down")).toString();
 	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateLeft] = m_qSettings.value("ShortcutsNavigateLeft", navigate.arg("Left")).toString();
@@ -1108,7 +1117,35 @@ void QuazaaSettings::loadChat()
     quazaaSettings.Chat.Colors[IrcColorType::Pink] = m_qSettings.value("ColorsPink", "pink").toString();
     quazaaSettings.Chat.Colors[IrcColorType::Gray] = m_qSettings.value("ColorsGray", "gray").toString();
     quazaaSettings.Chat.Colors[IrcColorType::LightGray] = m_qSettings.value("ColorsLightGray", "lightgray").toString();
-	m_qSettings.endGroup();
+    m_qSettings.endGroup();
+
+    m_qSettings.beginGroup("ChatAliases");
+    QStringList keys = m_qSettings.childKeys();
+    foreach (QString key, keys) {
+         quazaaSettings.Chat.Aliases[key] = m_qSettings.value(key).toString();
+    }
+
+    if(quazaaSettings.Chat.Aliases.isEmpty()) {
+        quazaaSettings.Chat.Aliases["Q"] = "QUERY $*";
+        quazaaSettings.Chat.Aliases["M"] = "MSG $*";
+        quazaaSettings.Chat.Aliases["TELL"] = "MSG $*";
+        quazaaSettings.Chat.Aliases["J"] = "JOIN $*";
+        quazaaSettings.Chat.Aliases["P"] = "PART $*";
+        quazaaSettings.Chat.Aliases["LEAVE"] = "PART $*";
+        quazaaSettings.Chat.Aliases["BS"] = "MSG BotServ $*";
+        quazaaSettings.Chat.Aliases["BOTSERV"] = "MSG BotServ $*";
+        quazaaSettings.Chat.Aliases["CS"] = "MSG ChanServ $*";
+        quazaaSettings.Chat.Aliases["CHANSERV"] = "MSG ChanServ $*";
+        quazaaSettings.Chat.Aliases["HS"] = "MSG HostServ $*";
+        quazaaSettings.Chat.Aliases["HOSTSERV"] = "MSG HostServ $*";
+        quazaaSettings.Chat.Aliases["MS"] = "MSG MemoServ $*";
+        quazaaSettings.Chat.Aliases["MEMOSERV"] = "MSG MemoServ $*";
+        quazaaSettings.Chat.Aliases["NS"] = "MSG NickServ $*";
+        quazaaSettings.Chat.Aliases["NICKSERV"] = "MSG NickServ $*";
+        quazaaSettings.Chat.Aliases["OS"] = "MSG OperServ $*";
+        quazaaSettings.Chat.Aliases["OPERSERV"] = "MSG OperServ $*";
+    }
+    m_qSettings.endGroup();
 }
 
 void QuazaaSettings::saveProfile()
