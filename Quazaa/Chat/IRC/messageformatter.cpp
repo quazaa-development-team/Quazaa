@@ -14,7 +14,6 @@
 */
 
 #include "messageformatter.h"
-#include "ircuserlistmodel.h"
 #include "quazaasettings.h"
 #include <irctextformat.h>
 #include <ircpalette.h>
@@ -33,7 +32,6 @@ MessageFormatter::MessageFormatter(QObject* parent) : QObject(parent)
     d.timeStamp = false;
     d.stripNicks = true;
     d.zncPlayback = false;
-    d.userModel = 0;
     d.messageType = IrcMessage::Unknown;
 
     static bool init = false;
@@ -61,6 +59,16 @@ QStringList MessageFormatter::highlights() const
 void MessageFormatter::setHighlights(const QStringList& highlights)
 {
     d.highlights = highlights;
+}
+
+QStringList MessageFormatter::users() const
+{
+    return d.users;
+}
+
+void MessageFormatter::setUsers(const QStringList &users)
+{
+    d.users = users;
 }
 
 bool MessageFormatter::timeStamp() const
@@ -108,11 +116,10 @@ IrcMessage::Type MessageFormatter::effectiveMessageType() const
     return d.messageType;
 }
 
-QString MessageFormatter::formatMessage(IrcMessage* message, IrcUserListModel* userModel) const
+QString MessageFormatter::formatMessage(IrcMessage* message) const
 {
     QString formatted;
     d.highlight = false;
-    d.userModel = userModel;
     d.messageType = IrcMessage::Unknown;
     switch (message->type()) {
         case IrcMessage::Invite:
@@ -350,8 +357,8 @@ QString MessageFormatter::formatNumericMessage(IrcNumericMessage* message) const
             return QString();
 
         case Irc::RPL_ENDOFNAMES:
-            if (d.userModel && !d.receivedCodes.mid(0, d.receivedCodes.count() - 1).contains(Irc::RPL_ENDOFNAMES))
-                return tr("! %1 has %2 users").arg(message->parameters().value(1)).arg(d.userModel->rowCount());
+            if (!d.users.isEmpty() && !d.receivedCodes.mid(0, d.receivedCodes.count() - 1).contains(Irc::RPL_ENDOFNAMES))
+                return tr("! %1 has %2 users").arg(message->parameters().value(1)).arg(d.users.count());
             return QString();
 
         default:
@@ -563,34 +570,32 @@ void MessageFormatter::applySettings()
 QString MessageFormatter::formatHtml(const QString& message) const
 {
     QString msg = IRC_TEXT_FORMAT.messageToHtml(message);
-    if (d.userModel) {
-        foreach (const QString& user, d.userModel->users()) {
-            int pos = 0;
-            while ((pos = msg.indexOf(user, pos)) != -1) {
-                QTextBoundaryFinder finder(QTextBoundaryFinder::Word, msg);
+    foreach (const QString& user, d.users) {
+        int pos = 0;
+        while ((pos = msg.indexOf(user, pos)) != -1) {
+            QTextBoundaryFinder finder(QTextBoundaryFinder::Word, msg);
 
-                finder.setPosition(pos);
-                if (!finder.isAtBoundary() || !finder.boundaryReasons().testFlag(BOUNDARY_REASON_START)) {
-                    pos += user.length();
-                    continue;
-                }
-
-                finder.setPosition(pos + user.length());
-                if (!finder.isAtBoundary() || !finder.boundaryReasons().testFlag(BOUNDARY_REASON_END)) {
-                    pos += user.length();
-                    continue;
-                }
-
-                const int anchor = msg.indexOf("</a>", pos + user.length() + 1);
-                if (anchor != -1 && anchor <= msg.indexOf('<', pos + user.length() + 1)) {
-                    pos += user.length();
-                    continue;
-                }
-
-                QString formatted = formatUser(msg.mid(pos, user.length()));
-                msg.replace(pos, user.length(), formatted);
-                pos += formatted.length();
+            finder.setPosition(pos);
+            if (!finder.isAtBoundary() || !finder.boundaryReasons().testFlag(BOUNDARY_REASON_START)) {
+                pos += user.length();
+                continue;
             }
+
+            finder.setPosition(pos + user.length());
+            if (!finder.isAtBoundary() || !finder.boundaryReasons().testFlag(BOUNDARY_REASON_END)) {
+                pos += user.length();
+                continue;
+            }
+
+            const int anchor = msg.indexOf("</a>", pos + user.length() + 1);
+            if (anchor != -1 && anchor <= msg.indexOf('<', pos + user.length() + 1)) {
+                pos += user.length();
+                continue;
+            }
+
+            QString formatted = formatUser(msg.mid(pos, user.length()));
+            msg.replace(pos, user.length(), formatted);
+            pos += formatted.length();
         }
     }
     return msg;

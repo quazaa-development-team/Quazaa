@@ -375,7 +375,8 @@ void SessionTreeWidget::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidg
         resetItem(static_cast<SessionTreeItem*>(previous));
     delayedItemReset();
     SessionTreeItem* item = static_cast<SessionTreeItem*>(current);
-    emit currentViewChanged(item->session(), item->parent() ? item->text(0) : QString());
+    if(item)
+        emit currentViewChanged(item->session(), item->parent() ? item->text(0) : QString());
 }
 
 void SessionTreeWidget::delayedItemReset()
