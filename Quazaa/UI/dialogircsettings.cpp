@@ -3,8 +3,11 @@
 
 #include "quazaasettings.h"
 
+#include <QSortFilterProxyModel>
 #include <QStyledItemDelegate>
+#include <QStandardItemModel>
 #include <QComboBox>
+#include <QDebug>
 
 // SVG color keyword names provided by the World Wide Web Consortium
 static const QStringList COLORS = QStringList()
@@ -84,6 +87,42 @@ public:
 	}
 };
 
+class SortFilterProxyModel : public QSortFilterProxyModel
+{
+public:
+    SortFilterProxyModel(QObject* parent = 0) : QSortFilterProxyModel(parent)
+    {
+    }
+
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
+    {
+        QModelIndex aliasIndex = sourceModel()->index(sourceRow, AliasColumns::Alias, sourceParent);
+        QModelIndex commandIndex = sourceModel()->index(sourceRow, AliasColumns::Command, sourceParent);
+        QString alias, command;
+        if (!aliasIndex.isValid() || !commandIndex.isValid()) // the column may not exist
+            alias = aliasIndex.data(filterRole()).toString();
+        command = commandIndex.data(filterRole()).toString();
+
+        return alias.contains(filterRegExp()) || command.contains(filterRegExp());
+        return false;
+    }
+};
+
+class CloseDelegate : public QStyledItemDelegate
+{
+public:
+    CloseDelegate(QObject* parent = 0) : QStyledItemDelegate(parent)
+    {
+    }
+
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+    {
+        const_cast<QStyleOptionViewItem&>(option).decorationPosition = QStyleOptionViewItem::Right;
+        QStyledItemDelegate::paint(painter, option, index);
+    }
+};
+
 DialogIrcSettings::DialogIrcSettings(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::DialogIrcSettings)
@@ -103,6 +142,11 @@ DialogIrcSettings::DialogIrcSettings(QWidget *parent) :
 #endif
 	ui->treeWidgetShortcuts->expandItem(ui->treeWidgetShortcuts->topLevelItem(0));
 	ui->treeWidgetShortcuts->expandItem(ui->treeWidgetShortcuts->topLevelItem(1));
+    proxyModel = new SortFilterProxyModel(ui->treeViewAliases);
+    sourceModel = new QStandardItemModel(proxyModel);
+    proxyModel->setSourceModel(sourceModel);
+    ui->treeViewAliases->setModel(proxyModel);
+    ui->treeViewAliases->setItemDelegateForColumn(2, new CloseDelegate(ui->treeViewAliases));
 
 	loadSettings();
 
@@ -113,6 +157,10 @@ DialogIrcSettings::DialogIrcSettings(QWidget *parent) :
 	connect(ui->spinBoxBlockCount, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->treeWidgetColors, SIGNAL(clicked(QModelIndex)), this, SLOT(enableApply()));
 	connect(ui->treeWidgetShortcuts, SIGNAL(clicked(QModelIndex)), this, SLOT(enableApply()));
+    connect(ui->toolButtonAddAliases, SIGNAL(clicked()), this, SLOT(addAlias()));
+    connect(ui->treeViewAliases, SIGNAL(clicked(QModelIndex)), this, SLOT(onAliasClicked(QModelIndex)));
+    connect(ui->treeViewAliases, SIGNAL(activated(QModelIndex)), this, SLOT(enableApply()));
+    connect(ui->lineEditAliasesFilter, SIGNAL(textEdited(QString)), proxyModel, SLOT(setFilterWildcard(QString)));
 
 	connect(ui->pushButtonApply, SIGNAL(clicked()), this, SLOT(saveSettings()));
 	ui->pushButtonApply->setEnabled(false);
@@ -120,7 +168,17 @@ DialogIrcSettings::DialogIrcSettings(QWidget *parent) :
 
 DialogIrcSettings::~DialogIrcSettings()
 {
-	delete ui;
+    delete ui;
+}
+
+QModelIndex DialogIrcSettings::addAliasRow(const QString &alias, const QString &command)
+{
+    QStandardItem* aliasItem = new QStandardItem(alias);
+    QStandardItem* commandItem = new QStandardItem(command);
+    QStandardItem* closeItem = new QStandardItem(QPixmap(":/Resource/Generic/Exit.png"), QString());
+    closeItem->setFlags(closeItem->flags() & ~Qt::ItemIsEditable);
+    sourceModel->appendRow(QList<QStandardItem*>() << aliasItem << commandItem << closeItem);
+    return proxyModel->mapFromSource(aliasItem->index());
 }
 
 void DialogIrcSettings::saveSettings()
@@ -148,6 +206,16 @@ void DialogIrcSettings::saveSettings()
 		quazaaSettings.Chat.Shortcuts.insert(i, item->text(ShortcutColumns::Shortcut));
 	}
 
+    QMap<QString, QString> aliases;
+    for (int i = 0; i < sourceModel->rowCount(); ++i)
+    {
+        QString alias = sourceModel->item(i, AliasColumns::Alias)->text();
+        QString command = sourceModel->item(i, AliasColumns::Command)->text();
+        if (!alias.isEmpty() && !command.isEmpty())
+            aliases[alias] = command;
+    }
+    quazaaSettings.Chat.Aliases = aliases;
+
 	quazaaSettings.saveChat();
 
 	ui->pushButtonApply->setEnabled(false);
@@ -161,11 +229,11 @@ void DialogIrcSettings::loadSettings()
     ui->lineEditTimestampFormat->setText(quazaaSettings.Chat.TimestampFormat);
     ui->comboBoxLayout->setCurrentIndex((quazaaSettings.Chat.Layout == "tabs") ? 0 : 1);
 
-	QHashIterator<int, QString> it(quazaaSettings.Chat.Colors);
-	while (it.hasNext()) {
-		it.next();
-		ui->treeWidgetColors->topLevelItem(it.key())->setData(ColorColumns::Color, Qt::DisplayRole, it.value());
-		ui->treeWidgetColors->topLevelItem(it.key())->setData(ColorColumns::Color, Qt::DecorationRole, QColor(it.value()));
+    QHashIterator<int, QString> hashIt(quazaaSettings.Chat.Colors);
+    while (hashIt.hasNext()) {
+        hashIt.next();
+        ui->treeWidgetColors->topLevelItem(hashIt.key())->setData(ColorColumns::Color, Qt::DisplayRole, hashIt.value());
+        ui->treeWidgetColors->topLevelItem(hashIt.key())->setData(ColorColumns::Color, Qt::DecorationRole, QColor(hashIt.value()));
 	}
 
 	QTreeWidgetItem* navigate = ui->treeWidgetShortcuts->topLevelItem(0);
@@ -179,6 +247,24 @@ void DialogIrcSettings::loadSettings()
 		QTreeWidgetItem* item = unread->child(i - IrcShortcutType::NextUnreadUp);
 		item->setText(ShortcutColumns::Shortcut, quazaaSettings.Chat.Shortcuts.value(i));
 	}
+
+    sourceModel->clear();
+    sourceModel->setHorizontalHeaderLabels(QStringList() << tr("Alias") << tr("Command") << QString());
+
+    QMapIterator<QString, QString> aliasIt(quazaaSettings.Chat.Aliases);
+    while (aliasIt.hasNext())
+    {
+        aliasIt.next();
+        QString alias = aliasIt.key();
+        QString command = aliasIt.value();
+        //qDebug() << "Alias: " << alias << " Command: " << command;
+        if (!alias.isEmpty() && !command.isEmpty())
+            addAliasRow(alias, command);
+    }
+
+    ui->treeViewAliases->header()->setResizeMode(0, QHeaderView::ResizeToContents);
+    ui->treeViewAliases->header()->setResizeMode(1, QHeaderView::Stretch);
+    ui->treeViewAliases->header()->setResizeMode(2, QHeaderView::ResizeToContents);
 }
 
 void DialogIrcSettings::on_pushButtonOK_clicked()
@@ -190,5 +276,22 @@ void DialogIrcSettings::on_pushButtonOK_clicked()
 
 void DialogIrcSettings::enableApply()
 {
-	ui->pushButtonApply->setEnabled(true);
+    ui->pushButtonApply->setEnabled(true);
+}
+
+void DialogIrcSettings::addAlias()
+{
+    ui->lineEditAliasesFilter->clear();
+    QModelIndex index = addAliasRow(QString(), QString());
+    ui->treeViewAliases->setCurrentIndex(index);
+    ui->treeViewAliases->edit(index);
+    enableApply();
+}
+
+void DialogIrcSettings::onAliasClicked(const QModelIndex &index)
+{
+    if (index.column() == 2) {
+        qDeleteAll(sourceModel->takeRow(proxyModel->mapToSource(index).row()));
+        enableApply();
+    }
 }

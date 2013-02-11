@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2008-2013 J-P Nurmi <jpnurmi@gmail.com>
+* Copyright (C) 2008-2013 Communi authors
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
 {
     d.setupUi(this);
     d.viewType = type;
+    d.joined = false;
 
     closeButton = new QPushButton(this);
     closeButton->setIcon(QIcon(":/Resource/Generic/Exit.png"));
@@ -66,6 +67,7 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
     d.formatter = new MessageFormatter(this);
 
     d.session = session;
+    connect(d.session, SIGNAL(activeChanged(bool)), this, SIGNAL(activeChanged()));
 
 	d.topicLabel->setVisible(type == ChannelView);
 	d.listView->setVisible(type == ChannelView);
@@ -202,66 +204,6 @@ void WidgetIrcMessageView::showHelp(const QString& text, bool error)
     d.chatInput->helpLabel()->setText(syntax);
 }
 
-void WidgetIrcMessageView::appendMessage(const QString& message)
-{
-    if (!message.isEmpty()) {
-        // workaround the link activation merge char format bug
-        QString copy = message;
-        if (copy.endsWith("</a>"))
-            copy += " ";
-
-        d.textBrowser->append(copy);
-        if (!isVisible() && d.textBrowser->unseenBlock() == -1)
-            d.textBrowser->setUnseenBlock(d.textBrowser->document()->blockCount() - 1);
-
-#if QT_VERSION >= 0x040800
-        QTextBlock block = d.textBrowser->document()->lastBlock();
-        QTextBlockFormat format = block.blockFormat();
-        format.setLineHeight(120, QTextBlockFormat::ProportionalHeight);
-        QTextCursor cursor(block);
-        cursor.setBlockFormat(format);
-#endif // QT_VERSION
-    }
-}
-
-void WidgetIrcMessageView::hideEvent(QHideEvent* event)
-{
-    QWidget::hideEvent(event);
-    d.textBrowser->setUnseenBlock(-1);
-}
-
-bool WidgetIrcMessageView::eventFilter(QObject* object, QEvent* event)
-{
-    if (object == d.textBrowser->viewport() && event->type() == QEvent::ContextMenu) {
-        QContextMenuEvent* menuEvent = static_cast<QContextMenuEvent*>(event);
-        QAbstractTextDocumentLayout* layout = d.textBrowser->document()->documentLayout();
-        QUrl link(layout->anchorAt(menuEvent->pos()));
-        if (link.scheme() == "nick") {
-            QMenu* standardMenu = d.textBrowser->createStandardContextMenu(menuEvent->pos());
-            QMenu* customMenu = d.listView->menuFactory()->createUserViewMenu(link.toString(QUrl::RemoveScheme), this);
-            customMenu->addSeparator();
-            customMenu->insertActions(0, standardMenu->actions());
-            customMenu->exec(menuEvent->globalPos());
-            customMenu->deleteLater();
-            delete standardMenu;
-            return true;
-        }
-    }
-    return QWidget::eventFilter(object, event);
-}
-
-void WidgetIrcMessageView::onEscPressed()
-{
-    d.chatInput->helpLabel()->hide();
-    d.searchEditor->hide();
-    setFocus(Qt::OtherFocusReason);
-}
-
-void WidgetIrcMessageView::onSplitterMoved()
-{
-    emit splitterChanged(d.splitter->saveState());
-}
-
 void WidgetIrcMessageView::sendMessage(const QString& text)
 {
 	QStringList lines = text.split(QRegExp("[\\r\\n]"), QString::SkipEmptyParts);
@@ -282,8 +224,6 @@ void WidgetIrcMessageView::sendMessage(const QString& text)
                     else
                         emit appendRawMessage(rawMessage);
                 }
-                d.session->sendCommand(cmd);
-
                 if (cmd->type() == IrcCommand::Custom) {
                     QString command = cmd->parameters().value(0);
                     QStringList params = cmd->parameters().mid(1);
@@ -345,6 +285,66 @@ void WidgetIrcMessageView::sendMessage(QTextDocument *message)
 {
     CChatConverter *converter = new CChatConverter(message);
     sendMessage(converter->toIrc());
+}
+
+void WidgetIrcMessageView::appendMessage(const QString& message)
+{
+    if (!message.isEmpty()) {
+        // workaround the link activation merge char format bug
+        QString copy = message;
+        if (copy.endsWith("</a>"))
+            copy += " ";
+
+        d.textBrowser->append(copy);
+        if (!isVisible() && d.textBrowser->unseenBlock() == -1)
+            d.textBrowser->setUnseenBlock(d.textBrowser->document()->blockCount() - 1);
+
+#if QT_VERSION >= 0x040800
+        QTextBlock block = d.textBrowser->document()->lastBlock();
+        QTextBlockFormat format = block.blockFormat();
+        format.setLineHeight(120, QTextBlockFormat::ProportionalHeight);
+        QTextCursor cursor(block);
+        cursor.setBlockFormat(format);
+#endif // QT_VERSION
+    }
+}
+
+void WidgetIrcMessageView::hideEvent(QHideEvent* event)
+{
+    QWidget::hideEvent(event);
+    d.textBrowser->setUnseenBlock(-1);
+}
+
+bool WidgetIrcMessageView::eventFilter(QObject* object, QEvent* event)
+{
+    if (object == d.textBrowser->viewport() && event->type() == QEvent::ContextMenu) {
+        QContextMenuEvent* menuEvent = static_cast<QContextMenuEvent*>(event);
+        QAbstractTextDocumentLayout* layout = d.textBrowser->document()->documentLayout();
+        QUrl link(layout->anchorAt(menuEvent->pos()));
+        if (link.scheme() == "nick") {
+            QMenu* standardMenu = d.textBrowser->createStandardContextMenu(menuEvent->pos());
+            QMenu* customMenu = d.listView->menuFactory()->createUserViewMenu(link.toString(QUrl::RemoveScheme), this);
+            customMenu->addSeparator();
+            customMenu->insertActions(0, standardMenu->actions());
+            customMenu->exec(menuEvent->globalPos());
+            customMenu->deleteLater();
+            delete standardMenu;
+            return true;
+        }
+    }
+    return QWidget::eventFilter(object, event);
+}
+
+void WidgetIrcMessageView::onEscPressed()
+{
+    d.chatInput->helpLabel()->hide();
+    d.searchEditor->hide();
+    setFocus(Qt::OtherFocusReason);
+}
+
+void WidgetIrcMessageView::onSplitterMoved()
+{
+    emit splitterChanged(d.splitter->saveState());
 }
 
 void WidgetIrcMessageView::onAnchorClicked(const QUrl& link)
