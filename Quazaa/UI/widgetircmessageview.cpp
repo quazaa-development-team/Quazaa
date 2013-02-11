@@ -218,11 +218,10 @@ void WidgetIrcMessageView::sendMessage(const QString& text)
             if (cmd) {
                 if (cmd->type() == IrcCommand::Quote)
                 {
-                    QString rawMessage = cmd->toString();
                     if(viewType() == ServerView)
-                        appendMessage(rawMessage);
+                        appendMessage( d.formatter->formatMessage( QDateTime::currentDateTime(), tr("[RAW] %1").arg(cmd->parameters().join(" ")) ) );
                     else
-                        emit appendRawMessage(rawMessage);
+                        emit appendRawMessage(d.formatter->formatMessage( QDateTime::currentDateTime(), tr("[RAW] %1").arg(cmd->parameters().join(" ")) ) );
                 }
                 if (cmd->type() == IrcCommand::Custom) {
                     QString command = cmd->parameters().value(0);

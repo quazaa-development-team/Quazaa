@@ -197,18 +197,9 @@ QString MessageFormatter::formatMessage(const QDateTime& timeStamp, const QStrin
         cls = classes.value(formatted.left(1));
 
     if (d.timeStamp)
-        formatted = tr("<span class='timestamp'>%1</span> %3").arg(timeStamp.time().toString(d.timestampFormat), formatted);
+        formatted = tr("<span class='timestamp'>%1</span> %2").arg(timeStamp.time().toString(d.timestampFormat), formatted);
 
 	return formatted;
-}
-
-QString MessageFormatter::formatRaw(QString message)
-{
-    if (d.timeStamp)
-        message = tr("<span %1>[%2]</span> [RAW] %3").arg(d.timestampFormat, QTime::currentTime().toString(), message);
-    else
-        message = tr("[RAW] %1").arg(message);
-    return message;
 }
 
 QString MessageFormatter::formatInviteMessage(IrcInviteMessage* message) const

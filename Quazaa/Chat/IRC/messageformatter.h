@@ -62,7 +62,6 @@ public:
 
     Q_INVOKABLE QString formatHtml(const QString& message) const;
 
-    QString formatRaw(QString message);
 protected:
 	QString formatInviteMessage(IrcInviteMessage* message) const;
 	QString formatJoinMessage(IrcJoinMessage* message) const;
