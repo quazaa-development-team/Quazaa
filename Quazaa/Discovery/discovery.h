@@ -58,7 +58,7 @@ class CDiscoveryService;
 /**
  * @brief TServiceType: Must be updated when implementing new subclasses of CDiscoveryService.
  */
-typedef enum { stNull = 0, stGWC = 1 } TServiceType;
+typedef enum { stNull = 0, stBanned = 1, stGWC = 2 } TServiceType;
 
 /**
  * @brief TDiscoveryID: ID type used to identify and manage discovery services. All IDs are positive.
@@ -205,7 +205,7 @@ public:
 	 * @return the service ID used to identify the service internally; 0 if the service has not been added.
 	 */
 	TServiceID add(QString sURL, const TServiceType eSType,
-					 const CNetworkType& oNType, const quint8 nRating = DISCOVERY_MAX_PROBABILITY);
+				   const CNetworkType& oNType, const quint8 nRating = DISCOVERY_MAX_PROBABILITY);
 
 	/**
 	 * @brief remove removes a service by ID.
@@ -305,12 +305,32 @@ private slots:
 	/* ================================================================ */
 private:
 	/**
+	 * @brief doCount: Internal helper without locking. See count for documentation.
+	 */
+	quint32 doCount(const CNetworkType& oType = CNetworkType());
+
+	/**
+	 * @brief doClear: Internal helper without locking. See clear for documentation.
+	 */
+	void doClear(bool bInformGUI = false);
+
+
+	bool doRemove(TServiceID nID);
+
+	/**
 	 * @brief load retrieves stored services from the HDD.
-	 * Requires locking: YES
+	 * Locking: YES (synchronous)
 	 * @return true if loading from file was successful; false otherwise.
 	 */
 	void load();
 	bool load(QString sPath);
+
+//	/**
+//	 * @brief add: private helper for the public add method. See add(QString sURL, const TServiceType eSType,
+//	 * const CNetworkType& oNType, const quint8 nRating) for documentation.
+//	 */
+//	TServiceID add(QString sURL, const TServiceType eSType, const CNetworkType& oNType,
+//				   const quint8 nRating, const bool bLock);
 
 	/**
 	 * @brief add... obvious... Note: if a duplicate is detected, the CDiscoveryService passed to the
@@ -323,6 +343,7 @@ private:
 
 	/**
 	 * @brief addDefaults loads the DefaultServices.dat file (compatible with Shareaza) into the manager.
+	 * Locking: YES (synchronous)
 	 */
 	void addDefaults();
 
@@ -337,7 +358,7 @@ private:
 	bool manageDuplicates(TServicePtr &pService);
 
 	/**
-	 * @brief normalizeURL transforms a given URL string into a standard form to easa the detection of
+	 * @brief normalizeURL transforms a given URL string into a standard form to ease the detection of
 	 * duplicates, filter out websites caching a service etc.
 	 * Requires locking: NO
 	 * @param sURL

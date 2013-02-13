@@ -24,6 +24,7 @@
 
 #include <QFile>
 #include <QDateTime>
+#include <QNetworkConfigurationManager>
 
 #include "discovery.h"
 #include "discoveryservice.h"
@@ -47,7 +48,6 @@ CDiscovery::CDiscovery(QObject *parent) :
 	QObject( parent ),
 	m_bSaved( true ),
 	m_nLastID( 0 )
-
 {
 }
 
@@ -70,36 +70,7 @@ CDiscovery::~CDiscovery()
 quint32	CDiscovery::count(const CNetworkType& oType)
 {
 	QMutexLocker l( &m_pSection );
-
-	if ( oType.isNull() )
-	{
-		return m_mServices.size();
-	}
-	else
-	{
-		quint16 nCount = 0;
-		TServicePtr pService;
-
-		foreach ( TMapPair pair, m_mServices )
-		{
-			pService = pair.second;
-
-			// we do need a read lock here because we're probably not within the discovery thread
-			pService->m_oRWLock.lockForRead();
-
-			// Count all services that have the correct type, are not blocked and have a rating > 0
-			if ( pService->m_oNetworkType.isNetwork( oType ) &&
-				 !pService->m_bBanned &&
-				 pService->m_nRating )
-			{
-				++nCount;
-			}
-
-			pService->m_oRWLock.unlock();
-		}
-
-		return nCount;
-	}
+	return doCount( oType );
 }
 
 /**
@@ -175,8 +146,9 @@ bool CDiscovery::save(bool bForceSaving)
  * @return the service ID used to identify the service internally; 0 if the service has not been added.
  */
 TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
-							 const CNetworkType& oNType, const quint8 nRating)
+						   const CNetworkType& oNType, const quint8 nRating)
 {
+//	qDebug() << "[Discovery] aa0";
 	// First check whether the URL can be parsed at all.
 	// TODO: This might need refining for certain service types.
 	QUrl oURL( sURL, QUrl::StrictMode );
@@ -188,6 +160,7 @@ TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
 						   + sURL );
 		return 0;
 	}
+//	qDebug() << "[Discovery] aa1";
 
 	// Then, normalize the fully encoded URL
 	sURL = oURL.toString();
@@ -197,25 +170,34 @@ TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
 
 	m_pSection.lock();
 
+//	qDebug() << "[Discovery] aa2";
 	if ( add( pService ) )
 	{
+//		qDebug() << "[Discovery] aa211";
 		// make sure to return the right ID
 		TServiceID nTmp = m_nLastID; // m_nLastID has been set to correct value within add( pService )
+
 		m_pSection.unlock();
+
+//		qDebug() << "[Discovery] aa212";
 
 		systemLog.postLog( LogSeverity::Notice,
 						   m_sMessage + tr( "Notice: New discovery service added: " ) + sURL );
 
 		// inform GUI about new service
 		emit serviceAdded( pService );
+
+//		qDebug() << "[Discovery] aa213";
 		return nTmp;
 	}
 	else // Adding the service failed fore some reason. Most likely the service was invalid or a duplicate.
 	{
+//		qDebug() << "[Discovery] aa221";
 		m_pSection.unlock();
 
-		systemLog.postLog( LogSeverity::Error,
-						   m_sMessage + tr( "Error adding service." ) );
+		systemLog.postLog( LogSeverity::Error, m_sMessage + tr( "Error adding service." ) );
+
+//		qDebug() << "[Discovery] aa222";
 		return 0;
 	}
 }
@@ -236,40 +218,10 @@ bool CDiscovery::remove(TServiceID nID)
 	}
 
 	m_pSection.lock();
-
-	TIterator iService = m_mServices.find( nID );
-
-	if ( iService == m_mServices.end() )
-	{
-		m_pSection.unlock();
-
-		systemLog.postLog( LogSeverity::Error,
-						   m_sMessage + tr( "Internal error: Got request to remove invalid ID: " ) + nID );
-		return false; // Unable to find service by ID
-	}
-
-	// inform GUI about service removal
-	emit serviceRemoved( nID );
-
-	TServicePtr pService = (*iService).second;
-
-	systemLog.postLog( LogSeverity::Notice,
-					   m_sMessage
-					   + tr( "Removing discovery service: " )
-					   + pService->m_oServiceURL.toString() );
-
-	// stop it if necessary
-	pService->cancelRequest();
-
-	// remove it
-	m_mServices.erase( nID );
-
-	// Make sure to reassign the now unused ID.
-	if ( --nID < m_nLastID )
-		m_nLastID = nID;
-
+	bool bReturn = doRemove( nID );
 	m_pSection.unlock();
-	return true;
+
+	return bReturn;
 }
 
 /**
@@ -282,18 +234,7 @@ bool CDiscovery::remove(TServiceID nID)
 void CDiscovery::clear(bool bInformGUI)
 {
 	m_pSection.lock();
-
-	if ( bInformGUI )
-	{
-		foreach ( TMapPair pair, m_mServices )
-		{
-			emit serviceRemoved( pair.second->m_nID ); // inform GUI
-		}
-	}
-
-	m_mServices.clear();	// TServicePtr takes care of service deletion
-	m_nLastID = 0;			// make sure to recycle the IDs.
-
+	doClear( bInformGUI );
 	m_pSection.unlock();
 }
 
@@ -328,7 +269,7 @@ bool CDiscovery::check(const TConstServicePtr pService)
  */
 QSharedPointer<QNetworkAccessManager> CDiscovery::requestNAM()
 {
-	QMutexLocker l( &m_pSection );
+	m_pSection.lock();
 
 	QSharedPointer<QNetworkAccessManager> pReturnVal = m_pNetAccessMgr.toStrongRef();
 	if ( !pReturnVal )
@@ -337,7 +278,20 @@ QSharedPointer<QNetworkAccessManager> CDiscovery::requestNAM()
 		pReturnVal = QSharedPointer<QNetworkAccessManager>( new QNetworkAccessManager(),
 															&QObject::deleteLater );
 		m_pNetAccessMgr = pReturnVal.toWeakRef();
+
+		// Make sure the networkAccessible state is properly initialized.
+		QNetworkConfigurationManager manager;
+		pReturnVal->setConfiguration( manager.defaultConfiguration() );
+		// QNetworkAccessManager::networkAccessible is not explicitly set when the QNetworkAccessManager
+		// is created. It is only set after the network session is initialized. The session is
+		// initialized automatically when you make a network request or you can initialize it before
+		// hand with QNetworkAccessManager::setConfiguration() or the QNetworkConfigurationManager::
+		// NetworkSessionRequir ed flag is set.
+		// http://www.qtcentre.org/threads/37514-use-of-QNetworkAccessManager-networkAccessible
+		// ?s=171a7f69eccb2459cf1cc38507347ead&p=188372#post188372
 	}
+
+	m_pSection.unlock();
 
 	return pReturnVal;
 }
@@ -360,18 +314,14 @@ void CDiscovery::requestServiceList()
  */
 void CDiscovery::updateService(const CNetworkType& type)
 {
-	QMetaObject::invokeMethod( this,
-							   "asyncUpdateServiceHelper",
-							   Qt::QueuedConnection,
-							   Q_ARG( const CNetworkType, type ) );
+	QMetaObject::invokeMethod( this, "asyncUpdateServiceHelper",
+							   Qt::QueuedConnection, Q_ARG( const CNetworkType, type ) );
 }
 
 void CDiscovery::updateService(TServiceID nID)
 {
-	QMetaObject::invokeMethod( this,
-							   "asyncUpdateServiceHelper",
-							   Qt::QueuedConnection,
-							   Q_ARG( TServiceID, nID ) );
+	QMetaObject::invokeMethod( this, "asyncUpdateServiceHelper",
+							   Qt::QueuedConnection, Q_ARG( TServiceID, nID ) );
 }
 
 /**
@@ -381,23 +331,21 @@ void CDiscovery::updateService(TServiceID nID)
  */
 void CDiscovery::queryService(const CNetworkType& type)
 {
-	QMetaObject::invokeMethod( this,
-							   "asyncQueryServiceHelper",
-							   Qt::QueuedConnection,
-							   Q_ARG( const CNetworkType, type ) );
+	QMetaObject::invokeMethod( this, "asyncQueryServiceHelper",
+							   Qt::QueuedConnection, Q_ARG( const CNetworkType, type ) );
 }
 
 void CDiscovery::queryService(TServiceID nID)
 {
-	QMetaObject::invokeMethod( this,
-							   "asyncQueryServiceHelper",
-							   Qt::QueuedConnection,
-							   Q_ARG( TServiceID, nID ) );
+	QMetaObject::invokeMethod( this, "asyncQueryServiceHelper",
+							   Qt::QueuedConnection, Q_ARG( TServiceID, nID ) );
 }
 
 bool CDiscovery::asyncSyncSavingHelper()
 {
-	QMutexLocker l( &m_pSection );
+	//TODO: Make sure all services are stopped before calling
+
+	qDebug() << "[Discovery] saving helper";
 
 	systemLog.postLog( LogSeverity::Notice, m_sMessage
 					   + tr( "Saving Discovery Services Manager state." ) );
@@ -406,14 +354,20 @@ bool CDiscovery::asyncSyncSavingHelper()
 	QString sBackupPath    = quazaaSettings.Discovery.DataPath + "discovery_backup.dat";
 	QString sTemporaryPath = sBackupPath + "_tmp";
 
+	qDebug() << "[Discovery] paths";
+
 	if ( QFile::exists( sTemporaryPath ) && !QFile::remove( sTemporaryPath ) )
 	{
 		systemLog.postLog( LogSeverity::Error, m_sMessage
 						   + tr( "Error: Could not free space required for data backup: " ) + sPath );
+
+		qDebug() << "[Discovery] error temp path used...";
 		return false;
 	}
 
 	QFile oFile( sTemporaryPath );
+
+	qDebug() << "[Discovery] created file";
 
 	if ( !oFile.open( QIODevice::WriteOnly ) )
 	{
@@ -421,52 +375,69 @@ bool CDiscovery::asyncSyncSavingHelper()
 						   m_sMessage
 						   + tr( "Error: Could open data file for write: " )
 						   + sTemporaryPath );
+
+		qDebug() << "[Discovery] could not write to file";
 		return false;
 	}
 
+	m_pSection.lock();
+
+	qDebug() << "[Discovery] got mutex lock";
+
 	quint16 nVersion = DISCOVERY_CODE_VERSION;
+	quint32 nCount   = doCount();
+
+	qDebug() << "[Discovery] before try";
 
 	try
 	{
 		QDataStream fsFile( &oFile );
 
 		fsFile << nVersion;
-		fsFile << count();
+
+		qDebug() << "[Discovery] before count";
+
+		fsFile << nCount;
+
+		qDebug() << "[Discovery] after count";
 
 		// write services to stream
 		foreach (  TMapPair pair, m_mServices )
 		{
 			CDiscoveryService::save( pair.second.data(), fsFile );
 		}
+
+		qDebug() << "[Discovery] saved each";
 	}
 	catch ( ... )
 	{
+		m_pSection.unlock();
+
 		systemLog.postLog( LogSeverity::Error,
 						   m_sMessage + tr( "Error while writing discovery services to disk." ) );
+		qDebug() << "[Discovery] Caught exception!";
 		return false;
 	}
 
 	m_bSaved = true;
 
-	l.unlock();
+	m_pSection.unlock();
+	qDebug() << "[Discovery] mutex unlocked";
 
 	oFile.close();
 
-	if ( QFile::exists( sPath ) )
+	if ( QFile::exists( sPath ) && !QFile::remove( sPath ) )
 	{
-		if ( !QFile::remove( sPath ) )
-		{
-			systemLog.postLog( LogSeverity::Error,
-							   m_sMessage + tr( "Error: Could not remove old data file: " ) + sPath );
-			return false;
-		}
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Error: Could not remove old data file: " ) + sPath );
+		return false;
+	}
 
-		if ( !QFile::rename( sTemporaryPath, sPath ) )
-		{
-			systemLog.postLog( LogSeverity::Error,
-							   m_sMessage + tr( "Error: Could not rename data file: " ) + sPath );
-			return false;
-		}
+	if ( !QFile::rename( sTemporaryPath, sPath ) )
+	{
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Error: Could not rename data file: " ) + sPath );
+		return false;
 	}
 
 	if ( QFile::exists( sBackupPath ) && !QFile::remove( sBackupPath ) )
@@ -481,23 +452,33 @@ bool CDiscovery::asyncSyncSavingHelper()
 						   + tr( "Warning: Could not create create new backup file: " ) + sBackupPath );
 	}
 
+	systemLog.postLog( LogSeverity::Debug, m_sMessage + tr( "Saved %1 hosts to file." ).arg( nCount ) );
+
 	return true;
 }
 
 void CDiscovery::asyncStartUpHelper()
 {
+	qDebug() << "[Discovery] Started CDiscovery::asyncStartUpHelper().";
+
 	// Initialize random number generator.
 	qsrand ( QDateTime::currentDateTime().toTime_t() );
 
-	// Load rules from disk.
-	QMutexLocker l( &m_pSection );
+	qDebug() << "[Discovery] Initialized random number generator.";
 
 	// reg. meta types
 	qRegisterMetaType<TServiceID>( "TServiceID" );
 	qRegisterMetaType<TConstServicePtr>( "TConstServicePtr" );
 
+	qDebug() << "[Discovery] Registered Meta Types.";
+
+	// We don't really need a lock here as nobody is supposed to use the manager before it is properly initialized.
 	m_sMessage = tr( "[Discovery] " );
+
+	// Includes its own locking.
 	load();
+
+	qDebug() << "[Discovery] Finished CDiscovery::asyncStartUpHelper().";
 }
 
 void CDiscovery::asyncRequestServiceListHelper()
@@ -564,7 +545,7 @@ void CDiscovery::asyncUpdateServiceHelper(TServiceID nID)
 	TServicePtr pService = (*iService).second;
 	m_pSection.unlock();
 
-	Q_ASSERT( pService ); // we should always get a valid service from the iterator
+	Q_ASSERT( pService ); // We should always get a valid service from the iterator
 
 	systemLog.postLog( LogSeverity::Notice, m_sMessage
 						   + tr( "Updating service: " ) + pService->url() );
@@ -574,23 +555,35 @@ void CDiscovery::asyncUpdateServiceHelper(TServiceID nID)
 
 void CDiscovery::asyncQueryServiceHelper(const CNetworkType type)
 {
+	qDebug() << "[Discovery] CDiscovery::asyncQueryServiceHelper( const CNetworkType )";
+
 	QSharedPointer<QNetworkAccessManager> pNAM = requestNAM();
 
 	if ( pNAM->networkAccessible() == QNetworkAccessManager::Accessible )
 	{
+		qDebug() << "[Discovery] Network accessible.";
+
 		m_pSection.lock();
 		TServicePtr pService = getRandomService( type );
 		m_pSection.unlock();
+
+		qDebug() << "[Discovery] Got service pointer.";
 
 		if ( pService )
 		{
 			systemLog.postLog( LogSeverity::Notice,
 							   m_sMessage + tr( "Querying service: " ) + pService->url() );
 
+			qDebug() << "[Discovery] Service pointer OK.";
+
 			pService->query();
+
+			qDebug() << "[Discovery] Service Queried.";
 		}
 		else
 		{
+			qDebug() << "[Discovery] Error: Service pointer NULL!";
+
 			systemLog.postLog( LogSeverity::Warning, m_sMessage
 							   + tr( "Unable to query service for network: " ) + type.toString() );
 
@@ -599,15 +592,22 @@ void CDiscovery::asyncQueryServiceHelper(const CNetworkType type)
 	}
 	else
 	{
+		qDebug() << "[Discovery] Error: Network inaccessible!";
+		qDebug() << "[Discovery] Network status: " << pNAM->networkAccessible();
+
 		systemLog.postLog( LogSeverity::Error, m_sMessage
 		+ tr( "Could not query service because the network connection is currently unavailable." ) );
 	}
+
+	qDebug() << "[Discovery] End of CDiscovery::asyncQueryServiceHelper( const CNetworkType )";
 }
 
 void CDiscovery::asyncQueryServiceHelper(TServiceID nID)
 {
 	// We do not prevent users from manually querying services even if the network connection is reported
 	// to be down. Maybe they know better than we do.
+
+	qDebug() << "[Discovery] CDiscovery::asyncQueryServiceHelper( TServiceID )";
 
 	m_pSection.lock();
 
@@ -626,31 +626,125 @@ void CDiscovery::asyncQueryServiceHelper(TServiceID nID)
 	TServicePtr pService = (*iService).second;
 	m_pSection.unlock();
 
-	Q_ASSERT( pService ); // we should always get a valid service from the iterator
+	Q_ASSERT( pService ); // We should always get a valid service from the iterator
 
 	systemLog.postLog( LogSeverity::Notice,
 					   m_sMessage + tr( "Querying service: " ) + pService->url() );
 
 	pService->query();
+
+	qDebug() << "[Discovery] Service Queried.";
+}
+
+/**
+ * @brief doCount: Internal helper without locking. See count for documentation.
+ */
+quint32 CDiscovery::doCount(const CNetworkType& oType)
+{
+	if ( oType.isNull() )
+	{
+		return m_mServices.size();
+	}
+	else
+	{
+		quint16 nCount = 0;
+		TServicePtr pService;
+
+		foreach ( TMapPair pair, m_mServices )
+		{
+			pService = pair.second;
+			pService->m_oRWLock.lockForRead();
+
+			// Count all services that have the correct type, are not blocked and have a rating > 0
+			if ( pService->m_oNetworkType.isNetwork( oType ) &&
+				 !pService->m_bBanned &&
+				 pService->m_nRating )
+			{
+				++nCount;
+			}
+
+			pService->m_oRWLock.unlock();
+		}
+
+		return nCount;
+	}
+}
+
+/**
+ * @brief doClear: Internal helper without locking. See clear for documentation.
+ */
+void CDiscovery::doClear(bool bInformGUI)
+{
+	if ( bInformGUI )
+	{
+		foreach ( TMapPair pair, m_mServices )
+		{
+			emit serviceRemoved( pair.second->m_nID ); // inform GUI
+		}
+	}
+
+	m_mServices.clear();	// TServicePtr takes care of service deletion
+	m_nLastID = 0;			// make sure to recycle the IDs.
+}
+
+/**
+ * @brief doRemove: Internal helper without locking. See remove for documentation.
+ */
+bool CDiscovery::doRemove(TServiceID nID)
+{
+	TIterator iService = m_mServices.find( nID );
+
+	if ( iService == m_mServices.end() )
+	{
+		systemLog.postLog( LogSeverity::Error,
+						   m_sMessage + tr( "Internal error: Got request to remove invalid ID: " ) + nID );
+		return false; // Unable to find service by ID
+	}
+
+	// inform GUI about service removal
+	emit serviceRemoved( nID );
+
+	TServicePtr pService = (*iService).second;
+
+	systemLog.postLog( LogSeverity::Notice,
+					   m_sMessage
+					   + tr( "Removing discovery service: " )
+					   + pService->m_oServiceURL.toString() );
+
+	// stop it if necessary
+	pService->cancelRequest();
+
+	// remove it
+	m_mServices.erase( nID );
+
+	// Make sure to reassign the now unused ID.
+	if ( --nID < m_nLastID )
+		m_nLastID = nID;
+
+	return true;
 }
 
 /**
  * @brief load retrieves stored services from the HDD.
- * Requires locking: YES
+ * Locking: YES (synchronous)
  * @return true if loading from file was successful; false otherwise.
  */
+// Called only from within startup sequence
 void CDiscovery::load()
 {
 	QString sPath = quazaaSettings.Discovery.DataPath + "discovery.dat";
 
+	qDebug() << "[Discovery] Started loading services.";
+
 	if ( load( sPath ) )
 	{
 		systemLog.postLog( LogSeverity::Debug,
-						   m_sMessage + tr( "Loading discovery services from file: " ) + sPath );
-		return;
+						   m_sMessage + tr( "Loaded discovery services from file: " ) + sPath );
 	}
 	else // Unable to load default file. Switch to backup one instead.
 	{
+		qDebug() << "[Discovery] Failed primary attempt on loading services.";
+
 		sPath = quazaaSettings.Discovery.DataPath + "discovery_backup.dat";
 
 		systemLog.postLog( LogSeverity::Warning, m_sMessage
@@ -658,18 +752,34 @@ void CDiscovery::load()
 
 		if ( !load( sPath ) )
 		{
+			qDebug() << "[Discovery] Failed secondary attempt on loading services.";
+
 			systemLog.postLog( LogSeverity::Error,
 							   m_sMessage + tr( "Failed to load discovery services!" ) );
 		}
+	}
+
+	qDebug() << "[Discovery] Number of services: " << count();
+
+	if ( count() < 5 )
+	{
+		qDebug() << "[Discovery] Adding defaults.";
+		addDefaults();
+		qDebug() << "[Discovery] Finished adding defaults.";
+		qDebug() << "[Discovery] New number of services: " << count();
 	}
 }
 
 bool CDiscovery::load( QString sPath )
 {
+	qDebug() << "[Discovery] Loading discovery services from file: " << sPath;
+
 	QFile oFile( sPath );
 
 	if ( ! oFile.open( QIODevice::ReadOnly ) )
 		return false;
+
+	qDebug() << "[Discovery] Prepared file.";
 
 	CDiscoveryService* pService = nullptr;
 
@@ -727,10 +837,14 @@ bool CDiscovery::add(TServicePtr& pService)
 	if ( !pService )
 		return false;
 
-	if ( manageDuplicates( pService ) )
-	{
-		return false;
-	}
+	// remove duplicates and handle bans
+// TODO: Uncommente once manageDuplicates is fully implemented and tested.
+//	if ( manageDuplicates( pService ) )
+//	{
+//		return false;
+//	}
+
+//	qDebug() << "[Discovery] aaa service valid";
 
 	// check for already existing ID
 	if ( pService->m_nID && m_mServices.find( pService->m_nID ) != m_mServices.end() )
@@ -741,12 +855,16 @@ bool CDiscovery::add(TServicePtr& pService)
 		// any new services that might be added during the session.
 		Q_ASSERT( false );
 
+//		qDebug() << "[Discovery] aaa id change required";
+
 		pService->m_nID = 0; // set ID to invalid.
 	}
 
 	// assign valid ID if necessary
 	if ( !pService->m_nID )
 	{
+//		qDebug() << "[Discovery] aaa assigning new id";
+
 		TConstIterator i;
 		do
 		{
@@ -757,14 +875,26 @@ bool CDiscovery::add(TServicePtr& pService)
 
 		// assign ID to service
 		pService->m_nID = m_nLastID;
+
+//		qDebug() << "[Discovery] aaa id assigned";
 	}
+
+//	qDebug() << "[Discovery] aaa service ready";
 
 	// push to map
 	m_mServices[pService->m_nID] = pService;
+
+	qDebug() << QString( "[Discovery] Service added to manager: [%1]" ).arg( pService->type() ).toLocal8Bit().data()
+			 << pService->m_oServiceURL.toString();
 	return true;
 }
 
+/**
+ * @brief addDefaults loads the DefaultServices.dat file (compatible with Shareaza) into the manager.
+ * Locking: YES (synchronous)
+ */
 // Note: When modifying this method, compatibility to Shareaza should be maintained.
+// TODO: Handle banned services gracefully.
 void CDiscovery::addDefaults()
 {
 	QFile oFile( qApp->applicationDirPath() + "\\DefaultServices.dat" );
@@ -784,8 +914,6 @@ void CDiscovery::addDefaults()
 		QString     sLine, sService;
 		QChar       cType;
 
-		QMutexLocker l( &m_pSection );
-
 		while( !fsFile.atEnd() )
 		{
 			sLine = fsFile.readLine();
@@ -798,89 +926,116 @@ void CDiscovery::addDefaults()
 
 			switch( cType.toLatin1() )
 			{
-			case '1':	// G1 service
-				break;
+//			case '1':	// G1 service
+//				break;
 			case '2':	// G2 service
+				qDebug() << "[Discovery] a2a";
 				add( sService, stGWC, CNetworkType( dpG2 ), DISCOVERY_MAX_PROBABILITY );
+				qDebug() << "[Discovery] a2b";
 				break;
 			case 'M':	// Multi-network service
+				qDebug() << "[Discovery] aMa";
 				add( sService, stGWC, CNetworkType( dpG2 ), DISCOVERY_MAX_PROBABILITY );
+				qDebug() << "[Discovery] aMb";
 				break;
-			case 'D':	// eDonkey service
-				break;
-			case 'U':	// Bootstrap and UDP Discovery Service
-				break;
+//			case 'D':	// eDonkey service
+//				break;
+//			case 'U':	// Bootstrap and UDP Discovery Service
+//				break;
 			case 'X':	// Blocked service
-				// TODO: implement class for permanently banned services with unknown type
-				add( sService, stNull, CNetworkType( dpNull ), 0 );
+				qDebug() << "[Discovery] aXa";
+				add( sService, stBanned, CNetworkType( dpNull ), 0 );
+				qDebug() << "[Discovery] aXb";
 				break;
 			default:	// Comment line or unsupported
+				qDebug() << "[Discovery] aNULL";
 				break;
 			}
+
+			qDebug() << "[Discovery] 33";
 		}
+
+		qDebug() << "[Discovery] 4";
 	}
 	catch ( ... )
 	{
+		qDebug() << "[Discovery] catch";
 		systemLog.postLog( LogSeverity::Error,
 						   m_sMessage + tr( "Error while loading default servers from file." ) );
 	}
-
+	qDebug() << "[Discovery] close file";
 	oFile.close();
 }
 
 /**
  * @brief manageDuplicates checks if an identical (or very similar) service is alreads present in the
- * manager, decides which service to remove and frees unnecessary data.
+ * manager, decides which service to remove and frees unnecessary data. If pService is of the banned
+ * service type, all similar existing services will be removed and replaced.
  * Requires locking: YES
  * @param pService
  * @return true if a duplicate was detected; pService is cleared in that case. false otherwise.
  */
+// TODO: Further improve this
 bool CDiscovery::manageDuplicates(TServicePtr& pService)
 {
+	//TODO: Do we need a read lock here?
 	QString sURL = pService->m_oServiceURL.toString();
 
 	foreach ( TMapPair pair, m_mServices )
 	{
 		// already existing service
 		TServicePtr pExService = pair.second;
+		QWriteLocker( &pService->m_oRWLock );
+
 		QString sExURL = pExService->m_oServiceURL.toString();
 
 		// check for services with the same URL; Note: all URLs should be case insesitive due to
 		// normalizeURLs(), so case sensitivity is not a problem here.
 		if ( !sExURL.compare( sURL ) )
 		{
-			if ( pService->m_nServiceType == pExService->m_nServiceType )
+			if ( pService->m_nServiceType == stBanned )
 			{
-				// Make sure the existing service is set to handle the networks pService handles, too.
-				// (90% of the time, this should be the case anyway, but this is more efficient than
-				// using an if statement to test the condition.)
-				pExService->m_oNetworkType.setNetwork( pService->m_oNetworkType );
-
-				systemLog.postLog( LogSeverity::Debug, m_sMessage
-				+ tr( "Detected a duplicate service. Not going to add the new one." ) );
-
-				pService.clear();
-				return true;
+				doRemove( pExService->m_nID );
 			}
-			else // This should not happen. Two services with the same URL should be of the same type.
+			else
 			{
-				// Generate nice assert so that this can be analized.
-				QString sError = "Services of type %1 and %2 detected sharing the same URL: ";
-				sError.arg( pService->type(), pExService->type() );
-				sError.append( sURL );
-				Q_ASSERT_X( false, "manageDuplicates", sError.toLatin1().data() );
+				if ( pService->m_nServiceType == pExService->m_nServiceType ||
+					 pExService->m_nServiceType == stBanned )
+				{
+					// Make sure the existing service is set to handle the networks pService handles, too.
+					// (90% of the time, this should be the case anyway, but this is more efficient than
+					// using an if statement to test the condition.)
+					pExService->m_oNetworkType.setNetwork( pService->m_oNetworkType );
+
+					systemLog.postLog( LogSeverity::Debug, m_sMessage
+					+ tr( "Detected a duplicate service. Not going to add the new one." ) );
+
+					pService.clear();
+					return true;
+				}
+				else // This should not happen. Two services with the same URL should be of the same type.
+				{
+					// Generate nice assert so that this can be analized.
+					QString sError = "Services of type %1 and %2 detected sharing the same URL: ";
+					sError.arg( pService->type(), pExService->type() );
+					sError.append( sURL );
+					Q_ASSERT_X( false, "manageDuplicates", sError.toLocal8Bit().data() );
+				}
 			}
 		}
 
 		// check for services with only part of the URL of an other service
 		// this filters out "www.example.com"/"www.example.com/gwc.php" pairs
-		if ( sExURL.startsWith( sURL ) )
+		if ( sExURL.startsWith( sURL ) || sURL.startsWith( sExURL ) )
 		{
+			if ( pService->m_nServiceType == stBanned )
+			{
+				doRemove( pExService->m_nID );
+			}
+			else
+			{
 // TODO: implement
-		}
-		else if ( sURL.startsWith( sExURL ) )
-		{
-// TODO: implement
+			}
 		}
 	}
 
@@ -888,7 +1043,7 @@ bool CDiscovery::manageDuplicates(TServicePtr& pService)
 }
 
 /**
- * @brief normalizeURL transforms a given URL string into a standard form to easa the detection of
+ * @brief normalizeURL transforms a given URL string into a standard form to ease the detection of
  * duplicates, filter out websites caching a service etc.
  * Requires locking: NO
  * @param sURL
@@ -936,8 +1091,16 @@ CDiscovery::TServicePtr CDiscovery::getRandomService(const CNetworkType& oNType)
 	{
 		pService = pair.second;
 
+//		qDebug() << QString( "[Discovery] Service : [%1]" ).arg( pService->type() ).toLocal8Bit().data()
+//				 << pService->m_oServiceURL.toString();
+
+		pService->m_oRWLock.lockForRead();
+
 		if ( pService->m_bBanned )
+		{
+			pService->m_oRWLock.unlock();
 			continue; // skip banned services
+		}
 
 		bool bRatingEnabled = pService->m_nRating;
 
@@ -945,27 +1108,43 @@ CDiscovery::TServicePtr CDiscovery::getRandomService(const CNetworkType& oNType)
 		{
 			if ( pService->m_tLastQueried + quazaaSettings.Discovery.ZeroRatingRevivalInterval > tNow )
 			{
+				pService->m_oRWLock.unlock();
+				pService->m_oRWLock.lockForWrite();
+
 				// Revive service
 				pService->setRating( DISCOVERY_MAX_PROBABILITY );
 				++pService->m_nZeroRevivals;
 				bRatingEnabled = true;
+
+				pService->m_oRWLock.unlock();
+				pService->m_oRWLock.lockForRead();
 			}
 		}
+
+//		qDebug() << "[Discovery] Checking service...";
 
 		// Consider all services that...
 		if ( pService->m_oNetworkType.isNetwork( oNType ) &&     // have the correct type
 			 bRatingEnabled &&              // have a rating > 0 or are considered for revival
-			 pService->m_tLastQueried
-			 + quazaaSettings.Discovery.AccessThrottle > tNow && // are not recently used
+// TODO: Verify UTC usage
+			 //pService->m_tLastQueried
+			 //+ quazaaSettings.Discovery.AccessThrottle > tNow && // are not recently used
 			 !pService->m_bRunning )                             // are not in use
 		{
 			list.push_back( pService );
+//			qDebug() << "[Discovery] Service added to list!";
+
 			nTotalRating += pService->m_nRating;
+		}
+		else
+		{
+//			qDebug() << "[Discovery] Service not added to list!";
 		}
 	}
 
 	if ( list.empty() )
 	{
+		pService->m_oRWLock.unlock();
 		return TServicePtr();
 	}
 	else
@@ -982,6 +1161,7 @@ CDiscovery::TServicePtr CDiscovery::getRandomService(const CNetworkType& oNType)
 			pSelected = *( ++current );
 		}
 
+		pService->m_oRWLock.unlock();
 		return pSelected;
 	}
 }

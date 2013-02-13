@@ -47,6 +47,8 @@ public:
 	CNetworkType(quint16 type);
 	CNetworkType(DiscoveryProtocol type);
 
+	void registerMetaType() const;
+
 	bool operator==(const CNetworkType& type) const;
 	bool operator!=(const CNetworkType& type) const;
 

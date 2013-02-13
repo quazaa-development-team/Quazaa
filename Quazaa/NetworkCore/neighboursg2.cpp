@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2012.
@@ -23,7 +23,6 @@
 */
 
 #include "neighboursg2.h"
-#include "webcache.h"
 #include "hostcache.h"
 #include "g2node.h"
 #include "g2packet.h"
@@ -32,6 +31,8 @@
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
+
+#include "Discovery/discovery.h"
 
 #ifdef _DEBUG
 #include "debug_new.h"
@@ -73,9 +74,10 @@ void CNeighboursG2::Connect()
 
 	static bool bStartupRequest = false;
 
-	if(!bStartupRequest && !WebCache.isRequesting())
+	// TODO: Test whether already active checking is required
+	if ( !bStartupRequest )
 	{
-		WebCache.RequestRandom();
+		discoveryManager.queryService( CNetworkType( dpG2 ) );
 		bStartupRequest = true;
 	}
 
@@ -96,9 +98,10 @@ void CNeighboursG2::Maintain()
 		m_bNeedLNI = true;
 	}
 
-	if(m_nHubsConnectedG2 == 0 && !WebCache.isRequesting() && (HostCache.isEmpty() || HostCache.GetConnectable() == 0))
+	// TODO: Test whether already active checking is required
+	if ( m_nHubsConnectedG2 == 0 && (HostCache.isEmpty() || HostCache.GetConnectable() == 0 ) )
 	{
-		WebCache.RequestRandom();
+		discoveryManager.queryService( CNetworkType( dpG2 ) );
 	}
 
 	if(m_nNextKHL == 0)

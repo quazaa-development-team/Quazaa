@@ -58,6 +58,8 @@ CDiscoveryTableModel::Service::Service(TConstServicePtr pService)
 	default:
 		Q_ASSERT( false );
 	}
+
+	m_pNode->unlock();
 }
 
 CDiscoveryTableModel::Service::~Service()
@@ -419,8 +421,8 @@ void CDiscoveryTableModel::addService(TConstServicePtr pService)
 
 	// Make sure we don't recieve any signals we don't want once we got all rules once.
 	if ( m_lNodes.size() == (int)discoveryManager.count() )
-		disconnect( &discoveryManager, SIGNAL( serviceInfo( const CDiscoveryService* ) ),
-					this, SLOT( addService( const CDiscoveryService* ) ) );
+		disconnect( &discoveryManager, SIGNAL( serviceInfo( TConstServicePtr ) ),
+					this, SLOT( addService( TConstServicePtr ) ) );
 }
 
 void CDiscoveryTableModel::removeService(TServiceID nID)

@@ -348,7 +348,8 @@ SOURCES += \
 	UI/widgetuploads.cpp \
 	UI/winmain.cpp \
 	UI/wizardircconnection.cpp \
-	UI/wizardquickstart.cpp
+	UI/wizardquickstart.cpp \
+    Discovery/banneddiscoveryservice.cpp
 
 !mac {
 	SOURCES += \
@@ -531,7 +532,8 @@ HEADERS += \
 	UI/widgetuploads.h \
 	UI/winmain.h \
 	UI/wizardircconnection.h \
-	UI/wizardquickstart.h
+	UI/wizardquickstart.h \
+    Discovery/banneddiscoveryservice.h
 
 !mac {
 	HEADERS += \

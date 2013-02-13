@@ -24,6 +24,7 @@
 
 #include "discoveryservice.h"
 #include "gwc.h"
+#include "banneddiscoveryservice.h"
 
 #include "quazaasettings.h"
 #include "timedsignalqueue.h"
@@ -65,18 +66,18 @@ CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
 	// The usage of a custom copy constructor makes sure the list of registered
 	// pointers is NOT forwarded to a copy of this service.
 
-	m_nServiceType	= pService.m_nServiceType;
-	m_oNetworkType	= pService.m_oNetworkType;
-	m_oServiceURL	= pService.m_oServiceURL;
-	m_nRating		= pService.m_nRating;
-	m_bBanned		= pService.m_bBanned;
-	m_bZero			= pService.m_bZero;
-	m_nID			= pService.m_nID;
-	m_nLastHosts	= pService.m_nLastHosts;
-	m_nTotalHosts	= pService.m_nTotalHosts;
-	m_tLastQueried	= pService.m_tLastQueried;
-	m_tLastSuccess	= pService.m_tLastSuccess;
-	m_nFailures		= pService.m_nFailures;
+	m_nServiceType  = pService.m_nServiceType;
+	m_oNetworkType  = pService.m_oNetworkType;
+	m_oServiceURL   = pService.m_oServiceURL;
+	m_nRating       = pService.m_nRating;
+	m_bBanned       = pService.m_bBanned;
+	m_bZero         = pService.m_bZero;
+	m_nID           = pService.m_nID;
+	m_nLastHosts    = pService.m_nLastHosts;
+	m_nTotalHosts   = pService.m_nTotalHosts;
+	m_tLastQueried  = pService.m_tLastQueried;
+	m_tLastSuccess  = pService.m_tLastSuccess;
+	m_nFailures     = pService.m_nFailures;
 
 	m_nZeroRevivals = pService.m_nZeroRevivals;
 	m_nProbaMult    = pService.m_nProbaMult;
@@ -137,19 +138,19 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, 
 		pService = nullptr;
 	}
 
-	quint8			nServiceType; // GWC, UKHL, ...
-	quint16			nNetworkType; // could be several in case of GWC for instance
-	QString			sURL;
-	quint8			nRating;      // 0: bad; 10: very good
-	bool			bBanned;      // service URL is blocked
-	bool			bZero;
-	TServiceID	nID;          // ID used by the manager to identify the service
-	quint32			nLastHosts;   // hosts returned by the service on last query
-	quint32			nTotalHosts;  // all hosts we ever got from the service
-	quint32			tLastQueried; // last time we accessed the host
-	quint32			tLastSuccess; // last time we queried the service successfully
-	quint8			nFailures;
-	quint8			nZeroRatingFailures;
+	quint8     nServiceType;        // GWC, UKHL, ...
+	quint16    nNetworkType;        // could be several in case of GWC for instance
+	QString    sURL;
+	quint8     nRating;             // 0: bad; 10: very good
+	bool       bBanned;             // service URL is blocked
+	bool       bZero;
+	TServiceID nID;                 // ID used by the manager to identify the service
+	quint32    nLastHosts;          // hosts returned by the service on last query
+	quint32    nTotalHosts;         // all hosts we ever got from the service
+	quint32    tLastQueried;        // last time we accessed the host
+	quint32    tLastSuccess;        // last time we queried the service successfully
+	quint8     nFailures;
+	quint8     nZeroRatingFailures;
 
 	fsFile >> nServiceType;
 	fsFile >> nNetworkType;
@@ -168,14 +169,14 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, 
 	pService = createService( sURL, (TServiceType)nServiceType,
 							  CNetworkType( nNetworkType ), nRating );
 
-	pService->m_bBanned             = bBanned;
-	pService->m_bZero               = bZero;
-	pService->m_nID                 = nID;
-	pService->m_nLastHosts          = nLastHosts;
-	pService->m_nTotalHosts         = nTotalHosts;
-	pService->m_tLastQueried        = tLastQueried;
-	pService->m_tLastSuccess        = tLastSuccess;
-	pService->m_nFailures           = nFailures;
+	pService->m_bBanned       = bBanned;
+	pService->m_bZero         = bZero;
+	pService->m_nID           = nID;
+	pService->m_nLastHosts    = nLastHosts;
+	pService->m_nTotalHosts   = nTotalHosts;
+	pService->m_tLastQueried  = tLastQueried;
+	pService->m_tLastSuccess  = tLastSuccess;
+	pService->m_nFailures     = nFailures;
 	pService->m_nZeroRevivals = nZeroRatingFailures;
 }
 
@@ -219,8 +220,12 @@ CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServic
 	switch ( eSType )
 	{
 	case stNull:
-		// TODO: Implement class for permanently banned services
 		break;
+	case stBanned:
+	{
+		pService = new CBannedDiscoveryService( sURL, oNType, nRating );
+		break;
+	}
 	case stGWC:
 	{
 		pService = new CGWC( sURL, oNType, nRating );
@@ -229,7 +234,7 @@ CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServic
 	default:
 		systemLog.postLog( LogSeverity::Error, discoveryManager.m_sMessage
 						   + tr( "Internal error: Creation of service with unknown type requested: Type " )
-						   + eSType );
+						   + QString( eSType ) );
 
 		Q_ASSERT( false ); // unsupported service type
 	}
@@ -266,7 +271,21 @@ void CDiscoveryService::update()
  */
 void CDiscoveryService::query()
 {
+	qDebug() << "[Discovery] Querying service.";
+
+
+
+
+
+	// TODO: Find out why this is locked when it shouldn't be.
+
+
+
+
+
 	m_oRWLock.lockForWrite();
+
+	qDebug() << "[Discovery] Got service lock.";
 
 	Q_ASSERT( !m_bRunning );
 
@@ -276,9 +295,13 @@ void CDiscoveryService::query()
 
 	m_oRWLock.unlock();
 
+	qDebug() << "[Discovery] Released service lock.";
+
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
 	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ),
 								tNow + quazaaSettings.Discovery.ServiceTimeout );
+
+	qDebug() << "[Discovery] Finished querying service.";
 }
 
 /**

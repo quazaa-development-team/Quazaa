@@ -45,10 +45,8 @@ class CDiscoveryService : public QObject
 	/* ================================================================ */
 	/* ========================== Attributes ========================== */
 	/* ================================================================ */
-public:
-	QReadWriteLock	m_oRWLock;
-
 protected:
+	QReadWriteLock	m_oRWLock;      // Service access lock.
 	TServiceType	m_nServiceType; // GWC, UKHL, ...
 	CNetworkType	m_oNetworkType; // could be several in case of GWC for instance
 	QUrl			m_oServiceURL;
@@ -322,6 +320,7 @@ protected:
 	/* ================================================================ */
 	/**
 	 * @brief updateStatistics updates statistics, failure counters etc.
+	 * Requires locking: RW
 	 * @param nHosts
 	 */
 	void updateStatistics(bool bQuery, quint16 nHosts);
@@ -431,7 +430,6 @@ void CDiscoveryService::resetRunning()
 {
 	m_bRunning = false;
 }
-
 }
 
 #endif // DISCOVERYSERVICE_H

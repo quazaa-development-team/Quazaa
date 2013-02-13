@@ -2,8 +2,8 @@
 
 using namespace Discovery;
 
-CBannedDiscoveryService::CBannedDiscoveryService(const QUrl& oURL, const CNetworkType&, quint8 nRating) :
-	CDiscoveryService( oURL, CNetworkType( dpNull ), nRating )
+CBannedDiscoveryService::CBannedDiscoveryService(const QUrl& oURL, const CNetworkType&, quint8) :
+	CDiscoveryService( oURL, CNetworkType( dpNull ), 0 )
 {
 	m_nServiceType = stBanned;
 }

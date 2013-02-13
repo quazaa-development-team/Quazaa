@@ -70,6 +70,7 @@ void SystemLog::postLog(LogSeverity::Severity severity, QString message)
 		case LogSeverity::Debug:
 		case LogSeverity::Warning:
 		case LogSeverity::Critical:
+		case LogSeverity::Error:
 			qCritical() << qPrintable(message);
 			break;
 		default:
