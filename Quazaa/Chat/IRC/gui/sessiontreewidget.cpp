@@ -284,7 +284,7 @@ void SessionTreeWidget::applySettings()
 {
     QString foregroundColor = quazaaSettings.Chat.Colors.value(IrcColorType::Default);
     QString backgroundColor = quazaaSettings.Chat.Colors.value(IrcColorType::Background);
-    setStyleSheet(QString("SessionTreeWidget { background-color: %1; color: %2; } SessionTreeWidget::branch { background: %1; }").arg(backgroundColor).arg(foregroundColor));
+    setStyleSheet(QString("SessionTreeWidget { background-color: %1; } SessionTreeWidget::item { color: %2; } SessionTreeWidget::branch { background: %1; }").arg(backgroundColor).arg(foregroundColor));
 
     d.colors[Active] = quazaaSettings.Chat.Colors.value(IrcColorType::Default);
     d.colors[Inactive] = quazaaSettings.Chat.Colors.value(IrcColorType::Inactive);
