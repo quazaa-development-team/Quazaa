@@ -199,7 +199,7 @@ QString MessageFormatter::formatMessage(const QDateTime& timeStamp, const QStrin
     if (d.timeStamp)
         formatted = tr("<span class='timestamp'>%1</span> %2").arg(timeStamp.time().toString(d.timestampFormat), formatted);
 
-	return formatted;
+    return tr("<span class='%1'>%2</span>").arg(cls, formatted);
 }
 
 QString MessageFormatter::formatInviteMessage(IrcInviteMessage* message) const
