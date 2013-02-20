@@ -262,9 +262,15 @@ void DialogIrcSettings::loadSettings()
             addAliasRow(alias, command);
     }
 
+#if QT_VERSION < 0x050000
     ui->treeViewAliases->header()->setResizeMode(0, QHeaderView::ResizeToContents);
     ui->treeViewAliases->header()->setResizeMode(1, QHeaderView::Stretch);
     ui->treeViewAliases->header()->setResizeMode(2, QHeaderView::ResizeToContents);
+#else
+    ui->treeViewAliases->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    ui->treeViewAliases->header()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->treeViewAliases->header()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+#endif
 }
 
 void DialogIrcSettings::on_pushButtonOK_clicked()
