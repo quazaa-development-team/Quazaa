@@ -105,7 +105,6 @@ private:
         QSet<SessionTreeItem*> resetedItems;
         QHash<WidgetIrcMessageView*, SessionTreeItem*> viewItems;
         QHash<Session*, SessionTreeItem*> sessionItems;
-        QVariantHash state;
         mutable QTreeWidgetItem* dropParent;
     } d;
     friend class SessionTreeItem;
