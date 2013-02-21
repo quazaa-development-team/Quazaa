@@ -25,3 +25,6 @@ Makefile.Release
 /Quazaa/temp
 /VersionTool/debug
 /VersionTool/release
+/Quazaa/bin/libeay32.dll
+/Quazaa/bin/libssl32.dll
+/Quazaa/bin/ssleay32.dll
