@@ -95,6 +95,11 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
     connect(d.chatInput, SIGNAL(messageSent(QString)), this, SLOT(sendMessage(QString)));
     connect(d.chatInput->textEdit(), SIGNAL(textChanged(QString)), this, SLOT(showHelp(QString)));
 
+    connect(d.chatInput->textEdit(), SIGNAL(scrollToTop()), d.textBrowser, SLOT(scrollToTop()));
+    connect(d.chatInput->textEdit(), SIGNAL(scrollToBottom()), d.textBrowser, SLOT(scrollToBottom()));
+    connect(d.chatInput->textEdit(), SIGNAL(scrollToNextPage()), d.textBrowser, SLOT(scrollToNextPage()));
+    connect(d.chatInput->textEdit(), SIGNAL(scrollToPreviousPage()), d.textBrowser, SLOT(scrollToPreviousPage()));
+
     d.chatInput->helpLabel()->hide();
 	d.searchEditor->setTextEdit(d.textBrowser);
 

@@ -48,6 +48,7 @@ private:
 	int m_iHistoryIndex;
 
 protected:
+    bool event(QEvent* event);
 	void keyPressEvent(QKeyEvent* event);
 	virtual bool focusNextPrevChild(bool next);
 
@@ -55,6 +56,10 @@ signals:
 	void returnPressed();
 	void tabPressed();
 	void textChanged(const QString &text);
+    void scrollToTop();
+    void scrollToBottom();
+    void scrollToNextPage();
+    void scrollToPreviousPage();
 
 public slots:
 	void onTextChanged();
