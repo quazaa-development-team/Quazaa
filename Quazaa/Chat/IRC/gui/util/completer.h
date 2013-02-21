@@ -36,11 +36,11 @@ public:
     WidgetReturnEmitTextEdit* textEdit() const;
     void setTextEdit(WidgetReturnEmitTextEdit* textEdit);
 
-	IrcUserListModel *defaultModel() const;
-	void setDefaultModel(IrcUserListModel* model);
+    IrcUserListModel *userModel() const;
+    void setUserModel(IrcUserListModel* model);
 
-	QAbstractItemModel* slashModel() const;
-	void setSlashModel(QAbstractItemModel* model);
+    QAbstractItemModel* commandModel() const;
+    void setCommandModel(QAbstractItemModel* model);
 
 private slots:
 	void onTabPressed();
@@ -51,8 +51,8 @@ private:
 	struct CompleterData {
         WidgetReturnEmitTextEdit* textEdit;
 		HistoryLineEdit* lineEdit;
-		IrcUserListModel* defaultModel;
-		QAbstractItemModel* slashModel;
+        IrcUserListModel* userModel;
+        QAbstractItemModel* commandModel;
 	} d;
 };
 

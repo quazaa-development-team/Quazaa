@@ -88,8 +88,8 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
         CommandParser::addCustomCommand("CTCP", "<target> <command> (<params...>)");
 	}
 
-    d.chatInput->textEdit()->completer()->setDefaultModel(d.listView->userModel());
-    d.chatInput->textEdit()->completer()->setSlashModel(command_model);
+    d.chatInput->textEdit()->completer()->setUserModel(d.listView->userModel());
+    d.chatInput->textEdit()->completer()->setCommandModel(command_model);
 
     connect(d.chatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(sendMessage(QTextDocument*)));
     connect(d.chatInput, SIGNAL(messageSent(QString)), this, SLOT(sendMessage(QString)));
