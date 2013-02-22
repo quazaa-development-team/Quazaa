@@ -130,7 +130,7 @@ CHostCacheHost* CHostCache::Add(CEndPoint host, QDateTime ts)
 		Save();
 	}
 
-	QDateTime tNow = QDateTime::currentDateTimeUtc();
+    QDateTime tNow = QDateTime::currentDateTime();
 
 	if( m_tLastSave.secsTo(tNow) > 600 )
 		Save();
