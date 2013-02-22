@@ -54,7 +54,7 @@ WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 	setSkin();
 }
 
-bool HistoryLineEdit::event(QEvent* event)
+bool WidgetReturnEmitTextEdit::event(QEvent* event)
 {
     if (event->type() == QEvent::ShortcutOverride) {
         QKeyEvent* ke = static_cast<QKeyEvent*>(event);
@@ -76,7 +76,7 @@ bool HistoryLineEdit::event(QEvent* event)
             return true;
         }
     }
-    return FancyLineEdit::event(event);
+    return QTextEdit::event(event);
 }
 
 void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)

@@ -147,13 +147,13 @@ void Completer::onTabPressed()
         // choose model
         if (word.startsWith('/'))
         {
-            if (model() != d.slashModel)
-                setModel(d.slashModel);
+            if (model() != d.commandModel)
+                setModel(d.commandModel);
         }
         else
         {
-            if (model() != d.defaultModel->toStringListModel())
-                setModel(d.defaultModel->toStringListModel());
+            if (model() != d.userModel->toStringListModel())
+                setModel(d.userModel->toStringListModel());
         }
 
         if (word != completionPrefix()) {

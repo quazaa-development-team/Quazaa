@@ -368,7 +368,7 @@ void WidgetIrcMessageView::onAnchorClicked(const QUrl& link)
 void WidgetIrcMessageView::completeCommand(const QString &command)
 {
     if (command == "TOPIC")
-        d.lineEditor->insert(d.topic);
+        d.chatInput->textEdit()->insertPlainText(d.topic);
 }
 
 void WidgetIrcMessageView::closePressed()

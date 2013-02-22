@@ -27,6 +27,7 @@
 
 #include <QTextEdit>
 #include <QKeyEvent>
+#include <QEvent>
 
 #include "completer.h"
 class Completer;

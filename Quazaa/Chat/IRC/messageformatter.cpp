@@ -182,19 +182,19 @@ QString MessageFormatter::formatMessage(const QDateTime& timeStamp, const QStrin
     if (formatted.isEmpty())
         return QString();
 
-    static QHash<QString, QString> classes;
-    if (classes.isEmpty()) {
-        classes.insert("!", "event");
-        classes.insert("[", "notice");
-        classes.insert("*", "action");
-        classes.insert("?", "unknown");
-    }
 
     QString cls = "message";
-    if (d.highlight)
+    if (d.highlight) {
         cls = "highlight";
-    else if (classes.contains(formatted.left(1)))
-        cls = classes.value(formatted.left(1));
+    } else {
+        switch (formatted.at(0).unicode()) {
+            case '!': cls = "event"; break;
+            case '[': cls = "notice"; break;
+            case '*': cls = "action"; break;
+            case '?': cls = "unknown"; break;
+            default: break;
+        }
+    }
 
     if (d.timeStamp)
         formatted = tr("<span class='timestamp'>%1</span> %2").arg(timeStamp.time().toString(d.timestampFormat), formatted);
