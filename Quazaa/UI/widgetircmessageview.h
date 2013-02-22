@@ -88,6 +88,7 @@ private slots:
     void onEscPressed();
     void onSplitterMoved();
     void onAnchorClicked(const QUrl& link);
+    void completeCommand(const QString& command);
     void closePressed();
 
 private:
@@ -97,6 +98,7 @@ private:
         Session* session;
         WidgetChatInput* chatInput;
 		MessageFormatter* formatter;
+        QString topic;
 		bool joined;
 	} d;
 };

@@ -90,6 +90,7 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
 
     d.chatInput->textEdit()->completer()->setUserModel(d.listView->userModel());
     d.chatInput->textEdit()->completer()->setCommandModel(command_model);
+    connect(d.chatInput->textEdit()->completer(), SIGNAL(commandCompletion(QString)), this, SLOT(completeCommand(QString)));
 
     connect(d.chatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(sendMessage(QTextDocument*)));
     connect(d.chatInput, SIGNAL(messageSent(QString)), this, SLOT(sendMessage(QString)));
@@ -359,6 +360,12 @@ void WidgetIrcMessageView::onAnchorClicked(const QUrl& link)
         QDesktopServices::openUrl(link);
 }
 
+void WidgetIrcMessageView::completeCommand(const QString &command)
+{
+    if (command == "TOPIC")
+        d.lineEditor->insert(d.topic);
+}
+
 void WidgetIrcMessageView::closePressed()
 {
     switch (viewType())
@@ -441,7 +448,8 @@ void WidgetIrcMessageView::receiveMessage(IrcMessage* message)
             break;
         }
         case IrcMessage::Topic:
-            d.topicLabel->setText(d.formatter->formatHtml(static_cast<IrcTopicMessage*>(message)->topic()));
+            d.topic = static_cast<IrcTopicMessage*>(message)->topic();
+            d.topicLabel->setText(d.formatter->formatHtml(d.topic));
             if (d.topicLabel->text().isEmpty())
                 d.topicLabel->setText(tr("-"));
             break;
@@ -463,10 +471,12 @@ void WidgetIrcMessageView::receiveMessage(IrcMessage* message)
         case IrcMessage::Numeric:
             switch (static_cast<IrcNumericMessage*>(message)->code()) {
                 case Irc::RPL_NOTOPIC:
+                    d.topic.clear();
                     d.topicLabel->setText(tr("-"));
                     break;
                 case Irc::RPL_TOPIC:
-                    d.topicLabel->setText(d.formatter->formatHtml(message->parameters().value(2)));
+                    d.topic = message->parameters().value(2);
+                    d.topicLabel->setText(d.formatter->formatHtml(d.topic));
                     break;
                 case Irc::RPL_TOPICWHOTIME: {
                     QDateTime dateTime = QDateTime::fromTime_t(message->parameters().value(3).toInt());
