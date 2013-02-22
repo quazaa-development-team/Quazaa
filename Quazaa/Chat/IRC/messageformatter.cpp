@@ -467,7 +467,13 @@ QString MessageFormatter::formatZncPlaybackMessage(IrcPrivateMessage *message) c
                 return content;
             }
         }
-        message->setParameters(QStringList() << message->target() << QStringList(tokens.mid(1)).join(" "));
+
+        QString content = QStringList(tokens.mid(1)).join(" ");
+        if (message->isAction())
+            content = QString("\1ACTION %1\1").arg(content);
+        else if (message->isRequest())
+            content = QString("\1%1\1").arg(content);
+        message->setParameters(QStringList() << message->target() << content);
     }
     return formatPrivateMessage(message);
 }
@@ -478,7 +484,11 @@ QString MessageFormatter::formatZncPlaybackMessage(IrcNoticeMessage *message) co
     QDateTime timeStamp = QDateTime::fromString(tokens.value(0), d.timestampFormat);
     if (timeStamp.isValid()) {
         message->setTimeStamp(timeStamp);
-        message->setParameters(QStringList() << message->target() << QStringList(tokens.mid(1)).join(" "));
+
+        QString content = QStringList(tokens.mid(1)).join(" ");
+        if (message->isReply())
+            content = QString("\1%1\1").arg(content);
+        message->setParameters(QStringList() << message->target() << content);
     }
     return formatNoticeMessage(message);
 }
