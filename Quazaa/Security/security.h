@@ -1,4 +1,4 @@
-#ifndef SECURITY_H
+﻿#ifndef SECURITY_H
 #define SECURITY_H
 
 #include <list>
@@ -17,6 +17,10 @@
 #define SECURITY_CODE_VERSION	0
 // History:
 // 0 - Initial implementation
+
+// TODO: Use UTC times accross the security manager.
+// DODO: Add quint16 GUI ID to rules and update GUI only when there is a change to the rule.
+// TODO: Enable/disable this according to the visibility within the GUI
 
 namespace Security
 {

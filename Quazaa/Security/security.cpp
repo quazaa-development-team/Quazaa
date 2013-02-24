@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2012.
@@ -25,14 +25,13 @@
 #include <math.h>
 
 #include <QFile>
+#include <QDateTime>
 #include <QMetaType>
 
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
 #include "security.h"
-
-#include "time.h"
 
 #include "geoiplist.h"
 #include "quazaasettings.h"
@@ -507,7 +506,7 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 
 	QWriteLocker mutex( &m_pRWLock );
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
 
 	CAddressRuleMap::const_iterator i = m_IPs.find( qHash( oAddress ) );
 	if ( i != m_IPs.end() )
@@ -1088,8 +1087,8 @@ bool CSecurity::start()
 	settingsChanged();
 
 	// Set up interval timed cleanup operations.
-	m_idRuleExpiry = signalQueue.push( this, SLOT(expire()), m_tRuleExpiryInterval, true );
-	m_idMissCacheExpiry = signalQueue.push( this, SLOT(missCacheClear()), m_tMissCacheExpiryInterval, true );
+	m_idRuleExpiry = signalQueue.push( this, "expire", m_tRuleExpiryInterval, true );
+	m_idMissCacheExpiry = signalQueue.push( this, "missCacheClear", m_tMissCacheExpiryInterval, true );
 
 	return load(); // Load security rules from HDD
 }
