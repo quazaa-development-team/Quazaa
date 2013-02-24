@@ -349,7 +349,8 @@ SOURCES += \
 	UI/winmain.cpp \
 	UI/wizardircconnection.cpp \
 	UI/wizardquickstart.cpp \
-    Discovery/banneddiscoveryservice.cpp
+	Discovery/banneddiscoveryservice.cpp \
+	Misc/debugrwlock.cpp
 
 !mac {
 	SOURCES += \
@@ -533,7 +534,8 @@ HEADERS += \
 	UI/winmain.h \
 	UI/wizardircconnection.h \
 	UI/wizardquickstart.h \
-    Discovery/banneddiscoveryservice.h
+	Discovery/banneddiscoveryservice.h \
+	Misc/debugrwlock.h
 
 !mac {
 	HEADERS += \
