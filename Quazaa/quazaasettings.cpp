@@ -460,9 +460,9 @@ void QuazaaSettings::loadSettings()
 {
 	QSettings m_qSettings(QuazaaGlobals::APPLICATION_ORGANIZATION_NAME(), QuazaaGlobals::APPLICATION_NAME());
 #if QT_VERSION >= 0x050000 
-	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
+	QString sDefaultDataPath = QString( "%1/%2/" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
 #else
-	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ), "Data" );
+	QString sDefaultDataPath = QString( "%1/%2/" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ), "Data" );
 #endif
 
 	m_qSettings.beginGroup("Ares");
@@ -534,6 +534,11 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Discovery.ZeroRatingRevivalTries    = m_qSettings.value("ZeroRatingRevivalTries", 2 ).toUInt();
 	m_qSettings.endGroup();
 
+//TODO: Move this to a more appropriate place.
+
+	QDir dir;
+	/*bool bOK = */dir.mkpath( quazaaSettings.Discovery.DataPath );
+
 	m_qSettings.beginGroup("Downloads");
 	quazaaSettings.Downloads.AllowBackwards = m_qSettings.value("AllowBackwards", true).toBool();
 	quazaaSettings.Downloads.AutoClear = m_qSettings.value("AutoClear", false).toBool();
@@ -542,9 +547,9 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Downloads.ChunkStrap = m_qSettings.value("ChunkStrap", 131072).toInt();
 	quazaaSettings.Downloads.ClearDelay = m_qSettings.value("ClearDelay", 30000).toInt();
 #if QT_VERSION >= 0x050000 
-	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/Quazaa Downloads").toString();
 #else
-	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/Quazaa Downloads").toString();
 #endif
 	quazaaSettings.Downloads.ConnectThrottle = m_qSettings.value("ConnectThrottle", 800).toInt();
 	quazaaSettings.Downloads.DropFailedSourcesThreshold = m_qSettings.value("DropFailedSourcesThreshold", 20).toInt();
@@ -716,10 +721,10 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Library.ScanPDF = m_qSettings.value("ScanPDF", true).toBool();
 	quazaaSettings.Library.SchemaURI = m_qSettings.value("SchemaURI", "http://www.limewire.com/schemas/audio.xsd").toString();
 #if QT_VERSION >= 0x050000 
-	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads"
+	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/Quazaa Downloads"
 									<< QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Quazaa/Torrents").toStringList();
 #else
-	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads"
+	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/Quazaa Downloads"
 									<< QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Torrents").toStringList();
 #endif
 	quazaaSettings.Library.ShowCoverArt = m_qSettings.value("ShowCoverArt", true).toBool();
@@ -757,9 +762,9 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Media.ListVisible = m_qSettings.value("ListVisible", true).toBool();
 	quazaaSettings.Media.Mute = m_qSettings.value("Mute", false).toBool();
 #if QT_VERSION >= 0x050000 
-	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/Quazaa Downloads").toString();
 #else
-	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/Quazaa Downloads").toString();
 #endif
 	quazaaSettings.Media.Playlist = m_qSettings.value("Playlist", QStringList()).toStringList();
 	quazaaSettings.Media.Shuffle = m_qSettings.value("Shuffle", false).toBool();
@@ -1034,30 +1039,30 @@ void QuazaaSettings::saveProfile()
 
 	m_qSettings.beginGroup("Profile");
 	m_qSettings.setValue("Age", quazaaSettings.Profile.Age);
-	m_qSettings.setValue("AolScreenName", quazaaSettings.Profile.AolScreenName);							// Aol screen name
-	m_qSettings.setValue("AvatarPath", quazaaSettings.Profile.AvatarPath);								// Path to an avatar image file. Quazaa logo used if blank
-	m_qSettings.setValue("Biography", quazaaSettings.Profile.Biography);								// Your life story..
-	m_qSettings.setValue("City", quazaaSettings.Profile.City);									// Your city
-	m_qSettings.setValue("Country", quazaaSettings.Profile.Country);								// Your country..
-	m_qSettings.setValue("Email", quazaaSettings.Profile.Email);									// EMail address
-	m_qSettings.setValue("Favorites", quazaaSettings.Profile.Favorites);								// Favorite websites
-	m_qSettings.setValue("FavoritesURL", quazaaSettings.Profile.FavoritesURL);							// Favorite Websites URLs
-	m_qSettings.setValue("Gender", quazaaSettings.Profile.Gender);									// Gender..
-	m_qSettings.setValue("GnutellaScreenName", quazaaSettings.Profile.GnutellaScreenName);						// The name displayed in searches, uploads and downloads and when users browse your system
-	m_qSettings.setValue("GUID", quazaaSettings.Profile.GUID.toString());									// Unique ID for each client. Can be regenerated
-	m_qSettings.setValue("ICQuin", quazaaSettings.Profile.ICQuin);									// Identification number in ICQ
-	m_qSettings.setValue("Interests", quazaaSettings.Profile.Interests);								// What do you like to do other than use Quazaa
-	m_qSettings.setValue("IrcAlternateNickname", quazaaSettings.Profile.IrcAlternateNickname);					// Alternate nickname in Irc chat if first one is already used
-	m_qSettings.setValue("IrcNickname", quazaaSettings.Profile.IrcNickname);							// Nickname used in Irc chat
-	m_qSettings.setValue("IrcUserName", quazaaSettings.Profile.IrcUserName);							// User name for Irc chat
-	m_qSettings.setValue("JabberID", quazaaSettings.Profile.JabberID);								// Jabber ID
-	m_qSettings.setValue("Latitude", quazaaSettings.Profile.Latitude);								// Location for a disgruntled P2P user to aim a missile
-	m_qSettings.setValue("Longitude", quazaaSettings.Profile.Longitude);								// Location for a disgruntled P2P user to aim a missile
-	m_qSettings.setValue("MSNPassport", quazaaSettings.Profile.MSNPassport);							// Microsoft's Messenger ID
-	m_qSettings.setValue("MyspaceProfile", quazaaSettings.Profile.MyspaceProfile);							// Myspace profile excluding http://quazaaSettings.Profile.myspace.com/
-	m_qSettings.setValue("RealName", quazaaSettings.Profile.RealName);								// User's real name
-	m_qSettings.setValue("StateProvince", quazaaSettings.Profile.StateProvince);							// Your state or province
-	m_qSettings.setValue("YahooID", quazaaSettings.Profile.YahooID);								// Yahoo Messenger ID
+	m_qSettings.setValue("AolScreenName", quazaaSettings.Profile.AolScreenName);               // Aol screen name
+	m_qSettings.setValue("AvatarPath", quazaaSettings.Profile.AvatarPath);                     // Path to an avatar image file. Quazaa logo used if blank
+	m_qSettings.setValue("Biography", quazaaSettings.Profile.Biography);                       // Your life story..
+	m_qSettings.setValue("City", quazaaSettings.Profile.City);                                 // Your city
+	m_qSettings.setValue("Country", quazaaSettings.Profile.Country);                           // Your country..
+	m_qSettings.setValue("Email", quazaaSettings.Profile.Email);                               // EMail address
+	m_qSettings.setValue("Favorites", quazaaSettings.Profile.Favorites);                       // Favorite websites
+	m_qSettings.setValue("FavoritesURL", quazaaSettings.Profile.FavoritesURL);                 // Favorite Websites URLs
+	m_qSettings.setValue("Gender", quazaaSettings.Profile.Gender);                             // Gender..
+	m_qSettings.setValue("GnutellaScreenName", quazaaSettings.Profile.GnutellaScreenName);     // The name displayed in searches, uploads and downloads and when users browse your system
+	m_qSettings.setValue("GUID", quazaaSettings.Profile.GUID.toString());                      // Unique ID for each client. Can be regenerated
+	m_qSettings.setValue("ICQuin", quazaaSettings.Profile.ICQuin);                             // Identification number in ICQ
+	m_qSettings.setValue("Interests", quazaaSettings.Profile.Interests);                       // What do you like to do other than use Quazaa
+	m_qSettings.setValue("IrcAlternateNickname", quazaaSettings.Profile.IrcAlternateNickname); // Alternate nickname in Irc chat if first one is already used
+	m_qSettings.setValue("IrcNickname", quazaaSettings.Profile.IrcNickname);                   // Nickname used in Irc chat
+	m_qSettings.setValue("IrcUserName", quazaaSettings.Profile.IrcUserName);                   // User name for Irc chat
+	m_qSettings.setValue("JabberID", quazaaSettings.Profile.JabberID);                         // Jabber ID
+	m_qSettings.setValue("Latitude", quazaaSettings.Profile.Latitude);                         // Location for a disgruntled P2P user to aim a missile
+	m_qSettings.setValue("Longitude", quazaaSettings.Profile.Longitude);                       // Location for a disgruntled P2P user to aim a missile
+	m_qSettings.setValue("MSNPassport", quazaaSettings.Profile.MSNPassport);                   // Microsoft's Messenger ID
+	m_qSettings.setValue("MyspaceProfile", quazaaSettings.Profile.MyspaceProfile);             // Myspace profile excluding http://quazaaSettings.Profile.myspace.com/
+	m_qSettings.setValue("RealName", quazaaSettings.Profile.RealName);                         // User's real name
+	m_qSettings.setValue("StateProvince", quazaaSettings.Profile.StateProvince);               // Your state or province
+	m_qSettings.setValue("YahooID", quazaaSettings.Profile.YahooID);                           // Yahoo Messenger ID
 	m_qSettings.endGroup();
 }
 
