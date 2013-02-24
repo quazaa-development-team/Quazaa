@@ -121,16 +121,10 @@ updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 PRE_TARGETDEPS += compiler_updateqm_make_all
 
-# Enable C++11 compilation and exception handling for mingw
-win32-g++ {
-    CONFIG += exceptions
-}
-
 # Append _debug to executable name when compiling using debug config
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 
 # Additional config
-
 DEFINES += COMMUNI_STATIC
 
 CONFIG(debug, debug|release){
@@ -138,7 +132,6 @@ CONFIG(debug, debug|release){
         _USE_DEBUG_NEW
     QT_FATAL_WARNINGS = 1
 }
-
 
 win32 {
     LIBS += -Lbin -luser32 -lole32 -lshell32 # if you are at windows os
@@ -154,6 +147,12 @@ unix {
 }
 
 TEMPLATE = app
+
+# MinGW-specific compiler flags (Enable C++11 compilation and exception handling)
+win32-g++ {
+	CONFIG += exceptions
+#	QMAKE_CXXFLAGS += -std=c++0x
+}
 
 # MSVC-specific compiler flags
 win32-msvc2008 {
@@ -217,24 +216,53 @@ sse2 {
 
 # Sources
 SOURCES += \
-    3rdparty/communi/src/ircsession.cpp \
-    3rdparty/communi/src/ircsender.cpp \
+	3rdparty/communi/src/irc.cpp \
+	3rdparty/communi/src/irccommand.cpp \
+	3rdparty/communi/src/ircmessage.cpp \
     3rdparty/communi/src/ircmessagedata.cpp \
     3rdparty/communi/src/ircmessagedecoder.cpp \
-    3rdparty/communi/src/ircmessage.cpp \
-    3rdparty/communi/src/irccommand.cpp \
-    3rdparty/communi/src/irc.cpp \
+	3rdparty/communi/src/ircmessagedecoder_icu.cpp \
+	3rdparty/communi/src/ircpalette.cpp \
+	3rdparty/communi/src/ircprotocol.cpp \
+	3rdparty/communi/src/ircsender.cpp \
+	3rdparty/communi/src/ircsession.cpp \
     3rdparty/communi/src/ircsessioninfo.cpp \
     3rdparty/communi/src/irctextformat.cpp \
-    3rdparty/communi/src/ircpalette.cpp \
     3rdparty/CyoEncode/CyoDecode.c \
     3rdparty/CyoEncode/CyoEncode.c \
     3rdparty/nvwa/debug_new.cpp \
+	application.cpp \
     Chat/chatconverter.cpp \
     Chat/chatcore.cpp \
     Chat/chatsession.cpp \
     Chat/chatsessiong2.cpp \
+	Chat/IRC/commandparser.cpp \
+	Chat/IRC/gui/3rdparty/fancylineedit.cpp \
+	Chat/IRC/gui/addviewdialog.cpp \
+	Chat/IRC/gui/lineeditor.cpp \
+	Chat/IRC/gui/menufactory.cpp \
+	Chat/IRC/gui/multisessiontabwidget.cpp \
+	Chat/IRC/gui/searcheditor.cpp \
+	Chat/IRC/gui/sessiontabwidget.cpp \
+	Chat/IRC/gui/sessiontreedelegate.cpp \
+	Chat/IRC/gui/sessiontreeitem.cpp \
+	Chat/IRC/gui/sessiontreewidget.cpp \
+	Chat/IRC/gui/util/completer.cpp \
+	Chat/IRC/gui/util/historylineedit.cpp \
+	Chat/IRC/gui/util/sharedtimer.cpp \
+	Chat/IRC/gui/util/textbrowser.cpp \
+	Chat/IRC/homepage.cpp \
+	Chat/IRC/messagehandler.cpp \
+	Chat/IRC/messageformatter.cpp \
+	Chat/IRC/overlay.cpp \
+	Chat/IRC/session.cpp \
+	Chat/IRC/toolbar.cpp \
     commonfunctions.cpp \
+	Discovery/banneddiscoveryservice.cpp \
+	Discovery/discovery.cpp \
+	Discovery/discoveryservice.cpp \
+	Discovery/gwc.cpp \
+	Discovery/networktype.cpp \
     geoiplist.cpp \
     main.cpp \
     Misc/fileiconprovider.cpp \
@@ -244,6 +272,7 @@ SOURCES += \
     Metalink/metalinkhandler.cpp \
     Metalink/metalink4handler.cpp \
     Models/categorynavigatortreemodel.cpp \
+	Models/discoverytablemodel.cpp \
     Models/downloadstreemodel.cpp \
     Models/ircuserlistmodel.cpp \
     Models/neighbourstablemodel.cpp \
@@ -331,8 +360,10 @@ SOURCES += \
     UI/dialogsplash.cpp \
     UI/dialogtorrentproperties.cpp \
     UI/dialogtransferprogresstooltip.cpp \
+	UI/listviewircusers.cpp \
     UI/suggestedlineedit.cpp \
     UI/tableview.cpp \
+	UI/tabwidget.cpp \
     UI/widgetactivity.cpp \
     UI/widgetchatinput.cpp \
     UI/widgetdiscovery.cpp \
@@ -341,6 +372,8 @@ SOURCES += \
     UI/widgethitmonitor.cpp \
     UI/widgethome.cpp \
     UI/widgethostcache.cpp \
+	UI/widgetircmain.cpp \
+	UI/widgetircmessageview.cpp \
     UI/widgetlibrary.cpp \
     UI/widgetlibraryview.cpp \
     UI/widgetmedia.cpp \
@@ -361,35 +394,7 @@ SOURCES += \
     UI/winmain.cpp \
     UI/wizardircconnection.cpp \
     UI/wizardquickstart.cpp \
-    application.cpp \
-    UI/widgetircmain.cpp \
-    Chat/IRC/homepage.cpp \
-    Chat/IRC/commandparser.cpp \
-    Chat/IRC/toolbar.cpp \
-    Chat/IRC/session.cpp \
-    Chat/IRC/overlay.cpp \
-    Chat/IRC/messagehandler.cpp \
-    Chat/IRC/messageformatter.cpp \
-    UI/listviewircusers.cpp \
-    UI/tabwidget.cpp \
-    Chat/IRC/gui/sessiontreewidget.cpp \
-    Chat/IRC/gui/sessiontreeitem.cpp \
-    Chat/IRC/gui/sessiontreedelegate.cpp \
-    Chat/IRC/gui/sessiontabwidget.cpp \
-    Chat/IRC/gui/searcheditor.cpp \
-    Chat/IRC/gui/multisessiontabwidget.cpp \
-    UI/widgetircmessageview.cpp \
-    Chat/IRC/gui/menufactory.cpp \
-    Chat/IRC/gui/lineeditor.cpp \
-    Chat/IRC/gui/addviewdialog.cpp \
-    Chat/IRC/gui/3rdparty/fancylineedit.cpp \
-    Chat/IRC/gui/util/textbrowser.cpp \
-    Chat/IRC/gui/util/sharedtimer.cpp \
-    Chat/IRC/gui/util/historylineedit.cpp \
-    Chat/IRC/gui/util/completer.cpp \
-    UI/wizardtreewidget.cpp \
-    3rdparty/communi/src/ircmessagedecoder_icu.cpp \
-    3rdparty/communi/src/ircprotocol.cpp
+	UI/wizardtreewidget.cpp
 
 win32 {
     SOURCES += \
@@ -411,28 +416,60 @@ win32 {
 }
 
 HEADERS += \
+	3rdparty/communi/include/irc.h \
+	3rdparty/communi/include/irccommand.h \
+	3rdparty/communi/include/ircglobal.h \
+	3rdparty/communi/include/ircmessage.h \
+	3rdparty/communi/include/ircmessagedata_p.h \
+	3rdparty/communi/include/ircmessagedecoder_p.h \
+	3rdparty/communi/include/ircpalette.h \
+	3rdparty/communi/include/ircprotocol_p.h \
+	3rdparty/communi/include/ircsender.h \
+	3rdparty/communi/include/ircsession.h \
     3rdparty/communi/include/ircsession_p.h \
-    3rdparty/communi/include/ircsession.h \
-    3rdparty/communi/include/ircsender.h \
-    3rdparty/communi/include/ircmessagedata_p.h \
-    3rdparty/communi/include/ircmessagedecoder_p.h \
-    3rdparty/communi/include/ircmessage.h \
-    3rdparty/communi/include/ircglobal.h \
-    3rdparty/communi/include/irccommand.h \
-    3rdparty/communi/include/irc.h \
-    3rdparty/communi/include/ircsessioninfo.h \
+	3rdparty/communi/include/ircsessioninfo.h \
     3rdparty/communi/include/irctextformat.h \
-    3rdparty/communi/include/ircpalette.h \
     3rdparty/CyoEncode/CyoDecode.h \
     3rdparty/CyoEncode/CyoEncode.h \
     3rdparty/nvwa/debug_new.h \
     3rdparty/nvwa/fast_mutex.h \
     3rdparty/nvwa/static_assert.h \
+	application.h \
     Chat/chatconverter.h \
     Chat/chatcore.h \
     Chat/chatsession.h \
     Chat/chatsessiong2.h \
+	Chat/IRC/channelinfo.h \
+	Chat/IRC/commandparser.h \
+	Chat/IRC/connectioninfo.h \
+	Chat/IRC/gui/3rdparty/fancylineedit.h \
+	Chat/IRC/gui/addviewdialog.h \
+	Chat/IRC/gui/lineeditor.h \
+	Chat/IRC/gui/menufactory.h \
+	Chat/IRC/gui/multisessiontabwidget.h \
+	Chat/IRC/gui/searcheditor.h \
+	Chat/IRC/gui/sessiontabwidget.h \
+	Chat/IRC/gui/sessiontreedelegate.h \
+	Chat/IRC/gui/sessiontreeitem.h \
+	Chat/IRC/gui/sessiontreewidget.h \
+	Chat/IRC/gui/util/completer.h \
+	Chat/IRC/gui/util/historylineedit.h \
+	Chat/IRC/gui/util/sharedtimer.h \
+	Chat/IRC/gui/util/textbrowser.h \
+	Chat/IRC/homepage.h \
+	Chat/IRC/messageformatter.h \
+	Chat/IRC/messagehandler.h \
+	Chat/IRC/messagereceiver.h \
+	Chat/IRC/overlay.h \
+	Chat/IRC/session.h \
+	Chat/IRC/streamer.h \
+	Chat/IRC/toolbar.h \
     commonfunctions.h \
+	Discovery/banneddiscoveryservice.h \
+	Discovery/discovery.h \
+	Discovery/discoveryservice.h \
+	Discovery/gwc.h \
+	Discovery/networktype.h \
     FileFragments/Compatibility.hpp \
     FileFragments/Exception.hpp \
     FileFragments/FileFragments.hpp \
@@ -449,6 +486,7 @@ HEADERS += \
     Misc/timedsignalqueue.h \
     Misc/timeoutwritelocker.h \
     Models/categorynavigatortreemodel.h \
+	Models/discoverytablemodel.h \
     Models/downloadstreemodel.h \
     Models/ircuserlistmodel.h \
     Models/neighbourstablemodel.h \
@@ -537,8 +575,11 @@ HEADERS += \
     UI/dialogsplash.h \
     UI/dialogtorrentproperties.h \
     UI/dialogtransferprogresstooltip.h \
+	UI/listviewircusers.h \
     UI/suggestedlineedit.h \
     UI/tableview.h \
+	UI/tabwidget.h \
+	UI/tabwidget_p.h \
     UI/widgetactivity.h \
     UI/widgetchatinput.h \
     UI/widgetdiscovery.h \
@@ -547,6 +588,8 @@ HEADERS += \
     UI/widgethitmonitor.h \
     UI/widgethome.h \
     UI/widgethostcache.h \
+	UI/widgetircmain.h \
+	UI/widgetircmessageview.h \
     UI/widgetlibrary.h \
     UI/widgetlibraryview.h \
     UI/widgetmedia.h \
@@ -567,39 +610,7 @@ HEADERS += \
     UI/winmain.h \
     UI/wizardircconnection.h \
     UI/wizardquickstart.h \
-    application.h \
-    UI/widgetircmain.h \
-    Chat/IRC/homepage.h \
-    Chat/IRC/connectioninfo.h \
-    Chat/IRC/commandparser.h \
-    Chat/IRC/channelinfo.h \
-    Chat/IRC/toolbar.h \
-    Chat/IRC/streamer.h \
-    Chat/IRC/session.h \
-    Chat/IRC/overlay.h \
-    Chat/IRC/messagereceiver.h \
-    Chat/IRC/messagehandler.h \
-    Chat/IRC/messageformatter.h \
-    UI/listviewircusers.h \
-    UI/tabwidget.h \
-    UI/tabwidget_p.h \
-    Chat/IRC/gui/sessiontreewidget.h \
-    Chat/IRC/gui/sessiontreeitem.h \
-    Chat/IRC/gui/sessiontreedelegate.h \
-    Chat/IRC/gui/sessiontabwidget.h \
-    Chat/IRC/gui/searcheditor.h \
-    Chat/IRC/gui/multisessiontabwidget.h \
-    UI/widgetircmessageview.h \
-    Chat/IRC/gui/menufactory.h \
-    Chat/IRC/gui/lineeditor.h \
-    Chat/IRC/gui/addviewdialog.h \
-    Chat/IRC/gui/3rdparty/fancylineedit.h \
-    Chat/IRC/gui/util/textbrowser.h \
-    Chat/IRC/gui/util/sharedtimer.h \
-    Chat/IRC/gui/util/historylineedit.h \
-    Chat/IRC/gui/util/completer.h \
-    UI/wizardtreewidget.h \
-    3rdparty/communi/include/ircprotocol_p.h
+	UI/wizardtreewidget.h
 
 win32 {
     HEADERS += \
