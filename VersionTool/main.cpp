@@ -1,4 +1,28 @@
-// Credit goes to Rob Caldecott
+/*
+** $Id$
+**
+** Copyright © Quazaa Development Team, 2009-2013.
+** This file is part of QUAZAA (quazaa.sourceforge.net)
+**
+** Quazaa is free software; this file may be used under the terms of the GNU
+** General Public License version 3.0 or later as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.
+**
+** Quazaa is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+**
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
+** http://www.gnu.org/copyleft/gpl.html.
+**
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+// Original credit goes to Rob Caldecott
 // http://qtcreator.blogspot.com/
 
 #include <iostream>
@@ -20,30 +44,17 @@ static QString getBuildNumber()
   return (today.date().toString("yyyy-MM-dd"));
 }
 
-static int getSubversionRevision()
+static QString getGitShortVersionHash()
 {
-  int revision = 0;
   QProcess process;
-  process.start("svnversion", QStringList() << "." << "--no-newline");
-  if (process.waitForStarted() && process.waitForReadyRead())
-  {
-	const QString str(process.readAll().constData());
-	const int pos = str.indexOf(':');
-	if (pos != -1)
-	{
-	  revision = atoi(str.mid(pos + 1).toLocal8Bit().constData());
-	}
-	else
-	{
-	  revision = atoi(str.toLocal8Bit().constData());
-	}
-	process.waitForFinished();
-  }
+  bool result;
+  process.start("git rev-parse --short HEAD");
+  result = process.waitForFinished(1000);
+
+  if (result)
+    return process.readAllStandardOutput().trimmed();
   else
-  {
-	  cout << "Cannot start svnversion. Make sure it is installed and it is in your PATH.\n";
-  }
-  return revision;
+      return "unknown";
 }
 
 static QByteArray readFile(const QString& fileName)
@@ -56,7 +67,7 @@ static QByteArray readFile(const QString& fileName)
   return file.readAll();
 }
 
-static int writeFile(const QString& fileName, const int major, const int minor, const int revision, const QString build)
+static int writeFile(const QString& fileName, const int major, const int minor, const QString revision, const QString build)
 {
   // Create a temp file containing the version info and
   // only replace the existing one if they are different
@@ -70,7 +81,7 @@ static int writeFile(const QString& fileName, const int major, const int minor, 
 	out << "{\r\n";
 	out << "\tstatic const int MAJOR = " << major << ";\r\n";
 	out << "\tstatic const int MINOR = " << minor << ";\r\n";
-	out << "\tstatic const int REVISION = " << revision << ";\r\n";
+    out << "\tstatic const char* REVISION = \"" << revision << "\";\r\n";
 	out << "\tstatic const char* BUILD_DATE = \"" << build << "\";\r\n";
 	out << "}\r\n\r\n";
 	out << "#endif // VERSION_H\r\n";
@@ -103,10 +114,10 @@ int main(int argc, char *argv[])
 
   const int major = atoi(argv[1]);
   const int minor = atoi(argv[2]);
-  const int revision = getSubversionRevision();
+  const QString revision = getGitShortVersionHash();
   const QString build = getBuildNumber();
 
-  cout << major << '.' << minor << '.' << revision << ' ' << build.toLocal8Bit().constData() << endl;
+  cout << major << '.' << minor << '.' << revision.toLocal8Bit().constData() << ' ' << build.toLocal8Bit().constData() << endl;
 
   return writeFile(argv[3], major, minor, revision, build);
 }

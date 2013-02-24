@@ -1,7 +1,7 @@
 /*
 ** $Id$
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -37,18 +37,18 @@ QString QuazaaGlobals::APPLICATION_NAME()
 #ifdef QT_DEBUG
 QString QuazaaGlobals::APPLICATION_VERSION()
 {
-	return QString().sprintf("%d.%d.r%d (debug build)", Version::MAJOR, Version::MINOR, Version::REVISION);
+    return QString().sprintf("%d.%d Git:%s (debug build)", Version::MAJOR, Version::MINOR, Version::REVISION);
 }
 #else
 QString QuazaaGlobals::APPLICATION_VERSION()
 {
-	return QString().sprintf("%d.%d.r%d", Version::MAJOR, Version::MINOR, Version::REVISION);
+    return QString().sprintf("%d.%d Git:%s", Version::MAJOR, Version::MINOR, Version::REVISION);
 }
 #endif
 
 QString QuazaaGlobals::APPLICATION_VERSION_STRING()
 {
-	return QString().sprintf("%d.%d.r%d (%s)", Version::MAJOR, Version::MINOR, Version::REVISION, Version::BUILD_DATE);
+    return QString().sprintf("%d.%d Git:%s (%s)", Version::MAJOR, Version::MINOR, Version::REVISION, Version::BUILD_DATE);
 }
 
 QString QuazaaGlobals::APPLICATION_FINGERPRINT()

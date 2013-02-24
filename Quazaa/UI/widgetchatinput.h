@@ -1,7 +1,7 @@
 /*
 ** widgetchatinput.h
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -53,14 +53,13 @@ signals:
 	void closing();
 
 protected:
-	void changeEvent(QEvent *e);
-	WidgetReturnEmitTextEdit *textEditInput;
+    void changeEvent(QEvent *e);
 
 private:
-	Ui::WidgetChatInput *ui;
-	QCheckBox *checkBoxSendOnEnter;
+    Ui::WidgetChatInput *ui;
 	QToolButton *toolButtonSmilies;
 	WidgetSmileyList *widgetSmileyList;
+    QColor defaultColor;
 	QToolButton *toolButtonPickColor;
 	QToolButton *toolButtonPrivateMessage;
 	bool bIsIrc;

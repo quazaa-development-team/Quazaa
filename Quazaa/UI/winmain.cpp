@@ -1,7 +1,7 @@
 ﻿/*
 ** $Id$
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -132,7 +132,7 @@ CWinMain::CWinMain(QWidget* parent) :
 	ui->stackedWidgetMain->addWidget(pageSecurity);
 	pageActivity = new WidgetActivity();
 	ui->stackedWidgetMain->addWidget(pageActivity);
-	pageIrcMain = new MainIrcWindow();
+	pageIrcMain = new WidgetIrcMain();
 	ui->stackedWidgetMain->addWidget(pageIrcMain);
 	pageHostCache = new WidgetHostCache;
 	ui->stackedWidgetMain->addWidget(pageHostCache);
@@ -786,6 +786,7 @@ void CWinMain::on_actionAres_triggered(bool checked)
 void CWinMain::startNewSearch(QString* searchString)
 {
 	ui->stackedWidgetMain->setCurrentIndex(3);
+    ui->actionSearch->setChecked(true);
 	pageSearch->startNewSearch(searchString);
 }
 

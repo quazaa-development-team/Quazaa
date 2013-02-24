@@ -1,7 +1,7 @@
 ﻿/*
 ** quazaasettings.h
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -48,11 +48,45 @@ namespace IrcColorType {
 	enum ColorType
 	{
 		Background,
-		Message,
+        Default,
 		Event,
 		Notice,
 		Action,
-		Highlight
+        Inactive,
+        Alert,
+		Highlight,
+		TimeStamp,
+        Link,
+        White,
+        Black,
+        Blue,
+        Green,
+        Red,
+        Brown,
+        Purple,
+        Orange,
+        Yellow,
+        LightGreen,
+        Cyan,
+        LightCyan,
+        LightBlue,
+        Pink,
+        Gray,
+        LightGray
+	};
+}
+
+namespace IrcShortcutType {
+	enum ShortcutType
+	{
+		NavigateUp,
+		NavigateDown,
+		NavigateLeft,
+		NavigateRight,
+		NextUnreadUp,
+		NextUnreadDown,
+		NextUnreadLeft,
+		NextUnreadRight
 	};
 }
 
@@ -106,38 +140,22 @@ namespace Settings
 		bool		ConnectOnStartup;						// Connect to the chat server and enter rooms on startup
 		bool		EnableFileTransfers;					// Enable Irc File Transfers
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
+        QString     TimestampFormat;                        // The format of timestamps
+		int			MaxBlockCount;							// This limits how many blocks(lines) can be in a message view
+		QString		Layout;									// Tree layout or tabbed layout
+        bool		StripNicks;								// Strip host information from nicks
+
 		QStringList Hosts;									// The list of hosts in the connect dialog
 		QStringList NickNames;								// The list of nick names in the connect dialog
 		QStringList RealNames;								// The list of real names in the connect dialog
+		QStringList UserNames;								// The list of user names in the connect dialog
 		QStringList ConnectionNames;						// The list of connection names in the connect dialog
-
-		enum MessageType
-		{
-			Joins,
-			Parts,
-			Nicks,
-			Modes,
-			Kicks,
-			Quits,
-			Topics
-		};
-
-		enum ColorType
-		{
-			Background,
-			Message,
-			Event,
-			Notice,
-			Action,
-			Highlight
-		};
 
 		QHash<int, bool> Messages;
 		QHash<int, bool> Highlights;
 		QHash<int, QString> Colors;
-		QString Language;
-		int MaxBlockCount;
-		bool TimeStamp;
+		QHash<int, QString> Shortcuts;
+        QMap<QString, QString> Aliases;                     // Command aliases
 	};
 
 	struct sConnection
@@ -613,10 +631,9 @@ namespace Settings
 		int			ActivitySplitterRestoreBottom;			// The width left side of the search results splitter should restore to when right clicked
 		bool		ChatRoomsTaskVisible;					// The Rooms task in the Chat sidebar
 		bool		ChatFriendsTaskVisible;					// The Friends task in the Chat sidebar
-		QByteArray	ChatSplitter;
-		int			ChatSplitterRestoreLeft;
-		int			ChatSplitterRestoreMiddle;
-		int			ChatSplitterRestoreRight;
+        QByteArray	ChatUserListSplitter;                   // The chat splitter
+        QByteArray	ChatTreeWidget;                         // The list order in the server/channel tree
+        QByteArray  ChatTreeWidgetSplitter;                   // The splitter for the server/channel list
 		QByteArray	ChatToolbars;							// Chat Toolbars
 		QByteArray	DiscoveryToolbar;						// DiscoveryToolbar
 		QByteArray	DownloadsToolbar;						// Downloads Toolbar
@@ -628,16 +645,8 @@ namespace Settings
 		int			GraphSplitterRestoreLeft;				// The width left side of the home splitter should restore to when right clicked
 		int			GraphSplitterRestoreRight;				// The width left side of the home splitter should restore to when right clicked
 		QByteArray	GraphToolbar;							// Graph Toolbar
-		QByteArray	HitMonitorToolbar;						// Hit Monitor Toolbar
-		bool		HomeConnectionTaskVisible;				// The Connection task in the Home sidebar
-		bool		HomeDownloadsTaskVisible;				// The Downloads task in the Home sidebar
-		bool		HomeLibraryTaskVisible;					// The Library task in the Home sidebar
-		QString		HomeSearchString;						// The text typed into the search text box on the home tab
-		QByteArray	HomeSplitter;							// The splitter between the Home sidebar and welcome frame
-		int			HomeSplitterRestoreLeft;				// The width left side of the home splitter should restore to when right clicked
-		int			HomeSplitterRestoreRight;				// The width left side of the home splitter should restore to when right clicked
-		bool		HomeTorrentsTaskVisible;				// The BitTorrent task in the Home sidebar
-		bool		HomeUploadsTaskVisible;					// The Uploads task in the Home sidebar
+        QByteArray	HitMonitorToolbar;						// Hit Monitor Toolbar
+        QString		HomeSearchString;						// The text typed into the search text box on the home tab
 		QByteArray	HostCacheSplitter;						// Host Cache splitter position
 		int			HostCacheSplitterRestoreLeft;			// The width left side of the home splitter should restore to when right clicked
 		int			HostCacheSplitterRestoreRight;			// The width left side of the home splitter should restore to when right clicked

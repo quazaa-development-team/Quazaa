@@ -11,11 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Add Connection Wizard</string>
+   <string>Add IRC Connection</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
-    <normaloff>:/Resource/Quazaa32.png</normaloff>:/Resource/Quazaa32.png</iconset>
+   <iconset resource="../Resource.qrc">
+    <normaloff>:/Resource/Network/Connect.png</normaloff>:/Resource/Network/Connect.png</iconset>
   </property>
   <property name="wizardStyle">
    <enum>QWizard::AeroStyle</enum>
@@ -131,6 +131,16 @@
       </property>
      </spacer>
     </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="labelUser">
+      <property name="text">
+       <string>User Name:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayoutUserName"/>
+    </item>
    </layout>
   </widget>
   <widget class="QWizardPage" name="wizardPageConnectionName">
@@ -155,7 +165,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

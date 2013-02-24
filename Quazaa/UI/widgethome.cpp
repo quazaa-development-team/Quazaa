@@ -1,7 +1,7 @@
 /*
 ** $Id$
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -46,18 +46,9 @@ WidgetHome::WidgetHome(QWidget* parent) :
 	ui(new Ui::WidgetHome)
 {
 	ui->setupUi(this);
-	ui->comboBoxHomeFileType->setView(new QListView());
-	connect(ui->labelLibraryTaskLink, SIGNAL(linkActivated(QString)), this, SIGNAL(triggerLibrary()));
-	connect(ui->labelWelcomeSecurityLink, SIGNAL(linkActivated(QString)), this, SIGNAL(triggerSecurity()));
-	connect(ui->labelTransfersTaskLink, SIGNAL(linkActivated(QString)), this, SIGNAL(triggerTransfers()));
-	ui->splitterHome->restoreState(quazaaSettings.WinMain.HomeSplitter);
-	ui->lineEditWelcomeSearch->setText(quazaaSettings.WinMain.HomeSearchString);
-	ui->toolButtonHomeConnectionTaskHeader->setChecked(quazaaSettings.WinMain.HomeConnectionTaskVisible);
-	ui->toolButtonHomeTransfersTaskDownloadsHeader->setChecked(quazaaSettings.WinMain.HomeDownloadsTaskVisible);
-	ui->toolButtonHomeLibraryTaskHeader->setChecked(quazaaSettings.WinMain.HomeLibraryTaskVisible);
-	ui->lineEditWelcomeSearch->setText(quazaaSettings.WinMain.HomeSearchString);
-	ui->toolButtonHomeTorrentsTaskHeader->setChecked(quazaaSettings.WinMain.HomeTorrentsTaskVisible);
-	ui->toolButtonHomeTransfersTaskUploadsHeader->setChecked(quazaaSettings.WinMain.HomeUploadsTaskVisible);
+    ui->comboBoxHomeFileType->setView(new QListView());
+    connect(ui->labelWelcomeSecurityLink, SIGNAL(linkActivated(QString)), this, SIGNAL(triggerSecurity()));
+    ui->lineEditWelcomeSearch->setText(quazaaSettings.WinMain.HomeSearchString);
 	setSkin();
 }
 
@@ -77,16 +68,6 @@ void WidgetHome::changeEvent(QEvent* e)
 		default:
 			break;
 	}
-}
-
-void WidgetHome::on_labelLibraryTaskHashFaster_linkActivated(QString link)
-{
-	Q_UNUSED(link);
-}
-
-void WidgetHome::on_labelTorrentsTaskSeedTorrentLink_linkActivated(QString link)
-{
-	Q_UNUSED(link);
 }
 
 void WidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
@@ -126,14 +107,7 @@ void WidgetHome::on_labelWelcomeUserGuideLink_linkActivated(QString link)
 
 void WidgetHome::saveWidget()
 {
-	quazaaSettings.WinMain.HomeSplitter = ui->splitterHome->saveState();
-	quazaaSettings.WinMain.HomeSearchString = ui->lineEditWelcomeSearch->text();
-	quazaaSettings.WinMain.HomeConnectionTaskVisible = ui->toolButtonHomeConnectionTaskHeader->isChecked();
-	quazaaSettings.WinMain.HomeDownloadsTaskVisible = ui->toolButtonHomeTransfersTaskDownloadsHeader->isChecked();
-	quazaaSettings.WinMain.HomeLibraryTaskVisible = ui->toolButtonHomeLibraryTaskHeader->isChecked();
-	quazaaSettings.WinMain.HomeSearchString = ui->lineEditWelcomeSearch->text();
-	quazaaSettings.WinMain.HomeTorrentsTaskVisible = ui->toolButtonHomeTorrentsTaskHeader->isChecked();
-	quazaaSettings.WinMain.HomeUploadsTaskVisible = ui->toolButtonHomeTransfersTaskUploadsHeader->isChecked();
+    quazaaSettings.WinMain.HomeSearchString = ui->lineEditWelcomeSearch->text();
 }
 
 void WidgetHome::on_toolButtonWelcomeSearch_clicked()
@@ -142,52 +116,7 @@ void WidgetHome::on_toolButtonWelcomeSearch_clicked()
 	emit requestSearch(&m_sSearchString);
 }
 
-void WidgetHome::mouseDoubleClickEvent(QMouseEvent*)
-{
-
-}
-
-void WidgetHome::on_splitterHome_customContextMenuRequested(QPoint pos)
-{
-	Q_UNUSED(pos);
-
-	if(ui->splitterHome->handle(1)->underMouse())
-	{
-		if(ui->splitterHome->sizes()[0] > 0)
-		{
-			quazaaSettings.WinMain.HomeSplitterRestoreLeft = ui->splitterHome->sizes()[0];
-			quazaaSettings.WinMain.HomeSplitterRestoreRight = ui->splitterHome->sizes()[1];
-			QList<int> newSizes;
-			newSizes.append(0);
-			newSizes.append(ui->splitterHome->sizes()[0] + ui->splitterHome->sizes()[1]);
-			ui->splitterHome->setSizes(newSizes);
-		}
-		else
-		{
-			QList<int> sizesList;
-			sizesList.append(quazaaSettings.WinMain.HomeSplitterRestoreLeft);
-			sizesList.append(quazaaSettings.WinMain.HomeSplitterRestoreRight);
-			ui->splitterHome->setSizes(sizesList);
-		}
-	}
-}
-
 void WidgetHome::setSkin()
 {
-	ui->scrollAreaHomeSidebar->setStyleSheet(skinSettings.sidebarBackground);
-	ui->toolButtonHomeLibraryTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
-	ui->toolButtonHomeConnectionTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
-	ui->toolButtonHomeLibraryTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
-	ui->toolButtonHomeTorrentsTaskHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
-	ui->toolButtonHomeTransfersTaskDownloadsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
-	ui->toolButtonHomeTransfersTaskUploadsHeader->setStyleSheet(skinSettings.sidebarTaskHeader);
-	ui->frameLibraryTask->setStyleSheet(skinSettings.sidebarTaskBackground);
-	ui->frameConnectionTask->setStyleSheet(skinSettings.sidebarTaskBackground);
-	ui->frameTorrentsTask->setStyleSheet(skinSettings.sidebarTaskBackground);
-	ui->frameTransfersTask->setStyleSheet(skinSettings.sidebarTaskBackground);
-	ui->listWidgetConnectionTask->setStyleSheet(skinSettings.listViews);
-	ui->listWidgetLibraryTask->setStyleSheet(skinSettings.listViews);
-	ui->listWidgetTorrentsTask->setStyleSheet(skinSettings.listViews);
-	ui->listWidgetTransfersTaskDownloadsTool->setStyleSheet(skinSettings.listViews);
-	ui->listWidgetTransfersTaskUploadsTool->setStyleSheet(skinSettings.listViews);
+
 }

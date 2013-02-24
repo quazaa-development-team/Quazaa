@@ -1,7 +1,7 @@
 /*
 ** $Id: fileiconprovider.cpp 929 2012-02-16 14:32:59Z brov $
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU

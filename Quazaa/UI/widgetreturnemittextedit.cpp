@@ -1,7 +1,7 @@
 /*
 ** $Id$
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -27,6 +27,7 @@
 
 #include <QShortcut>
 #include <QDebug>
+#include <QApplication>
 
 #if QT_VERSION >= 0x050000
 #include <QTextDocument> //For Qt::escape()
@@ -42,7 +43,7 @@ WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 	resetHistoryIndex();
 	m_oCompleter = new Completer(this);
 	m_oCompleter->setWidget(this);
-	//m_oCompleter->setTextEdit(this);
+    m_oCompleter->setTextEdit(this);
 
 	emitReturn = true;
 	connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
@@ -53,15 +54,39 @@ WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 	setSkin();
 }
 
+bool WidgetReturnEmitTextEdit::event(QEvent* event)
+{
+    if (event->type() == QEvent::ShortcutOverride) {
+        QKeyEvent* ke = static_cast<QKeyEvent*>(event);
+        if (ke == QKeySequence::MoveToStartOfDocument) {
+            emit scrollToTop();
+            event->accept();
+            return true;
+        } else if (ke == QKeySequence::MoveToEndOfDocument) {
+            emit scrollToBottom();
+            event->accept();
+            return true;
+        } else if (ke == QKeySequence::MoveToNextPage) {
+            emit scrollToNextPage();
+            event->accept();
+            return true;
+        } else if (ke == QKeySequence::MoveToPreviousPage) {
+            emit scrollToPreviousPage();
+            event->accept();
+            return true;
+        }
+    }
+    return QTextEdit::event(event);
+}
+
 void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 {
 	if (event->key() == Qt::Key_Return)
 	{
-		if (emitReturn)
-		{
-			emit returnPressed();
+        if (event->modifiers() & Qt::ShiftModifier) {
+            QTextEdit::keyPressEvent(event);
 		} else {
-			QTextEdit::keyPressEvent(event);
+            emit returnPressed();
 		}
 	} else if (event->key() == Qt::Key_Up) {
 		if (!m_lHistory.isEmpty())
@@ -95,16 +120,6 @@ void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 	}
 }
 
-void WidgetReturnEmitTextEdit::setEmitsReturn(bool shouldEmit)
-{
-	emitReturn = shouldEmit;
-}
-
-bool WidgetReturnEmitTextEdit::emitsReturn()
-{
-	return emitReturn;
-}
-
 Completer* WidgetReturnEmitTextEdit::completer() const
 {
 	return m_oCompleter;
@@ -135,7 +150,16 @@ QString WidgetReturnEmitTextEdit::textUnderCursor() const
 		tc.setPosition(selectionStart, QTextCursor::MoveAnchor);
 		tc.setPosition(selectionEnd, QTextCursor::KeepAnchor);
 		return tc.selectedText();
-	}
+    }
+}
+
+int WidgetReturnEmitTextEdit::currentWordStartIndex()
+{
+    QTextCursor tc = textCursor();
+    tc.select(QTextCursor::WordUnderCursor);
+
+    // Return start position of current word.
+    return tc.selectionStart();
 }
 
 void WidgetReturnEmitTextEdit::onTextChanged()
@@ -150,7 +174,7 @@ void WidgetReturnEmitTextEdit::setSkin()
 
 bool WidgetReturnEmitTextEdit::focusNextPrevChild(bool next)
 {
-	if (!tabChangesFocus() && this->textInteractionFlags() & Qt::TextEditable)
+    if (!tabChangesFocus() && (textInteractionFlags() & Qt::TextEditable))
 	{
 		emit tabPressed();
 		return true;

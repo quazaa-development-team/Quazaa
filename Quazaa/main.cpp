@@ -1,7 +1,7 @@
-﻿/*
+/*
 ** $Id$
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -44,7 +44,6 @@
 #include "Security/security.h"
 
 #include <QNetworkProxy>
-#include <QSettings>
 #include <QtPlugin>
 #include <QUrl>
 #include <Irc>
@@ -70,7 +69,8 @@
 
 static void setApplicationProxy(QUrl url)
 {
-	if ( !url.isEmpty() ) {
+	if ( !url.isEmpty() )
+	{
 		if ( url.port() == -1 )
 			url.setPort( 8080 );
 		QNetworkProxy proxy( QNetworkProxy::HttpProxy, url.host(), url.port(),
@@ -124,12 +124,6 @@ int main(int argc, char *argv[])
 	if ( !encoding.isEmpty() )
 		Application::setEncoding( encoding );
 
-	QByteArray codecPlugin;
-	index = args.indexOf( "-codec-plugin" );
-	if ( index != -1 )
-		codecPlugin = args.value( index + 1 ).toLocal8Bit();
-	if ( !codecPlugin.isEmpty() )
-		irc_set_codec_plugin( codecPlugin );
 
 // To enable this, run qmake with "DEFINES+=_SNAPSHOT_BUILD"
 #ifdef _SNAPSHOT_BUILD

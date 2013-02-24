@@ -4,9 +4,29 @@
 #include <QDialog>
 #include <QWizardPage>
 
-#include "generalwizardpage.h"
-#include "colorswizardpage.h"
-#include "messageswizardpage.h"
+#include <QSortFilterProxyModel>
+#include <QStandardItemModel>
+
+namespace ColorColumns {
+	enum Columns {
+		Message,
+		Color
+	};
+}
+
+namespace ShortcutColumns {
+	enum Columns {
+		Description,
+		Shortcut
+	};
+}
+
+namespace AliasColumns {
+    enum Columns {
+        Alias,
+        Command
+    };
+}
 
 namespace Ui {
 class DialogIrcSettings;
@@ -22,9 +42,11 @@ public:
 
 private:
 	Ui::DialogIrcSettings *ui;
-	GeneralWizardPage *generalPage;
-	MessagesWizardPage *messagesPage;
-	ColorsWizardPage *colorsPage;
+
+    QModelIndex addAliasRow(const QString& alias, const QString& command);
+
+    QStandardItemModel* sourceModel;
+    QSortFilterProxyModel* proxyModel;
 
 public slots:
 	void saveSettings();
@@ -33,6 +55,8 @@ public slots:
 private slots:
 	void on_pushButtonOK_clicked();
 	void enableApply();
+    void addAlias();
+    void onAliasClicked(const QModelIndex& index);
 };
 
 #endif // DIALOGIRCSETTINGS_H

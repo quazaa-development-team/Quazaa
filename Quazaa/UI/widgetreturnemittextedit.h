@@ -1,7 +1,7 @@
 /*
 ** widgetreturnemittextedit.h
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -27,6 +27,7 @@
 
 #include <QTextEdit>
 #include <QKeyEvent>
+#include <QEvent>
 
 #include "completer.h"
 class Completer;
@@ -38,6 +39,7 @@ public:
 	explicit WidgetReturnEmitTextEdit(QWidget *parent = 0);
 	Completer* completer() const;
 	QString textUnderCursor() const;
+    int currentWordStartIndex();
 
 private:
 	bool emitReturn;
@@ -47,6 +49,7 @@ private:
 	int m_iHistoryIndex;
 
 protected:
+    bool event(QEvent* event);
 	void keyPressEvent(QKeyEvent* event);
 	virtual bool focusNextPrevChild(bool next);
 
@@ -54,10 +57,12 @@ signals:
 	void returnPressed();
 	void tabPressed();
 	void textChanged(const QString &text);
+    void scrollToTop();
+    void scrollToBottom();
+    void scrollToNextPage();
+    void scrollToPreviousPage();
 
 public slots:
-	void setEmitsReturn(bool shouldEmit);
-	bool emitsReturn();
 	void onTextChanged();
 	void setSkin();
 	void addHistory(QTextDocument* document);

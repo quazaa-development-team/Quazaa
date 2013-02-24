@@ -1,7 +1,7 @@
 /*
 ** $Id$
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -24,7 +24,6 @@
 
 #include "ircuserlistmodel.h"
 
-#include "ircutil.h"
 #include "session.h"
 #include "ircsessioninfo.h"
 #include <ircmessage.h>
@@ -268,12 +267,12 @@ void IrcUserListModel::addUsers(QStringList users)
 
 		int existingUser = rootItem->find(name);
 
-		IrcUserItem* m_oChatUserItem = new IrcUserItem(name, modes, rootItem);
+        IrcUserItem* m_oChatUserItem = new IrcUserItem(name, modes, rootItem);
 
 		if(existingUser == -1)
 		{
 			beginInsertRows(QModelIndex(), rootItem->childCount(), rootItem->childCount());
-			rootItem->appendChild(m_oChatUserItem);
+            rootItem->appendChild(m_oChatUserItem);
 			endInsertRows();
 			QModelIndex idx1 = index(0, 0, QModelIndex());
 			QModelIndex idx2 = index(rootItem->childCount(), 1, QModelIndex());
@@ -282,10 +281,10 @@ void IrcUserListModel::addUsers(QStringList users)
 		}
 		else
 		{
-			int duplicate = rootItem->duplicateCheck(m_oChatUserItem->sNick);
+            int duplicate = rootItem->duplicateCheck(m_oChatUserItem->sNick);
 			if(duplicate != -1)
 			{
-				rootItem->childItems.replace(duplicate, m_oChatUserItem);
+                rootItem->childItems.replace(duplicate, m_oChatUserItem);
 				sort();
 				QModelIndex idx1 = index(0, 0, QModelIndex());
 				QModelIndex idx2 = index(rootItem->childCount(), 1, QModelIndex());
@@ -583,15 +582,16 @@ void IrcUserListModel::processMessage(IrcMessage *message)
 	}
 
 	if (message->type() == IrcMessage::Nick) {
-		QString nick = message->sender().name().toLower();
-		renameUser(nick, static_cast<IrcNickMessage*>(message)->nick());
+        QString from = message->sender().name();
+        QString to = static_cast<IrcNickMessage*>(message)->nick();
+        renameUser(from, to);
 	} else if (message->type() == IrcMessage::Join) {
-		if (message->isOwn())
+        if (message->flags() & IrcMessage::Own)
 			clearUsers();
 		else
 			addUser(message->sender().name());
 	} else if (message->type() == IrcMessage::Part) {
-		if (message->isOwn())
+        if (message->flags() & IrcMessage::Own)
 			clearUsers();
 		else
 			removeUser(message->sender().name());

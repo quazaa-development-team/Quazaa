@@ -1,7 +1,7 @@
 /*
 ** winmain.h
 **
-** Copyright © Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -45,7 +45,7 @@
 #include "widgetsearchmonitor.h"
 #include "widgethitmonitor.h"
 
-#include "mainircwindow.h"
+#include "widgetircmain.h"
 
 #include "dialogprivatemessages.h"
 #include <QList>
@@ -87,7 +87,7 @@ public:
 	WidgetTransfers* pageTransfers;
 	WidgetSecurity* pageSecurity;
 	WidgetActivity* pageActivity;
-	MainIrcWindow* pageIrcMain;
+	WidgetIrcMain* pageIrcMain;
 	WidgetHostCache* pageHostCache;
 	WidgetDiscovery* pageDiscovery;
 	WidgetScheduler* pageScheduler;

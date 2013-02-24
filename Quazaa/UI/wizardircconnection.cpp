@@ -13,30 +13,38 @@ WizardIrcConnection::WizardIrcConnection(QWidget *parent) :
 
 	quazaaSettings.loadChatConnectionWizard();
 	//Users page
-	lineEditNick = new CompleterLineEdit(quazaaSettings.Chat.NickNames, this);
-	QRegExpValidator* validator = new QRegExpValidator(lineEditNick);
+    lineEditNickName = new CompleterLineEdit(quazaaSettings.Chat.NickNames, this);
+    QRegExpValidator* validator = new QRegExpValidator(lineEditNickName);
 	validator->setRegExp(QRegExp("\\S+"));
-	lineEditNick->setValidator(validator);
-	ui->horizontalLayoutNick->addWidget(lineEditNick);
-	connect(lineEditNick, SIGNAL(textChanged(QString)), this, SLOT(completeChanged()));
-	ui->labelNick->setBuddy(lineEditNick);
+    lineEditNickName->setValidator(validator);
+    ui->horizontalLayoutNick->addWidget(lineEditNickName);
+    connect(lineEditNickName, SIGNAL(textChanged(QString)), this, SLOT(completeChanged()));
+    ui->labelNick->setBuddy(lineEditNickName);
 
-	lineEditReal = new CompleterLineEdit(quazaaSettings.Chat.RealNames, this);
-	ui->horizontalLayoutReal->addWidget(lineEditReal);
-	ui->labelReal->setBuddy(lineEditReal);
+    lineEditRealName = new CompleterLineEdit(quazaaSettings.Chat.RealNames, this);
+    ui->horizontalLayoutReal->addWidget(lineEditRealName);
+    ui->labelReal->setBuddy(lineEditRealName);
 
 	// Server page
 	connect(ui->spinBoxPort, SIGNAL(valueChanged(int)), this, SLOT(completeChanged()));
 
-	lineEditHost = new CompleterLineEdit(quazaaSettings.Chat.Hosts, this);
-	ui->horizontalLayoutHost->addWidget(lineEditHost);
-	connect(lineEditHost, SIGNAL(textChanged(QString)), this, SLOT(completeChanged()));
-	ui->labelHost->setBuddy(lineEditHost);
+    lineEditHost = new CompleterLineEdit(quazaaSettings.Chat.Hosts, this);
+    ui->horizontalLayoutHost->addWidget(lineEditHost);
+    connect(lineEditHost, SIGNAL(textChanged(QString)), this, SLOT(completeChanged()));
+    ui->labelHost->setBuddy(lineEditHost);
+
+    lineEditUserName = new CompleterLineEdit(quazaaSettings.Chat.UserNames, this);
+    ui->horizontalLayoutUserName->addWidget(lineEditUserName);
+    connect(lineEditUserName, SIGNAL(textChanged(QString)), this, SLOT(completeChanged()));
+    ui->labelUser->setBuddy(lineEditUserName);
 
 	// Connection page
 	lineEditConnectionName = new CompleterLineEdit(quazaaSettings.Chat.ConnectionNames, this);
 	ui->horizontalLayoutConnectionName->addWidget(lineEditConnectionName);
 	ui->labelConnectionName->setBuddy(lineEditConnectionName);
+
+    connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(completeChanged()));
+    button(QWizard::NextButton)->setEnabled(false);
 }
 
 WizardIrcConnection::~WizardIrcConnection()
@@ -52,6 +60,8 @@ void WizardIrcConnection::accept()
 		quazaaSettings.Chat.RealNames << realName();
 	if (!quazaaSettings.Chat.Hosts.contains(hostName(), Qt::CaseInsensitive))
 		quazaaSettings.Chat.Hosts << hostName();
+    if (!quazaaSettings.Chat.UserNames.contains(userName(), Qt::CaseInsensitive))
+        quazaaSettings.Chat.UserNames << userName();
 	if (!quazaaSettings.Chat.ConnectionNames.contains(connectionName(), Qt::CaseInsensitive))
 		quazaaSettings.Chat.ConnectionNames << connectionName();
 	quazaaSettings.saveChatConnectionWizard();
@@ -67,6 +77,7 @@ ConnectionInfo WizardIrcConnection::connection() const
 	connection.host = hostName();
 	connection.port = port();
 	connection.secure = isSecure();
+    connection.user = userName();
 	connection.pass = password();
 	connection.name = connectionName();
 	return connection;
@@ -79,33 +90,34 @@ void WizardIrcConnection::setConnection(const ConnectionInfo& connection)
 	setHostName(connection.host);
 	setPort(connection.port);
 	setSecure(connection.secure);
+    setUserName(connection.user);
 	setPassword(connection.pass);
 	setConnectionName(connection.name);
 }
 
 QString WizardIrcConnection::nickName() const
 {
-	return lineEditNick->text();
+    return lineEditNickName->text();
 }
 
 void WizardIrcConnection::setNickName(const QString& nickName)
 {
-	lineEditNick->setText(nickName);
+    lineEditNickName->setText(nickName);
 }
 
 QString WizardIrcConnection::realName() const
 {
-	return lineEditReal->text();
+    return lineEditRealName->text();
 }
 
 void WizardIrcConnection::setRealName(const QString& realName)
 {
-	lineEditReal->setText(realName);
+    lineEditRealName->setText(realName);
 }
 
 QString WizardIrcConnection::hostName() const
 {
-	return lineEditHost->text();
+    return lineEditHost->text();
 }
 
 void WizardIrcConnection::setHostName(const QString& hostName)
@@ -130,7 +142,17 @@ bool WizardIrcConnection::isSecure() const
 
 void WizardIrcConnection::setSecure(bool secure)
 {
-	ui->checkBoxSecure->setChecked(secure);
+    ui->checkBoxSecure->setChecked(secure);
+}
+
+QString WizardIrcConnection::userName() const
+{
+    return lineEditUserName->text();
+}
+
+void WizardIrcConnection::setUserName(const QString &userName)
+{
+    lineEditUserName->setText(userName);
 }
 
 QString WizardIrcConnection::password() const
@@ -156,7 +178,7 @@ void WizardIrcConnection::setConnectionName(const QString& name)
 bool WizardIrcConnection::isComplete() const
 {
 	if (currentPage() == ui->wizardPageUser)
-		return !lineEditNick->text().isEmpty();
+        return !lineEditNickName->text().isEmpty();
 	else if (currentPage() == ui->wizardPageServer)
 		return !lineEditHost->text().isEmpty() && ui->spinBoxPort->hasAcceptableInput();
 	else
@@ -165,5 +187,5 @@ bool WizardIrcConnection::isComplete() const
 
 void WizardIrcConnection::completeChanged()
 {
-	this->button(QWizard::NextButton)->setEnabled(isComplete());
+    button(QWizard::NextButton)->setEnabled(isComplete());
 }
