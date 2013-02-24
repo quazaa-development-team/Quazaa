@@ -154,7 +154,7 @@ bool CMetalink4Handler::parseFile(QList<MetaFile> &lFiles, quint16 ID)
 				if ( vAttributes.hasAttribute( "priority" ) )
 				{
 					bool bOK;
-					quint8 nPriority = vAttributes.value( "priority" ).toString().toUShort( &bOK );
+					quint16 nPriority = vAttributes.value( "priority" ).toString().toUShort( &bOK );
 
 					if ( bOK && nPriority < 256 )
 					{
@@ -253,7 +253,7 @@ bool CMetalink4Handler::parseFile(QList<MetaFile> &lFiles, quint16 ID)
 				if ( vAttributes.hasAttribute( "priority" ) )
 				{
 					bool bOK;
-					quint8 nPriority = vAttributes.value( "priority" ).toString().toUShort( &bOK );
+					quint16 nPriority = vAttributes.value( "priority" ).toString().toUShort( &bOK );
 
 					if ( bOK && nPriority < 256 )
 					{
