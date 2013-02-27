@@ -264,7 +264,8 @@ SOURCES += \
 	Discovery/gwc.cpp \
 	Discovery/networktype.cpp \
     geoiplist.cpp \
-    main.cpp \
+	main.cpp \
+	Misc/debugrwlock.cpp \
     Misc/fileiconprovider.cpp \
     Misc/networkiconprovider.cpp \
     Misc/timedsignalqueue.cpp \
@@ -481,6 +482,7 @@ HEADERS += \
     Metalink/magnetlink.h \
     Metalink/metalinkhandler.h \
     Metalink/metalink4handler.h \
+	Misc/debugrwlock.h \
     Misc/fileiconprovider.h \
     Misc/networkiconprovider.h \
     Misc/timedsignalqueue.h \

@@ -19,10 +19,10 @@ public:
 	void	lockForRead(const char *caller = NULL);
 	void	lockForWrite(const char* caller = NULL);
 	bool	tryLockForRead(const char *caller = NULL);
-	bool	tryLockForRead(int timeout, const char *caller = NULL);
+	bool	tryLockForRead(int timeout);
 	bool	tryLockForWrite(const char *caller = NULL);
-	bool	tryLockForWrite(int timeout , const char *caller = NULL);
-	void	unlock(const char *caller = NULL);
+	bool	tryLockForWrite(int timeout);
+	void	unlock();
 };
 
 #endif // DEBUGRWLOCK_H
