@@ -125,20 +125,13 @@ bool CDiscoveryService::operator!=(const CDiscoveryService& pService) const
 
 /**
  * @brief load reads a service from the provided QDataStream and creates a new Object from the data.
- * Note that if a non-NULL pointer is given to the function, that object is deleted.
  * Locking: / (static member)
- * @param pService
+ * @param pService - A NULL pointer is expected as parameter.
  * @param fsStream
  * @param nVersion
  */
 void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, int)
 {
-	if ( pService )
-	{
-		delete pService;
-		pService = nullptr;
-	}
-
 	quint8     nServiceType;        // GWC, UKHL, ...
 	quint16    nNetworkType;        // could be several in case of GWC for instance
 	QString    sURL;
@@ -170,15 +163,18 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, 
 	pService = createService( sURL, (TServiceType)nServiceType,
 							  CNetworkType( nNetworkType ), nRating );
 
-	pService->m_bBanned       = bBanned;
-	pService->m_bZero         = bZero;
-	pService->m_nID           = nID;
-	pService->m_nLastHosts    = nLastHosts;
-	pService->m_nTotalHosts   = nTotalHosts;
-	pService->m_tLastQueried  = tLastQueried;
-	pService->m_tLastSuccess  = tLastSuccess;
-	pService->m_nFailures     = nFailures;
-	pService->m_nZeroRevivals = nZeroRatingFailures;
+	if ( pService )
+	{
+		pService->m_bBanned       = bBanned;
+		pService->m_bZero         = bZero;
+		pService->m_nID           = nID;
+		pService->m_nLastHosts    = nLastHosts;
+		pService->m_nTotalHosts   = nTotalHosts;
+		pService->m_tLastQueried  = tLastQueried;
+		pService->m_tLastSuccess  = tLastSuccess;
+		pService->m_nFailures     = nFailures;
+		pService->m_nZeroRevivals = nZeroRatingFailures;
+	}
 }
 
 /**
@@ -221,18 +217,22 @@ CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServic
 	switch ( eSType )
 	{
 	case stNull:
+		qDebug() << "[Discovery] Service Type: Null";
 		break;
 	case stBanned:
 	{
+		qDebug() << "[Discovery] Service Type: Banned";
 		pService = new CBannedDiscoveryService( sURL, oNType, nRating );
 		break;
 	}
 	case stGWC:
 	{
+		qDebug() << "[Discovery] Service Type: GWC";
 		pService = new CGWC( sURL, oNType, nRating );
 		break;
 	}
 	default:
+		qDebug() << "[Discovery] Service Type: Unknown";
 		systemLog.postLog( LogSeverity::Error, discoveryManager.m_sMessage
 						   + tr( "Internal error: Creation of service with unknown type requested: Type " )
 						   + QString( eSType ) );

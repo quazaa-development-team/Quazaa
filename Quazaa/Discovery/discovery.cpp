@@ -171,7 +171,7 @@ TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
 	m_pSection.lock();
 
 //	qDebug() << "[Discovery] aa2";
-	if ( add( pService ) )
+	if ( pService && add( pService ) )
 	{
 //		qDebug() << "[Discovery] aa211";
 		// make sure to return the right ID
@@ -452,7 +452,7 @@ bool CDiscovery::asyncSyncSavingHelper()
 						   + tr( "Warning: Could not create create new backup file: " ) + sBackupPath );
 	}
 
-	systemLog.postLog( LogSeverity::Debug, m_sMessage + tr( "Saved %1 hosts to file." ).arg( nCount ) );
+	systemLog.postLog( LogSeverity::Debug, m_sMessage + tr( "Saved %1 services to file." ).arg( nCount ) );
 
 	return true;
 }
@@ -789,21 +789,33 @@ bool CDiscovery::load( QString sPath )
 
 		QDataStream fsFile( &oFile );
 
-		quint16 nVersion;
+		quint16 nVersion = DISCOVERY_CODE_VERSION;
 		quint32 nCount;
+
+		qDebug() << "[Discovery] Discovery code version:     "
+				 << QString::number( nVersion ).toLocal8Bit().data();
 
 		fsFile >> nVersion;
 		fsFile >> nCount;
+
+		qDebug() << "[Discovery] File data structure version:"
+				 << QString::number( nVersion ).toLocal8Bit().data();
+		qDebug() << "[Discovery] Number of services stored in file:"
+				 << QString::number( nCount   ).toLocal8Bit().data();
 
 		QMutexLocker l( &m_pSection );
 		while ( nCount > 0 )
 		{
 			CDiscoveryService::load( pService, fsFile, nVersion );
 
-			// This needs two lines for compilation under MingW to succeed.
-			TServicePtr pManagedService = TServicePtr( pService );
-			add( pManagedService );
-			pService = nullptr;
+			if ( pService )
+			{
+				// This needs two lines for compilation under MingW to succeed.
+				TServicePtr pManagedService = TServicePtr( pService );
+				add( pManagedService );
+				pService = nullptr;
+			}
+
 			--nCount;
 		}
 	}
@@ -818,10 +830,12 @@ bool CDiscovery::load( QString sPath )
 		systemLog.postLog( LogSeverity::Error, m_sMessage
 						   + tr( "Error: Caught an exception while loading services from file!" ) );
 
+		qDebug() << "[Discovery] Error while loading services.";
 		return false;
 	}
 	oFile.close();
 
+	qDebug() << "[Discovery] Finished loading services.";
 	return true;
 }
 
@@ -835,9 +849,6 @@ bool CDiscovery::load( QString sPath )
 bool CDiscovery::add(TServicePtr& pService)
 {
 	// TODO: implement bans overwriting existing services
-
-	if ( !pService )
-		return false;
 
 	// remove duplicates and handle bans
 // TODO: Uncommente once manageDuplicates is fully implemented and tested.
