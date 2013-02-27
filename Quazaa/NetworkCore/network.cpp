@@ -198,7 +198,7 @@ void CNetwork::AcquireLocalAddress(QString& sHeader)
 		}
 	}
 }
-bool CNetwork::IsConnectedTo(CEndPoint addr)
+bool CNetwork::IsConnectedTo(CEndPoint /*addr*/)
 {
 	return false;
 }
