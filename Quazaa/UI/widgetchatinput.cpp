@@ -38,10 +38,10 @@
 #endif
 
 WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
-	QMainWindow(parent),
+    QMainWindow(parent),
 	ui(new Ui::WidgetChatInput)
 {
-	ui->setupUi(this);
+    ui->setupUi(this);
     bIsIrc = isIrc;
 
     defaultColor = ui->textEditInput->textColor();
@@ -77,7 +77,7 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
 	toolButtonPrivateMessage = new QToolButton(this);
 	toolButtonPrivateMessage->setText(tr("New Private Message"));
 	toolButtonPrivateMessage->setToolTip(tr("New Private Message"));
-	toolButtonPrivateMessage->setIcon(QIcon(":/Resource/Chat/Chat.png"));
+    toolButtonPrivateMessage->setIcon(QIcon(":/Resource/Chat/Chat.png"));
 	ui->toolBarTextTools->insertWidget(ui->actionBold, toolButtonPickColor);
 	ui->toolBarTextTools->addSeparator();
     ui->toolBarTextTools->addWidget(toolButtonSmilies);
@@ -85,11 +85,11 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
     ui->actionItalic->setChecked(ui->textEditInput->fontItalic());
     ui->actionUnderline->setChecked(ui->textEditInput->fontUnderline());
 	ui->toolBarTextTools->addWidget(toolButtonPrivateMessage);
-	toolButtonPrivateMessage->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    toolButtonPrivateMessage->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     connect(ui->actionItalic, SIGNAL(toggled(bool)), ui->textEditInput, SLOT(setFontItalic(bool)));
     connect(ui->actionUnderline, SIGNAL(toggled(bool)), ui->textEditInput, SLOT(setFontUnderline(bool)));
 	connect(toolButtonPrivateMessage, SIGNAL(clicked()), this, SLOT(addPrivateMessage()));
-	setSkin();
+    setSkin();
     updateToolbar();
 }
 

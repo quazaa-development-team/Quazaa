@@ -39,7 +39,7 @@ public:
     WidgetIrcMessageView(ViewType type, Session* session, QWidget* parent = 0);
     ~WidgetIrcMessageView();
 
-	QPushButton *closeButton;
+    QPushButton *closeButton;
 
     bool isActive() const;
     ViewType viewType() const;

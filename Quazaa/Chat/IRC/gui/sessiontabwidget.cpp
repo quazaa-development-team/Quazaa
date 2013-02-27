@@ -108,13 +108,13 @@ void SessionTabWidget::restoreSplitter(const QByteArray& state)
 
 WidgetIrcMessageView* SessionTabWidget::openView(const QString& receiver)
 {
-	WidgetIrcMessageView* view = d.views.value(receiver.toLower());
+    WidgetIrcMessageView* view = d.views.value(receiver.toLower());
 	if (!view) {
-		WidgetIrcMessageView::ViewType type = WidgetIrcMessageView::ServerView;
+        WidgetIrcMessageView::ViewType type = WidgetIrcMessageView::ServerView;
 		if (!d.views.isEmpty())
-			type = session()->isChannel(receiver) ? WidgetIrcMessageView::ChannelView : WidgetIrcMessageView::QueryView;
-		view = new WidgetIrcMessageView(type, d.handler.session(), this);
-		view->applySettings();
+            type = session()->isChannel(receiver) ? WidgetIrcMessageView::ChannelView : WidgetIrcMessageView::QueryView;
+        view = new WidgetIrcMessageView(type, d.handler.session(), this);
+        view->applySettings();
 		view->setReceiver(receiver);
         connect(view, SIGNAL(queried(QString)), this, SLOT(openView(QString)));
         connect(view, SIGNAL(messaged(QString,QString)), this, SLOT(sendMessage(QString,QString)));

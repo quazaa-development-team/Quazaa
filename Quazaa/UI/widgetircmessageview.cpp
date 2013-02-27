@@ -53,7 +53,7 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
                                "QPushButton:pressed { border: 3px groove cornflowerblue; border-radius: 6px; }");
     connect(closeButton, SIGNAL(clicked()), this, SLOT(closePressed()));
 
-    d.chatInput = new WidgetChatInput(0, true);
+    d.chatInput = new WidgetChatInput(this, true);
     d.horizontalLayoutChatInput->addWidget(d.chatInput);
     d.chatInput->setFixedHeight(80);
 
@@ -70,7 +70,7 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
     connect(d.session, SIGNAL(activeChanged(bool)), this, SIGNAL(activeChanged()));
 
 	d.topicLabel->setVisible(type == ChannelView);
-	d.listView->setVisible(type == ChannelView);
+    d.listView->setVisible(type == ChannelView);
 	if (type == ChannelView) {
 		d.listView->setSession(session);
 		connect(d.listView, SIGNAL(queried(QString)), this, SIGNAL(queried(QString)));
