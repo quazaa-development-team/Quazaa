@@ -43,6 +43,9 @@
 
 #define DISCOVERY_MAX_PROBABILITY 5
 
+// Set this to 1 to enable additionnal debug output for the Discovery Manager.
+#define ENABLE_DISCOVERY_DEBUGGING 0
+
 // TODO: Implement rating based on successful connection to obtained hosts
 
 namespace Discovery

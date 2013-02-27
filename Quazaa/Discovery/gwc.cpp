@@ -77,7 +77,9 @@ void CGWC::doQuery() throw()
 #endif
 
 	// inform user
-	systemLog.postLog( LogSeverity::Debug, QString( "Querying %1" ).arg( oURL.toString() ) );
+	systemLog.postLog( LogSeverity::Debug,
+					   discoveryManager.m_sMessage
+					   + QString( "Querying GWC: %1" ).arg( oURL.toString() ) );
 
 	setLastQueried( time( nullptr ) );
 

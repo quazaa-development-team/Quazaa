@@ -148,7 +148,11 @@ bool CDiscovery::save(bool bForceSaving)
 TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
 						   const CNetworkType& oNType, const quint8 nRating)
 {
-//	qDebug() << "[Discovery] aa0";
+#if ENABLE_DISCOVERY_DEBUGGING
+	qDebug() << "[Discovery] add( " << sURL.toLocal8Bit().data() << ", " << QString::number( eSType )
+			 << ", " << oNType.toString().toLocal8Bit().data() << ", " << QString::number( nRating );
+#endif
+
 	// First check whether the URL can be parsed at all.
 	// TODO: This might need refining for certain service types.
 	QUrl oURL( sURL, QUrl::StrictMode );
@@ -160,7 +164,6 @@ TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
 						   + sURL );
 		return 0;
 	}
-//	qDebug() << "[Discovery] aa1";
 
 	// Then, normalize the fully encoded URL
 	sURL = oURL.toString();
@@ -170,34 +173,24 @@ TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
 
 	m_pSection.lock();
 
-//	qDebug() << "[Discovery] aa2";
 	if ( pService && add( pService ) )
 	{
-//		qDebug() << "[Discovery] aa211";
 		// make sure to return the right ID
 		TServiceID nTmp = m_nLastID; // m_nLastID has been set to correct value within add( pService )
 
 		m_pSection.unlock();
-
-//		qDebug() << "[Discovery] aa212";
 
 		systemLog.postLog( LogSeverity::Notice,
 						   m_sMessage + tr( "Notice: New discovery service added: " ) + sURL );
 
 		// inform GUI about new service
 		emit serviceAdded( pService );
-
-//		qDebug() << "[Discovery] aa213";
 		return nTmp;
 	}
 	else // Adding the service failed fore some reason. Most likely the service was invalid or a duplicate.
 	{
-//		qDebug() << "[Discovery] aa221";
 		m_pSection.unlock();
-
 		systemLog.postLog( LogSeverity::Error, m_sMessage + tr( "Error adding service." ) );
-
-//		qDebug() << "[Discovery] aa222";
 		return 0;
 	}
 }
@@ -345,7 +338,9 @@ bool CDiscovery::asyncSyncSavingHelper()
 {
 	//TODO: Make sure all services are stopped before calling
 
-	qDebug() << "[Discovery] saving helper";
+#if ENABLE_DISCOVERY_DEBUGGING
+	qDebug() << "[Discovery] asyncSyncSavingHelper()";
+#endif
 
 	systemLog.postLog( LogSeverity::Notice, m_sMessage
 					   + tr( "Saving Discovery Services Manager state." ) );
@@ -354,20 +349,26 @@ bool CDiscovery::asyncSyncSavingHelper()
 	QString sBackupPath    = quazaaSettings.Discovery.DataPath + "discovery_backup.dat";
 	QString sTemporaryPath = sBackupPath + "_tmp";
 
-	qDebug() << "[Discovery] paths";
+#if ENABLE_DISCOVERY_DEBUGGING
+	qDebug() << "[Discovery] defined paths";
+#endif
 
 	if ( QFile::exists( sTemporaryPath ) && !QFile::remove( sTemporaryPath ) )
 	{
 		systemLog.postLog( LogSeverity::Error, m_sMessage
 						   + tr( "Error: Could not free space required for data backup: " ) + sPath );
 
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] error temp path used...";
+#endif
 		return false;
 	}
 
 	QFile oFile( sTemporaryPath );
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] created file";
+#endif
 
 	if ( !oFile.open( QIODevice::WriteOnly ) )
 	{
@@ -376,18 +377,24 @@ bool CDiscovery::asyncSyncSavingHelper()
 						   + tr( "Error: Could open data file for write: " )
 						   + sTemporaryPath );
 
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] could not write to file";
+#endif
 		return false;
 	}
 
 	m_pSection.lock();
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] got mutex lock";
+#endif
 
 	quint16 nVersion = DISCOVERY_CODE_VERSION;
 	quint32 nCount   = doCount();
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] before try";
+#endif
 
 	try
 	{
@@ -395,11 +402,15 @@ bool CDiscovery::asyncSyncSavingHelper()
 
 		fsFile << nVersion;
 
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] before count";
+#endif
 
 		fsFile << nCount;
 
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] after count";
+#endif
 
 		// write services to stream
 		foreach (  TMapPair pair, m_mServices )
@@ -407,7 +418,9 @@ bool CDiscovery::asyncSyncSavingHelper()
 			CDiscoveryService::save( pair.second.data(), fsFile );
 		}
 
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] saved each";
+#endif
 	}
 	catch ( ... )
 	{
@@ -415,14 +428,19 @@ bool CDiscovery::asyncSyncSavingHelper()
 
 		systemLog.postLog( LogSeverity::Error,
 						   m_sMessage + tr( "Error while writing discovery services to disk." ) );
+
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Caught exception!";
+#endif
 		return false;
 	}
 
 	m_bSaved = true;
-
 	m_pSection.unlock();
+
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] mutex unlocked";
+#endif
 
 	oFile.close();
 
@@ -459,18 +477,24 @@ bool CDiscovery::asyncSyncSavingHelper()
 
 void CDiscovery::asyncStartUpHelper()
 {
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Started CDiscovery::asyncStartUpHelper().";
+#endif
 
 	// Initialize random number generator.
 	qsrand ( QDateTime::currentDateTime().toTime_t() );
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Initialized random number generator.";
+#endif
 
 	// reg. meta types
 	qRegisterMetaType<TServiceID>( "TServiceID" );
 	qRegisterMetaType<TConstServicePtr>( "TConstServicePtr" );
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Registered Meta Types.";
+#endif
 
 	// We don't really need a lock here as nobody is supposed to use the manager before it is properly initialized.
 	m_sMessage = tr( "[Discovery] " );
@@ -478,7 +502,9 @@ void CDiscovery::asyncStartUpHelper()
 	// Includes its own locking.
 	load();
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Finished CDiscovery::asyncStartUpHelper().";
+#endif
 }
 
 void CDiscovery::asyncRequestServiceListHelper()
@@ -555,34 +581,46 @@ void CDiscovery::asyncUpdateServiceHelper(TServiceID nID)
 
 void CDiscovery::asyncQueryServiceHelper(const CNetworkType type)
 {
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] CDiscovery::asyncQueryServiceHelper( const CNetworkType )";
+#endif
 
 	QSharedPointer<QNetworkAccessManager> pNAM = requestNAM();
 
 	if ( pNAM->networkAccessible() == QNetworkAccessManager::Accessible )
 	{
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Network accessible.";
+#endif
 
 		m_pSection.lock();
 		TServicePtr pService = getRandomService( type );
 		m_pSection.unlock();
 
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Got service pointer.";
+#endif
 
 		if ( pService )
 		{
 			systemLog.postLog( LogSeverity::Notice,
 							   m_sMessage + tr( "Querying service: " ) + pService->url() );
 
+#if ENABLE_DISCOVERY_DEBUGGING
 			qDebug() << "[Discovery] Service pointer OK.";
+#endif
 
 			pService->query();
 
+#if ENABLE_DISCOVERY_DEBUGGING
 			qDebug() << "[Discovery] Service Queried.";
+#endif
 		}
 		else
 		{
+#if ENABLE_DISCOVERY_DEBUGGING
 			qDebug() << "[Discovery] Error: Service pointer NULL!";
+#endif
 
 			systemLog.postLog( LogSeverity::Warning, m_sMessage
 							   + tr( "Unable to query service for network: " ) + type.toString() );
@@ -592,14 +630,18 @@ void CDiscovery::asyncQueryServiceHelper(const CNetworkType type)
 	}
 	else
 	{
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Error: Network inaccessible!";
 		qDebug() << "[Discovery] Network status: " << pNAM->networkAccessible();
+#endif
 
 		systemLog.postLog( LogSeverity::Error, m_sMessage
 		+ tr( "Could not query service because the network connection is currently unavailable." ) );
 	}
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] End of CDiscovery::asyncQueryServiceHelper( const CNetworkType )";
+#endif
 }
 
 void CDiscovery::asyncQueryServiceHelper(TServiceID nID)
@@ -607,7 +649,9 @@ void CDiscovery::asyncQueryServiceHelper(TServiceID nID)
 	// We do not prevent users from manually querying services even if the network connection is reported
 	// to be down. Maybe they know better than we do.
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] CDiscovery::asyncQueryServiceHelper( TServiceID )";
+#endif
 
 	m_pSection.lock();
 
@@ -633,7 +677,9 @@ void CDiscovery::asyncQueryServiceHelper(TServiceID nID)
 
 	pService->query();
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Service Queried.";
+#endif
 }
 
 /**
@@ -734,7 +780,9 @@ void CDiscovery::load()
 {
 	QString sPath = quazaaSettings.Discovery.DataPath + "discovery.dat";
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Started loading services.";
+#endif
 
 	if ( load( sPath ) )
 	{
@@ -743,7 +791,9 @@ void CDiscovery::load()
 	}
 	else // Unable to load default file. Switch to backup one instead.
 	{
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Failed primary attempt on loading services.";
+#endif
 
 		sPath = quazaaSettings.Discovery.DataPath + "discovery_backup.dat";
 
@@ -752,34 +802,48 @@ void CDiscovery::load()
 
 		if ( !load( sPath ) )
 		{
+#if ENABLE_DISCOVERY_DEBUGGING
 			qDebug() << "[Discovery] Failed secondary attempt on loading services.";
+#endif
 
 			systemLog.postLog( LogSeverity::Error,
 							   m_sMessage + tr( "Failed to load discovery services!" ) );
 		}
 	}
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Number of services: " << count();
+#endif
 
 	if ( count() < 5 )
 	{
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Adding defaults.";
+#endif
+
 		addDefaults();
-		qDebug() << "[Discovery] Finished adding defaults.";
+
+#if ENABLE_DISCOVERY_DEBUGGING
+		qDebug() << "[Discovery] Finished adding defaults. New number of services: " << count();
 		qDebug() << "[Discovery] New number of services: " << count();
+#endif
 	}
 }
 
 bool CDiscovery::load( QString sPath )
 {
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Loading discovery services from file: " << sPath;
+#endif
 
 	QFile oFile( sPath );
 
 	if ( ! oFile.open( QIODevice::ReadOnly ) )
 		return false;
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Prepared file.";
+#endif
 
 	CDiscoveryService* pService = nullptr;
 
@@ -792,16 +856,20 @@ bool CDiscovery::load( QString sPath )
 		quint16 nVersion = DISCOVERY_CODE_VERSION;
 		quint32 nCount;
 
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Discovery code version:     "
 				 << QString::number( nVersion ).toLocal8Bit().data();
+#endif
 
 		fsFile >> nVersion;
 		fsFile >> nCount;
 
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] File data structure version:"
 				 << QString::number( nVersion ).toLocal8Bit().data();
 		qDebug() << "[Discovery] Number of services stored in file:"
 				 << QString::number( nCount   ).toLocal8Bit().data();
+#endif
 
 		QMutexLocker l( &m_pSection );
 		while ( nCount > 0 )
@@ -830,12 +898,16 @@ bool CDiscovery::load( QString sPath )
 		systemLog.postLog( LogSeverity::Error, m_sMessage
 						   + tr( "Error: Caught an exception while loading services from file!" ) );
 
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Error while loading services.";
+#endif
 		return false;
 	}
 	oFile.close();
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Finished loading services.";
+#endif
 	return true;
 }
 
@@ -897,8 +969,10 @@ bool CDiscovery::add(TServicePtr& pService)
 	// push to map
 	m_mServices[pService->m_nID] = pService;
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << QString( "[Discovery] Service added to manager: [%1]" ).arg( pService->type() ).toLocal8Bit().data()
 			 << pService->m_oServiceURL.toString();
+#endif
 	return true;
 }
 
@@ -942,41 +1016,66 @@ void CDiscovery::addDefaults()
 //			case '1':	// G1 service
 //				break;
 			case '2':	// G2 service
-				qDebug() << "[Discovery] a2a";
+#if ENABLE_DISCOVERY_DEBUGGING
+				qDebug() << "[Discovery] Parsing Default Service: G2";
+#endif
 				add( sService, stGWC, CNetworkType( dpG2 ), DISCOVERY_MAX_PROBABILITY );
-				qDebug() << "[Discovery] a2b";
+
+#if ENABLE_DISCOVERY_DEBUGGING
+				qDebug() << "[Discovery] Service added.";
+#endif
 				break;
+
 			case 'M':	// Multi-network service
-				qDebug() << "[Discovery] aMa";
+#if ENABLE_DISCOVERY_DEBUGGING
+				qDebug() << "[Discovery] Parsing Default Service: Multi Network Cache";
+#endif
 				add( sService, stGWC, CNetworkType( dpG2 ), DISCOVERY_MAX_PROBABILITY );
-				qDebug() << "[Discovery] aMb";
+
+#if ENABLE_DISCOVERY_DEBUGGING
+				qDebug() << "[Discovery] Service added.";
+#endif
 				break;
+
 //			case 'D':	// eDonkey service
 //				break;
 //			case 'U':	// Bootstrap and UDP Discovery Service
 //				break;
+
 			case 'X':	// Blocked service
-				qDebug() << "[Discovery] aXa";
+#if ENABLE_DISCOVERY_DEBUGGING
+				qDebug() << "[Discovery] Parsing Default Service: Banned Service";
+#endif
 				add( sService, stBanned, CNetworkType( dpNull ), 0 );
-				qDebug() << "[Discovery] aXb";
+
+#if ENABLE_DISCOVERY_DEBUGGING
+				qDebug() << "[Discovery] Service added.";
+#endif
 				break;
+
 			default:	// Comment line or unsupported
-				qDebug() << "[Discovery] aNULL";
+#if ENABLE_DISCOVERY_DEBUGGING
+				qDebug() << "[Discovery] Parsed comment line or unsupported service type.";
+#endif
 				break;
 			}
-
-			qDebug() << "[Discovery] 33";
 		}
 
-		qDebug() << "[Discovery] 4";
+#if ENABLE_DISCOVERY_DEBUGGING
+		qDebug() << "[Discovery] Finished parsing Default Services file.";
+#endif
 	}
 	catch ( ... )
 	{
-		qDebug() << "[Discovery] catch";
+#if ENABLE_DISCOVERY_DEBUGGING
+		qDebug() << "[Discovery] Caught something ugly.";
+#endif
 		systemLog.postLog( LogSeverity::Error,
 						   m_sMessage + tr( "Error while loading default servers from file." ) );
 	}
-	qDebug() << "[Discovery] close file";
+#if ENABLE_DISCOVERY_DEBUGGING
+	qDebug() << "[Discovery] Closing Default Services file.";
+#endif
 	oFile.close();
 }
 
@@ -1152,12 +1251,14 @@ CDiscovery::TServicePtr CDiscovery::getRandomService(const CNetworkType& oNType)
 		else
 		{
 //			qDebug() << "[Discovery] Service not added to list!";
+
+			// We don't need to hold a lock to the services we're not going to use.
+			pService->m_oRWLock.unlock();
 		}
 	}
 
 	if ( list.empty() )
 	{
-		pService->m_oRWLock.unlock();
 		return TServicePtr();
 	}
 	else
@@ -1171,10 +1272,16 @@ CDiscovery::TServicePtr CDiscovery::getRandomService(const CNetworkType& oNType)
 		while ( nSelectedRating > pSelected->m_nRating )
 		{
 			nSelectedRating -= pSelected->m_nRating;
+			pSelected->m_oRWLock.unlock();
 			pSelected = *( ++current );
 		}
 
-		pService->m_oRWLock.unlock();
+		while ( current != list.end() )
+		{
+			pService = *( current++ );
+			pService->m_oRWLock.unlock();
+		}
+
 		return pSelected;
 	}
 }

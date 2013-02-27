@@ -29,6 +29,7 @@
 #include <QReadWriteLock>
 #include <QUrl>
 
+//#include "Misc/debugrwlock.h"
 #include "discovery.h"
 
 // Requirements of all subclasses
@@ -47,6 +48,7 @@ class CDiscoveryService : public QObject
 	/* ================================================================ */
 protected:
 	QReadWriteLock	m_oRWLock;      // Service access lock.
+//	CDebugRWLock	m_oRWLock;      // Enable this for debugging purposes.
 	TServiceType	m_nServiceType; // GWC, UKHL, ...
 	CNetworkType	m_oNetworkType; // could be several in case of GWC for instance
 	QUrl			m_oServiceURL;

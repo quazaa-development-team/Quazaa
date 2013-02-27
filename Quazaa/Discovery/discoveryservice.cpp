@@ -217,22 +217,33 @@ CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServic
 	switch ( eSType )
 	{
 	case stNull:
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Service Type: Null";
+#endif
 		break;
+
 	case stBanned:
 	{
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Service Type: Banned";
+#endif
 		pService = new CBannedDiscoveryService( sURL, oNType, nRating );
 		break;
 	}
+
 	case stGWC:
 	{
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Service Type: GWC";
+#endif
 		pService = new CGWC( sURL, oNType, nRating );
 		break;
 	}
+
 	default:
+#if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Service Type: Unknown";
+#endif
 		systemLog.postLog( LogSeverity::Error, discoveryManager.m_sMessage
 						   + tr( "Internal error: Creation of service with unknown type requested: Type " )
 						   + QString( eSType ) );
@@ -272,21 +283,15 @@ void CDiscoveryService::update()
  */
 void CDiscoveryService::query()
 {
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Querying service.";
-
-
-
-
-
-	// TODO: Find out why this is locked when it shouldn't be.
-
-
-
-
+#endif
 
 	m_oRWLock.lockForWrite();
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Got service lock.";
+#endif
 
 	Q_ASSERT( !m_bRunning );
 
@@ -296,13 +301,17 @@ void CDiscoveryService::query()
 
 	m_oRWLock.unlock();
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Released service lock.";
+#endif
 
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
 	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ),
 								tNow + quazaaSettings.Discovery.ServiceTimeout );
 
+#if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Finished querying service.";
+#endif
 }
 
 /**
