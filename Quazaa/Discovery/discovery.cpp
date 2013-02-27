@@ -800,7 +800,9 @@ bool CDiscovery::load( QString sPath )
 		{
 			CDiscoveryService::load( pService, fsFile, nVersion );
 
-			add( TServicePtr( pService ) );
+			// This needs two lines for compilation under MingW to succeed.
+			TServicePtr pManagedService = TServicePtr( pService );
+			add( pManagedService );
 			pService = nullptr;
 			--nCount;
 		}

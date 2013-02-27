@@ -151,7 +151,7 @@ TEMPLATE = app
 # MinGW-specific compiler flags (Enable C++11 compilation and exception handling)
 win32-g++ {
 	CONFIG += exceptions
-#	QMAKE_CXXFLAGS += -std=c++0x
+	QMAKE_CXXFLAGS += -std=c++0x
 }
 
 # MSVC-specific compiler flags

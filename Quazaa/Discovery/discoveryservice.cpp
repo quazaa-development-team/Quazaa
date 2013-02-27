@@ -61,6 +61,7 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const CNetworkType& oNTyp
  * @param pService
  */
 CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
+	QObject(),
 	m_bRunning( false )
 {
 	// The usage of a custom copy constructor makes sure the list of registered

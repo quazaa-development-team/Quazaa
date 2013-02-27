@@ -680,10 +680,10 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 {
 	QMutexLocker l2(&Neighbours.m_pSection);
 
-	bool bRLeaf = false;
-	bool bRNick = false;
-	bool bRGPS = false;
-	bool bRExt = false;
+//	bool bRLeaf = false;
+//	bool bRNick = false;
+//	bool bRGPS = false;
+//	bool bRExt = false;
 
 	if(!pPacket->m_bCompound)
 	{
@@ -699,19 +699,19 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 
 		if(strcmp("RLEAF", szType) == 0)
 		{
-			bRLeaf = true;
+//			bRLeaf = true;
 		}
 		else if(strcmp("RNAME", szType) == 0)
 		{
-			bRNick = true;
+//			bRNick = true;
 		}
 		else if(strcmp("RGPS", szType) == 0)
 		{
-			bRGPS = true;
+//			bRGPS = true;
 		}
 		else if(strcmp("REXT", szType) == 0)
 		{
-			bRExt = true;
+//			bRExt = true;
 		}
 
 		pPacket->m_nPosition = nNext;
