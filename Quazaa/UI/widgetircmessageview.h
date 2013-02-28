@@ -58,8 +58,7 @@ public:
     void restoreSplitter(const QByteArray& state);
 
 public slots:
-	void showHelp(const QString& text, bool error = false);
-	void appendMessage(const QString& message);
+    void showHelp(const QString& text, bool error = false);
 	void sendMessage(const QString& text);
     void sendMessage(QTextDocument *message);
 	void applySettings();

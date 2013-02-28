@@ -297,28 +297,6 @@ void WidgetIrcMessageView::sendMessage(QTextDocument *message)
     sendMessage(converter->toIrc());
 }
 
-void WidgetIrcMessageView::appendMessage(const QString& message)
-{
-    if (!message.isEmpty()) {
-        // workaround the link activation merge char format bug
-        QString copy = message;
-        if (copy.endsWith("</a>"))
-            copy += " ";
-
-        d.textBrowser->append(copy);
-        if (!isVisible() && d.textBrowser->unseenBlock() == -1)
-            d.textBrowser->setUnseenBlock(d.textBrowser->document()->blockCount() - 1);
-
-#if QT_VERSION >= 0x040800
-        QTextBlock block = d.textBrowser->document()->lastBlock();
-        QTextBlockFormat format = block.blockFormat();
-        format.setLineHeight(120, QTextBlockFormat::ProportionalHeight);
-        QTextCursor cursor(block);
-        cursor.setBlockFormat(format);
-#endif // QT_VERSION
-    }
-}
-
 void WidgetIrcMessageView::hideEvent(QHideEvent* event)
 {
     QWidget::hideEvent(event);
@@ -402,7 +380,7 @@ void WidgetIrcMessageView::applySettings()
 	d.textBrowser->document()->setMaximumBlockCount(quazaaSettings.Chat.MaxBlockCount);
 	d.topicLabel->setProperty("gradient", quazaaSettings.Chat.Layout == "tree");
 
-	QTextDocument* doc = d.topicLabel->findChild<QTextDocument*>();
+    QTextDocument* doc = d.topicLabel->findChild<QTextDocument*>();
 	if (doc)
 		doc->setDefaultStyleSheet(QString("a { color: %1 }").arg(quazaaSettings.Chat.Colors.value(IrcColorType::Link)));
 
@@ -507,7 +485,7 @@ void WidgetIrcMessageView::receiveMessage(IrcMessage* message)
             emit missed(message);
     }
 
-    appendMessage(formatted);
+    d.textBrowser->append(formatted);
 }
 
 bool WidgetIrcMessageView::hasUser(const QString& user) const
