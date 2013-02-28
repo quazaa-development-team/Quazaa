@@ -45,7 +45,8 @@ public:
 public slots:
     void restoreSplitter(const QByteArray& state);
     void switchToServerTab();
-    WidgetIrcMessageView* openView(const QString& receiver);
+    WidgetIrcMessageView* addView(const QString& receiver);
+    void openView(const QString& reciever);
 	void removeView(const QString& receiver);
 	void closeCurrentView();
 	void closeView(int index);
