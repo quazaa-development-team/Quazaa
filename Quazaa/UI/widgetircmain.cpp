@@ -96,7 +96,7 @@ WidgetIrcMain::WidgetIrcMain(QWidget* parent) : QWidget(parent),
 		setStyleSheet(QString::fromUtf8(file.readAll()));
 
 	if(quazaaSettings.Chat.ConnectOnStartup)
-		QTimer::singleShot(1000, this, SLOT(initialize()));
+        QTimer::singleShot(600, this, SLOT(initialize()));
 }
 
 WidgetIrcMain::~WidgetIrcMain()
