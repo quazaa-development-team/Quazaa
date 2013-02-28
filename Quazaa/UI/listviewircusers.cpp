@@ -44,12 +44,7 @@ Session* ListViewIrcUsers::session() const
 
 void ListViewIrcUsers::setSession(Session* session)
 {
-	delete model();
-	if (session) {
-		setModel(d.userModel);
-	}
-
-	d.userModel->setSession(session);
+    d.userModel->setSession(session);
 }
 
 QString ListViewIrcUsers::channel() const
@@ -107,7 +102,17 @@ void ListViewIrcUsers::mousePressEvent(QMouseEvent* event)
 {
 	QListView::mousePressEvent(event);
 	if (!indexAt(event->pos()).isValid())
-		selectionModel()->clear();
+        selectionModel()->clear();
+}
+
+void ListViewIrcUsers::showEvent(QShowEvent *event)
+{
+    QListView::showEvent(event);
+    if (!model()) {
+        Session* session = d.userModel->session();
+        IrcSessionInfo info(session);
+        setModel(new SortedUserModel(info.prefixes().join(""), d.userModel));
+    }
 }
 
 void ListViewIrcUsers::onDoubleClicked(const QModelIndex& index)
