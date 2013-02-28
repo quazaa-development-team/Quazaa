@@ -19,7 +19,7 @@
 #include <QTextBlock>
 #include <QAbstractTextDocumentLayout>
 
-TextBrowser::TextBrowser(QWidget* parent) : QTextBrowser(parent), ub(-1), bud(0)
+TextBrowser::TextBrowser(QWidget* parent) : QTextBrowser(parent), ub(-1), bud(0), doc(new QTextDocument(this))
 {
     unreadLineBrush = qApp->palette().highlight();
 }
@@ -44,6 +44,11 @@ void TextBrowser::setUnseenBlock(int block)
     ub = block;
 }
 
+QTextDocument *TextBrowser::document() const
+{
+    return doc;
+}
+
 QColor TextBrowser::unreadLineColor() const
 {
     return unreadLineBrush.color();
@@ -63,7 +68,7 @@ void TextBrowser::append(const QString &text)
         buffer += text;
 
         if (!isVisible() && ub == -1)
-            ub = document()->blockCount() - 1;
+            ub = doc->blockCount() - 1;
     }
 }
 
@@ -119,6 +124,13 @@ void TextBrowser::scrollToPreviousPage()
     verticalScrollBar()->triggerAction(QScrollBar::SliderPageStepSub);
 }
 
+void TextBrowser::showEvent(QShowEvent *event)
+{
+    QTextBrowser::showEvent(event);
+    if (QTextBrowser::document() != doc)
+        setDocument(doc);
+}
+
 void TextBrowser::paintEvent(QPaintEvent* event)
 {
     QTextBrowser::paintEvent(event);
@@ -127,7 +139,7 @@ void TextBrowser::paintEvent(QPaintEvent* event)
 
     QTextBlock block;
     if (ub > 0)
-        block = document()->findBlockByNumber(ub);
+        block = doc->findBlockByNumber(ub);
 
     if (block.isValid()) {
         painter.save();
@@ -135,7 +147,7 @@ void TextBrowser::paintEvent(QPaintEvent* event)
         painter.setPen(Qt::DashLine);
         painter.translate(-horizontalScrollBar()->value(), -verticalScrollBar()->value());
 
-        QRectF br = document()->documentLayout()->blockBoundingRect(block);
+        QRectF br = doc->documentLayout()->blockBoundingRect(block);
         painter.drawLine(br.topLeft(), br.topRight());
         painter.restore();
     }
@@ -161,7 +173,6 @@ void TextBrowser::appendBuffer()
     QScrollBar* vbar = verticalScrollBar();
     const bool atBottom = vbar->value() >= vbar->maximum();
 
-    QTextDocument* doc = document();
     QTextCursor cursor(doc);
     cursor.movePosition(QTextCursor::End);
 
