@@ -61,7 +61,7 @@ void TextBrowser::setUnreadLineColor(const QColor &color)
 
 void TextBrowser::append(const QString &text)
 {
-    if (!text.isEmpty()) {
+    if (!text.isEmpty() && isVisible()) {
         if (buffer.isEmpty())
             QMetaObject::invokeMethod(this, "appendBuffer", Qt::QueuedConnection);
 
@@ -127,6 +127,8 @@ void TextBrowser::scrollToPreviousPage()
 void TextBrowser::showEvent(QShowEvent *event)
 {
     QTextBrowser::showEvent(event);
+    if (!buffer.isEmpty())
+        appendBuffer();
     if (QTextBrowser::document() != doc)
         setDocument(doc);
 }
