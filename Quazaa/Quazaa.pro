@@ -184,7 +184,8 @@ win32-msvc2010 {
         /MP
     QMAKE_CFLAGS_RELEASE += /Gd \
         /GA \
-        /Og \
+        /O1 \
+        /O2 \
         /MD \
         /MP
     QMAKE_CXXFLAGS_DEBUG += /Gd \
@@ -219,7 +220,6 @@ sse2 {
 SOURCES += \
     3rdparty/communi/src/ircsession.cpp \
     3rdparty/communi/src/ircsender.cpp \
-    3rdparty/communi/src/ircmessagedata.cpp \
     3rdparty/communi/src/ircmessagedecoder.cpp \
     3rdparty/communi/src/ircmessage.cpp \
     3rdparty/communi/src/irccommand.cpp \
@@ -414,7 +414,6 @@ HEADERS += \
     3rdparty/communi/include/ircsession_p.h \
     3rdparty/communi/include/ircsession.h \
     3rdparty/communi/include/ircsender.h \
-    3rdparty/communi/include/ircmessagedata_p.h \
     3rdparty/communi/include/ircmessagedecoder_p.h \
     3rdparty/communi/include/ircmessage.h \
     3rdparty/communi/include/ircglobal.h \
@@ -599,7 +598,7 @@ HEADERS += \
     Chat/IRC/gui/util/historylineedit.h \
     Chat/IRC/gui/util/completer.h \
     UI/wizardtreewidget.h \
-    3rdparty/communi/include/ircprotocol_p.h
+    3rdparty/communi/include/ircprotocol.h
 
 win32 {
     HEADERS += \
