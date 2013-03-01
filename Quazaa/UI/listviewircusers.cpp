@@ -110,8 +110,7 @@ void ListViewIrcUsers::showEvent(QShowEvent *event)
     QListView::showEvent(event);
     if (!model()) {
         Session* session = d.userModel->session();
-        IrcSessionInfo info(session);
-        setModel(new SortedUserModel(info.prefixes().join(""), d.userModel));
+        setModel(d.userModel);
     }
 }
 

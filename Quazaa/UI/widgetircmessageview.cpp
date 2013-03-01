@@ -225,7 +225,7 @@ void WidgetIrcMessageView::sendMessage(const QString& text)
                 if (cmd->type() == IrcCommand::Quote)
                 {
                     if(viewType() == ServerView)
-                        appendMessage( d.formatter->formatMessage( QDateTime::currentDateTime(), tr("[RAW] %1").arg(cmd->parameters().join(" ")) ) );
+                        d.textBrowser->append( d.formatter->formatMessage( QDateTime::currentDateTime(), tr("[RAW] %1").arg(cmd->parameters().join(" ")) ) );
                     else
                         emit appendRawMessage(d.formatter->formatMessage( QDateTime::currentDateTime(), tr("[RAW] %1").arg(cmd->parameters().join(" ")) ) );
                 }

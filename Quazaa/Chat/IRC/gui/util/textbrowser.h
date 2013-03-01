@@ -31,8 +31,6 @@ public:
     int unseenBlock() const;
     void setUnseenBlock(int block);
 
-    QTextDocument* document() const;
-
     QColor unreadLineColor() const;
     void setUnreadLineColor(const QColor &color);
 
@@ -44,7 +42,6 @@ public slots:
     void scrollToPreviousPage();
 
 protected:
-    void showEvent(QShowEvent* event);
     void keyPressEvent(QKeyEvent* event);
     void paintEvent(QPaintEvent* event);
     void resizeEvent(QResizeEvent* event);
@@ -59,7 +56,6 @@ private:
     QWidget* bud;
     QBrush unreadLineBrush;
     QStringList buffer;
-    QTextDocument* doc;
 };
 
 #endif // TEXTBROWSER_H

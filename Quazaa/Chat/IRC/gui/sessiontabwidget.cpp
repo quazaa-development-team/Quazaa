@@ -149,7 +149,7 @@ WidgetIrcMessageView* SessionTabWidget::addView(const QString& receiver)
 
 void SessionTabWidget::openView(const QString &reciever)
 {
-    MessageView* view = d.views.value(receiver.toLower());
+    WidgetIrcMessageView* view = d.views.value(reciever.toLower());
     if (view)
         setCurrentWidget(view);
 }
@@ -206,7 +206,7 @@ void SessionTabWidget::renameView(const QString& from, const QString& to)
 
 void SessionTabWidget::sendMessage(const QString &receiver, const QString &message)
 {
-    MessageView* view = addView(receiver);
+    WidgetIrcMessageView* view = addView(receiver);
     if (view) {
         setCurrentWidget(view);
         view->sendMessage(message);

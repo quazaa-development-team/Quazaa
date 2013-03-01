@@ -423,15 +423,15 @@ QString MessageFormatter::formatZncPlaybackMessage(IrcPrivateMessage *message) c
     QString msg = message->message();
     int idx = msg.indexOf(" ");
     if (idx != -1) {
-        QDateTime timeStamp = QDateTime::fromString(msg.left(idx), d.timeStampFormat);
+        QDateTime timeStamp = QDateTime::fromString(msg.left(idx), d.timestampFormat);
         if (timeStamp.isValid()) {
             message->setTimeStamp(timeStamp);
             msg.remove(0, idx + 1);
+            QString content = msg.mid(idx + 1);
 
             if (message->sender().name() == "*buffextras") {
                 idx = msg.indexOf(" ");
                 IrcSender sender(msg.left(idx));
-                QString content = msg.mid(idx + 1);
 
                 IrcMessage* tmp = 0;
                 if (content.startsWith("joined")) {
@@ -488,7 +488,7 @@ QString MessageFormatter::formatZncPlaybackMessage(IrcNoticeMessage *message) co
     QString msg = message->message();
     int idx = msg.indexOf(" ");
     if (idx != -1) {
-        QDateTime timeStamp = QDateTime::fromString(msg.left(idx), d.timeStampFormat);
+        QDateTime timeStamp = QDateTime::fromString(msg.left(idx), d.timestampFormat);
         if (timeStamp.isValid()) {
             message->setTimeStamp(timeStamp);
             msg.remove(0, idx + 1);
@@ -577,7 +577,7 @@ void MessageFormatter::applySettings()
 
 QString MessageFormatter::formatHtml(const QString& message) const
 {
-    QString msg = IRC_TEXT_FORMAT.messageToHtml(message);
+    QString msg = IRC_TEXT_FORMAT.toHtml(message);
     foreach (const QString& user, d.users) {
         int pos = 0;
         while ((pos = msg.indexOf(user, pos)) != -1) {
