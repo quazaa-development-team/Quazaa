@@ -109,7 +109,6 @@ void ListViewIrcUsers::showEvent(QShowEvent *event)
 {
     QListView::showEvent(event);
     if (!model()) {
-        Session* session = d.userModel->session();
         setModel(d.userModel);
     }
 }

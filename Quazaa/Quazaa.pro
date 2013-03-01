@@ -184,7 +184,6 @@ win32-msvc2010 {
         /MP
     QMAKE_CFLAGS_RELEASE += /Gd \
         /GA \
-        /O1 \
         /O2 \
         /MD \
         /MP
@@ -222,6 +221,7 @@ SOURCES += \
     3rdparty/communi/src/ircsender.cpp \
     3rdparty/communi/src/ircmessagedecoder.cpp \
     3rdparty/communi/src/ircmessage.cpp \
+    3rdparty/communi/src/ircmessage_p.cpp \
     3rdparty/communi/src/irccommand.cpp \
     3rdparty/communi/src/irc.cpp \
     3rdparty/communi/src/ircsessioninfo.cpp \
@@ -415,6 +415,7 @@ HEADERS += \
     3rdparty/communi/include/ircsession.h \
     3rdparty/communi/include/ircsender.h \
     3rdparty/communi/include/ircmessagedecoder_p.h \
+    3rdparty/communi/include/ircmessage_p.h \
     3rdparty/communi/include/ircmessage.h \
     3rdparty/communi/include/ircglobal.h \
     3rdparty/communi/include/irccommand.h \
