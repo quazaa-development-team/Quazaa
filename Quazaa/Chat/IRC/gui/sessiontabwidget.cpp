@@ -132,11 +132,11 @@ WidgetIrcMessageView* SessionTabWidget::addView(const QString& receiver)
             setTabIcon(index, QIcon(":/Resource/Network/Network.png"));
         } else if (view->viewType() == WidgetIrcMessageView::ChannelView) {
             setTabIcon(index, QIcon(":/Resource/Chat/Friends.png"));
-            connect(view, SIGNAL(appendRawMessage(QString)), view->session()->defaultView(), SLOT(appendMessage(QString)));
+            connect(view, SIGNAL(appendRawMessage(QString)), view->session()->defaultView()->textBrowser(), SLOT(append(QString)));
             connect(view, SIGNAL(appendRawMessage(QString)), this, SLOT(switchToServerTab()));
         } else {
             setTabIcon(index, QIcon(":/Resource/Chat/Chat.png"));
-            connect(view, SIGNAL(appendRawMessage(QString)), view->session()->defaultView(), SLOT(appendMessage(QString)));
+            connect(view, SIGNAL(appendRawMessage(QString)), view->session()->defaultView()->textBrowser(), SLOT(append(QString)));
             connect(view, SIGNAL(appendRawMessage(QString)), this, SLOT(switchToServerTab()));
         }
 		emit viewAdded(view);
