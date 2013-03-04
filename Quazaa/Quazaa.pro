@@ -130,7 +130,7 @@ DEFINES += COMMUNI_STATIC
 CONFIG(debug, debug|release){
     DEFINES += _DEBUG \
         _USE_DEBUG_NEW
-    QT_FATAL_WARNINGS = 1
+        QT_FATAL_WARNINGS = 1
 }
 
 win32 {
@@ -151,7 +151,9 @@ TEMPLATE = app
 # MinGW-specific compiler flags (Enable C++11 compilation and exception handling)
 win32-g++ {
 	CONFIG += exceptions
-	QMAKE_CXXFLAGS += -std=c++0x
+#	QMAKE_CXXFLAGS += -std=c++0x
+#					  -U__STRICT_ANSI__ # When compiling with -std=c++0x, MinGW automatically adds -ansi, which causes
+										# certain compilation problems.
 }
 
 # MSVC-specific compiler flags
@@ -313,7 +315,7 @@ SOURCES += \
     NetworkCore/searchmanager.cpp \
     NetworkCore/thread.cpp \
     NetworkCore/types.cpp \
-    NetworkCore/webcache.cpp \
+#    NetworkCore/webcache.cpp \
     NetworkCore/zlibutils.cpp \
     quazaaglobals.cpp \
     quazaasettings.cpp \
@@ -529,7 +531,7 @@ HEADERS += \
     NetworkCore/thread.h \
     NetworkCore/types.h \
     NetworkCore/types.h \
-    NetworkCore/webcache.h \
+#    NetworkCore/webcache.h \
     NetworkCore/zlibutils.h \
     quazaaglobals.h \
     quazaasettings.h \
