@@ -45,7 +45,7 @@ CGWC::~CGWC()
 	if ( m_pRequest )
 	{
 		delete m_pRequest;
-		m_pRequest = nullptr;
+		m_pRequest = NULL;
 
 		// if there is a request, there must be a manager
 		Q_ASSERT( m_pNAMgr );
@@ -70,10 +70,10 @@ void CGWC::doQuery() throw()
 		oURL.setQuery(query);
 	}
 #else
-		u.addQueryItem("get", "1");
-		u.addQueryItem("hostfile", "1");
-		u.addQueryItem("net", "gnutella2");
-		u.addQueryItem("client", "BROV1.0");
+		oURL.addQueryItem("get", "1");
+		oURL.addQueryItem("hostfile", "1");
+		oURL.addQueryItem("net", "gnutella2");
+		oURL.addQueryItem("client", "BROV1.0");
 #endif
 
 	// inform user
@@ -81,7 +81,7 @@ void CGWC::doQuery() throw()
 					   discoveryManager.m_sMessage
 					   + QString( "Querying GWC: %1" ).arg( oURL.toString() ) );
 
-	setLastQueried( time( nullptr ) );
+	setLastQueried( time( NULL ) );
 
 	// generate request
 	m_pRequest = new QNetworkRequest( oURL );
@@ -118,7 +118,7 @@ void CGWC::doCancelRequest() throw()
 #endif
 
 	delete m_pRequest;
-	m_pRequest = nullptr;
+	m_pRequest = NULL;
 	m_pNAMgr.clear();     // we don't need the network access manager anymore
 
 	// TODO: Check locking
@@ -134,14 +134,14 @@ void CGWC::queryRequestCompleted(QNetworkReply* pReply)
 		return; // reply was meant for sb else
 	}
 
-	systemLog.postLog( LogSeverity::Debug, QString( "OnRequestComplete()" ) );
+	systemLog.postLog( LogSeverity::Debug, discoveryManager.m_sMessage + QString( "Recieved answer from GWC." ) );
 
 	// used for statistics update at a later time
 	quint16 nHosts = 0;
 
 	if ( pReply->error() == QNetworkReply::NoError )
 	{
-		systemLog.postLog( LogSeverity::Debug, QString( "Parsing GWC response" ) );
+		systemLog.postLog( LogSeverity::Debug, discoveryManager.m_sMessage + QString( "Parsing GWC response:" ) );
 
 		// get first piece of data from reply
 		QString ln = pReply->readLine(2048);
@@ -151,7 +151,7 @@ void CGWC::queryRequestCompleted(QNetworkReply* pReply)
 		// parse data
 		while ( !ln.isEmpty() )
 		{
-			systemLog.postLog( LogSeverity::Debug, QString( "Line: %1" ).arg( ln ) );
+			systemLog.postLog( LogSeverity::Debug, discoveryManager.m_sMessage + QString( "Line: %1" ).arg( ln.replace( '\n', "" ) ) );
 
 			QStringList lp = ln.split("|");
 			if ( lp.size() > 1 )
@@ -165,7 +165,7 @@ void CGWC::queryRequestCompleted(QNetworkReply* pReply)
 			}
 			else
 			{
-				systemLog.postLog( LogSeverity::Debug, QString( "Parsing error!" ) );
+				systemLog.postLog( LogSeverity::Debug, discoveryManager.m_sMessage + QString( "Parsing error!" ) );
 			}
 
 			// get next piece of data
@@ -174,7 +174,7 @@ void CGWC::queryRequestCompleted(QNetworkReply* pReply)
 	}
 	else
 	{
-		systemLog.postLog( LogSeverity::Error, tr( "Error querying GWC: " ) + url() );
+		systemLog.postLog( LogSeverity::Error, discoveryManager.m_sMessage + tr( "Error querying GWC: " ) + url() );
 	}
 
 	// make sure all statistics and failure counters are updated
@@ -183,7 +183,7 @@ void CGWC::queryRequestCompleted(QNetworkReply* pReply)
 	// clean up
 	pReply->deleteLater();
 	delete m_pRequest;
-	m_pRequest = nullptr;
+	m_pRequest = NULL;
 	m_pNAMgr.clear();
 
 	resetRunning();
