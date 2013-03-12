@@ -221,7 +221,7 @@ SOURCES += \
 	3rdparty/communi/src/irc.cpp \
 	3rdparty/communi/src/irccommand.cpp \
 	3rdparty/communi/src/ircmessage.cpp \
-    3rdparty/communi/src/ircmessagedata.cpp \
+	3rdparty/communi/src/ircmessage_p.cpp \
     3rdparty/communi/src/ircmessagedecoder.cpp \
 	3rdparty/communi/src/ircmessagedecoder_icu.cpp \
 	3rdparty/communi/src/ircpalette.cpp \
@@ -423,15 +423,15 @@ HEADERS += \
 	3rdparty/communi/include/irccommand.h \
 	3rdparty/communi/include/ircglobal.h \
 	3rdparty/communi/include/ircmessage.h \
-	3rdparty/communi/include/ircmessagedata_p.h \
+	3rdparty/communi/include/ircmessage_p.h \
 	3rdparty/communi/include/ircmessagedecoder_p.h \
-	3rdparty/communi/include/ircpalette.h \
-	3rdparty/communi/include/ircprotocol_p.h \
 	3rdparty/communi/include/ircsender.h \
 	3rdparty/communi/include/ircsession.h \
-    3rdparty/communi/include/ircsession_p.h \
+	3rdparty/communi/include/ircsession_p.h \
 	3rdparty/communi/include/ircsessioninfo.h \
-    3rdparty/communi/include/irctextformat.h \
+	3rdparty/communi/include/irctextformat.h \
+	3rdparty/communi/include/ircpalette.h \
+	3rdparty/communi/include/ircprotocol.h \
     3rdparty/CyoEncode/CyoDecode.h \
     3rdparty/CyoEncode/CyoEncode.h \
     3rdparty/nvwa/debug_new.h \

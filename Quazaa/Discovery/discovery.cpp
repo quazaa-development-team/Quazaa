@@ -846,7 +846,7 @@ bool CDiscovery::load( QString sPath )
 	qDebug() << "[Discovery] Prepared file.";
 #endif
 
-	CDiscoveryService* pService = nullptr;
+	CDiscoveryService* pService = NULL;
 
 	try
 	{
@@ -882,7 +882,7 @@ bool CDiscovery::load( QString sPath )
 				// This needs two lines for compilation under MingW to succeed.
 				TServicePtr pManagedService = TServicePtr( pService );
 				add( pManagedService );
-				pService = nullptr;
+				pService = NULL;
 			}
 
 			--nCount;

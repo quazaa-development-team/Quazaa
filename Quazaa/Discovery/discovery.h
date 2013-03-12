@@ -152,7 +152,7 @@ public:
 	 * @brief CDiscovery: Constructs a new discovery services manager.
 	 * @param parent
 	 */
-	CDiscovery(QObject *parent = nullptr);
+	CDiscovery(QObject *parent = NULL);
 
 	/**
 	 * @brief ~CDiscovery: Destructor. Make sure you have stopped the magager befor destroying it.

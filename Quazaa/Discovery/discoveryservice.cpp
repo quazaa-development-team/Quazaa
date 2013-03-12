@@ -93,7 +93,7 @@ CDiscoveryService::~CDiscoveryService()
 	for ( std::list<const CDiscoveryService**>::iterator i = m_lPointers.begin();
 		  i != m_lPointers.end(); ++i )
 	{
-		*(*i) = nullptr;
+		*(*i) = NULL;
 	}
 }
 
@@ -212,7 +212,7 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
 CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServiceType eSType,
 													const CNetworkType& oNType,	quint8 nRating )
 {
-	CDiscoveryService* pService = nullptr;
+	CDiscoveryService* pService = NULL;
 
 	switch ( eSType )
 	{
