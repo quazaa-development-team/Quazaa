@@ -10,8 +10,8 @@
 
 #define BUFSIZE 80
 
-// Preventing redefinition warnings on Windows using Ming toolchain
-#if !defined(Q_OS_WIN32) || !defined(Q_CC_GNU)
+// Preventing redefinition warnings on Windows using MinGW toolchain
+#if !defined(Q_OS_WIN) || !defined(Q_CC_GNU)
 
 #ifndef Q_CC_MSVC
 #define VER_SUITE_WH_SERVER 0x8000
@@ -92,7 +92,7 @@
 #define PRODUCT_ENTERPRISE_E 0x00000046
 #define PRODUCT_ULTIMATE_E 0x00000047
 
-#endif // !defined(Q_OS_WIN32) || !defined(Q_CC_GNU)
+#endif // !defined(Q_OS_WIN) || !defined(Q_CC_GNU)
 
 #define PROCESSOR_ARCHITECTURE_AMD64 9
 #define SM_SERVERR2 89

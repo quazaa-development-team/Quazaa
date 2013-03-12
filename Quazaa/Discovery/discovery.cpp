@@ -31,6 +31,7 @@
 
 #include "quazaasettings.h"
 
+// TODO: check for QT_NO_DEBUG and romeve ifdefs around asserts if possible...
 #ifdef _DEBUG
 #include "debug_new.h"
 #endif
