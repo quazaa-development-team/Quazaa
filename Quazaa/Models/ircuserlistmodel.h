@@ -72,7 +72,7 @@ class IrcUserListModel : public QAbstractListModel
 {
 	Q_OBJECT
 public:
-	IrcUserListModel();
+    IrcUserListModel();
 	~IrcUserListModel();
 
 	Session* session() const;

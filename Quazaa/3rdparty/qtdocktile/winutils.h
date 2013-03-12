@@ -25,6 +25,9 @@
 #define MINGW_WORKAROUNDS_H
 
 #ifdef __MINGW32__
+# ifndef INITGUID
+#  define INITGUID
+# endif
 # include <_mingw.h>
 #endif
 

@@ -39,7 +39,7 @@ public:
     WidgetIrcMessageView(ViewType type, Session* session, QWidget* parent = 0);
     ~WidgetIrcMessageView();
 
-	QPushButton *closeButton;
+    QPushButton *closeButton;
 
     bool isActive() const;
     ViewType viewType() const;
@@ -58,8 +58,7 @@ public:
     void restoreSplitter(const QByteArray& state);
 
 public slots:
-	void showHelp(const QString& text, bool error = false);
-	void appendMessage(const QString& message);
+    void showHelp(const QString& text, bool error = false);
 	void sendMessage(const QString& text);
     void sendMessage(QTextDocument *message);
 	void applySettings();

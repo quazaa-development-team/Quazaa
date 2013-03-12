@@ -35,7 +35,7 @@ SessionTabWidget::SessionTabWidget(Session* session, QWidget* parent) :
     connect(session, SIGNAL(activeChanged(bool)), this, SLOT(updateStatus()));
     connect(session, SIGNAL(connectedChanged(bool)), this, SLOT(updateStatus()));
 
-    connect(&d.handler, SIGNAL(receiverToBeAdded(QString)), this, SLOT(openView(QString)));
+    connect(&d.handler, SIGNAL(receiverToBeAdded(QString)), this, SLOT(addView(QString)));
     connect(&d.handler, SIGNAL(receiverToBeRemoved(QString)), this, SLOT(removeView(QString)));
     connect(&d.handler, SIGNAL(receiverToBeRenamed(QString, QString)), this, SLOT(renameView(QString, QString)));
 
@@ -45,7 +45,7 @@ SessionTabWidget::SessionTabWidget(Session* session, QWidget* parent) :
     shortcut = new QShortcut(QKeySequence::Close, this);
     connect(shortcut, SIGNAL(activated()), this, SLOT(closeCurrentView()));
 
-    WidgetIrcMessageView* view = openView(d.handler.session()->host());
+    WidgetIrcMessageView* view = addView(d.handler.session()->host());
     session->setDefaultView(view);
     d.handler.setDefaultReceiver(view);
     d.handler.setCurrentReceiver(view);
@@ -106,16 +106,17 @@ void SessionTabWidget::restoreSplitter(const QByteArray& state)
     emit splitterChanged(state);
 }
 
-WidgetIrcMessageView* SessionTabWidget::openView(const QString& receiver)
+WidgetIrcMessageView* SessionTabWidget::addView(const QString& receiver)
 {
-	WidgetIrcMessageView* view = d.views.value(receiver.toLower());
+    WidgetIrcMessageView* view = d.views.value(receiver.toLower());
 	if (!view) {
-		WidgetIrcMessageView::ViewType type = WidgetIrcMessageView::ServerView;
+        WidgetIrcMessageView::ViewType type = WidgetIrcMessageView::ServerView;
 		if (!d.views.isEmpty())
-			type = session()->isChannel(receiver) ? WidgetIrcMessageView::ChannelView : WidgetIrcMessageView::QueryView;
-		view = new WidgetIrcMessageView(type, d.handler.session(), this);
-		view->applySettings();
+            type = session()->isChannel(receiver) ? WidgetIrcMessageView::ChannelView : WidgetIrcMessageView::QueryView;
+        view = new WidgetIrcMessageView(type, d.handler.session(), this);
+        view->applySettings();
 		view->setReceiver(receiver);
+        connect(view, SIGNAL(queried(QString)), this, SLOT(addView(QString)));
         connect(view, SIGNAL(queried(QString)), this, SLOT(openView(QString)));
         connect(view, SIGNAL(messaged(QString,QString)), this, SLOT(sendMessage(QString,QString)));
 		connect(view, SIGNAL(splitterChanged(QByteArray)), this, SLOT(restoreSplitter(QByteArray)));
@@ -131,17 +132,26 @@ WidgetIrcMessageView* SessionTabWidget::openView(const QString& receiver)
             setTabIcon(index, QIcon(":/Resource/Network/Network.png"));
         } else if (view->viewType() == WidgetIrcMessageView::ChannelView) {
             setTabIcon(index, QIcon(":/Resource/Chat/Friends.png"));
-            connect(view, SIGNAL(appendRawMessage(QString)), view->session()->defaultView(), SLOT(appendMessage(QString)));
+            connect(view, SIGNAL(appendRawMessage(QString)), view->session()->defaultView()->textBrowser(), SLOT(append(QString)));
             connect(view, SIGNAL(appendRawMessage(QString)), this, SLOT(switchToServerTab()));
         } else {
             setTabIcon(index, QIcon(":/Resource/Chat/Chat.png"));
-            connect(view, SIGNAL(appendRawMessage(QString)), view->session()->defaultView(), SLOT(appendMessage(QString)));
+            connect(view, SIGNAL(appendRawMessage(QString)), view->session()->defaultView()->textBrowser(), SLOT(append(QString)));
             connect(view, SIGNAL(appendRawMessage(QString)), this, SLOT(switchToServerTab()));
         }
 		emit viewAdded(view);
-	}
-	setCurrentWidget(view);
-	return view;
+
+        if (d.handler.session()->isChannel(receiver))
+            openView(receiver);
+    }
+    return view;
+}
+
+void SessionTabWidget::openView(const QString &reciever)
+{
+    WidgetIrcMessageView* view = d.views.value(reciever.toLower());
+    if (view)
+        setCurrentWidget(view);
 }
 
 void SessionTabWidget::removeView(const QString& receiver)
@@ -196,9 +206,11 @@ void SessionTabWidget::renameView(const QString& from, const QString& to)
 
 void SessionTabWidget::sendMessage(const QString &receiver, const QString &message)
 {
-    WidgetIrcMessageView* view = openView(receiver);
-    if (view)
+    WidgetIrcMessageView* view = addView(receiver);
+    if (view) {
+        setCurrentWidget(view);
         view->sendMessage(message);
+    }
 }
 
 bool SessionTabWidget::event(QEvent* event)

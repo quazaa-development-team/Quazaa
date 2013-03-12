@@ -53,7 +53,7 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
                                "QPushButton:pressed { border: 3px groove cornflowerblue; border-radius: 6px; }");
     connect(closeButton, SIGNAL(clicked()), this, SLOT(closePressed()));
 
-    d.chatInput = new WidgetChatInput(0, true);
+    d.chatInput = new WidgetChatInput(this, true);
     d.horizontalLayoutChatInput->addWidget(d.chatInput);
     d.chatInput->setFixedHeight(80);
 
@@ -70,7 +70,7 @@ WidgetIrcMessageView::WidgetIrcMessageView(WidgetIrcMessageView::ViewType type, 
     connect(d.session, SIGNAL(activeChanged(bool)), this, SIGNAL(activeChanged()));
 
 	d.topicLabel->setVisible(type == ChannelView);
-	d.listView->setVisible(type == ChannelView);
+    d.listView->setVisible(type == ChannelView);
 	if (type == ChannelView) {
 		d.listView->setSession(session);
 		connect(d.listView, SIGNAL(queried(QString)), this, SIGNAL(queried(QString)));
@@ -225,7 +225,7 @@ void WidgetIrcMessageView::sendMessage(const QString& text)
                 if (cmd->type() == IrcCommand::Quote)
                 {
                     if(viewType() == ServerView)
-                        appendMessage( d.formatter->formatMessage( QDateTime::currentDateTime(), tr("[RAW] %1").arg(cmd->parameters().join(" ")) ) );
+                        d.textBrowser->append( d.formatter->formatMessage( QDateTime::currentDateTime(), tr("[RAW] %1").arg(cmd->parameters().join(" ")) ) );
                     else
                         emit appendRawMessage(d.formatter->formatMessage( QDateTime::currentDateTime(), tr("[RAW] %1").arg(cmd->parameters().join(" ")) ) );
                 }
@@ -295,28 +295,6 @@ void WidgetIrcMessageView::sendMessage(QTextDocument *message)
 {
     CChatConverter *converter = new CChatConverter(message);
     sendMessage(converter->toIrc());
-}
-
-void WidgetIrcMessageView::appendMessage(const QString& message)
-{
-    if (!message.isEmpty()) {
-        // workaround the link activation merge char format bug
-        QString copy = message;
-        if (copy.endsWith("</a>"))
-            copy += " ";
-
-        d.textBrowser->append(copy);
-        if (!isVisible() && d.textBrowser->unseenBlock() == -1)
-            d.textBrowser->setUnseenBlock(d.textBrowser->document()->blockCount() - 1);
-
-#if QT_VERSION >= 0x040800
-        QTextBlock block = d.textBrowser->document()->lastBlock();
-        QTextBlockFormat format = block.blockFormat();
-        format.setLineHeight(120, QTextBlockFormat::ProportionalHeight);
-        QTextCursor cursor(block);
-        cursor.setBlockFormat(format);
-#endif // QT_VERSION
-    }
 }
 
 void WidgetIrcMessageView::hideEvent(QHideEvent* event)
@@ -402,7 +380,7 @@ void WidgetIrcMessageView::applySettings()
 	d.textBrowser->document()->setMaximumBlockCount(quazaaSettings.Chat.MaxBlockCount);
 	d.topicLabel->setProperty("gradient", quazaaSettings.Chat.Layout == "tree");
 
-	QTextDocument* doc = d.topicLabel->findChild<QTextDocument*>();
+    QTextDocument* doc = d.topicLabel->findChild<QTextDocument*>();
 	if (doc)
 		doc->setDefaultStyleSheet(QString("a { color: %1 }").arg(quazaaSettings.Chat.Colors.value(IrcColorType::Link)));
 
@@ -507,7 +485,7 @@ void WidgetIrcMessageView::receiveMessage(IrcMessage* message)
             emit missed(message);
     }
 
-    appendMessage(formatted);
+    d.textBrowser->append(formatted);
 }
 
 bool WidgetIrcMessageView::hasUser(const QString& user) const

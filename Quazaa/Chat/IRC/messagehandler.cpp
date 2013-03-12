@@ -32,8 +32,6 @@ MessageHandler::~MessageHandler()
     d.defaultReceiver = 0;
     d.currentReceiver = 0;
     d.receivers.clear();
-    if (d.session && d.session->isActive())
-        d.session->socket()->waitForDisconnected(500);
 }
 
 Session* MessageHandler::session() const
@@ -77,11 +75,6 @@ void MessageHandler::setCurrentReceiver(MessageReceiver* receiver)
 void MessageHandler::addReceiver(const QString& name, MessageReceiver* receiver)
 {
     d.receivers.insert(name.toLower(), receiver);
-}
-
-MessageReceiver* MessageHandler::getReceiver(const QString& name) const
-{
-    return d.receivers.value(name.toLower());
 }
 
 void MessageHandler::removeReceiver(const QString& name)
@@ -263,10 +256,8 @@ void MessageHandler::handleNumericMessage(IrcNumericMessage* message)
 
 void MessageHandler::handlePartMessage(IrcPartMessage* message)
 {
-    MessageReceiver* receiver = getReceiver(message->channel());
-    if (message->flags() & IrcMessage::Own)
-        removeReceiver(message->channel());
-    else if (receiver)
+    MessageReceiver* receiver = d.receivers.value(message->channel().toLower());
+    if (receiver)
         sendMessage(message, receiver);
 }
 
@@ -312,7 +303,8 @@ void MessageHandler::sendMessage(IrcMessage* message, MessageReceiver* receiver)
 
 void MessageHandler::sendMessage(IrcMessage* message, const QString& receiver)
 {
-    if (!d.receivers.contains(receiver.toLower()))
+    QString lower = receiver.toLower();
+    if (!d.receivers.contains(lower))
         emit receiverToBeAdded(receiver);
-    sendMessage(message, getReceiver(receiver));
+    sendMessage(message, d.receivers.value(lower));
 }

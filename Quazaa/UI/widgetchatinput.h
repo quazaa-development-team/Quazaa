@@ -61,7 +61,7 @@ private:
 	WidgetSmileyList *widgetSmileyList;
     QColor defaultColor;
 	QToolButton *toolButtonPickColor;
-	QToolButton *toolButtonPrivateMessage;
+    QToolButton *toolButtonPrivateMessage;
 	bool bIsIrc;
 
 public slots:

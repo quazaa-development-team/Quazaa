@@ -219,22 +219,22 @@ void WidgetDiscovery::setSkin()
 	tableViewDiscovery->setStyleSheet( skinSettings.listViews );
 }
 
-void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered(bool checked)
+void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered(bool /*checked*/)
 {
 	setVisibility( CNetworkType( dpGnutella ), !checked );
 }
 
-void WidgetDiscovery::on_actionAresDiscoveryType_triggered(bool checked)
+void WidgetDiscovery::on_actionAresDiscoveryType_triggered(bool /*checked*/)
 {
 	setVisibility( CNetworkType( dpAres ), !checked );
 }
 
-void WidgetDiscovery::on_actionEDonkeyServerMet_triggered(bool checked)
+void WidgetDiscovery::on_actionEDonkeyServerMet_triggered(bool /*checked*/)
 {
 	setVisibility( CNetworkType( dpeDonkey2000 ), !checked );
 }
 
-void WidgetDiscovery::on_actionGWebCache_triggered(bool checked)
+void WidgetDiscovery::on_actionGWebCache_triggered(bool /*checked*/)
 {
 	setVisibility( CNetworkType( dpG2 ), !checked );
 }
