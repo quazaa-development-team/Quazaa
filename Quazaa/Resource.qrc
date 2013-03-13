@@ -168,6 +168,12 @@
         <file>Resource/Credits/Halite.png</file>
         <file>Resource/Credits/QT.png</file>
         <file>Resource/Credits/Shareaza.png</file>
+        <file>Resource/Discovery/Banned.ico</file>
+        <file>Resource/Discovery/BootstrapServer.ico</file>
+        <file>Resource/Discovery/Discovery.ico</file>
+        <file>Resource/Discovery/DiscoveryGWCBlue.ico</file>
+        <file>Resource/Discovery/DiscoveryGWCGray.ico</file>
+        <file>Resource/Discovery/DiscoveryGWCGreen.ico</file>
         <file>Resource/Flags/ad.png</file>
         <file>Resource/Flags/ae.png</file>
         <file>Resource/Flags/af.png</file>
