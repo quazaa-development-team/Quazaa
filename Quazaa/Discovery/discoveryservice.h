@@ -47,34 +47,36 @@ class CDiscoveryService : public QObject
 	/* ========================== Attributes ========================== */
 	/* ================================================================ */
 protected:
-	QReadWriteLock	m_oRWLock;      // Service access lock.
-//	CDebugRWLock	m_oRWLock;      // Enable this for debugging purposes.
-	TServiceType	m_nServiceType; // GWC, UKHL, ...
-	CNetworkType	m_oNetworkType; // could be several in case of GWC for instance
-	QUrl			m_oServiceURL;
+	QReadWriteLock  m_oRWLock;      // Service access lock.
+//	CDebugRWLock    m_oRWLock;      // Enable this for debugging purposes.
+	TServiceType    m_nServiceType; // GWC, UKHL, ...
+	CNetworkType    m_oNetworkType; // could be several in case of GWC for instance
+	QUrl            m_oServiceURL;
 
 private:
-	quint8			m_nRating;      // 0: bad; 10: very good
-	quint8			m_nProbaMult;   // probability multiplicator: [0-5] based on rating
+	quint8          m_nRating;      // 0: bad; 10: very good
+	quint8          m_nProbaMult;   // probability multiplicator: [0-5] based on rating
 
-	bool			m_bBanned;      // service URL is blocked
-	bool			m_bZero;        // service probability has just been increased from zero or service is new.
+	bool            m_bBanned;      // service URL is blocked
+	bool            m_bZero;        // service probability has just been increased from zero or service is new.
 									// On access failure, this service will be set to 0 probability no matter its previous proba.
 									// For banned hosts, this indicates the host has been banned because of too many failures.
-	TServiceID	m_nID;          // ID used by the manager to identify the service
+	TServiceID      m_nID;          // ID used by the manager to identify the service
 
-	quint32			m_nLastHosts;   // hosts returned by the service on last query
-	quint32			m_nTotalHosts;  // all hosts we ever got from the service
-	quint32			m_tLastQueried; // last time we accessed the host
+	quint32         m_nLastHosts;   // hosts returned by the service on last query
+	quint32         m_nTotalHosts;  // all hosts we ever got from the service
+	quint16         m_nAltServices; // alternate services known to the service passed on to us when last we queried
+									// TODO: implement.
+	quint32         m_tLastQueried; // last time we accessed the host
 									// Note: for banned services, this holds the ban time
 									// TODO: implement.
-	quint32			m_tLastSuccess; // last time we queried the service successfully
-	quint8			m_nFailures;    // query failures in a row
-	quint8			m_nZeroRevivals;// counts number of times this service has been revived from a 0 rating.
+	quint32         m_tLastSuccess; // last time we queried the service successfully
+	quint8          m_nFailures;    // query failures in a row
+	quint8          m_nZeroRevivals;// counts number of times this service has been revived from a 0 rating.
 
-	bool			m_bRunning;     // service is currently doing network communication
+	bool            m_bRunning;     // service is currently doing network communication
 
-	QUuid			m_oUUID;        // ID of cancel request (signal queue)
+	QUuid           m_oSQCancelRequestID; // ID of cancel request (signal queue)
 
 	// List of pointers that will be set to 0 if this instance of CDiscoveryService is deleted.
 	// Note that the content of this list is not forwarded to copies of this service.
@@ -273,6 +275,13 @@ public:
 	inline quint32 totalHosts() const;
 
 	/**
+	 * @brief altServices
+	 * Requires locking: R
+	 * @return
+	 */
+	inline quint16 altServices() const;
+
+	/**
 	 * @brief lastQueried
 	 * Requires locking: R
 	 * @return
@@ -401,6 +410,11 @@ quint32 CDiscoveryService::lastHosts() const
 quint32 CDiscoveryService::totalHosts() const
 {
 	return m_nTotalHosts;
+}
+
+quint16 CDiscoveryService::altServices() const
+{
+	return m_nAltServices;
 }
 
 quint32 CDiscoveryService::lastQueried() const

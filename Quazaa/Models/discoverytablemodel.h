@@ -51,22 +51,46 @@ public:
 		URL,
 		HOSTS,
 		TOTAL_HOSTS,
+		ALTERNATE_SERVICES,
+		FAILURES,
 		_NO_OF_COLUMNS
 	};
+
+	enum Icon
+	{
+		BANNED = 0,
+		BOOTSTRAP,
+		DISCOVERY,
+		GWC_GREEN,
+		GWC_BLUE,
+		GWC_GRAY,
+		_NO_OF_ICONS
+	};
+
+	// icons used for the different services
+	const QIcon** m_pIcons;
 
 	struct Service
 	{
 		// Object directly managed by discovery manager.
 		TConstServicePtr m_pNode;
-		TServiceID       m_nID;
+		const TServiceID m_nID;
 
-		QString          m_sURL;
 		TServiceType     m_nType;
+		QString          m_sType;
+		const QIcon*     m_piType;
+		QString          m_sURL;
 		quint32          m_nLastHosts;
 		quint32          m_nTotalHosts;
-		QIcon            m_iType;
+		quint16          m_nAltServices;
+		quint8           m_nFailures;
 
-		Service(TConstServicePtr pService);
+		/**
+		 * @brief Service constructs a new service.
+		 * @param pService - Needs to be locked for read before calling this.
+		 * @param model
+		 */
+		Service(TConstServicePtr pService, CDiscoveryTableModel* model);
 		~Service();
 		bool update(int row, int col, QModelIndexList& to_update, CDiscoveryTableModel* model);
 		QVariant data(int col) const;

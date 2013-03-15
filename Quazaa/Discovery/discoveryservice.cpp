@@ -48,6 +48,7 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const CNetworkType& oNTyp
 	m_nID( 0 ),          // invalid ID
 	m_nLastHosts( 0 ),
 	m_nTotalHosts( 0 ),
+	m_nAltServices( 0 ),
 	m_tLastQueried( 0 ),
 	m_tLastSuccess( 0 ),
 	m_nFailures( 0 ),
@@ -76,6 +77,7 @@ CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
 	m_nID           = pService.m_nID;
 	m_nLastHosts    = pService.m_nLastHosts;
 	m_nTotalHosts   = pService.m_nTotalHosts;
+	m_nAltServices  = pService.m_nAltServices;
 	m_tLastQueried  = pService.m_tLastQueried;
 	m_tLastSuccess  = pService.m_tLastSuccess;
 	m_nFailures     = pService.m_nFailures;
@@ -272,7 +274,7 @@ void CDiscoveryService::update()
 	m_oRWLock.unlock();
 
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
-	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ),
+	m_oSQCancelRequestID = signalQueue.push( this, SLOT( cancelRequest() ),
 								tNow + quazaaSettings.Discovery.ServiceTimeout );
 }
 
@@ -306,7 +308,7 @@ void CDiscoveryService::query()
 #endif
 
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
-	m_oUUID = signalQueue.push( this, SLOT( cancelRequest() ),
+	m_oSQCancelRequestID = signalQueue.push( this, SLOT( cancelRequest() ),
 								tNow + quazaaSettings.Discovery.ServiceTimeout );
 
 #if ENABLE_DISCOVERY_DEBUGGING
@@ -423,8 +425,8 @@ void CDiscoveryService::updateStatistics(bool bQuery, quint16 nHosts)
 	}
 
 	// remove cancel request from signal queue
-	signalQueue.pop( m_oUUID );
-	m_oUUID = QUuid();
+	signalQueue.pop( m_oSQCancelRequestID );
+	m_oSQCancelRequestID = QUuid();
 }
 
 void CDiscoveryService::setRating(quint8 nRating)
