@@ -121,11 +121,6 @@ updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 PRE_TARGETDEPS += compiler_updateqm_make_all
 
-# Enable C++11 compilation and exception handling for mingw
-win32-g++ {
-    CONFIG += exceptions
-}
-
 # Append _debug to executable name when compiling using debug config
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 
@@ -154,6 +149,12 @@ unix {
 }
 
 TEMPLATE = app
+
+# MinGW-specific compiler flags (enable exception handling and disable new/delete overload)
+win32-g++ {
+	CONFIG += exceptions
+	DEFINES -= _USE_DEBUG_NEW
+}
 
 # MSVC-specific compiler flags
 win32-msvc2008 {
@@ -217,14 +218,16 @@ sse2 {
 
 # Sources
 SOURCES += \
-    3rdparty/communi/src/ircsession.cpp \
-    3rdparty/communi/src/ircsender.cpp \
-    3rdparty/communi/src/ircmessagedecoder.cpp \
+	3rdparty/communi/src/irc.cpp \
+	3rdparty/communi/src/irccommand.cpp \
     3rdparty/communi/src/ircmessage.cpp \
-    3rdparty/communi/src/ircmessage_p.cpp \
-    3rdparty/communi/src/irccommand.cpp \
-    3rdparty/communi/src/irc.cpp \
-    3rdparty/communi/src/ircsessioninfo.cpp \
+	3rdparty/communi/src/ircmessage_p.cpp \
+	3rdparty/communi/src/ircmessagedecoder.cpp \
+	3rdparty/communi/src/ircmessagedecoder_icu.cpp \
+	3rdparty/communi/src/ircprotocol.cpp \
+	3rdparty/communi/src/ircsender.cpp \
+	3rdparty/communi/src/ircsession.cpp \
+	3rdparty/communi/src/ircsessioninfo.cpp \
     3rdparty/communi/src/irctextformat.cpp \
     3rdparty/communi/src/ircpalette.cpp \
     3rdparty/CyoEncode/CyoDecode.c \
@@ -387,9 +390,7 @@ SOURCES += \
     Chat/IRC/gui/util/sharedtimer.cpp \
     Chat/IRC/gui/util/historylineedit.cpp \
     Chat/IRC/gui/util/completer.cpp \
-    UI/wizardtreewidget.cpp \
-    3rdparty/communi/src/ircmessagedecoder_icu.cpp \
-    3rdparty/communi/src/ircprotocol.cpp
+	UI/wizardtreewidget.cpp
 
 win32 {
     SOURCES += \
@@ -411,18 +412,19 @@ win32 {
 }
 
 HEADERS += \
-    3rdparty/communi/include/ircsession_p.h \
-    3rdparty/communi/include/ircsession.h \
-    3rdparty/communi/include/ircsender.h \
-    3rdparty/communi/include/ircmessagedecoder_p.h \
-    3rdparty/communi/include/ircmessage_p.h \
-    3rdparty/communi/include/ircmessage.h \
-    3rdparty/communi/include/ircglobal.h \
-    3rdparty/communi/include/irccommand.h \
-    3rdparty/communi/include/irc.h \
+	3rdparty/communi/include/irc.h \
+	3rdparty/communi/include/irccommand.h \
+	3rdparty/communi/include/ircglobal.h \
+	3rdparty/communi/include/ircmessage.h \
+	3rdparty/communi/include/ircmessage_p.h \
+	3rdparty/communi/include/ircmessagedecoder_p.h \
+	3rdparty/communi/include/ircsender.h \
+	3rdparty/communi/include/ircsession.h \
+	3rdparty/communi/include/ircsession_p.h \
     3rdparty/communi/include/ircsessioninfo.h \
     3rdparty/communi/include/irctextformat.h \
-    3rdparty/communi/include/ircpalette.h \
+	3rdparty/communi/include/ircpalette.h \
+	3rdparty/communi/include/ircprotocol.h \
     3rdparty/CyoEncode/CyoDecode.h \
     3rdparty/CyoEncode/CyoEncode.h \
     3rdparty/nvwa/debug_new.h \
@@ -598,8 +600,7 @@ HEADERS += \
     Chat/IRC/gui/util/sharedtimer.h \
     Chat/IRC/gui/util/historylineedit.h \
     Chat/IRC/gui/util/completer.h \
-    UI/wizardtreewidget.h \
-    3rdparty/communi/include/ircprotocol.h
+	UI/wizardtreewidget.h
 
 win32 {
     HEADERS += \
