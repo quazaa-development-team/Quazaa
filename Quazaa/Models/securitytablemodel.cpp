@@ -1,6 +1,6 @@
-/*
+﻿/*
 ** $Id$
-**** Copyright � Quazaa Development Team, 2009-2012.
+**** Copyright © Quazaa Development Team, 2009-2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -29,7 +29,7 @@
 #include "debug_new.h"
 #endif
 
-CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel *model)
+CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model)
 {
 #ifdef _DEBUG
 	Q_ASSERT( pRule );
@@ -54,12 +54,15 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel *model)
 	case Security::CSecureRule::srNull:
 		m_piAction = model->m_pIcons[0];
 		break;
+
 	case Security::CSecureRule::srAccept:
 		m_piAction = model->m_pIcons[1];
 		break;
+
 	case Security::CSecureRule::srDeny:
 		m_piAction = model->m_pIcons[2];
 		break;
+
 	default:
 		Q_ASSERT( false );
 	}
@@ -119,11 +122,15 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 		case Security::CSecureRule::srNull:
 			m_piAction = model->m_pIcons[0];
 			break;
+
 		case Security::CSecureRule::srAccept:
 			m_piAction = model->m_pIcons[1];
 			break;
+
 		case Security::CSecureRule::srDeny:
 			m_piAction = model->m_pIcons[2];
+			break;
+
 		default:
 			Q_ASSERT( false );
 		}
@@ -169,12 +176,17 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 	{
 		case CONTENT:
 			return m_sContent;
+
 		case ACTION:
 			return actionToString( m_nAction );
+
 		case EXPIRES:
 			return expiryToString( m_tExpire );
+
 		case HITS:
-			return QString( "%1 (%2)" ).arg( QString::number( m_nToday ), QString::number( m_nTotal ) );
+			return QString( "%1 (%2)" ).arg( QString::number( m_nToday ),
+											 QString::number( m_nTotal ) );
+
 		case COMMENT:
 			return m_sComment;
 	}
@@ -182,7 +194,8 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 	return QVariant();
 }
 
-bool CSecurityTableModel::Rule::lessThan(int col, const CSecurityTableModel::Rule* const pOther) const
+bool CSecurityTableModel::Rule::lessThan(int col,
+										 const CSecurityTableModel::Rule* const pOther) const
 {
 	if ( !pOther )
 		return false;
@@ -191,14 +204,19 @@ bool CSecurityTableModel::Rule::lessThan(int col, const CSecurityTableModel::Rul
 	{
 	case CONTENT:
 		return m_sContent < pOther->m_sContent;
+
 	case ACTION:
 		return m_nAction  < pOther->m_nAction;
+
 	case EXPIRES:
 		return m_tExpire  < pOther->m_tExpire;
+
 	case HITS:
 		return m_nTotal   < pOther->m_nTotal;
+
 	case COMMENT:
 		return m_sComment < pOther->m_sComment;
+
 	default:
 		return false;
 	}
@@ -210,11 +228,13 @@ QString CSecurityTableModel::Rule::actionToString(CSecureRule::Policy nAction) c
 	switch( nAction )
 	{
 	case CSecureRule::srNull:
-		return "None";
+		return tr( "None" );
+
 	case CSecureRule::srAccept:
-		return "Allow";
+		return tr( "Allow" );
+
 	case CSecureRule::srDeny:
-		return "Deny";
+		return tr( "Deny" );
 	}
 
 	return QString();
@@ -227,6 +247,7 @@ QString CSecurityTableModel::Rule::expiryToString(quint32 tExpire) const
 	{
 	case CSecureRule::srIndefinite:
 		return tr( "Never" );
+
 	case CSecureRule::srSession:
 		return tr( "Session" );
 	}
@@ -358,15 +379,19 @@ QVariant CSecurityTableModel::headerData(int section, Qt::Orientation orientatio
 		switch ( section )
 		{
 		case CONTENT:
-			return tr("Content");
+			return tr( "Content" );
+
 		case ACTION:
-			return tr("Action");
+			return tr( "Action" );
+
 		case EXPIRES:
-			return tr("Expires");
+			return tr( "Expires" );
+
 		case HITS:
-			return tr("Hits");
+			return tr( "Hits" );
+
 		case COMMENT:
-			return tr("Comment");
+			return tr( "Comment" );
 		}
 	}
 	else if ( role == Qt::ToolTipRole )
@@ -374,15 +399,19 @@ QVariant CSecurityTableModel::headerData(int section, Qt::Orientation orientatio
 		switch(section)
 		{
 		case CONTENT:
-			return tr("The content of the Security Manager rule");
+			return tr( "The content of the Security Manager rule" );
+
 		case ACTION:
-			return tr("Whether a rule blocks or allows content");
+			return tr( "Whether a rule blocks or allows content" );
+
 		case EXPIRES:
-			return tr("When the Security Manager rule expires");
+			return tr( "When the Security Manager rule expires" );
+
 		case HITS:
-			return tr("How often the rule has been hit today (since its creation date)");
+			return tr( "How often the rule has been hit today (since its creation date)" );
+
 		case COMMENT:
-			return tr("Comment");
+			return tr( "Comment" );
 		}
 	}
 
