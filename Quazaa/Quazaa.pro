@@ -151,6 +151,7 @@ TEMPLATE = app
 # MinGW-specific compiler flags (Enable C++11 compilation and exception handling)
 win32-g++ {
 	CONFIG += exceptions
+	DEFINES -= _USE_DEBUG_NEW
 #	QMAKE_CXXFLAGS += -std=c++0x
 #					  -U__STRICT_ANSI__ # When compiling with -std=c++0x, MinGW automatically adds -ansi, which causes
 										# certain compilation problems.
