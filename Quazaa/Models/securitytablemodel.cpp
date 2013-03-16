@@ -25,9 +25,7 @@
 
 #include "securitytablemodel.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model)
 {

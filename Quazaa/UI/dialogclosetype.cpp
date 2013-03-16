@@ -27,9 +27,7 @@
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogCloseType::DialogCloseType(QWidget* parent) :
 	QDialog(parent),

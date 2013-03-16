@@ -24,10 +24,7 @@
 
 #include "metalinkhandler.h"
 #include "systemlog.h"
-
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 MetaFile::MetaFile() :
 	m_nID( 0 ),

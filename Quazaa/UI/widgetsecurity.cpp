@@ -34,9 +34,7 @@
 
 #include "timedsignalqueue.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 #include <QMenu>
 #include <QKeyEvent>

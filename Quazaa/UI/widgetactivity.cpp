@@ -28,9 +28,7 @@
 
 #include "quazaasettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 WidgetActivity::WidgetActivity(QWidget* parent) :
 	QWidget(parent),

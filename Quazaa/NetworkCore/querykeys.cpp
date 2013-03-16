@@ -26,9 +26,7 @@
 #include <limits>
 #include <QHostAddress>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CQueryKeys QueryKeys;
 

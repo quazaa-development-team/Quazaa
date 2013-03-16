@@ -27,9 +27,7 @@
 #include "sharemanager.h"
 #include <QDateTime>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CQueryHashMaster QueryHashMaster;
 

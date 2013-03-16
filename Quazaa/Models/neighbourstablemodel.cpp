@@ -37,9 +37,7 @@
 #include <qabstractitemview.h>
 #include "networkiconprovider.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode(pNeighbour)
 {

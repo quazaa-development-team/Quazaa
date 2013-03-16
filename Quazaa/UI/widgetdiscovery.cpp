@@ -29,9 +29,7 @@
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 #include <QMenu>
 #include <QKeyEvent>
@@ -79,6 +77,7 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 WidgetDiscovery::~WidgetDiscovery()
 {
 	delete ui; // Note: This does also take care of m_pDiscoveryMenu and m_pDiscoveryList.
+	delete tableViewDiscovery; // TODO: check whether this is necessary...
 }
 
 void WidgetDiscovery::setModel(QAbstractItemModel* model)

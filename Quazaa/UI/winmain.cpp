@@ -71,9 +71,7 @@
 #include <QClipboard>
 #include <QMessageBox>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CWinMain* MainWindow = 0;
 

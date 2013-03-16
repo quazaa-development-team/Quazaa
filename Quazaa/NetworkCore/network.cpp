@@ -41,9 +41,7 @@
 
 #include "geoiplist.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CNetwork Network;
 CThread NetworkThread;

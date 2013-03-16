@@ -25,9 +25,7 @@
 #include "quazaaglobals.h"
 #include "version.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 QString QuazaaGlobals::APPLICATION_NAME()
 {

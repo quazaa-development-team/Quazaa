@@ -38,9 +38,7 @@
 #include "timedsignalqueue.h"
 #include "Misc/timeoutwritelocker.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 Security::CSecurity securityManager;
 using namespace Security;

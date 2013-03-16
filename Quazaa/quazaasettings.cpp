@@ -34,9 +34,7 @@
 #include <QDesktopServices>
 #endif
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 QuazaaSettings quazaaSettings;
 

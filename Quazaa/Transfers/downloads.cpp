@@ -32,9 +32,7 @@
 #include <QDir>
 #include <QFile>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CDownloads Downloads;
 

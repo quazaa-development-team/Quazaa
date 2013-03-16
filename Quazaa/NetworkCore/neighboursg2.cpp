@@ -34,9 +34,7 @@
 
 #include "Discovery/discovery.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CNeighboursG2::CNeighboursG2(QObject* parent) :
 	CNeighboursConnections(parent),

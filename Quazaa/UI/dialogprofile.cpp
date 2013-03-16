@@ -30,9 +30,7 @@
 #include <QFileDialog>
 #include <QUuid>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogProfile::DialogProfile(QWidget* parent) :
 	QDialog(parent),

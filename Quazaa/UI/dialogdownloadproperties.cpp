@@ -26,9 +26,7 @@
 #include "ui_dialogdownloadproperties.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogDownloadProperties::DialogDownloadProperties(QWidget* parent) :
 	QDialog(parent),

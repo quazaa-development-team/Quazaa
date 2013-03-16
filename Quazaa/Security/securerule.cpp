@@ -26,9 +26,7 @@
 #include "securerule.h"
 #include "geoiplist.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 using namespace Security;
 

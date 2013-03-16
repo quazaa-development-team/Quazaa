@@ -29,9 +29,7 @@
 
 #include <QMutexLocker>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CTransfers Transfers;
 CThread TransfersThread;

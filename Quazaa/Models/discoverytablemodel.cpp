@@ -25,10 +25,7 @@
 #include <QAbstractItemView>
 
 #include "discoverytablemodel.h"
-
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CDiscoveryTableModel::Service::Service(TConstServicePtr pService, CDiscoveryTableModel* model) :
 	m_pNode       ( pService                ),

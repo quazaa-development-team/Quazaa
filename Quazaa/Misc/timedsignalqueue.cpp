@@ -26,10 +26,7 @@
 
 #include "timedsignalqueue.h"
 #include "types.h"
-
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CTimedSignalQueue signalQueue;
 

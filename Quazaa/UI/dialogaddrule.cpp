@@ -28,9 +28,7 @@
 
 #include <QListView>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	QDialog( parent ),

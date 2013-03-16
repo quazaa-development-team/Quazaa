@@ -29,9 +29,7 @@
 #include "types.h"
 #include "systemlog.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 GeoIPList GeoIP;
 

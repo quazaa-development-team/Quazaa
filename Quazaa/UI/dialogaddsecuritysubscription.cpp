@@ -26,9 +26,7 @@
 #include "ui_dialogaddsecuritysubscription.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogAddSecuritySubscription::DialogAddSecuritySubscription(QWidget* parent) :
 	QDialog(parent),

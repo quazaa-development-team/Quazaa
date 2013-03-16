@@ -31,9 +31,7 @@
 #include "fileiconprovider.h"
 #include "networkiconprovider.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 using namespace common;
 

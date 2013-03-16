@@ -26,9 +26,7 @@
 #include "queryhashmaster.h"
 #include "quazaasettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CQueryHashGroup::CQueryHashGroup(quint32 nHash)
 {

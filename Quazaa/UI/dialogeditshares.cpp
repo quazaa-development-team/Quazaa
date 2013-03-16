@@ -29,9 +29,7 @@
 
 #include <QFileDialog>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogEditShares::DialogEditShares(QWidget* parent) :
 	QDialog(parent),

@@ -28,9 +28,7 @@
 
 #include <QListView>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogScheduler::DialogScheduler(QWidget* parent) :
 	QDialog(parent),

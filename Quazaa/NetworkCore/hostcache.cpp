@@ -39,9 +39,7 @@
 #include <QDir>
 #include "quazaasettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 const quint32 MaxCacheHosts = 3000;
 

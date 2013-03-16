@@ -58,9 +58,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 #ifdef _SNAPSHOT_BUILD
 	#include <QMessageBox>

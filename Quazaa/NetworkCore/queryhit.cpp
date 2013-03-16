@@ -26,9 +26,7 @@
 #include "g2packet.h"
 #include "Hashes/hash.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CQueryHit::CQueryHit()
 {

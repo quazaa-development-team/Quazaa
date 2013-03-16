@@ -30,9 +30,7 @@
 
 #include <QTimer>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CHandshakes Handshakes;
 CThread HandshakesThread;

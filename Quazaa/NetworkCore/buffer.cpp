@@ -27,9 +27,7 @@
 #include <QByteArray>
 #include <exception>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CBuffer::CBuffer(quint32 nMinimum) :
 	m_pBuffer(0),

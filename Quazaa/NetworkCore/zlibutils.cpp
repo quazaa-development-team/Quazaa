@@ -25,9 +25,7 @@
 #include "zlibutils.h"
 #include "zlib/zlib.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 QMutex ZLibUtils::m_oMutex;
 CBuffer ZLibUtils::m_oCompressBuffer(262144); // 256KB

@@ -30,9 +30,7 @@
 #include <QMessageBox>
 #include <QUrl>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogAbout::DialogAbout(QWidget* parent) :
 	QDialog(parent),

@@ -36,10 +36,7 @@
 #include <QFileInfo>
 
 #include "queryhashtable.h"
-
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CSharedFile::CSharedFile(QObject* parent) :
 	CFile( parent )

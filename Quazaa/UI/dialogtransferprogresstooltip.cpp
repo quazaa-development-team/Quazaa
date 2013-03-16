@@ -26,9 +26,7 @@
 #include "ui_dialogtransferprogresstooltip.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogTransferProgressTooltip::DialogTransferProgressTooltip(QWidget* parent) :
 	QDialog(parent),

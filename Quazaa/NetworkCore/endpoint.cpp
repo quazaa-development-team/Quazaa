@@ -27,9 +27,7 @@
 #include <QStringList>
 #include <QtEndian>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CEndPoint::CEndPoint()
 	: QHostAddress()

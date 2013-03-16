@@ -29,9 +29,7 @@
 #include <QListView>
 #include <QMessageBox>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogConnectTo::DialogConnectTo(QWidget* parent) :
 	QDialog(parent),

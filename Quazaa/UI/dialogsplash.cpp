@@ -28,9 +28,7 @@
 
 #include <QDesktopWidget>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogSplash::DialogSplash(QWidget* parent) :
 	QDialog(parent),

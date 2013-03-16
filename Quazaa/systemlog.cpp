@@ -26,9 +26,7 @@
 #include <QMetaType>
 #include <QtCore>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 SystemLog systemLog;
 

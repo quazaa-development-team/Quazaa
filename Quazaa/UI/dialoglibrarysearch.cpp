@@ -26,9 +26,7 @@
 #include "ui_dialoglibrarysearch.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogLibrarySearch::DialogLibrarySearch(QWidget* parent) :
 	QDialog(parent),

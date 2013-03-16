@@ -39,9 +39,7 @@
 
 #include <QMessageBox>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 WidgetSearchResults::WidgetSearchResults(QWidget* parent) :
 	QMainWindow(parent),

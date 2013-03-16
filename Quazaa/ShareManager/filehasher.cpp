@@ -30,9 +30,7 @@
 #include "quazaasettings.h"
 #include <QElapsedTimer>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 QMutex CFileHasher::m_pSection;
 QQueue<CSharedFilePtr> CFileHasher::m_lQueue;

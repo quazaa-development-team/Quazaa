@@ -35,9 +35,7 @@
 
 using namespace common;
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CDownloadsTreeModel::CDownloadsTreeModel(QObject *parent) :
 	QAbstractItemModel(parent),

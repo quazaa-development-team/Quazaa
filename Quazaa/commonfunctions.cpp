@@ -35,9 +35,7 @@
 #include "Hashes/hash.h"
 #include "commonfunctions.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 void common::folderOpen(QString file)
 {

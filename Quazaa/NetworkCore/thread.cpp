@@ -23,10 +23,7 @@
 */
 
 #include "thread.h"
-
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CThread::CThread(QObject* parent) :
 	QThread(parent)

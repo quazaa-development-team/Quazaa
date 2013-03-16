@@ -44,9 +44,7 @@
 #include "filehasher.h"
 #include "types.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CThread ShareManagerThread;
 CShareManager ShareManager;

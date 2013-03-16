@@ -34,9 +34,7 @@
 
 QNetworkAccessManager netManager; // TODO: move it to a better place ;)
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 WidgetSearch::WidgetSearch(QWidget* parent) :
 	QWidget( parent ),

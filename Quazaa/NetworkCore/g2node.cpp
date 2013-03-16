@@ -40,9 +40,7 @@
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 //#define _DISABLE_COMPRESSION
 
