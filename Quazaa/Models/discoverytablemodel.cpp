@@ -25,75 +25,66 @@
 #include <QAbstractItemView>
 
 #include "discoverytablemodel.h"
+#include "Discovery/gwc.h"
+
 #include "debug_new.h"
 
 CDiscoveryTableModel::Service::Service(TConstServicePtr pService, CDiscoveryTableModel* model) :
-	m_pNode       ( pService                ),
-	m_nID         ( pService->id()          ),
-	m_nType       ( pService->serviceType() ),
-	m_sType       ( pService->type()        ),
-	m_sURL        ( pService->url()         ),
-	m_nLastHosts  ( pService->lastHosts()   ),
-	m_nTotalHosts ( pService->totalHosts()  ),
-	m_nAltServices( pService->altServices() ),
-	m_nFailures   ( pService->failures()    )
+	m_pNode       ( pService                 ),
+	m_nID         ( pService->id()           ),
+	m_nType       ( pService->serviceType()  ),
+	m_sType       ( pService->type()         ),
+	m_bBanned     ( pService->isBanned()     ),
+	m_sURL        ( pService->url()          ),
+	m_tAccessed   ( pService->lastAccessed() ),
+	m_nLastHosts  ( pService->lastHosts()    ),
+	m_nTotalHosts ( pService->totalHosts()   ),
+	m_nAltServices( pService->altServices()  ),
+	m_nFailures   ( pService->failures()     ),
+#if ENABLE_DISCOVERY_DEBUGGING
+	m_nRating       ( pService->rating()     ),
+	m_nMultipilcator( pService->probaMult()  ),
+#endif
+	m_sPong       ( pService->pong()         )
 
 {
-	switch( m_nType )
-	{
-	case Discovery::stNull:
-		Q_ASSERT( false ); // Should not happen.
-		break;
+	refreshServiceIcon( model );
 
-	case Discovery::stBanned:
-		m_piType = model->m_pIcons[BANNED];
-		break;
+#if QT_VERSION >= 0x050000
 
-	case Discovery::stGWC:
-		m_piType = model->m_pIcons[GWC_BLUE];
-		break;
+	connect( m_pNode.data(), &Discovery::CDiscoveryService::updated, model,
+			 &CDiscoveryTableModel::update, Qt::QueuedConnection );
 
-	default:
-		Q_ASSERT( false );
-	}
+#else	// Qt4 code
+
+	connect( m_pNode.data(), SIGNAL( updated( TServiceID ) ), model,
+			 SLOT( update( TServiceID ) ) ), Qt::QueuedConnection );
+
+#endif
 }
 
 CDiscoveryTableModel::Service::~Service()
 {
 }
 
-bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to_update,
+bool CDiscoveryTableModel::Service::update(int row, int sortCol, QModelIndexList &to_update,
 										   CDiscoveryTableModel* model)
 {
 	bool bReturn = false;
 
 	m_pNode->lockForRead();
 
-	if ( m_nType != m_pNode->serviceType() )
+	if ( m_nType != m_pNode->serviceType() || m_bBanned != m_pNode->isBanned() )
 	{
 		to_update.append( model->index( row, TYPE ) );
-		m_nType = m_pNode->serviceType();
-		m_sType = m_pNode->type();
 
-		switch( m_nType )
-		{
-		case Discovery::stNull:
-			Q_ASSERT( false ); // Should not happen.
-			break;
+		m_nType   = m_pNode->serviceType();
+		m_sType   = m_pNode->type();
+		m_bBanned = m_pNode->isBanned();
 
-		case Discovery::stBanned:
-			m_piType = model->m_pIcons[BANNED];
-			break;
+		refreshServiceIcon( model );
 
-		case Discovery::stGWC:
-			m_piType = model->m_pIcons[GWC_BLUE];
-			break;
-
-		default:
-			Q_ASSERT( false );
-		}
-
-		if ( col == TYPE )
+		if ( sortCol == TYPE )
 			bReturn = true;
 	}
 
@@ -102,7 +93,16 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 		to_update.append( model->index( row, URL ) );
 		m_sURL = m_pNode->url();
 
-		if ( col == URL )
+		if ( sortCol == URL )
+			bReturn = true;
+	}
+
+	if ( m_tAccessed != m_pNode->lastAccessed() )
+	{
+		to_update.append( model->index( row, ACCESSED ) );
+		m_tAccessed = m_pNode->lastAccessed();
+
+		if ( sortCol == ACCESSED )
 			bReturn = true;
 	}
 
@@ -111,7 +111,7 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 		to_update.append( model->index( row, HOSTS ) );
 		m_nLastHosts = m_pNode->lastHosts();
 
-		if ( col == HOSTS )
+		if ( sortCol == HOSTS )
 			bReturn = true;
 	}
 
@@ -120,7 +120,7 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 		to_update.append( model->index( row, TOTAL_HOSTS ) );
 		m_nTotalHosts = m_pNode->totalHosts();
 
-		if ( col == TOTAL_HOSTS )
+		if ( sortCol == TOTAL_HOSTS )
 			bReturn = true;
 	}
 
@@ -129,7 +129,7 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 		to_update.append( model->index( row, ALTERNATE_SERVICES ) );
 		m_nAltServices = m_pNode->altServices();
 
-		if ( col == ALTERNATE_SERVICES )
+		if ( sortCol == ALTERNATE_SERVICES )
 			bReturn = true;
 	}
 
@@ -138,7 +138,36 @@ bool CDiscoveryTableModel::Service::update(int row, int col, QModelIndexList &to
 		to_update.append( model->index( row, FAILURES ) );
 		m_nFailures = m_pNode->failures();
 
-		if ( col == FAILURES )
+		if ( sortCol == FAILURES )
+			bReturn = true;
+	}
+
+#if ENABLE_DISCOVERY_DEBUGGING
+	if ( m_nRating != m_pNode->rating() )
+	{
+		to_update.append( model->index( row, RATING ) );
+		m_nRating = m_pNode->rating();
+
+		if ( sortCol == RATING )
+			bReturn = true;
+	}
+
+	if ( m_nMultipilcator != m_pNode->probaMult() )
+	{
+		to_update.append( model->index( row, MULTIPLICATOR ) );
+		m_nMultipilcator = m_pNode->probaMult();
+
+		if ( sortCol == MULTIPLICATOR )
+			bReturn = true;
+	}
+#endif
+
+	if ( m_sPong != m_pNode->pong() )
+	{
+		to_update.append( model->index( row, PONG ) );
+		m_sPong = m_pNode->pong();
+
+		if ( sortCol == PONG )
 			bReturn = true;
 	}
 
@@ -157,6 +186,9 @@ QVariant CDiscoveryTableModel::Service::data(int col) const
 	case URL:
 		return m_sURL;
 
+	case ACCESSED:
+		return m_tAccessed ? QDateTime::fromTime_t( m_tAccessed ).toString() : tr( "N/A" );
+
 	case HOSTS:
 		return QString::number( m_nLastHosts );
 
@@ -168,6 +200,17 @@ QVariant CDiscoveryTableModel::Service::data(int col) const
 
 	case FAILURES:
 		return QString::number( m_nFailures );
+
+#if ENABLE_DISCOVERY_DEBUGGING
+	case RATING:
+		return QString::number( m_nRating );
+
+	case MULTIPLICATOR:
+		return QString::number( m_nMultipilcator );
+#endif
+
+	case PONG:
+		return m_sPong;
 	}
 
 	return QVariant();
@@ -187,6 +230,9 @@ bool CDiscoveryTableModel::Service::lessThan(int col, const CDiscoveryTableModel
 	case URL:
 		return m_sURL  < pOther->m_sURL;
 
+	case ACCESSED:
+		return m_tAccessed < pOther->m_tAccessed;
+
 	case HOSTS:
 		return m_nLastHosts < pOther->m_nLastHosts;
 
@@ -199,8 +245,63 @@ bool CDiscoveryTableModel::Service::lessThan(int col, const CDiscoveryTableModel
 	case FAILURES:
 		return m_nFailures < pOther->m_nFailures;
 
+#if ENABLE_DISCOVERY_DEBUGGING
+	case RATING:
+		return m_nRating < pOther->m_nRating;
+
+	case MULTIPLICATOR:
+		return m_nMultipilcator < pOther->m_nMultipilcator;
+#endif
+
+	case PONG:
+		return m_sPong < pOther->m_sPong;
+
 	default:
 		return false;
+	}
+}
+
+void CDiscoveryTableModel::Service::refreshServiceIcon(CDiscoveryTableModel* model)
+{
+	switch( m_nType )
+	{
+	case Discovery::stNull:
+		Q_ASSERT( false ); // Should not happen.
+		break;
+
+	case Discovery::stBanned:
+		m_piType = model->m_pIcons[BANNED];
+		break;
+
+	case Discovery::stGWC:
+	{
+		Discovery::CGWC* pGWC = (Discovery::CGWC*)m_pNode.data();
+
+		if ( pGWC->isG2() )
+		{
+			if ( pGWC->isGnutella() )
+			{
+				m_piType = model->m_pIcons[GWC_GREEN];
+			}
+			else
+			{
+				m_piType = model->m_pIcons[GWC_BLUE];
+			}
+		}
+		else
+		{
+			m_piType = model->m_pIcons[GWC_GRAY];
+		}
+	}
+		break;
+
+	default:
+		Q_ASSERT( false );
+	}
+
+	if ( m_nType == Discovery::stBanned || m_bBanned )
+	{
+		m_piType = model->m_pIcons[BANNED];
 	}
 }
 
@@ -211,12 +312,12 @@ CDiscoveryTableModel::CDiscoveryTableModel(QObject *parent, QWidget* container) 
 	m_bNeedSorting( false )
 {
 	m_pIcons            = new const QIcon*[_NO_OF_ICONS];
-	m_pIcons[BANNED]    = new QIcon( ":/Resource/Discovery/Banned.ico" );
-	m_pIcons[BOOTSTRAP] = new QIcon( ":/Resource/Discovery/BootstrapServer.ico" );
-	m_pIcons[DISCOVERY] = new QIcon( ":/Resource/Discovery/Discovery.ico" );
+	m_pIcons[BANNED]    = new QIcon( ":/Resource/Discovery/Banned.ico"            );
+	m_pIcons[BOOTSTRAP] = new QIcon( ":/Resource/Discovery/BootstrapServer.ico"   );
+	m_pIcons[DISCOVERY] = new QIcon( ":/Resource/Discovery/Discovery.ico"         );
 	m_pIcons[GWC_GREEN] = new QIcon( ":/Resource/Discovery/DiscoveryGWCGreen.ico" );
-	m_pIcons[GWC_BLUE]  = new QIcon( ":/Resource/Discovery/DiscoveryGWCBlue.ico" );
-	m_pIcons[GWC_GRAY]  = new QIcon( ":/Resource/Discovery/DiscoveryGWCGray.ico" );
+	m_pIcons[GWC_BLUE]  = new QIcon( ":/Resource/Discovery/DiscoveryGWCBlue.ico"  );
+	m_pIcons[GWC_GRAY]  = new QIcon( ":/Resource/Discovery/DiscoveryGWCGray.ico"  );
 
 #if QT_VERSION >= 0x050000
 
@@ -349,6 +450,9 @@ QVariant CDiscoveryTableModel::headerData(int section, Qt::Orientation orientati
 		case URL:
 			return tr( "URL" );
 
+		case ACCESSED:
+			return tr( "Accessed" );
+
 		case HOSTS:
 			return tr( "Hosts" );
 
@@ -360,6 +464,17 @@ QVariant CDiscoveryTableModel::headerData(int section, Qt::Orientation orientati
 
 		case FAILURES:
 			return tr( "Failures" );
+
+#if ENABLE_DISCOVERY_DEBUGGING
+		case RATING:
+			return tr( "Rating" );
+
+		case MULTIPLICATOR:
+			return tr( "Mult." );
+#endif
+
+		case PONG:
+			return tr( "Pong" );
 		}
 	}
 	else if ( role == Qt::ToolTipRole )
@@ -372,6 +487,9 @@ QVariant CDiscoveryTableModel::headerData(int section, Qt::Orientation orientati
 		case URL:
 			return tr( "The URL of the Discovery Service" );
 
+		case ACCESSED:
+			return tr( "The time the Discovery Service has last been accessed" );
+
 		case HOSTS:
 			return tr( "The number of hosts returned the last time this service was queried" );
 
@@ -383,7 +501,18 @@ QVariant CDiscoveryTableModel::headerData(int section, Qt::Orientation orientati
 				   tr( "we have been provided with by this service when last we queried" );
 
 		case FAILURES:
-			return tr( "Failures" );
+			return tr( "The number of failed accesses to the service" );
+
+#if ENABLE_DISCOVERY_DEBUGGING
+		case RATING:
+			return tr( "Rating" );
+
+		case MULTIPLICATOR:
+			return tr( "Mult." );
+#endif
+
+		case PONG:
+			return tr( "The reply " );
 		}
 	}
 
@@ -431,6 +560,8 @@ void CDiscoveryTableModel::sort(int column, Qt::SortOrder order)
 	emit layoutAboutToBeChanged();
 	qStableSort( m_lNodes.begin(), m_lNodes.end(), CDiscoveryTableModelCmp( column, order ) );
 	emit layoutChanged();
+
+	m_bNeedSorting = false;
 }
 
 CDiscoveryTableModel::TConstServicePtr CDiscoveryTableModel::nodeFromRow(quint32 row) const
@@ -445,12 +576,20 @@ CDiscoveryTableModel::TConstServicePtr CDiscoveryTableModel::nodeFromRow(quint32
 	}
 }
 
-CDiscoveryTableModel::TConstServicePtr CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index) const
+CDiscoveryTableModel::TConstServicePtr
+CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index) const
 {
 	if ( !index.isValid() || !( index.row() < m_lNodes.count() ) || index.row() < 0 )
 		return TConstServicePtr();
 	else
 		return m_lNodes[ index.row() ]->m_pNode;
+}
+
+
+bool CDiscoveryTableModel::isIndexBanned(const QModelIndex& index) const
+{
+	return ( m_lNodes[ index.row() ]->m_bBanned ||
+			 m_lNodes[ index.row() ]->m_nType == Discovery::stBanned );
 }
 
 void CDiscoveryTableModel::completeRefresh()
@@ -490,10 +629,16 @@ void CDiscoveryTableModel::addService(TConstServicePtr pService)
 		m_bNeedSorting = true;
 	}
 
-	// Make sure we don't recieve any signals we don't want once we got all rules once.
+	// if we're not currently doing a complete refresh/if the complete refresh has just been finished
 	if ( m_lNodes.size() == (int)discoveryManager.count() )
+	{
+		// Make sure we don't recieve any signals we don't want once we got all rules once.
 		disconnect( &discoveryManager, SIGNAL( serviceInfo( TConstServicePtr ) ),
 					this, SLOT( addService( TConstServicePtr ) ) );
+
+		// Make sure the view stays sorted.
+		updateView();
+	}
 }
 
 void CDiscoveryTableModel::removeService(TServiceID nID)
@@ -506,54 +651,65 @@ void CDiscoveryTableModel::removeService(TServiceID nID)
 			delete m_lNodes[i];
 			m_lNodes.remove( i, 1 );
 			endRemoveRows();
-			m_bNeedSorting = true;
 			break;
 		}
 	}
 }
 
-void CDiscoveryTableModel::updateAll()
+void CDiscoveryTableModel::update(TServiceID nID)
 {
+	QModelIndexList uplist;
+	for ( quint32 i = 0, max = m_lNodes.count(); i < max; ++i )
 	{
-//		QReadLocker l( &(discoveryManager.m_pRWLock) );
-
-		if ( (quint32)m_lNodes.size() != discoveryManager.count() )
+		if ( m_lNodes[i]->m_nID == nID )
 		{
-#ifdef _DEBUG
-			// This is something that should not have happened.
-			Q_ASSERT( false );
-#endif // _DEBUG
-
-			completeRefresh();
-			return;
+			if ( m_lNodes[i]->update( i, m_nSortColumn, uplist, this ) )
+				m_bNeedSorting = true;
+			break;
 		}
 	}
 
-	QModelIndexList uplist;
-	bool bSort = m_bNeedSorting;
+	updateView( uplist );
+}
 
+void CDiscoveryTableModel::updateAll()
+{
+	if ( (quint32)m_lNodes.size() != discoveryManager.count() )
+	{
+#ifdef _DEBUG
+		// This is something that should not have happened.
+		Q_ASSERT( false );
+#endif // _DEBUG
+
+		completeRefresh();
+		return;
+	}
+
+	QModelIndexList uplist;
 	for ( quint32 i = 0, max = m_lNodes.count(); i < max; ++i )
 	{
 		if ( m_lNodes[i]->update( i, m_nSortColumn, uplist, this ) )
-			bSort = true;
+			m_bNeedSorting = true;
 	}
 
-	if ( bSort )
+	updateView( uplist );
+}
+
+void CDiscoveryTableModel::updateView(QModelIndexList uplist)
+{
+	if ( m_bNeedSorting )
 	{
 		sort( m_nSortColumn, m_nSortOrder );
 	}
-	else
+	else if ( !uplist.isEmpty() )
 	{
-		if ( !uplist.isEmpty() )
-		{
-			QAbstractItemView* pView = qobject_cast< QAbstractItemView* >( m_oContainer );
+		QAbstractItemView* pView = qobject_cast< QAbstractItemView* >( m_oContainer );
 
-			if ( pView )
+		if ( pView )
+		{
+			foreach ( QModelIndex index, uplist )
 			{
-				foreach ( QModelIndex index, uplist )
-				{
-					pView->update( index );
-				}
+				pView->update( index );
 			}
 		}
 	}

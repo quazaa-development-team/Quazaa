@@ -41,15 +41,16 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const CNetworkType& oNTyp
 	m_nServiceType( stNull ),
 	m_oNetworkType( oNType ),
 	m_oServiceURL( oURL ),
+	m_bQuery( true ),
 	m_nRating( nRating ),
 	m_nProbaMult( ( nRating > DISCOVERY_MAX_PROBABILITY ) ? DISCOVERY_MAX_PROBABILITY : nRating ),
 	m_bBanned( false ),
-	m_bZero( true ),     // mark new service as having been zero -> gets downrated fast if non functional
-	m_nID( 0 ),          // invalid ID
+	m_bZero( true ),    // mark service as having been zero -> gets downrated fast if non functional
+	m_nID( 0 ),         // invalid ID
 	m_nLastHosts( 0 ),
 	m_nTotalHosts( 0 ),
 	m_nAltServices( 0 ),
-	m_tLastQueried( 0 ),
+	m_tLastAccessed( 0 ),
 	m_tLastSuccess( 0 ),
 	m_nFailures( 0 ),
 	m_nZeroRevivals( 0 ),
@@ -71,6 +72,7 @@ CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
 	m_nServiceType  = pService.m_nServiceType;
 	m_oNetworkType  = pService.m_oNetworkType;
 	m_oServiceURL   = pService.m_oServiceURL;
+	m_sPong         = pService.m_sPong;
 	m_nRating       = pService.m_nRating;
 	m_bBanned       = pService.m_bBanned;
 	m_bZero         = pService.m_bZero;
@@ -78,7 +80,7 @@ CDiscoveryService::CDiscoveryService(const CDiscoveryService& pService) :
 	m_nLastHosts    = pService.m_nLastHosts;
 	m_nTotalHosts   = pService.m_nTotalHosts;
 	m_nAltServices  = pService.m_nAltServices;
-	m_tLastQueried  = pService.m_tLastQueried;
+	m_tLastAccessed = pService.m_tLastAccessed;
 	m_tLastSuccess  = pService.m_tLastSuccess;
 	m_nFailures     = pService.m_nFailures;
 
@@ -100,22 +102,22 @@ CDiscoveryService::~CDiscoveryService()
 }
 
 /**
- * @brief operator ==: Allows to compare two services. Services are considered to be equal if they are
- * of the same service type, serve the same networks and have the same URL.
+ * @brief operator ==: Allows to compare two services. Services are considered to be equal if
+ * they are of the same service type, serve the same networks and have the same URL.
  * Requires locking: R (both services)
  * @param pService
  * @return
  */
 bool CDiscoveryService::operator==(const CDiscoveryService& pService) const
 {
-	return ( m_nServiceType	== pService.m_nServiceType	&&
-			 m_oNetworkType	== pService.m_oNetworkType	&&
-			 m_oServiceURL	== pService.m_oServiceURL	);
+	return ( m_nServiceType == pService.m_nServiceType &&
+			 m_oNetworkType == pService.m_oNetworkType &&
+			 m_oServiceURL  == pService.m_oServiceURL  );
 }
 
 /**
- * @brief operator !=: Allows to compare two services. Services are considered to be equal if they are
- * of the same service type, serve the same networks and have the same URL.
+ * @brief operator !=: Allows to compare two services. Services are considered to be equal if
+ * they are of the same service type, serve the same networks and have the same URL.
  * Requires locking: R (both services)
  * @param pService
  * @return
@@ -126,9 +128,10 @@ bool CDiscoveryService::operator!=(const CDiscoveryService& pService) const
 }
 
 /**
- * @brief load reads a service from the provided QDataStream and creates a new Object from the data.
+ * @brief load reads a service from the provided QDataStream and creates a new Object from the
+ * data. Note that if a non-NULL pointer is given to the function, that object is deleted.
  * Locking: / (static member)
- * @param pService - A NULL pointer is expected as parameter.
+ * @param pService
  * @param fsStream
  * @param nVersion
  */
@@ -137,13 +140,15 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, 
 	quint8     nServiceType;        // GWC, UKHL, ...
 	quint16    nNetworkType;        // could be several in case of GWC for instance
 	QString    sURL;
+	QString    sPong;               // answer to ping
 	quint8     nRating;             // 0: bad; 10: very good
 	bool       bBanned;             // service URL is blocked
 	bool       bZero;
 	TServiceID nID;                 // ID used by the manager to identify the service
-	quint32    nLastHosts;          // hosts returned by the service on last query
+	quint16    nLastHosts;          // hosts returned by the service on last query
 	quint32    nTotalHosts;         // all hosts we ever got from the service
-	quint32    tLastQueried;        // last time we accessed the host
+	quint16    nAltServices;        // number of URLs we got on query
+	quint32    tLastAccessed;       // last time we accessed the host
 	quint32    tLastSuccess;        // last time we queried the service successfully
 	quint8     nFailures;
 	quint8     nZeroRatingFailures;
@@ -151,13 +156,15 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, 
 	fsFile >> nServiceType;
 	fsFile >> nNetworkType;
 	fsFile >> sURL;
+	fsFile >> sPong;
 	fsFile >> nRating;
 	fsFile >> bBanned;
 	fsFile >> bZero;
 	fsFile >> nID;
 	fsFile >> nLastHosts;
 	fsFile >> nTotalHosts;
-	fsFile >> tLastQueried;
+	fsFile >> nAltServices;
+	fsFile >> tLastAccessed;
 	fsFile >> tLastSuccess;
 	fsFile >> nFailures;
 	fsFile >> nZeroRatingFailures;
@@ -167,16 +174,26 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, 
 
 	if ( pService )
 	{
+		pService->m_sPong         = sPong;
 		pService->m_bBanned       = bBanned;
 		pService->m_bZero         = bZero;
 		pService->m_nID           = nID;
 		pService->m_nLastHosts    = nLastHosts;
 		pService->m_nTotalHosts   = nTotalHosts;
-		pService->m_tLastQueried  = tLastQueried;
+		pService->m_nAltServices  = nAltServices;
+		pService->m_tLastAccessed = tLastAccessed;
 		pService->m_tLastSuccess  = tLastSuccess;
 		pService->m_nFailures     = nFailures;
 		pService->m_nZeroRevivals = nZeroRatingFailures;
 	}
+
+#if ENABLE_DISCOVERY_DEBUGGING
+	qDebug() << "[Discovery] Rating: "
+			 << QString::number( pService->m_nRating ).toLocal8Bit().constData()
+			 << " Multiplicator: "
+			 << QString::number( pService->m_nProbaMult ).toLocal8Bit().constData();
+	qDebug() << "[Discovery] Finished loading service from file.";
+#endif
 }
 
 /**
@@ -190,13 +207,15 @@ void CDiscoveryService::save(const CDiscoveryService* const pService, QDataStrea
 	fsFile << (quint8)(pService->m_nServiceType);
 	fsFile << (quint16)(pService->m_oNetworkType.toQuint16());
 	fsFile << pService->m_oServiceURL.toString();
+	fsFile << pService->m_sPong;
 	fsFile << (quint8)(pService->m_nRating);
 	fsFile << pService->m_bBanned;
 	fsFile << pService->m_bZero;
 	fsFile << pService->m_nID;
 	fsFile << pService->m_nLastHosts;
 	fsFile << pService->m_nTotalHosts;
-	fsFile << pService->m_tLastQueried;
+	fsFile << pService->m_nAltServices;
+	fsFile << pService->m_tLastAccessed;
 	fsFile << pService->m_tLastSuccess;
 	fsFile << pService->m_nFailures;
 	fsFile << pService->m_nZeroRevivals;
@@ -257,7 +276,8 @@ CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServic
 }
 
 /**
- * @brief update sends our own IP to service if the service supports the operation (e.g. if it is a GWC).
+ * @brief update sends our own IP to service if the service supports the operation (e.g. if it
+ * is a GWC).
  * Locking: RW
  * @param oOwnIP
  */
@@ -268,6 +288,7 @@ void CDiscoveryService::update()
 	Q_ASSERT( !m_bRunning );
 
 	m_bRunning = true;
+	m_bQuery   = false;
 
 	doUpdate();
 
@@ -276,6 +297,8 @@ void CDiscoveryService::update()
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
 	m_oSQCancelRequestID = signalQueue.push( this, SLOT( cancelRequest() ),
 								tNow + quazaaSettings.Discovery.ServiceTimeout );
+
+	emit updated( m_nID ); // notify GUI
 }
 
 /**
@@ -298,6 +321,7 @@ void CDiscoveryService::query()
 	Q_ASSERT( !m_bRunning );
 
 	m_bRunning = true;
+	m_bQuery   = true;
 
 	doQuery();
 
@@ -310,6 +334,8 @@ void CDiscoveryService::query()
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
 	m_oSQCancelRequestID = signalQueue.push( this, SLOT( cancelRequest() ),
 								tNow + quazaaSettings.Discovery.ServiceTimeout );
+
+	emit updated( m_nID ); // notify GUI
 
 #if ENABLE_DISCOVERY_DEBUGGING
 	qDebug() << "[Discovery] Finished querying service.";
@@ -327,52 +353,83 @@ void CDiscoveryService::cancelRequest()
 	if ( m_bRunning )
 	{
 		doCancelRequest();
+
+		// remove cancel request from signal queue if still in there
+		signalQueue.pop( m_oSQCancelRequestID );
+		m_oSQCancelRequestID = QUuid();
 	}
 
+	updateStatistics();
 	m_oRWLock.unlock();
 }
 
+/**
+ * @brief lockForRead allows a reader to lock this service for read from within a constant
+ * context.
+ * Sets locking: R
+ */
 void CDiscoveryService::lockForRead() const
 {
 	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>( this );
 	pModifiable->m_oRWLock.lockForRead();
 }
 
+/**
+ * @brief unlock allows a reader to unlock this service after having finished the respective
+ * read operations.
+ */
 void CDiscoveryService::unlock() const
 {
 	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>( this );
 	pModifiable->m_oRWLock.unlock();
 }
 
-void CDiscoveryService::updateStatistics(bool bQuery, quint16 nHosts)
+/**
+ * @brief updateStatistics updates statistics, failure counters etc.
+ * Requires locking: RW
+ * @param nHosts
+ */
+void CDiscoveryService::updateStatistics(quint16 nHosts, quint16 nURLs, bool bUpdateOK)
 {
-	if ( bQuery )
+#if ENABLE_DISCOVERY_DEBUGGING
+	qDebug() << QString( "[Discovery] Updating Statistics: Query %1, Hosts %2, URLs %3, UpdateOK %4"
+						 ).arg( QString::number( m_bQuery ), QString::number( nHosts ),
+								QString::number( nURLs ), QString::number( bUpdateOK )
+								).toLocal8Bit().constData();
+#endif
+
+	// remove cancel request from signal queue
+	signalQueue.pop( m_oSQCancelRequestID );
+	m_oSQCancelRequestID = QUuid();
+
+	if ( m_bQuery || nHosts )//in case of an update, we still count hosts we got but did not request
 		m_nLastHosts = nHosts;
 
-	if ( m_bZero ) // We're dealing with a newly revived service that has been known to fail in the past.
+	if ( m_bQuery || nURLs ) //same as above
+		m_nAltServices = nURLs;
+
+	m_nTotalHosts += nHosts;
+
+	if ( ( m_bQuery && nHosts ) || ( !m_bQuery && bUpdateOK ) ) // access successful
 	{
-		if ( nHosts ) // access successful
-		{
-			// increase rating
-			setRating( m_nRating + 1 );
+		// increase rating
+		setRating( m_nRating + 1 );
 
-			if ( bQuery )
-			{
-				m_nTotalHosts += nHosts;
-			}
+		m_tLastSuccess = m_tLastAccessed;
+		m_nFailures = 0;
 
-			m_tLastSuccess = m_tLastQueried;
-			m_nFailures = 0;
+		// eventual revival try successful
+		m_bZero = false;
+		m_nZeroRevivals = 0;
+	}
+	else // fail
+	{
+		++m_nFailures;
 
-			// revival try successful
-			m_bZero = false;
-			m_nZeroRevivals = 0;
-		}
-		else // fail
-		{
+		if ( m_bZero ) // We're dealing with a newly revived service
+		{              // that has been known to fail in the past.
 			// revival failed
 			setRating( 0 );
-			++m_nFailures;
 
 			if ( m_nZeroRevivals >= quazaaSettings.Discovery.ZeroRatingRevivalTries )
 			{
@@ -380,26 +437,8 @@ void CDiscoveryService::updateStatistics(bool bQuery, quint16 nHosts)
 				m_bBanned = true;
 			}
 		}
-	}
-	else // We're dealing with a normal service.
-	{
-		if ( nHosts ) // access successful
+		else
 		{
-			// increase rating
-			setRating( m_nRating + 1 );
-
-			if ( bQuery )
-			{
-				m_nTotalHosts += nHosts;
-			}
-
-			m_tLastSuccess = m_tLastQueried;
-			m_nFailures = 0;
-		}
-		else // fail
-		{
-			++m_nFailures;
-
 			if ( quazaaSettings.Discovery.FailureLimit &&
 				 m_nFailures >= quazaaSettings.Discovery.FailureLimit )
 			{
@@ -408,6 +447,7 @@ void CDiscoveryService::updateStatistics(bool bQuery, quint16 nHosts)
 			}
 			else
 			{
+				// decrease rating by 1
 				setRating( (m_nRating > 0) ? m_nRating - 1 : 0 );
 			}
 
@@ -424,11 +464,14 @@ void CDiscoveryService::updateStatistics(bool bQuery, quint16 nHosts)
 		}
 	}
 
-	// remove cancel request from signal queue
-	signalQueue.pop( m_oSQCancelRequestID );
-	m_oSQCancelRequestID = QUuid();
+	emit updated( m_nID );
 }
 
+/**
+ * @brief setRating: Helper method to set rating and probability multiplicator simultaneously.
+ * Requires locking: RW
+ * @param nRating
+ */
 void CDiscoveryService::setRating(quint8 nRating)
 {
 	m_nRating    = ( nRating > quazaaSettings.Discovery.MaximumServiceRating ) ?

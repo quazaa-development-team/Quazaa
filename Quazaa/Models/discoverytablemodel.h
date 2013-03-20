@@ -39,20 +39,26 @@ private:
 	typedef Discovery::TServiceType     TServiceType;
 	typedef Discovery::TServiceID       TServiceID;
 
-	QWidget*		m_oContainer;
-	int				m_nSortColumn;
-	Qt::SortOrder	m_nSortOrder;
-	bool			m_bNeedSorting;
+	QWidget*        m_oContainer;
+	int             m_nSortColumn;
+	Qt::SortOrder   m_nSortOrder;
+	bool            m_bNeedSorting;
 
 public:
 	enum Column
 	{
 		TYPE = 0,
 		URL,
+		ACCESSED,
 		HOSTS,
 		TOTAL_HOSTS,
 		ALTERNATE_SERVICES,
 		FAILURES,
+#if ENABLE_DISCOVERY_DEBUGGING
+		RATING,
+		MULTIPLICATOR,
+#endif
+		PONG,
 		_NO_OF_COLUMNS
 	};
 
@@ -79,11 +85,18 @@ public:
 		TServiceType     m_nType;
 		QString          m_sType;
 		const QIcon*     m_piType;
+		bool             m_bBanned;
 		QString          m_sURL;
+		quint32          m_tAccessed;
 		quint32          m_nLastHosts;
 		quint32          m_nTotalHosts;
 		quint16          m_nAltServices;
 		quint8           m_nFailures;
+#if ENABLE_DISCOVERY_DEBUGGING
+		quint8           m_nRating;
+		quint8           m_nMultipilcator;
+#endif
+		QString          m_sPong;
 
 		/**
 		 * @brief Service constructs a new service.
@@ -92,9 +105,10 @@ public:
 		 */
 		Service(TConstServicePtr pService, CDiscoveryTableModel* model);
 		~Service();
-		bool update(int row, int col, QModelIndexList& to_update, CDiscoveryTableModel* model);
+		bool update(int row, int sortCol, QModelIndexList& to_update, CDiscoveryTableModel* model);
 		QVariant data(int col) const;
 		bool lessThan(int col, const CDiscoveryTableModel::Service* const pOther) const;
+		void refreshServiceIcon(CDiscoveryTableModel* model);
 	};
 
 protected:
@@ -115,13 +129,18 @@ public:
 	TConstServicePtr nodeFromRow(quint32 row) const;
 	TConstServicePtr nodeFromIndex(const QModelIndex& index) const;
 
+	bool isIndexBanned(const QModelIndex& index) const;
+
 	void completeRefresh();
 
 public slots:
 	void addService(TConstServicePtr pService);
 	void removeService(TServiceID nID);
+	void update(TServiceID nID);
 	void updateAll();
 
+private:
+	void updateView(QModelIndexList uplist = QModelIndexList());
 };
 
 #endif // DISCOVERYTABLEMODEL_H

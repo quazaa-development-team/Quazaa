@@ -635,9 +635,10 @@ namespace Settings
         QByteArray	ChatTreeWidget;                         // The list order in the server/channel tree
         QByteArray  ChatTreeWidgetSplitter;                   // The splitter for the server/channel list
 		QByteArray	ChatToolbars;							// Chat Toolbars
-		QByteArray	DiscoveryToolbar;						// DiscoveryToolbar
-		QByteArray	DownloadsToolbar;						// Downloads Toolbar
+		QByteArray	DiscoveryHeader;						// Discovery header
+		QByteArray	DiscoveryToolbar;						// Discovery Toolbar
 		QByteArray	DownloadsHeader;						// Downloads header
+		QByteArray	DownloadsToolbar;						// Downloads Toolbar
 		QByteArray	DownloadsSplitter;						// Downloads splitter position
 		int			DownloadsSplitterRestoreTop;			// The top height of the downloads splitter should restore when right clicked
 		int			DownloadsSplitterRestoreBottom;			// The bottom height of the downloads splitter should restore when right clicked

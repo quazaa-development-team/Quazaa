@@ -43,36 +43,43 @@ class CDiscoveryService : public QObject
 {
 	Q_OBJECT
 
-	/* ================================================================ */
-	/* ========================== Attributes ========================== */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ======================================= Attributes ======================================= */
+	/* ========================================================================================== */
 protected:
 	QReadWriteLock  m_oRWLock;      // Service access lock.
 //	CDebugRWLock    m_oRWLock;      // Enable this for debugging purposes.
 	TServiceType    m_nServiceType; // GWC, UKHL, ...
 	CNetworkType    m_oNetworkType; // could be several in case of GWC for instance
 	QUrl            m_oServiceURL;
+	QString         m_sPong;        // The service's reply to a ping request
+
+	bool            m_bQuery;       // last request was a query (false: last request was an update)
 
 private:
 	quint8          m_nRating;      // 0: bad; 10: very good
 	quint8          m_nProbaMult;   // probability multiplicator: [0-5] based on rating
 
 	bool            m_bBanned;      // service URL is blocked
-	bool            m_bZero;        // service probability has just been increased from zero or service is new.
-									// On access failure, this service will be set to 0 probability no matter its previous proba.
-									// For banned hosts, this indicates the host has been banned because of too many failures.
+	bool            m_bZero;        // service probability has just been increased from zero or
+									// service is new. On access failure, this service will be set
+									// to 0 probability no matter its previous proba. For banned
+									// hosts, this indicates the host has been banned because of too
+									// many failures.
 	TServiceID      m_nID;          // ID used by the manager to identify the service
 
-	quint32         m_nLastHosts;   // hosts returned by the service on last query
+	quint16         m_nLastHosts;   // number of hosts returned by the service on last query
 	quint32         m_nTotalHosts;  // all hosts we ever got from the service
-	quint16         m_nAltServices; // alternate services known to the service passed on to us when last we queried
+	quint16         m_nAltServices; // alternate services known to the service passed on to us when
+									// last we queried
 									// TODO: implement.
-	quint32         m_tLastQueried; // last time we accessed the host
+	quint32         m_tLastAccessed;// last time we queried/updated the service
 									// Note: for banned services, this holds the ban time
 									// TODO: implement.
-	quint32         m_tLastSuccess; // last time we queried the service successfully
+	quint32         m_tLastSuccess; // last time we accessed the service successfully
 	quint8          m_nFailures;    // query failures in a row
-	quint8          m_nZeroRevivals;// counts number of times this service has been revived from a 0 rating.
+	quint8          m_nZeroRevivals;// counts number of times this service has been revived from a
+									// 0 rating.
 
 	bool            m_bRunning;     // service is currently doing network communication
 
@@ -82,9 +89,9 @@ private:
 	// Note that the content of this list is not forwarded to copies of this service.
 	std::list<const CDiscoveryService**> m_lPointers;
 
-	/* ================================================================ */
-	/* ========================= Construction ========================= */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ====================================== Construction ====================================== */
+	/* ========================================================================================== */
 public:
 	/**
 	 * @brief CDiscoveryService: Constructor. Creates a new service.
@@ -92,7 +99,8 @@ public:
 	 * @param oNType
 	 * @param nRating
 	 */
-	CDiscoveryService(const QUrl& oURL, const CNetworkType& oNType, quint8 nRating = DISCOVERY_MAX_PROBABILITY);
+	CDiscoveryService(const QUrl& oURL, const CNetworkType& oNType,
+					  quint8 nRating = DISCOVERY_MAX_PROBABILITY);
 
 	/**
 	 * @brief CDiscoveryService: Copy constructor. Copies all but the list of registered pointers.
@@ -106,12 +114,12 @@ public:
 	virtual ~CDiscoveryService(); /** Must be implemented by subclasses. */
 
 private:
-	/* ================================================================ */
-	/* ========================== Operators  ========================== */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ======================================= Operators  ======================================= */
+	/* ========================================================================================== */
 	/**
-	 * @brief operator ==: Allows to compare two services. Services are considered to be equal if they are
-	 * of the same service type, serve the same networks and have the same URL.
+	 * @brief operator ==: Allows to compare two services. Services are considered to be equal if
+	 * they are of the same service type, serve the same networks and have the same URL.
 	 * Requires locking: R (both services)
 	 * @param pService
 	 * @return
@@ -119,26 +127,26 @@ private:
 	virtual bool	operator==(const CDiscoveryService& pService) const;
 
 	/**
-	 * @brief operator !=: Allows to compare two services. Services are considered to be equal if they are
-	 * of the same service type, serve the same networks and have the same URL.
+	 * @brief operator !=: Allows to compare two services. Services are considered to be equal if
+	 * they are of the same service type, serve the same networks and have the same URL.
 	 * Requires locking: R (both services)
 	 * @param pService
 	 * @return
 	 */
 	bool			operator!=(const CDiscoveryService& pService) const;
 
-	/* ================================================================ */
-	/* ======================== Static Methods ======================== */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ===================================== Static Methods ===================================== */
+	/* ========================================================================================== */
 	/**
-	 * @brief load reads a service from the provided QDataStream and creates a new Object from the data.
-	 * Note that if a non-NULL pointer is given to the function, that object is deleted.
+	 * @brief load reads a service from the provided QDataStream and creates a new Object from the
+	 * data. Note that if a non-NULL pointer is given to the function, that object is deleted.
 	 * Locking: / (static member)
 	 * @param pService
 	 * @param fsStream
 	 * @param nVersion
 	 */
-	static void		load(CDiscoveryService*& pService, QDataStream& fsFile, const int nVersion);
+	static void load(CDiscoveryService*& pService, QDataStream& fsFile, const int nVersion);
 
 	/**
 	 * @brief save writes pService to given QDataStream.
@@ -146,7 +154,7 @@ private:
 	 * @param pService
 	 * @param fsFile
 	 */
-	static void     save(const CDiscoveryService* const pService, QDataStream& fsFile);
+	static void save(const CDiscoveryService* const pService, QDataStream& fsFile);
 
 	/**
 	 * @brief createService allows to create valid services.
@@ -161,11 +169,12 @@ private:
 	static CDiscoveryService* createService(const QString &sURL, TServiceType eSType,
 											const CNetworkType& oNType, quint8 nRating);
 
-	/* ================================================================ */
-	/* ========================== Operations ========================== */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ======================================= Operations ======================================= */
+	/* ========================================================================================== */
 	/**
-	 * @brief update sends our own IP to service if the service supports the operation (e.g. if it is a GWC).
+	 * @brief update sends our own IP to service if the service supports the operation (e.g. if it
+	 * is a GWC).
 	 * Locking: RW
 	 * @param oOwnIP
 	 */
@@ -187,27 +196,24 @@ private slots:
 
 signals:
 	/**
-	 * @brief updateRequestComplete informs the caller of update() that his request has been completed.
+	 * @brief updated informs the GUI about a noticable change in this service.
 	 */
-	void updateRequestComplete(CDiscoveryService*); /** Must be emitted by subclasses */
-	/**
-	 * @brief queryRequestComplete informs the caller of query() that his request has been completed.
-	 */
-	void queryRequestComplete(CDiscoveryService*);  /** Must be emitted by subclasses */
+	void updated(TServiceID nID);
 
-	/* ================================================================ */
-	/* ======================= Attribute Access ======================= */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ==================================== Attribute Access ==================================== */
+	/* ========================================================================================== */
 public:
 	/**
-	 * @brief lockForRead allows a reader to lock this service for read from within a constant context.
+	 * @brief lockForRead allows a reader to lock this service for read from within a constant
+	 * context.
 	 * Sets locking: R
 	 */
 	void lockForRead() const;
 
 	/**
-	 * @brief unlock allows a reader to unlock this service after having finished the respective read
-	 * operations.
+	 * @brief unlock allows a reader to unlock this service after having finished the respective
+	 * read operations.
 	 */
 	void unlock() const;
 
@@ -240,6 +246,13 @@ public:
 	inline QString url() const;
 
 	/**
+	 * @brief ping
+	 * Requires locking: R
+	 * @return
+	 */
+	inline QString pong() const;
+
+	/**
 	 * @brief rating
 	 * Requires locking: R
 	 * @return
@@ -252,6 +265,16 @@ public:
 	 * @return
 	 */
 	inline bool isBanned() const;
+
+
+#if ENABLE_DISCOVERY_DEBUGGING
+	/**
+	 * @brief probaMult
+	 * Requires locking: R
+	 * @return
+	 */
+	inline quint8 probaMult() const;
+#endif
 
 	/**
 	 * @brief id
@@ -286,7 +309,7 @@ public:
 	 * Requires locking: R
 	 * @return
 	 */
-	inline quint32 lastQueried() const;
+	inline quint32 lastAccessed() const;
 
 protected:
 	/**
@@ -294,7 +317,7 @@ protected:
 	 * Requires locking: RW
 	 * @param tNow
 	 */
-	inline void setLastQueried(quint32 tNow);
+	inline void setLastAccessed(quint32 tNow);
 
 public:
 	/**
@@ -305,8 +328,8 @@ public:
 	inline quint32 lastSuccess() const;
 
 	/**
-	 * @brief failures: Allows access to the number this service failed in a row. After a successful query or
-	 * update, 0 should be returned.
+	 * @brief failures: Allows access to the number this service failed in a row. After a successful
+	 * query or update, 0 should be returned.
 	 * Requires locking: R
 	 * @return
 	 */
@@ -326,15 +349,15 @@ protected:
 	 */
 	inline void resetRunning();
 
-	/* ================================================================ */
-	/* ================ Specialized Attribute Setters  ================ */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ============================= Specialized Attribute Setters  ============================= */
+	/* ========================================================================================== */
 	/**
 	 * @brief updateStatistics updates statistics, failure counters etc.
 	 * Requires locking: RW
 	 * @param nHosts
 	 */
-	void updateStatistics(bool bQuery, quint16 nHosts);
+	void updateStatistics(quint16 nHosts = 0, quint16 nURLs = 0, bool bUpdateOK = false);
 
 private:
 	/**
@@ -344,18 +367,20 @@ private:
 	 */
 	void setRating(quint8 nRating);
 
-	/* ================================================================ */
-	/* ======================= Private Virtuals ======================= */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ==================================== Private Virtuals ==================================== */
+	/* ========================================================================================== */
 private:
 	/**
 	 * @brief doQuery: Helper method for query(). Performs the actual querying.
+	 * Note: Make sure to call this only after having assured the service io currently not running.
 	 * Requires locking: RW
 	 */
 	virtual void doQuery()  throw() = 0;	/** Must be implemented by subclasses. */
 
 	/**
 	 * @brief doUpdate: Helper method for update(). Performs the actual updating.
+	 * Note: Make sure to call this only after having assured the service io currently not running.
 	 * Requires locking: RW
 	 */
 	virtual void doUpdate() throw() = 0;	/** Must be implemented by subclasses. */
@@ -366,9 +391,9 @@ private:
 	 */
 	virtual void doCancelRequest() throw() = 0;	/** Must be implemented by subclasses. */
 
-	/* ================================================================ */
-	/* ======================== Friend Classes ======================== */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ===================================== Friend Classes ===================================== */
+	/* ========================================================================================== */
 	friend class CDiscovery;
 };
 
@@ -387,6 +412,11 @@ QString CDiscoveryService::url() const
 	return m_oServiceURL.toString();
 }
 
+QString CDiscoveryService::pong() const
+{
+	return m_sPong;
+}
+
 quint8 CDiscoveryService::rating() const
 {
 	return m_nRating;
@@ -396,6 +426,13 @@ bool CDiscoveryService::isBanned() const
 {
 	return m_bBanned;
 }
+
+#if ENABLE_DISCOVERY_DEBUGGING
+quint8 CDiscoveryService::probaMult() const
+{
+	return m_nProbaMult;
+}
+#endif
 
 TServiceID CDiscoveryService::id() const
 {
@@ -417,14 +454,14 @@ quint16 CDiscoveryService::altServices() const
 	return m_nAltServices;
 }
 
-quint32 CDiscoveryService::lastQueried() const
+quint32 CDiscoveryService::lastAccessed() const
 {
-	return m_tLastQueried;
+	return m_tLastAccessed;
 }
 
-void CDiscoveryService::setLastQueried(quint32 tNow)
+void CDiscoveryService::setLastAccessed(quint32 tNow)
 {
-	m_tLastQueried = tNow;
+	m_tLastAccessed = tNow;
 }
 
 quint32 CDiscoveryService::lastSuccess() const

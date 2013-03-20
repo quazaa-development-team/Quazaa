@@ -37,9 +37,10 @@
 #include "networktype.h"
 
 // Increment this if there have been made changes to the way of storing discovery services.
-#define DISCOVERY_CODE_VERSION	0
+#define DISCOVERY_CODE_VERSION	1
 // History:
 // 0 - Initial implementation
+// 1 - Full implementation of GWC spec 2.0.
 
 #define DISCOVERY_MAX_PROBABILITY 5
 
@@ -47,12 +48,13 @@
 #define ENABLE_DISCOVERY_DEBUGGING 0
 
 // TODO: Implement rating based on successful connection to obtained hosts
+// TODO: Ask brov whether callback on unsuccessful service query shall be implemented
 
 namespace Discovery
 {
 // Notes:
-// 1. locking: The documentation of each method contains information on the manager locks accessed
-//             within or required for calling the method. It also contains information on whether the
+// 1. locking: The documentation of each method contains information on the locks accessed within
+//             or required for calling the method. It also contains information on whether the
 //             locked section resides inside the Discovery thread ("asynchronous") or the calling
 //             thread ("synchronous").
 // 2. times:   All times within the manager and its attached classes are UTC.
@@ -60,18 +62,19 @@ class CDiscoveryService;
 
 /**
  * @brief TServiceType: Must be updated when implementing new subclasses of CDiscoveryService.
+ * Each subclass must implement (exactly) one TServiceType.
  */
 typedef enum { stNull = 0, stBanned = 1, stGWC = 2 } TServiceType;
 
 /**
- * @brief TDiscoveryID: ID type used to identify and manage discovery services. All IDs are positive.
- * 0 indicates an invalid ID.
+ * @brief TDiscoveryID: ID type used to identify and manage discovery services. All IDs are
+ * positive. 0 indicates an invalid ID.
  */
 typedef quint16 TServiceID;
 
 /**
- * @brief TConstServicePtr is a shared pointer (strong reference) for allowing classes external to the
- * manager to access information on a discovery service.
+ * @brief TConstServicePtr is a shared pointer (strong reference) for allowing classes external to
+ * the manager to access information on a discovery service.
  */
 typedef QSharedPointer< const CDiscoveryService > TConstServicePtr;
 
@@ -79,9 +82,9 @@ class CDiscovery : public QObject
 {
 	Q_OBJECT
 
-	/* ================================================================ */
-	/* ========================= Definitions  ========================= */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ====================================== Definitions  ====================================== */
+	/* ========================================================================================== */
 private:
 	/**
 	 * @brief TServicePtr is a shared pointer class for internal use.
@@ -118,9 +121,9 @@ private:
 	 */
 	typedef TDiscoveryServicesList::const_iterator TListIterator;
 
-	/* ================================================================ */
-	/* ========================== Attributes ========================== */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ======================================= Attributes ======================================= */
+	/* ========================================================================================== */
 private:
 	// access lock
 	QMutex m_pSection;
@@ -128,25 +131,25 @@ private:
 	// discovery service map
 	TDiscoveryServicesMap m_mServices;
 
-	// true if current Discovery Service Manager state has already been saved to file, false otherwise.
+	// true if current Discovery Manager state has already been saved to file, false otherwise.
 	bool                  m_bSaved;
 
 	// last ID to assigned by the manager.
-	TServiceID          m_nLastID;
+	TServiceID            m_nLastID;
 
 	// handles web requests
 	QWeakPointer<QNetworkAccessManager> m_pNetAccessMgr;
 
 	// thread used by the manager
-	QThread m_oDiscoveryThread;
+	QThread               m_oDiscoveryThread;
 
 public:
 	// text preceeding a message from the manager on the log
 	QString               m_sMessage;
 
-	/* ================================================================ */
-	/* ========================= Construction ========================= */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ====================================== Construction ====================================== */
+	/* ========================================================================================== */
 public:
 	/**
 	 * @brief CDiscovery: Constructs a new discovery services manager.
@@ -159,21 +162,22 @@ public:
 	 */
 	~CDiscovery();
 
-	/* ================================================================ */
-	/* ========================== Operations ========================== */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ======================================= Operations ======================================= */
+	/* ========================================================================================== */
 public:
 	/**
 	 * @brief count allows you to access the number of working services for a given network.
 	 * Locking: YES (synchronous)
-	 * @return the number of services for the specified network. If no type is specified or the type is
-	 * null, the total number of all services is returned, no matter whether they are working or not.
+	 * @return the number of services for the specified network. If no type is specified or the type
+	 * is null, the total number of all services is returned, no matter whether they are working or
+	 * not.
 	 */
 	quint32 count(const CNetworkType& oType = CNetworkType());
 
 	/**
-	 * @brief start initializes the Discovery Services Manager. Make sure this is called after QApplication
-	 * is instantiated.
+	 * @brief start initializes the Discovery Services Manager. Make sure this is called after
+	 * QApplication is instantiated.
 	 * Locking: YES (asynchronous)
 	 * @return whether loading the services was successful.
 	 */
@@ -184,17 +188,19 @@ public:
 	 * Locking: YES (synchronous)
 	 * @return true if the services have been successfully written to disk.
 	 */
-	bool stop();		// prepares the Discovery Services Manager for destruction
+	bool stop();
 
 	/**
-	 * @brief save saves all discovery services to disk, if there have been important modifications to at
-	 * least one service or bForceSaving is set to true.
+	 * @brief save saves all discovery services to disk, if there have been important modifications
+	 * to at least one service or bForceSaving is set to true.
 	 * Locking: YES (synchronous/asynchronous)
-	 * @param bForceSaving: Set this to true to force saving even if there have been no important service
-	 * modifications, for example to make sure the hosts from the current session are saved properly.
-	 * Setting this parameter will also result in synchronous execution. If this parameter is set to false
-	 * (or omitted), saving will be done asynchronously.
-	 * @return true if saving to file is known to have been successful; false otherwise (e.g. error/unknown)
+	 * @param bForceSaving: Set this to true to force saving even if there have been no important
+	 * service modifications, for example to make sure the hosts count statistics from the current
+	 * session are saved properly.
+	 * Setting this parameter will also result in synchronous execution. If this parameter is set to
+	 * false (or omitted), saving will be done asynchronously.
+	 * @return true if saving to file is known to have been successful; false otherwise (e.g. error
+	 * or asynchronous execution)
 	 */
 	bool save(bool bForceSaving = false);
 
@@ -205,7 +211,8 @@ public:
 	 * @param eSType
 	 * @param oNType
 	 * @param nRating
-	 * @return the service ID used to identify the service internally; 0 if the service has not been added.
+	 * @return the service ID used to identify the service internally; 0 if the service has not been
+	 * added.
 	 */
 	TServiceID add(QString sURL, const TServiceType eSType,
 				   const CNetworkType& oNType, const quint8 nRating = DISCOVERY_MAX_PROBABILITY);
@@ -214,16 +221,17 @@ public:
 	 * @brief remove removes a service by ID.
 	 * Locking: YES (synchronous)
 	 * @param nID
-	 * @return true if the removal was successful (e.g. the service could be found), false otherwise.
+	 * @return true if the removal was successful (e.g. the service could be found), false
+	 * otherwise.
 	 */
 	bool remove(TServiceID nID);
 
 	/**
 	 * @brief clear removes all services from the manager.
 	 * Locking: YES (synchronous)
-	 * @param bInformGUI: Set this to true if the GUI shall be informed about the removal of the services.
-	 * The default value is false, which represents the scenario on shutdown, where the GUI will be removed
-	 * anyway shortly.
+	 * @param bInformGUI: Set this to true if the GUI shall be informed about the removal of the
+	 * services. The default value is false, which represents the scenario on shutdown, where the
+	 * GUI will be removed shortly anyway.
 	 */
 	void clear(bool bInformGUI = false);
 
@@ -235,41 +243,49 @@ public:
 	bool check(const TConstServicePtr pService);
 
 	/**
-	 * @brief CDiscovery::requestNAMgr provides a shared pointer to the discovery services network access
-	 * manager. Note that the caller needs to hold his copy of the shared pointer until he has finished his
-	 * network operation to prevent the access manager from being deleted too early.
+	 * @brief CDiscovery::requestNAMgr provides a shared pointer to the discovery services network
+	 * access manager. Note that the caller needs to hold his copy of the shared pointer until the
+	 * network operation has been completed to prevent the manager from being deleted too early.
 	 * Locking: YES (synchronous)
 	 * @return
 	 */
 	QSharedPointer<QNetworkAccessManager> requestNAM();
 
 	/**
-	 * @brief requestServiceList can be used to obtain a complete list of all currently managed services.
-	 * Connect to the serviceInfo() signal to recieve them.
+	 * @brief requestServiceList can be used to obtain a complete list of all currently managed
+	 * services. Connect to the serviceInfo() signal to recieve them.
 	 * Locking: YES (asynchronous)
 	 */
 	void requestServiceList();
 
 	/**
-	 * @brief updateService updates a service for a given network type with our IP. Note that not all
-	 * service types might support or require such updates.
+	 * @brief updateService updates a service for a given network type with our IP. Note that not
+	 * all service types might support or require such updates.
 	 * Locking: YES (asynchronous)
 	 * @param type
 	 */
 	void updateService(const CNetworkType& type); // Random service access
-	void updateService(TServiceID nID);         // Manual service access
+	void updateService(TServiceID nID);           // Manual service access
 
 	/**
-	 * @brief queryService queries a service for a given network to obtain hosts to connect to.
+	 * @brief queryService queries a service for hosts to connect to.
 	 * Locking: YES (asynchronous)
 	 * @param type
 	 */
 	void queryService(const CNetworkType& type); // Random service access
-	void queryService(TServiceID nID);         // Manual service access
+	void queryService(TServiceID nID);           // Manual service access
 
-	/* ================================================================ */
-	/* =========================== Signals  =========================== */
-	/* ================================================================ */
+	/**
+	 * @brief getWorkingService
+	 * Locking: YES (synchronous)
+	 * @param type
+	 * @return the URL of a service of the requested type that is known to work
+	 */
+	QString getWorkingService(TServiceType type);
+
+	/* ========================================================================================== */
+	/* ======================================== Signals  ======================================== */
+	/* ========================================================================================== */
 signals:
 	/**
 	 * @brief serviceAdded is emitted each time a new service is added to the manager.
@@ -289,12 +305,12 @@ signals:
 	 */
 	void serviceInfo(TConstServicePtr pService);
 
-	/* ================================================================ */
-	/* ======== Private Slots / Asynchronous Operation Support ======== */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ===================== Private Slots / Asynchronous Operation Support ===================== */
+	/* ========================================================================================== */
 private slots:
-	// All methods in this section are helpers to do certain tasks asynchronously. See their respective
-	// callers for documentation.
+	// All methods in this section are helpers to do certain tasks asynchronously. See their
+	// respective callers for documentation.
 	bool asyncSyncSavingHelper();
 	void asyncStartUpHelper();
 	void asyncRequestServiceListHelper();
@@ -303,9 +319,9 @@ private slots:
 	void asyncQueryServiceHelper(const CNetworkType type);
 	void asyncQueryServiceHelper(TServiceID nID);
 
-	/* ================================================================ */
-	/* ==================== Other Private Helpers  ==================== */
-	/* ================================================================ */
+	/* ========================================================================================== */
+	/* ================================= Other Private Helpers  ================================= */
+	/* ========================================================================================== */
 private:
 	/**
 	 * @brief doCount: Internal helper without locking. See count for documentation.
@@ -317,7 +333,9 @@ private:
 	 */
 	void doClear(bool bInformGUI = false);
 
-
+	/**
+	 * @brief doRemove: Internal helper without locking. See remove for documentation.
+	 */
 	bool doRemove(TServiceID nID);
 
 	/**
@@ -328,16 +346,9 @@ private:
 	void load();
 	bool load(QString sPath);
 
-//	/**
-//	 * @brief add: private helper for the public add method. See add(QString sURL, const TServiceType eSType,
-//	 * const CNetworkType& oNType, const quint8 nRating) for documentation.
-//	 */
-//	TServiceID add(QString sURL, const TServiceType eSType, const CNetworkType& oNType,
-//				   const quint8 nRating, const bool bLock);
-
 	/**
-	 * @brief add... obvious... Note: if a duplicate is detected, the CDiscoveryService passed to the
-	 * method is deleted within.
+	 * @brief add... obvious... Note: if a duplicate is detected, the CDiscoveryService passed to
+	 * the method is deleted within.
 	 * Requires locking: YES
 	 * @param pService
 	 * @return true if the service was added; false if not (e.g. duplicate was detected).
@@ -345,35 +356,56 @@ private:
 	bool add(TServicePtr& pService);
 
 	/**
-	 * @brief addDefaults loads the DefaultServices.dat file (compatible with Shareaza) into the manager.
+	 * @brief addDefaults loads the DefaultServices.dat file (compatible with Shareaza) into the
+	 * manager.
 	 * Locking: YES (synchronous)
 	 */
 	void addDefaults();
 
 	/**
-	 * @brief manageDuplicates checks if an identical (or very similar) service is alreads present in the
-	 * manager, decides which service to remove and frees unnecessary data.
+	 * @brief manageBan handles the checking for duplicates when adding a new ban.
+	 * Requires locking: YES
+	 * @param sURL
+	 * @param eSType
+	 * @param oNType
+	 * @return true if the caller needs not to worry about adding the banned service anymore
+	 */
+	bool manageBan(QString& sURL, const TServiceType eSType, const CNetworkType& oNType);
+
+	/**
+	 * @brief checkBan checks a given URL against the list of banned services.
+	 * Requires locking: YES
+	 * @param sURL
+	 * @return true if the URL is already present and has been banned; false otherwise.
+	 */
+	bool checkBan(QString sURL) const;
+
+	/**
+	 * @brief manageDuplicates checks if an identical (or very similar) service is alreads present
+	 * in the manager, decides which service to remove and frees unnecessary data.
 	 * Requires locking: YES
 	 * @param pService
-	 * @return true if a duplicate was detected. pService is deleted and set to nullptr in that case. false
-	 * otherwise.
+	 * @return true if a duplicate was detected. pService is deleted and set to nullptr in that
+	 * case. false otherwise.
 	 */
 	bool manageDuplicates(TServicePtr &pService);
 
 	/**
-	 * @brief normalizeURL transforms a given URL string into a standard form to ease the detection of
-	 * duplicates, filter out websites caching a service etc.
+	 * @brief normalizeURL transforms a given URL string into a standard form to ease the detection
+	 * of duplicates, filter out websites caching a service etc.
 	 * Requires locking: NO
 	 * @param sURL
+	 * @return true if sURL has been changed; false if sURL has not seen a change
 	 */
-	void normalizeURL(QString& sURL);
+	bool normalizeURL(QString& sURL);
 
 	/**
-	 * @brief getRandomService: Helper method. Allows to get a random service for a specified network.
+	 * @brief getRandomService: Helper method. Allows to get a random service for a specified
+	 * network.
 	 * Requires locking: YES
 	 * @param oNType
-	 * @return A discovery service for the specified network; Null if no working service could be found for
-	 * the specified network.
+	 * @return A discovery service for the specified network; Null if no working service could be
+	 * found for the specified network.
 	 */
 	TServicePtr getRandomService(const CNetworkType& oNType);
 };

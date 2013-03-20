@@ -1251,9 +1251,10 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
     m_qSettings.setValue("ChatTreeWidget", quazaaSettings.WinMain.ChatTreeWidget);
     m_qSettings.setValue("ChatTreeWidgetSplitter", quazaaSettings.WinMain.ChatTreeWidgetSplitter);
 	m_qSettings.setValue("ChatToolbars", quazaaSettings.WinMain.ChatToolbars);
+	m_qSettings.setValue("DiscoveryHeader", quazaaSettings.WinMain.DiscoveryHeader);
 	m_qSettings.setValue("DiscoveryToolbar", quazaaSettings.WinMain.DiscoveryToolbar);
-	m_qSettings.setValue("DownloadsToolbar", quazaaSettings.WinMain.DownloadsToolbar);
 	m_qSettings.setValue("DownloadsHeader", quazaaSettings.WinMain.DownloadsHeader);
+	m_qSettings.setValue("DownloadsToolbar", quazaaSettings.WinMain.DownloadsToolbar);
 	m_qSettings.setValue("DownloadsSplitter", quazaaSettings.WinMain.DownloadsSplitter);
 	m_qSettings.setValue("DownloadsSplitterRestoreTop", quazaaSettings.WinMain.DownloadsSplitterRestoreTop);
 	m_qSettings.setValue("DownloadsSplitterRestoreBottom", quazaaSettings.WinMain.DownloadsSplitterRestoreBottom);
@@ -1328,9 +1329,10 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.ChatTreeWidget = m_qSettings.value("ChatTreeWidget", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.ChatTreeWidgetSplitter = m_qSettings.value("ChatTreeWidgetSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.ChatToolbars = m_qSettings.value("ChatToolbars", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.DiscoveryHeader  = m_qSettings.value("DiscoveryHeader",  QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DiscoveryToolbar = m_qSettings.value("DiscoveryToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.DownloadsHeader  = m_qSettings.value("DownloadsHeader",  QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DownloadsToolbar = m_qSettings.value("DownloadsToolbar", QByteArray()).toByteArray();
-	quazaaSettings.WinMain.DownloadsHeader = m_qSettings.value("DownloadsHeader", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DownloadsSplitter = m_qSettings.value("DownloadsSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DownloadsSplitterRestoreTop = m_qSettings.value("DownloadsSplitterRestoreTop", 0).toInt();
 	quazaaSettings.WinMain.DownloadsSplitterRestoreBottom = m_qSettings.value("DownloadsSplitterRestoreBottom", 0).toInt();
