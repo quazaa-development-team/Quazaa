@@ -68,7 +68,6 @@ private:
 
 signals:
 	void closed();
-	void dataUpdated();
 
 private slots:
 	void on_pushButtonCancel_clicked();

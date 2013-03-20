@@ -203,7 +203,6 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		}
 	}
 
-	emit dataUpdated();
 	emit closed();
 	close();
 }
