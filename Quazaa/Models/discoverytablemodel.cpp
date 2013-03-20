@@ -58,7 +58,7 @@ CDiscoveryTableModel::Service::Service(TConstServicePtr pService, CDiscoveryTabl
 #else	// Qt4 code
 
 	connect( m_pNode.data(), SIGNAL( updated( TServiceID ) ), model,
-			 SLOT( update( TServiceID ) ) ), Qt::QueuedConnection );
+			 SLOT( update( TServiceID ) ), Qt::QueuedConnection );
 
 #endif
 }

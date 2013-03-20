@@ -24,7 +24,13 @@
 
 #include <QFile>
 #include <QDateTime>
+
+#if QT_VERSION >= 0x050000
 #include <QRegularExpression>
+#else
+#include <QRegExp>
+#endif
+
 #include <QNetworkConfigurationManager>
 
 #include "discovery.h"
@@ -1214,7 +1220,7 @@ bool CDiscovery::manageBan(QString& sURL, const TServiceType eSType, const CNetw
 		// sensitivity is not a problem here.
 		if ( !pService->m_oServiceURL.toString().compare( sURL ) )
 		{
-			TServiceID nID;
+			TServiceID nID = 0;
 
 			if ( pService->m_nServiceType == stBanned || pService->m_bBanned )
 			{
@@ -1453,8 +1459,13 @@ bool CDiscovery::normalizeURL(QString& sURL)
 	// Check it has a valid protocol
 	if ( sURL.startsWith( "http://" ) || sURL.startsWith("https://") )
 	{
+#if QT_VERSION >= 0x050000
 		sURL.remove( QRegularExpression( "/*$" ) );
 		sURL.remove( QRegularExpression( "\\.nyud\\.net:[0-9]+" ) );
+#else
+		sURL.remove( QRegExp( "/*$" ) );
+		sURL.remove( QRegExp( "\\.nyud\\.net:[0-9]+" ) );
+#endif
 
 		// First check whether the URL can be parsed at all.
 		QUrl oURL( sURL, QUrl::StrictMode );

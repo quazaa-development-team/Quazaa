@@ -24,6 +24,10 @@
 
 #include <QObject>
 
+#if QT_VERSION < 0x050000
+#include <QMetaType>
+#endif
+
 #include "networktype.h"
 
 CNetworkType::CNetworkType() :
@@ -47,6 +51,7 @@ CNetworkType::CNetworkType(DiscoveryProtocol type) :
 void CNetworkType::registerMetaType() const
 {
 	static int foo = qRegisterMetaType<CNetworkType>( "CNetworkType" );
+	++foo;
 }
 
 bool CNetworkType::operator==(const CNetworkType& type) const

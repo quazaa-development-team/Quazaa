@@ -45,7 +45,7 @@
 #define DISCOVERY_MAX_PROBABILITY 5
 
 // Set this to 1 to enable additionnal debug output for the Discovery Manager.
-#define ENABLE_DISCOVERY_DEBUGGING 0
+#define ENABLE_DISCOVERY_DEBUGGING 1
 
 // TODO: Implement rating based on successful connection to obtained hosts
 // TODO: Ask brov whether callback on unsuccessful service query shall be implemented
