@@ -774,7 +774,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 
 	bool bUdp = false;
 	bool bRelay = false;
-	bool bTestFirewall = false;
+//	bool bTestFirewall = false;
 	CEndPoint addr;
 
 	if(pPacket->m_bCompound)
@@ -800,7 +800,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 			}
 			else if(strcmp("TFW", szType) == 0)
 			{
-				bTestFirewall = true;
+//				bTestFirewall = true;
 			}
 
 			pPacket->m_nPosition = nNext;
@@ -1026,7 +1026,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 			if(nLength >= 10)
 			{
 				CEndPoint ep;
-				quint32 nTs = 0;
+//				quint32 nTs = 0;
 
 				if(nLength >= 22)
 				{
@@ -1037,7 +1037,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 					pPacket->ReadHostAddress(&ep);
 				}
 
-				nTs = pPacket->ReadIntLE<quint32>();
+//				nTs = pPacket->ReadIntLE<quint32>();
 
 				HostCache.m_pSection.lock();
 				HostCache.Add(ep, tNow.addSecs(nDiff));
@@ -1435,7 +1435,7 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 	BYTE nTTL	= pPacket->ReadByte();
 	BYTE nHops	= pPacket->ReadByte();
 
-	QUuid oGUID = pPacket->ReadGUID();
+//	QUuid oGUID = pPacket->ReadGUID();
 
 	HostCache.m_pSection.lock();
 	HostCache.Add( addr );

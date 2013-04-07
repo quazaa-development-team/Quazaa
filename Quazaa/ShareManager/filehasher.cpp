@@ -136,7 +136,7 @@ void CFileHasher::run()
 			lHashes.append( new CHash( CHash::MD5 ) );
 
 			tTimer.start();
-			double nLastPercent = 0;
+//			double nLastPercent = 0;
 			quint64 nFileSize = pFile->size();
 			quint64 nTotalRead = 0, nLastTotalRead = 0;
 
@@ -176,7 +176,7 @@ void CFileHasher::run()
 				{
 					double nPercent = 100.0f * nTotalRead / float(nFileSize);
 					int nRate = (tTimer.elapsed() * (nTotalRead - nLastTotalRead)) / 1000;
-					nLastPercent = nPercent;
+//					nLastPercent = nPercent;
 					nLastTotalRead = nTotalRead;
 					tTimer.start();
 					emit hashingProgress(m_nId, pFile->fileName(), nPercent, nRate);

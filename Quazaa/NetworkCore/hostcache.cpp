@@ -111,18 +111,18 @@ CHostCache::~CHostCache()
 
 CHostCacheHost* CHostCache::Add(CEndPoint host, QDateTime ts)
 {
-	if(!host.isValid())
+	if ( !host.isValid() )
 	{
 		return 0;
 	}
 
-	if(host.isFirewalled())
+	if ( host.isFirewalled() )
 		return 0;
 
-	if( (quint32)m_lHosts.size() > MaxCacheHosts)
+	if ( (quint32)m_lHosts.size() > MaxCacheHosts )
 	{
 		int nMax = MaxCacheHosts / 2;
-		while(m_lHosts.size() > nMax)
+		while ( m_lHosts.size() > nMax )
 		{
 			delete m_lHosts.takeLast();
 		}
@@ -130,35 +130,36 @@ CHostCacheHost* CHostCache::Add(CEndPoint host, QDateTime ts)
 		Save();
 	}
 
-    QDateTime tNow = QDateTime::currentDateTime();
+	QDateTime tNow = QDateTime::currentDateTimeUtc();
 
-	if( m_tLastSave.secsTo(tNow) > 600 )
+	if ( m_tLastSave.secsTo( tNow ) > 600 )
 		Save();
 
-	if(ts.isNull() || ts > tNow)
+	if ( ts.isNull() || ts > tNow )
 	{
-		ts = tNow.addSecs(-60);
+		ts = tNow.addSecs( -60 );
 	}
 
-	CHostCacheIterator itPrev = FindIterator(host);
+	CHostCacheIterator itPrev = FindIterator( host );
 
-	if( itPrev != m_lHosts.end() )
+	if ( itPrev != m_lHosts.end() )
 	{
-		Update(itPrev);
+		Update( itPrev );
 		return *m_lHosts.begin();
 	}
 
-	Q_ASSERT(ts.timeSpec() == Qt::UTC);
+	Q_ASSERT( ts.timeSpec() == Qt::UTC );
 
 	CHostCacheHost* pNew = new CHostCacheHost();
 	pNew->m_oAddress = host;
 	pNew->m_tTimestamp = ts;
 
-	CHostCacheIterator it = qLowerBound(m_lHosts.begin(), m_lHosts.end(), pNew, qLess<CHostCacheHost*>());
-	m_lHosts.insert(it, pNew);
+	CHostCacheIterator it = qLowerBound( m_lHosts.begin(),
+										 m_lHosts.end(),
+										 pNew, qLess<CHostCacheHost*>() );
+	m_lHosts.insert( it, pNew );
 
 	return pNew;
-
 }
 
 CHostCacheIterator CHostCache::FindIterator(CEndPoint oHost)
@@ -406,48 +407,57 @@ void CHostCache::Load()
 	ASSUME_LOCK(HostCache.m_pSection);
 
 #if QT_VERSION >= 0x050000 
-	QDir path = QDir(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
-	if(!path.exists())
-		path.mkpath(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
-	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
+	QDir path = QDir( QString("%1/.quazaa/" ).arg( QStandardPaths::writableLocation( QStandardPaths::HomeLocation ) ) );
+	if ( !path.exists() )
+		path.mkpath( QString("%1/.quazaa/" ).arg( QStandardPaths::writableLocation( QStandardPaths::HomeLocation ) ) );
+	QFile file( QString( "%1/.quazaa/hostcache.dat" ).arg( QStandardPaths::writableLocation( QStandardPaths::HomeLocation ) ) );
 #else
-	QDir path = QDir(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
-	if(!path.exists())
-		path.mkpath(QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
-	QFile f(QString("%1/.quazaa/hostcache.dat").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)));
+	QDir path = QDir( QString("%1/.quazaa/" ).arg( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) ) );
+	if ( !path.exists() )
+		path.mkpath( QString( "%1/.quazaa/" ).arg( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) ) );
+	QFile file( QString( "%1/.quazaa/hostcache.dat" ).arg( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) ) );
 #endif
 
-	if(f.exists() && f.open(QFile::ReadOnly))
+	if ( file.exists() && file.open( QFile::ReadOnly ) )
 	{
-		QDataStream s(&f);
+		QDataStream s( &file );
 		quint16 nVersion;
 		s >> nVersion;
 
-		if( nVersion == 4 )
+		if ( nVersion == 4 )
 		{
 			CEndPoint addr;
 			QDateTime ts, lc;
 			quint32 nFailures = 0;
 
-			while(!f.atEnd())
+			while ( !file.atEnd() )
 			{
-				CHostCacheHost* pHost = 0;
+				CHostCacheHost* pHost = NULL;
 				s >> addr >> ts >> nFailures >> lc;
-				pHost = Add(addr, ts);
-				if( pHost )
+
+				if ( ts.timeSpec() == Qt::UTC && lc.timeSpec() == Qt::UTC )
 				{
-					pHost->m_nFailures = nFailures;
-					pHost->m_tLastConnect = lc;
+					pHost = Add( addr, ts );
+					if ( pHost )
+					{
+						pHost->m_nFailures = nFailures;
+						pHost->m_tLastConnect = lc;
+					}
+				}
+				else
+				{
+					qDebug() << "Caught problem with timestamp or last query time.";
+					Q_ASSERT( false );
 				}
 			}
 		}
-		f.close();
+		file.close();
 
 	}
 
 	PruneOldHosts();
 
-	systemLog.postLog(LogSeverity::Debug, QString("Host Cache loaded %1 hosts.").arg(m_lHosts.size()));
+	systemLog.postLog( LogSeverity::Debug, QString( "Host Cache loaded %1 hosts." ).arg( m_lHosts.size() ) );
 }
 
 void CHostCache::PruneOldHosts()

@@ -121,7 +121,7 @@ protected:
 			}
 		}
 
-		msleep(50);
+		//msleep(50);
 		m_oStartCond.wakeAll();
 	}
 };
