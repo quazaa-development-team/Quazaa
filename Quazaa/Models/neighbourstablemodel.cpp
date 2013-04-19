@@ -269,51 +269,54 @@ bool CNeighboursTableModel::Neighbour::lessThan( int col,
 {
 	switch( col )
 	{
-		case ADDRESS:
+	case ADDRESS:
+		if ( oAddress.protocol() == QAbstractSocket::IPv4Protocol )
+			return oAddress.toIPv4Address() < pOther->oAddress.toIPv4Address();
+		else
 			return oAddress.toString() < pOther->oAddress.toString();
 
-		case TIME:
-			if( nState != nsConnected )
-				return true;
-			return tConnected < pOther->tConnected;
+	case TIME:
+		if ( nState != nsConnected )
+			return true;
+		return tConnected < pOther->tConnected;
 
-		case BANDWIDTH:
-			return ( nBandwidthIn + nBandwidthOut ) <
-					( pOther->nBandwidthIn + pOther->nBandwidthOut );
+	case BANDWIDTH:
+		return ( nBandwidthIn + nBandwidthOut ) <
+				( pOther->nBandwidthIn + pOther->nBandwidthOut );
 
-		case BYTES:
-			return ( nBytesReceived + nBytesSent ) <
-					( pOther->nBytesReceived + pOther->nBytesSent );
+	case BYTES:
+		return ( nBytesReceived + nBytesSent ) <
+				( pOther->nBytesReceived + pOther->nBytesSent );
 
-		case PACKETS:
-			return ( nPacketsIn + nPacketsOut ) < ( pOther->nPacketsIn + pOther->nPacketsOut );
+	case PACKETS:
+		return ( nPacketsIn + nPacketsOut ) < ( pOther->nPacketsIn + pOther->nPacketsOut );
 
-		case MODE:
-			return TypeToString( nType ) < TypeToString( pOther->nType );
+	case MODE:
+		return TypeToString( nType ) < TypeToString( pOther->nType );
 
-		case LEAVES:
-			return nLeafCount < pOther->nLeafCount;
+	case LEAVES:
+		return nLeafCount < pOther->nLeafCount;
 
-		case PING:
-			if ( nState < nsConnected )
-			{
-				return false;
-			}
-
-			if ( pOther->nState < nsConnected )
-			{
-				return true;
-			}
-			return nRTT < pOther->nRTT;
-
-		case USER_AGENT:
-			return sUserAgent < pOther->sUserAgent;
-
-		case COUNTRY:
-			return GeoIP.countryNameFromCode( sCountry ) <
-					GeoIP.countryNameFromCode( pOther->sCountry );
-		default:
+	case PING:
+		if ( nState < nsConnected )
+		{
 			return false;
+		}
+
+		if ( pOther->nState < nsConnected )
+		{
+			return true;
+		}
+		return nRTT < pOther->nRTT;
+
+	case USER_AGENT:
+		return sUserAgent < pOther->sUserAgent;
+
+	case COUNTRY:
+		return GeoIP.countryNameFromCode( sCountry ) <
+				GeoIP.countryNameFromCode( pOther->sCountry );
+	default:
+		return false;
 	}
 
 }
@@ -640,6 +643,7 @@ void CNeighboursTableModel::RemoveNode(CNeighbour* pNode)
 			QModelIndexList currIdx = persistentIndexList();
 			QModelIndexList newIdx = currIdx;
 			bool bChanged = false;
+
 			for ( int j = 0; j < currIdx.size(); ++j )
 			{
 				if ( currIdx.at(j).internalPointer() == m_lNodes.at(i) )
@@ -659,6 +663,7 @@ void CNeighboursTableModel::RemoveNode(CNeighbour* pNode)
 			m_lNodes.remove( i, 1 );
 			endRemoveRows();
 			m_bNeedSorting = true;
+
 			break;
 		}
 	}
@@ -685,6 +690,7 @@ void CNeighboursTableModel::UpdateAll()
 	if ( bSort )
 	{
 		sort( m_nSortColumn, m_nSortOrder );
+		m_bNeedSorting = false;
 	}
 	else
 	{
