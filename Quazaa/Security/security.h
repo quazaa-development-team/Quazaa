@@ -228,7 +228,7 @@ private:
 
 quint32 CSecurity::getCount() const
 {
-	return m_Rules.size();
+	return (quint32)m_Rules.size();
 }
 
 bool CSecurity::denyPolicy() const

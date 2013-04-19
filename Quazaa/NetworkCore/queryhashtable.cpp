@@ -699,7 +699,7 @@ void CQueryHashTable::AddExactString(const QString& strString)
 	AddExact(baUTF8.data(), baUTF8.size());
 }
 
-void CQueryHashTable::Add(const char* pszString, size_t nLength)
+void CQueryHashTable::Add(const char* pszString, quint32 nLength)
 {
 	if(nLength < 4)
 	{
@@ -742,7 +742,7 @@ void CQueryHashTable::Add(const char* pszString, size_t nLength)
 	}
 }
 
-void CQueryHashTable::AddExact(const char* pszString, size_t nLength)
+void CQueryHashTable::AddExact(const char* pszString, quint32 nLength)
 {
 	if(! nLength)
 	{
