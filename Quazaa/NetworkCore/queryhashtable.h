@@ -80,8 +80,8 @@ public:
 protected:
 	bool	OnReset(G2Packet* pPacket);
 	bool	OnPatch(G2Packet* pPacket);
-	void	Add(const char* pszString, size_t nLength);
-	void	AddExact(const char* pszString, size_t nLength);
+	void	Add(const char* pszString, quint32 nLength);
+	void	AddExact(const char* pszString, quint32 nLength);
 };
 
 #pragma pack(push,1)

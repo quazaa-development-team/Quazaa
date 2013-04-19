@@ -445,6 +445,9 @@ void CHostCache::Load()
 				else
 				{
 					qDebug() << "Caught problem with timestamp or last query time.";
+					Q_ASSERT( false );
+
+					break; // assuming a broken file; don't continue loading
 				}
 			}
 		}

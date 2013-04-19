@@ -31,7 +31,7 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
-#include "security.h"
+#include "securitymanager.h"
 
 #include "geoiplist.h"
 #include "quazaasettings.h"

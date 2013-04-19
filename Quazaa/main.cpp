@@ -41,7 +41,7 @@
 #include "hostcache.h"
 
 #include "Discovery/discovery.h"
-#include "Security/security.h"
+#include "Security/securitymanager.h"
 
 #include <QNetworkProxy>
 #include <QtPlugin>

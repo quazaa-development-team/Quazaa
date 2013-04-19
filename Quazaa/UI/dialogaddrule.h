@@ -27,7 +27,7 @@
 
 #include <QDialog>
 
-#include "Security/security.h"
+#include "Security/securitymanager.h"
 #include "Security/securerule.h"
 #include "widgetsecurity.h"
 

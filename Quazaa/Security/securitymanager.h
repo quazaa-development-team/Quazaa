@@ -1,5 +1,5 @@
-﻿#ifndef SECURITY_H
-#define SECURITY_H
+#ifndef SECURITYMANAGER_H
+#define SECURITYMANAGER_H
 
 #include <list>
 #include <map>
@@ -236,7 +236,7 @@ private:
 
 quint32 CSecurity::getCount() const
 {
-	return m_Rules.size();
+	return (quint32)m_Rules.size();
 }
 
 bool CSecurity::denyPolicy() const
@@ -277,4 +277,4 @@ CSecurity::CSecurityRuleList::iterator CSecurity::getRWIterator(CIterator const_
 
 extern Security::CSecurity securityManager;
 
-#endif // SECURITY_H
+#endif // SECURITYMANAGER_H
