@@ -248,7 +248,7 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 	default:
 		Q_ASSERT( false );
 // TODO: There is an empty or erroneous rule. Error handling (if necessary) should go here.
-		//		theApp.Message( MSG_ERROR, IDS_SECURITY_ARCHIVE_RULE_LOAD_FAIL );
+// TODO: Inform the user.
 		break;
 	}
 
@@ -642,7 +642,7 @@ bool CIPRangeRule::parseContent(const QString& sContent)
 	if ( oPair != qMakePair( QHostAddress(), -1 ) )
 	{
 		m_oSubNet = oPair;
-		m_sContent = m_oSubNet.first.toString() + "/" + m_oSubNet.second;
+		m_sContent = m_oSubNet.first.toString() + "/" + QString::number( m_oSubNet.second );
 		return true;
 	}
 	return false;
@@ -871,7 +871,8 @@ CRegExpRule::CRegExpRule(bool)
 
 bool CRegExpRule::operator==(const CSecureRule& pRule) const
 {
-	return CSecureRule::operator==( pRule ) && m_bSpecialElements == ((CRegExpRule*)&pRule)->m_bSpecialElements;
+	return CSecureRule::operator==( pRule ) &&
+		   m_bSpecialElements == ((CRegExpRule*)&pRule)->m_bSpecialElements;
 }
 
 bool CRegExpRule::parseContent(const QString& sContent)
@@ -889,15 +890,25 @@ bool CRegExpRule::parseContent(const QString& sContent)
 
 	if ( nCount || m_sContent.contains( "<_>" ) || m_sContent.contains( "<>" ) )
 	{
+		// In this case the regular expression must be build ech time a filter request comes in,
+		// so theres no point in doing it here.
 		m_bSpecialElements = true;
 		return true;
 	}
 	else
 	{
 		m_bSpecialElements = false;
-		m_regExpContent = QRegExp( m_sContent );
+		bool bValid;
 
-		return m_regExpContent.isValid();
+#if QT_VERSION >= 0x050000
+		m_regularExpressionContent = QRegularExpression( m_sContent );
+		bValid = m_regularExpressionContent.isValid();
+#else
+		m_regExpContent = QRegExp( m_sContent );
+		bValid = m_regExpContent.isValid();
+#endif
+
+		return bValid;
 	}
 }
 
@@ -933,7 +944,9 @@ bool CRegExpRule::match(const QList<QString>& lQuery, const QString& sContent) c
 		if ( pos != -1 )
 		{
 			quint8 nArg = 0;
-			do
+
+			// replace all relevant occurrences of <*something*
+			while ( pos != -1 );
 			{
 				sFilter += sBaseFilter.left( pos );
 				sBaseFilter.remove( 0, pos );
@@ -941,23 +954,38 @@ bool CRegExpRule::match(const QList<QString>& lQuery, const QString& sContent) c
 
 				pos = sBaseFilter.indexOf( '<', bSuccess ? 0 : 1 );
 			}
-			while ( pos != -1 );
-
+			// add whats left of the base filter string to the newly generated filter
 			sFilter += sBaseFilter;
+
+#if QT_VERSION >= 0x050000
+			QRegularExpression oRegExpFilter = QRegularExpression( sFilter );
+			return oRegExpFilter.match( sContent ).hasMatch();
+#else
 			QRegExp oRegExpFilter = QRegExp( sFilter );
 			return oRegExpFilter.exactMatch( sContent );
+#endif
 		}
 		else
 		{
 			// This shouldn't happen, but it's covered anyway...
 			Q_ASSERT( false );
+
+#if QT_VERSION >= 0x050000
+			QRegularExpression oRegExpFilter = QRegularExpression( m_sContent );
+			return oRegExpFilter.match( sContent ).hasMatch();
+#else
 			QRegExp oRegExpFilter = QRegExp( m_sContent );
 			return oRegExpFilter.exactMatch( sContent );
+#endif
 		}
 	}
 	else
 	{
+#if QT_VERSION >= 0x050000
+		return m_regularExpressionContent.match( sContent ).hasMatch();
+#else
 		return m_regExpContent.exactMatch( sContent );
+#endif
 	}
 }
 
@@ -1044,20 +1072,32 @@ void CUserAgentRule::setRegExp(bool bRegExp)
 	m_bRegExp = bRegExp;
 
 	if ( m_bRegExp )
+	{
+#if QT_VERSION >= 0x050000
+		m_regularExpressionContent = QRegularExpression( m_sContent );
+#else
 		m_regExpContent = QRegExp( m_sContent );
+#endif
+	}
 }
 
-bool CUserAgentRule::parseContent(const QString& strContent)
+bool CUserAgentRule::parseContent(const QString& sContent)
 {
-	m_sContent = strContent.trimmed();
+	m_sContent = sContent.trimmed();
 
 	if ( m_bRegExp )
+	{
+#if QT_VERSION >= 0x050000
+		m_regularExpressionContent = QRegularExpression( m_sContent );
+#else
 		m_regExpContent = QRegExp( m_sContent );
+#endif
+	}
 
 	return true;
 }
 
-bool CUserAgentRule::match(const QString& strUserAgent) const
+bool CUserAgentRule::match(const QString& sUserAgent) const
 {
 #ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentUserAgent );
@@ -1065,11 +1105,15 @@ bool CUserAgentRule::match(const QString& strUserAgent) const
 
 	if( m_bRegExp )
 	{
-		return m_regExpContent.exactMatch( strUserAgent );
+#if QT_VERSION >= 0x050000
+		return m_regularExpressionContent.match( sUserAgent ).hasMatch();
+#else
+		return m_regExpContent.exactMatch( sUserAgent );
+#endif
 	}
 	else
 	{
-		return ( strUserAgent.indexOf( m_sContent ) != -1 );
+		return ( sUserAgent.indexOf( m_sContent ) != -1 );
 	}
 
 	return true;

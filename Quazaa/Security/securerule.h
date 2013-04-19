@@ -6,7 +6,13 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QHostAddress>
-#include <QRegExp>
+
+#if QT_VERSION >= 0x050000
+#  include <QRegularExpression>
+#else
+#  include <QRegExp>
+#endif
+
 #include <QString>
 #include <QUuid>
 
@@ -89,7 +95,7 @@ public:
 	virtual bool	match(const QHostAddress& oAddress) const;
 	virtual bool	match(const QString& sContent) const;
 	virtual bool    match(const CQueryHit* const pHit) const;
-	virtual bool	match(const QList<QString>& lQuery, const QString& strContent) const;
+	virtual bool	match(const QList<QString>& lQuery, const QString& sContent) const;
 
 	// Read/write rule from/to file
 	static void		load(CSecureRule*& pRule, QDataStream& fsFile, const int nVersion);
@@ -288,7 +294,12 @@ class CRegExpRule : public CSecureRule
 {
 private:
 	bool				m_bSpecialElements;
+
+#if QT_VERSION >= 0x050000
+	QRegularExpression	m_regularExpressionContent;
+#else
 	QRegExp				m_regExpContent;
+#endif
 
 public:
 	CRegExpRule(bool bCreate = true);
@@ -299,7 +310,7 @@ public:
 
 	inline CSecureRule*	getCopy() const;
 
-	bool				match(const QList<QString>& lQuery, const QString& strContent) const;
+	bool				match(const QList<QString>& lQuery, const QString& sContent) const;
 	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 
 private:
@@ -318,8 +329,13 @@ CSecureRule* CRegExpRule::getCopy() const
 class CUserAgentRule : public CSecureRule
 {
 private:
-	bool				m_bRegExp;  // defines if the content of this rule is a regular expression filter
+	bool				m_bRegExp;  // is the content of this rule is a regular expression?
+
+#if QT_VERSION >= 0x050000
+	QRegularExpression	m_regularExpressionContent;
+#else
 	QRegExp				m_regExpContent;
+#endif
 
 public:
 	CUserAgentRule(bool bCreate = true);
@@ -333,7 +349,7 @@ public:
 
 	inline CSecureRule*	getCopy() const;
 
-	bool				match(const QString& strUserAgent) const;
+	bool				match(const QString& sUserAgent) const;
 	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 };
 
