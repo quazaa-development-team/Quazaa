@@ -270,6 +270,10 @@ CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 	connect( &securityManager, SIGNAL( ruleRemoved( QSharedPointer<CSecureRule> ) ), this,
 			 SLOT( removeRule( QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
 
+	// This handles GUI updates on rule statistics changes.
+	connect( &securityManager, SIGNAL( securityHit() ), this,
+			 SLOT( updateAll() ), Qt::QueuedConnection );
+
 	// This needs to be called to make sure that all rules added to the securityManager before this
 	// part of the GUI is loaded are properly added to the model.
 	completeRefresh();
@@ -559,6 +563,7 @@ void CSecurityTableModel::updateAll()
 	if ( bSort )
 	{
 		sort( m_nSortColumn, m_nSortOrder );
+		m_bNeedSorting = false;
 	}
 	else
 	{

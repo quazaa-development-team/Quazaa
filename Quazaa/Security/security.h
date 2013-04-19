@@ -147,7 +147,7 @@ public:
 
 	// Methods used during sanity check
 	bool			isNewlyDenied(const QHostAddress& oAddress);
-	bool			isNewlyDenied(/*const CQueryHit* pHit,*/ const QList<QString>& lQuery);
+	bool			isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuery);
 
 	bool			isDenied(const QHostAddress& oAddress, const QString &source = "Unknown");
 	// This does not check for the hit IP to avoid double checking.
@@ -183,6 +183,8 @@ signals:
 	void			ruleRemoved(QSharedPointer<CSecureRule> pRule);
 
 	void			ruleInfo(CSecureRule* pRule);
+
+	void			securityHit();
 
 	// This is used to inform other modules that a system wide sanity check has become necessary.
 	void			performSanityCheck();
@@ -227,6 +229,8 @@ private:
 	bool			isDenied(const CQueryHit* const pHit);
 	bool			isDenied(const QList<QString>& lQuery, const QString& sContent);
 
+	inline void		hit(CSecureRule *pRule);
+
 	inline CSecurityRuleList::iterator getRWIterator(CIterator const_it);
 };
 
@@ -252,6 +256,12 @@ void CSecurity::remove(CSecureRule* pRule, bool bLockRequired)
 
 	if ( bLockRequired )
 		m_pRWLock.unlock();
+}
+
+void CSecurity::hit(CSecureRule* pRule)
+{
+	pRule->count();
+	emit securityHit();
 }
 
 CSecurity::CSecurityRuleList::iterator CSecurity::getRWIterator(CIterator const_it)
