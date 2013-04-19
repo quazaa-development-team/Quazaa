@@ -275,7 +275,7 @@ SOURCES += \
     quazaasettings.cpp \
     quazaasysinfo.cpp \
     Security/securerule.cpp \
-    Security/security.cpp \
+    Security/securitymanager.cpp \
     ShareManager/file.cpp \
     ShareManager/filehasher.cpp \
     ShareManager/sharedfile.cpp \
@@ -467,7 +467,7 @@ HEADERS += \
     quazaasettings.h \
     quazaasysinfo.h \
     Security/securerule.h \
-    Security/security.h \
+    Security/securitymanager.h \
     ShareManager/file.h \
     ShareManager/filehasher.h \
     ShareManager/sharedfile.h \

@@ -40,7 +40,7 @@
 #include "transfers.h"
 #include "hostcache.h"
 
-#include "Security/security.h"
+#include "Security/securitymanager.h"
 
 #include <QNetworkProxy>
 #include <QtPlugin>

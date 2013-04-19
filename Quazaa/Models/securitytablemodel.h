@@ -5,7 +5,7 @@
 #include <QVector>
 #include <QIcon>
 
-#include "Security/security.h"
+#include "Security/securitymanager.h"
 
 class CSecurityTableModel : public QAbstractTableModel
 {
