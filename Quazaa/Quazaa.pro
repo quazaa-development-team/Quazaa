@@ -68,7 +68,6 @@ INCLUDEPATH += NetworkCore \
     Chat/IRC/gui/util \
     Chat/IRC/wizard \
     3rdparty \
-    3rdparty/communi/include \
     3rdparty/nvwa \
     3rdparty/qtsingleapplication \
     Models \
@@ -81,9 +80,7 @@ INCLUDEPATH += NetworkCore \
     Discovery \
     .
 
-include(3rdparty/communi/src/3rdparty/icu/icu.pri)
-include(3rdparty/communi/src/3rdparty/mozilla/mozilla.pri)
-include(3rdparty/communi/src/3rdparty/qblowfish/qblowfish.pri)
+include(3rdparty/communi/src/src.pri)
 include(3rdparty/qtdocktile/qtdocktile.pri)
 
 # Version stuff
@@ -125,8 +122,6 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 
 # Additional config
-
-DEFINES += COMMUNI_STATIC
 
 CONFIG(debug, debug|release){
     DEFINES += _DEBUG \
@@ -218,18 +213,6 @@ sse2 {
 
 # Sources
 SOURCES += \
-	3rdparty/communi/src/irc.cpp \
-	3rdparty/communi/src/irccommand.cpp \
-    3rdparty/communi/src/ircmessage.cpp \
-	3rdparty/communi/src/ircmessage_p.cpp \
-	3rdparty/communi/src/ircmessagedecoder.cpp \
-	3rdparty/communi/src/ircmessagedecoder_icu.cpp \
-	3rdparty/communi/src/ircprotocol.cpp \
-	3rdparty/communi/src/ircsender.cpp \
-	3rdparty/communi/src/ircsession.cpp \
-	3rdparty/communi/src/ircsessioninfo.cpp \
-    3rdparty/communi/src/irctextformat.cpp \
-    3rdparty/communi/src/ircpalette.cpp \
     3rdparty/CyoEncode/CyoDecode.c \
     3rdparty/CyoEncode/CyoEncode.c \
     3rdparty/nvwa/debug_new.cpp \
@@ -412,19 +395,6 @@ win32 {
 }
 
 HEADERS += \
-	3rdparty/communi/include/irc.h \
-	3rdparty/communi/include/irccommand.h \
-	3rdparty/communi/include/ircglobal.h \
-	3rdparty/communi/include/ircmessage.h \
-	3rdparty/communi/include/ircmessage_p.h \
-	3rdparty/communi/include/ircmessagedecoder_p.h \
-	3rdparty/communi/include/ircsender.h \
-	3rdparty/communi/include/ircsession.h \
-	3rdparty/communi/include/ircsession_p.h \
-    3rdparty/communi/include/ircsessioninfo.h \
-    3rdparty/communi/include/irctextformat.h \
-	3rdparty/communi/include/ircpalette.h \
-	3rdparty/communi/include/ircprotocol.h \
     3rdparty/CyoEncode/CyoDecode.h \
     3rdparty/CyoEncode/CyoEncode.h \
     3rdparty/nvwa/debug_new.h \
