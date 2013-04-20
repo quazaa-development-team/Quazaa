@@ -330,8 +330,8 @@ CDiscoveryTableModel::CDiscoveryTableModel(QObject *parent, QWidget* container) 
 
 	connect( &discoveryManager, SIGNAL( serviceAdded( TConstServicePtr ) ), this,
 			 SLOT( addService( TConstServicePtr ) ), Qt::QueuedConnection );
-	connect( &discoveryManager, SIGNAL( serviceRemoved( TServiceType ) ), this,
-			 SLOT( removeService( TServiceType ) ), Qt::QueuedConnection );
+	connect( &discoveryManager, SIGNAL( serviceRemoved( TServiceID ) ), this,
+			 SLOT( removeService( TServiceID ) ), Qt::QueuedConnection );
 
 #endif
 
