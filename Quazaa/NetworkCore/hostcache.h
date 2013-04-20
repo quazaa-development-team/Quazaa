@@ -29,6 +29,8 @@
 #include <QList>
 #include <QMutex>
 
+#define HOST_CACHE_CODE_VERSION 5
+
 class CHostCacheHost
 {
 public:
@@ -105,6 +107,7 @@ public:
 	{
 		return m_lHosts.size();
 	}
+
 	inline bool isEmpty()
 	{
 		return (size() == 0);
