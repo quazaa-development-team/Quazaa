@@ -80,7 +80,7 @@ INCLUDEPATH += NetworkCore \
     Discovery \
     .
 
-include(3rdparty/communi/src/src.pri)
+include(3rdparty/libcommuni/src/src.pri)
 include(3rdparty/qtdocktile/qtdocktile.pri)
 
 # Version stuff
