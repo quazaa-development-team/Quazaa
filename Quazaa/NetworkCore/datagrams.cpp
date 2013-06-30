@@ -50,7 +50,7 @@ CDatagrams Datagrams;
 
 CDatagrams::CDatagrams()
 {
-	m_nUploadLimit = 8192; // TODO it
+    m_nUploadLimit = 32768; // TODO it
 
 	m_pRecvBuffer = new CBuffer();
 	m_pHostAddress = new QHostAddress();

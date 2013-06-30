@@ -663,12 +663,12 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Gnutella2.QueryKeyTime = m_qSettings.value("QueryKeyTime", 7200).toInt(); // 2h
 	quazaaSettings.Gnutella2.QueryLimit = m_qSettings.value("QueryLimit", 2400).toInt();
 	quazaaSettings.Gnutella2.RequeryDelay = m_qSettings.value("RequeryDelay", 1800).toInt();
-	quazaaSettings.Gnutella2.UdpBuffers = m_qSettings.value("UdpBuffers", 768).toInt();
+    quazaaSettings.Gnutella2.UdpBuffers = m_qSettings.value("UdpBuffers", 1024).toInt(); // fragmented packets use one buffer / fragment
 	quazaaSettings.Gnutella2.UdpInExpire = m_qSettings.value("UdpInExpire", 30).toInt();
 	quazaaSettings.Gnutella2.UdpInFrames = m_qSettings.value("UdpInFrames", 256).toInt();
 	quazaaSettings.Gnutella2.UdpMTU = m_qSettings.value("UdpMTU", 500).toInt();
 	quazaaSettings.Gnutella2.UdpOutExpire = m_qSettings.value("UdpOutExpire", 26).toInt();
-	quazaaSettings.Gnutella2.UdpOutFrames = m_qSettings.value("UdpOutFrames", 256).toInt();
+    quazaaSettings.Gnutella2.UdpOutFrames = m_qSettings.value("UdpOutFrames", 512).toInt();
 	quazaaSettings.Gnutella2.UdpOutResend = m_qSettings.value("UdpOutResend", 6).toInt();
 	quazaaSettings.Gnutella2.HubBalancePeriod = m_qSettings.value("HubBalancePeriod", 60).toUInt();
 	quazaaSettings.Gnutella2.HubBalanceGrace = m_qSettings.value("HubBalanceGrace", 3600).toUInt();
