@@ -10,8 +10,11 @@
 
 #define BUFSIZE 80
 
-// Preventing redefinition warnings on Windows using MinGW toolchain
-#if !defined(Q_OS_WIN) || !defined(Q_CC_GNU)
+// Preventing redefinition warnings on Windows using MinGW toolchain.
+// The QT_VERSION check is used as a substitute for checking against MinGW >= v4.7, as the Qt4.8 SDK
+// is delivered bundled with MinGW4.4 by default. This is a result of __MINGW32_MAJOR_VERSION and
+// __MINGW32_MINOR_VERSION being set to useless values for some reason.
+#if !( defined(Q_OS_WIN) && defined(Q_CC_GNU) && QT_VERSION >= 0x050000 )
 
 #ifndef Q_CC_MSVC
 #define VER_SUITE_WH_SERVER 0x8000
