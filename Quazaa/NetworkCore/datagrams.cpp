@@ -158,6 +158,12 @@ void CDatagrams::Disconnect()
 
 	disconnect(SIGNAL(SendQueueUpdated()));
 
+    while(!m_AckCache.isEmpty())
+    {
+        QPair<CEndPoint, char*> oAck = m_AckCache.takeFirst();
+        delete [] oAck.second;
+    }
+
 	while(!m_SendCache.isEmpty())
 	{
 		Remove(m_SendCache.first());
@@ -297,18 +303,21 @@ void CDatagrams::OnReceiveGND()
 	// ACK = odebralismy datagram, a jesli odebralismy i odrzucilismy to nie wysylamy ACK-a
 	if(pHeader->nFlags & 0x02)
 	{
-		GND_HEADER oAck;
+        GND_HEADER* pAck = new GND_HEADER;
 
-		memcpy(&oAck, pHeader, sizeof(GND_HEADER));
-		oAck.nCount = 0;
-		oAck.nFlags = 0;
+        memcpy(pAck, pHeader, sizeof(GND_HEADER));
+        pAck->nCount = 0;
+        pAck->nFlags = 0;
 
 #ifdef DEBUG_UDP
 		systemLog.postLog(LogSeverity::Debug, "Sending UDP ACK to %s:%u", m_pHostAddress->toString().toLocal8Bit().constData(), m_nPort);
 #endif
 
-		m_pSocket->writeDatagram((char*)&oAck, sizeof(GND_HEADER), *m_pHostAddress, m_nPort);
-		m_mOutput.Add(sizeof(GND_HEADER));
+        //m_pSocket->writeDatagram((char*)&oAck, sizeof(GND_HEADER), *m_pHostAddress, m_nPort);
+        //m_mOutput.Add(sizeof(GND_HEADER));
+        m_AckCache.append(qMakePair(CEndPoint(*m_pHostAddress, m_nPort), reinterpret_cast<char*>(pAck)));
+        if( m_AckCache.count() == 1 )
+            QMetaObject::invokeMethod(this, SLOT(FlushSendCache()), Qt::QueuedConnection);
 	}
 
 	if(pDG->Add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)))
@@ -477,10 +486,48 @@ void CDatagrams::__FlushSendCache()
 
 	qint64 nToWrite = qint64(m_nUploadLimit) - qint64(m_mOutput.Usage());
 
+    static quint64 nPackets = 0; // debug
+    static time_t tStart = time(0); // debug
+
+    qint32 nMsecs = 1000;
+
+    if( m_tPPSLimiter.isValid() )
+    {
+        nMsecs = qMin<qint32>(nMsecs, qint32(m_tPPSLimiter.elapsed()));
+    }
+    else
+    {
+        m_tPPSLimiter.start();
+    }
+
+    // Maybe make it dynamic? So bad routers are automatically detected and settings adjusted?
+    quint64 nMaxPPS = (quazaaSettings.Connection.UDPOutLimitPPS * nMsecs) / 1000;
+
+    if( nMaxPPS == 0 )
+    {
+        quint32 nPPS = nPackets / qMax<qint64>(1, time(0) - tStart); // debug
+        systemLog.postLog(LogSeverity::Debug, "UDP: PPS limit reached, ACKS: %d, Packets: %d, Average PPS (session): %d", m_AckCache.size(), m_SendCache.size(), nPPS);
+        return;
+    }
+
+    bool bRestartLimiter = false;
+
+    while( nToWrite > 0 && !m_AckCache.isEmpty() && nMaxPPS > 0)
+    {
+        QPair< CEndPoint, char* > oAck = m_AckCache.takeFirst();
+        m_pSocket->writeDatagram(oAck.second, sizeof(GND_HEADER), oAck.first, oAck.first.port());
+        m_mOutput.Add(sizeof(GND_HEADER));
+        nToWrite -= sizeof(GND_HEADER);
+        delete [] oAck.second;
+        nMaxPPS--;
+        bRestartLimiter = true;
+        nPackets++; // debug
+    }
+
 	QHostAddress nLastHost;
 
 	// it can write slightly more than limit allows... that's ok
-	while(nToWrite > 0 && !m_SendCache.isEmpty())
+    while(nToWrite > 0 && !m_SendCache.isEmpty() && nMaxPPS > 0)
 	{
 		bool bSent = false;
 
@@ -524,6 +571,10 @@ void CDatagrams::__FlushSendCache()
 					Remove(pDG);
 				}
 
+                nMaxPPS--;
+                bRestartLimiter = true;
+                nPackets++; // debug
+
 				bSent = true;
 
 				break;
@@ -540,6 +591,9 @@ void CDatagrams::__FlushSendCache()
 	{
 		Remove(m_SendCache.back());
 	}
+
+    if( bRestartLimiter )
+        m_tPPSLimiter.start();
 
 }
 

@@ -101,6 +101,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("TimeoutConnect", quazaaSettings.Connection.TimeoutConnect);
 	m_qSettings.setValue("TimeoutTraffic", quazaaSettings.Connection.TimeoutTraffic);
 	m_qSettings.setValue("PreferredCountries", quazaaSettings.Connection.PreferredCountries);
+    m_qSettings.setValue("UDPOutLimitPPS", quazaaSettings.Connection.UDPOutLimitPPS);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Discovery");
@@ -524,6 +525,9 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Connection.TimeoutConnect = m_qSettings.value("TimeoutConnect", 16).toUInt();
 	quazaaSettings.Connection.TimeoutTraffic = m_qSettings.value("TimeoutTraffic", 60).toUInt();
 	quazaaSettings.Connection.PreferredCountries = m_qSettings.value("PreferredCountries", QStringList()).toStringList();
+    quazaaSettings.Connection.UDPOutLimitPPS = m_qSettings.value("UDPOutLimitPPS", 128).toUInt();
+    if( quazaaSettings.Connection.UDPOutLimitPPS < 10 )
+        quazaaSettings.Connection.UDPOutLimitPPS = 10; // failsafe
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Discovery");
