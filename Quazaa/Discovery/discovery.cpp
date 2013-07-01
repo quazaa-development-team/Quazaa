@@ -227,6 +227,9 @@ TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
 	}
 
 	m_pSection.unlock();
+
+
+	// TODO: error is too much
 	systemLog.postLog( LogSeverity::Error, m_sMessage + tr( "Error adding service." ) );
 	return 0;
 }
