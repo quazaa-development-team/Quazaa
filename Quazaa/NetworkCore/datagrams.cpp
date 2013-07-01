@@ -317,7 +317,7 @@ void CDatagrams::OnReceiveGND()
         //m_mOutput.Add(sizeof(GND_HEADER));
         m_AckCache.append(qMakePair(CEndPoint(*m_pHostAddress, m_nPort), reinterpret_cast<char*>(pAck)));
         if( m_AckCache.count() == 1 )
-            QMetaObject::invokeMethod(this, SLOT(FlushSendCache()), Qt::QueuedConnection);
+            QMetaObject::invokeMethod(this, "FlushSendCache", Qt::QueuedConnection);
 	}
 
 	if(pDG->Add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)))
@@ -486,31 +486,16 @@ void CDatagrams::__FlushSendCache()
 
 	qint64 nToWrite = qint64(m_nUploadLimit) - qint64(m_mOutput.Usage());
 
-    static quint64 nPackets = 0; // debug
-    static time_t tStart = time(0); // debug
-
-    qint32 nMsecs = 1000;
-
-    if( m_tPPSLimiter.isValid() )
-    {
-        nMsecs = qMin<qint32>(nMsecs, qint32(m_tPPSLimiter.elapsed()));
-    }
-    else
-    {
-        m_tPPSLimiter.start();
-    }
+    static TCPBandwidthMeter meter;
 
     // Maybe make it dynamic? So bad routers are automatically detected and settings adjusted?
-    quint64 nMaxPPS = (quazaaSettings.Connection.UDPOutLimitPPS * nMsecs) / 1000;
+    qint64 nMaxPPS = quazaaSettings.Connection.UDPOutLimitPPS - meter.Usage();
 
-    if( nMaxPPS == 0 )
+    if( nMaxPPS <= 0 )
     {
-        quint32 nPPS = nPackets / qMax<qint64>(1, time(0) - tStart); // debug
-        systemLog.postLog(LogSeverity::Debug, "UDP: PPS limit reached, ACKS: %d, Packets: %d, Average PPS (session): %d", m_AckCache.size(), m_SendCache.size(), nPPS);
+        systemLog.postLog(LogSeverity::Debug, "UDP: PPS limit reached, ACKS: %d, Packets: %d, Average PPS: %u / %u", m_AckCache.size(), m_SendCache.size(), meter.AvgUsage(), meter.Usage());
         return;
     }
-
-    bool bRestartLimiter = false;
 
     while( nToWrite > 0 && !m_AckCache.isEmpty() && nMaxPPS > 0)
     {
@@ -520,8 +505,7 @@ void CDatagrams::__FlushSendCache()
         nToWrite -= sizeof(GND_HEADER);
         delete [] oAck.second;
         nMaxPPS--;
-        bRestartLimiter = true;
-        nPackets++; // debug
+        meter.Add(1);
     }
 
 	QHostAddress nLastHost;
@@ -572,8 +556,7 @@ void CDatagrams::__FlushSendCache()
 				}
 
                 nMaxPPS--;
-                bRestartLimiter = true;
-                nPackets++; // debug
+                meter.Add(1);
 
 				bSent = true;
 
@@ -591,9 +574,6 @@ void CDatagrams::__FlushSendCache()
 	{
 		Remove(m_SendCache.back());
 	}
-
-    if( bRestartLimiter )
-        m_tPPSLimiter.start();
 
 }
 
