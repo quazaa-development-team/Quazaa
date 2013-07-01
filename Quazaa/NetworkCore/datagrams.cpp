@@ -48,7 +48,7 @@ CDatagrams Datagrams;
 
 CDatagrams::CDatagrams()
 {
-	m_nUploadLimit = 8192; // TODO it
+    m_nUploadLimit = 32768; // TODO it
 
 	m_pRecvBuffer = new CBuffer();
 	m_pHostAddress = new QHostAddress();
@@ -155,6 +155,12 @@ void CDatagrams::Disconnect()
 	}
 
 	disconnect(SIGNAL(SendQueueUpdated()));
+
+    while(!m_AckCache.isEmpty())
+    {
+        QPair<CEndPoint, char*> oAck = m_AckCache.takeFirst();
+        delete [] oAck.second;
+    }
 
 	while(!m_SendCache.isEmpty())
 	{
@@ -295,18 +301,21 @@ void CDatagrams::OnReceiveGND()
 	// ACK = odebralismy datagram, a jesli odebralismy i odrzucilismy to nie wysylamy ACK-a
 	if(pHeader->nFlags & 0x02)
 	{
-		GND_HEADER oAck;
+        GND_HEADER* pAck = new GND_HEADER;
 
-		memcpy(&oAck, pHeader, sizeof(GND_HEADER));
-		oAck.nCount = 0;
-		oAck.nFlags = 0;
+        memcpy(pAck, pHeader, sizeof(GND_HEADER));
+        pAck->nCount = 0;
+        pAck->nFlags = 0;
 
 #ifdef DEBUG_UDP
 		systemLog.postLog(LogSeverity::Debug, "Sending UDP ACK to %s:%u", m_pHostAddress->toString().toLocal8Bit().constData(), m_nPort);
 #endif
 
-		m_pSocket->writeDatagram((char*)&oAck, sizeof(GND_HEADER), *m_pHostAddress, m_nPort);
-		m_mOutput.Add(sizeof(GND_HEADER));
+        //m_pSocket->writeDatagram((char*)&oAck, sizeof(GND_HEADER), *m_pHostAddress, m_nPort);
+        //m_mOutput.Add(sizeof(GND_HEADER));
+        m_AckCache.append(qMakePair(CEndPoint(*m_pHostAddress, m_nPort), reinterpret_cast<char*>(pAck)));
+        if( m_AckCache.count() == 1 )
+            QMetaObject::invokeMethod(this, "FlushSendCache", Qt::QueuedConnection);
 	}
 
 	if(pDG->Add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)))
@@ -475,10 +484,32 @@ void CDatagrams::__FlushSendCache()
 
 	qint64 nToWrite = qint64(m_nUploadLimit) - qint64(m_mOutput.Usage());
 
+    static TCPBandwidthMeter meter;
+
+    // Maybe make it dynamic? So bad routers are automatically detected and settings adjusted?
+    qint64 nMaxPPS = quazaaSettings.Connection.UDPOutLimitPPS - meter.Usage();
+
+    if( nMaxPPS <= 0 )
+    {
+        systemLog.postLog(LogSeverity::Debug, "UDP: PPS limit reached, ACKS: %d, Packets: %d, Average PPS: %u / %u", m_AckCache.size(), m_SendCache.size(), meter.AvgUsage(), meter.Usage());
+        return;
+    }
+
+    while( nToWrite > 0 && !m_AckCache.isEmpty() && nMaxPPS > 0)
+    {
+        QPair< CEndPoint, char* > oAck = m_AckCache.takeFirst();
+        m_pSocket->writeDatagram(oAck.second, sizeof(GND_HEADER), oAck.first, oAck.first.port());
+        m_mOutput.Add(sizeof(GND_HEADER));
+        nToWrite -= sizeof(GND_HEADER);
+        delete [] oAck.second;
+        nMaxPPS--;
+        meter.Add(1);
+    }
+
 	QHostAddress nLastHost;
 
 	// it can write slightly more than limit allows... that's ok
-	while(nToWrite > 0 && !m_SendCache.isEmpty())
+    while(nToWrite > 0 && !m_SendCache.isEmpty() && nMaxPPS > 0)
 	{
 		bool bSent = false;
 
@@ -521,6 +552,9 @@ void CDatagrams::__FlushSendCache()
 				{
 					Remove(pDG);
 				}
+
+                nMaxPPS--;
+                meter.Add(1);
 
 				bSent = true;
 
@@ -877,20 +911,20 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
-	HostCache.m_pSection.lock();
-	CHostCacheHost* pCache = HostCache.Add(addr);
+	hostCache.m_pSection.lock();
+	CHostCacheHost* pCache = hostCache.add(addr);
 	if(pCache)
 	{
 		if( nKey == 0 ) // null QK means a hub does not want to be queried or just downgraded
 		{
-			HostCache.Remove(pCache);
+			hostCache.remove(pCache);
 		}
 		else
 		{
-			pCache->SetKey(nKey);
+			pCache->setKey(nKey);
 		}
 	}
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.unlock();
 
 	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toLocal8Bit().constData()).arg(nKey));
 	//qDebug("Got a query key for %s = 0x%x", addr.toString().toLocal8Bit().constData(), nKey);
@@ -913,15 +947,15 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 }
 void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 {
-	HostCache.m_pSection.lock();
+	hostCache.m_pSection.lock();
 
-	CHostCacheHost* pHost = HostCache.Add(addr);
+	CHostCacheHost* pHost = hostCache.add(addr);
 	if(pHost)
 	{
 		pHost->m_tAck = QDateTime();
 	}
 
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.unlock();
 
 	QUuid oGuid;
 

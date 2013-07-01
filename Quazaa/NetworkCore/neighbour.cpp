@@ -59,9 +59,9 @@ void CNeighbour::OnTimer(quint32 tNow)
 		{
 			if(m_bInitiated)
 			{
-				HostCache.m_pSection.lock();
-				HostCache.OnFailure(m_oAddress);
-				HostCache.m_pSection.unlock();
+				hostCache.m_pSection.lock();
+				hostCache.onFailure(m_oAddress);
+				hostCache.m_pSection.unlock();
 			}
 
 			if( m_nState == nsConnecting )
@@ -117,9 +117,9 @@ void CNeighbour::OnError(QAbstractSocket::SocketError e)
 	{
 		systemLog.postLog(LogSeverity::Error, "Neighbour %s dropped connection unexpectedly (socket error: %s).", qPrintable(m_oAddress.toStringWithPort()), qPrintable(m_pSocket->errorString()));
 
-		HostCache.m_pSection.lock();
-		HostCache.OnFailure(m_oAddress);
-		HostCache.m_pSection.unlock();
+		hostCache.m_pSection.lock();
+		hostCache.onFailure(m_oAddress);
+		hostCache.m_pSection.unlock();
 
 		Neighbours.m_pSection.lock();
 		delete this;

@@ -230,9 +230,9 @@ int main(int argc, char *argv[])
 	//Load Host Cache
 	dlgSplash->updateProgress( 30, QObject::tr( "Loading Host Cache..." ) );
 	qApp->processEvents();
-	HostCache.m_pSection.lock();
-	HostCache.Load();
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.lock();
+	hostCache.load();
+	hostCache.m_pSection.unlock();
 
 	//initialize geoip list
 	GeoIP.loadGeoIP();

@@ -450,9 +450,9 @@ void CG2Node::ParseOutgoingHandshake()
 	QString sTry = Parser::GetHeaderValue(sHs, "X-Try-Hubs");
 	if(bAcceptG2 && bG2Provided && sTry.size())
 	{
-		HostCache.m_pSection.lock();
-		HostCache.AddXTry(sTry);
-		HostCache.m_pSection.unlock();
+		hostCache.m_pSection.lock();
+		hostCache.addXTry(sTry);
+		hostCache.m_pSection.unlock();
 	}
 
 	if(sHs.left(16) != "GNUTELLA/0.6 200")
@@ -460,9 +460,9 @@ void CG2Node::ParseOutgoingHandshake()
 		systemLog.postLog(LogSeverity::Error, QString("Connection to %1 rejected: %2").arg(this->m_oAddress.toString()).arg(sHs.left(sHs.indexOf("\r\n"))));
 
 		// Is it okay to count non-200 response as a failure? Needs some testing...
-		HostCache.m_pSection.lock();
-		HostCache.OnFailure(m_oAddress);
-		HostCache.m_pSection.unlock();
+		hostCache.m_pSection.lock();
+		hostCache.onFailure(m_oAddress);
+		hostCache.m_pSection.unlock();
 
 		Close();
 		return;
@@ -537,11 +537,11 @@ void CG2Node::ParseOutgoingHandshake()
 
 	Send_ConnectOK(true, bAcceptDeflate);
 
-	HostCache.m_pSection.lock();
-	CHostCacheHost* pThisHost = HostCache.Find(m_oAddress);
+	hostCache.m_pSection.lock();
+	CHostCacheHost* pThisHost = hostCache.take(m_oAddress);
 	if( pThisHost )
 		pThisHost->m_nFailures = 0;
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.unlock();
 
 #ifndef _DISABLE_COMPRESSION
 	if(bAcceptDeflate)
@@ -580,7 +580,7 @@ void CG2Node::Send_ConnectError(QString sReason)
 	sHs += "Accept: application/x-gnutella2\r\n";
 	sHs += "Content-Type: application/x-gnutella2\r\n";
 
-	sHs += HostCache.GetXTry();
+	sHs += hostCache.getXTry();
 	for(QList<CNeighbour*>::iterator it = Neighbours.begin(); it != Neighbours.end(); ++it)
 	{
 		CNeighbour* pNeighbour = *it;
@@ -1037,9 +1037,9 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 /*				nTs = */pPacket->ReadIntLE<quint32>();
 
-				HostCache.m_pSection.lock();
-				HostCache.Add(ep, tNow.addSecs(nDiff));
-				HostCache.m_pSection.unlock();
+				hostCache.m_pSection.lock();
+				hostCache.add(ep, tNow.addSecs(nDiff));
+				hostCache.m_pSection.unlock();
 			}
 		}
 		else if(strcmp("TS", szType) == 0)
@@ -1140,9 +1140,9 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 		return;
 	}
 
-	QMutexLocker l(&HostCache.m_pSection);
+	QMutexLocker l(&hostCache.m_pSection);
 
-	CHostCacheHost* pHost = bCacheOK ? HostCache.Find(addr) : 0;
+	CHostCacheHost* pHost = bCacheOK ? hostCache.take(addr) : 0;
 
 	QDateTime tNow = QDateTime::currentDateTimeUtc();
 
@@ -1243,16 +1243,16 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
-	HostCache.m_pSection.lock();
-	CHostCacheHost* pCache = HostCache.Add(addr);
+	hostCache.m_pSection.lock();
+	CHostCacheHost* pCache = hostCache.add(addr);
 	if(pCache)
 	{
-		pCache->SetKey(nKey, &m_oAddress);
+		pCache->setKey(nKey, &m_oAddress);
 
 		systemLog.postLog(LogSeverity::Debug, QString("Got a query key from %1 via %2 = 0x%3").arg(addr.toString().toLocal8Bit().constData()).arg(m_oAddress.toString().toLocal8Bit().constData()).arg(QString().number(nKey, 16)));
 		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toLocal8Bit().constData(), m_oAddress.toString().toLocal8Bit().constData(), nKey);
 	}
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.unlock();
 }
 void CG2Node::OnQA(G2Packet* pPacket)
 {
@@ -1435,9 +1435,9 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 
 /*	QUuid oGUID = */pPacket->ReadGUID();
 
-	HostCache.m_pSection.lock();
-	HostCache.Add( addr );
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.lock();
+	hostCache.add( addr );
+	hostCache.m_pSection.unlock();
 
 	if ( nTTL > 0 && nHops < 255 )
 	{

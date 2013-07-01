@@ -382,11 +382,11 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 	}
 
 	// prepare for adding new hosts
-	QMutexLocker l( &HostCache.m_pSection );
+	QMutexLocker l( &hostCache.m_pSection );
 
 	while ( lHostList.size() )
 	{
-		HostCache.Add( lHostList.back() );
+		hostCache.add( lHostList.back() );
 		lHostList.pop_back();
 	}
 

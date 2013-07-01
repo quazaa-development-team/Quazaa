@@ -43,7 +43,6 @@ Discovery::CDiscovery discoveryManager;
 
 using namespace Discovery;
 
-
 /**
  * @brief CDiscovery: Constructs a new discovery services manager.
  * @param parent
@@ -807,7 +806,7 @@ quint32 CDiscovery::doCount(const CNetworkType& oType)
 {
 	if ( oType.isNull() )
 	{
-		return m_mServices.size();
+		return (quint32)m_mServices.size();
 	}
 	else
 	{

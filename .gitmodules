@@ -1,3 +1,6 @@
 [submodule "Quazaa/3rdparty/communi"]
 	path = Quazaa/3rdparty/communi
 	url = https://github.com/communi/communi.git
+[submodule "Quazaa/3rdparty/libcommuni"]
+	path = Quazaa/3rdparty/libcommuni
+	url = https://github.com/communi/libcommuni.git

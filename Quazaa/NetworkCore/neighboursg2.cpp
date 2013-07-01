@@ -1,4 +1,4 @@
-﻿/*
+/*
 ** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2013.
@@ -97,7 +97,7 @@ void CNeighboursG2::Maintain()
 	}
 
 	// TODO: Test whether already active checking is required
-	if ( m_nHubsConnectedG2 == 0 && (HostCache.isEmpty() || HostCache.GetConnectable() == 0 ) )
+	if ( !m_nHubsConnectedG2 && ( hostCache.isEmpty() || !hostCache.getConnectable() ) )
 	{
 		discoveryManager.queryService( CNetworkType( dpG2 ) );
 	}
@@ -197,12 +197,12 @@ void CNeighboursG2::DispatchKHL()
 		}
 	}
 
-	HostCache.m_pSection.lock();
+	hostCache.m_pSection.lock();
 
 	quint32 nCount = quazaaSettings.Gnutella2.KHLHubCount;
-	CHostCacheIterator itHost = HostCache.m_lHosts.begin();
+	CHostCacheIterator itHost = hostCache.m_lHosts.begin();
 
-	for(; nCount > 0 && itHost != HostCache.m_lHosts.end(); itHost++)
+	for(; nCount > 0 && itHost != hostCache.m_lHosts.end(); itHost++)
 	{
 		if( (*itHost)->m_nFailures == 0 && (*itHost)->m_tTimestamp.secsTo(tNow) < quazaaSettings.Gnutella2.HostCurrent )
 		{
@@ -220,7 +220,7 @@ void CNeighboursG2::DispatchKHL()
 		}
 	}
 
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.unlock();
 
 	foreach(CNeighbour * pNode, m_lNodes)
 	{

@@ -129,7 +129,7 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 
 	if(pReply->error() == QNetworkReply::NoError)
 	{
-		QMutexLocker l(&HostCache.m_pSection);
+		QMutexLocker l(&hostCache.m_pSection);
 
 		systemLog.postLog(LogSeverity::Debug, QString("Parsing GWC response"));
 		//qDebug("Parsing GWC response");
@@ -157,7 +157,7 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 				if(lp[0] == "H" || lp[0] == "h")
 				{
 					// host
-					HostCache.Add(CEndPoint(lp[1]), tNow);
+					hostCache.add(CEndPoint(lp[1]), tNow);
 				}
 			}
 			else
@@ -167,7 +167,7 @@ void CWebCache::OnRequestComplete(QNetworkReply* pReply)
 			}
 		}
 
-		HostCache.Save();
+		hostCache.save();
 	}
 
 	m_bRequesting = false;

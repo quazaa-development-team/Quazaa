@@ -118,7 +118,11 @@ void CNetworkConnection::AttachTo(CNetworkConnection* pOther)
 	emit readyRead();
 
 }
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
 void CNetworkConnection::AcceptFrom(int nHandle)
+#else
+void CNetworkConnection::AcceptFrom(qintptr nHandle)
+#endif
 {
 	Q_ASSERT(m_pSocket == 0);
 	m_pSocket = new QTcpSocket();
