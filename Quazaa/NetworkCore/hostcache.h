@@ -29,6 +29,11 @@
 #include <QList>
 #include <QMutex>
 
+// Increment this if there have been made changes to the way of storing security rules.
+#define HOST_CACHE_CODE_VERSION	4
+// History:
+// 4 - Initial implementation
+
 class CHostCacheHost
 {
 public:
@@ -52,12 +57,12 @@ public:
 	CHostCacheHost()
 	{
 		m_nQueryKey = 0;
-		m_sCountry = "ZZ";
+		m_sCountry  = "ZZ";
 		m_nFailures = 0;
 	}
 
-	bool CanQuery(QDateTime tNow = QDateTime::currentDateTimeUtc());
-	void SetKey(quint32 nKey, CEndPoint* pHost = 0);
+	bool canQuery(QDateTime tNow = QDateTime::currentDateTimeUtc());
+	void setKey(quint32 nKey, CEndPoint* pHost = 0);
 };
 
 typedef QList<CHostCacheHost*>::iterator CHostCacheIterator;
@@ -70,58 +75,64 @@ public:
 	QMutex					m_pSection;
 	QDateTime				m_tLastSave;
 
+	quint32					m_nMaxCacheHosts;
+
 public:
 	CHostCache();
 	~CHostCache();
 
-	CHostCacheHost* Add(CEndPoint host, QDateTime ts = QDateTime::currentDateTimeUtc());
+	CHostCacheHost* add(CEndPoint host, QDateTime ts = QDateTime::currentDateTimeUtc());
 
-	CHostCacheIterator FindIterator(CEndPoint oHost);
-	CHostCacheIterator FindIterator(CHostCacheHost* pHost);
-	inline CHostCacheHost* Find(CEndPoint oHost);
-	inline CHostCacheHost* Find(CHostCacheHost *pHost);
+	CHostCacheIterator find(CEndPoint oHost);
+	CHostCacheIterator find(CHostCacheHost* pHost);
+	inline CHostCacheHost* take(CEndPoint oHost);
+	inline CHostCacheHost* take(CHostCacheHost *pHost);
 
-	void Update(CEndPoint oHost);
-	void Update(CHostCacheHost* pHost);
-	void Update(CHostCacheIterator itHost);
+	void update(CEndPoint oHost);
+	void update(CHostCacheHost* pHost);
+	void update(CHostCacheIterator itHost);
 
-	void Remove(CHostCacheHost* pRemove);
-	void Remove(CEndPoint oHost);
+	void remove(CHostCacheHost* pRemove);
+	void remove(CEndPoint oHost);
 
-	void AddXTry(QString& sHeader);
-	QString GetXTry();
+	void addXTry(QString& sHeader);
+	QString getXTry();
 
-	void OnFailure(CEndPoint addr);
-	CHostCacheHost* Get();
-	CHostCacheHost* GetConnectable(QDateTime tNow = QDateTime::currentDateTimeUtc(), QList<CHostCacheHost*> oExcept = QList<CHostCacheHost*>(), QString sCountry = QString("ZZ"));
+	void onFailure(CEndPoint addr);
+	CHostCacheHost* get();
+	CHostCacheHost* getConnectable(QDateTime tNow = QDateTime::currentDateTimeUtc(), QList<CHostCacheHost*> oExcept = QList<CHostCacheHost*>(), QString sCountry = QString("ZZ"));
 
-	void Load();
-	void Save();
+	void save();
+	void load();
 
-	void PruneOldHosts();
-	void PruneByQueryAck();
+	void pruneOldHosts();
+	void pruneByQueryAck();
 
-	inline quint32 size()
-	{
-		return m_lHosts.size();
-	}
-	inline bool isEmpty()
-	{
-		return (size() == 0);
-	}
+	inline quint32 size();
+	inline bool isEmpty();
 };
 
-CHostCacheHost* CHostCache::Find(CEndPoint oHost)
+CHostCacheHost* CHostCache::take(CEndPoint oHost)
 {
-	CHostCacheIterator it = FindIterator(oHost);
-	return (it == m_lHosts.end() ? 0 : *it);
+	CHostCacheIterator it = find( oHost );
+	return it == m_lHosts.end() ? NULL : *it;
 }
-CHostCacheHost* CHostCache::Find(CHostCacheHost *pHost)
+CHostCacheHost* CHostCache::take(CHostCacheHost *pHost)
 {
-	CHostCacheIterator it = FindIterator(pHost);
-	return (it == m_lHosts.end() ? 0 : *it);
+	CHostCacheIterator it = find( pHost );
+	return it == m_lHosts.end() ? NULL : *it;
 }
 
-extern CHostCache HostCache;
+quint32 CHostCache::size()
+{
+	return m_lHosts.size();
+}
+
+bool CHostCache::isEmpty()
+{
+	return !size();
+}
+
+extern CHostCache hostCache;
 
 #endif // HOSTCACHE_H

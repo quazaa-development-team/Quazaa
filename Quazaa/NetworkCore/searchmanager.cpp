@@ -94,7 +94,7 @@ void CSearchManager::OnTimer()
 	m_nPruneCounter++;
 	if(m_nPruneCounter % 30 == 0)
 	{
-		HostCache.PruneByQueryAck();
+		hostCache.pruneByQueryAck();
 	}
 
 	quint32 nPacketsLeft = PacketsPerSec;
@@ -180,9 +180,9 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
 						CEndPoint a(nIP, nPort);
-						HostCache.m_pSection.lock();
-						HostCache.Add(a, tNow);
-						HostCache.m_pSection.unlock();
+						hostCache.m_pSection.lock();
+						hostCache.add(a, tNow);
+						hostCache.m_pSection.unlock();
 					}
 
 					if(nLength >= 20)
@@ -201,9 +201,9 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
 						CEndPoint a(nIP, nPort);
 
-						HostCache.m_pSection.lock();
-						HostCache.Add(a, tNow);
-						HostCache.m_pSection.unlock();
+						hostCache.m_pSection.lock();
+						hostCache.add(a, tNow);
+						hostCache.m_pSection.unlock();
 					}
 
 					if(nLength >= 8)
@@ -224,9 +224,9 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				QDateTime ts = QDateTime::fromTime_t(tSeen);
 				ts.setTimeSpec(Qt::UTC);
 
-				HostCache.m_pSection.lock();
-				HostCache.Add(a, ts);
-				HostCache.m_pSection.unlock();
+				hostCache.m_pSection.lock();
+				hostCache.add(a, ts);
+				hostCache.m_pSection.unlock();
 
 				nSuggestedHubs++;
 			}
@@ -245,13 +245,13 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 					nRetryAfter = pPacket->ReadIntLE<quint16>();
 				}
 
-				HostCache.m_pSection.lock();
-				CHostCacheHost* pHost = HostCache.Find(oFromIp);
+				hostCache.m_pSection.lock();
+				CHostCacheHost* pHost = hostCache.take(oFromIp);
 				if(pHost)
 				{
 					pHost->m_tRetryAfter = tNow.addSecs(nRetryAfter);
 				}
-				HostCache.m_pSection.unlock();
+				hostCache.m_pSection.unlock();
 			}
 			else if(strcmp("FR", szType) == 0 && nLength >= 4)
 			{

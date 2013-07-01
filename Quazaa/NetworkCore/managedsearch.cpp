@@ -211,18 +211,18 @@ void CManagedSearch::SearchNeighbours(QDateTime& tNow)
 
 void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 {
-	QMutexLocker oHostCacheLock(&HostCache.m_pSection);
+	QMutexLocker oHostCacheLock(&hostCache.m_pSection);
 
 	CG2Node* pLastNeighbour = 0;
 
-	for(CHostCacheIterator itHost = HostCache.m_lHosts.begin(); itHost != HostCache.m_lHosts.end(); ++itHost)
+	for(CHostCacheIterator itHost = hostCache.m_lHosts.begin(); itHost != hostCache.m_lHosts.end(); ++itHost)
 	{
 		CHostCacheHost* pHost = *itHost;
 
 		if(pHost->m_tTimestamp.secsTo(tNow) > quazaaSettings.Gnutella2.HostCurrent)
 			break; // timestamp sorted cache
 
-		if(!pHost->CanQuery(tNow))
+		if(!pHost->canQuery(tNow))
 			continue;
 
 		// don't query already queried hosts

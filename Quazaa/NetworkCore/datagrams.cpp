@@ -913,20 +913,20 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
-	HostCache.m_pSection.lock();
-	CHostCacheHost* pCache = HostCache.Add(addr);
+	hostCache.m_pSection.lock();
+	CHostCacheHost* pCache = hostCache.add(addr);
 	if(pCache)
 	{
 		if( nKey == 0 ) // null QK means a hub does not want to be queried or just downgraded
 		{
-			HostCache.Remove(pCache);
+			hostCache.remove(pCache);
 		}
 		else
 		{
-			pCache->SetKey(nKey);
+			pCache->setKey(nKey);
 		}
 	}
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.unlock();
 
 	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toLocal8Bit().constData()).arg(nKey));
 	//qDebug("Got a query key for %s = 0x%x", addr.toString().toLocal8Bit().constData(), nKey);
@@ -949,15 +949,15 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 }
 void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 {
-	HostCache.m_pSection.lock();
+	hostCache.m_pSection.lock();
 
-	CHostCacheHost* pHost = HostCache.Add(addr);
+	CHostCacheHost* pHost = hostCache.add(addr);
 	if(pHost)
 	{
 		pHost->m_tAck = QDateTime();
 	}
 
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.unlock();
 
 	QUuid oGuid;
 
