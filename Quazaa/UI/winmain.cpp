@@ -446,9 +446,9 @@ void CWinMain::quazaaShutdown()
 
 	dlgSplash->updateProgress(50, tr("Saving Host Cache..."));
 	qApp->processEvents();
-	HostCache.m_pSection.lock();
-	HostCache.Save();
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.lock();
+	hostCache.save();
+	hostCache.m_pSection.unlock();
 
 	dlgSplash->updateProgress(30, tr("Removing Tray Icon..."));
 	qApp->processEvents();

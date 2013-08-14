@@ -245,7 +245,7 @@ void CNeighboursConnections::Maintain()
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumHubs)
 		{
-			QMutexLocker l(&HostCache.m_pSection);
+			QMutexLocker l(&hostCache.m_pSection);
 
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumHubs - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
@@ -258,7 +258,7 @@ void CNeighboursConnections::Maintain()
 			for(; nAttempt > 0; nAttempt--)
 			{
 				// nowe polaczenie
-				CHostCacheHost* pHost = HostCache.GetConnectable(tNow, oExcept, (bCountry ? (quazaaSettings.Connection.PreferredCountries.size() ? quazaaSettings.Connection.PreferredCountries.at(nCountry) : GeoIP.findCountryCode(Network.m_oAddress)) : "ZZ"));
+				CHostCacheHost* pHost = hostCache.getConnectable(tNow, oExcept, (bCountry ? (quazaaSettings.Connection.PreferredCountries.size() ? quazaaSettings.Connection.PreferredCountries.at(nCountry) : GeoIP.findCountryCode(Network.m_oAddress)) : "ZZ"));
 
 				if(pHost)
 				{
@@ -312,7 +312,7 @@ void CNeighboursConnections::Maintain()
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumPeers)
 		{
-			QMutexLocker l(&HostCache.m_pSection);
+			QMutexLocker l(&hostCache.m_pSection);
 
 			QDateTime tNow = QDateTime::currentDateTimeUtc();
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
@@ -322,7 +322,7 @@ void CNeighboursConnections::Maintain()
 			for(; nAttempt > 0; nAttempt--)
 			{
 				// nowe polaczenie
-				CHostCacheHost* pHost = HostCache.GetConnectable(tNow, oExcept);
+				CHostCacheHost* pHost = hostCache.getConnectable(tNow, oExcept);
 
 				if(pHost)
 				{

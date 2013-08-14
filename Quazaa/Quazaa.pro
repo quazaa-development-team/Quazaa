@@ -124,8 +124,7 @@ CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
 # Additional config
 
 CONFIG(debug, debug|release){
-    DEFINES += _DEBUG \
-        _USE_DEBUG_NEW
+    DEFINES += _DEBUG
     QT_FATAL_WARNINGS = 1
 }
 
@@ -148,7 +147,6 @@ TEMPLATE = app
 # MinGW-specific compiler flags (enable exception handling and disable new/delete overload)
 win32-g++ {
 	CONFIG += exceptions
-	DEFINES -= _USE_DEBUG_NEW
 }
 
 # MSVC-specific compiler flags
@@ -169,8 +167,8 @@ win32-msvc2008 {
     DEFINES += _CRT_SECURE_NO_WARNINGS
 }
 
-win32-msvc2010 {
-    !build_pass:message(Setting up MSVC 2010 Compiler flags)
+win32-msvc201* {
+    !build_pass:message(Setting up MSVC 201x Compiler flags)
     QMAKE_CFLAGS_DEBUG += /Gd \
         #/Gm \
         /RTC1 \
@@ -209,6 +207,10 @@ sse2 {
         QMAKE_CXXFLAGS_DEBUG += /arch:SSE2
         QMAKE_CXXFLAGS_RELEASE += /arch:SSE2
     }
+}
+
+contains(DEFINES, _USE_DEBUG_NEW){
+    !build_pass:message( "Building with DEBUG_NEW" )
 }
 
 # Sources

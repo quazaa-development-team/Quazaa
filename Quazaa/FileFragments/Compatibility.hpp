@@ -54,7 +54,7 @@ inline void SerializeOut(QDataStream& s, const Ranges::List< Ranges::Range<quint
 {
 	quint64 nTotal = rhs.limit();
 	quint64 nRemaining = rhs.length_sum();
-	quint32 nFragments = rhs.size();
+    size_t nFragments = rhs.size();
 
 	s << nTotal << nRemaining << nFragments;
 

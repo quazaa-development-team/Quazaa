@@ -96,7 +96,7 @@ void CNeighboursG2::Maintain()
 		m_bNeedLNI = true;
 	}
 
-	if(m_nHubsConnectedG2 == 0 && !WebCache.isRequesting() && (HostCache.isEmpty() || HostCache.GetConnectable() == 0))
+	if(m_nHubsConnectedG2 == 0 && !WebCache.isRequesting() && (hostCache.isEmpty() || hostCache.getConnectable() == 0))
 	{
 		WebCache.RequestRandom();
 	}
@@ -196,12 +196,12 @@ void CNeighboursG2::DispatchKHL()
 		}
 	}
 
-	HostCache.m_pSection.lock();
+	hostCache.m_pSection.lock();
 
 	quint32 nCount = quazaaSettings.Gnutella2.KHLHubCount;
-	CHostCacheIterator itHost = HostCache.m_lHosts.begin();
+	CHostCacheIterator itHost = hostCache.m_lHosts.begin();
 
-	for(; nCount > 0 && itHost != HostCache.m_lHosts.end(); itHost++)
+	for(; nCount > 0 && itHost != hostCache.m_lHosts.end(); itHost++)
 	{
 		if( (*itHost)->m_nFailures == 0 && (*itHost)->m_tTimestamp.secsTo(tNow) < quazaaSettings.Gnutella2.HostCurrent )
 		{
@@ -219,7 +219,7 @@ void CNeighboursG2::DispatchKHL()
 		}
 	}
 
-	HostCache.m_pSection.unlock();
+	hostCache.m_pSection.unlock();
 
 	foreach(CNeighbour * pNode, m_lNodes)
 	{
