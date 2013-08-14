@@ -1299,6 +1299,9 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("TransfersSplitter", quazaaSettings.WinMain.TransfersSplitter);
 	m_qSettings.setValue("TransfersSplitterRestoreLeft", quazaaSettings.WinMain.TransfersSplitterRestoreLeft);
 	m_qSettings.setValue("TransfersSplitterRestoreRight", quazaaSettings.WinMain.TransfersSplitterRestoreRight);
+    m_qSettings.setValue("TransfersNavigationSplitter", quazaaSettings.WinMain.TransfersNavigationSplitter);
+    m_qSettings.setValue("TransfersNavigationSplitterRestoreTop", quazaaSettings.WinMain.TransfersNavigationSplitterRestoreTop);
+    m_qSettings.setValue("TransfersNavigationSplitterRestoreBottom", quazaaSettings.WinMain.TransfersNavigationSplitterRestoreBottom);
 	m_qSettings.setValue("UploadsSplitter", quazaaSettings.WinMain.UploadsSplitter);
 	m_qSettings.setValue("UploadsSplitterRestoreTop", quazaaSettings.WinMain.UploadsSplitterRestoreTop);
 	m_qSettings.setValue("UploadsSplitterRestoreBottom", quazaaSettings.WinMain.UploadsSplitterRestoreBottom);
@@ -1372,6 +1375,9 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.TransfersSplitter = m_qSettings.value("TransfersSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.TransfersSplitterRestoreLeft = m_qSettings.value("TransfersSplitterRestoreLeft", 0).toInt();
 	quazaaSettings.WinMain.TransfersSplitterRestoreRight = m_qSettings.value("TransfersSplitterRestoreRight", 0).toInt();
+    quazaaSettings.WinMain.TransfersNavigationSplitter = m_qSettings.value("TransfersNavigationSplitter", QByteArray()).toByteArray();
+    quazaaSettings.WinMain.TransfersNavigationSplitterRestoreTop = m_qSettings.value("TransfersNavigationSplitterRestoreTop", 0).toInt();
+    quazaaSettings.WinMain.TransfersNavigationSplitterRestoreBottom = m_qSettings.value("TransfersNavigationSplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.UploadsSplitter = m_qSettings.value("UploadsSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.UploadsSplitterRestoreTop = m_qSettings.value("UploadsSplitterRestoreTop", 0).toInt();
 	quazaaSettings.WinMain.UploadsSplitterRestoreBottom = m_qSettings.value("UploadsSplitterRestoreBottom", 0).toInt();

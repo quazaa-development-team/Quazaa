@@ -688,7 +688,10 @@ namespace Settings
 		QByteArray	TransfersSplitter;						// Transfers splitter position
 		int			TransfersSplitterRestoreLeft;			// The width left side of the search results splitter should restore to when right clicked
 		int			TransfersSplitterRestoreRight;			// The width left side of the search results splitter should restore to when right clicked
-		QByteArray	UploadsSplitter;						// Uploads splitter position
+        QByteArray	TransfersNavigationSplitter;			// Transfers splitter position
+        int			TransfersNavigationSplitterRestoreTop;	// The width left side of the search results splitter should restore to when right clicked
+        int			TransfersNavigationSplitterRestoreBottom;// The width left side of the search results splitter should restore to when right clicked
+        QByteArray	UploadsSplitter;						// Uploads splitter position
 		int			UploadsSplitterRestoreTop;				// The top height of the uploads splitter should restore when right clicked
 		int			UploadsSplitterRestoreBottom;			// The bottom height of the uploads splitter should restore when right clicked
 		QByteArray	UploadsToolbar;							// Uploads Toolbar
