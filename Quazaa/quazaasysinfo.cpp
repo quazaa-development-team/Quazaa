@@ -570,7 +570,7 @@ QString QuazaaSysInfo::osVersionToString()
         sEdition = "Professional Windows Media Center";
         break;
 	default:
-		sEdition = "";
+        sEdition = "Unknown Edition";
 	}
 
 	sServicePack = GetServicePackInfo();
