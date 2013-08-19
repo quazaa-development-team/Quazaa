@@ -40,13 +40,13 @@ WidgetIrcHomePage::WidgetIrcHomePage(QWidget* parent) : QWidget(parent)
     header->setObjectName("headerLabel");
     header->setOpenExternalLinks(true);
     header->setWordWrap(true);
-    header->setText(readHtmlFile(":/Resource/welcome_header.html").arg(Application::applicationName()));
+    header->setText(readHtmlFile(":/Resource/welcome_header.html").arg(Application::applicationName()).arg(Application::applicationSlogan()));
 
     slogan = new QLabel(this);
     slogan->setMargin(2);
     slogan->setObjectName("sloganLabel");
     slogan->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
-    slogan->setText("<small>" + Application::applicationSlogan() + "</small>");
+    slogan->setText("<small><b>" + tr("Please respect others while using this service.") + "</b></small>");
 
     footer = new QLabel(this);
     footer->setObjectName("footerLabel");
@@ -54,7 +54,7 @@ WidgetIrcHomePage::WidgetIrcHomePage(QWidget* parent) : QWidget(parent)
     footer->setOpenExternalLinks(true);
     footer->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
     footer->setStyleSheet("");
-    footer->setText("<small>Copyright (C) 2008-2013 J-P Nurmi &lt;<a href='mailto:jpnurmi@gmail.com'>jpnurmi@gmail.com</a>&gt;</small>");
+    footer->setText("<small>Copyright (C) 2008-2013 Quazaa Development Team &lt;<a href='mailto:quazaa-users@lists.sourceforge.net'>quazaa-users@lists.sourceforge.net</a>&gt;</small>");
 
     QLineEdit lineEdit;
     lineEdit.setStyleSheet("QLineEdit { border: 1px solid transparent; }");
