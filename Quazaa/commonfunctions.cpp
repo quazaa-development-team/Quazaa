@@ -148,6 +148,100 @@ QString common::getTempFileName(QString sName)
 	return oHashName.ToString();
 }
 
+QString common::getLocation(Location location)
+{
+	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
+
+	switch ( location )
+	{
+	case programLocation:
+	case globalDataFiles:
+	case userDataFiles:
+
+		// TODO: Handle the paths correctly once a decision has been made to use this globally or not.
+		return sDefaultDataPath;
+		break;
+	default:
+		// unknown path requested
+		Q_ASSERT( false );
+	}
+
+	return QString();
+}
+
+bool common::securredSaveFile(Location location, QString sFileName,
+                              QString sMessage, void* pManager,
+                              void (*writeData)(void* pManager, QFile &oDestination))
+{
+	QString sPath          = getLocation( location ) + sFileName;
+	QString sBackupPath    = sPath + "_backup";
+	QString sTemporaryPath = sPath + "_tmp";
+
+	systemLog.postLog( LogSeverity::Notice, sMessage
+	                   + QObject::tr( "Saving to File: %1" ).arg( sPath ) );
+
+	if ( QFile::exists( sTemporaryPath ) && !QFile::remove( sTemporaryPath ) )
+	{
+		systemLog.postLog( LogSeverity::Error, sMessage +
+		                   QObject::tr( "Error: Could not free space required for temporary file: ")
+		                   + sTemporaryPath );
+		return false;
+	}
+
+	QFile oFile( sTemporaryPath );
+
+	if ( !oFile.open( QIODevice::WriteOnly ) )
+	{
+		systemLog.postLog( LogSeverity::Error, sMessage +
+		                   QObject::tr( "Error: Could open temporary file for write: " )
+		                   + sTemporaryPath );
+		return false;
+	}
+
+	try
+	{
+		writeData( pManager, oFile );
+	}
+	catch ( ... )
+	{
+		systemLog.postLog( LogSeverity::Error, sMessage
+		                   + QObject::tr( "Error while writing to file: " ) + sTemporaryPath );
+		return false;
+	}
+
+	oFile.close();
+
+	if ( QFile::exists( sPath ) && !QFile::remove( sPath ) )
+	{
+		systemLog.postLog( LogSeverity::Error, sMessage
+		                   + QObject::tr( "Error: Could not remove old data file: " ) + sPath );
+		return false;
+	}
+
+	if ( !QFile::rename( sTemporaryPath, sPath ) )
+	{
+		systemLog.postLog( LogSeverity::Error, sMessage
+		                   + QObject::tr( "Error: Could not rename data file: " ) + sPath );
+		return false;
+	}
+
+	if ( QFile::exists( sBackupPath ) && !QFile::remove( sBackupPath ) )
+	{
+		systemLog.postLog( LogSeverity::Warning, sMessage
+		                   + QObject::tr( "Warning: Could not remove old backup file: " )
+		                   + sBackupPath );
+	}
+
+	if ( !QFile::copy( sPath, sBackupPath ) )
+	{
+		systemLog.postLog( LogSeverity::Warning, sMessage
+		                   + QObject::tr( "Warning: Could not create create new backup file: " )
+		                   + sBackupPath );
+	}
+
+	return true;
+}
+
 quint16 common::getRandomUnusedPort(bool bClear)
 {
 	/**
@@ -1607,7 +1701,7 @@ quint16 common::getRandomUnusedPort(bool bClear)
 			oUsedPorts <<  i; //27500-27900	//  	UDP	id Software's QuakeWorld
 	}
 
-	int nPort = 1024;
+	int nPort = 1024; // reserved port
 
 	while ( oUsedPorts.contains( nPort ) )
 	{

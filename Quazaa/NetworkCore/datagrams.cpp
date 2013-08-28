@@ -297,8 +297,8 @@ void CDatagrams::OnReceiveGND()
 		m_RecvCacheTime.prepend(pDG);
 	}
 
-	// Dopiero tutaj, na wypadek gdybysmy nie mieli wolnych datagramow
-	// ACK = odebralismy datagram, a jesli odebralismy i odrzucilismy to nie wysylamy ACK-a
+    // It is here, in case if we did not have free datagrams
+    // ACK = I've received a datagram, and if you have received and rejected it, do not send ACK-a
 	if(pHeader->nFlags & 0x02)
 	{
         GND_HEADER* pAck = new GND_HEADER;

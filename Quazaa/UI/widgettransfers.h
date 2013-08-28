@@ -52,11 +52,11 @@ private:
 	Ui::WidgetTransfers* ui;
 
 private slots:
-	void on_splitterTransfers_customContextMenuRequested(QPoint pos);
-	void setSkin();
-	void on_splitterUploads_customContextMenuRequested(const QPoint &pos);
-	void on_splitterDownloads_customContextMenuRequested(const QPoint &pos);
+    void on_splitterTransfers_customContextMenuRequested(QPoint pos);
+    void on_splitterTransfersNavigation_customContextMenuRequested(const QPoint &pos);
+    void on_splitterDownloads_customContextMenuRequested(const QPoint &pos);
 	void on_treeWidgetTransfers_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+    void setSkin();
 };
 
 #endif // WIDGETTRANSFERS_H

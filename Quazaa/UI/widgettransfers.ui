@@ -26,108 +26,162 @@
    </property>
    <item>
     <widget class="QSplitter" name="splitterTransfers">
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QTreeWidget" name="treeWidgetTransfers">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
+     <widget class="QSplitter" name="splitterTransfersNavigation">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
       </property>
-      <attribute name="headerVisible">
-       <bool>false</bool>
-      </attribute>
-      <column>
-       <property name="text">
-        <string>Transfers</string>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QTreeWidget" name="treeWidgetTransfers">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-      </column>
-      <item>
-       <property name="text">
-        <string>Downloads</string>
-       </property>
-       <property name="statusTip">
-        <string notr="true">Downloads</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../Resource.qrc">
-         <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
-       </property>
+       <attribute name="headerVisible">
+        <bool>true</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>Transfers</string>
+        </property>
+       </column>
        <item>
         <property name="text">
-         <string>Completed</string>
+         <string>Downloads</string>
         </property>
         <property name="statusTip">
-         <string notr="true">CompletedDownloads</string>
+         <string notr="true">Downloads</string>
         </property>
         <property name="icon">
          <iconset resource="../Resource.qrc">
-          <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
+          <normaloff>:/Resource/Generic/Download.png</normaloff>:/Resource/Generic/Download.png</iconset>
+        </property>
+        <item>
+         <property name="text">
+          <string>Downloading</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../Resource.qrc">
+           <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Completed</string>
+         </property>
+         <property name="statusTip">
+          <string notr="true">CompletedDownloads</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../Resource.qrc">
+           <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Paused</string>
+         </property>
+         <property name="statusTip">
+          <string notr="true">Paused</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../Resource.qrc">
+           <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Active</string>
+         </property>
+         <property name="statusTip">
+          <string notr="true">Active</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../Resource.qrc">
+           <normaloff>:/Resource/Media/PlayMedia.png</normaloff>:/Resource/Media/PlayMedia.png</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Inactive</string>
+         </property>
+         <property name="statusTip">
+          <string notr="true">Inactive</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../Resource.qrc">
+           <normaloff>:/Resource/Media/StopMedia.png</normaloff>:/Resource/Media/StopMedia.png</iconset>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Uploads</string>
+        </property>
+        <property name="statusTip">
+         <string notr="true">Uploads</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
+        </property>
+        <item>
+         <property name="text">
+          <string>Uploading</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../Resource.qrc">
+           <normaloff>:/Resource/Generic/Transfers.png</normaloff>:/Resource/Generic/Transfers.png</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Completed</string>
+         </property>
+         <property name="statusTip">
+          <string notr="true">CompletedUploads</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../Resource.qrc">
+           <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
+         </property>
+        </item>
+       </item>
+      </widget>
+      <widget class="QTreeWidget" name="treeWidgetLabels">
+       <column>
+        <property name="text">
+         <string>Labels</string>
+        </property>
+       </column>
+       <item>
+        <property name="text">
+         <string>All Labeled</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resource.qrc">
+          <normaloff>:/Resource/Generic/SchedulerEnable.png</normaloff>:/Resource/Generic/SchedulerEnable.png</iconset>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Paused</string>
-        </property>
-        <property name="statusTip">
-         <string notr="true">Paused</string>
+         <string>Unlabeled</string>
         </property>
         <property name="icon">
          <iconset resource="../Resource.qrc">
-          <normaloff>:/Resource/Media/PauseMedia.png</normaloff>:/Resource/Media/PauseMedia.png</iconset>
+          <normaloff>:/Resource/Generic/SchedulerDisable.png</normaloff>:/Resource/Generic/SchedulerDisable.png</iconset>
         </property>
        </item>
-       <item>
-        <property name="text">
-         <string>Active</string>
-        </property>
-        <property name="statusTip">
-         <string notr="true">Active</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../Resource.qrc">
-          <normaloff>:/Resource/Media/PlayMedia.png</normaloff>:/Resource/Media/PlayMedia.png</iconset>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Inactive</string>
-        </property>
-        <property name="statusTip">
-         <string notr="true">Inactive</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../Resource.qrc">
-          <normaloff>:/Resource/Media/StopMedia.png</normaloff>:/Resource/Media/StopMedia.png</iconset>
-        </property>
-       </item>
-      </item>
-      <item>
-       <property name="text">
-        <string>Uploads</string>
-       </property>
-       <property name="statusTip">
-        <string notr="true">Uploads</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../Resource.qrc">
-         <normaloff>:/Resource/Generic/Upload.png</normaloff>:/Resource/Generic/Upload.png</iconset>
-       </property>
-       <item>
-        <property name="text">
-         <string>Completed</string>
-        </property>
-        <property name="statusTip">
-         <string notr="true">CompletedUploads</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../Resource.qrc">
-          <normaloff>:/Resource/Generic/Check.png</normaloff>:/Resource/Generic/Check.png</iconset>
-        </property>
-       </item>
-      </item>
+      </widget>
      </widget>
      <widget class="QStackedWidget" name="stackedWidgetTransfers">
       <property name="sizePolicy">
@@ -137,7 +191,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="pageDownloads">
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -185,7 +239,7 @@
             </sizepolicy>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="tabGeneral">
             <attribute name="icon">
@@ -585,29 +639,21 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QSplitter" name="splitterUploads">
-          <property name="contextMenuPolicy">
-           <enum>Qt::CustomContextMenu</enum>
+         <widget class="QFrame" name="frameUploads">
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
           </property>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
           </property>
-          <widget class="QFrame" name="frameUploads">
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
+          <layout class="QVBoxLayout" name="verticalLayoutUploads">
+           <property name="spacing">
+            <number>0</number>
            </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+           <property name="margin">
+            <number>0</number>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayoutUploads">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <property name="margin">
-             <number>0</number>
-            </property>
-           </layout>
-          </widget>
+          </layout>
          </widget>
         </item>
        </layout>

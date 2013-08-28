@@ -1,4 +1,4 @@
-﻿/*
+/*
 ** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2013.
@@ -24,7 +24,6 @@
 
 #include <math.h>
 
-#include <QFile>
 #include <QDateTime>
 #include <QMetaType>
 
@@ -1115,7 +1114,7 @@ bool CSecurity::stop()
   */
 bool CSecurity::load()
 {
-	QString sPath = m_sDataPath + "security.dat";
+	QString sPath = common::getLocation( common::userDataFiles ) + "security.dat";
 
 	if ( load( sPath ) )
 	{
@@ -1123,7 +1122,7 @@ bool CSecurity::load()
 	}
 	else
 	{
-		sPath = m_sDataPath + "security_backup.dat";
+		sPath = sPath + "_backup";
 		return load( sPath );
 	}
 }
@@ -1207,11 +1206,33 @@ bool CSecurity::load( QString sPath )
 }
 
 /**
+  * Helper method for save()
+  * Requires Locking: R
+  */
+void CSecurity::writeToFile(void* pManager, QFile& oFile)
+{
+	quint16 nVersion = SECURITY_CODE_VERSION;
+
+	QDataStream oStream( &oFile );
+	CSecurity* pSManager = (CSecurity*)pManager;
+
+	oStream << nVersion;
+	oStream << pSManager->m_bDenyPolicy;
+	oStream << pSManager->getCount();
+
+	for ( CIterator i = pSManager->m_Rules.begin(); i != pSManager->m_Rules.end(); ++i )
+	{
+		const CSecureRule* pRule = *i;
+		CSecureRule::save( pRule, oStream );
+	}
+}
+
+/**
   * Saves the security rules to HDD. Skips saving if there haven't
   * been any important changes and bForceSaving is not set to true.
   * Locking: R (+RW - very short)
   */
-bool CSecurity::save(bool bForceSaving) const
+bool CSecurity::save(bool bForceSaving)
 {
 	QReadLocker mutex( &m_pRWLock );
 
@@ -1220,51 +1241,13 @@ bool CSecurity::save(bool bForceSaving) const
 		return true;
 	}
 
-	QString sBackupPath = m_sDataPath + "security_backup.dat";
-	QString sPath		= m_sDataPath + "security.dat";
-
-	if ( QFile::exists( sBackupPath ) && !QFile::remove( sBackupPath ) )
-		return false; // Error while removing old backup file.
-
-	if ( QFile::exists( sPath ) && !QFile::rename( sPath, sBackupPath ) )
-		return false; // Error while renaming current database file to replace backup file.
-
-	QFile oFile( sPath );
-
-	if ( !oFile.open( QIODevice::WriteOnly ) )
-		return false;
-
-	quint16 nVersion = SECURITY_CODE_VERSION;
-
-	try
-	{
-		QDataStream oStream( &oFile );
-
-		oStream << nVersion;
-		oStream << m_bDenyPolicy;
-		oStream << getCount();
-
-		for ( CIterator i = m_Rules.begin(); i != m_Rules.end(); ++i )
-		{
-			const CSecureRule* pRule = *i;
-			CSecureRule::save( pRule, oStream );
-		}
-	}
-	catch ( ... )
-	{
-		return false;
-	}
+	common::securredSaveFile( common::userDataFiles, "security.dat", tr( "[Security] " ),
+	                          this, &Security::CSecurity::writeToFile );
 
 	mutex.unlock();
 	QWriteLocker tmp( &m_pRWLock ); // temporary switch to write lock
 	m_bSaved = true;
 	tmp.unlock();
-
-	oFile.close();
-
-	// We don't really care whether this fails or not, as saving to the primary file was successfull.
-	QFile::remove( sBackupPath );
-	QFile::copy( sPath, sBackupPath );
 
 	return true;
 }
