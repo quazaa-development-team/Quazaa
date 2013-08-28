@@ -6,12 +6,8 @@
 #include <queue>
 #include <set>
 
-#include <QHostAddress>
-#include <QReadWriteLock>
-#include <QString>
-#include <QUuid>
-
 #include "securerule.h"
+#include "commonfunctions.h"
 
 // Increment this if there have been made changes to the way of storing security rules.
 #define SECURITY_CODE_VERSION	0
@@ -166,6 +162,7 @@ public:
 	bool			stop(); // makes the Security Manager ready for destruction
 	bool			load();
 	bool			save(bool bForceSaving = false);
+	static void		writeToFile(void* pManager, QFile& oFile); // used by save()
 	bool			import(const QString& sPath);
 	bool        	toXML(const QString& sPath) const;
 	bool			fromXML(const QString& sPath);

@@ -1,7 +1,7 @@
-/*
+﻿/*
 ** $Id$
 **
-** Copyright � Quazaa Development Team, 2009-2012.
+** Copyright © Quazaa Development Team, 2009-2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
 ** Quazaa is free software; this file may be used under the terms of the GNU
@@ -28,8 +28,9 @@
 #include <iterator>
 #include <stdlib.h>
 
-#include <QReadWriteLock>
 #include <QList>
+#include <QFile>
+#include <QReadWriteLock>
 
 #define NO_OF_REGISTRATIONS 8
 
@@ -40,6 +41,41 @@ namespace common
     QString vendorCodeToName(QString vendorCode);
     QString fixFileName(QString sName);
     QString getTempFileName(QString sName);
+
+
+	/**
+	 * Used to indicate the 3 locations where settings and data files are stored on the system.
+	 */
+	typedef enum { programLocation, globalDataFiles, userDataFiles } Location;
+
+	/**
+	 * @brief getLocation is currently a suggestion for a simplified path management in Quazaa.
+	 * Instead of concartinating their paths based on QStandardPaths::StandardLocation and having to
+	 * manage their own path settings per component, there should be one place where the most
+	 * important pats are managed.
+	 * For now, I've decided against making changes to quazaasettings.cpp/h until
+	 * a decision on whether to use this suggestion has been made.
+	 * @param location
+	 * @return
+	 */
+	QString getLocation(Location location);
+
+	/**
+	 * @brief securredSaveFile is designed to handle the saving of data files (such as the discovery
+	 * services list, the security rule list or the host cache file) to disk. It allows for
+	 * components to be designed in a way that allows to mostly ignore potential failures of writing
+	 * to disk process. In case of a failure, any previous file is left untouched, in case of a
+	 * success, any previous file with the specified file name is replaced.
+	 * Locking needs to be handled by the caller.
+	 * @param location: the location of the file to be written.
+	 * @param sFileName: path and name of the file relative to the specified path.
+	 * @param sMessage: text to preceed any messages posted to the system log.
+	 * @param pManager: first argument of the writeData() function.
+	 * @param writeData(): Function pointer to the static function doing the actual writing to file.
+	 * @return true if successful, false otherwise.
+	 */
+	bool securredSaveFile(Location location, QString sFileName, QString sMessage,
+	                      void* pManager, void (*writeData)(void *, QFile &));
 
 	/**
 	 * @brief getRandomUnusedPort

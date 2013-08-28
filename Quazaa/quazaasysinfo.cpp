@@ -92,6 +92,9 @@
 #define PRODUCT_PROFESSIONAL_E                      0x00000045
 #define PRODUCT_ENTERPRISE_E                        0x00000046
 #define PRODUCT_ULTIMATE_E                          0x00000047
+
+#endif // !defined(Q_OS_WIN32) || !defined(Q_CC_GNU)
+
 #define PRODUCT_ENTERPRISE_EVALUATION               0x00000048
 #define PRODUCT_MULTIPOINT_STANDARD_SERVER          0x0000004C
 #define PRODUCT_MULTIPOINT_PREMIUM_SERVER           0x0000004D
@@ -105,8 +108,6 @@
 #define PRODUCT_CORE_SINGLELANGUAGE                 0x00000064
 #define PRODUCT_CORE                                0x00000065
 #define PRODUCT_PROFESSIONAL_WMC                    0x00000067
-
-#endif // !defined(Q_OS_WIN32) || !defined(Q_CC_GNU)
 
 #define PROCESSOR_ARCHITECTURE_AMD64 9
 #define SM_SERVERR2 89
