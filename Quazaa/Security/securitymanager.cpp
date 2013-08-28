@@ -86,7 +86,7 @@ void CSecurity::setDenyPolicy(bool bDenyPolicy)
   * Checks whether a rule with the same UUID exists within the security database.
   * Locking: R
   */
-bool CSecurity::check(const CSecureRule* const pRule)
+bool CSecurity::check(const CSecureRule* const pRule) const
 {
 	QReadLocker l( &m_pRWLock );
 
@@ -1211,7 +1211,7 @@ bool CSecurity::load( QString sPath )
   * been any important changes and bForceSaving is not set to true.
   * Locking: R (+RW - very short)
   */
-bool CSecurity::save(bool bForceSaving)
+bool CSecurity::save(bool bForceSaving) const
 {
 	QReadLocker mutex( &m_pRWLock );
 
@@ -1312,7 +1312,7 @@ bool CSecurity::toXML(const QString& sPath) const
 	xmlDocument.writeAttribute( "version", "2.0" );
 
 	// Once the security manager exits this method, m_pRWLock returns to its initial state.
-	QReadLocker l( const_cast<QReadWriteLock *>(&m_pRWLock) );
+	QReadLocker l( &m_pRWLock );
 
 	for ( CIterator i = m_Rules.begin(); i != m_Rules.end() ; ++i )
 	{
@@ -1522,6 +1522,16 @@ void CSecurity::sanityCheckPerformed()
   */
 void CSecurity::forceEndOfSanityCheck()
 {
+#ifdef _DEBUG
+	if ( m_nPendingOperations )
+	{
+		qDebug() << "Error: Sanity check aborted. Most probable reason: It took some component "
+		         << "longer than 2min to call sanityCheckPerformed() after having recieved the "
+		         << "signal performSanityCheck().";
+		Q_ASSERT( false );
+	}
+#endif //_DEBUG
+
 	QWriteLocker l( &m_pRWLock );
 	clearNewRules();
 	m_nPendingOperations = 0;

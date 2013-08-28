@@ -47,14 +47,14 @@ class CDiscoveryService : public QObject
 	/* ======================================= Attributes ======================================= */
 	/* ========================================================================================== */
 protected:
-	QReadWriteLock  m_oRWLock;      // Service access lock.
-//	CDebugRWLock    m_oRWLock;      // Enable this for debugging purposes.
-	TServiceType    m_nServiceType; // GWC, UKHL, ...
-	CNetworkType    m_oNetworkType; // could be several in case of GWC for instance
-	QUrl            m_oServiceURL;
-	QString         m_sPong;        // The service's reply to a ping request
+	mutable QReadWriteLock m_oRWLock;      // Service access lock.
+//	mutable CDebugRWLock   m_oRWLock;      // Enable this for debugging purposes.
+	TServiceType           m_nServiceType; // GWC, UKHL, ...
+	CNetworkType           m_oNetworkType; // could be several in case of GWC for instance
+	QUrl                   m_oServiceURL;
+	QString                m_sPong;        // The service's reply to a ping request
 
-	bool            m_bQuery;       // last request was a query (false: last request was an update)
+	bool                   m_bQuery;       // last request was a query (false: [...]an update)
 
 private:
 	quint8          m_nRating;      // 0: bad; 10: very good

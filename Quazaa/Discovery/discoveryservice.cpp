@@ -370,8 +370,7 @@ void CDiscoveryService::cancelRequest()
  */
 void CDiscoveryService::lockForRead() const
 {
-	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>( this );
-	pModifiable->m_oRWLock.lockForRead();
+	m_oRWLock.lockForRead();
 }
 
 /**
@@ -380,8 +379,7 @@ void CDiscoveryService::lockForRead() const
  */
 void CDiscoveryService::unlock() const
 {
-	CDiscoveryService* pModifiable = const_cast<CDiscoveryService*>( this );
-	pModifiable->m_oRWLock.unlock();
+	m_oRWLock.unlock();
 }
 
 /**

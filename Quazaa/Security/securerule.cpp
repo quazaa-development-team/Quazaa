@@ -96,9 +96,7 @@ bool CSecureRule::parseContent(const QString&)
 
 QString CSecureRule::getContentString() const
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType != srContentUndefined );
-#endif //_DEBUG
 
 	return m_sContent;
 }
@@ -106,9 +104,7 @@ QString CSecureRule::getContentString() const
 CSecureRule* CSecureRule::getCopy() const
 {
 	// This method should never be called.
-#ifdef _DEBUG
 	Q_ASSERT( false );
-#endif //_DEBUG
 
 	return new CSecureRule( *this );
 }
@@ -305,7 +301,9 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 				{
 					pos = sMask.indexOf( '.' );
 
-					if ( sMask.isEmpty() || ( pos == -1 && ( i != 3 || sMask.length() > 3 ) ) || !pos || pos > 2 )
+					if ( sMask.isEmpty() ||
+					     ( pos == -1 && ( i != 3 || sMask.length() > 3 ) ) ||
+					     !pos || pos > 2 )
 					{
 						break;
 					}
@@ -600,9 +598,7 @@ bool CIPRule::parseContent(const QString& sContent)
 
 bool CIPRule::match(const QHostAddress& oAddress) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( !oAddress.isNull() && m_nType == srContentAddress );
-#endif //_DEBUG
 
 	if ( !oAddress.isNull() && oAddress == m_oIP )
 	{
@@ -613,9 +609,7 @@ bool CIPRule::match(const QHostAddress& oAddress) const
 
 void CIPRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentAddress );
-#endif //_DEBUG
 
 	oXMLdocument.writeStartElement( "rule" );
 
@@ -650,9 +644,7 @@ bool CIPRangeRule::parseContent(const QString& sContent)
 
 void CIPRangeRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentAddressRange );
-#endif //_DEBUG
 
 	oXMLdocument.writeStartElement( "rule" );
 
@@ -685,9 +677,7 @@ bool CCountryRule::parseContent(const QString& sContent)
 
 bool CCountryRule::match(const QHostAddress& oAddress) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( !oAddress.isNull() && m_nType == srContentCountry );
-#endif //_DEBUG
 
 	if ( !oAddress.isNull() && m_sContent == GeoIP.findCountryCode( oAddress ) )
 		return true;
@@ -697,9 +687,7 @@ bool CCountryRule::match(const QHostAddress& oAddress) const
 
 void CCountryRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentCountry );
-#endif //_DEBUG
 
 	oXMLdocument.writeStartElement( "rule" );
 
@@ -732,9 +720,7 @@ QList< CHash > CHashRule::getHashes() const
 
 void CHashRule::setHashes(const QList< CHash >& hashes)
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentHash );
-#endif //_DEBUG
 
 	m_sContent = "";
 
@@ -846,9 +832,7 @@ bool CHashRule::match(const QList<CHash>& lHashes) const
 
 void CHashRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentHash );
-#endif //_DEBUG
 
 	oXMLdocument.writeStartElement( "rule" );
 
@@ -914,9 +898,7 @@ bool CRegExpRule::parseContent(const QString& sContent)
 
 bool CRegExpRule::match(const QList<QString>& lQuery, const QString& sContent) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentRegExp );
-#endif //_DEBUG
 
 	if ( m_sContent.isEmpty() )
 		return false;
@@ -991,9 +973,7 @@ bool CRegExpRule::match(const QList<QString>& lQuery, const QString& sContent) c
 
 void CRegExpRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentRegExp );
-#endif //_DEBUG
 
 	oXMLdocument.writeStartElement( "rule" );
 
@@ -1099,9 +1079,7 @@ bool CUserAgentRule::parseContent(const QString& sContent)
 
 bool CUserAgentRule::match(const QString& sUserAgent) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentUserAgent );
-#endif //_DEBUG
 
 	if( m_bRegExp )
 	{
@@ -1121,9 +1099,7 @@ bool CUserAgentRule::match(const QString& sUserAgent) const
 
 void CUserAgentRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentUserAgent );
-#endif //_DEBUG
 
 	oXMLdocument.writeStartElement( "rule" );
 
@@ -1161,9 +1137,7 @@ bool CContentRule::operator==(const CSecureRule& pRule) const
 
 bool CContentRule::parseContent(const QString& sContent)
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentText );
-#endif //_DEBUG
 
 	QString sWork = sContent;
 	sWork.replace( '\t', ' ' );
@@ -1241,9 +1215,7 @@ bool CContentRule::match(const CQueryHit* const pHit) const
 
 void CContentRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-#ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentText );
-#endif //_DEBUG
 
 	oXMLdocument.writeStartElement( "rule" );
 
