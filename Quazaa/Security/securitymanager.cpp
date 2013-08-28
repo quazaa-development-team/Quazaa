@@ -1212,7 +1212,7 @@ bool CSecurity::load( QString sPath )
   * Private helper method for save()
   * Requires Locking: R
   */
-void CSecurity::writeToFile(void* pManager, QFile& oFile)
+void CSecurity::writeToFile(const void * const pManager, QFile& oFile)
 {
 	quint16 nVersion = SECURITY_CODE_VERSION;
 
@@ -1235,23 +1235,28 @@ void CSecurity::writeToFile(void* pManager, QFile& oFile)
   * been any important changes and bForceSaving is not set to true.
   * Locking: R (+RW - very short)
   */
-bool CSecurity::save(bool bForceSaving)
+bool CSecurity::save(bool bForceSaving) const
 {
-	QReadLocker mutex( &m_pRWLock );
+	m_pRWLock.lockForRead();
 
 	if ( m_bSaved && !bForceSaving )		// Saving not required ATM.
 	{
+		m_pRWLock.unlock();
 		return true;
 	}
 
-	common::securredSaveFile( common::userDataFiles, "security.dat", tr( "[Security] " ),
-	                          this, &Security::CSecurity::writeToFile );
+	if ( !common::securredSaveFile( common::userDataFiles, "security.dat", tr( "[Security] " ),
+	                                this, &Security::CSecurity::writeToFile ) )
+	{
+		m_pRWLock.unlock();
+		return false;
+	}
 
-	mutex.unlock();
-	QWriteLocker tmp( &m_pRWLock ); // temporary switch to write lock
+	m_pRWLock.unlock();
+	m_pRWLock.lockForWrite(); // temporary switch to write lock
 	m_bSaved = true;
-	tmp.unlock();
 
+	m_pRWLock.unlock();
 	return true;
 }
 

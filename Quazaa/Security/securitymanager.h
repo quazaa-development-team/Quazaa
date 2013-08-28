@@ -27,7 +27,7 @@ public:
 	static const QString xmlns;
 	static const char* ruleInfoSignal;
 
-	QReadWriteLock m_pRWLock;
+	mutable QReadWriteLock m_pRWLock;
 
 	typedef enum
 	{
@@ -105,7 +105,7 @@ private:
 	bool				m_bNewRulesLoaded;	// true if new rules for sanity check have been loaded.
 	unsigned short		m_nPendingOperations; // Counts the number of program modules that still need to call back after having finished a requested sanity check operation.
 
-	bool				m_bSaved;			// true if current security manager state has already been saved to file, false otherwise
+	mutable bool		m_bSaved;			// true if current security manager state has already been saved to file, false otherwise
 
 	bool				m_bDenyPolicy;
 	// m_bDenyPolicy == false : everything but specifically blocked IPs is allowed (default)
@@ -161,8 +161,8 @@ public:
 	bool			start(); // connects signals etc.
 	bool			stop(); // makes the Security Manager ready for destruction
 	bool			load();
-	bool			save(bool bForceSaving = false);
-	static void		writeToFile(void* pManager, QFile& oFile); // used by save()
+	bool			save(bool bForceSaving = false) const;
+	static void		writeToFile(const void* const pManager, QFile& oFile); // used by save()
 	bool			import(const QString& sPath);
 	bool        	toXML(const QString& sPath) const;
 	bool			fromXML(const QString& sPath);

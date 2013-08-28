@@ -172,8 +172,8 @@ QString common::getLocation(Location location)
 }
 
 bool common::securredSaveFile(Location location, QString sFileName,
-                              QString sMessage, void* pManager,
-                              void (*writeData)(void* pManager, QFile &oDestination))
+                              QString sMessage, const void* const pManager,
+                              void (*writeData)(const void* const pManager, QFile &oDestination))
 {
 	QString sPath          = getLocation( location ) + sFileName;
 	QString sBackupPath    = sPath + "_backup";

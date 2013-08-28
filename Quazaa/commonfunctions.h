@@ -75,7 +75,8 @@ namespace common
 	 * @return true if successful, false otherwise.
 	 */
 	bool securredSaveFile(Location location, QString sFileName, QString sMessage,
-	                      void* pManager, void (*writeData)(void *, QFile &));
+	                      const void * const pManager,
+	                      void (*writeData)(const void * const, QFile &));
 
 	/**
 	 * @brief getRandomUnusedPort
