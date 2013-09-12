@@ -34,6 +34,7 @@
 #include <map>
 #include <list>
 
+#include "systemlog.h"
 #include "networktype.h"
 
 // Increment this if there have been made changes to the way of storing discovery services.
@@ -282,6 +283,21 @@ public:
 	 * @return the URL of a service of the requested type that is known to work
 	 */
 	QString getWorkingService(TServiceType type);
+
+	/* ========================================================================================== */
+	/* ===================================== Static Methods ===================================== */
+	/* ========================================================================================== */
+public:
+	/**
+	 * @brief postLog writes a message to the system log or to the debug output.
+	 * Requires locking: NO
+	 * @param severity
+	 * @param message
+	 * @param bDebug Defaults to false. If set to true, the message is send  to qDebug() instead of
+	 * to the system log.
+	 */
+	static void postLog(LogSeverity::Severity severity, QString message,
+	                    bool bDebug = false, TServiceID nID = 0);
 
 	/* ========================================================================================== */
 	/* ======================================== Signals  ======================================== */

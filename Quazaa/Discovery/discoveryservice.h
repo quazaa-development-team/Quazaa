@@ -34,7 +34,6 @@
 
 // Requirements of all subclasses
 #include "hostcache.h"
-#include "systemlog.h"
 
 namespace Discovery
 {
@@ -66,7 +65,7 @@ private:
 									// to 0 probability no matter its previous proba. For banned
 									// hosts, this indicates the host has been banned because of too
 									// many failures.
-	TServiceID      m_nID;          // ID used by the manager to identify the service
+	TServiceID      m_nID;          // ID used by the manager to identify the service; 0:invalid
 
 	quint16         m_nLastHosts;   // number of hosts returned by the service on last query
 	quint32         m_nTotalHosts;  // all hosts we ever got from the service
@@ -366,6 +365,20 @@ private:
 	 * @param nRating
 	 */
 	void setRating(quint8 nRating);
+
+	/* ========================================================================================== */
+	/* ==================================== Private Helpers  ==================================== */
+	/* ========================================================================================== */
+protected:
+	/**
+	 * @brief postLog writes a message to the system log or to the debug output.
+	 * Requires locking: /
+	 * @param severity
+	 * @param message
+	 * @param bDebug Defaults to false. If set to true, the message is send  to qDebug() instead of
+	 * to the system log.
+	 */
+	void postLog(LogSeverity::Severity severity, QString message, bool bDebug = false);
 
 	/* ========================================================================================== */
 	/* ==================================== Private Virtuals ==================================== */

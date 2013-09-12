@@ -312,7 +312,6 @@ HEADERS += \
 	NetworkCore/thread.h \
 	NetworkCore/types.h \
 	NetworkCore/types.h \
-	NetworkCore/webcache.h \
 	NetworkCore/zlibutils.h \
 	quazaaglobals.h \
 	quazaasettings.h \
@@ -498,7 +497,6 @@ SOURCES += \
 	NetworkCore/searchmanager.cpp \
 	NetworkCore/thread.cpp \
 	NetworkCore/types.cpp \
-	NetworkCore/webcache.cpp \
 	NetworkCore/zlibutils.cpp \
 	quazaaglobals.cpp \
 	quazaasettings.cpp \

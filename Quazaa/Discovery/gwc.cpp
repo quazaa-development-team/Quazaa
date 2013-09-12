@@ -92,9 +92,7 @@ void CGWC::doQuery() throw()
 #endif
 
 	// inform user
-	systemLog.postLog( LogSeverity::Debug,
-					   discoveryManager.m_sMessage
-					   + QString( "Querying GWC: %1" ).arg( oURL.toString() ) );
+	postLog( LogSeverity::Debug, QString( "Querying GWC: %1" ).arg( oURL.toString() ) );
 
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
 	setLastAccessed( tNow );
@@ -162,9 +160,7 @@ void CGWC::doUpdate() throw()
 #endif
 
 	// inform user
-	systemLog.postLog( LogSeverity::Debug,
-					   discoveryManager.m_sMessage
-					   + QString( "Updating GWC: %1" ).arg( oURL.toString() ) );
+	postLog( LogSeverity::Debug, QString( "Updating GWC: %1" ).arg( oURL.toString() ) );
 
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
 	setLastAccessed( tNow );
@@ -211,8 +207,8 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 
 	if ( !pReply || !isRunning() || !m_pRequest ) // we got cancelled while waiting for the lock
 	{
-		qDebug() << "[Discovery] Warning: The request got probably cancelled while "
-				 << "requestCompleted() was waiting for a lock on the service.";
+		postLog( LogSeverity::Warning, QString( "The request got probably cancelled while " ) +
+		         QString( "requestCompleted() was waiting for a lock on the service." ), true );
 
 		resetRunning();
 
@@ -227,7 +223,9 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 
 		m_pNAMgr.clear();
 
-		qDebug() << "[Discovery] Warning: Finished cleanup after unusual termination.";
+		postLog( LogSeverity::Warning,
+		         QString( "Finished cleanup after unusual termination." ),
+		         true );
 
 		return;
 	}
@@ -237,8 +235,7 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 		return; // reply was meant for sb else
 	}
 
-	systemLog.postLog( LogSeverity::Debug,
-					   discoveryManager.m_sMessage + tr( "Recieved answer from GWC." ) );
+	postLog( LogSeverity::Debug, tr( "Recieved answer from GWC." ) );
 
 	// used for statistics update at a later time
 	quint16 nHosts = 0;
@@ -250,8 +247,7 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 
 	if ( pReply->error() == QNetworkReply::NoError )
 	{
-		systemLog.postLog( LogSeverity::Debug,
-						   discoveryManager.m_sMessage + tr( "Parsing GWC response:" ) );
+		postLog( LogSeverity::Debug, tr( "Parsing GWC response:" ) );
 
 		// get first piece of data from reply
 		QString ln = pReply->readLine( 2048 );
@@ -260,8 +256,7 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 		// parse data
 		while ( !ln.isEmpty() )
 		{
-			systemLog.postLog( LogSeverity::Debug, discoveryManager.m_sMessage +
-							   QString( "Line: %1" ).arg( ln.replace( '\n', "" ) ) );
+			postLog( LogSeverity::Debug, QString( "Line: %1" ).arg( ln.replace( '\n', "" ) ) );
 
 			QStringList lp = ln.split( "|" );
 			if ( lp.size() > 1 )
@@ -329,21 +324,18 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 			}
 			else
 			{
-				systemLog.postLog( LogSeverity::Debug,
-								   discoveryManager.m_sMessage + tr( "Parsing error!" ) );
+				postLog( LogSeverity::Debug, tr( "Parsing error!" ) );
 			}
 
 			if ( !sWarning.isEmpty() )
 			{
 				if ( bUpdateOK )
 				{
-					systemLog.postLog( LogSeverity::Warning,
-									   discoveryManager.m_sMessage + tr( "Warning: " ) + sWarning );
+					postLog( LogSeverity::Warning, sWarning );
 				}
 				else
 				{
-					systemLog.postLog( LogSeverity::Error,
-									   discoveryManager.m_sMessage + tr( "Error: " ) + sWarning );
+					postLog( LogSeverity::Error, sWarning );
 				}
 			}
 
@@ -353,8 +345,7 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 	}
 	else
 	{
-		systemLog.postLog( LogSeverity::Error,
-						   discoveryManager.m_sMessage + tr( "Error querying GWC: " ) + url() );
+		postLog( LogSeverity::Error, tr( "While querying GWC: " ) + url() );
 	}
 
 	// make sure all statistics and failure counters are updated

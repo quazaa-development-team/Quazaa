@@ -185,15 +185,13 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, 
 		pService->m_tLastSuccess  = tLastSuccess;
 		pService->m_nFailures     = nFailures;
 		pService->m_nZeroRevivals = nZeroRatingFailures;
-	}
 
 #if ENABLE_DISCOVERY_DEBUGGING
-	qDebug() << "[Discovery] Rating: "
-			 << QString::number( pService->m_nRating ).toLocal8Bit().constData()
-			 << " Multiplicator: "
-			 << QString::number( pService->m_nProbaMult ).toLocal8Bit().constData();
-	qDebug() << "[Discovery] Finished loading service from file.";
+		QString s = QString( "Rating: " )         + QString::number( pService->m_nRating ) +
+		            QString( " Multiplicator: " ) + QString::number( pService->m_nProbaMult );
+		pService->postLog( LogSeverity::Debug, s, true );
 #endif
+	}
 }
 
 /**
@@ -309,13 +307,13 @@ void CDiscoveryService::update()
 void CDiscoveryService::query()
 {
 #if ENABLE_DISCOVERY_DEBUGGING
-	qDebug() << "[Discovery] Querying service.";
+	postLog( LogSeverity::Debug, "Querying service.", true );
 #endif
 
 	m_oRWLock.lockForWrite();
 
 #if ENABLE_DISCOVERY_DEBUGGING
-	qDebug() << "[Discovery] Got service lock.";
+	postLog( LogSeverity::Debug, "Got service lock.", true );
 #endif
 
 	Q_ASSERT( !m_bRunning );
@@ -328,7 +326,7 @@ void CDiscoveryService::query()
 	m_oRWLock.unlock();
 
 #if ENABLE_DISCOVERY_DEBUGGING
-	qDebug() << "[Discovery] Released service lock.";
+	postLog( LogSeverity::Debug, "Released service lock.", true );
 #endif
 
 	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
@@ -338,7 +336,7 @@ void CDiscoveryService::query()
 	emit updated( m_nID ); // notify GUI
 
 #if ENABLE_DISCOVERY_DEBUGGING
-	qDebug() << "[Discovery] Finished querying service.";
+	postLog( LogSeverity::Debug, "Finished querying service.", true );
 #endif
 }
 
@@ -390,10 +388,10 @@ void CDiscoveryService::unlock() const
 void CDiscoveryService::updateStatistics(quint16 nHosts, quint16 nURLs, bool bUpdateOK)
 {
 #if ENABLE_DISCOVERY_DEBUGGING
-	qDebug() << QString( "[Discovery] Updating Statistics: Query %1, Hosts %2, URLs %3, UpdateOK %4"
-						 ).arg( QString::number( m_bQuery ), QString::number( nHosts ),
-								QString::number( nURLs ), QString::number( bUpdateOK )
-								).toLocal8Bit().constData();
+	postLog( LogSeverity::Debug,
+	         QString( "Updating Statistics: Query %1, Hosts %2, URLs %3, UpdateOK %4"
+	                  ).arg( QString::number( m_bQuery ), QString::number( nHosts ),
+	                         QString::number( nURLs ),    QString::number( bUpdateOK ) ), true );
 #endif
 
 	// remove cancel request from signal queue
@@ -475,4 +473,17 @@ void CDiscoveryService::setRating(quint8 nRating)
 	m_nRating    = ( nRating > quazaaSettings.Discovery.MaximumServiceRating ) ?
 					   quazaaSettings.Discovery.MaximumServiceRating : nRating;
 	m_nProbaMult = ( nRating > DISCOVERY_MAX_PROBABILITY ) ? DISCOVERY_MAX_PROBABILITY : nRating;
+}
+
+/**
+ * @brief postLog writes a message to the system log or to the debug output.
+ * Requires locking: /
+ * @param severity
+ * @param message
+ * @param bDebug Defaults to false. If set to true, the message is send  to qDebug() instead of
+ * to the system log.
+ */
+void CDiscoveryService::postLog(LogSeverity::Severity severity, QString message, bool bDebug)
+{
+	CDiscovery::postLog( severity, message, bDebug, m_nID );
 }
