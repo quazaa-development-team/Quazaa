@@ -130,7 +130,7 @@ CONFIG(debug, debug|release){
 
 
 win32 {
-    LIBS += -Lbin -luser32 -lole32 -lshell32 # if you are at windows os
+    LIBS += -Lbin -luser32 -lole32 -lshell32 libuuid # if you are at windows os
 }
 mac {
     LIBS += -lz
