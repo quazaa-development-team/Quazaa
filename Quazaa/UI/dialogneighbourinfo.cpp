@@ -18,6 +18,12 @@ DialogNeighbourInfo::DialogNeighbourInfo(CNeighboursTableModel::Neighbour *pNeig
                                         .arg(pNeighbour->sUserAgent)
                                         .arg(neighbourConnectionDescription(pNeighbour)));
     ui->labelNetworkImage->setPixmap(pNeighbour->iNetwork.pixmap(QSize(41,41)));
+    ui->labelCurrentInbound->setText(QString().sprintf("%1.3f", pNeighbour->nBandwidthIn));
+    ui->labelCurrentOutbound->setText(QString().sprintf("%1.3f", pNeighbour->nBandwidthOut));
+    ui->labelTotalInbound->setText(QString().sprintf("%1.3f KB", pNeighbour->nBytesReceived / 1024.0f));
+    ui->labelTotalOutbound->setText(QString().sprintf("%1.3f KB", pNeighbour->nBytesSent / 1024.0f));
+    ui->labelRatioInbound->setText(QString().sprintf("%1.2f%%", 100.0f * pNeighbour->nCompressionIn));
+    ui->labelRatioOutbound->setText(QString().sprintf("%1.2f%%", 100.0f * pNeighbour->nCompressionOut));
 }
 
 DialogNeighbourInfo::~DialogNeighbourInfo()
