@@ -150,7 +150,15 @@ QString common::getTempFileName(QString sName)
 
 QString common::getLocation(Location location)
 {
-	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
+#if QT_VERSION >= 0x050000
+	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg(
+	                               QStandardPaths::writableLocation(
+	                                   QStandardPaths::DataLocation   ), "Data" );
+#else
+	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg(
+	                               QDesktopServices::storageLocation(
+	                                   QDesktopServices::DataLocation ), "Data" );
+#endif
 
 	switch ( location )
 	{
@@ -158,7 +166,7 @@ QString common::getLocation(Location location)
 	case globalDataFiles:
 	case userDataFiles:
 
-		// TODO: Handle the paths correctly once a decision has been made to use this globally or not.
+	// TODO: Handle the paths correctly once a decision has been made to use this globally or not.
 		return sDefaultDataPath;
 		break;
 	default:

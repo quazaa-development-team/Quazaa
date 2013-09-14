@@ -213,8 +213,10 @@ OSVersion::OSVersion QuazaaSysInfo::osVersion()
 		return OSVersion::WinVista;
 	case QSysInfo::WV_WINDOWS7:
 		return OSVersion::Win7;
-    case QSysInfo::WV_WINDOWS8:
-        return OSVersion::Win8;
+#if QT_VERSION >= 0x050000
+	case QSysInfo::WV_WINDOWS8: // not yet defined in Qt4.8
+		return OSVersion::Win8;
+#endif
 	default:
 		return OSVersion::Win7;
 	}

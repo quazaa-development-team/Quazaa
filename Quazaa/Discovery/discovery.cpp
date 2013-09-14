@@ -1641,6 +1641,9 @@ void CDiscovery::postLog(LogSeverity::Severity severity, QString message,
 	case LogSeverity::Critical:
 		sMessage += tr ( "Critical Error: " );
 		break;
+
+	default:
+		break; // do nothing
 	}
 
 	sMessage += message;
