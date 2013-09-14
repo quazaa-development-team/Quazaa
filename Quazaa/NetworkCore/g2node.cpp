@@ -40,9 +40,7 @@
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 //#define _DISABLE_COMPRESSION
 
@@ -1037,7 +1035,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 					pPacket->ReadHostAddress(&ep);
 				}
 
-//				nTs = pPacket->ReadIntLE<quint32>();
+/*				nTs = */pPacket->ReadIntLE<quint32>();
 
 				hostCache.m_pSection.lock();
 				hostCache.add(ep, tNow.addSecs(nDiff));
@@ -1435,7 +1433,7 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 	BYTE nTTL	= pPacket->ReadByte();
 	BYTE nHops	= pPacket->ReadByte();
 
-//	QUuid oGUID = pPacket->ReadGUID();
+/*	QUuid oGUID = */pPacket->ReadGUID();
 
 	hostCache.m_pSection.lock();
 	hostCache.add( addr );

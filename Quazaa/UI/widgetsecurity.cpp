@@ -34,9 +34,7 @@
 
 #include "timedsignalqueue.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 #include <QMenu>
 #include <QKeyEvent>
@@ -140,7 +138,6 @@ void WidgetSecurity::update()
 void WidgetSecurity::on_actionSecurityAddRule_triggered()
 {
 	DialogAddRule* dlgAddRule = new DialogAddRule( this );
-	connect( dlgAddRule, SIGNAL( dataUpdated() ), SLOT( update() ), Qt::QueuedConnection );
 	dlgAddRule->show();
 }
 
@@ -190,7 +187,6 @@ void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 
 		lock.unlock(); // Make the Security Manager available again.
 
-		connect( dlgAddRule, SIGNAL( dataUpdated() ), SLOT( update() ), Qt::QueuedConnection );
 		dlgAddRule->show();
 	}
 }

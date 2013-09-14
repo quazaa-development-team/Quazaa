@@ -25,10 +25,7 @@
 #include <QXmlStreamReader>
 
 #include "metalink4handler.h"
-
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CMetalink4Handler::CMetalink4Handler(QFile& oFile) :
 	CMetalinkHandler( oFile )

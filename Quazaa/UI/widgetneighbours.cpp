@@ -39,9 +39,7 @@
 
 #include "chatsessiong2.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 #include <QMenu>
 

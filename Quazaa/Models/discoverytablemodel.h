@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** discoverytablemodel.h
 **
 ** Copyright © Quazaa Development Team, 2009-2012.
@@ -35,39 +35,80 @@ class CDiscoveryTableModel : public QAbstractTableModel
 	Q_OBJECT
 
 private:
-	typedef Discovery::CDiscoveryService CDiscoveryService;
+	typedef Discovery::TConstServicePtr TConstServicePtr;
+	typedef Discovery::TServiceType     TServiceType;
+	typedef Discovery::TServiceID       TServiceID;
 
-	QWidget*		m_oContainer;
-	int				m_nSortColumn;
-	Qt::SortOrder	m_nSortOrder;
-	bool			m_bNeedSorting;
+	QWidget*        m_oContainer;
+	int             m_nSortColumn;
+	Qt::SortOrder   m_nSortOrder;
+	bool            m_bNeedSorting;
 
 public:
 	enum Column
 	{
 		TYPE = 0,
 		URL,
+		ACCESSED,
 		HOSTS,
 		TOTAL_HOSTS,
+		ALTERNATE_SERVICES,
+		FAILURES,
+#if ENABLE_DISCOVERY_DEBUGGING
+		RATING,
+		MULTIPLICATOR,
+#endif
+		PONG,
 		_NO_OF_COLUMNS
 	};
+
+	enum Icon
+	{
+		BANNED = 0,
+		BOOTSTRAP,
+		DISCOVERY,
+		GWC_GREEN,
+		GWC_BLUE,
+		GWC_GRAY,
+		_NO_OF_ICONS
+	};
+
+	// icons used for the different services
+	const QIcon** m_pIcons;
 
 	struct Service
 	{
 		// Object directly managed by discovery manager.
-		const CDiscoveryService*	m_pNode;
+		TConstServicePtr m_pNode;
+		const TServiceID m_nID;
 
-		QString						m_sURL;
-		Discovery::TServiceType		m_nType;
-		quint32						m_nLastHosts;
-		quint32						m_nTotalHosts;
-		QIcon						m_iType;
+		TServiceType     m_nType;
+		QString          m_sType;
+		const QIcon*     m_piType;
+		bool             m_bBanned;
+		QString          m_sURL;
+		quint32          m_tAccessed;
+		quint32          m_nLastHosts;
+		quint32          m_nTotalHosts;
+		quint16          m_nAltServices;
+		quint8           m_nFailures;
+#if ENABLE_DISCOVERY_DEBUGGING
+		quint8           m_nRating;
+		quint8           m_nMultipilcator;
+#endif
+		QString          m_sPong;
 
-		Service(const CDiscoveryService* pService);
+		/**
+		 * @brief Service constructs a new service.
+		 * @param pService - Needs to be locked for read before calling this.
+		 * @param model
+		 */
+		Service(TConstServicePtr pService, CDiscoveryTableModel* model);
 		~Service();
-		bool update(int row, int col, QModelIndexList& to_update, CDiscoveryTableModel* model);
+		bool update(int row, int sortCol, QModelIndexList& to_update, CDiscoveryTableModel* model);
 		QVariant data(int col) const;
 		bool lessThan(int col, const CDiscoveryTableModel::Service* const pOther) const;
+		void refreshServiceIcon(CDiscoveryTableModel* model);
 	};
 
 protected:
@@ -85,16 +126,21 @@ public:
 
 	void sort(int column, Qt::SortOrder order);
 
-	const CDiscoveryService* nodeFromRow(quint32 row) const;
-	const CDiscoveryService* nodeFromIndex(const QModelIndex& index) const;
+	TConstServicePtr nodeFromRow(quint32 row) const;
+	TConstServicePtr nodeFromIndex(const QModelIndex& index) const;
+
+	bool isIndexBanned(const QModelIndex& index) const;
 
 	void completeRefresh();
 
 public slots:
-	void addService(const CDiscoveryService* pService);
-	void removeService(const QSharedPointer<CDiscoveryService> pService);
+	void addService(TConstServicePtr pService);
+	void removeService(TServiceID nID);
+	void update(TServiceID nID);
 	void updateAll();
 
+private:
+	void updateView(QModelIndexList uplist = QModelIndexList());
 };
 
 #endif // DISCOVERYTABLEMODEL_H

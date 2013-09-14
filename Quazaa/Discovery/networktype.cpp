@@ -24,19 +24,35 @@
 
 #include <QObject>
 
+#if QT_VERSION < 0x050000
+#include <QMetaType>
+#endif
+
 #include "networktype.h"
 
 CNetworkType::CNetworkType() :
 	m_nNetworks( 0 )
-{}
+{
+	registerMetaType();
+}
 
 CNetworkType::CNetworkType(quint16 type) :
 	m_nNetworks( type )
-{}
+{
+	registerMetaType();
+}
 
 CNetworkType::CNetworkType(DiscoveryProtocol type) :
 	m_nNetworks( (quint16)type )
-{}
+{
+	registerMetaType();
+}
+
+void CNetworkType::registerMetaType() const
+{
+	static int foo = qRegisterMetaType<CNetworkType>( "CNetworkType" );
+	++foo;
+}
 
 bool CNetworkType::operator==(const CNetworkType& type) const
 {

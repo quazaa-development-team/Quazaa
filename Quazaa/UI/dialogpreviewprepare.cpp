@@ -26,9 +26,7 @@
 #include "ui_dialogpreviewprepare.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogPreviewPrepare::DialogPreviewPrepare(QWidget* parent) :
 	QDialog(parent),

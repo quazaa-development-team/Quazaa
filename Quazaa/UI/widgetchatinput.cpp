@@ -33,9 +33,7 @@
 #include <QColorDialog>
 #include <QPalette>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
     QMainWindow(parent),

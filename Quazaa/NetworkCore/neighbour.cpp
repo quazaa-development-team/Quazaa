@@ -28,9 +28,7 @@
 #include "hostcache.h"
 #include <QTcpSocket>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CNeighbour::CNeighbour(QObject* parent) :
 	CCompressedConnection(parent)

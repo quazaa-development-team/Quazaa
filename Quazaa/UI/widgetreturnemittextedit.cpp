@@ -33,9 +33,7 @@
 #include <QTextDocument> //For Qt::escape()
 #endif
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 {

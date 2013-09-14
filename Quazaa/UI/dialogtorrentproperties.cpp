@@ -26,9 +26,7 @@
 #include "ui_dialogtorrentproperties.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogTorrentProperties::DialogTorrentProperties(QWidget* parent) :
 	QDialog(parent),

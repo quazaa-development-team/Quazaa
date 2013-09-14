@@ -23,7 +23,6 @@
 */
 
 #include "neighboursg2.h"
-#include "webcache.h"
 #include "hostcache.h"
 #include "g2node.h"
 #include "g2packet.h"
@@ -33,9 +32,9 @@
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
 
-#ifdef _DEBUG
+#include "Discovery/discovery.h"
+
 #include "debug_new.h"
-#endif
 
 CNeighboursG2::CNeighboursG2(QObject* parent) :
 	CNeighboursConnections(parent),
@@ -73,9 +72,10 @@ void CNeighboursG2::Connect()
 
 	static bool bStartupRequest = false;
 
-	if(!bStartupRequest && !WebCache.isRequesting())
+	// TODO: Test whether already active checking is required
+	if ( !bStartupRequest )
 	{
-		WebCache.RequestRandom();
+		discoveryManager.queryService( CNetworkType( dpG2 ) );
 		bStartupRequest = true;
 	}
 
@@ -96,9 +96,10 @@ void CNeighboursG2::Maintain()
 		m_bNeedLNI = true;
 	}
 
-	if(m_nHubsConnectedG2 == 0 && !WebCache.isRequesting() && (hostCache.isEmpty() || hostCache.getConnectable() == 0))
+	// TODO: Test whether already active checking is required
+	if ( !m_nHubsConnectedG2 && ( hostCache.isEmpty() || !hostCache.getConnectable() ) )
 	{
-		WebCache.RequestRandom();
+		discoveryManager.queryService( CNetworkType( dpG2 ) );
 	}
 
 	if(m_nNextKHL == 0)

@@ -29,9 +29,7 @@
 
 #include "transfer.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CDownloadSource::CDownloadSource(CDownload *pDownload, QObject *parent)
 	: QObject(parent),

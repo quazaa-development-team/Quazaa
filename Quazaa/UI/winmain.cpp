@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2013.
@@ -71,9 +71,7 @@
 #include <QClipboard>
 #include <QMessageBox>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CWinMain* MainWindow = 0;
 
@@ -443,6 +441,10 @@ void CWinMain::quazaaShutdown()
 	dlgSplash->updateProgress(65, tr("Saving Security Manager..."));
 	qApp->processEvents();
 	securityManager.stop(); // Prepare Security Manager for shutdown (this includes saving the security rules to disk)
+
+	dlgSplash->updateProgress(55, tr("Saving Discovery Manager..."));
+	qApp->processEvents();
+	discoveryManager.stop();
 
 	dlgSplash->updateProgress(50, tr("Saving Host Cache..."));
 	qApp->processEvents();

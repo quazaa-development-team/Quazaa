@@ -24,9 +24,7 @@
 
 #include "routetable.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CRouteTable::CRouteTable()
 {

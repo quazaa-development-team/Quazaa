@@ -25,7 +25,7 @@
 #include "network.h"
 
 #include "thread.h"
-#include "webcache.h"
+//#include "webcache.h"
 #include "g2packet.h"
 #include "datagrams.h"
 #include <QTimer>
@@ -41,9 +41,7 @@
 
 #include "geoiplist.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CNetwork Network;
 CThread NetworkThread;
@@ -126,7 +124,7 @@ void CNetwork::CleanupThread()
 	m_pSecondTimer->stop();
 	delete m_pSecondTimer;
 	m_pSecondTimer = 0;
-	WebCache.CancelRequests();
+//	WebCache.CancelRequests();
 
 	Handshakes.Disconnect();
 	Datagrams.Disconnect();

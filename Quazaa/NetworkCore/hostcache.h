@@ -30,7 +30,7 @@
 #include <QMutex>
 
 // Increment this if there have been made changes to the way of storing security rules.
-#define HOST_CACHE_CODE_VERSION	4
+#define HOST_CACHE_CODE_VERSION	5
 // History:
 // 4 - Initial implementation
 

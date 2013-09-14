@@ -27,9 +27,7 @@
 #include <QString>
 #include <QList>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 namespace Parser
 {

@@ -35,9 +35,7 @@
 #include <QInputDialog>
 #include <QFileDialog>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page) :
 	QDialog(parent),

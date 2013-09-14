@@ -32,9 +32,7 @@
 #include <QMetaObject>
 #include <QFile>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CRateController::CRateController(QMutex* pMutex, QObject* parent): QObject(parent)
 {

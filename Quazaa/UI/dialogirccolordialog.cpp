@@ -25,9 +25,7 @@
 #include "dialogirccolordialog.h"
 #include "ui_dialogirccolordialog.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogIrcColorDialog::DialogIrcColorDialog(QColor initialColor, QWidget *parent) :
     QDialog(parent),

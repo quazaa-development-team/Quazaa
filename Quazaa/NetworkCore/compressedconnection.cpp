@@ -26,9 +26,7 @@
 #include "buffer.h"
 #include "systemlog.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CCompressedConnection::CCompressedConnection(QObject* parent) :
 	CNetworkConnection(parent)

@@ -32,9 +32,7 @@
 #include <QFileInfo>
 #include <QTranslator>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogLanguage::DialogLanguage( QWidget* parent ) :
 	QDialog( parent ),

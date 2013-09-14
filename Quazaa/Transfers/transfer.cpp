@@ -25,9 +25,7 @@
 #include "transfer.h"
 #include "transfers.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CTransfer::CTransfer(void* pOwner, QObject *parent) :
 	CNetworkConnection(parent),

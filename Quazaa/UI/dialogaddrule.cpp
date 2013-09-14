@@ -28,9 +28,7 @@
 
 #include <QListView>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	QDialog( parent ),
@@ -205,7 +203,6 @@ void DialogAddRule::on_pushButtonOK_clicked()
 		}
 	}
 
-	emit dataUpdated();
 	emit closed();
 	close();
 }

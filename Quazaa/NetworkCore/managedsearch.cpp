@@ -39,9 +39,7 @@
 
 #include "quazaasettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CManagedSearch::CManagedSearch(CQuery* pQuery, QObject* parent) :
 	QObject(parent)

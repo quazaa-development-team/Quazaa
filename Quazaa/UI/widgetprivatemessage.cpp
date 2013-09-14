@@ -31,9 +31,7 @@
 #include <QDesktopServices>
 #include <QScrollBar>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 WidgetPrivateMessage::WidgetPrivateMessage(QWidget *parent) :
 	QWidget(parent),

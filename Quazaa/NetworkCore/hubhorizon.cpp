@@ -26,9 +26,7 @@
 #include "g2packet.h"
 #include "quazaasettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 // Portions of this code are borrowed from Shareaza
 

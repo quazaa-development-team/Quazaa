@@ -26,9 +26,7 @@
 #include "systemlog.h"
 #include "buffer.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 G2PacketPool G2Packets;
 

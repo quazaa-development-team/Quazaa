@@ -24,10 +24,7 @@
 
 #include "neighboursbase.h"
 #include "neighbour.h"
-
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CNeighboursBase::CNeighboursBase(QObject* parent) :
 	QObject(parent),

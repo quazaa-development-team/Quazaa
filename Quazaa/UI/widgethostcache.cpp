@@ -28,9 +28,7 @@
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 WidgetHostCache::WidgetHostCache(QWidget* parent) :
 	QMainWindow(parent),

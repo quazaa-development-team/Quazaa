@@ -31,9 +31,7 @@
 
 #include <QDebug>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogHashProgress::DialogHashProgress(QWidget* parent) :
 	QDialog(parent),

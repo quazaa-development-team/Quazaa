@@ -23,10 +23,7 @@
 */
 
 #include "fileiconprovider.h"
-
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 #if defined(Q_OS_WIN)
 #  define _WIN32_IE 0x0500

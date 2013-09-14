@@ -34,9 +34,7 @@
 #include <QDesktopServices>
 #endif
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 QuazaaSettings quazaaSettings;
 
@@ -109,15 +107,13 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Discovery");
-	m_qSettings.setValue("AccessThrottle", quazaaSettings.Discovery.AccessThrottle);
-	m_qSettings.setValue("BootstrapCount", quazaaSettings.Discovery.BootstrapCount);
-	m_qSettings.setValue("CacheCount", quazaaSettings.Discovery.CacheCount);
-	m_qSettings.setValue("DataPath", quazaaSettings.Discovery.DataPath);
-	m_qSettings.setValue("DefaultUpdate", quazaaSettings.Discovery.DefaultUpdate);
-	m_qSettings.setValue("EnableG1GWC", quazaaSettings.Discovery.EnableG1GWC);
-	m_qSettings.setValue("FailureLimit", quazaaSettings.Discovery.FailureLimit);
-	m_qSettings.setValue("Lowpoint", quazaaSettings.Discovery.Lowpoint);
-	m_qSettings.setValue("UpdatePeriod", quazaaSettings.Discovery.UpdatePeriod);
+	m_qSettings.setValue("AccessThrottle",            quazaaSettings.Discovery.AccessThrottle);
+	m_qSettings.setValue("DataPath",                  quazaaSettings.Discovery.DataPath);
+	m_qSettings.setValue("FailureLimit",              quazaaSettings.Discovery.FailureLimit);
+	m_qSettings.setValue("MaximalServiceRating",      quazaaSettings.Discovery.MaximumServiceRating);
+	m_qSettings.setValue("ServiceTimeout",            quazaaSettings.Discovery.ServiceTimeout);
+	m_qSettings.setValue("ZeroRatingRevivalInterval", quazaaSettings.Discovery.ZeroRatingRevivalInterval);
+	m_qSettings.setValue("ZeroRatingRevivalTries",    quazaaSettings.Discovery.ZeroRatingRevivalTries);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Downloads");
@@ -466,11 +462,11 @@ void QuazaaSettings::saveSettings()
 void QuazaaSettings::loadSettings()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
-    QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
-    QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ), "Data" );
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ), "Data" );
 #endif
 
 	m_qSettings.beginGroup("Ares");
@@ -536,16 +532,22 @@ void QuazaaSettings::loadSettings()
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Discovery");
-	quazaaSettings.Discovery.AccessThrottle = m_qSettings.value("AccessThrottle", 60).toInt();
-	quazaaSettings.Discovery.BootstrapCount = m_qSettings.value("BootstrapCount", 10).toInt();
-	quazaaSettings.Discovery.CacheCount = m_qSettings.value("CacheCount", 50).toInt();
-	quazaaSettings.Discovery.DataPath = m_qSettings.value("DataPath", sDefaultDataPath).toString();
-	quazaaSettings.Discovery.DefaultUpdate = m_qSettings.value("DefaultUpdate", 60).toInt();
-	quazaaSettings.Discovery.EnableG1GWC = m_qSettings.value("EnableG1GWC", false).toBool();
-	quazaaSettings.Discovery.FailureLimit = m_qSettings.value("FailureLimit", 2).toInt();
-	quazaaSettings.Discovery.Lowpoint = m_qSettings.value("Lowpoint", 10).toInt();
-	quazaaSettings.Discovery.UpdatePeriod = m_qSettings.value("UpdatePeriod", 30).toInt();
+	quazaaSettings.Discovery.AccessThrottle            = m_qSettings.value("AccessThrottle", 60).toUInt();
+	quazaaSettings.Discovery.DataPath                  = m_qSettings.value("DataPath", sDefaultDataPath).toString();
+	quazaaSettings.Discovery.FailureLimit              = m_qSettings.value("FailureLimit", 2).toUInt();
+	quazaaSettings.Discovery.MaximumServiceRating      = m_qSettings.value("MaximalServiceRating", 10).toUInt();
+	quazaaSettings.Discovery.ServiceTimeout            = m_qSettings.value("ServiceTimeout", 10).toUInt();
+	quazaaSettings.Discovery.ZeroRatingRevivalInterval = m_qSettings.value("ZeroRatingRevivalInterval", 60 * 24 * 10).toUInt();
+	quazaaSettings.Discovery.ZeroRatingRevivalTries    = m_qSettings.value("ZeroRatingRevivalTries", 2 ).toUInt();
 	m_qSettings.endGroup();
+
+
+
+
+//TODO: Move this to a more appropriate place.
+
+	QDir dir;
+	/*bool bOK = */dir.mkpath( quazaaSettings.Discovery.DataPath );
 
 	m_qSettings.beginGroup("Downloads");
 	quazaaSettings.Downloads.AllowBackwards = m_qSettings.value("AllowBackwards", true).toBool();
@@ -555,9 +557,9 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Downloads.ChunkStrap = m_qSettings.value("ChunkStrap", 131072).toInt();
 	quazaaSettings.Downloads.ClearDelay = m_qSettings.value("ClearDelay", 30000).toInt();
 #if QT_VERSION >= 0x050000
-	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/Quazaa Downloads").toString();
 #else
-	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+	quazaaSettings.Downloads.CompletePath = m_qSettings.value("CompletePath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/Quazaa Downloads").toString();
 #endif
 	quazaaSettings.Downloads.ConnectThrottle = m_qSettings.value("ConnectThrottle", 800).toInt();
 	quazaaSettings.Downloads.DropFailedSourcesThreshold = m_qSettings.value("DropFailedSourcesThreshold", 20).toInt();
@@ -729,10 +731,10 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Library.ScanPDF = m_qSettings.value("ScanPDF", true).toBool();
 	quazaaSettings.Library.SchemaURI = m_qSettings.value("SchemaURI", "http://www.limewire.com/schemas/audio.xsd").toString();
 #if QT_VERSION >= 0x050000
-	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads"
+	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/Quazaa Downloads"
 									<< QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Quazaa/Torrents").toStringList();
 #else
-	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads"
+	quazaaSettings.Library.Shares = m_qSettings.value("Shares", QStringList() << QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/Quazaa Downloads"
 									<< QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Quazaa/Torrents").toStringList();
 #endif
 	quazaaSettings.Library.ShowCoverArt = m_qSettings.value("ShowCoverArt", true).toBool();
@@ -770,9 +772,9 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Media.ListVisible = m_qSettings.value("ListVisible", true).toBool();
 	quazaaSettings.Media.Mute = m_qSettings.value("Mute", false).toBool();
 #if QT_VERSION >= 0x050000
-	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/Quazaa Downloads").toString();
 #else
-	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation).replace(QString("\\"), QString("/")) + "/Quazaa Downloads").toString();
+	quazaaSettings.Media.OpenPath = m_qSettings.value("OpenPath", QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/Quazaa Downloads").toString();
 #endif
 	quazaaSettings.Media.Playlist = m_qSettings.value("Playlist", QStringList()).toStringList();
 	quazaaSettings.Media.Shuffle = m_qSettings.value("Shuffle", false).toBool();
@@ -999,7 +1001,7 @@ void QuazaaSettings::saveChat()
 	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.Chat.ConnectOnStartup);
 	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
-    m_qSettings.setValue("TimeStampFormat", quazaaSettings.Chat.TimestampFormat);
+	m_qSettings.setValue("TimeStampFormat", quazaaSettings.Chat.TimestampFormat);
 	m_qSettings.setValue("MaxBlockCount", quazaaSettings.Chat.MaxBlockCount);
 	m_qSettings.setValue("Layout", quazaaSettings.Chat.Layout);
 	m_qSettings.setValue("StripNicks", quazaaSettings.Chat.StripNicks);
@@ -1033,40 +1035,41 @@ void QuazaaSettings::saveChat()
 
 	// TODO: the default values should respect palette
 	m_qSettings.setValue("ColorsBackground", quazaaSettings.Chat.Colors[IrcColorType::Background]);
-    m_qSettings.setValue("ColorsDefault", quazaaSettings.Chat.Colors[IrcColorType::Default]);
-    m_qSettings.setValue("ColorsEvent", quazaaSettings.Chat.Colors[IrcColorType::Event]);
+	m_qSettings.setValue("ColorsDefault", quazaaSettings.Chat.Colors[IrcColorType::Default]);
+	m_qSettings.setValue("ColorsEvent", quazaaSettings.Chat.Colors[IrcColorType::Event]);
 	m_qSettings.setValue("ColorsNotice", quazaaSettings.Chat.Colors[IrcColorType::Notice]);
 	m_qSettings.setValue("ColorsAction", quazaaSettings.Chat.Colors[IrcColorType::Action]);
-    m_qSettings.setValue("ColorsInactive", quazaaSettings.Chat.Colors[IrcColorType::Inactive]);
-    m_qSettings.setValue("ColorsAlert", quazaaSettings.Chat.Colors[IrcColorType::Alert]);
+	m_qSettings.setValue("ColorsInactive", quazaaSettings.Chat.Colors[IrcColorType::Inactive]);
+	m_qSettings.setValue("ColorsAlert", quazaaSettings.Chat.Colors[IrcColorType::Alert]);
 	m_qSettings.setValue("ColorsHighlight", quazaaSettings.Chat.Colors[IrcColorType::Highlight]);
 	m_qSettings.setValue("ColorsTimestamp", quazaaSettings.Chat.Colors[IrcColorType::TimeStamp]);
 	m_qSettings.setValue("ColorsLink", quazaaSettings.Chat.Colors[IrcColorType::Link]);
-    m_qSettings.setValue("ColorsWhite", quazaaSettings.Chat.Colors[IrcColorType::White]);
-    m_qSettings.setValue("ColorsBlack", quazaaSettings.Chat.Colors[IrcColorType::Black]);
-    m_qSettings.setValue("ColorsBlue", quazaaSettings.Chat.Colors[IrcColorType::Blue]);
-    m_qSettings.setValue("ColorsGreen", quazaaSettings.Chat.Colors[IrcColorType::Green]);
-    m_qSettings.setValue("ColorsRed", quazaaSettings.Chat.Colors[IrcColorType::Red]);
-    m_qSettings.setValue("ColorsBrown", quazaaSettings.Chat.Colors[IrcColorType::Brown]);
-    m_qSettings.setValue("ColorsPurple", quazaaSettings.Chat.Colors[IrcColorType::Purple]);
-    m_qSettings.setValue("ColorsOrange", quazaaSettings.Chat.Colors[IrcColorType::Orange]);
-    m_qSettings.setValue("ColorsYellow", quazaaSettings.Chat.Colors[IrcColorType::Yellow]);
-    m_qSettings.setValue("ColorsLightGreen", quazaaSettings.Chat.Colors[IrcColorType::LightGreen]);
-    m_qSettings.setValue("ColorsCyan", quazaaSettings.Chat.Colors[IrcColorType::Cyan]);
-    m_qSettings.setValue("ColorsLightCyan", quazaaSettings.Chat.Colors[IrcColorType::LightCyan]);
-    m_qSettings.setValue("ColorsLightBlue", quazaaSettings.Chat.Colors[IrcColorType::LightBlue]);
-    m_qSettings.setValue("ColorsPink", quazaaSettings.Chat.Colors[IrcColorType::Pink]);
-    m_qSettings.setValue("ColorsGray", quazaaSettings.Chat.Colors[IrcColorType::Gray]);
-    m_qSettings.setValue("ColorsLightGray", quazaaSettings.Chat.Colors[IrcColorType::LightGray]);
+	m_qSettings.setValue("ColorsWhite", quazaaSettings.Chat.Colors[IrcColorType::White]);
+	m_qSettings.setValue("ColorsBlack", quazaaSettings.Chat.Colors[IrcColorType::Black]);
+	m_qSettings.setValue("ColorsBlue", quazaaSettings.Chat.Colors[IrcColorType::Blue]);
+	m_qSettings.setValue("ColorsGreen", quazaaSettings.Chat.Colors[IrcColorType::Green]);
+	m_qSettings.setValue("ColorsRed", quazaaSettings.Chat.Colors[IrcColorType::Red]);
+	m_qSettings.setValue("ColorsBrown", quazaaSettings.Chat.Colors[IrcColorType::Brown]);
+	m_qSettings.setValue("ColorsPurple", quazaaSettings.Chat.Colors[IrcColorType::Purple]);
+	m_qSettings.setValue("ColorsOrange", quazaaSettings.Chat.Colors[IrcColorType::Orange]);
+	m_qSettings.setValue("ColorsYellow", quazaaSettings.Chat.Colors[IrcColorType::Yellow]);
+	m_qSettings.setValue("ColorsLightGreen", quazaaSettings.Chat.Colors[IrcColorType::LightGreen]);
+	m_qSettings.setValue("ColorsCyan", quazaaSettings.Chat.Colors[IrcColorType::Cyan]);
+	m_qSettings.setValue("ColorsLightCyan", quazaaSettings.Chat.Colors[IrcColorType::LightCyan]);
+	m_qSettings.setValue("ColorsLightBlue", quazaaSettings.Chat.Colors[IrcColorType::LightBlue]);
+	m_qSettings.setValue("ColorsPink", quazaaSettings.Chat.Colors[IrcColorType::Pink]);
+	m_qSettings.setValue("ColorsGray", quazaaSettings.Chat.Colors[IrcColorType::Gray]);
+	m_qSettings.setValue("ColorsLightGray", quazaaSettings.Chat.Colors[IrcColorType::LightGray]);
 	m_qSettings.endGroup();
 
-    m_qSettings.beginGroup("ChatAliases");
-    QMap<QString, QString>::const_iterator i = quazaaSettings.Chat.Aliases.constBegin();
-    while (i != quazaaSettings.Chat.Aliases.constEnd()) {
-         m_qSettings.setValue(i.key(), i.value());
-         ++i;
-     }
-    m_qSettings.endGroup();
+	m_qSettings.beginGroup("ChatAliases");
+	QMap<QString, QString>::const_iterator i = quazaaSettings.Chat.Aliases.constBegin();
+	while (i != quazaaSettings.Chat.Aliases.constEnd())
+	{
+		m_qSettings.setValue(i.key(), i.value());
+		++i;
+	}
+	m_qSettings.endGroup();
 
 	emit chatSettingsChanged();
 }
@@ -1084,7 +1087,7 @@ void QuazaaSettings::loadChat()
 	quazaaSettings.Chat.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", false).toBool();
 	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
-    quazaaSettings.Chat.TimestampFormat = m_qSettings.value("TimeStampFormat", "[hh:mm:ss]").toString();
+	quazaaSettings.Chat.TimestampFormat = m_qSettings.value("TimeStampFormat", "[hh:mm:ss]").toString();
 	quazaaSettings.Chat.MaxBlockCount = m_qSettings.value("MaxBlockCount", -1).toInt();
 	quazaaSettings.Chat.Layout = m_qSettings.value("Layout", "tree").toString();
 	quazaaSettings.Chat.StripNicks = m_qSettings.value("StripNicks", false).toBool();
@@ -1125,60 +1128,62 @@ void QuazaaSettings::loadChat()
 
 	// TODO: the default values should respect palette
 	quazaaSettings.Chat.Colors[IrcColorType::Background] = m_qSettings.value("ColorsBackground", "white").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Default] = m_qSettings.value("ColorsDefault", "black").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Default] = m_qSettings.value("ColorsDefault", "black").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "pink").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Notice] = m_qSettings.value("ColorsNotice", "indianred").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Action] = m_qSettings.value("ColorsAction", "darkmagenta").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Inactive] = m_qSettings.value("ColorsInactive", "gray").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Alert] = m_qSettings.value("ColorsAlert", "red").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Highlight] = m_qSettings.value("ColorsHighlight", "maroon").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Inactive] = m_qSettings.value("ColorsInactive", "gray").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Alert] = m_qSettings.value("ColorsAlert", "red").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Highlight] = m_qSettings.value("ColorsHighlight", "maroon").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::TimeStamp] = m_qSettings.value("ColorsTimeStamp", "gray").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Link] = m_qSettings.value("ColorsLink", "dodgerblue").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::White] = m_qSettings.value("ColorsWhite", "white").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Black] = m_qSettings.value("ColorsBlack", "black").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Blue] = m_qSettings.value("ColorsBlue", "blue").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Green] = m_qSettings.value("ColorsGreen", "green").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Red] = m_qSettings.value("ColorsRed", "red").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Brown] = m_qSettings.value("ColorsBrown", "brown").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Purple] = m_qSettings.value("ColorsPurple", "purple").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Orange] = m_qSettings.value("ColorsOrange", "orange").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Yellow] = m_qSettings.value("ColorsYellow", "yellow").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::LightGreen] = m_qSettings.value("ColorsLightGreen", "lightgreen").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Cyan] = m_qSettings.value("ColorsCyan", "cyan").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::LightCyan] = m_qSettings.value("ColorsLightCyan", "lightcyan").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::LightBlue] = m_qSettings.value("ColorsLightBlue", "lightblue").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Pink] = m_qSettings.value("ColorsPink", "pink").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Gray] = m_qSettings.value("ColorsGray", "gray").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::LightGray] = m_qSettings.value("ColorsLightGray", "lightgray").toString();
-    m_qSettings.endGroup();
+	quazaaSettings.Chat.Colors[IrcColorType::Link] = m_qSettings.value("ColorsLink", "dodgerblue").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::White] = m_qSettings.value("ColorsWhite", "white").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Black] = m_qSettings.value("ColorsBlack", "black").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Blue] = m_qSettings.value("ColorsBlue", "blue").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Green] = m_qSettings.value("ColorsGreen", "green").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Red] = m_qSettings.value("ColorsRed", "red").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Brown] = m_qSettings.value("ColorsBrown", "brown").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Purple] = m_qSettings.value("ColorsPurple", "purple").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Orange] = m_qSettings.value("ColorsOrange", "orange").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Yellow] = m_qSettings.value("ColorsYellow", "yellow").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::LightGreen] = m_qSettings.value("ColorsLightGreen", "lightgreen").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Cyan] = m_qSettings.value("ColorsCyan", "cyan").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::LightCyan] = m_qSettings.value("ColorsLightCyan", "lightcyan").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::LightBlue] = m_qSettings.value("ColorsLightBlue", "lightblue").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Pink] = m_qSettings.value("ColorsPink", "pink").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Gray] = m_qSettings.value("ColorsGray", "gray").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::LightGray] = m_qSettings.value("ColorsLightGray", "lightgray").toString();
+	m_qSettings.endGroup();
 
-    m_qSettings.beginGroup("ChatAliases");
-    QStringList keys = m_qSettings.childKeys();
-    foreach (QString key, keys) {
-         quazaaSettings.Chat.Aliases[key] = m_qSettings.value(key).toString();
-    }
+	m_qSettings.beginGroup("ChatAliases");
+	QStringList keys = m_qSettings.childKeys();
+	foreach (QString key, keys)
+	{
+		quazaaSettings.Chat.Aliases[key] = m_qSettings.value(key).toString();
+	}
 
-    if(quazaaSettings.Chat.Aliases.isEmpty()) {
-        quazaaSettings.Chat.Aliases["Q"] = "QUERY $*";
-        quazaaSettings.Chat.Aliases["M"] = "MSG $*";
-        quazaaSettings.Chat.Aliases["TELL"] = "MSG $*";
-        quazaaSettings.Chat.Aliases["J"] = "JOIN $*";
-        quazaaSettings.Chat.Aliases["P"] = "PART $*";
-        quazaaSettings.Chat.Aliases["LEAVE"] = "PART $*";
-        quazaaSettings.Chat.Aliases["BS"] = "MSG BotServ $*";
-        quazaaSettings.Chat.Aliases["BOTSERV"] = "MSG BotServ $*";
-        quazaaSettings.Chat.Aliases["CS"] = "MSG ChanServ $*";
-        quazaaSettings.Chat.Aliases["CHANSERV"] = "MSG ChanServ $*";
-        quazaaSettings.Chat.Aliases["HS"] = "MSG HostServ $*";
-        quazaaSettings.Chat.Aliases["HOSTSERV"] = "MSG HostServ $*";
-        quazaaSettings.Chat.Aliases["MS"] = "MSG MemoServ $*";
-        quazaaSettings.Chat.Aliases["MEMOSERV"] = "MSG MemoServ $*";
-        quazaaSettings.Chat.Aliases["NS"] = "MSG NickServ $*";
-        quazaaSettings.Chat.Aliases["NICKSERV"] = "MSG NickServ $*";
-        quazaaSettings.Chat.Aliases["OS"] = "MSG OperServ $*";
-        quazaaSettings.Chat.Aliases["OPERSERV"] = "MSG OperServ $*";
-    }
-    m_qSettings.endGroup();
+	if(quazaaSettings.Chat.Aliases.isEmpty())
+	{
+		quazaaSettings.Chat.Aliases["Q"] = "QUERY $*";
+		quazaaSettings.Chat.Aliases["M"] = "MSG $*";
+		quazaaSettings.Chat.Aliases["TELL"] = "MSG $*";
+		quazaaSettings.Chat.Aliases["J"] = "JOIN $*";
+		quazaaSettings.Chat.Aliases["P"] = "PART $*";
+		quazaaSettings.Chat.Aliases["LEAVE"] = "PART $*";
+		quazaaSettings.Chat.Aliases["BS"] = "MSG BotServ $*";
+		quazaaSettings.Chat.Aliases["BOTSERV"] = "MSG BotServ $*";
+		quazaaSettings.Chat.Aliases["CS"] = "MSG ChanServ $*";
+		quazaaSettings.Chat.Aliases["CHANSERV"] = "MSG ChanServ $*";
+		quazaaSettings.Chat.Aliases["HS"] = "MSG HostServ $*";
+		quazaaSettings.Chat.Aliases["HOSTSERV"] = "MSG HostServ $*";
+		quazaaSettings.Chat.Aliases["MS"] = "MSG MemoServ $*";
+		quazaaSettings.Chat.Aliases["MEMOSERV"] = "MSG MemoServ $*";
+		quazaaSettings.Chat.Aliases["NS"] = "MSG NickServ $*";
+		quazaaSettings.Chat.Aliases["NICKSERV"] = "MSG NickServ $*";
+		quazaaSettings.Chat.Aliases["OS"] = "MSG OperServ $*";
+		quazaaSettings.Chat.Aliases["OPERSERV"] = "MSG OperServ $*";
+	}
+	m_qSettings.endGroup();
 }
 
 void QuazaaSettings::saveProfile()
@@ -1191,30 +1196,30 @@ void QuazaaSettings::saveProfile()
 
 	m_qSettings.beginGroup("Profile");
 	m_qSettings.setValue("Age", quazaaSettings.Profile.Age);
-	m_qSettings.setValue("AolScreenName", quazaaSettings.Profile.AolScreenName);							// Aol screen name
-	m_qSettings.setValue("AvatarPath", quazaaSettings.Profile.AvatarPath);								// Path to an avatar image file. Quazaa logo used if blank
-	m_qSettings.setValue("Biography", quazaaSettings.Profile.Biography);								// Your life story..
-	m_qSettings.setValue("City", quazaaSettings.Profile.City);									// Your city
-	m_qSettings.setValue("Country", quazaaSettings.Profile.Country);								// Your country..
-	m_qSettings.setValue("Email", quazaaSettings.Profile.Email);									// EMail address
-	m_qSettings.setValue("Favorites", quazaaSettings.Profile.Favorites);								// Favorite websites
-	m_qSettings.setValue("FavoritesURL", quazaaSettings.Profile.FavoritesURL);							// Favorite Websites URLs
-	m_qSettings.setValue("Gender", quazaaSettings.Profile.Gender);									// Gender..
-	m_qSettings.setValue("GnutellaScreenName", quazaaSettings.Profile.GnutellaScreenName);						// The name displayed in searches, uploads and downloads and when users browse your system
-	m_qSettings.setValue("GUID", quazaaSettings.Profile.GUID.toString());									// Unique ID for each client. Can be regenerated
-	m_qSettings.setValue("ICQuin", quazaaSettings.Profile.ICQuin);									// Identification number in ICQ
-	m_qSettings.setValue("Interests", quazaaSettings.Profile.Interests);								// What do you like to do other than use Quazaa
-	m_qSettings.setValue("IrcAlternateNickname", quazaaSettings.Profile.IrcAlternateNickname);					// Alternate nickname in Irc chat if first one is already used
-	m_qSettings.setValue("IrcNickname", quazaaSettings.Profile.IrcNickname);							// Nickname used in Irc chat
-	m_qSettings.setValue("IrcUserName", quazaaSettings.Profile.IrcUserName);							// User name for Irc chat
-	m_qSettings.setValue("JabberID", quazaaSettings.Profile.JabberID);								// Jabber ID
-	m_qSettings.setValue("Latitude", quazaaSettings.Profile.Latitude);								// Location for a disgruntled P2P user to aim a missile
-	m_qSettings.setValue("Longitude", quazaaSettings.Profile.Longitude);								// Location for a disgruntled P2P user to aim a missile
-	m_qSettings.setValue("MSNPassport", quazaaSettings.Profile.MSNPassport);							// Microsoft's Messenger ID
-	m_qSettings.setValue("MyspaceProfile", quazaaSettings.Profile.MyspaceProfile);							// Myspace profile excluding http://quazaaSettings.Profile.myspace.com/
-	m_qSettings.setValue("RealName", quazaaSettings.Profile.RealName);								// User's real name
-	m_qSettings.setValue("StateProvince", quazaaSettings.Profile.StateProvince);							// Your state or province
-	m_qSettings.setValue("YahooID", quazaaSettings.Profile.YahooID);								// Yahoo Messenger ID
+	m_qSettings.setValue("AolScreenName", quazaaSettings.Profile.AolScreenName);               // Aol screen name
+	m_qSettings.setValue("AvatarPath", quazaaSettings.Profile.AvatarPath);                     // Path to an avatar image file. Quazaa logo used if blank
+	m_qSettings.setValue("Biography", quazaaSettings.Profile.Biography);                       // Your life story..
+	m_qSettings.setValue("City", quazaaSettings.Profile.City);                                 // Your city
+	m_qSettings.setValue("Country", quazaaSettings.Profile.Country);                           // Your country..
+	m_qSettings.setValue("Email", quazaaSettings.Profile.Email);                               // EMail address
+	m_qSettings.setValue("Favorites", quazaaSettings.Profile.Favorites);                       // Favorite websites
+	m_qSettings.setValue("FavoritesURL", quazaaSettings.Profile.FavoritesURL);                 // Favorite Websites URLs
+	m_qSettings.setValue("Gender", quazaaSettings.Profile.Gender);                             // Gender..
+	m_qSettings.setValue("GnutellaScreenName", quazaaSettings.Profile.GnutellaScreenName);     // The name displayed in searches, uploads and downloads and when users browse your system
+	m_qSettings.setValue("GUID", quazaaSettings.Profile.GUID.toString());                      // Unique ID for each client. Can be regenerated
+	m_qSettings.setValue("ICQuin", quazaaSettings.Profile.ICQuin);                             // Identification number in ICQ
+	m_qSettings.setValue("Interests", quazaaSettings.Profile.Interests);                       // What do you like to do other than use Quazaa
+	m_qSettings.setValue("IrcAlternateNickname", quazaaSettings.Profile.IrcAlternateNickname); // Alternate nickname in Irc chat if first one is already used
+	m_qSettings.setValue("IrcNickname", quazaaSettings.Profile.IrcNickname);                   // Nickname used in Irc chat
+	m_qSettings.setValue("IrcUserName", quazaaSettings.Profile.IrcUserName);                   // User name for Irc chat
+	m_qSettings.setValue("JabberID", quazaaSettings.Profile.JabberID);                         // Jabber ID
+	m_qSettings.setValue("Latitude", quazaaSettings.Profile.Latitude);                         // Location for a disgruntled P2P user to aim a missile
+	m_qSettings.setValue("Longitude", quazaaSettings.Profile.Longitude);                       // Location for a disgruntled P2P user to aim a missile
+	m_qSettings.setValue("MSNPassport", quazaaSettings.Profile.MSNPassport);                   // Microsoft's Messenger ID
+	m_qSettings.setValue("MyspaceProfile", quazaaSettings.Profile.MyspaceProfile);             // Myspace profile excluding http://quazaaSettings.Profile.myspace.com/
+	m_qSettings.setValue("RealName", quazaaSettings.Profile.RealName);                         // User's real name
+	m_qSettings.setValue("StateProvince", quazaaSettings.Profile.StateProvince);               // Your state or province
+	m_qSettings.setValue("YahooID", quazaaSettings.Profile.YahooID);                           // Yahoo Messenger ID
 	m_qSettings.endGroup();
 }
 
@@ -1293,17 +1298,18 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
     m_qSettings.setValue("ChatTreeWidget", quazaaSettings.WinMain.ChatTreeWidget);
     m_qSettings.setValue("ChatTreeWidgetSplitter", quazaaSettings.WinMain.ChatTreeWidgetSplitter);
 	m_qSettings.setValue("ChatToolbars", quazaaSettings.WinMain.ChatToolbars);
+	m_qSettings.setValue("DiscoveryHeader", quazaaSettings.WinMain.DiscoveryHeader);
 	m_qSettings.setValue("DiscoveryToolbar", quazaaSettings.WinMain.DiscoveryToolbar);
-	m_qSettings.setValue("DownloadsToolbar", quazaaSettings.WinMain.DownloadsToolbar);
 	m_qSettings.setValue("DownloadsHeader", quazaaSettings.WinMain.DownloadsHeader);
+	m_qSettings.setValue("DownloadsToolbar", quazaaSettings.WinMain.DownloadsToolbar);
 	m_qSettings.setValue("DownloadsSplitter", quazaaSettings.WinMain.DownloadsSplitter);
 	m_qSettings.setValue("DownloadsSplitterRestoreTop", quazaaSettings.WinMain.DownloadsSplitterRestoreTop);
 	m_qSettings.setValue("DownloadsSplitterRestoreBottom", quazaaSettings.WinMain.DownloadsSplitterRestoreBottom);
 	m_qSettings.setValue("GraphSplitter", quazaaSettings.WinMain.GraphSplitter);
 	m_qSettings.setValue("GraphSplitterRestoreLeft", quazaaSettings.WinMain.GraphSplitterRestoreLeft);
 	m_qSettings.setValue("GraphSplitterRestoreRight", quazaaSettings.WinMain.GraphSplitterRestoreRight);
-    m_qSettings.setValue("GraphToolbar", quazaaSettings.WinMain.GraphToolbar);
-    m_qSettings.setValue("HomeSearchString", quazaaSettings.WinMain.HomeSearchString);
+	m_qSettings.setValue("GraphToolbar", quazaaSettings.WinMain.GraphToolbar);
+	m_qSettings.setValue("HomeSearchString", quazaaSettings.WinMain.HomeSearchString);
 	m_qSettings.setValue("HostCacheSplitter", quazaaSettings.WinMain.HostCacheSplitter);
 	m_qSettings.setValue("HostCacheSplitterRestoreLeft", quazaaSettings.WinMain.HostCacheSplitterRestoreLeft);
 	m_qSettings.setValue("HostCacheSplitterRestoreRight", quazaaSettings.WinMain.HostCacheSplitterRestoreRight);
@@ -1372,19 +1378,20 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.ActivitySplitterRestoreBottom = m_qSettings.value("ActivitySplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.ChatRoomsTaskVisible = m_qSettings.value("ChatRoomsTaskVisible", true).toBool();
 	quazaaSettings.WinMain.ChatFriendsTaskVisible = m_qSettings.value("ChatFriendsTaskVisible", true).toBool();
-    quazaaSettings.WinMain.ChatUserListSplitter = m_qSettings.value("ChatListSplitter", QByteArray()).toByteArray();
-    quazaaSettings.WinMain.ChatTreeWidget = m_qSettings.value("ChatTreeWidget", QByteArray()).toByteArray();
-    quazaaSettings.WinMain.ChatTreeWidgetSplitter = m_qSettings.value("ChatTreeWidgetSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.ChatUserListSplitter = m_qSettings.value("ChatListSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.ChatTreeWidget = m_qSettings.value("ChatTreeWidget", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.ChatTreeWidgetSplitter = m_qSettings.value("ChatTreeWidgetSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.ChatToolbars = m_qSettings.value("ChatToolbars", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.DiscoveryHeader  = m_qSettings.value("DiscoveryHeader",  QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DiscoveryToolbar = m_qSettings.value("DiscoveryToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.DownloadsHeader  = m_qSettings.value("DownloadsHeader",  QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DownloadsToolbar = m_qSettings.value("DownloadsToolbar", QByteArray()).toByteArray();
-	quazaaSettings.WinMain.DownloadsHeader = m_qSettings.value("DownloadsHeader", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DownloadsSplitter = m_qSettings.value("DownloadsSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.DownloadsSplitterRestoreTop = m_qSettings.value("DownloadsSplitterRestoreTop", 0).toInt();
 	quazaaSettings.WinMain.DownloadsSplitterRestoreBottom = m_qSettings.value("DownloadsSplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.GraphSplitter = m_qSettings.value("GraphSplitter", QByteArray()).toByteArray();
-    quazaaSettings.WinMain.GraphToolbar = m_qSettings.value("GraphToolbar", QByteArray()).toByteArray();
-    quazaaSettings.WinMain.HomeSearchString = m_qSettings.value("HomeSearchString", "").toString();
+	quazaaSettings.WinMain.GraphToolbar = m_qSettings.value("GraphToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.HomeSearchString = m_qSettings.value("HomeSearchString", "").toString();
 	quazaaSettings.WinMain.HostCacheSplitter = m_qSettings.value("HostCacheSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.HostCacheToolbar = m_qSettings.value("HostCacheToolbar", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.LibraryDetailsSplitter = m_qSettings.value("LibraryDetailsSplitter", QByteArray()).toByteArray();

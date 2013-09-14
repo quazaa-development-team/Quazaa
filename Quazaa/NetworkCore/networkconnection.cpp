@@ -29,9 +29,7 @@
 
 #include "buffer.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CNetworkConnection::CNetworkConnection(QObject* parent)
 	: QObject(parent)

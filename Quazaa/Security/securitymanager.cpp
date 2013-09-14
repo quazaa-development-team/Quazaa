@@ -24,6 +24,7 @@
 
 #include <math.h>
 
+#include <QDateTime>
 #include <QMetaType>
 
 #include <QXmlStreamReader>
@@ -31,16 +32,12 @@
 
 #include "securitymanager.h"
 
-#include "time.h"
-
 #include "geoiplist.h"
 #include "quazaasettings.h"
 #include "timedsignalqueue.h"
 #include "Misc/timeoutwritelocker.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 Security::CSecurity securityManager;
 using namespace Security;
@@ -88,7 +85,7 @@ void CSecurity::setDenyPolicy(bool bDenyPolicy)
   * Checks whether a rule with the same UUID exists within the security database.
   * Locking: R
   */
-bool CSecurity::check(const CSecureRule* const pRule)
+bool CSecurity::check(const CSecureRule* const pRule) const
 {
 	QReadLocker l( &m_pRWLock );
 
@@ -506,7 +503,7 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 
 	QWriteLocker mutex( &m_pRWLock );
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
 
 	CAddressRuleMap::const_iterator i = m_IPs.find( qHash( oAddress ) );
 	if ( i != m_IPs.end() )
@@ -749,7 +746,7 @@ bool CSecurity::isNewlyDenied(const QHostAddress& oAddress)
 
 			// Note: The write operations in count() are not protected by any locking,
 			// so there might be eventual thread collisions that reduce the accuracy of the statistics.
-			pRule->count();
+			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 				return false;
@@ -767,10 +764,10 @@ bool CSecurity::isNewlyDenied(const QHostAddress& oAddress)
   * Checks a hit against the list of loaded new security rules.
   * Locking: R
   */
-bool CSecurity::isNewlyDenied(/*const CQueryHit* pHit, */const QList<QString>& /*lQuery*/)
+bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuery)
 {
-	//if ( !pHit )
-	//	return false;
+	if ( !pHit )
+		return false;
 
 	CSecureRule* pRule = NULL;
 	QReadLocker l( &m_pRWLock );
@@ -787,14 +784,14 @@ bool CSecurity::isNewlyDenied(/*const CQueryHit* pHit, */const QList<QString>& /
 	{
 		pRule = *i;
 
-		if ( true/*pRule->match( (CShareazaFile*)pHit )
-	 || pRule->match( pHit->m_sName ) || pRule->match( pQuery, pHit->m_sName )*/ )
+		if ( pRule->match( pHit ) || pRule->match( pHit->m_sDescriptiveName ) ||
+			 pRule->match( lQuery, pHit->m_sDescriptiveName ) )
 		{
 			// The rules are new, so we don't need to check whether they are expired or not.
 
-			// Note: The write operations in count() are not protected by any locking,
-			// so there might be eventual thread collisions that reduce the accuracy of the statistics.
-			pRule->count();
+			// Note: The write operations in count() are not protected by any locking, so
+			// there might be eventual thread collisions reducing the accuracy of the statistics.
+			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 				return false;
@@ -850,7 +847,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 		{
 			// Note: The write operations in count() are not protected by any locking, so
 			// there might be eventual thread collisions that reduce the accuracy of the statistics.
-			pIPRule->count();
+			hit( pIPRule );
 
 			if ( pIPRule->m_nAction == CSecureRule::srAccept )
 				return false;
@@ -872,7 +869,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 		{
 			// Note: The write operations in count() are not protected by any locking, so
 			// there might be eventual thread collisions that reduce the accuracy of the statistics.
-			pCountryRule->count();
+			hit( pCountryRule );
 
 			if ( pCountryRule->m_nAction == CSecureRule::srAccept )
 				return false;
@@ -893,7 +890,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 		{
 			// Note: The write operations in count() are not protected by any locking, so
 			// there might be eventual thread collisions that reduce the accuracy of the statistics.
-			pRule->count();
+			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 				return false;
@@ -1087,8 +1084,8 @@ bool CSecurity::start()
 	settingsChanged();
 
 	// Set up interval timed cleanup operations.
-	m_idRuleExpiry = signalQueue.push( this, SLOT(expire()), m_tRuleExpiryInterval, true );
-	m_idMissCacheExpiry = signalQueue.push( this, SLOT(missCacheClear()), m_tMissCacheExpiryInterval, true );
+	m_idRuleExpiry = signalQueue.push( this, "expire", m_tRuleExpiryInterval, true );
+	m_idMissCacheExpiry = signalQueue.push( this, "missCacheClear", m_tMissCacheExpiryInterval, true );
 
 	return load(); // Load security rules from HDD
 }
@@ -1209,7 +1206,7 @@ bool CSecurity::load( QString sPath )
 }
 
 /**
-  * Private helper method for save()
+  * Helper method for save()
   * Requires Locking: R
   */
 void CSecurity::writeToFile(const void * const pManager, QFile& oFile)
@@ -1303,7 +1300,7 @@ bool CSecurity::toXML(const QString& sPath) const
 	xmlDocument.writeAttribute( "version", "2.0" );
 
 	// Once the security manager exits this method, m_pRWLock returns to its initial state.
-	QReadLocker l( const_cast<QReadWriteLock *>(&m_pRWLock) );
+	QReadLocker l( &m_pRWLock );
 
 	for ( CIterator i = m_Rules.begin(); i != m_Rules.end() ; ++i )
 	{
@@ -1513,6 +1510,16 @@ void CSecurity::sanityCheckPerformed()
   */
 void CSecurity::forceEndOfSanityCheck()
 {
+#ifdef _DEBUG
+	if ( m_nPendingOperations )
+	{
+		qDebug() << "Error: Sanity check aborted. Most probable reason: It took some component "
+		         << "longer than 2min to call sanityCheckPerformed() after having recieved the "
+		         << "signal performSanityCheck().";
+		Q_ASSERT( false );
+	}
+#endif //_DEBUG
+
 	QWriteLocker l( &m_pRWLock );
 	clearNewRules();
 	m_nPendingOperations = 0;
@@ -1865,7 +1872,7 @@ bool CSecurity::isAgentDenied(const QString& strUserAgent)
 
 			// Note: As there is only read locking here, this statistics counter might be
 			// unaccurate due to write collisions.
-			pRule->count();
+			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 				return false;
@@ -1881,9 +1888,10 @@ void CSecurity::missCacheAdd(const uint &nIP)
 {
 	if ( m_bUseMissCache )
 	{
-		QWriteLocker l( &m_pRWLock );
+		m_pRWLock.lockForWrite();
 		m_Cache.insert( nIP );
 		evaluateCacheUsage();
+		m_pRWLock.unlock();
 	}
 }
 void CSecurity::missCacheClear(bool bRefreshInterval)
@@ -1904,12 +1912,12 @@ void CSecurity::evaluateCacheUsage()
 
 	static const double log2	= log( 2.0 );
 
-	static double s_nCache		= nCache;
-	static double s_nLogCache	= log( nCache );
+	static double s_nCache		= 0;
+	static double s_nLogCache	= 0;
 
-	static double s_nIPMap		= nIPMap;
-	static double s_nCountryMap	= nCountryMap;
-	static double s_nLogMult	= log( nIPMap * nCountryMap );
+	static double s_nIPMap		= -1;
+	static double s_nCountryMap	= 0;
+	static double s_nLogMult	= 0;
 
 	// Only do the heavy log operations if necessary.
 	if ( s_nCache != nCache )
@@ -1970,7 +1978,7 @@ bool CSecurity::isDenied(const QString& sContent)
 
 			// Note: We don't have a write lock here, so we
 			// can't guarantee the accuracy of this counter.
-			pRule->count();
+			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 				return false;
@@ -2005,7 +2013,7 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 		{
 			// Note that we cannot guarantee the accuracy of the
 			// statistics counter as we don't have a write lock.
-			pRule->count();
+			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 				return false;
@@ -2045,7 +2053,7 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 
 			// Note that we cannot guarantee the accuracy of this statistics
 			// counter as we don't have a write lock here.
-			pRule->count();
+			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 				return false;
@@ -2095,7 +2103,7 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 				continue;
 			}
 
-			pRule->count();
+			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
 				return false;

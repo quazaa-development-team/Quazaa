@@ -27,9 +27,7 @@
 
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 WidgetSmileyList::WidgetSmileyList(QWidget *parent) :
     ui(new Ui::WidgetSmileyList)

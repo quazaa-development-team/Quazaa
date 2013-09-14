@@ -35,9 +35,7 @@
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 #include <QDesktopServices>
 #include <QUrl>

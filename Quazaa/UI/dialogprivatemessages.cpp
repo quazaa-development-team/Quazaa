@@ -31,9 +31,7 @@
 
 #include <QTextDocument>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogPrivateMessages::DialogPrivateMessages(QWidget *parent) :
 	QDialog(parent),

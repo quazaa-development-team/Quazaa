@@ -42,9 +42,7 @@
 #include "thread.h"
 #include "buffer.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CDatagrams Datagrams;
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** $Id$
 **
 ** Copyright © Quazaa Development Team, 2009-2011.
@@ -24,10 +24,7 @@
 
 #include "metalinkhandler.h"
 #include "systemlog.h"
-
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 MetaFile::MetaFile() :
 	m_nID( 0 ),
@@ -93,6 +90,8 @@ void CMetalinkHandler::postParsingInfo( const int line, const QString sInfo ) co
 	QString info = tr( "Metalink: " );
 	info += tr( "Line %1: " ).arg( line );
 	info += sInfo;
+
+	// TODO: Check info level
 
 	systemLog.postLog( LogSeverity::Information, info );
 }

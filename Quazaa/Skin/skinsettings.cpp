@@ -52,6 +52,9 @@ SkinSettings::SkinSettings(QObject *parent) :
 	case OSVersion::Win7:
 		setAeroSkin();
 		break;
+	case OSVersion::Win8:
+		setAeroSkin();
+		break;
 	}
 }
 

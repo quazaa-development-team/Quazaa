@@ -13,7 +13,7 @@ class CTimeoutWriteLocker
 {
 private:
 	QReadWriteLock*	m_pRWLock;
-	int				m_nLockCount;
+	quint32				m_nLockCount;
 
 public:
 	inline CTimeoutWriteLocker(QReadWriteLock* lock, bool& success, int timeout = -1);
@@ -31,7 +31,7 @@ CTimeoutWriteLocker::CTimeoutWriteLocker(QReadWriteLock* lock, bool& success, in
 	m_nLockCount( 0 )
 {
 	success = lock->tryLockForWrite( timeout );
-	m_nLockCount += (int)success;
+	m_nLockCount += (quint32)success;
 }
 
 CTimeoutWriteLocker::~CTimeoutWriteLocker()
@@ -50,14 +50,14 @@ QReadWriteLock* CTimeoutWriteLocker::readWriteLock() const
 bool CTimeoutWriteLocker::relock(int timeout)
 {
 	bool result = m_pRWLock->tryLockForWrite( timeout );
-	m_nLockCount += (int)result;
+	m_nLockCount += (quint32)result;
 	return result;
 }
 
 void CTimeoutWriteLocker::unlock()
 {
 	m_pRWLock->unlock();
-	m_nLockCount--;
+	--m_nLockCount;
 }
 
 #endif // TIMEOUTWRITELOCKER_H

@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** quazaasettings.h
 **
 ** Copyright © Quazaa Development Team, 2009-2013.
@@ -177,15 +177,14 @@ namespace Settings
 
 	struct sDiscovery
 	{
-		int			AccessThrottle;
-		int			BootstrapCount;
-		int			CacheCount;								// Limit ability to learn new caches
-		QString		DataPath;
-		int			DefaultUpdate;
-		bool		EnableG1GWC;
-		int			FailureLimit;
-		int			Lowpoint;
-		int			UpdatePeriod;
+		quint16		AccessThrottle;							// Number of seconds to wait between consecutive requests for the same service.
+		QString		DataPath;								// Path to the discovery data folder. Must have a terminal slash.
+		quint8		FailureLimit;							// Number of failures after which a cache should be autodisabled no matter its rating. (0 to disable)
+															// Note that this setting will be ineffective if a value higher than MaximalServiceRating is chosen.
+		quint8		MaximumServiceRating;					// The highest rating a service can reach.
+		quint8		ServiceTimeout;							// Number of seconds after which a cache request will be cancelled automatically.
+		quint32		ZeroRatingRevivalInterval;				// Number of seconds after which we try to revive a service with probability 0.
+		quint8		ZeroRatingRevivalTries;					// Number of times we try to revive a cache with probability 0 before banning it for good.
 	};
 
 	struct sDownloads
@@ -637,9 +636,10 @@ namespace Settings
         QByteArray	ChatTreeWidget;                         // The list order in the server/channel tree
         QByteArray  ChatTreeWidgetSplitter;                   // The splitter for the server/channel list
 		QByteArray	ChatToolbars;							// Chat Toolbars
-		QByteArray	DiscoveryToolbar;						// DiscoveryToolbar
-		QByteArray	DownloadsToolbar;						// Downloads Toolbar
+		QByteArray	DiscoveryHeader;						// Discovery header
+		QByteArray	DiscoveryToolbar;						// Discovery Toolbar
 		QByteArray	DownloadsHeader;						// Downloads header
+		QByteArray	DownloadsToolbar;						// Downloads Toolbar
 		QByteArray	DownloadsSplitter;						// Downloads splitter position
 		int			DownloadsSplitterRestoreTop;			// The top height of the downloads splitter should restore when right clicked
 		int			DownloadsSplitterRestoreBottom;			// The bottom height of the downloads splitter should restore when right clicked

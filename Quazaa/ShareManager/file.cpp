@@ -26,10 +26,7 @@
 #include <QFileInfo>
 
 #include "file.h"
-
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CFile::CFile(CFile& file) :
 	QObject( file.parent() ),

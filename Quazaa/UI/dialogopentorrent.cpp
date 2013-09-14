@@ -28,9 +28,7 @@
 
 #include <QListView>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 DialogOpenTorrent::DialogOpenTorrent(QWidget* parent) :
 	QDialog(parent),

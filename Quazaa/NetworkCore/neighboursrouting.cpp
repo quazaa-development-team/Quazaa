@@ -30,9 +30,7 @@
 #include "g2packet.h"
 #include "queryhashtable.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CNeighboursRouting::CNeighboursRouting(QObject* parent) :
 	CNeighboursBase(parent)

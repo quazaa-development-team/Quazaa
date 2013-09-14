@@ -25,13 +25,11 @@
 #include "widgetdiscovery.h"
 #include "ui_widgetdiscovery.h"
 
-//#include "discoverytablemodel.h"
+#include "discoverytablemodel.h"
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 #include <QMenu>
 #include <QKeyEvent>
@@ -54,21 +52,87 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	tableViewDiscovery->verticalHeader()->setVisible( false );
 	ui->verticalLayoutDiscoveryTable->addWidget( tableViewDiscovery );
 
-	connect(tableViewDiscovery, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tableViewDiscovery_customContextMenuRequested(QPoint)));
-	connect(tableViewDiscovery, SIGNAL(clicked(QModelIndex)), this, SLOT(tableViewDiscovery_clicked(QModelIndex)));
-	connect(tableViewDiscovery, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(tableViewDiscovery_doubleClicked(QModelIndex)));
+#if QT_VERSION >= 0x050000
 
-	//m_pDiscoveryList = new CDiscoveryTableModel( this, tableView() );
-	//setModel( m_pDiscoveryList );
-	//m_pDiscoveryList->sort( tableViewDiscovery->horizontalHeader()->sortIndicatorSection(),
-	//						tableViewDiscovery->horizontalHeader()->sortIndicatorOrder()    );
+	connect( tableViewDiscovery, &CTableView::clicked,
+			 this, &WidgetDiscovery::tableViewDiscovery_clicked );
+	connect( tableViewDiscovery, &CTableView::doubleClicked,
+			 this, &WidgetDiscovery::tableViewDiscovery_doubleClicked );
+	connect( tableViewDiscovery, &CTableView::customContextMenuRequested,
+			 this, &WidgetDiscovery::tableViewDiscovery_customContextMenuRequested );
 
+#else	// Qt4 code
+
+	connect( tableViewDiscovery, SIGNAL( clicked(QModelIndex) ),
+			 this, SLOT( tableViewDiscovery_clicked(QModelIndex) ) );
+	connect( tableViewDiscovery, SIGNAL( doubleClicked(QModelIndex) ),
+			 this, SLOT( tableViewDiscovery_doubleClicked(QModelIndex) ) );
+	connect( tableViewDiscovery, SIGNAL( customContextMenuRequested(QPoint) ),
+			 this, SLOT( tableViewDiscovery_customContextMenuRequested(QPoint) ) );
+
+#endif
+
+	m_pDiscoveryList = new CDiscoveryTableModel( this, tableView() );
+	setModel( m_pDiscoveryList );
+	m_pDiscoveryList->sort( tableViewDiscovery->horizontalHeader()->sortIndicatorSection(),
+							tableViewDiscovery->horizontalHeader()->sortIndicatorOrder()    );
+
+	tableViewDiscovery->horizontalHeader()->setStretchLastSection( false );
 	setSkin();
+
+	enum Column
+	{
+		TYPE = 0,
+		URL,
+		ACCESSED,
+		HOSTS,
+		TOTAL_HOSTS,
+		ALTERNATE_SERVICES,
+		FAILURES,
+#if ENABLE_DISCOVERY_DEBUGGING
+		RATING,
+		MULTIPLICATOR,
+#endif
+		PONG,
+		_NO_OF_COLUMNS
+	};
+
+	// Set up header sizes
+	if ( !tableViewDiscovery->horizontalHeader()->restoreState(
+			 quazaaSettings.WinMain.DiscoveryHeader ) )
+	{
+		QFontMetrics fm     = tableViewDiscovery->fontMetrics();
+		QHeaderView* header = tableViewDiscovery->horizontalHeader();
+
+		header->resizeSection( CDiscoveryTableModel::TYPE,
+							   fm.width( " -Banned GWC- " ) );
+		header->resizeSection( CDiscoveryTableModel::URL,
+							   fm.width( " -http://cache2.bazookanetworks.com/g2/bazooka.php- " ) );
+		header->resizeSection( CDiscoveryTableModel::ACCESSED,
+							   fm.width( " ---Mi 20.Mrz 2013 19:21:45--- " ) );
+		header->resizeSection( CDiscoveryTableModel::HOSTS,
+							   fm.width( " -Hosts- " ) );
+		header->resizeSection( CDiscoveryTableModel::TOTAL_HOSTS,
+							   fm.width( " -Total Hosts- " ) );
+		header->resizeSection( CDiscoveryTableModel::ALTERNATE_SERVICES,
+							   fm.width( " -Alt. Services- " ) );
+		header->resizeSection( CDiscoveryTableModel::FAILURES,
+							   fm.width( " -Failures- " ) );
+#if ENABLE_DISCOVERY_DEBUGGING
+		header->resizeSection( CDiscoveryTableModel::RATING,
+							   fm.width( " -Rating- " ) );
+		header->resizeSection( CDiscoveryTableModel::MULTIPLICATOR,
+							   fm.width( " -Mult.- " ) );
+#endif
+		header->resizeSection( CDiscoveryTableModel::PONG,
+							   fm.width( " Some space to fill in the pong reply " ) );
+	}
 }
 
 WidgetDiscovery::~WidgetDiscovery()
 {
 	delete ui; // Note: This does also take care of m_pDiscoveryMenu and m_pDiscoveryList.
+	delete tableViewDiscovery; // TODO: check whether this is necessary...
 }
 
 void WidgetDiscovery::setModel(QAbstractItemModel* model)
@@ -84,6 +148,7 @@ QWidget* WidgetDiscovery::tableView()
 void WidgetDiscovery::saveWidget()
 {
 	quazaaSettings.WinMain.DiscoveryToolbar = saveState();
+	quazaaSettings.WinMain.DiscoveryHeader  = tableViewDiscovery->horizontalHeader()->saveState();
 }
 
 void WidgetDiscovery::changeEvent(QEvent* e)
@@ -121,7 +186,7 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 
 	case Qt::Key_F5:
 	{
-		//m_pDiscoveryList->completeRefresh();
+		m_pDiscoveryList->completeRefresh();
 		break;
 	}
 	}
@@ -129,7 +194,7 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 	QMainWindow::keyPressEvent( e );
 }
 
-/*void WidgetDiscovery::setVisibility(CNetworkType networks, bool bHidden)
+void WidgetDiscovery::setVisibility(CNetworkType networks, bool bHidden)
 {
 	for ( quint32 i = m_pDiscoveryList->rowCount(); i > 0; )
 	{
@@ -140,11 +205,13 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 			tableViewDiscovery->setRowHidden( i, bHidden );
 		}
 	}
-}*/
+}
 
 void WidgetDiscovery::update()
 {
-	//m_pDiscoveryList->updateAll();
+	// TODO: improve
+
+	m_pDiscoveryList->updateAll();
 }
 
 void WidgetDiscovery::tableViewDiscovery_customContextMenuRequested(const QPoint& point)
@@ -155,8 +222,17 @@ void WidgetDiscovery::tableViewDiscovery_customContextMenuRequested(const QPoint
 	{
 		ui->actionDiscoveryAddService->setEnabled( true );
 		ui->actionDiscoveryRemoveService->setEnabled( true );
-		ui->actionDiscoveryQueryNow->setEnabled( true );
-		ui->actionDiscoveryAdvertise->setEnabled( true );
+
+		if ( m_pDiscoveryList->isIndexBanned( index ) )
+		{
+			ui->actionDiscoveryQueryNow->setEnabled( false );
+			ui->actionDiscoveryAdvertise->setEnabled( false );
+		}
+		else
+		{
+			ui->actionDiscoveryQueryNow->setEnabled( true );
+			ui->actionDiscoveryAdvertise->setEnabled( true );
+		}
 	}
 	else
 	{
@@ -190,8 +266,17 @@ void WidgetDiscovery::tableViewDiscovery_clicked(const QModelIndex& index)
 	{
 		ui->actionDiscoveryAddService->setEnabled( true );
 		ui->actionDiscoveryRemoveService->setEnabled( true );
-		ui->actionDiscoveryQueryNow->setEnabled( true );
-		ui->actionDiscoveryAdvertise->setEnabled( true );
+
+		if ( m_pDiscoveryList->isIndexBanned( index ) )
+		{
+			ui->actionDiscoveryQueryNow->setEnabled( false );
+			ui->actionDiscoveryAdvertise->setEnabled( false );
+		}
+		else
+		{
+			ui->actionDiscoveryQueryNow->setEnabled( true );
+			ui->actionDiscoveryAdvertise->setEnabled( true );
+		}
 	}
 	else
 	{
@@ -207,24 +292,24 @@ void WidgetDiscovery::setSkin()
 	tableViewDiscovery->setStyleSheet( skinSettings.listViews );
 }
 
-void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered(bool /*checked*/)
+void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered(bool checked)
 {
-//	setVisibility( CNetworkType( dpGnutella ), !checked );
+	setVisibility( CNetworkType( dpGnutella ), !checked );
 }
 
-void WidgetDiscovery::on_actionAresDiscoveryType_triggered(bool /*checked*/)
+void WidgetDiscovery::on_actionAresDiscoveryType_triggered(bool checked)
 {
-//	setVisibility( CNetworkType( dpAres ), !checked );
+	setVisibility( CNetworkType( dpAres ), !checked );
 }
 
-void WidgetDiscovery::on_actionEDonkeyServerMet_triggered(bool /*checked*/)
+void WidgetDiscovery::on_actionEDonkeyServerMet_triggered(bool checked)
 {
-//	setVisibility( CNetworkType( dpeDonkey2000 ), !checked );
+	setVisibility( CNetworkType( dpeDonkey2000 ), !checked );
 }
 
-void WidgetDiscovery::on_actionGWebCache_triggered(bool /*checked*/)
+void WidgetDiscovery::on_actionGWebCache_triggered(bool checked)
 {
-//	setVisibility( CNetworkType( dpG2 ), !checked );
+	setVisibility( CNetworkType( dpG2 ), !checked );
 }
 
 void WidgetDiscovery::on_actionDiscoveryAddService_triggered()
@@ -245,9 +330,9 @@ void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
 	{
 		if ( i.isValid() )
 		{
-			//Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( i ) ) );
+			Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( i ) ) );
 
-			//discoveryManager.remove( m_pDiscoveryList->nodeFromIndex( i )->id() );
+			discoveryManager.remove( m_pDiscoveryList->nodeFromIndex( i )->id() );
 		}
 	}
 }
@@ -258,9 +343,9 @@ void WidgetDiscovery::on_actionDiscoveryQueryNow_triggered()
 
 	if ( index.isValid() )
 	{
-		//Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
+		Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
 
-		//discoveryManager.queryService( m_pDiscoveryList->nodeFromIndex( index )->id() );
+		discoveryManager.queryService( m_pDiscoveryList->nodeFromIndex( index )->id() );
 	}
 }
 
@@ -270,9 +355,9 @@ void WidgetDiscovery::on_actionDiscoveryAdvertise_triggered()
 
 	if ( index.isValid() )
 	{
-		//Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
+		Q_ASSERT( discoveryManager.check( m_pDiscoveryList->nodeFromIndex( index ) ) );
 
-		//discoveryManager.updateService( m_pDiscoveryList->nodeFromIndex( index )->id() );
+		discoveryManager.updateService( m_pDiscoveryList->nodeFromIndex( index )->id() );
 	}
 }
 
@@ -282,6 +367,9 @@ void WidgetDiscovery::on_actionDiscoveryProperties_triggered()
 
 	if ( index.isValid() )
 	{
+	
+	//see https://qt-project.org/wiki/New_Signal_Slot_Syntax
+	
 // TODO: Pop up dialog to edit service
 	}
 }

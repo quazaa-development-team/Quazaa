@@ -93,7 +93,7 @@
 #define PRODUCT_ENTERPRISE_E                        0x00000046
 #define PRODUCT_ULTIMATE_E                          0x00000047
 
-#endif // !defined(Q_OS_WIN32) || !defined(Q_CC_GNU)
+#endif // !defined(Q_OS_WIN) || !defined(Q_CC_GNU) || QT_VERSION < 0x050000
 
 #define PRODUCT_ENTERPRISE_EVALUATION               0x00000048
 #define PRODUCT_MULTIPOINT_STANDARD_SERVER          0x0000004C
@@ -213,8 +213,10 @@ OSVersion::OSVersion QuazaaSysInfo::osVersion()
 		return OSVersion::WinVista;
 	case QSysInfo::WV_WINDOWS7:
 		return OSVersion::Win7;
-    case QSysInfo::WV_WINDOWS8:
-        return OSVersion::Win8;
+#if QT_VERSION >= 0x050000
+	case QSysInfo::WV_WINDOWS8: // not yet defined in Qt4.8
+		return OSVersion::Win8;
+#endif
 	default:
 		return OSVersion::Win7;
 	}

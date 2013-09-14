@@ -31,9 +31,7 @@
 
 #include "quazaaglobals.h"
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 CHandshake::CHandshake(QObject* parent)
 	: CNetworkConnection(parent)

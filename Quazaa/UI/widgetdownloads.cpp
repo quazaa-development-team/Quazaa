@@ -33,9 +33,7 @@
 
 #include <QFontMetrics>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	QMainWindow(parent),

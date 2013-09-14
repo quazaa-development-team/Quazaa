@@ -30,9 +30,7 @@
 
 #include <QMenu>
 
-#ifdef _DEBUG
 #include "debug_new.h"
-#endif
 
 WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
 	QMainWindow(parent),
