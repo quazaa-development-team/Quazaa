@@ -65,6 +65,7 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 	switch( pNode->m_nProtocol )
 	{
 	case dpG2:
+        nDiscoveryProtocol = dpG2;
 		nLeafCount = ((CG2Node*)pNode)->m_nLeafCount;
 		nLeafMax   = ((CG2Node*)pNode)->m_nLeafMax;
 		nType      = ((CG2Node*)pNode)->m_nType;

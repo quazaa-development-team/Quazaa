@@ -62,6 +62,7 @@ public:
 		CEndPoint     oAddress;
 		G2NodeType    nType;
 		int           nState;
+        int           nDiscoveryProtocol;
 		quint32       tConnected;
 		quint32       nPacketsIn;
 		quint32       nPacketsOut;

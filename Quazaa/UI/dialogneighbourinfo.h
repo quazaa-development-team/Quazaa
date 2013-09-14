@@ -18,6 +18,7 @@ public:
     
 private:
     Ui::DialogNeighbourInfo *ui;
+    QString neighbourConnectionDescription(CNeighboursTableModel::Neighbour* pNeighbour);
 };
 
 #endif // DIALOGNEIGHBOURINFO_H
