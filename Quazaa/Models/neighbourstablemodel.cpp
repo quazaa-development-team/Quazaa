@@ -43,6 +43,7 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 {
 	quint32 tNow = time(0);
 
+    sHandshake      = pNode->m_sHandshake;
 	oAddress        = pNode->GetAddress();
 	tConnected      = tNow - pNode->m_tConnected;
 	nBandwidthIn    = pNode->m_mInput.Usage();
@@ -71,7 +72,7 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 		nType      = ((CG2Node*)pNode)->m_nType;
 		break;
 
-	default:
+    default:
 		break;
 	}
 
@@ -89,6 +90,8 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 	bool bRet = false;
 
 	quint32 tNow = time(0);
+
+    sHandshake = pNode->m_sHandshake;
 
 	if ( oAddress != pNode->GetAddress() )
 	{
@@ -296,7 +299,7 @@ bool CNeighboursTableModel::Neighbour::lessThan( int col,
 		return TypeToString( nType ) < TypeToString( pOther->nType );
 
 	case LEAVES:
-		return nLeafCount < pOther->nLeafCount;
+        return nLeafCount + nLeafMax < pOther->nLeafCount + pOther->nLeafMax;
 
 	case PING:
 		if ( nState < nsConnected )

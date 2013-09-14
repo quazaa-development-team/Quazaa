@@ -11,15 +11,16 @@ DialogNeighbourInfo::DialogNeighbourInfo(CNeighboursTableModel::Neighbour *pNeig
 {
     ui->setupUi(this);
 
-    ui->textEditConnectionInfo->setHtml(QString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"><html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\"> p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; font-weight:600;\">%1<br /></span><img src=\"%2\" width=\"20\" height=\"20\" /><span style=\" font-size:8pt;\"> %3<br />%4<br />%5</span></p></body></html>")
+    ui->textEditConnectionInfo->setHtml(QString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"><html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\"> p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\"><p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; font-weight:600;\">%1<br /></span><img src=\"%2\" width=\"20\" height=\"20\" /><span style=\" font-size:8pt;\"> %3<br />%4<br />%5</span></p><p><pre>%6</pre></p></body></html>")
                                         .arg(pNeighbour->oAddress.toStringWithPort())
                                         .arg(":/Resource/Flags/" + pNeighbour->sCountry.toLower() + ".png")
                                         .arg(GeoIP.countryNameFromCode(pNeighbour->sCountry))
                                         .arg(pNeighbour->sUserAgent)
-                                        .arg(neighbourConnectionDescription(pNeighbour)));
+                                        .arg(neighbourConnectionDescription(pNeighbour))
+                                        .arg(pNeighbour->sHandshake.replace(QRegExp("\r\n|\n"), "<br>")));
     ui->labelNetworkImage->setPixmap(pNeighbour->iNetwork.pixmap(QSize(41,41)));
-    ui->labelCurrentInbound->setText(QString().sprintf("%1.3f", pNeighbour->nBandwidthIn));
-    ui->labelCurrentOutbound->setText(QString().sprintf("%1.3f", pNeighbour->nBandwidthOut));
+    ui->labelCurrentInbound->setText(QString().sprintf("%1.3f", double(pNeighbour->nBandwidthIn)));
+    ui->labelCurrentOutbound->setText(QString().sprintf("%1.3f", double(pNeighbour->nBandwidthOut)));
     ui->labelTotalInbound->setText(QString().sprintf("%1.3f KB", pNeighbour->nBytesReceived / 1024.0f));
     ui->labelTotalOutbound->setText(QString().sprintf("%1.3f KB", pNeighbour->nBytesSent / 1024.0f));
     ui->labelRatioInbound->setText(QString().sprintf("%1.2f%%", 100.0f * pNeighbour->nCompressionIn));

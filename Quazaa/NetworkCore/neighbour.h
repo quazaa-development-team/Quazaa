@@ -35,6 +35,8 @@ class CNeighbour : public CCompressedConnection
 public:
 	DiscoveryProtocol	m_nProtocol;
 
+    QString         m_sHandshake;
+
 	quint32         m_tLastPacketIn;
 	quint32         m_tLastPacketOut;
 	quint32         m_nPacketsIn;
@@ -44,7 +46,7 @@ public:
 	quint32         m_tLastPingOut;
 	quint32         m_nPingsWaiting;
 	QElapsedTimer   m_tRTTTimer;
-	qint64          m_tRTT;
+    qint64          m_tRTT;
 	quint32         m_tLastQuery;
 
 	NodeState       m_nState;

@@ -672,7 +672,7 @@ void CDiscovery::asyncUpdateServiceHelper(TServiceID nID)
 		Q_ASSERT( false );
 
 		return;
-	}
+    }
 
 	TServicePtr pService = (*iService).second;
 	m_pSection.unlock();

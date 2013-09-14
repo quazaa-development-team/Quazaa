@@ -26,8 +26,11 @@
 #include "handshakes.h"
 #include "network.h"
 #include "neighbours.h"
+#include "neighbour.h"
+#include "g2node.h"
 
 #include <QTcpSocket>
+#include <QFile>
 
 #include "quazaaglobals.h"
 
@@ -70,6 +73,14 @@ void CHandshake::OnRead()
 		Handshakes.processNeighbour(this);
 		delete this;
 	}
+    else if(Peek(5).startsWith("GET /"))
+    {
+        if( Peek(bytesAvailable()).indexOf("\r\n\r\n") != -1 )
+        {
+            systemLog.postLog(LogSeverity::Debug, QString("Incoming connection from %1 is a Web request").arg(m_pSocket->peerAddress().toString().toLocal8Bit().constData()));
+            OnWebRequest();
+        }
+    }
 	else
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 - unknown protocol").arg(m_pSocket->peerAddress().toString().toLocal8Bit().constData()));
@@ -108,3 +119,128 @@ void CHandshake::OnStateChange(QAbstractSocket::SocketState s)
 	Q_UNUSED(s);
 }
 
+void CHandshake::OnWebRequest()
+{
+    QString sRequest;
+
+    sRequest = Read(bytesAvailable());
+    sRequest = sRequest.left(sRequest.indexOf("\r\n\r\n"));
+
+    QStringList arrLines = sRequest.split("\r\n");
+
+    if( arrLines[0].startsWith("GET / HTTP") )
+    {
+        QByteArray baResp;
+
+        baResp += "HTTP/1.1 200 OK\r\n";
+        baResp += "Server: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+        baResp += "Connection: close\r\n";
+        baResp += "Content-Type: text/html; charset=utf-8\r\n";
+
+
+        QByteArray baHtml;
+        baHtml += "<!DOCTYPE html><html><head><title>Quazaa</title><meta name=\"robots\" content=\"noindex,nofollow\"></head><body>";
+        baHtml += "<h1>This server operates Quazaa node</h2>";
+        baHtml += "<p><a href=\"http://quazaa.sf.net\">Quazaa</a> is a P2P file sharing client</p>";
+        baHtml += "<p>This node is currently connected to the following hosts:<table border=\"1\">";
+        baHtml += "<tr><th>Address</th><th>Time</th><th>Mode</th><th>Leaves</th><th>Client</th></tr>";
+
+        Neighbours.m_pSection.lock();
+
+        quint32 tNow = time(0);
+
+        for( QList<CNeighbour*>::iterator it = Neighbours.begin(); it != Neighbours.end(); it++ )
+        {
+            if( (*it)->m_nState != nsConnected )
+                continue;
+
+            baHtml += "<tr><td>" + (*it)->GetAddress().toStringWithPort() + "</td>";
+
+            quint32 tConnected = tNow - (*it)->m_tConnected;
+            baHtml += "<td>" + QString().sprintf( "%.2u:%.2u:%.2u", tConnected / 3600,
+                                                 tConnected % 3600 / 60, ( tConnected % 3600 ) % 60 ) + "</td>";
+
+            if( (*it)->m_nProtocol == dpG2 )
+            {
+                CG2Node* pG2 = static_cast<CG2Node*>(*it);
+
+                baHtml += "<td>" + QString((pG2->m_nType == G2_HUB ? "G2 Hub" : "G2 Leaf")) + "</td>";
+
+                baHtml += "<td>";
+                if( pG2->m_nType == G2_HUB )
+                {
+                    baHtml += QString::number(pG2->m_nLeafCount) + "/" + QString::number(pG2->m_nLeafMax);
+                }
+                else
+                {
+                    baHtml += "&nbsp;";
+                }
+                baHtml += "</td>";
+            }
+            else
+            {
+                baHtml += "<td>&nbsp;</td><td>&nbsp;</td>";
+            }
+            baHtml += "<td>" + (*it)->m_sUserAgent + "</td>";
+            baHtml += "</tr>";
+        }
+
+        Neighbours.m_pSection.unlock();
+
+        baHtml += "</table></p></body></html>";
+
+        baResp += "Content-length: " + QString(baHtml.length()) + "\r\n";
+        baResp += "\r\n";
+
+        Write(baResp);
+        Write(baHtml);
+    }
+    else
+    {
+        QByteArray baResp;
+
+        QString sPath = arrLines[0].mid(4, arrLines[0].length() - 12).trimmed();
+
+        bool bFound = false;
+
+        if( sPath.startsWith("/res") ) // redirect /res prefixed URIs to the resource system, anything not prefixed will go to uploads
+        {
+            sPath = ":/Resource/Web" + sPath.mid(4);
+
+            QFile f(sPath);
+
+            if( f.exists() && f.isReadable() )
+            {
+                if( f.open(QIODevice::ReadOnly) )
+                {
+                    bFound = true;
+
+                    baResp += "HTTP/1.1 200 OK\r\n";
+                    baResp += "Server: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+                    baResp += "Connection: close\r\n";
+                    baResp += "Content-Length: " + QString::number(f.size()) + "\r\n";
+                    baResp += "\r\n";
+
+                    baResp += f.readAll();
+                    f.close();
+
+                    Write(baResp);
+                }
+            }
+        }
+
+        // TODO: Handle P2P uploads here
+
+        if( !bFound )
+        {
+            baResp += "HTTP/1.1 404 Not found\r\n";
+            baResp += "Server: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+            baResp += "Connection: close\r\n";
+            baResp += "\r\n";
+            baResp += "The requested file was not found on this server.";
+            Write(baResp);
+        }
+    }
+    Close(true);
+
+}

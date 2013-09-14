@@ -336,7 +336,7 @@ void CNeighboursG2::HubBalancing()
 				return;
 			}
 		}
-		else
+        else
 		{
 			m_nPeriodsHigh = m_nPeriodsLow = 0;
 		}

@@ -237,7 +237,7 @@ void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 			break;
 
 		}
-	}
+    }
 }
 
 void WidgetNeighbours::setSkin()
@@ -247,6 +247,7 @@ void WidgetNeighbours::setSkin()
 
 void WidgetNeighbours::on_tableViewNeighbours_doubleClicked(const QModelIndex &index)
 {
-    DialogNeighbourInfo* dlgNeighbourInfo = new DialogNeighbourInfo(&CNeighboursTableModel::Neighbour(neighboursList->NodeFromIndex(index)), this);
+    CNeighboursTableModel::Neighbour* pNbr = static_cast<CNeighboursTableModel::Neighbour*>(index.internalPointer());
+    DialogNeighbourInfo* dlgNeighbourInfo = new DialogNeighbourInfo(pNbr, this);
     dlgNeighbourInfo->exec();
 }

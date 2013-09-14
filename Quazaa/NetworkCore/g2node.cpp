@@ -36,6 +36,7 @@
 #include "queryhashtable.h"
 #include "queryhashmaster.h"
 #include "hubhorizon.h"
+#include "Security/securitymanager.h"
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
@@ -136,10 +137,12 @@ void CG2Node::OnConnect()
 	if(Neighbours.IsG2Hub())
 	{
 		sHs += "X-Ultrapeer: True\r\n";
+        sHs += "X-Hub: True\r\n";
 	}
 	else
 	{
 		sHs += "X-Ultrapeer: False\r\n";
+        sHs += "X-Hub: False\r\n";
 	}
 #ifndef _DISABLE_COMPRESSION
 	sHs += "Accept-Encoding: deflate\r\n";
@@ -148,6 +151,8 @@ void CG2Node::OnConnect()
 	sHs += "\r\n";
 
 	//qDebug() << "Handshake send:\n" << sHs;
+
+    m_sHandshake += "Handshake out:\n" + sHs;
 
 	Write(sHs);
 }
@@ -291,6 +296,8 @@ void CG2Node::ParseIncomingHandshake()
 
 	//qDebug() << "Handshake receive:\n" << sHs;
 
+    m_sHandshake += "Handshake in:\n" + sHs;
+
 	if(m_sUserAgent.isEmpty())
 	{
 		m_sUserAgent = Parser::GetHeaderValue(sHs, "User-Agent");
@@ -326,8 +333,13 @@ void CG2Node::ParseIncomingHandshake()
 		//QString sUltraNeeded = Parser::GetHeaderValue(sHs, "X-Ultrapeer-Needed").toLower();
 		if(sUltra.isEmpty())
 		{
-			Send_ConnectError("503 No hub mode specified");
-			return;
+            sUltra = Parser::GetHeaderValue(sHs, "X-Hub").toLower();
+
+            if( sUltra.isEmpty() )
+            {
+                Send_ConnectError("503 No hub mode specified");
+                return;
+            }
 		}
 
 		QString sRemoteIP = Parser::GetHeaderValue(sHs, "Remote-IP");
@@ -354,6 +366,18 @@ void CG2Node::ParseIncomingHandshake()
 		}
 		else
 		{
+            if( securityManager.isClientBad(m_sUserAgent) )
+            {
+                Send_ConnectError("403 Your client is too old or otherwise bad. Please upgrade.");
+                return;
+            }
+
+            if( securityManager.isAgentBlocked(m_sUserAgent) )
+            {
+                Send_ConnectError("403 Access Denied, sorry");
+                return;
+            }
+
 			if(!Neighbours.NeedMoreG2(G2_LEAF))
 			{
 				Send_ConnectError("503 Maximum leaf connections reached");
@@ -429,6 +453,8 @@ void CG2Node::ParseOutgoingHandshake()
 
 	//qDebug() << "Handshake receive:\n" << sHs;
 
+    m_sHandshake += "Handshake in:\n" + sHs;
+
 	QString sAccept = Parser::GetHeaderValue(sHs, "Accept");
 	bool bAcceptG2 = sAccept.contains("application/x-gnutella2");
 
@@ -488,6 +514,12 @@ void CG2Node::ParseOutgoingHandshake()
 	}
 
 	QString sUltra = Parser::GetHeaderValue(sHs, "X-Ultrapeer").toLower();
+
+    if( sUltra.isEmpty() )
+    {
+        sUltra = Parser::GetHeaderValue(sHs, "X-Hub").toLower();
+    }
+
 	//QString sUltraNeeded = Parser::GetHeaderValue(sHs, "X-Ultrapeer-Needed").toLower();
 
 	bool bUltra = (sUltra == "true");
@@ -527,6 +559,18 @@ void CG2Node::ParseOutgoingHandshake()
 	}
 	else
 	{
+        if( securityManager.isClientBad(m_sUserAgent) )
+        {
+            Send_ConnectError("403 Your client is too old or otherwise bad. Please upgrade.");
+            return;
+        }
+
+        if( securityManager.isAgentBlocked(m_sUserAgent) )
+        {
+            Send_ConnectError("403 Access Denied, sorry");
+            return;
+        }
+
 		if(!Neighbours.NeedMoreG2(G2_LEAF))
 		{
 			Send_ConnectError("503 Maximum leaf connections reached");
@@ -571,7 +615,7 @@ void CG2Node::ParseOutgoingHandshake()
 }
 void CG2Node::Send_ConnectError(QString sReason)
 {
-	systemLog.postLog(LogSeverity::Information, tr("Rejecting connection with %1: %2").arg(qPrintable(m_oAddress.toString())).arg(qPrintable(sReason)));
+    systemLog.postLog(LogSeverity::Information, tr("Rejecting connection with %1: %2 (%3)").arg(qPrintable(m_oAddress.toString())).arg(qPrintable(sReason)).arg(m_sUserAgent));
 
 	QByteArray sHs;
 
@@ -598,6 +642,9 @@ void CG2Node::Send_ConnectError(QString sReason)
 	sHs += "\r\n\r\n";
 
 	//qDebug() << "Handshake send:\n" << sHs;
+
+    m_sHandshake += "Handshake out:\n" + sHs;
+
 	Write(sHs);
 
 	Close(true);
@@ -611,10 +658,12 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
 	if(Neighbours.IsG2Hub())
 	{
 		sHs += "X-Ultrapeer: True\r\n";
+        sHs += "X-Hub: True\r\n";
 	}
 	else
 	{
 		sHs += "X-Ultrapeer: False\r\n";
+        sHs += "X-Hub: False\r\n";
 	}
 	sHs += "Content-Type: application/x-gnutella2\r\n";
 
@@ -651,6 +700,8 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
 	sHs += "\r\n";
 
 	//qDebug() << "Handshake send:\n" << sHs;
+
+    m_sHandshake += "Handshake out:\n" + sHs;
 
 	Write(sHs);
 

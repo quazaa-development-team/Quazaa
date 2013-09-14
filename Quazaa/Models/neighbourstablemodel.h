@@ -62,6 +62,7 @@ public:
 		CEndPoint     oAddress;
 		G2NodeType    nType;
 		int           nState;
+        QString       sHandshake;
         int           nDiscoveryProtocol;
 		quint32       tConnected;
 		quint32       nPacketsIn;
@@ -77,7 +78,7 @@ public:
 		qint64        nRTT;
 		QString       sUserAgent;
 		QString		  sCountry;
-		QIcon		  iNetwork;
+        QIcon		  iNetwork;
 		QIcon		  iCountry;
 
 		Neighbour(CNeighbour* pNeighbour);

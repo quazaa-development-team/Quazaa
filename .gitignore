@@ -28,3 +28,4 @@ Makefile.Release
 /Quazaa/bin/libeay32.dll
 /Quazaa/bin/libssl32.dll
 /Quazaa/bin/ssleay32.dll
+/Quazaa/release

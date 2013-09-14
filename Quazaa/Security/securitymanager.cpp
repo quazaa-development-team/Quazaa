@@ -940,12 +940,17 @@ bool CSecurity::isClientBad(const QString& sUserAgent) const
 
 	// Bad/unapproved versions of Shareaza
 	// Really obsolete versions of Shareaza should be blocked. (they may have bad settings)
-	if ( sUserAgent.startsWith( "shareaza" ) )
+    if ( sUserAgent.startsWith( "shareaza", Qt::CaseInsensitive ) )
 	{
 		sSubStr = sUserAgent.mid( 8 );
 		if ( sSubStr.startsWith( " 0."  ) )		return true;
 		if ( sSubStr.startsWith( " 1."  ) )		return true;	// There can be some 1.x versions of the real Shareaza but most are fakes
 		if ( sSubStr.startsWith( " 2.0" ) )		return true;	// There is also a Shareaza rip-off that identify as Shareaza 2.0.0.0 (The real Shareaza 2.0.0.0 is so old and bad)
+        if ( sSubStr.startsWith( " 2.1" ) )		return true;    // Old version
+        if ( sSubStr.startsWith( " 2.2" ) )		return true;    // Old version
+        if ( sSubStr.startsWith( " 2.3" ) )		return true;    // Old version
+        if ( sSubStr.startsWith( " 2.4" ) )		return true;    // Old version
+        if ( sSubStr.startsWith( " 2.5" ) )		return true;    // Old version
 		if ( sSubStr.startsWith( " 3.0" ) )		return true;
 		if ( sSubStr.startsWith( " 3.1" ) )		return true;
 		if ( sSubStr.startsWith( " 3.2" ) )		return true;
@@ -960,7 +965,7 @@ bool CSecurity::isClientBad(const QString& sUserAgent) const
 
 	// Dianlei: Shareaza rip-off
 	// add only based on alpha code, need verification for others
-	if ( sUserAgent.startsWith( "Dianlei" ) )
+    if ( sUserAgent.startsWith( "Dianlei", Qt::CaseInsensitive ) )
 	{
 		sSubStr = sUserAgent.mid( 7 );
 		if ( sSubStr.startsWith( " 1." ) )		return true;
@@ -970,7 +975,7 @@ bool CSecurity::isClientBad(const QString& sUserAgent) const
 	}
 
 	// BearShare
-	if ( sUserAgent.startsWith( "BearShare" ) )
+    if ( sUserAgent.startsWith( "BearShare", Qt::CaseInsensitive ) )
 	{
 		sSubStr = sUserAgent.mid( 9 );
 		if ( sSubStr.startsWith( " Lite"  ) )	return true;
@@ -983,50 +988,50 @@ bool CSecurity::isClientBad(const QString& sUserAgent) const
 	}
 
 	// Fastload.TV
-	if ( sUserAgent.startsWith( "Fastload.TV" ) )				return true;
+    if ( sUserAgent.startsWith( "Fastload.TV", Qt::CaseInsensitive ) )				return true;
 
 	// Fildelarprogram
-	if ( sUserAgent.startsWith( "Fildelarprogram" ) )			return true;
+    if ( sUserAgent.startsWith( "Fildelarprogram", Qt::CaseInsensitive ) )			return true;
 
 	// Gnutella Turbo (Look into this client some more)
-	if ( sUserAgent.startsWith( "Gnutella Turbo" ) )			return true;
+    if ( sUserAgent.startsWith( "Gnutella Turbo", Qt::CaseInsensitive ) )			return true;
 
 	// Identified Shareaza Leecher Mod
-	if ( sUserAgent.startsWith( "eMule mod (4)" ) )				return true;
+    if ( sUserAgent.startsWith( "eMule mod (4)", Qt::CaseInsensitive ) )				return true;
 
 	// iMesh
-	if ( sUserAgent.startsWith( "iMesh" ) )						return true;
+    if ( sUserAgent.startsWith( "iMesh", Qt::CaseInsensitive ) )						return true;
 
 	// Mastermax File Sharing
-	if ( sUserAgent.startsWith( "Mastermax File Sharing" ) )	return true;
+    if ( sUserAgent.startsWith( "Mastermax File Sharing", Qt::CaseInsensitive ) )	return true;
 
 	// Trilix
-	if ( sUserAgent.startsWith( "Trilix" ) )					return true;
+    if ( sUserAgent.startsWith( "Trilix", Qt::CaseInsensitive ) )					return true;
 
 	// Wru
-	if ( sUserAgent.startsWith( "Wru" ) )						return true; // bad GuncDNA based client
+    if ( sUserAgent.startsWith( "Wru", Qt::CaseInsensitive ) )						return true; // bad GuncDNA based client
 
 	// GPL breakers- Clients violating the GPL
 	// See http://www.gnu.org/copyleft/gpl.html
 	// Some other breakers outside the list
 
-	if ( sUserAgent.startsWith( "C -3.0.1" ) )					return true;
+    if ( sUserAgent.startsWith( "C -3.0.1", Qt::CaseInsensitive ) )					return true;
 
-	if ( sUserAgent.startsWith( "eTomi" ) )						return true; // outdated rip-off
+    if ( sUserAgent.startsWith( "eTomi", Qt::CaseInsensitive ) )						return true; // outdated rip-off
 
-	if ( sUserAgent.startsWith( "FreeTorrentViewer" ) )			return true; // Shareaza rip-off / GPL violator
+    if ( sUserAgent.startsWith( "FreeTorrentViewer", Qt::CaseInsensitive ) )			return true; // Shareaza rip-off / GPL violator
 
-	if ( sUserAgent.startsWith( "K-Lite" ) )					return true; // Is it bad?
+    if ( sUserAgent.startsWith( "K-Lite", Qt::CaseInsensitive ) )					return true; // Is it bad?
 
-	if ( sUserAgent.startsWith( "mxie" ) )						return true; // Leechers, do not allow to connect
+    if ( sUserAgent.startsWith( "mxie", Qt::CaseInsensitive ) )						return true; // Leechers, do not allow to connect
 
-	if ( sUserAgent.startsWith( "P2P Rocket" ) )				return true; // Shareaza rip-off / GPL violator
+    if ( sUserAgent.startsWith( "P2P Rocket", Qt::CaseInsensitive ) )				return true; // Shareaza rip-off / GPL violator
 
-	if ( sUserAgent.startsWith( "SlingerX" ) )					return true; // Rip-off with bad tweaks
+    if ( sUserAgent.startsWith( "SlingerX", Qt::CaseInsensitive ) )					return true; // Rip-off with bad tweaks
 
-	if ( sUserAgent.startsWith( "vagaa" ) )						return true; // Not clear why it's bad
+    if ( sUserAgent.startsWith( "vagaa", Qt::CaseInsensitive ) )						return true; // Not clear why it's bad
 
-	if ( sUserAgent.startsWith( "WinMX" ) )						return true;
+    if ( sUserAgent.startsWith( "WinMX", Qt::CaseInsensitive ) )						return true;
 
 	// Unknown- Assume OK
 	return false;
@@ -1043,11 +1048,11 @@ bool CSecurity::isAgentBlocked(const QString& sUserAgent)
 	if ( sUserAgent.isEmpty() )									return true;
 
 	// i2hub - leecher client. (Tested, does not upload)
-	if ( sUserAgent.startsWith( "i2hub 2.0" ) )					return true;
+    if ( sUserAgent.startsWith( "i2hub 2.0", Qt::CaseInsensitive ) )					return true;
 
 	// foxy - leecher client. (Tested, does not upload)
 	// having something like Authentication which is not defined on specification
-	if ( sUserAgent.startsWith( "foxy" ) )						return true;
+    if ( sUserAgent.startsWith( "foxy", Qt::CaseInsensitive ) )						return true;
 
 	// Check by content filter
 	return isAgentDenied( sUserAgent );
