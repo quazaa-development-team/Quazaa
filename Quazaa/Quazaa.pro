@@ -396,7 +396,8 @@ HEADERS += \
 	UI/wizardircconnection.h \
 	UI/wizardquickstart.h \
 	UI/wizardtreewidget.h \
-    Models/discoverytablemodel.h
+    Models/discoverytablemodel.h \
+    UI/dialogneighbourinfo.h
 
 win32 {
 	HEADERS += \
@@ -580,7 +581,8 @@ SOURCES += \
 	UI/wizardircconnection.cpp \
 	UI/wizardtreewidget.cpp \
 	UI/wizardquickstart.cpp \
-    Models/discoverytablemodel.cpp
+    Models/discoverytablemodel.cpp \
+    UI/dialogneighbourinfo.cpp
 
 win32 {
 	SOURCES += \
@@ -658,7 +660,8 @@ FORMS += \
 	UI/widgetuploads.ui \
 	UI/winmain.ui \
 	UI/wizardquickstart.ui \
-	UI/wizardircconnection.ui
+	UI/wizardircconnection.ui \
+    UI/dialogneighbourinfo.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \

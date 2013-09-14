@@ -72,6 +72,7 @@ private slots:
 	void updateAres();
 	void updateEDonkey();
 	void setSkin();
+    void on_tableViewNeighbours_doubleClicked(const QModelIndex &index);
 };
 
 #endif // WIDGETNEIGHBORS_H

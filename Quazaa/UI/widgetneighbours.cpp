@@ -26,6 +26,7 @@
 #include "ui_widgetneighbours.h"
 #include "dialogsettings.h"
 #include "dialogconnectto.h"
+#include "dialogneighbourinfo.h"
 
 #include "quazaasettings.h"
 #include "skinsettings.h"
@@ -242,4 +243,10 @@ void WidgetNeighbours::on_actionNetworkChatWith_triggered()
 void WidgetNeighbours::setSkin()
 {
 	ui->tableViewNeighbours->setStyleSheet(skinSettings.listViews);
+}
+
+void WidgetNeighbours::on_tableViewNeighbours_doubleClicked(const QModelIndex &index)
+{
+    DialogNeighbourInfo* dlgNeighbourInfo = new DialogNeighbourInfo(&CNeighboursTableModel::Neighbour(neighboursList->NodeFromIndex(index)), this);
+    dlgNeighbourInfo->exec();
 }
