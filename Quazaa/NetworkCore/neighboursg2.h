@@ -52,6 +52,7 @@ protected:
 	quint32 m_nLNIWait;
 	bool	m_bNeedLNI;
 	G2NodeType m_nClientMode;
+    quint32 m_nUpdateWait;
 
 	quint32 m_nSecsTrying;		// How long we are without hub connection?
 	quint32 m_tLastModeChange;	// When we changed client mode last time?

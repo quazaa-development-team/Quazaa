@@ -41,6 +41,7 @@ CNeighboursG2::CNeighboursG2(QObject* parent) :
 	m_nNextKHL(30),
 	m_nLNIWait(0),
 	m_bNeedLNI(false),
+    m_nUpdateWait(0),
 	m_nSecsTrying(0),
 	m_tLastModeChange(0),
 	m_nHubBalanceWait(0),
@@ -160,6 +161,13 @@ void CNeighboursG2::Maintain()
 			m_nHubBalanceWait--;
 		}
 	}
+
+    if( IsG2Hub() && Network.GetLocalAddress().isValid() && m_nUpdateWait-- == 0 )
+    {
+        if( m_nLeavesConnectedG2 < 0.7 * quazaaSettings.Gnutella2.NumLeafs ) // if we have less than 70% leaves (no reason to update GWC if we are already full of leaves)
+            discoveryManager.updateService(CNetworkType(dpG2));
+        m_nUpdateWait = quazaaSettings.Discovery.AccessThrottle * 60; // is it in seconds?
+    }
 }
 
 void CNeighboursG2::DispatchKHL()
@@ -257,6 +265,7 @@ bool CNeighboursG2::SwitchG2ClientMode(G2NodeType nRequestedMode)
 	}
 
 	m_nClientMode = nRequestedMode;
+    m_nUpdateWait = 0;
 
 	systemLog.postLog(LogSeverity::Notice, "Hub Balancing: Switched to %s mode.", (IsG2Hub() ? "HUB" : "LEAF"));
 

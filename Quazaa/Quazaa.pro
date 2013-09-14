@@ -130,7 +130,7 @@ CONFIG(debug, debug|release){
 
 
 win32 {
-    LIBS += -Lbin -luser32 -lole32 -lshell32 libuuid # if you are at windows os
+        LIBS += -Lbin -luser32 -lole32 -lshell32 # if you are at windows os
 }
 mac {
 	LIBS += -lz
@@ -147,6 +147,7 @@ TEMPLATE = app
 # MinGW-specific compiler flags (enable exception handling and disable new/delete overload)
 win32-g++ {
 	CONFIG += exceptions
+        LIBS += libuuid
 }
 
 # MSVC-specific compiler flags
