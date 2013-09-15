@@ -32,6 +32,7 @@
 #include "neighbours.h"
 #include "thread.h"
 #include "commonfunctions.h"
+#include "Security/securitymanager.h"
 
 #include "debug_new.h"
 
@@ -260,8 +261,13 @@ void CNeighboursConnections::Maintain()
 
 				if(pHost)
 				{
-					if( !Neighbours.Find(pHost->m_oAddress) )
+                    if( !Neighbours.Find(pHost->m_oAddress) )
 					{
+                        if( securityManager.isDenied(pHost->m_oAddress) )
+                        {
+                            hostCache.remove(pHost);
+                            continue;
+                        }
 						ConnectTo(pHost->m_oAddress, dpG2);
 						pHost->m_tLastConnect = tNow;
 					}
@@ -324,8 +330,14 @@ void CNeighboursConnections::Maintain()
 
 				if(pHost)
 				{
-					if( !Neighbours.Find(pHost->m_oAddress) )
+                    if( !Neighbours.Find(pHost->m_oAddress) )
 					{
+                        if( securityManager.isDenied(pHost->m_oAddress) )
+                        {
+                            hostCache.remove(pHost);
+                            continue;
+                        }
+
 						ConnectTo(pHost->m_oAddress, dpG2);
 						pHost->m_tLastConnect = tNow;
 					}

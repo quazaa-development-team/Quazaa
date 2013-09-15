@@ -27,6 +27,7 @@
 #include "quazaasettings.h"
 #include "hostcache.h"
 #include <QTcpSocket>
+#include "Security/securitymanager.h"
 
 #include "debug_new.h"
 
@@ -112,18 +113,35 @@ void CNeighbour::OnError(QAbstractSocket::SocketError e)
 	{
 		if( m_nState != nsHandshaking )
 			systemLog.postLog(LogSeverity::Information, "Neighbour %s dropped connection unexpectedly.", qPrintable(m_oAddress.toStringWithPort()));
+        else
+        {
+            systemLog.postLog(LogSeverity::Information, "Neighbour %s dropped connection during handshake.", qPrintable(m_oAddress.toStringWithPort()));
+
+            if( m_bInitiated )
+            {
+                hostCache.m_pSection.lock();
+                hostCache.remove(m_oAddress);
+                hostCache.m_pSection.unlock();
+
+                // for some bad clients that drop connections too early
+                securityManager.ban(m_oAddress, Security::CSecurity::ban30Mins, true, "Dropped handshake");
+            }
+        }
 	}
 	else
 	{
 		systemLog.postLog(LogSeverity::Error, "Neighbour %s dropped connection unexpectedly (socket error: %s).", qPrintable(m_oAddress.toStringWithPort()), qPrintable(m_pSocket->errorString()));
 
-		hostCache.m_pSection.lock();
-		hostCache.onFailure(m_oAddress);
-		hostCache.m_pSection.unlock();
-
-		Neighbours.m_pSection.lock();
-		delete this;
-		Neighbours.m_pSection.unlock();
+        if( m_bInitiated )
+        {
+            hostCache.m_pSection.lock();
+            hostCache.onFailure(m_oAddress);
+            hostCache.m_pSection.unlock();
+        }
 	}
+
+    Neighbours.m_pSection.lock();
+    delete this;
+    Neighbours.m_pSection.unlock();
 }
 

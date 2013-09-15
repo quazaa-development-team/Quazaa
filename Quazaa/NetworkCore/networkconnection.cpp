@@ -435,7 +435,6 @@ void CNetworkConnection::OnDisconnectInt()
 void CNetworkConnection::OnErrorInt(QAbstractSocket::SocketError e)
 {
 	//qDebug() << m_pSocket << e;
-
 	emit error(e);
 }
 

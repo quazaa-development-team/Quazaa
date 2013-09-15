@@ -27,6 +27,7 @@
 #include "handshake.h"
 #include "ratecontroller.h"
 #include "neighbours.h"
+#include "Security/securitymanager.h"
 
 #include <QTimer>
 
@@ -90,6 +91,12 @@ void CHandshakes::incomingConnection(qintptr handle)
 	pNew->moveToThread(&HandshakesThread);
 	m_pController->AddSocket(pNew);
 	m_nAccepted++;
+
+    if( securityManager.isDenied(pNew->m_oAddress) )
+    {
+        pNew->Close();
+        pNew->deleteLater();
+    }
 }
 
 void CHandshakes::OnTimer()

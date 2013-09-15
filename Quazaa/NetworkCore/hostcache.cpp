@@ -29,6 +29,7 @@
 #include "network.h"
 #include <time.h>
 #include "geoiplist.h"
+#include "Security/securitymanager.h"
 
 #if QT_VERSION >= 0x050000 
 #include <QStandardPaths>
@@ -115,6 +116,9 @@ CHostCacheHost* CHostCache::add(CEndPoint host, QDateTime ts)
 
 	if ( host.isFirewalled() )
 		return NULL;
+
+    if( securityManager.isDenied(host) )
+        return NULL;
 
 	if ( (quint32)m_lHosts.size() > m_nMaxCacheHosts )
 	{

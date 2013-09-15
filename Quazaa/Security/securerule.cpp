@@ -78,8 +78,8 @@ bool CSecureRule::operator==(const CSecureRule& pRule) const
 			 m_sComment	== pRule.m_sComment	&&
 			 m_oUUID	== pRule.m_oUUID	&&
 			 m_tExpire	== pRule.m_tExpire	&&
-			 m_nToday	== pRule.m_nToday	&&
-			 m_nTotal	== pRule.m_nTotal   &&
+            /* m_nToday	== pRule.m_nToday	&&
+             m_nTotal	== pRule.m_nTotal   &&*/
 			 m_sContent	== pRule.m_sContent);
 }
 
@@ -156,7 +156,7 @@ void CSecureRule::save(const CSecureRule* const pRule, QDataStream &oStream)
 	oStream << pRule->m_sComment;
 	oStream << pRule->m_oUUID.toString();
 	oStream << pRule->m_tExpire;
-	oStream << pRule->m_nTotal;
+    oStream << pRule->m_nTotal.loadAcquire();
 
 	oStream << pRule->getContentString();
 
@@ -252,7 +252,7 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 	pRule->m_sComment = sComment;
 	pRule->m_oUUID    = QUuid( sUUID );
 	pRule->m_tExpire  = tExpire;
-	pRule->m_nTotal   = nTotal;
+    pRule->m_nTotal.storeRelease(nTotal);
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -15,6 +15,7 @@
 
 #include <QString>
 #include <QUuid>
+#include <QAtomicInt>
 
 #include "NetworkCore/Hashes/hash.h"
 #include "NetworkCore/queryhit.h"
@@ -41,8 +42,8 @@ protected:
 
 private:
 	// Hit counters
-	quint32		m_nToday;
-	quint32		m_nTotal;
+    QAtomicInt		m_nToday;
+    QAtomicInt		m_nTotal;
 
 	// List of pointers that will be set to 0 if this instance of CSecureRule is deleted.
 	// Note that the content of this list is not forwarded to copies of this rule.
@@ -112,28 +113,33 @@ protected:
 
 void CSecureRule::count()
 {
-	m_nToday++;
-	m_nTotal++;
+    m_nToday.fetchAndAddOrdered(1);
+    m_nTotal.fetchAndAddOrdered(1);
+    /*m_nToday++;
+    m_nTotal++;*/
 }
 
 void CSecureRule::resetCount()
 {
-	m_nToday = m_nTotal = 0;
+    //m_nToday = m_nTotal = 0;
+    m_nToday.fetchAndStoreOrdered(0);
+    m_nTotal.fetchAndAddOrdered(0);
 }
 
 quint32 CSecureRule::getTodayCount() const
 {
-	return m_nToday;
+    return m_nToday.loadAcquire();
 }
 
 quint32 CSecureRule::getTotalCount() const
 {
-	return m_nTotal;
+    return m_nTotal.loadAcquire();
 }
 
 void CSecureRule::loadTotalCount( quint32 nTotal )
 {
-	m_nTotal = nTotal;
+    //m_nTotal = nTotal;
+    m_nTotal.storeRelease(nTotal);
 }
 
 CSecureRule::RuleType CSecureRule::type() const

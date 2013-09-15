@@ -309,6 +309,13 @@ void CG2Node::ParseIncomingHandshake()
 		return;
 	}
 
+    if( securityManager.isAgentBlocked(m_sUserAgent) )
+    {
+        Send_ConnectError("403 Access Denied, sorry");
+        securityManager.ban(m_oAddress, Security::CSecurity::banSession, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
+        return;
+    }
+
 	if(sHs.startsWith("GNUTELLA CONNECT/0.6"))
 	{
 		QString sAccept = Parser::GetHeaderValue(sHs, "Accept");
@@ -369,12 +376,6 @@ void CG2Node::ParseIncomingHandshake()
             if( securityManager.isClientBad(m_sUserAgent) )
             {
                 Send_ConnectError("403 Your client is too old or otherwise bad. Please upgrade.");
-                return;
-            }
-
-            if( securityManager.isAgentBlocked(m_sUserAgent) )
-            {
-                Send_ConnectError("403 Access Denied, sorry");
                 return;
             }
 
@@ -473,12 +474,27 @@ void CG2Node::ParseOutgoingHandshake()
 		return;
 	}
 
+    m_sUserAgent = Parser::GetHeaderValue(sHs, "User-Agent");
+
+    if(m_sUserAgent.isEmpty())
+    {
+        Send_ConnectError("503 Anonymous clients are not allowed here");
+        return;
+    }
+
+    if( securityManager.isAgentBlocked(m_sUserAgent) )
+    {
+        Send_ConnectError("403 Access Denied, sorry");
+        securityManager.ban(m_oAddress, Security::CSecurity::banSession, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
+        return;
+    }
+
 	QString sTry = Parser::GetHeaderValue(sHs, "X-Try-Hubs");
-	if(bAcceptG2 && bG2Provided && sTry.size())
-	{
-		hostCache.m_pSection.lock();
-		hostCache.addXTry(sTry);
-		hostCache.m_pSection.unlock();
+    if(bAcceptG2 && bG2Provided && sTry.size())
+    {
+        hostCache.m_pSection.lock();
+        hostCache.addXTry(sTry);
+        hostCache.m_pSection.unlock();
 	}
 
 	if(sHs.left(16) != "GNUTELLA/0.6 200")
@@ -491,14 +507,6 @@ void CG2Node::ParseOutgoingHandshake()
 		hostCache.m_pSection.unlock();
 
 		Close();
-		return;
-	}
-
-	m_sUserAgent = Parser::GetHeaderValue(sHs, "User-Agent");
-
-	if(m_sUserAgent.isEmpty())
-	{
-		Send_ConnectError("503 Anonymous clients are not allowed here");
 		return;
 	}
 
@@ -562,12 +570,6 @@ void CG2Node::ParseOutgoingHandshake()
         if( securityManager.isClientBad(m_sUserAgent) )
         {
             Send_ConnectError("403 Your client is too old or otherwise bad. Please upgrade.");
-            return;
-        }
-
-        if( securityManager.isAgentBlocked(m_sUserAgent) )
-        {
-            Send_ConnectError("403 Access Denied, sorry");
             return;
         }
 
