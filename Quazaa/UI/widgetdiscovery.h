@@ -26,6 +26,7 @@
 #define WIDGETDISCOVERY_H
 
 #include <QMainWindow>
+#include <QActionGroup>
 
 #include "tableview.h"
 #include "discovery.h"
@@ -43,6 +44,7 @@ class WidgetDiscovery : public QMainWindow
 
 public:
 	CDiscoveryTableModel* m_pDiscoveryList;
+    QActionGroup* actionGroupDiscoveryNavigation;
 
 private:
 	Ui::WidgetDiscovery* ui;
@@ -60,7 +62,7 @@ public:
 protected:
 	virtual void changeEvent(QEvent* e);
 	virtual void keyPressEvent(QKeyEvent *event);
-	void setVisibility(CNetworkType networks, bool bHidden);
+    void setVisibility(CNetworkType networks, bool bVisible);
 
 public slots:
 	void update();
@@ -72,10 +74,10 @@ private slots:
 
 	void setSkin();
 
-	void on_actionDiscoveryGnutellaBootstrap_triggered(bool checked);
-	void on_actionAresDiscoveryType_triggered(bool checked);
-	void on_actionEDonkeyServerMet_triggered(bool checked);
-	void on_actionGWebCache_triggered(bool checked);
+    void on_actionDiscoveryGnutellaBootstrap_triggered();
+    void on_actionAresDiscoveryType_triggered();
+    void on_actionEDonkeyServerMet_triggered();
+    void on_actionGWebCache_triggered();
 
 	void on_actionDiscoveryAddService_triggered();
 	void on_actionDiscoveryBrowseStatistics_triggered();

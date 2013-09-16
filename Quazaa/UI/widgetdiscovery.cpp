@@ -40,6 +40,12 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 {
 	ui->setupUi(this);
 
+    actionGroupDiscoveryNavigation = new QActionGroup(this);
+    actionGroupDiscoveryNavigation->addAction(ui->actionDiscoveryGnutellaBootstrap);
+    actionGroupDiscoveryNavigation->addAction(ui->actionGWebCache);
+    actionGroupDiscoveryNavigation->addAction(ui->actionAresDiscoveryType);
+    actionGroupDiscoveryNavigation->addAction(ui->actionEDonkeyServerMet);
+
 	m_pDiscoveryMenu = new QMenu( this );
 	m_pDiscoveryMenu->addAction( ui->actionDiscoveryAddService );
 	m_pDiscoveryMenu->addAction( ui->actionDiscoveryRemoveService );
@@ -194,7 +200,7 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 	QMainWindow::keyPressEvent( e );
 }
 
-void WidgetDiscovery::setVisibility(CNetworkType networks, bool bHidden)
+void WidgetDiscovery::setVisibility(CNetworkType networks, bool bVisible)
 {
 	for ( quint32 i = m_pDiscoveryList->rowCount(); i > 0; )
 	{
@@ -202,7 +208,8 @@ void WidgetDiscovery::setVisibility(CNetworkType networks, bool bHidden)
 
 		if ( m_pDiscoveryList->nodeFromRow( i )->networkType().isNetwork( networks ) )
 		{
-			tableViewDiscovery->setRowHidden( i, bHidden );
+            // I didn't see a setRowVisible so I just gave the negated value to hidden -smokex
+            tableViewDiscovery->setRowHidden( i, !bVisible );
 		}
 	}
 }
@@ -292,24 +299,36 @@ void WidgetDiscovery::setSkin()
 	tableViewDiscovery->setStyleSheet( skinSettings.listViews );
 }
 
-void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered(bool checked)
+void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered()
 {
-	setVisibility( CNetworkType( dpGnutella ), !checked );
+    setVisibility( CNetworkType( dpGnutella ), true );
+    setVisibility( CNetworkType( dpAres ), false );
+    setVisibility( CNetworkType( dpeDonkey2000 ), false );
+    setVisibility( CNetworkType( dpG2 ), false );
 }
 
-void WidgetDiscovery::on_actionAresDiscoveryType_triggered(bool checked)
+void WidgetDiscovery::on_actionAresDiscoveryType_triggered()
 {
-	setVisibility( CNetworkType( dpAres ), !checked );
+    setVisibility( CNetworkType( dpGnutella ), false );
+    setVisibility( CNetworkType( dpAres ), true );
+    setVisibility( CNetworkType( dpeDonkey2000 ), false );
+    setVisibility( CNetworkType( dpG2 ), false );
 }
 
-void WidgetDiscovery::on_actionEDonkeyServerMet_triggered(bool checked)
+void WidgetDiscovery::on_actionEDonkeyServerMet_triggered()
 {
-	setVisibility( CNetworkType( dpeDonkey2000 ), !checked );
+    setVisibility( CNetworkType( dpGnutella ), false );
+    setVisibility( CNetworkType( dpAres ), false );
+    setVisibility( CNetworkType( dpeDonkey2000 ), true );
+    setVisibility( CNetworkType( dpG2 ), false );
 }
 
-void WidgetDiscovery::on_actionGWebCache_triggered(bool checked)
+void WidgetDiscovery::on_actionGWebCache_triggered()
 {
-	setVisibility( CNetworkType( dpG2 ), !checked );
+    setVisibility( CNetworkType( dpGnutella ), false );
+    setVisibility( CNetworkType( dpAres ), false );
+    setVisibility( CNetworkType( dpeDonkey2000 ), false );
+    setVisibility( CNetworkType( dpG2 ), true );
 }
 
 void WidgetDiscovery::on_actionDiscoveryAddService_triggered()
