@@ -59,6 +59,8 @@ public:
 		m_nQueryKey = 0;
 		m_sCountry  = "ZZ";
 		m_nFailures = 0;
+
+        m_nKeyTime = m_tAck = m_tLastConnect = m_tLastQuery = m_tRetryAfter = QDateTime::fromTime_t(0);
 	}
 
 	bool canQuery(QDateTime tNow = QDateTime::currentDateTimeUtc());
