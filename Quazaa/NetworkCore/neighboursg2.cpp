@@ -311,19 +311,35 @@ void CNeighboursG2::HubBalancing()
 		return;
 	}
 
+    bool bHasQHubs = false;
+
 	if(m_nClientMode == G2_LEAF)
 	{
 		// we're a leaf
 		// TODO: Check capabilities
+
+        if( Network.IsFirewalled() )
+            return;
+
 		quint32 nLeaves = 0, nCapacity = 0;
+
 		foreach(CNeighbour * pNode, m_lNodes)
 		{
 			if(pNode->m_nState == nsConnected && pNode->m_nProtocol == dpG2 && ((CG2Node*)pNode)->m_nType == G2_HUB)
 			{
 				nLeaves += ((CG2Node*)pNode)->m_nLeafCount;
 				nCapacity += ((CG2Node*)pNode)->m_nLeafMax;
+                bHasQHubs |= ((CG2Node*)pNode)->m_bG2Core;
 			}
 		}
+
+        if( !bHasQHubs )
+        {
+            // Switch to G2 Hub mode if there are no other Quazaa hubs
+            systemLog.postLog(LogSeverity::Notice, "Switching to G2 HUB mode (no Quazaa hubs)");
+            SwitchG2ClientMode(G2_HUB);
+            return;
+        }
 
 		if(nLeaves * 100 / nCapacity > quazaaSettings.Gnutella2.HubBalanceHigh)
 		{
@@ -345,19 +361,21 @@ void CNeighboursG2::HubBalancing()
 	{
 		// we're hub
 		quint32 nLeaves = 0, nCapacity = 0;
+
 		foreach(CNeighbour * pNode, m_lNodes)
 		{
 			if(pNode->m_nState == nsConnected && pNode->m_nProtocol == dpG2 && ((CG2Node*)pNode)->m_nType == G2_HUB)
 			{
 				nLeaves += ((CG2Node*)pNode)->m_nLeafCount;
 				nCapacity += ((CG2Node*)pNode)->m_nLeafMax;
+                bHasQHubs |= ((CG2Node*)pNode)->m_bG2Core;
 			}
 		}
 
 		nLeaves += m_nLeavesConnectedG2;
 		nCapacity += quazaaSettings.Gnutella2.NumLeafs;
 
-		if(nLeaves * 100 / nCapacity < quazaaSettings.Gnutella2.HubBalanceLow)
+        if(nLeaves * 100 / nCapacity < quazaaSettings.Gnutella2.HubBalanceLow && bHasQHubs) // Downgrade if there are other Quazaa hubs
 		{
 			m_nPeriodsLow++;
 
