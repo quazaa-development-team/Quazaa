@@ -33,7 +33,6 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model)
 	Q_ASSERT( pRule );
 #endif // _DEBUG
 
-	QWriteLocker w( &securityManager.m_pRWLock );
 	m_pNode = pRule;
 
 	// This makes sure that if pRule is deleted within the Security Manager,
@@ -77,27 +76,7 @@ CSecurityTableModel::Rule::~Rule()
 bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_update,
 									   CSecurityTableModel *model)
 {
-	QReadLocker l( &securityManager.m_pRWLock );
-
-	if ( !m_pNode )
-	{
-
-#ifdef _DEBUG
-	// We should have been informed about this event.
-	Q_ASSERT( false );
-#endif // _DEBUG
-
-		return false;
-	}
-
-#ifdef _DEBUG
-	l.unlock();
-
-	// pNode should be set to NULL on deletion of the rule object it points to.
-	Q_ASSERT( securityManager.check( m_pNode ) );
-
-	l.relock();
-#endif // _DEBUG
+	Q_ASSERT(m_pNode);
 
 	bool bReturn = false;
 
@@ -495,6 +474,8 @@ void CSecurityTableModel::completeRefresh()
 
 void CSecurityTableModel::addRule(CSecureRule* pRule)
 {
+	QReadLocker l( &(securityManager.m_pRWLock) );
+
 	if ( securityManager.check( pRule ) )
 	{
 		beginInsertRows( QModelIndex(), m_lNodes.size(), m_lNodes.size() );
@@ -506,8 +487,6 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 	// We should probably be the only one listening.
 	if ( securityManager.receivers ( Security::CSecurity::ruleInfoSignal ) )
 	{
-		QReadLocker l( &(securityManager.m_pRWLock) );
-
 		// Make sure we don't recieve any signals we don't want once we got all rules once.
 		if ( m_lNodes.size() == (int)securityManager.getCount() )
 			disconnect( &securityManager, SIGNAL( ruleInfo( CSecureRule* ) ),
@@ -537,27 +516,18 @@ void CSecurityTableModel::removeRule(const QSharedPointer<CSecureRule> pRule)
 
 void CSecurityTableModel::updateAll()
 {
-	{
-		QReadLocker l( &(securityManager.m_pRWLock) );
-		if ( m_lNodes.size() != (int)securityManager.getCount() )
-		{
-#ifdef _DEBUG
-			// This is something that should not have happened.
-			Q_ASSERT( false );
-#endif // _DEBUG
-
-			completeRefresh();
-			return;
-		}
-	}
-
 	QModelIndexList uplist;
 	bool bSort = m_bNeedSorting;
 
-	for ( quint32 i = 0, max = m_lNodes.count(); i < max; ++i )
+	if( securityManager.m_pRWLock.tryLockForRead() )
 	{
-		if ( m_lNodes[i]->update( i, m_nSortColumn, uplist, this ) )
-			bSort = true;
+		for ( quint32 i = 0, max = m_lNodes.count(); i < max; ++i )
+		{
+			if ( m_lNodes[i]->update( i, m_nSortColumn, uplist, this ) )
+				bSort = true;
+		}
+
+		securityManager.m_pRWLock.unlock();
 	}
 
 	if ( bSort )
@@ -569,14 +539,11 @@ void CSecurityTableModel::updateAll()
 	{
 		if ( !uplist.isEmpty() )
 		{
-			foreach ( QModelIndex index, uplist )
-			{
-				// TODO: question: is there a reason for this line being inside the for each loop?
-				// couldn't this be moved before the loop and the loop be only called if this
-				// returns != NULL?
-				QAbstractItemView* pView = qobject_cast< QAbstractItemView* >( m_oContainer );
+			QAbstractItemView* pView = qobject_cast< QAbstractItemView* >( m_oContainer );
 
-				if ( pView )
+			if( pView )
+			{
+				foreach ( QModelIndex index, uplist )
 				{
 					pView->update( index );
 				}
