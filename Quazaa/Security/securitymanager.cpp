@@ -87,8 +87,6 @@ void CSecurity::setDenyPolicy(bool bDenyPolicy)
   */
 bool CSecurity::check(const CSecureRule* const pRule) const
 {
-	QReadLocker l( &m_pRWLock );
-
 	return pRule != NULL && getUUID( pRule->m_oUUID ) != m_Rules.end();
 }
 
