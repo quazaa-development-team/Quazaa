@@ -1,6 +1,4 @@
 M http://cache.leite.us/
-M http://gofoxy.net/gwc/cgi-bin/fc
-M http://gwc.gofoxy.net:2108/gwc/cgi-bin/fc
 M http://gwc.marksieklucki.com/skulls.php
 M http://gwebcache.ns1.net/
 M http://tenafly5k.com/gwc/skulls.php
@@ -31,16 +29,18 @@ X http://bootdesu.appspot.com/
 X http://cache.trillinux.org.nyud.net:8090/g2/bazooka.php
 X http://fascination77.free.fr/cachechu/
 X http://fischaleck.net/cache/mcache.php
+X http://gofoxy.net/gwc/cgi-bin/fc
 X http://gwc.frodoslair.net/skulls/skulls
 X http://gwc.frodoslair.net/skulls/skulls.php
+M http://gwc.gofoxy.net:2108/gwc/cgi-bin/fc
 X http://www.ak-electron.eu/Beacon2/gwc.php
+X http://www.gofoxy.net/gwc/cgi-bin/fc
 X http://www.lo7.wroc.pl/~stash/old-g2-moved/bazooka.php
+X http://www.myfoxy.net/gwc/cgi-bin/fc
 
 # Duplicates:
-X http://jayl.de/gweb/g2/bazooka.php
 X http://gwc.iblinx.com:2108/gwc/cgi-bin/fc
-X http://www.gofoxy.net/gwc/cgi-bin/fc
-X http://www.myfoxy.net/gwc/cgi-bin/fc
+X http://jayl.de/gweb/g2/bazooka.php
 
 #
 # Keep these comments at the end
