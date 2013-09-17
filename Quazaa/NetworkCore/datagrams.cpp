@@ -501,7 +501,7 @@ void CDatagrams::__FlushSendCache()
         m_pSocket->writeDatagram(oAck.second, sizeof(GND_HEADER), oAck.first, oAck.first.port());
         m_mOutput.Add(sizeof(GND_HEADER));
         nToWrite -= sizeof(GND_HEADER);
-        delete [] oAck.second;
+		delete (GND_HEADER*)oAck.second;
         nMaxPPS--;
         meter.Add(1);
     }

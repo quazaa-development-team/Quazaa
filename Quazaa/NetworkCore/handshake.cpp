@@ -140,7 +140,8 @@ void CHandshake::OnWebRequest()
 
         QByteArray baHtml;
         baHtml += "<!DOCTYPE html><html><head><title>Quazaa</title><meta name=\"robots\" content=\"noindex,nofollow\"></head><body>";
-        baHtml += "<h1>This server operates Quazaa node</h2>";
+        baHtml += "<h1><a href=\"http://quazaa.sf.net\"><img src=\"/res/QuazaaLogo.png\"></a></br>";
+        baHtml += "This server operates a Quazaa node</h2>";
         baHtml += "<p><a href=\"http://quazaa.sf.net\">Quazaa</a> is a P2P file sharing client</p>";
         baHtml += "<p>This node is currently connected to the following hosts:<table border=\"1\">";
         baHtml += "<tr><th>Address</th><th>Time</th><th>Mode</th><th>Leaves</th><th>Client</th></tr>";
@@ -203,13 +204,13 @@ void CHandshake::OnWebRequest()
 
         bool bFound = false;
 
-        if( sPath.startsWith("/res") ) // redirect /res prefixed URIs to the resource system, anything not prefixed will go to uploads
+		if(sPath.startsWith("/res")) // redirect /res prefixed URIs to the resource system, anything not prefixed will go to uploads
         {
-            sPath = ":/Resource/Web" + sPath.mid(4);
+			sPath = ":/Resource/Web" + sPath.mid(4);
 
             QFile f(sPath);
 
-            if( f.exists() && f.isReadable() )
+			if( f.exists() )
             {
                 if( f.open(QIODevice::ReadOnly) )
                 {
@@ -236,8 +237,12 @@ void CHandshake::OnWebRequest()
             baResp += "HTTP/1.1 404 Not found\r\n";
             baResp += "Server: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
             baResp += "Connection: close\r\n";
+			baResp += "Content-Type: text/plain\r\n";
             baResp += "\r\n";
-            baResp += "The requested file was not found on this server.";
+			baResp += "The requested file was not found on this server.\r\n";
+#ifdef _DEBUG
+			baResp += sPath;
+#endif
             Write(baResp);
         }
     }
