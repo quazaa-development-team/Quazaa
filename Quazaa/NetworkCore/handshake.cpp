@@ -203,13 +203,13 @@ void CHandshake::OnWebRequest()
 
         bool bFound = false;
 
-        if( sPath.startsWith("/res") ) // redirect /res prefixed URIs to the resource system, anything not prefixed will go to uploads
+		if(sPath.startsWith("/res")) // redirect /res prefixed URIs to the resource system, anything not prefixed will go to uploads
         {
-            sPath = ":/Resource/Web" + sPath.mid(4);
+			sPath = ":/Resource/Web" + sPath.mid(4);
 
             QFile f(sPath);
 
-            if( f.exists() && f.isReadable() )
+			if( f.exists() )
             {
                 if( f.open(QIODevice::ReadOnly) )
                 {
@@ -236,8 +236,12 @@ void CHandshake::OnWebRequest()
             baResp += "HTTP/1.1 404 Not found\r\n";
             baResp += "Server: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
             baResp += "Connection: close\r\n";
+			baResp += "Content-Type: text/plain\r\n";
             baResp += "\r\n";
-            baResp += "The requested file was not found on this server.";
+			baResp += "The requested file was not found on this server.\r\n";
+#ifdef _DEBUG
+			baResp += sPath;
+#endif
             Write(baResp);
         }
     }
