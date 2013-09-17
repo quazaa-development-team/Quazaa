@@ -138,8 +138,8 @@ public:
 	inline void		remove(CSecureRule* pRule, bool bLockRequired = true);
 	void			clear();
 
-	void			ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
-//	void			ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& strComment = "");
+	void			ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMessage = true, const QString& sComment = "");
+//	void			ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& sComment = "");
 
 	// Methods used during sanity check
 	bool			isNewlyDenied(const QHostAddress& oAddress);
@@ -228,6 +228,8 @@ private:
 
 	inline void		hit(CSecureRule *pRule);
 
+	inline quint32  getTNowUTC();
+
 	inline CSecurityRuleList::iterator getRWIterator(CIterator const_it);
 };
 
@@ -259,6 +261,11 @@ void CSecurity::hit(CSecureRule* pRule)
 {
 	pRule->count();
 	emit securityHit();
+}
+
+quint32 CSecurity::getTNowUTC()
+{
+	return QDateTime::currentDateTimeUtc().toTime_t();
 }
 
 CSecurity::CSecurityRuleList::iterator CSecurity::getRWIterator(CIterator const_it)

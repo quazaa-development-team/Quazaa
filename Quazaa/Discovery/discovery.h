@@ -50,6 +50,11 @@
 
 // TODO: Implement rating based on successful connection to obtained hosts
 // TODO: Ask brov whether callback on unsuccessful service query shall be implemented
+// TODO: http://www.tartc.ru/classes/gwc?ping=1&get=1&net=gnutella2&client=QAZB&version=0.1 fails
+//       http://www.tartc.ru/classes/gwc/?ping=1&amp;get=1&amp;net=gnutella2&amp;client=QAZB&amp;version=0.1 works
+// Line: <p>The document has moved <a href="http://www.tartc.ru/classes/gwc/?ping=1&amp;get=1&amp;net=gnutella2&amp;client=QAZB&amp;version=0.1">here</a>.</p>
+
+
 
 namespace Discovery
 {

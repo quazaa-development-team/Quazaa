@@ -103,6 +103,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 	// check for invalid rules
 	Q_ASSERT( pRule->type() > 0 && pRule->type() < 8 && pRule->m_nAction < 3 );
+	Q_ASSERT( !pRule->m_oUUID.isNull() );
 
 	CSecureRule::RuleType type = pRule->type();
 	CSecureRule* pExRule = NULL;
@@ -491,18 +492,17 @@ void CSecurity::clear()
   * If bMessage is set to true, a notification is send to the system log.
   * Locking: RW
   */
-void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMessage, const QString& strComment)
+void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMessage, const QString& sComment)
 {
 	if ( oAddress.isNull() )
 	{
-		//		theApp.Message( MSG_ERROR, IDS_SECURITY_ERROR_IP_BAN );
-		//		systemLog.postLog(LogSeverity::Notice, tr("String to translate."));
+		Q_ASSERT( false ); // if this happens, make sure to fix the caller... :)
 		return;
 	}
 
 	QWriteLocker mutex( &m_pRWLock );
 
-	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
+	quint32 tNow = getTNowUTC();
 
 	CAddressRuleMap::const_iterator i = m_IPs.find( qHash( oAddress ) );
 	if ( i != m_IPs.end() )
@@ -511,8 +511,8 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 
 		if ( pIPRule->m_nAction == CSecureRule::srDeny )
 		{
-			if ( !( strComment.isEmpty() ) )
-				pIPRule->m_sComment = strComment;
+			if ( !( sComment.isEmpty() ) )
+				pIPRule->m_sComment = sComment;
 
 			switch( nBanLength )
 			{
@@ -550,8 +550,10 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 
 			if ( bMessage )
 			{
-				//				theApp.Message( MSG_NOTICE, IDS_NETWORK_SECURITY_ALREADY_BLOCKED,
-				//					oAddress.toString() );
+				systemLog.postLog( LogSeverity::Security,
+				                   tr( "Adjusted ban expiry time of %1 to %2." ).arg(
+				                       oAddress.toString(),
+				                       QDateTime::fromTime_t( pIPRule->m_tExpire ).toString() ) );
 			}
 
 			return;
@@ -602,8 +604,8 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 		Q_ASSERT( false ); // this should never happen
 	}
 
-	if ( !( strComment.isEmpty() ) )
-		pIPRule->m_sComment = strComment;
+	if ( !( sComment.isEmpty() ) )
+		pIPRule->m_sComment = sComment;
 
 	pIPRule->setIP( oAddress );
 
@@ -632,7 +634,7 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength nBanLength, bool bMe
 
 	QReadLocker mutex( &m_pRWLock );
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = getTNowUTC();
 
 	CIterator i = getHash( oFile.getHashes() );
 	bool bAlreadyBlocked = ( i != m_Rules.end() );
@@ -743,8 +745,6 @@ bool CSecurity::isNewlyDenied(const QHostAddress& oAddress)
 		{
 			// the rules are new, so we don't need to check whether they are expired or not
 
-			// Note: The write operations in count() are not protected by any locking,
-			// so there might be eventual thread collisions that reduce the accuracy of the statistics.
 			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
@@ -788,8 +788,6 @@ bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuer
 		{
 			// The rules are new, so we don't need to check whether they are expired or not.
 
-			// Note: The write operations in count() are not protected by any locking, so
-			// there might be eventual thread collisions reducing the accuracy of the statistics.
 			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
@@ -815,7 +813,7 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 
 	QReadLocker mutex( &m_pRWLock );
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = getTNowUTC();
 
 	// First, check the miss cache if the IP is not included in the list of rules.
 	// If the address is in cache, it is a miss and no further lookup is needed.
@@ -844,8 +842,6 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 		CIPRule* pIPRule = (*it_1).second;
 		if ( !pIPRule->isExpired( tNow ) )
 		{
-			// Note: The write operations in count() are not protected by any locking, so
-			// there might be eventual thread collisions that reduce the accuracy of the statistics.
 			hit( pIPRule );
 
 			if ( pIPRule->m_nAction == CSecureRule::srAccept )
@@ -866,8 +862,6 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 		CSecureRule* pCountryRule = (*it_2).second;
 		if ( !pCountryRule->isExpired( tNow ) )
 		{
-			// Note: The write operations in count() are not protected by any locking, so
-			// there might be eventual thread collisions that reduce the accuracy of the statistics.
 			hit( pCountryRule );
 
 			if ( pCountryRule->m_nAction == CSecureRule::srAccept )
@@ -887,8 +881,6 @@ bool CSecurity::isDenied(const QHostAddress& oAddress, const QString& /*source*/
 
 		if ( pRule->match( oAddress ) && !pRule->isExpired( tNow ) )
 		{
-			// Note: The write operations in count() are not protected by any locking, so
-			// there might be eventual thread collisions that reduce the accuracy of the statistics.
 			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
@@ -1159,7 +1151,7 @@ bool CSecurity::load( QString sPath )
 		quint32 nCount;
 		fsFile >> nCount;
 
-		quint32 tNow = static_cast< quint32 >( time( NULL ) );
+		quint32 tNow = getTNowUTC();
 
 		QWriteLocker mutex( &m_pRWLock );
 		m_bDenyPolicy = bDenyPolicy;
@@ -1349,7 +1341,7 @@ bool CSecurity::fromXML(const QString& sPath)
 		}
 	}
 
-	const quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	const quint32 tNow = getTNowUTC();
 
 	QWriteLocker mutex( &m_pRWLock );
 	m_bIsLoading = true;
@@ -1441,7 +1433,7 @@ void CSecurity::sanityCheck()
 	bool bSuccess;
 	CTimeoutWriteLocker( &m_pRWLock, bSuccess, 500 );
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = getTNowUTC();
 
 	if ( bSuccess )
 	{
@@ -1503,7 +1495,7 @@ void CSecurity::sanityCheckPerformed()
 		else // we didn't get a lock
 		{
 			// try again later
-			signalQueue.push( this, SLOT(sanityCheckPerformed()), static_cast< quint32 >( time( NULL ) ) + 2 );
+			signalQueue.push( this, SLOT(sanityCheckPerformed()), getTNowUTC() + 2 );
 		}
 	}
 }
@@ -1539,7 +1531,8 @@ void CSecurity::expire()
 
 	QWriteLocker l( &m_pRWLock );
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = getTNowUTC();
+	quint16 nCount = 0;
 
 	CIterator j, i = m_Rules.begin();
 	while (  i != m_Rules.end() )
@@ -1547,15 +1540,20 @@ void CSecurity::expire()
 		if ( (*i)->isExpired( tNow ) )
 		{
 			j = i;
-			j++; // Make sure we have a valid iterator after removal.
+			++j; // Make sure we have a valid iterator after removal.
 			remove( i );
 			i = j;
+			++nCount;
 		}
 		else
 		{
 			++i;
 		}
 	}
+
+	qDebug() << "[Security]"
+	         << QString::number( nCount ).toLocal8Bit().data()
+	         << "Rules expired.";
 }
 
 /**
@@ -1857,7 +1855,7 @@ bool CSecurity::isAgentDenied(const QString& strUserAgent)
 	if ( strUserAgent.isEmpty() )
 		return false;
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = getTNowUTC();
 
 	QReadLocker lock( &m_pRWLock );
 
@@ -1876,8 +1874,6 @@ bool CSecurity::isAgentDenied(const QString& strUserAgent)
 				lock.relock();
 			}
 
-			// Note: As there is only read locking here, this statistics counter might be
-			// unaccurate due to write collisions.
 			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
@@ -1958,7 +1954,7 @@ bool CSecurity::isDenied(const QString& sContent)
 	if ( sContent.isEmpty() )
 		return false;
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = getTNowUTC();
 
 	QReadLocker mutex( &m_pRWLock );
 
@@ -1971,19 +1967,17 @@ bool CSecurity::isDenied(const QString& sContent)
 		{
 			if ( pRule->isExpired( tNow ) )
 			{
-				// Make sure iterator stays valid after removal.
-				++i;
+//				// Make sure iterator stays valid after removal.
+//				++i;
 
-				// We need a different kind of lock here, so unlocking and relocking is required.
-				mutex.unlock();
-				remove( pRule );
-				mutex.relock();
+//				// We need a different kind of lock here, so unlocking and relocking is required.
+//				mutex.unlock();
+//				remove( pRule );
+//				mutex.relock();
 
-				continue;
+				continue; // let the expire() method handle expiries
 			}
 
-			// Note: We don't have a write lock here, so we
-			// can't guarantee the accuracy of this counter.
 			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
@@ -2004,7 +1998,7 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 
 	const QList<CHash>& lHashes = pHit->m_lHashes;
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = getTNowUTC();
 
 	QReadLocker mutex( &m_pRWLock );
 
@@ -2015,10 +2009,8 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 	if ( it != m_Rules.end() )
 	{
 		CHashRule* pRule = ((CHashRule*)*it);
-		if ( pRule->match( lHashes ) )
+		if ( pRule->match( lHashes ) && !pRule->isExpired( tNow ) )
 		{
-			// Note that we cannot guarantee the accuracy of the
-			// statistics counter as we don't have a write lock.
 			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
@@ -2039,26 +2031,24 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 		{
 			if ( pRule->isExpired( tNow ) )
 			{
-				bool bBegin = i != m_Contents.begin();
-				if ( bBegin )
-				{
-					i--;
-				}
+//				bool bBegin = i != m_Contents.begin();
+//				if ( bBegin )
+//				{
+//					i--;
+//				}
 
-				// We need a different kind of lock here, so unlocking and relocking is required.
-				mutex.unlock();
-				remove( pRule );
-				mutex.relock();
+//				// We need a different kind of lock here, so unlocking and relocking is required.
+//				mutex.unlock();
+//				remove( pRule );
+//				mutex.relock();
 
-				if ( !bBegin )
-				{
-					i = m_Contents.begin();
-				}
-				continue;
+//				if ( !bBegin )
+//				{
+//					i = m_Contents.begin();
+//				}
+				continue; // let the expire() method handle expiries
 			}
 
-			// Note that we cannot guarantee the accuracy of this statistics
-			// counter as we don't have a write lock here.
 			hit( pRule );
 
 			if ( pRule->m_nAction == CSecureRule::srAccept )
@@ -2077,7 +2067,7 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 	if ( lQuery.isEmpty() || sContent.isEmpty() )
 		return false;
 
-	quint32 tNow = static_cast< quint32 >( time( NULL ) );
+	quint32 tNow = getTNowUTC();
 
 	QReadLocker mutex( &m_pRWLock );
 
@@ -2090,23 +2080,23 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 		{
 			if ( pRule->isExpired( tNow ) )
 			{
-				// Keep the iterator valid while removing the rule.
-				bool bBegin = ( i == m_RegExpressions.begin() );
-				if ( !bBegin )
-				{
-					i--;
-				}
+//				// Keep the iterator valid while removing the rule.
+//				bool bBegin = ( i == m_RegExpressions.begin() );
+//				if ( !bBegin )
+//				{
+//					i--;
+//				}
 
-				// We need a different kind of lock here, so unlocking and relocking is required.
-				mutex.unlock();
-				remove( pRule );
-				mutex.relock();
+//				// We need a different kind of lock here, so unlocking and relocking is required.
+//				mutex.unlock();
+//				remove( pRule );
+//				mutex.relock();
 
-				if ( bBegin )
-				{
-					i = m_RegExpressions.begin();
-				}
-				continue;
+//				if ( bBegin )
+//				{
+//					i = m_RegExpressions.begin();
+//				}
+				continue; // let the expire() method handle expiries
 			}
 
 			hit( pRule );

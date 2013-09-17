@@ -20,6 +20,9 @@
 #include "NetworkCore/Hashes/hash.h"
 #include "NetworkCore/queryhit.h"
 
+// Note: The locking information within the doxygen comments refers to the RW lock of the Security
+//       Manager.
+
 namespace Security
 {
 
@@ -27,123 +30,145 @@ class CSecureRule
 {
 public:
 	typedef enum { srContentUndefined = 0, srContentAddress = 1, srContentAddressRange = 2, srContentCountry = 3,
-				   srContentHash = 4, srContentRegExp = 5, srContentUserAgent = 6, srContentText = 7 } RuleType;
+	               srContentHash = 4, srContentRegExp = 5, srContentUserAgent = 6, srContentText = 7 } RuleType;
 
 	typedef enum { srNull = 0, srAccept = 1, srDeny = 2 } Policy;
 	enum { srIndefinite = 0, srSession = 1 };
 
 protected:
 	// Type is critical to functionality and may not be changed externally.
-	RuleType	m_nType;
+	RuleType    m_nType;
 
 	// Contains a string representation of the rule content for faster GUI accesses.
 	// Can be accessed via getContentString().
-	QString		m_sContent;
+	QString     m_sContent;
 
 private:
 	// Hit counters
-    QAtomicInt		m_nToday;
-    QAtomicInt		m_nTotal;
+	QAtomicInt  m_nToday;
+	QAtomicInt  m_nTotal;
 
 	// List of pointers that will be set to 0 if this instance of CSecureRule is deleted.
 	// Note that the content of this list is not forwarded to copies of this rule.
 	std::list<CSecureRule**> m_lPointers;
 
 public:
-	Policy		m_nAction;
-	QUuid		m_oUUID;
-	quint32		m_tExpire;
-	QString		m_sComment;
+	Policy      m_nAction;
+	QUuid       m_oUUID;
+	quint32     m_tExpire;
+	QString     m_sComment;
 
 public:
 	// Construction / Destruction
-	CSecureRule(bool bCreate = true);
+	CSecureRule();
 	// See m_lPointers for why we don't use the default copy constructor.
 	CSecureRule(const CSecureRule& pRule);
-	virtual			~CSecureRule();
-
-	// Operators
-	virtual bool            operator==(const CSecureRule& pRule) const;
-	bool					operator!=(const CSecureRule& pRule) const;
-
-	virtual bool			parseContent(const QString& sContent);
-	QString					getContentString() const;
+	virtual ~CSecureRule();
 
 	// Returns a copy of the current rule. Note that this copy does not contain
 	// any information on pointers registered to the original CSecureRule object.
-	virtual CSecureRule*	getCopy() const;
+	virtual CSecureRule* getCopy() const;
+
+	// Operators
+	virtual bool    operator==(const CSecureRule& pRule) const;
+	bool            operator!=(const CSecureRule& pRule) const;
+
+	virtual bool    parseContent(const QString& sContent);
+	QString         getContentString() const;
 
 	// Registers a pointer to a Secure Rule to assure it is set to NULL if the Secure
 	// Rule is deleted. Note that a pointer who has been registered needs to be unregistered
 	// before freeing its memory.
-	/** Write lock in the security manager required **/
-	void			registerPointer(CSecureRule** pRule);
+	void            registerPointer(CSecureRule** pRule);
 	// Call this before removing a pointer you have previously registered.
-	/** Write lock in the security manager required **/
-	void			unRegisterPointer(CSecureRule** pRule);
+	void            unRegisterPointer(CSecureRule** pRule);
 
-	bool			isExpired(quint32 nNow, bool bSession = false) const;
+	bool            isExpired(quint32 nNow, bool bSession = false) const;
 
 	// Hit count control
-	inline void		count();
-	inline void		resetCount();
-	inline quint32	getTodayCount() const;
-	inline quint32	getTotalCount() const;
-	inline void		loadTotalCount(quint32 nTotal);
+	inline void     count();
+	inline void     resetCount();
+	inline quint32  getTodayCount() const;
+	inline quint32  getTotalCount() const;
+	inline void     loadTotalCount(quint32 nTotal);
 
 	// get the rule type
-	inline RuleType	type() const;
+	inline RuleType type() const;
 
 	// Check content for hits
-	virtual bool	match(const QHostAddress& oAddress) const;
-	virtual bool	match(const QString& sContent) const;
+	virtual bool    match(const QHostAddress& oAddress) const;
+	virtual bool    match(const QString& sContent) const;
 	virtual bool    match(const CQueryHit* const pHit) const;
-	virtual bool	match(const QList<QString>& lQuery, const QString& sContent) const;
+	virtual bool    match(const QList<QString>& lQuery, const QString& sContent) const;
 
 	// Read/write rule from/to file
-	static void		load(CSecureRule*& pRule, QDataStream& fsFile, const int nVersion);
+	static void     load(CSecureRule*& pRule, QDataStream& fsFile, const int nVersion);
 	static void     save(const CSecureRule* const pRule, QDataStream& oStream);
 
 	// XML Import/Export functionality
-	static CSecureRule*	fromXML(QXmlStreamReader& oXMLdocument, float nVersion);
-	inline virtual void	toXML(QXmlStreamWriter& oXMLdocument) const;
+	static CSecureRule* fromXML(QXmlStreamReader& oXMLdocument, float nVersion);
+	inline virtual void toXML(QXmlStreamWriter& oXMLdocument) const;
 
 protected:
 	// Contains default code for XML generation.
-	static void			toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument);
+	static void         toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument);
 };
 
+/**
+ * @brief CSecureRule::count increases the total and today hit counters by one each.
+ * Requires Locking: /
+ */
 void CSecureRule::count()
 {
-    m_nToday.fetchAndAddOrdered(1);
-    m_nTotal.fetchAndAddOrdered(1);
-    /*m_nToday++;
-    m_nTotal++;*/
+	m_nToday.fetchAndAddOrdered(1);
+	m_nTotal.fetchAndAddOrdered(1);
 }
 
+/**
+ * @brief CSecureRule::resetCount resets total and today hit counters to 0.
+ * Requires Locking: /
+ */
 void CSecureRule::resetCount()
 {
-    //m_nToday = m_nTotal = 0;
-    m_nToday.fetchAndStoreOrdered(0);
-    m_nTotal.fetchAndAddOrdered(0);
+	m_nToday.fetchAndStoreOrdered(0);
+	m_nTotal.fetchAndAddOrdered(0);
 }
 
+/**
+ * @brief CSecureRule::getTodayCount allows to access the today hit counter.
+ * @return the value of the today hit counter.
+ * Requires Locking: /
+ */
 quint32 CSecureRule::getTodayCount() const
 {
-    return m_nToday.loadAcquire();
+	return m_nToday.loadAcquire();
 }
 
+/**
+ * @brief CSecureRule::getTotalCount allows to access the total hit counter.
+ * @return the value of the total hit counter.
+ * Requires Locking: /
+ */
 quint32 CSecureRule::getTotalCount() const
 {
-    return m_nTotal.loadAcquire();
+	return m_nTotal.loadAcquire();
 }
 
+/**
+ * @brief CSecureRule::loadTotalCount allows to access the total hit counter.
+ * @param nTotal the new value of the total hit counter.
+ * Requires Locking: /
+ */
 void CSecureRule::loadTotalCount( quint32 nTotal )
 {
-    //m_nTotal = nTotal;
-    m_nTotal.storeRelease(nTotal);
+	m_nTotal.storeRelease(nTotal);
 }
 
+/**
+ * @brief CSecureRule::type allows to access the type of this rule.
+ * @return the rule type.
+ * Requires Locking: R
+ */
 CSecureRule::RuleType CSecureRule::type() const
 {
 	return m_nType;
@@ -161,7 +186,7 @@ private:
 	QHostAddress m_oIP;
 
 public:
-	CIPRule(bool bCreate = true);
+	CIPRule();
 
 	inline QHostAddress IP() const;
 	inline void			setIP( const QHostAddress& oIP );
@@ -201,7 +226,7 @@ private:
 	QPair<QHostAddress, int> m_oSubNet;
 
 public:
-	CIPRangeRule(bool bCreate = true);
+	CIPRangeRule();
 
 	inline QHostAddress	IP() const;
 	inline int			mask() const;
@@ -245,7 +270,7 @@ bool CIPRangeRule::match(const QHostAddress &oAddress) const
 class CCountryRule : public CSecureRule
 {
 public:
-	CCountryRule(bool bCreate = true);
+	CCountryRule();
 
 	bool				parseContent(const QString& sContent);
 
@@ -270,7 +295,7 @@ private:
 	QMap< CHash::Algorithm, CHash >	m_Hashes;
 
 public:
-	CHashRule(bool bCreate = true);
+	CHashRule();
 
 	QList< CHash >		getHashes() const;
 	void				setHashes(const QList< CHash >& hashes);
@@ -310,7 +335,7 @@ private:
 #endif
 
 public:
-	CRegExpRule(bool bCreate = true);
+	CRegExpRule();
 
 	bool				operator==(const CSecureRule& pRule) const;
 
@@ -346,7 +371,7 @@ private:
 #endif
 
 public:
-	CUserAgentRule(bool bCreate = true);
+	CUserAgentRule();
 
 	bool				operator==(const CSecureRule& pRule) const;
 
@@ -385,7 +410,7 @@ private:
 	typedef QList< QString >::const_iterator CListIterator;
 
 public:
-	CContentRule(bool bCreate = true);
+	CContentRule();
 
 	bool				operator==(const CSecureRule& pRule) const;
 

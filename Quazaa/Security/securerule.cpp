@@ -30,20 +30,21 @@
 
 using namespace Security;
 
-CSecureRule::CSecureRule(bool bCreate)
+/**
+ * @brief CSecureRule::CSecureRule Constructor.
+ * @param bCreate
+ */
+CSecureRule::CSecureRule()
 {
 	// This invalidates rule as long as it does not contain any useful content.
-	m_nType		= srContentUndefined;
+	m_nType   = srContentUndefined;
 
-	m_nAction	= srDeny;
-	m_tExpire	= srIndefinite;
-	m_nToday	= 0;
-	m_nTotal	= 0;
+	m_nAction = srDeny;
+	m_tExpire = srIndefinite;
+	m_nToday  = 0;
+	m_nTotal  = 0;
 
-	if ( bCreate )
-		m_oUUID = QUuid::createUuid();
-	else
-		m_oUUID = QUuid();
+	m_oUUID   = QUuid::createUuid();
 }
 
 CSecureRule::CSecureRule(const CSecureRule& pRule)
@@ -69,6 +70,14 @@ CSecureRule::~CSecureRule()
 	{
 		*(*i) = NULL;
 	}
+}
+
+CSecureRule* CSecureRule::getCopy() const
+{
+	// This method should never be called.
+	Q_ASSERT( false );
+
+	return new CSecureRule( *this );
 }
 
 bool CSecureRule::operator==(const CSecureRule& pRule) const
@@ -99,14 +108,6 @@ QString CSecureRule::getContentString() const
 	Q_ASSERT( m_nType != srContentUndefined );
 
 	return m_sContent;
-}
-
-CSecureRule* CSecureRule::getCopy() const
-{
-	// This method should never be called.
-	Q_ASSERT( false );
-
-	return new CSecureRule( *this );
 }
 
 void CSecureRule::registerPointer(CSecureRule** pRule)
@@ -243,8 +244,6 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 		break;
 	default:
 		Q_ASSERT( false );
-// TODO: There is an empty or erroneous rule. Error handling (if necessary) should go here.
-// TODO: Inform the user.
 		break;
 	}
 
@@ -579,7 +578,7 @@ void CSecureRule::toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument
 //////////////////////////////////////////////////////////////////////
 // CIPRule
 
-CIPRule::CIPRule(bool)
+CIPRule::CIPRule()
 {
 	m_nType = srContentAddress;
 }
@@ -624,7 +623,7 @@ void CIPRule::toXML(QXmlStreamWriter& oXMLdocument) const
 //////////////////////////////////////////////////////////////////////
 // CIPRangeRule
 
-CIPRangeRule::CIPRangeRule(bool)
+CIPRangeRule::CIPRangeRule()
 {
 	m_nType = srContentAddressRange;
 }
@@ -660,7 +659,7 @@ void CIPRangeRule::toXML(QXmlStreamWriter& oXMLdocument) const
 //////////////////////////////////////////////////////////////////////
 // CCountryRule
 
-CCountryRule::CCountryRule(bool)
+CCountryRule::CCountryRule()
 {
 	m_nType = srContentCountry;
 }
@@ -702,7 +701,7 @@ void CCountryRule::toXML(QXmlStreamWriter& oXMLdocument) const
 //////////////////////////////////////////////////////////////////////
 // CHashRule
 
-CHashRule::CHashRule(bool)
+CHashRule::CHashRule()
 {
 	m_nType = srContentHash;
 }
@@ -847,7 +846,7 @@ void CHashRule::toXML(QXmlStreamWriter& oXMLdocument) const
 //////////////////////////////////////////////////////////////////////
 // CRegExpRule
 
-CRegExpRule::CRegExpRule(bool)
+CRegExpRule::CRegExpRule()
 {
 	m_nType = srContentRegExp;
 	m_bSpecialElements = false;
@@ -1036,7 +1035,7 @@ bool CRegExpRule::replace(QString& sReplace, const QList<QString>& lQuery, quint
 //////////////////////////////////////////////////////////////////////
 // CUserAgentRule
 
-CUserAgentRule::CUserAgentRule(bool)
+CUserAgentRule::CUserAgentRule()
 {
 	m_nType = srContentUserAgent;
 	m_bRegExp  = false;
@@ -1124,7 +1123,7 @@ void CUserAgentRule::toXML(QXmlStreamWriter& oXMLdocument) const
 //////////////////////////////////////////////////////////////////////
 // CContentRule
 
-CContentRule::CContentRule(bool)
+CContentRule::CContentRule()
 {
 	m_nType = srContentText;
 	m_bAll = true;
