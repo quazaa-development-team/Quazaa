@@ -49,6 +49,8 @@
 #define ENABLE_DISCOVERY_DEBUGGING 0
 
 // TODO: Implement rating based on successful connection to obtained hosts
+// TODO: Implement quazaaSettings.Discovery.AccessThrottle
+// TODO: Check if already active ( see method )
 // TODO: Ask brov whether callback on unsuccessful service query shall be implemented
 // TODO: http://www.tartc.ru/classes/gwc?ping=1&get=1&net=gnutella2&client=QAZB&version=0.1 fails
 //       http://www.tartc.ru/classes/gwc/?ping=1&amp;get=1&amp;net=gnutella2&amp;client=QAZB&amp;version=0.1 works
@@ -247,6 +249,9 @@ public:
 	 * @return true if managed; false otherwise
 	 */
 	bool check(const TConstServicePtr pService);
+
+	//Dummy for brov
+	bool isActive( const TServiceType eSType ) { return false; }
 
 	/**
 	 * @brief CDiscovery::requestNAMgr provides a shared pointer to the discovery services network

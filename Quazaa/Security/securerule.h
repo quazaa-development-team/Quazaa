@@ -83,7 +83,8 @@ public:
 	// Call this before removing a pointer you have previously registered.
 	void            unRegisterPointer(CSecureRule** pRule);
 
-	bool            isExpired(quint32 nNow, bool bSession = false) const;
+	inline bool     isExpired(quint32 nNow, bool bSession = false) const;
+	inline quint32  getExpiryTime() const;
 
 	// Hit count control
 	inline void     count();
@@ -113,6 +114,30 @@ protected:
 	// Contains default code for XML generation.
 	static void         toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument);
 };
+
+/**
+ * @brief CSecureRule::isExpired allows to check whether a rule has expired.
+ * @param tNow indicates the current time in seconds since 1.1.1970UTC
+ * @param bSession indicates whether this is the end of the session/start of a new session. In both
+ * cases, set this to true and the return value for session ban rules will be true.
+ * @return true if the rule has expired, false otherwise
+ */
+bool CSecureRule::isExpired(quint32 tNow, bool bSession) const
+{
+	if ( m_tExpire == srIndefinite ) return false;
+	if ( m_tExpire == srSession ) return bSession;
+	return m_tExpire < tNow;
+}
+
+/**
+ * @brief CSecureRule::getExpiryTime allows to access the expiry time of a rule.
+ * @return srIndefinite = 0, srSession = 1 or the time in seconds since 1.1.1970UTC when the rule
+ * will/has expire(d)
+ */
+quint32 CSecureRule::getExpiryTime() const
+{
+	return m_tExpire;
+}
 
 /**
  * @brief CSecureRule::count increases the total and today hit counters by one each.
