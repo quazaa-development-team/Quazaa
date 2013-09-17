@@ -478,7 +478,7 @@ void CSecurity::clear()
 		delete pRule;
 	}
 
-	signalQueue.setInterval( m_idRuleExpiry, m_tRuleExpiryInterval ); // Change
+	signalQueue.setInterval( m_idRuleExpiry, m_tRuleExpiryInterval );
 	missCacheClear( true );
 
 	m_bSaved = false;
@@ -1517,9 +1517,9 @@ void CSecurity::forceEndOfSanityCheck()
 #ifdef _DEBUG
 	if ( m_nPendingOperations )
 	{
-		qDebug() << "Error: Sanity check aborted. Most probable reason: It took some component "
-		         << "longer than 2min to call sanityCheckPerformed() after having recieved the "
-		         << "signal performSanityCheck().";
+		qDebug() << "[Security] Error: Sanity check aborted. Most probable reason: It took some "
+		         << "component longer than 2min to call sanityCheckPerformed() after having "
+		         << "recieved the signal performSanityCheck().";
 		Q_ASSERT( false );
 	}
 #endif //_DEBUG
@@ -1535,6 +1535,8 @@ void CSecurity::forceEndOfSanityCheck()
   */
 void CSecurity::expire()
 {
+	qDebug() << "[Security] Expiring old rules now!";
+
 	QWriteLocker l( &m_pRWLock );
 
 	quint32 tNow = static_cast< quint32 >( time( NULL ) );

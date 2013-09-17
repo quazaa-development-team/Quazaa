@@ -843,7 +843,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Security.UPnPSkipWANPPPSetup = m_qSettings.value("UPnPSkipWANPPPSetup", false).toBool();
 	quazaaSettings.Security.DataPath = m_qSettings.value( "DataPath", sDefaultDataPath ).toString();
 	quazaaSettings.Security.LogIPCheckHits = m_qSettings.value("LogIPCheckHits", false).toBool();
-	quazaaSettings.Security.RuleExpiryInterval = m_qSettings.value("RuleExpiryInterval", 600).toUInt();
+	quazaaSettings.Security.RuleExpiryInterval = m_qSettings.value("RuleExpiryInterval", 60).toUInt();
 	quazaaSettings.Security.MissCacheExpiryInterval = m_qSettings.value("MissCacheExpiryInterval", 600).toUInt();
 	m_qSettings.endGroup();
 
