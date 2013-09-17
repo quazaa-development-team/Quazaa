@@ -140,7 +140,8 @@ void CHandshake::OnWebRequest()
 
         QByteArray baHtml;
         baHtml += "<!DOCTYPE html><html><head><title>Quazaa</title><meta name=\"robots\" content=\"noindex,nofollow\"></head><body>";
-        baHtml += "<h1>This server operates Quazaa node</h2>";
+        baHtml += "<h1><a href=\"http://quazaa.sf.net\"><img src=\"/res/QuazaaLogo.png\"></a></br>";
+        baHtml += "This server operates a Quazaa node</h2>";
         baHtml += "<p><a href=\"http://quazaa.sf.net\">Quazaa</a> is a P2P file sharing client</p>";
         baHtml += "<p>This node is currently connected to the following hosts:<table border=\"1\">";
         baHtml += "<tr><th>Address</th><th>Time</th><th>Mode</th><th>Leaves</th><th>Client</th></tr>";
