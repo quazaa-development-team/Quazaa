@@ -345,7 +345,8 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 	}
 	else
 	{
-		postLog( LogSeverity::Error, tr( "While querying GWC: " ) + url() );
+		postLog( LogSeverity::Error,
+		         tr( "Network error while querying GWC: " ) + pReply->errorString() );
 	}
 
 	// make sure all statistics and failure counters are updated

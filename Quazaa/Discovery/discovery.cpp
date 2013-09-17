@@ -182,6 +182,7 @@ TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
 		if ( checkBan( sURL ) )
 		{
 			m_pSection.unlock();
+			postLog( LogSeverity::Warning, tr( "Service URL banned." ) );
 			return 0;
 		}
 
@@ -190,6 +191,7 @@ TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
 			if ( checkBan( sURL ) )
 			{
 				m_pSection.unlock();
+				postLog( LogSeverity::Warning, tr( "Service URL banned." ) );
 				return 0;
 			}
 		}
@@ -222,10 +224,17 @@ TServiceID CDiscovery::add(QString sURL, const TServiceType eSType,
 			emit serviceAdded( pService );
 			return nTmp;
 		}
+		else
+		{
+			// Error messages handled within add()
+			m_pSection.unlock();
+			return 0;
+		}
 	}
 
 	m_pSection.unlock();
 
+	// sURL empty. This is the sign of a previous error, probably within normalizeURL()
 	postLog( LogSeverity::Warning, tr( "Error adding service." ) );
 	return 0;
 }
@@ -1324,7 +1333,7 @@ bool CDiscovery::manageDuplicates(TServicePtr& pService)
 
 			pService->m_oRWLock.unlock();
 			pService.clear();
-			return true; // existing bans do override everything
+			return true;
 		}
 
 		// check for services with the same URL; Note: all URLs should be case insesitive due to
@@ -1347,7 +1356,7 @@ bool CDiscovery::manageDuplicates(TServicePtr& pService)
 				pExService->m_oRWLock.unlock();
 
 				postLog( LogSeverity::Debug,
-				         tr( "Setting exinting service with same URL to \"banned\"." ) );
+				         tr( "Setting existing service with same URL to \"banned\"." ) );
 			}
 			else // neither service is banned
 			{
@@ -1363,7 +1372,7 @@ bool CDiscovery::manageDuplicates(TServicePtr& pService)
 				else
 				{
 					postLog( LogSeverity::Debug,
-					         tr( "Detected a service already using the same URL." ) );
+					     tr( "Detected a service of different type already using the same URL." ) );
 				}
 			}
 
