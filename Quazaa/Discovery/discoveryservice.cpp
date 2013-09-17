@@ -395,7 +395,9 @@ void CDiscoveryService::updateStatistics(quint16 nHosts, quint16 nURLs, bool bUp
 #endif
 
 	// remove cancel request from signal queue
+	postLog( LogSeverity::Debug, tr( "Updating statistics." ), true );
 	Q_ASSERT( signalQueue.pop( m_oSQCancelRequestID ) );
+
 	m_oSQCancelRequestID = QUuid();
 
 	if ( m_bQuery || nHosts )//in case of an update, we still count hosts we got but did not request
