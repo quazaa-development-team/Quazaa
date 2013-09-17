@@ -86,6 +86,42 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 		ui->lineEditIP->setText( ((CIPRule*)m_pRule)->getContentString() );
 		break;
 	}
+
+	quint32 tExpire = pRule->getExpiryTime();
+
+	switch ( tExpire )
+	{
+	case Security::CSecureRule::srIndefinite:
+		ui->comboBoxExpire->setCurrentIndex( 0 );
+		ui->lineEditMinutes->setEnabled( false );
+		ui->lineEditHours->setEnabled( false );
+		ui->lineEditDays->setEnabled( false );
+		break;
+
+	case Security::CSecureRule::srSession:
+		ui->comboBoxExpire->setCurrentIndex( 1 );
+		ui->lineEditMinutes->setEnabled( false );
+		ui->lineEditHours->setEnabled( false );
+		ui->lineEditDays->setEnabled( false );
+		break;
+
+	default:
+		ui->comboBoxExpire->setCurrentIndex( 2 );
+		ui->lineEditMinutes->setEnabled( true );
+		ui->lineEditHours->setEnabled( true );
+		ui->lineEditDays->setEnabled( true );
+
+		tExpire -= securityManager.getTNowUTC();
+
+		tExpire /= 60; // minutes now
+		ui->lineEditMinutes->setText( QString::number( tExpire % 60 ) );
+
+		tExpire /= 60; // hours now
+		ui->lineEditHours->setText(   QString::number( tExpire % 24 ) );
+		ui->lineEditDays->setText(    QString::number( tExpire / 24 ) );
+		break;
+	}
+
 	setSkin();
 }
 

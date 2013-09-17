@@ -251,7 +251,7 @@ public:
 	bool check(const TConstServicePtr pService);
 
 	//Dummy for brov
-	bool isActive( const TServiceType eSType ) { return false; }
+	bool isActive( const TServiceType ) { return false; }
 
 	/**
 	 * @brief CDiscovery::requestNAMgr provides a shared pointer to the discovery services network

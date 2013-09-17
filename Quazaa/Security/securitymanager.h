@@ -175,6 +175,8 @@ public:
 	// are to the Security Manager Signals.
 	int				receivers(const char* signal) const;
 
+	inline quint32  getTNowUTC();
+
 signals:
 	void			ruleAdded(CSecureRule* pRule);
 	void			ruleRemoved(QSharedPointer<CSecureRule> pRule);
@@ -228,8 +230,6 @@ private:
 
 	inline void		hit(CSecureRule *pRule);
 
-	inline quint32  getTNowUTC();
-
 	inline CSecurityRuleList::iterator getRWIterator(CIterator const_it);
 };
 
@@ -241,6 +241,11 @@ quint32 CSecurity::getCount() const
 bool CSecurity::denyPolicy() const
 {
 	return m_bDenyPolicy;
+}
+
+quint32 CSecurity::getTNowUTC()
+{
+	return QDateTime::currentDateTimeUtc().toTime_t();
 }
 
 void CSecurity::remove(CSecureRule* pRule, bool bLockRequired)
@@ -261,11 +266,6 @@ void CSecurity::hit(CSecureRule* pRule)
 {
 	pRule->count();
 	emit securityHit();
-}
-
-quint32 CSecurity::getTNowUTC()
-{
-	return QDateTime::currentDateTimeUtc().toTime_t();
 }
 
 CSecurity::CSecurityRuleList::iterator CSecurity::getRWIterator(CIterator const_it)
