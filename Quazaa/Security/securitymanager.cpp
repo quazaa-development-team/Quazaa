@@ -87,6 +87,7 @@ void CSecurity::setDenyPolicy(bool bDenyPolicy)
   */
 bool CSecurity::check(const CSecureRule* const pRule) const
 {
+	QReadLocker l( &(securityManager.m_pRWLock) );
 	return pRule != NULL && getUUID( pRule->m_oUUID ) != m_Rules.end();
 }
 
@@ -1403,7 +1404,7 @@ const char* CSecurity::ruleInfoSignal = SIGNAL( ruleInfo( CSecureRule* ) );
 
 /**
   * Returns the number of listeners to a given signal of the Security Manager.
-  * Note that this is an evel method that violates the modularity principle.
+  * Note that this is a method that violates the modularity principle.
   * Plz don't use it if you've got a problem with this (for example because of religious reasons).
   * Locking: /
   */

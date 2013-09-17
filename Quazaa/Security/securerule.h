@@ -76,8 +76,10 @@ public:
 	// Registers a pointer to a Secure Rule to assure it is set to NULL if the Secure
 	// Rule is deleted. Note that a pointer who has been registered needs to be unregistered
 	// before freeing its memory.
+	/** Write lock in the security manager required **/
 	void			registerPointer(CSecureRule** pRule);
 	// Call this before removing a pointer you have previously registered.
+	/** Write lock in the security manager required **/
 	void			unRegisterPointer(CSecureRule** pRule);
 
 	bool			isExpired(quint32 nNow, bool bSession = false) const;

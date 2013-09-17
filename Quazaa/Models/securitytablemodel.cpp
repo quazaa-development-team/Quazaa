@@ -35,6 +35,9 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model)
 
 	m_pNode = pRule;
 
+	// Write lock required while registering rule pointer.
+	securityManager.m_pRWLock.lockForWrite();
+
 	// This makes sure that if pRule is deleted within the Security Manager,
 	// m_pNode is correctly set to NULL. Note that a write lock is required here.
 	m_pNode->registerPointer( &m_pNode );
@@ -45,6 +48,8 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model)
 	m_nToday	= m_pNode->getTodayCount();
 	m_nTotal	= m_pNode->getTotalCount();
 	m_sComment	= m_pNode->m_sComment;
+
+	securityManager.m_pRWLock.unlock();
 
 	switch( m_nAction )
 	{
@@ -73,10 +78,11 @@ CSecurityTableModel::Rule::~Rule()
 		m_pNode->unRegisterPointer( &m_pNode );
 }
 
+/** Requires an existing security manager read lock **/
 bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_update,
 									   CSecurityTableModel *model)
 {
-	Q_ASSERT(m_pNode);
+	Q_ASSERT( m_pNode );
 
 	bool bReturn = false;
 
@@ -229,8 +235,7 @@ QString CSecurityTableModel::Rule::expiryToString(quint32 tExpire) const
 		return tr( "Session" );
 	}
 
-	return QString().sprintf( "%.2u:%.2u:%.2u", tExpire / 3600,
-							  (tExpire % 3600 / 60), (tExpire % 3600) % 60 );
+	return QDateTime::fromTime_t( tExpire ).toLocalTime().toString();
 }
 
 CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
@@ -474,8 +479,6 @@ void CSecurityTableModel::completeRefresh()
 
 void CSecurityTableModel::addRule(CSecureRule* pRule)
 {
-	QReadLocker l( &(securityManager.m_pRWLock) );
-
 	if ( securityManager.check( pRule ) )
 	{
 		beginInsertRows( QModelIndex(), m_lNodes.size(), m_lNodes.size() );
@@ -483,6 +486,8 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 		endInsertRows();
 		m_bNeedSorting = true;
 	}
+
+	securityManager.m_pRWLock.lockForRead();
 
 	// We should probably be the only one listening.
 	if ( securityManager.receivers ( Security::CSecurity::ruleInfoSignal ) )
@@ -496,6 +501,7 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 		Q_ASSERT( m_lNodes.size() <= (int)securityManager.getCount() );
 #endif // _DEBUG
 	}
+	securityManager.m_pRWLock.unlock();
 }
 
 void CSecurityTableModel::removeRule(const QSharedPointer<CSecureRule> pRule)

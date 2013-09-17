@@ -40,7 +40,7 @@ public:
 
 		QString				m_sContent;
 		CSecureRule::Policy	m_nAction;
-		quint32				m_tExpire;
+		quint32				m_tExpire; // UTC time in seconds
 		quint32				m_nToday;
 		quint32				m_nTotal;
 		QString				m_sComment;
