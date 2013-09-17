@@ -162,6 +162,7 @@ void CNeighboursG2::Maintain()
 		}
 	}
 
+
 	if ( IsG2Hub() && Network.GetLocalAddress().isValid()
 		 && !discoveryManager.isActive( Discovery::stGWC )
 		 && m_nUpdateWait-- == 0 )
