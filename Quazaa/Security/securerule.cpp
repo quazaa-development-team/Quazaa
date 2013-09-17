@@ -87,8 +87,6 @@ bool CSecureRule::operator==(const CSecureRule& pRule) const
 			 m_sComment	== pRule.m_sComment	&&
 			 m_oUUID	== pRule.m_oUUID	&&
 			 m_tExpire	== pRule.m_tExpire	&&
-            /* m_nToday	== pRule.m_nToday	&&
-             m_nTotal	== pRule.m_nTotal   &&*/
 			 m_sContent	== pRule.m_sContent);
 }
 
@@ -118,13 +116,6 @@ void CSecureRule::registerPointer(CSecureRule** pRule)
 void CSecureRule::unRegisterPointer(CSecureRule** pRule)
 {
 	m_lPointers.remove( pRule );
-}
-
-bool CSecureRule::isExpired(quint32 tNow, bool bSession) const
-{
-	if ( m_tExpire == srIndefinite ) return false;
-	if ( m_tExpire == srSession ) return bSession;
-	return m_tExpire < tNow;
 }
 
 //////////////////////////////////////////////////////////////////////

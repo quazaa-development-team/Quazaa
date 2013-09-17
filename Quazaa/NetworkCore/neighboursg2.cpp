@@ -162,12 +162,15 @@ void CNeighboursG2::Maintain()
 		}
 	}
 
-    if( IsG2Hub() && Network.GetLocalAddress().isValid() && m_nUpdateWait-- == 0 )
-    {
-        if( m_nLeavesConnectedG2 < 0.7 * quazaaSettings.Gnutella2.NumLeafs ) // if we have less than 70% leaves (no reason to update GWC if we are already full of leaves)
-            discoveryManager.updateService(CNetworkType(dpG2));
-        m_nUpdateWait = quazaaSettings.Discovery.AccessThrottle * 60; // is it in seconds?
-    }
+	if ( IsG2Hub() && Network.GetLocalAddress().isValid() && m_nUpdateWait-- == 0 )
+	{
+		if ( m_nLeavesConnectedG2 < 0.7 * quazaaSettings.Gnutella2.NumLeafs // if we have less than 70% leaves (no reason to update GWC if we are already full of leaves)
+		    && !discoveryManager.isActive( Discovery::stGWC ) )
+		{
+			discoveryManager.updateService(CNetworkType(dpG2));
+		}
+			m_nUpdateWait = quazaaSettings.Discovery.AccessThrottle * 60;
+	}
 }
 
 void CNeighboursG2::DispatchKHL()
