@@ -805,5 +805,6 @@
         <file>Resource/welcome_footer.html</file>
         <file>Resource/welcome_header.html</file>
         <file>Resource/Web/QuazaaLogo.png</file>
+        <file>Resource/Web/header_background.png</file>
     </qresource>
 </RCC>

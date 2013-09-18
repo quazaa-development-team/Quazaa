@@ -139,11 +139,14 @@ void CHandshake::OnWebRequest()
 
 
         QByteArray baHtml;
-        baHtml += "<!DOCTYPE html><html><head><title>Quazaa</title><meta name=\"robots\" content=\"noindex,nofollow\"></head><body>";
-        baHtml += "<h1><a href=\"http://quazaa.sf.net\"><img src=\"/res/QuazaaLogo.png\"></a></br>";
-        baHtml += "This server operates a Quazaa node</h2>";
-        baHtml += "<p><a href=\"http://quazaa.sf.net\">Quazaa</a> is a P2P file sharing client</p>";
-        baHtml += "<p>This node is currently connected to the following hosts:<table border=\"1\">";
+        baHtml += "<!DOCTYPE html><html><head><title>This server operates a Quazaa node.</title><meta name=\"robots\" content=\"noindex,nofollow\"></head>";
+        baHtml += "<body style=\"color:white;background-color:rgb(12,26,43);padding:12px;\">";
+        baHtml += "<div style=\"box-shadow:0px 0px 8px rgb(189,189,189);border-radius:6px;margin-bottom:15px;\">";
+        baHtml += "<div style=\"height:140px;border-radius:6px 6px 0px 0px;background:url('/res/header_background.png') no-repeat scroll left top border-box rgb(0,102,152);\">";
+        baHtml += "<h1><a href=\"http://quazaa.sf.net\"><img src=\"/res/QuazaaLogo.png\"></a></br></div>";
+        baHtml += "<div style=\"color:rgb(51,51,51);background-color:white;border-radius:0px 0px 6px 6px;padding:14px 20px 12px;\"><a href=\"http://quazaa.sf.net\">Quazaa</a> is a P2P file sharing client.</h2></div></div>";
+        baHtml += "<div style=\"color:rgb(51,51,51);background-color:white;box-shadow:0px 0px 8px rgb(189,189,189);border-radius:6px;padding:14px 20px 12px;margin-top:15px;\">";
+        baHtml += "This node is currently connected to the following hosts:<table border=\"1\">";
         baHtml += "<tr><th>Address</th><th>Time</th><th>Mode</th><th>Leaves</th><th>Client</th></tr>";
 
         Neighbours.m_pSection.lock();
@@ -188,7 +191,7 @@ void CHandshake::OnWebRequest()
 
         Neighbours.m_pSection.unlock();
 
-        baHtml += "</table></p></body></html>";
+        baHtml += "</table></div></body></html>";
 
         baResp += "Content-length: " + QString(baHtml.length()) + "\r\n";
         baResp += "\r\n";
