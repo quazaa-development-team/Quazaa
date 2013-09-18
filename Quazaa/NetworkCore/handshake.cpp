@@ -140,11 +140,12 @@ void CHandshake::OnWebRequest()
 
         QByteArray baHtml;
         baHtml += "<!DOCTYPE html><html><head><title>This server operates a Quazaa node.</title><meta name=\"robots\" content=\"noindex,nofollow\"></head>";
-        baHtml += "<body style=\"color:white;background-color:rgb(12,26,43);padding-top:28px;padding-left:12px;padding-right:12px;\">";
-        baHtml += "<div style=\"box-shadow:0px 0px 8px rgb(189,189,189);border-radius:6px;margin-bottom:15px;margin-left:15px;margin-right:15px;\">";
-        baHtml += "<div style=\"height:140px;border:1px solid rgb(197,197,197);border-bottom:0px;border-radius:6px 6px 0px 0px;background:url('/res/header_background.png') no-repeat scroll left top rgb(0,102,152);\">";
-        baHtml += "<h1><a href=\"http://quazaa.sf.net\"><img src=\"/res/QuazaaLogo.png\"></a></br></div>";
-        baHtml += "<div style=\"color:rgb(51,51,51);background-color:white;border:1px solid rgb(197,197,197);border-top:0px;border-radius:0px 0px 6px 6px;padding:14px 20px 12px;\"><a href=\"http://quazaa.sf.net\">Quazaa</a> is a P2P file sharing client.</h2></div></div>";
+        baHtml += "<body style=\"color:white;background-color:rgb(12,26,43);padding-left:12px;padding-right:12px;\">";
+        baHtml += "<div style=\"box-shadow:0px 0px 8px rgb(189,189,189);border-radius:6px;margin-top:28px;margin-bottom:15px;margin-left:15px;margin-right:15px;\">";
+        baHtml += "<div style=\"height:130px;border:1px solid rgb(197,197,197);border-bottom:0px;border-radius:6px 6px 0px 0px;background:url('/res/header_background.png') no-repeat scroll left top rgb(0,102,152);\">";
+        baHtml += "<a href=\"http://quazaa.sf.net\"><img src=\"/res/QuazaaLogo.png\"></a></div>";
+        baHtml += "<div style=\"color:rgb(51,51,51);background-color:white;border:1px solid rgb(197,197,197);border-top:0px;border-radius:0px 0px 6px 6px;padding:14px 20px 12px;\">";
+        baHtml += "<a href=\"http://quazaa.sf.net\">Quazaa</a> is a P2P file sharing client.</div></div>";
         baHtml += "<div style=\"color:rgb(51,51,51);background-color:white;box-shadow:0px 0px 8px rgb(189,189,189);border-radius:6px;padding:14px 20px 12px;margin-top:15px;margin-left:15px;margin-right:15px;\">";
         baHtml += "This node is currently connected to the following hosts:<table border=\"1\">";
         baHtml += "<tr><th>Address</th><th>Time</th><th>Mode</th><th>Leaves</th><th>Client</th></tr>";
