@@ -225,7 +225,8 @@ bool CDiscoveryTableModel::Service::lessThan(int col, const CDiscoveryTableModel
 	switch ( col )
 	{
 	case TYPE:
-		return m_nType < pOther->m_nType;
+		return (         m_bBanned ?         m_nType * -1 :         m_nType ) <
+		       ( pOther->m_bBanned ? pOther->m_nType * -1 : pOther->m_nType );
 
 	case URL:
 		return m_sURL  < pOther->m_sURL;
@@ -299,7 +300,7 @@ void CDiscoveryTableModel::Service::refreshServiceIcon(CDiscoveryTableModel* mod
 		Q_ASSERT( false );
 	}
 
-	if ( m_nType == Discovery::stBanned || m_bBanned )
+	if ( /*m_nType == Discovery::stBanned ||*/ m_bBanned )
 	{
 		m_piType = model->m_pIcons[BANNED];
 	}
@@ -588,8 +589,9 @@ CDiscoveryTableModel::nodeFromIndex(const QModelIndex &index) const
 
 bool CDiscoveryTableModel::isIndexBanned(const QModelIndex& index) const
 {
-	return ( m_lNodes[ index.row() ]->m_bBanned ||
-			 m_lNodes[ index.row() ]->m_nType == Discovery::stBanned );
+	// All service with type stBanned have m_bBanned set to true.
+	return ( m_lNodes[ index.row() ]->m_bBanned /*||
+			 m_lNodes[ index.row() ]->m_nType == Discovery::stBanned*/ );
 }
 
 void CDiscoveryTableModel::completeRefresh()

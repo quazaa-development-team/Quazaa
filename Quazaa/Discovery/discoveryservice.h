@@ -56,31 +56,31 @@ protected:
 	QString                m_sPong;        // The service's reply to a ping request
 
 	bool                   m_bQuery;       // last request was a query (false: [...]an update)
+	bool                   m_bBanned;      // service URL is blocked
 
 private:
 	quint8          m_nRating;      // 0: bad; 10: very good
 	quint8          m_nProbaMult;   // probability multiplicator: [0-5] based on rating
 
-	bool            m_bBanned;      // service URL is blocked
 	bool            m_bZero;        // service probability has just been increased from zero or
-									// service is new. On access failure, this service will be set
-									// to 0 probability no matter its previous proba. For banned
-									// hosts, this indicates the host has been banned because of too
-									// many failures.
+	                                // service is new. On access failure, this service will be set
+	                                // to 0 probability no matter its previous proba. For banned
+	                                // hosts, this indicates the host has been banned because of too
+	                                // many failures.
 	TServiceID      m_nID;          // ID used by the manager to identify the service; 0:invalid
 
 	quint16         m_nLastHosts;   // number of hosts returned by the service on last query
 	quint32         m_nTotalHosts;  // all hosts we ever got from the service
 	quint16         m_nAltServices; // alternate services known to the service passed on to us when
-									// last we queried
-									// TODO: implement.
+	                                // last we queried
+	                                // TODO: implement.
 	quint32         m_tLastAccessed;// last time we queried/updated the service
-									// Note: for banned services, this holds the ban time
-									// TODO: implement.
+	                                // Note: for banned services, this holds the ban time
+	                                // TODO: implement.
 	quint32         m_tLastSuccess; // last time we accessed the service successfully
 	quint8          m_nFailures;    // query failures in a row
 	quint8          m_nZeroRevivals;// counts number of times this service has been revived from a
-									// 0 rating.
+	                                // 0 rating.
 
 	bool            m_bRunning;     // service is currently doing network communication
 
