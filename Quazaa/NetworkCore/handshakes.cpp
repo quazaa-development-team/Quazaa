@@ -71,10 +71,9 @@ void CHandshakes::Disconnect()
 
 	m_bActive = false;
 
-	qDeleteAll(m_lHandshakes);
-	m_lHandshakes.clear();
-
 	HandshakesThread.exit(0);
+
+	Q_ASSERT(m_lHandshakes.isEmpty());
 }
 
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
@@ -156,10 +155,17 @@ void CHandshakes::CleanupThread()
 	if(isListening())
 	{
 		close();
-		foreach(CHandshake * pHs, m_lHandshakes)
+
+		for( QSet<CHandshake*>::iterator itHs = m_lHandshakes.begin(); itHs != m_lHandshakes.end(); )
 		{
+			CHandshake* pHs = *itHs;
+
+			pHs->Close();
+
 			m_pController->RemoveSocket(pHs);
-			pHs->deleteLater();
+			itHs = m_lHandshakes.erase(itHs);
+
+			delete pHs;
 		}
 
 		delete m_pController;

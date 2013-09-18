@@ -126,11 +126,16 @@ void CNetwork::CleanupThread()
 	m_pSecondTimer = 0;
 //	WebCache.CancelRequests();
 
+	qDebug() << "Shutting down Handshakes...";
 	Handshakes.Disconnect();
+	qDebug() << "Shutting down Datagrams...";
 	Datagrams.Disconnect();
+	qDebug() << "Shutting down Neighbours...";
 	Neighbours.Disconnect();
 
 	moveToThread(qApp->thread());
+
+	qDebug() << "Cleanup complete.";
 }
 
 void CNetwork::OnSecondTimer()

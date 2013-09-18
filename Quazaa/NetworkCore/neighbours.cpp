@@ -34,7 +34,6 @@ CNeighbours::CNeighbours(QObject* parent) :
 }
 CNeighbours::~CNeighbours()
 {
-
 }
 
 void CNeighbours::Maintain()
