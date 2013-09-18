@@ -1220,7 +1220,8 @@ bool CDiscovery::manageBan(QString& sURL, const TServiceType eSType, const CNetw
 		{
 			TServiceID nID = 0;
 
-			if ( pService->m_nServiceType == stBanned || pService->m_bBanned )
+			// All service with type stBanned have m_bBanned set to true.
+			if ( /*pService->m_nServiceType == stBanned ||*/ pService->m_bBanned )
 			{
 				// existing bans do override everything
 
@@ -1286,7 +1287,8 @@ bool CDiscovery::checkBan(QString sURL) const
 		pService->m_oRWLock.lockForRead();
 
 		// check for banned services with the same URL
-		if ( ( pService->m_bBanned || pService->m_nServiceType == stBanned ) &&
+		// All service with type stBanned have m_bBanned set to true.
+		if ( ( pService->m_bBanned /*|| pService->m_nServiceType == stBanned*/ ) &&
 			 !pService->m_oServiceURL.toString().compare( sURL ) )
 		{
 			bReturn = true;
@@ -1340,13 +1342,15 @@ bool CDiscovery::manageDuplicates(TServicePtr& pService)
 		// normalizeURLs(), so case sensitivity is not a problem here.
 		if ( !sExURL.compare( sURL ) )
 		{
-			if ( pExService->m_nServiceType == stBanned || pExService->m_bBanned )
+			// All service with type stBanned have m_bBanned set to true.
+			if ( /*pExService->m_nServiceType == stBanned ||*/ pExService->m_bBanned )
 			{
 				// existing bans do override everything
 
 				postLog( LogSeverity::Debug, tr( "URL already banned. Not going do add it." ) );
 			}
-			else if ( pService->m_nServiceType == stBanned || pService->m_bBanned )
+			// All service with type stBanned have m_bBanned set to true.
+			else if ( /*pService->m_nServiceType == stBanned ||*/ pService->m_bBanned )
 			{
 				oExServiceReadLock.unlock();
 
