@@ -32,6 +32,7 @@
 #include "dialogopentorrent.h"
 
 #include <QFontMetrics>
+#include <QModelIndex>
 
 #include "debug_new.h"
 
@@ -125,4 +126,9 @@ void WidgetDownloads::on_actionOpenTorrent_triggered()
 	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent(this);
 
 	dlgOpenTorrent->show();
+}
+
+void WidgetDownloads::on_tableViewDownloads_clicked(const QModelIndex &index)
+{
+	emit onItemChange(index);
 }

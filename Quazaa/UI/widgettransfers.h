@@ -30,6 +30,8 @@
 #include "widgetdownloads.h"
 #include "widgetuploads.h"
 
+class CDownloadsPeerModel;
+
 namespace Ui
 {
 	class WidgetTransfers;
@@ -43,6 +45,7 @@ public:
 	~WidgetTransfers();
 	WidgetDownloads* panelDownloads;
 	WidgetUploads* panelUploads;
+	CDownloadsPeerModel* m_pPeerModel;
 	void saveWidget();
 
 protected:
@@ -57,6 +60,8 @@ private slots:
     void on_splitterDownloads_customContextMenuRequested(const QPoint &pos);
 	void on_treeWidgetTransfers_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void setSkin();
+
+	void onPanelDownloads_itemChanged(const QModelIndex index);
 };
 
 #endif // WIDGETTRANSFERS_H

@@ -1,6 +1,4 @@
 /*
-** widgetdownloads.h
-**
 ** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
@@ -22,48 +20,29 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef WIDGETDOWNLOADS_H
-#define WIDGETDOWNLOADS_H
+#ifndef DOWNLOADSPEERMODEL_H
+#define DOWNLOADSPEERMODEL_H
 
-#include <QMainWindow>
-#include <QMenu>
-#include <QModelIndex>
+#include <QSortFilterProxyModel>
 
-class CDownloadsTreeModel;
-
-namespace Ui
-{
-	class WidgetDownloads;
-}
-
-class WidgetDownloads : public QMainWindow
+class CDownloadsPeerModel : public QSortFilterProxyModel
 {
 	Q_OBJECT
+
+	QModelIndex m_oCurrentRoot;
 public:
-	WidgetDownloads(QWidget* parent = 0);
-	~WidgetDownloads();
-	void saveWidget();
+	CDownloadsPeerModel(QObject *parent = 0);
+
+	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+	void setCurrentRoot(const QModelIndex& index);
 
 protected:
-	void changeEvent(QEvent* e);
-
-private:
-	Ui::WidgetDownloads* ui;
-	QMenu *downloadMenu;
-
-protected:
-	CDownloadsTreeModel* m_pModel;
+	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 
 signals:
-	void onItemChange(const QModelIndex index);
 
-private slots:
-	void on_tableViewDownloads_customContextMenuRequested(const QPoint &pos);
-	void setSkin();
-	void on_actionOpenTorrent_triggered();
-	void on_tableViewDownloads_clicked(const QModelIndex &index);
+public slots:
 
-	friend class WidgetTransfers;
 };
 
-#endif // WIDGETDOWNLOADS_H
+#endif // DOWNLOADSPEERMODEL_H

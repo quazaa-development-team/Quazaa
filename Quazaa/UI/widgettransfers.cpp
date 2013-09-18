@@ -25,6 +25,9 @@
 #include "widgettransfers.h"
 #include "ui_widgettransfers.h"
 
+#include "downloadstreemodel.h"
+#include "downloadspeermodel.h"
+
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
@@ -38,14 +41,20 @@ WidgetTransfers::WidgetTransfers(QWidget* parent) :
 {
 	ui->setupUi(this);
 	ui->splitterTransfers->restoreState(quazaaSettings.WinMain.TransfersSplitter);
-	panelDownloads = new WidgetDownloads();
+	panelDownloads = new WidgetDownloads(this);
+	m_pPeerModel = new CDownloadsPeerModel(this);
+	m_pPeerModel->setDynamicSortFilter(true);
+	m_pPeerModel->setSourceModel(panelDownloads->m_pModel);
+	ui->tableViewPeers->setModel(m_pPeerModel);
 	ui->verticalLayoutDownloads->addWidget(panelDownloads);
-	panelUploads = new WidgetUploads();
+	panelUploads = new WidgetUploads(this);
 	ui->verticalLayoutUploads->addWidget(panelUploads);
 	ui->splitterDownloads->restoreState(quazaaSettings.WinMain.DownloadsSplitter);
 	ui->stackedWidgetTransfers->setCurrentIndex(0);
 	ui->tabWidgetDownloadDetails->setCurrentIndex(0);
 	setSkin();
+
+	connect(panelDownloads, SIGNAL(onItemChange(QModelIndex)), this, SLOT(onPanelDownloads_itemChanged(QModelIndex)));
 }
 
 WidgetTransfers::~WidgetTransfers()
@@ -103,6 +112,12 @@ void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos
 void WidgetTransfers::setSkin()
 {
 
+}
+
+void WidgetTransfers::onPanelDownloads_itemChanged(const QModelIndex index)
+{
+	m_pPeerModel->setCurrentRoot(index);
+	ui->tableViewPeers->setRootIndex(m_pPeerModel->mapFromSource(index));
 }
 
 void WidgetTransfers::on_splitterDownloads_customContextMenuRequested(const QPoint &pos)
@@ -194,3 +209,4 @@ void WidgetTransfers::on_splitterTransfersNavigation_customContextMenuRequested(
         }
     }
 }
+

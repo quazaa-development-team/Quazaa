@@ -397,7 +397,8 @@ HEADERS += \
 	UI/wizardquickstart.h \
 	UI/wizardtreewidget.h \
     Models/discoverytablemodel.h \
-    UI/dialogneighbourinfo.h
+    UI/dialogneighbourinfo.h \
+    Models/downloadspeermodel.h
 
 win32 {
 	HEADERS += \
@@ -582,7 +583,8 @@ SOURCES += \
 	UI/wizardtreewidget.cpp \
 	UI/wizardquickstart.cpp \
     Models/discoverytablemodel.cpp \
-    UI/dialogneighbourinfo.cpp
+    UI/dialogneighbourinfo.cpp \
+    Models/downloadspeermodel.cpp
 
 win32 {
 	SOURCES += \
