@@ -139,16 +139,21 @@ void CHandshake::OnWebRequest()
 
 
         QByteArray baHtml;
-        baHtml += "<!DOCTYPE html><html><head><title>This server operates a Quazaa node.</title><meta name=\"robots\" content=\"noindex,nofollow\"></head>";
+        baHtml += "<!DOCTYPE html><html><head><title>Quazaa " + QuazaaGlobals::APPLICATION_VERSION_STRING() + " : Node Information</title><meta name=\"robots\" content=\"noindex,nofollow\"></head>";
         baHtml += "<body style=\"color:white;background-color:rgb(12,26,43);padding-left:12px;padding-right:12px;\">";
         baHtml += "<div style=\"box-shadow:0px 0px 8px rgb(189,189,189);border-radius:6px;margin-top:28px;margin-bottom:15px;margin-left:15px;margin-right:15px;\">";
         baHtml += "<div style=\"height:130px;border:1px solid rgb(197,197,197);border-bottom:0px;border-radius:6px 6px 0px 0px;background:url('/res/header_background.png') no-repeat scroll left top rgb(0,102,152);\">";
         baHtml += "<a href=\"http://quazaa.sf.net\"><img src=\"/res/QuazaaLogo.png\"></a></div>";
         baHtml += "<div style=\"color:rgb(51,51,51);background-color:white;border:1px solid rgb(197,197,197);border-top:0px;border-radius:0px 0px 6px 6px;padding:14px 20px 12px;\">";
-        baHtml += "<a href=\"http://quazaa.sf.net\">Quazaa</a> is a P2P file sharing client.</div></div>";
-        baHtml += "<div style=\"color:rgb(51,51,51);background-color:white;box-shadow:0px 0px 8px rgb(189,189,189);border-radius:6px;padding:14px 20px 12px;margin-top:15px;margin-left:15px;margin-right:15px;\">";
-        baHtml += "This node is currently connected to the following hosts:<table border=\"1\">";
-        baHtml += "<tr><th>Address</th><th>Time</th><th>Mode</th><th>Leaves</th><th>Client</th></tr>";
+        baHtml += "This node is powered by <a href=\"http://quazaa.sf.net\">Quazaa " + QuazaaGlobals::APPLICATION_VERSION_STRING() + "</a>.</div></div>";
+        baHtml += "<div style=\"border:1px solid rgb(197,197,197);box-shadow:0px 0px 8px rgb(189,189,189);border-radius:6px;margin-bottom:15px;margin-left:15px;margin-right:15px;\">";
+        baHtml += "<div style=\"text-align:center;color:white;background-color:rgb(34,34,34);border-radius:6px 6px 0px 0px;padding:14px 20px 12px;\">";
+        baHtml += "What is <a href=\"http://quazaa.sf.net\">Quazaa</a>?</div>";
+        baHtml += "<div style=\"color:rgb(51,51,51);background-color:white;border:1px solid rgb(197,197,197);border-top:0px;border-radius:0px 0px 6px 6px;padding:14px 20px 12px;\">";
+        baHtml += "Quazaa is a cross-platform multi-network peer-to-peer (P2P) file sharing client which will support G2, Ares, eDonkey2000 (eMule), HTTP, FTP and BitTorrent. Quazaa is free, <a href=\"http://opensource.org/\">open source</a> software and contains no spyware or adware.</div></div>";
+        baHtml += "<div style=\"text-align:center;color:rgb(51,51,51);background-color:white;box-shadow:0px 0px 8px rgb(189,189,189);border-radius:6px;padding:14px 20px 12px;margin-top:15px;margin-left:15px;margin-right:15px;\">";
+        baHtml += "This node is currently connected to the following nodes:<table width=\"100%\" cellspacing=\"0\">";
+        baHtml += "<b><tr><th>Address</th><th>Time</th><th>Mode</th><th>Leaves</th><th>Client</th></tr></b>";
 
         Neighbours.m_pSection.lock();
 
@@ -159,19 +164,19 @@ void CHandshake::OnWebRequest()
             if( (*it)->m_nState != nsConnected )
                 continue;
 
-            baHtml += "<tr><td>" + (*it)->GetAddress().toStringWithPort() + "</td>";
+            baHtml += "<tr><td style=\"text-align:center;\"><a href=\"http://" + (*it)->GetAddress().toStringWithPort() + "\">" + (*it)->GetAddress().toStringWithPort() + "</a></td>";
 
             quint32 tConnected = tNow - (*it)->m_tConnected;
-            baHtml += "<td>" + QString().sprintf( "%.2u:%.2u:%.2u", tConnected / 3600,
+            baHtml += "<td style=\"text-align:center;\">" + QString().sprintf( "%.2u:%.2u:%.2u", tConnected / 3600,
                                                  tConnected % 3600 / 60, ( tConnected % 3600 ) % 60 ) + "</td>";
 
             if( (*it)->m_nProtocol == dpG2 )
             {
                 CG2Node* pG2 = static_cast<CG2Node*>(*it);
 
-                baHtml += "<td>" + QString((pG2->m_nType == G2_HUB ? "G2 Hub" : "G2 Leaf")) + "</td>";
+                baHtml += "<td style=\"text-align:center;\">" + QString((pG2->m_nType == G2_HUB ? "G2 Hub" : "G2 Leaf")) + "</td>";
 
-                baHtml += "<td>";
+                baHtml += "<td style=\"text-align:center;\">";
                 if( pG2->m_nType == G2_HUB )
                 {
                     baHtml += QString::number(pG2->m_nLeafCount) + "/" + QString::number(pG2->m_nLeafMax);
@@ -184,9 +189,9 @@ void CHandshake::OnWebRequest()
             }
             else
             {
-                baHtml += "<td>&nbsp;</td><td>&nbsp;</td>";
+                baHtml += "<td style=\"text-align:center;\">&nbsp;</td><td style=\"text-align:center;\">&nbsp;</td>";
             }
-            baHtml += "<td>" + (*it)->m_sUserAgent + "</td>";
+            baHtml += "<td style=\"text-align:center;\">" + (*it)->m_sUserAgent + "</td>";
             baHtml += "</tr>";
         }
 
