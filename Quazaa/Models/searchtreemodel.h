@@ -44,6 +44,35 @@ namespace SearchHitData
 	};
 }
 
+class SearchFilter
+{
+public:
+	QString m_sMatchString;
+	bool m_bRegExp;
+
+	quint64 m_nMinSize;
+	quint64 m_nMaxSize;
+	quint16 m_nMinSources;
+
+	// bools: state allowed
+	bool m_bBusy;
+	bool m_bFirewalled;
+	bool m_bUnstable;
+	bool m_bDRM;
+	bool m_bSuspicious;
+	bool m_bNonMatching;
+	bool m_bExistsInLibrary;
+	bool m_bBogus;
+	bool m_bAdult;
+
+public:
+	SearchFilter();
+	bool operator==(const SearchFilter& rOther);
+	bool operator!=(const SearchFilter& rOther);
+	bool operator<(const SearchFilter& rOther);
+	bool operator>(const SearchFilter& rOther);
+};
+
 class SearchTreeItem : public QObject
 {
 	Q_OBJECT
@@ -76,6 +105,12 @@ class SearchTreeModel : public QAbstractItemModel
 {
 	Q_OBJECT
 
+private:
+	SearchFilter*      m_pFilter;
+	CFileIconProvider* m_pIconProvider;
+
+	SearchTreeItem*    rootItem;
+
 public:
 	SearchTreeModel();
 	~SearchTreeModel();
@@ -92,15 +127,12 @@ public:
 	int columnCount(const QModelIndex& parent = QModelIndex()) const;
 	int nFileCount;
 
-private:
-	CFileIconProvider* m_pIconProvider;
 signals:
 	void updateStats();
 	void sort();
 
 private:
 	void setupModelData(const QStringList& lines, SearchTreeItem* parent);
-	SearchTreeItem* rootItem;
 
 public slots:
 	void clear();

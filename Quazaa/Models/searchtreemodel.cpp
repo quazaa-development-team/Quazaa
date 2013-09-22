@@ -36,7 +36,8 @@
 using namespace common;
 
 SearchTreeModel::SearchTreeModel()
-	: m_pIconProvider(new CFileIconProvider)
+	: m_pIconProvider(new CFileIconProvider),
+      m_pFilter(new SearchFilter)
 {
 	QList<QVariant> rootData;
 	rootData << "File"
@@ -490,5 +491,80 @@ SearchTreeItem * SearchTreeModel::itemFromIndex(QModelIndex index)
 	}
 
 	return NULL;
+}
+
+SearchFilter::SearchFilter() :
+    m_sMatchString( "" ),
+    m_bRegExp( false ),
+    m_nMinSize( 0 ),
+    m_nMaxSize( 18446744073709551615 ), // max value of 64 bit int
+    m_nMinSources( 0 ),
+    m_bBusy( true ),
+    m_bFirewalled( true ),
+    m_bUnstable( true ),
+    m_bDRM( true ),
+    m_bSuspicious( true ),
+    m_bNonMatching( true ),
+    m_bExistsInLibrary( true ),
+    m_bBogus( true ),
+    m_bAdult( true )
+{
+}
+
+bool SearchFilter::operator==(const SearchFilter& rOther)
+{
+	return m_sMatchString     == rOther.m_sMatchString     &&
+	       m_bRegExp          == rOther.m_bRegExp          &&
+	       m_nMinSize         == rOther.m_nMinSize         &&
+	       m_nMaxSize         == rOther.m_nMaxSize         &&
+	       m_nMinSources      == rOther.m_nMinSources      &&
+	       m_bBusy            == rOther.m_bBusy            &&
+	       m_bFirewalled      == rOther.m_bFirewalled      &&
+	       m_bUnstable        == rOther.m_bUnstable        &&
+	       m_bDRM             == rOther.m_bDRM             &&
+	       m_bSuspicious      == rOther.m_bSuspicious      &&
+	       m_bNonMatching     == rOther.m_bNonMatching     &&
+	       m_bExistsInLibrary == rOther.m_bExistsInLibrary &&
+	       m_bBogus           == rOther.m_bBogus           &&
+	       m_bAdult           == rOther.m_bAdult;
+}
+
+bool SearchFilter::operator!=(const SearchFilter& rOther)
+{
+	return !operator==( rOther );
+}
+
+// smaller amount of files
+bool SearchFilter::operator<(const SearchFilter& rOther)
+{
+	return m_nMinSize         >  rOther.m_nMinSize         ||
+	       m_nMaxSize         <  rOther.m_nMaxSize         ||
+	       m_nMinSources      >  rOther.m_nMinSources      ||
+	      !m_bBusy            && rOther.m_bBusy            ||
+	      !m_bFirewalled      && rOther.m_bFirewalled      ||
+	      !m_bUnstable        && rOther.m_bUnstable        ||
+	      !m_bDRM             && rOther.m_bDRM             ||
+	      !m_bSuspicious      && rOther.m_bSuspicious      ||
+	      !m_bNonMatching     && rOther.m_bNonMatching     ||
+	      !m_bExistsInLibrary && rOther.m_bExistsInLibrary ||
+	      !m_bBogus           && rOther.m_bBogus           ||
+	      !m_bAdult           && rOther.m_bAdult;
+}
+
+// bigger amount of files
+bool SearchFilter::operator>(const SearchFilter& rOther)
+{
+	return m_nMinSize         <   rOther.m_nMinSize         ||
+	       m_nMaxSize         >   rOther.m_nMaxSize         ||
+	       m_nMinSources      <   rOther.m_nMinSources      ||
+	       m_bBusy            && !rOther.m_bBusy            ||
+	       m_bFirewalled      && !rOther.m_bFirewalled      ||
+	       m_bUnstable        && !rOther.m_bUnstable        ||
+	       m_bDRM             && !rOther.m_bDRM             ||
+	       m_bSuspicious      && !rOther.m_bSuspicious      ||
+	       m_bNonMatching     && !rOther.m_bNonMatching     ||
+	       m_bExistsInLibrary && !rOther.m_bExistsInLibrary ||
+	       m_bBogus           && !rOther.m_bBogus           ||
+	       m_bAdult           && !rOther.m_bAdult;
 }
 
