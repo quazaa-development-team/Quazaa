@@ -36,6 +36,7 @@
 class CDownload;
 class CDownloadSource;
 class CDownloadsTreeModel;
+class CDownloadSourceItem;
 class CFileIconProvider;
 
 class CDownloadsItemBase : public QObject
