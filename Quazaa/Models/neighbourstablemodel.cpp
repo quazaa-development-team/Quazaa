@@ -44,7 +44,7 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 	quint32 tNow = time(0);
 
     sHandshake      = pNode->m_sHandshake;
-	oAddress        = pNode->GetAddress();
+	oAddress        = pNode->address();
 	tConnected      = tNow - pNode->m_tConnected;
 	nBandwidthIn    = pNode->m_mInput.Usage();
 	nBandwidthOut   = pNode->m_mOutput.Usage();
@@ -60,7 +60,9 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 	nState          = pNode->m_nState;
 	nType           = G2_UNKNOWN;
 	sUserAgent      = pNode->m_sUserAgent;
-	sCountry        = GeoIP.findCountryCode(pNode->m_oAddress);
+
+	++geoIP.m_nDebugOldCalls;
+	sCountry        = oAddress.country();
 	iCountry        = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
 
 	switch( pNode->m_nProtocol )
@@ -93,10 +95,10 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 
     sHandshake = pNode->m_sHandshake;
 
-	if ( oAddress != pNode->GetAddress() )
+	if ( oAddress != pNode->address() )
 	{
 		to_update.append( model->index( row, ADDRESS ) );
-		oAddress = pNode->GetAddress();
+		oAddress = pNode->address();
 
 		if ( col == ADDRESS )
 		{
@@ -262,7 +264,8 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 			return sUserAgent;
 
 		case COUNTRY:
-			return GeoIP.countryNameFromCode( sCountry );
+		// TODO: would it be more intelligent to store this in a variable instead of getting it from geoIP each time?
+			return geoIP.countryNameFromCode( sCountry );
 	}
 
 	return QVariant();
@@ -317,8 +320,8 @@ bool CNeighboursTableModel::Neighbour::lessThan( int col,
 		return sUserAgent < pOther->sUserAgent;
 
 	case COUNTRY:
-		return GeoIP.countryNameFromCode( sCountry ) <
-				GeoIP.countryNameFromCode( pOther->sCountry );
+		return geoIP.countryNameFromCode( sCountry ) <
+				geoIP.countryNameFromCode( pOther->sCountry );
 	default:
 		return false;
 	}

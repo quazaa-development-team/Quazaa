@@ -117,8 +117,10 @@ CHostCacheHost* CHostCache::add(CEndPoint host, QDateTime ts)
 	if ( host.isFirewalled() )
 		return NULL;
 
-    if( securityManager.isDenied(host) )
-        return NULL;
+	// At this point the security check should already have been performed.
+	// Q_ASSERT( !securityManager.isDenied(host) );
+	if ( securityManager.isDenied(host) )
+		return NULL;
 
 	if ( (quint32)m_lHosts.size() > m_nMaxCacheHosts )
 	{
@@ -152,7 +154,7 @@ CHostCacheHost* CHostCache::add(CEndPoint host, QDateTime ts)
 	Q_ASSERT( ts.timeSpec() == Qt::UTC );
 
 	CHostCacheHost* pNew = new CHostCacheHost();
-	pNew->m_oAddress = host;
+	pNew->m_oAddress   = host;
 	pNew->m_tTimestamp = ts;
 
 	CHostCacheIterator it = qLowerBound( m_lHosts.begin(), m_lHosts.end(),
@@ -350,22 +352,19 @@ CHostCacheHost* CHostCache::getConnectable(QDateTime tNow, QList<CHostCacheHost*
 			if ( nFailures != pHost->m_nFailures )
 				continue;
 
-			if ( bCountry )
+			if ( pHost->m_oAddress.country() == "ZZ" )
 			{
-				if ( pHost->m_sCountry == "ZZ" )
-				{
-					pHost->m_sCountry = GeoIP.findCountryCode( pHost->m_oAddress );
-				}
-
-				if ( pHost->m_sCountry != sCountry )
-				{
-					continue;
-				}
+				++geoIP.m_nDebugOldCalls;
 			}
 
-			if ( pHost->m_tLastConnect.isNull()
-					|| pHost->m_tLastConnect.secsTo(tNow) > (quazaaSettings.Gnutella.ConnectThrottle
-						+ ( pHost->m_nFailures * quazaaSettings.Connection.FailurePenalty ) ) )
+			if ( bCountry && pHost->m_oAddress.country() != sCountry )
+			{
+				continue;
+			}
+
+			if ( pHost->m_tLastConnect.isNull() ||
+			     pHost->m_tLastConnect.secsTo( tNow ) > ( quazaaSettings.Gnutella.ConnectThrottle
+			         + pHost->m_nFailures * quazaaSettings.Connection.FailurePenalty ) )
 			{
 				if ( !oExcept.contains( pHost ) )
 					return pHost;

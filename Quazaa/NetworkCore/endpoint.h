@@ -31,6 +31,7 @@ class CEndPoint : public QHostAddress
 {
 protected:
 	quint16	m_nPort;
+	QString m_sCountry;
 
 public:
 	CEndPoint();
@@ -50,11 +51,16 @@ public:
 	inline bool operator !=(const CEndPoint& rhs) const;
 	inline bool operator ==(const QHostAddress& rhs) const;
 	inline bool operator !=(const QHostAddress& rhs) const;
+
 public:
 	void clear();
 	QString toStringWithPort() const;
-	quint16 port() const;
-	void setPort(const quint16 nPort);
+
+	inline quint16 port() const;
+	inline void setPort(const quint16 nPort);
+
+	inline QString country() const;
+
 	bool isFirewalled() const;
 	inline bool isValid() const;
 
@@ -62,26 +68,43 @@ public:
 	friend QDataStream &operator>>(QDataStream &, CEndPoint &);
 };
 
-bool CEndPoint::isValid() const
-{
-	return (!isNull() && QHostAddress::operator !=(QHostAddress::Any) && QHostAddress::operator !=(QHostAddress::AnyIPv6) && m_nPort != 0);
-}
-
 bool CEndPoint::operator ==(const CEndPoint& rhs) const
 {
-	return (QHostAddress::operator ==(rhs) && m_nPort == rhs.m_nPort);
+	return ( QHostAddress::operator ==( rhs ) && m_nPort == rhs.m_nPort );
 }
 bool CEndPoint::operator !=(const CEndPoint& rhs) const
 {
-	return !operator==(rhs);
+	return !operator==( rhs );
 }
 bool CEndPoint::operator ==(const QHostAddress& rhs) const
 {
-	return QHostAddress::operator ==(rhs);
+	return QHostAddress::operator ==( rhs );
 }
 bool CEndPoint::operator !=(const QHostAddress& rhs) const
 {
-	return QHostAddress::operator !=(rhs);
+	return QHostAddress::operator !=( rhs );
+}
+
+quint16 CEndPoint::port() const
+{
+	return m_nPort;
+}
+
+void CEndPoint::setPort(const quint16 nPort)
+{
+	m_nPort = nPort;
+}
+
+QString CEndPoint::country() const
+{
+	return m_sCountry;
+}
+
+bool CEndPoint::isValid() const
+{
+	return ( !isNull() && m_nPort  &&
+	         QHostAddress::operator !=( QHostAddress::Any ) &&
+	         QHostAddress::operator !=( QHostAddress::AnyIPv6 ) );
 }
 
 QDataStream &operator<<(QDataStream &s, const CEndPoint &rhs);
