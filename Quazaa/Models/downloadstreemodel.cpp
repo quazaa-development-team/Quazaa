@@ -274,9 +274,9 @@ CDownloadsItemBase *CDownloadsItemBase::parent()
 CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CDownloadsTreeModel* model, QObject *parentQObject)
 	: CDownloadsItemBase(parentQObject),
 	  m_pDownload(download),
-	  m_pModel(model),
 	  m_oCompletedFrags(0),
-	  m_oVerifiedFrags(0)
+      m_oVerifiedFrags(0),
+      m_pModel(model)
 {
 	parentItem = parent;
 
