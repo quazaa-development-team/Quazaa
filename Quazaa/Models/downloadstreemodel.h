@@ -86,7 +86,7 @@ protected:
 	int		m_nProgress;	// progress in % TODO: change it to something different when nice progress bar will be ready
 	qint64	m_nBandwidth;	// total bandwidth, B/s
 	int		m_nStatus;		// download status
-	int		m_nPriority;	//
+	quint8	m_nPriority;	//
 	quint64 m_nCompleted;	// bytes completed
 
 	Fragments::List	m_oCompletedFrags;

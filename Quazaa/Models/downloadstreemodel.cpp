@@ -288,7 +288,7 @@ CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CD
 	m_nProgress = 0;
 	m_nBandwidth = 0;
 	m_nStatus = download->m_nState;
-	m_nPriority = download->m_nPriority;
+	m_nPriority = download->m_nPriority; // 255: highest priority; 1: lowest priority; 0: temporary disabled
 	m_nCompleted = download->m_nCompletedSize;
 	m_nProtocol = tpNull;
 
@@ -364,7 +364,7 @@ QVariant CDownloadItem::data(int column) const
 			}
 			return tr("Unknown"); // should not happen, but...
 		case CDownloadsTreeModel::PRIORITY:
-			switch(m_nPriority)
+			/*switch(m_nPriority)
 			{
 				case CDownload::LOW:
 					return tr("Low");
@@ -379,7 +379,8 @@ QVariant CDownloadItem::data(int column) const
 						return tr("Lowest");
 					else
 						return tr("Unknown"); // not possible, but...
-			}
+			}*/
+			return QString::number( m_nPriority );
 		case CDownloadsTreeModel::CLIENT:
 			if( childCount() )
 			{

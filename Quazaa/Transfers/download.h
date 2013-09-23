@@ -36,13 +36,6 @@ public:
 		dsCompleted
 	};
 
-	enum Priority
-	{
-		HIGH = -1,
-		NORMAL = 0,
-		LOW = 1
-	};
-
 	QString					m_sDisplayName;
 	QString					m_sTempName;
 	quint64					m_nSize;
@@ -57,7 +50,7 @@ public:
 	QList<CHash>			m_lHashes; // hashes for whole download
 
 	bool					m_bSignalSources;
-	int						m_nPriority;
+	quint8					m_nPriority; // 255: highest priority; 1: lowest priority; 0: temporary disabled
 	bool					m_bModified;
 	int						m_nTransfers;
 	QDateTime				m_tStarted;

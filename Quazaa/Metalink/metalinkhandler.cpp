@@ -26,6 +26,8 @@
 #include "systemlog.h"
 #include "debug_new.h"
 
+using namespace URI;
+
 MetaFile::MetaFile() :
 	m_nID( 0 ),
 	m_nFileSize( 0 )

@@ -210,7 +210,7 @@ CDownload::CDownload(CQueryHit* pHit, QObject *parent) :
 	m_lVerified(pHit->m_nObjectSize),
 	m_lActive(pHit->m_nObjectSize),
 	m_bSignalSources(false),
-	m_nPriority(NORMAL),
+	m_nPriority(125),
 	m_bModified(true),
 	m_nTransfers(0)
 {

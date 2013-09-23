@@ -27,6 +27,8 @@
 #include "metalink4handler.h"
 #include "debug_new.h"
 
+using namespace URI;
+
 CMetalink4Handler::CMetalink4Handler(QFile& oFile) :
 	CMetalinkHandler( oFile )
 {
@@ -138,8 +140,8 @@ bool CMetalink4Handler::parseFile(QList<MetaFile> &lFiles, quint16 ID)
 		else if ( !sComp.compare( "url" ) )
 		{
 			MediaURI uri;
-			uri.m_sType = "url";
-            uri.m_pURL = new QUrl( m_oMetaLink.readElementText() );
+			uri.m_nType = uriURL;
+			uri.m_pURL = new QUrl( m_oMetaLink.readElementText() );
 
 			if ( uri.m_pURL->isValid() )
 			{
@@ -216,7 +218,7 @@ bool CMetalink4Handler::parseFile(QList<MetaFile> &lFiles, quint16 ID)
 				if ( !sMediaType.compare( "torrent" ) )
 				{
 
-					uri.m_sType = "torrent";
+					uri.m_nType = uriTorrent;
 					uri.m_pTorrent = new QUrl( m_oMetaLink.readElementText() );
 
 					if ( !uri.m_pTorrent->isValid() )
@@ -229,7 +231,7 @@ bool CMetalink4Handler::parseFile(QList<MetaFile> &lFiles, quint16 ID)
 				}
 				else if ( !sMediaType.compare( "magnet" ) )
 				{
-					uri.m_sType = "magnet";
+					uri.m_nType = uriMagnet;
 					uri.m_pMagnet = new CMagnet( m_oMetaLink.readElementText() );
 
 					if ( !uri.m_pMagnet->isValid() )

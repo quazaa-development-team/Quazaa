@@ -11,9 +11,17 @@
 #include "download.h"
 #include "magnetlink.h"
 
+namespace URI
+{
+
+typedef enum
+{
+	uriMagnet = 1, uriURL = 2, uriTorrent = 3
+} URIType;
+
 struct MediaURI
 {
-	QString m_sType;
+	URIType m_nType;
 	union
 	{
 		CMagnet*    m_pMagnet;  // Magnet link
@@ -86,5 +94,7 @@ bool CMetalinkHandler::isValid() const
 {
 	return m_bValid;
 }
+
+} // namespace URI
 
 #endif // METALINKHANDLER_H
