@@ -166,6 +166,7 @@ void DialogAddRule::on_pushButtonOK_clicked()
 
 		break;
 	case 2:
+#if SECURITY_ENABLE_GEOIP
 		pRule = new CCountryRule();
 		sTmp = ui->lineEditCountry->text();
 		if ( !pRule->parseContent( sTmp ) )
@@ -173,6 +174,7 @@ void DialogAddRule::on_pushButtonOK_clicked()
 			delete pRule;
 			pRule = NULL;
 		}
+#endif // SECURITY_ENABLE_GEOIP
 		break;
 	case 3:
 		pRule = new CHashRule();
