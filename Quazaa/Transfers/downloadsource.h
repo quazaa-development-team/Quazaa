@@ -45,6 +45,7 @@ public:
 signals:
 	void transferCreated();
 	void transferClosed();
+	void bytesReceived(quint64, quint64); // offset, length
 };
 
 Q_DECLARE_METATYPE(CDownloadSource*)

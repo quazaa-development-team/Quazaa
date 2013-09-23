@@ -274,7 +274,9 @@ CDownloadsItemBase *CDownloadsItemBase::parent()
 CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CDownloadsTreeModel* model, QObject *parentQObject)
 	: CDownloadsItemBase(parentQObject),
 	  m_pDownload(download),
-	  m_pModel(model)
+	  m_oCompletedFrags(0),
+      m_oVerifiedFrags(0),
+      m_pModel(model)
 {
 	parentItem = parent;
 
@@ -289,6 +291,25 @@ CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CD
 	m_nPriority = download->m_nPriority;
 	m_nCompleted = download->m_nCompletedSize;
 	m_nProtocol = tpNull;
+
+	if( m_nSize )
+	{
+		Fragments::List oCompleted(m_nSize);
+		Fragments::List oVerified(m_nSize);
+
+		for( Fragments::List::iterator it = download->m_lCompleted.begin(); it != download->m_lCompleted.end(); it++ )
+		{
+			oCompleted.insert(*it);
+		}
+		m_oCompletedFrags.swap(oCompleted);
+
+		for( Fragments::List::iterator it = download->m_lVerified.begin(); it != download->m_lVerified.end(); it++ )
+		{
+			oVerified.insert(*it);
+		}
+		m_oVerifiedFrags.swap(oVerified);
+
+	}
 
 	QMetaObject::invokeMethod(download, "emitSources", Qt::QueuedConnection);
 }
@@ -394,9 +415,19 @@ void CDownloadItem::onStateChanged(int state)
 	m_bChanged = true;
 }
 
+void CDownloadItem::onBytesReceived(quint64 offset, quint64 length, CDownloadSourceItem *source)
+{
+	qDebug() << "CDownloadItem::onBytesReceived()" << offset << length;
+	m_oCompletedFrags.insert(Fragments::Fragment(offset, offset + length));
+	m_bChanged = true;
+
+	emit progressChanged();
+}
+
 CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownloadsItemBase *parent, QObject *parentQObject)
 	: CDownloadsItemBase(parentQObject),
-	  m_pDownloadSource(downloadSource)
+	  m_pDownloadSource(downloadSource),
+	  m_oDownloaded(static_cast<CDownloadItem*>(parent)->m_nSize)
 {
 	parentItem = parent;
 
@@ -413,6 +444,11 @@ CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownl
 	m_sCountry = downloadSource->m_oAddress.country();
 
 	m_nProtocol = downloadSource->m_nProtocol;
+
+	connect(downloadSource, SIGNAL(bytesReceived(quint64,quint64)), this, SLOT(onBytesReceived(quint64,quint64)));
+
+	static int test = (srand(QDateTime::currentMSecsSinceEpoch()), 1);
+	onBytesReceived(common::getRandomNum<quint64>(0, ((CDownloadItem*)parent)->m_nSize), common::getRandomNum<quint64>(100, 1024 * 1024));
 }
 
 CDownloadSourceItem::~CDownloadSourceItem()
@@ -470,4 +506,16 @@ QVariant CDownloadSourceItem::data(int column) const
 QString CDownloadSourceItem::getCountry()
 {
 	return m_sCountry;
+}
+
+void CDownloadSourceItem::onBytesReceived(quint64 offset, quint64 length)
+{
+	CDownloadItem* pParent = static_cast<CDownloadItem*>(parentItem);
+
+	if( pParent && m_nSize != -1 )
+	{
+		m_bChanged = true;
+		m_oDownloaded.insert(Fragments::Fragment(offset, offset + length));
+		pParent->onBytesReceived(offset, length, this);
+	}
 }

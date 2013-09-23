@@ -42,9 +42,9 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const CNetworkType& oNTyp
 	m_oNetworkType( oNType ),
 	m_oServiceURL( oURL ),
 	m_bQuery( true ),
+    m_bBanned( false ),
 	m_nRating( nRating ),
 	m_nProbaMult( ( nRating > DISCOVERY_MAX_PROBABILITY ) ? DISCOVERY_MAX_PROBABILITY : nRating ),
-	m_bBanned( false ),
 	m_bZero( true ),    // mark service as having been zero -> gets downrated fast if non functional
 	m_nID( 0 ),         // invalid ID
 	m_nLastHosts( 0 ),

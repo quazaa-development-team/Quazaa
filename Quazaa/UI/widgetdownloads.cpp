@@ -131,4 +131,5 @@ void WidgetDownloads::on_actionOpenTorrent_triggered()
 void WidgetDownloads::on_tableViewDownloads_clicked(const QModelIndex &index)
 {
 	emit onItemChange(index);
+	ui->tableViewDownloads->reset();
 }

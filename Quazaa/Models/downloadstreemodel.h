@@ -36,6 +36,7 @@
 class CDownload;
 class CDownloadSource;
 class CDownloadsTreeModel;
+class CDownloadSourceItem;
 class CFileIconProvider;
 
 class CDownloadsItemBase : public QObject
@@ -60,6 +61,12 @@ protected:
 	CDownloadsItemBase* parentItem;
 	QList<CDownloadsItemBase*> childItems;
 	// item data here
+
+signals:
+	void progressChanged();
+
+	friend class CDownloadItem;
+	friend class CDownloadSourceItem;
 };
 
 class CDownloadItem : public CDownloadsItemBase
@@ -82,10 +89,17 @@ protected:
 	int		m_nPriority;	//
 	quint64 m_nCompleted;	// bytes completed
 
+	Fragments::List	m_oCompletedFrags;
+	Fragments::List m_oVerifiedFrags;
+
 	CDownloadsTreeModel* m_pModel;
 public slots:
 	void onSourceAdded(CDownloadSource* pSource);
 	void onStateChanged(int state);
+	void onBytesReceived(quint64 offset, quint64 length, CDownloadSourceItem* source);
+
+	friend class CDownloadSourceItem;
+	friend class CDownloadsItemDelegate;
 };
 
 class CDownloadSourceItem : public CDownloadsItemBase
@@ -109,8 +123,14 @@ protected:
 	quint64 m_nDownloaded;	// downloaded bytes from this source
 	QString m_sCountry;		//
 
+	Fragments::List	m_oDownloaded; // downloaded frags
+
 public slots:
 	QString getCountry();
+	void onBytesReceived(quint64 offset, quint64 length);
+
+	friend class CDownloadItem;
+	friend class CDownloadsItemDelegate;
 };
 
 class CDownloadsTreeModel : public QAbstractItemModel
@@ -164,15 +184,15 @@ public:
 		: QItemDelegate(parent)
 	{}
 
-	inline void paintFrags(const Fragments::List& frags, const QColor& color, const QStyleOptionViewItem& option, QPainter* painter) const
+	// what: 0 - normal fragment, 1 - verified chunks, 2 - failed chunks
+	inline void paintFrags(const Fragments::List& frags, const QColor& color, const QStyleOptionViewItem& option, QPainter* painter, int what = 0) const
 	{
 		int		width = option.rect.width();
-		quint64 fileSize = frags.limit();
-		double  factor = (width * 1.0f) / (fileSize * 1.0f);
+		double  fileSize = frags.limit();
 
 		QBrush progressBrush(color, Qt::SolidPattern);
-		QBrush verifiedBrush(QColor(48, 94, 137), Qt::SolidPattern);
-		QBrush verifyFailedBrush(Qt::red, Qt::SolidPattern);
+		QPen   framePen(QBrush(), 2, Qt::SolidLine);
+		framePen.setColor(color.lighter());
 
 		painter->setPen(Qt::NoPen);
 
@@ -180,20 +200,39 @@ public:
 		const Fragments::List::const_iterator pEnd = frags.end();
 		for ( ; pItr != pEnd; ++pItr )
 		{
+			double nLeft, nRight;
+			QRectF r;
+
 			painter->setBrush(progressBrush);
-			QRectF r(option.rect.left() + pItr->begin() * factor + 1, option.rect.top() + 2, pItr->size() * factor - 1, option.rect.height() -2 );
+
+			switch(what)
+			{
+			case 1:
+			case 2:
+				nLeft = option.rect.left() + (width + 1) * pItr->begin() / fileSize;
+				nRight = option.rect.left() + (width + 1) * pItr->end() / fileSize;
+				r.setRect(nLeft, option.rect.bottom() - 5, nRight - nLeft, 5 );
+				break;
+			default:
+				nLeft = option.rect.left() + (width + 1) * pItr->begin() / fileSize;
+				nRight = option.rect.left() + (width + 1) * pItr->end() / fileSize;
+				r.setRect(nLeft, option.rect.top() + 2, nRight - nLeft, option.rect.height() - 2 );
+			}
+
 			painter->drawRect(r);
 
-			// Paint verified sections
-			// if (current fragment isVerified)
-			painter->setBrush(verifiedBrush);
-			r = QRectF(option.rect.left() + pItr->begin() * factor + 1, option.rect.bottom() - 5, pItr->size() * factor - 1, 5 );
-			painter->drawRect(r);
+			QPointF topLeft = r.topLeft();
+			QPointF topRight = r.topRight();
+			QPointF bottomLeft = r.bottomLeft();
 
-			// TODO if(current fragment failedVerification)
-			// painter->setBrush(verifyFailedBrush);
-			// r = QRectF(option.rect.left() + pItr->begin() * factor + 1, option.rect.bottom() - 4, pItr->size() * factor - 1, 4 );
-			// painter->drawRect(r);
+			topLeft += QPointF(1, 0);
+			topRight += QPointF(-1, 0);
+			bottomLeft += QPointF(1, -1);
+			painter->setPen(framePen);
+			framePen.setWidth(1);
+			painter->drawLine(topLeft, topRight);
+			framePen.setWidth(1);
+			painter->drawLine(topLeft, bottomLeft);
 		}
 	}
 
@@ -205,12 +244,49 @@ public:
 			return;
 		}
 
-		Fragments::List list(100);
-		list.insert(Fragments::Fragment(0,10));
-		list.insert(Fragments::Fragment(40,60));
-		list.insert(Fragments::Fragment(80,100));
+		if( !index.parent().isValid() )
+		{
+			// top-level
+			CDownloadItem* item = static_cast<CDownloadItem*>(index.internalPointer());
 
-		paintFrags(list, QColor::fromRgb(255,128,0), option, painter);
+			Q_ASSERT(item);
+
+			if( item->m_nSize != -1 )
+			{
+				Fragments::List completedFrags(item->m_nSize);
+
+				for( Fragments::List::iterator it = item->m_oCompletedFrags.begin(); it != item->m_oCompletedFrags.end(); it++ )
+				{
+					completedFrags.insert(*it);
+				}
+
+				for( int i = 0; i < item->childCount(); i++ )
+				{
+					CDownloadSourceItem* sourceItem = static_cast<CDownloadSourceItem*>(item->child(i));
+
+					completedFrags.erase(sourceItem->m_oDownloaded.begin(), sourceItem->m_oDownloaded.end());
+
+					QColor thisColor = QColor::fromHsl(qHash(sourceItem->m_sAddress) % 359, 255, 64);
+
+					paintFrags(sourceItem->m_oDownloaded, thisColor, option, painter);
+				}
+
+				QColor defaultColor = QColor::fromRgb(0, 0, 255);
+				QColor verifiedColor = QColor(48, 94, 137, 240);
+				//QColor failedColor = QColor(255, 0, 0, 240);
+
+				paintFrags(completedFrags, defaultColor, option, painter);
+				paintFrags(item->m_oCompletedFrags, verifiedColor, option, painter, 1);
+				//paintFrags(item->m_oVerifiedFrags, verifiedColor, option, painter, 1);
+				//paintFrags(item->m_oCompletedFrags, failedColor, option, painter, 2);
+
+			}
+
+		}
+		else
+		{
+
+		}
 
 		QPen pen(Qt::transparent);
 		pen.setWidth(4);
