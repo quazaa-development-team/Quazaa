@@ -27,7 +27,6 @@
 #include "banneddiscoveryservice.h"
 
 #include "quazaasettings.h"
-#include "timedsignalqueue.h"
 
 using namespace Discovery;
 
@@ -346,19 +345,20 @@ void CDiscoveryService::query()
  */
 void CDiscoveryService::cancelRequest()
 {
+	cancelRequest( false );
+}
+void CDiscoveryService::cancelRequest(bool bKeepLocked)
+{
 	m_oRWLock.lockForWrite();
 
 	if ( m_bRunning )
 	{
 		doCancelRequest();
-
-		// remove cancel request from signal queue if still in there
-		signalQueue.pop( m_oSQCancelRequestID );
-		m_oSQCancelRequestID = QUuid();
+		updateStatistics(); // also removes cancel request from signal queue if still in there
 	}
 
-	updateStatistics();
-	m_oRWLock.unlock();
+	if ( !bKeepLocked )
+		m_oRWLock.unlock();
 }
 
 /**
