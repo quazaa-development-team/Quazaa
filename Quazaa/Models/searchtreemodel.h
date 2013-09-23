@@ -85,10 +85,10 @@ public:
 	void appendChild(SearchTreeItem* child);
 	void clearChildren();
 
-	SearchTreeItem* child(int row);
+	SearchTreeItem* child(int row) const;
 	int childCount() const;
 	int columnCount() const;
-	int find(SearchTreeItem* containerItem, CHash& pHash);
+	int find(CHash& pHash) const;
 	void updateHitCount(int count);
 	bool duplicateCheck(SearchTreeItem* containerItem, QString ip);
 	QVariant data(int column) const;

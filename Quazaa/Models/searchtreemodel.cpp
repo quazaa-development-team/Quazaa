@@ -39,17 +39,17 @@ SearchTreeModel::SearchTreeModel() :
     m_pIconProvider( new CFileIconProvider ),
     m_pFilter( new SearchFilter )
 {
-	QList<QVariant> rootData;
-	rootData << "File"
-	         << "Extension"
-	         << "Size"
-	         << "Rating"
-	         << "Status"
-	         << "Host/Count"
-	         << "Speed"
-	         << "Client"
-	         << "Country";
-	rootItem = new SearchTreeItem( rootData );
+	QList<QVariant> rootItemData;
+	rootItemData << "File"
+	             << "Extension"
+	             << "Size"
+	             << "Rating"
+	             << "Status"
+	             << "Host/Count"
+	             << "Speed"
+	             << "Client"
+	             << "Country";
+	rootItem = new SearchTreeItem( rootItemData );
 	nFileCount = 0;
 }
 
@@ -286,104 +286,123 @@ void SearchTreeModel::clear()
 	emit dataChanged( idx1, idx2 );
 }
 
-void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHit)
+void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 {
-	CQueryHit* pHit2 = pHit.data();
+	CQueryHit* pHit = pHitPtr.data();
 
-	while ( pHit2 != 0 )
+	while ( pHit )
 	{
-		int existingSearch = -1;
+		int existingFileEntry = -1;
 
-		foreach ( CHash pHash, pHit2->m_lHashes )
+		foreach ( CHash pHash, pHit->m_lHashes )
 		{
-			existingSearch = rootItem->find( rootItem, pHash );
-			if ( existingSearch != -1 )
+			existingFileEntry = rootItem->find( pHash );
+			if ( existingFileEntry != -1 )
 				break;
 		}
 
-		if ( existingSearch == -1 )
+		// This hit is a new file
+		if ( existingFileEntry == -1 )
 		{
-			QFileInfo fileInfo( pHit2->m_sDescriptiveName );
+			QFileInfo fileInfo( pHit->m_sDescriptiveName );
 
 			++geoIP.m_nDebugOldCalls;
-			QString sCountry = pHit2->m_pHitInfo.data()->m_oNodeAddress.country();
+			QString sCountry = pHit->m_pHitInfo.data()->m_oNodeAddress.country();
 
-			beginInsertRows( QModelIndex(), rootItem->childCount(), rootItem->childCount() );
+			// Create SearchTreeItem representing the new file
 			QList<QVariant> lParentData;
-			lParentData << fileInfo.completeBaseName()         // File name
-			            << fileInfo.suffix()                   // Extension
-			            << formatBytes( pHit2->m_nObjectSize ) // Size
-			            << ""                                  // Rating
-			            << ""                                  // Status
-			            << 1                                   // Host/Count
-			            << ""                                  // Speed
-			            << ""                                  // Client
-			            << "";                                 // Country
-			SearchTreeItem* m_oParentItem = new SearchTreeItem( lParentData, rootItem );
-			m_oParentItem->HitData.lHashes << pHit2->m_lHashes;
-			QList<QVariant> m_lChildData;
-			m_lChildData << fileInfo.completeBaseName()
-			             << fileInfo.suffix()
-						 << formatBytes(pHit2->m_nObjectSize)
-			             << ""
-			             << ""
-			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()
-			             << ""
-						 << common::vendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
-			             << geoIP.countryNameFromCode(sCountry);
-			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, m_oParentItem);
-			m_oChildItem->HitData.lHashes << pHit2->m_lHashes;
-			m_oChildItem->HitData.iNetwork = CNetworkIconProvider::icon(dpG2);
-			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
+			lParentData << fileInfo.completeBaseName()        // File name
+			            << fileInfo.suffix()                  // Extension
+			            << formatBytes( pHit->m_nObjectSize ) // Size
+			            << ""                                 // Rating
+			            << ""                                 // Status
+			            << 1                                  // Host/Count
+			            << ""                                 // Speed
+			            << ""                                 // Client
+			            << "";                                // Country
+			SearchTreeItem* m_oFileItem = new SearchTreeItem( lParentData, rootItem );
 
-			QueryHitSharedPtr pHitX(new CQueryHit(pHit2));
-			m_oChildItem->HitData.pQueryHit = pHitX;
+			// TODO: Shouldn't we remove duplicates?
+			m_oFileItem->HitData.lHashes << pHit->m_lHashes;
 
-			rootItem->appendChild(m_oParentItem);
-			m_oParentItem->appendChild(m_oChildItem);
+			// Create SearchTreeItem representing hit
+			QList<QVariant> lChildData;
+			lChildData << fileInfo.completeBaseName()
+			           << fileInfo.suffix()
+			           << formatBytes( pHit->m_nObjectSize )
+			           << ""
+			           << ""
+			           << pHit->m_pHitInfo.data()->m_oNodeAddress.toString()
+			           << ""
+			           << common::vendorCodeToName( pHit->m_pHitInfo.data()->m_sVendor )
+			           << geoIP.countryNameFromCode( sCountry );
+			SearchTreeItem* m_oHitItem = new SearchTreeItem(lChildData, m_oFileItem);
+
+			// TODO: Shouldn't we remove duplicates?
+			m_oHitItem->HitData.lHashes << pHit->m_lHashes;
+			m_oHitItem->HitData.iNetwork = CNetworkIconProvider::icon( dpG2 );
+			m_oHitItem->HitData.iCountry = QIcon( ":/Resource/Flags/" + sCountry.toLower() + ".png" );
+
+			QueryHitSharedPtr pHitX( new CQueryHit( pHit ) );
+			m_oHitItem->HitData.pQueryHit = pHitX;
+
+			// add both items to the model
+			beginInsertRows( QModelIndex(), rootItem->childCount(), rootItem->childCount() );
+			rootItem->appendChild( m_oFileItem );
+			m_oFileItem->appendChild( m_oHitItem );
 			endInsertRows();
+
 			nFileCount = rootItem->childCount();
 		}
-		else if(!rootItem->child(existingSearch)->duplicateCheck(rootItem->child(existingSearch), pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()))
+		// We do already have a file for that hit.
+		else if ( !rootItem->child( existingFileEntry
+		                            )->duplicateCheck( rootItem->child( existingFileEntry ),
+		                                               pHit->m_pHitInfo.data()->
+		                                               m_oNodeAddress.toString() ) )
 		{
-			QModelIndex idxParent = index(existingSearch, 0, QModelIndex());
-			QFileInfo fileInfo(pHit2->m_sDescriptiveName);
+			QModelIndex idxParent = index( existingFileEntry, 0, QModelIndex() );
+			QFileInfo fileInfo( pHit->m_sDescriptiveName );
 
 			++geoIP.m_nDebugOldCalls;
-			QString sCountry = pHit2->m_pHitInfo.data()->m_oNodeAddress.country();
+			QString sCountry = pHit->m_pHitInfo.data()->m_oNodeAddress.country();
 
-			beginInsertRows(idxParent, rootItem->child(existingSearch)->childCount(), rootItem->child(existingSearch)->childCount());
-			QList<QVariant> m_lChildData;
-			m_lChildData << fileInfo.completeBaseName()
-			             << fileInfo.suffix()
-						 << formatBytes(pHit2->m_nObjectSize)
-			             << ""
-			             << ""
-			             << pHit2->m_pHitInfo.data()->m_oNodeAddress.toString()
-			             << ""
-						 << common::vendorCodeToName(pHit2->m_pHitInfo.data()->m_sVendor)
-			             << geoIP.countryNameFromCode(sCountry);
-			SearchTreeItem* m_oChildItem = new SearchTreeItem(m_lChildData, rootItem->child(existingSearch));
-			m_oChildItem->HitData.lHashes << pHit2->m_lHashes;
-			m_oChildItem->HitData.iNetwork = CNetworkIconProvider::icon(dpG2);
-			m_oChildItem->HitData.iCountry = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
+			QList<QVariant> lChildData;
+			lChildData << fileInfo.completeBaseName()
+			           << fileInfo.suffix()
+			           << formatBytes( pHit->m_nObjectSize )
+			           << ""
+			           << ""
+			           << pHit->m_pHitInfo.data()->m_oNodeAddress.toString()
+			           << ""
+			           << common::vendorCodeToName( pHit->m_pHitInfo.data()->m_sVendor )
+			           << geoIP.countryNameFromCode( sCountry );
+			SearchTreeItem* oHitItem = new SearchTreeItem( lChildData,
+			                                                 rootItem->child( existingFileEntry ) );
 
-			QueryHitSharedPtr pHitX(new CQueryHit(pHit2));
-			m_oChildItem->HitData.pQueryHit = pHitX;
+			// TODO: Shouldn't we remove duplicates?
+			oHitItem->HitData.lHashes << pHit->m_lHashes;
+			oHitItem->HitData.iNetwork = CNetworkIconProvider::icon( dpG2 );
+			oHitItem->HitData.iCountry = QIcon( ":/Resource/Flags/" + sCountry.toLower() + ".png" );
 
-			rootItem->child(existingSearch)->appendChild(m_oChildItem);
-			rootItem->child(existingSearch)->updateHitCount(rootItem->child(existingSearch)->childCount());
+			QueryHitSharedPtr pHitX( new CQueryHit( pHit ) );
+			oHitItem->HitData.pQueryHit = pHitX;
+
+			beginInsertRows( idxParent, rootItem->child( existingFileEntry )->childCount(),
+			                 rootItem->child( existingFileEntry )->childCount() );
+			rootItem->child( existingFileEntry )->appendChild( oHitItem );
+			rootItem->child( existingFileEntry )->updateHitCount( rootItem->child( existingFileEntry
+			                                                                      )->childCount() );
 			endInsertRows();
 		}
 
-		pHit2 = pHit2->m_pNext;
+		pHit = pHit->m_pNext;
 	}
 
 	emit updateStats();
 
-	QModelIndex idx1 = index(0, 0, QModelIndex());
-	QModelIndex idx2 = index(rootItem->childCount(), 10, QModelIndex());
-	emit dataChanged(idx1, idx2);
+	QModelIndex idx1 = index( 0, 0, QModelIndex() );
+	QModelIndex idx2 = index( rootItem->childCount(), 10, QModelIndex() );
+	emit dataChanged( idx1, idx2 );
 	emit sort();
 }
 
@@ -410,9 +429,9 @@ void SearchTreeItem::clearChildren()
 	childItems.clear();
 }
 
-SearchTreeItem* SearchTreeItem::child(int row)
+SearchTreeItem* SearchTreeItem::child(int row) const
 {
-	return childItems.value(row);
+	return childItems.value( row );
 }
 
 int SearchTreeItem::childCount() const
@@ -425,13 +444,13 @@ int SearchTreeItem::columnCount() const
 	return itemData.count();
 }
 
-int SearchTreeItem::find(SearchTreeItem* containerItem, CHash& pHash)
+int SearchTreeItem::find(CHash& pHash) const
 {
-	for ( int index = 0; index < containerItem->childItems.size(); ++index )
+	for ( int i = 0; i < childItems.size(); ++i )
 	{
-		if ( containerItem->child( index )->HitData.lHashes.contains( pHash ) )
+		if ( child( i )->HitData.lHashes.contains( pHash ) )
 		{
-			return index;
+			return i;
 		}
 	}
 	return -1;
