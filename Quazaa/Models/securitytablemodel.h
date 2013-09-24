@@ -38,13 +38,13 @@ public:
 		// Object directly managed by security manager.
 		CSecureRule*		m_pNode;
 
-		QString				m_sContent;
-		CSecureRule::Policy	m_nAction;
-		quint32				m_tExpire; // UTC time in seconds
-		quint32				m_nToday;
-		quint32				m_nTotal;
-		QString				m_sComment;
-		const QIcon*		m_piAction;
+		QString              m_sContent;
+		CSecureRule::TPolicy m_nAction;
+		quint32              m_tExpire; // UTC time in seconds
+		quint32              m_nToday;
+		quint32              m_nTotal;
+		QString              m_sComment;
+		const QIcon*         m_piAction;
 
 		Rule(CSecureRule* pRule, CSecurityTableModel* model);
 		~Rule();
@@ -52,7 +52,7 @@ public:
 		QVariant data(int col) const;
 		bool lessThan(int col, const CSecurityTableModel::Rule* const pOther) const;
 
-		QString actionToString(CSecureRule::Policy m_nAction) const;
+		QString actionToString(CSecureRule::TPolicy m_nAction) const;
 		QString expiryToString(quint32 m_tExpire) const;
 	};
 

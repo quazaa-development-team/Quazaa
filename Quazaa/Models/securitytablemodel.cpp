@@ -206,7 +206,7 @@ bool CSecurityTableModel::Rule::lessThan(int col,
 
 }
 
-QString CSecurityTableModel::Rule::actionToString(CSecureRule::Policy nAction) const
+QString CSecurityTableModel::Rule::actionToString(CSecureRule::TPolicy nAction) const
 {
 	switch( nAction )
 	{

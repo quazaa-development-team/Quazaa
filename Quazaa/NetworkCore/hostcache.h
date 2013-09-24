@@ -49,10 +49,14 @@ public:
 	QDateTime       m_tLastQuery;   // kiedy poslano ostatnie zapytanie?
 	QDateTime       m_tRetryAfter;  // kiedy mozna ponowic?
 	QDateTime       m_tLastConnect; // kiedy ostatnio sie polaczylismy?
-	qint32			m_nFailures;
+	quint32         m_nFailures;
+
+	// for statistics purposes only
+	bool            m_bCountryObtained;
 
 public:
-	CHostCacheHost()
+	CHostCacheHost() :
+	    m_bCountryObtained( false )
 	{
 		m_nQueryKey = 0;
 		m_nFailures = 0;
