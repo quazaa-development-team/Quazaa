@@ -1302,8 +1302,10 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 	{
 		pCache->setKey(nKey, &m_oAddress);
 
+#if LOG_QUERY_HANDLING
 		systemLog.postLog(LogSeverity::Debug, QString("Got a query key from %1 via %2 = 0x%3").arg(addr.toString().toLocal8Bit().constData()).arg(m_oAddress.toString().toLocal8Bit().constData()).arg(QString().number(nKey, 16)));
 		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toLocal8Bit().constData(), m_oAddress.toString().toLocal8Bit().constData(), nKey);
+#endif // LOG_QUERY_HANDLING
 	}
 	hostCache.m_pSection.unlock();
 }

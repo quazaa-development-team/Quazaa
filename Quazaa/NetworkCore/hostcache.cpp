@@ -311,7 +311,7 @@ void CHostCache::onFailure(CEndPoint addr)
 
 	if ( itHost != m_lHosts.end() )
 	{
-		if ( ++(*itHost)->m_nFailures > quazaaSettings.Connection.FailureLimit )
+		if ( (int)(++(*itHost)->m_nFailures) > quazaaSettings.Connection.FailureLimit )
 		{
 			remove( addr );
 		}
@@ -352,8 +352,9 @@ CHostCacheHost* CHostCache::getConnectable(QDateTime tNow, QList<CHostCacheHost*
 			if ( nFailures != pHost->m_nFailures )
 				continue;
 
-			if ( pHost->m_oAddress.country() == "ZZ" )
+			if ( !pHost->m_bCountryObtained )
 			{
+				pHost->m_bCountryObtained = true;
 				++geoIP.m_nDebugOldCalls;
 			}
 

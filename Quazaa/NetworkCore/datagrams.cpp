@@ -870,7 +870,9 @@ void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 	SendPacket(oRequestedAddress, pAns, false);
 	pAns->Release();
 
+#if LOG_QUERY_HANDLING
 	systemLog.postLog(LogSeverity::Debug, "Node %s asked for a query key (0x%08x) for node %s", qPrintable(addr.toStringWithPort()), nKey, qPrintable(oRequestedAddress.toStringWithPort()));
+#endif // LOG_QUERY_HANDLING
 }
 
 void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
@@ -926,8 +928,10 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 	}
 	hostCache.m_pSection.unlock();
 
+#if LOG_QUERY_HANDLING
 	systemLog.postLog(LogSeverity::Debug, QString("Got a query key for %1 = 0x%2").arg(addr.toString().toLocal8Bit().constData()).arg(nKey));
 	//qDebug("Got a query key for %s = 0x%x", addr.toString().toLocal8Bit().constData(), nKey);
+#endif // LOG_QUERY_HANDLING
 
 	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() && nKeyHost != ((QHostAddress)Network.m_oAddress))
 	{
@@ -1016,7 +1020,9 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 
 	if(pQuery.isNull())
 	{
+#if LOG_QUERY_HANDLING
 		qDebug() << "Received malformed query from" << qPrintable(addr.toStringWithPort());
+#endif // LOG_QUERY_HANDLING
 		return;
 	}
 
@@ -1026,7 +1032,9 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 		// We are here because we just downgraded to leaf mode
 		// Shareaza should not retry with QK == 0
 		// TODO: test this
+#if LOG_QUERY_HANDLING
 		systemLog.postLog(LogSeverity::Debug, "Sending null query key to %s because we're not a hub.", qPrintable(addr.toStringWithPort()));
+#endif // LOG_QUERY_HANDLING
 
 		G2Packet* pQKA = G2Packet::New("QKA", true);
 		pQKA->WritePacket("QK", 4)->WriteIntLE<quint32>(0);
@@ -1044,7 +1052,9 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 
 	if(!QueryKeys.Check(pQuery->m_oEndpoint, pQuery->m_nQueryKey))
 	{
+#if LOG_QUERY_HANDLING
 		systemLog.postLog(LogSeverity::Debug, "Issuing query key correction for %s.", qPrintable(addr.toStringWithPort()));
+#endif // LOG_QUERY_HANDLING
 
 		G2Packet* pQKA = G2Packet::New("QKA", true);
 		pQKA->WritePacket("QK", 4)->WriteIntLE<quint32>(QueryKeys.Create(pQuery->m_oEndpoint));
@@ -1061,14 +1071,18 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 
 	if( !Network.m_oRoutingTable.Add(pQuery->m_oGUID, pQuery->m_oEndpoint) )
 	{
+#if LOG_QUERY_HANDLING
 		qDebug() << "Query already processed, ignoring";
+#endif // LOG_QUERY_HANDLING
 		G2Packet* pQA = Neighbours.CreateQueryAck(pQuery->m_oGUID, false, 0, false);
 		SendPacket(pQuery->m_oEndpoint, pQA, true);
 		pQA->Release();
 		return;
 	}
 
+#if LOG_QUERY_HANDLING
 	qDebug() << "Processing query from: " << qPrintable(addr.toStringWithPort());
+#endif // LOG_QUERY_HANDLING
 
 	// just in case
 	if( pQuery->m_oEndpoint == Network.m_oAddress )

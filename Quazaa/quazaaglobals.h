@@ -27,6 +27,8 @@
 
 #include <QObject>
 
+#define LOG_QUERY_HANDLING 0
+
 class QuazaaGlobals : public QObject
 {
         Q_OBJECT

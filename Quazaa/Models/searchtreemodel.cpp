@@ -104,7 +104,7 @@ QVariant SearchTreeModel::data(const QModelIndex& index, int role) const
 
 	if ( role == Qt::DecorationRole )
 	{
-		if ( !index.column() )
+        if ( index.column() == 0 ) // Index CAN be a negative value.
 		{
 			if ( item->parent() == rootItem )
 				return m_pIconProvider->icon( item->data( 1 ).toString().prepend( "." ) );

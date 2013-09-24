@@ -307,7 +307,9 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 
 			if(pQuery)
 			{
+#if LOG_QUERY_HANDLING
 				systemLog.postLog(LogSeverity::Debug, QString("Querying %1").arg(pHost->m_oAddress.toString()));
+#endif // LOG_QUERY_HANDLING
 				*pnMaxPackets -= 1;
 				Datagrams.SendPacket(pHost->m_oAddress, pQuery, true);
 				pQuery->Release();
@@ -329,7 +331,10 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 				pQKR->WritePacket("RNA", (Network.m_oAddress.protocol() == 0 ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
 				Datagrams.SendPacket(pHost->m_oAddress, pQKR, false);
 				pQKR->Release();
+
+#if LOG_QUERY_HANDLING
 				systemLog.postLog(LogSeverity::Debug, QString("Requesting query key from %1").arg(pHost->m_oAddress.toString()));
+#endif // LOG_QUERY_HANDLING
 
 				bKeyRequested = true;
 			}
@@ -389,7 +394,10 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 						pQKR->WritePacket("QNA", (pHost->m_oAddress.protocol() == 0 ? 6 : 18))->WriteHostAddress(&pHost->m_oAddress);
 						if( bRefreshKey )
 							pQKR->WritePacket("REF", 0);
+
+#if LOG_QUERY_HANDLING
 						systemLog.postLog(LogSeverity::Debug, QString("Requesting query key from %1 through %2").arg(pHost->m_oAddress.toString()).arg(pHub->m_oAddress.toString()));
+#endif // LOG_QUERY_HANDLING
 						pHub->SendPacket(pQKR, true, true);
 					}
 					else
@@ -398,7 +406,10 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 						pQKR->WritePacket("RNA", (pHub->m_oAddress.protocol() == 0 ? 6 : 18))->WriteHostAddress(&pHub->m_oAddress);
 						Datagrams.SendPacket(pHost->m_oAddress, pQKR, false);
 						pQKR->Release();
+
+#if LOG_QUERY_HANDLING
 						systemLog.postLog(LogSeverity::Debug, QString("Requesting query key from %1 for %2").arg(pHost->m_oAddress.toString()).arg(pHub->m_oAddress.toString()));
+#endif // LOG_QUERY_HANDLING
 					}
 
 					bKeyRequested = true;

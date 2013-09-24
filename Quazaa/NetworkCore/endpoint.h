@@ -31,7 +31,7 @@ class CEndPoint : public QHostAddress
 {
 protected:
 	quint16	m_nPort;
-	QString m_sCountry;
+	mutable QString m_sCountry;
 
 public:
 	CEndPoint();
@@ -59,7 +59,7 @@ public:
 	inline quint16 port() const;
 	inline void setPort(const quint16 nPort);
 
-	QString country();
+	QString country() const;
 
 	bool isFirewalled() const;
 	inline bool isValid() const;

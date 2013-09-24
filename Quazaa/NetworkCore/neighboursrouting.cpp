@@ -78,6 +78,8 @@ void CNeighboursRouting::RouteQuery(CQueryPtr pQuery, G2Packet *pPacket, CNeighb
 		}
 	}
 
+#if LOG_QUERY_FORWARDING
 	qDebug() << "G2 Query forwarded to " << nCount << "nodes (hubs:" << nHubs << "leaves:" << nLeaves << ")";
+#endif
 }
 

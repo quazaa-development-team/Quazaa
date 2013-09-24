@@ -221,10 +221,10 @@ bool CEndPoint::isFirewalled() const
 	return false;
 }
 
-QString CEndPoint::country()
+QString CEndPoint::country() const
 {
-	if( m_sCountry.isEmpty() )
-		m_sCountry = geoIP.findCountryCode(*this);
+	if ( m_sCountry.isEmpty() )
+		m_sCountry = geoIP.findCountryCode( *this );
 
 	return m_sCountry;
 }
