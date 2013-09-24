@@ -355,7 +355,6 @@ CHostCacheHost* CHostCache::getConnectable(QDateTime tNow, QList<CHostCacheHost*
 			if ( !pHost->m_bCountryObtained )
 			{
 				pHost->m_bCountryObtained = true;
-				++geoIP.m_nDebugOldCalls;
 			}
 
 			if ( bCountry && pHost->m_oAddress.country() != sCountry )

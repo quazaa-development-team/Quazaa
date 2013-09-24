@@ -306,7 +306,6 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 		{
 			QFileInfo fileInfo( pHit->m_sDescriptiveName );
 
-			++geoIP.m_nDebugOldCalls;
 			QString sCountry = pHit->m_pHitInfo.data()->m_oNodeAddress.country();
 
 			// Create SearchTreeItem representing the new file
@@ -363,7 +362,6 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 			QModelIndex idxParent = index( existingFileEntry, 0, QModelIndex() );
 			QFileInfo fileInfo( pHit->m_sDescriptiveName );
 
-			++geoIP.m_nDebugOldCalls;
 			QString sCountry = pHit->m_pHitInfo.data()->m_oNodeAddress.country();
 
 			QList<QVariant> lChildData;
