@@ -56,8 +56,6 @@
 //       http://www.tartc.ru/classes/gwc/?ping=1&amp;get=1&amp;net=gnutella2&amp;client=QAZB&amp;version=0.1 works
 // Line: <p>The document has moved <a href="http://www.tartc.ru/classes/gwc/?ping=1&amp;get=1&amp;net=gnutella2&amp;client=QAZB&amp;version=0.1">here</a>.</p>
 
-
-
 namespace Discovery
 {
 // Notes:
@@ -72,7 +70,7 @@ class CDiscoveryService;
  * @brief TServiceType: Must be updated when implementing new subclasses of CDiscoveryService.
  * Each subclass must implement (exactly) one TServiceType.
  */
-typedef enum { stNull = 0, stBanned = 1, stGWC = 2 } TServiceType;
+typedef enum { stNull = 0, stBanned = 1, stGWC = 2, stNumberOfServiceTypes = 3 } TServiceType;
 
 /**
  * @brief TDiscoveryID: ID type used to identify and manage discovery services. All IDs are
@@ -133,8 +131,11 @@ private:
 	/* ======================================= Attributes ======================================= */
 	/* ========================================================================================== */
 private:
+	// handles web requests
+	QWeakPointer<QNetworkAccessManager> m_pNetAccessMgr;
+
 	// access lock
-	QMutex m_pSection;
+	QMutex                m_pSection;
 
 	// discovery service map
 	TDiscoveryServicesMap m_mServices;
@@ -145,13 +146,12 @@ private:
 	// last ID to assigned by the manager.
 	TServiceID            m_nLastID;
 
-	// handles web requests
-	QWeakPointer<QNetworkAccessManager> m_pNetAccessMgr;
-
 	// thread used by the manager
 	QThread               m_oDiscoveryThread;
 
 public:
+	quint16*              m_pActive;
+
 	// text preceeding a message from the manager on the log
 	QString               m_sMessage;
 
@@ -250,8 +250,13 @@ public:
 	 */
 	bool check(const TConstServicePtr pService);
 
-	//Dummy for brov
-	bool isActive( const TServiceType ) { return false; }
+	/**
+	 * @brief isActive allows to find out whether the Discovery Manager is currently active.
+	 * Locking: YES (synchronous)
+	 * @param eSType
+	 * @return true if active; false otherwise
+	 */
+	bool isActive(const TServiceType eSType);
 
 	/**
 	 * @brief CDiscovery::requestNAMgr provides a shared pointer to the discovery services network

@@ -462,6 +462,11 @@ void CDiscoveryService::updateStatistics(quint16 nHosts, quint16 nURLs, bool bUp
 		}
 	}
 
+	if ( discoveryManager.m_pActive[m_nServiceType] )
+		--discoveryManager.m_pActive[m_nServiceType];
+	else
+		Q_ASSERT( false );
+
 	emit updated( m_nID );
 }
 
