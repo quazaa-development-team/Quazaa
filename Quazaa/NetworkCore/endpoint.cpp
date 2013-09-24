@@ -32,50 +32,43 @@
 
 CEndPoint::CEndPoint() :
     QHostAddress(),
-    m_nPort( 0 ),
-    m_sCountry( "" )
+	m_nPort( 0 )
 {
 }
 
 CEndPoint::CEndPoint(quint32 ip4Addr, quint16 nPort) :
     QHostAddress( ip4Addr ),
-    m_nPort( nPort ),
-    m_sCountry( geoIP.findCountryCode( ip4Addr ) )
+	m_nPort( nPort )
 {
 }
 
 CEndPoint::CEndPoint(quint8* ip6Addr, quint16 nPort) :
     QHostAddress( ip6Addr ),
-    m_nPort( nPort ),
-    m_sCountry( "ZZ" )
+	m_nPort( nPort )
 {
 }
 
 CEndPoint::CEndPoint(const Q_IPV6ADDR& ip6Addr, quint16 nPort) :
     QHostAddress( ip6Addr ),
-    m_nPort( nPort ),
-    m_sCountry( "ZZ" )
+	m_nPort( nPort )
 {
 }
 
 CEndPoint::CEndPoint(const sockaddr* sockaddr, quint16 nPort) :
     QHostAddress( sockaddr ),
-    m_nPort( nPort ),
-    m_sCountry( geoIP.findCountryCode( *this ) )
+	m_nPort( nPort )
 {
 }
 
 CEndPoint::CEndPoint(const QString& address, quint16 nPort) :
     QHostAddress( address ),
-    m_nPort( nPort ),
-    m_sCountry( geoIP.findCountryCode( *this ) )
+	m_nPort( nPort )
 {
 }
 
 CEndPoint::CEndPoint(const QHostAddress& address, quint16 nPort) :
     QHostAddress( address ),
-    m_nPort( nPort ),
-    m_sCountry( geoIP.findCountryCode( *this ) )
+	m_nPort( nPort )
 {
 }
 
@@ -126,8 +119,6 @@ CEndPoint::CEndPoint(const QString& address)
 
 		QHostAddress::setAddress( l1.at( 0 ) );
 	}
-
-	m_sCountry = geoIP.findCountryCode( *this );
 }
 
 CEndPoint::CEndPoint(const CEndPoint& copy) :
@@ -139,15 +130,14 @@ CEndPoint::CEndPoint(const CEndPoint& copy) :
 
 CEndPoint::CEndPoint(SpecialAddress address, quint16 nPort) :
     QHostAddress( address ),
-    m_nPort( nPort ),
-    m_sCountry( geoIP.findCountryCode( *this ) )
+	m_nPort( nPort )
 {
 }
 
 void CEndPoint::clear()
 {
 	m_nPort = 0;
-	m_sCountry = "";
+	m_sCountry.clear();
 	QHostAddress::clear();
 }
 
@@ -210,8 +200,6 @@ void CEndPoint::setAddressWithPort(const QString& address)
 
 		QHostAddress::setAddress(l1.at(0));
 	}
-
-	m_sCountry = geoIP.findCountryCode( *this );
 }
 
 bool CEndPoint::isFirewalled() const
@@ -231,6 +219,14 @@ bool CEndPoint::isFirewalled() const
 	}
 
 	return false;
+}
+
+QString CEndPoint::country()
+{
+	if( m_sCountry.isEmpty() )
+		m_sCountry = geoIP.findCountryCode(*this);
+
+	return m_sCountry;
 }
 
 CEndPoint & CEndPoint::operator =(const CEndPoint &rhs)

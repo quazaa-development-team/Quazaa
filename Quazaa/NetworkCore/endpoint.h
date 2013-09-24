@@ -59,10 +59,16 @@ public:
 	inline quint16 port() const;
 	inline void setPort(const quint16 nPort);
 
-	inline QString country() const;
+	QString country();
 
 	bool isFirewalled() const;
 	inline bool isValid() const;
+
+	inline void setAddress(quint32 ip4Addr);
+	inline void setAddress(quint8* ip6Addr);
+	inline void setAddress(const Q_IPV6ADDR& ip6Addr);
+	inline bool setAddress(const QString& address);
+	inline void setAddress(const sockaddr* sockaddr);
 
 	friend QDataStream &operator<<(QDataStream &, const CEndPoint &);
 	friend QDataStream &operator>>(QDataStream &, CEndPoint &);
@@ -95,16 +101,41 @@ void CEndPoint::setPort(const quint16 nPort)
 	m_nPort = nPort;
 }
 
-QString CEndPoint::country() const
-{
-	return m_sCountry;
-}
-
 bool CEndPoint::isValid() const
 {
 	return ( !isNull() && m_nPort  &&
 	         QHostAddress::operator !=( QHostAddress::Any ) &&
-	         QHostAddress::operator !=( QHostAddress::AnyIPv6 ) );
+			QHostAddress::operator !=( QHostAddress::AnyIPv6 ) );
+}
+
+void CEndPoint::setAddress(quint32 ip4Addr)
+{
+	m_sCountry.clear();
+	QHostAddress::setAddress(ip4Addr);
+}
+
+void CEndPoint::setAddress(quint8 *ip6Addr)
+{
+	m_sCountry.clear();
+	QHostAddress::setAddress(ip6Addr);
+}
+
+void CEndPoint::setAddress(const Q_IPV6ADDR &ip6Addr)
+{
+	m_sCountry.clear();
+	QHostAddress::setAddress(ip6Addr);
+}
+
+bool CEndPoint::setAddress(const QString &address)
+{
+	m_sCountry.clear();
+	return QHostAddress::setAddress(address);
+}
+
+void CEndPoint::setAddress(const sockaddr *sockaddr)
+{
+	m_sCountry.clear();
+	QHostAddress::setAddress(sockaddr);
 }
 
 QDataStream &operator<<(QDataStream &s, const CEndPoint &rhs);
