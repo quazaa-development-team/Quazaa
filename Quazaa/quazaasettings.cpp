@@ -1129,7 +1129,7 @@ void QuazaaSettings::loadChat()
 	// TODO: the default values should respect palette
 	quazaaSettings.Chat.Colors[IrcColorType::Background] = m_qSettings.value("ColorsBackground", "white").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Default] = m_qSettings.value("ColorsDefault", "black").toString();
-	quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "pink").toString();
+    quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "chocolate").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Notice] = m_qSettings.value("ColorsNotice", "indianred").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Action] = m_qSettings.value("ColorsAction", "darkmagenta").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Inactive] = m_qSettings.value("ColorsInactive", "gray").toString();
