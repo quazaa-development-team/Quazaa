@@ -257,7 +257,8 @@ void CNeighboursConnections::Maintain()
 			for(; nAttempt > 0; nAttempt--)
 			{
 				// nowe polaczenie
-				CHostCacheHost* pHost = hostCache.getConnectable(tNow, oExcept, (bCountry ? (quazaaSettings.Connection.PreferredCountries.size() ? quazaaSettings.Connection.PreferredCountries.at(nCountry) : GeoIP.findCountryCode(Network.m_oAddress)) : "ZZ"));
+				++geoIP.m_nDebugOldCalls;
+				CHostCacheHost* pHost = hostCache.getConnectable(tNow, oExcept, (bCountry ? (quazaaSettings.Connection.PreferredCountries.size() ? quazaaSettings.Connection.PreferredCountries.at(nCountry) : Network.m_oAddress.country()) : "ZZ"));
 
 				if(pHost)
 				{

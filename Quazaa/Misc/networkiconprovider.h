@@ -25,6 +25,8 @@
 #ifndef NETWORKICONPROVIDER_H
 #define NETWORKICONPROVIDER_H
 
+// TODO: Provide country flags, too.
+
 #include "types.h"
 
 class QIcon;

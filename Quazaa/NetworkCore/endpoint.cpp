@@ -26,143 +26,146 @@
 
 #include <QStringList>
 #include <QtEndian>
+#include "geoiplist.h"
 
 #include "debug_new.h"
 
-CEndPoint::CEndPoint()
-	: QHostAddress()
+CEndPoint::CEndPoint() :
+    QHostAddress(),
+    m_nPort( 0 ),
+    m_sCountry( "" )
 {
-	m_nPort = 0;
 }
 
-CEndPoint::CEndPoint(quint32 ip4Addr, quint16 nPort)
-	: QHostAddress(ip4Addr), m_nPort(nPort)
+CEndPoint::CEndPoint(quint32 ip4Addr, quint16 nPort) :
+    QHostAddress( ip4Addr ),
+    m_nPort( nPort ),
+    m_sCountry( geoIP.findCountryCode( ip4Addr ) )
 {
-
 }
 
-CEndPoint::CEndPoint(quint8* ip6Addr, quint16 nPort)
-	: QHostAddress(ip6Addr), m_nPort(nPort)
+CEndPoint::CEndPoint(quint8* ip6Addr, quint16 nPort) :
+    QHostAddress( ip6Addr ),
+    m_nPort( nPort ),
+    m_sCountry( "ZZ" )
 {
-
 }
 
-CEndPoint::CEndPoint(const Q_IPV6ADDR& ip6Addr, quint16 nPort)
-	: QHostAddress(ip6Addr), m_nPort(nPort)
+CEndPoint::CEndPoint(const Q_IPV6ADDR& ip6Addr, quint16 nPort) :
+    QHostAddress( ip6Addr ),
+    m_nPort( nPort ),
+    m_sCountry( "ZZ" )
 {
-
 }
 
-CEndPoint::CEndPoint(const sockaddr* sockaddr, quint16 nPort)
-	: QHostAddress(sockaddr), m_nPort(nPort)
+CEndPoint::CEndPoint(const sockaddr* sockaddr, quint16 nPort) :
+    QHostAddress( sockaddr ),
+    m_nPort( nPort ),
+    m_sCountry( geoIP.findCountryCode( *this ) )
 {
-
 }
 
-CEndPoint::CEndPoint(const QString& address, quint16 nPort)
-	: QHostAddress(address), m_nPort(nPort)
+CEndPoint::CEndPoint(const QString& address, quint16 nPort) :
+    QHostAddress( address ),
+    m_nPort( nPort ),
+    m_sCountry( geoIP.findCountryCode( *this ) )
 {
-
 }
 
-CEndPoint::CEndPoint(const QHostAddress& address, quint16 nPort)
-	: QHostAddress(address), m_nPort(nPort)
+CEndPoint::CEndPoint(const QHostAddress& address, quint16 nPort) :
+    QHostAddress( address ),
+    m_nPort( nPort ),
+    m_sCountry( geoIP.findCountryCode( *this ) )
 {
-
 }
 
 CEndPoint::CEndPoint(const QString& address)
 {
-	if(address.count(":") >= 2)
+	if ( address.count( ":" ) >= 2 )
 	{
 		// IPv6
 
-		if(address.left(1) == "[")
+		if ( address.left( 1 ) == "[" )
 		{
 			// IPv6 with port in brackets
-			int pos = address.lastIndexOf("]:");
+			int pos = address.lastIndexOf( "]:" );
 
-			if(pos == -1)
+			if ( pos == -1 )
 			{
 				// error
-				QHostAddress::setAddress(quint32(0));
+				QHostAddress::setAddress( quint32( 0 ) );
 				m_nPort = 0;
 			}
 			else
 			{
-				QString sAddr = address.mid(1, pos - 1);
-				QHostAddress::setAddress(sAddr);
-				m_nPort = address.mid(pos + 2).toUShort();
+				QString sAddr = address.mid( 1, pos - 1 );
+				QHostAddress::setAddress( sAddr );
+				m_nPort = address.mid( pos + 2 ).toUShort();
 			}
 		}
 		else
 		{
 			// IPv6, address only
 			m_nPort = 0;
-			QHostAddress::setAddress(address);
+			QHostAddress::setAddress( address );
 		}
 	}
 	else
 	{
 		// IPv4
 
-		QStringList l1 = address.split(":");
-		if(l1.count() != 2)
+		QStringList l1 = address.split( ":" );
+		if ( l1.count() != 2 )
 		{
-			QHostAddress::setAddress(quint32(0));
+			QHostAddress::setAddress( quint32( 0 ) );
 			m_nPort = 0;
 			return;
 		}
 
-		m_nPort = l1.at(1).toUShort();
+		m_nPort = l1.at( 1 ).toUShort();
 
-		QHostAddress::setAddress(l1.at(0));
+		QHostAddress::setAddress( l1.at( 0 ) );
 	}
+
+	m_sCountry = geoIP.findCountryCode( *this );
 }
 
-CEndPoint::CEndPoint(const CEndPoint& copy)
-	: QHostAddress(copy)
+CEndPoint::CEndPoint(const CEndPoint& copy) :
+    QHostAddress( copy ),
+    m_nPort( copy.m_nPort ),
+    m_sCountry( copy.m_sCountry )
 {
-	m_nPort = copy.m_nPort;
 }
 
-CEndPoint::CEndPoint(SpecialAddress address, quint16 nPort)
-	: QHostAddress(address), m_nPort(nPort)
+CEndPoint::CEndPoint(SpecialAddress address, quint16 nPort) :
+    QHostAddress( address ),
+    m_nPort( nPort ),
+    m_sCountry( geoIP.findCountryCode( *this ) )
 {
-
 }
 
 void CEndPoint::clear()
 {
 	m_nPort = 0;
+	m_sCountry = "";
 	QHostAddress::clear();
 }
 
 QString CEndPoint::toStringWithPort() const
 {
-	if(protocol() == QAbstractSocket::IPv4Protocol)
+	if ( protocol() == QAbstractSocket::IPv4Protocol )
 	{
-		return toString().append(QString(":%1").arg(m_nPort));
+		return toString().append( QString( ":%1" ).arg( m_nPort ) );
 	}
 	else
 	{
-		return QString("[%1]:%2").arg(toString()).arg(m_nPort);
+		return QString( "[%1]:%2" ).arg( toString() ).arg( m_nPort );
 	}
-}
-
-quint16 CEndPoint::port() const
-{
-	return m_nPort;
-}
-
-void CEndPoint::setPort(const quint16 nPort)
-{
-	m_nPort = nPort;
 }
 
 void CEndPoint::setAddressWithPort(const QString& address)
 {
-	if(address.count(":") >= 2)
+	if ( address.count(":") >= 2 )
 	{
 		// IPv6
 
@@ -207,22 +210,24 @@ void CEndPoint::setAddressWithPort(const QString& address)
 
 		QHostAddress::setAddress(l1.at(0));
 	}
+
+	m_sCountry = geoIP.findCountryCode( *this );
 }
 
 bool CEndPoint::isFirewalled() const
 {
-	if( isNull() )
+	if ( isNull() )
 		return true;
 
-	if( protocol() == 0 ) // IPv4
+	if ( protocol() == 0 ) // IPv4
 	{
-		quint32 nIp = qToBigEndian(toIPv4Address());
+		quint32 nIp = qToBigEndian( toIPv4Address() );
 
-		if( (nIp & 0xffff) == 0xa8c0 ) return true; // 192.168
-		if( (nIp & 0xff) == 0x0a ) return true;	// 10
-		if( (nIp & 0xf0ff) == 0x10ac ) return true; // 172.16
-		if( (nIp & 0xffff) == 0xfea9 ) return true; // 169.254
-		if( (nIp & 0xff) == 0x7f ) return true;	// 127
+		if ( (nIp & 0xffff) == 0xa8c0 ) return true; // 192.168
+		if ( (nIp & 0xff  ) == 0x0a   ) return true; // 10
+		if ( (nIp & 0xf0ff) == 0x10ac ) return true; // 172.16
+		if ( (nIp & 0xffff) == 0xfea9 ) return true; // 169.254
+		if ( (nIp & 0xff  ) == 0x7f   ) return true; // 127
 	}
 
 	return false;
@@ -230,14 +235,16 @@ bool CEndPoint::isFirewalled() const
 
 CEndPoint & CEndPoint::operator =(const CEndPoint &rhs)
 {
-	QHostAddress::operator =(rhs);
+	QHostAddress::operator =( rhs );
+	m_sCountry = rhs.m_sCountry;
 	m_nPort = rhs.m_nPort;
 	return *this;
 }
 
 QDataStream &operator<<(QDataStream &s, const CEndPoint &rhs)
 {
-	s << *static_cast<const QHostAddress*>(&rhs);
+	s << *static_cast<const QHostAddress*>( &rhs );
+	s << rhs.m_sCountry;
 	s << rhs.m_nPort;
 
 	return s;
@@ -247,6 +254,7 @@ QDataStream &operator>>(QDataStream &s, CEndPoint &rhs)
 {
 	QHostAddress* pHa = static_cast<QHostAddress*>(&rhs);
 	s >> *pHa;
+	s >> rhs.m_sCountry;
 	s >> rhs.m_nPort;
 
 	return s;

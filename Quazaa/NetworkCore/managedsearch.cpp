@@ -437,29 +437,29 @@ void CManagedSearch::OnQueryHit(CQueryHit* pHits)
 	CQueryHit* pHit = pHits;
 	CQueryHit* pLast = 0;
 
-	while(pHit != 0)
+	while ( pHit )
 	{
-		m_nHits++;
-		m_nCachedHits++;
+		++m_nHits;
+		++m_nCachedHits;
 		pLast = pHit;
 		pHit = pHit->m_pNext;
 	}
 
 	//emit OnHit(pHits);
 
-	if(m_pCachedHit)
+	if ( m_pCachedHit )
 	{
 		pLast->m_pNext = m_pCachedHit;
 	}
 
 	m_pCachedHit = pHits;
 
-	if(m_nCachedHits > 100)
+	if ( m_nCachedHits > 100 )
 	{
 		SendHits();
 	}
 
-	if(m_nHits > m_nQueryHitLimit && !m_bPaused)
+	if ( m_nHits > m_nQueryHitLimit && !m_bPaused )
 	{
 		systemLog.postLog(LogSeverity::Debug, tr("Pausing search: query hit limit reached"));
 		Pause();
@@ -467,7 +467,7 @@ void CManagedSearch::OnQueryHit(CQueryHit* pHits)
 }
 void CManagedSearch::SendHits()
 {
-	if(!m_pCachedHit)
+	if ( !m_pCachedHit )
 	{
 		return;
 	}

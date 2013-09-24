@@ -125,7 +125,7 @@ public:
 	bool isValid() const;
 	void setReadBufferSize(qint64 nSize);
 
-	inline CEndPoint GetAddress() const
+	inline CEndPoint address() const
 	{
 		return m_oAddress;
 	}

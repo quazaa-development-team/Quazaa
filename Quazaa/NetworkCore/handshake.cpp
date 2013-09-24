@@ -164,7 +164,7 @@ void CHandshake::OnWebRequest()
             if( (*it)->m_nState != nsConnected )
                 continue;
 
-            baHtml += "<tr><td style=\"text-align:center;\"><a href=\"http://" + (*it)->GetAddress().toStringWithPort() + "\">" + (*it)->GetAddress().toStringWithPort() + "</a></td>";
+            baHtml += "<tr><td style=\"text-align:center;\"><a href=\"http://" + (*it)->address().toStringWithPort() + "\">" + (*it)->address().toStringWithPort() + "</a></td>";
 
             quint32 tConnected = tNow - (*it)->m_tConnected;
             baHtml += "<td style=\"text-align:center;\">" + QString().sprintf( "%.2u:%.2u:%.2u", tConnected / 3600,

@@ -4,7 +4,6 @@
 [submodule "Quazaa/3rdparty/qtping"]
 	path = Quazaa/3rdparty/qtping
 	url = git://gitorious.org/neoframework/qtping.git
-
 [submodule "Quazaa/Security"]
 	path = Quazaa/Security
 	url = git://git.code.sf.net/p/quazaasecuritylibrary/code

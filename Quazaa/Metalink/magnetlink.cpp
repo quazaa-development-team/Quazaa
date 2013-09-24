@@ -6,6 +6,8 @@
 
 #include "NetworkCore/Hashes/hash.h"
 
+using namespace URI;
+
 CMagnet::MagnetFile::MagnetFile() :
 	m_bNull( true ),
 	m_nFileSize( 0 )

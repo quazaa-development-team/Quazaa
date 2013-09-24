@@ -525,15 +525,7 @@ bool CDiscovery::asyncSyncSavingHelper()
 		foreach (  TMapPair pair, m_mServices )
 		{
 			pService = pair.second;
-			pService->lockForRead();
-
-			if ( pService->m_bRunning )
-			{
-				pService->unlock();
-				pService->cancelRequest();
-				pService->lockForRead();
-			}
-
+			pService->cancelRequest( true );
 			CDiscoveryService::save( pService.data(), fsFile );
 			pService->unlock();
 		}

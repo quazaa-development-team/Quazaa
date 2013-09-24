@@ -31,7 +31,10 @@
 
 #include "debug_new.h"
 
-GeoIPList GeoIP;
+GeoIPList geoIP;
+
+quint32 GeoIPList::m_nDebugOldCalls = 0;
+quint32 GeoIPList::m_nDebugRemainingCalls = 0;
 
 GeoIPList::GeoIPList()
 {
@@ -117,7 +120,12 @@ void GeoIPList::loadGeoIP()
 
 QString GeoIPList::findCountryCode(const quint32 nIp) const
 {
-	if(!m_bListLoaded)
+	++m_nDebugRemainingCalls;
+
+	qDebug() << "[GeoIP] Old calls: " << QString::number( m_nDebugOldCalls ).toLocal8Bit().data()
+	         << "New calls: "   << QString::number( m_nDebugRemainingCalls ).toLocal8Bit().data();
+
+	if ( !m_bListLoaded )
 	{
 		return "ZZ";
 	}

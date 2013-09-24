@@ -288,7 +288,7 @@ CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CD
 	m_nProgress = 0;
 	m_nBandwidth = 0;
 	m_nStatus = download->m_nState;
-	m_nPriority = download->m_nPriority;
+	m_nPriority = download->m_nPriority; // 255: highest priority; 1: lowest priority; 0: temporary disabled
 	m_nCompleted = download->m_nCompletedSize;
 	m_nProtocol = tpNull;
 
@@ -364,7 +364,7 @@ QVariant CDownloadItem::data(int column) const
 			}
 			return tr("Unknown"); // should not happen, but...
 		case CDownloadsTreeModel::PRIORITY:
-			switch(m_nPriority)
+			/*switch(m_nPriority)
 			{
 				case CDownload::LOW:
 					return tr("Low");
@@ -379,7 +379,8 @@ QVariant CDownloadItem::data(int column) const
 						return tr("Lowest");
 					else
 						return tr("Unknown"); // not possible, but...
-			}
+			}*/
+			return QString::number( m_nPriority );
 		case CDownloadsTreeModel::CLIENT:
 			if( childCount() )
 			{
@@ -442,7 +443,10 @@ CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownl
 	m_nStatus = 0;
 	m_sClient = "";
 	m_nDownloaded = 0;
-	m_sCountry = GeoIP.findCountryCode(downloadSource->m_oAddress);
+
+	++geoIP.m_nDebugOldCalls;
+	m_sCountry = downloadSource->m_oAddress.country();
+
 	m_nProtocol = downloadSource->m_nProtocol;
 
 	connect(downloadSource, SIGNAL(bytesReceived(quint64,quint64)), this, SLOT(onBytesReceived(quint64,quint64)));
@@ -493,7 +497,8 @@ QVariant CDownloadSourceItem::data(int column) const
 			return formatBytes(m_nDownloaded);
 		break;
 	case CDownloadsTreeModel::COUNTRY:
-			return GeoIP.countryNameFromCode(m_sCountry);
+		// TODO: would it be more intelligent to store this in a variable instead of getting it from geoIP each time?
+			return geoIP.countryNameFromCode(m_sCountry);
 		break;
 	default:
 			return QVariant();

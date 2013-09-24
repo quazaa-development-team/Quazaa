@@ -235,7 +235,7 @@ int main(int argc, char *argv[])
 	hostCache.m_pSection.unlock();
 
 	//initialize geoip list
-	GeoIP.loadGeoIP();
+	geoIP.loadGeoIP();
 
 	//Load the library
 	dlgSplash->updateProgress( 38, QObject::tr( "Loading Library..." ) );

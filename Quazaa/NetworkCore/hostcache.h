@@ -51,16 +51,13 @@ public:
 	QDateTime       m_tLastConnect; // kiedy ostatnio sie polaczylismy?
 	qint32			m_nFailures;
 
-	QString			m_sCountry;
-
 public:
 	CHostCacheHost()
 	{
 		m_nQueryKey = 0;
-		m_sCountry  = "ZZ";
 		m_nFailures = 0;
-
-        m_nKeyTime = m_tAck = m_tLastConnect = m_tLastQuery = m_tRetryAfter = QDateTime::fromTime_t(0);
+		m_nKeyTime = m_tAck = m_tLastConnect =
+		             m_tLastQuery = m_tRetryAfter = QDateTime::fromTime_t(0);
 	}
 
 	bool canQuery(QDateTime tNow = QDateTime::currentDateTimeUtc());
@@ -102,7 +99,9 @@ public:
 
 	void onFailure(CEndPoint addr);
 	CHostCacheHost* get();
-	CHostCacheHost* getConnectable(QDateTime tNow = QDateTime::currentDateTimeUtc(), QList<CHostCacheHost*> oExcept = QList<CHostCacheHost*>(), QString sCountry = QString("ZZ"));
+	CHostCacheHost* getConnectable(QDateTime tNow = QDateTime::currentDateTimeUtc(),
+	                               QList<CHostCacheHost*> oExcept = QList<CHostCacheHost*>(),
+	                               QString sCountry = QString("ZZ"));
 
 	void save();
 	void load();

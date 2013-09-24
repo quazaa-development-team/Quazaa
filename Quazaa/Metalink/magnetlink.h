@@ -9,6 +9,9 @@
 
 class CHash;
 
+namespace URI
+{
+
 class CMagnet
 {
 public:
@@ -122,5 +125,7 @@ QString CMagnet::toString() const
 {
 	return m_sMagnet;
 }
+
+} // namespace URI
 
 #endif // MAGNETLINK_H

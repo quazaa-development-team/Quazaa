@@ -44,7 +44,9 @@ private:
 	typedef Security::CSecureRule	 CSecureRule;
 	typedef Security::CIPRule		 CIPRule;
 	typedef Security::CIPRangeRule	 CIPRangeRule;
+#if SECURITY_ENABLE_GEOIP
 	typedef Security::CCountryRule	 CCountryRule;
+#endif // SECURITY_ENABLE_GEOIP
 	typedef Security::CHashRule		 CHashRule;
 	typedef Security::CRegExpRule	 CRegExpRule;
 	typedef Security::CUserAgentRule CUserAgentRule;

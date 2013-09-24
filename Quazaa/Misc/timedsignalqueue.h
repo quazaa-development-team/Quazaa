@@ -82,12 +82,16 @@ private:
 	static QElapsedTimer m_oTime; // TODO: use UTC time
 	QBasicTimer			m_oTimer;
 	QMutex				m_pSection;
+	QMutex				m_pShutdownLock;
 	quint64				m_nPrecision;
 	CSignalQueue		m_QueuedSignals;
 
 public:
 	explicit CTimedSignalQueue(QObject *parent = 0);
 	~CTimedSignalQueue();
+
+	void shutdownLock();	// Hold this lock to delay the deletion of the queue on application shutdown.
+	void shutdownUnlock();
 
 	// (Re)initializes internal structures. Note that this does NOT clear the queue.
 	void setup();

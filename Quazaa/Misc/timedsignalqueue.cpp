@@ -186,8 +186,19 @@ CTimedSignalQueue::CTimedSignalQueue(QObject *parent) :
 
 CTimedSignalQueue::~CTimedSignalQueue()
 {
+	m_pShutdownLock.lock();
 	stop(); // Prevent timer events from occurring during cleanup process.
 	clear();
+}
+
+void CTimedSignalQueue::shutdownLock()
+{
+	m_pShutdownLock.lock();
+}
+
+void CTimedSignalQueue::shutdownUnlock()
+{
+	m_pShutdownLock.unlock();
 }
 
 void CTimedSignalQueue::setup()

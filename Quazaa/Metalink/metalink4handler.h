@@ -6,6 +6,9 @@
 #include "download.h"
 #include "metalinkhandler.h"
 
+namespace URI
+{
+
 class CMetalink4Handler : public CMetalinkHandler
 {
 public:
@@ -16,5 +19,7 @@ public:
 private:
 	bool parseFile(QList<MetaFile> &lFiles, quint16 ID);
 };
+
+} // namespace URI
 
 #endif // METALINK4HANDLER_H

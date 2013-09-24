@@ -34,6 +34,7 @@
 
 // Requirements of all subclasses
 #include "hostcache.h"
+#include "timedsignalqueue.h"
 
 //TODO: Hunt down QObject::startTimer: QTimer can only be used with threads started with QThread
 
@@ -194,6 +195,7 @@ private slots:
 	 * Locking: RW
 	 */
 	void cancelRequest();
+	void cancelRequest(bool);
 
 signals:
 	/**

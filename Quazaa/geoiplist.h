@@ -47,6 +47,9 @@ public:
 
 	QList<GeoIPEntry> m_lDatabase;
 
+	static quint32 m_nDebugOldCalls;
+	static quint32 m_nDebugRemainingCalls;
+
 	GeoIPList();
 	void loadGeoIP();
 	inline QString findCountryCode(const QString& IP) const;
@@ -64,13 +67,16 @@ QString GeoIPList::findCountryCode(const QString& IP) const
 
 QString GeoIPList::findCountryCode(const QHostAddress& ip) const
 {
-	if( ip.protocol() == 1 ) // IPv6
+	if ( ip.protocol() == 1 ) // IPv6
+	{
+		++m_nDebugRemainingCalls;
 		return "ZZ";
+	}
 
 	const quint32 ip4 = ip.toIPv4Address();
 	return findCountryCode( ip4 );
 }
 
-extern GeoIPList GeoIP;
+extern GeoIPList geoIP;
 
 #endif // GEOIPLIST_H
