@@ -23,6 +23,7 @@
 #include <QTime>
 #include <QColor>
 #include <QTextBoundaryFinder>
+#include <QDebug>
 
 static IrcTextFormat IRC_TEXT_FORMAT;
 
@@ -420,14 +421,15 @@ QString MessageFormatter::formatUnknownMessage(IrcMessage* message) const
 
 QString MessageFormatter::formatZncPlaybackMessage(IrcPrivateMessage *message) const
 {
+    qDebug() << "formatZncPlaybackMessage(IrcPrivateMessage *message) input:" << message->message();
     QString msg = message->message();
     int idx = msg.indexOf(" ");
     if (idx != -1) {
         QDateTime timeStamp = QDateTime::fromString(msg.left(idx), d.timestampFormat);
         if (timeStamp.isValid()) {
             message->setTimeStamp(timeStamp);
-            msg.remove(0, idx + 1);
             QString content = msg.mid(idx + 1);
+            qDebug() << "formatZncPlaybackMessage(IrcPrivateMessage *message) after timestamp removal:" << content;
 
             if (message->sender().name() == "*buffextras") {
                 idx = msg.indexOf(" ");
@@ -480,6 +482,7 @@ QString MessageFormatter::formatZncPlaybackMessage(IrcPrivateMessage *message) c
             message->setParameters(QStringList() << message->target() << content);
         }
     }
+    qDebug() << "formatZncPlaybackMessage(IrcPrivateMessage *message) output:" << message->message();
     return formatPrivateMessage(message);
 }
 
