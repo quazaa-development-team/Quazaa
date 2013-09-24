@@ -98,8 +98,10 @@ void CNeighboursG2::Maintain()
 	}
 
 	// TODO: Test whether already active checking is required
-	if ( !m_nHubsConnectedG2 && !discoveryManager.isActive( Discovery::stGWC ) && ( hostCache.isEmpty() || !hostCache.getConnectable() ) )
+	if ( !m_nHubsConnectedG2 && !discoveryManager.isActive( Discovery::stGWC )
+		 && ( hostCache.isEmpty() || !hostCache.getConnectable() ) && m_nUnknownInitiated == 0 )
 	{
+		qDebug() << "GWC query: Active:" << discoveryManager.isActive(Discovery::stGWC) << ", empty cache:" << hostCache.isEmpty() << ", has connectable:" << (hostCache.getConnectable() != 0) << "has unknown initiated:" << (m_nUnknownInitiated != 0);
 		discoveryManager.queryService( CNetworkType( dpG2 ) );
 	}
 
