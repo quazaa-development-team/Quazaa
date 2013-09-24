@@ -417,6 +417,9 @@ void CDownloadItem::onStateChanged(int state)
 
 void CDownloadItem::onBytesReceived(quint64 offset, quint64 length, CDownloadSourceItem *source)
 {
+    Q_UNUSED(source);
+    //TODO: Make use of CDownloadSourceItem *source
+
 	qDebug() << "CDownloadItem::onBytesReceived()" << offset << length;
 	m_oCompletedFrags.insert(Fragments::Fragment(offset, offset + length));
 	m_bChanged = true;
