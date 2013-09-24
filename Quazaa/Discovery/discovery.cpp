@@ -48,10 +48,15 @@ using namespace Discovery;
  * @param parent
  */
 CDiscovery::CDiscovery(QObject *parent) :
-	QObject( parent ),
-	m_bSaved( true ),
-	m_nLastID( 0 )
+    QObject( parent ),
+    m_bSaved( true ),
+    m_pActive( new quint16[Discovery::stNumberOfServiceTypes] ),
+    m_nLastID( 0 )
 {
+	for ( quint8 i = 0; i < Discovery::stNumberOfServiceTypes; ++i )
+	{
+		m_pActive[i] = 0;
+	}
 }
 
 /**
@@ -295,6 +300,20 @@ bool CDiscovery::check(const TConstServicePtr pService)
 		return true;
 	else
 		return false;
+}
+
+/**
+ * @brief isActive allows to find out whether the Discovery Manager is currently active.
+ * Locking: YES (synchronous)
+ * @param eSType
+ * @return true if active; false otherwise
+ */
+bool CDiscovery::isActive(const TServiceType eSType)
+{
+	QMutexLocker l( &m_pSection );
+
+	postLog( LogSeverity::Debug, QString( " *** *** Active: " ) + QString::number( m_pActive[eSType] ), true );
+	return m_pActive[eSType];
 }
 
 /**
@@ -641,6 +660,7 @@ void CDiscovery::asyncUpdateServiceHelper(const CNetworkType type)
 		{
 			postLog( LogSeverity::Notice, tr( "Updating service: " ) + pService->url() );
 
+			++m_pActive[pService.data()->m_nServiceType];
 			pService->update();
 		}
 		else
@@ -682,6 +702,7 @@ void CDiscovery::asyncUpdateServiceHelper(TServiceID nID)
 
 	postLog( LogSeverity::Notice, tr( "Updating service: " ) + pService->url() );
 
+	++m_pActive[pService.data()->m_nServiceType];
 	pService->update();
 }
 
@@ -714,9 +735,10 @@ void CDiscovery::asyncQueryServiceHelper(const CNetworkType type)
 			postLog( LogSeverity::Notice, tr( "Querying service: " ) + pService->url() );
 
 #if ENABLE_DISCOVERY_DEBUGGING
-	postLog( LogSeverity::Debug, "Service pointer OK.", true );
+			postLog( LogSeverity::Debug, "Service pointer OK.", true );
 #endif
 
+			++m_pActive[pService.data()->serviceType()];
 			pService->query();
 
 #if ENABLE_DISCOVERY_DEBUGGING
@@ -781,6 +803,7 @@ void CDiscovery::asyncQueryServiceHelper(TServiceID nID)
 
 	postLog( LogSeverity::Notice, tr( "Querying service: " ) + pService->url() );
 
+	++m_pActive[pService.data()->serviceType()];
 	pService->query();
 
 #if ENABLE_DISCOVERY_DEBUGGING

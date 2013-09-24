@@ -119,7 +119,7 @@ public:
 
 	static quint32 writeToFile(const void * const pManager, QFile& oFile);
 
-	inline quint32 size();
+	inline quint32 count();
 	inline bool isEmpty();
 };
 
@@ -134,14 +134,14 @@ CHostCacheHost* CHostCache::take(CHostCacheHost *pHost)
 	return it == m_lHosts.end() ? NULL : *it;
 }
 
-quint32 CHostCache::size()
+quint32 CHostCache::count()
 {
 	return m_lHosts.size();
 }
 
 bool CHostCache::isEmpty()
 {
-	return !size();
+	return !count();
 }
 
 extern CHostCache hostCache;
