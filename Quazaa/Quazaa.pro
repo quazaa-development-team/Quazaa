@@ -86,24 +86,20 @@ include(3rdparty/qtdocktile/qtdocktile.pri)
 # Version stuff
 MAJOR = 0
 MINOR = 1
-VERSION_HEADER = version.h
+VERSION_HEADER = $$PWD/version.h
 
-versiontarget.target = $$VERSION_HEADER
-
-CONFIG(debug, debug|release) {
-	versiontarget.commands = ../VersionTool/debug/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
-}
-else {
-	versiontarget.commands = ../VersionTool/release/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
-}
+CONFIG(debug, debug|release): versiont.commands = cd $$PWD && $$OUT_PWD/../VersionTool/debug/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
+CONFIG(release, debug|release): versiont.commands = cd $$PWD && $$OUT_PWD/../VersionTool/release/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
 win32-msvc* {
-	versiontarget.commands = $$replace(versiontarget.commands, '/', '\\') # for nmake
+	versiont.commands = $$replace(versiont.commands, '/', '\\') # for nmake
 }
+QMAKE_EXTRA_TARGETS += versiont
+QMAKE_CLEAN += $$VERSION_HEADER
 
-versiontarget.depends = FORCE
-
-PRE_TARGETDEPS += $$VERSION_HEADER
-QMAKE_EXTRA_TARGETS += versiontarget
+versionthook.depends = versiont
+CONFIG(debug,debug|release):versionthook.target = Makefile.Debug
+CONFIG(release,debug|release):versionthook.target = Makefile.Release
+QMAKE_EXTRA_TARGETS += versionthook
 
 # Language stuff
 isEmpty(QMAKE_LRELEASE) {
@@ -117,6 +113,22 @@ updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm $$DESTDIR/${QMAKE_FILE
 updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 PRE_TARGETDEPS += compiler_updateqm_make_all
+
+# Other resources that need to be in build folder
+!equals(PWD, $$OUT_PWD){
+	!build_pass:message(Configuring for shadow build)
+	O_SRC = $$PWD/bin/*
+	O_TARGET = $$OUT_PWD/bin/
+	win32:O_SRC ~= s,/,\\,g
+	win32:O_TARGET ~= s,/,\\,g
+	others.commands = $(COPY_DIR) $$quote($$O_SRC) $$quote($$O_TARGET)
+	others.depends = FORCE
+	QMAKE_EXTRA_TARGETS += others
+	PRE_TARGETDEPS += others
+}
+equals(PWD, $$OUT_PWD){
+	!build_pass:message(Configuring for in-place build)
+}
 
 # Append _debug to executable name when compiling using debug config
 CONFIG(debug, debug|release):TARGET = $$join(TARGET,,,_debug)
