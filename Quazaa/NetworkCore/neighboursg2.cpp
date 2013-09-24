@@ -98,7 +98,7 @@ void CNeighboursG2::Maintain()
 	}
 
 	// TODO: Test whether already active checking is required
-	if ( !m_nHubsConnectedG2 && ( hostCache.isEmpty() || !hostCache.getConnectable() ) )
+	if ( !m_nHubsConnectedG2 && !discoveryManager.isActive( Discovery::stGWC ) && ( hostCache.isEmpty() || !hostCache.getConnectable() ) )
 	{
 		discoveryManager.queryService( CNetworkType( dpG2 ) );
 	}
