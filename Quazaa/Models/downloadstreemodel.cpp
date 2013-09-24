@@ -444,7 +444,6 @@ CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownl
 	m_sClient = "";
 	m_nDownloaded = 0;
 
-	++geoIP.m_nDebugOldCalls;
 	m_sCountry = downloadSource->m_oAddress.country();
 
 	m_nProtocol = downloadSource->m_nProtocol;
