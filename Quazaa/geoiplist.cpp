@@ -24,6 +24,7 @@
 
 #include <QApplication>
 #include <QFile>
+#include <QFileInfo>
 #include <QTextStream>
 #include "geoiplist.h"
 #include "types.h"
@@ -40,10 +41,27 @@ GeoIPList::GeoIPList()
 
 void GeoIPList::loadGeoIP()
 {
+	const QString sOriginalFile(qApp->applicationDirPath() + "/GeoIP/geoip.dat");
+	const QString sSerializedFile(qApp->applicationDirPath() + "/geoIP.ser");
+
 	bool readFromOriginalGeoIP = false;
 	//First trying to deserialize from ser file
-	QFile iFile( qApp->applicationDirPath() + "/geoIP.ser" );
-	if ( ! iFile.open( QIODevice::ReadOnly ) )
+
+	QFile iFile( sSerializedFile );
+
+	if( QFile::exists(sSerializedFile) && QFile::exists(sOriginalFile) )
+	{
+		QFileInfo iOriginal(sOriginalFile);
+		QFileInfo iSerialized(sSerializedFile);
+
+		if( iOriginal.lastModified() > iSerialized.lastModified() )
+		{
+			systemLog.postLog(LogSeverity::Warning, QObject::tr("GeoIP data modified, refreshing..."));
+			iFile.remove();
+		}
+	}
+
+	if ( ! iFile.open( QIODevice::ReadOnly ))
 	{
 		systemLog.postLog(LogSeverity::Warning, QObject::tr("Unable to load GeoIP serialization file for loading"));
 		readFromOriginalGeoIP = true;
@@ -63,9 +81,10 @@ void GeoIPList::loadGeoIP()
 		iFile.close();
 	}
 
+
 	if(readFromOriginalGeoIP)
 	{
-		QFile file(qApp->applicationDirPath() + "/GeoIP/geoip.dat");
+		QFile file(sOriginalFile);
 		if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
 		{
 			return;
@@ -80,6 +99,11 @@ void GeoIPList::loadGeoIP()
 		{
 			QStringList line = in.readLine().split(" ");
 
+			if( line.size() != 3 )
+			{
+				systemLog.postLog(LogSeverity::Warning, "[GeoIP] Bad line, skippig");
+				continue;
+			}
 			CEndPoint rBegin(line[0] + ":0");
 			CEndPoint rEnd(line[1] + ":0");
 			QString sCountry = line[2];
