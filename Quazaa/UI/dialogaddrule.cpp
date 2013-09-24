@@ -87,7 +87,7 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 		break;
 	}
 
-	quint32 tExpire = pRule->getExpiryTime();
+	quint32 tExpire = m_pRule->getExpiryTime();
 
 	switch ( tExpire )
 	{
