@@ -463,10 +463,10 @@ void QuazaaSettings::loadSettings()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
-	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
+	QString sDefaultDataPath = QString( "%1/%2/" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
 #else
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
-	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ), "Data" );
+	QString sDefaultDataPath = QString( "%1/%2/" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ), "Data" );
 #endif
 
 	m_qSettings.beginGroup("Ares");

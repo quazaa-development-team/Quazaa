@@ -30,9 +30,12 @@
 #include <QMutex>
 
 // Increment this if there have been made changes to the way of storing security rules.
-#define HOST_CACHE_CODE_VERSION	5
+#define HOST_CACHE_CODE_VERSION	6
 // History:
-// 4 - Initial implementation
+// 4 - Initial implementation.
+// 6 - Fixed Hosts having an early date and changed time storage from QDateTime to quint32.
+
+class QFile;
 
 class CHostCacheHost
 {
@@ -75,10 +78,11 @@ class CHostCache
 
 public:
 	QList<CHostCacheHost*>  m_lHosts;
-	QMutex					m_pSection;
-	QDateTime				m_tLastSave;
+	mutable QMutex          m_pSection;
+	QDateTime               m_tLastSave;
 
-	quint32					m_nMaxCacheHosts;
+	quint32                 m_nMaxCacheHosts;
+	QString                 m_sMessage;
 
 public:
 	CHostCache();
@@ -91,9 +95,9 @@ public:
 	inline CHostCacheHost* take(CEndPoint oHost);
 	inline CHostCacheHost* take(CHostCacheHost *pHost);
 
-	void update(CEndPoint oHost);
-	void update(CHostCacheHost* pHost);
-	void update(CHostCacheIterator itHost);
+	CHostCacheHost* update(CEndPoint oHost);
+	CHostCacheHost* update(CHostCacheHost* pHost);
+	CHostCacheHost* update(CHostCacheIterator itHost);
 
 	void remove(CHostCacheHost* pRemove);
 	void remove(CEndPoint oHost);
@@ -107,11 +111,13 @@ public:
 	                               QList<CHostCacheHost*> oExcept = QList<CHostCacheHost*>(),
 	                               QString sCountry = QString("ZZ"));
 
-	void save();
+	bool save();
 	void load();
 
 	void pruneOldHosts();
 	void pruneByQueryAck();
+
+	static quint32 writeToFile(const void * const pManager, QFile& oFile);
 
 	inline quint32 size();
 	inline bool isEmpty();

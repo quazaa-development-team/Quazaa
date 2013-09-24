@@ -74,9 +74,9 @@ namespace common
 	 * @param writeData(): Function pointer to the static function doing the actual writing to file.
 	 * @return true if successful, false otherwise.
 	 */
-	bool securredSaveFile(Location location, QString sFileName, QString sMessage,
-	                      const void * const pManager,
-	                      void (*writeData)(const void * const, QFile &));
+	quint32 securredSaveFile(Location location, QString sFileName, QString sMessage,
+	                         const void * const pManager,
+	                         quint32 (*writeData)(const void* const, QFile&));
 
 	/**
 	 * @brief getRandomUnusedPort

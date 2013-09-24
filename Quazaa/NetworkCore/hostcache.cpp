@@ -147,8 +147,7 @@ CHostCacheHost* CHostCache::add(CEndPoint host, QDateTime ts)
 
 	if ( itPrev != m_lHosts.end() )
 	{
-		update( itPrev );
-		return *m_lHosts.begin();
+		return update( itPrev );
 	}
 
 	Q_ASSERT( ts.timeSpec() == Qt::UTC );
@@ -181,32 +180,33 @@ CHostCacheIterator CHostCache::find(CHostCacheHost *pHost)
 	return it;
 }
 
-void CHostCache::update(CEndPoint oHost)
+CHostCacheHost* CHostCache::update(CEndPoint oHost)
 {
 	CHostCacheIterator it = find( oHost );
 
 	if ( it == m_lHosts.end() )
-		return;
+		return NULL;
 
-	update( it );
+	return update( it );
 }
 
-void CHostCache::update(CHostCacheHost* pHost)
+CHostCacheHost* CHostCache::update(CHostCacheHost* pHost)
 {
 	CHostCacheIterator it = find( pHost );
 
 	if ( it == m_lHosts.end() )
-		return;
+		return NULL;
 
-	update( it );
+	return update( it );
 }
 
-void CHostCache::update(CHostCacheIterator itHost)
+CHostCacheHost* CHostCache::update(CHostCacheIterator itHost)
 {
 	CHostCacheHost* pHost = *itHost;
 	m_lHosts.erase( itHost );
 	pHost->m_tTimestamp = QDateTime::currentDateTimeUtc();
 	m_lHosts.prepend( pHost );
+	return pHost;
 }
 
 void CHostCache::remove(CHostCacheHost* pRemove)
@@ -376,124 +376,81 @@ CHostCacheHost* CHostCache::getConnectable(QDateTime tNow, QList<CHostCacheHost*
 	return NULL;
 }
 
-void CHostCache::save()
+bool CHostCache::save()
 {
 	ASSUME_LOCK( hostCache.m_pSection );
 
-#if QT_VERSION >= 0x050000
-	QString sLocation = QStandardPaths::writableLocation( QStandardPaths::HomeLocation );
-#else
-	QString sLocation = QDesktopServices::storageLocation( QDesktopServices::HomeLocation );
-#endif
+	bool bReturn;
 
-	sLocation = QString( "%1/.quazaa/" ).arg( sLocation );
-
+	quint32 nCount = common::securredSaveFile( common::globalDataFiles, "hostcache.dat", m_sMessage,
+	                                           this, &CHostCache::writeToFile );
+	if ( nCount )
 	{
-		QDir path = QDir( sLocation );
-		if ( !path.exists() )
-			path.mkpath( sLocation );
+		m_tLastSave = QDateTime::currentDateTimeUtc();
+		bReturn = true;
+
+		systemLog.postLog( LogSeverity::Debug,
+		                   m_sMessage + QObject::tr( "Saved %1 hosts." ).arg( nCount ) );
+	}
+	else
+	{
+		bReturn = false;
 	}
 
-	sLocation = QString( "%1hostcache.dat" ).arg( sLocation );
-
-	if ( QFile::exists( sLocation ) && !QFile::remove( sLocation ) )
-		return;
-
-	QFile f( sLocation );
-
-	if ( !f.open( QFile::WriteOnly ) )
-		return;
-
-	quint16 nVersion = HOST_CACHE_CODE_VERSION;
-	quint32 nCount   = (quint32)m_lHosts.size();
-
-	QDataStream s( &f );
-	s << nVersion;
-	s << nCount;
-
-	if ( !m_lHosts.isEmpty() )
-	{
-		foreach ( CHostCacheHost* pHost, m_lHosts )
-		{
-			s << pHost->m_oAddress;
-			s << pHost->m_tTimestamp;
-			s << pHost->m_nFailures;
-			s << pHost->m_tLastConnect;
-		}
-	}
-
-	f.close();
-
-	m_tLastSave = QDateTime::currentDateTimeUtc();
-
-	systemLog.postLog( LogSeverity::Debug,
-					   QObject::tr( "[Host Cache] Saved %1 hosts." ).arg( nCount ) );
+	return bReturn;
 }
 
 void CHostCache::load()
 {
+	m_sMessage = QObject::tr( "[Host Cache] " );
+
 	ASSUME_LOCK( hostCache.m_pSection );
 
-#if QT_VERSION >= 0x050000
-	QString sLocation = QStandardPaths::writableLocation( QStandardPaths::HomeLocation );
-#else
-	QString sLocation = QDesktopServices::storageLocation( QDesktopServices::HomeLocation );
-#endif
-
-	sLocation = QString( "%1/.quazaa/" ).arg( sLocation );
-
-	{
-		QDir path = QDir( sLocation );
-		if ( !path.exists() )
-			path.mkpath( sLocation );
-	}
-
-	sLocation = QString( "%1hostcache.dat" ).arg( sLocation );
-
-	QFile file( sLocation );
+	QFile file( common::getLocation( common::globalDataFiles ) + "hostcache.dat" );
 
 	if ( !file.exists() || !file.open( QIODevice::ReadOnly ) )
 		return;
 
-	QDataStream s( &file );
+	QDataStream oStream( &file );
 
 	quint16 nVersion;
 	quint32 nCount;
 
-	s >> nVersion;
-	s >> nCount;
+	oStream >> nVersion;
+	oStream >> nCount;
 
 	if ( nVersion == HOST_CACHE_CODE_VERSION ) // else do load defaults
 	{
-		CEndPoint addr;
-		QDateTime ts, lc;
-		quint32 nFailures = 0;
+		CEndPoint oAddress;
+		quint32 nFailures    = 0;
+		quint32 tTimeStamp   = 0;
+		quint32 tLastConnect = 0;
+		QDateTime timeStamp;
+
+		const quint32 tNow   = QDateTime::currentDateTimeUtc().toTime_t();
+
 		CHostCacheHost* pHost = NULL;
 
 		while ( nCount )
 		{
-			s >> addr;
-			s >> ts;
-			s >> nFailures;
-			s >> lc;
+			oStream >> oAddress;
+			oStream >> nFailures;
 
-			if ( ts.timeSpec() == Qt::UTC && ( lc.isNull() || lc.timeSpec() == Qt::UTC ) )
+			oStream >> tTimeStamp;
+			oStream >> tLastConnect;
+
+			timeStamp = QDateTime::fromTime_t( tTimeStamp );
+			timeStamp.setTimeSpec( Qt::UTC );
+
+			pHost = add( oAddress, timeStamp );
+			if ( pHost )
 			{
-				pHost = add( addr, ts );
-				if ( pHost )
-				{
-					pHost->m_nFailures    = nFailures;
-					pHost->m_tLastConnect = lc;
-				}
-			}
-			else
-			{
-				qDebug() << "[Host Cache] Caught problem with timestamp or last query time.";
+				if ( tLastConnect - tNow > 0 ) // Note: add() handles the same for tTimeStamp.
+					tLastConnect = tNow - 60;
 
-				//TODO: Find out why the assert causes trouble with Qt4.8.4/MinGW4.4
-				//Q_ASSERT( false );
-
-				//break;
+				pHost->m_nFailures    = nFailures;
+				pHost->m_tLastConnect = QDateTime::fromTime_t( tLastConnect );
+				pHost->m_tLastConnect.setTimeSpec( Qt::UTC);
 			}
 
 			--nCount;
@@ -506,7 +463,7 @@ void CHostCache::load()
 	pruneOldHosts();
 
 	systemLog.postLog( LogSeverity::Debug,
-					   QObject::tr( "[Host Cache] Loaded %1 hosts." ).arg( m_lHosts.size() ) );
+	                   m_sMessage + QObject::tr( "Loaded %1 hosts." ).arg( m_lHosts.size() ) );
 }
 
 void CHostCache::pruneOldHosts()
@@ -548,5 +505,35 @@ void CHostCache::pruneByQueryAck()
 			++it;
 		}
 	}
+}
+
+/**
+  * Helper method for save()
+  * Requires Locking: R
+  */
+quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
+{
+	QDataStream oStream( &oFile );
+	CHostCache* pHostCache = (CHostCache*)pManager;
+
+	const quint16 nVersion = HOST_CACHE_CODE_VERSION;
+	const quint32 nCount   = (quint32)pHostCache->m_lHosts.size();
+
+	oStream << nVersion;
+	oStream << nCount;
+
+	if ( nCount )
+	{
+		foreach ( CHostCacheHost* pHost, pHostCache->m_lHosts )
+		{
+			oStream << pHost->m_oAddress;
+			oStream << pHost->m_nFailures;
+
+			oStream << (quint32)(pHost->m_tTimestamp.toTime_t());
+			oStream << (quint32)(pHost->m_tLastConnect.toTime_t());
+		}
+	}
+
+	return nCount;
 }
 

@@ -151,11 +151,11 @@ QString common::getTempFileName(QString sName)
 QString common::getLocation(Location location)
 {
 #if QT_VERSION >= 0x050000
-	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg(
+	QString sDefaultDataPath = QString( "%1/%2/" ).arg(
 	                               QStandardPaths::writableLocation(
 	                                   QStandardPaths::DataLocation   ), "Data" );
 #else
-	QString sDefaultDataPath = QString( "%1\\%2\\" ).arg(
+	QString sDefaultDataPath = QString( "%1/%2/" ).arg(
 	                               QDesktopServices::storageLocation(
 	                                   QDesktopServices::DataLocation ), "Data" );
 #endif
@@ -177,15 +177,21 @@ QString common::getLocation(Location location)
 	return QString();
 }
 
-bool common::securredSaveFile(Location location, QString sFileName,
-                              QString sMessage, const void* const pManager,
-                              void (*writeData)(const void* const pManager, QFile &oDestination))
+quint32 common::securredSaveFile(Location location, QString sFileName,
+                                 QString sMessage, const void* const pManager,
+                                 quint32 (*writeData)(const void* const, QFile&))
 {
-	QString sPath          = getLocation( location ) + sFileName;
+	QString sPath          = getLocation( location );
+
+	QDir path = QDir( sPath );
+	if ( !path.exists() )
+		path.mkpath( sPath );
+
+	sPath                  = sPath + sFileName;
 	QString sBackupPath    = sPath + "_backup";
 	QString sTemporaryPath = sPath + "_tmp";
 
-	systemLog.postLog( LogSeverity::Notice, sMessage
+	systemLog.postLog( LogSeverity::Debug, sMessage
 	                   + QObject::tr( "Saving to File: %1" ).arg( sPath ) );
 
 	if ( QFile::exists( sTemporaryPath ) && !QFile::remove( sTemporaryPath ) )
@@ -193,7 +199,7 @@ bool common::securredSaveFile(Location location, QString sFileName,
 		systemLog.postLog( LogSeverity::Error, sMessage +
 		                   QObject::tr( "Error: Could not free space required for temporary file: ")
 		                   + sTemporaryPath );
-		return false;
+		return 0;
 	}
 
 	QFile oFile( sTemporaryPath );
@@ -203,18 +209,19 @@ bool common::securredSaveFile(Location location, QString sFileName,
 		systemLog.postLog( LogSeverity::Error, sMessage +
 		                   QObject::tr( "Error: Could open temporary file for write: " )
 		                   + sTemporaryPath );
-		return false;
+		return 0;
 	}
 
+	quint32 nPieces;
 	try
 	{
-		writeData( pManager, oFile );
+		nPieces = writeData( pManager, oFile );
 	}
 	catch ( ... )
 	{
 		systemLog.postLog( LogSeverity::Error, sMessage
 		                   + QObject::tr( "Error while writing to file: " ) + sTemporaryPath );
-		return false;
+		return 0;
 	}
 
 	oFile.close();
@@ -223,14 +230,14 @@ bool common::securredSaveFile(Location location, QString sFileName,
 	{
 		systemLog.postLog( LogSeverity::Error, sMessage
 		                   + QObject::tr( "Error: Could not remove old data file: " ) + sPath );
-		return false;
+		return 0;
 	}
 
 	if ( !QFile::rename( sTemporaryPath, sPath ) )
 	{
 		systemLog.postLog( LogSeverity::Error, sMessage
 		                   + QObject::tr( "Error: Could not rename data file: " ) + sPath );
-		return false;
+		return 0;
 	}
 
 	if ( QFile::exists( sBackupPath ) && !QFile::remove( sBackupPath ) )
@@ -247,7 +254,7 @@ bool common::securredSaveFile(Location location, QString sFileName,
 		                   + sBackupPath );
 	}
 
-	return true;
+	return nPieces;
 }
 
 quint16 common::getRandomUnusedPort(bool bClear)
