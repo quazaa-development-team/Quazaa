@@ -32,7 +32,7 @@
 #include <QFile>
 #include <QReadWriteLock>
 
-#define NO_OF_REGISTRATIONS 8
+//#define NO_OF_REGISTRATIONS 8
 
 namespace common
 {
