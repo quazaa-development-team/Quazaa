@@ -227,7 +227,7 @@ void DialogAddRule::on_pushButtonOK_clicked()
 			tExpire += ui->lineEditMinutes->text().toUShort() * 60;
 			tExpire += ui->lineEditHours->text().toUShort() * 3600;
 			tExpire += ui->lineEditDays->text().toUShort() * 216000;
-			tExpire += static_cast< quint32 >( time( NULL ) );
+			tExpire += securityManager.getTNowUTC();
 		}
 		pRule->m_tExpire = tExpire;
 
