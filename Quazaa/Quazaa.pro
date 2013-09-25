@@ -411,7 +411,8 @@ HEADERS += \
 	UI/winmain.h \
 	UI/wizardircconnection.h \
 	UI/wizardquickstart.h \
-	UI/wizardtreewidget.h
+	UI/wizardtreewidget.h \
+    HostCache/hostcachehost.h
 
 win32 {
 	HEADERS += \
@@ -597,7 +598,8 @@ SOURCES += \
 	UI/winmain.cpp \
 	UI/wizardircconnection.cpp \
 	UI/wizardtreewidget.cpp \
-	UI/wizardquickstart.cpp
+	UI/wizardquickstart.cpp \
+    HostCache/hostcachehost.cpp
 
 win32 {
 	SOURCES += \

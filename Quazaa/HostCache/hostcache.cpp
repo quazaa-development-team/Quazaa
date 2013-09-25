@@ -1,5 +1,5 @@
 /*
-** $Id$
+** hostcache.cpp
 **
 ** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -23,12 +23,12 @@
 */
 
 #include "hostcache.h"
-#include <QFile>
-#include <QDataStream>
-#include <QStringList>
-#include "network.h"
+
 #include <time.h>
+
+#include "network.h"
 #include "geoiplist.h"
+#include "quazaasettings.h"
 #include "Security/securitymanager.h"
 
 #if QT_VERSION >= 0x050000 
@@ -38,60 +38,10 @@
 #endif
 
 #include <QDir>
-#include "quazaasettings.h"
 
 #include "debug_new.h"
 
 CHostCache hostCache;
-
-template<>
-class qLess <CHostCacheHost*>
-{
-public:
-	inline bool operator()(const CHostCacheHost* l, const CHostCacheHost* r) const
-	{
-		return l->m_tTimestamp > r->m_tTimestamp;
-	}
-};
-
-bool CHostCacheHost::canQuery(QDateTime tNow)
-{
-	if ( tNow.isNull() )
-	{
-		tNow = common::getDateTimeUTC();
-	}
-
-	if ( !m_tAck.isNull() && m_nQueryKey ) // if waiting for an ack, and we have a query key
-	{
-		return false;
-	}
-
-	if ( m_tTimestamp.secsTo( tNow ) > quazaaSettings.Gnutella2.HostCurrent ) // host is not too old
-	{
-		return false;
-	}
-
-	if ( !m_tRetryAfter.isNull() && tNow < m_tRetryAfter ) // honor retry-after
-	{
-		return false;
-	}
-
-	if ( m_tLastQuery.isNull() ) // host not already queried
-	{
-		return true;
-	}
-
-	return m_tLastQuery.secsTo(tNow) > (long)quazaaSettings.Gnutella2.QueryHostThrottle;
-}
-
-void CHostCacheHost::setKey(quint32 nKey, CEndPoint* pHost)
-{
-	m_tAck      = QDateTime();
-	m_nFailures = 0;
-	m_nQueryKey = nKey;
-	m_nKeyTime  = common::getDateTimeUTC();
-	m_nKeyHost  = pHost ? *pHost : Network.GetLocalAddress();
-}
 
 CHostCache::CHostCache():
 	m_tLastSave( common::getDateTimeUTC() ),
