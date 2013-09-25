@@ -39,6 +39,8 @@ protected:
 public:
 	quint32 m_nHubsConnectedG2;
 	quint32 m_nLeavesConnectedG2;
+	quint32 m_nUnknownInitiated;
+	quint32 m_nUnknownIncoming;
 public:
 	CNeighboursConnections(QObject* parent = 0);
 	virtual ~CNeighboursConnections();

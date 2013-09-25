@@ -438,8 +438,8 @@ void CHostCache::load()
 			oStream >> tTimeStamp;
 			oStream >> tLastConnect;
 
-			timeStamp = QDateTime::fromTime_t( tTimeStamp );
 			timeStamp.setTimeSpec( Qt::UTC );
+			timeStamp.setTime_t( tTimeStamp );
 
 			pHost = add( oAddress, timeStamp );
 			if ( pHost )
@@ -448,8 +448,11 @@ void CHostCache::load()
 					tLastConnect = tNow - 60;
 
 				pHost->m_nFailures    = nFailures;
-				pHost->m_tLastConnect = QDateTime::fromTime_t( tLastConnect );
 				pHost->m_tLastConnect.setTimeSpec( Qt::UTC);
+				pHost->m_tLastConnect.setTime_t( tLastConnect );
+
+				Q_ASSERT(pHost->m_tLastConnect.timeSpec() == Qt::UTC);
+				Q_ASSERT(pHost->m_tLastConnect.toTime_t() <= QDateTime::currentDateTimeUtc().toTime_t());
 			}
 
 			--nCount;
@@ -527,6 +530,9 @@ quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
 		{
 			oStream << pHost->m_oAddress;
 			oStream << pHost->m_nFailures;
+
+			Q_ASSERT(pHost->m_tTimestamp.timeSpec() == Qt::UTC);
+			Q_ASSERT(pHost->m_tLastConnect.isValid() && pHost->m_tLastConnect.timeSpec() == Qt::UTC);
 
 			oStream << (quint32)(pHost->m_tTimestamp.toTime_t());
 			oStream << (quint32)(pHost->m_tLastConnect.toTime_t());

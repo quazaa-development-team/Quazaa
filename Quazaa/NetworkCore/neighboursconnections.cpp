@@ -40,7 +40,9 @@ CNeighboursConnections::CNeighboursConnections(QObject* parent) :
 	CNeighboursRouting(parent),
 	m_pController(0),
 	m_nHubsConnectedG2(0),
-	m_nLeavesConnectedG2(0)
+	m_nLeavesConnectedG2(0),
+	m_nUnknownInitiated(0),
+	m_nUnknownIncoming(0)
 {
 }
 CNeighboursConnections::~CNeighboursConnections()
@@ -190,6 +192,8 @@ void CNeighboursConnections::Maintain()
 	quint32 nCoreHubsG2 = 0, nCoreLeavesG2 = 0;
 	quint32 nUnknown = 0;
 
+	m_nUnknownInitiated = m_nUnknownIncoming = 0;
+
 	foreach(CNeighbour * pNode, m_lNodes)
 	{
 		if(pNode->m_nState == nsConnected)
@@ -201,6 +205,11 @@ void CNeighboursConnections::Maintain()
 					{
 						case G2_UNKNOWN:
 							nUnknown++;
+							if( pNode->m_bInitiated )
+								m_nUnknownInitiated++;
+							else
+								m_nUnknownIncoming++;
+
 							break;
 						case G2_HUB:
 							nHubsG2++;
@@ -219,12 +228,22 @@ void CNeighboursConnections::Maintain()
 					break;
 				default:
 					nUnknown++;
+					if( pNode->m_bInitiated )
+						m_nUnknownInitiated++;
+					else
+						m_nUnknownIncoming++;
+
 					break;
 			}
 		}
 		else
 		{
 			nUnknown++;
+
+			if( pNode->m_bInitiated )
+				m_nUnknownInitiated++;
+			else
+				m_nUnknownIncoming++;
 		}
 	}
 
@@ -270,6 +289,7 @@ void CNeighboursConnections::Maintain()
                         }
 						ConnectTo(pHost->m_oAddress, dpG2);
 						pHost->m_tLastConnect = tNow;
+						Q_ASSERT(tNow.timeSpec() == Qt::UTC && pHost->m_tLastConnect.timeSpec() == Qt::UTC);
 					}
 					else
 					{
