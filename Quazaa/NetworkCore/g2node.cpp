@@ -314,7 +314,7 @@ void CG2Node::ParseIncomingHandshake()
     if( securityManager.isAgentBlocked(m_sUserAgent) )
     {
         Send_ConnectError("403 Access Denied, sorry");
-        securityManager.ban(m_oAddress, Security::CSecurity::banSession, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
+		securityManager.ban(m_oAddress, Security::CSecurity::ban2Hours, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
         return;
     }
 
@@ -487,7 +487,7 @@ void CG2Node::ParseOutgoingHandshake()
     if( securityManager.isAgentBlocked(m_sUserAgent) )
     {
         Send_ConnectError("403 Access Denied, sorry");
-        securityManager.ban(m_oAddress, Security::CSecurity::banSession, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
+		securityManager.ban(m_oAddress, Security::CSecurity::ban2Hours, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
         return;
     }
 
@@ -1032,7 +1032,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				{
 					nInnerNext = pPacket->m_nPosition + nInnerLength;
 
-					if(strcmp("GU", szInner) && nInnerLength >= 16)
+					if(strcmp("GU", szInner) == 0 && nInnerLength >= 16)
 					{
 						pGUID = pPacket->ReadGUID();
 					}
@@ -1071,9 +1071,23 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 		}
 		else if(strcmp("CH", szType) == 0)
 		{
-			if(bCompound)
+			QString sVendor;
+
+			if( bCompound )
 			{
-				pPacket->SkipCompound(nLength);
+				while(pPacket->m_nPosition < nNext && pPacket->ReadPacket(&szInner[0], nInnerLength))
+				{
+					nInnerNext = pPacket->m_nPosition + nInnerLength;
+
+					if(strcmp("V", szInner) == 0 && nInnerLength >= 4)
+					{
+						sVendor = pPacket->ReadString(4);
+					}
+
+					pPacket->m_nPosition = nInnerNext;
+				}
+
+				nLength = nNext - pPacket->m_nPosition;
 			}
 
 			if(nLength >= 10)
@@ -1092,9 +1106,16 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 /*				nTs = */pPacket->ReadIntLE<quint32>();
 
-				hostCache.m_pSection.lock();
-				hostCache.add(ep, tNow.addSecs(nDiff));
-				hostCache.m_pSection.unlock();
+				if( !sVendor.isEmpty() && securityManager.isVendorBlocked(sVendor) )
+				{
+					securityManager.ban(ep, Security::CSecurity::ban2Hours, true, QString("Vendor blocked (%1)").arg(sVendor));
+				}
+				else
+				{
+					hostCache.m_pSection.lock();
+					hostCache.add(ep, tNow.addSecs(nDiff));
+					hostCache.m_pSection.unlock();
+				}
 			}
 		}
 		else if(strcmp("TS", szType) == 0)
