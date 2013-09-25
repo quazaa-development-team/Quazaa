@@ -196,9 +196,11 @@ void WidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 		return;
 
 	Neighbours.m_pSection.lock();
-	if( Neighbours.NeighbourExists(pNode) )
+	if ( Neighbours.NeighbourExists(pNode) )
 	{
-		systemLog.postLog(LogSeverity::Information, qPrintable(tr("Closing connection to neighbour %s")), qPrintable(pNode->m_oAddress.toStringWithPort()));
+		systemLog.postLog( LogSeverity::Information, Components::Network,
+		                   qPrintable( tr( "Closing connection to neighbour %s" ) ),
+		                   qPrintable( pNode->m_oAddress.toStringWithPort() ) );
 		pNode->Close();
 	}
 	Neighbours.m_pSection.unlock();

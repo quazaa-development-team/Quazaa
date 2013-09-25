@@ -173,6 +173,9 @@ int main(int argc, char *argv[])
 	icon.addFile( ":/Resource/Quazaa128.png" );
 	qApp->setWindowIcon( icon );
 
+	// Initialize system log component translations
+	systemLog.start();
+
 	// Setup Qt elements of signal queue necessary for operation
 	signalQueue.setup();
 

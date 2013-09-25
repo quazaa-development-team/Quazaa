@@ -276,8 +276,11 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 
 		// we already know QA GUID
 
-		systemLog.postLog(LogSeverity::Debug, "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds, %s).",
-						  oFromIp.toString().toLocal8Bit().constData(), int(tAdjust), nHubs, nLeaves, nSuggestedHubs, nRetryAfter, (sVendor.isEmpty() ? "unknown" : qPrintable(sVendor)));
+		systemLog.postLog( LogSeverity::Debug, Components::Network,
+		                   "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds, %s).",
+		                   oFromIp.toString().toLocal8Bit().constData(), int(tAdjust), nHubs,
+		                   nLeaves, nSuggestedHubs, nRetryAfter,
+		                   ( sVendor.isEmpty() ? "unknown" : qPrintable(sVendor ) ) );
 
 		pSearch->m_nHubs += nHubs;
 		pSearch->m_nLeaves += nLeaves;

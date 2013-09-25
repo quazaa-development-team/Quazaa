@@ -491,7 +491,9 @@ void CDatagrams::__FlushSendCache()
 
     if( nMaxPPS <= 0 )
     {
-        systemLog.postLog(LogSeverity::Debug, "UDP: PPS limit reached, ACKS: %d, Packets: %d, Average PPS: %u / %u", m_AckCache.size(), m_SendCache.size(), meter.AvgUsage(), meter.Usage());
+        systemLog.postLog( LogSeverity::Debug, Components::Network,
+		                   "UDP: PPS limit reached, ACKS: %d, Packets: %d, Average PPS: %u / %u",
+		                   m_AckCache.size(), m_SendCache.size(), meter.AvgUsage(), meter.Usage() );
         return;
     }
 
@@ -1087,7 +1089,9 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 	// just in case
 	if( pQuery->m_oEndpoint == Network.m_oAddress )
 	{
-		systemLog.postLog(LogSeverity::Error, "Q2 received via UDP and return address points to us, changing return address to source %s", qPrintable(addr.toStringWithPort()));
+		systemLog.postLog( LogSeverity::Error, Components::Network,
+		                   "Q2 received via UDP and return address points to us, changing return address to source %s",
+		                   qPrintable( addr.toStringWithPort() ) );
 		G2Packet* pUDP = G2Packet::New("UDP");
 		pUDP->WriteHostAddress(&addr);
 		pUDP->WriteIntLE<quint32>(0);

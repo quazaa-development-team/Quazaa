@@ -46,14 +46,16 @@ CDownloads::CDownloads(QObject *parent) :
 
 void CDownloads::add(CQueryHit *pHit)
 {
-	ASSUME_LOCK(Downloads.m_pSection);
+	ASSUME_LOCK( Downloads.m_pSection );
 
-	CDownload* pDownload = new CDownload(pHit);
-	pDownload->moveToThread(&TransfersThread);
-	m_lDownloads.append(pDownload);
+	CDownload* pDownload = new CDownload( pHit );
+	pDownload->moveToThread( &TransfersThread );
+	m_lDownloads.append( pDownload );
 	pDownload->saveState();
-	systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Queued download job for %s")), qPrintable(pDownload->m_sDisplayName));
-	emit downloadAdded(pDownload);
+	systemLog.postLog( LogSeverity::Notice, Components::Downloads,
+	                   qPrintable( tr( "Queued download job for %s" ) ),
+	                   qPrintable( pDownload->m_sDisplayName ) );
+	emit downloadAdded( pDownload );
 }
 
 bool CDownloads::exists(CDownload *pDownload)
@@ -88,7 +90,9 @@ void CDownloads::start()
 				pDownload->moveToThread(&TransfersThread);
 				m_lDownloads.append(pDownload);
 				emit downloadAdded(pDownload);
-				systemLog.postLog(LogSeverity::Notice, qPrintable(tr("Loaded download: %s")), qPrintable(pDownload->m_sDisplayName));
+				systemLog.postLog( LogSeverity::Notice, Components::Downloads,
+				                   qPrintable( tr( "Loaded download: %s" ) ),
+				                   qPrintable( pDownload->m_sDisplayName ) );
 			}
 		}
 	}

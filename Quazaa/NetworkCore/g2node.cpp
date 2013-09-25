@@ -122,7 +122,9 @@ void CG2Node::OnConnect()
 {
 	//QMutexLocker l(&Neighbours.m_pSection);
 
-	systemLog.postLog(LogSeverity::Information, "Connection with %s established, handshaking...", qPrintable(m_oAddress.toString()));
+	systemLog.postLog ( LogSeverity::Information, Components::G2,
+	                    "Connection with %s established, handshaking...",
+	                    qPrintable( m_oAddress.toString() ) );
 
 	m_nState = nsHandshaking;
 	emit NodeStateChanged();
@@ -1353,9 +1355,11 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 
 	CQueryPtr pQuery = CQuery::FromPacket(pPacket);
 
-	if( pQuery.isNull() )
+	if ( pQuery.isNull() )
 	{
-		systemLog.postLog(LogSeverity::Error, "Received malformatted query from neighbour %s, ignoring.", qPrintable(m_oAddress.toString()));
+		systemLog.postLog( LogSeverity::Error,  Components::G2,
+		                   "Received malformatted query from neighbour %s, ignoring.",
+		                   qPrintable( m_oAddress.toString() ) );
 		return;
 	}
 

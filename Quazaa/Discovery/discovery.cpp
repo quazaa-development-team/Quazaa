@@ -64,6 +64,8 @@ CDiscovery::CDiscovery(QObject *parent) :
  */
 CDiscovery::~CDiscovery()
 {
+	delete[] m_pActive;
+
 	Q_ASSERT( m_mServices.empty() );
 
 	// TODO: Watch this closely: The Discovery thread might not like it to be deleted while still

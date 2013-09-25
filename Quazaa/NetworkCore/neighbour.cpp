@@ -32,7 +32,7 @@
 #include "debug_new.h"
 
 CNeighbour::CNeighbour(QObject* parent) :
-	CCompressedConnection(parent)
+    CCompressedConnection(parent)
 {
 	m_nProtocol = dpNull;
 
@@ -54,21 +54,25 @@ CNeighbour::~CNeighbour()
 
 void CNeighbour::OnTimer(quint32 tNow)
 {
-	if(m_nState < nsConnected)
+	if ( m_nState < nsConnected )
 	{
-		if(tNow - m_tConnected > quazaaSettings.Connection.TimeoutConnect)
+		if ( tNow - m_tConnected > quazaaSettings.Connection.TimeoutConnect )
 		{
-			if(m_bInitiated)
+			if ( m_bInitiated )
 			{
 				hostCache.m_pSection.lock();
-				hostCache.onFailure(m_oAddress);
+				hostCache.onFailure( m_oAddress );
 				hostCache.m_pSection.unlock();
 			}
 
-			if( m_nState == nsConnecting )
-				systemLog.postLog(LogSeverity::Information, qPrintable(tr("Timed out connecting to %s.")), qPrintable(m_oAddress.toStringWithPort()));
+			if ( m_nState == nsConnecting )
+				systemLog.postLog( LogSeverity::Information,  Components::Network,
+				                   qPrintable( tr( "Timed out connecting to %s." ) ),
+				                   qPrintable( m_oAddress.toStringWithPort() ) );
 			else
-				systemLog.postLog(LogSeverity::Information, qPrintable(tr("Timed out handshaking with %s.")), qPrintable(m_oAddress.toStringWithPort()));
+				systemLog.postLog( LogSeverity::Information,  Components::Network,
+				                   qPrintable( tr( "Timed out handshaking with %s." ) ),
+				                   qPrintable( m_oAddress.toStringWithPort() ) );
 
 			Close();
 			return;
@@ -109,39 +113,47 @@ void CNeighbour::OnDisconnect()
 }
 void CNeighbour::OnError(QAbstractSocket::SocketError e)
 {
-	if(e == QAbstractSocket::RemoteHostClosedError)
+	if ( e == QAbstractSocket::RemoteHostClosedError )
 	{
-		if( m_nState != nsHandshaking )
-			systemLog.postLog(LogSeverity::Information, "Neighbour %s dropped connection unexpectedly.", qPrintable(m_oAddress.toStringWithPort()));
-        else
-        {
-            systemLog.postLog(LogSeverity::Information, "Neighbour %s dropped connection during handshake.", qPrintable(m_oAddress.toStringWithPort()));
+		if ( m_nState != nsHandshaking )
+			systemLog.postLog( LogSeverity::Information, Components::Network,
+			                   "Neighbour %s dropped connection unexpectedly.",
+			                   qPrintable( m_oAddress.toStringWithPort() ) );
+		else
+		{
+			systemLog.postLog( LogSeverity::Information, Components::Network,
+			                   "Neighbour %s dropped connection during handshake.",
+			                   qPrintable( m_oAddress.toStringWithPort() ) );
 
-            if( m_bInitiated )
-            {
-                hostCache.m_pSection.lock();
-                hostCache.remove(m_oAddress);
-                hostCache.m_pSection.unlock();
+			if ( m_bInitiated )
+			{
+				hostCache.m_pSection.lock();
+				hostCache.remove( m_oAddress );
+				hostCache.m_pSection.unlock();
 
-                // for some bad clients that drop connections too early
-                securityManager.ban(m_oAddress, Security::CSecurity::ban30Mins, true, "Dropped handshake");
-            }
-        }
+				// for some bad clients that drop connections too early
+				securityManager.ban( m_oAddress, Security::CSecurity::ban30Mins,
+				                     true, "Dropped handshake" );
+			}
+		}
 	}
 	else
 	{
-		systemLog.postLog(LogSeverity::Error, "Neighbour %s dropped connection unexpectedly (socket error: %s).", qPrintable(m_oAddress.toStringWithPort()), qPrintable(m_pSocket->errorString()));
+		systemLog.postLog( LogSeverity::Error, Components::Network,
+		                   "Neighbour %s dropped connection unexpectedly (socket error: %s).",
+		                   qPrintable( m_oAddress.toStringWithPort() ),
+		                   qPrintable( m_pSocket->errorString() ) );
 
-        if( m_bInitiated )
-        {
-            hostCache.m_pSection.lock();
-            hostCache.onFailure(m_oAddress);
-            hostCache.m_pSection.unlock();
-        }
+		if ( m_bInitiated )
+		{
+			hostCache.m_pSection.lock();
+			hostCache.onFailure( m_oAddress );
+			hostCache.m_pSection.unlock();
+		}
 	}
 
-    Neighbours.m_pSection.lock();
-    delete this;
-    Neighbours.m_pSection.unlock();
+	Neighbours.m_pSection.lock();
+	delete this;
+	Neighbours.m_pSection.unlock();
 }
 

@@ -137,13 +137,16 @@ void CHandshakes::SetupThread()
 
 	bool bOK = QTcpServer::listen(QHostAddress::Any, Network.GetLocalAddress().port());
 
-	if(bOK)
+	if ( bOK )
 	{
-		systemLog.postLog(LogSeverity::Notice, "Handshakes: listening on port %d.", Network.GetLocalAddress().port());
+		systemLog.postLog( LogSeverity::Notice, Components::G2,
+		                   "Handshakes: listening on port %d.", Network.GetLocalAddress().port() );
 	}
 	else
 	{
-		systemLog.postLog(LogSeverity::Error, "Handshakes: cannot listen on port %d, incoming connections will be unavailable.", Network.GetLocalAddress().port());
+		systemLog.postLog( LogSeverity::Error, Components::G2,
+		                   "Handshakes: cannot listen on port %d, incoming connections will be unavailable.",
+		                   Network.GetLocalAddress().port() );
 	}
 
 	m_pTimer = new QTimer(this);
