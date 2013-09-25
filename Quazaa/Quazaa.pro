@@ -88,18 +88,16 @@ MAJOR = 0
 MINOR = 1
 VERSION_HEADER = $$PWD/version.h
 
+versiont.target = $$VERSION_HEADER
 CONFIG(debug, debug|release): versiont.commands = cd $$PWD && $$OUT_PWD/../VersionTool/debug/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
 CONFIG(release, debug|release): versiont.commands = cd $$PWD && $$OUT_PWD/../VersionTool/release/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
 win32-msvc* {
 	versiont.commands = $$replace(versiont.commands, '/', '\\') # for nmake
 }
+versiont.depends = FORCE
 QMAKE_EXTRA_TARGETS += versiont
+PRE_TARGETDEPS += $$VERSION_HEADER
 QMAKE_CLEAN += $$VERSION_HEADER
-
-versionthook.depends = versiont
-CONFIG(debug,debug|release):versionthook.target = Makefile.Debug
-CONFIG(release,debug|release):versionthook.target = Makefile.Release
-QMAKE_EXTRA_TARGETS += versionthook
 
 # Language stuff
 isEmpty(QMAKE_LRELEASE) {

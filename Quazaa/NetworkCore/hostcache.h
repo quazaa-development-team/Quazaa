@@ -64,7 +64,7 @@ public:
 		m_nQueryKey = 0;
 		m_nFailures = 0;
 		m_nKeyTime = m_tAck = m_tLastConnect =
-					 m_tLastQuery = m_tRetryAfter = QDateTime::fromMSecsSinceEpoch(0).toUTC();
+					 m_tLastQuery = m_tRetryAfter = QDateTime::fromTime_t(86400).toUTC();
 		Q_ASSERT(m_tLastConnect.timeSpec() == Qt::UTC);
 	}
 

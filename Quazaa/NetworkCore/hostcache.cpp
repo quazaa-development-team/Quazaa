@@ -362,7 +362,7 @@ CHostCacheHost* CHostCache::getConnectable(QDateTime tNow, QList<CHostCacheHost*
 				continue;
 			}
 
-			if ( pHost->m_tLastConnect.isNull() ||
+			if ( pHost->m_tLastConnect.isValid() ||
 			     pHost->m_tLastConnect.secsTo( tNow ) > ( quazaaSettings.Gnutella.ConnectThrottle
 			         + pHost->m_nFailures * quazaaSettings.Connection.FailurePenalty ) )
 			{
