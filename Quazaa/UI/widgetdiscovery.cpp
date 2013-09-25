@@ -194,20 +194,6 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 	QMainWindow::keyPressEvent( e );
 }
 
-void WidgetDiscovery::setVisibility(CNetworkType networks, bool bVisible)
-{
-	for ( quint32 i = m_pDiscoveryList->rowCount(); i > 0; )
-	{
-		--i;
-
-		if ( m_pDiscoveryList->nodeFromRow( i )->networkType().isNetwork( networks ) )
-		{
-            // I didn't see a setRowVisible so I just gave the negated value to hidden -smokex
-            tableViewDiscovery->setRowHidden( i, !bVisible );
-		}
-	}
-}
-
 void WidgetDiscovery::update()
 {
 	// TODO: improve

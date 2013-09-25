@@ -61,8 +61,7 @@ public:
 
 protected:
 	virtual void changeEvent(QEvent* e);
-	virtual void keyPressEvent(QKeyEvent *event);
-    void setVisibility(CNetworkType networks, bool bVisible);
+    virtual void keyPressEvent(QKeyEvent *event);
 
 public slots:
 	void update();
