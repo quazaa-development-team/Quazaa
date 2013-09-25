@@ -60,8 +60,9 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 	nState          = pNode->m_nState;
 	nType           = G2_UNKNOWN;
 	sUserAgent      = pNode->m_sUserAgent;
-	sCountry        = oAddress.country();
-	iCountry        = QIcon(":/Resource/Flags/" + sCountry.toLower() + ".png");
+    sCountryCode    = oAddress.country();
+    sCountry        = geoIP.countryNameFromCode( sCountryCode );
+    iCountry        = QIcon(":/Resource/Flags/" + sCountryCode.toLower() + ".png");
 
 	switch( pNode->m_nProtocol )
 	{
@@ -263,7 +264,7 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 
 		case COUNTRY:
 		// TODO: would it be more intelligent to store this in a variable instead of getting it from geoIP each time?
-			return geoIP.countryNameFromCode( sCountry );
+            return sCountry;
 	}
 
 	return QVariant();
@@ -318,8 +319,8 @@ bool CNeighboursTableModel::Neighbour::lessThan( int col,
 		return sUserAgent < pOther->sUserAgent;
 
 	case COUNTRY:
-		return geoIP.countryNameFromCode( sCountry ) <
-				geoIP.countryNameFromCode( pOther->sCountry );
+        return geoIP.countryNameFromCode( sCountry ) <
+                geoIP.countryNameFromCode( pOther->sCountry );
 	default:
 		return false;
 	}
