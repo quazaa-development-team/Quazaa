@@ -111,7 +111,7 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 		ui->lineEditHours->setEnabled( true );
 		ui->lineEditDays->setEnabled( true );
 
-		tExpire -= securityManager.getTNowUTC();
+		tExpire -= common::getTNowUTC();
 
 		tExpire /= 60; // minutes now
 		ui->lineEditMinutes->setText( QString::number( tExpire % 60 ) );
@@ -227,7 +227,7 @@ void DialogAddRule::on_pushButtonOK_clicked()
 			tExpire += ui->lineEditMinutes->text().toUShort() * 60;
 			tExpire += ui->lineEditHours->text().toUShort() * 3600;
 			tExpire += ui->lineEditDays->text().toUShort() * 216000;
-			tExpire += securityManager.getTNowUTC();
+			tExpire += common::getTNowUTC();
 		}
 		pRule->m_tExpire = tExpire;
 

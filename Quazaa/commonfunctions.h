@@ -30,6 +30,7 @@
 
 #include <QList>
 #include <QFile>
+#include <QDateTime>
 #include <QReadWriteLock>
 
 //#define NO_OF_REGISTRATIONS 8
@@ -84,6 +85,18 @@ namespace common
 	 * @return bClear ? 0 : a random port not known to be used by other applications
 	 */
 	quint16 getRandomUnusedPort(bool bClear = false);
+
+	inline quint32 getTNowUTC()
+	{
+		return QDateTime::currentDateTimeUtc().toTime_t();
+	}
+
+	inline QDateTime getDateTimeUTC()
+	{
+		QDateTime tNow = QDateTime::currentDateTimeUtc();
+		Q_ASSERT( tNow.timeSpec() == Qt::UTC );
+		return tNow;
+	}
 
 //    struct registeredSet
 //    {
