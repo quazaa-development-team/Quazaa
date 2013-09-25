@@ -189,7 +189,7 @@ void SkinSettings::setAeroSkin()
 
 	genericHeader = ".QFrame { border-image: url(:/Resource/Aero/header.png) stretch; border: 2px solid transparent; } QLabel { color: white; font-size: 15px; font-weight: bold; }";
 	dialogHeader = ".QFrame { border-image: url(:/Resource/Aero/dialogHeader.png) stretch; border: 2px solid transparent; } QLabel { color: black; font-size: 15px; font-weight: bold; }";
-	taskHeader = "QToolButton { border-image: url(:/Resource/Aero/taskHeader.png); border: 2px solid transparent; background-color: transparent; font-weight: 100; color: white; }";
+    taskHeader = "QToolButton { border-image: url(:/Resource/Aero/taskHeader.png); border: 2px solid transparent; background-color: transparent; font-weight: 100; color: white; } QToolButton:pressed { border-image: url(:/Resource/Aero/taskHeaderPressed.png); }";
 
 	// Media
 	seekSlider = "QSlider::groove:horizontal { border: 1px solid rgb(82, 111, 174); border-image: none; height: 16px; background: black; margin: 3px 0; } QSlider::handle:horizontal { background: qlineargradient(spread:pad, x1:0.510526, y1:0, x2:0.511, y2:1, stop:0 rgba(206, 215, 255, 255), stop:0.184211 rgba(82, 107, 192, 255), stop:0.342105 rgba(55, 80, 167, 255), stop:0.484211 rgba(17, 26, 148, 255), stop:0.636842 rgba(0, 0, 0, 255), stop:0.8 rgba(24, 46, 171, 255), stop:0.984211 rgba(142, 142, 255, 255)); border: 1px solid rgb(82, 111, 174); border-image: none; border-radius: 0px; width: 4px; margin: 1px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */ }";
