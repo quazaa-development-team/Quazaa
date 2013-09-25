@@ -71,6 +71,7 @@ INCLUDEPATH += 3rdparty \
 	Chat/IRC/wizard \
 	Discovery \
 	FileFragments \
+	HostCache \
 	Misc \
 	Models \
 	NetworkCore \
@@ -277,6 +278,7 @@ HEADERS += \
 	FileFragments/Range.hpp \
 	FileFragments/Ranges.hpp \
 	geoiplist.h \
+	HostCache/hostcache.h \
 	Metalink/magnetlink.h \
 	Metalink/metalinkhandler.h \
 	Metalink/metalink4handler.h \
@@ -285,7 +287,9 @@ HEADERS += \
 	Misc/timedsignalqueue.h \
 	Misc/timeoutwritelocker.h \
 	Models/categorynavigatortreemodel.h \
+	Models/discoverytablemodel.h \
 	Models/downloadstreemodel.h \
+	Models/downloadspeermodel.h \
 	Models/ircuserlistmodel.h \
 	Models/neighbourstablemodel.h \
 	Models/searchtreemodel.h \
@@ -301,7 +305,6 @@ HEADERS += \
 	NetworkCore/handshake.h \
 	NetworkCore/handshakes.h \
 	NetworkCore/Hashes/hash.h \
-	NetworkCore/hostcache.h \
 	NetworkCore/hubhorizon.h \
 	NetworkCore/managedsearch.h \
 	NetworkCore/neighbour.h \
@@ -361,6 +364,7 @@ HEADERS += \
 	UI/dialogircsettings.h \
 	UI/dialoglanguage.h \
 	UI/dialoglibrarysearch.h \
+	UI/dialogneighbourinfo.h \
 	UI/dialogopentorrent.h \
 	UI/dialogpreviewprepare.h \
 	UI/dialogprivatemessages.h \
@@ -407,10 +411,7 @@ HEADERS += \
 	UI/winmain.h \
 	UI/wizardircconnection.h \
 	UI/wizardquickstart.h \
-	UI/wizardtreewidget.h \
-    Models/discoverytablemodel.h \
-    UI/dialogneighbourinfo.h \
-    Models/downloadspeermodel.h
+	UI/wizardtreewidget.h
 
 win32 {
 	HEADERS += \
@@ -465,6 +466,7 @@ SOURCES += \
 	Discovery/gwc.cpp \
 	Discovery/networktype.cpp \
 	geoiplist.cpp \
+	HostCache/hostcache.cpp \
 	main.cpp \
 	Misc/fileiconprovider.cpp \
 	Misc/networkiconprovider.cpp \
@@ -473,7 +475,9 @@ SOURCES += \
 	Metalink/metalinkhandler.cpp \
 	Metalink/metalink4handler.cpp \
 	Models/categorynavigatortreemodel.cpp \
+	Models/discoverytablemodel.cpp \
 	Models/downloadstreemodel.cpp \
+	Models/downloadspeermodel.cpp \
 	Models/ircuserlistmodel.cpp \
 	Models/neighbourstablemodel.cpp \
 	Models/searchtreemodel.cpp \
@@ -489,7 +493,6 @@ SOURCES += \
 	NetworkCore/handshake.cpp \
 	NetworkCore/handshakes.cpp \
 	NetworkCore/Hashes/hash.cpp \
-	NetworkCore/hostcache.cpp \
 	NetworkCore/hubhorizon.cpp \
 	NetworkCore/managedsearch.cpp \
 	NetworkCore/neighbour.cpp \
@@ -548,6 +551,7 @@ SOURCES += \
 	UI/dialogircsettings.cpp \
 	UI/dialoglanguage.cpp \
 	UI/dialoglibrarysearch.cpp \
+	UI/dialogneighbourinfo.cpp \
 	UI/dialogopentorrent.cpp \
 	UI/dialogpreviewprepare.cpp \
 	UI/dialogprivatemessages.cpp \
@@ -593,10 +597,7 @@ SOURCES += \
 	UI/winmain.cpp \
 	UI/wizardircconnection.cpp \
 	UI/wizardtreewidget.cpp \
-	UI/wizardquickstart.cpp \
-    Models/discoverytablemodel.cpp \
-    UI/dialogneighbourinfo.cpp \
-    Models/downloadspeermodel.cpp
+	UI/wizardquickstart.cpp
 
 win32 {
 	SOURCES += \
@@ -635,6 +636,7 @@ FORMS += \
 	UI/dialogircsettings.ui \
 	UI/dialoglanguage.ui \
 	UI/dialoglibrarysearch.ui \
+	UI/dialogneighbourinfo.ui \
 	UI/dialogopentorrent.ui \
 	UI/dialogpreviewprepare.ui \
 	UI/dialogprivatemessages.ui \
@@ -674,8 +676,7 @@ FORMS += \
 	UI/widgetuploads.ui \
 	UI/winmain.ui \
 	UI/wizardquickstart.ui \
-	UI/wizardircconnection.ui \
-    UI/dialogneighbourinfo.ui
+	UI/wizardircconnection.ui
 
 TRANSLATIONS = \
 	Language/quazaa_af.ts \
