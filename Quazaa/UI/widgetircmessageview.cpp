@@ -377,8 +377,7 @@ void WidgetIrcMessageView::applySettings()
     d.formatter->setTimeStampFormat(quazaaSettings.Chat.TimestampFormat);
 	d.formatter->setStripNicks(quazaaSettings.Chat.StripNicks);
 
-	d.textBrowser->document()->setMaximumBlockCount(quazaaSettings.Chat.MaxBlockCount);
-	d.topicLabel->setProperty("gradient", quazaaSettings.Chat.Layout == "tree");
+    d.textBrowser->document()->setMaximumBlockCount(quazaaSettings.Chat.MaxBlockCount);
 
     QTextDocument* doc = d.topicLabel->findChild<QTextDocument*>();
 	if (doc)

@@ -54,6 +54,7 @@ WidgetIrcMain::WidgetIrcMain(QWidget* parent) : QWidget(parent),
 
     QVBoxLayout *centralLayout = new QVBoxLayout(this);
     setLayout(centralLayout);
+    centralLayout->setContentsMargins(0,0,0,0);
     centralLayout->addWidget(splitterIrcMain);
 
 	if (QtDockTile::isAvailable())
