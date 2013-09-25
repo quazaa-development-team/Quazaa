@@ -22,8 +22,6 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "hostcache.h"
-
 #include <time.h>
 
 #include "network.h"
@@ -38,6 +36,8 @@
 #endif
 
 #include <QDir>
+
+#include "hostcache.h"
 
 #include "debug_new.h"
 

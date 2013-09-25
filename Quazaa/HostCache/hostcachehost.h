@@ -26,6 +26,8 @@
 #define HOSTCACHEHOST_H
 
 #include "types.h"
+#include "network.h"
+#include "quazaasettings.h"
 
 class CHostCacheHost
 {
@@ -48,20 +50,11 @@ public:
 	bool            m_bCountryObtained;
 
 public:
-	CHostCacheHost() :
-	    m_bCountryObtained( false )
-	{
-		m_nQueryKey = 0;
-		m_nFailures = 0;
-		m_nKeyTime = m_tAck = m_tLastConnect =
-					 m_tLastQuery = m_tRetryAfter = QDateTime::fromTime_t(86400).toUTC();
-		Q_ASSERT(m_tLastConnect.timeSpec() == Qt::UTC);
-	}
+	CHostCacheHost();
+	~CHostCacheHost();
 
 	bool canQuery(QDateTime tNow = common::getDateTimeUTC());
 	void setKey(quint32 nKey, CEndPoint* pHost = 0);
 };
-
-typedef QList<CHostCacheHost*>::iterator CHostCacheIterator;
 
 #endif // HOSTCACHEHOST_H

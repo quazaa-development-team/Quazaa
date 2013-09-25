@@ -26,7 +26,8 @@
 #define HOSTCACHE_H
 
 #include <QMutex>
-#include "HostCache/hostcachehost.h"
+
+#include "hostcachehost.h"
 
 // Increment this if there have been made changes to the way of storing security rules.
 #define HOST_CACHE_CODE_VERSION	6
@@ -35,6 +36,8 @@
 // 6 - Fixed Hosts having an early date and changed time storage from QDateTime to quint32.
 
 class QFile;
+
+typedef QList<CHostCacheHost*>::iterator CHostCacheIterator;
 
 class CHostCache
 {

@@ -22,9 +22,7 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "network.h"
 #include "hostcachehost.h"
-#include "quazaasettings.h"
 
 template<>
 class qLess <CHostCacheHost*>
@@ -35,6 +33,21 @@ public:
 		return l->m_tTimestamp > r->m_tTimestamp;
 	}
 };
+
+CHostCacheHost::CHostCacheHost() :
+    m_bCountryObtained( false )
+{
+	m_nQueryKey = 0;
+	m_nFailures = 0;
+	m_nKeyTime = m_tAck = m_tLastConnect =
+				 m_tLastQuery = m_tRetryAfter = QDateTime::fromTime_t(86400).toUTC();
+	Q_ASSERT(m_tLastConnect.timeSpec() == Qt::UTC);
+}
+
+CHostCacheHost::~CHostCacheHost()
+{
+
+}
 
 bool CHostCacheHost::canQuery(QDateTime tNow)
 {
