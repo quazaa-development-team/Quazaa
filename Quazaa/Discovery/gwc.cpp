@@ -94,8 +94,7 @@ void CGWC::doQuery() throw()
 	// inform user
 	postLog( LogSeverity::Debug, QString( "Querying GWC: %1" ).arg( oURL.toString() ) );
 
-	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
-	setLastAccessed( tNow );
+	setLastAccessed( common::getTNowUTC() );
 
 	// generate request
 	m_pRequest = new QNetworkRequest( oURL );
@@ -162,8 +161,7 @@ void CGWC::doUpdate() throw()
 	// inform user
 	postLog( LogSeverity::Debug, QString( "Updating GWC: %1" ).arg( oURL.toString() ) );
 
-	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
-	setLastAccessed( tNow );
+	setLastAccessed( common::getTNowUTC() );
 
 	// generate request
 	m_pRequest = new QNetworkRequest( oURL );
@@ -288,6 +286,10 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 									}
 								}
 							}
+							else
+							{
+								postLog( LogSeverity::Warning, "Skipped line.", true );
+							}
 						}
 						else if ( lp[1].toLower() == "update" )
 						{
@@ -306,7 +308,19 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 									sWarning = lp[3];
 								}
 							}
+							else
+							{
+								postLog( LogSeverity::Warning, "Skipped line.", true );
+							}
 						}
+						else
+						{
+							postLog( LogSeverity::Warning, "Skipped line.", true );
+						}
+					}
+					else
+					{
+						postLog( LogSeverity::Warning, "Skipped line.", true );
 					}
 				}
 				else if ( lp[0] == "H" || lp[0] == "h" )

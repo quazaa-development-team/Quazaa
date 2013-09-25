@@ -32,6 +32,7 @@
 #include <QMetaType>
 
 #include "quazaasettings.h"
+#include "commonfunctions.h"
 
 #include "debug_new.h"
 
@@ -97,7 +98,7 @@ void CSearchManager::OnTimer()
 
 	quint32 nPacketsLeft = PacketsPerSec;
 	quint32 nPacketsPerSearch = qMin(4u, nPacketsLeft / nSearches + 1u);
-	QDateTime tNow = QDateTime::currentDateTimeUtc();
+	QDateTime tNow = common::getDateTimeUTC();
 
 	quint32 nExecuted = 0;
 
@@ -151,7 +152,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		quint32 nRetryAfter = 0;
 		qint64 tAdjust = 0;
 		QString sVendor;
-		QDateTime tNow = QDateTime::currentDateTimeUtc();
+		QDateTime tNow = common::getDateTimeUTC();
 
 		quint32 nHubs = 0, nLeaves = 0, nSuggestedHubs = 0;
 
@@ -230,7 +231,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 			}
 			else if(strcmp("TS", szType) == 0 && nLength >= 4)
 			{
-				tAdjust = QDateTime::currentDateTimeUtc().toTime_t() - pPacket->ReadIntLE<quint32>();
+				tAdjust = common::getTNowUTC() - pPacket->ReadIntLE<quint32>();
 			}
 			else if(strcmp("RA", szType) == 0 && nLength >= 2)
 			{

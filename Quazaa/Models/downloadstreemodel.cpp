@@ -450,7 +450,7 @@ CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownl
 
 	connect(downloadSource, SIGNAL(bytesReceived(quint64,quint64)), this, SLOT(onBytesReceived(quint64,quint64)));
 
-	static int test = (srand(QDateTime::currentMSecsSinceEpoch()), 1);
+	//static int test = (srand(QDateTime::currentMSecsSinceEpoch()), 1);
 	onBytesReceived(common::getRandomNum<quint64>(0, ((CDownloadItem*)parent)->m_nSize), common::getRandomNum<quint64>(100, 1024 * 1024));
 }
 

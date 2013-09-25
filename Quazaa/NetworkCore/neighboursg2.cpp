@@ -31,6 +31,7 @@
 
 #include "quazaasettings.h"
 #include "quazaaglobals.h"
+#include "commonfunctions.h"
 
 #include "Discovery/discovery.h"
 
@@ -188,7 +189,7 @@ void CNeighboursG2::DispatchKHL()
 
 	G2Packet* pKHL = G2Packet::New("KHL");
 
-	QDateTime tNow = QDateTime::currentDateTimeUtc();
+	QDateTime tNow = common::getDateTimeUTC();
 
 	pKHL->WritePacket("TS", 4)->WriteIntLE<quint32>(tNow.toTime_t());
 
@@ -405,7 +406,7 @@ G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour*
 {
 	G2Packet* pPacket = G2Packet::New("QA", true);
 
-	pPacket->WritePacket("TS", 4)->WriteIntLE<quint32>(QDateTime::currentDateTimeUtc().toTime_t());
+	pPacket->WritePacket("TS", 4)->WriteIntLE<quint32>( common::getTNowUTC() );
 	pPacket->WritePacket("FR", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
 	pPacket->WritePacket("RA", 4)->WriteIntLE<quint32>(30 + 30 * m_nHubsConnectedG2);
 	pPacket->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);

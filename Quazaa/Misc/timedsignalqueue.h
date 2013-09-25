@@ -1,16 +1,15 @@
 ﻿#ifndef TIMEDSIGNALQUEUE_H
 #define TIMEDSIGNALQUEUE_H
 
-#include <QBasicTimer>
 #include <QElapsedTimer>
-#include <QList>
+#include <QBasicTimer>
+#include <QTimerEvent>
+#include <QDateTime>
 #include <QMultiMap>
 #include <QMutex>
-#include <QObject>
-#include <QTimerEvent>
 #include <QUuid>
 
-#include <queue>
+class CTimedSignalQueue;
 
 /* ---------------------------------------------------------------------------------------------- */
 /* ---------------------------------------- CTimerObject ---------------------------------------- */
@@ -38,25 +37,25 @@ private:
 		QGenericArgument val9;
 	} m_sSignal; // String based Qt4 signal
 
-	QUuid	m_oUUID;
-	quint64	m_tTime;
-	quint64	m_tInterval;
-	bool	m_bMultiShot;
+	QUuid   m_oUUID;
+	quint64 m_tTime;      // relative time in ms as provided by getRelativeTimeInMs()
+	quint64 m_tInterval;  // repetition interval in ms
+	bool    m_bMultiShot; // repeat after m_tInterval yes/no
 
 private:
 	CTimerObject(QObject* obj, const char* member, quint64 tInterval, bool bMultiShot,
-				 QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
-				 QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
-				 QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
-				 QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
-				 QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+	             QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+	             QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+	             QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+	             QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+	             QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
 	CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
-				 QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
-				 QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
-				 QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
-				 QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
-				 QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+	             QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+	             QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+	             QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+	             QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+	             QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
 	CTimerObject(const CTimerObject* const pTimerObject);
 
@@ -73,24 +72,32 @@ private:
 /* ---------------------------------------------------------------------------------------------- */
 class CTimedSignalQueue : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 private:
-	typedef QMultiMap<quint64, CTimerObject*> CSignalQueue;
-	typedef QMultiMap<quint64, CTimerObject*>::iterator CSignalQueueIterator;
+	// Key: The relative time as provided by getRelativeTimeInMs()
+	typedef QMultiMap<quint64, CTimerObject*>           TSignalQueue;
+	typedef QMultiMap<quint64, CTimerObject*>::iterator TSignalQueueIterator;
 
-	static QElapsedTimer m_oTime; // TODO: use UTC time
-	QBasicTimer			m_oTimer;
+	static QElapsedTimer m_oTime;                // the relative time since the timer was started
+	static quint64       m_tTimerStartUTCInMSec; // ms since 1970-01-01T00:00:00 UTC (timer start)
+
+	QBasicTimer			m_oTimer;                // for timer events
 	QMutex				m_pSection;
+	quint64				m_nPrecision;            // the interval in ms between two timer events
+	TSignalQueue		m_QueuedSignals;         // the queued signals
+
+	// Before deleting the timed signal queue object, this lock is aquired. If you have other global
+	// objects depending on this component, you can aquire this lock to prevent deletion until
+	// you're finished with whatever you're doing.
 	QMutex				m_pShutdownLock;
-	quint64				m_nPrecision;
-	CSignalQueue		m_QueuedSignals;
 
 public:
 	explicit CTimedSignalQueue(QObject *parent = 0);
 	~CTimedSignalQueue();
 
-	void shutdownLock();	// Hold this lock to delay the deletion of the queue on application shutdown.
+	// Hold this lock to delay the deletion of the queue on application shutdown.
+	void shutdownLock();
 	void shutdownUnlock();
 
 	// (Re)initializes internal structures. Note that this does NOT clear the queue.
@@ -102,16 +109,19 @@ public:
 	void clear();
 
 	// Sets the interval used by the queue to check for new signals to be scheduled. This defaults to 1000ms.
-	void setPrecision(quint64 tInterval);
+	void setPrecision(quint64 tInterval = 1000);
 
 protected:
 	void timerEvent(QTimerEvent* event);
 
 private:
-	inline static quint64 getTimeInMs()
+	inline static quint64 getRelativeTimeInMs()
 	{
 		if( !m_oTime.isValid() )
+		{
+			m_tTimerStartUTCInMSec = (quint64)( QDateTime::currentDateTimeUtc().toTime_t() ) * 1000;
 			m_oTime.start();
+		}
 
 		return m_oTime.elapsed();
 	}
@@ -125,19 +135,19 @@ public slots:
 	// If multiShot is set to true, the slot will be invoqued in the given interval until the signal queue
 	// recieves a pop() request for the signal or the given parent turns invalid.
 	QUuid push(QObject* parent, const char* signal, quint64 tInterval, bool multiShot,
-			   QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
-			   QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
-			   QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
-			   QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
-			   QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+	           QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+	           QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+	           QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+	           QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+	           QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
-	// This schedules a signal to be invoqued once at a given schedule time tSchedule.
+	// This schedules a signal to be invoqued once at a given schedule time tSchedule (UTC).
 	QUuid push(QObject* parent, const char* signal, quint32 tSchedule,
-			   QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
-			   QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
-			   QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
-			   QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
-			   QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+	           QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+	           QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+	           QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+	           QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+	           QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
 	// Removes all scheduled combinations of a given parent and signal/slot from the queue.
 	// If no signal/slot is specified, all entries for the given parent are removed.
@@ -150,6 +160,9 @@ public slots:
 	// the next schedule time of that combination is in tInterval milliseconds, no matter the timing state
 	// of the previously scheduled combination.
 	bool setInterval(QUuid oTimer_ID, quint64 tInterval);
+
+private:
+	CTimerObject* popInternal(QUuid oTimer_ID);
 
 	friend class CTimerObject;
 };

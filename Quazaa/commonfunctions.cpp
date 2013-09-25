@@ -143,7 +143,7 @@ QString common::getTempFileName(QString sName)
 {
 	CHash oHashName(CHash::SHA1);
 	oHashName.AddData(sName.toUtf8());
-	oHashName.AddData(QString().number(qrand() % qrand()).append(QDateTime::currentDateTimeUtc().toString(Qt::ISODate)).toLocal8Bit());
+	oHashName.AddData(QString().number(qrand() % qrand()).append(getDateTimeUTC().toString(Qt::ISODate)).toLocal8Bit());
 	oHashName.Finalize();
 	return oHashName.ToString();
 }

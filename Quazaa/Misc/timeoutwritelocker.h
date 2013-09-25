@@ -25,7 +25,12 @@ public:
 	inline void unlock();
 };
 
-
+/**
+ * @brief CTimeoutWriteLocker::CTimeoutWriteLocker
+ * @param lock
+ * @param success
+ * @param timeout in ms
+ */
 CTimeoutWriteLocker::CTimeoutWriteLocker(QReadWriteLock* lock, bool& success, int timeout) :
 	m_pRWLock( lock ),
 	m_nLockCount( 0 )

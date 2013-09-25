@@ -247,7 +247,7 @@ CDownload::~CDownload()
 
 void CDownload::start()
 {
-	m_tStarted = QDateTime::currentDateTimeUtc();
+	m_tStarted = common::getDateTimeUTC();
 	setState(dsPending);
 }
 

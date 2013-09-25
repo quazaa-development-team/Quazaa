@@ -268,7 +268,7 @@ void CNeighboursConnections::Maintain()
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumHubs - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
 
-			QDateTime tNow = QDateTime::currentDateTimeUtc();
+			QDateTime tNow = common::getDateTimeUTC();
 			bool bCountry = true;
 			int  nCountry = 0;
 			QList<CHostCacheHost*> oExcept;
@@ -338,7 +338,7 @@ void CNeighboursConnections::Maintain()
 		{
 			QMutexLocker l(&hostCache.m_pSection);
 
-			QDateTime tNow = QDateTime::currentDateTimeUtc();
+			QDateTime tNow = common::getDateTimeUTC();
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
 			QList<CHostCacheHost*> oExcept;
@@ -400,7 +400,7 @@ CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 {
 	// TODO: Make new CNeighbour deriviate for handshaking with Gnutella clients
 
-	systemLog.postLog(LogSeverity::Debug, "CNeighbours::OnAccept");
+	systemLog.postLog(LogSeverity::Debug, "CNeighboursConnections::OnAccept");
 	//qDebug() << "CNeighbours::OnAccept";
 
 	if(!m_bActive)

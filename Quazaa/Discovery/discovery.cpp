@@ -312,7 +312,7 @@ bool CDiscovery::isActive(const TServiceType eSType)
 {
 	QMutexLocker l( &m_pSection );
 
-	postLog( LogSeverity::Debug, QString( " *** *** Active: " ) + QString::number( m_pActive[eSType] ), true );
+	//postLog( LogSeverity::Debug, QString( "Active: " ) + QString::number( m_pActive[eSType] ), true );
 	return m_pActive[eSType];
 }
 
@@ -610,7 +610,7 @@ void CDiscovery::asyncStartUpHelper()
 #endif
 
 	// Initialize random number generator.
-	qsrand ( QDateTime::currentDateTime().toTime_t() );
+	qsrand ( common::getTNowUTC() );
 
 #if ENABLE_DISCOVERY_DEBUGGING
 	postLog( LogSeverity::Debug, "Initialized random number generator.", true );
@@ -1533,7 +1533,7 @@ CDiscovery::TServicePtr CDiscovery::getRandomService(const CNetworkType& oNType)
 	quint16 nTotalRating = 0;		// Used to store accumulative rating of all services
 									// taken under consideration as return value.
 	TServicePtr pService;
-	quint32 tNow = static_cast< quint32 >( QDateTime::currentDateTimeUtc().toTime_t() );
+	const quint32 tNow = common::getTNowUTC();
 
 	foreach ( TMapPair pair, m_mServices )
 	{

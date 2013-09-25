@@ -52,6 +52,7 @@
 
 #include "endpoint.h"
 #include "systemlog.h"
+#include "commonfunctions.h"
 #include "Discovery/networktype.h"
 
 uint qHash(const QUuid& key);

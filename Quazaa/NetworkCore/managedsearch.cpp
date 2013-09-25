@@ -47,8 +47,8 @@ CManagedSearch::CManagedSearch(CQuery* pQuery, QObject* parent) :
 	m_bActive = false;
 	m_bPaused = false;
 	m_pQuery = pQuery;
-	m_tStarted = QDateTime::currentDateTimeUtc();
-	m_tCleanHostsNext = QDateTime::currentDateTimeUtc().addSecs(quazaaSettings.Gnutella2.QueryHostThrottle);
+	m_tStarted = common::getDateTimeUTC();
+	m_tCleanHostsNext = common::getDateTimeUTC().addSecs(quazaaSettings.Gnutella2.QueryHostThrottle);
 
 	m_oGUID = QUuid::createUuid();
 	pQuery->SetGUID(m_oGUID);

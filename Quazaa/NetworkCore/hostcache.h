@@ -68,7 +68,7 @@ public:
 		Q_ASSERT(m_tLastConnect.timeSpec() == Qt::UTC);
 	}
 
-	bool canQuery(QDateTime tNow = QDateTime::currentDateTimeUtc());
+	bool canQuery(QDateTime tNow = common::getDateTimeUTC());
 	void setKey(quint32 nKey, CEndPoint* pHost = 0);
 };
 
@@ -89,7 +89,7 @@ public:
 	CHostCache();
 	~CHostCache();
 
-	CHostCacheHost* add(CEndPoint host, QDateTime ts = QDateTime::currentDateTimeUtc());
+	CHostCacheHost* add(CEndPoint host, QDateTime ts = common::getDateTimeUTC());
 
 	CHostCacheIterator find(CEndPoint oHost);
 	CHostCacheIterator find(CHostCacheHost* pHost);
@@ -108,7 +108,7 @@ public:
 
 	void onFailure(CEndPoint addr);
 	CHostCacheHost* get();
-	CHostCacheHost* getConnectable(QDateTime tNow = QDateTime::currentDateTimeUtc(),
+	CHostCacheHost* getConnectable(QDateTime tNow = common::getDateTimeUTC(),
 	                               QList<CHostCacheHost*> oExcept = QList<CHostCacheHost*>(),
 	                               QString sCountry = QString("ZZ"));
 

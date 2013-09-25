@@ -637,7 +637,7 @@ void CG2Node::Send_ConnectError(QString sReason)
 				&& ((CG2Node*)pNeighbour) ->m_nLeafMax > 0
 				&& 100 * ((CG2Node*)pNeighbour)->m_nLeafCount / ((CG2Node*)pNeighbour)->m_nLeafMax < 90 )
 		{
-			sHs += "," + pNeighbour->m_oAddress.toStringWithPort() + " " + QDateTime::currentDateTimeUtc().toString("yyyy-MM-ddThh:mmZ");
+			sHs += "," + pNeighbour->m_oAddress.toStringWithPort() + " " + common::getDateTimeUTC().toString("yyyy-MM-ddThh:mmZ");
 		}
 	}
 
@@ -1005,7 +1005,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 		return;
 	}
 
-	QDateTime tNow = QDateTime::currentDateTimeUtc();
+	QDateTime tNow = common::getDateTimeUTC();
 	QDateTime nTimestamp = tNow;
 	qint32 nDiff = 0;
 
@@ -1197,7 +1197,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 
 	CHostCacheHost* pHost = bCacheOK ? hostCache.take(addr) : 0;
 
-	QDateTime tNow = QDateTime::currentDateTimeUtc();
+	QDateTime tNow = common::getDateTimeUTC();
 
 	if(pHost != 0 && pHost->m_nQueryKey != 0 && pHost->m_nKeyHost == Network.m_oAddress && pHost->m_nKeyTime.secsTo(tNow) < quazaaSettings.Gnutella2.QueryKeyTime)
 	{

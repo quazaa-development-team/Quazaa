@@ -58,7 +58,7 @@ bool CHostCacheHost::canQuery(QDateTime tNow)
 {
 	if ( tNow.isNull() )
 	{
-		tNow = QDateTime::currentDateTimeUtc();
+		tNow = common::getDateTimeUTC();
 	}
 
 	if ( !m_tAck.isNull() && m_nQueryKey ) // if waiting for an ack, and we have a query key
@@ -89,12 +89,12 @@ void CHostCacheHost::setKey(quint32 nKey, CEndPoint* pHost)
 	m_tAck      = QDateTime();
 	m_nFailures = 0;
 	m_nQueryKey = nKey;
-	m_nKeyTime  = QDateTime::currentDateTimeUtc();
+	m_nKeyTime  = common::getDateTimeUTC();
 	m_nKeyHost  = pHost ? *pHost : Network.GetLocalAddress();
 }
 
 CHostCache::CHostCache():
-	m_tLastSave( QDateTime::currentDateTimeUtc() ),
+	m_tLastSave( common::getDateTimeUTC() ),
 	m_nMaxCacheHosts( 3000 )
 {
 }
@@ -133,7 +133,7 @@ CHostCacheHost* CHostCache::add(CEndPoint host, QDateTime ts)
 		save();
 	}
 
-	QDateTime tNow = QDateTime::currentDateTimeUtc();
+	QDateTime tNow = common::getDateTimeUTC();
 
 	if ( m_tLastSave.secsTo( tNow ) > 600 )
 		save();
@@ -204,7 +204,7 @@ CHostCacheHost* CHostCache::update(CHostCacheIterator itHost)
 {
 	CHostCacheHost* pHost = *itHost;
 	m_lHosts.erase( itHost );
-	pHost->m_tTimestamp = QDateTime::currentDateTimeUtc();
+	pHost->m_tTimestamp = common::getDateTimeUTC();
 	m_lHosts.prepend( pHost );
 	return pHost;
 }
@@ -265,7 +265,7 @@ void CHostCache::addXTry(QString& sHeader)
 		QDateTime oTs = QDateTime::fromString( le.at( 1 ), "yyyy-MM-ddThh:mmZ" );
 		oTs.setTimeSpec( Qt::UTC );
 		if ( !oTs.isValid() )
-			oTs = QDateTime::currentDateTimeUtc();
+			oTs = common::getDateTimeUTC();
 		add( addr, oTs );
 	}
 }
@@ -385,7 +385,7 @@ bool CHostCache::save()
 	                                           this, &CHostCache::writeToFile );
 	if ( nCount )
 	{
-		m_tLastSave = QDateTime::currentDateTimeUtc();
+		m_tLastSave = common::getDateTimeUTC();
 		bReturn = true;
 
 		systemLog.postLog( LogSeverity::Debug,
@@ -426,7 +426,7 @@ void CHostCache::load()
 		quint32 tLastConnect = 0;
 		QDateTime timeStamp;
 
-		const quint32 tNow   = QDateTime::currentDateTimeUtc().toTime_t();
+		const quint32 tNow   = common::getTNowUTC();
 
 		CHostCacheHost* pHost = NULL;
 
@@ -451,8 +451,8 @@ void CHostCache::load()
 				pHost->m_tLastConnect.setTimeSpec( Qt::UTC);
 				pHost->m_tLastConnect.setTime_t( tLastConnect );
 
-				Q_ASSERT(pHost->m_tLastConnect.timeSpec() == Qt::UTC);
-				Q_ASSERT(pHost->m_tLastConnect.toTime_t() <= QDateTime::currentDateTimeUtc().toTime_t());
+				Q_ASSERT( pHost->m_tLastConnect.timeSpec() == Qt::UTC );
+				Q_ASSERT( pHost->m_tLastConnect.toTime_t() <= common::getTNowUTC() );
 			}
 
 			--nCount;
@@ -470,7 +470,7 @@ void CHostCache::load()
 
 void CHostCache::pruneOldHosts()
 {
-	QDateTime tNow = QDateTime::currentDateTimeUtc();
+	QDateTime tNow = common::getDateTimeUTC();
 
 	QMutableListIterator<CHostCacheHost*> it( m_lHosts );
 	it.toBack();
@@ -492,7 +492,7 @@ void CHostCache::pruneOldHosts()
 
 void CHostCache::pruneByQueryAck()
 {
-	QDateTime tNow = QDateTime::currentDateTimeUtc();
+	QDateTime tNow = common::getDateTimeUTC();
 
 	for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); )
 	{

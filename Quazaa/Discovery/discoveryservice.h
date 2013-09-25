@@ -34,6 +34,7 @@
 
 // Requirements of all subclasses
 #include "hostcache.h"
+#include "commonfunctions.h"
 #include "timedsignalqueue.h"
 
 //TODO: Hunt down QObject::startTimer: QTimer can only be used with threads started with QThread
