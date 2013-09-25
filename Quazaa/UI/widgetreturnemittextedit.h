@@ -28,6 +28,7 @@
 #include <QTextEdit>
 #include <QKeyEvent>
 #include <QEvent>
+#include <QMimeData>
 
 #include "completer.h"
 class Completer;
@@ -51,7 +52,8 @@ private:
 protected:
     bool event(QEvent* event);
 	void keyPressEvent(QKeyEvent* event);
-	virtual bool focusNextPrevChild(bool next);
+    virtual bool focusNextPrevChild(bool next);
+    void insertFromMimeData(const QMimeData * source);
 
 signals:
 	void returnPressed();

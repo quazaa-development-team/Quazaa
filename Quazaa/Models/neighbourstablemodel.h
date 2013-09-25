@@ -77,7 +77,8 @@ public:
 		quint32       nLeafMax;
 		qint64        nRTT;
 		QString       sUserAgent;
-		QString		  sCountry;
+        QString		  sCountryCode;
+        QString       sCountry;
         QIcon		  iNetwork;
 		QIcon		  iCountry;
 

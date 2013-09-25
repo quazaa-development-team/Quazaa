@@ -178,7 +178,12 @@ bool WidgetReturnEmitTextEdit::focusNextPrevChild(bool next)
 		return true;
 	} else {
 		return QAbstractScrollArea::focusNextPrevChild(next);
-	}
+    }
+}
+
+void WidgetReturnEmitTextEdit::insertFromMimeData(const QMimeData *source)
+{
+    insertPlainText( source->text() );
 }
 
 void WidgetReturnEmitTextEdit::addHistory(QTextDocument* document)
