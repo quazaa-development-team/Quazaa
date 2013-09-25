@@ -22,40 +22,19 @@
     <property name="spacing">
      <number>0</number>
     </property>
-    <property name="margin">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
      <number>0</number>
     </property>
    </layout>
-  </widget>
-  <widget class="QToolBar" name="toolBarServices">
-   <property name="contextMenuPolicy">
-    <enum>Qt::PreventContextMenu</enum>
-   </property>
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>16</width>
-     <height>16</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
-   <property name="floatable">
-    <bool>false</bool>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionDiscoveryGnutellaBootstrap"/>
-   <addaction name="actionGWebCache"/>
-   <addaction name="actionAresDiscoveryType"/>
-   <addaction name="actionEDonkeyServerMet"/>
   </widget>
   <widget class="QToolBar" name="toolBarControls">
    <property name="contextMenuPolicy">
@@ -116,21 +95,6 @@
    <addaction name="actionDiscoveryBrowseStatistics"/>
    <addaction name="actionDiscoveryProperties"/>
   </widget>
-  <action name="actionDiscoveryGnutellaBootstrap">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../Resource.qrc">
-     <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
-   </property>
-   <property name="text">
-    <string>G2 Bootstrap</string>
-   </property>
-   <property name="toolTip">
-    <string>G2 Bootstrap</string>
-   </property>
-  </action>
   <action name="actionDiscoveryAddService">
    <property name="icon">
     <iconset resource="../Resource.qrc">
@@ -153,36 +117,6 @@
    </property>
    <property name="toolTip">
     <string>Browse Statistics</string>
-   </property>
-  </action>
-  <action name="actionAresDiscoveryType">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../Resource.qrc">
-     <normaloff>:/Resource/Networks/Ares.png</normaloff>:/Resource/Networks/Ares.png</iconset>
-   </property>
-   <property name="text">
-    <string>Ares Discovery Type</string>
-   </property>
-   <property name="toolTip">
-    <string>Ares Discovery Type</string>
-   </property>
-  </action>
-  <action name="actionEDonkeyServerMet">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../Resource.qrc">
-     <normaloff>:/Resource/Networks/EDonkey.png</normaloff>:/Resource/Networks/EDonkey.png</iconset>
-   </property>
-   <property name="text">
-    <string>eDonkey Server.met</string>
-   </property>
-   <property name="toolTip">
-    <string>eDonkey Server.met</string>
    </property>
   </action>
   <action name="actionDiscoveryRemoveService">
@@ -231,21 +165,6 @@
    </property>
    <property name="toolTip">
     <string>Properties</string>
-   </property>
-  </action>
-  <action name="actionGWebCache">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../Resource.qrc">
-     <normaloff>:/Resource/Networks/Gnutella2.png</normaloff>:/Resource/Networks/Gnutella2.png</iconset>
-   </property>
-   <property name="text">
-    <string>GWebCache</string>
-   </property>
-   <property name="toolTip">
-    <string>GWebCache</string>
    </property>
   </action>
  </widget>

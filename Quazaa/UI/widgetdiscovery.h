@@ -72,12 +72,7 @@ private slots:
 	void tableViewDiscovery_doubleClicked(const QModelIndex &index);
 	void tableViewDiscovery_clicked(const QModelIndex &index);
 
-	void setSkin();
-
-    void on_actionDiscoveryGnutellaBootstrap_triggered();
-    void on_actionAresDiscoveryType_triggered();
-    void on_actionEDonkeyServerMet_triggered();
-    void on_actionGWebCache_triggered();
+    void setSkin();
 
 	void on_actionDiscoveryAddService_triggered();
 	void on_actionDiscoveryBrowseStatistics_triggered();

@@ -38,13 +38,7 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::WidgetDiscovery)
 {
-	ui->setupUi(this);
-
-    actionGroupDiscoveryNavigation = new QActionGroup(this);
-    actionGroupDiscoveryNavigation->addAction(ui->actionDiscoveryGnutellaBootstrap);
-    actionGroupDiscoveryNavigation->addAction(ui->actionGWebCache);
-    actionGroupDiscoveryNavigation->addAction(ui->actionAresDiscoveryType);
-    actionGroupDiscoveryNavigation->addAction(ui->actionEDonkeyServerMet);
+    ui->setupUi(this);
 
 	m_pDiscoveryMenu = new QMenu( this );
 	m_pDiscoveryMenu->addAction( ui->actionDiscoveryAddService );
@@ -297,38 +291,6 @@ void WidgetDiscovery::tableViewDiscovery_clicked(const QModelIndex& index)
 void WidgetDiscovery::setSkin()
 {
 	tableViewDiscovery->setStyleSheet( skinSettings.listViews );
-}
-
-void WidgetDiscovery::on_actionDiscoveryGnutellaBootstrap_triggered()
-{
-    setVisibility( CNetworkType( dpGnutella ), true );
-    setVisibility( CNetworkType( dpAres ), false );
-    setVisibility( CNetworkType( dpeDonkey2000 ), false );
-    setVisibility( CNetworkType( dpG2 ), false );
-}
-
-void WidgetDiscovery::on_actionAresDiscoveryType_triggered()
-{
-    setVisibility( CNetworkType( dpGnutella ), false );
-    setVisibility( CNetworkType( dpAres ), true );
-    setVisibility( CNetworkType( dpeDonkey2000 ), false );
-    setVisibility( CNetworkType( dpG2 ), false );
-}
-
-void WidgetDiscovery::on_actionEDonkeyServerMet_triggered()
-{
-    setVisibility( CNetworkType( dpGnutella ), false );
-    setVisibility( CNetworkType( dpAres ), false );
-    setVisibility( CNetworkType( dpeDonkey2000 ), true );
-    setVisibility( CNetworkType( dpG2 ), false );
-}
-
-void WidgetDiscovery::on_actionGWebCache_triggered()
-{
-    setVisibility( CNetworkType( dpGnutella ), false );
-    setVisibility( CNetworkType( dpAres ), false );
-    setVisibility( CNetworkType( dpeDonkey2000 ), false );
-    setVisibility( CNetworkType( dpG2 ), true );
 }
 
 void WidgetDiscovery::on_actionDiscoveryAddService_triggered()
