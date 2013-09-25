@@ -122,7 +122,7 @@ void SystemLog::postLog(LogSeverity::Severity severity, Components::Component co
 	va_list argList;
 	va_start( argList, format );
 	QString message = QString().vsprintf( format, argList );
-	postLog( severity, message );
+	postLog( severity, message, component );
 	va_end( argList );
 }
 
