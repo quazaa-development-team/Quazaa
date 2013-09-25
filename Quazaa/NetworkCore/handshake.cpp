@@ -139,7 +139,9 @@ void CHandshake::OnWebRequest()
 
 
         QByteArray baHtml;
-        baHtml += "<!DOCTYPE html><html><head><title>Quazaa " + QuazaaGlobals::APPLICATION_VERSION_STRING() + " : Node Information</title><meta name=\"robots\" content=\"noindex,nofollow\"></head>";
+        baHtml += "<!DOCTYPE html><html><head><title>Quazaa " + QuazaaGlobals::APPLICATION_VERSION_STRING() + " : Node Information</title>";
+        baHtml += "<link href=\"/res/favicon.ico\" rel=\"shortcut icon\" type=\"image/vnd.microsoft.icon\" />";
+        baHtml += "<meta name=\"robots\" content=\"noindex,nofollow\"></head>";
         baHtml += "<body style=\"color:white;background-color:rgb(12,26,43);padding-left:12px;padding-right:12px;\">";
         baHtml += "<div style=\"box-shadow:0px 0px 8px rgb(189,189,189);border-radius:6px;margin-top:28px;margin-bottom:15px;margin-left:15px;margin-right:15px;\">";
         baHtml += "<div style=\"height:130px;border:1px solid rgb(197,197,197);border-bottom:0px;border-radius:6px 6px 0px 0px;background:url('/res/header_background.png') no-repeat scroll left top rgb(0,102,152);\">";
