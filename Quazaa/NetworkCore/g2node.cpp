@@ -1113,9 +1113,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				}
 				else
 				{
-					hostCache.m_pSection.lock();
 					hostCache.add( ep, nDiff + tNow );
-					hostCache.m_pSection.unlock();
 				}
 			}
 		}
@@ -1324,13 +1322,15 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 
 	hostCache.m_pSection.lock();
 
-	CHostCacheHost* pCache = hostCache.add( addr, tNow );
+	CHostCacheHost* pCache = hostCache.addSync( addr, tNow, false );
 	if ( pCache )
 	{
 		pCache->setKey( nKey, tNow, &m_oAddress );
 
 #if LOG_QUERY_HANDLING
-		systemLog.postLog(LogSeverity::Debug, QString("Got a query key from %1 via %2 = 0x%3").arg(addr.toString().toLocal8Bit().constData()).arg(m_oAddress.toString().toLocal8Bit().constData()).arg(QString().number(nKey, 16)));
+		systemLog.postLog( LogSeverity::Debug,
+		                   QString( "Got a query key from %1 via %2 = 0x%3" ).arg(
+		                     addr.toString().toLocal8Bit().constData()).arg(m_oAddress.toString().toLocal8Bit().constData()).arg(QString().number(nKey, 16)));
 		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toLocal8Bit().constData(), m_oAddress.toString().toLocal8Bit().constData(), nKey);
 #endif // LOG_QUERY_HANDLING
 	}
@@ -1519,9 +1519,7 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 
 	/*	QUuid oGUID = */pPacket->ReadGUID();
 
-	hostCache.m_pSection.lock();
 	hostCache.add( addr, common::getTNowUTC() );
-	hostCache.m_pSection.unlock();
 
 	if ( nTTL > 0 && nHops < 255 )
 	{

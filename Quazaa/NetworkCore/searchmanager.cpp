@@ -186,9 +186,8 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
 						CEndPoint a( nIP, nPort );
-						hostCache.m_pSection.lock();
+
 						hostCache.add( a, tNow );
-						hostCache.m_pSection.unlock();
 					}
 
 					if ( nLength >= 20 )
@@ -207,9 +206,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
 						CEndPoint a( nIP, nPort );
 
-						hostCache.m_pSection.lock();
 						hostCache.add( a, tNow );
-						hostCache.m_pSection.unlock();
 					}
 
 					if ( nLength >= 8 )
@@ -228,9 +225,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				const quint32 tTimeStamp = ( nLength >= (a.protocol() == 0 ? 10u : 22u) ) ?
 				                             pPacket->ReadIntLE<quint32>() + tAdjust : tNow - 60;
 
-				hostCache.m_pSection.lock();
 				hostCache.add( a, tTimeStamp );
-				hostCache.m_pSection.unlock();
 
 				++nSuggestedHubs;
 			}
