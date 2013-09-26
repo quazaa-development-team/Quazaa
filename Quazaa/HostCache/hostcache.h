@@ -26,27 +26,21 @@
 #define HOSTCACHE_H
 
 #include <QMutex>
-#include <QThread>
 
 #include "hostcachehost.h"
 
-// Increment this if there have been made changes to the way of storing Host Cache Hosts.
+// Increment this if there have been made changes to the way of storing security rules.
 #define HOST_CACHE_CODE_VERSION	6
 // History:
 // 4 - Initial implementation.
 // 6 - Fixed Hosts having an early date and changed time storage from QDateTime to quint32.
 
-// TODO:in canQuery there are calls to .isNull
-//  [14:27]	brov: and I put some initialization in ctor
-//  [14:27]	brov: remove that initialization
-
 class QFile;
 
 typedef QList<CHostCacheHost*>::iterator CHostCacheIterator;
 
-class CHostCache : public QObject
+class CHostCache
 {
-	Q_OBJECT
 
 public:
 	QList<CHostCacheHost*>  m_lHosts;
@@ -56,16 +50,12 @@ public:
 	quint32                 m_nMaxCacheHosts;
 	QString                 m_sMessage;
 
-	// Thread used by the Host Cache
-	QThread                 m_oDiscoveryThread;
-
 public:
 	CHostCache();
 	~CHostCache();
 
-	void start();
-
-	void add(const CEndPoint host, const quint32 tTimeStamp);
+	CHostCacheHost* add(CEndPoint host, const QDateTime& ts = common::getDateTimeUTC());
+	CHostCacheHost* add(CEndPoint host, quint32 tTimeStamp);
 
 	CHostCacheIterator find(CEndPoint oHost);
 	CHostCacheIterator find(CHostCacheHost* pHost);
@@ -89,6 +79,7 @@ public:
 	                               QString sCountry = QString("ZZ"));
 
 	bool save(const quint32 tNow);
+	void load();
 
 	void pruneOldHosts(const quint32 tNow);
 	void pruneByQueryAck(const quint32 tNow);
@@ -97,16 +88,6 @@ public:
 
 	inline quint32 count();
 	inline bool isEmpty();
-
-public slots:
-	CHostCacheHost* addSync(CEndPoint host, const QDateTime& ts, bool bLock = true);
-	CHostCacheHost* addSync(CEndPoint host, quint32 tTimeStamp, bool bLock = true);
-
-private:
-	void load();
-
-private slots:
-	void asyncStartUpHelper();
 };
 
 CHostCacheHost* CHostCache::take(CEndPoint oHost)
