@@ -263,7 +263,6 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 			return sUserAgent;
 
 		case COUNTRY:
-		// TODO: would it be more intelligent to store this in a variable instead of getting it from geoIP each time?
             return sCountry;
 	}
 
