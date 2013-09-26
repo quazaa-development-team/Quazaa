@@ -45,9 +45,9 @@ QuazaaSettings::QuazaaSettings()
 void QuazaaSettings::saveSettings()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Ares");
@@ -671,15 +671,15 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Gnutella2.PingRelayLimit = m_qSettings.value("PingRelayLimit", 10).toInt();
 	quazaaSettings.Gnutella2.QueryHostDeadline = m_qSettings.value("QueryHostDeadline", 600).toInt();
 	quazaaSettings.Gnutella2.QueryHostThrottle = m_qSettings.value("QueryHostThrottle", 120).toInt();
-	quazaaSettings.Gnutella2.QueryKeyTime = m_qSettings.value("QueryKeyTime", 7200).toInt(); // 2h
+	quazaaSettings.Gnutella2.QueryKeyTime = m_qSettings.value("QueryKeyTime", 7200).toUInt(); // 2h
 	quazaaSettings.Gnutella2.QueryLimit = m_qSettings.value("QueryLimit", 2400).toInt();
 	quazaaSettings.Gnutella2.RequeryDelay = m_qSettings.value("RequeryDelay", 1800).toInt();
-    quazaaSettings.Gnutella2.UdpBuffers = m_qSettings.value("UdpBuffers", 1024).toInt(); // fragmented packets use one buffer / fragment
+	quazaaSettings.Gnutella2.UdpBuffers = m_qSettings.value("UdpBuffers", 1024).toInt(); // fragmented packets use one buffer / fragment
 	quazaaSettings.Gnutella2.UdpInExpire = m_qSettings.value("UdpInExpire", 30).toInt();
 	quazaaSettings.Gnutella2.UdpInFrames = m_qSettings.value("UdpInFrames", 256).toInt();
 	quazaaSettings.Gnutella2.UdpMTU = m_qSettings.value("UdpMTU", 500).toInt();
 	quazaaSettings.Gnutella2.UdpOutExpire = m_qSettings.value("UdpOutExpire", 26).toInt();
-    quazaaSettings.Gnutella2.UdpOutFrames = m_qSettings.value("UdpOutFrames", 512).toInt();
+	quazaaSettings.Gnutella2.UdpOutFrames = m_qSettings.value("UdpOutFrames", 512).toInt();
 	quazaaSettings.Gnutella2.UdpOutResend = m_qSettings.value("UdpOutResend", 6).toInt();
 	quazaaSettings.Gnutella2.HubBalancePeriod = m_qSettings.value("HubBalancePeriod", 60).toUInt();
 	quazaaSettings.Gnutella2.HubBalanceGrace = m_qSettings.value("HubBalanceGrace", 3600).toUInt();
@@ -929,9 +929,9 @@ void QuazaaSettings::loadSettings()
 void QuazaaSettings::saveChatConnections()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Chat");
@@ -942,9 +942,9 @@ void QuazaaSettings::saveChatConnections()
 void QuazaaSettings::loadChatConnections()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Chat");
@@ -955,9 +955,9 @@ void QuazaaSettings::loadChatConnections()
 void QuazaaSettings::saveChatConnectionWizard()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Chat");
@@ -972,9 +972,9 @@ void QuazaaSettings::saveChatConnectionWizard()
 void QuazaaSettings::loadChatConnectionWizard()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Chat");
@@ -992,9 +992,9 @@ void QuazaaSettings::loadChatConnectionWizard()
 void QuazaaSettings::saveChat()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Chat");
@@ -1077,9 +1077,9 @@ void QuazaaSettings::saveChat()
 void QuazaaSettings::loadChat()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Chat");
@@ -1189,9 +1189,9 @@ void QuazaaSettings::loadChat()
 void QuazaaSettings::saveProfile()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Profile");
@@ -1226,9 +1226,9 @@ void QuazaaSettings::saveProfile()
 void QuazaaSettings::loadProfile()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Profile");
@@ -1279,9 +1279,9 @@ void QuazaaSettings::loadProfile()
 void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.setValue("WindowGeometry", window->saveGeometry());
@@ -1361,9 +1361,9 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 	QList<QVariant> intListInitializer;
 	intListInitializer << 0 << 0;
@@ -1441,9 +1441,9 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 void QuazaaSettings::saveLanguageSettings()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 	m_qSettings.beginGroup("Language");
 	m_qSettings.setValue("LanguageFile", quazaaSettings.Language.File);
@@ -1453,9 +1453,9 @@ void QuazaaSettings::saveLanguageSettings()
 void QuazaaSettings::loadLanguageSettings()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Language");
@@ -1466,9 +1466,9 @@ void QuazaaSettings::loadLanguageSettings()
 void QuazaaSettings::saveFirstRun(bool firstRun)
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.setValue("FirstRun", firstRun);
@@ -1477,9 +1477,9 @@ void QuazaaSettings::saveFirstRun(bool firstRun)
 bool QuazaaSettings::isFirstRun()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	return m_qSettings.value("FirstRun", true).toBool();
@@ -1488,9 +1488,9 @@ bool QuazaaSettings::isFirstRun()
 void QuazaaSettings::saveSkinSettings()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.setValue("SkinFile", Skin.File);
@@ -1499,9 +1499,9 @@ void QuazaaSettings::saveSkinSettings()
 void QuazaaSettings::loadSkinSettings()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	Skin.File = m_qSettings.value("SkinFile", qApp->applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
@@ -1510,9 +1510,9 @@ void QuazaaSettings::loadSkinSettings()
 void QuazaaSettings::saveLogSettings()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Logging");
@@ -1532,9 +1532,9 @@ void QuazaaSettings::saveLogSettings()
 void QuazaaSettings::loadLogSettings()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
 #endif
 
 	m_qSettings.beginGroup("Logging");
