@@ -54,7 +54,7 @@ public:
 	CHostCache();
 	~CHostCache();
 
-	CHostCacheHost* add(CEndPoint host, const QDateTime& ts);
+	CHostCacheHost* add(CEndPoint host, const QDateTime& ts = common::getDateTimeUTC());
 	CHostCacheHost* add(CEndPoint host, quint32 tTimeStamp);
 
 	CHostCacheIterator find(CEndPoint oHost);
