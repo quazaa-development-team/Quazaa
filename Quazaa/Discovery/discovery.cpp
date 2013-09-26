@@ -89,7 +89,6 @@ quint32	CDiscovery::count(const CNetworkType& oType)
  * @brief start initializes the Discovery Services Manager. Make sure this is called after
  * QApplication is instantiated.
  * Locking: YES (asynchronous)
- * @return whether loading the services was successful.
  */
 void CDiscovery::start()
 {

@@ -233,9 +233,7 @@ int main(int argc, char *argv[])
 	//Load Host Cache
 	dlgSplash->updateProgress( 30, QObject::tr( "Loading Host Cache..." ) );
 	qApp->processEvents();
-	hostCache.m_pSection.lock();
-	hostCache.load();
-	hostCache.m_pSection.unlock();
+	hostCache.start();
 
 	//initialize geoip list
 	geoIP.loadGeoIP();
