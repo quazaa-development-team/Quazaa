@@ -1526,7 +1526,7 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 	}
 	else
 	{
-		hostCache.add( addr );
+		hostCache.add( addr, common::getTNowUTC() );
 	}
 
 	if ( nTTL > 0 && nHops < 255 )
