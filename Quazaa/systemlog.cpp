@@ -54,7 +54,7 @@ void SystemLog::start()
 	m_pComponents[Components::BitTorrent] = tr( "[BitTorrent] " );
 	m_pComponents[Components::eD2k]       = tr( "[eD2k] "       );
 	m_pComponents[Components::G2]         = tr( "[G2] "         );
-	m_pComponents[Components::Sacurity]   = tr( "[Sacurity] "   );
+	m_pComponents[Components::Security]   = tr( "[Sacurity] "   );
 	m_pComponents[Components::Library]    = tr( "[Library] "    );
 	m_pComponents[Components::Downloads]  = tr( "[Downloads] "  );
 	m_pComponents[Components::Uploads]    = tr( "[Uploads] "    );
