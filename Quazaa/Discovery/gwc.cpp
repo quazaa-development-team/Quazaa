@@ -387,12 +387,14 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 		lURLList.pop_back();
 	}
 
+	const quint32 tNow = common::getTNowUTC();
+
 	// prepare for adding new hosts
 	QMutexLocker l( &hostCache.m_pSection );
 
 	while ( lHostList.size() )
 	{
-		hostCache.add( lHostList.back() );
+		hostCache.add( lHostList.back(), tNow );
 		lHostList.pop_back();
 	}
 

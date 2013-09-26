@@ -35,43 +35,43 @@ class CManagedSearch : public QObject
 {
 	Q_OBJECT
 public:
-	QDateTime m_tStarted;
-	bool      m_bActive;
-	bool      m_bPaused;
-	CQuery*   m_pQuery;
+	QDateTime   m_tStarted;
+	bool        m_bActive;
+	bool        m_bPaused;
+	CQuery*     m_pQuery;
 
-	bool    m_bCanRequestKey;
+	bool        m_bCanRequestKey;
 
-	quint32 m_nHubs;
-	quint32 m_nLeaves;
-	quint32 m_nHits;
-	quint32 m_nQueryCount;
-	quint32 m_nQueryHitLimit;
+	quint32     m_nHubs;
+	quint32     m_nLeaves;
+	quint32     m_nHits;
+	quint32     m_nQueryCount;
+	quint32     m_nQueryHitLimit;
 
-	QUuid   m_oGUID;
+	QUuid       m_oGUID;
 
-	QHash<QHostAddress, QDateTime>		m_lSearchedNodes;
+	CQueryHit*  m_pCachedHit;
+	quint32     m_nCachedHits;
 
-	CQueryHit*					m_pCachedHit;
-	quint32						m_nCachedHits;
+	quint32     m_nCookie;
 
-	quint32	m_nCookie;
+	QDateTime   m_tCleanHostsNext;
 
-	QDateTime m_tCleanHostsNext;
+	QHash<QHostAddress, QDateTime> m_lSearchedNodes;
 
 public:
-	CManagedSearch(CQuery* pQuery, QObject* parent = 0);
+	CManagedSearch(CQuery* pQuery, QObject* parent = NULL);
 	~CManagedSearch();
 
 	void Start();
 	void Stop();
 	void Pause();
 
-	void Execute(QDateTime& tNow, quint32* pnMaxPackets);
-	void SearchNeighbours(QDateTime& tNow);
-	void SearchG2(QDateTime& tNow, quint32* pnMaxPackets);
+	void Execute( const QDateTime& tNowDT,   quint32* pnMaxPackets);
+	void SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets);
+	void SearchNeighbours(const QDateTime& tNowDT);
 
-	void OnHostAcknowledge(QHostAddress nHost, QDateTime& tNow);
+	void OnHostAcknowledge(QHostAddress nHost, const QDateTime& tNow);
 	void OnQueryHit(CQueryHit* pHits);
 	void SendHits();
 

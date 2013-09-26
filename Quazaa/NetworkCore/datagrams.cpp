@@ -28,13 +28,14 @@
 #include "datagramfrags.h"
 #include "g2node.h"
 #include "g2packet.h"
-#include "hostcache.h"
 #include "searchmanager.h"
 #include "Hashes/hash.h"
 #include "queryhit.h"
 #include "systemlog.h"
 #include "querykeys.h"
 #include "query.h"
+
+#include "HostCache/hostcache.h"
 
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
@@ -879,7 +880,7 @@ void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 
 void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 {
-	if(!pPacket->m_bCompound)
+	if ( !pPacket->m_bCompound )
 	{
 		return;
 	}
@@ -916,16 +917,16 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 	}
 
 	hostCache.m_pSection.lock();
-	CHostCacheHost* pCache = hostCache.add(addr);
-	if(pCache)
+	CHostCacheHost* pCache = hostCache.add( addr, common::getTNowUTC() );
+	if ( pCache )
 	{
-		if( nKey == 0 ) // null QK means a hub does not want to be queried or just downgraded
+		if( !nKey ) // null QK means a hub does not want to be queried or just downgraded
 		{
-			hostCache.remove(pCache);
+			hostCache.remove( pCache );
 		}
 		else
 		{
-			pCache->setKey(nKey);
+			pCache->setKey( nKey );
 		}
 	}
 	hostCache.m_pSection.unlock();
@@ -955,10 +956,10 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 {
 	hostCache.m_pSection.lock();
 
-	CHostCacheHost* pHost = hostCache.add(addr);
-	if(pHost)
+	CHostCacheHost* pHost = hostCache.add( addr, common::getTNowUTC() );
+	if ( pHost )
 	{
-		pHost->m_tAck = QDateTime();
+		pHost->m_tAck = 0;
 	}
 
 	hostCache.m_pSection.unlock();
@@ -966,18 +967,17 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 	QUuid oGuid;
 
 	// Hubs are only supposed to route UDP /QA - we'll drop it if we're in leaf mode
-	if(SearchManager.OnQueryAcknowledge(pPacket, addr, oGuid) && Neighbours.IsG2Hub())
+	if ( SearchManager.OnQueryAcknowledge( pPacket, addr, oGuid ) && Neighbours.IsG2Hub() )
 	{
 		// Add from address
-		G2Packet* pFR = G2Packet::New("FR");
-		pFR->WriteHostAddress(&addr);
-		pPacket->AddOrReplaceChild("FR", pFR);
+		G2Packet* pFR = G2Packet::New( "FR" );
+		pFR->WriteHostAddress( &addr );
+		pPacket->AddOrReplaceChild( "FR", pFR );
 
 		Network.m_pSection.lock();
-		Network.RoutePacket(oGuid, pPacket, true, false);
+		Network.RoutePacket( oGuid, pPacket, true, false );
 		Network.m_pSection.unlock();
 	}
-
 }
 
 void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)

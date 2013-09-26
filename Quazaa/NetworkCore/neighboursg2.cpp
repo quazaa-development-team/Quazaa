@@ -180,35 +180,35 @@ void CNeighboursG2::Maintain()
 
 void CNeighboursG2::DispatchKHL()
 {
-	ASSUME_LOCK(m_pSection);
+	ASSUME_LOCK( m_pSection );
 
-	if(m_nHubsConnectedG2 == 0 && m_nLeavesConnectedG2 == 0)
+	if( !m_nHubsConnectedG2 && !m_nLeavesConnectedG2 )
 	{
 		return;
 	}
 
-	G2Packet* pKHL = G2Packet::New("KHL");
+	G2Packet* pKHL = G2Packet::New( "KHL" );
 
-	QDateTime tNow = common::getDateTimeUTC();
+	const quint32 tNow = common::getTNowUTC();
 
-	pKHL->WritePacket("TS", 4)->WriteIntLE<quint32>(tNow.toTime_t());
+	pKHL->WritePacket( "TS", 4 )->WriteIntLE<quint32>( tNow );
 
-	foreach(CNeighbour * pNode, m_lNodes)
+	foreach ( CNeighbour * pNode, m_lNodes )
 	{
-		if(pNode->m_nProtocol != dpG2)
+		if ( pNode->m_nProtocol != dpG2 )
 		{
 			continue;
 		}
 
-		if(pNode->m_nState == nsConnected && ((CG2Node*)pNode)->m_nType == G2_HUB)
+		if ( pNode->m_nState == nsConnected && ((CG2Node*)pNode)->m_nType == G2_HUB )
 		{
-			if(pNode->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol)
+			if ( pNode->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol )
 			{
-				pKHL->WritePacket("NH", 6)->WriteHostAddress(&pNode->m_oAddress);
+				pKHL->WritePacket( "NH", 6 )->WriteHostAddress( &pNode->m_oAddress );
 			}
 			else
 			{
-				pKHL->WritePacket("NH", 18)->WriteHostAddress(&pNode->m_oAddress);
+				pKHL->WritePacket( "NH", 18 )->WriteHostAddress( &pNode->m_oAddress );
 			}
 		}
 	}
@@ -218,19 +218,20 @@ void CNeighboursG2::DispatchKHL()
 	quint32 nCount = quazaaSettings.Gnutella2.KHLHubCount;
 	CHostCacheIterator itHost = hostCache.m_lHosts.begin();
 
-	for(; nCount > 0 && itHost != hostCache.m_lHosts.end(); itHost++)
+	for ( ; nCount > 0 && itHost != hostCache.m_lHosts.end(); ++itHost )
 	{
-		if( (*itHost)->m_nFailures == 0 && (*itHost)->m_tTimestamp.secsTo(tNow) < quazaaSettings.Gnutella2.HostCurrent )
+		if ( !(*itHost)->m_nFailures &&
+		     tNow - (*itHost)->m_tTimestamp < quazaaSettings.Gnutella2.HostCurrent )
 		{
-			if( (*itHost)->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol )
+			if ( (*itHost)->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol )
 			{
-				pKHL->WritePacket("CH", 10)->WriteHostAddress(&(*itHost)->m_oAddress);
-				pKHL->WriteIntLE<quint32>((*itHost)->m_tTimestamp.toTime_t());
+				pKHL->WritePacket( "CH", 10 )->WriteHostAddress( &(*itHost)->m_oAddress );
+				pKHL->WriteIntLE<quint32>( (*itHost)->m_tTimestamp );
 			}
 			else
 			{
-				pKHL->WritePacket("CH", 22)->WriteHostAddress(&(*itHost)->m_oAddress);
-				pKHL->WriteIntLE<quint32>((*itHost)->m_tTimestamp.toTime_t());
+				pKHL->WritePacket( "CH", 22 )->WriteHostAddress( &(*itHost)->m_oAddress );
+				pKHL->WriteIntLE<quint32>( (*itHost)->m_tTimestamp );
 			}
 			--nCount;
 		}
@@ -238,11 +239,11 @@ void CNeighboursG2::DispatchKHL()
 
 	hostCache.m_pSection.unlock();
 
-	foreach(CNeighbour * pNode, m_lNodes)
+	foreach ( CNeighbour * pNode, m_lNodes )
 	{
-		if(pNode->m_nState == nsConnected && pNode->m_nProtocol == dpG2)
+		if ( pNode->m_nState == nsConnected && pNode->m_nProtocol == dpG2 )
 		{
-			((CG2Node*)pNode)->SendPacket(pKHL, false, false);
+			((CG2Node*)pNode)->SendPacket( pKHL, false, false );
 		}
 	}
 

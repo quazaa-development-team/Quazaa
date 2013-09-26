@@ -25,7 +25,6 @@
 #include "network.h"
 
 #include "thread.h"
-//#include "webcache.h"
 #include "g2packet.h"
 #include "datagrams.h"
 #include <QTimer>
@@ -46,8 +45,8 @@
 CNetwork Network;
 CThread NetworkThread;
 
-CNetwork::CNetwork(QObject* parent)
-	: QObject(parent)
+CNetwork::CNetwork(QObject* parent) :
+    QObject(parent)
 {
 	m_pSecondTimer = 0;
 	//m_oAddress.port = 6346;
@@ -124,7 +123,7 @@ void CNetwork::CleanupThread()
 	m_pSecondTimer->stop();
 	delete m_pSecondTimer;
 	m_pSecondTimer = 0;
-//	WebCache.CancelRequests();
+	//	WebCache.CancelRequests();
 
 	qDebug() << "Shutting down Handshakes...";
 	Handshakes.Disconnect();
@@ -242,7 +241,7 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeig
 		//qDebug() << "CNetwork::RoutePacket - weird thing, should not happen...";
 	}
 
-    systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 DROPPED!").arg(pTargetGUID.toString()).arg(pPacket->GetType()));
+	systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 DROPPED!").arg(pTargetGUID.toString()).arg(pPacket->GetType()));
 	//qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " DROPPED!";
 	return false;
 }

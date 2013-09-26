@@ -33,9 +33,9 @@ class CNeighbour : public CCompressedConnection
 	Q_OBJECT
 
 public:
-	DiscoveryProtocol	m_nProtocol;
+	DiscoveryProtocol   m_nProtocol;
 
-    QString         m_sHandshake;
+	QString         m_sHandshake;
 
 	quint32         m_tLastPacketIn;
 	quint32         m_tLastPacketOut;
@@ -46,16 +46,16 @@ public:
 	quint32         m_tLastPingOut;
 	quint32         m_nPingsWaiting;
 	QElapsedTimer   m_tRTTTimer;
-    qint64          m_tRTT;
+	qint64          m_tRTT;
 	quint32         m_tLastQuery;
 
 	NodeState       m_nState;
 
-	bool			m_bAutomatic;
+	bool            m_bAutomatic;
 
 
 public:
-	CNeighbour(QObject* parent = 0);
+	CNeighbour(QObject* parent = NULL);
 	virtual ~CNeighbour();
 
 	virtual void ConnectTo(CEndPoint oAddress)
@@ -64,12 +64,12 @@ public:
 		                   "Initiating neighbour connection to %s...",
 		                   qPrintable( oAddress.toString() ) );
 		m_nState = nsConnecting;
-		CNetworkConnection::ConnectTo(oAddress);
+		CNetworkConnection::ConnectTo( oAddress );
 	}
 	void AttachTo(CNetworkConnection* pOther)
 	{
 		m_nState = nsHandshaking;
-		CCompressedConnection::AttachTo(pOther);
+		CCompressedConnection::AttachTo( pOther );
 	}
 
 	virtual void OnTimer(quint32 tNow);

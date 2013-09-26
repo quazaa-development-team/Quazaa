@@ -56,7 +56,7 @@ public:
 	void DisconnectYoungest(DiscoveryProtocol nProtocol, int nType = 0, bool bCore = false);
 
 	virtual quint32 DownloadSpeed();
-    virtual quint32 UploadSpeed();
+	virtual quint32 UploadSpeed();
 
 signals:
 

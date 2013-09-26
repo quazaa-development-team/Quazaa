@@ -76,51 +76,54 @@ CManagedSearch* CSearchManager::Find(QUuid& oGUID)
 
 void CSearchManager::OnTimer()
 {
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l( &m_pSection );
 
 	quint32 nSearches = m_lSearches.size();
 
-	foreach(CManagedSearch* pSearch, m_lSearches)
+	foreach ( CManagedSearch* pSearch, m_lSearches )
 	{
 		pSearch->SendHits();
-		if(pSearch->m_bPaused)
-			nSearches--;
+		if ( pSearch->m_bPaused )
+			--nSearches;
 	}
 
-	if( nSearches == 0 )
+	if ( !nSearches )
 		return;
 
-	m_nPruneCounter++;
-	if(m_nPruneCounter % 30 == 0)
+	const QDateTime tNowDT = common::getDateTimeUTC();
+
+	++m_nPruneCounter;
+	if ( !(m_nPruneCounter % 30) )
 	{
-		hostCache.pruneByQueryAck();
+		hostCache.pruneByQueryAck( tNowDT.toTime_t() );
 	}
 
 	quint32 nPacketsLeft = PacketsPerSec;
-	quint32 nPacketsPerSearch = qMin(4u, nPacketsLeft / nSearches + 1u);
-	QDateTime tNow = common::getDateTimeUTC();
+	quint32 nPacketsPerSearch = qMin( 4u, nPacketsLeft / nSearches + 1u );
+
 
 	quint32 nExecuted = 0;
 
-	foreach(CManagedSearch* pSearch, m_lSearches)
+	foreach ( CManagedSearch* pSearch, m_lSearches )
 	{
-		if( pSearch->m_bPaused )
+		if ( pSearch->m_bPaused )
 			continue;
 
-		if( pSearch->m_nCookie != m_nCookie )
+		if ( pSearch->m_nCookie != m_nCookie )
 		{
-			quint32 nPacket = qMin(nPacketsPerSearch, nPacketsLeft);
-			pSearch->Execute(tNow, &nPacket);
+			quint32 nPacket = qMin( nPacketsPerSearch, nPacketsLeft );
+			pSearch->Execute( tNowDT, &nPacket );
 			pSearch->m_nCookie = m_nCookie;
-			nPacketsLeft -= ((nPacketsLeft < nPacketsPerSearch) ? (nPacketsLeft - nPacket) : (nPacketsPerSearch - nPacket));
+			nPacketsLeft -= ( (nPacketsLeft < nPacketsPerSearch) ?
+			                  (nPacketsLeft - nPacket) : (nPacketsPerSearch - nPacket) );
 			++nExecuted;
 
-			if( nPacketsLeft == 0 )
+			if ( !nPacketsLeft )
 				break;
 		}
 	}
 
-	if( nPacketsLeft > 0 || nExecuted == nSearches )
+	if ( nPacketsLeft || nExecuted == nSearches )
 	{
 		++m_nCookie;
 	}
@@ -128,22 +131,26 @@ void CSearchManager::OnTimer()
 
 bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUuid& oGUID)
 {
-	if(!pPacket->m_bCompound)
+
+	// TODO: brov, would it be possible to replace all numbers by constants with meaningful name? This would greatly improve the code readability.
+
+
+	if ( !pPacket->m_bCompound )
 	{
 		return false;
 	}
 
 	pPacket->SkipCompound();			// skip children to get search GUID
-	if(pPacket->GetRemaining() < 16)	// must be at least 16 bytes for GUID
+	if ( pPacket->GetRemaining() < 16 )	// must be at least 16 bytes for GUID
 	{
 		return false;
 	}
 
 	oGUID = pPacket->ReadGUID();		// Read search GUID
 
-	QMutexLocker l(&m_pSection);
+	QMutexLocker l( &m_pSection );
 
-	if(CManagedSearch* pSearch = Find(oGUID))	// is it our Query Ack?
+	if ( CManagedSearch* pSearch = Find( oGUID ) )	// is it our Query Ack?
 	{
 		// YES, this is ours, let's parse the packet and process it
 
@@ -152,7 +159,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		quint32 nRetryAfter = 0;
 		qint64 tAdjust = 0;
 		QString sVendor;
-		QDateTime tNow = common::getDateTimeUTC();
+		const quint32 tNow = common::getTNowUTC();
 
 		quint32 nHubs = 0, nLeaves = 0, nSuggestedHubs = 0;
 
@@ -161,30 +168,30 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		char szType[9];
 		quint32 nLength = 0, nNext = 0;
 
-		while(pPacket->ReadPacket(&szType[0], nLength))
+		while ( pPacket->ReadPacket( &szType[0], nLength ) )
 		{
 			nNext = pPacket->m_nPosition + nLength;
 
-			if(strcmp("D", szType) == 0 && nLength >= 4)
+			if ( strcmp( "D", szType) == 0 && nLength >= 4 )
 			{
 				QHostAddress ha;
-				if(nLength >= 16)
+				if ( nLength >= 16 )
 				{
 					// IPv6
 					Q_IPV6ADDR nIP;
-					pPacket->Read(&nIP, 16);
-					ha.setAddress(nIP);
+					pPacket->Read( &nIP, 16 );
+					ha.setAddress( nIP );
 
-					if(nLength >= 18)
+					if ( nLength >= 18 )
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
-						CEndPoint a(nIP, nPort);
+						CEndPoint a( nIP, nPort );
 						hostCache.m_pSection.lock();
-						hostCache.add(a, tNow);
+						hostCache.add( a, tNow );
 						hostCache.m_pSection.unlock();
 					}
 
-					if(nLength >= 20)
+					if ( nLength >= 20 )
 					{
 						nLeaves += pPacket->ReadIntLE<quint16>();
 					}
@@ -193,82 +200,80 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				{
 					// IPv4
 					quint32 nIP = pPacket->ReadIntBE<quint32>();
-					ha.setAddress(nIP);
+					ha.setAddress( nIP );
 
-					if(nLength >= 6)
+					if ( nLength >= 6 )
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
-						CEndPoint a(nIP, nPort);
+						CEndPoint a( nIP, nPort );
 
 						hostCache.m_pSection.lock();
-						hostCache.add(a, tNow);
+						hostCache.add( a, tNow );
 						hostCache.m_pSection.unlock();
 					}
 
-					if(nLength >= 8)
+					if ( nLength >= 8 )
 					{
 						nLeaves += pPacket->ReadIntLE<quint16>();
 					}
 				}
-				lDone.append(ha);
+				lDone.append( ha );
 
-				nHubs++;
+				++nHubs;
 			}
-			else if(strcmp("S", szType) == 0 && nLength >= 6)
+			else if ( strcmp( "S", szType ) == 0 && nLength >= 6 )
 			{
 				CEndPoint a;
-				pPacket->ReadHostAddress(&a, !(nLength >= 18));
-				quint32 tSeen = (nLength >= (a.protocol() == 0 ? 10u : 22u)) ? pPacket->ReadIntLE<quint32>() + tAdjust : tNow.toTime_t() - 60;
-
-				QDateTime ts = QDateTime::fromTime_t(tSeen);
-				ts.setTimeSpec(Qt::UTC);
+				pPacket->ReadHostAddress( &a, !( nLength >= 18 ) );
+				const quint32 tTimeStamp = ( nLength >= (a.protocol() == 0 ? 10u : 22u) ) ?
+				                             pPacket->ReadIntLE<quint32>() + tAdjust : tNow - 60;
 
 				hostCache.m_pSection.lock();
-				hostCache.add(a, ts);
+				hostCache.add( a, tTimeStamp );
 				hostCache.m_pSection.unlock();
 
-				nSuggestedHubs++;
+				++nSuggestedHubs;
 			}
-			else if(strcmp("TS", szType) == 0 && nLength >= 4)
+			else if ( strcmp("TS", szType) == 0 && nLength >= 4 )
 			{
-				tAdjust = common::getTNowUTC() - pPacket->ReadIntLE<quint32>();
+				tAdjust = tNow - pPacket->ReadIntLE<quint32>();
 			}
-			else if(strcmp("RA", szType) == 0 && nLength >= 2)
+			else if ( strcmp("RA", szType) == 0 && nLength >= 2 )
 			{
-				if(nLength >= 4)
+				if ( nLength >= 4 )
 				{
 					nRetryAfter = pPacket->ReadIntLE<quint32>();
 				}
-				else if(nLength >= 2)
+				else if ( nLength >= 2 )
 				{
 					nRetryAfter = pPacket->ReadIntLE<quint16>();
 				}
 
 				hostCache.m_pSection.lock();
-				CHostCacheHost* pHost = hostCache.take(oFromIp);
-				if(pHost)
+				CHostCacheHost* pHost = hostCache.take( oFromIp );
+				if ( pHost )
 				{
-					pHost->m_tRetryAfter = tNow.addSecs(nRetryAfter);
+					pHost->m_tRetryAfter = tNow + nRetryAfter;
 				}
 				hostCache.m_pSection.unlock();
 			}
-			else if(strcmp("FR", szType) == 0 && nLength >= 4)
+			else if ( strcmp("FR", szType) == 0 && nLength >= 4 )
 			{
-				if(nLength >= 16)
+				if ( nLength >= 16 )
 				{
 					Q_IPV6ADDR ip;
-					pPacket->Read(&ip, 16);
-					oFromIp.setAddress(ip);
+					pPacket->Read( &ip, 16 );
+					oFromIp.setAddress( ip );
 				}
 				else
 				{
 					quint32 nFromIp = pPacket->ReadIntBE<quint32>();
-					oFromIp.setAddress(nFromIp);
+					oFromIp.setAddress( nFromIp );
 				}
 			}
-			else if(strcmp("V", szType) == 0 && nLength >= 4)
+			else if( strcmp("V", szType) == 0 && nLength >= 4 )
 			{
-				sVendor = pPacket->ReadString(4);
+				sVendor = pPacket->ReadString( 4 );
 			}
 
 			pPacket->m_nPosition = nNext;
@@ -278,18 +283,19 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 
 		systemLog.postLog( LogSeverity::Debug, Components::Network,
 		                   "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds, %s).",
-		                   oFromIp.toString().toLocal8Bit().constData(), int(tAdjust), nHubs,
+		                   oFromIp.toString().toLocal8Bit().constData(), int( tAdjust ), nHubs,
 		                   nLeaves, nSuggestedHubs, nRetryAfter,
-		                   ( sVendor.isEmpty() ? "unknown" : qPrintable(sVendor ) ) );
+		                   ( sVendor.isEmpty() ? "unknown" : qPrintable( sVendor ) ) );
 
 		pSearch->m_nHubs += nHubs;
 		pSearch->m_nLeaves += nLeaves;
 
-		pSearch->OnHostAcknowledge(oFromIp, tNow);
+		const QDateTime tNowDT = common::getDateTimeUTC();
+		pSearch->OnHostAcknowledge( oFromIp, tNowDT );
 
-		for(int i = 0; i < lDone.size(); i++)
+		for ( int i = 0; i < lDone.size(); ++i )
 		{
-			pSearch->OnHostAcknowledge(lDone[i], tNow);
+			pSearch->OnHostAcknowledge( lDone[i], tNowDT );
 		}
 
 		emit pSearch->StatsUpdated();

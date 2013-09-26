@@ -38,7 +38,7 @@ CNeighbour::CNeighbour(QObject* parent) :
 
 	m_nState = nsClosed;
 	m_tLastPacketIn = m_tLastPacketOut = 0;
-	m_tLastPingOut = 0;
+	m_tLastPingOut  = 0;
 	m_nPingsWaiting = 0;
 	m_tRTT = 0;
 	m_nPacketsIn = m_nPacketsOut = 0;
@@ -132,7 +132,7 @@ void CNeighbour::OnError(QAbstractSocket::SocketError e)
 				hostCache.m_pSection.unlock();
 
 				// for some bad clients that drop connections too early
-				securityManager.ban( m_oAddress, Security::CSecurity::ban30Mins,
+				securityManager.ban( m_oAddress, Security::ban30Mins,
 				                     true, "Dropped handshake" );
 			}
 		}

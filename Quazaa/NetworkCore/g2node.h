@@ -40,7 +40,7 @@ class CG2Node : public CNeighbour
 
 public:
 	bool            m_bG2Core;
-	bool			m_bCachedKeys;
+	bool            m_bCachedKeys;
 	G2NodeType      m_nType;
 
 	quint16         m_nLeafCount;
@@ -49,25 +49,24 @@ public:
 	bool            m_bAcceptDeflate;
 
 	quint32         m_tKeyRequest;
-	quint32			m_tLastHAWIn;			// Time when HAW packet recievied
-	quint32			m_nCountHAWIn;			// Number of HAW packets recievied
+	quint32         m_tLastHAWIn;			// Time when HAW packet recievied
+	quint32         m_nCountHAWIn;			// Number of HAW packets recievied
+
+	bool            m_bSendQHT;
+	quint32         m_tLastQHT;
+
+	quint32         m_nHAWWait;
 
 	QQueue<G2Packet*>   m_lSendQueue;
 
-	CQueryHashTable* 	m_pRemoteTable;
-	CQueryHashTable* 	m_pLocalTable;
-
-	bool			m_bSendQHT;
-	quint32			m_tLastQHT;
-
-	quint32			m_nHAWWait;
-
-	CHubHorizonGroup*	m_pHubGroup;
+	CQueryHashTable*    m_pRemoteTable;
+	CQueryHashTable*    m_pLocalTable;
+	CHubHorizonGroup*   m_pHubGroup;
 
 	QHash<quint32, quint32> m_lRABan; // list of banned return addresses
 
 public:
-	CG2Node(QObject* parent = 0);
+	CG2Node(QObject* parent = NULL);
 	virtual ~CG2Node();
 
 	void AttachTo(CNetworkConnection* pOther)
@@ -76,8 +75,8 @@ public:
 	}
 
 	void SendPacket(G2Packet* pPacket, bool bBuffered = false, bool bRelease = false);
-protected:
 
+protected:
 	void ParseOutgoingHandshake();
 	void ParseIncomingHandshake();
 
@@ -114,7 +113,7 @@ protected:
 	qint64 writeToNetwork(qint64 nBytes);
 	bool HasData()
 	{
-		if(!m_lSendQueue.isEmpty())
+		if ( !m_lSendQueue.isEmpty() )
 		{
 			return true;
 		}

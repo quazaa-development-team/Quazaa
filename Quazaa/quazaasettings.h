@@ -294,7 +294,7 @@ namespace Settings
 		bool		Enable;									// Connect to G2
 		int			HAWPeriod;
 		int			HostCount;								// Number of hosts in X-Try-Hubs
-		int			HostCurrent;							// Index of current host
+		quint32		HostCurrent;							// Index of current host
 		int			HostExpire;								// Inactive time before a host expires
 		int			HubHorizonSize;
 		bool		HubVerified;							// Verified we are operating as a hub

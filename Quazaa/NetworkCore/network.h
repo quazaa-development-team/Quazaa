@@ -30,6 +30,8 @@
 #include "types.h"
 #include "routetable.h"
 
+// TODO: rename external variables
+
 class QTimer;
 class CThread;
 class G2Packet;
@@ -51,7 +53,7 @@ public:
 	CRouteTable      m_oRoutingTable;
 	quint32          m_tCleanRoutesNext;
 
-	bool			 m_bSharesReady;
+	bool             m_bSharesReady;
 
 public:
 	CNetwork(QObject* parent = 0);

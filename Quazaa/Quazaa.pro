@@ -279,6 +279,7 @@ HEADERS += \
 	FileFragments/Ranges.hpp \
 	geoiplist.h \
 	HostCache/hostcache.h \
+	HostCache/hostcachehost.h \
 	Metalink/magnetlink.h \
 	Metalink/metalinkhandler.h \
 	Metalink/metalink4handler.h \
@@ -411,8 +412,7 @@ HEADERS += \
 	UI/winmain.h \
 	UI/wizardircconnection.h \
 	UI/wizardquickstart.h \
-	UI/wizardtreewidget.h \
-    HostCache/hostcachehost.h
+	UI/wizardtreewidget.h
 
 win32 {
 	HEADERS += \
@@ -468,6 +468,7 @@ SOURCES += \
 	Discovery/networktype.cpp \
 	geoiplist.cpp \
 	HostCache/hostcache.cpp \
+	HostCache/hostcachehost.cpp \
 	main.cpp \
 	Misc/fileiconprovider.cpp \
 	Misc/networkiconprovider.cpp \
@@ -598,8 +599,7 @@ SOURCES += \
 	UI/winmain.cpp \
 	UI/wizardircconnection.cpp \
 	UI/wizardtreewidget.cpp \
-	UI/wizardquickstart.cpp \
-    HostCache/hostcachehost.cpp
+	UI/wizardquickstart.cpp
 
 win32 {
 	SOURCES += \

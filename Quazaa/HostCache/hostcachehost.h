@@ -32,29 +32,29 @@
 class CHostCacheHost
 {
 public:
-	CEndPoint       m_oAddress;     // Adres huba
-	QDateTime       m_tTimestamp;   // Kiedy ostatnio widziany
+	CEndPoint   m_oAddress;     // Adres huba
+	quint32     m_tTimestamp;   // Kiedy ostatnio widziany
 
-	quint32         m_nQueryKey;    // QK
-	CEndPoint       m_nKeyHost;     // host dla ktorego jest QK
-	QDateTime       m_nKeyTime;     // kiedy odebrano OK?
+	quint32     m_nQueryKey;    // QK
+	CEndPoint   m_nKeyHost;     // host dla ktorego jest QK
+	quint32     m_nKeyTime;     // kiedy odebrano OK?
 
-	QDateTime       m_tAck;         // czas ostatniej operacji wymagajacej potwierdzenia
+	quint32     m_tAck;         // czas ostatniej operacji wymagajacej potwierdzenia
 
-	QDateTime       m_tLastQuery;   // kiedy poslano ostatnie zapytanie?
-	QDateTime       m_tRetryAfter;  // kiedy mozna ponowic?
-	QDateTime       m_tLastConnect; // kiedy ostatnio sie polaczylismy?
-	quint32         m_nFailures;
+	quint32     m_tLastQuery;   // kiedy poslano ostatnie zapytanie?
+	quint32     m_tRetryAfter;  // kiedy mozna ponowic?
+	quint32     m_tLastConnect; // kiedy ostatnio sie polaczylismy?
+	quint32     m_nFailures;
 
-	// for statistics purposes only
-	bool            m_bCountryObtained;
-
+private:
+	CHostCacheHost(CEndPoint oAddress, quint32 tTimestamp);
 public:
-	CHostCacheHost();
 	~CHostCacheHost();
 
-	bool canQuery(QDateTime tNow = common::getDateTimeUTC());
-	void setKey(quint32 nKey, CEndPoint* pHost = 0);
+	bool canQuery(const quint32 tNow = common::getTNowUTC());
+	void setKey(quint32 nKey, const quint32 tNow = common::getTNowUTC(), CEndPoint* pHost = NULL);
+
+	friend class CHostCache;
 };
 
 #endif // HOSTCACHEHOST_H

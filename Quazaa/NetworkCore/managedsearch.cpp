@@ -42,7 +42,7 @@
 #include "debug_new.h"
 
 CManagedSearch::CManagedSearch(CQuery* pQuery, QObject* parent) :
-	QObject(parent)
+    QObject(parent)
 {
 	m_bActive = false;
 	m_bPaused = false;
@@ -115,51 +115,52 @@ void CManagedSearch::Stop()
 	emit StateChanged();
 }
 
-void CManagedSearch::Execute(QDateTime& tNow, quint32* pnMaxPackets)
+void CManagedSearch::Execute(const QDateTime& tNowDT, quint32* pnMaxPackets)
 {
-	if(!m_bActive)
+	if ( !m_bActive )
 	{
 		return;
 	}
 
-	if(m_nQueryCount > quazaaSettings.Gnutella2.QueryLimit)
+	if ( m_nQueryCount > quazaaSettings.Gnutella2.QueryLimit )
 	{
-		systemLog.postLog(LogSeverity::Debug, "Pausing search: query limit reached");
+		systemLog.postLog( LogSeverity::Debug, "Pausing search: query limit reached" );
 		Pause();
 		return;
 	}
 
 	quint32 nMaxPackets = *pnMaxPackets;
 
-	if(m_tStarted.secsTo(tNow) < 30)
+	if ( m_tStarted.secsTo( tNowDT ) < 30 )
 	{
-		nMaxPackets = qMin(quint32(2), nMaxPackets);
+		nMaxPackets = qMin( quint32(2), nMaxPackets );
 	}
 
 	*pnMaxPackets -= nMaxPackets;
 
-	SearchNeighbours(tNow);
-	SearchG2(tNow, &nMaxPackets);
+	SearchNeighbours( tNowDT );
+	SearchG2( tNowDT, &nMaxPackets );
 
 	*pnMaxPackets += nMaxPackets;
 
 	m_bCanRequestKey = !m_bCanRequestKey;
 
-	if( tNow > m_tCleanHostsNext )
+	if ( tNowDT > m_tCleanHostsNext )
 	{
 #ifdef _DEBUG
 		quint32 nRemoved = 0;
 		quint32 nOldSize = m_lSearchedNodes.size();
 #endif
 
-		for(QHash<QHostAddress, QDateTime>::iterator itHost = m_lSearchedNodes.begin(); itHost != m_lSearchedNodes.end(); )
+		for ( QHash<QHostAddress, QDateTime>::iterator itHost = m_lSearchedNodes.begin();
+		      itHost != m_lSearchedNodes.end(); )
 		{
-			if( (*itHost).secsTo(tNow) > quazaaSettings.Gnutella2.RequeryDelay )
+			if ( (*itHost).secsTo( tNowDT ) > quazaaSettings.Gnutella2.RequeryDelay )
 			{
 #ifdef _DEBUG
 				++nRemoved;
 #endif
-				itHost = m_lSearchedNodes.erase(itHost);
+				itHost = m_lSearchedNodes.erase( itHost );
 			}
 			else
 			{
@@ -167,75 +168,85 @@ void CManagedSearch::Execute(QDateTime& tNow, quint32* pnMaxPackets)
 			}
 		}
 
-		m_tCleanHostsNext = tNow.addSecs(quazaaSettings.Gnutella2.QueryHostThrottle);
+		m_tCleanHostsNext = tNowDT.addSecs( quazaaSettings.Gnutella2.QueryHostThrottle );
 
 #ifdef _DEBUG
-		systemLog.postLog(LogSeverity::Debug, QString("Clearing don't-try list for search %1, old size: %2, new size: %3, items removed: %4").arg(m_oGUID.toString()).arg(nOldSize).arg(m_lSearchedNodes.size()).arg(nRemoved));
+		systemLog.postLog( LogSeverity::Debug,
+		                   QString( "Clearing don't-try list for search %1, old size: %2, new size: %3, items removed: %4"
+		                            ).arg( m_oGUID.toString(), QString::number( nOldSize ),
+		                                   QString::number( m_lSearchedNodes.size() ),
+		                                   QString::number( nRemoved ) ) );
 #endif
 	}
 }
 
-void CManagedSearch::SearchNeighbours(QDateTime& tNow)
+void CManagedSearch::SearchNeighbours(const QDateTime& tNowDT)
 {
-	QMutexLocker l(&Neighbours.m_pSection);
+	QMutexLocker l( &Neighbours.m_pSection );
 
-	quint32 tNowT = tNow.toTime_t();
+	const quint32 tNow = tNowDT.toTime_t();
 
-	for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+	for ( QList<CNeighbour*>::iterator itNode = Neighbours.begin();
+	      itNode != Neighbours.end(); ++itNode )
 	{
-		if((*itNode)->m_nProtocol != dpG2)
+		if ( (*itNode)->m_nProtocol != dpG2 )
 		{
 			continue;
 		}
 
 		CG2Node* pNode = (CG2Node*)(*itNode);
 
-		if(pNode->m_nState == nsConnected
-				&& tNowT - pNode->m_tConnected > 15
-				&& (tNowT - pNode->m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle
-					&& !m_lSearchedNodes.contains(pNode->m_oAddress))
-		  )
+		if ( pNode->m_nState == nsConnected &&
+		     tNow - pNode->m_tConnected > 15 &&
+		     ( tNow - pNode->m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle &&
+		       !m_lSearchedNodes.contains( pNode->m_oAddress ) ) )
 		{
-			G2Packet* pQuery = m_pQuery->ToG2Packet(Network.IsFirewalled() ? 0 : &Network.m_oAddress);
-			if(pQuery)
+			G2Packet* pQuery = m_pQuery->ToG2Packet( Network.IsFirewalled() ?
+			                                             NULL : &Network.m_oAddress );
+			if ( pQuery )
 			{
-				m_lSearchedNodes[pNode->m_oAddress] = tNow;
-				pNode->SendPacket(pQuery, true, true);
-				pNode->m_tLastQuery = tNowT;
+				m_lSearchedNodes[pNode->m_oAddress] = tNowDT;
+				pNode->SendPacket( pQuery, true, true );
+				pNode->m_tLastQuery = tNow;
 			}
 		}
 	}
 }
 
-void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
+void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 {
-	QMutexLocker oHostCacheLock(&hostCache.m_pSection);
+	Q_ASSERT( tNowDT.timeSpec() == Qt::UTC );
+	const quint32 tNow      = tNowDT.toTime_t();
+	CG2Node* pLastNeighbour = NULL;
+	CHostCacheHost* pHost   = NULL;
 
-	CG2Node* pLastNeighbour = 0;
+	QMutexLocker oHostCacheLock( &hostCache.m_pSection );
 
-	for(CHostCacheIterator itHost = hostCache.m_lHosts.begin(); itHost != hostCache.m_lHosts.end(); ++itHost)
+	for ( CHostCacheIterator itHost = hostCache.m_lHosts.begin();
+	      itHost != hostCache.m_lHosts.end(); ++itHost )
 	{
-		CHostCacheHost* pHost = *itHost;
+		pHost = *itHost;
 
-		if(pHost->m_tTimestamp.secsTo(tNow) > quazaaSettings.Gnutella2.HostCurrent)
+		if ( tNow - pHost->m_tTimestamp > quazaaSettings.Gnutella2.HostCurrent )
 			break; // timestamp sorted cache
 
-		if(!pHost->canQuery(tNow))
+		if ( !pHost->canQuery( tNow ) )
 			continue;
 
 		// don't query already queried hosts
 		// this applies to query key requests as well,
 		// so we don't waste our resources to request a key that will be useless in this search anyway
-		if(m_lSearchedNodes.contains(pHost->m_oAddress))
+		if ( m_lSearchedNodes.contains( pHost->m_oAddress ) )
 		{
-			if(m_lSearchedNodes[pHost->m_oAddress].secsTo(tNow) < int(quazaaSettings.Gnutella2.RequeryDelay))
+			if ( m_lSearchedNodes[pHost->m_oAddress].secsTo( tNowDT ) <
+			     (int)(quazaaSettings.Gnutella2.RequeryDelay) )
 			{
 				continue;
 			}
 		}
 
 		Neighbours.m_pSection.lock();
-		if(Neighbours.Find(pHost->m_oAddress))
+		if ( Neighbours.Find(pHost->m_oAddress ) )
 		{
 			// don't udp to neighbours
 			Neighbours.m_pSection.unlock();
@@ -247,21 +258,21 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 
 		bool bRefreshKey = false;
 
-		if(pHost->m_nQueryKey == 0)
+		if ( !pHost->m_nQueryKey )
 		{
 			// we don't have a key
 		}
 		else
 		{
-			if(pHost->m_nKeyTime.secsTo(tNow) > quazaaSettings.Gnutella2.QueryKeyTime)
+			if ( tNow - pHost->m_nKeyTime > quazaaSettings.Gnutella2.QueryKeyTime)
 			{
 				// query key expired
 				pHost->m_nQueryKey = 0;
 				bRefreshKey = true;
 			}
-			else if(!Network.IsFirewalled())
+			else if ( !Network.IsFirewalled() )
 			{
-				if(pHost->m_nKeyHost == Network.m_oAddress)
+				if ( pHost->m_nKeyHost == Network.m_oAddress )
 				{
 					pReceiver = Network.m_oAddress;
 				}
@@ -275,7 +286,7 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 				// we are firewalled, so key must be for one of our connected neighbours
 				Neighbours.m_pSection.lock();
 
-				CNeighbour* pNode = Neighbours.Find(pHost->m_nKeyHost, dpG2);
+				CNeighbour* pNode = Neighbours.Find( pHost->m_nKeyHost, dpG2 );
 
 				if( pNode && static_cast<CG2Node*>(pNode)->m_nState == nsConnected )
 				{
@@ -291,49 +302,53 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 		}
 
 		// if we still have a key, send the query
-		if(pHost->m_nQueryKey != 0)
+		if ( pHost->m_nQueryKey )
 		{
-			Q_ASSERT(!pReceiver.isNull());
+			Q_ASSERT( !pReceiver.isNull() );
 
-			m_lSearchedNodes[pHost->m_oAddress] = tNow;
+			m_lSearchedNodes[pHost->m_oAddress] = tNowDT;
 
 			pHost->m_tLastQuery = tNow;
-			if(pHost->m_tAck.isNull())
+			if ( !pHost->m_tAck )
 			{
 				pHost->m_tAck = tNow;
 			}
 
-			G2Packet* pQuery = m_pQuery->ToG2Packet(&pReceiver, pHost->m_nQueryKey);
+			G2Packet* pQuery = m_pQuery->ToG2Packet( &pReceiver, pHost->m_nQueryKey );
 
-			if(pQuery)
+			if ( pQuery )
 			{
 #if LOG_QUERY_HANDLING
-				systemLog.postLog(LogSeverity::Debug, QString("Querying %1").arg(pHost->m_oAddress.toString()));
+				systemLog.postLog( LogSeverity::Debug,
+				                   QString( "Querying %1" ).arg( pHost->m_oAddress.toString() ) );
 #endif // LOG_QUERY_HANDLING
 				*pnMaxPackets -= 1;
-				Datagrams.SendPacket(pHost->m_oAddress, pQuery, true);
+				Datagrams.SendPacket( pHost->m_oAddress, pQuery, true );
 				pQuery->Release();
-				m_nQueryCount++;
+				++m_nQueryCount;
 			}
 		}
-		else if(m_bCanRequestKey
-				&& pHost->m_nKeyTime.secsTo(tNow) > (long)quazaaSettings.Gnutella2.QueryHostThrottle)
+		else if ( m_bCanRequestKey &&
+		          tNow - pHost->m_nKeyTime > quazaaSettings.Gnutella2.QueryHostThrottle )
 		{
 			// we can request a query key now
 			// UDP QKR is sent without ACK request, so this may be a retry
 
 			bool bKeyRequested = false;
 
-			if(!Network.IsFirewalled())
+			if ( !Network.IsFirewalled() )
 			{
 				// request a key for our address
-				G2Packet* pQKR = G2Packet::New("QKR", false);
-				pQKR->WritePacket("RNA", (Network.m_oAddress.protocol() == 0 ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
-				Datagrams.SendPacket(pHost->m_oAddress, pQKR, false);
+				G2Packet* pQKR = G2Packet::New( "QKR", false );
+				pQKR->WritePacket( "RNA", (Network.m_oAddress.protocol() ? 18 : 6)
+				                   )->WriteHostAddress( &Network.m_oAddress );
+				Datagrams.SendPacket( pHost->m_oAddress, pQKR, false );
 				pQKR->Release();
 
 #if LOG_QUERY_HANDLING
-				systemLog.postLog(LogSeverity::Debug, QString("Requesting query key from %1").arg(pHost->m_oAddress.toString()));
+				systemLog.postLog( LogSeverity::Debug,
+				                   QString( "Requesting query key from %1"
+				                            ).arg( pHost->m_oAddress.toString() ) );
 #endif // LOG_QUERY_HANDLING
 
 				bKeyRequested = true;
@@ -346,9 +361,10 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 
 				// Find best hub for routing
 				bool bCheckLast = Neighbours.m_nHubsConnectedG2 > 2;
-				for(QList<CNeighbour*>::iterator itNode = Neighbours.begin(); itNode != Neighbours.end(); ++itNode)
+				for ( QList<CNeighbour*>::iterator itNode = Neighbours.begin();
+				      itNode != Neighbours.end(); ++itNode )
 				{
-					if((*itNode)->m_nProtocol != dpG2 || (*itNode)->m_nState != nsConnected)
+					if ( (*itNode)->m_nProtocol != dpG2 || (*itNode)->m_nState != nsConnected )
 					{
 						continue;
 					}
@@ -356,59 +372,67 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 					CG2Node* pNode = (CG2Node*)(*itNode);
 
 					// Must be a hub that already acked our query
-					if(pNode->m_nType == G2_HUB &&
-							m_lSearchedNodes.contains(pNode->m_oAddress))
+					if ( pNode->m_nType == G2_HUB &&
+					     m_lSearchedNodes.contains( pNode->m_oAddress ) )
 					{
-						if((bCheckLast && pNode == pLastNeighbour))
+						if ( ( bCheckLast && pNode == pLastNeighbour ) )
 						{
 							continue;
 						}
 
-						if(pHub)
+						if ( pHub )
 						{
-							if(pNode->m_nPingsWaiting == 0
-									&& pNode->m_tRTT < pHub->m_tRTT
-									&& pNode->m_tRTT < 10000)
+							if ( !pNode->m_nPingsWaiting &&
+							      pNode->m_tRTT < pHub->m_tRTT &&
+							      pNode->m_tRTT < 10000 )
 							{
 								pHub = pNode;
 							}
 						}
-						else if(pNode->m_nPingsWaiting == 0)
+						else if ( !pNode->m_nPingsWaiting )
 						{
 							pHub = pNode;
 						}
 					}
 				}
 
-				if(pHub)
+				if ( pHub )
 				{
 					pLastNeighbour = pHub;
-					if(pHub->m_tKeyRequest == 0)
+					if ( !pHub->m_tKeyRequest )
 					{
-						pHub->m_tKeyRequest = tNow.toTime_t();
+						pHub->m_tKeyRequest = tNow;
 					}
 
-					if(pHub->m_bCachedKeys)
+					if ( pHub->m_bCachedKeys )
 					{
-						G2Packet* pQKR = G2Packet::New("QKR", true);
-						pQKR->WritePacket("QNA", (pHost->m_oAddress.protocol() == 0 ? 6 : 18))->WriteHostAddress(&pHost->m_oAddress);
-						if( bRefreshKey )
-							pQKR->WritePacket("REF", 0);
+						G2Packet* pQKR = G2Packet::New( "QKR", true );
+						pQKR->WritePacket( "QNA", (pHost->m_oAddress.protocol() ? 18 : 6)
+						                   )->WriteHostAddress( &pHost->m_oAddress );
+						if ( bRefreshKey )
+							pQKR->WritePacket( "REF", 0 );
 
 #if LOG_QUERY_HANDLING
-						systemLog.postLog(LogSeverity::Debug, QString("Requesting query key from %1 through %2").arg(pHost->m_oAddress.toString()).arg(pHub->m_oAddress.toString()));
+						systemLog.postLog( LogSeverity::Debug,
+						                   QString( "Requesting query key from %1 through %2"
+						                            ).arg( pHost->m_oAddress.toString()
+						                                   ).arg( pHub->m_oAddress.toString() ) );
 #endif // LOG_QUERY_HANDLING
-						pHub->SendPacket(pQKR, true, true);
+						pHub->SendPacket( pQKR, true, true );
 					}
 					else
 					{
-						G2Packet* pQKR = G2Packet::New("QKR", true);
-						pQKR->WritePacket("RNA", (pHub->m_oAddress.protocol() == 0 ? 6 : 18))->WriteHostAddress(&pHub->m_oAddress);
-						Datagrams.SendPacket(pHost->m_oAddress, pQKR, false);
+						G2Packet* pQKR = G2Packet::New( "QKR", true );
+						pQKR->WritePacket( "RNA", (pHub->m_oAddress.protocol() ? 18 : 6)
+						                   )->WriteHostAddress( &pHub->m_oAddress );
+						Datagrams.SendPacket( pHost->m_oAddress, pQKR, false );
 						pQKR->Release();
 
 #if LOG_QUERY_HANDLING
-						systemLog.postLog(LogSeverity::Debug, QString("Requesting query key from %1 for %2").arg(pHost->m_oAddress.toString()).arg(pHub->m_oAddress.toString()));
+						systemLog.postLog( LogSeverity::Debug,
+						                   QString( "Requesting query key from %1 for %2"
+						                            ).arg( pHost->m_oAddress.toString()
+						                                   ).arg( pHub->m_oAddress.toString() ) );
 #endif // LOG_QUERY_HANDLING
 					}
 
@@ -422,7 +446,7 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 			{
 				*pnMaxPackets -= 1;
 
-				if(pHost->m_tAck.isNull())
+				if ( !pHost->m_tAck )
 				{
 					pHost->m_tAck = tNow;
 				}
@@ -436,9 +460,11 @@ void CManagedSearch::SearchG2(QDateTime& tNow, quint32* pnMaxPackets)
 			break;
 		}
 	}
+
+	pHost = NULL;
 }
 
-void CManagedSearch::OnHostAcknowledge(QHostAddress nHost, QDateTime& tNow)
+void CManagedSearch::OnHostAcknowledge(QHostAddress nHost, const QDateTime& tNow)
 {
 	m_lSearchedNodes[nHost] = tNow;
 }

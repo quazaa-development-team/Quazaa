@@ -34,56 +34,58 @@ public:
 	}
 };
 
-CHostCacheHost::CHostCacheHost() :
-    m_bCountryObtained( false )
+CHostCacheHost::CHostCacheHost(CEndPoint oAddress, quint32 tTimestamp) :
+    m_oAddress( oAddress ),
+    m_tTimestamp( tTimestamp ),
+    m_nQueryKey(    0 ),
+    m_nKeyHost( CEndPoint() ),
+    m_nKeyTime(     0 ),
+    m_tAck(         0 ),
+    m_tLastQuery(   0 ),
+    m_tRetryAfter(  0 ),
+    m_tLastConnect( 0 ),
+    m_nFailures(    0 )
 {
-	m_nQueryKey = 0;
-	m_nFailures = 0;
-	m_nKeyTime = m_tAck = m_tLastConnect =
-				 m_tLastQuery = m_tRetryAfter = QDateTime::fromTime_t(86400).toUTC();
-	Q_ASSERT(m_tLastConnect.timeSpec() == Qt::UTC);
 }
 
 CHostCacheHost::~CHostCacheHost()
 {
-
 }
 
-bool CHostCacheHost::canQuery(QDateTime tNow)
+bool CHostCacheHost::canQuery(const quint32 tNow)
 {
-	if ( tNow.isNull() )
-	{
-		tNow = common::getDateTimeUTC();
-	}
+	Q_ASSERT( tNow );
 
-	if ( !m_tAck.isNull() && m_nQueryKey ) // if waiting for an ack, and we have a query key
+	if ( m_tAck && m_nQueryKey ) // if waiting for an ack, and we have a query key
 	{
 		return false;
 	}
 
-	if ( m_tTimestamp.secsTo( tNow ) > quazaaSettings.Gnutella2.HostCurrent ) // host is not too old
+	Q_ASSERT( tNow - m_tTimestamp > 0 );
+	if ( tNow - m_tTimestamp > quazaaSettings.Gnutella2.HostCurrent ) // host is not too old
 	{
 		return false;
 	}
 
-	if ( !m_tRetryAfter.isNull() && tNow < m_tRetryAfter ) // honor retry-after
+	if ( m_tRetryAfter && tNow < m_tRetryAfter ) // honor retry-after
 	{
 		return false;
 	}
 
-	if ( m_tLastQuery.isNull() ) // host not already queried
+	if ( !m_tLastQuery ) // host not already queried
 	{
 		return true;
 	}
 
-	return m_tLastQuery.secsTo(tNow) > (long)quazaaSettings.Gnutella2.QueryHostThrottle;
+	Q_ASSERT( tNow - m_tLastQuery > 0 );
+	return tNow - m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle;
 }
 
-void CHostCacheHost::setKey(quint32 nKey, CEndPoint* pHost)
+void CHostCacheHost::setKey(quint32 nKey, const quint32 tNow, CEndPoint* pHost)
 {
-	m_tAck      = QDateTime();
+	m_tAck      = 0;
 	m_nFailures = 0;
 	m_nQueryKey = nKey;
-	m_nKeyTime  = common::getDateTimeUTC();
+	m_nKeyTime  = tNow;
 	m_nKeyHost  = pHost ? *pHost : Network.GetLocalAddress();
 }

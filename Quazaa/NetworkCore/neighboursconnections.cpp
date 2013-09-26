@@ -37,12 +37,12 @@
 #include "debug_new.h"
 
 CNeighboursConnections::CNeighboursConnections(QObject* parent) :
-	CNeighboursRouting(parent),
-	m_pController(0),
-	m_nHubsConnectedG2(0),
-	m_nLeavesConnectedG2(0),
-	m_nUnknownInitiated(0),
-	m_nUnknownIncoming(0)
+    CNeighboursRouting(parent),
+    m_pController(0),
+    m_nHubsConnectedG2(0),
+    m_nLeavesConnectedG2(0),
+    m_nUnknownInitiated(0),
+    m_nUnknownIncoming(0)
 {
 }
 CNeighboursConnections::~CNeighboursConnections()
@@ -142,11 +142,11 @@ void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int
 
 				if( nProtocol == dpG2 )
 				{
-						if( ((CG2Node*)(*i))->m_nType != nType // if node type is not requested type
-								|| (!bCore && ((CG2Node*)(*i))->m_bG2Core) ) // or we don't want to disconnect "our" nodes
-						{
-							continue;
-						}
+					if( ((CG2Node*)(*i))->m_nType != nType // if node type is not requested type
+					    || (!bCore && ((CG2Node*)(*i))->m_bG2Core) ) // or we don't want to disconnect "our" nodes
+					{
+						continue;
+					}
 				}
 
 				if(pNode == 0)
@@ -200,33 +200,10 @@ void CNeighboursConnections::Maintain()
 		{
 			switch(pNode->m_nProtocol)
 			{
-				case dpG2:
-					switch(((CG2Node*)pNode)->m_nType)
-					{
-						case G2_UNKNOWN:
-							nUnknown++;
-							if( pNode->m_bInitiated )
-								m_nUnknownInitiated++;
-							else
-								m_nUnknownIncoming++;
-
-							break;
-						case G2_HUB:
-							nHubsG2++;
-							if(((CG2Node*)pNode)->m_bG2Core)
-							{
-								nCoreHubsG2++;
-							}
-							break;
-						case G2_LEAF:
-							nLeavesG2++;
-							if(((CG2Node*)pNode)->m_bG2Core)
-							{
-								nCoreLeavesG2++;
-							}
-					}
-					break;
-				default:
+			case dpG2:
+				switch(((CG2Node*)pNode)->m_nType)
+				{
+				case G2_UNKNOWN:
 					nUnknown++;
 					if( pNode->m_bInitiated )
 						m_nUnknownInitiated++;
@@ -234,6 +211,29 @@ void CNeighboursConnections::Maintain()
 						m_nUnknownIncoming++;
 
 					break;
+				case G2_HUB:
+					nHubsG2++;
+					if(((CG2Node*)pNode)->m_bG2Core)
+					{
+						nCoreHubsG2++;
+					}
+					break;
+				case G2_LEAF:
+					nLeavesG2++;
+					if(((CG2Node*)pNode)->m_bG2Core)
+					{
+						nCoreLeavesG2++;
+					}
+				}
+				break;
+			default:
+				nUnknown++;
+				if( pNode->m_bInitiated )
+					m_nUnknownInitiated++;
+				else
+					m_nUnknownIncoming++;
+
+				break;
 			}
 		}
 		else
@@ -268,28 +268,32 @@ void CNeighboursConnections::Maintain()
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumHubs - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
 
-			QDateTime tNow = common::getDateTimeUTC();
+			const quint32 tNow = common::getTNowUTC();
 			bool bCountry = true;
 			int  nCountry = 0;
 			QList<CHostCacheHost*> oExcept;
 
-			for(; nAttempt > 0; nAttempt--)
+			for ( ; nAttempt > 0; --nAttempt )
 			{
 				// nowe polaczenie
-				CHostCacheHost* pHost = hostCache.getConnectable(tNow, oExcept, (bCountry ? (quazaaSettings.Connection.PreferredCountries.size() ? quazaaSettings.Connection.PreferredCountries.at(nCountry) : Network.m_oAddress.country()) : "ZZ"));
+				CHostCacheHost* pHost;
+				QString sCountry;
+				sCountry = bCountry ? ( quazaaSettings.Connection.PreferredCountries.size() ?
+				                        quazaaSettings.Connection.PreferredCountries.at(nCountry) :
+				                        Network.m_oAddress.country() ) : "ZZ";
+				pHost = hostCache.getConnectable( tNow, oExcept, sCountry );
 
-				if(pHost)
+				if ( pHost )
 				{
-                    if( !Neighbours.Find(pHost->m_oAddress) )
+					if ( !Neighbours.Find( pHost->m_oAddress ) )
 					{
-                        if( securityManager.isDenied(pHost->m_oAddress) )
-                        {
-                            hostCache.remove(pHost);
-                            continue;
-                        }
+						if ( securityManager.isDenied( pHost->m_oAddress ) )
+						{
+							hostCache.remove( pHost );
+							continue;
+						}
 						ConnectTo(pHost->m_oAddress, dpG2);
 						pHost->m_tLastConnect = tNow;
-						Q_ASSERT(tNow.timeSpec() == Qt::UTC && pHost->m_tLastConnect.timeSpec() == Qt::UTC);
 					}
 					else
 					{
@@ -338,33 +342,33 @@ void CNeighboursConnections::Maintain()
 		{
 			QMutexLocker l(&hostCache.m_pSection);
 
-			QDateTime tNow = common::getDateTimeUTC();
+			const quint32 tNow = common::getTNowUTC();
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
 			QList<CHostCacheHost*> oExcept;
 
-			for(; nAttempt > 0; nAttempt--)
+			for ( ; nAttempt > 0; --nAttempt )
 			{
 				// nowe polaczenie
-				CHostCacheHost* pHost = hostCache.getConnectable(tNow, oExcept);
+				CHostCacheHost* pHost = hostCache.getConnectable( tNow, oExcept );
 
-				if(pHost)
+				if ( pHost )
 				{
-                    if( !Neighbours.Find(pHost->m_oAddress) )
+					if( !Neighbours.Find( pHost->m_oAddress ) )
 					{
-                        if( securityManager.isDenied(pHost->m_oAddress) )
-                        {
-                            hostCache.remove(pHost);
-                            continue;
-                        }
+						if ( securityManager.isDenied( pHost->m_oAddress ) )
+						{
+							hostCache.remove( pHost );
+							continue;
+						}
 
-						ConnectTo(pHost->m_oAddress, dpG2);
+						ConnectTo( pHost->m_oAddress, dpG2 );
 						pHost->m_tLastConnect = tNow;
 					}
 					else
 					{
-						oExcept.append(pHost);
-						nAttempt++;
+						oExcept.append( pHost );
+						++nAttempt;
 					}
 				}
 				else
@@ -434,11 +438,11 @@ CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProt
 
 	switch(nProtocol)
 	{
-		case dpG2:
-			pNode = new CG2Node();
-			break;
-		default:
-			Q_ASSERT_X(0, "CNeighbours::ConnectTo", "Unknown protocol");
+	case dpG2:
+		pNode = new CG2Node();
+		break;
+	default:
+		Q_ASSERT_X(0, "CNeighbours::ConnectTo", "Unknown protocol");
 	}
 
 	pNode->m_bAutomatic = bAutomatic;

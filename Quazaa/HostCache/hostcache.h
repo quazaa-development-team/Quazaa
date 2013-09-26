@@ -45,7 +45,7 @@ class CHostCache
 public:
 	QList<CHostCacheHost*>  m_lHosts;
 	mutable QMutex          m_pSection;
-	QDateTime               m_tLastSave;
+	quint32                 m_tLastSave;
 
 	quint32                 m_nMaxCacheHosts;
 	QString                 m_sMessage;
@@ -54,16 +54,17 @@ public:
 	CHostCache();
 	~CHostCache();
 
-	CHostCacheHost* add(CEndPoint host, QDateTime ts = common::getDateTimeUTC());
+	CHostCacheHost* add(CEndPoint host, const QDateTime& ts);
+	CHostCacheHost* add(CEndPoint host, quint32 tTimeStamp);
 
 	CHostCacheIterator find(CEndPoint oHost);
 	CHostCacheIterator find(CHostCacheHost* pHost);
 	inline CHostCacheHost* take(CEndPoint oHost);
 	inline CHostCacheHost* take(CHostCacheHost *pHost);
 
-	CHostCacheHost* update(CEndPoint oHost);
-	CHostCacheHost* update(CHostCacheHost* pHost);
-	CHostCacheHost* update(CHostCacheIterator itHost);
+	CHostCacheHost* update(CEndPoint oHost, const quint32 tTimeStamp);
+	CHostCacheHost* update(CHostCacheHost* pHost, const quint32 tTimeStamp);
+	CHostCacheHost* update(CHostCacheIterator itHost, const quint32 tTimeStamp);
 
 	void remove(CHostCacheHost* pRemove);
 	void remove(CEndPoint oHost);
@@ -73,15 +74,15 @@ public:
 
 	void onFailure(CEndPoint addr);
 	CHostCacheHost* get();
-	CHostCacheHost* getConnectable(QDateTime tNow = common::getDateTimeUTC(),
+	CHostCacheHost* getConnectable(const quint32 tNow = common::getTNowUTC(),
 	                               QList<CHostCacheHost*> oExcept = QList<CHostCacheHost*>(),
 	                               QString sCountry = QString("ZZ"));
 
-	bool save();
+	bool save(const quint32 tNow);
 	void load();
 
-	void pruneOldHosts();
-	void pruneByQueryAck();
+	void pruneOldHosts(const quint32 tNow);
+	void pruneByQueryAck(const quint32 tNow);
 
 	static quint32 writeToFile(const void * const pManager, QFile& oFile);
 

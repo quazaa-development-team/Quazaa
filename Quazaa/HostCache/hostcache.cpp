@@ -44,8 +44,8 @@
 CHostCache hostCache;
 
 CHostCache::CHostCache():
-	m_tLastSave( common::getDateTimeUTC() ),
-	m_nMaxCacheHosts( 3000 )
+    m_tLastSave( common::getTNowUTC() ),
+    m_nMaxCacheHosts( 3000 )
 {
 }
 
@@ -57,7 +57,12 @@ CHostCache::~CHostCache()
 	}
 }
 
-CHostCacheHost* CHostCache::add(CEndPoint host, QDateTime ts)
+CHostCacheHost* CHostCache::add(CEndPoint host, const QDateTime& ts)
+{
+	Q_ASSERT( ts.timeSpec() == Qt::UTC );
+	return add( host, ts.toTime_t() );
+}
+CHostCacheHost* CHostCache::add(CEndPoint host, quint32 tTimeStamp)
 {
 	if ( !host.isValid() )
 	{
@@ -72,6 +77,8 @@ CHostCacheHost* CHostCache::add(CEndPoint host, QDateTime ts)
 	if ( securityManager.isDenied(host) )
 		return NULL;
 
+	const quint32 tNow = common::getTNowUTC();
+
 	if ( (quint32)m_lHosts.size() > m_nMaxCacheHosts )
 	{
 		int nMax = m_nMaxCacheHosts / 2;
@@ -80,34 +87,27 @@ CHostCacheHost* CHostCache::add(CEndPoint host, QDateTime ts)
 			delete m_lHosts.takeLast();
 		}
 
-		save();
+		save( tNow );
 	}
+	else if ( tNow - m_tLastSave > 600 )
+		save( tNow );
 
-	QDateTime tNow = common::getDateTimeUTC();
-
-	if ( m_tLastSave.secsTo( tNow ) > 600 )
-		save();
-
-	if ( ts.isNull() || ts > tNow )
+	if ( tTimeStamp > tNow )
 	{
-		ts = tNow.addSecs( -60 );
+		tTimeStamp = tNow - 60 ;
 	}
 
 	CHostCacheIterator itPrev = find( host );
 
 	if ( itPrev != m_lHosts.end() )
 	{
-		return update( itPrev );
+		return update( itPrev, tTimeStamp );
 	}
 
-	Q_ASSERT( ts.timeSpec() == Qt::UTC );
-
-	CHostCacheHost* pNew = new CHostCacheHost();
-	pNew->m_oAddress   = host;
-	pNew->m_tTimestamp = ts;
+	CHostCacheHost* pNew = new CHostCacheHost( host, tTimeStamp );
 
 	CHostCacheIterator it = qLowerBound( m_lHosts.begin(), m_lHosts.end(),
-										 pNew, qLess<CHostCacheHost*>() );
+	                                     pNew, qLess<CHostCacheHost*>() );
 	m_lHosts.insert( it, pNew );
 
 	return pNew;
@@ -130,31 +130,31 @@ CHostCacheIterator CHostCache::find(CHostCacheHost *pHost)
 	return it;
 }
 
-CHostCacheHost* CHostCache::update(CEndPoint oHost)
+CHostCacheHost* CHostCache::update(CEndPoint oHost, const quint32 tTimeStamp)
 {
 	CHostCacheIterator it = find( oHost );
 
 	if ( it == m_lHosts.end() )
 		return NULL;
 
-	return update( it );
+	return update( it, tTimeStamp );
 }
 
-CHostCacheHost* CHostCache::update(CHostCacheHost* pHost)
+CHostCacheHost* CHostCache::update(CHostCacheHost* pHost, const quint32 tTimeStamp)
 {
 	CHostCacheIterator it = find( pHost );
 
 	if ( it == m_lHosts.end() )
 		return NULL;
 
-	return update( it );
+	return update( it, tTimeStamp );
 }
 
-CHostCacheHost* CHostCache::update(CHostCacheIterator itHost)
+CHostCacheHost* CHostCache::update(CHostCacheIterator itHost, const quint32 tTimeStamp)
 {
 	CHostCacheHost* pHost = *itHost;
 	m_lHosts.erase( itHost );
-	pHost->m_tTimestamp = common::getDateTimeUTC();
+	pHost->m_tTimestamp = tTimeStamp;
 	m_lHosts.prepend( pHost );
 	return pHost;
 }
@@ -236,8 +236,12 @@ QString CHostCache::getXTry()
 	{
 		if ( !pHost->m_nFailures )
 		{
+			QDateTime tTimeStamp;
+			tTimeStamp.setTimeSpec( Qt::UTC );
+			tTimeStamp.setTime_t( pHost->m_tTimestamp );
+
 			sRet.append( pHost->m_oAddress.toStringWithPort() + " " );
-			sRet.append( pHost->m_tTimestamp.toString( "yyyy-MM-ddThh:mmZ" ) );
+			sRet.append( tTimeStamp.toString( "yyyy-MM-ddThh:mmZ" ) );
 			sRet.append( "," );
 
 			++nCount;
@@ -283,9 +287,12 @@ CHostCacheHost* CHostCache::get()
 	return pHost;
 }
 
-CHostCacheHost* CHostCache::getConnectable(QDateTime tNow, QList<CHostCacheHost*> oExcept,
-										   QString sCountry)
+CHostCacheHost* CHostCache::getConnectable(const quint32 tNow, QList<CHostCacheHost*> oExcept,
+                                           QString sCountry)
 {
+	// TODO: getConnectable should return things with m_tLastConnect either null or when "expired"
+
+
 	bool bCountry = ( sCountry != "ZZ" );
 
 	if ( m_lHosts.isEmpty() )
@@ -302,19 +309,13 @@ CHostCacheHost* CHostCache::getConnectable(QDateTime tNow, QList<CHostCacheHost*
 			if ( nFailures != pHost->m_nFailures )
 				continue;
 
-			if ( !pHost->m_bCountryObtained )
-			{
-				pHost->m_bCountryObtained = true;
-			}
-
 			if ( bCountry && pHost->m_oAddress.country() != sCountry )
 			{
 				continue;
 			}
 
-			if ( pHost->m_tLastConnect.isValid() ||
-			     pHost->m_tLastConnect.secsTo( tNow ) > ( quazaaSettings.Gnutella.ConnectThrottle
-			         + pHost->m_nFailures * quazaaSettings.Connection.FailurePenalty ) )
+			if ( tNow - pHost->m_tLastConnect > ( quazaaSettings.Gnutella.ConnectThrottle +
+			                                      pHost->m_nFailures * quazaaSettings.Connection.FailurePenalty ) )
 			{
 				if ( !oExcept.contains( pHost ) )
 					return pHost;
@@ -325,7 +326,7 @@ CHostCacheHost* CHostCache::getConnectable(QDateTime tNow, QList<CHostCacheHost*
 	return NULL;
 }
 
-bool CHostCache::save()
+bool CHostCache::save(const quint32 tNow)
 {
 	ASSUME_LOCK( hostCache.m_pSection );
 
@@ -335,7 +336,7 @@ bool CHostCache::save()
 	                                           this, &CHostCache::writeToFile );
 	if ( nCount )
 	{
-		m_tLastSave = common::getDateTimeUTC();
+		m_tLastSave = tNow;
 		bReturn = true;
 
 		systemLog.postLog( LogSeverity::Debug,
@@ -368,15 +369,14 @@ void CHostCache::load()
 	oStream >> nVersion;
 	oStream >> nCount;
 
+	const quint32 tNow   = common::getTNowUTC();
+
 	if ( nVersion == HOST_CACHE_CODE_VERSION ) // else do load defaults
 	{
 		CEndPoint oAddress;
 		quint32 nFailures    = 0;
 		quint32 tTimeStamp   = 0;
 		quint32 tLastConnect = 0;
-		QDateTime timeStamp;
-
-		const quint32 tNow   = common::getTNowUTC();
 
 		CHostCacheHost* pHost = NULL;
 
@@ -388,21 +388,17 @@ void CHostCache::load()
 			oStream >> tTimeStamp;
 			oStream >> tLastConnect;
 
-			timeStamp.setTimeSpec( Qt::UTC );
-			timeStamp.setTime_t( tTimeStamp );
+			if ( tTimeStamp - tNow > 0 )
+				tTimeStamp = tNow - 60;
 
-			pHost = add( oAddress, timeStamp );
+			pHost = add( oAddress, tTimeStamp );
 			if ( pHost )
 			{
-				if ( tLastConnect - tNow > 0 ) // Note: add() handles the same for tTimeStamp.
+				if ( tLastConnect - tNow > 0 )
 					tLastConnect = tNow - 60;
 
 				pHost->m_nFailures    = nFailures;
-				pHost->m_tLastConnect.setTimeSpec( Qt::UTC);
-				pHost->m_tLastConnect.setTime_t( tLastConnect );
-
-				Q_ASSERT( pHost->m_tLastConnect.timeSpec() == Qt::UTC );
-				Q_ASSERT( pHost->m_tLastConnect.toTime_t() <= common::getTNowUTC() );
+				pHost->m_tLastConnect = tLastConnect;
 			}
 
 			--nCount;
@@ -412,23 +408,21 @@ void CHostCache::load()
 
 	file.close();
 
-	pruneOldHosts();
+	pruneOldHosts( tNow );
 
 	systemLog.postLog( LogSeverity::Debug,
 	                   m_sMessage + QObject::tr( "Loaded %1 hosts." ).arg( m_lHosts.size() ) );
 }
 
-void CHostCache::pruneOldHosts()
+void CHostCache::pruneOldHosts(const quint32 tNow)
 {
-	QDateTime tNow = common::getDateTimeUTC();
-
 	QMutableListIterator<CHostCacheHost*> it( m_lHosts );
 	it.toBack();
 
 	while ( it.hasPrevious() )
 	{
 		it.previous();
-		if ( it.value()->m_tTimestamp.secsTo( tNow ) > quazaaSettings.Gnutella2.HostExpire )
+		if ( (qint64)( tNow - it.value()->m_tTimestamp ) > quazaaSettings.Gnutella2.HostExpire )
 		{
 			delete it.value();
 			it.remove();
@@ -440,14 +434,11 @@ void CHostCache::pruneOldHosts()
 	}
 }
 
-void CHostCache::pruneByQueryAck()
+void CHostCache::pruneByQueryAck(const quint32 tNow)
 {
-	QDateTime tNow = common::getDateTimeUTC();
-
 	for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); )
 	{
-		if ( !(*it)->m_tAck.isNull() &&
-			 (*it)->m_tAck.secsTo(tNow) > (long)quazaaSettings.Gnutella2.QueryHostDeadline )
+		if ( (*it)->m_tAck && tNow - (*it)->m_tAck > quazaaSettings.Gnutella2.QueryHostDeadline )
 		{
 			delete *it;
 			it = m_lHosts.erase( it );
@@ -480,12 +471,8 @@ quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
 		{
 			oStream << pHost->m_oAddress;
 			oStream << pHost->m_nFailures;
-
-			Q_ASSERT(pHost->m_tTimestamp.timeSpec() == Qt::UTC);
-			Q_ASSERT(pHost->m_tLastConnect.isValid() && pHost->m_tLastConnect.timeSpec() == Qt::UTC);
-
-			oStream << (quint32)(pHost->m_tTimestamp.toTime_t());
-			oStream << (quint32)(pHost->m_tLastConnect.toTime_t());
+			oStream << pHost->m_tTimestamp;
+			oStream << pHost->m_tLastConnect;
 		}
 	}
 

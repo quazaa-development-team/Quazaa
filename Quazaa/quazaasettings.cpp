@@ -656,7 +656,7 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Gnutella2.Enable = m_qSettings.value("Enable", true).toBool();
 	quazaaSettings.Gnutella2.HAWPeriod = m_qSettings.value("HAWPeriod", 300).toInt();
 	quazaaSettings.Gnutella2.HostCount = m_qSettings.value("HostCount", 15).toInt();
-	quazaaSettings.Gnutella2.HostCurrent = m_qSettings.value("HostCurrent", 600).toInt();
+	quazaaSettings.Gnutella2.HostCurrent = m_qSettings.value("HostCurrent", 600).toUInt();
 	quazaaSettings.Gnutella2.HostExpire = m_qSettings.value("HostExpire", 172800).toInt();
 	quazaaSettings.Gnutella2.HubHorizonSize = m_qSettings.value("HubHorizonSize", 128).toInt();
 	quazaaSettings.Gnutella2.HubVerified = m_qSettings.value("HubVerified", false).toBool();
