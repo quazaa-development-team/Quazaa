@@ -67,14 +67,14 @@ public:
 
 	void add(const CEndPoint host, const quint32 tTimeStamp);
 
-	CHostCacheIterator find(CEndPoint oHost);
-	CHostCacheIterator find(CHostCacheHost* pHost);
+    CHostCacheIterator find(CEndPoint oHost);
+    CHostCacheIterator find(CHostCacheHost* pHost);
 	inline CHostCacheHost* take(CEndPoint oHost);
 	inline CHostCacheHost* take(CHostCacheHost *pHost);
 
 	CHostCacheHost* update(CEndPoint oHost, const quint32 tTimeStamp);
 	CHostCacheHost* update(CHostCacheHost* pHost, const quint32 tTimeStamp);
-	CHostCacheHost* update(CHostCacheIterator itHost, const quint32 tTimeStamp);
+    CHostCacheHost* update(CHostCacheIterator itHost, const quint32 tTimeStamp);
 
 	void remove(CHostCacheHost* pRemove);
 	void remove(CEndPoint oHost);
@@ -111,12 +111,12 @@ private slots:
 
 CHostCacheHost* CHostCache::take(CEndPoint oHost)
 {
-	CHostCacheIterator it = find( oHost );
+    CHostCacheIterator it = find( oHost );
 	return it == m_lHosts.end() ? NULL : *it;
 }
 CHostCacheHost* CHostCache::take(CHostCacheHost *pHost)
 {
-	CHostCacheIterator it = find( pHost );
+    CHostCacheIterator it = find( pHost );
 	return it == m_lHosts.end() ? NULL : *it;
 }
 

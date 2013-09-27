@@ -78,7 +78,7 @@ void CHostCache::add(const CEndPoint host, const quint32 tTimeStamp)
 
 CHostCacheIterator CHostCache::find(CEndPoint oHost)
 {
-	for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); ++it )
+    for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); ++it )
 	{
 		if ( (*it)->m_oAddress == oHost )
 			return it;
@@ -89,13 +89,13 @@ CHostCacheIterator CHostCache::find(CEndPoint oHost)
 
 CHostCacheIterator CHostCache::find(CHostCacheHost *pHost)
 {
-	CHostCacheIterator it = qFind( m_lHosts.begin(), m_lHosts.end(), pHost );
+    CHostCacheIterator it = qFind( m_lHosts.begin(), m_lHosts.end(), pHost );
 	return it;
 }
 
 CHostCacheHost* CHostCache::update(CEndPoint oHost, const quint32 tTimeStamp)
 {
-	CHostCacheIterator it = find( oHost );
+    CHostCacheIterator it = find( oHost );
 
 	if ( it == m_lHosts.end() )
 		return NULL;
@@ -105,26 +105,24 @@ CHostCacheHost* CHostCache::update(CEndPoint oHost, const quint32 tTimeStamp)
 
 CHostCacheHost* CHostCache::update(CHostCacheHost* pHost, const quint32 tTimeStamp)
 {
-	CHostCacheIterator it = find( pHost );
+    CHostCacheIterator it = find( pHost );
 
 	if ( it == m_lHosts.end() )
 		return NULL;
 
-	return update( it, tTimeStamp );
+    return update( it, tTimeStamp );
 }
 
 CHostCacheHost* CHostCache::update(CHostCacheIterator itHost, const quint32 tTimeStamp)
 {
-	CHostCacheHost* pHost = *itHost;
-	m_lHosts.erase( itHost );
-	pHost->m_tTimestamp = tTimeStamp;
-	m_lHosts.prepend( pHost );
-	return pHost;
+    CHostCacheHost* pHost = *itHost;
+    pHost->m_tTimestamp = tTimeStamp;
+    return pHost;
 }
 
 void CHostCache::remove(CHostCacheHost* pRemove)
 {
-	CHostCacheIterator it = find( pRemove );
+    CHostCacheIterator it = find( pRemove );
 
 	if ( it != m_lHosts.end() )
 	{
@@ -136,7 +134,7 @@ void CHostCache::remove(CHostCacheHost* pRemove)
 
 void CHostCache::remove(CEndPoint oHost)
 {
-	CHostCacheIterator it = find( oHost );
+    CHostCacheIterator it = find( oHost );
 
 	if ( it != m_lHosts.end() )
 	{
@@ -224,7 +222,7 @@ QString CHostCache::getXTry()
 
 void CHostCache::onFailure(CEndPoint addr)
 {
-	CHostCacheIterator itHost = find( addr );
+    CHostCacheIterator itHost = find( addr );
 
 	if ( itHost != m_lHosts.end() )
 	{
@@ -335,7 +333,7 @@ void CHostCache::pruneOldHosts(const quint32 tNow)
 
 void CHostCache::pruneByQueryAck(const quint32 tNow)
 {
-	for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); )
+    for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); )
 	{
 		if ( (*it)->m_tAck && tNow - (*it)->m_tAck > quazaaSettings.Gnutella2.QueryHostDeadline )
 		{
@@ -434,7 +432,7 @@ CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLo
 		tTimeStamp = tNow - 60 ;
 	}
 
-	CHostCacheIterator itPrev = find( host );
+    CHostCacheIterator itPrev = find( host );
 
 	if ( itPrev != m_lHosts.end() )
 	{
@@ -446,7 +444,7 @@ CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLo
 
 	CHostCacheHost* pNew = new CHostCacheHost( host, tTimeStamp );
 
-	CHostCacheIterator it = qLowerBound( m_lHosts.begin(), m_lHosts.end(),
+    CHostCacheIterator it = qLowerBound( m_lHosts.begin(), m_lHosts.end(),
 	                                     pNew, qLess<CHostCacheHost*>() );
 	m_lHosts.insert( it, pNew );
 
