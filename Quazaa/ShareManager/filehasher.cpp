@@ -244,7 +244,6 @@ void CFileHasher::run()
 	m_pSection.unlock();
 
 	systemLog.postLog(LogSeverity::Debug, QString("CFileHasher done. %1").arg(m_nRunningHashers));
-	//qDebug() << "CFileHasher done. " << m_nRunningHashers;
 
 	emit hasherFinished(m_nId);
 }

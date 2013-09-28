@@ -51,7 +51,7 @@ CDownloadSource::CDownloadSource(CDownload *pDownload, CQueryHit *pHit, QObject 
 	  m_lDownloadedFrags(pDownload->m_nSize)
 {
 	m_oAddress = pHit->m_pHitInfo->m_oNodeAddress;
-	m_bPush = false; // todo
+    m_bPush = false; // TODO: Push requests.
 	m_oPushProxies << pHit->m_pHitInfo->m_lNeighbouringHubs;
 	m_nProtocol = tpHTTP;
 	m_nNetwork = dpG2;
