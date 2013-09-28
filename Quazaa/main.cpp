@@ -77,11 +77,11 @@ static void setApplicationProxy(QUrl url)
 	}
 }
 
-QuazaaGlobals quazaaGlobals;
+CQuazaaGlobals quazaaGlobals;
 
 int main(int argc, char *argv[])
 {
-	Application theApp( argc, argv );
+	CApplication theApp( argc, argv );
 
 	QStringList args = theApp.arguments();
 
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 	else if ( !qgetenv( "COMMUNI_ENCODING" ).isEmpty())
 		encoding = qgetenv( "COMMUNI_ENCODING" );
 	if ( !encoding.isEmpty() )
-		Application::setEncoding( encoding );
+		CApplication::setEncoding( encoding );
 
 
 // To enable this, run qmake with "DEFINES+=_SNAPSHOT_BUILD"
@@ -158,10 +158,10 @@ int main(int argc, char *argv[])
 
 #endif // Q_OS_LINUX
 
-	theApp.setApplicationName(    QuazaaGlobals::APPLICATION_NAME() );
-	theApp.setApplicationVersion( QuazaaGlobals::APPLICATION_VERSION_STRING() );
-	theApp.setOrganizationDomain( QuazaaGlobals::APPLICATION_ORGANIZATION_DOMAIN() );
-	theApp.setOrganizationName(   QuazaaGlobals::APPLICATION_ORGANIZATION_NAME() );
+	theApp.setApplicationName(    CQuazaaGlobals::APPLICATION_NAME() );
+	theApp.setApplicationVersion( CQuazaaGlobals::APPLICATION_VERSION_STRING() );
+	theApp.setOrganizationDomain( CQuazaaGlobals::APPLICATION_ORGANIZATION_DOMAIN() );
+	theApp.setOrganizationName(   CQuazaaGlobals::APPLICATION_ORGANIZATION_NAME() );
 	theApp.setApplicationSlogan( QObject::tr("World class file sharing.") );
 
 	QIcon icon;

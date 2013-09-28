@@ -28,9 +28,9 @@
 
 #include "debug_new.h"
 
-SystemLog systemLog;
+CSystemLog systemLog;
 
-SystemLog::SystemLog()
+CSystemLog::CSystemLog()
 {
 	m_pComponents = new QString[Components::NoComponents];
 
@@ -38,12 +38,12 @@ SystemLog::SystemLog()
 	qRegisterMetaType<Components::Component>( "Components::Component" );
 }
 
-SystemLog::~SystemLog()
+CSystemLog::~CSystemLog()
 {
 	delete[] m_pComponents;
 }
 
-void SystemLog::start()
+void CSystemLog::start()
 {
 	m_pComponents[Components::None]       = QString();
 	m_pComponents[Components::Chat]       = tr( "[Chat] "       );
@@ -61,12 +61,12 @@ void SystemLog::start()
 	m_pComponents[Components::GUI]        = tr( "[GUI] "        );
 }
 
-QString SystemLog::msgFromComponent(Components::Component eComponent)
+QString CSystemLog::msgFromComponent(Components::Component eComponent)
 {
 	return m_pComponents[eComponent];
 }
 
-void SystemLog::postLog(LogSeverity::Severity severity, QString message,
+void CSystemLog::postLog(LogSeverity::Severity severity, QString message,
                         Components::Component component)
 {
 	static LogSeverity::Severity lastSeverity  = LogSeverity::Information;
@@ -116,7 +116,7 @@ void SystemLog::postLog(LogSeverity::Severity severity, QString message,
 	emit logPosted( message, severity );
 }
 
-void SystemLog::postLog(LogSeverity::Severity severity, Components::Component component,
+void CSystemLog::postLog(LogSeverity::Severity severity, Components::Component component,
                         const char* format, ...)
 {
 	va_list argList;

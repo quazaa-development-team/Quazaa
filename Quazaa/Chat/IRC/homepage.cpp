@@ -40,7 +40,7 @@ WidgetIrcHomePage::WidgetIrcHomePage(QWidget* parent) : QWidget(parent)
     header->setObjectName("headerLabel");
     header->setOpenExternalLinks(true);
     header->setWordWrap(true);
-    header->setText(readHtmlFile(":/Resource/welcome_header.html").arg(Application::applicationName()).arg(Application::applicationSlogan()));
+    header->setText(readHtmlFile(":/Resource/welcome_header.html").arg(CApplication::applicationName()).arg(CApplication::applicationSlogan()));
 
     slogan = new QLabel(this);
     slogan->setMargin(2);
@@ -85,7 +85,7 @@ QWidget* WidgetIrcHomePage::createBody(QWidget* parent) const
     QCommandLinkButton* connectButton = new QCommandLinkButton(tr("Connect"), body);
     connectButton->setDescription(tr("New IRC connection"));
     QCommandLinkButton* settingsButton = new QCommandLinkButton(tr("Settings"), body);
-    settingsButton->setDescription(tr("Configure %1").arg(Application::applicationName()));
+    settingsButton->setDescription(tr("Configure %1").arg(CApplication::applicationName()));
 
     connect(connectButton, SIGNAL(clicked()), this, SIGNAL(connectRequested()));
     connect(settingsButton, SIGNAL(clicked()), this, SLOT(showSettings()));

@@ -32,14 +32,14 @@
 
 #include "debug_new.h"
 
-GeoIPList geoIP;
+CGeoIPList geoIP;
 
-GeoIPList::GeoIPList()
+CGeoIPList::CGeoIPList()
 {
 	m_bListLoaded = false;
 }
 
-void GeoIPList::loadGeoIP()
+void CGeoIPList::loadGeoIP()
 {
 	const QString sOriginalFile(qApp->applicationDirPath() + "/GeoIP/geoip.dat");
 	const QString sSerializedFile(qApp->applicationDirPath() + "/geoIP.ser");
@@ -139,7 +139,7 @@ void GeoIPList::loadGeoIP()
 	m_bListLoaded = !m_lDatabase.isEmpty();
 }
 
-QString GeoIPList::findCountryCode(const quint32 nIp) const
+QString CGeoIPList::findCountryCode(const quint32 nIp) const
 {
 	if ( !m_bListLoaded )
 	{
@@ -178,7 +178,7 @@ QString GeoIPList::findCountryCode(const quint32 nIp) const
 	return "ZZ";
 }
 
-QString GeoIPList::countryNameFromCode(const QString& code) const
+QString CGeoIPList::countryNameFromCode(const QString& code) const
 {
 	if(code == "AF")
 	{

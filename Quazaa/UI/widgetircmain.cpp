@@ -133,7 +133,7 @@ void WidgetIrcMain::connectTo(const ConnectionInfo& connection)
 void WidgetIrcMain::connectToImpl(const ConnectionInfo& connection)
 {
 	Session* session = Session::fromConnection(connection, this);
-    session->setEncoding(Application::encoding());
+    session->setEncoding(CApplication::encoding());
     if (session->userName().isEmpty())
         session->setUserName("quazaa");
 	if (!session->hasQuit() && session->ensureNetwork())

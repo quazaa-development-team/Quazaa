@@ -134,7 +134,7 @@ void CG2Node::OnConnect()
 
 	sHs += "GNUTELLA CONNECT/0.6\r\n";
 	sHs += "Accept: application/x-gnutella2\r\n";
-	sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+	sHs += "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	sHs += "Remote-IP: " + m_oAddress.toString() + "\r\n";
 	sHs += "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n";
 	if(Neighbours.IsG2Hub())
@@ -625,7 +625,7 @@ void CG2Node::Send_ConnectError(QString sReason)
 	QByteArray sHs;
 
 	sHs += "GNUTELLA/0.6 " + sReason + "\r\n";
-	sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+	sHs += "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	sHs += "Accept: application/x-gnutella2\r\n";
 	sHs += "Content-Type: application/x-gnutella2\r\n";
 
@@ -659,7 +659,7 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
 	QByteArray sHs;
 
 	sHs += "GNUTELLA/0.6 200 OK\r\n";
-	sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+	sHs += "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	if(Neighbours.IsG2Hub())
 	{
 		sHs += "X-Ultrapeer: True\r\n";
@@ -739,7 +739,7 @@ void CG2Node::SendLNI()
 		pLNI->WritePacket("NA", 18)->WriteHostAddress(&Network.m_oAddress);
 	}
 	pLNI->WritePacket("GU", 16)->WriteGUID(quazaaSettings.Profile.GUID);
-	pLNI->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);
+	pLNI->WritePacket("V", 4)->WriteString(CQuazaaGlobals::VENDOR_CODE(), false);
 
 	if(Neighbours.IsG2Hub())
 	{
@@ -1461,7 +1461,7 @@ void CG2Node::SendHAW()
 	pPacket->WriteHostAddress(&Network.m_oAddress);
 
 	pPacket->WritePacket("V", 4);
-	pPacket->WriteString(QuazaaGlobals::VENDOR_CODE());
+	pPacket->WriteString(CQuazaaGlobals::VENDOR_CODE());
 
 	pPacket->WritePacket("HS", 2);
 	pPacket->WriteIntLE<quint16>(Neighbours.m_nLeavesConnectedG2);

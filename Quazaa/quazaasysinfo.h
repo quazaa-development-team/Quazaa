@@ -46,7 +46,7 @@ namespace OSVersion {
                     MacSnowLeopard, Win2000, WinXP, Win2003, WinVista, Win7, Win8 };
 }
 
-class QuazaaSysInfo : public QObject
+class CQuazaaSysInfo : public QObject
 {
 	Q_OBJECT
 #ifdef Q_OS_WIN
@@ -65,8 +65,8 @@ private:
 #endif
 
 public:
-	explicit QuazaaSysInfo(QObject *parent = 0);
-	virtual ~QuazaaSysInfo();
+    explicit CQuazaaSysInfo(QObject *parent = 0);
+    virtual ~CQuazaaSysInfo();
 
 	OSVersion::OSVersion osVersion();
 	QString osVersionToString();

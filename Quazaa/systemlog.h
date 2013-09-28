@@ -57,15 +57,15 @@ enum Component { None         =  0,
                  NoComponents = 14 };
 }
 
-class SystemLog : public QObject
+class CSystemLog : public QObject
 {
 	Q_OBJECT
 private:
 	QString* m_pComponents;
 
 public:
-	SystemLog();
-	~SystemLog();
+    CSystemLog();
+    ~CSystemLog();
 
 	void start();
 
@@ -83,6 +83,6 @@ public:
 	             const char* format, ...);
 };
 
-extern SystemLog systemLog;
+extern CSystemLog systemLog;
 
 #endif // SYSTEMLOG_H

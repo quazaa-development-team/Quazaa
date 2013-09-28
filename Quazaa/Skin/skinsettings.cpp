@@ -11,7 +11,7 @@ SkinSettings skinSettings;
 SkinSettings::SkinSettings(QObject *parent) :
  QObject(parent)
 {
-	QuazaaSysInfo *sysInfo = new QuazaaSysInfo();
+	CQuazaaSysInfo *sysInfo = new CQuazaaSysInfo();
 	switch (sysInfo->osVersion())
 	{
 	case OSVersion::Linux:

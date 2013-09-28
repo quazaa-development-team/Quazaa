@@ -29,7 +29,7 @@
 
 #define LOG_QUERY_HANDLING 0
 
-class QuazaaGlobals : public QObject
+class CQuazaaGlobals : public QObject
 {
         Q_OBJECT
 public:

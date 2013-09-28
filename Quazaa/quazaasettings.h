@@ -700,13 +700,13 @@ namespace Settings
 	};
 };
 
-class QuazaaSettings : public QObject
+class CQuazaaSettings : public QObject
 {
 	Q_OBJECT
 
 public:
 	QTranslator translator;
-	QuazaaSettings();
+    CQuazaaSettings();
 	void saveSettings();
 	void loadSettings();
 	void saveChatConnections();
@@ -761,6 +761,6 @@ signals:
 	void securitySettingsChanged();
 };
 
-extern QuazaaSettings quazaaSettings;
+extern CQuazaaSettings quazaaSettings;
 
 #endif // QUAZAASETTINGS_H

@@ -18,13 +18,13 @@
 
 #include <QApplication>
 
-class Application : public QApplication
+class CApplication : public QApplication
 {
 	Q_OBJECT
 
 public:
-	Application(int& argc, char* argv[]);
-	~Application();
+    CApplication(int& argc, char* argv[]);
+    ~CApplication();
 
 	static QString applicationSlogan();
 	static void setApplicationSlogan(const QString& slogan);

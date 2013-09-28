@@ -443,7 +443,7 @@ IrcCommand* Session::createCtcpReply(IrcPrivateMessage* request) const
 	else if (type == "TIME")
 		reply = "TIME " + QLocale().toString(QDateTime::currentDateTime(), QLocale::ShortFormat);
 	else if (type == "VERSION")
-		reply = QString("VERSION Quazaa %1 with Communi %2").arg(QuazaaGlobals::APPLICATION_VERSION_STRING()).arg(Irc::version());
+		reply = QString("VERSION Quazaa %1 with Communi %2").arg(CQuazaaGlobals::APPLICATION_VERSION_STRING()).arg(Irc::version());
 	if (!reply.isEmpty())
 		return IrcCommand::createCtcpReply(request->sender().name(), reply);
 	return 0;
