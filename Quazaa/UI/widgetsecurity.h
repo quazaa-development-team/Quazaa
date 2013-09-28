@@ -33,10 +33,10 @@ class CSecurityTableModel;
 
 namespace Ui
 {
-	class WidgetSecurity;
+	class CWidgetSecurity;
 }
 
-class WidgetSecurity : public QMainWindow
+class CWidgetSecurity : public QMainWindow
 {
 	Q_OBJECT
 
@@ -44,13 +44,13 @@ public:
 	CSecurityTableModel* m_pSecurityList;
 
 private:
-	Ui::WidgetSecurity* ui;
+	Ui::CWidgetSecurity* ui;
 	QMenu* m_pSecurityMenu;
 	CTableView* tableViewSecurity;
 
 public:
-	WidgetSecurity(QWidget* parent = 0);
-	virtual ~WidgetSecurity();
+	CWidgetSecurity(QWidget* parent = 0);
+	virtual ~CWidgetSecurity();
 
 	void		setModel(QAbstractItemModel* model);
 	QWidget*	tableView();

@@ -39,16 +39,16 @@ namespace SettingsPage
 
 namespace Ui
 {
-	class DialogSettings;
+	class CDialogSettings;
 }
 
-class DialogSettings : public QDialog
+class CDialogSettings : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit DialogSettings(QWidget* parent = 0, SettingsPage::settingsPage page = SettingsPage::System);
-	~DialogSettings();
+	explicit CDialogSettings(QWidget* parent = 0, SettingsPage::settingsPage page = SettingsPage::System);
+	~CDialogSettings();
 
 public slots:
 	void enableApply();
@@ -93,7 +93,7 @@ private slots:
 	void on_toolButton_clicked();
 
 private:
-	Ui::DialogSettings* ui;
+	Ui::CDialogSettings* ui;
 	QString skinFile;
 	QString tempSkinName;
 	QString tempSkinAuthor;

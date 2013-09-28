@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetChatInput</class>
+ <class>CWidgetChatInput</class>
  <widget class="QMainWindow" name="WidgetChatInput">
   <property name="enabled">
    <bool>true</bool>
@@ -138,7 +138,7 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="WidgetReturnEmitTextEdit" name="textEditInput">
+     <widget class="CWidgetReturnEmitTextEdit" name="textEditInput">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
         <horstretch>1</horstretch>
@@ -232,7 +232,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>WidgetReturnEmitTextEdit</class>
+   <class>CWidgetReturnEmitTextEdit</class>
    <extends>QTextEdit</extends>
    <header>widgetreturnemittextedit.h</header>
   </customwidget>

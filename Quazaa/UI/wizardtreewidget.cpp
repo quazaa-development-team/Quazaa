@@ -14,11 +14,11 @@
 
 #include "wizardtreewidget.h"
 
-WizardTreeWidget::WizardTreeWidget(QWidget* parent) : QTreeWidget(parent)
+CWizardTreeWidget::CWizardTreeWidget(QWidget* parent) : QTreeWidget(parent)
 {
 }
 
-bool WizardTreeWidget::edit(const QModelIndex& index, EditTrigger trigger, QEvent* event)
+bool CWizardTreeWidget::edit(const QModelIndex& index, EditTrigger trigger, QEvent* event)
 {
     QModelIndex sibling = index.sibling(index.row(), 1);
     return QTreeWidget::edit(sibling, trigger, event);

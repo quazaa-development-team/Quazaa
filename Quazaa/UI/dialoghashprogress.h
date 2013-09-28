@@ -31,16 +31,16 @@
 
 namespace Ui
 {
-	class DialogHashProgress;
+	class CDialogHashProgress;
 }
 
-class DialogHashProgress : public QDialog
+class CDialogHashProgress : public QDialog
 {
 	Q_OBJECT
 public:
 	QHash< int, QPair<QWidget*, QWidget*> > m_lProgress;
-	DialogHashProgress(QWidget* parent = 0);
-	~DialogHashProgress();
+	CDialogHashProgress(QWidget* parent = 0);
+	~CDialogHashProgress();
 
 protected:
 	void changeEvent(QEvent* e);
@@ -48,7 +48,7 @@ protected:
 	void mousePressEvent(QMouseEvent* e);
 
 private:
-	Ui::DialogHashProgress* ui;
+	Ui::CDialogHashProgress* ui;
 
 signals:
 	void closed();

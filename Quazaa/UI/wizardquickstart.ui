@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WizardQuickStart</class>
+ <class>CWizardQuickStart</class>
  <widget class="QWizard" name="WizardQuickStart">
   <property name="geometry">
    <rect>

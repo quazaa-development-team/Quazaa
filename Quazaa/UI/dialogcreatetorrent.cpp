@@ -28,21 +28,21 @@
 
 #include "debug_new.h"
 
-DialogCreateTorrent::DialogCreateTorrent(QWidget* parent) :
+CDialogCreateTorrent::CDialogCreateTorrent(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogCreateTorrent)
+	ui(new Ui::CDialogCreateTorrent)
 {
 	ui->setupUi(this);
 	ui->comboBoxSeedDHT->setView(new QListView());
 	setSkin();
 }
 
-DialogCreateTorrent::~DialogCreateTorrent()
+CDialogCreateTorrent::~CDialogCreateTorrent()
 {
 	delete ui;
 }
 
-void DialogCreateTorrent::changeEvent(QEvent* e)
+void CDialogCreateTorrent::changeEvent(QEvent* e)
 {
 	switch(e->type())
 	{
@@ -54,19 +54,19 @@ void DialogCreateTorrent::changeEvent(QEvent* e)
 	}
 }
 
-void DialogCreateTorrent::on_pushButtonCancel_clicked()
+void CDialogCreateTorrent::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogCreateTorrent::on_pushButtonSave_clicked()
+void CDialogCreateTorrent::on_pushButtonSave_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogCreateTorrent::setSkin()
+void CDialogCreateTorrent::setSkin()
 {
 
 }

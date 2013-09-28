@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogSelectVisualisation</class>
+ <class>CDialogSelectVisualisation</class>
  <widget class="QDialog" name="DialogSelectVisualisation">
   <property name="geometry">
    <rect>

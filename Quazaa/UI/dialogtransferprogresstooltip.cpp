@@ -28,20 +28,20 @@
 
 #include "debug_new.h"
 
-DialogTransferProgressTooltip::DialogTransferProgressTooltip(QWidget* parent) :
+CDialogTransferProgressTooltip::CDialogTransferProgressTooltip(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogTransferProgressTooltip)
+	ui(new Ui::CDialogTransferProgressTooltip)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogTransferProgressTooltip::~DialogTransferProgressTooltip()
+CDialogTransferProgressTooltip::~CDialogTransferProgressTooltip()
 {
 	delete ui;
 }
 
-void DialogTransferProgressTooltip::changeEvent(QEvent* e)
+void CDialogTransferProgressTooltip::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -54,7 +54,7 @@ void DialogTransferProgressTooltip::changeEvent(QEvent* e)
 	}
 }
 
-void DialogTransferProgressTooltip::updateProgress(int percent, QString transferSpeed, QString timeRemaining,
+void CDialogTransferProgressTooltip::updateProgress(int percent, QString transferSpeed, QString timeRemaining,
         QString volumeDownloaded, QString numberSources, QPixmap icon,
         QString file, QString size, QString type, QStringList hashes)
 {
@@ -73,7 +73,7 @@ void DialogTransferProgressTooltip::updateProgress(int percent, QString transfer
 	ui->labelMD5Hash->setText(hashes.at(3));
 }
 
-void DialogTransferProgressTooltip::setSkin()
+void CDialogTransferProgressTooltip::setSkin()
 {
 
 }

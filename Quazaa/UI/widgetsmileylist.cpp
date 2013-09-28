@@ -29,8 +29,8 @@
 
 #include "debug_new.h"
 
-WidgetSmileyList::WidgetSmileyList(QWidget *parent) :
-    ui(new Ui::WidgetSmileyList)
+CWidgetSmileyList::CWidgetSmileyList(QWidget *parent) :
+    ui(new Ui::CWidgetSmileyList)
 {
 	Q_UNUSED(parent);
 	ui->setupUi(this);
@@ -41,12 +41,12 @@ WidgetSmileyList::WidgetSmileyList(QWidget *parent) :
 	setSkin();
 }
 
-WidgetSmileyList::~WidgetSmileyList()
+CWidgetSmileyList::~CWidgetSmileyList()
 {
     delete ui;
 }
 
-void WidgetSmileyList::changeEvent(QEvent *e)
+void CWidgetSmileyList::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
     switch (e->type()) {
@@ -58,13 +58,13 @@ void WidgetSmileyList::changeEvent(QEvent *e)
     }
 }
 
-void WidgetSmileyList::on_listWidget_itemClicked(QListWidgetItem* item)
+void CWidgetSmileyList::on_listWidget_itemClicked(QListWidgetItem* item)
 {
 	emit smileyClicked(item->toolTip());
 	close();
 }
 
-void WidgetSmileyList::setSkin()
+void CWidgetSmileyList::setSkin()
 {
 
 }

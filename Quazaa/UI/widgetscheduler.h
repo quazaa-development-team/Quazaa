@@ -29,22 +29,22 @@
 
 namespace Ui
 {
-	class WidgetScheduler;
+	class CWidgetScheduler;
 }
 
-class WidgetScheduler : public QMainWindow
+class CWidgetScheduler : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetScheduler(QWidget* parent = 0);
-	~WidgetScheduler();
+	CWidgetScheduler(QWidget* parent = 0);
+	~CWidgetScheduler();
 	void saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetScheduler* ui;
+	Ui::CWidgetScheduler* ui;
 
 private slots:
 	void on_actionScheduleProperties_triggered();

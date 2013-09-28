@@ -32,9 +32,9 @@
 
 #include "debug_new.h"
 
-WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
+CWidgetSystemLog::CWidgetSystemLog(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetSystemLog)
+	ui(new Ui::CWidgetSystemLog)
 {
 	ui->setupUi(this);
 	QFont font("Monospace");
@@ -66,12 +66,12 @@ WidgetSystemLog::WidgetSystemLog(QWidget* parent) :
 	setSkin();
 }
 
-WidgetSystemLog::~WidgetSystemLog()
+CWidgetSystemLog::~CWidgetSystemLog()
 {
 	delete ui;
 }
 
-void WidgetSystemLog::changeEvent(QEvent* e)
+void CWidgetSystemLog::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -84,7 +84,7 @@ void WidgetSystemLog::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
+void CWidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 {
 	if(!ui->actionPauseLogDisplay->isChecked())
 	{
@@ -193,7 +193,7 @@ void WidgetSystemLog::appendLog(QString message, LogSeverity::Severity severity)
 	}
 }
 
-void WidgetSystemLog::saveWidget()
+void CWidgetSystemLog::saveWidget()
 {
 	quazaaSettings.WinMain.SystemLogToolbar = saveState();
 	quazaaSettings.Logging.LogShowTimestamp = ui->actionToggleTimestamp->isChecked();
@@ -208,23 +208,23 @@ void WidgetSystemLog::saveWidget()
 	quazaaSettings.saveLogSettings();
 }
 
-void WidgetSystemLog::on_actionClearBuffer_triggered()
+void CWidgetSystemLog::on_actionClearBuffer_triggered()
 {
 	ui->textEditSystemLog->clear();
 }
 
-void WidgetSystemLog::on_textEditSystemLog_customContextMenuRequested(QPoint pos)
+void CWidgetSystemLog::on_textEditSystemLog_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 	logMenu->exec(QCursor::pos());
 }
 
-void WidgetSystemLog::on_actionCopy_triggered()
+void CWidgetSystemLog::on_actionCopy_triggered()
 {
 	ui->textEditSystemLog->copy();
 }
 
-void WidgetSystemLog::setSkin()
+void CWidgetSystemLog::setSkin()
 {
 
 }

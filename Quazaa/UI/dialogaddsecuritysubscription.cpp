@@ -28,20 +28,20 @@
 
 #include "debug_new.h"
 
-DialogAddSecuritySubscription::DialogAddSecuritySubscription(QWidget* parent) :
+CDialogAddSecuritySubscription::CDialogAddSecuritySubscription(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogAddSecuritySubscription)
+	ui(new Ui::CDialogAddSecuritySubscription)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogAddSecuritySubscription::~DialogAddSecuritySubscription()
+CDialogAddSecuritySubscription::~CDialogAddSecuritySubscription()
 {
 	delete ui;
 }
 
-void DialogAddSecuritySubscription::changeEvent(QEvent* e)
+void CDialogAddSecuritySubscription::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -54,19 +54,19 @@ void DialogAddSecuritySubscription::changeEvent(QEvent* e)
 	}
 }
 
-void DialogAddSecuritySubscription::on_pushButtonSubscribe_clicked()
+void CDialogAddSecuritySubscription::on_pushButtonSubscribe_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogAddSecuritySubscription::on_pushButtonCancel_clicked()
+void CDialogAddSecuritySubscription::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogAddSecuritySubscription::setSkin()
+void CDialogAddSecuritySubscription::setSkin()
 {
 
 }

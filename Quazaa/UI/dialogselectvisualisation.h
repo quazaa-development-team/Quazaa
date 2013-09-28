@@ -29,21 +29,21 @@
 
 namespace Ui
 {
-	class DialogSelectVisualisation;
+	class CDialogSelectVisualisation;
 }
 
-class DialogSelectVisualisation : public QDialog
+class CDialogSelectVisualisation : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogSelectVisualisation(QWidget* parent = 0);
-	~DialogSelectVisualisation();
+	CDialogSelectVisualisation(QWidget* parent = 0);
+	~CDialogSelectVisualisation();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogSelectVisualisation* ui;
+	Ui::CDialogSelectVisualisation* ui;
 
 signals:
 	void closed();

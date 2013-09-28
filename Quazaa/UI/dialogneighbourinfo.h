@@ -5,20 +5,20 @@
 #include <QDialog>
 
 namespace Ui {
-class DialogNeighbourInfo;
+class CDialogNeighbourInfo;
 }
 
-class DialogNeighbourInfo : public QDialog
+class CDialogNeighbourInfo : public QDialog
 {
-    Q_OBJECT
-    
+	Q_OBJECT
+
 public:
-    explicit DialogNeighbourInfo(CNeighboursTableModel::Neighbour* pNeighbour, QWidget *parent = 0);
-    ~DialogNeighbourInfo();
-    
+	explicit CDialogNeighbourInfo(CNeighboursTableModel::Neighbour* pNeighbour, QWidget *parent = 0);
+	~CDialogNeighbourInfo();
+
 private:
-    Ui::DialogNeighbourInfo *ui;
-    QString neighbourConnectionDescription(CNeighboursTableModel::Neighbour* pNeighbour);
+	Ui::CDialogNeighbourInfo *ui;
+	QString neighbourConnectionDescription(CNeighboursTableModel::Neighbour* pNeighbour);
 };
 
 #endif // DIALOGNEIGHBOURINFO_H

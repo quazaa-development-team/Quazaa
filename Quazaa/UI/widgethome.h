@@ -29,16 +29,16 @@
 
 namespace Ui
 {
-	class WidgetHome;
+	class CWidgetHome;
 }
 
-class WidgetHome : public QWidget
+class CWidgetHome : public QWidget
 {
 	Q_OBJECT
 public:
-	WidgetHome(QWidget* parent = 0);
-	~WidgetHome();
-    void saveWidget();
+	CWidgetHome(QWidget* parent = 0);
+	~CWidgetHome();
+	void saveWidget();
 
 signals:
 	void triggerLibrary();
@@ -50,7 +50,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetHome* ui;
+	Ui::CWidgetHome* ui;
 
 private slots:
 	void on_toolButtonWelcomeSearch_clicked();
@@ -58,7 +58,7 @@ private slots:
 	void on_labelWelcomeWizardLink_linkActivated(QString link);
 	void on_labelWelcomeSkinLink_linkActivated(QString link);
 	void on_labelWelcomeOpenTorrentLink_linkActivated(QString link);
-    void on_labelWelcomeURLDownloadLink_linkActivated(QString link);
+	void on_labelWelcomeURLDownloadLink_linkActivated(QString link);
 	void setSkin();
 };
 

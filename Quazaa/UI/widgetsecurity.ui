@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetSecurity</class>
+ <class>CWidgetSecurity</class>
  <widget class="QMainWindow" name="WidgetSecurity">
   <property name="geometry">
    <rect>

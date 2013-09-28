@@ -23,18 +23,18 @@ class MultiSessionTabWidget;
 class SessionTreeWidget;
 class SessionTreeItem;
 struct ConnectionInfo;
-class WidgetIrcMessageView;
+class CWidgetIrcMessageView;
 class IrcMessage;
 class QtDockTile;
 class Session;
 
-class WidgetIrcMain : public QWidget
+class CWidgetIrcMain : public QWidget
 {
 	Q_OBJECT
 
 public:
-    explicit WidgetIrcMain(QWidget* parent = 0);
-    ~WidgetIrcMain();
+	explicit CWidgetIrcMain(QWidget* parent = 0);
+	~CWidgetIrcMain();
 
 	QSize sizeHint() const;
 	void saveWidget();
@@ -54,24 +54,24 @@ private slots:
 	void editSession(Session* session);
 	void applySettings();
 	void showSettings();
-    void highlighted(IrcMessage* message);
-    void missed(IrcMessage* message);
-    void viewAdded(WidgetIrcMessageView* view);
-    void viewRemoved(WidgetIrcMessageView* view);
-    void viewRenamed(WidgetIrcMessageView* view);
-    void viewActivated(WidgetIrcMessageView* view);
+	void highlighted(IrcMessage* message);
+	void missed(IrcMessage* message);
+	void viewAdded(CWidgetIrcMessageView* view);
+	void viewRemoved(CWidgetIrcMessageView* view);
+	void viewRenamed(CWidgetIrcMessageView* view);
+	void viewActivated(CWidgetIrcMessageView* view);
 	void closeTreeItem(SessionTreeItem* item);
 	void currentTreeItemChanged(Session* session, const QString& view);
-    void splitterChanged(const QByteArray& state);
+	void splitterChanged(const QByteArray& state);
 	void updateSession(Session* session = 0);
 	void addView();
 
 private:
 	void createTree();
 
-    QSplitter* splitterIrcMain;
+	QSplitter* splitterIrcMain;
 	SessionTreeWidget* treeWidget;
-    MultiSessionTabWidget* tabWidget;
+	MultiSessionTabWidget* tabWidget;
 	QtDockTile* dockTile;
 };
 

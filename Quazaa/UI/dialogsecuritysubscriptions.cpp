@@ -30,20 +30,20 @@
 
 #include "debug_new.h"
 
-DialogSecuritySubscriptions::DialogSecuritySubscriptions(QWidget* parent) :
+CDialogSecuritySubscriptions::CDialogSecuritySubscriptions(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogSecuritySubscriptions)
+	ui(new Ui::CDialogSecuritySubscriptions)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogSecuritySubscriptions::~DialogSecuritySubscriptions()
+CDialogSecuritySubscriptions::~CDialogSecuritySubscriptions()
 {
 	delete ui;
 }
 
-void DialogSecuritySubscriptions::changeEvent(QEvent* e)
+void CDialogSecuritySubscriptions::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -56,14 +56,14 @@ void DialogSecuritySubscriptions::changeEvent(QEvent* e)
 	}
 }
 
-void DialogSecuritySubscriptions::on_pushButtonAddSubscription_clicked()
+void CDialogSecuritySubscriptions::on_pushButtonAddSubscription_clicked()
 {
-	DialogAddSecuritySubscription* dlgAddSecuritySubscription = new DialogAddSecuritySubscription(this);
+	CDialogAddSecuritySubscription* dlgAddSecuritySubscription = new CDialogAddSecuritySubscription(this);
 
 	dlgAddSecuritySubscription->show();
 }
 
-void DialogSecuritySubscriptions::on_pushButtonOK_clicked()
+void CDialogSecuritySubscriptions::on_pushButtonOK_clicked()
 {
 	if(ui->pushButtonApply->isEnabled())
 	{
@@ -73,13 +73,13 @@ void DialogSecuritySubscriptions::on_pushButtonOK_clicked()
 	close();
 }
 
-void DialogSecuritySubscriptions::on_pushButtonCancel_clicked()
+void CDialogSecuritySubscriptions::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogSecuritySubscriptions::setSkin()
+void CDialogSecuritySubscriptions::setSkin()
 {
 
 }

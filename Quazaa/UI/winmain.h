@@ -56,7 +56,7 @@ class CChatSession;
 
 namespace Ui
 {
-class WinMain;
+	class CWinMain;
 }
 
 class CWinMain : public QMainWindow
@@ -80,22 +80,22 @@ public:
 
 	QSystemTrayIcon* trayIcon;
 	QMenu* trayMenu;
-	WidgetHome* pageHome;
-	WidgetLibrary* pageLibrary;
-	WidgetMedia* pageMedia;
-	WidgetSearch* pageSearch;
-	WidgetTransfers* pageTransfers;
-	WidgetSecurity* pageSecurity;
-	WidgetActivity* pageActivity;
-	WidgetIrcMain* pageIrcMain;
-	WidgetHostCache* pageHostCache;
-	WidgetDiscovery* pageDiscovery;
-	WidgetScheduler* pageScheduler;
-	WidgetGraph* pageGraph;
-	WidgetPacketDump* pagePacketDump;
-	WidgetSearchMonitor* pageSearchMonitor;
-	WidgetHitMonitor* pageHitMonitor;
-	DialogPrivateMessages* dlgPrivateMessages;
+	CWidgetHome* pageHome;
+	CWidgetLibrary* pageLibrary;
+	CWidgetMedia* pageMedia;
+	CWidgetSearch* pageSearch;
+	CWidgetTransfers* pageTransfers;
+	CWidgetSecurity* pageSecurity;
+	CWidgetActivity* pageActivity;
+	CWidgetIrcMain* pageIrcMain;
+	CWidgetHostCache* pageHostCache;
+	CWidgetDiscovery* pageDiscovery;
+	CWidgetScheduler* pageScheduler;
+	CWidgetGraph* pageGraph;
+	CWidgetPacketDump* pagePacketDump;
+	CWidgetSearchMonitor* pageSearchMonitor;
+	CWidgetHitMonitor* pageHitMonitor;
+	CDialogPrivateMessages* dlgPrivateMessages;
 
 signals:
 	void Show();
@@ -110,7 +110,7 @@ protected:
 	bool event(QEvent* e);
 
 private:
-	Ui::WinMain* ui;
+	Ui::CWinMain* ui;
 	bool bypassCloseEvent;
 	QString tcpFirewalled;
 	QString udpFirewalled;

@@ -31,15 +31,15 @@
 
 namespace Ui
 {
-	class DialogConnectTo;
+	class CDialogConnectTo;
 }
 
-class DialogConnectTo : public QDialog
+class CDialogConnectTo : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogConnectTo(QWidget* parent = 0);
-	~DialogConnectTo();
+	CDialogConnectTo(QWidget* parent = 0);
+	~CDialogConnectTo();
 	enum ConnectNetwork{G2 = 0, eDonkey, Ares};
 
 signals:
@@ -49,7 +49,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogConnectTo* ui;
+	Ui::CDialogConnectTo* ui;
 	QString addressAndPort;
 	ConnectNetwork connectNetwork;
 

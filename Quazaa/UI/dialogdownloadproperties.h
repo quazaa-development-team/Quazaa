@@ -29,21 +29,21 @@
 
 namespace Ui
 {
-	class DialogDownloadProperties;
+	class CDialogDownloadProperties;
 }
 
-class DialogDownloadProperties : public QDialog
+class CDialogDownloadProperties : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogDownloadProperties(QWidget* parent = 0);
-	~DialogDownloadProperties();
+	CDialogDownloadProperties(QWidget* parent = 0);
+	~CDialogDownloadProperties();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogDownloadProperties* ui;
+	Ui::CDialogDownloadProperties* ui;
 
 signals:
 	void closed();

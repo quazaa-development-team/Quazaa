@@ -29,22 +29,22 @@
 
 namespace Ui
 {
-	class DialogPreviewPrepare;
+	class CDialogPreviewPrepare;
 }
 
-class DialogPreviewPrepare : public QDialog
+class CDialogPreviewPrepare : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogPreviewPrepare(QWidget* parent = 0);
-	~DialogPreviewPrepare();
+	CDialogPreviewPrepare(QWidget* parent = 0);
+	~CDialogPreviewPrepare();
 	void updateProgress(int percent, QString fileName);
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogPreviewPrepare* ui;
+	Ui::CDialogPreviewPrepare* ui;
 
 signals:
 	void closed();

@@ -30,9 +30,9 @@
 
 #include "debug_new.h"
 
-DialogScheduler::DialogScheduler(QWidget* parent) :
+CDialogScheduler::CDialogScheduler(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogScheduler)
+	ui(new Ui::CDialogScheduler)
 {
 	ui->setupUi(this);
 	ui->comboBoxAction->setView(new QListView());
@@ -40,12 +40,12 @@ DialogScheduler::DialogScheduler(QWidget* parent) :
 	setSkin();
 }
 
-DialogScheduler::~DialogScheduler()
+CDialogScheduler::~CDialogScheduler()
 {
 	delete ui;
 }
 
-void DialogScheduler::changeEvent(QEvent* e)
+void CDialogScheduler::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -58,7 +58,7 @@ void DialogScheduler::changeEvent(QEvent* e)
 	}
 }
 
-void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
+void CDialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 {
 	switch(index)
 	{
@@ -105,7 +105,7 @@ void DialogScheduler::on_comboBoxAction_currentIndexChanged(int index)
 	}
 }
 
-void DialogScheduler::on_pushButtonOK_clicked()
+void CDialogScheduler::on_pushButtonOK_clicked()
 {
 	if(ui->pushButtonApply->isEnabled())
 	{
@@ -115,13 +115,13 @@ void DialogScheduler::on_pushButtonOK_clicked()
 	close();
 }
 
-void DialogScheduler::on_pushButtonCancel_clicked()
+void CDialogScheduler::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogScheduler::setSkin()
+void CDialogScheduler::setSkin()
 {
 
 }

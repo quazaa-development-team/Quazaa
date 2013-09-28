@@ -33,10 +33,10 @@
 
 namespace Ui
 {
-	class DialogAddRule;
+	class CDialogAddRule;
 }
 
-class DialogAddRule : public QDialog
+class CDialogAddRule : public QDialog
 {
 	Q_OBJECT
 
@@ -54,14 +54,14 @@ private:
 
 	typedef Security::CSecurity		 CSecurity;
 
-	Ui::DialogAddRule* ui;
+	Ui::CDialogAddRule* ui;
 	CSecureRule* m_pRule;
-	WidgetSecurity* m_pParent;
+	CWidgetSecurity* m_pParent;
 
 public:
 	// Creates a dialog window using a copy of the provided rule as basis.
-	DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule = NULL);
-	~DialogAddRule();
+	CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule = NULL);
+	~CDialogAddRule();
 
 protected:
 	void changeEvent(QEvent* e);

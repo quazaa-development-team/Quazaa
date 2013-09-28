@@ -29,21 +29,21 @@
 
 namespace Ui
 {
-	class DialogScheduler;
+	class CDialogScheduler;
 }
 
-class DialogScheduler : public QDialog
+class CDialogScheduler : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogScheduler(QWidget* parent = 0);
-	~DialogScheduler();
+	CDialogScheduler(QWidget* parent = 0);
+	~CDialogScheduler();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogScheduler* ui;
+	Ui::CDialogScheduler* ui;
 
 signals:
 	void closed();

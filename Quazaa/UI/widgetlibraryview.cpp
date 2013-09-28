@@ -31,9 +31,9 @@
 
 #include "debug_new.h"
 
-WidgetLibraryView::WidgetLibraryView(QWidget* parent) :
+CWidgetLibraryView::CWidgetLibraryView(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetLibraryView)
+	ui(new Ui::CWidgetLibraryView)
 {
 	ui->setupUi(this);
 	lineEditFind = new QLineEdit();
@@ -44,12 +44,12 @@ WidgetLibraryView::WidgetLibraryView(QWidget* parent) :
 	setSkin();
 }
 
-WidgetLibraryView::~WidgetLibraryView()
+CWidgetLibraryView::~CWidgetLibraryView()
 {
 	delete ui;
 }
 
-void WidgetLibraryView::changeEvent(QEvent* e)
+void CWidgetLibraryView::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -62,19 +62,19 @@ void WidgetLibraryView::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetLibraryView::saveWidget()
+void CWidgetLibraryView::saveWidget()
 {
 	quazaaSettings.WinMain.LibraryToolbar = saveState();
 	quazaaSettings.WinMain.LibraryDetailsSplitter = ui->splitterLibraryView->saveState();
 }
 
-void WidgetLibraryView::on_actionFind_triggered()
+void CWidgetLibraryView::on_actionFind_triggered()
 {
-	DialogLibrarySearch* dlgLibrarySearch = new DialogLibrarySearch(this);
+	CDialogLibrarySearch* dlgLibrarySearch = new CDialogLibrarySearch(this);
 	dlgLibrarySearch->show();
 }
 
-void WidgetLibraryView::on_splitterLibraryView_customContextMenuRequested(QPoint pos)
+void CWidgetLibraryView::on_splitterLibraryView_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
@@ -99,7 +99,7 @@ void WidgetLibraryView::on_splitterLibraryView_customContextMenuRequested(QPoint
 	}
 }
 
-void WidgetLibraryView::setSkin()
+void CWidgetLibraryView::setSkin()
 {
 
 }

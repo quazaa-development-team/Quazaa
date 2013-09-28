@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetHome</class>
+ <class>CWidgetHome</class>
  <widget class="QWidget" name="WidgetHome">
   <property name="geometry">
    <rect>

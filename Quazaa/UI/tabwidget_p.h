@@ -19,32 +19,32 @@
 
 class QShortcut;
 
-class TabBar : public QTabBar
+class CTabBar : public QTabBar
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    TabBar(QWidget* parent = 0);
+	CTabBar(QWidget* parent = 0);
 
-    enum Navigation { Next, Previous, NextUnread, PreviousUnread };
-    QKeySequence navigationShortcut(Navigation navigation) const;
-    void setNavigationShortcut(Navigation navigation, const QKeySequence& shortcut);
+	enum Navigation { Next, Previous, NextUnread, PreviousUnread };
+	QKeySequence navigationShortcut(Navigation navigation) const;
+	void setNavigationShortcut(Navigation navigation, const QKeySequence& shortcut);
 
-    QSize minimumSizeHint() const;
+	QSize minimumSizeHint() const;
 
 signals:
-    void menuRequested(int index, const QPoint& pos);
+	void menuRequested(int index, const QPoint& pos);
 
 protected:
-    void changeEvent(QEvent* event);
-    void contextMenuEvent(QContextMenuEvent* event);
-    void wheelEvent(QWheelEvent* event);
+	void changeEvent(QEvent* event);
+	void contextMenuEvent(QContextMenuEvent* event);
+	void wheelEvent(QWheelEvent* event);
 
 private:
-    QShortcut* prevShortcut;
-    QShortcut* nextShortcut;
-    QShortcut* prevUnreadShortcut;
-    QShortcut* nextUnreadShortcut;
+	QShortcut* prevShortcut;
+	QShortcut* nextShortcut;
+	QShortcut* prevUnreadShortcut;
+	QShortcut* nextUnreadShortcut;
 };
 
 #endif // TABWIDGET_P_H

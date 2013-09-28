@@ -28,20 +28,20 @@
 
 #include "debug_new.h"
 
-DialogTorrentProperties::DialogTorrentProperties(QWidget* parent) :
+CDialogTorrentProperties::CDialogTorrentProperties(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogTorrentProperties)
+	ui(new Ui::CDialogTorrentProperties)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogTorrentProperties::~DialogTorrentProperties()
+CDialogTorrentProperties::~CDialogTorrentProperties()
 {
 	delete ui;
 }
 
-void DialogTorrentProperties::changeEvent(QEvent* e)
+void CDialogTorrentProperties::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -54,7 +54,7 @@ void DialogTorrentProperties::changeEvent(QEvent* e)
 	}
 }
 
-void DialogTorrentProperties::setSkin()
+void CDialogTorrentProperties::setSkin()
 {
 
 }

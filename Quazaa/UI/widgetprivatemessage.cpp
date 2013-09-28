@@ -33,21 +33,21 @@
 
 #include "debug_new.h"
 
-WidgetPrivateMessage::WidgetPrivateMessage(QWidget *parent) :
+CWidgetPrivateMessage::CWidgetPrivateMessage(QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::WidgetPrivateMessage)
+	ui(new Ui::CWidgetPrivateMessage)
 {
 	ui->setupUi(this);
 	m_pSession = 0;
 	setSkin();
 }
 
-WidgetPrivateMessage::~WidgetPrivateMessage()
+CWidgetPrivateMessage::~CWidgetPrivateMessage()
 {
 	delete ui;
 }
 
-void WidgetPrivateMessage::changeEvent(QEvent *e)
+void CWidgetPrivateMessage::changeEvent(QEvent *e)
 {
 	QWidget::changeEvent(e);
 	switch (e->type()) {
@@ -59,12 +59,12 @@ void WidgetPrivateMessage::changeEvent(QEvent *e)
 	}
 }
 
-void WidgetPrivateMessage::on_textEdit_anchorClicked(QUrl link)
+void CWidgetPrivateMessage::on_textEdit_anchorClicked(QUrl link)
 {
 	QDesktopServices::openUrl(link);
 }
 
-void WidgetPrivateMessage::OnIncomingMessage(QString sMessage, bool bAction)
+void CWidgetPrivateMessage::OnIncomingMessage(QString sMessage, bool bAction)
 {
 	qDebug() << "incoming message: " << sMessage;
 	if( bAction )
@@ -76,24 +76,24 @@ void WidgetPrivateMessage::OnIncomingMessage(QString sMessage, bool bAction)
 		ui->textEdit->append("&lt;" + m_sNick + "&gt;: " + sMessage);
 	}
 }
-void WidgetPrivateMessage::OnSystemMessage(QString sMessage)
+void CWidgetPrivateMessage::OnSystemMessage(QString sMessage)
 {
 	qDebug() << "system message: " << sMessage;
 
 	ui->textEdit->append("<font color=\"#FF0000\"><b>[SYSTEM]</b> " + sMessage + "</font>");
 }
-void WidgetPrivateMessage::OnGUIDChanged(QUuid oGUID)
+void CWidgetPrivateMessage::OnGUIDChanged(QUuid oGUID)
 {
 	m_oGUID = oGUID;
 }
-void WidgetPrivateMessage::OnNickChanged(QString sNick)
+void CWidgetPrivateMessage::OnNickChanged(QString sNick)
 {
 	OnSystemMessage(m_sNick + " is now known as " + sNick);
 	m_sNick = sNick;
 	ui->labelName->setText(m_sNick);
 }
 
-void WidgetPrivateMessage::SendPrivateMessage(QString sMessage, bool bAction)
+void CWidgetPrivateMessage::SendPrivateMessage(QString sMessage, bool bAction)
 {
 	if( bAction )
 	{
@@ -107,7 +107,7 @@ void WidgetPrivateMessage::SendPrivateMessage(QString sMessage, bool bAction)
 	emit SendMessageS(sMessage, bAction);
 }
 
-void WidgetPrivateMessage::SendPrivateMessage(QTextDocument *pMessage, bool bAction)
+void CWidgetPrivateMessage::SendPrivateMessage(QTextDocument *pMessage, bool bAction)
 {
 	CChatConverter oConv(pMessage);
 
@@ -123,7 +123,7 @@ void WidgetPrivateMessage::SendPrivateMessage(QTextDocument *pMessage, bool bAct
 	emit SendMessageS(pMessage->clone(), bAction);
 }
 
-void WidgetPrivateMessage::setSkin()
+void CWidgetPrivateMessage::setSkin()
 {
 
 }

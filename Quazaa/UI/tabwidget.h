@@ -20,62 +20,62 @@
 #include <QList>
 #include <QHash>
 
-class TabWidget : public QTabWidget
+class CTabWidget : public QTabWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    TabWidget(QWidget* parent = 0);
+	CTabWidget(QWidget* parent = 0);
 
-    QTabBar* tabBar() const;
-    QSize sizeHint() const;
+	QTabBar* tabBar() const;
+	QSize sizeHint() const;
 
-    enum TabRole { Active, Inactive, Alert, Highlight };
+	enum TabRole { Active, Inactive, Alert, Highlight };
 
-    QColor tabTextColor(TabRole role) const;
-    void setTabTextColor(TabRole role, const QColor& color);
+	QColor tabTextColor(TabRole role) const;
+	void setTabTextColor(TabRole role, const QColor& color);
 
-    bool isTabInactive(int index = -1);
-    void setTabInactive(int index, bool inactive);
+	bool isTabInactive(int index = -1);
+	void setTabInactive(int index, bool inactive);
 
-    bool hasTabAlert(int index = -1);
-    void setTabAlert(int index, bool alert);
+	bool hasTabAlert(int index = -1);
+	void setTabAlert(int index, bool alert);
 
-    bool hasTabHighlight(int index = -1) const;
-    void setTabHighlight(int index, bool highlight);
+	bool hasTabHighlight(int index = -1) const;
+	void setTabHighlight(int index, bool highlight);
 
 public slots:
-    void moveToNextTab();
-    void moveToPrevTab();
-    void moveToNextUnreadTab();
-    void moveToPrevUnreadTab();
+	void moveToNextTab();
+	void moveToPrevTab();
+	void moveToNextUnreadTab();
+	void moveToPrevUnreadTab();
 
 signals:
-    void newTabRequested();
-    void tabMenuRequested(int index, const QPoint& pos);
-    void alertStatusChanged(bool alerted);
-    void highlightStatusChanged(bool highlighted);
+	void newTabRequested();
+	void tabMenuRequested(int index, const QPoint& pos);
+	void alertStatusChanged(bool alerted);
+	void highlightStatusChanged(bool highlighted);
 
 protected:
-    void tabInserted(int index);
-    void tabRemoved(int index);
+	void tabInserted(int index);
+	void tabRemoved(int index);
 
 private slots:
-    void tabChanged(int index);
-    void alertTimeout();
-    void colorizeTab(int index);
-    void updateTabColors();
+	void tabChanged(int index);
+	void alertTimeout();
+	void colorizeTab(int index);
+	void updateTabColors();
 
 private:
-    struct TabWidgetData {
-        int previous;
-        bool updatingColors;
-        QColor currentAlertColor;
-        QList<int> inactiveIndexes;
-        QList<int> alertIndexes;
-        QList<int> highlightIndexes;
-        QHash<TabRole, QColor> colors;
-    } d;
+	struct TabWidgetData {
+		int previous;
+		bool updatingColors;
+		QColor currentAlertColor;
+		QList<int> inactiveIndexes;
+		QList<int> alertIndexes;
+		QList<int> highlightIndexes;
+		QHash<TabRole, QColor> colors;
+	} d;
 };
 
 #endif // TABWIDGET_H

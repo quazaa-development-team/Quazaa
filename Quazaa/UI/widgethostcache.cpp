@@ -30,9 +30,9 @@
 
 #include "debug_new.h"
 
-WidgetHostCache::WidgetHostCache(QWidget* parent) :
+CWidgetHostCache::CWidgetHostCache(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetHostCache)
+	ui(new Ui::CWidgetHostCache)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.HostCacheToolbar);
@@ -40,12 +40,12 @@ WidgetHostCache::WidgetHostCache(QWidget* parent) :
 	setSkin();
 }
 
-WidgetHostCache::~WidgetHostCache()
+CWidgetHostCache::~CWidgetHostCache()
 {
 	delete ui;
 }
 
-void WidgetHostCache::changeEvent(QEvent* e)
+void CWidgetHostCache::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -58,13 +58,13 @@ void WidgetHostCache::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetHostCache::saveWidget()
+void CWidgetHostCache::saveWidget()
 {
 	quazaaSettings.WinMain.HostCacheToolbar = saveState();
 	quazaaSettings.WinMain.HostCacheSplitter = ui->splitterHostCache->saveState();
 }
 
-void WidgetHostCache::on_splitterHostCache_customContextMenuRequested(QPoint pos)
+void CWidgetHostCache::on_splitterHostCache_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
@@ -89,7 +89,7 @@ void WidgetHostCache::on_splitterHostCache_customContextMenuRequested(QPoint pos
 	}
 }
 
-void WidgetHostCache::setSkin()
+void CWidgetHostCache::setSkin()
 {
 
 }

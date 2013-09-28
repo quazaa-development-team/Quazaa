@@ -29,11 +29,11 @@
 #include <QCompleter>
 #include <QStringList>
 
-class CompleterLineEdit : public QLineEdit
+class CCompleterLineEdit : public QLineEdit
 {
 	Q_OBJECT
 public:
-	explicit CompleterLineEdit(const QStringList& completions, QWidget *parent = 0);
+	explicit CCompleterLineEdit(const QStringList& completions, QWidget *parent = 0);
 	void setCaseSensitivity(Qt::CaseSensitivity caseSensitivity);
 	Qt::CaseSensitivity caseSensitivity() const;
 	void setCompletionMode(QCompleter::CompletionMode mode);

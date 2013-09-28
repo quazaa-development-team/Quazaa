@@ -28,20 +28,20 @@
 
 #include "debug_new.h"
 
-DialogPreviewPrepare::DialogPreviewPrepare(QWidget* parent) :
+CDialogPreviewPrepare::CDialogPreviewPrepare(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogPreviewPrepare)
+	ui(new Ui::CDialogPreviewPrepare)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogPreviewPrepare::~DialogPreviewPrepare()
+CDialogPreviewPrepare::~CDialogPreviewPrepare()
 {
 	delete ui;
 }
 
-void DialogPreviewPrepare::changeEvent(QEvent* e)
+void CDialogPreviewPrepare::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -54,19 +54,19 @@ void DialogPreviewPrepare::changeEvent(QEvent* e)
 	}
 }
 
-void DialogPreviewPrepare::on_pushButton_clicked()
+void CDialogPreviewPrepare::on_pushButton_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogPreviewPrepare::updateProgress(int percent, QString fileName)
+void CDialogPreviewPrepare::updateProgress(int percent, QString fileName)
 {
 	ui->progressBarStatus->setValue(percent);
 	ui->labelFileName->setText(fileName);
 }
 
-void DialogPreviewPrepare::setSkin()
+void CDialogPreviewPrepare::setSkin()
 {
 
 }

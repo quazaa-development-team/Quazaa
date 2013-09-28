@@ -28,16 +28,16 @@
 #include <QDialog>
 
 namespace Ui {
-    class DialogIrcColorDialog;
+	class CDialogIrcColorDialog;
 }
 
-class DialogIrcColorDialog : public QDialog
+class CDialogIrcColorDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-	explicit DialogIrcColorDialog(QColor initialColor, QWidget *parent = 0);
-	~DialogIrcColorDialog();
+	explicit CDialogIrcColorDialog(QColor initialColor, QWidget *parent = 0);
+	~CDialogIrcColorDialog();
 	QColor color();
 	bool isDefaultColor();
 
@@ -61,7 +61,7 @@ private slots:
 	void on_toolButtonGray_clicked();
 
 private:
-    Ui::DialogIrcColorDialog *ui;
+	Ui::CDialogIrcColorDialog *ui;
 	QColor m_oIrcColor;
 	bool m_bDefault;
 };

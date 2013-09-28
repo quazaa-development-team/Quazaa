@@ -29,15 +29,15 @@
 
 namespace Ui
 {
-	class DialogDownloadsImport;
+	class CDialogDownloadsImport;
 }
 
-class DialogDownloadsImport : public QDialog
+class CDialogDownloadsImport : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogDownloadsImport(QWidget* parent = 0);
-	~DialogDownloadsImport();
+	CDialogDownloadsImport(QWidget* parent = 0);
+	~CDialogDownloadsImport();
 
 signals:
 	void closed();
@@ -46,7 +46,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogDownloadsImport* ui;
+	Ui::CDialogDownloadsImport* ui;
 
 private slots:
 	void setSkin();

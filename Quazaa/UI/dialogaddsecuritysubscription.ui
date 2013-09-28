@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogAddSecuritySubscription</class>
+ <class>CDialogAddSecuritySubscription</class>
  <widget class="QDialog" name="DialogAddSecuritySubscription">
   <property name="geometry">
    <rect>

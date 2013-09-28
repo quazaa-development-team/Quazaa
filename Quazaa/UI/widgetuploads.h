@@ -29,22 +29,22 @@
 
 namespace Ui
 {
-	class WidgetUploads;
+	class CWidgetUploads;
 }
 
-class WidgetUploads : public QMainWindow
+class CWidgetUploads : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetUploads(QWidget* parent = 0);
-	~WidgetUploads();
+	CWidgetUploads(QWidget* parent = 0);
+	~CWidgetUploads();
 	void saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetUploads* ui;
+	Ui::CWidgetUploads* ui;
 
 private slots:
 	void setSkin();

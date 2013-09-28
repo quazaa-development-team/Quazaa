@@ -29,21 +29,21 @@
 
 namespace Ui
 {
-	class DialogFilterSearch;
+	class CDialogFilterSearch;
 }
 
-class DialogFilterSearch : public QDialog
+class CDialogFilterSearch : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogFilterSearch(QWidget* parent = 0);
-	~DialogFilterSearch();
+	CDialogFilterSearch(QWidget* parent = 0);
+	~CDialogFilterSearch();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogFilterSearch* ui;
+	Ui::CDialogFilterSearch* ui;
 
 signals:
 	void closed();

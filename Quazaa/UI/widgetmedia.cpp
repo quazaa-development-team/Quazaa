@@ -32,9 +32,9 @@
 
 // The Media Tab's Base Widget
 
-WidgetMedia::WidgetMedia(QWidget* parent) :
+CWidgetMedia::CWidgetMedia(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetMedia)
+	ui(new Ui::CWidgetMedia)
 {
 	ui->setupUi(this);
 	seekSlider = new QSlider();
@@ -53,12 +53,12 @@ WidgetMedia::WidgetMedia(QWidget* parent) :
 	setSkin();
 }
 
-WidgetMedia::~WidgetMedia()
+CWidgetMedia::~CWidgetMedia()
 {
 	delete ui;
 }
 
-void WidgetMedia::changeEvent(QEvent* e)
+void CWidgetMedia::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -71,7 +71,7 @@ void WidgetMedia::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetMedia::saveWidget()
+void CWidgetMedia::saveWidget()
 {
 	quazaaSettings.WinMain.MediaToolbars = saveState();
 	quazaaSettings.WinMain.MediaSplitter = ui->splitterMedia->saveState();
@@ -87,17 +87,17 @@ void WidgetMedia::on_volumeSlider_valueChanged(int value)
 	quazaaSettings.Media.Volume = value;
 }*/
 
-void WidgetMedia::on_actionMediaRepeat_triggered(bool checked)
+void CWidgetMedia::on_actionMediaRepeat_triggered(bool checked)
 {
 	quazaaSettings.Media.Repeat = checked;
 }
 
-void WidgetMedia::on_actionMediaShuffle_triggered(bool checked)
+void CWidgetMedia::on_actionMediaShuffle_triggered(bool checked)
 {
 	quazaaSettings.Media.Shuffle = checked;
 }
 
-void WidgetMedia::on_splitterMedia_customContextMenuRequested(QPoint pos)
+void CWidgetMedia::on_splitterMedia_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
@@ -122,7 +122,7 @@ void WidgetMedia::on_splitterMedia_customContextMenuRequested(QPoint pos)
 	}
 }
 
-void WidgetMedia::on_toolButtonMediaPlaylistTaskHeader_clicked()
+void CWidgetMedia::on_toolButtonMediaPlaylistTaskHeader_clicked()
 {
 	if(ui->splitterMedia->sizes()[0] > 0)
 	{
@@ -142,7 +142,7 @@ void WidgetMedia::on_toolButtonMediaPlaylistTaskHeader_clicked()
 	}
 }
 
-void WidgetMedia::setSkin()
+void CWidgetMedia::setSkin()
 {
 	seekSlider->setStyleSheet(skinSettings.seekSlider);
 	volumeSlider->setStyleSheet(skinSettings.volumeSlider);

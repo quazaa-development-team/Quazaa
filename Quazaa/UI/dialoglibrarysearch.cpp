@@ -28,20 +28,20 @@
 
 #include "debug_new.h"
 
-DialogLibrarySearch::DialogLibrarySearch(QWidget* parent) :
+CDialogLibrarySearch::CDialogLibrarySearch(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogLibrarySearch)
+	ui(new Ui::CDialogLibrarySearch)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogLibrarySearch::~DialogLibrarySearch()
+CDialogLibrarySearch::~CDialogLibrarySearch()
 {
 	delete ui;
 }
 
-void DialogLibrarySearch::changeEvent(QEvent* e)
+void CDialogLibrarySearch::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -54,19 +54,19 @@ void DialogLibrarySearch::changeEvent(QEvent* e)
 	}
 }
 
-void DialogLibrarySearch::on_pushButtonSearch_clicked()
+void CDialogLibrarySearch::on_pushButtonSearch_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogLibrarySearch::on_pushButtonCancel_clicked()
+void CDialogLibrarySearch::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogLibrarySearch::setSkin()
+void CDialogLibrarySearch::setSkin()
 {
 
 }

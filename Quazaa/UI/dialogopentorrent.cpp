@@ -30,21 +30,21 @@
 
 #include "debug_new.h"
 
-DialogOpenTorrent::DialogOpenTorrent(QWidget* parent) :
+CDialogOpenTorrent::CDialogOpenTorrent(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogOpenTorrent)
+	ui(new Ui::CDialogOpenTorrent)
 {
 	ui->setupUi(this);
 	ui->comboBoxAllocationMode->setView(new QListView());
 	setSkin();
 }
 
-DialogOpenTorrent::~DialogOpenTorrent()
+CDialogOpenTorrent::~CDialogOpenTorrent()
 {
 	delete ui;
 }
 
-void DialogOpenTorrent::changeEvent(QEvent* e)
+void CDialogOpenTorrent::changeEvent(QEvent* e)
 {
 	switch(e->type())
 	{
@@ -56,19 +56,19 @@ void DialogOpenTorrent::changeEvent(QEvent* e)
 	}
 }
 
-void DialogOpenTorrent::on_pushButtonOK_clicked()
+void CDialogOpenTorrent::on_pushButtonOK_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogOpenTorrent::on_pushButtonCancel_clicked()
+void CDialogOpenTorrent::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogOpenTorrent::setSkin()
+void CDialogOpenTorrent::setSkin()
 {
 
 }

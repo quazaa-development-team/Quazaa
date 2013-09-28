@@ -30,21 +30,21 @@
 
 namespace Ui
 {
-	class DialogLanguage;
+	class CDialogLanguage;
 }
 
-class DialogLanguage : public QDialog
+class CDialogLanguage : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogLanguage(QWidget* parent = 0);
-	~DialogLanguage();
+	CDialogLanguage(QWidget* parent = 0);
+	~CDialogLanguage();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogLanguage* ui;
+	Ui::CDialogLanguage* ui;
 
 signals:
 	void closed();

@@ -34,9 +34,9 @@
 #include <QMenu>
 #include <QKeyEvent>
 
-WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
+CWidgetDiscovery::CWidgetDiscovery(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetDiscovery)
+	ui(new Ui::CWidgetDiscovery)
 {
     ui->setupUi(this);
 
@@ -55,11 +55,11 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 #if QT_VERSION >= 0x050000
 
 	connect( tableViewDiscovery, &CTableView::clicked,
-			 this, &WidgetDiscovery::tableViewDiscovery_clicked );
+			 this, &CWidgetDiscovery::tableViewDiscovery_clicked );
 	connect( tableViewDiscovery, &CTableView::doubleClicked,
-			 this, &WidgetDiscovery::tableViewDiscovery_doubleClicked );
+			 this, &CWidgetDiscovery::tableViewDiscovery_doubleClicked );
 	connect( tableViewDiscovery, &CTableView::customContextMenuRequested,
-			 this, &WidgetDiscovery::tableViewDiscovery_customContextMenuRequested );
+			 this, &CWidgetDiscovery::tableViewDiscovery_customContextMenuRequested );
 
 #else	// Qt4 code
 
@@ -129,29 +129,29 @@ WidgetDiscovery::WidgetDiscovery(QWidget* parent) :
 	}
 }
 
-WidgetDiscovery::~WidgetDiscovery()
+CWidgetDiscovery::~CWidgetDiscovery()
 {
 	delete ui; // Note: This does also take care of m_pDiscoveryMenu and m_pDiscoveryList.
 	delete tableViewDiscovery; // TODO: check whether this is necessary...
 }
 
-void WidgetDiscovery::setModel(QAbstractItemModel* model)
+void CWidgetDiscovery::setModel(QAbstractItemModel* model)
 {
 	tableViewDiscovery->setModel( model );
 }
 
-QWidget* WidgetDiscovery::tableView()
+QWidget* CWidgetDiscovery::tableView()
 {
 	return tableViewDiscovery;
 }
 
-void WidgetDiscovery::saveWidget()
+void CWidgetDiscovery::saveWidget()
 {
 	quazaaSettings.WinMain.DiscoveryToolbar = saveState();
 	quazaaSettings.WinMain.DiscoveryHeader  = tableViewDiscovery->horizontalHeader()->saveState();
 }
 
-void WidgetDiscovery::changeEvent(QEvent* e)
+void CWidgetDiscovery::changeEvent(QEvent* e)
 {
 	switch ( e->type() )
 	{
@@ -168,7 +168,7 @@ void WidgetDiscovery::changeEvent(QEvent* e)
 	QMainWindow::changeEvent( e );
 }
 
-void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
+void CWidgetDiscovery::keyPressEvent(QKeyEvent *e)
 {
 	switch ( e->key() )
 	{
@@ -194,14 +194,14 @@ void WidgetDiscovery::keyPressEvent(QKeyEvent *e)
 	QMainWindow::keyPressEvent( e );
 }
 
-void WidgetDiscovery::update()
+void CWidgetDiscovery::update()
 {
 	// TODO: improve
 
 	m_pDiscoveryList->updateAll();
 }
 
-void WidgetDiscovery::tableViewDiscovery_customContextMenuRequested(const QPoint& point)
+void CWidgetDiscovery::tableViewDiscovery_customContextMenuRequested(const QPoint& point)
 {
 	QModelIndex index = tableViewDiscovery->indexAt( point );
 
@@ -232,7 +232,7 @@ void WidgetDiscovery::tableViewDiscovery_customContextMenuRequested(const QPoint
 	m_pDiscoveryMenu->popup( QCursor::pos() );
 }
 
-void WidgetDiscovery::tableViewDiscovery_doubleClicked(const QModelIndex& index)
+void CWidgetDiscovery::tableViewDiscovery_doubleClicked(const QModelIndex& index)
 {
 	if ( index.isValid() )
 	{
@@ -247,7 +247,7 @@ void WidgetDiscovery::tableViewDiscovery_doubleClicked(const QModelIndex& index)
 	}
 }
 
-void WidgetDiscovery::tableViewDiscovery_clicked(const QModelIndex& index)
+void CWidgetDiscovery::tableViewDiscovery_clicked(const QModelIndex& index)
 {
 	if ( index.isValid() )
 	{
@@ -274,22 +274,22 @@ void WidgetDiscovery::tableViewDiscovery_clicked(const QModelIndex& index)
 	}
 }
 
-void WidgetDiscovery::setSkin()
+void CWidgetDiscovery::setSkin()
 {
 	tableViewDiscovery->setStyleSheet( skinSettings.listViews );
 }
 
-void WidgetDiscovery::on_actionDiscoveryAddService_triggered()
+void CWidgetDiscovery::on_actionDiscoveryAddService_triggered()
 {
 	// TODO: Pop up dialog to add service
 }
 
-void WidgetDiscovery::on_actionDiscoveryBrowseStatistics_triggered()
+void CWidgetDiscovery::on_actionDiscoveryBrowseStatistics_triggered()
 {
 	// TODO: Find out what this is ispposed to do.
 }
 
-void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
+void CWidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
 {
 	QModelIndexList selection = tableViewDiscovery->selectionModel()->selectedRows();
 
@@ -304,7 +304,7 @@ void WidgetDiscovery::on_actionDiscoveryRemoveService_triggered()
 	}
 }
 
-void WidgetDiscovery::on_actionDiscoveryQueryNow_triggered()
+void CWidgetDiscovery::on_actionDiscoveryQueryNow_triggered()
 {
 	QModelIndex index = tableViewDiscovery->currentIndex();
 
@@ -316,7 +316,7 @@ void WidgetDiscovery::on_actionDiscoveryQueryNow_triggered()
 	}
 }
 
-void WidgetDiscovery::on_actionDiscoveryAdvertise_triggered()
+void CWidgetDiscovery::on_actionDiscoveryAdvertise_triggered()
 {
 	QModelIndex index = tableViewDiscovery->currentIndex();
 
@@ -328,7 +328,7 @@ void WidgetDiscovery::on_actionDiscoveryAdvertise_triggered()
 	}
 }
 
-void WidgetDiscovery::on_actionDiscoveryProperties_triggered()
+void CWidgetDiscovery::on_actionDiscoveryProperties_triggered()
 {
 	QModelIndex index = tableViewDiscovery->currentIndex();
 

@@ -30,21 +30,21 @@
 
 #include "debug_new.h"
 
-WidgetSearchMonitor::WidgetSearchMonitor(QWidget* parent) :
+CWidgetSearchMonitor::CWidgetSearchMonitor(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetSearchMonitor)
+	ui(new Ui::CWidgetSearchMonitor)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.SearchMonitorToolbar);
 	setSkin();
 }
 
-WidgetSearchMonitor::~WidgetSearchMonitor()
+CWidgetSearchMonitor::~CWidgetSearchMonitor()
 {
 	delete ui;
 }
 
-void WidgetSearchMonitor::changeEvent(QEvent* e)
+void CWidgetSearchMonitor::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -57,12 +57,12 @@ void WidgetSearchMonitor::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetSearchMonitor::saveWidget()
+void CWidgetSearchMonitor::saveWidget()
 {
 	quazaaSettings.WinMain.SearchMonitorToolbar = saveState();
 }
 
-void WidgetSearchMonitor::setSkin()
+void CWidgetSearchMonitor::setSkin()
 {
 
 }

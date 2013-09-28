@@ -30,22 +30,22 @@
 
 namespace Ui
 {
-	class DialogAbout;
+	class CDialogAbout;
 }
 
-class DialogAbout : public QDialog
+class CDialogAbout : public QDialog
 {
 	Q_OBJECT
-	Q_DISABLE_COPY(DialogAbout)
+	Q_DISABLE_COPY(CDialogAbout)
 public:
-	explicit DialogAbout(QWidget* parent = 0);
-	virtual ~DialogAbout();
+	explicit CDialogAbout(QWidget* parent = 0);
+	virtual ~CDialogAbout();
 
 protected:
 	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogAbout* ui;
+	Ui::CDialogAbout* ui;
 
 signals:
 	void closed();

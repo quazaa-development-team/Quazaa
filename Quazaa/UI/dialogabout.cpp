@@ -32,21 +32,21 @@
 
 #include "debug_new.h"
 
-DialogAbout::DialogAbout(QWidget* parent) :
+CDialogAbout::CDialogAbout(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogAbout)
+	ui(new Ui::CDialogAbout)
 {
 	ui->setupUi(this);
 	ui->labelVersion->setText(ui->labelVersion->text().replace("&lt;version&gt;", CQuazaaGlobals::APPLICATION_VERSION_STRING()));
 	setSkin();
 }
 
-DialogAbout::~DialogAbout()
+CDialogAbout::~CDialogAbout()
 {
 	delete ui;
 }
 
-void DialogAbout::changeEvent(QEvent* e)
+void CDialogAbout::changeEvent(QEvent* e)
 {
 	switch(e->type())
 	{
@@ -58,23 +58,23 @@ void DialogAbout::changeEvent(QEvent* e)
 	}
 }
 
-void DialogAbout::on_pushButtonOK_clicked()
+void CDialogAbout::on_pushButtonOK_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogAbout::on_labelCopyright_linkActivated(QString link)
+void CDialogAbout::on_labelCopyright_linkActivated(QString link)
 {
 	QDesktopServices::openUrl(QUrl(link, QUrl::TolerantMode));
 }
 
-void DialogAbout::on_textBrowserCredits_anchorClicked(QUrl link)
+void CDialogAbout::on_textBrowserCredits_anchorClicked(QUrl link)
 {
 	QDesktopServices::openUrl(link);
 }
 
-void DialogAbout::setSkin()
+void CDialogAbout::setSkin()
 {
 	ui->frameCommonHeader->setStyleSheet(skinSettings.dialogHeader);
 }

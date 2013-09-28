@@ -33,18 +33,18 @@
 class QTextDocument;
 
 namespace Ui {
-	class WidgetPrivateMessage;
+	class CWidgetPrivateMessage;
 }
 
-class WidgetPrivateMessage : public QWidget {
+class CWidgetPrivateMessage : public QWidget {
 	Q_OBJECT
 public:
 	QUuid	m_oGUID;
 	QString m_sNick;
 	CChatSession* m_pSession;
 public:
-	WidgetPrivateMessage(QWidget *parent = 0);
-	~WidgetPrivateMessage();
+	CWidgetPrivateMessage(QWidget *parent = 0);
+	~CWidgetPrivateMessage();
 	QString inputMessage;
 
 	void SendPrivateMessage(QTextDocument* pMessage, bool bAction = false);
@@ -54,7 +54,7 @@ protected:
 	void changeEvent(QEvent *e);
 
 private:
-	Ui::WidgetPrivateMessage *ui;
+	Ui::CWidgetPrivateMessage *ui;
 
 signals:
 	void SendMessageS(QTextDocument*, bool);

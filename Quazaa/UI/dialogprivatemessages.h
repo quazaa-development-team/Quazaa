@@ -29,31 +29,31 @@
 #include "widgetchatinput.h"
 #include "chatsession.h"
 
-class WidgetPrivateMessage;
+class CWidgetPrivateMessage;
 class QTextDocument;
 
 namespace Ui {
-	class DialogPrivateMessages;
+	class CDialogPrivateMessages;
 }
 
-class DialogPrivateMessages : public QDialog {
+class CDialogPrivateMessages : public QDialog {
 	Q_OBJECT
 public:
-	DialogPrivateMessages(QWidget *parent = 0);
-	~DialogPrivateMessages();
+	CDialogPrivateMessages(QWidget *parent = 0);
+	~CDialogPrivateMessages();
 
-	WidgetPrivateMessage* FindByGUID(QUuid oGUID);
+	CWidgetPrivateMessage* FindByGUID(QUuid oGUID);
 
 	void OpenChat(CChatSession* pSess);
 
 protected:
 	void changeEvent(QEvent *e);
-	QList<WidgetPrivateMessage*> m_lChatWindows;
+	QList<CWidgetPrivateMessage*> m_lChatWindows;
 
 private:
-	Ui::DialogPrivateMessages *ui;
-	WidgetChatInput *widgetChatInput;
-	WidgetPrivateMessage* m_pCurrentWidget;
+	Ui::CDialogPrivateMessages *ui;
+	CWidgetChatInput *widgetChatInput;
+	CWidgetPrivateMessage* m_pCurrentWidget;
 
 public slots:
 	void onMessageSent(QTextDocument* pDoc);

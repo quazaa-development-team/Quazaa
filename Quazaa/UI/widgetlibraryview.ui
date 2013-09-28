@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetLibraryView</class>
+ <class>CWidgetLibraryView</class>
  <widget class="QMainWindow" name="WidgetLibraryView">
   <property name="geometry">
    <rect>

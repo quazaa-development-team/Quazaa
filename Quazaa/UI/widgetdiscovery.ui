@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetDiscovery</class>
+ <class>CWidgetDiscovery</class>
  <widget class="QMainWindow" name="WidgetDiscovery">
   <property name="geometry">
    <rect>

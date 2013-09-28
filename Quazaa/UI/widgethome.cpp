@@ -39,9 +39,9 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-WidgetHome::WidgetHome(QWidget* parent) :
+CWidgetHome::CWidgetHome(QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::WidgetHome)
+	ui(new Ui::CWidgetHome)
 {
 	ui->setupUi(this);
     ui->comboBoxHomeFileType->setView(new QListView());
@@ -50,12 +50,12 @@ WidgetHome::WidgetHome(QWidget* parent) :
 	setSkin();
 }
 
-WidgetHome::~WidgetHome()
+CWidgetHome::~CWidgetHome()
 {
 	delete ui;
 }
 
-void WidgetHome::changeEvent(QEvent* e)
+void CWidgetHome::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
 	switch(e->type())
@@ -68,53 +68,53 @@ void WidgetHome::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
+void CWidgetHome::on_labelWelcomeURLDownloadLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
-	DialogAddDownload* dlgAddDownload = new DialogAddDownload(this);
+	CDialogAddDownload* dlgAddDownload = new CDialogAddDownload(this);
 	dlgAddDownload->show();
 }
 
-void WidgetHome::on_labelWelcomeOpenTorrentLink_linkActivated(QString link)
+void CWidgetHome::on_labelWelcomeOpenTorrentLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
-	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent(this);
+	CDialogOpenTorrent* dlgOpenTorrent = new CDialogOpenTorrent(this);
 	dlgOpenTorrent->show();
 }
 
-void WidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
+void CWidgetHome::on_labelWelcomeSkinLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
-	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Skins);
+	CDialogSettings* dlgSettings = new CDialogSettings(this, SettingsPage::Skins);
 	dlgSettings->show();
 }
 
-void WidgetHome::on_labelWelcomeWizardLink_linkActivated(QString link)
+void CWidgetHome::on_labelWelcomeWizardLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
-	WizardQuickStart* wzrdQuickStart = new WizardQuickStart(this);
+	CWizardQuickStart* wzrdQuickStart = new CWizardQuickStart(this);
 	wzrdQuickStart->exec();
 }
 
-void WidgetHome::on_labelWelcomeUserGuideLink_linkActivated(QString link)
+void CWidgetHome::on_labelWelcomeUserGuideLink_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 
 	QDesktopServices::openUrl(QUrl("https://sourceforge.net/apps/mediawiki/quazaa/index.php?title=Manual", QUrl::TolerantMode));
 }
 
-void WidgetHome::saveWidget()
+void CWidgetHome::saveWidget()
 {
     quazaaSettings.WinMain.HomeSearchString = ui->lineEditWelcomeSearch->text();
 }
 
-void WidgetHome::on_toolButtonWelcomeSearch_clicked()
+void CWidgetHome::on_toolButtonWelcomeSearch_clicked()
 {
 	QString m_sSearchString = ui->lineEditWelcomeSearch->text();
 	emit requestSearch(&m_sSearchString);
 }
 
-void WidgetHome::setSkin()
+void CWidgetHome::setSkin()
 {
 
 }

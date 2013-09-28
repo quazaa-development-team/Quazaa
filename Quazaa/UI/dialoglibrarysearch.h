@@ -29,21 +29,21 @@
 
 namespace Ui
 {
-	class DialogLibrarySearch;
+	class CDialogLibrarySearch;
 }
 
-class DialogLibrarySearch : public QDialog
+class CDialogLibrarySearch : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogLibrarySearch(QWidget* parent = 0);
-	~DialogLibrarySearch();
+	CDialogLibrarySearch(QWidget* parent = 0);
+	~CDialogLibrarySearch();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogLibrarySearch* ui;
+	Ui::CDialogLibrarySearch* ui;
 
 signals:
 	void closed();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetPacketDump</class>
+ <class>CWidgetPacketDump</class>
  <widget class="QMainWindow" name="WidgetPacketDump">
   <property name="geometry">
    <rect>

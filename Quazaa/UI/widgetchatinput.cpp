@@ -35,9 +35,9 @@
 
 #include "debug_new.h"
 
-WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
+CWidgetChatInput::CWidgetChatInput(QWidget *parent, bool isIrc) :
     QMainWindow(parent),
-	ui(new Ui::WidgetChatInput)
+	ui(new Ui::CWidgetChatInput)
 {
     ui->setupUi(this);
     bIsIrc = isIrc;
@@ -57,7 +57,7 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
 	toolButtonSmilies->setPopupMode(QToolButton::InstantPopup);
 	toolButtonSmilies->setToolTip(tr("Smilies"));
 	toolButtonSmilies->setIcon(QIcon(":/Resource/Smileys/0.png"));
-	widgetSmileyList = new WidgetSmileyList(this);
+	widgetSmileyList = new CWidgetSmileyList(this);
 	toolButtonSmilies->setMenu(widgetSmileyList);
 
 	toolButtonPickColor = new QToolButton(this);
@@ -91,13 +91,13 @@ WidgetChatInput::WidgetChatInput(QWidget *parent, bool isIrc) :
     updateToolbar();
 }
 
-WidgetChatInput::~WidgetChatInput()
+CWidgetChatInput::~CWidgetChatInput()
 {
 	delete widgetSmileyList;
 	delete ui;
 }
 
-void WidgetChatInput::changeEvent(QEvent *e)
+void CWidgetChatInput::changeEvent(QEvent *e)
 {
 	QMainWindow::changeEvent(e);
 	switch (e->type()) {
@@ -109,7 +109,7 @@ void WidgetChatInput::changeEvent(QEvent *e)
 	}
 }
 
-void WidgetChatInput::on_toolButtonSend_clicked()
+void CWidgetChatInput::on_toolButtonSend_clicked()
 {
     if (!ui->textEditInput->document()->isEmpty())
 	{
@@ -139,12 +139,12 @@ void WidgetChatInput::on_toolButtonSend_clicked()
 	}
 }
 
-void WidgetChatInput::setText(QString text)
+void CWidgetChatInput::setText(QString text)
 {
     ui->textEditInput->setHtml(text);
 }
 
-void WidgetChatInput::onTextFormatChange(QTextCharFormat newFormat)
+void CWidgetChatInput::onTextFormatChange(QTextCharFormat newFormat)
 {
 	if( newFormat.fontWeight() == QFont::Normal )
 		ui->actionBold->setChecked(false);
@@ -155,27 +155,27 @@ void WidgetChatInput::onTextFormatChange(QTextCharFormat newFormat)
 	ui->actionUnderline->setChecked(newFormat.fontUnderline());
 }
 
-void WidgetChatInput::on_actionBold_toggled(bool checked)
+void CWidgetChatInput::on_actionBold_toggled(bool checked)
 {
     ui->textEditInput->setFontWeight((checked ? QFont::Bold : QFont::Normal));
 }
 
-void WidgetChatInput::on_actionItalic_toggled(bool checked)
+void CWidgetChatInput::on_actionItalic_toggled(bool checked)
 {
     ui->textEditInput->setFontItalic(checked);
 }
 
-void WidgetChatInput::on_actionUnderline_toggled(bool checked)
+void CWidgetChatInput::on_actionUnderline_toggled(bool checked)
 {
     ui->textEditInput->setFontUnderline(checked);
 }
 
-void WidgetChatInput::pickColor()
+void CWidgetChatInput::pickColor()
 {
 	QColor fontColor;
 	if (bIsIrc)
 	{
-        DialogIrcColorDialog *dlgIrcColor = new DialogIrcColorDialog(ui->textEditInput->textColor(), this);
+        CDialogIrcColorDialog *dlgIrcColor = new CDialogIrcColorDialog(ui->textEditInput->textColor(), this);
 		bool accepted = dlgIrcColor->exec();
 		if (accepted)
 		{
@@ -204,9 +204,9 @@ void WidgetChatInput::pickColor()
     updateToolbar();
 }
 
-void WidgetChatInput::addPrivateMessage()
+void CWidgetChatInput::addPrivateMessage()
 {
-	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
+	CDialogConnectTo* dlgConnectTo = new CDialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
 
 	if (accepted)
@@ -215,15 +215,15 @@ void WidgetChatInput::addPrivateMessage()
 
 		switch (dlgConnectTo->getConnectNetwork())
 		{
-		case DialogConnectTo::G2:
+		case CDialogConnectTo::G2:
 		{
 			CChatSessionG2* pS = new CChatSessionG2(ip);
 			pS->Connect();
 			break;
 		}
-		case DialogConnectTo::eDonkey:
+		case CDialogConnectTo::eDonkey:
 			break;
-		case DialogConnectTo::Ares:
+		case CDialogConnectTo::Ares:
 			break;
 		default:
 			break;
@@ -231,7 +231,7 @@ void WidgetChatInput::addPrivateMessage()
 	}
 }
 
-void WidgetChatInput::updateToolbar()
+void CWidgetChatInput::updateToolbar()
 {
     if(bIsIrc)
 	{
@@ -251,17 +251,17 @@ void WidgetChatInput::updateToolbar()
     ui->actionUnderline->setChecked(ui->textEditInput->fontUnderline());
 }
 
-WidgetReturnEmitTextEdit *WidgetChatInput::textEdit()
+CWidgetReturnEmitTextEdit *CWidgetChatInput::textEdit()
 {
     return ui->textEditInput;
 }
 
-QLabel *WidgetChatInput::helpLabel()
+QLabel *CWidgetChatInput::helpLabel()
 {
 	return ui->helpLabel;
 }
 
-void WidgetChatInput::setSkin()
+void CWidgetChatInput::setSkin()
 {
 
 }

@@ -33,10 +33,10 @@ class CNeighboursTableModel;
 
 namespace Ui
 {
-	class WidgetNeighbours;
+	class CWidgetNeighbours;
 }
 
-class WidgetNeighbours : public QMainWindow
+class CWidgetNeighbours : public QMainWindow
 {
 	Q_OBJECT
 public:
@@ -45,8 +45,8 @@ public:
 	CNeighboursTableModel* neighboursList;
 
 public:
-	WidgetNeighbours(QWidget* parent = 0);
-	~WidgetNeighbours();
+	CWidgetNeighbours(QWidget* parent = 0);
+	~CWidgetNeighbours();
 
 	void		setModel(QAbstractItemModel* model);
 	QWidget*	treeView();
@@ -56,7 +56,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetNeighbours* ui;
+	Ui::CWidgetNeighbours* ui;
 	QMenu *neighboursMenu;
 
 private slots:
@@ -72,7 +72,7 @@ private slots:
 	void updateAres();
 	void updateEDonkey();
 	void setSkin();
-    void on_tableViewNeighbours_doubleClicked(const QModelIndex &index);
+	void on_tableViewNeighbours_doubleClicked(const QModelIndex &index);
 };
 
 #endif // WIDGETNEIGHBORS_H

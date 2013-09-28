@@ -30,21 +30,21 @@
 
 #include "debug_new.h"
 
-WidgetUploads::WidgetUploads(QWidget* parent) :
+CWidgetUploads::CWidgetUploads(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetUploads)
+	ui(new Ui::CWidgetUploads)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.UploadsToolbar);
 	setSkin();
 }
 
-WidgetUploads::~WidgetUploads()
+CWidgetUploads::~CWidgetUploads()
 {
 	delete ui;
 }
 
-void WidgetUploads::changeEvent(QEvent* e)
+void CWidgetUploads::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -57,12 +57,12 @@ void WidgetUploads::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetUploads::saveWidget()
+void CWidgetUploads::saveWidget()
 {
 	quazaaSettings.WinMain.UploadsToolbar = saveState();
 }
 
-void WidgetUploads::setSkin()
+void CWidgetUploads::setSkin()
 {
 	ui->treeViewUploads->setStyleSheet(skinSettings.listViews);
 }

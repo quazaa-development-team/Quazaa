@@ -27,15 +27,15 @@
 
 namespace Ui
 {
-	class WidgetMedia;
+	class CWidgetMedia;
 }
 
-class WidgetMedia : public QMainWindow
+class CWidgetMedia : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetMedia(QWidget* parent = 0);
-	~WidgetMedia();
+	CWidgetMedia(QWidget* parent = 0);
+	~CWidgetMedia();
 	QSlider* seekSlider;
 	QSlider* volumeSlider;
 	void saveWidget();
@@ -44,7 +44,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetMedia* ui;
+	Ui::CWidgetMedia* ui;
 
 private slots:
 	void on_toolButtonMediaPlaylistTaskHeader_clicked();

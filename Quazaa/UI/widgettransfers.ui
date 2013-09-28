@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetTransfers</class>
+ <class>CWidgetTransfers</class>
  <widget class="QWidget" name="WidgetTransfers">
   <property name="geometry">
    <rect>

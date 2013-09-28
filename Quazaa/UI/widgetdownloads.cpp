@@ -36,9 +36,9 @@
 
 #include "debug_new.h"
 
-WidgetDownloads::WidgetDownloads(QWidget* parent) :
+CWidgetDownloads::CWidgetDownloads(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetDownloads)
+	ui(new Ui::CWidgetDownloads)
 {
 	ui->setupUi(this);
 	downloadMenu = new QMenu(this);
@@ -81,13 +81,13 @@ WidgetDownloads::WidgetDownloads(QWidget* parent) :
 	restoreState(quazaaSettings.WinMain.DownloadsToolbar);
 }
 
-WidgetDownloads::~WidgetDownloads()
+CWidgetDownloads::~CWidgetDownloads()
 {
 	delete m_pModel;
 	delete ui;
 }
 
-void WidgetDownloads::changeEvent(QEvent* e)
+void CWidgetDownloads::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -100,14 +100,14 @@ void WidgetDownloads::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetDownloads::saveWidget()
+void CWidgetDownloads::saveWidget()
 {
 	quazaaSettings.WinMain.DownloadsToolbar = saveState();
 	quazaaSettings.WinMain.DownloadsHeader = ui->tableViewDownloads->horizontalHeader()->saveState();
 }
 
 
-void WidgetDownloads::on_tableViewDownloads_customContextMenuRequested(const QPoint &pos)
+void CWidgetDownloads::on_tableViewDownloads_customContextMenuRequested(const QPoint &pos)
 {
 	QModelIndex currIndex = ui->tableViewDownloads->indexAt(pos);
 	if( currIndex.isValid() )
@@ -116,19 +116,19 @@ void WidgetDownloads::on_tableViewDownloads_customContextMenuRequested(const QPo
 	}
 }
 
-void WidgetDownloads::setSkin()
+void CWidgetDownloads::setSkin()
 {
 	ui->tableViewDownloads->setStyleSheet(skinSettings.listViews);
 }
 
-void WidgetDownloads::on_actionOpenTorrent_triggered()
+void CWidgetDownloads::on_actionOpenTorrent_triggered()
 {
-	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent(this);
+	CDialogOpenTorrent* dlgOpenTorrent = new CDialogOpenTorrent(this);
 
 	dlgOpenTorrent->show();
 }
 
-void WidgetDownloads::on_tableViewDownloads_clicked(const QModelIndex &index)
+void CWidgetDownloads::on_tableViewDownloads_clicked(const QModelIndex &index)
 {
 	emit onItemChange(index);
 	ui->tableViewDownloads->reset();

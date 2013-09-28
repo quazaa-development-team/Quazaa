@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogTorrentProperties</class>
+ <class>CDialogTorrentProperties</class>
  <widget class="QDialog" name="DialogTorrentProperties">
   <property name="geometry">
    <rect>

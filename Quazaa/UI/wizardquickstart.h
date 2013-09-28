@@ -28,22 +28,22 @@
 #include <QWizard>
 
 namespace Ui {
-    class WizardQuickStart;
+	class CWizardQuickStart;
 }
 
-class WizardQuickStart : public QWizard
+class CWizardQuickStart : public QWizard
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit WizardQuickStart(QWidget *parent = 0);
-    ~WizardQuickStart();
+	explicit CWizardQuickStart(QWidget *parent = 0);
+	~CWizardQuickStart();
 
 protected:
 	virtual void changeEvent(QEvent* e);
 
 private:
-    Ui::WizardQuickStart *ui;
+	Ui::CWizardQuickStart *ui;
 
 private slots:
 	void accept();

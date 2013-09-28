@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogPreviewPrepare</class>
+ <class>CDialogPreviewPrepare</class>
  <widget class="QDialog" name="DialogPreviewPrepare">
   <property name="geometry">
    <rect>

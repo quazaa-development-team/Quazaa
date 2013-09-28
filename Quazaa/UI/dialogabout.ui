@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogAbout</class>
+ <class>CDialogAbout</class>
  <widget class="QDialog" name="DialogAbout">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>

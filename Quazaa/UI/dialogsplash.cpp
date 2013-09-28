@@ -30,9 +30,9 @@
 
 #include "debug_new.h"
 
-DialogSplash::DialogSplash(QWidget* parent) :
+CDialogSplash::CDialogSplash(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogSplash)
+	ui(new Ui::CDialogSplash)
 {
 	ui->setupUi(this);
 	setWindowFlags(Qt::FramelessWindowHint);
@@ -40,12 +40,12 @@ DialogSplash::DialogSplash(QWidget* parent) :
 	move(QPoint(((QApplication::desktop()->screenGeometry(this).width() / 2) - (width() / 2)), ((QApplication::desktop()->screenGeometry(this).height() / 2) - (height() / 2))));
 }
 
-DialogSplash::~DialogSplash()
+CDialogSplash::~CDialogSplash()
 {
 	delete ui;
 }
 
-void DialogSplash::changeEvent(QEvent* e)
+void CDialogSplash::changeEvent(QEvent* e)
 {
 	switch(e->type())
 	{
@@ -57,7 +57,7 @@ void DialogSplash::changeEvent(QEvent* e)
 	}
 }
 
-void DialogSplash::updateProgress(int percent, QString status)
+void CDialogSplash::updateProgress(int percent, QString status)
 {
 	ui->progressBarStatus->setValue(percent);
 	ui->labelStatus->setText(status);

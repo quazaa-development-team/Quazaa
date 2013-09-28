@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogDownloadProperties</class>
+ <class>CDialogDownloadProperties</class>
  <widget class="QDialog" name="DialogDownloadProperties">
   <property name="geometry">
    <rect>

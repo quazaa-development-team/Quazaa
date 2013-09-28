@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetGraph</class>
+ <class>CWidgetGraph</class>
  <widget class="QMainWindow" name="WidgetGraph">
   <property name="geometry">
    <rect>

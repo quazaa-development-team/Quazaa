@@ -30,23 +30,23 @@
 
 namespace Ui
 {
-	class WidgetLibrary;
+	class CWidgetLibrary;
 }
 
-class WidgetLibrary : public QWidget
+class CWidgetLibrary : public QWidget
 {
 	Q_OBJECT
 public:
-	WidgetLibrary(QWidget* parent = 0);
-	~WidgetLibrary();
-	WidgetLibraryView* panelLibraryView;
+	CWidgetLibrary(QWidget* parent = 0);
+	~CWidgetLibrary();
+	CWidgetLibraryView* panelLibraryView;
 	void saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetLibrary* ui;
+	Ui::CWidgetLibrary* ui;
 
 public slots:
 	void initializeLibrary();
