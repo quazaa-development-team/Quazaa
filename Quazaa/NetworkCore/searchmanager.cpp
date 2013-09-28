@@ -245,10 +245,10 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				}
 
 				hostCache.m_pSection.lock();
-				CHostCacheHost* pHost = hostCache.take( oFromIp );
+				CHostCacheHost* pHost = hostCache.get( oFromIp );
 				if ( pHost )
 				{
-					pHost->m_tRetryAfter = tNow + nRetryAfter;
+					pHost->setRetryAfter( tNow + nRetryAfter );
 				}
 				hostCache.m_pSection.unlock();
 			}
@@ -300,7 +300,6 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 
 	// not our ack - tell caller to route it
 	return true;
-
 }
 
 bool CSearchManager::OnQueryHit(G2Packet* pPacket, QueryHitInfo* pHitInfo)

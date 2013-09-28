@@ -213,33 +213,35 @@ int main(int argc, char *argv[])
 		wzrdQuickStart->exec();
 	}
 
+	// Initialize GeoIP list
+	dlgSplash->updateProgress( 12, QObject::tr( "Loading settings..." ) );
+	qApp->processEvents();
+	geoIP.loadGeoIP();
+
 	// Load Security Manager
-	dlgSplash->updateProgress( 15, QObject::tr( "Loading Security Manager..." ) );
+	dlgSplash->updateProgress( 17, QObject::tr( "Loading Security Manager..." ) );
 	qApp->processEvents();
 	if ( !securityManager.start() )
 		systemLog.postLog( LogSeverity::Information,
 						   QObject::tr( "Security data file was not available." ) );
 
+	//Load Host Cache
+	dlgSplash->updateProgress( 22, QObject::tr( "Loading Host Cache..." ) );
+	qApp->processEvents();
+	hostCache.start();
+
 	// Load Discovery Services Manager
-	dlgSplash->updateProgress( 22, QObject::tr( "Loading Discovery Services Manager..." ) );
+	dlgSplash->updateProgress( 32, QObject::tr( "Loading Discovery Services Manager..." ) );
 	qApp->processEvents();
 	discoveryManager.start();
 
 	//Load profile
-	dlgSplash->updateProgress( 25, QObject::tr( "Loading Profile..." ) );
+	dlgSplash->updateProgress( 38, QObject::tr( "Loading Profile..." ) );
 	qApp->processEvents();
 	quazaaSettings.loadProfile();
 
-	//Load Host Cache
-	dlgSplash->updateProgress( 30, QObject::tr( "Loading Host Cache..." ) );
-	qApp->processEvents();
-	hostCache.start();
-
-	//initialize geoip list
-	geoIP.loadGeoIP();
-
 	//Load the library
-	dlgSplash->updateProgress( 38, QObject::tr( "Loading Library..." ) );
+	dlgSplash->updateProgress( 40, QObject::tr( "Loading Library..." ) );
 	qApp->processEvents();
 	QueryHashMaster.Create();
 	ShareManager.Start();

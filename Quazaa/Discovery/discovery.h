@@ -55,6 +55,7 @@
 // TODO: http://www.tartc.ru/classes/gwc?ping=1&get=1&net=gnutella2&client=QAZB&version=0.1 fails
 //       http://www.tartc.ru/classes/gwc/?ping=1&amp;get=1&amp;net=gnutella2&amp;client=QAZB&amp;version=0.1 works
 // Line: <p>The document has moved <a href="http://www.tartc.ru/classes/gwc/?ping=1&amp;get=1&amp;net=gnutella2&amp;client=QAZB&amp;version=0.1">here</a>.</p>
+typedef QSharedPointer<QThread> TSharedThreadPtr;
 
 namespace Discovery
 {
@@ -147,7 +148,7 @@ private:
 	TServiceID            m_nLastID;
 
 	// thread used by the manager
-	QThread               m_oDiscoveryThread;
+	TSharedThreadPtr      m_pHostCacheDiscoveryThread;
 
 public:
 	quint16*              m_pActive;

@@ -67,9 +67,6 @@ CDiscovery::~CDiscovery()
 	delete[] m_pActive;
 
 	Q_ASSERT( m_mServices.empty() );
-
-	// TODO: Watch this closely: The Discovery thread might not like it to be deleted while still
-	// running...
 }
 
 /**
@@ -92,8 +89,12 @@ quint32	CDiscovery::count(const CNetworkType& oType)
  */
 void CDiscovery::start()
 {
-	moveToThread( &m_oDiscoveryThread );
-	m_oDiscoveryThread.start( QThread::LowPriority );
+	m_pHostCacheDiscoveryThread = hostCache.m_pHostCacheDiscoveryThread;
+	Q_ASSERT( !m_pHostCacheDiscoveryThread.isNull() );
+
+	moveToThread( m_pHostCacheDiscoveryThread.data() );
+
+	Q_ASSERT( m_pHostCacheDiscoveryThread.data()->isRunning() );
 
 	QMetaObject::invokeMethod( this, "asyncStartUpHelper", Qt::QueuedConnection );
 }

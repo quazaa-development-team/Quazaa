@@ -27,6 +27,7 @@
 #include "network.h"
 #include "geoiplist.h"
 #include "quazaasettings.h"
+#include "Misc/timedsignalqueue.h"
 #include "Security/securitymanager.h"
 
 #if QT_VERSION >= 0x050000 
@@ -45,15 +46,23 @@ CHostCache hostCache;
 
 CHostCache::CHostCache():
     m_tLastSave( common::getTNowUTC() ),
-    m_nMaxCacheHosts( 3000 )
+    m_nSize( 0 )
 {
 }
 
 CHostCache::~CHostCache()
 {
-	while( !m_lHosts.isEmpty() )
+	THCLLMap::iterator it = m_llHosts.begin();
+
+	while ( it != m_llHosts.end() )
 	{
-		delete m_lHosts.takeFirst();
+		THostCacheLList list = (*it).second;
+		while( !list.isEmpty() )
+		{
+			delete list.takeLast();
+		}
+
+		++it;
 	}
 }
 
@@ -64,8 +73,10 @@ CHostCache::~CHostCache()
  */
 void CHostCache::start()
 {
-	moveToThread( &m_oDiscoveryThread );
-	m_oDiscoveryThread.start( QThread::LowPriority );
+	m_pHostCacheDiscoveryThread = TSharedThreadPtr( new QThread() );
+
+	moveToThread( m_pHostCacheDiscoveryThread.data() );
+	m_pHostCacheDiscoveryThread.data()->start( QThread::LowPriority );
 
 	QMetaObject::invokeMethod( this, "asyncStartUpHelper", Qt::QueuedConnection );
 }
@@ -76,28 +87,12 @@ void CHostCache::add(const CEndPoint host, const quint32 tTimeStamp)
 	                           Q_ARG(quint32, tTimeStamp), Q_ARG(bool, true) );
 }
 
-CHostCacheIterator CHostCache::find(CEndPoint oHost)
+CHostCacheHost* CHostCache::update(const CEndPoint& oHost, const quint32 tTimeStamp)
 {
-    for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); ++it )
-	{
-		if ( (*it)->m_oAddress == oHost )
-			return it;
-	}
+	quint8 nFailures;
+	THostCacheLLIterator it = find( oHost, nFailures );
 
-	return m_lHosts.end();
-}
-
-CHostCacheIterator CHostCache::find(CHostCacheHost *pHost)
-{
-    CHostCacheIterator it = qFind( m_lHosts.begin(), m_lHosts.end(), pHost );
-	return it;
-}
-
-CHostCacheHost* CHostCache::update(CEndPoint oHost, const quint32 tTimeStamp)
-{
-    CHostCacheIterator it = find( oHost );
-
-	if ( it == m_lHosts.end() )
+	if ( it == m_llHosts[nFailures].end() )
 		return NULL;
 
 	return update( it, tTimeStamp );
@@ -105,42 +100,60 @@ CHostCacheHost* CHostCache::update(CEndPoint oHost, const quint32 tTimeStamp)
 
 CHostCacheHost* CHostCache::update(CHostCacheHost* pHost, const quint32 tTimeStamp)
 {
-    CHostCacheIterator it = find( pHost );
+	const quint8 nFailures = pHost->failures();
+	THostCacheLLIterator it = find( pHost );
 
-	if ( it == m_lHosts.end() )
+	if ( it == m_llHosts[nFailures].end() )
 		return NULL;
 
-    return update( it, tTimeStamp );
+	return update( it, tTimeStamp );
 }
 
-CHostCacheHost* CHostCache::update(CHostCacheIterator itHost, const quint32 tTimeStamp)
+CHostCacheHost* CHostCache::update(THostCacheLLIterator itHost, const quint32 tTimeStamp)
 {
-    CHostCacheHost* pHost = *itHost;
-    pHost->m_tTimestamp = tTimeStamp;
-    return pHost;
+	CHostCacheHost* pHost = *itHost;
+
+	// TODO: Tix this to maintain sorted list.
+
+	//pHost->m_tTimestamp = tTimeStamp;
+	return pHost;
+}
+
+void CHostCache::remove(const CEndPoint& oHost)
+{
+	quint8 nFailures;
+	THostCacheLLIterator it = find( oHost, nFailures );
+
+	if ( it != m_llHosts[nFailures].end() )
+	{
+		delete *it;
+		remove( it, nFailures );
+	}
 }
 
 void CHostCache::remove(CHostCacheHost* pRemove)
 {
-    CHostCacheIterator it = find( pRemove );
+	quint8 nFailures = pRemove->failures();
+	THostCacheLLIterator it = find( pRemove );
 
-	if ( it != m_lHosts.end() )
+	if ( it != m_llHosts[nFailures].end() )
 	{
-		m_lHosts.erase( it );
+		remove( it, nFailures );
 	}
 
 	delete pRemove;
 }
 
-void CHostCache::remove(CEndPoint oHost)
+void CHostCache::remove(THostCacheLLIterator itHost, const quint8 nFailures)
 {
-    CHostCacheIterator it = find( oHost );
+	m_llHosts[nFailures].erase( itHost );
+	--m_nSize;
+}
 
-	if ( it != m_lHosts.end() )
-	{
-		delete *it;
-		m_lHosts.erase( it );
-	}
+void CHostCache::removeWorst(const quint8 nFailures)
+{
+	delete m_llHosts[nFailures].takeLast();
+	--m_nSize;
 }
 
 void CHostCache::addXTry(QString& sHeader)
@@ -181,35 +194,33 @@ void CHostCache::addXTry(QString& sHeader)
 	}
 }
 
-QString CHostCache::getXTry()
+QString CHostCache::getXTry() const
 {
-	const quint32 nMax = 10;
+	const quint8  nFailures = 0;
+	const quint32 nMax      = 10;
 
 	QString sRet;
 	quint32 nCount = 0;
 
-	if ( !m_lHosts.size() )
+	if ( !m_llHosts.count( nFailures ) || !m_llHosts.at( nFailures ).size() )
 	{
 		return QString();
 	}
 
-	foreach ( CHostCacheHost* pHost, m_lHosts )
+	foreach ( CHostCacheHost* pHost, m_llHosts.at( nFailures ) )
 	{
-		if ( !pHost->m_nFailures )
-		{
-			QDateTime tTimeStamp;
-			tTimeStamp.setTimeSpec( Qt::UTC );
-			tTimeStamp.setTime_t( pHost->m_tTimestamp );
+		QDateTime tTimeStamp;
+		tTimeStamp.setTimeSpec( Qt::UTC );
+		tTimeStamp.setTime_t( pHost->timestamp() );
 
-			sRet.append( pHost->m_oAddress.toStringWithPort() + " " );
-			sRet.append( tTimeStamp.toString( "yyyy-MM-ddThh:mmZ" ) );
-			sRet.append( "," );
+		sRet.append( pHost->address().toStringWithPort() + " " );
+		sRet.append( tTimeStamp.toString( "yyyy-MM-ddThh:mmZ" ) );
+		sRet.append( "," );
 
-			++nCount;
+		++nCount;
 
-			if ( nCount == nMax )
-				break;
-		}
+		if ( nCount == nMax )
+			break;
 	}
 
 	if ( sRet.isEmpty() )
@@ -222,61 +233,44 @@ QString CHostCache::getXTry()
 
 void CHostCache::onFailure(CEndPoint addr)
 {
-    CHostCacheIterator itHost = find( addr );
+	quint8 nFailures;
+	THostCacheLLIterator itHost = find( addr, nFailures );
 
-	if ( itHost != m_lHosts.end() )
+	if ( itHost != m_llHosts[nFailures].end() )
 	{
-		if ( (int)(++(*itHost)->m_nFailures) > quazaaSettings.Connection.FailureLimit )
+		if ( ++nFailures > quazaaSettings.Connection.FailureLimit )
 		{
-			remove( addr );
+			remove( itHost, nFailures );
+		}
+		else
+		{
+			(*itHost)->setFailures( nFailures );
 		}
 	}
 }
 
-CHostCacheHost* CHostCache::get()
+CHostCacheHost* CHostCache::getConnectable(QSet<CHostCacheHost*> oExcept, QString sCountry)
 {
-	CHostCacheHost* pHost = NULL;
-
-	if ( !m_lHosts.size() )
-	{
-		return pHost;
-	}
-
-	pHost = m_lHosts.first();
-	m_lHosts.removeFirst();
-
-	return pHost;
-}
-
-CHostCacheHost* CHostCache::getConnectable(const quint32 tNow, QList<CHostCacheHost*> oExcept,
-                                           QString sCountry)
-{
-	// TODO: getConnectable should return things with m_tLastConnect either null or when "expired"
-
-
 	bool bCountry = ( sCountry != "ZZ" );
+	static bool bMaintained = false;
 
-	if ( m_lHosts.isEmpty() )
+	if ( !m_nSize )
 	{
 		return NULL;
 	}
 
 	// First try untested or working hosts, then fall back to failed hosts to increase chances for
 	// successful connection
-	for ( int nFailures = 0; nFailures < quazaaSettings.Connection.FailureLimit; ++nFailures )
+	for ( quint8 nFailures = 0; nFailures < quazaaSettings.Connection.FailureLimit; ++nFailures )
 	{
-		foreach ( CHostCacheHost * pHost, m_lHosts )
+		foreach ( CHostCacheHost * pHost, m_llHosts[nFailures] )
 		{
-			if ( nFailures != pHost->m_nFailures )
-				continue;
-
-			if ( bCountry && pHost->m_oAddress.country() != sCountry )
+			if ( bCountry && pHost->address().country() != sCountry )
 			{
 				continue;
 			}
 
-			if ( tNow - pHost->m_tLastConnect > ( quazaaSettings.Gnutella.ConnectThrottle +
-			                                      pHost->m_nFailures * quazaaSettings.Connection.FailurePenalty ) )
+			if ( pHost->connectable() )
 			{
 				if ( !oExcept.contains( pHost ) )
 					return pHost;
@@ -284,10 +278,23 @@ CHostCacheHost* CHostCache::getConnectable(const quint32 tNow, QList<CHostCacheH
 		}
 	}
 
-	return NULL;
+	CHostCacheHost* pReturn = NULL;
+
+	if ( bMaintained )
+	{
+		bMaintained = false;
+	}
+	else
+	{
+		maintain();
+		bMaintained = true;
+		pReturn = getConnectable( oExcept, sCountry );
+	}
+
+	return pReturn;
 }
 
-bool CHostCache::save(const quint32 tNow)
+bool CHostCache::save(const quint32 tNow) const
 {
 	ASSUME_LOCK( hostCache.m_pSection );
 
@@ -313,7 +320,7 @@ bool CHostCache::save(const quint32 tNow)
 
 void CHostCache::pruneOldHosts(const quint32 tNow)
 {
-	QMutableListIterator<CHostCacheHost*> it( m_lHosts );
+	/*QMutableListIterator<CHostCacheHost*> it( m_lHosts );
 	it.toBack();
 
 	while ( it.hasPrevious() )
@@ -323,28 +330,30 @@ void CHostCache::pruneOldHosts(const quint32 tNow)
 		{
 			delete it.value();
 			it.remove();
+			--m_nSize;
 		}
 		else
 		{
 			break;
 		}
-	}
+	}*/
 }
 
 void CHostCache::pruneByQueryAck(const quint32 tNow)
 {
-    for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); )
+	/*for ( THostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); )
 	{
 		if ( (*it)->m_tAck && tNow - (*it)->m_tAck > quazaaSettings.Gnutella2.QueryHostDeadline )
 		{
 			delete *it;
 			it = m_lHosts.erase( it );
+			--m_nSize;
 		}
 		else
 		{
 			++it;
 		}
-	}
+	}*/
 }
 
 /**
@@ -357,19 +366,29 @@ quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
 	CHostCache* pHostCache = (CHostCache*)pManager;
 
 	const quint16 nVersion = HOST_CACHE_CODE_VERSION;
-	const quint32 nCount   = (quint32)pHostCache->m_lHosts.size();
+	const quint32 nCount   = (quint32)pHostCache->m_nSize;
 
 	oStream << nVersion;
 	oStream << nCount;
 
 	if ( nCount )
 	{
-		foreach ( CHostCacheHost* pHost, pHostCache->m_lHosts )
+		THCLLMap::iterator itFailures = pHostCache->m_llHosts.begin();
+
+		while ( itFailures != pHostCache->m_llHosts.end() )
 		{
-			oStream << pHost->m_oAddress;
-			oStream << pHost->m_nFailures;
-			oStream << pHost->m_tTimestamp;
-			oStream << pHost->m_tLastConnect;
+			THostCacheLList list = (*itFailures).second;
+
+			foreach ( CHostCacheHost* pHost, list )
+			{
+				oStream << pHost->address();
+				oStream << pHost->failures();
+
+				oStream << pHost->timestamp();
+				oStream << pHost->lastConnect();
+			}
+
+			++itFailures;
 		}
 	}
 
@@ -414,27 +433,15 @@ CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLo
 
 	const quint32 tNow = common::getTNowUTC();
 
-	if ( (quint32)m_lHosts.size() > m_nMaxCacheHosts )
-	{
-		int nMax = m_nMaxCacheHosts / 2;
-		while ( m_lHosts.size() > nMax )
-		{
-			delete m_lHosts.takeLast();
-		}
-
-		save( tNow );
-	}
-	else if ( tNow - m_tLastSave > 600 )
-		save( tNow );
-
 	if ( tTimeStamp > tNow )
 	{
 		tTimeStamp = tNow - 60 ;
 	}
 
-    CHostCacheIterator itPrev = find( host );
+	quint8 nFailures;
+	THostCacheLLIterator itPrev = find( host, nFailures );
 
-	if ( itPrev != m_lHosts.end() )
+	if ( itPrev != m_llHosts[nFailures].end() )
 	{
 		CHostCacheHost* pUpdate = update( itPrev, tTimeStamp );
 		if ( bLock )
@@ -442,15 +449,127 @@ CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLo
 		return pUpdate;
 	}
 
-	CHostCacheHost* pNew = new CHostCacheHost( host, tTimeStamp );
+	Q_ASSERT( !nFailures ); // TODO: remove once tested.
 
-    CHostCacheIterator it = qLowerBound( m_lHosts.begin(), m_lHosts.end(),
-	                                     pNew, qLess<CHostCacheHost*>() );
-	m_lHosts.insert( it, pNew );
+	// create host, find place in sorted list, insert it there
+	CHostCacheHost* pNew = new CHostCacheHost( host, tTimeStamp );
+	THostCacheLLIterator it = m_llHosts[nFailures].begin();
+
+	// advance until 1 element past the last element with higher timestamp
+	while ( it != m_llHosts[nFailures].end() && (*it)->timestamp() > tTimeStamp )
+		++it;
+
+
+	if ( it == m_llHosts[nFailures].begin() ) // it hasn't been advanced
+	{
+		m_llHosts[nFailures].push_front( pNew );
+	}
+	else
+	{
+		// go 1 element back (to last element with higher timestamp) and insert after this element
+		m_llHosts[nFailures].insert( --it, pNew );
+	}
+
+	++m_nSize;
 
 	if ( bLock )
 		m_pSection.unlock();
 	return pNew;
+}
+
+void CHostCache::maintain()
+{
+	m_pSection.lock();
+
+	const quint32 tNow = common::getTNowUTC();
+
+	// First try untested or working hosts, then fall back to failed hosts to increase chances for
+	// successful connection
+	THCLLMap::iterator it = m_llHosts.begin();
+
+	while ( it != m_llHosts.end() )
+	{
+		THostCacheLList list = (*it).second;
+		foreach ( CHostCacheHost * pHost, list )
+		{
+			// Note: if ( !pHost->m_tLastConnect ), the following statement also evaluates to true.
+			if ( !pHost->connectable() )
+				pHost->setConnectable( tNow - pHost->lastConnect() >
+				                       ( quazaaSettings.Gnutella.ConnectThrottle + pHost->failures()
+				                         * quazaaSettings.Connection.FailurePenalty ) );
+
+		}
+
+		++it;
+	}
+
+	// Remove all hosts in lists with failure limit higher than settings
+	const quint32 nFailureLimit = quazaaSettings.Connection.FailureLimit;
+	if ( m_llHosts.size() > nFailureLimit )
+	{
+		for ( quint8 nFailure = 255; nFailure > nFailureLimit; --nFailure )
+		{
+			if ( m_llHosts.count( nFailure ) )
+			{
+				while ( m_llHosts[nFailure].size() )
+				{
+					removeWorst( nFailure );
+				}
+
+				m_llHosts.erase( nFailure );
+			}
+		}
+	}
+
+	const quint32 nMaxSize = quazaaSettings.Gnutella.HostCacheSize;
+	if ( nMaxSize && m_nSize > nMaxSize )
+	{
+		const quint32 nMax = nMaxSize - nMaxSize / 4;
+
+		Q_ASSERT( nMax > 0 );
+
+		quint8 nFailure = nFailureLimit;
+		// remove 1/4 of all hosts if the cache gets too full - failed and oldest first
+		while ( m_nSize > nMax && nFailure != 255 )
+		{
+			removeWorst( nFailure );
+		}
+
+		save( tNow );
+	}
+	else if ( tNow - m_tLastSave > 600 )
+	{
+		save( tNow );
+	}
+
+	m_pSection.unlock();
+}
+
+THostCacheLLIterator CHostCache::find(const CEndPoint& oHost, quint8& nFailures)
+{
+	THostCacheLList lHosts;
+	THCLLMap::iterator itMap = m_llHosts.begin();
+	while ( itMap != m_llHosts.end() )
+	{
+		lHosts = (*itMap).second;
+		for ( THostCacheLLIterator it = lHosts.begin(); it != lHosts.end(); ++it )
+		{
+			if ( (*it)->address() == oHost )
+			{
+				nFailures = (*it)->failures();
+				return it;
+			}
+		}
+		++itMap;
+	}
+
+	nFailures = 0;
+	return m_llHosts[0].end();
+}
+
+THostCacheLLIterator CHostCache::find(const CHostCacheHost* const pHost)
+{
+	return pHost->iterator();
 }
 
 void CHostCache::load()
@@ -475,7 +594,7 @@ void CHostCache::load()
 	if ( nVersion == HOST_CACHE_CODE_VERSION ) // else do load defaults
 	{
 		CEndPoint oAddress;
-		quint32 nFailures    = 0;
+		quint8  nFailures    = 0;
 		quint32 tTimeStamp   = 0;
 		quint32 tLastConnect = 0;
 
@@ -498,8 +617,8 @@ void CHostCache::load()
 				if ( tLastConnect - tNow > 0 )
 					tLastConnect = tNow - 60;
 
-				pHost->m_nFailures    = nFailures;
-				pHost->m_tLastConnect = tLastConnect;
+				pHost->setFailures( nFailures );
+				pHost->setLastConnect( tLastConnect );
 			}
 
 			--nCount;
@@ -512,7 +631,7 @@ void CHostCache::load()
 	pruneOldHosts( tNow );
 
 	systemLog.postLog( LogSeverity::Debug,
-	                   m_sMessage + QObject::tr( "Loaded %1 hosts." ).arg( m_lHosts.size() ) );
+	                   m_sMessage + QObject::tr( "Loaded %1 hosts." ).arg( m_nSize ) );
 
 	m_pSection.unlock();
 }
@@ -524,5 +643,9 @@ void CHostCache::asyncStartUpHelper()
 
 	// Includes its own locking.
 	load();
+
+	maintain();
+
+	signalQueue.push( this, SLOT( maintain() ), 10000, true );
 }
 

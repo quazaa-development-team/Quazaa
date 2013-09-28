@@ -24,17 +24,18 @@
 
 #include "hostcachehost.h"
 
+/*
 template<>
 class qLess <CHostCacheHost*>
 {
 public:
 	inline bool operator()(const CHostCacheHost* l, const CHostCacheHost* r) const
 	{
-		return l->m_tTimestamp > r->m_tTimestamp;
+		return l->timestamp() > r->timestamp();
 	}
-};
+};*/
 
-CHostCacheHost::CHostCacheHost(CEndPoint oAddress, quint32 tTimestamp) :
+CHostCacheHost::CHostCacheHost(const CEndPoint& oAddress, const quint32 tTimestamp) :
     m_oAddress( oAddress ),
     m_tTimestamp( tTimestamp ),
     m_nQueryKey(    0 ),
@@ -44,12 +45,15 @@ CHostCacheHost::CHostCacheHost(CEndPoint oAddress, quint32 tTimestamp) :
     m_tLastQuery(   0 ),
     m_tRetryAfter(  0 ),
     m_tLastConnect( 0 ),
-    m_nFailures(    0 )
+    m_nFailures(    0 ),
+//    m_pHostPtr(  NULL ),
+    m_bValidIterator( false )
 {
 }
 
 CHostCacheHost::~CHostCacheHost()
 {
+//	*m_pHostPtr = NULL;
 }
 
 bool CHostCacheHost::canQuery(const quint32 tNow)
@@ -88,4 +92,16 @@ void CHostCacheHost::setKey(quint32 nKey, const quint32 tNow, CEndPoint* pHost)
 	m_nQueryKey = nKey;
 	m_nKeyTime  = tNow;
 	m_nKeyHost  = pHost ? *pHost : Network.GetLocalAddress();
+}
+
+THostCacheLLIterator CHostCacheHost::iterator() const
+{
+	Q_ASSERT( m_bValidIterator );
+	return m_iHostCacheLLIterator;
+}
+
+void CHostCacheHost::setIterator(THostCacheLLIterator it)
+{
+	m_iHostCacheLLIterator = it;
+	m_bValidIterator = true;
 }

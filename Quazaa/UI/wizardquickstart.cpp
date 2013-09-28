@@ -71,18 +71,18 @@ WizardQuickStart::WizardQuickStart(QWidget *parent) :
 
 WizardQuickStart::~WizardQuickStart()
 {
-    delete ui;
+	delete ui;
 }
 
 void WizardQuickStart::changeEvent(QEvent* e)
 {
 	switch(e->type())
 	{
-		case QEvent::LanguageChange:
-			ui->retranslateUi(this);
-			break;
-		default:
-			break;
+	case QEvent::LanguageChange:
+		ui->retranslateUi(this);
+		break;
+	default:
+		break;
 	}
 }
 
@@ -132,9 +132,9 @@ void WizardQuickStart::on_toolButtonSharesAdd_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QDir directory(QFileDialog::getExistingDirectory(this,
-													 tr("Select A Folder To Share"),
-													 quazaaSettings.Downloads.CompletePath,
-													 options));
+	                                                 tr("Select A Folder To Share"),
+	                                                 quazaaSettings.Downloads.CompletePath,
+	                                                 options));
 	if(directory.exists())
 	{
 		ui->listWidgetShares->addItem(directory.canonicalPath());
@@ -143,15 +143,14 @@ void WizardQuickStart::on_toolButtonSharesAdd_clicked()
 
 void WizardQuickStart::on_toolButtonSharesRemove_clicked()
 {
-    if(ui->listWidgetShares->currentRow() != -1)
-    {
-            ui->listWidgetShares->takeItem(ui->listWidgetShares->currentRow());
-    }
+	if(ui->listWidgetShares->currentRow() != -1)
+	{
+		ui->listWidgetShares->takeItem(ui->listWidgetShares->currentRow());
+	}
 }
 
 void WizardQuickStart::setSkin()
 {
-
 }
 
 void WizardQuickStart::on_checkBoxUPnP_stateChanged(int arg1)

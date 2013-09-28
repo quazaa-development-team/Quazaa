@@ -955,7 +955,7 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 	CHostCacheHost* pHost = hostCache.addSync( addr, common::getTNowUTC(), false );
 	if ( pHost )
 	{
-		pHost->m_tAck = 0;
+		pHost->setAck( 0 );
 	}
 
 	hostCache.m_pSection.unlock();

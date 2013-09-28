@@ -587,9 +587,9 @@ void CG2Node::ParseOutgoingHandshake()
 	Send_ConnectOK(true, bAcceptDeflate);
 
 	hostCache.m_pSection.lock();
-	CHostCacheHost* pThisHost = hostCache.take(m_oAddress);
+	CHostCacheHost* pThisHost = hostCache.get(m_oAddress);
 	if( pThisHost )
-		pThisHost->m_nFailures = 0;
+		pThisHost->setFailures( 0 );
 	hostCache.m_pSection.unlock();
 
 #ifndef _DISABLE_COMPRESSION
@@ -1217,10 +1217,10 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 	const quint32 tNow = common::getTNowUTC();
 
 	QMutexLocker l( &hostCache.m_pSection );
-	CHostCacheHost* pHost = bCacheOK ? hostCache.take( addr ) : NULL;
+	CHostCacheHost* pHost = bCacheOK ? hostCache.get( addr ) : NULL;
 
-	if ( pHost && pHost->m_nQueryKey && pHost->m_nKeyHost == Network.m_oAddress &&
-	     tNow - pHost->m_nKeyTime < quazaaSettings.Gnutella2.QueryKeyTime )
+	if ( pHost && pHost->queryKey() && pHost->keyHost() == Network.m_oAddress &&
+	     tNow - pHost->keyTime() < quazaaSettings.Gnutella2.QueryKeyTime )
 	{
 		G2Packet* pQKA = G2Packet::New( "QKA", true );
 		if ( addr.protocol() == 0 )
@@ -1231,7 +1231,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 		{
 			pQKA->WritePacket( "QNA", 18 )->WriteHostAddress( &addr );
 		}
-		pQKA->WritePacket( "QK", 4 )->WriteIntLE<quint32>( pHost->m_nQueryKey );
+		pQKA->WritePacket( "QK", 4 )->WriteIntLE<quint32>( pHost->queryKey() );
 		pQKA->WritePacket( "CACHED", 0 );
 		SendPacket( pQKA, true, true );
 	}

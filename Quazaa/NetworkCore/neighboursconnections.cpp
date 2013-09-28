@@ -271,7 +271,7 @@ void CNeighboursConnections::Maintain()
 			const quint32 tNow = common::getTNowUTC();
 			bool bCountry = true;
 			int  nCountry = 0;
-			QList<CHostCacheHost*> oExcept;
+			QSet<CHostCacheHost*> oExcept;
 
 			for ( ; nAttempt > 0; --nAttempt )
 			{
@@ -281,23 +281,23 @@ void CNeighboursConnections::Maintain()
 				sCountry = bCountry ? ( quazaaSettings.Connection.PreferredCountries.size() ?
 				                        quazaaSettings.Connection.PreferredCountries.at(nCountry) :
 				                        Network.m_oAddress.country() ) : "ZZ";
-				pHost = hostCache.getConnectable( tNow, oExcept, sCountry );
+				pHost = hostCache.getConnectable( oExcept, sCountry );
 
 				if ( pHost )
 				{
-					if ( !Neighbours.Find( pHost->m_oAddress ) )
+					if ( !Neighbours.Find( pHost->address() ) )
 					{
-						if ( securityManager.isDenied( pHost->m_oAddress ) )
+						if ( securityManager.isDenied( pHost->address() ) )
 						{
 							hostCache.remove( pHost );
 							continue;
 						}
-						ConnectTo(pHost->m_oAddress, dpG2);
-						pHost->m_tLastConnect = tNow;
+						ConnectTo( pHost->address(), dpG2 );
+						pHost->setLastConnect( tNow );
 					}
 					else
 					{
-						oExcept.append(pHost);
+						oExcept.insert(pHost);
 						nAttempt++;
 					}
 				}
@@ -345,29 +345,29 @@ void CNeighboursConnections::Maintain()
 			const quint32 tNow = common::getTNowUTC();
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
-			QList<CHostCacheHost*> oExcept;
+			QSet<CHostCacheHost*> oExcept;
 
 			for ( ; nAttempt > 0; --nAttempt )
 			{
 				// nowe polaczenie
-				CHostCacheHost* pHost = hostCache.getConnectable( tNow, oExcept );
+				CHostCacheHost* pHost = hostCache.getConnectable( oExcept );
 
 				if ( pHost )
 				{
-					if( !Neighbours.Find( pHost->m_oAddress ) )
+					if( !Neighbours.Find( pHost->address() ) )
 					{
-						if ( securityManager.isDenied( pHost->m_oAddress ) )
+						if ( securityManager.isDenied( pHost->address() ) )
 						{
 							hostCache.remove( pHost );
 							continue;
 						}
 
-						ConnectTo( pHost->m_oAddress, dpG2 );
-						pHost->m_tLastConnect = tNow;
+						ConnectTo( pHost->address(), dpG2 );
+						pHost->setLastConnect( tNow );
 					}
 					else
 					{
-						oExcept.append( pHost );
+						oExcept.insert( pHost );
 						++nAttempt;
 					}
 				}

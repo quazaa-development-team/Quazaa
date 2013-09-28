@@ -516,7 +516,7 @@ void QuazaaSettings::loadSettings()
 	m_qSettings.beginGroup("Connection");
 	quazaaSettings.Connection.DetectConnectionLoss = m_qSettings.value("DetectConnectionLoss", true).toBool();
 	quazaaSettings.Connection.DetectConnectionReset = m_qSettings.value("DetectConnectionReset", false).toBool();
-	quazaaSettings.Connection.FailureLimit = m_qSettings.value("FailureLimit", 3).toInt();
+	quazaaSettings.Connection.FailureLimit = m_qSettings.value("FailureLimit", 3).toUInt();
 	quazaaSettings.Connection.FailurePenalty = m_qSettings.value("FailurePenalty", 300).toInt();
 	quazaaSettings.Connection.InSpeed = m_qSettings.value("InSpeed", 1024 * 1024).toULongLong(); // 1Mbit
 	quazaaSettings.Connection.OutSpeed = m_qSettings.value("OutSpeed", 16384).toULongLong();	 // 16KB/s
@@ -642,9 +642,9 @@ void QuazaaSettings::loadSettings()
 
 	m_qSettings.beginGroup("Gnutella");
 	quazaaSettings.Gnutella.ConnectFactor = m_qSettings.value("ConnectFactor", 3).toInt();
-	quazaaSettings.Gnutella.ConnectThrottle = m_qSettings.value("ConnectThrottle", 120).toInt();
+	quazaaSettings.Gnutella.ConnectThrottle = m_qSettings.value("ConnectThrottle", 120).toUInt();
 	quazaaSettings.Gnutella.HitsPerPacket = m_qSettings.value("HitsPerPacket", 64).toInt();
-	quazaaSettings.Gnutella.HostCacheSize = m_qSettings.value("HostCacheSize", 1024).toInt();
+	quazaaSettings.Gnutella.HostCacheSize = m_qSettings.value("HostCacheSize", 1024).toUInt();
 	quazaaSettings.Gnutella.HostCacheView = m_qSettings.value("HostCacheView", 3).toInt();
 	quazaaSettings.Gnutella.MaxHits = m_qSettings.value("MaxHits", 64).toInt();
 	quazaaSettings.Gnutella.MaxResults = m_qSettings.value("MaxResults", 150).toInt();

@@ -102,7 +102,10 @@ void CNeighboursG2::Maintain()
 	if ( !m_nHubsConnectedG2 && !discoveryManager.isActive( Discovery::stGWC )
 		 && ( hostCache.isEmpty() || !hostCache.getConnectable() ) && m_nUnknownInitiated == 0 )
 	{
-		qDebug() << "GWC query: Active:" << discoveryManager.isActive(Discovery::stGWC) << ", empty cache:" << hostCache.isEmpty() << ", has connectable:" << (hostCache.getConnectable() != 0) << "has unknown initiated:" << (m_nUnknownInitiated != 0);
+		qDebug() << "GWC query: Active:" << discoveryManager.isActive(Discovery::stGWC)
+		         << ", empty cache:" << hostCache.isEmpty()
+		         << ", has connectable:" << (hostCache.getConnectable() != NULL)
+		         << ", has unknown initiated:" << (m_nUnknownInitiated != 0);
 		discoveryManager.queryService( CNetworkType( dpG2 ) );
 	}
 
@@ -216,25 +219,31 @@ void CNeighboursG2::DispatchKHL()
 	hostCache.m_pSection.lock();
 
 	quint32 nCount = quazaaSettings.Gnutella2.KHLHubCount;
-	CHostCacheIterator itHost = hostCache.m_lHosts.begin();
 
-	for ( ; nCount > 0 && itHost != hostCache.m_lHosts.end(); ++itHost )
+	THCLLMap::iterator it = hostCache.m_llHosts.begin();
+	while ( it != hostCache.m_llHosts.end() )
 	{
-		if ( !(*itHost)->m_nFailures &&
-		     tNow - (*itHost)->m_tTimestamp < quazaaSettings.Gnutella2.HostCurrent )
+		THostCacheLList list = (*it).second;
+		for ( THostCacheLLIterator itHost = list.begin();
+		      nCount > 0 && itHost != list.end(); ++itHost )
 		{
-			if ( (*itHost)->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol )
+			if ( !(*itHost)->failures() &&
+			     tNow - (*itHost)->timestamp() < quazaaSettings.Gnutella2.HostCurrent )
 			{
-				pKHL->WritePacket( "CH", 10 )->WriteHostAddress( &(*itHost)->m_oAddress );
-				pKHL->WriteIntLE<quint32>( (*itHost)->m_tTimestamp );
+				if ( (*itHost)->address().protocol() == QAbstractSocket::IPv4Protocol )
+				{
+					pKHL->WritePacket( "CH", 10 )->WriteHostAddress( &(*itHost)->address() );
+					pKHL->WriteIntLE<quint32>( (*itHost)->timestamp() );
+				}
+				else
+				{
+					pKHL->WritePacket( "CH", 22 )->WriteHostAddress( &(*itHost)->address() );
+					pKHL->WriteIntLE<quint32>( (*itHost)->timestamp() );
+				}
+				--nCount;
 			}
-			else
-			{
-				pKHL->WritePacket( "CH", 22 )->WriteHostAddress( &(*itHost)->m_oAddress );
-				pKHL->WriteIntLE<quint32>( (*itHost)->m_tTimestamp );
-			}
-			--nCount;
 		}
+		++it;
 	}
 
 	hostCache.m_pSection.unlock();

@@ -162,7 +162,7 @@ namespace Settings
 	{
 		bool		DetectConnectionLoss;					// Detect loss of internet
 		bool		DetectConnectionReset;					// Detect regaining of internet connection
-		int			FailureLimit;							// Max allowed connection failures (default = 3) (Neighbour connections)
+		quint8		FailureLimit;							// Max allowed connection failures (default = 3) (Neighbour connections)
 		int			FailurePenalty;							// Delay after connection failure (seconds, default = 300) (Neighbour connections)
 		quint64		InSpeed;								// Inbound internet connection speed in B/s
 		quint64		OutSpeed;								// Outbound internet connection speed in B/s
@@ -279,9 +279,9 @@ namespace Settings
 	struct sGnutella
 	{
 		int			ConnectFactor;
-		int			ConnectThrottle;						// Delay between connection attempts (seconds)
+		quint32		ConnectThrottle;						// Delay between connection attempts (seconds)
 		int			HitsPerPacket;							// Max hits allowed for a single packet
-		int			HostCacheSize;							// Size of host cache
+		quint32		HostCacheSize;							// Max size of host cache; 0 to disable
 		int			HostCacheView;
 		int			MaxHits;								// Max hits allowed for a single query
 		quint32		MaxResults;								// Maximum results to return to a single query
