@@ -71,8 +71,7 @@ void CNetwork::Connect()
 
 	if(m_bActive)
 	{
-		systemLog.postLog(LogSeverity::Debug, "Network already started");
-		//qDebug() << "Network already started";
+        systemLog.postLog(LogSeverity::Debug, "Network already started");
 		return;
 	}
 
@@ -141,8 +140,7 @@ void CNetwork::OnSecondTimer()
 {
 	if(!m_pSection.tryLock(150))
 	{
-		systemLog.postLog(LogSeverity::Warning, tr("WARNING: Network core overloaded!"));
-		//qWarning() << "WARNING: Network core overloaded!";
+        systemLog.postLog(LogSeverity::Warning, tr("WARNING: Network core overloaded!"));
 		return;
 	}
 
@@ -237,19 +235,17 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeig
 			systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 routed to remote node: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pAddr.toString().toLocal8Bit().constData()));
 			return true;
 		}
-		systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket - No node and no address!"));
-		//qDebug() << "CNetwork::RoutePacket - weird thing, should not happen...";
+        systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket - No node and no address!"));
 	}
 
 	systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 DROPPED!").arg(pTargetGUID.toString()).arg(pPacket->GetType()));
-	//qDebug() << "CNetwork::RoutePacket " << pTargetGUID.toString() << " Packet: " << pPacket->GetType() << " DROPPED!";
-	return false;
+    return false;
 }
 bool CNetwork::RoutePacket(G2Packet* pPacket, CG2Node* pNbr)
 {
 	QUuid pGUID;
 
-	if(pPacket->GetTo(pGUID) && pGUID != quazaaSettings.Profile.GUID)   // no i adres != moj adres
+    if(pPacket->GetTo(pGUID) && pGUID != quazaaSettings.Profile.GUID)   // No and address != my address
 	{
 		CG2Node* pNode = 0;
 		CEndPoint pAddr;

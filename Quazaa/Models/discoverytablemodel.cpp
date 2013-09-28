@@ -398,6 +398,7 @@ QVariant CDiscoveryTableModel::data(const QModelIndex& index, int role) const
 			return *pService->m_piType;
 		}
 	}
+    // TODO: Add formatting options back to models
 	/*else if ( role == Qt::ForegroundRole )
 	{
 		switch ( nbr->nState )

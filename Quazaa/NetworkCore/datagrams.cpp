@@ -49,7 +49,7 @@ CDatagrams Datagrams;
 
 CDatagrams::CDatagrams()
 {
-    m_nUploadLimit = 32768; // TODO it
+    m_nUploadLimit = 32768; // TODO: Upload limiting.
 
 	m_pRecvBuffer = new CBuffer();
 	m_pHostAddress = new QHostAddress();
@@ -246,7 +246,7 @@ void CDatagrams::OnReceiveGND()
 	{
 		pDG = m_RecvCache[nIp][nSeq];
 
-		// Zeby dac szanse wiekszym pakietom ;)
+        // To give a chance for bigger packages ;)
 		if(pDG->m_nLeft)
 		{
 			pDG->m_tStarted = time(0);
@@ -413,7 +413,7 @@ void CDatagrams::Remove(DatagramIn* pDG, bool bReclaim)
 	}
 }
 
-// Usuwa jeden pakiet z cache'u odbioru
+// Removes a package from the cache collection.
 void CDatagrams::RemoveOldIn(bool bForce)
 {
 	quint32 tNow = time(0);
@@ -487,7 +487,7 @@ void CDatagrams::__FlushSendCache()
 
     static TCPBandwidthMeter meter;
 
-    // Maybe make it dynamic? So bad routers are automatically detected and settings adjusted?
+    // TODO: Maybe make it dynamic? So bad routers are automatically detected and settings adjusted?
     qint64 nMaxPPS = quazaaSettings.Connection.UDPOutLimitPPS - meter.Usage();
 
     if( nMaxPPS <= 0 )
@@ -528,7 +528,7 @@ void CDatagrams::__FlushSendCache()
 				continue;
 			}
 
-			// TODO: sprawdzenie UDP na firewallu - mog? by? 3 stany udp
+            // TODO: Check the firewall's UDP state. Could do 3 UDP states.
 			if(pDG->GetPacket(tNow, &pPacket, &nPacket, pDG->m_bAck && m_nInFrags > 0))
 			{
 #ifdef DEBUG_UDP
@@ -607,8 +607,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 
 		if(m_FreeBuffer.isEmpty())
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("UDP out discarded, out of buffers"));
-			//qDebug() << "UDP out discarded, out of buffers";
+            systemLog.postLog(LogSeverity::Debug, QString("UDP out discarded, out of buffers"));
 			return;
 		}
 	}
@@ -619,7 +618,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 	m_SendCache.prepend(pDG);
 	m_SendCacheMap[pDG->m_nSequence] = pDG;
 
-	// TODO: Powiadomienia do obiektow nasluchujacych, jesli podano
+    // TODO: Notify the listener if we have one.
 
 #ifdef DEBUG_UDP
 	systemLog.postLog(LogSeverity::Debug, "UDP queued for %s seq %u parts %u", oAddr.toString().toLocal8Bit().constData(), pDG->m_nSequence, pDG->m_nCount);

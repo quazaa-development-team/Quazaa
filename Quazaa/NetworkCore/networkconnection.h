@@ -57,12 +57,12 @@ class CNetworkConnection : public QObject
 {
 	Q_OBJECT
 public:
-	QTcpSocket* m_pSocket;  // sockecik ;)
+    QTcpSocket* m_pSocket;  // Socket ;)
 
-	// Adres hosta
+    // Host Address
 	CEndPoint   m_oAddress;
 
-	// Bufory I/O
+    // Buffer I/O
 	CBuffer* m_pInput;
 	CBuffer* m_pOutput;
 

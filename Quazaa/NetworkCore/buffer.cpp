@@ -136,7 +136,7 @@ void CBuffer::ensure(const quint32 nLength)
 
 	if(m_nBuffer - m_nLength > nLength)
 	{
-		// we shrink the buffer if we allocated twice as minimum and we actually need less than minimum
+        // We shrink the buffer if we allocated twice the minimum and we actually need less than minimum
 		if(m_nBuffer > m_nMinimum * 2 && m_nLength + nLength < m_nMinimum)
 		{
 			const quint32 nBuffer = m_nMinimum;

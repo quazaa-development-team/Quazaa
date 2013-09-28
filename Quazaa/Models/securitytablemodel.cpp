@@ -317,6 +317,7 @@ QVariant CSecurityTableModel::data(const QModelIndex& index, int role) const
 			return *pRule->m_piAction;
 		}
 	}
+    // TODO: Reimplement formatting options in models.
 	/*else if ( role == Qt::ForegroundRole )
 	{
 		switch ( nbr->nState )

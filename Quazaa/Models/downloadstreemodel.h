@@ -121,16 +121,18 @@ protected:
 	int		m_nStatus;		// dl source status
 	QString m_sClient;		// remote client
 	quint64 m_nDownloaded;	// downloaded bytes from this source
-	QString m_sCountry;		//
+    QString m_sCountryCode;	// The country code for this node. Used to get the correct icon for the country.
+    QString m_sCountry;     // The full country name.
 
 	Fragments::List	m_oDownloaded; // downloaded frags
 
 public slots:
-	QString getCountry();
+    QString getCountryCode();
+    QString getCountry();
 	void onBytesReceived(quint64 offset, quint64 length);
 
 	friend class CDownloadItem;
-	friend class CDownloadsItemDelegate;
+    friend class CDownloadsItemDelegate;
 };
 
 class CDownloadsTreeModel : public QAbstractItemModel

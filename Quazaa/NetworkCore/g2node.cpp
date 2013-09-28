@@ -220,12 +220,12 @@ void CG2Node::OnTimer(quint32 tNow)
 	{
 		if(m_nPingsWaiting == 0 && (tNow - m_tLastPacketIn >= 30 || tNow - m_tLastPingOut >= quazaaSettings.Gnutella2.PingRate))
 		{
-			// Jesli dostalismy ostatni pakiet co najmniej 30 sekund temu
-			// lub wyslalismy ostatniego pinga co najmniej 2 minuty temu
-			// no i nie oczekujemy odpowiedzi na wczesniejszego pinga
-			// to wysylamy keep-alive ping, przy okazji merzac RTT
+            // If we got the last packet at least 30 seconds ago
+            // or our last ping at least 2 minutes ago
+            // and do not expect a response to an earlier ping
+            // then we send keep-alive ping, on the occasion of the RTT measurement
 			G2Packet* pPacket = G2Packet::New("PI", false);
-			SendPacket(pPacket, false, true); // niebuforowany, zeby dokladniej zmierzyc RTT
+            SendPacket(pPacket, false, true); // Unbuffered, we can accurately measure the RTT
 			m_nPingsWaiting++;
 			m_tLastPingOut = tNow;
 			m_tRTTTimer.start();
@@ -633,7 +633,7 @@ void CG2Node::Send_ConnectError(QString sReason)
 	for(QList<CNeighbour*>::iterator it = Neighbours.begin(); it != Neighbours.end(); ++it)
 	{
 		CNeighbour* pNeighbour = *it;
-		// add neighbours with free slots, to promote faster connections
+        // Add neighbours with free slots, to promote faster connections.
 		if( pNeighbour->m_nState == nsConnected
 		    && pNeighbour->m_nProtocol == dpG2
 		    && ((CG2Node*)pNeighbour)->m_nType == G2_HUB
@@ -874,7 +874,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 	{
 		// /PI/UDP
 
-		if(Neighbours.IsG2Hub())
+        if(Neighbours.IsG2Hub()) // If we are a hub.
 		{
 			G2Packet* pRelay = G2Packet::New("RELAY");
 			pPacket->PrependPacket(pRelay);

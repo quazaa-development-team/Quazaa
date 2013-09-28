@@ -63,7 +63,7 @@ public:
 	CQueryHashTable*    m_pLocalTable;
 	CHubHorizonGroup*   m_pHubGroup;
 
-	QHash<quint32, quint32> m_lRABan; // list of banned return addresses
+    QHash<quint32, quint32> m_lRABan;       // list of banned return addresses
 
 public:
 	CG2Node(QObject* parent = NULL);
