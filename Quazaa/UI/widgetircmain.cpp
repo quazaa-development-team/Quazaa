@@ -202,7 +202,7 @@ void WidgetIrcMain::initialize()
     ConnectionInfos connections = quazaaSettings.Chat.Connections.value<ConnectionInfos>();
 
     foreach(const ConnectionInfo & connection, connections)
-    connectToImpl(connection);
+        connectToImpl(connection);
 
     if (connections.isEmpty())
         connectTo(ConnectionInfo());
@@ -295,6 +295,8 @@ void WidgetIrcMain::viewAdded(WidgetIrcMessageView* view)
         	treeWidget->restoreState(quazaaSettings.WinMain.ChatTreeWidget);
         treeWidget->expandItem(treeWidget->sessionItem(session));
     }
+
+    update();
 }
 
 void WidgetIrcMain::viewRemoved(WidgetIrcMessageView* view)

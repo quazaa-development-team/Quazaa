@@ -312,12 +312,12 @@ void CG2Node::ParseIncomingHandshake()
 		return;
 	}
 
-    if( securityManager.isAgentBlocked(m_sUserAgent) )
-    {
-        Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, Security::ban2Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
-        return;
-    }
+	if( securityManager.isAgentBlocked(m_sUserAgent) )
+	{
+		Send_ConnectError("403 Access Denied, sorry");
+		securityManager.ban(m_oAddress, Security::banSession, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
+		return;
+	}
 
 	if(sHs.startsWith("GNUTELLA CONNECT/0.6"))
 	{
@@ -485,12 +485,12 @@ void CG2Node::ParseOutgoingHandshake()
 		return;
 	}
 
-    if( securityManager.isAgentBlocked(m_sUserAgent) )
-    {
-        Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, Security::ban2Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
-        return;
-    }
+	if( securityManager.isAgentBlocked(m_sUserAgent) )
+	{
+		Send_ConnectError("403 Access Denied, sorry");
+		securityManager.ban(m_oAddress, Security::banSession, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
+		return;
+	}
 
 	QString sTry = Parser::GetHeaderValue(sHs, "X-Try-Hubs");
 	if(bAcceptG2 && bG2Provided && sTry.size())
@@ -1109,11 +1109,13 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				if ( !sVendor.isEmpty() && securityManager.isVendorBlocked( sVendor ) )
 				{
 					securityManager.ban( ep, Security::ban2Hours, true,
-					                     QString( "[AUTO] Vendor blocked (%1)" ).arg( sVendor ) );
+					                     QString( "Vendor blocked (%1)" ).arg( sVendor ) );
 				}
 				else
 				{
+					hostCache.m_pSection.lock();
 					hostCache.add( ep, nDiff + tNow );
+					hostCache.m_pSection.unlock();
 				}
 			}
 		}
@@ -1322,7 +1324,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 
 	hostCache.m_pSection.lock();
 
-	CHostCacheHost* pCache = hostCache.addSync( addr, tNow, false );
+	CHostCacheHost* pCache = hostCache.add( addr, tNow );
 	if ( pCache )
 	{
 		pCache->setKey( nKey, tNow, &m_oAddress );
@@ -1519,15 +1521,9 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 
 	/*	QUuid oGUID = */pPacket->ReadGUID();
 
-	if( !strVendor.isEmpty() && securityManager.isVendorBlocked(strVendor) )
-	{
-		securityManager.ban(addr, Security::ban2Hours, true, QString("[AUTO] Vendor blocked (%1)").arg(strVendor));
-		return;	// We don't want to propagate these...
-	}
-	else
-	{
-		hostCache.add( addr, common::getTNowUTC() );
-	}
+	hostCache.m_pSection.lock();
+	hostCache.add( addr, common::getTNowUTC() );
+	hostCache.m_pSection.unlock();
 
 	if ( nTTL > 0 && nHops < 255 )
 	{

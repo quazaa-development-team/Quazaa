@@ -57,28 +57,65 @@ CHostCache::~CHostCache()
 	}
 }
 
-/**
- * @brief start initializes the Host Cache. Make sure this is called after QApplication is
- * instantiated.
- * Locking: YES (asynchronous)
- */
-void CHostCache::start()
+CHostCacheHost* CHostCache::add(CEndPoint host, const QDateTime& ts)
 {
-	moveToThread( &m_oDiscoveryThread );
-	m_oDiscoveryThread.start( QThread::LowPriority );
-
-	QMetaObject::invokeMethod( this, "asyncStartUpHelper", Qt::QueuedConnection );
+	Q_ASSERT( ts.timeSpec() == Qt::UTC );
+	return add( host, ts.toTime_t() );
 }
-
-void CHostCache::add(const CEndPoint host, const quint32 tTimeStamp)
+CHostCacheHost* CHostCache::add(CEndPoint host, quint32 tTimeStamp)
 {
-	QMetaObject::invokeMethod( this, "addSync", Qt::QueuedConnection, Q_ARG(CEndPoint, host),
-	                           Q_ARG(quint32, tTimeStamp), Q_ARG(bool, true) );
+	if ( !host.isValid() )
+	{
+		return NULL;
+	}
+
+	if ( host.isFirewalled() )
+		return NULL;
+
+	// At this point the security check should already have been performed.
+	// Q_ASSERT( !securityManager.isDenied(host) );
+	if ( securityManager.isDenied(host) )
+		return NULL;
+
+	const quint32 tNow = common::getTNowUTC();
+
+	if ( (quint32)m_lHosts.size() > m_nMaxCacheHosts )
+	{
+		int nMax = m_nMaxCacheHosts / 2;
+		while ( m_lHosts.size() > nMax )
+		{
+			delete m_lHosts.takeLast();
+		}
+
+		save( tNow );
+	}
+	else if ( tNow - m_tLastSave > 600 )
+		save( tNow );
+
+	if ( tTimeStamp > tNow )
+	{
+		tTimeStamp = tNow - 60 ;
+	}
+
+	CHostCacheIterator itPrev = find( host );
+
+	if ( itPrev != m_lHosts.end() )
+	{
+		return update( itPrev, tTimeStamp );
+	}
+
+	CHostCacheHost* pNew = new CHostCacheHost( host, tTimeStamp );
+
+	CHostCacheIterator it = qLowerBound( m_lHosts.begin(), m_lHosts.end(),
+	                                     pNew, qLess<CHostCacheHost*>() );
+	m_lHosts.insert( it, pNew );
+
+	return pNew;
 }
 
 CHostCacheIterator CHostCache::find(CEndPoint oHost)
 {
-    for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); ++it )
+	for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); ++it )
 	{
 		if ( (*it)->m_oAddress == oHost )
 			return it;
@@ -89,13 +126,13 @@ CHostCacheIterator CHostCache::find(CEndPoint oHost)
 
 CHostCacheIterator CHostCache::find(CHostCacheHost *pHost)
 {
-    CHostCacheIterator it = qFind( m_lHosts.begin(), m_lHosts.end(), pHost );
+	CHostCacheIterator it = qFind( m_lHosts.begin(), m_lHosts.end(), pHost );
 	return it;
 }
 
 CHostCacheHost* CHostCache::update(CEndPoint oHost, const quint32 tTimeStamp)
 {
-    CHostCacheIterator it = find( oHost );
+	CHostCacheIterator it = find( oHost );
 
 	if ( it == m_lHosts.end() )
 		return NULL;
@@ -105,24 +142,26 @@ CHostCacheHost* CHostCache::update(CEndPoint oHost, const quint32 tTimeStamp)
 
 CHostCacheHost* CHostCache::update(CHostCacheHost* pHost, const quint32 tTimeStamp)
 {
-    CHostCacheIterator it = find( pHost );
+	CHostCacheIterator it = find( pHost );
 
 	if ( it == m_lHosts.end() )
 		return NULL;
 
-    return update( it, tTimeStamp );
+	return update( it, tTimeStamp );
 }
 
 CHostCacheHost* CHostCache::update(CHostCacheIterator itHost, const quint32 tTimeStamp)
 {
-    CHostCacheHost* pHost = *itHost;
-    pHost->m_tTimestamp = tTimeStamp;
-    return pHost;
+	CHostCacheHost* pHost = *itHost;
+	m_lHosts.erase( itHost );
+	pHost->m_tTimestamp = tTimeStamp;
+	m_lHosts.prepend( pHost );
+	return pHost;
 }
 
 void CHostCache::remove(CHostCacheHost* pRemove)
 {
-    CHostCacheIterator it = find( pRemove );
+	CHostCacheIterator it = find( pRemove );
 
 	if ( it != m_lHosts.end() )
 	{
@@ -134,7 +173,7 @@ void CHostCache::remove(CHostCacheHost* pRemove)
 
 void CHostCache::remove(CEndPoint oHost)
 {
-    CHostCacheIterator it = find( oHost );
+	CHostCacheIterator it = find( oHost );
 
 	if ( it != m_lHosts.end() )
 	{
@@ -177,7 +216,7 @@ void CHostCache::addXTry(QString& sHeader)
 		oTs.setTimeSpec( Qt::UTC );
 		if ( !oTs.isValid() )
 			oTs = common::getDateTimeUTC();
-		addSync( addr, oTs, false );
+		add( addr, oTs );
 	}
 }
 
@@ -222,7 +261,7 @@ QString CHostCache::getXTry()
 
 void CHostCache::onFailure(CEndPoint addr)
 {
-    CHostCacheIterator itHost = find( addr );
+	CHostCacheIterator itHost = find( addr );
 
 	if ( itHost != m_lHosts.end() )
 	{
@@ -311,6 +350,70 @@ bool CHostCache::save(const quint32 tNow)
 	return bReturn;
 }
 
+void CHostCache::load()
+{
+	m_sMessage = QObject::tr( "[Host Cache] " );
+
+	ASSUME_LOCK( hostCache.m_pSection );
+
+	QFile file( common::getLocation( common::globalDataFiles ) + "hostcache.dat" );
+
+	if ( !file.exists() || !file.open( QIODevice::ReadOnly ) )
+		return;
+
+	QDataStream oStream( &file );
+
+	quint16 nVersion;
+	quint32 nCount;
+
+	oStream >> nVersion;
+	oStream >> nCount;
+
+	const quint32 tNow   = common::getTNowUTC();
+
+	if ( nVersion == HOST_CACHE_CODE_VERSION ) // else do load defaults
+	{
+		CEndPoint oAddress;
+		quint32 nFailures    = 0;
+		quint32 tTimeStamp   = 0;
+		quint32 tLastConnect = 0;
+
+		CHostCacheHost* pHost = NULL;
+
+		while ( nCount )
+		{
+			oStream >> oAddress;
+			oStream >> nFailures;
+
+			oStream >> tTimeStamp;
+			oStream >> tLastConnect;
+
+			if ( tTimeStamp - tNow > 0 )
+				tTimeStamp = tNow - 60;
+
+			pHost = add( oAddress, tTimeStamp );
+			if ( pHost )
+			{
+				if ( tLastConnect - tNow > 0 )
+					tLastConnect = tNow - 60;
+
+				pHost->m_nFailures    = nFailures;
+				pHost->m_tLastConnect = tLastConnect;
+			}
+
+			--nCount;
+			pHost = NULL;
+		}
+	}
+
+	file.close();
+
+	pruneOldHosts( tNow );
+
+	systemLog.postLog( LogSeverity::Debug,
+	                   m_sMessage + QObject::tr( "Loaded %1 hosts." ).arg( m_lHosts.size() ) );
+}
+
 void CHostCache::pruneOldHosts(const quint32 tNow)
 {
 	QMutableListIterator<CHostCacheHost*> it( m_lHosts );
@@ -333,7 +436,7 @@ void CHostCache::pruneOldHosts(const quint32 tNow)
 
 void CHostCache::pruneByQueryAck(const quint32 tNow)
 {
-    for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); )
+	for ( CHostCacheIterator it = m_lHosts.begin(); it != m_lHosts.end(); )
 	{
 		if ( (*it)->m_tAck && tNow - (*it)->m_tAck > quazaaSettings.Gnutella2.QueryHostDeadline )
 		{
@@ -374,155 +477,5 @@ quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
 	}
 
 	return nCount;
-}
-
-CHostCacheHost* CHostCache::addSync(CEndPoint host, const QDateTime& ts, bool bLock)
-{
-	Q_ASSERT( ts.timeSpec() == Qt::UTC );
-	return addSync( host, ts.toTime_t(), bLock );
-}
-
-CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLock)
-{
-	if ( bLock )
-		m_pSection.lock();
-
-	ASSUME_LOCK( hostCache.m_pSection );
-
-	if ( !host.isValid() )
-	{
-		if ( bLock )
-			m_pSection.unlock();
-		return NULL;
-	}
-
-	if ( host.isFirewalled() )
-	{
-		if ( bLock )
-			m_pSection.unlock();
-		return NULL;
-	}
-
-	// At this point the security check should already have been performed.
-	// Q_ASSERT( !securityManager.isDenied(host) );
-	if ( securityManager.isDenied(host) )
-	{
-		if ( bLock )
-			m_pSection.unlock();
-		return NULL;
-	}
-
-	const quint32 tNow = common::getTNowUTC();
-
-	if ( (quint32)m_lHosts.size() > m_nMaxCacheHosts )
-	{
-		int nMax = m_nMaxCacheHosts / 2;
-		while ( m_lHosts.size() > nMax )
-		{
-			delete m_lHosts.takeLast();
-		}
-
-		save( tNow );
-	}
-	else if ( tNow - m_tLastSave > 600 )
-		save( tNow );
-
-	if ( tTimeStamp > tNow )
-	{
-		tTimeStamp = tNow - 60 ;
-	}
-
-    CHostCacheIterator itPrev = find( host );
-
-	if ( itPrev != m_lHosts.end() )
-	{
-		CHostCacheHost* pUpdate = update( itPrev, tTimeStamp );
-		if ( bLock )
-			m_pSection.unlock();
-		return pUpdate;
-	}
-
-	CHostCacheHost* pNew = new CHostCacheHost( host, tTimeStamp );
-
-    CHostCacheIterator it = qLowerBound( m_lHosts.begin(), m_lHosts.end(),
-	                                     pNew, qLess<CHostCacheHost*>() );
-	m_lHosts.insert( it, pNew );
-
-	if ( bLock )
-		m_pSection.unlock();
-	return pNew;
-}
-
-void CHostCache::load()
-{
-	m_pSection.lock();
-
-	QFile file( common::getLocation( common::globalDataFiles ) + "hostcache.dat" );
-
-	if ( !file.exists() || !file.open( QIODevice::ReadOnly ) )
-		return;
-
-	QDataStream oStream( &file );
-
-	quint16 nVersion;
-	quint32 nCount;
-
-	oStream >> nVersion;
-	oStream >> nCount;
-
-	const quint32 tNow   = common::getTNowUTC();
-
-	if ( nVersion == HOST_CACHE_CODE_VERSION ) // else do load defaults
-	{
-		CEndPoint oAddress;
-		quint32 nFailures    = 0;
-		quint32 tTimeStamp   = 0;
-		quint32 tLastConnect = 0;
-
-		CHostCacheHost* pHost = NULL;
-
-		while ( nCount )
-		{
-			oStream >> oAddress;
-			oStream >> nFailures;
-
-			oStream >> tTimeStamp;
-			oStream >> tLastConnect;
-
-			if ( tTimeStamp - tNow > 0 )
-				tTimeStamp = tNow - 60;
-
-			pHost = addSync( oAddress, tTimeStamp, false );
-			if ( pHost )
-			{
-				if ( tLastConnect - tNow > 0 )
-					tLastConnect = tNow - 60;
-
-				pHost->m_nFailures    = nFailures;
-				pHost->m_tLastConnect = tLastConnect;
-			}
-
-			--nCount;
-			pHost = NULL;
-		}
-	}
-
-	file.close();
-
-	pruneOldHosts( tNow );
-
-	systemLog.postLog( LogSeverity::Debug,
-	                   m_sMessage + QObject::tr( "Loaded %1 hosts." ).arg( m_lHosts.size() ) );
-
-	m_pSection.unlock();
-}
-
-void CHostCache::asyncStartUpHelper()
-{
-	// reg. meta types
-	qRegisterMetaType<CEndPoint>( "CEndPoint" );
-
-	// Includes its own locking.
-	load();
 }
 

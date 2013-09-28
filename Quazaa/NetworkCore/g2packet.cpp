@@ -412,7 +412,9 @@ G2Packet* G2Packet::ReadBuffer(CBuffer* pBuffer)
 	if(nFlags & G2_FLAG_BIG_ENDIAN)
 	{
 		throw packet_error();
-    } else {
+    }
+    else
+    {
 		char* pLenIn	= pBuffer->data() + 1;
 		char* pLenOut	= (char*)&nLength;
 		for(char nLenCnt = nLenLen ; nLenCnt-- ;)

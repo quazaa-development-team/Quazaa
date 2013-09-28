@@ -389,6 +389,9 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 
 	const quint32 tNow = common::getTNowUTC();
 
+	// prepare for adding new hosts
+	QMutexLocker l( &hostCache.m_pSection );
+
 	while ( lHostList.size() )
 	{
 		hostCache.add( lHostList.back(), tNow );
