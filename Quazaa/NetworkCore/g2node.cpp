@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -47,8 +47,8 @@
 //#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject* parent) :
-    CNeighbour(parent),
-    m_pHubGroup(new CHubHorizonGroup)
+	CNeighbour(parent),
+	m_pHubGroup(new CHubHorizonGroup)
 {
 
 	m_nProtocol = dpG2;
@@ -124,8 +124,8 @@ void CG2Node::OnConnect()
 	//QMutexLocker l(&Neighbours.m_pSection);
 
 	systemLog.postLog ( LogSeverity::Information, Components::G2,
-	                    "Connection with %s established, handshaking...",
-	                    qPrintable( m_oAddress.toString() ) );
+						"Connection with %s established, handshaking...",
+						qPrintable( m_oAddress.toString() ) );
 
 	m_nState = nsHandshaking;
 	emit NodeStateChanged();
@@ -220,12 +220,12 @@ void CG2Node::OnTimer(quint32 tNow)
 	{
 		if(m_nPingsWaiting == 0 && (tNow - m_tLastPacketIn >= 30 || tNow - m_tLastPingOut >= quazaaSettings.Gnutella2.PingRate))
 		{
-            // If we got the last packet at least 30 seconds ago
-            // or our last ping at least 2 minutes ago
-            // and do not expect a response to an earlier ping
-            // then we send keep-alive ping, on the occasion of the RTT measurement
+			// If we got the last packet at least 30 seconds ago
+			// or our last ping at least 2 minutes ago
+			// and do not expect a response to an earlier ping
+			// then we send keep-alive ping, on the occasion of the RTT measurement
 			G2Packet* pPacket = G2Packet::New("PI", false);
-            SendPacket(pPacket, false, true); // Unbuffered, we can accurately measure the RTT
+			SendPacket(pPacket, false, true); // Unbuffered, we can accurately measure the RTT
 			m_nPingsWaiting++;
 			m_tLastPingOut = tNow;
 			m_tRTTTimer.start();
@@ -241,11 +241,11 @@ void CG2Node::OnTimer(quint32 tNow)
 		}*/
 
 		if ( ( m_nType == G2_HUB && tNow - m_tConnected > 30 ) &&
-		     (( m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie &&
-		        tNow - m_pLocalTable->m_nCookie > 60 ) ||
-		      ( QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
-		        !m_pLocalTable->m_bLive ))
-		     )
+			 (( m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie &&
+				tNow - m_pLocalTable->m_nCookie > 60 ) ||
+			  ( QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
+				!m_pLocalTable->m_bLive ))
+			 )
 		{
 			if(m_pLocalTable->PatchTo(&QueryHashMaster, this))
 			{
@@ -633,12 +633,12 @@ void CG2Node::Send_ConnectError(QString sReason)
 	for(QList<CNeighbour*>::iterator it = Neighbours.begin(); it != Neighbours.end(); ++it)
 	{
 		CNeighbour* pNeighbour = *it;
-        // Add neighbours with free slots, to promote faster connections.
+		// Add neighbours with free slots, to promote faster connections.
 		if( pNeighbour->m_nState == nsConnected
-		    && pNeighbour->m_nProtocol == dpG2
-		    && ((CG2Node*)pNeighbour)->m_nType == G2_HUB
-		    && ((CG2Node*)pNeighbour) ->m_nLeafMax > 0
-		    && 100 * ((CG2Node*)pNeighbour)->m_nLeafCount / ((CG2Node*)pNeighbour)->m_nLeafMax < 90 )
+			&& pNeighbour->m_nProtocol == dpG2
+			&& ((CG2Node*)pNeighbour)->m_nType == G2_HUB
+			&& ((CG2Node*)pNeighbour) ->m_nLeafMax > 0
+			&& 100 * ((CG2Node*)pNeighbour)->m_nLeafCount / ((CG2Node*)pNeighbour)->m_nLeafMax < 90 )
 		{
 			sHs += "," + pNeighbour->m_oAddress.toStringWithPort() + " " + common::getDateTimeUTC().toString("yyyy-MM-ddThh:mmZ");
 		}
@@ -874,7 +874,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 	{
 		// /PI/UDP
 
-        if(Neighbours.IsG2Hub()) // If we are a hub.
+		if(Neighbours.IsG2Hub()) // If we are a hub.
 		{
 			G2Packet* pRelay = G2Packet::New("RELAY");
 			pPacket->PrependPacket(pRelay);
@@ -1109,7 +1109,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				if ( !sVendor.isEmpty() && securityManager.isVendorBlocked( sVendor ) )
 				{
 					securityManager.ban( ep, Security::ban2Hours, true,
-					                     QString( "Vendor blocked (%1)" ).arg( sVendor ) );
+										 QString( "[AUTO] Vendor blocked (%1)" ).arg( sVendor ) );
 				}
 				else
 				{
@@ -1222,7 +1222,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 	CHostCacheHost* pHost = bCacheOK ? hostCache.take( addr ) : NULL;
 
 	if ( pHost && pHost->m_nQueryKey && pHost->m_nKeyHost == Network.m_oAddress &&
-	     tNow - pHost->m_nKeyTime < quazaaSettings.Gnutella2.QueryKeyTime )
+		 tNow - pHost->m_nKeyTime < quazaaSettings.Gnutella2.QueryKeyTime )
 	{
 		G2Packet* pQKA = G2Packet::New( "QKA", true );
 		if ( addr.protocol() == 0 )
@@ -1331,8 +1331,8 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 
 #if LOG_QUERY_HANDLING
 		systemLog.postLog( LogSeverity::Debug,
-		                   QString( "Got a query key from %1 via %2 = 0x%3" ).arg(
-		                     addr.toString().toLocal8Bit().constData()).arg(m_oAddress.toString().toLocal8Bit().constData()).arg(QString().number(nKey, 16)));
+						   QString( "Got a query key from %1 via %2 = 0x%3" ).arg(
+							 addr.toString().toLocal8Bit().constData()).arg(m_oAddress.toString().toLocal8Bit().constData()).arg(QString().number(nKey, 16)));
 		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toLocal8Bit().constData(), m_oAddress.toString().toLocal8Bit().constData(), nKey);
 #endif // LOG_QUERY_HANDLING
 	}
@@ -1385,8 +1385,8 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 	if ( pQuery.isNull() )
 	{
 		systemLog.postLog( LogSeverity::Error,  Components::G2,
-		                   "Received malformatted query from neighbour %s, ignoring.",
-		                   qPrintable( m_oAddress.toString() ) );
+						   "Received malformatted query from neighbour %s, ignoring.",
+						   qPrintable( m_oAddress.toString() ) );
 		return;
 	}
 
@@ -1521,6 +1521,15 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 
 	/*	QUuid oGUID = */pPacket->ReadGUID();
 
+	if( !strVendor.isEmpty() && securityManager.isVendorBlocked(strVendor) )
+	{
+		securityManager.ban(addr, Security::ban2Hours, true, QString("[AUTO] Vendor blocked (%1)").arg(strVendor));
+		return;	// We don't want to propagate these...
+	}
+	else
+	{
+		hostCache.add( addr, common::getTNowUTC() );
+	}
 	hostCache.m_pSection.lock();
 	hostCache.add( addr, common::getTNowUTC() );
 	hostCache.m_pSection.unlock();

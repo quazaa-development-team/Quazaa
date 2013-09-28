@@ -504,7 +504,7 @@ void CSecurity::clear()
   * Locking: RW
   */
 void CSecurity::ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bMessage,
-                    const QString& sComment)
+					const QString& sComment)
 {
 	if ( oAddress.isNull() )
 	{
@@ -567,9 +567,9 @@ void CSecurity::ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bM
 			if ( bMessage )
 			{
 				postLog( LogSeverity::Security,
-				         tr( "Adjusted ban expiry time of %1 to %2."
-				             ).arg( oAddress.toString(),
-				                    QDateTime::fromTime_t( pIPRule->m_tExpire ).toString() ) );
+						 tr( "Adjusted ban expiry time of %1 to %2."
+							 ).arg( oAddress.toString(),
+									QDateTime::fromTime_t( pIPRule->m_tExpire ).toString() ) );
 			}
 
 			return;
@@ -642,9 +642,9 @@ void CSecurity::ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bM
 	if ( bMessage )
 	{
 		postLog( LogSeverity::Security,
-		         tr( "Banned %1 until %2."
-		             ).arg( oAddress.toString(),
-		                    QDateTime::fromTime_t( pIPRule->m_tExpire ).toString() ) );
+				 tr( "Banned %1 until %2."
+					 ).arg( oAddress.toString(),
+							QDateTime::fromTime_t( pIPRule->m_tExpire ).toString() ) );
 	}
 }
 
@@ -864,10 +864,10 @@ bool CSecurity::isDenied(const CEndPoint &oAddress, const QString& /*source*/)
 		if ( m_bLogIPCheckHits )
 		{
 			postLog( LogSeverity::Security,
-			         tr( "Skipped repeat IP security check for %s (%i IPs cached"
-			             ).arg( oAddress.toString(), (int)m_Cache.size() )
+					 tr( "Skipped repeat IP security check for %s (%i IPs cached"
+						 ).arg( oAddress.toString(), (int)m_Cache.size() )
 //			         + tr( "; Call source: %s" ).arg( source )
-			         + tr( ")" ));
+					 + tr( ")" ));
 		}
 
 		return m_bDenyPolicy;
@@ -875,10 +875,10 @@ bool CSecurity::isDenied(const CEndPoint &oAddress, const QString& /*source*/)
 	else if ( m_bLogIPCheckHits )
 	{
 		postLog( LogSeverity::Security,
-		         tr( "Called first-time IP security check for %s"
-		             ).arg( oAddress.toString() )
+				 tr( "Called first-time IP security check for %s"
+					 ).arg( oAddress.toString() )
 //		         + tr( " ( Call source: %s)" ).arg( source )
-		         );
+				 );
 	}
 
 	// Second, check the fast IP rules lookup map.
@@ -963,8 +963,8 @@ bool CSecurity::isDenied(const CEndPoint &oAddress, const QString& /*source*/)
 bool CSecurity::isDenied(const CQueryHit* const pHit, const QList<QString> &lQuery)
 {
 	return ( isDenied( pHit ) ||                             // test hashes, file size and extension
-	         isDenied( pHit->m_sDescriptiveName ) ||         // test file name
-	         isDenied( lQuery, pHit->m_sDescriptiveName ) ); // test regex
+			 isDenied( pHit->m_sDescriptiveName ) ||         // test file name
+			 isDenied( lQuery, pHit->m_sDescriptiveName ) ); // test regex
 }
 
 /**
@@ -1140,7 +1140,7 @@ bool CSecurity::start()
 	qRegisterMetaType< QSharedPointer< CSecureRule > >( "QSharedPointer<CSecureRule>" );
 
 	connect( &quazaaSettings, SIGNAL( securitySettingsChanged() ), SLOT( settingsChanged() ),
-	         Qt::QueuedConnection );
+			 Qt::QueuedConnection );
 
 	// Pull settings from global database to local copy.
 	settingsChanged();
@@ -1148,7 +1148,7 @@ bool CSecurity::start()
 	// Set up interval timed cleanup operations.
 	m_idRuleExpiry = signalQueue.push( this, "expire", m_tRuleExpiryInterval, true );
 	m_idMissCacheExpiry = signalQueue.push( this, "missCacheClear",
-	                                        m_tMissCacheExpiryInterval, true );
+											m_tMissCacheExpiryInterval, true );
 
 	return load(); // Load security rules from HDD.
 }
@@ -1162,7 +1162,7 @@ bool CSecurity::start()
 bool CSecurity::stop()
 {
 	disconnect( &quazaaSettings, SIGNAL( securitySettingsChanged() ),
-	            this, SLOT( settingsChanged() ) );
+				this, SLOT( settingsChanged() ) );
 
 	bool bSaved = save( true ); // Save security rules to disk.
 	clear();                    // Release memory and free containers.
@@ -1309,7 +1309,7 @@ bool CSecurity::save(bool bForceSaving) const
 	m_pRWLock.lockForRead();
 
 	if ( !common::securredSaveFile( common::userDataFiles, "security.dat", m_sMessage,
-	                                this, &Security::CSecurity::writeToFile ) )
+									this, &Security::CSecurity::writeToFile ) )
 	{
 		bReturn = false;
 	}
@@ -1411,7 +1411,7 @@ bool CSecurity::fromXML(const QString& sPath)
 		if ( !bOK )
 		{
 			postLog( LogSeverity::Error,
-			         tr( "Failed to read the Security XML version number from file." ) );
+					 tr( "Failed to read the Security XML version number from file." ) );
 			nVersion = 1.0;
 		}
 	}
@@ -1458,8 +1458,8 @@ bool CSecurity::fromXML(const QString& sPath)
 		else
 		{
 			postLog( LogSeverity::Error,
-			         tr( "Unrecognized entry in XML file with name: " ) +
-			         xmlDocument.name().toString() );
+					 tr( "Unrecognized entry in XML file with name: " ) +
+					 xmlDocument.name().toString() );
 		}
 	}
 
@@ -1568,15 +1568,15 @@ void CSecurity::sanityCheckPerformed()
 		if ( --m_nPendingOperations == 0 )
 		{
 			postLog( LogSeverity::Debug, QString( "Sanity Check finished successfully. " ) +
-			         QString( "Starting cleanup now." ), true );
+					 QString( "Starting cleanup now." ), true );
 
 			clearNewRules();
 		}
 		else
 		{
 			postLog( LogSeverity::Debug, QString( "A component finished with sanity checking. " ) +
-			         QString( "Still waiting for %s other components to finish."
-			                  ).arg( m_nPendingOperations ), true );
+					 QString( "Still waiting for %s other components to finish."
+							  ).arg( m_nPendingOperations ), true );
 		}
 	}
 	else // we didn't get a lock
@@ -1596,8 +1596,8 @@ void CSecurity::forceEndOfSanityCheck()
 	if ( m_nPendingOperations )
 	{
 		QString sTmp = QString( "Sanity check aborted. Most probable reason: It took some " ) +
-		               QString( "component longer than 2min to call sanityCheckPerformed() " ) +
-		               QString( "after having recieved the signal performSanityCheck()." );
+					   QString( "component longer than 2min to call sanityCheckPerformed() " ) +
+					   QString( "after having recieved the signal performSanityCheck()." );
 		postLog( LogSeverity::Error, sTmp, true );
 		Q_ASSERT( false );
 	}
@@ -2036,9 +2036,9 @@ void CSecurity::evaluateCacheUsage()
 	// Only do the heavy log operations if necessary.
 	if ( s_nIPMap != nIPMap
 #if SECURITY_ENABLE_GEOIP
-	     || s_nCountryMap != nCountryMap
+		 || s_nCountryMap != nCountryMap
 #endif // SECURITY_ENABLE_GEOIP
-	     )
+		 )
 	{
 		s_nIPMap		= nIPMap;
 #if SECURITY_ENABLE_GEOIP
@@ -2054,9 +2054,9 @@ void CSecurity::evaluateCacheUsage()
 
 		s_nLogMult	= log( nIPMap
 #if SECURITY_ENABLE_GEOIP
-		                   * nCountryMap
+						   * nCountryMap
 #endif // SECURITY_ENABLE_GEOIP
-		                   );
+						   );
 	}
 
 	m_bUseMissCache = ( s_nLogCache < s_nLogMult + m_IPRanges.size() * log2 );
