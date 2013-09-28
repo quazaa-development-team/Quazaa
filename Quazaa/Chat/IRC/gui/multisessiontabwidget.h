@@ -20,10 +20,10 @@
 
 class Session;
 class IrcMessage;
-class WidgetIrcMessageView;
+class CWidgetIrcMessageView;
 class SessionTabWidget;
 
-class MultiSessionTabWidget : public TabWidget
+class MultiSessionTabWidget : public CTabWidget
 {
 	Q_OBJECT
 

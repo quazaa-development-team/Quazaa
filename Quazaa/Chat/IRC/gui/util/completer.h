@@ -20,7 +20,7 @@
 #include <widgetreturnemittextedit.h>
 
 class HistoryLineEdit;
-class WidgetReturnEmitTextEdit;
+class CWidgetReturnEmitTextEdit;
 class IrcUserListModel;
 
 class Completer : public QCompleter
@@ -33,8 +33,8 @@ public:
 	HistoryLineEdit* lineEdit() const;
 	void setLineEdit(HistoryLineEdit* lineEdit);
 
-    WidgetReturnEmitTextEdit* textEdit() const;
-    void setTextEdit(WidgetReturnEmitTextEdit* textEdit);
+    CWidgetReturnEmitTextEdit* textEdit() const;
+    void setTextEdit(CWidgetReturnEmitTextEdit* textEdit);
 
     IrcUserListModel *userModel() const;
     void setUserModel(IrcUserListModel* model);
@@ -52,7 +52,7 @@ private slots:
 
 private:
 	struct CompleterData {
-        WidgetReturnEmitTextEdit* textEdit;
+        CWidgetReturnEmitTextEdit* textEdit;
 		HistoryLineEdit* lineEdit;
         IrcUserListModel* userModel;
         QAbstractItemModel* commandModel;

@@ -21,7 +21,7 @@
 #include <QShortcut>
 #include <QTabBar>
 
-MultiSessionTabWidget::MultiSessionTabWidget(QWidget* parent) : TabWidget(parent)
+MultiSessionTabWidget::MultiSessionTabWidget(QWidget* parent) : CTabWidget(parent)
 {
 	setTabPosition(QTabWidget::West);
 	setStyleSheet(".MainTabWidget::pane { border: 0px; }");
@@ -106,11 +106,11 @@ void MultiSessionTabWidget::tabActivated(int index)
 
 void MultiSessionTabWidget::applySettings()
 {
-	TabBar* tb = static_cast<TabBar*>(tabBar());
-	tb->setNavigationShortcut(TabBar::Next, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateDown)));
-	tb->setNavigationShortcut(TabBar::Previous, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateUp)));
-	tb->setNavigationShortcut(TabBar::NextUnread, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NextUnreadDown)));
-	tb->setNavigationShortcut(TabBar::PreviousUnread, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NextUnreadUp)));
+	CTabBar* tb = static_cast<CTabBar*>(tabBar());
+	tb->setNavigationShortcut(CTabBar::Next, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateDown)));
+	tb->setNavigationShortcut(CTabBar::Previous, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateUp)));
+	tb->setNavigationShortcut(CTabBar::NextUnread, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NextUnreadDown)));
+	tb->setNavigationShortcut(CTabBar::PreviousUnread, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NextUnreadUp)));
 	tb->setVisible(quazaaSettings.Chat.Layout == "tabs");
 
 	QColor color(quazaaSettings.Chat.Colors.value(IrcColorType::Highlight));

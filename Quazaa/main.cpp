@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
 	qApp->installTranslator( &quazaaSettings.translator );
 
 	//Create splash window
-	DialogSplash* dlgSplash = new DialogSplash();
+	CDialogSplash* dlgSplash = new CDialogSplash();
 	dlgSplash->show();
 	qApp->processEvents();
 
@@ -201,7 +201,7 @@ int main(int argc, char *argv[])
 	bool bFirstRun = quazaaSettings.isFirstRun();
 	if ( bFirstRun )
 	{
-		DialogLanguage* dlgLanguage = new DialogLanguage();
+		CDialogLanguage* dlgLanguage = new CDialogLanguage();
 		dlgLanguage->exec();
 
 		dlgSplash->updateProgress( 10, QObject::tr( "Running Quick Start wizard..." ) );
@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
 		quazaaSettings.saveSettings();
 		quazaaSettings.saveProfile();
 
-		WizardQuickStart* wzrdQuickStart = new WizardQuickStart();
+		CWizardQuickStart* wzrdQuickStart = new CWizardQuickStart();
 		wzrdQuickStart->exec();
 	}
 

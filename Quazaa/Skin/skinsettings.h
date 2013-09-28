@@ -4,11 +4,11 @@
 #include <QObject>
 #include <QColor>
 
-class SkinSettings : public QObject
+class CSkinSettings : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-	explicit SkinSettings(QObject *parent = 0);
+	explicit CSkinSettings(QObject *parent = 0);
 
 	// Standard Items
 	QString standardItems;
@@ -71,5 +71,5 @@ public slots:
 	void setLunaskin();
 };
 
-extern SkinSettings skinSettings;
+extern CSkinSettings skinSettings;
 #endif // SKINSETTINGS_H

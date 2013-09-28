@@ -71,8 +71,8 @@ public:
 	QString password() const;
 	void setPassword(const QString& password);
 
-    void setDefaultView(WidgetIrcMessageView* view);
-    WidgetIrcMessageView* defaultView();
+    void setDefaultView(CWidgetIrcMessageView* view);
+    CWidgetIrcMessageView* defaultView();
 
 	ConnectionInfo toConnection() const;
 	void initFrom(const ConnectionInfo& connection);
@@ -127,7 +127,7 @@ private:
 	bool m_quit;
 	QStringList m_alternateNicks;
 	static QNetworkSession* s_network;
-    WidgetIrcMessageView* m_defaultView;
+    CWidgetIrcMessageView* m_defaultView;
 };
 
 #endif // SESSION_H

@@ -23,12 +23,12 @@ class Session;
 class SessionTreeItem : public QTreeWidgetItem
 {
 public:
-    SessionTreeItem(WidgetIrcMessageView* view, QTreeWidget* parent);
-    SessionTreeItem(WidgetIrcMessageView* view, QTreeWidgetItem* parent);
+    SessionTreeItem(CWidgetIrcMessageView* view, QTreeWidget* parent);
+    SessionTreeItem(CWidgetIrcMessageView* view, QTreeWidgetItem* parent);
     ~SessionTreeItem();
 
     Session* session() const;
-    WidgetIrcMessageView* view() const;
+    CWidgetIrcMessageView* view() const;
     SessionTreeItem* findChild(const QString& name) const;
 
     QVariant data(int column, int role) const;
@@ -44,7 +44,7 @@ public:
 private:
     struct Private {
         bool highlighted;
-        WidgetIrcMessageView* view;
+        CWidgetIrcMessageView* view;
         QSet<SessionTreeItem*> highlightedChildren;
         QStringList sortOrder;
     } d;

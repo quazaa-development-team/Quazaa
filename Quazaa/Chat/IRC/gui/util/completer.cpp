@@ -50,12 +50,12 @@ void Completer::setLineEdit(HistoryLineEdit* lineEdit)
     d.textEdit = 0;
 }
 
-WidgetReturnEmitTextEdit *Completer::textEdit() const
+CWidgetReturnEmitTextEdit *Completer::textEdit() const
 {
     return d.textEdit;
 }
 
-void Completer::setTextEdit(WidgetReturnEmitTextEdit *textEdit)
+void Completer::setTextEdit(CWidgetReturnEmitTextEdit *textEdit)
 {
     if (d.textEdit != textEdit)
     {

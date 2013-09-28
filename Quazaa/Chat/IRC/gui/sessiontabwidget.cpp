@@ -23,7 +23,7 @@
 #include <QShortcut>
 
 SessionTabWidget::SessionTabWidget(Session* session, QWidget* parent) :
-    TabWidget(parent)
+    CTabWidget(parent)
 {
     d.menuFactory = 0;
     d.handler.setSession(session);
@@ -45,7 +45,7 @@ SessionTabWidget::SessionTabWidget(Session* session, QWidget* parent) :
     shortcut = new QShortcut(QKeySequence::Close, this);
     connect(shortcut, SIGNAL(activated()), this, SLOT(closeCurrentView()));
 
-    WidgetIrcMessageView* view = addView(d.handler.session()->host());
+    CWidgetIrcMessageView* view = addView(d.handler.session()->host());
     session->setDefaultView(view);
     d.handler.setDefaultReceiver(view);
     d.handler.setCurrentReceiver(view);
@@ -59,14 +59,14 @@ Session* SessionTabWidget::session() const
     return qobject_cast<Session*>(d.handler.session());
 }
 
-WidgetIrcMessageView *SessionTabWidget::currentView() const
+CWidgetIrcMessageView *SessionTabWidget::currentView() const
 {
-    return qobject_cast<WidgetIrcMessageView*>(currentWidget());
+    return qobject_cast<CWidgetIrcMessageView*>(currentWidget());
 }
 
-WidgetIrcMessageView *SessionTabWidget::viewAt(int index) const
+CWidgetIrcMessageView *SessionTabWidget::viewAt(int index) const
 {
-    return qobject_cast<WidgetIrcMessageView*>(widget(index));
+    return qobject_cast<CWidgetIrcMessageView*>(widget(index));
 }
 
 MenuFactory* SessionTabWidget::menuFactory() const
@@ -89,8 +89,8 @@ void SessionTabWidget::setMenuFactory(MenuFactory* factory)
 
 QByteArray SessionTabWidget::saveSplitter() const
 {
-    foreach (WidgetIrcMessageView* view, d.views) {
-        if (view->viewType() != WidgetIrcMessageView::ServerView)
+    foreach (CWidgetIrcMessageView* view, d.views) {
+        if (view->viewType() != CWidgetIrcMessageView::ServerView)
             return view->saveSplitter();
     }
     return QByteArray();
@@ -98,7 +98,7 @@ QByteArray SessionTabWidget::saveSplitter() const
 
 void SessionTabWidget::restoreSplitter(const QByteArray& state)
 {
-    foreach (WidgetIrcMessageView* view, d.views) {
+    foreach (CWidgetIrcMessageView* view, d.views) {
         view->blockSignals(true);
         view->restoreSplitter(state);
         view->blockSignals(false);
@@ -106,14 +106,14 @@ void SessionTabWidget::restoreSplitter(const QByteArray& state)
     emit splitterChanged(state);
 }
 
-WidgetIrcMessageView* SessionTabWidget::addView(const QString& receiver)
+CWidgetIrcMessageView* SessionTabWidget::addView(const QString& receiver)
 {
-    WidgetIrcMessageView* view = d.views.value(receiver.toLower());
+    CWidgetIrcMessageView* view = d.views.value(receiver.toLower());
 	if (!view) {
-        WidgetIrcMessageView::ViewType type = WidgetIrcMessageView::ServerView;
+        CWidgetIrcMessageView::ViewType type = CWidgetIrcMessageView::ServerView;
 		if (!d.views.isEmpty())
-            type = session()->isChannel(receiver) ? WidgetIrcMessageView::ChannelView : WidgetIrcMessageView::QueryView;
-        view = new WidgetIrcMessageView(type, d.handler.session(), this);
+            type = session()->isChannel(receiver) ? CWidgetIrcMessageView::ChannelView : CWidgetIrcMessageView::QueryView;
+        view = new CWidgetIrcMessageView(type, d.handler.session(), this);
         view->applySettings();
 		view->setReceiver(receiver);
         connect(view, SIGNAL(queried(QString)), this, SLOT(addView(QString)));
@@ -127,10 +127,10 @@ WidgetIrcMessageView* SessionTabWidget::addView(const QString& receiver)
 		d.views.insert(receiver.toLower(), view);
         int index = addTab(view, QString(receiver).replace("&", "&&"));
         tabBar()->setTabButton(index, QTabBar::RightSide, view->closeButton);
-        if(view->viewType() == WidgetIrcMessageView::ServerView)
+        if(view->viewType() == CWidgetIrcMessageView::ServerView)
         {
             setTabIcon(index, QIcon(":/Resource/Network/Network.png"));
-        } else if (view->viewType() == WidgetIrcMessageView::ChannelView) {
+        } else if (view->viewType() == CWidgetIrcMessageView::ChannelView) {
             setTabIcon(index, QIcon(":/Resource/Chat/Friends.png"));
             connect(view, SIGNAL(appendRawMessage(QString)), view->session()->defaultView()->textBrowser(), SLOT(append(QString)));
             connect(view, SIGNAL(appendRawMessage(QString)), this, SLOT(switchToServerTab()));
@@ -149,14 +149,14 @@ WidgetIrcMessageView* SessionTabWidget::addView(const QString& receiver)
 
 void SessionTabWidget::openView(const QString &reciever)
 {
-    WidgetIrcMessageView* view = d.views.value(reciever.toLower());
+    CWidgetIrcMessageView* view = d.views.value(reciever.toLower());
     if (view)
         setCurrentWidget(view);
 }
 
 void SessionTabWidget::removeView(const QString& receiver)
 {
-    WidgetIrcMessageView* view = d.views.take(receiver.toLower());
+    CWidgetIrcMessageView* view = d.views.take(receiver.toLower());
     if (view) {
         view->deleteLater();
         emit viewRemoved(view);
@@ -177,14 +177,14 @@ void SessionTabWidget::closeCurrentView()
 
 void SessionTabWidget::closeView(int index)
 {
-    WidgetIrcMessageView* view = viewAt(index);
+    CWidgetIrcMessageView* view = viewAt(index);
     if (view) {
         if (view->isActive()) {
             QString reason = tr("%1 %2").arg(QApplication::applicationName())
                              .arg(QApplication::applicationVersion());
             if (indexOf(view) == 0)
                 session()->quit(reason);
-            else if (view->viewType() == WidgetIrcMessageView::ChannelView)
+            else if (view->viewType() == CWidgetIrcMessageView::ChannelView)
                 d.handler.session()->sendCommand(IrcCommand::createPart(view->receiver(), reason));
         }
         d.handler.removeReceiver(view->receiver());
@@ -193,7 +193,7 @@ void SessionTabWidget::closeView(int index)
 
 void SessionTabWidget::renameView(const QString& from, const QString& to)
 {
-    WidgetIrcMessageView* view = d.views.take(from.toLower());
+    CWidgetIrcMessageView* view = d.views.take(from.toLower());
     if (view) {
         view->setReceiver(to);
         d.views.insert(to.toLower(), view);
@@ -206,7 +206,7 @@ void SessionTabWidget::renameView(const QString& from, const QString& to)
 
 void SessionTabWidget::sendMessage(const QString &receiver, const QString &message)
 {
-    WidgetIrcMessageView* view = addView(receiver);
+    CWidgetIrcMessageView* view = addView(receiver);
     if (view) {
         setCurrentWidget(view);
         view->sendMessage(message);
@@ -217,7 +217,7 @@ bool SessionTabWidget::event(QEvent* event)
 {
     if (event->type() == QEvent::WindowActivate)
         delayedTabReset();
-    return TabWidget::event(event);
+    return CTabWidget::event(event);
 }
 
 void SessionTabWidget::updateStatus()
@@ -230,7 +230,7 @@ void SessionTabWidget::updateStatus()
 void SessionTabWidget::resetTab(int index)
 {
     if (index < count() - 1) {
-        WidgetIrcMessageView* view = qobject_cast<WidgetIrcMessageView*>(widget(index));
+        CWidgetIrcMessageView* view = qobject_cast<CWidgetIrcMessageView*>(widget(index));
         if (view) {
             setTabAlert(index, false);
             setTabHighlight(index, false);
@@ -241,7 +241,7 @@ void SessionTabWidget::resetTab(int index)
 void SessionTabWidget::tabActivated(int index)
 {
     if (index < count() - 1) {
-        WidgetIrcMessageView* view = viewAt(index);
+        CWidgetIrcMessageView* view = viewAt(index);
         if (view) {
             resetTab(index);
             if (isVisible()) {
@@ -274,7 +274,7 @@ void SessionTabWidget::onNewTabRequested()
 
 void SessionTabWidget::onTabMenuRequested(int index, const QPoint& pos)
 {
-    WidgetIrcMessageView* view = qobject_cast<WidgetIrcMessageView*>(widget(index));
+    CWidgetIrcMessageView* view = qobject_cast<CWidgetIrcMessageView*>(widget(index));
     if (view) {
         QMenu* menu = menuFactory()->createTabViewMenu(view, this);
         menu->exec(pos);
@@ -308,17 +308,17 @@ void SessionTabWidget::switchToServerTab()
 
 void SessionTabWidget::applySettings()
 {
-	TabBar* tb = static_cast<TabBar*>(tabBar());
-	tb->setNavigationShortcut(TabBar::Next, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateRight)));
-	tb->setNavigationShortcut(TabBar::Previous, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateLeft)));
-	tb->setNavigationShortcut(TabBar::NextUnread, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NextUnreadRight)));
-	tb->setNavigationShortcut(TabBar::PreviousUnread, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NextUnreadLeft)));
+	CTabBar* tb = static_cast<CTabBar*>(tabBar());
+	tb->setNavigationShortcut(CTabBar::Next, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateRight)));
+	tb->setNavigationShortcut(CTabBar::Previous, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NavigateLeft)));
+	tb->setNavigationShortcut(CTabBar::NextUnread, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NextUnreadRight)));
+	tb->setNavigationShortcut(CTabBar::PreviousUnread, QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::NextUnreadLeft)));
 	tb->setVisible(quazaaSettings.Chat.Layout == "tabs");
 
 	QColor color(quazaaSettings.Chat.Colors.value(IrcColorType::Highlight));
 	setTabTextColor(Alert, color);
 	setTabTextColor(Highlight, color);
 
-	foreach(WidgetIrcMessageView * view, d.views)
+	foreach(CWidgetIrcMessageView * view, d.views)
 		view->applySettings();
 }

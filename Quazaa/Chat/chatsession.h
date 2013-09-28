@@ -28,7 +28,7 @@
 #include "networkconnection.h"
 #include <QUuid>
 
-class WidgetPrivateMessage;
+class CWidgetPrivateMessage;
 class G2Packet;
 class QTextDocument;
 
@@ -47,7 +47,7 @@ class CChatSession : public CNetworkConnection
 {
 	Q_OBJECT
 protected:
-	WidgetPrivateMessage* m_pWidget;
+	CWidgetPrivateMessage* m_pWidget;
 	bool				  m_bShareaza;
 public:
 	QUuid			  m_oGUID;
@@ -62,7 +62,7 @@ public:
 
 	virtual void OnTimer(quint32 tNow);
 
-	void SetupWidget(WidgetPrivateMessage* pWg);
+	void SetupWidget(CWidgetPrivateMessage* pWg);
 
 signals:
 	void incomingMessage(QString, bool = false);

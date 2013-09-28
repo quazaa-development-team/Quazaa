@@ -104,7 +104,7 @@ QWidget* WidgetIrcHomePage::createBody(QWidget* parent) const
 
 void WidgetIrcHomePage::showSettings()
 {
-    DialogIrcSettings* dlgIrcSettings = new DialogIrcSettings(this);
+    CDialogIrcSettings* dlgIrcSettings = new CDialogIrcSettings(this);
 
     dlgIrcSettings->exec();
 }

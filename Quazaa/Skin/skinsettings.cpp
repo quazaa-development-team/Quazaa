@@ -6,9 +6,9 @@
 #include <QFont>
 #include <QPalette>
 
-SkinSettings skinSettings;
+CSkinSettings skinSettings;
 
-SkinSettings::SkinSettings(QObject *parent) :
+CSkinSettings::CSkinSettings(QObject *parent) :
  QObject(parent)
 {
 	CQuazaaSysInfo *sysInfo = new CQuazaaSysInfo();
@@ -58,7 +58,7 @@ SkinSettings::SkinSettings(QObject *parent) :
 	}
 }
 
-void SkinSettings::setGenericSkin()
+void CSkinSettings::setGenericSkin()
 {
     // Standard Items
     standardItems = "";
@@ -115,7 +115,7 @@ void SkinSettings::setGenericSkin()
 
 }
 
-void SkinSettings::setLunaskin()
+void CSkinSettings::setLunaskin()
 {
 	// ListViews
 	listViews = "QAbstractItemView { border: 1px solid rgb(127, 157, 185); color: black; background-color: white; selection-color: white; selection-background-color: rgb(22, 101, 203); } QHeaderView::section, QHeaderView::section:checked, QHeaderView::section:selected { border-image: url(:/Resource/Luna/itemViewHeader.png); color: black; padding-left: 4px; border: 3px solid transparent; } QHeaderView::section:hover { border-image: url(:/Resource/Luna/itemViewHeaderHoverChecked.png); } /* style the sort indicator */ QHeaderView::down-arrow {  image: url(:/Resource/scrollDownArrow.png); } QHeaderView::up-arrow {  image: url(:/Resource/scrollUpArrow.png); }";
@@ -169,7 +169,7 @@ void SkinSettings::setLunaskin()
 	listsWeightHighlighted = QFont().weight();
 }
 
-void SkinSettings::setAeroSkin()
+void CSkinSettings::setAeroSkin()
 {
 	// Standard Items
 	standardItems = "";

@@ -35,7 +35,7 @@ class UserViewMenu : public QMenu
     Q_OBJECT
 
 public:
-    UserViewMenu(const QString& user, WidgetIrcMessageView* view) :
+    UserViewMenu(const QString& user, CWidgetIrcMessageView* view) :
         QMenu(view), user(user), view(view)
     {
     }
@@ -54,10 +54,10 @@ private slots:
 
 private:
     QString user;
-    WidgetIrcMessageView* view;
+    CWidgetIrcMessageView* view;
 };
 
-QMenu* MenuFactory::createUserViewMenu(const QString& user, WidgetIrcMessageView* view)
+QMenu* MenuFactory::createUserViewMenu(const QString& user, CWidgetIrcMessageView* view)
 {
     UserViewMenu* menu = new UserViewMenu(user, view);
     menu->addAction(tr("Whois"), menu, SLOT(onWhoisTriggered()));
@@ -70,7 +70,7 @@ class TabViewMenu : public QMenu
     Q_OBJECT
 
 public:
-    TabViewMenu(WidgetIrcMessageView* view, SessionTabWidget* tab) :
+    TabViewMenu(CWidgetIrcMessageView* view, SessionTabWidget* tab) :
         QMenu(tab), view(view), tab(tab)
     {
     }
@@ -111,15 +111,15 @@ private slots:
     }
 
 private:
-    WidgetIrcMessageView* view;
+    CWidgetIrcMessageView* view;
     SessionTabWidget* tab;
 };
 
-QMenu* MenuFactory::createTabViewMenu(WidgetIrcMessageView* view, SessionTabWidget* tab)
+QMenu* MenuFactory::createTabViewMenu(CWidgetIrcMessageView* view, SessionTabWidget* tab)
 {
     bool active = view->session()->isActive();
     TabViewMenu* menu = new TabViewMenu(view, tab);
-    if (view->viewType() == WidgetIrcMessageView::ServerView) {
+    if (view->viewType() == CWidgetIrcMessageView::ServerView) {
         if (view->session()->isActive())
             menu->addAction(tr("Disconnect"), view->session(), SLOT(quit()));
         else
@@ -127,7 +127,7 @@ QMenu* MenuFactory::createTabViewMenu(WidgetIrcMessageView* view, SessionTabWidg
         menu->addAction(tr("Edit"), menu, SLOT(onEditSession()))->setEnabled(!active);
         menu->addSeparator();
     } else if (active) {
-        if (view->viewType() == WidgetIrcMessageView::ChannelView) {
+        if (view->viewType() == CWidgetIrcMessageView::ChannelView) {
             if (view->userModel()->rowCount()) {
                 menu->addAction(tr("Names"), menu, SLOT(onNamesTriggered()))->setEnabled(active);
                 menu->addAction(tr("Part"), menu, SLOT(onPartTriggered()))->setEnabled(active);
@@ -148,7 +148,7 @@ class UserListMenu : public QMenu
     Q_OBJECT
 
 public:
-    UserListMenu(ListViewIrcUsers* listView) : QMenu(listView), listView(listView)
+    UserListMenu(CListViewIrcUsers* listView) : QMenu(listView), listView(listView)
     {
     }
 
@@ -198,10 +198,10 @@ private slots:
     }
 
 private:
-    ListViewIrcUsers* listView;
+    CListViewIrcUsers* listView;
 };
 
-QMenu* MenuFactory::createUserListMenu(const QString& user, ListViewIrcUsers* listView)
+QMenu* MenuFactory::createUserListMenu(const QString& user, CListViewIrcUsers* listView)
 {
     UserListMenu* menu = new UserListMenu(listView);
 

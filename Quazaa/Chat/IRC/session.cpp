@@ -192,12 +192,12 @@ void Session::setPassword(const QString& password)
     m_password = password;
 }
 
-void Session::setDefaultView(WidgetIrcMessageView *view)
+void Session::setDefaultView(CWidgetIrcMessageView *view)
 {
     m_defaultView = view;
 }
 
-WidgetIrcMessageView *Session::defaultView()
+CWidgetIrcMessageView *Session::defaultView()
 {
     return m_defaultView;
 }
