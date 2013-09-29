@@ -1528,11 +1528,10 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 	}
 	else
 	{
+		hostCache.m_pSection.lock();
 		hostCache.add( addr, common::getTNowUTC() );
+		hostCache.m_pSection.unlock();
 	}
-	hostCache.m_pSection.lock();
-	hostCache.add( addr, common::getTNowUTC() );
-	hostCache.m_pSection.unlock();
 
 	if ( nTTL > 0 && nHops < 255 )
 	{

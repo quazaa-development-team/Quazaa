@@ -64,6 +64,8 @@ CHostCacheHost* CHostCache::add(CEndPoint host, const QDateTime& ts)
 }
 CHostCacheHost* CHostCache::add(CEndPoint host, quint32 tTimeStamp)
 {
+	ASSUME_LOCK(hostCache.m_pSection)
+
 	if ( !host.isValid() )
 	{
 		return NULL;
