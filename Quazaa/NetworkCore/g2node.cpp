@@ -315,7 +315,7 @@ void CG2Node::ParseIncomingHandshake()
 	if( securityManager.isAgentBlocked(m_sUserAgent) )
 	{
 		Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, Security::banSession, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
+		securityManager.ban(m_oAddress, Security::ban2Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
 		return;
 	}
 
@@ -488,7 +488,7 @@ void CG2Node::ParseOutgoingHandshake()
 	if( securityManager.isAgentBlocked(m_sUserAgent) )
 	{
 		Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, Security::banSession, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
+		securityManager.ban(m_oAddress, Security::ban2Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
 		return;
 	}
 
@@ -1528,11 +1528,10 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 	}
 	else
 	{
+		hostCache.m_pSection.lock();
 		hostCache.add( addr, common::getTNowUTC() );
+		hostCache.m_pSection.unlock();
 	}
-	hostCache.m_pSection.lock();
-	hostCache.add( addr, common::getTNowUTC() );
-	hostCache.m_pSection.unlock();
 
 	if ( nTTL > 0 && nHops < 255 )
 	{
