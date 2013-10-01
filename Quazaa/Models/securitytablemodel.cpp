@@ -1,5 +1,5 @@
 ﻿/*
-** $Id$
+** securitytablemodel.cpp
 **** Copyright © Quazaa Development Team, 2009-2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
 **
@@ -317,7 +317,7 @@ QVariant CSecurityTableModel::data(const QModelIndex& index, int role) const
 			return *pRule->m_piAction;
 		}
 	}
-    // TODO: Reimplement formatting options in models.
+	// TODO: Reimplement formatting options in models.
 	/*else if ( role == Qt::ForegroundRole )
 	{
 		switch ( nbr->nState )
