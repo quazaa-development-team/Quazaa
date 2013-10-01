@@ -20,24 +20,24 @@ class Completer;
 
 class LineEditor : public HistoryLineEdit
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    LineEditor(QWidget* parent = 0);
+	LineEditor(QWidget* parent = 0);
 
-    Completer* completer() const;
+	Completer* completer() const;
 
 signals:
-    void send(const QString& text);
-    void typed(const QString& text);
+	void send(const QString& text);
+	void typed(const QString& text);
 
 private slots:
-    void onSend();
+	void onSend();
 
 private:
-    struct Private {
-        Completer* completer;
-    } d;
+	struct Private {
+		Completer* completer;
+	} d;
 };
 
 #endif // LINEEDITOR_H

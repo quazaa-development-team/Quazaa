@@ -61,8 +61,8 @@ public:
 	virtual void ConnectTo(CEndPoint oAddress)
 	{
 		systemLog.postLog( LogSeverity::Information, Components::Network,
-		                   "Initiating neighbour connection to %s...",
-		                   qPrintable( oAddress.toString() ) );
+						   "Initiating neighbour connection to %s...",
+						   qPrintable( oAddress.toString() ) );
 		m_nState = nsConnecting;
 		CNetworkConnection::ConnectTo( oAddress );
 	}

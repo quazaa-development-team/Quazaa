@@ -24,53 +24,53 @@
 #include "streamer.h"
 
 struct ConnectionInfo {
-    ConnectionInfo() : port(6667), secure(false), quit(false) {
-    }
+	ConnectionInfo() : port(6667), secure(false), quit(false) {
+	}
 
-    QString name;
-    QString host;
-    quint16 port;
-    QString nick;
-    QString real;
-    QString pass;
-    bool secure;
-    ChannelInfos channels;
-    QString user;
-    bool quit;
+	QString name;
+	QString host;
+	quint16 port;
+	QString nick;
+	QString real;
+	QString pass;
+	bool secure;
+	ChannelInfos channels;
+	QString user;
+	bool quit;
 };
 Q_DECLARE_METATYPE(ConnectionInfo);
 
 inline QDataStream& operator<<(QDataStream& out, const ConnectionInfo& connection)
 {
-    out << quint32(123); // version
-    out << connection.name;
-    out << connection.host;
-    out << connection.port;
-    out << connection.nick;
-    out << connection.real;
-    out << connection.pass;
-    out << connection.secure;
-    out << connection.channels;
-    out << connection.user;
-    out << connection.quit;
-    return out;
+	out << quint32(123); // version
+	out << connection.name;
+	out << connection.host;
+	out << connection.port;
+	out << connection.nick;
+	out << connection.real;
+	out << connection.pass;
+	out << connection.secure;
+	out << connection.channels;
+	out << connection.user;
+	out << connection.quit;
+	return out;
 }
 
 inline QDataStream& operator>>(QDataStream& in, ConnectionInfo& connection)
 {
-    quint32 version = readStreamValue<quint32>(in, 0);
-    connection.name = readStreamValue<QString>(in, connection.name);
-    connection.host = readStreamValue<QString>(in, connection.host);
-    connection.port = readStreamValue<quint16>(in, connection.port);
-    connection.nick = readStreamValue<QString>(in, connection.nick);
-    connection.real = readStreamValue<QString>(in, connection.real);
-    connection.pass = readStreamValue<QString>(in, connection.pass);
-    connection.secure = readStreamValue<bool>(in, connection.secure);
-    connection.channels = readStreamValue<ChannelInfos>(in, connection.channels);
-    connection.user = readStreamValue<QString>(in, connection.user);
-    connection.quit = readStreamValue<bool>(in, connection.quit);
-    Q_UNUSED(version);
-    return in;
+	quint32 version = readStreamValue<quint32>(in, 0);
+	connection.name = readStreamValue<QString>(in, connection.name);
+	connection.host = readStreamValue<QString>(in, connection.host);
+	connection.port = readStreamValue<quint16>(in, connection.port);
+	connection.nick = readStreamValue<QString>(in, connection.nick);
+	connection.real = readStreamValue<QString>(in, connection.real);
+	connection.pass = readStreamValue<QString>(in, connection.pass);
+	connection.secure = readStreamValue<bool>(in, connection.secure);
+	connection.channels = readStreamValue<ChannelInfos>(in, connection.channels);
+	connection.user = readStreamValue<QString>(in, connection.user);
+	connection.quit = readStreamValue<bool>(in, connection.quit);
+	Q_UNUSED(version);
+	return in;
 }
 
 typedef QList<ConnectionInfo> ConnectionInfos;

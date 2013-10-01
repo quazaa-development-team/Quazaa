@@ -47,7 +47,7 @@ public:
 
 	QList<GeoIPEntry> m_lDatabase;
 
-    CGeoIPList();
+	CGeoIPList();
 	void loadGeoIP();
 	inline QString findCountryCode(const QString& IP) const;
 	inline QString findCountryCode(const QHostAddress& ip) const;

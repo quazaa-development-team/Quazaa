@@ -19,43 +19,43 @@
 
 class TextBrowser : public QTextBrowser
 {
-    Q_OBJECT
-    Q_PROPERTY(int unseenBlock READ unseenBlock WRITE setUnseenBlock)
+	Q_OBJECT
+	Q_PROPERTY(int unseenBlock READ unseenBlock WRITE setUnseenBlock)
 
 public:
-    TextBrowser(QWidget* parent = 0);
+	TextBrowser(QWidget* parent = 0);
 
-    QWidget* buddy() const;
-    void setBuddy(QWidget* buddy);
+	QWidget* buddy() const;
+	void setBuddy(QWidget* buddy);
 
-    int unseenBlock() const;
-    void setUnseenBlock(int block);
+	int unseenBlock() const;
+	void setUnseenBlock(int block);
 
-    QColor unreadLineColor() const;
-    void setUnreadLineColor(const QColor &color);
+	QColor unreadLineColor() const;
+	void setUnreadLineColor(const QColor &color);
 
 public slots:
-    void append(const QString& text);
-    void scrollToTop();
-    void scrollToBottom();
-    void scrollToNextPage();
-    void scrollToPreviousPage();
+	void append(const QString& text);
+	void scrollToTop();
+	void scrollToBottom();
+	void scrollToNextPage();
+	void scrollToPreviousPage();
 
 protected:
-    void keyPressEvent(QKeyEvent* event);
-    void paintEvent(QPaintEvent* event);
-    void resizeEvent(QResizeEvent* event);
-    void wheelEvent(QWheelEvent* event);
+	void keyPressEvent(QKeyEvent* event);
+	void paintEvent(QPaintEvent* event);
+	void resizeEvent(QResizeEvent* event);
+	void wheelEvent(QWheelEvent* event);
 
 
 private slots:
-    void appendBuffer();
+	void appendBuffer();
 
 private:
-    int ub;
-    QWidget* bud;
-    QBrush unreadLineBrush;
-    QStringList buffer;
+	int ub;
+	QWidget* bud;
+	QBrush unreadLineBrush;
+	QStringList buffer;
 };
 
 #endif // TEXTBROWSER_H

@@ -57,12 +57,12 @@ public:
 
 	void SetDownloadLimit(qint32 nLimit)
 	{
-        systemLog.postLog(LogSeverity::Debug, QString("New download limit: %1").arg(nLimit));
+		systemLog.postLog(LogSeverity::Debug, QString("New download limit: %1").arg(nLimit));
 		m_nDownloadLimit = nLimit;
 	}
 	void SetUploadLimit(qint32 nLimit)
 	{
-        systemLog.postLog(LogSeverity::Debug, QString("New upload limit: %1").arg(nLimit));
+		systemLog.postLog(LogSeverity::Debug, QString("New upload limit: %1").arg(nLimit));
 		m_nUploadLimit = nLimit;
 	}
 	qint32 UploadLimit() const

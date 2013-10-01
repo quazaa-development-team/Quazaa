@@ -44,18 +44,18 @@ private:
 
 private:
 	CTimerObject(QObject* obj, const char* member, quint64 tInterval, bool bMultiShot,
-	             QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
-	             QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
-	             QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
-	             QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
-	             QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+				 QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+				 QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+				 QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+				 QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+				 QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
 	CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
-	             QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
-	             QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
-	             QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
-	             QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
-	             QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+				 QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+				 QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+				 QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+				 QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+				 QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
 	CTimerObject(const CTimerObject* const pTimerObject);
 
@@ -135,19 +135,19 @@ public slots:
 	// If multiShot is set to true, the slot will be invoqued in the given interval until the signal queue
 	// recieves a pop() request for the signal or the given parent turns invalid.
 	QUuid push(QObject* parent, const char* signal, quint64 tInterval, bool multiShot,
-	           QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
-	           QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
-	           QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
-	           QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
-	           QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+			   QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+			   QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+			   QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+			   QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+			   QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
 	// This schedules a signal to be invoqued once at a given schedule time tSchedule (UTC).
 	QUuid push(QObject* parent, const char* signal, quint32 tSchedule,
-	           QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
-	           QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
-	           QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
-	           QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
-	           QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
+			   QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
+			   QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
+			   QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
+			   QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
+			   QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
 	// Removes all scheduled combinations of a given parent and signal/slot from the queue.
 	// If no signal/slot is specified, all entries for the given parent are removed.

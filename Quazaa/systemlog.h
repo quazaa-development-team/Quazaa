@@ -30,31 +30,31 @@
 namespace LogSeverity
 {
 enum Severity { Information, // Inform the user about something
-	            Security,    // security related
-	            Notice,      // Inform the user about something less important
-	            Debug,       // Debugging output
-	            Warning,
-	            Error,
-	            Critical };
+				Security,    // security related
+				Notice,      // Inform the user about something less important
+				Debug,       // Debugging output
+				Warning,
+				Error,
+				Critical };
 }
 
 namespace Components
 {
 enum Component { None         =  0,
-                 Chat         =  1, // P2P chat
-                 IRC          =  2,
-                 Discovery    =  3,
-                 Network      =  4, // global network stuff
-                 Ares         =  5,
-                 BitTorrent   =  6,
-                 eD2k         =  7,
-                 G2           =  8,
-                 Security     =  9,
-                 Library      = 10, // Share manager
-                 Downloads    = 11,
-                 Uploads      = 12,
-                 GUI          = 13,
-                 NoComponents = 14 };
+				 Chat         =  1, // P2P chat
+				 IRC          =  2,
+				 Discovery    =  3,
+				 Network      =  4, // global network stuff
+				 Ares         =  5,
+				 BitTorrent   =  6,
+				 eD2k         =  7,
+				 G2           =  8,
+				 Security     =  9,
+				 Library      = 10, // Share manager
+				 Downloads    = 11,
+				 Uploads      = 12,
+				 GUI          = 13,
+				 NoComponents = 14 };
 }
 
 class CSystemLog : public QObject
@@ -64,8 +64,8 @@ private:
 	QString* m_pComponents;
 
 public:
-    CSystemLog();
-    ~CSystemLog();
+	CSystemLog();
+	~CSystemLog();
 
 	void start();
 
@@ -76,11 +76,11 @@ signals:
 
 public slots:
 	void postLog(LogSeverity::Severity severity, QString message,
-	             Components::Component component = Components::None);
+				 Components::Component component = Components::None);
 
 public:
 	void postLog(LogSeverity::Severity severity, Components::Component component,
-	             const char* format, ...);
+				 const char* format, ...);
 };
 
 extern CSystemLog systemLog;

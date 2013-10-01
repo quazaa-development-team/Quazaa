@@ -9,7 +9,7 @@ class CDownload;
 
 class CDownloads : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
 	QMutex m_pSection;
 

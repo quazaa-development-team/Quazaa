@@ -32,8 +32,8 @@ public:
 
 	QList<Session*> sessions() const;
 
-    SessionTabWidget* currentWidget() const;
-    SessionTabWidget* widgetAt(int index) const;
+	SessionTabWidget* currentWidget() const;
+	SessionTabWidget* widgetAt(int index) const;
 	SessionTabWidget* sessionWidget(Session* session) const;
 
 	QByteArray saveSplitter() const;
@@ -46,7 +46,7 @@ public slots:
 	void applySettings();
 
 signals:
-    void splitterChanged(const QByteArray& state);
+	void splitterChanged(const QByteArray& state);
 
 private slots:
 	void updateTab(int index = -1);

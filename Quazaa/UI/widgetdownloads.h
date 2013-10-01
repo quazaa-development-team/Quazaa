@@ -63,7 +63,7 @@ private slots:
 	void on_actionOpenTorrent_triggered();
 	void on_tableViewDownloads_clicked(const QModelIndex &index);
 
-    friend class CWidgetTransfers;
+	friend class CWidgetTransfers;
 };
 
 #endif // WIDGETDOWNLOADS_H

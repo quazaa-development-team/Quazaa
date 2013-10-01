@@ -101,7 +101,7 @@ public:
 	// @insert  Inserts a sequence of fragments. An optimized version should be
 	//          written if 2 large containers have to be merged often.
 	// @complexity   ~O( n_insert * log( n ) )
-	template< typename input_iterator >            
+	template< typename input_iterator >
 	range_size_type insert(input_iterator first, input_iterator last)
 	{
 		range_size_type sum = 0;

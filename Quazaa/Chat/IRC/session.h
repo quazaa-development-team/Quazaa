@@ -44,7 +44,7 @@ class Session : public IrcSession
 
 public:
 	explicit Session(QObject* parent = 0);
-    ~Session();
+	~Session();
 
 	QString name() const;
 	void setName(const QString& name);
@@ -54,7 +54,7 @@ public:
 	int autoReconnectDelay() const;
 	void setAutoReconnectDelay(int delay);
 
-    IrcSessionInfo info() const;
+	IrcSessionInfo info() const;
 	ChannelInfos channels() const;
 	Q_INVOKABLE void addChannel(const QString& channel);
 	Q_INVOKABLE void setChannelKey(const QString& channel, const QString& key);
@@ -71,8 +71,8 @@ public:
 	QString password() const;
 	void setPassword(const QString& password);
 
-    void setDefaultView(CWidgetIrcMessageView* view);
-    CWidgetIrcMessageView* defaultView();
+	void setDefaultView(CWidgetIrcMessageView* view);
+	CWidgetIrcMessageView* defaultView();
 
 	ConnectionInfo toConnection() const;
 	void initFrom(const ConnectionInfo& connection);
@@ -127,7 +127,7 @@ private:
 	bool m_quit;
 	QStringList m_alternateNicks;
 	static QNetworkSession* s_network;
-    CWidgetIrcMessageView* m_defaultView;
+	CWidgetIrcMessageView* m_defaultView;
 };
 
 #endif // SESSION_H

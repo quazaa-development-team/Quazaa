@@ -48,31 +48,31 @@ namespace IrcColorType {
 	enum ColorType
 	{
 		Background,
-        Default,
+		Default,
 		Event,
 		Notice,
 		Action,
-        Inactive,
-        Alert,
+		Inactive,
+		Alert,
 		Highlight,
 		TimeStamp,
-        Link,
-        White,
-        Black,
-        Blue,
-        Green,
-        Red,
-        Brown,
-        Purple,
-        Orange,
-        Yellow,
-        LightGreen,
-        Cyan,
-        LightCyan,
-        LightBlue,
-        Pink,
-        Gray,
-        LightGray
+		Link,
+		White,
+		Black,
+		Blue,
+		Green,
+		Red,
+		Brown,
+		Purple,
+		Orange,
+		Yellow,
+		LightGreen,
+		Cyan,
+		LightCyan,
+		LightBlue,
+		Pink,
+		Gray,
+		LightGray
 	};
 }
 
@@ -140,10 +140,10 @@ namespace Settings
 		bool		ConnectOnStartup;						// Connect to the chat server and enter rooms on startup
 		bool		EnableFileTransfers;					// Enable Irc File Transfers
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
-        QString     TimestampFormat;                        // The format of timestamps
+		QString     TimestampFormat;                        // The format of timestamps
 		int			MaxBlockCount;							// This limits how many blocks(lines) can be in a message view
 		QString		Layout;									// Tree layout or tabbed layout
-        bool		StripNicks;								// Strip host information from nicks
+		bool		StripNicks;								// Strip host information from nicks
 
 		QStringList Hosts;									// The list of hosts in the connect dialog
 		QStringList NickNames;								// The list of nick names in the connect dialog
@@ -155,7 +155,7 @@ namespace Settings
 		QHash<int, bool> Highlights;
 		QHash<int, QString> Colors;
 		QHash<int, QString> Shortcuts;
-        QMap<QString, QString> Aliases;                     // Command aliases
+		QMap<QString, QString> Aliases;                     // Command aliases
 	};
 
 	struct sConnection
@@ -172,7 +172,7 @@ namespace Settings
 		quint32		TimeoutConnect;							// Time to wait for a connection before dropping the connection
 		quint32		TimeoutTraffic;							// Time to wait for general network communications before dropping a connection
 		QStringList	PreferredCountries;						// Country preference
-        quint32     UDPOutLimitPPS;                         // Packets per second limiter
+		quint32     UDPOutLimitPPS;                         // Packets per second limiter
 	};
 
 	struct sDiscovery
@@ -632,9 +632,9 @@ namespace Settings
 		int			ActivitySplitterRestoreBottom;			// The width left side of the search results splitter should restore to when right clicked
 		bool		ChatRoomsTaskVisible;					// The Rooms task in the Chat sidebar
 		bool		ChatFriendsTaskVisible;					// The Friends task in the Chat sidebar
-        QByteArray	ChatUserListSplitter;                   // The chat splitter
-        QByteArray	ChatTreeWidget;                         // The list order in the server/channel tree
-        QByteArray  ChatTreeWidgetSplitter;                   // The splitter for the server/channel list
+		QByteArray	ChatUserListSplitter;                   // The chat splitter
+		QByteArray	ChatTreeWidget;                         // The list order in the server/channel tree
+		QByteArray  ChatTreeWidgetSplitter;                   // The splitter for the server/channel list
 		QByteArray	ChatToolbars;							// Chat Toolbars
 		QByteArray	DiscoveryHeader;						// Discovery header
 		QByteArray	DiscoveryToolbar;						// Discovery Toolbar
@@ -647,8 +647,8 @@ namespace Settings
 		int			GraphSplitterRestoreLeft;				// The width left side of the home splitter should restore to when right clicked
 		int			GraphSplitterRestoreRight;				// The width left side of the home splitter should restore to when right clicked
 		QByteArray	GraphToolbar;							// Graph Toolbar
-        QByteArray	HitMonitorToolbar;						// Hit Monitor Toolbar
-        QString		HomeSearchString;						// The text typed into the search text box on the home tab
+		QByteArray	HitMonitorToolbar;						// Hit Monitor Toolbar
+		QString		HomeSearchString;						// The text typed into the search text box on the home tab
 		QByteArray	HostCacheSplitter;						// Host Cache splitter position
 		int			HostCacheSplitterRestoreLeft;			// The width left side of the home splitter should restore to when right clicked
 		int			HostCacheSplitterRestoreRight;			// The width left side of the home splitter should restore to when right clicked
@@ -689,10 +689,10 @@ namespace Settings
 		QByteArray	TransfersSplitter;						// Transfers splitter position
 		int			TransfersSplitterRestoreLeft;			// The width left side of the search results splitter should restore to when right clicked
 		int			TransfersSplitterRestoreRight;			// The width left side of the search results splitter should restore to when right clicked
-        QByteArray	TransfersNavigationSplitter;			// Transfers splitter position
-        int			TransfersNavigationSplitterRestoreTop;	// The width left side of the search results splitter should restore to when right clicked
-        int			TransfersNavigationSplitterRestoreBottom;// The width left side of the search results splitter should restore to when right clicked
-        QByteArray	UploadsSplitter;						// Uploads splitter position
+		QByteArray	TransfersNavigationSplitter;			// Transfers splitter position
+		int			TransfersNavigationSplitterRestoreTop;	// The width left side of the search results splitter should restore to when right clicked
+		int			TransfersNavigationSplitterRestoreBottom;// The width left side of the search results splitter should restore to when right clicked
+		QByteArray	UploadsSplitter;						// Uploads splitter position
 		int			UploadsSplitterRestoreTop;				// The top height of the uploads splitter should restore when right clicked
 		int			UploadsSplitterRestoreBottom;			// The bottom height of the uploads splitter should restore when right clicked
 		QByteArray	UploadsToolbar;							// Uploads Toolbar
@@ -706,7 +706,7 @@ class CQuazaaSettings : public QObject
 
 public:
 	QTranslator translator;
-    CQuazaaSettings();
+	CQuazaaSettings();
 	void saveSettings();
 	void loadSettings();
 	void saveChatConnections();

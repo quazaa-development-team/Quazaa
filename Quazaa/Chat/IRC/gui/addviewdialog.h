@@ -24,27 +24,27 @@ class QDialogButtonBox;
 
 class AddViewDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    AddViewDialog(Session* session, QWidget* parent = 0);
+	AddViewDialog(Session* session, QWidget* parent = 0);
 
-    QString view() const;
-    QString password() const;
-    Session* session() const;
+	QString view() const;
+	QString password() const;
+	Session* session() const;
 
 private slots:
-    void updateUi();
+	void updateUi();
 
 private:
-    struct Private {
-        Session* session;
-        QLabel* viewLabel;
-        QLabel* passLabel;
-        QLineEdit* viewEdit;
-        QLineEdit* passEdit;
-        QDialogButtonBox* buttonBox;
-    } d;
+	struct Private {
+		Session* session;
+		QLabel* viewLabel;
+		QLabel* passLabel;
+		QLineEdit* viewEdit;
+		QLineEdit* passEdit;
+		QDialogButtonBox* buttonBox;
+	} d;
 };
 
 #endif // ADDVIEWDIALOG_H

@@ -51,7 +51,7 @@ public:
 
 public:
 	CHandshakes(QObject* parent = 0);
-    virtual ~CHandshakes();
+	virtual ~CHandshakes();
 
 	bool IsFirewalled()
 	{
@@ -71,9 +71,9 @@ signals:
 
 protected:
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-    void incomingConnection(int handle);
+	void incomingConnection(int handle);
 #else
-    void incomingConnection(qintptr handle);
+	void incomingConnection(qintptr handle);
 #endif
 	void RemoveHandshake(CHandshake* pHs);
 

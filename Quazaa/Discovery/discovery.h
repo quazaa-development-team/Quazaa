@@ -311,7 +311,7 @@ public:
 	 * to the system log.
 	 */
 	static void postLog(LogSeverity::Severity severity, QString message,
-	                    bool bDebug = false, TServiceID nID = 0);
+						bool bDebug = false, TServiceID nID = 0);
 
 	/* ========================================================================================== */
 	/* ======================================== Signals  ======================================== */

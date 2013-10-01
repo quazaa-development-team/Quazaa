@@ -20,26 +20,26 @@ class QTextEdit;
 
 class SearchEditor : public HistoryLineEdit
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    SearchEditor(QWidget* parent = 0);
+	SearchEditor(QWidget* parent = 0);
 
-    QTextEdit* textEdit() const;
-    void setTextEdit(QTextEdit* textEdit);
+	QTextEdit* textEdit() const;
+	void setTextEdit(QTextEdit* textEdit);
 
 public slots:
-    void find();
-    void findNext();
-    void findPrevious();
+	void find();
+	void findNext();
+	void findPrevious();
 
 protected slots:
-    void find(const QString& text, bool forward = false, bool backward = false);
+	void find(const QString& text, bool forward = false, bool backward = false);
 
 private:
-    struct Private {
-        QTextEdit* textEdit;
-    } d;
+	struct Private {
+		QTextEdit* textEdit;
+	} d;
 };
 
 #endif // SEARCHEDITOR_H

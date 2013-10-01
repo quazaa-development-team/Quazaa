@@ -23,8 +23,8 @@ class CApplication : public QApplication
 	Q_OBJECT
 
 public:
-    CApplication(int& argc, char* argv[]);
-    ~CApplication();
+	CApplication(int& argc, char* argv[]);
+	~CApplication();
 
 	static QString applicationSlogan();
 	static void setApplicationSlogan(const QString& slogan);

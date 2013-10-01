@@ -40,13 +40,13 @@ public:
 
 public slots:
 	void OnRead();
-    void OnConnect();
+	void OnConnect();
 	void OnDisconnect() ;
 	void OnError(QAbstractSocket::SocketError e);
 	void OnStateChange(QAbstractSocket::SocketState s);
 
 private:
-    void OnWebRequest();
+	void OnWebRequest();
 
 };
 

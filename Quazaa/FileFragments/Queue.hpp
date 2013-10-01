@@ -71,7 +71,7 @@ public:
 	void clear() { m_set.clear(); }
 	void push_back(const range_type& value) { m_set.push_back( value ); }
 
-	template< typename input_iterator >            
+	template< typename input_iterator >
 	void insert(input_iterator first, input_iterator last)
 	{
 		for ( ; first != last; ) insert( *first++ );
