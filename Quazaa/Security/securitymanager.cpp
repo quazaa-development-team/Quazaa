@@ -1800,10 +1800,9 @@ void CSecurity::remove(TConstIterator it)
 		return;
 
 	CSecureRule* pRule = *it;
-	CSecureRule::TRuleType type = pRule->type();
 
 	// Removing the rule from special containers for fast access.
-	switch ( type )
+	switch ( pRule->type() )
 	{
 	case CSecureRule::srContentAddress:
 	{
@@ -1939,7 +1938,7 @@ void CSecurity::remove(TConstIterator it)
 #if SECURITY_ENABLE_GEOIP
 		Q_ASSERT( false );
 #else
-		Q_ASSERT( type == CSecureRule::srContentCountry );
+		Q_ASSERT( pRule->type() == CSecureRule::srContentCountry );
 #endif // SECURITY_ENABLE_GEOIP
 	}
 
