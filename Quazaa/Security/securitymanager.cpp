@@ -1923,7 +1923,7 @@ void CSecurity::remove(TConstIterator it)
 		{
 			CUserAgentRule* pIRule = (*i).second;
 
-			if ( ( pIRule->getContentString() == pRule->getContentString() ) )
+			if ( pIRule->m_oUUID == pRule->m_oUUID )
 			{
 				m_UserAgents.erase( i );
 				break;
