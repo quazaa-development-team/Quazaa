@@ -877,7 +877,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress, const QString& /*source*/)
 		postLog( LogSeverity::Security,
 				 tr( "Called first-time IP security check for %s"
 					 ).arg( oAddress.toString() )
-//		         + tr( " ( Call source: %s)" ).arg( source )
+//					+ tr( " ( Call source: %s)" ).arg( source )
 				 );
 	}
 

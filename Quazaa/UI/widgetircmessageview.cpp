@@ -490,6 +490,6 @@ void CWidgetIrcMessageView::receiveMessage(IrcMessage* message)
 bool CWidgetIrcMessageView::hasUser(const QString& user) const
 {
 	return (!d.session->nickName().compare(user, Qt::CaseInsensitive)) ||
-		   (d.viewType == QueryView && !d.receiver.compare(user, Qt::CaseInsensitive)) ||
-		   (d.viewType == ChannelView && d.listView->hasUser(user));
+		(d.viewType == QueryView && !d.receiver.compare(user, Qt::CaseInsensitive)) ||
+		(d.viewType == ChannelView && d.listView->hasUser(user));
 }
