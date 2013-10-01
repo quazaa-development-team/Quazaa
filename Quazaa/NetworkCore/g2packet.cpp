@@ -414,157 +414,157 @@ G2Packet* G2Packet::ReadBuffer(CBuffer* pBuffer)
     }
     else
     {
-		char* pLenIn	= pBuffer->data() + 1;
-		char* pLenOut	= (char*)&nLength;
-		for(char nLenCnt = nLenLen ; nLenCnt-- ;)
-		{
-			*pLenOut++ = *pLenIn++;
-		}
-	}
+        char* pLenIn	= pBuffer->data() + 1;
+        char* pLenOut	= (char*)&nLength;
+        for(char nLenCnt = nLenLen ; nLenCnt-- ;)
+        {
+            *pLenOut++ = *pLenIn++;
+        }
+    }
 
-	if((quint32)pBuffer->size() < (quint32)nLength + nLenLen + nTypeLen + 2)
-	{
-		return 0;
-	}
+    if((quint32)pBuffer->size() < (quint32)nLength + nLenLen + nTypeLen + 2)
+    {
+        return 0;
+    }
 
-	G2Packet* pPacket = G2Packet::New(pBuffer->data());
-	pBuffer->remove(0, nLength + nLenLen + nTypeLen + 2u);
+    G2Packet* pPacket = G2Packet::New(pBuffer->data());
+    pBuffer->remove(0, nLength + nLenLen + nTypeLen + 2u);
 
-	return pPacket;
+    return pPacket;
 }
 
 QString G2Packet::ReadString(quint32 nMaximum)
 {
-	nMaximum = qMin<quint32>(nMaximum, m_nLength - m_nPosition);
-	if(!nMaximum)
-	{
-		return QString();
-	}
+    nMaximum = qMin<quint32>(nMaximum, m_nLength - m_nPosition);
+    if(!nMaximum)
+    {
+        return QString();
+    }
 
-	const uchar* pInput = m_pBuffer + m_nPosition;
-	uchar* pScan = const_cast<uchar*>(pInput);
+    const uchar* pInput = m_pBuffer + m_nPosition;
+    uchar* pScan = const_cast<uchar*>(pInput);
 
-	quint32 nLength = 0;
+    quint32 nLength = 0;
 
-	for(; nLength < nMaximum; nLength++)
-	{
-		m_nPosition++;
-		if(! *pScan)
-		{
-			break;
-		}
-		pScan++;
-	}
+    for(; nLength < nMaximum; nLength++)
+    {
+        m_nPosition++;
+        if(! *pScan)
+        {
+            break;
+        }
+        pScan++;
+    }
 
-	return QString::fromUtf8((char*)pInput, nLength);
+    return QString::fromUtf8((char*)pInput, nLength);
 }
 void G2Packet::WriteString(QString sToWrite, bool bTerminate)
 {
-	QByteArray baUTF8 = sToWrite.toUtf8();
+    QByteArray baUTF8 = sToWrite.toUtf8();
 
-	Ensure(baUTF8.size() + 1);
+    Ensure(baUTF8.size() + 1);
 
-	memcpy(m_pBuffer + m_nLength, baUTF8.constData(), baUTF8.size());
+    memcpy(m_pBuffer + m_nLength, baUTF8.constData(), baUTF8.size());
 
-	m_nLength += baUTF8.size();
+    m_nLength += baUTF8.size();
 
-	if(bTerminate)
-	{
-		m_pBuffer[m_nLength] = 0;
-		++m_nLength;
-	}
+    if(bTerminate)
+    {
+        m_pBuffer[m_nLength] = 0;
+        ++m_nLength;
+    }
 }
 
 QString G2Packet::ToHex() const
 {
-	const char* pszHex = "0123456789ABCDEF";
-	QByteArray strDump;
+    const char* pszHex = "0123456789ABCDEF";
+    QByteArray strDump;
 
-	strDump.resize(m_nLength * 3);
-	char* pszDump = strDump.data();
+    strDump.resize(m_nLength * 3);
+    char* pszDump = strDump.data();
 
-	for(quint32 i = 0 ; i < m_nLength ; i++)
-	{
-		int nChar = m_pBuffer[i];
-		if(i)
-		{
-			*pszDump++ = ' ';
-		}
-		*pszDump++ = pszHex[ nChar >> 4 ];
-		*pszDump++ = pszHex[ nChar & 0x0F ];
-	}
+    for(quint32 i = 0 ; i < m_nLength ; i++)
+    {
+        int nChar = m_pBuffer[i];
+        if(i)
+        {
+            *pszDump++ = ' ';
+        }
+        *pszDump++ = pszHex[ nChar >> 4 ];
+        *pszDump++ = pszHex[ nChar & 0x0F ];
+    }
 
-	*pszDump = 0;
+    *pszDump = 0;
 
-	return strDump;
+    return strDump;
 }
 
 QString G2Packet::ToASCII() const
 {
-	QByteArray strDump;
+    QByteArray strDump;
 
-	strDump.resize(m_nLength + 1);
-	char* pszDump = strDump.data();
+    strDump.resize(m_nLength + 1);
+    char* pszDump = strDump.data();
 
-	for(uint i = 0 ; i < m_nLength ; i++)
-	{
-		int nChar = m_pBuffer[i];
-		*pszDump++ = (nChar >= 32 ? nChar : '.');
-	}
+    for(uint i = 0 ; i < m_nLength ; i++)
+    {
+        int nChar = m_pBuffer[i];
+        *pszDump++ = (nChar >= 32 ? nChar : '.');
+    }
 
-	*pszDump = 0;
+    *pszDump = 0;
 
-	return strDump;
+    return strDump;
 }
 
 bool G2Packet::GetTo(QUuid& pGUID)
 {
-	if(m_bCompound == false)
-	{
-		return false;
-	}
-	if(GetRemaining() < 4 + 16)
-	{
-		return false;
-	}
+    if(m_bCompound == false)
+    {
+        return false;
+    }
+    if(GetRemaining() < 4 + 16)
+    {
+        return false;
+    }
 
-	uchar* pTest = m_pBuffer + m_nPosition;
+    uchar* pTest = m_pBuffer + m_nPosition;
 
-	if(pTest[0] != 0x48)
-	{
-		return false;
-	}
-	if(pTest[1] != 0x10)
-	{
-		return false;
-	}
-	if(pTest[2] != 'T')
-	{
-		return false;
-	}
-	if(pTest[3] != 'O')
-	{
-		return false;
-	}
+    if(pTest[0] != 0x48)
+    {
+        return false;
+    }
+    if(pTest[1] != 0x10)
+    {
+        return false;
+    }
+    if(pTest[2] != 'T')
+    {
+        return false;
+    }
+    if(pTest[3] != 'O')
+    {
+        return false;
+    }
 
-	m_nPosition = 4;
-	pGUID = ReadGUID();
-	m_nPosition = 0;
+    m_nPosition = 4;
+    pGUID = ReadGUID();
+    m_nPosition = 0;
 
-	return true;
+    return true;
 }
 
 void G2PacketPool::Clear()
 {
-	for(int nIndex = m_pPools.size() - 1 ; nIndex >= 0 ; nIndex--)
-	{
-		G2Packet* pPool = (G2Packet*)m_pPools[ nIndex ];
-		delete [] pPool;
-	}
+    for(int nIndex = m_pPools.size() - 1 ; nIndex >= 0 ; nIndex--)
+    {
+        G2Packet* pPool = (G2Packet*)m_pPools[ nIndex ];
+        delete [] pPool;
+    }
 
-	m_pPools.clear();;
-	m_pFree = 0;
-	m_nFree = 0;
+    m_pPools.clear();;
+    m_pFree = 0;
+    m_nFree = 0;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -572,181 +572,181 @@ void G2PacketPool::Clear()
 
 void G2PacketPool::NewPool()
 {
-	G2Packet* pPool = 0;
-	int nPitch = 0, nSize = 256;
+    G2Packet* pPool = 0;
+    int nPitch = 0, nSize = 256;
 
-	nPitch	= sizeof(G2Packet);
-	pPool	= new G2Packet[ nSize ];
+    nPitch	= sizeof(G2Packet);
+    pPool	= new G2Packet[ nSize ];
 
-	m_pPools.append(pPool);
+    m_pPools.append(pPool);
 
-	char* pchars = (char*)pPool;
+    char* pchars = (char*)pPool;
 
-	while(nSize-- > 0)
-	{
-		pPool = (G2Packet*)pchars;
-		pchars += nPitch;
+    while(nSize-- > 0)
+    {
+        pPool = (G2Packet*)pchars;
+        pchars += nPitch;
 
-		pPool->m_pNext = m_pFree;
-		m_pFree = pPool;
-		m_nFree++;
-	}
+        pPool->m_pNext = m_pFree;
+        m_pFree = pPool;
+        m_nFree++;
+    }
 }
 
 G2Packet * G2Packet::AddOrReplaceChild(const char* pFind, G2Packet *pReplacement, bool bRelease, bool bPreserveExtensions)
 {
-	m_nPosition = 0; // start at zero
+    m_nPosition = 0; // start at zero
 
-	if( !m_bCompound )
-	{
-		// not a compound packet, just prepend this child
-		return PrependPacket(pReplacement, bRelease);
-	}
+    if( !m_bCompound )
+    {
+        // not a compound packet, just prepend this child
+        return PrependPacket(pReplacement, bRelease);
+    }
 
-	G2Packet* pNew = G2Packet::New(m_sType, m_bCompound);
+    G2Packet* pNew = G2Packet::New(m_sType, m_bCompound);
 
-	char szType[9];
-	quint32 nLength = 0, nNext = 0;
-	bool bCompound = false, bFound = false;
+    char szType[9];
+    quint32 nLength = 0, nNext = 0;
+    bool bCompound = false, bFound = false;
 
-	while(ReadPacket(&szType[0], nLength, &bCompound))
-	{
-		nNext = m_nPosition + nLength;
+    while(ReadPacket(&szType[0], nLength, &bCompound))
+    {
+        nNext = m_nPosition + nLength;
 
-		if(strcmp(pFind, szType) == 0)
-		{
-			bFound = true;
-			if(!bPreserveExtensions || !bCompound)
-			{
-				pNew->WritePacket(pReplacement);
-			}
-			else
-			{
-				// if this is a compound packet, we need to copy child packets
+        if(strcmp(pFind, szType) == 0)
+        {
+            bFound = true;
+            if(!bPreserveExtensions || !bCompound)
+            {
+                pNew->WritePacket(pReplacement);
+            }
+            else
+            {
+                // if this is a compound packet, we need to copy child packets
 
-				quint32 nCompoundLength = nLength;
-				uchar* pStart = m_pBuffer + m_nPosition;
-				SkipCompound(nLength);
-				nCompoundLength -= nLength;
+                quint32 nCompoundLength = nLength;
+                uchar* pStart = m_pBuffer + m_nPosition;
+                SkipCompound(nLength);
+                nCompoundLength -= nLength;
 
-				G2Packet* pReplace = G2Packet::New(pReplacement->m_sType, true);
-				pReplace->Write(pStart, nCompoundLength);
-				if( !pReplacement->m_bCompound && pReplacement->m_nLength > 0 )
-					pReplace->WriteByte(0);
-				pReplace->Write(pReplacement->m_pBuffer, pReplacement->m_nLength);
-				pNew->WritePacket(pReplace);
-				pReplace->Release();
-			}
-		}
-		else
-		{
-			pNew->WritePacket(szType, nLength, bCompound);
-			pNew->Write(m_pBuffer + m_nPosition, nLength);
-		}
+                G2Packet* pReplace = G2Packet::New(pReplacement->m_sType, true);
+                pReplace->Write(pStart, nCompoundLength);
+                if( !pReplacement->m_bCompound && pReplacement->m_nLength > 0 )
+                    pReplace->WriteByte(0);
+                pReplace->Write(pReplacement->m_pBuffer, pReplacement->m_nLength);
+                pNew->WritePacket(pReplace);
+                pReplace->Release();
+            }
+        }
+        else
+        {
+            pNew->WritePacket(szType, nLength, bCompound);
+            pNew->Write(m_pBuffer + m_nPosition, nLength);
+        }
 
-		m_nPosition = nNext;
-	}
+        m_nPosition = nNext;
+    }
 
-	if( !bFound )
-	{
-		pNew->Release();
-		return PrependPacket(pReplacement, bRelease);
-	}
+    if( !bFound )
+    {
+        pNew->Release();
+        return PrependPacket(pReplacement, bRelease);
+    }
 
-	if( GetRemaining() )
-	{
-		pNew->WriteByte(0);
-		pNew->Write(m_pBuffer + m_nPosition, m_nLength - m_nPosition);
-	}
+    if( GetRemaining() )
+    {
+        pNew->WriteByte(0);
+        pNew->Write(m_pBuffer + m_nPosition, m_nLength - m_nPosition);
+    }
 
-	uchar*  pBuff = m_pBuffer;
-	quint32 nBuff = m_nBuffer;
-	m_pBuffer = pNew->m_pBuffer;
-	m_nBuffer = pNew->m_nBuffer;
-	pNew->m_pBuffer = pBuff;
-	pNew->m_nBuffer = nBuff;
-	m_nLength = pNew->m_nLength;
-	m_nPosition = 0;
-	pNew->Release();
-	if( bRelease )
-		pReplacement->Release();
+    uchar*  pBuff = m_pBuffer;
+    quint32 nBuff = m_nBuffer;
+    m_pBuffer = pNew->m_pBuffer;
+    m_nBuffer = pNew->m_nBuffer;
+    pNew->m_pBuffer = pBuff;
+    pNew->m_nBuffer = nBuff;
+    m_nLength = pNew->m_nLength;
+    m_nPosition = 0;
+    pNew->Release();
+    if( bRelease )
+        pReplacement->Release();
 
-	return this;
+    return this;
 }
 
 G2Packet * G2Packet::PrependPacket(G2Packet *pPacket, bool bRelease)
 {
-	if(pPacket == 0)
-	{
-		return 0;
-	}
+    if(pPacket == 0)
+    {
+        return 0;
+    }
 
-	quint32 nLength = pPacket->m_nLength;
+    quint32 nLength = pPacket->m_nLength;
 
-	Q_ASSERT(strlen((char*)&pPacket->m_sType) > 0);
-	Q_ASSERT(nLength <= 0xFFFFFF);
+    Q_ASSERT(strlen((char*)&pPacket->m_sType) > 0);
+    Q_ASSERT(nLength <= 0xFFFFFF);
 
-	char nTypeLen	= (char)(strlen((char*)&pPacket->m_sType) - 1) & 0x07;
-	char nLenLen	= 0;
+    char nTypeLen	= (char)(strlen((char*)&pPacket->m_sType) - 1) & 0x07;
+    char nLenLen	= 0;
 
-	if(nLength)
-	{
-		nLenLen++;
-		if(nLength > 0xFF)
-		{
-			nLenLen++;
-			if(nLength > 0xFFFF)
-			{
-				nLenLen++;
-			}
-		}
-	}
+    if(nLength)
+    {
+        nLenLen++;
+        if(nLength > 0xFF)
+        {
+            nLenLen++;
+            if(nLength > 0xFFFF)
+            {
+                nLenLen++;
+            }
+        }
+    }
 
-	char nFlags = (nLenLen << 6) + (nTypeLen << 3);
+    char nFlags = (nLenLen << 6) + (nTypeLen << 3);
 
-	if(pPacket->m_bCompound)
-	{
-		nFlags |= G2_FLAG_COMPOUND;
-	}
+    if(pPacket->m_bCompound)
+    {
+        nFlags |= G2_FLAG_COMPOUND;
+    }
 
-	quint32 nExpand = 2 + nLenLen + nTypeLen + pPacket->m_nLength + (m_bCompound ? 0 : 1);
-	uchar* pWrite = WriteGetPointer(nExpand, 0);
-	*pWrite = nFlags;
-	pWrite++;
-	memcpy(pWrite, &nLength, nLenLen);
-	pWrite += nLenLen;
-	memcpy(pWrite, &pPacket->m_sType, nTypeLen + 1);
-	pWrite += nTypeLen + 1;
-	memcpy(pWrite, pPacket->m_pBuffer, pPacket->m_nLength);
-	pWrite += pPacket->m_nLength;
-	if(!m_bCompound)
-		*pWrite = 0;
+    quint32 nExpand = 2 + nLenLen + nTypeLen + pPacket->m_nLength + (m_bCompound ? 0 : 1);
+    uchar* pWrite = WriteGetPointer(nExpand, 0);
+    *pWrite = nFlags;
+    pWrite++;
+    memcpy(pWrite, &nLength, nLenLen);
+    pWrite += nLenLen;
+    memcpy(pWrite, &pPacket->m_sType, nTypeLen + 1);
+    pWrite += nTypeLen + 1;
+    memcpy(pWrite, pPacket->m_pBuffer, pPacket->m_nLength);
+    pWrite += pPacket->m_nLength;
+    if(!m_bCompound)
+        *pWrite = 0;
 
-	m_bCompound = true;
+    m_bCompound = true;
 
-	if( bRelease )
-		pPacket->Release();
+    if( bRelease )
+        pPacket->Release();
 
-	return this;
+    return this;
 }
 
 QString G2Packet::Dump() const
 {
-	QString sHex = ToHex();
-	QString sAscii = ToASCII();
-	QString sRet;
+    QString sHex = ToHex();
+    QString sAscii = ToASCII();
+    QString sRet;
 
-	int nOffset = 0;
+    int nOffset = 0;
 
-	sRet = QString("Type: %1, length: %2, compound: %3\nOffset      Hex                             ASCII\n------------------------------------------------------\n").arg(m_sType).arg(m_nLength).arg(m_bCompound);
+    sRet = QString("Type: %1, length: %2, compound: %3\nOffset      Hex                             ASCII\n------------------------------------------------------\n").arg(m_sType).arg(m_nLength).arg(m_bCompound);
 
-	for( ; nOffset < sAscii.length(); nOffset += 10 )
-	{
-		QString sLine("0x%1  %2  %3\n");
+    for( ; nOffset < sAscii.length(); nOffset += 10 )
+    {
+        QString sLine("0x%1  %2  %3\n");
 
-		sRet += sLine.arg(nOffset, 8, 16, QLatin1Char('0')).arg(sHex.mid(nOffset * 3, 10 * 3), -30, QLatin1Char(' ')).arg(sAscii.mid(nOffset, 10));
-	}
+        sRet += sLine.arg(nOffset, 8, 16, QLatin1Char('0')).arg(sHex.mid(nOffset * 3, 10 * 3), -30, QLatin1Char(' ')).arg(sAscii.mid(nOffset, 10));
+    }
 
-	return sRet;
+    return sRet;
 }
 
