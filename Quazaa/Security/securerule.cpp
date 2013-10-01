@@ -147,7 +147,7 @@ void CSecureRule::save(const CSecureRule* const pRule, QDataStream &oStream)
 	oStream << pRule->m_sComment;
 	oStream << pRule->m_oUUID.toString();
 	oStream << pRule->m_tExpire;
-    oStream << pRule->m_nTotal.loadAcquire();
+	oStream << pRule->m_nTotal.loadAcquire();
 
 	oStream << pRule->getContentString();
 
@@ -296,8 +296,8 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 					pos = sMask.indexOf( '.' );
 
 					if ( sMask.isEmpty() ||
-					     ( pos == -1 && ( i != 3 || sMask.length() > 3 ) ) ||
-					     !pos || pos > 2 )
+						 ( pos == -1 && ( i != 3 || sMask.length() > 3 ) ) ||
+						 !pos || pos > 2 )
 					{
 						break;
 					}
@@ -1093,6 +1093,14 @@ bool CUserAgentRule::match(const QString& sUserAgent) const
 	}
 
 	return true;
+}
+
+bool CUserAgentRule::partialMatch(const QString &sUserAgent) const
+{
+	//TODO: Figure out why this is triggered when removing an agent rule
+	Q_ASSERT( m_nType == srContentUserAgent );
+
+	return sUserAgent.contains( m_sContent, Qt::CaseInsensitive );
 }
 
 void CUserAgentRule::toXML(QXmlStreamWriter& oXMLdocument) const

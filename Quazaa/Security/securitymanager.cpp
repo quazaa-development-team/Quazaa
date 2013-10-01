@@ -1918,13 +1918,15 @@ void CSecurity::remove(TConstIterator it)
 
 	case CSecureRule::srContentUserAgent:
 	{
-		TRegExpRuleList::iterator i = m_RegExpressions.begin();
+		TUserAgentRuleMap::iterator i = m_UserAgents.begin();
 
-		while ( i != m_RegExpressions.end() )
+		while ( i != m_UserAgents.end() )
 		{
-			if ( (*i)->m_oUUID == pRule->m_oUUID )
+			CUserAgentRule* pIRule = (*i).second;
+
+			if ( ( pIRule->getContentString() == pRule->getContentString() ) )
 			{
-				m_RegExpressions.erase( i );
+				m_UserAgents.erase( i );
 				break;
 			}
 
@@ -1965,6 +1967,24 @@ bool CSecurity::isAgentDenied(const QString& sUserAgent)
 		CUserAgentRule* pRule = (*i).second;
 
 		if ( !pRule->isExpired( tNow ) && pRule->match( sUserAgent ) )
+		{
+			hit( pRule );
+
+			if ( pRule->m_nAction == CSecureRule::srAccept )
+				return false;
+			else if ( pRule->m_nAction == CSecureRule::srDeny )
+				return true;
+		}
+	}
+
+	i = m_UserAgents.begin();
+	CUserAgentRule* pRule;
+	while ( i != m_UserAgents.end() )
+	{
+		pRule = (*i).second;
+		++i;
+
+		if ( !pRule->isExpired( tNow ) && pRule->partialMatch( sUserAgent ) )
 		{
 			hit( pRule );
 
