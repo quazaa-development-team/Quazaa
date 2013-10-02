@@ -1031,5 +1031,7 @@
         <file>Resource/Flags/zz.png</file>
         <file>Resource/Flags/enlang.png</file>
         <file>Resource/Flags/eslang.png</file>
+        <file>Resource/Credits/qBittorrent.png</file>
+        <file>Resource/Credits/eMule.png</file>
     </qresource>
 </RCC>
