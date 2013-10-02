@@ -441,10 +441,39 @@ public:
 void CSecurityTableModel::sort(int column, Qt::SortOrder order)
 {
 	m_nSortColumn = column;
-	m_nSortOrder = order;
+	m_nSortOrder  = order;
 
 	emit layoutAboutToBeChanged();
+
+	// I hope this is the correct way to convince Qt...
+	QModelIndexList oldIdx = persistentIndexList();
+	QModelIndexList newIdx = oldIdx;
+
 	qStableSort( m_lNodes.begin(), m_lNodes.end(), CSecurityTableModelCmp( column, order ) );
+
+	for ( int i = 0; i < oldIdx.size(); ++i ) // For each persistent index
+	{
+		int oldRow = oldIdx.at(i).row();
+
+		// if oldRow is outside range
+		if ( oldRow > m_lNodes.size()
+				// or the index points to another item
+				|| oldIdx.at(i).internalPointer() != m_lNodes.at(oldRow) )
+		{
+			// find the correct item and update persistent index
+			for ( int j = 0; j < m_lNodes.size(); ++j )
+			{
+				if ( oldIdx.at(i).internalPointer() == m_lNodes.at(j) )
+				{
+					newIdx[i] = createIndex( j, oldIdx.at(i).column(),
+											 oldIdx.at(i).internalPointer() );
+					break;
+				}
+			}
+		}
+	}
+
+	changePersistentIndexList( oldIdx, newIdx );
 	emit layoutChanged();
 }
 
