@@ -29,3 +29,7 @@ Makefile.Release
 /Quazaa/bin/libssl32.dll
 /Quazaa/bin/ssleay32.dll
 /Quazaa/release
+
+/Quazaa/object_script.Quazaa.Release
+
+/Quazaa/object_script.Quazaa_debug.Debug
