@@ -614,6 +614,16 @@ void CSecurity::ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bM
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
+	case ban6Hours:
+		pIPRule->m_tExpire  = tNow + 21600;
+		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+		break;
+
+	case ban12Hours:
+		pIPRule->m_tExpire  = tNow + 43200;
+		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+		break;
+
 	case ban1Day:
 		pIPRule->m_tExpire  = tNow + 86400;
 		pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
