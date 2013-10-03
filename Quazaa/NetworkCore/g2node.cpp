@@ -315,7 +315,7 @@ void CG2Node::ParseIncomingHandshake()
 	if( securityManager.isAgentBlocked(m_sUserAgent) )
 	{
 		Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, Security::ban2Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
+		securityManager.ban(m_oAddress, Security::ban6Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
 		return;
 	}
 
@@ -488,7 +488,7 @@ void CG2Node::ParseOutgoingHandshake()
 	if( securityManager.isAgentBlocked(m_sUserAgent) )
 	{
 		Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, Security::ban2Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
+		securityManager.ban(m_oAddress, Security::ban6Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
 		return;
 	}
 
@@ -1108,7 +1108,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 				if ( !sVendor.isEmpty() && securityManager.isVendorBlocked( sVendor ) )
 				{
-					securityManager.ban( ep, Security::ban2Hours, true,
+					securityManager.ban( ep, Security::ban6Hours, true,
 										 QString( "[AUTO] Vendor blocked (%1)" ).arg( sVendor ) );
 				}
 				else
@@ -1357,7 +1357,7 @@ void CG2Node::OnQH2(G2Packet* pPacket)
 
 	if( securityManager.isVendorBlocked( pInfo->m_sVendor ) ) // Block foxy client search results. We can't download from them any way.
 	{
-		securityManager.ban( pInfo->m_oNodeAddress, Security::ban2Hours, true,
+		securityManager.ban( pInfo->m_oNodeAddress, Security::ban6Hours, true,
 							 QString( "[AUTO] Vendor blocked (%1)" ).arg( pInfo->m_sVendor ) );
 	} else {
 		if(SearchManager.OnQueryHit(pPacket, pInfo))
@@ -1528,7 +1528,7 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 
 	if( !strVendor.isEmpty() && securityManager.isVendorBlocked(strVendor) )
 	{
-		securityManager.ban(addr, Security::ban2Hours, true, QString("[AUTO] Vendor blocked (%1)").arg(strVendor));
+		securityManager.ban(addr, Security::ban6Hours, true, QString("[AUTO] Vendor blocked (%1)").arg(strVendor));
 		return;	// We don't want to propagate these...
 	}
 	else
