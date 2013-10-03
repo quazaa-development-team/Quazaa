@@ -41,7 +41,7 @@ CDiscoveryService::CDiscoveryService(const QUrl& oURL, const CNetworkType& oNTyp
 	m_oNetworkType( oNType ),
 	m_oServiceURL( oURL ),
 	m_bQuery( true ),
-    m_bBanned( false ),
+	m_bBanned( false ),
 	m_nRating( nRating ),
 	m_nProbaMult( ( nRating > DISCOVERY_MAX_PROBABILITY ) ? DISCOVERY_MAX_PROBABILITY : nRating ),
 	m_bZero( true ),    // mark service as having been zero -> gets downrated fast if non functional
@@ -187,7 +187,7 @@ void CDiscoveryService::load(CDiscoveryService*& pService, QDataStream &fsFile, 
 
 #if ENABLE_DISCOVERY_DEBUGGING
 		QString s = QString( "Rating: " )         + QString::number( pService->m_nRating ) +
-		            QString( " Multiplicator: " ) + QString::number( pService->m_nProbaMult );
+					QString( " Multiplicator: " ) + QString::number( pService->m_nProbaMult );
 		pService->postLog( LogSeverity::Debug, s, true );
 #endif
 	}
@@ -292,7 +292,7 @@ void CDiscoveryService::update()
 	m_oRWLock.unlock();
 
 	m_oSQCancelRequestID = signalQueue.push( this, SLOT( cancelRequest() ), common::getTNowUTC() +
-	                                         quazaaSettings.Discovery.ServiceTimeout );
+											 quazaaSettings.Discovery.ServiceTimeout );
 
 	emit updated( m_nID ); // notify GUI
 }
@@ -328,7 +328,7 @@ void CDiscoveryService::query()
 #endif
 
 	m_oSQCancelRequestID = signalQueue.push( this, SLOT( cancelRequest() ), common::getTNowUTC() +
-	                                         quazaaSettings.Discovery.ServiceTimeout );
+											 quazaaSettings.Discovery.ServiceTimeout );
 
 	emit updated( m_nID ); // notify GUI
 
@@ -387,9 +387,9 @@ void CDiscoveryService::updateStatistics(quint16 nHosts, quint16 nURLs, bool bUp
 {
 #if ENABLE_DISCOVERY_DEBUGGING
 	postLog( LogSeverity::Debug,
-	         QString( "Updating Statistics: Query %1, Hosts %2, URLs %3, UpdateOK %4"
-	                  ).arg( QString::number( m_bQuery ), QString::number( nHosts ),
-	                         QString::number( nURLs ),    QString::number( bUpdateOK ) ), true );
+			 QString( "Updating Statistics: Query %1, Hosts %2, URLs %3, UpdateOK %4"
+					  ).arg( QString::number( m_bQuery ), QString::number( nHosts ),
+							 QString::number( nURLs ),    QString::number( bUpdateOK ) ), true );
 #endif
 
 	// remove cancel request from signal queue
@@ -420,41 +420,47 @@ void CDiscoveryService::updateStatistics(quint16 nHosts, quint16 nURLs, bool bUp
 	}
 	else // fail
 	{
-		++m_nFailures;
+		// Check network connected status and skip this if network is not connected
+		QSharedPointer<QNetworkAccessManager> pNAM = discoveryManager.requestNAM();
 
-		if ( m_bZero ) // We're dealing with a newly revived service
-		{              // that has been known to fail in the past.
-			// revival failed
-			setRating( 0 );
-
-			if ( m_nZeroRevivals >= quazaaSettings.Discovery.ZeroRatingRevivalTries )
-			{
-				// Maximum allowed revival tries reached. Assume service no longer operational.
-				m_bBanned = true;
-			}
-		}
-		else
+		if ( pNAM->networkAccessible() == QNetworkAccessManager::Accessible )
 		{
-			if ( quazaaSettings.Discovery.FailureLimit &&
-				 m_nFailures >= quazaaSettings.Discovery.FailureLimit )
-			{
-				// maximum allowed failures reached
+			++m_nFailures;
+
+			if ( m_bZero ) // We're dealing with a newly revived service
+			{              // that has been known to fail in the past.
+				// revival failed
 				setRating( 0 );
+
+				if ( m_nZeroRevivals >= quazaaSettings.Discovery.ZeroRatingRevivalTries )
+				{
+					// Maximum allowed revival tries reached. Assume service no longer operational.
+					m_bBanned = true;
+				}
 			}
 			else
 			{
-				// decrease rating by 1
-				setRating( (m_nRating > 0) ? m_nRating - 1 : 0 );
-			}
-
-			if ( !m_nRating )
-			{
-				m_bZero = true;
-
-				// if no retrial at a later time is wanted, ban the service for good
-				if ( !quazaaSettings.Discovery.ZeroRatingRevivalTries )
+				if ( quazaaSettings.Discovery.FailureLimit &&
+					 m_nFailures >= quazaaSettings.Discovery.FailureLimit )
 				{
-					m_bBanned = true;
+					// maximum allowed failures reached
+					setRating( 0 );
+				}
+				else
+				{
+					// decrease rating by 1
+					setRating( (m_nRating > 0) ? m_nRating - 1 : 0 );
+				}
+
+				if ( !m_nRating )
+				{
+					m_bZero = true;
+
+					// if no retrial at a later time is wanted, ban the service for good
+					if ( !quazaaSettings.Discovery.ZeroRatingRevivalTries )
+					{
+						m_bBanned = true;
+					}
 				}
 			}
 		}
