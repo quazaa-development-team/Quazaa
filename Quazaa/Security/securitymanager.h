@@ -52,7 +52,8 @@ namespace Security
 
 typedef enum
 {
-	banSession, ban5Mins, ban30Mins, ban2Hours, ban6Hours, ban12Hours, ban1Day, banWeek, banMonth, banForever
+	banForever = 0, banSession = 1, ban5Mins = 300, ban30Mins = 1800, ban2Hours = 7200,
+	ban6Hours = 21600, ban12Hours = 42300, ban1Day = 86400, banWeek = 604800, banMonth = 2592000
 } TBanLength;
 
 class CSecurity : public QObject

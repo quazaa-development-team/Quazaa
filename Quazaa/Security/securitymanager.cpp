@@ -533,35 +533,35 @@ void CSecurity::ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bM
 				return;
 
 			case ban5Mins:
-				pIPRule->m_tExpire = tNow + 300;
+				pIPRule->m_tExpire = tNow + ban5Mins;
 				break;
 
 			case ban30Mins:
-				pIPRule->m_tExpire = tNow + 1800;
+				pIPRule->m_tExpire = tNow + ban30Mins;
 				break;
 
 			case ban2Hours:
-				pIPRule->m_tExpire = tNow + 7200;
+				pIPRule->m_tExpire = tNow + ban2Hours;
 				break;
 
 			case ban6Hours:
-				pIPRule->m_tExpire = tNow + 21600;
+				pIPRule->m_tExpire = tNow + ban6Hours;
 				break;
 
 			case ban12Hours:
-				pIPRule->m_tExpire = tNow + 43200;
+				pIPRule->m_tExpire = tNow + ban12Hours;
 				break;
 
 			case ban1Day:
-				pIPRule->m_tExpire = tNow + 86400;
+				pIPRule->m_tExpire = tNow + ban1Day;
 				break;
 
 			case banWeek:
-				pIPRule->m_tExpire = tNow + 604800;
+				pIPRule->m_tExpire = tNow + banWeek;
 				break;
 
 			case banMonth:
-				pIPRule->m_tExpire = tNow + 2592000;
+				pIPRule->m_tExpire = tNow + banMonth;
 				break;
 
 			case banForever:
@@ -600,42 +600,42 @@ void CSecurity::ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bM
 		break;
 
 	case ban5Mins:
-		pIPRule->m_tExpire  = tNow + 300;
+		pIPRule->m_tExpire  = tNow + ban5Mins;
 		pIPRule->m_sComment = tr( "Temp Ignore (5 min)" );
 		break;
 
 	case ban30Mins:
-		pIPRule->m_tExpire  = tNow + 1800;
+		pIPRule->m_tExpire  = tNow + ban30Mins;
 		pIPRule->m_sComment = tr( "Temp Ignore (30 min)" );
 		break;
 
 	case ban2Hours:
-		pIPRule->m_tExpire  = tNow + 7200;
+		pIPRule->m_tExpire  = tNow + ban2Hours;
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
 	case ban6Hours:
-		pIPRule->m_tExpire  = tNow + 21600;
+		pIPRule->m_tExpire  = tNow + ban6Hours;
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
 	case ban12Hours:
-		pIPRule->m_tExpire  = tNow + 43200;
+		pIPRule->m_tExpire  = tNow + ban12Hours;
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
 	case ban1Day:
-		pIPRule->m_tExpire  = tNow + 86400;
+		pIPRule->m_tExpire  = tNow + ban1Day;
 		pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
 		break;
 
 	case banWeek:
-		pIPRule->m_tExpire  = tNow + 604800;  // 60*60*24 = 1 day
+		pIPRule->m_tExpire  = tNow + banWeek;
 		pIPRule->m_sComment = tr( "Client Block (1 week)" );
 		break;
 
 	case banMonth:
-		pIPRule->m_tExpire  = tNow + 2592000; // 60*60*24*30 = 30 days
+		pIPRule->m_tExpire  = tNow + banMonth;
 		pIPRule->m_sComment = tr( "Quick IP Block (1 month)" );
 		break;
 
