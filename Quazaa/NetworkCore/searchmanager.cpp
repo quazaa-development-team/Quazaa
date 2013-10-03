@@ -308,10 +308,12 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 
 			securityManager.ban(oBanned, Security::ban2Hours, true, tr("[AUTO] Likely Foxy client"));
 
+			hostCache.m_pSection.lock();
 			for( QList<CEndPoint>::iterator itHub = lDone.begin(); itHub != lDone.end(); itHub++ )
 			{
 				hostCache.remove(*itHub);
 			}
+			hostCache.m_pSection.unlock();
 		}
 
 		pSearch->m_nHubs += nHubs;
