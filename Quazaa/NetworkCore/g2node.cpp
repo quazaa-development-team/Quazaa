@@ -1355,22 +1355,27 @@ void CG2Node::OnQH2(G2Packet* pPacket)
 
 	QueryHitInfo* pInfo = CQueryHit::ReadInfo(pPacket, &m_oAddress);
 
-	if(SearchManager.OnQueryHit(pPacket, pInfo))
+	if( securityManager.isVendorBlocked( pInfo->m_sVendor ) ) // Block foxy client search results. We can't download from them any way.
 	{
-		Network.m_pSection.lock();
-
-		if(Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
+		securityManager.ban( pInfo->m_oNodeAddress, Security::ban2Hours, true,
+							 QString( "[AUTO] Vendor blocked (%1)" ).arg( pInfo->m_sVendor ) );
+	} else {
+		if(SearchManager.OnQueryHit(pPacket, pInfo))
 		{
-			Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, this, false);
-			pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
-			Network.RoutePacket(pInfo->m_oGUID, pPacket);
+			Network.m_pSection.lock();
+
+			if(Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
+			{
+				Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, this, false);
+				pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
+				Network.RoutePacket(pInfo->m_oGUID, pPacket);
+			}
+
+			Network.m_pSection.unlock();
+
+			delete pInfo;
 		}
-
-		Network.m_pSection.unlock();
-
-		delete pInfo;
 	}
-
 }
 
 void CG2Node::OnQuery(G2Packet* pPacket)

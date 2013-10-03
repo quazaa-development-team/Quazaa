@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -34,6 +34,7 @@
 #include "systemlog.h"
 #include "querykeys.h"
 #include "query.h"
+#include "Security/securitymanager.h"
 
 #include "HostCache/hostcache.h"
 
@@ -49,7 +50,7 @@ CDatagrams Datagrams;
 
 CDatagrams::CDatagrams()
 {
-    m_nUploadLimit = 32768; // TODO: Upload limiting.
+	m_nUploadLimit = 32768; // TODO: Upload limiting.
 
 	m_pRecvBuffer = new CBuffer();
 	m_pHostAddress = new QHostAddress();
@@ -157,11 +158,11 @@ void CDatagrams::Disconnect()
 
 	disconnect(SIGNAL(SendQueueUpdated()));
 
-    while(!m_AckCache.isEmpty())
-    {
-        QPair<CEndPoint, char*> oAck = m_AckCache.takeFirst();
-        delete [] oAck.second;
-    }
+	while(!m_AckCache.isEmpty())
+	{
+		QPair<CEndPoint, char*> oAck = m_AckCache.takeFirst();
+		delete [] oAck.second;
+	}
 
 	while(!m_SendCache.isEmpty())
 	{
@@ -246,7 +247,7 @@ void CDatagrams::OnReceiveGND()
 	{
 		pDG = m_RecvCache[nIp][nSeq];
 
-        // To give a chance for bigger packages ;)
+		// To give a chance for bigger packages ;)
 		if(pDG->m_nLeft)
 		{
 			pDG->m_tStarted = time(0);
@@ -298,25 +299,25 @@ void CDatagrams::OnReceiveGND()
 		m_RecvCacheTime.prepend(pDG);
 	}
 
-    // It is here, in case if we did not have free datagrams
-    // ACK = I've received a datagram, and if you have received and rejected it, do not send ACK-a
+	// It is here, in case if we did not have free datagrams
+	// ACK = I've received a datagram, and if you have received and rejected it, do not send ACK-a
 	if(pHeader->nFlags & 0x02)
 	{
-        GND_HEADER* pAck = new GND_HEADER;
+		GND_HEADER* pAck = new GND_HEADER;
 
-        memcpy(pAck, pHeader, sizeof(GND_HEADER));
-        pAck->nCount = 0;
-        pAck->nFlags = 0;
+		memcpy(pAck, pHeader, sizeof(GND_HEADER));
+		pAck->nCount = 0;
+		pAck->nFlags = 0;
 
 #ifdef DEBUG_UDP
 		systemLog.postLog(LogSeverity::Debug, "Sending UDP ACK to %s:%u", m_pHostAddress->toString().toLocal8Bit().constData(), m_nPort);
 #endif
 
-        //m_pSocket->writeDatagram((char*)&oAck, sizeof(GND_HEADER), *m_pHostAddress, m_nPort);
-        //m_mOutput.Add(sizeof(GND_HEADER));
-        m_AckCache.append(qMakePair(CEndPoint(*m_pHostAddress, m_nPort), reinterpret_cast<char*>(pAck)));
-        if( m_AckCache.count() == 1 )
-            QMetaObject::invokeMethod(this, "FlushSendCache", Qt::QueuedConnection);
+		//m_pSocket->writeDatagram((char*)&oAck, sizeof(GND_HEADER), *m_pHostAddress, m_nPort);
+		//m_mOutput.Add(sizeof(GND_HEADER));
+		m_AckCache.append(qMakePair(CEndPoint(*m_pHostAddress, m_nPort), reinterpret_cast<char*>(pAck)));
+		if( m_AckCache.count() == 1 )
+			QMetaObject::invokeMethod(this, "FlushSendCache", Qt::QueuedConnection);
 	}
 
 	if(pDG->Add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)))
@@ -485,34 +486,34 @@ void CDatagrams::__FlushSendCache()
 
 	qint64 nToWrite = qint64(m_nUploadLimit) - qint64(m_mOutput.Usage());
 
-    static TCPBandwidthMeter meter;
+	static TCPBandwidthMeter meter;
 
-    // TODO: Maybe make it dynamic? So bad routers are automatically detected and settings adjusted?
-    qint64 nMaxPPS = quazaaSettings.Connection.UDPOutLimitPPS - meter.Usage();
+	// TODO: Maybe make it dynamic? So bad routers are automatically detected and settings adjusted?
+	qint64 nMaxPPS = quazaaSettings.Connection.UDPOutLimitPPS - meter.Usage();
 
-    if( nMaxPPS <= 0 )
-    {
-        systemLog.postLog( LogSeverity::Debug, Components::Network,
-		                   "UDP: PPS limit reached, ACKS: %d, Packets: %d, Average PPS: %u / %u",
-		                   m_AckCache.size(), m_SendCache.size(), meter.AvgUsage(), meter.Usage() );
-        return;
-    }
+	if( nMaxPPS <= 0 )
+	{
+		systemLog.postLog( LogSeverity::Debug, Components::Network,
+						   "UDP: PPS limit reached, ACKS: %d, Packets: %d, Average PPS: %u / %u",
+						   m_AckCache.size(), m_SendCache.size(), meter.AvgUsage(), meter.Usage() );
+		return;
+	}
 
-    while( nToWrite > 0 && !m_AckCache.isEmpty() && nMaxPPS > 0)
-    {
-        QPair< CEndPoint, char* > oAck = m_AckCache.takeFirst();
-        m_pSocket->writeDatagram(oAck.second, sizeof(GND_HEADER), oAck.first, oAck.first.port());
-        m_mOutput.Add(sizeof(GND_HEADER));
-        nToWrite -= sizeof(GND_HEADER);
+	while( nToWrite > 0 && !m_AckCache.isEmpty() && nMaxPPS > 0)
+	{
+		QPair< CEndPoint, char* > oAck = m_AckCache.takeFirst();
+		m_pSocket->writeDatagram(oAck.second, sizeof(GND_HEADER), oAck.first, oAck.first.port());
+		m_mOutput.Add(sizeof(GND_HEADER));
+		nToWrite -= sizeof(GND_HEADER);
 		delete (GND_HEADER*)oAck.second;
-        nMaxPPS--;
-        meter.Add(1);
-    }
+		nMaxPPS--;
+		meter.Add(1);
+	}
 
 	QHostAddress nLastHost;
 
 	// it can write slightly more than limit allows... that's ok
-    while(nToWrite > 0 && !m_SendCache.isEmpty() && nMaxPPS > 0)
+	while(nToWrite > 0 && !m_SendCache.isEmpty() && nMaxPPS > 0)
 	{
 		bool bSent = false;
 
@@ -528,7 +529,7 @@ void CDatagrams::__FlushSendCache()
 				continue;
 			}
 
-            // TODO: Check the firewall's UDP state. Could do 3 UDP states.
+			// TODO: Check the firewall's UDP state. Could do 3 UDP states.
 			if(pDG->GetPacket(tNow, &pPacket, &nPacket, pDG->m_bAck && m_nInFrags > 0))
 			{
 #ifdef DEBUG_UDP
@@ -556,8 +557,8 @@ void CDatagrams::__FlushSendCache()
 					Remove(pDG);
 				}
 
-                nMaxPPS--;
-                meter.Add(1);
+				nMaxPPS--;
+				meter.Add(1);
 
 				bSent = true;
 
@@ -607,7 +608,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 
 		if(m_FreeBuffer.isEmpty())
 		{
-            systemLog.postLog(LogSeverity::Debug, QString("UDP out discarded, out of buffers"));
+			systemLog.postLog(LogSeverity::Debug, QString("UDP out discarded, out of buffers"));
 			return;
 		}
 	}
@@ -618,7 +619,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 	m_SendCache.prepend(pDG);
 	m_SendCacheMap[pDG->m_nSequence] = pDG;
 
-    // TODO: Notify the listener if we have one.
+	// TODO: Notify the listener if we have one.
 
 #ifdef DEBUG_UDP
 	systemLog.postLog(LogSeverity::Debug, "UDP queued for %s seq %u parts %u", oAddr.toString().toLocal8Bit().constData(), pDG->m_nSequence, pDG->m_nCount);
@@ -990,27 +991,33 @@ void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 
 	if(pInfo)
 	{
-		if(SearchManager.OnQueryHit(pPacket, pInfo) && Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
+		if( securityManager.isVendorBlocked( pInfo->m_sVendor ) ) // Block foxy client search results. We can't download from them any way.
 		{
-			pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
-
-			Network.m_pSection.lock();
-
-			if(pInfo->m_oNodeAddress == pInfo->m_oSenderAddress)
+			securityManager.ban( pInfo->m_oNodeAddress, Security::ban2Hours, true,
+								 QString( "[AUTO] Vendor blocked (%1)" ).arg( pInfo->m_sVendor ) );
+		} else {
+			if(SearchManager.OnQueryHit(pPacket, pInfo) && Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
 			{
-				// hits node address matches sender address
-				Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, pInfo->m_oSenderAddress);
-			}
-			else if(!pInfo->m_lNeighbouringHubs.isEmpty())
-			{
-				// hits address does not match sender address (probably forwarded by a hub)
-				// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
-				Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, pInfo->m_lNeighbouringHubs[0], false);
-			}
+				pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
 
-			Network.RoutePacket(pInfo->m_oGUID, pPacket, true);
+				Network.m_pSection.lock();
 
-			Network.m_pSection.unlock();
+				if(pInfo->m_oNodeAddress == pInfo->m_oSenderAddress)
+				{
+					// hits node address matches sender address
+					Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, pInfo->m_oSenderAddress);
+				}
+				else if(!pInfo->m_lNeighbouringHubs.isEmpty())
+				{
+					// hits address does not match sender address (probably forwarded by a hub)
+					// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
+					Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, pInfo->m_lNeighbouringHubs[0], false);
+				}
+
+				Network.RoutePacket(pInfo->m_oGUID, pPacket, true);
+
+				Network.m_pSection.unlock();
+			}
 		}
 	}
 }
@@ -1089,8 +1096,8 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 	if( pQuery->m_oEndpoint == Network.m_oAddress )
 	{
 		systemLog.postLog( LogSeverity::Error, Components::Network,
-		                   "Q2 received via UDP and return address points to us, changing return address to source %s",
-		                   qPrintable( addr.toStringWithPort() ) );
+						   "Q2 received via UDP and return address points to us, changing return address to source %s",
+						   qPrintable( addr.toStringWithPort() ) );
 		G2Packet* pUDP = G2Packet::New("UDP");
 		pUDP->WriteHostAddress(&addr);
 		pUDP->WriteIntLE<quint32>(0);
