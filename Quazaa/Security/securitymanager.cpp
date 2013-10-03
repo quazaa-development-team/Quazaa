@@ -544,6 +544,14 @@ void CSecurity::ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bM
 				pIPRule->m_tExpire = tNow + 7200;
 				break;
 
+			case ban6Hours:
+				pIPRule->m_tExpire = tNow + 21600;
+				break;
+
+			case ban12Hours:
+				pIPRule->m_tExpire = tNow + 43200;
+				break;
+
 			case ban1Day:
 				pIPRule->m_tExpire = tNow + 86400;
 				break;
