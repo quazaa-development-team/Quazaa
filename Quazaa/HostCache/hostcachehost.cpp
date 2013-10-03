@@ -35,16 +35,16 @@ public:
 };
 
 CHostCacheHost::CHostCacheHost(CEndPoint oAddress, quint32 tTimestamp) :
-    m_oAddress( oAddress ),
-    m_tTimestamp( tTimestamp ),
-    m_nQueryKey(    0 ),
-    m_nKeyHost( CEndPoint() ),
-    m_nKeyTime(     0 ),
-    m_tAck(         0 ),
-    m_tLastQuery(   0 ),
-    m_tRetryAfter(  0 ),
-    m_tLastConnect( 0 ),
-    m_nFailures(    0 )
+	m_oAddress( oAddress ),
+	m_tTimestamp( tTimestamp ),
+	m_nQueryKey(    0 ),
+	m_nKeyHost( CEndPoint() ),
+	m_nKeyTime(     0 ),
+	m_tAck(         0 ),
+	m_tLastQuery(   0 ),
+	m_tRetryAfter(  0 ),
+	m_tLastConnect( 0 ),
+	m_nFailures(    0 )
 {
 }
 
@@ -61,7 +61,7 @@ bool CHostCacheHost::canQuery(const quint32 tNow)
 		return false;
 	}
 
-	Q_ASSERT( tNow - m_tTimestamp > 0 );
+	Q_ASSERT( tNow - m_tTimestamp >= 0 );
 	if ( tNow - m_tTimestamp > quazaaSettings.Gnutella2.HostCurrent ) // host is not too old
 	{
 		return false;
