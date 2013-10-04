@@ -35,37 +35,50 @@ public:
 	}
 };*/
 
-CHostCacheHost::CHostCacheHost(const CEndPoint& oAddress, const quint32 tTimestamp) :
-    m_oAddress( oAddress ),
-    m_tTimestamp( tTimestamp ),
-    m_nQueryKey(    0 ),
-    m_nKeyHost( CEndPoint() ),
-    m_nKeyTime(     0 ),
-    m_tAck(         0 ),
-    m_tLastQuery(   0 ),
-    m_tRetryAfter(  0 ),
-    m_tLastConnect( 0 ),
-    m_nFailures(    0 ),
-//    m_pHostPtr(  NULL ),
-    m_bValidIterator( false )
+CHostCacheHost::CHostCacheHost(const CEndPoint& oAddress, const quint32 tTimestamp,
+                               const quint8 nFailures) :
+    m_oAddress(     oAddress    ),
+    m_tTimestamp(   tTimestamp  ),
+    m_nQueryKey(    0           ),
+    m_oKeyHost(     CEndPoint() ),
+    m_nKeyTime(     0           ),
+    m_tAck(         0           ),
+    m_tLastQuery(   0           ),
+    m_tRetryAfter(  0           ),
+    m_tLastConnect( 0           ),
+    m_nFailures(    nFailures   ),
+    m_bIteratorValid( false     )
+{
+}
+
+CHostCacheHost::CHostCacheHost(const CHostCacheHost& oHost, const quint32 tTimestamp,
+                               const quint8 nFailures) :
+    m_oAddress(     oHost.m_oAddress     ),
+    m_tTimestamp(   tTimestamp           ),
+    m_nQueryKey(    oHost.m_nQueryKey    ),
+    m_oKeyHost(     oHost.m_oKeyHost     ),
+    m_nKeyTime(     oHost.m_nKeyTime     ),
+    m_tAck(         oHost.m_tAck         ),
+    m_tLastQuery(   oHost.m_tLastQuery   ),
+    m_tRetryAfter(  oHost.m_tRetryAfter  ),
+    m_tLastConnect( oHost.m_tLastConnect ),
+    m_nFailures(    nFailures            ),
+    m_bIteratorValid( false              )
 {
 }
 
 CHostCacheHost::~CHostCacheHost()
 {
-//	*m_pHostPtr = NULL;
 }
 
 bool CHostCacheHost::canQuery(const quint32 tNow)
 {
-	Q_ASSERT( tNow );
-
 	if ( m_tAck && m_nQueryKey ) // if waiting for an ack, and we have a query key
 	{
 		return false;
 	}
 
-	Q_ASSERT( tNow - m_tTimestamp > 0 );
+	Q_ASSERT( tNow - m_tTimestamp >= 0 );
 	if ( tNow - m_tTimestamp > quazaaSettings.Gnutella2.HostCurrent ) // host is not too old
 	{
 		return false;
@@ -81,7 +94,7 @@ bool CHostCacheHost::canQuery(const quint32 tNow)
 		return true;
 	}
 
-	Q_ASSERT( tNow - m_tLastQuery > 0 );
+	Q_ASSERT( tNow - m_tLastQuery >= 0 );
 	return tNow - m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle;
 }
 
@@ -91,17 +104,17 @@ void CHostCacheHost::setKey(quint32 nKey, const quint32 tNow, CEndPoint* pHost)
 	m_nFailures = 0;
 	m_nQueryKey = nKey;
 	m_nKeyTime  = tNow;
-	m_nKeyHost  = pHost ? *pHost : Network.GetLocalAddress();
+	m_oKeyHost  = pHost ? *pHost : Network.GetLocalAddress();
 }
 
-THostCacheLLIterator CHostCacheHost::iterator() const
+THostCacheIterator CHostCacheHost::iterator() const
 {
-	Q_ASSERT( m_bValidIterator );
-	return m_iHostCacheLLIterator;
+	Q_ASSERT( m_bIteratorValid );
+	return m_iHostCacheIterator;
 }
 
-void CHostCacheHost::setIterator(THostCacheLLIterator it)
+void CHostCacheHost::setIterator(const THostCacheIterator& it)
 {
-	m_iHostCacheLLIterator = it;
-	m_bValidIterator = true;
+	m_iHostCacheIterator = it;
+	m_bIteratorValid = true;
 }

@@ -9,6 +9,8 @@
 #include <QMutex>
 #include <QUuid>
 
+#define ENABLE_SIGNAL_QUEUE_DEBUGGING 1
+
 class CTimedSignalQueue;
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -93,7 +95,7 @@ private:
 	QMutex				m_pShutdownLock;
 
 public:
-	explicit CTimedSignalQueue(QObject *parent = 0);
+	explicit CTimedSignalQueue(QObject* parent = NULL);
 	~CTimedSignalQueue();
 
 	// Hold this lock to delay the deletion of the queue on application shutdown.

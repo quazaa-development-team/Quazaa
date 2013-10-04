@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -287,11 +287,13 @@ void CNeighboursConnections::Maintain()
 				{
 					if ( !Neighbours.Find( pHost->address() ) )
 					{
-						if ( securityManager.isDenied( pHost->address() ) )
+						// Banned hosts are not added to the Host Cache and new bans are handled by
+						// the sanity check mechanism.
+						/*if ( securityManager.isDenied( pHost->address() ) )
 						{
 							hostCache.remove( pHost );
 							continue;
-						}
+						}*/
 						ConnectTo( pHost->address(), dpG2 );
 						pHost->setLastConnect( tNow );
 					}
@@ -356,11 +358,13 @@ void CNeighboursConnections::Maintain()
 				{
 					if( !Neighbours.Find( pHost->address() ) )
 					{
-						if ( securityManager.isDenied( pHost->address() ) )
+						// Banned hosts are not added to the Host Cache and new bans are handled by
+						// the sanity check mechanism.
+						/*if ( securityManager.isDenied( pHost->address() ) )
 						{
 							hostCache.remove( pHost );
 							continue;
-						}
+						}*/
 
 						ConnectTo( pHost->address(), dpG2 );
 						pHost->setLastConnect( tNow );

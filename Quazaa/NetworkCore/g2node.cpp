@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -495,9 +495,7 @@ void CG2Node::ParseOutgoingHandshake()
 	QString sTry = Parser::GetHeaderValue(sHs, "X-Try-Hubs");
 	if(bAcceptG2 && bG2Provided && sTry.size())
 	{
-		hostCache.m_pSection.lock();
-		hostCache.addXTry(sTry);
-		hostCache.m_pSection.unlock();
+		hostCache.addXTry( sTry );
 	}
 
 	if(sHs.left(16) != "GNUTELLA/0.6 200")
@@ -586,11 +584,7 @@ void CG2Node::ParseOutgoingHandshake()
 
 	Send_ConnectOK(true, bAcceptDeflate);
 
-	hostCache.m_pSection.lock();
-	CHostCacheHost* pThisHost = hostCache.get(m_oAddress);
-	if( pThisHost )
-		pThisHost->setFailures( 0 );
-	hostCache.m_pSection.unlock();
+	hostCache.updateFailures( m_oAddress, 0 );
 
 #ifndef _DISABLE_COMPRESSION
 	if(bAcceptDeflate)
@@ -1319,13 +1313,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 	}
 
 	const quint32 tNow = common::getTNowUTC();
-
-	hostCache.m_pSection.lock();
-
-	CHostCacheHost* pCache = hostCache.addSync( addr, tNow, false );
-	if ( pCache )
-	{
-		pCache->setKey( nKey, tNow, &m_oAddress );
+	hostCache.addSyncKey( addr, tNow, &m_oAddress, nKey, tNow );
 
 #if LOG_QUERY_HANDLING
 		systemLog.postLog( LogSeverity::Debug,
@@ -1333,8 +1321,6 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 		                     addr.toString().toLocal8Bit().constData()).arg(m_oAddress.toString().toLocal8Bit().constData()).arg(QString().number(nKey, 16)));
 		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toLocal8Bit().constData(), m_oAddress.toString().toLocal8Bit().constData(), nKey);
 #endif // LOG_QUERY_HANDLING
-	}
-	hostCache.m_pSection.unlock();
 }
 void CG2Node::OnQA(G2Packet* pPacket)
 {

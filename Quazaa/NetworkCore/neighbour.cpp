@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -127,9 +127,10 @@ void CNeighbour::OnError(QAbstractSocket::SocketError e)
 
 			if ( m_bInitiated )
 			{
-				hostCache.m_pSection.lock();
+				// Banned hosts removal is handled by the sanity check mechanism.
+				/*hostCache.m_pSection.lock();
 				hostCache.remove( m_oAddress );
-				hostCache.m_pSection.unlock();
+				hostCache.m_pSection.unlock();*/
 
 				// for some bad clients that drop connections too early
 				securityManager.ban( m_oAddress, Security::ban5Mins,
@@ -146,9 +147,7 @@ void CNeighbour::OnError(QAbstractSocket::SocketError e)
 
 		if ( m_bInitiated )
 		{
-			hostCache.m_pSection.lock();
 			hostCache.onFailure( m_oAddress );
-			hostCache.m_pSection.unlock();
 		}
 	}
 

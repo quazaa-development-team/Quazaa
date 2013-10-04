@@ -32,8 +32,6 @@
 #include "quazaasettings.h"
 #include "skinsettings.h"
 
-#include "timedsignalqueue.h"
-
 #include "debug_new.h"
 
 #include <QMenu>

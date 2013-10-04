@@ -291,7 +291,7 @@ void CDiscoveryService::update()
 
 	m_oRWLock.unlock();
 
-	m_oSQCancelRequestID = signalQueue.push( this, SLOT( cancelRequest() ), common::getTNowUTC() +
+	m_oSQCancelRequestID = signalQueue.push( this, "cancelRequest", common::getTNowUTC() +
 	                                         quazaaSettings.Discovery.ServiceTimeout );
 
 	emit updated( m_nID ); // notify GUI
@@ -327,7 +327,7 @@ void CDiscoveryService::query()
 	postLog( LogSeverity::Debug, "Released service lock.", true );
 #endif
 
-	m_oSQCancelRequestID = signalQueue.push( this, SLOT( cancelRequest() ), common::getTNowUTC() +
+	m_oSQCancelRequestID = signalQueue.push( this, "cancelRequest", common::getTNowUTC() +
 	                                         quazaaSettings.Discovery.ServiceTimeout );
 
 	emit updated( m_nID ); // notify GUI

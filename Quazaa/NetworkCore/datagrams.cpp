@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -918,13 +918,8 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 
 	if ( nKey ) // null QK means a hub does not want to be queried or just downgraded
 	{
-		hostCache.m_pSection.lock();
-		CHostCacheHost* pCache = hostCache.addSync( addr, common::getTNowUTC(), false );
-		if ( pCache )
-		{
-			pCache->setKey( nKey );
-		}
-		hostCache.m_pSection.unlock();
+		const quint32 tNow = common::getTNowUTC();
+		hostCache.addSyncKey( addr, tNow, NULL, nKey, tNow );
 	}
 
 #if LOG_QUERY_HANDLING
@@ -950,15 +945,9 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 }
 void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 {
-	hostCache.m_pSection.lock();
-
-	CHostCacheHost* pHost = hostCache.addSync( addr, common::getTNowUTC(), false );
-	if ( pHost )
-	{
-		pHost->setAck( 0 );
-	}
-
-	hostCache.m_pSection.unlock();
+	const quint32 tAck = 0;
+	const quint32 tNow = common::getTNowUTC();
+	hostCache.addSyncAck( addr, tNow, tAck, tNow );
 
 	QUuid oGuid;
 

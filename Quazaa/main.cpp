@@ -27,7 +27,6 @@
 #include "winmain.h"
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
-#include "timedsignalqueue.h"
 
 #include "geoiplist.h"
 #include "network.h"
@@ -40,6 +39,7 @@
 #include "transfers.h"
 #include "hostcache.h"
 
+#include "Misc/timedsignalqueue.h"
 #include "Discovery/discovery.h"
 #include "Security/securitymanager.h"
 

@@ -222,13 +222,13 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 
 	QMutexLocker oHostCacheLock( &hostCache.m_pSection );
 
-	THCLLMap::iterator it = hostCache.m_llHosts.begin();
-	while ( it != hostCache.m_llHosts.end() )
+	THCLVector::iterator itFailures = hostCache.m_vlHosts.begin();
+	while ( itFailures != hostCache.m_vlHosts.end() )
 	{
-		THostCacheLList list = (*it).second;
+		THostCacheList lHosts = *itFailures;
 
-		for ( THostCacheLLIterator itHost = list.begin();
-		      itHost != list.end(); ++itHost )
+		for ( THostCacheIterator itHost = lHosts.begin();
+		      itHost != lHosts.end(); ++itHost )
 		{
 			pHost = *itHost;
 
@@ -469,7 +469,7 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 			pHost = NULL;
 		}
 
-		++it;
+		++itFailures;
 	}
 }
 

@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -72,17 +72,14 @@ void CNeighboursG2::Connect()
 
 	CNeighboursConnections::Connect();
 
-	static bool bStartupRequest = false;
-
-	// TODO: Test whether already active checking is required
-	if ( !bStartupRequest )
+	// Only query service if we're not already querying and we actually need fresh hosts.
+	if ( !discoveryManager.isActive( Discovery::stGWC ) &&
+	     ( hostCache.isEmpty() || !hostCache.hasConnectable() ) )
 	{
 		discoveryManager.queryService( CNetworkType( dpG2 ) );
-		bStartupRequest = true;
 	}
 
 	HubHorizonPool.Setup();
-
 }
 
 void CNeighboursG2::Maintain()
@@ -100,11 +97,11 @@ void CNeighboursG2::Maintain()
 
 	// TODO: Test whether already active checking is required
 	if ( !m_nHubsConnectedG2 && !discoveryManager.isActive( Discovery::stGWC )
-		 && ( hostCache.isEmpty() || !hostCache.getConnectable() ) && m_nUnknownInitiated == 0 )
+		 && ( hostCache.isEmpty() || !hostCache.hasConnectable() ) && m_nUnknownInitiated == 0 )
 	{
 		qDebug() << "GWC query: Active:" << discoveryManager.isActive(Discovery::stGWC)
 		         << ", empty cache:" << hostCache.isEmpty()
-		         << ", has connectable:" << (hostCache.getConnectable() != NULL)
+		         << ", has connectable:" << hostCache.hasConnectable()
 		         << ", has unknown initiated:" << (m_nUnknownInitiated != 0);
 		discoveryManager.queryService( CNetworkType( dpG2 ) );
 	}
@@ -220,12 +217,12 @@ void CNeighboursG2::DispatchKHL()
 
 	quint32 nCount = quazaaSettings.Gnutella2.KHLHubCount;
 
-	THCLLMap::iterator it = hostCache.m_llHosts.begin();
-	while ( it != hostCache.m_llHosts.end() )
+	THCLVector::iterator itFailures = hostCache.m_vlHosts.begin();
+	while ( itFailures != hostCache.m_vlHosts.end() )
 	{
-		THostCacheLList list = (*it).second;
-		for ( THostCacheLLIterator itHost = list.begin();
-		      nCount > 0 && itHost != list.end(); ++itHost )
+		THostCacheList lHosts = *itFailures;
+		for ( THostCacheIterator itHost = lHosts.begin();  // nCount == ( nCount > 0 )
+		      nCount && itHost != lHosts.end(); ++itHost ) // as nCount is a quint32
 		{
 			if ( !(*itHost)->failures() &&
 			     tNow - (*itHost)->timestamp() < quazaaSettings.Gnutella2.HostCurrent )
@@ -243,7 +240,7 @@ void CNeighboursG2::DispatchKHL()
 				--nCount;
 			}
 		}
-		++it;
+		++itFailures;
 	}
 
 	hostCache.m_pSection.unlock();

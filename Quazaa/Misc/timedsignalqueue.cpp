@@ -13,19 +13,20 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include <QDebug>
 
-#include "timedsignalqueue.h"
 #include "types.h"
+#include "Misc/timedsignalqueue.h"
+
 #include "debug_new.h"
 
 CTimedSignalQueue signalQueue;
@@ -165,6 +166,11 @@ void CTimerObject::resetTime()
 
 bool CTimerObject::emitSignal() const
 {
+#if ENABLE_SIGNAL_QUEUE_DEBUGGING
+	systemLog.postLog( LogSeverity::Debug, QString( "Invoking method:" ) + m_sSignal.sName,
+	                   Components::SignalQueue );
+#endif
+
 	return QMetaObject::invokeMethod( m_sSignal.obj, m_sSignal.sName, Qt::QueuedConnection,
 	                                  m_sSignal.val0, m_sSignal.val1, m_sSignal.val2,
 	                                  m_sSignal.val3, m_sSignal.val4, m_sSignal.val5,
@@ -208,7 +214,6 @@ void CTimedSignalQueue::shutdownUnlock()
 void CTimedSignalQueue::setup()
 {
 	QMutexLocker l( &m_pSection );
-
 	m_oTimer.start( m_nPrecision, this );
 }
 
@@ -270,15 +275,26 @@ void CTimedSignalQueue::checkSchedule()
 
 			bool bSuccess = pObj->emitSignal();
 
-			if ( bSuccess && pObj->m_bMultiShot )
+#if ENABLE_SIGNAL_QUEUE_DEBUGGING
+			systemLog.postLog( LogSeverity::Debug, QString( "Success: " ) +
+			                   QString( bSuccess ? "true" : "false" ),
+			                   Components::SignalQueue );
+#endif //ENABLE_SIGNAL_QUEUE_DEBUGGING
+
+			if ( bSuccess )
 			{
-				pObj->resetTime();
-				m_QueuedSignals.insert( pObj->m_tTime, pObj );
+				if ( pObj->m_bMultiShot )
+				{
+					pObj->resetTime();
+					m_QueuedSignals.insert( pObj->m_tTime, pObj );
+				}
 			}
 			else
 			{
+#if ENABLE_SIGNAL_QUEUE_DEBUGGING
 				qDebug() << "Error in CTimedSignalQueue::checkSchedule(): Unable invoke method! "
 				         << pObj->m_sSignal.sName;
+#endif //ENABLE_SIGNAL_QUEUE_DEBUGGING
 				delete pObj;
 			}
 		}

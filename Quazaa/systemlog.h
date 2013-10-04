@@ -54,7 +54,9 @@ enum Component { None         =  0,
                  Downloads    = 11,
                  Uploads      = 12,
                  GUI          = 13,
-                 NoComponents = 14 };
+	             SignalQueue  = 14,
+	             HostCache    = 15,
+                 NoComponents = 16 };
 }
 
 class SystemLog : public QObject
