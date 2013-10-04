@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CWizardQuickStart</class>
+ <class>WizardQuickStart</class>
  <widget class="QWizard" name="WizardQuickStart">
   <property name="geometry">
    <rect>
@@ -19,7 +19,7 @@
   <property name="maximumSize">
    <size>
     <width>500</width>
-    <height>420</height>
+    <height>520</height>
    </size>
   </property>
   <property name="windowTitle">
