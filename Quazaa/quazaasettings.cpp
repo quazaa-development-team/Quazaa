@@ -371,7 +371,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.setValue("ChatFilter", quazaaSettings.Security.ChatFilter);
 	m_qSettings.setValue("IrcFloodLimit", quazaaSettings.Security.IrcFloodLimit);
 	m_qSettings.setValue("IrcFloodProtection", quazaaSettings.Security.IrcFloodProtection);
-	m_qSettings.setValue("MaxMaliciousFileSize", quazaaSettings.Security.MaxMaliciousFileSize);
+	//m_qSettings.setValue("MaxMaliciousFileSize", quazaaSettings.Security.MaxMaliciousFileSize);
 	m_qSettings.setValue("RemoteEnable", quazaaSettings.Security.RemoteEnable);
 	m_qSettings.setValue("RemotePassword", quazaaSettings.Security.RemotePassword);
 	m_qSettings.setValue("RemoteUsername", quazaaSettings.Security.RemoteUsername);
@@ -383,8 +383,9 @@ void QuazaaSettings::saveSettings()
 
 	m_qSettings.setValue("DataPath", quazaaSettings.Security.DataPath);
 	m_qSettings.setValue("LogIPCheckHits", quazaaSettings.Security.LogIPCheckHits);
-	m_qSettings.setValue("RuleExpiryInterval", quazaaSettings.Security.RuleExpiryInterval);
+	m_qSettings.setValue("MaxUnsavedRules", quazaaSettings.Security.MaxUnsavedRules);
 	m_qSettings.setValue("MissCacheExpiryInterval", quazaaSettings.Security.MissCacheExpiryInterval);
+	m_qSettings.setValue("RuleExpiryInterval", quazaaSettings.Security.RuleExpiryInterval);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("System");
@@ -841,10 +842,12 @@ void QuazaaSettings::loadSettings()
 	quazaaSettings.Security.SearchSpamFilterThreshold = m_qSettings.value("SearchSpamFilterThreshold", 20).toInt();
 	quazaaSettings.Security.UPnPSkipWANIPSetup = m_qSettings.value("UPnPSkipWANIPSetup", false).toBool();
 	quazaaSettings.Security.UPnPSkipWANPPPSetup = m_qSettings.value("UPnPSkipWANPPPSetup", false).toBool();
+
 	quazaaSettings.Security.DataPath = m_qSettings.value( "DataPath", sDefaultDataPath ).toString();
 	quazaaSettings.Security.LogIPCheckHits = m_qSettings.value("LogIPCheckHits", false).toBool();
-	quazaaSettings.Security.RuleExpiryInterval = m_qSettings.value("RuleExpiryInterval", 60).toUInt();
+	quazaaSettings.Security.MaxUnsavedRules = m_qSettings.value("MaxUnsavedRules", 100).toUInt();
 	quazaaSettings.Security.MissCacheExpiryInterval = m_qSettings.value("MissCacheExpiryInterval", 600).toUInt();
+	quazaaSettings.Security.RuleExpiryInterval = m_qSettings.value("RuleExpiryInterval", 60).toUInt();
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Scheduler");

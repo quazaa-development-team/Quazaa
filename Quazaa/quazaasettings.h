@@ -526,7 +526,7 @@ namespace Settings
 		bool		ChatFilter;								// Filter out chat spam
 		int			IrcFloodLimit;							// Number of messages sent by a user in 1 second before ignoring them
 		bool		IrcFloodProtection;						// Automatically ignore users that flood chat rooms with text
-		int			MaxMaliciousFileSize;					// Size for which to trigger malicious software search
+		//int			MaxMaliciousFileSize;					// Size for which to trigger malicious software search
 		bool		RemoteEnable;							// Enable remote access?
 		QString		RemotePassword;							// Remote access password
 		QString		RemoteUsername;							// Remote access user name
@@ -540,8 +540,9 @@ namespace Settings
 // TODO: Make sure slot settingsChanged() is called if these settings are changed to inform security manager about the changes.
 		QString		DataPath;								// Path to the security.dat file
 		bool		LogIPCheckHits;							// Post log message on IsDenied( QHostAdress ) call
-		quint32		RuleExpiryInterval;						// Check the security manager for expired hosts each x seconds
+		quint32		MaxUnsavedRules;						// Number of unsaved rules to accumulate before triggering an auntosave
 		quint32		MissCacheExpiryInterval;				// Clear the miss cache each x seconds
+		quint32		RuleExpiryInterval;						// Check the security manager for expired hosts each x seconds
 	};
 
 	struct sSkin
