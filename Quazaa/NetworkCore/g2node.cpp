@@ -1311,7 +1311,7 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 	}
 
 	const quint32 tNow = common::getTNowUTC();
-	hostCache.addSyncKey( addr, tNow, &m_oAddress, nKey, tNow );
+	hostCache.addKey( addr, tNow, &m_oAddress, nKey, tNow );
 
 #if LOG_QUERY_HANDLING
 		systemLog.postLog( LogSeverity::Debug,

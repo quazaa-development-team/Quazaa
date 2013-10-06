@@ -29,7 +29,7 @@
 
 #include "hostcachehost.h"
 
-#define ENABLE_HOST_CACHE_DEBUGGING 1
+#define ENABLE_HOST_CACHE_DEBUGGING 0
 
 // Increment this if there have been made changes to the way of storing Host Cache Hosts.
 #define HOST_CACHE_CODE_VERSION	7
@@ -72,8 +72,10 @@ public:
 	void start();
 
 	void add(const CEndPoint host, const quint32 tTimeStamp);
-	void addKey(const CEndPoint host, const quint32 tTimeStamp, CEndPoint* pKeyHost, const quint32 nKey, const quint32 tNow);
-	void addAck(const CEndPoint host, const quint32 tTimeStamp, const quint32 tAck, const quint32 tNow);
+	void addKey(const CEndPoint host, const quint32 tTimeStamp,
+				CEndPoint* pKeyHost, const quint32 nKey, const quint32 tNow);
+	void addAck(const CEndPoint host, const quint32 tTimeStamp,
+				const quint32 tAck, const quint32 tNow);
 
 	inline CHostCacheHost* get(const CEndPoint& oHost);
 	inline bool check(const CHostCacheHost* const pHost);
@@ -112,9 +114,11 @@ public:
 	inline bool isEmpty() const;
 
 public slots:
-	CHostCacheHost* addSync(CEndPoint host, quint32 tTimeStamp, bool bLock, QString sSender);
-	CHostCacheHost* addSyncKey(CEndPoint host, quint32 tTimeStamp, CEndPoint* pKeyHost, const quint32 nKey, const quint32 tNow);
-	CHostCacheHost* addSyncAck(CEndPoint host, quint32 tTimeStamp, const quint32 tAck, const quint32 tNow);
+	CHostCacheHost* addSync(CEndPoint host, quint32 tTimeStamp, bool bLock);
+	CHostCacheHost* addSyncKey(CEndPoint host, quint32 tTimeStamp, CEndPoint* pKeyHost,
+							   const quint32 nKey, const quint32 tNow, bool bLock);
+	CHostCacheHost* addSyncAck(CEndPoint host, quint32 tTimeStamp, const quint32 tAck,
+							   const quint32 tNow, bool bLock);
 
 	void sanityCheck();
 	void maintain();

@@ -91,8 +91,7 @@ void CHostCache::add(const CEndPoint host, const quint32 tTimeStamp)
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	QMetaObject::invokeMethod( this, "addSync", Qt::QueuedConnection, Q_ARG(CEndPoint, host),
-							   Q_ARG(quint32, tTimeStamp), Q_ARG(bool, true),
-							   Q_ARG(QString, QString( "CHostCache::add - hostcache.cpp (line 87)" ) ) );
+							   Q_ARG(quint32, tTimeStamp), Q_ARG(bool, true) );
 }
 
 /**
@@ -112,7 +111,8 @@ void CHostCache::addKey(const CEndPoint host, const quint32 tTimeStamp, CEndPoin
 
 	QMetaObject::invokeMethod( this, "addSyncKey", Qt::QueuedConnection, Q_ARG(CEndPoint, host),
 							   Q_ARG(quint32, tTimeStamp), Q_ARG(CEndPoint*, pKeyHost),
-							   Q_ARG(quint32, nKey),       Q_ARG(quint32, tNow) );
+							   Q_ARG(quint32, nKey),       Q_ARG(quint32, tNow),
+							   Q_ARG(bool, true) );
 }
 
 /**
@@ -131,7 +131,7 @@ void CHostCache::addAck(const CEndPoint host, const quint32 tTimeStamp, const qu
 
 	QMetaObject::invokeMethod( this, "addSyncAck", Qt::QueuedConnection, Q_ARG(CEndPoint, host),
 							   Q_ARG(quint32, tTimeStamp), Q_ARG(quint32, tAck),
-							   Q_ARG(quint32, tNow) );
+							   Q_ARG(quint32, tNow), Q_ARG(bool, true) );
 }
 
 /**
@@ -207,10 +207,11 @@ CHostCacheHost* CHostCache::update(THostCacheIterator& itHost, const quint32 tTi
 	--m_nSize;
 	lHosts.erase( itHost );
 	delete pHost;
+	pHost = NULL;
 
 #if ENABLE_HOST_CACHE_DEBUGGING
 	systemLog.postLog( LogSeverity::Debug, Components::HostCache,
-					   QString( "pHost->failures(): " ) + QString::number( pHost->failures() ) +
+					   QString( "pNew->failures(): "  ) + QString::number( pNew->failures() ) +
 					   QString( " m_vlHosts.size(): " ) + QString::number( m_vlHosts.size()  ) +
 					   QString( " m_nMaxFailures: "   ) + QString::number( m_nMaxFailures    ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
@@ -614,16 +615,13 @@ quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
  * @param host: the CEndPoint
  * @param tTimeStamp: its timestamp
  * @param bLock: does the method need to lock the mutex?
- * @param sSender: Sender information for debugging purposes
  * @return the CHostCacheHost pointer pertaining to the CEndPoint
  */
-CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLock, QString sSender)
+CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLock)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "addSync()" ) );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
-
-	qDebug() << "addSync() Sender: " << sSender.toLocal8Bit().data();
 
 	const quint32 tNow = common::getTNowUTC();
 
@@ -632,12 +630,12 @@ CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLo
 
 	ASSUME_LOCK( m_pSection );
 
-	CHostCacheHost* bReturn = addSyncHelper( host, tTimeStamp, tNow );
+	CHostCacheHost* pReturn = addSyncHelper( host, tTimeStamp, tNow );
 
 	if ( bLock )
 		m_pSection.unlock();
 
-	return bReturn;
+	return pReturn;
 }
 
 /**
@@ -650,21 +648,25 @@ CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLo
  * @param tNow: the current time in sec since 1970-01-01 UTC.
  * @return the CHostCacheHost pointer pertaining to the CEndPoint
  */
-CHostCacheHost* CHostCache::addSyncKey(CEndPoint host, quint32 tTimeStamp,
-									   CEndPoint* pKeyHost, const quint32 nKey, const quint32 tNow)
+CHostCacheHost* CHostCache::addSyncKey(CEndPoint host, quint32 tTimeStamp, CEndPoint* pKeyHost,
+									   const quint32 nKey, const quint32 tNow, bool bLock)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
 	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "addSyncKey()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
-	CHostCacheHost* bReturn;
+	if ( bLock )
+		m_pSection.lock();
 
-	m_pSection.lock();
-	bReturn = addSyncHelper( host, tTimeStamp, tNow );
-	bReturn->setKey( nKey, tNow, pKeyHost );
-	m_pSection.unlock();
+	CHostCacheHost* pReturn = addSyncHelper( host, tTimeStamp, tNow );
 
-	return bReturn;
+	if ( pReturn )
+		pReturn->setKey( nKey, tNow, pKeyHost );
+
+	if ( bLock )
+		m_pSection.unlock();
+
+	return pReturn;
 }
 
 /**
@@ -677,20 +679,24 @@ CHostCacheHost* CHostCache::addSyncKey(CEndPoint host, quint32 tTimeStamp,
  * @return the CHostCacheHost pointer pertaining to the CEndPoint
  */
 CHostCacheHost* CHostCache::addSyncAck(CEndPoint host, quint32 tTimeStamp,
-									   const quint32 tAck, const quint32 tNow)
+									   const quint32 tAck, const quint32 tNow, bool bLock)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
 	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "addSyncAck()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
-	CHostCacheHost* bReturn;
+	if ( bLock )
+		m_pSection.lock();
 
-	m_pSection.lock();
-	bReturn = addSyncHelper( host, tTimeStamp, tNow );
-	bReturn->setAck( tAck );
-	m_pSection.unlock();
+	CHostCacheHost* pReturn = addSyncHelper( host, tTimeStamp, tNow );
 
-	return bReturn;
+	if ( pReturn )
+		pReturn->setAck( tAck );
+
+	if ( bLock )
+		m_pSection.unlock();
+
+	return pReturn;
 }
 
 /**

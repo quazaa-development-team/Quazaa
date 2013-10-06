@@ -918,7 +918,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 
 	{
 		const quint32 tNow = common::getTNowUTC();
-		hostCache.addSyncKey( addr, tNow, NULL, nKey, tNow );
+		hostCache.addKey( addr, tNow, NULL, nKey, tNow );
 	}
 
 #if LOG_QUERY_HANDLING
@@ -946,7 +946,7 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 {
 	const quint32 tAck = 0;
 	const quint32 tNow = common::getTNowUTC();
-	hostCache.addSyncAck( addr, tNow, tAck, tNow );
+	hostCache.addAck( addr, tNow, tAck, tNow );
 
 	QUuid oGuid;
 
