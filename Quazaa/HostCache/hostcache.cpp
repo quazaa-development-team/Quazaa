@@ -93,12 +93,6 @@ void CHostCache::add(const CEndPoint host, const quint32 tTimeStamp)
 	QMetaObject::invokeMethod( this, "addSync", Qt::QueuedConnection, Q_ARG(CEndPoint, host),
 	                           Q_ARG(quint32, tTimeStamp), Q_ARG(bool, true),
 	                           Q_ARG(QString, QString( "CHostCache::add - hostcache.cpp (line 87)" ) ) );
-
-	// TODO: use QMetaObject::method to get it
-
-//	QMetaMethod::fromSignal( static_cast< CHostCacheHost* (CHostCache::*)(CEndPoint, quint32, bool, QString) >(&CHostCache::addSync)
-//	                         ).invoke( this, Qt::QueuedConnection, Q_ARG(CEndPoint, host),
-//	                                   Q_ARG(quint32, tTimeStamp), Q_ARG(bool, true), Q_ARG(QString, QString( "CHostCache::add - hostcache.cpp (line 87)" ) ) );
 }
 
 /**
@@ -118,12 +112,7 @@ void CHostCache::addKey(const CEndPoint host, const quint32 tTimeStamp, CEndPoin
 
 	QMetaObject::invokeMethod( this, "addSyncKey", Qt::QueuedConnection, Q_ARG(CEndPoint, host),
 	                           Q_ARG(quint32, tTimeStamp), Q_ARG(CEndPoint*, pKeyHost),
-                               Q_ARG(quint32, nKey),       Q_ARG(quint32, tNow) );
-
-//	QMetaMethod::fromSignal( &CHostCache::addSyncKey
-//	                         ).invoke( this, Qt::QueuedConnection, Q_ARG(CEndPoint, host),
-//	                                   Q_ARG(quint32, tTimeStamp), Q_ARG(CEndPoint*, pKeyHost),
-//	                                   Q_ARG(quint32, nKey),       Q_ARG(quint32, tNow) );
+	                           Q_ARG(quint32, nKey),       Q_ARG(quint32, tNow) );
 }
 
 /**
@@ -142,12 +131,7 @@ void CHostCache::addAck(const CEndPoint host, const quint32 tTimeStamp, const qu
 
 	QMetaObject::invokeMethod( this, "addSyncAck", Qt::QueuedConnection, Q_ARG(CEndPoint, host),
 	                           Q_ARG(quint32, tTimeStamp), Q_ARG(quint32, tAck),
-                               Q_ARG(quint32, tNow) );
-
-//	QMetaMethod::fromSignal( &CHostCache::addSyncAck
-//	                         ).invoke( this, Qt::QueuedConnection, Q_ARG(CEndPoint, host),
-//	                                   Q_ARG(quint32, tTimeStamp), Q_ARG(quint32, tAck),
-//	                                   Q_ARG(quint32, tNow) );
+	                           Q_ARG(quint32, tNow) );
 }
 
 /**
@@ -164,10 +148,6 @@ void CHostCache::updateFailures(const CEndPoint& oAddress, const quint32 nFailur
 
 	QMetaObject::invokeMethod( this, "asyncUpdateFailures", Qt::QueuedConnection,
 	                           Q_ARG(CEndPoint, oAddress), Q_ARG(quint32, nFailures) );
-
-//	QMetaMethod::fromSignal( &CHostCache::asyncUpdateFailures
-//	                         ).invoke( this, Qt::QueuedConnection, Q_ARG(CEndPoint, oAddress),
-//	                                   Q_ARG(quint32, nFailures) );
 }
 
 /**
@@ -312,9 +292,6 @@ void CHostCache::addXTry(QString sHeader)
 
 	QMetaObject::invokeMethod( this, "asyncAddXTry", Qt::QueuedConnection,
 	                           Q_ARG(QString, sHeader) );
-
-//	QMetaMethod::fromSignal( &CHostCache::asyncAddXTry
-//	                         ).invoke( this, Qt::QueuedConnection, Q_ARG(QString, sHeader) );
 }
 
 /**
@@ -384,9 +361,6 @@ void CHostCache::onFailure(const CEndPoint& addr)
 
 	QMetaObject::invokeMethod( this, "asyncOnFailure", Qt::QueuedConnection,
 	                           Q_ARG(CEndPoint, addr) );
-
-//	QMetaMethod::fromSignal( &CHostCache::asyncOnFailure ).invoke( this, Qt::QueuedConnection,
-//	                                                               Q_ARG(CEndPoint, addr) );
 }
 
 /**
@@ -400,9 +374,9 @@ void CHostCache::onFailure(const CEndPoint& addr)
  */
 CHostCacheHost* CHostCache::getConnectable(const QSet<CHostCacheHost*>& oExcept, QString sCountry)
 {
-#if ENABLE_HOST_CACHE_DEBUGGING
+/*#if ENABLE_HOST_CACHE_DEBUGGING
 	systemLog.postLog( LogSeverity::Debug, QString( "getConnectable()" ), Components::HostCache );
-#endif //ENABLE_HOST_CACHE_DEBUGGING
+#endif //ENABLE_HOST_CACHE_DEBUGGING*/
 
 	ASSUME_LOCK( m_pSection );
 
@@ -417,7 +391,7 @@ CHostCacheHost* CHostCache::getConnectable(const QSet<CHostCacheHost*>& oExcept,
 	// First try untested or working hosts, then fall back to failed hosts to increase chances for
 	// successful connection
 	for ( quint8 nFailures = 0; nFailures < m_nMaxFailures &&
-	                            nFailures < m_vlHosts.size(); ++nFailures )
+	      nFailures < m_vlHosts.size(); ++nFailures )
 	{
 		foreach ( CHostCacheHost * pHost, m_vlHosts[nFailures] )
 		{
@@ -459,9 +433,9 @@ CHostCacheHost* CHostCache::getConnectable(const QSet<CHostCacheHost*>& oExcept,
  */
 bool CHostCache::hasConnectable()
 {
-#if ENABLE_HOST_CACHE_DEBUGGING
+/*#if ENABLE_HOST_CACHE_DEBUGGING
 	systemLog.postLog( LogSeverity::Debug, QString( "hasConnectable()" ), Components::HostCache );
-#endif //ENABLE_HOST_CACHE_DEBUGGING
+#endif //ENABLE_HOST_CACHE_DEBUGGING*/
 
 	m_pSection.lock();
 	bool bReturn = getConnectable();
@@ -476,10 +450,6 @@ bool CHostCache::hasConnectable()
  */
 void CHostCache::clear()
 {
-#if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "clear()" ), Components::HostCache );
-#endif //ENABLE_HOST_CACHE_DEBUGGING
-
 	m_pSection.lock();
 
 	THCLVector::iterator itFailures = m_vlHosts.begin();
