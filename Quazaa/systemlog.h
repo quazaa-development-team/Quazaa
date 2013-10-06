@@ -75,10 +75,10 @@ signals:
 	void logPosted(QString message, LogSeverity::Severity severity);
 
 public slots:
-	void postLog(LogSeverity::Severity severity, QString message,
-				 Components::Component component = Components::None);
+	void postLog(LogSeverity::Severity severity, QString message);
 
 public:
+	void postLog(LogSeverity::Severity severity, Components::Component component, QString message);
 	void postLog(LogSeverity::Severity severity, Components::Component component,
 				 const char* format, ...);
 };

@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -66,8 +66,13 @@ QString CSystemLog::msgFromComponent(Components::Component eComponent)
 	return m_pComponents[eComponent];
 }
 
-void CSystemLog::postLog(LogSeverity::Severity severity, QString message,
-                        Components::Component component)
+void CSystemLog::postLog(LogSeverity::Severity severity, QString message)
+{
+	postLog( severity, Components::None, message );
+}
+
+void CSystemLog::postLog(LogSeverity::Severity severity, Components::Component component,
+						 QString message)
 {
 	static LogSeverity::Severity lastSeverity  = LogSeverity::Information;
 	static Components::Component lastComponent = Components::None;
@@ -87,9 +92,8 @@ void CSystemLog::postLog(LogSeverity::Severity severity, QString message,
 			if ( suppressed > 0 )
 			{
 				bCheck = false;
-				postLog( lastSeverity,
-				         tr( "Suppressed %n identical message(s).", 0, suppressed ),
-				         lastComponent );
+				postLog( lastSeverity, lastComponent,
+						 tr( "Suppressed %n identical message(s).", 0, suppressed ) );
 				bCheck = true;
 			}
 			lastMessage   = message;
@@ -117,12 +121,12 @@ void CSystemLog::postLog(LogSeverity::Severity severity, QString message,
 }
 
 void CSystemLog::postLog(LogSeverity::Severity severity, Components::Component component,
-                        const char* format, ...)
+						 const char* format, ...)
 {
 	va_list argList;
 	va_start( argList, format );
 	QString message = QString().vsprintf( format, argList );
-	postLog( severity, message, component );
+	postLog( severity, component, message );
 	va_end( argList );
 }
 
