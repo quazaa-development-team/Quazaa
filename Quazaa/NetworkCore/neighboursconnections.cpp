@@ -37,12 +37,12 @@
 #include "debug_new.h"
 
 CNeighboursConnections::CNeighboursConnections(QObject* parent) :
-    CNeighboursRouting(parent),
-    m_pController(0),
-    m_nHubsConnectedG2(0),
-    m_nLeavesConnectedG2(0),
-    m_nUnknownInitiated(0),
-    m_nUnknownIncoming(0)
+	CNeighboursRouting(parent),
+	m_pController(0),
+	m_nHubsConnectedG2(0),
+	m_nLeavesConnectedG2(0),
+	m_nUnknownInitiated(0),
+	m_nUnknownIncoming(0)
 {
 }
 CNeighboursConnections::~CNeighboursConnections()
@@ -143,7 +143,7 @@ void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int
 				if( nProtocol == dpG2 )
 				{
 					if( ((CG2Node*)(*i))->m_nType != nType // if node type is not requested type
-					    || (!bCore && ((CG2Node*)(*i))->m_bG2Core) ) // or we don't want to disconnect "our" nodes
+						|| (!bCore && ((CG2Node*)(*i))->m_bG2Core) ) // or we don't want to disconnect "our" nodes
 					{
 						continue;
 					}
@@ -263,8 +263,6 @@ void CNeighboursConnections::Maintain()
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumHubs)
 		{
-			QMutexLocker l(&hostCache.m_pSection);
-
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumHubs - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
 
@@ -273,14 +271,16 @@ void CNeighboursConnections::Maintain()
 			int  nCountry = 0;
 			QSet<CHostCacheHost*> oExcept;
 
+			QMutexLocker l(&hostCache.m_pSection);
+
 			for ( ; nAttempt > 0; --nAttempt )
 			{
 				// nowe polaczenie
 				CHostCacheHost* pHost;
 				QString sCountry;
 				sCountry = bCountry ? ( quazaaSettings.Connection.PreferredCountries.size() ?
-				                        quazaaSettings.Connection.PreferredCountries.at(nCountry) :
-				                        Network.m_oAddress.country() ) : "ZZ";
+										quazaaSettings.Connection.PreferredCountries.at(nCountry) :
+										Network.m_oAddress.country() ) : "ZZ";
 				pHost = hostCache.getConnectable( oExcept, sCountry );
 
 				if ( pHost )
@@ -342,12 +342,12 @@ void CNeighboursConnections::Maintain()
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumPeers)
 		{
-			QMutexLocker l(&hostCache.m_pSection);
-
 			const quint32 tNow = common::getTNowUTC();
 			qint32 nAttempt = qint32((quazaaSettings.Gnutella2.NumPeers - nHubsG2) * quazaaSettings.Gnutella.ConnectFactor);
 			nAttempt = qMin(nAttempt, 8) - nUnknown;
 			QSet<CHostCacheHost*> oExcept;
+
+			QMutexLocker l(&hostCache.m_pSection);
 
 			for ( ; nAttempt > 0; --nAttempt )
 			{

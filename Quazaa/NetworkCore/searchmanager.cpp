@@ -281,8 +281,6 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		// Add hubs to the cache
 		if( Q_LIKELY(!bLikelyFoxy) )
 		{
-			hostCache.m_pSection.lock();
-
 			for( QList<CEndPoint>::iterator itHub = lDone.begin(); itHub != lDone.end(); itHub++ )
 			{
 				if( (*itHub).port() )
@@ -294,8 +292,6 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				if( itHub.key().port() )
 					hostCache.add(itHub.key(), itHub.value());
 			}
-
-			hostCache.m_pSection.unlock();
 		}
 		else
 		{

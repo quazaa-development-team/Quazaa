@@ -55,7 +55,7 @@ public:
 								   // QLinkedList sorted by timestamp (descending)
 
 	mutable QMutex      m_pSection;
-	mutable quint32     m_tLastSave;
+	mutable quint32     m_tLastSave; //TODO: use qatomicint
 
 	QString             m_sMessage;
 
@@ -142,7 +142,7 @@ private slots:
 
 /**
  * @brief CHostCache::get allows you to access the CHostCacheHost object pertaining to a given CEndPoint.
- * Requires Locking: YES
+ * Locking: REQUIRED
  * @param oHost: The CEndPoint.
  * @return the CHostCacheHost; NULL if the CEndPoint has not been found in the cache.
  */
@@ -161,7 +161,7 @@ CHostCacheHost* CHostCache::get(const CEndPoint& oHost)
 /**
  * @brief CHostCache::check allows to verify if a given CHostCacheHost is part of the cache. The
  * information is guaranteed to stay valid as long as the mutex is held.
- * Requires Locking: YES
+ * Locking: REQUIRED
  * @param pHost: the CHostCacheHost to check.
  * @return true if the host could be found in the cache, false otherwise.
  */
@@ -179,6 +179,7 @@ bool CHostCache::check(const CHostCacheHost* const pHost)
  * Locking: YES
  * @return the number of hosts in the cache.
  */
+// TODO: use qatomicint
 quint32 CHostCache::count() const
 {
 	QMutexLocker l( &m_pSection );

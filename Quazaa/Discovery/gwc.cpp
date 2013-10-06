@@ -206,7 +206,7 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 	if ( !pReply || !isRunning() || !m_pRequest ) // we got cancelled while waiting for the lock
 	{
 		postLog( LogSeverity::Warning, QString( "The request got probably cancelled while " ) +
-		         QString( "requestCompleted() was waiting for a lock on the service." ), true );
+				 QString( "requestCompleted() was waiting for a lock on the service." ), true );
 
 		resetRunning();
 
@@ -222,8 +222,8 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 		m_pNAMgr.clear();
 
 		postLog( LogSeverity::Warning,
-		         QString( "Finished cleanup after unusual termination." ),
-		         true );
+				 QString( "Finished cleanup after unusual termination." ),
+				 true );
 
 		return;
 	}
@@ -360,7 +360,7 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 	else
 	{
 		postLog( LogSeverity::Error,
-		         tr( "Network error while querying GWC: " ) + pReply->errorString() );
+				 tr( "Network error while querying GWC: " ) + pReply->errorString() );
 	}
 
 	// make sure all statistics and failure counters are updated
@@ -389,9 +389,6 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	// prepare for adding new hosts
-	QMutexLocker l( &hostCache.m_pSection );
-
 	while ( lHostList.size() )
 	{
 		hostCache.add( lHostList.back(), tNow );
@@ -399,6 +396,6 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 	}
 
 	postLog( LogSeverity::Debug,
-	         QString( "Host Cache count after querying GWC: " ) +
-	         QString::number( hostCache.count() ), true );
+			 QString( "Host Cache count after querying GWC: " ) +
+			 QString::number( hostCache.count() ), true );
 }

@@ -503,9 +503,7 @@ void CG2Node::ParseOutgoingHandshake()
 		systemLog.postLog(LogSeverity::Error, QString("Connection to %1 rejected: %2").arg(this->m_oAddress.toString()).arg(sHs.left(sHs.indexOf("\r\n"))));
 
 		// Is it okay to count non-200 response as a failure? Needs some testing...
-		hostCache.m_pSection.lock();
 		hostCache.onFailure(m_oAddress);
-		hostCache.m_pSection.unlock();
 
 		Close();
 		return;
@@ -1107,9 +1105,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				}
 				else
 				{
-					hostCache.m_pSection.lock();
 					hostCache.add( ep, nDiff + tNow );
-					hostCache.m_pSection.unlock();
 				}
 			}
 		}
@@ -1216,7 +1212,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 	CHostCacheHost* pHost = bCacheOK ? hostCache.get( addr ) : NULL;
 
 	if ( pHost && pHost->queryKey() && pHost->keyHost() == Network.m_oAddress &&
-	     tNow - pHost->keyTime() < quazaaSettings.Gnutella2.QueryKeyTime )
+		 tNow - pHost->keyTime() < quazaaSettings.Gnutella2.QueryKeyTime )
 	{
 		G2Packet* pQKA = G2Packet::New( "QKA", true );
 		if ( addr.protocol() == 0 )
@@ -1519,9 +1515,7 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 	}
 	else
 	{
-		hostCache.m_pSection.lock();
 		hostCache.add( addr, common::getTNowUTC() );
-		hostCache.m_pSection.unlock();
 	}
 
 	if ( nTTL > 0 && nHops < 255 )

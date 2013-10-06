@@ -482,7 +482,7 @@ void CHostCache::save(const quint32 tNow) const
 	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "save()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
-	ASSUME_LOCK( hostCache.m_pSection );
+	ASSUME_LOCK( m_pSection );
 
 	quint32 nCount = common::securredSaveFile( common::globalDataFiles, "hostcache.dat", m_sMessage,
 											   this, &CHostCache::writeToFile );
