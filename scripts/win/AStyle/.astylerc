@@ -1,0 +1,17 @@
+style=allman
+
+# Indent using tabs for indentation, and spaces for continuation line alignment. This ensures that the code is displayed correctly  regardless of the viewer’s tab size.
+indent=tab
+
+min-conditional-indent=0
+
+max-instatement-indent=120
+
+# Adds spacing around the operators
+pad-oper
+
+# Adds spacing to the inside of parenthesis
+pad-paren-in
+
+# Move all pointers (etc.) to the type (instead of to the name), e.g char* a not char *a.
+align-pointer=type

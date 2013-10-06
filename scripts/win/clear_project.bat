@@ -33,5 +33,7 @@ del /s /q .\temp\*
 rmdir /s /q .\temp\
 
 @echo off
+echo.
+echo.
 echo Hit a random key to finish script.
 pause
