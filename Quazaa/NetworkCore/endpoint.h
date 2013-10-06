@@ -32,6 +32,7 @@ class CEndPoint : public QHostAddress
 protected:
 	quint16	m_nPort;
 	mutable QString m_sCountry;
+	// TODO: security debugging
 
 public:
 	CEndPoint();

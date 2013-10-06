@@ -313,8 +313,6 @@ bool CDiscovery::check(const TConstServicePtr pService)
 bool CDiscovery::isActive(const TServiceType eSType)
 {
 	QMutexLocker l( &m_pSection );
-
-	//postLog( LogSeverity::Debug, QString( "Active: " ) + QString::number( m_pActive[eSType] ), true );
 	return m_pActive[eSType];
 }
 

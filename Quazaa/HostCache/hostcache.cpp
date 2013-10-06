@@ -235,7 +235,7 @@ CHostCacheHost* CHostCache::update(THostCacheIterator& itHost, const quint32 tTi
 	                   QString( " m_nMaxFailures: "   ) + QString::number( m_nMaxFailures    ),
 	                   Components::HostCache );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
-	Q_ASSERT( pHost->failures() < m_vlHosts.size() );
+	Q_ASSERT( pNew->failures() < m_vlHosts.size() );
 	insert( pNew, m_vlHosts[nFailures] );
 
 	return pNew;
