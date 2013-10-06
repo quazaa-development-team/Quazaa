@@ -44,9 +44,9 @@
 
 #include <QMenu>
 
-WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
+CWidgetNeighbours::CWidgetNeighbours(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetNeighbours)
+	ui(new Ui::CWidgetNeighbours)
 {
 	ui->setupUi(this);
 	neighboursMenu = new QMenu(ui->tableViewNeighbours);
@@ -73,13 +73,13 @@ WidgetNeighbours::WidgetNeighbours(QWidget* parent) :
 	setSkin();
 }
 
-WidgetNeighbours::~WidgetNeighbours()
+CWidgetNeighbours::~CWidgetNeighbours()
 {
 	quazaaSettings.WinMain.NeighboursHeader = ui->tableViewNeighbours->horizontalHeader()->saveState();
 	delete ui;
 }
 
-void WidgetNeighbours::changeEvent(QEvent* e)
+void CWidgetNeighbours::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -92,29 +92,29 @@ void WidgetNeighbours::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetNeighbours::setModel(QAbstractItemModel* model)
+void CWidgetNeighbours::setModel(QAbstractItemModel* model)
 {
 	ui->tableViewNeighbours->setModel(model);
 }
 
-QWidget* WidgetNeighbours::treeView()
+QWidget* CWidgetNeighbours::treeView()
 {
 	return ui->tableViewNeighbours;
 }
 
-void WidgetNeighbours::saveWidget()
+void CWidgetNeighbours::saveWidget()
 {
 	quazaaSettings.WinMain.NeighboursToolbars = saveState();
 	quazaaSettings.WinMain.NeighboursHeader = ui->tableViewNeighbours->horizontalHeader()->saveState();
 }
 
-void WidgetNeighbours::on_actionSettings_triggered()
+void CWidgetNeighbours::on_actionSettings_triggered()
 {
-	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Protocols);
+	CDialogSettings* dlgSettings = new CDialogSettings(this, SettingsPage::Protocols);
 	dlgSettings->show();
 }
 
-void WidgetNeighbours::updateG2()
+void CWidgetNeighbours::updateG2()
 {
 	quint32 nHubsConnected = 0;
 	quint32 nLeavesConnected = 0;
@@ -145,25 +145,25 @@ void WidgetNeighbours::updateG2()
 	labelG2Stats->setText(tr(" %1 Hubs, %2 Leaves, %3/s In:%4/s Out").arg(nHubsConnected).arg(nLeavesConnected).arg(common::formatBytes(nTCPInSpeed + nUDPInSpeed)).arg(common::formatBytes(nTCPOutSpeed + nUDPOutSpeed)));
 }
 
-void WidgetNeighbours::updateAres()
+void CWidgetNeighbours::updateAres()
 {
 
 }
 
-void WidgetNeighbours::updateEDonkey()
+void CWidgetNeighbours::updateEDonkey()
 {
 
 }
 
-void WidgetNeighbours::onTimer()
+void CWidgetNeighbours::onTimer()
 {
 	neighboursList->UpdateAll();
 	updateG2();
 }
 
-void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
+void CWidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 {
-	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
+	CDialogConnectTo* dlgConnectTo = new CDialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
 
 	if (accepted)
@@ -172,14 +172,14 @@ void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 
 		switch (dlgConnectTo->getConnectNetwork())
 		{
-		case DialogConnectTo::G2:
+		case CDialogConnectTo::G2:
 			Neighbours.m_pSection.lock();
 			Neighbours.ConnectTo(ip, dpG2, false);
 			Neighbours.m_pSection.unlock();
 			break;
-		case DialogConnectTo::eDonkey:
+		case CDialogConnectTo::eDonkey:
 			break;
-		case DialogConnectTo::Ares:
+		case CDialogConnectTo::Ares:
 			break;
 		default:
 			break;
@@ -187,7 +187,7 @@ void WidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 	}
 }
 
-void WidgetNeighbours::on_actionNeighbourDisconnect_triggered()
+void CWidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 {
 	QModelIndex idx = ui->tableViewNeighbours->currentIndex();
 	CNeighbour* pNode = neighboursList->NodeFromIndex(idx);
@@ -206,7 +206,7 @@ void WidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 	Neighbours.m_pSection.unlock();
 }
 
-void WidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint pos)
+void CWidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint pos)
 {
 	QModelIndex currIndex = ui->tableViewNeighbours->indexAt(pos);
 	if( currIndex.isValid() )
@@ -215,7 +215,7 @@ void WidgetNeighbours::on_tableViewNeighbours_customContextMenuRequested(QPoint 
 	}
 }
 
-void WidgetNeighbours::on_actionNetworkChatWith_triggered()
+void CWidgetNeighbours::on_actionNetworkChatWith_triggered()
 {
 	QMutexLocker l(&Neighbours.m_pSection);
 
@@ -242,14 +242,14 @@ void WidgetNeighbours::on_actionNetworkChatWith_triggered()
     }
 }
 
-void WidgetNeighbours::setSkin()
+void CWidgetNeighbours::setSkin()
 {
 	ui->tableViewNeighbours->setStyleSheet(skinSettings.listViews);
 }
 
-void WidgetNeighbours::on_tableViewNeighbours_doubleClicked(const QModelIndex &index)
+void CWidgetNeighbours::on_tableViewNeighbours_doubleClicked(const QModelIndex &index)
 {
     CNeighboursTableModel::Neighbour* pNbr = static_cast<CNeighboursTableModel::Neighbour*>(index.internalPointer());
-    DialogNeighbourInfo* dlgNeighbourInfo = new DialogNeighbourInfo(pNbr, this);
+    CDialogNeighbourInfo* dlgNeighbourInfo = new CDialogNeighbourInfo(pNbr, this);
     dlgNeighbourInfo->exec();
 }

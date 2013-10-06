@@ -17,15 +17,15 @@
 
 #include <QTreeWidget>
 
-class WizardTreeWidget : public QTreeWidget
+class CWizardTreeWidget : public QTreeWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    WizardTreeWidget(QWidget* parent = 0);
+	CWizardTreeWidget(QWidget* parent = 0);
 
 protected:
-    virtual bool edit(const QModelIndex& index, EditTrigger trigger, QEvent* event);
+	virtual bool edit(const QModelIndex& index, EditTrigger trigger, QEvent* event);
 };
 
 #endif // WIZARDTREEWIDGET_H

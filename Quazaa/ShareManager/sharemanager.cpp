@@ -63,16 +63,14 @@ void CShareManager::Start()
 {
 	QMutexLocker l(&m_oSection);
 	systemLog.postLog(LogSeverity::Debug, QString("Starting share manager..."));
-	//qDebug() << "Starting Share Manager...";
-	connect(this, SIGNAL(sharesReady()), &QueryHashMaster, SLOT(Build()));
+    connect(this, SIGNAL(sharesReady()), &QueryHashMaster, SLOT(Build()));
 	ShareManagerThread.start("ShareManager", &m_oSection, this);
 }
 
 void CShareManager::SetupThread()
 {
 	systemLog.postLog(LogSeverity::Debug, QString("Setting up ShareManager thread"));
-	//qDebug() << "Setting up ShareManager thread";
-	m_oDatabase = QSqlDatabase::addDatabase("QSQLITE", "Shares");
+    m_oDatabase = QSqlDatabase::addDatabase("QSQLITE", "Shares");
 #if QT_VERSION >= 0x050000 
 	QDir path = QDir(QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)));
 	if(!path.exists())
@@ -95,19 +93,16 @@ void CShareManager::SetupThread()
 	}
 
 	systemLog.postLog(LogSeverity::Debug, QString("Database opened successfully"));
-	//qDebug() << "Database opened successfully.";
 
 	QSqlQuery query(m_oDatabase);
 
 	systemLog.postLog(LogSeverity::Debug, QString("Checking tables..."));
-	//qDebug() << "Checking tables...";
 
 	// TODO: Better checks and error handling
 
 	if(!m_oDatabase.tables().contains("dirs") || !m_oDatabase.tables().contains("files") || !m_oDatabase.tables().contains("hashes") || !m_oDatabase.tables().contains("hash_queue"))
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Database is corrupted. Recreating..."));
-		//qDebug() << "Database is corrupted. Recreating...";
 
 		query.exec("PRAGMA legacy_file_format = 0");
 
@@ -131,17 +126,14 @@ void CShareManager::SetupThread()
 		query.exec("CREATE UNIQUE INDEX 'keyword' ON 'keywords' ('keyword' ASC);");
 		query.exec("CREATE INDEX 'sha1' ON 'hashes' ('sha1' ASC);");
 
-		systemLog.postLog(LogSeverity::Debug, QString("Database recreated."));
-		//qDebug() << "Database recreated.";
+        systemLog.postLog(LogSeverity::Debug, QString("Database recreated."));
 	}
 	else
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Tables OK"));
-		//qDebug() << "Tables OK";
+        systemLog.postLog(LogSeverity::Debug, QString("Tables OK"));
 	}
 
-	systemLog.postLog(LogSeverity::Debug, QString("Destroying hash queue."));
-	//qDebug() << "Destroying hash queue.";
+    systemLog.postLog(LogSeverity::Debug, QString("Destroying hash queue."));
 	query.exec("DELETE FROM `hash_queue`;");
 
 	m_bActive = true;
@@ -168,13 +160,11 @@ void CShareManager::Stop()
 
 void CShareManager::CleanupThread()
 {
-	systemLog.postLog(LogSeverity::Debug, QString("ShareManager: cleaning up."));
-	//qDebug() << "ShareManager: cleaning up.";
+    systemLog.postLog(LogSeverity::Debug, QString("ShareManager: cleaning up."));
 
 	if(m_oDatabase.isOpen())
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Closing Database connection."));
-		//qDebug() << "Closing Database connection.";
+        systemLog.postLog(LogSeverity::Debug, QString("Closing Database connection."));
 		QSqlDatabase::database("Shares").close();
 		QSqlDatabase::removeDatabase("Shares");
 	}
@@ -234,8 +224,7 @@ void CShareManager::SyncShares()
 {
 	QMutexLocker l(&m_oSection);
 
-	systemLog.postLog(LogSeverity::Debug, QString("Syncing Shares..."));
-	//qDebug() << "Syncing Shares...";
+    systemLog.postLog(LogSeverity::Debug, QString("Syncing Shares..."));
 
 	QSqlQuery query(m_oDatabase);
 
@@ -249,8 +238,7 @@ void CShareManager::SyncShares()
 	// 1. Check for missing dirs
 	if(!query.exec("SELECT id, path FROM dirs"))
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: %1").arg(query.lastError().text()));
-		//qDebug() << "SQL Query failed: " << query.lastError().text();
+        systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: %1").arg(query.lastError().text()));
 		return;
 	}
 
@@ -260,8 +248,7 @@ void CShareManager::SyncShares()
 		if(!d.exists())
 		{
 			// delete all file entries that refer to the missing dir
-			systemLog.postLog(LogSeverity::Debug, QString("Directory %1 does not exist").arg(d.path()));
-			//qDebug() << "Directory " << d.path() << "does not exist";
+            systemLog.postLog(LogSeverity::Debug, QString("Directory %1 does not exist").arg(d.path()));
 			RemoveDir(query.record().value(0).toInt());
 			nMissingDirs++;
 		}
@@ -271,8 +258,7 @@ void CShareManager::SyncShares()
 	query.setForwardOnly(true);
 	if(!query.exec("SELECT id, path FROM dirs"))
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: ").arg(query.lastError().text()));
-		//qDebug() << "SQL Query failed: " << query.lastError().text();
+        systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: ").arg(query.lastError().text()));
 		return;
 	}
 
@@ -291,8 +277,7 @@ void CShareManager::SyncShares()
 				QFileInfo fi(sPath);
 				if(!fi.exists())
 				{
-					systemLog.postLog(LogSeverity::Debug, QString("File: %1 is missing").arg(sPath));
-					//qDebug() << "File:" << sPath.toLocal8Bit() << " is missing";
+                    systemLog.postLog(LogSeverity::Debug, QString("File: %1 is missing").arg(sPath));
 					RemoveFile(fquery.record().value(0).toInt());
 					nMissingFiles++;
 				}
@@ -304,21 +289,18 @@ void CShareManager::SyncShares()
 
 					if(fi.size() != fquery.record().value(2).toLongLong())
 					{
-						systemLog.postLog(LogSeverity::Debug, QString("Size mismatch"));
-						//qDebug() << "Size mismatch";
+                        systemLog.postLog(LogSeverity::Debug, QString("Size mismatch"));
 						bModified = true;
 					}
 					else if(fi.lastModified().toTime_t() != fquery.record().value(3).toUInt())
 					{
-						systemLog.postLog(LogSeverity::Debug, QString("Modified recently"));
-						//qDebug() << "Modified recently";
+                        systemLog.postLog(LogSeverity::Debug, QString("Modified recently"));
 						bModified = true;
 					}
 
 					if(bModified)
 					{
-						systemLog.postLog(LogSeverity::Debug, QString("File: %1 is midified, rehashing").arg(sPath));
-						//qDebug() << "File:" << sPath.toLocal8Bit() << " is modified, rehashing";
+                        systemLog.postLog(LogSeverity::Debug, QString("File: %1 is midified, rehashing").arg(sPath));
 						RemoveFile(fquery.record().value(0).toInt());
 						nModifiedFiles++;
 					}
@@ -346,8 +328,7 @@ void CShareManager::SyncShares()
 
 		if(!query.exec())
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: %1 %2 %3").arg(query.lastError().text()).arg(query.lastError().number()).arg(query.executedQuery()));
-			//qDebug() << "SQL Query failed: " << query.lastError().text() << query.lastError().number() << query.executedQuery();
+            systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: %1 %2 %3").arg(query.lastError().text()).arg(query.lastError().number()).arg(query.executedQuery()));
 		}
 
 		while(query.next())
@@ -366,13 +347,11 @@ void CShareManager::SyncShares()
 	{
 		sIds.truncate(sIds.size() - 1);
 
-		systemLog.postLog(LogSeverity::Debug, QString("Dir IDs: %1").arg(sIds));
-		//qDebug() << "Dir IDs: " << sIds;
+        systemLog.postLog(LogSeverity::Debug, QString("Dir IDs: %1").arg(sIds));
 
 		if(!query.exec(QString("SELECT id FROM dirs WHERE id NOT IN(%1)").arg(sIds)))
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: %1").arg(query.lastError().text()));
-			//qDebug() << "SQL Query failed: " << query.lastError().text();
+            systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: %1").arg(query.lastError().text()));
 		}
 		else
 		{
@@ -384,8 +363,7 @@ void CShareManager::SyncShares()
 				RemoveDir(query.record().value(0).toLongLong());
 			}
 
-			systemLog.postLog(LogSeverity::Debug, QString("Found %1 orphaned dirs").arg(nOrphaned));
-			//qDebug() << "Found " << nOrphaned << "orphaned dirs";
+            systemLog.postLog(LogSeverity::Debug, QString("Found %1 orphaned dirs").arg(nOrphaned));
 		}
 	}
 
@@ -396,8 +374,7 @@ void CShareManager::SyncShares()
 		query.bindValue(0, QVariant(sPath));
 		if(!query.exec())
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: %1").arg(query.lastError().text()));
-			//qDebug() << "SQL Query failed: " << query.lastError().text();
+            systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: %1").arg(query.lastError().text()));
 			continue;
 		}
 
@@ -416,8 +393,7 @@ void CShareManager::SyncShares()
 				// Try to create the dir
 				if(!d.mkpath(sPath))
 				{
-					systemLog.postLog(LogSeverity::Debug, QString("Cannot create directory %1").arg(sPath));
-					//qDebug() << "Cannot create directory " << sPath;
+                    systemLog.postLog(LogSeverity::Debug, QString("Cannot create directory %1").arg(sPath));
 					continue;
 				}
 			}
@@ -427,14 +403,12 @@ void CShareManager::SyncShares()
 			insq.bindValue(0, QVariant(sPath));
 			if(!insq.exec())
 			{
-				systemLog.postLog(LogSeverity::Debug, QString("Cannot insert new directory entry: %1").arg(insq.lastError().text()));
-				//qDebug() << "Cannot insert new directory entry: " << insq.lastError().text();
+                systemLog.postLog(LogSeverity::Debug, QString("Cannot insert new directory entry: %1").arg(insq.lastError().text()));
 			}
 		}
 	}
 
-	systemLog.postLog(LogSeverity::Debug, QString("Missing dirs: %1 missing files: %2 modified files %3").arg(nMissingDirs).arg(nMissingFiles).arg(nModifiedFiles));
-	//qDebug() << "Missing dirs:" << nMissingDirs << "missing files:" << nMissingFiles << "modified files:" << nModifiedFiles;
+    systemLog.postLog(LogSeverity::Debug, QString("Missing dirs: %1 missing files: %2 modified files %3").arg(nMissingDirs).arg(nMissingFiles).arg(nModifiedFiles));
 
 	// 5. Now we can start scanning shared dirs
 
@@ -472,8 +446,7 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 
 	l.unlock();
 
-	systemLog.postLog(LogSeverity::Debug, QString("Scanning %1 %2 ").arg(sPath).arg(nParentID));
-	//qDebug() << "Scanning " << sPath << nParentID;
+    systemLog.postLog(LogSeverity::Debug, QString("Scanning %1 %2 ").arg(sPath).arg(nParentID));
 
 	QDir d(sPath);
 
@@ -481,16 +454,14 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 	{
 		if(!d.mkpath(sPath))
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("Cannot create %1 skipping...").arg(sPath));
-			//qDebug() << "Cannot create " << sPath << "skipping...";
+            systemLog.postLog(LogSeverity::Debug, QString("Cannot create %1 skipping...").arg(sPath));
 			return;
 		}
 	}
 
 	if(!d.isReadable())
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Directory %1 is not readable,skipping...").arg(sPath));
-		//qDebug() << "Directory " << sPath << "is not readable, skipping...";
+        systemLog.postLog(LogSeverity::Debug, QString("Directory %1 is not readable,skipping...").arg(sPath));
 		return;
 	}
 
@@ -509,8 +480,7 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 	query.bindValue(1, QVariant(sPath));
 	if(!query.exec())
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed (dir id): %1").arg(query.lastError().text()));
-		//qDebug() << "SQL Query failed (dir id): " << query.lastError().text();
+        systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed (dir id): %1").arg(query.lastError().text()));
 		return;
 	}
 
@@ -526,8 +496,7 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 		query.bindValue(1, QVariant(nParentID));
 		if(!query.exec())
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed (missing dir): %1").arg(query.lastError().text()));
-			//qDebug() << "SQL Query failed (missing dir): " << query.lastError().text();
+            systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed (missing dir): %1").arg(query.lastError().text()));
 			return;
 		}
 		else
@@ -541,8 +510,7 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 	query.bindValue(0, QVariant(nDirID));
 	if(!query.exec())
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed (fetch files): %1").arg(query.lastError().text()));
-		//qDebug() << "SQL Query failed (fetch files): " << query.lastError().text();
+        systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed (fetch files): %1").arg(query.lastError().text()));
 		return;
 	}
 
@@ -570,8 +538,7 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 		insq.bindValue(1, QVariant(sFile));
 		if(!insq.exec())
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("Cannot queue file for hashing: %1").arg(insq.lastError().text()));
-			//qDebug() << "Cannot queue file for hashing:" << insq.lastError().text();
+            systemLog.postLog(LogSeverity::Debug, QString("Cannot queue file for hashing: %1").arg(insq.lastError().text()));
 		}
 		else
 		{
@@ -638,8 +605,7 @@ void CShareManager::execQuery(const QString& sQuery)
 	QSqlQuery query(m_oDatabase);
 	if(!query.exec(sQuery))
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: %1").arg(query.lastError().text()));
-		//qDebug() << "SQL Query failed: " << query.lastError().text();
+        systemLog.postLog(LogSeverity::Debug, QString("SQL Query failed: %1").arg(query.lastError().text()));
 	}
 	else
 	{

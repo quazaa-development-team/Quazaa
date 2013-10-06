@@ -294,6 +294,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 	{
 		int existingFileEntry = -1;
 
+        // Check for duplicate file.
 		foreach ( CHash pHash, pHit->m_lHashes )
 		{
 			existingFileEntry = rootItem->find( pHash );
@@ -301,7 +302,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 				break;
 		}
 
-		// This hit is a new file
+        // This hit is a new non duplicate file.
 		if ( existingFileEntry == -1 )
 		{
 			QFileInfo fileInfo( pHit->m_sDescriptiveName );
@@ -321,8 +322,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 			            << "";                                // Country
 			SearchTreeItem* m_oFileItem = new SearchTreeItem( lParentData, rootItem );
 
-			// TODO: Shouldn't we remove duplicates?
-			m_oFileItem->HitData.lHashes << pHit->m_lHashes;
+            m_oFileItem->HitData.lHashes << pHit->m_lHashes;
 
 			// Create SearchTreeItem representing hit
 			QList<QVariant> lChildData;
@@ -337,8 +337,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 			           << geoIP.countryNameFromCode( sCountry );
 			SearchTreeItem* m_oHitItem = new SearchTreeItem(lChildData, m_oFileItem);
 
-			// TODO: Shouldn't we remove duplicates?
-			m_oHitItem->HitData.lHashes << pHit->m_lHashes;
+            m_oHitItem->HitData.lHashes << pHit->m_lHashes;
 			m_oHitItem->HitData.iNetwork = CNetworkIconProvider::icon( dpG2 );
 			m_oHitItem->HitData.iCountry = QIcon( ":/Resource/Flags/" + sCountry.toLower() + ".png" );
 
@@ -353,7 +352,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 
 			nFileCount = rootItem->childCount();
 		}
-		// We do already have a file for that hit.
+        // We do already have a file for that hit. Check for duplicate IP address. If not duplicate, add item.
 		else if ( !rootItem->child( existingFileEntry
 		                            )->duplicateCheck( rootItem->child( existingFileEntry ),
 		                                               pHit->m_pHitInfo.data()->
@@ -377,8 +376,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 			SearchTreeItem* oHitItem = new SearchTreeItem( lChildData,
 			                                                 rootItem->child( existingFileEntry ) );
 
-			// TODO: Shouldn't we remove duplicates?
-			oHitItem->HitData.lHashes << pHit->m_lHashes;
+            oHitItem->HitData.lHashes << pHit->m_lHashes;
 			oHitItem->HitData.iNetwork = CNetworkIconProvider::icon( dpG2 );
 			oHitItem->HitData.iCountry = QIcon( ":/Resource/Flags/" + sCountry.toLower() + ".png" );
 

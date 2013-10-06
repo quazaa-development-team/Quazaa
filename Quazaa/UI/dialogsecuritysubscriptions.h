@@ -29,21 +29,21 @@
 
 namespace Ui
 {
-	class DialogSecuritySubscriptions;
+	class CDialogSecuritySubscriptions;
 }
 
-class DialogSecuritySubscriptions : public QDialog
+class CDialogSecuritySubscriptions : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogSecuritySubscriptions(QWidget* parent = 0);
-	~DialogSecuritySubscriptions();
+	CDialogSecuritySubscriptions(QWidget* parent = 0);
+	~CDialogSecuritySubscriptions();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogSecuritySubscriptions* ui;
+	Ui::CDialogSecuritySubscriptions* ui;
 
 signals:
 	void closed();

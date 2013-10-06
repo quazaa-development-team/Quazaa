@@ -17,24 +17,24 @@
 
 #include <QMenu>
 
-class WidgetIrcMessageView;
-class ListViewIrcUsers;
+class CWidgetIrcMessageView;
+class CListViewIrcUsers;
 class SessionTreeItem;
 class SessionTabWidget;
 class SessionTreeWidget;
 
 class MenuFactory : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    MenuFactory(QObject* parent);
-    virtual ~MenuFactory();
+	MenuFactory(QObject* parent);
+	virtual ~MenuFactory();
 
-    virtual QMenu* createUserViewMenu(const QString& user, WidgetIrcMessageView* view);
-    virtual QMenu* createTabViewMenu(WidgetIrcMessageView* view, SessionTabWidget* tab);
-    virtual QMenu* createUserListMenu(const QString& user, ListViewIrcUsers* listView);
-    virtual QMenu* createSessionTreeMenu(SessionTreeItem* item, SessionTreeWidget* tree);
+	virtual QMenu* createUserViewMenu(const QString& user, CWidgetIrcMessageView* view);
+	virtual QMenu* createTabViewMenu(CWidgetIrcMessageView* view, SessionTabWidget* tab);
+	virtual QMenu* createUserListMenu(const QString& user, CListViewIrcUsers* listView);
+	virtual QMenu* createSessionTreeMenu(SessionTreeItem* item, SessionTreeWidget* tree);
 };
 
 #endif // MENUFACTORY_H

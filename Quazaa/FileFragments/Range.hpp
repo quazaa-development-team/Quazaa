@@ -59,7 +59,7 @@ public:
 
 			qDebug( qPrintable(QString("RangeError - default - begin: %1 - end: %2").arg(begin).arg(end)) );
 		}
-	}   
+	}
 	Range(std::pair< size_type, size_type > range, const payload_type& payload = payload_type())
 	: PayloadT( payload ), m_range( range )
 	{

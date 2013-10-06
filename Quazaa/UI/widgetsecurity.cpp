@@ -37,9 +37,9 @@
 #include <QMenu>
 #include <QKeyEvent>
 
-WidgetSecurity::WidgetSecurity(QWidget* parent) :
+CWidgetSecurity::CWidgetSecurity(QWidget* parent) :
 	QMainWindow( parent ),
-	ui( new Ui::WidgetSecurity )
+	ui( new Ui::CWidgetSecurity )
 {
 	ui->setupUi( this );
 
@@ -65,27 +65,27 @@ WidgetSecurity::WidgetSecurity(QWidget* parent) :
 	setSkin();
 }
 
-WidgetSecurity::~WidgetSecurity()
+CWidgetSecurity::~CWidgetSecurity()
 {
 	delete ui; // Note: This does also take care of m_pSecurityMenu and m_pSecurityList.
 }
 
-void WidgetSecurity::setModel(QAbstractItemModel* model)
+void CWidgetSecurity::setModel(QAbstractItemModel* model)
 {
 	tableViewSecurity->setModel( model );
 }
 
-QWidget* WidgetSecurity::tableView()
+QWidget* CWidgetSecurity::tableView()
 {
 	return tableViewSecurity;
 }
 
-void WidgetSecurity::saveWidget()
+void CWidgetSecurity::saveWidget()
 {
 	quazaaSettings.WinMain.SecurityToolbars = saveState();
 }
 
-void WidgetSecurity::changeEvent(QEvent* e)
+void CWidgetSecurity::changeEvent(QEvent* e)
 {
 	switch ( e->type() )
 	{
@@ -102,7 +102,7 @@ void WidgetSecurity::changeEvent(QEvent* e)
 	QMainWindow::changeEvent( e );
 }
 
-void WidgetSecurity::keyPressEvent(QKeyEvent *e)
+void CWidgetSecurity::keyPressEvent(QKeyEvent *e)
 {
 	switch ( e->key() )
 	{
@@ -128,18 +128,18 @@ void WidgetSecurity::keyPressEvent(QKeyEvent *e)
 	QMainWindow::keyPressEvent( e );
 }
 
-void WidgetSecurity::update()
+void CWidgetSecurity::update()
 {
 	m_pSecurityList->updateAll();
 }
 
-void WidgetSecurity::on_actionSecurityAddRule_triggered()
+void CWidgetSecurity::on_actionSecurityAddRule_triggered()
 {
-	DialogAddRule* dlgAddRule = new DialogAddRule( this );
+	CDialogAddRule* dlgAddRule = new CDialogAddRule( this );
 	dlgAddRule->show();
 }
 
-void WidgetSecurity::on_actionSecurityRemoveRule_triggered()
+void CWidgetSecurity::on_actionSecurityRemoveRule_triggered()
 {
 	QModelIndexList selection = tableViewSecurity->selectionModel()->selectedRows();
 
@@ -156,7 +156,7 @@ void WidgetSecurity::on_actionSecurityRemoveRule_triggered()
 	}
 }
 
-void WidgetSecurity::on_actionSecurityModifyRule_triggered()
+void CWidgetSecurity::on_actionSecurityModifyRule_triggered()
 {
 	QModelIndexList selection = tableViewSecurity->selectionModel()->selectedRows();
 	QModelIndex index = QModelIndex();
@@ -181,7 +181,7 @@ void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 		QReadLocker lock( &securityManager.m_pRWLock );
 
 		Security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
-		DialogAddRule* dlgAddRule = new DialogAddRule( this, pRule );
+		CDialogAddRule* dlgAddRule = new CDialogAddRule( this, pRule );
 
 		lock.unlock(); // Make the Security Manager available again.
 
@@ -189,23 +189,23 @@ void WidgetSecurity::on_actionSecurityModifyRule_triggered()
 	}
 }
 
-void WidgetSecurity::on_actionSecurityImportRules_triggered()
+void CWidgetSecurity::on_actionSecurityImportRules_triggered()
 {
 	// TODO: Implement.
 }
 
-void WidgetSecurity::on_actionSecurityExportRules_triggered()
+void CWidgetSecurity::on_actionSecurityExportRules_triggered()
 {
 	// TODO: Implement.
 }
 
-void WidgetSecurity::on_actionSubscribeSecurityList_triggered()
+void CWidgetSecurity::on_actionSubscribeSecurityList_triggered()
 {
-	DialogSecuritySubscriptions* dlgSecuritySubscriptions = new DialogSecuritySubscriptions( this );
+	CDialogSecuritySubscriptions* dlgSecuritySubscriptions = new CDialogSecuritySubscriptions( this );
 	dlgSecuritySubscriptions->show();
 }
 
-void WidgetSecurity::tableViewSecurity_customContextMenuRequested(const QPoint& point)
+void CWidgetSecurity::tableViewSecurity_customContextMenuRequested(const QPoint& point)
 {
 	QModelIndex index = tableViewSecurity->indexAt( point );
 
@@ -225,7 +225,7 @@ void WidgetSecurity::tableViewSecurity_customContextMenuRequested(const QPoint& 
 	m_pSecurityMenu->popup( QCursor::pos() );
 }
 
-void WidgetSecurity::tableViewSecurity_doubleClicked(const QModelIndex& index)
+void CWidgetSecurity::tableViewSecurity_doubleClicked(const QModelIndex& index)
 {
 	if ( index.isValid() )
 	{
@@ -239,7 +239,7 @@ void WidgetSecurity::tableViewSecurity_doubleClicked(const QModelIndex& index)
 	}
 }
 
-void WidgetSecurity::tableViewSecurity_clicked(const QModelIndex& index)
+void CWidgetSecurity::tableViewSecurity_clicked(const QModelIndex& index)
 {
 	if ( index.isValid() )
 	{
@@ -255,7 +255,7 @@ void WidgetSecurity::tableViewSecurity_clicked(const QModelIndex& index)
 	}
 }
 
-void WidgetSecurity::setSkin()
+void CWidgetSecurity::setSkin()
 {
 	tableViewSecurity->setStyleSheet( skinSettings.listViews );
 }

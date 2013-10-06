@@ -36,25 +36,25 @@
 
 #include "debug_new.h"
 
-WidgetLibrary::WidgetLibrary(QWidget* parent) :
+CWidgetLibrary::CWidgetLibrary(QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::WidgetLibrary)
+	ui(new Ui::CWidgetLibrary)
 {
 	ui->setupUi(this);
 	ui->comboBoxLibraryNavigatorSharesFilter->setView(new QListView());
 	ui->tabWidgetLibraryNavigator->setCurrentIndex(quazaaSettings.WinMain.LibraryNavigatorTab);
 	ui->splitterLibrary->restoreState(quazaaSettings.WinMain.LibrarySplitter);
-	panelLibraryView = new WidgetLibraryView();
+	panelLibraryView = new CWidgetLibraryView();
 	ui->verticalLayoutLibraryView->addWidget(panelLibraryView);
 	setSkin();
 }
 
-WidgetLibrary::~WidgetLibrary()
+CWidgetLibrary::~CWidgetLibrary()
 {
 	delete ui;
 }
 
-void WidgetLibrary::changeEvent(QEvent* e)
+void CWidgetLibrary::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
 	switch(e->type())
@@ -67,20 +67,20 @@ void WidgetLibrary::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetLibrary::on_toolButtonLibraryEditShares_clicked()
+void CWidgetLibrary::on_toolButtonLibraryEditShares_clicked()
 {
-	DialogEditShares* dlgEditShares = new DialogEditShares(this);
+	CDialogEditShares* dlgEditShares = new CDialogEditShares(this);
 	dlgEditShares->show();
 }
 
-void WidgetLibrary::saveWidget()
+void CWidgetLibrary::saveWidget()
 {
 	quazaaSettings.WinMain.LibraryNavigatorTab = ui->tabWidgetLibraryNavigator->currentIndex();
 	quazaaSettings.WinMain.LibrarySplitter = ui->splitterLibrary->saveState();
 	panelLibraryView->saveWidget();
 }
 
-void WidgetLibrary::on_splitterLibrary_customContextMenuRequested(QPoint pos)
+void CWidgetLibrary::on_splitterLibrary_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
@@ -105,12 +105,12 @@ void WidgetLibrary::on_splitterLibrary_customContextMenuRequested(QPoint pos)
 	}
 }
 
-void WidgetLibrary::initializeLibrary()
+void CWidgetLibrary::initializeLibrary()
 {
 
 }
 
-void WidgetLibrary::setSkin()
+void CWidgetLibrary::setSkin()
 {
 	ui->frameLibraryNavigator->setStyleSheet(skinSettings.sidebarBackground);
 	ui->treeViewLibraryNavigatorOrganiser->setStyleSheet(skinSettings.listViews);

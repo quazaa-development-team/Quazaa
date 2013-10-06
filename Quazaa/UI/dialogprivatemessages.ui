@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogPrivateMessages</class>
+ <class>CDialogPrivateMessages</class>
  <widget class="QDialog" name="DialogPrivateMessages">
   <property name="geometry">
    <rect>

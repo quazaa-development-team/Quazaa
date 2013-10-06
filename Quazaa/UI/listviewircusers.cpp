@@ -21,74 +21,74 @@
 #include <QScrollBar>
 #include <QAction>
 
-ListViewIrcUsers::ListViewIrcUsers(QWidget* parent) : QListView(parent)
+CListViewIrcUsers::CListViewIrcUsers(QWidget* parent) : QListView(parent)
 {
 	d.menuFactory = 0;
 	d.userModel = new IrcUserListModel();
 	connect(this, SIGNAL(doubleClicked(QModelIndex)), SLOT(onDoubleClicked(QModelIndex)));
 }
 
-ListViewIrcUsers::~ListViewIrcUsers()
+CListViewIrcUsers::~CListViewIrcUsers()
 {
 }
 
-QSize ListViewIrcUsers::sizeHint() const
+QSize CListViewIrcUsers::sizeHint() const
 {
 	return QSize(16 * fontMetrics().width('#') + verticalScrollBar()->sizeHint().width(), QListView::sizeHint().height());
 }
 
-Session* ListViewIrcUsers::session() const
+Session* CListViewIrcUsers::session() const
 {
 	return d.userModel->session();
 }
 
-void ListViewIrcUsers::setSession(Session* session)
+void CListViewIrcUsers::setSession(Session* session)
 {
     d.userModel->setSession(session);
 }
 
-QString ListViewIrcUsers::channel() const
+QString CListViewIrcUsers::channel() const
 {
 	return d.userModel->channel();
 }
 
-void ListViewIrcUsers::setChannel(const QString& channel)
+void CListViewIrcUsers::setChannel(const QString& channel)
 {
 	d.userModel->setChannel(channel);
 }
 
-IrcUserListModel *ListViewIrcUsers::userModel() const
+IrcUserListModel *CListViewIrcUsers::userModel() const
 {
 	return d.userModel;
 }
 
-bool ListViewIrcUsers::hasUser(const QString& user) const
+bool CListViewIrcUsers::hasUser(const QString& user) const
 {
 	return d.userModel->hasUser(user);
 }
 
-MenuFactory* ListViewIrcUsers::menuFactory() const
+MenuFactory* CListViewIrcUsers::menuFactory() const
 {
 	if (!d.menuFactory) {
-        ListViewIrcUsers* that = const_cast<ListViewIrcUsers*>(this);
+        CListViewIrcUsers* that = const_cast<CListViewIrcUsers*>(this);
 		that->d.menuFactory = new MenuFactory(that);
 	}
 	return d.menuFactory;
 }
 
-void ListViewIrcUsers::setMenuFactory(MenuFactory* factory)
+void CListViewIrcUsers::setMenuFactory(MenuFactory* factory)
 {
 	if (d.menuFactory && d.menuFactory->parent() == this)
 		delete d.menuFactory;
 	d.menuFactory = factory;
 }
 
-void ListViewIrcUsers::processMessage(IrcMessage* message)
+void CListViewIrcUsers::processMessage(IrcMessage* message)
 {
 	d.userModel->processMessage(message);
 }
 
-void ListViewIrcUsers::contextMenuEvent(QContextMenuEvent* event)
+void CListViewIrcUsers::contextMenuEvent(QContextMenuEvent* event)
 {
 	QModelIndex index = indexAt(event->pos());
 	if (index.isValid()) {
@@ -98,14 +98,14 @@ void ListViewIrcUsers::contextMenuEvent(QContextMenuEvent* event)
 	}
 }
 
-void ListViewIrcUsers::mousePressEvent(QMouseEvent* event)
+void CListViewIrcUsers::mousePressEvent(QMouseEvent* event)
 {
 	QListView::mousePressEvent(event);
 	if (!indexAt(event->pos()).isValid())
         selectionModel()->clear();
 }
 
-void ListViewIrcUsers::showEvent(QShowEvent *event)
+void CListViewIrcUsers::showEvent(QShowEvent *event)
 {
     QListView::showEvent(event);
     if (!model()) {
@@ -113,7 +113,7 @@ void ListViewIrcUsers::showEvent(QShowEvent *event)
     }
 }
 
-void ListViewIrcUsers::onDoubleClicked(const QModelIndex& index)
+void CListViewIrcUsers::onDoubleClicked(const QModelIndex& index)
 {
 	if (index.isValid())
 		emit doubleClicked(index.data(Qt::DisplayRole).toString());

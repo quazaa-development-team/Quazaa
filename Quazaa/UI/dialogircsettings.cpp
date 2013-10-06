@@ -123,9 +123,9 @@ public:
     }
 };
 
-DialogIrcSettings::DialogIrcSettings(QWidget *parent) :
+CDialogIrcSettings::CDialogIrcSettings(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogIrcSettings)
+	ui(new Ui::CDialogIrcSettings)
 {
 	ui->setupUi(this);
 
@@ -166,12 +166,12 @@ DialogIrcSettings::DialogIrcSettings(QWidget *parent) :
 	ui->pushButtonApply->setEnabled(false);
 }
 
-DialogIrcSettings::~DialogIrcSettings()
+CDialogIrcSettings::~CDialogIrcSettings()
 {
     delete ui;
 }
 
-QModelIndex DialogIrcSettings::addAliasRow(const QString &alias, const QString &command)
+QModelIndex CDialogIrcSettings::addAliasRow(const QString &alias, const QString &command)
 {
     QStandardItem* aliasItem = new QStandardItem(alias);
     QStandardItem* commandItem = new QStandardItem(command);
@@ -181,7 +181,7 @@ QModelIndex DialogIrcSettings::addAliasRow(const QString &alias, const QString &
     return proxyModel->mapFromSource(aliasItem->index());
 }
 
-void DialogIrcSettings::saveSettings()
+void CDialogIrcSettings::saveSettings()
 {
 	quazaaSettings.Chat.ConnectOnStartup = ui->checkBoxConnectOnStartup->isChecked();
 	quazaaSettings.Chat.MaxBlockCount = ui->spinBoxBlockCount->value();
@@ -221,7 +221,7 @@ void DialogIrcSettings::saveSettings()
 	ui->pushButtonApply->setEnabled(false);
 }
 
-void DialogIrcSettings::loadSettings()
+void CDialogIrcSettings::loadSettings()
 {
 	ui->checkBoxConnectOnStartup->setChecked(quazaaSettings.Chat.ConnectOnStartup);
 	ui->spinBoxBlockCount->setValue(quazaaSettings.Chat.MaxBlockCount);
@@ -273,19 +273,19 @@ void DialogIrcSettings::loadSettings()
 #endif
 }
 
-void DialogIrcSettings::on_pushButtonOK_clicked()
+void CDialogIrcSettings::on_pushButtonOK_clicked()
 {
 	if(ui->pushButtonApply->isEnabled())
 		saveSettings();
 	accept();
 }
 
-void DialogIrcSettings::enableApply()
+void CDialogIrcSettings::enableApply()
 {
     ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogIrcSettings::addAlias()
+void CDialogIrcSettings::addAlias()
 {
     ui->lineEditAliasesFilter->clear();
     QModelIndex index = addAliasRow(QString(), QString());
@@ -294,7 +294,7 @@ void DialogIrcSettings::addAlias()
     enableApply();
 }
 
-void DialogIrcSettings::onAliasClicked(const QModelIndex &index)
+void CDialogIrcSettings::onAliasClicked(const QModelIndex &index)
 {
     if (index.column() == 2) {
         qDeleteAll(sourceModel->takeRow(proxyModel->mapToSource(index).row()));

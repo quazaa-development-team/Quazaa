@@ -23,32 +23,32 @@ class Session;
 class SessionTreeItem : public QTreeWidgetItem
 {
 public:
-    SessionTreeItem(WidgetIrcMessageView* view, QTreeWidget* parent);
-    SessionTreeItem(WidgetIrcMessageView* view, QTreeWidgetItem* parent);
-    ~SessionTreeItem();
+	SessionTreeItem(CWidgetIrcMessageView* view, QTreeWidget* parent);
+	SessionTreeItem(CWidgetIrcMessageView* view, QTreeWidgetItem* parent);
+	~SessionTreeItem();
 
-    Session* session() const;
-    WidgetIrcMessageView* view() const;
-    SessionTreeItem* findChild(const QString& name) const;
+	Session* session() const;
+	CWidgetIrcMessageView* view() const;
+	SessionTreeItem* findChild(const QString& name) const;
 
-    QVariant data(int column, int role) const;
+	QVariant data(int column, int role) const;
 
-    int badge() const;
-    void setBadge(int badge);
+	int badge() const;
+	void setBadge(int badge);
 
-    bool isHighlighted() const;
-    void setHighlighted(bool highlighted);
+	bool isHighlighted() const;
+	void setHighlighted(bool highlighted);
 
-    bool operator<(const QTreeWidgetItem& other) const;
+	bool operator<(const QTreeWidgetItem& other) const;
 
 private:
-    struct Private {
-        bool highlighted;
-        WidgetIrcMessageView* view;
-        QSet<SessionTreeItem*> highlightedChildren;
-        QStringList sortOrder;
-    } d;
-    friend class SessionTreeWidget;
+	struct Private {
+		bool highlighted;
+		CWidgetIrcMessageView* view;
+		QSet<SessionTreeItem*> highlightedChildren;
+		QStringList sortOrder;
+	} d;
+	friend class SessionTreeWidget;
 };
 
 #endif // SESSIONTREEITEM_H

@@ -27,68 +27,68 @@ SessionTreeDelegate::SessionTreeDelegate(QObject* parent) : QStyledItemDelegate(
 
 QSize SessionTreeDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    QSize size = QStyledItemDelegate::sizeHint(option, index);
-    if (!index.parent().isValid()) {
-        static int height = 0;
-        if (!height) {
-            QLineEdit lineEdit;
-            lineEdit.setStyleSheet("QLineEdit { border: 1px solid transparent; }");
-            height = lineEdit.sizeHint().height();
-        }
-        size.setHeight(height);
-    }
-    return size;
+	QSize size = QStyledItemDelegate::sizeHint(option, index);
+	if (!index.parent().isValid()) {
+		static int height = 0;
+		if (!height) {
+			QLineEdit lineEdit;
+			lineEdit.setStyleSheet("QLineEdit { border: 1px solid transparent; }");
+			height = lineEdit.sizeHint().height();
+		}
+		size.setHeight(height);
+	}
+	return size;
 }
 
 void SessionTreeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    if (!index.parent().isValid()) {
-        const bool selected = option.state & QStyle::State_Selected;
-        const_cast<QStyleOptionViewItem&>(option).state &= ~QStyle::State_Selected;
+	if (!index.parent().isValid()) {
+		const bool selected = option.state & QStyle::State_Selected;
+		const_cast<QStyleOptionViewItem&>(option).state &= ~QStyle::State_Selected;
 
-        QColor c1 = qApp->palette().color(QPalette::Light);
-        QColor c2 = qApp->palette().color(QPalette::Button);
-        if (selected)
-            qSwap(c1, c2);
+		QColor c1 = qApp->palette().color(QPalette::Light);
+		QColor c2 = qApp->palette().color(QPalette::Button);
+		if (selected)
+			qSwap(c1, c2);
 
-        QLinearGradient gradient(option.rect.topLeft(), option.rect.bottomLeft());
-        gradient.setColorAt(0.0, c1);
-        gradient.setColorAt(1.0, c2);
-        painter->fillRect(option.rect, gradient);
+		QLinearGradient gradient(option.rect.topLeft(), option.rect.bottomLeft());
+		gradient.setColorAt(0.0, c1);
+		gradient.setColorAt(1.0, c2);
+		painter->fillRect(option.rect, gradient);
 
-        QVector<QLine> lines;
-        if (index.row() > 0)
-            lines += QLine(option.rect.topLeft(), option.rect.topRight());
-        lines += QLine(option.rect.bottomLeft(), option.rect.bottomRight());
-        QPen oldPen = painter->pen();
-        painter->setPen(qApp->palette().color(QPalette::Dark));
-        painter->drawLines(lines);
-        painter->setPen(oldPen);
-    }
+		QVector<QLine> lines;
+		if (index.row() > 0)
+			lines += QLine(option.rect.topLeft(), option.rect.topRight());
+		lines += QLine(option.rect.bottomLeft(), option.rect.bottomRight());
+		QPen oldPen = painter->pen();
+		painter->setPen(qApp->palette().color(QPalette::Dark));
+		painter->drawLines(lines);
+		painter->setPen(oldPen);
+	}
 
-    QStyledItemDelegate::paint(painter, option, index);
+	QStyledItemDelegate::paint(painter, option, index);
 
-    if (index.column() == 1) {
-        int badge = index.data(Qt::UserRole).toInt();
-        if (badge > 0) {
-            QRect rect = option.rect.adjusted(1, 3, -1, -3);
+	if (index.column() == 1) {
+		int badge = index.data(Qt::UserRole).toInt();
+		if (badge > 0) {
+			QRect rect = option.rect.adjusted(1, 3, -1, -3);
 
-            painter->save();
-            painter->setPen(Qt::NoPen);
-            painter->setBrush(qApp->palette().color(QPalette::Dark));
-            painter->setRenderHint(QPainter::Antialiasing);
-            painter->drawRoundedRect(rect, 40, 80, Qt::RelativeSize);
+			painter->save();
+			painter->setPen(Qt::NoPen);
+			painter->setBrush(qApp->palette().color(QPalette::Dark));
+			painter->setRenderHint(QPainter::Antialiasing);
+			painter->drawRoundedRect(rect, 40, 80, Qt::RelativeSize);
 
-            QFont font;
-            if (font.pointSize() != -1)
-                font.setPointSizeF(0.8 * font.pointSizeF());
-            painter->setFont(font);
+			QFont font;
+			if (font.pointSize() != -1)
+				font.setPointSizeF(0.8 * font.pointSizeF());
+			painter->setFont(font);
 
-            QString txt = QFontMetrics(font).elidedText(QString::number(badge), Qt::ElideRight, rect.width());
+			QString txt = QFontMetrics(font).elidedText(QString::number(badge), Qt::ElideRight, rect.width());
 
-            painter->setPen(qApp->palette().color(QPalette::Light));
-            painter->drawText(rect, Qt::AlignCenter, txt);
-            painter->restore();
-        }
-    }
+			painter->setPen(qApp->palette().color(QPalette::Light));
+			painter->drawText(rect, Qt::AlignCenter, txt);
+			painter->restore();
+		}
+	}
 }

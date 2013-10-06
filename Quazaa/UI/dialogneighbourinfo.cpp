@@ -5,9 +5,9 @@
 #include "neighbours.h"
 #include "networktype.h"
 
-DialogNeighbourInfo::DialogNeighbourInfo(CNeighboursTableModel::Neighbour *pNeighbour, QWidget *parent) :
+CDialogNeighbourInfo::CDialogNeighbourInfo(CNeighboursTableModel::Neighbour *pNeighbour, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogNeighbourInfo)
+    ui(new Ui::CDialogNeighbourInfo)
 {
     ui->setupUi(this);
 
@@ -27,12 +27,12 @@ DialogNeighbourInfo::DialogNeighbourInfo(CNeighboursTableModel::Neighbour *pNeig
     ui->labelRatioOutbound->setText(QString().sprintf("%1.2f%%", 100.0f * pNeighbour->nCompressionOut));
 }
 
-DialogNeighbourInfo::~DialogNeighbourInfo()
+CDialogNeighbourInfo::~CDialogNeighbourInfo()
 {
     delete ui;
 }
 
-QString DialogNeighbourInfo::neighbourConnectionDescription(CNeighboursTableModel::Neighbour *pNeighbour)
+QString CDialogNeighbourInfo::neighbourConnectionDescription(CNeighboursTableModel::Neighbour *pNeighbour)
 {
     if(pNeighbour->nDiscoveryProtocol == dpG2) {
         QString selfMode;

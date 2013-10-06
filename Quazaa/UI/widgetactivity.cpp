@@ -30,25 +30,25 @@
 
 #include "debug_new.h"
 
-WidgetActivity::WidgetActivity(QWidget* parent) :
+CWidgetActivity::CWidgetActivity(QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::WidgetActivity)
+	ui(new Ui::CWidgetActivity)
 {
 	ui->setupUi(this);
 	ui->splitterActivity->restoreState(quazaaSettings.WinMain.ActivitySplitter);
-	panelNeighbours = new WidgetNeighbours();
+	panelNeighbours = new CWidgetNeighbours();
 	ui->verticalLayoutNeighbours->addWidget(panelNeighbours);
-	panelSystemLog = new WidgetSystemLog();
+	panelSystemLog = new CWidgetSystemLog();
 	ui->verticalLayoutSystemLog->addWidget(panelSystemLog);
 	setSkin();
 }
 
-WidgetActivity::~WidgetActivity()
+CWidgetActivity::~CWidgetActivity()
 {
 	delete ui;
 }
 
-void WidgetActivity::changeEvent(QEvent* e)
+void CWidgetActivity::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
 	switch(e->type())
@@ -61,14 +61,14 @@ void WidgetActivity::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetActivity::saveWidget()
+void CWidgetActivity::saveWidget()
 {
 	quazaaSettings.WinMain.ActivitySplitter = ui->splitterActivity->saveState();
 	panelNeighbours->saveWidget();
 	panelSystemLog->saveWidget();
 }
 
-void WidgetActivity::on_splitterActivity_customContextMenuRequested(QPoint pos)
+void CWidgetActivity::on_splitterActivity_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
@@ -93,7 +93,7 @@ void WidgetActivity::on_splitterActivity_customContextMenuRequested(QPoint pos)
 	}
 }
 
-void WidgetActivity::on_toolButtonSystemLogHeader_clicked()
+void CWidgetActivity::on_toolButtonSystemLogHeader_clicked()
 {
 	if(ui->splitterActivity->sizes()[0] > 0)
 	{
@@ -113,7 +113,7 @@ void WidgetActivity::on_toolButtonSystemLogHeader_clicked()
 	}
 }
 
-void WidgetActivity::on_toolButtonNeighboursHeader_clicked()
+void CWidgetActivity::on_toolButtonNeighboursHeader_clicked()
 {
 	if(ui->splitterActivity->sizes()[1] > 0)
 	{
@@ -133,7 +133,7 @@ void WidgetActivity::on_toolButtonNeighboursHeader_clicked()
 	}
 }
 
-void WidgetActivity::setSkin()
+void CWidgetActivity::setSkin()
 {
 	ui->toolButtonNeighboursHeader->setStyleSheet(skinSettings.taskHeader);
 	ui->toolButtonSystemLogHeader->setStyleSheet(skinSettings.taskHeader);

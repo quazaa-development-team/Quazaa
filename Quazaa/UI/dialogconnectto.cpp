@@ -31,25 +31,25 @@
 
 #include "debug_new.h"
 
-DialogConnectTo::DialogConnectTo(QWidget* parent) :
+CDialogConnectTo::CDialogConnectTo(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogConnectTo)
+	ui(new Ui::CDialogConnectTo)
 {
 	ui->setupUi(this);
 	ui->pushButtonConnect->setDefault(true);
 	ui->comboBoxAddress->setView(new QListView());
 	ui->comboBoxNetwork->setView(new QListView());
-	setConnectNetwork(DialogConnectTo::G2);
+	setConnectNetwork(CDialogConnectTo::G2);
 	ui->comboBoxAddress->setFocus();
 	setSkin();
 }
 
-DialogConnectTo::~DialogConnectTo()
+CDialogConnectTo::~CDialogConnectTo()
 {
 	delete ui;
 }
 
-void DialogConnectTo::changeEvent(QEvent* e)
+void CDialogConnectTo::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -62,12 +62,12 @@ void DialogConnectTo::changeEvent(QEvent* e)
 	}
 }
 
-void DialogConnectTo::on_pushButtonCancel_clicked()
+void CDialogConnectTo::on_pushButtonCancel_clicked()
 {
 	reject();
 }
 
-void DialogConnectTo::on_pushButtonConnect_clicked()
+void CDialogConnectTo::on_pushButtonConnect_clicked()
 {
 	CEndPoint tempAddress;
 	if(ui->comboBoxAddress->currentText().count(":") > 1) // ipv6 address, check if includes port
@@ -106,17 +106,17 @@ void DialogConnectTo::on_pushButtonConnect_clicked()
 	}
 }
 
-QString DialogConnectTo::getAddressAndPort()
+QString CDialogConnectTo::getAddressAndPort()
 {
 	return addressAndPort;
 }
 
-DialogConnectTo::ConnectNetwork DialogConnectTo::getConnectNetwork()
+CDialogConnectTo::ConnectNetwork CDialogConnectTo::getConnectNetwork()
 {
 	return connectNetwork;
 }
 
-void DialogConnectTo::setAddressAndPort(QString newAddressAndPort)
+void CDialogConnectTo::setAddressAndPort(QString newAddressAndPort)
 {
 	addressAndPort = newAddressAndPort;
 	CEndPoint address(newAddressAndPort);
@@ -124,29 +124,29 @@ void DialogConnectTo::setAddressAndPort(QString newAddressAndPort)
 	ui->spinBoxPort->setValue(address.port());
 }
 
-void DialogConnectTo::setConnectNetwork(ConnectNetwork network)
+void CDialogConnectTo::setConnectNetwork(ConnectNetwork network)
 {
 	connectNetwork = network;
 	ui->comboBoxNetwork->setCurrentIndex(network);
 }
 
-void DialogConnectTo::on_comboBoxNetwork_currentIndexChanged(int index)
+void CDialogConnectTo::on_comboBoxNetwork_currentIndexChanged(int index)
 {
 	switch (index)
 	{
 	case 0:
-		connectNetwork = DialogConnectTo::G2;
+		connectNetwork = CDialogConnectTo::G2;
 		break;
 	case 1:
-		connectNetwork = DialogConnectTo::eDonkey;
+		connectNetwork = CDialogConnectTo::eDonkey;
 		break;
 	case 2:
-		connectNetwork = DialogConnectTo::Ares;
+		connectNetwork = CDialogConnectTo::Ares;
 		break;
 	}
 }
 
-void DialogConnectTo::setSkin()
+void CDialogConnectTo::setSkin()
 {
 
 }

@@ -29,22 +29,22 @@
 
 namespace Ui
 {
-	class WidgetSearchMonitor;
+	class CWidgetSearchMonitor;
 }
 
-class WidgetSearchMonitor : public QMainWindow
+class CWidgetSearchMonitor : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetSearchMonitor(QWidget* parent = 0);
-	~WidgetSearchMonitor();
+	CWidgetSearchMonitor(QWidget* parent = 0);
+	~CWidgetSearchMonitor();
 	void saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetSearchMonitor* ui;
+	Ui::CWidgetSearchMonitor* ui;
 
 private slots:
 	void setSkin();

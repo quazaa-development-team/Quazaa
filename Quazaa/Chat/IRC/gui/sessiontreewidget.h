@@ -21,93 +21,93 @@
 #include <QHash>
 
 class Session;
-class WidgetIrcMessageView;
+class CWidgetIrcMessageView;
 class MenuFactory;
 class SessionTreeItem;
 
 class SessionTreeWidget : public QTreeWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    SessionTreeWidget(QWidget* parent = 0);
+	SessionTreeWidget(QWidget* parent = 0);
 
-    QSize sizeHint() const;
+	QSize sizeHint() const;
 
-    QByteArray saveState() const;
-    void restoreState(const QByteArray& state);
+	QByteArray saveState() const;
+	void restoreState(const QByteArray& state);
 
-    MenuFactory* menuFactory() const;
-    void setMenuFactory(MenuFactory* factory);
+	MenuFactory* menuFactory() const;
+	void setMenuFactory(MenuFactory* factory);
 
-    enum ItemStatus { Active, Inactive, Highlight };
+	enum ItemStatus { Active, Inactive, Highlight };
 
-    QColor statusColor(ItemStatus status) const;
-    void setStatusColor(ItemStatus status, const QColor& color);
+	QColor statusColor(ItemStatus status) const;
+	void setStatusColor(ItemStatus status, const QColor& color);
 
-    SessionTreeItem* viewItem(WidgetIrcMessageView* view) const;
-    SessionTreeItem* sessionItem(Session* session) const;
+	SessionTreeItem* viewItem(CWidgetIrcMessageView* view) const;
+	SessionTreeItem* sessionItem(Session* session) const;
 
 public slots:
-    void addView(WidgetIrcMessageView* view);
-    void removeView(WidgetIrcMessageView* view);
-    void renameView(WidgetIrcMessageView* view);
-    void setCurrentView(WidgetIrcMessageView* view);
+	void addView(CWidgetIrcMessageView* view);
+	void removeView(CWidgetIrcMessageView* view);
+	void renameView(CWidgetIrcMessageView* view);
+	void setCurrentView(CWidgetIrcMessageView* view);
 
-    void moveToNextItem();
-    void moveToPrevItem();
+	void moveToNextItem();
+	void moveToPrevItem();
 
-    void moveToNextUnreadItem();
-    void moveToPrevUnreadItem();
+	void moveToNextUnreadItem();
+	void moveToPrevUnreadItem();
 
-    void expandCurrentSession();
-    void collapseCurrentSession();
-    void moveToMostActiveItem();
+	void expandCurrentSession();
+	void collapseCurrentSession();
+	void moveToMostActiveItem();
 
 	void applySettings();
 
 signals:
-    void editSession(Session* session);
-    void closeItem(SessionTreeItem* item);
-    void currentViewChanged(Session* session, const QString& view);
+	void editSession(Session* session);
+	void closeItem(SessionTreeItem* item);
+	void currentViewChanged(Session* session, const QString& view);
 
 protected:
-    void contextMenuEvent(QContextMenuEvent* event);
-    void dragMoveEvent(QDragMoveEvent* event);
-    bool event(QEvent* event);
-    QMimeData* mimeData(const QList<QTreeWidgetItem*> items) const;
+	void contextMenuEvent(QContextMenuEvent* event);
+	void dragMoveEvent(QDragMoveEvent* event);
+	bool event(QEvent* event);
+	QMimeData* mimeData(const QList<QTreeWidgetItem*> items) const;
 
 private slots:
-    void updateView(WidgetIrcMessageView* view = 0);
-    void updateSession(Session* session = 0);
-    void onItemExpanded(QTreeWidgetItem* item);
-    void onItemCollapsed(QTreeWidgetItem* item);
-    void onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
-    void delayedItemReset();
-    void delayedItemResetTimeout();
+	void updateView(CWidgetIrcMessageView* view = 0);
+	void updateSession(Session* session = 0);
+	void onItemExpanded(QTreeWidgetItem* item);
+	void onItemCollapsed(QTreeWidgetItem* item);
+	void onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
+	void delayedItemReset();
+	void delayedItemResetTimeout();
 
 private:
-    void resetItem(SessionTreeItem* item);
-    QTreeWidgetItem* lastItem() const;
-    QTreeWidgetItem* nextItem(QTreeWidgetItem* from) const;
-    QTreeWidgetItem* previousItem(QTreeWidgetItem* from) const;
+	void resetItem(SessionTreeItem* item);
+	QTreeWidgetItem* lastItem() const;
+	QTreeWidgetItem* nextItem(QTreeWidgetItem* from) const;
+	QTreeWidgetItem* previousItem(QTreeWidgetItem* from) const;
 
-    struct SessionTreeWidgetData {
-        MenuFactory* menuFactory;
-        QShortcut* prevShortcut;
-        QShortcut* nextShortcut;
-        QShortcut* prevUnreadShortcut;
-        QShortcut* nextUnreadShortcut;
-        QShortcut* expandShortcut;
-        QShortcut* collapseShortcut;
-        QShortcut* mostActiveShortcut;
-        QHash<ItemStatus, QColor> colors;
-        QSet<SessionTreeItem*> resetedItems;
-        QHash<WidgetIrcMessageView*, SessionTreeItem*> viewItems;
-        QHash<Session*, SessionTreeItem*> sessionItems;
-        mutable QTreeWidgetItem* dropParent;
-    } d;
-    friend class SessionTreeItem;
+	struct SessionTreeWidgetData {
+		MenuFactory* menuFactory;
+		QShortcut* prevShortcut;
+		QShortcut* nextShortcut;
+		QShortcut* prevUnreadShortcut;
+		QShortcut* nextUnreadShortcut;
+		QShortcut* expandShortcut;
+		QShortcut* collapseShortcut;
+		QShortcut* mostActiveShortcut;
+		QHash<ItemStatus, QColor> colors;
+		QSet<SessionTreeItem*> resetedItems;
+		QHash<CWidgetIrcMessageView*, SessionTreeItem*> viewItems;
+		QHash<Session*, SessionTreeItem*> sessionItems;
+		mutable QTreeWidgetItem* dropParent;
+	} d;
+	friend class SessionTreeItem;
 };
 
 #endif // SESSIONTREEWIDGET_H

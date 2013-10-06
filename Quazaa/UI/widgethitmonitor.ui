@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetHitMonitor</class>
+ <class>CWidgetHitMonitor</class>
  <widget class="QMainWindow" name="WidgetHitMonitor">
   <property name="geometry">
    <rect>

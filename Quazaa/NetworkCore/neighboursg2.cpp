@@ -290,20 +290,20 @@ bool CNeighboursG2::SwitchG2ClientMode(G2NodeType nRequestedMode)
 
 bool CNeighboursG2::NeedMoreG2(G2NodeType nType)
 {
-	if(nType == G2_HUB)   // potrzeba hubow?
+    if(nType == G2_HUB)   // Need hubs?
 	{
-		if(IsG2Hub())   // jesli hub
+        if(IsG2Hub())   // If we are a hub.
 		{
 			return (m_nHubsConnectedG2 < quazaaSettings.Gnutella2.NumPeers);
 		}
-		else    // jesli leaf
+        else    // If we are a leaf.
 		{
 			return (m_nLeavesConnectedG2 < quazaaSettings.Gnutella2.NumHubs);
 		}
 	}
-	else // potrzeba leaf?
+    else // Need leaves?
 	{
-		if(IsG2Hub())      // jesli hub
+        if(IsG2Hub())      // If we are a hub.
 		{
 			return (m_nLeavesConnectedG2 < quazaaSettings.Gnutella2.NumLeafs);
 		}
@@ -375,7 +375,7 @@ void CNeighboursG2::HubBalancing()
 	}
 	else
 	{
-		// we're hub
+        // We're a hub.
 		quint32 nLeaves = 0, nCapacity = 0;
 
 		foreach(CNeighbour * pNode, m_lNodes)
@@ -397,7 +397,7 @@ void CNeighboursG2::HubBalancing()
 
 			if(m_nPeriodsLow >= quazaaSettings.Gnutella2.HubBalanceLowTime)
 			{
-				systemLog.postLog(LogSeverity::Notice, "Switching to G2 LEAF mode");
+                systemLog.postLog(LogSeverity::Notice, "Switching to G2 LEAF mode.");
 				SwitchG2ClientMode(G2_LEAF);
 				return;
 			}
@@ -417,7 +417,7 @@ G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour*
 	pPacket->WritePacket("TS", 4)->WriteIntLE<quint32>( common::getTNowUTC() );
 	pPacket->WritePacket("FR", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
 	pPacket->WritePacket("RA", 4)->WriteIntLE<quint32>(30 + 30 * m_nHubsConnectedG2);
-	pPacket->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);
+	pPacket->WritePacket("V", 4)->WriteString(CQuazaaGlobals::VENDOR_CODE(), false);
 
 	if(bDone)
 	{

@@ -105,7 +105,7 @@ void CEndPoint::setPort(const quint16 nPort)
 bool CEndPoint::isValid() const
 {
 	return ( !isNull() && m_nPort  &&
-	         QHostAddress::operator !=( QHostAddress::Any ) &&
+			 QHostAddress::operator !=( QHostAddress::Any ) &&
 			QHostAddress::operator !=( QHostAddress::AnyIPv6 ) );
 }
 

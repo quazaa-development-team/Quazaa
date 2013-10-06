@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetSearchTemplate</class>
+ <class>CWidgetSearchTemplate</class>
  <widget class="QWidget" name="WidgetSearchTemplate">
   <property name="geometry">
    <rect>

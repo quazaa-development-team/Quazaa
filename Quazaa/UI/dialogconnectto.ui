@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogConnectTo</class>
+ <class>CDialogConnectTo</class>
  <widget class="QDialog" name="DialogConnectTo">
   <property name="geometry">
    <rect>

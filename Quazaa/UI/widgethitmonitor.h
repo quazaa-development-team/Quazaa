@@ -29,22 +29,22 @@
 
 namespace Ui
 {
-	class WidgetHitMonitor;
+	class CWidgetHitMonitor;
 }
 
-class WidgetHitMonitor : public QMainWindow
+class CWidgetHitMonitor : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetHitMonitor(QWidget* parent = 0);
-	~WidgetHitMonitor();
+	CWidgetHitMonitor(QWidget* parent = 0);
+	~CWidgetHitMonitor();
 	void saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetHitMonitor* ui;
+	Ui::CWidgetHitMonitor* ui;
 
 private slots:
 	void on_actionMore_triggered();

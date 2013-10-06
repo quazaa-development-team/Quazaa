@@ -28,20 +28,20 @@
 
 #include "debug_new.h"
 
-DialogDownloadProperties::DialogDownloadProperties(QWidget* parent) :
+CDialogDownloadProperties::CDialogDownloadProperties(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogDownloadProperties)
+	ui(new Ui::CDialogDownloadProperties)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogDownloadProperties::~DialogDownloadProperties()
+CDialogDownloadProperties::~CDialogDownloadProperties()
 {
 	delete ui;
 }
 
-void DialogDownloadProperties::changeEvent(QEvent* e)
+void CDialogDownloadProperties::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -54,7 +54,7 @@ void DialogDownloadProperties::changeEvent(QEvent* e)
 	}
 }
 
-void DialogDownloadProperties::setSkin()
+void CDialogDownloadProperties::setSkin()
 {
 
 }

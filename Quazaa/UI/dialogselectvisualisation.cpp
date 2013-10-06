@@ -28,20 +28,20 @@
 
 #include "debug_new.h"
 
-DialogSelectVisualisation::DialogSelectVisualisation(QWidget* parent) :
+CDialogSelectVisualisation::CDialogSelectVisualisation(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogSelectVisualisation)
+	ui(new Ui::CDialogSelectVisualisation)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogSelectVisualisation::~DialogSelectVisualisation()
+CDialogSelectVisualisation::~CDialogSelectVisualisation()
 {
 	delete ui;
 }
 
-void DialogSelectVisualisation::changeEvent(QEvent* e)
+void CDialogSelectVisualisation::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -54,7 +54,7 @@ void DialogSelectVisualisation::changeEvent(QEvent* e)
 	}
 }
 
-void DialogSelectVisualisation::on_pushButtonOK_clicked()
+void CDialogSelectVisualisation::on_pushButtonOK_clicked()
 {
 	if(ui->pushButtonApply->isEnabled())
 	{
@@ -64,13 +64,13 @@ void DialogSelectVisualisation::on_pushButtonOK_clicked()
 	close();
 }
 
-void DialogSelectVisualisation::on_pushButtonCancel_clicked()
+void CDialogSelectVisualisation::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogSelectVisualisation::setSkin()
+void CDialogSelectVisualisation::setSkin()
 {
 
 }

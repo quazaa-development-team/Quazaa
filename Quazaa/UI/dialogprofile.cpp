@@ -32,9 +32,9 @@
 
 #include "debug_new.h"
 
-DialogProfile::DialogProfile(QWidget* parent) :
+CDialogProfile::CDialogProfile(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogProfile)
+	ui(new Ui::CDialogProfile)
 {
 	ui->setupUi(this);
 	ui->pagesProfile->setCurrentIndex(0);
@@ -94,12 +94,12 @@ DialogProfile::DialogProfile(QWidget* parent) :
 	setSkin();
 }
 
-DialogProfile::~DialogProfile()
+CDialogProfile::~CDialogProfile()
 {
 	delete ui;
 }
 
-void DialogProfile::changeEvent(QEvent* e)
+void CDialogProfile::changeEvent(QEvent* e)
 {
 	switch(e->type())
 	{
@@ -111,7 +111,7 @@ void DialogProfile::changeEvent(QEvent* e)
 	}
 }
 
-void DialogProfile::on_treeWidgetProfileNavigation_itemSelectionChanged()
+void CDialogProfile::on_treeWidgetProfileNavigation_itemSelectionChanged()
 {
 	QTreeWidgetItem* item = ui->treeWidgetProfileNavigation->currentItem();
 	int column = ui->treeWidgetProfileNavigation->currentColumn();
@@ -160,7 +160,7 @@ void DialogProfile::on_treeWidgetProfileNavigation_itemSelectionChanged()
 	}
 }
 
-void DialogProfile::on_pushButtonOK_clicked()
+void CDialogProfile::on_pushButtonOK_clicked()
 {
 	if(ui->pushButtonApply->isEnabled())
 	{
@@ -170,18 +170,18 @@ void DialogProfile::on_pushButtonOK_clicked()
 	close();
 }
 
-void DialogProfile::on_pushButtonCancel_clicked()
+void CDialogProfile::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogProfile::on_lineEditGnutellaSceenName_textEdited(QString)
+void CDialogProfile::on_lineEditGnutellaSceenName_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_pushButtonApply_clicked()
+void CDialogProfile::on_pushButtonApply_clicked()
 {
 	quazaaSettings.Profile.GnutellaScreenName = ui->lineEditGnutellaSceenName->text();
 	quazaaSettings.Profile.IrcNickname = ui->lineEditNickname->text();
@@ -225,102 +225,102 @@ void DialogProfile::on_pushButtonApply_clicked()
 	ui->pushButtonApply->setEnabled(false);
 }
 
-void DialogProfile::on_lineEditNickname_textEdited(QString)
+void CDialogProfile::on_lineEditNickname_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditAltNickname_textEdited(QString)
+void CDialogProfile::on_lineEditAltNickname_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditUserName_textEdited(QString)
+void CDialogProfile::on_lineEditUserName_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditRealName_textEdited(QString)
+void CDialogProfile::on_lineEditRealName_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_comboBoxGender_currentIndexChanged(QString)
+void CDialogProfile::on_comboBoxGender_currentIndexChanged(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_spinBoxAge_valueChanged(int)
+void CDialogProfile::on_spinBoxAge_valueChanged(int)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_checkBoxAllowBrowse_clicked()
+void CDialogProfile::on_checkBoxAllowBrowse_clicked()
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditEmail_textEdited(QString)
+void CDialogProfile::on_lineEditEmail_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditMSN_textEdited(QString)
+void CDialogProfile::on_lineEditMSN_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditYahoo_textEdited(QString)
+void CDialogProfile::on_lineEditYahoo_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditICQ_textEdited(QString)
+void CDialogProfile::on_lineEditICQ_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditAOL_textEdited(QString)
+void CDialogProfile::on_lineEditAOL_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditJabber_textEdited(QString)
+void CDialogProfile::on_lineEditJabber_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditMySpace_textEdited(QString)
+void CDialogProfile::on_lineEditMySpace_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditCountry_textEdited(QString)
+void CDialogProfile::on_lineEditCountry_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditStateProvince_textEdited(QString)
+void CDialogProfile::on_lineEditStateProvince_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditCity_textEdited(QString)
+void CDialogProfile::on_lineEditCity_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditLatitude_textEdited(QString)
+void CDialogProfile::on_lineEditLatitude_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditLonitude_textEdited(QString)
+void CDialogProfile::on_lineEditLonitude_textEdited(QString)
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_lineEditInterest_textEdited(QString)
+void CDialogProfile::on_lineEditInterest_textEdited(QString)
 {
 	if(ui->lineEditInterest->text() == "")
 	{
@@ -332,7 +332,7 @@ void DialogProfile::on_lineEditInterest_textEdited(QString)
 	}
 }
 
-void DialogProfile::on_pushButtonInterestsAdd_clicked()
+void CDialogProfile::on_pushButtonInterestsAdd_clicked()
 {
 	if(ui->lineEditInterest->text() != "")
 	{
@@ -341,7 +341,7 @@ void DialogProfile::on_pushButtonInterestsAdd_clicked()
 	}
 }
 
-void DialogProfile::on_pushButtonInterestsRemove_clicked()
+void CDialogProfile::on_pushButtonInterestsRemove_clicked()
 {
 	if(ui->listWidgetInterests->currentRow() != -1)
 	{
@@ -351,18 +351,18 @@ void DialogProfile::on_pushButtonInterestsRemove_clicked()
 	}
 }
 
-void DialogProfile::on_listWidgetRemoved_itemClicked(QListWidgetItem* item)
+void CDialogProfile::on_listWidgetRemoved_itemClicked(QListWidgetItem* item)
 {
 	ui->lineEditInterest->setText(item->text());
 	ui->pushButtonInterestsAdd->setEnabled(true);
 }
 
-void DialogProfile::on_plainTextEditBio_textChanged()
+void CDialogProfile::on_plainTextEditBio_textChanged()
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_pushButtonAvatarAdd_clicked()
+void CDialogProfile::on_pushButtonAvatarAdd_clicked()
 {
 	QFileInfo avatarFile(QFileDialog::getOpenFileName(this, tr("Open Avatar Image"),
 							qApp->applicationDirPath(),
@@ -375,14 +375,14 @@ void DialogProfile::on_pushButtonAvatarAdd_clicked()
 	}
 }
 
-void DialogProfile::on_pushButtonRemove_clicked()
+void CDialogProfile::on_pushButtonRemove_clicked()
 {
 	m_sTempAvatarFileName = ":/Chat/Graphics/Chat/DefaultAvatar.png";
 	ui->labelAvatarPreview->setPixmap(QPixmap(m_sTempAvatarFileName));
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::on_pushButtonNewWebsite_clicked()
+void CDialogProfile::on_pushButtonNewWebsite_clicked()
 {
 	if(ui->lineEditAddress->text() != "" && ui->lineEditWebsite->text() != "")
 	{
@@ -394,7 +394,7 @@ void DialogProfile::on_pushButtonNewWebsite_clicked()
 	}
 }
 
-void DialogProfile::on_pushButtonRemoveWebsite_clicked()
+void CDialogProfile::on_pushButtonRemoveWebsite_clicked()
 {
 	if(ui->treeWidgetFavorites->currentIndex().isValid())
 	{
@@ -404,14 +404,14 @@ void DialogProfile::on_pushButtonRemoveWebsite_clicked()
 	}
 }
 
-void DialogProfile::on_pushButtonGenerateNewGUID_clicked()
+void CDialogProfile::on_pushButtonGenerateNewGUID_clicked()
 {
 	tempGUID = QUuid::createUuid();
 	ui->labelGUID->setText(tempGUID.toString().remove(QRegExp("[{}]")));
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogProfile::setSkin()
+void CDialogProfile::setSkin()
 {
 
 }

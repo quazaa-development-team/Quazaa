@@ -94,7 +94,7 @@ QVariant CDownloadsTreeModel::data(const QModelIndex &index, int role) const
 				CDownloadSourceItem *item = static_cast<CDownloadSourceItem*>(index.internalPointer());
 				if(item->m_nProtocol != tpNull)
 				{
-					return QIcon(":/Resource/Flags/" + item->getCountry().toLower() + ".png");
+                    return QIcon(":/Resource/Flags/" + item->getCountryCode().toLower() + ".png");
 				}
 			}
 		}
@@ -444,7 +444,8 @@ CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownl
 	m_sClient = "";
 	m_nDownloaded = 0;
 
-	m_sCountry = downloadSource->m_oAddress.country();
+    m_sCountryCode = downloadSource->m_oAddress.country();
+    m_sCountry = geoIP.countryNameFromCode(m_sCountryCode);
 
 	m_nProtocol = downloadSource->m_nProtocol;
 
@@ -495,9 +496,8 @@ QVariant CDownloadSourceItem::data(int column) const
 	case CDownloadsTreeModel::COMPLETED:
 			return formatBytes(m_nDownloaded);
 		break;
-	case CDownloadsTreeModel::COUNTRY:
-		// TODO: would it be more intelligent to store this in a variable instead of getting it from geoIP each time?
-			return geoIP.countryNameFromCode(m_sCountry);
+    case CDownloadsTreeModel::COUNTRY:
+            return m_sCountry;
 		break;
 	default:
 			return QVariant();
@@ -506,9 +506,14 @@ QVariant CDownloadSourceItem::data(int column) const
 	}
 }
 
+QString CDownloadSourceItem::getCountryCode()
+{
+    return m_sCountryCode;
+}
+
 QString CDownloadSourceItem::getCountry()
 {
-	return m_sCountry;
+    return m_sCountry;
 }
 
 void CDownloadSourceItem::onBytesReceived(quint64 offset, quint64 length)

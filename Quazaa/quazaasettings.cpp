@@ -36,13 +36,13 @@
 
 #include "debug_new.h"
 
-QuazaaSettings quazaaSettings;
+CQuazaaSettings quazaaSettings;
 
-QuazaaSettings::QuazaaSettings()
+CQuazaaSettings::CQuazaaSettings()
 {
 }
 
-void QuazaaSettings::saveSettings()
+void CQuazaaSettings::saveSettings()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -460,7 +460,7 @@ void QuazaaSettings::saveSettings()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::loadSettings()
+void CQuazaaSettings::loadSettings()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -929,7 +929,7 @@ void QuazaaSettings::loadSettings()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::saveChatConnections()
+void CQuazaaSettings::saveChatConnections()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -942,7 +942,7 @@ void QuazaaSettings::saveChatConnections()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::loadChatConnections()
+void CQuazaaSettings::loadChatConnections()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -955,7 +955,7 @@ void QuazaaSettings::loadChatConnections()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::saveChatConnectionWizard()
+void CQuazaaSettings::saveChatConnectionWizard()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -972,7 +972,7 @@ void QuazaaSettings::saveChatConnectionWizard()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::loadChatConnectionWizard()
+void CQuazaaSettings::loadChatConnectionWizard()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -992,7 +992,7 @@ void QuazaaSettings::loadChatConnectionWizard()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::saveChat()
+void CQuazaaSettings::saveChat()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1077,7 +1077,7 @@ void QuazaaSettings::saveChat()
 	emit chatSettingsChanged();
 }
 
-void QuazaaSettings::loadChat()
+void CQuazaaSettings::loadChat()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1189,7 +1189,7 @@ void QuazaaSettings::loadChat()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::saveProfile()
+void CQuazaaSettings::saveProfile()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1226,7 +1226,7 @@ void QuazaaSettings::saveProfile()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::loadProfile()
+void CQuazaaSettings::loadProfile()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1279,7 +1279,7 @@ void QuazaaSettings::loadProfile()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::saveWindowSettings(QMainWindow* window)
+void CQuazaaSettings::saveWindowSettings(QMainWindow* window)
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1361,7 +1361,7 @@ void QuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("UploadsToolbar", quazaaSettings.WinMain.UploadsToolbar);
 }
 
-void QuazaaSettings::loadWindowSettings(QMainWindow* window)
+void CQuazaaSettings::loadWindowSettings(QMainWindow* window)
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1441,7 +1441,7 @@ void QuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.UploadsToolbar = m_qSettings.value("UploadsToolbar", QByteArray()).toByteArray();
 }
 
-void QuazaaSettings::saveLanguageSettings()
+void CQuazaaSettings::saveLanguageSettings()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1453,7 +1453,7 @@ void QuazaaSettings::saveLanguageSettings()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::loadLanguageSettings()
+void CQuazaaSettings::loadLanguageSettings()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1466,7 +1466,7 @@ void QuazaaSettings::loadLanguageSettings()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::saveFirstRun(bool firstRun)
+void CQuazaaSettings::saveFirstRun(bool firstRun)
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1477,7 +1477,7 @@ void QuazaaSettings::saveFirstRun(bool firstRun)
 	m_qSettings.setValue("FirstRun", firstRun);
 }
 
-bool QuazaaSettings::isFirstRun()
+bool CQuazaaSettings::isFirstRun()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1488,7 +1488,7 @@ bool QuazaaSettings::isFirstRun()
 	return m_qSettings.value("FirstRun", true).toBool();
 }
 
-void QuazaaSettings::saveSkinSettings()
+void CQuazaaSettings::saveSkinSettings()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1499,7 +1499,7 @@ void QuazaaSettings::saveSkinSettings()
 	m_qSettings.setValue("SkinFile", Skin.File);
 }
 
-void QuazaaSettings::loadSkinSettings()
+void CQuazaaSettings::loadSkinSettings()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1510,7 +1510,7 @@ void QuazaaSettings::loadSkinSettings()
 	Skin.File = m_qSettings.value("SkinFile", qApp->applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
 }
 
-void QuazaaSettings::saveLogSettings()
+void CQuazaaSettings::saveLogSettings()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
@@ -1532,7 +1532,7 @@ void QuazaaSettings::saveLogSettings()
 	m_qSettings.endGroup();
 }
 
-void QuazaaSettings::loadLogSettings()
+void CQuazaaSettings::loadLogSettings()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);

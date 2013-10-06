@@ -30,9 +30,9 @@
 
 #include "debug_new.h"
 
-WidgetGraph::WidgetGraph(QWidget* parent) :
+CWidgetGraph::CWidgetGraph(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetGraph)
+	ui(new Ui::CWidgetGraph)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.GraphToolbar);
@@ -40,12 +40,12 @@ WidgetGraph::WidgetGraph(QWidget* parent) :
 	setSkin();
 }
 
-WidgetGraph::~WidgetGraph()
+CWidgetGraph::~CWidgetGraph()
 {
 	delete ui;
 }
 
-void WidgetGraph::changeEvent(QEvent* e)
+void CWidgetGraph::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -58,13 +58,13 @@ void WidgetGraph::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetGraph::saveWidget()
+void CWidgetGraph::saveWidget()
 {
 	quazaaSettings.WinMain.GraphToolbar = saveState();
 	quazaaSettings.WinMain.GraphSplitter = ui->splitterGraph->saveState();
 }
 
-void WidgetGraph::on_splitterGraph_customContextMenuRequested(QPoint pos)
+void CWidgetGraph::on_splitterGraph_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
@@ -89,7 +89,7 @@ void WidgetGraph::on_splitterGraph_customContextMenuRequested(QPoint pos)
 	}
 }
 
-void WidgetGraph::setSkin()
+void CWidgetGraph::setSkin()
 {
 
 }

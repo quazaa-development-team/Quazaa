@@ -36,15 +36,15 @@
 #include "network.h"
 
 namespace Ui {
-	class WidgetChatInput;
+	class CWidgetChatInput;
 }
 
-class WidgetChatInput : public QMainWindow {
+class CWidgetChatInput : public QMainWindow {
 	Q_OBJECT
 public:
-	WidgetChatInput(QWidget *parent = 0, bool isIrc = false);
-	~WidgetChatInput();
-	WidgetReturnEmitTextEdit* textEdit();
+	CWidgetChatInput(QWidget *parent = 0, bool isIrc = false);
+	~CWidgetChatInput();
+	CWidgetReturnEmitTextEdit* textEdit();
 	QLabel* helpLabel();
 
 signals:
@@ -53,15 +53,15 @@ signals:
 	void closing();
 
 protected:
-    void changeEvent(QEvent *e);
+	void changeEvent(QEvent *e);
 
 private:
-    Ui::WidgetChatInput *ui;
+	Ui::CWidgetChatInput *ui;
 	QToolButton *toolButtonSmilies;
-	WidgetSmileyList *widgetSmileyList;
-    QColor defaultColor;
+	CWidgetSmileyList *widgetSmileyList;
+	QColor defaultColor;
 	QToolButton *toolButtonPickColor;
-    QToolButton *toolButtonPrivateMessage;
+	QToolButton *toolButtonPrivateMessage;
 	bool bIsIrc;
 
 public slots:

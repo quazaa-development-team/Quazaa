@@ -37,11 +37,11 @@
 
 namespace common
 {
-    void folderOpen(QString file);
-    QString formatBytes(quint64 nBytesPerSec);
-    QString vendorCodeToName(QString vendorCode);
-    QString fixFileName(QString sName);
-    QString getTempFileName(QString sName);
+	void folderOpen(QString file);
+	QString formatBytes(quint64 nBytesPerSec);
+	QString vendorCodeToName(QString vendorCode);
+	QString fixFileName(QString sName);
+	QString getTempFileName(QString sName);
 
 
 	/**
@@ -76,8 +76,8 @@ namespace common
 	 * @return true if successful, false otherwise.
 	 */
 	quint32 securredSaveFile(Location location, QString sFileName, QString sMessage,
-	                         const void * const pManager,
-	                         quint32 (*writeData)(const void* const, QFile&));
+							 const void * const pManager,
+							 quint32 (*writeData)(const void* const, QFile&));
 
 	/**
 	 * @brief getRandomUnusedPort
@@ -152,22 +152,22 @@ namespace common
 //        }
 //    }
 
-    template <typename T>
-    inline T getRandomNum(T min, T max)
-    {
-        return min + T( ((max - min) + 1) * qrand() / (RAND_MAX + 1.0) );
-    }
+	template <typename T>
+	inline T getRandomNum(T min, T max)
+	{
+		return min + T( ((max - min) + 1) * qrand() / (RAND_MAX + 1.0) );
+	}
 
-    // TODO: Make this work.
-    // This generates a read/write iterator from a read-only iterator.
-    /*template<class T> inline typename T::iterator getRWIterator(T container, typename T::const_iterator const_it)
-    {
-        typename T::iterator i = container.begin();
-        typename T::const_iterator container_begin_const = container.begin();
-        int nDistance = std::distance< typename T::const_iterator >( container_begin_const, const_it );
-        std::advance( i, nDistance );
-        return i;
-    }*/
+	// TODO: Make this work.
+	// This generates a read/write iterator from a read-only iterator.
+	/*template<class T> inline typename T::iterator getRWIterator(T container, typename T::const_iterator const_it)
+	{
+		typename T::iterator i = container.begin();
+		typename T::const_iterator container_begin_const = container.begin();
+		int nDistance = std::distance< typename T::const_iterator >( container_begin_const, const_it );
+		std::advance( i, nDistance );
+		return i;
+	}*/
 }
 
 #endif // COMMONFUNCTIONS_H

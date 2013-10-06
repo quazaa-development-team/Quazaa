@@ -19,7 +19,7 @@
 #include <QStackedWidget>
 #include <QShortcut>
 
-TabBar::TabBar(QWidget* parent) : QTabBar(parent)
+CTabBar::CTabBar(QWidget* parent) : QTabBar(parent)
 {
     prevShortcut = new QShortcut(this);
     connect(prevShortcut, SIGNAL(activated()), parent, SLOT(moveToPrevTab()));
@@ -40,7 +40,7 @@ TabBar::TabBar(QWidget* parent) : QTabBar(parent)
     setSelectionBehaviorOnRemove(SelectLeftTab);
 }
 
-QKeySequence TabBar::navigationShortcut(Navigation navigation) const
+QKeySequence CTabBar::navigationShortcut(Navigation navigation) const
 {
     switch (navigation) {
         case Next:           return nextShortcut->key();
@@ -51,7 +51,7 @@ QKeySequence TabBar::navigationShortcut(Navigation navigation) const
     }
 }
 
-void TabBar::setNavigationShortcut(Navigation navigation, const QKeySequence& shortcut)
+void CTabBar::setNavigationShortcut(Navigation navigation, const QKeySequence& shortcut)
 {
     switch (navigation) {
         case Next:           return nextShortcut->setKey(shortcut);
@@ -61,12 +61,12 @@ void TabBar::setNavigationShortcut(Navigation navigation, const QKeySequence& sh
     }
 }
 
-QSize TabBar::minimumSizeHint() const
+QSize CTabBar::minimumSizeHint() const
 {
     return testAttribute(Qt::WA_WState_Hidden) ? QSize() : QTabBar::minimumSizeHint();
 }
 
-void TabBar::changeEvent(QEvent* event)
+void CTabBar::changeEvent(QEvent* event)
 {
     if (event->type() == QEvent::StyleChange) {
         Qt::TextElideMode mode = elideMode();
@@ -78,14 +78,14 @@ void TabBar::changeEvent(QEvent* event)
     QTabBar::changeEvent(event);
 }
 
-void TabBar::contextMenuEvent(QContextMenuEvent* event)
+void CTabBar::contextMenuEvent(QContextMenuEvent* event)
 {
     int index = tabAt(event->pos());
     if (index != -1)
         emit menuRequested(index, event->globalPos());
 }
 
-void TabBar::wheelEvent(QWheelEvent* event)
+void CTabBar::wheelEvent(QWheelEvent* event)
 {
     if (event->delta() > 0)
         QMetaObject::invokeMethod(parent(), "moveToPrevTab");
@@ -94,9 +94,9 @@ void TabBar::wheelEvent(QWheelEvent* event)
     QWidget::wheelEvent(event);
 }
 
-TabWidget::TabWidget(QWidget* parent) : QTabWidget(parent)
+CTabWidget::CTabWidget(QWidget* parent) : QTabWidget(parent)
 {
-    setTabBar(new TabBar(this));
+    setTabBar(new CTabBar(this));
     setElideMode(Qt::ElideMiddle);
     d.previous = -1;
     d.updatingColors = false;
@@ -110,12 +110,12 @@ TabWidget::TabWidget(QWidget* parent) : QTabWidget(parent)
     connect(tabBar(), SIGNAL(menuRequested(int, QPoint)), this, SIGNAL(tabMenuRequested(int, QPoint)));
 }
 
-QTabBar* TabWidget::tabBar() const
+QTabBar* CTabWidget::tabBar() const
 {
     return QTabWidget::tabBar();
 }
 
-QSize TabWidget::sizeHint() const
+QSize CTabWidget::sizeHint() const
 {
     if (tabBar()->testAttribute(Qt::WA_WState_Hidden)) {
         QStackedWidget* stack = findChild<QStackedWidget*>("qt_tabwidget_stackedwidget");
@@ -124,12 +124,12 @@ QSize TabWidget::sizeHint() const
     return QTabWidget::sizeHint();
 }
 
-QColor TabWidget::tabTextColor(TabWidget::TabRole role) const
+QColor CTabWidget::tabTextColor(CTabWidget::TabRole role) const
 {
     return d.colors.value(role);
 }
 
-void TabWidget::setTabTextColor(TabWidget::TabRole role, const QColor& color)
+void CTabWidget::setTabTextColor(CTabWidget::TabRole role, const QColor& color)
 {
     d.colors[role] = color;
     if (!d.updatingColors) {
@@ -138,14 +138,14 @@ void TabWidget::setTabTextColor(TabWidget::TabRole role, const QColor& color)
     }
 }
 
-bool TabWidget::isTabInactive(int index)
+bool CTabWidget::isTabInactive(int index)
 {
     if (index == -1)
         return !d.inactiveIndexes.isEmpty();
     return d.inactiveIndexes.contains(index);
 }
 
-void TabWidget::setTabInactive(int index, bool inactive)
+void CTabWidget::setTabInactive(int index, bool inactive)
 {
     if (!inactive)
         d.inactiveIndexes.removeAll(index);
@@ -154,14 +154,14 @@ void TabWidget::setTabInactive(int index, bool inactive)
     colorizeTab(index);
 }
 
-bool TabWidget::hasTabAlert(int index)
+bool CTabWidget::hasTabAlert(int index)
 {
     if (index == -1)
         return !d.alertIndexes.isEmpty();
     return d.alertIndexes.contains(index);
 }
 
-void TabWidget::setTabAlert(int index, bool alert)
+void CTabWidget::setTabAlert(int index, bool alert)
 {
     if (!alert) {
         int count = d.alertIndexes.removeAll(index);
@@ -179,14 +179,14 @@ void TabWidget::setTabAlert(int index, bool alert)
     colorizeTab(index);
 }
 
-bool TabWidget::hasTabHighlight(int index) const
+bool CTabWidget::hasTabHighlight(int index) const
 {
     if (index == -1)
         return !d.highlightIndexes.isEmpty();
     return d.highlightIndexes.contains(index);
 }
 
-void TabWidget::setTabHighlight(int index, bool highlight)
+void CTabWidget::setTabHighlight(int index, bool highlight)
 {
     if (!highlight) {
         int count = d.highlightIndexes.removeAll(index);
@@ -200,7 +200,7 @@ void TabWidget::setTabHighlight(int index, bool highlight)
     colorizeTab(index);
 }
 
-void TabWidget::moveToNextTab()
+void CTabWidget::moveToNextTab()
 {
     int index = currentIndex();
     if (++index >= count() - 1)
@@ -208,7 +208,7 @@ void TabWidget::moveToNextTab()
     setCurrentIndex(index);
 }
 
-void TabWidget::moveToPrevTab()
+void CTabWidget::moveToPrevTab()
 {
     int index = currentIndex();
     if (--index < 0)
@@ -216,7 +216,7 @@ void TabWidget::moveToPrevTab()
     setCurrentIndex(index);
 }
 
-void TabWidget::moveToNextUnreadTab()
+void CTabWidget::moveToNextUnreadTab()
 {
     int index = currentIndex();
     while (++index < count()) {
@@ -227,7 +227,7 @@ void TabWidget::moveToNextUnreadTab()
     }
 }
 
-void TabWidget::moveToPrevUnreadTab()
+void CTabWidget::moveToPrevUnreadTab()
 {
     int index = currentIndex();
     while (index-- > 0) {
@@ -247,7 +247,7 @@ static void shiftIndexesFrom(QList<int>& indexes, int from, int delta)
     }
 }
 
-void TabWidget::tabInserted(int index)
+void CTabWidget::tabInserted(int index)
 {
     shiftIndexesFrom(d.inactiveIndexes, index, 1);
     shiftIndexesFrom(d.alertIndexes, index, 1);
@@ -255,7 +255,7 @@ void TabWidget::tabInserted(int index)
     colorizeTab(index);
 }
 
-void TabWidget::tabRemoved(int index)
+void CTabWidget::tabRemoved(int index)
 {
     d.inactiveIndexes.removeAll(index);
     d.alertIndexes.removeAll(index);
@@ -265,7 +265,7 @@ void TabWidget::tabRemoved(int index)
     shiftIndexesFrom(d.highlightIndexes, index, -1);
 }
 
-void TabWidget::tabChanged(int index)
+void CTabWidget::tabChanged(int index)
 {
     if (index == count() - 1) {
         emit newTabRequested();
@@ -276,7 +276,7 @@ void TabWidget::tabChanged(int index)
     }
 }
 
-void TabWidget::alertTimeout()
+void CTabWidget::alertTimeout()
 {
     if (d.currentAlertColor == d.colors.value(Alert))
         d.currentAlertColor = d.colors.value(Active);
@@ -287,7 +287,7 @@ void TabWidget::alertTimeout()
         colorizeTab(index);
 }
 
-void TabWidget::colorizeTab(int index)
+void CTabWidget::colorizeTab(int index)
 {
     if (isTabInactive(index))
         tabBar()->setTabTextColor(index, d.colors.value(Inactive));
@@ -299,7 +299,7 @@ void TabWidget::colorizeTab(int index)
         tabBar()->setTabTextColor(index, d.colors.value(Active));
 }
 
-void TabWidget::updateTabColors()
+void CTabWidget::updateTabColors()
 {
     for (int i = 0; i < count(); ++i)
         colorizeTab(i);

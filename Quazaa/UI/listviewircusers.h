@@ -23,14 +23,14 @@ class IrcMessage;
 class IrcCommand;
 class MenuFactory;
 
-class ListViewIrcUsers : public QListView
+class CListViewIrcUsers : public QListView
 {
 	Q_OBJECT
 	Q_PROPERTY(QString channel READ channel WRITE setChannel)
 
 public:
-    ListViewIrcUsers(QWidget* parent = 0);
-    ~ListViewIrcUsers();
+	CListViewIrcUsers(QWidget* parent = 0);
+	~CListViewIrcUsers();
 
 	QSize sizeHint() const;
 
@@ -57,7 +57,7 @@ signals:
 protected:
 	void contextMenuEvent(QContextMenuEvent* event);
 	void mousePressEvent(QMouseEvent* event);
-    void showEvent(QShowEvent* event);
+	void showEvent(QShowEvent* event);
 
 private slots:
 	void onDoubleClicked(const QModelIndex& index);

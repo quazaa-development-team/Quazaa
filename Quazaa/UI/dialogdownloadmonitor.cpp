@@ -28,20 +28,20 @@
 
 #include "debug_new.h"
 
-DialogDownloadMonitor::DialogDownloadMonitor(QWidget* parent) :
+CDialogDownloadMonitor::CDialogDownloadMonitor(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogDownloadMonitor)
+	ui(new Ui::CDialogDownloadMonitor)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogDownloadMonitor::~DialogDownloadMonitor()
+CDialogDownloadMonitor::~CDialogDownloadMonitor()
 {
 	delete ui;
 }
 
-void DialogDownloadMonitor::changeEvent(QEvent* e)
+void CDialogDownloadMonitor::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -54,19 +54,19 @@ void DialogDownloadMonitor::changeEvent(QEvent* e)
 	}
 }
 
-void DialogDownloadMonitor::on_pushButtonHide_clicked()
+void CDialogDownloadMonitor::on_pushButtonHide_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogDownloadMonitor::on_pushButton_clicked()
+void CDialogDownloadMonitor::on_pushButton_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogDownloadMonitor::updateProgress(int percent, QString transferSpeed, QString timeRemaining,
+void CDialogDownloadMonitor::updateProgress(int percent, QString transferSpeed, QString timeRemaining,
         QString volumeDownloaded, QString numberSources, QPixmap icon,
         QString status, QString file)
 {
@@ -80,7 +80,7 @@ void DialogDownloadMonitor::updateProgress(int percent, QString transferSpeed, Q
 	ui->labelFileName->setText(file);
 }
 
-void DialogDownloadMonitor::setSkin()
+void CDialogDownloadMonitor::setSkin()
 {
 
 }

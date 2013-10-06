@@ -33,7 +33,7 @@
 
 typedef QPair<quint32, QPair<quint32, QString> > GeoIPEntry;
 
-class GeoIPList
+class CGeoIPList
 {
 protected:
 	bool	m_bListLoaded;
@@ -47,7 +47,7 @@ public:
 
 	QList<GeoIPEntry> m_lDatabase;
 
-	GeoIPList();
+	CGeoIPList();
 	void loadGeoIP();
 	inline QString findCountryCode(const QString& IP) const;
 	inline QString findCountryCode(const QHostAddress& ip) const;
@@ -56,13 +56,13 @@ public:
 	QString countryNameFromCode(const QString& code) const;
 };
 
-QString GeoIPList::findCountryCode(const QString& IP) const
+QString CGeoIPList::findCountryCode(const QString& IP) const
 {
 	CEndPoint ipAddress( IP );
 	return findCountryCode( ipAddress );
 }
 
-QString GeoIPList::findCountryCode(const QHostAddress& ip) const
+QString CGeoIPList::findCountryCode(const QHostAddress& ip) const
 {
 	if ( ip.protocol() == 1 ) // IPv6
 	{
@@ -73,6 +73,6 @@ QString GeoIPList::findCountryCode(const QHostAddress& ip) const
 	return findCountryCode( ip4 );
 }
 
-extern GeoIPList geoIP;
+extern CGeoIPList geoIP;
 
 #endif // GEOIPLIST_H

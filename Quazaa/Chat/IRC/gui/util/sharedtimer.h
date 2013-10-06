@@ -21,36 +21,36 @@
 
 class SharedTimer : public QObject
 {
-    Q_OBJECT
-    Q_PROPERTY(int interval READ interval WRITE setInterval)
+	Q_OBJECT
+	Q_PROPERTY(int interval READ interval WRITE setInterval)
 
 public:
-    static SharedTimer* instance();
+	static SharedTimer* instance();
 
-    int interval() const;
-    void setInterval(int interval);
+	int interval() const;
+	void setInterval(int interval);
 
-    void registerReceiver(QObject* receiver, const char* member);
-    void unregisterReceiver(QObject* receiver, const char* member = 0);
+	void registerReceiver(QObject* receiver, const char* member);
+	void unregisterReceiver(QObject* receiver, const char* member = 0);
 
-    void pause();
-    void resume();
+	void pause();
+	void resume();
 
 protected:
-    void timerEvent(QTimerEvent* event);
+	void timerEvent(QTimerEvent* event);
 
 private slots:
-    void destroyed(QObject* object);
+	void destroyed(QObject* object);
 
 private:
-    SharedTimer(QObject* parent = 0);
+	SharedTimer(QObject* parent = 0);
 
-    typedef QPair<QObject*, const char*> Receiver;
-    struct SharedTimerData {
-        int interval;
-        QBasicTimer timer;
-        QList<Receiver> receivers;
-    } d;
+	typedef QPair<QObject*, const char*> Receiver;
+	struct SharedTimerData {
+		int interval;
+		QBasicTimer timer;
+		QList<Receiver> receivers;
+	} d;
 };
 
 #endif // SHAREDTIMER_H

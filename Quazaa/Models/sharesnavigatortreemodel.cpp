@@ -29,6 +29,8 @@
 #include "sharemanager.h"
 #include "debug_new.h"
 
+// TODO: This is the current blocker in getting a rudimentary version of the library tab working.
+
 SharesNavigatorTreeModel::SharesNavigatorTreeModel()
 {
 		QList<QVariant> rootData;

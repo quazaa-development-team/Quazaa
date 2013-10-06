@@ -46,8 +46,8 @@ CHostCache hostCache;
  * @brief CHostCache::CHostCache Constructor.
  */
 CHostCache::CHostCache():
-    m_tLastSave( common::getTNowUTC() ),
-    m_nSize( 0 )
+	m_tLastSave( common::getTNowUTC() ),
+	m_nSize( 0 )
 {
 }
 
@@ -67,7 +67,7 @@ CHostCache::~CHostCache()
 void CHostCache::start()
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "start()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "start()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	m_pHostCacheDiscoveryThread = TSharedThreadPtr( new QThread() );
@@ -87,12 +87,12 @@ void CHostCache::start()
 void CHostCache::add(const CEndPoint host, const quint32 tTimeStamp)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "add()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "add()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	QMetaObject::invokeMethod( this, "addSync", Qt::QueuedConnection, Q_ARG(CEndPoint, host),
-	                           Q_ARG(quint32, tTimeStamp), Q_ARG(bool, true),
-	                           Q_ARG(QString, QString( "CHostCache::add - hostcache.cpp (line 87)" ) ) );
+							   Q_ARG(quint32, tTimeStamp), Q_ARG(bool, true),
+							   Q_ARG(QString, QString( "CHostCache::add - hostcache.cpp (line 87)" ) ) );
 }
 
 /**
@@ -107,12 +107,12 @@ void CHostCache::add(const CEndPoint host, const quint32 tTimeStamp)
 void CHostCache::addKey(const CEndPoint host, const quint32 tTimeStamp, CEndPoint* pKeyHost, const quint32 nKey, const quint32 tNow)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "addKey()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "addKey()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	QMetaObject::invokeMethod( this, "addSyncKey", Qt::QueuedConnection, Q_ARG(CEndPoint, host),
-	                           Q_ARG(quint32, tTimeStamp), Q_ARG(CEndPoint*, pKeyHost),
-	                           Q_ARG(quint32, nKey),       Q_ARG(quint32, tNow) );
+							   Q_ARG(quint32, tTimeStamp), Q_ARG(CEndPoint*, pKeyHost),
+							   Q_ARG(quint32, nKey),       Q_ARG(quint32, tNow) );
 }
 
 /**
@@ -126,12 +126,12 @@ void CHostCache::addKey(const CEndPoint host, const quint32 tTimeStamp, CEndPoin
 void CHostCache::addAck(const CEndPoint host, const quint32 tTimeStamp, const quint32 tAck, const quint32 tNow)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "addAck()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "addAck()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	QMetaObject::invokeMethod( this, "addSyncAck", Qt::QueuedConnection, Q_ARG(CEndPoint, host),
-	                           Q_ARG(quint32, tTimeStamp), Q_ARG(quint32, tAck),
-	                           Q_ARG(quint32, tNow) );
+							   Q_ARG(quint32, tTimeStamp), Q_ARG(quint32, tAck),
+							   Q_ARG(quint32, tNow) );
 }
 
 /**
@@ -143,11 +143,11 @@ void CHostCache::addAck(const CEndPoint host, const quint32 tTimeStamp, const qu
 void CHostCache::updateFailures(const CEndPoint& oAddress, const quint32 nFailures)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "updateFailures()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "updateFailures()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	QMetaObject::invokeMethod( this, "asyncUpdateFailures", Qt::QueuedConnection,
-	                           Q_ARG(CEndPoint, oAddress), Q_ARG(quint32, nFailures) );
+							   Q_ARG(CEndPoint, oAddress), Q_ARG(quint32, nFailures) );
 }
 
 /**
@@ -182,10 +182,10 @@ void CHostCache::updateFailures(const CEndPoint& oAddress, const quint32 nFailur
  * @return the CHostCacheHost pointer pertaining to the updated host.
  */
 CHostCacheHost* CHostCache::update(THostCacheIterator& itHost, const quint32 tTimeStamp,
-                                   quint32 nFailures)
+								   quint32 nFailures)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "update()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "update()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	ASSUME_LOCK( m_pSection );
@@ -209,11 +209,10 @@ CHostCacheHost* CHostCache::update(THostCacheIterator& itHost, const quint32 tTi
 	delete pHost;
 
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug,
-	                   QString( "pHost->failures(): " ) + QString::number( pHost->failures() ) +
-	                   QString( " m_vlHosts.size(): " ) + QString::number( m_vlHosts.size()  ) +
-	                   QString( " m_nMaxFailures: "   ) + QString::number( m_nMaxFailures    ),
-	                   Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache,
+					   QString( "pHost->failures(): " ) + QString::number( pHost->failures() ) +
+					   QString( " m_vlHosts.size(): " ) + QString::number( m_vlHosts.size()  ) +
+					   QString( " m_nMaxFailures: "   ) + QString::number( m_nMaxFailures    ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 	Q_ASSERT( pNew->failures() < m_vlHosts.size() );
 	insert( pNew, m_vlHosts[nFailures] );
@@ -231,7 +230,7 @@ CHostCacheHost* CHostCache::update(THostCacheIterator& itHost, const quint32 tTi
 void CHostCache::remove(const CEndPoint& oHost)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "remove(CEndPoint)" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "remove(CEndPoint)" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	m_pSection.lock();
@@ -260,7 +259,7 @@ void CHostCache::remove(const CEndPoint& oHost)
 void CHostCache::remove(CHostCacheHost*& pHost)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "remove(CHCHost)" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "remove(CHCHost)" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	ASSUME_LOCK( m_pSection );
@@ -287,11 +286,11 @@ void CHostCache::remove(CHostCacheHost*& pHost)
 void CHostCache::addXTry(QString sHeader)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "addXTry()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "addXTry()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	QMetaObject::invokeMethod( this, "asyncAddXTry", Qt::QueuedConnection,
-	                           Q_ARG(QString, sHeader) );
+							   Q_ARG(QString, sHeader) );
 }
 
 /**
@@ -302,7 +301,7 @@ void CHostCache::addXTry(QString sHeader)
 QString CHostCache::getXTry() const
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "getXTry()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "getXTry()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	m_pSection.lock();
@@ -356,11 +355,11 @@ QString CHostCache::getXTry() const
 void CHostCache::onFailure(const CEndPoint& addr)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "onFailure()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "onFailure()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	QMetaObject::invokeMethod( this, "asyncOnFailure", Qt::QueuedConnection,
-	                           Q_ARG(CEndPoint, addr) );
+							   Q_ARG(CEndPoint, addr) );
 }
 
 /**
@@ -375,7 +374,7 @@ void CHostCache::onFailure(const CEndPoint& addr)
 CHostCacheHost* CHostCache::getConnectable(const QSet<CHostCacheHost*>& oExcept, QString sCountry)
 {
 /*#if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "getConnectable()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "getConnectable()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING*/
 
 	ASSUME_LOCK( m_pSection );
@@ -391,7 +390,7 @@ CHostCacheHost* CHostCache::getConnectable(const QSet<CHostCacheHost*>& oExcept,
 	// First try untested or working hosts, then fall back to failed hosts to increase chances for
 	// successful connection
 	for ( quint8 nFailures = 0; nFailures < m_nMaxFailures &&
-	      nFailures < m_vlHosts.size(); ++nFailures )
+		  nFailures < m_vlHosts.size(); ++nFailures )
 	{
 		foreach ( CHostCacheHost * pHost, m_vlHosts[nFailures] )
 		{
@@ -434,7 +433,7 @@ CHostCacheHost* CHostCache::getConnectable(const QSet<CHostCacheHost*>& oExcept,
 bool CHostCache::hasConnectable()
 {
 /*#if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "hasConnectable()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "hasConnectable()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING*/
 
 	m_pSection.lock();
@@ -480,18 +479,18 @@ void CHostCache::clear()
 void CHostCache::save(const quint32 tNow) const
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "save()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "save()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	ASSUME_LOCK( hostCache.m_pSection );
 
 	quint32 nCount = common::securredSaveFile( common::globalDataFiles, "hostcache.dat", m_sMessage,
-	                                           this, &CHostCache::writeToFile );
+											   this, &CHostCache::writeToFile );
 	if ( nCount )
 	{
 		m_tLastSave = tNow;
 		systemLog.postLog( LogSeverity::Debug,
-		                   m_sMessage + QObject::tr( "Saved %1 hosts." ).arg( nCount ) );
+						   m_sMessage + QObject::tr( "Saved %1 hosts." ).arg( nCount ) );
 	}
 }
 
@@ -504,7 +503,7 @@ void CHostCache::save(const quint32 tNow) const
 void CHostCache::pruneOldHosts(const quint32 tNow)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "pruneOldHosts()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "pruneOldHosts()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	ASSUME_LOCK( m_pSection );
@@ -539,7 +538,7 @@ void CHostCache::pruneOldHosts(const quint32 tNow)
 void CHostCache::pruneByQueryAck(const quint32 tNow)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "pruneByQA()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "pruneByQA()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	ASSUME_LOCK( m_pSection );
@@ -573,7 +572,7 @@ void CHostCache::pruneByQueryAck(const quint32 tNow)
 quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "writeToFile()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "writeToFile()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	QDataStream oStream( &oFile );
@@ -621,7 +620,7 @@ quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
 CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLock, QString sSender)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "addSync()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "addSync()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	qDebug() << "addSync() Sender: " << sSender.toLocal8Bit().data();
@@ -652,10 +651,10 @@ CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLo
  * @return the CHostCacheHost pointer pertaining to the CEndPoint
  */
 CHostCacheHost* CHostCache::addSyncKey(CEndPoint host, quint32 tTimeStamp,
-                                       CEndPoint* pKeyHost, const quint32 nKey, const quint32 tNow)
+									   CEndPoint* pKeyHost, const quint32 nKey, const quint32 tNow)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "addSyncKey()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "addSyncKey()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	CHostCacheHost* bReturn;
@@ -678,10 +677,10 @@ CHostCacheHost* CHostCache::addSyncKey(CEndPoint host, quint32 tTimeStamp,
  * @return the CHostCacheHost pointer pertaining to the CEndPoint
  */
 CHostCacheHost* CHostCache::addSyncAck(CEndPoint host, quint32 tTimeStamp,
-                                       const quint32 tAck, const quint32 tNow)
+									   const quint32 tAck, const quint32 tNow)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "addSyncAck()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "addSyncAck()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	CHostCacheHost* bReturn;
@@ -702,7 +701,7 @@ CHostCacheHost* CHostCache::addSyncAck(CEndPoint host, quint32 tTimeStamp,
 void CHostCache::sanityCheck()
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "sanityCheck()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "sanityCheck()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	m_pSection.lock();
@@ -738,7 +737,7 @@ void CHostCache::sanityCheck()
 void CHostCache::maintain()
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "maintain()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "maintain()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	m_pSection.lock();
@@ -827,10 +826,10 @@ void CHostCache::maintain()
  * @return the CHostCacheHost pointer pertaining to the CEndPoint
  */
 CHostCacheHost* CHostCache::addSyncHelper(const CEndPoint& host, quint32 tTimeStamp,
-                                          const quint32 tNow, quint32 nFailures)
+										  const quint32 tNow, quint32 nFailures)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "addSyncHelper()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "addSyncHelper()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	ASSUME_LOCK( m_pSection );
@@ -891,7 +890,7 @@ CHostCacheHost* CHostCache::addSyncHelper(const CEndPoint& host, quint32 tTimeSt
 void CHostCache::insert(CHostCacheHost* pNew, THostCacheList& lHosts)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "insert()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "insert()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	THostCacheIterator it = lHosts.begin();
@@ -927,7 +926,7 @@ void CHostCache::insert(CHostCacheHost* pNew, THostCacheList& lHosts)
 THostCacheIterator CHostCache::remove(THostCacheIterator& itHost, const quint8 nFailures)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "remove(iterator)" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "remove(iterator)" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	ASSUME_LOCK( m_pSection );
@@ -948,7 +947,7 @@ THostCacheIterator CHostCache::remove(THostCacheIterator& itHost, const quint8 n
 void CHostCache::removeWorst(quint8& nFailures)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "removeWorst()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "removeWorst()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	ASSUME_LOCK( m_pSection );
@@ -979,7 +978,7 @@ void CHostCache::removeWorst(quint8& nFailures)
 THostCacheIterator CHostCache::find(const CEndPoint& oHost, quint8& nFailures)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "find(CEndPoint)" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "find(CEndPoint)" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	ASSUME_LOCK( m_pSection );
@@ -1015,7 +1014,7 @@ THostCacheIterator CHostCache::find(const CEndPoint& oHost, quint8& nFailures)
 THostCacheIterator CHostCache::find(const CHostCacheHost* const pHost)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "find(CHCHost)" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "find(CHCHost)" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	ASSUME_LOCK( m_pSection );
@@ -1049,7 +1048,7 @@ THostCacheIterator CHostCache::find(const CHostCacheHost* const pHost)
 void CHostCache::load()
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "load()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "load()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	m_pSection.lock();
@@ -1118,7 +1117,7 @@ void CHostCache::load()
 	pruneOldHosts( tNow );
 
 	systemLog.postLog( LogSeverity::Debug,
-	                   m_sMessage + QObject::tr( "Loaded %1 hosts." ).arg( m_nSize ) );
+					   m_sMessage + QObject::tr( "Loaded %1 hosts." ).arg( m_nSize ) );
 
 	m_pSection.unlock();
 }
@@ -1130,7 +1129,7 @@ void CHostCache::load()
 void CHostCache::asyncStartUpHelper()
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "asyncStartUpH()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "asyncStartUpH()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	// reg. meta types
@@ -1158,7 +1157,7 @@ void CHostCache::asyncStartUpHelper()
 void CHostCache::asyncUpdateFailures(CEndPoint oAddress, quint32 nNewFailures)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "asyncUpdtFail()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "asyncUpdtFail()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	m_pSection.lock();
@@ -1178,7 +1177,7 @@ void CHostCache::asyncUpdateFailures(CEndPoint oAddress, quint32 nNewFailures)
 		{
 			// insert new host with correct failure count into correct list
 			insert( new CHostCacheHost( *pHost, pHost->timestamp(), nNewFailures ),
-			        m_vlHosts[nNewFailures] );
+					m_vlHosts[nNewFailures] );
 		}
 
 		// free memory of old host
@@ -1196,7 +1195,7 @@ void CHostCache::asyncUpdateFailures(CEndPoint oAddress, quint32 nNewFailures)
 void CHostCache::asyncAddXTry(QString sHeader)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "asyncAddXTry()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "asyncAddXTry()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	QMutexLocker l( &m_pSection );
@@ -1253,7 +1252,7 @@ void CHostCache::asyncAddXTry(QString sHeader)
 void CHostCache::asyncOnFailure(CEndPoint addr)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, QString( "asyncOnFailure()" ), Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "asyncOnFailure()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	m_pSection.lock();
@@ -1273,7 +1272,7 @@ void CHostCache::asyncOnFailure(CEndPoint addr)
 		{
 			// insert new host with correct failure count into correct list
 			insert( new CHostCacheHost( *pHost, pHost->timestamp(), ++nFailures ),
-			        m_vlHosts[nFailures] );
+					m_vlHosts[nFailures] );
 		}
 
 		// free memory of old host

@@ -37,19 +37,19 @@ class CCompressedConnection : public CNetworkConnection
 	Q_OBJECT
 
 public:
-	z_stream    m_sInput;           // stream-y zlib-a
-	z_stream    m_sOutput;
-	bool        m_bCompressedInput; // czy kompresja wlaczona?
-	bool        m_bCompressedOutput;
-	CBuffer* 	m_pZInput;         // bufforki lokalne
-	CBuffer* 	m_pZOutput;
-	quint64     m_nTotalInput;      // statystyki
-	quint64		m_nTotalInputDec;
-	quint64     m_nTotalOutput;
-	quint64		m_nTotalOutputCom;
-	quint64     m_nNextDeflateFlush;
-	bool        m_bOutputPending;
-	QElapsedTimer m_tDeflateFlush;
+	z_stream    m_sInput;               // zlib compressed input stream
+	z_stream    m_sOutput;              // zlib compressed output stream
+	bool        m_bCompressedInput;     // Compress input streams?
+	bool        m_bCompressedOutput;    // Compress output streams?
+	CBuffer* 	m_pZInput;              // Local input buffer
+	CBuffer* 	m_pZOutput;             // Local output buffer
+	quint64     m_nTotalInput;          // Total input in bytes
+	quint64		m_nTotalInputDec;       // Total decompressed input in bytes.
+	quint64     m_nTotalOutput;         // Total output in bytes
+	quint64		m_nTotalOutputCom;      // Total decompressed output in bytes.
+	quint64     m_nNextDeflateFlush;    // Amount of bytes until a deflate buffer flush is triggered.
+	bool        m_bOutputPending;       // Do we have data to send on the compressed output stream?
+	QElapsedTimer m_tDeflateFlush;      // Amount of time until a deflate buffer flush is triggered.
 public:
 	CCompressedConnection(QObject* parent = 0);
 	virtual ~CCompressedConnection();

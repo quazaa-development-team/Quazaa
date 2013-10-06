@@ -66,22 +66,22 @@ protected:
 
 	QTimer*       m_tSender;
 
-	QHash<quint16, DatagramOut*>     m_SendCacheMap;    // zeby szybko odszukac pakiety po sekwencji
-	QLinkedList<DatagramOut*>		 m_SendCache;		// a lifo queue, last is oldest
+    QHash<quint16, DatagramOut*>     m_SendCacheMap;    // To quicky find the sequence of packets.
+    QLinkedList<DatagramOut*>		 m_SendCache;		// A LIFO queue, last is oldest.
 	QLinkedList<DatagramOut*>		 m_FreeDGOut;
 	quint16                          m_nSequence;
 
 	QHash < QHostAddress,
 	      QHash<quint32, DatagramIn*>
-          >                     m_RecvCache;		// for searching by ip & sequence
-    QLinkedList<DatagramIn*>    m_RecvCacheTime;	// a list ordered by recv time, last is oldest
+          >                     m_RecvCache;            // For searching by ip & sequence.
+    QLinkedList<DatagramIn*>    m_RecvCacheTime;        // A list ordered by recieve time, last is oldest.
 
     QLinkedList <
         QPair<CEndPoint, char*>
                 >               m_AckCache;
 
-	QLinkedList<DatagramIn*> m_FreeDGIn;		// a list of free incoming packets
-	QLinkedList<CBuffer*>	 m_FreeBuffer;		// a list of free buffers
+    QLinkedList<DatagramIn*> m_FreeDGIn;		// A list of free incoming packets.
+    QLinkedList<CBuffer*>	 m_FreeBuffer;		// A list of free buffers.
 
 	CBuffer*    	m_pRecvBuffer;
 	QHostAddress*   m_pHostAddress;

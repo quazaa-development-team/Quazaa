@@ -21,33 +21,33 @@
 #include <QFile>
 #include <Irc>
 
-QString Application::ApplicationData::slogan;
-QByteArray Application::ApplicationData::encoding("ISO-8859-15");
+QString CApplication::ApplicationData::slogan;
+QByteArray CApplication::ApplicationData::encoding("ISO-8859-15");
 
-Application::Application(int& argc, char* argv[]) : QApplication(argc, argv)
+CApplication::CApplication(int& argc, char* argv[]) : QApplication(argc, argv)
 {
 }
 
-Application::~Application()
+CApplication::~CApplication()
 {
 }
 
-QString Application::applicationSlogan()
+QString CApplication::applicationSlogan()
 {
 	return ApplicationData::slogan;
 }
 
-void Application::setApplicationSlogan(const QString &slogan)
+void CApplication::setApplicationSlogan(const QString &slogan)
 {
 	ApplicationData::slogan = slogan;
 }
 
-QByteArray Application::encoding()
+QByteArray CApplication::encoding()
 {
 	return ApplicationData::encoding;
 }
 
-void Application::setEncoding(const QByteArray& encoding)
+void CApplication::setEncoding(const QByteArray& encoding)
 {
 	ApplicationData::encoding = encoding;
 }

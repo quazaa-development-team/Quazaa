@@ -19,26 +19,26 @@
 
 class HistoryLineEdit : public Utils::FancyLineEdit
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit HistoryLineEdit(QWidget* parent = 0);
+	explicit HistoryLineEdit(QWidget* parent = 0);
 
-    void cursorWordBackward(bool mark);
-    void insert(const QString& text);
+	void cursorWordBackward(bool mark);
+	void insert(const QString& text);
 
 public slots:
-    void goBackward();
-    void goForward();
-    void clearHistory();
+	void goBackward();
+	void goForward();
+	void clearHistory();
 
 protected:
-    void keyPressEvent(QKeyEvent* event);
+	void keyPressEvent(QKeyEvent* event);
 
 private:
-    int index;
-    QString input;
-    QStringList history;
+	int index;
+	QString input;
+	QStringList history;
 };
 
 #endif // HISTORYLINEEDIT_H

@@ -150,7 +150,7 @@ void CRouteTable::ExpireOldRoutes(bool bForce)
 {
 	quint32 tNow = time(0);
 
-	// najpierw wygasle
+    // First expired.
 	for(QHash<QUuid, G2RouteItem*>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end();)
 	{
 		if(itRoute.value()->nExpireTime < tNow)
@@ -164,8 +164,8 @@ void CRouteTable::ExpireOldRoutes(bool bForce)
 		}
 	}
 
-	// teraz, jesli jestesmy zmuszeni do wyczyszczenia czegos
-	// ale tylko gdy lista jest pelna w 75%
+    // Now, we are forced to clean something
+    // only if the list is full at 75%
 
 	if(bForce && m_lRoutes.size() >= MaxRoutes * 0.75)
 	{
@@ -186,7 +186,7 @@ void CRouteTable::ExpireOldRoutes(bool bForce)
 				tExpire = -10;
 			}
 
-			// redukujemy hash'a do 3/4 jego wartosci
+            // We reduce the hash to three quarters of its value.
 			for( QHash<QUuid, G2RouteItem*>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end() && m_lRoutes.size() > MaxRoutes * 0.75; )
 			{
 				if( itRoute.value()->nExpireTime < tNow + tExpire )
@@ -214,12 +214,9 @@ void CRouteTable::Dump()
 
 	quint32 tNow = time(0);
 
-	systemLog.postLog(LogSeverity::Debug, "----------------------------------");
-	//qDebug() << "----------------------------------";
-	systemLog.postLog(LogSeverity::Debug, "Dumping routing table:");
-	//qDebug() << "Dumping routing table:";
-	systemLog.postLog(LogSeverity::Debug, QString("Table size: ").arg(m_lRoutes.size()));
-	//qDebug() << "Table size: " << m_lRoutes.size();
+    systemLog.postLog(LogSeverity::Debug, "----------------------------------");
+    systemLog.postLog(LogSeverity::Debug, "Dumping routing table:");
+    systemLog.postLog(LogSeverity::Debug, QString("Table size: ").arg(m_lRoutes.size()));
 
 	for(QHash<QUuid, G2RouteItem*>::iterator itRoute = m_lRoutes.begin(); itRoute != m_lRoutes.end(); itRoute++)
 	{
@@ -230,13 +227,10 @@ void CRouteTable::Dump()
 		}
 		systemLog.postLog( LogSeverity::Debug, Components::G2, "%s %i %s TTL %i",
 		                   qPrintable( itRoute.key().toString() ), itRoute.value()->pNeighbour,
-		                   qPrintable( itRoute.value()->pEndpoint.toString() ), nExpire );
-		//qDebug() << itRoute.key().toString().toLocal8Bit().constData() << itRoute.value().pNeighbour << itRoute.value().pEndpoint.toString().toLocal8Bit().constData() << " TTL " << nExpire;
+                           qPrintable( itRoute.value()->pEndpoint.toString() ), nExpire );
 	}
 
-	systemLog.postLog(LogSeverity::Debug, "End of data");
-	//qDebug() << "End of data";
-	systemLog.postLog(LogSeverity::Debug, "----------------------------------");
-	//qDebug() << "----------------------------------";
+    systemLog.postLog(LogSeverity::Debug, "End of data");
+    systemLog.postLog(LogSeverity::Debug, "----------------------------------");
 }
 

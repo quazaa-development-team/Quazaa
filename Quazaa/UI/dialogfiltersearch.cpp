@@ -28,20 +28,20 @@
 
 #include "debug_new.h"
 
-DialogFilterSearch::DialogFilterSearch(QWidget* parent) :
+CDialogFilterSearch::CDialogFilterSearch(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogFilterSearch)
+	ui(new Ui::CDialogFilterSearch)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogFilterSearch::~DialogFilterSearch()
+CDialogFilterSearch::~CDialogFilterSearch()
 {
 	delete ui;
 }
 
-void DialogFilterSearch::changeEvent(QEvent* e)
+void CDialogFilterSearch::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -54,19 +54,19 @@ void DialogFilterSearch::changeEvent(QEvent* e)
 	}
 }
 
-void DialogFilterSearch::on_pushButtonFilter_clicked()
+void CDialogFilterSearch::on_pushButtonFilter_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogFilterSearch::on_pushButtonCancel_clicked()
+void CDialogFilterSearch::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogFilterSearch::setSkin()
+void CDialogFilterSearch::setSkin()
 {
 
 }

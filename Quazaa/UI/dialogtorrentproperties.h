@@ -29,21 +29,21 @@
 
 namespace Ui
 {
-	class DialogTorrentProperties;
+	class CDialogTorrentProperties;
 }
 
-class DialogTorrentProperties : public QDialog
+class CDialogTorrentProperties : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogTorrentProperties(QWidget* parent = 0);
-	~DialogTorrentProperties();
+	CDialogTorrentProperties(QWidget* parent = 0);
+	~CDialogTorrentProperties();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogTorrentProperties* ui;
+	Ui::CDialogTorrentProperties* ui;
 
 signals:
 	void closed();

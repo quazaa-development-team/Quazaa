@@ -24,7 +24,7 @@
 
 #include "completerlineedit.h"
 
-CompleterLineEdit::CompleterLineEdit(const QStringList& completions, QWidget *parent) :
+CCompleterLineEdit::CCompleterLineEdit(const QStringList& completions, QWidget *parent) :
 	QLineEdit(parent)
 {
 	m_pCompleter = new QCompleter(completions, this);
@@ -34,47 +34,47 @@ CompleterLineEdit::CompleterLineEdit(const QStringList& completions, QWidget *pa
 	m_bCompleteOnDoubleClick = true;
 }
 
-void CompleterLineEdit::mouseDoubleClickEvent(QMouseEvent *)
+void CCompleterLineEdit::mouseDoubleClickEvent(QMouseEvent *)
 {
 	m_pCompleter->complete();
 }
 
-void CompleterLineEdit::setCaseSensitivity(Qt::CaseSensitivity caseSensitivity)
+void CCompleterLineEdit::setCaseSensitivity(Qt::CaseSensitivity caseSensitivity)
 {
 	m_pCompleter->setCaseSensitivity(caseSensitivity);
 }
 
-Qt::CaseSensitivity CompleterLineEdit::caseSensitivity() const
+Qt::CaseSensitivity CCompleterLineEdit::caseSensitivity() const
 {
 	return m_pCompleter->caseSensitivity();
 }
 
-void CompleterLineEdit::setCompletionMode(QCompleter::CompletionMode mode)
+void CCompleterLineEdit::setCompletionMode(QCompleter::CompletionMode mode)
 {
 	m_pCompleter->setCompletionMode(mode);
 }
 
-QCompleter::CompletionMode CompleterLineEdit::completionMode() const
+QCompleter::CompletionMode CCompleterLineEdit::completionMode() const
 {
 	return m_pCompleter->completionMode();
 }
 
-void CompleterLineEdit::setWrapAround(bool wrap)
+void CCompleterLineEdit::setWrapAround(bool wrap)
 {
 	m_pCompleter->setWrapAround(wrap);
 }
 
-bool CompleterLineEdit::wrapAround() const
+bool CCompleterLineEdit::wrapAround() const
 {
 	return m_pCompleter->wrapAround();
 }
 
-bool CompleterLineEdit::completeOnDoubleClick() const
+bool CCompleterLineEdit::completeOnDoubleClick() const
 {
 	return m_bCompleteOnDoubleClick;
 }
 
-void CompleterLineEdit::setCompleteOnDoubleClick(bool complete)
+void CCompleterLineEdit::setCompleteOnDoubleClick(bool complete)
 {
 	m_bCompleteOnDoubleClick = complete;
 }

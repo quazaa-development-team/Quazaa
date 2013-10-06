@@ -25,57 +25,57 @@ class MessageReceiver;
 
 class MessageHandler : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit MessageHandler(QObject* parent = 0);
-    virtual ~MessageHandler();
+	explicit MessageHandler(QObject* parent = 0);
+	virtual ~MessageHandler();
 
-    Session* session() const;
-    void setSession(Session* session);
+	Session* session() const;
+	void setSession(Session* session);
 
-    MessageReceiver* defaultReceiver() const;
-    void setDefaultReceiver(MessageReceiver* receiver);
+	MessageReceiver* defaultReceiver() const;
+	void setDefaultReceiver(MessageReceiver* receiver);
 
-    MessageReceiver* currentReceiver() const;
-    void setCurrentReceiver(MessageReceiver* receiver);
+	MessageReceiver* currentReceiver() const;
+	void setCurrentReceiver(MessageReceiver* receiver);
 
-    void addReceiver(const QString& name, MessageReceiver* receiver);
-    void removeReceiver(const QString& name);
+	void addReceiver(const QString& name, MessageReceiver* receiver);
+	void removeReceiver(const QString& name);
 
 public slots:
-    void handleMessage(IrcMessage* message);
+	void handleMessage(IrcMessage* message);
 
 signals:
-    void receiverToBeAdded(const QString& name);
-    void receiverToBeRenamed(const QString& from, const QString& to);
-    void receiverToBeRemoved(const QString& name);
+	void receiverToBeAdded(const QString& name);
+	void receiverToBeRenamed(const QString& from, const QString& to);
+	void receiverToBeRemoved(const QString& name);
 
 protected:
-    void handleInviteMessage(IrcInviteMessage* message);
-    void handleJoinMessage(IrcJoinMessage* message);
-    void handleKickMessage(IrcKickMessage* message);
-    void handleModeMessage(IrcModeMessage* message);
-    void handleNickMessage(IrcNickMessage* message);
-    void handleNoticeMessage(IrcNoticeMessage* message);
-    void handleNumericMessage(IrcNumericMessage* message);
-    void handlePartMessage(IrcPartMessage* message);
-    void handlePongMessage(IrcPongMessage* message);
-    void handlePrivateMessage(IrcPrivateMessage* message);
-    void handleQuitMessage(IrcQuitMessage* message);
-    void handleTopicMessage(IrcTopicMessage* message);
-    void handleUnknownMessage(IrcMessage* message);
+	void handleInviteMessage(IrcInviteMessage* message);
+	void handleJoinMessage(IrcJoinMessage* message);
+	void handleKickMessage(IrcKickMessage* message);
+	void handleModeMessage(IrcModeMessage* message);
+	void handleNickMessage(IrcNickMessage* message);
+	void handleNoticeMessage(IrcNoticeMessage* message);
+	void handleNumericMessage(IrcNumericMessage* message);
+	void handlePartMessage(IrcPartMessage* message);
+	void handlePongMessage(IrcPongMessage* message);
+	void handlePrivateMessage(IrcPrivateMessage* message);
+	void handleQuitMessage(IrcQuitMessage* message);
+	void handleTopicMessage(IrcTopicMessage* message);
+	void handleUnknownMessage(IrcMessage* message);
 
-    void sendMessage(IrcMessage* message, MessageReceiver* receiver);
-    void sendMessage(IrcMessage* message, const QString& receiver);
+	void sendMessage(IrcMessage* message, MessageReceiver* receiver);
+	void sendMessage(IrcMessage* message, const QString& receiver);
 
 private:
-    struct Private {
-        QPointer<Session> session;
-        MessageReceiver* defaultReceiver;
-        MessageReceiver* currentReceiver;
-        QHash<QString, MessageReceiver*> receivers;
-    } d;
+	struct Private {
+		QPointer<Session> session;
+		MessageReceiver* defaultReceiver;
+		MessageReceiver* currentReceiver;
+		QHash<QString, MessageReceiver*> receivers;
+	} d;
 };
 
 #endif // MESSAGEHANDLER_H

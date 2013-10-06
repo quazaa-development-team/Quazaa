@@ -30,21 +30,21 @@
 
 #include "debug_new.h"
 
-WidgetPacketDump::WidgetPacketDump(QWidget* parent) :
+CWidgetPacketDump::CWidgetPacketDump(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetPacketDump)
+	ui(new Ui::CWidgetPacketDump)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.PacketDumpToolbar);
 	setSkin();
 }
 
-WidgetPacketDump::~WidgetPacketDump()
+CWidgetPacketDump::~CWidgetPacketDump()
 {
 	delete ui;
 }
 
-void WidgetPacketDump::changeEvent(QEvent* e)
+void CWidgetPacketDump::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -57,12 +57,12 @@ void WidgetPacketDump::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetPacketDump::saveWidget()
+void CWidgetPacketDump::saveWidget()
 {
 	quazaaSettings.WinMain.PacketDumpToolbar = saveState();
 }
 
-void WidgetPacketDump::setSkin()
+void CWidgetPacketDump::setSkin()
 {
 
 }

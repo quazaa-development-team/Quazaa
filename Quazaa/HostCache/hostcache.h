@@ -52,7 +52,7 @@ class CHostCache : public QObject
 
 public:
 	THCLVector          m_vlHosts; // vector of (nFailures, QLinkedList);
-	                               // QLinkedList sorted by timestamp (descending)
+								   // QLinkedList sorted by timestamp (descending)
 
 	mutable QMutex      m_pSection;
 	mutable quint32     m_tLastSave;
@@ -83,18 +83,18 @@ public:
 private: // remove this private if this is ever required...
 //	CHostCacheHost* update(const CEndPoint& oHost,     const quint32 tTimeStamp);
 	CHostCacheHost* update(THostCacheIterator& itHost, const quint32 tTimeStamp,
-	                       quint32 nFailures);
+						   quint32 nFailures);
 
+public:
 	void remove(const CEndPoint& oHost);
 	void remove(CHostCacheHost*& pHost);
 
-public:
 	void addXTry(QString sHeader);
 	QString getXTry() const;
 
 	void onFailure(const CEndPoint& addr);
 	CHostCacheHost* getConnectable(const QSet<CHostCacheHost*>& oExcept = QSet<CHostCacheHost*>(),
-	                               QString sCountry = QString("ZZ"));
+								   QString sCountry = QString("ZZ"));
 	bool hasConnectable();
 
 	void clear();
@@ -121,7 +121,7 @@ public slots:
 
 private:
 	CHostCacheHost* addSyncHelper(const CEndPoint& host, quint32 tTimeStamp, const quint32 tNow,
-	                              quint32 nNewFailures = 0);
+								  quint32 nNewFailures = 0);
 	void insert(CHostCacheHost* pNew, THostCacheList& lHosts);
 
 	THostCacheIterator remove(THostCacheIterator& itHost, const quint8 nFailures);

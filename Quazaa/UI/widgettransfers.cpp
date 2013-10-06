@@ -35,19 +35,19 @@
 
 #include <QDebug>
 
-WidgetTransfers::WidgetTransfers(QWidget* parent) :
+CWidgetTransfers::CWidgetTransfers(QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::WidgetTransfers)
+	ui(new Ui::CWidgetTransfers)
 {
 	ui->setupUi(this);
 	ui->splitterTransfers->restoreState(quazaaSettings.WinMain.TransfersSplitter);
-	panelDownloads = new WidgetDownloads(this);
+	panelDownloads = new CWidgetDownloads(this);
 	m_pPeerModel = new CDownloadsPeerModel(this);
 	m_pPeerModel->setDynamicSortFilter(true);
 	m_pPeerModel->setSourceModel(panelDownloads->m_pModel);
 	ui->tableViewPeers->setModel(m_pPeerModel);
 	ui->verticalLayoutDownloads->addWidget(panelDownloads);
-	panelUploads = new WidgetUploads(this);
+	panelUploads = new CWidgetUploads(this);
 	ui->verticalLayoutUploads->addWidget(panelUploads);
 	ui->splitterDownloads->restoreState(quazaaSettings.WinMain.DownloadsSplitter);
 	ui->stackedWidgetTransfers->setCurrentIndex(0);
@@ -57,12 +57,12 @@ WidgetTransfers::WidgetTransfers(QWidget* parent) :
 	connect(panelDownloads, SIGNAL(onItemChange(QModelIndex)), this, SLOT(onPanelDownloads_itemChanged(QModelIndex)));
 }
 
-WidgetTransfers::~WidgetTransfers()
+CWidgetTransfers::~CWidgetTransfers()
 {
 	delete ui;
 }
 
-void WidgetTransfers::changeEvent(QEvent* e)
+void CWidgetTransfers::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
 	switch(e->type())
@@ -75,7 +75,7 @@ void WidgetTransfers::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetTransfers::saveWidget()
+void CWidgetTransfers::saveWidget()
 {
 	quazaaSettings.WinMain.TransfersSplitter = ui->splitterTransfers->saveState();
     quazaaSettings.WinMain.TransfersNavigationSplitter = ui->splitterTransfersNavigation->saveState();
@@ -84,7 +84,7 @@ void WidgetTransfers::saveWidget()
 	panelUploads->saveWidget();
 }
 
-void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos)
+void CWidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos)
 {
 	Q_UNUSED(pos);
 
@@ -109,18 +109,18 @@ void WidgetTransfers::on_splitterTransfers_customContextMenuRequested(QPoint pos
 	}
 }
 
-void WidgetTransfers::setSkin()
+void CWidgetTransfers::setSkin()
 {
 
 }
 
-void WidgetTransfers::onPanelDownloads_itemChanged(const QModelIndex index)
+void CWidgetTransfers::onPanelDownloads_itemChanged(const QModelIndex index)
 {
 	m_pPeerModel->setCurrentRoot(index);
 	ui->tableViewPeers->setRootIndex(m_pPeerModel->mapFromSource(index));
 }
 
-void WidgetTransfers::on_splitterDownloads_customContextMenuRequested(const QPoint &pos)
+void CWidgetTransfers::on_splitterDownloads_customContextMenuRequested(const QPoint &pos)
 {
 	Q_UNUSED(pos);
 
@@ -145,7 +145,7 @@ void WidgetTransfers::on_splitterDownloads_customContextMenuRequested(const QPoi
 	}
 }
 
-void WidgetTransfers::on_treeWidgetTransfers_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+void CWidgetTransfers::on_treeWidgetTransfers_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
 	Q_UNUSED(previous);
 
@@ -185,7 +185,7 @@ void WidgetTransfers::on_treeWidgetTransfers_currentItemChanged(QTreeWidgetItem 
 	}
 }
 
-void WidgetTransfers::on_splitterTransfersNavigation_customContextMenuRequested(const QPoint &pos)
+void CWidgetTransfers::on_splitterTransfersNavigation_customContextMenuRequested(const QPoint &pos)
 {
     Q_UNUSED(pos);
 

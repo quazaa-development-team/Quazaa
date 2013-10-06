@@ -35,25 +35,25 @@ class CDiscoveryTableModel;
 
 namespace Ui
 {
-	class WidgetDiscovery;
+	class CWidgetDiscovery;
 }
 
-class WidgetDiscovery : public QMainWindow
+class CWidgetDiscovery : public QMainWindow
 {
 	Q_OBJECT
 
 public:
 	CDiscoveryTableModel* m_pDiscoveryList;
-    QActionGroup* actionGroupDiscoveryNavigation;
+	QActionGroup* actionGroupDiscoveryNavigation;
 
 private:
-	Ui::WidgetDiscovery* ui;
+	Ui::CWidgetDiscovery* ui;
 	QMenu* m_pDiscoveryMenu;
 	CTableView* tableViewDiscovery;
 
 public:
-	WidgetDiscovery(QWidget* parent = 0);
-	~WidgetDiscovery();
+	CWidgetDiscovery(QWidget* parent = 0);
+	~CWidgetDiscovery();
 
 	void		setModel(QAbstractItemModel* model);
 	QWidget*	tableView();
@@ -61,7 +61,7 @@ public:
 
 protected:
 	virtual void changeEvent(QEvent* e);
-    virtual void keyPressEvent(QKeyEvent *event);
+	virtual void keyPressEvent(QKeyEvent *event);
 
 public slots:
 	void update();
@@ -71,7 +71,7 @@ private slots:
 	void tableViewDiscovery_doubleClicked(const QModelIndex &index);
 	void tableViewDiscovery_clicked(const QModelIndex &index);
 
-    void setSkin();
+	void setSkin();
 
 	void on_actionDiscoveryAddService_triggered();
 	void on_actionDiscoveryBrowseStatistics_triggered();

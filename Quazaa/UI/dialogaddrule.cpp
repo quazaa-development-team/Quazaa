@@ -30,9 +30,9 @@
 
 #include "debug_new.h"
 
-DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
+CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 	QDialog( parent ),
-	ui( new Ui::DialogAddRule ),
+	ui( new Ui::CDialogAddRule ),
 	m_pParent( parent )
 {
 	ui->setupUi( this );
@@ -125,13 +125,13 @@ DialogAddRule::DialogAddRule(WidgetSecurity* parent, CSecureRule* pRule) :
 	setSkin();
 }
 
-DialogAddRule::~DialogAddRule()
+CDialogAddRule::~CDialogAddRule()
 {
 	delete ui;
 	delete m_pRule;
 }
 
-void DialogAddRule::changeEvent(QEvent* e)
+void CDialogAddRule::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent( e );
 	switch ( e->type() )
@@ -145,7 +145,7 @@ void DialogAddRule::changeEvent(QEvent* e)
 }
 
 // TODO: change user interface for IP ranges and hashes.
-void DialogAddRule::on_pushButtonOK_clicked()
+void CDialogAddRule::on_pushButtonOK_clicked()
 {
 	CSecureRule* pRule = NULL;
 	QString sTmp;
@@ -245,13 +245,13 @@ void DialogAddRule::on_pushButtonOK_clicked()
 	close();
 }
 
-void DialogAddRule::on_pushButtonCancel_clicked()
+void CDialogAddRule::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogAddRule::on_comboBoxExpire_currentIndexChanged(int index)
+void CDialogAddRule::on_comboBoxExpire_currentIndexChanged(int index)
 {
 	if ( index == 2 )
 	{
@@ -267,7 +267,7 @@ void DialogAddRule::on_comboBoxExpire_currentIndexChanged(int index)
 	}
 }
 
-void DialogAddRule::on_lineEditMinutes_lostFocus()
+void CDialogAddRule::on_lineEditMinutes_lostFocus()
 {
 	quint64 nMinutes = ui->lineEditMinutes->text().toULong();
 	quint64 nHours = ui->lineEditHours->text().toULong();
@@ -280,7 +280,7 @@ void DialogAddRule::on_lineEditMinutes_lostFocus()
 	ui->lineEditDays->setText( QString::number( nDays ) );
 }
 
-void DialogAddRule::on_lineEditHours_lostFocus()
+void CDialogAddRule::on_lineEditHours_lostFocus()
 {
 	quint64 nHours = ui->lineEditHours->text().toULong();
 	quint64 nDays = ui->lineEditDays->text().toULong();
@@ -290,14 +290,14 @@ void DialogAddRule::on_lineEditHours_lostFocus()
 	ui->lineEditDays->setText( QString::number( nDays ) );
 }
 
-void DialogAddRule::on_lineEditDays_lostFocus()
+void CDialogAddRule::on_lineEditDays_lostFocus()
 {
 	quint64 nDays = ui->lineEditDays->text().toULong();
 
 	ui->lineEditDays->setText( QString::number( nDays ) );
 }
 
-void DialogAddRule::setSkin()
+void CDialogAddRule::setSkin()
 {
 
 }

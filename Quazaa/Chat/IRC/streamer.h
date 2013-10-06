@@ -20,11 +20,11 @@
 template <typename T>
 static inline T readStreamValue(QDataStream& in, const T& defaultValue)
 {
-    T value;
-    in >> value;
-    if (in.status() != QDataStream::Ok)
-        value = defaultValue;
-    return value;
+	T value;
+	in >> value;
+	if (in.status() != QDataStream::Ok)
+		value = defaultValue;
+	return value;
 }
 
 #endif // STREAMER_H

@@ -58,9 +58,9 @@ public:
 	bool enableExternal();
 	void setMaxRecentItems(uint nMax);
 	int  maxRecentItems();
-	
+
 signals:
-	
+
 public slots:
 	void updateRecent();
 	void getSuggestions();

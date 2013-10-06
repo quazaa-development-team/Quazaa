@@ -20,32 +20,32 @@
 
 class Overlay : public QLabel
 {
-    Q_OBJECT
-    Q_PROPERTY(bool busy READ isBusy WRITE setBusy)
-    Q_PROPERTY(bool refresh READ hasRefresh WRITE setRefresh)
+	Q_OBJECT
+	Q_PROPERTY(bool busy READ isBusy WRITE setBusy)
+	Q_PROPERTY(bool refresh READ hasRefresh WRITE setRefresh)
 
 public:
-    explicit Overlay(QWidget* parent);
+	explicit Overlay(QWidget* parent);
 
-    bool isBusy() const;
-    void setBusy(bool busy);
+	bool isBusy() const;
+	void setBusy(bool busy);
 
-    bool hasRefresh() const;
-    void setRefresh(bool enabled);
+	bool hasRefresh() const;
+	void setRefresh(bool enabled);
 
 signals:
-    void refresh();
+	void refresh();
 
 protected:
-    bool eventFilter(QObject* object, QEvent* event);
+	bool eventFilter(QObject* object, QEvent* event);
 
 private slots:
-    void relayout();
+	void relayout();
 
 private:
-    struct Private {
-        QToolButton* button;
-    } d;
+	struct Private {
+		QToolButton* button;
+	} d;
 };
 
 #endif // OVERLAY_H

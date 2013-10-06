@@ -33,9 +33,9 @@
 
 #include "debug_new.h"
 
-DialogHashProgress::DialogHashProgress(QWidget* parent) :
+CDialogHashProgress::CDialogHashProgress(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogHashProgress)
+	ui(new Ui::CDialogHashProgress)
 {
 	setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip | Qt::WindowStaysOnTopHint);
 	ui->setupUi(this);
@@ -43,12 +43,12 @@ DialogHashProgress::DialogHashProgress(QWidget* parent) :
 	setSkin();
 }
 
-DialogHashProgress::~DialogHashProgress()
+CDialogHashProgress::~CDialogHashProgress()
 {
 	delete ui;
 }
 
-void DialogHashProgress::changeEvent(QEvent* e)
+void CDialogHashProgress::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -61,7 +61,7 @@ void DialogHashProgress::changeEvent(QEvent* e)
 	}
 }
 
-void DialogHashProgress::onHasherStarted(int nId)
+void CDialogHashProgress::onHasherStarted(int nId)
 {
 	if( m_lProgress.contains(nId) )
 		return;
@@ -74,7 +74,7 @@ void DialogHashProgress::onHasherStarted(int nId)
 	m_lProgress[nId] = qMakePair<QWidget*, QWidget*>(label, pb);
 }
 
-void DialogHashProgress::onHasherFinished(int nId)
+void CDialogHashProgress::onHasherFinished(int nId)
 {
 	if( !m_lProgress.contains(nId) )
 		return;
@@ -86,7 +86,7 @@ void DialogHashProgress::onHasherFinished(int nId)
 		hide();
 }
 
-void DialogHashProgress::onHashingProgress(int nId, QString sFilename, double nPercent, int nRate)
+void CDialogHashProgress::onHashingProgress(int nId, QString sFilename, double nPercent, int nRate)
 {
 	if( !m_lProgress.contains(nId) )
 		return;
@@ -96,7 +96,7 @@ void DialogHashProgress::onHashingProgress(int nId, QString sFilename, double nP
 	((QProgressBar*)m_lProgress[nId].second)->setValue(nPercent);
 }
 
-void DialogHashProgress::resizeEvent(QResizeEvent* e)
+void CDialogHashProgress::resizeEvent(QResizeEvent* e)
 {
 	QDialog::resizeEvent(e);
 
@@ -111,13 +111,13 @@ void DialogHashProgress::resizeEvent(QResizeEvent* e)
 	update();
 }
 
-void DialogHashProgress::mousePressEvent(QMouseEvent *e)
+void CDialogHashProgress::mousePressEvent(QMouseEvent *e)
 {
 	hide();
 	QDialog::mousePressEvent(e);
 }
 
-void DialogHashProgress::onRemainingFilesChanged(qint32 nRemaining)
+void CDialogHashProgress::onRemainingFilesChanged(qint32 nRemaining)
 {
 	QString strText(tr("Quazaa is creating hashes. Remaining files: %1"));
 	strText = strText.arg(nRemaining);
@@ -125,7 +125,7 @@ void DialogHashProgress::onRemainingFilesChanged(qint32 nRemaining)
 	ui->labelStatus->setText(strText);
 }
 
-void DialogHashProgress::setSkin()
+void CDialogHashProgress::setSkin()
 {
 
 }

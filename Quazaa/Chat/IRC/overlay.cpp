@@ -18,73 +18,73 @@
 
 Overlay::Overlay(QWidget* parent) : QLabel(parent)
 {
-    d.button = 0;
+	d.button = 0;
 
-    setVisible(false);
-    setEnabled(false);
-    setAutoFillBackground(true);
-    setAlignment(Qt::AlignCenter);
-    setAttribute(Qt::WA_TransparentForMouseEvents);
+	setVisible(false);
+	setEnabled(false);
+	setAutoFillBackground(true);
+	setAlignment(Qt::AlignCenter);
+	setAttribute(Qt::WA_TransparentForMouseEvents);
 
-    QPalette pal = palette();
-    QColor col = pal.color(QPalette::Window);
-    col.setAlpha(100);
-    pal.setColor(QPalette::Window, col);
-    setPalette(pal);
+	QPalette pal = palette();
+	QColor col = pal.color(QPalette::Window);
+	col.setAlpha(100);
+	pal.setColor(QPalette::Window, col);
+	setPalette(pal);
 
-    parent->installEventFilter(this);
-    relayout();
+	parent->installEventFilter(this);
+	relayout();
 }
 
 bool Overlay::isBusy() const
 {
-    return movie();
+	return movie();
 }
 
 void Overlay::setBusy(bool busy)
 {
-    if (busy) {
-        setMovie(new QMovie(":/Resource/ajax-loader.gif", QByteArray(), this));
-        movie()->start();
-    } else {
-        delete movie();
-    }
+	if (busy) {
+		setMovie(new QMovie(":/Resource/ajax-loader.gif", QByteArray(), this));
+		movie()->start();
+	} else {
+		delete movie();
+	}
 }
 
 bool Overlay::hasRefresh() const
 {
-    return d.button;
+	return d.button;
 }
 
 void Overlay::setRefresh(bool enabled)
 {
-    if (enabled) {
-        if (!d.button) {
-            d.button = new QToolButton(parentWidget());
-            d.button->setObjectName("reconnectButton");
-            d.button->setFixedSize(32, 32);
-            connect(d.button, SIGNAL(clicked()), this, SIGNAL(refresh()));
-            relayout();
-        }
-        d.button->show();
-    } else {
-        if (d.button)
-            d.button->deleteLater();
-        d.button = 0;
-    }
+	if (enabled) {
+		if (!d.button) {
+			d.button = new QToolButton(parentWidget());
+			d.button->setObjectName("reconnectButton");
+			d.button->setFixedSize(32, 32);
+			connect(d.button, SIGNAL(clicked()), this, SIGNAL(refresh()));
+			relayout();
+		}
+		d.button->show();
+	} else {
+		if (d.button)
+			d.button->deleteLater();
+		d.button = 0;
+	}
 }
 
 bool Overlay::eventFilter(QObject* object, QEvent* event)
 {
-    Q_UNUSED(object);
-    if (event->type() == QEvent::Resize)
-        relayout();
-    return false;
+	Q_UNUSED(object);
+	if (event->type() == QEvent::Resize)
+		relayout();
+	return false;
 }
 
 void Overlay::relayout()
 {
-    resize(parentWidget()->size());
-    if (d.button)
-        d.button->move(rect().center() - d.button->rect().center());
+	resize(parentWidget()->size());
+	if (d.button)
+		d.button->move(rect().center() - d.button->rect().center());
 }

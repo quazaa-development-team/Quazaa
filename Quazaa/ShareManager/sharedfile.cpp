@@ -80,15 +80,13 @@ void CSharedFile::serialize(QSqlDatabase* pDatabase)
 		if ( !query.exec() )
 		{
 			systemLog.postLog( LogSeverity::Debug, QString( "SQL Query failed: %1" ).arg( query.lastError().text() ) );
-			//qDebug() << "Cannot fetch directory id: " << query.lastError().text();
-			return;
+            return;
 		}
 
 		if ( query.size() != 1 )
 		{
 			systemLog.postLog( LogSeverity::Debug, QString( "Bad record number: %1" ).arg( query.size() ) );
-			//qDebug() << "Bad record number: " << query.size();
-			return;
+            return;
 		}
 
 		query.next();
@@ -113,8 +111,7 @@ void CSharedFile::serialize(QSqlDatabase* pDatabase)
 		if ( !query.exec() )
 		{
 			systemLog.postLog( LogSeverity::Debug, QString( "Cannot insert new record: %1" ).arg( query.lastError().text() ) );
-			//qDebug() << "Cannot insert new record: " << query.lastError().text();
-			return;
+            return;
 		}
 
 		qint64 nFileID = query.lastInsertId().toLongLong();
@@ -164,8 +161,7 @@ void CSharedFile::serialize(QSqlDatabase* pDatabase)
 			if ( !qh.exec() )
 			{
 				systemLog.postLog( LogSeverity::Debug, QString( "Cannot insert hashes: %1 %2" ).arg( qh.lastError().text() ).arg(qh.executedQuery() ) );
-				//qDebug() << "Cannot insert hashes: " << qh.lastError().text() << qh.executedQuery();
-			}
+            }
 		}
 
 		QStringList lKeywords;

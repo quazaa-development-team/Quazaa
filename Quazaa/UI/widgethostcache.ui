@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetHostCache</class>
+ <class>CWidgetHostCache</class>
  <widget class="QMainWindow" name="WidgetHostCache">
   <property name="geometry">
    <rect>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetSearchMonitor</class>
+ <class>CWidgetSearchMonitor</class>
  <widget class="QMainWindow" name="WidgetSearchMonitor">
   <property name="geometry">
    <rect>

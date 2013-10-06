@@ -27,120 +27,120 @@
 
 #include "debug_new.h"
 
-DialogIrcColorDialog::DialogIrcColorDialog(QColor initialColor, QWidget *parent) :
+CDialogIrcColorDialog::CDialogIrcColorDialog(QColor initialColor, QWidget *parent) :
     QDialog(parent),
-	ui(new Ui::DialogIrcColorDialog)
+	ui(new Ui::CDialogIrcColorDialog)
 {
     ui->setupUi(this);
 	m_oIrcColor = initialColor;
 	m_bDefault = false;
 }
 
-DialogIrcColorDialog::~DialogIrcColorDialog()
+CDialogIrcColorDialog::~CDialogIrcColorDialog()
 {
     delete ui;
 }
 
-void DialogIrcColorDialog::on_toolButtonCancel_clicked()
+void CDialogIrcColorDialog::on_toolButtonCancel_clicked()
 {
 	reject();
 }
 
-bool DialogIrcColorDialog::isDefaultColor()
+bool CDialogIrcColorDialog::isDefaultColor()
 {
 	return m_bDefault;
 }
 
-QColor DialogIrcColorDialog::color()
+QColor CDialogIrcColorDialog::color()
 {
 	return m_oIrcColor;
 }
 
-void DialogIrcColorDialog::on_toolButtonDefault_clicked()
+void CDialogIrcColorDialog::on_toolButtonDefault_clicked()
 {
 	m_bDefault = true;
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonDarkBlue_clicked()
+void CDialogIrcColorDialog::on_toolButtonDarkBlue_clicked()
 {
 	m_oIrcColor.setNamedColor("darkblue");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonDarkGreen_clicked()
+void CDialogIrcColorDialog::on_toolButtonDarkGreen_clicked()
 {
 	m_oIrcColor.setNamedColor("darkgreen");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonRed_clicked()
+void CDialogIrcColorDialog::on_toolButtonRed_clicked()
 {
 	m_oIrcColor.setNamedColor("red");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonDarkRed_clicked()
+void CDialogIrcColorDialog::on_toolButtonDarkRed_clicked()
 {
 	m_oIrcColor.setNamedColor("darkred");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonDarkViolet_clicked()
+void CDialogIrcColorDialog::on_toolButtonDarkViolet_clicked()
 {
 	m_oIrcColor.setNamedColor("darkviolet");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonOrange_clicked()
+void CDialogIrcColorDialog::on_toolButtonOrange_clicked()
 {
 	m_oIrcColor.setNamedColor("orange");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonYellow_clicked()
+void CDialogIrcColorDialog::on_toolButtonYellow_clicked()
 {
 	m_oIrcColor.setNamedColor("yellow");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonLightGreen_clicked()
+void CDialogIrcColorDialog::on_toolButtonLightGreen_clicked()
 {
 	m_oIrcColor.setNamedColor("lightgreen");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonCornFlowerBlue_clicked()
+void CDialogIrcColorDialog::on_toolButtonCornFlowerBlue_clicked()
 {
 	m_oIrcColor.setNamedColor("cornflowerblue");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonLightBlue_clicked()
+void CDialogIrcColorDialog::on_toolButtonLightBlue_clicked()
 {
 	m_oIrcColor.setNamedColor("lightblue");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonBlue_clicked()
+void CDialogIrcColorDialog::on_toolButtonBlue_clicked()
 {
 	m_oIrcColor.setNamedColor("blue");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonViolet_clicked()
+void CDialogIrcColorDialog::on_toolButtonViolet_clicked()
 {
 	m_oIrcColor.setNamedColor("violet");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonDarkGray_clicked()
+void CDialogIrcColorDialog::on_toolButtonDarkGray_clicked()
 {
 	m_oIrcColor.setNamedColor("gray");
 	accept();
 }
 
-void DialogIrcColorDialog::on_toolButtonGray_clicked()
+void CDialogIrcColorDialog::on_toolButtonGray_clicked()
 {
 	m_oIrcColor.setNamedColor("darkgray");
 	accept();

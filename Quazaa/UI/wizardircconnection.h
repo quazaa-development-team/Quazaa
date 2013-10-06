@@ -7,16 +7,16 @@
 #include "connectioninfo.h"
 
 namespace Ui {
-class WizardIrcConnection;
+	class CWizardIrcConnection;
 }
 
-class WizardIrcConnection : public QWizard
+class CWizardIrcConnection : public QWizard
 {
 	Q_OBJECT
 
 public:
-	explicit WizardIrcConnection(QWidget *parent = 0);
-	~WizardIrcConnection();
+	explicit CWizardIrcConnection(QWidget *parent = 0);
+	~CWizardIrcConnection();
 
 	enum Page
 	{
@@ -43,8 +43,8 @@ public:
 	bool isSecure() const;
 	void setSecure(bool secure);
 
-    QString userName() const;
-    void setUserName(const QString& userName);
+	QString userName() const;
+	void setUserName(const QString& userName);
 
 	QString password() const;
 	void setPassword(const QString& password);
@@ -55,12 +55,12 @@ public:
 	bool isComplete() const;
 
 private:
-	Ui::WizardIrcConnection *ui;
-    CompleterLineEdit* lineEditNickName;
-    CompleterLineEdit* lineEditRealName;
-    CompleterLineEdit* lineEditHost;
-    CompleterLineEdit* lineEditUserName;
-    CompleterLineEdit* lineEditConnectionName;
+	Ui::CWizardIrcConnection *ui;
+	CCompleterLineEdit* lineEditNickName;
+	CCompleterLineEdit* lineEditRealName;
+	CCompleterLineEdit* lineEditHost;
+	CCompleterLineEdit* lineEditUserName;
+	CCompleterLineEdit* lineEditConnectionName;
 
 private slots:
 	void accept();

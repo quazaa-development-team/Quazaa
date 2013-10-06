@@ -28,21 +28,21 @@
 
 #include "debug_new.h"
 
-DialogDownloadsImport::DialogDownloadsImport(QWidget* parent) :
+CDialogDownloadsImport::CDialogDownloadsImport(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogDownloadsImport)
+	ui(new Ui::CDialogDownloadsImport)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogDownloadsImport::~DialogDownloadsImport()
+CDialogDownloadsImport::~CDialogDownloadsImport()
 {
 	delete ui;
 	emit closed();
 }
 
-void DialogDownloadsImport::changeEvent(QEvent* e)
+void CDialogDownloadsImport::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -55,7 +55,7 @@ void DialogDownloadsImport::changeEvent(QEvent* e)
 	}
 }
 
-void DialogDownloadsImport::setSkin()
+void CDialogDownloadsImport::setSkin()
 {
 
 }

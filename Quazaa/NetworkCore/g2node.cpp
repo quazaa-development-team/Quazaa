@@ -47,8 +47,8 @@
 //#define _DISABLE_COMPRESSION
 
 CG2Node::CG2Node(QObject* parent) :
-    CNeighbour(parent),
-    m_pHubGroup(new CHubHorizonGroup)
+	CNeighbour(parent),
+	m_pHubGroup(new CHubHorizonGroup)
 {
 
 	m_nProtocol = dpG2;
@@ -124,8 +124,8 @@ void CG2Node::OnConnect()
 	//QMutexLocker l(&Neighbours.m_pSection);
 
 	systemLog.postLog ( LogSeverity::Information, Components::G2,
-	                    "Connection with %s established, handshaking...",
-	                    qPrintable( m_oAddress.toString() ) );
+						"Connection with %s established, handshaking...",
+						qPrintable( m_oAddress.toString() ) );
 
 	m_nState = nsHandshaking;
 	emit NodeStateChanged();
@@ -134,7 +134,7 @@ void CG2Node::OnConnect()
 
 	sHs += "GNUTELLA CONNECT/0.6\r\n";
 	sHs += "Accept: application/x-gnutella2\r\n";
-	sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+	sHs += "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	sHs += "Remote-IP: " + m_oAddress.toString() + "\r\n";
 	sHs += "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n";
 	if(Neighbours.IsG2Hub())
@@ -220,12 +220,12 @@ void CG2Node::OnTimer(quint32 tNow)
 	{
 		if(m_nPingsWaiting == 0 && (tNow - m_tLastPacketIn >= 30 || tNow - m_tLastPingOut >= quazaaSettings.Gnutella2.PingRate))
 		{
-			// Jesli dostalismy ostatni pakiet co najmniej 30 sekund temu
-			// lub wyslalismy ostatniego pinga co najmniej 2 minuty temu
-			// no i nie oczekujemy odpowiedzi na wczesniejszego pinga
-			// to wysylamy keep-alive ping, przy okazji merzac RTT
+			// If we got the last packet at least 30 seconds ago
+			// or our last ping at least 2 minutes ago
+			// and do not expect a response to an earlier ping
+			// then we send keep-alive ping, on the occasion of the RTT measurement
 			G2Packet* pPacket = G2Packet::New("PI", false);
-			SendPacket(pPacket, false, true); // niebuforowany, zeby dokladniej zmierzyc RTT
+			SendPacket(pPacket, false, true); // Unbuffered, we can accurately measure the RTT
 			m_nPingsWaiting++;
 			m_tLastPingOut = tNow;
 			m_tRTTTimer.start();
@@ -241,11 +241,11 @@ void CG2Node::OnTimer(quint32 tNow)
 		}*/
 
 		if ( ( m_nType == G2_HUB && tNow - m_tConnected > 30 ) &&
-		     (( m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie &&
-		        tNow - m_pLocalTable->m_nCookie > 60 ) ||
-		      ( QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
-		        !m_pLocalTable->m_bLive ))
-		     )
+				(( m_pLocalTable != 0 && m_pLocalTable->m_nCookie != QueryHashMaster.m_nCookie &&
+				   tNow - m_pLocalTable->m_nCookie > 60 ) ||
+				 ( QueryHashMaster.m_nCookie - m_pLocalTable->m_nCookie > 60 ||
+				   !m_pLocalTable->m_bLive ))
+		   )
 		{
 			if(m_pLocalTable->PatchTo(&QueryHashMaster, this))
 			{
@@ -312,12 +312,12 @@ void CG2Node::ParseIncomingHandshake()
 		return;
 	}
 
-    if( securityManager.isAgentBlocked(m_sUserAgent) )
-    {
-        Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, Security::ban2Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
-        return;
-    }
+	if( securityManager.isAgentBlocked(m_sUserAgent) )
+	{
+		Send_ConnectError("403 Access Denied, sorry");
+		securityManager.ban(m_oAddress, Security::ban6Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
+		return;
+	}
 
 	if(sHs.startsWith("GNUTELLA CONNECT/0.6"))
 	{
@@ -485,12 +485,12 @@ void CG2Node::ParseOutgoingHandshake()
 		return;
 	}
 
-    if( securityManager.isAgentBlocked(m_sUserAgent) )
-    {
-        Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, Security::ban2Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
-        return;
-    }
+	if( securityManager.isAgentBlocked(m_sUserAgent) )
+	{
+		Send_ConnectError("403 Access Denied, sorry");
+		securityManager.ban(m_oAddress, Security::ban6Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
+		return;
+	}
 
 	QString sTry = Parser::GetHeaderValue(sHs, "X-Try-Hubs");
 	if(bAcceptG2 && bG2Provided && sTry.size())
@@ -619,7 +619,7 @@ void CG2Node::Send_ConnectError(QString sReason)
 	QByteArray sHs;
 
 	sHs += "GNUTELLA/0.6 " + sReason + "\r\n";
-	sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+	sHs += "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	sHs += "Accept: application/x-gnutella2\r\n";
 	sHs += "Content-Type: application/x-gnutella2\r\n";
 
@@ -627,12 +627,12 @@ void CG2Node::Send_ConnectError(QString sReason)
 	for(QList<CNeighbour*>::iterator it = Neighbours.begin(); it != Neighbours.end(); ++it)
 	{
 		CNeighbour* pNeighbour = *it;
-		// add neighbours with free slots, to promote faster connections
+		// Add neighbours with free slots, to promote faster connections.
 		if( pNeighbour->m_nState == nsConnected
-		    && pNeighbour->m_nProtocol == dpG2
-		    && ((CG2Node*)pNeighbour)->m_nType == G2_HUB
-		    && ((CG2Node*)pNeighbour) ->m_nLeafMax > 0
-		    && 100 * ((CG2Node*)pNeighbour)->m_nLeafCount / ((CG2Node*)pNeighbour)->m_nLeafMax < 90 )
+				&& pNeighbour->m_nProtocol == dpG2
+				&& ((CG2Node*)pNeighbour)->m_nType == G2_HUB
+				&& ((CG2Node*)pNeighbour) ->m_nLeafMax > 0
+				&& 100 * ((CG2Node*)pNeighbour)->m_nLeafCount / ((CG2Node*)pNeighbour)->m_nLeafMax < 90 )
 		{
 			sHs += "," + pNeighbour->m_oAddress.toStringWithPort() + " " + common::getDateTimeUTC().toString("yyyy-MM-ddThh:mmZ");
 		}
@@ -653,7 +653,7 @@ void CG2Node::Send_ConnectOK(bool bReply, bool bDeflated)
 	QByteArray sHs;
 
 	sHs += "GNUTELLA/0.6 200 OK\r\n";
-	sHs += "User-Agent: " + QuazaaGlobals::USER_AGENT_STRING() + "\r\n";
+	sHs += "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	if(Neighbours.IsG2Hub())
 	{
 		sHs += "X-Ultrapeer: True\r\n";
@@ -733,7 +733,7 @@ void CG2Node::SendLNI()
 		pLNI->WritePacket("NA", 18)->WriteHostAddress(&Network.m_oAddress);
 	}
 	pLNI->WritePacket("GU", 16)->WriteGUID(quazaaSettings.Profile.GUID);
-	pLNI->WritePacket("V", 4)->WriteString(QuazaaGlobals::VENDOR_CODE(), false);
+	pLNI->WritePacket("V", 4)->WriteString(CQuazaaGlobals::VENDOR_CODE(), false);
 
 	if(Neighbours.IsG2Hub())
 	{
@@ -868,7 +868,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 	{
 		// /PI/UDP
 
-		if(Neighbours.IsG2Hub())
+		if(Neighbours.IsG2Hub()) // If we are a hub.
 		{
 			G2Packet* pRelay = G2Packet::New("RELAY");
 			pPacket->PrependPacket(pRelay);
@@ -883,9 +883,9 @@ void CG2Node::OnPing(G2Packet* pPacket)
 				{
 					CNeighbour* pNode = Neighbours.GetAt(nIndex);
 					if(pNode != this
-					   && pNode->m_nProtocol == dpG2
-					   && pNode->m_nState == nsConnected
-					   && static_cast<CG2Node*>(pNode)->m_nType == G2_LEAF )
+							&& pNode->m_nProtocol == dpG2
+							&& pNode->m_nState == nsConnected
+							&& static_cast<CG2Node*>(pNode)->m_nType == G2_LEAF )
 					{
 						pPacket->AddRef();
 						((CG2Node*)pNode)->SendPacket(pPacket, true, true);
@@ -1102,12 +1102,14 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 				if ( !sVendor.isEmpty() && securityManager.isVendorBlocked( sVendor ) )
 				{
-					securityManager.ban( ep, Security::ban2Hours, true,
-					                     QString( "[AUTO] Vendor blocked (%1)" ).arg( sVendor ) );
+					securityManager.ban( ep, Security::ban6Hours, true,
+										 QString( "[AUTO] Vendor blocked (%1)" ).arg( sVendor ) );
 				}
 				else
 				{
+					hostCache.m_pSection.lock();
 					hostCache.add( ep, nDiff + tNow );
+					hostCache.m_pSection.unlock();
 				}
 			}
 		}
@@ -1317,8 +1319,8 @@ void CG2Node::OnQKA(G2Packet* pPacket)
 
 #if LOG_QUERY_HANDLING
 		systemLog.postLog( LogSeverity::Debug,
-		                   QString( "Got a query key from %1 via %2 = 0x%3" ).arg(
-		                     addr.toString().toLocal8Bit().constData()).arg(m_oAddress.toString().toLocal8Bit().constData()).arg(QString().number(nKey, 16)));
+						   QString( "Got a query key from %1 via %2 = 0x%3" ).arg(
+							   addr.toString().toLocal8Bit().constData()).arg(m_oAddress.toString().toLocal8Bit().constData()).arg(QString().number(nKey, 16)));
 		//qDebug("Got a query key from %s via %s = 0x%x", addr.toString().toLocal8Bit().constData(), m_oAddress.toString().toLocal8Bit().constData(), nKey);
 #endif // LOG_QUERY_HANDLING
 }
@@ -1339,22 +1341,27 @@ void CG2Node::OnQH2(G2Packet* pPacket)
 
 	QueryHitInfo* pInfo = CQueryHit::ReadInfo(pPacket, &m_oAddress);
 
-	if(SearchManager.OnQueryHit(pPacket, pInfo))
+	if( securityManager.isVendorBlocked( pInfo->m_sVendor ) ) // Block foxy client search results. We can't download from them any way.
 	{
-		Network.m_pSection.lock();
-
-		if(Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
+		securityManager.ban( pInfo->m_oNodeAddress, Security::ban6Hours, true,
+							 QString( "[AUTO] Vendor blocked (%1)" ).arg( pInfo->m_sVendor ) );
+	} else {
+		if(SearchManager.OnQueryHit(pPacket, pInfo))
 		{
-			Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, this, false);
-			pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
-			Network.RoutePacket(pInfo->m_oGUID, pPacket);
+			Network.m_pSection.lock();
+
+			if(Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
+			{
+				Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, this, false);
+				pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
+				Network.RoutePacket(pInfo->m_oGUID, pPacket);
+			}
+
+			Network.m_pSection.unlock();
+
+			delete pInfo;
 		}
-
-		Network.m_pSection.unlock();
-
-		delete pInfo;
 	}
-
 }
 
 void CG2Node::OnQuery(G2Packet* pPacket)
@@ -1369,8 +1376,8 @@ void CG2Node::OnQuery(G2Packet* pPacket)
 	if ( pQuery.isNull() )
 	{
 		systemLog.postLog( LogSeverity::Error,  Components::G2,
-		                   "Received malformatted query from neighbour %s, ignoring.",
-		                   qPrintable( m_oAddress.toString() ) );
+						   "Received malformatted query from neighbour %s, ignoring.",
+						   qPrintable( m_oAddress.toString() ) );
 		return;
 	}
 
@@ -1445,7 +1452,7 @@ void CG2Node::SendHAW()
 	pPacket->WriteHostAddress(&Network.m_oAddress);
 
 	pPacket->WritePacket("V", 4);
-	pPacket->WriteString(QuazaaGlobals::VENDOR_CODE());
+	pPacket->WriteString(CQuazaaGlobals::VENDOR_CODE());
 
 	pPacket->WritePacket("HS", 2);
 	pPacket->WriteIntLE<quint16>(Neighbours.m_nLeavesConnectedG2);
@@ -1507,12 +1514,14 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 
 	if( !strVendor.isEmpty() && securityManager.isVendorBlocked(strVendor) )
 	{
-		securityManager.ban(addr, Security::ban2Hours, true, QString("[AUTO] Vendor blocked (%1)").arg(strVendor));
+		securityManager.ban(addr, Security::ban6Hours, true, QString("[AUTO] Vendor blocked (%1)").arg(strVendor));
 		return;	// We don't want to propagate these...
 	}
 	else
 	{
+		hostCache.m_pSection.lock();
 		hostCache.add( addr, common::getTNowUTC() );
+		hostCache.m_pSection.unlock();
 	}
 
 	if ( nTTL > 0 && nHops < 255 )

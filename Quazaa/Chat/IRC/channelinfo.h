@@ -21,26 +21,26 @@
 #include "streamer.h"
 
 struct ChannelInfo {
-    QString channel;
-    QString key;
+	QString channel;
+	QString key;
 };
 Q_DECLARE_METATYPE(ChannelInfo);
 
 inline QDataStream& operator<<(QDataStream& out, const ChannelInfo& channel)
 {
-    out << quint32(123); // version
-    out << channel.channel;
-    out << channel.key;
-    return out;
+	out << quint32(123); // version
+	out << channel.channel;
+	out << channel.key;
+	return out;
 }
 
 inline QDataStream& operator>>(QDataStream& in, ChannelInfo& channel)
 {
-    quint32 version = readStreamValue<quint32>(in, 0);
-    channel.channel = readStreamValue<QString>(in, channel.channel);
-    channel.key = readStreamValue<QString>(in, channel.key);
-    Q_UNUSED(version);
-    return in;
+	quint32 version = readStreamValue<quint32>(in, 0);
+	channel.channel = readStreamValue<QString>(in, channel.channel);
+	channel.key = readStreamValue<QString>(in, channel.key);
+	Q_UNUSED(version);
+	return in;
 }
 
 typedef QList<ChannelInfo> ChannelInfos;

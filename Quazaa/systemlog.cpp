@@ -28,9 +28,9 @@
 
 #include "debug_new.h"
 
-SystemLog systemLog;
+CSystemLog systemLog;
 
-SystemLog::SystemLog()
+CSystemLog::CSystemLog()
 {
 	m_pComponents = new QString[Components::NoComponents];
 
@@ -38,12 +38,12 @@ SystemLog::SystemLog()
 	qRegisterMetaType<Components::Component>( "Components::Component" );
 }
 
-SystemLog::~SystemLog()
+CSystemLog::~CSystemLog()
 {
 	delete[] m_pComponents;
 }
 
-void SystemLog::start()
+void CSystemLog::start()
 {
 	m_pComponents[Components::None]       = QString();
 	m_pComponents[Components::Chat]       = tr( "[Chat] "       );
@@ -63,13 +63,18 @@ void SystemLog::start()
 	m_pComponents[Components::HostCache]  = tr( "[HostCache] "  );
 }
 
-QString SystemLog::msgFromComponent(Components::Component eComponent)
+QString CSystemLog::msgFromComponent(Components::Component eComponent)
 {
 	return m_pComponents[eComponent];
 }
 
-void SystemLog::postLog(LogSeverity::Severity severity, QString message,
-                        Components::Component component)
+void CSystemLog::postLog(LogSeverity::Severity severity, QString message)
+{
+	postLog( severity, Components::None, message );
+}
+
+void CSystemLog::postLog(LogSeverity::Severity severity, Components::Component component,
+						 QString message)
 {
 	static LogSeverity::Severity lastSeverity  = LogSeverity::Information;
 	static Components::Component lastComponent = Components::None;
@@ -89,9 +94,8 @@ void SystemLog::postLog(LogSeverity::Severity severity, QString message,
 			if ( suppressed > 0 )
 			{
 				bCheck = false;
-				postLog( lastSeverity,
-				         tr( "Suppressed %n identical message(s).", 0, suppressed ),
-				         lastComponent );
+				postLog( lastSeverity, lastComponent,
+						 tr( "Suppressed %n identical message(s).", 0, suppressed ) );
 				bCheck = true;
 			}
 			lastMessage   = message;
@@ -118,13 +122,13 @@ void SystemLog::postLog(LogSeverity::Severity severity, QString message,
 	emit logPosted( message, severity );
 }
 
-void SystemLog::postLog(LogSeverity::Severity severity, Components::Component component,
-                        const char* format, ...)
+void CSystemLog::postLog(LogSeverity::Severity severity, Components::Component component,
+						 const char* format, ...)
 {
 	va_list argList;
 	va_start( argList, format );
 	QString message = QString().vsprintf( format, argList );
-	postLog( severity, message, component );
+	postLog( severity, component, message );
 	va_end( argList );
 }
 

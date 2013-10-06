@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WidgetIrcMessageView</class>
+ <class>CWidgetIrcMessageView</class>
  <widget class="QWidget" name="WidgetIrcMessageView">
   <property name="geometry">
    <rect>
@@ -94,7 +94,7 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="ListViewIrcUsers" name="listView">
+     <widget class="CListViewIrcUsers" name="listView">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -152,7 +152,7 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ListViewIrcUsers</class>
+   <class>CListViewIrcUsers</class>
    <extends>QListView</extends>
    <header>listviewircusers.h</header>
   </customwidget>

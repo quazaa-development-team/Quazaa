@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogLibrarySearch</class>
+ <class>CDialogLibrarySearch</class>
  <widget class="QDialog" name="DialogLibrarySearch">
   <property name="geometry">
    <rect>

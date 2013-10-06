@@ -19,16 +19,16 @@
 
 class ToolBar : public QToolBar
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit ToolBar(QWidget* parent = 0);
+	explicit ToolBar(QWidget* parent = 0);
 
 signals:
-    void aboutTriggered();
-    void settingsTriggered();
-    void connectTriggered();
-    void joinTriggered();
+	void aboutTriggered();
+	void settingsTriggered();
+	void connectTriggered();
+	void joinTriggered();
 };
 
 #endif // TOOLBAR_H

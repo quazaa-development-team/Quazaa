@@ -29,22 +29,22 @@
 
 namespace Ui
 {
-	class DialogEditShares;
+	class CDialogEditShares;
 }
 
-class DialogEditShares : public QDialog
+class CDialogEditShares : public QDialog
 {
 	Q_OBJECT
-	Q_DISABLE_COPY(DialogEditShares)
+	Q_DISABLE_COPY(CDialogEditShares)
 public:
-	explicit DialogEditShares(QWidget* parent = 0);
-	virtual ~DialogEditShares();
+	explicit CDialogEditShares(QWidget* parent = 0);
+	virtual ~CDialogEditShares();
 
 protected:
 	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogEditShares* ui;
+	Ui::CDialogEditShares* ui;
 
 signals:
 	void closed();

@@ -29,20 +29,20 @@
 
 #include "debug_new.h"
 
-DialogCloseType::DialogCloseType(QWidget* parent) :
+CDialogCloseType::CDialogCloseType(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogCloseType)
+	ui(new Ui::CDialogCloseType)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogCloseType::~DialogCloseType()
+CDialogCloseType::~CDialogCloseType()
 {
 	delete ui;
 }
 
-void DialogCloseType::changeEvent(QEvent* e)
+void CDialogCloseType::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -55,14 +55,14 @@ void DialogCloseType::changeEvent(QEvent* e)
 	}
 }
 
-void DialogCloseType::on_pushButtonOK_clicked()
+void CDialogCloseType::on_pushButtonOK_clicked()
 {
 	quazaaSettings.System.CloseMode = ui->comboBoxCloseType->currentIndex() + 1;
 	emit closed();
 	close();
 }
 
-void DialogCloseType::setSkin()
+void CDialogCloseType::setSkin()
 {
 
 }

@@ -433,6 +433,7 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 			return nbr->iCountry;
 		}
 	}
+    // TODO: Reimplement formatting options and use them for models.
 	else if ( role == Qt::ForegroundRole )
 	{
 		switch ( nbr->nState )

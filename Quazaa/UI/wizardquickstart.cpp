@@ -33,9 +33,9 @@
 
 #include "debug_new.h"
 
-WizardQuickStart::WizardQuickStart(QWidget *parent) :
+CWizardQuickStart::CWizardQuickStart(QWidget *parent) :
     QWizard(parent),
-    ui(new Ui::WizardQuickStart)
+    ui(new Ui::CWizardQuickStart)
 {
 	ui->setupUi(this);
 	this->setPixmap(QWizard::LogoPixmap, QPixmap(":/Resource/Quazaa48.png"));
@@ -69,12 +69,12 @@ WizardQuickStart::WizardQuickStart(QWidget *parent) :
 	setSkin();
 }
 
-WizardQuickStart::~WizardQuickStart()
+CWizardQuickStart::~CWizardQuickStart()
 {
 	delete ui;
 }
 
-void WizardQuickStart::changeEvent(QEvent* e)
+void CWizardQuickStart::changeEvent(QEvent* e)
 {
 	switch(e->type())
 	{
@@ -86,7 +86,7 @@ void WizardQuickStart::changeEvent(QEvent* e)
 	}
 }
 
-void WizardQuickStart::accept()
+void CWizardQuickStart::accept()
 {
 	quazaaSettings.Connection.InSpeed = (ui->doubleSpinBoxInSpeed->value() / 8) * 1024;
 	quazaaSettings.Connection.OutSpeed = (ui->doubleSpinBoxOutSpeed->value() / 8) * 1024;
@@ -128,7 +128,7 @@ void WizardQuickStart::accept()
 	QDialog::accept();
 }
 
-void WizardQuickStart::on_toolButtonSharesAdd_clicked()
+void CWizardQuickStart::on_toolButtonSharesAdd_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QDir directory(QFileDialog::getExistingDirectory(this,
@@ -141,7 +141,7 @@ void WizardQuickStart::on_toolButtonSharesAdd_clicked()
 	}
 }
 
-void WizardQuickStart::on_toolButtonSharesRemove_clicked()
+void CWizardQuickStart::on_toolButtonSharesRemove_clicked()
 {
 	if(ui->listWidgetShares->currentRow() != -1)
 	{
@@ -149,11 +149,11 @@ void WizardQuickStart::on_toolButtonSharesRemove_clicked()
 	}
 }
 
-void WizardQuickStart::setSkin()
+void CWizardQuickStart::setSkin()
 {
 }
 
-void WizardQuickStart::on_checkBoxUPnP_stateChanged(int arg1)
+void CWizardQuickStart::on_checkBoxUPnP_stateChanged(int arg1)
 {
 	if ( arg1 == Qt::Checked )
 	{
@@ -165,7 +165,7 @@ void WizardQuickStart::on_checkBoxUPnP_stateChanged(int arg1)
 	}
 }
 
-void WizardQuickStart::on_pushButtonRandomizePort_clicked()
+void CWizardQuickStart::on_pushButtonRandomizePort_clicked()
 {
 	ui->spinBoxPort->setValue(common::getRandomUnusedPort());
 }

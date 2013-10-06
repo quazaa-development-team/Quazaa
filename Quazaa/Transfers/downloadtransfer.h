@@ -38,16 +38,16 @@ public:
 public:
 	CDownloadTransfer(CDownload* pOwner, CDownloadSource* pSource, QObject *parent = 0);
 	virtual ~CDownloadTransfer();
-	
+
 	virtual void onTimer(quint32 tNow = 0);
 	virtual void requestBlock(Fragments::Fragment oFragment);
 	virtual void subtractRequested(Fragments::List& oFragments);
 public:
 	inline CDownloadSource* source() const;
 signals:
-	
+
 public slots:
-	
+
 };
 
 CDownloadSource* CDownloadTransfer::source() const

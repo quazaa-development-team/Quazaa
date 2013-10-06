@@ -29,21 +29,21 @@
 
 namespace Ui
 {
-	class DialogAddDownload;
+	class CDialogAddDownload;
 }
 
-class DialogAddDownload : public QDialog
+class CDialogAddDownload : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogAddDownload(QWidget* parent = 0);
-	~DialogAddDownload();
+	CDialogAddDownload(QWidget* parent = 0);
+	~CDialogAddDownload();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogAddDownload* ui;
+	Ui::CDialogAddDownload* ui;
 
 signals:
 	void closed();

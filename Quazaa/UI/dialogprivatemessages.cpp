@@ -33,12 +33,12 @@
 
 #include "debug_new.h"
 
-DialogPrivateMessages::DialogPrivateMessages(QWidget *parent) :
+CDialogPrivateMessages::CDialogPrivateMessages(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogPrivateMessages)
+	ui(new Ui::CDialogPrivateMessages)
 {
 	ui->setupUi(this);
-	widgetChatInput = new WidgetChatInput(this);
+	widgetChatInput = new CWidgetChatInput(this);
 	ui->horizontalLayoutChatInput->addWidget(widgetChatInput);
 	connect(widgetChatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(onMessageSent(QTextDocument*)));
 	m_pCurrentWidget = 0;
@@ -46,15 +46,15 @@ DialogPrivateMessages::DialogPrivateMessages(QWidget *parent) :
 	setSkin();
 }
 
-DialogPrivateMessages::~DialogPrivateMessages()
+CDialogPrivateMessages::~CDialogPrivateMessages()
 {
 	delete widgetChatInput;
 	delete ui;
 }
 
-WidgetPrivateMessage* DialogPrivateMessages::FindByGUID(QUuid oGUID)
+CWidgetPrivateMessage* CDialogPrivateMessages::FindByGUID(QUuid oGUID)
 {
-	foreach( WidgetPrivateMessage* pWg, m_lChatWindows )
+	foreach( CWidgetPrivateMessage* pWg, m_lChatWindows )
 	{
 		if( oGUID == pWg->m_oGUID )
 			return pWg;
@@ -63,7 +63,7 @@ WidgetPrivateMessage* DialogPrivateMessages::FindByGUID(QUuid oGUID)
 	return 0;
 }
 
-void DialogPrivateMessages::changeEvent(QEvent *e)
+void CDialogPrivateMessages::changeEvent(QEvent *e)
 {
 	QDialog::changeEvent(e);
 	switch (e->type()) {
@@ -75,13 +75,13 @@ void DialogPrivateMessages::changeEvent(QEvent *e)
 	}
 }
 
-void DialogPrivateMessages::OpenChat(CChatSession* pSess)
+void CDialogPrivateMessages::OpenChat(CChatSession* pSess)
 {
 	ChatCore.m_pSection.lock();
-	WidgetPrivateMessage* pWg = FindByGUID(pSess->m_oGUID);
+	CWidgetPrivateMessage* pWg = FindByGUID(pSess->m_oGUID);
 	if( pWg == 0 )
 	{
-		pWg = new WidgetPrivateMessage(this);
+		pWg = new CWidgetPrivateMessage(this);
 		m_lChatWindows.append(pWg);
 		int idx = ui->tabWidgetPrivateMessages->addTab(pWg, pSess->m_oAddress.toStringWithPort());
 		m_pCurrentWidget = pWg;
@@ -94,7 +94,7 @@ void DialogPrivateMessages::OpenChat(CChatSession* pSess)
 	raise();
 }
 
-void DialogPrivateMessages::onMessageSent(QTextDocument *pDoc)
+void CDialogPrivateMessages::onMessageSent(QTextDocument *pDoc)
 {
 	QString sMessage = pDoc->toPlainText();
 
@@ -129,13 +129,13 @@ void DialogPrivateMessages::onMessageSent(QTextDocument *pDoc)
 	m_pCurrentWidget->SendPrivateMessage(pDoc, false);
 }
 
-void DialogPrivateMessages::on_tabWidgetPrivateMessages_currentChanged(int index)
+void CDialogPrivateMessages::on_tabWidgetPrivateMessages_currentChanged(int index)
 {
 	if( ui->tabWidgetPrivateMessages->count() > 0 )
 		m_pCurrentWidget = m_lChatWindows[index];
 }
 
-void DialogPrivateMessages::on_tabWidgetPrivateMessages_tabCloseRequested(int index)
+void CDialogPrivateMessages::on_tabWidgetPrivateMessages_tabCloseRequested(int index)
 {
 	ui->tabWidgetPrivateMessages->removeTab(index);
 	m_lChatWindows.removeAt(index);
@@ -146,7 +146,7 @@ void DialogPrivateMessages::on_tabWidgetPrivateMessages_tabCloseRequested(int in
 	}
 }
 
-void DialogPrivateMessages::setSkin()
+void CDialogPrivateMessages::setSkin()
 {
 
 }

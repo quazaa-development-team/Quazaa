@@ -40,9 +40,9 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget* parent) :
+CWidgetSearchTemplate::CWidgetSearchTemplate(QString searchString, QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::WidgetSearchTemplate)
+	ui(new Ui::CWidgetSearchTemplate)
 {
 	ui->setupUi(this);
 	searchMenu = new QMenu(this);
@@ -75,7 +75,7 @@ WidgetSearchTemplate::WidgetSearchTemplate(QString searchString, QWidget* parent
 	setSkin();
 }
 
-WidgetSearchTemplate::~WidgetSearchTemplate()
+CWidgetSearchTemplate::~CWidgetSearchTemplate()
 {
 	if(m_pSearch != 0)
 	{
@@ -86,7 +86,7 @@ WidgetSearchTemplate::~WidgetSearchTemplate()
 	delete ui;
 }
 
-void WidgetSearchTemplate::changeEvent(QEvent* e)
+void CWidgetSearchTemplate::changeEvent(QEvent* e)
 {
 	QWidget::changeEvent(e);
 	switch(e->type())
@@ -99,7 +99,7 @@ void WidgetSearchTemplate::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetSearchTemplate::StartSearch(CQuery* pQuery)
+void CWidgetSearchTemplate::StartSearch(CQuery* pQuery)
 {
 	if ( m_pSearch && m_pSearch->m_pQuery != pQuery )
 	{
@@ -120,7 +120,7 @@ void WidgetSearchTemplate::StartSearch(CQuery* pQuery)
 	m_sSearchString = m_pSearch->m_pQuery->DescriptiveName();
 }
 
-void WidgetSearchTemplate::StopSearch()
+void CWidgetSearchTemplate::StopSearch()
 {
 	Q_ASSERT(m_pSearch != 0);
 
@@ -130,7 +130,7 @@ void WidgetSearchTemplate::StopSearch()
 	m_pSearch = 0;
 }
 
-void WidgetSearchTemplate::PauseSearch()
+void CWidgetSearchTemplate::PauseSearch()
 {
 	Q_ASSERT(m_pSearch != 0);
 
@@ -138,7 +138,7 @@ void WidgetSearchTemplate::PauseSearch()
 	m_pSearch->Pause();
 }
 
-void WidgetSearchTemplate::ClearSearch()
+void CWidgetSearchTemplate::ClearSearch()
 {
 	//qDebug() << "Clear search captured in widget search template.";
 		m_searchState = SearchState::Default;
@@ -146,7 +146,7 @@ void WidgetSearchTemplate::ClearSearch()
 	qApp->processEvents();
 }
 
-void WidgetSearchTemplate::OnStatsUpdated()
+void CWidgetSearchTemplate::OnStatsUpdated()
 {
 	m_nFiles = m_pSearchModel->nFileCount;
 	if(m_pSearch)
@@ -158,14 +158,14 @@ void WidgetSearchTemplate::OnStatsUpdated()
 	emit statsUpdated(this);
 }
 
-QModelIndex WidgetSearchTemplate::CurrentItem()
+QModelIndex CWidgetSearchTemplate::CurrentItem()
 {
 	QModelIndex idx = ui->treeViewSearchResults->currentIndex();
 	const QSortFilterProxyModel* pModel = static_cast<const QSortFilterProxyModel*>(idx.model());
 	return pModel->mapToSource(idx);
 }
 
-void WidgetSearchTemplate::OnStateChanged()
+void CWidgetSearchTemplate::OnStateChanged()
 {
 	if( m_pSearch )
 	{
@@ -190,23 +190,23 @@ void WidgetSearchTemplate::OnStateChanged()
 	emit stateChanged();
 }
 
-void WidgetSearchTemplate::Sort()
+void CWidgetSearchTemplate::Sort()
 {
 	m_pSortModel->sort(m_pSortModel->sortColumn(), m_pSortModel->sortOrder());
 }
 
-void WidgetSearchTemplate::saveHeaderState()
+void CWidgetSearchTemplate::saveHeaderState()
 {
 	quazaaSettings.WinMain.SearchHeader = ui->treeViewSearchResults->header()->saveState();
 }
 
-void WidgetSearchTemplate::loadHeaderState()
+void CWidgetSearchTemplate::loadHeaderState()
 {
 	ui->treeViewSearchResults->header()->restoreState(quazaaSettings.WinMain.SearchHeader);
 }
 
 
-void WidgetSearchTemplate::on_treeViewSearchResults_doubleClicked(const QModelIndex &index)
+void CWidgetSearchTemplate::on_treeViewSearchResults_doubleClicked(const QModelIndex &index)
 {
 	Q_UNUSED(index);
 	SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
@@ -238,7 +238,7 @@ void WidgetSearchTemplate::on_treeViewSearchResults_doubleClicked(const QModelIn
 	}
 }
 
-void WidgetSearchTemplate::on_treeViewSearchResults_customContextMenuRequested(const QPoint &pos)
+void CWidgetSearchTemplate::on_treeViewSearchResults_customContextMenuRequested(const QPoint &pos)
 {
 	QModelIndex currIndex = ui->treeViewSearchResults->indexAt(pos);
 	if( currIndex.isValid() )
@@ -247,7 +247,7 @@ void WidgetSearchTemplate::on_treeViewSearchResults_customContextMenuRequested(c
 	}
 }
 
-void WidgetSearchTemplate::on_actionDownload_triggered()
+void CWidgetSearchTemplate::on_actionDownload_triggered()
 {
 	SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
 
@@ -257,7 +257,7 @@ void WidgetSearchTemplate::on_actionDownload_triggered()
 	}
 }
 
-void WidgetSearchTemplate::on_actionViewReviews_triggered()
+void CWidgetSearchTemplate::on_actionViewReviews_triggered()
 {
 	SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
 
@@ -267,7 +267,7 @@ void WidgetSearchTemplate::on_actionViewReviews_triggered()
 	}
 }
 
-void WidgetSearchTemplate::on_actionVirusTotalCheck_triggered()
+void CWidgetSearchTemplate::on_actionVirusTotalCheck_triggered()
 {SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
 
 	if( itemSearch != NULL )
@@ -276,7 +276,7 @@ void WidgetSearchTemplate::on_actionVirusTotalCheck_triggered()
 	}
 }
 
-void WidgetSearchTemplate::setSkin()
+void CWidgetSearchTemplate::setSkin()
 {
 	ui->treeViewSearchResults->setStyleSheet(skinSettings.listViews);
 }

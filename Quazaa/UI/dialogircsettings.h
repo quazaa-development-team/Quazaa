@@ -22,31 +22,31 @@ namespace ShortcutColumns {
 }
 
 namespace AliasColumns {
-    enum Columns {
-        Alias,
-        Command
-    };
+	enum Columns {
+		Alias,
+		Command
+	};
 }
 
 namespace Ui {
-class DialogIrcSettings;
+	class CDialogIrcSettings;
 }
 
-class DialogIrcSettings : public QDialog
+class CDialogIrcSettings : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit DialogIrcSettings(QWidget *parent = 0);
-	~DialogIrcSettings();
+	explicit CDialogIrcSettings(QWidget *parent = 0);
+	~CDialogIrcSettings();
 
 private:
-	Ui::DialogIrcSettings *ui;
+	Ui::CDialogIrcSettings *ui;
 
-    QModelIndex addAliasRow(const QString& alias, const QString& command);
+	QModelIndex addAliasRow(const QString& alias, const QString& command);
 
-    QStandardItemModel* sourceModel;
-    QSortFilterProxyModel* proxyModel;
+	QStandardItemModel* sourceModel;
+	QSortFilterProxyModel* proxyModel;
 
 public slots:
 	void saveSettings();
@@ -55,8 +55,8 @@ public slots:
 private slots:
 	void on_pushButtonOK_clicked();
 	void enableApply();
-    void addAlias();
-    void onAliasClicked(const QModelIndex& index);
+	void addAlias();
+	void onAliasClicked(const QModelIndex& index);
 };
 
 #endif // DIALOGIRCSETTINGS_H

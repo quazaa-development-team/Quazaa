@@ -22,13 +22,13 @@ class IrcMessage;
 class MessageReceiver
 {
 public:
-    virtual ~MessageReceiver() {}
+	virtual ~MessageReceiver() {}
 
-    virtual QString receiver() const = 0;
-    virtual void setReceiver(const QString& receiver) = 0;
+	virtual QString receiver() const = 0;
+	virtual void setReceiver(const QString& receiver) = 0;
 
-    virtual void receiveMessage(IrcMessage* message) = 0;
-    virtual bool hasUser(const QString& user) const = 0;
+	virtual void receiveMessage(IrcMessage* message) = 0;
+	virtual bool hasUser(const QString& user) const = 0;
 };
 
 #endif // MESSAGERECEIVER_H

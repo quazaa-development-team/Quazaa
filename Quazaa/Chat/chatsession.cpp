@@ -97,7 +97,7 @@ void CChatSession::OnStateChange(QAbstractSocket::SocketState s)
 	Q_UNUSED(s);
 }
 
-void CChatSession::SetupWidget(WidgetPrivateMessage *pWg)
+void CChatSession::SetupWidget(CWidgetPrivateMessage *pWg)
 {
 	m_pWidget = pWg;
 

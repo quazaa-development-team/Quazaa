@@ -29,9 +29,9 @@
 
 #define LOG_QUERY_HANDLING 0
 
-class QuazaaGlobals : public QObject
+class CQuazaaGlobals : public QObject
 {
-        Q_OBJECT
+		Q_OBJECT
 public:
 		static QString APPLICATION_NAME();
 		static QString APPLICATION_VERSION();

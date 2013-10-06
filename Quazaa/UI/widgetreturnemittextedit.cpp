@@ -35,7 +35,7 @@
 
 #include "debug_new.h"
 
-WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
+CWidgetReturnEmitTextEdit::CWidgetReturnEmitTextEdit(QWidget *parent)
 {
 	Q_UNUSED(parent);
 	resetHistoryIndex();
@@ -52,7 +52,7 @@ WidgetReturnEmitTextEdit::WidgetReturnEmitTextEdit(QWidget *parent)
 	setSkin();
 }
 
-bool WidgetReturnEmitTextEdit::event(QEvent* event)
+bool CWidgetReturnEmitTextEdit::event(QEvent* event)
 {
     if (event->type() == QEvent::ShortcutOverride) {
         QKeyEvent* ke = static_cast<QKeyEvent*>(event);
@@ -77,7 +77,7 @@ bool WidgetReturnEmitTextEdit::event(QEvent* event)
     return QTextEdit::event(event);
 }
 
-void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
+void CWidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 {
 	if (event->key() == Qt::Key_Return)
 	{
@@ -118,12 +118,12 @@ void WidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 	}
 }
 
-Completer* WidgetReturnEmitTextEdit::completer() const
+Completer* CWidgetReturnEmitTextEdit::completer() const
 {
 	return m_oCompleter;
 }
 
-QString WidgetReturnEmitTextEdit::textUnderCursor() const
+QString CWidgetReturnEmitTextEdit::textUnderCursor() const
 {
 	QTextCursor tc = textCursor();
 	tc.select(QTextCursor::WordUnderCursor);
@@ -151,7 +151,7 @@ QString WidgetReturnEmitTextEdit::textUnderCursor() const
     }
 }
 
-int WidgetReturnEmitTextEdit::currentWordStartIndex()
+int CWidgetReturnEmitTextEdit::currentWordStartIndex()
 {
     QTextCursor tc = textCursor();
     tc.select(QTextCursor::WordUnderCursor);
@@ -160,17 +160,17 @@ int WidgetReturnEmitTextEdit::currentWordStartIndex()
     return tc.selectionStart();
 }
 
-void WidgetReturnEmitTextEdit::onTextChanged()
+void CWidgetReturnEmitTextEdit::onTextChanged()
 {
 	emit textChanged(toPlainText());
 }
 
-void WidgetReturnEmitTextEdit::setSkin()
+void CWidgetReturnEmitTextEdit::setSkin()
 {
 
 }
 
-bool WidgetReturnEmitTextEdit::focusNextPrevChild(bool next)
+bool CWidgetReturnEmitTextEdit::focusNextPrevChild(bool next)
 {
     if (!tabChangesFocus() && (textInteractionFlags() & Qt::TextEditable))
 	{
@@ -181,12 +181,12 @@ bool WidgetReturnEmitTextEdit::focusNextPrevChild(bool next)
     }
 }
 
-void WidgetReturnEmitTextEdit::insertFromMimeData(const QMimeData *source)
+void CWidgetReturnEmitTextEdit::insertFromMimeData(const QMimeData *source)
 {
     insertPlainText( source->text() );
 }
 
-void WidgetReturnEmitTextEdit::addHistory(QTextDocument* document)
+void CWidgetReturnEmitTextEdit::addHistory(QTextDocument* document)
 {
 	if(m_lHistory.count() > 49 && !m_lHistory.isEmpty())
 	{
@@ -201,7 +201,7 @@ void WidgetReturnEmitTextEdit::addHistory(QTextDocument* document)
 	resetHistoryIndex();
 }
 
-void WidgetReturnEmitTextEdit::addHistory(QString* text)
+void CWidgetReturnEmitTextEdit::addHistory(QString* text)
 {
 	QTextDocument* document = new QTextDocument();
 #if QT_VERSION >= 0x050000
@@ -213,7 +213,7 @@ void WidgetReturnEmitTextEdit::addHistory(QString* text)
 	addHistory(document);
 }
 
-void WidgetReturnEmitTextEdit::resetHistoryIndex()
+void CWidgetReturnEmitTextEdit::resetHistoryIndex()
 {
 	m_iHistoryIndex = -1;
 }

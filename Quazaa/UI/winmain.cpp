@@ -81,7 +81,7 @@ void CWinMain::quazaaStartup()
 
 CWinMain::CWinMain(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WinMain)
+	ui(new Ui::CWinMain)
 {
 	ui->setupUi(this);
 
@@ -116,35 +116,35 @@ CWinMain::CWinMain(QWidget* parent) :
 	ui->statusbar->addPermanentWidget(labelBandwidthTotals);
 
 	//Add the tabs
-	pageHome = new WidgetHome();
+	pageHome = new CWidgetHome();
 	ui->stackedWidgetMain->addWidget(pageHome);
-	pageLibrary = new WidgetLibrary();
+	pageLibrary = new CWidgetLibrary();
 	ui->stackedWidgetMain->addWidget(pageLibrary);
-	pageMedia = new WidgetMedia();
+	pageMedia = new CWidgetMedia();
 	ui->stackedWidgetMain->addWidget(pageMedia);
-	pageSearch = new WidgetSearch();
+	pageSearch = new CWidgetSearch();
 	ui->stackedWidgetMain->addWidget(pageSearch);
-	pageTransfers = new WidgetTransfers();
+	pageTransfers = new CWidgetTransfers();
 	ui->stackedWidgetMain->addWidget(pageTransfers);
-	pageSecurity = new WidgetSecurity();
+	pageSecurity = new CWidgetSecurity();
 	ui->stackedWidgetMain->addWidget(pageSecurity);
-	pageActivity = new WidgetActivity();
+	pageActivity = new CWidgetActivity();
 	ui->stackedWidgetMain->addWidget(pageActivity);
-    pageIrcMain = new WidgetIrcMain();
+    pageIrcMain = new CWidgetIrcMain();
 	ui->stackedWidgetMain->addWidget(pageIrcMain);
-	pageHostCache = new WidgetHostCache;
+	pageHostCache = new CWidgetHostCache;
 	ui->stackedWidgetMain->addWidget(pageHostCache);
-	pageDiscovery = new WidgetDiscovery;
+	pageDiscovery = new CWidgetDiscovery;
 	ui->stackedWidgetMain->addWidget(pageDiscovery);
-	pageScheduler = new WidgetScheduler;
+	pageScheduler = new CWidgetScheduler;
 	ui->stackedWidgetMain->addWidget(pageScheduler);
-	pageGraph = new WidgetGraph;
+	pageGraph = new CWidgetGraph;
 	ui->stackedWidgetMain->addWidget(pageGraph);
-	pagePacketDump = new WidgetPacketDump;
+	pagePacketDump = new CWidgetPacketDump;
 	ui->stackedWidgetMain->addWidget(pagePacketDump);
-	pageSearchMonitor = new WidgetSearchMonitor;
+	pageSearchMonitor = new CWidgetSearchMonitor;
 	ui->stackedWidgetMain->addWidget(pageSearchMonitor);
-	pageHitMonitor = new WidgetHitMonitor;
+	pageHitMonitor = new CWidgetHitMonitor;
 	ui->stackedWidgetMain->addWidget(pageHitMonitor);
 
 	dlgPrivateMessages = 0;
@@ -284,7 +284,7 @@ bool CWinMain::event(QEvent* e)
 		{
 			if(quazaaSettings.System.CloseMode == 0)
 			{
-				DialogCloseType* dlgCloseType = new DialogCloseType(this);
+				CDialogCloseType* dlgCloseType = new CDialogCloseType(this);
 				dlgCloseType->exec();
 			}
 
@@ -402,7 +402,7 @@ void CWinMain::changeEvent(QEvent* e)
 
 void CWinMain::quazaaShutdown()
 {
-	DialogSplash* dlgSplash = new DialogSplash();
+	CDialogSplash* dlgSplash = new CDialogSplash();
 	dlgSplash->show();
 
 	dlgSplash->updateProgress(95, tr("Saving UI..."));
@@ -641,20 +641,20 @@ void CWinMain::on_actionExit_triggered()
 
 void CWinMain::on_actionAbout_triggered()
 {
-	DialogAbout* dlgAbout = new DialogAbout(this);
+	CDialogAbout* dlgAbout = new CDialogAbout(this);
 
 	dlgAbout->show();
 }
 
 void CWinMain::on_actionSettings_triggered()
 {
-	DialogSettings* dlgSettings = new DialogSettings(this);
+	CDialogSettings* dlgSettings = new CDialogSettings(this);
 	dlgSettings->show();
 }
 
 void CWinMain::on_actionCreateTorrent_triggered()
 {
-	DialogCreateTorrent* dlgCreateTorrent = new DialogCreateTorrent(this);
+	CDialogCreateTorrent* dlgCreateTorrent = new CDialogCreateTorrent(this);
 	dlgCreateTorrent->show();
 }
 
@@ -665,13 +665,13 @@ void CWinMain::on_actionSeedTorrent_triggered()
 
 void CWinMain::on_actionOpenTorrent_triggered()
 {
-	DialogOpenTorrent* dlgOpenTorrent = new DialogOpenTorrent(this);
+	CDialogOpenTorrent* dlgOpenTorrent = new CDialogOpenTorrent(this);
 	dlgOpenTorrent->show();
 }
 
 void CWinMain::on_actionShares_triggered()
 {
-	DialogEditShares* dlgEditShares = new DialogEditShares(this);
+	CDialogEditShares* dlgEditShares = new CDialogEditShares(this);
 	dlgEditShares->show();
 }
 
@@ -682,32 +682,32 @@ void CWinMain::on_actionOpenDownloadFolder_triggered()
 
 void CWinMain::on_actionURLDownload_triggered()
 {
-	DialogAddDownload* dlgAddDownload = new DialogAddDownload(this);
+	CDialogAddDownload* dlgAddDownload = new CDialogAddDownload(this);
 
 	dlgAddDownload->show();
 }
 
 void CWinMain::on_actionImportPartials_triggered()
 {
-	DialogDownloadsImport* dlgDownloadsImport = new DialogDownloadsImport(this);
+	CDialogDownloadsImport* dlgDownloadsImport = new CDialogDownloadsImport(this);
 	dlgDownloadsImport->show();
 }
 
 void CWinMain::on_actionChooseSkin_triggered()
 {
-	DialogSettings* dlgSettings = new DialogSettings(this, SettingsPage::Skins);
+	CDialogSettings* dlgSettings = new CDialogSettings(this, SettingsPage::Skins);
 	dlgSettings->show();
 }
 
 void CWinMain::on_actionChooseLanguage_triggered()
 {
-	DialogLanguage* dlgLanguage = new DialogLanguage(this);
+	CDialogLanguage* dlgLanguage = new CDialogLanguage(this);
 	dlgLanguage->exec();
 }
 
 void CWinMain::on_actionQuickstartWizard_triggered()
 {
-	WizardQuickStart* wzrdQuickStart = new WizardQuickStart(this);
+	CWizardQuickStart* wzrdQuickStart = new CWizardQuickStart(this);
 	wzrdQuickStart->exec();
 }
 
@@ -743,7 +743,7 @@ void CWinMain::on_actionQuazaaForums_triggered()
 
 void CWinMain::on_actionEditMyProfile_triggered()
 {
-	DialogProfile* dlgProfile = new DialogProfile(this);
+	CDialogProfile* dlgProfile = new CDialogProfile(this);
 	dlgProfile->show();
 }
 
@@ -843,7 +843,7 @@ void CWinMain::updateStatusBar()
 
 void CWinMain::on_actionConnectTo_triggered()
 {
-	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
+	CDialogConnectTo* dlgConnectTo = new CDialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
 
 	if(accepted)
@@ -852,14 +852,14 @@ void CWinMain::on_actionConnectTo_triggered()
 
 		switch(dlgConnectTo->getConnectNetwork())
 		{
-		case DialogConnectTo::G2:
+		case CDialogConnectTo::G2:
 			Neighbours.m_pSection.lock();
 			Neighbours.ConnectTo(ip, dpG2, false);
 			Neighbours.m_pSection.unlock();
 			break;
-		case DialogConnectTo::eDonkey:
+		case CDialogConnectTo::eDonkey:
 			break;
-		case DialogConnectTo::Ares:
+		case CDialogConnectTo::Ares:
 			break;
 		default:
 			break;
@@ -871,7 +871,7 @@ void CWinMain::OpenChat(CChatSession* pSess)
 {
 	if(dlgPrivateMessages == 0)
 	{
-		dlgPrivateMessages = new DialogPrivateMessages(0);
+		dlgPrivateMessages = new CDialogPrivateMessages(0);
 		connect(dlgPrivateMessages, SIGNAL(destroyed()), this, SLOT(onLastChatClosed()));
 		connect(this, SIGNAL(closing()), dlgPrivateMessages, SLOT(close()));
 	}
@@ -882,7 +882,7 @@ void CWinMain::OpenChat(CChatSession* pSess)
 
 void CWinMain::on_actionChatWith_triggered()
 {
-	DialogConnectTo* dlgConnectTo = new DialogConnectTo(this);
+	CDialogConnectTo* dlgConnectTo = new CDialogConnectTo(this);
 	bool accepted = dlgConnectTo->exec();
 
 	if(accepted)
@@ -891,15 +891,15 @@ void CWinMain::on_actionChatWith_triggered()
 
 		switch(dlgConnectTo->getConnectNetwork())
 		{
-		case DialogConnectTo::G2:
+		case CDialogConnectTo::G2:
 		{
 			CChatSessionG2* pS = new CChatSessionG2(ip);
 			pS->Connect();
 			break;
 		}
-		case DialogConnectTo::eDonkey:
+		case CDialogConnectTo::eDonkey:
 			break;
-		case DialogConnectTo::Ares:
+		case CDialogConnectTo::Ares:
 			break;
 		default:
 			break;
@@ -923,10 +923,10 @@ void CWinMain::onCopyIP()
 
 void CWinMain::onHasherStarted(int nId)
 {
-	static DialogHashProgress* pDialog = 0;
+	static CDialogHashProgress* pDialog = 0;
 	if( !pDialog )
 	{
-		pDialog = new DialogHashProgress(this);
+		pDialog = new CDialogHashProgress(this);
 		connect(&ShareManager, SIGNAL(hasherStarted(int)), pDialog, SLOT(onHasherStarted(int)));
 		connect(&ShareManager, SIGNAL(hasherFinished(int)), pDialog, SLOT(onHasherFinished(int)));
 		connect(&ShareManager, SIGNAL(hashingProgress(int,QString,double,int)), pDialog, SLOT(onHashingProgress(int,QString,double,int)));

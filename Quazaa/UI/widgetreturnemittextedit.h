@@ -33,14 +33,14 @@
 #include "completer.h"
 class Completer;
 
-class WidgetReturnEmitTextEdit : public QTextEdit
+class CWidgetReturnEmitTextEdit : public QTextEdit
 {
 Q_OBJECT
 public:
-	explicit WidgetReturnEmitTextEdit(QWidget *parent = 0);
+	explicit CWidgetReturnEmitTextEdit(QWidget *parent = 0);
 	Completer* completer() const;
 	QString textUnderCursor() const;
-    int currentWordStartIndex();
+	int currentWordStartIndex();
 
 private:
 	bool emitReturn;
@@ -50,19 +50,19 @@ private:
 	int m_iHistoryIndex;
 
 protected:
-    bool event(QEvent* event);
+	bool event(QEvent* event);
 	void keyPressEvent(QKeyEvent* event);
-    virtual bool focusNextPrevChild(bool next);
-    void insertFromMimeData(const QMimeData * source);
+	virtual bool focusNextPrevChild(bool next);
+	void insertFromMimeData(const QMimeData * source);
 
 signals:
 	void returnPressed();
 	void tabPressed();
 	void textChanged(const QString &text);
-    void scrollToTop();
-    void scrollToBottom();
-    void scrollToNextPage();
-    void scrollToPreviousPage();
+	void scrollToTop();
+	void scrollToBottom();
+	void scrollToNextPage();
+	void scrollToPreviousPage();
 
 public slots:
 	void onTextChanged();

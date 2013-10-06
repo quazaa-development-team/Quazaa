@@ -29,22 +29,22 @@
 
 namespace Ui
 {
-	class WidgetPacketDump;
+	class CWidgetPacketDump;
 }
 
-class WidgetPacketDump : public QMainWindow
+class CWidgetPacketDump : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetPacketDump(QWidget* parent = 0);
-	~WidgetPacketDump();
+	CWidgetPacketDump(QWidget* parent = 0);
+	~CWidgetPacketDump();
 	void saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetPacketDump* ui;
+	Ui::CWidgetPacketDump* ui;
 
 private slots:
 	void setSkin();

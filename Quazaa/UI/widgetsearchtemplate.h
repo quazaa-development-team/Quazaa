@@ -32,7 +32,7 @@
 
 namespace Ui
 {
-	class WidgetSearchTemplate;
+	class CWidgetSearchTemplate;
 }
 
 class CManagedSearch;
@@ -46,13 +46,13 @@ namespace SearchState
 		enum SearchState { Default, Stopped, Searching, Paused };
 };
 
-class WidgetSearchTemplate : public QWidget
+class CWidgetSearchTemplate : public QWidget
 {
 	Q_OBJECT
 
 public:
-	WidgetSearchTemplate(QString searchString = "", QWidget* parent = 0);
-	~WidgetSearchTemplate();
+	CWidgetSearchTemplate(QString searchString = "", QWidget* parent = 0);
+	~CWidgetSearchTemplate();
 
 	void StartSearch(CQuery* pQuery);
 	void PauseSearch();
@@ -75,14 +75,14 @@ public:
 	//void GetStats(quint32& nHubs, quint32& nLeaves, quint32& nHits);
 
 signals:
-	void statsUpdated(WidgetSearchTemplate* thisSearch);
+	void statsUpdated(CWidgetSearchTemplate* thisSearch);
 	void stateChanged();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetSearchTemplate* ui;
+	Ui::CWidgetSearchTemplate* ui;
 
 	QMenu *searchMenu;
 

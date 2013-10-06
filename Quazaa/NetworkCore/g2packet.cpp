@@ -50,7 +50,6 @@ G2Packet::~G2Packet()
 	if(m_nReference != 0)
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("%1 not released").arg((char*)&m_sType[0]));
-		//qDebug() << "not released " << (char*)&m_sType[0];
 	}
 	Q_ASSERT(m_nReference == 0);
 
@@ -412,7 +411,9 @@ G2Packet* G2Packet::ReadBuffer(CBuffer* pBuffer)
 	if(nFlags & G2_FLAG_BIG_ENDIAN)
 	{
 		throw packet_error();
-    } else {
+	}
+	else
+	{
 		char* pLenIn	= pBuffer->data() + 1;
 		char* pLenOut	= (char*)&nLength;
 		for(char nLenCnt = nLenLen ; nLenCnt-- ;)

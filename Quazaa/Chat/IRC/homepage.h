@@ -20,27 +20,27 @@ class QLabel;
 
 class WidgetIrcHomePage : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    WidgetIrcHomePage(QWidget* parent = 0);
+	WidgetIrcHomePage(QWidget* parent = 0);
 
 signals:
-    void connectRequested();
+	void connectRequested();
 
 protected:
-    void paintEvent(QPaintEvent* event);
+	void paintEvent(QPaintEvent* event);
 
 private:
-    QWidget* createBody(QWidget* parent = 0) const;
+	QWidget* createBody(QWidget* parent = 0) const;
 
-    QLabel* header;
-    QLabel* slogan;
-    QLabel* footer;
-    QPixmap bg;
+	QLabel* header;
+	QLabel* slogan;
+	QLabel* footer;
+	QPixmap bg;
 
 private slots:
-    void showSettings();
+	void showSettings();
 };
 
 #endif // WIDGETIRCHOMEPAGE_H

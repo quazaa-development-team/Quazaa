@@ -259,7 +259,7 @@ public:
 	bool isActive(const TServiceType eSType);
 
 	/**
-	 * @brief CDiscovery::requestNAMgr provides a shared pointer to the discovery services network
+	 * @brief CDiscovery::requestNAM provides a shared pointer to the discovery services network
 	 * access manager. Note that the caller needs to hold his copy of the shared pointer until the
 	 * network operation has been completed to prevent the manager from being deleted too early.
 	 * Locking: YES (synchronous)
@@ -312,7 +312,7 @@ public:
 	 * to the system log.
 	 */
 	static void postLog(LogSeverity::Severity severity, QString message,
-	                    bool bDebug = false, TServiceID nID = 0);
+						bool bDebug = false, TServiceID nID = 0);
 
 	/* ========================================================================================== */
 	/* ======================================== Signals  ======================================== */

@@ -31,9 +31,9 @@
 
 #include "debug_new.h"
 
-DialogEditShares::DialogEditShares(QWidget* parent) :
+CDialogEditShares::CDialogEditShares(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogEditShares)
+	ui(new Ui::CDialogEditShares)
 {
 	ui->setupUi(this);
 	ui->listWidgetShares->addItems(quazaaSettings.Library.Shares);
@@ -41,12 +41,12 @@ DialogEditShares::DialogEditShares(QWidget* parent) :
 	setSkin();
 }
 
-DialogEditShares::~DialogEditShares()
+CDialogEditShares::~CDialogEditShares()
 {
 	delete ui;
 }
 
-void DialogEditShares::changeEvent(QEvent* e)
+void CDialogEditShares::changeEvent(QEvent* e)
 {
 	switch(e->type())
 	{
@@ -58,13 +58,13 @@ void DialogEditShares::changeEvent(QEvent* e)
 	}
 }
 
-void DialogEditShares::on_pushButtonCancel_clicked()
+void CDialogEditShares::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogEditShares::on_pushButtonOk_clicked()
+void CDialogEditShares::on_pushButtonOk_clicked()
 {
 	quazaaSettings.Library.Shares.clear();
 	for(int m_iSharesRow = 0; m_iSharesRow < ui->listWidgetShares->count(); ++m_iSharesRow)
@@ -77,7 +77,7 @@ void DialogEditShares::on_pushButtonOk_clicked()
 	close();
 }
 
-void DialogEditShares::on_pushButtonAdd_clicked()
+void CDialogEditShares::on_pushButtonAdd_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QDir directory(QFileDialog::getExistingDirectory(this,
@@ -91,7 +91,7 @@ void DialogEditShares::on_pushButtonAdd_clicked()
 	}
 }
 
-void DialogEditShares::on_pushButtonRemove_clicked()
+void CDialogEditShares::on_pushButtonRemove_clicked()
 {
 	if(ui->listWidgetShares->currentRow() != -1)
 	{
@@ -100,7 +100,7 @@ void DialogEditShares::on_pushButtonRemove_clicked()
 	}
 }
 
-void DialogEditShares::setSkin()
+void CDialogEditShares::setSkin()
 {
 
 }

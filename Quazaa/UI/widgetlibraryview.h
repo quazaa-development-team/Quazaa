@@ -30,15 +30,15 @@
 
 namespace Ui
 {
-	class WidgetLibraryView;
+	class CWidgetLibraryView;
 }
 
-class WidgetLibraryView : public QMainWindow
+class CWidgetLibraryView : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetLibraryView(QWidget* parent = 0);
-	~WidgetLibraryView();
+	CWidgetLibraryView(QWidget* parent = 0);
+	~CWidgetLibraryView();
 	QLineEdit* lineEditFind;
 	void saveWidget();
 
@@ -46,7 +46,7 @@ protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetLibraryView* ui;
+	Ui::CWidgetLibraryView* ui;
 
 private slots:
 	void on_splitterLibraryView_customContextMenuRequested(QPoint pos);

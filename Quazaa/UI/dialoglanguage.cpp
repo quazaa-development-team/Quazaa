@@ -34,9 +34,9 @@
 
 #include "debug_new.h"
 
-DialogLanguage::DialogLanguage( QWidget* parent ) :
+CDialogLanguage::CDialogLanguage( QWidget* parent ) :
 	QDialog( parent ),
-	ui( new Ui::DialogLanguage )
+	ui( new Ui::CDialogLanguage )
 {
 	ui->setupUi( this );
 	//Set the list selection according to which language file is selected
@@ -200,12 +200,12 @@ DialogLanguage::DialogLanguage( QWidget* parent ) :
 	setSkin();
 }
 
-DialogLanguage::~DialogLanguage()
+CDialogLanguage::~CDialogLanguage()
 {
 	delete ui;
 }
 
-void DialogLanguage::changeEvent( QEvent* e )
+void CDialogLanguage::changeEvent( QEvent* e )
 {
 	QDialog::changeEvent( e );
 	switch( e->type() )
@@ -218,7 +218,7 @@ void DialogLanguage::changeEvent( QEvent* e )
 	}
 }
 
-void DialogLanguage::on_pushButtonOK_clicked()
+void CDialogLanguage::on_pushButtonOK_clicked()
 {
 	switch( ui->listWidgetLanguages->currentRow() )
 	{
@@ -321,20 +321,20 @@ void DialogLanguage::on_pushButtonOK_clicked()
 	close();
 }
 
-void DialogLanguage::on_pushButtonCancel_clicked()
+void CDialogLanguage::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogLanguage::on_listWidgetLanguages_itemClicked( QListWidgetItem* item )
+void CDialogLanguage::on_listWidgetLanguages_itemClicked( QListWidgetItem* item )
 {
 	Q_UNUSED( item );
 
 	ui->pushButtonOK->setEnabled( true );
 }
 
-void DialogLanguage::setSkin()
+void CDialogLanguage::setSkin()
 {
 
 }

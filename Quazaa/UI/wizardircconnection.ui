@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WizardIrcConnection</class>
+ <class>CWizardIrcConnection</class>
  <widget class="QWizard" name="WizardIrcConnection">
   <property name="geometry">
    <rect>

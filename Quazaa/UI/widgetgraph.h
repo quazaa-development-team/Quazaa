@@ -29,22 +29,22 @@
 
 namespace Ui
 {
-	class WidgetGraph;
+	class CWidgetGraph;
 }
 
-class WidgetGraph : public QMainWindow
+class CWidgetGraph : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetGraph(QWidget* parent = 0);
-	~WidgetGraph();
+	CWidgetGraph(QWidget* parent = 0);
+	~CWidgetGraph();
 	void saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetGraph* ui;
+	Ui::CWidgetGraph* ui;
 
 private slots:
 	void on_splitterGraph_customContextMenuRequested(QPoint pos);

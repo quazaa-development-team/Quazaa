@@ -29,22 +29,22 @@
 
 namespace Ui
 {
-	class WidgetHostCache;
+	class CWidgetHostCache;
 }
 
-class WidgetHostCache : public QMainWindow
+class CWidgetHostCache : public QMainWindow
 {
 	Q_OBJECT
 public:
-	WidgetHostCache(QWidget* parent = 0);
-	~WidgetHostCache();
+	CWidgetHostCache(QWidget* parent = 0);
+	~CWidgetHostCache();
 	void saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::WidgetHostCache* ui;
+	Ui::CWidgetHostCache* ui;
 
 private slots:
 	void on_splitterHostCache_customContextMenuRequested(QPoint pos);

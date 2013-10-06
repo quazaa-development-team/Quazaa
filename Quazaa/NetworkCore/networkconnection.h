@@ -57,12 +57,12 @@ class CNetworkConnection : public QObject
 {
 	Q_OBJECT
 public:
-	QTcpSocket* m_pSocket;  // sockecik ;)
+	QTcpSocket* m_pSocket;  // Socket ;)
 
-	// Adres hosta
+	// Host Address
 	CEndPoint   m_oAddress;
 
-	// Bufory I/O
+	// Buffer I/O
 	CBuffer* m_pInput;
 	CBuffer* m_pOutput;
 
@@ -81,7 +81,7 @@ public:
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
 	virtual void AcceptFrom(int nHandle);
 #else
-    virtual void AcceptFrom(qintptr nHandle);
+	virtual void AcceptFrom(qintptr nHandle);
 #endif
 	virtual void Close(bool bDelayed = false);
 

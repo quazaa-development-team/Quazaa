@@ -31,21 +31,21 @@
 
 #include "debug_new.h"
 
-WidgetHitMonitor::WidgetHitMonitor(QWidget* parent) :
+CWidgetHitMonitor::CWidgetHitMonitor(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetHitMonitor)
+	ui(new Ui::CWidgetHitMonitor)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.HitMonitorToolbar);
 	setSkin();
 }
 
-WidgetHitMonitor::~WidgetHitMonitor()
+CWidgetHitMonitor::~CWidgetHitMonitor()
 {
 	delete ui;
 }
 
-void WidgetHitMonitor::changeEvent(QEvent* e)
+void CWidgetHitMonitor::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -58,18 +58,18 @@ void WidgetHitMonitor::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetHitMonitor::saveWidget()
+void CWidgetHitMonitor::saveWidget()
 {
 	quazaaSettings.WinMain.HitMonitorToolbar = saveState();
 }
 
-void WidgetHitMonitor::on_actionMore_triggered()
+void CWidgetHitMonitor::on_actionMore_triggered()
 {
-	DialogFilterSearch* dlgFilterSearch = new DialogFilterSearch(this);
+	CDialogFilterSearch* dlgFilterSearch = new CDialogFilterSearch(this);
 	dlgFilterSearch->show();
 }
 
-void WidgetHitMonitor::setSkin()
+void CWidgetHitMonitor::setSkin()
 {
 
 }

@@ -30,44 +30,44 @@
 namespace LogSeverity
 {
 enum Severity { Information, // Inform the user about something
-	            Security,    // security related
-	            Notice,      // Inform the user about something less important
-	            Debug,       // Debugging output
-	            Warning,
-	            Error,
-	            Critical };
+				Security,    // security related
+				Notice,      // Inform the user about something less important
+				Debug,       // Debugging output
+				Warning,
+				Error,
+				Critical };
 }
 
 namespace Components
 {
 enum Component { None         =  0,
-                 Chat         =  1, // P2P chat
-                 IRC          =  2,
-                 Discovery    =  3,
-                 Network      =  4, // global network stuff
-                 Ares         =  5,
-                 BitTorrent   =  6,
-                 eD2k         =  7,
-                 G2           =  8,
-                 Security     =  9,
-                 Library      = 10, // Share manager
-                 Downloads    = 11,
-                 Uploads      = 12,
-                 GUI          = 13,
-	             SignalQueue  = 14,
-	             HostCache    = 15,
-                 NoComponents = 16 };
+				 Chat         =  1, // P2P chat
+				 IRC          =  2,
+				 Discovery    =  3,
+				 Network      =  4, // global network stuff
+				 Ares         =  5,
+				 BitTorrent   =  6,
+				 eD2k         =  7,
+				 G2           =  8,
+				 Security     =  9,
+				 Library      = 10, // Share manager
+				 Downloads    = 11,
+				 Uploads      = 12,
+				 GUI          = 13,
+				 SignalQueue  = 14,
+				 HostCache    = 15,
+				 NoComponents = 16 };
 }
 
-class SystemLog : public QObject
+class CSystemLog : public QObject
 {
 	Q_OBJECT
 private:
 	QString* m_pComponents;
 
 public:
-	SystemLog();
-	~SystemLog();
+	CSystemLog();
+	~CSystemLog();
 
 	void start();
 
@@ -77,14 +77,14 @@ signals:
 	void logPosted(QString message, LogSeverity::Severity severity);
 
 public slots:
-	void postLog(LogSeverity::Severity severity, QString message,
-	             Components::Component component = Components::None);
+	void postLog(LogSeverity::Severity severity, QString message);
 
 public:
+	void postLog(LogSeverity::Severity severity, Components::Component component, QString message);
 	void postLog(LogSeverity::Severity severity, Components::Component component,
-	             const char* format, ...);
+				 const char* format, ...);
 };
 
-extern SystemLog systemLog;
+extern CSystemLog systemLog;
 
 #endif // SYSTEMLOG_H

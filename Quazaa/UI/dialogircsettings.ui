@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogIrcSettings</class>
+ <class>CDialogIrcSettings</class>
  <widget class="QDialog" name="DialogIrcSettings">
   <property name="geometry">
    <rect>
@@ -163,7 +163,7 @@
         <number>4</number>
        </property>
        <item>
-        <widget class="WizardTreeWidget" name="treeWidgetShortcuts">
+        <widget class="CWizardTreeWidget" name="treeWidgetShortcuts">
          <property name="inputMethodHints">
           <set>Qt::ImhNoAutoUppercase</set>
          </property>
@@ -297,7 +297,7 @@
         <number>4</number>
        </property>
        <item>
-        <widget class="WizardTreeWidget" name="treeWidgetColors">
+        <widget class="CWizardTreeWidget" name="treeWidgetColors">
          <property name="rootIsDecorated">
           <bool>false</bool>
          </property>
@@ -644,7 +644,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>WizardTreeWidget</class>
+   <class>CWizardTreeWidget</class>
    <extends>QTreeWidget</extends>
    <header>wizardtreewidget.h</header>
   </customwidget>

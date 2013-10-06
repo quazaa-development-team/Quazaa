@@ -31,23 +31,23 @@
 
 namespace Ui
 {
-	class DialogProfile;
+	class CDialogProfile;
 }
 
-class DialogProfile : public QDialog
+class CDialogProfile : public QDialog
 {
 	Q_OBJECT
-	Q_DISABLE_COPY(DialogProfile)
+	Q_DISABLE_COPY(CDialogProfile)
 public:
-	explicit DialogProfile(QWidget* parent = 0);
-	virtual ~DialogProfile();
+	explicit CDialogProfile(QWidget* parent = 0);
+	virtual ~CDialogProfile();
 	QString m_sTempAvatarFileName;
 
 protected:
 	virtual void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogProfile* ui;
+	Ui::CDialogProfile* ui;
 	QUuid tempGUID;
 
 signals:

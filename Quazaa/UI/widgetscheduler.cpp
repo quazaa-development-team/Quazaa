@@ -31,21 +31,21 @@
 
 #include "debug_new.h"
 
-WidgetScheduler::WidgetScheduler(QWidget* parent) :
+CWidgetScheduler::CWidgetScheduler(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::WidgetScheduler)
+	ui(new Ui::CWidgetScheduler)
 {
 	ui->setupUi(this);
 	restoreState(quazaaSettings.WinMain.SchedulerToolbar);
 	setSkin();
 }
 
-WidgetScheduler::~WidgetScheduler()
+CWidgetScheduler::~CWidgetScheduler()
 {
 	delete ui;
 }
 
-void WidgetScheduler::changeEvent(QEvent* e)
+void CWidgetScheduler::changeEvent(QEvent* e)
 {
 	QMainWindow::changeEvent(e);
 	switch(e->type())
@@ -58,24 +58,24 @@ void WidgetScheduler::changeEvent(QEvent* e)
 	}
 }
 
-void WidgetScheduler::saveWidget()
+void CWidgetScheduler::saveWidget()
 {
 	quazaaSettings.WinMain.SchedulerToolbar = saveState();
 }
 
-void WidgetScheduler::on_actionAddScheduledTask_triggered()
+void CWidgetScheduler::on_actionAddScheduledTask_triggered()
 {
-	DialogScheduler* dlgScheduler = new DialogScheduler(this);
+	CDialogScheduler* dlgScheduler = new CDialogScheduler(this);
 	dlgScheduler->show();
 }
 
-void WidgetScheduler::on_actionScheduleProperties_triggered()
+void CWidgetScheduler::on_actionScheduleProperties_triggered()
 {
-	DialogScheduler* dlgScheduler = new DialogScheduler(this);
+	CDialogScheduler* dlgScheduler = new CDialogScheduler(this);
 	dlgScheduler->show();
 }
 
-void WidgetScheduler::setSkin()
+void CWidgetScheduler::setSkin()
 {
 
 }

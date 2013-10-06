@@ -5,7 +5,7 @@
 
 class CTransfer : public CNetworkConnection
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
 	void* m_pOwner;

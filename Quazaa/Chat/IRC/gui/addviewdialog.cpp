@@ -25,75 +25,75 @@
 
 AddViewDialog::AddViewDialog(Session* session, QWidget* parent) : QDialog(parent)
 {
-    setWindowTitle(tr("Add view"));
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+	setWindowTitle(tr("Add view"));
+	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-    d.session = session;
+	d.session = session;
 
-    d.viewLabel = new QLabel(this);
-    d.viewEdit = new QLineEdit("#", this);
-    d.viewEdit->setFocus();
-    d.viewEdit->setValidator(new QRegExpValidator(QRegExp("\\S+"), d.viewEdit));
-    connect(d.viewEdit, SIGNAL(textEdited(QString)), this, SLOT(updateUi()));
+	d.viewLabel = new QLabel(this);
+	d.viewEdit = new QLineEdit("#", this);
+	d.viewEdit->setFocus();
+	d.viewEdit->setValidator(new QRegExpValidator(QRegExp("\\S+"), d.viewEdit));
+	connect(d.viewEdit, SIGNAL(textEdited(QString)), this, SLOT(updateUi()));
 
-    QLabel* subLabel = new QLabel(this);
-    IrcSessionInfo info(session);
-    subLabel->setText(tr("<small>%1 supports channel types: %2<small>").arg(info.network()).arg(info.channelTypes().join("")));
-    subLabel->setAlignment(Qt::AlignRight);
-    subLabel->setDisabled(true);
+	QLabel* subLabel = new QLabel(this);
+	IrcSessionInfo info(session);
+	subLabel->setText(tr("<small>%1 supports channel types: %2<small>").arg(info.network()).arg(info.channelTypes().join("")));
+	subLabel->setAlignment(Qt::AlignRight);
+	subLabel->setDisabled(true);
 
-    d.passLabel = new QLabel(this);
-    d.passLabel->setText("Password:");
-    d.passEdit = new QLineEdit(this);
-    d.passEdit->setPlaceholderText(tr("Optional..."));
+	d.passLabel = new QLabel(this);
+	d.passLabel->setText("Password:");
+	d.passEdit = new QLineEdit(this);
+	d.passEdit->setPlaceholderText(tr("Optional..."));
 
-    d.buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this);
-    connect(d.buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(d.buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	d.buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this);
+	connect(d.buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(d.buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QVBoxLayout* layout = new QVBoxLayout(this);
-    layout->addWidget(d.viewLabel);
-    layout->addWidget(d.viewEdit);
-    layout->addWidget(subLabel);
-    layout->addSpacing(9);
-    layout->addWidget(d.passLabel);
-    layout->addWidget(d.passEdit);
-    layout->addSpacing(9);
-    layout->addStretch();
-    layout->addWidget(d.buttonBox);
+	QVBoxLayout* layout = new QVBoxLayout(this);
+	layout->addWidget(d.viewLabel);
+	layout->addWidget(d.viewEdit);
+	layout->addWidget(subLabel);
+	layout->addSpacing(9);
+	layout->addWidget(d.passLabel);
+	layout->addWidget(d.passEdit);
+	layout->addSpacing(9);
+	layout->addStretch();
+	layout->addWidget(d.buttonBox);
 
-    updateUi();
+	updateUi();
 }
 
 QString AddViewDialog::view() const
 {
-    return d.viewEdit->text();
+	return d.viewEdit->text();
 }
 
 QString AddViewDialog::password() const
 {
-    return d.passEdit->text();
+	return d.passEdit->text();
 }
 
 Session* AddViewDialog::session() const
 {
-    return d.session;
+	return d.session;
 }
 
 void AddViewDialog::updateUi()
 {
-    bool valid = false;
-    IrcSessionInfo info(d.session);
-    bool channel = !view().isEmpty() && info.channelTypes().contains(view().at(0));
-    if (channel) {
-        valid = view().length() > 1;
-        d.viewLabel->setText(tr("Join channel:"));
-    } else {
-        valid = !view().isEmpty();
-        d.viewLabel->setText(tr("Open query:"));
-    }
+	bool valid = false;
+	IrcSessionInfo info(d.session);
+	bool channel = !view().isEmpty() && info.channelTypes().contains(view().at(0));
+	if (channel) {
+		valid = view().length() > 1;
+		d.viewLabel->setText(tr("Join channel:"));
+	} else {
+		valid = !view().isEmpty();
+		d.viewLabel->setText(tr("Open query:"));
+	}
 
-    d.passLabel->setEnabled(channel);
-    d.passEdit->setEnabled(channel);
-    d.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(valid);
+	d.passLabel->setEnabled(channel);
+	d.passEdit->setEnabled(channel);
+	d.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(valid);
 }

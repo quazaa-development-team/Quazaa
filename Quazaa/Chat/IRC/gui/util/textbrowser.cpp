@@ -21,167 +21,167 @@
 
 TextBrowser::TextBrowser(QWidget* parent) : QTextBrowser(parent), ub(-1), bud(0)
 {
-    unreadLineBrush = qApp->palette().highlight();
+	unreadLineBrush = qApp->palette().highlight();
 }
 
 QWidget* TextBrowser::buddy() const
 {
-    return bud;
+	return bud;
 }
 
 void TextBrowser::setBuddy(QWidget* buddy)
 {
-    bud = buddy;
+	bud = buddy;
 }
 
 int TextBrowser::unseenBlock() const
 {
-    return ub;
+	return ub;
 }
 
 void TextBrowser::setUnseenBlock(int block)
 {
-    ub = block;
+	ub = block;
 }
 
 QColor TextBrowser::unreadLineColor() const
 {
-    return unreadLineBrush.color();
+	return unreadLineBrush.color();
 }
 
 void TextBrowser::setUnreadLineColor(const QColor &color)
 {
-    unreadLineBrush.setColor(color);
+	unreadLineBrush.setColor(color);
 }
 
 void TextBrowser::append(const QString &text)
 {
-    if (!text.isEmpty()) {
-        if (buffer.isEmpty())
-            QMetaObject::invokeMethod(this, "appendBuffer", Qt::QueuedConnection);
+	if (!text.isEmpty()) {
+		if (buffer.isEmpty())
+			QMetaObject::invokeMethod(this, "appendBuffer", Qt::QueuedConnection);
 
-        buffer += text;
+		buffer += text;
 
-        if (!isVisible() && ub == -1)
-            ub = document()->blockCount() - 1;
-    }
+		if (!isVisible() && ub == -1)
+			ub = document()->blockCount() - 1;
+	}
 }
 
 void TextBrowser::keyPressEvent(QKeyEvent* event)
 {
-    // for example:
-    // - Ctrl+C goes to the browser
-    // - Ctrl+V goes to the buddy
-    // - Shift+7 ("/") goes to the buddy
-    switch (event->key()) {
-        case Qt::Key_Shift:
-        case Qt::Key_Control:
-        case Qt::Key_Meta:
-        case Qt::Key_Alt:
-        case Qt::Key_AltGr:
-            break;
-        default:
-            if (!event->matches(QKeySequence::Copy) && !event->matches(QKeySequence::SelectAll)) {
-                QApplication::sendEvent(bud, event);
-                bud->setFocus();
-                return;
-            }
-            break;
-    }
-    QTextBrowser::keyPressEvent(event);
+	// for example:
+	// - Ctrl+C goes to the browser
+	// - Ctrl+V goes to the buddy
+	// - Shift+7 ("/") goes to the buddy
+	switch (event->key()) {
+		case Qt::Key_Shift:
+		case Qt::Key_Control:
+		case Qt::Key_Meta:
+		case Qt::Key_Alt:
+		case Qt::Key_AltGr:
+			break;
+		default:
+			if (!event->matches(QKeySequence::Copy) && !event->matches(QKeySequence::SelectAll)) {
+				QApplication::sendEvent(bud, event);
+				bud->setFocus();
+				return;
+			}
+			break;
+	}
+	QTextBrowser::keyPressEvent(event);
 }
 
 void TextBrowser::resizeEvent(QResizeEvent* event)
 {
-    QTextBrowser::resizeEvent(event);
+	QTextBrowser::resizeEvent(event);
 
-    // http://www.qtsoftware.com/developer/task-tracker/index_html?method=entry&id=240940
-    QMetaObject::invokeMethod(this, "scrollToBottom", Qt::QueuedConnection);
+	// http://www.qtsoftware.com/developer/task-tracker/index_html?method=entry&id=240940
+	QMetaObject::invokeMethod(this, "scrollToBottom", Qt::QueuedConnection);
 }
 
 void TextBrowser::scrollToTop()
 {
-    verticalScrollBar()->triggerAction(QScrollBar::SliderToMinimum);
+	verticalScrollBar()->triggerAction(QScrollBar::SliderToMinimum);
 }
 
 void TextBrowser::scrollToBottom()
 {
-    verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
+	verticalScrollBar()->triggerAction(QScrollBar::SliderToMaximum);
 }
 
 void TextBrowser::scrollToNextPage()
 {
-    verticalScrollBar()->triggerAction(QScrollBar::SliderPageStepAdd);
+	verticalScrollBar()->triggerAction(QScrollBar::SliderPageStepAdd);
 }
 
 void TextBrowser::scrollToPreviousPage()
 {
-    verticalScrollBar()->triggerAction(QScrollBar::SliderPageStepSub);
+	verticalScrollBar()->triggerAction(QScrollBar::SliderPageStepSub);
 }
 
 void TextBrowser::paintEvent(QPaintEvent* event)
 {
-    QTextBrowser::paintEvent(event);
+	QTextBrowser::paintEvent(event);
 
-    QPainter painter(viewport());
+	QPainter painter(viewport());
 
-    QTextBlock block;
-    if (ub > 0)
-        block = document()->findBlockByNumber(ub);
+	QTextBlock block;
+	if (ub > 0)
+		block = document()->findBlockByNumber(ub);
 
-    if (block.isValid()) {
-        painter.save();
-        painter.setBrush(unreadLineBrush);
-        painter.setPen(Qt::DashLine);
-        painter.translate(-horizontalScrollBar()->value(), -verticalScrollBar()->value());
+	if (block.isValid()) {
+		painter.save();
+		painter.setBrush(unreadLineBrush);
+		painter.setPen(Qt::DashLine);
+		painter.translate(-horizontalScrollBar()->value(), -verticalScrollBar()->value());
 
-        QRectF br = document()->documentLayout()->blockBoundingRect(block);
-        painter.drawLine(br.topLeft(), br.topRight());
-        painter.restore();
-    }
+		QRectF br = document()->documentLayout()->blockBoundingRect(block);
+		painter.drawLine(br.topLeft(), br.topRight());
+		painter.restore();
+	}
 
-    QLinearGradient gradient(0, 0, 0, 3);
-    gradient.setColorAt(0.0, palette().color(QPalette::Dark));
-    gradient.setColorAt(1.0, Qt::transparent);
-    painter.fillRect(0, 0, width(), 3, gradient);
+	QLinearGradient gradient(0, 0, 0, 3);
+	gradient.setColorAt(0.0, palette().color(QPalette::Dark));
+	gradient.setColorAt(1.0, Qt::transparent);
+	painter.fillRect(0, 0, width(), 3, gradient);
 }
 
 void TextBrowser::wheelEvent(QWheelEvent* event)
 {
 #ifdef Q_WS_MACX
-    // disable cmd+wheel zooming on mac
-    QAbstractScrollArea::wheelEvent(event);
+	// disable cmd+wheel zooming on mac
+	QAbstractScrollArea::wheelEvent(event);
 #else
-    QTextBrowser::wheelEvent(event);
+	QTextBrowser::wheelEvent(event);
 #endif // Q_WS_MACX
 }
 
 void TextBrowser::appendBuffer()
 {
-    QScrollBar* vbar = verticalScrollBar();
-    const bool atBottom = vbar->value() >= vbar->maximum();
+	QScrollBar* vbar = verticalScrollBar();
+	const bool atBottom = vbar->value() >= vbar->maximum();
 
-    QTextDocument* doc = document();
-    QTextCursor cursor(doc);
-    cursor.movePosition(QTextCursor::End);
+	QTextDocument* doc = document();
+	QTextCursor cursor(doc);
+	cursor.movePosition(QTextCursor::End);
 
-    foreach (const QString& line, buffer) {
-        cursor.beginEditBlock();
+	foreach (const QString& line, buffer) {
+		cursor.beginEditBlock();
 
-        if (!doc->isEmpty())
-            cursor.insertBlock();
+		if (!doc->isEmpty())
+			cursor.insertBlock();
 
 #if QT_VERSION >= 0x040800
-        QTextBlockFormat format = cursor.blockFormat();
-        format.setLineHeight(120, QTextBlockFormat::ProportionalHeight);
-        cursor.setBlockFormat(format);
+		QTextBlockFormat format = cursor.blockFormat();
+		format.setLineHeight(120, QTextBlockFormat::ProportionalHeight);
+		cursor.setBlockFormat(format);
 #endif // QT_VERSION
 
-        cursor.insertHtml(line);
-        cursor.endEditBlock();
-    }
-    buffer.clear();
+		cursor.insertHtml(line);
+		cursor.endEditBlock();
+	}
+	buffer.clear();
 
-    if (atBottom)
-        vbar->setValue(vbar->maximum());
+	if (atBottom)
+		vbar->setValue(vbar->maximum());
 }

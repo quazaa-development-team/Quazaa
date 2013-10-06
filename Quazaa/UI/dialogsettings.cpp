@@ -37,9 +37,9 @@
 
 #include "debug_new.h"
 
-DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page) :
+CDialogSettings::CDialogSettings(QWidget* parent, SettingsPage::settingsPage page) :
 	QDialog(parent),
-	ui(new Ui::DialogSettings)
+	ui(new Ui::CDialogSettings)
 {
 	ui->setupUi(this);
 	ui->comboBoxG2Mode->setView(new QListView());
@@ -298,7 +298,7 @@ DialogSettings::DialogSettings(QWidget* parent, SettingsPage::settingsPage page)
 	setSkin();
 }
 
-DialogSettings::~DialogSettings()
+CDialogSettings::~CDialogSettings()
 {
 	delete ui;
 
@@ -306,7 +306,7 @@ DialogSettings::~DialogSettings()
 	common::getRandomUnusedPort( true );
 }
 
-void DialogSettings::changeEvent(QEvent* e)
+void CDialogSettings::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -319,7 +319,7 @@ void DialogSettings::changeEvent(QEvent* e)
 	}
 }
 
-void DialogSettings::switchSettingsPage(SettingsPage::settingsPage page)
+void CDialogSettings::switchSettingsPage(SettingsPage::settingsPage page)
 {
 	switch(page)
 	{
@@ -523,32 +523,32 @@ void DialogSettings::switchSettingsPage(SettingsPage::settingsPage page)
 	}
 }
 
-void DialogSettings::on_listWidgetGeneralTask_clicked(QModelIndex index)
+void CDialogSettings::on_listWidgetGeneralTask_clicked(QModelIndex index)
 {
 	ui->stackedWidgetSettings->setCurrentIndex(index.row());
 }
 
-void DialogSettings::on_listWidgetCommunityTask_clicked(QModelIndex index)
+void CDialogSettings::on_listWidgetCommunityTask_clicked(QModelIndex index)
 {
 	ui->stackedWidgetSettings->setCurrentIndex(index.row() + 8);
 }
 
-void DialogSettings::on_listWidgetSecurityTask_clicked(QModelIndex index)
+void CDialogSettings::on_listWidgetSecurityTask_clicked(QModelIndex index)
 {
 	ui->stackedWidgetSettings->setCurrentIndex(index.row() + 10);
 }
 
-void DialogSettings::on_listWidgetNetworkTask_clicked(QModelIndex index)
+void CDialogSettings::on_listWidgetNetworkTask_clicked(QModelIndex index)
 {
 	ui->stackedWidgetSettings->setCurrentIndex(index.row() + 12);
 }
 
-void DialogSettings::on_listWidgetProtocolsTask_clicked(QModelIndex index)
+void CDialogSettings::on_listWidgetProtocolsTask_clicked(QModelIndex index)
 {
 	ui->stackedWidgetSettings->setCurrentIndex(index.row() + 16);
 }
 
-void DialogSettings::on_pushButtonOk_clicked()
+void CDialogSettings::on_pushButtonOk_clicked()
 {
 	if(ui->pushButtonApply->isEnabled())
 	{
@@ -558,13 +558,13 @@ void DialogSettings::on_pushButtonOk_clicked()
 	close();
 }
 
-void DialogSettings::on_pushButtonCancel_clicked()
+void CDialogSettings::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogSettings::on_pushButtonApply_clicked()
+void CDialogSettings::on_pushButtonApply_clicked()
 {
 	// Save Basic Settings
 	quazaaSettings.System.StartWithSystem = ui->checkBoxStartWithSystem->isChecked();
@@ -718,43 +718,43 @@ void DialogSettings::on_pushButtonApply_clicked()
 	ui->pushButtonApply->setEnabled(false);
 }
 
-void DialogSettings::on_pushButtonProfileEdit_clicked()
+void CDialogSettings::on_pushButtonProfileEdit_clicked()
 {
-	DialogProfile* dlgProfile = new DialogProfile(this);
+	CDialogProfile* dlgProfile = new CDialogProfile(this);
 
 	dlgProfile->exec();
 }
 
-void DialogSettings::on_pushButtonShowParentalFilter_clicked()
+void CDialogSettings::on_pushButtonShowParentalFilter_clicked()
 {
 	ui->groupBoxParentalFilter->setVisible(true);
 }
 
-void DialogSettings::on_labelConfigureG2_linkActivated(QString link)
+void CDialogSettings::on_labelConfigureG2_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 	switchSettingsPage(SettingsPage::Gnutella2);
 }
 
-void DialogSettings::on_labelConfigureAres_linkActivated(QString link)
+void CDialogSettings::on_labelConfigureAres_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 	switchSettingsPage(SettingsPage::Ares);
 }
 
-void DialogSettings::on_labelConfigureEDonkey_linkActivated(QString link)
+void CDialogSettings::on_labelConfigureEDonkey_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 	switchSettingsPage(SettingsPage::EDonkey);
 }
 
-void DialogSettings::on_labelConfigureBitTorrent_linkActivated(QString link)
+void CDialogSettings::on_labelConfigureBitTorrent_linkActivated(QString link)
 {
 	Q_UNUSED(link);
 	switchSettingsPage(SettingsPage::BitTorrent);
 }
 
-void DialogSettings::on_listWidgetSkins_itemClicked(QListWidgetItem* item)
+void CDialogSettings::on_listWidgetSkins_itemClicked(QListWidgetItem* item)
 {
 	newSkinSelected = true;
 	ui->pushButtonApply->setEnabled(true);
@@ -770,12 +770,12 @@ void DialogSettings::on_listWidgetSkins_itemClicked(QListWidgetItem* item)
 	ui->plainTextEditSkinDescription->setPlainText(tempSkinDescription);
 }
 
-void DialogSettings::on_pushButtonSkinPreview_clicked()
+void CDialogSettings::on_pushButtonSkinPreview_clicked()
 {
 
 }
 
-void DialogSettings::on_pushButtonFileTypesSafeOpenAdd_clicked()
+void CDialogSettings::on_pushButtonFileTypesSafeOpenAdd_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sSafeOpenItem = QInputDialog::getText(this, tr("Add Safe To Open File Type"),
@@ -788,7 +788,7 @@ void DialogSettings::on_pushButtonFileTypesSafeOpenAdd_clicked()
 	}
 }
 
-void DialogSettings::on_pushButtonFileTypesNeverShareAdd_clicked()
+void CDialogSettings::on_pushButtonFileTypesNeverShareAdd_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sNeverShareItem = QInputDialog::getText(this, tr("Add Never Share File Type"),
@@ -801,7 +801,7 @@ void DialogSettings::on_pushButtonFileTypesNeverShareAdd_clicked()
 	}
 }
 
-void DialogSettings::on_pushButtonAddManageDownloadTypes_clicked()
+void CDialogSettings::on_pushButtonAddManageDownloadTypes_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sDownloadManageItem = QInputDialog::getText(this, tr("Add Download Types to Manage"),
@@ -814,7 +814,7 @@ void DialogSettings::on_pushButtonAddManageDownloadTypes_clicked()
 	}
 }
 
-void DialogSettings::on_pushButtonUserAgentAdd_clicked()
+void CDialogSettings::on_pushButtonUserAgentAdd_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sUserAgentItem = QInputDialog::getText(this, tr("Add User Agents to Block"),
@@ -827,7 +827,7 @@ void DialogSettings::on_pushButtonUserAgentAdd_clicked()
 	}
 }
 
-void DialogSettings::on_pushButtonAddParentalFilter_clicked()
+void CDialogSettings::on_pushButtonAddParentalFilter_clicked()
 {
 	bool m_bOkPressed;
 	QString m_sParentalFilterItem = QInputDialog::getText(this, tr("Add Words to Block"),
@@ -840,7 +840,7 @@ void DialogSettings::on_pushButtonAddParentalFilter_clicked()
 	}
 }
 
-void DialogSettings::on_pushButtonFileTypesSafeOpenRemove_clicked()
+void CDialogSettings::on_pushButtonFileTypesSafeOpenRemove_clicked()
 {
 	if(ui->listWidgetFileTypesSafeOpen->currentRow() != -1)
 	{
@@ -849,7 +849,7 @@ void DialogSettings::on_pushButtonFileTypesSafeOpenRemove_clicked()
 	}
 }
 
-void DialogSettings::on_pushButtonFileTypesNeverShareRemove_clicked()
+void CDialogSettings::on_pushButtonFileTypesNeverShareRemove_clicked()
 {
 	if(ui->listWidgetFileTypesNeverShare->currentRow() != -1)
 	{
@@ -858,7 +858,7 @@ void DialogSettings::on_pushButtonFileTypesNeverShareRemove_clicked()
 	}
 }
 
-void DialogSettings::on_pushButtonRemoveManageDownloadTypes_clicked()
+void CDialogSettings::on_pushButtonRemoveManageDownloadTypes_clicked()
 {
 	if(ui->listWidgetManageDownloadTypes->currentRow() != -1)
 	{
@@ -867,7 +867,7 @@ void DialogSettings::on_pushButtonRemoveManageDownloadTypes_clicked()
 	}
 }
 
-void DialogSettings::on_pushButtonUserAgentRemove_clicked()
+void CDialogSettings::on_pushButtonUserAgentRemove_clicked()
 {
 	if(ui->listWidgetUserAgents->currentRow() != -1)
 	{
@@ -876,7 +876,7 @@ void DialogSettings::on_pushButtonUserAgentRemove_clicked()
 	}
 }
 
-void DialogSettings::on_pushButtonRemoveParentalFilter_clicked()
+void CDialogSettings::on_pushButtonRemoveParentalFilter_clicked()
 {
 	if(ui->listWidgetParentalFilter->currentRow() != -1)
 	{
@@ -885,7 +885,7 @@ void DialogSettings::on_pushButtonRemoveParentalFilter_clicked()
 	}
 }
 
-void DialogSettings::on_toolButtonSaveBrowse_clicked()
+void CDialogSettings::on_toolButtonSaveBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QDir directory(QFileDialog::getExistingDirectory(this,
@@ -899,7 +899,7 @@ void DialogSettings::on_toolButtonSaveBrowse_clicked()
 	}
 }
 
-void DialogSettings::on_toolButtonTempBrowse_clicked()
+void CDialogSettings::on_toolButtonTempBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QDir directory(QFileDialog::getExistingDirectory(this,
@@ -913,7 +913,7 @@ void DialogSettings::on_toolButtonTempBrowse_clicked()
 	}
 }
 
-void DialogSettings::on_toolButtonTorrentBrowse_clicked()
+void CDialogSettings::on_toolButtonTorrentBrowse_clicked()
 {
 	QFileDialog::Options options = QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
 	QDir directory(QFileDialog::getExistingDirectory(this,
@@ -927,12 +927,12 @@ void DialogSettings::on_toolButtonTorrentBrowse_clicked()
 	}
 }
 
-void DialogSettings::enableApply()
+void CDialogSettings::enableApply()
 {
 	ui->pushButtonApply->setEnabled(true);
 }
 
-void DialogSettings::setSkin()
+void CDialogSettings::setSkin()
 {
 	ui->frameSidebarContents->setStyleSheet(skinSettings.sidebarBackground);
 	ui->toolButtonCommunityTask->setStyleSheet(skinSettings.sidebarTaskHeader);
@@ -961,7 +961,7 @@ void DialogSettings::setSkin()
 	ui->tableWidgetFileTypesOpenWith->setStyleSheet(skinSettings.listViews);
 }
 
-void DialogSettings::on_toolButton_clicked()
+void CDialogSettings::on_toolButton_clicked()
 {
 	ui->spinBoxNetworkPort->setValue(common::getRandomUnusedPort());
 }

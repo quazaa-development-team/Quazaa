@@ -28,20 +28,20 @@
 
 #include "debug_new.h"
 
-DialogAddDownload::DialogAddDownload(QWidget* parent) :
+CDialogAddDownload::CDialogAddDownload(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::DialogAddDownload)
+	ui(new Ui::CDialogAddDownload)
 {
 	ui->setupUi(this);
 	setSkin();
 }
 
-DialogAddDownload::~DialogAddDownload()
+CDialogAddDownload::~CDialogAddDownload()
 {
 	delete ui;
 }
 
-void DialogAddDownload::changeEvent(QEvent* e)
+void CDialogAddDownload::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent(e);
 	switch(e->type())
@@ -54,19 +54,19 @@ void DialogAddDownload::changeEvent(QEvent* e)
 	}
 }
 
-void DialogAddDownload::on_pushButtonDownload_clicked()
+void CDialogAddDownload::on_pushButtonDownload_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogAddDownload::on_pushButtonCancel_clicked()
+void CDialogAddDownload::on_pushButtonCancel_clicked()
 {
 	emit closed();
 	close();
 }
 
-void DialogAddDownload::setSkin()
+void CDialogAddDownload::setSkin()
 {
 
 }

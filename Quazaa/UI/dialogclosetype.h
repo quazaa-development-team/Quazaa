@@ -29,21 +29,21 @@
 
 namespace Ui
 {
-	class DialogCloseType;
+	class CDialogCloseType;
 }
 
-class DialogCloseType : public QDialog
+class CDialogCloseType : public QDialog
 {
 	Q_OBJECT
 public:
-	DialogCloseType(QWidget* parent = 0);
-	~DialogCloseType();
+	CDialogCloseType(QWidget* parent = 0);
+	~CDialogCloseType();
 
 protected:
 	void changeEvent(QEvent* e);
 
 private:
-	Ui::DialogCloseType* ui;
+	Ui::CDialogCloseType* ui;
 
 signals:
 	void closed();

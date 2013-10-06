@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogIrcColorDialog</class>
+ <class>CDialogIrcColorDialog</class>
  <widget class="QDialog" name="DialogIrcColorDialog">
   <property name="geometry">
    <rect>
