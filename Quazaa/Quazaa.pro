@@ -91,8 +91,8 @@ VERSION_HEADER = version.h
 VERSION_HEADER_PATH = $$clean_path($$relative_path($$PWD/$$VERSION_HEADER, $$OUT_PWD))
 
 versiontarget.target = $$VERSION_HEADER_PATH
-CONFIG(debug, debug|release): versiontarget.commands = cd $$PWD && $$OUT_PWD/../VersionTool/debug/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
-CONFIG(release, debug|release): versiontarget.commands = cd $$PWD && $$OUT_PWD/../VersionTool/release/VersionTool $$MAJOR $$MINOR $$VERSION_HEADER
+CONFIG(debug, debug|release): versiontarget.commands = cd \"$$PWD\" && \"$$OUT_PWD/../VersionTool/debug/VersionTool\" $$MAJOR $$MINOR $$VERSION_HEADER
+CONFIG(release, debug|release): versiontarget.commands = cd \"$$PWD\" && \"$$OUT_PWD/../VersionTool/release/VersionTool\" $$MAJOR $$MINOR $$VERSION_HEADER
 win32-*{
 	versiontarget.commands = $$replace(versiontarget.commands, '/', '\\') # for nmake
 }
