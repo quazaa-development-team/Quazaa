@@ -1,4 +1,28 @@
-﻿#ifndef TIMEDSIGNALQUEUE_H
+﻿/*
+** $Id: timedsignalqueue.h $
+**
+** Copyright © Quazaa Development Team, 2009-2013.
+** This file is part of QUAZAA (quazaa.sourceforge.net)
+**
+** Quazaa is free software; this file may be used under the terms of the GNU
+** General Public License version 3.0 or later as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.
+**
+** Quazaa is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+**
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
+** http://www.gnu.org/copyleft/gpl.html.
+**
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
+** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#ifndef TIMEDSIGNALQUEUE_H
 #define TIMEDSIGNALQUEUE_H
 
 #include <QElapsedTimer>
@@ -9,7 +33,13 @@
 #include <QMutex>
 #include <QUuid>
 
-#define ENABLE_SIGNAL_QUEUE_DEBUGGING 1
+#ifdef _DEBUG
+#include <QDebug>
+#endif
+
+#include "commonfunctions.h"
+
+#define ENABLE_SIGNAL_QUEUE_DEBUGGING 0
 
 class CTimedSignalQueue;
 
@@ -45,14 +75,14 @@ private:
 	bool    m_bMultiShot; // repeat after m_tInterval yes/no
 
 private:
-	CTimerObject(QObject* obj, const char* member, quint64 tInterval, bool bMultiShot,
+	CTimerObject(QObject* obj, const char* member, quint64 tIntervalMs, bool bMultiShot,
 				 QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
 				 QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
 				 QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
 				 QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
 				 QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
-	CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
+	CTimerObject(QObject* obj, const char* member, quint32 tDelaySec,
 				 QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
 				 QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
 				 QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
@@ -81,8 +111,11 @@ private:
 	typedef QMultiMap<quint64, CTimerObject*>           TSignalQueue;
 	typedef QMultiMap<quint64, CTimerObject*>::iterator TSignalQueueIterator;
 
-	static QElapsedTimer m_oTime;                // the relative time since the timer was started
+	// TODO: prevent timer overflow
+	static QElapsedTimer m_oElapsedTime;         // the relative time since the timer was started
+#ifdef _DEBUG
 	static quint64       m_tTimerStartUTCInMSec; // ms since 1970-01-01T00:00:00 UTC (timer start)
+#endif
 
 	QBasicTimer			m_oTimer;                // for timer events
 	QMutex				m_pSection;
@@ -119,13 +152,31 @@ protected:
 private:
 	inline static quint64 getRelativeTimeInMs()
 	{
-		if( !m_oTime.isValid() )
+		if ( !m_oElapsedTime.isValid() )
 		{
-			m_tTimerStartUTCInMSec = (quint64)( QDateTime::currentDateTimeUtc().toTime_t() ) * 1000;
-			m_oTime.start();
+#ifdef _DEBUG
+			m_tTimerStartUTCInMSec = (quint64)( common::getTNowUTC() ) * 1000;
+#endif
+			m_oElapsedTime.start();
 		}
 
-		return m_oTime.elapsed();
+#ifdef _DEBUG
+#if ENABLE_SIGNAL_QUEUE_DEBUGGING
+		quint64 tElapsed = m_oElapsedTime.elapsed();
+		quint64 tStart   = m_tTimerStartUTCInMSec;
+		qint64 tNowTheo  = tElapsed + tStart;
+		qint64 tNow64    = common::getTNowUTC();
+		tNow64 *= 1000;
+
+		qDebug() << "tNowTheo - tNowReal64 = " << QString::number( tNowTheo - tNow64 );
+
+		// max diff 1000ms
+		//Q_ASSERT( tNowTheo - tNow64 <  1000 );
+		//Q_ASSERT( tNowTheo - tNow64 > -1000 );
+#endif
+#endif
+
+		return m_oElapsedTime.elapsed();
 	}
 	QUuid push(CTimerObject* pTimedSignal);
 
@@ -136,15 +187,15 @@ public slots:
 	// This schedules a signal or slot to be invoqued after an interval of tInterval milliseconds.
 	// If multiShot is set to true, the slot will be invoqued in the given interval until the signal queue
 	// recieves a pop() request for the signal or the given parent turns invalid.
-	QUuid push(QObject* parent, const char* signal, quint64 tInterval, bool multiShot,
+	QUuid push(QObject* parent, const char* signal, quint64 tIntervalMs, bool multiShot,
 			   QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
 			   QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
 			   QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),
 			   QGenericArgument val6 = QGenericArgument(), QGenericArgument val7 = QGenericArgument(),
 			   QGenericArgument val8 = QGenericArgument(), QGenericArgument val9 = QGenericArgument());
 
-	// This schedules a signal to be invoqued once at a given schedule time tSchedule (UTC).
-	QUuid push(QObject* parent, const char* signal, quint32 tSchedule,
+	// This schedules a signal to be invoqued once in tDelaySec seconds.
+	QUuid push(QObject* parent, const char* signal, quint32 tDelaySec,
 			   QGenericArgument val0 = QGenericArgument(), QGenericArgument val1 = QGenericArgument(),
 			   QGenericArgument val2 = QGenericArgument(), QGenericArgument val3 = QGenericArgument(),
 			   QGenericArgument val4 = QGenericArgument(), QGenericArgument val5 = QGenericArgument(),

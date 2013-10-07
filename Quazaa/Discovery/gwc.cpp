@@ -364,7 +364,7 @@ void CGWC::requestCompleted(QNetworkReply* pReply)
 	}
 
 	// make sure all statistics and failure counters are updated
-	updateStatistics( nHosts, nURLs, bUpdateOK );
+	updateStatistics( false, nHosts, nURLs, bUpdateOK );
 
 	// clean up
 	pReply->deleteLater();

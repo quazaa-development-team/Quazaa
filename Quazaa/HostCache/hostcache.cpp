@@ -47,7 +47,7 @@ CHostCache hostCache;
  */
 CHostCache::CHostCache():
 	m_tLastSave( common::getTNowUTC() ),
-	m_nSize( 0 )
+	m_nSizeAtomic( 0 )
 {
 }
 
@@ -204,7 +204,7 @@ CHostCacheHost* CHostCache::update(THostCacheIterator& itHost, const quint32 tTi
 	// create new host with correct data
 	CHostCacheHost* pNew = new CHostCacheHost( *pHost, tTimeStamp, nFailures );
 
-	--m_nSize;
+	m_nSizeAtomic.fetchAndAddRelaxed( -1 );
 	lHosts.erase( itHost );
 	delete pHost;
 	pHost = NULL;
@@ -383,7 +383,7 @@ CHostCacheHost* CHostCache::getConnectable(const QSet<CHostCacheHost*>& oExcept,
 	bool bCountry = ( sCountry != "ZZ" );
 	static bool bSecondAttempt = false;
 
-	if ( !m_nSize )
+	if ( !m_nSizeAtomic.load() )
 	{
 		return NULL;
 	}
@@ -467,7 +467,7 @@ void CHostCache::clear()
 	}
 
 	m_vlHosts.clear();
-	m_nSize = 0;
+	m_nSizeAtomic.store( 0 );
 
 	m_pSection.unlock();
 }
@@ -485,13 +485,14 @@ void CHostCache::save(const quint32 tNow) const
 
 	ASSUME_LOCK( m_pSection );
 
-	quint32 nCount = common::securredSaveFile( common::globalDataFiles, "hostcache.dat", m_sMessage,
-											   this, &CHostCache::writeToFile );
+	quint32 nCount = common::securredSaveFile( common::globalDataFiles, "hostcache.dat",
+											   Components::HostCache, this,
+											   &CHostCache::writeToFile );
 	if ( nCount )
 	{
 		m_tLastSave = tNow;
-		systemLog.postLog( LogSeverity::Debug,
-						   m_sMessage + QObject::tr( "Saved %1 hosts." ).arg( nCount ) );
+		systemLog.postLog( LogSeverity::Debug, Components::HostCache,
+						   QObject::tr( "Saved %1 hosts." ).arg( nCount ) );
 	}
 }
 
@@ -525,7 +526,7 @@ void CHostCache::pruneOldHosts(const quint32 tNow)
 			delete pHost;
 			pHost = lHosts.back();
 
-			--m_nSize;
+			m_nSizeAtomic.fetchAndAddRelaxed( -1 );
 		}
 	}
 }
@@ -533,7 +534,7 @@ void CHostCache::pruneOldHosts(const quint32 tNow)
 /**
  * @brief CHostCache::pruneByQueryAck removes all hosts with a tAck older than
  * tNow - quazaaSettings.Gnutella2.QueryHostDeadline.
- * Locking: REQUIRED
+ * Locking: YES
  * @param tNow: the current time in sec since 1970-01-01 UTC.
  */
 void CHostCache::pruneByQueryAck(const quint32 tNow)
@@ -542,7 +543,7 @@ void CHostCache::pruneByQueryAck(const quint32 tNow)
 	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "pruneByQA()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
-	ASSUME_LOCK( m_pSection );
+	m_pSection.lock();
 
 	const quint32 tAckExpire = tNow - quazaaSettings.Gnutella2.QueryHostDeadline;
 	for ( quint8 nFailures = 0; nFailures < m_vlHosts.size(); ++nFailures )
@@ -555,7 +556,7 @@ void CHostCache::pruneByQueryAck(const quint32 tNow)
 			{
 				delete *itHost;
 				itHost = lHosts.erase( itHost );
-				--m_nSize;
+				m_nSizeAtomic.fetchAndAddRelaxed( -1 );
 			}
 			else
 			{
@@ -563,6 +564,7 @@ void CHostCache::pruneByQueryAck(const quint32 tNow)
 			}
 		}
 	}
+	m_pSection.unlock();
 }
 
 /**
@@ -582,7 +584,7 @@ quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
 	ASSUME_LOCK( pHostCache->m_pSection );
 
 	const quint16 nVersion = HOST_CACHE_CODE_VERSION;
-	const quint32 nCount   = (quint32)pHostCache->m_nSize;
+	const quint32 nCount   = (quint32)pHostCache->m_nSizeAtomic.load();
 
 	oStream << nVersion;
 	oStream << nCount;
@@ -620,7 +622,7 @@ quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
 CHostCacheHost* CHostCache::addSync(CEndPoint host, quint32 tTimeStamp, bool bLock)
 {
 #if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, Components::HostCache );
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, "addSync()" );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
 
 	const quint32 tNow = common::getTNowUTC();
@@ -726,6 +728,8 @@ void CHostCache::sanityCheck()
 
 			if ( securityManager.isNewlyDenied( pHost->address() ) )
 				itHost = remove( itHost, pHost->failures() );
+			else
+				++itHost;
 		}
 
 		++itFailures;
@@ -779,7 +783,7 @@ void CHostCache::maintain()
 
 	// nMaxSize == 0 means that he size limit has been disabled.
 	const quint32 nMaxSize = quazaaSettings.Gnutella.HostCacheSize;
-	if ( nMaxSize && m_nSize > nMaxSize )
+	if ( nMaxSize && (quint32)m_nSizeAtomic.load() > nMaxSize )
 	{
 		const quint32 nMax = nMaxSize - nMaxSize / 4;
 
@@ -788,7 +792,7 @@ void CHostCache::maintain()
 		Q_ASSERT( nFailure == m_nMaxFailures );
 
 		// remove 1/4 of all hosts if the cache gets too full - failed and oldest first
-		while ( m_nSize > nMax )
+		while ( (quint32)m_nSizeAtomic.load() > nMax )
 		{
 			removeWorst( nFailure );
 		}
@@ -808,7 +812,7 @@ void CHostCache::maintain()
 	{
 		Q_ASSERT( tNow > tThrottle ); // if not, the following if statement is wrong
 
-		foreach ( CHostCacheHost * pHost, *itFailures )
+		foreach ( CHostCacheHost* pHost, *itFailures )
 		{
 			// Note: if ( !pHost->m_tLastConnect ), the following statement also evaluates to true.
 			if ( !pHost->connectable() )
@@ -889,6 +893,7 @@ CHostCacheHost* CHostCache::addSyncHelper(const CEndPoint& host, quint32 tTimeSt
 
 /**
  * @brief CHostCache::insert inserts a new CHostCacheHost on the correct place into lHosts.
+ * Locking: REQUIRED
  * @param pNew: the CHostCacheHost
  * @param tTimeStamp: its timestamp
  * @param lHosts: the list of hosts
@@ -898,6 +903,8 @@ void CHostCache::insert(CHostCacheHost* pNew, THostCacheList& lHosts)
 #if ENABLE_HOST_CACHE_DEBUGGING
 	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "insert()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
+
+	ASSUME_LOCK( m_pSection );
 
 	THostCacheIterator it = lHosts.begin();
 
@@ -918,7 +925,7 @@ void CHostCache::insert(CHostCacheHost* pNew, THostCacheList& lHosts)
 	// remember own position in list
 	pNew->setIterator( it );
 
-	++m_nSize;
+	m_nSizeAtomic.fetchAndAddRelaxed( 1 );
 }
 
 /**
@@ -939,7 +946,7 @@ THostCacheIterator CHostCache::remove(THostCacheIterator& itHost, const quint8 n
 
 	Q_ASSERT( nFailures < m_vlHosts.size() );
 
-	--m_nSize;
+	m_nSizeAtomic.fetchAndAddRelaxed( -1 );
 	return m_vlHosts[nFailures].erase( itHost );
 }
 
@@ -971,7 +978,7 @@ void CHostCache::removeWorst(quint8& nFailures)
 
 	delete m_vlHosts[nFailures].back();
 	m_vlHosts[nFailures].pop_back();
-	--m_nSize;
+	m_nSizeAtomic.fetchAndAddRelaxed( -1 );
 }
 
 /**
@@ -1121,11 +1128,10 @@ void CHostCache::load()
 	file.close();
 
 	pruneOldHosts( tNow );
+	m_pSection.unlock();
 
 	systemLog.postLog( LogSeverity::Debug,
-					   m_sMessage + QObject::tr( "Loaded %1 hosts." ).arg( m_nSize ) );
-
-	m_pSection.unlock();
+					   m_sMessage + QObject::tr( "Loaded %1 hosts." ).arg( m_nSizeAtomic.load() ) );
 }
 
 /**
@@ -1140,6 +1146,7 @@ void CHostCache::asyncStartUpHelper()
 
 	// reg. meta types
 	qRegisterMetaType<CEndPoint>( "CEndPoint" );
+	qRegisterMetaType<CEndPoint*>( "CEndPoint*" );
 
 	connect( &securityManager, SIGNAL( performSanityCheck() ), this, SLOT( sanityCheck() ) );
 

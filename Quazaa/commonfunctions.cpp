@@ -178,7 +178,7 @@ QString common::getLocation(Location location)
 }
 
 quint32 common::securredSaveFile(Location location, QString sFileName,
-								 QString sMessage, const void* const pManager,
+								 Components::Component oComponent, const void* const pManager,
 								 quint32 (*writeData)(const void* const, QFile&))
 {
 	QString sPath          = getLocation( location );
@@ -191,12 +191,12 @@ quint32 common::securredSaveFile(Location location, QString sFileName,
 	QString sBackupPath    = sPath + "_backup";
 	QString sTemporaryPath = sPath + "_tmp";
 
-	systemLog.postLog( LogSeverity::Debug, sMessage
-					   + QObject::tr( "Saving to File: %1" ).arg( sPath ) );
+	systemLog.postLog( LogSeverity::Debug, oComponent,
+					   QObject::tr( "Saving to File: %1" ).arg( sPath ) );
 
 	if ( QFile::exists( sTemporaryPath ) && !QFile::remove( sTemporaryPath ) )
 	{
-		systemLog.postLog( LogSeverity::Error, sMessage +
+		systemLog.postLog( LogSeverity::Error, oComponent,
 						   QObject::tr( "Error: Could not free space required for temporary file: ")
 						   + sTemporaryPath );
 		return 0;
@@ -206,7 +206,7 @@ quint32 common::securredSaveFile(Location location, QString sFileName,
 
 	if ( !oFile.open( QIODevice::WriteOnly ) )
 	{
-		systemLog.postLog( LogSeverity::Error, sMessage +
+		systemLog.postLog( LogSeverity::Error, oComponent,
 						   QObject::tr( "Error: Could open temporary file for write: " )
 						   + sTemporaryPath );
 		return 0;
@@ -219,8 +219,8 @@ quint32 common::securredSaveFile(Location location, QString sFileName,
 	}
 	catch ( ... )
 	{
-		systemLog.postLog( LogSeverity::Error, sMessage
-						   + QObject::tr( "Error while writing to file: " ) + sTemporaryPath );
+		systemLog.postLog( LogSeverity::Error, oComponent,
+						   QObject::tr( "Error while writing to file: " ) + sTemporaryPath );
 		return 0;
 	}
 
@@ -228,29 +228,29 @@ quint32 common::securredSaveFile(Location location, QString sFileName,
 
 	if ( QFile::exists( sPath ) && !QFile::remove( sPath ) )
 	{
-		systemLog.postLog( LogSeverity::Error, sMessage
-						   + QObject::tr( "Error: Could not remove old data file: " ) + sPath );
+		systemLog.postLog( LogSeverity::Error, oComponent,
+						   QObject::tr( "Error: Could not remove old data file: " ) + sPath );
 		return 0;
 	}
 
 	if ( !QFile::rename( sTemporaryPath, sPath ) )
 	{
-		systemLog.postLog( LogSeverity::Error, sMessage
-						   + QObject::tr( "Error: Could not rename data file: " ) + sPath );
+		systemLog.postLog( LogSeverity::Error, oComponent,
+						   QObject::tr( "Error: Could not rename data file: " ) + sPath );
 		return 0;
 	}
 
 	if ( QFile::exists( sBackupPath ) && !QFile::remove( sBackupPath ) )
 	{
-		systemLog.postLog( LogSeverity::Warning, sMessage
-						   + QObject::tr( "Warning: Could not remove old backup file: " )
+		systemLog.postLog( LogSeverity::Warning, oComponent,
+						   QObject::tr( "Warning: Could not remove old backup file: " )
 						   + sBackupPath );
 	}
 
 	if ( !QFile::copy( sPath, sBackupPath ) )
 	{
-		systemLog.postLog( LogSeverity::Warning, sMessage
-						   + QObject::tr( "Warning: Could not create create new backup file: " )
+		systemLog.postLog( LogSeverity::Warning, oComponent,
+						   QObject::tr( "Warning: Could not create create new backup file: " )
 						   + sBackupPath );
 	}
 

@@ -26,6 +26,7 @@
 #define HOSTCACHE_H
 
 #include <QMutex>
+#include <QAtomicInt>
 
 #include "hostcachehost.h"
 
@@ -60,7 +61,7 @@ public:
 	QString             m_sMessage;
 
 	quint8              m_nMaxFailures;
-	quint32             m_nSize;
+	QAtomicInt          m_nSizeAtomic;
 
 	// Thread used by the Host Cache
 	TSharedThreadPtr    m_pHostCacheDiscoveryThread;
@@ -183,11 +184,9 @@ bool CHostCache::check(const CHostCacheHost* const pHost)
  * Locking: YES
  * @return the number of hosts in the cache.
  */
-// TODO: use qatomicint
 quint32 CHostCache::count() const
 {
-	QMutexLocker l( &m_pSection );
-	return m_nSize;
+	return m_nSizeAtomic.loadAcquire();
 }
 
 /**
@@ -197,8 +196,7 @@ quint32 CHostCache::count() const
  */
 bool CHostCache::isEmpty() const
 {
-	QMutexLocker l( &m_pSection );
-	return !m_nSize;
+	return !m_nSizeAtomic.loadAcquire();
 }
 
 extern CHostCache hostCache;

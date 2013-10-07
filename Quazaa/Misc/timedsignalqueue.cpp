@@ -35,13 +35,13 @@ CTimedSignalQueue signalQueue;
 /* ---------------------------------------- CTimerObject ---------------------------------------- */
 /* ---------------------------------------------------------------------------------------------- */
 
-CTimerObject::CTimerObject(QObject* obj, const char* member, quint64 tInterval, bool bMultiShot,
+CTimerObject::CTimerObject(QObject* obj, const char* member, quint64 tIntervalMs, bool bMultiShot,
 						   QGenericArgument val0, QGenericArgument val1,
 						   QGenericArgument val2, QGenericArgument val3,
 						   QGenericArgument val4, QGenericArgument val5,
 						   QGenericArgument val6, QGenericArgument val7,
 						   QGenericArgument val8, QGenericArgument val9) :
-	m_tInterval( tInterval ),
+	m_tInterval( tIntervalMs ),
 	m_bMultiShot( bMultiShot )
 {
 	resetTime();
@@ -76,7 +76,7 @@ CTimerObject::CTimerObject(QObject* obj, const char* member, quint64 tInterval, 
 	m_oUUID = QUuid::createUuid();
 }
 
-CTimerObject::CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
+CTimerObject::CTimerObject(QObject* obj, const char* member, quint32 tDelaySec,
 						   QGenericArgument val0, QGenericArgument val1,
 						   QGenericArgument val2, QGenericArgument val3,
 						   QGenericArgument val4, QGenericArgument val5,
@@ -85,8 +85,19 @@ CTimerObject::CTimerObject(QObject* obj, const char* member, quint32 tSchedule,
 	m_tInterval( 0 ),
 	m_bMultiShot( false )
 {
-	// Transform 32bit UTC time in seconds to 64bit relative time in ms.
-	m_tTime = (quint64)( tSchedule ) * 1000 - signalQueue.m_tTimerStartUTCInMSec;
+	quint64 tDelay64 = tDelaySec;
+	tDelay64 *= 1000; // transform to Milliseconds
+
+	m_tTime = tDelay64 + signalQueue.getRelativeTimeInMs();
+
+#ifdef _DEBUG
+	qint64 tTest = (m_tTime + signalQueue.m_tTimerStartUTCInMSec) / 1000 - common::getTNowUTC();
+#if ENABLE_SIGNAL_QUEUE_DEBUGGING
+	systemLog.postLog( LogSeverity::Debug, Components::SignalQueue,
+					   QString( "Added event with %1s delay to signal queue."
+								).arg( QString::number( tTest ) ) );
+#endif // ENABLE_SIGNAL_QUEUE_DEBUGGING
+#endif // _DEBUG
 
 	m_sSignal.obj = obj;
 
@@ -183,13 +194,17 @@ bool CTimerObject::emitSignal() const
 /* ------------------------------------- CTimedSignalQueue -------------------------------------- */
 /* ---------------------------------------------------------------------------------------------- */
 
-QElapsedTimer CTimedSignalQueue::m_oTime;
+QElapsedTimer CTimedSignalQueue::m_oElapsedTime;
+#ifdef _DEBUG
 quint64       CTimedSignalQueue::m_tTimerStartUTCInMSec = 0;
+#endif
 
 CTimedSignalQueue::CTimedSignalQueue(QObject *parent) :
 	QObject( parent ),
 	m_nPrecision( 1000 )
 {
+	// Make sure the timer is invalid the first time getRelativeTimeInMs() is called.
+	m_oElapsedTime.invalidate();
 }
 
 CTimedSignalQueue::~CTimedSignalQueue()
@@ -214,13 +229,16 @@ void CTimedSignalQueue::shutdownUnlock()
 void CTimedSignalQueue::setup()
 {
 	QMutexLocker l( &m_pSection );
+	// start timer for timer events
 	m_oTimer.start( m_nPrecision, this );
+
+	// initialize elapsed timer for relative times
+	getRelativeTimeInMs();
 }
 
 void CTimedSignalQueue::stop()
 {
 	QMutexLocker l( &m_pSection );
-
 	m_oTimer.stop();
 }
 
@@ -307,25 +325,25 @@ void CTimedSignalQueue::checkSchedule()
 }
 
 QUuid CTimedSignalQueue::push(QObject* parent, const char* signal,
-							  quint64 tInterval, bool bMultiShot,
+							  quint64 tIntervalMs, bool bMultiShot,
 							  QGenericArgument val0, QGenericArgument val1,
 							  QGenericArgument val2, QGenericArgument val3,
 							  QGenericArgument val4, QGenericArgument val5,
 							  QGenericArgument val6, QGenericArgument val7,
 							  QGenericArgument val8, QGenericArgument val9)
 {
-	return push( new CTimerObject( parent, signal, tInterval, bMultiShot,
+	return push( new CTimerObject( parent, signal, tIntervalMs, bMultiShot,
 								   val0, val1, val2, val3, val4, val5, val6, val7, val8, val9 ) );
 }
 
-QUuid CTimedSignalQueue::push(QObject* parent, const char* signal, quint32 tSchedule,
+QUuid CTimedSignalQueue::push(QObject* parent, const char* signal, quint32 tDelaySec,
 							  QGenericArgument val0, QGenericArgument val1,
 							  QGenericArgument val2, QGenericArgument val3,
 							  QGenericArgument val4, QGenericArgument val5,
 							  QGenericArgument val6, QGenericArgument val7,
 							  QGenericArgument val8, QGenericArgument val9)
 {
-	return push( new CTimerObject( parent, signal, tSchedule,
+	return push( new CTimerObject( parent, signal, tDelaySec,
 								   val0, val1, val2, val3, val4, val5, val6, val7, val8, val9 ) );
 }
 

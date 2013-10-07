@@ -291,7 +291,7 @@ void CDiscoveryService::update()
 
 	m_oRWLock.unlock();
 
-	m_oSQCancelRequestID = signalQueue.push( this, "cancelRequest", common::getTNowUTC() +
+	m_oSQCancelRequestID = signalQueue.push( this, "cancelRequest",
 											 quazaaSettings.Discovery.ServiceTimeout );
 
 	emit updated( m_nID ); // notify GUI
@@ -327,7 +327,7 @@ void CDiscoveryService::query()
 	postLog( LogSeverity::Debug, "Released service lock.", true );
 #endif
 
-	m_oSQCancelRequestID = signalQueue.push( this, "cancelRequest", common::getTNowUTC() +
+	m_oSQCancelRequestID = signalQueue.push( this, "cancelRequest",
 											 quazaaSettings.Discovery.ServiceTimeout );
 
 	emit updated( m_nID ); // notify GUI
@@ -352,7 +352,7 @@ void CDiscoveryService::cancelRequest(bool bKeepLocked)
 	if ( m_bRunning )
 	{
 		doCancelRequest();
-		updateStatistics(); // also removes cancel request from signal queue if still in there
+		updateStatistics( true ); // also removes cancel request from signal queue if still in there
 	}
 
 	if ( !bKeepLocked )
@@ -383,7 +383,8 @@ void CDiscoveryService::unlock() const
  * Requires locking: RW
  * @param nHosts
  */
-void CDiscoveryService::updateStatistics(quint16 nHosts, quint16 nURLs, bool bUpdateOK)
+void CDiscoveryService::updateStatistics(bool bCanceled, quint16 nHosts, quint16 nURLs,
+										 bool bUpdateOK)
 {
 #if ENABLE_DISCOVERY_DEBUGGING
 	postLog( LogSeverity::Debug,
@@ -392,10 +393,17 @@ void CDiscoveryService::updateStatistics(quint16 nHosts, quint16 nURLs, bool bUp
 							 QString::number( nURLs ),    QString::number( bUpdateOK ) ), true );
 #endif
 
-	// remove cancel request from signal queue
 	postLog( LogSeverity::Debug, tr( "Updating statistics." ), true );
-	Q_ASSERT( signalQueue.pop( m_oSQCancelRequestID ) );
 
+	if ( bCanceled )
+	{
+		Q_ASSERT( !m_oSQCancelRequestID.isNull() );
+	}
+	else
+	{
+		// remove cancel request from signal queue
+		Q_ASSERT( signalQueue.pop( m_oSQCancelRequestID ) );
+	}
 	m_oSQCancelRequestID = QUuid();
 
 	if ( m_bQuery || nHosts )//in case of an update, we still count hosts we got but did not request

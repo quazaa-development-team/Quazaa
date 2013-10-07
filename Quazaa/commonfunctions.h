@@ -33,6 +33,8 @@
 #include <QDateTime>
 #include <QReadWriteLock>
 
+#include "systemlog.h"
+
 //#define NO_OF_REGISTRATIONS 8
 
 namespace common
@@ -70,12 +72,12 @@ namespace common
 	 * Locking needs to be handled by the caller.
 	 * @param location: the location of the file to be written.
 	 * @param sFileName: path and name of the file relative to the specified path.
-	 * @param sMessage: text to preceed any messages posted to the system log.
+	 * @param oComponent: component saving the file (for system log).
 	 * @param pManager: first argument of the writeData() function.
 	 * @param writeData(): Function pointer to the static function doing the actual writing to file.
 	 * @return true if successful, false otherwise.
 	 */
-	quint32 securredSaveFile(Location location, QString sFileName, QString sMessage,
+	quint32 securredSaveFile(Location location, QString sFileName, Components::Component oComponent,
 							 const void * const pManager,
 							 quint32 (*writeData)(const void* const, QFile&));
 

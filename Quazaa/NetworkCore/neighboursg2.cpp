@@ -22,6 +22,8 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <QElapsedTimer>
+
 #include "neighboursg2.h"
 #include "hostcache.h"
 #include "g2node.h"
@@ -42,7 +44,7 @@ CNeighboursG2::CNeighboursG2(QObject* parent) :
 	m_nNextKHL(30),
 	m_nLNIWait(0),
 	m_bNeedLNI(false),
-    m_nUpdateWait(0),
+	m_nUpdateWait(0),
 	m_nSecsTrying(0),
 	m_tLastModeChange(0),
 	m_nHubBalanceWait(0),
@@ -74,7 +76,7 @@ void CNeighboursG2::Connect()
 
 	// Only query service if we're not already querying and we actually need fresh hosts.
 	if ( !discoveryManager.isActive( Discovery::stGWC ) &&
-	     ( hostCache.isEmpty() || !hostCache.hasConnectable() ) )
+		 ( hostCache.isEmpty() || !hostCache.hasConnectable() ) )
 	{
 		discoveryManager.queryService( CNetworkType( dpG2 ) );
 	}
@@ -95,14 +97,36 @@ void CNeighboursG2::Maintain()
 		m_bNeedLNI = true;
 	}
 
+	// Note: For speed testing... the atomicint class seems to have a lot of overhead, still...
+	/*static quint64 tMutex = 0, tAtomic = 0;
+	quint32 nSizeM;
+	quint32 nSizeA;
+
+	QElapsedTimer oETM;
+	oETM.start();
+	for ( quint32 i = 0; i < 10000000; ++i )
+		nSizeM = hostCache.count();
+	tMutex += oETM.elapsed();
+
+	QElapsedTimer oETA;
+	oETA.start();
+	for ( quint32 i = 0; i < 10000000; ++i )
+		nSizeA = hostCache.countAtomic();
+	tAtomic += oETA.elapsed();
+
+	Q_ASSERT( nSizeM == nSizeA );
+
+	qDebug() << "  Total Mutex time: " << QString::number( tMutex  ).toLocal8Bit().data()
+			 << " Total Atomic time: " << QString::number( tAtomic ).toLocal8Bit().data();*/
+
 	// TODO: Test whether already active checking is required
 	if ( !m_nHubsConnectedG2 && !discoveryManager.isActive( Discovery::stGWC )
 		 && ( hostCache.isEmpty() || !hostCache.hasConnectable() ) && m_nUnknownInitiated == 0 )
 	{
 		qDebug() << "GWC query: Active:" << discoveryManager.isActive(Discovery::stGWC)
-		         << ", empty cache:" << hostCache.isEmpty()
-		         << ", has connectable:" << hostCache.hasConnectable()
-		         << ", has unknown initiated:" << (m_nUnknownInitiated != 0);
+				 << ", empty cache:" << hostCache.isEmpty()
+				 << ", has connectable:" << hostCache.hasConnectable()
+				 << ", has unknown initiated:" << (m_nUnknownInitiated != 0);
 		discoveryManager.queryService( CNetworkType( dpG2 ) );
 	}
 
@@ -222,10 +246,10 @@ void CNeighboursG2::DispatchKHL()
 	{
 		THostCacheList lHosts = *itFailures;
 		for ( THostCacheIterator itHost = lHosts.begin();  // nCount == ( nCount > 0 )
-		      nCount && itHost != lHosts.end(); ++itHost ) // as nCount is a quint32
+			  nCount && itHost != lHosts.end(); ++itHost ) // as nCount is a quint32
 		{
 			if ( !(*itHost)->failures() &&
-			     tNow - (*itHost)->timestamp() < quazaaSettings.Gnutella2.HostCurrent )
+				 tNow - (*itHost)->timestamp() < quazaaSettings.Gnutella2.HostCurrent )
 			{
 				if ( (*itHost)->address().protocol() == QAbstractSocket::IPv4Protocol )
 				{
@@ -283,27 +307,27 @@ bool CNeighboursG2::SwitchG2ClientMode(G2NodeType nRequestedMode)
 	m_nUpdateWait = 0;
 
 	systemLog.postLog( LogSeverity::Notice, Components::G2,
-	                   "Hub Balancing: Switched to %s mode.", ( IsG2Hub() ? "HUB" : "LEAF" ) );
+					   "Hub Balancing: Switched to %s mode.", ( IsG2Hub() ? "HUB" : "LEAF" ) );
 
 	return true;
 }
 
 bool CNeighboursG2::NeedMoreG2(G2NodeType nType)
 {
-    if(nType == G2_HUB)   // Need hubs?
+	if(nType == G2_HUB)   // Need hubs?
 	{
-        if(IsG2Hub())   // If we are a hub.
+		if(IsG2Hub())   // If we are a hub.
 		{
 			return (m_nHubsConnectedG2 < quazaaSettings.Gnutella2.NumPeers);
 		}
-        else    // If we are a leaf.
+		else    // If we are a leaf.
 		{
 			return (m_nLeavesConnectedG2 < quazaaSettings.Gnutella2.NumHubs);
 		}
 	}
-    else // Need leaves?
+	else // Need leaves?
 	{
-        if(IsG2Hub())      // If we are a hub.
+		if(IsG2Hub())      // If we are a hub.
 		{
 			return (m_nLeavesConnectedG2 < quazaaSettings.Gnutella2.NumLeafs);
 		}
@@ -327,15 +351,15 @@ void CNeighboursG2::HubBalancing()
 		return;
 	}
 
-    bool bHasQHubs = false;
+	bool bHasQHubs = false;
 
 	if(m_nClientMode == G2_LEAF)
 	{
 		// we're a leaf
 		// TODO: Check capabilities
 
-        if( Network.IsFirewalled() )
-            return;
+		if( Network.IsFirewalled() )
+			return;
 
 		quint32 nLeaves = 0, nCapacity = 0;
 
@@ -345,17 +369,17 @@ void CNeighboursG2::HubBalancing()
 			{
 				nLeaves += ((CG2Node*)pNode)->m_nLeafCount;
 				nCapacity += ((CG2Node*)pNode)->m_nLeafMax;
-                bHasQHubs |= ((CG2Node*)pNode)->m_bG2Core;
+				bHasQHubs |= ((CG2Node*)pNode)->m_bG2Core;
 			}
 		}
 
-        if( !bHasQHubs )
-        {
-            // Switch to G2 Hub mode if there are no other Quazaa hubs
-            systemLog.postLog(LogSeverity::Notice, "Switching to G2 HUB mode (no Quazaa hubs)");
-            SwitchG2ClientMode(G2_HUB);
-            return;
-        }
+		if( !bHasQHubs )
+		{
+			// Switch to G2 Hub mode if there are no other Quazaa hubs
+			systemLog.postLog(LogSeverity::Notice, "Switching to G2 HUB mode (no Quazaa hubs)");
+			SwitchG2ClientMode(G2_HUB);
+			return;
+		}
 
 		if(nLeaves * 100 / nCapacity > quazaaSettings.Gnutella2.HubBalanceHigh)
 		{
@@ -368,14 +392,14 @@ void CNeighboursG2::HubBalancing()
 				return;
 			}
 		}
-        else
+		else
 		{
 			m_nPeriodsHigh = m_nPeriodsLow = 0;
 		}
 	}
 	else
 	{
-        // We're a hub.
+		// We're a hub.
 		quint32 nLeaves = 0, nCapacity = 0;
 
 		foreach(CNeighbour * pNode, m_lNodes)
@@ -384,20 +408,20 @@ void CNeighboursG2::HubBalancing()
 			{
 				nLeaves += ((CG2Node*)pNode)->m_nLeafCount;
 				nCapacity += ((CG2Node*)pNode)->m_nLeafMax;
-                bHasQHubs |= ((CG2Node*)pNode)->m_bG2Core;
+				bHasQHubs |= ((CG2Node*)pNode)->m_bG2Core;
 			}
 		}
 
 		nLeaves += m_nLeavesConnectedG2;
 		nCapacity += quazaaSettings.Gnutella2.NumLeafs;
 
-        if(nLeaves * 100 / nCapacity < quazaaSettings.Gnutella2.HubBalanceLow && bHasQHubs) // Downgrade if there are other Quazaa hubs
+		if(nLeaves * 100 / nCapacity < quazaaSettings.Gnutella2.HubBalanceLow && bHasQHubs) // Downgrade if there are other Quazaa hubs
 		{
 			m_nPeriodsLow++;
 
 			if(m_nPeriodsLow >= quazaaSettings.Gnutella2.HubBalanceLowTime)
 			{
-                systemLog.postLog(LogSeverity::Notice, "Switching to G2 LEAF mode.");
+				systemLog.postLog(LogSeverity::Notice, "Switching to G2 LEAF mode.");
 				SwitchG2ClientMode(G2_LEAF);
 				return;
 			}

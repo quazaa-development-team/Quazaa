@@ -32,6 +32,9 @@
 
 // TODO: rename external variables
 
+// Note: quazaaglobals.h contains preprocessor defines for debug output.
+#include "quazaaglobals.h"
+
 class QTimer;
 class CThread;
 class G2Packet;

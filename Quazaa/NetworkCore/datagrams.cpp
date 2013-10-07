@@ -99,7 +99,7 @@ void CDatagrams::Listen()
 
 	if(m_bActive)
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("CDatagrams::Listen - already listening"));
+		systemLog.postLog(LogSeverity::Debug, Components::Network, QString("CDatagrams::Listen - already listening"));
 		return;
 	}
 
@@ -110,7 +110,7 @@ void CDatagrams::Listen()
 	CEndPoint addr = Network.GetLocalAddress();
 	if(m_pSocket->bind(addr.port()))
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Datagrams listening on %1").arg(m_pSocket->localPort()));
+		systemLog.postLog(LogSeverity::Debug, Components::Network, QString("Datagrams listening on %1").arg(m_pSocket->localPort()));
 		m_nDiscarded = 0;
 
 		for(int i = 0; i < quazaaSettings.Gnutella2.UdpBuffers; i++)
@@ -135,7 +135,7 @@ void CDatagrams::Listen()
 	}
 	else
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("Can't bind UDP socket! UDP communication disabled!"));
+		systemLog.postLog(LogSeverity::Debug, Components::Network, QString("Can't bind UDP socket! UDP communication disabled!"));
 		Disconnect();
 	}
 
@@ -593,7 +593,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 
 	if(m_FreeDGOut.isEmpty())
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("UDP out frames exhausted"));
+		systemLog.postLog(LogSeverity::Debug, Components::Network, QString("UDP out frames exhausted"));
 
 		if( !bAck ) // if caller does not want ACK, drop the packet here
 			return; // TODO: needs more testing
@@ -608,7 +608,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 
 		if(m_FreeBuffer.isEmpty())
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("UDP out discarded, out of buffers"));
+			systemLog.postLog(LogSeverity::Debug, Components::Network, QString("UDP out discarded, out of buffers"));
 			return;
 		}
 	}
@@ -674,7 +674,7 @@ void CDatagrams::OnPacket(CEndPoint addr, G2Packet* pPacket)
 	}
 	catch(...)
 	{
-		systemLog.postLog(LogSeverity::Debug, QString("malformed packet"));
+		systemLog.postLog(LogSeverity::Debug, Components::Network, QString("malformed packet"));
 		//qDebug() << "malformed packet";
 	}
 }
@@ -874,7 +874,7 @@ void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 	pAns->Release();
 
 #if LOG_QUERY_HANDLING
-	systemLog.postLog(LogSeverity::Debug, "Node %s asked for a query key (0x%08x) for node %s", qPrintable(addr.toStringWithPort()), nKey, qPrintable(oRequestedAddress.toStringWithPort()));
+	systemLog.postLog(LogSeverity::Debug, Components::G2, "Node %s asked for a query key (0x%08x) for node %s", qPrintable(addr.toStringWithPort()), nKey, qPrintable(oRequestedAddress.toStringWithPort()));
 #endif // LOG_QUERY_HANDLING
 }
 
@@ -1025,7 +1025,7 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 		// Shareaza should not retry with QK == 0
 		// TODO: test this
 #if LOG_QUERY_HANDLING
-		systemLog.postLog(LogSeverity::Debug, "Sending null query key to %s because we're not a hub.", qPrintable(addr.toStringWithPort()));
+		systemLog.postLog(LogSeverity::Debug, Components::G2, "Sending null query key to %s because we're not a hub.", qPrintable(addr.toStringWithPort()));
 #endif // LOG_QUERY_HANDLING
 
 		G2Packet* pQKA = G2Packet::New("QKA", true);
@@ -1045,7 +1045,7 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 	if(!QueryKeys.Check(pQuery->m_oEndpoint, pQuery->m_nQueryKey))
 	{
 #if LOG_QUERY_HANDLING
-		systemLog.postLog(LogSeverity::Debug, "Issuing query key correction for %s.", qPrintable(addr.toStringWithPort()));
+		systemLog.postLog(LogSeverity::Debug, Components::G2, "Issuing query key correction for %s.", qPrintable(addr.toStringWithPort()));
 #endif // LOG_QUERY_HANDLING
 
 		G2Packet* pQKA = G2Packet::New("QKA", true);
@@ -1073,7 +1073,7 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 	}
 
 #if LOG_QUERY_HANDLING
-	qDebug() << "Processing query from: " << qPrintable(addr.toStringWithPort());
+	qDebug() << "[datagrams.cpp line 1076] Processing query from: " << qPrintable(addr.toStringWithPort());
 #endif // LOG_QUERY_HANDLING
 
 	// just in case

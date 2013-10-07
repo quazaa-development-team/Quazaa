@@ -361,7 +361,8 @@ protected:
 	 * Requires locking: RW
 	 * @param nHosts
 	 */
-	void updateStatistics(quint16 nHosts = 0, quint16 nURLs = 0, bool bUpdateOK = false);
+	void updateStatistics(bool bCanceled, quint16 nHosts = 0, quint16 nURLs = 0,
+						  bool bUpdateOK = false);
 
 private:
 	/**

@@ -27,7 +27,9 @@
 
 #include <QObject>
 
-#define LOG_QUERY_HANDLING 0
+#define LOG_QUERY_HANDLING 1
+#define LOG_MALFORMATTED_QUERIES 1
+#define LOG_ROUTED_PACKETS 1
 
 class CQuazaaGlobals : public QObject
 {

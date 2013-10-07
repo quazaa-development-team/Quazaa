@@ -282,9 +282,11 @@ HEADERS += \
 		Metalink/magnetlink.h \
 		Metalink/metalinkhandler.h \
 		Metalink/metalink4handler.h \
+		Misc/debugrwlock.h \
 		Misc/fileiconprovider.h \
 		Misc/networkiconprovider.h \
 		Misc/timedsignalqueue.h \
+		Misc/timeoutreadlocker.h \
 		Misc/timeoutwritelocker.h \
 		Models/categorynavigatortreemodel.h \
 		Models/discoverytablemodel.h \
@@ -469,6 +471,7 @@ SOURCES += \
 		HostCache/hostcache.cpp \
 		HostCache/hostcachehost.cpp \
 		main.cpp \
+		Misc/debugrwlock.cpp \
 		Misc/fileiconprovider.cpp \
 		Misc/networkiconprovider.cpp \
 		Misc/timedsignalqueue.cpp \
