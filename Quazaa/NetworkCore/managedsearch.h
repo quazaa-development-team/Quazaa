@@ -29,6 +29,8 @@
 #include <QHash>
 #include "queryhit.h" // needed for signals
 
+#include "HostCache/hostcache.h"
+
 class CQuery;
 
 class CManagedSearch : public QObject
@@ -70,6 +72,10 @@ public:
 	void Execute( const QDateTime& tNowDT,   quint32* pnMaxPackets);
 	void SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets);
 	void SearchNeighbours(const QDateTime& tNowDT);
+
+	void sendG2Query(CEndPoint pReceiver, CHostCacheHost* pHost, quint32* pnMaxPackets, const QDateTime& tNowDT);
+	void requestG2QueryKey(CHostCacheHost* pHost);
+	CG2Node* findBestHubForRoutingG2(const CG2Node* const pLastNeighbour);
 
 	void OnHostAcknowledge(QHostAddress nHost, const QDateTime& tNow);
 	void OnQueryHit(CQueryHit* pHits);
