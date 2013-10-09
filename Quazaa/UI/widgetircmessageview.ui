@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CWidgetIrcMessageView</class>
- <widget class="QWidget" name="WidgetIrcMessageView">
+ <widget class="QWidget" name="CWidgetIrcMessageView">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,7 +29,7 @@
    <item>
     <widget class="QLabel" name="topicLabel">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+      <sizepolicy hsizetype="Ignored" vsizetype="Maximum">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
