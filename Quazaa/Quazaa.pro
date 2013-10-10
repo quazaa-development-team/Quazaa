@@ -62,13 +62,7 @@ UI_DIR = temp/uic
 
 INCLUDEPATH += 3rdparty \
 		3rdparty/nvwa \
-		3rdparty/qtsingleapplication \
 		Chat \
-		Chat/IRC \
-		Chat/IRC/gui \
-		Chat/IRC/gui/3rdparty \
-		Chat/IRC/gui/util \
-		Chat/IRC/wizard \
 		Discovery \
 		FileFragments \
 		HostCache \
@@ -80,9 +74,6 @@ INCLUDEPATH += 3rdparty \
 		Transfers \
 		UI \
 		.
-
-include(3rdparty/libcommuni/src/src.pri)
-include(3rdparty/qtdocktile/qtdocktile.pri)
 
 # Version stuff
 MAJOR = 0
@@ -238,31 +229,6 @@ HEADERS += \
 		Chat/chatcore.h \
 		Chat/chatsession.h \
 		Chat/chatsessiong2.h \
-		Chat/IRC/channelinfo.h \
-		Chat/IRC/commandparser.h \
-		Chat/IRC/connectioninfo.h \
-		Chat/IRC/gui/3rdparty/fancylineedit.h \
-		Chat/IRC/gui/addviewdialog.h \
-		Chat/IRC/gui/lineeditor.h \
-		Chat/IRC/gui/menufactory.h \
-		Chat/IRC/gui/multisessiontabwidget.h \
-		Chat/IRC/gui/searcheditor.h \
-		Chat/IRC/gui/sessiontabwidget.h \
-		Chat/IRC/gui/sessiontreedelegate.h \
-		Chat/IRC/gui/sessiontreeitem.h \
-		Chat/IRC/gui/sessiontreewidget.h \
-		Chat/IRC/gui/util/completer.h \
-		Chat/IRC/gui/util/historylineedit.h \
-		Chat/IRC/gui/util/sharedtimer.h \
-		Chat/IRC/gui/util/textbrowser.h \
-		Chat/IRC/homepage.h \
-		Chat/IRC/messageformatter.h \
-		Chat/IRC/messagehandler.h \
-		Chat/IRC/messagereceiver.h \
-		Chat/IRC/overlay.h \
-		Chat/IRC/session.h \
-		Chat/IRC/streamer.h \
-		Chat/IRC/toolbar.h \
 		commonfunctions.h \
 		Discovery/banneddiscoveryservice.h \
 		Discovery/discovery.h \
@@ -360,8 +326,6 @@ HEADERS += \
 		UI/dialogeditshares.h \
 		UI/dialogfiltersearch.h \
 		UI/dialoghashprogress.h \
-		UI/dialogirccolordialog.h \
-		UI/dialogircsettings.h \
 		UI/dialoglanguage.h \
 		UI/dialoglibrarysearch.h \
 		UI/dialogneighbourinfo.h \
@@ -390,7 +354,6 @@ HEADERS += \
 		UI/widgethome.h \
 		UI/widgethostcache.h \
 		UI/widgetircmain.h \
-		UI/widgetircmessageview.h \
 		UI/widgetlibrary.h \
 		UI/widgetlibraryview.h \
 		UI/widgetmedia.h \
@@ -409,7 +372,6 @@ HEADERS += \
 		UI/widgettransfers.h \
 		UI/widgetuploads.h \
 		UI/winmain.h \
-		UI/wizardircconnection.h \
 		UI/wizardquickstart.h \
 		UI/wizardtreewidget.h
 
@@ -438,27 +400,6 @@ SOURCES += \
 		Chat/chatcore.cpp \
 		Chat/chatsession.cpp \
 		Chat/chatsessiong2.cpp \
-		Chat/IRC/commandparser.cpp \
-		Chat/IRC/gui/3rdparty/fancylineedit.cpp \
-		Chat/IRC/gui/addviewdialog.cpp \
-		Chat/IRC/gui/lineeditor.cpp \
-		Chat/IRC/gui/menufactory.cpp \
-		Chat/IRC/gui/multisessiontabwidget.cpp \
-		Chat/IRC/gui/searcheditor.cpp \
-		Chat/IRC/gui/sessiontabwidget.cpp \
-		Chat/IRC/gui/sessiontreedelegate.cpp \
-		Chat/IRC/gui/sessiontreeitem.cpp \
-		Chat/IRC/gui/sessiontreewidget.cpp \
-		Chat/IRC/gui/util/completer.cpp \
-		Chat/IRC/gui/util/historylineedit.cpp \
-		Chat/IRC/gui/util/sharedtimer.cpp \
-		Chat/IRC/gui/util/textbrowser.cpp \
-		Chat/IRC/homepage.cpp \
-		Chat/IRC/messageformatter.cpp \
-		Chat/IRC/messagehandler.cpp \
-		Chat/IRC/session.cpp \
-		Chat/IRC/toolbar.cpp \
-		Chat/IRC/overlay.cpp \
 		commonfunctions.cpp \
 		Discovery/banneddiscoveryservice.cpp \
 		Discovery/discovery.cpp \
@@ -548,8 +489,6 @@ SOURCES += \
 		UI/dialogeditshares.cpp \
 		UI/dialogfiltersearch.cpp \
 		UI/dialoghashprogress.cpp \
-		UI/dialogirccolordialog.cpp \
-		UI/dialogircsettings.cpp \
 		UI/dialoglanguage.cpp \
 		UI/dialoglibrarysearch.cpp \
 		UI/dialogneighbourinfo.cpp \
@@ -577,7 +516,6 @@ SOURCES += \
 		UI/widgethome.cpp \
 		UI/widgethostcache.cpp \
 		UI/widgetircmain.cpp \
-		UI/widgetircmessageview.cpp \
 		UI/widgetlibrary.cpp \
 		UI/widgetlibraryview.cpp \
 		UI/widgetmedia.cpp \
@@ -596,7 +534,6 @@ SOURCES += \
 		UI/widgettransfers.cpp \
 		UI/widgetuploads.cpp \
 		UI/winmain.cpp \
-		UI/wizardircconnection.cpp \
 		UI/wizardtreewidget.cpp \
 		UI/wizardquickstart.cpp
 
@@ -633,8 +570,6 @@ FORMS += \
 		UI/dialogeditshares.ui \
 		UI/dialogfiltersearch.ui \
 		UI/dialoghashprogress.ui \
-		UI/dialogirccolordialog.ui \
-		UI/dialogircsettings.ui \
 		UI/dialoglanguage.ui \
 		UI/dialoglibrarysearch.ui \
 		UI/dialogneighbourinfo.ui \
@@ -658,7 +593,6 @@ FORMS += \
 		UI/widgethitmonitor.ui \
 		UI/widgethome.ui \
 		UI/widgethostcache.ui \
-		UI/widgetircmessageview.ui \
 		UI/widgetlibrary.ui \
 		UI/widgetlibraryview.ui \
 		UI/widgetmedia.ui \
@@ -676,8 +610,7 @@ FORMS += \
 		UI/widgettransfers.ui \
 		UI/widgetuploads.ui \
 		UI/winmain.ui \
-		UI/wizardquickstart.ui \
-		UI/wizardircconnection.ui
+		UI/wizardquickstart.ui
 
 TRANSLATIONS = \
 		Language/quazaa_af.ts \

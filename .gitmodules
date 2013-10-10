@@ -7,3 +7,6 @@
 [submodule "Quazaa/3rdparty/communi-desktop"]
 	path = Quazaa/3rdparty/communi-desktop
 	url = git@github.com:communi/communi-desktop.git
+[submodule "Quazaa/3rdparty/SingleApplication"]
+	path = Quazaa/3rdparty/SingleApplication
+	url = git@github.com:itay-grudev/SingleApplication.git
