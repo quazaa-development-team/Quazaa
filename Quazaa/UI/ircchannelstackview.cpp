@@ -204,12 +204,8 @@ void IrcChannelStackView::applySettings()
 
 	QStringList commands;
 	foreach (const QString& command, d.parser.availableCommands()) {
-		if(!d.parser.triggers().isEmpty()) {
-			foreach(const QString& trigger, d.parser.triggers())
-				commands += trigger + command;
-		} else {
-			commands += "/" + command;
-		}
+		foreach(const QString& trigger, d.parser.triggers())
+			commands += trigger + command;
 	}
 	d.commandModel.setStringList(commands);
 }
