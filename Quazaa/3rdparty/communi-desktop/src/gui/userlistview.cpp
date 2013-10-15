@@ -16,9 +16,9 @@
 #include "styledscrollbar.h"
 #include "itemdelegate.h"
 #include "menufactory.h"
+#include "ircuserlistmodel.h"
 #include <IrcChannel>
 #include <IrcConnection>
-#include <IrcUserModel>
 #include <QSortFilterProxyModel>
 #include <QItemSelectionModel>
 #include <QContextMenuEvent>
@@ -27,12 +27,12 @@
 
 UserListView::UserListView(QWidget* parent) : QListView(parent)
 {
-    d.menuFactory = 0;
-    setItemDelegate(new ItemDelegate(this));
-    connect(this, SIGNAL(doubleClicked(QModelIndex)), SLOT(onDoubleClicked(QModelIndex)));
+	d.menuFactory = 0;
+	setItemDelegate(new ItemDelegate(this));
+	connect(this, SIGNAL(doubleClicked(QModelIndex)), SLOT(onDoubleClicked(QModelIndex)));
 
-    setVerticalScrollBar(new StyledScrollBar(this));
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setVerticalScrollBar(new StyledScrollBar(this));
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 UserListView::~UserListView()
@@ -41,85 +41,85 @@ UserListView::~UserListView()
 
 QSize UserListView::sizeHint() const
 {
-    return QSize(16 * fontMetrics().width('#') + verticalScrollBar()->sizeHint().width(), QListView::sizeHint().height());
+	return QSize(16 * fontMetrics().width('#') + verticalScrollBar()->sizeHint().width(), QListView::sizeHint().height());
 }
 
 IrcConnection* UserListView::connection() const
 {
-    return d.connection;
+	return d.connection;
 }
 
 void UserListView::setConnection(IrcConnection* connection)
 {
-    d.connection = connection;
+	d.connection = connection;
 }
 
 IrcChannel* UserListView::channel() const
 {
-    return d.channel;
+	return d.channel;
 }
 
 void UserListView::setChannel(IrcChannel* channel)
 {
-    if (d.channel != channel) {
-        d.channel = channel;
-        if (!d.userModel) {
-            d.userModel = new IrcUserModel(channel);
-            d.userModel->setDynamicSort(true);
-            setModel(d.userModel);
-        }
-        d.userModel->setChannel(channel);
-    }
+	if (d.channel != channel) {
+		d.channel = channel;
+		if (!d.userModel) {
+			d.userModel = new IrcUserListModel(channel);
+			d.userModel->setDynamicSort(true);
+			setModel(d.userModel);
+		}
+		d.userModel->setChannel(channel);
+	}
 }
 
-IrcUserModel* UserListView::userModel() const
+IrcUserListModel *UserListView::userModel() const
 {
-    return d.userModel;
+	return d.userModel;
 }
 
 bool UserListView::hasUser(const QString& user) const
 {
-    if (d.userModel)
-        return d.userModel->contains(user);
-    return false;
+	if (d.userModel)
+		return d.userModel->contains(user);
+	return false;
 }
 
 MenuFactory* UserListView::menuFactory() const
 {
-    if (!d.menuFactory) {
-        UserListView* that = const_cast<UserListView*>(this);
-        that->d.menuFactory = new MenuFactory(that);
-    }
-    return d.menuFactory;
+	if (!d.menuFactory) {
+		UserListView* that = const_cast<UserListView*>(this);
+		that->d.menuFactory = new MenuFactory(that);
+	}
+	return d.menuFactory;
 }
 
 void UserListView::setMenuFactory(MenuFactory* factory)
 {
-    if (d.menuFactory && d.menuFactory->parent() == this)
-        delete d.menuFactory;
-    d.menuFactory = factory;
+	if (d.menuFactory && d.menuFactory->parent() == this)
+		delete d.menuFactory;
+	d.menuFactory = factory;
 }
 
 void UserListView::contextMenuEvent(QContextMenuEvent* event)
 {
-    QModelIndex index = indexAt(event->pos());
-    if (index.isValid()) {
-        QMenu* menu = menuFactory()->createUserListMenu(index.data(Irc::PrefixRole).toString(),
-                                                        index.data(Irc::NameRole).toString(), this);
-        menu->exec(event->globalPos());
-        menu->deleteLater();
-    }
+	QModelIndex index = indexAt(event->pos());
+	if (index.isValid()) {
+		QMenu* menu = menuFactory()->createUserListMenu(index.data(Irc::PrefixRole).toString(),
+														index.data(Irc::NameRole).toString(), this);
+		menu->exec(event->globalPos());
+		menu->deleteLater();
+	}
 }
 
 void UserListView::mousePressEvent(QMouseEvent* event)
 {
-    QListView::mousePressEvent(event);
-    if (!indexAt(event->pos()).isValid())
-        selectionModel()->clear();
+	QListView::mousePressEvent(event);
+	if (!indexAt(event->pos()).isValid())
+		selectionModel()->clear();
 }
 
 void UserListView::onDoubleClicked(const QModelIndex& index)
 {
-    if (index.isValid())
-        emit doubleClicked(index.data(Irc::NameRole).toString());
+	if (index.isValid())
+		emit doubleClicked(index.data(Irc::NameRole).toString());
 }

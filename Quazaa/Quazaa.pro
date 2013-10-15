@@ -382,7 +382,8 @@ HEADERS += \
     3rdparty/SingleApplication/localserver.h \
     UI/dialogircsettings.h \
     UI/dialogirccolordialog.h \
-    UI/wizardircconnection.h
+    UI/wizardircconnection.h \
+    Models/ircuserlistmodel.h
 
 win32 {
 		HEADERS += \
@@ -549,7 +550,8 @@ SOURCES += \
     3rdparty/SingleApplication/localserver.cpp \
     UI/dialogircsettings.cpp \
     UI/dialogirccolordialog.cpp \
-    UI/wizardircconnection.cpp
+    UI/wizardircconnection.cpp \
+    Models/ircuserlistmodel.cpp
 
 win32 {
 		SOURCES += \

@@ -23,49 +23,49 @@ class IrcConnection;
 class IrcMessage;
 class IrcCommand;
 class MenuFactory;
-class IrcUserModel;
+class IrcUserListModel;
 
 class UserListView : public QListView
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    UserListView(QWidget* parent = 0);
-    ~UserListView();
+	UserListView(QWidget* parent = 0);
+	~UserListView();
 
-    QSize sizeHint() const;
+	QSize sizeHint() const;
 
-    IrcConnection* connection() const;
-    void setConnection(IrcConnection* connection);
+	IrcConnection* connection() const;
+	void setConnection(IrcConnection* connection);
 
-    IrcChannel* channel() const;
-    void setChannel(IrcChannel* channel);
+	IrcChannel* channel() const;
+	void setChannel(IrcChannel* channel);
 
-    IrcUserModel* userModel() const;
-    bool hasUser(const QString& user) const;
+	IrcUserListModel* userModel() const;
+	bool hasUser(const QString& user) const;
 
-    MenuFactory* menuFactory() const;
-    void setMenuFactory(MenuFactory* factory);
+	MenuFactory* menuFactory() const;
+	void setMenuFactory(MenuFactory* factory);
 
 signals:
-    void queried(const QString& user);
-    void doubleClicked(const QString& user);
-    void commandRequested(IrcCommand* command);
+	void queried(const QString& user);
+	void doubleClicked(const QString& user);
+	void commandRequested(IrcCommand* command);
 
 protected:
-    void contextMenuEvent(QContextMenuEvent* event);
-    void mousePressEvent(QMouseEvent* event);
+	void contextMenuEvent(QContextMenuEvent* event);
+	void mousePressEvent(QMouseEvent* event);
 
 private slots:
-    void onDoubleClicked(const QModelIndex& index);
+	void onDoubleClicked(const QModelIndex& index);
 
 private:
-    struct Private {
-        MenuFactory* menuFactory;
-        QPointer<IrcChannel> channel;
-        QPointer<IrcConnection> connection;
-        QPointer<IrcUserModel> userModel;
-    } d;
+	struct Private {
+		MenuFactory* menuFactory;
+		QPointer<IrcChannel> channel;
+		QPointer<IrcConnection> connection;
+		QPointer<IrcUserListModel> userModel;
+	} d;
 };
 
 #endif // USERLISTVIEW_H

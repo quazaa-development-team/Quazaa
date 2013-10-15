@@ -34,7 +34,7 @@
 #include <QMenu>
 #include <QUrl>
 #include <irctextformat.h>
-#include <ircusermodel.h>
+#include <ircuserlistmodel.h>
 #include <ircmessage.h>
 #include <irccommand.h>
 #include <ircchannel.h>
@@ -208,7 +208,7 @@ void MessageView::setBuffer(IrcBuffer* buffer)
 	if (d.buffer != buffer) {
 		if (IrcChannel* channel = qobject_cast<IrcChannel*>(buffer)) {
 			d.listView->setChannel(channel);
-			IrcUserModel* activityModel = new IrcUserModel(channel);
+			IrcUserListModel* activityModel = new IrcUserListModel(channel);
 			activityModel->setSortMethod(Irc::SortByActivity);
 			activityModel->setDynamicSort(true);
 			d.lineEditor->completer()->setUserModel(activityModel);
@@ -647,7 +647,7 @@ void MessageView::receiveMessage(IrcMessage* message)
 	}
 
 	options.nickName = d.connection->nickName();
-	if (IrcUserModel* model = d.listView->userModel())
+	if (IrcUserListModel* model = d.listView->userModel())
 		options.users = model->names();
 	options.stripNicks = d.stripNicks;
 	options.timeStampFormat = d.timeStampFormat;
