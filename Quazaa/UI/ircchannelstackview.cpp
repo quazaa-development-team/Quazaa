@@ -202,8 +202,10 @@ void IrcChannelStackView::applySettings()
 	d.parser.setAliases(quazaaSettings.Chat.Aliases);
 
 	QStringList commands;
-	foreach (const QString& command, d.parser.availableCommands())
-		commands += d.parser.prefix() + command;
+	foreach (const QString& command, d.parser.availableCommands()) {
+		foreach(const QString& trigger, d.parser.triggers())
+			commands += trigger + command;
+	}
 	d.commandModel.setStringList(commands);
 }
 

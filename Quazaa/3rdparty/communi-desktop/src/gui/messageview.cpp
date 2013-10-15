@@ -279,7 +279,7 @@ void MessageView::sendMessage(const QString& text)
 			modify.prepend(tr("/quote "));
 			sendMessage(modify);
 		} else {
-			d.parser->setCurrentTarget(d.receiver);
+			d.parser->setTarget(d.receiver);
 			IrcCommand* cmd = d.parser->parseCommand(message);
 			if (cmd) {
 				if (cmd->type() == IrcCommand::Quote)
@@ -558,18 +558,18 @@ void MessageView::receiveMessage(IrcMessage* message)
 	switch (message->type()) {
 		case IrcMessage::Private: {
 			if (message->nick() == QLatin1String("***") && message->ident() == QLatin1String("znc")) {
-				QString content = static_cast<IrcPrivateMessage*>(message)->message();
+				QString content = static_cast<IrcPrivateMessage*>(message)->content();
 				if (content == QLatin1String("Buffer Playback..."))
 					ignore = true;
 				else if (content == QLatin1String("Playback Complete."))
 					ignore = true;
 			}
-			if (static_cast<IrcPrivateMessage*>(message)->message().contains(d.connection->nickName()))
+			if (static_cast<IrcPrivateMessage*>(message)->content().contains(d.connection->nickName()))
 				options.highlight = true;
 			break;
 		}
 		case IrcMessage::Notice:
-			if (static_cast<IrcNoticeMessage*>(message)->message().contains(d.connection->nickName()))
+			if (static_cast<IrcNoticeMessage*>(message)->content().contains(d.connection->nickName()))
 				options.highlight = true;
 			break;
 		case IrcMessage::Topic:
