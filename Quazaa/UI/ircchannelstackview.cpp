@@ -42,6 +42,7 @@ IrcChannelStackView::IrcChannelStackView(IrcConnection* connection, QWidget* par
 	connect(&d.handler, SIGNAL(viewToBeRenamed(QString, QString)), this, SLOT(renameView(QString, QString)));
 
 	d.parser.setTolerant(true);
+	d.parser.setTriggers(QStringList() << "/");
 	d.lagTimer = new IrcLagTimer(d.connection);
 
 	MessageView* view = addView(connection->host());
@@ -203,8 +204,12 @@ void IrcChannelStackView::applySettings()
 
 	QStringList commands;
 	foreach (const QString& command, d.parser.availableCommands()) {
-		foreach(const QString& trigger, d.parser.triggers())
-			commands += trigger + command;
+		if(!d.parser.triggers().isEmpty()) {
+			foreach(const QString& trigger, d.parser.triggers())
+				commands += trigger + command;
+		} else {
+			commands += "/" + command;
+		}
 	}
 	d.commandModel.setStringList(commands);
 }
