@@ -219,7 +219,19 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 	CG2Node* pLastNeighbour = NULL;
 	CHostCacheHost* pHost   = NULL;
 
+#if ENABLE_HOST_CACHE_BENCHMARKING
+	QElapsedTimer tHostCacheLock;
+	tHostCacheLock.start();
+#endif
+
 	QMutexLocker oHostCacheLock( &hostCache.m_pSection );
+
+#if ENABLE_HOST_CACHE_BENCHMARKING
+	const qint64 tHCLock = tHostCacheLock.elapsed();
+	qint64 tHCWork = 0, tHCWorkStart = 0;
+	QElapsedTimer tHostCacheWork;
+	tHostCacheWork.start();
+#endif
 
 	THCLVector::iterator itFailures = hostCache.m_vlHosts.begin();
 	while ( itFailures != hostCache.m_vlHosts.end() )
@@ -258,6 +270,11 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 				continue;
 			}
 			Neighbours.m_pSection.unlock();
+
+#if ENABLE_HOST_CACHE_BENCHMARKING
+			// at this point we've got a valid host
+			tHCWork += tHostCacheWork.elapsed() - tHCWorkStart;
+#endif
 
 			CEndPoint pReceiver;
 
@@ -398,9 +415,29 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 				break;
 			}
 
+#if ENABLE_HOST_CACHE_BENCHMARKING
+			// now we start with a new search for an agreeable host to search
+			tHCWorkStart = tHostCacheWork.elapsed();
+#endif
+
 			pHost = NULL;
 		}
 	}
+
+#if ENABLE_HOST_CACHE_BENCHMARKING
+	tHCWork += tHostCacheWork.elapsed() - tHCWorkStart;
+
+	oHostCacheLock.unlock();
+
+	hostCache.m_nLockWaitTime.fetchAndAddRelaxed( tHCLock );
+	hostCache.m_nWorkTime.fetchAndAddRelaxed( tHCWork );
+
+	qDebug() << "[HostCache]"
+			 << " Total lock wait time: "
+			 << QString::number( hostCache.m_nLockWaitTime.load() ).toLocal8Bit().data()
+			 << " Total work time: "
+			 << QString::number( hostCache.m_nWorkTime.load()     ).toLocal8Bit().data();
+#endif
 }
 
 void CManagedSearch::sendG2Query(CEndPoint pReceiver, CHostCacheHost* pHost, quint32* pnMaxPackets, const QDateTime& tNowDT)

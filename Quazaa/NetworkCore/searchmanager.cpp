@@ -281,13 +281,13 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		// Add hubs to the cache
 		if( Q_LIKELY(!bLikelyFoxy) )
 		{
-			for( QList<CEndPoint>::iterator itHub = lDone.begin(); itHub != lDone.end(); itHub++ )
+			for( QList<CEndPoint>::iterator itHub = lDone.begin(); itHub != lDone.end(); ++itHub )
 			{
 				if( (*itHub).port() )
 					hostCache.add(*itHub, tNow);
 			}
 
-			for( QHash<CEndPoint, quint32>::iterator itHub = lSuggested.begin(); itHub != lSuggested.end(); itHub++ )
+			for( QHash<CEndPoint, quint32>::iterator itHub = lSuggested.begin(); itHub != lSuggested.end(); ++itHub )
 			{
 				if( itHub.key().port() )
 					hostCache.add(itHub.key(), itHub.value());
@@ -305,7 +305,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 			securityManager.ban(oBanned, Security::ban6Hours, true, tr("[AUTO] Likely Foxy client"));
 
 			hostCache.m_pSection.lock();
-			for( QList<CEndPoint>::iterator itHub = lDone.begin(); itHub != lDone.end(); itHub++ )
+			for( QList<CEndPoint>::iterator itHub = lDone.begin(); itHub != lDone.end(); ++itHub )
 			{
 				// TODO: fix this. the hosts dont need to be removed if they have been banned by the security manager.
 				hostCache.remove(*itHub);

@@ -46,6 +46,10 @@ CHostCache hostCache;
  * @brief CHostCache::CHostCache Constructor.
  */
 CHostCache::CHostCache():
+#if ENABLE_HOST_CACHE_BENCHMARKING
+	m_nLockWaitTime( 0 ),
+	m_nWorkTime( 0 ),
+#endif
 	m_tLastSave( common::getTNowUTC() ),
 	m_nSizeAtomic( 0 )
 {

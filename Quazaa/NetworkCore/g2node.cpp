@@ -1208,8 +1208,24 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 
 	const quint32 tNow = common::getTNowUTC();
 
+//#if ENABLE_HOST_CACHE_BENCHMARKING
+//	QElapsedTimer tHostCache;
+//	tHostCache.start();
+//#endif
+
 	QMutexLocker l( &hostCache.m_pSection );
+
+//#if ENABLE_HOST_CACHE_BENCHMARKING
+//	qint64 tHCLock = tHostCache.elapsed();
+//	QElapsedTimer tHostCacheWork;
+//	tHostCacheWork.start();
+//#endif
+
 	CHostCacheHost* pHost = bCacheOK ? hostCache.get( addr ) : NULL;
+
+//#if ENABLE_HOST_CACHE_BENCHMARKING
+//	qint64 tHCWork = tHostCacheWork.elapsed();
+//#endif
 
 	if ( pHost && pHost->queryKey() && pHost->keyHost() == Network.m_oAddress &&
 		 tNow - pHost->keyTime() < quazaaSettings.Gnutella2.QueryKeyTime )
@@ -1251,6 +1267,12 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 		Datagrams.SendPacket( addr, pQKR, false );
 		pQKR->Release();
 	}
+
+//#if ENABLE_HOST_CACHE_BENCHMARKING
+//	l.unlock();
+//	hostCache.m_nLockWaitTime.fetchAndAddRelaxed( tHCLock );
+//	hostCache.m_nWorkTime.fetchAndAddRelaxed( tHCWork );
+//#endif
 }
 
 void CG2Node::OnQKA(G2Packet* pPacket)
