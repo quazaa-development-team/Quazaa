@@ -35,7 +35,7 @@
 #include "queryhashtable.h"
 #include "queryhashmaster.h"
 #include "hubhorizon.h"
-#include "Security/securitymanager.h"
+#include "securitymanager.h"
 
 #include "HostCache/hostcache.h"
 

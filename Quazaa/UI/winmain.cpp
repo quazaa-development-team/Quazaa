@@ -130,7 +130,7 @@ CWinMain::CWinMain(QWidget* parent) :
 	ui->stackedWidgetMain->addWidget(pageSecurity);
 	pageActivity = new CWidgetActivity();
 	ui->stackedWidgetMain->addWidget(pageActivity);
-    pageIrcMain = new CWidgetIrcMain();
+	pageIrcMain = new CWidgetIrcMain();
 	ui->stackedWidgetMain->addWidget(pageIrcMain);
 	pageHostCache = new CWidgetHostCache;
 	ui->stackedWidgetMain->addWidget(pageHostCache);
@@ -784,7 +784,7 @@ void CWinMain::on_actionAres_triggered(bool checked)
 void CWinMain::startNewSearch(QString* searchString)
 {
 	ui->stackedWidgetMain->setCurrentIndex(3);
-    ui->actionSearch->setChecked(true);
+	ui->actionSearch->setChecked(true);
 	pageSearch->startNewSearch(searchString);
 }
 

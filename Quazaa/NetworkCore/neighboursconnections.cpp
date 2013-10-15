@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -32,17 +32,17 @@
 #include "neighbours.h"
 #include "thread.h"
 #include "commonfunctions.h"
-#include "Security/securitymanager.h"
+#include "securitymanager.h"
 
 #include "debug_new.h"
 
 CNeighboursConnections::CNeighboursConnections(QObject* parent) :
-    CNeighboursRouting(parent),
-    m_pController(0),
-    m_nHubsConnectedG2(0),
-    m_nLeavesConnectedG2(0),
-    m_nUnknownInitiated(0),
-    m_nUnknownIncoming(0)
+	CNeighboursRouting(parent),
+	m_pController(0),
+	m_nHubsConnectedG2(0),
+	m_nLeavesConnectedG2(0),
+	m_nUnknownInitiated(0),
+	m_nUnknownIncoming(0)
 {
 }
 CNeighboursConnections::~CNeighboursConnections()
@@ -143,7 +143,7 @@ void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int
 				if( nProtocol == dpG2 )
 				{
 					if( ((CG2Node*)(*i))->m_nType != nType // if node type is not requested type
-					    || (!bCore && ((CG2Node*)(*i))->m_bG2Core) ) // or we don't want to disconnect "our" nodes
+						|| (!bCore && ((CG2Node*)(*i))->m_bG2Core) ) // or we don't want to disconnect "our" nodes
 					{
 						continue;
 					}
@@ -279,8 +279,8 @@ void CNeighboursConnections::Maintain()
 				CHostCacheHost* pHost;
 				QString sCountry;
 				sCountry = bCountry ? ( quazaaSettings.Connection.PreferredCountries.size() ?
-				                        quazaaSettings.Connection.PreferredCountries.at(nCountry) :
-				                        Network.m_oAddress.country() ) : "ZZ";
+										quazaaSettings.Connection.PreferredCountries.at(nCountry) :
+										Network.m_oAddress.country() ) : "ZZ";
 				pHost = hostCache.getConnectable( tNow, oExcept, sCountry );
 
 				if ( pHost )

@@ -62,6 +62,7 @@ UI_DIR = temp/uic
 
 INCLUDEPATH += 3rdparty \
 		3rdparty/nvwa \
+		3rdparty/SingleApplication \
 		Chat \
 		Discovery \
 		FileFragments \
@@ -69,11 +70,14 @@ INCLUDEPATH += 3rdparty \
 		Misc \
 		Models \
 		NetworkCore \
+		Security \
 		ShareManager \
 		Skin \
 		Transfers \
 		UI \
 		.
+
+include(3rdparty/communi-desktop/src/src.pri)
 
 # Version stuff
 MAJOR = 0
@@ -224,7 +228,6 @@ HEADERS += \
 		3rdparty/nvwa/debug_new.h \
 		3rdparty/nvwa/fast_mutex.h \
 		3rdparty/nvwa/static_assert.h \
-		application.h \
 		Chat/chatconverter.h \
 		Chat/chatcore.h \
 		Chat/chatsession.h \
@@ -256,7 +259,7 @@ HEADERS += \
 		Models/discoverytablemodel.h \
 		Models/downloadstreemodel.h \
 		Models/downloadspeermodel.h \
-		Models/ircuserlistmodel.h \
+		#Models/ircuserlistmodel.h \
 		Models/neighbourstablemodel.h \
 		Models/searchtreemodel.h \
 		Models/securitytablemodel.h \
@@ -340,7 +343,6 @@ HEADERS += \
 		UI/dialogsplash.h \
 		UI/dialogtorrentproperties.h \
 		UI/dialogtransferprogresstooltip.h \
-		UI/listviewircusers.h \
 		UI/suggestedlineedit.h \
 		UI/tableview.h \
 		UI/tabwidget.h \
@@ -373,7 +375,14 @@ HEADERS += \
 		UI/widgetuploads.h \
 		UI/winmain.h \
 		UI/wizardquickstart.h \
-		UI/wizardtreewidget.h
+		UI/wizardtreewidget.h \
+	Chat/chatcompleter.h \
+	UI/ircchannelstackview.h \
+    3rdparty/SingleApplication/singleapplication.h \
+    3rdparty/SingleApplication/localserver.h \
+    UI/dialogircsettings.h \
+    UI/dialogirccolordialog.h \
+    UI/wizardircconnection.h
 
 win32 {
 		HEADERS += \
@@ -395,7 +404,6 @@ SOURCES += \
 		3rdparty/CyoEncode/CyoDecode.c \
 		3rdparty/CyoEncode/CyoEncode.c \
 		3rdparty/nvwa/debug_new.cpp \
-		application.cpp \
 		Chat/chatconverter.cpp \
 		Chat/chatcore.cpp \
 		Chat/chatsession.cpp \
@@ -420,7 +428,7 @@ SOURCES += \
 		Models/discoverytablemodel.cpp \
 		Models/downloadstreemodel.cpp \
 		Models/downloadspeermodel.cpp \
-		Models/ircuserlistmodel.cpp \
+		#Models/ircuserlistmodel.cpp \
 		Models/neighbourstablemodel.cpp \
 		Models/searchtreemodel.cpp \
 		Models/securitytablemodel.cpp \
@@ -503,7 +511,6 @@ SOURCES += \
 		UI/dialogsplash.cpp \
 		UI/dialogtorrentproperties.cpp \
 		UI/dialogtransferprogresstooltip.cpp \
-		UI/listviewircusers.cpp \
 		UI/suggestedlineedit.cpp \
 		UI/tableview.cpp \
 		UI/tabwidget.cpp \
@@ -535,7 +542,14 @@ SOURCES += \
 		UI/widgetuploads.cpp \
 		UI/winmain.cpp \
 		UI/wizardtreewidget.cpp \
-		UI/wizardquickstart.cpp
+		UI/wizardquickstart.cpp \
+	Chat/chatcompleter.cpp \
+	UI/ircchannelstackview.cpp \
+    3rdparty/SingleApplication/singleapplication.cpp \
+    3rdparty/SingleApplication/localserver.cpp \
+    UI/dialogircsettings.cpp \
+    UI/dialogirccolordialog.cpp \
+    UI/wizardircconnection.cpp
 
 win32 {
 		SOURCES += \
@@ -610,7 +624,10 @@ FORMS += \
 		UI/widgettransfers.ui \
 		UI/widgetuploads.ui \
 		UI/winmain.ui \
-		UI/wizardquickstart.ui
+		UI/wizardquickstart.ui \
+    UI/dialogircsettings.ui \
+    UI/dialogirccolordialog.ui \
+    UI/wizardircconnection.ui
 
 TRANSLATIONS = \
 		Language/quazaa_af.ts \

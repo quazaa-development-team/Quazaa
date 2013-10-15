@@ -39,7 +39,7 @@ CWidgetReturnEmitTextEdit::CWidgetReturnEmitTextEdit(QWidget *parent)
 {
 	Q_UNUSED(parent);
 	resetHistoryIndex();
-	m_oCompleter = new Completer(this);
+	m_oCompleter = new ChatCompleter(this);
 	m_oCompleter->setWidget(this);
     m_oCompleter->setTextEdit(this);
 
@@ -118,7 +118,7 @@ void CWidgetReturnEmitTextEdit::keyPressEvent(QKeyEvent *event)
 	}
 }
 
-Completer* CWidgetReturnEmitTextEdit::completer() const
+ChatCompleter* CWidgetReturnEmitTextEdit::completer() const
 {
 	return m_oCompleter;
 }

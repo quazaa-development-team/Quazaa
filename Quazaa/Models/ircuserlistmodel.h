@@ -30,6 +30,7 @@
 #include <QStringList>
 #include <QIcon>
 #include <QHash>
+#include "ircchannel.h"
 
 class Session;
 class IrcMessage;
@@ -72,7 +73,7 @@ class IrcUserListModel : public QAbstractListModel
 {
 	Q_OBJECT
 public:
-    IrcUserListModel();
+	IrcUserListModel();
 	~IrcUserListModel();
 
 	Session* session() const;

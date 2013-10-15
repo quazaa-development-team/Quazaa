@@ -34,7 +34,7 @@
 #include "systemlog.h"
 #include "querykeys.h"
 #include "query.h"
-#include "Security/securitymanager.h"
+#include "securitymanager.h"
 
 #include "HostCache/hostcache.h"
 

@@ -22,7 +22,7 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "application.h"
+#include "singleapplication.h"
 
 #include "winmain.h"
 #include "quazaaglobals.h"
@@ -41,12 +41,11 @@
 #include "hostcache.h"
 
 #include "Discovery/discovery.h"
-#include "Security/securitymanager.h"
+#include "securitymanager.h"
 
 #include <QNetworkProxy>
 #include <QtPlugin>
 #include <QUrl>
-#include <Irc>
 #include <QIcon>
 
 #ifdef Q_OS_LINUX
@@ -81,7 +80,9 @@ CQuazaaGlobals quazaaGlobals;
 
 int main(int argc, char *argv[])
 {
-	CApplication theApp( argc, argv );
+	SingleApplication theApp( argc, argv );
+
+	if(!theApp.shouldContinue())return 0;
 
 	QStringList args = theApp.arguments();
 
@@ -101,7 +102,7 @@ int main(int argc, char *argv[])
 	else if ( !qgetenv( "COMMUNI_ENCODING" ).isEmpty())
 		encoding = qgetenv( "COMMUNI_ENCODING" );
 	if ( !encoding.isEmpty() )
-		CApplication::setEncoding( encoding );
+		SingleApplication::setEncoding( encoding );
 
 
 // To enable this, run qmake with "DEFINES+=_SNAPSHOT_BUILD"

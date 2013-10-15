@@ -30,7 +30,7 @@
 #include "hostcache.h"
 #include "network.h"
 #include <QMetaType>
-#include "Security/securitymanager.h"
+#include "securitymanager.h"
 
 #include "quazaasettings.h"
 #include "commonfunctions.h"

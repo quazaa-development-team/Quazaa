@@ -103,7 +103,7 @@ void CQuazaaSettings::saveSettings()
 	m_qSettings.setValue("TimeoutConnect", quazaaSettings.Connection.TimeoutConnect);
 	m_qSettings.setValue("TimeoutTraffic", quazaaSettings.Connection.TimeoutTraffic);
 	m_qSettings.setValue("PreferredCountries", quazaaSettings.Connection.PreferredCountries);
-    m_qSettings.setValue("UDPOutLimitPPS", quazaaSettings.Connection.UDPOutLimitPPS);
+	m_qSettings.setValue("UDPOutLimitPPS", quazaaSettings.Connection.UDPOutLimitPPS);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Discovery");
@@ -526,9 +526,9 @@ void CQuazaaSettings::loadSettings()
 	quazaaSettings.Connection.TimeoutConnect = m_qSettings.value("TimeoutConnect", 16).toUInt();
 	quazaaSettings.Connection.TimeoutTraffic = m_qSettings.value("TimeoutTraffic", 60).toUInt();
 	quazaaSettings.Connection.PreferredCountries = m_qSettings.value("PreferredCountries", QStringList()).toStringList();
-    quazaaSettings.Connection.UDPOutLimitPPS = m_qSettings.value("UDPOutLimitPPS", 128).toUInt();
-    if( quazaaSettings.Connection.UDPOutLimitPPS < 10 )
-        quazaaSettings.Connection.UDPOutLimitPPS = 10; // failsafe
+	quazaaSettings.Connection.UDPOutLimitPPS = m_qSettings.value("UDPOutLimitPPS", 128).toUInt();
+	if( quazaaSettings.Connection.UDPOutLimitPPS < 10 )
+		quazaaSettings.Connection.UDPOutLimitPPS = 10; // failsafe
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Discovery");
@@ -1002,20 +1002,19 @@ void CQuazaaSettings::saveChat()
 	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
 	m_qSettings.setValue("TimeStampFormat", quazaaSettings.Chat.TimestampFormat);
-	m_qSettings.setValue("MaxBlockCount", quazaaSettings.Chat.MaxBlockCount);
-	m_qSettings.setValue("Layout", quazaaSettings.Chat.Layout);
+	m_qSettings.setValue("MaxBlockCount", quazaaSettings.Chat.Scrollback);
 	m_qSettings.setValue("StripNicks", quazaaSettings.Chat.StripNicks);
+	m_qSettings.setValue("DarkTheme", quazaaSettings.Chat.DarkTheme);
 
-
-	m_qSettings.setValue("ShortcutsNavigateUp", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateUp]);
-	m_qSettings.setValue("ShortcutsNavigateDown", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateDown]);
-	m_qSettings.setValue("ShortcutsNavigateLeft", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateLeft]);
-	m_qSettings.setValue("ShortcutsNavigateRight", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateRight]);
-
-	m_qSettings.setValue("ShortcutsNextUnreadUp", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadUp]);
-	m_qSettings.setValue("ShortcutsNextUnreadDown", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadDown]);
-	m_qSettings.setValue("ShortcutsNextUnreadLeft", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadLeft]);
-	m_qSettings.setValue("ShortcutsNextUnreadRight", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadRight]);
+	m_qSettings.setValue("ShortcutNextView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextView]);
+	m_qSettings.setValue("ShortcutPreviousView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::PreviousView]);
+	m_qSettings.setValue("ShortcutNextActiveView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextActiveView]);
+	m_qSettings.setValue("ShortcutPreviousActiveView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::PreviousActiveView]);
+	m_qSettings.setValue("ShortcutMostActiveView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::MostActiveView]);
+	m_qSettings.setValue("ShortcutExpandView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::ExpandView]);
+	m_qSettings.setValue("ShortcutCollapseView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::CollapseView]);
+	m_qSettings.setValue("ShortcutSearchView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::SearchView]);
+	m_qSettings.setValue("ShortcutResetViews", quazaaSettings.Chat.Shortcuts[IrcShortcutType::ResetViews]);
 
 	m_qSettings.setValue("MessagesJoins", quazaaSettings.Chat.Messages[IrcMessageType::Joins]);
 	m_qSettings.setValue("MessagesParts", quazaaSettings.Chat.Messages[IrcMessageType::Parts]);
@@ -1088,27 +1087,27 @@ void CQuazaaSettings::loadChat()
 	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
 	quazaaSettings.Chat.TimestampFormat = m_qSettings.value("TimeStampFormat", "[hh:mm:ss]").toString();
-	quazaaSettings.Chat.MaxBlockCount = m_qSettings.value("MaxBlockCount", -1).toInt();
-	quazaaSettings.Chat.Layout = m_qSettings.value("Layout", "tree").toString();
+	quazaaSettings.Chat.Scrollback = m_qSettings.value("MaxBlockCount", -1).toInt();
 	quazaaSettings.Chat.StripNicks = m_qSettings.value("StripNicks", false).toBool();
+	quazaaSettings.Chat.DarkTheme = m_qSettings.value("DarkTheme", false).toBool();
 
 #ifdef Q_OS_MAC
 	QString navigate("Ctrl+Alt+%1");
-	QString nextUnread("Shift+Ctrl+Alt+%1");
+	QString nextActive("Shift+Ctrl+Alt+%1");
 #else
 	QString navigate("Alt+%1");
-	QString nextUnread("Shift+Alt+%1");
+	QString nextActive("Shift+Alt+%1");
 #endif
 
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateUp] = m_qSettings.value("ShortcutsNavigateUp", navigate.arg("Up")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateDown] = m_qSettings.value("ShortcutsNavigateDown", navigate.arg("Down")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateLeft] = m_qSettings.value("ShortcutsNavigateLeft", navigate.arg("Left")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateRight] = m_qSettings.value("ShortcutsNavigateRight", navigate.arg("Right")).toString();
-
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadUp] = m_qSettings.value("ShortcutsNextUnreadUp", nextUnread.arg("Up")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadDown] = m_qSettings.value("ShortcutsNextUnreadDown", nextUnread.arg("Down")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadLeft] = m_qSettings.value("ShortcutsNextUnreadLeft", nextUnread.arg("Left")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadRight] = m_qSettings.value("ShortcutsNextUnreadRight", nextUnread.arg("Right")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::PreviousView] = m_qSettings.value("ShortcutPreviousView", navigate.arg("Up")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextView] = m_qSettings.value("ShortcutNextView", navigate.arg("Down")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::CollapseView] = m_qSettings.value("ShortcutCollapseView", navigate.arg("Left")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::ExpandView] = m_qSettings.value("ShortcutExpandView", navigate.arg("Right")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::PreviousActiveView] = m_qSettings.value("ShortcutPreviousActiveView", nextActive.arg("Up")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextActiveView] = m_qSettings.value("ShortcutNextActiveView", nextActive.arg("Down")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::MostActiveView] = m_qSettings.value("ShortcutMostActiveView", "Ctrl+L").toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::SearchView] = m_qSettings.value("ShortcutSearchView", "Ctrl+S").toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::ResetViews] = m_qSettings.value("ShortcutResetViews", "Ctrl+R").toString();
 
 	quazaaSettings.Chat.Messages[IrcMessageType::Joins] =  m_qSettings.value("MessagesJoins", true).toBool();
 	quazaaSettings.Chat.Messages[IrcMessageType::Parts] = m_qSettings.value("MessagesParts", true).toBool();
@@ -1129,7 +1128,7 @@ void CQuazaaSettings::loadChat()
 	// TODO: the default values should respect palette
 	quazaaSettings.Chat.Colors[IrcColorType::Background] = m_qSettings.value("ColorsBackground", "white").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Default] = m_qSettings.value("ColorsDefault", "black").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "chocolate").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "chocolate").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Notice] = m_qSettings.value("ColorsNotice", "indianred").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Action] = m_qSettings.value("ColorsAction", "darkmagenta").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Inactive] = m_qSettings.value("ColorsInactive", "gray").toString();
@@ -1294,9 +1293,9 @@ void CQuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("ActivitySplitterRestoreBottom", quazaaSettings.WinMain.ActivitySplitterRestoreBottom);
 	m_qSettings.setValue("ChatRoomsTaskVisible", quazaaSettings.WinMain.ChatRoomsTaskVisible);
 	m_qSettings.setValue("ChatFriendsTaskVisible", quazaaSettings.WinMain.ChatFriendsTaskVisible);
-    m_qSettings.setValue("ChatListSplitter", quazaaSettings.WinMain.ChatUserListSplitter);
-    m_qSettings.setValue("ChatTreeWidget", quazaaSettings.WinMain.ChatTreeWidget);
-    m_qSettings.setValue("ChatTreeWidgetSplitter", quazaaSettings.WinMain.ChatTreeWidgetSplitter);
+	m_qSettings.setValue("ChatListSplitter", quazaaSettings.WinMain.ChatUserListSplitter);
+	m_qSettings.setValue("ChatTreeWidget", quazaaSettings.WinMain.ChatTreeWidget);
+	m_qSettings.setValue("ChatTreeWidgetSplitter", quazaaSettings.WinMain.ChatTreeWidgetSplitter);
 	m_qSettings.setValue("ChatToolbars", quazaaSettings.WinMain.ChatToolbars);
 	m_qSettings.setValue("DiscoveryHeader", quazaaSettings.WinMain.DiscoveryHeader);
 	m_qSettings.setValue("DiscoveryToolbar", quazaaSettings.WinMain.DiscoveryToolbar);
@@ -1349,9 +1348,9 @@ void CQuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("TransfersSplitter", quazaaSettings.WinMain.TransfersSplitter);
 	m_qSettings.setValue("TransfersSplitterRestoreLeft", quazaaSettings.WinMain.TransfersSplitterRestoreLeft);
 	m_qSettings.setValue("TransfersSplitterRestoreRight", quazaaSettings.WinMain.TransfersSplitterRestoreRight);
-    m_qSettings.setValue("TransfersNavigationSplitter", quazaaSettings.WinMain.TransfersNavigationSplitter);
-    m_qSettings.setValue("TransfersNavigationSplitterRestoreTop", quazaaSettings.WinMain.TransfersNavigationSplitterRestoreTop);
-    m_qSettings.setValue("TransfersNavigationSplitterRestoreBottom", quazaaSettings.WinMain.TransfersNavigationSplitterRestoreBottom);
+	m_qSettings.setValue("TransfersNavigationSplitter", quazaaSettings.WinMain.TransfersNavigationSplitter);
+	m_qSettings.setValue("TransfersNavigationSplitterRestoreTop", quazaaSettings.WinMain.TransfersNavigationSplitterRestoreTop);
+	m_qSettings.setValue("TransfersNavigationSplitterRestoreBottom", quazaaSettings.WinMain.TransfersNavigationSplitterRestoreBottom);
 	m_qSettings.setValue("UploadsSplitter", quazaaSettings.WinMain.UploadsSplitter);
 	m_qSettings.setValue("UploadsSplitterRestoreTop", quazaaSettings.WinMain.UploadsSplitterRestoreTop);
 	m_qSettings.setValue("UploadsSplitterRestoreBottom", quazaaSettings.WinMain.UploadsSplitterRestoreBottom);
@@ -1429,9 +1428,9 @@ void CQuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.TransfersSplitter = m_qSettings.value("TransfersSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.TransfersSplitterRestoreLeft = m_qSettings.value("TransfersSplitterRestoreLeft", 0).toInt();
 	quazaaSettings.WinMain.TransfersSplitterRestoreRight = m_qSettings.value("TransfersSplitterRestoreRight", 0).toInt();
-    quazaaSettings.WinMain.TransfersNavigationSplitter = m_qSettings.value("TransfersNavigationSplitter", QByteArray()).toByteArray();
-    quazaaSettings.WinMain.TransfersNavigationSplitterRestoreTop = m_qSettings.value("TransfersNavigationSplitterRestoreTop", 0).toInt();
-    quazaaSettings.WinMain.TransfersNavigationSplitterRestoreBottom = m_qSettings.value("TransfersNavigationSplitterRestoreBottom", 0).toInt();
+	quazaaSettings.WinMain.TransfersNavigationSplitter = m_qSettings.value("TransfersNavigationSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.TransfersNavigationSplitterRestoreTop = m_qSettings.value("TransfersNavigationSplitterRestoreTop", 0).toInt();
+	quazaaSettings.WinMain.TransfersNavigationSplitterRestoreBottom = m_qSettings.value("TransfersNavigationSplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.UploadsSplitter = m_qSettings.value("UploadsSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.UploadsSplitterRestoreTop = m_qSettings.value("UploadsSplitterRestoreTop", 0).toInt();
 	quazaaSettings.WinMain.UploadsSplitterRestoreBottom = m_qSettings.value("UploadsSplitterRestoreBottom", 0).toInt();

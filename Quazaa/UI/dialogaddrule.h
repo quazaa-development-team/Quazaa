@@ -27,8 +27,8 @@
 
 #include <QDialog>
 
-#include "Security/securitymanager.h"
-#include "Security/securerule.h"
+#include "securitymanager.h"
+#include "securerule.h"
 #include "widgetsecurity.h"
 
 namespace Ui

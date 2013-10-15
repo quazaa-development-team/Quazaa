@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -27,7 +27,7 @@
 #include "handshake.h"
 #include "ratecontroller.h"
 #include "neighbours.h"
-#include "Security/securitymanager.h"
+#include "securitymanager.h"
 
 #include <QTimer>
 
@@ -91,11 +91,11 @@ void CHandshakes::incomingConnection(qintptr handle)
 	m_pController->AddSocket(pNew);
 	m_nAccepted++;
 
-    if( securityManager.isDenied(pNew->m_oAddress) )
-    {
-        pNew->Close();
-        pNew->deleteLater();
-    }
+	if( securityManager.isDenied(pNew->m_oAddress) )
+	{
+		pNew->Close();
+		pNew->deleteLater();
+	}
 }
 
 void CHandshakes::OnTimer()
@@ -140,13 +140,13 @@ void CHandshakes::SetupThread()
 	if ( bOK )
 	{
 		systemLog.postLog( LogSeverity::Notice, Components::G2,
-		                   "Handshakes: listening on port %d.", Network.GetLocalAddress().port() );
+						   "Handshakes: listening on port %d.", Network.GetLocalAddress().port() );
 	}
 	else
 	{
 		systemLog.postLog( LogSeverity::Error, Components::G2,
-		                   "Handshakes: cannot listen on port %d, incoming connections will be unavailable.",
-		                   Network.GetLocalAddress().port() );
+						   "Handshakes: cannot listen on port %d, incoming connections will be unavailable.",
+						   Network.GetLocalAddress().port() );
 	}
 
 	m_pTimer = new QTimer(this);

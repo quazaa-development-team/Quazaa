@@ -31,7 +31,7 @@
 #include <QLabel>
 #include "widgetreturnemittextedit.h"
 #include "widgetsmileylist.h"
-#include "completer.h"
+#include "chatcompleter.h"
 
 #include "network.h"
 
