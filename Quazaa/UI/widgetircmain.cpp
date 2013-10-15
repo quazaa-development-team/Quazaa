@@ -80,20 +80,6 @@ CWidgetIrcMain::CWidgetIrcMain(QWidget* parent) : QMainWindow(parent),
 	searchShortcut = new QShortcut(this);
 	connect(searchShortcut, SIGNAL(activated()), this, SLOT(searchView()));
 
-#ifdef Q_OS_MAC
-	QMenu* menu = new QMenu(this);
-	menuBar()->addMenu(menu);
-
-	QAction* action = new QAction(tr("Connect"), this);
-	connect(action, SIGNAL(triggered()), this, SLOT(connectTo()));
-	menu->addAction(action);
-
-	action = new QAction(tr("Settings"), this);
-	action->setMenuRole(QAction::PreferencesRole);
-	connect(action, SIGNAL(triggered()), this, SLOT(showSettings()));
-	menu->addAction(action);
-#endif // Q_OS_MAC
-
 	applySettings();
 	connect(&quazaaSettings, SIGNAL(chatSettingsChanged()), this, SLOT(applySettings()));
 
