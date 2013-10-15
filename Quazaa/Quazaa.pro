@@ -221,6 +221,10 @@ contains(DEFINES, _USE_DEBUG_NEW){
 		!build_pass:message( "Building with DEBUG_NEW" )
 }
 
+# Use Qt's Zlib
+INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtZlib
+HEADERS += $$[QT_INSTALL_HEADERS]/QtZlib/zlib.h
+
 # Headers
 HEADERS += \
 		3rdparty/CyoEncode/CyoDecode.h \
@@ -378,27 +382,12 @@ HEADERS += \
 		UI/wizardtreewidget.h \
 	Chat/chatcompleter.h \
 	UI/ircchannelstackview.h \
-    3rdparty/SingleApplication/singleapplication.h \
-    3rdparty/SingleApplication/localserver.h \
-    UI/dialogircsettings.h \
-    UI/dialogirccolordialog.h \
-    UI/wizardircconnection.h \
-    Models/ircuserlistmodel.h
-
-win32 {
-		HEADERS += \
-				3rdparty/zlib/crc32.h \
-				3rdparty/zlib/deflate.h \
-				3rdparty/zlib/gzguts.h \
-				3rdparty/zlib/inffast.h \
-				3rdparty/zlib/inffixed.h \
-				3rdparty/zlib/inflate.h \
-				3rdparty/zlib/inftrees.h \
-				3rdparty/zlib/trees.h \
-				3rdparty/zlib/zconf.h \
-				3rdparty/zlib/zlib.h \
-				3rdparty/zlib/zutil.h
-}
+	3rdparty/SingleApplication/singleapplication.h \
+	3rdparty/SingleApplication/localserver.h \
+	UI/dialogircsettings.h \
+	UI/dialogirccolordialog.h \
+	UI/wizardircconnection.h \
+	Models/ircuserlistmodel.h
 
 # Sources
 SOURCES += \
@@ -546,31 +535,12 @@ SOURCES += \
 		UI/wizardquickstart.cpp \
 	Chat/chatcompleter.cpp \
 	UI/ircchannelstackview.cpp \
-    3rdparty/SingleApplication/singleapplication.cpp \
-    3rdparty/SingleApplication/localserver.cpp \
-    UI/dialogircsettings.cpp \
-    UI/dialogirccolordialog.cpp \
-    UI/wizardircconnection.cpp \
-    Models/ircuserlistmodel.cpp
-
-win32 {
-		SOURCES += \
-				3rdparty/zlib/adler32.c \
-				3rdparty/zlib/crc32.c \
-				3rdparty/zlib/compress.c \
-				3rdparty/zlib/deflate.c \
-				3rdparty/zlib/gzclose.c \
-				3rdparty/zlib/gzlib.c \
-				3rdparty/zlib/gzread.c \
-				3rdparty/zlib/gzwrite.c \
-				3rdparty/zlib/infback.c \
-				3rdparty/zlib/inffast.c \
-				3rdparty/zlib/inflate.c \
-				3rdparty/zlib/inftrees.c \
-				3rdparty/zlib/trees.c \
-				3rdparty/zlib/uncompr.c \
-				3rdparty/zlib/zutil.c
-}
+	3rdparty/SingleApplication/singleapplication.cpp \
+	3rdparty/SingleApplication/localserver.cpp \
+	UI/dialogircsettings.cpp \
+	UI/dialogirccolordialog.cpp \
+	UI/wizardircconnection.cpp \
+	Models/ircuserlistmodel.cpp
 
 FORMS += \
 		UI/dialogabout.ui \
@@ -627,9 +597,9 @@ FORMS += \
 		UI/widgetuploads.ui \
 		UI/winmain.ui \
 		UI/wizardquickstart.ui \
-    UI/dialogircsettings.ui \
-    UI/dialogirccolordialog.ui \
-    UI/wizardircconnection.ui
+	UI/dialogircsettings.ui \
+	UI/dialogirccolordialog.ui \
+	UI/wizardircconnection.ui
 
 TRANSLATIONS = \
 		Language/quazaa_af.ts \
