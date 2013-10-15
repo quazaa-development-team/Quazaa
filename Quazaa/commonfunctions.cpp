@@ -151,13 +151,11 @@ QString common::getTempFileName(QString sName)
 QString common::getLocation(Location location)
 {
 #if QT_VERSION >= 0x050000
-	QString sDefaultDataPath = QString( "%1/%2/" ).arg(
-								   QStandardPaths::writableLocation(
-									   QStandardPaths::DataLocation   ), "Data" );
+	//DataLocation only works on Windows. DO NOT USE IT
+	QString sDefaultDataPath = QString( "%1/.quazaa/%2/" ).arg( QStandardPaths::writableLocation( QStandardPaths::HomeLocation ), "Data" );
 #else
-	QString sDefaultDataPath = QString( "%1/%2/" ).arg(
-								   QDesktopServices::storageLocation(
-									   QDesktopServices::DataLocation ), "Data" );
+	//DataLocation only works on Windows. DO NOT USE IT
+	QString sDefaultDataPath = QString( "%1/.quazaa/%2/" ).arg( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ), "Data" );
 #endif
 
 	switch ( location )
