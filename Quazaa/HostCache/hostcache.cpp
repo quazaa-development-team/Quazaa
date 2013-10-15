@@ -46,6 +46,7 @@ CHostCache hostCache;
  * @brief CHostCache::CHostCache Constructor.
  */
 CHostCache::CHostCache():
+	m_oLokalAddress( CEndPoint() ),
 #if ENABLE_HOST_CACHE_BENCHMARKING
 	m_nLockWaitTime( 0 ),
 	m_nWorkTime( 0 ),
@@ -181,7 +182,7 @@ void CHostCache::updateFailures(const CEndPoint& oAddress, const quint32 nFailur
  * @brief CHostCache::update updates the timestamp of a host reprosented by its THostCacheIterator.
  * Note that the caller needs to make sure the host is actually part of the cache.
  * Locking: REQUIRED
- * @param itHost: the iterator
+ * @param itHost: the iterator - must be valid and not the end of the list.
  * @param tTimeStamp: its timestamp
  * @return the CHostCacheHost pointer pertaining to the updated host.
  */
@@ -616,6 +617,16 @@ quint32 CHostCache::writeToFile(const void * const pManager, QFile& oFile)
 }
 
 /**
+ * @brief CHostCache::localAddressChanged needs to be triggered on lokal IP changes.
+ */
+void CHostCache::localAddressChanged()
+{
+	Network.m_pSection.lock();
+	m_oLokalAddress = Network.GetLocalAddress();
+	Network.m_pSection.unlock();
+}
+
+/**
  * @brief CHostCache::addSync adds a given CEndPoint synchronously to the cache.
  * Locking: see bLock
  * @param host: the CEndPoint
@@ -808,7 +819,6 @@ void CHostCache::maintain()
 		save( tNow );
 	}
 
-
 	// Update m_bConnectable for all hosts that are currently marked as unconnectable
 	quint32 tThrottle = quazaaSettings.Gnutella.ConnectThrottle;
 	THCLVector::iterator itFailures = m_vlHosts.begin();
@@ -861,6 +871,12 @@ CHostCacheHost* CHostCache::addSyncHelper(const CEndPoint& host, quint32 tTimeSt
 	// At this point the security check should already have been performed.
 	// Q_ASSERT( !securityManager.isDenied(host) );
 	if ( securityManager.isDenied(host) )
+	{
+		return NULL;
+	}
+
+	// Don't add own IP to the cache.
+	if ( host == m_oLokalAddress )
 	{
 		return NULL;
 	}
@@ -936,7 +952,7 @@ void CHostCache::insert(CHostCacheHost* pNew, THostCacheList& lHosts)
  * @brief CHostCache::remove removes a host by its iterator. Caller must make sure to free the
  * memory (if requried).
  * Locking: REQUIRED
- * @param itHost: the iterator
+ * @param itHost: the iterator - must be valid and not the end of the list.
  * @param nFailures: the number of failures
  * @return the new iterator
  */
@@ -1153,6 +1169,7 @@ void CHostCache::asyncStartUpHelper()
 	qRegisterMetaType<CEndPoint*>( "CEndPoint*" );
 
 	connect( &securityManager, SIGNAL( performSanityCheck() ), this, SLOT( sanityCheck() ) );
+	connect( &Network, SIGNAL( LocalAddressChanged() ), this, SLOT( localAddressChanged() ) );
 
 	m_nMaxFailures = quazaaSettings.Connection.FailureLimit;
 	for ( quint8 i = 0; i <= m_nMaxFailures; ++i )

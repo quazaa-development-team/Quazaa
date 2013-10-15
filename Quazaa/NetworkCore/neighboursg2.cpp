@@ -70,7 +70,7 @@ void CNeighboursG2::Connect()
 	m_nSecsTrying = m_nHubBalanceWait = m_nPeriodsLow = m_nPeriodsHigh = 0;
 	m_bNeedLNI = false;
 	m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
-	m_tLastModeChange = time(0);
+	m_tLastModeChange = common::getTNowUTC();
 
 	CNeighboursConnections::Connect();
 

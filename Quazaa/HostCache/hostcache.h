@@ -31,7 +31,7 @@
 #include "hostcachehost.h"
 
 #define ENABLE_HOST_CACHE_DEBUGGING    0
-#define ENABLE_HOST_CACHE_BENCHMARKING 1
+#define ENABLE_HOST_CACHE_BENCHMARKING 0
 
 // Increment this if there have been made changes to the way of storing Host Cache Hosts.
 #define HOST_CACHE_CODE_VERSION	7
@@ -55,6 +55,8 @@ class CHostCache : public QObject
 public:
 	THCLVector          m_vlHosts; // vector of (nFailures, QLinkedList);
 								   // QLinkedList sorted by timestamp (descending)
+
+	CEndPoint           m_oLokalAddress;
 
 #if ENABLE_HOST_CACHE_BENCHMARKING
 	QAtomicInt          m_nLockWaitTime;
@@ -121,6 +123,8 @@ public:
 	inline bool isEmpty() const;
 
 public slots:
+	void localAddressChanged();
+
 	CHostCacheHost* addSync(CEndPoint host, quint32 tTimeStamp, bool bLock);
 	CHostCacheHost* addSyncKey(CEndPoint host, quint32 tTimeStamp, CEndPoint* pKeyHost,
 							   const quint32 nKey, const quint32 tNow, bool bLock);
