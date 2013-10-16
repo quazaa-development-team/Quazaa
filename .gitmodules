@@ -3,4 +3,4 @@
 	url = git://gitorious.org/neoframework/qtping.git
 [submodule "Quazaa/3rdparty/communi-desktop/src/backend"]
 	path = Quazaa/3rdparty/communi-desktop/src/backend
-	url = git@github.com:communi/libcommuni.git
+	url = https://github.com/communi/libcommuni.git
