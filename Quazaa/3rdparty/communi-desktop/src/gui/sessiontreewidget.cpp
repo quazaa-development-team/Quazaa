@@ -407,11 +407,11 @@ void SessionTreeWidget::applySettings()
 
 	// TODO:
 	bool dark = quazaaSettings.Chat.DarkTheme;
-	d.colors[Active] = dark ? QColor("#dedede") : palette().color(QPalette::Text);
-	d.colors[Inactive] = dark ? QColor("#666666") : palette().color(QPalette::Disabled, QPalette::Text);
-	d.colors[Highlight] = QColor("#ff4040");
+	d.colors[Active] = QColor(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+	d.colors[Inactive] = QColor(quazaaSettings.Chat.Colors[IrcColorType::Inactive]);
+	d.colors[Highlight] = QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]);
 	d.colors[Badge] = dark ? QColor("#444444") : palette().color(QPalette::AlternateBase).darker(125);
-	d.colors[BadgeHighlight] = dark ? QColor("#ff4040").darker(125) : QColor("#ff4040").lighter(125);
+	d.colors[BadgeHighlight] = QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]);
 
 	static_cast<ItemDelegate*>(itemDelegate())->setDark(dark);
 
