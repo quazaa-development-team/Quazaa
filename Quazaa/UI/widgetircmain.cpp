@@ -234,10 +234,7 @@ void CWidgetIrcMain::editConnection(IrcConnection* connection)
 
 void CWidgetIrcMain::applySettings()
 {
-	bool dark = quazaaSettings.Chat.DarkTheme;
-	QFile file(QString(":/Resource/%1.css").arg(dark ? "dark" : "light"));
-	if (file.open(QFile::ReadOnly | QIODevice::Text))
-		setStyleSheet(QString::fromUtf8(file.readAll()));
+	setStyleSheet(generateStyleSheet(quazaaSettings.Chat.DarkTheme));
 
 	searchShortcut->setKey(QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::SearchView)));
 	if (muteAction)
@@ -460,4 +457,57 @@ void CWidgetIrcMain::createHome()
 	homePage = new HomePage(stackView);
 	connect(homePage, SIGNAL(connectRequested()), this, SLOT(initialize()));
 	stackView->insertWidget(0, homePage);
+}
+
+QString CWidgetIrcMain::generateStyleSheet(bool dark)
+{
+	QString result;
+	if(dark) {
+		result = "UserListView { border: none; background: #222222; } ";
+		result += QString("UserListView::item { color: %1; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+		result += "UserListView::item:hover { background: #222222; } ";
+		result += "UserListView::item:selected { color: white; background: #444444; } ";
+		result += "UserListView::item:hover:selected { background: #444444; } ";
+		result += "SessionTreeWidget { border: none; color: #dedede; background: #222222; } ";
+		result += "SessionTreeWidget::item:hover { background: #222222; } ";
+		result += "SessionTreeWidget::item:selected { color: #dedede; background: #444444; } ";
+		result += "SessionTreeWidget::item:hover:selected { background: #444444; } ";
+		result += "QSplitter::handle { background: palette(dark); } ";
+		result += "ToolBar { border: 1px solid transparent; border-top-color: palette(dark); background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 #444444, stop: 1.0 #222222); } ";
+		result += "ToolBar QToolButton { background: transparent; } ";
+		result += "ToolBar QToolButton:pressed { background: #666666; border-radius: 4px; margin: 2px; } ";
+		result += "Overlay { background: rgba(128, 128, 128, 50%) } ";
+		result += QString("TextBrowser { border: none; color: %1; background: #000000; selection-color: #dedede; selection-background-color: #444444; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+		result += QString("QLabel#topicLabel > QTextEdit { color: %1; border: 1px solid transparent; border-bottom-color: palette(dark); selection-color: #dedede; selection-background-color: #444444; background: #222222; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+		result += QString("MessageView > QLineEdit { color: %1; border: 1px solid transparent; border-top-color: palette(dark); background: #222222; selection-color: #dedede; selection-background-color: #444444; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+		result += "QLabel#headerLabel { border: 1px solid transparent; border-bottom-color: palette(dark); background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 #444444, stop: 1.0 #222222); color: #ffffff; } ";
+		result += "QLabel#footerLabel { border: 1px solid transparent; border-top-color: palette(dark); background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 #444444, stop: 1.0 #222222); color: #dedede; } ";
+		result += "QLabel#helpLabel { border: 1px solid transparent; border-top-color: palette(dark); background: #222222; color: #dedede; } ";
+		result += QString("QLabel#topicLabel { color: %1; border: 1px solid transparent; border-bottom-color: palette(dark); background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 #444444, stop: 1.0 #222222); } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+		result += "QToolButton#reconnectButton { border: none; background-position: center; background-repeat: no-repeat; background-image: url(:/resources/reconnect.png); } ";
+		result += "QToolButton#reconnectButton:pressed { background-image: url(:/resources/reconnect-pressed.png); } ";
+		result += "StyledScrollBar { border: 1px solid transparent; border-left-color: palette(dark); background: #222222; width: 14px; } ";
+		result += "StyledScrollBar::handle { background: #444444; border-radius: 4px; margin: 1px 1px 1px 2px; min-height: 24px; } ";
+		result += "StyledScrollBar::handle:pressed { background: #666666; } ";
+		result += "StyledScrollBar::add-line, StyledScrollBar::sub-line, StyledScrollBar::up-arrow, StyledScrollBar::down-arrow, StyledScrollBar::add-page, StyledScrollBar::sub-page { width: 0; height: 0; background: none; } ";
+	} else {
+		result = "UserListView { border: none; background: palette(alternate-base); selection-background-color: palette(highlight); } ";
+		result += QString("UserListView::item { color: %1; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+		result += "UserListView::item:selected { color: black; background: #444444; } ";
+		result += "SessionTreeWidget { border: none; background: palette(alternate-base); selection-background-color: palette(highlight); } ";
+		result += "SessionTreeWidget::branch { border: none; background: palette(alternate-base); }";
+		result += "QSplitter::handle { background: palette(dark); } ";
+		result += "ToolBar { border: 1px solid transparent; border-top-color: palette(dark); background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 palette(light), stop: 1.0 palette(button)); } ";
+		result += "Overlay { background: rgba(228, 228, 228, 40%) } ";
+		result += QString("TextBrowser { border: none; color: %1; background: #ffffff; selection-color: palette(highlighted-text); selection-background-color: palette(highlight); } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+		result += QString("QLabel#topicLabel > QTextEdit { color: %1; border: 1px solid transparent; border-bottom-color: palette(dark); selection-color: palette(highlighted-text); selection-background-color: palette(highlight); } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+		result += QString("MessageView > QLineEdit { color: %1; border: 1px solid transparent; border-top-color: palette(dark); } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+		result += "QLabel#headerLabel { border: 1px solid transparent; border-bottom-color: palette(dark); background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 palette(light), stop: 1.0 palette(button)); } ";
+		result += "QLabel#footerLabel { border: 1px solid transparent; border-top-color: palette(dark); background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 palette(light), stop: 1.0 palette(button)); } ";
+		result += "QLabel#helpLabel { border: 1px solid transparent; border-top-color: palette(dark); } ";
+		result += QString("QLabel#topicLabel { color: %1; border: 1px solid transparent; border-bottom-color: palette(dark); background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 palette(light), stop: 1.0 palette(button)); } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+		result += "QToolButton#reconnectButton { border: none; background-position: center; background-repeat: no-repeat; background-image: url(:/resources/reconnect.png); } ";
+		result += "QToolButton#reconnectButton:pressed { background-image: url(:/resources/reconnect-pressed.png); } ";
+	}
+	return result;
 }

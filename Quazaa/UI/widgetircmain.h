@@ -76,6 +76,7 @@ private slots:
 private:
 	void createTree();
 	void createHome();
+	QString generateStyleSheet(bool dark);
 
 	QSplitter* splitterIrcMain;
 	SessionTreeWidget* treeWidget;
