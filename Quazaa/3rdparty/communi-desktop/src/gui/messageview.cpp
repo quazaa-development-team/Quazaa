@@ -524,7 +524,7 @@ void MessageView::applySettings()
 	if (dark) {
 		d.textBrowser->setShadowColor(Qt::black);
 		d.textBrowser->setMarkerColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]));
-		d.textBrowser->setHighlightColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]).darker(465));
+		d.textBrowser->setHighlightColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]).darker(265));
 
 		d.searchEditor->setButtonPixmap(SearchEditor::Left, QPixmap(":/Resource/Chat/Buttons/prev-white.png"));
 		d.searchEditor->setButtonPixmap(SearchEditor::Right, QPixmap(":/Resource/Chat/Buttons/next-white.png"));
@@ -534,7 +534,7 @@ void MessageView::applySettings()
 	} else {
 		d.textBrowser->setShadowColor(Qt::gray);
 		d.textBrowser->setMarkerColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]));
-		d.textBrowser->setHighlightColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]).lighter(165));
+		d.textBrowser->setHighlightColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]));
 
 		d.searchEditor->setButtonPixmap(SearchEditor::Left, QPixmap(":/Resource/Chat/Buttons/prev-black.png"));
 		d.searchEditor->setButtonPixmap(SearchEditor::Right, QPixmap(":/Resource/Chat/Buttons/next-black.png"));
