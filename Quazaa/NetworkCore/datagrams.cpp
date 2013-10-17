@@ -192,20 +192,22 @@ void CDatagrams::Disconnect()
 
 void CDatagrams::OnDatagram()
 {
-	if(!m_bActive)
+	if ( !m_bActive )
 	{
 		return;
 	}
 
+	// TODO: call security manager
+
 	//while(m_pSocket->hasPendingDatagrams())
 	{
 		qint64 nSize = m_pSocket->pendingDatagramSize();
-		m_pRecvBuffer->resize(nSize);
-		qint64 nReadSize = m_pSocket->readDatagram(m_pRecvBuffer->data(), nSize, m_pHostAddress, &m_nPort);
+		m_pRecvBuffer->resize( nSize );
+		qint64 nReadSize = m_pSocket->readDatagram( m_pRecvBuffer->data(), nSize, m_pHostAddress, &m_nPort );
 
-		m_mInput.Add(nReadSize);
+		m_mInput.Add( nReadSize );
 
-		if(nReadSize < 8)
+		if ( nReadSize < 8 )
 		{
 		//	continue;
 			return;
@@ -214,9 +216,10 @@ void CDatagrams::OnDatagram()
 		m_nInFrags++;
 
 		GND_HEADER* pHeader = (GND_HEADER*)m_pRecvBuffer->data();
-		if(strncmp((char*)&pHeader->szTag, "GND", 3) == 0 && pHeader->nPart > 0 && (pHeader->nCount == 0 || pHeader->nPart <= pHeader->nCount))
+		if ( strncmp( (char*)&pHeader->szTag, "GND", 3 ) == 0 &&
+			 pHeader->nPart > 0 && (pHeader->nCount == 0 || pHeader->nPart <= pHeader->nCount ) )
 		{
-			if(pHeader->nCount == 0)
+			if ( pHeader->nCount == 0 )
 			{
 				// ACK
 				OnAcknowledgeGND();

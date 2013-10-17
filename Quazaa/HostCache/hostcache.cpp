@@ -228,31 +228,12 @@ CHostCacheHost* CHostCache::update(THostCacheIterator& itHost, const quint32 tTi
 
 /**
  * @brief CHostCache::remove removes a CEndPoint from the cache.
- * Note: It should never be necessary to remove a host manually from the cache, manual user
- * interaction excepted. Any banned hosts are removed from the cache automatically.
- * Locking: YES
+ * Locking: YES (asynchronous)
  * @param oHost: the CEndPoint
  */
 void CHostCache::remove(const CEndPoint& oHost)
 {
-#if ENABLE_HOST_CACHE_DEBUGGING
-	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "remove(CEndPoint)" ) );
-#endif //ENABLE_HOST_CACHE_DEBUGGING
-
-	m_pSection.lock();
-
-	quint8 nFailures;
-	THostCacheIterator it = find( oHost, nFailures );
-
-	Q_ASSERT( nFailures < m_vlHosts.size() );
-
-	if ( it != m_vlHosts[nFailures].end() )
-	{
-		delete *it;
-		remove( it, nFailures );
-	}
-
-	m_pSection.unlock();
+	QMetaObject::invokeMethod( this, "removeSync", Qt::QueuedConnection, Q_ARG(CEndPoint, oHost) );
 }
 
 /**
@@ -714,6 +695,35 @@ CHostCacheHost* CHostCache::addSyncAck(CEndPoint host, quint32 tTimeStamp,
 		m_pSection.unlock();
 
 	return pReturn;
+}
+
+/**
+ * @brief CHostCache::removeSync removes a CEndPoint from the cache.
+ * Note: It should never be necessary to remove a host manually from the cache, manual user
+ * interaction excepted. Any banned hosts are removed from the cache automatically.
+ * Locking: YES
+ * @param oHost: the CEndPoint
+ */
+void CHostCache::removeSync(CEndPoint oHost)
+{
+#if ENABLE_HOST_CACHE_DEBUGGING
+	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "remove(CEndPoint)" ) );
+#endif //ENABLE_HOST_CACHE_DEBUGGING
+
+	m_pSection.lock();
+
+	quint8 nFailures;
+	THostCacheIterator it = find( oHost, nFailures );
+
+	Q_ASSERT( nFailures < m_vlHosts.size() );
+
+	if ( it != m_vlHosts[nFailures].end() )
+	{
+		delete *it;
+		remove( it, nFailures );
+	}
+
+	m_pSection.unlock();
 }
 
 /**

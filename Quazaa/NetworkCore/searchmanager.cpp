@@ -130,20 +130,32 @@ void CSearchManager::OnTimer()
 	}
 }
 
-bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUuid& oGUID)
+/**
+ * @brief CSearchManager::OnQueryAcknowledge
+ * @param pPacket
+ * @param oSender: sender
+ * @param oGUID will be overwritten with the search GUID contained in the packet.
+ * @return true: the caller must route the packet; false otherwise
+ */
+bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, const CEndPoint& oSender, QUuid& oGUID)
 {
+	// Note: The query acknowledgement packet is used to inform a search client that a target hub
+	// has received its query and is processing it. It also provides information for the search
+	// client's hub cache, expanding knowledge of the network and ensuring hubs are not searched
+	// more than once in a given query.
+
 	if ( !pPacket->m_bCompound )
 	{
 		return false;
 	}
 
-	pPacket->SkipCompound();			// skip children to get search GUID
-	if ( pPacket->GetRemaining() < 16 )	// must be at least 16 bytes for GUID
+	pPacket->SkipCompound();            // skip children to get search GUID
+	if ( pPacket->GetRemaining() < 16 ) // must be at least 16 bytes for GUID
 	{
 		return false;
 	}
 
-	oGUID = pPacket->ReadGUID();		// Read search GUID
+	oGUID = pPacket->ReadGUID();        // Read search GUID
 
 	QMutexLocker l( &m_pSection );
 
@@ -151,119 +163,153 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 	{
 		// YES, this is ours, let's parse the packet and process it
 
-		CEndPoint oFromIp = addr;
-		QList<CEndPoint>  lDone;
-		QHash<CEndPoint, quint32>  lSuggested;
-		quint32 nRetryAfter = 0;
-		qint64 tAdjust = 0;
+		CEndPoint oQAOrigin = oSender;
+		QList<CEndPoint>           lDoneHubs;      // already searched Hubs
+		QHash<CEndPoint, quint32>  lSuggestedHubs; // possible suggestions for searching
+
+		quint32 tRetryAfter = 0; // number of seconds to wait before retrying the Hub
+		qint64  tAdjust     = 0; // offset between the other's UTC and ours
+
 		QString sVendor;
 		bool bLikelyFoxy = false;
 		const quint32 tNow = common::getTNowUTC();
 
-		quint32 nHubs = 0, nLeaves = 0, nSuggestedHubs = 0;
+		// counters
+		quint32 nSearchedHubs = 0, nSearchedLeaves = 0, nSuggestedHubs = 0;
 
-		pPacket->m_nPosition = 0;	// reset position
+		pPacket->m_nPosition = 0;   // reset position within the packet
 
-		char szType[9];
-		quint32 nLength = 0, nNext = 0;
+		char szType[9];         // child packet name
+		quint32 nLength = 0;    // child packet length
+		quint32 nNext   = 0;    // next child packet starting position
 
 		while ( pPacket->ReadPacket( &szType[0], nLength ) )
 		{
 			nNext = pPacket->m_nPosition + nLength;
 
+			// Officially defined children (g2dn):
+			// /QA/D  - a hub that has now been searched and should not be queried again
+			// /QA/S  - a hub that might later be searched if this has not already been done
+			// /QA/TS - UTC timestamp of the packet generation time
+			// /QA/RA - the amount of time that needs to pass at least before retrying the sender
+			// /QA/FR - for forwarded queries only: original sender of te packet
+
+			// Extensions defined by Quazaa:
+			// /QA/V  - 4 letter vendor code
+
 			if ( strcmp( "D", szType) == 0 && nLength >= 4 )
 			{
-				CEndPoint ha;
+				// hub that has now been searched
+
+				CEndPoint oSearchedHub;
 				if ( nLength >= 16 )
 				{
 					// IPv6
 					Q_IPV6ADDR nIP;
 					pPacket->Read( &nIP, 16 );
-					ha.setAddress( nIP );
+					oSearchedHub.setAddress( nIP );
 
 					if ( nLength >= 18 )
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
-						ha.setPort(nPort);
+						oSearchedHub.setPort(nPort);
 					}
 
 					if ( nLength >= 20 )
 					{
-						nLeaves += pPacket->ReadIntLE<quint16>();
+						nSearchedLeaves += pPacket->ReadIntLE<quint16>();
 					}
 				}
 				else
 				{
 					// IPv4
 					quint32 nIP = pPacket->ReadIntBE<quint32>();
-					ha.setAddress( nIP );
+					oSearchedHub.setAddress( nIP );
 
 					if ( nLength >= 6 )
 					{
 						quint16 nPort = pPacket->ReadIntLE<quint16>();
-						ha.setPort(nPort);
+						oSearchedHub.setPort(nPort);
 					}
 
 					if ( nLength >= 8 )
 					{
-						nLeaves += pPacket->ReadIntLE<quint16>();
+						nSearchedLeaves += pPacket->ReadIntLE<quint16>();
 					}
 				}
-				lDone.append( ha );
 
-				++nHubs;
+				lDoneHubs.append( oSearchedHub );
+
+				++nSearchedHubs;
 			}
 			else if ( strcmp( "S", szType ) == 0 && nLength >= 6 )
 			{
-				CEndPoint a;
-				pPacket->ReadHostAddress( &a, !( nLength >= 18 ) );
-				const quint32 tTimeStamp = ( nLength >= (a.protocol() == 0 ? 10u : 22u) ) ?
+				// hub suggestion
+
+				CEndPoint suggestion;
+				pPacket->ReadHostAddress( &suggestion, !( nLength >= 18 ) );
+				const quint32 tTimeStamp = ( nLength >= (suggestion.protocol() == 0 ? 10u : 22u) ) ?
 											 pPacket->ReadIntLE<quint32>() + tAdjust : tNow - 60;
 
-				lSuggested.insert(a, tTimeStamp);
+				lSuggestedHubs.insert(suggestion, tTimeStamp);
 
 				++nSuggestedHubs;
 			}
 			else if ( strcmp("TS", szType) == 0 && nLength >= 4 )
 			{
+				// UTC timestamp of the packet generation time
+
+				// TODO: this child packet should be read before parsing the other packets
 				tAdjust = tNow - pPacket->ReadIntLE<quint32>();
 			}
 			else if ( strcmp("RA", szType) == 0 && nLength >= 2 )
 			{
+				// the amount of time that needs to pass at least before retrying the sender
+				// TODO: make sure the packet order of the children does not matter anymore
+				//       (FR and RA packet)
+
 				if ( nLength >= 4 )
 				{
-					nRetryAfter = pPacket->ReadIntLE<quint32>();
+					tRetryAfter = pPacket->ReadIntLE<quint32>();
 				}
 				else if ( nLength >= 2 )
 				{
-					nRetryAfter = pPacket->ReadIntLE<quint16>();
+					tRetryAfter = pPacket->ReadIntLE<quint16>();
 				}
 
 				hostCache.m_pSection.lock();
-				CHostCacheHost* pHost = hostCache.get( oFromIp );
+				CHostCacheHost* pHost = hostCache.get( oQAOrigin );
 				if ( pHost )
 				{
-					pHost->setRetryAfter( tNow + nRetryAfter );
+					pHost->setRetryAfter( tNow + tRetryAfter );
 				}
 				hostCache.m_pSection.unlock();
 			}
 			else if ( strcmp("FR", szType) == 0 && nLength >= 4 )
 			{
+				// for forwarded queries only: original sender of the packet
+
 				if ( nLength >= 16 )
 				{
 					Q_IPV6ADDR ip;
 					pPacket->Read( &ip, 16 );
-					oFromIp.setAddress( ip );
+					oQAOrigin.setAddress( ip );
 				}
 				else
 				{
 					quint32 nFromIp = pPacket->ReadIntBE<quint32>();
-					oFromIp.setAddress( nFromIp );
+					oQAOrigin.setAddress( nFromIp );
 				}
 			}
-			else if( strcmp("V", szType) == 0 && nLength >= 4 )
+			else if ( strcmp("V", szType) == 0 && nLength >= 4 )
 			{
 				sVendor = pPacket->ReadString( 4 );
+			}
+			else
+			{
+				// this handles extensions and future developments unknown to us
+				systemLog.postLog( LogSeverity::Debug, Components::G2,
+								   tr( "Caught unknown child of QA packet: " ) + szType );
 			}
 
 			pPacket->m_nPosition = nNext;
@@ -271,62 +317,60 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 
 		// we already know QA GUID
 
-		bLikelyFoxy = (nHubs > 20 && nSuggestedHubs < 6 && nRetryAfter == 300);
-		systemLog.postLog( LogSeverity::Debug, Components::Network,
+		bLikelyFoxy = (nSearchedHubs > 20 && nSuggestedHubs < 6 && tRetryAfter == 300);
+		systemLog.postLog( LogSeverity::Debug, Components::G2,
 						   "Processing query acknowledge from %s (time adjust %+d seconds): %d hubs, %d leaves, %d suggested hubs, retry after %d seconds, %s, likely foxy: %s).",
-						   oFromIp.toString().toLocal8Bit().constData(), int( tAdjust ), nHubs,
-						   nLeaves, nSuggestedHubs, nRetryAfter,
+						   oQAOrigin.toString().toLocal8Bit().constData(), int( tAdjust ), nSearchedHubs,
+						   nSearchedLeaves, nSuggestedHubs, tRetryAfter,
 						   ( sVendor.isEmpty() ? "unknown" : qPrintable( sVendor ) ), (bLikelyFoxy ? "yes" : "no") );
 
-		// Add hubs to the cache
-		if( Q_LIKELY(!bLikelyFoxy) )
+		// Add Hubs to the cache
+		if ( Q_LIKELY(!bLikelyFoxy) )
 		{
-			for( QList<CEndPoint>::iterator itHub = lDone.begin(); itHub != lDone.end(); ++itHub )
+			for ( QList<CEndPoint>::iterator itHub = lDoneHubs.begin(); itHub != lDoneHubs.end(); ++itHub )
 			{
-				if( (*itHub).port() )
+				if ( (*itHub).port() )
 					hostCache.add(*itHub, tNow);
 			}
 
-			for( QHash<CEndPoint, quint32>::iterator itHub = lSuggested.begin(); itHub != lSuggested.end(); ++itHub )
+			for ( QHash<CEndPoint, quint32>::iterator itHub = lSuggestedHubs.begin(); itHub != lSuggestedHubs.end(); ++itHub )
 			{
-				if( itHub.key().port() )
+				if ( itHub.key().port() )
 					hostCache.add(itHub.key(), itHub.value());
 			}
 		}
 		else
 		{
-			CEndPoint oBanned = addr;
+			CEndPoint oBan = oSender;
 
-			if( Network.IsFirewalled() && !lDone.isEmpty() )
+			if ( Network.IsFirewalled() && !lDoneHubs.isEmpty() )
 			{
-				oBanned = lDone[0]; // 1st done hub, Shareaza does not include /FR child packet
+				oBan = lDoneHubs[0]; // 1st done hub, Shareaza does not include /FR child packet
 			}
 
-			securityManager.ban( oBanned, Security::ban6Hours, true,
+			securityManager.ban( oBan, Security::ban6Hours, true,
 								 tr( "[AUTO] Likely Foxy client" )
 #ifdef _DEBUG
 								 , QString( "searchmanager.cpp line 307" )
 #endif
 								 );
 
-			hostCache.m_pSection.lock();
-			for( QList<CEndPoint>::iterator itHub = lDone.begin(); itHub != lDone.end(); ++itHub )
+			// remove suggested Hubs from host cache
+			for ( QList<CEndPoint>::iterator itHub = lDoneHubs.begin(); itHub != lDoneHubs.end(); ++itHub )
 			{
-				// TODO: fix this. the hosts dont need to be removed if they have been banned by the security manager.
-				hostCache.remove(*itHub);
+				hostCache.remove( *itHub );
 			}
-			hostCache.m_pSection.unlock();
 		}
 
-		pSearch->m_nHubs += nHubs;
-		pSearch->m_nLeaves += nLeaves;
+		pSearch->m_nHubs += nSearchedHubs;
+		pSearch->m_nLeaves += nSearchedLeaves;
 
 		const QDateTime tNowDT = common::getDateTimeUTC();
-		pSearch->OnHostAcknowledge( oFromIp, tNowDT );
+		pSearch->OnHostAcknowledge( oQAOrigin, tNowDT );
 
-		for ( int i = 0; i < lDone.size(); ++i )
+		for ( int i = 0; i < lDoneHubs.size(); ++i )
 		{
-			pSearch->OnHostAcknowledge( lDone[i], tNowDT );
+			pSearch->OnHostAcknowledge( lDoneHubs[i], tNowDT );
 		}
 
 		emit pSearch->StatsUpdated();

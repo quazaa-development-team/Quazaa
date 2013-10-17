@@ -280,13 +280,10 @@ bool G2Packet::ReadPacket(char* pszType, quint32& nLength, bool* pbCompound)
 
 bool G2Packet::SkipCompound()
 {
-	if(m_bCompound)
+	if ( m_bCompound )
 	{
 		quint32 nLength = m_nLength;
-		if(! SkipCompound(nLength))
-		{
-			return false;
-		}
+		return SkipCompound( nLength );
 	}
 
 	return true;

@@ -131,6 +131,8 @@ public slots:
 	CHostCacheHost* addSyncAck(CEndPoint host, quint32 tTimeStamp, const quint32 tAck,
 							   const quint32 tNow, bool bLock);
 
+	void removeSync(CEndPoint oHost);
+
 	void sanityCheck();
 	void maintain();
 

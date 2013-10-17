@@ -46,18 +46,18 @@ public:
 	static G2Packet* New(const char* pszType = 0, bool bCompound = false);
 	static G2Packet* New(char* pSource);
 
-
 	// Attributes
 public:
 	G2Packet* 	m_pNext;
 	quint32		m_nReference;
+
 public:
 	uchar*		m_pBuffer;
 	quint32		m_nBuffer;
 	quint32		m_nLength;
 	quint32		m_nPosition;
 	char		m_sType[9];
-	bool		m_bCompound;
+	bool		m_bCompound; // true: packet contains child packet(s); false: otherwise. (CF bit)
 
 	enum { seekStart, seekEnd };
 
@@ -77,7 +77,6 @@ public:
 	bool	SkipCompound();
 	bool	SkipCompound(quint32& nLength, quint32 nRemaining = 0);
 	bool	GetTo(QUuid& pGUID);
-
 
 public:
 	static	G2Packet* ReadBuffer(CBuffer* pBuffer);
@@ -103,11 +102,13 @@ public:
 	inline QUuid ReadGUID();
 	inline void WriteHostAddress(CEndPoint* pSrc);
 	inline void WriteGUID(QUuid& guid);
+
 public:
 	QString ReadString(quint32 nMaximum = 0xFFFFFFFF);
 	void WriteString(QString sToWrite, bool bTerminate = false);
 	G2Packet* AddOrReplaceChild(const char* pFind, G2Packet* pReplacement, bool bRelease = true, bool bPreserveExtensions = true);
 	// Inline Allocation
+
 public:
 	inline void AddRef();
 	inline void Release();
@@ -122,10 +123,8 @@ protected:
 	friend class G2PacketPool;
 };
 
-
 #define G2_FLAG_COMPOUND	0x04
 #define G2_FLAG_BIG_ENDIAN	0x02
-
 
 class G2PacketPool
 {

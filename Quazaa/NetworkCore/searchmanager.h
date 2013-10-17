@@ -56,7 +56,7 @@ public:
 	CManagedSearch* Find(QUuid& oGUID);
 
 	// Returns true if the packet is to be routed
-	bool OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUuid& oGUID);
+	bool OnQueryAcknowledge(G2Packet* pPacket, const CEndPoint& oSender, QUuid& oGUID);
 	bool OnQueryHit(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
 signals:
