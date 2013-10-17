@@ -84,7 +84,6 @@ public:
 		}
 		//wait();
 		systemLog.postLog(LogSeverity::Debug, QString("%1 Thread Finished").arg(m_sThreadName));
-		//qDebug() << m_sThreadName << "Thread Finished";
 	}
 
 protected:
@@ -110,6 +109,7 @@ protected:
 
 		exec();
 
+		qDebug() << m_sThreadName << "Starting cleanup.";
 		l.relock();
 
 		if(m_pTargetObject)

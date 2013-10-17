@@ -315,7 +315,12 @@ void CG2Node::ParseIncomingHandshake()
 	if( securityManager.isAgentBlocked(m_sUserAgent) )
 	{
 		Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, Security::ban6Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
+		securityManager.ban( m_oAddress, Security::ban6Hours, true,
+							 QString( "[AUTO] UA Blocked (%1)" ).arg( m_sUserAgent )
+#ifdef _DEBUG
+							 , QString( "g2node.cpp line 320" )
+#endif
+							 );
 		return;
 	}
 
@@ -488,7 +493,12 @@ void CG2Node::ParseOutgoingHandshake()
 	if( securityManager.isAgentBlocked(m_sUserAgent) )
 	{
 		Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, Security::ban6Hours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
+		securityManager.ban( m_oAddress, Security::ban6Hours, true,
+							 QString( "[AUTO] UA Blocked (%1)" ).arg( m_sUserAgent )
+#ifdef _DEBUG
+							 , QString( "g2node.cpp line 495" )
+#endif
+							 );
 		return;
 	}
 
@@ -1010,12 +1020,19 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 	bool bCompound = false;
 	quint32 nNext = 0, nInnerNext = 0;
 
-	while(pPacket->ReadPacket(&szType[0], nLength, &bCompound))
+	while ( pPacket->ReadPacket(&szType[0], nLength, &bCompound ) )
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
+		// NH - Neighbouring Hub
 		if(strcmp("NH", szType) == 0)
 		{
+			// Child packet types:
+			// /KHL/NH/GU - GUID
+			// /KHL/NH/V  - Vendor Code
+			// /KHL/NH/LS - Library Statistics
+			// /KHL/NH/HS - Hub Status
+
 			QUuid pGUID;
 
 			if(bCompound)
@@ -1061,8 +1078,15 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				}
 			}
 		}
+		// CH - Cached Hub
 		else if(strcmp("CH", szType) == 0)
 		{
+			// Child packet types:
+			// /KHL/CH/GU - GUID
+			// /KHL/CH/V  - Vendor Code
+			// /KHL/CH/LS - Library Statistics
+			// /KHL/CH/HS - Hub Status
+
 			QString sVendor;
 
 			if( bCompound )
@@ -1085,7 +1109,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 			if(nLength >= 10)
 			{
 				CEndPoint ep;
-				//				quint32 nTs = 0;
+				// quint32 nTs = 0;
 
 				if(nLength >= 22)
 				{
@@ -1100,8 +1124,13 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 
 				if ( !sVendor.isEmpty() && securityManager.isVendorBlocked( sVendor ) )
 				{
+					// TODO: Investigate: This is the cause of many bans of already banned IPs...
 					securityManager.ban( ep, Security::ban6Hours, true,
-										 QString( "[AUTO] Vendor blocked (%1)" ).arg( sVendor ) );
+										 QString( "[AUTO] Vendor blocked (%1)" ).arg( sVendor )
+#ifdef _DEBUG
+										 , QString( "g2node.cpp line 1109" )
+#endif
+										 );
 				}
 				else
 				{
@@ -1109,8 +1138,11 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				}
 			}
 		}
+		// TS - Timestamp
 		else if ( strcmp( "TS", szType ) == 0 )
 		{
+			// Note: No child packets
+
 			if(bCompound)
 			{
 				pPacket->SkipCompound(nLength);
@@ -1362,7 +1394,11 @@ void CG2Node::OnQH2(G2Packet* pPacket)
 	if( securityManager.isVendorBlocked( pInfo->m_sVendor ) ) // Block foxy client search results. We can't download from them any way.
 	{
 		securityManager.ban( pInfo->m_oNodeAddress, Security::ban6Hours, true,
-							 QString( "[AUTO] Vendor blocked (%1)" ).arg( pInfo->m_sVendor ) );
+							 QString( "[AUTO] Vendor blocked (%1)" ).arg( pInfo->m_sVendor )
+#ifdef _DEBUG
+							 , QString( "g2node.cpp line 1371" )
+#endif
+							 );
 	} else {
 		if(SearchManager.OnQueryHit(pPacket, pInfo))
 		{
@@ -1534,7 +1570,12 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 
 	if( !strVendor.isEmpty() && securityManager.isVendorBlocked(strVendor) )
 	{
-		securityManager.ban(addr, Security::ban6Hours, true, QString("[AUTO] Vendor blocked (%1)").arg(strVendor));
+		securityManager.ban( addr, Security::ban6Hours, true,
+							 QString( "[AUTO] Vendor blocked (%1)" ).arg( strVendor )
+#ifdef _DEBUG
+							 , QString( "g2node.cpp line 1545" )
+#endif
+							 );
 		return;	// We don't want to propagate these...
 	}
 	else

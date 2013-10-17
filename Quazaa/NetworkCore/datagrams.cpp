@@ -978,7 +978,11 @@ void CDatagrams::OnQH2(CEndPoint& addr, G2Packet* pPacket)
 		if( securityManager.isVendorBlocked( pInfo->m_sVendor ) ) // Block foxy client search results. We can't download from them any way.
 		{
 			securityManager.ban( pInfo->m_oNodeAddress, Security::ban6Hours, true,
-								 QString( "[AUTO] Vendor blocked (%1)" ).arg( pInfo->m_sVendor ) );
+								 QString( "[AUTO] Vendor blocked (%1)" ).arg( pInfo->m_sVendor )
+#ifdef _DEBUG
+								 , QString( "datagrams.cpp line 982" )
+#endif
+								 );
 		} else {
 			if(SearchManager.OnQueryHit(pPacket, pInfo) && Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
 			{

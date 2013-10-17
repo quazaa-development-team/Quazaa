@@ -224,7 +224,11 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 	tHostCacheLock.start();
 #endif
 
+	qDebug() << "**** [Search] Starting a search. Waiting for the lock.";
+
 	QMutexLocker oHostCacheLock( &hostCache.m_pSection );
+
+	qDebug() << "**** [Search] Lock aquired.";
 
 #if ENABLE_HOST_CACHE_BENCHMARKING
 	const qint64 tHCLock = tHostCacheLock.elapsed();
@@ -243,6 +247,9 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 			  itHost != lHosts.end(); ++itHost )
 		{
 			pHost = *itHost;
+
+			qDebug() << "**** [Search] Trying new Host: "
+					 << pHost->address().toString().toLocal8Bit().data();
 
 			if ( tNow - pHost->timestamp() > quazaaSettings.Gnutella2.HostCurrent )
 				break; // timestamp sorted cache
@@ -274,6 +281,9 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 #if ENABLE_HOST_CACHE_BENCHMARKING
 			// at this point we've got a valid host
 			tHCWork += tHostCacheWork.elapsed() - tHCWorkStart;
+
+			qDebug() << "**** [Search] Host OK! **** Work time: "
+					 << QString::number( tHCWork ).toLocal8Bit().data();
 #endif
 
 			CEndPoint pReceiver;
@@ -418,6 +428,8 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 #if ENABLE_HOST_CACHE_BENCHMARKING
 			// now we start with a new search for an agreeable host to search
 			tHCWorkStart = tHostCacheWork.elapsed();
+
+			qDebug() << "**** [Search] Host OK! **** ";
 #endif
 
 			pHost = NULL;
@@ -432,11 +444,12 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 	hostCache.m_nLockWaitTime.fetchAndAddRelaxed( tHCLock );
 	hostCache.m_nWorkTime.fetchAndAddRelaxed( tHCWork );
 
-	qDebug() << "[HostCache]"
+	qDebug() << "**** [HostCache]"
 			 << " Total lock wait time: "
 			 << QString::number( hostCache.m_nLockWaitTime.load() ).toLocal8Bit().data()
 			 << " Total work time: "
-			 << QString::number( hostCache.m_nWorkTime.load()     ).toLocal8Bit().data();
+			 << QString::number( hostCache.m_nWorkTime.load()     ).toLocal8Bit().data()
+			 << " ****";
 #endif
 }
 

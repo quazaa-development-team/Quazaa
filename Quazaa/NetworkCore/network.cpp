@@ -87,12 +87,12 @@ void CNetwork::Connect()
 	NetworkThread.start("Network", &m_pSection, this);
 
 	Datagrams.moveToThread(&NetworkThread);
-
 	SearchManager.moveToThread(&NetworkThread);
 	Neighbours.moveToThread(&NetworkThread);
-	Neighbours.Connect();
 
+	Neighbours.Connect();
 }
+
 void CNetwork::Disconnect()
 {
 	QMutexLocker l(&m_pSection);
@@ -119,10 +119,11 @@ void CNetwork::SetupThread()
 }
 void CNetwork::CleanupThread()
 {
+	qDebug() << "Starting Cleanup...";
+
 	m_pSecondTimer->stop();
 	delete m_pSecondTimer;
 	m_pSecondTimer = 0;
-	//	WebCache.CancelRequests();
 
 	qDebug() << "Shutting down Handshakes...";
 	Handshakes.Disconnect();
