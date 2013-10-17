@@ -66,18 +66,21 @@ void CHandshake::OnRead()
 		return;
 	}
 
-	if(Peek(8).startsWith("GNUTELLA"))
+	if ( Peek(8).startsWith( "GNUTELLA" ) )
 	{
+#if LOG_CONNECTIONS
 		systemLog.postLog(LogSeverity::Debug, Components::Network, QString("Incoming connection from %1 is Gnutella Neighbour connection").arg(m_pSocket->peerAddress().toString().toLocal8Bit().constData()));
-		//qDebug("Incoming connection from %s is Gnutella Neighbour connection", m_pSocket->peerAddress().toString().toLocal8Bit().constData());
+#endif
 		Handshakes.processNeighbour(this);
 		delete this;
 	}
-	else if(Peek(5).startsWith("GET /"))
+	else if ( Peek( 5 ).startsWith( "GET /" ) )
 	{
-		if( Peek(bytesAvailable()).indexOf("\r\n\r\n") != -1 )
+		if ( Peek( bytesAvailable() ).indexOf( "\r\n\r\n" ) != -1 )
 		{
+#if LOG_CONNECTIONS
 			systemLog.postLog(LogSeverity::Debug, Components::Network, QString("Incoming connection from %1 is a Web request").arg(m_pSocket->peerAddress().toString().toLocal8Bit().constData()));
+#endif
 			OnWebRequest();
 		}
 	}

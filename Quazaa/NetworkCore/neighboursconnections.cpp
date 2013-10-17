@@ -408,8 +408,9 @@ CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 {
 	// TODO: Make new CNeighbour deriviate for handshaking with Gnutella clients
 
+#if LOG_CONNECTIONS
 	systemLog.postLog(LogSeverity::Debug, "CNeighboursConnections::OnAccept");
-	//qDebug() << "CNeighbours::OnAccept";
+#endif
 
 	if(!m_bActive)
 	{
