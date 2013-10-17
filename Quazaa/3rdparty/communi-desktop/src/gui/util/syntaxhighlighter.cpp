@@ -18,18 +18,18 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* document) : QSyntaxHighlight
 {
 }
 
-QColor SyntaxHighlighter::highlightColor() const
+QColor SyntaxHighlighter::unsentColor() const
 {
-    return d.color;
+	return d.color;
 }
 
-void SyntaxHighlighter::setHighlightColor(const QColor& color)
+void SyntaxHighlighter::setUnsentColor(const QColor& color)
 {
-    d.color = color;
+	d.color = color;
 }
 
 void SyntaxHighlighter::highlightBlock(const QString& text)
 {
-    if (currentBlockState() > 0)
-        setFormat(0, text.length(), d.color);
+	if (currentBlockState() > 0)
+		setFormat(0, text.length(), d.color);
 }

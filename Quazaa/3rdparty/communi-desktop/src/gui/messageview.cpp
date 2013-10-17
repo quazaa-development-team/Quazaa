@@ -125,8 +125,6 @@ MessageView::MessageView(ViewInfo::Type type, IrcConnection* connection, IrcChan
 	if (doc)
 		doc->setDefaultStyleSheet("a { color: #4040ff }");
 
-	d.highlighter->setHighlightColor(QColor("#808080"));
-
 	d.lineEditor->completer()->setCommandModel(stackView->commandModel());
 	connect(d.lineEditor->completer(), SIGNAL(commandCompletion(QString)), this, SLOT(completeCommand(QString)));
 
@@ -520,6 +518,8 @@ void MessageView::applySettings()
 
 	d.textBrowser->setFont(quazaaSettings.Chat.Font);
 	d.textBrowser->document()->setMaximumBlockCount(quazaaSettings.Chat.Scrollback);
+
+	d.highlighter->setUnsentColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Inactive]));
 
 	if (dark) {
 		d.textBrowser->setShadowColor(Qt::black);

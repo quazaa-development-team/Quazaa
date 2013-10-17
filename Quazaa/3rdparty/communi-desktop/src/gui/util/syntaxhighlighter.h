@@ -19,21 +19,21 @@
 
 class SyntaxHighlighter : public QSyntaxHighlighter
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    SyntaxHighlighter(QTextDocument* document);
+	SyntaxHighlighter(QTextDocument* document);
 
-    QColor highlightColor() const;
-    void setHighlightColor(const QColor& color);
+	QColor unsentColor() const;
+	void setUnsentColor(const QColor& color);
 
 protected:
-    void highlightBlock(const QString &text);
+	void highlightBlock(const QString &text);
 
 private:
-    struct Private {
-        QColor color;
-    } d;
+	struct Private {
+		QColor color;
+	} d;
 };
 
 #endif // SYNTAXHIGHLIGHTER_H
