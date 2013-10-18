@@ -197,8 +197,6 @@ void CDatagrams::OnDatagram()
 		return;
 	}
 
-	// TODO: call security manager
-
 	//while(m_pSocket->hasPendingDatagrams())
 	{
 		qint64 nSize = m_pSocket->pendingDatagramSize();
@@ -209,6 +207,18 @@ void CDatagrams::OnDatagram()
 
 		if ( nReadSize < 8 )
 		{
+		//	continue;
+			return;
+		}
+
+		// TODO: Ask brov about this. Should we reply with something like: "You are banned!"?
+		CEndPoint addr(*m_pHostAddress, m_nPort);
+		// Don't continue processing packets from hosts that are banned.
+		if ( securityManager.isDenied(addr) )
+		{
+			systemLog.postLog( LogSeverity::Security, Components::Network,
+							   tr( "Dropped packet from banned host: %1."
+								   ).arg( m_pHostAddress->toString() ) );
 		//	continue;
 			return;
 		}
