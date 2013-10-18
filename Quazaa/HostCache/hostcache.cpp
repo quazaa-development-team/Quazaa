@@ -80,6 +80,8 @@ void CHostCache::start()
 	moveToThread( m_pHostCacheDiscoveryThread.data() );
 	m_pHostCacheDiscoveryThread.data()->start( QThread::LowPriority );
 
+	qRegisterMetaType<CEndPoint>( "CEndPoint" );
+	qRegisterMetaType<CEndPoint*>( "CEndPoint*" );
 	QMetaObject::invokeMethod( this, "asyncStartUpHelper", Qt::QueuedConnection );
 }
 
@@ -1173,10 +1175,6 @@ void CHostCache::asyncStartUpHelper()
 #if ENABLE_HOST_CACHE_DEBUGGING
 	systemLog.postLog( LogSeverity::Debug, Components::HostCache, QString( "asyncStartUpH()" ) );
 #endif //ENABLE_HOST_CACHE_DEBUGGING
-
-	// reg. meta types
-	qRegisterMetaType<CEndPoint>( "CEndPoint" );
-	qRegisterMetaType<CEndPoint*>( "CEndPoint*" );
 
 	connect( &securityManager, SIGNAL( performSanityCheck() ), this, SLOT( sanityCheck() ) );
 	connect( &Network, SIGNAL( LocalAddressChanged() ), this, SLOT( localAddressChanged() ) );
