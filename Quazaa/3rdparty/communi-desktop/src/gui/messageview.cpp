@@ -552,7 +552,7 @@ void MessageView::applySettings()
 	format->setColorName(Irc::LightBlue, quazaaSettings.Chat.Colors[IrcColorType::LightBlue]);
 	format->setColorName(Irc::Pink, quazaaSettings.Chat.Colors[IrcColorType::Pink]);
 
-
+	QColor highlightText(quazaaSettings.Chat.Colors[IrcColorType::Highlight]);
 	d.textBrowser->document()->setDefaultStyleSheet( QString(
 			".highlight { color: %1; }"
 			".notice    { color: %2; }"
@@ -560,7 +560,7 @@ void MessageView::applySettings()
 			".event     { color: %4; }"
 			".timestamp { color: %5; font-size: small; }"
 			"a { color: %6; }")
-	.arg(quazaaSettings.Chat.Colors[IrcColorType::Highlight])
+	.arg(highlightText.lighter(175).name())
 	.arg(quazaaSettings.Chat.Colors[IrcColorType::Notice])
 	.arg(quazaaSettings.Chat.Colors[IrcColorType::Action])
 	.arg(quazaaSettings.Chat.Colors[IrcColorType::Event])
