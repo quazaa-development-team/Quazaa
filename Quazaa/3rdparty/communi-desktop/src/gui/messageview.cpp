@@ -112,15 +112,6 @@ MessageView::MessageView(ViewInfo::Type type, IrcConnection* connection, IrcChan
 		format->setColorName(Irc::Pink, "#6c71c4");
 	}
 
-	d.textBrowser->document()->setDefaultStyleSheet(
-		QString(
-			".highlight { color: #ff4040 }"
-			".notice    { color: #a54242 }"
-			".action    { color: #8b388b }"
-			".event     { color: #808080 }"
-			".timestamp { color: #808080; font-size: small }"
-			"a { color: #4040ff }"));
-
 	QTextDocument* doc = d.topicLabel->findChild<QTextDocument*>();
 	if (doc)
 		doc->setDefaultStyleSheet("a { color: #4040ff }");
@@ -534,7 +525,7 @@ void MessageView::applySettings()
 	} else {
 		d.textBrowser->setShadowColor(Qt::gray);
 		d.textBrowser->setMarkerColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]));
-		d.textBrowser->setHighlightColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]));
+		d.textBrowser->setHighlightColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]).darker(265));
 
 		d.searchEditor->setButtonPixmap(SearchEditor::Left, QPixmap(":/Resource/Chat/Buttons/prev-black.png"));
 		d.searchEditor->setButtonPixmap(SearchEditor::Right, QPixmap(":/Resource/Chat/Buttons/next-black.png"));
@@ -560,6 +551,21 @@ void MessageView::applySettings()
 	format->setColorName(Irc::LightCyan, quazaaSettings.Chat.Colors[IrcColorType::LightCyan]);
 	format->setColorName(Irc::LightBlue, quazaaSettings.Chat.Colors[IrcColorType::LightBlue]);
 	format->setColorName(Irc::Pink, quazaaSettings.Chat.Colors[IrcColorType::Pink]);
+
+
+	d.textBrowser->document()->setDefaultStyleSheet( QString(
+			".highlight { color: %1; }"
+			".notice    { color: %2; }"
+			".action    { color: %3; }"
+			".event     { color: %4; }"
+			".timestamp { color: %5; font-size: small; }"
+			"a { color: %6; }")
+	.arg(quazaaSettings.Chat.Colors[IrcColorType::Highlight])
+	.arg(quazaaSettings.Chat.Colors[IrcColorType::Notice])
+	.arg(quazaaSettings.Chat.Colors[IrcColorType::Action])
+	.arg(quazaaSettings.Chat.Colors[IrcColorType::Event])
+	.arg(quazaaSettings.Chat.Colors[IrcColorType::TimeStamp])
+	.arg(quazaaSettings.Chat.Colors[IrcColorType::Link]));
 
 	d.showJoins = quazaaSettings.Chat.Messages[IrcMessageType::Joins];
 	d.showParts = quazaaSettings.Chat.Messages[IrcMessageType::Parts];
