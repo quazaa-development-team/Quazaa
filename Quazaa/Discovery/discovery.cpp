@@ -57,6 +57,13 @@ CDiscovery::CDiscovery(QObject *parent) :
 	{
 		m_pActive[i] = 0;
 	}
+
+	// reg. meta types
+	static int foo = qRegisterMetaType<TServiceID>( "TServiceID" );
+	static int bar = qRegisterMetaType<TConstServicePtr>( "TConstServicePtr" );
+
+	Q_UNUSED( foo );
+	Q_UNUSED( bar );
 }
 
 /**
@@ -95,10 +102,6 @@ void CDiscovery::start()
 	moveToThread( m_pHostCacheDiscoveryThread.data() );
 
 	Q_ASSERT( m_pHostCacheDiscoveryThread.data()->isRunning() );
-
-	// reg. meta types
-	qRegisterMetaType<TServiceID>( "TServiceID" );
-	qRegisterMetaType<TConstServicePtr>( "TConstServicePtr" );
 
 	// Initialize random number generator.
 	qsrand ( common::getTNowUTC() );

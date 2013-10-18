@@ -54,6 +54,11 @@ CHostCache::CHostCache():
 	m_tLastSave( common::getTNowUTC() ),
 	m_nSizeAtomic( 0 )
 {
+	static int foo = qRegisterMetaType<CEndPoint>( "CEndPoint" );
+	static int bar = qRegisterMetaType<CEndPoint*>( "CEndPoint*" );
+
+	Q_UNUSED( foo );
+	Q_UNUSED( bar );
 }
 
 /**
@@ -80,8 +85,6 @@ void CHostCache::start()
 	moveToThread( m_pHostCacheDiscoveryThread.data() );
 	m_pHostCacheDiscoveryThread.data()->start( QThread::LowPriority );
 
-	qRegisterMetaType<CEndPoint>( "CEndPoint" );
-	qRegisterMetaType<CEndPoint*>( "CEndPoint*" );
 	QMetaObject::invokeMethod( this, "asyncStartUpHelper", Qt::QueuedConnection );
 }
 
