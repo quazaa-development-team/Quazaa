@@ -23,6 +23,7 @@
 class SyntaxHighlighter;
 class IrcChannelStackView;
 class CommandParser;
+class IrcTextFormat;
 class IrcMessage;
 class IrcBuffer;
 class Connection;

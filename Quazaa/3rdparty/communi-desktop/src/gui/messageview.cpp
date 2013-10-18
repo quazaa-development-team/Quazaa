@@ -543,6 +543,24 @@ void MessageView::applySettings()
 		d.lineEditor->setButtonPixmap(LineEditor::Left, QPixmap(":/Resource/Chat/Buttons/tab-black.png"));
 	}
 
+	IrcTextFormat* format = irc_text_format();
+	format->setColorName(Irc::Gray, quazaaSettings.Chat.Colors[IrcColorType::Gray]);
+	format->setColorName(Irc::LightGray, quazaaSettings.Chat.Colors[IrcColorType::LightGray]);
+
+	// http://ethanschoonover.com/solarized
+	format->setColorName(Irc::Blue, quazaaSettings.Chat.Colors[IrcColorType::Blue]);
+	format->setColorName(Irc::Green, quazaaSettings.Chat.Colors[IrcColorType::Green]);
+	format->setColorName(Irc::Red, quazaaSettings.Chat.Colors[IrcColorType::Red]);
+	format->setColorName(Irc::Brown, quazaaSettings.Chat.Colors[IrcColorType::Brown]);
+	format->setColorName(Irc::Purple, quazaaSettings.Chat.Colors[IrcColorType::Purple]);
+	format->setColorName(Irc::Orange, quazaaSettings.Chat.Colors[IrcColorType::Orange]);
+	format->setColorName(Irc::Yellow, quazaaSettings.Chat.Colors[IrcColorType::Yellow]);
+	format->setColorName(Irc::LightGreen, quazaaSettings.Chat.Colors[IrcColorType::LightGreen]);
+	format->setColorName(Irc::Cyan, quazaaSettings.Chat.Colors[IrcColorType::Cyan]);
+	format->setColorName(Irc::LightCyan, quazaaSettings.Chat.Colors[IrcColorType::LightCyan]);
+	format->setColorName(Irc::LightBlue, quazaaSettings.Chat.Colors[IrcColorType::LightBlue]);
+	format->setColorName(Irc::Pink, quazaaSettings.Chat.Colors[IrcColorType::Pink]);
+
 	d.showJoins = quazaaSettings.Chat.Messages[IrcMessageType::Joins];
 	d.showParts = quazaaSettings.Chat.Messages[IrcMessageType::Parts];
 	d.showQuits = quazaaSettings.Chat.Messages[IrcMessageType::Quits];
