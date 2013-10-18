@@ -262,8 +262,8 @@ CDiscoveryService* CDiscoveryService::createService(const QString& sURL, TServic
 #if ENABLE_DISCOVERY_DEBUGGING
 		qDebug() << "[Discovery] Service Type: Unknown";
 #endif
-		systemLog.postLog( LogSeverity::Error, discoveryManager.m_sMessage
-						   + tr( "Internal error: Creation of service with unknown type requested: Type " )
+		systemLog.postLog( LogSeverity::Error, Components::Discovery,
+						   tr( "Internal error: Creation of service with unknown type requested: Type " )
 						   + QString( eSType ) );
 
 		Q_ASSERT( false ); // unsupported service type

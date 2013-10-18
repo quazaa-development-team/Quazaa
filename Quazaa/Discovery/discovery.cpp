@@ -85,7 +85,7 @@ quint32	CDiscovery::count(const CNetworkType& oType)
 /**
  * @brief start initializes the Discovery Services Manager. Make sure this is called after
  * QApplication is instantiated.
- * Locking: YES (asynchronous)
+ * Locking: YES
  */
 void CDiscovery::start()
 {
@@ -96,7 +96,15 @@ void CDiscovery::start()
 
 	Q_ASSERT( m_pHostCacheDiscoveryThread.data()->isRunning() );
 
-	QMetaObject::invokeMethod( this, "asyncStartUpHelper", Qt::QueuedConnection );
+	// reg. meta types
+	qRegisterMetaType<TServiceID>( "TServiceID" );
+	qRegisterMetaType<TConstServicePtr>( "TConstServicePtr" );
+
+	// Initialize random number generator.
+	qsrand ( common::getTNowUTC() );
+
+	// Includes its own locking.
+	load();
 }
 
 /**
@@ -601,39 +609,6 @@ bool CDiscovery::asyncSyncSavingHelper()
 	postLog( LogSeverity::Debug, tr( "Saved %1 services to file." ).arg( nCount ) );
 
 	return true;
-}
-
-void CDiscovery::asyncStartUpHelper()
-{
-#if ENABLE_DISCOVERY_DEBUGGING
-	postLog( LogSeverity::Debug, "Started CDiscovery::asyncStartUpHelper().", true );
-#endif
-
-	// Initialize random number generator.
-	qsrand ( common::getTNowUTC() );
-
-#if ENABLE_DISCOVERY_DEBUGGING
-	postLog( LogSeverity::Debug, "Initialized random number generator.", true );
-#endif
-
-	// reg. meta types
-	qRegisterMetaType<TServiceID>( "TServiceID" );
-	qRegisterMetaType<TConstServicePtr>( "TConstServicePtr" );
-
-#if ENABLE_DISCOVERY_DEBUGGING
-	postLog( LogSeverity::Debug, "Registered Meta Types.", true );
-#endif
-
-	// We don't really need a lock here as nobody is supposed to use the manager before
-	// it is properly initialized.
-	m_sMessage = tr( "[Discovery] " );
-
-	// Includes its own locking.
-	load();
-
-#if ENABLE_DISCOVERY_DEBUGGING
-	postLog( LogSeverity::Debug, "Finished CDiscovery::asyncStartUpHelper().", true );
-#endif
 }
 
 void CDiscovery::asyncRequestServiceListHelper()
@@ -1678,7 +1653,7 @@ void CDiscovery::postLog(LogSeverity::Severity severity, QString message,
 
 	if ( bDebug )
 	{
-		sMessage = discoveryManager.m_sMessage + sMessage;
+		sMessage = systemLog.msgFromComponent( Components::Discovery ) + sMessage;
 		qDebug() << sMessage.toLocal8Bit().constData();
 	}
 	else

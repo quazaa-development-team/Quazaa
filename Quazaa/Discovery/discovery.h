@@ -153,9 +153,6 @@ private:
 public:
 	quint16*              m_pActive;
 
-	// text preceeding a message from the manager on the log
-	QString               m_sMessage;
-
 	/* ========================================================================================== */
 	/* ====================================== Construction ====================================== */
 	/* ========================================================================================== */
@@ -187,7 +184,7 @@ public:
 	/**
 	 * @brief start initializes the Discovery Services Manager. Make sure this is called after
 	 * QApplication is instantiated.
-	 * Locking: YES (asynchronous)
+	 * Locking: YES
 	 */
 	void start();
 
@@ -343,7 +340,6 @@ private slots:
 	// All methods in this section are helpers to do certain tasks asynchronously. See their
 	// respective callers for documentation.
 	bool asyncSyncSavingHelper();
-	void asyncStartUpHelper();
 	void asyncRequestServiceListHelper();
 	void asyncUpdateServiceHelper(const CNetworkType type);
 	void asyncUpdateServiceHelper(TServiceID nID);
