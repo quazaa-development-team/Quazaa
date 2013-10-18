@@ -1128,7 +1128,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 					securityManager.ban( ep, Security::ban6Hours, true,
 										 QString( "[AUTO] Vendor blocked (%1)" ).arg( sVendor )
 #ifdef _DEBUG
-										 , QString( "g2node.cpp line 1109" )
+										 , QString( "g2node.cpp line 1131" )
 #endif
 										 );
 				}
