@@ -48,12 +48,6 @@ CNetworkType::CNetworkType(DiscoveryProtocol type) :
 	registerMetaType();
 }
 
-void CNetworkType::registerMetaType() const
-{
-	static int foo = qRegisterMetaType<CNetworkType>( "CNetworkType" );
-	++foo;
-}
-
 bool CNetworkType::operator==(const CNetworkType& type) const
 {
 	return ( m_nNetworks == type.m_nNetworks );

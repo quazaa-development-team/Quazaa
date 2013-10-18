@@ -47,7 +47,7 @@ public:
 	CNetworkType(quint16 type);
 	CNetworkType(DiscoveryProtocol type);
 
-	void registerMetaType() const;
+	inline void registerMetaType() const;
 
 	bool operator==(const CNetworkType& type) const;
 	bool operator!=(const CNetworkType& type) const;
@@ -75,5 +75,11 @@ public:
 
 	QString toString() const;
 };
+
+void CNetworkType::registerMetaType() const
+{
+	static int foo = qRegisterMetaType<CNetworkType>( "CNetworkType" );
+	Q_UNUSED( foo );
+}
 
 #endif // NETWORKTYPE_H
