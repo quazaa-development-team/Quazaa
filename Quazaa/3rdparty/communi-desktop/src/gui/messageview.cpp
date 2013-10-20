@@ -36,6 +36,7 @@
 #include <QUrl>
 #include <irctextformat.h>
 #include <ircuserlistmodel.h>
+#include <ircpalette.h>
 #include <ircmessage.h>
 #include <irccommand.h>
 #include <ircchannel.h>
@@ -98,22 +99,23 @@ MessageView::MessageView(ViewInfo::Type type, IrcConnection* connection, IrcChan
 	if (!init) {
 		init = true;
 		IrcTextFormat* format = irc_text_format();
-		format->setColorName(Irc::Gray, "#606060");
-		format->setColorName(Irc::LightGray, "#808080");
+		IrcPalette* palette = format->palette();
+		palette->setColorName(Irc::Gray, "#606060");
+		palette->setColorName(Irc::LightGray, "#808080");
 
 		// http://ethanschoonover.com/solarized
-		format->setColorName(Irc::Blue, "#268bd2");
-		format->setColorName(Irc::Green, "#859900");
-		format->setColorName(Irc::Red, "#dc322f");
-		format->setColorName(Irc::Brown, "#cb4b16");
-		format->setColorName(Irc::Purple, "#6c71c4");
-		format->setColorName(Irc::Orange, "#cb4b16");
-		format->setColorName(Irc::Yellow, "#b58900");
-		format->setColorName(Irc::LightGreen, "#859900");
-		format->setColorName(Irc::Cyan, "#2aa198");
-		format->setColorName(Irc::LightCyan, "#2aa198");
-		format->setColorName(Irc::LightBlue, "#268bd2");
-		format->setColorName(Irc::Pink, "#6c71c4");
+		palette->setColorName(Irc::Blue, "#268bd2");
+		palette->setColorName(Irc::Green, "#859900");
+		palette->setColorName(Irc::Red, "#dc322f");
+		palette->setColorName(Irc::Brown, "#cb4b16");
+		palette->setColorName(Irc::Purple, "#6c71c4");
+		palette->setColorName(Irc::Orange, "#cb4b16");
+		palette->setColorName(Irc::Yellow, "#b58900");
+		palette->setColorName(Irc::LightGreen, "#859900");
+		palette->setColorName(Irc::Cyan, "#2aa198");
+		palette->setColorName(Irc::LightCyan, "#2aa198");
+		palette->setColorName(Irc::LightBlue, "#268bd2");
+		palette->setColorName(Irc::Pink, "#6c71c4");
 	}
 
 	QTextDocument* doc = d.topicLabel->findChild<QTextDocument*>();
@@ -204,7 +206,6 @@ void MessageView::setBuffer(IrcBuffer* buffer)
 			d.listView->setChannel(channel);
 			IrcUserListModel* activityModel = new IrcUserListModel(channel);
 			activityModel->setSortMethod(Irc::SortByActivity);
-			activityModel->setDynamicSort(true);
 			d.chatInput->textEdit()->completer()->setUserModel(activityModel);
 		}
 		d.buffer = buffer;
@@ -540,22 +541,23 @@ void MessageView::applySettings()
 	}
 
 	IrcTextFormat* format = irc_text_format();
-	format->setColorName(Irc::Gray, quazaaSettings.Chat.Colors[IrcColorType::Gray]);
-	format->setColorName(Irc::LightGray, quazaaSettings.Chat.Colors[IrcColorType::LightGray]);
+	IrcPalette* palette = format->palette();
+	palette->setColorName(Irc::Gray, quazaaSettings.Chat.Colors[IrcColorType::Gray]);
+	palette->setColorName(Irc::LightGray, quazaaSettings.Chat.Colors[IrcColorType::LightGray]);
 
 	// http://ethanschoonover.com/solarized
-	format->setColorName(Irc::Blue, quazaaSettings.Chat.Colors[IrcColorType::Blue]);
-	format->setColorName(Irc::Green, quazaaSettings.Chat.Colors[IrcColorType::Green]);
-	format->setColorName(Irc::Red, quazaaSettings.Chat.Colors[IrcColorType::Red]);
-	format->setColorName(Irc::Brown, quazaaSettings.Chat.Colors[IrcColorType::Brown]);
-	format->setColorName(Irc::Purple, quazaaSettings.Chat.Colors[IrcColorType::Purple]);
-	format->setColorName(Irc::Orange, quazaaSettings.Chat.Colors[IrcColorType::Orange]);
-	format->setColorName(Irc::Yellow, quazaaSettings.Chat.Colors[IrcColorType::Yellow]);
-	format->setColorName(Irc::LightGreen, quazaaSettings.Chat.Colors[IrcColorType::LightGreen]);
-	format->setColorName(Irc::Cyan, quazaaSettings.Chat.Colors[IrcColorType::Cyan]);
-	format->setColorName(Irc::LightCyan, quazaaSettings.Chat.Colors[IrcColorType::LightCyan]);
-	format->setColorName(Irc::LightBlue, quazaaSettings.Chat.Colors[IrcColorType::LightBlue]);
-	format->setColorName(Irc::Pink, quazaaSettings.Chat.Colors[IrcColorType::Pink]);
+	palette->setColorName(Irc::Blue, quazaaSettings.Chat.Colors[IrcColorType::Blue]);
+	palette->setColorName(Irc::Green, quazaaSettings.Chat.Colors[IrcColorType::Green]);
+	palette->setColorName(Irc::Red, quazaaSettings.Chat.Colors[IrcColorType::Red]);
+	palette->setColorName(Irc::Brown, quazaaSettings.Chat.Colors[IrcColorType::Brown]);
+	palette->setColorName(Irc::Purple, quazaaSettings.Chat.Colors[IrcColorType::Purple]);
+	palette->setColorName(Irc::Orange, quazaaSettings.Chat.Colors[IrcColorType::Orange]);
+	palette->setColorName(Irc::Yellow, quazaaSettings.Chat.Colors[IrcColorType::Yellow]);
+	palette->setColorName(Irc::LightGreen, quazaaSettings.Chat.Colors[IrcColorType::LightGreen]);
+	palette->setColorName(Irc::Cyan, quazaaSettings.Chat.Colors[IrcColorType::Cyan]);
+	palette->setColorName(Irc::LightCyan, quazaaSettings.Chat.Colors[IrcColorType::LightCyan]);
+	palette->setColorName(Irc::LightBlue, quazaaSettings.Chat.Colors[IrcColorType::LightBlue]);
+	palette->setColorName(Irc::Pink, quazaaSettings.Chat.Colors[IrcColorType::Pink]);
 
 	QColor highlightText(quazaaSettings.Chat.Colors[IrcColorType::Highlight]);
 	d.textBrowser->document()->setDefaultStyleSheet( QString(
