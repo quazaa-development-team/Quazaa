@@ -67,7 +67,10 @@ CWidgetChatInput::CWidgetChatInput(QWidget *parent, bool isIrc) :
 	toolButtonPickColor = new QToolButton(this);
 	toolButtonPickColor->setIconSize(QSize(24,24));
 	if(bIsIrc) {
-		toolButtonPickColor->setIcon(QIcon(":/Resource/Generic/Skin.png"));
+		if(quazaaSettings.Chat.DarkTheme)
+			toolButtonPickColor->setIcon(QIcon(":/Resource/Chat/PaletteDark.png"));
+		else
+			toolButtonPickColor->setIcon(QIcon(":/Resource/Chat/Palette.png"));
 		toolButtonPickColor->setStyleSheet("");
 	} else {
 		toolButtonPickColor->setIcon(QIcon());
@@ -76,21 +79,14 @@ CWidgetChatInput::CWidgetChatInput(QWidget *parent, bool isIrc) :
 	toolButtonPickColor->setToolTip(tr("Font Color"));
 	connect(toolButtonPickColor, SIGNAL(clicked()), this, SLOT(pickColor()));
 
-	toolButtonPrivateMessage = new QToolButton(this);
-	toolButtonPrivateMessage->setText(tr("New Private Message"));
-	toolButtonPrivateMessage->setToolTip(tr("New Private Message"));
-	toolButtonPrivateMessage->setIcon(QIcon(":/Resource/Chat/Chat.png"));
 	ui->toolBarTextTools->insertWidget(ui->actionBold, toolButtonPickColor);
 	ui->toolBarTextTools->addSeparator();
 	ui->toolBarTextTools->addWidget(toolButtonSmilies);
 	ui->actionBold->setChecked(ui->textEditInput->fontWeight() == QFont::Bold);
 	ui->actionItalic->setChecked(ui->textEditInput->fontItalic());
 	ui->actionUnderline->setChecked(ui->textEditInput->fontUnderline());
-	ui->toolBarTextTools->addWidget(toolButtonPrivateMessage);
-	toolButtonPrivateMessage->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 	connect(ui->actionItalic, SIGNAL(toggled(bool)), ui->textEditInput, SLOT(setFontItalic(bool)));
 	connect(ui->actionUnderline, SIGNAL(toggled(bool)), ui->textEditInput, SLOT(setFontUnderline(bool)));
-	connect(toolButtonPrivateMessage, SIGNAL(clicked()), this, SLOT(addPrivateMessage()));
 	applySettings();
 	updateToolbar();
 }
@@ -208,40 +204,16 @@ void CWidgetChatInput::pickColor()
 	updateToolbar();
 }
 
-void CWidgetChatInput::addPrivateMessage()
-{
-	CDialogConnectTo* dlgConnectTo = new CDialogConnectTo(this);
-	bool accepted = dlgConnectTo->exec();
-
-	if (accepted)
-	{
-		CEndPoint ip(dlgConnectTo->getAddressAndPort());
-
-		switch (dlgConnectTo->getConnectNetwork())
-		{
-		case CDialogConnectTo::G2:
-		{
-			CChatSessionG2* pS = new CChatSessionG2(ip);
-			pS->Connect();
-			break;
-		}
-		case CDialogConnectTo::eDonkey:
-			break;
-		case CDialogConnectTo::Ares:
-			break;
-		default:
-			break;
-		}
-	}
-}
-
 void CWidgetChatInput::updateToolbar()
 {
 	if(bIsIrc)
 	{
 		if((ui->textEditInput->textColor() == defaultColor))
 		{
-			toolButtonPickColor->setIcon(QIcon(":/Resource/Generic/Skin.png"));
+			if(quazaaSettings.Chat.DarkTheme)
+				toolButtonPickColor->setIcon(QIcon(":/Resource/Chat/PaletteDark.png"));
+			else
+				toolButtonPickColor->setIcon(QIcon(":/Resource/Chat/Palette.png"));
 			toolButtonPickColor->setStyleSheet("");
 		} else {
 			toolButtonPickColor->setIcon(QIcon());
@@ -277,9 +249,11 @@ void CWidgetChatInput::applySettings()
 			ui->labelLag->setStyleSheet(QString("color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
 			ui->textEditInput->setStyleSheet(QString("border: 1px solid transparent; background: #222222; selection-color: #dedede; selection-background-color: #444444; color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
 			ui->helpLabel->setStyleSheet(QString("QLabel#helpLabel { color: %1; border: 1px solid transparent; border-top-color: palette(dark); background: #222222; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+			toolButtonPickColor->setIcon( QIcon(":/Resource/Chat/PaletteDark.png") );
 			ui->actionBold->setIcon( QIcon(":/Resource/Generic/FormatTextBoldDark.png") );
 			ui->actionItalic->setIcon( QIcon(":/Resource/Generic/FormatTextItalicDark.png") );
 			ui->actionUnderline->setIcon( QIcon(":/Resource/Generic/FormatTextUnderlineDark.png") );
+			ui->toolButtonSend->setIcon( QIcon(":/Resource/Chat/SendDark.png") );
 		} else {
 			QString baseStyleSheet("CWidgetChatInput { background: palette(alternate-base); } ");
 			baseStyleSheet += QString("QToolButton { color: %1; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
@@ -287,9 +261,11 @@ void CWidgetChatInput::applySettings()
 			ui->labelLag->setStyleSheet(QString("color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
 			ui->textEditInput->setStyleSheet(QString("background: palette(alternate-base); border: 1px solid transparent; color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
 			ui->helpLabel->setStyleSheet(QString("QLabel#helpLabel { color: %1; border: border: 1px solid transparent; border-top-color: palette(dark); } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+			toolButtonPickColor->setIcon( QIcon(":/Resource/Chat/Palette.png") );
 			ui->actionBold->setIcon( QIcon(":/Resource/Generic/FormatTextBold.png") );
 			ui->actionItalic->setIcon( QIcon(":/Resource/Generic/FormatTextItalic.png") );
 			ui->actionUnderline->setIcon( QIcon(":/Resource/Generic/FormatTextUnderline.png") );
+			ui->toolButtonSend->setIcon( QIcon(":/Resource/Chat/Send.png") );
 		}
 	}
 }

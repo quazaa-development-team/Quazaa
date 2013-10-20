@@ -1067,5 +1067,8 @@
         <file>Resource/Chat/ChannelDark.png</file>
         <file>Resource/Chat/Network.png</file>
         <file>Resource/Chat/NetworkDark.png</file>
+        <file>Resource/Chat/Palette.png</file>
+        <file>Resource/Chat/PaletteDark.png</file>
+        <file>Resource/Chat/SendDark.png</file>
     </qresource>
 </RCC>

@@ -61,7 +61,6 @@ private:
 	CWidgetSmileyList *widgetSmileyList;
 	QColor defaultColor;
 	QToolButton *toolButtonPickColor;
-	QToolButton *toolButtonPrivateMessage;
 	bool bIsIrc;
 
 public slots:
@@ -75,7 +74,6 @@ private slots:
 	void on_toolButtonSend_clicked();
 	void onTextFormatChange(QTextCharFormat newFormat);
 	void pickColor();
-	void addPrivateMessage();
 	void updateToolbar();
 	void applySettings();
 };
