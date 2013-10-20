@@ -34,6 +34,7 @@
 #include <QDebug>
 #include <QMenu>
 #include <QUrl>
+#include <QTimer>
 #include <irctextformat.h>
 #include <ircuserlistmodel.h>
 #include <ircpalette.h>
@@ -56,6 +57,8 @@ MessageView::MessageView(ViewInfo::Type type, IrcConnection* connection, IrcChan
 	d.playback = false;
 	d.parser = stackView->parser();
 	d.firstNames = true;
+	d.messageTimer = new QTimer(this);
+	connect(d.messageTimer, SIGNAL(timeout()), this, SLOT(sendMessageLine()));
 
 	d.joined = 0;
 	d.parted = 0;
@@ -264,118 +267,14 @@ void MessageView::showHelp(const QString& text, bool error)
 	d.chatInput->helpLabel()->setText(syntax);
 }
 
-void MessageView::sendMessage(const QString& text)
+void MessageView::sendMessage(const QString& line)
 {
-	QStringList messages = text.split(QRegularExpression("[\\r\\n]"), QString::SkipEmptyParts);
-	foreach (const QString& message, messages) {
-		if ((viewType() == ViewInfo::Server) && !message.startsWith("/"))
-		{
-			QString modify = message;
-			modify.prepend(tr("/quote "));
-			sendMessage(modify);
-		} else {
-			d.parser->setTarget(d.receiver);
-			IrcCommand* cmd = d.parser->parseCommand(message);
-			if (cmd) {
-				if (cmd->type() == IrcCommand::Quote)
-				{
-					if(viewType() == ViewInfo::Server)
-						d.textBrowser->append( tr("[RAW] %1").arg(cmd->parameters().join(" ") ));
-					else
-						emit appendRawMessage( tr("[RAW] %1").arg(cmd->parameters().join(" ") ));
-				}
-				if (cmd->type() == IrcCommand::Join) {
-					QStringList params = cmd->parameters();
-
-					if (params.count() == 1 || params.count() == 2)
-					{
-						QString channel = params.value(0);
-						QString password = params.value(1);
-
-						if(!d.connection->network()->channelTypes().contains(channel.at(0)))
-						{
-							channel.prepend("#");
-						}
-						if(!d.connection->network()->channelTypes().contains(channel.at(0)))
-						{
-							channel = channel.remove(0,1);
-							channel.prepend(d.connection->network()->channelTypes().at(0));
-						}
-						if(d.connection->network()->channelTypes().contains(channel.at(0)))
-							cmd = d.parser->parse(QString("/JOIN %1 %2").arg(channel).arg(password));
-					}
-				}
-				if (cmd->type() == IrcCommand::Custom) {
-					QString command = cmd->parameters().value(0);
-					QStringList params = cmd->parameters().mid(1);
-					if (command == "CLEAR") {
-						d.textBrowser->clear();
-					} else if (command == "CLOSE") {
-						QMetaObject::invokeMethod(window(), "closeView");
-					} else if (command == "MSG") {
-						// support "/msg foo /cmd" without executing /cmd
-						QString msg = QStringList(params.mid(1)).join(" ");
-						if (msg.startsWith('/') && !msg.startsWith("//") && !msg.startsWith("/ "))
-							msg.prepend('/');
-						emit messaged(params.value(0), msg);
-					} else if (command == "QUERY") {
-						emit queried(params.value(0));
-					} else if (command == "IGNORE") {
-						MessageFormatter::Options options;
-						options.timeStampFormat = d.timeStampFormat;
-						options.timeStamp = QDateTime::currentDateTime();
-						QString ignore  = params.value(0);
-						if (ignore.isEmpty()) {
-							const QStringList ignores = IgnoreManager::instance()->ignores();
-							if (!ignores.isEmpty()) {
-								foreach (const QString& ignore, ignores)
-									d.textBrowser->append(MessageFormatter::formatLine("! " + ignore, options));
-							} else {
-								d.textBrowser->append(MessageFormatter::formatLine("! no ignores", options));
-							}
-						} else {
-							QString mask = IgnoreManager::instance()->addIgnore(ignore);
-							d.textBrowser->append(MessageFormatter::formatLine("! ignored: " + mask));
-						}
-					} else if (command == "UNIGNORE") {
-						QString mask = IgnoreManager::instance()->removeIgnore(params.value(0));
-						d.textBrowser->append(MessageFormatter::formatLine("! unignored: " + mask));
-					}
-					else if (command == "SYSINFO")
-					{
-						CQuazaaSysInfo *sysInfo = new CQuazaaSysInfo();
-						sendMessage(tr("Application:%1 %2 OS:%3 Qt Version:%4").arg(QApplication::applicationName(), CQuazaaGlobals::APPLICATION_VERSION_STRING(), sysInfo->osVersionToString(), qVersion()));
-						//onSend(tr("CPU:%1 Cores:%2 Memory:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING()));
-					}
-					else if (command == "CTCP")
-					{
-						QString args = params.at(1).toUpper().append(" ");
-						QStringList command = params.mid(2);
-						args.append(command.join(" "));
-						cmd = IrcCommand::createCtcpRequest(params.at(0), args);
-					}
-					delete cmd;
-				} else if (cmd->type() == IrcCommand::Message || cmd->type() == IrcCommand::CtcpAction || cmd->type() == IrcCommand::Notice) {
-					if (Connection* s = qobject_cast<Connection*>(d.connection)) // TODO
-						s->sendUiCommand(cmd, QString("_communi_msg_%1_%2").arg(d.receiver).arg(++d.sentId));
-
-					IrcMessage* msg = IrcMessage::fromData(":" + d.connection->nickName().toUtf8() + " " + cmd->toString().toUtf8(), d.connection);
-					receiveMessage(msg);
-					delete msg;
-
-					// highlight as gray until acked
-					QTextBlock block = d.textBrowser->document()->lastBlock();
-					block.setUserState(d.sentId);
-					d.highlighter->rehighlightBlock(block);
-				} else {
-					if (Connection* s = qobject_cast<Connection*>(d.connection)) // TODO
-						s->sendUiCommand(cmd);
-				}
-				d.chatInput->helpLabel()->hide();
-			} else {
-				showHelp(message, true);
-			}
-		}
+	if (d.messageTimer->isActive()) {
+		d.messages.append(line.split(QRegularExpression("[\\r\\n]"), QString::KeepEmptyParts));
+	} else {
+		d.messages = line.split(QRegularExpression("[\\r\\n]"), QString::KeepEmptyParts);
+		sendMessageLine();
+		d.messageTimer->start(1000);
 	}
 }
 
@@ -383,6 +282,126 @@ void MessageView::sendMessage(QTextDocument *message)
 {
 	CChatConverter *converter = new CChatConverter(message);
 	sendMessage(converter->toIrc());
+}
+
+void MessageView::sendMessageLine() {
+	if(d.messages.isEmpty()) {
+		d.messageTimer->stop();
+		return;
+	}
+
+	QString message = d.messages.takeFirst();
+
+	if ((viewType() == ViewInfo::Server) && !message.startsWith("/"))
+	{
+		QString modify = message;
+		modify.prepend(tr("/quote "));
+		sendMessage(modify);
+	} else {
+		d.parser->setTarget(d.receiver);
+		IrcCommand* cmd = d.parser->parseCommand(message);
+		if (cmd) {
+			if (cmd->type() == IrcCommand::Quote)
+			{
+				if(viewType() == ViewInfo::Server)
+					d.textBrowser->append( tr("[RAW] %1").arg(cmd->parameters().join(" ") ));
+				else
+					emit appendRawMessage( tr("[RAW] %1").arg(cmd->parameters().join(" ") ));
+			}
+			if (cmd->type() == IrcCommand::Join) {
+				QStringList params = cmd->parameters();
+
+				if (params.count() == 1 || params.count() == 2)
+				{
+					QString channel = params.value(0);
+					QString password = params.value(1);
+
+					if(!d.connection->network()->channelTypes().contains(channel.at(0)))
+					{
+						channel.prepend("#");
+					}
+					if(!d.connection->network()->channelTypes().contains(channel.at(0)))
+					{
+						channel = channel.remove(0,1);
+						channel.prepend(d.connection->network()->channelTypes().at(0));
+					}
+					if(d.connection->network()->channelTypes().contains(channel.at(0)))
+						cmd = d.parser->parse(QString("/JOIN %1 %2").arg(channel).arg(password));
+				}
+			}
+			if (cmd->type() == IrcCommand::Custom) {
+				QString command = cmd->parameters().value(0);
+				QStringList params = cmd->parameters().mid(1);
+				if (command == "CLEAR") {
+					d.textBrowser->clear();
+				} else if (command == "CLOSE") {
+					QMetaObject::invokeMethod(window(), "closeView");
+				} else if (command == "MSG") {
+					// support "/msg foo /cmd" without executing /cmd
+					QString msg = QStringList(params.mid(1)).join(" ");
+					if (msg.startsWith('/') && !msg.startsWith("//") && !msg.startsWith("/ "))
+						msg.prepend('/');
+					emit messaged(params.value(0), msg);
+				} else if (command == "QUERY") {
+					emit queried(params.value(0));
+				} else if (command == "IGNORE") {
+					MessageFormatter::Options options;
+					options.timeStampFormat = d.timeStampFormat;
+					options.timeStamp = QDateTime::currentDateTime();
+					QString ignore  = params.value(0);
+					if (ignore.isEmpty()) {
+						const QStringList ignores = IgnoreManager::instance()->ignores();
+						if (!ignores.isEmpty()) {
+							foreach (const QString& ignore, ignores)
+								d.textBrowser->append(MessageFormatter::formatLine("! " + ignore, options));
+						} else {
+							d.textBrowser->append(MessageFormatter::formatLine("! no ignores", options));
+						}
+					} else {
+						QString mask = IgnoreManager::instance()->addIgnore(ignore);
+						d.textBrowser->append(MessageFormatter::formatLine("! ignored: " + mask));
+					}
+				} else if (command == "UNIGNORE") {
+					QString mask = IgnoreManager::instance()->removeIgnore(params.value(0));
+					d.textBrowser->append(MessageFormatter::formatLine("! unignored: " + mask));
+				}
+				else if (command == "SYSINFO")
+				{
+					CQuazaaSysInfo *sysInfo = new CQuazaaSysInfo();
+					sendMessage(tr("Application:%1 %2 OS:%3 Qt Version:%4").arg(QApplication::applicationName(), CQuazaaGlobals::APPLICATION_VERSION_STRING(), sysInfo->osVersionToString(), qVersion()));
+					//onSend(tr("CPU:%1 Cores:%2 Memory:%3").arg(QApplication::applicationName(), QuazaaGlobals::APPLICATION_VERSION_STRING()));
+				}
+				else if (command == "CTCP")
+				{
+					QString args = params.at(1).toUpper().append(" ");
+					QStringList command = params.mid(2);
+					args.append(command.join(" "));
+					cmd = IrcCommand::createCtcpRequest(params.at(0), args);
+				}
+				delete cmd;
+			} else if (cmd->type() == IrcCommand::Message || cmd->type() == IrcCommand::CtcpAction || cmd->type() == IrcCommand::Notice) {
+				if (Connection* s = qobject_cast<Connection*>(d.connection)) // TODO
+					s->sendUiCommand(cmd, QString("_communi_msg_%1_%2").arg(d.receiver).arg(++d.sentId));
+
+				IrcMessage* msg = IrcMessage::fromData(":" + d.connection->nickName().toUtf8() + " " + cmd->toString().toUtf8(), d.connection);
+				receiveMessage(msg);
+				delete msg;
+
+				// highlight as gray until acked
+				QTextBlock block = d.textBrowser->document()->lastBlock();
+				block.setUserState(d.sentId);
+				d.highlighter->rehighlightBlock(block);
+			} else {
+				if (Connection* s = qobject_cast<Connection*>(d.connection)) // TODO
+					s->sendUiCommand(cmd);
+			}
+			d.chatInput->helpLabel()->hide();
+		} else {
+			showHelp(message, true);
+		}
+	}
+	if(d.messages.isEmpty())
+		d.messageTimer->stop();
 }
 
 void MessageView::hideEvent(QHideEvent* event)

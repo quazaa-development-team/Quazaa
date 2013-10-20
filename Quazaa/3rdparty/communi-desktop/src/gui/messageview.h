@@ -95,9 +95,12 @@ private slots:
 	void onConnectionStatusChanged();
 	void onSocketError();
 	void applySettings();
+	void sendMessageLine();
 
 private:
 	struct Private : public Ui::MessageView {
+		QStringList messages;
+		QTimer *messageTimer;
 		ViewInfo::Type viewType;
 		QString receiver;
 		QPointer<IrcConnection> connection;
