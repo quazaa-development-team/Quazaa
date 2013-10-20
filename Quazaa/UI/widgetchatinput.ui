@@ -181,8 +181,11 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
    <property name="allowedAreas">
-    <set>Qt::BottomToolBarArea|Qt::TopToolBarArea</set>
+    <set>Qt::TopToolBarArea</set>
    </property>
    <property name="floatable">
     <bool>false</bool>
@@ -247,7 +250,7 @@
   <customwidget>
    <class>CWidgetReturnEmitTextEdit</class>
    <extends>QTextEdit</extends>
-   <header>widgetreturnemittextedit.h</header>
+   <header location="global">widgetreturnemittextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>
