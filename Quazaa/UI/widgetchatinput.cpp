@@ -115,7 +115,8 @@ void CWidgetChatInput::on_toolButtonSend_clicked()
 	{
 		if (ui->textEditInput->document()->lineCount() > 1)
 		{
-			QStringList lineList = ui->textEditInput->document()->toHtml().split("\n");
+			QStringList lineList = ui->textEditInput->document()->toHtml().split(QRegularExpression("[\\r\\n]"), QString::KeepEmptyParts);
+
 			for(int i = 4; i < lineList.size(); i++)
 			{
 				QTextDocument *line = new QTextDocument();
