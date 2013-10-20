@@ -27,6 +27,8 @@ class IrcTextFormat;
 class IrcMessage;
 class IrcBuffer;
 class Connection;
+class CWidgetChatInput;
+class ChatCompleter;
 
 class MessageView : public QWidget
 {
@@ -61,6 +63,7 @@ public:
 public slots:
 	void showHelp(const QString& text, bool error = false);
 	void sendMessage(const QString& text);
+	void sendMessage(QTextDocument *message);
 	void receiveMessage(IrcMessage* message);
 	void updateLag(qint64 lag);
 
@@ -111,6 +114,7 @@ private:
 		bool stripNicks, showJoins, showParts, showQuits;
 		QString timeStampFormat;
 		bool firstNames;
+		CWidgetChatInput* chatInput;
 	} d;
 };
 

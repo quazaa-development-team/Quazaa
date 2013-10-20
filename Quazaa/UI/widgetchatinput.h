@@ -66,6 +66,7 @@ private:
 
 public slots:
 	void setText(QString text);
+	void setLag(qint64 lag);
 
 private slots:
 	void on_actionUnderline_toggled(bool checked);
@@ -76,7 +77,7 @@ private slots:
 	void pickColor();
 	void addPrivateMessage();
 	void updateToolbar();
-	void setSkin();
+	void applySettings();
 };
 
 #endif // WIDGETCHATINPUT_H

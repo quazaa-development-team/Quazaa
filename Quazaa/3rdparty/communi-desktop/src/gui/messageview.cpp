@@ -24,6 +24,7 @@
 #include "chatcompleter.h"
 #include "quazaasysinfo.h"
 #include "quazaaglobals.h"
+#include "chatconverter.h"
 #include <QAbstractTextDocumentLayout>
 #include <QDesktopServices>
 #include <QTextBlock>
@@ -40,6 +41,7 @@
 #include <ircchannel.h>
 #include <ircbuffer.h>
 #include <irc.h>
+#include <widgetchatinput.h>
 
 Q_GLOBAL_STATIC(IrcTextFormat, irc_text_format)
 
@@ -59,13 +61,15 @@ MessageView::MessageView(ViewInfo::Type type, IrcConnection* connection, IrcChan
 	d.connected = 0;
 	d.disconnected = 0;
 
-	d.topicLabel->setMinimumHeight(d.lineEditor->sizeHint().height());
-	d.helpLabel->setMinimumHeight(d.lineEditor->sizeHint().height());
+	d.chatInput = new CWidgetChatInput(this, true);
+	d.verticalLayoutInputWidget->addWidget(d.chatInput);
+	d.widgetInput->setFixedHeight(100);
+	d.chatInput->setFixedHeight(100);
 
 	connect(d.splitter, SIGNAL(splitterMoved(int, int)), this, SLOT(onSplitterMoved()));
 
-	setFocusProxy(d.lineEditor);
-	d.textBrowser->setBuddy(d.lineEditor);
+	setFocusProxy(d.chatInput->textEdit());
+	d.textBrowser->setBuddy(d.chatInput->textEdit());
 	d.textBrowser->viewport()->installEventFilter(this);
 	connect(d.textBrowser, SIGNAL(anchorClicked(QUrl)), SLOT(onAnchorClicked(QUrl)));
 
@@ -116,18 +120,19 @@ MessageView::MessageView(ViewInfo::Type type, IrcConnection* connection, IrcChan
 	if (doc)
 		doc->setDefaultStyleSheet("a { color: #4040ff }");
 
-	d.lineEditor->completer()->setCommandModel(stackView->commandModel());
-	connect(d.lineEditor->completer(), SIGNAL(commandCompletion(QString)), this, SLOT(completeCommand(QString)));
+	d.chatInput->textEdit()->completer()->setCommandModel(stackView->commandModel());
+	connect(d.chatInput->textEdit()->completer(), SIGNAL(commandCompletion(QString)), this, SLOT(completeCommand(QString)));
 
-	connect(d.lineEditor, SIGNAL(send(QString)), this, SLOT(sendMessage(QString)));
-	connect(d.lineEditor, SIGNAL(typed(QString)), this, SLOT(showHelp(QString)));
+	connect(d.chatInput, SIGNAL(messageSent(QString)), this, SLOT(sendMessage(QString)));
+	connect(d.chatInput, SIGNAL(messageSent(QTextDocument*)), this, SLOT(sendMessage(QTextDocument*)));
+	connect(d.chatInput->textEdit(), SIGNAL(textChanged(QString)), this, SLOT(showHelp(QString)));
 
-	connect(d.lineEditor, SIGNAL(scrollToTop()), d.textBrowser, SLOT(scrollToTop()));
-	connect(d.lineEditor, SIGNAL(scrollToBottom()), d.textBrowser, SLOT(scrollToBottom()));
-	connect(d.lineEditor, SIGNAL(scrollToNextPage()), d.textBrowser, SLOT(scrollToNextPage()));
-	connect(d.lineEditor, SIGNAL(scrollToPreviousPage()), d.textBrowser, SLOT(scrollToPreviousPage()));
+	connect(d.chatInput->textEdit(), SIGNAL(scrollToTop()), d.textBrowser, SLOT(scrollToTop()));
+	connect(d.chatInput->textEdit(), SIGNAL(scrollToBottom()), d.textBrowser, SLOT(scrollToBottom()));
+	connect(d.chatInput->textEdit(), SIGNAL(scrollToNextPage()), d.textBrowser, SLOT(scrollToNextPage()));
+	connect(d.chatInput->textEdit(), SIGNAL(scrollToPreviousPage()), d.textBrowser, SLOT(scrollToPreviousPage()));
 
-	d.helpLabel->hide();
+	d.chatInput->helpLabel()->hide();
 	d.searchEditor->setTextEdit(d.textBrowser);
 
 	QShortcut* shortcut = new QShortcut(Qt::Key_Escape, this);
@@ -166,7 +171,7 @@ IrcConnection* MessageView::connection() const
 
 ChatCompleter* MessageView::completer() const
 {
-	return d.lineEditor->completer();
+	return d.chatInput->textEdit()->completer();
 }
 
 QTextBrowser* MessageView::textBrowser() const
@@ -200,7 +205,7 @@ void MessageView::setBuffer(IrcBuffer* buffer)
 			IrcUserListModel* activityModel = new IrcUserListModel(channel);
 			activityModel->setSortMethod(Irc::SortByActivity);
 			activityModel->setDynamicSort(true);
-			d.lineEditor->completer()->setUserModel(activityModel);
+			d.chatInput->textEdit()->completer()->setUserModel(activityModel);
 		}
 		d.buffer = buffer;
 		connect(buffer, SIGNAL(activeChanged(bool)), this, SIGNAL(activeChanged()));
@@ -250,12 +255,12 @@ void MessageView::showHelp(const QString& text, bool error)
 			syntax = tr("SERVER COMMAND: %1 %2").arg(command.toUpper(), QStringList(words.mid(1)).join(" "));
 	}
 
-	d.helpLabel->setVisible(!syntax.isEmpty());
+	d.chatInput->helpLabel()->setVisible(!syntax.isEmpty());
 	QPalette pal;
 	if (error)
 		pal.setColor(QPalette::WindowText, "#ff4040");
-	d.helpLabel->setPalette(pal);
-	d.helpLabel->setText(syntax);
+	d.chatInput->helpLabel()->setPalette(pal);
+	d.chatInput->helpLabel()->setText(syntax);
 }
 
 void MessageView::sendMessage(const QString& text)
@@ -365,12 +370,18 @@ void MessageView::sendMessage(const QString& text)
 					if (Connection* s = qobject_cast<Connection*>(d.connection)) // TODO
 						s->sendUiCommand(cmd);
 				}
-				d.helpLabel->hide();
+				d.chatInput->helpLabel()->hide();
 			} else {
 				showHelp(message, true);
 			}
 		}
 	}
+}
+
+void MessageView::sendMessage(QTextDocument *message)
+{
+	CChatConverter *converter = new CChatConverter(message);
+	sendMessage(converter->toIrc());
 }
 
 void MessageView::hideEvent(QHideEvent* event)
@@ -452,7 +463,7 @@ void MessageView::onDisconnected()
 
 void MessageView::onEscPressed()
 {
-	d.helpLabel->hide();
+	d.chatInput->helpLabel()->hide();
 	d.searchEditor->hide();
 	setFocus(Qt::OtherFocusReason);
 }
@@ -476,14 +487,14 @@ void MessageView::onAnchorClicked(const QUrl& link)
 	} else {
 		QDesktopServices::openUrl(link);
 		// avoid focus rectangle around the link
-		d.lineEditor->setFocus();
+		d.chatInput->textEdit()->setFocus();
 	}
 }
 
 void MessageView::completeCommand(const QString& command)
 {
 	if (command == "TOPIC")
-		d.lineEditor->insert(d.topic);
+		d.chatInput->textEdit()->insertPlainText(d.topic);
 }
 
 void MessageView::onTopicEdited(const QString& topic)
@@ -493,7 +504,7 @@ void MessageView::onTopicEdited(const QString& topic)
 
 void MessageView::onConnectionStatusChanged()
 {
-	d.lineEditor->setFocusPolicy(d.connection->isActive() ? Qt::StrongFocus : Qt::NoFocus);
+	d.chatInput->textEdit()->setFocusPolicy(d.connection->isActive() ? Qt::StrongFocus : Qt::NoFocus);
 	d.textBrowser->setFocusPolicy(d.connection->isActive() ? Qt::StrongFocus : Qt::NoFocus);
 }
 
@@ -519,9 +530,6 @@ void MessageView::applySettings()
 
 		d.searchEditor->setButtonPixmap(SearchEditor::Left, QPixmap(":/Resource/Chat/Buttons/prev-white.png"));
 		d.searchEditor->setButtonPixmap(SearchEditor::Right, QPixmap(":/Resource/Chat/Buttons/next-white.png"));
-
-		d.lineEditor->setButtonPixmap(LineEditor::Right, QPixmap(":/Resource/Chat/Buttons/return-white.png"));
-		d.lineEditor->setButtonPixmap(LineEditor::Left, QPixmap(":/Resource/Chat/Buttons/tab-white.png"));
 	} else {
 		d.textBrowser->setShadowColor(Qt::gray);
 		d.textBrowser->setMarkerColor(QColor(quazaaSettings.Chat.Colors[IrcColorType::Highlight]));
@@ -529,9 +537,6 @@ void MessageView::applySettings()
 
 		d.searchEditor->setButtonPixmap(SearchEditor::Left, QPixmap(":/Resource/Chat/Buttons/prev-black.png"));
 		d.searchEditor->setButtonPixmap(SearchEditor::Right, QPixmap(":/Resource/Chat/Buttons/next-black.png"));
-
-		d.lineEditor->setButtonPixmap(LineEditor::Right, QPixmap(":/Resource/Chat/Buttons/return-black.png"));
-		d.lineEditor->setButtonPixmap(LineEditor::Left, QPixmap(":/Resource/Chat/Buttons/tab-black.png"));
 	}
 
 	IrcTextFormat* format = irc_text_format();
@@ -715,5 +720,5 @@ bool MessageView::hasUser(const QString& user) const
 
 void MessageView::updateLag(qint64 lag)
 {
-	d.lineEditor->setLag(lag);
+	d.chatInput->setLag(lag);
 }
