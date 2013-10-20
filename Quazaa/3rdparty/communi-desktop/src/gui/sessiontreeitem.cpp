@@ -16,6 +16,7 @@
 #include "sessiontreewidget.h"
 #include "itemdelegate.h"
 #include "messageview.h"
+#include "quazaasettings.h"
 #include <IrcBuffer>
 
 SessionTreeItem::SessionTreeItem(MessageView* view, QTreeWidget* parent) : QTreeWidgetItem(parent)
@@ -80,11 +81,20 @@ QVariant SessionTreeItem::data(int column, int role) const
 			{
 				switch (d.view->viewType()) {
 					case ViewInfo::Server:
-						return QIcon(":/Resource/Network/Network.png");
+						if(quazaaSettings.Chat.DarkTheme)
+							return QIcon(":/Resource/Chat/NetworkDark.png");
+						else
+							return QIcon(":/Resource/Chat/Network.png");
 					case ViewInfo::Channel:
-						return QIcon(":/Resource/Chat/Friends.png");
+						if(quazaaSettings.Chat.DarkTheme)
+							return QIcon(":/Resource/Chat/ChannelDark.png");
+						else
+							return QIcon(":/Resource/Chat/Channel.png");
 					case ViewInfo::Query:
-						return QIcon(":/Resource/Chat/Chat.png");
+						if(quazaaSettings.Chat.DarkTheme)
+							return QIcon(":/Resource/Chat/NormalDark.png");
+						else
+							return QIcon(":/Resource/Chat/Normal.png");
 			}
 		}
 	}

@@ -1053,5 +1053,19 @@
         <file>Resource/light.css</file>
         <file>Resource/ajax-loader-dark.gif</file>
         <file>Resource/ajax-loader-light.gif</file>
+        <file>Resource/Chat/AdminDark.png</file>
+        <file>Resource/Chat/VoiceDark.png</file>
+        <file>Resource/Generic/FormatTextBoldDark.png</file>
+        <file>Resource/Generic/FormatTextItalicDark.png</file>
+        <file>Resource/Generic/FormatTextUnderlineDark.png</file>
+        <file>Resource/Chat/HalfOpDark.png</file>
+        <file>Resource/Chat/ImmuneDark.png</file>
+        <file>Resource/Chat/NormalDark.png</file>
+        <file>Resource/Chat/OpDark.png</file>
+        <file>Resource/Chat/OwnerDark.png</file>
+        <file>Resource/Chat/Channel.png</file>
+        <file>Resource/Chat/ChannelDark.png</file>
+        <file>Resource/Chat/Network.png</file>
+        <file>Resource/Chat/NetworkDark.png</file>
     </qresource>
 </RCC>

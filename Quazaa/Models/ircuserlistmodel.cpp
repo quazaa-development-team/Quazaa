@@ -24,6 +24,7 @@
 
 #include "ircuserlistmodel.h"
 #include "ircusermodel_p.h"
+#include "quazaasettings.h"
 
 IrcUserListModel::IrcUserListModel(QObject *parent) :
 IrcUserModel(parent)
@@ -66,30 +67,51 @@ QIcon IrcUserListModel::modeToIcon(const QString &mode) const
 {
 	if(mode == "Y")
 	{
-		return QIcon(":/Resource/Chat/Immune.png");
+		if (quazaaSettings.Chat.DarkTheme)
+			return QIcon(":/Resource/Chat/ImmuneDark.png");
+		else
+			return QIcon(":/Resource/Chat/Immune.png");
 	}
 	else if(mode == "q")
 	{
-		return QIcon(":/Resource/Chat/Owner.png");
+		if (quazaaSettings.Chat.DarkTheme)
+			return QIcon(":/Resource/Chat/OwnerDark.png");
+		else
+			return QIcon(":/Resource/Chat/Owner.png");
 	}
 	else if(mode == "a")
 	{
-		return QIcon(":/Resource/Chat/Admin.png");
+		if (quazaaSettings.Chat.DarkTheme)
+			return QIcon(":/Resource/Chat/AdminDark.png");
+		else
+			return QIcon(":/Resource/Chat/Admin.png");
 	}
 	else if(mode == "o")
 	{
-		return QIcon(":/Resource/Chat/Op.png");
+		if (quazaaSettings.Chat.DarkTheme)
+			return QIcon(":/Resource/Chat/OpDark.png");
+		else
+			return QIcon(":/Resource/Chat/Op.png");
 	}
 	else if(mode == "h")
 	{
-		return QIcon(":/Resource/Chat/HalfOp.png");
+		if (quazaaSettings.Chat.DarkTheme)
+			return QIcon(":/Resource/Chat/HalfOpDark.png");
+		else
+			return QIcon(":/Resource/Chat/HalfOp.png");
 	}
 	else if(mode == "v")
 	{
-		return QIcon(":/Resource/Chat/Voice.png");
+		if (quazaaSettings.Chat.DarkTheme)
+			return QIcon(":/Resource/Chat/VoiceDark.png");
+		else
+			return QIcon(":/Resource/Chat/Voice.png");
 	}
 	else
 	{
-		return QIcon(":/Resource/Chat/Normal.png");
+		if (quazaaSettings.Chat.DarkTheme)
+			return QIcon(":/Resource/Chat/NormalDark.png");
+		else
+			return QIcon(":/Resource/Chat/Normal.png");
 	}
 }
