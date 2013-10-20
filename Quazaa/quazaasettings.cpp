@@ -1000,6 +1000,7 @@ void CQuazaaSettings::saveChat()
 #endif
 
 	m_qSettings.beginGroup("Chat");
+	m_qSettings.setValue("Font", quazaaSettings.Chat.Font);
 	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.Chat.ConnectOnStartup);
 	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
@@ -1085,6 +1086,7 @@ void CQuazaaSettings::loadChat()
 
 	m_qSettings.beginGroup("Chat");
 
+	quazaaSettings.Chat.Font = m_qSettings.value("Font", QFont()).value<QFont>();
 	quazaaSettings.Chat.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", false).toBool();
 	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();

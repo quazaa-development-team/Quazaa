@@ -86,6 +86,8 @@ CDialogIrcSettings::CDialogIrcSettings(QWidget *parent) :
 	loadSettings();
 
 	connect(ui->checkBoxConnectOnStartup, SIGNAL(toggled(bool)), this, SLOT(enableApply()));
+	connect(ui->fontComboBox, SIGNAL(currentFontChanged(QFont)), this, SLOT(enableApply()));
+	connect(ui->spinBoxFontSize, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->checkBoxStripNicks, SIGNAL(toggled(bool)), this, SLOT(enableApply()));
 	connect(ui->checkBoxTimeStamp, SIGNAL(toggled(bool)), this, SLOT(enableApply()));
 	connect(ui->checkBoxDarkTheme, SIGNAL(toggled(bool)), this, SLOT(enableApply()));
@@ -118,6 +120,8 @@ QModelIndex CDialogIrcSettings::addAliasRow(const QString &alias, const QString 
 
 void CDialogIrcSettings::saveSettings()
 {
+	quazaaSettings.Chat.Font = ui->fontComboBox->currentFont();
+	quazaaSettings.Chat.Font.setPointSize(ui->spinBoxFontSize->value());
 	quazaaSettings.Chat.ConnectOnStartup = ui->checkBoxConnectOnStartup->isChecked();
 	quazaaSettings.Chat.Scrollback = ui->spinBoxBlockCount->value();
 	quazaaSettings.Chat.ShowTimestamp = ui->checkBoxTimeStamp->isChecked();
@@ -173,6 +177,8 @@ void CDialogIrcSettings::saveSettings()
 
 void CDialogIrcSettings::loadSettings()
 {
+	ui->fontComboBox->setCurrentFont(quazaaSettings.Chat.Font);
+	ui->spinBoxFontSize->setValue(quazaaSettings.Chat.Font.pointSize());
 	ui->checkBoxConnectOnStartup->setChecked(quazaaSettings.Chat.ConnectOnStartup);
 	ui->spinBoxBlockCount->setValue(quazaaSettings.Chat.Scrollback);
 	ui->checkBoxTimeStamp->setChecked(quazaaSettings.Chat.ShowTimestamp);
