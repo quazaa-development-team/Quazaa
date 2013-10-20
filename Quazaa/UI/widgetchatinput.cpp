@@ -267,22 +267,24 @@ QLabel *CWidgetChatInput::helpLabel()
 
 void CWidgetChatInput::applySettings()
 {
-	if(quazaaSettings.Chat.DarkTheme) {
-		QString baseStyleSheet("CWidgetChatInput { background: #222222; } ");
-		baseStyleSheet += QString("QToolButton { border: none; background-position: center; background-repeat: no-repeat; padding: 2px; color: %1; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
-		baseStyleSheet += QString("QToolButton[popupMode=\"2\"] { padding-right: 10px; } ");
-		baseStyleSheet += QString("QToolButton:hover, QToolButton:pressed { background: #666666; border-radius: 4px; } ");
-		setStyleSheet(baseStyleSheet);
-		ui->labelLag->setStyleSheet(QString("color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
-		ui->textEditInput->setStyleSheet(QString("border: 1px solid transparent; background: #222222; selection-color: #dedede; selection-background-color: #444444; color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
-		ui->helpLabel->setStyleSheet(QString("QLabel#helpLabel { color: %1; border: 1px solid transparent; border-top-color: palette(dark); background: #222222; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
-	} else {
-		QString baseStyleSheet("CWidgetChatInput { background: palette(alternate-base); } ");
-		baseStyleSheet += QString("QToolButton { color: %1; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
-		setStyleSheet(baseStyleSheet);
-		ui->labelLag->setStyleSheet(QString("color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
-		ui->textEditInput->setStyleSheet(QString("background: palette(alternate-base); border: 1px solid transparent; color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
-		ui->helpLabel->setStyleSheet(QString("QLabel#helpLabel { color: %1; border: border: 1px solid transparent; border-top-color: palette(dark); } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+	if (bIsIrc) { // Only apply Irc theme if text input belongs to irc
+		if(quazaaSettings.Chat.DarkTheme) {
+			QString baseStyleSheet("CWidgetChatInput { background: #222222; } ");
+			baseStyleSheet += QString("QToolButton { border: none; background-position: center; background-repeat: no-repeat; padding: 2px; color: %1; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+			baseStyleSheet += QString("QToolButton[popupMode=\"2\"] { padding-right: 10px; } ");
+			baseStyleSheet += QString("QToolButton:hover, QToolButton:pressed { background: #666666; border-radius: 4px; } ");
+			setStyleSheet(baseStyleSheet);
+			ui->labelLag->setStyleSheet(QString("color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+			ui->textEditInput->setStyleSheet(QString("border: 1px solid transparent; background: #222222; selection-color: #dedede; selection-background-color: #444444; color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+			ui->helpLabel->setStyleSheet(QString("QLabel#helpLabel { color: %1; border: 1px solid transparent; border-top-color: palette(dark); background: #222222; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+		} else {
+			QString baseStyleSheet("CWidgetChatInput { background: palette(alternate-base); } ");
+			baseStyleSheet += QString("QToolButton { color: %1; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
+			setStyleSheet(baseStyleSheet);
+			ui->labelLag->setStyleSheet(QString("color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+			ui->textEditInput->setStyleSheet(QString("background: palette(alternate-base); border: 1px solid transparent; color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+			ui->helpLabel->setStyleSheet(QString("QLabel#helpLabel { color: %1; border: border: 1px solid transparent; border-top-color: palette(dark); } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+		}
 	}
 }
 
