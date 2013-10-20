@@ -67,8 +67,8 @@ MessageView::MessageView(ViewInfo::Type type, IrcConnection* connection, IrcChan
 
 	d.chatInput = new CWidgetChatInput(this, true);
 	d.verticalLayoutInputWidget->addWidget(d.chatInput);
-	d.widgetInput->setFixedHeight(100);
-	d.chatInput->setFixedHeight(100);
+	d.widgetInput->setFixedHeight(130);
+	d.chatInput->setFixedHeight(130);
 
 	connect(d.splitter, SIGNAL(splitterMoved(int, int)), this, SLOT(onSplitterMoved()));
 
