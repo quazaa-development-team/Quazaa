@@ -103,6 +103,8 @@ MessageView::MessageView(ViewInfo::Type type, IrcConnection* connection, IrcChan
 		init = true;
 		IrcTextFormat* format = irc_text_format();
 		IrcPalette* palette = format->palette();
+		palette->setColorName(Irc::Black, "black");
+		palette->setColorName(Irc::White, "white");
 		palette->setColorName(Irc::Gray, "#606060");
 		palette->setColorName(Irc::LightGray, "#808080");
 
@@ -561,10 +563,10 @@ void MessageView::applySettings()
 
 	IrcTextFormat* format = irc_text_format();
 	IrcPalette* palette = format->palette();
+	palette->setColorName(Irc::Black, quazaaSettings.Chat.Colors[IrcColorType::Black]);
+	palette->setColorName(Irc::White, quazaaSettings.Chat.Colors[IrcColorType::White]);
 	palette->setColorName(Irc::Gray, quazaaSettings.Chat.Colors[IrcColorType::Gray]);
 	palette->setColorName(Irc::LightGray, quazaaSettings.Chat.Colors[IrcColorType::LightGray]);
-
-	// http://ethanschoonover.com/solarized
 	palette->setColorName(Irc::Blue, quazaaSettings.Chat.Colors[IrcColorType::Blue]);
 	palette->setColorName(Irc::Green, quazaaSettings.Chat.Colors[IrcColorType::Green]);
 	palette->setColorName(Irc::Red, quazaaSettings.Chat.Colors[IrcColorType::Red]);
@@ -623,11 +625,14 @@ void MessageView::receiveMessage(IrcMessage* message)
 				options.highlight = true;
 			break;
 		case IrcMessage::Topic:
+		{
 			d.topic = static_cast<IrcTopicMessage*>(message)->topic();
-			d.topicLabel->setText(MessageFormatter::formatHtml(d.topic));
+			IrcTextFormat* format = irc_text_format();
+			d.topicLabel->setText(format->toHtml(d.topic));
 			if (d.topicLabel->text().isEmpty())
 				d.topicLabel->setText(tr("-"));
 			break;
+		}
 		case IrcMessage::Join:
 			if (!d.playback && message->flags() & IrcMessage::Own) {
 				++d.joined;
