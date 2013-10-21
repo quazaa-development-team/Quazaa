@@ -36,12 +36,39 @@
 
 #include "debug_new.h"
 
+
+/*!
+	\file quazaasettings.h
+	\brief \#include &qout;quazaasettings.h&quot;
+ */
+
+/*!
+	\class CQuazaaSettings quazaasettings.h
+	\ingroup base
+	\brief Persistent settings used throughout quazaa.
+
+	The CQuazaaSettings class provides a single place to store, save and load
+	persistent settings used throughout Quazaa.
+
+	\section Accessing CQuazaaSettings
+
+	It is recommended to access CQuazaaSettings via the extern
+	quazaaSettings.Struct.Variable and quazaaSettings.function methods.
+ */
+
+// This is the extern declaration used everywhere else in quazaa.
 CQuazaaSettings quazaaSettings;
 
+/*!
+	Creates a quazaaSettings object. Generally not necessary.
+ */
 CQuazaaSettings::CQuazaaSettings()
 {
 }
 
+/*!
+	Saves most of Quazaa's settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -459,6 +486,9 @@ void CQuazaaSettings::saveSettings()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads most of Quazaa's settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -928,6 +958,9 @@ void CQuazaaSettings::loadSettings()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves the IRC chat connections to persistent .ini file.
+ */
 void CQuazaaSettings::saveChatConnections()
 {
 #if QT_VERSION >= 0x050000
@@ -941,6 +974,9 @@ void CQuazaaSettings::saveChatConnections()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads the IRC chat connections from persistent .ini file.
+ */
 void CQuazaaSettings::loadChatConnections()
 {
 #if QT_VERSION >= 0x050000
@@ -954,6 +990,9 @@ void CQuazaaSettings::loadChatConnections()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves the IRC chat connection dialog's autocomplete lists to persistent .ini file.
+ */
 void CQuazaaSettings::saveChatConnectionWizard()
 {
 #if QT_VERSION >= 0x050000
@@ -971,6 +1010,9 @@ void CQuazaaSettings::saveChatConnectionWizard()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads the IRC chat connection dialog's autocomplete lists from persistent .ini file.
+ */
 void CQuazaaSettings::loadChatConnectionWizard()
 {
 #if QT_VERSION >= 0x050000
@@ -991,6 +1033,9 @@ void CQuazaaSettings::loadChatConnectionWizard()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves the IRC chat settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveChat()
 {
 #if QT_VERSION >= 0x050000
@@ -1076,6 +1121,9 @@ void CQuazaaSettings::saveChat()
 	emit chatSettingsChanged();
 }
 
+/*!
+	Loads the IRC chat settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadChat()
 {
 #if QT_VERSION >= 0x050000
@@ -1189,6 +1237,9 @@ void CQuazaaSettings::loadChat()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves the profile settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveProfile()
 {
 #if QT_VERSION >= 0x050000
@@ -1226,6 +1277,9 @@ void CQuazaaSettings::saveProfile()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads the profile settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadProfile()
 {
 #if QT_VERSION >= 0x050000
@@ -1279,6 +1333,9 @@ void CQuazaaSettings::loadProfile()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves the window settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveWindowSettings(QMainWindow* window)
 {
 #if QT_VERSION >= 0x050000
@@ -1361,6 +1418,9 @@ void CQuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("UploadsToolbar", quazaaSettings.WinMain.UploadsToolbar);
 }
 
+/*!
+	Loads the profile settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadWindowSettings(QMainWindow* window)
 {
 #if QT_VERSION >= 0x050000
@@ -1441,6 +1501,9 @@ void CQuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.UploadsToolbar = m_qSettings.value("UploadsToolbar", QByteArray()).toByteArray();
 }
 
+/*!
+	Saves the language settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveLanguageSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -1453,6 +1516,9 @@ void CQuazaaSettings::saveLanguageSettings()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads the language settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadLanguageSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -1466,6 +1532,9 @@ void CQuazaaSettings::loadLanguageSettings()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves if this is Quazaa's first run to persistent .ini file.
+ */
 void CQuazaaSettings::saveFirstRun(bool firstRun)
 {
 #if QT_VERSION >= 0x050000
@@ -1477,6 +1546,9 @@ void CQuazaaSettings::saveFirstRun(bool firstRun)
 	m_qSettings.setValue("FirstRun", firstRun);
 }
 
+/*!
+	Loads if this is Quazaa's first run from persistent .ini file.
+ */
 bool CQuazaaSettings::isFirstRun()
 {
 #if QT_VERSION >= 0x050000
@@ -1488,6 +1560,9 @@ bool CQuazaaSettings::isFirstRun()
 	return m_qSettings.value("FirstRun", true).toBool();
 }
 
+/*!
+	Saves Quazaa's skin settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveSkinSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -1499,6 +1574,9 @@ void CQuazaaSettings::saveSkinSettings()
 	m_qSettings.setValue("SkinFile", Skin.File);
 }
 
+/*!
+	Loads Quazaa's skin settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadSkinSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -1510,6 +1588,9 @@ void CQuazaaSettings::loadSkinSettings()
 	Skin.File = m_qSettings.value("SkinFile", qApp->applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
 }
 
+/*!
+	Saves Quazaa's log settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveLogSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -1532,6 +1613,9 @@ void CQuazaaSettings::saveLogSettings()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads Quazaa's log settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadLogSettings()
 {
 #if QT_VERSION >= 0x050000
