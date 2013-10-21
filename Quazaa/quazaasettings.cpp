@@ -1052,6 +1052,7 @@ void CQuazaaSettings::saveChat()
 	m_qSettings.setValue("TimeStampFormat", quazaaSettings.Chat.TimestampFormat);
 	m_qSettings.setValue("MaxBlockCount", quazaaSettings.Chat.Scrollback);
 	m_qSettings.setValue("StripNicks", quazaaSettings.Chat.StripNicks);
+	m_qSettings.setValue("HighlightSounds", quazaaSettings.Chat.HighlightSounds);
 	m_qSettings.setValue("DarkTheme", quazaaSettings.Chat.DarkTheme);
 
 	m_qSettings.setValue("ShortcutNextView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextView]);
@@ -1141,6 +1142,7 @@ void CQuazaaSettings::loadChat()
 	quazaaSettings.Chat.TimestampFormat = m_qSettings.value("TimeStampFormat", "[hh:mm:ss]").toString();
 	quazaaSettings.Chat.Scrollback = m_qSettings.value("MaxBlockCount", -1).toInt();
 	quazaaSettings.Chat.StripNicks = m_qSettings.value("StripNicks", false).toBool();
+	quazaaSettings.Chat.HighlightSounds = m_qSettings.value("HighlightSounds", true).toBool();
 	quazaaSettings.Chat.DarkTheme = m_qSettings.value("DarkTheme", false).toBool();
 
 #ifdef Q_OS_MAC

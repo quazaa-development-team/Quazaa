@@ -41,7 +41,7 @@
 #include <QDebug>
 
 CWidgetIrcMain::CWidgetIrcMain(QWidget* parent) : QMainWindow(parent),
-	treeWidget(0), muteAction(0), dockTile(0), sound(0), homePage(0)
+	treeWidget(0), dockTile(0), sound(0), homePage(0)
 {
 	qRegisterMetaTypeStreamOperators<ConnectionInfo>("ConnectionInfo");
 	qRegisterMetaTypeStreamOperators<ConnectionInfos>("ConnectionInfos");
@@ -117,10 +117,7 @@ void CWidgetIrcMain::saveWidget()
 	quazaaSettings.WinMain.ChatTreeWidget = treeWidget->saveState();
 	quazaaSettings.WinMain.ChatTreeWidgetSplitter = splitterIrcMain->saveState();
 
-	if (muteAction)
-		quazaaSettings.Chat.MuteNotifications = muteAction->isChecked();
 	quazaaSettings.Chat.Ignores = IgnoreManager::instance()->ignores();
-
 
 	QList<IrcConnection*> connections = stackView->connections();
 	if(!connections.isEmpty()) {
@@ -237,8 +234,6 @@ void CWidgetIrcMain::applySettings()
 	setStyleSheet(generateStyleSheet(quazaaSettings.Chat.DarkTheme));
 
 	searchShortcut->setKey(QKeySequence(quazaaSettings.Chat.Shortcuts.value(IrcShortcutType::SearchView)));
-	if (muteAction)
-		muteAction->setChecked(quazaaSettings.Chat.MuteNotifications);
 	if (overlay && overlay->isVisible())
 		updateOverlay();
 	IgnoreManager::instance()->setIgnores(quazaaSettings.Chat.Ignores);
@@ -251,7 +246,7 @@ void CWidgetIrcMain::highlighted(IrcMessage* message)
 		QApplication::alert(this);
 		if (dockTile)
 			dockTile->setBadge(dockTile->badge() + 1);
-		if (sound && (!muteAction || !muteAction->isChecked()))
+		if (sound && quazaaSettings.Chat.HighlightSounds )
 			sound->play();
 	}
 

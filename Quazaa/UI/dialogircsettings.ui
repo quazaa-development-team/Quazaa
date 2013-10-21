@@ -132,7 +132,7 @@
          </item>
         </layout>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="5" column="0" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
           <widget class="QLabel" name="label_2">
@@ -169,6 +169,16 @@
           <widget class="QSpinBox" name="spinBoxFontSize"/>
          </item>
         </layout>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QCheckBox" name="checkBoxHighlightSounds">
+         <property name="text">
+          <string>Sound Notification On Highlight</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

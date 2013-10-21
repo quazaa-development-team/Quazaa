@@ -81,7 +81,6 @@ private:
 	QSplitter* splitterIrcMain;
 	SessionTreeWidget* treeWidget;
 	SessionStackView* stackView;
-	QAction* muteAction;
 	QtDockTile* dockTile;
 	QShortcut* searchShortcut;
 	QPointer<Overlay> overlay;

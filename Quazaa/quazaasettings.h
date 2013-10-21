@@ -145,7 +145,7 @@ namespace Settings
 		QString     TimestampFormat;                        // The format of timestamps
 		int			Scrollback;							// This limits how many blocks(lines) can be in a message view
 		bool		StripNicks;								// Strip host information from nicks
-		bool        MuteNotifications;                      // Mute the notification sounds
+		bool        HighlightSounds;                      // Mute the notification sounds
 		bool        DarkTheme;                              // Has the user selected the dark or light theme?
 		bool        SortViews;                              // Can we sort views?
 

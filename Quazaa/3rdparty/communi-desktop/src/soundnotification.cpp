@@ -28,10 +28,10 @@ SoundNotification::SoundNotification(QObject* parent) : QObject(parent)
 {
 #if defined(QT_MULTIMEDIA_LIB)
 	player = new QMediaPlayer(this);
-	player->setMedia(QUrl::fromLocalFile(QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)).filePath("notify.mp3")));
+	player->setMedia(QUrl::fromLocalFile(QDir(qApp->applicationDirPath()).filePath("notify.mp3")));
 #elif defined(QT_PHONON_LIB)
 	player = Phonon::createPlayer(Phonon::MusicCategory,
-								  Phonon::MediaSource(QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)).filePath("notify.mp3")));
+								  Phonon::MediaSource(QDir(qApp->applicationDirPath()).filePath("notify.mp3")));
 	player->setParent(this);
 #endif
 }

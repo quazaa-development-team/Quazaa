@@ -89,6 +89,7 @@ CDialogIrcSettings::CDialogIrcSettings(QWidget *parent) :
 	connect(ui->fontComboBox, SIGNAL(currentFontChanged(QFont)), this, SLOT(enableApply()));
 	connect(ui->spinBoxFontSize, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
 	connect(ui->checkBoxStripNicks, SIGNAL(toggled(bool)), this, SLOT(enableApply()));
+	connect(ui->checkBoxHighlightSounds, SIGNAL(toggled(bool)), this, SLOT(enableApply()));
 	connect(ui->checkBoxTimeStamp, SIGNAL(toggled(bool)), this, SLOT(enableApply()));
 	connect(ui->checkBoxDarkTheme, SIGNAL(toggled(bool)), this, SLOT(enableApply()));
 	connect(ui->spinBoxBlockCount, SIGNAL(valueChanged(int)), this, SLOT(enableApply()));
@@ -125,6 +126,7 @@ void CDialogIrcSettings::saveSettings()
 	quazaaSettings.Chat.ConnectOnStartup = ui->checkBoxConnectOnStartup->isChecked();
 	quazaaSettings.Chat.Scrollback = ui->spinBoxBlockCount->value();
 	quazaaSettings.Chat.ShowTimestamp = ui->checkBoxTimeStamp->isChecked();
+	quazaaSettings.Chat.HighlightSounds = ui->checkBoxHighlightSounds->isChecked();
 	quazaaSettings.Chat.TimestampFormat = ui->lineEditTimestampFormat->text();
 
 	quazaaSettings.Chat.DarkTheme = ui->checkBoxDarkTheme->isChecked();
@@ -182,6 +184,7 @@ void CDialogIrcSettings::loadSettings()
 	ui->checkBoxConnectOnStartup->setChecked(quazaaSettings.Chat.ConnectOnStartup);
 	ui->spinBoxBlockCount->setValue(quazaaSettings.Chat.Scrollback);
 	ui->checkBoxTimeStamp->setChecked(quazaaSettings.Chat.ShowTimestamp);
+	ui->checkBoxHighlightSounds->setChecked(quazaaSettings.Chat.HighlightSounds);
 	ui->lineEditTimestampFormat->setText(quazaaSettings.Chat.TimestampFormat);
 
 	ui->checkBoxDarkTheme->setChecked(quazaaSettings.Chat.DarkTheme);
