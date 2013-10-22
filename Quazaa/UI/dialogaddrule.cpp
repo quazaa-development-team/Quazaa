@@ -42,6 +42,7 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 
 	if ( pRule )
 	{
+		ui->comboBoxRuleType->setEnabled(false);
 		m_pRule = pRule->getCopy();
 		ui->lineEditComment->setText( m_pRule->m_sComment );
 	}
