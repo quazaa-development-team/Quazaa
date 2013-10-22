@@ -503,7 +503,7 @@ void CSecurity::clear()
   * Locking: RW
   */
 void CSecurity::ban(const QHostAddress& oAddress, BanLength::TBanLength nBanLength, bool bMessage,
-					const QString& sComment)
+					const QString& sComment, bool bAutomatic)
 {
 	if ( oAddress.isNull() )
 	{
@@ -524,6 +524,8 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength::TBanLength nBanLeng
 		{
 			if ( !( sComment.isEmpty() ) )
 				pIPRule->m_sComment = sComment;
+
+			pIPRule->m_bAutomatic = bAutomatic;
 
 			switch( nBanLength )
 			{

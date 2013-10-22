@@ -43,6 +43,7 @@ public:
 		quint32              m_nTotal;
 		QString              m_sComment;
 		const QIcon*         m_piAction;
+		bool m_bAutomatic;
 
 		Rule(CSecureRule* pRule, CSecurityTableModel* model);
 		~Rule();
@@ -69,7 +70,7 @@ public:
 
 	void sort(int column, Qt::SortOrder order);
 
-	CSecureRule* nodeFromIndex(const QModelIndex& index);
+	CSecureRule* ruleFromIndex(const QModelIndex& index);
 
 	void completeRefresh();
 

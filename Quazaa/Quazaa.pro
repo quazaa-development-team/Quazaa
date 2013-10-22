@@ -230,7 +230,8 @@ HEADERS += $$[QT_INSTALL_HEADERS]/QtZlib/zlib.h \
     Security/hashrule.h \
     Security/regexprule.h \
     Security/useragentrule.h \
-    Security/contentrule.h
+    Security/contentrule.h \
+    Models/securityfiltermodel.h
 
 # Headers
 HEADERS += \
@@ -554,7 +555,8 @@ SOURCES += \
     Security/hashrule.cpp \
     Security/regexprule.cpp \
     Security/useragentrule.cpp \
-    Security/contentrule.cpp
+    Security/contentrule.cpp \
+    Models/securityfiltermodel.cpp
 
 FORMS += \
 		UI/dialogabout.ui \

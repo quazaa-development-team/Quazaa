@@ -270,7 +270,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		// something is very wrong. Ban it for a short while.
 		if(m_nType == G2_HUB && (tNow - m_tConnected > 300) && m_nLeafCount < 5) {
 			Send_ConnectError("503 Your hub is not accepting leaves.");
-			securityManager.ban(m_oAddress, BanLength::TwoHours, true, QString("[AUTO] Hub not accepting leaves (%1)").arg(m_oAddress.toString()));
+			securityManager.ban(m_oAddress, BanLength::TwoHours, true, QString("Hub not accepting leaves (%1)").arg(m_oAddress.toString()));
 			return;
 		}
 
@@ -323,7 +323,7 @@ void CG2Node::ParseIncomingHandshake()
 	if( securityManager.isAgentBlocked(m_sUserAgent) )
 	{
 		Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, BanLength::SixHours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
+		securityManager.ban(m_oAddress, BanLength::SixHours, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
 		return;
 	}
 
@@ -496,7 +496,7 @@ void CG2Node::ParseOutgoingHandshake()
 	if( securityManager.isAgentBlocked(m_sUserAgent) )
 	{
 		Send_ConnectError("403 Access Denied, sorry");
-		securityManager.ban(m_oAddress, BanLength::SixHours, true, QString("[AUTO] UA Blocked (%1)").arg(m_sUserAgent));
+		securityManager.ban(m_oAddress, BanLength::SixHours, true, QString("UA Blocked (%1)").arg(m_sUserAgent));
 		return;
 	}
 
@@ -1117,7 +1117,7 @@ void CG2Node::OnKHL(G2Packet* pPacket)
 				if ( !sVendor.isEmpty() && securityManager.isVendorBlocked( sVendor ) )
 				{
 					securityManager.ban( ep, BanLength::SixHours, true,
-										 QString( "[AUTO] Vendor blocked (%1)" ).arg( sVendor ) );
+										 QString( "Vendor blocked (%1)" ).arg( sVendor ) );
 				}
 				else
 				{
@@ -1366,7 +1366,7 @@ void CG2Node::OnQH2(G2Packet* pPacket)
 	if( securityManager.isVendorBlocked( pInfo->m_sVendor ) ) // Block foxy client search results. We can't download from them any way.
 	{
 		securityManager.ban( pInfo->m_oNodeAddress, BanLength::SixHours, true,
-							 QString( "[AUTO] Vendor blocked (%1)" ).arg( pInfo->m_sVendor ) );
+							 QString( "Vendor blocked (%1)" ).arg( pInfo->m_sVendor ), true );
 	} else {
 		if(SearchManager.OnQueryHit(pPacket, pInfo))
 		{
@@ -1536,7 +1536,7 @@ void CG2Node::OnHaw(G2Packet *pPacket)
 
 	if( !strVendor.isEmpty() && securityManager.isVendorBlocked(strVendor) )
 	{
-		securityManager.ban(addr, BanLength::SixHours, true, QString("[AUTO] Vendor blocked (%1)").arg(strVendor));
+		securityManager.ban(addr, BanLength::SixHours, true, QString("Vendor blocked (%1)").arg(strVendor));
 		return;	// We don't want to propagate these...
 	}
 	else

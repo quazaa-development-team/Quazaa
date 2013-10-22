@@ -146,6 +146,7 @@ void CSecureRule::save(const CSecureRule* const pRule, QDataStream &oStream)
 	oStream << pRule->m_oUUID.toString();
 	oStream << pRule->m_tExpire;
 	oStream << pRule->m_nTotal.loadAcquire();
+	oStream << pRule->m_bAutomatic;
 
 	oStream << pRule->getContentString();
 
@@ -173,6 +174,7 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 	QString		sUUID;
 	quint32		tExpire;
 	quint32		nTotal;
+	bool        bAutomatic;
 
 	fsFile >> nType;
 	fsFile >> nAction;
@@ -180,6 +182,7 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 	fsFile >> sUUID;
 	fsFile >> tExpire;
 	fsFile >> nTotal;
+	fsFile >> bAutomatic;
 
 	QString sTmp;
 	bool	bTmp = true;
@@ -244,6 +247,7 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 		pRule->m_oUUID    = QUuid( sUUID );
 		pRule->m_tExpire  = tExpire;
 		pRule->m_nTotal.storeRelease(nTotal);
+		pRule->m_bAutomatic = bAutomatic;
 	}
 }
 
@@ -393,6 +397,12 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 		return NULL;
 	}
 
+	const QString sAutomatic = attributes.value( "automatic" ).toString();
+	if(sAutomatic == "true")
+		pRule->m_bAutomatic = true;
+	else
+		pRule->m_bAutomatic = false;
+
 	pRule->m_sComment = attributes.value( "comment" ).toString().trimmed();
 
 	QString sExpire = attributes.value( "expire" ).toString();
@@ -447,6 +457,10 @@ void CSecureRule::toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument
 	}
 	oXMLdocument.writeAttribute( "action", sValue );
 
+	if(oRule.m_bAutomatic)
+		oXMLdocument.writeAttribute( "automatic", "true" );
+	else
+		oXMLdocument.writeAttribute( "automatic", "false" );
 
 	// Write expiry date.
 	if ( oRule.m_tExpire == srSession )

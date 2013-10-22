@@ -48,6 +48,7 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model)
 	m_nToday	= m_pRule->getTodayCount();
 	m_nTotal	= m_pRule->getTotalCount();
 	m_sComment	= m_pRule->m_sComment;
+	m_bAutomatic = m_pRule->m_bAutomatic;
 
 	securityManager.m_pRWLock.unlock();
 
@@ -149,6 +150,8 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 		if ( col == COMMENT )
 			bReturn = true;
 	}
+
+	m_bAutomatic = m_pRule->m_bAutomatic;
 
 	return bReturn;
 }
@@ -477,7 +480,7 @@ void CSecurityTableModel::sort(int column, Qt::SortOrder order)
 	emit layoutChanged();
 }
 
-CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &index)
+CSecureRule* CSecurityTableModel::ruleFromIndex(const QModelIndex &index)
 {
 	if ( index.isValid() && index.row() < m_lNodes.count() && index.row() >= 0 )
 		return m_lNodes[ index.row() ]->m_pRule;

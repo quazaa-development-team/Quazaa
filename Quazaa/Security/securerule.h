@@ -80,6 +80,7 @@ public:
 	QUuid       m_oUUID;
 	quint32     m_tExpire;
 	QString     m_sComment;
+	bool        m_bAutomatic;
 
 public:
 	// Construction / Destruction

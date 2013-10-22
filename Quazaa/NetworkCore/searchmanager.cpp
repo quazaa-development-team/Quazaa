@@ -306,7 +306,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				oBanned = lDone[0]; // 1st done hub, Shareaza does not include /FR child packet
 			}
 
-			securityManager.ban(oBanned, BanLength::SixHours, true, tr("[AUTO] Likely Foxy client"));
+			securityManager.ban(oBanned, BanLength::SixHours, true, tr("Likely Foxy client"));
 
 			hostCache.m_pSection.lock();
 			for( QList<CEndPoint>::iterator itHub = lDone.begin(); itHub != lDone.end(); itHub++ )

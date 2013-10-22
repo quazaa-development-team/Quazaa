@@ -243,6 +243,7 @@ void CDialogAddRule::on_pushButtonOK_clicked()
 
 		pRule->m_sComment = ui->lineEditComment->text();
 		pRule->m_oUUID = m_pRule->m_oUUID;
+		pRule->m_bAutomatic = false;
 
 		if ( *pRule != *m_pRule )
 		{
