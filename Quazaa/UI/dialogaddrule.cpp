@@ -51,9 +51,14 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 	switch ( m_pRule->type() )
 	{
 	case CSecureRule::srContentAddressRange:
+	{
 		ui->comboBoxRuleType->setCurrentIndex( 1 );
 		ui->stackedWidgetType->setCurrentIndex( 1 );
+		QStringList lAddressRange = m_pRule->getContentString().split("-");
+		ui->lineEditStartIP->setText( lAddressRange.at(0) );
+		ui->lineEditEndIP->setText( lAddressRange.at(1) );
 		break;
+	}
 	case CSecureRule::srContentCountry:
 		ui->comboBoxRuleType->setCurrentIndex( 2 );
 		ui->stackedWidgetType->setCurrentIndex( 2 );
