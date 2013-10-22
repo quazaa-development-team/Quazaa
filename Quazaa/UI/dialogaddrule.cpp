@@ -163,7 +163,12 @@ void CDialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 1:
 		pRule = new CIPRangeRule();
-
+		sTmp = QString("%1-%2").arg(ui->lineEditStartIP->text()).arg(ui->lineEditEndIP->text());
+		if ( !pRule->parseContent( sTmp ) )
+		{
+			delete pRule;
+			pRule = NULL;
+		}
 		break;
 	case 2:
 #if SECURITY_ENABLE_GEOIP
