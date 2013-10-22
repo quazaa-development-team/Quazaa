@@ -402,7 +402,7 @@ void CQuazaaSettings::saveSettings()
 	m_qSettings.setValue("RemoteEnable", quazaaSettings.Security.RemoteEnable);
 	m_qSettings.setValue("RemotePassword", quazaaSettings.Security.RemotePassword);
 	m_qSettings.setValue("RemoteUsername", quazaaSettings.Security.RemoteUsername);
-	m_qSettings.setValue("SearchIgnoreLocalIP", quazaaSettings.Security.SearchIgnoreLocalIP);
+	m_qSettings.setValue("SearchIgnoreLocalIP", quazaaSettings.Security.IgnorePrivateIP);
 	m_qSettings.setValue("SearchIgnoreOwnIP", quazaaSettings.Security.SearchIgnoreOwnIP);
 	m_qSettings.setValue("SearchSpamFilterThreshold", quazaaSettings.Security.SearchSpamFilterThreshold);
 	m_qSettings.setValue("UPnPSkipWANIPSetup", quazaaSettings.Security.UPnPSkipWANIPSetup);
@@ -868,7 +868,7 @@ void CQuazaaSettings::loadSettings()
 	quazaaSettings.Security.RemoteEnable = m_qSettings.value("RemoteEnable", false).toBool();
 	quazaaSettings.Security.RemotePassword = m_qSettings.value("RemotePassword", "").toString();
 	quazaaSettings.Security.RemoteUsername = m_qSettings.value("RemoteUsername", "").toString();
-	quazaaSettings.Security.SearchIgnoreLocalIP = m_qSettings.value("SearchIgnoreLocalIP", true).toBool();
+	quazaaSettings.Security.IgnorePrivateIP = m_qSettings.value("SearchIgnoreLocalIP", true).toBool();
 	quazaaSettings.Security.SearchIgnoreOwnIP = m_qSettings.value("SearchIgnoreOwnIP", true).toBool();
 	quazaaSettings.Security.SearchSpamFilterThreshold = m_qSettings.value("SearchSpamFilterThreshold", 20).toInt();
 	quazaaSettings.Security.UPnPSkipWANIPSetup = m_qSettings.value("UPnPSkipWANIPSetup", false).toBool();

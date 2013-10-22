@@ -535,7 +535,7 @@ namespace Settings
 		bool		RemoteEnable;							// Enable remote access?
 		QString		RemotePassword;							// Remote access password
 		QString		RemoteUsername;							// Remote access user name
-		bool		SearchIgnoreLocalIP;					// Ingnore all 'local' (LAN) IPs
+		bool		IgnorePrivateIP;					// Ingnore all 'local' (LAN) IPs
 		bool		SearchIgnoreOwnIP;						// Do not accept any ports on your external IP as a source
 		int			SearchSpamFilterThreshold;				// Percentage of spam hits which triggers file sources to be treated as spam
 		bool		UPnPSkipWANIPSetup;						// Skip WANIPConn1 device setup (UPnP)
