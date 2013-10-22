@@ -865,7 +865,7 @@ bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuer
   * is true.
   * Locking: R (+ RW while/if new IP is added to miss cache)
   */
-bool CSecurity::isDenied(const CEndPoint &oAddress, const QString& /*source*/)
+bool CSecurity::isDenied(const CEndPoint &oAddress)
 {
 	if ( oAddress.isNull() )
 		return false;
@@ -898,7 +898,38 @@ bool CSecurity::isDenied(const CEndPoint &oAddress, const QString& /*source*/)
 				 );
 	}
 
-	// Second, check the fast IP rules lookup map.
+	// Second, if quazaa local/private blocking is turned on, check if the IP is local/private
+	if( quazaaSettings.Security.IgnorePrivateIP )
+	{
+		if(isPrivate( oAddress ))
+		{
+			postLog( LogSeverity::Security, tr( "Local/Private IP denied %s" ).arg( oAddress.toString() ) );
+			return true;
+		}
+	}
+
+	// Third, check whether the IP is contained within one of the IP range rules.
+	TIPRangeRuleList::const_iterator it_3 = m_IPRanges.begin();
+	while ( it_3 != m_IPRanges.end() )
+	{
+		CIPRangeRule* pRule = *it_3;
+
+		if ( pRule->match( oAddress ) && !pRule->isExpired( tNow ) )
+		{
+			hit( pRule );
+
+			if ( pRule->m_nAction == CSecureRule::srAccept )
+				return false;
+			else if ( pRule->m_nAction == CSecureRule::srDeny )
+				return true;
+			else
+				Q_ASSERT( pRule->m_nAction == CSecureRule::srNull );
+		}
+
+		++it_3;
+	}
+
+	// Fourth, check the fast IP rules lookup map.
 	TAddressRuleMap::const_iterator it_1;
 	it_1 = m_IPs.find( qHash( oAddress ) );
 
@@ -918,7 +949,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress, const QString& /*source*/)
 		}
 	}
 
-	// Third, look up the IP in our country rule map.
+	// Fifth, look up the IP in our country rule map.
 #if SECURITY_ENABLE_GEOIP
 	TCountryRuleMap::const_iterator it_2;
 	it_2 = m_Countries.find( oAddress.country() );
@@ -939,27 +970,6 @@ bool CSecurity::isDenied(const CEndPoint &oAddress, const QString& /*source*/)
 		}
 	}
 #endif // SECURITY_ENABLE_GEOIP
-
-	// Fourth, check whether the IP is contained within one of the IP range rules.
-	TIPRangeRuleList::const_iterator it_3 = m_IPRanges.begin();
-	while ( it_3 != m_IPRanges.end() )
-	{
-		CIPRangeRule* pRule = *it_3;
-
-		if ( pRule->match( oAddress ) && !pRule->isExpired( tNow ) )
-		{
-			hit( pRule );
-
-			if ( pRule->m_nAction == CSecureRule::srAccept )
-				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
-				return true;
-			else
-				Q_ASSERT( pRule->m_nAction == CSecureRule::srNull );
-		}
-
-		++it_3;
-	}
 
 	mutex.unlock();
 
@@ -982,6 +992,62 @@ bool CSecurity::isDenied(const CQueryHit* const pHit, const QList<QString> &lQue
 	return ( isDenied( pHit ) ||                             // test hashes, file size and extension
 			 isDenied( pHit->m_sDescriptiveName ) ||         // test file name
 			 isDenied( lQuery, pHit->m_sDescriptiveName ) ); // test regex
+}
+
+bool CSecurity::isPrivate(const CEndPoint &oAddress)
+{
+	if( oAddress.toIPv4Address() <= CEndPoint("0.255.255.255").toIPv4Address() )
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("10.0.0.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("10.255.255.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("100.64.0.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("100.127.255.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("127.0.0.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("127.255.255.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("169.254.0.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("169.254.255.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("172.16.0.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("172.31.255.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("192.0.0.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("192.0.2.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("192.0.2.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("10.255.255.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("192.168.0.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("192.168.255.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("198.18.0.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("198.19.255.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("198.51.100.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("198.51.100.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("203.0.113.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("203.0.113.255").toIPv4Address()))
+		return true;
+
+	if( (oAddress.toIPv4Address() >= CEndPoint("240.0.0.0").toIPv4Address()) &&
+	  (oAddress.toIPv4Address() <= CEndPoint("255.255.255.255").toIPv4Address()))
+		return true;
+
+	return false;
 }
 
 /**
